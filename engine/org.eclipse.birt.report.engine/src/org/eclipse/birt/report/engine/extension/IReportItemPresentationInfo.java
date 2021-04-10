@@ -17,24 +17,23 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
-public interface IReportItemPresentationInfo
-{
+public interface IReportItemPresentationInfo {
 
-	public ExtendedItemHandle getModelObject( );
+	public ExtendedItemHandle getModelObject();
 
-	public ClassLoader getApplicationClassLoader( );
+	public ClassLoader getApplicationClassLoader();
 
-	public IReportContext getReportContext( );
+	public IReportContext getReportContext();
 
-	public IDataQueryDefinition[] getReportQueries( );
+	public IDataQueryDefinition[] getReportQueries();
 
-	public IContent getExtendedItemContent( );
-	
-	public int getResolution( );
+	public IContent getExtendedItemContent();
 
-	public String getOutputFormat( );
+	public int getResolution();
 
-	public IHTMLActionHandler getActionHandler( );
+	public String getOutputFormat();
 
-	public String getSupportedImageFormats( );
+	public IHTMLActionHandler getActionHandler();
+
+	public String getSupportedImageFormats();
 }

@@ -16,8 +16,7 @@ import org.eclipse.birt.chart.model.Chart;
 /**
  * A convenient empty update notifier doing nothing.
  */
-public class EmptyUpdateNotifier implements IUpdateNotifier
-{
+public class EmptyUpdateNotifier implements IUpdateNotifier {
 
 	private Chart designModel = null;
 	private Chart runtimeModel = null;
@@ -28,8 +27,7 @@ public class EmptyUpdateNotifier implements IUpdateNotifier
 	 * @param designModel
 	 * @param runtimeModel
 	 */
-	public EmptyUpdateNotifier( Chart designModel, Chart runtimeModel )
-	{
+	public EmptyUpdateNotifier(Chart designModel, Chart runtimeModel) {
 		this.designModel = designModel;
 		this.runtimeModel = runtimeModel;
 	}
@@ -39,8 +37,7 @@ public class EmptyUpdateNotifier implements IUpdateNotifier
 	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#regenerateChart()
 	 */
-	public void regenerateChart( )
-	{
+	public void regenerateChart() {
 		// DOING NOTHING.
 	}
 
@@ -49,8 +46,7 @@ public class EmptyUpdateNotifier implements IUpdateNotifier
 	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#repaintChart()
 	 */
-	public void repaintChart( )
-	{
+	public void repaintChart() {
 		// DOING NOTHING.
 	}
 
@@ -59,8 +55,7 @@ public class EmptyUpdateNotifier implements IUpdateNotifier
 	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#peerInstance()
 	 */
-	public Object peerInstance( )
-	{
+	public Object peerInstance() {
 		return null;
 	}
 
@@ -69,8 +64,7 @@ public class EmptyUpdateNotifier implements IUpdateNotifier
 	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getDesignTimeModel()
 	 */
-	public Chart getDesignTimeModel( )
-	{
+	public Chart getDesignTimeModel() {
 		return designModel;
 	}
 
@@ -79,8 +73,7 @@ public class EmptyUpdateNotifier implements IUpdateNotifier
 	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getRunTimeModel()
 	 */
-	public Chart getRunTimeModel( )
-	{
+	public Chart getRunTimeModel() {
 		return runtimeModel;
 	}
 

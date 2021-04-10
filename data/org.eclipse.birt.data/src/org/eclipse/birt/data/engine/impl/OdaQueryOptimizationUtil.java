@@ -26,22 +26,16 @@ import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
  * 
  */
 
-public class OdaQueryOptimizationUtil
-{
+public class OdaQueryOptimizationUtil {
 
-
-	public static QuerySpecification optimizeExecution( String dataSourceId,
-			ValidationContext validationContext,
-			IOdaDataSetDesign dataSetDesign, IQueryDefinition query,
-			DataEngineSession session, Map appContext,
-			IQueryContextVisitor contextVisitor ) throws DataException
-	{
+	public static QuerySpecification optimizeExecution(String dataSourceId, ValidationContext validationContext,
+			IOdaDataSetDesign dataSetDesign, IQueryDefinition query, DataEngineSession session, Map appContext,
+			IQueryContextVisitor contextVisitor) throws DataException {
 		return null;
 	}
-	
-	public static Set<String> populateDirectDataSetColumnReferenceBindings(
-			List<IBinding> candidateBinding, List<String> dataSetColumnName )
-	{
+
+	public static Set<String> populateDirectDataSetColumnReferenceBindings(List<IBinding> candidateBinding,
+			List<String> dataSetColumnName) {
 		return null;
 	}
 

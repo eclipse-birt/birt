@@ -21,8 +21,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 /**
  * This IncreDataSetCacheObject serves for incremental data set cache.
  */
-public class IncreDataSetCacheObject implements IDataSetCacheObject
-{
+public class IncreDataSetCacheObject implements IDataSetCacheObject {
 
 	public static final String TIMESTAMP_DATA = "timestamp.data";
 	public static final String META_DATA = "meta.data";
@@ -35,18 +34,16 @@ public class IncreDataSetCacheObject implements IDataSetCacheObject
 	 * @param cacheDir
 	 * @throws NoSuchAlgorithmException
 	 */
-	public IncreDataSetCacheObject( String cacheDir )
-	{
-		this.cacheDir = cacheDir + PATH_SEP + "DataSetCacheObject_" + this.hashCode( ) ;
-		FileSecurity.fileMakeDirs( new File( this.cacheDir ));
+	public IncreDataSetCacheObject(String cacheDir) {
+		this.cacheDir = cacheDir + PATH_SEP + "DataSetCacheObject_" + this.hashCode();
+		FileSecurity.fileMakeDirs(new File(this.cacheDir));
 	}
 
 	/**
 	 * 
 	 * @return String persFolder
 	 */
-	public String getCacheDir( )
-	{
+	public String getCacheDir() {
 		return this.cacheDir;
 	}
 
@@ -54,46 +51,39 @@ public class IncreDataSetCacheObject implements IDataSetCacheObject
 	 * 
 	 * @return
 	 */
-	public File getDataFile( )
-	{
-		return new File( cacheDir + PATH_SEP + DATA_DATA );
+	public File getDataFile() {
+		return new File(cacheDir + PATH_SEP + DATA_DATA);
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public File getMetaFile( )
-	{
-		return new File( cacheDir + PATH_SEP + META_DATA );
+	public File getMetaFile() {
+		return new File(cacheDir + PATH_SEP + META_DATA);
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public File getTimeStampFile( )
-	{
-		return new File( cacheDir + PATH_SEP + TIMESTAMP_DATA );
+	public File getTimeStampFile() {
+		return new File(cacheDir + PATH_SEP + TIMESTAMP_DATA);
 	}
 
-	public boolean isCachedDataReusable( int requiredMaxRowCount )
-	{
+	public boolean isCachedDataReusable(int requiredMaxRowCount) {
 		return true;
 	}
 
-	public boolean needUpdateCache( int requiredCapability )
-	{
+	public boolean needUpdateCache(int requiredCapability) {
 		return true;
 	}
 
-	public void release( )
-	{
-		DataSetCacheUtil.deleteFile( cacheDir );
+	public void release() {
+		DataSetCacheUtil.deleteFile(cacheDir);
 	}
 
-	public IResultClass getResultClass( )
-	{
+	public IResultClass getResultClass() {
 		return null;
 	}
 }

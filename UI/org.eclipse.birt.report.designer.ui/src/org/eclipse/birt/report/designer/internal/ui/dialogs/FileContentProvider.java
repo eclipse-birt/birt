@@ -25,14 +25,12 @@ import org.eclipse.jface.viewers.Viewer;
  * 
  */
 
-public class FileContentProvider implements ITreeContentProvider
-{
+public class FileContentProvider implements ITreeContentProvider {
 
 	private boolean showFiles;
-	private FilePathEntry.Filter filter = new FilePathEntry.Filter( ) {
+	private FilePathEntry.Filter filter = new FilePathEntry.Filter() {
 
-		public boolean accept( ResourceEntry entity )
-		{
+		public boolean accept(ResourceEntry entity) {
 			return false;
 		}
 	};
@@ -41,32 +39,26 @@ public class FileContentProvider implements ITreeContentProvider
 	/**
 	 * Constructor.
 	 * 
-	 * @param showFiles
-	 *            show files.
+	 * @param showFiles show files.
 	 */
-	public FileContentProvider( final boolean showFiles )
-	{
+	public FileContentProvider(final boolean showFiles) {
 		this.showFiles = showFiles;
-		filter = new FilePathEntry.Filter( ) {
+		filter = new FilePathEntry.Filter() {
 
-			public boolean accept( ResourceEntry entity )
-			{
-				ResourceEntryFilter filter = new ResourceEntryFilter( (ResourceFilter[]) ReportPlugin.getFilterMap( )
-						.values( )
-						.toArray( new ResourceFilter[0] ) );
-				if ( entity.hasChildren( ) )
-				{
-					if ( filter.accept( entity ) )
+			public boolean accept(ResourceEntry entity) {
+				ResourceEntryFilter filter = new ResourceEntryFilter(
+						(ResourceFilter[]) ReportPlugin.getFilterMap().values().toArray(new ResourceFilter[0]));
+				if (entity.hasChildren()) {
+					if (filter.accept(entity))
 						return true;
 				}
-				if ( showFiles )
-					return filter.accept( entity );
-				else
-				{
-					if ( entity.isFile( ) )
+				if (showFiles)
+					return filter.accept(entity);
+				else {
+					if (entity.isFile())
 						return false;
 					else
-						return filter.accept( entity );
+						return filter.accept(entity);
 				}
 			}
 		};
@@ -76,31 +68,22 @@ public class FileContentProvider implements ITreeContentProvider
 	 * Constructor.
 	 * 
 	 * @param showFiles
-	 * @param extension
-	 *            file extensions must be lowcase
+	 * @param extension file extensions must be lowcase
 	 */
-	public FileContentProvider( final String[] extension )
-	{
+	public FileContentProvider(final String[] extension) {
 		this.showFiles = true;
 		this.fileExtension = extension;
-		filter = new FilePathEntry.Filter( ) {
+		filter = new FilePathEntry.Filter() {
 
-			public boolean accept( ResourceEntry entity )
-			{
-				ResourceEntryFilter filter = new ResourceEntryFilter( (ResourceFilter[]) ReportPlugin.getFilterMap( )
-						.values( )
-						.toArray( new ResourceFilter[0] ) );
-				if ( entity.hasChildren( ) )
-				{
-					return filter.accept( entity );
+			public boolean accept(ResourceEntry entity) {
+				ResourceEntryFilter filter = new ResourceEntryFilter(
+						(ResourceFilter[]) ReportPlugin.getFilterMap().values().toArray(new ResourceFilter[0]));
+				if (entity.hasChildren()) {
+					return filter.accept(entity);
 				}
-				for ( int i = 0; i < extension.length; i++ )
-				{
-					if ( entity.getName( )
-							.toLowerCase( )
-							.endsWith( extension[i] ) )
-					{
-						if ( filter.accept( entity ) )
+				for (int i = 0; i < extension.length; i++) {
+					if (entity.getName().toLowerCase().endsWith(extension[i])) {
+						if (filter.accept(entity))
 							return true;
 					}
 				}
@@ -109,28 +92,20 @@ public class FileContentProvider implements ITreeContentProvider
 		};
 	}
 
-	public void setFileNamePattern( final String[] fileNamePattern )
-	{
-		this.filter = new FilePathEntry.Filter( ) {
+	public void setFileNamePattern(final String[] fileNamePattern) {
+		this.filter = new FilePathEntry.Filter() {
 
-			public boolean accept( ResourceEntry entity )
-			{
-				ResourceEntryFilter filter = new ResourceEntryFilter( (ResourceFilter[]) ReportPlugin.getFilterMap( )
-						.values( )
-						.toArray( new ResourceFilter[0] ) );
-				if ( entity.hasChildren( ) )
-				{
-					return filter.accept( entity );
+			public boolean accept(ResourceEntry entity) {
+				ResourceEntryFilter filter = new ResourceEntryFilter(
+						(ResourceFilter[]) ReportPlugin.getFilterMap().values().toArray(new ResourceFilter[0]));
+				if (entity.hasChildren()) {
+					return filter.accept(entity);
 				}
-				for ( int i = 0; i < fileNamePattern.length; i++ )
-				{
+				for (int i = 0; i < fileNamePattern.length; i++) {
 					// FIXME
-					// 
-					if ( entity.getName( )
-							.toLowerCase( )
-							.endsWith( fileNamePattern[i].substring( 1 ) ) )
-					{
-						if ( filter.accept( entity ) )
+					//
+					if (entity.getName().toLowerCase().endsWith(fileNamePattern[i].substring(1))) {
+						if (filter.accept(entity))
 							return true;
 					}
 				}
@@ -142,17 +117,15 @@ public class FileContentProvider implements ITreeContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 	 */
-	public Object[] getChildren( Object parentElement )
-	{
-		if ( parentElement instanceof Object[] )
-		{
+	public Object[] getChildren(Object parentElement) {
+		if (parentElement instanceof Object[]) {
 			return (Object[]) parentElement;
 		}
-		if ( parentElement instanceof FilePathEntry )
-		{
-			return ( (FilePathEntry) parentElement ).getChildren( this.filter );
+		if (parentElement instanceof FilePathEntry) {
+			return ((FilePathEntry) parentElement).getChildren(this.filter);
 		}
 		return new Object[0];
 	}
@@ -160,17 +133,15 @@ public class FileContentProvider implements ITreeContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
 	 */
-	public Object getParent( Object element )
-	{
-		if ( element instanceof File )
-		{
-			return ( (File) element ).getParentFile( );
+	public Object getParent(Object element) {
+		if (element instanceof File) {
+			return ((File) element).getParentFile();
 		}
-		if ( element instanceof FilePathEntry )
-		{
-			return ( (FilePathEntry) element ).getParent( );
+		if (element instanceof FilePathEntry) {
+			return ((FilePathEntry) element).getParent();
 		}
 		return null;
 	}
@@ -178,18 +149,15 @@ public class FileContentProvider implements ITreeContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
 	 */
-	public boolean hasChildren( Object element )
-	{
-		if ( element instanceof File )
-		{
-			return ( (File) element ).list( ) != null
-					&& ( (File) element ).list( ).length > 0;
+	public boolean hasChildren(Object element) {
+		if (element instanceof File) {
+			return ((File) element).list() != null && ((File) element).list().length > 0;
 		}
-		if ( element instanceof FilePathEntry )
-		{
-			return ( (FilePathEntry) element ).getChildren( filter ).length > 0;
+		if (element instanceof FilePathEntry) {
+			return ((FilePathEntry) element).getChildren(filter).length > 0;
 		}
 		return false;
 	}
@@ -197,26 +165,25 @@ public class FileContentProvider implements ITreeContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+	 * @see
+	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.
+	 * Object)
 	 */
-	public Object[] getElements( Object inputElement )
-	{
+	public Object[] getElements(Object inputElement) {
 		// if ( inputElement instanceof String )
 		// {
 		// return new Object[]{
 		// new File( inputElement.toString( ) )
 		// };
 		// }
-		return getChildren( inputElement );
+		return getChildren(inputElement);
 	}
 
-	public void dispose( )
-	{
+	public void dispose() {
 
 	}
 
-	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
-	{
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 	}
 

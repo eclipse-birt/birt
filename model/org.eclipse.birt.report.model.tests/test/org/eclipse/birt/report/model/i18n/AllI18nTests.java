@@ -18,22 +18,20 @@ import junit.framework.TestSuite;
  * Tests cases in i18n package.
  */
 
-public class AllI18nTests
-{
+public class AllI18nTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
 		// add all test classes here
-		test.addTestSuite( MessageFileTest.class );
-		test.addTestSuite( PropertyLocalizationTest.class );
-		test.addTestSuite( ResourceHandleTest.class );
-		test.addTestSuite( ThreadResourcesTest.class );
+		test.addTestSuite(MessageFileTest.class);
+		test.addTestSuite(PropertyLocalizationTest.class);
+		test.addTestSuite(ResourceHandleTest.class);
+		test.addTestSuite(ThreadResourcesTest.class);
 
 		return test;
 	}

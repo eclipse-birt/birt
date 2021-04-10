@@ -19,28 +19,22 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * file, this state will be return to ignore the removed property.
  */
 
-public class CompatibleIgnorePropertyState extends CompatiblePropertyState
-{
+public class CompatibleIgnorePropertyState extends CompatiblePropertyState {
 
 	/**
-	 * Constructs a <code>CompatibleIgnorePropertyState</code> to parse an
-	 * removed property.
+	 * Constructs a <code>CompatibleIgnorePropertyState</code> to parse an removed
+	 * property.
 	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the obsolete property
+	 * @param theHandler the parser handle
+	 * @param element    the element that holds the obsolete property
 	 * 
 	 */
 
-	public CompatibleIgnorePropertyState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatibleIgnorePropertyState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 
 	}
 
-	public void end( )
-	{
+	public void end() {
 	}
 }

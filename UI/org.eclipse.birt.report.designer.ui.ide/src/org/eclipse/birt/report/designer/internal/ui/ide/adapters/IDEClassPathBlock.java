@@ -56,13 +56,12 @@ import org.eclipse.ui.dialogs.ListSelectionDialog;
  * 
  */
 
-public class IDEClassPathBlock extends OptionsConfigurationBlock
-{
+public class IDEClassPathBlock extends OptionsConfigurationBlock {
 
 	private static Key PREF_CLASSPATH;
 	private final TreeListDialogField fLibrariesList;
 
-	//private Control fSWTControl;
+	// private Control fSWTControl;
 
 	private static final int IDX_ADDJAR = 0;
 	private static final int IDX_ADDEXT = 1;
@@ -89,202 +88,173 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 	private static final String ENTRY_SEPARATOR = "|"; //$NON-NLS-1$
 	private static final String TYPE_SEPARATOR = "*"; //$NON-NLS-1$
 
-	public IDEClassPathBlock( IStatusChangeListener context, IProject project )
-	{
+	public IDEClassPathBlock(IStatusChangeListener context, IProject project) {
 
-		super( context, ReportPlugin.getDefault( ), project );
-		//fSWTControl = null;
-		PREF_CLASSPATH = getReportKey( ReportPlugin.CLASSPATH_PREFERENCE );
-		String[] buttonLabels = new String[]{
-				Messages.getString("IDEClassPathBlock.button_addJar"), Messages.getString("IDEClassPathBlock.button_addEXTJar"), Messages.getString("IDEClassPathBlock.button_addVar"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				
+		super(context, ReportPlugin.getDefault(), project);
+		// fSWTControl = null;
+		PREF_CLASSPATH = getReportKey(ReportPlugin.CLASSPATH_PREFERENCE);
+		String[] buttonLabels = new String[] { Messages.getString("IDEClassPathBlock.button_addJar"), //$NON-NLS-1$
+				Messages.getString("IDEClassPathBlock.button_addEXTJar"), //$NON-NLS-1$
+				Messages.getString("IDEClassPathBlock.button_addVar"), //$NON-NLS-1$
+
 				Messages.getString("IDEClassPathBlock.button_folder"), //$NON-NLS-1$
 				Messages.getString("IDEClassPathBlock.button_addExtFolder"), //$NON-NLS-1$
 				Messages.getString("IDEClassPathBlock.button_addProject"), //$NON-NLS-1$
-				/* */null,
-				Messages.getString("IDEClassPathBlock.button_up"), //$NON-NLS-1$
+				/* */null, Messages.getString("IDEClassPathBlock.button_up"), //$NON-NLS-1$
 				Messages.getString("IDEClassPathBlock.button_down"), //$NON-NLS-1$
 				Messages.getString("IDEClassPathBlock.button_edit"), //$NON-NLS-1$
 				Messages.getString("IDEClassPathBlock.button_remove"), //$NON-NLS-1$
 		};
 
-		LibrariesAdapter adapter = new LibrariesAdapter( );
+		LibrariesAdapter adapter = new LibrariesAdapter();
 
-		fLibrariesList = new TreeListDialogField( adapter,
-				buttonLabels,
-				new IDECPListLabelProvider( ) );
-		fLibrariesList.setDialogFieldListener( adapter );
-		fLibrariesList.setLabelText( Messages.getString("IDEClassPathBlock.fLibrariesList_text") ); //$NON-NLS-1$
+		fLibrariesList = new TreeListDialogField(adapter, buttonLabels, new IDECPListLabelProvider());
+		fLibrariesList.setDialogFieldListener(adapter);
+		fLibrariesList.setLabelText(Messages.getString("IDEClassPathBlock.fLibrariesList_text")); //$NON-NLS-1$
 
-		fLibrariesList.enableButton( IDX_UP, false );
-		fLibrariesList.enableButton( IDX_DOWN, false );
-		fLibrariesList.enableButton( IDX_REMOVE, false );
-		fLibrariesList.enableButton( IDX_EDIT, false );
-		setKeys( getKeys( ) );
+		fLibrariesList.enableButton(IDX_UP, false);
+		fLibrariesList.enableButton(IDX_DOWN, false);
+		fLibrariesList.enableButton(IDX_REMOVE, false);
+		fLibrariesList.enableButton(IDX_EDIT, false);
+		setKeys(getKeys());
 
-		fLibrariesList.setElements( readClassPathEntry( getValue( PREF_CLASSPATH ) ) );
+		fLibrariesList.setElements(readClassPathEntry(getValue(PREF_CLASSPATH)));
 
 	}
 
-	private Key[] getKeys( )
-	{
-		Key[] keys = new Key[]{
-			PREF_CLASSPATH
-		};
+	private Key[] getKeys() {
+		Key[] keys = new Key[] { PREF_CLASSPATH };
 		return keys;
 	}
 
 	// -------- UI creation
 
-	public Control createContents( Composite parent )
-	{
-		setShell( parent.getShell( ) );
-		PixelConverter converter = new PixelConverter( parent );
+	public Control createContents(Composite parent) {
+		setShell(parent.getShell());
+		PixelConverter converter = new PixelConverter(parent);
 
-		Composite composite = new Composite( parent, SWT.NONE );
-		if ( getProject( ) == null )
-		{
-			fLibrariesList.removeButton( IDX_ADDPROJECT );
+		Composite composite = new Composite(parent, SWT.NONE);
+		if (getProject() == null) {
+			fLibrariesList.removeButton(IDX_ADDPROJECT);
 		}
-		LayoutUtil.doDefaultLayout( composite, new DialogField[]{
-			fLibrariesList
-		}, true, SWT.DEFAULT, SWT.DEFAULT );
-		LayoutUtil.setHorizontalGrabbing( fLibrariesList.getTreeControl( null ) );
+		LayoutUtil.doDefaultLayout(composite, new DialogField[] { fLibrariesList }, true, SWT.DEFAULT, SWT.DEFAULT);
+		LayoutUtil.setHorizontalGrabbing(fLibrariesList.getTreeControl(null));
 
-		int buttonBarWidth = converter.convertWidthInCharsToPixels( 24 );
-		fLibrariesList.setButtonsMinWidth( buttonBarWidth );
+		int buttonBarWidth = converter.convertWidthInCharsToPixels(24);
+		fLibrariesList.setButtonsMinWidth(buttonBarWidth);
 
-		//fSWTControl = composite;
+		// fSWTControl = composite;
 
 		return composite;
 	}
 
-	private class LibrariesAdapter implements
-			IDialogFieldListener,
-			ITreeListAdapter
-	{
+	private class LibrariesAdapter implements IDialogFieldListener, ITreeListAdapter {
 
 		private final Object[] EMPTY_ARR = new Object[0];
 
 		// -------- IListAdapter --------
-		public void customButtonPressed( TreeListDialogField field, int index )
-		{
-			libaryPageCustomButtonPressed( field, index );
+		public void customButtonPressed(TreeListDialogField field, int index) {
+			libaryPageCustomButtonPressed(field, index);
 		}
 
-		public void selectionChanged( TreeListDialogField field )
-		{
-			libaryPageSelectionChanged( field );
+		public void selectionChanged(TreeListDialogField field) {
+			libaryPageSelectionChanged(field);
 		}
 
-		public void doubleClicked( TreeListDialogField field )
-		{
-			libaryPageDoubleClicked( field );
+		public void doubleClicked(TreeListDialogField field) {
+			libaryPageDoubleClicked(field);
 		}
 
-		public void keyPressed( TreeListDialogField field, KeyEvent event )
-		{
-			libaryPageKeyPressed( field, event );
+		public void keyPressed(TreeListDialogField field, KeyEvent event) {
+			libaryPageKeyPressed(field, event);
 		}
 
-		public Object[] getChildren( TreeListDialogField field, Object element )
-		{
-			if ( element instanceof IDECPListElement )
-			{
-				return ( (IDECPListElement) element ).getChildren( false );
+		public Object[] getChildren(TreeListDialogField field, Object element) {
+			if (element instanceof IDECPListElement) {
+				return ((IDECPListElement) element).getChildren(false);
 			}
-			
+
 			return EMPTY_ARR;
 		}
 
-		public Object getParent( TreeListDialogField field, Object element )
-		{
+		public Object getParent(TreeListDialogField field, Object element) {
 
 			return null;
 		}
 
-		public boolean hasChildren( TreeListDialogField field, Object element )
-		{
-			return getChildren( field, element ).length > 0;
+		public boolean hasChildren(TreeListDialogField field, Object element) {
+			return getChildren(field, element).length > 0;
 		}
 
 		// ---------- IDialogFieldListener --------
 
-		public void dialogFieldChanged( DialogField field )
-		{
-			libaryPageDialogFieldChanged( field );
+		public void dialogFieldChanged(DialogField field) {
+			libaryPageDialogFieldChanged(field);
 		}
 	}
 
 	/**
 	 * A button has been pressed.
 	 * 
-	 * @param field
-	 *            the dialog field containing the button
-	 * @param index
-	 *            the index of the button
+	 * @param field the dialog field containing the button
+	 * @param index the index of the button
 	 */
-	private void libaryPageCustomButtonPressed( DialogField field, int index )
-	{
+	private void libaryPageCustomButtonPressed(DialogField field, int index) {
 		IDECPListElement[] libentries = null;
-		switch ( index )
+		switch (index) {
+		case IDX_ADDJAR: /* add jar */
+			libentries = openJarFileDialog(null);
+			break;
+		case IDX_ADDEXT: /* add external jar */
+			libentries = openExtJarFileDialog(null);
+			break;
+		case IDX_ADDVAR: /* add variable */
+			libentries = openVariableSelectionDialog(null);
+			break;
+		case IDX_ADDFOL: /* add folder */
+			libentries = openClassFolderDialog(null);
+			break;
+		case IDX_ADDEXTFOL: /* add external folder */
+			libentries = openExternalClassFolderDialog(null);
+			break;
+		case IDX_ADDPROJECT: /* add project */
+			libentries = addProjectDialog();
+			break;
+		case IDX_UP: /* add external folder */
 		{
-			case IDX_ADDJAR : /* add jar */
-				libentries = openJarFileDialog( null );
-				break;
-			case IDX_ADDEXT : /* add external jar */
-				libentries = openExtJarFileDialog( null );
-				break;
-			case IDX_ADDVAR : /* add variable */
-				libentries = openVariableSelectionDialog( null );
-				break;
-			case IDX_ADDFOL : /* add folder */
-				libentries = openClassFolderDialog( null );
-				break;
-			case IDX_ADDEXTFOL : /* add external folder */
-				libentries = openExternalClassFolderDialog( null );
-				break;
-			case IDX_ADDPROJECT : /* add project */
-				libentries = addProjectDialog( );
-				break;
-			case IDX_UP : /* add external folder */
-			{
-				libentries = (IDECPListElement[]) getSelection( ).toArray( new IDECPListElement[getSelection( ).size( )] );
-				fLibrariesList.up( );
-				break;
-			}
-			case IDX_DOWN : /* add external folder */
-			{
-				libentries = (IDECPListElement[]) getSelection( ).toArray( new IDECPListElement[getSelection( ).size( )] );
-				fLibrariesList.down( );
-				break;
-			}
-			case IDX_EDIT : /* edit */
-				editEntry( );
-				return;
-			case IDX_REMOVE : /* remove */
-				removeEntry( );
-				return;
+			libentries = (IDECPListElement[]) getSelection().toArray(new IDECPListElement[getSelection().size()]);
+			fLibrariesList.up();
+			break;
 		}
-		if ( libentries != null )
+		case IDX_DOWN: /* add external folder */
 		{
+			libentries = (IDECPListElement[]) getSelection().toArray(new IDECPListElement[getSelection().size()]);
+			fLibrariesList.down();
+			break;
+		}
+		case IDX_EDIT: /* edit */
+			editEntry();
+			return;
+		case IDX_REMOVE: /* remove */
+			removeEntry();
+			return;
+		}
+		if (libentries != null) {
 			int nElementsChosen = libentries.length;
 			// remove duplicates
-			List cplist = fLibrariesList.getElements( );
-			List elementsToAdd = new ArrayList( nElementsChosen );
+			List cplist = fLibrariesList.getElements();
+			List elementsToAdd = new ArrayList(nElementsChosen);
 
-			for ( int i = 0; i < nElementsChosen; i++ )
-			{
+			for (int i = 0; i < nElementsChosen; i++) {
 				IDECPListElement curr = libentries[i];
-				if ( !cplist.contains( curr ) && !elementsToAdd.contains( curr ) )
-				{
-					elementsToAdd.add( curr );
+				if (!cplist.contains(curr) && !elementsToAdd.contains(curr)) {
+					elementsToAdd.add(curr);
 				}
 			}
 
-			fLibrariesList.addElements( elementsToAdd );
+			fLibrariesList.addElements(elementsToAdd);
 
-			fLibrariesList.postSetSelection( new StructuredSelection( libentries ) );
+			fLibrariesList.postSetSelection(new StructuredSelection(libentries));
 		}
 	}
 
@@ -295,57 +265,43 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 	 * org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage#addElement
 	 * (org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement)
 	 */
-	public void addElement( IDECPListElement element )
-	{
-		fLibrariesList.addElement( element );
-		fLibrariesList.postSetSelection( new StructuredSelection( element ) );
+	public void addElement(IDECPListElement element) {
+		fLibrariesList.addElement(element);
+		fLibrariesList.postSetSelection(new StructuredSelection(element));
 	}
 
-	protected void libaryPageDoubleClicked( TreeListDialogField field )
-	{
-		List selection = field.getSelectedElements( );
-		if ( canEdit( selection ) )
-		{
-			editEntry( );
+	protected void libaryPageDoubleClicked(TreeListDialogField field) {
+		List selection = field.getSelectedElements();
+		if (canEdit(selection)) {
+			editEntry();
 		}
 	}
 
-	protected void libaryPageKeyPressed( TreeListDialogField field,
-			KeyEvent event )
-	{
-		if ( field == fLibrariesList )
-		{
-			if ( event.character == SWT.DEL && event.stateMask == 0 )
-			{
-				List selection = field.getSelectedElements( );
-				if ( canRemove( selection ) )
-				{
-					removeEntry( );
+	protected void libaryPageKeyPressed(TreeListDialogField field, KeyEvent event) {
+		if (field == fLibrariesList) {
+			if (event.character == SWT.DEL && event.stateMask == 0) {
+				List selection = field.getSelectedElements();
+				if (canRemove(selection)) {
+					removeEntry();
 				}
 			}
 		}
 	}
 
-	private void removeEntry( )
-	{
-		List selElements = fLibrariesList.getSelectedElements( );
-		//HashMap containerEntriesToUpdate = new HashMap( );
+	private void removeEntry() {
+		List selElements = fLibrariesList.getSelectedElements();
+		// HashMap containerEntriesToUpdate = new HashMap( );
 
-		if ( selElements.isEmpty( ) )
-		{
-			fLibrariesList.refresh( );
-		}
-		else
-		{
-			fLibrariesList.removeElements( selElements );
+		if (selElements.isEmpty()) {
+			fLibrariesList.refresh();
+		} else {
+			fLibrariesList.removeElements(selElements);
 		}
 
 	}
 
-	private boolean canRemove( List selElements )
-	{
-		if ( selElements.size( ) == 0 )
-		{
+	private boolean canRemove(List selElements) {
+		if (selElements.size() == 0) {
 			return false;
 		}
 		return true;
@@ -354,318 +310,228 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 	/**
 	 * Method editEntry.
 	 */
-	private void editEntry( )
-	{
-		List selElements = fLibrariesList.getSelectedElements( );
-		if ( selElements.size( ) != 1 )
-		{
+	private void editEntry() {
+		List selElements = fLibrariesList.getSelectedElements();
+		if (selElements.size() != 1) {
 			return;
 		}
-		Object elem = selElements.get( 0 );
-		if ( fLibrariesList.getIndexOfElement( elem ) != -1 )
-		{
-			editElementEntry( (IDECPListElement) elem );
+		Object elem = selElements.get(0);
+		if (fLibrariesList.getIndexOfElement(elem) != -1) {
+			editElementEntry((IDECPListElement) elem);
 		}
 	}
 
-	private void editElementEntry( IDECPListElement elem )
-	{
+	private void editElementEntry(IDECPListElement elem) {
 		IDECPListElement[] res = null;
 
-		switch ( elem.getEntryKind( ) )
-		{
-			case IClasspathEntry.CPE_LIBRARY :
-				IResource resource = elem.getResource( );
-				if ( resource == null )
-				{
-					File file = elem.getPath( ).toFile( );
-					if ( file.isDirectory( ) )
-					{
-						res = openExternalClassFolderDialog( elem );
-					}
-					else
-					{
-						res = openExtJarFileDialog( elem );
-					}
+		switch (elem.getEntryKind()) {
+		case IClasspathEntry.CPE_LIBRARY:
+			IResource resource = elem.getResource();
+			if (resource == null) {
+				File file = elem.getPath().toFile();
+				if (file.isDirectory()) {
+					res = openExternalClassFolderDialog(elem);
+				} else {
+					res = openExtJarFileDialog(elem);
 				}
-				else if ( resource.getType( ) == IResource.FILE )
-				{
-					res = openJarFileDialog( elem );
-				}
-				break;
-			case IClasspathEntry.CPE_VARIABLE :
-				res = openVariableSelectionDialog( elem );
-				break;
+			} else if (resource.getType() == IResource.FILE) {
+				res = openJarFileDialog(elem);
+			}
+			break;
+		case IClasspathEntry.CPE_VARIABLE:
+			res = openVariableSelectionDialog(elem);
+			break;
 		}
-		if ( res != null && res.length > 0 )
-		{
+		if (res != null && res.length > 0) {
 			IDECPListElement curr = res[0];
-			curr.setExported( elem.isExported( ) );
+			curr.setExported(elem.isExported());
 			// curr.setAttributesFromExisting(elem);
-			fLibrariesList.replaceElement( elem, curr );
-			if ( elem.getEntryKind( ) == IClasspathEntry.CPE_VARIABLE )
-			{
-				fLibrariesList.refresh( );
+			fLibrariesList.replaceElement(elem, curr);
+			if (elem.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
+				fLibrariesList.refresh();
 			}
 		}
 
 	}
 
 	/**
-	 * @param field
-	 *            the dilaog field
+	 * @param field the dilaog field
 	 */
-	private void libaryPageSelectionChanged( DialogField field )
-	{
-		updateEnabledState( );
+	private void libaryPageSelectionChanged(DialogField field) {
+		updateEnabledState();
 	}
 
-	private void updateEnabledState( )
-	{
-		List selElements = fLibrariesList.getSelectedElements( );
-		fLibrariesList.enableButton( IDX_EDIT, canEdit( selElements ) );
-		fLibrariesList.enableButton( IDX_REMOVE, canRemove( selElements ) );
+	private void updateEnabledState() {
+		List selElements = fLibrariesList.getSelectedElements();
+		fLibrariesList.enableButton(IDX_EDIT, canEdit(selElements));
+		fLibrariesList.enableButton(IDX_REMOVE, canRemove(selElements));
 
-		boolean noAttributes = containsOnlyTopLevelEntries( selElements );
-		fLibrariesList.enableButton( IDX_ADDEXT, noAttributes );
-		fLibrariesList.enableButton( IDX_ADDFOL, noAttributes );
-		fLibrariesList.enableButton( IDX_ADDEXTFOL, noAttributes );
-		fLibrariesList.enableButton( IDX_ADDJAR, noAttributes );
-		
-		fLibrariesList.enableButton( IDX_ADDVAR, noAttributes );
-		fLibrariesList.enableButton( IDX_UP,
-				fLibrariesList.canMoveUp( selElements ) );
-		fLibrariesList.enableButton( IDX_DOWN,
-				fLibrariesList.canMoveDown( selElements ) );
+		boolean noAttributes = containsOnlyTopLevelEntries(selElements);
+		fLibrariesList.enableButton(IDX_ADDEXT, noAttributes);
+		fLibrariesList.enableButton(IDX_ADDFOL, noAttributes);
+		fLibrariesList.enableButton(IDX_ADDEXTFOL, noAttributes);
+		fLibrariesList.enableButton(IDX_ADDJAR, noAttributes);
+
+		fLibrariesList.enableButton(IDX_ADDVAR, noAttributes);
+		fLibrariesList.enableButton(IDX_UP, fLibrariesList.canMoveUp(selElements));
+		fLibrariesList.enableButton(IDX_DOWN, fLibrariesList.canMoveDown(selElements));
 	}
 
-	private boolean canEdit( List selElements )
-	{
-		if ( selElements.size( ) != 1 )
-		{
+	private boolean canEdit(List selElements) {
+		if (selElements.size() != 1) {
 			return false;
 		}
-		Object elem = selElements.get( 0 );
-		if ( elem instanceof IDECPListElement )
-		{
+		Object elem = selElements.get(0);
+		if (elem instanceof IDECPListElement) {
 			IDECPListElement curr = (IDECPListElement) elem;
-			return !( curr.getResource( ) instanceof IFolder || curr.getResource( ) instanceof IProject)
-					&& curr.getParentContainer( ) == null;
+			return !(curr.getResource() instanceof IFolder || curr.getResource() instanceof IProject)
+					&& curr.getParentContainer() == null;
 		}
 
 		return false;
 	}
 
 	/**
-	 * @param field
-	 *            the dialog field
+	 * @param field the dialog field
 	 */
-	private void libaryPageDialogFieldChanged( DialogField field )
-	{
+	private void libaryPageDialogFieldChanged(DialogField field) {
 		// donothing now
 	}
 
-	private IDECPListElement[] openClassFolderDialog( IDECPListElement existing )
-	{
-		if ( existing == null )
-		{
-			IPath[] selected = BuildPathDialogAccess.chooseClassFolderEntries( getShell( ),
-					getProject( ) == null ? null : getProject( ).getLocation( ),
-					getUsedContainers( existing ) );
-			if ( selected != null )
-			{
-				IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
-				ArrayList res = new ArrayList( );
-				for ( int i = 0; i < selected.length; i++ )
-				{
+	private IDECPListElement[] openClassFolderDialog(IDECPListElement existing) {
+		if (existing == null) {
+			IPath[] selected = BuildPathDialogAccess.chooseClassFolderEntries(getShell(),
+					getProject() == null ? null : getProject().getLocation(), getUsedContainers(existing));
+			if (selected != null) {
+				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+				ArrayList res = new ArrayList();
+				for (int i = 0; i < selected.length; i++) {
 					IPath curr = selected[i];
-					IResource resource = root.findMember( curr );
-					if ( resource instanceof IContainer )
-					{
-						res.add( newCPLibraryElement( resource ) );
+					IResource resource = root.findMember(curr);
+					if (resource instanceof IContainer) {
+						res.add(newCPLibraryElement(resource));
 					}
 				}
-				return (IDECPListElement[]) res.toArray( new IDECPListElement[res.size( )] );
+				return (IDECPListElement[]) res.toArray(new IDECPListElement[res.size()]);
 			}
-		}
-		else
-		{
+		} else {
 			// disabled
 		}
 		return null;
 	}
 
-	private IDECPListElement[] openJarFileDialog( IDECPListElement existing )
-	{
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
-		if ( existing == null )
-		{
-			IPath[] selected = BuildPathDialogAccess.chooseJAREntries( getShell( ),
-					getProject( ) == null ? null : getProject( ).getLocation( ),
-					getUsedJARFiles( existing ) );
-			if ( selected != null )
-			{
-				ArrayList res = new ArrayList( );
+	private IDECPListElement[] openJarFileDialog(IDECPListElement existing) {
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		if (existing == null) {
+			IPath[] selected = BuildPathDialogAccess.chooseJAREntries(getShell(),
+					getProject() == null ? null : getProject().getLocation(), getUsedJARFiles(existing));
+			if (selected != null) {
+				ArrayList res = new ArrayList();
 
-				for ( int i = 0; i < selected.length; i++ )
-				{
+				for (int i = 0; i < selected.length; i++) {
 					IPath curr = selected[i];
-					IResource resource = root.findMember( curr );
-					if ( resource instanceof IFile )
-					{
-						res.add( newCPLibraryElement( resource ) );
+					IResource resource = root.findMember(curr);
+					if (resource instanceof IFile) {
+						res.add(newCPLibraryElement(resource));
 					}
 				}
-				return (IDECPListElement[]) res.toArray( new IDECPListElement[res.size( )] );
+				return (IDECPListElement[]) res.toArray(new IDECPListElement[res.size()]);
 			}
-		}
-		else
-		{
-			IPath configured = BuildPathDialogAccess.configureJAREntry( getShell( ),
-					existing.getPath( ),
-					getUsedJARFiles( existing ) );
-			if ( configured != null )
-			{
-				IResource resource = root.findMember( configured );
-				if ( resource instanceof IFile )
-				{
-					return new IDECPListElement[]{
-						newCPLibraryElement( resource )
-					};
+		} else {
+			IPath configured = BuildPathDialogAccess.configureJAREntry(getShell(), existing.getPath(),
+					getUsedJARFiles(existing));
+			if (configured != null) {
+				IResource resource = root.findMember(configured);
+				if (resource instanceof IFile) {
+					return new IDECPListElement[] { newCPLibraryElement(resource) };
 				}
 			}
 		}
 		return null;
 	}
 
-	private IPath[] getUsedContainers( IDECPListElement existing )
-	{
-		ArrayList res = new ArrayList( );
+	private IPath[] getUsedContainers(IDECPListElement existing) {
+		ArrayList res = new ArrayList();
 
-		List cplist = fLibrariesList.getElements( );
-		for ( int i = 0; i < cplist.size( ); i++ )
-		{
-			IDECPListElement elem = (IDECPListElement) cplist.get( i );
-			if ( elem.getEntryKind( ) == IClasspathEntry.CPE_LIBRARY
-					&& ( elem != existing ) )
-			{
-				IResource resource = elem.getResource( );
-				if ( resource instanceof IContainer
-						&& !resource.equals( existing ) )
-				{
-					res.add( resource.getFullPath( ) );
+		List cplist = fLibrariesList.getElements();
+		for (int i = 0; i < cplist.size(); i++) {
+			IDECPListElement elem = (IDECPListElement) cplist.get(i);
+			if (elem.getEntryKind() == IClasspathEntry.CPE_LIBRARY && (elem != existing)) {
+				IResource resource = elem.getResource();
+				if (resource instanceof IContainer && !resource.equals(existing)) {
+					res.add(resource.getFullPath());
 				}
 			}
 		}
-		return (IPath[]) res.toArray( new IPath[res.size( )] );
+		return (IPath[]) res.toArray(new IPath[res.size()]);
 	}
 
-	private IPath[] getUsedJARFiles( IDECPListElement existing )
-	{
-		List res = new ArrayList( );
-		List cplist = fLibrariesList.getElements( );
-		for ( int i = 0; i < cplist.size( ); i++ )
-		{
-			IDECPListElement elem = (IDECPListElement) cplist.get( i );
-			if ( elem.getEntryKind( ) == IClasspathEntry.CPE_LIBRARY
-					&& ( elem != existing ) )
-			{
-				IResource resource = elem.getResource( );
-				if ( resource instanceof IFile )
-				{
-					res.add( resource.getFullPath( ) );
+	private IPath[] getUsedJARFiles(IDECPListElement existing) {
+		List res = new ArrayList();
+		List cplist = fLibrariesList.getElements();
+		for (int i = 0; i < cplist.size(); i++) {
+			IDECPListElement elem = (IDECPListElement) cplist.get(i);
+			if (elem.getEntryKind() == IClasspathEntry.CPE_LIBRARY && (elem != existing)) {
+				IResource resource = elem.getResource();
+				if (resource instanceof IFile) {
+					res.add(resource.getFullPath());
 				}
 			}
 		}
-		return (IPath[]) res.toArray( new IPath[res.size( )] );
+		return (IPath[]) res.toArray(new IPath[res.size()]);
 	}
 
-	private static IDECPListElement newCPLibraryElement( IResource res )
-	{
-		return new IDECPListElement( IClasspathEntry.CPE_LIBRARY,
-				res.getFullPath( ),
-				res );
+	private static IDECPListElement newCPLibraryElement(IResource res) {
+		return new IDECPListElement(IClasspathEntry.CPE_LIBRARY, res.getFullPath(), res);
 	}
 
-	private IDECPListElement[] openExtJarFileDialog( IDECPListElement existing )
-	{
-		if ( existing == null )
-		{
-			IPath[] selected = BuildPathDialogAccess.chooseExternalJAREntries( getShell( ) );
-			if ( selected != null )
-			{
-				ArrayList res = new ArrayList( );
-				for ( int i = 0; i < selected.length; i++ )
-				{
-					res.add( new IDECPListElement( IClasspathEntry.CPE_LIBRARY,
-							selected[i],
-							null ) );
+	private IDECPListElement[] openExtJarFileDialog(IDECPListElement existing) {
+		if (existing == null) {
+			IPath[] selected = BuildPathDialogAccess.chooseExternalJAREntries(getShell());
+			if (selected != null) {
+				ArrayList res = new ArrayList();
+				for (int i = 0; i < selected.length; i++) {
+					res.add(new IDECPListElement(IClasspathEntry.CPE_LIBRARY, selected[i], null));
 				}
-				return (IDECPListElement[]) res.toArray( new IDECPListElement[res.size( )] );
+				return (IDECPListElement[]) res.toArray(new IDECPListElement[res.size()]);
 			}
-		}
-		else
-		{
-			IPath path = existing.getPath( );
-			IPath configured = BuildPathDialogAccess.configureExternalJAREntry( getShell( ),
-					path );
-			if ( configured != null )
-			{
-				return new IDECPListElement[]{
-					new IDECPListElement( IClasspathEntry.CPE_LIBRARY,
-							configured,
-							null )
-				};
+		} else {
+			IPath path = existing.getPath();
+			IPath configured = BuildPathDialogAccess.configureExternalJAREntry(getShell(), path);
+			if (configured != null) {
+				return new IDECPListElement[] { new IDECPListElement(IClasspathEntry.CPE_LIBRARY, configured, null) };
 			}
 		}
 		return null;
 	}
 
-	private IDECPListElement[] openExternalClassFolderDialog(
-			IDECPListElement existing )
-	{
-		if ( existing == null )
-		{
-			IPath[] selected = BuildPathDialogAccess.chooseExternalClassFolderEntries( getShell( ) );
-			if ( selected != null )
-			{
-				ArrayList res = new ArrayList( );
-				for ( int i = 0; i < selected.length; i++ )
-				{
-					res.add( new IDECPListElement( IClasspathEntry.CPE_LIBRARY,
-							selected[i],
-							null ) );
+	private IDECPListElement[] openExternalClassFolderDialog(IDECPListElement existing) {
+		if (existing == null) {
+			IPath[] selected = BuildPathDialogAccess.chooseExternalClassFolderEntries(getShell());
+			if (selected != null) {
+				ArrayList res = new ArrayList();
+				for (int i = 0; i < selected.length; i++) {
+					res.add(new IDECPListElement(IClasspathEntry.CPE_LIBRARY, selected[i], null));
 				}
-				return (IDECPListElement[]) res.toArray( new IDECPListElement[res.size( )] );
+				return (IDECPListElement[]) res.toArray(new IDECPListElement[res.size()]);
 			}
-		}
-		else
-		{
-			IPath configured = BuildPathDialogAccess.configureExternalClassFolderEntries( getShell( ),
-					existing.getPath( ) );
-			if ( configured != null )
-			{
-				return new IDECPListElement[]{
-					new IDECPListElement( IClasspathEntry.CPE_LIBRARY,
-							configured,
-							null )
-				};
+		} else {
+			IPath configured = BuildPathDialogAccess.configureExternalClassFolderEntries(getShell(),
+					existing.getPath());
+			if (configured != null) {
+				return new IDECPListElement[] { new IDECPListElement(IClasspathEntry.CPE_LIBRARY, configured, null) };
 			}
 		}
 		return null;
 	}
 
-	private static IDECPListElement createCPVariableElement( IPath path )
-	{
-		IDECPListElement elem = new IDECPListElement( IClasspathEntry.CPE_VARIABLE,
-				path,
-				null );
-		IPath resolvedPath = JavaCore.getResolvedVariablePath( path );
-		elem.setIsMissing( ( resolvedPath == null )
-				|| !resolvedPath.toFile( ).exists( ) );
+	private static IDECPListElement createCPVariableElement(IPath path) {
+		IDECPListElement elem = new IDECPListElement(IClasspathEntry.CPE_VARIABLE, path, null);
+		IPath resolvedPath = JavaCore.getResolvedVariablePath(path);
+		elem.setIsMissing((resolvedPath == null) || !resolvedPath.toFile().exists());
 		return elem;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -673,33 +539,26 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 	 * org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage#isEntryKind
 	 * (int)
 	 */
-	public boolean isEntryKind( int kind )
-	{
-		return kind == IClasspathEntry.CPE_LIBRARY
-				|| kind == IClasspathEntry.CPE_PROJECT
-				|| kind == IClasspathEntry.CPE_VARIABLE
-				|| kind == IClasspathEntry.CPE_CONTAINER;
+	public boolean isEntryKind(int kind) {
+		return kind == IClasspathEntry.CPE_LIBRARY || kind == IClasspathEntry.CPE_PROJECT
+				|| kind == IClasspathEntry.CPE_VARIABLE || kind == IClasspathEntry.CPE_CONTAINER;
 	}
 
 	/*
 	 * @see BuildPathBasePage#getSelection
 	 */
-	public List getSelection( )
-	{
-		return fLibrariesList.getSelectedElements( );
+	public List getSelection() {
+		return fLibrariesList.getSelectedElements();
 	}
 
 	/*
 	 * @see BuildPathBasePage#setSelection
 	 */
-	public void setSelection( List selElements, boolean expand )
-	{
-		fLibrariesList.selectElements( new StructuredSelection( selElements ) );
-		if ( expand )
-		{
-			for ( int i = 0; i < selElements.size( ); i++ )
-			{
-				fLibrariesList.expandElement( selElements.get( i ), 1 );
+	public void setSelection(List selElements, boolean expand) {
+		fLibrariesList.selectElements(new StructuredSelection(selElements));
+		if (expand) {
+			for (int i = 0; i < selElements.size(); i++) {
+				fLibrariesList.expandElement(selElements.get(i), 1);
 			}
 		}
 	}
@@ -707,163 +566,117 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setFocus( )
-	{
-		fLibrariesList.setFocus( );
+	public void setFocus() {
+		fLibrariesList.setFocus();
 	}
 
-	private IDECPListElement[] openVariableSelectionDialog( IDECPListElement existing )
-	{
-		List existingElements = fLibrariesList.getElements( );
-		ArrayList existingPaths = new ArrayList( existingElements.size( ) );
-		for ( int i = 0; i < existingElements.size( ); i++ )
-		{
-			IDECPListElement elem = (IDECPListElement) existingElements.get( i );
-			if ( elem.getEntryKind( ) == IClasspathEntry.CPE_VARIABLE )
-			{
-				existingPaths.add( elem.getPath( ) );
+	private IDECPListElement[] openVariableSelectionDialog(IDECPListElement existing) {
+		List existingElements = fLibrariesList.getElements();
+		ArrayList existingPaths = new ArrayList(existingElements.size());
+		for (int i = 0; i < existingElements.size(); i++) {
+			IDECPListElement elem = (IDECPListElement) existingElements.get(i);
+			if (elem.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
+				existingPaths.add(elem.getPath());
 			}
 		}
-		IPath[] existingPathsArray = (IPath[]) existingPaths.toArray( new IPath[existingPaths.size( )] );
+		IPath[] existingPathsArray = (IPath[]) existingPaths.toArray(new IPath[existingPaths.size()]);
 
-		if ( existing == null )
-		{
-			IPath[] paths = BuildPathDialogAccess.chooseVariableEntries( getShell( ),
-					existingPathsArray );
-			if ( paths != null )
-			{
-				ArrayList result = new ArrayList( );
-				for ( int i = 0; i < paths.length; i++ )
-				{
+		if (existing == null) {
+			IPath[] paths = BuildPathDialogAccess.chooseVariableEntries(getShell(), existingPathsArray);
+			if (paths != null) {
+				ArrayList result = new ArrayList();
+				for (int i = 0; i < paths.length; i++) {
 					IPath path = paths[i];
-					IDECPListElement elem = createCPVariableElement( path );
-					if ( !existingElements.contains( elem ) )
-					{
-						result.add( elem );
+					IDECPListElement elem = createCPVariableElement(path);
+					if (!existingElements.contains(elem)) {
+						result.add(elem);
 					}
 				}
-				return (IDECPListElement[]) result.toArray( new IDECPListElement[result.size( )] );
+				return (IDECPListElement[]) result.toArray(new IDECPListElement[result.size()]);
 			}
-		}
-		else
-		{
-			IPath path = BuildPathDialogAccess.configureVariableEntry( getShell( ),
-					existing.getPath( ),
-					existingPathsArray );
-			if ( path != null )
-			{
-				return new IDECPListElement[]{
-					createCPVariableElement( path )
-				};
+		} else {
+			IPath path = BuildPathDialogAccess.configureVariableEntry(getShell(), existing.getPath(),
+					existingPathsArray);
+			if (path != null) {
+				return new IDECPListElement[] { createCPVariableElement(path) };
 			}
 		}
 		return null;
 	}
 
-	protected boolean containsOnlyTopLevelEntries( List selElements )
-	{
-		if ( selElements.size( ) == 0 )
-		{
+	protected boolean containsOnlyTopLevelEntries(List selElements) {
+		if (selElements.size() == 0) {
 			return true;
 		}
-		for ( int i = 0; i < selElements.size( ); i++ )
-		{
-			Object elem = selElements.get( i );
-			if ( elem instanceof IDECPListElement )
-			{
-				if ( ( (IDECPListElement) elem ).getParentContainer( ) != null )
-				{
+		for (int i = 0; i < selElements.size(); i++) {
+			Object elem = selElements.get(i);
+			if (elem instanceof IDECPListElement) {
+				if (((IDECPListElement) elem).getParentContainer() != null) {
 					return false;
 				}
-			}
-			else
-			{
+			} else {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	public static List<IClasspathEntry> getEntries( String value )
-	{
-		List elements = readClassPathEntry( value );
-		List<IClasspathEntry> retValue = new ArrayList<IClasspathEntry>( );
-		for ( int i = 0; i < elements.size( ); i++ )
-		{
-			retValue.add( ( (IDECPListElement) elements.get( i ) ).getClasspathEntry( ) );
+	public static List<IClasspathEntry> getEntries(String value) {
+		List elements = readClassPathEntry(value);
+		List<IClasspathEntry> retValue = new ArrayList<IClasspathEntry>();
+		for (int i = 0; i < elements.size(); i++) {
+			retValue.add(((IDECPListElement) elements.get(i)).getClasspathEntry());
 		}
 
 		return retValue;
 	}
 
-	private static List readClassPathEntry( String value )
-	{
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
-		List retValue = new ArrayList( );
+	private static List readClassPathEntry(String value) {
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		List retValue = new ArrayList();
 
-		if ( value == null || value.length( ) == 0 )
-		{
+		if (value == null || value.length() == 0) {
 			return retValue;
 		}
-		StringTokenizer tokenizer = new StringTokenizer( value, ENTRY_SEPARATOR );
+		StringTokenizer tokenizer = new StringTokenizer(value, ENTRY_SEPARATOR);
 
 		// String[] entries = value.split( ENTRY_SEPARATOR );
-		while ( tokenizer.hasMoreTokens( ) )
-		{
-			String entry = tokenizer.nextToken( );
-			if ( entry == null || entry.length( ) == 0 )
-			{
+		while (tokenizer.hasMoreTokens()) {
+			String entry = tokenizer.nextToken();
+			if (entry == null || entry.length() == 0) {
 				continue;
 			}
-			StringTokenizer typeTokenizer = new StringTokenizer( entry,
-					TYPE_SEPARATOR );
+			StringTokenizer typeTokenizer = new StringTokenizer(entry, TYPE_SEPARATOR);
 			// String[] types = entry.split( TYPE_SEPARATOR );
-			if ( typeTokenizer.countTokens( ) != 3 )
-			{
+			if (typeTokenizer.countTokens() != 3) {
 				continue;
 			}
 			int init = 0;
 			IPath path = null;
 			int type = UNKNOW_TYPE;
-			while ( typeTokenizer.hasMoreTokens( ) )
-			{
-				String str = typeTokenizer.nextToken( );
-				if ( init == 1 )
-				{
-					type = Integer.parseInt( str );
+			while (typeTokenizer.hasMoreTokens()) {
+				String str = typeTokenizer.nextToken();
+				if (init == 1) {
+					type = Integer.parseInt(str);
 				}
-				if ( init == 2 )
-				{
-					path = new Path( str );
+				if (init == 2) {
+					path = new Path(str);
 				}
 				init++;
 			}
-			if ( type == JAR_TYPE || type == FOL_TYPE )
-			{
-				IResource resource = root.findMember( path );
-				if ( resource != null )
-				{
-					retValue.add( newCPLibraryElement( resource ) );
+			if (type == JAR_TYPE || type == FOL_TYPE) {
+				IResource resource = root.findMember(path);
+				if (resource != null) {
+					retValue.add(newCPLibraryElement(resource));
 				}
-			}
-			else if ( type == EXTJAR_TYPE || type == ADDFOL_TYPE )
-			{
-				retValue.add( new IDECPListElement( IClasspathEntry.CPE_LIBRARY,
-						path,
-						null ) );
-			}
-			else if ( type == VAR_TYPE )
-			{
-				retValue.add( createCPVariableElement( path ) );
-			}
-			else if ( type == PROJECT_TYPE )
-			{
-				IResource resource = root.findMember( path );
-				if (resource != null)
-				{
-					retValue.add( new IDECPListElement( IClasspathEntry.CPE_PROJECT,
-							resource.getFullPath( ),
-							resource ) );
+			} else if (type == EXTJAR_TYPE || type == ADDFOL_TYPE) {
+				retValue.add(new IDECPListElement(IClasspathEntry.CPE_LIBRARY, path, null));
+			} else if (type == VAR_TYPE) {
+				retValue.add(createCPVariableElement(path));
+			} else if (type == PROJECT_TYPE) {
+				IResource resource = root.findMember(path);
+				if (resource != null) {
+					retValue.add(new IDECPListElement(IClasspathEntry.CPE_PROJECT, resource.getFullPath(), resource));
 				}
 			}
 		}
@@ -872,83 +685,64 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 	}
 
 	@Override
-	public boolean performApply( )
-	{
+	public boolean performApply() {
 		String value = ""; //$NON-NLS-1$
-		List list = fLibrariesList.getElements( );
+		List list = fLibrariesList.getElements();
 
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			StringBuffer entryScript = new StringBuffer( );
-			IDECPListElement element = (IDECPListElement) list.get( i );
-			int type = getType( element );
-			if ( type == UNKNOW_TYPE )
-			{
+		for (int i = 0; i < list.size(); i++) {
+			StringBuffer entryScript = new StringBuffer();
+			IDECPListElement element = (IDECPListElement) list.get(i);
+			int type = getType(element);
+			if (type == UNKNOW_TYPE) {
 				continue;
 			}
-			IClasspathEntry entry = element.getClasspathEntry( );
-			if ( entry == null )
-			{
+			IClasspathEntry entry = element.getClasspathEntry();
+			if (entry == null) {
 				continue;
 			}
-			entryScript.append( entry.getEntryKind( ) );
-			entryScript.append( TYPE_SEPARATOR );
-			entryScript.append( type );
-			entryScript.append( TYPE_SEPARATOR );
-			IResource resource = element.getResource( );
+			entryScript.append(entry.getEntryKind());
+			entryScript.append(TYPE_SEPARATOR);
+			entryScript.append(type);
+			entryScript.append(TYPE_SEPARATOR);
+			IResource resource = element.getResource();
 			IPath path;
-			if ( resource == null )
-			{
-				path = element.getPath( );
+			if (resource == null) {
+				path = element.getPath();
+			} else {
+				path = resource.getFullPath();
 			}
-			else
-			{
-				path = resource.getFullPath( );
+			entryScript.append(path);
+			if (i != list.size() - 1) {
+				entryScript.append(ENTRY_SEPARATOR);
 			}
-			entryScript.append( path );
-			if ( i != list.size( ) - 1 )
-			{
-				entryScript.append( ENTRY_SEPARATOR );
-			}
-			value = value + entryScript.toString( );
+			value = value + entryScript.toString();
 		}
 
-		setValue( PREF_CLASSPATH, value );
-		return super.performApply( );
+		setValue(PREF_CLASSPATH, value);
+		return super.performApply();
 	}
 
-	private int getType( IDECPListElement element )
-	{
-		int kind = element.getEntryKind( );
-		if ( kind == IClasspathEntry.CPE_VARIABLE )
-		{
+	private int getType(IDECPListElement element) {
+		int kind = element.getEntryKind();
+		if (kind == IClasspathEntry.CPE_VARIABLE) {
 			return VAR_TYPE;
-		}
-		else if ( kind == IClasspathEntry.CPE_PROJECT )
-		{
+		} else if (kind == IClasspathEntry.CPE_PROJECT) {
 			return PROJECT_TYPE;
-		}
-		else if ( kind == IClasspathEntry.CPE_LIBRARY )
-		{
-			IResource resource = element.getResource( );
-			if ( resource instanceof IFile )
-			{
+		} else if (kind == IClasspathEntry.CPE_LIBRARY) {
+			IResource resource = element.getResource();
+			if (resource instanceof IFile) {
 				return JAR_TYPE;
 			}
-			if ( resource instanceof IContainer )
-			{
+			if (resource instanceof IContainer) {
 				return FOL_TYPE;
 			}
 
-			IPath path = element.getPath( );
+			IPath path = element.getPath();
 
-			File file = path.toFile( );
-			if ( file.isFile( ) )
-			{
+			File file = path.toFile();
+			if (file.isFile()) {
 				return EXTJAR_TYPE;
-			}
-			else
-			{
+			} else {
 				return ADDFOL_TYPE;
 			}
 		}
@@ -956,106 +750,83 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock
 		return UNKNOW_TYPE;
 	}
 
-	private IDECPListElement[] addProjectDialog( )
-	{
+	private IDECPListElement[] addProjectDialog() {
 
-		try
-		{
-			Object[] selectArr = getNotYetRequiredProjects( );
-			new JavaElementComparator( ).sort( null, selectArr );
+		try {
+			Object[] selectArr = getNotYetRequiredProjects();
+			new JavaElementComparator().sort(null, selectArr);
 
-			ListSelectionDialog dialog = new ListSelectionDialog( getShell( ),
-					Arrays.asList( selectArr ),
-					new ArrayContentProvider( ),
-					new ProjectLabelProvider( ),
-					Messages.getString("IDEClassPathBlock.ProjectDialog_message") ); //$NON-NLS-1$
-			dialog.setTitle( Messages.getString("IDEClassPathBlock.ProjectDialog_title") ); //$NON-NLS-1$
-			dialog.setHelpAvailable( false );
-			if ( dialog.open( ) == Window.OK )
-			{
-				Object[] result = dialog.getResult( );
+			ListSelectionDialog dialog = new ListSelectionDialog(getShell(), Arrays.asList(selectArr),
+					new ArrayContentProvider(), new ProjectLabelProvider(),
+					Messages.getString("IDEClassPathBlock.ProjectDialog_message")); //$NON-NLS-1$
+			dialog.setTitle(Messages.getString("IDEClassPathBlock.ProjectDialog_title")); //$NON-NLS-1$
+			dialog.setHelpAvailable(false);
+			if (dialog.open() == Window.OK) {
+				Object[] result = dialog.getResult();
 				IDECPListElement[] cpElements = new IDECPListElement[result.length];
-				for ( int i = 0; i < result.length; i++ )
-				{
-					IJavaProject curr = ( (IJavaProject) result[i] );
-					cpElements[i] = new IDECPListElement( IClasspathEntry.CPE_PROJECT,
-							curr.getPath( ),
-							curr.getResource( ) );
+				for (int i = 0; i < result.length; i++) {
+					IJavaProject curr = ((IJavaProject) result[i]);
+					cpElements[i] = new IDECPListElement(IClasspathEntry.CPE_PROJECT, curr.getPath(),
+							curr.getResource());
 				}
 				return cpElements;
 			}
-		}
-		catch ( JavaModelException e )
-		{
+		} catch (JavaModelException e) {
 			return null;
 		}
 		return null;
 	}
 
-	private boolean isJavaProject( IProject project )
-	{
-		try
-		{
-			return project != null && project.hasNature( JavaCore.NATURE_ID );
-		}
-		catch ( CoreException e )
-		{
+	private boolean isJavaProject(IProject project) {
+		try {
+			return project != null && project.hasNature(JavaCore.NATURE_ID);
+		} catch (CoreException e) {
 			return false;
 		}
 	}
 
-	private Object[] getNotYetRequiredProjects( ) throws JavaModelException
-	{
-		ArrayList selectable = new ArrayList( );
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
-		IProject[] projects = root.getProjects( );
-		for ( int i = 0; i < projects.length; i++ )
-		{
-			if ( isJavaProject( projects[i] ) )
-			{
-				selectable.add( JavaCore.create( projects[i] ) );
+	private Object[] getNotYetRequiredProjects() throws JavaModelException {
+		ArrayList selectable = new ArrayList();
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		IProject[] projects = root.getProjects();
+		for (int i = 0; i < projects.length; i++) {
+			if (isJavaProject(projects[i])) {
+				selectable.add(JavaCore.create(projects[i]));
 			}
 		}
 
-		if ( isJavaProject( getProject( ) ) )
-		{
-			selectable.remove( JavaCore.create( getProject( ) ) );
+		if (isJavaProject(getProject())) {
+			selectable.remove(JavaCore.create(getProject()));
 		}
-		List elements = fLibrariesList.getElements( );
-		for ( int i = 0; i < elements.size( ); i++ )
-		{
-			IDECPListElement curr = (IDECPListElement) elements.get( i );
-			if ( curr.getEntryKind( ) != IClasspathEntry.CPE_PROJECT )
-			{
+		List elements = fLibrariesList.getElements();
+		for (int i = 0; i < elements.size(); i++) {
+			IDECPListElement curr = (IDECPListElement) elements.get(i);
+			if (curr.getEntryKind() != IClasspathEntry.CPE_PROJECT) {
 				continue;
 			}
-			IJavaProject proj = (IJavaProject) JavaCore.create( curr.getResource( ) );
-			selectable.remove( proj );
+			IJavaProject proj = (IJavaProject) JavaCore.create(curr.getResource());
+			selectable.remove(proj);
 		}
-		Object[] selectArr = selectable.toArray( );
+		Object[] selectArr = selectable.toArray();
 		return selectArr;
 	}
 
 	@Override
-	public void performDefaults( )
-	{
-		fLibrariesList.setElements( new ArrayList( ) );
-		super.performDefaults( );
+	public void performDefaults() {
+		fLibrariesList.setElements(new ArrayList());
+		super.performDefaults();
 	}
 
 	@Override
-	public void useProjectSpecificSettings( boolean enable )
-	{
-		super.useProjectSpecificSettings( enable );
+	public void useProjectSpecificSettings(boolean enable) {
+		super.useProjectSpecificSettings(enable);
 	}
 
-	public IProject getProject( )
-	{
+	public IProject getProject() {
 		return fProject;
 	}
 
-	public void setProject( IProject fCurrProject )
-	{
+	public void setProject(IProject fCurrProject) {
 		this.fProject = fCurrProject;
 	}
 }

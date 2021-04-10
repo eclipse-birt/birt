@@ -17,12 +17,11 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 /**
  * 
  */
-public class SmartCacheRequest
-{
+public class SmartCacheRequest {
 	private int maxRow;
 	private List eventList;
 	private OdiAdapter odiAdpater;
-	private IResultClass resultClass;	
+	private IResultClass resultClass;
 	private boolean distinctValueFlag;
 
 	/**
@@ -32,10 +31,8 @@ public class SmartCacheRequest
 	 * @param resultClass
 	 * @param distinctValueFlag
 	 */
-	public SmartCacheRequest( int maxRow, List eventList,
-			OdiAdapter odiAdpater, IResultClass resultClass,
-			boolean distinctValueFlag )
-	{
+	public SmartCacheRequest(int maxRow, List eventList, OdiAdapter odiAdpater, IResultClass resultClass,
+			boolean distinctValueFlag) {
 		this.maxRow = maxRow;
 		this.eventList = eventList;
 		this.odiAdpater = odiAdpater;
@@ -46,41 +43,36 @@ public class SmartCacheRequest
 	/**
 	 * @return
 	 */
-	public int getMaxRow( )
-	{
+	public int getMaxRow() {
 		return this.maxRow;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public List getEventList( )
-	{
+	public List getEventList() {
 		return eventList;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public OdiAdapter getOdiAdapter( )
-	{
+	public OdiAdapter getOdiAdapter() {
 		return odiAdpater;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public IResultClass getResultClass( )
-	{
+	public IResultClass getResultClass() {
 		return resultClass;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public boolean getDistinctValueFlag( )
-	{
+	public boolean getDistinctValueFlag() {
 		return distinctValueFlag;
 	}
-	
+
 }

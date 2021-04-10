@@ -20,18 +20,15 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
  * 
  */
 
-public class MeasureHandleDragAdapter implements IDragAdapter
-{
+public class MeasureHandleDragAdapter implements IDragAdapter {
 
-	public int canDrag( Object object )
-	{
-		if ( object instanceof MeasureHandle || object instanceof MeasureGroupHandle)
+	public int canDrag(Object object) {
+		if (object instanceof MeasureHandle || object instanceof MeasureGroupHandle)
 			return DNDService.LOGIC_TRUE;
 		return DNDService.LOGIC_UNKNOW;
 	}
 
-	public Object getDragTransfer( Object tranfer )
-	{
+	public Object getDragTransfer(Object tranfer) {
 		return null;
 	}
 

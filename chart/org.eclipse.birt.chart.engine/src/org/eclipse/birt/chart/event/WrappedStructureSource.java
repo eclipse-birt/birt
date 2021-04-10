@@ -24,8 +24,7 @@ import org.eclipse.birt.chart.model.layout.Legend;
  * This class defines a wrapped structure source object which could have a
  * parent source for all chart events.
  */
-public class WrappedStructureSource extends StructureSource
-{
+public class WrappedStructureSource extends StructureSource {
 
 	private StructureSource parent = null;
 
@@ -34,9 +33,8 @@ public class WrappedStructureSource extends StructureSource
 	 * 
 	 * @param source
 	 */
-	public WrappedStructureSource( Object source )
-	{
-		super( source );
+	public WrappedStructureSource(Object source) {
+		super(source);
 	}
 
 	/**
@@ -44,9 +42,8 @@ public class WrappedStructureSource extends StructureSource
 	 * 
 	 * @param source
 	 */
-	public WrappedStructureSource( Object source, StructureType type )
-	{
-		super( source, type );
+	public WrappedStructureSource(Object source, StructureType type) {
+		super(source, type);
 	}
 
 	/**
@@ -55,10 +52,8 @@ public class WrappedStructureSource extends StructureSource
 	 * @param parent
 	 * @param source
 	 */
-	public WrappedStructureSource( StructureSource parent, Object source,
-			StructureType type )
-	{
-		super( source, type );
+	public WrappedStructureSource(StructureSource parent, Object source, StructureType type) {
+		super(source, type);
 
 		this.parent = parent;
 	}
@@ -71,12 +66,10 @@ public class WrappedStructureSource extends StructureSource
 	 * @param source
 	 * @param type
 	 */
-	public WrappedStructureSource( Object parentSource,
-			StructureType parentType, Object source, StructureType type )
-	{
-		super( source, type );
+	public WrappedStructureSource(Object parentSource, StructureType parentType, Object source, StructureType type) {
+		super(source, type);
 
-		this.parent = new StructureSource( parentSource, parentType );
+		this.parent = new StructureSource(parentSource, parentType);
 	}
 
 	/**
@@ -84,74 +77,52 @@ public class WrappedStructureSource extends StructureSource
 	 * 
 	 * @return
 	 */
-	public StructureSource getParent( )
-	{
+	public StructureSource getParent() {
 		return parent;
 	}
 
 	/**
-	 * Creates a WrappedStructure Source for type Legend Title with a Legend
-	 * parent.
+	 * Creates a WrappedStructure Source for type Legend Title with a Legend parent.
 	 * 
 	 * @param lg
 	 * @param title
 	 * @return
 	 */
-	public static StructureSource createLegendTitle( Legend lg, Label title )
-	{
-		return new WrappedStructureSource( lg,
-				StructureType.LEGEND,
-				title,
-				StructureType.LEGEND_TITLE );
+	public static StructureSource createLegendTitle(Legend lg, Label title) {
+		return new WrappedStructureSource(lg, StructureType.LEGEND, title, StructureType.LEGEND_TITLE);
 	}
 
 	/**
-	 * Creates a WrappedStructure Source for type Legend Entry with a Legend
-	 * parent.
+	 * Creates a WrappedStructure Source for type Legend Entry with a Legend parent.
 	 * 
 	 * @param lg
 	 * @param title
 	 * @return
 	 */
-	public static StructureSource createLegendEntry( Legend lg,
-			LegendItemHints entry )
-	{
-		return new WrappedStructureSource( lg,
-				StructureType.LEGEND,
-				entry,
-				StructureType.LEGEND_ENTRY );
+	public static StructureSource createLegendEntry(Legend lg, LegendItemHints entry) {
+		return new WrappedStructureSource(lg, StructureType.LEGEND, entry, StructureType.LEGEND_ENTRY);
 	}
 
 	/**
-	 * Creates a WrappedStructure Source for type Axis Title with an Axis
-	 * parent.
+	 * Creates a WrappedStructure Source for type Axis Title with an Axis parent.
 	 * 
 	 * @param ax
 	 * @param title
 	 * @return
 	 */
-	public static StructureSource createAxisTitle( Axis ax, Label title )
-	{
-		return new WrappedStructureSource( ax,
-				StructureType.AXIS,
-				title,
-				StructureType.AXIS_TITLE );
+	public static StructureSource createAxisTitle(Axis ax, Label title) {
+		return new WrappedStructureSource(ax, StructureType.AXIS, title, StructureType.AXIS_TITLE);
 	}
 
 	/**
-	 * Creates a WrappedStructure Source for type Axis Label with an Axis
-	 * parent.
+	 * Creates a WrappedStructure Source for type Axis Label with an Axis parent.
 	 * 
 	 * @param ax
 	 * @param title
 	 * @return
 	 */
-	public static StructureSource createAxisLabel( Axis ax, Label lb )
-	{
-		return new WrappedStructureSource( ax,
-				StructureType.AXIS,
-				lb.getCaption( ).getValue( ),
-				StructureType.AXIS_LABEL );
+	public static StructureSource createAxisLabel(Axis ax, Label lb) {
+		return new WrappedStructureSource(ax, StructureType.AXIS, lb.getCaption().getValue(), StructureType.AXIS_LABEL);
 	}
 
 	/**
@@ -162,13 +133,8 @@ public class WrappedStructureSource extends StructureSource
 	 * @param dph
 	 * @return
 	 */
-	public static StructureSource createSeriesDataPoint( Series se,
-			DataPointHints dph )
-	{
-		return new WrappedStructureSource( se,
-				StructureType.SERIES,
-				dph,
-				StructureType.SERIES_DATA_POINT );
+	public static StructureSource createSeriesDataPoint(Series se, DataPointHints dph) {
+		return new WrappedStructureSource(se, StructureType.SERIES, dph, StructureType.SERIES_DATA_POINT);
 	}
 
 	/**
@@ -179,29 +145,19 @@ public class WrappedStructureSource extends StructureSource
 	 * @param dph
 	 * @return
 	 */
-	public static StructureSource createSeriesDataElement( Series se,
-			DataPointHints dph )
-	{
-		return new WrappedStructureSource( se,
-				StructureType.SERIES,
-				dph,
-				StructureType.SERIES_ELEMENT );
+	public static StructureSource createSeriesDataElement(Series se, DataPointHints dph) {
+		return new WrappedStructureSource(se, StructureType.SERIES, dph, StructureType.SERIES_ELEMENT);
 	}
 
 	/**
-	 * Creates a WrappedStructure Source for type Series Title with a Series
-	 * parent.
+	 * Creates a WrappedStructure Source for type Series Title with a Series parent.
 	 * 
 	 * @param se
 	 * @param title
 	 * @return
 	 */
-	public static StructureSource createSeriesTitle( Series se, Label title )
-	{
-		return new WrappedStructureSource( se,
-				StructureType.SERIES,
-				title,
-				StructureType.SERIES_TITLE );
+	public static StructureSource createSeriesTitle(Series se, Label title) {
+		return new WrappedStructureSource(se, StructureType.SERIES, title, StructureType.SERIES_TITLE);
 	}
 
 	/**
@@ -212,29 +168,20 @@ public class WrappedStructureSource extends StructureSource
 	 * @param dph
 	 * @return
 	 */
-	public static StructureSource createSeriesMarker( Series se, Marker mk )
-	{
-		return new WrappedStructureSource( se,
-				StructureType.SERIES,
-				mk,
-				StructureType.SERIES_MARKER );
+	public static StructureSource createSeriesMarker(Series se, Marker mk) {
+		return new WrappedStructureSource(se, StructureType.SERIES, mk, StructureType.SERIES_MARKER);
 	}
 
 	/**
-	 * Creates a WrappedStructure Source for type Series FittingCurve with a
-	 * Series parent.
+	 * Creates a WrappedStructure Source for type Series FittingCurve with a Series
+	 * parent.
 	 * 
 	 * @param se
 	 * @param dph
 	 * @return
 	 */
-	public static StructureSource createSeriesFittingCurve( Series se,
-			CurveFitting cf )
-	{
-		return new WrappedStructureSource( se,
-				StructureType.SERIES,
-				cf,
-				StructureType.SERIES_FITTING_CURVE );
+	public static StructureSource createSeriesFittingCurve(Series se, CurveFitting cf) {
+		return new WrappedStructureSource(se, StructureType.SERIES, cf, StructureType.SERIES_FITTING_CURVE);
 	}
 
 }

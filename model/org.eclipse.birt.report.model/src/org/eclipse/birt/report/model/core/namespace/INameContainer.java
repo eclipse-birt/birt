@@ -16,15 +16,14 @@ import org.eclipse.birt.report.model.core.DesignElement;
 /**
  * 
  */
-public interface INameContainer
-{
+public interface INameContainer {
 
 	/**
 	 * Gets the name helper for this name container.
 	 * 
 	 * @return the name helper of this container
 	 */
-	public INameHelper getNameHelper( );
+	public INameHelper getNameHelper();
 
 	/**
 	 * Checks the element name in this name container.
@@ -35,16 +34,15 @@ public interface INameContainer
 	 * <li>If the element name is not required, clear the name.
 	 * </ul>
 	 * 
-	 * @param element
-	 *            the element handle whose name is need to check.
+	 * @param element the element handle whose name is need to check.
 	 */
 
-	public void rename( DesignElement element );
+	public void rename(DesignElement element);
 
 	/**
 	 * Makes a unique name for this element.
 	 * 
 	 * @param element
 	 */
-	public void makeUniqueName( DesignElement element );
+	public void makeUniqueName(DesignElement element);
 }

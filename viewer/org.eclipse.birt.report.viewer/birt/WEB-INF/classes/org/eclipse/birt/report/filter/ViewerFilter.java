@@ -21,12 +21,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * Filter class for birt viewer. It is according to Servlet 2.3 specification. Filter
- * http request and set character encoding to UTF-8
+ * Filter class for birt viewer. It is according to Servlet 2.3 specification.
+ * Filter http request and set character encoding to UTF-8
  * 
  */
-public class ViewerFilter implements Filter
-{
+public class ViewerFilter implements Filter {
 
 	// default encoding
 	protected String encoding = "ISO-8859-1"; //$NON-NLS-1$
@@ -37,9 +36,8 @@ public class ViewerFilter implements Filter
 	/**
 	 * Default constructor
 	 */
-	public ViewerFilter( )
-	{
-		super( );
+	public ViewerFilter() {
+		super();
 	}
 
 	/*
@@ -47,8 +45,7 @@ public class ViewerFilter implements Filter
 	 * 
 	 * @see javax.servlet.Filter#destroy()
 	 */
-	public void destroy( )
-	{
+	public void destroy() {
 		this.encoding = null;
 		this.filterConfig = null;
 	}
@@ -57,17 +54,16 @@ public class ViewerFilter implements Filter
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
-	 *      javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 * javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
-	public void doFilter( ServletRequest request, ServletResponse response,
-			FilterChain chain ) throws IOException, ServletException
-	{
-		if ( request.getCharacterEncoding( ) == null && encoding != null )
-			request.setCharacterEncoding( encoding );
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		if (request.getCharacterEncoding() == null && encoding != null)
+			request.setCharacterEncoding(encoding);
 		// for >= 9.3.x jetty needs this property to change request encoding,
 		// this might change for future versions
 		request.setAttribute("org.eclipse.jetty.server.Request.queryEncoding", encoding);
-		chain.doFilter( request, response );
+		chain.doFilter(request, response);
 	}
 
 	/*
@@ -75,8 +71,7 @@ public class ViewerFilter implements Filter
 	 * 
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
 	 */
-	public void init( FilterConfig filterConfig ) throws ServletException
-	{
+	public void init(FilterConfig filterConfig) throws ServletException {
 		this.filterConfig = filterConfig;
 	}
 

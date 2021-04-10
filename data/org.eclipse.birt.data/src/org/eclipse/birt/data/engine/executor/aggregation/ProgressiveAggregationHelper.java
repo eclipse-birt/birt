@@ -44,35 +44,31 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-
 /**
  * 
  */
 
-public class ProgressiveAggregationHelper implements IProgressiveAggregationHelper 
-{
+public class ProgressiveAggregationHelper implements IProgressiveAggregationHelper {
 	private IAggrDefnManager manager;
-	
-	//private ResultSetPopulator populator;
-	
+
+	// private ResultSetPopulator populator;
+
 	/**
 	 * Array to store all calculated aggregate values. aggrValue[i] is a list of
-	 * values calculated for expression #i in the associated aggregate table.
-	 * The aggregate values are stored in each list as the cursor advances for
-	 * the associated ODI result set.
+	 * values calculated for expression #i in the associated aggregate table. The
+	 * aggregate values are stored in each list as the cursor advances for the
+	 * associated ODI result set.
 	 */
 	private List[] currentRoundAggrValue;
 
 	/**
-	 * Array to store current argument values to all aggregates argrArgs[i] is
-	 * the argument array to aggregate expression #i
+	 * Array to store current argument values to all aggregates argrArgs[i] is the
+	 * argument array to aggregate expression #i
 	 */
 	private Object[][] aggrArgs;
 
 	// The count of aggregate expression
 	private int currentAggrCount;
-	
-
 
 	private Set<String> aggrNames;
 	private List<Accumulator> accumulators;
@@ -82,88 +78,81 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	private IExecutorHelper helper;
 	private int currentRowIndex;
 	private Map columnBindings;
-	
+
 	/**
 	 * For the given odi resultset, calcaulate the value of aggregate from
 	 * aggregateTable
 	 * 
 	 * @param aggrTable
 	 * @param odiResult
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public ProgressiveAggregationHelper( Map columnBindings, IAggrDefnManager manager, String tempDir, Scriptable currentScope, ScriptContext sc,  IExecutorHelper helper) throws DataException
-	{
+	public ProgressiveAggregationHelper(Map columnBindings, IAggrDefnManager manager, String tempDir,
+			Scriptable currentScope, ScriptContext sc, IExecutorHelper helper) throws DataException {
 		this.columnBindings = columnBindings;
 		this.manager = manager;
 		this.currentRoundAggrValue = new List[0];
 		this.accumulators = new ArrayList<Accumulator>();
 		this.sc = sc;
-		try
-		{
-			this.currentScope = ( (IDataScriptEngine) this.sc.getScriptEngine( IDataScriptEngine.ENGINE_NAME ) ).getJSContext( sc )
-					.initStandardObjects( );
+		try {
+			this.currentScope = ((IDataScriptEngine) this.sc.getScriptEngine(IDataScriptEngine.ENGINE_NAME))
+					.getJSContext(sc).initStandardObjects();
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
-		}
-		this.currentScope.setParentScope( currentScope );
+		this.currentScope.setParentScope(currentScope);
 		this.jsRow = new DummyJSResultSetRow();
-		this.currentScope.put( "row", this.currentScope, new JSColumnBindingRow( ) );
-		this.currentScope.put( "dataSetRow", this.currentScope, this.jsRow );
-		this.populateAggregations( tempDir );
+		this.currentScope.put("row", this.currentScope, new JSColumnBindingRow());
+		this.currentScope.put("dataSetRow", this.currentScope, this.jsRow);
+		this.populateAggregations(tempDir);
 		this.helper = helper;
 	}
 
-	private void populateAggregations( String tempDir ) throws DataException
-	{
-			this.aggrNames = new HashSet<String>();
-			this.currentAggrCount = manager.getAggrCount( );
-			if ( currentAggrCount > 0 )
-			{
-				currentRoundAggrValue = new List[currentAggrCount];
-				aggrArgs = new Object[currentAggrCount][];
-				for ( int i = 0; i < this.currentAggrCount; i++ )
-				{
-					currentRoundAggrValue[i] = new BasicCachedList( tempDir, DataEngineSession.getCurrentClassLoader( ) );
-					IAggrInfo aggrInfo = this.manager.getAggrDefn( i );
+	private void populateAggregations(String tempDir) throws DataException {
+		this.aggrNames = new HashSet<String>();
+		this.currentAggrCount = manager.getAggrCount();
+		if (currentAggrCount > 0) {
+			currentRoundAggrValue = new List[currentAggrCount];
+			aggrArgs = new Object[currentAggrCount][];
+			for (int i = 0; i < this.currentAggrCount; i++) {
+				currentRoundAggrValue[i] = new BasicCachedList(tempDir, DataEngineSession.getCurrentClassLoader());
+				IAggrInfo aggrInfo = this.manager.getAggrDefn(i);
 
-					// Initialize argument array for this aggregate expression
-					aggrArgs[i] = new Object[aggrInfo.getAggregation( )
-							.getParameterDefn( ).length];
-					this.aggrNames.add( this.manager.getAggrDefn( i ).getName( ) );
-					this.accumulators.add(aggrInfo.getAggregation().newAccumulator());
-				}
-				
+				// Initialize argument array for this aggregate expression
+				aggrArgs[i] = new Object[aggrInfo.getAggregation().getParameterDefn().length];
+				this.aggrNames.add(this.manager.getAggrDefn(i).getName());
+				this.accumulators.add(aggrInfo.getAggregation().newAccumulator());
 			}
-	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#onRow(int, int, org.eclipse.birt.data.engine.odi.IResultObject, int)
-	 */
-	public void onRow( int startingGroupLevel, int endingGroupLevel,
-			IResultObject ro, int currentRowIndex )
-			throws DataException
-	{
-		this.jsRow.currentRow = ro;
-		this.currentRowIndex = currentRowIndex;
-		for ( int i = 0; i < this.manager.getAggrCount( ); i++ )
-		{
-			this.onRow( i,
-					startingGroupLevel,
-					endingGroupLevel,
-					ro,
-					currentRowIndex );
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#close()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.
+	 * IProgressiveAggregationHelper#onRow(int, int,
+	 * org.eclipse.birt.data.engine.odi.IResultObject, int)
 	 */
-	public void close () throws DataException
-	{
-		this.currentScope.delete( "row" );
+	public void onRow(int startingGroupLevel, int endingGroupLevel, IResultObject ro, int currentRowIndex)
+			throws DataException {
+		this.jsRow.currentRow = ro;
+		this.currentRowIndex = currentRowIndex;
+		for (int i = 0; i < this.manager.getAggrCount(); i++) {
+			this.onRow(i, startingGroupLevel, endingGroupLevel, ro, currentRowIndex);
+		}
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.
+	 * IProgressiveAggregationHelper#close()
+	 */
+	public void close() throws DataException {
+		this.currentScope.delete("row");
+	}
+
 	/**
 	 * Calculate the value by row
 	 * 
@@ -174,124 +163,91 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	 * @param scope
 	 * @throws DataException
 	 */
-	private void onRow( int aggrIndex, int startingGroupLevel,
-			int endingGroupLevel, IResultObject ro, int currentRowIndex )
-			throws DataException
-	{
-		IAggrInfo aggrInfo = getAggrInfo( aggrIndex );
+	private void onRow(int aggrIndex, int startingGroupLevel, int endingGroupLevel, IResultObject ro,
+			int currentRowIndex) throws DataException {
+		IAggrInfo aggrInfo = getAggrInfo(aggrIndex);
 		Accumulator acc = this.accumulators.get(aggrIndex);
 		boolean newGroup = false;
-		IParameterDefn[] argDefs = aggrInfo.getAggregation( ).getParameterDefn( );
-		if (startingGroupLevel <= aggrInfo.getGroupLevel( )) 
-		{
+		IParameterDefn[] argDefs = aggrInfo.getAggregation().getParameterDefn();
+		if (startingGroupLevel <= aggrInfo.getGroupLevel()) {
 			acc.start();
 		}
-		
+
 		// Apply filtering on row
 		boolean accepted = true;
-		if ( aggrInfo.getFilter( ) != null )
-		{
-			try
-			{
-				Object filterResult = ExprEvaluateUtil.evaluateValue( aggrInfo.getFilter( ),
-						currentRowIndex,
-						ro,
-						this.currentScope,
-						this.sc);
-				if ( filterResult == null )
+		if (aggrInfo.getFilter() != null) {
+			try {
+				Object filterResult = ExprEvaluateUtil.evaluateValue(aggrInfo.getFilter(), currentRowIndex, ro,
+						this.currentScope, this.sc);
+				if (filterResult == null)
 					accepted = true;
 				else
 
-					accepted = DataTypeUtil.toBoolean( filterResult )
-							.booleanValue( );
-			}
-			catch ( BirtException e )
-			{
-				currentRoundAggrValue[aggrIndex].add( e );
+					accepted = DataTypeUtil.toBoolean(filterResult).booleanValue();
+			} catch (BirtException e) {
+				currentRoundAggrValue[aggrIndex].add(e);
 			}
 		}
 
-		if ( accepted )
-		{
+		if (accepted) {
 			// Calculate arguments to the aggregate aggregationtion
-			
-			final IBaseExpression[] arguments = aggrInfo.getArgument( );
-			if ( !isFunctionCount( aggrInfo )
-					&& arguments == null )
-			{
-				DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
-						aggrInfo.getName( ) );
-				currentRoundAggrValue[aggrIndex].add( e );
+
+			final IBaseExpression[] arguments = aggrInfo.getArgument();
+			if (!isFunctionCount(aggrInfo) && arguments == null) {
+				DataException e = new DataException(ResourceConstants.INVALID_AGGR_PARAMETER, aggrInfo.getName());
+				currentRoundAggrValue[aggrIndex].add(e);
 			}
-			
-			try
-			{
+
+			try {
 				int optionalAgrsNum = 0;
-				for ( int i = 0; i < argDefs.length; i++ )
-				{
-					if ( argDefs[i].isOptional( ) )
-					{
+				for (int i = 0; i < argDefs.length; i++) {
+					if (argDefs[i].isOptional()) {
 						optionalAgrsNum++;
 					}
-					if ( aggrInfo.getArgument( ) == null
-							|| i >= arguments.length + optionalAgrsNum )
-					{
-						throw new DataException( ResourceConstants.AGGREGATION_ARGUMENT_ERROR,
-								new Object[]{
-										argDefs[i].getName( ),
-										aggrInfo.getName( )
-								} );
+					if (aggrInfo.getArgument() == null || i >= arguments.length + optionalAgrsNum) {
+						throw new DataException(ResourceConstants.AGGREGATION_ARGUMENT_ERROR,
+								new Object[] { argDefs[i].getName(), aggrInfo.getName() });
 					}
-					if ( isEmptyAggrArgument( aggrInfo ) )
-					{
+					if (isEmptyAggrArgument(aggrInfo)) {
 						aggrArgs[aggrIndex] = null;
-					}
-					else
-					{
-						evaluateArgsValue( aggrIndex, aggrInfo, i, argDefs[i], currentRowIndex, ro );
+					} else {
+						evaluateArgsValue(aggrIndex, aggrInfo, i, argDefs[i], currentRowIndex, ro);
 					}
 				}
 
-				if ( aggrInfo.getArgument( ) == null
-						|| !isValidArgumentNumber( aggrInfo.getArgument( ).length, argDefs.length, optionalAgrsNum ) )
-				{
-					DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
-							aggrInfo.getName( ) );
-					currentRoundAggrValue[aggrIndex].add( e );
+				if (aggrInfo.getArgument() == null
+						|| !isValidArgumentNumber(aggrInfo.getArgument().length, argDefs.length, optionalAgrsNum)) {
+					DataException e = new DataException(ResourceConstants.INVALID_AGGR_PARAMETER, aggrInfo.getName());
+					currentRoundAggrValue[aggrIndex].add(e);
 				}
-				acc.onRow( aggrArgs[aggrIndex] );
+				acc.onRow(aggrArgs[aggrIndex]);
 				newGroup = false;
+			} catch (DataException e) {
+				currentRoundAggrValue[aggrIndex].add(e);
 			}
-			catch ( DataException e )
-			{
-				currentRoundAggrValue[aggrIndex].add( e );
-			}
-		}
-		
-		//If this is a running aggregate, get value for current row
-		boolean isRunning = ( aggrInfo.getAggregation( ).getType( ) == IAggrFunction .RUNNING_AGGR );
-		
-		if ( isRunning )
-		{
-			Object value = acc.getValue( );
-			currentRoundAggrValue[aggrIndex].add( value );
 		}
 
-		if ( endingGroupLevel <= aggrInfo.getGroupLevel( ) )
-		{
+		// If this is a running aggregate, get value for current row
+		boolean isRunning = (aggrInfo.getAggregation().getType() == IAggrFunction.RUNNING_AGGR);
+
+		if (isRunning) {
+			Object value = acc.getValue();
+			currentRoundAggrValue[aggrIndex].add(value);
+		}
+
+		if (endingGroupLevel <= aggrInfo.getGroupLevel()) {
 			// Current group ends for this aggregate; call finish() on
 			// accumulator
-			acc.finish( );
+			acc.finish();
 
 			// For non-running aggregates, this is the time to call getValue
-			if ( !isRunning )
-			{
-				Object value = acc.getValue( );
-				currentRoundAggrValue[aggrIndex].add( value );
+			if (!isRunning) {
+				Object value = acc.getValue();
+				currentRoundAggrValue[aggrIndex].add(value);
 			}
 		}
 	}
-	
+
 	/**
 	 * Checks whether the arguments number is valid
 	 * 
@@ -300,11 +256,8 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	 * @param optionalNum
 	 * @return
 	 */
-	private boolean isValidArgumentNumber( int aggrArgNumb, int argDefsLength,
-			int optionalNum )
-	{
-		return ( aggrArgNumb >= argDefsLength - optionalNum )
-				&& ( aggrArgNumb <= argDefsLength );
+	private boolean isValidArgumentNumber(int aggrArgNumb, int argDefsLength, int optionalNum) {
+		return (aggrArgNumb >= argDefsLength - optionalNum) && (aggrArgNumb <= argDefsLength);
 	}
 
 	/**
@@ -313,12 +266,10 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	 * @param aggrInfo
 	 * @return
 	 */
-	private boolean isEmptyAggrArgument( IAggrInfo aggrInfo )
-	{
-		return aggrInfo.getArgument( ).length == 0
-				|| aggrInfo.getArgument( )[0] == null
-				|| ( (IScriptExpression)aggrInfo.getArgument( )[0]).getText( ) == null 
-				|| ( (IScriptExpression)aggrInfo.getArgument( )[0]).getText( ).trim().length( ) == 0;
+	private boolean isEmptyAggrArgument(IAggrInfo aggrInfo) {
+		return aggrInfo.getArgument().length == 0 || aggrInfo.getArgument()[0] == null
+				|| ((IScriptExpression) aggrInfo.getArgument()[0]).getText() == null
+				|| ((IScriptExpression) aggrInfo.getArgument()[0]).getText().trim().length() == 0;
 	}
 
 	/**
@@ -328,18 +279,13 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	 * @param argDefs
 	 * @return
 	 */
-	private boolean isInvalidArgumentNum( IAggrInfo aggrInfo,
-			IParameterDefn[] argDefs )
-	{
-		if( aggrInfo.getArgument( ) == null )
-		{
-			
+	private boolean isInvalidArgumentNum(IAggrInfo aggrInfo, IParameterDefn[] argDefs) {
+		if (aggrInfo.getArgument() == null) {
+
 		}
-		//if input argument is null or the 
-		return aggrInfo.getArgument( ) == null
-				|| ( ( aggrInfo.getArgument( ).length != argDefs.length ) && 
-						!( ( aggrInfo.getArgument( ).length == ( argDefs.length - 1 ) ) 
-								&& argDefs[0].isOptional( ) ) );
+		// if input argument is null or the
+		return aggrInfo.getArgument() == null || ((aggrInfo.getArgument().length != argDefs.length)
+				&& !((aggrInfo.getArgument().length == (argDefs.length - 1)) && argDefs[0].isOptional()));
 	}
 
 	/**
@@ -350,43 +296,27 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	 * @param i
 	 * @throws DataException
 	 */
-	private void evaluateArgsValue( int aggrIndex, IAggrInfo aggrInfo, int i, IParameterDefn paramDefn, int currentResultIndex, IResultObject currentRo )
-			throws DataException
-	{
-		if( i >= aggrInfo.getArgument( ).length )
-		{
+	private void evaluateArgsValue(int aggrIndex, IAggrInfo aggrInfo, int i, IParameterDefn paramDefn,
+			int currentResultIndex, IResultObject currentRo) throws DataException {
+		if (i >= aggrInfo.getArgument().length) {
 			return;
 		}
-		IBaseExpression argExpr = aggrInfo.getArgument( )[i];
-		if ( !paramDefn.isOptional( ) )
-		{
-			if ( !isFunctionCount( aggrInfo )
-					&& isEmptyScriptExpression( argExpr ) )
-			{
-				throw new DataException( ResourceConstants.AGGREGATION_ARGUMENT_CANNOT_BE_BLANK,
-						new Object[]{
-								paramDefn.getName( ), aggrInfo.getName( )
-						} );
+		IBaseExpression argExpr = aggrInfo.getArgument()[i];
+		if (!paramDefn.isOptional()) {
+			if (!isFunctionCount(aggrInfo) && isEmptyScriptExpression(argExpr)) {
+				throw new DataException(ResourceConstants.AGGREGATION_ARGUMENT_CANNOT_BE_BLANK,
+						new Object[] { paramDefn.getName(), aggrInfo.getName() });
 			}
-		}
-		else if ( argExpr == null
-				|| ( (IScriptExpression) argExpr ).getText( ) == null
-				|| ( (IScriptExpression) argExpr ).getText( ).trim( ).length( ) == 0 )
-		{
+		} else if (argExpr == null || ((IScriptExpression) argExpr).getText() == null
+				|| ((IScriptExpression) argExpr).getText().trim().length() == 0) {
 			aggrArgs[aggrIndex][i] = null;
 			return;
 		}
-		try
-		{
-			aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateValue( argExpr,
-					currentResultIndex,
-					currentRo,
-					this.currentScope,
-					this.sc); 
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
+		try {
+			aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateValue(argExpr, currentResultIndex, currentRo,
+					this.currentScope, this.sc);
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 	}
 
@@ -396,218 +326,202 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	 * @param argExpr
 	 * @return
 	 */
-	private boolean isEmptyScriptExpression( IBaseExpression argExpr )
-	{
+	private boolean isEmptyScriptExpression(IBaseExpression argExpr) {
 		IScriptExpression expr = (IScriptExpression) argExpr;
-		return expr == null
-				|| expr.getText( ) == null
-				|| expr.getText( ).trim( ).length( ) == 0;
+		return expr == null || expr.getText() == null || expr.getText().trim().length() == 0;
 	}
 
 	/**
 	 * @param aggrInfo
 	 * @return
 	 */
-	private boolean isFunctionCount( IAggrInfo aggrInfo )
-	{
-		return aggrInfo.getAggregation( ).getParameterDefn( ).length==0;
-	}
-	
-	
-	private IAggrInfo getAggrInfo( int i ) throws DataException
-	{
-		return this.manager.getAggrDefn( i );
+	private boolean isFunctionCount(IAggrInfo aggrInfo) {
+		return aggrInfo.getAggregation().getParameterDefn().length == 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#getLatestAggrValue(java.lang.String)
+	private IAggrInfo getAggrInfo(int i) throws DataException {
+		return this.manager.getAggrDefn(i);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.
+	 * IProgressiveAggregationHelper#getLatestAggrValue(java.lang.String)
 	 */
-	public Object getLatestAggrValue( String name ) throws DataException
-	{
-		List currentValues = this.currentRoundAggrValue[this.manager.getAggrDefnIndex( name )];
-		if( currentValues.isEmpty( ))
+	public Object getLatestAggrValue(String name) throws DataException {
+		List currentValues = this.currentRoundAggrValue[this.manager.getAggrDefnIndex(name)];
+		if (currentValues.isEmpty())
 			return null;
-		return currentValues.get( currentValues.size( )-1 );
+		return currentValues.get(currentValues.size() - 1);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#getAggrValue(java.lang.String, org.eclipse.birt.data.engine.odi.IResultIterator)
-	 */
-	public Object getAggrValue( String name, IResultIterator ri ) throws DataException
-	{
-		IAggrInfo aggrInfo = this.manager.getAggrDefn( name );
-		if( this.currentRoundAggrValue[this.manager.getAggrDefnIndex( name )].isEmpty( ))
-			return this.manager.getAggrDefn( name ).getAggregation( ).getDefaultValue( );
-		/*if ( this.populator.getCache( ).getCount( ) == 0 )
-		{
-			return aggrInfo.getAggregation( ).getDefaultValue( );
-		}*/
 
-		try
-		{
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.
+	 * IProgressiveAggregationHelper#getAggrValue(java.lang.String,
+	 * org.eclipse.birt.data.engine.odi.IResultIterator)
+	 */
+	public Object getAggrValue(String name, IResultIterator ri) throws DataException {
+		IAggrInfo aggrInfo = this.manager.getAggrDefn(name);
+		if (this.currentRoundAggrValue[this.manager.getAggrDefnIndex(name)].isEmpty())
+			return this.manager.getAggrDefn(name).getAggregation().getDefaultValue();
+		/*
+		 * if ( this.populator.getCache( ).getCount( ) == 0 ) { return
+		 * aggrInfo.getAggregation( ).getDefaultValue( ); }
+		 */
+
+		try {
 			int groupIndex;
 
-			if ( aggrInfo.getAggregation( ).getType( ) == IAggrFunction .SUMMARY_AGGR )
-			{
+			if (aggrInfo.getAggregation().getType() == IAggrFunction.SUMMARY_AGGR) {
 				// Aggregate on the whole list: there is only one group
-				if ( aggrInfo.getGroupLevel( ) == 0 )
+				if (aggrInfo.getGroupLevel() == 0)
 					groupIndex = 0;
 				else
-					groupIndex = ri.getCurrentGroupIndex( aggrInfo.getGroupLevel( ));
-			}
-			else
-			{
-				groupIndex = ri.getCurrentResultIndex( );
+					groupIndex = ri.getCurrentGroupIndex(aggrInfo.getGroupLevel());
+			} else {
+				groupIndex = ri.getCurrentResultIndex();
 			}
 
-			return this.currentRoundAggrValue[this.manager.getAggrDefnIndex( name )].get( groupIndex );
+			return this.currentRoundAggrValue[this.manager.getAggrDefnIndex(name)].get(groupIndex);
 
-		}
-		catch ( DataException e )
-		{
+		} catch (DataException e) {
 			throw e;
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#getAggrValues(java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.
+	 * IProgressiveAggregationHelper#getAggrValues(java.lang.String)
 	 */
-	public List getAggrValues( String name ) throws DataException
-	{
-		return this.currentRoundAggrValue[this.manager.getAggrDefnIndex( name )];
+	public List getAggrValues(String name) throws DataException {
+		return this.currentRoundAggrValue[this.manager.getAggrDefnIndex(name)];
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#hasAggr(java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.
+	 * IProgressiveAggregationHelper#hasAggr(java.lang.String)
 	 */
-	public boolean hasAggr( String name ) throws DataException
-	{
-		return this.manager.getAggrDefnIndex( name ) != -1;
+	public boolean hasAggr(String name) throws DataException {
+		return this.manager.getAggrDefnIndex(name) != -1;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#getAggrNames()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.
+	 * IProgressiveAggregationHelper#getAggrNames()
 	 */
-	public Set<String> getAggrNames( ) throws DataException
-	{
+	public Set<String> getAggrNames() throws DataException {
 		return this.aggrNames;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.aggregation.IProgressiveAggregationHelper#getAggrInfo(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.
+	 * IProgressiveAggregationHelper#getAggrInfo(java.lang.String)
 	 */
-	public IAggrInfo getAggrInfo( String aggrName ) throws DataException
-	{
-		if( this.hasAggr( aggrName ))
-			return this.manager.getAggrDefn( aggrName );
+	public IAggrInfo getAggrInfo(String aggrName) throws DataException {
+		if (this.hasAggr(aggrName))
+			return this.manager.getAggrDefn(aggrName);
 		return null;
 	}
-	
-	private class DummyJSResultSetRow extends ScriptableObject
-	{
+
+	private class DummyJSResultSetRow extends ScriptableObject {
 		private static final long serialVersionUID = 1L;
 		private IResultObject currentRow;
 
 		/*
-		 * @see org.mozilla.javascript.ScriptableObject#get(int, org.mozilla.javascript.Scriptable)
+		 * @see org.mozilla.javascript.ScriptableObject#get(int,
+		 * org.mozilla.javascript.Scriptable)
 		 */
-		public Object get( int index, Scriptable start )
-		{
-			return this.get( String.valueOf( index ), start );
-		}		
-		
+		public Object get(int index, Scriptable start) {
+			return this.get(String.valueOf(index), start);
+		}
+
 		/*
-		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String, org.mozilla.javascript.Scriptable)
+		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
+		 * org.mozilla.javascript.Scriptable)
 		 */
-		public Object get( String name, Scriptable start )
-		{
-			try
-			{
-				if( ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase( name ))
-				{
-					if( helper.getParent( )!= null)
-						return helper.getParent( ).getScriptable( );
+		public Object get(String name, Scriptable start) {
+			try {
+				if (ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase(name)) {
+					if (helper.getParent() != null)
+						return helper.getParent().getScriptable();
 					else
-						throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.NO_OUTER_RESULTS_EXIST ) );
+						throw Context.reportRuntimeError(
+								DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
 				}
-				if( this.currentRow!= null )
-					return this.currentRow.getFieldValue( name );
-			}
-			catch ( DataException e )
-			{
+				if (this.currentRow != null)
+					return this.currentRow.getFieldValue(name);
+			} catch (DataException e) {
 				return null;
 			}
 			return null;
 		}
-		
-		public String getClassName( )
-		{
+
+		public String getClassName() {
 			return "dataSetRow";
 		}
 	}
-	
-	private class JSColumnBindingRow extends ScriptableObject
-	{
-		
+
+	private class JSColumnBindingRow extends ScriptableObject {
+
 		private static final long serialVersionUID = 1L;
 
 		/*
-		 * @see org.mozilla.javascript.ScriptableObject#get(int, org.mozilla.javascript.Scriptable)
+		 * @see org.mozilla.javascript.ScriptableObject#get(int,
+		 * org.mozilla.javascript.Scriptable)
 		 */
-		public Object get( int index, Scriptable start )
-		{
-			return this.get( String.valueOf( index ), start );
-		}		
-		
+		public Object get(int index, Scriptable start) {
+			return this.get(String.valueOf(index), start);
+		}
+
 		/*
-		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String, org.mozilla.javascript.Scriptable)
+		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
+		 * org.mozilla.javascript.Scriptable)
 		 */
-		public Object get( String name, Scriptable start )
-		{
-			try
-			{
-				if( ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase( name ))
-				{
-					if( helper.getParent( )!= null)
-						return helper.getParent( ).getScriptable( );
+		public Object get(String name, Scriptable start) {
+			try {
+				if (ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase(name)) {
+					if (helper.getParent() != null)
+						return helper.getParent().getScriptable();
 					else
-						throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.NO_OUTER_RESULTS_EXIST ) );
+						throw Context.reportRuntimeError(
+								DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
 				}
-				IBinding binding = ( IBinding )columnBindings.get( name );
-				IBaseExpression dataExpr = binding.getExpression( );
-				if ( dataExpr == null )
-				{
-					throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.INVALID_BOUND_COLUMN_NAME, new String[]{name} ) );
+				IBinding binding = (IBinding) columnBindings.get(name);
+				IBaseExpression dataExpr = binding.getExpression();
+				if (dataExpr == null) {
+					throw Context.reportRuntimeError(DataResourceHandle.getInstance()
+							.getMessage(ResourceConstants.INVALID_BOUND_COLUMN_NAME, new String[] { name }));
 				}
-				try
-				{
-					Object value = ExprEvaluateUtil.evaluateValue( dataExpr,
-							currentRowIndex,
-							jsRow.currentRow,
-							currentScope,
-							sc);
-					value = JavascriptEvalUtil.convertToJavascriptValue( DataTypeUtil.convert( value,
-							binding.getDataType( ) ),
-							currentScope );
+				try {
+					Object value = ExprEvaluateUtil.evaluateValue(dataExpr, currentRowIndex, jsRow.currentRow,
+							currentScope, sc);
+					value = JavascriptEvalUtil
+							.convertToJavascriptValue(DataTypeUtil.convert(value, binding.getDataType()), currentScope);
 					return value;
+				} catch (BirtException e) {
+					throw Context.reportRuntimeError(e.getLocalizedMessage());
 				}
-				catch ( BirtException e )
-				{
-					throw Context.reportRuntimeError( e.getLocalizedMessage( ) );
-				}
-			}
-			catch ( DataException e )
-			{
+			} catch (DataException e) {
 				return null;
 			}
 		}
 
 		@Override
-		public String getClassName( )
-		{
+		public String getClassName() {
 			return "row";
 		}
-		
+
 	}
-	
+
 }

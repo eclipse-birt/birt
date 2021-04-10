@@ -7,41 +7,39 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.core.framework.parser;
 
-
 /**
- * Base class provides the parse state framework. By default, it
- * reports an error if an unexpected tag is seen.
+ * Base class provides the parse state framework. By default, it reports an
+ * error if an unexpected tag is seen.
  */
 
-public class ParseState extends AbstractParseState
-{
+public class ParseState extends AbstractParseState {
 	/**
 	 * The SAX parser handler associated with this parse state.
 	 */
-	
+
 	protected final XMLParserHandler handler;
-	
+
 	/**
 	 * Constructor.
 	 * 
 	 * @param theHandler the associated SAX parser handler
 	 */
-	
-	public ParseState( XMLParserHandler theHandler )
-	{
+
+	public ParseState(XMLParserHandler theHandler) {
 		handler = theHandler;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 	 */
-	
-	public XMLParserHandler getHandler( )
-	{
+
+	public XMLParserHandler getHandler() {
 		return handler;
 	}
 

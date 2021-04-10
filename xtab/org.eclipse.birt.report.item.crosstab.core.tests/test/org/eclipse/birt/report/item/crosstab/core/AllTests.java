@@ -25,21 +25,18 @@ import org.eclipse.birt.report.item.crosstab.core.util.AllUtilTests;
  *
  */
 
-public class AllTests
-{
+public class AllTests {
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		
-		test.addTest( AllDeTests.suite( ) );
-		test.addTest( AllParserTests.suite( ) );
-		test.addTest( AllReTests.suite( ) );
-		test.addTest( AllUtilTests.suite( ) );
+		test.addTest(AllDeTests.suite());
+		test.addTest(AllParserTests.suite());
+		test.addTest(AllReTests.suite());
+		test.addTest(AllUtilTests.suite());
 		// add all test classes here
 
 		return test;

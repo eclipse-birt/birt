@@ -15,8 +15,7 @@ package org.eclipse.birt.report.designer.ui.editors;
  * Report editor contants.
  */
 
-public interface IReportEditorContants
-{
+public interface IReportEditorContants {
 
 	/**
 	 * Report design editor id
@@ -41,7 +40,7 @@ public interface IReportEditorContants
 	 */
 	String LIBRARY_EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.LibraryEditor"; //$NON-NLS-1$
 	/**
-	 * Report library file extension. 
+	 * Report library file extension.
 	 */
 	String LIBRARY_FILE_EXTENTION = ".rptlibrary"; //$NON-NLS-1$
 }

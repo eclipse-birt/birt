@@ -10,7 +10,6 @@
   *    Actuate Corporation - code cleanup
   *******************************************************************************/
 
-
 package org.eclipse.birt.report.data.oda.excel.impl;
 
 import java.util.HashMap;
@@ -41,27 +40,24 @@ public class ResultSetMetaData implements IResultSetMetaData {
 		this.columnTypeNames = columnTypeNames;
 
 		for (int i = 0; i < columnNames.length; i++) {
-			columnNameIndexMap.put(columnNames[i].toUpperCase(),
-					Integer.valueOf(i + 1));
+			columnNameIndexMap.put(columnNames[i].toUpperCase(), Integer.valueOf(i + 1));
 		}
 	}
 
 	public ResultSetMetaData(ResultSetMetaDataHelper rsmdHelper) throws OdaException {
-		if( rsmdHelper == null )
-			throw new OdaException( Messages.getString( "common_ARGUMENT_CANNOT_BE_NULL" ) ); //$NON-NLS-1$
+		if (rsmdHelper == null)
+			throw new OdaException(Messages.getString("common_ARGUMENT_CANNOT_BE_NULL")); //$NON-NLS-1$
 
-		this.columnNames = rsmdHelper.getColumnNames( );
-		this.columnTypeNames = rsmdHelper.getColumnTypes( );
+		this.columnNames = rsmdHelper.getColumnNames();
+		this.columnTypeNames = rsmdHelper.getColumnTypes();
 
-		for (int i = 0; i < columnNames.length; i++)
-		{
-			columnNameIndexMap.put( columnNames[i].toUpperCase( ), Integer.valueOf( i + 1 ) );
+		for (int i = 0; i < columnNames.length; i++) {
+			columnNameIndexMap.put(columnNames[i].toUpperCase(), Integer.valueOf(i + 1));
 		}
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnCount
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnCount
 	 * ()
 	 */
 	public int getColumnCount() throws OdaException {
@@ -69,8 +65,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnName
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnName
 	 * (int)
 	 */
 	public String getColumnName(int index) throws OdaException {
@@ -81,10 +76,8 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	/**
 	 * Evaluate whether the value of given column number is valid.
 	 *
-	 * @param index
-	 *            column number (1-based)
-	 * @throws OdaException
-	 *             if the given index value is invalid
+	 * @param index column number (1-based)
+	 * @throws OdaException if the given index value is invalid
 	 */
 	private void validateColumnIndex(int index) throws OdaException {
 		if (index > getColumnCount() || index < 1)
@@ -92,8 +85,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnLabel
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnLabel
 	 * (int)
 	 */
 	public String getColumnLabel(int index) throws OdaException {
@@ -101,8 +93,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnType
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnType
 	 * (int)
 	 */
 	public int getColumnType(int index) throws OdaException {
@@ -125,12 +116,11 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	 * getColumnDisplayLength(int)
 	 */
 	public int getColumnDisplayLength(int index) throws OdaException {
-		return(0);
+		return (0);
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getPrecision
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getPrecision
 	 * (int)
 	 */
 	public int getPrecision(int index) throws OdaException {
@@ -138,8 +128,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getScale(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getScale(int)
 	 */
 	public int getScale(int index) throws OdaException {
 		return -1;
@@ -156,8 +145,7 @@ public class ResultSetMetaData implements IResultSetMetaData {
 
 	public int findColumn(String columnName) throws OdaException {
 		String trimmedColumnName = columnName.trim();
-		Integer index = (Integer) (columnNameIndexMap.get(trimmedColumnName
-				.toUpperCase()));
+		Integer index = (Integer) (columnNameIndexMap.get(trimmedColumnName.toUpperCase()));
 		if (index == null) {
 			throw new OdaException("resultSet_COLUMN_NOT_FOUND " + columnName); //$NON-NLS-1$
 		} else {

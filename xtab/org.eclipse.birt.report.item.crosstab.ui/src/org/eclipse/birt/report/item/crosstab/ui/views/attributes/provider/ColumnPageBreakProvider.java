@@ -45,29 +45,23 @@ import org.eclipse.swt.widgets.Table;
  * 
  */
 
-public class ColumnPageBreakProvider extends AbstractFormHandleProvider
-{
+public class ColumnPageBreakProvider extends AbstractFormHandleProvider {
 
 	private CellEditor[] editors;
-	private String[] columnNames = new String[]{
-			Messages.getString( "CrosstabPageBreakProvider.Column.GroupLevel" ), //$NON-NLS-1$
-			Messages.getString( "CrosstabPageBreakProvider.Column.Before" ), //$NON-NLS-1$
-			Messages.getString( "CrosstabPageBreakProvider.Column.After" ), //$NON-NLS-1$
-			Messages.getString( "CrosstabPageBreakProvider.Column.Interval" ), //$NON-NLS-1$
+	private String[] columnNames = new String[] { Messages.getString("CrosstabPageBreakProvider.Column.GroupLevel"), //$NON-NLS-1$
+			Messages.getString("CrosstabPageBreakProvider.Column.Before"), //$NON-NLS-1$
+			Messages.getString("CrosstabPageBreakProvider.Column.After"), //$NON-NLS-1$
+			Messages.getString("CrosstabPageBreakProvider.Column.Interval"), //$NON-NLS-1$
 	};
 
-	final private static IChoice[] pagebreakBeforeChoicesAll = DEUtil.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_BEFORE )
-			.getChoices( );
-	final private static IChoice[] pagebreakAfterChoicesAll = DEUtil.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER )
-			.getChoices( );
+	final private static IChoice[] pagebreakBeforeChoicesAll = DEUtil.getMetaDataDictionary()
+			.getChoiceSet(DesignChoiceConstants.CHOICE_PAGE_BREAK_BEFORE).getChoices();
+	final private static IChoice[] pagebreakAfterChoicesAll = DEUtil.getMetaDataDictionary()
+			.getChoiceSet(DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER).getChoices();
 
 	final private static int PAGE_BREAK_BEFORE = 0;
 	final private static int PAGE_BREAK_AFTER = 1;
-	private int[] columnWidths = new int[]{
-			200, 160, 160, 80
-	};
+	private int[] columnWidths = new int[] { 200, 160, 160, 80 };
 
 	/**
 	 * Constant, represents empty String array.
@@ -77,12 +71,10 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#canModify(java.lang.Object, java.lang.String)
 	 */
-	public boolean canModify( Object element, String property )
-	{
+	public boolean canModify(Object element, String property) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -90,27 +82,21 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#doAddItem(int)
 	 */
-	public boolean doAddItem( int pos ) throws Exception
-	{
+	public boolean doAddItem(int pos) throws Exception {
 		// TODO Auto-generated method stub
 		CrosstabReportItemHandle reportHandle = null;
-		try
-		{
-			reportHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) ( ( (List) input ) ).get( 0 ) ).getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
+		try {
+			reportHandle = (CrosstabReportItemHandle) ((ExtendedItemHandle) (((List) input)).get(0)).getReportItem();
+		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		CrosstabPageBreakDialog pageBreakDialog = new CrosstabPageBreakDialog( reportHandle );
-		pageBreakDialog.setAxis( ICrosstabConstants.COLUMN_AXIS_TYPE );
-		if ( pageBreakDialog.open( ) == Dialog.CANCEL )
-		{
+		CrosstabPageBreakDialog pageBreakDialog = new CrosstabPageBreakDialog(reportHandle);
+		pageBreakDialog.setAxis(ICrosstabConstants.COLUMN_AXIS_TYPE);
+		if (pageBreakDialog.open() == Dialog.CANCEL) {
 			return false;
 		}
 		return true;
@@ -119,48 +105,35 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#doDeleteItem(int)
 	 */
-	public boolean doDeleteItem( int pos ) throws Exception
-	{
+	public boolean doDeleteItem(int pos) throws Exception {
 		// TODO Auto-generated method stub
 		CrosstabReportItemHandle reportHandle = null;
-		try
-		{
-			reportHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) ( ( (List) input ) ).get( 0 ) ).getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
+		try {
+			reportHandle = (CrosstabReportItemHandle) ((ExtendedItemHandle) (((List) input)).get(0)).getReportItem();
+		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 
-		if ( reportHandle.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) != null )
-		{
+		if (reportHandle.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE) != null) {
 			LevelViewHandle levelViewHandle = null;
-			CrosstabViewHandle crosstabView = reportHandle.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE );
-			levelViewHandle = (LevelViewHandle) getLevel( crosstabView ).get( pos );
-			if ( levelViewHandle != null )
-			{
-				CommandStack stack = SessionHandleAdapter.getInstance( )
-						.getCommandStack( );
-				stack.startTrans( "Remove PageBreak" ); //$NON-NLS-1$
-				try
-				{
-					levelViewHandle.setPageBreakAfter( null );
-					levelViewHandle.setPageBreakBefore( null );
-					levelViewHandle.getModelHandle( )
-							.setProperty( ILevelViewConstants.PAGE_BREAK_INTERVAL_PROP,
-									null );
-				}
-				catch ( SemanticException e )
-				{
-					stack.rollback( );
+			CrosstabViewHandle crosstabView = reportHandle.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE);
+			levelViewHandle = (LevelViewHandle) getLevel(crosstabView).get(pos);
+			if (levelViewHandle != null) {
+				CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+				stack.startTrans("Remove PageBreak"); //$NON-NLS-1$
+				try {
+					levelViewHandle.setPageBreakAfter(null);
+					levelViewHandle.setPageBreakBefore(null);
+					levelViewHandle.getModelHandle().setProperty(ILevelViewConstants.PAGE_BREAK_INTERVAL_PROP, null);
+				} catch (SemanticException e) {
+					stack.rollback();
 					return false;
 				}
-				stack.commit( );
+				stack.commit();
 			}
 
 		}
@@ -170,35 +143,28 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#doEditItem(int)
 	 */
-	public boolean doEditItem( int pos )
-	{
+	public boolean doEditItem(int pos) {
 		// TODO Auto-generated method stub
 		CrosstabReportItemHandle reportHandle = null;
-		try
-		{
-			reportHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) ( ( (List) input ) ).get( 0 ) ).getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
+		try {
+			reportHandle = (CrosstabReportItemHandle) ((ExtendedItemHandle) (((List) input)).get(0)).getReportItem();
+		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 
-		List list = new ArrayList( );
-		if ( reportHandle.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) != null )
-		{
-			CrosstabViewHandle crosstabView = reportHandle.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE );
-			list = getLevel( crosstabView );
+		List list = new ArrayList();
+		if (reportHandle.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE) != null) {
+			CrosstabViewHandle crosstabView = reportHandle.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE);
+			list = getLevel(crosstabView);
 		}
-		CrosstabPageBreakDialog pageBreakDialog = new CrosstabPageBreakDialog( reportHandle );
-		pageBreakDialog.setLevelViewHandle( (LevelViewHandle) list.get( pos ) );
-		pageBreakDialog.setAxis( ICrosstabConstants.COLUMN_AXIS_TYPE );
-		if ( pageBreakDialog.open( ) == Dialog.CANCEL )
-		{
+		CrosstabPageBreakDialog pageBreakDialog = new CrosstabPageBreakDialog(reportHandle);
+		pageBreakDialog.setLevelViewHandle((LevelViewHandle) list.get(pos));
+		pageBreakDialog.setAxis(ICrosstabConstants.COLUMN_AXIS_TYPE);
+		if (pageBreakDialog.open() == Dialog.CANCEL) {
 			return false;
 		}
 		return true;
@@ -207,12 +173,10 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#doMoveItem(int, int)
 	 */
-	public boolean doMoveItem( int oldPos, int newPos ) throws Exception
-	{
+	public boolean doMoveItem(int oldPos, int newPos) throws Exception {
 		// TODO Auto-generated method stub
 
 		return false;
@@ -221,12 +185,10 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getColumnNames()
 	 */
-	public String[] getColumnNames( )
-	{
+	public String[] getColumnNames() {
 		// TODO Auto-generated method stub
 		return columnNames;
 	}
@@ -234,57 +196,46 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getColumnText(java.lang.Object, int)
 	 */
-	public String getColumnText( Object element, int columnIndex )
-	{
+	public String getColumnText(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
-		if ( !( element instanceof LevelViewHandle ) )
-		{
+		if (!(element instanceof LevelViewHandle)) {
 			return ""; //$NON-NLS-1$
 		}
 		LevelViewHandle levelViewHandle = (LevelViewHandle) element;
-		switch ( columnIndex )
-		{
-			case 0 :
-				return levelViewHandle.getCubeLevelName( );
-			case 1 :
-				return getPageBreakDisplayName( levelViewHandle.getPageBreakBefore( ),
-						PAGE_BREAK_BEFORE );
-			case 2 :
-				return getPageBreakDisplayName( levelViewHandle.getPageBreakAfter( ),
-						PAGE_BREAK_AFTER );
-			case 3 :
-				if ( levelViewHandle.getModelHandle( )
-						.getProperty( ILevelViewConstants.PAGE_BREAK_INTERVAL_PROP ) == null )
-					return ""; //$NON-NLS-1$
-				else
-					return "" + levelViewHandle.getPageBreakInterval( ); //$NON-NLS-1$
+		switch (columnIndex) {
+		case 0:
+			return levelViewHandle.getCubeLevelName();
+		case 1:
+			return getPageBreakDisplayName(levelViewHandle.getPageBreakBefore(), PAGE_BREAK_BEFORE);
+		case 2:
+			return getPageBreakDisplayName(levelViewHandle.getPageBreakAfter(), PAGE_BREAK_AFTER);
+		case 3:
+			if (levelViewHandle.getModelHandle().getProperty(ILevelViewConstants.PAGE_BREAK_INTERVAL_PROP) == null)
+				return ""; //$NON-NLS-1$
+			else
+				return "" + levelViewHandle.getPageBreakInterval(); //$NON-NLS-1$
 
-			default :
-				break;
+		default:
+			break;
 		}
 		return ""; //$NON-NLS-1$
 	}
 
-	private String getPageBreakDisplayName( String value, int type )
-	{
+	private String getPageBreakDisplayName(String value, int type) {
 		IChoice[][] pageBreakChoices = new IChoice[2][];
 		pageBreakChoices[0] = pagebreakBeforeChoicesAll;
 		pageBreakChoices[1] = pagebreakAfterChoicesAll;
 
-		if ( type > 2 || type < 0 )
-		{
+		if (type > 2 || type < 0) {
 			type = PAGE_BREAK_BEFORE;
 		}
 
-		for ( int i = 0; i < pageBreakChoices[type].length; i++ )
-		{
-			if ( pageBreakChoices[type][i].getName( ).equals( value ) )
-			{
-				return pageBreakChoices[type][i].getDisplayName( );
+		for (int i = 0; i < pageBreakChoices[type].length; i++) {
+			if (pageBreakChoices[type][i].getName().equals(value)) {
+				return pageBreakChoices[type][i].getDisplayName();
 			}
 		}
 
@@ -295,12 +246,10 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getColumnWidths()
 	 */
-	public int[] getColumnWidths( )
-	{
+	public int[] getColumnWidths() {
 		// TODO Auto-generated method stub
 		return columnWidths;
 	}
@@ -308,19 +257,15 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
-	public CellEditor[] getEditors( Table table )
-	{
+	public CellEditor[] getEditors(Table table) {
 		// TODO Auto-generated method stub
-		if ( editors == null )
-		{
+		if (editors == null) {
 			editors = new CellEditor[columnNames.length];
-			for ( int i = 0; i < columnNames.length; i++ )
-			{
-				editors[i] = new TextCellEditor( );
+			for (int i = 0; i < columnNames.length; i++) {
+				editors[i] = new TextCellEditor();
 			}
 		}
 		return editors;
@@ -329,41 +274,32 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getElements(java.lang.Object)
 	 */
-	public Object[] getElements( Object inputElement )
-	{
+	public Object[] getElements(Object inputElement) {
 		// TODO Auto-generated method stub
 		input = inputElement;
 		Object obj = null;
-		if ( inputElement instanceof List )
-		{
-			obj = ( (List) inputElement ).get( 0 );
-		}
-		else
-		{
+		if (inputElement instanceof List) {
+			obj = ((List) inputElement).get(0);
+		} else {
 			obj = inputElement;
 		}
 
-		List list = new ArrayList( );
-		if ( !( obj instanceof ExtendedItemHandle ) )
+		List list = new ArrayList();
+		if (!(obj instanceof ExtendedItemHandle))
 			return EMPTY;
 		ExtendedItemHandle element = (ExtendedItemHandle) obj;
 		CrosstabReportItemHandle crossTab = null;
-		try
-		{
-			crossTab = (CrosstabReportItemHandle) element.getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
+		try {
+			crossTab = (CrosstabReportItemHandle) element.getReportItem();
+		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		if ( crossTab == null )
-		{
-			return list.toArray( );
+		if (crossTab == null) {
+			return list.toArray();
 		}
 		// if ( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE )
 		// != null )
@@ -374,24 +310,21 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 		// list.addAll( getLevel( (ExtendedItemHandle) elementHandle ) );
 		// }
 
-		if ( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) != null )
-		{
-			CrosstabViewHandle crosstabView = crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE );
-			list.addAll( getLevel( crosstabView ) );
+		if (crossTab.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE) != null) {
+			CrosstabViewHandle crosstabView = crossTab.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE);
+			list.addAll(getLevel(crosstabView));
 		}
 
-		return list.toArray( );
+		return list.toArray();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getImagePath(java.lang.Object, int)
 	 */
-	public Image getImage( Object element, int columnIndex )
-	{
+	public Image getImage(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -399,12 +332,10 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider#getValue(java.lang.Object, java.lang.String)
 	 */
-	public Object getValue( Object element, String property )
-	{
+	public Object getValue(Object element, String property) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -412,14 +343,10 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
-	 * .IFormProvider#modify(java.lang.Object, java.lang.String,
-	 * java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#modify(java.lang.Object, java.lang.String, java.lang.Object)
 	 */
-	public boolean modify( Object data, String property, Object value )
-			throws Exception
-	{
+	public boolean modify(Object data, String property, Object value) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -427,14 +354,11 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IFormProvider
-	 * #needRefreshed(org.eclipse.birt.report.model.api.activity.NotificationEvent
-	 * )
+	 * #needRefreshed(org.eclipse.birt.report.model.api.activity.NotificationEvent )
 	 */
-	public boolean needRefreshed( NotificationEvent event )
-	{
+	public boolean needRefreshed(NotificationEvent event) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -442,107 +366,86 @@ public class ColumnPageBreakProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IDescriptorProvider#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		// TODO Auto-generated method stub
-		return Messages.getString( "CrosstabPageGenerator.List.PageBreak" ); //$NON-NLS-1$
+		return Messages.getString("CrosstabPageGenerator.List.PageBreak"); //$NON-NLS-1$
 	}
 
-	private List getLevel( CrosstabViewHandle crosstabViewHandle )
-	{
-		List list = new ArrayList( );
-		if ( crosstabViewHandle == null )
-		{
+	private List getLevel(CrosstabViewHandle crosstabViewHandle) {
+		List list = new ArrayList();
+		if (crosstabViewHandle == null) {
 			return list;
 		}
-		int dimensionCount = crosstabViewHandle.getDimensionCount( );
+		int dimensionCount = crosstabViewHandle.getDimensionCount();
 
-		for ( int i = 0; i < dimensionCount; i++ )
-		{
-			DimensionViewHandle dimension = crosstabViewHandle.getDimension( i );
-			int levelCount = dimension.getLevelCount( );
-			for ( int j = 0; j < levelCount; j++ )
-			{
-				LevelViewHandle levelHandle = dimension.getLevel( j );
-				ExtendedItemHandle ext = (ExtendedItemHandle) levelHandle.getModelHandle( );
-				PropertyHandle before = ext.getPropertyHandle( ILevelViewConstants.PAGE_BREAK_BEFORE_PROP );
-				PropertyHandle after = ext.getPropertyHandle( ILevelViewConstants.PAGE_BREAK_AFTER_PROP );
-				if ( ( before != null && before.isLocal( ) )
-						|| ( after != null && after.isLocal( ) ) )
-				{
-					list.add( levelHandle );
+		for (int i = 0; i < dimensionCount; i++) {
+			DimensionViewHandle dimension = crosstabViewHandle.getDimension(i);
+			int levelCount = dimension.getLevelCount();
+			for (int j = 0; j < levelCount; j++) {
+				LevelViewHandle levelHandle = dimension.getLevel(j);
+				ExtendedItemHandle ext = (ExtendedItemHandle) levelHandle.getModelHandle();
+				PropertyHandle before = ext.getPropertyHandle(ILevelViewConstants.PAGE_BREAK_BEFORE_PROP);
+				PropertyHandle after = ext.getPropertyHandle(ILevelViewConstants.PAGE_BREAK_AFTER_PROP);
+				if ((before != null && before.isLocal()) || (after != null && after.isLocal())) {
+					list.add(levelHandle);
 				}
 			}
 		}
 		return list;
 	}
 
-	public boolean isAddEnable( )
-	{
-		ExtendedItemHandle extend = (ExtendedItemHandle) DEUtil.getInputFirstElement( this.input );
+	public boolean isAddEnable() {
+		ExtendedItemHandle extend = (ExtendedItemHandle) DEUtil.getInputFirstElement(this.input);
 		CrosstabReportItemHandle crossTab = null;
-		try
-		{
-			crossTab = (CrosstabReportItemHandle) extend.getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
-			ExceptionUtil.handle( e );
+		try {
+			crossTab = (CrosstabReportItemHandle) extend.getReportItem();
+		} catch (ExtendedElementException e) {
+			ExceptionUtil.handle(e);
 			return false;
 		}
-		if ( crossTab == null )
+		if (crossTab == null)
 			return false;
-		if ( getLevelNames( crossTab ).length == 0 )
+		if (getLevelNames(crossTab).length == 0)
 			return false;
 		else
 			return true;
 	}
 
-	private String[] getLevelNames( CrosstabReportItemHandle crosstabHandle )
-	{
-		List list = new ArrayList( );
-		if ( crosstabHandle.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) == null )
-		{
+	private String[] getLevelNames(CrosstabReportItemHandle crosstabHandle) {
+		List list = new ArrayList();
+		if (crosstabHandle.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE) == null) {
 			return new String[0];
 		}
 
-		CrosstabViewHandle crosstabView = crosstabHandle.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE );
-		if ( crosstabView == null )
-		{
+		CrosstabViewHandle crosstabView = crosstabHandle.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE);
+		if (crosstabView == null) {
 			return new String[0];
 		}
-		int dimensionCount = crosstabView.getDimensionCount( );
+		int dimensionCount = crosstabView.getDimensionCount();
 
-		for ( int i = 0; i < dimensionCount; i++ )
-		{
-			DimensionViewHandle dimension = crosstabView.getDimension( i );
-			int levelCount = dimension.getLevelCount( );
-			for ( int j = 0; j < levelCount; j++ )
-			{
-				if ( !isInLevelList( crosstabHandle, dimension.getLevel( j ) ) )
-					list.add( dimension.getLevel( j ).getCubeLevelName( ) );
+		for (int i = 0; i < dimensionCount; i++) {
+			DimensionViewHandle dimension = crosstabView.getDimension(i);
+			int levelCount = dimension.getLevelCount();
+			for (int j = 0; j < levelCount; j++) {
+				if (!isInLevelList(crosstabHandle, dimension.getLevel(j)))
+					list.add(dimension.getLevel(j).getCubeLevelName());
 			}
 		}
 
-		return (String[]) list.toArray( new String[list.size( )] );
+		return (String[]) list.toArray(new String[list.size()]);
 
 	}
 
-	private boolean isInLevelList( CrosstabReportItemHandle crosstabHandle,
-			LevelViewHandle level )
-	{
-		List list = new ArrayList( );
-		if ( crosstabHandle.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) != null )
-		{
-			CrosstabViewHandle crosstabView = crosstabHandle.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE );
-			list = getLevel( crosstabView );
+	private boolean isInLevelList(CrosstabReportItemHandle crosstabHandle, LevelViewHandle level) {
+		List list = new ArrayList();
+		if (crosstabHandle.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE) != null) {
+			CrosstabViewHandle crosstabView = crosstabHandle.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE);
+			list = getLevel(crosstabView);
 		}
-		if ( list.indexOf( level ) != -1 )
-		{
+		if (list.indexOf(level) != -1) {
 			return true;
 		}
 

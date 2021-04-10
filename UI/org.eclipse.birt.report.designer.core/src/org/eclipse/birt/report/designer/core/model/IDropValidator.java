@@ -15,11 +15,10 @@ package org.eclipse.birt.report.designer.core.model;
  * 
  */
 
-public interface IDropValidator
-{
+public interface IDropValidator {
 
-	boolean canDrop( );
+	boolean canDrop();
 
-	boolean accpetValidator( );
+	boolean accpetValidator();
 
 }

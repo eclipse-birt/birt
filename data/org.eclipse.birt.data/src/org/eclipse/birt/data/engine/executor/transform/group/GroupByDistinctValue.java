@@ -15,17 +15,15 @@ package org.eclipse.birt.data.engine.executor.transform.group;
  * Distinction implementation of GroupBy.
  */
 
-class GroupByDistinctValue extends GroupBy
-{
-	public boolean isInSameGroup( Object currentGroupKey, Object previousGroupKey )
-	{
-		if ( previousGroupKey == currentGroupKey )
+class GroupByDistinctValue extends GroupBy {
+	public boolean isInSameGroup(Object currentGroupKey, Object previousGroupKey) {
+		if (previousGroupKey == currentGroupKey)
 			return true;
 
-		if ( previousGroupKey == null || currentGroupKey == null )
+		if (previousGroupKey == null || currentGroupKey == null)
 			return false;
 
-		return currentGroupKey.equals( previousGroupKey );
+		return currentGroupKey.equals(previousGroupKey);
 	}
 
 }

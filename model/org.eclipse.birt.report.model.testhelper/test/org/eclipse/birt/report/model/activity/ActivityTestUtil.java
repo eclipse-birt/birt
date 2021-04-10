@@ -18,19 +18,16 @@ import java.util.List;
  * "model.tests".
  */
 
-public class ActivityTestUtil
-{
+public class ActivityTestUtil {
 
 	/**
 	 * Wrapper method to return internal variable listener in activity stack.
 	 * 
-	 * @param as
-	 *            activity stack
+	 * @param as activity stack
 	 * @return listeners in activity stack.
 	 */
 
-	public static List getActivityListener( ActivityStack as )
-	{
+	public static List getActivityListener(ActivityStack as) {
 		return as.listeners;
 	}
 }

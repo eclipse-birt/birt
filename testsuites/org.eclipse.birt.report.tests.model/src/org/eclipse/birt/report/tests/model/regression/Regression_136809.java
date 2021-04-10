@@ -27,10 +27,10 @@ import com.ibm.icu.util.ULocale;
  * </p>
  * Steps to reproduce:
  * <ol>
- * <li> New a report
- * <li> Set Master Page Type to custom
- * <li> Set Width to 8in, Height to 100%
- * <li> Preview the report
+ * <li>New a report
+ * <li>Set Master Page Type to custom
+ * <li>Set Width to 8in, Height to 100%
+ * <li>Preview the report
  * </ol>
  * <b>Expected result: </b>
  * <p>
@@ -47,47 +47,33 @@ import com.ibm.icu.util.ULocale;
  * </p>
  */
 
-public class Regression_136809 extends BaseTestCase
-{
+public class Regression_136809 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
 	 */
-	public void test_regression_136809( ) throws SemanticException
-	{
-		SessionHandle session = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		designHandle = session.createDesign( );
-		ElementFactory factory = designHandle.getElementFactory( );
-		SimpleMasterPageHandle masterpage = factory
-				.newSimpleMasterPage( "masterpage" ); //$NON-NLS-1$
-		masterpage.setPageType( DesignChoiceConstants.PAGE_SIZE_CUSTOM );
-		designHandle.getMasterPages( ).add( masterpage );
-		try
-		{
-			masterpage.setProperty( SimpleMasterPage.WIDTH_PROP, "100%" ); //$NON-NLS-1$
-			
-			// FIXME: The bug is not fixed, so % can be set into property in this case.
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED, e
-							.getErrorCode( ) );
-		}
-		try
-		{
-			masterpage.setProperty( SimpleMasterPage.HEIGHT_PROP, "80%" ); //$NON-NLS-1$
+	public void test_regression_136809() throws SemanticException {
+		SessionHandle session = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		designHandle = session.createDesign();
+		ElementFactory factory = designHandle.getElementFactory();
+		SimpleMasterPageHandle masterpage = factory.newSimpleMasterPage("masterpage"); //$NON-NLS-1$
+		masterpage.setPageType(DesignChoiceConstants.PAGE_SIZE_CUSTOM);
+		designHandle.getMasterPages().add(masterpage);
+		try {
+			masterpage.setProperty(SimpleMasterPage.WIDTH_PROP, "100%"); //$NON-NLS-1$
 
 			// FIXME: The bug is not fixed, so % can be set into property in this case.
-			fail( );
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED, e.getErrorCode());
 		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED, e
-							.getErrorCode( ) );
+		try {
+			masterpage.setProperty(SimpleMasterPage.HEIGHT_PROP, "80%"); //$NON-NLS-1$
+
+			// FIXME: The bug is not fixed, so % can be set into property in this case.
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED, e.getErrorCode());
 		}
 
 	}

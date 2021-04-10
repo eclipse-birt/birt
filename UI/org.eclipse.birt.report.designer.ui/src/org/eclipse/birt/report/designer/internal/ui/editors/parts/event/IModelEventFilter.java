@@ -18,14 +18,16 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
  * Filter the event type
  */
 
-public interface IModelEventFilter
-{
-	/**Filter the event type
+public interface IModelEventFilter {
+	/**
+	 * Filter the event type
+	 * 
 	 * @param focus
 	 * @param ev
 	 * @return
 	 */
-	//Now model fire some event and the is not use for GUI, foe example the Name_Sapce event, Table_layout Event, 
-	//Ther are the inner event in the model
+	// Now model fire some event and the is not use for GUI, foe example the
+	// Name_Sapce event, Table_layout Event,
+	// Ther are the inner event in the model
 	boolean filterModelEvent(DesignElementHandle focus, NotificationEvent ev);
 }

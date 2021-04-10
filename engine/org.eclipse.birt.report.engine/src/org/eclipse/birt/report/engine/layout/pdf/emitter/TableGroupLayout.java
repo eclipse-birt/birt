@@ -21,59 +21,46 @@ import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.emitter.TableLayout.TableContext;
 
-
-public class TableGroupLayout extends RepeatableLayout
-{
+public class TableGroupLayout extends RepeatableLayout {
 	protected TableLayout tableLM = null;
-	public TableGroupLayout( LayoutEngineContext context,
-			ContainerLayout parent, IContent content )
-	{
-		super( context, parent, content );
+
+	public TableGroupLayout(LayoutEngineContext context, ContainerLayout parent, IContent content) {
+		super(context, parent, content);
 		tableLM = getTableLayoutManager();
 		bandStatus = IBandContent.BAND_GROUP_HEADER;
 	}
-	
-	protected void repeatHeader( ) throws BirtException
-	{
-		if( bandStatus == IBandContent.BAND_GROUP_HEADER )   
-		{
+
+	protected void repeatHeader() throws BirtException {
+		if (bandStatus == IBandContent.BAND_GROUP_HEADER) {
 			return;
 		}
-		if ( !((IGroupContent) content).isHeaderRepeat() )
-		{
+		if (!((IGroupContent) content).isHeaderRepeat()) {
 			return;
 		}
-		IBandContent header = context.getWrappedGroupHeader( content
-				.getInstanceID( ) );
-		if ( header == null || header.getChildren( ).isEmpty( ) )
-		{
+		IBandContent header = context.getWrappedGroupHeader(content.getInstanceID());
+		if (header == null || header.getChildren().isEmpty()) {
 			return;
 		}
 		TableRegionLayout rLayout = tableLM.getTableRegionLayout();
-		rLayout.initialize( header );
-		rLayout.layout( );
-		TableArea tableRegion = (TableArea) header
-				.getExtension( IContent.LAYOUT_EXTENSION );
-		if ( tableRegion != null
-				&& tableRegion.getAllocatedHeight( ) < getCurrentMaxContentHeight( ) )
-		{	
-			TableContext tableContext = (TableContext)tableLM.contextList.getLast( );
-			tableContext.layout.addRows( rLayout.getTableAreaLayout( ).getRows( ) );
-			
+		rLayout.initialize(header);
+		rLayout.layout();
+		TableArea tableRegion = (TableArea) header.getExtension(IContent.LAYOUT_EXTENSION);
+		if (tableRegion != null && tableRegion.getAllocatedHeight() < getCurrentMaxContentHeight()) {
+			TableContext tableContext = (TableContext) tableLM.contextList.getLast();
+			tableContext.layout.addRows(rLayout.getTableAreaLayout().getRows());
+
 			// add to root
-			Iterator iter = tableRegion.getChildren( );
-			while ( iter.hasNext( ) )
-			{
-				AbstractArea area = (AbstractArea) iter.next( );
-				addArea( area );
+			Iterator iter = tableRegion.getChildren();
+			while (iter.hasNext()) {
+				AbstractArea area = (AbstractArea) iter.next();
+				addArea(area);
 			}
 		}
-		content.setExtension( IContent.LAYOUT_EXTENSION, null );
+		content.setExtension(IContent.LAYOUT_EXTENSION, null);
 	}
-	
-	public boolean addArea( AbstractArea area )
-	{
-		return addArea( area, false );
+
+	public boolean addArea(AbstractArea area) {
+		return addArea(area, false);
 	}
 
 }

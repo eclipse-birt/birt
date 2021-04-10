@@ -14,90 +14,94 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.script.IRowData;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
-public interface IReportElementInstance
-{
+public interface IReportElementInstance {
 
-	/** Get the style of this element
+	/**
+	 * Get the style of this element
 	 * 
 	 */
-	IScriptStyle getStyle( );
+	IScriptStyle getStyle();
 
 	/**
 	 * Get the horizontal position
 	 */
-	String getHorizontalPosition( );
+	String getHorizontalPosition();
 
 	/**
 	 * Set the horizontal position
 	 */
-	void setHorizontalPosition( String position );
+	void setHorizontalPosition(String position);
 
 	/**
 	 * Get the vertical position
 	 */
-	String getVerticalPosition( );
+	String getVerticalPosition();
 
 	/**
 	 * Set the vertical position
 	 */
-	void setVerticalPosition( String position );
+	void setVerticalPosition(String position);
 
 	/**
 	 * Get the width of the element
 	 * 
 	 */
-	String getWidth( );
+	String getWidth();
 
 	/**
 	 * Set the width of the element
 	 * 
 	 */
-	void setWidth( String width );
+	void setWidth(String width);
 
 	/**
 	 * Get the height of the element
 	 * 
 	 */
-	String getHeight( );
+	String getHeight();
 
 	/**
 	 * Set the height of the element
 	 * 
 	 */
-	void setHeight( String height );
+	void setHeight(String height);
 
-	/** Get the value of a named expression
+	/**
+	 * Get the value of a named expression
 	 * 
 	 */
-	Object getNamedExpressionValue( String name );
+	Object getNamedExpressionValue(String name);
 
-	/** Get the value of a user property
+	/**
+	 * Get the value of a user property
 	 * 
 	 */
-	Object getUserPropertyValue( String name );
+	Object getUserPropertyValue(String name);
 
-	/** Set the value of a user property
+	/**
+	 * Set the value of a user property
 	 * 
 	 */
-	void setUserPropertyValue( String name, Object value )
-			throws ScriptException;
+	void setUserPropertyValue(String name, Object value) throws ScriptException;
 
 	/**
 	 * Get the parent (container) of this element
-	 * @throws ScriptException 
+	 * 
+	 * @throws ScriptException
 	 * 
 	 * @throws BirtException
 	 * 
 	 */
-	IReportElementInstance getParent( ) throws ScriptException;
+	IReportElementInstance getParent() throws ScriptException;
 
 	/**
-	 * Get the row data used to create the instance. The row data is defined by
-	 * the column binding.
-	 * @throws ScriptException 
+	 * Get the row data used to create the instance. The row data is defined by the
+	 * column binding.
+	 * 
+	 * @throws ScriptException
 	 * 
 	 * @throws BirtException
 	 */
-	IRowData getRowData( ) throws ScriptException;
+	IRowData getRowData() throws ScriptException;
 
 }

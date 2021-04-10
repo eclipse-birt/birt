@@ -23,18 +23,16 @@ import javax.olap.cursor.EdgeCursor;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 
-
 /**
  * The CubeCursor provide the user with a method of organizing EdgeCursor to
  * navigate the cube. And it provide the data accessor method to get the value
  * of measures.
  * 
  */
-public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
-{
+public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor {
 
-	private List ordinateEdge = new ArrayList( );
-	private List pageEdge = new ArrayList( );
+	private List ordinateEdge = new ArrayList();
+	private List pageEdge = new ArrayList();
 
 	/**
 	 * 
@@ -44,12 +42,10 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 	 * @param manager
 	 * @throws OLAPException
 	 */
-	public CubeCursorImpl( BirtCubeView cubeView, IResultSet result,
-			Map relationMap) throws OLAPException
-	{
-		this( cubeView, result, relationMap, null );
+	public CubeCursorImpl(BirtCubeView cubeView, IResultSet result, Map relationMap) throws OLAPException {
+		this(cubeView, result, relationMap, null);
 	}
-	
+
 	/**
 	 * 
 	 * @param cubeView
@@ -59,81 +55,63 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 	 * @param appContext
 	 * @throws OLAPException
 	 */
-	public CubeCursorImpl( BirtCubeView cubeView, IResultSet result,
-			Map relationMap, Map appContext )
-			throws OLAPException
-	{
-		super( null, new AggregationAccessor( cubeView,
-				result,
-				relationMap) );
+	public CubeCursorImpl(BirtCubeView cubeView, IResultSet result, Map relationMap, Map appContext)
+			throws OLAPException {
+		super(null, new AggregationAccessor(cubeView, result, relationMap));
 
-		if ( result == null )
+		if (result == null)
 			return;
 
-		if ( cubeView.getColumnEdgeView( ) != null )
-		{
-			EdgeCursor columnEdgeCursor = new EdgeCursorImpl( cubeView.getColumnEdgeView( ),
-					false,
-					result.getColumnEdgeResult( ),
-					this );
-			
-			result.getColumnEdgeResult( ).populateEdgeInfo( false );
-			ordinateEdge.add( columnEdgeCursor );
+		if (cubeView.getColumnEdgeView() != null) {
+			EdgeCursor columnEdgeCursor = new EdgeCursorImpl(cubeView.getColumnEdgeView(), false,
+					result.getColumnEdgeResult(), this);
+
+			result.getColumnEdgeResult().populateEdgeInfo(false);
+			ordinateEdge.add(columnEdgeCursor);
 		}
 		// create row edge cursor
-		if ( cubeView.getRowEdgeView( ) != null )
-		{
-			EdgeCursor rowEdgeCursor = new EdgeCursorImpl( cubeView.getRowEdgeView( ),
-					false,
-					result.getRowEdgeResult( ),
-					this );
+		if (cubeView.getRowEdgeView() != null) {
+			EdgeCursor rowEdgeCursor = new EdgeCursorImpl(cubeView.getRowEdgeView(), false, result.getRowEdgeResult(),
+					this);
 
-			result.getRowEdgeResult( ).populateEdgeInfo( false );
-			ordinateEdge.add( rowEdgeCursor );
+			result.getRowEdgeResult().populateEdgeInfo(false);
+			ordinateEdge.add(rowEdgeCursor);
 		}
-		
-		if ( cubeView.getPageEdgeView( ) != null )
-		{
-			EdgeCursor pageEdgeCursor = new EdgeCursorImpl( cubeView.getPageEdgeView( ),
-					true,
-					result.getPageEdgeResult( ),
-					this );
-			result.getPageEdgeResult( ).populateEdgeInfo( true );
-			pageEdge.add( pageEdgeCursor );
+
+		if (cubeView.getPageEdgeView() != null) {
+			EdgeCursor pageEdgeCursor = new EdgeCursorImpl(cubeView.getPageEdgeView(), true, result.getPageEdgeResult(),
+					this);
+			result.getPageEdgeResult().populateEdgeInfo(true);
+			pageEdge.add(pageEdgeCursor);
 		}
 	}
 
 	/*
 	 * @see javax.olap.cursor.CubeCursor#getOrdinateEdge()
 	 */
-	public List getOrdinateEdge( ) throws OLAPException
-	{
+	public List getOrdinateEdge() throws OLAPException {
 		return this.ordinateEdge;
 	}
 
 	/*
 	 * @see javax.olap.cursor.CubeCursor#getPageEdge()
 	 */
-	public Collection getPageEdge( ) throws OLAPException
-	{
+	public Collection getPageEdge() throws OLAPException {
 		return this.pageEdge;
 	}
 
 	/*
 	 * @see javax.olap.cursor.CubeCursor#synchronizePages()
 	 */
-	public void synchronizePages( ) throws OLAPException
-	{
-		if( this.pageEdge!= null && !this.pageEdge.isEmpty( ) )
-		{
-			//assume we just has on page cursor at most.
-			EdgeCursorImpl pageCursor =( EdgeCursorImpl )this.pageEdge.get( 0 );
-			long position = pageCursor.getPosition( );
-			Iterator iter = this.ordinateEdge.iterator( );
-			while( iter.hasNext( ) )
-			{
-				EdgeCursorImpl cursor = (EdgeCursorImpl)iter.next( );
-				cursor.synchronizedPages( (int)position );				
+	public void synchronizePages() throws OLAPException {
+		if (this.pageEdge != null && !this.pageEdge.isEmpty()) {
+			// assume we just has on page cursor at most.
+			EdgeCursorImpl pageCursor = (EdgeCursorImpl) this.pageEdge.get(0);
+			long position = pageCursor.getPosition();
+			Iterator iter = this.ordinateEdge.iterator();
+			while (iter.hasNext()) {
+				EdgeCursorImpl cursor = (EdgeCursorImpl) iter.next();
+				cursor.synchronizedPages((int) position);
 			}
 		}
 	}

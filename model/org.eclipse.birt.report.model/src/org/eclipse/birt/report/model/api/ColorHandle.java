@@ -48,12 +48,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * 
  * <pre>
  * 
- * 
- * 
- * 
- * 
- * 
- * ColorHandle colorHandle = styleHandle.getColor( );
+ * ColorHandle colorHandle = styleHandle.getColor();
  * </pre>
  * 
  * <p>
@@ -65,93 +60,78 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * @see ColorPropertyType
  */
 
-public class ColorHandle extends ComplexValueHandle
-{
+public class ColorHandle extends ComplexValueHandle {
 
 	/**
 	 * Cached meta information about color property.
 	 */
 
-	private static final ColorPropertyType type = (ColorPropertyType) MetaDataDictionary
-			.getInstance( ).getPropertyType( IPropertyType.COLOR_TYPE );
+	private static final ColorPropertyType type = (ColorPropertyType) MetaDataDictionary.getInstance()
+			.getPropertyType(IPropertyType.COLOR_TYPE);
 
 	/**
-	 * Constructs a color handle for a member in a structure. This member must
-	 * be a color type.
+	 * Constructs a color handle for a member in a structure. This member must be a
+	 * color type.
 	 * 
-	 * @param element
-	 *            the design element handle
-	 * @param context
-	 *            the context for the member property
+	 * @param element the design element handle
+	 * @param context the context for the member property
 	 */
 
-	public ColorHandle( DesignElementHandle element, StructureContext context )
-	{
-		super( element, context );
-		assert context.getPropDefn( ).getType( ) instanceof ColorPropertyType;
+	public ColorHandle(DesignElementHandle element, StructureContext context) {
+		super(element, context);
+		assert context.getPropDefn().getType() instanceof ColorPropertyType;
 	}
 
 	/**
-	 * Constructs a color handle for a member in a structure. This member must
-	 * be a color type.
+	 * Constructs a color handle for a member in a structure. This member must be a
+	 * color type.
 	 * 
-	 * @param element
-	 *            the design element handle
-	 * @param context
-	 *            the context for the member property
+	 * @param element the design element handle
+	 * @param context the context for the member property
 	 * @deprecated
 	 */
 
-	public ColorHandle( DesignElementHandle element, MemberRef context )
-	{
-		super( element, context );
-		assert context.getPropDefn( ).getType( ) instanceof ColorPropertyType;
+	public ColorHandle(DesignElementHandle element, MemberRef context) {
+		super(element, context);
+		assert context.getPropDefn().getType() instanceof ColorPropertyType;
 	}
 
 	/**
 	 * Constructs a color handle for a element property. This property must be a
 	 * color type.
 	 * 
-	 * @param element
-	 *            handle to the element that defined the property.
-	 * @param thePropDefn
-	 *            definition of the color property.
+	 * @param element     handle to the element that defined the property.
+	 * @param thePropDefn definition of the color property.
 	 */
 
-	public ColorHandle( DesignElementHandle element,
-			ElementPropertyDefn thePropDefn )
-	{
-		super( element, thePropDefn );
+	public ColorHandle(DesignElementHandle element, ElementPropertyDefn thePropDefn) {
+		super(element, thePropDefn);
 
-		assert thePropDefn.getType( ) instanceof ColorPropertyType;
+		assert thePropDefn.getType() instanceof ColorPropertyType;
 	}
 
 	/**
-	 * Returns the color value as an integer RGB value. Return <code>-1</code>
-	 * if color value is not set( value is <code>null</code>) or the
-	 * <code>value</code> is not a valid internal value for a color.
+	 * Returns the color value as an integer RGB value. Return <code>-1</code> if
+	 * color value is not set( value is <code>null</code>) or the <code>value</code>
+	 * is not a valid internal value for a color.
 	 * 
 	 * @return the color value as an integer RGB value
 	 * @see ColorPropertyType#toInteger(Module, Object)
 	 */
 
-	public int getRGB( )
-	{
-		return type.toInteger( getModule( ), getValue( ) );
+	public int getRGB() {
+		return type.toInteger(getModule(), getValue());
 	}
 
 	/**
 	 * Sets a color with a given integer RGB value.
 	 * 
-	 * @param rgbValue
-	 *            rgb color value.
-	 * @throws SemanticException
-	 *             if the rgb value is invalid.
+	 * @param rgbValue rgb color value.
+	 * @throws SemanticException if the rgb value is invalid.
 	 */
 
-	public void setRGB( int rgbValue ) throws SemanticException
-	{
-		setValue( Integer.valueOf( rgbValue ) );
+	public void setRGB(int rgbValue) throws SemanticException {
+		setValue(Integer.valueOf(rgbValue));
 	}
 
 	/**
@@ -162,54 +142,47 @@ public class ColorHandle extends ComplexValueHandle
 	 * @see ColorPropertyType#toCSSCompatibleColor(ReportDesign, Object)
 	 */
 
-	public String getCssValue( )
-	{
-		return type.toCSSCompatibleColor( getModule( ), getValue( ) );
+	public String getCssValue() {
+		return type.toCSSCompatibleColor(getModule(), getValue());
 	}
 
 	/**
-	 * Returns a list containing all the names of both standard(CSS) colors or
-	 * user defined colors. The color names are localized.
+	 * Returns a list containing all the names of both standard(CSS) colors or user
+	 * defined colors. The color names are localized.
 	 * 
-	 * @return a list of localized color names, including both standard(CSS)
-	 *         colors and user defined colors.
+	 * @return a list of localized color names, including both standard(CSS) colors
+	 *         and user defined colors.
 	 * 
 	 */
 
-	public List getColors( )
-	{
-		List retList = getCSSColors( );
+	public List getColors() {
+		List retList = getCSSColors();
 
-		List colors = getModule( ).getListProperty( getModule( ),
-				IModuleModel.COLOR_PALETTE_PROP );
-		if ( colors == null )
+		List colors = getModule().getListProperty(getModule(), IModuleModel.COLOR_PALETTE_PROP);
+		if (colors == null)
 			return retList;
 
-		for ( int i = 0; i < colors.size( ); i++ )
-		{
-			CustomColor customColor = (CustomColor) colors.get( i );
-			retList.add( customColor.getDisplayName( getModule( ) ) );
+		for (int i = 0; i < colors.size(); i++) {
+			CustomColor customColor = (CustomColor) colors.get(i);
+			retList.add(customColor.getDisplayName(getModule()));
 		}
 
 		return retList;
 	}
 
 	/**
-	 * Returns a list containing standard(CSS) color names. The names are
-	 * localized.
+	 * Returns a list containing standard(CSS) color names. The names are localized.
 	 * 
 	 * @return a list of localized CSS color names.
 	 * 
 	 */
 
-	public List getCSSColors( )
-	{
-		ArrayList retList = new ArrayList( );
+	public List getCSSColors() {
+		ArrayList retList = new ArrayList();
 
-		IChoice[] colors = type.getChoices( ).getChoices( );
-		for ( int i = 0; i < colors.length; i++ )
-		{
-			retList.add( colors[i].getDisplayName( ) );
+		IChoice[] colors = type.getChoices().getChoices();
+		for (int i = 0; i < colors.length; i++) {
+			retList.add(colors[i].getDisplayName());
 		}
 
 		return retList;

@@ -19,64 +19,57 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-
 /**
  * The scriptable object which bound with key word "row" in cube query.
  */
 
-public class JSCubeBindingObject extends ScriptableObject
-{
+public class JSCubeBindingObject extends ScriptableObject {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8830069667117258594L;
 	private ICubeCursor cursor;
-	
-	public JSCubeBindingObject( ICubeCursor cursor )
-	{
+
+	public JSCubeBindingObject(ICubeCursor cursor) {
 		this.cursor = cursor;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String, org.mozilla.javascript.Scriptable)
+	 * 
+	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
+	 * org.mozilla.javascript.Scriptable)
 	 */
-	public Object get( String arg0, Scriptable scope )
-	{
-		try
-		{
-			if( ScriptConstants.OUTER_RESULT_KEYWORD.equals( arg0 ))
-				return cursor.getObject( ScriptConstants.OUTER_RESULT_KEYWORD );
-			return cursor.getObject( arg0 );
-		}
-		catch ( OLAPException e )
-		{
-			throw Context.reportRuntimeError( e.getLocalizedMessage( ) );
+	public Object get(String arg0, Scriptable scope) {
+		try {
+			if (ScriptConstants.OUTER_RESULT_KEYWORD.equals(arg0))
+				return cursor.getObject(ScriptConstants.OUTER_RESULT_KEYWORD);
+			return cursor.getObject(arg0);
+		} catch (OLAPException e) {
+			throw Context.reportRuntimeError(e.getLocalizedMessage());
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String, org.mozilla.javascript.Scriptable)
+	 * 
+	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
+	 * org.mozilla.javascript.Scriptable)
 	 */
-	public Object get( int arg0, Scriptable scope )
-	{
-		try
-		{
-			return cursor.getObject( String.valueOf( arg0 ) );
-		}
-		catch ( OLAPException e )
-		{
-			throw Context.reportRuntimeError( e.getLocalizedMessage( ) );
+	public Object get(int arg0, Scriptable scope) {
+		try {
+			return cursor.getObject(String.valueOf(arg0));
+		} catch (OLAPException e) {
+			throw Context.reportRuntimeError(e.getLocalizedMessage());
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
-	public String getClassName( )
-	{
+	public String getClassName() {
 		return "JSCubeBindingObject";
 	}
 

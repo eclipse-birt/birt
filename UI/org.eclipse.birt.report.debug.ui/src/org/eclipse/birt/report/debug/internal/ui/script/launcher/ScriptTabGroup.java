@@ -21,26 +21,20 @@ import org.eclipse.jdt.debug.ui.launchConfigurations.JavaJRETab;
 /**
  * Script TabGroup
  */
-public class ScriptTabGroup extends AbstractLaunchConfigurationTabGroup
-{
+public class ScriptTabGroup extends AbstractLaunchConfigurationTabGroup {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.debug.ui.ILaunchConfigurationTabGroup#createTabs(org.eclipse.debug.ui.ILaunchConfigurationDialog,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.debug.ui.ILaunchConfigurationTabGroup#createTabs(org.eclipse.
+	 * debug.ui.ILaunchConfigurationDialog, java.lang.String)
 	 */
-	public void createTabs( ILaunchConfigurationDialog dialog, String mode )
-	{
+	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
 		ILaunchConfigurationTab tabs[] = null;
-		tabs = ( new ILaunchConfigurationTab[]{
-				new ScriptMainTab( ),
-				new JavaJRETab( ),
-				new ScriptClasspathTab( ),
-				new SourceLookupTab( ),
-				new CommonTab( )
-		} );
-		setTabs( tabs );
+		tabs = (new ILaunchConfigurationTab[] { new ScriptMainTab(), new JavaJRETab(), new ScriptClasspathTab(),
+				new SourceLookupTab(), new CommonTab() });
+		setTabs(tabs);
 	}
 
 }

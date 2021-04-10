@@ -43,8 +43,7 @@ import com.ibm.icu.util.ULocale;
  * in the report design, we define four listing elements: 219: table with query.
  * 277: list of query 280: a table with sub query 289: a table with nest query.
  */
-public class DatasetPreviewTaskTest extends EngineCase
-{
+public class DatasetPreviewTaskTest extends EngineCase {
 
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/impl/TestDataExtractionTask.xml";
 	static final String REPORT_LIBRARY_RESOURCE = "org/eclipse/birt/report/engine/api/impl/library.xml";
@@ -52,73 +51,62 @@ public class DatasetPreviewTaskTest extends EngineCase
 	IReportDocument document;
 	IDatasetPreviewTask previewTask;
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeFile( REPORT_DESIGN );
-		
+	public void setUp() throws Exception {
+		super.setUp();
+		removeFile(REPORT_DESIGN);
+
 	}
 
-	public void tearDown( ) throws Exception
-	{
+	public void tearDown() throws Exception {
 		super.tearDown();
 	}
-	
-	protected ModuleHandle getHandle(String fileName) throws Exception
-	{
+
+	protected ModuleHandle getHandle(String fileName) throws Exception {
 		ModuleHandle designHandle;
 		// Create new design session
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.getDefault( ) );
-		designHandle = sessionHandle.openModule( fileName );
+		SessionHandle sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.getDefault());
+		designHandle = sessionHandle.openModule(fileName);
 		return designHandle;
 	}
-	
-	public void testPreviewDatasetInLib( ) throws Exception
-	{		
-		copyResource( REPORT_LIBRARY_RESOURCE, REPORT_DESIGN );
-		previewTask = engine.createDatasetPreviewTask( );
-		ModuleHandle muduleHandle = getHandle(REPORT_DESIGN );
-		List ds = muduleHandle.getAllDataSets( );
-		for ( Object obj : ds )
-		{
+
+	public void testPreviewDatasetInLib() throws Exception {
+		copyResource(REPORT_LIBRARY_RESOURCE, REPORT_DESIGN);
+		previewTask = engine.createDatasetPreviewTask();
+		ModuleHandle muduleHandle = getHandle(REPORT_DESIGN);
+		List ds = muduleHandle.getAllDataSets();
+		for (Object obj : ds) {
 			DataSetHandle dataset = (DataSetHandle) obj;
-			if ( dataset.getName( ).equals( "Data Set" ) )
-			{
-				previewTask.setDataSet( dataset );
+			if (dataset.getName().equals("Data Set")) {
+				previewTask.setDataSet(dataset);
 			}
 		}
 
-		previewTask.setMaxRow( 20 );
-		IExtractionResults results = previewTask.execute( );
-		int rowCount = checkExtractionResults( results );
-		assertTrue( rowCount == 20 );
-		previewTask.close( );
-		removeFile( REPORT_DESIGN );
+		previewTask.setMaxRow(20);
+		IExtractionResults results = previewTask.execute();
+		int rowCount = checkExtractionResults(results);
+		assertTrue(rowCount == 20);
+		previewTask.close();
+		removeFile(REPORT_DESIGN);
 	}
 
-	public void testPreviewDatasetInReport( ) throws Exception
-	{		
-		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
-		previewTask = engine.createDatasetPreviewTask( );
-		IReportRunnable reportDesign = engine.openReportDesign( REPORT_DESIGN );
-		List ds = reportDesign.getDesignHandle( ).getModuleHandle( )
-				.getAllDataSets( );
-		for ( Object obj : ds )
-		{
+	public void testPreviewDatasetInReport() throws Exception {
+		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
+		previewTask = engine.createDatasetPreviewTask();
+		IReportRunnable reportDesign = engine.openReportDesign(REPORT_DESIGN);
+		List ds = reportDesign.getDesignHandle().getModuleHandle().getAllDataSets();
+		for (Object obj : ds) {
 			DataSetHandle dataset = (DataSetHandle) obj;
-			if ( dataset.getName( ).equals( "DataSet" ) )
-			{
-				previewTask.setDataSet( dataset );
+			if (dataset.getName().equals("DataSet")) {
+				previewTask.setDataSet(dataset);
 			}
 		}
 
-		previewTask.setMaxRow( 5 );
-		IExtractionResults results = previewTask.execute( );
-		int rowCount = checkExtractionResults( results );
-		assertTrue( rowCount == 5 );
-		previewTask.close( );
-		removeFile( REPORT_DESIGN );
+		previewTask.setMaxRow(5);
+		IExtractionResults results = previewTask.execute();
+		int rowCount = checkExtractionResults(results);
+		assertTrue(rowCount == 5);
+		previewTask.close();
+		removeFile(REPORT_DESIGN);
 	}
 
 	/**
@@ -128,60 +116,52 @@ public class DatasetPreviewTaskTest extends EngineCase
 	 * @return row count in the result.
 	 * @throws BirtException
 	 */
-	protected int checkExtractionResults( IExtractionResults results )
-			throws Exception
-	{
+	protected int checkExtractionResults(IExtractionResults results) throws Exception {
 		int rowCount = 0;
-		IDataIterator dataIter = results.nextResultIterator( );
-		if ( dataIter != null )
-		{
-			while ( dataIter.next( ) )
-			{
-				IResultMetaData resultMeta = dataIter.getResultMetaData( );
-				for ( int i = 0; i < resultMeta.getColumnCount( ); i++ )
-				{
-					Object obj = dataIter.getValue( resultMeta
-							.getColumnName( i ) );
-					String type = resultMeta.getColumnTypeName( i );
-					assertTrue( type != null );
+		IDataIterator dataIter = results.nextResultIterator();
+		if (dataIter != null) {
+			while (dataIter.next()) {
+				IResultMetaData resultMeta = dataIter.getResultMetaData();
+				for (int i = 0; i < resultMeta.getColumnCount(); i++) {
+					Object obj = dataIter.getValue(resultMeta.getColumnName(i));
+					String type = resultMeta.getColumnTypeName(i);
+					assertTrue(type != null);
 					System.out.print(obj + " ");
 				}
 				rowCount++;
 				System.out.println();
 			}
-			dataIter.close( );
+			dataIter.close();
 		}
-		results.close( );
+		results.close();
 		return rowCount;
 	}
 
-	private Set<InstanceID> getAllInstanceIds( IReportDocument document )
-			throws EngineException, UnsupportedEncodingException
-	{
-		Set<InstanceID> instanceIds = new HashSet<InstanceID>( );
-		IRenderTask task = engine.createRenderTask( document );
+	private Set<InstanceID> getAllInstanceIds(IReportDocument document)
+			throws EngineException, UnsupportedEncodingException {
+		Set<InstanceID> instanceIds = new HashSet<InstanceID>();
+		IRenderTask task = engine.createRenderTask(document);
 
-		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
+		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 		// create the render options
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setOutputFormat( "html" );
-		option.setOutputStream( ostream );
-		option.setEnableMetadata( true );
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setOutputFormat("html");
+		option.setOutputStream(ostream);
+		option.setEnableMetadata(true);
 		// set the render options
-		task.setRenderOption( option );
-		assertTrue( task.getRenderOption( ).equals( option ) );
-		task.render( );
-		task.close( );
+		task.setRenderOption(option);
+		assertTrue(task.getRenderOption().equals(option));
+		task.render();
+		task.close();
 
-		String content = ostream.toString( "utf-8" );
+		String content = ostream.toString("utf-8");
 		// get all the instance ids
-		Pattern iidPattern = Pattern.compile( "iid=\"([^\"]*)\"" );
-		Matcher matcher = iidPattern.matcher( content );
-		while ( matcher.find( ) )
-		{
-			String strIid = matcher.group( 1 );
-			InstanceID iid = InstanceID.parse( strIid );
-			instanceIds.add( iid );
+		Pattern iidPattern = Pattern.compile("iid=\"([^\"]*)\"");
+		Matcher matcher = iidPattern.matcher(content);
+		while (matcher.find()) {
+			String strIid = matcher.group(1);
+			InstanceID iid = InstanceID.parse(strIid);
+			instanceIds.add(iid);
 		}
 		return instanceIds;
 	}

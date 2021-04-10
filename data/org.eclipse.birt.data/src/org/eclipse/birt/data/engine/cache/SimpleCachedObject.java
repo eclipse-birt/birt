@@ -18,31 +18,25 @@ import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
  * 
  */
 
-public class SimpleCachedObject implements IStructure
-{
+public class SimpleCachedObject implements IStructure {
 	private Object[] fields;
-	
-	public SimpleCachedObject( Object[] fields )
-	{
+
+	public SimpleCachedObject(Object[] fields) {
 		this.fields = fields;
 	}
-	
-	public Object[] getFieldValues( )
-	{
+
+	public Object[] getFieldValues() {
 		return fields;
 	}
 
-	public static IStructureCreator getCreator( )
-	{
-		return new SimpleCachedObjectCreator( );
+	public static IStructureCreator getCreator() {
+		return new SimpleCachedObjectCreator();
 	}
 }
 
-class SimpleCachedObjectCreator implements IStructureCreator
-{
+class SimpleCachedObjectCreator implements IStructureCreator {
 
-	public IStructure createInstance( Object[] fields )
-	{
-		return new SimpleCachedObject( fields );
+	public IStructure createInstance(Object[] fields) {
+		return new SimpleCachedObject(fields);
 	}
 }

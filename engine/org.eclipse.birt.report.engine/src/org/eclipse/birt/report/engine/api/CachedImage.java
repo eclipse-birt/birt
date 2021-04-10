@@ -19,16 +19,15 @@ package org.eclipse.birt.report.engine.api;
  * cache finded, the report engine will use that cache directly and won't
  * request the handle to create the new image instance any more.
  */
-public class CachedImage
-{
+public class CachedImage {
 
 	/**
 	 * id of the image.
 	 */
 	String id;
 	/**
-	 * url of the image. It is the file path of the cached image, it is used as
-	 * if it is defined in the report design directly.
+	 * url of the image. It is the file path of the cached image, it is used as if
+	 * it is defined in the report design directly.
 	 */
 	String url;
 	/**
@@ -47,21 +46,17 @@ public class CachedImage
 	/**
 	 * create an empty cache.
 	 */
-	public CachedImage( )
-	{
+	public CachedImage() {
 
 	}
 
 	/**
 	 * create a instance of cached image.
 	 * 
-	 * @param id
-	 *            id of the image.
-	 * @param url
-	 *            url of the image
+	 * @param id  id of the image.
+	 * @param url url of the image
 	 */
-	public CachedImage( String id, String url )
-	{
+	public CachedImage(String id, String url) {
 		this.id = id;
 		this.url = url;
 	}
@@ -69,11 +64,9 @@ public class CachedImage
 	/**
 	 * set the id of the cached image.
 	 * 
-	 * @param id
-	 *            id of the image.
+	 * @param id id of the image.
 	 */
-	public void setID( String id )
-	{
+	public void setID(String id) {
 		this.id = id;
 	}
 
@@ -82,8 +75,7 @@ public class CachedImage
 	 * 
 	 * @return id of the image.
 	 */
-	public String getID( )
-	{
+	public String getID() {
 		return id;
 	}
 
@@ -94,19 +86,16 @@ public class CachedImage
 	 * 
 	 * @return url of the image.
 	 */
-	public String getURL( )
-	{
+	public String getURL() {
 		return url;
 	}
 
 	/**
 	 * set the image URL.
 	 * 
-	 * @param url
-	 *            url which refer to the image
+	 * @param url url which refer to the image
 	 */
-	public void setURL( String url )
-	{
+	public void setURL(String url) {
 		this.url = url;
 	}
 
@@ -117,8 +106,7 @@ public class CachedImage
 	 * 
 	 * @return the image map of the image.
 	 */
-	public String getImageMap( )
-	{
+	public String getImageMap() {
 		return imageMap;
 	}
 
@@ -127,11 +115,9 @@ public class CachedImage
 	 * 
 	 * the image map is in HTML format.
 	 * 
-	 * @param imageMap
-	 *            image map in HTML format.
+	 * @param imageMap image map in HTML format.
 	 */
-	public void setImageMap( String imageMap )
-	{
+	public void setImageMap(String imageMap) {
 		this.imageMap = imageMap;
 	}
 
@@ -140,35 +126,30 @@ public class CachedImage
 	 * 
 	 * @return the mime type.
 	 */
-	public String getMIMEType( )
-	{
+	public String getMIMEType() {
 		return mimeType;
 	}
 
 	/**
 	 * set the mime type of the image.
 	 * 
-	 * @param mimeType
-	 *            the mime type of the image
+	 * @param mimeType the mime type of the image
 	 */
-	public void setMIMEType( String mimeType )
-	{
+	public void setMIMEType(String mimeType) {
 		this.mimeType = mimeType;
 	}
-	
+
 	/**
 	 * get the image size
 	 */
-	public ImageSize getImageSize( )
-	{
+	public ImageSize getImageSize() {
 		return imageSize;
 	}
 
 	/**
 	 * set the image size
 	 */
-	public void setImageSize( ImageSize size )
-	{
+	public void setImageSize(ImageSize size) {
 		imageSize = size;
 	}
 }

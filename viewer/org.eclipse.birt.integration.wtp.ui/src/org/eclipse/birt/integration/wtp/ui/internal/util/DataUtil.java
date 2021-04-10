@@ -15,8 +15,7 @@ package org.eclipse.birt.integration.wtp.ui.internal.util;
  * Provides data convert and format services
  * 
  */
-public class DataUtil
-{
+public class DataUtil {
 
 	public final static String BLANK_STRING = ""; //$NON-NLS-1$
 
@@ -26,17 +25,15 @@ public class DataUtil
 	 * @param object
 	 * @return String
 	 */
-	public static String getString( Object object, boolean allowNull )
-	{
-		if ( object == null )
-		{
-			if ( allowNull )
+	public static String getString(Object object, boolean allowNull) {
+		if (object == null) {
+			if (allowNull)
 				return null;
 			else
 				return ""; //$NON-NLS-1$
 		}
 
-		return object.toString( );
+		return object.toString();
 	}
 
 	/**
@@ -45,15 +42,14 @@ public class DataUtil
 	 * @param object
 	 * @return boolean
 	 */
-	public static boolean getBoolean( Object object )
-	{
-		if ( object == null )
+	public static boolean getBoolean(Object object) {
+		if (object == null)
 			return false;
 
-		if ( object instanceof Boolean )
-			return ( (Boolean) object ).booleanValue( );
+		if (object instanceof Boolean)
+			return ((Boolean) object).booleanValue();
 
-		return Boolean.valueOf( object.toString( ) ).booleanValue( );
+		return Boolean.valueOf(object.toString()).booleanValue();
 	}
 
 	/**
@@ -62,17 +58,13 @@ public class DataUtil
 	 * @param obj
 	 * @return
 	 */
-	public static int getInt( Object obj )
-	{
+	public static int getInt(Object obj) {
 		int num = -1;
 
-		try
-		{
-			if ( obj != null )
-				num = Integer.parseInt( obj.toString( ) );
-		}
-		catch ( Exception e )
-		{
+		try {
+			if (obj != null)
+				num = Integer.parseInt(obj.toString());
+		} catch (Exception e) {
 			num = -1;
 		}
 
@@ -85,12 +77,11 @@ public class DataUtil
 	 * @param plain
 	 * @return
 	 */
-	public static String trim( String plain )
-	{
-		if ( plain == null )
+	public static String trim(String plain) {
+		if (plain == null)
 			return null;
 
-		return plain.trim( );
+		return plain.trim();
 	}
 
 	/**
@@ -99,10 +90,9 @@ public class DataUtil
 	 * @param value
 	 * @return
 	 */
-	public static String getNumberSetting( String value )
-	{
-		int num = DataUtil.getInt( value );
-		if ( num >= 0 )
+	public static String getNumberSetting(String value) {
+		int num = DataUtil.getInt(value);
+		if (num >= 0)
 			return BLANK_STRING + num;
 		else
 			return BLANK_STRING;

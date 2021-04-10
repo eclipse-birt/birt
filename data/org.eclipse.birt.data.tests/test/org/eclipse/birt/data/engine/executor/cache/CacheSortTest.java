@@ -18,14 +18,12 @@ import org.eclipse.birt.data.engine.regre.SortTest;
 /**
  * Test NULL object case
  */
-public class CacheSortTest extends SortTest
-{
+public class CacheSortTest extends SortTest {
 
-	protected Map getAppContext()
-	{
+	protected Map getAppContext() {
 		Map appContext = new HashMap();
-		appContext.put( "birt.data.engine.test.memcachesize", "20000" );
+		appContext.put("birt.data.engine.test.memcachesize", "20000");
 		return appContext;
 	}
-	
+
 }

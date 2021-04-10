@@ -25,33 +25,28 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * </p>
  */
-public class Regression_167527 extends BaseTestCase
-{
+public class Regression_167527 extends BaseTestCase {
 
 	private final static String REPORT = "regression_167527.xml";
 
-	public void test_regression_167527( ) throws Exception
-	{
+	public void test_regression_167527() throws Exception {
 		// open the report design
-		openDesign( REPORT );
+		openDesign(REPORT);
 
 		// find the styles
-		StyleHandle style2 = designHandle.findStyle( "My-Style2" ); //$NON-NLS-1$
-		StyleHandle style3 = designHandle.findStyle( "My-Style3" ); //$NON-NLS-1$
+		StyleHandle style2 = designHandle.findStyle("My-Style2"); //$NON-NLS-1$
+		StyleHandle style3 = designHandle.findStyle("My-Style3"); //$NON-NLS-1$
 
-		assertNotNull( style2 );
-		assertNotNull( style3 );
+		assertNotNull(style2);
+		assertNotNull(style3);
 
 		// get the highlight rules
-		Iterator highlightRules = style2.highlightRulesIterator( );
-		assert ( highlightRules.hasNext( ) );
+		Iterator highlightRules = style2.highlightRulesIterator();
+		assert (highlightRules.hasNext());
 
-		HighlightRuleHandle style2Highlight = (HighlightRuleHandle) highlightRules
-				.next( );
+		HighlightRuleHandle style2Highlight = (HighlightRuleHandle) highlightRules.next();
 
 		// get the color of highlight rule
-		assertEquals( ColorPropertyType.RED, style2Highlight
-				.getColor( )
-				.getStringValue( ) );
+		assertEquals(ColorPropertyType.RED, style2Highlight.getColor().getStringValue());
 	}
 }

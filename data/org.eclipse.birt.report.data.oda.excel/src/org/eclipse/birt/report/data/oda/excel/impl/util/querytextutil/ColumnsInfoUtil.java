@@ -18,28 +18,26 @@ import java.util.List;
  * types from columns information
  */
 
-public class ColumnsInfoUtil
-{
+public class ColumnsInfoUtil {
 
-    private static String EMPTY_STRING = ""; //$NON-NLS-1$
+	private static String EMPTY_STRING = ""; //$NON-NLS-1$
 
-    private String[] columnNames;
-    private String[] columnTypeNames;
-    private String[] originalColumnNames;
+	private String[] columnNames;
+	private String[] columnTypeNames;
+	private String[] originalColumnNames;
+
 	/**
 	 *
 	 *
 	 */
-	public ColumnsInfoUtil( String columnsInfo )
-	{
+	public ColumnsInfoUtil(String columnsInfo) {
 		assert columnsInfo != null;
-		List<String[]> columnsInfoVector = getColumnsInfoList( columnsInfo );
-		columnNames = new String[columnsInfoVector.size( )];
-		columnTypeNames = new String[columnsInfoVector.size( )];
-		originalColumnNames = new String[columnsInfoVector.size( )];
-		for (int i = 0; i < columnsInfoVector.size( ); i++)
-		{
-			String[] items = columnsInfoVector.get( i );
+		List<String[]> columnsInfoVector = getColumnsInfoList(columnsInfo);
+		columnNames = new String[columnsInfoVector.size()];
+		columnTypeNames = new String[columnsInfoVector.size()];
+		originalColumnNames = new String[columnsInfoVector.size()];
+		for (int i = 0; i < columnsInfoVector.size(); i++) {
+			String[] items = columnsInfoVector.get(i);
 			columnNames[i] = items[0];
 			originalColumnNames[i] = items[1];
 			columnTypeNames[i] = items[2];
@@ -52,8 +50,7 @@ public class ColumnsInfoUtil
 	 * @param columnsInfo
 	 * @return
 	 */
-	public String[] getColumnNames( )
-	{
+	public String[] getColumnNames() {
 		return columnNames;
 	}
 
@@ -63,8 +60,7 @@ public class ColumnsInfoUtil
 	 * @param columnsInfo
 	 * @return
 	 */
-	public String[] getColumnTypeNames( )
-	{
+	public String[] getColumnTypeNames() {
 		return columnTypeNames;
 	}
 
@@ -74,8 +70,7 @@ public class ColumnsInfoUtil
 	 * @param columnsInfo
 	 * @return
 	 */
-	public String[] getOriginalColumnNames( )
-	{
+	public String[] getOriginalColumnNames() {
 		return originalColumnNames;
 	}
 
@@ -84,81 +79,52 @@ public class ColumnsInfoUtil
 	 * @param columnsInfo
 	 * @return
 	 */
-	private static List<String[]> getColumnsInfoList( String columnsInfo )
-	{
-		List<String[]> columnsInfoList = new ArrayList<String[]>( );
-		char[] columnsInfoChars = columnsInfo.toCharArray( );
+	private static List<String[]> getColumnsInfoList(String columnsInfo) {
+		List<String[]> columnsInfoList = new ArrayList<String[]>();
+		char[] columnsInfoChars = columnsInfo.toCharArray();
 		boolean isEscaped = false;
-		String[] columnInfo = {
-		        EMPTY_STRING, EMPTY_STRING, EMPTY_STRING
-		};
+		String[] columnInfo = { EMPTY_STRING, EMPTY_STRING, EMPTY_STRING };
 		int index = 0;
 
-		for ( int i = 0; i < columnsInfoChars.length; i++ )
-		{
-			if ( columnsInfoChars[i] == '"'
-					|| columnsInfoChars[i] == '|' || columnsInfoChars[i] == ':'
-					|| columnsInfoChars[i] == '<' || columnsInfoChars[i] == '>'
-					|| columnsInfoChars[i] == '?' || columnsInfoChars[i] == '*'
-					|| columnsInfoChars[i] == '{' || columnsInfoChars[i] == '/' )
-			{
-				if ( isEscaped )
-				{
+		for (int i = 0; i < columnsInfoChars.length; i++) {
+			if (columnsInfoChars[i] == '"' || columnsInfoChars[i] == '|' || columnsInfoChars[i] == ':'
+					|| columnsInfoChars[i] == '<' || columnsInfoChars[i] == '>' || columnsInfoChars[i] == '?'
+					|| columnsInfoChars[i] == '*' || columnsInfoChars[i] == '{' || columnsInfoChars[i] == '/') {
+				if (isEscaped) {
 					columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
 					isEscaped = !isEscaped;
 				}
-			}
-			else if ( columnsInfoChars[i] == '\\' )
-			{
-				if ( isEscaped )
-				{
+			} else if (columnsInfoChars[i] == '\\') {
+				if (isEscaped) {
 					columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
 					isEscaped = !isEscaped;
-				}
-				else
+				} else
 					isEscaped = !isEscaped;
-			}
-			else if ( columnsInfoChars[i] == ',' )
-			{
-				if ( isEscaped )
-				{
+			} else if (columnsInfoChars[i] == ',') {
+				if (isEscaped) {
 					columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
 					isEscaped = !isEscaped;
-				}
-				else
-				{
+				} else {
 					index++;
 				}
-			}
-			else if ( columnsInfoChars[i] == ';'
-					|| i == ( columnsInfoChars.length - 1 ) )
-			{
-				if ( isEscaped )
-				{
+			} else if (columnsInfoChars[i] == ';' || i == (columnsInfoChars.length - 1)) {
+				if (isEscaped) {
 					columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
 					isEscaped = !isEscaped;
-				}
-				else
-				{
+				} else {
 
-					if ( i == ( columnsInfoChars.length - 1 ) )
-					{
-						columnInfo[index] = columnInfo[index]
-								+ columnsInfoChars[i];
+					if (i == (columnsInfoChars.length - 1)) {
+						columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
 
-						columnsInfoList.add( columnInfo );
-					}
-					else
-					{
-						columnsInfoList.add( columnInfo );
+						columnsInfoList.add(columnInfo);
+					} else {
+						columnsInfoList.add(columnInfo);
 						index = 0;
 						columnInfo = new String[3];
 						columnInfo[0] = columnInfo[1] = columnInfo[2] = EMPTY_STRING;
 					}
 				}
-			}
-			else
-			{
+			} else {
 				columnInfo[index] = columnInfo[index] + columnsInfoChars[i];
 			}
 		}
@@ -171,13 +137,10 @@ public class ColumnsInfoUtil
 	 * @param charactor
 	 * @return
 	 */
-	public static boolean isColumnsInfoKeyWord( char charactor )
-	{
-		return ( charactor == '"'
-				|| charactor == ';' || charactor == ',' || charactor == '|'
-				|| charactor == '\\' || charactor == '/' || charactor == '<'
-				|| charactor == '>' || charactor == '*' || charactor == ':'
-				|| charactor == '?' || charactor == '{' );
+	public static boolean isColumnsInfoKeyWord(char charactor) {
+		return (charactor == '"' || charactor == ';' || charactor == ',' || charactor == '|' || charactor == '\\'
+				|| charactor == '/' || charactor == '<' || charactor == '>' || charactor == '*' || charactor == ':'
+				|| charactor == '?' || charactor == '{');
 	}
 
 }

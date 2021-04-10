@@ -19,144 +19,111 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-public class BTreeMultipleThreadTest extends TestCase
-{
+public class BTreeMultipleThreadTest extends TestCase {
 
 	static int KEY_COUNT = 10000;
+
 	@Test
-    public void testCursor( ) throws Exception
-	{
-		new File( "./utest/btree.dat" ).delete( );
-		FileBTreeFile file = new FileBTreeFile( "./utest/btree.dat" );
-		try
-		{
-			BTreeOption<String, String> option = new BTreeOption<String, String>( );
-			option.setFile( file, true );
-			BTree<String, String> btree = new BTree<String, String>( option );
-			try
-			{
-				createBTree( btree );
-				for ( int i = 0; i < 4; i++ )
-				{
-					new Thread( new TestThread( btree.createCursor( ) ) )
-							.start( );
+	public void testCursor() throws Exception {
+		new File("./utest/btree.dat").delete();
+		FileBTreeFile file = new FileBTreeFile("./utest/btree.dat");
+		try {
+			BTreeOption<String, String> option = new BTreeOption<String, String>();
+			option.setFile(file, true);
+			BTree<String, String> btree = new BTree<String, String>(option);
+			try {
+				createBTree(btree);
+				for (int i = 0; i < 4; i++) {
+					new Thread(new TestThread(btree.createCursor())).start();
 				}
-				while ( TestThread.hasActiveThread( ) )
-				{
-					try
-					{
-						Thread.sleep( 200 );
-					}
-					catch ( Exception ex )
-					{
+				while (TestThread.hasActiveThread()) {
+					try {
+						Thread.sleep(200);
+					} catch (Exception ex) {
 					}
 				}
-			}
-			finally
-			{
-				btree.close( );
+			} finally {
+				btree.close();
 			}
 
-			if ( TestThread.hasErrors( ) )
-			{
-				TestThread.printErrors( );
-				fail( "HAS ERROR!" );
+			if (TestThread.hasErrors()) {
+				TestThread.printErrors();
+				fail("HAS ERROR!");
 			}
-		}
-		finally
-		{
-			file.close( );
+		} finally {
+			file.close();
 		}
 	}
+
 	static boolean hasError;
 
-	static void createBTree( BTree<String, String> btree ) throws IOException
-	{
-		for ( int i = 0; i < KEY_COUNT; i++ )
-		{
-			String value = String.valueOf( i );
-			btree.insert( value, value );
+	static void createBTree(BTree<String, String> btree) throws IOException {
+		for (int i = 0; i < KEY_COUNT; i++) {
+			String value = String.valueOf(i);
+			btree.insert(value, value);
 		}
 	}
 
-	static class TestThread implements Runnable
-	{
+	static class TestThread implements Runnable {
 
 		static int threadCount;
-		static ArrayList<Throwable> errors = new ArrayList<Throwable>( );
+		static ArrayList<Throwable> errors = new ArrayList<Throwable>();
 
-		static synchronized void increaseThreadCount( )
-		{
+		static synchronized void increaseThreadCount() {
 			threadCount++;
 		}
 
-		static synchronized void decreaseThreadCount( )
-		{
+		static synchronized void decreaseThreadCount() {
 			threadCount--;
 		}
 
-		static synchronized boolean hasActiveThread( )
-		{
+		static synchronized boolean hasActiveThread() {
 			return threadCount > 0;
 		}
 
-		static boolean hasErrors( )
-		{
-			return !errors.isEmpty( );
+		static boolean hasErrors() {
+			return !errors.isEmpty();
 		}
 
-		synchronized static void throwError( Throwable ex )
-		{
-			errors.add( ex );
+		synchronized static void throwError(Throwable ex) {
+			errors.add(ex);
 		}
 
-		synchronized static void printErrors( ) throws Exception
-		{
-			for ( Throwable ex : errors )
-			{
-				ex.printStackTrace( );
+		synchronized static void printErrors() throws Exception {
+			for (Throwable ex : errors) {
+				ex.printStackTrace();
 			}
 		}
 
 		BTreeCursor<String, String> cursor;
 
-		TestThread( BTreeCursor<String, String> cursor )
-		{
+		TestThread(BTreeCursor<String, String> cursor) {
 			this.cursor = cursor;
 			increaseThreadCount();
 		}
 
-		public void run( )
-		{
-			try
-			{
+		public void run() {
+			try {
 				// first is the before last
 				int rowCount = 0;
-				while ( cursor.next( ) )
-				{
-					String key = cursor.getKey( );
-					String value = cursor.getValue( );
-					if ( !( key.equals( value ) ) )
-					{
-						throw new IOException( key + " != " + value );
+				while (cursor.next()) {
+					String key = cursor.getKey();
+					String value = cursor.getValue();
+					if (!(key.equals(value))) {
+						throw new IOException(key + " != " + value);
 					}
 					rowCount++;
 				}
-				if ( rowCount != KEY_COUNT )
-				{
-					throw new IOException( "KEY_COUNT INCORRECT" );
+				if (rowCount != KEY_COUNT) {
+					throw new IOException("KEY_COUNT INCORRECT");
 				}
-			}
-			catch ( Throwable ex )
-			{
-				throwError( ex );
-			}
-			finally
-			{
-				cursor.close( );
+			} catch (Throwable ex) {
+				throwError(ex);
+			} finally {
+				cursor.close();
 
 			}
-			decreaseThreadCount( );
+			decreaseThreadCount();
 		}
 	}
 

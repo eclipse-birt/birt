@@ -22,46 +22,35 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * The dialog is used to set grouping and sort condition of base series.
  */
-public class BaseGroupSortingDialog extends GroupSortingDialog
-{
-	public BaseGroupSortingDialog( Shell shell,
-			ChartWizardContext wizardContext, SeriesDefinition sd )
-	{
-		super( shell, wizardContext, sd );
+public class BaseGroupSortingDialog extends GroupSortingDialog {
+	public BaseGroupSortingDialog(Shell shell, ChartWizardContext wizardContext, SeriesDefinition sd) {
+		super(shell, wizardContext, sd);
 	}
 
-	public void createSortArea( Composite parent )
-	{
-		super.createSortArea( parent );
-		
-		if ( onlyCategoryExprAsCategorySortKey() )
-		{
-			setSortKeySelectionState( false );
+	public void createSortArea(Composite parent) {
+		super.createSortArea(parent);
+
+		if (onlyCategoryExprAsCategorySortKey()) {
+			setSortKeySelectionState(false);
 		}
 	}
 
 	@Override
-	protected Set<String> getSortKeySet( )
-	{
-		Set<String> exprSet = new LinkedHashSet<String>( );
+	protected Set<String> getSortKeySet() {
+		Set<String> exprSet = new LinkedHashSet<String>();
 
-		if ( onlyCategoryExprAsCategorySortKey( ) )
-		{
-			exprSet.add( (String) getBaseSeriesExpression( ).toArray( )[0] );
-		}
-		else
-		{
-			exprSet.addAll( getBaseSeriesExpression( ) );
-			exprSet.addAll( getValueSeriesExpressions( ) );
+		if (onlyCategoryExprAsCategorySortKey()) {
+			exprSet.add((String) getBaseSeriesExpression().toArray()[0]);
+		} else {
+			exprSet.addAll(getBaseSeriesExpression());
+			exprSet.addAll(getValueSeriesExpressions());
 		}
 
 		return exprSet;
 	}
 
-	protected void updateSortKeySelectionState( )
-	{
-		setSortKeySelectionState( isSortEnabled()
-				&& !onlyCategoryExprAsCategorySortKey( ) );
+	protected void updateSortKeySelectionState() {
+		setSortKeySelectionState(isSortEnabled() && !onlyCategoryExprAsCategorySortKey());
 	}
 
 }

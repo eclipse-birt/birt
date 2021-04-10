@@ -13,52 +13,43 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 
 import java.util.logging.Logger;
 
-
 /**
  * 
  */
 
-public class Range
-{
+public class Range {
 
-	private static Logger logger = Logger.getLogger( Range.class.getName( ) );
-	
+	private static Logger logger = Logger.getLogger(Range.class.getName());
+
 	private Object start;
 	private Object end;
-	
+
 	/**
 	 * 
 	 * @param start
 	 * @param end
 	 */
-	public Range( Object start, Object end )
-	{
-		Object[] params = {
-				start, end
-		};
-		logger.entering( Range.class.getName( ), "Range", params );
+	public Range(Object start, Object end) {
+		Object[] params = { start, end };
+		logger.entering(Range.class.getName(), "Range", params);
 		this.start = start;
 		this.end = end;
-		logger.exiting( Range.class.getName( ), "Range" );
+		logger.exiting(Range.class.getName(), "Range");
 	}
-	
-	public Object getStart( )
-	{
+
+	public Object getStart() {
 		return start;
 	}
-	
-	public void setStart( Object start )
-	{
+
+	public void setStart(Object start) {
 		this.start = start;
 	}
-	
-	public Object getEnd( )
-	{
+
+	public Object getEnd() {
 		return end;
 	}
-	
-	public void setEnd( Object end )
-	{
+
+	public void setEnd(Object end) {
 		this.end = end;
 	}
 }

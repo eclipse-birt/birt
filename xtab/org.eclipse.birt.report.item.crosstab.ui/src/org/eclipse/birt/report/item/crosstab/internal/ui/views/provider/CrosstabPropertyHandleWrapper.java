@@ -21,59 +21,50 @@ import org.eclipse.core.runtime.IAdaptable;
  * 
  */
 
-public class CrosstabPropertyHandleWrapper implements IAdaptable
-{
+public class CrosstabPropertyHandleWrapper implements IAdaptable {
 
 	private PropertyHandle handle;
 	private String type;
 
-	public Object getAdapter( Class adapter )
-	{
-		if ( adapter == LibraryHandleAdapter.class )
-		{
-			DesignElementHandle element = handle.getElementHandle( );
-			if ( element instanceof ExtendedItemHandle )
+	public Object getAdapter(Class adapter) {
+		if (adapter == LibraryHandleAdapter.class) {
+			DesignElementHandle element = handle.getElementHandle();
+			if (element instanceof ExtendedItemHandle)
 				return element;
 		}
 		return null;
 	}
-	
-	public void setTestType(String testType)
-	{
+
+	public void setTestType(String testType) {
 		this.type = testType;
 	}
-	public String getTestType()
-	{
-		if (type == null)
-		{
-			return getModel( ).getPropertyDefn( ).getName( );
+
+	public String getTestType() {
+		if (type == null) {
+			return getModel().getPropertyDefn().getName();
 		}
 		return type;
 	}
 
-	public CrosstabPropertyHandleWrapper( PropertyHandle handle )
-	{
+	public CrosstabPropertyHandleWrapper(PropertyHandle handle) {
 		this.handle = handle;
 	}
 
-	public PropertyHandle getModel( )
-	{
+	public PropertyHandle getModel() {
 		return handle;
 	}
 
-	public boolean equals( Object obj )
-	{
-		if ( obj == this )
+	public boolean equals(Object obj) {
+		if (obj == this)
 			return true;
-		if ( !( obj instanceof CrosstabPropertyHandleWrapper ) )
+		if (!(obj instanceof CrosstabPropertyHandleWrapper))
 			return false;
-		return ( (CrosstabPropertyHandleWrapper) obj ).getModel( ) == getModel( );
+		return ((CrosstabPropertyHandleWrapper) obj).getModel() == getModel();
 	}
 
-	public int hashCode( )
-	{
-		if ( getModel( ) != null )
-			return getModel( ).hashCode( );
-		return super.hashCode( );
+	public int hashCode() {
+		if (getModel() != null)
+			return getModel().hashCode();
+		return super.hashCode();
 	}
 }

@@ -17,26 +17,25 @@ import org.eclipse.birt.chart.log.Logger;
 
 /**
  * GifRendererImpl
+ * 
  * @deprecated GIF rendering is deprecated, use PNG renderer instead
  * @see PngRendererImpl
  */
-public final class GifRendererImpl extends PngRendererImpl
-{
+public final class GifRendererImpl extends PngRendererImpl {
 
-	private static ILogger logger = Logger
-			.getLogger( "org.eclipse.birt.chart.device.extension/image" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.device.extension/image"); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#after()
 	 */
-	public final void after( ) throws ChartException
-	{
-		logger.log( ILogger.WARNING, "Chart GIF device renderer is deprecated, reverting to PNG renderer. Please update your code to use the PNG device renderer instead." //$NON-NLS-1$
-						 );
-		super.after( );
-			
+	public final void after() throws ChartException {
+		logger.log(ILogger.WARNING,
+				"Chart GIF device renderer is deprecated, reverting to PNG renderer. Please update your code to use the PNG device renderer instead." //$NON-NLS-1$
+		);
+		super.after();
+
 	}
 
 }

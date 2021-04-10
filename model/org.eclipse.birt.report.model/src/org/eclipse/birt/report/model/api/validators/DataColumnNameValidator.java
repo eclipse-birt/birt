@@ -40,10 +40,9 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * <code>DataItem</code>.
  */
 
-public class DataColumnNameValidator extends AbstractElementValidator
-{
+public class DataColumnNameValidator extends AbstractElementValidator {
 
-	private static DataColumnNameValidator instance = new DataColumnNameValidator( );
+	private static DataColumnNameValidator instance = new DataColumnNameValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -51,8 +50,7 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	 * @return the validator instance
 	 */
 
-	public static DataColumnNameValidator getInstance( )
-	{
+	public static DataColumnNameValidator getInstance() {
 		return instance;
 	}
 
@@ -60,29 +58,25 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	 * Private constructor.
 	 */
 
-	private DataColumnNameValidator( )
-	{
+	private DataColumnNameValidator() {
 
 	}
 
 	/**
 	 * Validates whether the page size is invalid.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the master page to validate
+	 * @param module  the module
+	 * @param element the master page to validate
 	 * 
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
-	{
-		if ( !( element instanceof DataItem ) )
+	public List validate(Module module, DesignElement element) {
+		if (!(element instanceof DataItem))
 			return Collections.EMPTY_LIST;
 
-		return doValidate( module, (DataItem) element );
+		return doValidate(module, (DataItem) element);
 	}
 
 	/**
@@ -93,79 +87,69 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	 * @return the list containing semantic errors.
 	 */
 
-	private List doValidate( Module module, DataItem toValidate )
-	{
-		List list = new ArrayList( );
+	private List doValidate(Module module, DataItem toValidate) {
+		List list = new ArrayList();
 
 		// find the corresponding data column in the data binding. If not find
 		// logs the error.
 
-		String columnName = (String) toValidate.getLocalProperty( module,
-				IDataItemModel.RESULT_SET_COLUMN_PROP );
+		String columnName = (String) toValidate.getLocalProperty(module, IDataItemModel.RESULT_SET_COLUMN_PROP);
 
-		if ( columnName == null )
+		if (columnName == null)
 			return list;
 
-		if ( !hasCorrespondingColumnBinding( module, toValidate, columnName ) )
-		{
-			list.add( new SemanticError( toValidate, new String[]{columnName},
-					SemanticError.DESIGN_EXCEPTION_MISSING_COLUMN_BINDING ) );
+		if (!hasCorrespondingColumnBinding(module, toValidate, columnName)) {
+			list.add(new SemanticError(toValidate, new String[] { columnName },
+					SemanticError.DESIGN_EXCEPTION_MISSING_COLUMN_BINDING));
 		}
 
 		return list;
 	}
 
 	/**
-	 * Checks the target has column name or not. See bug 205400. If one element
-	 * has boundDataColumns or data set, that's allowed.
+	 * Checks the target has column name or not. See bug 205400. If one element has
+	 * boundDataColumns or data set, that's allowed.
 	 * 
 	 * @param columnBindingName
 	 * @return <code>true</code> if the target has the column name.
 	 *         <code>false</code> otherwise.
 	 */
 
-	private static boolean hasCorrespondingColumnBinding( Module module,
-			DesignElement target, String columnBindingName )
-	{
-		if ( isInTemplateParameterDefinitionSlot( target ) )
+	private static boolean hasCorrespondingColumnBinding(Module module, DesignElement target,
+			String columnBindingName) {
+		if (isInTemplateParameterDefinitionSlot(target))
 			return true;
 
 		List columns = null;
 
 		// first find the column binding in the element itself
 		// see bug 205400, find itself.
-		columns = (List) target.getProperty( module,
-				IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-		if ( exists( columns, columnBindingName ) )
+		columns = (List) target.getProperty(module, IReportItemModel.BOUND_DATA_COLUMNS_PROP);
+		if (exists(columns, columnBindingName))
 			return true;
 
 		// if data defines data-set, stop searching and return false
-		if ( target.getProperty( module, IReportItemModel.DATA_SET_PROP ) != null
-				|| target.getProperty( module, IReportItemModel.CUBE_PROP ) != null )
+		if (target.getProperty(module, IReportItemModel.DATA_SET_PROP) != null
+				|| target.getProperty(module, IReportItemModel.CUBE_PROP) != null)
 			return false;
 
 		// search data-container: grid, list, table and extended-item(x-tab)
-		DesignElement container = target.getContainer( );
-		while ( container != null )
-		{
-			if ( isDataContainer( container ) )
-			{
-				columns = (List) container.getProperty( module,
-						IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-				if ( exists( columns, columnBindingName ) )
+		DesignElement container = target.getContainer();
+		while (container != null) {
+			if (isDataContainer(container)) {
+				columns = (List) container.getProperty(module, IReportItemModel.BOUND_DATA_COLUMNS_PROP);
+				if (exists(columns, columnBindingName))
 					return true;
 
 				// if data container defines data-set or cube, then we will stop
 				// searching: the container may define the property value itself
 				// or get an computed value with data binding reference
-				if ( container.getProperty( module,
-						IReportItemModel.DATA_SET_PROP ) != null
-						|| container.getProperty( module,
-								IReportItemModel.CUBE_PROP ) != null )
+				if (container.getProperty(module, IReportItemModel.DATA_SET_PROP) != null
+						|| container.getProperty(module, IReportItemModel.CUBE_PROP) != null)
 					break;
 			}
 
-			container = container.getContainer( );
+			container = container.getContainer();
 		}
 
 		return false;
@@ -179,11 +163,8 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	 * @param element
 	 * @return
 	 */
-	private static boolean isDataContainer( DesignElement element )
-	{
-		if ( element instanceof ListingElement || element instanceof GridItem
-				|| element instanceof ExtendedItem )
-		{
+	private static boolean isDataContainer(DesignElement element) {
+		if (element instanceof ListingElement || element instanceof GridItem || element instanceof ExtendedItem) {
 			return true;
 		}
 
@@ -191,20 +172,17 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	}
 
 	/**
-	 * Tests whether the given expression has corresponding column binding in
-	 * the given list.
+	 * Tests whether the given expression has corresponding column binding in the
+	 * given list.
 	 * 
-	 * @param columns
-	 *            the binding columns
-	 * @param columnName
-	 *            the old value expression in BIRT 2.1M5
-	 * @return <code>true</code> if the expression exists in the columns.
-	 *         Otherwise, <code>false</code>.
+	 * @param columns    the binding columns
+	 * @param columnName the old value expression in BIRT 2.1M5
+	 * @return <code>true</code> if the expression exists in the columns. Otherwise,
+	 *         <code>false</code>.
 	 */
 
-	private static boolean exists( List columns, String columnName )
-	{
-		if ( getColumn( columns, columnName ) == null )
+	private static boolean exists(List columns, String columnName) {
+		if (getColumn(columns, columnName) == null)
 			return false;
 
 		return true;
@@ -213,22 +191,18 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	/**
 	 * Gets the column with the given expression bound the given list.
 	 * 
-	 * @param columns
-	 *            the binding columns
-	 * @param name
-	 *            the column binding name
+	 * @param columns the binding columns
+	 * @param name    the column binding name
 	 * @return the bound column
 	 */
 
-	public static ComputedColumn getColumn( List columns, String name )
-	{
-		if ( ( columns == null ) || ( columns.size( ) == 0 ) || name == null )
+	public static ComputedColumn getColumn(List columns, String name) {
+		if ((columns == null) || (columns.size() == 0) || name == null)
 			return null;
 
-		for ( int i = 0; i < columns.size( ); i++ )
-		{
-			ComputedColumn column = (ComputedColumn) columns.get( i );
-			if ( name.equals( column.getName( ) ) )
+		for (int i = 0; i < columns.size(); i++) {
+			ComputedColumn column = (ComputedColumn) columns.get(i);
+			if (name.equals(column.getName()))
 				return column;
 		}
 		return null;

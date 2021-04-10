@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api.metadata;
 
-
 /**
  * Interface of the Meta-data information for an element property or an
  * extension model property. Includes the type, possible choices, display name,
@@ -19,8 +18,7 @@ package org.eclipse.birt.report.model.api.metadata;
  * method information, is visible to the GUI users and can be inherited, etc.
  */
 
-public interface IElementPropertyDefn extends IPropertyDefn
-{
+public interface IElementPropertyDefn extends IPropertyDefn {
 
 	/**
 	 * Returns the group name (if any) for the property.
@@ -29,7 +27,7 @@ public interface IElementPropertyDefn extends IPropertyDefn
 	 *         group.
 	 */
 
-	public String getGroupName( );
+	public String getGroupName();
 
 	/**
 	 * Returns the message ID for the group name.
@@ -37,23 +35,23 @@ public interface IElementPropertyDefn extends IPropertyDefn
 	 * @return The group name message ID.
 	 */
 
-	public String getGroupNameKey( );
+	public String getGroupNameKey();
 
 	/**
-	 * Indicates if derived elements can inherit the value of this property.
-	 * Most properties can inherit values from a parent element. A few system
-	 * properties, such as the name or extends, can't be inherited.
+	 * Indicates if derived elements can inherit the value of this property. Most
+	 * properties can inherit values from a parent element. A few system properties,
+	 * such as the name or extends, can't be inherited.
 	 * <p>
-	 * Note: This attribute is used for both style property and non-style
-	 * property with two different meanings.
+	 * Note: This attribute is used for both style property and non-style property
+	 * with two different meanings.
 	 * <ul>
-	 * <li>For style property, it determines whether this property can be
-	 * cascaded from container;
-	 * <li>For non-style property, that means whether this property can be
-	 * inherited from parent.
+	 * <li>For style property, it determines whether this property can be cascaded
+	 * from container;
+	 * <li>For non-style property, that means whether this property can be inherited
+	 * from parent.
 	 * </ul>
-	 * We take it because of the fact style is not inheritable, and the
-	 * following diagram:
+	 * We take it because of the fact style is not inheritable, and the following
+	 * diagram:
 	 * <p>
 	 * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
 	 * collapse" bordercolor="#111111">
@@ -75,7 +73,7 @@ public interface IElementPropertyDefn extends IPropertyDefn
 	 * @return Whether the property can inherit the parent's value.
 	 */
 
-	public boolean canInherit( );
+	public boolean canInherit();
 
 	/**
 	 * Indicates whether the property is associated with a style or not. If this
@@ -83,15 +81,15 @@ public interface IElementPropertyDefn extends IPropertyDefn
 	 * property can be "associated" with elements that have a style. If so, then
 	 * each element with a style will include the style property as though that
 	 * property were defined on the element itself. The meta-data for the style
-	 * property is copied onto the meta-data for the element. In this case, the
-	 * copy will also return true from isStyleProperty( ), indicating that the
-	 * element obtained the property implicitly from the style element.
+	 * property is copied onto the meta-data for the element. In this case, the copy
+	 * will also return true from isStyleProperty( ), indicating that the element
+	 * obtained the property implicitly from the style element.
 	 * 
-	 * @return Whether the property is defined on a style for the purpose of
-	 *         being used by elements.
+	 * @return Whether the property is defined on a style for the purpose of being
+	 *         used by elements.
 	 */
 
-	public boolean isStyleProperty( );
+	public boolean isStyleProperty();
 
 	/**
 	 * Checks whether the property is visible to the property sheet.
@@ -102,7 +100,7 @@ public interface IElementPropertyDefn extends IPropertyDefn
 	 * @deprecated by the method {@link IElementDefn#isPropertyVisible(String)}
 	 */
 
-	public boolean isVisible( );
+	public boolean isVisible();
 
 	/**
 	 * Checks whether the property value is read-only in the property sheet.
@@ -113,7 +111,7 @@ public interface IElementPropertyDefn extends IPropertyDefn
 	 * @deprecated by the method {@link IElementDefn#isPropertyReadOnly(String)}
 	 */
 
-	public boolean isReadOnly( );
+	public boolean isReadOnly();
 
 	/**
 	 * Returns the method information of this property.
@@ -122,15 +120,15 @@ public interface IElementPropertyDefn extends IPropertyDefn
 	 *         property is not a method property.
 	 */
 
-	public IMethodInfo getMethodInfo( );
+	public IMethodInfo getMethodInfo();
 
 	/**
-	 * Checks whether the property value can be edited by the user in the
-	 * property sheet.
+	 * Checks whether the property value can be edited by the user in the property
+	 * sheet.
 	 * 
 	 * @return <code>true</code> if the property value is read-only,
 	 *         <code>false</code> otherwise.
 	 */
 
-	public boolean isEditable( );
+	public boolean isEditable();
 }

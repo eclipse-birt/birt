@@ -21,40 +21,34 @@ import org.eclipse.jface.action.Action;
  * Abstract class for all global stack actions
  */
 
-public abstract class GlobalStackAction extends Action implements UpdateAction
-{
+public abstract class GlobalStackAction extends Action implements UpdateAction {
 
 	protected CommandStack stack;
 
-	protected GlobalStackAction( String id, CommandStack stack )
-	{
-		setId( id );
+	protected GlobalStackAction(String id, CommandStack stack) {
+		setId(id);
 		this.stack = stack;
-		stack.addListener( new ActivityStackListener( ) {
+		stack.addListener(new ActivityStackListener() {
 
-			public void stackChanged( ActivityStackEvent event )
-			{
-				if ( event.getStack( ) == GlobalStackAction.this.stack )
-				{
-					update( );
+			public void stackChanged(ActivityStackEvent event) {
+				if (event.getStack() == GlobalStackAction.this.stack) {
+					update();
 				}
 			}
 
-		} );
+		});
 	}
 
-	abstract protected boolean calculateEnabled( );
+	abstract protected boolean calculateEnabled();
 
-	abstract protected String getDisplayLabel( );
+	abstract protected String getDisplayLabel();
 
-	public void update( )
-	{
-		setEnabled( calculateEnabled( ) );
-		setText( getDisplayLabel( ) );
+	public void update() {
+		setEnabled(calculateEnabled());
+		setText(getDisplayLabel());
 	}
 
-	public CommandStack getStack( )
-	{
+	public CommandStack getStack() {
 		return stack;
 	}
 }

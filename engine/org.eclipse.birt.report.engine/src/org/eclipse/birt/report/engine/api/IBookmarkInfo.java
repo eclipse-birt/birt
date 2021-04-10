@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.engine.api;
 
-public interface IBookmarkInfo
-		extends
-			org.eclipse.birt.report.model.api.util.IBookmarkInfo
-{
+public interface IBookmarkInfo extends org.eclipse.birt.report.model.api.util.IBookmarkInfo {
 
 }

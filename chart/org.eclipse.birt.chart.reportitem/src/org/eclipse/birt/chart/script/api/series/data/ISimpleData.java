@@ -15,21 +15,19 @@ package org.eclipse.birt.chart.script.api.series.data;
  * Represents the data contained in the Series
  */
 
-public interface ISimpleData extends ISeriesData
-{
+public interface ISimpleData extends ISeriesData {
 
 	/**
 	 * Gets the expression.
 	 * 
 	 * @return expression
 	 */
-	String getExpr( );
+	String getExpr();
 
 	/**
 	 * Sets the expression
 	 * 
-	 * @param expr
-	 *            expression
+	 * @param expr expression
 	 */
-	void setExpr( String expr );
+	void setExpr(String expr);
 }

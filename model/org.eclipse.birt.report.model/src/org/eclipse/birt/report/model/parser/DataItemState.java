@@ -21,8 +21,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class DataItemState extends ReportItemState
-{
+public class DataItemState extends ReportItemState {
 
 	/**
 	 * The data item being created.
@@ -31,51 +30,42 @@ public class DataItemState extends ReportItemState
 	public DataItem element;
 
 	/**
-	 * Constructs the data item state with the design parser handler, the
-	 * container element and the container slot of the data item.
+	 * Constructs the data item state with the design parser handler, the container
+	 * element and the container slot of the data item.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public DataItemState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public DataItemState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/**
 	 * Constructs data item state with the design parser handler, the container
 	 * element and the container property name of the report element.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param prop
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param prop         the slot in which this element appears
 	 */
 
-	public DataItemState( ModuleParserHandler handler,
-			DesignElement theContainer, String prop )
-	{
-		super( handler, theContainer, prop );
+	public DataItemState(ModuleParserHandler handler, DesignElement theContainer, String prop) {
+		super(handler, theContainer, prop);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new DataItem( );
-		initElement( attrs );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new DataItem();
+		initElement(attrs);
 	}
 
 	/*
@@ -84,13 +74,11 @@ public class DataItemState extends ReportItemState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
-	public void end( )
-	{
-		makeTestExpressionCompatible( );
+	public void end() {
+		makeTestExpressionCompatible();
 	}
 }

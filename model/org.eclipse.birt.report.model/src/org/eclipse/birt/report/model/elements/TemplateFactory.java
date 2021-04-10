@@ -20,41 +20,32 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * Creates a new template element from a report item or a data set.
  */
 
-public class TemplateFactory
-{
+public class TemplateFactory {
 
 	/**
 	 * Creates a template element from the given default element.
 	 * 
-	 * @param module
-	 *            the module of the template to insert
-	 * @param defaultElement
-	 *            the base element
-	 * @param name
-	 *            name of the created template element
-	 * @return the created template element, or <code>null</code> if the
-	 *         default element is not a report item or a data set
+	 * @param module         the module of the template to insert
+	 * @param defaultElement the base element
+	 * @param name           name of the created template element
+	 * @return the created template element, or <code>null</code> if the default
+	 *         element is not a report item or a data set
 	 */
 
-	public static TemplateElement createTemplate( Module module,
-			DesignElement defaultElement, String name )
-	{
+	public static TemplateElement createTemplate(Module module, DesignElement defaultElement, String name) {
 		assert defaultElement != null;
-		if ( !ModelUtil.isTemplateSupported( defaultElement ) )
+		if (!ModelUtil.isTemplateSupported(defaultElement))
 			return null;
 
-		if ( defaultElement instanceof ReportItem )
-		{
-			if ( StringUtil.isBlank( name ) )
-				return new TemplateReportItem( );
-			return new TemplateReportItem( name );
+		if (defaultElement instanceof ReportItem) {
+			if (StringUtil.isBlank(name))
+				return new TemplateReportItem();
+			return new TemplateReportItem(name);
 
-		}
-		else if ( defaultElement instanceof SimpleDataSet )
-		{
-			TemplateDataSet template = new TemplateDataSet( name );
+		} else if (defaultElement instanceof SimpleDataSet) {
+			TemplateDataSet template = new TemplateDataSet(name);
 			assert module != null;
-			module.makeUniqueName( template );
+			module.makeUniqueName(template);
 			return template;
 		}
 

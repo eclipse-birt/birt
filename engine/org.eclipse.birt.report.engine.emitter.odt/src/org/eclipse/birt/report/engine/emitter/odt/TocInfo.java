@@ -10,13 +10,11 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.emitter.odt;
 
-public class TocInfo
-{
+public class TocInfo {
 	public String tocValue;
 	public int tocLevel;
 
-	TocInfo( String tocValue, int tocLevel )
-	{
+	TocInfo(String tocValue, int tocLevel) {
 		this.tocValue = tocValue;
 		this.tocLevel = tocLevel;
 	}

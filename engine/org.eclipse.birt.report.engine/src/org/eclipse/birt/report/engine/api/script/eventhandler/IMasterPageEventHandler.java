@@ -14,19 +14,17 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IPageInstance;
 
-
-public interface IMasterPageEventHandler
-{
+public interface IMasterPageEventHandler {
 	/**
 	 *
 	 * Handle the onPageStart event
 	 */
-	void onPageStart( IPageInstance page, IReportContext reportContext ) throws ScriptException;
+	void onPageStart(IPageInstance page, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 *
 	 * Handle the onPageEnd event
 	 */
-	void onPageEnd( IPageInstance page, IReportContext reportContext ) throws ScriptException;
+	void onPageEnd(IPageInstance page, IReportContext reportContext) throws ScriptException;
 
 }

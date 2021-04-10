@@ -35,98 +35,74 @@ import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 /**
  * BindingExpressionProvider
  */
-public class BindingExpressionProvider extends ExpressionProvider
-{
+public class BindingExpressionProvider extends ExpressionProvider {
 
 	private DataSetHandle dataSetHandle = null;
 
-	public BindingExpressionProvider( final DesignElementHandle handle,
-			final ComputedColumnHandle computedColumnHandle )
-	{
-		super( handle );
-		if ( handle instanceof TabularCubeHandle )
-		{
-			dataSetHandle = ( (TabularCubeHandle) handle ).getDataSet( );
-		}
-		else if ( handle instanceof TabularHierarchyHandle )
-		{
-			dataSetHandle = ( (TabularHierarchyHandle) handle ).getDataSet( );
-			if ( dataSetHandle == null
-					&& ( (TabularHierarchyHandle) handle ).getLevelCount( ) > 0 )
-			{
-				dataSetHandle = ( (TabularCubeHandle) ( (TabularHierarchyHandle) handle ).getContainer( )
-						.getContainer( ) ).getDataSet( );
+	public BindingExpressionProvider(final DesignElementHandle handle,
+			final ComputedColumnHandle computedColumnHandle) {
+		super(handle);
+		if (handle instanceof TabularCubeHandle) {
+			dataSetHandle = ((TabularCubeHandle) handle).getDataSet();
+		} else if (handle instanceof TabularHierarchyHandle) {
+			dataSetHandle = ((TabularHierarchyHandle) handle).getDataSet();
+			if (dataSetHandle == null && ((TabularHierarchyHandle) handle).getLevelCount() > 0) {
+				dataSetHandle = ((TabularCubeHandle) ((TabularHierarchyHandle) handle).getContainer().getContainer())
+						.getDataSet();
 			}
 		}
-		if ( handle instanceof ReportItemHandle )
-		{
-			dataSetHandle = ( (ReportItemHandle) handle ).getDataSet( );
-		}
-		else if ( handle instanceof GroupHandle )
-		{
-			dataSetHandle = ( (ReportItemHandle) ( (GroupHandle) handle ).getContainer( ) ).getDataSet( );
+		if (handle instanceof ReportItemHandle) {
+			dataSetHandle = ((ReportItemHandle) handle).getDataSet();
+		} else if (handle instanceof GroupHandle) {
+			dataSetHandle = ((ReportItemHandle) ((GroupHandle) handle).getContainer()).getDataSet();
 		}
 
-		if ( computedColumnHandle != null )
-		{
-			addFilter( new ExpressionFilter( ) {
+		if (computedColumnHandle != null) {
+			addFilter(new ExpressionFilter() {
 
-				public boolean select( Object parentElement, Object element )
-				{
-					if ( element instanceof ComputedColumnHandle
-							&& computedColumnHandle != null )
-					{
+				public boolean select(Object parentElement, Object element) {
+					if (element instanceof ComputedColumnHandle && computedColumnHandle != null) {
 						ComputedColumnHandle column = (ComputedColumnHandle) element;
-						if ( column.getName( )
-								.equals( computedColumnHandle.getName( ) ) )
+						if (column.getName().equals(computedColumnHandle.getName()))
 							return false;
 					}
 					return true;
 				}
-			} );
+			});
 		}
 	}
 
-	protected DataSetHandle getDataSetHandle()
-	{
+	protected DataSetHandle getDataSetHandle() {
 		return this.dataSetHandle;
 	}
-	
-	protected List getCategoryList( )
-	{
-		List categoryList = super.getCategoryList( );
-		if ( dataSetHandle != null )
-		{
+
+	protected List getCategoryList() {
+		List categoryList = super.getCategoryList();
+		if (dataSetHandle != null) {
 			// 185280
-			categoryList.add( 0, DATASETS );
+			categoryList.add(0, DATASETS);
 		}
 		return categoryList;
 	}
 
-	protected List getChildrenList( Object parent )
-	{
-		if ( DATASETS.equals( parent ) )
-		{
-			List dataSeList = new ArrayList( );
-			dataSeList.add( dataSetHandle );
+	protected List getChildrenList(Object parent) {
+		if (DATASETS.equals(parent)) {
+			List dataSeList = new ArrayList();
+			dataSeList.add(dataSetHandle);
 			return dataSeList;
 		}
-		if ( parent instanceof DataSetHandle )
-		{
-			try
-			{
-				List columnList = DataUtil.getColumnList( (DataSetHandle) parent );
-				List outputList = getOutputList( (DataSetHandle) parent );
-				columnList.addAll( outputList );
+		if (parent instanceof DataSetHandle) {
+			try {
+				List columnList = DataUtil.getColumnList((DataSetHandle) parent);
+				List outputList = getOutputList((DataSetHandle) parent);
+				columnList.addAll(outputList);
 				return columnList;
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
+			} catch (SemanticException e) {
+				ExceptionHandler.handle(e);
 				return Collections.EMPTY_LIST;
 			}
 		}
-		return super.getChildrenList( parent );
+		return super.getChildrenList(parent);
 	}
 
 	/**
@@ -135,51 +111,38 @@ public class BindingExpressionProvider extends ExpressionProvider
 	 * @param handle
 	 * @return
 	 */
-	private List getOutputList( DataSetHandle handle )
-	{
-		List outputList = new ArrayList( );
-		PropertyHandle parameters = handle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
-		Iterator iter = parameters.iterator( );
+	private List getOutputList(DataSetHandle handle) {
+		List outputList = new ArrayList();
+		PropertyHandle parameters = handle.getPropertyHandle(DataSetHandle.PARAMETERS_PROP);
+		Iterator iter = parameters.iterator();
 
-		if ( iter != null )
-		{
-			while ( iter.hasNext( ) )
-			{
-				Object dataSetParameter = iter.next( );
-				if ( ( (DataSetParameterHandle) dataSetParameter ).isOutput( ) == true )
-				{
-					outputList.add( dataSetParameter );
+		if (iter != null) {
+			while (iter.hasNext()) {
+				Object dataSetParameter = iter.next();
+				if (((DataSetParameterHandle) dataSetParameter).isOutput() == true) {
+					outputList.add(dataSetParameter);
 				}
 			}
 		}
 		return outputList;
 	}
 
-	public String getDisplayText( Object element )
-	{
-		if ( element instanceof DataSetHandle )
-		{
-			return ( (DataSetHandle) element ).getName( );
+	public String getDisplayText(Object element) {
+		if (element instanceof DataSetHandle) {
+			return ((DataSetHandle) element).getName();
+		} else if (element instanceof ResultSetColumnHandle) {
+			return ((ResultSetColumnHandle) element).getColumnName();
+		} else if (element instanceof DataSetParameterHandle) {
+			return ((DataSetParameterHandle) element).getName();
 		}
-		else if ( element instanceof ResultSetColumnHandle )
-		{
-			return ( (ResultSetColumnHandle) element ).getColumnName( );
-		}
-		else if ( element instanceof DataSetParameterHandle )
-		{
-			return ( (DataSetParameterHandle) element ).getName( );
-		}
-		return super.getDisplayText( element );
+		return super.getDisplayText(element);
 	}
 
-	public String getInsertText( Object element )
-	{
-		if ( element instanceof ResultSetColumnHandle
-				|| element instanceof DataSetParameterHandle )
-		{
-			return DEUtil.getExpression( element );
+	public String getInsertText(Object element) {
+		if (element instanceof ResultSetColumnHandle || element instanceof DataSetParameterHandle) {
+			return DEUtil.getExpression(element);
 		}
-		return super.getInsertText( element );
+		return super.getInsertText(element);
 	}
 
 }

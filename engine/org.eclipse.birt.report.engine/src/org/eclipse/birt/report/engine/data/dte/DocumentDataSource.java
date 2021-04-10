@@ -16,65 +16,52 @@ import java.io.IOException;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.engine.api.InstanceID;
 
-public class DocumentDataSource
-{
+public class DocumentDataSource {
 
 	IDocArchiveReader dataSource;
 	InstanceID iid;
 	String bookmark;
 
-	public DocumentDataSource( IDocArchiveReader dataSource )
-	{
-		this( dataSource, null, null );
+	public DocumentDataSource(IDocArchiveReader dataSource) {
+		this(dataSource, null, null);
 	}
 
-
-	public DocumentDataSource( IDocArchiveReader dataSource, String bookmark, InstanceID iid )
-	{
+	public DocumentDataSource(IDocArchiveReader dataSource, String bookmark, InstanceID iid) {
 		this.dataSource = dataSource;
 		this.bookmark = bookmark;
-		if ( iid != null )
-		{
+		if (iid != null) {
 			this.iid = iid;
 		}
 	}
-	
-	public boolean isReportletDocument()
-	{
-		return bookmark!=null && iid!=null;
+
+	public boolean isReportletDocument() {
+		return bookmark != null && iid != null;
 	}
 
-	public void open( ) throws IOException
-	{
-		dataSource.open( );
+	public void open() throws IOException {
+		dataSource.open();
 	}
 
-	public void close( ) throws IOException
-	{
-		dataSource.close( );
+	public void close() throws IOException {
+		dataSource.close();
 	}
 
-	public IDocArchiveReader getDataSource( )
-	{
+	public IDocArchiveReader getDataSource() {
 		return dataSource;
 	}
 
-	public InstanceID getInstanceID( )
-	{
+	public InstanceID getInstanceID() {
 		return iid;
 	}
 
-	public long getElementID( )
-	{
-		if ( iid != null )
-		{
-			return iid.getComponentID( );
+	public long getElementID() {
+		if (iid != null) {
+			return iid.getComponentID();
 		}
 		return -1;
 	}
-	
-	public String getBookmark( )
-	{
+
+	public String getBookmark() {
 		return bookmark;
 	}
 }

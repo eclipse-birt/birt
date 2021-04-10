@@ -21,10 +21,7 @@ import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
  * 
  *
  */
-class DimensionCursorImpl extends AbstractCursorSupport
-		implements
-			DimensionCursor
-{
+class DimensionCursorImpl extends AbstractCursorSupport implements DimensionCursor {
 
 	private EdgeCursor edgeCursor;
 	private DimensionAxis dimensionAxis;
@@ -36,10 +33,9 @@ class DimensionCursorImpl extends AbstractCursorSupport
 	 * @param navigator
 	 * @throws OLAPException
 	 */
-	DimensionCursorImpl( EdgeCursor edgeCursor, DimensionAxis dimensionAxis,
-			DimensionNavigator navigator ) throws OLAPException
-	{
-		super( navigator, new DimensionAccessor( dimensionAxis ) );
+	DimensionCursorImpl(EdgeCursor edgeCursor, DimensionAxis dimensionAxis, DimensionNavigator navigator)
+			throws OLAPException {
+		super(navigator, new DimensionAccessor(dimensionAxis));
 		this.edgeCursor = edgeCursor;
 		this.dimensionAxis = dimensionAxis;
 	}
@@ -47,58 +43,53 @@ class DimensionCursorImpl extends AbstractCursorSupport
 	/*
 	 * @see javax.olap.cursor.DimensionCursor#getEdgeCursor()
 	 */
-	public EdgeCursor getEdgeCursor( ) throws OLAPException
-	{
+	public EdgeCursor getEdgeCursor() throws OLAPException {
 		return this.edgeCursor;
 	}
 
 	/*
 	 * @see javax.olap.cursor.DimensionCursor#getEdgeEnd()
 	 */
-	public long getEdgeEnd( ) throws OLAPException
-	{
-		return dimensionAxis.getEdgeEnd( );
+	public long getEdgeEnd() throws OLAPException {
+		return dimensionAxis.getEdgeEnd();
 	}
 
 	/*
 	 * @see javax.olap.cursor.DimensionCursor#getEdgeStart()
 	 */
-	public long getEdgeStart( ) throws OLAPException
-	{
-		return dimensionAxis.getEdgeStart( );
+	public long getEdgeStart() throws OLAPException {
+		return dimensionAxis.getEdgeStart();
 
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.cursor.AbstractCursorSupport#getExtent()
-	 */
-	public long getExtent( ) throws OLAPException
-	{
-		return dimensionAxis.getExtend( );
 	}
 
 	/*
-	 * @see javax.olap.cursor.DimensionCursor#setEdgeCursor(javax.olap.cursor.EdgeCursor)
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.cursor.AbstractCursorSupport#getExtent()
 	 */
-	public void setEdgeCursor( EdgeCursor value ) throws OLAPException
-	{
+	public long getExtent() throws OLAPException {
+		return dimensionAxis.getExtend();
+	}
+
+	/*
+	 * @see
+	 * javax.olap.cursor.DimensionCursor#setEdgeCursor(javax.olap.cursor.EdgeCursor)
+	 */
+	public void setEdgeCursor(EdgeCursor value) throws OLAPException {
 		this.edgeCursor = value;
 	}
 
 	/**
 	 * 
 	 */
-	public void setEdgeEnd( long value ) throws OLAPException
-	{
-		throw new UnsupportedOperationException( );
+	public void setEdgeEnd(long value) throws OLAPException {
+		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * 
 	 */
-	public void setEdgeStart( long value ) throws OLAPException
-	{
-		throw new UnsupportedOperationException( );
+	public void setEdgeStart(long value) throws OLAPException {
+		throw new UnsupportedOperationException();
 
 	}
 }

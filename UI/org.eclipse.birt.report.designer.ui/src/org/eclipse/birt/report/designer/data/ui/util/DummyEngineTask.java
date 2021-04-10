@@ -31,76 +31,64 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
  * 
  */
 
-public class DummyEngineTask extends RunAndRenderTask
-{	
+public class DummyEngineTask extends RunAndRenderTask {
 	private DataSetHandle dataSetHandle;
-	
-	public DummyEngineTask( ReportEngine engine, IReportRunnable runnable, ModuleHandle moduleHandle )
-	{
-		this( engine, runnable, moduleHandle, null);
+
+	public DummyEngineTask(ReportEngine engine, IReportRunnable runnable, ModuleHandle moduleHandle) {
+		this(engine, runnable, moduleHandle, null);
 	}
-	
-	public DummyEngineTask( ReportEngine engine, IReportRunnable runnable, ModuleHandle moduleHandle, DataSetHandle handle )
-	{
-		super( engine, runnable );
-		setEngineTaskParameters( this, moduleHandle );
+
+	public DummyEngineTask(ReportEngine engine, IReportRunnable runnable, ModuleHandle moduleHandle,
+			DataSetHandle handle) {
+		super(engine, runnable);
+		setEngineTaskParameters(this, moduleHandle);
 		this.taskType = IEngineTask.TASK_UNKNOWN;
 		this.dataSetHandle = handle;
 	}
-	
-	public void run() throws EngineException
-	{
-		usingParameterValues( );
-		loadDesign( );
+
+	public void run() throws EngineException {
+		usingParameterValues();
+		loadDesign();
 
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.impl.EngineTask#getDataSession()
 	 */
-	public DataRequestSession getDataSession( ) throws EngineException
-	{
-		DataRequestSession session = super.getDataSession( );
-		if ( dataSetHandle != null )
-		{
-			try
-			{
-				ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter( executionContext );
-				apiAdapter.defineDataSet( dataSetHandle, session );
-			}
-			catch ( BirtException ex )
-			{
-				throw new EngineException( ex );
+	public DataRequestSession getDataSession() throws EngineException {
+		DataRequestSession session = super.getDataSession();
+		if (dataSetHandle != null) {
+			try {
+				ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter(executionContext);
+				apiAdapter.defineDataSet(dataSetHandle, session);
+			} catch (BirtException ex) {
+				throw new EngineException(ex);
 			}
 		}
 		return session;
 	}
 
-	public ExecutionContext getExecutionContext( )
-	{
+	public ExecutionContext getExecutionContext() {
 		return this.executionContext;
 	}
+
 	/**
-	 * Fetch the report parameter name/value pairs from the rptconfig file. 
-	 * And also set all the parameters whose value is not null to the Engine task.
+	 * Fetch the report parameter name/value pairs from the rptconfig file. And also
+	 * set all the parameters whose value is not null to the Engine task.
 	 * 
 	 * @param engineTask
 	 */
-	private void setEngineTaskParameters( DummyEngineTask engineTask, ModuleHandle moduleHandle )
-	{
-		List paramsList = moduleHandle.getAllParameters( );
-		for ( int i = 0; i < paramsList.size( ); i++ )
-		{
-			Object parameterObject = paramsList.get( i );
-			if ( parameterObject instanceof ScalarParameterHandle )
-			{
+	private void setEngineTaskParameters(DummyEngineTask engineTask, ModuleHandle moduleHandle) {
+		List paramsList = moduleHandle.getAllParameters();
+		for (int i = 0; i < paramsList.size(); i++) {
+			Object parameterObject = paramsList.get(i);
+			if (parameterObject instanceof ScalarParameterHandle) {
 				ScalarParameterHandle parameterHandle = (ScalarParameterHandle) parameterObject;
-				Object value = DataAdapterUtil.getParamValueFromConfigFile( parameterHandle );
-				if ( value != null )
-				{
-					engineTask.setParameter( parameterHandle.getName( ),
-							value,
-							parameterHandle.getDisplayName( ) );
+				Object value = DataAdapterUtil.getParamValueFromConfigFile(parameterHandle);
+				if (value != null) {
+					engineTask.setParameter(parameterHandle.getName(), value, parameterHandle.getDisplayName());
 				}
 			}
 		}

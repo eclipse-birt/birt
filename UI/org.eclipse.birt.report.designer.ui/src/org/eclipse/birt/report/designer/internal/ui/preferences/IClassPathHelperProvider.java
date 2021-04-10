@@ -19,9 +19,10 @@ import org.eclipse.core.resources.IProject;
  * Provider to support the class path block
  */
 
-public interface IClassPathHelperProvider
-{
-	/**Create the block.
+public interface IClassPathHelperProvider {
+	/**
+	 * Create the block.
+	 * 
 	 * @param listener
 	 * @param project
 	 * @return

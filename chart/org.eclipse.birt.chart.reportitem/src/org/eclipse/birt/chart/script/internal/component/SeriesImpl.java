@@ -21,22 +21,19 @@ import org.eclipse.birt.chart.script.internal.series.data.SimpleDataImpl;
  * 
  */
 
-public abstract class SeriesImpl
-{
+public abstract class SeriesImpl {
 
 	protected SeriesDefinition sd;
 	protected Series series;
 	protected Chart cm;
 
-	protected SeriesImpl( SeriesDefinition sd, Chart cm )
-	{
+	protected SeriesImpl(SeriesDefinition sd, Chart cm) {
 		this.sd = sd;
-		this.series = sd.getDesignTimeSeries( );
+		this.series = sd.getDesignTimeSeries();
 		this.cm = cm;
 	}
 
-	public ISeriesData getDataExpr( )
-	{
-		return new SimpleDataImpl( sd );
+	public ISeriesData getDataExpr() {
+		return new SimpleDataImpl(sd);
 	}
 }

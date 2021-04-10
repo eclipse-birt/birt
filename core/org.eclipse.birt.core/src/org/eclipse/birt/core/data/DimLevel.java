@@ -15,85 +15,70 @@ package org.eclipse.birt.core.data;
  * This class is an Implementation of IDimLevel.
  * 
  */
-class DimLevel implements IDimLevel
-{
+class DimLevel implements IDimLevel {
 
 	private String dimensionName;
 	private String levelName;
 	private String attrName;
-	
+
 	private String qualifiedName;
-	
 
 	/**
 	 * @param dimensionName
 	 * @param levelName
 	 */
-	public DimLevel( String dimensionName, String levelName )
-	{
-		this( dimensionName, levelName, null );
-	}
-	
-	public DimLevel( String dimensionName, String levelName, String attrName )
-	{
-		this.dimensionName = dimensionName;
-		this.levelName = levelName;
-		this.attrName  = attrName;
-		setQualifiedName( );
+	public DimLevel(String dimensionName, String levelName) {
+		this(dimensionName, levelName, null);
 	}
 
-	private void setQualifiedName( )
-	{
-		qualifiedName = getAttrReference( dimensionName,
-				levelName,
-				attrName == null ? levelName : attrName );
+	public DimLevel(String dimensionName, String levelName, String attrName) {
+		this.dimensionName = dimensionName;
+		this.levelName = levelName;
+		this.attrName = attrName;
+		setQualifiedName();
 	}
-	
-	private String getAttrReference( String dimName, String levelName,
-			String attrName )
-	{
+
+	private void setQualifiedName() {
+		qualifiedName = getAttrReference(dimensionName, levelName, attrName == null ? levelName : attrName);
+	}
+
+	private String getAttrReference(String dimName, String levelName, String attrName) {
 		return dimName + '/' + levelName + '/' + attrName;
 	}
 
 	/**
 	 * @return the dimensionName
 	 */
-	public String getDimensionName( )
-	{
+	public String getDimensionName() {
 		return dimensionName;
 	}
 
 	/**
 	 * @return the levelName
 	 */
-	public String getLevelName( )
-	{
+	public String getLevelName() {
 		return levelName;
 	}
 
 	/**
 	 * Return the attribute name.
+	 * 
 	 * @return
 	 */
-	public String getAttrName( )
-	{
+	public String getAttrName() {
 		return this.attrName;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode( )
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime
-				* result
-				+ ( ( dimensionName == null ) ? 0 : dimensionName.hashCode( ) );
-		result = prime
-				* result + ( ( levelName == null ) ? 0 : levelName.hashCode( ) );
+		result = prime * result + ((dimensionName == null) ? 0 : dimensionName.hashCode());
+		result = prime * result + ((levelName == null) ? 0 : levelName.hashCode());
 		return result;
 	}
 
@@ -102,28 +87,23 @@ class DimLevel implements IDimLevel
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals( Object obj )
-	{
-		if ( this == obj )
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		if ( obj == null )
+		if (obj == null)
 			return false;
-		if ( !( obj instanceof DimLevel ) )
+		if (!(obj instanceof DimLevel))
 			return false;
 		final DimLevel other = (DimLevel) obj;
-		if ( dimensionName == null )
-		{
-			if ( other.dimensionName != null )
+		if (dimensionName == null) {
+			if (other.dimensionName != null)
 				return false;
-		}
-		else if ( !dimensionName.equals( other.dimensionName ) )
+		} else if (!dimensionName.equals(other.dimensionName))
 			return false;
-		if ( levelName == null )
-		{
-			if ( other.levelName != null )
+		if (levelName == null) {
+			if (other.levelName != null)
 				return false;
-		}
-		else if ( !levelName.equals( other.levelName ) )
+		} else if (!levelName.equals(other.levelName))
 			return false;
 		return true;
 	}
@@ -133,8 +113,7 @@ class DimLevel implements IDimLevel
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString( )
-	{
+	public String toString() {
 		return qualifiedName;
 	}
 
@@ -143,13 +122,11 @@ class DimLevel implements IDimLevel
 	 * 
 	 * @see java.lang.Comparable#compareTo(T)
 	 */
-	public int compareTo( Object obj )
-	{
-		if ( obj == null || !( obj instanceof DimLevel ) )
-		{
+	public int compareTo(Object obj) {
+		if (obj == null || !(obj instanceof DimLevel)) {
 			return -1;
 		}
 		DimLevel dimLevel = (DimLevel) obj;
-		return this.toString( ).compareTo( dimLevel.toString( ) );
+		return this.toString().compareTo(dimLevel.toString());
 	}
 }

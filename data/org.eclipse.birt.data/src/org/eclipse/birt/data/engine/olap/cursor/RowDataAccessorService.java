@@ -7,8 +7,7 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
  * This class provide the available information when populating edgeInfo.
  * 
  */
-public class RowDataAccessorService
-{
+public class RowDataAccessorService {
 	private DimensionAxis[] dimAxis;
 	private BirtEdgeView view;
 
@@ -19,19 +18,16 @@ public class RowDataAccessorService
 	 * @param dimAxis
 	 * @param mirrorStartPosition
 	 */
-	public RowDataAccessorService( DimensionAxis[] dimAxis, BirtEdgeView view )
-	{
+	public RowDataAccessorService(DimensionAxis[] dimAxis, BirtEdgeView view) {
 		this.dimAxis = dimAxis;
 		this.view = view;
 	}
 
-	public DimensionAxis[] getDimensionAxis( )
-	{
+	public DimensionAxis[] getDimensionAxis() {
 		return this.dimAxis;
 	}
-	
-	public int getPagePosition( )
-	{
-		return this.view.getPageEndingIndex( );
-	}	
+
+	public int getPagePosition() {
+		return this.view.getPageEndingIndex();
+	}
 }

@@ -15,14 +15,12 @@ package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
  * Drag guide model
  */
 
-public class DragEditorGuide extends EditorGuide
-{
+public class DragEditorGuide extends EditorGuide {
 	/**
 	 * @param isHorizontal
 	 * @param direction
 	 */
-	public DragEditorGuide( boolean isHorizontal )
-	{
-		super( isHorizontal, -1 );
+	public DragEditorGuide(boolean isHorizontal) {
+		super(isHorizontal, -1);
 	}
 }

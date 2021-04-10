@@ -27,16 +27,14 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  * Implements the built-in Total.movingAva aggregation
  */
-public class TotalRunningSum extends AggrFunction
-{
+public class TotalRunningSum extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC;
 	}
 
@@ -45,8 +43,7 @@ public class TotalRunningSum extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return RUNNING_AGGR;
 	}
 
@@ -55,8 +52,7 @@ public class TotalRunningSum extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
-	public int getDataType( )
-	{
+	public int getDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 
@@ -65,15 +61,9 @@ public class TotalRunningSum extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getParameterDefn()
 	 */
-	public IParameterDefn[] getParameterDefn( )
-	{
-		return new IParameterDefn[]{
-			new ParameterDefn( Constants.EXPRESSION_NAME,
-					Constants.EXPRESSION_DISPLAY_NAME,
-					false,
-					true,
-					SupportedDataTypes.CALCULATABLE,
-					"" ) //$NON-NLS-1$
+	public IParameterDefn[] getParameterDefn() {
+		return new IParameterDefn[] { new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME,
+				false, true, SupportedDataTypes.CALCULATABLE, "") //$NON-NLS-1$
 		};
 	}
 
@@ -82,21 +72,18 @@ public class TotalRunningSum extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
 	 */
-	public Accumulator newAccumulator( )
-	{
-		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+	public Accumulator newAccumulator() {
+		return new MyAccumulator(CalculatorFactory.getCalculator(getDataType()));
 	}
 
-	private static class MyAccumulator extends RunningAccumulator
-	{
+	private static class MyAccumulator extends RunningAccumulator {
 
 		private boolean isRowAvailable = false;
 
 		private Number sum = null;
 
-		MyAccumulator( ICalculator calc )
-		{
-			super( calc );
+		MyAccumulator(ICalculator calc) {
+			super(calc);
 		}
 
 		/*
@@ -104,9 +91,8 @@ public class TotalRunningSum extends AggrFunction
 		 * 
 		 * @see org.eclipse.birt.data.engine.aggregation.RunningAccumulator#start()
 		 */
-		public void start( ) throws DataException
-		{
-			super.start( );
+		public void start() throws DataException {
+			super.start();
 			sum = null;
 			isRowAvailable = false;
 		}
@@ -114,16 +100,15 @@ public class TotalRunningSum extends AggrFunction
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[])
+		 * @see
+		 * org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[]
+		 * )
 		 */
-		public void onRow( Object[] args ) throws DataException
-		{
-			assert ( args.length > 0 );
-			if ( args[0] != null )
-			{
-				sum = calculator.add( sum, calculator.getTypedObject( args[0] ) );
-				if ( !isRowAvailable )
-				{
+		public void onRow(Object[] args) throws DataException {
+			assert (args.length > 0);
+			if (args[0] != null) {
+				sum = calculator.add(sum, calculator.getTypedObject(args[0]));
+				if (!isRowAvailable) {
 					isRowAvailable = true;
 				}
 			}
@@ -134,9 +119,8 @@ public class TotalRunningSum extends AggrFunction
 		 * 
 		 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#getValue()
 		 */
-		public Object getValue( )
-		{
-			return ( isRowAvailable ? sum : null );
+		public Object getValue() {
+			return (isRowAvailable ? sum : null);
 		}
 
 	}
@@ -144,20 +128,20 @@ public class TotalRunningSum extends AggrFunction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	public String getDescription( )
-	{
-		return Messages.getString( "TotalRunningSum.description" ); //$NON-NLS-1$
+	public String getDescription() {
+		return Messages.getString("TotalRunningSum.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "TotalRunningSum.displayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("TotalRunningSum.displayName"); //$NON-NLS-1$
 	}
 }

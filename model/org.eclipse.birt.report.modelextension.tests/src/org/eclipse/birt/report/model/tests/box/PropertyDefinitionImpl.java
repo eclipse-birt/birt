@@ -21,10 +21,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * Implements <code>IPropertyDefinition</code> for testing
  */
 
-public class PropertyDefinitionImpl extends PropertyDefinition
-		implements
-			IPropertyDefinition
-{
+public class PropertyDefinitionImpl extends PropertyDefinition implements IPropertyDefinition {
 
 	String name = null;
 
@@ -49,8 +46,7 @@ public class PropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getGroupName()
 	 */
-	public String getGroupNameID( )
-	{
+	public String getGroupNameID() {
 		return groupNameID;
 	}
 
@@ -59,13 +55,11 @@ public class PropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	void setName( String name )
-	{
+	void setName(String name) {
 		this.name = name;
 	}
 
@@ -74,13 +68,11 @@ public class PropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return displayNameID;
 	}
 
-	public void setDisplayNameID( String displayNameID )
-	{
+	public void setDisplayNameID(String displayNameID) {
 		this.displayNameID = displayNameID;
 	}
 
@@ -89,13 +81,11 @@ public class PropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return type;
 	}
 
-	void setType( int type )
-	{
+	void setType(int type) {
 		this.type = type;
 	}
 
@@ -104,8 +94,7 @@ public class PropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#isList()
 	 */
-	public boolean isList( )
-	{
+	public boolean isList() {
 		return isList;
 	}
 
@@ -114,9 +103,8 @@ public class PropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getChoices()
 	 */
-	public List getChoices( )
-	{
-		if ( type != PropertyType.CHOICE_TYPE )
+	public List getChoices() {
+		if (type != PropertyType.CHOICE_TYPE)
 			return null;
 		return choices;
 	}
@@ -126,9 +114,8 @@ public class PropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getMembers()
 	 */
-	public List getMembers( )
-	{
-		if ( type != PropertyType.STRUCT_TYPE )
+	public List getMembers() {
+		if (type != PropertyType.STRUCT_TYPE)
 			return null;
 		return members;
 	}
@@ -138,26 +125,21 @@ public class PropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getDefaultValue()
 	 */
-	public Object getDefaultValue( )
-	{
+	public Object getDefaultValue() {
 		return defaultValue;
 	}
 
 	/**
-	 * @param groupNameID
-	 *            The group to set.
+	 * @param groupNameID The group to set.
 	 */
-	public void setGroupNameID( String groupNameID )
-	{
+	public void setGroupNameID(String groupNameID) {
 		this.groupNameID = groupNameID;
 	}
 
 	/**
-	 * @param isList
-	 *            The isList to set.
+	 * @param isList The isList to set.
 	 */
-	public void setIsList( boolean isList )
-	{
+	public void setIsList(boolean isList) {
 		this.isList = isList;
 	}
 
@@ -166,18 +148,18 @@ public class PropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#canInherit()
 	 */
-	public boolean canInherit( )
-	{
+	public boolean canInherit() {
 		return canInherit;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID(
+	 * )
 	 */
-	public String getDisplayNameID( )
-	{
+	public String getDisplayNameID() {
 		return displayNameID;
 	}
 }

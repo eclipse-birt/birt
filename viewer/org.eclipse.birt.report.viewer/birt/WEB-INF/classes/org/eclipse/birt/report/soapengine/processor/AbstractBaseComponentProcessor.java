@@ -18,63 +18,51 @@ import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.utility.BirtUtility;
 
-public abstract class AbstractBaseComponentProcessor
-		implements
-			IComponentProcessor
-{
+public abstract class AbstractBaseComponentProcessor implements IComponentProcessor {
 
 	/**
 	 * Abstract methods.
 	 */
-	abstract protected Hashtable getOpMap( );
+	abstract protected Hashtable getOpMap();
 
-	abstract protected String[] getOperatorList( );
+	abstract protected String[] getOperatorList();
 
-	abstract protected void __executeAction( IActionHandler action,
-			IContext context, Operation op, GetUpdatedObjectsResponse response )
-			throws RemoteException;
+	abstract protected void __executeAction(IActionHandler action, IContext context, Operation op,
+			GetUpdatedObjectsResponse response) throws RemoteException;
 
 	/**
 	 * Default constructor.
 	 */
-	public AbstractBaseComponentProcessor( )
-	{
-		Hashtable map = getOpMap( );
-		if ( map.size( ) <= 0 )
-		{
-			synchronized ( map )
-			{
-				initOpMap( map, getOperatorList( ) );
+	public AbstractBaseComponentProcessor() {
+		Hashtable map = getOpMap();
+		if (map.size() <= 0) {
+			synchronized (map) {
+				initOpMap(map, getOperatorList());
 			}
 		}
 	}
 
 	/**
-	 * Init operation map. Operation method format: handleXXX( IContext,
-	 * Operation, GetUpdatedObjectsResponse );
+	 * Init operation map. Operation method format: handleXXX( IContext, Operation,
+	 * GetUpdatedObjectsResponse );
 	 * 
 	 * @param operatorMap
 	 * @param operators
 	 */
-	protected void initOpMap( Hashtable operatorMap, String[] operators )
-	{
-		for ( int i = 0; i < operators.length; i++ )
-		{
+	protected void initOpMap(Hashtable operatorMap, String[] operators) {
+		for (int i = 0; i < operators.length; i++) {
 			String methodName = "handle" + operators[i]; //$NON-NLS-1$
 			Class[] args = new Class[3];
 			args[0] = IContext.class;
 			args[1] = Operation.class;
 			args[2] = GetUpdatedObjectsResponse.class;
 
-			try
-			{
-				Method method = this.getClass( ).getMethod( methodName, args );
-				operatorMap.put( operators[i].toUpperCase( ), method );
-			}
-			catch ( Exception e )
-			{
+			try {
+				Method method = this.getClass().getMethod(methodName, args);
+				operatorMap.put(operators[i].toUpperCase(), method);
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace( );
+				e.printStackTrace();
 				assert false;
 			}
 		}
@@ -88,40 +76,30 @@ public abstract class AbstractBaseComponentProcessor
 	 * @param response
 	 * @throws RemoteException
 	 */
-	public void process( IContext context, Operation op,
-			GetUpdatedObjectsResponse response ) throws RemoteException
-	{
+	public void process(IContext context, Operation op, GetUpdatedObjectsResponse response) throws RemoteException {
 		assert context != null;
-		String operator = op.getOperator( ).toUpperCase( );
-		if ( operator == null )
-		{
+		String operator = op.getOperator().toUpperCase();
+		if (operator == null) {
 			// TODO: need s common method for this.
-			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName( this.getClass( ).getName( ) ) );
-			fault
-					.setFaultString( BirtResources
-							.getMessage( ResourceConstants.COMPONENT_PROCESSOR_EXCEPTION_MISSING_OPERATOR ) );
+			AxisFault fault = new AxisFault();
+			fault.setFaultCode(new QName(this.getClass().getName()));
+			fault.setFaultString(
+					BirtResources.getMessage(ResourceConstants.COMPONENT_PROCESSOR_EXCEPTION_MISSING_OPERATOR));
 			throw fault;
 		}
 
-		Method method = (Method) getOpMap( ).get( operator );
-		if ( method != null )
-		{
-			try
-			{
-				method.invoke( this, new Object[]{context, op, response} );
-			}
-			catch ( InvocationTargetException e )
-			{
-				Exception target = (Exception) e.getTargetException( );
-				throw BirtUtility.makeAxisFault( target );
-			}
-			catch ( Exception e )
-			{
+		Method method = (Method) getOpMap().get(operator);
+		if (method != null) {
+			try {
+				method.invoke(this, new Object[] { context, op, response });
+			} catch (InvocationTargetException e) {
+				Exception target = (Exception) e.getTargetException();
+				throw BirtUtility.makeAxisFault(target);
+			} catch (Exception e) {
 				// TODO: clear this out.
-				AxisFault fault = new AxisFault( );
-				fault.setFaultCode( new QName( "Clear out this." ) ); //$NON-NLS-1$
-				fault.setFaultString( e.getLocalizedMessage( ) );
+				AxisFault fault = new AxisFault();
+				fault.setFaultCode(new QName("Clear out this.")); //$NON-NLS-1$
+				fault.setFaultString(e.getLocalizedMessage());
 				throw fault;
 			}
 		}
@@ -136,16 +114,13 @@ public abstract class AbstractBaseComponentProcessor
 	 * @param response
 	 * @throws RemoteException
 	 */
-	protected void executeAction( IActionHandler action, IContext context,
-			Operation op, GetUpdatedObjectsResponse response )
-			throws RemoteException
-	{
-		__executeAction( action, context, op, response );
+	protected void executeAction(IActionHandler action, IContext context, Operation op,
+			GetUpdatedObjectsResponse response) throws RemoteException {
+		__executeAction(action, context, op, response);
 	}
 
-	protected long getDesignId( String instanceId )
-	{
-		return InstanceID.parse( instanceId ).getComponentID( );
+	protected long getDesignId(String instanceId) {
+		return InstanceID.parse(instanceId).getComponentID();
 	}
 
 }

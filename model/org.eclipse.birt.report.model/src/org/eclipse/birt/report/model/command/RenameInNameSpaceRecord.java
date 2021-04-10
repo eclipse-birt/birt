@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.core.namespace.NameExecutor;
  * Record for renaming element in name space.
  */
 
-class RenameInNameSpaceRecord extends SimpleRecord
-{
+class RenameInNameSpaceRecord extends SimpleRecord {
 
 	private DesignElement element = null;
 	private String oldName = null;
@@ -38,23 +37,18 @@ class RenameInNameSpaceRecord extends SimpleRecord
 	 * 
 	 * @param module
 	 * 
-	 * @param element
-	 *            the element for renaming
-	 * @param oldName
-	 *            old name
-	 * @param newName
-	 *            new name
+	 * @param element the element for renaming
+	 * @param oldName old name
+	 * @param newName new name
 	 */
 
-	RenameInNameSpaceRecord( Module module, DesignElement element,
-			String oldName, String newName )
-	{
+	RenameInNameSpaceRecord(Module module, DesignElement element, String oldName, String newName) {
 		this.element = element;
 		this.oldName = oldName;
 		this.newName = newName;
-		NameExecutor executor = new NameExecutor( module, element );
-		this.nameHelper = executor.getNameHelper( );
-		this.nameSpaceID = executor.getNameSpaceId( );
+		NameExecutor executor = new NameExecutor(module, element);
+		this.nameHelper = executor.getNameHelper();
+		this.nameSpaceID = executor.getNameSpaceId();
 	}
 
 	/*
@@ -63,42 +57,34 @@ class RenameInNameSpaceRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
-		NameSpace ns = nameHelper.getNameSpace( nameSpaceID );
+	protected void perform(boolean undo) {
+		NameSpace ns = nameHelper.getNameSpace(nameSpaceID);
 
-		if ( undo )
-		{
-			ns.rename( element, newName, oldName );
-		}
-		else
-		{
-			ns.rename( element, oldName, newName );
+		if (undo) {
+			ns.rename(element, newName, oldName);
+		} else {
+			ns.rename(element, oldName, newName);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
-	public DesignElement getTarget( )
-	{
-		return nameHelper.getElement( );
+	public DesignElement getTarget() {
+		return nameHelper.getElement();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		return new NameEvent( element, oldName, newName );
+	public NotificationEvent getEvent() {
+		return new NameEvent(element, oldName, newName);
 	}
 
 }

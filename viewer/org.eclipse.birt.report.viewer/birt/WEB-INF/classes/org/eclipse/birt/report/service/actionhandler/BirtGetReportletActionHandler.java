@@ -35,8 +35,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * Action handler for get reportlet content.
  * 
  */
-public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
-{
+public class BirtGetReportletActionHandler extends AbstractBaseActionHandler {
 
 	protected BaseAttributeBean __bean;
 
@@ -57,11 +56,9 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 	 * @param operation
 	 * @param response
 	 */
-	public BirtGetReportletActionHandler( IContext context,
-			Operation operation, GetUpdatedObjectsResponse response,
-			OutputStream os )
-	{
-		super( context, operation, response );
+	public BirtGetReportletActionHandler(IContext context, Operation operation, GetUpdatedObjectsResponse response,
+			OutputStream os) {
+		super(context, operation, response);
 		this.os = os;
 	}
 
@@ -71,87 +68,69 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 	 * @exception ReportServiceException
 	 * @return
 	 */
-	protected void __execute( ) throws Exception
-	{
-		prepareParameters( );
-		doExecution( );
-		prepareResponse( );
+	protected void __execute() throws Exception {
+		prepareParameters();
+		doExecution();
+		prepareResponse();
 	}
 
-	protected void prepareParameters( ) throws Exception, RemoteException
-	{
-		__bean = context.getBean( );
-		__reportDesignName = __bean.getReportDesignName( );
-		__docName = __bean.getReportDocumentName( );
-		__reportletId = __bean.getReportletId( );
+	protected void prepareParameters() throws Exception, RemoteException {
+		__bean = context.getBean();
+		__reportDesignName = __bean.getReportDesignName();
+		__docName = __bean.getReportDocumentName();
+		__reportletId = __bean.getReportletId();
 
 		// note: __docName and __reportDesignName can't be null
-		// at the same time (already checked by ViewerAttributeBean.__init() 
-		if ( __docName == null )
-		{
-			if ( __reportDesignName != null )
-			{
+		// at the same time (already checked by ViewerAttributeBean.__init()
+		if (__docName == null) {
+			if (__reportDesignName != null) {
 				// generate the document name
-				__docName = ParameterAccessor.getReportDocument(
-						context.getRequest( ), null, true );
-				__bean.setReportDocumentName( __docName );
+				__docName = ParameterAccessor.getReportDocument(context.getRequest(), null, true);
+				__bean.setReportDocumentName(__docName);
 			}
 		}
-		
-		__checkDocumentExists( );
+
+		__checkDocumentExists();
 	}
 
-	protected void doExecution( ) throws ReportServiceException,
-			RemoteException
-	{
+	protected void doExecution() throws ReportServiceException, RemoteException {
 		Oprand[] operand = null;
-		if ( operation != null )
-		{
-			operand = operation.getOprand( );
+		if (operation != null) {
+			operand = operation.getOprand();
 		}
-		boolean svgFlag = getSVGFlag( operand );
+		boolean svgFlag = getSVGFlag(operand);
 
-		InputOptions options = createInputOptions( __bean, svgFlag );
+		InputOptions options = createInputOptions(__bean, svgFlag);
 
-		List activeIds = new ArrayList( );
-		getReportService( ).renderReportlet( __docName, __reportletId, options,
-				activeIds, os );
+		List activeIds = new ArrayList();
+		getReportService().renderReportlet(__docName, __reportletId, options, activeIds, os);
 	}
 
 	/**
 	 * 
 	 */
-	protected void __checkDocumentExists( ) throws Exception
-	{
-		File file = new File( __docName );
-		if ( !file.exists( ) )
-		{
-			BirtRunReportActionHandler handler = new BirtRunReportActionHandler(
-					context, operation, response );
-			handler.__execute( );
+	protected void __checkDocumentExists() throws Exception {
+		File file = new File(__docName);
+		if (!file.exists()) {
+			BirtRunReportActionHandler handler = new BirtRunReportActionHandler(context, operation, response);
+			handler.__execute();
 		}
 
-		file = new File( __docName );
-		if ( !file.exists( ) )
-		{
-			AxisFault fault = new AxisFault( );
-			fault
-					.setFaultReason( BirtResources
-							.getMessage( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
+		file = new File(__docName);
+		if (!file.exists()) {
+			AxisFault fault = new AxisFault();
+			fault.setFaultReason(BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT));
 			throw fault;
 		}
 	}
 
-	protected void prepareResponse( ) throws ReportServiceException,
-			RemoteException
-	{
+	protected void prepareResponse() throws ReportServiceException, RemoteException {
 	}
 
 	/**
 	 * 
 	 */
-	public IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	public IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 }

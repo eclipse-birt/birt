@@ -15,7 +15,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
  * 
  */
 
-public class PageConstants
-{
+public class PageConstants {
 	public static final String THEME_HELPER_KEY = "theme helper"; //$NON-NLS-1$
 }

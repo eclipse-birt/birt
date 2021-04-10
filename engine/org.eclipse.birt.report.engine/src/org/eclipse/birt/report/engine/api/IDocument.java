@@ -11,17 +11,16 @@
 
 package org.eclipse.birt.report.engine.api;
 
-public interface IDocument
-{
+public interface IDocument {
 
 	/**
 	 * @return the document (archive) name
 	 */
-	public String getName( );
+	public String getName();
 
 	/**
 	 * close the document, release all resources.
 	 */
-	public void close( );
+	public void close();
 
 }

@@ -15,40 +15,41 @@ import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
 import org.eclipse.birt.chart.engine.extension.i18n.Messages;
 import org.eclipse.birt.core.data.DataType;
 
-
 /**
  * 
  *
  */
-public class Top extends AggregateFunctionAdapter
-{
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getDisplayParameters()
+public class Top extends AggregateFunctionAdapter {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.aggregate.IAggregateFunction#getDisplayParameters()
 	 */
-	public String[] getDisplayParameters( )
-	{
-		return new String[]{Messages.getString("Top.AggregateFunction.Parameters.Label.N")}; //$NON-NLS-1$
+	public String[] getDisplayParameters() {
+		return new String[] { Messages.getString("Top.AggregateFunction.Parameters.Label.N") }; //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getParametersCount()
 	 */
-	public int getParametersCount( )
-	{
+	public int getParametersCount() {
 		return 1;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return RUNNING_AGGR;
 	}
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.BOOLEAN_TYPE;
 	}
 }

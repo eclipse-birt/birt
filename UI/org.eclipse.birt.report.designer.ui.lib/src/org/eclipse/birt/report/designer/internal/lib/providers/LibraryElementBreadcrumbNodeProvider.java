@@ -18,18 +18,12 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
  * 
  */
 
-public class LibraryElementBreadcrumbNodeProvider extends
-		DefaultBreadcrumbNodeProvider
-{
+public class LibraryElementBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvider {
 
-	public Object[] getChildren( Object element )
-	{
-		if ( getRealModel( element ) instanceof LibraryHandle )
-		{
-			return ( (LibraryHandle) getRealModel( element ) ).getComponents( )
-					.getContents( )
-					.toArray( );
+	public Object[] getChildren(Object element) {
+		if (getRealModel(element) instanceof LibraryHandle) {
+			return ((LibraryHandle) getRealModel(element)).getComponents().getContents().toArray();
 		}
-		return super.getChildren( element );
+		return super.getChildren(element);
 	}
 }

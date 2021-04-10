@@ -13,32 +13,28 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.ColumnFigur
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 
+public class ColumnSelectionEditPolicy extends SelectionEditPolicy {
 
-public class ColumnSelectionEditPolicy extends SelectionEditPolicy
-{
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideSelection()
 	 */
-	protected void hideSelection( )
-	{
-		( (ColumnFigure) this.getHostFigure( ) ).setDeselectedColors( );
-		( (ColumnFigure) this.getHostFigure( ) ).setDeselectedFonts( );
+	protected void hideSelection() {
+		((ColumnFigure) this.getHostFigure()).setDeselectedColors();
+		((ColumnFigure) this.getHostFigure()).setDeselectedFonts();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#showSelection()
 	 */
-	protected void showSelection( )
-	{
-		if ( this.getHost( ).getSelected( ) == EditPart.SELECTED_PRIMARY )
-		{
-			( (ColumnFigure) this.getHostFigure( ) ).setSelectedColors( );
-		}
-		else
-		{
-			( (ColumnFigure) this.getHostFigure( ) ).setSelectedFonts( );
+	protected void showSelection() {
+		if (this.getHost().getSelected() == EditPart.SELECTED_PRIMARY) {
+			((ColumnFigure) this.getHostFigure()).setSelectedColors();
+		} else {
+			((ColumnFigure) this.getHostFigure()).setSelectedFonts();
 		}
 	}
 }
-

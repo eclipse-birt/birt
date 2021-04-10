@@ -15,12 +15,10 @@ package org.eclipse.birt.report.engine.ir;
  * DataItem test
  * 
  */
-public class DataItemTest extends ReportItemTestCase
-{
+public class DataItemTest extends ReportItemTestCase {
 
-	public DataItemTest( )
-	{
-		super( new DataItemDesign( ) );
+	public DataItemTest() {
+		super(new DataItemDesign());
 	}
 
 	/**
@@ -31,18 +29,17 @@ public class DataItemTest extends ReportItemTestCase
 	 * then get the values one by one to test if they work correctly
 	 */
 
-	public void testAccessor( )
-	{
+	public void testAccessor() {
 		DataItemDesign dataItem = (DataItemDesign) element;
-		ActionDesign action = new ActionDesign( );
+		ActionDesign action = new ActionDesign();
 		String exp = "field";
 
-		//Set
-		dataItem.setAction( action );
-		dataItem.setBindingColumn( exp );
+		// Set
+		dataItem.setAction(action);
+		dataItem.setBindingColumn(exp);
 
-		//Get
-		assertEquals( dataItem.getAction( ), action );
-		assertEquals( exp, dataItem.getBindingColumn( ) );
+		// Get
+		assertEquals(dataItem.getAction(), action);
+		assertEquals(exp, dataItem.getBindingColumn());
 	}
 }

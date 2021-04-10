@@ -21,27 +21,20 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
  * 
  */
 
-public class DualRadioButtonPropertyDescriptorProvider extends
-		PropertyDescriptorProvider
-{
+public class DualRadioButtonPropertyDescriptorProvider extends PropertyDescriptorProvider {
 
-	public DualRadioButtonPropertyDescriptorProvider( String property,
-			String element )
-	{
-		super( property, element );
+	public DualRadioButtonPropertyDescriptorProvider(String property, String element) {
+		super(property, element);
 	}
 
 	private IChoiceSet choiceSet;
 	private String[] items;
 
-	public String[] getItems( )
-	{
-		if ( choiceSet == null )
-		{
-			choiceSet = ChoiceSetFactory.getElementChoiceSet( getElement( ),
-					getProperty( ) );
-			String[] names = ChoiceSetFactory.getNamefromChoiceSet( choiceSet );
-			Arrays.sort( names, new AlphabeticallyComparator( ) );
+	public String[] getItems() {
+		if (choiceSet == null) {
+			choiceSet = ChoiceSetFactory.getElementChoiceSet(getElement(), getProperty());
+			String[] names = ChoiceSetFactory.getNamefromChoiceSet(choiceSet);
+			Arrays.sort(names, new AlphabeticallyComparator());
 			this.items = names;
 		}
 		return this.items;

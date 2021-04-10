@@ -44,8 +44,7 @@ import com.ibm.icu.util.ULocale;
  * 
  * <tr>
  * <td></td>
- * <td>The font name property is a list of font names separated by commas.
- * </td>
+ * <td>The font name property is a list of font names separated by commas.</td>
  * <td>The font entry can be returned correctly.</td>
  * </tr>
  * 
@@ -115,16 +114,14 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class FontHandleTest extends BaseTestCase
-{
+public class FontHandleTest extends BaseTestCase {
 
 	private FontHandle fontHandle = null;
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		openDesign( "FontHandleTest.xml" ); //$NON-NLS-1$
-		assertNotNull( designHandle );
+	protected void setUp() throws Exception {
+		super.setUp();
+		openDesign("FontHandleTest.xml"); //$NON-NLS-1$
+		assertNotNull(designHandle);
 	}
 
 	/**
@@ -141,134 +138,120 @@ public class FontHandleTest extends BaseTestCase
 	 * <li>The font weight is an invalid value.
 	 * </ul>
 	 * 
-	 * @throws SemanticException
-	 *             if values of font properties are invalid.
+	 * @throws SemanticException if values of font properties are invalid.
 	 */
 
-	public void testParse( ) throws SemanticException
-	{
-		StyleHandle myStyle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
-		assertNotNull( myStyle );
-		fontHandle = myStyle.getFontFamilyHandle( );
+	public void testParse() throws SemanticException {
+		StyleHandle myStyle = designHandle.findStyle("My-Style"); //$NON-NLS-1$
+		assertNotNull(myStyle);
+		fontHandle = myStyle.getFontFamilyHandle();
 
 		// tests with the font name as CSS-compatible string.
 
-		assertEquals( DesignChoiceConstants.FONT_FAMILY_CURSIVE, fontHandle
-				.getStringValue( ) );
+		assertEquals(DesignChoiceConstants.FONT_FAMILY_CURSIVE, fontHandle.getStringValue());
 
 		// tests with the font as a display string.
 
-		ThreadResources.setLocale( TEST_LOCALE );
+		ThreadResources.setLocale(TEST_LOCALE);
 
-		assertEquals( "\u8fde\u4f53", fontHandle.getDisplayValue( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.FONT_FAMILY_CURSIVE, fontHandle
-				.getStringValue( ) );
+		assertEquals("\u8fde\u4f53", fontHandle.getDisplayValue()); //$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.FONT_FAMILY_CURSIVE, fontHandle.getStringValue());
 
-		ThreadResources.setLocale( ULocale.ENGLISH );
+		ThreadResources.setLocale(ULocale.ENGLISH);
 
-		assertEquals( "Cursive", fontHandle //$NON-NLS-1$
-				.getDisplayValue( ) );
+		assertEquals("Cursive", fontHandle //$NON-NLS-1$
+				.getDisplayValue());
 
 		// tests with the font entry at a given position, should be null.
 
-		StyleHandle style1 = designHandle.findStyle( "Style1" ); //$NON-NLS-1$
-		assertNotNull( style1 );
-		fontHandle = style1.getFontFamilyHandle( );
+		StyleHandle style1 = designHandle.findStyle("Style1"); //$NON-NLS-1$
+		assertNotNull(style1);
+		fontHandle = style1.getFontFamilyHandle();
 
 		// tests with the font entry at a given position.
 
-		assertEquals(
-				"\"Time New Roman\", \"Arial\"", fontHandle.getStringValue( ) ); //$NON-NLS-1$
+		assertEquals("\"Time New Roman\", \"Arial\"", fontHandle.getStringValue()); //$NON-NLS-1$
 
-		String[] names = fontHandle.getFontFamilies( );
-		assertEquals( "\"Time New Roman\"", names[0] ); //$NON-NLS-1$
-		assertEquals( "\"Arial\"", names[1] ); //$NON-NLS-1$
+		String[] names = fontHandle.getFontFamilies();
+		assertEquals("\"Time New Roman\"", names[0]); //$NON-NLS-1$
+		assertEquals("\"Arial\"", names[1]); //$NON-NLS-1$
 
 		// tests sets/gets CSS constant names.
 
-		fontHandle.setValue( DesignChoiceConstants.FONT_FAMILY_SANS_SERIF );
+		fontHandle.setValue(DesignChoiceConstants.FONT_FAMILY_SANS_SERIF);
 
-		assertEquals( DesignChoiceConstants.FONT_FAMILY_SANS_SERIF, fontHandle
-				.getStringValue( ) );
+		assertEquals(DesignChoiceConstants.FONT_FAMILY_SANS_SERIF, fontHandle.getStringValue());
 
 		// read a font handle from a structure like highlight.
 
-		Iterator highlightHandles = style1.highlightRulesIterator( );
-		assertNotNull( highlightHandles );
+		Iterator highlightHandles = style1.highlightRulesIterator();
+		assertNotNull(highlightHandles);
 
-		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles
-				.next( );
-		assertNotNull( highlightHandle );
+		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles.next();
+		assertNotNull(highlightHandle);
 
 		// no font family has been defined for style1, the value should be null.
 
-		FontHandle fontHandle = highlightHandle.getFontFamilyHandle( );
-		assertNotNull( fontHandle );
+		FontHandle fontHandle = highlightHandle.getFontFamilyHandle();
+		assertNotNull(fontHandle);
 
-		assertNull( fontHandle.getStringValue( ) );
-		assertNull( fontHandle.getFontFamilies( ) );
+		assertNull(fontHandle.getStringValue());
+		assertNull(fontHandle.getFontFamilies());
 
-		StyleHandle style2 = designHandle.findStyle( "Style2" ); //$NON-NLS-1$
-		assertNotNull( style2 );
+		StyleHandle style2 = designHandle.findStyle("Style2"); //$NON-NLS-1$
+		assertNotNull(style2);
 
 		// font handle with a default value.
 
 		fontHandle = null;
-		fontHandle = style2.getFontFamilyHandle( );
-		assertNotNull( fontHandle );
+		fontHandle = style2.getFontFamilyHandle();
+		assertNotNull(fontHandle);
 
 		// tests with the font entry at a given position.
 
-		names = fontHandle.getFontFamilies( );
-		assertEquals( 1, names.length );
-		assertEquals( "serif", names[0] ); //$NON-NLS-1$
+		names = fontHandle.getFontFamilies();
+		assertEquals(1, names.length);
+		assertEquals("serif", names[0]); //$NON-NLS-1$
 
 		// tests with the font weight.
 
-		assertEquals( DesignChoiceConstants.FONT_WEIGHT_LIGHTER, style2
-				.getFontWeight( ) );
-		style2.setFontWeight( DesignChoiceConstants.FONT_WEIGHT_100 );
-		assertEquals( DesignChoiceConstants.FONT_WEIGHT_100, style2
-				.getFontWeight( ) );
+		assertEquals(DesignChoiceConstants.FONT_WEIGHT_LIGHTER, style2.getFontWeight());
+		style2.setFontWeight(DesignChoiceConstants.FONT_WEIGHT_100);
+		assertEquals(DesignChoiceConstants.FONT_WEIGHT_100, style2.getFontWeight());
 
-		try
-		{
-			style2.setFontWeight( "450" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals( e.getErrorCode( ),
-					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND );
+		try {
+			style2.setFontWeight("450"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(e.getErrorCode(), PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND);
 		}
 
 		// read a font handle from a structure like highlight.
 
-		highlightHandles = style2.highlightRulesIterator( );
-		assertNotNull( highlightHandles );
+		highlightHandles = style2.highlightRulesIterator();
+		assertNotNull(highlightHandles);
 
-		highlightHandle = (HighlightRuleHandle) highlightHandles.next( );
-		assertNotNull( highlightHandle );
+		highlightHandle = (HighlightRuleHandle) highlightHandles.next();
+		assertNotNull(highlightHandle);
 
-		fontHandle = highlightHandle.getFontFamilyHandle( );
-		assertEquals( "\"Arial\"", fontHandle.getStringValue( ) ); //$NON-NLS-1$
-		assertEquals( "\"Arial\"", fontHandle.getDisplayValue( ) ); //$NON-NLS-1$
+		fontHandle = highlightHandle.getFontFamilyHandle();
+		assertEquals("\"Arial\"", fontHandle.getStringValue()); //$NON-NLS-1$
+		assertEquals("\"Arial\"", fontHandle.getDisplayValue()); //$NON-NLS-1$
 
 		// no second highlight rule, must be null.
 
-		highlightHandle = (HighlightRuleHandle) highlightHandles.next( );
-		assertNull( highlightHandle );
+		highlightHandle = (HighlightRuleHandle) highlightHandles.next();
+		assertNull(highlightHandle);
 
 		// finds a design element that do not support font family property.
 
-		OdaDataSourceHandle dataSource = (OdaDataSourceHandle) designHandle
-				.findDataSource( "myDataSource" ); //$NON-NLS-1$
-		assertNotNull( dataSource );
+		OdaDataSourceHandle dataSource = (OdaDataSourceHandle) designHandle.findDataSource("myDataSource"); //$NON-NLS-1$
+		assertNotNull(dataSource);
 
 		// font handle must be null.
 
-		fontHandle = ApiTestUtil.getFontProperty( dataSource );
-		assertNull( fontHandle );
+		fontHandle = ApiTestUtil.getFontProperty(dataSource);
+		assertNull(fontHandle);
 	}
 
 	/**
@@ -280,76 +263,69 @@ public class FontHandleTest extends BaseTestCase
 	 * 
 	 * <ul>
 	 * <li>Sets the font name as a localized string.
-	 * <li>Sets the font name property is a list of font names separated by
-	 * commas.
+	 * <li>Sets the font name property is a list of font names separated by commas.
 	 * <li>Sets the standard CSS font name.
 	 * <li>Sets the standard CSS font weight.
 	 * </ul>
 	 * 
-	 * @throws Exception
-	 *             if values of font properties are invalid or the output file
-	 *             cannot be saved on the storage.
+	 * @throws Exception if values of font properties are invalid or the output file
+	 *                   cannot be saved on the storage.
 	 */
 
-	public void testSetValue( ) throws Exception
-	{
-		StyleHandle myStyle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
-		assertNotNull( myStyle );
-		fontHandle = myStyle.getFontFamilyHandle( );
+	public void testSetValue() throws Exception {
+		StyleHandle myStyle = designHandle.findStyle("My-Style"); //$NON-NLS-1$
+		assertNotNull(myStyle);
+		fontHandle = myStyle.getFontFamilyHandle();
 
-		ThreadResources.setLocale( new ULocale( "am", "ET" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		ThreadResources.setLocale(new ULocale("am", "ET")); //$NON-NLS-1$ //$NON-NLS-2$
 
-		fontHandle.setValue( DesignChoiceConstants.FONT_FAMILY_SANS_SERIF );
+		fontHandle.setValue(DesignChoiceConstants.FONT_FAMILY_SANS_SERIF);
 
 		// tests with the font entry at a given position, should be null.
 
-		StyleHandle style1 = designHandle.findStyle( "Style1" ); //$NON-NLS-1$
-		assertNotNull( style1 );
-		fontHandle = style1.getFontFamilyHandle( );
+		StyleHandle style1 = designHandle.findStyle("Style1"); //$NON-NLS-1$
+		assertNotNull(style1);
+		fontHandle = style1.getFontFamilyHandle();
 
 		// tests sets/gets CSS constant names.
 
-		fontHandle.setValue( DesignChoiceConstants.FONT_FAMILY_SANS_SERIF );
+		fontHandle.setValue(DesignChoiceConstants.FONT_FAMILY_SANS_SERIF);
 
-		assertEquals( DesignChoiceConstants.FONT_FAMILY_SANS_SERIF, fontHandle
-				.getStringValue( ) );
+		assertEquals(DesignChoiceConstants.FONT_FAMILY_SANS_SERIF, fontHandle.getStringValue());
 
-		ThreadResources.setLocale( TEST_LOCALE );
+		ThreadResources.setLocale(TEST_LOCALE);
 
 		// tests sets/gets user string names.
 
-		fontHandle.setValue( "\u8fde\u4f53" ); //$NON-NLS-1$
+		fontHandle.setValue("\u8fde\u4f53"); //$NON-NLS-1$
 
-		assertEquals( DesignChoiceConstants.FONT_FAMILY_CURSIVE, fontHandle
-				.getStringValue( ) );
+		assertEquals(DesignChoiceConstants.FONT_FAMILY_CURSIVE, fontHandle.getStringValue());
 
-		StyleHandle style2 = designHandle.findStyle( "Style2" ); //$NON-NLS-1$
-		assertNotNull( style2 );
-		fontHandle = style2.getFontFamilyHandle( );
+		StyleHandle style2 = designHandle.findStyle("Style2"); //$NON-NLS-1$
+		assertNotNull(style2);
+		fontHandle = style2.getFontFamilyHandle();
 
 		// tests with the font entry at a given position.
 
-		fontHandle.setValue( "cursive, sans-serif, hello" ); //$NON-NLS-1$
+		fontHandle.setValue("cursive, sans-serif, hello"); //$NON-NLS-1$
 
 		// tests with the font weight.
 
-		style2.setFontWeight( DesignChoiceConstants.FONT_WEIGHT_100 );
-		assertEquals( DesignChoiceConstants.FONT_WEIGHT_100, style2
-				.getFontWeight( ) );
+		style2.setFontWeight(DesignChoiceConstants.FONT_WEIGHT_100);
+		assertEquals(DesignChoiceConstants.FONT_WEIGHT_100, style2.getFontWeight());
 
 		// write a font family and weight property to a structure like
 		// highlight.
 
-		Iterator highlightHandles = style2.highlightRulesIterator( );
-		assertNotNull( highlightHandles );
+		Iterator highlightHandles = style2.highlightRulesIterator();
+		assertNotNull(highlightHandles);
 
-		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles
-				.next( );
-		assertNotNull( highlightHandle );
+		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles.next();
+		assertNotNull(highlightHandle);
 
-		fontHandle = highlightHandle.getFontFamilyHandle( );
-		fontHandle.setValue( DesignChoiceConstants.FONT_FAMILY_FANTASY );
-		highlightHandle.setFontWeight( DesignChoiceConstants.FONT_WEIGHT_900 );
+		fontHandle = highlightHandle.getFontFamilyHandle();
+		fontHandle.setValue(DesignChoiceConstants.FONT_FAMILY_FANTASY);
+		highlightHandle.setFontWeight(DesignChoiceConstants.FONT_WEIGHT_900);
 
 	}
 
@@ -366,28 +342,22 @@ public class FontHandleTest extends BaseTestCase
 	 * 
 	 */
 
-	public void testCSSFontList( )
-	{
-		StyleHandle myStyle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
-		assertNotNull( myStyle );
-		fontHandle = myStyle.getFontFamilyHandle( );
+	public void testCSSFontList() {
+		StyleHandle myStyle = designHandle.findStyle("My-Style"); //$NON-NLS-1$
+		assertNotNull(myStyle);
+		fontHandle = myStyle.getFontFamilyHandle();
 
 		// tests with the list of standard CSS font constants.
 
-		IChoice[] standardChoices = fontHandle.getCSSFontFamilies( );
+		IChoice[] standardChoices = fontHandle.getCSSFontFamilies();
 
-		assertEquals( 5, standardChoices.length );
+		assertEquals(5, standardChoices.length);
 
-		assertEquals( standardChoices[0].getName( ),
-				DesignChoiceConstants.FONT_FAMILY_SERIF );
-		assertEquals( standardChoices[1].getName( ),
-				DesignChoiceConstants.FONT_FAMILY_SANS_SERIF );
-		assertEquals( standardChoices[2].getName( ),
-				DesignChoiceConstants.FONT_FAMILY_CURSIVE );
-		assertEquals( standardChoices[3].getName( ),
-				DesignChoiceConstants.FONT_FAMILY_FANTASY );
-		assertEquals( standardChoices[4].getName( ),
-				DesignChoiceConstants.FONT_FAMILY_MONOSPACE );
+		assertEquals(standardChoices[0].getName(), DesignChoiceConstants.FONT_FAMILY_SERIF);
+		assertEquals(standardChoices[1].getName(), DesignChoiceConstants.FONT_FAMILY_SANS_SERIF);
+		assertEquals(standardChoices[2].getName(), DesignChoiceConstants.FONT_FAMILY_CURSIVE);
+		assertEquals(standardChoices[3].getName(), DesignChoiceConstants.FONT_FAMILY_FANTASY);
+		assertEquals(standardChoices[4].getName(), DesignChoiceConstants.FONT_FAMILY_MONOSPACE);
 
 	}
 
@@ -405,23 +375,19 @@ public class FontHandleTest extends BaseTestCase
 	 * 
 	 */
 
-	public void testDefn( )
-	{
-		StyleHandle myStyle = designHandle.findStyle( "Style2" ); //$NON-NLS-1$
-		fontHandle = myStyle.getFontFamilyHandle( );
+	public void testDefn() {
+		StyleHandle myStyle = designHandle.findStyle("Style2"); //$NON-NLS-1$
+		fontHandle = myStyle.getFontFamilyHandle();
 
-		assertEquals( Style.FONT_FAMILY_PROP, fontHandle.getPropertyDefn( )
-				.getName( ) );
+		assertEquals(Style.FONT_FAMILY_PROP, fontHandle.getPropertyDefn().getName());
 
-		Iterator iter = myStyle.highlightRulesIterator( );
-		HighlightRuleHandle handle = (HighlightRuleHandle) iter.next( );
+		Iterator iter = myStyle.highlightRulesIterator();
+		HighlightRuleHandle handle = (HighlightRuleHandle) iter.next();
 
-		fontHandle = handle.getFontFamilyHandle( );
+		fontHandle = handle.getFontFamilyHandle();
 
-		assertEquals( Style.HIGHLIGHT_RULES_PROP, fontHandle.getPropertyDefn( )
-				.getName( ) );
-		assertEquals( Style.FONT_FAMILY_PROP, fontHandle.getContext( )
-				.getPropDefn( ).getName( ) );
+		assertEquals(Style.HIGHLIGHT_RULES_PROP, fontHandle.getPropertyDefn().getName());
+		assertEquals(Style.FONT_FAMILY_PROP, fontHandle.getContext().getPropDefn().getName());
 
 	}
 }

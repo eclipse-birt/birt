@@ -14,12 +14,11 @@ package org.eclipse.birt.report.designer.core.model.views.outline;
 /**
  * Model of script node in outline view
  */
-public interface IScriptTreeNode
-{
+public interface IScriptTreeNode {
 
 	// public String getText( );
 
-	public Object[] getChildren( );
+	public Object[] getChildren();
 
-	public Object getParent( );
+	public Object getParent();
 }

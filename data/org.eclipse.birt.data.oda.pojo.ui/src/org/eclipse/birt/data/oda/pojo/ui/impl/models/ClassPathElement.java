@@ -14,63 +14,50 @@ package org.eclipse.birt.data.oda.pojo.ui.impl.models;
 import org.eclipse.birt.data.oda.pojo.ui.util.Utils;
 import org.eclipse.swt.graphics.Image;
 
-
-public class ClassPathElement
-{
+public class ClassPathElement {
 
 	public static String RELATIVE_PATH = "RelativePath"; //$NON-NLS-1$
 	public static String ABSOLUTE_PATH = "AbsolutePath"; //$NON-NLS-1$
 
-	private static Image JAR_ICON = Utils.getJarIcon( );
+	private static Image JAR_ICON = Utils.getJarIcon();
 
 	private String value;
 	private boolean isRelativePath;
 	private String fullPath;
 
-	public ClassPathElement( String value, String fullPath, 
-			boolean isRelativePath )
-	{
+	public ClassPathElement(String value, String fullPath, boolean isRelativePath) {
 		this.value = value;
 		this.isRelativePath = isRelativePath;
 		this.fullPath = fullPath;
 	}
 
-	public void setValue( String value )
-	{
+	public void setValue(String value) {
 		this.value = value;
 	}
 
-	public String getValue( )
-	{
+	public String getValue() {
 		return value;
 	}
-	
-	public void setFullPath( String fullPath )
-	{
+
+	public void setFullPath(String fullPath) {
 		this.fullPath = fullPath;
 	}
 
-	public String getFullPath( )
-	{
+	public String getFullPath() {
 		return this.fullPath;
 	}
 
-	public void setRelativePath( boolean isRelativePath )
-	{
+	public void setRelativePath(boolean isRelativePath) {
 		this.isRelativePath = isRelativePath;
 	}
 
-	public boolean isRelativePath( )
-	{
+	public boolean isRelativePath() {
 		return isRelativePath;
 	}
 
-	public Image getIcon( )
-	{
+	public Image getIcon() {
 		return JAR_ICON;
 	}
-	
-	
 
 //	public boolean equals( ClassPathElement another )
 //	{

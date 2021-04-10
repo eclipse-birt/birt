@@ -17,99 +17,77 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
-public class OutputSection extends Section
-{
+public class OutputSection extends Section {
 
-	public OutputSection( Composite parent, boolean isFormStyle )
-	{
-		super( " ", parent, isFormStyle ); //$NON-NLS-1$
+	public OutputSection(Composite parent, boolean isFormStyle) {
+		super(" ", parent, isFormStyle); //$NON-NLS-1$
 	}
 
 	protected OutputPropertyDescriptor output;
 
-	public void createSection( )
-	{
-		getOutputControl( parent );
-		getGridPlaceholder( parent );
+	public void createSection() {
+		getOutputControl(parent);
+		getGridPlaceholder(parent);
 	}
 
-	public OutputPropertyDescriptor getOutputControl( )
-	{
+	public OutputPropertyDescriptor getOutputControl() {
 		return output;
 	}
 
-	protected OutputPropertyDescriptor getOutputControl( Composite parent )
-	{
-		if ( output == null )
-		{
-			output = new OutputPropertyDescriptor( true );
-			output.setDescriptorProvider( provider );
-			output.createControl( parent );
-			output.getControl( )
-					.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-			output.getControl( ).addDisposeListener( new DisposeListener( ) {
+	protected OutputPropertyDescriptor getOutputControl(Composite parent) {
+		if (output == null) {
+			output = new OutputPropertyDescriptor(true);
+			output.setDescriptorProvider(provider);
+			output.createControl(parent);
+			output.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+			output.getControl().addDisposeListener(new DisposeListener() {
 
-				public void widgetDisposed( DisposeEvent event )
-				{
+				public void widgetDisposed(DisposeEvent event) {
 					output = null;
 				}
-			} );
-			
-			setAccessible (output.getControl( ));
+			});
 
-		}
-		else
-		{
-			checkParent( output.getControl( ), parent );
+			setAccessible(output.getControl());
+
+		} else {
+			checkParent(output.getControl(), parent);
 		}
 		return output;
 	}
 
-	private void setAccessible(final Control control)
-	{
-		if ( control instanceof Composite )
-		{
-			Composite parent = (Composite)control;
-			if ( parent != null && parent.getTabList( ) != null )
-			{
-				Control[] children = parent.getTabList( );
-				for ( int i = 0; i < children.length; i++ )
-				{
-					setAccessible( children[i] );
+	private void setAccessible(final Control control) {
+		if (control instanceof Composite) {
+			Composite parent = (Composite) control;
+			if (parent != null && parent.getTabList() != null) {
+				Control[] children = parent.getTabList();
+				for (int i = 0; i < children.length; i++) {
+					setAccessible(children[i]);
 				}
 			}
-		}
-		else
-		{
-			control.getAccessible( )
-					.addAccessibleListener( new AccessibleAdapter( ) {
+		} else {
+			control.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-						public void getName( AccessibleEvent e )
-						{
-							if ( control instanceof Text && control.getParent( ) instanceof ExpressionComposite )
-							{
-								e.result = UIUtil.stripMnemonic(Messages.getString( "VisibilityPage.Label.Expression" )) + ((Text)control).getText( ); //$NON-NLS-1$
-							}
-						}
-					} );
+				public void getName(AccessibleEvent e) {
+					if (control instanceof Text && control.getParent() instanceof ExpressionComposite) {
+						e.result = UIUtil.stripMnemonic(Messages.getString("VisibilityPage.Label.Expression")) //$NON-NLS-1$
+								+ ((Text) control).getText();
+					}
+				}
+			});
 		}
 	}
-	
-	public void layout( )
-	{
-		GridData gd = (GridData) output.getControl( ).getLayoutData( );
-		if ( getLayoutNum( ) > 0 )
-			gd.horizontalSpan = getLayoutNum( ) - placeholder;
+
+	public void layout() {
+		GridData gd = (GridData) output.getControl().getLayoutData();
+		if (getLayoutNum() > 0)
+			gd.horizontalSpan = getLayoutNum() - placeholder;
 		else
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- placeholder;
-		if ( height > -1 )
-		{
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		if (height > -1) {
 			gd.heightHint = height;
 			gd.grabExcessVerticalSpace = false;
-			if ( displayLabel != null )
-			{
-				gd = (GridData) displayLabel.getLayoutData( );
+			if (displayLabel != null) {
+				gd = (GridData) displayLabel.getLayoutData();
 				gd.verticalAlignment = GridData.VERTICAL_ALIGN_FILL;
 			}
 		}
@@ -117,56 +95,47 @@ public class OutputSection extends Section
 
 	private int height = -1;
 
-	public void setHeight( int height )
-	{
+	public void setHeight(int height) {
 		this.height = height;
 	}
 
-	public void load( )
-	{
-		if ( output != null && !output.getControl( ).isDisposed( ) )
-			output.load( );
+	public void load() {
+		if (output != null && !output.getControl().isDisposed())
+			output.load();
 	}
 
 	IDescriptorProvider provider;
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if ( output != null )
-			output.setDescriptorProvider( provider );
+		if (output != null)
+			output.setDescriptorProvider(provider);
 	}
 
-	public void setInput( Object input )
-	{
-		assert ( input != null );
-		output.setInput( input );
+	public void setInput(Object input) {
+		assert (input != null);
+		output.setInput(input);
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		if ( output != null )
-			WidgetUtil.setExcludeGridData( output.getControl( ), isHidden );
+	public void setHidden(boolean isHidden) {
+		if (output != null)
+			WidgetUtil.setExcludeGridData(output.getControl(), isHidden);
 
 	}
 
-	public void setVisible( boolean isVisable )
-	{
-		if ( output != null )
-			output.getControl( ).setVisible( isVisable );
+	public void setVisible(boolean isVisable) {
+		if (output != null)
+			output.getControl().setVisible(isVisable);
 
 	}
-	
-	public void reset( )
-	{
-		if ( output != null && !output.getControl( ).isDisposed( ) )
-		{
-			output.reset( );
+
+	public void reset() {
+		if (output != null && !output.getControl().isDisposed()) {
+			output.reset();
 		}
 	}
 

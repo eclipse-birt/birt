@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.datafeed;
 
-
 /**
  * The class defines abstract methods to access number values from number data
  * set.
@@ -19,15 +18,14 @@ package org.eclipse.birt.chart.datafeed;
  * @since 2.6
  */
 
-public abstract class NumberDataPointEntry implements IDataPointEntry
-{
+public abstract class NumberDataPointEntry implements IDataPointEntry {
 	/**
 	 * Sets number data into data set.
 	 * 
 	 * @param data
 	 */
-	abstract public void setNumberData(Number[] data );
-	
+	abstract public void setNumberData(Number[] data);
+
 	/**
 	 * Gets number data from data set.
 	 * 

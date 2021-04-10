@@ -14,8 +14,7 @@ package org.eclipse.birt.report.debug.internal.core.launcher;
 /**
  * IReportLaunchConstants
  */
-public interface IReportLaunchConstants
-{
+public interface IReportLaunchConstants {
 
 	/**
 	 * Report launcher ID
@@ -61,7 +60,7 @@ public interface IReportLaunchConstants
 	 * Default eclipse home key
 	 */
 	String ATTR_USE_DEFULT_ENGINE_HOME = "use.default.engine.home"; //$NON-NLS-1$
-	
+
 	/**
 	 * Resource folder
 	 */
@@ -86,9 +85,9 @@ public interface IReportLaunchConstants
 	 * Parameter name key
 	 */
 	String ATTR_PARAMRTER = "param:"; //$NON-NLS-1$
-	
+
 	String ATTR_MULPARAMRTER = "mulparam:"; //$NON-NLS-1$
-	
+
 	String ATTR_DATA_LIMIT_SIZE = "data.limit";//$NON-NLS-1$
 	/**
 	 * Debug type for java classes.

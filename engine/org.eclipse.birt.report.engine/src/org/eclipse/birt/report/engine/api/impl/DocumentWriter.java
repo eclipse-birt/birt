@@ -24,58 +24,43 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
-public class DocumentWriter implements IDocumentWriter
-{
+public class DocumentWriter implements IDocumentWriter {
 
 	private IArchiveFile archive;
 
-	public DocumentWriter( IArchiveFile file )
-	{
+	public DocumentWriter(IArchiveFile file) {
 		this.archive = file;
 	}
 
-	public void setRunnable( IReportRunnable runnable ) throws EngineException
-	{
-		if ( archive == null || runnable == null )
+	public void setRunnable(IReportRunnable runnable) throws EngineException {
+		if (archive == null || runnable == null)
 			return;
 
-		try
-		{
-			ArchiveWriter writer = new ArchiveWriter( archive );
-			ReportDesignHandle design = (ReportDesignHandle) runnable
-					.getDesignHandle( );
-			
+		try {
+			ArchiveWriter writer = new ArchiveWriter(archive);
+			ReportDesignHandle design = (ReportDesignHandle) runnable.getDesignHandle();
+
 			// rewrite design
-			RAOutputStream out = writer
-					.createRandomAccessStream( ReportDocumentConstants.DESIGN_STREAM );
-			org.eclipse.birt.report.model.api.util.DocumentUtil.serialize(
-					design, out );
-			out.close( );
-			
+			RAOutputStream out = writer.createRandomAccessStream(ReportDocumentConstants.DESIGN_STREAM);
+			org.eclipse.birt.report.model.api.util.DocumentUtil.serialize(design, out);
+			out.close();
+
 			// rewrite original design
-			out = writer
-					.createRandomAccessStream( ReportDocumentConstants.ORIGINAL_DESIGN_STREAM );
-			org.eclipse.birt.report.model.api.util.DocumentUtil.serialize(
-					design, out );
-			out.close( );
-			
+			out = writer.createRandomAccessStream(ReportDocumentConstants.ORIGINAL_DESIGN_STREAM);
+			org.eclipse.birt.report.model.api.util.DocumentUtil.serialize(design, out);
+			out.close();
+
 			// rewrite internal report
-			Report report = new ReportParser( )
-					.parse( (ReportDesignHandle) runnable.getDesignHandle( ) );
-			out = writer
-					.createRandomAccessStream( ReportDocumentConstants.DESIGN_IR_STREAM );
-			new EngineIRWriter( ).write( out, report );
-			out.close( );
-		}
-		catch ( IOException ex )
-		{
-			throw new EngineException(
-					"exception when updating runnable into a document", ex );
+			Report report = new ReportParser().parse((ReportDesignHandle) runnable.getDesignHandle());
+			out = writer.createRandomAccessStream(ReportDocumentConstants.DESIGN_IR_STREAM);
+			new EngineIRWriter().write(out, report);
+			out.close();
+		} catch (IOException ex) {
+			throw new EngineException("exception when updating runnable into a document", ex);
 		}
 	}
 
-	public void close( )
-	{
+	public void close() {
 
 	}
 }

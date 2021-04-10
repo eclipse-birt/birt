@@ -14,10 +14,9 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 /**
  * IGuideFeedBackHost
  */
-public interface IGuideFeedBackHost
-{
+public interface IGuideFeedBackHost {
 
-	void addGuideFeedBack( );
+	void addGuideFeedBack();
 
-	void delayRemoveGuideFeedBack( );
+	void delayRemoveGuideFeedBack();
 }

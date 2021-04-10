@@ -18,8 +18,7 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
  *
  */
 
-public interface IColumn
-{
+public interface IColumn {
 	/**
 	 * Removes all hide rules that matches formatType.
 	 * 
@@ -27,7 +26,7 @@ public interface IColumn
 	 * @exception ScriptException
 	 */
 
-	void removeHideRule( IHideRule rule ) throws ScriptException;
+	void removeHideRule(IHideRule rule) throws ScriptException;
 
 	/**
 	 * Removes all hide rules
@@ -35,7 +34,7 @@ public interface IColumn
 	 * @throws ScriptException
 	 */
 
-	void removeHideRules( ) throws ScriptException;
+	void removeHideRules() throws ScriptException;
 
 	/**
 	 * Returns array of hide rule expression
@@ -43,7 +42,7 @@ public interface IColumn
 	 * @return array of hide rule expression
 	 */
 
-	IHideRule[] getHideRules( );
+	IHideRule[] getHideRules();
 
 	/**
 	 * Add HideRule
@@ -52,5 +51,5 @@ public interface IColumn
 	 * @throws ScriptException
 	 */
 
-	void addHideRule( IHideRule rule ) throws ScriptException;
+	void addHideRule(IHideRule rule) throws ScriptException;
 }

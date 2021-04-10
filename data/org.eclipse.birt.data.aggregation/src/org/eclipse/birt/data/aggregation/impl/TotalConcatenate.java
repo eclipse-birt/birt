@@ -31,16 +31,14 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * Implements the built-in Total.concatenate aggregation
  */
-public class TotalConcatenate extends AggrFunction
-{
+public class TotalConcatenate extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return IBuildInAggregation.TOTAL_CONCATENATE_FUNC;
 	}
 
@@ -49,19 +47,16 @@ public class TotalConcatenate extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
-	public int getDataType( )
-	{
+	public int getDataType() {
 		return DataType.STRING_TYPE;
 	}
 
@@ -72,86 +67,60 @@ public class TotalConcatenate extends AggrFunction
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getParameterDefn
 	 * ()
 	 */
-	public IParameterDefn[] getParameterDefn( )
-	{
+	public IParameterDefn[] getParameterDefn() {
 		IParameterDefn paramDefn[] = new IParameterDefn[] {
-				new ParameterDefn(
-						Constants.EXPRESSION_NAME,
-						Constants.EXPRESSION_DISPLAY_NAME,
-						false,
-						true,
-						SupportedDataTypes.ANY,
-						Messages.getString("TotalConcatenate.paramDescription.expression")),
-				new ParameterDefn(
-						Constants.SEPARATOR_NAME,
-						Constants.SEPARATOR_DISPLAY_NAME,
-						true,
-						false,
+				new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME, false, true,
+						SupportedDataTypes.ANY, Messages.getString("TotalConcatenate.paramDescription.expression")),
+				new ParameterDefn(Constants.SEPARATOR_NAME, Constants.SEPARATOR_DISPLAY_NAME, true, false,
 						SupportedDataTypes.CALCULATABLE,
 						Messages.getString("TotalConcatenate.paramDescription.separator")),
-				new ParameterDefn(
-						Constants.MAXLENGTH_NAME,
-						Constants.MAXLENGTH__DISPLAY_NAME,
-						true,
-						false,
+				new ParameterDefn(Constants.MAXLENGTH_NAME, Constants.MAXLENGTH__DISPLAY_NAME, true, false,
 						SupportedDataTypes.CALCULATABLE,
 						Messages.getString("TotalConcatenate.paramDescription.maxLength")),
-				new ParameterDefn(
-						Constants.SHOWALLVALUES_NAME,
-						Constants.SHOWALLVALUES_DISPLAY_NAME,
-						true,
-						false,
+				new ParameterDefn(Constants.SHOWALLVALUES_NAME, Constants.SHOWALLVALUES_DISPLAY_NAME, true, false,
 						SupportedDataTypes.CALCULATABLE,
-						Messages.getString("TotalConcatenate.paramDescription.showAllValues"))
-		};
+						Messages.getString("TotalConcatenate.paramDescription.showAllValues")) };
 		return paramDefn;
 	}
 
-	public Accumulator newAccumulator( )
-	{
-		return new MyAccumulator( );
+	public Accumulator newAccumulator() {
+		return new MyAccumulator();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription
-	 * ()
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription ()
 	 */
-	public String getDescription( )
-	{
-		return Messages.getString( "TotalConcatenate.description" ); //$NON-NLS-1$
+	public String getDescription() {
+		return Messages.getString("TotalConcatenate.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName
-	 * ()
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName ()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "TotalConcatenate.displayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("TotalConcatenate.displayName"); //$NON-NLS-1$
 	}
 
-	private class MyAccumulator extends SummaryAccumulator
-	{
+	private class MyAccumulator extends SummaryAccumulator {
 
 		private Collection<String> values;
 
 		private String separator;
 
 		private int maxLength;
-		
+
 		private boolean isInitialized;
 
 		final private static int DEFAULT_MAX_LENGTH = 1024;
 
-		public void start( )
-		{
-			super.start( );
+		public void start() {
+			super.start();
 			values = null;
 			separator = "";
 			isInitialized = false;
@@ -161,32 +130,24 @@ public class TotalConcatenate extends AggrFunction
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang
+		 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang
 		 * .Object[])
 		 */
-		public void onRow( Object[] args ) throws DataException
-		{
-			assert ( args != null && args.length >= 1 );
+		public void onRow(Object[] args) throws DataException {
+			assert (args != null && args.length >= 1);
 
-			try
-			{
-				if ( !isInitialized )
-				{
+			try {
+				if (!isInitialized) {
 					isInitialized = true;
-					setSeparator( args.length >= 2 ? args[1] : null );
-					setMaxLength( args.length >= 3 ? args[2]
-							: DEFAULT_MAX_LENGTH );
-					setShowAllValues( args.length == 4 ? args[3] : false );
+					setSeparator(args.length >= 2 ? args[1] : null);
+					setMaxLength(args.length >= 3 ? args[2] : DEFAULT_MAX_LENGTH);
+					setShowAllValues(args.length == 4 ? args[3] : false);
 				}
-				if ( args[0] != null )
-				{
-					values.add( DataTypeUtil.toString( args[0] ) );
+				if (args[0] != null) {
+					values.add(DataTypeUtil.toString(args[0]));
 				}
-			}
-			catch ( BirtException e )
-			{
-				throw DataException.wrap( e );
+			} catch (BirtException e) {
+				throw DataException.wrap(e);
 			}
 		}
 
@@ -196,34 +157,27 @@ public class TotalConcatenate extends AggrFunction
 		 * @seeorg.eclipse.birt.data.engine.aggregation.SummaryAccumulator#
 		 * getSummaryValue()
 		 */
-		public Object getSummaryValue( )
-		{
-			if ( values == null )
-			{
+		public Object getSummaryValue() {
+			if (values == null) {
 				return null;
 			}
-			StringBuffer buffer = new StringBuffer( );
-			Iterator<String> valueIterator = values.iterator( );
-			while ( valueIterator.hasNext( ) )
-			{
-				String currentValue = valueIterator.next( );
+			StringBuffer buffer = new StringBuffer();
+			Iterator<String> valueIterator = values.iterator();
+			while (valueIterator.hasNext()) {
+				String currentValue = valueIterator.next();
 				// reach the max length of the concatenated string
-				if ( buffer.length( ) > this.maxLength - currentValue.length( ) )
-				{
+				if (buffer.length() > this.maxLength - currentValue.length()) {
 					break;
 				}
-				if ( currentValue.trim( ).length( ) > 0 )
-				{
-					buffer.append( currentValue ).append( separator );
+				if (currentValue.trim().length() > 0) {
+					buffer.append(currentValue).append(separator);
 				}
 			}
 			// delete the last separator character
-			if ( buffer.length( ) > 0 )
-			{
-				return buffer.toString( ).substring( 0,
-						buffer.length( ) - separator.length( ) );
+			if (buffer.length() > 0) {
+				return buffer.toString().substring(0, buffer.length() - separator.length());
 			}
-			return buffer.toString( );
+			return buffer.toString();
 		}
 
 		/**
@@ -232,99 +186,69 @@ public class TotalConcatenate extends AggrFunction
 		 * @param source
 		 * @throws BirtException
 		 */
-		private void setSeparator( Object source ) throws BirtException
-		{
-			String value = DataTypeUtil.toString( source );
-			if ( value != null )
-			{
+		private void setSeparator(Object source) throws BirtException {
+			String value = DataTypeUtil.toString(source);
+			if (value != null) {
 				// should not trim the separator string
 				separator = value;
 			}
 		}
 
 		/**
-		 * Set the max length of the concatenated string by calculating the
-		 * string character number
+		 * Set the max length of the concatenated string by calculating the string
+		 * character number
 		 * 
 		 * @param source
 		 * @throws DataException
 		 */
-		private void setMaxLength( Object source ) throws DataException
-		{
-			try
-			{
-				if ( source == null
-						|| DataTypeUtil.toString( source ).trim( ).length( ) == 0 )
-				{
+		private void setMaxLength(Object source) throws DataException {
+			try {
+				if (source == null || DataTypeUtil.toString(source).trim().length() == 0) {
 					maxLength = DEFAULT_MAX_LENGTH;
-				}
-				else
-				{
-					int value = DataTypeUtil.toInteger( source );
-					if ( value == 0 )
+				} else {
+					int value = DataTypeUtil.toInteger(source);
+					if (value == 0)
 						maxLength = DEFAULT_MAX_LENGTH;
-					if ( value < 0 )
-					{
-						throw new DataException( Messages.getString( "aggregation.InvalidParameterValue" ),
-								new Object[] {getParameterDefn( )[2].getDisplayName( ),
-								getDisplayName( ),
-								value} );
+					if (value < 0) {
+						throw new DataException(Messages.getString("aggregation.InvalidParameterValue"),
+								new Object[] { getParameterDefn()[2].getDisplayName(), getDisplayName(), value });
 					}
 					maxLength = value;
 				}
-			}
-			catch ( BirtException e )
-			{
-				throw DataException.wrap( e );
+			} catch (BirtException e) {
+				throw DataException.wrap(e);
 			}
 		}
 
 		/**
-		 * Decide whether should show all values whatever some strings are the
-		 * same
+		 * Decide whether should show all values whatever some strings are the same
 		 * 
 		 * @param source
 		 * @throws BirtException
 		 */
-		private void setShowAllValues( Object source ) throws BirtException
-		{
+		private void setShowAllValues(Object source) throws BirtException {
 			boolean showAllValues;
-			if ( source == null
-					|| DataTypeUtil.toString( source ).trim( ).length( ) == 0 )
-			{
+			if (source == null || DataTypeUtil.toString(source).trim().length() == 0) {
 				showAllValues = false;
-			}
-			else if ( source instanceof String )
-			{
-				try
-				{
-					showAllValues = DataTypeUtil.toBoolean( source );
+			} else if (source instanceof String) {
+				try {
+					showAllValues = DataTypeUtil.toBoolean(source);
+				} catch (Exception ex) {
+					throw new DataException(Messages.getString("aggregation.InvalidParameterValue"), new Object[] {
+							getParameterDefn()[3].getDisplayName().replaceAll("&", ""), getDisplayName(), source });
 				}
-				catch ( Exception ex )
-				{
-					throw new DataException( Messages.getString( "aggregation.InvalidParameterValue" ),
-							new Object[] {getParameterDefn( )[3].getDisplayName( ).replaceAll( "&", "" ),
-						getDisplayName( ),
-						source} );
-				}
+			} else if (!(source instanceof Boolean)) {
+				throw new DataException(Messages.getString("aggregation.InvalidParameterType") + getName());
+			} else {
+				showAllValues = DataTypeUtil.toBoolean(source);
 			}
-			else if ( !( source instanceof Boolean ) )
+			if (showAllValues)// add each row's value to an ArrayList
 			{
-				throw new DataException( Messages.getString( "aggregation.InvalidParameterType" )
-						+ getName( ) );
-			}
-			else
-			{
-				showAllValues = DataTypeUtil.toBoolean( source );
-			}
-			if ( showAllValues )// add each row's value to an ArrayList
-			{
-				values = new ArrayList<String>( );
-			}
-			else
+				values = new ArrayList<String>();
+			} else
 			// add each row's value to a LinkedHashSet
 			{
-				values = new LinkedHashSet<String>( );
+				values = new LinkedHashSet<String>();
 			}
 
 		}

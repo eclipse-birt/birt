@@ -33,8 +33,7 @@ import org.xml.sax.SAXException;
  * 
  */
 
-class CompatibleODAPrivatePropertyState extends CompatiblePropertyState
-{
+class CompatibleODAPrivatePropertyState extends CompatiblePropertyState {
 
 	private IPropertyDefn privatePropDefn = null;
 
@@ -42,30 +41,22 @@ class CompatibleODAPrivatePropertyState extends CompatiblePropertyState
 	 * Constructs a <code>CompatibleODAPrivatePropertyState</code> to parse an
 	 * obsolete property.
 	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the private properties
+	 * @param theHandler the parser handle
+	 * @param element    the element that holds the private properties
 	 */
 
-	public CompatibleODAPrivatePropertyState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatibleODAPrivatePropertyState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 
 		String privatePropName = null;
-		if ( element instanceof IOdaDataSetModel )
-		{
+		if (element instanceof IOdaDataSetModel) {
 			privatePropName = IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP;
-		}
-		else if ( element instanceof IOdaDataSourceModel )
-		{
+		} else if (element instanceof IOdaDataSourceModel) {
 			privatePropName = IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP;
-		}
-		else
+		} else
 			assert false;
 
-		privatePropDefn = element.getPropertyDefn( privatePropName );
+		privatePropDefn = element.getPropertyDefn(privatePropName);
 	}
 
 	/*
@@ -74,26 +65,21 @@ class CompatibleODAPrivatePropertyState extends CompatiblePropertyState
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		ExtendedProperty tmpStruct = new ExtendedProperty( );
+	public void end() throws SAXException {
+		ExtendedProperty tmpStruct = new ExtendedProperty();
 
-		setMember( tmpStruct, privatePropDefn.getName( ),
-				ExtendedProperty.NAME_MEMBER, name );
-		setMember( tmpStruct, privatePropDefn.getName( ),
-				ExtendedProperty.VALUE_MEMBER, text.toString( ) );
+		setMember(tmpStruct, privatePropDefn.getName(), ExtendedProperty.NAME_MEMBER, name);
+		setMember(tmpStruct, privatePropDefn.getName(), ExtendedProperty.VALUE_MEMBER, text.toString());
 
-		List privateProps = (List) element.getLocalProperty( handler.module,
-				(ElementPropertyDefn) privatePropDefn );
-		if ( privateProps == null )
-			privateProps = new ArrayList( );
+		List privateProps = (List) element.getLocalProperty(handler.module, (ElementPropertyDefn) privatePropDefn);
+		if (privateProps == null)
+			privateProps = new ArrayList();
 
 		// should first add the structure to list then set the list value so as
 		// to setup the structure context
 
-		privateProps.add( tmpStruct );
+		privateProps.add(tmpStruct);
 
-		element.setProperty( (ElementPropertyDefn) privatePropDefn,
-				privateProps );
+		element.setProperty((ElementPropertyDefn) privatePropDefn, privateProps);
 	}
 }

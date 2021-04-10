@@ -18,31 +18,25 @@ import org.eclipse.equinox.app.IApplicationContext;
 /**
  * ReportDebugger
  */
-public class ReportDebugger implements IApplication
-{
+public class ReportDebugger implements IApplication {
 
-	public Object start( IApplicationContext context ) throws Exception
-	{
+	public Object start(IApplicationContext context) throws Exception {
 		String[] appArgs = new String[0];
 
-		if ( context.getArguments( ) != null )
-		{
-			Object args = context.getArguments( )
-					.get( IApplicationContext.APPLICATION_ARGS );
+		if (context.getArguments() != null) {
+			Object args = context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
 
-			if ( args instanceof String[] )
-			{
+			if (args instanceof String[]) {
 				appArgs = (String[]) args;
 			}
 		}
 
-		ReportLauncher.main( appArgs );
+		ReportLauncher.main(appArgs);
 
 		return null;
 	}
 
-	public void stop( )
-	{
+	public void stop() {
 	}
 
 }

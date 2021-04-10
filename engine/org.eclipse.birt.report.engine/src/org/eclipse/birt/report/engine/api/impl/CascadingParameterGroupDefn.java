@@ -12,19 +12,14 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import org.eclipse.birt.report.engine.api.ICascadingParameterGroup;
 
-
-
-public class CascadingParameterGroupDefn extends ParameterGroupDefn implements ICascadingParameterGroup
-{
+public class CascadingParameterGroupDefn extends ParameterGroupDefn implements ICascadingParameterGroup {
 	String dataSet;
-	
-	public String getDataSet()
-	{
+
+	public String getDataSet() {
 		return dataSet;
 	}
-	
-	public void setDataSet(String dataSet)
-	{
+
+	public void setDataSet(String dataSet) {
 		this.dataSet = dataSet;
 	}
 }

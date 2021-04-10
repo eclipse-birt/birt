@@ -17,16 +17,14 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
  * 
  */
 
-public interface IScriptableObjectClassInfo
-{
+public interface IScriptableObjectClassInfo {
 
 	/**
 	 * Returns the class information for the given class name.
 	 * 
-	 * @param className
-	 *            the class name
+	 * @param className the class name
 	 * @return the class information
 	 */
 
-	IClassInfo getScriptableClass( String className );
+	IClassInfo getScriptableClass(String className);
 }

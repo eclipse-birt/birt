@@ -24,20 +24,13 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  * 
  */
 
-public class NoRecalculateIVResultSet extends CachedResultSet
-{
-	public NoRecalculateIVResultSet( BaseQuery query, IResultClass meta,
-			IDataSetPopulator odaResultSet, IEventHandler eventHandler,
-			DataEngineSession session, List[] groups ) throws DataException
-	{
-		super( );
-		
+public class NoRecalculateIVResultSet extends CachedResultSet {
+	public NoRecalculateIVResultSet(BaseQuery query, IResultClass meta, IDataSetPopulator odaResultSet,
+			IEventHandler eventHandler, DataEngineSession session, List[] groups) throws DataException {
+		super();
+
 		this.handler = eventHandler;
-		this.resultSetPopulator = new NoRecalculateIVRSPopulator( query,
-				meta,
-				this,
-				session,
-				eventHandler, groups);
-		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet) );
+		this.resultSetPopulator = new NoRecalculateIVRSPopulator(query, meta, this, session, eventHandler, groups);
+		resultSetPopulator.populateResultSet(new OdiResultSetWrapper(odaResultSet));
 	}
 }

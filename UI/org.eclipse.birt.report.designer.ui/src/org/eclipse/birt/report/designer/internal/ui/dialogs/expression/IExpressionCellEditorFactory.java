@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 
-public interface IExpressionCellEditorFactory
-{
+public interface IExpressionCellEditorFactory {
 	ExpressionCellEditor createExpressionCellEditor(Composite parent, int style);
 }

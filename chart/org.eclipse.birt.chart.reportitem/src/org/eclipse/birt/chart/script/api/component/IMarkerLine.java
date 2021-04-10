@@ -17,21 +17,19 @@ import org.eclipse.birt.chart.script.api.data.IDataElement;
  * Represents the Marker Line of Axis in the scripting environment
  */
 
-public interface IMarkerLine extends IChartComponent
-{
+public interface IMarkerLine extends IChartComponent {
 
 	/**
 	 * Gets the value for defining where the line will be positioned
 	 * 
 	 * @return value
 	 */
-	IDataElement getValue( );
+	IDataElement getValue();
 
 	/**
 	 * Sets the value for defining where the line will be positioned
 	 * 
-	 * @param value
-	 *            value
+	 * @param value value
 	 */
-	void setValue( IDataElement value );
+	void setValue(IDataElement value);
 }

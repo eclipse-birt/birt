@@ -16,37 +16,30 @@ import org.eclipse.birt.report.engine.css.engine.value.StringMap;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 
-public class TextUnderlineManager extends IdentifierManager
-{
+public class TextUnderlineManager extends IdentifierManager {
 
 	/**
 	 * The identifier values.
 	 */
-	protected final static StringMap values = new StringMap( );
-	static
-	{
-		values.put( CSSConstants.CSS_NONE_VALUE, CSSValueConstants.NONE_VALUE );
-		values.put( CSSConstants.CSS_UNDERLINE_VALUE,
-				CSSValueConstants.UNDERLINE_VALUE );
+	protected final static StringMap values = new StringMap();
+	static {
+		values.put(CSSConstants.CSS_NONE_VALUE, CSSValueConstants.NONE_VALUE);
+		values.put(CSSConstants.CSS_UNDERLINE_VALUE, CSSValueConstants.UNDERLINE_VALUE);
 	}
 
-	public StringMap getIdentifiers( )
-	{
+	public StringMap getIdentifiers() {
 		return values;
 	}
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return BIRTConstants.BIRT_TEXT_UNDERLINE_PROPERTY;
 	}
 
-	public boolean isInheritedProperty( )
-	{
+	public boolean isInheritedProperty() {
 		return true;
 	}
 
-	public Value getDefaultValue( )
-	{
+	public Value getDefaultValue() {
 		return CSSValueConstants.NONE_VALUE;
 	}
 }

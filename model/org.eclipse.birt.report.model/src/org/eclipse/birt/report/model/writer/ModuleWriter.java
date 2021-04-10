@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.writer;
 
-
 /**
  * Represents the module writer which writes an XML file following the BIRT
  * design schema. Uses a visitor pattern to traverse each element. BIRT elements
@@ -28,7 +27,6 @@ package org.eclipse.birt.report.model.writer;
  * 
  */
 
-public abstract class ModuleWriter extends ModuleWriterImpl
-{
+public abstract class ModuleWriter extends ModuleWriterImpl {
 
 }

@@ -23,16 +23,13 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 /**
  * Implements the built-in Total.count aggregation
  */
-public class TotalCount extends AggrFunction
-{
+public class TotalCount extends AggrFunction {
 
-	public String getName( )
-	{
+	public String getName() {
 		return IBuildInAggregation.TOTAL_COUNT_FUNC;
 	}
 
-	public int getType( )
-	{
+	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
@@ -41,58 +38,43 @@ public class TotalCount extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
-	public int getDataType( )
-	{
+	public int getDataType() {
 		return DataType.INTEGER_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getParameterDefn()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getParameterDefn()
 	 */
-	public IParameterDefn[] getParameterDefn( )
-	{
-    	// one parameter definition
-		return new IParameterDefn[]{
-			new ParameterDefn( Constants.EXPRESSION_NAME,
-					Constants.EXPRESSION_DISPLAY_NAME,
-					true,
-					true,
-					SupportedDataTypes.ANY,
-					"" )
-		};
-    }
-    
-	public Accumulator newAccumulator( )
-	{
-		return new MyAccumulator( );
+	public IParameterDefn[] getParameterDefn() {
+		// one parameter definition
+		return new IParameterDefn[] { new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME,
+				true, true, SupportedDataTypes.ANY, "") };
 	}
 
-	private static class MyAccumulator extends SummaryAccumulator
-	{
+	public Accumulator newAccumulator() {
+		return new MyAccumulator();
+	}
+
+	private static class MyAccumulator extends SummaryAccumulator {
 
 		private int count = 0;
 		boolean countByColumn = true;
 
-		public void start( )
-		{
-			super.start( );
+		public void start() {
+			super.start();
 			count = 0;
 		}
 
-		public void onRow( Object[] args )
-		{
-        	if ( !countByColumn || args == null || args.length == 0 )
-			{
-        		if( countByColumn )
-				{
-        			countByColumn = false;
+		public void onRow(Object[] args) {
+			if (!countByColumn || args == null || args.length == 0) {
+				if (countByColumn) {
+					countByColumn = false;
 				}
 				++count;
-			}
-			else if ( args.length > 0 && args[0] != null )
-			{
+			} else if (args.length > 0 && args[0] != null) {
 				++count;
 			}
 		}
@@ -100,39 +82,41 @@ public class TotalCount extends AggrFunction
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
+		 * @see
+		 * org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
 		 */
-		public Object getSummaryValue( )
-		{
-			return Integer.valueOf( count );
+		public Object getSummaryValue() {
+			return Integer.valueOf(count);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	public String getDescription( )
-	{
-		return Messages.getString( "TotalCount.description" ); //$NON-NLS-1$
+	public String getDescription() {
+		return Messages.getString("TotalCount.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "TotalCount.displayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("TotalCount.displayName"); //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.aggregation.AggrFunction#getDefaultValue()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.AggrFunction#getDefaultValue()
 	 */
-	public Object getDefaultValue( )
-	{
-		return Integer.valueOf( 0 );
+	public Object getDefaultValue() {
+		return Integer.valueOf(0);
 	}
 }

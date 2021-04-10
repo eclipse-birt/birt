@@ -43,10 +43,9 @@ import org.mozilla.javascript.ast.ScriptNode;
  * query is executed. <br>
  * ExpressionProcessor compiles the expression into Rhino byte code for faster
  * evaluation at runtime.
- *  
+ * 
  */
-class MultiPassExpressionCompiler extends AbstractExpressionCompiler
-{
+class MultiPassExpressionCompiler extends AbstractExpressionCompiler {
 	// the pass level of the expression
 	private int totalPassLevel = 0;
 	// the pass level of aggregate
@@ -67,194 +66,137 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	private Scriptable scope;
 	private ResultSetPopulator rsPopulator;
 
-    private final String ROW_INDICATOR = "row";
-    private final String TOTAL_OVERALL = "Total.OVERALL";
-    
-    
-    // this list to save the current group level if there is nested column
+	private final String ROW_INDICATOR = "row";
+	private final String TOTAL_OVERALL = "Total.OVERALL";
+
+	// this list to save the current group level if there is nested column
 	// expression. it's last element always keep the newest group level.
-	private List currentGroupLevelList = new ArrayList( );
+	private List currentGroupLevelList = new ArrayList();
 
 	private final static String AGGR_VALUE = "_temp_aggr_value";
 	private boolean useRsMetaData = true;
 	private BaseQuery baseQuery;
 	private ScriptContext cx;
-	//Cache the visited Available Computed Column list in each aggregation parsing
+	// Cache the visited Available Computed Column list in each aggregation parsing
 	private List visitedList;
-	
+
 	/**
 	 * ExpressionParseHelper to help user parse common expression.
 	 * 
 	 * @param metaData
 	 */
-	public MultiPassExpressionCompiler( ResultSetPopulator rsPopulator,
-			BaseQuery query, Scriptable scope, List availableAggrObj, ScriptContext cx )
-	{
+	public MultiPassExpressionCompiler(ResultSetPopulator rsPopulator, BaseQuery query, Scriptable scope,
+			List availableAggrObj, ScriptContext cx) {
 		this.rsPopulator = rsPopulator;
 		this.baseQuery = query;
 		this.scope = scope;
 		this.hasAggregate = false;
 		this.hasNesetedAggregate = false;
 		this.caculatedAggregateList = availableAggrObj;
-		this.aggrObjList = new ArrayList( );
+		this.aggrObjList = new ArrayList();
 		this.cx = cx;
 	}
-	
+
 	/**
 	 * reset the helper status
+	 * 
 	 * @param availableAggrObj
 	 */
-	void setCompilerStatus( List availableAggrObj )
-	{
+	void setCompilerStatus(List availableAggrObj) {
 		this.hasAggregate = false;
 		this.hasNesetedAggregate = false;
 		this.caculatedAggregateList = availableAggrObj;
-		this.aggrObjList = new ArrayList( );
+		this.aggrObjList = new ArrayList();
 		this.passLevel = 0;
 		this.totalPassLevel = 0;
 	}
-	
+
 	/**
 	 * 
 	 * reset pass level flag
 	 */
-	void reSetPassLevelFlag( )
-	{
+	void reSetPassLevelFlag() {
 		this.passLevel = 0;
 		this.totalPassLevel = 0;
 	}
-	
+
 	/**
 	 * 
 	 * @param exprInfo
 	 * @param cx
 	 * @return
 	 */
-	public CompiledExpression compileExpression( ExpressionInfo exprInfo,
-			ScriptContext cx )
-	{
-		try
-		{
-			currentGroupLevel = exprInfo.getCurrentGroupLevel( );
-			exprType = exprInfo.getExprType( );
-			useRsMetaData = exprInfo.useCustomerChecked( );
-			
-			CompiledExpression expr = compileExpression( exprInfo.getScriptExpression( ),
-					cx );
-			
+	public CompiledExpression compileExpression(ExpressionInfo exprInfo, ScriptContext cx) {
+		try {
+			currentGroupLevel = exprInfo.getCurrentGroupLevel();
+			exprType = exprInfo.getExprType();
+			useRsMetaData = exprInfo.useCustomerChecked();
+
+			CompiledExpression expr = compileExpression(exprInfo.getScriptExpression(), cx);
+
 			return expr;
-		}
-		catch ( Exception e )
-		{
-			DataException dataException = new DataException( ResourceConstants.INVALID_JS_EXPR,
-					e,
-					exprInfo.getScriptExpression( ).getText( ) );
-			return new InvalidExpression( dataException );
+		} catch (Exception e) {
+			DataException dataException = new DataException(ResourceConstants.INVALID_JS_EXPR, e,
+					exprInfo.getScriptExpression().getText());
+			return new InvalidExpression(dataException);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.impl.AbstractExpressionParser#compileDirectColRefExpr(org.mozilla.javascript.Node,
-	 *      boolean)
+	 * @see org.eclipse.birt.data.engine.impl.AbstractExpressionParser#
+	 * compileDirectColRefExpr(org.mozilla.javascript.Node, boolean)
 	 */
-	protected CompiledExpression compileDirectColRefExpr( Node parent, Node refNode,
-			Node grandfather, boolean customerChecked, Context context )
-			throws DataException
-	{
+	protected CompiledExpression compileDirectColRefExpr(Node parent, Node refNode, Node grandfather,
+			boolean customerChecked, Context context) throws DataException {
 
-		if ( ( refNode.getType( ) == Token.GETPROP || refNode.getType( ) == Token.GETELEM )
-				&& ( !this.getDataSetMode( ) ) )
-		{
+		if ((refNode.getType() == Token.GETPROP || refNode.getType() == Token.GETELEM) && (!this.getDataSetMode())) {
 			String columnBindingName;
-			if ( refNode.getFirstChild( ).getType( ) == Token.NAME
-					&& refNode.getLastChild( ).getType( ) == Token.STRING
-					&& refNode.getFirstChild( )
-							.getString( )
-							.equals( this.ROW_INDICATOR ) )
-			{
+			if (refNode.getFirstChild().getType() == Token.NAME && refNode.getLastChild().getType() == Token.STRING
+					&& refNode.getFirstChild().getString().equals(this.ROW_INDICATOR)) {
 				{
-					columnBindingName = refNode.getLastChild( ).getString( );
-					if ( columnBindingName != null
-							&& !columnBindingName.equals( ScriptConstants.OUTER_RESULT_KEYWORD )
-							&& !columnBindingName.equals( ScriptConstants.ROW_NUM_KEYWORD )
-							&& !columnBindingName.equals( "0" ) )
-					{
-						IBinding binding = this.rsPopulator.getEventHandler( )
-								.getBinding( columnBindingName );
-						if ( binding == null )
-							throw new DataException( ResourceConstants.BAD_DATA_EXPRESSION );
+					columnBindingName = refNode.getLastChild().getString();
+					if (columnBindingName != null && !columnBindingName.equals(ScriptConstants.OUTER_RESULT_KEYWORD)
+							&& !columnBindingName.equals(ScriptConstants.ROW_NUM_KEYWORD)
+							&& !columnBindingName.equals("0")) {
+						IBinding binding = this.rsPopulator.getEventHandler().getBinding(columnBindingName);
+						if (binding == null)
+							throw new DataException(ResourceConstants.BAD_DATA_EXPRESSION);
 
-						if ( binding.getAggrFunction( ) == null )
-						{
-							IScriptExpression expression = (IScriptExpression) binding.getExpression( );
-							currentGroupLevelList.add( expression.getGroupName( ) );
-							ScriptNode tree = parse( expression.getText( ),
-									context );
-							if ( tree.getFirstChild( ) != null
-									&& tree.getFirstChild( ).getFirstChild( ) != null
-									&& tree.getFirstChild( )
-											.getFirstChild( )
-											.getType( ) != Token.IFNE
-									&& tree.getFirstChild( )
-											.getFirstChild( )
-											.getType( ) != Token.IFEQ )
-							{
+						if (binding.getAggrFunction() == null) {
+							IScriptExpression expression = (IScriptExpression) binding.getExpression();
+							currentGroupLevelList.add(expression.getGroupName());
+							ScriptNode tree = parse(expression.getText(), context);
+							if (tree.getFirstChild() != null && tree.getFirstChild().getFirstChild() != null
+									&& tree.getFirstChild().getFirstChild().getType() != Token.IFNE
+									&& tree.getFirstChild().getFirstChild().getType() != Token.IFEQ) {
 
 								CompiledExpression expr = null;
-								if ( grandfather != null )
-								{
-									if ( tree.getFirstChild( ) == tree.getLastChild( ) )
-									{
-										grandfather.replaceChild( parent,
-												tree.getFirstChild( ) );
-										expr = processChild( context,
-												false,
-												tree.getFirstChild( ),
-												tree.getFirstChild( )
-														.getFirstChild( ),
-												grandfather );
+								if (grandfather != null) {
+									if (tree.getFirstChild() == tree.getLastChild()) {
+										grandfather.replaceChild(parent, tree.getFirstChild());
+										expr = processChild(context, false, tree.getFirstChild(),
+												tree.getFirstChild().getFirstChild(), grandfather);
+									} else {
+										grandfather.replaceChild(grandfather.getFirstChild(), tree.getFirstChild());
+										grandfather.replaceChild(grandfather.getLastChild(), tree.getLastChild());
+										expr = this.compileComplexExpr(context, tree, false);
 									}
-									else
-									{
-										grandfather.replaceChild( grandfather.getFirstChild( ),
-												tree.getFirstChild( ) );
-										grandfather.replaceChild( grandfather.getLastChild( ),
-												tree.getLastChild( ) );
-										expr = this.compileComplexExpr( context,
-												tree,
-												false );
-									}
-								}
-								else
-								{
-									if ( tree.getFirstChild( ) == tree.getLastChild( ) )
-									{
-										parent.replaceChild( refNode,
-												tree.getFirstChild( )
-														.getFirstChild( ) );
-										expr = processChild( context,
-												false,
-												parent,
-												tree.getFirstChild( )
-														.getFirstChild( ),
-												grandfather );
+								} else {
+									if (tree.getFirstChild() == tree.getLastChild()) {
+										parent.replaceChild(refNode, tree.getFirstChild().getFirstChild());
+										expr = processChild(context, false, parent,
+												tree.getFirstChild().getFirstChild(), grandfather);
 
-									}
-									else
-									{
-										expr = this.compileComplexExpr( context,
-												tree,
-												false );
+									} else {
+										expr = this.compileComplexExpr(context, tree, false);
 									}
 								}
-								currentGroupLevelList.remove( currentGroupLevelList.size( ) - 1 );
-								if ( expr != null )
-								{
-									if ( ( expr instanceof ColumnReferenceExpression ) )
-									{
-										( (ColumnReferenceExpression) expr ).setDataType( expression.getDataType( ) );
+								currentGroupLevelList.remove(currentGroupLevelList.size() - 1);
+								if (expr != null) {
+									if ((expr instanceof ColumnReferenceExpression)) {
+										((ColumnReferenceExpression) expr).setDataType(expression.getDataType());
 										return expr;
 									}
 									return expr;
@@ -266,14 +208,11 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 			}
 		}
 
-		ColumnReferenceExpression expr = super.compileColRefExpr( refNode,
-				customerChecked );
+		ColumnReferenceExpression expr = super.compileColRefExpr(refNode, customerChecked);
 
-		if ( customerChecked && expr != null )
-		{
-			if ( expr.getColumnName( ) != null
-					&& expr.getColumnName( ).trim( ).length( ) > 0 )
-				checkAvailableCmpColumn( expr.getColumnName( ) );
+		if (customerChecked && expr != null) {
+			if (expr.getColumnName() != null && expr.getColumnName().trim().length() > 0)
+				checkAvailableCmpColumn(expr.getColumnName());
 		}
 		return expr;
 	}
@@ -281,200 +220,163 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.impl.AbstractExpressionParser#compileAggregateExpr(org.mozilla.javascript.Context,
-	 *      org.mozilla.javascript.Node, org.mozilla.javascript.Node)
+	 * @see org.eclipse.birt.data.engine.impl.AbstractExpressionParser#
+	 * compileAggregateExpr(org.mozilla.javascript.Context,
+	 * org.mozilla.javascript.Node, org.mozilla.javascript.Node)
 	 */
-	protected AggregateExpression compileAggregateExpr( Context context, Node parent,
-			Node callNode ) throws DataException
-	{
-		assert ( callNode.getType( ) == Token.CALL );
-		IAggrFunction aggregation = getAggregationFunction( callNode );
+	protected AggregateExpression compileAggregateExpr(Context context, Node parent, Node callNode)
+			throws DataException {
+		assert (callNode.getType() == Token.CALL);
+		IAggrFunction aggregation = getAggregationFunction(callNode);
 		// not an aggregation function being called, then it's considered
 		// a complex expression
-		if ( aggregation == null )
-		{
+		if (aggregation == null) {
 			return null;
 		}
 		this.visitedList = new ArrayList();
 
 		this.passLevel = 0;
-		AggregateExpression aggregateExpression = new AggregateExpression( aggregation );
+		AggregateExpression aggregateExpression = new AggregateExpression(aggregation);
 
-		AggregateObject aggregateObj = new AggregateObject( aggregateExpression );
+		AggregateObject aggregateObj = new AggregateObject(aggregateExpression);
 		this.hasAggregate = true;
-		
-		extractArguments( context, aggregateExpression, callNode );
-		
-		Iterator iter = aggregateExpression.getArguments( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			CompiledExpression argumentExpr = (CompiledExpression) iter.next( );
+
+		extractArguments(context, aggregateExpression, callNode);
+
+		Iterator iter = aggregateExpression.getArguments().iterator();
+		while (iter.hasNext()) {
+			CompiledExpression argumentExpr = (CompiledExpression) iter.next();
 			// the argument contains the nested aggregate expression
-			if ( argumentExpr instanceof AggregateExpression )
-			{
-				if ( canBeCalculated( new AggregateObject( (AggregateExpression) argumentExpr ) ) )
+			if (argumentExpr instanceof AggregateExpression) {
+				if (canBeCalculated(new AggregateObject((AggregateExpression) argumentExpr)))
 					passLevel--;
 				hasNesetedAggregate = true;
 				// throw new DataException(
 				// ResourceConstants.UNSUPPORTED_DIRECT_NESTED_AGGREGATE );
-			}
-			else if ( argumentExpr instanceof ComplexExpression )
-			{
-				flatternAggregateExpression( (ComplexExpression) argumentExpr );
+			} else if (argumentExpr instanceof ComplexExpression) {
+				flatternAggregateExpression((ComplexExpression) argumentExpr);
 			}
 		}
 		// get the aggregate current group level
-		currentGroupLevel = getCurrentGroupLevel( aggregateObj, context );
-		
-		aggregateExpression.setGroupLevel( currentGroupLevel );
-				
-		if ( exprType == IExpressionProcessor.GROUP_COLUMN_EXPR
-				|| exprType == IExpressionProcessor.FILTER_ON_GROUP_EXPR
-				|| exprType == IExpressionProcessor.SORT_ON_GROUP_EXPR )
-		{
-			aggregateObj.setPassLevel( 1 );
-		}
-		else
-			aggregateObj.setPassLevel( ++passLevel );
-		
-		//All the group level in nested total should follow the rule that the child aggregate group level should 
-		//greater than parent group level. 
-		if ( aggregateExpression.isNestedAggregation( )
-				&& aggregateExpression.getCalculationLevel( ) < aggregateExpression.getGroupLevel( )
-				&& aggregateExpression.getCalculationLevel( ) != 0 )
-		{
-			throw new DataException( ResourceConstants.INVALID_TOTAL_EXPRESSION );
-		}
-		
-		int id = registerAggregate( aggregateObj,
-				aggregateExpression.isNestedAggregation( )
-						? aggregateExpression.getCalculationLevel( ) : 0 );
+		currentGroupLevel = getCurrentGroupLevel(aggregateObj, context);
 
-		if ( id >= 0 )
-			replaceAggregateNode( id, parent, callNode );
-		setTotalPassLevel( passLevel );
-		this.visitedList.clear( );
+		aggregateExpression.setGroupLevel(currentGroupLevel);
+
+		if (exprType == IExpressionProcessor.GROUP_COLUMN_EXPR || exprType == IExpressionProcessor.FILTER_ON_GROUP_EXPR
+				|| exprType == IExpressionProcessor.SORT_ON_GROUP_EXPR) {
+			aggregateObj.setPassLevel(1);
+		} else
+			aggregateObj.setPassLevel(++passLevel);
+
+		// All the group level in nested total should follow the rule that the child
+		// aggregate group level should
+		// greater than parent group level.
+		if (aggregateExpression.isNestedAggregation()
+				&& aggregateExpression.getCalculationLevel() < aggregateExpression.getGroupLevel()
+				&& aggregateExpression.getCalculationLevel() != 0) {
+			throw new DataException(ResourceConstants.INVALID_TOTAL_EXPRESSION);
+		}
+
+		int id = registerAggregate(aggregateObj,
+				aggregateExpression.isNestedAggregation() ? aggregateExpression.getCalculationLevel() : 0);
+
+		if (id >= 0)
+			replaceAggregateNode(id, parent, callNode);
+		setTotalPassLevel(passLevel);
+		this.visitedList.clear();
 		return aggregateExpression;
 	}
 
 	/**
 	 * Check the aggregate object on group,if the aggregate object's type is
-	 * GROUP_COLUMN_EXPR, its group level must be less than current group level.
-	 * if type is FILTER_ON_GROUP_EXPR, its group level must be equals to
-	 * current group level. if type is SORT_ON_GROUP_EXPR, its group level must
-	 * be less or equal with current group level.
+	 * GROUP_COLUMN_EXPR, its group level must be less than current group level. if
+	 * type is FILTER_ON_GROUP_EXPR, its group level must be equals to current group
+	 * level. if type is SORT_ON_GROUP_EXPR, its group level must be less or equal
+	 * with current group level.
 	 * 
 	 * @param aggregateObj
 	 */
-	private int getCurrentGroupLevel( AggregateObject aggregateObj,
-			Context context ) throws DataException
-	{
-		AggregateExpression expr = aggregateObj.getAggregateExpr( );
-		IAggrFunction aggr = expr.getAggregation( );
-		List argList = expr.getArguments( );
-		int nFixedArgs = aggr.getParameterDefn( ).length;
+	private int getCurrentGroupLevel(AggregateObject aggregateObj, Context context) throws DataException {
+		AggregateExpression expr = aggregateObj.getAggregateExpr();
+		IAggrFunction aggr = expr.getAggregation();
+		List argList = expr.getArguments();
+		int nFixedArgs = aggr.getParameterDefn().length;
 		int groupLevel = currentGroupLevel;
 		// Verify that the expression has the right # of arguments
-		int nArgs = argList.size( );
+		int nArgs = argList.size();
 		CompiledExpression groupExpr = null;
-		if ( nArgs > nFixedArgs + 2 || nArgs < nFixedArgs )
-		{
-			if ( nFixedArgs > 0 && !aggr.getParameterDefn( )[0].isOptional( ) )
-			{
-				DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
-						expr.getAggregation( ).getName( ) );
+		if (nArgs > nFixedArgs + 2 || nArgs < nFixedArgs) {
+			if (nFixedArgs > 0 && !aggr.getParameterDefn()[0].isOptional()) {
+				DataException e = new DataException(ResourceConstants.INVALID_AGGR_PARAMETER,
+						expr.getAggregation().getName());
 				throw e;
 			}
 		}
-		if ( nArgs == nFixedArgs + 2 )
-		{
-			groupExpr = (CompiledExpression) argList.get( nArgs - 1 );
+		if (nArgs == nFixedArgs + 2) {
+			groupExpr = (CompiledExpression) argList.get(nArgs - 1);
 		}
-		if ( groupExpr != null && !( groupExpr instanceof ConstantExpression ) )
-		{
+		if (groupExpr != null && !(groupExpr instanceof ConstantExpression)) {
 
-			DataException e = new DataException( ResourceConstants.INVALID_AGGR_GROUP_EXPRESSION,
-					aggr.getName( ) );
+			DataException e = new DataException(ResourceConstants.INVALID_AGGR_GROUP_EXPRESSION, aggr.getName());
 			throw e;
 		}
 		// evaluate group level
 		Object groupLevelObj;
 
-		if ( groupExpr != null )
-			groupLevelObj = groupExpr.evaluate( cx, scope );
-		else
-		{
+		if (groupExpr != null)
+			groupLevelObj = groupExpr.evaluate(cx, scope);
+		else {
 			String currentGroupName = null;
-			if ( this.currentGroupLevelList.size( ) == 0 )
-				currentGroupName = this.getScriptExpression( ).getGroupName( );
+			if (this.currentGroupLevelList.size() == 0)
+				currentGroupName = this.getScriptExpression().getGroupName();
 			else
-				currentGroupName = this.currentGroupLevelList.get( this.currentGroupLevelList.size( ) - 1 )
-						.toString( );
+				currentGroupName = this.currentGroupLevelList.get(this.currentGroupLevelList.size() - 1).toString();
 
-			if ( currentGroupName.equals( TOTAL_OVERALL ) )
+			if (currentGroupName.equals(TOTAL_OVERALL))
 				groupLevelObj = 0;
 			else
 				groupLevelObj = currentGroupName;
 		}
-		
 
-		if ( groupLevelObj == null )
-		{
-			//do nothing
-		}
-		else if ( groupLevelObj instanceof String )
-		{
-			int level = AggregationConstantsUtil.getGroupLevel( (String) groupLevelObj,
-					currentGroupLevel,
-					this.baseQuery.getGrouping( ) == null ? 0
-							: this.baseQuery.getGrouping( ).length,
-					false );
+		if (groupLevelObj == null) {
+			// do nothing
+		} else if (groupLevelObj instanceof String) {
+			int level = AggregationConstantsUtil.getGroupLevel((String) groupLevelObj, currentGroupLevel,
+					this.baseQuery.getGrouping() == null ? 0 : this.baseQuery.getGrouping().length, false);
 			// When the groupLevelObj can be recognized, it will return a
 			// non-negative value.Else return -1.
-			if ( level != -1 )
-			{
+			if (level != -1) {
 				groupLevel = level;
+			} else {
+				groupLevel = getGroupIndex((String) groupLevelObj);
 			}
-			else
-			{
-				groupLevel = getGroupIndex( (String) groupLevelObj );
-			}
-		}
-		else if ( groupLevelObj instanceof Number )
-		{
-			int offset = ( (Number) groupLevelObj ).intValue( );
-			if ( offset < 0 )
+		} else if (groupLevelObj instanceof Number) {
+			int offset = ((Number) groupLevelObj).intValue();
+			if (offset < 0)
 				groupLevel = currentGroupLevel + offset;
 			else
 				groupLevel = offset;
 		}
-		switch ( exprType )
-		{
-			case IExpressionProcessor.FILTER_ON_GROUP_EXPR :
-				if ( groupLevel != currentGroupLevel )
-				{
-					DataException e = new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
-							aggr.getName( ) );
-					throw e;
-				}
-				break;
-			case IExpressionProcessor.SORT_ON_GROUP_EXPR :
-				if ( groupLevel < 0 || groupLevel > currentGroupLevel )
-				{
-					DataException e = new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
-							aggr.getName( ) );
-					throw e;
-				}
-				break;
-			default :
-				// TODO gourpLevel>= currentGorupLevel is also invalid
-				if ( groupLevel < 0 )
-				{
-					DataException e = new DataException( ResourceConstants.INVALID_GROUP_LEVEL,
-							aggr.getName( ) );
-					throw e;
-				}
-				break;
+		switch (exprType) {
+		case IExpressionProcessor.FILTER_ON_GROUP_EXPR:
+			if (groupLevel != currentGroupLevel) {
+				DataException e = new DataException(ResourceConstants.INVALID_GROUP_LEVEL, aggr.getName());
+				throw e;
+			}
+			break;
+		case IExpressionProcessor.SORT_ON_GROUP_EXPR:
+			if (groupLevel < 0 || groupLevel > currentGroupLevel) {
+				DataException e = new DataException(ResourceConstants.INVALID_GROUP_LEVEL, aggr.getName());
+				throw e;
+			}
+			break;
+		default:
+			// TODO gourpLevel>= currentGorupLevel is also invalid
+			if (groupLevel < 0) {
+				DataException e = new DataException(ResourceConstants.INVALID_GROUP_LEVEL, aggr.getName());
+				throw e;
+			}
+			break;
 		}
 
 		return groupLevel;
@@ -486,17 +388,13 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * @param groupText
 	 * @return The index of group
 	 */
-	private int getGroupIndex( String groupText )
-	{
+	private int getGroupIndex(String groupText) {
 		assert groupText != null;
 		assert baseQuery != null;
-		GroupSpec[] groups = baseQuery.getGrouping( );
-		for ( int i = 0; i < groups.length; i++ )
-		{
+		GroupSpec[] groups = baseQuery.getGrouping();
+		for (int i = 0; i < groups.length; i++) {
 			GroupSpec group = groups[i];
-			if ( groupText.equals( group.getName( ) )
-					|| groupText.equals( group.getKeyColumn( ) ) )
-			{
+			if (groupText.equals(group.getName()) || groupText.equals(group.getKeyColumn())) {
 				return i + 1; // Note that group index is 1-based
 			}
 		}
@@ -504,21 +402,18 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	}
 
 	/**
-	 * if the column field is custom field and it is not available, the total
-	 * pass level++
+	 * if the column field is custom field and it is not available, the total pass
+	 * level++
 	 * 
 	 * @param string
 	 * @throws DataException
 	 */
-	private void checkAvailableCmpColumn( String rowColumnName )
-			throws DataException
-	{
-		if ( !useRsMetaData || this.rsPopulator == null )
+	private void checkAvailableCmpColumn(String rowColumnName) throws DataException {
+		if (!useRsMetaData || this.rsPopulator == null)
 			return;
-		else if ( ( this.rsPopulator.getResultSetMetadata( ) == null || this.rsPopulator.getResultSetMetadata( )
-				.isCustomField( rowColumnName ) )
-				&& ( this.availableCmpList == null || !this.availableCmpList.contains( rowColumnName ) ) )
-		{
+		else if ((this.rsPopulator.getResultSetMetadata() == null
+				|| this.rsPopulator.getResultSetMetadata().isCustomField(rowColumnName))
+				&& (this.availableCmpList == null || !this.availableCmpList.contains(rowColumnName))) {
 			this.passLevel++;
 		}
 	}
@@ -528,8 +423,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * 
 	 * @return
 	 */
-	int getExpressionPassLevel( )
-	{
+	int getExpressionPassLevel() {
 		return this.totalPassLevel;
 	}
 
@@ -541,63 +435,51 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * @param callNode
 	 * @throws DataException
 	 */
-	private void extractArguments( Context context,
-			AggregateExpression aggregateExpression, Node callNode )
-			throws DataException
-	{
-		Node arg = callNode.getFirstChild( ).getNext( );
-						
-		while ( arg != null )
-		{
+	private void extractArguments(Context context, AggregateExpression aggregateExpression, Node callNode)
+			throws DataException {
+		Node arg = callNode.getFirstChild().getNext();
+
+		while (arg != null) {
 			// need to hold on to the next argument because the tree extraction
 			// will cause us to lose the reference otherwise
-			Node nextArg = arg.getNext( );
-			CompiledExpression expr = processChild( context,
-					true,
-					callNode,
-					arg,
-					null );
-			if ( !( expr instanceof BytecodeExpression ) )
-			{
-				aggregateExpression.addArgument( expr );
+			Node nextArg = arg.getNext();
+			CompiledExpression expr = processChild(context, true, callNode, arg, null);
+			if (!(expr instanceof BytecodeExpression)) {
+				aggregateExpression.addArgument(expr);
 				arg = nextArg;
 				continue;
 			}
 
-			AstRoot tree = new AstRoot( Token.SCRIPT );
-			Node exprNode = new Node( Token.EXPR_RESULT );
-			exprNode.addChildToFront( arg );
-			tree.addChildrenToFront( exprNode );
-			if ( expr instanceof AggregateExpression )
-			{
-				int registry = getRegisterId( new AggregateObject( (AggregateExpression) expr ) );
-				if ( registry >= 0 )
-					replaceAggregateNode( registry, exprNode, arg );
+			AstRoot tree = new AstRoot(Token.SCRIPT);
+			Node exprNode = new Node(Token.EXPR_RESULT);
+			exprNode.addChildToFront(arg);
+			tree.addChildrenToFront(exprNode);
+			if (expr instanceof AggregateExpression) {
+				int registry = getRegisterId(new AggregateObject((AggregateExpression) expr));
+				if (registry >= 0)
+					replaceAggregateNode(registry, exprNode, arg);
 			}
-			
-			compileForBytecodeExpr( context, tree, expr );
-			aggregateExpression.addArgument( expr );
+
+			compileForBytecodeExpr(context, tree, expr);
+			aggregateExpression.addArgument(expr);
 			arg = nextArg;
 		}
 	}
-	
-		
+
 	/**
 	 * get the register id form aggregate object list
 	 * 
 	 * @param obj1
 	 * @return
 	 */
-	private int getRegisterId( AggregateObject obj1 )
-	{
-		if ( this.aggrObjList == null )
+	private int getRegisterId(AggregateObject obj1) {
+		if (this.aggrObjList == null)
 			return -1;
 		else
-			for ( int i = 0; i < this.aggrObjList.size( ); i++ )
-			{
-				AggregateObject obj2 = (AggregateObject) this.aggrObjList.get( i );
-				if ( obj1.equals( obj2 ) )
-					return obj2.getRegisterId( );
+			for (int i = 0; i < this.aggrObjList.size(); i++) {
+				AggregateObject obj2 = (AggregateObject) this.aggrObjList.get(i);
+				if (obj1.equals(obj2))
+					return obj2.getRegisterId();
 			}
 		return -1;
 	}
@@ -608,22 +490,17 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * @param aggregateObj
 	 * @return
 	 */
-	private boolean canBeCalculated( AggregateObject aggregateObj )
-	{
-		if ( this.caculatedAggregateList == null )
+	private boolean canBeCalculated(AggregateObject aggregateObj) {
+		if (this.caculatedAggregateList == null)
 			return false;
-		else
-		{
-			for ( int i = 0; i < this.caculatedAggregateList.size( ); i++ )
-			{
-				AggregateObject obj = (AggregateObject) caculatedAggregateList.get( i );
-				if ( obj.equals( aggregateObj ) )
-				{
-					if ( visitedList.contains( aggregateObj ) )
+		else {
+			for (int i = 0; i < this.caculatedAggregateList.size(); i++) {
+				AggregateObject obj = (AggregateObject) caculatedAggregateList.get(i);
+				if (obj.equals(aggregateObj)) {
+					if (visitedList.contains(aggregateObj))
 						return false;
-					else
-					{
-						visitedList.add( obj );
+					else {
+						visitedList.add(obj);
 						return true;
 					}
 				}
@@ -638,59 +515,46 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * @param level
 	 * @return
 	 */
-	List getAggregateList( int level )
-	{
-		if ( this.aggrObjList == null )
+	List getAggregateList(int level) {
+		if (this.aggrObjList == null)
 			return null;
-		else
-		{
-			List levelList = new ArrayList( );
-			for ( int i = 0; i < this.aggrObjList.size( ); i++ )
-			{
-				AggregateObject aggrObj = (AggregateObject) aggrObjList.get( i );
-				if ( aggrObj.getPassLevel( ) <= level && !aggrObj.isAvailable( ) )
-					levelList.add( aggrObj );
+		else {
+			List levelList = new ArrayList();
+			for (int i = 0; i < this.aggrObjList.size(); i++) {
+				AggregateObject aggrObj = (AggregateObject) aggrObjList.get(i);
+				if (aggrObj.getPassLevel() <= level && !aggrObj.isAvailable())
+					levelList.add(aggrObj);
 			}
 			return levelList;
 		}
 	}
 
 	/**
-	 * if the agrument contains aggregate expression , return true. TODO
-	 * Unsupported direct nested aggregate
+	 * if the agrument contains aggregate expression , return true. TODO Unsupported
+	 * direct nested aggregate
 	 * 
 	 * @param expression
 	 * @return
 	 */
-	private void flatternAggregateExpression( ComplexExpression complexExpr )
-			throws DataException
-	{
-		Collection subExprs = complexExpr.getSubExpressions( );
-		Iterator iter = subExprs.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			CompiledExpression childExpr = (CompiledExpression) iter.next( );
-			if ( childExpr instanceof AggregateExpression )
-			{
-				if ( canBeCalculated( new AggregateObject( (AggregateExpression) childExpr ) ) )
-				{
+	private void flatternAggregateExpression(ComplexExpression complexExpr) throws DataException {
+		Collection subExprs = complexExpr.getSubExpressions();
+		Iterator iter = subExprs.iterator();
+		while (iter.hasNext()) {
+			CompiledExpression childExpr = (CompiledExpression) iter.next();
+			if (childExpr instanceof AggregateExpression) {
+				if (canBeCalculated(new AggregateObject((AggregateExpression) childExpr))) {
 					passLevel--;
 					return;
 				}
 				hasNesetedAggregate = true;
 //				throw new DataException( ResourceConstants.UNSUPPORTED_DIRECT_NESTED_AGGREGATE );
-			}
-			else if ( childExpr instanceof ComplexExpression )
-			{
-				Collection childSubExprs = ( (ComplexExpression) childExpr ).getSubExpressions( );
-				Iterator childIter = childSubExprs.iterator( );
-				while ( childIter.hasNext( ) )
-				{
-					CompiledExpression childChildExpr = (CompiledExpression) childIter.next( );
-					if ( childChildExpr instanceof AggregateExpression )
-					{
-						if ( canBeCalculated( new AggregateObject( (AggregateExpression) childChildExpr ) ) )
-						{
+			} else if (childExpr instanceof ComplexExpression) {
+				Collection childSubExprs = ((ComplexExpression) childExpr).getSubExpressions();
+				Iterator childIter = childSubExprs.iterator();
+				while (childIter.hasNext()) {
+					CompiledExpression childChildExpr = (CompiledExpression) childIter.next();
+					if (childChildExpr instanceof AggregateExpression) {
+						if (canBeCalculated(new AggregateObject((AggregateExpression) childChildExpr))) {
 							passLevel--;
 							return;
 						}
@@ -706,35 +570,23 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * @param aggregateObj
 	 * @return register id
 	 */
-	private int registerAggregate( AggregateObject aggregateObj, int calculationLevel )
-			throws DataException
-	{
-		if ( rsPopulator == null )
+	private int registerAggregate(AggregateObject aggregateObj, int calculationLevel) throws DataException {
+		if (rsPopulator == null)
 			return -1;
 		int index = -1;
-		if ( table == null )
-			table = AggregationTablePopulator.createAggregateTable( rsPopulator.getSession( ).getTempDir( ), baseQuery );
-		try
-		{
-			if ( aggregateObj.getPassLevel( ) <= 1 )
-			{
-				index = AggregationTablePopulator.populateAggregationTable( table,
-						aggregateObj,
-						currentGroupLevel,
-						calculationLevel,
-						false,
-						false,
-						cx);
-				if ( aggrObjList == null )
-				{
-					aggrObjList = new ArrayList( );
+		if (table == null)
+			table = AggregationTablePopulator.createAggregateTable(rsPopulator.getSession().getTempDir(), baseQuery);
+		try {
+			if (aggregateObj.getPassLevel() <= 1) {
+				index = AggregationTablePopulator.populateAggregationTable(table, aggregateObj, currentGroupLevel,
+						calculationLevel, false, false, cx);
+				if (aggrObjList == null) {
+					aggrObjList = new ArrayList();
 				}
-				aggregateObj.setRegisterId( index );
-				aggrObjList.add( aggregateObj );
+				aggregateObj.setRegisterId(index);
+				aggrObjList.add(aggregateObj);
 			}
-		}
-		catch ( DataException e )
-		{
+		} catch (DataException e) {
 			throw e;
 		}
 		return index;
@@ -745,8 +597,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * 
 	 * @return
 	 */
-	AggregateTable getAggregateTable( )
-	{
+	AggregateTable getAggregateTable() {
 		return this.table;
 	}
 
@@ -754,8 +605,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * 
 	 * @return
 	 */
-	boolean hasNestedAggregate( )
-	{
+	boolean hasNestedAggregate() {
 		return this.hasNesetedAggregate;
 	}
 
@@ -764,23 +614,21 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * 
 	 * @param passLevel
 	 */
-	private void setTotalPassLevel( int passLevel )
-	{
-		if ( this.totalPassLevel < passLevel )
+	private void setTotalPassLevel(int passLevel) {
+		if (this.totalPassLevel < passLevel)
 			this.totalPassLevel = passLevel;
 	}
 
 	/**
-	 * if the computed column has been calculated, it will be added into
-	 * available list.
+	 * if the computed column has been calculated, it will be added into available
+	 * list.
 	 * 
 	 * @param name
 	 */
-	void addAvailableCmpColumn( String name )
-	{
-		if ( this.availableCmpList == null )
-			availableCmpList = new ArrayList( );
-		availableCmpList.add( name );
+	void addAvailableCmpColumn(String name) {
+		if (this.availableCmpList == null)
+			availableCmpList = new ArrayList();
+		availableCmpList.add(name);
 	}
 
 	/**
@@ -788,11 +636,9 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * 
 	 * @return
 	 */
-	public boolean getAggregateStatus( )
-	{
+	public boolean getAggregateStatus() {
 		return this.hasAggregate;
 	}
-	
 
 	/**
 	 * replace the aggregate node with AGGR_VALUE <id>
@@ -803,19 +649,15 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 	 * @param aggregateCallNode
 	 * @throws DataException
 	 */
-	private void replaceAggregateNode( int registry, Node parent,
-			Node aggregateCallNode ) throws DataException
-	{
-		if ( registry < 0 )
-			throw new DataException( ResourceConstants.INVALID_CALL_AGGR );
+	private void replaceAggregateNode(int registry, Node parent, Node aggregateCallNode) throws DataException {
+		if (registry < 0)
+			throw new DataException(ResourceConstants.INVALID_CALL_AGGR);
 
 		int aggregateId = registry;
-		Node newFirstChild = Node.newString( Token.NAME, AGGR_VALUE );
-		Node newSecondChild = Node.newNumber( aggregateId );
-		Node aggregateNode = new Node( Token.GETELEM,
-				newFirstChild,
-				newSecondChild );
-		parent.replaceChild( aggregateCallNode, aggregateNode );
+		Node newFirstChild = Node.newString(Token.NAME, AGGR_VALUE);
+		Node newSecondChild = Node.newNumber(aggregateId);
+		Node aggregateNode = new Node(Token.GETELEM, newFirstChild, newSecondChild);
+		parent.replaceChild(aggregateCallNode, aggregateNode);
 	}
-	
+
 }

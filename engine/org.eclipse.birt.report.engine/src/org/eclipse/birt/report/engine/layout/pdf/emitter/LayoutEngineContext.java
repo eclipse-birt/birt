@@ -22,8 +22,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 
-public class LayoutEngineContext
-{
+public class LayoutEngineContext {
 
 	protected int maxWidth;
 
@@ -34,208 +33,172 @@ public class LayoutEngineContext
 	protected IReportContent report;
 
 	protected IContent unresolvedContent;
-	
+
 	protected Locale locale;
-	
+
 	protected long totalPage = 0;
 	protected long pageCount = 0;
 	protected long pageNumber = 0;
-	
+
 	protected boolean autoPageBreak = true;
-	
+
 	protected LayoutEmitterAdapter emitter;
 
 	protected boolean isFinished;
-	
-	public boolean isFinished( )
-	{
+
+	public boolean isFinished() {
 		return isFinished;
 	}
-	
-	public void setFinished( boolean isFinished )
-	{
+
+	public void setFinished(boolean isFinished) {
 		this.isFinished = isFinished;
 	}
-	
-	public void setEmitter( LayoutEmitterAdapter emitter )
-	{
+
+	public void setEmitter(LayoutEmitterAdapter emitter) {
 		this.emitter = emitter;
 	}
-	
-	public void setAutoPageBreak(boolean autoPageBreak)
-	{
+
+	public void setAutoPageBreak(boolean autoPageBreak) {
 		this.autoPageBreak = autoPageBreak;
 	}
 
-	public void addUnresolvedContent( IContent content )
-	{
+	public void addUnresolvedContent(IContent content) {
 		this.unresolvedContent = content;
 	}
 
-	public IContent getUnresolvedContent( )
-	{
+	public IContent getUnresolvedContent() {
 		return unresolvedContent;
 	}
 
-	public IReportContent getReport( )
-	{
+	public IReportContent getReport() {
 		return report;
 	}
 
-	public void setReport( IReportContent report )
-	{
+	public void setReport(IReportContent report) {
 		this.report = report;
 	}
 
-	public String getFormat( )
-	{
+	public String getFormat() {
 		return this.format;
 	}
 
-	public void setFormat( String format )
-	{
+	public void setFormat(String format) {
 		this.format = format;
 	}
 
-	public int getMaxHeight( )
-	{
+	public int getMaxHeight() {
 		return maxHeight;
 	}
 
-	public int getMaxWidth( )
-	{
+	public int getMaxWidth() {
 		return maxWidth;
 	}
 
-	public void setMaxHeight( int height )
-	{
+	public void setMaxHeight(int height) {
 		this.maxHeight = height;
 	}
 
-	public void setMaxWidth( int width )
-	{
+	public void setMaxWidth(int width) {
 		this.maxWidth = width;
 	}
 
 	protected boolean fitToPage = false;
 
-	public void setFitToPage( boolean fitToPage )
-	{
+	public void setFitToPage(boolean fitToPage) {
 		this.fitToPage = fitToPage;
 	}
 
-	public boolean fitToPage( )
-	{
+	public boolean fitToPage() {
 		return this.fitToPage;
 	}
 
 	protected boolean pageBreakPaginationOnly = false;
 
-	public void setPagebreakPaginationOnly( boolean pageBreakPaginationOnly )
-	{
+	public void setPagebreakPaginationOnly(boolean pageBreakPaginationOnly) {
 		this.pageBreakPaginationOnly = pageBreakPaginationOnly;
-		setAutoPageBreak( !pageBreakPaginationOnly );
+		setAutoPageBreak(!pageBreakPaginationOnly);
 	}
 
-	public boolean pagebreakPaginationOnly( )
-	{
+	public boolean pagebreakPaginationOnly() {
 		return this.pageBreakPaginationOnly;
 	}
 
 	protected int pageOverflow = IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES;
 
-	public int getPageOverflow( )
-	{
+	public int getPageOverflow() {
 		return this.pageOverflow;
 	}
 
-	public void setPageOverflow( int pageOverflow )
-	{
+	public void setPageOverflow(int pageOverflow) {
 		this.pageOverflow = pageOverflow;
-		if ( pageOverflow != IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
-		{
+		if (pageOverflow != IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES) {
 			autoPageBreak = false;
 		}
 	}
 
 	protected int preferenceWidth = 0;
 
-	public void setPreferenceWidth( int preferenceWidth )
-	{
+	public void setPreferenceWidth(int preferenceWidth) {
 		this.preferenceWidth = preferenceWidth;
 	}
 
-	public int getPreferenceWidth( )
-	{
+	public int getPreferenceWidth() {
 		return this.preferenceWidth;
 	}
 
 	protected boolean textWrapping = true;
 
-	public void setTextWrapping( boolean textWrapping )
-	{
+	public void setTextWrapping(boolean textWrapping) {
 		this.textWrapping = textWrapping;
 	}
 
-	public boolean getTextWrapping( )
-	{
+	public boolean getTextWrapping() {
 		return this.textWrapping;
 	}
 
 	protected boolean fontSubstitution = true;
 
-	public void setFontSubstitution( boolean fontSubstitution )
-	{
+	public void setFontSubstitution(boolean fontSubstitution) {
 		this.fontSubstitution = fontSubstitution;
 	}
 
-	public boolean getFontSubstitution( )
-	{
+	public boolean getFontSubstitution() {
 		return this.fontSubstitution;
 	}
 
 	protected boolean bidiProcessing = true;
 
-	public void setBidiProcessing( boolean bidiProcessing )
-	{
+	public void setBidiProcessing(boolean bidiProcessing) {
 		this.bidiProcessing = bidiProcessing;
 	}
 
-	public boolean getBidiProcessing( )
-	{
+	public boolean getBidiProcessing() {
 		return this.bidiProcessing;
 	}
-	
+
 	protected boolean enableWordbreak = false;
-	
-	public boolean isEnableWordbreak( )
-	{
+
+	public boolean isEnableWordbreak() {
 		return enableWordbreak;
 	}
-	
-	public void setEnableWordbreak( boolean enableWordbreak )
-	{
+
+	public void setEnableWordbreak(boolean enableWordbreak) {
 		this.enableWordbreak = enableWordbreak;
 	}
 
-	public Locale getLocale( )
-	{
+	public Locale getLocale() {
 		return locale;
 	}
 
-	public void setLocale( Locale locale )
-	{
+	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
 
 	private FontMappingManager fontManager;
 
-	public FontMappingManager getFontManager( )
-	{
-		if ( fontManager == null )
-		{
-			fontManager = FontMappingManagerFactory.getInstance( )
-					.getFontMappingManager( format, locale );
+	public FontMappingManager getFontManager() {
+		if (fontManager == null) {
+			fontManager = FontMappingManagerFactory.getInstance().getFontMappingManager(format, locale);
 		}
 		return fontManager;
 	}
@@ -243,58 +206,47 @@ public class LayoutEngineContext
 	// the dpi used to calculate image size.
 	private int dpi = 0;
 
-	public int getDpi( )
-	{
+	public int getDpi() {
 		return dpi;
 	}
-	
-	public void setDpi( int dpi )
-	{
+
+	public void setDpi(int dpi) {
 		this.dpi = dpi;
 	}
-	
+
 	private int totalPageTemplateWidth;
-	
-	public void setTotalPageTemplateWidth( int totalPageTemplateWidth )
-	{
+
+	public void setTotalPageTemplateWidth(int totalPageTemplateWidth) {
 		this.totalPageTemplateWidth = totalPageTemplateWidth;
 	}
-	
-	public int getTotalPageTemplateWidth()
-	{
+
+	public int getTotalPageTemplateWidth() {
 		return this.totalPageTemplateWidth;
 	}
-	
+
 	private HashMap cachedTableHeaders = null;
 	private HashMap cachedGroupHeaders = null;
-	
-	public void setCachedHeaderMap( HashMap tableHeaders, HashMap groupHeaders )
-	{
+
+	public void setCachedHeaderMap(HashMap tableHeaders, HashMap groupHeaders) {
 		this.cachedTableHeaders = tableHeaders;
 		this.cachedGroupHeaders = groupHeaders;
 	}
-	
-	protected ITableBandContent getWrappedTableHeader( InstanceID id )
-	{
-		if ( null != cachedTableHeaders )
-		{
-			Object cachedHeaders = cachedTableHeaders.get( id );
-			if ( cachedHeaders != null )
-			{
-				return (ITableBandContent)cachedHeaders;
+
+	protected ITableBandContent getWrappedTableHeader(InstanceID id) {
+		if (null != cachedTableHeaders) {
+			Object cachedHeaders = cachedTableHeaders.get(id);
+			if (cachedHeaders != null) {
+				return (ITableBandContent) cachedHeaders;
 			}
 		}
 		return null;
 	}
-	
-	protected ITableBandContent getWrappedGroupHeader( InstanceID id )
-	{
-		if ( null != cachedGroupHeaders )
-		{
-			Object cachedHeaders = cachedGroupHeaders.get( id );
-			if ( cachedHeaders != null )
-			{
-				return (ITableBandContent)cachedHeaders;
+
+	protected ITableBandContent getWrappedGroupHeader(InstanceID id) {
+		if (null != cachedGroupHeaders) {
+			Object cachedHeaders = cachedGroupHeaders.get(id);
+			if (cachedHeaders != null) {
+				return (ITableBandContent) cachedHeaders;
 			}
 		}
 		return null;

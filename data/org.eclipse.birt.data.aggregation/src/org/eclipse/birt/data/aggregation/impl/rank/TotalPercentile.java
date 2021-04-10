@@ -32,16 +32,14 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * Implements the built-in Total.Percentile aggregation.
  */
-public class TotalPercentile extends AggrFunction
-{
+public class TotalPercentile extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return IBuildInAggregation.TOTAL_PERCENTILE_FUNC;
 	}
 
@@ -50,8 +48,7 @@ public class TotalPercentile extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
@@ -60,8 +57,7 @@ public class TotalPercentile extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDataType()
 	 */
-	public int getDataType( )
-	{
+	public int getDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 
@@ -70,16 +66,12 @@ public class TotalPercentile extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getParameterDefn()
 	 */
-	public IParameterDefn[] getParameterDefn( )
-	{
-		return new IParameterDefn[]{
-				new ParameterDefn( Constants.EXPRESSION_NAME,
-						Constants.EXPRESSION_DISPLAY_NAME,
-						false,
-						true,
-						SupportedDataTypes.CALCULATABLE,
-						"" ), //$NON-NLS-1$
-				new ParameterDefn( "percentage", Messages.getString( "TotalPercentile.param.percentage" ), false, false, SupportedDataTypes.CALCULATABLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	public IParameterDefn[] getParameterDefn() {
+		return new IParameterDefn[] {
+				new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME, false, true,
+						SupportedDataTypes.CALCULATABLE, ""), //$NON-NLS-1$
+				new ParameterDefn("percentage", Messages.getString("TotalPercentile.param.percentage"), false, false, //$NON-NLS-1$ //$NON-NLS-2$
+						SupportedDataTypes.CALCULATABLE, "") //$NON-NLS-1$
 		};
 	}
 
@@ -88,25 +80,21 @@ public class TotalPercentile extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
 	 */
-	public Accumulator newAccumulator( )
-	{
-		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+	public Accumulator newAccumulator() {
+		return new MyAccumulator(CalculatorFactory.getCalculator(getDataType()));
 	}
 
-	private static class MyAccumulator extends PercentileAccumulator
-	{
-		MyAccumulator( ICalculator calc )
-		{
-			super( calc );
+	private static class MyAccumulator extends PercentileAccumulator {
+		MyAccumulator(ICalculator calc) {
+			super(calc);
 		}
 
-		protected double getPctValue( Double d ) throws DataException
-		{
-			if ( d == null )
-				throw DataException.wrap( new AggrException( ResourceConstants.INVALID_PERCENTILE_ARGUMENT ) );
-			double pct = d.doubleValue( );
-			if ( pct < 0 || pct > 1 )
-				throw DataException.wrap( new AggrException( ResourceConstants.INVALID_PERCENTILE_ARGUMENT ) );
+		protected double getPctValue(Double d) throws DataException {
+			if (d == null)
+				throw DataException.wrap(new AggrException(ResourceConstants.INVALID_PERCENTILE_ARGUMENT));
+			double pct = d.doubleValue();
+			if (pct < 0 || pct > 1)
+				throw DataException.wrap(new AggrException(ResourceConstants.INVALID_PERCENTILE_ARGUMENT));
 			return pct;
 		}
 	}
@@ -114,20 +102,20 @@ public class TotalPercentile extends AggrFunction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	public String getDescription( )
-	{
-		return Messages.getString( "TotalPercentile.description" ); //$NON-NLS-1$
+	public String getDescription() {
+		return Messages.getString("TotalPercentile.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "TotalPercentile.displayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("TotalPercentile.displayName"); //$NON-NLS-1$
 	}
 }

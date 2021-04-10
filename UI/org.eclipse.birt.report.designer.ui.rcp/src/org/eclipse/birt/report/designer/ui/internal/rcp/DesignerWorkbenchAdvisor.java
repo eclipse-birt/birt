@@ -20,29 +20,25 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 /**
  * Class for configuring the workbench of BIRT RCP designer.
  */
-public class DesignerWorkbenchAdvisor extends WorkbenchAdvisor
-{
+public class DesignerWorkbenchAdvisor extends WorkbenchAdvisor {
 
-	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(
-			IWorkbenchWindowConfigurer configurer )
-	{
-		return new DesignerWorkbenchWindowAdvisor( configurer );
+	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
+		return new DesignerWorkbenchWindowAdvisor(configurer);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.application.WorkbenchAdvisor#getInitialWindowPerspectiveId()
+	 * @see
+	 * org.eclipse.ui.application.WorkbenchAdvisor#getInitialWindowPerspectiveId()
 	 */
-	public String getInitialWindowPerspectiveId( )
-	{
+	public String getInitialWindowPerspectiveId() {
 		return ReportRCPPerspective.BIRT_REPORT_RCP_PERSPECTIVE;
 	}
 
-	public void initialize( IWorkbenchConfigurer configurer )
-	{
-		super.initialize( configurer );
-		configurer.setSaveAndRestore( true );
+	public void initialize(IWorkbenchConfigurer configurer) {
+		super.initialize(configurer);
+		configurer.setSaveAndRestore(true);
 	}
 
 	/*
@@ -50,9 +46,8 @@ public class DesignerWorkbenchAdvisor extends WorkbenchAdvisor
 	 * 
 	 * @see org.eclipse.ui.application.WorkbenchAdvisor#preStartup()
 	 */
-	public void preStartup( )
-	{
-		super.preStartup( );
+	public void preStartup() {
+		super.preStartup();
 //		WorkbenchAdapterBuilder.registerAdapters( );
 	}
 

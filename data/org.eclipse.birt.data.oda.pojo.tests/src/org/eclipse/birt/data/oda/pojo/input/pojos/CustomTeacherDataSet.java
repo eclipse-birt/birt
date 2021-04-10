@@ -15,33 +15,25 @@ import java.util.Map;
 
 import org.eclipse.birt.data.oda.pojo.testutil.PojoInstancesUtil;
 
-
 /**
  * A class contains open()/next()/close() methods
  */
-public class CustomTeacherDataSet
-{
+public class CustomTeacherDataSet {
 	@SuppressWarnings("unchecked")
 	Iterator teachers;
-	
-	
-	
-	public void open( Object appContext, Map<String, Object> dataSetParamValues )
-	{
-		teachers = PojoInstancesUtil.createTeachers( ).iterator( );
+
+	public void open(Object appContext, Map<String, Object> dataSetParamValues) {
+		teachers = PojoInstancesUtil.createTeachers().iterator();
 	}
-	
-	public Object next( )
-	{
-		if ( teachers.hasNext( ) )
-		{
-			return teachers.next( );
+
+	public Object next() {
+		if (teachers.hasNext()) {
+			return teachers.next();
 		}
 		return null;
 	}
-	
-	public void close( )
-	{
+
+	public void close() {
 		teachers = null;
 	}
 }

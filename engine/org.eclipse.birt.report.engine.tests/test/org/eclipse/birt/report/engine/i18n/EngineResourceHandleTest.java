@@ -19,30 +19,22 @@ import junit.framework.TestCase;
  * Test case for class EngineResourceHandle
  */
 public class EngineResourceHandleTest extends TestCase {
-	public void testConstant( )
-	{
-		EngineResourceHandle handle = new EngineResourceHandle( new ULocale("en"));
-		assertEquals( handle.getMessage(MessageConstants.TEST_ERROR_MESSAGE_00),
-				"En: There is a {0} in the {1}." );
-		assertEquals(handle.getMessage(
-				MessageConstants.TEST_ERROR_MESSAGE_00,
-				new String[] {"pea", "pot"} ), "En: There is a pea in the pot." );		
+	public void testConstant() {
+		EngineResourceHandle handle = new EngineResourceHandle(new ULocale("en"));
+		assertEquals(handle.getMessage(MessageConstants.TEST_ERROR_MESSAGE_00), "En: There is a {0} in the {1}.");
+		assertEquals(handle.getMessage(MessageConstants.TEST_ERROR_MESSAGE_00, new String[] { "pea", "pot" }),
+				"En: There is a pea in the pot.");
 
-		handle = new EngineResourceHandle( new ULocale("en", "US"));
-		assertEquals( handle.getMessage(MessageConstants.TEST_ERROR_MESSAGE_00),
-				"En: There is a {0} in the {1}." );
-		assertEquals( handle.getMessage(
-				MessageConstants.TEST_ERROR_MESSAGE_00,
-				new String[] {"pea", "pot"} ), "En: There is a pea in the pot." );		
+		handle = new EngineResourceHandle(new ULocale("en", "US"));
+		assertEquals(handle.getMessage(MessageConstants.TEST_ERROR_MESSAGE_00), "En: There is a {0} in the {1}.");
+		assertEquals(handle.getMessage(MessageConstants.TEST_ERROR_MESSAGE_00, new String[] { "pea", "pot" }),
+				"En: There is a pea in the pot.");
 
-		handle = new EngineResourceHandle( new ULocale("ja"));
-		assertEquals(handle.getMessage(MessageConstants.TEST_ERROR_MESSAGE_00),
-				"En: There is a {0} in the {1}.");
-		assertEquals(handle.getMessage(
-				MessageConstants.TEST_ERROR_MESSAGE_00,
-				new String[] {"pea", "pot"} ), 
-				"En: There is a pea in the pot."); 
-		
+		handle = new EngineResourceHandle(new ULocale("ja"));
+		assertEquals(handle.getMessage(MessageConstants.TEST_ERROR_MESSAGE_00), "En: There is a {0} in the {1}.");
+		assertEquals(handle.getMessage(MessageConstants.TEST_ERROR_MESSAGE_00, new String[] { "pea", "pot" }),
+				"En: There is a pea in the pot.");
+
 	}
 
 }

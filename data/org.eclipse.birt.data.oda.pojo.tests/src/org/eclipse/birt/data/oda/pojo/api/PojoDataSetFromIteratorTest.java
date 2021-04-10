@@ -19,10 +19,8 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.data.oda.pojo.api.IPojoDataSet;
 import org.eclipse.birt.data.oda.pojo.api.PojoDataSetFromIterator;
 
-
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 
 /**
  * 
@@ -32,99 +30,82 @@ public class PojoDataSetFromIteratorTest {
 
 	@SuppressWarnings("nls")
 	@Test
-    public void testNext( ) throws OdaException
-	{
-		IPojoDataSet pds = new PojoDataSetFromIterator( )
-		{
+	public void testNext() throws OdaException {
+		IPojoDataSet pds = new PojoDataSetFromIterator() {
 			@SuppressWarnings("unchecked")
 			@Override
-			protected Iterator fetchPojos( ) throws OdaException
-			{
+			protected Iterator fetchPojos() throws OdaException {
 				return null;
 			}
 		};
-		pds.open( null, null );
-		assertTrue( pds.next( ) == null );
-		pds.close( );
-		
-		pds = new PojoDataSetFromIterator( )
-		{
+		pds.open(null, null);
+		assertTrue(pds.next() == null);
+		pds.close();
+
+		pds = new PojoDataSetFromIterator() {
 			@SuppressWarnings("unchecked")
 			@Override
-			protected Iterator fetchPojos( ) throws OdaException
-			{
-				return createIteratorFromArray( new Object[0] );
+			protected Iterator fetchPojos() throws OdaException {
+				return createIteratorFromArray(new Object[0]);
 			}
 		};
-		pds.open( null, null );
-		assertTrue( pds.next( ) == null );
-		pds.close( );
-		
-		pds = new PojoDataSetFromIterator( )
-		{
-			@SuppressWarnings({
-					"unchecked"
-			})
+		pds.open(null, null);
+		assertTrue(pds.next() == null);
+		pds.close();
+
+		pds = new PojoDataSetFromIterator() {
+			@SuppressWarnings({ "unchecked" })
 			@Override
-			protected Iterator fetchPojos( ) throws OdaException
-			{
-				return createIteratorFromArray( new Object[]{"1", "2", "3"} );
+			protected Iterator fetchPojos() throws OdaException {
+				return createIteratorFromArray(new Object[] { "1", "2", "3" });
 			}
 		};
-		pds.open( null, null );
-		assertTrue( pds.next( ).equals( "1" ) );
-		assertTrue( pds.next( ).equals( "2" ) );
-		assertTrue( pds.next( ).equals( "3" ) );
-		assertTrue( pds.next( ) == null );
-		pds.close( );
-		
-		pds.open( null, null );
-		assertTrue( pds.next( ).equals( "1" ) );
-		assertTrue( pds.next( ).equals( "2" ) );
-		assertTrue( pds.next( ).equals( "3" ) );
-		assertTrue( pds.next( ) == null );
-		pds.close( );
-		
-		pds = new PojoDataSetFromIterator( )
-		{
+		pds.open(null, null);
+		assertTrue(pds.next().equals("1"));
+		assertTrue(pds.next().equals("2"));
+		assertTrue(pds.next().equals("3"));
+		assertTrue(pds.next() == null);
+		pds.close();
+
+		pds.open(null, null);
+		assertTrue(pds.next().equals("1"));
+		assertTrue(pds.next().equals("2"));
+		assertTrue(pds.next().equals("3"));
+		assertTrue(pds.next() == null);
+		pds.close();
+
+		pds = new PojoDataSetFromIterator() {
 			@SuppressWarnings("unchecked")
 			@Override
-			protected Iterator fetchPojos( ) throws OdaException
-			{
-				return createIteratorFromArray(
-						new Object[]{null, "1", null, null, "2", null, "3", null, null} );
+			protected Iterator fetchPojos() throws OdaException {
+				return createIteratorFromArray(new Object[] { null, "1", null, null, "2", null, "3", null, null });
 			}
 		};
-		
-		pds.open( null, null );
-		assertTrue( pds.next( ).equals( "1" ) );
-		assertTrue( pds.next( ).equals( "2" ) );
-		assertTrue( pds.next( ).equals( "3" ) );
-		assertTrue( pds.next( ) == null );
-		pds.close( );
-		
-		pds.open( null, null );
-		assertTrue( pds.next( ).equals( "1" ) );
-		assertTrue( pds.next( ).equals( "2" ) );
-		assertTrue( pds.next( ).equals( "3" ) );
-		assertTrue( pds.next( ) == null );
-		pds.close( );
+
+		pds.open(null, null);
+		assertTrue(pds.next().equals("1"));
+		assertTrue(pds.next().equals("2"));
+		assertTrue(pds.next().equals("3"));
+		assertTrue(pds.next() == null);
+		pds.close();
+
+		pds.open(null, null);
+		assertTrue(pds.next().equals("1"));
+		assertTrue(pds.next().equals("2"));
+		assertTrue(pds.next().equals("3"));
+		assertTrue(pds.next() == null);
+		pds.close();
 	}
 
-	
-
 	@SuppressWarnings("unchecked")
-	private static Iterator createIteratorFromArray( Object[] array )
-	{
-		if ( array == null )
-		{
+	private static Iterator createIteratorFromArray(Object[] array) {
+		if (array == null) {
 			return null;
 		}
-		List l = new ArrayList( );
-		for ( Object o : array )
-		{
-			l.add( o );
+		List l = new ArrayList();
+		for (Object o : array) {
+			l.add(o);
 		}
-		return l.iterator( );
+		return l.iterator();
 	}
 }

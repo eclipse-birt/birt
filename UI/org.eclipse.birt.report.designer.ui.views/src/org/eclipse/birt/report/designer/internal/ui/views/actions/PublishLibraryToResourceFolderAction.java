@@ -23,65 +23,52 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.jface.wizard.WizardDialog;
 
-public class PublishLibraryToResourceFolderAction extends AbstractViewAction
-{
+public class PublishLibraryToResourceFolderAction extends AbstractViewAction {
 
-	public static final String ACTION_TEXT = Messages.getString( "PublishLibraryToResourceFolderAction.Action.Text" ); //$NON-NLS-1$
+	public static final String ACTION_TEXT = Messages.getString("PublishLibraryToResourceFolderAction.Action.Text"); //$NON-NLS-1$
 
 	/**
 	 * @param selectedObject
 	 */
-	public PublishLibraryToResourceFolderAction( Object selectedObject )
-	{
-		super( selectedObject, ACTION_TEXT );
+	public PublishLibraryToResourceFolderAction(Object selectedObject) {
+		super(selectedObject, ACTION_TEXT);
 	}
 
 	/**
 	 * @param selectedObject
 	 * @param text
 	 */
-	public PublishLibraryToResourceFolderAction( Object selectedObject,
-			String text )
-	{
-		super( selectedObject, text );
+	public PublishLibraryToResourceFolderAction(Object selectedObject, String text) {
+		super(selectedObject, text);
 	}
 
-	public boolean isEnable( )
-	{
-		Object selectObj = getSelection( );
-		if ( selectObj instanceof LibraryHandle )
-		{
+	public boolean isEnable() {
+		Object selectObj = getSelection();
+		if (selectObj instanceof LibraryHandle) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
 
-	public void run( )
-	{
+	public void run() {
 
-		if ( isEnable( ) == false )
-		{
+		if (isEnable() == false) {
 			return;
 		}
 
-		ModuleHandle module = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+		ModuleHandle module = SessionHandleAdapter.getInstance().getReportDesignHandle();
 
-		String filePath = module.getFileName( );
-		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
+		String filePath = module.getFileName();
+		String fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1);
 
-		PublishLibraryWizard publishLibrary = new PublishLibraryWizard( (LibraryHandle) module,
-				fileName,
-				ReportPlugin.getDefault( ).getResourceFolder( ) );
+		PublishLibraryWizard publishLibrary = new PublishLibraryWizard((LibraryHandle) module, fileName,
+				ReportPlugin.getDefault().getResourceFolder());
 
-		WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
-				publishLibrary );
+		WizardDialog dialog = new BaseWizardDialog(UIUtil.getDefaultShell(), publishLibrary);
 
-		dialog.setPageSize( 500, 250 );
-		dialog.open( );
+		dialog.setPageSize(500, 250);
+		dialog.open();
 
 	}
 

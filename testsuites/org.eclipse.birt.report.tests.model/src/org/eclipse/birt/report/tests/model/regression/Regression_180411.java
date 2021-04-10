@@ -14,17 +14,15 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_180411 extends BaseTestCase
-{
+public class Regression_180411 extends BaseTestCase {
 
 	private String report = "regression_180411.rptdesign";
 
-	public void test_Regression_180411( ) throws Exception
-	{
-		openDesign( report );
+	public void test_Regression_180411() throws Exception {
+		openDesign(report);
 
-		CubeHandle cubeHandle = (CubeHandle) designHandle.getCubes( ).get( 0 );
-		assertNotNull( cubeHandle );
+		CubeHandle cubeHandle = (CubeHandle) designHandle.getCubes().get(0);
+		assertNotNull(cubeHandle);
 
 	}
 }

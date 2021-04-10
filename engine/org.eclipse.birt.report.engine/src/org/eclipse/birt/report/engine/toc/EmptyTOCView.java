@@ -16,33 +16,27 @@ import java.util.List;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.TOCNode;
 
-class EmptyTOCView implements ITOCTree
-{
+class EmptyTOCView implements ITOCTree {
 
-	protected TOCNode root = new TOCNode( );
+	protected TOCNode root = new TOCNode();
 
-	EmptyTOCView( )
-	{
-		root = new TOCNode( );
-		root.setNodeID( "/" );
+	EmptyTOCView() {
+		root = new TOCNode();
+		root.setNodeID("/");
 	}
 
-	public TOCNode findTOC( String tocId )
-	{
-		if ( "/".equals( tocId ) )
-		{
+	public TOCNode findTOC(String tocId) {
+		if ("/".equals(tocId)) {
 			return root;
 		}
 		return null;
 	}
 
-	public List findTOCByValue( Object tocValue )
-	{
+	public List findTOCByValue(Object tocValue) {
 		return null;
 	}
 
-	public TOCNode getRoot( )
-	{
+	public TOCNode getRoot() {
 		return root;
 	}
 

@@ -20,8 +20,7 @@ import org.eclipse.core.runtime.Platform;
 /**
  * ElementAdapter
  */
-public class ElementAdapter
-{
+public class ElementAdapter {
 
 	/**
 	 * Comment for <code>id</code>
@@ -70,132 +69,103 @@ public class ElementAdapter
 	private Expression expression;
 
 	// getters and setters
-	public Class getAdaptableType( )
-	{
+	public Class getAdaptableType() {
 		return adaptableType;
 	}
 
-	public void setAdaptableType( Class adaptableType )
-	{
+	public void setAdaptableType(Class adaptableType) {
 		this.adaptableType = adaptableType;
 	}
 
-	public IAdapterFactory getFactory( )
-	{
+	public IAdapterFactory getFactory() {
 		return factory;
 	}
 
-	public void setFactory( IAdapterFactory factory )
-	{
+	public void setFactory(IAdapterFactory factory) {
 		this.factory = factory;
 	}
 
-	public boolean isIncludeWorkbenchContribute( )
-	{
+	public boolean isIncludeWorkbenchContribute() {
 		return includeWorkbenchContribute;
 	}
 
-	public void setIncludeWorkbenchContribute(
-			boolean includeWorkbenchContribute )
-	{
+	public void setIncludeWorkbenchContribute(boolean includeWorkbenchContribute) {
 		this.includeWorkbenchContribute = includeWorkbenchContribute;
 	}
 
-	public String[] getOverwrite( )
-	{
+	public String[] getOverwrite() {
 		return overwrite;
 	}
 
-	public void setOverwrite( String[] overwrite )
-	{
+	public void setOverwrite(String[] overwrite) {
 		this.overwrite = overwrite;
 	}
 
-	public int getPriority( )
-	{
+	public int getPriority() {
 		return priority;
 	}
 
-	public void setPriority( int priority )
-	{
+	public void setPriority(int priority) {
 		this.priority = priority;
 	}
 
-	public Class getAdapterType( )
-	{
+	public Class getAdapterType() {
 		return adapterType;
 	}
 
-	public void setAdapterType( Class type )
-	{
+	public void setAdapterType(Class type) {
 		this.adapterType = type;
 	}
 
-	public String getId( )
-	{
+	public String getId() {
 		return id;
 	}
 
-	public void setId( String id )
-	{
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public Object getAdapterInstance( )
-	{
+	public Object getAdapterInstance() {
 		return adapterInstance;
 	}
 
-	public void setAdapterInstance( Object adapterInstance )
-	{
+	public void setAdapterInstance(Object adapterInstance) {
 		this.adapterInstance = adapterInstance;
 	}
 
-	public void setAdapterConfig( IConfigurationElement config )
-	{
+	public void setAdapterConfig(IConfigurationElement config) {
 		this.adapterConfig = config;
 	}
 
-	public boolean isSingleton( )
-	{
+	public boolean isSingleton() {
 		return isSingleton;
 	}
 
-	public void setSingleton( boolean isSingleton )
-	{
+	public void setSingleton(boolean isSingleton) {
 		this.isSingleton = isSingleton;
 	}
 
-	public Expression getExpression( )
-	{
+	public Expression getExpression() {
 		return expression;
 	}
 
-	public void setExpression( Expression expression )
-	{
+	public void setExpression(Expression expression) {
 		this.expression = expression;
 	}
 
 	// public methods
 	// FIXME singleton, factory
-	public Object getAdater( Object adaptableObject )
-	{
-		if ( this.cachedAdapter != null && this.isSingleton )
-		{
+	public Object getAdater(Object adaptableObject) {
+		if (this.cachedAdapter != null && this.isSingleton) {
 			return this.cachedAdapter;
 		}
 
-		if ( this.adapterInstance != null )
-		{
-			if ( !isSingleton && adapterConfig != null )
-			{
-				try
-				{
-					return adapterConfig.createExecutableExtension( "class" ); //$NON-NLS-1$
-				}
-				catch ( CoreException e )
-				{
-					e.printStackTrace( );
+		if (this.adapterInstance != null) {
+			if (!isSingleton && adapterConfig != null) {
+				try {
+					return adapterConfig.createExecutableExtension("class"); //$NON-NLS-1$
+				} catch (CoreException e) {
+					e.printStackTrace();
 				}
 			}
 
@@ -204,18 +174,14 @@ public class ElementAdapter
 
 		Object apt = null;
 
-		if ( this.factory != null )
-		{
-			apt = this.factory.getAdapter( adaptableObject, this.adapterType );
+		if (this.factory != null) {
+			apt = this.factory.getAdapter(adaptableObject, this.adapterType);
 		}
-		if ( apt == null && this.includeWorkbenchContribute )
-		{
-			apt = Platform.getAdapterManager( ).getAdapter( adaptableObject,
-					this.adapterType );
+		if (apt == null && this.includeWorkbenchContribute) {
+			apt = Platform.getAdapterManager().getAdapter(adaptableObject, this.adapterType);
 		}
 
-		if ( this.isSingleton )
-		{
+		if (this.isSingleton) {
 			// only when is singleton, we cache the instance
 			this.cachedAdapter = apt;
 		}
@@ -224,29 +190,24 @@ public class ElementAdapter
 	}
 
 	@Override
-	public boolean equals( Object obj )
-	{
-		if ( obj == this )
-		{
+	public boolean equals(Object obj) {
+		if (obj == this) {
 			return true;
 		}
 
-		if ( !( obj instanceof ElementAdapter ) )
-		{
+		if (!(obj instanceof ElementAdapter)) {
 			return false;
 		}
 
-		return this.getId( ).equals( ( (ElementAdapter) obj ).getId( ) );
+		return this.getId().equals(((ElementAdapter) obj).getId());
 	}
 
 	@Override
-	public int hashCode( )
-	{
-		return this.getId( ).hashCode( );
+	public int hashCode() {
+		return this.getId().hashCode();
 	}
 
-	public String toString( )
-	{
-		return this.getId( );
+	public String toString() {
+		return this.getId();
 	}
 }

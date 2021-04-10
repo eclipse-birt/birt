@@ -34,97 +34,70 @@ import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-public class BubbleSeriesUIProvider extends DefaultSeriesUIProvider
-{
+public class BubbleSeriesUIProvider extends DefaultSeriesUIProvider {
 
 	private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"; //$NON-NLS-1$
 
-	public BubbleSeriesUIProvider( )
-	{
-		super( );
+	public BubbleSeriesUIProvider() {
+		super();
 	}
 
-	public Composite getSeriesAttributeSheet( Composite parent, Series series,
-			ChartWizardContext context )
-	{
-		return new BubbleSeriesAttributeComposite( parent,
-				SWT.NONE,
-				context,
-				series );
+	public Composite getSeriesAttributeSheet(Composite parent, Series series, ChartWizardContext context) {
+		return new BubbleSeriesAttributeComposite(parent, SWT.NONE, context, series);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
 	 */
-	public String getSeriesClass( )
-	{
+	public String getSeriesClass() {
 		return SERIES_CLASS;
 	}
 
-	public ISelectDataComponent getSeriesDataComponent( int seriesType,
-			SeriesDefinition seriesDefn, ChartWizardContext context,
-			String sTitle )
-	{
-		if ( seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES )
-		{
-			return new BubbleDataDefinitionComponent( seriesDefn,
-					context,
-					sTitle );
-		}
-		else if ( seriesType == ISelectDataCustomizeUI.GROUPING_SERIES )
-		{
-			BaseDataDefinitionComponent ddc = new YOptionalDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_GROUP,
-					ChartUIConstants.QUERY_OPTIONAL,
-					seriesDefn,
-					seriesDefn.getQuery( ),
-					context,
-					sTitle );
+	public ISelectDataComponent getSeriesDataComponent(int seriesType, SeriesDefinition seriesDefn,
+			ChartWizardContext context, String sTitle) {
+		if (seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES) {
+			return new BubbleDataDefinitionComponent(seriesDefn, context, sTitle);
+		} else if (seriesType == ISelectDataCustomizeUI.GROUPING_SERIES) {
+			BaseDataDefinitionComponent ddc = new YOptionalDataDefinitionComponent(
+					BaseDataDefinitionComponent.BUTTON_GROUP, ChartUIConstants.QUERY_OPTIONAL, seriesDefn,
+					seriesDefn.getQuery(), context, sTitle);
 			return ddc;
 		}
-		return new DefaultSelectDataComponent( );
+		return new DefaultSelectDataComponent();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(
+	 * org.eclipse.birt.chart.model.component.Series)
 	 */
-	public AxisType[] getCompatibleAxisType( Series series )
-	{
-		return new AxisType[]{
-				AxisType.LINEAR_LITERAL,
-				AxisType.LOGARITHMIC_LITERAL,
-				AxisType.DATE_TIME_LITERAL
-		};
+	public AxisType[] getCompatibleAxisType(Series series) {
+		return new AxisType[] { AxisType.LINEAR_LITERAL, AxisType.LOGARITHMIC_LITERAL, AxisType.DATE_TIME_LITERAL };
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
-	 *      org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#
+	 * validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
-	public void validateSeriesBindingType( Series series,
-			IDataServiceProvider idsp ) throws ChartException
-	{
-		List<Query> entries = series.getDataDefinition( );
-		if ( entries.size( ) >= 2 )
-		{
+	public void validateSeriesBindingType(Series series, IDataServiceProvider idsp) throws ChartException {
+		List<Query> entries = series.getDataDefinition();
+		if (entries.size() >= 2) {
 			// Only check if Bubble size is numeric. Bubble value can support
 			// any types.
-			Query query = entries.get( 1 );
-			DataType dataType = idsp.getDataType( query.getDefinition( ) );
-			if ( dataType == DataType.TEXT_LITERAL
-					|| dataType == DataType.DATE_TIME_LITERAL )
-			{
-				final ExpressionCodec codec = ChartModelHelper.instance( )
-						.createExpressionCodec( );
-				codec.decode( query.getDefinition( ) );
-				throw new ChartException( ChartUIExtensionPlugin.ID,
-						ChartException.DATA_BINDING,
-						codec.getExpression( ) );
+			Query query = entries.get(1);
+			DataType dataType = idsp.getDataType(query.getDefinition());
+			if (dataType == DataType.TEXT_LITERAL || dataType == DataType.DATE_TIME_LITERAL) {
+				final ExpressionCodec codec = ChartModelHelper.instance().createExpressionCodec();
+				codec.decode(query.getDefinition());
+				throw new ChartException(ChartUIExtensionPlugin.ID, ChartException.DATA_BINDING, codec.getExpression());
 			}
 		}
 	}
@@ -132,16 +105,12 @@ public class BubbleSeriesUIProvider extends DefaultSeriesUIProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validationIndex
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validationIndex
 	 * (org.eclipse.birt.chart.model.component.Series)
 	 */
 	@Override
-	public int[] validationIndex( Series series )
-	{
-		return new int[]{
-				0, 1
-		};
+	public int[] validationIndex(Series series) {
+		return new int[] { 0, 1 };
 	}
 
 }

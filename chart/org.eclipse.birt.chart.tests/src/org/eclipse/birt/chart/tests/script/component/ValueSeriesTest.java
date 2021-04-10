@@ -21,84 +21,65 @@ import org.eclipse.birt.report.model.api.simpleapi.IAction;
  * 
  */
 
-public class ValueSeriesTest extends BaseChartTestCase
-{
+public class ValueSeriesTest extends BaseChartTestCase {
 
-	public void testGetDataExpr( )
-	{
-		assertTrue( getChartWithAxes( ).getValueSeries( )[0][0].getDataExpr( ) instanceof ISimpleData );
+	public void testGetDataExpr() {
+		assertTrue(getChartWithAxes().getValueSeries()[0][0].getDataExpr() instanceof ISimpleData);
 	}
 
-	public void testVisible( )
-	{
-		assertTrue( getChartWithAxes( ).getValueSeries( )[0][0].isVisible( ) );
-		assertTrue( getChartWithAxes( ).getValueSeries( )[1][0].isVisible( ) );
+	public void testVisible() {
+		assertTrue(getChartWithAxes().getValueSeries()[0][0].isVisible());
+		assertTrue(getChartWithAxes().getValueSeries()[1][0].isVisible());
 
-		getChartWithAxes( ).getValueSeries( )[1][0].setVisible( false );
-		assertFalse( getChartWithAxes( ).getValueSeries( )[1][0].isVisible( ) );
+		getChartWithAxes().getValueSeries()[1][0].setVisible(false);
+		assertFalse(getChartWithAxes().getValueSeries()[1][0].isVisible());
 	}
 
-	public void testTitle( )
-	{
-		assertEquals( getChartWithAxes( ).getValueSeries( )[0][0].getTitle( ),
-				"Date" );
-		assertEquals( getChartWithAxes( ).getValueSeries( )[1][0].getTitle( ),
-				"Number1" );
-		assertEquals( getChartWithAxes( ).getValueSeries( )[1][1].getTitle( ),
-				"" );
+	public void testTitle() {
+		assertEquals(getChartWithAxes().getValueSeries()[0][0].getTitle(), "Date");
+		assertEquals(getChartWithAxes().getValueSeries()[1][0].getTitle(), "Number1");
+		assertEquals(getChartWithAxes().getValueSeries()[1][1].getTitle(), "");
 	}
 
-	public void testPercent( )
-	{
-		IValueSeries series = getChartWithAxes( ).getValueSeries( )[0][0];
-		assertFalse( "Percent for Bar", series.isPercent( ) );
+	public void testPercent() {
+		IValueSeries series = getChartWithAxes().getValueSeries()[0][0];
+		assertFalse("Percent for Bar", series.isPercent());
 
-		series.setPercent( true );
-		assertTrue( series.isPercent( ) );
+		series.setPercent(true);
+		assertTrue(series.isPercent());
 
-		series = getChartWithoutAxes( ).getValueSeries( )[0];
-		assertFalse( "Percent for Bar", series.isPercent( ) );
+		series = getChartWithoutAxes().getValueSeries()[0];
+		assertFalse("Percent for Bar", series.isPercent());
 
-		series.setPercent( true );
-		assertFalse( "Pie doesn't support percent", series.isPercent( ) );
+		series.setPercent(true);
+		assertFalse("Pie doesn't support percent", series.isPercent());
 	}
 
-	public void testAggregateExpr( )
-	{
-		assertEquals( getChartWithoutAxes( ).getValueSeries( )[0].getAggregateExpr( ),
-				"Sum" );
-		assertEquals( getChartWithoutAxes( ).getValueSeries( )[1].getAggregateExpr( ),
-				"Average" );
+	public void testAggregateExpr() {
+		assertEquals(getChartWithoutAxes().getValueSeries()[0].getAggregateExpr(), "Sum");
+		assertEquals(getChartWithoutAxes().getValueSeries()[1].getAggregateExpr(), "Average");
 
-		assertEquals( getChartWithAxes( ).getValueSeries( )[0][0].getAggregateExpr( ),
-				"" );
-		getChartWithAxes( ).getValueSeries( )[0][0].setAggregateExpr( "Sum" );
-		assertEquals( getChartWithAxes( ).getValueSeries( )[0][0].getAggregateExpr( ),
-				"Sum" );
+		assertEquals(getChartWithAxes().getValueSeries()[0][0].getAggregateExpr(), "");
+		getChartWithAxes().getValueSeries()[0][0].setAggregateExpr("Sum");
+		assertEquals(getChartWithAxes().getValueSeries()[0][0].getAggregateExpr(), "Sum");
 
-		getChartWithAxes( ).getValueSeries( )[0][0].setAggregateExpr( null );
-		assertEquals( "Unset aggregate expression",
-				getChartWithAxes( ).getValueSeries( )[0][0].getAggregateExpr( ),
-				"" );
+		getChartWithAxes().getValueSeries()[0][0].setAggregateExpr(null);
+		assertEquals("Unset aggregate expression", getChartWithAxes().getValueSeries()[0][0].getAggregateExpr(), "");
 	}
 
-	public void testGetAction( )
-	{
-		IAction action = getChartWithAxes( ).getValueSeries( )[0][0].getAction( );
-		assertNotNull( action );
-		assertEquals( action.getURI( ), "http://www.actuate.com" );
-		assertEquals( action.getTargetWindow( ), "_blank" );
-		try
-		{
-			action.setFormatType( "jpg" );
+	public void testGetAction() {
+		IAction action = getChartWithAxes().getValueSeries()[0][0].getAction();
+		assertNotNull(action);
+		assertEquals(action.getURI(), "http://www.actuate.com");
+		assertEquals(action.getTargetWindow(), "_blank");
+		try {
+			action.setFormatType("jpg");
+		} catch (SemanticException e) {
+			e.printStackTrace();
 		}
-		catch ( SemanticException e )
-		{
-			e.printStackTrace( );
-		}
-		assertEquals( action.getFormatType( ), "jpg" );
+		assertEquals(action.getFormatType(), "jpg");
 
-		action = getChartWithAxes( ).getValueSeries( )[1][0].getAction( );
-		assertNull( action );
+		action = getChartWithAxes().getValueSeries()[1][0].getAction();
+		assertNull(action);
 	}
 }

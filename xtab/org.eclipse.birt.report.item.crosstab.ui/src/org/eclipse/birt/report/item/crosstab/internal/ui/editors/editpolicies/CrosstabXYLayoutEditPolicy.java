@@ -24,92 +24,89 @@ import org.eclipse.gef.requests.CreateRequest;
  * Crosstable editpart layout police
  */
 
-public class CrosstabXYLayoutEditPolicy extends XYLayoutEditPolicy
-{
+public class CrosstabXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
 	/**
 	 * Constructor
 	 * 
 	 * @param layout
 	 */
-	public CrosstabXYLayoutEditPolicy( XYLayout layout )
-	{
-		super( );
-		setXyLayout( layout );
+	public CrosstabXYLayoutEditPolicy(XYLayout layout) {
+		super();
+		setXyLayout(layout);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.requests.ChangeBoundsRequest,
-	 *      org.eclipse.gef.EditPart, java.lang.Object)
+	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#
+	 * createChangeConstraintCommand(org.eclipse.gef.requests.ChangeBoundsRequest,
+	 * org.eclipse.gef.EditPart, java.lang.Object)
 	 */
-	protected Command createChangeConstraintCommand(
-			ChangeBoundsRequest request, EditPart child, Object constraint )
-	{
+	protected Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChildEditPolicy(org.eclipse.gef.EditPart)
+	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#
+	 * createChildEditPolicy(org.eclipse.gef.EditPart)
 	 */
-	protected EditPolicy createChildEditPolicy( EditPart child )
-	{
-		return new CrosstabCellResizeEditPolicy( );
+	protected EditPolicy createChildEditPolicy(EditPart child) {
+		return new CrosstabCellResizeEditPolicy();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org
+	 * .eclipse.gef.EditPart, java.lang.Object)
 	 */
-	protected Command createAddCommand( EditPart child, Object constraint )
-	{
+	protected Command createAddCommand(EditPart child, Object constraint) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart,
-	 *      java.lang.Object)
+	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#
+	 * createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
 	 */
-	protected Command createChangeConstraintCommand( EditPart child,
-			Object constraint )
-	{
+	protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
+	 * @see
+	 * org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.
+	 * gef.requests.CreateRequest)
 	 */
-	protected Command getCreateCommand( CreateRequest request )
-	{
+	protected Command getCreateCommand(CreateRequest request) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.eclipse.gef.Request)
+	 * @see
+	 * org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.
+	 * eclipse.gef.Request)
 	 */
-	protected Command getDeleteDependantCommand( Request request )
-	{
+	protected Command getDeleteDependantCommand(Request request) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#getResizeChildrenCommand(org.eclipse.gef.requests.ChangeBoundsRequest)
+	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#
+	 * getResizeChildrenCommand(org.eclipse.gef.requests.ChangeBoundsRequest)
 	 */
-	protected Command getResizeChildrenCommand( ChangeBoundsRequest request )
-	{
+	protected Command getResizeChildrenCommand(ChangeBoundsRequest request) {
 		return null;
 	}
 }

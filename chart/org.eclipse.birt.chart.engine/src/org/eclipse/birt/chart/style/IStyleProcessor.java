@@ -19,8 +19,7 @@ import org.eclipse.birt.chart.model.attribute.StyledComponent;
  * This interface allows access/manipulation to styles for granular chart
  * components.
  */
-public interface IStyleProcessor
-{
+public interface IStyleProcessor {
 
 	/**
 	 * Returns the style as per given component name.
@@ -28,48 +27,44 @@ public interface IStyleProcessor
 	 * @param name
 	 * @return style element
 	 */
-	IStyle getStyle( Chart model, StyledComponent name );
+	IStyle getStyle(Chart model, StyledComponent name);
 
 	/**
 	 * Process styles for the whole chart model
 	 * 
-	 * @param model
-	 *            chart model
+	 * @param model chart model
 	 * @since 2.6
 	 */
-	void processStyle( Chart model );
+	void processStyle(Chart model);
 
 	/**
 	 * To set the default background color.
 	 * 
-	 * @param color
-	 *            default background color
+	 * @param color default background color
 	 */
-	void setDefaultBackgroundColor( ColorDefinition cd );
+	void setDefaultBackgroundColor(ColorDefinition cd);
 
 	/**
 	 * Get the default background color.
 	 * 
 	 * @return color
 	 */
-	ColorDefinition getDefaultBackgroundColor( );
+	ColorDefinition getDefaultBackgroundColor();
 
 	/**
 	 * Use custom value to update chart model.
 	 * 
-	 * @param model
-	 *            the target chart model.
-	 * @param obj
-	 *            this object is used to update chart model.
-	 *            
+	 * @param model the target chart model.
+	 * @param obj   this object is used to update chart model.
+	 * 
 	 * @return <code>true</code> means updated successfully.
 	 */
-	boolean updateChart( Chart model, Object obj );
-	
+	boolean updateChart(Chart model, Object obj);
+
 	/**
 	 * Indicates if chart need to inherit some basic styles from container.
 	 * 
 	 * @return
 	 */
-	boolean needInheritingStyles( );
+	boolean needInheritingStyles();
 }

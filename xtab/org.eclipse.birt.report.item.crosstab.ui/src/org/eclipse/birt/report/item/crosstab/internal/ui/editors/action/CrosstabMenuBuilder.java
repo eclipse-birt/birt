@@ -25,37 +25,32 @@ import org.eclipse.jface.action.IMenuManager;
 /**
  * Creata the Cross tab menu
  */
-public class CrosstabMenuBuilder implements IMenuBuilder
-{
+public class CrosstabMenuBuilder implements IMenuBuilder {
 
-	//private static final String EDITCUBE_NAME = "Edit Data Cube";
-	private static final String EDITCUBE_NAME = Messages.getString( "CrosstabMenuBuilder.EditCubeAction.DisplayName" );//$NON-NLS-1$
+	// private static final String EDITCUBE_NAME = "Edit Data Cube";
+	private static final String EDITCUBE_NAME = Messages.getString("CrosstabMenuBuilder.EditCubeAction.DisplayName");//$NON-NLS-1$
+
 	/**
 	 * Constructor
 	 */
-	public CrosstabMenuBuilder( )
-	{
+	public CrosstabMenuBuilder() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder#buildMenu(org.eclipse.jface.action.IMenuManager,
-	 *      java.util.List)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder#buildMenu(org.
+	 * eclipse.jface.action.IMenuManager, java.util.List)
 	 */
-	public void buildMenu( IMenuManager menu, List selectedList )
-	{
-		if ( selectedList != null
-				&& selectedList.size( ) == 1
-				&& selectedList.get( 0 ) instanceof ExtendedItemHandle )
-		{
+	public void buildMenu(IMenuManager menu, List selectedList) {
+		if (selectedList != null && selectedList.size() == 1 && selectedList.get(0) instanceof ExtendedItemHandle) {
 			// for ctross tab test
-			ExtendedItemHandle handle = (ExtendedItemHandle) selectedList.get( 0 );
-			if ( ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( handle.getExtensionName( ))) 
-			{
-				 CrosstabReportItemHandle reportHandle =  (CrosstabReportItemHandle)CrosstabUtil.getReportItem( handle );
-				 EditCubeAction action = new EditCubeAction(reportHandle.getCube( ), EDITCUBE_NAME);
-				 menu.add( action );
+			ExtendedItemHandle handle = (ExtendedItemHandle) selectedList.get(0);
+			if (ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals(handle.getExtensionName())) {
+				CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) CrosstabUtil.getReportItem(handle);
+				EditCubeAction action = new EditCubeAction(reportHandle.getCube(), EDITCUBE_NAME);
+				menu.add(action);
 			}
 		}
 

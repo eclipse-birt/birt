@@ -23,49 +23,37 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
-public class ScriptEngineFactoryManagerImpl extends ScriptEngineFactoryManager
-{
+public class ScriptEngineFactoryManagerImpl extends ScriptEngineFactoryManager {
 
 	HashMap<String, IConfigurationElement> configs;
 
-	public ScriptEngineFactoryManagerImpl( )
-	{
-		super( );
-		configs = new HashMap<String, IConfigurationElement>( );
-		IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry( );
+	public ScriptEngineFactoryManagerImpl() {
+		super();
+		configs = new HashMap<String, IConfigurationElement>();
+		IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = extensionRegistry
-				.getExtensionPoint( "org.eclipse.birt.core.ScriptEngineFactory" );
+				.getExtensionPoint("org.eclipse.birt.core.ScriptEngineFactory");
 
-		IExtension[] extensions = extensionPoint.getExtensions( );
-		for ( IExtension extension : extensions )
-		{
-			IConfigurationElement[] configurations = extension
-					.getConfigurationElements( );
-			for ( IConfigurationElement configuration : configurations )
-			{
-				String scriptName = configuration.getAttribute( "scriptName" );
-				configs.put( scriptName, configuration );
+		IExtension[] extensions = extensionPoint.getExtensions();
+		for (IExtension extension : extensions) {
+			IConfigurationElement[] configurations = extension.getConfigurationElements();
+			for (IConfigurationElement configuration : configurations) {
+				String scriptName = configuration.getAttribute("scriptName");
+				configs.put(scriptName, configuration);
 			}
 		}
 	}
 
-	protected IScriptEngineFactory createFactory( String language )
-	{
-		if ( configs.containsKey( language ) )
-		{
-			IConfigurationElement configuration = configs.get( language );
-			try
-			{
-				Object object = configuration
-						.createExecutableExtension( "factoryClass" );
-				if ( object instanceof IScriptEngineFactory )
-				{
+	protected IScriptEngineFactory createFactory(String language) {
+		if (configs.containsKey(language)) {
+			IConfigurationElement configuration = configs.get(language);
+			try {
+				Object object = configuration.createExecutableExtension("factoryClass");
+				if (object instanceof IScriptEngineFactory) {
 					return (IScriptEngineFactory) object;
 				}
-			}
-			catch ( CoreException e )
-			{
-				logger.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+			} catch (CoreException e) {
+				logger.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			}
 		}
 		return null;

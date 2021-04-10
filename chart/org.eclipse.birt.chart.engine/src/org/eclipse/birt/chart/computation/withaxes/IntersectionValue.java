@@ -17,13 +17,10 @@ import org.eclipse.birt.chart.computation.Methods;
 /**
  * IntersectionValue
  */
-public final class IntersectionValue extends Methods implements IConstants
-{
+public final class IntersectionValue extends Methods implements IConstants {
 
-	public static final IntersectionValue MAX_VALUE = new IntersectionValue( MAX,
-			0 );
-	public static final IntersectionValue MIN_VALUE = new IntersectionValue( MIN,
-			0 );
+	public static final IntersectionValue MAX_VALUE = new IntersectionValue(MAX, 0);
+	public static final IntersectionValue MIN_VALUE = new IntersectionValue(MIN, 0);
 
 	int iType;
 
@@ -33,18 +30,16 @@ public final class IntersectionValue extends Methods implements IConstants
 	 * @param _iType
 	 * @param _dValue
 	 */
-	public IntersectionValue( int _iType, double _dValue )
-	{
+	public IntersectionValue(int _iType, double _dValue) {
 		iType = _iType;
-		oValue = new Double( _dValue );
+		oValue = new Double(_dValue);
 	}
 
 	/**
 	 * @param _iType
 	 * @param _oValue
 	 */
-	public IntersectionValue( int _iType, Object _oValue )
-	{
+	public IntersectionValue(int _iType, Object _oValue) {
 		iType = _iType;
 		oValue = _oValue;
 	}
@@ -52,42 +47,35 @@ public final class IntersectionValue extends Methods implements IConstants
 	/**
 	 * @return
 	 */
-	public final int getType( )
-	{
+	public final int getType() {
 		return iType;
 	}
 
 	/**
 	 * @return
 	 */
-	public final Object getValue( )
-	{
+	public final Object getValue() {
 		return oValue;
 	}
 
 	/**
 	 * @return
 	 */
-	public final double getValueAsDouble( )
-	{
-		return asDouble( oValue ).doubleValue( );
+	public final double getValueAsDouble() {
+		return asDouble(oValue).doubleValue();
 	}
 
 	/**
 	 * @param sc
 	 * @return
 	 */
-	public final double getValueAsDouble( AutoScale sc )
-	{
-		if ( iType == MAX )
-		{
-			return asDouble( sc.getMaximum( ) ).doubleValue( );
+	public final double getValueAsDouble(AutoScale sc) {
+		if (iType == MAX) {
+			return asDouble(sc.getMaximum()).doubleValue();
+		} else if (iType == MIN) {
+			return asDouble(sc.getMinimum()).doubleValue();
 		}
-		else if ( iType == MIN )
-		{
-			return asDouble( sc.getMinimum( ) ).doubleValue( );
-		}
-		return asDouble( oValue ).doubleValue( );
+		return asDouble(oValue).doubleValue();
 	}
 
 }

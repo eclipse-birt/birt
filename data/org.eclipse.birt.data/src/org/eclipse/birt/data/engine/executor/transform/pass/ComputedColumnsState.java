@@ -26,89 +26,94 @@ import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
  * IExpressionProcessor.
  */
 
-class ComputedColumnsState implements IComputedColumnsState
-{
+class ComputedColumnsState implements IComputedColumnsState {
 	//
 	private ComputedColumnsStateSwitch ccsSwitch;
-	
+
 	/**
 	 * 
 	 * @param helper
 	 */
-	ComputedColumnsState( ComputedColumnHelper helper )
-	{
-		this.ccsSwitch = new ComputedColumnsStateSwitch( helper );
+	ComputedColumnsState(ComputedColumnHelper helper) {
+		this.ccsSwitch = new ComputedColumnsStateSwitch(helper);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#isValueAvailable(int)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
+	 * isValueAvailable(int)
 	 */
-	public boolean isValueAvailable(int index) 
-	{
+	public boolean isValueAvailable(int index) {
 		return this.ccsSwitch.getCurrentInstance().isValueAvailable(index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getName(int)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getName
+	 * (int)
 	 */
-	public String getName(int index) 
-	{
-		return this.ccsSwitch.getCurrentInstance().getName( index );
+	public String getName(int index) {
+		return this.ccsSwitch.getCurrentInstance().getName(index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getExpression(int)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
+	 * getExpression(int)
 	 */
-	public IBaseExpression getExpression(int index) 
-	{
-		return this.ccsSwitch.getCurrentInstance().getExpression( index );
+	public IBaseExpression getExpression(int index) {
+		return this.ccsSwitch.getCurrentInstance().getExpression(index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#setValueAvailable(int)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
+	 * setValueAvailable(int)
 	 */
-	public void setValueAvailable(int index) 
-	{
-		this.ccsSwitch.getCurrentInstance().setValueAvailable( index );
+	public void setValueAvailable(int index) {
+		this.ccsSwitch.getCurrentInstance().setValueAvailable(index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getCount()
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
+	 * getCount()
 	 */
-	public int getCount() 
-	{
+	public int getCount() {
 		return this.ccsSwitch.getCurrentInstance().getCount();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getComputedColumn(int)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
+	 * getComputedColumn(int)
 	 */
-	public IComputedColumn getComputedColumn(int index) 
-	{
-		return this.ccsSwitch.getCurrentInstance().getComputedColumn( index );
+	public IComputedColumn getComputedColumn(int index) {
+		return this.ccsSwitch.getCurrentInstance().getComputedColumn(index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#setModel(int)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
+	 * setModel(int)
 	 */
-	public void setModel(int model)
-	{
-		this.ccsSwitch.setScopeState( model );
+	public void setModel(int model) {
+		this.ccsSwitch.setScopeState(model);
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int getLastAccessedComputedColumnIndex( )
-	{
+	public int getLastAccessedComputedColumnIndex() {
 		return this.ccsSwitch.getCurrentInstance().getLastAccessedComputedColumnIndex();
 	}
 
@@ -116,17 +121,15 @@ class ComputedColumnsState implements IComputedColumnsState
 	 * 
 	 * @param index
 	 */
-	public void setLastAccessedComputedColumnId( int index )
-	{
+	public void setLastAccessedComputedColumnId(int index) {
 		this.ccsSwitch.getCurrentInstance().setLastAccessedComputedColumnId(index);
 	}
-	
+
 	/**
 	 * 
 	 *
 	 */
-	private static class ComputedColumnsStateSwitch
-	{
+	private static class ComputedColumnsStateSwitch {
 		/**
 		 * 
 		 */
@@ -139,38 +142,35 @@ class ComputedColumnsState implements IComputedColumnsState
 		 * 
 		 * @param helper
 		 */
-		ComputedColumnsStateSwitch( ComputedColumnHelper helper )
-		{
-			helper.setModel( TransformationConstants.DATA_SET_MODEL);
-			this.dataSetCC = new ComputedColumnsStateInstance( helper.getComputedColumnList( ) );
-			
-			helper.setModel( TransformationConstants.RESULT_SET_MODEL);
-			this.resultSetCC = new ComputedColumnsStateInstance( helper.getComputedColumnList() );
-			
-			helper.setModel( TransformationConstants.ALL_MODEL);
-			this.allCC = new ComputedColumnsStateInstance( helper.getComputedColumnList());
+		ComputedColumnsStateSwitch(ComputedColumnHelper helper) {
+			helper.setModel(TransformationConstants.DATA_SET_MODEL);
+			this.dataSetCC = new ComputedColumnsStateInstance(helper.getComputedColumnList());
+
+			helper.setModel(TransformationConstants.RESULT_SET_MODEL);
+			this.resultSetCC = new ComputedColumnsStateInstance(helper.getComputedColumnList());
+
+			helper.setModel(TransformationConstants.ALL_MODEL);
+			this.allCC = new ComputedColumnsStateInstance(helper.getComputedColumnList());
 		}
-		
+
 		/**
 		 * 
 		 * @param state
 		 */
-		void setScopeState( int state )
-		{
+		void setScopeState(int state) {
 			this.scopeState = state;
 		}
-		
+
 		/**
 		 * 
 		 * @return
 		 */
-		ComputedColumnsStateInstance getCurrentInstance()
-		{
-			if( this.scopeState == TransformationConstants.DATA_SET_MODEL )
+		ComputedColumnsStateInstance getCurrentInstance() {
+			if (this.scopeState == TransformationConstants.DATA_SET_MODEL)
 				return this.dataSetCC;
-			else if ( this.scopeState == TransformationConstants.RESULT_SET_MODEL )
+			else if (this.scopeState == TransformationConstants.RESULT_SET_MODEL)
 				return this.resultSetCC;
-			else if ( this.scopeState == TransformationConstants.ALL_MODEL )
+			else if (this.scopeState == TransformationConstants.ALL_MODEL)
 				return this.allCC;
 			return null;
 		}
@@ -180,8 +180,7 @@ class ComputedColumnsState implements IComputedColumnsState
 	 * 
 	 *
 	 */
-	private static class ComputedColumnsStateInstance
-	{
+	private static class ComputedColumnsStateInstance {
 		//
 		private List computedColumnsList;
 		private boolean[] isValueAvailable;
@@ -189,16 +188,15 @@ class ComputedColumnsState implements IComputedColumnsState
 
 		/**
 		 * Constructor.
+		 * 
 		 * @param computedColumnList
 		 */
-		public ComputedColumnsStateInstance( List computedColumnList )
-		{
+		public ComputedColumnsStateInstance(List computedColumnList) {
 			this.lastAccessedCCIndex = -1;
-			this.computedColumnsList = new ArrayList( );
-			this.computedColumnsList.addAll( computedColumnList );
-			this.isValueAvailable = new boolean[computedColumnList.size( )];
-			for ( int i = 0; i < this.isValueAvailable.length; i++ )
-			{
+			this.computedColumnsList = new ArrayList();
+			this.computedColumnsList.addAll(computedColumnList);
+			this.isValueAvailable = new boolean[computedColumnList.size()];
+			for (int i = 0; i < this.isValueAvailable.length; i++) {
 				this.isValueAvailable[i] = false;
 			}
 		}
@@ -206,10 +204,11 @@ class ComputedColumnsState implements IComputedColumnsState
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.executor.IComputedColumnState#isValueAvailable(int)
+		 * @see
+		 * org.eclipse.birt.data.engine.executor.IComputedColumnState#isValueAvailable(
+		 * int)
 		 */
-		public boolean isValueAvailable( int index )
-		{
+		public boolean isValueAvailable(int index) {
 			return this.isValueAvailable[index];
 		}
 
@@ -218,29 +217,29 @@ class ComputedColumnsState implements IComputedColumnsState
 		 * 
 		 * @see org.eclipse.birt.data.engine.executor.IComputedColumnState#getName(int)
 		 */
-		public String getName( int index )
-		{
-			return ( (IComputedColumn) this.computedColumnsList.get( index ) ).getName( );
+		public String getName(int index) {
+			return ((IComputedColumn) this.computedColumnsList.get(index)).getName();
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.executor.IComputedColumnState#getExpression(int)
+		 * @see
+		 * org.eclipse.birt.data.engine.executor.IComputedColumnState#getExpression(int)
 		 */
-		public ScriptExpression getExpression( int index )
-		{
+		public ScriptExpression getExpression(int index) {
 			// TODO Auto-generated method stub
-			return (ScriptExpression) ( (IComputedColumn) this.computedColumnsList.get( index ) ).getExpression( );
+			return (ScriptExpression) ((IComputedColumn) this.computedColumnsList.get(index)).getExpression();
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.executor.IComputedColumnState#setValueAvailable(int)
+		 * @see
+		 * org.eclipse.birt.data.engine.executor.IComputedColumnState#setValueAvailable(
+		 * int)
 		 */
-		public void setValueAvailable( int index )
-		{
+		public void setValueAvailable(int index) {
 			this.isValueAvailable[index] = true;
 		}
 
@@ -249,27 +248,26 @@ class ComputedColumnsState implements IComputedColumnsState
 		 * 
 		 * @see org.eclipse.birt.data.engine.executor.IComputedColumnState#getCount()
 		 */
-		public int getCount( )
-		{
-			return this.computedColumnsList.size( );
+		public int getCount() {
+			return this.computedColumnsList.size();
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.executor.IComputedColumnState#getComputedColumn(int)
+		 * @see
+		 * org.eclipse.birt.data.engine.executor.IComputedColumnState#getComputedColumn(
+		 * int)
 		 */
-		public IComputedColumn getComputedColumn( int index )
-		{
-			return (IComputedColumn) this.computedColumnsList.get( index );
+		public IComputedColumn getComputedColumn(int index) {
+			return (IComputedColumn) this.computedColumnsList.get(index);
 		}
 
 		/**
 		 * 
 		 * @return
 		 */
-		public int getLastAccessedComputedColumnIndex( )
-		{
+		public int getLastAccessedComputedColumnIndex() {
 			return this.lastAccessedCCIndex;
 		}
 
@@ -277,10 +275,8 @@ class ComputedColumnsState implements IComputedColumnsState
 		 * 
 		 * @param index
 		 */
-		public void setLastAccessedComputedColumnId( int index )
-		{
+		public void setLastAccessedComputedColumnId(int index) {
 			this.lastAccessedCCIndex = index;
 		}
 	}
 }
-

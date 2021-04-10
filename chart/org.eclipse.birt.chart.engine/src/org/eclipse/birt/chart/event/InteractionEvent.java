@@ -24,128 +24,112 @@ import org.eclipse.birt.chart.model.data.Trigger;
 /**
  * An event type for Interactivity.
  */
-public final class InteractionEvent extends ChartEvent
-{
+public final class InteractionEvent extends ChartEvent {
 
 	private static final long serialVersionUID = -3554746649816942383L;
 
 	private PrimitiveRenderEvent _pre = null;
 
-	private final LinkedHashMap<TriggerCondition, Action> _lhmTriggers = new LinkedHashMap<TriggerCondition, Action>( );
+	private final LinkedHashMap<TriggerCondition, Action> _lhmTriggers = new LinkedHashMap<TriggerCondition, Action>();
 
 	private transient Cursor cursor = null;
 
-	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance();
 
 	private short zOrder = 0;
 
 	/**
 	 * The constructor.
 	 */
-	public InteractionEvent( Object source )
-	{
-		super( source );
-		if ( !( source instanceof StructureSource ) )
-		{
-			throw new IllegalArgumentException( );
+	public InteractionEvent(Object source) {
+		super(source);
+		if (!(source instanceof StructureSource)) {
+			throw new IllegalArgumentException();
 		}
 	}
 
 	/**
 	 * @return Returns the structur source of current event.
 	 */
-	public StructureSource getStructureSource( )
-	{
-		return (StructureSource) super.getSource( );
+	public StructureSource getStructureSource() {
+		return (StructureSource) super.getSource();
 	}
 
 	/**
 	 * Sets the hotspot area defined by given rendering event for current event.
 	 */
-	public final void setHotSpot( PrimitiveRenderEvent pre )
-	{
+	public final void setHotSpot(PrimitiveRenderEvent pre) {
 		_pre = pre;
 	}
 
 	/**
 	 * @return Returns the rendering event defining current hotspot area.
 	 */
-	public final PrimitiveRenderEvent getHotSpot( )
-	{
+	public final PrimitiveRenderEvent getHotSpot() {
 		return _pre;
 	}
 
 	/**
 	 * Adds trigger to current event.
 	 */
-	public final void addTrigger( Trigger t )
-	{
-		_lhmTriggers.put( t.getCondition( ), t.getAction( ) );
+	public final void addTrigger(Trigger t) {
+		_lhmTriggers.put(t.getCondition(), t.getAction());
 	}
 
 	/**
 	 * @return Returns the action for specific trigger condition.
 	 */
-	public final Action getAction( TriggerCondition tc )
-	{
-		return _lhmTriggers.get( tc );
+	public final Action getAction(TriggerCondition tc) {
+		return _lhmTriggers.get(tc);
 	}
 
 	/**
 	 * @return Returns all triggers asscociated with current event.
 	 */
-	public final Trigger[] getTriggers( )
-	{
-		if ( _lhmTriggers.isEmpty( ) )
-		{
+	public final Trigger[] getTriggers() {
+		if (_lhmTriggers.isEmpty()) {
 			return null;
 		}
 
-		Trigger[] tga = new Trigger[_lhmTriggers.size( )];
+		Trigger[] tga = new Trigger[_lhmTriggers.size()];
 		int i = 0;
 
-		for ( Map.Entry<TriggerCondition, Action> entry : _lhmTriggers.entrySet( ) )
-		{
-			TriggerCondition tcKey = entry.getKey( );
-			Action acValue = entry.getValue( );
-			tga[i++] = goFactory.createTrigger( tcKey, acValue );
+		for (Map.Entry<TriggerCondition, Action> entry : _lhmTriggers.entrySet()) {
+			TriggerCondition tcKey = entry.getKey();
+			Action acValue = entry.getValue();
+			tga[i++] = goFactory.createTrigger(tcKey, acValue);
 		}
 		return tga;
 	}
 
-	public void reset( )
-	{
+	public void reset() {
 		_pre = null;
-		_lhmTriggers.clear( );
+		_lhmTriggers.clear();
 	}
 
 	/**
 	 * Reuses current event by given new source object.
 	 */
-	public final void reuse( StructureSource oNewSource )
-	{
+	public final void reuse(StructureSource oNewSource) {
 		source = oNewSource;
-		_lhmTriggers.clear( );
+		_lhmTriggers.clear();
 	}
-	
+
 	/**
 	 * Returns mouse cursor.
 	 * 
 	 * @return cursor
 	 */
-	public Cursor getCursor( )
-	{
+	public Cursor getCursor() {
 		return cursor;
 	}
 
-	
 	/**
 	 * Set mouse cursor.
 	 * 
 	 * @param cursor
 	 */
-	public void setCursor( Cursor cursor )
-	{
+	public void setCursor(Cursor cursor) {
 		this.cursor = cursor;
 	}
 
@@ -154,8 +138,7 @@ public final class InteractionEvent extends ChartEvent
 	 * 
 	 * @return zOrder
 	 */
-	public short getZOrder( )
-	{
+	public short getZOrder() {
 		return zOrder;
 	}
 
@@ -164,8 +147,7 @@ public final class InteractionEvent extends ChartEvent
 	 * 
 	 * @param zOrder
 	 */
-	public void setZOrder( short zOrder )
-	{
+	public void setZOrder(short zOrder) {
 		this.zOrder = zOrder;
 	}
 }

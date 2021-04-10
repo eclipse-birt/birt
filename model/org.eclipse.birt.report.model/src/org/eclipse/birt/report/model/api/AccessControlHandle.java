@@ -35,51 +35,40 @@ import org.eclipse.birt.report.model.elements.interfaces.IAccessControlModel;
  * @deprecated
  */
 
-public class AccessControlHandle extends ContentElementHandle
-		implements
-			IAccessControlModel
-{
+public class AccessControlHandle extends ContentElementHandle implements IAccessControlModel {
 
 	/**
 	 * Constructs a autotext handle with the given design and the element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public AccessControlHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public AccessControlHandle(Module module, DesignElement element) {
+		super(module, element);
 
 	}
 
 	/**
 	 * Adds the given role to the list.
 	 * 
-	 * @param role
-	 *            the role
+	 * @param role the role
 	 * @throws SemanticException
 	 */
-	
-	public void addRole( String role ) throws SemanticException
-	{
+
+	public void addRole(String role) throws SemanticException {
 	}
 
 	/**
 	 * Adds the given user name to the list.
 	 * 
-	 * @param userName
-	 *            the user name
+	 * @param userName the user name
 	 * @throws SemanticException
 	 */
 
-
-	public void addUserName( String userName ) throws SemanticException
-	{
+	public void addUserName(String userName) throws SemanticException {
 	}
 
 	/**
@@ -94,35 +83,30 @@ public class AccessControlHandle extends ContentElementHandle
 	 * @return the permission to perform the role
 	 */
 
-	public String getPermission( )
-	{
+	public String getPermission() {
 		return null;
 	}
 
 	/**
 	 * Removes the given role from the list.
 	 * 
-	 * @param role
-	 *            the role to remove
+	 * @param role the role to remove
 	 * 
 	 * @throws SemanticException
 	 */
-	
-	public void removeRole( String role ) throws SemanticException
-	{
+
+	public void removeRole(String role) throws SemanticException {
 	}
 
 	/**
 	 * Removes the given user name from the list.
 	 * 
-	 * @param userName
-	 *            the user name to remove
+	 * @param userName the user name to remove
 	 * 
 	 * @throws SemanticException
 	 */
-	
-	public void removeUserName( String userName ) throws SemanticException
-	{
+
+	public void removeUserName(String userName) throws SemanticException {
 	}
 
 	/**
@@ -133,12 +117,10 @@ public class AccessControlHandle extends ContentElementHandle
 	 * <li>DesignChoiceConstants.ACCESS_PERMISSION_DISALLOW
 	 * </ul>
 	 * 
-	 * @param permission
-	 *            the permission to perform the role
+	 * @param permission the permission to perform the role
 	 * 
 	 * @throws SemanticException
 	 */
-	public void setPermission( String permission ) throws SemanticException
-	{
+	public void setPermission(String permission) throws SemanticException {
 	}
 }

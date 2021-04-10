@@ -17,21 +17,19 @@ import junit.framework.TestSuite;
  *  
  */
 
-public class AllUtilTests
-{
+public class AllUtilTests {
 
-	public static Test suite( )
-	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.designer.util" );
-		//$JUnit-BEGIN$
-		suite.addTestSuite( MetricUtilityTest.class );
-		suite.addTestSuite( FontManagerTest.class );
-		suite.addTestSuite( ColorManagerTest.class );
-		suite.addTestSuite( FixTableLayoutCalculatorTest.class );
-		suite.addTestSuite( DEUtilTest.class );
-		suite.addTestSuite( ImageManagerTest.class );
-		suite.addTestSuite( TableBorderCollisionArbiterTest.class );
-		//$JUnit-END$
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Test for org.eclipse.birt.report.designer.util");
+		// $JUnit-BEGIN$
+		suite.addTestSuite(MetricUtilityTest.class);
+		suite.addTestSuite(FontManagerTest.class);
+		suite.addTestSuite(ColorManagerTest.class);
+		suite.addTestSuite(FixTableLayoutCalculatorTest.class);
+		suite.addTestSuite(DEUtilTest.class);
+		suite.addTestSuite(ImageManagerTest.class);
+		suite.addTestSuite(TableBorderCollisionArbiterTest.class);
+		// $JUnit-END$
 		return suite;
 	}
 }

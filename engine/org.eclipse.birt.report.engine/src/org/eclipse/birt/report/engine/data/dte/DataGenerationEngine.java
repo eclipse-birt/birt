@@ -27,76 +27,59 @@ import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 
-public class DataGenerationEngine extends DteDataEngine
-{
+public class DataGenerationEngine extends DteDataEngine {
 	/**
 	 * output stream used to save the resultset relations
 	 */
 	protected DataOutputStream dos;
-	
+
 	protected IDocArchiveWriter writer;
 
-	public DataGenerationEngine( DataEngineFactory factory,
-			ExecutionContext context, IDocArchiveWriter writer )
-			throws Exception
-	{
-		super( factory, context, writer );
+	public DataGenerationEngine(DataEngineFactory factory, ExecutionContext context, IDocArchiveWriter writer)
+			throws Exception {
+		super(factory, context, writer);
 		this.writer = writer;
 		// create the DteData session.
-		DataSessionContext dteSessionContext = new DataSessionContext(
-				DataSessionContext.MODE_GENERATION, context.getDesign( ), context
-						.getScriptContext( ), context
-						.getApplicationClassLoader( ) );
-		dteSessionContext.setDocumentWriter( writer );
-		dteSessionContext.setAppContext( context.getAppContext( ) );
-		DataEngineContext dteEngineContext = dteSessionContext
-				.getDataEngineContext( );
-		dteEngineContext.setLocale( context.getLocale( ) );
-		dteEngineContext.setTimeZone( context.getTimeZone( ) );
-		String tempDir = getTempDir( context );
-		if ( tempDir != null )
-		{
-			dteEngineContext.setTmpdir( tempDir );
+		DataSessionContext dteSessionContext = new DataSessionContext(DataSessionContext.MODE_GENERATION,
+				context.getDesign(), context.getScriptContext(), context.getApplicationClassLoader());
+		dteSessionContext.setDocumentWriter(writer);
+		dteSessionContext.setAppContext(context.getAppContext());
+		DataEngineContext dteEngineContext = dteSessionContext.getDataEngineContext();
+		dteEngineContext.setLocale(context.getLocale());
+		dteEngineContext.setTimeZone(context.getTimeZone());
+		String tempDir = getTempDir(context);
+		if (tempDir != null) {
+			dteEngineContext.setTmpdir(tempDir);
 		}
 
-		dteSession = context.newSession( dteSessionContext );
+		dteSession = context.newSession(dteSessionContext);
 
 		initialize();
 	}
-	
-	protected void initialize() throws Exception
-	{
-		dos = new DataOutputStream(
-				writer
-						.createRandomAccessStream( ReportDocumentConstants.DATA_META_STREAM ) );
-		if (writer.exists(ReportDocumentConstants.DATA_SNAP_META_STREAM)) 
-		{
+
+	protected void initialize() throws Exception {
+		dos = new DataOutputStream(writer.createRandomAccessStream(ReportDocumentConstants.DATA_META_STREAM));
+		if (writer.exists(ReportDocumentConstants.DATA_SNAP_META_STREAM)) {
 			writer.dropStream(ReportDocumentConstants.DATA_SNAP_META_STREAM);
 		}
-		DteMetaInfoIOUtil.startMetaInfo( dos );
+		DteMetaInfoIOUtil.startMetaInfo(dos);
 	}
 
-	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResultSet,
-			IQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
-	{
-		IBaseResultSet resultSet = super.doExecuteQuery( parentResultSet,
-				query, queryOwner, useCache );
-		if ( resultSet != null )
-		{
-			storeMetaInfo( parentResultSet, query, resultSet );
+	protected IBaseResultSet doExecuteQuery(IBaseResultSet parentResultSet, IQueryDefinition query, Object queryOwner,
+			boolean useCache) throws BirtException {
+		IBaseResultSet resultSet = super.doExecuteQuery(parentResultSet, query, queryOwner, useCache);
+		if (resultSet != null) {
+			storeMetaInfo(parentResultSet, query, resultSet);
 		}
 
 		return resultSet;
 	}
 
-	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResultSet,
-			ICubeQueryDefinition query, Object queryOwner, boolean useCache ) throws BirtException
-	{
-		IBaseResultSet resultSet = super.doExecuteCube( parentResultSet, query,
-				queryOwner, useCache );
-		if ( resultSet != null )
-		{
-			storeMetaInfo( parentResultSet, query, resultSet );
+	protected IBaseResultSet doExecuteCube(IBaseResultSet parentResultSet, ICubeQueryDefinition query,
+			Object queryOwner, boolean useCache) throws BirtException {
+		IBaseResultSet resultSet = super.doExecuteCube(parentResultSet, query, queryOwner, useCache);
+		if (resultSet != null) {
+			storeMetaInfo(parentResultSet, query, resultSet);
 		}
 
 		return resultSet;
@@ -109,48 +92,36 @@ public class DataGenerationEngine extends DteDataEngine
 	 * @param query
 	 * @param resultSet
 	 */
-	protected void storeMetaInfo( IBaseResultSet parentResultSet,
-			IDataQueryDefinition query, IBaseResultSet resultSet )
-			throws BirtException
-	{
+	protected void storeMetaInfo(IBaseResultSet parentResultSet, IDataQueryDefinition query, IBaseResultSet resultSet)
+			throws BirtException {
 		String pRsetId = null; // id of the parent query restuls
 		String rawId = "-1"; // row id of the parent query results
 		String rowId = "-1";
-		if ( parentResultSet != null )
-		{
-			if ( parentResultSet instanceof QueryResultSet )
-			{
+		if (parentResultSet != null) {
+			if (parentResultSet instanceof QueryResultSet) {
 				QueryResultSet qrs = (QueryResultSet) parentResultSet;
-				pRsetId = qrs.getQueryResultsID( );
-				rowId = String.valueOf( qrs.getRowIndex( ) );
-			}
-			else
-			{
+				pRsetId = qrs.getQueryResultsID();
+				rowId = String.valueOf(qrs.getRowIndex());
+			} else {
 				CubeResultSet crs = (CubeResultSet) parentResultSet;
-				pRsetId = crs.getQueryResultsID( );
-				rowId = crs.getCellIndex( );
+				pRsetId = crs.getQueryResultsID();
+				rowId = crs.getCellIndex();
 			}
-			rawId = parentResultSet.getRawID( );
+			rawId = parentResultSet.getRawID();
 		}
-		String queryID = (String) queryIDMap.get( query );
-		storeDteMetaInfo( pRsetId, rawId, queryID, resultSet.getQueryResults( )
-				.getID( ), rowId );
+		String queryID = (String) queryIDMap.get(query);
+		storeDteMetaInfo(pRsetId, rawId, queryID, resultSet.getQueryResults().getID(), rowId);
 	}
 
-	public void shutdown( )
-	{
-		if ( null != dos )
-		{
-			try
-			{
-				dos.close( );
-			}
-			catch ( IOException e )
-			{
+	public void shutdown() {
+		if (null != dos) {
+			try {
+				dos.close();
+			} catch (IOException e) {
 			}
 			dos = null;
 		}
-		super.shutdown( );
+		super.shutdown();
 	}
 
 	/**
@@ -158,29 +129,19 @@ public class DataGenerationEngine extends DteDataEngine
 	 * 
 	 * @param key
 	 */
-	private void storeDteMetaInfo( String pRsetId, String rawId,
-			String queryId, String rsetId, String rowId )
-	{
-		try
-		{
+	private void storeDteMetaInfo(String pRsetId, String rawId, String queryId, String rsetId, String rowId) {
+		try {
 
 			// save the meta infomation
-			if ( context.isExecutingMasterPage( ) )
-			{
-				if ( pRsetId == null )
-				{
+			if (context.isExecutingMasterPage()) {
+				if (pRsetId == null) {
 					rawId = "-1";
 				}
 			}
-			DteMetaInfoIOUtil.storeMetaInfo( dos, pRsetId, rawId, queryId,
-					rsetId, rowId );
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ) );
+			DteMetaInfoIOUtil.storeMetaInfo(dos, pRsetId, rawId, queryId, rsetId, rowId);
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, e.getMessage());
 		}
 	}
-	
-	
 
 }

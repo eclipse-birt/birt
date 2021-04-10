@@ -19,18 +19,15 @@ import org.eclipse.draw2d.Graphics;
  * Crosstab cell figure
  */
 // NOTE if this class have bo code, will be remove
-public class CrosstabCellFigure extends CellFigure
-{
+public class CrosstabCellFigure extends CellFigure {
 
-	protected void paintFigure( Graphics graphics )
-	{
-		super.paintFigure( graphics );
+	protected void paintFigure(Graphics graphics) {
+		super.paintFigure(graphics);
 
-		if ( getBlankString( ) != null && getBlankString( ).length( ) > 0 )
-		{
-			graphics.setForegroundColor( ReportColorConstants.DarkShadowLineColor );
-			drawBlankString( graphics, getBlankString( ) );
-			graphics.restoreState( );
+		if (getBlankString() != null && getBlankString().length() > 0) {
+			graphics.setForegroundColor(ReportColorConstants.DarkShadowLineColor);
+			drawBlankString(graphics, getBlankString());
+			graphics.restoreState();
 		}
 
 	}

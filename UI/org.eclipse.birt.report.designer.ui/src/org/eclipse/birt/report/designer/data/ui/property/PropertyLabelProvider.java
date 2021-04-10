@@ -18,15 +18,13 @@ import org.eclipse.swt.graphics.Image;
  * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:14 $
  */
 
-public class PropertyLabelProvider extends LabelProvider
-{
+public class PropertyLabelProvider extends LabelProvider {
 
 	/**
 	 *  
 	 */
-	public PropertyLabelProvider( )
-	{
-		super( );
+	public PropertyLabelProvider() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -35,9 +33,8 @@ public class PropertyLabelProvider extends LabelProvider
 	 * 
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 	 */
-	public Image getImage( Object element )
-	{
-		return ( (PropertyNode) element ).getNodeImage( );
+	public Image getImage(Object element) {
+		return ((PropertyNode) element).getNodeImage();
 	}
 
 	/*
@@ -45,8 +42,7 @@ public class PropertyLabelProvider extends LabelProvider
 	 * 
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 	 */
-	public String getText( Object element )
-	{
-		return ( (PropertyNode) element ).getNodeLabel( );
+	public String getText(Object element) {
+		return ((PropertyNode) element).getNodeLabel();
 	}
 }

@@ -19,9 +19,8 @@ import org.eclipse.birt.data.engine.impl.index.IOrderedIntSet;
  * 
  */
 
-public interface IDataSetReader
-{
-	public IDataSetResultSet load( IOrderedIntSet targetRows ) throws DataException;
-	
-	public void close( ) throws DataException;
+public interface IDataSetReader {
+	public IDataSetResultSet load(IOrderedIntSet targetRows) throws DataException;
+
+	public void close() throws DataException;
 }

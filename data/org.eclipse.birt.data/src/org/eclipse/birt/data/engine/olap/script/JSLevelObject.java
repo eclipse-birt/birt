@@ -20,13 +20,11 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-
 /**
  * 
  */
 
-public class JSLevelObject extends ScriptableObject
-{
+public class JSLevelObject extends ScriptableObject {
 	/**
 	 * 
 	 */
@@ -34,64 +32,49 @@ public class JSLevelObject extends ScriptableObject
 	private DimensionCursor cursor;
 	private String levelName;
 	private String displayName;
-	
-	JSLevelObject( DimensionCursor cursor, String levelName ) throws OLAPException
-	{
+
+	JSLevelObject(DimensionCursor cursor, String levelName) throws OLAPException {
 		this.cursor = cursor;
 		this.levelName = levelName;
-		RowDataMetaData meta = this.cursor.getMetaData( );
-		String defaultName = OlapExpressionUtil.getDisplayColumnName( this.levelName );
-		for( int i = 0; i < meta.getColumnCount( ); i++ )
-		{
-			if ( meta.getColumnName( i ).equals( defaultName ) )
-			{
+		RowDataMetaData meta = this.cursor.getMetaData();
+		String defaultName = OlapExpressionUtil.getDisplayColumnName(this.levelName);
+		for (int i = 0; i < meta.getColumnCount(); i++) {
+			if (meta.getColumnName(i).equals(defaultName)) {
 				this.displayName = defaultName;
 				break;
 			}
 		}
-		if ( this.displayName == null )
+		if (this.displayName == null)
 			this.displayName = this.levelName;
 	}
-	
-	public String getClassName( )
-	{
+
+	public String getClassName() {
 		return "JSLevelObject";
 	}
-	
-	public Object getDefaultValue( Class hint )
-	{
-		return this.getKeyValue( );
+
+	public Object getDefaultValue(Class hint) {
+		return this.getKeyValue();
 	}
 
-	private Object getKeyValue( )
-	{
-		try
-		{
-			return this.cursor.getObject( this.levelName );
-		}
-		catch ( OLAPException e )
-		{
+	private Object getKeyValue() {
+		try {
+			return this.cursor.getObject(this.levelName);
+		} catch (OLAPException e) {
 			return null;
 		}
 	}
-	
+
 	/*
 	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
-	 *      org.mozilla.javascript.Scriptable)
+	 * org.mozilla.javascript.Scriptable)
 	 */
-	public Object get( String name, Scriptable start )
-	{
-		try
-		{	
-			if ( this.displayName.equals( name ) )
-				return this.cursor.getObject( OlapExpressionUtil.getAttributeColumnName( levelName,
-						this.displayName ) );
-			return this.cursor.getObject( OlapExpressionUtil.getAttributeColumnName( levelName,
-					name ) );
-		}
-		catch ( OLAPException e )
-		{
-			throw new RuntimeException( new DataException( e.getLocalizedMessage( ) ) );
+	public Object get(String name, Scriptable start) {
+		try {
+			if (this.displayName.equals(name))
+				return this.cursor.getObject(OlapExpressionUtil.getAttributeColumnName(levelName, this.displayName));
+			return this.cursor.getObject(OlapExpressionUtil.getAttributeColumnName(levelName, name));
+		} catch (OLAPException e) {
+			throw new RuntimeException(new DataException(e.getLocalizedMessage()));
 		}
 	}
 }

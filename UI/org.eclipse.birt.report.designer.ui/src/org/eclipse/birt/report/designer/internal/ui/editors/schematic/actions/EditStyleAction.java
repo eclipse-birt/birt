@@ -23,8 +23,7 @@ import org.eclipse.birt.report.model.api.SharedStyleHandle;
 /**
  * Edits style.
  */
-public class EditStyleAction extends DynamicItemAction
-{
+public class EditStyleAction extends DynamicItemAction {
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditStyleAction"; //$NON-NLS-1$
@@ -34,37 +33,25 @@ public class EditStyleAction extends DynamicItemAction
 	/**
 	 * @param handle
 	 */
-	public EditStyleAction( SharedStyleHandle handle )
-	{
+	public EditStyleAction(SharedStyleHandle handle) {
 		this.handle = handle;
-		setId( ID );
-		if ( handle.getContainerSlotHandle( ) != null
-				&& handle.getContainerSlotHandle( ).getElementHandle( ) instanceof AbstractThemeHandle )
-		{
-			setText( ( (AbstractThemeHandle) handle.getContainerSlotHandle( )
-					.getElementHandle( ) ).getName( )
-					+ "." //$NON-NLS-1$
-					+ DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle,
-							false ) ) );
-		}
-		else
-		{
-			setText( DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle,
-					false ) ) );
+		setId(ID);
+		if (handle.getContainerSlotHandle() != null
+				&& handle.getContainerSlotHandle().getElementHandle() instanceof AbstractThemeHandle) {
+			setText(((AbstractThemeHandle) handle.getContainerSlotHandle().getElementHandle()).getName() + "." //$NON-NLS-1$
+					+ DEUtil.getEscapedMenuItemText(DEUtil.getDisplayLabel(handle, false)));
+		} else {
+			setText(DEUtil.getEscapedMenuItemText(DEUtil.getDisplayLabel(handle, false)));
 		}
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
-	public boolean isEnabled( )
-	{
-		if ( handle.canEdit( ) )
-		{
+	public boolean isEnabled() {
+		if (handle.canEdit()) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 
@@ -75,19 +62,15 @@ public class EditStyleAction extends DynamicItemAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
+	public void run() {
 
-		CommandUtils.setVariable( ICommandParameterNameContants.EDIT_STYLE_SHARED_STYLE_HANDLE_NAME,
-				handle );
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.editStyleCommand", null ); //$NON-NLS-1$
+		CommandUtils.setVariable(ICommandParameterNameContants.EDIT_STYLE_SHARED_STYLE_HANDLE_NAME, handle);
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.editStyleCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
-		};
+		;
 
 	}
 }

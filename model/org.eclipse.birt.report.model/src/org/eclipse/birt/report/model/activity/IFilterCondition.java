@@ -17,8 +17,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
  * The interface to filter events.
  */
 
-public interface IFilterCondition
-{
+public interface IFilterCondition {
 
 	/**
 	 * Left one of the two events.
@@ -47,12 +46,10 @@ public interface IFilterCondition
 	/**
 	 * Gets the event to be filtered. The returned event will be filtered.
 	 * 
-	 * @param ev1
-	 *            the first event to compare
-	 * @param ev2
-	 *            the second event to compare
+	 * @param ev1 the first event to compare
+	 * @param ev2 the second event to compare
 	 * @return the event to be filtered
 	 */
 
-	int getFilterEvent( NotificationEvent ev1, NotificationEvent ev2 );
+	int getFilterEvent(NotificationEvent ev1, NotificationEvent ev2);
 }

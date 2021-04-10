@@ -22,15 +22,13 @@ import org.eclipse.birt.report.presentation.aggregation.dialog.ParameterDialogFr
  * 
  * @see BaseFragment
  */
-public class ReportDialogFragment extends BirtBaseFragment
-{
+public class ReportDialogFragment extends BirtBaseFragment {
 
 	/**
 	 * Build fragment by adding needed dialogs fragment root.
 	 */
-	protected void build( )
-	{
-		addChild( new DialogContainerFragment( new ExceptionDialogFragment( ) ) );
-		addChild( new DialogContainerFragment( new ParameterDialogFragment( ) ) );
+	protected void build() {
+		addChild(new DialogContainerFragment(new ExceptionDialogFragment()));
+		addChild(new DialogContainerFragment(new ParameterDialogFragment()));
 	}
 }

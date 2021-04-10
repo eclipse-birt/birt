@@ -18,8 +18,7 @@ import org.eclipse.birt.chart.model.attribute.Location3D;
 /**
  * A rendering event type for rendering 3D Arc object.
  */
-public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent
-{
+public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent {
 
 	private static final long serialVersionUID = 4105315690869364270L;
 
@@ -28,9 +27,8 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent
 	/**
 	 * The constructor.
 	 */
-	public Arc3DRenderEvent( Object oSource )
-	{
-		super( oSource );
+	public Arc3DRenderEvent(Object oSource) {
+		super(oSource);
 	}
 
 	/**
@@ -38,17 +36,15 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent
 	 * 
 	 * @param loc
 	 */
-	public void setTopLeft3D( Location3D loc )
-	{
-		object3D = new Object3D( loc );
+	public void setTopLeft3D(Location3D loc) {
+		object3D = new Object3D(loc);
 	}
 
 	/**
 	 * @return Returns the 3D top-left location of the arc bounds.
 	 */
-	public Location3D getTopLeft3D( )
-	{
-		return object3D.getLocation3D( )[0];
+	public Location3D getTopLeft3D() {
+		return object3D.getLocation3D()[0];
 	}
 
 	/*
@@ -56,32 +52,28 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	public PrimitiveRenderEvent copy( )
-	{
-		Arc3DRenderEvent are = new Arc3DRenderEvent( source );
+	public PrimitiveRenderEvent copy() {
+		Arc3DRenderEvent are = new Arc3DRenderEvent(source);
 
-		if ( object3D != null )
-		{
-			are.object3D = new Object3D( object3D );
+		if (object3D != null) {
+			are.object3D = new Object3D(object3D);
 		}
 
-		if ( outline != null )
-		{
-			are.setOutline( goFactory.copyOf( outline ) );
+		if (outline != null) {
+			are.setOutline(goFactory.copyOf(outline));
 		}
 
-		if ( ifBackground != null )
-		{
-			are.setBackground( goFactory.copyOf( ifBackground ) );
+		if (ifBackground != null) {
+			are.setBackground(goFactory.copyOf(ifBackground));
 		}
 
-		are.setStyle( iStyle );
-		are.setWidth( dWidth );
-		are.setHeight( dHeight );
-		are.setStartAngle( dStartInDegrees );
-		are.setAngleExtent( dExtentInDegrees );
-		are.setInnerRadius( dInnerRadius );
-		are.setOuterRadius( dOuterRadius );
+		are.setStyle(iStyle);
+		are.setWidth(dWidth);
+		are.setHeight(dHeight);
+		are.setStartAngle(dStartInDegrees);
+		are.setAngleExtent(dExtentInDegrees);
+		are.setInnerRadius(dInnerRadius);
+		are.setOuterRadius(dOuterRadius);
 
 		return are;
 	}
@@ -91,21 +83,18 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
 	 */
-	public Object3D getObject3D( )
-	{
+	public Object3D getObject3D() {
 		return object3D;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double,
-	 *      double)
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
 	 */
-	public void prepare2D( double xOffset, double yOffset )
-	{
-		Location[] points = object3D.getPoints2D( xOffset, yOffset );
-		setTopLeft( points[0] );
+	public void prepare2D(double xOffset, double yOffset) {
+		Location[] points = object3D.getPoints2D(xOffset, yOffset);
+		setTopLeft(points[0]);
 	}
 
 }

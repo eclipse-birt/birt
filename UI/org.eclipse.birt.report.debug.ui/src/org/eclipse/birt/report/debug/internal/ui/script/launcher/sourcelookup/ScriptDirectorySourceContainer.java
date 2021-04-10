@@ -20,44 +20,44 @@ import org.eclipse.debug.core.sourcelookup.containers.DirectorySourceContainer;
 /**
  * ScriptDirectorySourceContainer
  */
-public class ScriptDirectorySourceContainer extends DirectorySourceContainer
-{
+public class ScriptDirectorySourceContainer extends DirectorySourceContainer {
 
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param dir
 	 * @param subfolders
 	 */
-	public ScriptDirectorySourceContainer( File dir, boolean subfolders )
-	{
-		super( dir, subfolders );
+	public ScriptDirectorySourceContainer(File dir, boolean subfolders) {
+		super(dir, subfolders);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.debug.core.sourcelookup.containers.DirectorySourceContainer#findSourceElements(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.debug.core.sourcelookup.containers.DirectorySourceContainer#
+	 * findSourceElements(java.lang.String)
 	 */
-	public Object[] findSourceElements( String name ) throws CoreException
-	{
-		//int index = name.lastIndexOf( File.separator );
-		int index = name.indexOf( File.separator );
-		if (index < 0)
-		{
+	public Object[] findSourceElements(String name) throws CoreException {
+		// int index = name.lastIndexOf( File.separator );
+		int index = name.indexOf(File.separator);
+		if (index < 0) {
 			return EMPTY;
 		}
-		String id = name.substring( index + 1 );
+		String id = name.substring(index + 1);
 
-		String tName = name.substring( 0, index );
+		String tName = name.substring(0, index);
 
-		ArrayList sources = new ArrayList( );
-		File directory = getDirectory( );
-		File file = new File( directory, tName );
-		if ( file.exists( ) && file.isFile( ) )
-		{
-			sources.add( new ScriptLocalFileStorage( file, id ) );
+		ArrayList sources = new ArrayList();
+		File directory = getDirectory();
+		File file = new File(directory, tName);
+		if (file.exists() && file.isFile()) {
+			sources.add(new ScriptLocalFileStorage(file, id));
 		}
 
-		if ( sources.isEmpty( ) )
+		if (sources.isEmpty())
 			return EMPTY;
-		return sources.toArray( );
+		return sources.toArray();
 	}
 
 }

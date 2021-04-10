@@ -17,18 +17,14 @@ import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 /**
  * CrosstabContextExpressionProvider
  */
-public class CrosstabContextExpressionProvider extends
-		AbstractContextExpressionProvider
-{
+public class CrosstabContextExpressionProvider extends AbstractContextExpressionProvider {
 
-	private ExpressionFilter filter = new ExpressionFilter( ) {
+	private ExpressionFilter filter = new ExpressionFilter() {
 
 		@Override
-		public boolean select( Object parentElement, Object element )
-		{
-			if ( ExpressionFilter.CATEGORY.equals( parentElement )
-					&& ( ExpressionFilter.CATEGORY_PARAMETERS.equals( element ) || ExpressionFilter.CATEGORY_BIRT_OBJECTS.equals( element ) ) )
-			{
+		public boolean select(Object parentElement, Object element) {
+			if (ExpressionFilter.CATEGORY.equals(parentElement) && (ExpressionFilter.CATEGORY_PARAMETERS.equals(element)
+					|| ExpressionFilter.CATEGORY_BIRT_OBJECTS.equals(element))) {
 				return false;
 			}
 			return true;
@@ -36,8 +32,7 @@ public class CrosstabContextExpressionProvider extends
 	};
 
 	@Override
-	public ExpressionFilter getExpressionFilter( String contextName )
-	{
+	public ExpressionFilter getExpressionFilter(String contextName) {
 		return filter;
 	}
 }

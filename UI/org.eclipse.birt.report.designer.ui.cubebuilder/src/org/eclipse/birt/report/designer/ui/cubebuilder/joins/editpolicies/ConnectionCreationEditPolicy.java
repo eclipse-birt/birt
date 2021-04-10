@@ -23,18 +23,14 @@ import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.DropRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
-public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
-{
+public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy {
 
-	public ConnectionCreationEditPolicy( )
-	{
-		super( );
+	public ConnectionCreationEditPolicy() {
+		super();
 	}
 
-	protected org.eclipse.draw2d.Connection createDummyConnection(
-			org.eclipse.gef.Request req )
-	{
-		ColumnConnection conn = new ColumnConnection( );
+	protected org.eclipse.draw2d.Connection createDummyConnection(org.eclipse.gef.Request req) {
+		ColumnConnection conn = new ColumnConnection();
 		return conn;
 	}
 
@@ -45,48 +41,39 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	 * getConnectionCompleteCommand
 	 * (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
-	protected org.eclipse.gef.commands.Command getConnectionCompleteCommand(
-			CreateConnectionRequest request )
-	{
+	protected org.eclipse.gef.commands.Command getConnectionCompleteCommand(CreateConnectionRequest request) {
 
-		ConnectionCommand command = (ConnectionCommand) request.getStartCommand( );
+		ConnectionCommand command = (ConnectionCommand) request.getStartCommand();
 
-		if ( command == null )
+		if (command == null)
 			return null;
-		EditPart sourcePart = command.getSource( );
-		if ( !( getHost( ) instanceof ColumnEditPart )
-				|| getHost( ) == sourcePart
-				|| getHost( ).getParent( ) == sourcePart.getParent( ) )
-		{
+		EditPart sourcePart = command.getSource();
+		if (!(getHost() instanceof ColumnEditPart) || getHost() == sourcePart
+				|| getHost().getParent() == sourcePart.getParent()) {
 			return null;
 		}
-		ColumnEditPart targetPart = (ColumnEditPart) getHost( );
-		command.setTarget( targetPart );
+		ColumnEditPart targetPart = (ColumnEditPart) getHost();
+		command.setTarget(targetPart);
 
-		AddJoinConditionCommand addJoinConditionCommand = new AddJoinConditionCommand( sourcePart,
-				targetPart );
+		AddJoinConditionCommand addJoinConditionCommand = new AddJoinConditionCommand(sourcePart, targetPart);
 		return addJoinConditionCommand;
 	}
 
-	protected EditPart getSourceEditPart( )
-	{
-		return getHost( );
+	protected EditPart getSourceEditPart() {
+		return getHost();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
-	 * getConnectionCreateCommand
-	 * (org.eclipse.gef.requests.CreateConnectionRequest)
+	 * getConnectionCreateCommand (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
-	protected org.eclipse.gef.commands.Command getConnectionCreateCommand(
-			CreateConnectionRequest request )
-	{
+	protected org.eclipse.gef.commands.Command getConnectionCreateCommand(CreateConnectionRequest request) {
 
-		ConnectionCommand command = new ConnectionCommand( );
-		command.setSource( getSourceEditPart( ) );
-		request.setStartCommand( command );
+		ConnectionCommand command = new ConnectionCommand();
+		command.setSource(getSourceEditPart());
+		request.setStartCommand(command);
 		return command;
 	}
 
@@ -96,8 +83,7 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
 	 * getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
 	 */
-	protected Command getReconnectTargetCommand( ReconnectRequest request )
-	{
+	protected Command getReconnectTargetCommand(ReconnectRequest request) {
 		return null;
 	}
 
@@ -107,8 +93,7 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
 	 * getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
 	 */
-	protected Command getReconnectSourceCommand( ReconnectRequest request )
-	{
+	protected Command getReconnectSourceCommand(ReconnectRequest request) {
 		return null;
 	}
 
@@ -117,10 +102,9 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	 * 
 	 * @see org.eclipse.gef.EditPolicy#deactivate()
 	 */
-	public void deactivate( )
-	{
+	public void deactivate() {
 		// TODO Auto-generated method stub
-		super.deactivate( );
+		super.deactivate();
 	}
 
 	/*
@@ -130,22 +114,19 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	 * org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#eraseCreationFeedback
 	 * (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
-	protected void eraseCreationFeedback( CreateConnectionRequest request )
-	{
+	protected void eraseCreationFeedback(CreateConnectionRequest request) {
 		// TODO Auto-generated method stub
-		super.eraseCreationFeedback( request );
+		super.eraseCreationFeedback(request);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.gef.EditPolicy#eraseSourceFeedback(org.eclipse.gef.Request)
+	 * @see org.eclipse.gef.EditPolicy#eraseSourceFeedback(org.eclipse.gef.Request)
 	 */
-	public void eraseSourceFeedback( Request request )
-	{
+	public void eraseSourceFeedback(Request request) {
 		// TODO Auto-generated method stub
-		super.eraseSourceFeedback( request );
+		super.eraseSourceFeedback(request);
 	}
 
 	/*
@@ -154,22 +135,19 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
 	 * eraseTargetConnectionFeedback(org.eclipse.gef.requests.DropRequest)
 	 */
-	protected void eraseTargetConnectionFeedback( DropRequest request )
-	{
+	protected void eraseTargetConnectionFeedback(DropRequest request) {
 		// TODO Auto-generated method stub
-		super.eraseTargetConnectionFeedback( request );
+		super.eraseTargetConnectionFeedback(request);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.gef.EditPolicy#eraseTargetFeedback(org.eclipse.gef.Request)
+	 * @see org.eclipse.gef.EditPolicy#eraseTargetFeedback(org.eclipse.gef.Request)
 	 */
-	public void eraseTargetFeedback( Request request )
-	{
+	public void eraseTargetFeedback(Request request) {
 		// TODO Auto-generated method stub
-		super.eraseTargetFeedback( request );
+		super.eraseTargetFeedback(request);
 	}
 
 	/*
@@ -177,63 +155,52 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	 * 
 	 * @see org.eclipse.gef.EditPolicy#getCommand(org.eclipse.gef.Request)
 	 */
-	public Command getCommand( Request request )
-	{
+	public Command getCommand(Request request) {
 		// TODO Auto-generated method stub
-		return super.getCommand( request );
+		return super.getCommand(request);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getFeedbackHelper
+	 * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getFeedbackHelper
 	 * (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
-	protected FeedbackHelper getFeedbackHelper( CreateConnectionRequest request )
-	{
+	protected FeedbackHelper getFeedbackHelper(CreateConnectionRequest request) {
 		// TODO Auto-generated method stub
-		return super.getFeedbackHelper( request );
+		return super.getFeedbackHelper(request);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
-	 * getSourceConnectionAnchor
-	 * (org.eclipse.gef.requests.CreateConnectionRequest)
+	 * getSourceConnectionAnchor (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
-	protected ConnectionAnchor getSourceConnectionAnchor(
-			CreateConnectionRequest request )
-	{
+	protected ConnectionAnchor getSourceConnectionAnchor(CreateConnectionRequest request) {
 		// TODO Auto-generated method stub
-		return super.getSourceConnectionAnchor( request );
+		return super.getSourceConnectionAnchor(request);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
-	 * getTargetConnectionAnchor
-	 * (org.eclipse.gef.requests.CreateConnectionRequest)
+	 * getTargetConnectionAnchor (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
-	protected ConnectionAnchor getTargetConnectionAnchor(
-			CreateConnectionRequest request )
-	{
+	protected ConnectionAnchor getTargetConnectionAnchor(CreateConnectionRequest request) {
 		// TODO Auto-generated method stub
-		return super.getTargetConnectionAnchor( request );
+		return super.getTargetConnectionAnchor(request);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.gef.EditPolicy#getTargetEditPart(org.eclipse.gef.Request)
+	 * @see org.eclipse.gef.EditPolicy#getTargetEditPart(org.eclipse.gef.Request)
 	 */
-	public EditPart getTargetEditPart( Request request )
-	{
+	public EditPart getTargetEditPart(Request request) {
 		// TODO Auto-generated method stub
-		return super.getTargetEditPart( request );
+		return super.getTargetEditPart(request);
 	}
 
 	/*
@@ -243,22 +210,19 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	 * org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#showCreationFeedback
 	 * (org.eclipse.gef.requests.CreateConnectionRequest)
 	 */
-	protected void showCreationFeedback( CreateConnectionRequest request )
-	{
+	protected void showCreationFeedback(CreateConnectionRequest request) {
 		// TODO Auto-generated method stub
-		super.showCreationFeedback( request );
+		super.showCreationFeedback(request);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.gef.EditPolicy#showSourceFeedback(org.eclipse.gef.Request)
+	 * @see org.eclipse.gef.EditPolicy#showSourceFeedback(org.eclipse.gef.Request)
 	 */
-	public void showSourceFeedback( Request request )
-	{
+	public void showSourceFeedback(Request request) {
 		// TODO Auto-generated method stub
-		super.showSourceFeedback( request );
+		super.showSourceFeedback(request);
 	}
 
 	/*
@@ -267,21 +231,18 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 	 * @seeorg.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#
 	 * showTargetConnectionFeedback(org.eclipse.gef.requests.DropRequest)
 	 */
-	protected void showTargetConnectionFeedback( DropRequest request )
-	{
+	protected void showTargetConnectionFeedback(DropRequest request) {
 		// TODO Auto-generated method stub
-		super.showTargetConnectionFeedback( request );
+		super.showTargetConnectionFeedback(request);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.gef.EditPolicy#showTargetFeedback(org.eclipse.gef.Request)
+	 * @see org.eclipse.gef.EditPolicy#showTargetFeedback(org.eclipse.gef.Request)
 	 */
-	public void showTargetFeedback( Request request )
-	{
+	public void showTargetFeedback(Request request) {
 		// TODO Auto-generated method stub
-		super.showTargetFeedback( request );
+		super.showTargetFeedback(request);
 	}
 }

@@ -14,40 +14,39 @@ package org.eclipse.birt.core.archive.compound;
 import java.io.IOException;
 import java.util.List;
 
-public interface IArchiveFile
-{
+public interface IArchiveFile {
 
-	public String getName( );
+	public String getName();
 
-	public void close( ) throws IOException;
+	public void close() throws IOException;
 
-	public void flush( ) throws IOException;
+	public void flush() throws IOException;
 
-	public void refresh( ) throws IOException;
+	public void refresh() throws IOException;
 
-	public boolean exists( String name );
+	public boolean exists(String name);
 
-	public void setCacheSize( long cacheSize );
+	public void setCacheSize(long cacheSize);
 
-	public long getUsedCache( );
+	public long getUsedCache();
 
-	public ArchiveEntry openEntry( String name ) throws IOException;
+	public ArchiveEntry openEntry(String name) throws IOException;
 
-	public List<String> listEntries( String namePattern );
+	public List<String> listEntries(String namePattern);
 
-	public ArchiveEntry createEntry( String name ) throws IOException;
+	public ArchiveEntry createEntry(String name) throws IOException;
 
-	public boolean removeEntry( String name ) throws IOException;
+	public boolean removeEntry(String name) throws IOException;
 
-	public Object lockEntry( String entry ) throws IOException;
+	public Object lockEntry(String entry) throws IOException;
 
-	public void unlockEntry( Object locker ) throws IOException;
+	public void unlockEntry(Object locker) throws IOException;
 
-	public String getSystemId( );
+	public String getSystemId();
 
-	public String getDependId( );
+	public String getDependId();
 
-	public void save( ) throws IOException;
-	
-	public long getLength( );
+	public void save() throws IOException;
+
+	public long getLength();
 }

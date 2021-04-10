@@ -6,8 +6,7 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 /**
  * Represents a the design of an Image in the scripting environment
  */
-public interface IImage extends IReportItem
-{
+public interface IImage extends IReportItem {
 
 	/**
 	 * Returns the image scale. The scale factor for the image given as a
@@ -16,11 +15,11 @@ public interface IImage extends IReportItem
 	 * @return the scale of this image.
 	 */
 
-	double getScale( );
+	double getScale();
 
 	/**
-	 * Returns the image size. The size must be the internal name that is one
-	 * the following options defined in <code>DesignChoiceConstants</code>:
+	 * Returns the image size. The size must be the internal name that is one the
+	 * following options defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <p>
 	 * <ul>
@@ -32,7 +31,7 @@ public interface IImage extends IReportItem
 	 * @return the internal value of the image size.
 	 */
 
-	String getSize( );
+	String getSize();
 
 	/**
 	 * Returns the alternate text of this image.
@@ -40,16 +39,15 @@ public interface IImage extends IReportItem
 	 * @return the alternate text of the image item.
 	 */
 
-	String getAltText( );
+	String getAltText();
 
 	/**
 	 * Sets the alternate text of this image.
 	 * 
-	 * @param altText
-	 *            the alternate text
+	 * @param altText the alternate text
 	 * @throws ScriptException
 	 */
-	void setAltText( String altText ) throws ScriptException;
+	void setAltText(String altText) throws ScriptException;
 
 	/**
 	 * Returns the resource key of the alternate text of this image.
@@ -57,20 +55,19 @@ public interface IImage extends IReportItem
 	 * @return the resource key of the alternate text
 	 */
 
-	String getAltTextKey( );
+	String getAltTextKey();
 
 	/**
 	 * Sets the resource key of the alternate text of this image.
 	 * 
-	 * @param altTextKey
-	 *            the resource key of the alternate text
+	 * @param altTextKey the resource key of the alternate text
 	 * @throws ScriptException
 	 */
-	void setAltTextKey( String altTextKey ) throws ScriptException;
+	void setAltTextKey(String altTextKey) throws ScriptException;
 
 	/**
-	 * Returns the image source type. This is one of the following options
-	 * defined in <code>DesignChoiceConstants</code>:
+	 * Returns the image source type. This is one of the following options defined
+	 * in <code>DesignChoiceConstants</code>:
 	 * <p>
 	 * <ul>
 	 * <li><code>IMAGE_REF_TYPE_NONE</code>
@@ -84,11 +81,11 @@ public interface IImage extends IReportItem
 	 * 
 	 */
 
-	String getSource( );
+	String getSource();
 
 	/**
-	 * Returns the image source type. This is one of the following options
-	 * defined in <code>DesignChoiceConstants</code>:
+	 * Returns the image source type. This is one of the following options defined
+	 * in <code>DesignChoiceConstants</code>:
 	 * <p>
 	 * <ul>
 	 * <li><code>IMAGE_REF_TYPE_NONE</code>
@@ -98,26 +95,23 @@ public interface IImage extends IReportItem
 	 * <li><code>IMAGE_REF_TYPE_EMBED</code>
 	 * </ul>
 	 * 
-	 * @param source
-	 *            the image source type.
-	 * @throws ScriptException
-	 *             if the <code>source</code> is not one of the above.
+	 * @param source the image source type.
+	 * @throws ScriptException if the <code>source</code> is not one of the above.
 	 * 
 	 */
 
-	void setSource( String source ) throws ScriptException;
+	void setSource(String source) throws ScriptException;
 
 	/**
 	 * Returns the image URI if the image source type is
 	 * <code>IMAGE_REF_TYPE_URL</code> or <code>IMAGE_REF_TYPE_FILE</code>.
 	 * 
 	 * @return the image URI if the image source type is
-	 *         <code>IMAGE_REF_TYPE_URL</code> or
-	 *         <code>IMAGE_REF_TYPE_FILE</code>. Otherwise, return
-	 *         <code>null</code>.
+	 *         <code>IMAGE_REF_TYPE_URL</code> or <code>IMAGE_REF_TYPE_FILE</code>.
+	 *         Otherwise, return <code>null</code>.
 	 */
 
-	String getURI( );
+	String getURI();
 
 	/**
 	 * Returns the type expression of the image item if the image source type is
@@ -129,7 +123,7 @@ public interface IImage extends IReportItem
 	 * 
 	 */
 
-	String getTypeExpression( );
+	String getTypeExpression();
 
 	/**
 	 * Returns the value expression of the image if the image source type is
@@ -140,59 +134,52 @@ public interface IImage extends IReportItem
 	 *         <code>null</code>.
 	 */
 
-	String getValueExpression( );
+	String getValueExpression();
 
 	/**
-	 * Returns the embedded image name that this image refers, if the image
-	 * source type is <code>IMAGE_REF_TYPE_EMBED</code>. This is not the same
-	 * as {@link DesignElementHandle#getName}of this image item.
+	 * Returns the embedded image name that this image refers, if the image source
+	 * type is <code>IMAGE_REF_TYPE_EMBED</code>. This is not the same as
+	 * {@link DesignElementHandle#getName}of this image item.
 	 * 
 	 * @return the embedded image name, if the image source type is
 	 *         <code>IMAGE_REF_TYPE_EMBED</code>. Otherwise, return
 	 *         <code>null</code>.
 	 */
 
-	String getImageName( );
+	String getImageName();
 
 	/**
-	 * Sets the embedded image name that this image refers, if the image source
-	 * type is <code>IMAGE_REF_TYPE_EMBED</code>. The reference type is
-	 * automatically set in this method. This is not the same as
+	 * Sets the embedded image name that this image refers, if the image source type
+	 * is <code>IMAGE_REF_TYPE_EMBED</code>. The reference type is automatically set
+	 * in this method. This is not the same as
 	 * {@link DesignElementHandle#setName( String )}.
 	 * 
-	 * @param name
-	 *            the embedded image name
-	 * @throws ScriptException
-	 *             if the property is locked.
+	 * @param name the embedded image name
+	 * @throws ScriptException if the property is locked.
 	 */
 
-	void setImageName( String name ) throws ScriptException;
+	void setImageName(String name) throws ScriptException;
 
 	/**
-	 * @deprecated Sets the image uri property. The source type is automatically
-	 *             set in this method. Whether <code>IMAGE_REF_TYPE_FILE</code>
-	 *             or <code>IMAGE_REF_TYPE_URL</code> depends on the uri to
-	 *             set.
+	 * @deprecated Sets the image uri property. The source type is automatically set
+	 *             in this method. Whether <code>IMAGE_REF_TYPE_FILE</code> or
+	 *             <code>IMAGE_REF_TYPE_URL</code> depends on the uri to set.
 	 * 
-	 * @param uri
-	 *            the uri to be set.
-	 * @throws ScriptException
-	 *             if the property is locked.
+	 * @param uri the uri to be set.
+	 * @throws ScriptException if the property is locked.
 	 */
 
-	void setURI( String uri ) throws ScriptException;
+	void setURI(String uri) throws ScriptException;
 
 	/**
 	 * Sets the image scale property. The scale factor for the image given as a
 	 * percentage. The default is 100%.
 	 * 
-	 * @param scale
-	 *            the scale value to be set.
-	 * @throws ScriptException
-	 *             if the property is locked.
+	 * @param scale the scale value to be set.
+	 * @throws ScriptException if the property is locked.
 	 */
 
-	void setScale( double scale ) throws ScriptException;
+	void setScale(double scale) throws ScriptException;
 
 	/**
 	 * Sets the image size property. The input value is one of the followings
@@ -205,49 +192,43 @@ public interface IImage extends IReportItem
 	 * <li><code>IMAGE_SIZE_CLIP</code>
 	 * </ul>
 	 * 
-	 * @param size
-	 *            the size value to be set.
-	 * @throws ScriptException
-	 *             if the input size is not one of the above, or if the property
-	 *             is locked.
+	 * @param size the size value to be set.
+	 * @throws ScriptException if the input size is not one of the above, or if the
+	 *                         property is locked.
 	 */
 
-	void setSize( String size ) throws ScriptException;
+	void setSize(String size) throws ScriptException;
 
 	/**
 	 * Sets the type expression value. The source type is automatically set to
 	 * <code>IMAGE_REF_TYPE_EXPR</code>.
 	 * 
-	 * @param value
-	 *            the type expression value.
-	 * @throws ScriptException
-	 *             if the property is locked.
+	 * @param value the type expression value.
+	 * @throws ScriptException if the property is locked.
 	 */
 
-	void setTypeExpression( String value ) throws ScriptException;
+	void setTypeExpression(String value) throws ScriptException;
 
 	/**
 	 * Sets the value expression value. The source type is automatically set to
 	 * <code>IMAGE_REF_TYPE_EXPR</code>.
 	 * 
-	 * @param value
-	 *            the value expression.
-	 * @throws ScriptException
-	 *             if the property is locked.
+	 * @param value the value expression.
+	 * @throws ScriptException if the property is locked.
 	 */
 
-	void setValueExpression( String value ) throws ScriptException;
+	void setValueExpression(String value) throws ScriptException;
 
 	/**
-	 * Returns a handle to work with the action property, action is a structure
-	 * that defines a hyperlink.
+	 * Returns a handle to work with the action property, action is a structure that
+	 * defines a hyperlink.
 	 * 
-	 * @return a handle to the action property, return <code>null</code> if
-	 *         the action has not been set on the image.
+	 * @return a handle to the action property, return <code>null</code> if the
+	 *         action has not been set on the image.
 	 * @see ActionHandle
 	 */
 
-	IAction getAction( );
+	IAction getAction();
 
 	/**
 	 * Returns the help text of this image item.
@@ -255,19 +236,17 @@ public interface IImage extends IReportItem
 	 * @return the help text
 	 */
 
-	String getHelpText( );
+	String getHelpText();
 
 	/**
 	 * Sets the help text of this image item.
 	 * 
-	 * @param helpText
-	 *            the help text
+	 * @param helpText the help text
 	 * 
-	 * @throws ScriptException
-	 *             if the property is locked.
+	 * @throws ScriptException if the property is locked.
 	 */
 
-	void setHelpText( String helpText ) throws ScriptException;
+	void setHelpText(String helpText) throws ScriptException;
 
 	/**
 	 * Returns the resource key of the help text of this image item.
@@ -275,45 +254,43 @@ public interface IImage extends IReportItem
 	 * @return the resource key of the help text
 	 */
 
-	String getHelpTextKey( );
+	String getHelpTextKey();
 
 	/**
 	 * Sets the resource key of help text of this image item.
 	 * 
-	 * @param helpTextKey
-	 *            the help text
+	 * @param helpTextKey the help text
 	 * 
-	 * @throws ScriptException
-	 *             if the property is locked.
+	 * @throws ScriptException if the property is locked.
 	 */
 
-	void setHelpTextKey( String helpTextKey ) throws ScriptException;
+	void setHelpTextKey(String helpTextKey) throws ScriptException;
 
 	/**
-	 * Sets the image url. The source type is <code>IMAGE_REF_TYPE_URL</code>,
-	 * and will automatically set in this method.
+	 * Sets the image url. The source type is <code>IMAGE_REF_TYPE_URL</code>, and
+	 * will automatically set in this method.
 	 * 
 	 * @param url
 	 * @throws ScriptException
 	 */
-	void setURL( String url ) throws ScriptException;
+	void setURL(String url) throws ScriptException;
 
 	/**
-	 * Gets the image url, if the source type is not
-	 * <code>IMAGE_REF_TYPE_URL</code> return null.
+	 * Gets the image url, if the source type is not <code>IMAGE_REF_TYPE_URL</code>
+	 * return null.
 	 * 
 	 * @return image url.
 	 */
-	String getURL( );
+	String getURL();
 
 	/**
-	 * Sets the image file. The source type is <code>IMAGE_REF_TYPE_FILE</code>,
-	 * and will automatically set in this method.
+	 * Sets the image file. The source type is <code>IMAGE_REF_TYPE_FILE</code>, and
+	 * will automatically set in this method.
 	 * 
 	 * @param file
 	 * @throws ScriptException
 	 */
-	void setFile( String file ) throws ScriptException;
+	void setFile(String file) throws ScriptException;
 
 	/**
 	 * Returns the image file, if the source type is not
@@ -321,13 +298,12 @@ public interface IImage extends IReportItem
 	 * 
 	 * @return image file.
 	 */
-	String getFile( );
-	
-	
+	String getFile();
+
 	/**
 	 * Adds the action structure to this data item.
-	 * @param action
-	 * 			action structure
+	 * 
+	 * @param action action structure
 	 */
 	void addAction(IAction action);
 

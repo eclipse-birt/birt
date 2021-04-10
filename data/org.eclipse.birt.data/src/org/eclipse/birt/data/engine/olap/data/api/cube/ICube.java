@@ -13,32 +13,29 @@ package org.eclipse.birt.data.engine.olap.data.api.cube;
 
 import java.io.IOException;
 
-
-
 /**
  * 
  */
 
-public interface ICube
-{
-	
+public interface ICube {
+
 	/**
 	 * 
 	 * @return
 	 */
-	public IDimension[] getDimesions( );
+	public IDimension[] getDimesions();
 
 	/**
 	 * 
 	 * @param dimIterators
 	 * @param aggregationType
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public void close( ) throws IOException;
-	
+	public void close() throws IOException;
+
 	/**
 	 * 
 	 * @return
 	 */
-	public String[] getMeasureNames( );
+	public String[] getMeasureNames();
 }

@@ -19,18 +19,16 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
  * 
  */
 
-public interface IElementCopy
-{
+public interface IElementCopy {
 
 	/**
-	 * Gets the element which keeps the "extends" relationship and
-	 * unlocalized information, it should be only used to validate copy/paste actions.
+	 * Gets the element which keeps the "extends" relationship and unlocalized
+	 * information, it should be only used to validate copy/paste actions.
 	 * 
-	 * @param handle
-	 *            the module handle
-
+	 * @param handle the module handle
+	 * 
 	 * @return the design element handle
 	 */
-	 
-	DesignElementHandle getHandle( ModuleHandle handle );;
+
+	DesignElementHandle getHandle(ModuleHandle handle);;
 }

@@ -14,22 +14,22 @@ package org.eclipse.birt.core.framework.eclipse;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 
-
 /**
  * 
  */
-class EclipseExtension implements IExtension
-{
+class EclipseExtension implements IExtension {
 	org.eclipse.core.runtime.IExtension object;
-	EclipseExtension(org.eclipse.core.runtime.IExtension object)
-	{
+
+	EclipseExtension(org.eclipse.core.runtime.IExtension object) {
 		this.object = object;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.framework.IExtension#getConfigurationElements()
 	 */
-	public IConfigurationElement[] getConfigurationElements( )
-	{
+	public IConfigurationElement[] getConfigurationElements() {
 		return EclipsePlatform.wrap(object.getConfigurationElements());
 	}
 
@@ -39,24 +39,28 @@ class EclipseExtension implements IExtension
 	public String getExtensionPointUniqueIdentifier() {
 		return object.getExtensionPointUniqueIdentifier();
 	}
+
 	/**
 	 * @return
 	 */
 	public String getLabel() {
 		return object.getLabel();
 	}
+
 	/**
 	 * @return
 	 */
 	public String getNamespace() {
 		return object.getContributor().getName();
 	}
+
 	/**
 	 * @return
 	 */
 	public String getSimpleIdentifier() {
 		return object.getSimpleIdentifier();
 	}
+
 	/**
 	 * @return
 	 */

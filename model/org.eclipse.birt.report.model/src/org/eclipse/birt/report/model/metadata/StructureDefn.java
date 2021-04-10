@@ -22,59 +22,50 @@ import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
  * 
  */
 
-public class StructureDefn extends ObjectDefn implements IStructureDefn
-{
+public class StructureDefn extends ObjectDefn implements IStructureDefn {
 	private String javaClass;
 
 	/**
 	 * Constructs a struct definition given its name.
 	 * 
-	 * @param theName
-	 *            the structure name
+	 * @param theName the structure name
 	 */
 
-	public StructureDefn( String theName )
-	{
-		super( theName );
+	public StructureDefn(String theName) {
+		super(theName);
 	}
 
 	/**
 	 * Default constructor.
 	 * 
 	 */
-	protected StructureDefn( )
-	{
+	protected StructureDefn() {
 
 	}
 
 	/**
 	 * Gets a structure member by name.
 	 * 
-	 * @param name
-	 *            the name of the member to fine
+	 * @param name the name of the member to fine
 	 * @return the member definition, or null if the member was not found
 	 */
 
-	public IPropertyDefn getMember( String name )
-	{
-		return findProperty( name );
+	public IPropertyDefn getMember(String name) {
+		return findProperty(name);
 	}
 
 	/**
 	 * Build the structure definition.
 	 * 
-	 * @throws MetaDataException
-	 *             if exception occurs during the build process.
+	 * @throws MetaDataException if exception occurs during the build process.
 	 */
 
-	protected void build( ) throws MetaDataException
-	{
-		buildDefn( );
-		Iterator<IPropertyDefn> iter = properties.values( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			PropertyDefn prop = (PropertyDefn) iter.next( );
-			prop.build( );
+	protected void build() throws MetaDataException {
+		buildDefn();
+		Iterator<IPropertyDefn> iter = properties.values().iterator();
+		while (iter.hasNext()) {
+			PropertyDefn prop = (PropertyDefn) iter.next();
+			prop.build();
 		}
 
 	}
@@ -84,37 +75,33 @@ public class StructureDefn extends ObjectDefn implements IStructureDefn
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ObjectDefn#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		// if it is a structure definition for extension
 		// then there is no name, displayname and .. for it
 
-		if ( displayNameKey == null )
+		if (displayNameKey == null)
 			return null;
-		return super.getDisplayName( );
+		return super.getDisplayName();
 
 	}
-	
+
 	/**
 	 * Gets the java class of this element.
 	 * 
 	 * @return The java class of this element.
 	 */
 
-	public String getJavaClass( )
-	{
+	public String getJavaClass() {
 		return javaClass;
 	}
-	
+
 	/**
 	 * Sets the java class to construct this element
 	 * 
-	 * @param clazz
-	 *            class name
+	 * @param clazz class name
 	 */
-	public void setJavaClass(String clazz) 
-	{
+	public void setJavaClass(String clazz) {
 		this.javaClass = clazz;
 	}
-	
+
 }

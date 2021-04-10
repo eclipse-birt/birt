@@ -19,84 +19,63 @@ import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.w3c.css.sac.LexicalUnit;
 import org.w3c.dom.DOMException;
 
-public class DataFormatManager extends AbstractValueManager
-{
+public class DataFormatManager extends AbstractValueManager {
 
-	static DataFormatValue DEFAULT = new DataFormatValue( );
+	static DataFormatValue DEFAULT = new DataFormatValue();
 
-	public DataFormatManager( )
-	{
+	public DataFormatManager() {
 	}
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return BIRTConstants.BIRT_STYLE_DATA_FORMAT;
 	}
 
-	public Value createValue( LexicalUnit lu, CSSEngine engine )
-			throws DOMException
-	{
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		return null;
 	}
 
-	public Value getDefaultValue( )
-	{
+	public Value getDefaultValue() {
 		return DEFAULT;
 	}
 
-	public boolean isInheritedProperty( )
-	{
+	public boolean isInheritedProperty() {
 		return true;
 	}
 
-	public Value computeValue( CSSStylableElement elt, CSSEngine engine,
-			int idx, Value value )
-	{
+	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 
 		assert value instanceof DataFormatValue;
 
 		DataFormatValue fv = (DataFormatValue) value;
-		DataFormatValue cv = fv.clone( );
-		CSSStylableElement parent = (CSSStylableElement) elt.getParent( );
-		if ( parent != null )
-		{
-			DataFormatValue pcv = parent.getComputedStyle( ).getDataFormat( );
-			if ( pcv != null )
-			{
-				String pattern = cv.getStringPattern( );
-				String locale = cv.getStringLocale( );
-				if ( locale == null && pattern == null )
-				{
-					cv.setStringFormat( pcv.getStringPattern( ), pcv
-							.getStringLocale( ) );
+		DataFormatValue cv = fv.clone();
+		CSSStylableElement parent = (CSSStylableElement) elt.getParent();
+		if (parent != null) {
+			DataFormatValue pcv = parent.getComputedStyle().getDataFormat();
+			if (pcv != null) {
+				String pattern = cv.getStringPattern();
+				String locale = cv.getStringLocale();
+				if (locale == null && pattern == null) {
+					cv.setStringFormat(pcv.getStringPattern(), pcv.getStringLocale());
 				}
-				pattern = cv.getNumberPattern( );
-				locale = cv.getNumberLocale( );
-				if ( locale == null && pattern == null )
-				{
-					cv.setNumberFormat( pcv.getNumberPattern( ), pcv
-							.getNumberLocale( ) );
+				pattern = cv.getNumberPattern();
+				locale = cv.getNumberLocale();
+				if (locale == null && pattern == null) {
+					cv.setNumberFormat(pcv.getNumberPattern(), pcv.getNumberLocale());
 				}
-				pattern = cv.getDatePattern( );
-				locale = cv.getDateLocale( );
-				if ( locale == null && pattern == null )
-				{
-					cv.setDateFormat( pcv.getDatePattern( ), pcv
-							.getDateLocale( ) );
+				pattern = cv.getDatePattern();
+				locale = cv.getDateLocale();
+				if (locale == null && pattern == null) {
+					cv.setDateFormat(pcv.getDatePattern(), pcv.getDateLocale());
 				}
-				pattern = cv.getTimePattern( );
-				locale = cv.getTimeLocale( );
-				if ( locale == null && pattern == null )
-				{
-					cv.setTimeFormat( pcv.getTimePattern( ), pcv
-							.getTimeLocale( ) );
+				pattern = cv.getTimePattern();
+				locale = cv.getTimeLocale();
+				if (locale == null && pattern == null) {
+					cv.setTimeFormat(pcv.getTimePattern(), pcv.getTimeLocale());
 				}
-				pattern = cv.getDateTimePattern( );
-				locale = cv.getDateTimeLocale( );
-				if ( locale == null && pattern == null )
-				{
-					cv.setDateTimeFormat( pcv.getDateTimePattern( ), pcv
-							.getDateTimeLocale( ) );
+				pattern = cv.getDateTimePattern();
+				locale = cv.getDateTimeLocale();
+				if (locale == null && pattern == null) {
+					cv.setDateTimeFormat(pcv.getDateTimePattern(), pcv.getDateTimeLocale());
 				}
 			}
 		}

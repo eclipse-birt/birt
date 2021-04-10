@@ -18,9 +18,7 @@ import org.eclipse.birt.chart.model.attribute.Location3D;
 /**
  * A rendering event type for rendering 3D text object.
  */
-public final class Text3DRenderEvent extends TextRenderEvent implements
-		I3DRenderEvent
-{
+public final class Text3DRenderEvent extends TextRenderEvent implements I3DRenderEvent {
 
 	private static final long serialVersionUID = 3083777028665416663L;
 
@@ -29,41 +27,36 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	/**
 	 * The constructor.
 	 */
-	public Text3DRenderEvent( Object oSource )
-	{
-		super( oSource );
+	public Text3DRenderEvent(Object oSource) {
+		super(oSource);
 	}
 
 	/**
 	 * Sets the 3D location of the text.
 	 */
-	public void setLocation3D( Location3D loc )
-	{
-		this.object3D = new Object3D( loc );
+	public void setLocation3D(Location3D loc) {
+		this.object3D = new Object3D(loc);
 	}
 
 	/**
 	 * @return Returns the 3D location of the text.
 	 */
-	public Location3D getLocation3D( )
-	{
-		return object3D.getLocation3D( )[0];
+	public Location3D getLocation3D() {
+		return object3D.getLocation3D()[0];
 	}
 
 	/**
 	 * Sets the 3D block bounds of the text.
 	 */
-	public void setBlockBounds3D( Location3D[] loa )
-	{
-		this.object3D = new Object3D( loa );
+	public void setBlockBounds3D(Location3D[] loa) {
+		this.object3D = new Object3D(loa);
 	}
 
 	/**
 	 * @return Returns the 3D block bounds of the text.
 	 */
-	public Location3D[] getBlockBounds3D( )
-	{
-		return object3D.getLocation3D( );
+	public Location3D[] getBlockBounds3D() {
+		return object3D.getLocation3D();
 	}
 
 	/*
@@ -71,22 +64,18 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	public PrimitiveRenderEvent copy( )
-	{
-		Text3DRenderEvent tre = new Text3DRenderEvent( source );
-		tre.setAction( _iAction );
-		tre.setTextPosition( _iTextPosition );
-		if ( _la != null )
-		{
-			tre.setLabel( goFactory.copyOf( _la ) );
+	public PrimitiveRenderEvent copy() {
+		Text3DRenderEvent tre = new Text3DRenderEvent(source);
+		tre.setAction(_iAction);
+		tre.setTextPosition(_iTextPosition);
+		if (_la != null) {
+			tre.setLabel(goFactory.copyOf(_la));
 		}
-		if ( object3D != null )
-		{
-			tre.object3D = new Object3D( object3D );
+		if (object3D != null) {
+			tre.object3D = new Object3D(object3D);
 		}
-		if ( _taBlock != null )
-		{
-			tre.setBlockAlignment( goFactory.copyOf( _taBlock ) );
+		if (_taBlock != null) {
+			tre.setBlockAlignment(goFactory.copyOf(_taBlock));
 		}
 		return tre;
 	}
@@ -96,24 +85,20 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	 * 
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
 	 */
-	public Object3D getObject3D( )
-	{
+	public Object3D getObject3D() {
 		return object3D;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double,
-	 *      double)
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
 	 */
-	public void prepare2D( double xOffset, double yOffset )
-	{
-		Location[] points = object3D.getPoints2D( xOffset, yOffset );
-		setLocation( points[0] );
+	public void prepare2D(double xOffset, double yOffset) {
+		Location[] points = object3D.getPoints2D(xOffset, yOffset);
+		setLocation(points[0]);
 
-		if ( _iAction == TextRenderEvent.RENDER_TEXT_IN_BLOCK )
-		{
+		if (_iAction == TextRenderEvent.RENDER_TEXT_IN_BLOCK) {
 			_iAction = TextRenderEvent.RENDER_TEXT_AT_LOCATION;
 		}
 	}
@@ -123,9 +108,8 @@ public final class Text3DRenderEvent extends TextRenderEvent implements
 	 * 
 	 * @see org.eclipse.birt.chart.event.TextRenderEvent#reset()
 	 */
-	public void reset( )
-	{
-		object3D.reset( );
+	public void reset() {
+		object3D.reset();
 	}
 
 }

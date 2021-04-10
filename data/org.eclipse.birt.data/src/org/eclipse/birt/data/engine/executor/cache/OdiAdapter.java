@@ -31,85 +31,75 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * Adapt Oda and Odi interface to a single class, which will provide a uniform
  * method to retrieve data.
  */
-public class OdiAdapter
-{
+public class OdiAdapter {
 	// from Oda
 	private ResultSet odaResultSet;
-	
+
 	// from data set whose result set needs to be cached
 	private DataSetToCache datasetToCache;
 
 	// from odi
 	private ICustomDataSet customDataSet;
-	
+
 	// from IResultIterator
 	private IResultIterator resultIterator;
 
-	//The behavior of "next" method in IResultIterator is slightly
-	//different from that of "fetch" method.To mimic the behavior of 
-	//fetch method we define a boolean to mark the beginning of an IResultIterator
+	// The behavior of "next" method in IResultIterator is slightly
+	// different from that of "fetch" method.To mimic the behavior of
+	// fetch method we define a boolean to mark the beginning of an IResultIterator
 	boolean riStarted = false;
-	
+
 	// from parent query in sub query
 	private ResultSetCache resultSetCache;
 
 	// from input stream
 	private ResultObjectReader roReader;
-	
+
 	// from Joint data set
 	private IDataSetPopulator populator;
-	
-	//from data set whose result is loaded from cache
+
+	// from data set whose result is loaded from cache
 	private DataSetFromCache datasetFromCache;
-	
-	
+
 	private IResultClass resultClass;
-	
-	private Set columnIndexListForTypeConvert = null ;
+
+	private Set columnIndexListForTypeConvert = null;
+
 	/**
 	 * Construction
 	 * 
 	 * @param odaResultSet
 	 */
-	public OdiAdapter( ResultSet odaResultSet , IResultClass resultClass )
-	{
+	public OdiAdapter(ResultSet odaResultSet, IResultClass resultClass) {
 		assert odaResultSet != null;
 		this.odaResultSet = odaResultSet;
 		this.resultClass = resultClass;
-		
-		for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
-		{
-			try
-			{
-				if ( ( resultClass.getFieldMetaData( i )
-						.getDriverProvidedDataType( ) == null )
-						|| ( resultClass.getFieldMetaData( i ).getDataType( ) != resultClass.getFieldMetaData( i )
-								.getDriverProvidedDataType( ) ) )
-				{
-					if ( columnIndexListForTypeConvert == null )
-						columnIndexListForTypeConvert = new HashSet( );
-					columnIndexListForTypeConvert.add( Integer.valueOf( i ) );
+
+		for (int i = 1; i <= resultClass.getFieldCount(); i++) {
+			try {
+				if ((resultClass.getFieldMetaData(i).getDriverProvidedDataType() == null)
+						|| (resultClass.getFieldMetaData(i).getDataType() != resultClass.getFieldMetaData(i)
+								.getDriverProvidedDataType())) {
+					if (columnIndexListForTypeConvert == null)
+						columnIndexListForTypeConvert = new HashSet();
+					columnIndexListForTypeConvert.add(Integer.valueOf(i));
 				}
-			}
-			catch ( DataException e )
-			{
+			} catch (DataException e) {
 			}
 		}
 	}
-	
+
 	/**
 	 * Construction
 	 * 
 	 * @param datasetCacheResultSet
 	 */
-	public OdiAdapter( DataSetToCache datasetToCache )
-	{
+	public OdiAdapter(DataSetToCache datasetToCache) {
 		assert datasetToCache != null;
 		this.datasetToCache = datasetToCache;
 	}
-	
-	public OdiAdapter( DataSetFromCache datasetFromCache )
-	{
+
+	public OdiAdapter(DataSetFromCache datasetFromCache) {
 		assert datasetFromCache != null;
 		this.datasetFromCache = datasetFromCache;
 	}
@@ -119,8 +109,7 @@ public class OdiAdapter
 	 * 
 	 * @param customDataSet
 	 */
-	public OdiAdapter( ICustomDataSet customDataSet )
-	{
+	public OdiAdapter(ICustomDataSet customDataSet) {
 		assert customDataSet != null;
 		this.customDataSet = customDataSet;
 	}
@@ -130,8 +119,7 @@ public class OdiAdapter
 	 * 
 	 * @param customDataSet
 	 */
-	OdiAdapter( ResultSetCache resultSetCache )
-	{
+	OdiAdapter(ResultSetCache resultSetCache) {
 		assert resultSetCache != null;
 		this.resultSetCache = resultSetCache;
 	}
@@ -141,110 +129,82 @@ public class OdiAdapter
 	 * 
 	 * @param customDataSet
 	 */
-	public OdiAdapter( IResultIterator resultSetCache )
-	{
+	public OdiAdapter(IResultIterator resultSetCache) {
 		assert resultSetCache != null;
 		this.resultIterator = resultSetCache;
 	}
-	
+
 	/**
 	 * Construction
 	 * 
 	 * @param roReader
 	 */
-	OdiAdapter( ResultObjectReader roReader )
-	{
+	OdiAdapter(ResultObjectReader roReader) {
 		assert roReader != null;
 		this.roReader = roReader;
 	}
-	
+
 	/**
-	 * Construction 
+	 * Construction
 	 * 
 	 */
-	public OdiAdapter( IDataSetPopulator populator)
-	{
+	public OdiAdapter(IDataSetPopulator populator) {
 		assert populator != null;
 		this.populator = populator;
 	}
-	
-	private IResultObject getConvertedResultObject( IResultObject resultObject ) throws DataException
-	{
-		if ( resultObject == null )
+
+	private IResultObject getConvertedResultObject(IResultObject resultObject) throws DataException {
+		if (resultObject == null)
 			return null;
-		if ( columnIndexListForTypeConvert == null )
+		if (columnIndexListForTypeConvert == null)
 			return resultObject;
-		Object[] obj = new Object[resultClass.getFieldCount( )];
-		for ( int i = 1; i <= resultClass.getFieldCount( ); i++ )
-		{
-			if ( columnIndexListForTypeConvert.contains( i ) )
-			{
-				try
-				{
-					obj[i - 1] = DataTypeUtil.convert( resultObject.getFieldValue( i ),
-							DataTypeUtil.toApiDataType( resultClass.getFieldMetaData( i )
-									.getDataType( ) ) );
+		Object[] obj = new Object[resultClass.getFieldCount()];
+		for (int i = 1; i <= resultClass.getFieldCount(); i++) {
+			if (columnIndexListForTypeConvert.contains(i)) {
+				try {
+					obj[i - 1] = DataTypeUtil.convert(resultObject.getFieldValue(i),
+							DataTypeUtil.toApiDataType(resultClass.getFieldMetaData(i).getDataType()));
+				} catch (BirtException e) {
+					throw DataException.wrap(e);
 				}
-				catch ( BirtException e )
-				{
-					throw DataException.wrap( e );
-				}
-			}
-			else
-			{
-				obj[i - 1] = resultObject.getFieldValue( i );
+			} else {
+				obj[i - 1] = resultObject.getFieldValue(i);
 			}
 		}
-		IResultObject result = new ResultObject( resultClass, obj );
+		IResultObject result = new ResultObject(resultClass, obj);
 		return result;
 	}
-	
+
 	/**
-	 * Fetch data from Oda or Odi. After the fetch is done, the cursor
-	 * must stay at the row which is fetched.
+	 * Fetch data from Oda or Odi. After the fetch is done, the cursor must stay at
+	 * the row which is fetched.
 	 * 
 	 * @param stopSign
 	 * @return
 	 * @throws DataException
 	 */
-	IResultObject fetch( ) throws DataException
-	{
-		if ( odaResultSet != null )
-		{
-			return getConvertedResultObject( odaResultSet.fetch( ) );
-		}
-		else if ( datasetToCache != null )
-		{
-			return datasetToCache.fetch( );
-		}
-		else if ( datasetFromCache != null )
-		{
-			return datasetFromCache.fetch( );
-		}
-		else if ( customDataSet != null )
-		{
-			return customDataSet.fetch( );
-		}
-		else if ( resultIterator != null )
-		{
-			if ( !riStarted )
+	IResultObject fetch() throws DataException {
+		if (odaResultSet != null) {
+			return getConvertedResultObject(odaResultSet.fetch());
+		} else if (datasetToCache != null) {
+			return datasetToCache.fetch();
+		} else if (datasetFromCache != null) {
+			return datasetFromCache.fetch();
+		} else if (customDataSet != null) {
+			return customDataSet.fetch();
+		} else if (resultIterator != null) {
+			if (!riStarted)
 				riStarted = true;
 			else
-				this.resultIterator.next( );
+				this.resultIterator.next();
 
-			return this.resultIterator.getCurrentResult( );
-		}
-		else if ( roReader != null )
-		{
-			return roReader.fetch( );
-		}
-		else if ( populator != null )
-		{
-			return populator.next( );
-		}
-		else
-		{
-			return resultSetCache.fetch( );
+			return this.resultIterator.getCurrentResult();
+		} else if (roReader != null) {
+			return roReader.fetch();
+		} else if (populator != null) {
+			return populator.next();
+		} else {
+			return resultSetCache.fetch();
 		}
 	}
 

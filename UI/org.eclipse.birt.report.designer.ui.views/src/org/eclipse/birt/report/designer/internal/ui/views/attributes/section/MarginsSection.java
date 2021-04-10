@@ -14,173 +14,142 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-public class MarginsSection extends Section
-{
+public class MarginsSection extends Section {
 
 	protected MarginsPropertyDescriptor spinner;
 
-	public MarginsSection( String labelText, Composite parent, boolean isFormStyle )
-	{
-		super( labelText, parent, isFormStyle );
+	public MarginsSection(String labelText, Composite parent, boolean isFormStyle) {
+		super(labelText, parent, isFormStyle);
 		// TODO Auto-generated constructor stub
 	}
 
-	public void createSection( )
-	{
-		getImageLabelControl( parent );
-		getMarginsControl( parent );
-		getGridPlaceholder( parent );
+	public void createSection() {
+		getImageLabelControl(parent);
+		getMarginsControl(parent);
+		getGridPlaceholder(parent);
 	}
 
 	private Label imageLabel;
-	protected Label getImageLabelControl( Composite parent )
-	{
 
-		if ( imageLabel == null)
-		{
-			imageLabel = FormWidgetFactory.getInstance( ).createLabel( parent, isFormStyle );
-			if ( getProvider( ) != null && getProvider( ) instanceof MarginsPropertyDescriptorProvider)
-				imageLabel.setImage(((MarginsPropertyDescriptorProvider)getProvider( )).getImage( ) );
-			imageLabel.setLayoutData( new GridData( ) );
-			imageLabel.addDisposeListener( new DisposeListener( ) {
+	protected Label getImageLabelControl(Composite parent) {
 
-				public void widgetDisposed( DisposeEvent event )
-				{
+		if (imageLabel == null) {
+			imageLabel = FormWidgetFactory.getInstance().createLabel(parent, isFormStyle);
+			if (getProvider() != null && getProvider() instanceof MarginsPropertyDescriptorProvider)
+				imageLabel.setImage(((MarginsPropertyDescriptorProvider) getProvider()).getImage());
+			imageLabel.setLayoutData(new GridData());
+			imageLabel.addDisposeListener(new DisposeListener() {
+
+				public void widgetDisposed(DisposeEvent event) {
 					imageLabel = null;
 				}
-			} );
-		}
-		else
-		{
-			checkParent( imageLabel, parent );
+			});
+		} else {
+			checkParent(imageLabel, parent);
 		}
 		return imageLabel;
-		
-	}
-	
 
-	public void layout( )
-	{
-		GridData gd = (GridData)getMarginsControl().getControl( ).getLayoutData( );
-		if ( getLayoutNum( ) > 0 )
-			gd.horizontalSpan = getLayoutNum( ) - 1 - placeholder;
+	}
+
+	public void layout() {
+		GridData gd = (GridData) getMarginsControl().getControl().getLayoutData();
+		if (getLayoutNum() > 0)
+			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
 		else
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- 1
-					- placeholder;
-		if ( width > -1 )
-		{
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		}
-		else
+		} else
 			gd.grabExcessHorizontalSpace = fillSpinner;
 	}
 
-	protected MarginsPropertyDescriptor getMarginsControl( Composite parent )
-	{
-		if ( spinner == null )
-		{
-			spinner = DescriptorToolkit.createSpinnerPropertyDescriptor( isFormStyle );
-			if ( getProvider( ) != null )
-				spinner.setDescriptorProvider( getProvider( ) );
-			spinner.createControl( parent );
-			spinner.getControl( ).setLayoutData( new GridData( ) );
-			spinner.getControl( ).addDisposeListener( new DisposeListener( ) {
+	protected MarginsPropertyDescriptor getMarginsControl(Composite parent) {
+		if (spinner == null) {
+			spinner = DescriptorToolkit.createSpinnerPropertyDescriptor(isFormStyle);
+			if (getProvider() != null)
+				spinner.setDescriptorProvider(getProvider());
+			spinner.createControl(parent);
+			spinner.getControl().setLayoutData(new GridData());
+			spinner.getControl().addDisposeListener(new DisposeListener() {
 
-				public void widgetDisposed( DisposeEvent event )
-				{
+				public void widgetDisposed(DisposeEvent event) {
 					spinner = null;
 				}
-			} );
-		}
-		else
-		{
-			checkParent( spinner.getControl( ), parent );
+			});
+		} else {
+			checkParent(spinner.getControl(), parent);
 		}
 		return spinner;
 	}
 
-	public MarginsPropertyDescriptor getMarginsControl( )
-	{
+	public MarginsPropertyDescriptor getMarginsControl() {
 		return spinner;
 	}
 
 	IDescriptorProvider provider;
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if ( spinner != null )
-			spinner.setDescriptorProvider( provider );
+		if (spinner != null)
+			spinner.setDescriptorProvider(provider);
 	}
 
 	private int width = -1;
 
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	public void setInput( Object input )
-	{
-		assert ( input != null );
-		spinner.setInput( input );
+	public void setInput(Object input) {
+		assert (input != null);
+		spinner.setInput(input);
 	}
 
 	private boolean fillSpinner = false;
 
-	public boolean isFillSpinner( )
-	{
+	public boolean isFillSpinner() {
 		return fillSpinner;
 	}
 
-	public void setFillSpinner( boolean fillSpinner )
-	{
+	public void setFillSpinner(boolean fillSpinner) {
 		this.fillSpinner = fillSpinner;
 	}
 
-
-	public void setFocus( )
-	{
-		if ( spinner != null )
-		{
-			spinner.getControl( ).setFocus( );
+	public void setFocus() {
+		if (spinner != null) {
+			spinner.getControl().setFocus();
 		}
 	}
 
-	public void load( )
-	{
-		if(spinner!=null && !spinner.getControl( ).isDisposed( ))spinner.load( );
+	public void load() {
+		if (spinner != null && !spinner.getControl().isDisposed())
+			spinner.load();
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		if ( displayLabel != null )
-			WidgetUtil.setExcludeGridData( displayLabel, isHidden );
-		if ( spinner != null )
-			spinner.setHidden( isHidden );
-		if ( placeholderLabel != null )
-			WidgetUtil.setExcludeGridData( placeholderLabel, isHidden );
+	public void setHidden(boolean isHidden) {
+		if (displayLabel != null)
+			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
+		if (spinner != null)
+			spinner.setHidden(isHidden);
+		if (placeholderLabel != null)
+			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		if ( displayLabel != null )
-			displayLabel.setVisible( isVisible );
-		if ( spinner != null )
-			spinner.setVisible( isVisible );
-		if ( placeholderLabel != null )
-			placeholderLabel.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		if (displayLabel != null)
+			displayLabel.setVisible(isVisible);
+		if (spinner != null)
+			spinner.setVisible(isVisible);
+		if (placeholderLabel != null)
+			placeholderLabel.setVisible(isVisible);
 	}
 }

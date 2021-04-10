@@ -19,74 +19,67 @@ import java.util.List;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 
-
 /**
  * A List class providing the service of reading/writing objects from one file
  * when cache is not enough . It makes the reading/writing objects transparent.
  */
 
-public class CachedList extends BasicCachedList
-{
+public class CachedList extends BasicCachedList {
 	private ICachedObjectCreator creator;
-	
+
 	/**
 	 * 
 	 * 
 	 */
-	public CachedList( String tempDir, ClassLoader loader, ICachedObjectCreator creator )
-	{
+	public CachedList(String tempDir, ClassLoader loader, ICachedObjectCreator creator) {
 		super(tempDir, loader);
 		this.creator = creator;
 	}
-	
+
 	/**
 	 * 
 	 * @param list
 	 */
-	public CachedList( String tempDir, ClassLoader loader, ICachedObjectCreator creator, List list )
-	{
-		super( tempDir, loader, list );
+	public CachedList(String tempDir, ClassLoader loader, ICachedObjectCreator creator, List list) {
+		super(tempDir, loader, list);
 		this.creator = creator;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.cache.BasicCachedList#writeObject(java.io.DataOutputStream, java.lang.Object)
+	 * 
+	 * @see org.eclipse.birt.data.engine.cache.BasicCachedList#writeObject(java.io.
+	 * DataOutputStream, java.lang.Object)
 	 */
-	protected void writeObject(DataOutputStream oos, Object object) throws IOException
-	{
-		if(object == null)
-		{
-			IOUtil.writeInt( oos, NULL_VALUE );
+	protected void writeObject(DataOutputStream oos, Object object) throws IOException {
+		if (object == null) {
+			IOUtil.writeInt(oos, NULL_VALUE);
 			return;
 		}
 		ICachedObject cachedObject = (ICachedObject) object;
-		Object[] objects = cachedObject.getFieldValues( );
-		IOUtil.writeInt( oos, objects.length );
-		for(int i=0;i<objects.length;i++)
-		{
-			IOUtil.writeObject( oos, objects[i] );
+		Object[] objects = cachedObject.getFieldValues();
+		IOUtil.writeInt(oos, objects.length);
+		for (int i = 0; i < objects.length; i++) {
+			IOUtil.writeObject(oos, objects[i]);
 		}
 	}
 
-	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.cache.BasicCachedList#readObject(java.io.DataInputStream)
+	 * 
+	 * @see org.eclipse.birt.data.engine.cache.BasicCachedList#readObject(java.io.
+	 * DataInputStream)
 	 */
-	protected Object readObject(DataInputStream dis) throws IOException
-	{
-		int fieldCount = IOUtil.readInt( dis );
-		if ( fieldCount == NULL_VALUE )
-		{
+	protected Object readObject(DataInputStream dis) throws IOException {
+		int fieldCount = IOUtil.readInt(dis);
+		if (fieldCount == NULL_VALUE) {
 			return null;
 		}
 		Object[] objects = new Object[fieldCount];
-		for(int i=0;i<objects.length;i++)
-		{
-			objects[i] = IOUtil.readObject( dis, DataEngineSession.getCurrentClassLoader( ) );
+		for (int i = 0; i < objects.length; i++) {
+			objects[i] = IOUtil.readObject(dis, DataEngineSession.getCurrentClassLoader());
 		}
-		return creator.createInstance( objects );
+		return creator.createInstance(objects);
 	}
 
 }

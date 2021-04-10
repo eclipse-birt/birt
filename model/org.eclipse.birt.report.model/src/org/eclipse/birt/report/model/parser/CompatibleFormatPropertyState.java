@@ -54,8 +54,7 @@ import org.xml.sax.SAXException;
  * </pre>
  */
 
-public class CompatibleFormatPropertyState extends CompatiblePropertyState
-{
+public class CompatibleFormatPropertyState extends CompatiblePropertyState {
 
 	/**
 	 * The structure which holds this property as a member.
@@ -66,21 +65,15 @@ public class CompatibleFormatPropertyState extends CompatiblePropertyState
 	/**
 	 * Constructs the state of the structure which is in one structure list.
 	 * 
-	 * @param theHandler
-	 *            the design parser handler
-	 * @param element
-	 *            the element holding this structure
-	 * @param propDefn
-	 *            the definition of the property which holds this structure
-	 * @param parentStruct
-	 *            the structure that contains format structures.
+	 * @param theHandler   the design parser handler
+	 * @param element      the element holding this structure
+	 * @param propDefn     the definition of the property which holds this structure
+	 * @param parentStruct the structure that contains format structures.
 	 */
 
-	CompatibleFormatPropertyState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn,
-			IStructure parentStruct )
-	{
-		super( theHandler, element );
+	CompatibleFormatPropertyState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+			IStructure parentStruct) {
+		super(theHandler, element);
 
 		this.propDefn = propDefn;
 		this.parentStruct = parentStruct;
@@ -92,80 +85,55 @@ public class CompatibleFormatPropertyState extends CompatiblePropertyState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
-		if ( StringUtil.isBlank( value ) )
+	public void end() throws SAXException {
+		String value = text.toString();
+		if (StringUtil.isBlank(value))
 			return;
 
 		assert struct != null;
 
 		String category = null;
 		String pattern = value;
-		MetaDataDictionary dict = MetaDataDictionary.getInstance( );
+		MetaDataDictionary dict = MetaDataDictionary.getInstance();
 
-		int index = value.indexOf( ':' );
-		if ( index != -1 )
-		{
-			category = value.substring( 0, index );
+		int index = value.indexOf(':');
+		if (index != -1) {
+			category = value.substring(0, index);
 
-			if ( category.trim( ).length( ) == 0
-					|| dict.getChoiceSet(
-							DesignChoiceConstants.CHOICE_DATETIME_FORMAT_TYPE )
-							.contains( category )
-					|| dict.getChoiceSet(
-							DesignChoiceConstants.CHOICE_STRING_FORMAT_TYPE )
-							.contains( category )
-					|| dict.getChoiceSet(
-							DesignChoiceConstants.CHOICE_NUMBER_FORMAT_TYPE )
-							.contains( category ) )
-			{
-				pattern = value.substring( index + 1 );
-			}
-			else
+			if (category.trim().length() == 0
+					|| dict.getChoiceSet(DesignChoiceConstants.CHOICE_DATETIME_FORMAT_TYPE).contains(category)
+					|| dict.getChoiceSet(DesignChoiceConstants.CHOICE_STRING_FORMAT_TYPE).contains(category)
+					|| dict.getChoiceSet(DesignChoiceConstants.CHOICE_NUMBER_FORMAT_TYPE).contains(category)) {
+				pattern = value.substring(index + 1);
+			} else
 				category = null;
-		}
-		else
-		{
-			if ( dict.getChoiceSet(
-					DesignChoiceConstants.CHOICE_DATETIME_FORMAT_TYPE )
-					.contains( pattern )
-					|| dict.getChoiceSet(
-							DesignChoiceConstants.CHOICE_STRING_FORMAT_TYPE )
-							.contains( pattern )
-					|| dict.getChoiceSet(
-							DesignChoiceConstants.CHOICE_NUMBER_FORMAT_TYPE )
-							.contains( pattern ) )
+		} else {
+			if (dict.getChoiceSet(DesignChoiceConstants.CHOICE_DATETIME_FORMAT_TYPE).contains(pattern)
+					|| dict.getChoiceSet(DesignChoiceConstants.CHOICE_STRING_FORMAT_TYPE).contains(pattern)
+					|| dict.getChoiceSet(DesignChoiceConstants.CHOICE_NUMBER_FORMAT_TYPE).contains(pattern))
 				category = pattern;
 		}
 
-		if ( StringUtil.isBlank( category ) )
+		if (StringUtil.isBlank(category))
 			category = DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM;
 
 		FormatValue formatValue = (FormatValue) struct;
-		setMember( formatValue, propDefn.getName( ),
-				FormatValue.CATEGORY_MEMBER, category );
-		setMember( formatValue, propDefn.getName( ),
-				FormatValue.PATTERN_MEMBER, pattern );
+		setMember(formatValue, propDefn.getName(), FormatValue.CATEGORY_MEMBER, category);
+		setMember(formatValue, propDefn.getName(), FormatValue.PATTERN_MEMBER, pattern);
 
-		if ( parentStruct != null )
-		{
-			((Structure)parentStruct).setProperty( name, struct );
-		}
-		else
-		{
+		if (parentStruct != null) {
+			((Structure) parentStruct).setProperty(name, struct);
+		} else {
 			// structure property.
 
-			element.setProperty( name, struct );
+			element.setProperty(name, struct);
 		}
 	}
 
-	protected void createStructure( )
-	{
+	protected void createStructure() {
 		assert propDefn != null;
 
-		struct = StructureState.createStructure( (StructureDefn) propDefn
-				.getStructDefn( ) );
+		struct = StructureState.createStructure((StructureDefn) propDefn.getStructDefn());
 
 	}
 }

@@ -27,70 +27,56 @@ import org.eclipse.swt.widgets.Composite;
  * The Font attribute page of DE element.
  * 
  */
-public class FontPage extends ResetAttributePage
-{
+public class FontPage extends ResetAttributePage {
 
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6, 15 ) );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(6, 15));
 
-		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider( StyleHandle.FONT_FAMILY_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		fontFamilyProvider.enableReset( true );
-		ComboSection fontFamilySection = new ComboSection( fontFamilyProvider.getDisplayName( ),
-				container,
-				true );
-		fontFamilySection.setProvider( fontFamilyProvider );
-		fontFamilySection.setLayoutNum( 2 );
-		fontFamilySection.setWidth( 200 );
-		addSection( PageSectionId.FONT_FAMILY, fontFamilySection );
+		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider(
+				StyleHandle.FONT_FAMILY_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		fontFamilyProvider.enableReset(true);
+		ComboSection fontFamilySection = new ComboSection(fontFamilyProvider.getDisplayName(), container, true);
+		fontFamilySection.setProvider(fontFamilyProvider);
+		fontFamilySection.setLayoutNum(2);
+		fontFamilySection.setWidth(200);
+		addSection(PageSectionId.FONT_FAMILY, fontFamilySection);
 
-		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider( StyleHandle.FONT_SIZE_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		fontSizeProvider.enableReset( true );
-		FontSizeSection fontSizeSection = new FontSizeSection( fontSizeProvider.getDisplayName( ),
-				container,
-				true );
-		fontSizeSection.setProvider( fontSizeProvider );
-		fontSizeSection.setLayoutNum( 4 );
-		fontSizeSection.setWidth( 200 );
-		fontSizeSection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.FONT_SIZE, fontSizeSection );
+		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider(
+				StyleHandle.FONT_SIZE_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		fontSizeProvider.enableReset(true);
+		FontSizeSection fontSizeSection = new FontSizeSection(fontSizeProvider.getDisplayName(), container, true);
+		fontSizeSection.setProvider(fontSizeProvider);
+		fontSizeSection.setLayoutNum(4);
+		fontSizeSection.setWidth(200);
+		fontSizeSection.setGridPlaceholder(2, true);
+		addSection(PageSectionId.FONT_SIZE, fontSizeSection);
 
-		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider( StyleHandle.COLOR_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		colorProvider.enableReset( true );
-		ColorSection colorSection = new ColorSection( colorProvider.getDisplayName( ),
-				container,
-				true );
-		colorSection.setProvider( colorProvider );
-		colorSection.setWidth( 200 );
-		colorSection.setLayoutNum( 2 );
-		colorSection.setGridPlaceholder( 4, true );
-		addSection( PageSectionId.FONT_COLOR, colorSection );
+		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider(StyleHandle.COLOR_PROP,
+				ReportDesignConstants.STYLE_ELEMENT);
+		colorProvider.enableReset(true);
+		ColorSection colorSection = new ColorSection(colorProvider.getDisplayName(), container, true);
+		colorSection.setProvider(colorProvider);
+		colorSection.setWidth(200);
+		colorSection.setLayoutNum(2);
+		colorSection.setGridPlaceholder(4, true);
+		addSection(PageSectionId.FONT_COLOR, colorSection);
 
-		String[] textStyles = new String[]{
-				StyleHandle.FONT_WEIGHT_PROP,
-				StyleHandle.FONT_STYLE_PROP,
-				StyleHandle.TEXT_UNDERLINE_PROP,
-				StyleHandle.TEXT_LINE_THROUGH_PROP,
-		};
+		String[] textStyles = new String[] { StyleHandle.FONT_WEIGHT_PROP, StyleHandle.FONT_STYLE_PROP,
+				StyleHandle.TEXT_UNDERLINE_PROP, StyleHandle.TEXT_LINE_THROUGH_PROP, };
 
 		FontStylePropertyDescriptorProvider[] providers = new FontStylePropertyDescriptorProvider[4];
-		for ( int i = 0; i < textStyles.length; i++ )
-		{
-			providers[i] = new FontStylePropertyDescriptorProvider( textStyles[i],
-					ReportDesignConstants.STYLE_ELEMENT );
-			providers[i].enableReset( true );
+		for (int i = 0; i < textStyles.length; i++) {
+			providers[i] = new FontStylePropertyDescriptorProvider(textStyles[i], ReportDesignConstants.STYLE_ELEMENT);
+			providers[i].enableReset(true);
 		}
-		TogglesSection fontStyleSection = new TogglesSection( container );
-		fontStyleSection.setProviders( providers );
-		fontStyleSection.setGridPlaceholder( 4, true );
-		addSection( PageSectionId.FONT_STYLE, fontStyleSection );
+		TogglesSection fontStyleSection = new TogglesSection(container);
+		fontStyleSection.setProviders(providers);
+		fontStyleSection.setGridPlaceholder(4, true);
+		addSection(PageSectionId.FONT_STYLE, fontStyleSection);
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
 
 }

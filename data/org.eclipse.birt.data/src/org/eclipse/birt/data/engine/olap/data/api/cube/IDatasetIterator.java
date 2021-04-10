@@ -17,36 +17,33 @@ import org.eclipse.birt.core.exception.BirtException;
  * 
  */
 
-public interface IDatasetIterator
-{	
+public interface IDatasetIterator {
 	/**
 	 * 
 	 * @return
 	 * @throws BirtException
 	 */
-	public int getFieldIndex( String name ) throws BirtException;
-	
+	public int getFieldIndex(String name) throws BirtException;
+
 	/**
 	 * Returns the data type of this iterator's member.
 	 * 
 	 * @param fieldIndex
 	 * @return the data type of memeber.
 	 */
-	public int getFieldType( String name ) throws BirtException;
-	
+	public int getFieldType(String name) throws BirtException;
+
 	/**
-	 * Moves down one element from its current position of the iterator. This
-	 * method applies to a result whose ReportQuery is defined to use detail or
-	 * group rows.
+	 * Moves down one element from its current position of the iterator. This method
+	 * applies to a result whose ReportQuery is defined to use detail or group rows.
 	 * 
 	 * @return true if next element exists and has not reached the limit on the
 	 *         maximum number of rows that can be accessed.
-	 * @throws BirtException
-	 *             if error occurs in Data Engine
+	 * @throws BirtException if error occurs in Data Engine
 	 */
-    public boolean next() throws BirtException;
-    
-    /**
+	public boolean next() throws BirtException;
+
+	/**
 	 * Returns the value of a bound column. Currently it is only a dummy
 	 * implementation.
 	 * 
@@ -54,14 +51,15 @@ public interface IDatasetIterator
 	 * @return value of bound column
 	 * @throws BirtException
 	 */
-    public Object getValue( int fieldIndex ) throws BirtException;
-    
-    /** 
-     * Closes this result and any associated secondary result iterator(s),  
-     * providing a hint that the consumer is done with this result,
-     * whose resources can be safely released as appropriate.  
-     * @throws BirtException 
-     */
-    public void close( ) throws BirtException;
-	
+	public Object getValue(int fieldIndex) throws BirtException;
+
+	/**
+	 * Closes this result and any associated secondary result iterator(s), providing
+	 * a hint that the consumer is done with this result, whose resources can be
+	 * safely released as appropriate.
+	 * 
+	 * @throws BirtException
+	 */
+	public void close() throws BirtException;
+
 }

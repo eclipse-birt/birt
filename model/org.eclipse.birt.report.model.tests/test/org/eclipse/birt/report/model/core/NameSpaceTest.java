@@ -115,8 +115,7 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class NameSpaceTest extends BaseTestCase
-{
+public class NameSpaceTest extends BaseTestCase {
 
 	NameSpace nameSpace;
 
@@ -129,17 +128,16 @@ public class NameSpaceTest extends BaseTestCase
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 
-		SessionHandle sessionHandle = DesignEngine.newSession( (ULocale) null );
-		designHandle = sessionHandle.createDesign( "myDesign" ); //$NON-NLS-1$
-		design = designHandle.getDesign( );
+		SessionHandle sessionHandle = DesignEngine.newSession((ULocale) null);
+		designHandle = sessionHandle.createDesign("myDesign"); //$NON-NLS-1$
+		design = designHandle.getDesign();
 
-		assertNotNull( design );
+		assertNotNull(design);
 
-		nameSpace = new NameSpace( );
+		nameSpace = new NameSpace();
 	}
 
 	/**
@@ -157,26 +155,25 @@ public class NameSpaceTest extends BaseTestCase
 	 * </ul>
 	 * 
 	 */
-	public void testInsert( )
-	{
-		design.setName( reportString );
-		nameSpace.insert( design );
-		assertTrue( nameSpace.getCount( ) == 1 );
-		Object o = nameSpace.getElement( reportString );
-		assertEquals( design, o );
+	public void testInsert() {
+		design.setName(reportString);
+		nameSpace.insert(design);
+		assertTrue(nameSpace.getCount() == 1);
+		Object o = nameSpace.getElement(reportString);
+		assertEquals(design, o);
 
 		// insert the same element with new name
 		// and then the operation succeed.
 		// so we need the function rename() to delete
 		// the old element with the old name.
 
-		design.setName( newReportString );
-		nameSpace.insert( design );
-		assertTrue( nameSpace.getCount( ) == 2 );
-		o = nameSpace.getElement( newReportString );
-		assertEquals( design, o );
-		o = nameSpace.getElement( reportString );
-		assertEquals( design, o );
+		design.setName(newReportString);
+		nameSpace.insert(design);
+		assertTrue(nameSpace.getCount() == 2);
+		o = nameSpace.getElement(newReportString);
+		assertEquals(design, o);
+		o = nameSpace.getElement(reportString);
+		assertEquals(design, o);
 	}
 
 	/**
@@ -194,34 +191,33 @@ public class NameSpaceTest extends BaseTestCase
 	 * </ul>
 	 * 
 	 */
-	public void testRemove( )
-	{
+	public void testRemove() {
 		// the simple insert-remove test
 
-		design.setName( reportString );
-		nameSpace.insert( design );
-		assertTrue( nameSpace.contains( reportString ) );
-		nameSpace.remove( design );
-		assertFalse( nameSpace.contains( reportString ) );
+		design.setName(reportString);
+		nameSpace.insert(design);
+		assertTrue(nameSpace.contains(reportString));
+		nameSpace.remove(design);
+		assertFalse(nameSpace.contains(reportString));
 
 		// the complex situation test
 
-		design.setName( reportString );
-		nameSpace.insert( design );
-		assertTrue( nameSpace.getCount( ) == 1 );
-		Object o = nameSpace.getElement( reportString );
-		assertEquals( design, o );
+		design.setName(reportString);
+		nameSpace.insert(design);
+		assertTrue(nameSpace.getCount() == 1);
+		Object o = nameSpace.getElement(reportString);
+		assertEquals(design, o);
 
 		// insert the same element with new name
 
-		design.setName( newReportString );
-		nameSpace.insert( design );
-		assertTrue( nameSpace.getCount( ) == 2 );
-		o = nameSpace.getElement( newReportString );
-		assertEquals( design, o );
-		nameSpace.remove( design );
-		assertTrue( nameSpace.contains( reportString ) );
-		assertFalse( nameSpace.contains( newReportString ) );
+		design.setName(newReportString);
+		nameSpace.insert(design);
+		assertTrue(nameSpace.getCount() == 2);
+		o = nameSpace.getElement(newReportString);
+		assertEquals(design, o);
+		nameSpace.remove(design);
+		assertTrue(nameSpace.contains(reportString));
+		assertFalse(nameSpace.contains(newReportString));
 
 	}
 
@@ -242,29 +238,28 @@ public class NameSpaceTest extends BaseTestCase
 	 * </ul>
 	 * 
 	 */
-	public void testRename( )
-	{
+	public void testRename() {
 		// set the name of the element and insert into HashMap
 
-		design.setName( reportString );
-		nameSpace.insert( design );
-		assertTrue( nameSpace.contains( reportString ) );
+		design.setName(reportString);
+		nameSpace.insert(design);
+		assertTrue(nameSpace.contains(reportString));
 
 		// we rename the element and the key(name) of the element in
 		// HashMap changes with the rename operation
 
-		design.setName( newReportString );
-		nameSpace.rename( design, reportString, newReportString );
-		assertTrue( nameSpace.contains( newReportString ) );
-		assertFalse( nameSpace.contains( reportString ) );
-		assertTrue( nameSpace.getCount( ) == 1 );
-		Object o = nameSpace.getElement( newReportString );
-		assertEquals( design, o );
+		design.setName(newReportString);
+		nameSpace.rename(design, reportString, newReportString);
+		assertTrue(nameSpace.contains(newReportString));
+		assertFalse(nameSpace.contains(reportString));
+		assertTrue(nameSpace.getCount() == 1);
+		Object o = nameSpace.getElement(newReportString);
+		assertEquals(design, o);
 
 		// if name of design is null, rename method is the same as remove method
-		design.setName( null );
-		nameSpace.rename( design, newReportString, null );
-		assertFalse( nameSpace.contains( newReportString ) );
+		design.setName(null);
+		nameSpace.rename(design, newReportString, null);
+		assertFalse(nameSpace.contains(newReportString));
 	}
 
 	/**
@@ -280,23 +275,22 @@ public class NameSpaceTest extends BaseTestCase
 	 * </ul>
 	 */
 
-	public void testContains( )
-	{
-		assertFalse( nameSpace.contains( reportString ) );
-		design.setName( reportString );
-		nameSpace.insert( design );
-		assertTrue( nameSpace.contains( reportString ) );
+	public void testContains() {
+		assertFalse(nameSpace.contains(reportString));
+		design.setName(reportString);
+		nameSpace.insert(design);
+		assertTrue(nameSpace.contains(reportString));
 
 		// we call setName to change the name of elements
 		// but the new name is not in NameSpace
 		// and the function rename() is to solve the problem
 
-		design.setName( newReportString );
-		assertFalse( nameSpace.contains( newReportString ) );
-		assertTrue( nameSpace.contains( reportString ) );
+		design.setName(newReportString);
+		assertFalse(nameSpace.contains(newReportString));
+		assertTrue(nameSpace.contains(reportString));
 
-		nameSpace.insert( design );
-		assertTrue( nameSpace.contains( newReportString ) );
+		nameSpace.insert(design);
+		assertTrue(nameSpace.contains(newReportString));
 	}
 
 	/**
@@ -310,16 +304,15 @@ public class NameSpaceTest extends BaseTestCase
 	 * </ul>
 	 * 
 	 */
-	public void testGetElement( )
-	{
-		design.setName( reportString );
-		nameSpace.insert( design );
-		assertTrue( nameSpace.getCount( ) == 1 );
-		Object o = nameSpace.getElement( reportString );
-		assertEquals( design, o );
+	public void testGetElement() {
+		design.setName(reportString);
+		nameSpace.insert(design);
+		assertTrue(nameSpace.getCount() == 1);
+		Object o = nameSpace.getElement(reportString);
+		assertEquals(design, o);
 
-		o = nameSpace.getElement( reportString.toUpperCase( ) );
-		assertNull( o );
+		o = nameSpace.getElement(reportString.toUpperCase());
+		assertNull(o);
 	}
 
 	/**
@@ -337,16 +330,15 @@ public class NameSpaceTest extends BaseTestCase
 	 * </ul>
 	 * 
 	 */
-	public void testGetCount( )
-	{
-		assertTrue( nameSpace.getCount( ) == 0 );
+	public void testGetCount() {
+		assertTrue(nameSpace.getCount() == 0);
 
-		design.setName( reportString );
-		nameSpace.insert( design );
-		assertTrue( nameSpace.getCount( ) == 1 );
+		design.setName(reportString);
+		nameSpace.insert(design);
+		assertTrue(nameSpace.getCount() == 1);
 
-		nameSpace.remove( design );
-		assertTrue( nameSpace.getCount( ) == 0 );
+		nameSpace.remove(design);
+		assertTrue(nameSpace.getCount() == 0);
 	}
 
 	/**
@@ -363,27 +355,23 @@ public class NameSpaceTest extends BaseTestCase
 	 * 
 	 */
 
-	public void testGetElementsSequence( ) throws Exception
-	{
-		DataSourceHandle ds = (DataSourceHandle) designHandle
-				.getElementFactory( ).newOdaDataSource( "Data Source", null ); //$NON-NLS-1$
-		designHandle.getDataSources().add( ds );
+	public void testGetElementsSequence() throws Exception {
+		DataSourceHandle ds = (DataSourceHandle) designHandle.getElementFactory().newOdaDataSource("Data Source", null); //$NON-NLS-1$
+		designHandle.getDataSources().add(ds);
 
-		ds = (DataSourceHandle) designHandle.getElementFactory( )
-				.newOdaDataSource( "Data Source1", null ); //$NON-NLS-1$
-		designHandle.getDataSources().add( ds );
+		ds = (DataSourceHandle) designHandle.getElementFactory().newOdaDataSource("Data Source1", null); //$NON-NLS-1$
+		designHandle.getDataSources().add(ds);
 
-		ds = (DataSourceHandle) designHandle.getElementFactory( )
-				.newOdaDataSource( "Data Source2", null ); //$NON-NLS-1$
-		designHandle.getDataSources().add( ds );
+		ds = (DataSourceHandle) designHandle.getElementFactory().newOdaDataSource("Data Source2", null); //$NON-NLS-1$
+		designHandle.getDataSources().add(ds);
 
-		List dataSources = designHandle.getAllDataSources( );
-		assertTrue( dataSources.size( ) == 3 );
-		assertEquals( "Data Source", ( (DataSourceHandle) dataSources.get( 0 ) ) //$NON-NLS-1$
-				.getName( ) );
-		assertEquals( "Data Source1", ( (DataSourceHandle) dataSources.get( 1 ) ) //$NON-NLS-1$
-				.getName( ) );
-		assertEquals( "Data Source2", ( (DataSourceHandle) dataSources.get( 2 ) ) //$NON-NLS-1$
-				.getName( ) );
+		List dataSources = designHandle.getAllDataSources();
+		assertTrue(dataSources.size() == 3);
+		assertEquals("Data Source", ((DataSourceHandle) dataSources.get(0)) //$NON-NLS-1$
+				.getName());
+		assertEquals("Data Source1", ((DataSourceHandle) dataSources.get(1)) //$NON-NLS-1$
+				.getName());
+		assertEquals("Data Source2", ((DataSourceHandle) dataSources.get(2)) //$NON-NLS-1$
+				.getName());
 	}
 }

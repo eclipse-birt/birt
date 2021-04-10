@@ -22,65 +22,61 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </table>
  * 
  */
-public class InputStreamURITest extends BaseTestCase
-{
-	private final String fileName = "inputStream_uri_Test.xml"; 
+public class InputStreamURITest extends BaseTestCase {
+	private final String fileName = "inputStream_uri_Test.xml";
 	private ResourceLocatorImpl rl;
-	
-    public InputStreamURITest(String name) 
-	{	
+
+	public InputStreamURITest(String name) {
 		super(name);
 	}
-    public static Test suite()
-    {
-		
+
+	public static Test suite() {
+
 		return new TestSuite(InputStreamURITest.class);
 	}
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		copyInputToFile ( INPUT_FOLDER + "/" + fileName );
-		copyInputToFile ( INPUT_FOLDER + "/" + "Library_Import_Test.xml" );
-		
-		openDesign( fileName );
-		rl = new ResourceLocatorImpl( );
+
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		copyInputToFile(INPUT_FOLDER + "/" + fileName);
+		copyInputToFile(INPUT_FOLDER + "/" + "Library_Import_Test.xml");
+
+		openDesign(fileName);
+		rl = new ResourceLocatorImpl();
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * Test ResourceLocator findResource
+	 * 
 	 * @throws Exception
 	 */
-	public void testImportLibrary( ) throws Exception
-	{
-		
-		
-		
-		URL url = rl.findResource( designHandle, "1.xml", IResourceLocator.IMAGE );
+	public void testImportLibrary() throws Exception {
+
+		URL url = rl.findResource(designHandle, "1.xml", IResourceLocator.IMAGE);
 		assertNull(url);
-		
-		url = rl.findResource( designHandle, "1.xml", IResourceLocator.LIBRARY );
+
+		url = rl.findResource(designHandle, "1.xml", IResourceLocator.LIBRARY);
 		assertNull(url);
-		
-		url = rl.findResource( designHandle, "Library_Import_Test.xml", IResourceLocator.LIBRARY );
+
+		url = rl.findResource(designHandle, "Library_Import_Test.xml", IResourceLocator.LIBRARY);
 		assertNotNull(url);
-		
-		designHandle.setFileName( getTempFolder( ) +"/" +GOLDEN_FOLDER+"/" );
-		url = rl.findResource( designHandle, "1_golden.xml", IResourceLocator.IMAGE );
-		assertNull( url );
-		
-	//	designHandle.setFileName( getClassFolder( ) +"/golden/" ); 
-		designHandle.setFileName( getTempFolder( ) +"/" +GOLDEN_FOLDER+"/" );
-		url = rl.findResource( designHandle, "LibraryCreatLib.xml", IResourceLocator.IMAGE ); 
-		assertNull( url );
-		
-		url = rl.findResource( designHandle, "http://www.actuate.com/logo.gif", IResourceLocator.IMAGE );
-		assertNotNull( url );
-		
+
+		designHandle.setFileName(getTempFolder() + "/" + GOLDEN_FOLDER + "/");
+		url = rl.findResource(designHandle, "1_golden.xml", IResourceLocator.IMAGE);
+		assertNull(url);
+
+		// designHandle.setFileName( getClassFolder( ) +"/golden/" );
+		designHandle.setFileName(getTempFolder() + "/" + GOLDEN_FOLDER + "/");
+		url = rl.findResource(designHandle, "LibraryCreatLib.xml", IResourceLocator.IMAGE);
+		assertNull(url);
+
+		url = rl.findResource(designHandle, "http://www.actuate.com/logo.gif", IResourceLocator.IMAGE);
+		assertNotNull(url);
+
 	}
 }

@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for Graphic master page element to store the constants.
  */
-public interface IGraphicMaterPageModel
-{
+public interface IGraphicMaterPageModel {
 	/**
 	 * Identifier of the slot that holds the page decoration.
 	 */

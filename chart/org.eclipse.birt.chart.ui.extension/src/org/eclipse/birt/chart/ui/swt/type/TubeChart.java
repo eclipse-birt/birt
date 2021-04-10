@@ -18,17 +18,15 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
  * 
  */
 
-public class TubeChart extends AbstractBarChart
-{
+public class TubeChart extends AbstractBarChart {
 
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_TUBE;
 
-	public TubeChart( )
-	{
-		super( "Tube", TYPE_LITERAL, RiserType.TUBE_LITERAL ); //$NON-NLS-1$
+	public TubeChart() {
+		super("Tube", TYPE_LITERAL, RiserType.TUBE_LITERAL); //$NON-NLS-1$
 	}
 
 }

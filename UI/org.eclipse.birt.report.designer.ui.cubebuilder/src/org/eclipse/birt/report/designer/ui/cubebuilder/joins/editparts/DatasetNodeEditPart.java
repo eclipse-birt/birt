@@ -40,8 +40,7 @@ import org.eclipse.gef.tools.DragEditPartsTracker;
  * Edit Part corresponding to a Table object.
  * 
  */
-public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
-{
+public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener {
 
 	public TablePaneFigure scrollPane;
 	public TableNodeFigure tableNode;
@@ -51,12 +50,11 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	/**
 	 * @param impl
 	 */
-	public DatasetNodeEditPart( EditPart parent, DataSetHandle dataset )
-	{
-		setModel( dataset );
-		setParent( parent );
+	public DatasetNodeEditPart(EditPart parent, DataSetHandle dataset) {
+		setModel(dataset);
+		setParent(parent);
 
-		this.cube = (TabularCubeHandle) parent.getModel( );
+		this.cube = (TabularCubeHandle) parent.getModel();
 	}
 
 	/*
@@ -64,33 +62,28 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		String name = ( cube.getDataSet( ) ).getName( ) + " "//$NON-NLS-1$
-				+ Messages.getString( "DatasetNodeEditPart.Primary.Dataset" ); //$NON-NLS-1$
-		tableNode = new TableNodeFigure( name, true );
-		scrollPane = new TablePaneFigure( name, true );
-		scrollPane.setContents( tableNode );
+	protected IFigure createFigure() {
+		String name = (cube.getDataSet()).getName() + " "//$NON-NLS-1$
+				+ Messages.getString("DatasetNodeEditPart.Primary.Dataset"); //$NON-NLS-1$
+		tableNode = new TableNodeFigure(name, true);
+		scrollPane = new TablePaneFigure(name, true);
+		scrollPane.setContents(tableNode);
 		return scrollPane;
 	}
 
 	/**
-	 * Returns the Children for this Edit Part. It returns a List of
-	 * ColumnEditParts
+	 * Returns the Children for this Edit Part. It returns a List of ColumnEditParts
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
-	protected List getModelChildren( )
-	{
+	protected List getModelChildren() {
 
-		List childList = new ArrayList( );
+		List childList = new ArrayList();
 
-		ResultSetColumnHandle[] columns = OlapUtil.getDataFields( cube.getDataSet( ) );
-		if ( columns != null )
-		{
-			for ( int i = 0; i < columns.length; i++ )
-			{
-				childList.add( columns[i] );
+		ResultSetColumnHandle[] columns = OlapUtil.getDataFields(cube.getDataSet());
+		if (columns != null) {
+			for (int i = 0; i < columns.length; i++) {
+				childList.add(columns[i]);
 			}
 		}
 		// childrenColumnNumber = childList.size( );
@@ -103,91 +96,62 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
-	protected void refreshVisuals( )
-	{
+	protected void refreshVisuals() {
 		Rectangle r;
-		if ( !UIHelper.existIntProperty( cube.getRoot( ),
-				UIHelper.getId( cube.getDataSet( ), cube ),
-				BuilderConstants.POSITION_X ) )
-		{
-			int width = getWidth( );
-			int height = getHeight( );
+		if (!UIHelper.existIntProperty(cube.getRoot(), UIHelper.getId(cube.getDataSet(), cube),
+				BuilderConstants.POSITION_X)) {
+			int width = getWidth();
+			int height = getHeight();
 			int posX = 250 - width / 2 - 40;
 			int posY = 200 - height / 2 - 20;
-			r = new Rectangle( setPosX( posX ),
-					setPosY( posY ),
-					getWidth( ),
-					getHeight( ) );
-		}
-		else
-			r = new Rectangle( getPosX( ), getPosY( ), getWidth( ), getHeight( ) );
-		getFigure( ).setBounds( r );
-		( (GraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
-				getFigure( ),
-				r );
+			r = new Rectangle(setPosX(posX), setPosY(posY), getWidth(), getHeight());
+		} else
+			r = new Rectangle(getPosX(), getPosY(), getWidth(), getHeight());
+		getFigure().setBounds(r);
+		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), r);
 
 	}
 
-	private int getWidth( )
-	{
-		int width = UIHelper.getIntProperty( cube.getRoot( ),
-				UIHelper.getId( cube.getDataSet( ), cube ),
-				BuilderConstants.SIZE_WIDTH );
+	private int getWidth() {
+		int width = UIHelper.getIntProperty(cube.getRoot(), UIHelper.getId(cube.getDataSet(), cube),
+				BuilderConstants.SIZE_WIDTH);
 		return width == 0 ? 150 : width;
 	}
 
-	private int getHeight( )
-	{
-		int height = UIHelper.getIntProperty( cube.getRoot( ),
-				UIHelper.getId( cube.getDataSet( ), cube ),
-				BuilderConstants.SIZE_HEIGHT );
+	private int getHeight() {
+		int height = UIHelper.getIntProperty(cube.getRoot(), UIHelper.getId(cube.getDataSet(), cube),
+				BuilderConstants.SIZE_HEIGHT);
 		return height == 0 ? 200 : height;
 	}
 
-	private int getPosX( )
-	{
-		int x = UIHelper.getIntProperty( cube.getRoot( ),
-				UIHelper.getId( cube.getDataSet( ), cube ),
-				BuilderConstants.POSITION_X );
+	private int getPosX() {
+		int x = UIHelper.getIntProperty(cube.getRoot(), UIHelper.getId(cube.getDataSet(), cube),
+				BuilderConstants.POSITION_X);
 		return x;
 	}
 
-	private int getPosY( )
-	{
-		int y = UIHelper.getIntProperty( cube.getRoot( ),
-				UIHelper.getId( cube.getDataSet( ), cube ),
-				BuilderConstants.POSITION_Y );
+	private int getPosY() {
+		int y = UIHelper.getIntProperty(cube.getRoot(), UIHelper.getId(cube.getDataSet(), cube),
+				BuilderConstants.POSITION_Y);
 		return y;
 	}
 
-	private int setPosX( int x )
-	{
-		try
-		{
-			UIHelper.setIntProperty( cube.getRoot( ),
-					UIHelper.getId( cube.getDataSet( ), cube ),
-					BuilderConstants.POSITION_X,
-					x );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionUtil.handle( e );
+	private int setPosX(int x) {
+		try {
+			UIHelper.setIntProperty(cube.getRoot(), UIHelper.getId(cube.getDataSet(), cube),
+					BuilderConstants.POSITION_X, x);
+		} catch (SemanticException e) {
+			ExceptionUtil.handle(e);
 		}
 		return x;
 	}
 
-	private int setPosY( int y )
-	{
-		try
-		{
-			UIHelper.setIntProperty( cube.getRoot( ),
-					UIHelper.getId( cube.getDataSet( ), cube ),
-					BuilderConstants.POSITION_Y,
-					y );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionUtil.handle( e );
+	private int setPosY(int y) {
+		try {
+			UIHelper.setIntProperty(cube.getRoot(), UIHelper.getId(cube.getDataSet(), cube),
+					BuilderConstants.POSITION_Y, y);
+		} catch (SemanticException e) {
+			ExceptionUtil.handle(e);
 		}
 		return y;
 	}
@@ -197,19 +161,17 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.SELECTION_FEEDBACK_ROLE,
-				new TableSelectionEditPolicy( ) );
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new TableSelectionEditPolicy());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.editors.graphical.editparts.NodeEditPartHelper#getChopFigure()
+	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.editors.graphical.editparts.
+	 * NodeEditPartHelper#getChopFigure()
 	 */
-	public IFigure getChopFigure( )
-	{
+	public IFigure getChopFigure() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -219,41 +181,34 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	 * 
 	 * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
 	 */
-	public IFigure getContentPane( )
-	{
+	public IFigure getContentPane() {
 		return tableNode;
 	}
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( isActive( ) && !isDelete( ) )
-		{
-			refresh( );
+	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
+		if (isActive() && !isDelete()) {
+			refresh();
 		}
 	}
 
-	public void deactivate( )
-	{
+	public void deactivate() {
 		// TODO Auto-generated method stub
-		super.deactivate( );
-		cube.getRoot( ).removeListener( this );
+		super.deactivate();
+		cube.getRoot().removeListener(this);
 	}
 
-	public void activate( )
-	{
+	public void activate() {
 		// TODO Auto-generated method stub
-		super.activate( );
-		cube.getRoot( ).addListener( this );
+		super.activate();
+		cube.getRoot().addListener(this);
 	}
 
-	public DragTracker getDragTracker( Request req )
-	{
-		DragEditPartsTracker track = new DragEditPartsTracker( this );
+	public DragTracker getDragTracker(Request req) {
+		DragEditPartsTracker track = new DragEditPartsTracker(this);
 		return track;
 	}
 
-	public TabularCubeHandle getCube( )
-	{
+	public TabularCubeHandle getCube() {
 		return cube;
 	}
 

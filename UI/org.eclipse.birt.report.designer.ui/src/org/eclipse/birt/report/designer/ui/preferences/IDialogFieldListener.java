@@ -14,12 +14,11 @@ package org.eclipse.birt.report.designer.ui.preferences;
 /**
  * Change listener used by <code>DialogField</code>
  */
-public interface IDialogFieldListener
-{
+public interface IDialogFieldListener {
 
 	/**
 	 * The dialog field has changed.
 	 */
-	void dialogFieldChanged( DialogField field );
+	void dialogFieldChanged(DialogField field);
 
 }

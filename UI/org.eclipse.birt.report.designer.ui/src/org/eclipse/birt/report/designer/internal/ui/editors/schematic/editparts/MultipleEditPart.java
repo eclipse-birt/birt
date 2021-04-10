@@ -46,97 +46,91 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.swt.widgets.Display;
 
-
 /**
  * EditPar to support multiple views.
  */
-public class MultipleEditPart extends ReportElementEditPart implements IMultipleAdapterHelper
-{
+public class MultipleEditPart extends ReportElementEditPart implements IMultipleAdapterHelper {
 
 	private String guideLabel;
-	/**Constructor
+
+	/**
+	 * Constructor
+	 * 
 	 * @param model
 	 */
-	public MultipleEditPart( Object model )
-	{
-		super( model );
+	public MultipleEditPart(Object model) {
+		super(model);
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#getCommand(org.eclipse.gef.Request)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#getCommand(org.eclipse.gef.
+	 * Request)
 	 */
-	public Command getCommand( Request request )
-	{
-		if (RequestConstants.REQ_ORPHAN_CHILDREN.equals( request.getType( ) ))
-		{
-			return getParent( ).getCommand( request );
+	public Command getCommand(Request request) {
+		if (RequestConstants.REQ_ORPHAN_CHILDREN.equals(request.getType())) {
+			return getParent().getCommand(request);
 		}
-		return super.getCommand( request );
+		return super.getCommand(request);
 	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createEditPolicies()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) );
-		installEditPolicy( EditPolicy.LAYOUT_ROLE,
-				new ReportFlowLayoutEditPolicy( )
-		{
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ReportFlowLayoutEditPolicy() {
 			@Override
-			protected Command getAddCommand( Request req )
-			{
+			protected Command getAddCommand(Request req) {
 				return UnexecutableCommand.INSTANCE;
 			}
-			
+
 			@Override
-			public EditPart getTargetEditPart( Request request )
-			{
-				if (REQ_CREATE.equals(request.getType()))
-				{
-					if (((ReportItemHandle)getHost( ).getModel( )).getCurrentView( ) != null)
-					{
+			public EditPart getTargetEditPart(Request request) {
+				if (REQ_CREATE.equals(request.getType())) {
+					if (((ReportItemHandle) getHost().getModel()).getCurrentView() != null) {
 						return null;
 					}
 				}
-				return super.getTargetEditPart( request );
+				return super.getTargetEditPart(request);
 			}
 		});
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		((MultipleLayout)getFigure( ).getLayoutManager( )).markDirty( );
-		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
-				getFigure( ),
-				getConstraint( ) );
-		//do noting
+	public void refreshFigure() {
+		((MultipleLayout) getFigure().getLayoutManager()).markDirty();
+		((AbstractGraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), getConstraint());
+		// do noting
 	}
-	
-	protected Object getConstraint( )
-	{
-		ReportItemConstraint constraint = new ReportItemConstraint( );
-		DesignElementHandle handle = (DesignElementHandle)getModelChildren( ).get( 0 );
-		if (handle != null && handle != getModel( ))
-		{
-			constraint.setMargin( HandleAdapterFactory.getInstance( ).getDesignElementHandleAdapter(handle, null).getMargin( null ));
+
+	protected Object getConstraint() {
+		ReportItemConstraint constraint = new ReportItemConstraint();
+		DesignElementHandle handle = (DesignElementHandle) getModelChildren().get(0);
+		if (handle != null && handle != getModel()) {
+			constraint.setMargin(
+					HandleAdapterFactory.getInstance().getDesignElementHandleAdapter(handle, null).getMargin(null));
+		} else {
+			constraint.setMargin(getMultipleAdapter().getMargin(null));
 		}
-		else
-		{
-			constraint.setMargin( getMultipleAdapter( ).getMargin( null ));
-		}
-		
+
 		return constraint;
 	}
-	
+
 	@Override
-	public void activate( )
-	{
-		super.activate( );
+	public void activate() {
+		super.activate();
 //		Display.getCurrent( ).asyncExec( new Runnable()
 //		{
 //			public void run( )
@@ -147,231 +141,242 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 //		});
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
-	protected List getModelChildren( )
-	{
-		return getModelAdapter( ).getChildren( );
+	protected List getModelChildren() {
+		return getModelAdapter().getChildren();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
+	protected IFigure createFigure() {
 		Figure layer = new MultipleFigure();
 		return layer;
 	}
-	
-	/**Gets the MultipleAdapter.
+
+	/**
+	 * Gets the MultipleAdapter.
+	 * 
 	 * @return
 	 */
-	public MultipleAdapter getMultipleAdapter()
-	{
-		return (MultipleAdapter)getModelAdapter( );
+	public MultipleAdapter getMultipleAdapter() {
+		return (MultipleAdapter) getModelAdapter();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.core.model.IMultipleAdapterHelper#isMultiple()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.core.model.IMultipleAdapterHelper#isMultiple
+	 * ()
 	 */
-	public boolean isMultiple( )
-	{
+	public boolean isMultiple() {
 		return true;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createGuideHandle()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#createGuideHandle()
 	 */
-	protected AbstractGuideHandle createGuideHandle( )
-	{
-		MultipleGuideHandle handle = new MultipleGuideHandle( this );
-		
-		handle.addChildren( getMultipleAdapter( ).getViews( ) );
-		handle.setSelected( getMultipleAdapter( ).getCurrentViewNumber( ) );
-		
+	protected AbstractGuideHandle createGuideHandle() {
+		MultipleGuideHandle handle = new MultipleGuideHandle(this);
+
+		handle.addChildren(getMultipleAdapter().getViews());
+		handle.setSelected(getMultipleAdapter().getCurrentViewNumber());
+
 		return handle;
 	}
-	
-	/**Set the current view.
+
+	/**
+	 * Set the current view.
+	 * 
 	 * @param number
 	 */
-	public void setCurrentView(int number)
-	{
-		getMultipleAdapter( ).setCurrentView( number );
-		
-		((MultipleGuideHandle)getGuideHandle( )).setSelected( number );
-		Display.getCurrent( ).asyncExec( new Runnable()
-		{
-			public void run( )
-			{
-				refreshVisuals( );
+	public void setCurrentView(int number) {
+		getMultipleAdapter().setCurrentView(number);
+
+		((MultipleGuideHandle) getGuideHandle()).setSelected(number);
+		Display.getCurrent().asyncExec(new Runnable() {
+			public void run() {
+				refreshVisuals();
 			}
 		});
-		
-		//UIUtil.resetViewSelection(getViewer(), false);
+
+		// UIUtil.resetViewSelection(getViewer(), false);
 	}
-	
-	/**Remove the view.
+
+	/**
+	 * Remove the view.
+	 * 
 	 * @param number
 	 */
-	public void removeView(int number)
-	{
-		getMultipleAdapter( ).removeView( number );
+	public void removeView(int number) {
+		getMultipleAdapter().removeView(number);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#propertyChange(java.util.Map)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#propertyChange(java.util.Map)
 	 */
-	protected void propertyChange( Map info )
-	{
-		Set set = info.keySet( );
-		if (set.contains( IReportItemModel.MULTI_VIEWS_PROP ) && getMultipleAdapter( ).getViews( ).size( ) > 0)
-		{
-			refresh( );
+	protected void propertyChange(Map info) {
+		Set set = info.keySet();
+		if (set.contains(IReportItemModel.MULTI_VIEWS_PROP) && getMultipleAdapter().getViews().size() > 0) {
+			refresh();
 			UIUtil.resetViewSelection(getViewer(), true);
 			return;
 		}
-		super.propertyChange( info );
+		super.propertyChange(info);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#contentChange(java.util.Map)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#contentChange(java.util.Map)
 	 */
-	protected void contentChange( Map info )
-	{
-		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
-		if (action instanceof Integer)
-		{
-			int intValue = ((Integer)action).intValue( );
-			if (intValue == ViewsContentEvent.ADD
-					|| intValue == ViewsContentEvent.SHIFT
-					|| intValue == ViewsContentEvent.REMOVE)
-			{
-				markDirty( true );
-				removeGuideFeedBack( );
-				if (getMultipleAdapter( ).getViews( ).size( ) ==0)
-				{
-					markDirty( true );
-					EditPart part = getParent( );
-					((ReportElementEditPart)getParent( )).removeChild( this );
-					part.refresh( );
-					
+	protected void contentChange(Map info) {
+		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE);
+		if (action instanceof Integer) {
+			int intValue = ((Integer) action).intValue();
+			if (intValue == ViewsContentEvent.ADD || intValue == ViewsContentEvent.SHIFT
+					|| intValue == ViewsContentEvent.REMOVE) {
+				markDirty(true);
+				removeGuideFeedBack();
+				if (getMultipleAdapter().getViews().size() == 0) {
+					markDirty(true);
+					EditPart part = getParent();
+					((ReportElementEditPart) getParent()).removeChild(this);
+					part.refresh();
+
 					return;
 				}
 			}
 		}
-		super.contentChange( info );
+		super.contentChange(info);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
-	public EditPolicy getResizePolice( EditPolicy parentPolice )
-	{
-		ReportElementResizablePolicy policy = new MultipleResizePolicy( );
-		policy.setResizeDirections( PositionConstants.SOUTH
-				| PositionConstants.EAST
-				| PositionConstants.SOUTH_EAST );
+	public EditPolicy getResizePolice(EditPolicy parentPolice) {
+		ReportElementResizablePolicy policy = new MultipleResizePolicy();
+		policy.setResizeDirections(PositionConstants.SOUTH | PositionConstants.EAST | PositionConstants.SOUTH_EAST);
 		return policy;
-		//return super.getResizePolice( parentPolice );
+		// return super.getResizePolice( parentPolice );
 	}
-	
+
 	/**
 	 * MultipleResizePolicy
 	 */
-	private static class MultipleResizePolicy extends ReportElementResizablePolicy
-	{
+	private static class MultipleResizePolicy extends ReportElementResizablePolicy {
 
-		protected Command getResizeCommand( ChangeBoundsRequest request )
-		{
-			Command command = super.getResizeCommand( request );
-			if (command instanceof SetConstraintCommand)
-			{
-				((SetConstraintCommand)command).setModel( (ReportItemHandle)getTrueHost( ).getModel( ) );
+		protected Command getResizeCommand(ChangeBoundsRequest request) {
+			Command command = super.getResizeCommand(request);
+			if (command instanceof SetConstraintCommand) {
+				((SetConstraintCommand) command).setModel((ReportItemHandle) getTrueHost().getModel());
 			}
 			return command;
 		}
-		
-		private GraphicalEditPart getTrueHost()
-		{
-			GraphicalEditPart parent = (GraphicalEditPart)getHost( );
-			List list = parent.getChildren( );
-			if (list.size( ) == 0)
-			{
+
+		private GraphicalEditPart getTrueHost() {
+			GraphicalEditPart parent = (GraphicalEditPart) getHost();
+			List list = parent.getChildren();
+			if (list.size() == 0) {
 				return parent;
 			}
-			return (GraphicalEditPart)list.get( 0 );
+			return (GraphicalEditPart) list.get(0);
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterestSelection(java.lang.Object)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#isinterestSelection(java.lang.Object)
 	 */
-	public boolean isinterestSelection( Object object )
-	{
-		return getMultipleAdapter( ).getViews( ).contains( object );
+	public boolean isinterestSelection(Object object) {
+		return getMultipleAdapter().getViews().contains(object);
 	}
-	
+
 	@Override
-	public boolean isinterest( Object model )
-	{
-		if (getMultipleAdapter( ).getViews( ).contains( model ))
-		{
+	public boolean isinterest(Object model) {
+		if (getMultipleAdapter().getViews().contains(model)) {
 			return true;
 		}
-		return super.isinterest( model );
+		return super.isinterest(model);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notifyModelChange()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#notifyModelChange()
 	 */
-	public void notifyModelChange( )
-	{
-		super.notifyModelChange( );
-		((MultipleLayout)getFigure( ).getLayoutManager( )).markDirty( );
+	public void notifyModelChange() {
+		super.notifyModelChange();
+		((MultipleLayout) getFigure().getLayoutManager()).markDirty();
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getGuideLabel()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#getGuideLabel()
 	 */
-	public String getGuideLabel( )
-	{
-		if (guideLabel == null)
-		{
-			guideLabel = ((ReportElementEditPart)getChildren( ).get( 0 )).getGuideLabel( );
+	public String getGuideLabel() {
+		if (guideLabel == null) {
+			guideLabel = ((ReportElementEditPart) getChildren().get(0)).getGuideLabel();
 		}
 		return guideLabel;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.Class)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.
+	 * Class)
 	 */
-	public Object getAdapter( Class key )
-	{
-		if (key == IDelaySelectionDragTracker.class)
-		{
-			return getParent( ).getAdapter( IDelaySelectionDragTracker.class );
+	public Object getAdapter(Class key) {
+		if (key == IDelaySelectionDragTracker.class) {
+			return getParent().getAdapter(IDelaySelectionDragTracker.class);
 		}
-			
-		return super.getAdapter( key );
+
+		return super.getAdapter(key);
 	}
-	
+
 	@Override
-	protected void updateLayoutPreference( )
-	{
-		super.updateLayoutPreference( );
-		getFigure( ).invalidate( );
-		((MultipleLayout)getFigure( ).getLayoutManager( )).markDirty( );
-		
-		Display.getCurrent( ).asyncExec( new Runnable()
-		{
-			public void run( )
-			{
-				getFigure( ).invalidateTree( );
-				getFigure( ).revalidate( );
+	protected void updateLayoutPreference() {
+		super.updateLayoutPreference();
+		getFigure().invalidate();
+		((MultipleLayout) getFigure().getLayoutManager()).markDirty();
+
+		Display.getCurrent().asyncExec(new Runnable() {
+			public void run() {
+				getFigure().invalidateTree();
+				getFigure().revalidate();
 			}
-			
+
 		});
 	}
 }

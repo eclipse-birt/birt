@@ -23,8 +23,7 @@ import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.MapDesign;
 
-public class DataContent extends TextContent implements IDataContent
-{
+public class DataContent extends TextContent implements IDataContent {
 
 	protected Object value;
 
@@ -34,80 +33,64 @@ public class DataContent extends TextContent implements IDataContent
 
 	protected String helpKey;
 
-	public int getContentType( )
-	{
+	public int getContentType() {
 		return DATA_CONTENT;
 	}
 
-	DataContent( ReportContent report )
-	{
-		super( report );
-	}
-	
-	DataContent (IContent content)
-	{
-		super( content );
+	DataContent(ReportContent report) {
+		super(report);
 	}
 
-	DataContent( IDataContent data )
-	{
-		super( data );
-		this.value = data.getValue( );
-		this.labelText = data.getLabelText( );
-		this.labelKey = data.getLabelKey( );
-		this.helpKey = data.getHelpKey( );
+	DataContent(IContent content) {
+		super(content);
+	}
+
+	DataContent(IDataContent data) {
+		super(data);
+		this.value = data.getValue();
+		this.labelText = data.getLabelText();
+		this.labelKey = data.getLabelKey();
+		this.helpKey = data.getHelpKey();
 		this.helpText = data.getHelpText();
 	}
 
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return value;
 	}
 
-	public void setValue( Object value )
-	{
+	public void setValue(Object value) {
 		this.value = value;
 	}
 
-	public String getLabelText( )
-	{
+	public String getLabelText() {
 		return labelText;
 	}
 
-	public void setLabelText( String text )
-	{
+	public void setLabelText(String text) {
 		this.labelText = text;
 	}
 
-	public String getLabelKey( )
-	{
+	public String getLabelKey() {
 		return this.labelKey;
 	}
 
-	public void setLabelKey( String key )
-	{
+	public void setLabelKey(String key) {
 		this.labelKey = key;
 	}
 
-	public String getHelpText( )
-	{
-		if ( helpText == null )
-		{
-			if ( generateBy instanceof DataItemDesign )
-			{
-				return ( (DataItemDesign) generateBy ).getHelpText( );
+	public String getHelpText() {
+		if (helpText == null) {
+			if (generateBy instanceof DataItemDesign) {
+				return ((DataItemDesign) generateBy).getHelpText();
 			}
 		}
 		return helpText;
 	}
 
-	public String getHelpKey( )
-	{
-		if ( helpKey == null )
-		{
-			if ( generateBy instanceof DataItemDesign )
-			{
-				return ( (DataItemDesign) generateBy ).getHelpTextKey( );
+	public String getHelpKey() {
+		if (helpKey == null) {
+			if (generateBy instanceof DataItemDesign) {
+				return ((DataItemDesign) generateBy).getHelpTextKey();
 			}
 		}
 		return helpKey;
@@ -116,12 +99,11 @@ public class DataContent extends TextContent implements IDataContent
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
+	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.
+	 * eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitData( this, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitData(this, value);
 	}
 
 	static final protected short FIELD_VALUE = 300;
@@ -129,92 +111,74 @@ public class DataContent extends TextContent implements IDataContent
 	static final protected short FIELD_LABELKEY = 302;
 	static final protected short FIELD_HELPKEY = 303;
 
-	protected void writeFields( DataOutputStream out ) throws IOException
-	{
-		super.writeFields( out );
-		if ( value != null )
-		{
+	protected void writeFields(DataOutputStream out) throws IOException {
+		super.writeFields(out);
+		if (value != null) {
 			boolean needSave = true;
-			if ( this.generateBy instanceof DataItemDesign )
-			{
+			if (this.generateBy instanceof DataItemDesign) {
 				DataItemDesign design = (DataItemDesign) generateBy;
-				if ( design.getMap( ) == null )
-				{
+				if (design.getMap() == null) {
 					needSave = false;
 				}
 			}
-			if ( needSave )
-			{
-				IOUtil.writeShort( out, FIELD_VALUE );
-				IOUtil.writeObject( out, value );
+			if (needSave) {
+				IOUtil.writeShort(out, FIELD_VALUE);
+				IOUtil.writeObject(out, value);
 			}
 		}
-		if ( labelText != null )
-		{
-			IOUtil.writeShort( out, FIELD_LAVELTEXT );
-			IOUtil.writeString( out, labelText );
+		if (labelText != null) {
+			IOUtil.writeShort(out, FIELD_LAVELTEXT);
+			IOUtil.writeString(out, labelText);
 		}
-		if ( labelKey != null )
-		{
-			IOUtil.writeShort( out, FIELD_LABELKEY );
-			IOUtil.writeString( out, labelKey );
+		if (labelKey != null) {
+			IOUtil.writeShort(out, FIELD_LABELKEY);
+			IOUtil.writeString(out, labelKey);
 		}
-		if ( helpKey != null )
-		{
-			IOUtil.writeShort( out, FIELD_HELPKEY );
-			IOUtil.writeString( out, helpKey );
+		if (helpKey != null) {
+			IOUtil.writeShort(out, FIELD_HELPKEY);
+			IOUtil.writeString(out, helpKey);
 		}
 	}
 
-	public boolean needSave()
-	{
-		if ( value != null )
-		{
-			if ( this.generateBy instanceof DataItemDesign )
-			{
+	public boolean needSave() {
+		if (value != null) {
+			if (this.generateBy instanceof DataItemDesign) {
 				DataItemDesign design = (DataItemDesign) generateBy;
-				MapDesign map = design.getMap( );
-				if ( map != null && map.getRuleCount( ) != 0 )
-				{
+				MapDesign map = design.getMap();
+				if (map != null && map.getRuleCount() != 0) {
 					return true;
 				}
 			}
 		}
-		if ( labelText != null || labelKey != null )
-		{
+		if (labelText != null || labelKey != null) {
 			return true;
 		}
-		if ( helpKey != null )
-		{
+		if (helpKey != null) {
 			return true;
 		}
-		return super.needSave( );
+		return super.needSave();
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in,
-			ClassLoader loader ) throws IOException
-	{
-		switch ( filedId )
-		{
-			case FIELD_VALUE :
-				value = IOUtil.readObject( in, loader );
-				break;
-			case FIELD_LAVELTEXT :
-				labelText = IOUtil.readString( in );
-				break;
-			case FIELD_LABELKEY :
-				labelKey = IOUtil.readString( in );
-				break;
-			case FIELD_HELPKEY :
-				helpKey = IOUtil.readString( in );
-				break;
-			default :
-				super.readField( version, filedId, in, loader );
+	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
+		switch (filedId) {
+		case FIELD_VALUE:
+			value = IOUtil.readObject(in, loader);
+			break;
+		case FIELD_LAVELTEXT:
+			labelText = IOUtil.readString(in);
+			break;
+		case FIELD_LABELKEY:
+			labelKey = IOUtil.readString(in);
+			break;
+		case FIELD_HELPKEY:
+			helpKey = IOUtil.readString(in);
+			break;
+		default:
+			super.readField(version, filedId, in, loader);
 		}
 	}
-	
-	protected IContent cloneContent()
-	{
+
+	protected IContent cloneContent() {
 		return new DataContent(this);
 	}
 }

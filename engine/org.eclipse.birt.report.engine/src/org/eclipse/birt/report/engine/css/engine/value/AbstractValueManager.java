@@ -19,17 +19,12 @@ import org.eclipse.birt.report.engine.css.engine.ValueManager;
  * This class provides an abstract implementation of the ValueManager interface.
  * 
  */
-public abstract class AbstractValueManager extends AbstractValueFactory
-		implements
-			ValueManager
-{
+public abstract class AbstractValueManager extends AbstractValueFactory implements ValueManager {
 	/**
-	 * Implements {@link
-	 * ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * Implements
+	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
-	public Value computeValue( CSSStylableElement elt, CSSEngine engine,
-			int idx, Value value )
-	{
+	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		return value;
 	}
 

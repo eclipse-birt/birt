@@ -13,28 +13,28 @@ package org.eclipse.birt.data.engine.olap.api.query;
 
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 
-
-
 /**
- * The sort definition for cube query to define a sort against aggregations.  
+ * The sort definition for cube query to define a sort against aggregations.
  */
-public interface ICubeSortDefinition extends ISortDefinition
-{
+public interface ICubeSortDefinition extends ISortDefinition {
 	/**
 	 * The targeting level that this sort definition will act against.
+	 * 
 	 * @return
 	 */
-	public ILevelDefinition getTargetLevel( );
-	
+	public ILevelDefinition getTargetLevel();
+
 	/**
 	 * Return the Axis qualifier level.
+	 * 
 	 * @return
 	 */
-	public ILevelDefinition[] getAxisQualifierLevels( );
-	
+	public ILevelDefinition[] getAxisQualifierLevels();
+
 	/**
 	 * Return the Axis qualifier value
+	 * 
 	 * @return
 	 */
-	public Object[] getAxisQualifierValues( );
+	public Object[] getAxisQualifierValues();
 }

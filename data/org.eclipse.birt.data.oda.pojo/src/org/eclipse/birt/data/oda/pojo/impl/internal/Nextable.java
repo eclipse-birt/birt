@@ -17,44 +17,37 @@ import java.util.Iterator;
 /**
  * A common wrapper for Array/Collection/Iterator
  */
-public abstract class Nextable
-{
+public abstract class Nextable {
 	/**
 	 * Move to next
+	 * 
 	 * @return
 	 */
-	public abstract boolean next( );
-	
+	public abstract boolean next();
+
 	/**
 	 * 
 	 * @return current value. just return null if no more next element is available
 	 */
-	public abstract Object getValue( );
-	
+	public abstract Object getValue();
+
 	@SuppressWarnings("unchecked")
-	public static boolean isNextable( Object o )
-	{
-		return o instanceof Iterator
-				|| o instanceof Collection || o instanceof Object[];
+	public static boolean isNextable(Object o) {
+		return o instanceof Iterator || o instanceof Collection || o instanceof Object[];
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
-	public static Nextable createNextable( Object o )
-	{
-		if ( o instanceof Iterator )
-		{
-			return new NextableFromIterator( (Iterator) o );
+	public static Nextable createNextable(Object o) {
+		if (o instanceof Iterator) {
+			return new NextableFromIterator((Iterator) o);
 		}
-		if ( o instanceof Collection )
-		{
-			Iterator itr = ((Collection)o).iterator( );
-			return new NextableFromIterator( itr );
+		if (o instanceof Collection) {
+			Iterator itr = ((Collection) o).iterator();
+			return new NextableFromIterator(itr);
 		}
-		if ( o instanceof Object[] )
-		{
-			return new NextableFromArray( (Object[])o );
+		if (o instanceof Object[]) {
+			return new NextableFromArray((Object[]) o);
 		}
-		throw new IllegalArgumentException( "o is not nextable"); //$NON-NLS-1$
+		throw new IllegalArgumentException("o is not nextable"); //$NON-NLS-1$
 	}
 }

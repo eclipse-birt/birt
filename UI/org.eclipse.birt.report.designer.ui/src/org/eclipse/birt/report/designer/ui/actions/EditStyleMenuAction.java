@@ -24,18 +24,16 @@ import org.eclipse.ui.IWorkbenchPart;
  * Updates "Edit style" menu
  */
 
-public class EditStyleMenuAction extends MenuUpdateAction
-{
+public class EditStyleMenuAction extends MenuUpdateAction {
 
 	public static final String ID = "edit style menu"; //$NON-NLS-1$
 
 	/**
 	 * @param part
 	 */
-	public EditStyleMenuAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
+	public EditStyleMenuAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
 	}
 
 	/*
@@ -43,19 +41,16 @@ public class EditStyleMenuAction extends MenuUpdateAction
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction#getItems()
 	 */
-	protected List getItems( )
-	{
+	protected List getItems() {
 
-		ArrayList actionList = new ArrayList( );
+		ArrayList actionList = new ArrayList();
 		Iterator iterator = DEUtil.getStyles(false);
-		if(iterator!=null)
-		{
-			while ( iterator.hasNext( ) )
-			{
-				SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
-				EditStyleAction action = new EditStyleAction( handle );
-				action.setSelection( getSelection( ) );
-				actionList.add( action );
+		if (iterator != null) {
+			while (iterator.hasNext()) {
+				SharedStyleHandle handle = (SharedStyleHandle) iterator.next();
+				EditStyleAction action = new EditStyleAction(handle);
+				action.setSelection(getSelection());
+				actionList.add(action);
 			}
 		}
 		return actionList;

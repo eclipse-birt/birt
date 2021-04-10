@@ -24,26 +24,30 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Line Attributes</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object ' <em><b>Line
+ * Attributes</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getStyle <em>Style</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getThickness <em>Thickness</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getColor <em>Color</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#isVisible <em>Visible</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getStyle
+ * <em>Style</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getThickness
+ * <em>Thickness</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#getColor
+ * <em>Color</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl#isVisible
+ * <em>Visible</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class LineAttributesImpl extends EObjectImpl implements LineAttributes
-{
+public class LineAttributesImpl extends EObjectImpl implements LineAttributes {
 
 	/**
-	 * The default value of the '{@link #getStyle() <em>Style</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getStyle() <em>Style</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getStyle()
 	 * @generated
 	 * @ordered
@@ -51,8 +55,9 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	protected static final LineStyle STYLE_EDEFAULT = LineStyle.SOLID_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getStyle() <em>Style</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getStyle() <em>Style</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getStyle()
 	 * @generated
 	 * @ordered
@@ -60,17 +65,18 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	protected LineStyle style = STYLE_EDEFAULT;
 
 	/**
-	 * This is true if the Style attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the Style attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean styleESet;
 
 	/**
-	 * The default value of the '{@link #getThickness() <em>Thickness</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getThickness() <em>Thickness</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getThickness()
 	 * @generated
 	 * @ordered
@@ -78,8 +84,9 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	protected static final int THICKNESS_EDEFAULT = 1;
 
 	/**
-	 * The cached value of the '{@link #getThickness() <em>Thickness</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getThickness() <em>Thickness</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getThickness()
 	 * @generated
 	 * @ordered
@@ -87,17 +94,18 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	protected int thickness = THICKNESS_EDEFAULT;
 
 	/**
-	 * This is true if the Thickness attribute has been set.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * This is true if the Thickness attribute has been set. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
 	protected boolean thicknessESet;
 
 	/**
-	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getColor() <em>Color</em>}' containment
+	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getColor()
 	 * @generated
 	 * @ordered
@@ -107,6 +115,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	/**
 	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -116,6 +125,7 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	/**
 	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #isVisible()
 	 * @generated
 	 * @ordered
@@ -123,9 +133,9 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	protected boolean visible = VISIBLE_EDEFAULT;
 
 	/**
-	 * This is true if the Visible attribute has been set.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * This is true if the Visible attribute has been set. <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -133,421 +143,373 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	protected LineAttributesImpl( )
-	{
-		super( );
+	protected LineAttributesImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return AttributePackage.Literals.LINE_ATTRIBUTES;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public LineStyle getStyle( )
-	{
+	public LineStyle getStyle() {
 		return style;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setStyle( LineStyle newStyle )
-	{
+	public void setStyle(LineStyle newStyle) {
 		LineStyle oldStyle = style;
 		style = newStyle == null ? STYLE_EDEFAULT : newStyle;
 		boolean oldStyleESet = styleESet;
 		styleESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.LINE_ATTRIBUTES__STYLE,
-					oldStyle,
-					style,
-					!oldStyleESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LINE_ATTRIBUTES__STYLE, oldStyle,
+					style, !oldStyleESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void unsetStyle( )
-	{
+	public void unsetStyle() {
 		LineStyle oldStyle = style;
 		boolean oldStyleESet = styleESet;
 		style = STYLE_EDEFAULT;
 		styleESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					AttributePackage.LINE_ATTRIBUTES__STYLE,
-					oldStyle,
-					STYLE_EDEFAULT,
-					oldStyleESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LINE_ATTRIBUTES__STYLE, oldStyle,
+					STYLE_EDEFAULT, oldStyleESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public boolean isSetStyle( )
-	{
+	public boolean isSetStyle() {
 		return styleESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public int getThickness( )
-	{
+	public int getThickness() {
 		return thickness;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setThickness( int newThickness )
-	{
+	public void setThickness(int newThickness) {
 		int oldThickness = thickness;
 		thickness = newThickness;
 		boolean oldThicknessESet = thicknessESet;
 		thicknessESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.LINE_ATTRIBUTES__THICKNESS,
-					oldThickness,
-					thickness,
-					!oldThicknessESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LINE_ATTRIBUTES__THICKNESS,
+					oldThickness, thickness, !oldThicknessESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void unsetThickness( )
-	{
+	public void unsetThickness() {
 		int oldThickness = thickness;
 		boolean oldThicknessESet = thicknessESet;
 		thickness = THICKNESS_EDEFAULT;
 		thicknessESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					AttributePackage.LINE_ATTRIBUTES__THICKNESS,
-					oldThickness,
-					THICKNESS_EDEFAULT,
-					oldThicknessESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LINE_ATTRIBUTES__THICKNESS,
+					oldThickness, THICKNESS_EDEFAULT, oldThicknessESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public boolean isSetThickness( )
-	{
+	public boolean isSetThickness() {
 		return thicknessESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public ColorDefinition getColor( )
-	{
+	public ColorDefinition getColor() {
 		return color;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetColor( ColorDefinition newColor,
-			NotificationChain msgs )
-	{
+	public NotificationChain basicSetColor(ColorDefinition newColor, NotificationChain msgs) {
 		ColorDefinition oldColor = color;
 		color = newColor;
-		if ( eNotificationRequired( ) )
-		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.LINE_ATTRIBUTES__COLOR,
-					oldColor,
-					newColor );
-			if ( msgs == null )
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+					AttributePackage.LINE_ATTRIBUTES__COLOR, oldColor, newColor);
+			if (msgs == null)
 				msgs = notification;
 			else
-				msgs.add( notification );
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setColor( ColorDefinition newColor )
-	{
-		if ( newColor != color )
-		{
+	public void setColor(ColorDefinition newColor) {
+		if (newColor != color) {
 			NotificationChain msgs = null;
-			if ( color != null )
-				msgs = ( (InternalEObject) color ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE
-								- AttributePackage.LINE_ATTRIBUTES__COLOR,
-						null,
-						msgs );
-			if ( newColor != null )
-				msgs = ( (InternalEObject) newColor ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE
-								- AttributePackage.LINE_ATTRIBUTES__COLOR,
-						null,
-						msgs );
-			msgs = basicSetColor( newColor, msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
-		}
-		else if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.LINE_ATTRIBUTES__COLOR,
-					newColor,
-					newColor ) );
+			if (color != null)
+				msgs = ((InternalEObject) color).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - AttributePackage.LINE_ATTRIBUTES__COLOR, null, msgs);
+			if (newColor != null)
+				msgs = ((InternalEObject) newColor).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - AttributePackage.LINE_ATTRIBUTES__COLOR, null, msgs);
+			msgs = basicSetColor(newColor, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LINE_ATTRIBUTES__COLOR, newColor,
+					newColor));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public boolean isVisible( )
-	{
+	public boolean isVisible() {
 		return visible;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setVisible( boolean newVisible )
-	{
+	public void setVisible(boolean newVisible) {
 		boolean oldVisible = visible;
 		visible = newVisible;
 		boolean oldVisibleESet = visibleESet;
 		visibleESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.LINE_ATTRIBUTES__VISIBLE,
-					oldVisible,
-					visible,
-					!oldVisibleESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LINE_ATTRIBUTES__VISIBLE, oldVisible,
+					visible, !oldVisibleESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void unsetVisible( )
-	{
+	public void unsetVisible() {
 		boolean oldVisible = visible;
 		boolean oldVisibleESet = visibleESet;
 		visible = VISIBLE_EDEFAULT;
 		visibleESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					AttributePackage.LINE_ATTRIBUTES__VISIBLE,
-					oldVisible,
-					VISIBLE_EDEFAULT,
-					oldVisibleESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LINE_ATTRIBUTES__VISIBLE,
+					oldVisible, VISIBLE_EDEFAULT, oldVisibleESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public boolean isSetVisible( )
-	{
+	public boolean isSetVisible() {
 		return visibleESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, NotificationChain msgs )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.LINE_ATTRIBUTES__COLOR :
-				return basicSetColor( null, msgs );
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case AttributePackage.LINE_ATTRIBUTES__COLOR:
+			return basicSetColor(null, msgs);
 		}
-		return super.eInverseRemove( otherEnd, featureID, msgs );
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public Object eGet( int featureID, boolean resolve, boolean coreType )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.LINE_ATTRIBUTES__STYLE :
-				return getStyle( );
-			case AttributePackage.LINE_ATTRIBUTES__THICKNESS :
-				return getThickness( );
-			case AttributePackage.LINE_ATTRIBUTES__COLOR :
-				return getColor( );
-			case AttributePackage.LINE_ATTRIBUTES__VISIBLE :
-				return isVisible( );
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case AttributePackage.LINE_ATTRIBUTES__STYLE:
+			return getStyle();
+		case AttributePackage.LINE_ATTRIBUTES__THICKNESS:
+			return getThickness();
+		case AttributePackage.LINE_ATTRIBUTES__COLOR:
+			return getColor();
+		case AttributePackage.LINE_ATTRIBUTES__VISIBLE:
+			return isVisible();
 		}
-		return super.eGet( featureID, resolve, coreType );
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public void eSet( int featureID, Object newValue )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.LINE_ATTRIBUTES__STYLE :
-				setStyle( (LineStyle) newValue );
-				return;
-			case AttributePackage.LINE_ATTRIBUTES__THICKNESS :
-				setThickness( (Integer) newValue );
-				return;
-			case AttributePackage.LINE_ATTRIBUTES__COLOR :
-				setColor( (ColorDefinition) newValue );
-				return;
-			case AttributePackage.LINE_ATTRIBUTES__VISIBLE :
-				setVisible( (Boolean) newValue );
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case AttributePackage.LINE_ATTRIBUTES__STYLE:
+			setStyle((LineStyle) newValue);
+			return;
+		case AttributePackage.LINE_ATTRIBUTES__THICKNESS:
+			setThickness((Integer) newValue);
+			return;
+		case AttributePackage.LINE_ATTRIBUTES__COLOR:
+			setColor((ColorDefinition) newValue);
+			return;
+		case AttributePackage.LINE_ATTRIBUTES__VISIBLE:
+			setVisible((Boolean) newValue);
+			return;
 		}
-		super.eSet( featureID, newValue );
+		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public void eUnset( int featureID )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.LINE_ATTRIBUTES__STYLE :
-				unsetStyle( );
-				return;
-			case AttributePackage.LINE_ATTRIBUTES__THICKNESS :
-				unsetThickness( );
-				return;
-			case AttributePackage.LINE_ATTRIBUTES__COLOR :
-				setColor( (ColorDefinition) null );
-				return;
-			case AttributePackage.LINE_ATTRIBUTES__VISIBLE :
-				unsetVisible( );
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case AttributePackage.LINE_ATTRIBUTES__STYLE:
+			unsetStyle();
+			return;
+		case AttributePackage.LINE_ATTRIBUTES__THICKNESS:
+			unsetThickness();
+			return;
+		case AttributePackage.LINE_ATTRIBUTES__COLOR:
+			setColor((ColorDefinition) null);
+			return;
+		case AttributePackage.LINE_ATTRIBUTES__VISIBLE:
+			unsetVisible();
+			return;
 		}
-		super.eUnset( featureID );
+		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet( int featureID )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.LINE_ATTRIBUTES__STYLE :
-				return isSetStyle( );
-			case AttributePackage.LINE_ATTRIBUTES__THICKNESS :
-				return isSetThickness( );
-			case AttributePackage.LINE_ATTRIBUTES__COLOR :
-				return color != null;
-			case AttributePackage.LINE_ATTRIBUTES__VISIBLE :
-				return isSetVisible( );
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case AttributePackage.LINE_ATTRIBUTES__STYLE:
+			return isSetStyle();
+		case AttributePackage.LINE_ATTRIBUTES__THICKNESS:
+			return isSetThickness();
+		case AttributePackage.LINE_ATTRIBUTES__COLOR:
+			return color != null;
+		case AttributePackage.LINE_ATTRIBUTES__VISIBLE:
+			return isSetVisible();
 		}
-		return super.eIsSet( featureID );
+		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public String toString( )
-	{
-		if ( eIsProxy( ) )
-			return super.toString( );
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
 
-		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (style: " ); //$NON-NLS-1$
-		if ( styleESet )
-			result.append( style );
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (style: "); //$NON-NLS-1$
+		if (styleESet)
+			result.append(style);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", thickness: " ); //$NON-NLS-1$
-		if ( thicknessESet )
-			result.append( thickness );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", thickness: "); //$NON-NLS-1$
+		if (thicknessESet)
+			result.append(thickness);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", visible: " ); //$NON-NLS-1$
-		if ( visibleESet )
-			result.append( visible );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", visible: "); //$NON-NLS-1$
+		if (visibleESet)
+			result.append(visible);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ')' );
-		return result.toString( );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(')');
+		return result.toString();
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( LineAttributes src )
-	{
+	protected void set(LineAttributes src) {
 
 		// children
 
-		if ( src.getColor( ) != null )
-		{
-			setColor( src.getColor( ).copyInstance( ) );
+		if (src.getColor() != null) {
+			setColor(src.getColor().copyInstance());
 		}
 
 		// attributes
 
-		style = src.getStyle( );
+		style = src.getStyle();
 
-		styleESet = src.isSetStyle( );
+		styleESet = src.isSetStyle();
 
-		thickness = src.getThickness( );
+		thickness = src.getThickness();
 
-		thicknessESet = src.isSetThickness( );
+		thicknessESet = src.isSetThickness();
 
-		visible = src.isVisible( );
+		visible = src.isVisible();
 
-		visibleESet = src.isSetVisible( );
+		visibleESet = src.isSetVisible();
 
 	}
 
@@ -560,11 +522,10 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * @param ls
 	 * @param iThickness
 	 */
-	public void set( ColorDefinition cd, LineStyle ls, int iThickness )
-	{
-		setColor( cd );
-		setStyle( ls );
-		setThickness( iThickness );
+	public void set(ColorDefinition cd, LineStyle ls, int iThickness) {
+		setColor(cd);
+		setStyle(ls);
+		setThickness(iThickness);
 	}
 
 	/**
@@ -579,14 +540,12 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * 
 	 * @return
 	 */
-	public static final LineAttributes create( ColorDefinition cd,
-			LineStyle ls, int iThickness )
-	{
-		final LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
-		la.setColor( cd );
-		la.setStyle( ls );
-		la.setThickness( iThickness );
-		la.setVisible( true );
+	public static final LineAttributes create(ColorDefinition cd, LineStyle ls, int iThickness) {
+		final LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes();
+		la.setColor(cd);
+		la.setStyle(ls);
+		la.setThickness(iThickness);
+		la.setVisible(true);
 		return la;
 	}
 
@@ -602,50 +561,44 @@ public class LineAttributesImpl extends EObjectImpl implements LineAttributes
 	 * 
 	 * @return
 	 */
-	public static final LineAttributes createDefault( ColorDefinition cd,
-			LineStyle ls, int iThickness )
-	{
-		return createDefault( cd, ls, iThickness, false );
+	public static final LineAttributes createDefault(ColorDefinition cd, LineStyle ls, int iThickness) {
+		return createDefault(cd, ls, iThickness, false);
 	}
-	
-	public static final LineAttributes createDefault( boolean visible )
-	{
-		final LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
-		((LineAttributesImpl)la).visible = visible;
+
+	public static final LineAttributes createDefault(boolean visible) {
+		final LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes();
+		((LineAttributesImpl) la).visible = visible;
 		return la;
 	}
-	
-	public static final LineAttributes createDefault( ColorDefinition cd,
-			LineStyle ls, int iThickness, boolean visible )
-	{
-		final LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
-		( (LineAttributesImpl) la ).color = cd;
-		( (LineAttributesImpl) la ).style = ls;
-		( (LineAttributesImpl) la ).thickness = iThickness;
-		( (LineAttributesImpl) la ).visible = visible;
+
+	public static final LineAttributes createDefault(ColorDefinition cd, LineStyle ls, int iThickness,
+			boolean visible) {
+		final LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes();
+		((LineAttributesImpl) la).color = cd;
+		((LineAttributesImpl) la).style = ls;
+		((LineAttributesImpl) la).thickness = iThickness;
+		((LineAttributesImpl) la).visible = visible;
 		return la;
 	}
-	
+
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
-	public LineAttributes copyInstance( )
-	{
-		LineAttributesImpl dest = new LineAttributesImpl( );
+	public LineAttributes copyInstance() {
+		LineAttributesImpl dest = new LineAttributesImpl();
 
-		ColorDefinition tColor = getColor( );
-		if ( tColor != null )
-		{
-			dest.color = tColor.copyInstance( );
+		ColorDefinition tColor = getColor();
+		if (tColor != null) {
+			dest.color = tColor.copyInstance();
 		}
 
-		dest.style = getStyle( );
-		dest.styleESet = isSetStyle( );
-		dest.thickness = getThickness( );
-		dest.thicknessESet = isSetThickness( );
-		dest.visible = isVisible( );
-		dest.visibleESet = isSetVisible( );
+		dest.style = getStyle();
+		dest.styleESet = isSetStyle();
+		dest.thickness = getThickness();
+		dest.thicknessESet = isSetThickness();
+		dest.visible = isVisible();
+		dest.visibleESet = isSetVisible();
 		return dest;
 	}
 

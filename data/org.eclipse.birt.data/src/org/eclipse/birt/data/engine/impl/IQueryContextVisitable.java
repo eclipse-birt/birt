@@ -15,7 +15,6 @@ package org.eclipse.birt.data.engine.impl;
  * 
  */
 
-public interface IQueryContextVisitable
-{
+public interface IQueryContextVisitable {
 
 }

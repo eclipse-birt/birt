@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 /**
  * Add the measure handle to the cross tab in the measure area.
  */
-public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
-{
+public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand {
 
 	private CrosstabCellAdapter handleAdpter;
 	private MeasureHandle measureHandle;
@@ -34,7 +33,7 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 	 * trans name
 	 */
 	// private static final String NAME = "Add MeasureHandle";
-	private static final String NAME = Messages.getString( "AddMeasureViewHandleCommand.TransName" );//$NON-NLS-1$
+	private static final String NAME = Messages.getString("AddMeasureViewHandleCommand.TransName");//$NON-NLS-1$
 
 	/**
 	 * Constructor
@@ -42,15 +41,13 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 	 * @param handleAdpter
 	 * @param measureHandle
 	 */
-	public AddMeasureViewHandleCommand( CrosstabCellAdapter handleAdpter,
-			MeasureHandle measureHandle, Object after )
-	{
-		super( measureHandle );
+	public AddMeasureViewHandleCommand(CrosstabCellAdapter handleAdpter, MeasureHandle measureHandle, Object after) {
+		super(measureHandle);
 		this.handleAdpter = handleAdpter;
 		this.measureHandle = measureHandle;
 		this.after = after;
 
-		setLabel( NAME );
+		setLabel(NAME);
 	}
 
 	/*
@@ -58,8 +55,7 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	public boolean canExecute( )
-	{
+	public boolean canExecute() {
 		return true;
 	}
 
@@ -68,39 +64,28 @@ public class AddMeasureViewHandleCommand extends AbstractCrosstabCommand
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute( )
-	{
-		transStart( NAME );
-		CrosstabReportItemHandle reportHandle = handleAdpter.getCrosstabCellHandle( )
-				.getCrosstab( );
+	public void execute() {
+		transStart(NAME);
+		CrosstabReportItemHandle reportHandle = handleAdpter.getCrosstabCellHandle().getCrosstab();
 
-		try
-		{
+		try {
 			// int position = reportHandle.getMeasureCount( );
-			int position = findPosition( );
-			CrosstabAdaptUtil.addMeasureHandle( reportHandle,
-					measureHandle,
-					position );
-			transEnd( );
-		}
-		catch ( SemanticException e )
-		{
-			rollBack( );
-			ExceptionUtil.handle( e );
+			int position = findPosition();
+			CrosstabAdaptUtil.addMeasureHandle(reportHandle, measureHandle, position);
+			transEnd();
+		} catch (SemanticException e) {
+			rollBack();
+			ExceptionUtil.handle(e);
 		}
 	}
 
-	private int findPosition( )
-	{
-		int base = CrosstabAdaptUtil.getMeasureViewHandle( (ExtendedItemHandle) handleAdpter.getCrosstabCellHandle( )
-				.getModelHandle( ) )
-				.getModelHandle( )
-				.getIndex( );
-		if ( after instanceof DesignElementHandle )
-		{
-			int index = ( (DesignElementHandle) after ).getIndex( );
-			if ( index == 0 )
-			{
+	private int findPosition() {
+		int base = CrosstabAdaptUtil
+				.getMeasureViewHandle((ExtendedItemHandle) handleAdpter.getCrosstabCellHandle().getModelHandle())
+				.getModelHandle().getIndex();
+		if (after instanceof DesignElementHandle) {
+			int index = ((DesignElementHandle) after).getIndex();
+			if (index == 0) {
 				return base;
 			}
 		}

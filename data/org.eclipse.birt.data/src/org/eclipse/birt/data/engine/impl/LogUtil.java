@@ -16,12 +16,10 @@ import org.eclipse.birt.data.engine.api.BaseLogUtil;
 /**
  * Final class definition for abstract API BaseLogUtil class
  */
-public final class LogUtil extends BaseLogUtil
-{
+public final class LogUtil extends BaseLogUtil {
 	/**
 	 * No instance
 	 */
-	private LogUtil()
-	{
+	private LogUtil() {
 	}
 }

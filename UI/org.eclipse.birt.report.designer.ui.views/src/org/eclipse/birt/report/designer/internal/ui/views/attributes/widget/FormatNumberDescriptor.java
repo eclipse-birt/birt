@@ -17,59 +17,42 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberLayoutPe
  * Format number page for formatting numbers.
  */
 
-public class FormatNumberDescriptor extends FormatDescriptor
-{
+public class FormatNumberDescriptor extends FormatDescriptor {
 
 	/**
-	 * Constructs a page for formatting numbers, default aligns the page
-	 * vertically.
+	 * Constructs a page for formatting numbers, default aligns the page vertically.
 	 * 
-	 * @param parent
-	 *            The container
-	 * @param style
-	 *            The style of the page
+	 * @param parent The container
+	 * @param style  The style of the page
 	 */
-	public FormatNumberDescriptor( )
-	{
-		this( PAGE_ALIGN_VIRTICAL, true );
+	public FormatNumberDescriptor() {
+		this(PAGE_ALIGN_VIRTICAL, true);
 	}
 
 	/**
 	 * Constructs a page for formatting numbers.
 	 * 
-	 * @param parent
-	 *            The container
-	 * @param style
-	 *            The style of the page
-	 * @param pageAlignment
-	 *            Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
-	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
+	 * @param parent        The container
+	 * @param style         The style of the page
+	 * @param pageAlignment Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
+	 *                      horizontally(PAGE_ALIGN_HORIZONTAL).
 	 */
-	public FormatNumberDescriptor( int pageAlignment, boolean isFormStyle )
-	{
-		this( pageAlignment, isFormStyle, true );
+	public FormatNumberDescriptor(int pageAlignment, boolean isFormStyle) {
+		this(pageAlignment, isFormStyle, true);
 	}
 
 	/**
 	 * Constructs a page for formatting numbers.
 	 * 
-	 * @param parent
-	 *            The container
-	 * @param style
-	 *            The style of the page
-	 * @param pageAlignment
-	 *            Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
-	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
-	 * @param showLocale
-	 *            whether the UI to set locale will be shown
+	 * @param parent        The container
+	 * @param style         The style of the page
+	 * @param pageAlignment Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
+	 *                      horizontally(PAGE_ALIGN_HORIZONTAL).
+	 * @param showLocale    whether the UI to set locale will be shown
 	 */
-	public FormatNumberDescriptor( int pageAlignment, boolean isFormStyle,
-			boolean showLocale )
-	{
-		setFormStyle( isFormStyle );
+	public FormatNumberDescriptor(int pageAlignment, boolean isFormStyle, boolean showLocale) {
+		setFormStyle(isFormStyle);
 
-		layoutPeer = new FormatNumberLayoutPeer( pageAlignment,
-				isFormStyle,
-				showLocale );
+		layoutPeer = new FormatNumberLayoutPeer(pageAlignment, isFormStyle, showLocale);
 	}
 }

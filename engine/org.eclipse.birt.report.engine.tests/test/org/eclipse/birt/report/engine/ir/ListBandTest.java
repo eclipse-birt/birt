@@ -17,8 +17,7 @@ import junit.framework.TestCase;
  * List Band test
  * 
  */
-public class ListBandTest extends TestCase
-{
+public class ListBandTest extends TestCase {
 
 	/**
 	 * Test add/getContent methods
@@ -27,25 +26,22 @@ public class ListBandTest extends TestCase
 	 * 
 	 * then get the contents one by one to test if they work correctly
 	 */
-	public void testAddContent( )
-	{
-		ListBandDesign listBand = new ListBandDesign( );
+	public void testAddContent() {
+		ListBandDesign listBand = new ListBandDesign();
 
-		ReportItemSet set = new ReportItemSet( );
+		ReportItemSet set = new ReportItemSet();
 
-		//Add
-		for ( int i = 0; i < set.length; i++ )
-		{
-			listBand.addContent( set.getItem( i ) );
+		// Add
+		for (int i = 0; i < set.length; i++) {
+			listBand.addContent(set.getItem(i));
 		}
 
-		//Get
-		assertEquals( listBand.getContentCount( ), set.length );
-		for ( int i = 0; i < set.length; i++ )
-		{
-			assertEquals( listBand.getContent( i ), set.getItem( i ) );
+		// Get
+		assertEquals(listBand.getContentCount(), set.length);
+		for (int i = 0; i < set.length; i++) {
+			assertEquals(listBand.getContent(i), set.getItem(i));
 		}
-		assertEquals( listBand.getContents( ), set.getItems( ) );
+		assertEquals(listBand.getContents(), set.getItems());
 	}
 
 }

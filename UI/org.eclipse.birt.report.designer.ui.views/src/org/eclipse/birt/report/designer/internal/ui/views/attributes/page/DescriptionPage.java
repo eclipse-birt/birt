@@ -21,30 +21,23 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The comments attribute page of Report element.
  */
-public class DescriptionPage extends AttributePage
-{
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 2 ,15) );
+public class DescriptionPage extends AttributePage {
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(2, 15));
 
-		TextPropertyDescriptorProvider descriptorProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.DESCRIPTION_PROP,
-				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
-		TextSection discriptorSection = new TextSection( descriptorProvider.getDisplayName( ),
-				container,
-				true );
-		discriptorSection.setStyle( SWT.MULTI
-				| SWT.WRAP
-				| SWT.H_SCROLL
-				| SWT.V_SCROLL );
-		discriptorSection.setProvider( descriptorProvider );
-		discriptorSection.setWidth( 500 );
-		discriptorSection.setHeight( 200 );
-		discriptorSection.setFillText( true );
-		addSection( PageSectionId.DISCRIPTOR_DISCRIPTOR, discriptorSection );
+		TextPropertyDescriptorProvider descriptorProvider = new TextPropertyDescriptorProvider(
+				ReportDesignHandle.DESCRIPTION_PROP, ReportDesignConstants.REPORT_DESIGN_ELEMENT);
+		TextSection discriptorSection = new TextSection(descriptorProvider.getDisplayName(), container, true);
+		discriptorSection.setStyle(SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL);
+		discriptorSection.setProvider(descriptorProvider);
+		discriptorSection.setWidth(500);
+		discriptorSection.setHeight(200);
+		discriptorSection.setFillText(true);
+		addSection(PageSectionId.DISCRIPTOR_DISCRIPTOR, discriptorSection);
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 
 	}
 }

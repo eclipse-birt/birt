@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.doc.legacy;
 
-public class SpecInheritedProperty
-{
+public class SpecInheritedProperty {
 	public String name;
 	public String description;
 

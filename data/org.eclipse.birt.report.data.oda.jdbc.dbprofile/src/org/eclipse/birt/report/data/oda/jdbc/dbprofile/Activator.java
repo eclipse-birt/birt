@@ -20,51 +20,48 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle.
  */
-public class Activator extends Plugin 
-{
+public class Activator extends Plugin {
 	// The shared instance
 	private static Activator sm_plugin;
-	
+
 	/**
 	 * The constructor
 	 */
-	public Activator() 
-	{
-	    super();
+	public Activator() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.runtime.Plugins#start(org.osgi.framework.BundleContext)
 	 */
-	public void start( BundleContext context ) throws Exception 
-	{
-		super.start( context );
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
 		sm_plugin = this;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
 	 */
-	public void stop( BundleContext context ) throws Exception 
-	{
+	public void stop(BundleContext context) throws Exception {
 		sm_plugin = null;
-		super.stop( context );
+		super.stop(context);
 	}
 
 	/**
 	 * Returns the shared instance.
+	 * 
 	 * @return the shared instance
 	 */
-	public static Activator getDefault() 
-	{
+	public static Activator getDefault() {
 		return sm_plugin;
 	}
-    
-    public static String getBundleId()
-    {
-        return getDefault().getBundle().getSymbolicName();
-    }
+
+	public static String getBundleId() {
+		return getDefault().getBundle().getSymbolicName();
+	}
 
 }

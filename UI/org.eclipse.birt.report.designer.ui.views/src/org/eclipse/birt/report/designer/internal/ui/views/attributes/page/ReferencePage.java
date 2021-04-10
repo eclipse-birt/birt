@@ -21,46 +21,38 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The reference attribute page of Image element.
  */
-public class ReferencePage extends AttributePage
-{
+public class ReferencePage extends AttributePage {
 
 	private TextAndButtonSection referenceSection;
 	private ReferenceDescriptorProvider referenceProvider;
 
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 3, 15 ) );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(3, 15));
 
-		referenceProvider = new ReferenceDescriptorProvider( );
-		referenceSection = new TextAndButtonSection( referenceProvider.getDisplayName( ),
-				container,
-				true ) {
+		referenceProvider = new ReferenceDescriptorProvider();
+		referenceSection = new TextAndButtonSection(referenceProvider.getDisplayName(), container, true) {
 
-			public void load( )
-			{
-				super.load( );
-				if ( referenceSection != null
-						&& referenceSection.getButtonControl( ) != null )
-					referenceSection.getButtonControl( )
-							.setEnabled( referenceProvider.isEnableButton( ) );
+			public void load() {
+				super.load();
+				if (referenceSection != null && referenceSection.getButtonControl() != null)
+					referenceSection.getButtonControl().setEnabled(referenceProvider.isEnableButton());
 			}
 		};
-		referenceSection.setProvider( referenceProvider );
-		referenceSection.addSelectionListener( new SelectionAdapter( ) {
+		referenceSection.setProvider(referenceProvider);
+		referenceSection.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				referenceProvider.handleSelectEvent( );
+			public void widgetSelected(SelectionEvent e) {
+				referenceProvider.handleSelectEvent();
 			}
 
-		} );
-		referenceSection.setWidth( 300 );
-		referenceSection.setButtonText( Messages.getString( "ReferencePage.Button.Edit" ) ); //$NON-NLS-1$
-		referenceSection.setButtonIsComputeSize( true );
-		addSection( PageSectionId.REFERENCE_REFERENCE, referenceSection );
+		});
+		referenceSection.setWidth(300);
+		referenceSection.setButtonText(Messages.getString("ReferencePage.Button.Edit")); //$NON-NLS-1$
+		referenceSection.setButtonIsComputeSize(true);
+		addSection(PageSectionId.REFERENCE_REFERENCE, referenceSection);
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
 }

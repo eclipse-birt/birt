@@ -21,21 +21,14 @@ import org.eclipse.jdt.launching.StandardClasspathProvider;
 /**
  * ScriptDebugClasspathProvider
  */
-public class ScriptDebugClasspathProvider extends StandardClasspathProvider
-{
+public class ScriptDebugClasspathProvider extends StandardClasspathProvider {
 
-	public IRuntimeClasspathEntry[] computeExtraBootClasspath(
-			ILaunchConfiguration configuration ) throws CoreException
-	{
-		return recoverRuntimePath( configuration,
-				IReportLaunchConstants.ATTR_CLASSPATH );
+	public IRuntimeClasspathEntry[] computeExtraBootClasspath(ILaunchConfiguration configuration) throws CoreException {
+		return recoverRuntimePath(configuration, IReportLaunchConstants.ATTR_CLASSPATH);
 	}
 
-	public IRuntimeClasspathEntry[] computeUserClasspath(
-			ILaunchConfiguration configuration ) throws CoreException
-	{
-		return recoverRuntimePath( configuration,
-				IJavaLaunchConfigurationConstants.ATTR_CLASSPATH );
+	public IRuntimeClasspathEntry[] computeUserClasspath(ILaunchConfiguration configuration) throws CoreException {
+		return recoverRuntimePath(configuration, IJavaLaunchConfigurationConstants.ATTR_CLASSPATH);
 	}
 
 }

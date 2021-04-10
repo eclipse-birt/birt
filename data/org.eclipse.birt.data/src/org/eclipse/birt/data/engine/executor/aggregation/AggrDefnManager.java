@@ -22,57 +22,58 @@ import org.eclipse.birt.data.engine.odi.IAggrDefnManager;
  * 
  */
 
-public class AggrDefnManager implements IAggrDefnManager
-{
+public class AggrDefnManager implements IAggrDefnManager {
 	private IAggrInfo[] aggrDefns;
 	private HashMap index;
-	
-	public AggrDefnManager( List aggrDefns )
-	{
-		this.aggrDefns = new IAggrInfo[aggrDefns.size( )];
+
+	public AggrDefnManager(List aggrDefns) {
+		this.aggrDefns = new IAggrInfo[aggrDefns.size()];
 		this.index = new HashMap();
-		for( int i = 0; i < aggrDefns.size( ); i++ )
-		{
-			this.aggrDefns[i] = (IAggrInfo) aggrDefns.get( i );
-			this.index.put( this.aggrDefns[i].getName( ), Integer.valueOf( i ) );
+		for (int i = 0; i < aggrDefns.size(); i++) {
+			this.aggrDefns[i] = (IAggrInfo) aggrDefns.get(i);
+			this.index.put(this.aggrDefns[i].getName(), Integer.valueOf(i));
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.aggregation.IAggrDefnManager#getAggrDefn(java.lang.String)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.IAggrDefnManager#
+	 * getAggrDefn(java.lang.String)
 	 */
-	public IAggrInfo getAggrDefn( String name ) throws DataException
-	{
-		return this.aggrDefns[this.getAggrDefnIndex( name )];
+	public IAggrInfo getAggrDefn(String name) throws DataException {
+		return this.aggrDefns[this.getAggrDefnIndex(name)];
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.aggregation.IAggrDefnManager#getAggrDefn(int)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.IAggrDefnManager#
+	 * getAggrDefn(int)
 	 */
-	public IAggrInfo getAggrDefn( int index ) throws DataException
-	{
+	public IAggrInfo getAggrDefn(int index) throws DataException {
 		return this.aggrDefns[index];
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.aggregation.IAggrDefnManager#getAggrDefnIndex(java.lang.String)
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.IAggrDefnManager#
+	 * getAggrDefnIndex(java.lang.String)
 	 */
-	public int getAggrDefnIndex( String name ) throws DataException
-	{
-		if ( this.index.get( name ) == null )
+	public int getAggrDefnIndex(String name) throws DataException {
+		if (this.index.get(name) == null)
 			return -1;
-		return ((Integer)(this.index.get( name ))).intValue( );
+		return ((Integer) (this.index.get(name))).intValue();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.executor.aggregation.IAggrDefnManager#getAggrCount()
+	 * 
+	 * @see org.eclipse.birt.data.engine.executor.aggregation.IAggrDefnManager#
+	 * getAggrCount()
 	 */
-	public int getAggrCount(  )
-	{
+	public int getAggrCount() {
 		return this.aggrDefns.length;
 	}
 }

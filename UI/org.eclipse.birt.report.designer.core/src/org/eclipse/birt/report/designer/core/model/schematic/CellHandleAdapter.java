@@ -32,32 +32,27 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * 
  */
 
-public class CellHandleAdapter extends DesignElementHandleAdapter
-{
+public class CellHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Constructor
 	 * 
-	 * @param cellHandle
-	 *            The cell handle.
+	 * @param cellHandle The cell handle.
 	 * @param mark
 	 */
-	public CellHandleAdapter( ReportElementHandle cellHandle,
-			IModelAdapterHelper mark )
-	{
-		super( cellHandle, mark );
+	public CellHandleAdapter(ReportElementHandle cellHandle, IModelAdapterHelper mark) {
+		super(cellHandle, mark);
 	}
 
 	/**
-	 * Gets the Children iterator. This children relationship is determined by
-	 * GUI requirement. This is not the model children relationship.
+	 * Gets the Children iterator. This children relationship is determined by GUI
+	 * requirement. This is not the model children relationship.
 	 * 
 	 * @return Children iterator
 	 */
 
-	public List getChildren( )
-	{
-		return getCellHandle( ).getContent( ).getContents( );
+	public List getChildren() {
+		return getCellHandle().getContent().getContents();
 	}
 
 	/**
@@ -65,12 +60,9 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @return The row number.
 	 */
-	public int getRowNumber( )
-	{
-		assert getCellHandle( ).getContainer( ) instanceof RowHandle;
-		return HandleAdapterFactory.getInstance( )
-				.getRowHandleAdapter( getCellHandle( ).getContainer( ) )
-				.getRowNumber( );
+	public int getRowNumber() {
+		assert getCellHandle().getContainer() instanceof RowHandle;
+		return HandleAdapterFactory.getInstance().getRowHandleAdapter(getCellHandle().getContainer()).getRowNumber();
 	}
 
 	/**
@@ -78,24 +70,20 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @return The column number.
 	 */
-	public int getColumnNumber( )
-	{
-		assert getCellHandle( ).getContainer( ) instanceof RowHandle;
+	public int getColumnNumber() {
+		assert getCellHandle().getContainer() instanceof RowHandle;
 
-		if ( getCellHandle( ).getColumn( ) == 0 )
-		{
-			TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-					.getTableHandleAdapter( getTableParent( ) );
-			TableHandleAdapter.RowUIInfomation info = adapt.getRowInfo( getHandle( ).getContainer( ) );
-			if (info == null)
-			{
-				adapt.reload( );
-				info = adapt.getRowInfo( getHandle( ).getContainer( ) );
+		if (getCellHandle().getColumn() == 0) {
+			TableHandleAdapter adapt = HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableParent());
+			TableHandleAdapter.RowUIInfomation info = adapt.getRowInfo(getHandle().getContainer());
+			if (info == null) {
+				adapt.reload();
+				info = adapt.getRowInfo(getHandle().getContainer());
 			}
-			return info.getAllChildren( ).indexOf( getHandle( ) ) + 1;
+			return info.getAllChildren().indexOf(getHandle()) + 1;
 		}
 
-		return getCellHandle( ).getColumn( );
+		return getCellHandle().getColumn();
 	}
 
 	/**
@@ -103,9 +91,8 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @return The row span.
 	 */
-	public int getRowSpan( )
-	{
-		return getCellHandle( ).getRowSpan( );
+	public int getRowSpan() {
+		return getCellHandle().getRowSpan();
 	}
 
 	/**
@@ -113,9 +100,8 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @return the column span.
 	 */
-	public int getColumnSpan( )
-	{
-		return getCellHandle( ).getColumnSpan( );
+	public int getColumnSpan() {
+		return getCellHandle().getColumnSpan();
 	}
 
 	/**
@@ -123,9 +109,8 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @return The location.
 	 */
-	public Point getLocation( )
-	{
-		return new Point( 1, 1 );
+	public Point getLocation() {
+		return new Point(1, 1);
 	}
 
 	/**
@@ -133,9 +118,8 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @return The size
 	 */
-	public Dimension getSize( )
-	{
-		return new Dimension( 60, 40 );
+	public Dimension getSize() {
+		return new Dimension(60, 40);
 	}
 
 	/**
@@ -144,61 +128,46 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 * @return The bounds
 	 */
 
-	public Rectangle getBounds( )
-	{
-		return new Rectangle( getLocation( ).x,
-				getLocation( ).y,
-				getSize( ).width,
-				getSize( ).height );
+	public Rectangle getBounds() {
+		return new Rectangle(getLocation().x, getLocation().y, getSize().width, getSize().height);
 	}
 
-	private CellHandle getCellHandle( )
-	{
-		return (CellHandle) getHandle( );
+	private CellHandle getCellHandle() {
+		return (CellHandle) getHandle();
 	}
 
 	/**
 	 * Set column span.
 	 * 
-	 * @param colSpan
-	 *            The new column span.
+	 * @param colSpan The new column span.
 	 * @throws SemanticException
 	 */
-	public void setColumnSpan( int colSpan ) throws SemanticException
-	{
-		this.getCellHandle( ).setProperty( CellHandle.COL_SPAN_PROP,
-				Integer.valueOf( colSpan ) );
+	public void setColumnSpan(int colSpan) throws SemanticException {
+		this.getCellHandle().setProperty(CellHandle.COL_SPAN_PROP, Integer.valueOf(colSpan));
 	}
 
 	/**
 	 * Set row span.
 	 * 
-	 * @param rowSpan
-	 *            The new row span.
+	 * @param rowSpan The new row span.
 	 * @throws SemanticException
 	 */
-	public void setRowSpan( int rowSpan ) throws SemanticException
-	{
-		this.getCellHandle( ).setProperty( CellHandle.ROW_SPAN_PROP,
-				Integer.valueOf( rowSpan ) );
+	public void setRowSpan(int rowSpan) throws SemanticException {
+		this.getCellHandle().setProperty(CellHandle.ROW_SPAN_PROP, Integer.valueOf(rowSpan));
 
 	}
 
-	public Object getTableParent( )
-	{
-		DesignElementHandle handle = getCellHandle( );
+	public Object getTableParent() {
+		DesignElementHandle handle = getCellHandle();
 
-		while ( handle != null )
-		{
-			if ( handle instanceof TableHandle )
-			{
+		while (handle != null) {
+			if (handle instanceof TableHandle) {
 				return handle;
 			}
-			if ( handle instanceof GridHandle )
-			{
+			if (handle instanceof GridHandle) {
 				return handle;
 			}
-			handle = handle.getContainer( );
+			handle = handle.getContainer();
 		}
 		return null;
 	}

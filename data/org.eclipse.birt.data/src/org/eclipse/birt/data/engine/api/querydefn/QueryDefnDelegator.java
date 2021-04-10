@@ -21,26 +21,21 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryExecutionHints;
 import org.eclipse.birt.data.engine.core.DataException;
 
-
-public class QueryDefnDelegator extends QueryDefinition
-{
+public class QueryDefnDelegator extends QueryDefinition {
 
 	protected IBaseQueryDefinition baseQuery;
 	protected String queryResultsId;
 	protected String dataSetName;
 
-	public QueryDefnDelegator( IBaseQueryDefinition query )
-	{
+	public QueryDefnDelegator(IBaseQueryDefinition query) {
 		baseQuery = query;
-		if ( query instanceof IQueryDefinition)
-		{
-			queryResultsId = ((IQueryDefinition)query).getQueryResultsID( );
-			dataSetName = ((IQueryDefinition)query).getDataSetName( );
+		if (query instanceof IQueryDefinition) {
+			queryResultsId = ((IQueryDefinition) query).getQueryResultsID();
+			dataSetName = ((IQueryDefinition) query).getDataSetName();
 		}
 	}
-	
-	public QueryDefnDelegator( IBaseQueryDefinition query, String queryResultsId, String dataSetName )
-	{
+
+	public QueryDefnDelegator(IBaseQueryDefinition query, String queryResultsId, String dataSetName) {
 		this.baseQuery = query;
 		this.queryResultsId = queryResultsId;
 		this.dataSetName = dataSetName;
@@ -50,12 +45,10 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#usesDetails
-	 * ()
+	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#usesDetails ()
 	 */
-	public boolean usesDetails( )
-	{
-		return baseQuery.usesDetails( );
+	public boolean usesDetails() {
+		return baseQuery.usesDetails();
 	}
 
 	/*
@@ -64,9 +57,8 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#
 	 * cacheQueryResults()
 	 */
-	public boolean cacheQueryResults( )
-	{
-		return baseQuery.cacheQueryResults( );
+	public boolean cacheQueryResults() {
+		return baseQuery.cacheQueryResults();
 	}
 
 	/*
@@ -76,21 +68,18 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getParentQuery
 	 * ()
 	 */
-	public IBaseQueryDefinition getParentQuery( )
-	{
-		return baseQuery.getParentQuery( );
+	public IBaseQueryDefinition getParentQuery() {
+		return baseQuery.getParentQuery();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getMaxRows
-	 * ()
+	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getMaxRows ()
 	 */
-	public int getMaxRows( )
-	{
-		return baseQuery.getMaxRows( );
+	public int getMaxRows() {
+		return baseQuery.getMaxRows();
 	}
 
 	/*
@@ -100,9 +89,8 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#setMaxRows
 	 * (int)
 	 */
-	public void setMaxRows( int maxRows )
-	{
-		baseQuery.setMaxRows( maxRows );
+	public void setMaxRows(int maxRows) {
+		baseQuery.setMaxRows(maxRows);
 	}
 
 	/*
@@ -111,9 +99,8 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#
 	 * getResultSetExpressions()
 	 */
-	public Map getResultSetExpressions( )
-	{
-		return baseQuery.getResultSetExpressions( );
+	public Map getResultSetExpressions() {
+		return baseQuery.getResultSetExpressions();
 	}
 
 	/*
@@ -123,20 +110,17 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#addBinding
 	 * (org.eclipse.birt.data.engine.api.IBinding)
 	 */
-	public void addBinding( IBinding binding ) throws DataException
-	{
+	public void addBinding(IBinding binding) throws DataException {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getBindings
-	 * ()
+	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getBindings ()
 	 */
-	public Map getBindings( )
-	{
-		return baseQuery.getBindings( );
+	public Map getBindings() {
+		return baseQuery.getBindings();
 	}
 
 	/*
@@ -145,9 +129,8 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#
 	 * getQueryExecutionHints()
 	 */
-	public IQueryExecutionHints getQueryExecutionHints( )
-	{
-		return baseQuery.getQueryExecutionHints( );
+	public IQueryExecutionHints getQueryExecutionHints() {
+		return baseQuery.getQueryExecutionHints();
 	}
 
 	/*
@@ -157,9 +140,8 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getStartingRow
 	 * ()
 	 */
-	public int getStartingRow( )
-	{
-		return baseQuery.getStartingRow( );
+	public int getStartingRow() {
+		return baseQuery.getStartingRow();
 	}
 
 	/*
@@ -168,31 +150,26 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#
 	 * getDistinctValue()
 	 */
-	public boolean getDistinctValue( )
-	{
-		return baseQuery.getDistinctValue( );
+	public boolean getDistinctValue() {
+		return baseQuery.getDistinctValue();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseTransform#getFilters()
+	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseTransform#getFilters()
 	 */
-	public List getFilters( )
-	{
-		return baseQuery.getFilters( );
+	public List getFilters() {
+		return baseQuery.getFilters();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseTransform#getSubqueries()
+	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseTransform#getSubqueries()
 	 */
-	public Collection getSubqueries( )
-	{
-		return baseQuery.getSubqueries( );
+	public Collection getSubqueries() {
+		return baseQuery.getSubqueries();
 	}
 
 	/*
@@ -200,43 +177,36 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseTransform#getSorts()
 	 */
-	public List getSorts( )
-	{
-		return baseQuery.getSorts( );
+	public List getSorts() {
+		return baseQuery.getSorts();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#setName
+	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#setName
 	 * (java.lang.String)
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.dataSetName = name;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getName()
+	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getName()
 	 */
-	public String getName( )
-	{
-		return baseQuery.getName( );
+	public String getName() {
+		return baseQuery.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#getDataSetName
-	 * ()
+	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#getDataSetName ()
 	 */
-	public String getDataSetName( )
-	{
+	public String getDataSetName() {
 		return dataSetName;
 	}
 
@@ -247,8 +217,7 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#getQueryResultsID
 	 * ()
 	 */
-	public String getQueryResultsID( )
-	{
+	public String getQueryResultsID() {
 		return queryResultsId;
 	}
 
@@ -256,13 +225,11 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#needAutoBinding
-	 * ()
+	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#needAutoBinding ()
 	 */
-	public boolean needAutoBinding( )
-	{
-		if ( baseQuery instanceof QueryDefinition )
-			return ( (QueryDefinition) baseQuery ).needAutoBinding( );
+	public boolean needAutoBinding() {
+		if (baseQuery instanceof QueryDefinition)
+			return ((QueryDefinition) baseQuery).needAutoBinding();
 		return false;
 	}
 
@@ -272,10 +239,9 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * @see org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#
 	 * getInputParamBindings()
 	 */
-	public Collection getInputParamBindings( )
-	{
-		if ( baseQuery instanceof QueryDefinition )
-			return ( (QueryDefinition) baseQuery ).getInputParamBindings( );
+	public Collection getInputParamBindings() {
+		if (baseQuery instanceof QueryDefinition)
+			return ((QueryDefinition) baseQuery).getInputParamBindings();
 		return null;
 	}
 
@@ -285,62 +251,71 @@ public class QueryDefnDelegator extends QueryDefinition
 	 * @see org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#
 	 * getColumnProjection()
 	 */
-	public String[] getColumnProjection( )
-	{
-		if ( baseQuery instanceof QueryDefinition )
-			return ( (QueryDefinition) baseQuery ).getColumnProjection( );
+	public String[] getColumnProjection() {
+		if (baseQuery instanceof QueryDefinition)
+			return ((QueryDefinition) baseQuery).getColumnProjection();
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#getSourceQuery()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#getSourceQuery()
 	 */
-	public IBaseQueryDefinition getSourceQuery( )
-	{
-		if ( baseQuery instanceof QueryDefinition )
-			return ( (QueryDefinition) baseQuery ).getSourceQuery( );
+	public IBaseQueryDefinition getSourceQuery() {
+		if (baseQuery instanceof QueryDefinition)
+			return ((QueryDefinition) baseQuery).getSourceQuery();
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#isSummaryQuery()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#isSummaryQuery()
 	 */
-	public boolean isSummaryQuery( )
-	{
-		if ( baseQuery instanceof QueryDefinition )
-			return ( (QueryDefinition) baseQuery ).isSummaryQuery( );
+	public boolean isSummaryQuery() {
+		if (baseQuery instanceof QueryDefinition)
+			return ((QueryDefinition) baseQuery).isSummaryQuery();
 		return false;
 	}
 
-	public IQueryDefinition getBaseQuery( )
-	{
-		if ( baseQuery instanceof QueryDefinition )
+	public IQueryDefinition getBaseQuery() {
+		if (baseQuery instanceof QueryDefinition)
 			return (QueryDefinition) baseQuery;
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#setSourceQuery(org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#setSourceQuery(org
+	 * .eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
-	public void setSourceQuery( IBaseQueryDefinition object )
-	{
+	public void setSourceQuery(IBaseQueryDefinition object) {
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getGroups()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition#getGroups()
 	 */
-	public List getGroups( )
-	{
-		return baseQuery.getGroups( );
+	public List getGroups() {
+		return baseQuery.getGroups();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#setQueryResultsID(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.querydefn.QueryDefinition#setQueryResultsID(
+	 * java.lang.String)
 	 */
-	public void setQueryResultsID( String queryResultsID )
-	{
+	public void setQueryResultsID(String queryResultsID) {
 		this.queryResultsId = queryResultsID;
 	}
-	
-	
+
 }

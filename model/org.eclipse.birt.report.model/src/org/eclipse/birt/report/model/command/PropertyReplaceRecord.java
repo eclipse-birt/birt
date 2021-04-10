@@ -32,8 +32,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
  * 
  */
 
-public class PropertyReplaceRecord extends SimpleRecord
-{
+public class PropertyReplaceRecord extends SimpleRecord {
 
 	/**
 	 * The element which contains the property list.
@@ -68,65 +67,51 @@ public class PropertyReplaceRecord extends SimpleRecord
 	/**
 	 * Constructor for replacing an item within a list with a new structure.
 	 * 
-	 * @param obj
-	 *            the design element which contains the structure list.
-	 * @param ref
-	 *            reference to the structure list
-	 * @param theList
-	 *            the structure list.
-	 * @param posn
-	 *            the position of the old item to be removed.
-	 * @param newItem
-	 *            the new item that will replace the old one.
+	 * @param obj     the design element which contains the structure list.
+	 * @param ref     reference to the structure list
+	 * @param theList the structure list.
+	 * @param posn    the position of the old item to be removed.
+	 * @param newItem the new item that will replace the old one.
 	 */
 
-	public PropertyReplaceRecord( DesignElement obj, StructureContext ref,
-			List theList, int posn, IStructure newItem )
-	{
+	public PropertyReplaceRecord(DesignElement obj, StructureContext ref, List theList, int posn, IStructure newItem) {
 		assert obj != null;
 		assert ref != null;
 		assert theList != null;
-		assert ref.isListRef( );
-		assert obj.getPropertyDefn( ref.getElementProp( ).getName( ) ) == ref
-				.getElementProp( );
-		assert obj == ref.getElement( );
+		assert ref.isListRef();
+		assert obj.getPropertyDefn(ref.getElementProp().getName()) == ref.getElementProp();
+		assert obj == ref.getElement();
 
 		this.element = obj;
 		this.listRef = ref;
 
 		this.position = posn;
 
-		this.oldItem = (IStructure) theList.get( posn );
+		this.oldItem = (IStructure) theList.get(posn);
 		this.newItem = newItem;
 
 		assert oldItem != null && newItem != null;
 
-		label = CommandLabelFactory
-				.getCommandLabel( MessageConstants.REPLACE_ITEM_MESSAGE );
+		label = CommandLabelFactory.getCommandLabel(MessageConstants.REPLACE_ITEM_MESSAGE);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.design.activity.SimpleRecord#perform(boolean
-	 * )
+	 * org.eclipse.birt.report.model.design.activity.SimpleRecord#perform(boolean )
 	 */
-	protected void perform( boolean undo )
-	{
-		if ( undo )
-		{
-			StructureContext context = ( (Structure) newItem ).getContext( );
-			context.remove( (Structure) newItem );
+	protected void perform(boolean undo) {
+		if (undo) {
+			StructureContext context = ((Structure) newItem).getContext();
+			context.remove((Structure) newItem);
 
-			context.add( position, (Structure) oldItem );
-		}
-		else
-		{
-			StructureContext context = ( (Structure) oldItem ).getContext( );
-			context.remove( (Structure) oldItem );
+			context.add(position, (Structure) oldItem);
+		} else {
+			StructureContext context = ((Structure) oldItem).getContext();
+			context.remove((Structure) oldItem);
 
-			context.add( position, (Structure) newItem );
+			context.add(position, (Structure) newItem);
 		}
 	}
 
@@ -137,10 +122,9 @@ public class PropertyReplaceRecord extends SimpleRecord
 	 * org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getTarget
 	 * ()
 	 */
-	public DesignElement getTarget( )
-	{
-		if ( eventTarget != null )
-			return eventTarget.getElement( );
+	public DesignElement getTarget() {
+		if (eventTarget != null)
+			return eventTarget.getElement();
 
 		return element;
 	}
@@ -153,37 +137,32 @@ public class PropertyReplaceRecord extends SimpleRecord
 	 * ()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		if ( eventTarget != null )
-			return new PropertyEvent( eventTarget.getElement( ), eventTarget
-					.getPropName( ) );
+	public NotificationEvent getEvent() {
+		if (eventTarget != null)
+			return new PropertyEvent(eventTarget.getElement(), eventTarget.getPropName());
 
-		return new PropertyEvent( element, listRef.getPropDefn( ).getName( ) );
+		return new PropertyEvent(element, listRef.getPropDefn().getName());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.activity.ActivityRecord#getNotificationChain
-	 * ()
+	 * org.eclipse.birt.report.model.activity.ActivityRecord#getNotificationChain ()
 	 */
 
-	protected List<RecordTask> getPostTasks( )
-	{
-		List<RecordTask> retList = new ArrayList<RecordTask>( );
-		retList.addAll( super.getPostTasks( ) );
+	protected List<RecordTask> getPostTasks() {
+		List<RecordTask> retList = new ArrayList<RecordTask>();
+		retList.addAll(super.getPostTasks());
 
-		retList.add( new NotificationRecordTask( element, getEvent( ) ) );
+		retList.add(new NotificationRecordTask(element, getEvent()));
 
 		// if the structure is referencable, then send notification to the
 		// clients
 
-		if ( oldItem != null && oldItem.isReferencable( ) )
-		{
+		if (oldItem != null && oldItem.isReferencable()) {
 			ReferencableStructure refValue = (ReferencableStructure) oldItem;
-			retList.add( new NotificationRecordTask( refValue, getEvent( ) ) );
+			retList.add(new NotificationRecordTask(refValue, getEvent()));
 
 		}
 

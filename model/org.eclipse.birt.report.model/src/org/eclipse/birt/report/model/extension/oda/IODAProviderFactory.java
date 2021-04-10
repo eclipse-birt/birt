@@ -18,14 +18,11 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * Interface for all ODA provider factory.
  * 
  */
-public interface IODAProviderFactory
-{
+public interface IODAProviderFactory {
 
-	public ODAProvider createODAProvider( DesignElement element,
-			String extensionID );
+	public ODAProvider createODAProvider(DesignElement element, String extensionID);
 
-	public IFilterExprDefinition createFilterExprDefinition( );
+	public IFilterExprDefinition createFilterExprDefinition();
 
-	public IFilterExprDefinition createFilterExprDefinition(
-			String birtFilterExpr );
+	public IFilterExprDefinition createFilterExprDefinition(String birtFilterExpr);
 }

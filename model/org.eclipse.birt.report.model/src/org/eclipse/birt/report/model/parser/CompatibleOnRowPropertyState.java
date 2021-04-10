@@ -18,24 +18,19 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * "onRow" property value of table/list should be set to rows in detail slot.
  */
 
-public class CompatibleOnRowPropertyState extends CompatiblePropertyState
-{
+public class CompatibleOnRowPropertyState extends CompatiblePropertyState {
 
 	/**
-	 * Constructs a <code>CompatibleIgnorePropertyState</code> to parse an
-	 * removed property.
+	 * Constructs a <code>CompatibleIgnorePropertyState</code> to parse an removed
+	 * property.
 	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the obsolete property
+	 * @param theHandler the parser handle
+	 * @param element    the element that holds the obsolete property
 	 * 
 	 */
 
-	public CompatibleOnRowPropertyState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatibleOnRowPropertyState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 
 	}
 
@@ -45,10 +40,9 @@ public class CompatibleOnRowPropertyState extends CompatiblePropertyState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( )
-	{
-		String value = text.toString( );
-		handler.tempValue.put( element, value );
+	public void end() {
+		String value = text.toString();
+		handler.tempValue.put(element, value);
 		return;
 	}
 }

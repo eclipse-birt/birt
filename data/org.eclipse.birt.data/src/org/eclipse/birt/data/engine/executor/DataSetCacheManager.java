@@ -41,10 +41,10 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  * 
  * Please notice the whole procedure: 1: first check whether data can be loaded
  * from cache 2.1: if yes, then data will be loaded and check whether data needs
- * to be saved into cache will be skipped. 2.2: if no, then data will be retrieved
- * from data set and then whether saving into cache will be checked 2.2.1: if
- * yes, then data will be saved into cache 2.2.2: if no, then nothing will be
- * done
+ * to be saved into cache will be skipped. 2.2: if no, then data will be
+ * retrieved from data set and then whether saving into cache will be checked
+ * 2.2.1: if yes, then data will be saved into cache 2.2.2: if no, then nothing
+ * will be done
  * 
  * There are three possible value of cacheRowCount: 1: -1, cache all data set 2:
  * 0, don't cache 3: >0, cache the specified value
@@ -52,8 +52,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  * Here whether data will be loaded from cache can be observed by external
  * caller, but about saving into cache is not.
  */
-public class DataSetCacheManager
-{
+public class DataSetCacheManager {
 
 	// data set id and its cache count
 	private IBaseDataSourceDesign dataSourceDesign;
@@ -66,77 +65,68 @@ public class DataSetCacheManager
 	private CacheMapManager jvmLevelCacheMapManager;
 	private CacheMapManager dteLevelCacheMapManager;
 	private CacheMapManager cacheMapManager;
-	
+
 	private IEngineExecutionHints queryExecutionHints;
-	
+
 	private DataEngineContext context;
 	private DataEngineSession session;
-	
+
 	/**
 	 * Construction
 	 */
-	public DataSetCacheManager( DataEngineSession session )
-	{
+	public DataSetCacheManager(DataEngineSession session) {
 		this.session = session;
-		this.context = session.getEngineContext( );
-		this.queryExecutionHints = ((DataEngineImpl)session.getEngine( )).getExecutionHints( );
-		this.jvmLevelCacheMapManager = new CacheMapManager( true );
-		this.dteLevelCacheMapManager = new CacheMapManager( false );
-		
-		session.getEngine( ).addShutdownListener( new IShutdownListener(){
+		this.context = session.getEngineContext();
+		this.queryExecutionHints = ((DataEngineImpl) session.getEngine()).getExecutionHints();
+		this.jvmLevelCacheMapManager = new CacheMapManager(true);
+		this.dteLevelCacheMapManager = new CacheMapManager(false);
 
-			public void dataEngineShutdown( )
-			{
-				try
-				{
-					dteLevelCacheMapManager.clearCache( );
-				}
-				catch ( Exception e )
-				{
+		session.getEngine().addShutdownListener(new IShutdownListener() {
+
+			public void dataEngineShutdown() {
+				try {
+					dteLevelCacheMapManager.clearCache();
+				} catch (Exception e) {
 				}
 
-			}} );
+			}
+		});
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public IBaseDataSourceDesign getCurrentDataSourceDesign( )
-	{
+	public IBaseDataSourceDesign getCurrentDataSourceDesign() {
 		return this.dataSourceDesign;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public IBaseDataSetDesign getCurrentDataSetDesign()
-	{
+	public IBaseDataSetDesign getCurrentDataSetDesign() {
 		return this.dataSetDesign;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public Collection getCurrentParameterHints()
-	{
-		if ( this.parameterHints != null )
+	public Collection getCurrentParameterHints() {
+		if (this.parameterHints != null)
 			return this.parameterHints;
 		else
 			return new ArrayList();
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public Map getCurrentAppContext()
-	{
+	public Map getCurrentAppContext() {
 		return this.appContext;
 	}
-	
 
 	/**
 	 * Remember before requesting any service, this function must be called in
@@ -145,43 +135,36 @@ public class DataSetCacheManager
 	 * @param dataSourceDesign
 	 * @param datasetDesign
 	 */
-	public void setDataSourceAndDataSet(
-			IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign, Collection parameterHints, Map appContext )
-	{
+	public void setDataSourceAndDataSet(IBaseDataSourceDesign dataSourceDesign, IBaseDataSetDesign dataSetDesign,
+			Collection parameterHints, Map appContext) {
 		this.dataSourceDesign = dataSourceDesign;
 		this.dataSetDesign = dataSetDesign;
 		this.parameterHints = parameterHints;
 		this.appContext = appContext;
-		this.cacheID = CacheIDFetcher.getInstance( ).getCacheID( appContext );
-		this.enableSamplePreview =  CacheIDFetcher.getInstance( ).enableSampleDataPreivew( appContext );
+		this.cacheID = CacheIDFetcher.getInstance().getCacheID(appContext);
+		this.enableSamplePreview = CacheIDFetcher.getInstance().enableSampleDataPreivew(appContext);
 	}
 
 	/**
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public boolean doesSaveToCache( ) throws DataException
-	{
+	public boolean doesSaveToCache() throws DataException {
 		DataSetCacheConfig dscc = getDataSetCacheConfig(dataSetDesign, appContext);
-		if ( dscc == null)
-		{
+		if (dscc == null) {
 			return false;
 		}
-		switchCacheMap( dataSetDesign );
-		return cacheMapManager.doesSaveToCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterHints, this.cacheID, this.enableSamplePreview ),
-				dscc);
+		switchCacheMap(dataSetDesign);
+		return cacheMapManager.doesSaveToCache(DataSourceAndDataSet.newInstance(this.dataSourceDesign,
+				this.dataSetDesign, this.parameterHints, this.cacheID, this.enableSamplePreview), dscc);
 	}
 
 	/**
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public boolean needsToCache( ) throws DataException
-	{
-		return needsToCache( dataSetDesign, appContext );
+	public boolean needsToCache() throws DataException {
+		return needsToCache(dataSetDesign, appContext);
 	}
 
 	/**
@@ -191,26 +174,18 @@ public class DataSetCacheManager
 	 * @param cacheOption
 	 * @param alwaysCacheRowCount
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public boolean doesLoadFromCache( IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign,
-			Collection parameterHints, Map appContext ) throws DataException
-	{
+	public boolean doesLoadFromCache(IBaseDataSourceDesign dataSourceDesign, IBaseDataSetDesign dataSetDesign,
+			Collection parameterHints, Map appContext) throws DataException {
 		DataSetCacheConfig dscc = getDataSetCacheConfig(dataSetDesign, appContext);
-		if ( dscc == null)
-		{
+		if (dscc == null) {
 			return false;
 		}
-		this.setDataSourceAndDataSet( dataSourceDesign,
-				dataSetDesign,
-				parameterHints,
-				appContext);
-		switchCacheMap( dataSetDesign );
-		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				dataSetDesign,
-				parameterHints, this.cacheID, this.enableSamplePreview ),
-				dscc.getCacheCapability( ));
+		this.setDataSourceAndDataSet(dataSourceDesign, dataSetDesign, parameterHints, appContext);
+		switchCacheMap(dataSetDesign);
+		return cacheMapManager.doesLoadFromCache(DataSourceAndDataSet.newInstance(this.dataSourceDesign, dataSetDesign,
+				parameterHints, this.cacheID, this.enableSamplePreview), dscc.getCacheCapability());
 	}
 
 	/**
@@ -218,56 +193,45 @@ public class DataSetCacheManager
 	 * @param cacheOption
 	 * @param alwaysCacheRowCount
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public boolean needsToCache( IBaseDataSetDesign dataSetDesign, Map appContext) throws DataException
-	{
+	public boolean needsToCache(IBaseDataSetDesign dataSetDesign, Map appContext) throws DataException {
 		return getDataSetCacheConfig(dataSetDesign, appContext) != null;
- 	}
-	
-	private DataSetCacheConfig getDataSetCacheConfig(IBaseDataSetDesign dataSetDesign, Map appContext) throws DataException
-	{
-		DataSetCacheConfig result = DataSetCacheUtil.getJVMDataSetCacheConfig( appContext, context, dataSetDesign );
-		if (result == null)
-		{
-			result = DataSetCacheUtil.getDteDataSetCacheConfig( queryExecutionHints, dataSetDesign, session, appContext );
+	}
+
+	private DataSetCacheConfig getDataSetCacheConfig(IBaseDataSetDesign dataSetDesign, Map appContext)
+			throws DataException {
+		DataSetCacheConfig result = DataSetCacheUtil.getJVMDataSetCacheConfig(appContext, context, dataSetDesign);
+		if (result == null) {
+			result = DataSetCacheUtil.getDteDataSetCacheConfig(queryExecutionHints, dataSetDesign, session, appContext);
 		}
 		return result;
 	}
-	
+
 	/**
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public int getCacheCapability( ) throws DataException
-	{
-		DataSetCacheConfig dscc = this.getDataSetCacheConfig( dataSetDesign, appContext );
-		if (dscc != null)
-		{
-			return dscc.getCacheCapability( );
-		}
-		else
-		{
+	public int getCacheCapability() throws DataException {
+		DataSetCacheConfig dscc = this.getDataSetCacheConfig(dataSetDesign, appContext);
+		if (dscc != null) {
+			return dscc.getCacheCapability();
+		} else {
 			return 0;
 		}
 	}
-	
+
 	/**
-	 * @return >0: the max row count to be cached
-	 *         <0: unlimited cache capability
-	 *         =0: do not use cache at all 
-	 * @throws DataException 
+	 * @return >0: the max row count to be cached <0: unlimited cache capability =0:
+	 *         do not use cache at all
+	 * @throws DataException
 	 */
-	public int getCacheCountConfig( ) throws DataException
-	{
-		DataSetCacheConfig dscc = this.getDataSetCacheConfig( dataSetDesign, appContext );
-		if (dscc != null)
-		{
-			return dscc.getCountConfig( );
-		}
-		else
-		{
-			//do not use cache at all
+	public int getCacheCountConfig() throws DataException {
+		DataSetCacheConfig dscc = this.getDataSetCacheConfig(dataSetDesign, appContext);
+		if (dscc != null) {
+			return dscc.getCountConfig();
+		} else {
+			// do not use cache at all
 			return 0;
 		}
 	}
@@ -277,103 +241,92 @@ public class DataSetCacheManager
 	 * 
 	 * @param dataSourceDesign
 	 * @param dataSetDesign
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public void clearCache( IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign ) throws DataException
-	{
-		if ( dataSourceDesign == null || dataSetDesign == null )
+	public void clearCache(IBaseDataSourceDesign dataSourceDesign, IBaseDataSetDesign dataSetDesign)
+			throws DataException {
+		if (dataSourceDesign == null || dataSetDesign == null)
 			return;
 
-		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( dataSourceDesign,
-				dataSetDesign,
-				null, this.cacheID, this.enableSamplePreview );
-		//switchCacheMap( dataSetDesign );
-		//cacheMapManager.clearCache( ds );
-		jvmLevelCacheMapManager.clearCache( ds );
-		dteLevelCacheMapManager.clearCache( ds );
+		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance(dataSourceDesign, dataSetDesign, null, this.cacheID,
+				this.enableSamplePreview);
+		// switchCacheMap( dataSetDesign );
+		// cacheMapManager.clearCache( ds );
+		jvmLevelCacheMapManager.clearCache(ds);
+		dteLevelCacheMapManager.clearCache(ds);
 	}
 
-	public void clearCache( String cacheID )
-	{
+	public void clearCache(String cacheID) {
 		Set<String> temp = new HashSet<String>();
-		temp.add( cacheID );
-		jvmLevelCacheMapManager.clearCache( temp );
+		temp.add(cacheID);
+		jvmLevelCacheMapManager.clearCache(temp);
 	}
-	
+
 	/**
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public IDataSetCacheObject getSavedCacheObject( ) throws DataException
-	{
-		switchCacheMap( dataSetDesign );	
-				
-		IDataSetCacheObject cached = cacheMapManager.getSavedCacheObject( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterHints, this.cacheID, this.enableSamplePreview ) ); 
-		if( this.cacheID != null && cached instanceof MemoryDataSetCacheObject && ((MemoryDataSetCacheObject)cached).getSize( ) > 0 )
-		{
-			cached = new DataSetCacheObjectWithDummyData( dataSetDesign, cached );
-		}	
+	public IDataSetCacheObject getSavedCacheObject() throws DataException {
+		switchCacheMap(dataSetDesign);
+
+		IDataSetCacheObject cached = cacheMapManager
+				.getSavedCacheObject(DataSourceAndDataSet.newInstance(this.dataSourceDesign, this.dataSetDesign,
+						this.parameterHints, this.cacheID, this.enableSamplePreview));
+		if (this.cacheID != null && cached instanceof MemoryDataSetCacheObject
+				&& ((MemoryDataSetCacheObject) cached).getSize() > 0) {
+			cached = new DataSetCacheObjectWithDummyData(dataSetDesign, cached);
+		}
 		return cached;
 	}
-	
+
 	/**
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public void saveFinished( IDataSetCacheObject dsco ) throws DataException
-	{
-		switchCacheMap( dataSetDesign );	
-		
-		cacheMapManager.saveFinishOnCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterHints, this.cacheID, this.enableSamplePreview ), dsco );
+	public void saveFinished(IDataSetCacheObject dsco) throws DataException {
+		switchCacheMap(dataSetDesign);
+
+		cacheMapManager.saveFinishOnCache(DataSourceAndDataSet.newInstance(this.dataSourceDesign, this.dataSetDesign,
+				this.parameterHints, this.cacheID, this.enableSamplePreview), dsco);
 	}
-	
+
 	/**
 	 * 
 	 * @param dsco
 	 * @throws DataException
 	 */
-	public void loadStart( ) throws DataException
-	{
-		switchCacheMap( dataSetDesign );	
-		
-		cacheMapManager.loadStart( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterHints, this.cacheID, this.enableSamplePreview ) );
+	public void loadStart() throws DataException {
+		switchCacheMap(dataSetDesign);
+
+		cacheMapManager.loadStart(DataSourceAndDataSet.newInstance(this.dataSourceDesign, this.dataSetDesign,
+				this.parameterHints, this.cacheID, this.enableSamplePreview));
 	}
-	
+
 	/**
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public void loadFinished( ) throws DataException
-	{
-		switchCacheMap( dataSetDesign );	
-		
-		cacheMapManager.loadFinishOnCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterHints, this.cacheID, this.enableSamplePreview ) );
+	public void loadFinished() throws DataException {
+		switchCacheMap(dataSetDesign);
+
+		cacheMapManager.loadFinishOnCache(DataSourceAndDataSet.newInstance(this.dataSourceDesign, this.dataSetDesign,
+				this.parameterHints, this.cacheID, this.enableSamplePreview));
 	}
-	
+
 	/**
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public IDataSetCacheObject getLoadedCacheObject( ) throws DataException
-	{
-		switchCacheMap( dataSetDesign );
-				
-		IDataSetCacheObject cached = cacheMapManager.getloadedCacheObject( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterHints, this.cacheID, this.enableSamplePreview ) ); 
-		if( this.cacheID != null && cached instanceof MemoryDataSetCacheObject && ((MemoryDataSetCacheObject)cached).getSize( ) > 0 )
-		{
-			cached = new DataSetCacheObjectWithDummyData( dataSetDesign, cached );
-		}	
+	public IDataSetCacheObject getLoadedCacheObject() throws DataException {
+		switchCacheMap(dataSetDesign);
+
+		IDataSetCacheObject cached = cacheMapManager
+				.getloadedCacheObject(DataSourceAndDataSet.newInstance(this.dataSourceDesign, this.dataSetDesign,
+						this.parameterHints, this.cacheID, this.enableSamplePreview));
+		if (this.cacheID != null && cached instanceof MemoryDataSetCacheObject
+				&& ((MemoryDataSetCacheObject) cached).getSize() > 0) {
+			cached = new DataSetCacheObjectWithDummyData(dataSetDesign, cached);
+		}
 		return cached;
 	}
 
@@ -381,72 +334,59 @@ public class DataSetCacheManager
 	 * only for test
 	 * 
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public boolean doesLoadFromCache( ) throws DataException
-	{
+	public boolean doesLoadFromCache() throws DataException {
 		DataSetCacheConfig dscc = getDataSetCacheConfig(dataSetDesign, appContext);
-		if (dscc == null)
-		{
+		if (dscc == null) {
 			return false;
 		}
-		switchCacheMap( dataSetDesign );
-		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
-				this.dataSetDesign,
-				this.parameterHints, this.cacheID, this.enableSamplePreview ),
-				dscc.getCacheCapability( ));
+		switchCacheMap(dataSetDesign);
+		return cacheMapManager.doesLoadFromCache(DataSourceAndDataSet.newInstance(this.dataSourceDesign,
+				this.dataSetDesign, this.parameterHints, this.cacheID, this.enableSamplePreview),
+				dscc.getCacheCapability());
 	}
 
 	/**
-	 * Notice, this method is only for test, it can not be called unless its use
-	 * is for test.
+	 * Notice, this method is only for test, it can not be called unless its use is
+	 * for test.
 	 */
-	public void resetForTest( )
-	{
+	public void resetForTest() {
 		dataSourceDesign = null;
 		dataSetDesign = null;
-		if ( this.cacheMapManager != null )
-		{
-			this.cacheMapManager.resetForTest( );
+		if (this.cacheMapManager != null) {
+			this.cacheMapManager.resetForTest();
 		}
 	}
 
 	/**
-	 * Return the cached result metadata. Please note that parameter hint will
-	 * not change the returned metadata.
+	 * Return the cached result metadata. Please note that parameter hint will not
+	 * change the returned metadata.
 	 * 
 	 * @return
 	 * @throws DataException
 	 */
-	public IResultMetaData getCachedResultMetadata(
-			IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet )
-			throws DataException
-	{
-		//switchCacheMap( dataSet );
-		//meta data is always from jvmLevelCacheMapManager
-		IResultClass resultClass = this.jvmLevelCacheMapManager.getCachedResultClass( DataSourceAndDataSet.newInstance( dataSource,
-				dataSet,
-				null, this.cacheID, this.enableSamplePreview ) );
-		if ( resultClass != null )
-			return new ResultMetaData( resultClass );
+	public IResultMetaData getCachedResultMetadata(IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet)
+			throws DataException {
+		// switchCacheMap( dataSet );
+		// meta data is always from jvmLevelCacheMapManager
+		IResultClass resultClass = this.jvmLevelCacheMapManager.getCachedResultClass(
+				DataSourceAndDataSet.newInstance(dataSource, dataSet, null, this.cacheID, this.enableSamplePreview));
+		if (resultClass != null)
+			return new ResultMetaData(resultClass);
 		else
 			return null;
 	}
 
-	
 	/**
 	 * 
 	 * @param dataSetDesign
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	private void switchCacheMap( IBaseDataSetDesign dataSetDesign ) throws DataException
-	{
-		if( DataSetCacheUtil.getJVMDataSetCacheConfig( appContext, context, dataSetDesign ) != null )
-		{
+	private void switchCacheMap(IBaseDataSetDesign dataSetDesign) throws DataException {
+		if (DataSetCacheUtil.getJVMDataSetCacheConfig(appContext, context, dataSetDesign) != null) {
 			cacheMapManager = jvmLevelCacheMapManager;
-		}
-		else
-		{
+		} else {
 			cacheMapManager = dteLevelCacheMapManager;
 		}
 	}

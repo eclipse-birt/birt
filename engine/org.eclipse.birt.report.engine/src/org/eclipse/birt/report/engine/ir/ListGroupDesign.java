@@ -15,18 +15,15 @@ package org.eclipse.birt.report.engine.ir;
  * List group
  * 
  */
-public class ListGroupDesign extends GroupDesign
-{
-	public ListGroupDesign()
-	{
-		//modify bug161912
-		//header = new ListBandDesign( );
-		//footer = new ListBandDesign( );
+public class ListGroupDesign extends GroupDesign {
+	public ListGroupDesign() {
+		// modify bug161912
+		// header = new ListBandDesign( );
+		// footer = new ListBandDesign( );
 	}
 
-	public Object accept( IReportItemVisitor visitor, Object value )
-	{
+	public Object accept(IReportItemVisitor visitor, Object value) {
 		return visitor.visitListGroup(this, value);
 	}
-	
+
 }

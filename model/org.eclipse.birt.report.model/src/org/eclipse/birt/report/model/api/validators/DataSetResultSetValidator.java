@@ -35,10 +35,9 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * @deprecated since birt 2.2
  */
 
-public class DataSetResultSetValidator extends AbstractElementValidator
-{
+public class DataSetResultSetValidator extends AbstractElementValidator {
 
-	private final static DataSetResultSetValidator instance = new DataSetResultSetValidator( );
+	private final static DataSetResultSetValidator instance = new DataSetResultSetValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -46,44 +45,33 @@ public class DataSetResultSetValidator extends AbstractElementValidator
 	 * @return the validator instance
 	 */
 
-	public static DataSetResultSetValidator getInstance( )
-	{
+	public static DataSetResultSetValidator getInstance() {
 		return instance;
 	}
 
 	/**
-	 * Validates whether the result set of the given data set has no column
-	 * defined.
+	 * Validates whether the result set of the given data set has no column defined.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the data set to validate
+	 * @param module  the module
+	 * @param element the data set to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
-	{
-		if ( !( element instanceof SimpleDataSet ) )
-			return Collections.emptyList( );
+	public List<SemanticException> validate(Module module, DesignElement element) {
+		if (!(element instanceof SimpleDataSet))
+			return Collections.emptyList();
 
-		return doValidate( module, (SimpleDataSet) element );
+		return doValidate(module, (SimpleDataSet) element);
 	}
 
-	private List<SemanticException> doValidate( Module module,
-			SimpleDataSet toValidate )
-	{
+	private List<SemanticException> doValidate(Module module, SimpleDataSet toValidate) {
 
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+		List<SemanticException> list = new ArrayList<SemanticException>();
 
-		List<Object> columns = (List) toValidate.getProperty( module,
-				IDataSetModel.RESULT_SET_PROP );
-		if ( columns != null && columns.size( ) == 0 )
-		{
-			list.add( new SemanticError( toValidate,
-					SemanticError.DESIGN_EXCEPTION_AT_LEAST_ONE_COLUMN ) );
+		List<Object> columns = (List) toValidate.getProperty(module, IDataSetModel.RESULT_SET_PROP);
+		if (columns != null && columns.size() == 0) {
+			list.add(new SemanticError(toValidate, SemanticError.DESIGN_EXCEPTION_AT_LEAST_ONE_COLUMN));
 		}
 		return list;
 	}

@@ -15,22 +15,19 @@ import junit.framework.TestCase;
 
 /**
  * Class of test for Messages
- *  
+ * 
  */
 
-public class MessagesTest extends TestCase
-{
+public class MessagesTest extends TestCase {
 
-	public void testGetString( )
-	{
+	public void testGetString() {
 
-		assertEquals( "SUN", Messages.getString( "Commom.ShortDateTime.Sun" ) );
-		assertEquals( "banian", Messages.getString( "banian" ) );
+		assertEquals("SUN", Messages.getString("Commom.ShortDateTime.Sun"));
+		assertEquals("banian", Messages.getString("banian"));
 
 	}
 
-	public void testGetXMLKey( )
-	{
+	public void testGetXMLKey() {
 	}
 
 }

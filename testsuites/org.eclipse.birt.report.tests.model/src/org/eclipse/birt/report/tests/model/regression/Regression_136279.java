@@ -28,29 +28,26 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * "table" types.
  * <p>
  */
-public class Regression_136279 extends BaseTestCase
-{
+public class Regression_136279 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
-	public void test_regression_136279( )
-	{
-		IMetaDataDictionary dict = MetaDataDictionary.getInstance( );
-		IChoiceSet datatypes = dict.getChoiceSet( "columnDataType" ); //$NON-NLS-1$
-		IChoice[] choices = datatypes.getChoices( );
+	public void test_regression_136279() {
+		IMetaDataDictionary dict = MetaDataDictionary.getInstance();
+		IChoiceSet datatypes = dict.getChoiceSet("columnDataType"); //$NON-NLS-1$
+		IChoice[] choices = datatypes.getChoices();
 
 		boolean valid = true;
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			if ( "Structure".equals( choices[i].getName( ) ) || "table".equals( choices[i].getName( ) ) ) //$NON-NLS-1$//$NON-NLS-2$
+		for (int i = 0; i < choices.length; i++) {
+			if ("Structure".equals(choices[i].getName()) || "table".equals(choices[i].getName())) //$NON-NLS-1$//$NON-NLS-2$
 			{
 				valid = false;
 				break;
 			}
 		}
-		
-		assertTrue( valid );
+
+		assertTrue(valid);
 
 	}
 }

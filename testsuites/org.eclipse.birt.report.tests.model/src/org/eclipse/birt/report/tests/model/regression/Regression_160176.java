@@ -31,34 +31,30 @@ import com.ibm.icu.util.ULocale;
  * Test method createDesignFromTemplate in DesignSession
  * <p>
  */
-public class Regression_160176 extends BaseTestCase
-{
+public class Regression_160176 extends BaseTestCase {
 
 	private final static String REPORT = "regression_160176.rpttemplate"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		copyInputToFile(INPUT_FOLDER + "/" + REPORT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * @throws DesignFileException
 	 */
 
-	public void test_regression_160176( ) throws DesignFileException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
+	public void test_regression_160176() throws DesignFileException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
 		ReportDesignHandle designHandle = session
-				.createDesignFromTemplate( getTempFolder() + "/"
-						+ INPUT_FOLDER + "/" + REPORT );
-		assertNotNull( designHandle );
+				.createDesignFromTemplate(getTempFolder() + "/" + INPUT_FOLDER + "/" + REPORT);
+		assertNotNull(designHandle);
 	}
 }

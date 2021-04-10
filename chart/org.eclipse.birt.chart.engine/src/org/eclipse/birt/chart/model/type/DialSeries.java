@@ -16,19 +16,19 @@ import org.eclipse.birt.chart.model.component.Needle;
 import org.eclipse.birt.chart.model.component.Series;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Dial Series</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Dial
+ * Series</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc -->
- * This is a Series type that holds data for Dial Charts.
- * <!-- end-model-doc -->
+ * <!-- begin-model-doc --> This is a Series type that holds data for Dial
+ * Charts. <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.type.DialSeries#getDial <em>Dial</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.type.DialSeries#getNeedle <em>Needle</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.DialSeries#getDial
+ * <em>Dial</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.DialSeries#getNeedle
+ * <em>Needle</em>}</li>
  * </ul>
  * </p>
  *
@@ -36,64 +36,62 @@ import org.eclipse.birt.chart.model.component.Series;
  * @model extendedMetaData="name='DialSeries' kind='elementOnly'"
  * @generated
  */
-public interface DialSeries extends Series
-{
+public interface DialSeries extends Series {
 
 	/**
-	 * Returns the value of the '<em><b>Dial</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Specifies the Dial for this series
-	 * <!-- end-model-doc -->
+	 * Returns the value of the '<em><b>Dial</b></em>' containment reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Specifies
+	 * the Dial for this series <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Dial</em>' containment reference.
 	 * @see #setDial(Dial)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getDialSeries_Dial()
-	 * @model containment="true" required="true"
-	 *        extendedMetaData="kind='element' name='Dial'"
+	 * @model containment="true" required="true" extendedMetaData="kind='element'
+	 *        name='Dial'"
 	 * @generated
 	 */
-	Dial getDial( );
+	Dial getDial();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.DialSeries#getDial <em>Dial</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.type.DialSeries#getDial <em>Dial</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @param value the new value of the '<em>Dial</em>' containment reference.
 	 * @see #getDial()
 	 * @generated
 	 */
-	void setDial( Dial value );
+	void setDial(Dial value);
 
 	/**
-	 * Returns the value of the '<em><b>Needle</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Defines the needle to be used in the Dial
-	 * <!-- end-model-doc -->
+	 * Returns the value of the '<em><b>Needle</b></em>' containment reference. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Defines the
+	 * needle to be used in the Dial <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Needle</em>' containment reference.
 	 * @see #setNeedle(Needle)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getDialSeries_Needle()
-	 * @model containment="true" required="true"
-	 *        extendedMetaData="kind='element' name='Needle'"
+	 * @model containment="true" required="true" extendedMetaData="kind='element'
+	 *        name='Needle'"
 	 * @generated
 	 */
-	Needle getNeedle( );
+	Needle getNeedle();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.DialSeries#getNeedle <em>Needle</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.type.DialSeries#getNeedle
+	 * <em>Needle</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @param value the new value of the '<em>Needle</em>' containment reference.
 	 * @see #getNeedle()
 	 * @generated
 	 */
-	void setNeedle( Needle value );
+	void setNeedle(Needle value);
 
 	/**
 	 * @generated
 	 */
-	DialSeries copyInstance( );
+	DialSeries copyInstance();
 
 } // DialSeries

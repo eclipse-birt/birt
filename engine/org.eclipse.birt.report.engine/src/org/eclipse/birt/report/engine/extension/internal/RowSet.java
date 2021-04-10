@@ -24,43 +24,36 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
  * 
  * 
  */
-public class RowSet implements IRowSet
-{
+public class RowSet implements IRowSet {
 	protected IQueryResultSet rset;
 	protected IRowMetaData metaData;
 	protected ExecutionContext context;
 
-	public RowSet( IQueryResultSet rset ) throws BirtException
-	{
-		this.context = ( (QueryResultSet) rset ).getExecutionContext( );
-		
-		this.rset = rset;
-		metaData = new IRowMetaData( ) {
+	public RowSet(IQueryResultSet rset) throws BirtException {
+		this.context = ((QueryResultSet) rset).getExecutionContext();
 
-			public int getColumnCount( )
-			{
+		this.rset = rset;
+		metaData = new IRowMetaData() {
+
+			public int getColumnCount() {
 				return 0;
 			}
 
-			public String getColumnName( int index ) throws BirtException
-			{
+			public String getColumnName(int index) throws BirtException {
 				return null;
 			}
 
-			public int getColumnType( int index ) throws BirtException
-			{
+			public int getColumnType(int index) throws BirtException {
 				return -1;
 			}
 		};
-		if ( rset != null )
-		{
-			metaData = new RowMetaData( rset.getResultMetaData( ) );
+		if (rset != null) {
+			metaData = new RowMetaData(rset.getResultMetaData());
 		}
 	}
 
-	public DataSetID getID( )
-	{
-		return rset.getID( );
+	public DataSetID getID() {
+		return rset.getID();
 	}
 
 	/**
@@ -68,56 +61,40 @@ public class RowSet implements IRowSet
 	 * 
 	 * @return the definition for the data row
 	 */
-	public IRowMetaData getMetaData( )
-	{
+	public IRowMetaData getMetaData() {
 		return metaData;
 	}
 
-	public boolean next( )
-	{
-		if ( rset != null )
-		{
-			try
-			{
-				return rset.next( );
-			}
-			catch ( BirtException ex )
-			{
-				context.addException( ex );
+	public boolean next() {
+		if (rset != null) {
+			try {
+				return rset.next();
+			} catch (BirtException ex) {
+				context.addException(ex);
 				return false;
 			}
 		}
 		return false;
 	}
 
-	public Object evaluate( String expr )
-	{
-		try
-		{
-			if ( rset != null )
-			{
-				return rset.evaluate( expr );
+	public Object evaluate(String expr) {
+		try {
+			if (rset != null) {
+				return rset.evaluate(expr);
 			}
-		}
-		catch ( BirtException ex )
-		{
-			context.addException( ex );
+		} catch (BirtException ex) {
+			context.addException(ex);
 		}
 		return null;
 	}
 
-	public Object evaluate( IBaseExpression expr )
-	{
-		try
-		{
-			if ( rset != null )
-			{
-				return rset.evaluate( expr );
+	public Object evaluate(IBaseExpression expr) {
+		try {
+			if (rset != null) {
+				return rset.evaluate(expr);
 			}
-		}
-		catch ( BirtException ex )
-		{
-			context.addException( ex );
+		} catch (BirtException ex) {
+			context.addException(ex);
 		}
 		return null;
 	}
@@ -129,31 +106,24 @@ public class RowSet implements IRowSet
 	 * @param columnIndex
 	 * @return
 	 */
-	public Object getValue( int columnIndex )
-	{
-		throw new UnsupportedOperationException( );
+	public Object getValue(int columnIndex) {
+		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * Returns the value of a bound column by column name.
 	 * 
-	 * @param name
-	 *            of bound column
+	 * @param name of bound column
 	 * @return value of bound column
 	 * @throws BirtException
 	 */
-	public Object getValue( String columnName )
-	{
-		try
-		{
-			if ( rset != null )
-			{
-				return rset.getValue( columnName );
+	public Object getValue(String columnName) {
+		try {
+			if (rset != null) {
+				return rset.getValue(columnName);
 			}
-		}
-		catch ( BirtException ex )
-		{
-			context.addException( ex );
+		} catch (BirtException ex) {
+			context.addException(ex);
 		}
 		return null;
 	}
@@ -163,17 +133,12 @@ public class RowSet implements IRowSet
 	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IRowSet#getEndingGroupLevel()
 	 */
-	public int getEndingGroupLevel( )
-	{
-		if ( rset != null )
-		{
-			try
-			{
-				return rset.getEndingGroupLevel( );
-			}
-			catch ( BirtException ex )
-			{
-				context.addException( ex );
+	public int getEndingGroupLevel() {
+		if (rset != null) {
+			try {
+				return rset.getEndingGroupLevel();
+			} catch (BirtException ex) {
+				context.addException(ex);
 			}
 		}
 		return 0;
@@ -184,34 +149,26 @@ public class RowSet implements IRowSet
 	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IRowSet#getStartingGroupLevel()
 	 */
-	public int getStartingGroupLevel( )
-	{
-		if ( rset != null )
-		{
-			try
-			{
-				return rset.getStartingGroupLevel( );
-			}
-			catch ( BirtException ex )
-			{
-				context.addException( ex );
+	public int getStartingGroupLevel() {
+		if (rset != null) {
+			try {
+				return rset.getStartingGroupLevel();
+			} catch (BirtException ex) {
+				context.addException(ex);
 
 			}
 		}
 		return 0;
 	}
 
-	public void close( )
-	{
+	public void close() {
 		return;
 	}
 
-	public boolean isEmpty( ) throws BirtException
-	{
-		if ( rset == null )
-		{
+	public boolean isEmpty() throws BirtException {
+		if (rset == null) {
 			return true;
 		}
-		return rset.isEmpty( );
+		return rset.isEmpty();
 	}
 }

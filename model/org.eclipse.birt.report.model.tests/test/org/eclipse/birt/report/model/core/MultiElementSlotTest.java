@@ -58,23 +58,21 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * </tr>
  * 
  * </table>
- *  
+ * 
  */
-public class MultiElementSlotTest extends BaseTestCase
-{
+public class MultiElementSlotTest extends BaseTestCase {
 
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 
 	}
 
 	/**
-	 * Tests general slot operation, such as insert, drop, contains, findPos and
-	 * so on.
+	 * Tests general slot operation, such as insert, drop, contains, findPos and so
+	 * on.
 	 * 
 	 * <p>
 	 * Test Cases:
@@ -89,38 +87,37 @@ public class MultiElementSlotTest extends BaseTestCase
 	 * <li>find special element</li>
 	 * <li>cann't find element</li>
 	 * </ul>
-	 *  
+	 * 
 	 */
-	public void testInsertRemove( )
-	{
-		MultiElementSlot slot = new MultiElementSlot( );
+	public void testInsertRemove() {
+		MultiElementSlot slot = new MultiElementSlot();
 
 		// Insert two labels into this slot
 
-		Label label1 = new Label( );
-		slot.insert( label1, 0 );
+		Label label1 = new Label();
+		slot.insert(label1, 0);
 
-		Label label2 = new Label( );
-		slot.insert( label2, 1 );
+		Label label2 = new Label();
+		slot.insert(label2, 1);
 
-		assertEquals( 2, slot.getCount( ) );
+		assertEquals(2, slot.getCount());
 
 		// Check the above two labels are really in this slot.
 
-		assertEquals( 0, slot.findPosn( label1 ) );
-		assertEquals( 1, slot.findPosn( label2 ) );
-		assertTrue( slot.contains( label1 ) );
-		assertTrue( slot.contains( label2 ) );
+		assertEquals(0, slot.findPosn(label1));
+		assertEquals(1, slot.findPosn(label2));
+		assertTrue(slot.contains(label1));
+		assertTrue(slot.contains(label2));
 
 		// Remove the first label
 
-		slot.remove( label1 );
+		slot.remove(label1);
 
-		assertEquals( 1, slot.getCount( ) );
-		assertFalse( slot.contains( label1 ) );
-		assertEquals( 0, slot.findPosn( label2 ) );
+		assertEquals(1, slot.getCount());
+		assertFalse(slot.contains(label1));
+		assertEquals(0, slot.findPosn(label2));
 
-		assertTrue( slot.canDrop( label2 ) );
+		assertTrue(slot.canDrop(label2));
 	}
 
 	/**
@@ -138,31 +135,30 @@ public class MultiElementSlotTest extends BaseTestCase
 	 * </ul>
 	 */
 
-	public void testMoveContent( )
-	{
-		MultiElementSlot slot = new MultiElementSlot( );
+	public void testMoveContent() {
+		MultiElementSlot slot = new MultiElementSlot();
 
 		// Insert three labels
 
-		Label label1 = new Label( );
-		Label label2 = new Label( );
-		Label label3 = new Label( );
+		Label label1 = new Label();
+		Label label2 = new Label();
+		Label label3 = new Label();
 
-		slot.insert( label1, 0 );
-		slot.insert( label2, 1 );
-		slot.insert( label3, 2 );
+		slot.insert(label1, 0);
+		slot.insert(label2, 1);
+		slot.insert(label3, 2);
 
-		assertEquals( 0, slot.findPosn( label1 ) );
-		assertEquals( 1, slot.findPosn( label2 ) );
-		assertEquals( 2, slot.findPosn( label3 ) );
+		assertEquals(0, slot.findPosn(label1));
+		assertEquals(1, slot.findPosn(label2));
+		assertEquals(2, slot.findPosn(label3));
 
 		// Move the first label behind the second one
 
-		slot.moveContent( 0, 2 );
+		slot.moveContent(0, 2);
 
-		assertEquals( 1, slot.findPosn( label3 ) );
-		assertEquals( 2, slot.findPosn( label1 ) );
-		assertEquals( 0, slot.findPosn( label2 ) );
+		assertEquals(1, slot.findPosn(label3));
+		assertEquals(2, slot.findPosn(label1));
+		assertEquals(0, slot.findPosn(label2));
 
 	}
 }

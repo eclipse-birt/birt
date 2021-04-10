@@ -24,35 +24,24 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  * 
  */
 
-public class DataSetStore
-{
+public class DataSetStore {
 
-	public static IDataSetReader createReader( StreamManager manager,
-			IResultClass resultClass, boolean includeInnerId, Map<?, ?> appContext )
-			throws DataException
-	{
+	public static IDataSetReader createReader(StreamManager manager, IResultClass resultClass, boolean includeInnerId,
+			Map<?, ?> appContext) throws DataException {
 		return null;
 	}
 
-	public static IDataSetWriter createWriter( StreamManager manager,
-			IResultClass resultClass, Map<?, ?> appContext,
-			DataEngineSession session,
-			List<IAuxiliaryIndexCreator> auxiliaryIndexs ) throws DataException
-	{
+	public static IDataSetWriter createWriter(StreamManager manager, IResultClass resultClass, Map<?, ?> appContext,
+			DataEngineSession session, List<IAuxiliaryIndexCreator> auxiliaryIndexs) throws DataException {
 		return null;
 	}
 
-	public static IDataSetUpdater createUpdater( StreamManager manager,
-			IResultClass resultClass, Map<?, ?> appContext,
-			DataEngineSession session,
-			List<IAuxiliaryIndexCreator> auxiliaryIndexs ) throws DataException
-	{
+	public static IDataSetUpdater createUpdater(StreamManager manager, IResultClass resultClass, Map<?, ?> appContext,
+			DataEngineSession session, List<IAuxiliaryIndexCreator> auxiliaryIndexs) throws DataException {
 		return null;
 	}
-	
-	public static boolean isDataMartStore( Map<?, ?> appContext,
-			DataEngineSession session ) throws DataException
-	{
+
+	public static boolean isDataMartStore(Map<?, ?> appContext, DataEngineSession session) throws DataException {
 		return false;
 	}
 }

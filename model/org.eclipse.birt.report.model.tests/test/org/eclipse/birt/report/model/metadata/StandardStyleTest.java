@@ -17,19 +17,17 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * Test case for StandardStyle.
  * 
  */
-public class StandardStyleTest extends BaseTestCase
-{
+public class StandardStyleTest extends BaseTestCase {
 
 	private PredefinedStyle standardStyle = null;
 
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
+	protected void setUp() throws Exception {
 		// MetaDataDictionary.reset();
-		super.setUp( );
-		standardStyle = new PredefinedStyle( );
+		super.setUp();
+		standardStyle = new PredefinedStyle();
 
 		// Setup.setup();
 	}
@@ -38,22 +36,19 @@ public class StandardStyleTest extends BaseTestCase
 	 * test getters and setters.
 	 * 
 	 */
-	public void testGetterSetters( )
-	{
-		MetadataTestUtil.setPredefinedStyleDisplayNameKey( standardStyle,
-				"DisplayNameID" ); //$NON-NLS-1$
-		MetadataTestUtil.setPredefinedStyleName( standardStyle, "Name" ); //$NON-NLS-1$
+	public void testGetterSetters() {
+		MetadataTestUtil.setPredefinedStyleDisplayNameKey(standardStyle, "DisplayNameID"); //$NON-NLS-1$
+		MetadataTestUtil.setPredefinedStyleName(standardStyle, "Name"); //$NON-NLS-1$
 
-		assertEquals( "DisplayNameID", standardStyle.getDisplayNameKey( ) ); //$NON-NLS-1$
-		assertEquals( "Name", standardStyle.getName( ) ); //$NON-NLS-1$
+		assertEquals("DisplayNameID", standardStyle.getDisplayNameKey()); //$NON-NLS-1$
+		assertEquals("Name", standardStyle.getName()); //$NON-NLS-1$
 	}
 
 	/**
 	 * test adding two derived style to one style.
 	 * 
 	 */
-	public void testAddTwoDerivedStyles( )
-	{
+	public void testAddTwoDerivedStyles() {
 		/*
 		 * <Style name="$BH" displayNameID="BASE_HDR_STYLE_DISP_NAME"
 		 * reference="Base Header" extends="$N"/> <Style name="$LGH1"
@@ -63,18 +58,15 @@ public class StandardStyleTest extends BaseTestCase
 		 * Header" extends="$BH"/>
 		 */
 
-		PredefinedStyle bh = new PredefinedStyle( );
-		PredefinedStyle lgh1 = new PredefinedStyle( );
-		PredefinedStyle lgh2 = new PredefinedStyle( );
+		PredefinedStyle bh = new PredefinedStyle();
+		PredefinedStyle lgh1 = new PredefinedStyle();
+		PredefinedStyle lgh2 = new PredefinedStyle();
 
-		MetadataTestUtil.setPredefinedStyleName( bh, "$BH" ); //$NON-NLS-1$
-		MetadataTestUtil.setPredefinedStyleDisplayNameKey( bh,
-				"BASE_HDR_STYLE_DISP_NAME" ); //$NON-NLS-1$
-		MetadataTestUtil.setPredefinedStyleName( lgh1, "@LGH1" ); //$NON-NLS-1$
-		MetadataTestUtil.setPredefinedStyleDisplayNameKey( lgh1,
-				"LIST_GRP1_HDR_STYLE_DISP_NAME" ); //$NON-NLS-1$
-		MetadataTestUtil.setPredefinedStyleName( lgh2, "@LGH2" ); //$NON-NLS-1$
-		MetadataTestUtil.setPredefinedStyleDisplayNameKey( lgh2,
-				"LIST_GRP2_HDR_STYLE_DISP_NAME" ); //$NON-NLS-1$
+		MetadataTestUtil.setPredefinedStyleName(bh, "$BH"); //$NON-NLS-1$
+		MetadataTestUtil.setPredefinedStyleDisplayNameKey(bh, "BASE_HDR_STYLE_DISP_NAME"); //$NON-NLS-1$
+		MetadataTestUtil.setPredefinedStyleName(lgh1, "@LGH1"); //$NON-NLS-1$
+		MetadataTestUtil.setPredefinedStyleDisplayNameKey(lgh1, "LIST_GRP1_HDR_STYLE_DISP_NAME"); //$NON-NLS-1$
+		MetadataTestUtil.setPredefinedStyleName(lgh2, "@LGH2"); //$NON-NLS-1$
+		MetadataTestUtil.setPredefinedStyleDisplayNameKey(lgh2, "LIST_GRP2_HDR_STYLE_DISP_NAME"); //$NON-NLS-1$
 	}
 }

@@ -16,8 +16,7 @@ package org.eclipse.birt.report.engine.api.script.element;
  * 
  * @deprecated
  */
-public interface IScriptAPIFactory
-{
+public interface IScriptAPIFactory {
 
 	/**
 	 * Create <code>IHideRule</code> instance
@@ -25,7 +24,7 @@ public interface IScriptAPIFactory
 	 * @return IHideRule
 	 */
 
-	public IHideRule createHideRule( );
+	public IHideRule createHideRule();
 
 	/**
 	 * Create <code>IFilterCondition</code>
@@ -33,7 +32,7 @@ public interface IScriptAPIFactory
 	 * @return instance
 	 */
 
-	public IFilterCondition createFilterCondition( );
+	public IFilterCondition createFilterCondition();
 
 	/**
 	 * Create <code>IDataBinding</code>
@@ -41,7 +40,7 @@ public interface IScriptAPIFactory
 	 * @return instance
 	 */
 
-	public IDataBinding createDataBinding( );
+	public IDataBinding createDataBinding();
 
 	/**
 	 * Create <code>IHighLightRule</code>
@@ -49,7 +48,7 @@ public interface IScriptAPIFactory
 	 * @return instance
 	 */
 
-	public IHighlightRule createHighLightRule( );
+	public IHighlightRule createHighLightRule();
 
 	/**
 	 * Create <code>ISortCondition</code>
@@ -57,6 +56,6 @@ public interface IScriptAPIFactory
 	 * @return instance
 	 */
 
-	public ISortCondition createSortCondition( );
+	public ISortCondition createSortCondition();
 
 }

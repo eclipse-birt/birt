@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
  * 
  */
 
-public class ComboBoxParameter extends ListingParameter
-{
+public class ComboBoxParameter extends ListingParameter {
 
 	/**
 	 * Constructor
@@ -29,10 +28,8 @@ public class ComboBoxParameter extends ListingParameter
 	 * @param engineTask
 	 */
 
-	public ComboBoxParameter( ScalarParameterHandle handle,
-			IEngineTask engineTask )
-	{
-		super( handle, engineTask );
+	public ComboBoxParameter(ScalarParameterHandle handle, IEngineTask engineTask) {
+		super(handle, engineTask);
 	}
 
 }

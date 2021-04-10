@@ -14,12 +14,11 @@ package org.eclipse.birt.report.item.crosstab.core;
 /**
  * 
  */
-public interface ICrosstabViewConstants
-{
+public interface ICrosstabViewConstants {
 
 	/**
-	 * Name of the property that holds the grand total header cell for this
-	 * crosstab view.
+	 * Name of the property that holds the grand total header cell for this crosstab
+	 * view.
 	 */
 	String GRAND_TOTAL_PROP = "grandTotal"; //$NON-NLS-1$
 
@@ -34,8 +33,8 @@ public interface ICrosstabViewConstants
 	String MEMBERS_PROP = "members"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that specifies if start from which level this view
-	 * is mirrored.
+	 * Name of the property that specifies if start from which level this view is
+	 * mirrored.
 	 */
 	String MIRROR_STARTING_LEVEL_PROP = "mirrorStartingLevel"; //$NON-NLS-1$
 

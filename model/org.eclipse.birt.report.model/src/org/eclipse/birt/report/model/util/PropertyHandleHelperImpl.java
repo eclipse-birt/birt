@@ -39,114 +39,84 @@ import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrat
  *
  */
 
-class PropertyHandleHelperImpl
-{
+class PropertyHandleHelperImpl {
 
-	public boolean isReadOnlyInContext( PropertyHandle propHandle )
-	{
-		DesignElementHandle element = propHandle.getElementHandle( );
-		Module module = propHandle.getModule( );
-		String propName = propHandle.getPropertyDefn( ).getName( );
-		if ( element instanceof MasterPageHandle )
-		{
-			MasterPage masterPage = (MasterPage) element.getElement( );
-			if ( !masterPage.isCustomType( module ) )
-			{
+	public boolean isReadOnlyInContext(PropertyHandle propHandle) {
+		DesignElementHandle element = propHandle.getElementHandle();
+		Module module = propHandle.getModule();
+		String propName = propHandle.getPropertyDefn().getName();
+		if (element instanceof MasterPageHandle) {
+			MasterPage masterPage = (MasterPage) element.getElement();
+			if (!masterPage.isCustomType(module)) {
 
-				if ( IMasterPageModel.HEIGHT_PROP.equals( propName )
-						|| IMasterPageModel.WIDTH_PROP.equals( propName ) )
+				if (IMasterPageModel.HEIGHT_PROP.equals(propName) || IMasterPageModel.WIDTH_PROP.equals(propName))
 					return true;
 			}
-		}
-		else if ( element instanceof GroupHandle )
-		{
-			DesignElementHandle tmpContainer = element.getContainer( );
-			if ( tmpContainer == null )
+		} else if (element instanceof GroupHandle) {
+			DesignElementHandle tmpContainer = element.getContainer();
+			if (tmpContainer == null)
 				return false;
 
-			return ( GroupPropSearchStrategy.getDataBindingPropties( )
-					.contains( propName ) && ( (ListingElement) tmpContainer
-					.getElement( ) ).isDataBindingReferring( module ) );
-		}
-		else if ( element instanceof ReportItemHandle )
-		{
-			boolean containsProp = ReportItemPropSearchStrategy
-					.isDataBindingProperty( element.getElement( ), propName );
+			return (GroupPropSearchStrategy.getDataBindingPropties().contains(propName)
+					&& ((ListingElement) tmpContainer.getElement()).isDataBindingReferring(module));
+		} else if (element instanceof ReportItemHandle) {
+			boolean containsProp = ReportItemPropSearchStrategy.isDataBindingProperty(element.getElement(), propName);
 
-			boolean retValue = containsProp
-					&& ( (ReportItem) element.getElement( ) )
-							.isDataBindingReferring( module );
+			boolean retValue = containsProp && ((ReportItem) element.getElement()).isDataBindingReferring(module);
 
-			if ( retValue )
+			if (retValue)
 				return true;
 
-			if ( !containsProp )
-				containsProp = ExtendedItemPropSearchStrategy
-						.isHostViewProperty( element.getElement( ), propName );
+			if (!containsProp)
+				containsProp = ExtendedItemPropSearchStrategy.isHostViewProperty(element.getElement(), propName);
 
-			if ( element instanceof ExtendedItemHandle )
-				return ( containsProp && ( element.getContainer( ) instanceof MultiViewsHandle ) );
-		}
-		else if ( element instanceof RowHandle
-				&& ITableRowModel.REPEATABLE_PROP.equals( propName ) )
-		{
-			return !rowRepeatableVisibleInContext( element );
-		}
-		else if ( element instanceof TabularDimensionHandle )
-		{
+			if (element instanceof ExtendedItemHandle)
+				return (containsProp && (element.getContainer() instanceof MultiViewsHandle));
+		} else if (element instanceof RowHandle && ITableRowModel.REPEATABLE_PROP.equals(propName)) {
+			return !rowRepeatableVisibleInContext(element);
+		} else if (element instanceof TabularDimensionHandle) {
 			// can not edit any property in the cube dimension that has defined
 			// share dimension
-			TabularDimension dimension = (TabularDimension) element
-					.getElement( );
-			if ( dimension.hasSharedDimension( element.getModule( ) ) )
+			TabularDimension dimension = (TabularDimension) element.getElement();
+			if (dimension.hasSharedDimension(element.getModule()))
 				return true;
 
 		}
 
 		// all the children in cube dimension is read-only
-		DesignElementHandle container = element.getContainer( );
-		while ( container != null )
-		{
-			if ( container instanceof TabularDimensionHandle )
-			{
-				TabularDimension dimension = (TabularDimension) container
-						.getElement( );
-				if ( dimension.hasSharedDimension( container.getModule( ) ) )
+		DesignElementHandle container = element.getContainer();
+		while (container != null) {
+			if (container instanceof TabularDimensionHandle) {
+				TabularDimension dimension = (TabularDimension) container.getElement();
+				if (dimension.hasSharedDimension(container.getModule()))
 					return true;
 			}
 
-			container = container.getContainer( );
+			container = container.getContainer();
 		}
 
 		return false;
 	}
 
 	/**
-	 * Returns whether the repeatable of the row is visible in the report
-	 * context.
+	 * Returns whether the repeatable of the row is visible in the report context.
 	 * 
-	 * @param handle
-	 *            the design element handle.
+	 * @param handle the design element handle.
 	 * @return <code>true</code> if the value is visible. Otherwise
 	 *         <code>false</code>.
 	 */
-	private boolean rowRepeatableVisibleInContext( DesignElementHandle handle )
-	{
+	private boolean rowRepeatableVisibleInContext(DesignElementHandle handle) {
 		assert handle instanceof RowHandle;
 		boolean isVisible = false;
-		DesignElementHandle container = handle.getContainer( );
-		if ( container instanceof TableHandle )
-		{
-			int containerSlotID = handle.getContainerSlotHandle( ).getSlotID( );
-			if ( IListingElementModel.HEADER_SLOT == containerSlotID
-					|| IListingElementModel.FOOTER_SLOT == containerSlotID )
-			{
+		DesignElementHandle container = handle.getContainer();
+		if (container instanceof TableHandle) {
+			int containerSlotID = handle.getContainerSlotHandle().getSlotID();
+			if (IListingElementModel.HEADER_SLOT == containerSlotID
+					|| IListingElementModel.FOOTER_SLOT == containerSlotID) {
 				isVisible = true;
 			}
 
-		}
-		else if ( container instanceof TableGroupHandle )
-		{
+		} else if (container instanceof TableGroupHandle) {
 			isVisible = true;
 		}
 
@@ -159,15 +129,12 @@ class PropertyHandleHelperImpl
 	 * @return <code>true</code> if the value is visible. Otherwise
 	 *         <code>false</code>.
 	 */
-	public boolean isVisibleInContext( PropertyHandle propHandle )
-	{
+	public boolean isVisibleInContext(PropertyHandle propHandle) {
 		boolean isVisible = true;
-		DesignElementHandle element = propHandle.getElementHandle( );
-		String propName = propHandle.getPropertyDefn( ).getName( );
-		if ( element instanceof RowHandle
-				&& ITableRowModel.REPEATABLE_PROP.equals( propName ) )
-		{
-			isVisible = rowRepeatableVisibleInContext( element );
+		DesignElementHandle element = propHandle.getElementHandle();
+		String propName = propHandle.getPropertyDefn().getName();
+		if (element instanceof RowHandle && ITableRowModel.REPEATABLE_PROP.equals(propName)) {
+			isVisible = rowRepeatableVisibleInContext(element);
 		}
 		return isVisible;
 	}

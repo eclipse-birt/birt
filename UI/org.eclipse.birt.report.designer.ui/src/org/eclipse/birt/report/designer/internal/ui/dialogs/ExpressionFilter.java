@@ -18,8 +18,6 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
  *             {@link org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter}
  *             instead
  */
-public abstract class ExpressionFilter extends
-		org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter
-{
+public abstract class ExpressionFilter extends org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter {
 
 }

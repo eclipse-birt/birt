@@ -29,8 +29,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
  * 
  */
 
-public class HighlightRuleMethodUtil
-{
+public class HighlightRuleMethodUtil {
 
 	/**
 	 * Adds hidelight rule.
@@ -39,18 +38,12 @@ public class HighlightRuleMethodUtil
 	 * @param rule
 	 */
 
-	public static void addHighlightRule( DesignElementHandle handle,
-			IHighlightRule rule ) throws ScriptException
-	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		try
-		{
-			propHandle.addItem( rule.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public static void addHighlightRule(DesignElementHandle handle, IHighlightRule rule) throws ScriptException {
+		PropertyHandle propHandle = handle.getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP);
+		try {
+			propHandle.addItem(rule.getStructure());
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
@@ -61,23 +54,19 @@ public class HighlightRuleMethodUtil
 	 * @return
 	 */
 
-	public static IHighlightRule[] getHighlightRules( DesignElementHandle handle )
-	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		Iterator iterator = propHandle.iterator( );
-		List rList = new ArrayList( );
+	public static IHighlightRule[] getHighlightRules(DesignElementHandle handle) {
+		PropertyHandle propHandle = handle.getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP);
+		Iterator iterator = propHandle.iterator();
+		List rList = new ArrayList();
 		int count = 0;
 
-		while ( iterator.hasNext( ) )
-		{
-			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iterator
-					.next( );
-			HighlightRuleImpl rule = new HighlightRuleImpl( ruleHandle );
-			rList.add( rule );
+		while (iterator.hasNext()) {
+			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iterator.next();
+			HighlightRuleImpl rule = new HighlightRuleImpl(ruleHandle);
+			rList.add(rule);
 			++count;
 		}
-		return (IHighlightRule[]) rList.toArray( new IHighlightRule[count] );
+		return (IHighlightRule[]) rList.toArray(new IHighlightRule[count]);
 	}
 
 	/**
@@ -88,18 +77,12 @@ public class HighlightRuleMethodUtil
 	 * @throws ScriptException
 	 */
 
-	public static void removeHighlightRule( DesignElementHandle handle,
-			IHighlightRule rule ) throws ScriptException
-	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		try
-		{
-			propHandle.removeItem( rule.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public static void removeHighlightRule(DesignElementHandle handle, IHighlightRule rule) throws ScriptException {
+		PropertyHandle propHandle = handle.getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP);
+		try {
+			propHandle.removeItem(rule.getStructure());
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
@@ -110,18 +93,12 @@ public class HighlightRuleMethodUtil
 	 * @throws ScriptException
 	 */
 
-	public static void removeHighlightRules( DesignElementHandle handle )
-			throws ScriptException
-	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		try
-		{
-			propHandle.clearValue( );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public static void removeHighlightRules(DesignElementHandle handle) throws ScriptException {
+		PropertyHandle propHandle = handle.getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP);
+		try {
+			propHandle.clearValue();
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 }

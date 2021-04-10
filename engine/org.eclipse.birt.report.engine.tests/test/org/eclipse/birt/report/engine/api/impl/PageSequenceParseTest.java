@@ -15,83 +15,63 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import java.util.List;
 import junit.framework.TestCase;
 
-
 /**
  * 
  */
 
-public class PageSequenceParseTest extends TestCase
-{
+public class PageSequenceParseTest extends TestCase {
 
-	public void testIncorrectPageNumberRange( )
-	{
+	public void testIncorrectPageNumberRange() {
 		boolean exceptionFlag = false;
-		try
-		{
-			PageSequenceParse.parsePageSequence( "20-25", 15 );
-		}
-		catch ( EngineException e )
-		{
+		try {
+			PageSequenceParse.parsePageSequence("20-25", 15);
+		} catch (EngineException e) {
 			exceptionFlag = true;
 		}
-		assert ( exceptionFlag );
+		assert (exceptionFlag);
 
 		exceptionFlag = false;
-		try
-		{
-			PageSequenceParse.parsePageSequence( "12-10", 15 );
-		}
-		catch ( EngineException e )
-		{
+		try {
+			PageSequenceParse.parsePageSequence("12-10", 15);
+		} catch (EngineException e) {
 			exceptionFlag = true;
 		}
-		assert ( exceptionFlag );
+		assert (exceptionFlag);
 
 		exceptionFlag = false;
-		try
-		{
-			PageSequenceParse.parsePageSequence( "10-", 15 );
-		}
-		catch ( EngineException e )
-		{
+		try {
+			PageSequenceParse.parsePageSequence("10-", 15);
+		} catch (EngineException e) {
 			exceptionFlag = true;
 		}
-		assert ( exceptionFlag );
+		assert (exceptionFlag);
 
 		exceptionFlag = false;
-		try
-		{
-			PageSequenceParse.parsePageSequence( "16", 15 );
-		}
-		catch ( EngineException e )
-		{
+		try {
+			PageSequenceParse.parsePageSequence("16", 15);
+		} catch (EngineException e) {
 			exceptionFlag = true;
 		}
-		assert ( exceptionFlag );
+		assert (exceptionFlag);
 	}
 
-	public void testCorrectPageNumberRange( )
-	{
-		try
-		{
-			List pageRangeList = PageSequenceParse.parsePageSequence( "13-15,3,8-11",
-					15 );
-			assert ( null != pageRangeList );
-			assert ( 3 == pageRangeList.size( ) );
-			long[] pageRange = (long[]) pageRangeList.get( 0 );
-			assert ( 3 == pageRange[0] );
-			assert ( 3 == pageRange[1] );
-			pageRange = (long[]) pageRangeList.get( 1 );
-			assert ( 8 == pageRange[0] );
-			assert ( 11 == pageRange[1] );
-			pageRange = (long[]) pageRangeList.get( 2 );
-			assert ( 13 == pageRange[0] );
-			assert ( 15 == pageRange[1] );
-		}
-		catch ( EngineException e )
-		{
+	public void testCorrectPageNumberRange() {
+		try {
+			List pageRangeList = PageSequenceParse.parsePageSequence("13-15,3,8-11", 15);
+			assert (null != pageRangeList);
+			assert (3 == pageRangeList.size());
+			long[] pageRange = (long[]) pageRangeList.get(0);
+			assert (3 == pageRange[0]);
+			assert (3 == pageRange[1]);
+			pageRange = (long[]) pageRangeList.get(1);
+			assert (8 == pageRange[0]);
+			assert (11 == pageRange[1]);
+			pageRange = (long[]) pageRangeList.get(2);
+			assert (13 == pageRange[0]);
+			assert (15 == pageRange[1]);
+		} catch (EngineException e) {
 			// TODO Auto-generated catch block
-			assert ( false );
+			assert (false);
 		}
 	}
 }

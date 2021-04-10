@@ -48,32 +48,29 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * </table>
  */
 
-public class ObjectDefnTest extends BaseTestCase
-{
+public class ObjectDefnTest extends BaseTestCase {
 
-	private ObjectDefn obj = new ObjectDefn( "TestObject" ); //$NON-NLS-1$
+	private ObjectDefn obj = new ObjectDefn("TestObject"); //$NON-NLS-1$
 
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		ThreadResources.setLocale( TEST_LOCALE );
-		MetadataTestUtil.setDisplayNameKey( obj, "Element.ReportDesign" ); //$NON-NLS-1$
+	protected void setUp() throws Exception {
+		super.setUp();
+		ThreadResources.setLocale(TEST_LOCALE);
+		MetadataTestUtil.setDisplayNameKey(obj, "Element.ReportDesign"); //$NON-NLS-1$
 	}
 
 	/**
 	 * test getters and setters.
 	 * 
 	 */
-	public void testGetterAndSetter( )
-	{
-		assertEquals( "TestObject", obj.getName( ) ); //$NON-NLS-1$
-		MetadataTestUtil.setName( obj, "New Object Name" ); //$NON-NLS-1$
+	public void testGetterAndSetter() {
+		assertEquals("TestObject", obj.getName()); //$NON-NLS-1$
+		MetadataTestUtil.setName(obj, "New Object Name"); //$NON-NLS-1$
 
-		assertEquals( "\u62a5\u8868", obj.getDisplayName( ) ); //$NON-NLS-1$
-		assertEquals( "New Object Name", obj.getName( ) ); //$NON-NLS-1$
+		assertEquals("\u62a5\u8868", obj.getDisplayName()); //$NON-NLS-1$
+		assertEquals("New Object Name", obj.getName()); //$NON-NLS-1$
 
 	}
 
@@ -81,76 +78,65 @@ public class ObjectDefnTest extends BaseTestCase
 	 * add three properties, iterate them and find them.
 	 * 
 	 */
-	public void testAddThreeProperty( )
-	{
-		PropertyDefnFake propertyA = new PropertyDefnFake( );
-		PropertyDefnFake propertyB = new PropertyDefnFake( );
-		PropertyDefnFake propertyC = new PropertyDefnFake( );
+	public void testAddThreeProperty() {
+		PropertyDefnFake propertyA = new PropertyDefnFake();
+		PropertyDefnFake propertyB = new PropertyDefnFake();
+		PropertyDefnFake propertyC = new PropertyDefnFake();
 
-		propertyA.setName( "property A" ); //$NON-NLS-1$
-		propertyB.setName( "property B" ); //$NON-NLS-1$
-		propertyC.setName( "property C" ); //$NON-NLS-1$
+		propertyA.setName("property A"); //$NON-NLS-1$
+		propertyB.setName("property B"); //$NON-NLS-1$
+		propertyC.setName("property C"); //$NON-NLS-1$
 
 		// add three properties
 
-		try
-		{
-			MetadataTestUtil.addPropertyDefn( obj, propertyA );
-			MetadataTestUtil.addPropertyDefn( obj, propertyB );
-			MetadataTestUtil.addPropertyDefn( obj, propertyC );
-		}
-		catch ( MetaDataException e )
-		{
-			fail( );
+		try {
+			MetadataTestUtil.addPropertyDefn(obj, propertyA);
+			MetadataTestUtil.addPropertyDefn(obj, propertyB);
+			MetadataTestUtil.addPropertyDefn(obj, propertyC);
+		} catch (MetaDataException e) {
+			fail();
 		}
 
 		// iterate all properties
 
-		Iterator iter = obj.getPropertyIterator( );
-		while ( iter.hasNext( ) )
-		{
-			PropertyDefn property = (PropertyDefn) iter.next( );
+		Iterator iter = obj.getPropertyIterator();
+		while (iter.hasNext()) {
+			PropertyDefn property = (PropertyDefn) iter.next();
 
-			assertTrue( property.getName( ).equals( "property A" ) || //$NON-NLS-1$
-					property.getName( ).equals( "property B" ) || //$NON-NLS-1$
-					property.getName( ).equals( "property C" ) ); //$NON-NLS-1$
+			assertTrue(property.getName().equals("property A") || //$NON-NLS-1$
+					property.getName().equals("property B") || //$NON-NLS-1$
+					property.getName().equals("property C")); //$NON-NLS-1$
 		}
 
 		// find property via name
 
-		assertSame( propertyA, obj.findProperty( propertyA.getName( ) ) );
-		assertSame( propertyB, obj.findProperty( propertyB.getName( ) ) );
-		assertSame( propertyC, obj.findProperty( propertyC.getName( ) ) );
+		assertSame(propertyA, obj.findProperty(propertyA.getName()));
+		assertSame(propertyB, obj.findProperty(propertyB.getName()));
+		assertSame(propertyC, obj.findProperty(propertyC.getName()));
 
 		// find an unexisting property
 
-		assertNull( obj.findProperty( "Unexisting" ) ); //$NON-NLS-1$
+		assertNull(obj.findProperty("Unexisting")); //$NON-NLS-1$
 	}
 
 	/**
 	 * add the property whose name exists in object definition.
 	 * 
 	 */
-	public void testAddSameProperty( )
-	{
-		PropertyDefnFake propertyA = new PropertyDefnFake( );
+	public void testAddSameProperty() {
+		PropertyDefnFake propertyA = new PropertyDefnFake();
 
-		propertyA.setName( "property A" ); //$NON-NLS-1$
+		propertyA.setName("property A"); //$NON-NLS-1$
 
 		// add the property whose name exists in object definition
 
-		try
-		{
-			MetadataTestUtil.addPropertyDefn( obj, propertyA );
-			MetadataTestUtil.addPropertyDefn( obj, propertyA );
+		try {
+			MetadataTestUtil.addPropertyDefn(obj, propertyA);
+			MetadataTestUtil.addPropertyDefn(obj, propertyA);
 
-			fail( "MetaDataException should be thrown because the name exists !" ); //$NON-NLS-1$
-		}
-		catch ( MetaDataException e )
-		{
-			assertEquals(
-					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY, e
-							.getErrorCode( ) );
+			fail("MetaDataException should be thrown because the name exists !"); //$NON-NLS-1$
+		} catch (MetaDataException e) {
+			assertEquals(MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY, e.getErrorCode());
 		}
 	}
 }

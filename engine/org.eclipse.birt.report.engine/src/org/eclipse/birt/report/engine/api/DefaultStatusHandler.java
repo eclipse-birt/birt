@@ -11,27 +11,33 @@
 
 package org.eclipse.birt.report.engine.api;
 
-
 /**
- * default implementation for a status handler. Writes all status information
- * to console. 
+ * default implementation for a status handler. Writes all status information to
+ * console.
  */
-public class DefaultStatusHandler implements IStatusHandler{
+public class DefaultStatusHandler implements IStatusHandler {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IStatusHandler#initialize()
 	 */
 	public void initialize() {
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IStatusHandler#finish()
 	 */
 	public void finish() {
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IStatusHandler#showStatus(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api2.IStatusHandler#showStatus(java.lang.
+	 * String)
 	 */
 	public void showStatus(String s) {
 		System.out.println(s);

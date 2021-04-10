@@ -21,8 +21,7 @@ import org.xml.sax.SAXException;
 /**
  * Parses a sort element state.
  */
-public class VariableElementState extends ReportElementState
-{
+public class VariableElementState extends ReportElementState {
 
 	/**
 	 * The element being created.
@@ -31,21 +30,16 @@ public class VariableElementState extends ReportElementState
 	protected VariableElement element = null;
 
 	/**
-	 * Constructs sort element state with the design parser handler, the
-	 * container element and the container property name of the report element.
+	 * Constructs sort element state with the design parser handler, the container
+	 * element and the container property name of the report element.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param prop
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param prop         the slot in which this element appears
 	 */
 
-	public VariableElementState( ModuleParserHandler handler,
-			DesignElement theContainer, String prop )
-	{
-		super( handler, theContainer, prop );
+	public VariableElementState(ModuleParserHandler handler, DesignElement theContainer, String prop) {
+		super(handler, theContainer, prop);
 	}
 
 	/*
@@ -54,23 +48,20 @@ public class VariableElementState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new VariableElement( );
-		initElement( attrs, true );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new VariableElement();
+		initElement(attrs, true);
 	}
 
 	/*
@@ -78,16 +69,14 @@ public class VariableElementState extends ReportElementState
 	 * 
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#end()
 	 */
-	public void end( ) throws SAXException
-	{
-		super.end( );
+	public void end() throws SAXException {
+		super.end();
 		// if the report version is older than 3.2.20, the variable element name
 		// should be added to the name space.
-		if ( handler.versionNumber < VersionUtil.VERSION_3_2_20 )
-		{
-			String name = element.getName( );
-			initElementName( name, true );
-			addToNamespace( element );
+		if (handler.versionNumber < VersionUtil.VERSION_3_2_20) {
+			String name = element.getName();
+			initElementName(name, true);
+			addToNamespace(element);
 		}
 	}
 

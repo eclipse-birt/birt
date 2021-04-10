@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.elements.Library;
  * Events indicating that the library is reloaded.
  */
 
-public class LibraryReloadedEvent extends NotificationEvent
-{
+public class LibraryReloadedEvent extends NotificationEvent {
 
 	/**
 	 * The library causing the event.
@@ -31,41 +30,35 @@ public class LibraryReloadedEvent extends NotificationEvent
 	/**
 	 * Constructor.
 	 * 
-	 * @param host
-	 *            the host module in which the library lies in
+	 * @param host    the host module in which the library lies in
 	 * 
-	 * @param library
-	 *            the element that is to reload library.
+	 * @param library the element that is to reload library.
 	 */
 
-	public LibraryReloadedEvent( Module host, Library library )
-	{
-		super( host );
+	public LibraryReloadedEvent(Module host, Library library) {
+		super(host);
 		this.library = library;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return LIBRARY_RELOADED_EVENT;
 	}
 
 	/**
-	 * Returns the library causing this event. If the library is
-	 * <code>null</code>, it means that the library is not found during the
-	 * reload-action.
+	 * Returns the library causing this event. If the library is <code>null</code>,
+	 * it means that the library is not found during the reload-action.
 	 * 
-	 * @return the library causing this event, or null if the library is not
-	 *         found
+	 * @return the library causing this event, or null if the library is not found
 	 */
 
-	public Library getLibrary( )
-	{
+	public Library getLibrary() {
 		return library;
 	}
 

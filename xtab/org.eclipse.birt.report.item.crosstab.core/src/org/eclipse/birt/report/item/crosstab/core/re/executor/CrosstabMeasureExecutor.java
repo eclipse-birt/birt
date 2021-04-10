@@ -22,61 +22,51 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 /**
  * CrosstabMeasureExecutor
  */
-public class CrosstabMeasureExecutor extends BaseCrosstabExecutor
-{
+public class CrosstabMeasureExecutor extends BaseCrosstabExecutor {
 
 	private int currentElement;
 	private List elements;
 
-	public CrosstabMeasureExecutor( BaseCrosstabExecutor parent )
-	{
-		super( parent );
+	public CrosstabMeasureExecutor(BaseCrosstabExecutor parent) {
+		super(parent);
 	}
 
-	public void close( )
-	{
-		super.close( );
+	public void close() {
+		super.close();
 
 		elements = null;
 	}
 
-	public IContent execute( )
-	{
-		ITableBandContent content = context.getReportContent( )
-				.createTableBandContent( );
-		content.setBandType( IBandContent.BAND_DETAIL );
+	public IContent execute() {
+		ITableBandContent content = context.getReportContent().createTableBandContent();
+		content.setBandType(IBandContent.BAND_DETAIL);
 
-		initializeContent( content, null );
+		initializeContent(content, null);
 
-		prepareChildren( );
+		prepareChildren();
 
 		return content;
 	}
 
-	private void prepareChildren( )
-	{
-		elements = new ArrayList( );
+	private void prepareChildren() {
+		elements = new ArrayList();
 		currentElement = 0;
 
-		int count = crosstabItem.getMeasureCount( );
-		int totalRow = ( count > 1 && MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) ) ) ? count
-				: Math.min( count, 1 );
+		int count = crosstabItem.getMeasureCount();
+		int totalRow = (count > 1 && MEASURE_DIRECTION_VERTICAL.equals(crosstabItem.getMeasureDirection())) ? count
+				: Math.min(count, 1);
 
-		for ( int i = 0; i < totalRow; i++ )
-		{
-			elements.add( new CrosstabMeasureRowExecutor( this, i ) );
+		for (int i = 0; i < totalRow; i++) {
+			elements.add(new CrosstabMeasureRowExecutor(this, i));
 		}
 	}
 
-	public IReportItemExecutor getNextChild( )
-	{
-		return (IReportItemExecutor) elements.get( currentElement++ );
+	public IReportItemExecutor getNextChild() {
+		return (IReportItemExecutor) elements.get(currentElement++);
 	}
 
-	public boolean hasNextChild( )
-	{
-		if ( currentElement < elements.size( ) )
-		{
+	public boolean hasNextChild() {
+		if (currentElement < elements.size()) {
 			return true;
 		}
 

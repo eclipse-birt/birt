@@ -15,11 +15,10 @@ package org.eclipse.birt.chart.aggregate;
  * This interface defines the extension interface for all chart aggregate
  * functions.
  */
-public interface IAggregateFunction
-{
-    public static final int SUMMARY_AGGR = 0;
-    public static final int RUNNING_AGGR = 1;
-    
+public interface IAggregateFunction {
+	public static final int SUMMARY_AGGR = 0;
+	public static final int RUNNING_AGGR = 1;
+
 	static final int UNKNOWN = 0;
 
 	static final int NULL = 1;
@@ -37,49 +36,48 @@ public interface IAggregateFunction
 	static final int CUSTOM = 7;
 
 	/**
-	 * An internally generated notification indicating that a function
-	 * implementer should accumulate another value (to be subsequently
-	 * aggregated)
+	 * An internally generated notification indicating that a function implementer
+	 * should accumulate another value (to be subsequently aggregated)
 	 * 
-	 * @param oValue
-	 *            The numeric value to be accumulated
+	 * @param oValue The numeric value to be accumulated
 	 */
-	public void accumulate( Object oValue ) throws IllegalArgumentException;
+	public void accumulate(Object oValue) throws IllegalArgumentException;
 
 	/**
-	 * Returns the aggregated value as determined by the function
-	 * implementation.
+	 * Returns the aggregated value as determined by the function implementation.
 	 * 
-	 * @return The aggregated value as determined by the function
-	 *         implementation.
+	 * @return The aggregated value as determined by the function implementation.
 	 */
-	public Object getAggregatedValue( );
+	public Object getAggregatedValue();
 
 	/**
-	 * Sends out a notification to a function implementation subclass to
-	 * initialize local member variables.
+	 * Sends out a notification to a function implementation subclass to initialize
+	 * local member variables.
 	 */
-	public void initialize( );
+	public void initialize();
 
 	/**
-     * Returns the count of aggregate parameter.
-     * @since BIRT 2.3
-     */
-	public int getParametersCount( );
-	
+	 * Returns the count of aggregate parameter.
+	 * 
+	 * @since BIRT 2.3
+	 */
+	public int getParametersCount();
+
 	/**
-     * Returns display text of aggregate parameters.
-     * @since BIRT 2.3
-     */
-	public String[] getDisplayParameters( );
-	
+	 * Returns display text of aggregate parameters.
+	 * 
+	 * @since BIRT 2.3
+	 */
+	public String[] getDisplayParameters();
+
 	/**
 	 * Returns aggregate type.
+	 * 
 	 * @see #SUMMARY_AGGR
 	 * @see #RUNNING_AGGR
 	 * @since BIRT 2.3
 	 */
-	public int getType( );
+	public int getType();
 
 	/**
 	 * Returns the aggregation data type defined by BIRT.
@@ -87,5 +85,5 @@ public interface IAggregateFunction
 	 * @since BIRT 2.5.2
 	 * @return The aggregation data type defined by BIRT.
 	 */
-	public int getBIRTDataType( );
+	public int getBIRTDataType();
 }

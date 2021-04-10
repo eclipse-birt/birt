@@ -16,45 +16,33 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
-public class DataSource implements IDataSource
-{
+public class DataSource implements IDataSource {
 
-    private org.eclipse.birt.report.model.api.simpleapi.IDataSource dataSourceImpl;
+	private org.eclipse.birt.report.model.api.simpleapi.IDataSource dataSourceImpl;
 
-    public DataSource( DataSourceHandle dataSource )
-    {
-        dataSourceImpl = SimpleElementFactory.getInstance().createDataSource(
-                dataSource );
-    }
+	public DataSource(DataSourceHandle dataSource) {
+		dataSourceImpl = SimpleElementFactory.getInstance().createDataSource(dataSource);
+	}
 
-    public DataSource(
-            org.eclipse.birt.report.model.api.simpleapi.IDataSource dataSource )
-    {
-        dataSourceImpl = dataSource;
-    }
+	public DataSource(org.eclipse.birt.report.model.api.simpleapi.IDataSource dataSource) {
+		dataSourceImpl = dataSource;
+	}
 
-    public String getExtensionID()
-    {
-        return dataSourceImpl.getExtensionID();
-    }
+	public String getExtensionID() {
+		return dataSourceImpl.getExtensionID();
+	}
 
-    public String getPrivateDriverProperty( String name )
-    {
-        return dataSourceImpl.getPrivateDriverProperty( name );
-    }
+	public String getPrivateDriverProperty(String name) {
+		return dataSourceImpl.getPrivateDriverProperty(name);
+	}
 
-    public void setPrivateDriverProperty( String name, String value )
-            throws ScriptException
-    {
-        try
-        {
-            dataSourceImpl.setPrivateDriverProperty( name, value );
-        }
-        catch( SemanticException e )
-        {
-            throw new ScriptException( e.getLocalizedMessage() );
-        }
+	public void setPrivateDriverProperty(String name, String value) throws ScriptException {
+		try {
+			dataSourceImpl.setPrivateDriverProperty(name, value);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
 
-    }
+	}
 
 }

@@ -33,11 +33,9 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 /**
  * CrosstabReportItemQuery
  */
-public class CrosstabReportItemQuery extends ReportItemQueryBase implements
-		ICrosstabConstants
-{
+public class CrosstabReportItemQuery extends ReportItemQueryBase implements ICrosstabConstants {
 
-	private static Logger logger = Logger.getLogger( CrosstabReportItemQuery.class.getName( ) );
+	private static Logger logger = Logger.getLogger(CrosstabReportItemQuery.class.getName());
 
 	private CrosstabReportItemHandle crosstabItem;
 
@@ -48,18 +46,13 @@ public class CrosstabReportItemQuery extends ReportItemQueryBase implements
 	 * org.eclipse.birt.report.engine.extension.ReportItemQueryBase#setModelObject
 	 * (org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
-	public void setModelObject( ExtendedItemHandle modelHandle )
-	{
-		super.setModelObject( modelHandle );
+	public void setModelObject(ExtendedItemHandle modelHandle) {
+		super.setModelObject(modelHandle);
 
-		try
-		{
-			crosstabItem = (CrosstabReportItemHandle) modelHandle.getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
-			logger.log( Level.SEVERE,
-					Messages.getString( "CrosstabReportItemQuery.error.crosstab.loading" ) ); //$NON-NLS-1$
+		try {
+			crosstabItem = (CrosstabReportItemHandle) modelHandle.getReportItem();
+		} catch (ExtendedElementException e) {
+			logger.log(Level.SEVERE, Messages.getString("CrosstabReportItemQuery.error.crosstab.loading")); //$NON-NLS-1$
 			crosstabItem = null;
 		}
 	}
@@ -68,119 +61,87 @@ public class CrosstabReportItemQuery extends ReportItemQueryBase implements
 	 * (non-Javadoc)
 	 * 
 	 * @seeorg.eclipse.birt.report.engine.extension.ReportItemQueryBase#
-	 * createReportQueries
-	 * (org.eclipse.birt.data.engine.api.IDataQueryDefinition)
+	 * createReportQueries (org.eclipse.birt.data.engine.api.IDataQueryDefinition)
 	 */
-	public IDataQueryDefinition[] createReportQueries(
-			IDataQueryDefinition parent ) throws BirtException
-	{
-		if ( crosstabItem == null )
-		{
-			throw new CrosstabException( Messages.getString( "CrosstabReportItemQuery.error.query.building" ) ); //$NON-NLS-1$
+	public IDataQueryDefinition[] createReportQueries(IDataQueryDefinition parent) throws BirtException {
+		if (crosstabItem == null) {
+			throw new CrosstabException(Messages.getString("CrosstabReportItemQuery.error.query.building")); //$NON-NLS-1$
 		}
 
-		IDataQueryDefinition cubeQuery = CrosstabQueryUtil.createCubeQuery( crosstabItem,
-				parent,
-				context.getDataRequestSession( ).getModelAdaptor( ),
-				true,
-				true,
-				true,
-				true,
-				true,
-				true );
+		IDataQueryDefinition cubeQuery = CrosstabQueryUtil.createCubeQuery(crosstabItem, parent,
+				context.getDataRequestSession().getModelAdaptor(), true, true, true, true, true, true);
 
 		// build child element query
-		if ( context != null )
-		{
+		if (context != null) {
 			// process crosstab header
-			int headerCount = crosstabItem.getHeaderCount( );
+			int headerCount = crosstabItem.getHeaderCount();
 
-			for ( int i = 0; i < headerCount; i++ )
-			{
-				processChildQuery( cubeQuery, crosstabItem.getHeader( i ) );
+			for (int i = 0; i < headerCount; i++) {
+				processChildQuery(cubeQuery, crosstabItem.getHeader(i));
 			}
 
 			// process measure
-			for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
-			{
+			for (int i = 0; i < crosstabItem.getMeasureCount(); i++) {
 				// TODO check visibility?
-				MeasureViewHandle mv = crosstabItem.getMeasure( i );
+				MeasureViewHandle mv = crosstabItem.getMeasure(i);
 
-				processChildQuery( cubeQuery, mv.getCell( ) );
+				processChildQuery(cubeQuery, mv.getCell());
 
-				for ( int j = 0; j < mv.getHeaderCount( ); j++ )
-				{
-					processChildQuery( cubeQuery, mv.getHeader( j ) );
+				for (int j = 0; j < mv.getHeaderCount(); j++) {
+					processChildQuery(cubeQuery, mv.getHeader(j));
 				}
 
-				for ( int j = 0; j < mv.getAggregationCount( ); j++ )
-				{
-					processChildQuery( cubeQuery, mv.getAggregationCell( j ) );
+				for (int j = 0; j < mv.getAggregationCount(); j++) {
+					processChildQuery(cubeQuery, mv.getAggregationCell(j));
 				}
 			}
 
 			// process row edge
-			if ( crosstabItem.getDimensionCount( ROW_AXIS_TYPE ) > 0 )
-			{
+			if (crosstabItem.getDimensionCount(ROW_AXIS_TYPE) > 0) {
 				// TODO check visibility?
-				for ( int i = 0; i < crosstabItem.getDimensionCount( ROW_AXIS_TYPE ); i++ )
-				{
-					DimensionViewHandle dv = crosstabItem.getDimension( ROW_AXIS_TYPE,
-							i );
+				for (int i = 0; i < crosstabItem.getDimensionCount(ROW_AXIS_TYPE); i++) {
+					DimensionViewHandle dv = crosstabItem.getDimension(ROW_AXIS_TYPE, i);
 
-					for ( int j = 0; j < dv.getLevelCount( ); j++ )
-					{
-						LevelViewHandle lv = dv.getLevel( j );
+					for (int j = 0; j < dv.getLevelCount(); j++) {
+						LevelViewHandle lv = dv.getLevel(j);
 
-						processChildQuery( cubeQuery, lv.getCell( ) );
-						processChildQuery( cubeQuery, lv.getAggregationHeader( ) );
+						processChildQuery(cubeQuery, lv.getCell());
+						processChildQuery(cubeQuery, lv.getAggregationHeader());
 					}
 				}
 
 			}
 
 			// process column edge
-			if ( crosstabItem.getDimensionCount( COLUMN_AXIS_TYPE ) > 0 )
-			{
+			if (crosstabItem.getDimensionCount(COLUMN_AXIS_TYPE) > 0) {
 				// TODO check visibility?
-				for ( int i = 0; i < crosstabItem.getDimensionCount( COLUMN_AXIS_TYPE ); i++ )
-				{
-					DimensionViewHandle dv = crosstabItem.getDimension( COLUMN_AXIS_TYPE,
-							i );
+				for (int i = 0; i < crosstabItem.getDimensionCount(COLUMN_AXIS_TYPE); i++) {
+					DimensionViewHandle dv = crosstabItem.getDimension(COLUMN_AXIS_TYPE, i);
 
-					for ( int j = 0; j < dv.getLevelCount( ); j++ )
-					{
-						LevelViewHandle lv = dv.getLevel( j );
+					for (int j = 0; j < dv.getLevelCount(); j++) {
+						LevelViewHandle lv = dv.getLevel(j);
 
-						processChildQuery( cubeQuery, lv.getCell( ) );
-						processChildQuery( cubeQuery, lv.getAggregationHeader( ) );
+						processChildQuery(cubeQuery, lv.getCell());
+						processChildQuery(cubeQuery, lv.getAggregationHeader());
 					}
 				}
 
 			}
 
 			// process grandtotal header
-			processChildQuery( cubeQuery,
-					crosstabItem.getGrandTotal( ROW_AXIS_TYPE ) );
-			processChildQuery( cubeQuery,
-					crosstabItem.getGrandTotal( COLUMN_AXIS_TYPE ) );
+			processChildQuery(cubeQuery, crosstabItem.getGrandTotal(ROW_AXIS_TYPE));
+			processChildQuery(cubeQuery, crosstabItem.getGrandTotal(COLUMN_AXIS_TYPE));
 		}
 
-		return new IDataQueryDefinition[]{
-			cubeQuery
-		};
+		return new IDataQueryDefinition[] { cubeQuery };
 	}
 
-	private void processChildQuery( IDataQueryDefinition parent,
-			CrosstabCellHandle cell )
-	{
-		if ( cell != null )
-		{
-			for ( Iterator itr = cell.getContents( ).iterator( ); itr.hasNext( ); )
-			{
-				ReportElementHandle handle = (ReportElementHandle) itr.next( );
+	private void processChildQuery(IDataQueryDefinition parent, CrosstabCellHandle cell) {
+		if (cell != null) {
+			for (Iterator itr = cell.getContents().iterator(); itr.hasNext();) {
+				ReportElementHandle handle = (ReportElementHandle) itr.next();
 
-				context.createQuery( parent, handle );
+				context.createQuery(parent, handle);
 			}
 		}
 	}

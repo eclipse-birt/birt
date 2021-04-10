@@ -16,8 +16,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * on TemplateParameterDefinition element.
  */
 
-public interface ITemplateParameterDefinitionModel
-{
+public interface ITemplateParameterDefinitionModel {
 
 	/**
 	 * Name of the property that defines the unique name of the
@@ -30,8 +29,8 @@ public interface ITemplateParameterDefinitionModel
 
 	/**
 	 * Name of the property that defines the allowed element type of this
-	 * TemplateParameterDefinition. It is enumeration of Table,Grid, Label,
-	 * Text, ExtendedItem, other kind of report items and Dataset.
+	 * TemplateParameterDefinition. It is enumeration of Table,Grid, Label, Text,
+	 * ExtendedItem, other kind of report items and Dataset.
 	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
@@ -46,8 +45,8 @@ public interface ITemplateParameterDefinitionModel
 	public static final String DESCRIPTION_PROP = "description"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that given the resouce key to localize the
-	 * description for this TemplateParameterDefinition.
+	 * Name of the property that given the resouce key to localize the description
+	 * for this TemplateParameterDefinition.
 	 */
 
 	public static final String DESCRIPTION_ID_PROP = "descriptionID"; //$NON-NLS-1$

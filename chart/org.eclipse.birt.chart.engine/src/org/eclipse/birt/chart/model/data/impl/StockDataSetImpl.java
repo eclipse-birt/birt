@@ -17,48 +17,46 @@ import org.eclipse.birt.chart.model.data.StockDataSet;
 import org.eclipse.emf.ecore.EClass;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Stock Data Set</b></em>'. <!--
- * end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Stock
+ * Data Set</b></em>'. <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class StockDataSetImpl extends DataSetImpl implements StockDataSet
-{
+public class StockDataSetImpl extends DataSetImpl implements StockDataSet {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	protected StockDataSetImpl( )
-	{
-		super( );
+	protected StockDataSetImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return DataPackage.Literals.STOCK_DATA_SET;
 	}
 
 	/**
 	 * A convenience method to create an initialized 'StockDataSet' instance
 	 * 
-	 * @param oValues
-	 *            The Collection (of StockEntry) or StockEntry[] of values associated with this dataset
+	 * @param oValues The Collection (of StockEntry) or StockEntry[] of values
+	 *                associated with this dataset
 	 * 
 	 * @return
 	 */
-	public static final StockDataSet create( Object oValues )
-	{
-		final StockDataSet sds = DataFactory.eINSTANCE.createStockDataSet( );
-		( (StockDataSetImpl) sds ).initialize( );
-		sds.setValues( oValues );
+	public static final StockDataSet create(Object oValues) {
+		final StockDataSet sds = DataFactory.eINSTANCE.createStockDataSet();
+		((StockDataSetImpl) sds).initialize();
+		sds.setValues(oValues);
 		return sds;
 	}
 
@@ -67,28 +65,25 @@ public class StockDataSetImpl extends DataSetImpl implements StockDataSet
 	 * 
 	 * Note: Manually written
 	 */
-	protected void initialize( )
-	{
+	protected void initialize() {
 	}
 
 	/**
 	 * @generated
 	 */
-	public StockDataSet copyInstance( )
-	{
-		StockDataSetImpl dest = new StockDataSetImpl( );
-		dest.set( this );
+	public StockDataSet copyInstance() {
+		StockDataSetImpl dest = new StockDataSetImpl();
+		dest.set(this);
 		return dest;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( StockDataSet src )
-	{
+	protected void set(StockDataSet src) {
 
-		super.set( src );
+		super.set(src);
 
 	}
 
-} //StockDataSetImpl
+} // StockDataSetImpl

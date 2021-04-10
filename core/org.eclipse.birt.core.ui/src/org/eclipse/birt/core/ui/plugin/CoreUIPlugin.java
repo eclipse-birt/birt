@@ -17,8 +17,7 @@ import org.eclipse.core.runtime.Plugin;
  * Plugin class for Chart UI Extension
  */
 
-public class CoreUIPlugin extends Plugin
-{
+public class CoreUIPlugin extends Plugin {
 
 	/**
 	 * Plugin ID.
@@ -31,17 +30,15 @@ public class CoreUIPlugin extends Plugin
 	/**
 	 * The constructor.
 	 */
-	public CoreUIPlugin( )
-	{
-		super( );
+	public CoreUIPlugin() {
+		super();
 		plugin = this;
 	}
 
 	/**
 	 * Returns the shared instance.
 	 */
-	public static CoreUIPlugin getDefault( )
-	{
+	public static CoreUIPlugin getDefault() {
 		return plugin;
 	}
 

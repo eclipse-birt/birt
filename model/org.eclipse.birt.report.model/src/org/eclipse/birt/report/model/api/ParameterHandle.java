@@ -23,94 +23,79 @@ import org.eclipse.birt.report.model.elements.interfaces.IParameterModel;
  * @see org.eclipse.birt.report.model.elements.Parameter
  */
 
-public abstract class ParameterHandle extends ReportElementHandle
-		implements
-			IParameterModel
-{
+public abstract class ParameterHandle extends ReportElementHandle implements IParameterModel {
 
 	/**
-	 * Constructs the handle for a parameter with the given design and element.
-	 * The application generally does not create handles directly. Instead, it
-	 * uses one of the navigation methods available on other element handles.
+	 * Constructs the handle for a parameter with the given design and element. The
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public ParameterHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public ParameterHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
-	 * Returns the additional text to display for the parameter to explain how
-	 * to use the parameter.
+	 * Returns the additional text to display for the parameter to explain how to
+	 * use the parameter.
 	 * 
 	 * @return the help text
 	 */
 
-	public String getHelpText( )
-	{
-		return getStringProperty( IParameterModel.HELP_TEXT_PROP );
+	public String getHelpText() {
+		return getStringProperty(IParameterModel.HELP_TEXT_PROP);
 	}
 
 	/**
-	 * Returns the additional text to display for the parameter to explain how
-	 * to use the parameter.
+	 * Returns the additional text to display for the parameter to explain how to
+	 * use the parameter.
 	 * 
-	 * @param helpText
-	 *            the help text
+	 * @param helpText the help text
 	 * 
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setHelpText( String helpText ) throws SemanticException
-	{
-		setStringProperty( IParameterModel.HELP_TEXT_PROP, helpText );
+	public void setHelpText(String helpText) throws SemanticException {
+		setStringProperty(IParameterModel.HELP_TEXT_PROP, helpText);
 	}
 
 	/**
-	 * Returns the resource key of the additional text to display for the
-	 * parameter to explain how to use the parameter.
+	 * Returns the resource key of the additional text to display for the parameter
+	 * to explain how to use the parameter.
 	 * 
 	 * @return the resource key of the help text
 	 */
 
-	public String getHelpTextKey( )
-	{
-		return getStringProperty( IParameterModel.HELP_TEXT_KEY_PROP );
+	public String getHelpTextKey() {
+		return getStringProperty(IParameterModel.HELP_TEXT_KEY_PROP);
 	}
 
 	/**
-	 * Sets the resource key of the additional text to display for the parameter
-	 * to explain how to use the parameter.
+	 * Sets the resource key of the additional text to display for the parameter to
+	 * explain how to use the parameter.
 	 * 
-	 * @param resourceKey
-	 *            the resource key of the help text
+	 * @param resourceKey the resource key of the help text
 	 * 
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setHelpTextKey( String resourceKey ) throws SemanticException
-	{
-		setStringProperty( IParameterModel.HELP_TEXT_KEY_PROP, resourceKey );
+	public void setHelpTextKey(String resourceKey) throws SemanticException {
+		setStringProperty(IParameterModel.HELP_TEXT_KEY_PROP, resourceKey);
 	}
 
 	/**
-	 * Tests whether the parameter will appear in the Requester page. Parameter
-	 * is visible by default.
+	 * Tests whether the parameter will appear in the Requester page. Parameter is
+	 * visible by default.
 	 * 
 	 * @return <code>true</code> means the parameter will not be visible.
 	 *         <code>false</code> means the invisibility of the parameter.
 	 */
 
-	public boolean isHidden( )
-	{
-		return getBooleanProperty( IParameterModel.HIDDEN_PROP );
+	public boolean isHidden() {
+		return getBooleanProperty(IParameterModel.HIDDEN_PROP);
 	}
 
 	/**
@@ -118,16 +103,13 @@ public abstract class ParameterHandle extends ReportElementHandle
 	 * parameter will not appear in the Requester page. Parameter is visible by
 	 * default.
 	 * 
-	 * @param hidden
-	 *            <code>true</code> if the parameter is visible. Otherwise
-	 *            <code>false</code>.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param hidden <code>true</code> if the parameter is visible. Otherwise
+	 *               <code>false</code>.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setHidden( boolean hidden ) throws SemanticException
-	{
-		setBooleanProperty( IParameterModel.HIDDEN_PROP, hidden );
+	public void setHidden(boolean hidden) throws SemanticException {
+		setBooleanProperty(IParameterModel.HIDDEN_PROP, hidden);
 	}
 
 	/**
@@ -136,38 +118,32 @@ public abstract class ParameterHandle extends ReportElementHandle
 	 * @return the custom validation code for the parameter
 	 */
 
-	public String getValidate( )
-	{
-		return getStringProperty( IParameterModel.VALIDATE_PROP );
+	public String getValidate() {
+		return getStringProperty(IParameterModel.VALIDATE_PROP);
 	}
 
 	/**
 	 * Sets the custom validation code for the parameter.
 	 * 
-	 * @param validation
-	 *            the custom validation code to set
-	 * @throws SemanticException
-	 *             if the property is locked
+	 * @param validation the custom validation code to set
+	 * @throws SemanticException if the property is locked
 	 */
 
-	public void setValidate( String validation ) throws SemanticException
-	{
-		setProperty( IParameterModel.VALIDATE_PROP, validation );
+	public void setValidate(String validation) throws SemanticException {
+		setProperty(IParameterModel.VALIDATE_PROP, validation);
 	}
 
 	/**
 	 * Set the value for the display prompt context.
 	 * 
-	 * @param promptValue
-	 *            The display prompt context.
+	 * @param promptValue The display prompt context.
 	 * 
 	 * @throws SemanticException
 	 * 
 	 */
 
-	public void setPromptText( String promptValue ) throws SemanticException
-	{
-		setStringProperty( PROMPT_TEXT_PROP, promptValue );
+	public void setPromptText(String promptValue) throws SemanticException {
+		setStringProperty(PROMPT_TEXT_PROP, promptValue);
 	}
 
 	/**
@@ -177,25 +153,21 @@ public abstract class ParameterHandle extends ReportElementHandle
 	 * 
 	 */
 
-	public String getPromptText( )
-	{
-		return getStringProperty( PROMPT_TEXT_PROP );
+	public String getPromptText() {
+		return getStringProperty(PROMPT_TEXT_PROP);
 	}
 
 	/**
 	 * Set the value for the prompt text ID.
 	 * 
-	 * @param promptIDValue
-	 *            The prompt text ID.
+	 * @param promptIDValue The prompt text ID.
 	 * 
 	 * @throws SemanticException
 	 * 
 	 */
 
-	public void setPromptTextID( String promptIDValue )
-			throws SemanticException
-	{
-		setStringProperty( PROMPT_TEXT_ID_PROP, promptIDValue );
+	public void setPromptTextID(String promptIDValue) throws SemanticException {
+		setStringProperty(PROMPT_TEXT_ID_PROP, promptIDValue);
 	}
 
 	/**
@@ -205,21 +177,19 @@ public abstract class ParameterHandle extends ReportElementHandle
 	 * 
 	 */
 
-	public String getPromptTextID( )
-	{
-		return getStringProperty( PROMPT_TEXT_ID_PROP );
+	public String getPromptTextID() {
+		return getStringProperty(PROMPT_TEXT_ID_PROP);
 	}
 
 	/**
 	 * Returns the localized text for prompt text. If the localized text for the
-	 * text resource key is found, it will be returned. Otherwise, the static
-	 * text will be returned.
+	 * text resource key is found, it will be returned. Otherwise, the static text
+	 * will be returned.
 	 * 
 	 * @return the localized text for the prompt text
 	 */
 
-	public String getDisplayPromptText( )
-	{
-		return getExternalizedValue( PROMPT_TEXT_ID_PROP, PROMPT_TEXT_PROP );
+	public String getDisplayPromptText() {
+		return getExternalizedValue(PROMPT_TEXT_ID_PROP, PROMPT_TEXT_PROP);
 	}
 }

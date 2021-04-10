@@ -40,42 +40,31 @@ import org.eclipse.gef.requests.CreateRequest;
  * 
  */
 
-public class VariableDropAdapter implements IDropAdapter
-{
+public class VariableDropAdapter implements IDropAdapter {
 
-	public static final String TRANS_NAME = Messages.getString( "VariableDropAdapter.TranasctionName" );
+	public static final String TRANS_NAME = Messages.getString("VariableDropAdapter.TranasctionName");
 
-	public int canDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
-		if ( transfer instanceof VariableElementHandle
-				&& target instanceof EditPart )
-		{
+	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
+		if (transfer instanceof VariableElementHandle && target instanceof EditPart) {
 			EditPart editPart = (EditPart) target;
-			editPart.getRoot( ).getModel( );
-			if ( editPart.getModel( ) instanceof ReportDesignHandle
-					|| editPart.getModel( ) instanceof DesignElementHandle
-					|| ( editPart.getModel( ) instanceof SlotHandle ) )
-			{
-				if ( editPart.getModel( ) instanceof SlotHandle )
-				{
-					int slot_id = ( (SlotHandle) editPart.getModel( ) ).getSlotID( );
-					if ( slot_id == ISimpleMasterPageModel.PAGE_HEADER_SLOT
-							|| slot_id == ISimpleMasterPageModel.PAGE_FOOTER_SLOT )
-					{
-						if ( ( (SlotHandle) editPart.getModel( ) ).getCount( ) > 0 )
+			editPart.getRoot().getModel();
+			if (editPart.getModel() instanceof ReportDesignHandle || editPart.getModel() instanceof DesignElementHandle
+					|| (editPart.getModel() instanceof SlotHandle)) {
+				if (editPart.getModel() instanceof SlotHandle) {
+					int slot_id = ((SlotHandle) editPart.getModel()).getSlotID();
+					if (slot_id == ISimpleMasterPageModel.PAGE_HEADER_SLOT
+							|| slot_id == ISimpleMasterPageModel.PAGE_FOOTER_SLOT) {
+						if (((SlotHandle) editPart.getModel()).getCount() > 0)
 							return DNDService.LOGIC_FALSE;
 						else
 							return DNDService.LOGIC_TRUE;
-					}
-					else if ( slot_id == ISimpleMasterPageModel.PAGE_HEADER_SLOT )
-					{
+					} else if (slot_id == ISimpleMasterPageModel.PAGE_HEADER_SLOT) {
 						return DNDService.LOGIC_TRUE;
 					}
 				}
 				// variable can drop to gridin master page, bug 293121
-				if ( getMasterPageHandle( editPart ) != null
-						|| DesignChoiceConstants.VARIABLE_TYPE_REPORT.equals( ( (VariableElementHandle) transfer ).getType( ) ) )
+				if (getMasterPageHandle(editPart) != null || DesignChoiceConstants.VARIABLE_TYPE_REPORT
+						.equals(((VariableElementHandle) transfer).getType()))
 					return DNDService.LOGIC_TRUE;
 				else
 					return DNDService.LOGIC_FALSE;
@@ -85,66 +74,48 @@ public class VariableDropAdapter implements IDropAdapter
 		return DNDService.LOGIC_UNKNOW;
 	}
 
-	private Object getMasterPageHandle( EditPart editPart )
-	{
-		if ( editPart == null )
+	private Object getMasterPageHandle(EditPart editPart) {
+		if (editPart == null)
 			return null;
-		if ( editPart.getParent( ) != null
-				&& ( editPart.getParent( ).getModel( ) instanceof MasterPageHandle || editPart.getParent( )
-						.getModel( ) instanceof ModuleHandle ) )
-			return editPart.getParent( ).getModel( );
-		return getMasterPageHandle( editPart.getParent( ) );
+		if (editPart.getParent() != null && (editPart.getParent().getModel() instanceof MasterPageHandle
+				|| editPart.getParent().getModel() instanceof ModuleHandle))
+			return editPart.getParent().getModel();
+		return getMasterPageHandle(editPart.getParent());
 	}
 
-	public boolean performDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
+	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 
 		EditPart editPart = (EditPart) target;
 
 		VariableElementHandle variable = (VariableElementHandle) transfer;
 
-		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-				.newDataItem( null );
+		DataItemHandle dataHandle = DesignElementFactory.getInstance().newDataItem(null);
 
-		try
-		{
-			ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
-					variable.getName( ) );
+		try {
+			ComputedColumn bindingColumn = StructureFactory.newComputedColumn(dataHandle, variable.getName());
 			// FIXME currently variable does not support data type, so just set
 			// string
-			bindingColumn.setDataType( "string" );
-			ExpressionUtility.setBindingColumnExpression( variable,
-					bindingColumn,
-					true );
-			bindingColumn.setDisplayName( variable.getDisplayLabel( ) );
-			dataHandle.addColumnBinding( bindingColumn, false );
-			dataHandle.setResultSetColumn( bindingColumn.getName( ) );
-		}
-		catch ( Exception e )
-		{
-			ExceptionHandler.handle( e );
+			bindingColumn.setDataType("string");
+			ExpressionUtility.setBindingColumnExpression(variable, bindingColumn, true);
+			bindingColumn.setDisplayName(variable.getDisplayLabel());
+			dataHandle.addColumnBinding(bindingColumn, false);
+			dataHandle.setResultSetColumn(bindingColumn.getName());
+		} catch (Exception e) {
+			ExceptionHandler.handle(e);
 		}
 
-		CreateRequest request = new CreateRequest( );
-		request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT,
-				dataHandle );
-		request.setLocation( location.getPoint( ) );
-		Command command = editPart.getCommand( request );
-		if ( command != null && command.canExecute( ) )
-		{
-			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getCommandStack( );
-			stack.startTrans( TRANS_NAME ); //$NON-NLS-1$
+		CreateRequest request = new CreateRequest();
+		request.getExtendedData().put(DesignerConstants.KEY_NEWOBJECT, dataHandle);
+		request.setLocation(location.getPoint());
+		Command command = editPart.getCommand(request);
+		if (command != null && command.canExecute()) {
+			CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+			stack.startTrans(TRANS_NAME); // $NON-NLS-1$
 
-			editPart.getViewer( )
-					.getEditDomain( )
-					.getCommandStack( )
-					.execute( command );
-			stack.commit( );
+			editPart.getViewer().getEditDomain().getCommandStack().execute(command);
+			stack.commit();
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
 

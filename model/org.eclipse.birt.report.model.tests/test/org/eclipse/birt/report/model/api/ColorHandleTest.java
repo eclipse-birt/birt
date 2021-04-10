@@ -70,7 +70,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <tr>
  * <td>{@link #testSetColor()}</td>
  * <td>locale is CHINA, color value is css "red"</td>
- * <td>The return should be Chinese "ºì"</td>
+ * <td>The return should be Chinese "ï¿½ï¿½"</td>
  * </tr>
  * 
  * <tr>
@@ -89,15 +89,13 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  * <tr>
  * <td></td>
- * <td>locale is CHINA, color value is "#FF00FF", preference is HTML_FORMAT
- * </td>
+ * <td>locale is CHINA, color value is "#FF00FF", preference is HTML_FORMAT</td>
  * <td>The return should be "#FF00FF"</td>
  * </tr>
  * 
  * <tr>
  * <td></td>
- * <td>locale is CHINA, color value is "#FF00FF", preference is JAVA_FORMAT
- * </td>
+ * <td>locale is CHINA, color value is "#FF00FF", preference is JAVA_FORMAT</td>
  * <td>The return should be "0xFF00FF"</td>
  * </tr>
  * 
@@ -142,11 +140,10 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>The return should be the choice array containing all the predefined css
  * colors.</td>
  * </tr>
- *  
+ * 
  */
 
-public class ColorHandleTest extends BaseTestCase
-{
+public class ColorHandleTest extends BaseTestCase {
 
 	/**
 	 * The temporary color handle for the unit test.
@@ -161,13 +158,12 @@ public class ColorHandleTest extends BaseTestCase
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		openDesign( "ColorHandleTest.xml", TEST_LOCALE ); //$NON-NLS-1$
+	protected void setUp() throws Exception {
+		super.setUp();
+		openDesign("ColorHandleTest.xml", TEST_LOCALE); //$NON-NLS-1$
 
-		colorHandle = designHandle.findStyle( "My-Style" ).getColor( ); //$NON-NLS-1$
-		colorHandle1 = designHandle.findStyle( "My-Style1" ).getColor( ); //$NON-NLS-1$
+		colorHandle = designHandle.findStyle("My-Style").getColor(); //$NON-NLS-1$
+		colorHandle1 = designHandle.findStyle("My-Style1").getColor(); //$NON-NLS-1$
 
 	}
 
@@ -175,134 +171,128 @@ public class ColorHandleTest extends BaseTestCase
 	 * 
 	 * test setStringValue(), setIntValue() and setRGB().
 	 * 
-	 * @throws Exception
-	 *             if the rgb value of the color is invalid or the output file
-	 *             cannot be saved.
+	 * @throws Exception if the rgb value of the color is invalid or the output file
+	 *                   cannot be saved.
 	 */
 
-	public void testSetColor( ) throws Exception
-	{
+	public void testSetColor() throws Exception {
 		// #FF00FF
-		colorHandle.setRGB( 16711935 );
-		assertEquals( 16711935, colorHandle.getRGB( ) );
+		colorHandle.setRGB(16711935);
+		assertEquals(16711935, colorHandle.getRGB());
 
-		colorHandle.setValue( "#FF00FF" ); //$NON-NLS-1$
-		assertEquals( 16711935, colorHandle.getRGB( ) );
+		colorHandle.setValue("#FF00FF"); //$NON-NLS-1$
+		assertEquals(16711935, colorHandle.getRGB());
 
-		colorHandle.setValue( "16711935" ); //$NON-NLS-1$
-		assertEquals( 16711935, colorHandle.getRGB( ) );
-		assertEquals( "RGB(255,0,255)", colorHandle.getCssValue( ) ); //$NON-NLS-1$
+		colorHandle.setValue("16711935"); //$NON-NLS-1$
+		assertEquals(16711935, colorHandle.getRGB());
+		assertEquals("RGB(255,0,255)", colorHandle.getCssValue()); //$NON-NLS-1$
 
-		colorHandle.setValue( new Integer( 16711925 ) );
-		assertEquals( "#FF00F5", colorHandle.getStringValue( ) ); //$NON-NLS-1$
+		colorHandle.setValue(new Integer(16711925));
+		assertEquals("#FF00F5", colorHandle.getStringValue()); //$NON-NLS-1$
 
-		colorHandle.setValue( "red" ); //$NON-NLS-1$
-		assertEquals( "red", colorHandle.getCssValue( ) ); //$NON-NLS-1$
-		assertEquals( "red", colorHandle.getStringValue( ) ); //$NON-NLS-1$
-		assertEquals( 16711680, colorHandle.getRGB( ) );
-		assertEquals( "\u7ea2\u8272", colorHandle.getDisplayValue( ) ); //$NON-NLS-1$
+		colorHandle.setValue("red"); //$NON-NLS-1$
+		assertEquals("red", colorHandle.getCssValue()); //$NON-NLS-1$
+		assertEquals("red", colorHandle.getStringValue()); //$NON-NLS-1$
+		assertEquals(16711680, colorHandle.getRGB());
+		assertEquals("\u7ea2\u8272", colorHandle.getDisplayValue()); //$NON-NLS-1$
 
-		colorHandle.setValue( "REd" ); //$NON-NLS-1$
-		assertEquals( "red", colorHandle.getCssValue( ) ); //$NON-NLS-1$
-		assertEquals( "red", colorHandle.getStringValue( ) ); //$NON-NLS-1$
-		assertEquals( "red", colorHandle.getValue( ) ); //$NON-NLS-1$
+		colorHandle.setValue("REd"); //$NON-NLS-1$
+		assertEquals("red", colorHandle.getCssValue()); //$NON-NLS-1$
+		assertEquals("red", colorHandle.getStringValue()); //$NON-NLS-1$
+		assertEquals("red", colorHandle.getValue()); //$NON-NLS-1$
 
-		ThreadResources.setLocale( TEST_LOCALE );
+		ThreadResources.setLocale(TEST_LOCALE);
 
 		// red for Chinese.
 
-		colorHandle.setStringValue( "\u7ea2\u8272" ); //$NON-NLS-1$
-		assertEquals( "red", colorHandle.getCssValue( ) ); //$NON-NLS-1$
-		assertEquals( "\u7ea2\u8272", colorHandle.getDisplayValue( ) ); //$NON-NLS-1$
+		colorHandle.setStringValue("\u7ea2\u8272"); //$NON-NLS-1$
+		assertEquals("red", colorHandle.getCssValue()); //$NON-NLS-1$
+		assertEquals("\u7ea2\u8272", colorHandle.getDisplayValue()); //$NON-NLS-1$
 
-		colorHandle.setStringValue( "myColor1" ); //$NON-NLS-1$
-		assertEquals( "myColor1", colorHandle.getStringValue( ) ); //$NON-NLS-1$
+		colorHandle.setStringValue("myColor1"); //$NON-NLS-1$
+		assertEquals("myColor1", colorHandle.getStringValue()); //$NON-NLS-1$
 
-		assertEquals( "sheng lan", colorHandle.getDisplayValue( ) ); //$NON-NLS-1$
+		assertEquals("sheng lan", colorHandle.getDisplayValue()); //$NON-NLS-1$
 
 		// red for China
 
-		colorHandle.setValue( "\u7ea2\u8272" ); //$NON-NLS-1$
-		assertEquals( "red", colorHandle.getCssValue( ) ); //$NON-NLS-1$
+		colorHandle.setValue("\u7ea2\u8272"); //$NON-NLS-1$
+		assertEquals("red", colorHandle.getCssValue()); //$NON-NLS-1$
 
 		// tests writing a color to a structure like a highlight rule.
 
-		Style style1 = (Style) design.findStyle( "My-Style2" ); //$NON-NLS-1$
-		StyleHandle style2Handle = style1.handle( design );
+		Style style1 = (Style) design.findStyle("My-Style2"); //$NON-NLS-1$
+		StyleHandle style2Handle = style1.handle(design);
 
-		Iterator highlightHandles = style2Handle.highlightRulesIterator( );
-		assertNotNull( highlightHandles );
-		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles
-				.next( );
-		assertNotNull( highlightHandle );
+		Iterator highlightHandles = style2Handle.highlightRulesIterator();
+		assertNotNull(highlightHandles);
+		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles.next();
+		assertNotNull(highlightHandle);
 
-		colorHandle = highlightHandle.getColor( );
-		assertNotNull( colorHandle );
-		colorHandle.setRGB( 1193046 );
+		colorHandle = highlightHandle.getColor();
+		assertNotNull(colorHandle);
+		colorHandle.setRGB(1193046);
 
-		colorHandle = highlightHandle.getBackgroundColor( );
-		assertNotNull( colorHandle );
+		colorHandle = highlightHandle.getBackgroundColor();
+		assertNotNull(colorHandle);
 
-		colorHandle.setValue( "myColor2" ); //$NON-NLS-1$
+		colorHandle.setValue("myColor2"); //$NON-NLS-1$
 
 	}
 
 	/**
 	 * test getCSSCompatibleValue() and getRGB() and getStringValue().
 	 * 
-	 * @throws SemanticException
-	 *             if the the value of the color is invalid.
+	 * @throws SemanticException if the the value of the color is invalid.
 	 */
 
-	public void testGetColor( ) throws SemanticException
-	{
+	public void testGetColor() throws SemanticException {
 		// red
-		assertEquals( 16711680, colorHandle.getRGB( ) );
-		assertEquals( "red", colorHandle.getStringValue( ) ); //$NON-NLS-1$
+		assertEquals(16711680, colorHandle.getRGB());
+		assertEquals("red", colorHandle.getStringValue()); //$NON-NLS-1$
 
 		// #FF00FF
-		assertEquals( 16711935, colorHandle1.getRGB( ) );
+		assertEquals(16711935, colorHandle1.getRGB());
 
-		assertEquals( "red", colorHandle.getCssValue( ) ); //$NON-NLS-1$
-		colorHandle.setValue( "#FF00FF" ); //$NON-NLS-1$
-		assertEquals( "RGB(255,0,255)", colorHandle.getCssValue( ) ); //$NON-NLS-1$
-		assertEquals( "#FF00FF", colorHandle.getStringValue( ) ); //$NON-NLS-1$
+		assertEquals("red", colorHandle.getCssValue()); //$NON-NLS-1$
+		colorHandle.setValue("#FF00FF"); //$NON-NLS-1$
+		assertEquals("RGB(255,0,255)", colorHandle.getCssValue()); //$NON-NLS-1$
+		assertEquals("#FF00FF", colorHandle.getStringValue()); //$NON-NLS-1$
 
-		Style style1 = (Style) design.findStyle( "My-Style2" ); //$NON-NLS-1$
-		StyleHandle style2Handle = style1.handle( design );
+		Style style1 = (Style) design.findStyle("My-Style2"); //$NON-NLS-1$
+		StyleHandle style2Handle = style1.handle(design);
 
 		// has the default value in black.
 
-		colorHandle = style2Handle.getColor( );
-		assertNotNull( colorHandle );
-		assertEquals( "black", colorHandle.getCssValue( ) ); //$NON-NLS-1$
+		colorHandle = style2Handle.getColor();
+		assertNotNull(colorHandle);
+		assertEquals("black", colorHandle.getCssValue()); //$NON-NLS-1$
 
 		// tests reading a color from a structure like a highlight rule.
 
-		Iterator highlightHandles = style2Handle.highlightRulesIterator( );
-		assertNotNull( highlightHandles );
-		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles
-				.next( );
-		assertNotNull( highlightHandle );
+		Iterator highlightHandles = style2Handle.highlightRulesIterator();
+		assertNotNull(highlightHandles);
+		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles.next();
+		assertNotNull(highlightHandle);
 
-		colorHandle = highlightHandle.getColor( );
-		assertNotNull( colorHandle );
+		colorHandle = highlightHandle.getColor();
+		assertNotNull(colorHandle);
 
-		assertEquals( "yellow", colorHandle.getCssValue( ) ); //$NON-NLS-1$
+		assertEquals("yellow", colorHandle.getCssValue()); //$NON-NLS-1$
 
-		colorHandle = highlightHandle.getBackgroundColor( );
-		assertNotNull( colorHandle );
+		colorHandle = highlightHandle.getBackgroundColor();
+		assertNotNull(colorHandle);
 
-		assertEquals( "RGB(18,52,86)", colorHandle.getCssValue( ) ); //$NON-NLS-1$
-		assertEquals( 1193046, colorHandle.getRGB( ) );
+		assertEquals("RGB(18,52,86)", colorHandle.getCssValue()); //$NON-NLS-1$
+		assertEquals(1193046, colorHandle.getRGB());
 
-		colorHandle = highlightHandle.getBorderBottomColor( );
-		assertNotNull( colorHandle );
+		colorHandle = highlightHandle.getBorderBottomColor();
+		assertNotNull(colorHandle);
 
 		// value from custom color pallete.
-		colorHandle = designHandle.findStyle( "My-Style3" ).getColor( ); //$NON-NLS-1$
-		assertEquals( "myColor1", colorHandle.getStringValue( ) ); //$NON-NLS-1$
-		assertEquals( 1193210, colorHandle.getRGB( ) );
+		colorHandle = designHandle.findStyle("My-Style3").getColor(); //$NON-NLS-1$
+		assertEquals("myColor1", colorHandle.getStringValue()); //$NON-NLS-1$
+		assertEquals(1193210, colorHandle.getRGB());
 
 	}
 
@@ -311,9 +301,8 @@ public class ColorHandleTest extends BaseTestCase
 	 * 
 	 */
 
-	public void testGetCSSColors( )
-	{
-		List colors = colorHandle.getCSSColors( );
-		assertEquals( 17, colors.size( ) );
-	}	
+	public void testGetCSSColors() {
+		List colors = colorHandle.getCSSColors();
+		assertEquals(17, colors.size());
+	}
 }

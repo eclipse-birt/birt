@@ -43,8 +43,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
  * 
  */
 
-public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
-{
+public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler {
 
 	private static final int CONTENTS_CONVERTION_THRESHOLD = 16;
 	protected ExecutionContext executionContext;
@@ -53,183 +52,140 @@ public class OnPageBreakLayoutPageHandle implements ILayoutPageHandler
 	protected boolean bufferAllContents;
 	private Collection<IContent> contents;
 
-
 	protected boolean existPageScript = false;
 
-	public OnPageBreakLayoutPageHandle( ExecutionContext executionContext )
-	{
+	public OnPageBreakLayoutPageHandle(ExecutionContext executionContext) {
 		this.executionContext = executionContext;
-		this.emitter = new PageContentBuilder( );
-		this.contents = new ArrayList<IContent>( );
-		Report report = executionContext.getReport( );
-		if ( report != null )
-		{
-			existPageScript = ReportScriptExecutor.existPageScript( report,
-					executionContext )
-					|| report.getOnPageStart( ) != null
-					|| report.getOnPageEnd( ) != null;
+		this.emitter = new PageContentBuilder();
+		this.contents = new ArrayList<IContent>();
+		Report report = executionContext.getReport();
+		if (report != null) {
+			existPageScript = ReportScriptExecutor.existPageScript(report, executionContext)
+					|| report.getOnPageStart() != null || report.getOnPageEnd() != null;
 		}
 
 	}
 
-	public IContentEmitter getEmitter( )
-	{
+	public IContentEmitter getEmitter() {
 		return emitter;
 	}
 
-	private void initPageBuffer( PageContent pageContent )
-	{
-		MasterPageDesign pageDesign = (MasterPageDesign) pageContent
-				.getGenerateBy( );
-		Report report = pageContent.getReportContent( ).getDesign( );
-		if ( pageDesign.getOnPageStart( ) != null
-				|| pageDesign.getOnPageEnd( ) != null || existPageScript )
-		{
+	private void initPageBuffer(PageContent pageContent) {
+		MasterPageDesign pageDesign = (MasterPageDesign) pageContent.getGenerateBy();
+		Report report = pageContent.getReportContent().getDesign();
+		if (pageDesign.getOnPageStart() != null || pageDesign.getOnPageEnd() != null || existPageScript) {
 			bufferAllContents = true;
-		}
-		else
-		{
+		} else {
 			bufferAllContents = false;
 		}
-		this.contents.clear( );
+		this.contents.clear();
 		this.pageContent = pageContent;
 	}
 
-	private ReportItemDesign getGenerateDesign( IContent content )
-	{
-		Object design = content.getGenerateBy( );
-		if ( design instanceof ReportItemDesign )
-		{
+	private ReportItemDesign getGenerateDesign(IContent content) {
+		Object design = content.getGenerateBy();
+		if (design instanceof ReportItemDesign) {
 			return (ReportItemDesign) design;
 		}
-		if ( design instanceof ReportItemHandle )
-		{
-			IReportContent reportContent = content.getReportContent( );
-			Report reportDesign = reportContent.getDesign( );
-			return reportDesign.findDesign( (ReportItemHandle) design );
+		if (design instanceof ReportItemHandle) {
+			IReportContent reportContent = content.getReportContent();
+			Report reportDesign = reportContent.getDesign();
+			return reportDesign.findDesign((ReportItemHandle) design);
 		}
 		return null;
 	}
 
-	private void addContent( IContent content )
-	{
-		if ( !bufferAllContents )
-		{
-			ReportItemDesign design = getGenerateDesign( content );
-			if ( design != null )
-			{
-				if ( ScriptExecutor.needOnPageBreak( design, executionContext ) )
-				{
-					if ( !contents.contains( content ) )
-					{
+	private void addContent(IContent content) {
+		if (!bufferAllContents) {
+			ReportItemDesign design = getGenerateDesign(content);
+			if (design != null) {
+				if (ScriptExecutor.needOnPageBreak(design, executionContext)) {
+					if (!contents.contains(content)) {
 						doAddContent(content);
 					}
 				}
 			}
-		}
-		else
-		{
-			if ( !contents.contains( content ) )
-			{
+		} else {
+			if (!contents.contains(content)) {
 				doAddContent(content);
 			}
 		}
 	}
 
-	private void doAddContent(IContent content)
-	{
+	private void doAddContent(IContent content) {
 		if (contents.size() == CONTENTS_CONVERTION_THRESHOLD) {
 			contents = new LinkedHashSet<IContent>(contents);
 		}
-		contents.add( content );
+		contents.add(content);
 	}
 
-	private class PageBreakContentCollector implements IAreaVisitor
-	{
+	private class PageBreakContentCollector implements IAreaVisitor {
 
-		public void visitText( ITextArea textArea )
-		{
+		public void visitText(ITextArea textArea) {
 		}
 
-		public void visitAutoText( ITemplateArea templateArea )
-		{
+		public void visitAutoText(ITemplateArea templateArea) {
 		}
 
-		public void visitImage( IImageArea imageArea )
-		{
+		public void visitImage(IImageArea imageArea) {
 		}
 
-		public void visitContainer( IContainerArea container )
-		{
-			IContent content = ( (ContainerArea) container ).getContent( );
-			if ( content != null )
-			{
-				addContent( content );
+		public void visitContainer(IContainerArea container) {
+			IContent content = ((ContainerArea) container).getContent();
+			if (content != null) {
+				addContent(content);
 			}
-			Iterator iter = container.getChildren( );
-			while ( iter.hasNext( ) )
-			{
-				IArea child = (IArea) iter.next( );
-				child.accept( this );
+			Iterator iter = container.getChildren();
+			while (iter.hasNext()) {
+				IArea child = (IArea) iter.next();
+				child.accept(this);
 			}
 		}
 	}
 
-	private class PageContentBuilder extends ContentEmitterAdapter
-	{
+	private class PageContentBuilder extends ContentEmitterAdapter {
 
-		public void startPage( IPageContent pageContent ) throws BirtException
-		{
-			initPageBuffer( (PageContent) pageContent );
-			IArea pageArea = (IArea) pageContent
-					.getExtension( IContent.LAYOUT_EXTENSION );
-			if ( pageArea != null )
-			{
-				pageArea.accept( new PageBreakContentCollector( ) );
+		public void startPage(IPageContent pageContent) throws BirtException {
+			initPageBuffer((PageContent) pageContent);
+			IArea pageArea = (IArea) pageContent.getExtension(IContent.LAYOUT_EXTENSION);
+			if (pageArea != null) {
+				pageArea.accept(new PageBreakContentCollector());
 			}
 		}
 
 		@Override
-		public void startContent( IContent content ) throws BirtException
-		{
-			OnPageBreakLayoutPageHandle.this.addContent( content );
+		public void startContent(IContent content) throws BirtException {
+			OnPageBreakLayoutPageHandle.this.addContent(content);
 		}
 	}
 
-	public void onPage( long page, Object context )
-	{
+	public void onPage(long page, Object context) {
 		// if the page content is null, it means it is the last page end event
-		if ( executionContext == null || pageContent == null )
-		{
+		if (executionContext == null || pageContent == null) {
 			return;
 		}
 		// setup the page variables registered in the report design
-		Report report = executionContext.getReport( );
+		Report report = executionContext.getReport();
 
-		OnPageBreakScriptVisitor onPageBreakVisitor = new OnPageBreakScriptVisitor(
-				executionContext );
+		OnPageBreakScriptVisitor onPageBreakVisitor = new OnPageBreakScriptVisitor(executionContext);
 
 		// reset the page variables
-		Collection<PageVariable> pageVariables = executionContext
-				.getPageVariables( );
-		for ( PageVariable pageVar : pageVariables )
-		{
-			if ( PageVariable.SCOPE_PAGE.equals( pageVar.getScope( ) ) )
-			{
-				Object value = pageVar.getDefaultValue( );
-				pageVar.setValue( value );
+		Collection<PageVariable> pageVariables = executionContext.getPageVariables();
+		for (PageVariable pageVar : pageVariables) {
+			if (PageVariable.SCOPE_PAGE.equals(pageVar.getScope())) {
+				Object value = pageVar.getDefaultValue();
+				pageVar.setValue(value);
 			}
 		}
 
-		onPageBreakVisitor.onPageStart( report, pageContent, contents );
-		onPageBreakVisitor.onPageStart( pageContent, contents );
-		for ( IContent content : contents )
-		{
-			onPageBreakVisitor.onPageBreak( content );
+		onPageBreakVisitor.onPageStart(report, pageContent, contents);
+		onPageBreakVisitor.onPageStart(pageContent, contents);
+		for (IContent content : contents) {
+			onPageBreakVisitor.onPageBreak(content);
 		}
-		onPageBreakVisitor.onPageEnd( pageContent, contents );
-		onPageBreakVisitor.onPageEnd( report, pageContent, contents );
-		contents.clear( );
+		onPageBreakVisitor.onPageEnd(pageContent, contents);
+		onPageBreakVisitor.onPageEnd(report, pageContent, contents);
+		contents.clear();
 		pageContent = null;
 	}
 }

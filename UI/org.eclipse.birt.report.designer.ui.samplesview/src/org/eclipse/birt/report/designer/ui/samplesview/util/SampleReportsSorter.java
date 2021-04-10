@@ -16,23 +16,17 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 
-
-public class SampleReportsSorter extends ViewerSorter
-{
-	public int compare( Viewer viewer, Object e1, Object e2 )
-	{
+public class SampleReportsSorter extends ViewerSorter {
+	public int compare(Viewer viewer, Object e1, Object e2) {
 		IBaseLabelProvider provider = null;
-		if ( viewer instanceof TreeViewer )
-		{
-			provider =( ( TreeViewer )viewer ).getLabelProvider( );
+		if (viewer instanceof TreeViewer) {
+			provider = ((TreeViewer) viewer).getLabelProvider();
 		}
-		if ( provider != null && provider instanceof SampleReportsExplorerProvider )
-		{
-			if( ( ( SampleReportsExplorerProvider )provider ).getText( e1 ).equals( "Contribute Samples" ) ) //$NON-NLS-1$
+		if (provider != null && provider instanceof SampleReportsExplorerProvider) {
+			if (((SampleReportsExplorerProvider) provider).getText(e1).equals("Contribute Samples")) //$NON-NLS-1$
 			{
 				return 1;
-			}
-			else if ( ( ( SampleReportsExplorerProvider )provider ).getText( e2 ).equals( "Contribute Samples" ) ) //$NON-NLS-1$
+			} else if (((SampleReportsExplorerProvider) provider).getText(e2).equals("Contribute Samples")) //$NON-NLS-1$
 			{
 				return -1;
 			}

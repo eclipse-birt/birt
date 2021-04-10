@@ -29,8 +29,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
  * 
  */
 
-public abstract class ListingParameter extends ScalarParameter
-{
+public abstract class ListingParameter extends ScalarParameter {
 
 	/**
 	 * Constructor
@@ -38,10 +37,8 @@ public abstract class ListingParameter extends ScalarParameter
 	 * @param handle
 	 * @param engineTask
 	 */
-	public ListingParameter( ScalarParameterHandle handle,
-			IEngineTask engineTask )
-	{
-		super( handle, engineTask );
+	public ListingParameter(ScalarParameterHandle handle, IEngineTask engineTask) {
+		super(handle, engineTask);
 	}
 
 	/*
@@ -53,39 +50,31 @@ public abstract class ListingParameter extends ScalarParameter
 	 * each item is <code>IParameterSelectionChoice</code>
 	 */
 
-	public List getValueList( )
-	{
-		List values = new ArrayList( );
+	public List getValueList() {
+		List values = new ArrayList();
 
-		boolean isCascading = isCascadingParameter( );
+		boolean isCascading = isCascadingParameter();
 
-		String name = handle.getName( );
-		IGetParameterDefinitionTask task = createParameterDefinitionTask( );
+		String name = handle.getName();
+		IGetParameterDefinitionTask task = createParameterDefinitionTask();
 
-		try 
-		{
-			if ( isCascading )
-			{
-				values = getCascadingValues( values, task );
-			}
-			else
-			{
-				List selectionList = (List) task.getSelectionList( name );
+		try {
+			if (isCascading) {
+				values = getCascadingValues(values, task);
+			} else {
+				List selectionList = (List) task.getSelectionList(name);
 				/*
-				 * Iterator iterator = selectionList.iterator( ); while (
-				 * iterator.hasNext( ) ) { IParameterSelectionChoice choice =
-				 * (IParameterSelectionChoice) iterator .next( ); values.add(
-				 * choice.getValue( ) ); }
+				 * Iterator iterator = selectionList.iterator( ); while ( iterator.hasNext( ) )
+				 * { IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator
+				 * .next( ); values.add( choice.getValue( ) ); }
 				 */
-	
+
 				// TODO change IParameterSelectionChoice to parameter choice.
-				values.addAll( selectionList );
+				values.addAll(selectionList);
 			}
 			return values;
-		} 
-		finally 
-		{
-			if ( task != null )
+		} finally {
+			if (task != null)
 				task.close();
 		}
 	}
@@ -99,51 +88,39 @@ public abstract class ListingParameter extends ScalarParameter
 	 *         <code>IParameterSelectionChoice</code>
 	 */
 
-	private List getCascadingValues( List values,
-			IGetParameterDefinitionTask task )
-	{
-		CascadingParameterGroupHandle container = (CascadingParameterGroupHandle) handle.getContainer( );
-		List groupList = new ArrayList( );
-		List children = group.getChildren( );
+	private List getCascadingValues(List values, IGetParameterDefinitionTask task) {
+		CascadingParameterGroupHandle container = (CascadingParameterGroupHandle) handle.getContainer();
+		List groupList = new ArrayList();
+		List children = group.getChildren();
 
-		Iterator iterator = children.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			IParameter param = (IParameter) iterator.next( );
+		Iterator iterator = children.iterator();
+		while (iterator.hasNext()) {
+			IParameter param = (IParameter) iterator.next();
 
-			if ( param == this )
+			if (param == this)
 				break;
 
 			// groupList.add( value );
-			try
-			{
-				groupList.add( param.converToDataType( param.getSelectionValue( ) ) );
-			}
-			catch ( BirtException e )
-			{
+			try {
+				groupList.add(param.converToDataType(param.getSelectionValue()));
+			} catch (BirtException e) {
 				// do nothing
 			}
 		}
-		Object[] groupKeys = new Object[groupList.size( )];
-		for ( int i = 0; i < groupList.size( ); i++ )
-		{
-			groupKeys[i] = groupList.get( i );
+		Object[] groupKeys = new Object[groupList.size()];
+		for (int i = 0; i < groupList.size(); i++) {
+			groupKeys[i] = groupList.get(i);
 		}
-		List cascading = (List) task.getSelectionListForCascadingGroup( container.getName( ),
-				groupKeys );
+		List cascading = (List) task.getSelectionListForCascadingGroup(container.getName(), groupKeys);
 
-		if ( cascading != null )
-		{
-			iterator = cascading.iterator( );
-			while ( iterator.hasNext( ) )
-			{
-				IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
-				values.add( choice.getValue( ) );
+		if (cascading != null) {
+			iterator = cascading.iterator();
+			while (iterator.hasNext()) {
+				IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next();
+				values.add(choice.getValue());
 			}
 			return cascading;
-		}
-		else
-		{
+		} else {
 			return Collections.EMPTY_LIST;
 		}
 	}
@@ -155,12 +132,9 @@ public abstract class ListingParameter extends ScalarParameter
 	 *         <code>false</code>.
 	 */
 
-	private boolean isCascadingParameter( )
-	{
-		DesignElementHandle container = handle.getContainer( );
-		if ( container != null
-				&& container instanceof CascadingParameterGroupHandle )
-		{
+	private boolean isCascadingParameter() {
+		DesignElementHandle container = handle.getContainer();
+		if (container != null && container instanceof CascadingParameterGroupHandle) {
 			return true;
 		}
 		return false;

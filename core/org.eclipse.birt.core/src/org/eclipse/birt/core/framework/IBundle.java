@@ -8,17 +8,14 @@ package org.eclipse.birt.core.framework;
 
 import java.net.URL;
 
-
-
 /**
  *
  */
-public interface IBundle
-{
-	 Class loadClass(String name) throws ClassNotFoundException;
+public interface IBundle {
+	Class loadClass(String name) throws ClassNotFoundException;
 
-	URL getEntry( String name );
+	URL getEntry(String name);
 
-	//	 Enumeration getEntryPaths(String path);
-	String getStateLocation( );
+	// Enumeration getEntryPaths(String path);
+	String getStateLocation();
 }

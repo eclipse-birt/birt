@@ -14,23 +14,21 @@ package org.eclipse.birt.chart.extension.aggregate;
 import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
 import org.eclipse.birt.core.data.DataType;
 
-
 /**
  * @since BIRT 2.3
  */
-public class RunningCount extends AggregateFunctionAdapter
-{
-	/* (non-Javadoc)
+public class RunningCount extends AggregateFunctionAdapter {
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return RUNNING_AGGR;
 	}
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.INTEGER_TYPE;
 	}
 }

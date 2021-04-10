@@ -19,30 +19,21 @@ import org.eclipse.birt.report.engine.api.script.instance.IRowInstance;
 /**
  * Default (empty) implementation of the ITableDetailRowEventHandler interface
  */
-public class RowEventAdapter implements IRowEventHandler
-{
+public class RowEventAdapter implements IRowEventHandler {
 
-	public void onPrepare( IRow rowHandle, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onPrepare(IRow rowHandle, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onCreate( IRowInstance rowInstance, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onCreate(IRowInstance rowInstance, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onRender( IRowInstance rowInstance, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onRender(IRowInstance rowInstance, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onPageBreak( IRowInstance rowInstance,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void onPageBreak(IRowInstance rowInstance, IReportContext reportContext) throws ScriptException {
 
 	}
 }

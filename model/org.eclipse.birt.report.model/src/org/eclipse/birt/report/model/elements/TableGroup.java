@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.elements;
 
@@ -21,26 +21,24 @@ import org.eclipse.birt.report.model.core.Module;
  * 
  */
 
-public class TableGroup extends GroupElement
-{
+public class TableGroup extends GroupElement {
 
 	/**
 	 * Default constructor. Note that groups do not have names.
 	 */
 
-	public TableGroup( )
-	{
+	public TableGroup() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitTableGroup( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitTableGroup(this);
 	}
 
 	/*
@@ -49,35 +47,32 @@ public class TableGroup extends GroupElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.TABLE_GROUP_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public TableGroupHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new TableGroupHandle( module, this );
+	public TableGroupHandle handle(Module module) {
+		if (handle == null) {
+			handle = new TableGroupHandle(module, this);
 		}
 		return (TableGroupHandle) handle;
 	}

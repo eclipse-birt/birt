@@ -21,41 +21,34 @@ import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
  * 
  */
 
-public class LabelImpl implements ILabel
-{
+public class LabelImpl implements ILabel {
 
 	private Label label;
 
-	public LabelImpl( Label label )
-	{
+	public LabelImpl(Label label) {
 		this.label = label;
 	}
 
-	public IText getCaption( )
-	{
-		Text caption = label.getCaption( );
-		if ( caption == null )
-		{
-			caption = ChartComponentUtil.createEMFText( );
-			label.setCaption( caption );
+	public IText getCaption() {
+		Text caption = label.getCaption();
+		if (caption == null) {
+			caption = ChartComponentUtil.createEMFText();
+			label.setCaption(caption);
 		}
-		return ChartComponentUtil.convertText( caption );
+		return ChartComponentUtil.convertText(caption);
 	}
 
-	public boolean isVisible( )
-	{
-		return label.isVisible( );
+	public boolean isVisible() {
+		return label.isVisible();
 	}
 
-	public void setCaption( IText text )
-	{
-		label.setCaption( ChartComponentUtil.convertIText( text ) );
+	public void setCaption(IText text) {
+		label.setCaption(ChartComponentUtil.convertIText(text));
 
 	}
 
-	public void setVisible( boolean visible )
-	{
-		label.setVisible( visible );
+	public void setVisible(boolean visible) {
+		label.setVisible(visible);
 
 	}
 

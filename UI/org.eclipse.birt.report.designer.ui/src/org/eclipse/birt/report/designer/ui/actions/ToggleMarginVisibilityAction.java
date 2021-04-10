@@ -21,8 +21,7 @@ import org.eclipse.jface.action.Action;
  * An action class to hide/show report designer margin.
  */
 
-public class ToggleMarginVisibilityAction extends Action
-{
+public class ToggleMarginVisibilityAction extends Action {
 
 	/**
 	 * Action ID.
@@ -32,12 +31,12 @@ public class ToggleMarginVisibilityAction extends Action
 	/**
 	 * Action display label.
 	 */
-	public static final String LABEL = Messages.getString( "ToggleMarginVisibilityAction.text.Label" ); //$NON-NLS-1$
+	public static final String LABEL = Messages.getString("ToggleMarginVisibilityAction.text.Label"); //$NON-NLS-1$
 
 	/**
 	 * Action display label.
 	 */
-	public static final String TOOLTIP = Messages.getString( "ToggleMarginVisibilityAction.text.Tooltip" ); //$NON-NLS-1$
+	public static final String TOOLTIP = Messages.getString("ToggleMarginVisibilityAction.text.Tooltip"); //$NON-NLS-1$
 
 	private GraphicalViewer diagramViewer;
 
@@ -46,25 +45,22 @@ public class ToggleMarginVisibilityAction extends Action
 	 * 
 	 * @param diagramViewer
 	 */
-	public ToggleMarginVisibilityAction( GraphicalViewer diagramViewer )
-	{
-		super( LABEL, AS_CHECK_BOX );
+	public ToggleMarginVisibilityAction(GraphicalViewer diagramViewer) {
+		super(LABEL, AS_CHECK_BOX);
 		this.diagramViewer = diagramViewer;
-		setToolTipText( TOOLTIP );
-		setId( ID );
-		setActionDefinitionId( ID );
-		setChecked( isChecked( ) );
+		setToolTipText(TOOLTIP);
+		setId(ID);
+		setActionDefinitionId(ID);
+		setChecked(isChecked());
 	}
 
 	/**
 	 * @see org.eclipse.jface.action.IAction#isChecked()
 	 */
-	public boolean isChecked( )
-	{
-		Boolean val = ( (Boolean) diagramViewer.getProperty( DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY ) );
-		if ( val != null )
-		{
-			return val.booleanValue( );
+	public boolean isChecked() {
+		Boolean val = ((Boolean) diagramViewer.getProperty(DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY));
+		if (val != null) {
+			return val.booleanValue();
 		}
 		return true;
 	}
@@ -72,14 +68,11 @@ public class ToggleMarginVisibilityAction extends Action
 	/**
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Toggle margin action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Toggle margin action >> Run ..."); //$NON-NLS-1$
 		}
-		diagramViewer.setProperty( DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY,
-				Boolean.valueOf( !isChecked( ) ) );
+		diagramViewer.setProperty(DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY, Boolean.valueOf(!isChecked()));
 	}
 
 }

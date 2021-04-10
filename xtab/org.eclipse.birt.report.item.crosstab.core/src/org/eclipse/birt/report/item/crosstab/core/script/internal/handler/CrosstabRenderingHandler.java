@@ -28,61 +28,41 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 /**
  * CrosstabRenderingHandler
  */
-public class CrosstabRenderingHandler extends BaseCrosstabEventHandler
-{
+public class CrosstabRenderingHandler extends BaseCrosstabEventHandler {
 
 	private CrosstabScriptHandler handler;
 
-	public CrosstabRenderingHandler( ExtendedItemHandle modelHandle,
-			ClassLoader contextLoader ) throws BirtException
-	{
-		String javaClass = modelHandle.getEventHandlerClass( );
-		String script = modelHandle.getOnRender( );
+	public CrosstabRenderingHandler(ExtendedItemHandle modelHandle, ClassLoader contextLoader) throws BirtException {
+		String javaClass = modelHandle.getEventHandlerClass();
+		String script = modelHandle.getOnRender();
 
-		if ( ( javaClass == null || javaClass.trim( ).length( ) == 0 )
-				&& ( script == null || script.trim( ).length( ) == 0 ) )
-		{
+		if ((javaClass == null || javaClass.trim().length() == 0) && (script == null || script.trim().length() == 0)) {
 			return;
 		}
 
-		handler = createScriptHandler( modelHandle,
-				ICrosstabReportItemConstants.ON_RENDER_METHOD,
-				script,
-				contextLoader );
+		handler = createScriptHandler(modelHandle, ICrosstabReportItemConstants.ON_RENDER_METHOD, script,
+				contextLoader);
 	}
 
-	public void handleCrosstab( CrosstabReportItemHandle crosstab,
-			ITableContent content, IReportContext context,
-			RunningState runningState ) throws BirtException
-	{
-		if ( handler == null || crosstab == null )
-		{
+	public void handleCrosstab(CrosstabReportItemHandle crosstab, ITableContent content, IReportContext context,
+			RunningState runningState) throws BirtException {
+		if (handler == null || crosstab == null) {
 			return;
 		}
 
-		ICrosstabInstance crosstabInst = new CrosstabInstanceImpl( content,
-				crosstab.getModelHandle( ),
-				runningState );
+		ICrosstabInstance crosstabInst = new CrosstabInstanceImpl(content, crosstab.getModelHandle(), runningState);
 
-		handler.callFunction( CrosstabScriptHandler.ON_RENDER_CROSSTAB,
-				crosstabInst,
-				context );
+		handler.callFunction(CrosstabScriptHandler.ON_RENDER_CROSSTAB, crosstabInst, context);
 	}
 
-	public void handleCell( CrosstabCellHandle cell, ICellContent content,
-			IReportContext context ) throws BirtException
-	{
-		if ( handler == null || cell == null )
-		{
+	public void handleCell(CrosstabCellHandle cell, ICellContent content, IReportContext context) throws BirtException {
+		if (handler == null || cell == null) {
 			return;
 		}
 
-		ICrosstabCellInstance cellInst = new CrosstabCellInstanceImpl( content,
-				(ExtendedItemHandle) cell.getModelHandle( ),
-				context );
+		ICrosstabCellInstance cellInst = new CrosstabCellInstanceImpl(content,
+				(ExtendedItemHandle) cell.getModelHandle(), context);
 
-		handler.callFunction( CrosstabScriptHandler.ON_RENDER_CELL,
-				cellInst,
-				context );
+		handler.callFunction(CrosstabScriptHandler.ON_RENDER_CELL, cellInst, context);
 	}
 }

@@ -18,20 +18,17 @@ import org.eclipse.datatools.enablement.oda.xml.util.IXMLSource;
 /**
  * This instance interacts with a SaxParserConsumer instance to populate the
  * ResultSet data.
+ * 
  * @deprecated Please use DTP xml driver
  */
-public class SaxParser
-		extends
-			org.eclipse.datatools.enablement.oda.xml.util.SaxParser
-{
+public class SaxParser extends org.eclipse.datatools.enablement.oda.xml.util.SaxParser {
 
 	/**
 	 * 
 	 * @param stream
 	 * @param consumer
 	 */
-	public SaxParser( IXMLSource xmlSource, ISaxParserConsumer consumer, boolean useNamespace ) throws OdaException
-	{
-		super( xmlSource, consumer, useNamespace );
+	public SaxParser(IXMLSource xmlSource, ISaxParserConsumer consumer, boolean useNamespace) throws OdaException {
+		super(xmlSource, consumer, useNamespace);
 	}
 }

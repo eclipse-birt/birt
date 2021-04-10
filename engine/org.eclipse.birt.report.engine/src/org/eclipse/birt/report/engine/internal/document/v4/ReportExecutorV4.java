@@ -18,36 +18,30 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 
-public class ReportExecutorV4 extends AbstractReportExecutor
-{
+public class ReportExecutorV4 extends AbstractReportExecutor {
 
 	protected ReportItemExecutor bodyExecutor;
 
-	public ReportExecutorV4( ExecutionContext context ) throws IOException, BirtException
-	{
-		super( context );
-		bodyExecutor = new ReportBodyExecutor( manager, null );
+	public ReportExecutorV4(ExecutionContext context) throws IOException, BirtException {
+		super(context);
+		bodyExecutor = new ReportBodyExecutor(manager, null);
 	}
 
-	public void close( )
-	{
-		bodyExecutor.close( );
-		super.close( );
+	public void close() {
+		bodyExecutor.close();
+		super.close();
 	}
 
-	public IReportContent execute( )
-	{
-		bodyExecutor.execute( );
+	public IReportContent execute() {
+		bodyExecutor.execute();
 		return reportContent;
 	}
 
-	public boolean hasNextChild( )
-	{
-		return bodyExecutor.hasNextChild( );
+	public boolean hasNextChild() {
+		return bodyExecutor.hasNextChild();
 	}
 
-	public IReportItemExecutor getNextChild( )
-	{
-		return bodyExecutor.getNextChild( );
+	public IReportItemExecutor getNextChild() {
+		return bodyExecutor.getNextChild();
 	}
 }

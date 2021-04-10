@@ -20,8 +20,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
  * to compare with other events or instructions.
  */
 
-public interface IRenderInstruction extends Comparable
-{
+public interface IRenderInstruction extends Comparable {
 
 	/**
 	 * Returns the associated instruction.
@@ -32,28 +31,28 @@ public interface IRenderInstruction extends Comparable
 	 *         <li>PrimitiveRenderEvent.FILL
 	 *         </ul>
 	 */
-	int getInstruction( );
+	int getInstruction();
 
 	/**
 	 * Returns the associated event.
 	 * 
 	 * @return render event
 	 */
-	PrimitiveRenderEvent getEvent( );
+	PrimitiveRenderEvent getEvent();
 
 	/**
-	 * @return Returns the minimum bounds required to contain the rendering area
-	 *         of associated rendering event.
+	 * @return Returns the minimum bounds required to contain the rendering area of
+	 *         associated rendering event.
 	 */
-	Bounds getBounds( );
+	Bounds getBounds();
 
 	/**
 	 * @return Returns if wraps multiple events currently.
 	 */
-	boolean isModel( );
+	boolean isModel();
 
 	/**
 	 * @return Returns list of events currently wraps.
 	 */
-	List getModel( );
+	List getModel();
 }

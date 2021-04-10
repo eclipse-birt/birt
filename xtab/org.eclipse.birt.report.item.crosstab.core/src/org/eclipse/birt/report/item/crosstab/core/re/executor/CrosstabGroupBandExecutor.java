@@ -19,8 +19,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 /**
  * CrosstabGroupBandExecutor
  */
-public class CrosstabGroupBandExecutor extends BaseCrosstabExecutor
-{
+public class CrosstabGroupBandExecutor extends BaseCrosstabExecutor {
 
 	private int bandType;
 	private int dimensionIndex, levelIndex;
@@ -28,77 +27,50 @@ public class CrosstabGroupBandExecutor extends BaseCrosstabExecutor
 	private int currentRow;
 	private int totalRow;
 
-	public CrosstabGroupBandExecutor( BaseCrosstabExecutor parent,
-			int dimensionIndex, int levelIndex, int bandType )
-	{
-		super( parent );
+	public CrosstabGroupBandExecutor(BaseCrosstabExecutor parent, int dimensionIndex, int levelIndex, int bandType) {
+		super(parent);
 
 		this.bandType = bandType;
 		this.dimensionIndex = dimensionIndex;
 		this.levelIndex = levelIndex;
 	}
 
-	public IContent execute( )
-	{
-		ITableBandContent content = context.getReportContent( )
-				.createTableBandContent( );
-		content.setBandType( bandType );
+	public IContent execute() {
+		ITableBandContent content = context.getReportContent().createTableBandContent();
+		content.setBandType(bandType);
 
-		initializeContent( content, null );
+		initializeContent(content, null);
 
-		prepareChildren( );
+		prepareChildren();
 
 		return content;
 	}
 
-	private void prepareChildren( )
-	{
+	private void prepareChildren() {
 		currentRow = 0;
 
-		int count = crosstabItem.getMeasureCount( );
-		totalRow = ( count > 1 && MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) ) ) ? count
-				: 1;
+		int count = crosstabItem.getMeasureCount();
+		totalRow = (count > 1 && MEASURE_DIRECTION_VERTICAL.equals(crosstabItem.getMeasureDirection())) ? count : 1;
 	}
 
-	public IReportItemExecutor getNextChild( )
-	{
-		if ( bandType == IBandContent.BAND_DETAIL )
-		{
-			return new CrosstabRowExecutor( this,
-					currentRow++,
-					dimensionIndex,
-					levelIndex );
-		}
-		else
-		{
-			return new CrosstabSubTotalRowExecutor( this,
-					currentRow++,
-					dimensionIndex,
-					levelIndex );
+	public IReportItemExecutor getNextChild() {
+		if (bandType == IBandContent.BAND_DETAIL) {
+			return new CrosstabRowExecutor(this, currentRow++, dimensionIndex, levelIndex);
+		} else {
+			return new CrosstabSubTotalRowExecutor(this, currentRow++, dimensionIndex, levelIndex);
 		}
 	}
 
-	public boolean hasNextChild( )
-	{
-		if ( currentRow < totalRow )
-		{
-			if ( bandType == IBandContent.BAND_DETAIL )
-			{
+	public boolean hasNextChild() {
+		if (currentRow < totalRow) {
+			if (bandType == IBandContent.BAND_DETAIL) {
 				return true;
-			}
-			else if ( GroupUtil.hasTotalContent( crosstabItem,
-					ROW_AXIS_TYPE,
-					dimensionIndex,
-					levelIndex,
-					MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) ) ? currentRow
-							: -1 ) )
-			{
+			} else if (GroupUtil.hasTotalContent(crosstabItem, ROW_AXIS_TYPE, dimensionIndex, levelIndex,
+					MEASURE_DIRECTION_VERTICAL.equals(crosstabItem.getMeasureDirection()) ? currentRow : -1)) {
 				return true;
-			}
-			else
-			{
+			} else {
 				currentRow++;
-				return hasNextChild( );
+				return hasNextChild();
 			}
 		}
 

@@ -11,27 +11,22 @@
 
 package org.eclipse.birt.report.engine.internal.executor.doc;
 
-public class PooledReportItemReader extends ReportItemReader
-{
+public class PooledReportItemReader extends ReportItemReader {
 
 	ReportItemReaderManager manager;
 
-	PooledReportItemReader( ReportItemReaderManager manager )
-	{
-		super( manager.context );
+	PooledReportItemReader(ReportItemReaderManager manager) {
+		super(manager.context);
 		this.manager = manager;
 	}
 
-	ReportItemReader createExecutor( ReportItemReader parent, long offset,
-			Fragment fragment )
-	{
-		return manager.createExecutor( parent, offset, fragment );
+	ReportItemReader createExecutor(ReportItemReader parent, long offset, Fragment fragment) {
+		return manager.createExecutor(parent, offset, fragment);
 	}
 
-	public void close( )
-	{
-		super.close( );
-		manager.releaseExecutor( this );
+	public void close() {
+		super.close();
+		manager.releaseExecutor(this);
 	}
 
 }

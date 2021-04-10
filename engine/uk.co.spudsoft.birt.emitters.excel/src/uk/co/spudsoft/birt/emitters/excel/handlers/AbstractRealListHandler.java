@@ -32,60 +32,61 @@ public class AbstractRealListHandler extends AbstractHandler implements NestedTa
 
 	protected int startRow;
 	protected int startCol;
-	
+
 	private IListGroupContent currentGroup;
 	private IListBandContent currentBand;
-	
+
 	private AreaBorders borderDefn;
 
-	private List< NestedTableHandler > nestedTables;
-	
+	private List<NestedTableHandler> nestedTables;
+
 	public AbstractRealListHandler(Logger log, IHandler parent, IListContent list) {
 		super(log, parent, list);
 	}
 
-	public void addNestedTable( NestedTableHandler nestedTableHandler ) {
-		if( nestedTables == null ) {
+	public void addNestedTable(NestedTableHandler nestedTableHandler) {
+		if (nestedTables == null) {
 			nestedTables = new ArrayList<NestedTableHandler>();
 		}
-		log.debug( "Adding nested table: ", nestedTableHandler );
+		log.debug("Adding nested table: ", nestedTableHandler);
 		nestedTables.add(nestedTableHandler);
 	}
-	
-	public boolean rowHasNestedTable( int rowNum ) {
-		if( nestedTables != null ) {
-			for( NestedTableHandler nestedTableHandler : nestedTables ) {
-				if( nestedTableHandler.includesRow( rowNum ) ) {
-					log.debug( "Row ", rowNum, " has nested table ", nestedTableHandler );
+
+	public boolean rowHasNestedTable(int rowNum) {
+		if (nestedTables != null) {
+			for (NestedTableHandler nestedTableHandler : nestedTables) {
+				if (nestedTableHandler.includesRow(rowNum)) {
+					log.debug("Row ", rowNum, " has nested table ", nestedTableHandler);
 					return true;
 				}
 			}
 		}
-		log.debug( "Row ", rowNum, " has no nested tables" );
+		log.debug("Row ", rowNum, " has no nested tables");
 		return false;
 	}
-	
-	public int extendRowBy( int rowNum ) {
+
+	public int extendRowBy(int rowNum) {
 		int offset = 1;
-		if( nestedTables != null ) {
-			for( NestedTableHandler nestedTableHandler : nestedTables ) {
-				int nestedTablesOffset = nestedTableHandler.extendParentsRowBy( rowNum );
-				if( nestedTablesOffset > offset ) {
-					log.debug( "Row ", rowNum, " is extended by ", nestedTablesOffset, " thanks to ", nestedTableHandler );
+		if (nestedTables != null) {
+			for (NestedTableHandler nestedTableHandler : nestedTables) {
+				int nestedTablesOffset = nestedTableHandler.extendParentsRowBy(rowNum);
+				if (nestedTablesOffset > offset) {
+					log.debug("Row ", rowNum, " is extended by ", nestedTablesOffset, " thanks to ",
+							nestedTableHandler);
 					offset = nestedTablesOffset;
 				}
 			}
 		}
 		return offset;
 	}
-	
+
 	@Override
 	public void startList(HandlerState state, IListContent list) throws BirtException {
 		startRow = state.rowNum;
 		startCol = state.colNum;
-		log.debug( "List started at [", startRow, ",", startCol, "]" );
+		log.debug("List started at [", startRow, ",", startCol, "]");
 	}
-	
+
 	@Override
 	public void endList(HandlerState state, IListContent list) throws BirtException {
 		state.setHandler(parent);
@@ -93,36 +94,38 @@ public class AbstractRealListHandler extends AbstractHandler implements NestedTa
 		int endRow = state.rowNum - 1;
 		int colStart = 0;
 		int colEnd = 0;
-		
-		for( int row = startRow; row < endRow; ++row ) {
-			if( state.currentSheet.getRow(row) != null ) {
+
+		for (int row = startRow; row < endRow; ++row) {
+			if (state.currentSheet.getRow(row) != null) {
 				int lastColInRow = state.currentSheet.getRow(row).getLastCellNum() - 1;
-				if( lastColInRow > colEnd ) {
+				if (lastColInRow > colEnd) {
 					colEnd = lastColInRow;
 				}
 			}
 		}
-		
-		state.getSmu().applyBordersToArea( state.getSm(), state.currentSheet, colStart, colEnd, startRow, endRow, new BirtStyle( list ) );
-		
-		if( borderDefn != null ) {
+
+		state.getSmu().applyBordersToArea(state.getSm(), state.currentSheet, colStart, colEnd, startRow, endRow,
+				new BirtStyle(list));
+
+		if (borderDefn != null) {
 			state.removeBorderOverload(borderDefn);
 		}
-		
-		if( list.getBookmark() != null ) {
-			createName(state, prepareName( list.getBookmark() ), startRow, 0, state.rowNum - 1, 0);
+
+		if (list.getBookmark() != null) {
+			createName(state, prepareName(list.getBookmark()), startRow, 0, state.rowNum - 1, 0);
 		}
-		
-		if( EmitterServices.booleanOption( state.getRenderOptions(), list, ExcelEmitter.DISPLAYFORMULAS_PROP, false ) ) {
+
+		if (EmitterServices.booleanOption(state.getRenderOptions(), list, ExcelEmitter.DISPLAYFORMULAS_PROP, false)) {
 			state.currentSheet.setDisplayFormulas(true);
 		}
-		if( ! EmitterServices.booleanOption( state.getRenderOptions(), list, ExcelEmitter.DISPLAYGRIDLINES_PROP, true ) ) {
+		if (!EmitterServices.booleanOption(state.getRenderOptions(), list, ExcelEmitter.DISPLAYGRIDLINES_PROP, true)) {
 			state.currentSheet.setDisplayGridlines(false);
 		}
-		if( ! EmitterServices.booleanOption( state.getRenderOptions(), list, ExcelEmitter.DISPLAYROWCOLHEADINGS_PROP, true ) ) {
+		if (!EmitterServices.booleanOption(state.getRenderOptions(), list, ExcelEmitter.DISPLAYROWCOLHEADINGS_PROP,
+				true)) {
 			state.currentSheet.setDisplayRowColHeadings(false);
 		}
-		if( ! EmitterServices.booleanOption( state.getRenderOptions(), list, ExcelEmitter.DISPLAYZEROS_PROP, true ) ) {
+		if (!EmitterServices.booleanOption(state.getRenderOptions(), list, ExcelEmitter.DISPLAYZEROS_PROP, true)) {
 			state.currentSheet.setDisplayZeros(false);
 		}
 	}
@@ -131,15 +134,15 @@ public class AbstractRealListHandler extends AbstractHandler implements NestedTa
 	public void startListBand(HandlerState state, IListBandContent band) throws BirtException {
 		currentBand = band;
 		state.colNum = startCol;
-		log.debug( "startListBand with startCol = ", startCol );
+		log.debug("startListBand with startCol = ", startCol);
 	}
 
 	@Override
 	public void endListBand(HandlerState state, IListBandContent band) throws BirtException {
-        boolean rowHasNestedTable = rowHasNestedTable( state.rowNum );
-        
-		if( rowHasNestedTable ) {
-			state.rowNum += extendRowBy( state.rowNum );
+		boolean rowHasNestedTable = rowHasNestedTable(state.rowNum);
+
+		if (rowHasNestedTable) {
+			state.rowNum += extendRowBy(state.rowNum);
 		}
 		state.colNum = startCol;
 

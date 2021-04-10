@@ -17,27 +17,28 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public interface IResultRow
-{
+public interface IResultRow {
 	/**
 	 * 
 	 * @return
 	 */
-	public boolean isTimeDimensionRow( );
-	
-	
+	public boolean isTimeDimensionRow();
+
 	/**
 	 * get the field value according to the specified field name.
+	 * 
 	 * @param fieldName
 	 * @return
 	 * @throws DataException
 	 */
-	public Object getFieldValue( String fieldName ) throws DataException;
+	public Object getFieldValue(String fieldName) throws DataException;
+
 	/**
 	 * get the aggregation values according to teh specified aggregation name.
+	 * 
 	 * @param aggrName
 	 * @return
 	 * @throws DataException
 	 */
-	public Object getAggrValue( String aggrName ) throws DataException;
+	public Object getAggrValue(String aggrName) throws DataException;
 }

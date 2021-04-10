@@ -33,8 +33,7 @@ import org.eclipse.birt.chart.util.PluginSettings;
  * </p>
  */
 
-public class Regression_118773_jpg
-{
+public class Regression_118773_jpg {
 
 	/**
 	 * A chart model instance
@@ -53,58 +52,40 @@ public class Regression_118773_jpg
 	 * 
 	 * @param args
 	 */
-	public static void main( String[] args )
-	{
-		new Regression_118773_jpg( );
+	public static void main(String[] args) {
+		new Regression_118773_jpg();
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_118773_jpg( )
-	{
-		final PluginSettings ps = PluginSettings.instance( );
-		try
-		{
-			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
+	public Regression_118773_jpg() {
+		final PluginSettings ps = PluginSettings.instance();
+		try {
+			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
 
+		} catch (ChartException ex) {
+			ex.printStackTrace();
 		}
-		catch ( ChartException ex )
-		{
-			ex.printStackTrace( );
-		}
-		cm = Title.BarChart( );
-		BufferedImage img = new BufferedImage(
-				500,
-				500,
-				BufferedImage.TYPE_INT_ARGB );
-		Graphics g = img.getGraphics( );
+		cm = Title.BarChart();
+		BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = img.getGraphics();
 
 		Graphics2D g2d = (Graphics2D) g;
-		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		String s = System.getProperty( "user.dir" );
-		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, s
-				+ "\\regression\\Reg_118773.jpg" ); //$NON-NLS-1$
-		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
-		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
+		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
+		String s = System.getProperty("user.dir");
+		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, s + "\\regression\\Reg_118773.jpg"); //$NON-NLS-1$
+		Bounds bo = BoundsImpl.create(0, 0, 500, 500);
+		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
 
-		Generator gr = Generator.instance( );
+		Generator gr = Generator.instance();
 
-		try
-		{
-			gcs = gr.build(
-					dRenderer.getDisplayServer( ),
-					cm,
-					bo,
-					null,
-					null,
-					null );
-			gr.render( dRenderer, gcs );
-		}
-		catch ( ChartException e )
-		{
+		try {
+			gcs = gr.build(dRenderer.getDisplayServer(), cm, bo, null, null, null);
+			gr.render(dRenderer, gcs);
+		} catch (ChartException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			e.printStackTrace();
 		}
 	}
 }

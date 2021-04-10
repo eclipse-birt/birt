@@ -27,116 +27,90 @@ import java.util.zip.ZipFile;
 /**
  * 
  */
-public class ClassLister
-{
-	private static Logger logger = Logger.getLogger( ClassLister.class.getName( ) );
-	
+public class ClassLister {
+	private static Logger logger = Logger.getLogger(ClassLister.class.getName());
+
 	private static String ANONYMOUS_CLASS_REGEX = ".*\\Q$\\E[0-9]+.*"; //$NON-NLS-1$
-	
-	public static String[] listClasses(  URL[] urls )
-	{
-		if ( urls == null ) 
-		{
+
+	public static String[] listClasses(URL[] urls) {
+		if (urls == null) {
 			return new String[0];
 		}
-		Set<String> result = new HashSet<String>( );
-		for ( URL url : urls )
-		{
+		Set<String> result = new HashSet<String>();
+		for (URL url : urls) {
 			File f = null;
-			try
-			{
-				f = new File( url.toURI( ) );
-			}
-			catch ( URISyntaxException e )
-			{
-				logger.log( Level.WARNING, "Failed to transfer to file:" + url, e ); //$NON-NLS-1$
+			try {
+				f = new File(url.toURI());
+			} catch (URISyntaxException e) {
+				logger.log(Level.WARNING, "Failed to transfer to file:" + url, e); //$NON-NLS-1$
 				continue;
 			}
-			if ( f.isFile( ))
-			{
-				result.addAll( listClassesFromJar( f) );
-			}
-			else if ( f.isDirectory( ) )
-			{
-				result.addAll( listClassesFromDir( f, "" ) ); //$NON-NLS-1$
+			if (f.isFile()) {
+				result.addAll(listClassesFromJar(f));
+			} else if (f.isDirectory()) {
+				result.addAll(listClassesFromDir(f, "")); //$NON-NLS-1$
 			}
 		}
-		return result.toArray( new String[0] );
+		return result.toArray(new String[0]);
 	}
-	
-	private static Set<String> listClassesFromDir( File classFolder, String prefix )
-	{
-		Set<String> result = new HashSet<String>( );
-		for ( File f : classFolder.listFiles( ) )
-		{
-			if ( f.isFile( ) && f.getName( ).endsWith( ".class" )) //$NON-NLS-1$
+
+	private static Set<String> listClassesFromDir(File classFolder, String prefix) {
+		Set<String> result = new HashSet<String>();
+		for (File f : classFolder.listFiles()) {
+			if (f.isFile() && f.getName().endsWith(".class")) //$NON-NLS-1$
 			{
-				String className = prefix + f.getName( ).substring( 0, f.getName( ).length( ) - 6 );
-				className = process$( className );
-				if ( className != null )
-				{
-					result.add( className );
+				String className = prefix + f.getName().substring(0, f.getName().length() - 6);
+				className = process$(className);
+				if (className != null) {
+					result.add(className);
 				}
-			}
-			else if ( f.isDirectory( ) )
-			{
-				String newPrefix = prefix + f.getName( ) + "."; //$NON-NLS-1$
-				result.addAll( listClassesFromDir( f, newPrefix ));
+			} else if (f.isDirectory()) {
+				String newPrefix = prefix + f.getName() + "."; //$NON-NLS-1$
+				result.addAll(listClassesFromDir(f, newPrefix));
 			}
 		}
 		return result;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private static Set<String> listClassesFromJar( File jarFile )
-	{
-		Set<String> result = new HashSet<String>( );
-		List<String> entries = new ArrayList<String>( );
-		try
-		{
-			ZipFile zf = new ZipFile( jarFile );
-			Enumeration e = zf.entries( );
-			while ( e.hasMoreElements( ) )
-			{
-				ZipEntry ze = (ZipEntry) e.nextElement( );
-				if ( !ze.isDirectory( ) )
-				{
-					entries.add( ze.getName( ) );
+	private static Set<String> listClassesFromJar(File jarFile) {
+		Set<String> result = new HashSet<String>();
+		List<String> entries = new ArrayList<String>();
+		try {
+			ZipFile zf = new ZipFile(jarFile);
+			Enumeration e = zf.entries();
+			while (e.hasMoreElements()) {
+				ZipEntry ze = (ZipEntry) e.nextElement();
+				if (!ze.isDirectory()) {
+					entries.add(ze.getName());
 				}
 			}
-			zf.close( );
+			zf.close();
+		} catch (IOException e1) {
+			logger.log(Level.WARNING, "Failed to read file: " + jarFile, e1); //$NON-NLS-1$
 		}
-		catch ( IOException e1 )
-		{
-			logger.log( Level.WARNING, "Failed to read file: " + jarFile, e1 ); //$NON-NLS-1$
-		}
-		for ( String entry : entries )
-		{
-			if ( entry.endsWith( ".class" )) //$NON-NLS-1$
+		for (String entry : entries) {
+			if (entry.endsWith(".class")) //$NON-NLS-1$
 			{
-				String className = packagify( entry );
-				className = process$( className );
-				if ( className != null )
-				{
-					result.add( className );
+				String className = packagify(entry);
+				className = process$(className);
+				if (className != null) {
+					result.add(className);
 				}
 			}
 		}
 		return result;
 	}
-	
-	private static String packagify( String resourceName )
-	{
-		resourceName = ( resourceName.replaceAll( "/", "." ) ).substring( 0,resourceName.length( ) - 6 ); //$NON-NLS-1$ //$NON-NLS-2$ 
+
+	private static String packagify(String resourceName) {
+		resourceName = (resourceName.replaceAll("/", ".")).substring(0, resourceName.length() - 6); //$NON-NLS-1$ //$NON-NLS-2$
 		return resourceName;
 	}
-	
-	private static String process$( String className )
-	{
-		if ( className.matches( ANONYMOUS_CLASS_REGEX ))
-		{
+
+	private static String process$(String className) {
+		if (className.matches(ANONYMOUS_CLASS_REGEX)) {
 			return null;
 		}
-		return className.replace( '$', '.' );
+		return className.replace('$', '.');
 	}
 }

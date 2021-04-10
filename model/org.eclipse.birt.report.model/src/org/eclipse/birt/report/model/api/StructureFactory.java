@@ -61,8 +61,7 @@ import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
  * Provides the factory method to create empty structures.
  */
 
-public class StructureFactory
-{
+public class StructureFactory {
 
 	/**
 	 * Creates an empty data set cached meta-data structure.
@@ -70,9 +69,8 @@ public class StructureFactory
 	 * @return an empty data set cached meta-data structure.
 	 */
 
-	public static CachedMetaData createCachedMetaData( )
-	{
-		return new CachedMetaData( );
+	public static CachedMetaData createCachedMetaData() {
+		return new CachedMetaData();
 	}
 
 	/**
@@ -81,9 +79,8 @@ public class StructureFactory
 	 * @return an empty computed column structure
 	 */
 
-	public static ComputedColumn createComputedColumn( )
-	{
-		return new ComputedColumn( );
+	public static ComputedColumn createComputedColumn() {
+		return new ComputedColumn();
 	}
 
 	/**
@@ -92,9 +89,8 @@ public class StructureFactory
 	 * @return an empty action structure.
 	 */
 
-	public static Action createAction( )
-	{
-		return new Action( );
+	public static Action createAction() {
+		return new Action();
 	}
 
 	/**
@@ -103,9 +99,8 @@ public class StructureFactory
 	 * @return an empty config variable structure
 	 */
 
-	public static ConfigVariable createConfigVar( )
-	{
-		return new ConfigVariable( );
+	public static ConfigVariable createConfigVar() {
+		return new ConfigVariable();
 	}
 
 	/**
@@ -114,9 +109,8 @@ public class StructureFactory
 	 * @return an empty custom color structure
 	 */
 
-	public static CustomColor createCustomColor( )
-	{
-		return new CustomColor( );
+	public static CustomColor createCustomColor() {
+		return new CustomColor();
 	}
 
 	/**
@@ -125,9 +119,8 @@ public class StructureFactory
 	 * @return an empty data-set parameter structure
 	 */
 
-	public static DataSetParameter createDataSetParameter( )
-	{
-		return new DataSetParameter( );
+	public static DataSetParameter createDataSetParameter() {
+		return new DataSetParameter();
 	}
 
 	/**
@@ -136,9 +129,8 @@ public class StructureFactory
 	 * @return an empty oda-data-set parameter
 	 */
 
-	public static OdaDataSetParameter createOdaDataSetParameter( )
-	{
-		return new OdaDataSetParameter( );
+	public static OdaDataSetParameter createOdaDataSetParameter() {
+		return new OdaDataSetParameter();
 	}
 
 	/**
@@ -147,9 +139,8 @@ public class StructureFactory
 	 * @return an empty embedded image structure
 	 */
 
-	public static EmbeddedImage createEmbeddedImage( )
-	{
-		return new EmbeddedImage( );
+	public static EmbeddedImage createEmbeddedImage() {
+		return new EmbeddedImage();
 	}
 
 	/**
@@ -158,9 +149,8 @@ public class StructureFactory
 	 * @return an empty filter condition structure
 	 */
 
-	public static FilterCondition createFilterCond( )
-	{
-		return new FilterCondition( );
+	public static FilterCondition createFilterCond() {
+		return new FilterCondition();
 	}
 
 	/**
@@ -169,9 +159,8 @@ public class StructureFactory
 	 * @return an empty hide rule structure
 	 */
 
-	public static HideRule createHideRule( )
-	{
-		return new HideRule( );
+	public static HideRule createHideRule() {
+		return new HideRule();
 	}
 
 	/**
@@ -180,9 +169,8 @@ public class StructureFactory
 	 * @return an empty include script structure
 	 */
 
-	public static IncludeScript createIncludeScript( )
-	{
-		return new IncludeScript( );
+	public static IncludeScript createIncludeScript() {
+		return new IncludeScript();
 	}
 
 	/**
@@ -191,9 +179,8 @@ public class StructureFactory
 	 * @return an empty include library structure
 	 */
 
-	public static IncludedLibrary createIncludeLibrary( )
-	{
-		return new IncludedLibrary( );
+	public static IncludedLibrary createIncludeLibrary() {
+		return new IncludedLibrary();
 	}
 
 	/**
@@ -202,9 +189,8 @@ public class StructureFactory
 	 * @return an empty include css style sheet structure.
 	 */
 
-	public static IncludedCssStyleSheet createIncludedCssStyleSheet( )
-	{
-		return new IncludedCssStyleSheet( );
+	public static IncludedCssStyleSheet createIncludedCssStyleSheet() {
+		return new IncludedCssStyleSheet();
 	}
 
 	/**
@@ -213,9 +199,8 @@ public class StructureFactory
 	 * @return an empty parameter binding structure
 	 */
 
-	public static ParamBinding createParamBinding( )
-	{
-		return new ParamBinding( );
+	public static ParamBinding createParamBinding() {
+		return new ParamBinding();
 	}
 
 	/**
@@ -224,9 +209,8 @@ public class StructureFactory
 	 * @return an empty property mask structure
 	 */
 
-	public static PropertyMask createPropertyMask( )
-	{
-		return new PropertyMask( );
+	public static PropertyMask createPropertyMask() {
+		return new PropertyMask();
 	}
 
 	/**
@@ -235,9 +219,8 @@ public class StructureFactory
 	 * @return an empty result set column structure
 	 */
 
-	public static ResultSetColumn createResultSetColumn( )
-	{
-		return new ResultSetColumn( );
+	public static ResultSetColumn createResultSetColumn() {
+		return new ResultSetColumn();
 	}
 
 	/**
@@ -246,9 +229,8 @@ public class StructureFactory
 	 * @return an empty result set column structure
 	 */
 
-	public static OdaResultSetColumn createOdaResultSetColumn( )
-	{
-		return new OdaResultSetColumn( );
+	public static OdaResultSetColumn createOdaResultSetColumn() {
+		return new OdaResultSetColumn();
 	}
 
 	/**
@@ -257,9 +239,8 @@ public class StructureFactory
 	 * @return an empty search key structure
 	 */
 
-	public static SearchKey createSearchKey( )
-	{
-		return new SearchKey( );
+	public static SearchKey createSearchKey() {
+		return new SearchKey();
 	}
 
 	/**
@@ -268,9 +249,8 @@ public class StructureFactory
 	 * @return an empty selection choice structure
 	 */
 
-	public static SelectionChoice createSelectionChoice( )
-	{
-		return new SelectionChoice( );
+	public static SelectionChoice createSelectionChoice() {
+		return new SelectionChoice();
 	}
 
 	/**
@@ -279,9 +259,8 @@ public class StructureFactory
 	 * @return an empty sort key structure
 	 */
 
-	public static SortKey createSortKey( )
-	{
-		return new SortKey( );
+	public static SortKey createSortKey() {
+		return new SortKey();
 	}
 
 	/**
@@ -290,9 +269,8 @@ public class StructureFactory
 	 * @return an empty column hint structure
 	 */
 
-	public static ColumnHint createColumnHint( )
-	{
-		return new ColumnHint( );
+	public static ColumnHint createColumnHint() {
+		return new ColumnHint();
 	}
 
 	/**
@@ -301,9 +279,8 @@ public class StructureFactory
 	 * @return an empty highlight rule structure
 	 */
 
-	public static HighlightRule createHighlightRule( )
-	{
-		return new HighlightRule( );
+	public static HighlightRule createHighlightRule() {
+		return new HighlightRule();
 	}
 
 	/**
@@ -312,9 +289,8 @@ public class StructureFactory
 	 * @return an empty map rule structure
 	 */
 
-	public static MapRule createMapRule( )
-	{
-		return new MapRule( );
+	public static MapRule createMapRule() {
+		return new MapRule();
 	}
 
 	/**
@@ -323,9 +299,8 @@ public class StructureFactory
 	 * @return an empty extended property structure
 	 */
 
-	public static ExtendedProperty createExtendedProperty( )
-	{
-		return new ExtendedProperty( );
+	public static ExtendedProperty createExtendedProperty() {
+		return new ExtendedProperty();
 	}
 
 	/**
@@ -334,9 +309,8 @@ public class StructureFactory
 	 * @return an empty join condition structure
 	 */
 
-	public static JoinCondition createJoinCondition( )
-	{
-		return new JoinCondition( );
+	public static JoinCondition createJoinCondition() {
+		return new JoinCondition();
 	}
 
 	/**
@@ -345,9 +319,8 @@ public class StructureFactory
 	 * @return an empty join condition structure
 	 */
 
-	public static ScriptLib createScriptLib( )
-	{
-		return new ScriptLib( );
+	public static ScriptLib createScriptLib() {
+		return new ScriptLib();
 	}
 
 	/**
@@ -356,9 +329,8 @@ public class StructureFactory
 	 * @return an empty oda designer state.
 	 */
 
-	public static OdaDesignerState createOdaDesignerState( )
-	{
-		return new OdaDesignerState( );
+	public static OdaDesignerState createOdaDesignerState() {
+		return new OdaDesignerState();
 	}
 
 	/**
@@ -371,171 +343,138 @@ public class StructureFactory
 	 *             {@link #newEmbeddedImageFrom(EmbeddedImageHandle, String, ModuleHandle)}
 	 */
 
-	public static EmbeddedImage createEmbeddedImage(
-			EmbeddedImageHandle baseImage )
-	{
-		if ( baseImage == null )
+	public static EmbeddedImage createEmbeddedImage(EmbeddedImageHandle baseImage) {
+		if (baseImage == null)
 			return null;
-		EmbeddedImage image = new EmbeddedImage( );
-		Module module = baseImage.getModule( );
-		String namespace = module instanceof Library ? ( (Library) module )
-				.getNamespace( ) : null;
-		StructRefValue libReference = new StructRefValue( namespace,
-				baseImage.getName( ) );
-		image.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER,
-				libReference );
+		EmbeddedImage image = new EmbeddedImage();
+		Module module = baseImage.getModule();
+		String namespace = module instanceof Library ? ((Library) module).getNamespace() : null;
+		StructRefValue libReference = new StructRefValue(namespace, baseImage.getName());
+		image.setProperty(ReferencableStructure.LIB_REFERENCE_MEMBER, libReference);
 		return image;
 	}
 
 	/**
-	 * Creates an embedded image from another library embedded image. The name
-	 * of the return embedded image fully depends on <code>name</code>.
+	 * Creates an embedded image from another library embedded image. The name of
+	 * the return embedded image fully depends on <code>name</code>.
 	 * 
-	 * @param baseImage
-	 *            the base image
-	 * @param name
-	 *            the name of the return embedded image
-	 * @param targetModule
-	 *            the target module that is inserted to
+	 * @param baseImage    the base image
+	 * @param name         the name of the return embedded image
+	 * @param targetModule the target module that is inserted to
 	 * 
 	 * @return the created embedded image
-	 * @throws LibraryException
-	 *             if the library has the <code>baseImage</code> is not included
-	 *             in the <code>targetModule</code>
+	 * @throws LibraryException if the library has the <code>baseImage</code> is not
+	 *                          included in the <code>targetModule</code>
 	 */
 
-	public static EmbeddedImage newEmbeddedImageFrom(
-			EmbeddedImageHandle baseImage, String name,
-			ModuleHandle targetModule ) throws LibraryException
-	{
-		if ( baseImage == null || targetModule == null )
+	public static EmbeddedImage newEmbeddedImageFrom(EmbeddedImageHandle baseImage, String name,
+			ModuleHandle targetModule) throws LibraryException {
+		if (baseImage == null || targetModule == null)
 			return null;
-		EmbeddedImage image = new EmbeddedImage( );
-		Module baseModule = baseImage.getModule( );
+		EmbeddedImage image = new EmbeddedImage();
+		Module baseModule = baseImage.getModule();
 
-		if ( baseModule instanceof ReportDesign )
+		if (baseModule instanceof ReportDesign)
 			return null;
 
 		// the library with the location path is never included
 
-		Library lib = targetModule.getModule( ).getLibraryByLocation(
-				baseModule.getLocation( ) );
-		if ( lib == null )
-		{
-			throw new LibraryException( baseModule,
-					new String[]{( (Library) baseModule ).getNamespace( )},
-					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
+		Library lib = targetModule.getModule().getLibraryByLocation(baseModule.getLocation());
+		if (lib == null) {
+			throw new LibraryException(baseModule, new String[] { ((Library) baseModule).getNamespace() },
+					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND);
 		}
 
-		String namespace = lib.getNamespace( );
-		StructRefValue libReference = new StructRefValue( namespace,
-				baseImage.getName( ) );
-		image.setProperty( ReferencableStructure.LIB_REFERENCE_MEMBER,
-				libReference );
-		image.setName( name );
+		String namespace = lib.getNamespace();
+		StructRefValue libReference = new StructRefValue(namespace, baseImage.getName());
+		image.setProperty(ReferencableStructure.LIB_REFERENCE_MEMBER, libReference);
+		image.setName(name);
 
 		return image;
 	}
 
 	/**
-	 * Creates an embedded image from another library embedded image. This
-	 * method creates the embedded image name automatically.
+	 * Creates an embedded image from another library embedded image. This method
+	 * creates the embedded image name automatically.
 	 * 
-	 * @param baseImage
-	 *            the base image
-	 * @param targetModule
-	 *            the target module that is inserted to
+	 * @param baseImage    the base image
+	 * @param targetModule the target module that is inserted to
 	 * 
 	 * @return the created embedded image
-	 * @throws LibraryException
-	 *             if the library has the <code>baseImage</code> is not included
-	 *             in the <code>targetModule</code>
+	 * @throws LibraryException if the library has the <code>baseImage</code> is not
+	 *                          included in the <code>targetModule</code>
 	 */
 
-	public static EmbeddedImage newEmbeddedImageFrom(
-			EmbeddedImageHandle baseImage, ModuleHandle targetModule )
-			throws LibraryException
-	{
-		if ( baseImage == null )
+	public static EmbeddedImage newEmbeddedImageFrom(EmbeddedImageHandle baseImage, ModuleHandle targetModule)
+			throws LibraryException {
+		if (baseImage == null)
 			return null;
 
-		EmbeddedImage newImage = newEmbeddedImageFrom( baseImage,
-				baseImage.getName( ), targetModule );
-		targetModule.rename( newImage );
+		EmbeddedImage newImage = newEmbeddedImageFrom(baseImage, baseImage.getName(), targetModule);
+		targetModule.rename(newImage);
 		return newImage;
 	}
 
 	/**
-	 * Creates a bound data column name with the unique column name. The new
-	 * name is given as "newName_[number]".
+	 * Creates a bound data column name with the unique column name. The new name is
+	 * given as "newName_[number]".
 	 * <p>
-	 * For example, if the <code>newName</code> is "column" and this is
-	 * duplicate, then the name of return column is: "column_1".
+	 * For example, if the <code>newName</code> is "column" and this is duplicate,
+	 * then the name of return column is: "column_1".
 	 * 
-	 * @param element
-	 *            the element on which computed column will be added
-	 * @param newName
-	 *            the default column name
-	 * @return a bound data column. If the <code>newName</code> is unique, the
-	 *         name in the return value is <code>newName</code>. Otherwise the
-	 *         newly created name follows the above schema. It can also be
+	 * @param element the element on which computed column will be added
+	 * @param newName the default column name
+	 * @return a bound data column. If the <code>newName</code> is unique, the name
+	 *         in the return value is <code>newName</code>. Otherwise the newly
+	 *         created name follows the above schema. It can also be
 	 *         <code>null</code> if the given element do not support bound data
 	 *         column property.
-	 * @throws IllegalArgumentException
-	 *             if the <code>newName</code> is <code>null</code>.
+	 * @throws IllegalArgumentException if the <code>newName</code> is
+	 *                                  <code>null</code>.
 	 */
 
-	public static ComputedColumn newComputedColumn(
-			DesignElementHandle element, String newName )
-	{
-		if ( newName == null )
-			throw new IllegalArgumentException(
-					"The new column name must not be empty" ); //$NON-NLS-1$
+	public static ComputedColumn newComputedColumn(DesignElementHandle element, String newName) {
+		if (newName == null)
+			throw new IllegalArgumentException("The new column name must not be empty"); //$NON-NLS-1$
 
-		if ( !( element instanceof ReportItemHandle
-				|| element instanceof ScalarParameterHandle || element instanceof GroupHandle ) )
+		if (!(element instanceof ReportItemHandle || element instanceof ScalarParameterHandle
+				|| element instanceof GroupHandle))
 			return null;
 
-		String tmpName = BoundDataColumnUtil.makeUniqueName( element, newName,
-				null );
+		String tmpName = BoundDataColumnUtil.makeUniqueName(element, newName, null);
 
-		ComputedColumn column = new ComputedColumn( );
-		column.setName( tmpName );
+		ComputedColumn column = new ComputedColumn();
+		column.setName(tmpName);
 
 		return column;
 	}
 
 	/**
-	 * Makes a unique name for computed column. It checks all the existing
-	 * computed columns in given element, such as report items, scalar
-	 * parameters and group elements. If any one has a duplicate column name
-	 * with the <code>newColumn</code>, it will generate a unique column name
-	 * for newColumn and rename it; Otherwise, do nothing.This possible rename
-	 * action is not undoable.
+	 * Makes a unique name for computed column. It checks all the existing computed
+	 * columns in given element, such as report items, scalar parameters and group
+	 * elements. If any one has a duplicate column name with the
+	 * <code>newColumn</code>, it will generate a unique column name for newColumn
+	 * and rename it; Otherwise, do nothing.This possible rename action is not
+	 * undoable.
 	 *
-	 * @param element
-	 *            the element whose existing computed columns needs to be
-	 *            checked or newColumn want to be inserted
-	 * @param newColumn
-	 *            the computed column to be checked and renamed
+	 * @param element   the element whose existing computed columns needs to be
+	 *                  checked or newColumn want to be inserted
+	 * @param newColumn the computed column to be checked and renamed
 	 */
-	public static void makeUniqueNameComputedColumn(
-			DesignElementHandle element, ComputedColumn newColumn )
-	{
-		if ( element == null || newColumn == null )
+	public static void makeUniqueNameComputedColumn(DesignElementHandle element, ComputedColumn newColumn) {
+		if (element == null || newColumn == null)
 			return;
-		String newName = newColumn.getName( );
-		if ( newName == null )
+		String newName = newColumn.getName();
+		if (newName == null)
 			return;
 
-		if ( !( element instanceof ReportItemHandle
-				|| element instanceof ScalarParameterHandle || element instanceof GroupHandle ) )
+		if (!(element instanceof ReportItemHandle || element instanceof ScalarParameterHandle
+				|| element instanceof GroupHandle))
 			return;
 
 		// make a unique column name
-		String tmpName = BoundDataColumnUtil.makeUniqueName( element, newName,
-				null );
-		newColumn.setName( tmpName );
+		String tmpName = BoundDataColumnUtil.makeUniqueName(element, newName, null);
+		newColumn.setName(tmpName);
 	}
 
 	/**
@@ -543,23 +482,20 @@ public class StructureFactory
 	 * 
 	 * @return toc object
 	 */
-	public static TOC createTOC( )
-	{
-		TOC toc = new TOC( );
+	public static TOC createTOC() {
+		TOC toc = new TOC();
 		return toc;
 	}
 
 	/**
 	 * Create TOC structure with expression value.
 	 * 
-	 * @param expression
-	 *            expression value
+	 * @param expression expression value
 	 * @return toc object
 	 */
-	public static TOC createTOC( String expression )
-	{
-		TOC toc = new TOC( );
-		toc.setProperty( TOC.TOC_EXPRESSION, expression );
+	public static TOC createTOC(String expression) {
+		TOC toc = new TOC();
+		toc.setProperty(TOC.TOC_EXPRESSION, expression);
 		return toc;
 	}
 
@@ -569,9 +505,8 @@ public class StructureFactory
 	 * @return an empty cube join condition structure.
 	 */
 
-	public static DimensionCondition createCubeJoinCondition( )
-	{
-		return new DimensionCondition( );
+	public static DimensionCondition createCubeJoinCondition() {
+		return new DimensionCondition();
 	}
 
 	/**
@@ -580,9 +515,8 @@ public class StructureFactory
 	 * @return an empty dimension join condition structure.
 	 */
 
-	public static DimensionJoinCondition createDimensionJoinCondition( )
-	{
-		return new DimensionJoinCondition( );
+	public static DimensionJoinCondition createDimensionJoinCondition() {
+		return new DimensionJoinCondition();
 	}
 
 	/**
@@ -590,9 +524,8 @@ public class StructureFactory
 	 * 
 	 * @return a rule structure
 	 */
-	public static Rule createRule( )
-	{
-		return new Rule( );
+	public static Rule createRule() {
+		return new Rule();
 	}
 
 	/**
@@ -601,9 +534,8 @@ public class StructureFactory
 	 * @return a level attribute
 	 */
 
-	public static LevelAttribute createLevelAttribute( )
-	{
-		return new LevelAttribute( );
+	public static LevelAttribute createLevelAttribute() {
+		return new LevelAttribute();
 	}
 
 	/**
@@ -612,9 +544,8 @@ public class StructureFactory
 	 * @return a level attribute
 	 */
 
-	public static OdaLevelAttribute createOdaLevelAttribute( )
-	{
-		return new OdaLevelAttribute( );
+	public static OdaLevelAttribute createOdaLevelAttribute() {
+		return new OdaLevelAttribute();
 	}
 
 	/**
@@ -622,9 +553,8 @@ public class StructureFactory
 	 * 
 	 * @return an aggregation argument
 	 */
-	public static AggregationArgument createAggregationArgument( )
-	{
-		return new AggregationArgument( );
+	public static AggregationArgument createAggregationArgument() {
+		return new AggregationArgument();
 	}
 
 	/**
@@ -632,9 +562,8 @@ public class StructureFactory
 	 * 
 	 * @return a sort hint.
 	 */
-	public static SortHint createSortHint( )
-	{
-		return new SortHint( );
+	public static SortHint createSortHint() {
+		return new SortHint();
 	}
 
 	/**
@@ -642,9 +571,8 @@ public class StructureFactory
 	 * 
 	 * @return a time interval.
 	 */
-	public static TimeInterval createTimeInterval( )
-	{
-		return new TimeInterval( );
+	public static TimeInterval createTimeInterval() {
+		return new TimeInterval();
 	}
 
 	/**
@@ -652,9 +580,8 @@ public class StructureFactory
 	 * 
 	 * @return the format value created.
 	 */
-	public static FormatValue newFormatValue( )
-	{
-		return new FormatValue( );
+	public static FormatValue newFormatValue() {
+		return new FormatValue();
 	}
 
 	/**
@@ -662,8 +589,7 @@ public class StructureFactory
 	 * 
 	 * @return the calculation argument created
 	 */
-	public static CalculationArgument createCalculationArgument( )
-	{
-		return new CalculationArgument( );
+	public static CalculationArgument createCalculationArgument() {
+		return new CalculationArgument();
 	}
 }

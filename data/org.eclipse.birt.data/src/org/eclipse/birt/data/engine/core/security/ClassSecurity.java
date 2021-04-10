@@ -17,29 +17,27 @@ import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 
 /**
- * This class handles a series of privileged operation against class and classloaders.
+ * This class handles a series of privileged operation against class and
+ * classloaders.
  * 
  * @author Administrator
  *
  */
-public class ClassSecurity
-{
+public class ClassSecurity {
 	/**
 	 * 
 	 * @param clazz
 	 * @return
 	 */
-	public static ClassLoader getClassLoader( final Class clazz )
-	{
+	public static ClassLoader getClassLoader(final Class clazz) {
 		assert clazz != null;
 
-		return AccessController.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
+		return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
 
-			public ClassLoader run( )
-			{
-				return clazz.getClassLoader( );
+			public ClassLoader run() {
+				return clazz.getClassLoader();
 			}
-		} );
+		});
 	}
 
 	/**
@@ -49,25 +47,18 @@ public class ClassSecurity
 	 * @return
 	 * @throws ClassNotFoundException
 	 */
-	public static Class loadClass( final ClassLoader loader,
-			final String className ) throws ClassNotFoundException
-	{
+	public static Class loadClass(final ClassLoader loader, final String className) throws ClassNotFoundException {
 
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<Class>( ) {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<Class>() {
 
-				public Class run( ) throws ClassNotFoundException
-				{
-					return loader.loadClass( className );
+				public Class run() throws ClassNotFoundException {
+					return loader.loadClass(className);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof ClassNotFoundException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof ClassNotFoundException) {
 				throw (ClassNotFoundException) typedException;
 			}
 			return null;

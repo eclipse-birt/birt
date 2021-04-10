@@ -32,11 +32,10 @@ import org.eclipse.swt.widgets.Widget;
 /**
  * This class provides a controller pane.
  */
-public class StaticHTMLController implements IController
-{
+public class StaticHTMLController implements IController {
 
-	private final Display display = Display.getCurrent( );
-	private final List buttons = new ArrayList( );
+	private final Display display = Display.getCurrent();
+	private final List buttons = new ArrayList();
 	private Composite pane = null;
 	private ProgressBar progressBar = null;
 	private IViewer viewer = null;
@@ -46,58 +45,54 @@ public class StaticHTMLController implements IController
 	/**
 	 * Creates controller.
 	 */
-	public StaticHTMLController( )
-	{
-		super( );
+	public StaticHTMLController() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.controller.IController#setViewer(org.eclipse.birt.report.designer.ui.preview.extension.IViewer)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.controller.IController#setViewer(org.
+	 * eclipse.birt.report.designer.ui.preview.extension.IViewer)
 	 */
-	public void setViewer( IViewer viewer )
-	{
+	public void setViewer(IViewer viewer) {
 		this.viewer = viewer;
 
-		if ( !( viewer instanceof AbstractViewer ) )
-		{
+		if (!(viewer instanceof AbstractViewer)) {
 			return;
 		}
 
-		Composite viewerUI = (Composite) ( (SWTAbstractViewer) viewer ).getUI( );
+		Composite viewerUI = (Composite) ((SWTAbstractViewer) viewer).getUI();
 
-		if ( viewerUI == null )
-		{
+		if (viewerUI == null) {
 			return;
 		}
-		pane = new Composite( viewerUI, SWT.NONE );
-		pane.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
+		pane = new Composite(viewerUI, SWT.NONE);
+		pane.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
 
-		RowLayout rowLayout = new RowLayout( );
+		RowLayout rowLayout = new RowLayout();
 		rowLayout.type = SWT.HORIZONTAL;
 		rowLayout.spacing = 5;
-		pane.setLayout( rowLayout );
+		pane.setLayout(rowLayout);
 
-		for ( Iterator iter = buttons.iterator( ); iter.hasNext( ); )
-		{
-			ButtonInfo buttonInfo = (ButtonInfo) iter.next( );
-			Button button = new Button( pane, SWT.PUSH );
+		for (Iterator iter = buttons.iterator(); iter.hasNext();) {
+			ButtonInfo buttonInfo = (ButtonInfo) iter.next();
+			Button button = new Button(pane, SWT.PUSH);
 
-			button.setText( buttonInfo.text );
-			button.setToolTipText( buttonInfo.toolTip );
-			if ( buttonInfo.selectionListener != null )
-			{
-				button.addSelectionListener( buttonInfo.selectionListener );
+			button.setText(buttonInfo.text);
+			button.setToolTipText(buttonInfo.toolTip);
+			if (buttonInfo.selectionListener != null) {
+				button.addSelectionListener(buttonInfo.selectionListener);
 			}
 		}
 
-		GridData gd = new GridData( GridData.END, GridData.CENTER, false, false );
+		GridData gd = new GridData(GridData.END, GridData.CENTER, false, false);
 		gd.heightHint = 10;
 		gd.widthHint = 100;
-		progressBar = new ProgressBar( viewerUI, SWT.INDETERMINATE );
-		progressBar.setLayoutData( gd );
-		setBusy( true );
+		progressBar = new ProgressBar(viewerUI, SWT.INDETERMINATE);
+		progressBar.setLayoutData(gd);
+		setBusy(true);
 	}
 
 	/*
@@ -105,10 +100,8 @@ public class StaticHTMLController implements IController
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.controller.IController#getPane()
 	 */
-	public Widget getPane( )
-	{
-		if ( viewer != null )
-		{
+	public Widget getPane() {
+		if (viewer != null) {
 			return pane;
 		}
 		return null;
@@ -117,75 +110,64 @@ public class StaticHTMLController implements IController
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.controller.IController#setBusy(boolean)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.controller.IController#setBusy(boolean)
 	 */
-	public void setBusy( final boolean b )
-	{
-		if ( display != null )
-		{
-			display.asyncExec( new Runnable( ) {
+	public void setBusy(final boolean b) {
+		if (display != null) {
+			display.asyncExec(new Runnable() {
 
 				/*
 				 * (non-Javadoc)
 				 * 
 				 * @see java.lang.Runnable#run()
 				 */
-				public void run( )
-				{
-					if ( progressBar != null && !progressBar.isDisposed( ))
-					{
-						progressBar.setVisible( b );
+				public void run() {
+					if (progressBar != null && !progressBar.isDisposed()) {
+						progressBar.setVisible(b);
 					}
 				}
-			} );
+			});
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.preview.extension.IController#addButton(java.lang.String,
-	 *      java.lang.String, org.eclipse.swt.events.SelectionListener)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.preview.extension.IController#addButton(
+	 * java.lang.String, java.lang.String, org.eclipse.swt.events.SelectionListener)
 	 */
-	public void addButton( String text, String toolTip,
-			SelectionListener listener )
-	{
-		buttons.add( new ButtonInfo( text, toolTip, listener ) );
+	public void addButton(String text, String toolTip, SelectionListener listener) {
+		buttons.add(new ButtonInfo(text, toolTip, listener));
 	}
 
-	private static class ButtonInfo
-	{
+	private static class ButtonInfo {
 
 		String text = ""; //$NON-NLS-1$
 		String toolTip = ""; //$NON-NLS-1$
 		SelectionListener selectionListener = null;
 
-		private ButtonInfo( String text, String toolTip,
-				SelectionListener selectionListener )
-		{
+		private ButtonInfo(String text, String toolTip, SelectionListener selectionListener) {
 			this.text = text;
 			this.toolTip = toolTip;
 			this.selectionListener = selectionListener;
 		}
 	}
 
-	public IEngineTask getEngineTask( )
-	{
+	public IEngineTask getEngineTask() {
 		return engineTask;
 	}
 
-	public void setEngineTask( IEngineTask engindTask )
-	{
+	public void setEngineTask(IEngineTask engindTask) {
 		this.engineTask = engindTask;
 	}
 
-	public String getReportFile( )
-	{
+	public String getReportFile() {
 		return reportFile;
 	}
 
-	public void setReportFile( String reportFile )
-	{
+	public void setReportFile(String reportFile) {
 		this.reportFile = reportFile;
 	}
 }

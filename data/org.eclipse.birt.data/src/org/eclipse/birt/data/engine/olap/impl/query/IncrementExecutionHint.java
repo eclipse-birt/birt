@@ -10,78 +10,57 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 
 /**
- * Hint for cube query execution which is based on the execution result of another
- * cube query definition, i.e. an array of {@code IAggregationResultSet}
+ * Hint for cube query execution which is based on the execution result of
+ * another cube query definition, i.e. an array of {@code IAggregationResultSet}
  */
 
-public class IncrementExecutionHint
-{
-	//increment sorts
+public class IncrementExecutionHint {
+	// increment sorts
 	private ISortDefinition[] sorts = new ISortDefinition[0];
-	
-	//increment bindings;
+
+	// increment bindings;
 	private IBinding[] bindings = new IBinding[0];
-	
-	//increment filters;
+
+	// increment filters;
 	private IFilterDefinition[] filters = new IFilterDefinition[0];
 
-	
-	public ISortDefinition[] getSorts( )
-	{
+	public ISortDefinition[] getSorts() {
 		return sorts;
 	}
 
-	
-	public void setSorts( ISortDefinition[] sorts )
-	{
-		if ( sorts == null )
-		{
+	public void setSorts(ISortDefinition[] sorts) {
+		if (sorts == null) {
 			this.sorts = new ISortDefinition[0];
 			return;
 		}
 		this.sorts = sorts;
 	}
 
-
-	
-	public IBinding[] getBindings( )
-	{
+	public IBinding[] getBindings() {
 		return bindings;
 	}
 
-
-	
-	public void setBindings( IBinding[] bindings )
-	{
-		if ( bindings == null )
-		{
+	public void setBindings(IBinding[] bindings) {
+		if (bindings == null) {
 			this.bindings = new IBinding[0];
 			return;
 		}
 		this.bindings = bindings;
 	}
 
-
-	
-	public IFilterDefinition[] getFilters( )
-	{
+	public IFilterDefinition[] getFilters() {
 		return filters;
 	}
 
-
-	
-	public void setFilters( IFilterDefinition[] filters )
-	{
-		if ( filters == null )
-		{
+	public void setFilters(IFilterDefinition[] filters) {
+		if (filters == null) {
 			this.filters = new IFilterDefinition[0];
 			return;
 		}
 		this.filters = filters;
 	}
-	
-	public boolean isNoIncrement( )
-	{
+
+	public boolean isNoIncrement() {
 		return sorts.length == 0 && bindings.length == 0 && filters.length == 0;
 	}
 }

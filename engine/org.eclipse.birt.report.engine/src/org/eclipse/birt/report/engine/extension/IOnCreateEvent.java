@@ -13,8 +13,7 @@ package org.eclipse.birt.report.engine.extension;
 
 import org.eclipse.birt.report.engine.content.IContent;
 
-public interface IOnCreateEvent extends IReportEvent
-{
+public interface IOnCreateEvent extends IReportEvent {
 
-	IContent getContent( );
+	IContent getContent();
 }

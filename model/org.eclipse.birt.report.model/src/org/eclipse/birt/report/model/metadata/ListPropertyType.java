@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.core.Module;
  * 
  */
 
-public class ListPropertyType extends PropertyType
-{
+public class ListPropertyType extends PropertyType {
 
 	/**
 	 * Display name key.
@@ -37,9 +36,8 @@ public class ListPropertyType extends PropertyType
 	 * Constructor.
 	 */
 
-	public ListPropertyType( )
-	{
-		super( DISPLAY_NAME_KEY );
+	public ListPropertyType() {
+		super(DISPLAY_NAME_KEY);
 	}
 
 	/*
@@ -48,8 +46,7 @@ public class ListPropertyType extends PropertyType
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#getTypeCode()
 	 */
 
-	public int getTypeCode( )
-	{
+	public int getTypeCode() {
 		return LIST_TYPE;
 	}
 
@@ -59,88 +56,77 @@ public class ListPropertyType extends PropertyType
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#getName()
 	 */
 
-	public String getName( )
-	{
+	public String getName() {
 		return LIST_TYPE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
+	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
-	public Object validateValue( Module module, DesignElement element,
-			PropertyDefn defn, Object value ) throws PropertyValueException
-	{
-		if ( value == null )
-		{
+	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
+			throws PropertyValueException {
+		if (value == null) {
 			return null;
 		}
-		if ( value instanceof List )
-		{
+		if (value instanceof List) {
 			List<Object> items = (List<Object>) value;
-			List<Object> validatedItems = new ArrayList<Object>( );
+			List<Object> validatedItems = new ArrayList<Object>();
 
-			for ( int i = 0; i < items.size( ); i++ )
-			{
-				Object item = items.get( i );
+			for (int i = 0; i < items.size(); i++) {
+				Object item = items.get(i);
 
-				Object toValidate = defn.doValidateValueWithExpression( module,
-						element, defn.getSubType( ), item );
+				Object toValidate = defn.doValidateValueWithExpression(module, element, defn.getSubType(), item);
 
-				validatedItems.add( toValidate );
+				validatedItems.add(toValidate);
 			}
 
 			return validatedItems;
 		}
 
-		List<Object> listValue = new ArrayList<Object>( );
+		List<Object> listValue = new ArrayList<Object>();
 
-		Object validatedValue = defn.doValidateValueWithExpression( module,
-				element, defn.getSubType( ), value );
-		listValue.add( validatedValue );
+		Object validatedValue = defn.doValidateValueWithExpression(module, element, defn.getSubType(), value);
+		listValue.add(validatedValue);
 		return listValue;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyType#toString(org.eclipse
+	 * @see org.eclipse.birt.report.model.metadata.PropertyType#toString(org.eclipse
 	 * .birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
-	public String toString( Module module, PropertyDefn defn, Object value )
-	{
-		if ( value == null )
+	public String toString(Module module, PropertyDefn defn, Object value) {
+		if (value == null)
 			return null;
 
 		assert value instanceof List;
 
 		List<Object> valueList = (List<Object>) value;
-		if ( valueList.isEmpty( ) )
+		if (valueList.isEmpty())
 			return null;
 
-		StringBuffer sb = new StringBuffer( );
-		PropertyType type = defn.getSubType( );
+		StringBuffer sb = new StringBuffer();
+		PropertyType type = defn.getSubType();
 		assert type != null;
-		for ( int i = 0; i < valueList.size( ); i++ )
-		{
-			Object item = valueList.get( i );
+		for (int i = 0; i < valueList.size(); i++) {
+			Object item = valueList.get(i);
 
-			String stringValue = type.toString( module, defn, item );
-			if ( sb.length( ) > 0 )
-				sb.append( "; " ); //$NON-NLS-1$
-			if ( stringValue != null )
-				sb.append( stringValue );
+			String stringValue = type.toString(module, defn, item);
+			if (sb.length() > 0)
+				sb.append("; "); //$NON-NLS-1$
+			if (stringValue != null)
+				sb.append(stringValue);
 		}
 
-		return sb.toString( );
+		return sb.toString();
 	}
 
 	/*
@@ -151,12 +137,11 @@ public class ListPropertyType extends PropertyType
 	 * .birt.report.model.core.Module, java.lang.Object)
 	 */
 
-	public int toInteger( Module module, Object value )
-	{
+	public int toInteger(Module module, Object value) {
 		// Return the list size as the int value.
 
-		if ( value == null )
+		if (value == null)
 			return 0;
-		return ( (ArrayList<Object>) value ).size( );
+		return ((ArrayList<Object>) value).size();
 	}
 }

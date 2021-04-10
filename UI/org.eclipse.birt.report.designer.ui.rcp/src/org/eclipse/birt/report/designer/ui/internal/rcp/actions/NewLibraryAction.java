@@ -26,45 +26,38 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
  * The action to create a new library
  */
 
-public class NewLibraryAction extends Action implements IWorkbenchAction
-{
+public class NewLibraryAction extends Action implements IWorkbenchAction {
 
 	private IWorkbenchWindow fWindow;
 
-	public NewLibraryAction( IWorkbenchWindow window )
-	{
-		init( window );
-		setId( "org.eclipse.birt.report.designer.rcp.internal.ui.actions.NewLibraryAction" ); //$NON-NLS-1$
-		setText( DesignerWorkbenchMessages.Action_newLibrary );
-		setToolTipText( DesignerWorkbenchMessages.Action_newLibrary );
+	public NewLibraryAction(IWorkbenchWindow window) {
+		init(window);
+		setId("org.eclipse.birt.report.designer.rcp.internal.ui.actions.NewLibraryAction"); //$NON-NLS-1$
+		setText(DesignerWorkbenchMessages.Action_newLibrary);
+		setToolTipText(DesignerWorkbenchMessages.Action_newLibrary);
 	}
 
 	/*
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
+	 * IWorkbenchWindow)
 	 */
-	public void init( IWorkbenchWindow window )
-	{
-		if ( window == null )
-		{
-			throw new IllegalArgumentException( );
+	public void init(IWorkbenchWindow window) {
+		if (window == null) {
+			throw new IllegalArgumentException();
 		}
 		fWindow = window;
 	}
 
-	public void run( )
-	{
-		Dialog dialog = new BaseWizardDialog( fWindow.getShell( ),
-				new NewLibraryWizard( ) );
-		dialog.open( );
+	public void run() {
+		Dialog dialog = new BaseWizardDialog(fWindow.getShell(), new NewLibraryWizard());
+		dialog.open();
 	}
 
-	public void dispose( )
-	{
+	public void dispose() {
 		fWindow = null;
 	}
 
-	public ImageDescriptor getImageDescriptor( )
-	{
-		return ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_LIBRARY);
+	public ImageDescriptor getImageDescriptor() {
+		return ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_NEW_LIBRARY);
 	}
 }

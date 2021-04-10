@@ -22,60 +22,49 @@ import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
  * 
  */
 
-public class MarkerRangeImpl implements IMarkerRange
-{
+public class MarkerRangeImpl implements IMarkerRange {
 
 	private MarkerRange range;
 
-	public MarkerRangeImpl( MarkerRange range )
-	{
+	public MarkerRangeImpl(MarkerRange range) {
 		this.range = range;
 	}
 
-	public IDataElement getEndValue( )
-	{
-		return ChartComponentUtil.convertDataElement( range.getEndValue( ) );
+	public IDataElement getEndValue() {
+		return ChartComponentUtil.convertDataElement(range.getEndValue());
 	}
 
-	public IDataElement getStartValue( )
-	{
-		return ChartComponentUtil.convertDataElement( range.getStartValue( ) );
+	public IDataElement getStartValue() {
+		return ChartComponentUtil.convertDataElement(range.getStartValue());
 	}
 
-	public void setEndValue( IDataElement value )
-	{
-		range.setEndValue( ChartComponentUtil.convertIDataElement( value ) );
+	public void setEndValue(IDataElement value) {
+		range.setEndValue(ChartComponentUtil.convertIDataElement(value));
 	}
 
-	public void setStartValue( IDataElement value )
-	{
-		range.setStartValue( ChartComponentUtil.convertIDataElement( value ) );
+	public void setStartValue(IDataElement value) {
+		range.setStartValue(ChartComponentUtil.convertIDataElement(value));
 	}
 
-	public ILabel getTitle( )
-	{
-		Label title = range.getLabel( );
-		if ( title == null )
-		{
-			title = ChartComponentUtil.createEMFLabel( );
-			range.setLabel( title );
+	public ILabel getTitle() {
+		Label title = range.getLabel();
+		if (title == null) {
+			title = ChartComponentUtil.createEMFLabel();
+			range.setLabel(title);
 		}
-		return ChartComponentUtil.convertLabel( title );
+		return ChartComponentUtil.convertLabel(title);
 	}
 
-	public boolean isVisible( )
-	{
-		return range.getOutline( ).isVisible( );
+	public boolean isVisible() {
+		return range.getOutline().isVisible();
 	}
 
-	public void setTitle( ILabel title )
-	{
-		range.setLabel( ChartComponentUtil.convertILabel( title ) );
+	public void setTitle(ILabel title) {
+		range.setLabel(ChartComponentUtil.convertILabel(title));
 	}
 
-	public void setVisible( boolean visible )
-	{
-		range.getOutline( ).setVisible( visible );
+	public void setVisible(boolean visible) {
+		range.getOutline().setVisible(visible);
 	}
 
 }

@@ -11,56 +11,63 @@
 
 package org.eclipse.birt.report.model.api.extension;
 
-
 /**
- * Extension adapter class for the IElementCommand. The subclasses must override the 
- * execute/undo/redo methods to implement their own command. All the command is undoable
- * and redoable by default.
+ * Extension adapter class for the IElementCommand. The subclasses must override
+ * the execute/undo/redo methods to implement their own command. All the command
+ * is undoable and redoable by default.
  */
 
-abstract public class ElementCommand implements IElementCommand
-{
+abstract public class ElementCommand implements IElementCommand {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#execute()
 	 */
-	
-	abstract public void execute( );
 
-	/* (non-Javadoc)
+	abstract public void execute();
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#undo()
 	 */
-	
-	abstract public void undo( );
 
-	/* (non-Javadoc)
+	abstract public void undo();
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#redo()
 	 */
-	
-	abstract public void redo( );
-	
-	/* (non-Javadoc)
+
+	abstract public void redo();
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#canUndo()
 	 */
-	
-	public boolean canUndo( )
-	{
+
+	public boolean canUndo() {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#canRedo()
 	 */
-	public boolean canRedo( )
-	{
+	public boolean canRedo() {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#getLabel()
 	 */
-	public String getLabel( )
-	{
+	public String getLabel() {
 		return null;
 	}
 

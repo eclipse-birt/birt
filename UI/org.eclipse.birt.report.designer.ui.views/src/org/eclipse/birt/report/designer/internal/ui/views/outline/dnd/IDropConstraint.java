@@ -15,13 +15,12 @@ package org.eclipse.birt.report.designer.internal.ui.views.outline.dnd;
  * 
  */
 
-public interface IDropConstraint
-{
+public interface IDropConstraint {
 
 	int RESULT_YES = 1;
 	int RESULT_NO = -1;
 	int RESULT_UNKNOW = 0;
-	
-	public int validate( Object transfer, Object target );
-	
+
+	public int validate(Object transfer, Object target);
+
 }

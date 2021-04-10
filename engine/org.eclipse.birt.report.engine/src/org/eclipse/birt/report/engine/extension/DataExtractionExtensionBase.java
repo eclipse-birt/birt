@@ -16,24 +16,19 @@ import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 
-public class DataExtractionExtensionBase implements IDataExtractionExtension
-{
+public class DataExtractionExtensionBase implements IDataExtractionExtension {
 
-	public void initialize( IReportContext context, IDataExtractionOption option )
-			throws BirtException
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void output( IExtractionResults results ) throws BirtException
-	{
+	public void initialize(IReportContext context, IDataExtractionOption option) throws BirtException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void release( )
-	{
+	public void output(IExtractionResults results) throws BirtException {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void release() {
 		// TODO Auto-generated method stub
 
 	}

@@ -34,142 +34,105 @@ import org.eclipse.core.runtime.Platform;
  * 1.register adapters with priority 2.look for capable adapter by priority
  */
 
-public class DNDService implements IRegistryChangeListener
-{
+public class DNDService implements IRegistryChangeListener {
 
 	public static final int LOGIC_TRUE = 1;
 	public static final int LOGIC_FALSE = -1;
 	public static final int LOGIC_UNKNOW = 0;
 
-	private List dragAdapterList = new ArrayList( );
-	private List dropAdapterList = new ArrayList( );
+	private List dragAdapterList = new ArrayList();
+	private List dropAdapterList = new ArrayList();
 
-	private static class DNDServiceInstance
-	{
+	private static class DNDServiceInstance {
 
-		static DNDService instance = new DNDService( );
+		static DNDService instance = new DNDService();
 	}
 
-	protected Logger logger = Logger.getLogger( DNDService.class.getName( ) );
+	protected Logger logger = Logger.getLogger(DNDService.class.getName());
 
-	private DNDService( )
-	{
+	private DNDService() {
 		/*
 		 * // DesignElementHandle adapter addDNDAdapter( new
-		 * DesignElementHandleDNDAdapter( ), IDNDAdapter.CAPABLE_LOW );
-		 * addDNDAdapter( new CascadingParameterGroupHandleDNDAdapter( ),
-		 * IDNDAdapter.CAPABLE_HIGH ); // addDNDAdapter( new
-		 * ParameterGroupHandleDNDAdapter( ), // IDNDAdapter.CAPABLE_HIGH );
-		 * addDNDAdapter( new ThemeHandleDNDAdapter( ), IDNDAdapter.CAPABLE_HIGH
-		 * ); addDNDAdapter( new SlotHandleDNDAdapter( ),
-		 * IDNDAdapter.CAPABLE_HIGH ); addDNDAdapter( new
-		 * EmbeddedImageHandleDNDAdapter( ), IDNDAdapter.CAPABLE_HIGH );
-		 * addDNDAdapter( new CellHandleDNDAdapter( ), IDNDAdapter.CAPABLE_HIGH
-		 * ); addDNDAdapter( new RowHandleDNDAdapter( ),
+		 * DesignElementHandleDNDAdapter( ), IDNDAdapter.CAPABLE_LOW ); addDNDAdapter(
+		 * new CascadingParameterGroupHandleDNDAdapter( ), IDNDAdapter.CAPABLE_HIGH );
+		 * // addDNDAdapter( new ParameterGroupHandleDNDAdapter( ), //
+		 * IDNDAdapter.CAPABLE_HIGH ); addDNDAdapter( new ThemeHandleDNDAdapter( ),
+		 * IDNDAdapter.CAPABLE_HIGH ); addDNDAdapter( new SlotHandleDNDAdapter( ),
+		 * IDNDAdapter.CAPABLE_HIGH ); addDNDAdapter( new EmbeddedImageHandleDNDAdapter(
+		 * ), IDNDAdapter.CAPABLE_HIGH ); addDNDAdapter( new CellHandleDNDAdapter( ),
+		 * IDNDAdapter.CAPABLE_HIGH ); addDNDAdapter( new RowHandleDNDAdapter( ),
 		 * IDNDAdapter.CAPABLE_HIGH );
 		 */
-		IExtensionRegistry registry = Platform.getExtensionRegistry( );
-		IExtensionPoint extensionPoint = registry.getExtensionPoint( "org.eclipse.birt.report.designer.ui.DNDServices" ); //$NON-NLS-1$
-		if ( extensionPoint != null )
-		{
-			addRegistry( extensionPoint );
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.birt.report.designer.ui.DNDServices"); //$NON-NLS-1$
+		if (extensionPoint != null) {
+			addRegistry(extensionPoint);
 		}
 	}
 
-	public static DNDService getInstance( )
-	{
+	public static DNDService getInstance() {
 		return DNDServiceInstance.instance;
 	}
 
-	public boolean validDrag( Object object )
-	{
-		object = adaptObject( object );
+	public boolean validDrag(Object object) {
+		object = adaptObject(object);
 
-		if ( object instanceof Object[] && ( (Object[]) object ).length == 1 )
-		{
-			return validDrag( ( (Object[]) object )[0] );
+		if (object instanceof Object[] && ((Object[]) object).length == 1) {
+			return validDrag(((Object[]) object)[0]);
 		}
 
-		for ( Iterator iterator = this.dragAdapterList.iterator( ); iterator.hasNext( ); )
-		{
-			IDragAdapter dragAdapter = (IDragAdapter) iterator.next( );
-			int result = dragAdapter.canDrag( object );
-			if ( result == LOGIC_TRUE )
+		for (Iterator iterator = this.dragAdapterList.iterator(); iterator.hasNext();) {
+			IDragAdapter dragAdapter = (IDragAdapter) iterator.next();
+			int result = dragAdapter.canDrag(object);
+			if (result == LOGIC_TRUE)
 				return true;
-			if ( result == LOGIC_FALSE )
+			if (result == LOGIC_FALSE)
 				return false;
 		}
 		return false;
 	}
 
-	public Object getDragTransfer( Object object )
-	{
+	public Object getDragTransfer(Object object) {
 		// TODO maybe can cache dragAdapter in validDrag call.
-		for ( Iterator iterator = this.dragAdapterList.iterator( ); iterator.hasNext( ); )
-		{
-			IDragAdapter dragAdapter = (IDragAdapter) iterator.next( );
-			int result = dragAdapter.canDrag( object );
-			if ( result == LOGIC_TRUE )
-				return dragAdapter.getDragTransfer( object );
+		for (Iterator iterator = this.dragAdapterList.iterator(); iterator.hasNext();) {
+			IDragAdapter dragAdapter = (IDragAdapter) iterator.next();
+			int result = dragAdapter.canDrag(object);
+			if (result == LOGIC_TRUE)
+				return dragAdapter.getDragTransfer(object);
 		}
 		return null;
 	}
 
-	public boolean validDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
-		if ( transfer instanceof Object[]
-				&& ( (Object[]) transfer ).length == 1 )
-		{
-			return validDrop( ( (Object[]) transfer )[0],
-					target,
-					operation,
-					location );
+	public boolean validDrop(Object transfer, Object target, int operation, DNDLocation location) {
+		if (transfer instanceof Object[] && ((Object[]) transfer).length == 1) {
+			return validDrop(((Object[]) transfer)[0], target, operation, location);
 		}
 
-		transfer = adaptObject( transfer );
+		transfer = adaptObject(transfer);
 
-		for ( Iterator iterator = this.dropAdapterList.iterator( ); iterator.hasNext( ); )
-		{
-			IDropAdapter dropAdapter = (IDropAdapter) iterator.next( );
-			int result = dropAdapter.canDrop( transfer,
-					target,
-					operation,
-					location );
-			if ( result == LOGIC_TRUE )
+		for (Iterator iterator = this.dropAdapterList.iterator(); iterator.hasNext();) {
+			IDropAdapter dropAdapter = (IDropAdapter) iterator.next();
+			int result = dropAdapter.canDrop(transfer, target, operation, location);
+			if (result == LOGIC_TRUE)
 				return true;
-			if ( result == LOGIC_FALSE )
+			if (result == LOGIC_FALSE)
 				return false;
 		}
 		return false;
 	}
 
-	public boolean performDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
-		if ( transfer instanceof Object[]
-				&& ( (Object[]) transfer ).length == 1 )
-		{
-			return performDrop( ( (Object[]) transfer )[0],
-					target,
-					operation,
-					location );
+	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
+		if (transfer instanceof Object[] && ((Object[]) transfer).length == 1) {
+			return performDrop(((Object[]) transfer)[0], target, operation, location);
 		}
 
-		transfer = adaptObject( transfer );
+		transfer = adaptObject(transfer);
 
-		for ( Iterator iterator = this.dropAdapterList.iterator( ); iterator.hasNext( ); )
-		{
-			IDropAdapter dropAdapter = (IDropAdapter) iterator.next( );
-			int result = dropAdapter.canDrop( transfer,
-					target,
-					operation,
-					location );
-			if ( result == LOGIC_TRUE )
-				return dropAdapter.performDrop( transfer,
-						target,
-						operation,
-						location );
+		for (Iterator iterator = this.dropAdapterList.iterator(); iterator.hasNext();) {
+			IDropAdapter dropAdapter = (IDropAdapter) iterator.next();
+			int result = dropAdapter.canDrop(transfer, target, operation, location);
+			if (result == LOGIC_TRUE)
+				return dropAdapter.performDrop(transfer, target, operation, location);
 		}
 		return false;
 	}
@@ -180,29 +143,23 @@ public class DNDService implements IRegistryChangeListener
 	 * @param adapter
 	 * @return
 	 */
-	private Object adaptObject( Object adapter )
-	{
-		if ( adapter instanceof Object[] && ( (Object[]) adapter ).length > 0 )
-		{
+	private Object adaptObject(Object adapter) {
+		if (adapter instanceof Object[] && ((Object[]) adapter).length > 0) {
 			Object[] adapters = (Object[]) adapter;
-			//if first one can adapt, then adapt whole array
-			if ( adaptObject( adapters[0] ) != adapters[0] )
-			{
+			// if first one can adapt, then adapt whole array
+			if (adaptObject(adapters[0]) != adapters[0]) {
 				Object[] array = new Object[adapters.length];
-				for ( int i = 0; i < array.length; i++ )
-					array[i] = adaptObject( adapters[i] );
+				for (int i = 0; i < array.length; i++)
+					array[i] = adaptObject(adapters[i]);
 				return array;
 			}
-		}
-		else
-		{
-			if ( adapter instanceof IAdaptable )
-			{
-				Object object = ( (IAdaptable) adapter ).getAdapter( DesignElementHandle.class );
-				if ( object != null )
+		} else {
+			if (adapter instanceof IAdaptable) {
+				Object object = ((IAdaptable) adapter).getAdapter(DesignElementHandle.class);
+				if (object != null)
 					return object;
-				object = ( (IAdaptable) adapter ).getAdapter( PropertyHandle.class );
-				if ( object != null )
+				object = ((IAdaptable) adapter).getAdapter(PropertyHandle.class);
+				if (object != null)
 					return object;
 			}
 		}
@@ -214,92 +171,73 @@ public class DNDService implements IRegistryChangeListener
 	 * this.adapterList.add( getIndex( priority ), adapter );
 	 * this.adapterPriorityMap.put( adapter, "" + priority ); }
 	 * 
-	 * private int getIndex( int priority ) { int index = 0; for ( Iterator
-	 * iterator = this.adapterPriorityMap.entrySet( ) .iterator( );
-	 * iterator.hasNext( ); ) { Map.Entry entry = (Map.Entry) iterator.next( );
-	 * if ( Integer.parseInt( entry.getValue( ).toString( ) ) > priority )
-	 * index++; } return index; }
+	 * private int getIndex( int priority ) { int index = 0; for ( Iterator iterator
+	 * = this.adapterPriorityMap.entrySet( ) .iterator( ); iterator.hasNext( ); ) {
+	 * Map.Entry entry = (Map.Entry) iterator.next( ); if ( Integer.parseInt(
+	 * entry.getValue( ).toString( ) ) > priority ) index++; } return index; }
 	 * 
 	 * public void removeDNDAdapter( IDNDAdapter adapter ) {
 	 * this.adapterList.remove( adapter ); }
 	 * 
-	 * private IDNDAdapter getAdapter( final Object object ) { for ( Iterator
-	 * iter = this.adapterList.iterator( ); iter.hasNext( ); ) { IDNDAdapter
-	 * adapter = (IDNDAdapter) iter.next( ); if ( adapter.capable( object ) )
-	 * return adapter; } return null; }
+	 * private IDNDAdapter getAdapter( final Object object ) { for ( Iterator iter =
+	 * this.adapterList.iterator( ); iter.hasNext( ); ) { IDNDAdapter adapter =
+	 * (IDNDAdapter) iter.next( ); if ( adapter.capable( object ) ) return adapter;
+	 * } return null; }
 	 */
-	public void registryChanged( IRegistryChangeEvent event )
-	{
-		IExtensionDelta[] deltas = event.getExtensionDeltas( "org.eclipse.birt.report.designer.ui", //$NON-NLS-1$
-				"DNDServices" ); //$NON-NLS-1$
-		for ( int i = 0; i < deltas.length; i++ )
-		{
-			if ( deltas[i].getKind( ) == IExtensionDelta.ADDED )
-			{
-				addRegistry( deltas[i].getExtensionPoint( ) );
-			}
-			else if ( deltas[i].getKind( ) == IExtensionDelta.REMOVED )
-			{
-				removeRegistry( deltas[i].getExtensionPoint( ) );
+	public void registryChanged(IRegistryChangeEvent event) {
+		IExtensionDelta[] deltas = event.getExtensionDeltas("org.eclipse.birt.report.designer.ui", //$NON-NLS-1$
+				"DNDServices"); //$NON-NLS-1$
+		for (int i = 0; i < deltas.length; i++) {
+			if (deltas[i].getKind() == IExtensionDelta.ADDED) {
+				addRegistry(deltas[i].getExtensionPoint());
+			} else if (deltas[i].getKind() == IExtensionDelta.REMOVED) {
+				removeRegistry(deltas[i].getExtensionPoint());
 			}
 		}
 	}
 
-	private void addRegistry( IExtensionPoint extensionPoint )
-	{
-		IConfigurationElement[] configElements = extensionPoint.getConfigurationElements( );
-		for ( int i = 0; i < configElements.length; i++ )
-		{
-			if ( configElements[i].getName( ).equals( "dragAdapter" ) ) //$NON-NLS-1$
+	private void addRegistry(IExtensionPoint extensionPoint) {
+		IConfigurationElement[] configElements = extensionPoint.getConfigurationElements();
+		for (int i = 0; i < configElements.length; i++) {
+			if (configElements[i].getName().equals("dragAdapter")) //$NON-NLS-1$
 			{
 				// int priority = getPriority( configElements[i].getAttribute(
 				// "priority" ) );
-				try
-				{
-					IDragAdapter adapter = (IDragAdapter) configElements[i].createExecutableExtension( "adapter" ); //$NON-NLS-1$
-					dragAdapterList.add( adapter );
-					if ( Policy.TRACING_DND )
-					{
-						System.out.println( "[add dragAdapter]" //$NON-NLS-1$
-								+ configElements[i].getAttribute( "adapter" ) ); //$NON-NLS-1$
+				try {
+					IDragAdapter adapter = (IDragAdapter) configElements[i].createExecutableExtension("adapter"); //$NON-NLS-1$
+					dragAdapterList.add(adapter);
+					if (Policy.TRACING_DND) {
+						System.out.println("[add dragAdapter]" //$NON-NLS-1$
+								+ configElements[i].getAttribute("adapter")); //$NON-NLS-1$
 					}
+				} catch (CoreException e) {
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
-				catch ( CoreException e )
-				{
-					logger.log( Level.SEVERE, e.getMessage( ), e );
-				}
-			}
-			else if ( configElements[i].getName( ).equals( "dropAdapter" ) ) //$NON-NLS-1$
+			} else if (configElements[i].getName().equals("dropAdapter")) //$NON-NLS-1$
 			{
 				// int priority = getPriority( configElements[i].getAttribute(
 				// "priority" ) );
-				try
-				{
-					IDropAdapter adapter = (IDropAdapter) configElements[i].createExecutableExtension( "adapter" ); //$NON-NLS-1$
-					dropAdapterList.add( adapter );
-					if ( Policy.TRACING_DND )
-					{
-						System.out.println( "[add dropAdapter]" //$NON-NLS-1$
-								+ configElements[i].getAttribute( "adapter" ) ); //$NON-NLS-1$
+				try {
+					IDropAdapter adapter = (IDropAdapter) configElements[i].createExecutableExtension("adapter"); //$NON-NLS-1$
+					dropAdapterList.add(adapter);
+					if (Policy.TRACING_DND) {
+						System.out.println("[add dropAdapter]" //$NON-NLS-1$
+								+ configElements[i].getAttribute("adapter")); //$NON-NLS-1$
 					}
-				}
-				catch ( CoreException e )
-				{
-					logger.log( Level.SEVERE, e.getMessage( ), e );
+				} catch (CoreException e) {
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 
 		}
 	}
 
-	private void removeRegistry( IExtensionPoint extensionPoint )
-	{
+	private void removeRegistry(IExtensionPoint extensionPoint) {
 		// TODO Auto-generated method stub
 
 	}
 
-	private int getPriority( String attribute )
-	{
+	private int getPriority(String attribute) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

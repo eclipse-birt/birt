@@ -14,13 +14,11 @@ package org.eclipse.birt.report.designer.data.ui.dataset;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.swt.widgets.Shell;
 
-public class AdvancedDataSetEditor extends DataSetEditor
-{
+public class AdvancedDataSetEditor extends DataSetEditor {
 
-	public AdvancedDataSetEditor( Shell parentShell, DataSetHandle ds,
-			boolean needToFocusOnOutput, boolean isNewlyCreated )
-	{
-		super( parentShell, ds, needToFocusOnOutput, isNewlyCreated );
+	public AdvancedDataSetEditor(Shell parentShell, DataSetHandle ds, boolean needToFocusOnOutput,
+			boolean isNewlyCreated) {
+		super(parentShell, ds, needToFocusOnOutput, isNewlyCreated);
 
 	}
 

@@ -23,42 +23,28 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers.URILocator;
 
+public final class ResourceLocator {
 
-public final class ResourceLocator
-{
+	private static Logger logger = Logger.getLogger(ResourceLocator.class.getName());
 
-	private static Logger logger = Logger.getLogger( ResourceLocator.class.getName( ) );
-	
+	public static void resolveConnectionProperties(Properties connectionProperties, String driverClass, Map appContext)
+			throws OdaException {
+		JDBCDriverInformation info = JDBCDriverInfoManager.getInstance().getDriversInfo(driverClass);
 
-	public static void resolveConnectionProperties(
-			Properties connectionProperties, String driverClass, Map appContext )
-			throws OdaException
-	{
-		JDBCDriverInformation info = JDBCDriverInfoManager.getInstance( )
-				.getDriversInfo( driverClass );
+		if (info != null) {
+			List<PropertyGroup> group = info.getPropertyGroup();
+			for (int i = 0; i < group.size(); i++) {
+				List<PropertyElement> elements = group.get(i).getProperties();
 
-		if ( info != null )
-		{
-			List<PropertyGroup> group = info.getPropertyGroup( );
-			for ( int i = 0; i < group.size( ); i++ )
-			{
-				List<PropertyElement> elements = group.get( i ).getProperties( );
+				for (int j = 0; j < elements.size(); j++) {
+					String propertyName = elements.get(j).getAttribute(DriverInfoConstants.DRIVER_INFO_PROPERTY_NAME);
 
-				for ( int j = 0; j < elements.size( ); j++ )
-				{
-					String propertyName = elements.get( j )
-							.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_NAME );
-
-					if ( connectionProperties.containsKey( propertyName ) )
-					{
-						String type = elements.get( j )
-								.getAttribute( DriverInfoConstants.DRIVER_INFO_PROPERTY_TYPE );
-						if ( DriverInfoConstants.DRIVER_INFO_PROPERTY_TYPE_RESOURCE.equals( type ) )
-						{
-							String path = ResourceLocator.resolveResource( connectionProperties.getProperty( propertyName ),
-									appContext );
-							connectionProperties.setProperty( propertyName,
-									path );
+					if (connectionProperties.containsKey(propertyName)) {
+						String type = elements.get(j).getAttribute(DriverInfoConstants.DRIVER_INFO_PROPERTY_TYPE);
+						if (DriverInfoConstants.DRIVER_INFO_PROPERTY_TYPE_RESOURCE.equals(type)) {
+							String path = ResourceLocator
+									.resolveResource(connectionProperties.getProperty(propertyName), appContext);
+							connectionProperties.setProperty(propertyName, path);
 						}
 					}
 				}
@@ -66,187 +52,137 @@ public final class ResourceLocator
 		}
 	}
 
-	public static String resolveResource( String location, Map appContext ) throws OdaException
-	{
+	public static String resolveResource(String location, Map appContext) throws OdaException {
 		String absolutePath = null;
-		if ( location != null )
-		{
+		if (location != null) {
 			File docFile = null;
-			if ( appContext == null )
-			{
-				logger.warning( "No ResourceIdentifiers instance is provided from appContext" ); //$NON-NLS-1$
+			if (appContext == null) {
+				logger.warning("No ResourceIdentifiers instance is provided from appContext"); //$NON-NLS-1$
 				absolutePath = location;
-			}
-			else if ( ( new File( location ) ).isAbsolute( ) )
+			} else if ((new File(location)).isAbsolute())
 				absolutePath = location;
-			else
-			{
-				Object obj = appContext.get( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS );
-				if ( obj != null )
-				{
-					try
-					{
-						absolutePath = getResourcePath( obj,
-								new URI( encode( location ) ) );
-					}
-					catch ( URISyntaxException e )
-					{
-						logger.log( Level.WARNING, "Failed to resolve path", e ); //$NON-NLS-1$
+			else {
+				Object obj = appContext.get(ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS);
+				if (obj != null) {
+					try {
+						absolutePath = getResourcePath(obj, new URI(encode(location)));
+					} catch (URISyntaxException e) {
+						logger.log(Level.WARNING, "Failed to resolve path", e); //$NON-NLS-1$
 						absolutePath = location;
 					}
-				}
-				else
-				{
-					logger.warning( "No ResourceIdentifiers instance is provided from appContext" ); //$NON-NLS-1$
+				} else {
+					logger.warning("No ResourceIdentifiers instance is provided from appContext"); //$NON-NLS-1$
 					absolutePath = location;
 				}
 			}
 
-			if ( absolutePath == null )
-			{
-				logger.logp( java.util.logging.Level.SEVERE,
-						location,
-						"open",
-						"cannot find file under location " + location );
-				throw new OdaException( "cannot find file " + location );
+			if (absolutePath == null) {
+				logger.logp(java.util.logging.Level.SEVERE, location, "open",
+						"cannot find file under location " + location);
+				throw new OdaException("cannot find file " + location);
 			}
 
-			docFile = new File( absolutePath );
-			if ( docFile == null || !docFile.exists( ) )
-			{
-				throw new OdaException( "cannot find file under location "
-						+ absolutePath );
+			docFile = new File(absolutePath);
+			if (docFile == null || !docFile.exists()) {
+				throw new OdaException("cannot find file under location " + absolutePath);
 			}
 		}
 		return absolutePath;
 	}
-	
+
 	/**
 	 * Acquire the resource path.
+	 * 
 	 * @param resourceIdentifiersObj
 	 * @return
-	 * @throws OdaException 
+	 * @throws OdaException
 	 */
-	private static String getResourcePath( Object resourceIdentifiersObj, URI path ) throws OdaException
-	{
-	    if( resourceIdentifiersObj == null )
-	        return null;
-	    
-	    if ( resourceIdentifiersObj instanceof ResourceIdentifiers )
-		{
-			URILocator appLocator = ( (ResourceIdentifiers) resourceIdentifiersObj ).getApplResourceURILocator( );
-			URILocator designLocator = ( (ResourceIdentifiers) resourceIdentifiersObj ).getDesignResourceURILocator( );
-			if ( appLocator == null && designLocator == null )
-			{
-				throw new OdaException( "cannot find resource identifier" );
+	private static String getResourcePath(Object resourceIdentifiersObj, URI path) throws OdaException {
+		if (resourceIdentifiersObj == null)
+			return null;
+
+		if (resourceIdentifiersObj instanceof ResourceIdentifiers) {
+			URILocator appLocator = ((ResourceIdentifiers) resourceIdentifiersObj).getApplResourceURILocator();
+			URILocator designLocator = ((ResourceIdentifiers) resourceIdentifiersObj).getDesignResourceURILocator();
+			if (appLocator == null && designLocator == null) {
+				throw new OdaException("cannot find resource identifier");
 			}
 			URI target = null;
-			if ( appLocator != null )
-			{
-				target = appLocator.resolve( path );
+			if (appLocator != null) {
+				target = appLocator.resolve(path);
 			}
-			if ( target == null )
-			{
-				target = designLocator.resolve( path );
+			if (target == null) {
+				target = designLocator.resolve(path);
 			}
-			if ( target == null )
-			{
+			if (target == null) {
 				return null;
+			} else {
+				return target.getPath();
 			}
-			else
-			{
-				return target.getPath( );
+		} else // probably different class loader was used; use reflective API instead
+		{
+			Method resolveAppResourceMethod = findMethod(resourceIdentifiersObj, "resolveApplResource", //$NON-NLS-1$
+					new Class[] { URI.class });
+			Method resolveDesignResourceMethod = findMethod(resourceIdentifiersObj, "resolveDesignResource", //$NON-NLS-1$
+					new Class[] { URI.class });
+
+			Object result = null;
+			if (resolveAppResourceMethod != null) {
+				result = invokeMethod(resourceIdentifiersObj, resolveAppResourceMethod, new Object[] { path });
 			}
+			if (result == null || !(result instanceof URI)) {
+				result = invokeMethod(resourceIdentifiersObj, resolveDesignResourceMethod, new Object[] { path });
+			}
+			if (result instanceof URI) {
+				return ((URI) result).getPath();
+			}
+			return null;
 		}
-	    else   // probably different class loader was used; use reflective API instead
-	    {
-	    	Method resolveAppResourceMethod = findMethod( resourceIdentifiersObj, "resolveApplResource", new Class[]{URI.class}  ); //$NON-NLS-1$
-	        Method resolveDesignResourceMethod = findMethod( resourceIdentifiersObj, "resolveDesignResource", new Class[]{URI.class}   ); //$NON-NLS-1$
-	        
-	        Object result = null;
-	        if ( resolveAppResourceMethod != null )
-	        {
-	        	result = invokeMethod( resourceIdentifiersObj, resolveAppResourceMethod, new Object[]{path});
-	        }
-	        if ( result == null || !(result instanceof URI) )
-	        {
-	        	result = invokeMethod( resourceIdentifiersObj, resolveDesignResourceMethod, new Object[]{path});
-	        }
-	        if ( result instanceof URI )
-	        {
-	        	 return ((URI) result).getPath( );
-	        }
-	        return null;        
-	    }
 	}
-	
-    private static Object invokeMethod( Object anObj, Method objMethod, Object[] arg )
-    {
-        Object returnValue = null;
-        try
-        {
-            returnValue = objMethod.invoke( anObj, arg );
-        }
-        catch( IllegalArgumentException ex )
-        {
-            // TODO - log warning
-        }
-        catch( IllegalAccessException ex )
-        {
-            // TODO - log warning
-        }
-        catch( InvocationTargetException ex )
-        {
-            // TODO - log warning
-        }
-        return returnValue;
-    }
-    
-    private static Method findMethod( Object anObj, String methodName, Class[] argument )
-    {
-        Class clazz = anObj.getClass();
-        Method theMethod = null;
-        try
-        {
-            theMethod = clazz.getDeclaredMethod( methodName, argument );
-        }
-        catch( SecurityException ex )
-        {
-            // TODO - log warning
-        }
-        catch( NoSuchMethodException ex )
-        {
-            // TODO - log warning
-        }
-        
-        return theMethod;
-    }
-    
+
+	private static Object invokeMethod(Object anObj, Method objMethod, Object[] arg) {
+		Object returnValue = null;
+		try {
+			returnValue = objMethod.invoke(anObj, arg);
+		} catch (IllegalArgumentException ex) {
+			// TODO - log warning
+		} catch (IllegalAccessException ex) {
+			// TODO - log warning
+		} catch (InvocationTargetException ex) {
+			// TODO - log warning
+		}
+		return returnValue;
+	}
+
+	private static Method findMethod(Object anObj, String methodName, Class[] argument) {
+		Class clazz = anObj.getClass();
+		Method theMethod = null;
+		try {
+			theMethod = clazz.getDeclaredMethod(methodName, argument);
+		} catch (SecurityException ex) {
+			// TODO - log warning
+		} catch (NoSuchMethodException ex) {
+			// TODO - log warning
+		}
+
+		return theMethod;
+	}
+
 	/**
 	 * 
 	 * @param location
 	 * @return
 	 */
-	private static String encode( String location )
-	{
-		try
-		{
-			if ( File.separatorChar != '/' )
-				location = location.replace( File.separatorChar, '/' );
-			if( location.startsWith( "/" ) )
-			{
-				return new File( location ).toURI( )
-						.toASCIIString( )
-						.replace( new File( "/" ).toURI( ).toASCIIString( ), "/" );				
-			}
-			else
-				return new File( location ).toURI( )
-					.toASCIIString( )
-					.replace( new File( "" ).toURI( ).toASCIIString( ), "" );
-		}
-		catch ( Exception e )
-		{
+	private static String encode(String location) {
+		try {
+			if (File.separatorChar != '/')
+				location = location.replace(File.separatorChar, '/');
+			if (location.startsWith("/")) {
+				return new File(location).toURI().toASCIIString().replace(new File("/").toURI().toASCIIString(), "/");
+			} else
+				return new File(location).toURI().toASCIIString().replace(new File("").toURI().toASCIIString(), "");
+		} catch (Exception e) {
 			return location;
 		}
-	}    
+	}
 }

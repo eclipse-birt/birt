@@ -32,23 +32,19 @@ import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
  * @see org.eclipse.birt.report.model.elements.olap.Cube
  */
 
-public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
-{
+public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel {
 
 	/**
-	 * Constructs a handle for the given design and design element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * Constructs a handle for the given design and design element. The application
+	 * generally does not create handles directly. Instead, it uses one of the
+	 * navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public TabularCubeHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public TabularCubeHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
@@ -57,37 +53,30 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 	 * @return the handle to the data set
 	 */
 
-	public DataSetHandle getDataSet( )
-	{
-		return (DataSetHandle) getElementProperty( DATA_SET_PROP );
+	public DataSetHandle getDataSet() {
+		return (DataSetHandle) getElementProperty(DATA_SET_PROP);
 	}
 
 	/**
 	 * Sets the data set of this cube.
 	 * 
-	 * @param handle
-	 *            the handle of the data set
+	 * @param handle the handle of the data set
 	 * 
-	 * @throws SemanticException
-	 *             if the property is locked, or the data-set is invalid.
+	 * @throws SemanticException if the property is locked, or the data-set is
+	 *                           invalid.
 	 */
 
-	public void setDataSet( DataSetHandle handle ) throws SemanticException
-	{
-		if ( handle == null )
-			setStringProperty( DATA_SET_PROP, null );
-		else
-		{
-			ModuleHandle moduleHandle = handle.getRoot( );
-			String valueToSet = handle.getElement( ).getFullName( );
-			if ( moduleHandle instanceof LibraryHandle )
-			{
-				String namespace = ( (LibraryHandle) moduleHandle )
-						.getNamespace( );
-				valueToSet = StringUtil.buildQualifiedReference( namespace,
-						valueToSet );
+	public void setDataSet(DataSetHandle handle) throws SemanticException {
+		if (handle == null)
+			setStringProperty(DATA_SET_PROP, null);
+		else {
+			ModuleHandle moduleHandle = handle.getRoot();
+			String valueToSet = handle.getElement().getFullName();
+			if (moduleHandle instanceof LibraryHandle) {
+				String namespace = ((LibraryHandle) moduleHandle).getNamespace();
+				valueToSet = StringUtil.buildQualifiedReference(namespace, valueToSet);
 			}
-			setStringProperty( DATA_SET_PROP, valueToSet );
+			setStringProperty(DATA_SET_PROP, valueToSet);
 		}
 	}
 
@@ -99,11 +88,9 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 	 * @throws SemanticException
 	 */
 
-	public DimensionConditionHandle addDimensionCondition(
-			DimensionCondition condition ) throws SemanticException
-	{
-		PropertyHandle propertyHandle = getPropertyHandle( DIMENSION_CONDITIONS_PROP );
-		return (DimensionConditionHandle) propertyHandle.addItem( condition );
+	public DimensionConditionHandle addDimensionCondition(DimensionCondition condition) throws SemanticException {
+		PropertyHandle propertyHandle = getPropertyHandle(DIMENSION_CONDITIONS_PROP);
+		return (DimensionConditionHandle) propertyHandle.addItem(condition);
 	}
 
 	/**
@@ -114,12 +101,10 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 	 * @return the added dimension condition handle if succeed
 	 * @throws SemanticException
 	 */
-	public DimensionConditionHandle addDimensionCondition(
-			DimensionCondition condition, int posn ) throws SemanticException
-	{
-		PropertyHandle propertyHandle = getPropertyHandle( DIMENSION_CONDITIONS_PROP );
-		return (DimensionConditionHandle) propertyHandle.insertItem( condition,
-				posn );
+	public DimensionConditionHandle addDimensionCondition(DimensionCondition condition, int posn)
+			throws SemanticException {
+		PropertyHandle propertyHandle = getPropertyHandle(DIMENSION_CONDITIONS_PROP);
+		return (DimensionConditionHandle) propertyHandle.insertItem(condition, posn);
 	}
 
 	/**
@@ -129,10 +114,9 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 	 * @return iterator of the join conditions in this cube
 	 */
 
-	public Iterator joinConditionsIterator( )
-	{
-		PropertyHandle propertyHandle = getPropertyHandle( DIMENSION_CONDITIONS_PROP );
-		return propertyHandle.iterator( );
+	public Iterator joinConditionsIterator() {
+		PropertyHandle propertyHandle = getPropertyHandle(DIMENSION_CONDITIONS_PROP);
+		return propertyHandle.iterator();
 	}
 
 	/**
@@ -141,11 +125,9 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 	 * @param condition
 	 * @throws SemanticException
 	 */
-	public void removeDimensionCondition( DimensionCondition condition )
-			throws SemanticException
-	{
-		PropertyHandle propertyHandle = getPropertyHandle( DIMENSION_CONDITIONS_PROP );
-		propertyHandle.removeItem( condition );
+	public void removeDimensionCondition(DimensionCondition condition) throws SemanticException {
+		PropertyHandle propertyHandle = getPropertyHandle(DIMENSION_CONDITIONS_PROP);
+		propertyHandle.removeItem(condition);
 	}
 
 	/**
@@ -153,13 +135,10 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 	 * @param conditionHandle
 	 * @throws SemanticException
 	 */
-	public void removeDimensionCondition(
-			DimensionConditionHandle conditionHandle ) throws SemanticException
-	{
-		PropertyHandle propertyHandle = getPropertyHandle( DIMENSION_CONDITIONS_PROP );
-		IStructure struct = conditionHandle == null ? null : conditionHandle
-				.getStructure( );
-		propertyHandle.removeItem( struct );
+	public void removeDimensionCondition(DimensionConditionHandle conditionHandle) throws SemanticException {
+		PropertyHandle propertyHandle = getPropertyHandle(DIMENSION_CONDITIONS_PROP);
+		IStructure struct = conditionHandle == null ? null : conditionHandle.getStructure();
+		propertyHandle.removeItem(struct);
 	}
 
 	/**
@@ -169,18 +148,13 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 	 * @param hierarchyName
 	 * @return the first dimeneison condition handle if found, otherwise null
 	 */
-	public DimensionConditionHandle findDimensionCondition( String hierarchyName )
-	{
-		Iterator iter = getPropertyHandle( DIMENSION_CONDITIONS_PROP )
-				.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			DimensionConditionHandle condition = (DimensionConditionHandle) iter
-					.next( );
-			String tempHierarchy = condition.getHierarchyName( );
-			if ( ( tempHierarchy == null && hierarchyName == null )
-					|| ( tempHierarchy != null && tempHierarchy
-							.equals( hierarchyName ) ) )
+	public DimensionConditionHandle findDimensionCondition(String hierarchyName) {
+		Iterator iter = getPropertyHandle(DIMENSION_CONDITIONS_PROP).iterator();
+		while (iter.hasNext()) {
+			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next();
+			String tempHierarchy = condition.getHierarchyName();
+			if ((tempHierarchy == null && hierarchyName == null)
+					|| (tempHierarchy != null && tempHierarchy.equals(hierarchyName)))
 				return condition;
 		}
 		return null;
@@ -192,35 +166,29 @@ public class TabularCubeHandle extends CubeHandle implements ITabularCubeModel
 	 * @param hierarchy
 	 * @return the first dimeneison condition handle if found, otherwise null
 	 */
-	public DimensionConditionHandle findDimensionCondition(
-			HierarchyHandle hierarchy )
-	{
-		String hierarchyName = hierarchy == null ? null : hierarchy
-				.getQualifiedName( );
-		return findDimensionCondition( hierarchyName );
+	public DimensionConditionHandle findDimensionCondition(HierarchyHandle hierarchy) {
+		String hierarchyName = hierarchy == null ? null : hierarchy.getQualifiedName();
+		return findDimensionCondition(hierarchyName);
 	}
 
 	/**
-	 * Gets the status whether to generate a primary key for elements that use
-	 * this cube so that user no longer need to set the aggregation for measure.
+	 * Gets the status whether to generate a primary key for elements that use this
+	 * cube so that user no longer need to set the aggregation for measure.
 	 * 
 	 * @return true if automatically generate the key, otherwise false
 	 */
-	public boolean autoPrimaryKey( )
-	{
-		return getBooleanProperty( AUTO_KEY_PROP );
+	public boolean autoPrimaryKey() {
+		return getBooleanProperty(AUTO_KEY_PROP);
 	}
 
 	/**
-	 * Sets the status whether to generate a primary key for elements that use
-	 * this cube so that user no longer need to set the aggregation for measure.
+	 * Sets the status whether to generate a primary key for elements that use this
+	 * cube so that user no longer need to set the aggregation for measure.
 	 * 
-	 * @param autoKey
-	 *            true if automatically generate the key, otherwise false
+	 * @param autoKey true if automatically generate the key, otherwise false
 	 * @throws SemanticException
 	 */
-	public void setAutoPrimaryKey( boolean autoKey ) throws SemanticException
-	{
-		setBooleanProperty( AUTO_KEY_PROP, autoKey );
+	public void setAutoPrimaryKey(boolean autoKey) throws SemanticException {
+		setBooleanProperty(AUTO_KEY_PROP, autoKey);
 	}
 }

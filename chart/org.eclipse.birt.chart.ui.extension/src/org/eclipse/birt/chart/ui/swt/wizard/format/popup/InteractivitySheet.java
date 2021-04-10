@@ -27,8 +27,7 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 
-public class InteractivitySheet extends AbstractPopupSheet
-{
+public class InteractivitySheet extends AbstractPopupSheet {
 
 	private final EList<Trigger> triggers;
 	private final EObject cursorContainer;
@@ -41,38 +40,28 @@ public class InteractivitySheet extends AbstractPopupSheet
 	 * @param context
 	 * @param triggers
 	 * @param cursorContainer
-	 * @param iInteractivityType
-	 *            see <code>TriggerSupportMatrix</code>
+	 * @param iInteractivityType see <code>TriggerSupportMatrix</code>
 	 * @param optionalStyle
 	 */
-	public InteractivitySheet( String title, ChartWizardContext context,
-			EList<Trigger> triggers, EObject cursorContainer,
-			int iInteractivityType, int optionalStyle )
-	{
-		super( title, context, false );
+	public InteractivitySheet(String title, ChartWizardContext context, EList<Trigger> triggers,
+			EObject cursorContainer, int iInteractivityType, int optionalStyle) {
+		super(title, context, false);
 		this.triggers = triggers;
 		this.cursorContainer = cursorContainer;
 		this.iInteractivityType = iInteractivityType;
 		this.optionalStyle = optionalStyle;
 	}
 
-	protected Composite getComponent( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_INTERACTIVITY );
-		final TriggerDataComposite triggerUI = new TriggerDataComposite( parent,
-				SWT.NONE,
-				triggers,
-				cursorContainer,
-				getContext( ),
-				iInteractivityType,
-				optionalStyle );
-		parent.getShell( ).addDisposeListener( new DisposeListener( ) {
+	protected Composite getComponent(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_INTERACTIVITY);
+		final TriggerDataComposite triggerUI = new TriggerDataComposite(parent, SWT.NONE, triggers, cursorContainer,
+				getContext(), iInteractivityType, optionalStyle);
+		parent.getShell().addDisposeListener(new DisposeListener() {
 
-			public void widgetDisposed( DisposeEvent e )
-			{
-				triggerUI.markSaveWhenClosing( );
+			public void widgetDisposed(DisposeEvent e) {
+				triggerUI.markSaveWhenClosing();
 			}
-		} );
+		});
 		return triggerUI;
 	}
 

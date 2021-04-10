@@ -18,42 +18,34 @@ import org.eclipse.birt.chart.script.api.series.data.IGanttData;
  * 
  */
 
-public class GanttDataImpl extends SeriesDataImpl implements IGanttData
-{
+public class GanttDataImpl extends SeriesDataImpl implements IGanttData {
 
-	public GanttDataImpl( SeriesDefinition sd )
-	{
-		super( sd );
+	public GanttDataImpl(SeriesDefinition sd) {
+		super(sd);
 	}
 
-	public String getFinishExpr( )
-	{
-		return getExprByIndex( 2 );
+	public String getFinishExpr() {
+		return getExprByIndex(2);
 	}
 
-	public String getStartExpr( )
-	{
-		return getExprByIndex( 1 );
+	public String getStartExpr() {
+		return getExprByIndex(1);
 	}
 
-	public String getTaskNameExpr( )
-	{
-		return getExprByIndex( 0 );
+	public String getTaskNameExpr() {
+		return getExprByIndex(0);
 	}
 
-	public void setFinishExpr( String expr )
-	{
-		setExprsByIndex( 2, expr );
+	public void setFinishExpr(String expr) {
+		setExprsByIndex(2, expr);
 	}
 
-	public void setStartExpr( String expr )
-	{
-		setExprsByIndex( 1, expr );
+	public void setStartExpr(String expr) {
+		setExprsByIndex(1, expr);
 	}
 
-	public void setTaskNameExpr( String expr )
-	{
-		setExprsByIndex( 0, expr );
+	public void setTaskNameExpr(String expr) {
+		setExprsByIndex(0, expr);
 	}
 
 }

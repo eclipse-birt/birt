@@ -17,15 +17,13 @@ import junit.framework.TestSuite;
  *  
  */
 
-public class AllTests
-{
+public class AllTests {
 
-	public static Test suite( )
-	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.designer.internal.ui.views.attributes.page" );
-		//$JUnit-BEGIN$
-		suite.addTestSuite( BaseAttributePageTest.class );
-		//$JUnit-END$
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Test for org.eclipse.birt.report.designer.internal.ui.views.attributes.page");
+		// $JUnit-BEGIN$
+		suite.addTestSuite(BaseAttributePageTest.class);
+		// $JUnit-END$
 		return suite;
 	}
 }

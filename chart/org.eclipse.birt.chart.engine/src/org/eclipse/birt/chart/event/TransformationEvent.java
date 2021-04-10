@@ -16,8 +16,7 @@ import org.eclipse.birt.chart.computation.IConstants;
 /**
  * An event type for transformation.
  */
-public final class TransformationEvent extends PrimitiveRenderEvent
-{
+public final class TransformationEvent extends PrimitiveRenderEvent {
 
 	private static final long serialVersionUID = -2322114654814388838L;
 
@@ -54,29 +53,27 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	/**
 	 * The constructor.
 	 */
-	public TransformationEvent( Object oSource )
-	{
-		super( oSource );
+	public TransformationEvent(Object oSource) {
+		super(oSource);
 	}
 
 	/**
-	 * Sets the transformation type of this event. The value must be one of
-	 * these defined in this class:
+	 * Sets the transformation type of this event. The value must be one of these
+	 * defined in this class:
 	 * <ul>
 	 * <li>{@link #SCALE}
 	 * <li>{@link #TRANSLATE}
 	 * <li>{@link #ROTATE}
 	 * </ul>
 	 */
-	public final void setTransform( int iTransform )
-	{
+	public final void setTransform(int iTransform) {
 		_iTransform = iTransform;
 	}
 
 	/**
 	 * 
-	 * @return Returns the transformation type of this event. The value could be
-	 *         one of these defined in this class:
+	 * @return Returns the transformation type of this event. The value could be one
+	 *         of these defined in this class:
 	 *         <ul>
 	 *         <li>{@link #SCALE}
 	 *         <li>{@link #TRANSLATE}
@@ -84,32 +81,28 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	 *         <li>{@link #UNDEFINED}
 	 *         </ul>
 	 */
-	public final int getTransform( )
-	{
+	public final int getTransform() {
 		return _iTransform;
 	}
 
 	/**
 	 * Sets the scale of current event.
 	 */
-	public final void setScale( double dScale )
-	{
+	public final void setScale(double dScale) {
 		_dScale = dScale;
 	}
 
 	/**
 	 * @return Returns the scale of current event.
 	 */
-	public final double getScale( )
-	{
+	public final double getScale() {
 		return _dScale;
 	}
 
 	/**
 	 * Sets the translation of current event.
 	 */
-	public final void setTranslation( double dTranslateX, double dTranslateY )
-	{
+	public final void setTranslation(double dTranslateX, double dTranslateY) {
 		_dTranslateX = dTranslateX;
 		_dTranslateY = dTranslateY;
 	}
@@ -117,32 +110,28 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	/**
 	 * @return Returns the X translation of current event.
 	 */
-	public final double getTranslateX( )
-	{
+	public final double getTranslateX() {
 		return _dTranslateX;
 	}
 
 	/**
 	 * @return Returns the Y tranlation of current event.
 	 */
-	public final double getTranslateY( )
-	{
+	public final double getTranslateY() {
 		return _dTranslateY;
 	}
 
 	/**
 	 * Sets the rotation of current event.
 	 */
-	public final void setRotation( double dAngleInDegrees )
-	{
+	public final void setRotation(double dAngleInDegrees) {
 		_dRotationInDegrees = dAngleInDegrees;
 	}
 
 	/**
 	 * @return Returns the rotation of current event.
 	 */
-	public final double getRotation( )
-	{
+	public final double getRotation() {
 		return _dRotationInDegrees;
 	}
 
@@ -151,8 +140,7 @@ public final class TransformationEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
-	public void reset( )
-	{
+	public void reset() {
 		// no-op
 	}
 }

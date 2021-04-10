@@ -23,21 +23,18 @@ import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
  * result set column handle and a list of <code>IAmbiguousAttribute</code>.
  * 
  */
-class AmbiguousResultSetNode implements IAmbiguousResultSetNode
-{
+class AmbiguousResultSetNode implements IAmbiguousResultSetNode {
 
 	private final OdaResultSetColumnHandle columnHandle;
 	private final List<IAmbiguousAttribute> attributes;
 
-	AmbiguousResultSetNode( OdaResultSetColumnHandle columnHandle,
-			List<IAmbiguousAttribute> attributes )
-	{
-		if ( columnHandle == null )
+	AmbiguousResultSetNode(OdaResultSetColumnHandle columnHandle, List<IAmbiguousAttribute> attributes) {
+		if (columnHandle == null)
 			throw new IllegalArgumentException(
-					"The oda data set parameter can not be null when creating AmbiguousParameterNode!" ); //$NON-NLS-1$
+					"The oda data set parameter can not be null when creating AmbiguousParameterNode!"); //$NON-NLS-1$
 		this.columnHandle = columnHandle;
-		if ( attributes == null )
-			this.attributes = Collections.emptyList( );
+		if (attributes == null)
+			this.attributes = Collections.emptyList();
 		else
 			this.attributes = attributes;
 	}
@@ -48,8 +45,7 @@ class AmbiguousResultSetNode implements IAmbiguousResultSetNode
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousResultSetNode#
 	 * getOdaResultSetColumnHandle()
 	 */
-	public OdaResultSetColumnHandle getOdaResultSetColumnHandle( )
-	{
+	public OdaResultSetColumnHandle getOdaResultSetColumnHandle() {
 		return this.columnHandle;
 	}
 
@@ -59,8 +55,7 @@ class AmbiguousResultSetNode implements IAmbiguousResultSetNode
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousResultSetNode#
 	 * getAmbiguousAttributes()
 	 */
-	public List<IAmbiguousAttribute> getAmbiguousAttributes( )
-	{
+	public List<IAmbiguousAttribute> getAmbiguousAttributes() {
 		return this.attributes;
 	}
 }

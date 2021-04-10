@@ -16,7 +16,6 @@ package org.eclipse.birt.report.engine.api.script.element;
  *
  */
 
-public interface IAutoText extends IReportItem
-{
+public interface IAutoText extends IReportItem {
 
 }

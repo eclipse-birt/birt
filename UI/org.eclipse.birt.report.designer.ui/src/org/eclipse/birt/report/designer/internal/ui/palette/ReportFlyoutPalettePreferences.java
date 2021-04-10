@@ -19,21 +19,17 @@ import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
  * JRPFlyoutPalettePreferences is used to save/load the preferences for the
  * flyout palette.
  * 
- *  
+ * 
  */
-public class ReportFlyoutPalettePreferences implements FlyoutPreferences
-{
+public class ReportFlyoutPalettePreferences implements FlyoutPreferences {
 
 	/**
 	 * Gets the location of the palette
 	 * 
 	 * @return the saved dock location of the Palette
 	 */
-	public int getDockLocation( )
-	{
-		return ReportPlugin.getDefault( )
-				.getPreferenceStore( )
-				.getInt( IPreferenceConstants.PALETTE_DOCK_LOCATION );
+	public int getDockLocation() {
+		return ReportPlugin.getDefault().getPreferenceStore().getInt(IPreferenceConstants.PALETTE_DOCK_LOCATION);
 	}
 
 	/**
@@ -41,11 +37,8 @@ public class ReportFlyoutPalettePreferences implements FlyoutPreferences
 	 * 
 	 * @return the saved state of the palette (collapsed or pinned open)
 	 */
-	public int getPaletteState( )
-	{
-		return ReportPlugin.getDefault( )
-				.getPreferenceStore( )
-				.getInt( IPreferenceConstants.PALETTE_STATE );
+	public int getPaletteState() {
+		return ReportPlugin.getDefault().getPreferenceStore().getInt(IPreferenceConstants.PALETTE_STATE);
 	}
 
 	/**
@@ -53,55 +46,40 @@ public class ReportFlyoutPalettePreferences implements FlyoutPreferences
 	 * 
 	 * @return the saved width of the palette
 	 */
-	public int getPaletteWidth( )
-	{
-		return ReportPlugin.getDefault( )
-				.getPreferenceStore( )
-				.getInt( IPreferenceConstants.PALETTE_SIZE );
+	public int getPaletteWidth() {
+		return ReportPlugin.getDefault().getPreferenceStore().getInt(IPreferenceConstants.PALETTE_SIZE);
 	}
 
 	/**
-	 * This method is invoked when the flyout palette's dock location is
-	 * changed. The provided dock location should be persisted and returned in
+	 * This method is invoked when the flyout palette's dock location is changed.
+	 * The provided dock location should be persisted and returned in
 	 * {@link #getDockLocation()}.
 	 * 
-	 * @param location
-	 *            an int representing the dock location
+	 * @param location an int representing the dock location
 	 */
-	public void setDockLocation( int location )
-	{
-		ReportPlugin.getDefault( )
-				.getPreferenceStore( )
-				.setValue( IPreferenceConstants.PALETTE_DOCK_LOCATION, location );
+	public void setDockLocation(int location) {
+		ReportPlugin.getDefault().getPreferenceStore().setValue(IPreferenceConstants.PALETTE_DOCK_LOCATION, location);
 	}
 
 	/**
-	 * This method is invoked when the flyout palette's default state is
-	 * changed. The provided state should be persisted and returned in
+	 * This method is invoked when the flyout palette's default state is changed.
+	 * The provided state should be persisted and returned in
 	 * {@link #getPaletteState()}.
 	 * 
-	 * @param state
-	 *            an int the state of the flyout palette
+	 * @param state an int the state of the flyout palette
 	 */
-	public void setPaletteState( int state )
-	{
-		ReportPlugin.getDefault( )
-				.getPreferenceStore( )
-				.setValue( IPreferenceConstants.PALETTE_STATE, state );
+	public void setPaletteState(int state) {
+		ReportPlugin.getDefault().getPreferenceStore().setValue(IPreferenceConstants.PALETTE_STATE, state);
 	}
 
 	/**
-	 * This method is invoked when the flyout palette is resized. The provided
-	 * width should be persisted and returned in {@link #getPaletteWidth()}.
+	 * This method is invoked when the flyout palette is resized. The provided width
+	 * should be persisted and returned in {@link #getPaletteWidth()}.
 	 * 
-	 * @param width
-	 *            the new size of the flyout palette
+	 * @param width the new size of the flyout palette
 	 */
-	public void setPaletteWidth( int width )
-	{
-		ReportPlugin.getDefault( )
-				.getPreferenceStore( )
-				.setValue( IPreferenceConstants.PALETTE_SIZE, width );
+	public void setPaletteWidth(int width) {
+		ReportPlugin.getDefault().getPreferenceStore().setValue(IPreferenceConstants.PALETTE_SIZE, width);
 	}
 
 }

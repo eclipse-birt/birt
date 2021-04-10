@@ -17,27 +17,21 @@ import java.util.ArrayList;
  * 
  */
 
-public class CompositeLayoutPageHandler implements ILayoutPageHandler
-{
+public class CompositeLayoutPageHandler implements ILayoutPageHandler {
 
-	ArrayList eventHandlers = new ArrayList( );
+	ArrayList eventHandlers = new ArrayList();
 
-	public void onPage( long page, Object context )
-	{
-		for ( int i = 0; i < eventHandlers.size( ); i++ )
-		{
-			ILayoutPageHandler eventHandler = (ILayoutPageHandler) eventHandlers
-					.get( i );
-			if ( eventHandler != null )
-			{
-				eventHandler.onPage( page, context );
+	public void onPage(long page, Object context) {
+		for (int i = 0; i < eventHandlers.size(); i++) {
+			ILayoutPageHandler eventHandler = (ILayoutPageHandler) eventHandlers.get(i);
+			if (eventHandler != null) {
+				eventHandler.onPage(page, context);
 			}
 		}
 	}
 
-	public void addPageHandler( ILayoutPageHandler layoutPageHandler )
-	{
-		eventHandlers.add( layoutPageHandler );
+	public void addPageHandler(ILayoutPageHandler layoutPageHandler) {
+		eventHandlers.add(layoutPageHandler);
 	}
 
 }

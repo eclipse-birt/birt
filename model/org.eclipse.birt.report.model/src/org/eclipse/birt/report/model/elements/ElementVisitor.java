@@ -25,24 +25,20 @@ import org.eclipse.birt.report.model.core.Module;
  * 
  */
 
-public class ElementVisitor extends ElementVisitorImpl
-{
+public class ElementVisitor extends ElementVisitorImpl {
 
 	/**
-	 * Visits the contents of the given context. Allows a derived class to
-	 * traverse downward though the design tree.
+	 * Visits the contents of the given context. Allows a derived class to traverse
+	 * downward though the design tree.
 	 * 
-	 * @param module
-	 *            the module where the contents reside
-	 * @param context
-	 *            the container context where the contents reside
+	 * @param module  the module where the contents reside
+	 * @param context the container context where the contents reside
 	 */
 
-	public void visitContents( Module module, ContainerContext context )
-	{
-		List<DesignElement> contents = context.getContents( module );
-		Iterator<DesignElement> iter = contents.iterator( );
-		while ( iter.hasNext( ) )
-			( iter.next( ) ).apply( this );
+	public void visitContents(Module module, ContainerContext context) {
+		List<DesignElement> contents = context.getContents(module);
+		Iterator<DesignElement> iter = contents.iterator();
+		while (iter.hasNext())
+			(iter.next()).apply(this);
 	}
 }

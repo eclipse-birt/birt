@@ -19,35 +19,32 @@ import org.xml.sax.SAXException;
  * Parses the user property list.
  */
 
-public class UserPropertyListState extends ListPropertyState
-{
+public class UserPropertyListState extends ListPropertyState {
 
 	/**
 	 * Constructs the design parse state with the design file parser handler.
 	 * 
-	 * @param theHandler
-	 *            the design parser handler
-	 * @param element
-	 *            the element holding this list property
+	 * @param theHandler the design parser handler
+	 * @param element    the element holding this list property
 	 */
 
-	UserPropertyListState( ModuleParserHandler theHandler, DesignElement element )
-	{
-		super( theHandler, element );
+	UserPropertyListState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
+	 * String)
 	 */
-	public AbstractParseState startElement( String tagName )
-	{
-		int tagValue = tagName.toLowerCase( ).hashCode( );
-		if ( ParserSchemaConstants.STRUCTURE_TAG == tagValue  )
-			return new UserPropertyStructureState( handler, element, list );
+	public AbstractParseState startElement(String tagName) {
+		int tagValue = tagName.toLowerCase().hashCode();
+		if (ParserSchemaConstants.STRUCTURE_TAG == tagValue)
+			return new UserPropertyStructureState(handler, element, list);
 
-		return super.startElement( tagName );
+		return super.startElement(tagName);
 	}
 
 	/*
@@ -55,8 +52,7 @@ public class UserPropertyListState extends ListPropertyState
 	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
-	public void end( ) throws SAXException
-	{
+	public void end() throws SAXException {
 		// To avoid set list to property
 	}
 }

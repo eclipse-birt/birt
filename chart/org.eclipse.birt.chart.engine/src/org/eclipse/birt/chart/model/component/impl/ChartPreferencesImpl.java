@@ -26,25 +26,26 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Chart Preferences</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Chart
+ * Preferences</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl#getLabels <em>Labels</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl#getBlocks <em>Blocks</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl#getLabels
+ * <em>Labels</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl#getBlocks
+ * <em>Blocks</em>}</li>
  * </ul>
  * </p>
  *
  * @deprecated only reserved for compatibility
  */
-public class ChartPreferencesImpl extends EObjectImpl implements
-		ChartPreferences
-{
+public class ChartPreferencesImpl extends EObjectImpl implements ChartPreferences {
 
 	/**
-	 * The cached value of the '{@link #getLabels() <em>Labels</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getLabels() <em>Labels</em>}' containment
+	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getLabels()
 	 * @generated
 	 * @ordered
@@ -52,8 +53,9 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 	protected EList<Label> labels;
 
 	/**
-	 * The cached value of the '{@link #getBlocks() <em>Blocks</em>}' containment reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getBlocks() <em>Blocks</em>}' containment
+	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getBlocks()
 	 * @generated
 	 * @ordered
@@ -62,186 +64,161 @@ public class ChartPreferencesImpl extends EObjectImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	protected ChartPreferencesImpl( )
-	{
-		super( );
+	protected ChartPreferencesImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.CHART_PREFERENCES;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public EList<Label> getLabels( )
-	{
-		if ( labels == null )
-		{
-			labels = new EObjectContainmentEList<Label>( Label.class,
-					this,
-					ComponentPackage.CHART_PREFERENCES__LABELS );
+	public EList<Label> getLabels() {
+		if (labels == null) {
+			labels = new EObjectContainmentEList<Label>(Label.class, this, ComponentPackage.CHART_PREFERENCES__LABELS);
 		}
 		return labels;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public EList<Block> getBlocks( )
-	{
-		if ( blocks == null )
-		{
-			blocks = new EObjectContainmentEList<Block>( Block.class,
-					this,
-					ComponentPackage.CHART_PREFERENCES__BLOCKS );
+	public EList<Block> getBlocks() {
+		if (blocks == null) {
+			blocks = new EObjectContainmentEList<Block>(Block.class, this, ComponentPackage.CHART_PREFERENCES__BLOCKS);
 		}
 		return blocks;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, NotificationChain msgs )
-	{
-		switch ( featureID )
-		{
-			case ComponentPackage.CHART_PREFERENCES__LABELS :
-				return ( (InternalEList<?>) getLabels( ) ).basicRemove( otherEnd,
-						msgs );
-			case ComponentPackage.CHART_PREFERENCES__BLOCKS :
-				return ( (InternalEList<?>) getBlocks( ) ).basicRemove( otherEnd,
-						msgs );
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case ComponentPackage.CHART_PREFERENCES__LABELS:
+			return ((InternalEList<?>) getLabels()).basicRemove(otherEnd, msgs);
+		case ComponentPackage.CHART_PREFERENCES__BLOCKS:
+			return ((InternalEList<?>) getBlocks()).basicRemove(otherEnd, msgs);
 		}
-		return super.eInverseRemove( otherEnd, featureID, msgs );
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public Object eGet( int featureID, boolean resolve, boolean coreType )
-	{
-		switch ( featureID )
-		{
-			case ComponentPackage.CHART_PREFERENCES__LABELS :
-				return getLabels( );
-			case ComponentPackage.CHART_PREFERENCES__BLOCKS :
-				return getBlocks( );
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case ComponentPackage.CHART_PREFERENCES__LABELS:
+			return getLabels();
+		case ComponentPackage.CHART_PREFERENCES__BLOCKS:
+			return getBlocks();
 		}
-		return super.eGet( featureID, resolve, coreType );
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet( int featureID, Object newValue )
-	{
-		switch ( featureID )
-		{
-			case ComponentPackage.CHART_PREFERENCES__LABELS :
-				getLabels( ).clear( );
-				getLabels( ).addAll( (Collection<? extends Label>) newValue );
-				return;
-			case ComponentPackage.CHART_PREFERENCES__BLOCKS :
-				getBlocks( ).clear( );
-				getBlocks( ).addAll( (Collection<? extends Block>) newValue );
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case ComponentPackage.CHART_PREFERENCES__LABELS:
+			getLabels().clear();
+			getLabels().addAll((Collection<? extends Label>) newValue);
+			return;
+		case ComponentPackage.CHART_PREFERENCES__BLOCKS:
+			getBlocks().clear();
+			getBlocks().addAll((Collection<? extends Block>) newValue);
+			return;
 		}
-		super.eSet( featureID, newValue );
+		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public void eUnset( int featureID )
-	{
-		switch ( featureID )
-		{
-			case ComponentPackage.CHART_PREFERENCES__LABELS :
-				getLabels( ).clear( );
-				return;
-			case ComponentPackage.CHART_PREFERENCES__BLOCKS :
-				getBlocks( ).clear( );
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case ComponentPackage.CHART_PREFERENCES__LABELS:
+			getLabels().clear();
+			return;
+		case ComponentPackage.CHART_PREFERENCES__BLOCKS:
+			getBlocks().clear();
+			return;
 		}
-		super.eUnset( featureID );
+		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet( int featureID )
-	{
-		switch ( featureID )
-		{
-			case ComponentPackage.CHART_PREFERENCES__LABELS :
-				return labels != null && !labels.isEmpty( );
-			case ComponentPackage.CHART_PREFERENCES__BLOCKS :
-				return blocks != null && !blocks.isEmpty( );
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case ComponentPackage.CHART_PREFERENCES__LABELS:
+			return labels != null && !labels.isEmpty();
+		case ComponentPackage.CHART_PREFERENCES__BLOCKS:
+			return blocks != null && !blocks.isEmpty();
 		}
-		return super.eIsSet( featureID );
+		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * @generated
 	 */
-	public ChartPreferences copyInstance( )
-	{
-		ChartPreferencesImpl dest = new ChartPreferencesImpl( );
-		dest.set( this );
+	public ChartPreferences copyInstance() {
+		ChartPreferencesImpl dest = new ChartPreferencesImpl();
+		dest.set(this);
 		return dest;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( ChartPreferences src )
-	{
+	protected void set(ChartPreferences src) {
 
 		// children
 
-		if ( src.getLabels( ) != null )
-		{
-			EList<Label> list = getLabels( );
-			for ( Label element : src.getLabels( ) )
-			{
-				list.add( element.copyInstance( ) );
+		if (src.getLabels() != null) {
+			EList<Label> list = getLabels();
+			for (Label element : src.getLabels()) {
+				list.add(element.copyInstance());
 			}
 		}
 
-		if ( src.getBlocks( ) != null )
-		{
-			EList<Block> list = getBlocks( );
-			for ( Block element : src.getBlocks( ) )
-			{
-				list.add( element.copyInstance( ) );
+		if (src.getBlocks() != null) {
+			EList<Block> list = getBlocks();
+			for (Block element : src.getBlocks()) {
+				list.add(element.copyInstance());
 			}
 		}
 

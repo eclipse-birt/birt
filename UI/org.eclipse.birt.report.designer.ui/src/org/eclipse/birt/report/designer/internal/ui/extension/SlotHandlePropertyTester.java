@@ -18,41 +18,28 @@ import org.eclipse.core.expressions.PropertyTester;
 /**
  * SlotHandlePropertyTester
  */
-public class SlotHandlePropertyTester extends PropertyTester
-{
+public class SlotHandlePropertyTester extends PropertyTester {
 
-	public SlotHandlePropertyTester( )
-	{
+	public SlotHandlePropertyTester() {
 	}
 
-	public boolean test( Object receiver, String property, Object[] args,
-			Object expectedValue )
-	{
-		if ( "id".equals( property ) ) //$NON-NLS-1$
+	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
+		if ("id".equals(property)) //$NON-NLS-1$
 		{
-			if ( receiver instanceof SlotHandle )
-			{
-				try
-				{
-					int slotId = Integer.parseInt( expectedValue.toString( ) );
-					return slotId == ( (SlotHandle) receiver ).getSlotID( );
-				}
-				catch ( NumberFormatException e )
-				{
+			if (receiver instanceof SlotHandle) {
+				try {
+					int slotId = Integer.parseInt(expectedValue.toString());
+					return slotId == ((SlotHandle) receiver).getSlotID();
+				} catch (NumberFormatException e) {
 				}
 			}
-		}
-		else if ( "elementName".equals( property ) ) //$NON-NLS-1$
+		} else if ("elementName".equals(property)) //$NON-NLS-1$
 		{
-			if ( receiver instanceof SlotHandle )
-			{
-				try
-				{
-					DesignElementHandle handle = ( (SlotHandle) receiver ).getElementHandle( );
-					return handle.getDefn( ).getName( ).equals( expectedValue );
-				}
-				catch ( NumberFormatException e )
-				{
+			if (receiver instanceof SlotHandle) {
+				try {
+					DesignElementHandle handle = ((SlotHandle) receiver).getElementHandle();
+					return handle.getDefn().getName().equals(expectedValue);
+				} catch (NumberFormatException e) {
 				}
 			}
 		}

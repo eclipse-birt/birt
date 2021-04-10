@@ -18,8 +18,7 @@ import java.io.IOException;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
-class BTreeHead implements BTreeConstants
-{
+class BTreeHead implements BTreeConstants {
 
 	int version;
 	boolean allowDuplicate;
@@ -31,8 +30,7 @@ class BTreeHead implements BTreeConstants
 	int totalKeys;
 	int totalValues;
 
-	BTreeHead( )
-	{
+	BTreeHead() {
 		version = BTREE_VERSION_0;
 		totalLevels = 0;
 		totalKeys = 0;
@@ -44,48 +42,41 @@ class BTreeHead implements BTreeConstants
 		rootNodeId = -1;
 	}
 
-	void read( DataInput in ) throws IOException
-	{
-		long tag = in.readLong( );
-		if ( tag != MAGIC_TAG )
-		{
-			throw new IOException( CoreMessages.getFormattedString(
-					ResourceConstants.INVALID_MAGIC_TAG,
-					new Object[]{Long.toHexString( tag )} ) );
+	void read(DataInput in) throws IOException {
+		long tag = in.readLong();
+		if (tag != MAGIC_TAG) {
+			throw new IOException(CoreMessages.getFormattedString(ResourceConstants.INVALID_MAGIC_TAG,
+					new Object[] { Long.toHexString(tag) }));
 		}
-		version = in.readInt( );
-		if ( version != BTREE_VERSION_0 )
-		{
-			throw new IOException( CoreMessages.getFormattedString(
-					ResourceConstants.UNSUPPORTED_VERSION,
-					new Object[]{version} ) );
+		version = in.readInt();
+		if (version != BTREE_VERSION_0) {
+			throw new IOException(
+					CoreMessages.getFormattedString(ResourceConstants.UNSUPPORTED_VERSION, new Object[] { version }));
 		}
-		readV0( in );
+		readV0(in);
 	}
 
-	void readV0( DataInput in ) throws IOException
-	{
-		allowDuplicate = in.readBoolean( );
-		keySize = in.readShort( );
-		hasValues = in.readBoolean( );
-		valueSize = in.readShort( );
-		rootNodeId = in.readInt( );
-		totalLevels = in.readInt( );
-		totalKeys = in.readInt( );
-		totalValues = in.readInt( );
+	void readV0(DataInput in) throws IOException {
+		allowDuplicate = in.readBoolean();
+		keySize = in.readShort();
+		hasValues = in.readBoolean();
+		valueSize = in.readShort();
+		rootNodeId = in.readInt();
+		totalLevels = in.readInt();
+		totalKeys = in.readInt();
+		totalValues = in.readInt();
 	}
 
-	void write( DataOutput out ) throws IOException
-	{
-		out.writeLong( MAGIC_TAG );
-		out.writeInt( BTREE_VERSION_0 );
-		out.writeBoolean( allowDuplicate );
-		out.writeShort( keySize );
-		out.writeBoolean( hasValues );
-		out.writeShort( valueSize );
-		out.writeInt( rootNodeId );
-		out.writeInt( totalLevels );
-		out.writeInt( totalKeys );
-		out.writeInt( totalValues );
+	void write(DataOutput out) throws IOException {
+		out.writeLong(MAGIC_TAG);
+		out.writeInt(BTREE_VERSION_0);
+		out.writeBoolean(allowDuplicate);
+		out.writeShort(keySize);
+		out.writeBoolean(hasValues);
+		out.writeShort(valueSize);
+		out.writeInt(rootNodeId);
+		out.writeInt(totalLevels);
+		out.writeInt(totalKeys);
+		out.writeInt(totalValues);
 	}
 }

@@ -15,40 +15,33 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointMana
 import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.gef.palette.PaletteRoot;
 
-public class EditorPaletteFactoryTest extends TestCase
-{
+public class EditorPaletteFactoryTest extends TestCase {
 
 	/**
 	 * Test for default palette root when the parameter is not instance of
 	 * ReportGraphicalEditor
 	 */
-	public void testCreatePalette( )
-	{
-		PaletteRoot root = DesignerPaletteFactory.createPalette( );
+	public void testCreatePalette() {
+		PaletteRoot root = DesignerPaletteFactory.createPalette();
 		int size = 3;
-		if ( ExtensionPointManager.getInstance( )
-				.getExtendedElementPoint( ITestConstants.TEST_EXTENSION_NAME ) != null )
-		{
+		if (ExtensionPointManager.getInstance().getExtendedElementPoint(ITestConstants.TEST_EXTENSION_NAME) != null) {
 			size++;
 		}
-		assertEquals( size, root.getChildren( ).size( ) );
+		assertEquals(size, root.getChildren().size());
 	}
 
 	/**
 	 * Test for default palette root when the parameter is null
 	 */
-	public void testCreateReportGraphicalEditorPalette( )
-	{
+	public void testCreateReportGraphicalEditorPalette() {
 
-		PaletteRoot root = MasterPagePaletteFactory.createPalette( );
+		PaletteRoot root = MasterPagePaletteFactory.createPalette();
 		int size = 3;
-		if ( ExtensionPointManager.getInstance( )
-				.getExtendedElementPoint( ITestConstants.TEST_EXTENSION_NAME ) != null )
-		{
+		if (ExtensionPointManager.getInstance().getExtendedElementPoint(ITestConstants.TEST_EXTENSION_NAME) != null) {
 			// extended item is not shown in masterpage.
-			//size++;
+			// size++;
 		}
-		assertEquals( size, root.getChildren( ).size( ) );
+		assertEquals(size, root.getChildren().size());
 	}
 
 	/*
@@ -56,9 +49,8 @@ public class EditorPaletteFactoryTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 
 	}
 
@@ -67,8 +59,7 @@ public class EditorPaletteFactoryTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
+	protected void tearDown() throws Exception {
+		super.tearDown();
 	}
 }

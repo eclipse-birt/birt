@@ -23,49 +23,39 @@ import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
  * Test <code>CrosstabItemFactory</code>
  * 
  */
-public class CrosstabItemFactoryTest extends BaseTestCase
-{
+public class CrosstabItemFactoryTest extends BaseTestCase {
 
 	/**
 	 * Test newReportItem method.
 	 * 
 	 * @throws Exception
 	 */
-	public void testNewReportItem( ) throws Exception
-	{
-		createDesign( );
+	public void testNewReportItem() throws Exception {
+		createDesign();
 
-		IReportItem item = newReportItem(
-				ICrosstabConstants.CROSSTAB_EXTENSION_NAME, designHandle );
-		assertTrue( item instanceof CrosstabReportItemHandle );
+		IReportItem item = newReportItem(ICrosstabConstants.CROSSTAB_EXTENSION_NAME, designHandle);
+		assertTrue(item instanceof CrosstabReportItemHandle);
 
-		item = newReportItem( ICrosstabConstants.CROSSTAB_VIEW_EXTENSION_NAME,
-				designHandle );
-		assertTrue( item instanceof CrosstabViewHandle );
+		item = newReportItem(ICrosstabConstants.CROSSTAB_VIEW_EXTENSION_NAME, designHandle);
+		assertTrue(item instanceof CrosstabViewHandle);
 
-		item = newReportItem( ICrosstabConstants.DIMENSION_VIEW_EXTENSION_NAME,
-				designHandle );
-		assertTrue( item instanceof DimensionViewHandle );
+		item = newReportItem(ICrosstabConstants.DIMENSION_VIEW_EXTENSION_NAME, designHandle);
+		assertTrue(item instanceof DimensionViewHandle);
 
-		item = newReportItem( ICrosstabConstants.LEVEL_VIEW_EXTENSION_NAME,
-				designHandle );
-		assertTrue( item instanceof LevelViewHandle );
+		item = newReportItem(ICrosstabConstants.LEVEL_VIEW_EXTENSION_NAME, designHandle);
+		assertTrue(item instanceof LevelViewHandle);
 
-		item = newReportItem( ICrosstabConstants.MEASURE_VIEW_EXTENSION_NAME,
-				designHandle );
-		assertTrue( item instanceof MeasureViewHandle );
+		item = newReportItem(ICrosstabConstants.MEASURE_VIEW_EXTENSION_NAME, designHandle);
+		assertTrue(item instanceof MeasureViewHandle);
 
-		item = newReportItem( ICrosstabConstants.CROSSTAB_CELL_EXTENSION_NAME,
-				designHandle );
-		assertTrue( item instanceof CrosstabCellHandle );
+		item = newReportItem(ICrosstabConstants.CROSSTAB_CELL_EXTENSION_NAME, designHandle);
+		assertTrue(item instanceof CrosstabCellHandle);
 
-		item = newReportItem(
-				ICrosstabConstants.AGGREGATION_CELL_EXTENSION_NAME,
-				designHandle );
-		assertTrue( item instanceof AggregationCellHandle );
+		item = newReportItem(ICrosstabConstants.AGGREGATION_CELL_EXTENSION_NAME, designHandle);
+		assertTrue(item instanceof AggregationCellHandle);
 
-		item = newReportItem( "notExistExtendsionName", designHandle );//$NON-NLS-1$
-		assertNull( item );
+		item = newReportItem("notExistExtendsionName", designHandle);//$NON-NLS-1$
+		assertNull(item);
 	}
 
 	/**
@@ -75,18 +65,14 @@ public class CrosstabItemFactoryTest extends BaseTestCase
 	 * @param designHandle
 	 * @return
 	 */
-	
-	private IReportItem newReportItem( String extensionName,
-			ReportDesignHandle designHandle )
-	{
-		ExtendedItem extendedItem = new ExtendedItem( );
-		extendedItem.setProperty( IExtendedItemModel.EXTENSION_NAME_PROP,
-				extensionName );
 
-		ExtendedItemHandle extendedItemHandle = (ExtendedItemHandle) extendedItem
-				.getHandle( designHandle.getModule( ) );
-		CrosstabItemFactory factory = new CrosstabItemFactory( );
-		IReportItem item = factory.newReportItem( extendedItemHandle );
+	private IReportItem newReportItem(String extensionName, ReportDesignHandle designHandle) {
+		ExtendedItem extendedItem = new ExtendedItem();
+		extendedItem.setProperty(IExtendedItemModel.EXTENSION_NAME_PROP, extensionName);
+
+		ExtendedItemHandle extendedItemHandle = (ExtendedItemHandle) extendedItem.getHandle(designHandle.getModule());
+		CrosstabItemFactory factory = new CrosstabItemFactory();
+		IReportItem item = factory.newReportItem(extendedItemHandle);
 		return item;
 	}
 }

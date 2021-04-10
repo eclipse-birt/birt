@@ -19,45 +19,36 @@ import org.eclipse.core.expressions.PropertyTester;
 /**
  * ExtendItemHandlePropertyTester
  */
-public class ExtendItemHandlePropertyTester extends PropertyTester
-{
+public class ExtendItemHandlePropertyTester extends PropertyTester {
 
-	public ExtendItemHandlePropertyTester( )
-	{
+	public ExtendItemHandlePropertyTester() {
 	}
 
-	public boolean test( Object receiver, String property, Object[] args,
-			Object expectedValue )
-	{
-		if ( "extensionName".equals( property ) ) //$NON-NLS-1$
+	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
+		if ("extensionName".equals(property)) //$NON-NLS-1$
 		{
-			if ( receiver instanceof ExtendedItemHandle )
-			{
-				String extensionName = expectedValue.toString( );
-				return extensionName.equals( ( (ExtendedItemHandle) receiver ).getExtensionName( ) );
+			if (receiver instanceof ExtendedItemHandle) {
+				String extensionName = expectedValue.toString();
+				return extensionName.equals(((ExtendedItemHandle) receiver).getExtensionName());
 
 			}
-		}
-		else if ( "containerName".equals( property ) ) //$NON-NLS-1$
+		} else if ("containerName".equals(property)) //$NON-NLS-1$
 		{
-			if ( receiver instanceof ExtendedItemHandle )
-			{
-				DesignElementHandle container = ( (ExtendedItemHandle) receiver ).getContainer( );
-				if ( container == null )
+			if (receiver instanceof ExtendedItemHandle) {
+				DesignElementHandle container = ((ExtendedItemHandle) receiver).getContainer();
+				if (container == null)
 					return false;
-				String containerName = expectedValue.toString( );
-				return container.getDefn( ).getName( ).equals( containerName );
+				String containerName = expectedValue.toString();
+				return container.getDefn().getName().equals(containerName);
 			}
-		}
-		else if ( "containerPropertyName".equals( property ) ) //$NON-NLS-1$
+		} else if ("containerPropertyName".equals(property)) //$NON-NLS-1$
 		{
-			if ( receiver instanceof ExtendedItemHandle )
-			{
-				PropertyHandle container = ( (ExtendedItemHandle) receiver ).getContainerPropertyHandle( );
-				if ( container == null )
+			if (receiver instanceof ExtendedItemHandle) {
+				PropertyHandle container = ((ExtendedItemHandle) receiver).getContainerPropertyHandle();
+				if (container == null)
 					return false;
-				String containerName = expectedValue.toString( );
-				return container.getDefn( ).getName( ).equals( containerName );
+				String containerName = expectedValue.toString();
+				return container.getDefn().getName().equals(containerName);
 			}
 		}
 		return false;

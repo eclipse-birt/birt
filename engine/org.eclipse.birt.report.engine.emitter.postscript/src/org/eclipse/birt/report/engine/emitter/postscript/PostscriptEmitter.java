@@ -16,13 +16,9 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
 import org.eclipse.birt.report.engine.layout.emitter.PageEmitter;
 
+public class PostscriptEmitter extends PageEmitter {
 
-public class PostscriptEmitter extends PageEmitter
-{
-
-	public PageDeviceRender createRender( IEmitterServices services )
-			throws EngineException
-	{
-		return new PostscriptRender( services );
+	public PageDeviceRender createRender(IEmitterServices services) throws EngineException {
+		return new PostscriptRender(services);
 	}
 }

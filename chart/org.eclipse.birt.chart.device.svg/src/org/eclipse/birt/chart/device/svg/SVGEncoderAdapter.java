@@ -14,13 +14,13 @@ package org.eclipse.birt.chart.device.svg;
 import org.eclipse.birt.chart.device.util.HTMLEncoderAdapter;
 
 /**
- * This class is responsible to encode/decode special characters for SVG document.
- *  
+ * This class is responsible to encode/decode special characters for SVG
+ * document.
+ * 
  * @since 2.6
  */
 
-public class SVGEncoderAdapter extends HTMLEncoderAdapter
-{
+public class SVGEncoderAdapter extends HTMLEncoderAdapter {
 
 	private static SVGEncoderAdapter instance;
 
@@ -29,20 +29,21 @@ public class SVGEncoderAdapter extends HTMLEncoderAdapter
 	 * 
 	 * @return
 	 */
-	public static SVGEncoderAdapter getInstance( )
-	{
-		if ( instance == null )
-		{
-			instance = new SVGEncoderAdapter( );
+	public static SVGEncoderAdapter getInstance() {
+		if (instance == null) {
+			instance = new SVGEncoderAdapter();
 		}
 		return instance;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.device.util.ICharacterEncoderAdapter#escape(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.device.util.ICharacterEncoderAdapter#escape(java.lang.
+	 * String)
 	 */
-	public String escape( String s )
-	{
+	public String escape(String s) {
 		return s;
 	}
 }

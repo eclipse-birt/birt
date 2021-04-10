@@ -12,35 +12,36 @@
 package org.eclipse.birt.doc.schema;
 
 /**
- * Interface of schema writer 
+ * Interface of schema writer
  *
  */
-public interface ISchemaWriter
-{
+public interface ISchemaWriter {
 
 	/**
 	 * Close the write at the completion of the file.
 	 */
 
-	void close( );
+	void close();
 
 	/**
 	 * Start html
 	 */
-	
-	void startHtml( );
+
+	void startHtml();
 
 	/**
 	 * Close html
 	 */
-	
-	void closeHtml( );
+
+	void closeHtml();
 
 	/**
 	 * Write table row
-	 * @param css css store prop name , allowed value and so on.see <code>CssType</code>
+	 * 
+	 * @param css css store prop name , allowed value and so on.see
+	 *            <code>CssType</code>
 	 */
-	
-	public void writeRow( CssType css );
+
+	public void writeRow(CssType css);
 
 }

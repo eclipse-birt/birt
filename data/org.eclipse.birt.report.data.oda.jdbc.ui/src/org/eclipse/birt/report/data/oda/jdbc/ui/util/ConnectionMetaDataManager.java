@@ -22,74 +22,65 @@ import java.util.Properties;
  * @version $Revision: 1.5 $ $Date: 2007/02/01 10:58:57 $
  */
 
-public class ConnectionMetaDataManager implements Serializable
-{
+public class ConnectionMetaDataManager implements Serializable {
 
 	/**
 	 * serial version id
 	 */
 	private static final long serialVersionUID = -5760267960286269980L;
 
-	private ArrayList metaDatas = new ArrayList( );
+	private ArrayList metaDatas = new ArrayList();
 
-	private static ConnectionMetaDataManager manager = new ConnectionMetaDataManager( );
+	private static ConnectionMetaDataManager manager = new ConnectionMetaDataManager();
 
 	/**
 	 *  
 	 */
-	private ConnectionMetaDataManager( )
-	{
-		super( );
+	private ConnectionMetaDataManager() {
+		super();
 	}
 
-	public static final ConnectionMetaDataManager getInstance( )
-	{
+	public static final ConnectionMetaDataManager getInstance() {
 		return manager;
 	}
 
-	public ConnectionMetaData getMetaData( String classname, String url,
-			String username, String password, 
-			Properties properties, long timeout )
-	{
-		//construct a new meta data instance
-		ConnectionMetaData metaData = new ConnectionMetaData( );
-		metaData.setClassname( classname );
-		metaData.setUrl( url );
-		metaData.setUsername( username );
-		metaData.setPassword( password );
-		metaData.setProperties( properties );
-		metaData.setTimeout( timeout );
+	public ConnectionMetaData getMetaData(String classname, String url, String username, String password,
+			Properties properties, long timeout) {
+		// construct a new meta data instance
+		ConnectionMetaData metaData = new ConnectionMetaData();
+		metaData.setClassname(classname);
+		metaData.setUrl(url);
+		metaData.setUsername(username);
+		metaData.setPassword(password);
+		metaData.setProperties(properties);
+		metaData.setTimeout(timeout);
 
-		//Iterate through the list and find out whether this meta data object
+		// Iterate through the list and find out whether this meta data object
 		// exists
-		Iterator iter = metaDatas.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			ConnectionMetaData data = (ConnectionMetaData) iter.next( );
-			if ( data.equals( metaData ) )
-			{
+		Iterator iter = metaDatas.iterator();
+		while (iter.hasNext()) {
+			ConnectionMetaData data = (ConnectionMetaData) iter.next();
+			if (data.equals(metaData)) {
 				return data;
 			}
 		}
 
-		//If we are here then this is a new item
-		//add it in
-		metaDatas.add( metaData );
+		// If we are here then this is a new item
+		// add it in
+		metaDatas.add(metaData);
 
 		return metaData;
 	}
 
-	public void clearCache( )
-	{
-		//dispose all the meta data instances
-		Iterator iter = metaDatas.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			ConnectionMetaData data = (ConnectionMetaData) iter.next( );
-			data.clearCache( );
+	public void clearCache() {
+		// dispose all the meta data instances
+		Iterator iter = metaDatas.iterator();
+		while (iter.hasNext()) {
+			ConnectionMetaData data = (ConnectionMetaData) iter.next();
+			data.clearCache();
 		}
 
-		metaDatas.clear( );
+		metaDatas.clear();
 	}
 
 	/*
@@ -97,9 +88,8 @@ public class ConnectionMetaDataManager implements Serializable
 	 * 
 	 * @see java.lang.Object#finalize()
 	 */
-	protected void finalize( ) throws Throwable
-	{
-		clearCache( );
-		super.finalize( );
+	protected void finalize() throws Throwable {
+		clearCache();
+		super.finalize();
 	}
 }

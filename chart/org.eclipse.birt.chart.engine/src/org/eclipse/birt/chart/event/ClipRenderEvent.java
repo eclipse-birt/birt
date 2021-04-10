@@ -18,8 +18,7 @@ import org.eclipse.birt.chart.model.attribute.Location;
  * in a device. Support for clipped areas is limited to polygons. In the future,
  * it may be upgraded to support additional arbitrary shape definitions.
  */
-public final class ClipRenderEvent extends PrimitiveRenderEvent
-{
+public final class ClipRenderEvent extends PrimitiveRenderEvent {
 
 	private static final long serialVersionUID = -1609479639743164885L;
 
@@ -28,27 +27,23 @@ public final class ClipRenderEvent extends PrimitiveRenderEvent
 	/**
 	 * The constructor.
 	 */
-	public ClipRenderEvent( Object oSource )
-	{
-		super( oSource );
+	public ClipRenderEvent(Object oSource) {
+		super(oSource);
 	}
 
 	/**
 	 * @return Returns the vertices associated with a polygon.
 	 */
-	public final Location[] getVertices( )
-	{
+	public final Location[] getVertices() {
 		return _loa;
 	}
 
 	/**
 	 * Sets the vertices of the clip.
 	 * 
-	 * @param loa
-	 *            The vertices associated with the polygon area to be clipped
+	 * @param loa The vertices associated with the polygon area to be clipped
 	 */
-	public final void setVertices( Location[] loa )
-	{
+	public final void setVertices(Location[] loa) {
 		_loa = loa;
 	}
 
@@ -57,8 +52,7 @@ public final class ClipRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
-	public void reset( )
-	{
+	public void reset() {
 		this._loa = null;
 
 	}

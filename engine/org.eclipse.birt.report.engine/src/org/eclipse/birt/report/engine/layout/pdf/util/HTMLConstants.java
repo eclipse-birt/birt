@@ -1,8 +1,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.util;
 
-public interface HTMLConstants
-{
+public interface HTMLConstants {
 
 	// html tag
 	public final static String TAG_I = "i";
@@ -43,7 +42,7 @@ public interface HTMLConstants
 	public final static String TAG_UL = "ul"; //$NON-NLS-1$
 	public final static String TAG_LI = "li"; //$NON-NLS-1$
 	public final static String TAG_ADDRESS = "address"; //$NON-NLS-1$
-	public final static String TAG_BODY = "body"; //$NON-NLS-1$ 
+	public final static String TAG_BODY = "body"; //$NON-NLS-1$
 	public final static String TAG_CENTER = "center"; //$NON-NLS-1$
 	public final static String TAG_TABLE = "table"; //$NON-NLS-1$
 	public final static String TAG_TD = "td"; //$NON-NLS-1$

@@ -18,48 +18,40 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
-public class PageBandExecutor extends ReportItemExecutor
-{
+public class PageBandExecutor extends ReportItemExecutor {
 
 	private ArrayList contents;
 	private int nextItem;
 
-	protected PageBandExecutor( MasterPageExecutor parent, ArrayList contents )
-	{
-		super( parent.manager, -1 );
+	protected PageBandExecutor(MasterPageExecutor parent, ArrayList contents) {
+		super(parent.manager, -1);
 		this.parent = parent;
 		this.contents = contents;
 		nextItem = 0;
 	}
 
-	public void close( ) throws BirtException
-	{
+	public void close() throws BirtException {
 		nextItem = 0;
 		contents = null;
-		super.close( );
+		super.close();
 	}
 
-	public IContent execute( )
-	{
-		content = report.createContainerContent( );
-		initializeContent( null, content );
+	public IContent execute() {
+		content = report.createContainerContent();
+		initializeContent(null, content);
 		return content;
 	}
 
-	public boolean hasNextChild( )
-	{
-		return nextItem < contents.size( );
+	public boolean hasNextChild() {
+		return nextItem < contents.size();
 	}
 
-	public IReportItemExecutor getNextChild( )
-	{
-		int itemCount = contents.size( );
-		if ( nextItem < itemCount )
-		{
-			ReportItemDesign itemDesign = (ReportItemDesign) contents
-					.get( nextItem );
+	public IReportItemExecutor getNextChild() {
+		int itemCount = contents.size();
+		if (nextItem < itemCount) {
+			ReportItemDesign itemDesign = (ReportItemDesign) contents.get(nextItem);
 			nextItem++;
-			return manager.createExecutor( this, itemDesign );
+			return manager.createExecutor(this, itemDesign);
 		}
 		return null;
 	}

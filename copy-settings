@@ -1,0 +1,98 @@
+#!/bin/bash
+function addLine() {
+	new_file="$1"
+	line="$2"
+	echo "file: $new_file, line: $line"
+	re='(.*)=(.*)'
+	if [[ $line =~ $re ]]
+	then
+		key=${BASH_REMATCH[1]}
+		value=${BASH_REMATCH[2]}
+		echo "  new: $key = $value"
+		if grep -q "$key=.*" "$new_file"
+		then
+			old_pat="$key=.*"
+			new_pat="$key=$value"
+			echo "  s/$old_pat/$new_pat/"
+			sed --quiet -i -e "s/$old_pat/$new_pat/ ; p" "$new_file"
+		else
+			new_pat="$key=$value"
+			echo "  appending $new_pat"
+			echo "$new_pat" >> "$new_file"
+		fi
+	fi
+}
+for filename in $(find . -name ".project")
+do
+	dir="$(dirname $filename)"
+	if grep -q "org\.eclipse\.jdt\.core\.javanature" "$dir/.project"; then
+		echo "java nature found in $dir"
+		#save previous settings
+		if [ -d "$dir/.settings" ]
+		then
+			if [ -d "/tmp/previous-settings" ]
+			then
+				rm -rf "/tmp/previous-settings"
+			fi
+			mkdir -p "/tmp/previous-settings"
+			for f in "org.eclipse.core.runtime.prefs" "org.eclipse.jdt.core.prefs" "org.eclipse.jdt.ui.prefs" "org.eclipse.pde.api.tools.prefs" "org.eclipse.pde.prefs"
+			do
+				file="$dir/.settings/$f"
+				if [ -f "$file" ]; then
+					mv "$file" "/tmp/previous-settings"
+				fi
+			done
+		fi
+		cp -r $HOME/git/eclipse.platform.ui/bundles/org.eclipse.ui/.settings "$dir"
+		#use java 1.8 instead of java 11
+		# was 11
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.8"
+		# was 11
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.compliance=1.8"
+		# was 11
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.source=1.8"
+		#copy back previous settings
+		if [ -d "/tmp/previous-settings" ]
+		then
+			for file in $(find /tmp/previous-settings -name "*.prefs")
+			do
+				new_file="$dir/.settings/$(basename $file)"
+				cat $file | while read line || [[ -n $line ]]
+				do
+					re='^org\.eclipse\.jdt\.core\.formatter\.*'
+					if [[ ! $line =~ $re ]]
+					then
+						addLine "$new_file" "$line"
+					fi
+				done
+			done
+		fi
+		#new settings - relax problem severity
+		# was error
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.problem.discouragedReference=warning"
+		# was error
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.problem.nonExternalizedStringLiteral=warning"
+		# was error
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.problem.unusedPrivateMember=warning"
+		# was error
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.problem.forbiddenReference=warning"
+		# was error
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.incompleteClasspath=warning"
+		# was error
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.problem.unusedImport=warning"
+		# was error
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.problem.overridingPackageDefaultMethod=warning"
+		# was error
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.problem.missingSerialVersion=warning"
+		# was error
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.problem.staticAccessReceiver=warning"
+		# was error
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.problem.unusedLocal=warning"
+		# was 0
+		addLine "$dir/.settings/org.eclipse.pde.prefs" "compilers.p.not-externalized-att=1"
+		# was 0
+		addLine "$dir/.settings/org.eclipse.pde.prefs" "compilers.p.deprecated=1"
+		# was 0
+		addLine "$dir/.settings/org.eclipse.pde.prefs" "compilers.p.unknown-attribute=1"
+	fi
+done

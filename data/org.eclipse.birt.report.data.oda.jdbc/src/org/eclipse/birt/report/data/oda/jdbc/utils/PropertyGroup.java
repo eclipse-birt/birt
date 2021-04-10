@@ -13,35 +13,29 @@ package org.eclipse.birt.report.data.oda.jdbc.utils;
 
 import java.util.List;
 
-public class PropertyGroup
-{
+public class PropertyGroup {
 	private String name;
 	private String description;
 	private List propertyElemList;
 
-	public PropertyGroup( String name, String description )
-	{
+	public PropertyGroup(String name, String description) {
 		this.name = name;
 		this.description = description;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return this.name;
 	}
 
-	public String getDescription( )
-	{
+	public String getDescription() {
 		return this.description;
 	}
 
-	public List<PropertyElement> getProperties( )
-	{
+	public List<PropertyElement> getProperties() {
 		return this.propertyElemList;
 	}
 
-	public void setProperties( List<PropertyElement> properties )
-	{
+	public void setProperties(List<PropertyElement> properties) {
 		this.propertyElemList = properties;
 	}
 }

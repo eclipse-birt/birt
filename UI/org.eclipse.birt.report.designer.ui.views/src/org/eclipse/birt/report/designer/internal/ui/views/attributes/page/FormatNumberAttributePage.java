@@ -24,53 +24,37 @@ import org.eclipse.swt.widgets.Composite;
  * Format number attribute page for formatting numbers.
  */
 
-public class FormatNumberAttributePage extends ResetAttributePage
-{
+public class FormatNumberAttributePage extends ResetAttributePage {
 
 	IFormatPage formatPage;
 	private FormatNumberDescriptorProvider provider;
 	private FormatNumberSection formatSection;
 
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		container.setLayout( new GridLayout( 1, false ) );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(new GridLayout(1, false));
 
-		provider = new FormatNumberDescriptorProvider( );
-		formatSection = new FormatNumberSection( container,
-				IFormatPage.PAGE_ALIGN_VIRTICAL,
-				true );
-		formatSection.setProvider( provider );
-		addSection( PageSectionId.FORMATNUMBER_FORMAT, formatSection );
+		provider = new FormatNumberDescriptorProvider();
+		formatSection = new FormatNumberSection(container, IFormatPage.PAGE_ALIGN_VIRTICAL, true);
+		formatSection.setProvider(provider);
+		addSection(PageSectionId.FORMATNUMBER_FORMAT, formatSection);
 
-		createSections( );
-		layoutSections( );
-		formatSection.addFormatChangeListener( new IFormatChangeListener( ) {
+		createSections();
+		layoutSections();
+		formatSection.addFormatChangeListener(new IFormatChangeListener() {
 
-			public void formatChange( FormatChangeEvent event )
-			{
-				if ( formatSection.getFormatControl( ).isDirty( )
-						&& formatSection.getFormatControl( ).isFormatModified( ) )
-				{
-					try
-					{
-						provider.save( new String[]{
-								event.getCategory( ),
-								event.getPattern( ),
-								event.getLocale( )
-						} );
+			public void formatChange(FormatChangeEvent event) {
+				if (formatSection.getFormatControl().isDirty() && formatSection.getFormatControl().isFormatModified()) {
+					try {
+						provider.save(new String[] { event.getCategory(), event.getPattern(), event.getLocale() });
+					} catch (Exception e) {
+						ExceptionUtil.handle(e);
 					}
-					catch ( Exception e )
-					{
-						ExceptionUtil.handle( e );
-					}
-					if ( event.getCategory( ) != null
-							|| event.getPattern( ) != null )
-					{
-						refresh( );
+					if (event.getCategory() != null || event.getPattern() != null) {
+						refresh();
 					}
 				}
 			}
-		} );
+		});
 	}
 }

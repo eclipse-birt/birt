@@ -34,93 +34,68 @@ import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-public class DifferenceSeriesUIProvider extends DefaultSeriesUIProvider
-{
+public class DifferenceSeriesUIProvider extends DefaultSeriesUIProvider {
 
 	private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl"; //$NON-NLS-1$
 
-	public DifferenceSeriesUIProvider( )
-	{
-		super( );
+	public DifferenceSeriesUIProvider() {
+		super();
 	}
 
-	public Composite getSeriesAttributeSheet( Composite parent, Series series,
-			ChartWizardContext context )
-	{
-		return new DifferenceSeriesAttributeComposite( parent,
-				SWT.NONE,
-				context,
-				series );
+	public Composite getSeriesAttributeSheet(Composite parent, Series series, ChartWizardContext context) {
+		return new DifferenceSeriesAttributeComposite(parent, SWT.NONE, context, series);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
 	 */
-	public String getSeriesClass( )
-	{
+	public String getSeriesClass() {
 		return SERIES_CLASS;
 	}
 
-	public ISelectDataComponent getSeriesDataComponent( int seriesType,
-			SeriesDefinition seriesDefn, ChartWizardContext context,
-			String sTitle )
-	{
-		if ( seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES )
-		{
-			return new DifferenceDataDefinitionComponent( seriesDefn,
-					context,
-					sTitle );
-		}
-		else if ( seriesType == ISelectDataCustomizeUI.GROUPING_SERIES )
-		{
-			BaseDataDefinitionComponent ddc = new YOptionalDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_GROUP,
-					ChartUIConstants.QUERY_OPTIONAL,
-					seriesDefn,
-					seriesDefn.getQuery( ),
-					context,
-					sTitle );
+	public ISelectDataComponent getSeriesDataComponent(int seriesType, SeriesDefinition seriesDefn,
+			ChartWizardContext context, String sTitle) {
+		if (seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES) {
+			return new DifferenceDataDefinitionComponent(seriesDefn, context, sTitle);
+		} else if (seriesType == ISelectDataCustomizeUI.GROUPING_SERIES) {
+			BaseDataDefinitionComponent ddc = new YOptionalDataDefinitionComponent(
+					BaseDataDefinitionComponent.BUTTON_GROUP, ChartUIConstants.QUERY_OPTIONAL, seriesDefn,
+					seriesDefn.getQuery(), context, sTitle);
 			return ddc;
 		}
-		return new DefaultSelectDataComponent( );
+		return new DefaultSelectDataComponent();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series )
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(
+	 * org.eclipse.birt.chart.model.component.Series )
 	 */
-	public AxisType[] getCompatibleAxisType( Series series )
-	{
-		return new AxisType[]{
-				AxisType.LINEAR_LITERAL, AxisType.LOGARITHMIC_LITERAL
-		};
+	public AxisType[] getCompatibleAxisType(Series series) {
+		return new AxisType[] { AxisType.LINEAR_LITERAL, AxisType.LOGARITHMIC_LITERAL };
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
-	 *      org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#
+	 * validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
-	public void validateSeriesBindingType( Series series,
-			IDataServiceProvider idsp ) throws ChartException
-	{
-		Iterator<Query> iterEntries = series.getDataDefinition( ).iterator( );
-		while ( iterEntries.hasNext( ) )
-		{
-			Query query = iterEntries.next( );
-			DataType dataType = idsp.getDataType( query.getDefinition( ) );
-			if ( dataType == DataType.TEXT_LITERAL
-					|| dataType == DataType.DATE_TIME_LITERAL )
-			{
-				final ExpressionCodec codec = ChartModelHelper.instance( )
-						.createExpressionCodec( );
-				codec.decode( query.getDefinition( ) );
-				throw new ChartException( ChartUIExtensionPlugin.ID,
-						ChartException.DATA_BINDING,
-						codec.getExpression( ) );
+	public void validateSeriesBindingType(Series series, IDataServiceProvider idsp) throws ChartException {
+		Iterator<Query> iterEntries = series.getDataDefinition().iterator();
+		while (iterEntries.hasNext()) {
+			Query query = iterEntries.next();
+			DataType dataType = idsp.getDataType(query.getDefinition());
+			if (dataType == DataType.TEXT_LITERAL || dataType == DataType.DATE_TIME_LITERAL) {
+				final ExpressionCodec codec = ChartModelHelper.instance().createExpressionCodec();
+				codec.decode(query.getDefinition());
+				throw new ChartException(ChartUIExtensionPlugin.ID, ChartException.DATA_BINDING, codec.getExpression());
 			}
 		}
 	}
@@ -128,13 +103,12 @@ public class DifferenceSeriesUIProvider extends DefaultSeriesUIProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validationIndex(org.eclipse.birt.chart.model.component.Series)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validationIndex(org.
+	 * eclipse.birt.chart.model.component.Series)
 	 */
-	public int[] validationIndex( Series series )
-	{
-		return new int[]{
-				0, 1
-		};
+	public int[] validationIndex(Series series) {
+		return new int[] { 0, 1 };
 	}
 
 }

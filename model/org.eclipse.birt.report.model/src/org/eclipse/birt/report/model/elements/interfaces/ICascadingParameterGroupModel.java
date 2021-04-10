@@ -15,7 +15,6 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for cascading parameter group element to store the constants.
  */
 
-public interface ICascadingParameterGroupModel extends IIntenalCascadingParameterGroupModel
-{
-	
+public interface ICascadingParameterGroupModel extends IIntenalCascadingParameterGroupModel {
+
 }

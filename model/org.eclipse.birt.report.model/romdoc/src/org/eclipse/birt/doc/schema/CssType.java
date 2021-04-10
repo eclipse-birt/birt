@@ -16,8 +16,7 @@ package org.eclipse.birt.doc.schema;
  * 
  */
 
-public final class CssType
-{
+public final class CssType {
 
 	/**
 	 * name of table property
@@ -55,8 +54,7 @@ public final class CssType
 	 * @return inherited value
 	 */
 
-	public String getInherited( )
-	{
+	public String getInherited() {
 		return inherited;
 	}
 
@@ -66,8 +64,7 @@ public final class CssType
 	 * @param inherited
 	 */
 
-	public void setInherited( String inherited )
-	{
+	public void setInherited(String inherited) {
 		this.inherited = inherited;
 	}
 
@@ -77,8 +74,7 @@ public final class CssType
 	 * @return values
 	 */
 
-	public String getInitialValues( )
-	{
+	public String getInitialValues() {
 		return initialValues;
 	}
 
@@ -88,8 +84,7 @@ public final class CssType
 	 * @param initialValues
 	 */
 
-	public void setInitialValues( String initialValues )
-	{
+	public void setInitialValues(String initialValues) {
 		this.initialValues = initialValues;
 	}
 
@@ -99,8 +94,7 @@ public final class CssType
 	 * @return name
 	 */
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -110,8 +104,7 @@ public final class CssType
 	 * @param name
 	 */
 
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -121,8 +114,7 @@ public final class CssType
 	 * @return w3c values
 	 */
 
-	public String getValues( )
-	{
+	public String getValues() {
 		return values;
 	}
 
@@ -132,8 +124,7 @@ public final class CssType
 	 * @param values
 	 */
 
-	public void setValues( String values )
-	{
+	public void setValues(String values) {
 		this.values = values;
 	}
 
@@ -143,8 +134,7 @@ public final class CssType
 	 * @return birt choice values
 	 */
 
-	public String getBirtChoiceValues( )
-	{
+	public String getBirtChoiceValues() {
 		return birtChoiceValues;
 	}
 
@@ -154,8 +144,7 @@ public final class CssType
 	 * @param birtChoiceValues
 	 */
 
-	public void setBirtChoiceValues( String birtChoiceValues )
-	{
+	public void setBirtChoiceValues(String birtChoiceValues) {
 		this.birtChoiceValues = birtChoiceValues;
 	}
 }

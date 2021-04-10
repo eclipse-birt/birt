@@ -18,27 +18,28 @@ import org.eclipse.debug.core.sourcelookup.containers.LocalFileStorage;
 /**
  * ScriptLocalFileStorage
  */
-public class ScriptLocalFileStorage extends LocalFileStorage
-{
+public class ScriptLocalFileStorage extends LocalFileStorage {
 
 	private String modelIdentifier;
 
-	/**Contructor
+	/**
+	 * Contructor
+	 * 
 	 * @param file
 	 * @param id
 	 */
-	public ScriptLocalFileStorage( File file, String id )
-	{
-		super( file );
+	public ScriptLocalFileStorage(File file, String id) {
+		super(file);
 		this.modelIdentifier = id;
 	}
 
-	/**Gets the model identifier
+	/**
+	 * Gets the model identifier
+	 * 
 	 * @return
 	 */
-	public String getModelIdentifier( )
-	{
+	public String getModelIdentifier() {
 		return modelIdentifier;
 	}
-	
+
 }

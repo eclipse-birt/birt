@@ -18,14 +18,13 @@ public class LengthManager extends AbstractLengthManager {
 	String propertyName;
 	boolean inherit;
 	Value defaultValue;
-	
-	public LengthManager(String propertyName, boolean inherit, Value defaultValue)
-	{
+
+	public LengthManager(String propertyName, boolean inherit, Value defaultValue) {
 		this.propertyName = propertyName;
 		this.inherit = inherit;
 		this.defaultValue = defaultValue;
 	}
-	
+
 	public String getPropertyName() {
 		return propertyName;
 	}

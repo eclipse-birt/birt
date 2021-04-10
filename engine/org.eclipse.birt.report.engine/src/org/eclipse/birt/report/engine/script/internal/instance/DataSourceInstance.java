@@ -15,48 +15,42 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
 
-public class DataSourceInstance implements IDataSourceInstance
-{
+public class DataSourceInstance implements IDataSourceInstance {
 
 	private IDataSourceInstanceHandle dataSource;
 
-	public DataSourceInstance( IDataSourceInstanceHandle dataSource )
-	{
+	public DataSourceInstance(IDataSourceInstanceHandle dataSource) {
 		this.dataSource = dataSource;
 	}
 
-	public String getName( )
-	{
-		return dataSource.getName( );
+	public String getName() {
+		return dataSource.getName();
 	}
 
-	public String getExtensionID( )
-	{
-		return dataSource.getExtensionID( );
+	public String getExtensionID() {
+		return dataSource.getExtensionID();
 	}
 
 	/**
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance#getAllExtensionProperties()
 	 */
-	public Map getAllExtensionProperties()
-	{
+	public Map getAllExtensionProperties() {
 		return dataSource.getAllExtensionProperties();
 	}
 
 	/**
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance#getExtensionProperty(java.lang.String)
 	 */
-	public String getExtensionProperty(String name)
-	{
+	public String getExtensionProperty(String name) {
 		return dataSource.getExtensionProperty(name);
 	}
 
 	/**
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance#setExtensionProperty(java.lang.String, java.lang.String)
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance#setExtensionProperty(java.lang.String,
+	 *      java.lang.String)
 	 */
-	public void setExtensionProperty(String name, String value)
-	{
-		dataSource.setExtensionProperty( name, value );
+	public void setExtensionProperty(String name, String value) {
+		dataSource.setExtensionProperty(name, value);
 	}
 
 }

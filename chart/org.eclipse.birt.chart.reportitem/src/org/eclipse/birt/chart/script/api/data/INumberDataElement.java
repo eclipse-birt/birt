@@ -12,8 +12,8 @@
 package org.eclipse.birt.chart.script.api.data;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Number Data Element</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Number
+ * Data Element</b></em>'. <!-- end-user-doc -->
  * 
  * <!-- begin-model-doc -->
  * 
@@ -22,8 +22,7 @@ package org.eclipse.birt.chart.script.api.data;
  * <!-- end-model-doc -->
  */
 
-public interface INumberDataElement extends IDataElement
-{
+public interface INumberDataElement extends IDataElement {
 
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute. <!--
@@ -36,16 +35,16 @@ public interface INumberDataElement extends IDataElement
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(double)
 	 */
-	double getValue( );
+	double getValue();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.NumberDataElement#getValue <em>Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.data.NumberDataElement#getValue
+	 * <em>Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param value
-	 *            the new value of the '<em>Value</em>' attribute.
+	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #getValue()
 	 */
-	void setValue( double value );
+	void setValue(double value);
 
 }

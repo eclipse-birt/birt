@@ -15,36 +15,34 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 /**
  * 
  */
-public class JointDataSetQuery extends BaseQuery
-{
+public class JointDataSetQuery extends BaseQuery {
 	//
 	private IResultClass meta;
-	
+
 	/**
-	 * Constructor 
+	 * Constructor
 	 * 
 	 * @param resultClass
 	 */
-	public JointDataSetQuery( IResultClass resultClass )
-	{
+	public JointDataSetQuery(IResultClass resultClass) {
 		meta = resultClass;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IQuery#close()
 	 */
-	public void close( )
-	{
-		
+	public void close() {
+
 	}
 
 	/**
 	 * Return the result class of this joint data set.
+	 * 
 	 * @return
 	 */
-	public IResultClass getResultClass( )
-	{
+	public IResultClass getResultClass() {
 		return meta;
 	}
 

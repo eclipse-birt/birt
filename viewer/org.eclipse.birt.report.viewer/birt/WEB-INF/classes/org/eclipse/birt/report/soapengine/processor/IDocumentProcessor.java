@@ -17,8 +17,7 @@ import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 
-public interface IDocumentProcessor
-{
+public interface IDocumentProcessor {
 
 	/**
 	 * Handle page navigation.
@@ -27,8 +26,7 @@ public interface IDocumentProcessor
 	 * @param op
 	 * @param response
 	 */
-	void handleGetPage( IContext context, Operation op,
-			GetUpdatedObjectsResponse response ) throws RemoteException;
+	void handleGetPage(IContext context, Operation op, GetUpdatedObjectsResponse response) throws RemoteException;
 
 	/**
 	 * Handle change parameter.
@@ -37,8 +35,8 @@ public interface IDocumentProcessor
 	 * @param op
 	 * @param response
 	 */
-	void handleChangeParameter( IContext context, Operation op,
-			GetUpdatedObjectsResponse response ) throws RemoteException;
+	void handleChangeParameter(IContext context, Operation op, GetUpdatedObjectsResponse response)
+			throws RemoteException;
 
 	/**
 	 * Handle cache parameter.
@@ -47,8 +45,8 @@ public interface IDocumentProcessor
 	 * @param op
 	 * @param response
 	 */
-	void handleCacheParameter( IContext context, Operation op,
-			GetUpdatedObjectsResponse response ) throws RemoteException;
+	void handleCacheParameter(IContext context, Operation op, GetUpdatedObjectsResponse response)
+			throws RemoteException;
 
 	/**
 	 * Handle getting cascade parameter selection list.
@@ -58,8 +56,8 @@ public interface IDocumentProcessor
 	 * @param response
 	 * @throws RemoteException
 	 */
-	void handleGetCascadingParameter( IContext context, Operation op,
-			GetUpdatedObjectsResponse response ) throws RemoteException;
+	void handleGetCascadingParameter(IContext context, Operation op, GetUpdatedObjectsResponse response)
+			throws RemoteException;
 
 	/**
 	 * Handle retrieve toc nodes.
@@ -69,8 +67,7 @@ public interface IDocumentProcessor
 	 * @param response
 	 * @throws RemoteException
 	 */
-	void handleGetToc( IContext context, Operation op,
-			GetUpdatedObjectsResponse response ) throws RemoteException;
+	void handleGetToc(IContext context, Operation op, GetUpdatedObjectsResponse response) throws RemoteException;
 
 	/**
 	 * Do export data from report.
@@ -80,8 +77,7 @@ public interface IDocumentProcessor
 	 * @param response
 	 * @throws RemoteException
 	 */
-	void handleQueryExport( IContext context, Operation op,
-			GetUpdatedObjectsResponse response ) throws RemoteException;
+	void handleQueryExport(IContext context, Operation op, GetUpdatedObjectsResponse response) throws RemoteException;
 
 	/**
 	 * Handle cancel task.
@@ -90,9 +86,8 @@ public interface IDocumentProcessor
 	 * @param op
 	 * @param response
 	 */
-	void handleCancelTask( IContext context, Operation op,
-			GetUpdatedObjectsResponse response ) throws RemoteException;
-	
+	void handleCancelTask(IContext context, Operation op, GetUpdatedObjectsResponse response) throws RemoteException;
+
 	/**
 	 * Handle get page all.
 	 * 
@@ -100,6 +95,5 @@ public interface IDocumentProcessor
 	 * @param op
 	 * @param response
 	 */
-	void handleGetPageAll( IContext context, Operation op,
-			GetUpdatedObjectsResponse response ) throws RemoteException;
+	void handleGetPageAll(IContext context, Operation op, GetUpdatedObjectsResponse response) throws RemoteException;
 }

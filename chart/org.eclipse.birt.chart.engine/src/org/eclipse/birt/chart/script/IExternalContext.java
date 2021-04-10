@@ -19,8 +19,7 @@ import org.mozilla.javascript.Scriptable;
  * This interface defines an common context adapter which provide scriptable
  * context object or plain context object.
  */
-public interface IExternalContext extends Serializable
-{
+public interface IExternalContext extends Serializable {
 
 	/**
 	 * Returns the scriptable context object which is used in the javascript
@@ -28,12 +27,12 @@ public interface IExternalContext extends Serializable
 	 * 
 	 * @return
 	 */
-	Scriptable getScriptable( );
+	Scriptable getScriptable();
 
 	/**
 	 * Returns the plain context object which is used in pure java environment.
 	 * 
 	 * @return
 	 */
-	Object getObject( );
+	Object getObject();
 }

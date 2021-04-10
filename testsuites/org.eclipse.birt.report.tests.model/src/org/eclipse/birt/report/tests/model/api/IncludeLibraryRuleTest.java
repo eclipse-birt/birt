@@ -58,8 +58,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </table>
  * 
  */
-public class IncludeLibraryRuleTest extends BaseTestCase
-{
+public class IncludeLibraryRuleTest extends BaseTestCase {
 
 	String fileName = "BlankReport.xml";
 	String libfileName = "DesignIncludeLibraryTest.xml";
@@ -71,101 +70,83 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 
 	private String outLibA = "LibA.xml";
 
-
-	public IncludeLibraryRuleTest( String name )
-	{
-		super( name );
+	public IncludeLibraryRuleTest(String name) {
+		super(name);
 	}
 
-	public static Test suite( )
-	{
+	public static Test suite() {
 
-		return new TestSuite( IncludeLibraryRuleTest.class );
+		return new TestSuite(IncludeLibraryRuleTest.class);
 	}
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		copyInputToFile ( INPUT_FOLDER + "/" + fileName );
-		copyInputToFile ( INPUT_FOLDER + "/" + libfileName );
-		copyInputToFile ( INPUT_FOLDER + "/" + LibA );
-		copyInputToFile ( INPUT_FOLDER + "/" + LibB );
-		copyInputToFile ( INPUT_FOLDER + "/" + LibC );
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		copyInputToFile(INPUT_FOLDER + "/" + fileName);
+		copyInputToFile(INPUT_FOLDER + "/" + libfileName);
+		copyInputToFile(INPUT_FOLDER + "/" + LibA);
+		copyInputToFile(INPUT_FOLDER + "/" + LibB);
+		copyInputToFile(INPUT_FOLDER + "/" + LibC);
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
-	
+
 	/**
 	 * 
 	 * @throws Exception
 	 */
-	public void testIncludeLibraryRule1( ) throws Exception
-	{
+	public void testIncludeLibraryRule1() throws Exception {
 
-		openDesign( fileName );
-		designHandle.includeLibrary( LibA, "LibA" );
-		designHandle.includeLibrary( LibB, "LibB" );
-		designHandle.includeLibrary( LibC, "LibC" );
+		openDesign(fileName);
+		designHandle.includeLibrary(LibA, "LibA");
+		designHandle.includeLibrary(LibB, "LibB");
+		designHandle.includeLibrary(LibC, "LibC");
 
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public void testIncludeLibraryRule2( ) throws Exception
-	{
-		openDesign( fileName );
+	public void testIncludeLibraryRule2() throws Exception {
+		openDesign(fileName);
 
-		try
-		{
-			designHandle.includeLibrary( LibA, "" );
-			designHandle.includeLibrary( LibB, "" );
-			designHandle.includeLibrary( LibC, "" );
-		}
-		catch ( Exception e )
-		{
-			assertNotNull( e );
+		try {
+			designHandle.includeLibrary(LibA, "");
+			designHandle.includeLibrary(LibB, "");
+			designHandle.includeLibrary(LibC, "");
+		} catch (Exception e) {
+			assertNotNull(e);
 		}
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public void testIncludeLibraryRule3( ) throws Exception
-	{
-		openDesign( fileName );
-		try
-		{
-			designHandle.includeLibrary( LibA, "LibA" );
-			designHandle.includeLibrary( LibB, "LibA" );
-		}
-		catch ( Exception e )
-		{
-			assertNotNull( e );
+	public void testIncludeLibraryRule3() throws Exception {
+		openDesign(fileName);
+		try {
+			designHandle.includeLibrary(LibA, "LibA");
+			designHandle.includeLibrary(LibB, "LibA");
+		} catch (Exception e) {
+			assertNotNull(e);
 		}
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public void testIncludeLibraryRule4( ) throws Exception
-	{
-		openDesign( fileName );
+	public void testIncludeLibraryRule4() throws Exception {
+		openDesign(fileName);
 
-		designHandle.includeLibrary( LibA, "" );
-		try
-		{
-			designHandle.includeLibrary( LibB, "LibA" );
-			fail( );
-		}
-		catch ( Exception e )
-		{
-			assertNotNull( e );
+		designHandle.includeLibrary(LibA, "");
+		try {
+			designHandle.includeLibrary(LibB, "LibA");
+			fail();
+		} catch (Exception e) {
+			assertNotNull(e);
 		}
 
 	}
@@ -173,97 +154,83 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testIncludeLibraryRule5( ) throws Exception
-	{
-		openDesign( fileName );
-		designHandle.includeLibrary( LibA, "" );
-		try
-		{
-			designHandle.includeLibrary( LibA, "LibB" );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertNotNull( e );
+	public void testIncludeLibraryRule5() throws Exception {
+		openDesign(fileName);
+		designHandle.includeLibrary(LibA, "");
+		try {
+			designHandle.includeLibrary(LibA, "LibB");
+			fail();
+		} catch (SemanticException e) {
+			assertNotNull(e);
 		}
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public void testIncludeLibraryRule6( ) throws Exception
-	{
-		openLibrary( LibA );
-		libraryHandle.includeLibrary( LibB, "LibB" );
-		libraryHandle.includeLibrary( LibC, "LibC" );
+	public void testIncludeLibraryRule6() throws Exception {
+		openLibrary(LibA);
+		libraryHandle.includeLibrary(LibB, "LibB");
+		libraryHandle.includeLibrary(LibC, "LibC");
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public void testIncludeLibraryRule7( ) throws Exception
-	{
-		openDesign( fileName );
-		testIncludeLibraryRule6( );
-		designHandle.includeLibrary( LibA, "LibA" );
+	public void testIncludeLibraryRule7() throws Exception {
+		openDesign(fileName);
+		testIncludeLibraryRule6();
+		designHandle.includeLibrary(LibA, "LibA");
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public void testIncludeLibraryRule8( ) throws Exception
-	{
-		openDesign( fileName );
-		testIncludeLibraryRule6( );
-		designHandle.includeLibrary( LibA, "LibA" );
-		designHandle.includeLibrary( LibB, "" );
+	public void testIncludeLibraryRule8() throws Exception {
+		openDesign(fileName);
+		testIncludeLibraryRule6();
+		designHandle.includeLibrary(LibA, "LibA");
+		designHandle.includeLibrary(LibB, "");
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public void testIncludeLibraryRule9( ) throws Exception
-	{
-		openLibrary( LibA );
-		libraryHandle.includeLibrary( LibB, "LibB" );
-		super.saveAs( outLibA );
-		libraryHandle.close( );
+	public void testIncludeLibraryRule9() throws Exception {
+		openLibrary(LibA);
+		libraryHandle.includeLibrary(LibB, "LibB");
+		super.saveAs(outLibA);
+		libraryHandle.close();
 
-		openLibrary( LibB );
-		libraryHandle.includeLibrary( outLibA, "LibA" );
+		openLibrary(LibB);
+		libraryHandle.includeLibrary(outLibA, "LibA");
 
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public void testIncludeLibraryRule10( ) throws Exception
-	{
-		//String fileName = "DesignIncludeLibraryTest.xml";
-		//copyResource_INPUT (libfileName, libfileName);
-		openDesign( libfileName );
-		designHandle.includeLibrary( LibA, "LibA" );
-		designHandle.includeLibrary( LibB, "LibB" );
+	public void testIncludeLibraryRule10() throws Exception {
+		// String fileName = "DesignIncludeLibraryTest.xml";
+		// copyResource_INPUT (libfileName, libfileName);
+		openDesign(libfileName);
+		designHandle.includeLibrary(LibA, "LibA");
+		designHandle.includeLibrary(LibB, "LibB");
 
-		TextItemHandle textDesignHandle = (TextItemHandle) designHandle
-				.findElement( "text1" );
-		assertNotNull( "Text should not be null", textDesignHandle ); //$NON-NLS-1$
-		textDesignHandle.setProperty( StyleHandle.BACKGROUND_COLOR_PROP, null );
-		assertEquals( "#0000FF", textDesignHandle
-				.getStringProperty( "backgroundColor" ) );
+		TextItemHandle textDesignHandle = (TextItemHandle) designHandle.findElement("text1");
+		assertNotNull("Text should not be null", textDesignHandle); //$NON-NLS-1$
+		textDesignHandle.setProperty(StyleHandle.BACKGROUND_COLOR_PROP, null);
+		assertEquals("#0000FF", textDesignHandle.getStringProperty("backgroundColor"));
 
-		StyleHandle styleDesignHandle = (StyleHandle) designHandle
-				.findStyle( "style1" );
-		assertNotNull( "Style should not be null", styleDesignHandle );
-		styleDesignHandle.drop( );
+		StyleHandle styleDesignHandle = (StyleHandle) designHandle.findStyle("style1");
+		assertNotNull("Style should not be null", styleDesignHandle);
+		styleDesignHandle.drop();
 
-		super.saveAs( outputFileName );
-		
-		TextItemHandle text2DesignHandle = (TextItemHandle) designHandle
-				.findElement( "text1" );
-		assertNotNull( "Text should not be null", text2DesignHandle );
-		assertEquals( null, textDesignHandle
-				.getStringProperty( "backgroundColor" ) );
+		super.saveAs(outputFileName);
+
+		TextItemHandle text2DesignHandle = (TextItemHandle) designHandle.findElement("text1");
+		assertNotNull("Text should not be null", text2DesignHandle);
+		assertEquals(null, textDesignHandle.getStringProperty("backgroundColor"));
 	}
 
 }

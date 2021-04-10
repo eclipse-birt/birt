@@ -17,14 +17,13 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
  * 
  *
  */
-public interface ICubeExtractionResults extends IExtractionResults
-{
+public interface ICubeExtractionResults extends IExtractionResults {
 
 	/**
 	 * get the archive reader of the report document.
 	 * 
 	 * @return
 	 */
-	public IDocArchiveReader getReportDocReader( );
+	public IDocArchiveReader getReportDocReader();
 
 }

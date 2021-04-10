@@ -21,14 +21,12 @@ import org.eclipse.birt.report.model.core.Module;
  * Iterates over the clients of an element. A client is an element that
  * references another specified element. For example, if element B extends
  * element A, then element B is a client of element A. Each call to
- * <code>getNext( )</code> returns a handle of type
- * {@link DesignElementHandle}.
+ * <code>getNext( )</code> returns a handle of type {@link DesignElementHandle}.
  * 
  * @see org.eclipse.birt.report.model.core.ReferenceableElement
  */
 
-class ClientIterator implements Iterator
-{
+class ClientIterator implements Iterator {
 
 	/**
 	 * The cached iterator.
@@ -45,42 +43,35 @@ class ClientIterator implements Iterator
 	/**
 	 * Constructs a iterator to return the clients of the given element.
 	 * 
-	 * @param elementHandle
-	 *            handle to the element for which clients are wanted. Must not
-	 *            be <code>null</code>.
+	 * @param elementHandle handle to the element for which clients are wanted. Must
+	 *                      not be <code>null</code>.
 	 */
 
-	public ClientIterator( DesignElementHandle elementHandle )
-	{
+	public ClientIterator(DesignElementHandle elementHandle) {
 		assert elementHandle != null;
 
-		this.module = elementHandle.getModule( );
+		this.module = elementHandle.getModule();
 		assert module != null;
 
-		if ( elementHandle.getElement( ) instanceof IReferencableElement )
-		{
-			IReferencableElement element = (IReferencableElement) elementHandle
-					.getElement( );
-			iter = element.getClientList( ).iterator( );
-		}
-		else
-		{
+		if (elementHandle.getElement() instanceof IReferencableElement) {
+			IReferencableElement element = (IReferencableElement) elementHandle.getElement();
+			iter = element.getClientList().iterator();
+		} else {
 			iter = null;
 		}
 	}
 
 	/**
-	 * Inherited method that is disabled in this iterator; the caller cannot
-	 * remove clients using this class.
+	 * Inherited method that is disabled in this iterator; the caller cannot remove
+	 * clients using this class.
 	 * 
 	 * @see java.util.Iterator#remove()
 	 */
 
-	public void remove( )
-	{
+	public void remove() {
 		// This iterator can not be used to remove anything.
 
-		throw new IllegalOperationException( );
+		throw new IllegalOperationException();
 	}
 
 	/**
@@ -90,11 +81,9 @@ class ClientIterator implements Iterator
 	 * @see java.util.Iterator#hasNext()
 	 */
 
-	public boolean hasNext( )
-	{
-		if ( iter != null )
-		{
-			return iter.hasNext( );
+	public boolean hasNext() {
+		if (iter != null) {
+			return iter.hasNext();
 		}
 		return false;
 	}
@@ -108,12 +97,10 @@ class ClientIterator implements Iterator
 	 * @see DesignElementHandle
 	 */
 
-	public Object next( )
-	{
-		if ( iter != null )
-		{
-			BackRef client = (BackRef) iter.next( );
-			return client.getElement( ).getHandle( module );
+	public Object next() {
+		if (iter != null) {
+			BackRef client = (BackRef) iter.next();
+			return client.getElement().getHandle(module);
 		}
 		return null;
 	}

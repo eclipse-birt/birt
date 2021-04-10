@@ -19,8 +19,7 @@ import junit.framework.TestCase;
  * Page Setup test
  * 
  */
-public class PageSetupTest extends TestCase
-{
+public class PageSetupTest extends TestCase {
 
 	/**
 	 * Test add/getPageSequenceDesign methods
@@ -29,25 +28,24 @@ public class PageSetupTest extends TestCase
 	 * 
 	 * then get it to test if they work correctly
 	 */
-	public void testPageSequence( )
-	{
-		PageSetupDesign pageSetup = new PageSetupDesign( );
+	public void testPageSequence() {
+		PageSetupDesign pageSetup = new PageSetupDesign();
 
-		PageSequenceDesign pageSequence1 = new PageSequenceDesign( );
+		PageSequenceDesign pageSequence1 = new PageSequenceDesign();
 		pageSequence1.setName("seq1");
-		PageSequenceDesign pageSequence2 = new PageSequenceDesign( );
+		PageSequenceDesign pageSequence2 = new PageSequenceDesign();
 		pageSequence2.setName("seq2");
-		
-		//Add
-		pageSetup.addPageSequence( pageSequence1 );
+
+		// Add
+		pageSetup.addPageSequence(pageSequence1);
 		pageSetup.addPageSequence(pageSequence2);
 
-		//Get
+		// Get
 		assertEquals(pageSetup.getPageSequenceCount(), 2);
-		assertEquals( pageSetup.getPageSequence(0), pageSequence1 );
-		assertEquals( pageSetup.getPageSequence(1), pageSequence2 );
-		assertEquals( pageSetup.findPageSequence("seq1"), pageSequence1 );
-		assertEquals( pageSetup.findPageSequence("seq2"), pageSequence2 );
+		assertEquals(pageSetup.getPageSequence(0), pageSequence1);
+		assertEquals(pageSetup.getPageSequence(1), pageSequence2);
+		assertEquals(pageSetup.findPageSequence("seq1"), pageSequence1);
+		assertEquals(pageSetup.findPageSequence("seq2"), pageSequence2);
 	}
 
 	/**
@@ -57,27 +55,23 @@ public class PageSetupTest extends TestCase
 	 * 
 	 * then get the master pages one by one to test if they work correctly
 	 */
-	public void testAddMasterPage( )
-	{
-		PageSetupDesign pageSetup = new PageSetupDesign( );
-		MasterPageDesign[] masterPages = new MasterPageDesign[( new Random( ) )
-				.nextInt( 5 ) + 1];
+	public void testAddMasterPage() {
+		PageSetupDesign pageSetup = new PageSetupDesign();
+		MasterPageDesign[] masterPages = new MasterPageDesign[(new Random()).nextInt(5) + 1];
 
-		//Add
-		for ( int i = 0; i < masterPages.length; i++ )
-		{
+		// Add
+		for (int i = 0; i < masterPages.length; i++) {
 			// We do not support GraphicMasterPageDesign now. So use simple master page
 			// masterPages[i] = new GraphicMasterPageDesign( );
-			masterPages[i] = new SimpleMasterPageDesign( );
+			masterPages[i] = new SimpleMasterPageDesign();
 			masterPages[i].setName("page_" + i);
-			pageSetup.addMasterPage( masterPages[i] );
+			pageSetup.addMasterPage(masterPages[i]);
 		}
 
-		//Get
-		assertEquals( pageSetup.getMasterPageCount( ), masterPages.length );
-		for ( int i = 0; i < masterPages.length; i++ )
-		{
-			assertEquals( pageSetup.getMasterPage( i ), masterPages[i] );
+		// Get
+		assertEquals(pageSetup.getMasterPageCount(), masterPages.length);
+		for (int i = 0; i < masterPages.length; i++) {
+			assertEquals(pageSetup.getMasterPage(i), masterPages[i]);
 			assertEquals(pageSetup.findMasterPage("page_" + i), masterPages[i]);
 		}
 	}

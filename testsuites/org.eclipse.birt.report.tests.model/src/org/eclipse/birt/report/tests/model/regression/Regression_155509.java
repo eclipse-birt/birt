@@ -26,58 +26,49 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Find .properties file and .jar file in resource folder
  */
-public class Regression_155509 extends BaseTestCase
-{
+public class Regression_155509 extends BaseTestCase {
 
 	private String filename = "Regression_155509.xml"; //$NON-NLS-1$
 	private String propfile = "Regression_155509.properties"; //$NON-NLS-1$
 	private String jarfile = "Regression_155509.jar"; //$NON-NLS-1$
 	private ResourceLocatorImpl rl;
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		//copyResource_INPUT( filename , filename );
-		//copyResource_INPUT( propfile , propfile );
-		//copyResource_INPUT( jarfile , jarfile );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		// copyResource_INPUT( filename , filename );
+		// copyResource_INPUT( propfile , propfile );
+		// copyResource_INPUT( jarfile , jarfile );
 
-		copyInputToFile ( INPUT_FOLDER + "/" + filename );
+		copyInputToFile(INPUT_FOLDER + "/" + filename);
 
-		copyInputToFile ( INPUT_FOLDER + "/" + propfile );
+		copyInputToFile(INPUT_FOLDER + "/" + propfile);
 
-		copyInputToFile ( INPUT_FOLDER + "/" + jarfile );
+		copyInputToFile(INPUT_FOLDER + "/" + jarfile);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
-	
+
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_regression_155509( ) throws DesignFileException
-	{
-		openDesign( filename );
-		rl = new ResourceLocatorImpl( );
-		//sessionHandle.setResourceFolder( getClassFolder( ) );
-		sessionHandle.setResourceFolder( getTempFolder( ) +"/"+INPUT_FOLDER);
-		
-		URL jarrsc = rl.findResource(
-				designHandle,
-				jarfile,
-				IResourceLocator.JAR_FILE );
-		assertNotNull( jarrsc );
+	public void test_regression_155509() throws DesignFileException {
+		openDesign(filename);
+		rl = new ResourceLocatorImpl();
+		// sessionHandle.setResourceFolder( getClassFolder( ) );
+		sessionHandle.setResourceFolder(getTempFolder() + "/" + INPUT_FOLDER);
 
-		//sessionHandle.setResourceFolder( this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" );
-		sessionHandle.setResourceFolder(  getTempFolder( ) +"/"+INPUT_FOLDER );
+		URL jarrsc = rl.findResource(designHandle, jarfile, IResourceLocator.JAR_FILE);
+		assertNotNull(jarrsc);
 
-		URL messagersc = rl.findResource(
-				designHandle,
-				"Regression_155509",
-				IResourceLocator.MESSAGE_FILE );
-		assertNotNull( messagersc );
+		// sessionHandle.setResourceFolder( this.getFullQualifiedClassName( ) + "/" +
+		// INPUT_FOLDER + "/" );
+		sessionHandle.setResourceFolder(getTempFolder() + "/" + INPUT_FOLDER);
+
+		URL messagersc = rl.findResource(designHandle, "Regression_155509", IResourceLocator.MESSAGE_FILE);
+		assertNotNull(messagersc);
 
 	}
 

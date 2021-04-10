@@ -35,92 +35,90 @@ import org.eclipse.birt.data.engine.impl.IExecutorHelper;
  * This service is specific to the higher layer, so lower layer has to use the
  * service provided by the higher layer.
  */
-public interface IEventHandler
-{
-	
-	//----------------event notification-----------------------------
-	
+public interface IEventHandler {
+
+	// ----------------event notification-----------------------------
+
 	/**
 	 * The result set transformation can be divided into two phrases, one is for
-	 * data set, and the other is for table/list. This function will be called
-	 * in the middle of the two phrases.
+	 * data set, and the other is for table/list. This function will be called in
+	 * the middle of the two phrases.
 	 * 
-	 * @param resultIterator
-	 *            current result iterator in processed
+	 * @param resultIterator current result iterator in processed
 	 */
-	void handleEndOfDataSetProcess( IResultIterator resultIterator ) throws DataException;
-	
-	//----------------service definition--------------------------------
-	
+	void handleEndOfDataSetProcess(IResultIterator resultIterator) throws DataException;
+
+	// ----------------service definition--------------------------------
+
 	/**
 	 * 
 	 * @param rsObject
 	 * @param name
 	 * @return the value for the specified column name
 	 */
-	Object getValue( IResultObject rsObject, int index, String name )
-			throws DataException;
-	
+	Object getValue(IResultObject rsObject, int index, String name) throws DataException;
+
 	/**
-	 * Determins whether the index or the columnName is referring to row
-	 * position column.
+	 * Determins whether the index or the columnName is referring to row position
+	 * column.
 	 * 
 	 * @param columnName
 	 * @return row[0], row._rowPosition
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	boolean isRowID( int index, String columnName ) throws DataException;
-	
+	boolean isRowID(int index, String columnName) throws DataException;
+
 	/**
-	 * Find the expression with the specified name from the column binding
-	 * table.
+	 * Find the expression with the specified name from the column binding table.
 	 * 
 	 * @return mapped base expression of the specified name
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	IBinding getBinding( String name ) throws DataException;
-	
+	IBinding getBinding(String name) throws DataException;
+
 	/**
 	 * Get column mapping of current query defintion, inc. its subqueries.
+	 * 
 	 * @return
 	 */
 	List<IBinding> getAllColumnBindings();
-	
+
 	/**
-	 * Get column mapping of current query definition. 
+	 * Get column mapping of current query definition.
 	 * 
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
 	Map getColumnBindings() throws DataException;
-	
+
 	/**
 	 * Return a list of IAggrDefinition instances.
 	 * 
 	 * @return
 	 * @throws DataException
 	 */
-	List getAggrDefinitions( ) throws DataException;
-	
+	List getAggrDefinitions() throws DataException;
+
 	/**
 	 * Get the ExecutorHelper instance bound to this IEventHandler.
 	 * 
 	 * @return
 	 */
 	IExecutorHelper getExecutorHelper();
-	
+
 	/**
 	 * Bound an ExcutorHelper to this IEventHandler.
 	 * 
 	 * @param helper
 	 */
-	void setExecutorHelper( IExecutorHelper helper );
-	
+	void setExecutorHelper(IExecutorHelper helper);
+
 	/**
 	 * Get the appContext of the query this Event handler bound to.
+	 * 
 	 * @return
 	 */
-	Map getAppContext( );
-	
-	DataSetRuntime getDataSetRuntime( );
+	Map getAppContext();
+
+	DataSetRuntime getDataSetRuntime();
 }

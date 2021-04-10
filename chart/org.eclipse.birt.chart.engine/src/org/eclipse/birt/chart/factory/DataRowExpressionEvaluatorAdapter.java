@@ -17,31 +17,30 @@ import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 /**
  * An adapter class for IDataRowExpressionEvaluator
  */
-public class DataRowExpressionEvaluatorAdapter implements
-		IDataRowExpressionEvaluator
-{
+public class DataRowExpressionEvaluatorAdapter implements IDataRowExpressionEvaluator {
 
-	protected final ExpressionCodec exprCodec = ChartModelHelper.instance( )
-			.createExpressionCodec( );
+	protected final ExpressionCodec exprCodec = ChartModelHelper.instance().createExpressionCodec();
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang
+	 * .String)
 	 */
-	public Object evaluate( String expression )
-	{
+	public Object evaluate(String expression) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(
+	 * java.lang.String)
 	 */
-	public Object evaluateGlobal( String expression )
-	{
-		return evaluate( expression );
+	public Object evaluateGlobal(String expression) {
+		return evaluate(expression);
 	}
 
 	/*
@@ -49,8 +48,7 @@ public class DataRowExpressionEvaluatorAdapter implements
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
-	public boolean first( )
-	{
+	public boolean first() {
 		return false;
 	}
 
@@ -59,8 +57,7 @@ public class DataRowExpressionEvaluatorAdapter implements
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#next()
 	 */
-	public boolean next( )
-	{
+	public boolean next() {
 		return false;
 	}
 
@@ -69,8 +66,7 @@ public class DataRowExpressionEvaluatorAdapter implements
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#close()
 	 */
-	public void close( )
-	{
+	public void close() {
 		// Doing nothing.
 	}
 

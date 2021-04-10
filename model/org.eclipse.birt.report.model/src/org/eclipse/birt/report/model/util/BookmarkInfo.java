@@ -13,44 +13,37 @@ package org.eclipse.birt.report.model.util;
 
 import org.eclipse.birt.report.model.api.util.IBookmarkInfo;
 
-public class BookmarkInfo implements IBookmarkInfo
-{
+public class BookmarkInfo implements IBookmarkInfo {
 
 	private String displayName;
 	private String bookmark;
 	private String elementType;
 	private int bookmarkType = IBookmarkInfo.CONSTANTS_TYPE;
 
-	public BookmarkInfo( String bookmark, String displayName, String elementType )
-	{
+	public BookmarkInfo(String bookmark, String displayName, String elementType) {
 		this.displayName = displayName;
 		this.bookmark = bookmark;
 		this.elementType = elementType;
 	}
-	
-	public BookmarkInfo( String bookmark, String displayName, String elementType, int bookmarkType )
-	{
+
+	public BookmarkInfo(String bookmark, String displayName, String elementType, int bookmarkType) {
 		this(bookmark, displayName, elementType);
 		this.bookmarkType = bookmarkType;
 	}
 
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
 
-	public String getBookmark( )
-	{
+	public String getBookmark() {
 		return bookmark;
 	}
 
-	public String getElementType( )
-	{
+	public String getElementType() {
 		return elementType;
 	}
 
-	public int getBookmarkType( )
-	{
+	public int getBookmarkType() {
 		return bookmarkType;
 	}
 }

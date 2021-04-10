@@ -16,21 +16,19 @@ import org.eclipse.birt.report.designer.internal.ui.expressions.IExpressionConte
 /**
  * IExpressionHelper
  */
-public interface IExpressionHelper
-{
+public interface IExpressionHelper {
 
-	public String getExpression( );
+	public String getExpression();
 
-	public void setExpression( String expression );
+	public void setExpression(String expression);
 
-	public String getExpressionType( );
+	public String getExpressionType();
 
-	public void setExpressionType( String exprType );
+	public void setExpressionType(String exprType);
 
-	public void notifyExpressionChangeEvent( String oldExpression,
-			String newExpression );
+	public void notifyExpressionChangeEvent(String oldExpression, String newExpression);
 
-	public IExpressionContextFactory getExpressionContextFactory( );
-	
+	public IExpressionContextFactory getExpressionContextFactory();
+
 	Object getContextObject();
 }

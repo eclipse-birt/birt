@@ -17,15 +17,14 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public interface IRDAggrUtil
-{
+public interface IRDAggrUtil {
 
 	/**
 	 * 
 	 * @param aggrName
 	 * @return
 	 */
-	public abstract boolean contains( String aggrName );
+	public abstract boolean contains(String aggrName);
 
 	/**
 	 * Return the group level of certain aggregation.
@@ -33,13 +32,13 @@ public interface IRDAggrUtil
 	 * @param aggrName
 	 * @return
 	 */
-	public abstract int getGroupLevel( String aggrName );
+	public abstract int getGroupLevel(String aggrName);
 
 	/**
 	 * 
 	 * @return
 	 */
-	public abstract boolean isRunningAggr( String aggrName );
+	public abstract boolean isRunningAggr(String aggrName);
 
 	/**
 	 * 
@@ -48,9 +47,7 @@ public interface IRDAggrUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public abstract Object getValue( String aggrName, int groupInstanceIndex )
-			throws DataException;
+	public abstract Object getValue(String aggrName, int groupInstanceIndex) throws DataException;
 
-	
-	public abstract void close( ) throws DataException;
+	public abstract void close() throws DataException;
 }

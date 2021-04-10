@@ -20,43 +20,39 @@ import org.eclipse.birt.report.model.elements.ElementVisitor;
 /**
  * This class represents a Dimension element. Dimension contains a list of
  * hierarchy elements and a foreign key. Use the
- * {@link org.eclipse.birt.report.model.api.olap.DimensionHandle}class to
- * change the properties.
+ * {@link org.eclipse.birt.report.model.api.olap.DimensionHandle}class to change
+ * the properties.
  * 
  */
 
-public class OdaDimension extends Dimension
-{
+public class OdaDimension extends Dimension {
 
 	/**
 	 * Default constructor.
 	 * 
 	 */
 
-	public OdaDimension( )
-	{
+	public OdaDimension() {
 	}
 
 	/**
 	 * Constructs the dimension with the given name.
 	 * 
-	 * @param name
-	 *            name given for this dimension
+	 * @param name name given for this dimension
 	 */
 
-	public OdaDimension( String name )
-	{
-		super( name );
+	public OdaDimension(String name) {
+		super(name);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitOdaDimension( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitOdaDimension(this);
 	}
 
 	/*
@@ -64,35 +60,32 @@ public class OdaDimension extends Dimension
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.ODA_DIMENSION_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.
+	 * birt.report.model.core.Module)
 	 */
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the module of the dimension
+	 * @param module the module of the dimension
 	 * 
 	 * @return an API handle for this element.
 	 */
 
-	public OdaDimensionHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new OdaDimensionHandle( module, this );
+	public OdaDimensionHandle handle(Module module) {
+		if (handle == null) {
+			handle = new OdaDimensionHandle(module, this);
 		}
 		return (OdaDimensionHandle) handle;
 	}

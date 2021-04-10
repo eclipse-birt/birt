@@ -21,35 +21,32 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * A registry of aggregate expressions. Stores all aggregate expressions that appears
- * in a report query or subquery
+ * A registry of aggregate expressions. Stores all aggregate expressions that
+ * appears in a report query or subquery
  */
-public final class AggregateTable
-{
+public final class AggregateTable {
 	/** Array of AggrExprInfo objects to record all aggregates */
 	private List aggrExprInfoList;
-	
+
 	/** */
 	private List groupDefns;
 	private Scriptable scope;
-	
+
 	/** the base query contains aggregate */
 	private BaseQuery baseQuery;
-		
+
 	private String tempDir;
-	
-	private static Logger logger = Logger.getLogger( AggregateTable.class.getName( ) );
+
+	private static Logger logger = Logger.getLogger(AggregateTable.class.getName());
 
 	/**
 	 * Used for de-serialization
 	 */
-	public AggregateTable( String tempDir )
-	{
-		logger.entering( AggregateTable.class.getName( ),
-				"AggregateTable" );
-		this.aggrExprInfoList = new ArrayList( );
+	public AggregateTable(String tempDir) {
+		logger.entering(AggregateTable.class.getName(), "AggregateTable");
+		this.aggrExprInfoList = new ArrayList();
 		this.tempDir = tempDir;
-		logger.exiting( AggregateTable.class.getName( ), "AggregateTable" );
+		logger.exiting(AggregateTable.class.getName(), "AggregateTable");
 	}
 
 	/**
@@ -57,19 +54,14 @@ public final class AggregateTable
 	 * 
 	 * @param query
 	 */
-	public AggregateTable(String tempDir, Scriptable scope, List groupDefns )
-	{
-		this( tempDir );
-		Object[] params = {
-				tempDir, scope, groupDefns
-		};
-		logger.entering( AggregateTable.class.getName( ),
-				"AggregateTable",
-				params );
-		
+	public AggregateTable(String tempDir, Scriptable scope, List groupDefns) {
+		this(tempDir);
+		Object[] params = { tempDir, scope, groupDefns };
+		logger.entering(AggregateTable.class.getName(), "AggregateTable", params);
+
 		this.groupDefns = groupDefns;
 		this.scope = scope;
-		logger.exiting( AggregateTable.class.getName( ), "AggregateTable" );
+		logger.exiting(AggregateTable.class.getName(), "AggregateTable");
 	}
 
 	/**
@@ -77,19 +69,16 @@ public final class AggregateTable
 	 * 
 	 * @param query
 	 */
-	public AggregateTable( String tempDir, BaseQuery query )
-	{
-		this( tempDir );
-		logger.entering( AggregateTable.class.getName( ),
-				"AggregateTable",
-				query );
-		
+	public AggregateTable(String tempDir, BaseQuery query) {
+		this(tempDir);
+		logger.entering(AggregateTable.class.getName(), "AggregateTable", query);
+
 		this.baseQuery = query;
-		logger.exiting( AggregateTable.class.getName( ), "AggregateTable" );
+		logger.exiting(AggregateTable.class.getName(), "AggregateTable");
 	}
-	
-	//--------------registration of aggregation ------------------------------
-	
+
+	// --------------registration of aggregation ------------------------------
+
 	/**
 	 * Returns an implementation of the AggregateRegistry interface used by
 	 * ExpressionCompiler, to register aggregate expressions at the specified
@@ -99,21 +88,17 @@ public final class AggregateTable
 	 * @param afterGroup
 	 * @param cx
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public AggregateRegistry getAggrRegistry( int groupLevel, int calculationLevel,
-			boolean isDetailedRow, ScriptContext cx ) throws DataException
-	{
-		AggrRegistry aggrRegistry = new AggrRegistry( groupLevel,
-				calculationLevel,
-				isDetailedRow,
-				cx );
-		aggrRegistry.prepare( groupDefns, scope, baseQuery, aggrExprInfoList );
+	public AggregateRegistry getAggrRegistry(int groupLevel, int calculationLevel, boolean isDetailedRow,
+			ScriptContext cx) throws DataException {
+		AggrRegistry aggrRegistry = new AggrRegistry(groupLevel, calculationLevel, isDetailedRow, cx);
+		aggrRegistry.prepare(groupDefns, scope, baseQuery, aggrExprInfoList);
 		return aggrRegistry;
 	}
 
-	//--------------calculation of aggregation ------------------------------
-	
+	// --------------calculation of aggregation ------------------------------
+
 	private AggregateCalculator currentCalculator;
 
 	/**
@@ -121,36 +106,31 @@ public final class AggregateTable
 	 * @param scope
 	 * @throws DataException
 	 */
-	public void calculate( IResultIterator odiResult, Scriptable scope, ScriptContext cx )
-			throws DataException
-	{
-		currentCalculator = new AggregateCalculator( tempDir, aggrExprInfoList, odiResult );
-		currentCalculator.calculate( scope, cx );
+	public void calculate(IResultIterator odiResult, Scriptable scope, ScriptContext cx) throws DataException {
+		currentCalculator = new AggregateCalculator(tempDir, aggrExprInfoList, odiResult);
+		currentCalculator.calculate(scope, cx);
 	}
-	
+
 	/**
 	 * @param odiResult
 	 * @param scope
 	 * @param aggrValue
 	 * @throws DataException
 	 */
-	public void calculate( IResultIterator odiResult, Scriptable scope, ScriptContext cx,
-			JSAggrValueObject aggrValue )
-			throws DataException
-	{
-		currentCalculator = new AggregateCalculator( tempDir, aggrExprInfoList, odiResult );
-		currentCalculator.calculate( scope, cx );
+	public void calculate(IResultIterator odiResult, Scriptable scope, ScriptContext cx, JSAggrValueObject aggrValue)
+			throws DataException {
+		currentCalculator = new AggregateCalculator(tempDir, aggrExprInfoList, odiResult);
+		currentCalculator.calculate(scope, cx);
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public Scriptable getJSAggrValueObject( )
-	{
-		if ( currentCalculator == null )
+	public Scriptable getJSAggrValueObject() {
+		if (currentCalculator == null)
 			return null;
 
-		return currentCalculator.getJSAggrValueObject( );
+		return currentCalculator.getJSAggrValueObject();
 	}
-	
+
 }

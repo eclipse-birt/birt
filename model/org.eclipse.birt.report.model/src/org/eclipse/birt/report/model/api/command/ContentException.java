@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * 
  */
 
-public class ContentException extends SemanticException
-{
+public class ContentException extends SemanticException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -48,8 +47,8 @@ public class ContentException extends SemanticException
 	protected String containerProp = null;
 
 	/**
-	 * Can not change the structure of an element if it is a child element, or
-	 * it is within a child element, or it is a template parameter definition.
+	 * Can not change the structure of an element if it is a child element, or it is
+	 * within a child element, or it is a template parameter definition.
 	 */
 
 	public static final String DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN = MessageConstants.CONTENT_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN;
@@ -99,9 +98,9 @@ public class ContentException extends SemanticException
 	public static final String DESIGN_EXCEPTION_RECURSIVE = MessageConstants.CONTENT_EXCEPTION_RECURSIVE;
 
 	/**
-	 * Tried to move or delete an element that has no container. Generally
-	 * occurs when trying to work with an element that either has not yet been
-	 * added to a design, or has been removed from the design.
+	 * Tried to move or delete an element that has no container. Generally occurs
+	 * when trying to work with an element that either has not yet been added to a
+	 * design, or has been removed from the design.
 	 */
 
 	public static final String DESIGN_EXCEPTION_HAS_NO_CONTAINER = MessageConstants.CONTENT_EXCEPTION_HAS_NO_CONTAINER;
@@ -156,8 +155,8 @@ public class ContentException extends SemanticException
 	public static final String DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED = MessageConstants.CONTENT_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED;
 
 	/**
-	 * Error code that indicates that the content can not be inserted twice for
-	 * it is already in the tree.
+	 * Error code that indicates that the content can not be inserted twice for it
+	 * is already in the tree.
 	 */
 
 	public static final String DESIGN_EXCEPTION_CONTENT_ALREADY_INSERTED = MessageConstants.CONTENT_EXCEPTION_CONTENT_ALREADY_INSERTED;
@@ -170,68 +169,52 @@ public class ContentException extends SemanticException
 	public static final String DESIGN_EXCEPTION_INVALID_POSITION = MessageConstants.CONTENT_EXCEPTION_INVALID_POSITION;
 
 	/**
-	 * Error code that indicates that the shared dimension can not be inserted
-	 * to report design and library.
+	 * Error code that indicates that the shared dimension can not be inserted to
+	 * report design and library.
 	 */
 	public static final String DESIGN_EXCEPTION_SHARE_DIMENSION_NOT_EXIST = MessageConstants.CONTENT_EXCEPTION_SHARE_DIMENSION_NOT_EXIST;
 
 	/**
 	 * Constructs the exception with container element, slot id, and error code.
 	 * 
-	 * @param element
-	 *            The container element.
-	 * @param slotID
-	 *            The slot within the container.
-	 * @param errCode
-	 *            What went wrong.
+	 * @param element The container element.
+	 * @param slotID  The slot within the container.
+	 * @param errCode What went wrong.
 	 */
 
-	public ContentException( DesignElement element, int slotID, String errCode )
-	{
-		super( element, errCode );
+	public ContentException(DesignElement element, int slotID, String errCode) {
+		super(element, errCode);
 		slot = slotID;
 	}
 
 	/**
-	 * Constructs the exception with container element slot id, content element
-	 * and error code.
+	 * Constructs the exception with container element slot id, content element and
+	 * error code.
 	 * 
-	 * @param element
-	 *            The container element.
-	 * @param slotID
-	 *            The slot within the container.
-	 * @param content
-	 *            The content in the container element.
-	 * @param errCode
-	 *            What went wrong.
+	 * @param element The container element.
+	 * @param slotID  The slot within the container.
+	 * @param content The content in the container element.
+	 * @param errCode What went wrong.
 	 */
 
-	public ContentException( DesignElement element, int slotID,
-			DesignElement content, String errCode )
-	{
-		super( element, errCode );
+	public ContentException(DesignElement element, int slotID, DesignElement content, String errCode) {
+		super(element, errCode);
 		slot = slotID;
 		this.content = content;
 	}
 
 	/**
-	 * Constructs the exception with container element slot id, content element
-	 * and error code.
+	 * Constructs the exception with container element slot id, content element and
+	 * error code.
 	 * 
-	 * @param element
-	 *            The container element.
-	 * @param slotID
-	 *            The slot within the container.
-	 * @param content
-	 *            The content in the container element.
-	 * @param errCode
-	 *            What went wrong.
+	 * @param element The container element.
+	 * @param slotID  The slot within the container.
+	 * @param content The content in the container element.
+	 * @param errCode What went wrong.
 	 */
 
-	public ContentException( DesignElement element, int slotID,
-			DesignElement content, String errCode, String[] args )
-	{
-		super( element, args, errCode );
+	public ContentException(DesignElement element, int slotID, DesignElement content, String errCode, String[] args) {
+		super(element, args, errCode);
 		slot = slotID;
 		this.content = content;
 	}
@@ -239,39 +222,28 @@ public class ContentException extends SemanticException
 	/**
 	 * Constructs the exception with container element, slot id, and error code.
 	 * 
-	 * @param element
-	 *            The container element.
-	 * @param propName
-	 *            The property name within the container.
-	 * @param errCode
-	 *            What went wrong.
+	 * @param element  The container element.
+	 * @param propName The property name within the container.
+	 * @param errCode  What went wrong.
 	 */
 
-	public ContentException( DesignElement element, String propName,
-			String errCode )
-	{
-		super( element, errCode );
+	public ContentException(DesignElement element, String propName, String errCode) {
+		super(element, errCode);
 		containerProp = propName;
 	}
 
 	/**
-	 * Constructs the exception with container element slot id, content element
-	 * and error code.
+	 * Constructs the exception with container element slot id, content element and
+	 * error code.
 	 * 
-	 * @param element
-	 *            The container element.
-	 * @param propName
-	 *            The property name within the container.
-	 * @param content
-	 *            The content in the container element.
-	 * @param errCode
-	 *            What went wrong.
+	 * @param element  The container element.
+	 * @param propName The property name within the container.
+	 * @param content  The content in the container element.
+	 * @param errCode  What went wrong.
 	 */
 
-	public ContentException( DesignElement element, String propName,
-			DesignElement content, String errCode )
-	{
-		super( element, errCode );
+	public ContentException(DesignElement element, String propName, DesignElement content, String errCode) {
+		super(element, errCode);
 		containerProp = propName;
 		this.content = content;
 	}
@@ -282,26 +254,22 @@ public class ContentException extends SemanticException
 	 * @return the slot ID
 	 */
 
-	public int getSlot( )
-	{
+	public int getSlot() {
 		return slot;
 	}
 
 	/**
-	 * Gets the name of the container. It is either the slot name or the
-	 * property name.
+	 * Gets the name of the container. It is either the slot name or the property
+	 * name.
 	 * 
 	 * @return name of the container
 	 */
-	private String getContainerName( )
-	{
-		if ( containerProp != null
-				&& element.getPropertyDefn( containerProp ) != null )
-		{
+	private String getContainerName() {
+		if (containerProp != null && element.getPropertyDefn(containerProp) != null) {
 			return containerProp;
 		}
 
-		return element.getDefn( ).getSlot( slot ).getDisplayName( );
+		return element.getDefn().getSlot(slot).getDisplayName();
 
 	}
 
@@ -311,69 +279,40 @@ public class ContentException extends SemanticException
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_SLOT_NOT_FOUND
-				|| sResourceKey == DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED )
-		{
-			String param = StringUtil.isBlank( containerProp ) ? String
-					.valueOf( slot ) : containerProp;
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( element ), param} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_NOT_CONTAINER
-				|| sResourceKey == DESIGN_EXCEPTION_HAS_NO_CONTAINER
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_SLOT_NOT_FOUND
+				|| sResourceKey == DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED) {
+			String param = StringUtil.isBlank(containerProp) ? String.valueOf(slot) : containerProp;
+			return ModelMessages.getMessage(sResourceKey, new String[] { getElementName(element), param });
+		} else if (sResourceKey == DESIGN_EXCEPTION_NOT_CONTAINER || sResourceKey == DESIGN_EXCEPTION_HAS_NO_CONTAINER
 				|| sResourceKey == DESIGN_EXCEPTION_MOVE_FORBIDDEN
-				|| sResourceKey == DESIGN_EXCEPTION_HAS_DESCENDENTS )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{getElementName( element )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_CONTENT_NOT_FOUND )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( content ), getContainerName( ),
-					getElementName( element )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_RECURSIVE )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( content ), getElementName( element )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_SLOT_IS_FULL )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getContainerName( ), getElementName( element )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN
-				|| sResourceKey == DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{getElementName( element )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT
+				|| sResourceKey == DESIGN_EXCEPTION_HAS_DESCENDENTS) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { getElementName(element) });
+		} else if (sResourceKey == DESIGN_EXCEPTION_CONTENT_NOT_FOUND) {
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { getElementName(content), getContainerName(), getElementName(element) });
+		} else if (sResourceKey == DESIGN_EXCEPTION_RECURSIVE) {
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { getElementName(content), getElementName(element) });
+		} else if (sResourceKey == DESIGN_EXCEPTION_SLOT_IS_FULL) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { getContainerName(), getElementName(element) });
+		} else if (sResourceKey == DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN
+				|| sResourceKey == DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { getElementName(element) });
+		} else if (sResourceKey == DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT
 				|| sResourceKey == DESIGN_EXCEPTION_CONTENT_NAME_REQUIRED
 				|| sResourceKey == DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT
-				|| sResourceKey == DESIGN_EXCEPTION_CONTENT_ALREADY_INSERTED )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( content ), getElementName( element ),
-					getContainerName( )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE
-				|| sResourceKey == DESIGN_EXCEPTION_DROP_FORBIDDEN )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( element ), getElementName( content ),
-					getContainerName( )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_SHARE_DIMENSION_NOT_EXIST )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( content ),
-					(String) this.oaMessageArguments[0]} );
+				|| sResourceKey == DESIGN_EXCEPTION_CONTENT_ALREADY_INSERTED) {
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { getElementName(content), getElementName(element), getContainerName() });
+		} else if (sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE || sResourceKey == DESIGN_EXCEPTION_DROP_FORBIDDEN) {
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { getElementName(element), getElementName(content), getContainerName() });
+		} else if (sResourceKey == DESIGN_EXCEPTION_SHARE_DIMENSION_NOT_EXIST) {
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { getElementName(content), (String) this.oaMessageArguments[0] });
 		}
 
-		return ModelMessages.getMessage( sResourceKey );
+		return ModelMessages.getMessage(sResourceKey);
 	}
 }

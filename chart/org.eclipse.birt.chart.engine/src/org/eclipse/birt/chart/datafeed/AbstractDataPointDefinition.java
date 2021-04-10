@@ -15,37 +15,36 @@ package org.eclipse.birt.chart.datafeed;
  * The abstract class implements an adapter for subclass.
  * 
  */
-public abstract class AbstractDataPointDefinition implements
-		IDataPointDefinition
-{
+public abstract class AbstractDataPointDefinition implements IDataPointDefinition {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IDataPointDefinition#getDataPointTypes()
 	 */
-	public String[] getDataPointTypes( )
-	{
+	public String[] getDataPointTypes() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.datafeed.IDataPointDefinition#getDisplayText(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.datafeed.IDataPointDefinition#getDisplayText(java.lang
+	 * .String)
 	 */
-	public String getDisplayText( String type )
-	{
+	public String getDisplayText(String type) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.datafeed.IDataPointDefinition#getCompatibleDataType(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.datafeed.IDataPointDefinition#getCompatibleDataType(
+	 * java.lang.String)
 	 */
-	public int getCompatibleDataType( String type )
-	{
+	public int getCompatibleDataType(String type) {
 		return 0;
 	}
 }

@@ -22,50 +22,36 @@ import org.eclipse.birt.report.engine.internal.document.v3.ReportPageExecutorV3;
 import org.eclipse.birt.report.engine.internal.document.v4.ReportPageExecutorV4;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 
-public class ReportPageExecutor extends ReportExecutorWrapper
-{
+public class ReportPageExecutor extends ReportExecutorWrapper {
 
-	public ReportPageExecutor( ExecutionContext context, List pages,
-			boolean paged ) throws BirtException
-	{
-		try
-		{
-			int version = getVersion( context.getReportDocument( ) );
-			switch ( version )
-			{
-				case EXECUTOR_VERSION_3 :
-					executor = new ReportPageExecutorV3( context, pages, paged );
-					break;
-				case EXECUTOR_VERSION_4 :
-					executor = new ReportPageExecutorV4( context, pages, paged );
-					break;
-				default :
-					throw new EngineException( MessageConstants.UNSUPPORTED_DOCUMENT_VERSION_ERROR
-							, version );
+	public ReportPageExecutor(ExecutionContext context, List pages, boolean paged) throws BirtException {
+		try {
+			int version = getVersion(context.getReportDocument());
+			switch (version) {
+			case EXECUTOR_VERSION_3:
+				executor = new ReportPageExecutorV3(context, pages, paged);
+				break;
+			case EXECUTOR_VERSION_4:
+				executor = new ReportPageExecutorV4(context, pages, paged);
+				break;
+			default:
+				throw new EngineException(MessageConstants.UNSUPPORTED_DOCUMENT_VERSION_ERROR, version);
 			}
-		}
-		catch ( IOException ex )
-		{
-			throw new EngineException( ex.getLocalizedMessage( ), ex );
+		} catch (IOException ex) {
+			throw new EngineException(ex.getLocalizedMessage(), ex);
 		}
 
 	}
-	
-	public IPageHint getLayoutPageHint(long pageNumber) throws IOException
-	{
-		if(executor!=null)
-		{
-			if( executor instanceof ReportPageExecutorV3)
-			{
-				return ((ReportPageExecutorV3)executor).getPageHint(pageNumber);
-			}
-			else if(executor instanceof ReportPageExecutorV4)
-			{
-				return ((ReportPageExecutorV4)executor).getPageHint(pageNumber);
+
+	public IPageHint getLayoutPageHint(long pageNumber) throws IOException {
+		if (executor != null) {
+			if (executor instanceof ReportPageExecutorV3) {
+				return ((ReportPageExecutorV3) executor).getPageHint(pageNumber);
+			} else if (executor instanceof ReportPageExecutorV4) {
+				return ((ReportPageExecutorV4) executor).getPageHint(pageNumber);
 			}
 		}
 		return null;
 	}
-	
-	
+
 }

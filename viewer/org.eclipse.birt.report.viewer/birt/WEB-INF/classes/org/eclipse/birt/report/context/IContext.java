@@ -14,26 +14,25 @@ package org.eclipse.birt.report.context;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public interface IContext
-{
+public interface IContext {
 	/**
 	 * Get contained bean.
 	 * 
 	 * @return Returns the bean.
 	 */
-	public BaseAttributeBean getBean( );
-	
+	public BaseAttributeBean getBean();
+
 	/**
 	 * Access request instacne.
 	 * 
 	 * @return Returns the request.
 	 */
-	public HttpServletRequest getRequest( );
+	public HttpServletRequest getRequest();
 
 	/**
 	 * Access response instance.
 	 * 
 	 * @return Returns the request.
 	 */
-	public HttpServletResponse getResponse( );
+	public HttpServletResponse getResponse();
 }

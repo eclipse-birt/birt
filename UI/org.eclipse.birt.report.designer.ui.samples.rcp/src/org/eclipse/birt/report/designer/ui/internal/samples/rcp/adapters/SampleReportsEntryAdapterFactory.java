@@ -15,18 +15,13 @@ import org.eclipse.birt.report.designer.ui.samples.rcp.sampleslocator.RCPSampleR
 import org.eclipse.birt.report.designer.ui.samplesview.sampleslocator.ISampleReportEntry;
 import org.eclipse.core.runtime.IAdapterFactory;
 
-public class SampleReportsEntryAdapterFactory implements IAdapterFactory
-{
+public class SampleReportsEntryAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		return new RCPSampleReportsEntry( );
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		return new RCPSampleReportsEntry();
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			ISampleReportEntry.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { ISampleReportEntry.class };
 	}
 }

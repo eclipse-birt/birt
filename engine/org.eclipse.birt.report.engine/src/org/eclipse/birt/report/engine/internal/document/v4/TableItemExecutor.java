@@ -31,101 +31,79 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
  * the group footer.
  * 
  */
-public class TableItemExecutor extends ListingElementExecutor
-{
+public class TableItemExecutor extends ListingElementExecutor {
 
 	private int rowId = 0;
 
 	/**
-	 * @param context
-	 *            execution context
-	 * @param visitor
-	 *            visitor object for driving the execution
+	 * @param context execution context
+	 * @param visitor visitor object for driving the execution
 	 */
-	protected TableItemExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.TABLEITEM );
+	protected TableItemExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.TABLEITEM);
 	}
 
-	int getRowId( )
-	{
+	int getRowId() {
 		return rowId;
 	}
 
-	void setRowId( int rowId )
-	{
+	void setRowId(int rowId) {
 		this.rowId = rowId;
 	}
 
-	protected IContent doCreateContent( )
-	{
-		return report.createTableContent( );
+	protected IContent doCreateContent() {
+		return report.createTableContent();
 	}
 
-	protected void doExecute( ) throws Exception
-	{
+	protected void doExecute() throws Exception {
 
 		TableItemDesign tableDesign = (TableItemDesign) design;
 		ITableContent tableContent = (ITableContent) content;
 
-		executeQuery( );
+		executeQuery();
 
-		if ( tableContent.getColumnCount( ) == 0 )
-		{
-			for ( int i = 0; i < tableDesign.getColumnCount( ); i++ )
-			{
-				ColumnDesign columnDesign = tableDesign.getColumn( i );
-				Column column = new Column( report );
-				column.setGenerateBy( columnDesign );
+		if (tableContent.getColumnCount() == 0) {
+			for (int i = 0; i < tableDesign.getColumnCount(); i++) {
+				ColumnDesign columnDesign = tableDesign.getColumn(i);
+				Column column = new Column(report);
+				column.setGenerateBy(columnDesign);
 
-				InstanceID iid = new InstanceID( null, columnDesign.getID( ),
-						null );
-				column.setInstanceID( iid );
+				InstanceID iid = new InstanceID(null, columnDesign.getID(), null);
+				column.setInstanceID(iid);
 
-				tableContent.addColumn( column );
+				tableContent.addColumn(column);
 			}
-		}
-		else
-		{
-			int columnCount = tableContent.getColumnCount( );
-			for ( int i = 0; i < columnCount; i++ )
-			{
-				Column column = (Column) tableContent.getColumn( i );
-				InstanceID iid = column.getInstanceID( );
-				if ( iid != null )
-				{
-					long componentId = iid.getComponentID( );
-					ReportElementDesign element = report.getDesign( )
-							.getReportItemByID( componentId );
-					column.setGenerateBy( element );
+		} else {
+			int columnCount = tableContent.getColumnCount();
+			for (int i = 0; i < columnCount; i++) {
+				Column column = (Column) tableContent.getColumn(i);
+				InstanceID iid = column.getInstanceID();
+				if (iid != null) {
+					long componentId = iid.getComponentID();
+					ReportElementDesign element = report.getDesign().getReportItemByID(componentId);
+					column.setGenerateBy(element);
 				}
 			}
 		}
-		
-		//create an empty result set to handle the showIfBlank
-		boolean showIfBlank = "true".equalsIgnoreCase( content.getStyle( )
-				.getShowIfBlank( ) );
-		if ( showIfBlank && rsetEmpty )
-		{
-			createQueryForShowIfBlank( );
+
+		// create an empty result set to handle the showIfBlank
+		boolean showIfBlank = "true".equalsIgnoreCase(content.getStyle().getShowIfBlank());
+		if (showIfBlank && rsetEmpty) {
+			createQueryForShowIfBlank();
 		}
 
 	}
 
-	public void close( )
-	{
-		closeQuery( );
-		super.close( );
+	public void close() {
+		closeQuery();
+		super.close();
 	}
 
-	protected ReportItemExecutor doCreateExecutor( long offset )
-			throws Exception
-	{
-		ReportItemExecutor executor = super.doCreateExecutor( offset );
-		if ( executor instanceof TableBandExecutor )
-		{
+	protected ReportItemExecutor doCreateExecutor(long offset) throws Exception {
+		ReportItemExecutor executor = super.doCreateExecutor(offset);
+		if (executor instanceof TableBandExecutor) {
 			TableBandExecutor bandExecutor = (TableBandExecutor) executor;
-			bandExecutor.setTableExecutor( this );
+			bandExecutor.setTableExecutor(this);
 		}
 		return executor;
 	}

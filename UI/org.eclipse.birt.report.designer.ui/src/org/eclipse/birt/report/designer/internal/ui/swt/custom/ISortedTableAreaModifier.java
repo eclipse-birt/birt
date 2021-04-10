@@ -15,10 +15,9 @@ package org.eclipse.birt.report.designer.internal.ui.swt.custom;
  * 
  */
 
-public interface ISortedTableAreaModifier extends ITableAreaModifier
-{
+public interface ISortedTableAreaModifier extends ITableAreaModifier {
 
-	public boolean moveUp( Object element );
+	public boolean moveUp(Object element);
 
-	public boolean moveDown( Object element );
+	public boolean moveDown(Object element);
 }

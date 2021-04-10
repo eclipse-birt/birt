@@ -13,8 +13,7 @@ package org.eclipse.birt.report.engine.extension.engine;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 
-public interface IReportDocumentExtension
-{
+public interface IReportDocumentExtension {
 
-	public void close( ) throws EngineException;
+	public void close() throws EngineException;
 }

@@ -16,10 +16,9 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.report.engine.ir.Expression;
 
 /**
- * The instance of this class define a data structure used by engine. 
+ * The instance of this class define a data structure used by engine.
  */
-public interface ITotalExprBindings
-{
+public interface ITotalExprBindings {
 	/**
 	 * This method returns the "new expression" in which all reference to "Total"
 	 * expressions are replaced with "row" expressions. Say, "Total.count()+1" ->
@@ -27,13 +26,14 @@ public interface ITotalExprBindings
 	 * 
 	 * @return
 	 */
-	public List<Expression> getNewExpression( );
-	
+	public List<Expression> getNewExpression();
+
 	/**
-	 * This method returns an array of IColumnBinding instance, the column names of which
-	 * will appears in the return of getNewExpression() method. 
+	 * This method returns an array of IColumnBinding instance, the column names of
+	 * which will appears in the return of getNewExpression() method.
+	 * 
 	 * @return
 	 */
 	public IBinding[] getColumnBindings();
-	
+
 }

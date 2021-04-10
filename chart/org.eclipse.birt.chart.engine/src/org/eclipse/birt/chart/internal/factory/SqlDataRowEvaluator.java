@@ -19,8 +19,7 @@ import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 /**
  * A java.sql.ResultSet implementation for IDataRowExpressionEvaluator.
  */
-public class SqlDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
-{
+public class SqlDataRowEvaluator extends DataRowExpressionEvaluatorAdapter {
 
 	private ResultSet set;
 
@@ -29,10 +28,9 @@ public class SqlDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 * 
 	 * @param resultSet
 	 */
-	public SqlDataRowEvaluator( ResultSet resultSet )
-	{
-		if ( resultSet == null )
-			throw new IllegalArgumentException( );
+	public SqlDataRowEvaluator(ResultSet resultSet) {
+		if (resultSet == null)
+			throw new IllegalArgumentException();
 		this.set = resultSet;
 
 	}
@@ -40,16 +38,14 @@ public class SqlDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang
+	 * .String)
 	 */
-	public Object evaluate( String expression )
-	{
-		try
-		{
-			return set.getObject( expression );
-		}
-		catch ( SQLException e )
-		{
+	public Object evaluate(String expression) {
+		try {
+			return set.getObject(expression);
+		} catch (SQLException e) {
 			return null;
 		}
 
@@ -60,14 +56,10 @@ public class SqlDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#next()
 	 */
-	public boolean next( )
-	{
-		try
-		{
-			return set.next( );
-		}
-		catch ( SQLException e )
-		{
+	public boolean next() {
+		try {
+			return set.next();
+		} catch (SQLException e) {
 			return false;
 		}
 	}
@@ -77,15 +69,11 @@ public class SqlDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#close()
 	 */
-	public void close( )
-	{
-		try
-		{
-			set.close( );
-		}
-		catch ( SQLException e )
-		{
-			e.printStackTrace( );
+	public void close() {
+		try {
+			set.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -95,17 +83,13 @@ public class SqlDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
-	public boolean first( )
-	{
-		try
-		{
-			return set.first( );
+	public boolean first() {
+		try {
+			return set.first();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		catch ( SQLException e )
-		{
-			e.printStackTrace( );
-		}
-		
+
 		return false;
 	}
 

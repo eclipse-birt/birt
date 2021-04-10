@@ -16,8 +16,7 @@ import java.util.Collection;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.TreeNode;
 
-public class DocTreeNode extends TreeNode
-{
+public class DocTreeNode extends TreeNode {
 
 	static final int OFFSET_NEXT = 0;
 	static final int OFFSET_CHILD = 4;
@@ -31,27 +30,22 @@ public class DocTreeNode extends TreeNode
 
 	protected Collection<ITreeNode> children;
 
-	public DocTreeNode( )
-	{
+	public DocTreeNode() {
 	}
 
-	public DocTreeNode( TreeNode entry )
-	{
-		super( entry );
+	public DocTreeNode(TreeNode entry) {
+		super(entry);
 	}
 
-	public Collection<ITreeNode> getChildren( )
-	{
+	public Collection<ITreeNode> getChildren() {
 		return children;
 	}
 
-	public DocTreeNode getParent( )
-	{
+	public DocTreeNode getParent() {
 		return parent;
 	}
 
-	public void setParent( DocTreeNode parent )
-	{
+	public void setParent(DocTreeNode parent) {
 		this.parent = parent;
 	}
 }

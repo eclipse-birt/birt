@@ -29,119 +29,88 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.swt.graphics.Image;
 
-
 /**
  * 
  */
 
-public class CrosstabExpressionProvider extends BindingExpressionProvider
-{
-	public CrosstabExpressionProvider( DesignElementHandle handle,
-			ComputedColumnHandle computedColumnHandle )
-	{
-		super( handle, computedColumnHandle );
-		addFilterToProvider( );
+public class CrosstabExpressionProvider extends BindingExpressionProvider {
+	public CrosstabExpressionProvider(DesignElementHandle handle, ComputedColumnHandle computedColumnHandle) {
+		super(handle, computedColumnHandle);
+		addFilterToProvider();
 	}
 
-	protected void addFilterToProvider()
-	{
-		
+	protected void addFilterToProvider() {
+
 	}
-	
-	protected List getChildrenList( Object parent )
-	{
-		if ( parent instanceof DimensionHandle )
-		{
-			List children = new ArrayList( );
-			try
-			{
+
+	protected List getChildrenList(Object parent) {
+		if (parent instanceof DimensionHandle) {
+			List children = new ArrayList();
+			try {
 				DimensionHandle handle = (DimensionHandle) parent;
-				CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
-				for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++ )
-				{
-					DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.ROW_AXIS_TYPE,
-							i );
-					if ( dimensionHandle.getCubeDimension( ).equals( handle ) )
-						children.add( dimensionHandle.getLevel( 0 )
-								.getCubeLevel( ) );
+				CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle();
+				for (int i = 0; i < xtabHandle.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE); i++) {
+					DimensionViewHandle dimensionHandle = xtabHandle.getDimension(ICrosstabConstants.ROW_AXIS_TYPE, i);
+					if (dimensionHandle.getCubeDimension().equals(handle))
+						children.add(dimensionHandle.getLevel(0).getCubeLevel());
 				}
-				for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ); i++ )
-				{
-					DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
-							i );
-					if ( dimensionHandle.getCubeDimension( ).equals( handle ) )
-						children.add( dimensionHandle.getLevel( 0 )
-								.getCubeLevel( ) );
+				for (int i = 0; i < xtabHandle.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE); i++) {
+					DimensionViewHandle dimensionHandle = xtabHandle.getDimension(ICrosstabConstants.COLUMN_AXIS_TYPE,
+							i);
+					if (dimensionHandle.getCubeDimension().equals(handle))
+						children.add(dimensionHandle.getLevel(0).getCubeLevel());
 				}
-			}
-			catch ( ExtendedElementException e )
-			{
+			} catch (ExtendedElementException e) {
 			}
 			return children;
-		}
-		else if ( parent instanceof LevelHandle )
-		{
-			List children = new ArrayList( );
+		} else if (parent instanceof LevelHandle) {
+			List children = new ArrayList();
 			LevelHandle levelHandle = (LevelHandle) parent;
-			try
-			{
-				CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
-				for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++ )
-				{
-					DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.ROW_AXIS_TYPE,
-							i );
-					LevelViewHandle levelViewHandle = dimensionHandle.getLevel( levelHandle.getQualifiedName( ) );
-					if ( levelViewHandle != null )
-						if ( dimensionHandle.getLevelCount( ) > levelViewHandle.getIndex( ) + 1 )
-							children.add( dimensionHandle.getLevel( levelViewHandle.getIndex( ) + 1 )
-									.getCubeLevel( ) );
+			try {
+				CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle();
+				for (int i = 0; i < xtabHandle.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE); i++) {
+					DimensionViewHandle dimensionHandle = xtabHandle.getDimension(ICrosstabConstants.ROW_AXIS_TYPE, i);
+					LevelViewHandle levelViewHandle = dimensionHandle.getLevel(levelHandle.getQualifiedName());
+					if (levelViewHandle != null)
+						if (dimensionHandle.getLevelCount() > levelViewHandle.getIndex() + 1)
+							children.add(dimensionHandle.getLevel(levelViewHandle.getIndex() + 1).getCubeLevel());
 				}
-				for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ); i++ )
-				{
-					DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
-							i );
-					LevelViewHandle levelViewHandle = dimensionHandle.getLevel( levelHandle.getQualifiedName( ) );
-					if ( levelViewHandle != null )
-						if ( dimensionHandle.getLevelCount( ) > levelViewHandle.getIndex( ) + 1 )
-							children.add( dimensionHandle.getLevel( levelViewHandle.getIndex( ) + 1 )
-									.getCubeLevel( ) );
+				for (int i = 0; i < xtabHandle.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE); i++) {
+					DimensionViewHandle dimensionHandle = xtabHandle.getDimension(ICrosstabConstants.COLUMN_AXIS_TYPE,
+							i);
+					LevelViewHandle levelViewHandle = dimensionHandle.getLevel(levelHandle.getQualifiedName());
+					if (levelViewHandle != null)
+						if (dimensionHandle.getLevelCount() > levelViewHandle.getIndex() + 1)
+							children.add(dimensionHandle.getLevel(levelViewHandle.getIndex() + 1).getCubeLevel());
 				}
-			}
-			catch ( ExtendedElementException e )
-			{
+			} catch (ExtendedElementException e) {
 			}
 			return children;
 		}
-		return super.getChildrenList( parent );
+		return super.getChildrenList(parent);
 	}
 
-	protected CrosstabReportItemHandle getCrosstabReportItemHandle( )
-			throws ExtendedElementException
-	{
-		return (CrosstabReportItemHandle) ( (ExtendedItemHandle) elementHandle ).getReportItem( );
+	protected CrosstabReportItemHandle getCrosstabReportItemHandle() throws ExtendedElementException {
+		return (CrosstabReportItemHandle) ((ExtendedItemHandle) elementHandle).getReportItem();
 	}
 
-	public String getDisplayText( Object element )
-	{
-		if ( element instanceof LevelViewHandle )
-			return ( (LevelViewHandle) element ).getCubeLevel( ).getName( );
-		return super.getDisplayText( element );
+	public String getDisplayText(Object element) {
+		if (element instanceof LevelViewHandle)
+			return ((LevelViewHandle) element).getCubeLevel().getName();
+		return super.getDisplayText(element);
 	}
 
-	public Image getImage( Object element )
-	{
-		if ( element instanceof LevelViewHandle )
-			return UIHelper.getImage( BuilderConstants.IMAGE_LEVEL );
-		return super.getImage( element );
+	public Image getImage(Object element) {
+		if (element instanceof LevelViewHandle)
+			return UIHelper.getImage(BuilderConstants.IMAGE_LEVEL);
+		return super.getImage(element);
 	}
 
-	public boolean hasChildren( Object element )
-	{
-		if ( element instanceof LevelHandle )
-		{
-			return getChildrenList( element ).size( ) > 0;
+	public boolean hasChildren(Object element) {
+		if (element instanceof LevelHandle) {
+			return getChildrenList(element).size() > 0;
 		}
-		return super.hasChildren( element );
+		return super.hasChildren(element);
 	}
 
 }

@@ -18,30 +18,27 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
-public class DataDesignTest extends AbstractDesignTestCase
-{
+public class DataDesignTest extends AbstractDesignTestCase {
 	protected DataItemDesign data;
 
-	public void setUp( ) throws Exception
-	{
-		loadDesign("DataItem_test.xml");;
+	public void setUp() throws Exception {
+		loadDesign("DataItem_test.xml");
+		;
 		data = (DataItemDesign) report.getContent(0);
-		assertTrue (data != null);
+		assertTrue(data != null);
 	}
 
-	public void testDataBasic( )
-	{
-		assertEquals( 3, data.getHeight( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 3, data.getWidth( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 2, data.getX( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 3, data.getY( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( "myData", data.getName( ) );
-		assertEquals( "data help", data.getHelpText( ) );
-		assertEquals( "http://www.msn.com", data.getAction( ).getHyperlink( )
-				.getScriptText( ) );
+	public void testDataBasic() {
+		assertEquals(3, data.getHeight().getMeasure(), Double.MIN_VALUE);
+		assertEquals(3, data.getWidth().getMeasure(), Double.MIN_VALUE);
+		assertEquals(2, data.getX().getMeasure(), Double.MIN_VALUE);
+		assertEquals(3, data.getY().getMeasure(), Double.MIN_VALUE);
+		assertEquals("myData", data.getName());
+		assertEquals("data help", data.getHelpText());
+		assertEquals("http://www.msn.com", data.getAction().getHyperlink().getScriptText());
 	}
 
-	//	public void testDataStyle( )
+	// public void testDataStyle( )
 //	{
 //		IStyle style = report.findStyle( data.getStyleName( ) );
 //		assertEquals( "#008000", style.getBackgroundColor( ) );

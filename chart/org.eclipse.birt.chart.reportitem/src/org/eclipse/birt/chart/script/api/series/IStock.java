@@ -7,17 +7,15 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.chart.script.api.series;
 
 import org.eclipse.birt.chart.script.api.component.IValueSeries;
-
 
 /**
  * Represents Stock series of a Chart in the scripting environment
  */
 
-public interface IStock extends IValueSeries
-{
+public interface IStock extends IValueSeries {
 
 }

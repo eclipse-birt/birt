@@ -15,12 +15,10 @@ import javax.olap.cursor.CubeCursor;
 
 import org.mozilla.javascript.Scriptable;
 
-
 /**
  * 
  */
 
-public interface ICubeCursor extends CubeCursor
-{
+public interface ICubeCursor extends CubeCursor {
 	public Scriptable getScope();
 }

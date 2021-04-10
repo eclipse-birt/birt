@@ -15,10 +15,8 @@ package org.eclipse.birt.report.engine.api;
  * 
  */
 
-public class DataIDUtil
-{
-	public static DataID parse(String value)
-	{
-		return DataID.parse( value );
+public class DataIDUtil {
+	public static DataID parse(String value) {
+		return DataID.parse(value);
 	}
 }

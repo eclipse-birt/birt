@@ -19,26 +19,23 @@ package org.eclipse.birt.report.designer.ui.preferences;
  * Description.
  */
 
-public class ItemContent
-{
+public class ItemContent {
 
 	private String defaultName = ""; //$NON-NLS-1$
 	private String displayName = ""; //$NON-NLS-1$
 	private String customName = ""; //$NON-NLS-1$
 	private String description = ""; //$NON-NLS-1$
 
-	public ItemContent( String string )
-	{
-		super( );
-		this.setCustomName( string );
+	public ItemContent(String string) {
+		super();
+		this.setCustomName(string);
 	}
 
 	/**
 	 * 
 	 * @return Return the default name of ItemContent
 	 */
-	public String getDefaultName( )
-	{
+	public String getDefaultName() {
 		return defaultName;
 	}
 
@@ -46,8 +43,7 @@ public class ItemContent
 	 * 
 	 * @return Returns the display name of the ItemContent
 	 */
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
 
@@ -56,9 +52,8 @@ public class ItemContent
 	 * 
 	 * @param string
 	 */
-	public void setDefaultName( String string )
-	{
-		defaultName = string.trim( );
+	public void setDefaultName(String string) {
+		defaultName = string.trim();
 	}
 
 	/**
@@ -66,17 +61,15 @@ public class ItemContent
 	 * 
 	 * @param string
 	 */
-	public void setDisplayName( String string )
-	{
-		displayName = string.trim( );
+	public void setDisplayName(String string) {
+		displayName = string.trim();
 	}
 
 	/**
 	 * 
 	 * @return custom name of ItemContent
 	 */
-	public String getCustomName( )
-	{
+	public String getCustomName() {
 		return customName;
 	}
 
@@ -85,17 +78,15 @@ public class ItemContent
 	 * 
 	 * @param string
 	 */
-	public void setCustomName( String string )
-	{
-		customName = string.trim( );
+	public void setCustomName(String string) {
+		customName = string.trim();
 	}
 
 	/**
 	 * 
 	 * @return the description of ItemContent
 	 */
-	public String getDescription( )
-	{
+	public String getDescription() {
 		return description;
 	}
 
@@ -104,9 +95,8 @@ public class ItemContent
 	 * 
 	 * @param string
 	 */
-	public void setDescription( String string )
-	{
-		description = string.trim( );
+	public void setDescription(String string) {
+		description = string.trim();
 	}
 
 }

@@ -16,28 +16,22 @@ import org.eclipse.birt.report.engine.content.IContent;
 /**
  * ImageItemExecutor
  */
-public class ImageItemExecutor extends ReportItemExecutor
-{
+public class ImageItemExecutor extends ReportItemExecutor {
 
-	public ImageItemExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.IMAGEITEM );
+	public ImageItemExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.IMAGEITEM);
 	}
 
-	protected void doExecute( ) throws Exception
-	{
-		executeQuery( );
+	protected void doExecute() throws Exception {
+		executeQuery();
 	}
 
-	public void close( )
-	{
-		closeQuery( );
-		super.close( );
+	public void close() {
+		closeQuery();
+		super.close();
 	}
 
-	protected IContent doCreateContent( )
-	{
-		throw new IllegalStateException(
-				"can not create the content for image item" );
+	protected IContent doCreateContent() {
+		throw new IllegalStateException("can not create the content for image item");
 	}
 }

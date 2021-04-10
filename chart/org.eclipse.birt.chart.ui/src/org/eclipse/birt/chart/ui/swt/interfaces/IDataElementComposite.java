@@ -19,8 +19,7 @@ import org.eclipse.swt.widgets.Listener;
  * Composite for inputing a DataElement
  */
 
-public interface IDataElementComposite
-{
+public interface IDataElementComposite {
 
 	/**
 	 * Event type of modifying DateElement
@@ -34,21 +33,20 @@ public interface IDataElementComposite
 	 * 
 	 * @return data
 	 */
-	DataElement getDataElement( );
+	DataElement getDataElement();
 
 	/**
 	 * Sets data
 	 * 
-	 * @param data
-	 *            data
+	 * @param data data
 	 */
-	void setDataElement( DataElement data );
+	void setDataElement(DataElement data);
 
-	void setEnabled( boolean enabled );
+	void setEnabled(boolean enabled);
 
-	void setLayoutData( Object layoutData );
+	void setLayoutData(Object layoutData);
 
-	void addListener( Listener listener );
+	void addListener(Listener listener);
 
-	void setEObjectParent( EObject eParent );
+	void setEObjectParent(EObject eParent);
 }

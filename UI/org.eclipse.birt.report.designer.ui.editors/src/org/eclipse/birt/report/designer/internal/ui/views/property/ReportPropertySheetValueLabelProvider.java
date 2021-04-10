@@ -19,53 +19,40 @@ import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelP
 /**
  * Lable provide for property sheet tree view.
  */
-public class ReportPropertySheetValueLabelProvider extends ColumnLabelProvider implements
-		IStyledLabelProvider
-{
+public class ReportPropertySheetValueLabelProvider extends ColumnLabelProvider implements IStyledLabelProvider {
 
-	private static final String PASSWORD_REPLACEMENT = "********";//$NON-NLS-1$ 
+	private static final String PASSWORD_REPLACEMENT = "********";//$NON-NLS-1$
 
-	public String getText( Object element )
-	{
-		String text = getStyledText( element ).toString( );
-		System.out.println( text );
+	public String getText(Object element) {
+		String text = getStyledText(element).toString();
+		System.out.println(text);
 		return text;
 	}
 
-	public StyledString getStyledText( Object element )
-	{
+	public StyledString getStyledText(Object element) {
 		String value = null;
 		GroupPropertyHandle propertyHandle = null;
-		if ( element instanceof GroupPropertyHandleWrapper )
-		{
-			propertyHandle = ( (GroupPropertyHandleWrapper) element ).getModel( );
+		if (element instanceof GroupPropertyHandleWrapper) {
+			propertyHandle = ((GroupPropertyHandleWrapper) element).getModel();
 
-			if ( propertyHandle != null )
-			{
-				if ( propertyHandle.getStringValue( ) != null )
-				{
-					if ( propertyHandle.getPropertyDefn( ).isEncryptable( ) )
-					{
+			if (propertyHandle != null) {
+				if (propertyHandle.getStringValue() != null) {
+					if (propertyHandle.getPropertyDefn().isEncryptable()) {
 						value = PASSWORD_REPLACEMENT;
-					}
-					else
-					{
-						value = propertyHandle.getDisplayValue( );
+					} else {
+						value = propertyHandle.getDisplayValue();
 					}
 				}
 			}
 		}
-		if ( value == null )
-			value = ""; //$NON-NLS-1$ 
-		StyledString styledString = new StyledString( );
-		styledString.append( value );
-		if ( propertyHandle != null
-				&& propertyHandle.getDisplayValue( ) != null
-				&& propertyHandle.getLocalStringValue( ) == null )
-		{
-			styledString.append( " : "
-					+ Messages.getString( "ReportPropertySheetPage.Value.Inherited" ),
-					StyledString.DECORATIONS_STYLER );
+		if (value == null)
+			value = ""; //$NON-NLS-1$
+		StyledString styledString = new StyledString();
+		styledString.append(value);
+		if (propertyHandle != null && propertyHandle.getDisplayValue() != null
+				&& propertyHandle.getLocalStringValue() == null) {
+			styledString.append(" : " + Messages.getString("ReportPropertySheetPage.Value.Inherited"),
+					StyledString.DECORATIONS_STYLER);
 		}
 		return styledString;
 	}

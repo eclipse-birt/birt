@@ -25,155 +25,122 @@ import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 
-public class GroupContent extends AbstractContent implements IGroupContent
-{
+public class GroupContent extends AbstractContent implements IGroupContent {
 
 	Boolean headerRepeat;
-	
+
 	String groupId;
-	
-	GroupContent(IGroupContent group)
-	{
+
+	GroupContent(IGroupContent group) {
 		super(group);
-		this.headerRepeat = Boolean.valueOf(group.isHeaderRepeat( ));
-		this.groupId = group.getGroupID( );
+		this.headerRepeat = Boolean.valueOf(group.isHeaderRepeat());
+		this.groupId = group.getGroupID();
 	}
-	
-	public int getContentType( )
-	{
+
+	public int getContentType() {
 		return GROUP_CONTENT;
 	}
-	
-	GroupContent( IReportContent report )
-	{
-		super( report );
+
+	GroupContent(IReportContent report) {
+		super(report);
 	}
 
-	public IBandContent getHeader( )
-	{
-		return getBand( IBandContent.BAND_GROUP_HEADER );
+	public IBandContent getHeader() {
+		return getBand(IBandContent.BAND_GROUP_HEADER);
 	}
 
-	public IBandContent getFooter( )
-	{
-		return getBand( IBandContent.BAND_GROUP_FOOTER );
+	public IBandContent getFooter() {
+		return getBand(IBandContent.BAND_GROUP_FOOTER);
 	}
 
-	protected IBandContent getBand( int type )
-	{
-		if ( children == null )
-		{
+	protected IBandContent getBand(int type) {
+		if (children == null) {
 			return null;
 		}
-		Iterator iter = children.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Object child = iter.next( );
-			if ( child instanceof IBandContent )
-			{
+		Iterator iter = children.iterator();
+		while (iter.hasNext()) {
+			Object child = iter.next();
+			if (child instanceof IBandContent) {
 				IBandContent band = (IBandContent) child;
-				if ( band.getBandType( ) == type )
-				{
+				if (band.getBandType() == type) {
 					return band;
 				}
 			}
 		}
 		return null;
 	}
-	
-	public String getGroupID( )
-	{
+
+	public String getGroupID() {
 		return groupId;
 	}
-	
-	public void setGroupID(String groupId)
-	{
+
+	public void setGroupID(String groupId) {
 		this.groupId = groupId;
 	}
 
-	public boolean isHeaderRepeat( )
-	{
-		if (headerRepeat != null)
-		{
-			return headerRepeat.booleanValue( );
+	public boolean isHeaderRepeat() {
+		if (headerRepeat != null) {
+			return headerRepeat.booleanValue();
 		}
-		if ( generateBy instanceof GroupDesign )
-		{
+		if (generateBy instanceof GroupDesign) {
 			GroupDesign design = (GroupDesign) generateBy;
-			return design.isHeaderRepeat( );
+			return design.isHeaderRepeat();
 		}
 		return false;
 	}
-	
+
 	transient int groupLevel = -1;
-	public int getGroupLevel()
-	{
-		if ( groupLevel == -1 )
-		{
-			if ( generateBy instanceof GroupDesign )
-			{
+
+	public int getGroupLevel() {
+		if (groupLevel == -1) {
+			if (generateBy instanceof GroupDesign) {
 				GroupDesign design = (GroupDesign) generateBy;
-				groupLevel = design.getGroupLevel( );
-			}
-			else if ( parent instanceof GroupContent )
-			{
-				groupLevel = ( (GroupContent)parent ).getGroupLevel( );
-			}
-			else
-			{
+				groupLevel = design.getGroupLevel();
+			} else if (parent instanceof GroupContent) {
+				groupLevel = ((GroupContent) parent).getGroupLevel();
+			} else {
 				return 0;
 			}
 		}
 		return groupLevel;
 	}
 
-	public void setHeaderRepeat( boolean repeat )
-	{
-		headerRepeat = Boolean.valueOf( repeat );
+	public void setHeaderRepeat(boolean repeat) {
+		headerRepeat = Boolean.valueOf(repeat);
 	}
 
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitGroup( this, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitGroup(this, value);
 	}
 
 	static final protected short FIELD_HEADER_REPEAT = 1500;
 
-	protected void writeFields( DataOutputStream out ) throws IOException
-	{
-		super.writeFields( out );
-		if ( headerRepeat != null )
-		{
-			IOUtil.writeShort( out, FIELD_HEADER_REPEAT);
-			IOUtil.writeBool( out, headerRepeat.booleanValue( ) );
+	protected void writeFields(DataOutputStream out) throws IOException {
+		super.writeFields(out);
+		if (headerRepeat != null) {
+			IOUtil.writeShort(out, FIELD_HEADER_REPEAT);
+			IOUtil.writeBool(out, headerRepeat.booleanValue());
 		}
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in,
-			ClassLoader loader ) throws IOException
-	{
-		switch ( filedId )
-		{
-			case FIELD_HEADER_REPEAT :
-				headerRepeat = Boolean.valueOf( IOUtil.readBool( in ) );
-				break;
-			default :
-				super.readField( version, filedId, in, loader );
+	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
+		switch (filedId) {
+		case FIELD_HEADER_REPEAT:
+			headerRepeat = Boolean.valueOf(IOUtil.readBool(in));
+			break;
+		default:
+			super.readField(version, filedId, in, loader);
 		}
 	}
 
-	public boolean needSave( )
-	{
-		if ( headerRepeat != null )
-		{
+	public boolean needSave() {
+		if (headerRepeat != null) {
 			return true;
 		}
-		return super.needSave( );
+		return super.needSave();
 	}
-	
-	protected IContent cloneContent()
-	{
+
+	protected IContent cloneContent() {
 		return new GroupContent(this);
 	}
 }

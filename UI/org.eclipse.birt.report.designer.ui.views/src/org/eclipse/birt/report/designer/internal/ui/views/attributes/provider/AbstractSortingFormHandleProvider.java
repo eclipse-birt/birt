@@ -29,95 +29,75 @@ import org.eclipse.jface.viewers.Viewer;
  * 
  */
 
-public abstract class AbstractSortingFormHandleProvider extends
-		AbstractDescriptorProvider implements ISortingFormProvider
-{
+public abstract class AbstractSortingFormHandleProvider extends AbstractDescriptorProvider
+		implements ISortingFormProvider {
 
-	protected static Logger logger = Logger.getLogger( AbstractSortingFormHandleProvider.class.getName( ) );
+	protected static Logger logger = Logger.getLogger(AbstractSortingFormHandleProvider.class.getName());
 
 	protected Object input;
 
-	public void setInput( Object input )
-	{
+	public void setInput(Object input) {
 		this.input = input;
 
 	}
 
-	public Object getInput( )
-	{
+	public Object getInput() {
 		return input;
 	}
 
-	public boolean isEnable( )
-	{
-		if ( DEUtil.getInputSize( input ) != 1 )
+	public boolean isEnable() {
+		if (DEUtil.getInputSize(input) != 1)
 			return false;
 		else
 			return true;
 	}
 
-	public boolean isEditable( )
-	{
+	public boolean isEditable() {
 		return true;
 	}
 
-	public boolean edit( int pos )
-	{
-		CommandStack stack = getActionStack( );
-		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
-		if ( !doEditItem( pos ) )
-		{
-			stack.rollback( );
+	public boolean edit(int pos) {
+		CommandStack stack = getActionStack();
+		stack.startTrans(Messages.getString("FormPage.Menu.ModifyProperty")); //$NON-NLS-1$
+		if (!doEditItem(pos)) {
+			stack.rollback();
 			return false;
 		}
-		stack.commit( );
+		stack.commit();
 		return true;
 	}
 
-	public void add( int pos ) throws Exception
-	{
+	public void add(int pos) throws Exception {
 		boolean sucess = false;
-		CommandStack stack = getActionStack( );
-		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
-		try
-		{
-			sucess = doAddItem( pos );
+		CommandStack stack = getActionStack();
+		stack.startTrans(Messages.getString("FormPage.Menu.ModifyProperty")); //$NON-NLS-1$
+		try {
+			sucess = doAddItem(pos);
+		} catch (Exception e) {
+			stack.rollback();
+			throw new Exception(e);
 		}
-		catch ( Exception e )
-		{
-			stack.rollback( );
-			throw new Exception( e );
-		}
-		if ( sucess )
-		{
-			stack.commit( );
-		}
-		else
-		{
-			stack.rollback( );
+		if (sucess) {
+			stack.commit();
+		} else {
+			stack.rollback();
 		}
 	}
 
-	protected CommandStack getActionStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	protected CommandStack getActionStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
-	public FormContentProvider getFormContentProvider(
-			IModelEventProcessor listener, IDescriptorProvider provider )
-	{
-		return new FormContentProvider( listener, provider );
+	public FormContentProvider getFormContentProvider(IModelEventProcessor listener, IDescriptorProvider provider) {
+		return new FormContentProvider(listener, provider);
 	}
 
-	public class FormContentProvider implements IStructuredContentProvider
-	{
+	public class FormContentProvider implements IStructuredContentProvider {
 
 		private IModelEventProcessor listener;
 		private IDescriptorProvider provider;
 
-		public FormContentProvider( IModelEventProcessor listener,
-				IDescriptorProvider provider )
-		{
+		public FormContentProvider(IModelEventProcessor listener, IDescriptorProvider provider) {
 			this.listener = listener;
 			this.provider = provider;
 		}
@@ -125,16 +105,14 @@ public abstract class AbstractSortingFormHandleProvider extends
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
 		 * java.lang.Object)
 		 */
-		public Object[] getElements( Object inputElement )
-		{
+		public Object[] getElements(Object inputElement) {
 			assert provider instanceof AbstractSortingFormHandleProvider;
-			Object[] elements = ( (AbstractSortingFormHandleProvider) provider ).getElements( inputElement );
-			registerEventManager( );
-			deRegisterEventManager( );
+			Object[] elements = ((AbstractSortingFormHandleProvider) provider).getElements(inputElement);
+			registerEventManager();
+			deRegisterEventManager();
 			return elements;
 		}
 
@@ -143,77 +121,62 @@ public abstract class AbstractSortingFormHandleProvider extends
 		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
-		public void dispose( )
-		{
-			if ( !( ( (ISortingFormProvider) provider ) instanceof GroupHandleProvider ) )
+		public void dispose() {
+			if (!(((ISortingFormProvider) provider) instanceof GroupHandleProvider))
 				return;
 
-			Object[] elements = ( (ISortingFormProvider) provider ).getElements( input );
+			Object[] elements = ((ISortingFormProvider) provider).getElements(input);
 
-			if ( elements == null )
-			{
+			if (elements == null) {
 				return;
 			}
-			deRegisterEventManager( );
+			deRegisterEventManager();
 		}
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
-		public void inputChanged( Viewer viewer, Object oldInput,
-				Object newInput )
-		{
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
-		protected void deRegisterEventManager( )
-		{
-			if ( UIUtil.getModelEventManager( ) != null )
-				UIUtil.getModelEventManager( )
-						.removeModelEventProcessor( listener );
+		protected void deRegisterEventManager() {
+			if (UIUtil.getModelEventManager() != null)
+				UIUtil.getModelEventManager().removeModelEventProcessor(listener);
 		}
 
 		/**
 		 * Registers model change listener to DE elements.
 		 */
-		protected void registerEventManager( )
-		{
-			if ( UIUtil.getModelEventManager( ) != null )
-				UIUtil.getModelEventManager( )
-						.addModelEventProcessor( listener );
+		protected void registerEventManager() {
+			if (UIUtil.getModelEventManager() != null)
+				UIUtil.getModelEventManager().addModelEventProcessor(listener);
 		}
 	}
 
-	public Object load( )
-	{
+	public Object load() {
 		return null;
 	}
 
-	public void save( Object value ) throws SemanticException
-	{
+	public void save(Object value) throws SemanticException {
 
 	}
 
-	public boolean isAddEnable( )
-	{
+	public boolean isAddEnable() {
 		return true;
 	}
 
-	public boolean isEditEnable( )
-	{
+	public boolean isEditEnable() {
 		return true;
 	}
 
-	public boolean isDeleteEnable( )
-	{
+	public boolean isDeleteEnable() {
 		return true;
 	}
 
-	public boolean needRebuilded( NotificationEvent event )
-	{
+	public boolean needRebuilded(NotificationEvent event) {
 		return false;
 	}
 

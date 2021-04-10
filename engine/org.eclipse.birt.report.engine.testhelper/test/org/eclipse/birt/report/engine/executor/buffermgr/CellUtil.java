@@ -15,41 +15,33 @@ package org.eclipse.birt.report.engine.executor.buffermgr;
  * 
  */
 
-public class CellUtil
-{
+public class CellUtil {
 
-	public static int getColId( Cell cell )
-	{
+	public static int getColId(Cell cell) {
 		return cell.colId;
 	}
 
-	public static int getStatus( Cell cell )
-	{
+	public static int getStatus(Cell cell) {
 		return cell.status;
 	}
 
-	public static int getRowId( Cell cell )
-	{
+	public static int getRowId(Cell cell) {
 		return cell.rowId;
 	}
 
-	public static int getRowSpan( Cell cell )
-	{
+	public static int getRowSpan(Cell cell) {
 		return cell.rowSpan;
 	}
 
-	public static int getColSpan( Cell cell )
-	{
+	public static int getColSpan(Cell cell) {
 		return cell.colSpan;
 	}
 
-	public static Object getContent( Cell cell )
-	{
+	public static Object getContent(Cell cell) {
 		return cell.content;
 	}
 
-	public static Cell getCell( Cell cell )
-	{
+	public static Cell getCell(Cell cell) {
 		return cell.cell;
 	}
 }

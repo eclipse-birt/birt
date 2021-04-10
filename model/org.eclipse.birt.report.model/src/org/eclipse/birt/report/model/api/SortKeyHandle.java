@@ -31,58 +31,50 @@ import com.ibm.icu.util.ULocale;
  * </dl>
  * 
  */
-public class SortKeyHandle extends StructureHandle
-{
+public class SortKeyHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of sort key.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for sort key list of one property
-	 * @param index
-	 *            the position of this sort key in the list
+	 * @param valueHandle the value handle for sort key list of one property
+	 * @param index       the position of this sort key in the list
 	 */
 
-	public SortKeyHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public SortKeyHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
-	 * Returns an expression that gives the sort key on which to sort. The
-	 * simplest case is the name of a column. The expression can also be an
-	 * expression that includes columns. When used for a group, the expression
-	 * can contain an aggregate computed over the group.
+	 * Returns an expression that gives the sort key on which to sort. The simplest
+	 * case is the name of a column. The expression can also be an expression that
+	 * includes columns. When used for a group, the expression can contain an
+	 * aggregate computed over the group.
 	 * 
 	 * @return the key to sort
 	 * 
 	 * @see #setKey(String)
 	 */
 
-	public String getKey( )
-	{
-		return getStringProperty( SortKey.KEY_MEMBER );
+	public String getKey() {
+		return getStringProperty(SortKey.KEY_MEMBER);
 	}
 
 	/**
 	 * Sets an expression that gives the sort key on which to sort.
 	 * 
-	 * @param key
-	 *            the key to sort
-	 * @throws SemanticException
-	 *             value required exception
+	 * @param key the key to sort
+	 * @throws SemanticException value required exception
 	 * @see #getKey()
 	 */
 
-	public void setKey( String key ) throws SemanticException
-	{
-		setProperty( SortKey.KEY_MEMBER, key );
+	public void setKey(String key) throws SemanticException {
+		setProperty(SortKey.KEY_MEMBER, key);
 	}
 
 	/**
 	 * Returns the sort direction. The possible values are define in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
@@ -91,29 +83,25 @@ public class SortKeyHandle extends StructureHandle
 	 * @return the direction to sort
 	 */
 
-	public String getDirection( )
-	{
-		return getStringProperty( SortKey.DIRECTION_MEMBER );
+	public String getDirection() {
+		return getStringProperty(SortKey.DIRECTION_MEMBER);
 	}
 
 	/**
 	 * Sets the sort direction. The allowed values are define in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
 	 * </ul>
 	 * 
-	 * @param direction
-	 *            the direction to set
-	 * @throws SemanticException
-	 *             if the direction is not in choice list.
+	 * @param direction the direction to set
+	 * @throws SemanticException if the direction is not in choice list.
 	 */
 
-	public void setDirection( String direction ) throws SemanticException
-	{
-		setProperty( SortKey.DIRECTION_MEMBER, direction );
+	public void setDirection(String direction) throws SemanticException {
+		setProperty(SortKey.DIRECTION_MEMBER, direction);
 	}
 
 	/**
@@ -121,29 +109,24 @@ public class SortKeyHandle extends StructureHandle
 	 * 
 	 * @return the column name
 	 * 
-	 * @deprecated This property has been removed. See the method
-	 *             {@link #getKey()}.
+	 * @deprecated This property has been removed. See the method {@link #getKey()}.
 	 */
 
-	public String getColumnName( )
-	{
-		return getKey( );
+	public String getColumnName() {
+		return getKey();
 	}
 
 	/**
 	 * Sets the name of the column that needs sort.
 	 * 
-	 * @param columnName
-	 *            the column name to set
-	 * @throws SemanticException
-	 *             value required exception
+	 * @param columnName the column name to set
+	 * @throws SemanticException value required exception
 	 * @deprecated This property has been removed. See the method
 	 *             {@link #setKey(String)}.
 	 */
 
-	public void setColumnName( String columnName ) throws SemanticException
-	{
-		setKey( columnName );
+	public void setColumnName(String columnName) throws SemanticException {
+		setKey(columnName);
 	}
 
 	/**
@@ -154,24 +137,21 @@ public class SortKeyHandle extends StructureHandle
 	 * @see #setStrength(int)
 	 */
 
-	public int getStrength( )
-	{
-		return getIntProperty( SortKey.STRENGTH_MEMBER );
+	public int getStrength() {
+		return getIntProperty(SortKey.STRENGTH_MEMBER);
 	}
 
 	/**
 	 * Sets the strength for this sort.
 	 * 
-	 * @param strength
-	 *            the strength to sort
+	 * @param strength the strength to sort
 	 * @throws SemanticException
 	 * 
 	 * @see #getStrength()
 	 */
 
-	public void setStrength( int strength ) throws SemanticException
-	{
-		setProperty( SortKey.STRENGTH_MEMBER, strength );
+	public void setStrength(int strength) throws SemanticException {
+		setProperty(SortKey.STRENGTH_MEMBER, strength);
 	}
 
 	/**
@@ -182,23 +162,20 @@ public class SortKeyHandle extends StructureHandle
 	 * @see #setLocale(ULocale)
 	 */
 
-	public ULocale getLocale( )
-	{
-		return (ULocale) getProperty( SortKey.LOCALE_MEMBER );
+	public ULocale getLocale() {
+		return (ULocale) getProperty(SortKey.LOCALE_MEMBER);
 	}
 
 	/**
 	 * Sets the locale for this sort.
 	 * 
-	 * @param locale
-	 *            the locale to sort
+	 * @param locale the locale to sort
 	 * @throws SemanticException
 	 * 
 	 * @see #getLocale()
 	 */
 
-	public void setLocale( ULocale locale ) throws SemanticException
-	{
-		setProperty( SortKey.LOCALE_MEMBER, locale );
+	public void setLocale(ULocale locale) throws SemanticException {
+		setProperty(SortKey.LOCALE_MEMBER, locale);
 	}
 }

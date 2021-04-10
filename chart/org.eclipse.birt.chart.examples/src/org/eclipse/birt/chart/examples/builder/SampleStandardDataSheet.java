@@ -38,106 +38,86 @@ import com.ibm.icu.util.Calendar;
  * 
  */
 
-public class SampleStandardDataSheet extends DefaultChartDataSheet
-{
+public class SampleStandardDataSheet extends DefaultChartDataSheet {
 
 	private CustomPreviewTable tablePreview = null;
 
-	public Composite createDataDragSource( Composite parent )
-	{
-		Composite composite = ChartUIUtil.createCompositeWrapper( parent );
+	public Composite createDataDragSource(Composite parent) {
+		Composite composite = ChartUIUtil.createCompositeWrapper(parent);
 		{
-			composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 		}
-		Label label = new Label( composite, SWT.NONE );
+		Label label = new Label(composite, SWT.NONE);
 		{
-			label.setText( "Data Preview" );
-			label.setFont( JFaceResources.getBannerFont( ) );
+			label.setText("Data Preview");
+			label.setFont(JFaceResources.getBannerFont());
 		}
-		Label description = new Label( composite, SWT.WRAP );
+		Label description = new Label(composite, SWT.WRAP);
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			description.setLayoutData( gd );
-			description.setText( "Sample Data" );
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+			description.setLayoutData(gd);
+			description.setText("Sample Data");
 		}
 
-		tablePreview = new CustomPreviewTable( composite, SWT.SINGLE
-				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION ) {
+		tablePreview = new CustomPreviewTable(composite,
+				SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION) {
 
 			@Override
-			protected void addDragListenerToHeaderButton( Button button )
-			{
+			protected void addDragListenerToHeaderButton(Button button) {
 				// do nothing
 			}
 		};
 		{
-			GridData gridData = new GridData( GridData.FILL_BOTH );
+			GridData gridData = new GridData(GridData.FILL_BOTH);
 			gridData.widthHint = 400;
 			gridData.heightHint = 160;
-			tablePreview.setLayoutData( gridData );
-			tablePreview.setHeaderAlignment( SWT.LEFT );
+			tablePreview.setLayoutData(gridData);
+			tablePreview.setHeaderAlignment(SWT.LEFT);
 
-			refreshSampleDataPreiview( );
+			refreshSampleDataPreiview();
 		}
 		return composite;
 	}
 
-	public void refreshSampleDataPreiview( )
-	{
-		ChartAdapter.beginIgnoreNotifications( );
-		context.getModel( ).createSampleRuntimeSeries( );
-		List<SeriesDefinition> valueSd = ChartUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
-		List<ColumnBindingInfo> lcb = new ArrayList<ColumnBindingInfo>( );
-		lcb.add( new ColumnBindingInfo( "Category", null, "Category", null ) );
-		for ( SeriesDefinition sd : valueSd )
-		{
-			int index = valueSd.indexOf( sd ) + 1;
-			lcb.add( new ColumnBindingInfo( "Value " + index, null, "Value "
-					+ index, null ) );
+	public void refreshSampleDataPreiview() {
+		ChartAdapter.beginIgnoreNotifications();
+		context.getModel().createSampleRuntimeSeries();
+		List<SeriesDefinition> valueSd = ChartUtil.getAllOrthogonalSeriesDefinitions(context.getModel());
+		List<ColumnBindingInfo> lcb = new ArrayList<ColumnBindingInfo>();
+		lcb.add(new ColumnBindingInfo("Category", null, "Category", null));
+		for (SeriesDefinition sd : valueSd) {
+			int index = valueSd.indexOf(sd) + 1;
+			lcb.add(new ColumnBindingInfo("Value " + index, null, "Value " + index, null));
 		}
-		tablePreview.setColumns( lcb.toArray( new ColumnBindingInfo[0] ) );
-		Object values = ChartUtil.getBaseSeriesDefinitions( context.getModel( ) )
-				.get( 0 )
-				.getRunTimeSeries( )
-				.get( 0 )
-				.getDataSet( )
-				.getValues( );
-		List<List<?>> allValues = new ArrayList<List<?>>( );
-		if ( values instanceof List<?> )
-		{
-			allValues.add( (List<?>) values );
+		tablePreview.setColumns(lcb.toArray(new ColumnBindingInfo[0]));
+		Object values = ChartUtil.getBaseSeriesDefinitions(context.getModel()).get(0).getRunTimeSeries().get(0)
+				.getDataSet().getValues();
+		List<List<?>> allValues = new ArrayList<List<?>>();
+		if (values instanceof List<?>) {
+			allValues.add((List<?>) values);
 		}
-		for ( SeriesDefinition sd : valueSd )
-		{
-			values = sd.getRunTimeSeries( ).get( 0 ).getDataSet( ).getValues( );
-			if ( values instanceof List<?> )
-			{
-				allValues.add( (List<?>) values );
+		for (SeriesDefinition sd : valueSd) {
+			values = sd.getRunTimeSeries().get(0).getDataSet().getValues();
+			if (values instanceof List<?>) {
+				allValues.add((List<?>) values);
 			}
 		}
-		for ( int i = 0; i < allValues.size( ); i++ )
-		{
-			for ( Object o : allValues.get( i ) )
-			{
-				if ( o instanceof Calendar )
-				{
+		for (int i = 0; i < allValues.size(); i++) {
+			for (Object o : allValues.get(i)) {
+				if (o instanceof Calendar) {
 
-					tablePreview.addEntry( DateFormat.getInstance( ).format( o ),
-							i );
-				}
-				else
-				{
-					tablePreview.addEntry( o.toString( ), i );
+					tablePreview.addEntry(DateFormat.getInstance().format(o), i);
+				} else {
+					tablePreview.addEntry(o.toString(), i);
 				}
 
 			}
 		}
-		tablePreview.layout( );
-		ChartAdapter.endIgnoreNotifications( );
+		tablePreview.layout();
+		ChartAdapter.endIgnoreNotifications();
 	}
 
-	public ISelectDataCustomizeUI createCustomizeUI( ITask task )
-	{
-		return new SelectDataDynamicArea( task );
+	public ISelectDataCustomizeUI createCustomizeUI(ITask task) {
+		return new SelectDataDynamicArea(task);
 	}
 }

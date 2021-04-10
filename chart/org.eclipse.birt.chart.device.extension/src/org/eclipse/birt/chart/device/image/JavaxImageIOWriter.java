@@ -44,10 +44,8 @@ import org.eclipse.birt.chart.util.SecurityUtil;
 /**
  * JavaxImageIOWriter
  */
-public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
-		IIOWriteWarningListener,
-		IImageMapEmitter
-{
+public abstract class JavaxImageIOWriter extends SwingRendererImpl
+		implements IIOWriteWarningListener, IImageMapEmitter {
 
 	private boolean _bAltEnabled = false;
 
@@ -59,8 +57,8 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	private boolean _bImageExternallySpecified = false;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/image" ); //$NON-NLS-1$
-	
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.device.extension/image"); //$NON-NLS-1$
+
 	private String outputFormat;
 
 	/**
@@ -68,7 +66,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 * 
 	 * @return
 	 */
-	protected abstract String getFormat( );
+	protected abstract String getFormat();
 
 	/**
 	 * Returns the output image type for this writer.
@@ -89,22 +87,20 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 * 
 	 * @return
 	 */
-	protected abstract int getImageType( );
-	
+	protected abstract int getImageType();
+
 	/**
-	 * Returns true if the image type supports transparency
-	 * false otherwise
+	 * Returns true if the image type supports transparency false otherwise
+	 * 
 	 * @return
 	 */
-	protected boolean supportsTransparency( )
-	{
+	protected boolean supportsTransparency() {
 		return true;
 	}
 
-	JavaxImageIOWriter( )
-	{
+	JavaxImageIOWriter() {
 		// By default do not cache images on disk
-		ImageIO.setUseCache( false );
+		ImageIO.setUseCache(false);
 	}
 
 	/**
@@ -112,8 +108,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 * 
 	 * @param iwp
 	 */
-	protected void updateWriterParameters( ImageWriteParam iwp )
-	{
+	protected void updateWriterParameters(ImageWriteParam iwp) {
 		// OPTIONALLY IMPLEMENTED BY SUBCLASS
 	}
 
@@ -122,44 +117,35 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 * 
 	 * @see org.eclipse.birt.chart.device.IImageMapEmitter#getImageMap()
 	 */
-	public String getImageMap( )
-	{
-		return new ImageMapEmitter( getShapeActions( ),
-				_bAltEnabled,
-				getULocale( ),
-				getDisplayServer( ).getDpiResolution( ) ).getImageMap( );
+	public String getImageMap() {
+		return new ImageMapEmitter(getShapeActions(), _bAltEnabled, getULocale(), getDisplayServer().getDpiResolution())
+				.getImageMap();
 	}
 
 	/**
-	 * Returns if the given format type or MIME type is supported by the
-	 * registered JavaxImageIO writers.
+	 * Returns if the given format type or MIME type is supported by the registered
+	 * JavaxImageIO writers.
 	 * 
 	 * @return
 	 */
-	protected boolean isSupportedByJavaxImageIO( )
-	{
+	protected boolean isSupportedByJavaxImageIO() {
 		boolean supported = false;
 
 		// Search for writers using format type.
-		String s = getFormat( );
-		if ( s != null )
-		{
-			Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName( s );
-			if ( it.hasNext( ) )
-			{
+		String s = getFormat();
+		if (s != null) {
+			Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName(s);
+			if (it.hasNext()) {
 				supported = true;
 			}
 		}
 
 		// Search for writers using MIME type.
-		if ( !supported )
-		{
-			s = getMimeType( );
-			if ( s != null )
-			{
-				Iterator<ImageWriter> it = ImageIO.getImageWritersByMIMEType( s );
-				if ( it.hasNext( ) )
-				{
+		if (!supported) {
+			s = getMimeType();
+			if (s != null) {
+				Iterator<ImageWriter> it = ImageIO.getImageWritersByMIMEType(s);
+				if (it.hasNext()) {
 					supported = true;
 				}
 			}
@@ -173,55 +159,47 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#before()
 	 */
-	public void before( ) throws ChartException
-	{
-		super.before( );
+	public void before() throws ChartException {
+		super.before();
 
-		_bImageExternallySpecified = ( _img != null );
+		_bImageExternallySpecified = (_img != null);
 
 		// IF A CACHED IMAGE STRATEGY IS NOT USED, CREATE A NEW INSTANCE
 		// EVERYTIME
-		if ( !_bImageExternallySpecified )
-		{
-			if ( _bo == null ) // BOUNDS MUST BE SPECIFIED BEFORE RENDERING
+		if (!_bImageExternallySpecified) {
+			if (_bo == null) // BOUNDS MUST BE SPECIFIED BEFORE RENDERING
 			// BEGINS
 			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
+				throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.RENDERING,
 						"JavaxImageIOWriter.exception.no.bounds", //$NON-NLS-1$
-						Messages.getResourceBundle( getULocale( ) ) );
+						Messages.getResourceBundle(getULocale()));
 			}
 
-			if ( (int) _bo.getWidth( ) < 0 || (int) _bo.getHeight( ) < 0 )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.INVALID_IMAGE_SIZE,
+			if ((int) _bo.getWidth() < 0 || (int) _bo.getHeight() < 0) {
+				throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.INVALID_IMAGE_SIZE,
 						"JavaxImageIOWriter.exception.invalid.image.size", //$NON-NLS-1$
-						Messages.getResourceBundle( getULocale( ) ) );
+						Messages.getResourceBundle(getULocale()));
 			}
-			
-			if ( (int) _bo.getWidth( ) == 0 || (int) _bo.getHeight( ) == 0 )
-			{
+
+			if ((int) _bo.getWidth() == 0 || (int) _bo.getHeight() == 0) {
 				// Zero size is forbidden in BufferedImage, so replace the size
 				// with 1 to make it seem invisible
-				_bo.setWidth( 1 );
-				_bo.setHeight( 1 );
+				_bo.setWidth(1);
+				_bo.setHeight(1);
 			}
 
 			// CREATE THE IMAGE INSTANCE
-			_img = new BufferedImage( (int) Math.round( _bo.getWidth( ) ),
-					(int) Math.round( _bo.getHeight( ) ),
-					getImageType( ) );
+			_img = new BufferedImage((int) Math.round(_bo.getWidth()), (int) Math.round(_bo.getHeight()),
+					getImageType());
 		}
-		super.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, _img.getGraphics( ) );
+		super.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, _img.getGraphics());
 
-		if ( !supportsTransparency( ) )
-		{
+		if (!supportsTransparency()) {
 			// Paint image white to avoid black background
-			_g2d.setPaint( Color.WHITE );
-			_g2d.fillRect( 0, 0, _img.getWidth( null ), _img.getHeight( null ) );
+			_g2d.setPaint(Color.WHITE);
+			_g2d.fillRect(0, 0, _img.getWidth(null), _img.getHeight(null));
 		}
-		
+
 	}
 
 	/*
@@ -229,220 +207,174 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#after()
 	 */
-	public void after( ) throws ChartException
-	{
-		super.after( );
+	public void after() throws ChartException {
+		super.after();
 
-		if ( _oOutputIdentifier != null )
-		{
+		if (_oOutputIdentifier != null) {
 
 			// SEARCH FOR WRITER USING FORMAT
-			ImageWriter iw = ImageWriterFactory.instance( )
-					.createImageWriter( getFormat( ), outputFormat );
+			ImageWriter iw = ImageWriterFactory.instance().createImageWriter(getFormat(), outputFormat);
 
 			// SEARCH FOR WRITER USING MIME TYPE
-			if ( iw == null )
-			{
-				String s = getMimeType( );
+			if (iw == null) {
+				String s = getMimeType();
 
-				if ( s == null )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							"JavaxImageIOWriter.exception.no.imagewriter.mimetype.and.format",//$NON-NLS-1$
-							new Object[]{
-									getMimeType( ),
-									getFormat( ),
-									getClass( ).getName( )
-							},
-							Messages.getResourceBundle( getULocale( ) ) );
+				if (s == null) {
+					throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.RENDERING,
+							"JavaxImageIOWriter.exception.no.imagewriter.mimetype.and.format", //$NON-NLS-1$
+							new Object[] { getMimeType(), getFormat(), getClass().getName() },
+							Messages.getResourceBundle(getULocale()));
 				}
-				Iterator<ImageWriter> it = ImageIO.getImageWritersByMIMEType( s );
-				if ( !it.hasNext( ) )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
+				Iterator<ImageWriter> it = ImageIO.getImageWritersByMIMEType(s);
+				if (!it.hasNext()) {
+					throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.RENDERING,
 							"JavaxImageIOWriter.exception.no.imagewriter.mimetype", //$NON-NLS-1$
-							new Object[]{
-								getMimeType( )
-							},
-							Messages.getResourceBundle( getULocale( ) ) );
+							new Object[] { getMimeType() }, Messages.getResourceBundle(getULocale()));
 				}
 
-				iw = it.next( );
+				iw = it.next();
 			}
 
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "JavaxImageIOWriter.info.using.imagewriter", getULocale( ) ) //$NON-NLS-1$
-							+ getFormat( )
-							+ iw.getClass( ).getName( ) );
+			logger.log(ILogger.INFORMATION,
+					Messages.getString("JavaxImageIOWriter.info.using.imagewriter", getULocale()) //$NON-NLS-1$
+							+ getFormat() + iw.getClass().getName());
 
 			// WRITE TO SPECIFIC FILE FORMAT
-			final Object o = ( _oOutputIdentifier instanceof String ) ? new File( (String) _oOutputIdentifier )
+			final Object o = (_oOutputIdentifier instanceof String) ? new File((String) _oOutputIdentifier)
 					: _oOutputIdentifier;
-			try
-			{
-				final ImageOutputStream ios = SecurityUtil.newImageOutputStream( o );
-				ImageWriteParam iwp = iw.getDefaultWriteParam( );
-				updateWriterParameters( iwp );
-				iw.setOutput( ios );
-				iw.write( (IIOMetadata) null,
-						new IIOImage( (BufferedImage) _img, null, null ),
-						iwp );
-				ios.close( );
-			}
-			catch ( Exception ex )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
-						ex );
-			}
-			finally
-			{
-				iw.dispose( );
+			try {
+				final ImageOutputStream ios = SecurityUtil.newImageOutputStream(o);
+				ImageWriteParam iwp = iw.getDefaultWriteParam();
+				updateWriterParameters(iwp);
+				iw.setOutput(ios);
+				iw.write((IIOMetadata) null, new IIOImage((BufferedImage) _img, null, null), iwp);
+				ios.close();
+			} catch (Exception ex) {
+				throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.RENDERING, ex);
+			} finally {
+				iw.dispose();
 			}
 		}
 
 		// FLUSH AND RESTORE STATE OF INTERNALLY CREATED IMAGE
-		if ( !_bImageExternallySpecified )
-		{
-			_img.flush( );
+		if (!_bImageExternallySpecified) {
+			_img.flush();
 			_img = null;
 		}
 
 		// ALWAYS DISPOSE THE GRAPHICS CONTEXT THAT WAS CREATED FROM THE IMAGE
-		_g2d.dispose( );
+		_g2d.dispose();
 		_g2d = null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#setProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.chart.device.IDeviceRenderer#setProperty(java.lang.String,
+	 * java.lang.Object)
 	 */
-	public void setProperty( String sProperty, Object oValue )
-	{
-		super.setProperty( sProperty, oValue );
-		if ( sProperty.equals( IDeviceRenderer.EXPECTED_BOUNDS ) )
-		{
+	public void setProperty(String sProperty, Object oValue) {
+		super.setProperty(sProperty, oValue);
+		if (sProperty.equals(IDeviceRenderer.EXPECTED_BOUNDS)) {
 			_bo = (Bounds) oValue;
-		}
-		else if ( sProperty.equals( IDeviceRenderer.CACHED_IMAGE ) )
-		{
+		} else if (sProperty.equals(IDeviceRenderer.CACHED_IMAGE)) {
 			_img = (Image) oValue;
-		}
-		else if ( sProperty.equals( IDeviceRenderer.FILE_IDENTIFIER ) )
-		{
+		} else if (sProperty.equals(IDeviceRenderer.FILE_IDENTIFIER)) {
 			_oOutputIdentifier = oValue;
-		}
-		else if ( sProperty.equals( IDeviceRenderer.CACHE_ON_DISK ) )
+		} else if (sProperty.equals(IDeviceRenderer.CACHE_ON_DISK)) {
+			ImageIO.setUseCache(((Boolean) oValue).booleanValue());
+		} else if (sProperty.equals(IDeviceRenderer.AREA_ALT_ENABLED)) {
+			_bAltEnabled = ((Boolean) oValue).booleanValue();
+		} else if (sProperty.equals("output.format")) //$NON-NLS-1$
 		{
-			ImageIO.setUseCache( ( (Boolean) oValue ).booleanValue( ) );
-		}
-		else if ( sProperty.equals( IDeviceRenderer.AREA_ALT_ENABLED ) )
-		{
-			_bAltEnabled = ( (Boolean) oValue ).booleanValue( );
-		}
-		else if (sProperty.equals( "output.format" )) //$NON-NLS-1$
-		{
-			outputFormat = (String)oValue;
+			outputFormat = (String) oValue;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see javax.imageio.event.IIOWriteWarningListener#warningOccurred(javax.imageio.ImageWriter,
-	 *      int, java.lang.String)
+	 * @see
+	 * javax.imageio.event.IIOWriteWarningListener#warningOccurred(javax.imageio.
+	 * ImageWriter, int, java.lang.String)
 	 */
-	public void warningOccurred( ImageWriter source, int imageIndex,
-			String warning )
-	{
-		logger.log( ILogger.WARNING, warning );
+	public void warningOccurred(ImageWriter source, int imageIndex, String warning) {
+		logger.log(ILogger.WARNING, warning);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#presentException(java.lang.Exception)
+	 * @see
+	 * org.eclipse.birt.chart.device.IDeviceRenderer#presentException(java.lang.
+	 * Exception)
 	 */
-	public void presentException( Exception cexp )
-	{
-		if ( _bo == null )
-		{
-			_bo = BoundsImpl.create( 0, 0, 400, 300 );
+	public void presentException(Exception cexp) {
+		if (_bo == null) {
+			_bo = BoundsImpl.create(0, 0, 400, 300);
 		}
-		String sWrappedException = cexp.getClass( ).getName( );
-		while ( cexp.getCause( ) != null )
-		{
-			cexp = (Exception) cexp.getCause( );
+		String sWrappedException = cexp.getClass().getName();
+		while (cexp.getCause() != null) {
+			cexp = (Exception) cexp.getCause();
 		}
-		String sException = cexp.getClass( ).getName( );
-		if ( sWrappedException.equals( sException ) )
-		{
+		String sException = cexp.getClass().getName();
+		if (sWrappedException.equals(sException)) {
 			sWrappedException = null;
 		}
-		String sMessage = cexp.getMessage( );
-		StackTraceElement[] stea = cexp.getStackTrace( );
-		Dimension d = new Dimension( (int) _bo.getWidth( ),
-				(int) _bo.getHeight( ) );
+		String sMessage = cexp.getMessage();
+		StackTraceElement[] stea = cexp.getStackTrace();
+		Dimension d = new Dimension((int) _bo.getWidth(), (int) _bo.getHeight());
 
-		Font fo = new Font( "Monospaced", Font.BOLD, 14 ); //$NON-NLS-1$
-		_g2d.setFont( fo );
-		FontMetrics fm = _g2d.getFontMetrics( );
-		_g2d.setColor( Color.WHITE );
-		_g2d.fillRect( 20, 20, d.width - 40, d.height - 40 );
-		_g2d.setColor( Color.BLACK );
-		_g2d.drawRect( 20, 20, d.width - 40, d.height - 40 );
-		_g2d.setClip( 20, 20, d.width - 40, d.height - 40 );
-		int x = 25, y = 20 + fm.getHeight( );
-		_g2d.drawString( Messages.getString( "JavaxImageIOWriter.exception.caption", getULocale( ) ), x, y ); //$NON-NLS-1$
-		x += fm.stringWidth( Messages.getString( "JavaxImageIOWriter.exception.caption",//$NON-NLS-1$
-				getULocale( ) ) ) + 5;
-		_g2d.setColor( Color.RED );
-		_g2d.drawString( sException, x, y );
+		Font fo = new Font("Monospaced", Font.BOLD, 14); //$NON-NLS-1$
+		_g2d.setFont(fo);
+		FontMetrics fm = _g2d.getFontMetrics();
+		_g2d.setColor(Color.WHITE);
+		_g2d.fillRect(20, 20, d.width - 40, d.height - 40);
+		_g2d.setColor(Color.BLACK);
+		_g2d.drawRect(20, 20, d.width - 40, d.height - 40);
+		_g2d.setClip(20, 20, d.width - 40, d.height - 40);
+		int x = 25, y = 20 + fm.getHeight();
+		_g2d.drawString(Messages.getString("JavaxImageIOWriter.exception.caption", getULocale()), x, y); //$NON-NLS-1$
+		x += fm.stringWidth(Messages.getString("JavaxImageIOWriter.exception.caption", //$NON-NLS-1$
+				getULocale())) + 5;
+		_g2d.setColor(Color.RED);
+		_g2d.drawString(sException, x, y);
 		x = 25;
-		y += fm.getHeight( );
-		if ( sWrappedException != null )
-		{
-			_g2d.setColor( Color.BLACK );
-			_g2d.drawString( Messages.getString( "JavaxImageIOWriter.wrapped.caption", getULocale( ) ), x, y ); //$NON-NLS-1$
-			x += fm.stringWidth( Messages.getString( "JavaxImageIOWriter.wrapped.caption",//$NON-NLS-1$
-					getULocale( ) ) ) + 5;
-			_g2d.setColor( Color.RED );
-			_g2d.drawString( sWrappedException, x, y );
+		y += fm.getHeight();
+		if (sWrappedException != null) {
+			_g2d.setColor(Color.BLACK);
+			_g2d.drawString(Messages.getString("JavaxImageIOWriter.wrapped.caption", getULocale()), x, y); //$NON-NLS-1$
+			x += fm.stringWidth(Messages.getString("JavaxImageIOWriter.wrapped.caption", //$NON-NLS-1$
+					getULocale())) + 5;
+			_g2d.setColor(Color.RED);
+			_g2d.drawString(sWrappedException, x, y);
 			x = 25;
-			y += fm.getHeight( );
+			y += fm.getHeight();
 		}
-		_g2d.setColor( Color.BLACK );
+		_g2d.setColor(Color.BLACK);
 		y += 10;
-		_g2d.drawString( Messages.getString( "JavaxImageIOWriter.message.caption", getULocale( ) ), x, y ); //$NON-NLS-1$
-		x += fm.stringWidth( Messages.getString( "JavaxImageIOWriter.message.caption", getULocale( ) ) ) + 5; //$NON-NLS-1$
-		_g2d.setColor( Color.BLUE );
-		_g2d.drawString( sMessage, x, y );
+		_g2d.drawString(Messages.getString("JavaxImageIOWriter.message.caption", getULocale()), x, y); //$NON-NLS-1$
+		x += fm.stringWidth(Messages.getString("JavaxImageIOWriter.message.caption", getULocale())) + 5; //$NON-NLS-1$
+		_g2d.setColor(Color.BLUE);
+		_g2d.drawString(sMessage, x, y);
 		x = 25;
-		y += fm.getHeight( );
-		_g2d.setColor( Color.BLACK );
+		y += fm.getHeight();
+		_g2d.setColor(Color.BLACK);
 		y += 10;
-		_g2d.drawString( Messages.getString( "JavaxImageIOWriter.trace.caption", getULocale( ) ), x, y );x = 40;y += fm.getHeight( ); //$NON-NLS-1$
-		_g2d.setColor( Color.GREEN.darker( ) );
-		for ( int i = 0; i < stea.length; i++ )
-		{
-			_g2d.drawString( Messages.getString( "JavaxImageIOWriter.trace.detail",//$NON-NLS-1$
-					new Object[]{
-							stea[i].getClassName( ),
-							stea[i].getMethodName( ),
-							String.valueOf( stea[i].getLineNumber( ) )
-					},
-					getULocale( ) ),
-					x,
-					y );
+		_g2d.drawString(Messages.getString("JavaxImageIOWriter.trace.caption", getULocale()), x, y); //$NON-NLS-1$
+		x = 40;
+		y += fm.getHeight();
+		_g2d.setColor(Color.GREEN.darker());
+		for (int i = 0; i < stea.length; i++) {
+			_g2d.drawString(Messages.getString("JavaxImageIOWriter.trace.detail", //$NON-NLS-1$
+					new Object[] { stea[i].getClassName(), stea[i].getMethodName(),
+							String.valueOf(stea[i].getLineNumber()) },
+					getULocale()), x, y);
 			x = 40;
-			y += fm.getHeight( );
+			y += fm.getHeight();
 		}
 
 	}
 
-	
 }

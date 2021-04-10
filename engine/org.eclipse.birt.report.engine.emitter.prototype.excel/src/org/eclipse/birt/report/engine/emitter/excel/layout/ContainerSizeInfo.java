@@ -1,29 +1,23 @@
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
-
-public class ContainerSizeInfo
-{
+public class ContainerSizeInfo {
 	// start point and the width in points
 	private int start, width;
-	
-	public ContainerSizeInfo(int start, int width)
-	{
+
+	public ContainerSizeInfo(int start, int width) {
 		this.start = start;
 		this.width = width;
 	}
 
-	public int getStartCoordinate( )
-	{
+	public int getStartCoordinate() {
 		return start;
 	}
-	
-	public int getWidth( )
-	{
+
+	public int getWidth() {
 		return width;
 	}
-	
-	public int getEndCoordinate()
-	{
+
+	public int getEndCoordinate() {
 		return start + width;
 	}
 }

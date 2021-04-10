@@ -25,20 +25,20 @@ public class Issue43StructuredHeader extends ReportRunner {
 
 	@Test
 	public void testWithoutOption() throws Exception {
-		
+
 		debug = false;
 		InputStream inputStream = runAndRenderReport("StructuredHeader.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 3, workbook.getNumberOfSheets() );
-	
-			assertEquals( 4, this.firstNullRow(workbook.getSheetAt(0)));
-			assertEquals( 4, this.firstNullRow(workbook.getSheetAt(1)));
-			assertEquals( 4, this.firstNullRow(workbook.getSheetAt(2)));
-			
+
+			assertEquals(3, workbook.getNumberOfSheets());
+
+			assertEquals(4, this.firstNullRow(workbook.getSheetAt(0)));
+			assertEquals(4, this.firstNullRow(workbook.getSheetAt(1)));
+			assertEquals(4, this.firstNullRow(workbook.getSheetAt(2)));
+
 		} finally {
 			inputStream.close();
 		}
@@ -46,7 +46,7 @@ public class Issue43StructuredHeader extends ReportRunner {
 
 	@Test
 	public void testWithOption() throws Exception {
-		
+
 		debug = false;
 		structuredHeader = true;
 		InputStream inputStream = runAndRenderReport("StructuredHeader.rptdesign", "xlsx");
@@ -55,13 +55,13 @@ public class Issue43StructuredHeader extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 3, workbook.getNumberOfSheets() );
-	
-			assertEquals( 8, this.firstNullRow(workbook.getSheetAt(0)));
-			assertEquals( 8, this.firstNullRow(workbook.getSheetAt(1)));
-			assertEquals( 8, this.firstNullRow(workbook.getSheetAt(2)));
-			
+
+			assertEquals(3, workbook.getNumberOfSheets());
+
+			assertEquals(8, this.firstNullRow(workbook.getSheetAt(0)));
+			assertEquals(8, this.firstNullRow(workbook.getSheetAt(1)));
+			assertEquals(8, this.firstNullRow(workbook.getSheetAt(2)));
+
 		} finally {
 			inputStream.close();
 		}
@@ -69,7 +69,7 @@ public class Issue43StructuredHeader extends ReportRunner {
 
 	@Test
 	public void testWithUserProperty() throws Exception {
-		
+
 		debug = false;
 		structuredHeader = false;
 		InputStream inputStream = runAndRenderReport("StructuredHeaderWithUserProperty.rptdesign", "xlsx");
@@ -77,13 +77,13 @@ public class Issue43StructuredHeader extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 3, workbook.getNumberOfSheets() );
-	
-			assertEquals( 8, this.firstNullRow(workbook.getSheetAt(0)));
-			assertEquals( 8, this.firstNullRow(workbook.getSheetAt(1)));
-			assertEquals( 8, this.firstNullRow(workbook.getSheetAt(2)));
-			
+
+			assertEquals(3, workbook.getNumberOfSheets());
+
+			assertEquals(8, this.firstNullRow(workbook.getSheetAt(0)));
+			assertEquals(8, this.firstNullRow(workbook.getSheetAt(1)));
+			assertEquals(8, this.firstNullRow(workbook.getSheetAt(2)));
+
 		} finally {
 			inputStream.close();
 		}

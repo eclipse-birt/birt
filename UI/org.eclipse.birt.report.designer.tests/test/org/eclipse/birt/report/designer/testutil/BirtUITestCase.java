@@ -29,8 +29,7 @@ import org.eclipse.ui.part.FileEditorInput;
 /**
  * Base class of BIRT GUI Features test
  */
-public abstract class BirtUITestCase extends TestCase implements ITestConstants
-{
+public abstract class BirtUITestCase extends TestCase implements ITestConstants {
 
 	protected IWorkbench tWorkbench;
 
@@ -47,22 +46,19 @@ public abstract class BirtUITestCase extends TestCase implements ITestConstants
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		tWorkbench = PlatformUI.getWorkbench( );
-		tWindow = tWorkbench.getActiveWorkbenchWindow( );
-		tPage = tWindow.getActivePage( );
-		tPerspectiveDescriptor = tWorkbench.getPerspectiveRegistry( )
-				.findPerspectiveWithId( PERSPECTIVE_ID );
+	protected void setUp() throws Exception {
+		tWorkbench = PlatformUI.getWorkbench();
+		tWindow = tWorkbench.getActiveWorkbenchWindow();
+		tPage = tWindow.getActivePage();
+		tPerspectiveDescriptor = tWorkbench.getPerspectiveRegistry().findPerspectiveWithId(PERSPECTIVE_ID);
 	}
 
 	/**
 	 * Switch to the Report Designer Perspective
 	 */
 
-	protected void showPerspective( ) throws Exception
-	{
-		tWorkbench.showPerspective( PERSPECTIVE_ID, tWindow );
+	protected void showPerspective() throws Exception {
+		tWorkbench.showPerspective(PERSPECTIVE_ID, tWindow);
 	}
 
 	/**
@@ -71,14 +67,12 @@ public abstract class BirtUITestCase extends TestCase implements ITestConstants
 	 * @return the Report Editor
 	 */
 
-	protected IEditorPart openEditor( ) throws Exception
-	{
-		if ( tEditor == null )
-		{
-			IProject p = FileUtil.createProject( TEST_PROJECT_NAME );
+	protected IEditorPart openEditor() throws Exception {
+		if (tEditor == null) {
+			IProject p = FileUtil.createProject(TEST_PROJECT_NAME);
 
-			IFile f = FileUtil.createFile( TEST_DESIGN_FILE, p );
-			tEditor = tPage.openEditor( new FileEditorInput( f ), EDITOR_ID );
+			IFile f = FileUtil.createFile(TEST_DESIGN_FILE, p);
+			tEditor = tPage.openEditor(new FileEditorInput(f), EDITOR_ID);
 		}
 		return tEditor;
 	}
@@ -86,22 +80,18 @@ public abstract class BirtUITestCase extends TestCase implements ITestConstants
 	/**
 	 * Saves the opened editor
 	 */
-	protected void saveEditor( )
-	{
-		if ( tEditor != null )
-		{
-			tEditor.doSave( null );
+	protected void saveEditor() {
+		if (tEditor != null) {
+			tEditor.doSave(null);
 		}
 	}
 
 	/**
 	 * Closes the opened editor without saving changes
 	 */
-	protected void closeEditor( )
-	{
-		if ( tEditor != null )
-		{
-			tPage.closeEditor( tEditor, false );
+	protected void closeEditor() {
+		if (tEditor != null) {
+			tPage.closeEditor(tEditor, false);
 			tEditor = null;
 		}
 	}
@@ -109,20 +99,17 @@ public abstract class BirtUITestCase extends TestCase implements ITestConstants
 	/**
 	 * Gets the ViewPart with the specified id
 	 * 
-	 * @param id
-	 *            the id of view part
+	 * @param id the id of view part
 	 * 
 	 * @return Returns the view part, or null if not found
 	 */
 
-	protected IViewPart getView( String id )
-	{
-		IViewReference[] v = tPage.getViewReferences( );
+	protected IViewPart getView(String id) {
+		IViewReference[] v = tPage.getViewReferences();
 		int i;
-		for ( i = 0; i < v.length; i++ )
-		{
-			if ( v[i].getId( ).equals( id ) )
-				return (IViewPart) v[i].getPart( true );
+		for (i = 0; i < v.length; i++) {
+			if (v[i].getId().equals(id))
+				return (IViewPart) v[i].getPart(true);
 		}
 		return null;
 	}

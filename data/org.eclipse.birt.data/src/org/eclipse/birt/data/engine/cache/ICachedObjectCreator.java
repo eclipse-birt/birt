@@ -15,8 +15,7 @@ package org.eclipse.birt.data.engine.cache;
  * A interface defined a method which is used to create ICachedObject.
  */
 
-public interface ICachedObjectCreator
-{
+public interface ICachedObjectCreator {
 	/**
 	 * 
 	 * @param fields

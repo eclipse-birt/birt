@@ -18,8 +18,7 @@ import java.util.Map;
 
 import com.lowagie.text.pdf.BaseFont;
 
-public class FontMappingManager
-{
+public class FontMappingManager {
 
 	/** all fonts key */
 	public static final String FONT_NAME_ALL_FONTS = "all-fonts";
@@ -31,119 +30,97 @@ public class FontMappingManager
 
 	private FontMappingManager parent;
 
-	private Map fontEncodings = new HashMap( );
+	private Map fontEncodings = new HashMap();
 
-	private Map searchSequences = new HashMap( );
+	private Map searchSequences = new HashMap();
 
 	/** The font-family replacement */
-	private Map fontAliases = new HashMap( );
+	private Map fontAliases = new HashMap();
 
 	/**
 	 * composite fonts
 	 */
-	private Map compositeFonts = new HashMap( );
+	private Map compositeFonts = new HashMap();
 
-	FontMappingManager( FontMappingManagerFactory factory,
-			FontMappingManager parent, FontMappingConfig config, Locale locale )
-	{
+	FontMappingManager(FontMappingManagerFactory factory, FontMappingManager parent, FontMappingConfig config,
+			Locale locale) {
 		this.factory = factory;
 		this.parent = parent;
-		if ( parent != null )
-		{
-			this.searchSequences.putAll( parent.getSearchSequences( ) );
-			this.fontAliases.putAll( parent.getFontAliases( ) );
-			this.fontEncodings.putAll( parent.getFontEncodings( ) );
-			this.compositeFonts.putAll( parent.getCompositeFonts( ) );
+		if (parent != null) {
+			this.searchSequences.putAll(parent.getSearchSequences());
+			this.fontAliases.putAll(parent.getFontAliases());
+			this.fontEncodings.putAll(parent.getFontEncodings());
+			this.compositeFonts.putAll(parent.getCompositeFonts());
 		}
-		this.fontEncodings.putAll( config.fontEncodings );
-		this.searchSequences.putAll( config.searchSequences );
-		this.fontAliases.putAll( config.fontAliases );
+		this.fontEncodings.putAll(config.fontEncodings);
+		this.searchSequences.putAll(config.searchSequences);
+		this.fontAliases.putAll(config.fontAliases);
 
-		String[] sequence = getSearchSequence( locale );
-		Iterator iter = config.compositeFonts.entrySet( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Map.Entry entry = (Map.Entry) iter.next( );
-			String fontName = (String) entry.getKey( );
-			CompositeFontConfig fontConfig = (CompositeFontConfig) entry
-					.getValue( );
-			CompositeFont font = factory.createCompositeFont( this, fontConfig,
-					sequence );
-			compositeFonts.put( fontName, font );
+		String[] sequence = getSearchSequence(locale);
+		Iterator iter = config.compositeFonts.entrySet().iterator();
+		while (iter.hasNext()) {
+			Map.Entry entry = (Map.Entry) iter.next();
+			String fontName = (String) entry.getKey();
+			CompositeFontConfig fontConfig = (CompositeFontConfig) entry.getValue();
+			CompositeFont font = factory.createCompositeFont(this, fontConfig, sequence);
+			compositeFonts.put(fontName, font);
 		}
 	}
 
-	public FontMappingManager getParent( )
-	{
+	public FontMappingManager getParent() {
 		return parent;
 	}
 
-	public Map getFontEncodings( )
-	{
+	public Map getFontEncodings() {
 		return fontEncodings;
 	}
 
-	public Map getFontAliases( )
-	{
+	public Map getFontAliases() {
 		return fontAliases;
 	}
 
-	public Map getSearchSequences( )
-	{
+	public Map getSearchSequences() {
 		return searchSequences;
 	}
 
-	public Map getCompositeFonts( )
-	{
+	public Map getCompositeFonts() {
 		return compositeFonts;
 	}
 
-	protected String[] getSearchSequence( Locale locale )
-	{
-		StringBuffer sb = new StringBuffer( );
+	protected String[] getSearchSequence(Locale locale) {
+		StringBuffer sb = new StringBuffer();
 		String[] localeKeys = new String[3];
-		localeKeys[2] = sb.append( locale.getLanguage( ) ).toString( );
-		localeKeys[1] = sb.append( '_' ).append( locale.getCountry( ) )
-				.toString( );
-		localeKeys[0] = sb.append( '_' ).append( locale.getVariant( ) )
-				.toString( );
-		for ( int i = 0; i < localeKeys.length; i++ )
-		{
-			String[] sequence = (String[]) searchSequences.get( localeKeys[i] );
-			if ( sequence != null )
-			{
+		localeKeys[2] = sb.append(locale.getLanguage()).toString();
+		localeKeys[1] = sb.append('_').append(locale.getCountry()).toString();
+		localeKeys[0] = sb.append('_').append(locale.getVariant()).toString();
+		for (int i = 0; i < localeKeys.length; i++) {
+			String[] sequence = (String[]) searchSequences.get(localeKeys[i]);
+			if (sequence != null) {
 				return sequence;
 			}
 		}
 		return null;
 	}
 
-	public CompositeFont getCompositeFont( String name )
-	{
-		return (CompositeFont) compositeFonts.get( name );
+	public CompositeFont getCompositeFont(String name) {
+		return (CompositeFont) compositeFonts.get(name);
 	}
 
-	public String getDefaultPhysicalFont( char c )
-	{
-		CompositeFont compositeFont = (CompositeFont) compositeFonts
-				.get( FONT_NAME_ALL_FONTS );
-		if ( compositeFont != null )
-		{
-			String font = compositeFont.getUsedFont( c );
-			if ( font != null )
-			{
+	public String getDefaultPhysicalFont(char c) {
+		CompositeFont compositeFont = (CompositeFont) compositeFonts.get(FONT_NAME_ALL_FONTS);
+		if (compositeFont != null) {
+			String font = compositeFont.getUsedFont(c);
+			if (font != null) {
 				return font;
 			}
-			return compositeFont.getDefaultFont( );
+			return compositeFont.getDefaultFont();
 		}
 		return null;
 	}
 
-	public String getAliasedFont( String fontAlias )
-	{
-		String alias = (String) fontAliases.get( fontAlias );
-		if ( alias != null )
-		{
+	public String getAliasedFont(String fontAlias) {
+		String alias = (String) fontAliases.get(fontAlias);
+		if (alias != null) {
 			return alias;
 		}
 		return fontAlias;
@@ -152,14 +129,11 @@ public class FontMappingManager
 	/**
 	 * Creates iText BaseFont with the given font family name.
 	 * 
-	 * @param fontFamily
-	 *            the specified font family name.
-	 * @param style
-	 *            font style
+	 * @param fontFamily the specified font family name.
+	 * @param style      font style
 	 * @return the created BaseFont.
 	 */
-	public BaseFont createFont( String fontFamily, int fontStyle )
-	{
-		return factory.createFont( fontFamily, fontStyle );
+	public BaseFont createFont(String fontFamily, int fontStyle) {
+		return factory.createFont(fontFamily, fontStyle);
 	}
 }

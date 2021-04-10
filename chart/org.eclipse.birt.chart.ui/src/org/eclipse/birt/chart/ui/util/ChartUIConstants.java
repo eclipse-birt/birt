@@ -15,8 +15,7 @@ package org.eclipse.birt.chart.ui.util;
  * Constants used in UI
  */
 
-public interface ChartUIConstants
-{
+public interface ChartUIConstants {
 	public static final String IMAGE_TASK_TYPE = "icons/obj16/selecttype.gif";//$NON-NLS-1$
 	public static final String IMAGE_TASK_DATA = "icons/obj16/selectdata.gif";//$NON-NLS-1$
 	public static final String IMAGE_TASK_FORMAT = "icons/obj16/selectformat.gif";//$NON-NLS-1$
@@ -45,14 +44,11 @@ public interface ChartUIConstants
 	public static final int ALLOW_RIGHT_POSITION = 8;
 	public static final int ALLOW_IN_POSITION = 16;
 	public static final int ALLOW_OUT_POSITION = 32;
-	public static final int ALLOW_VERTICAL_POSITION = ALLOW_ABOVE_POSITION
-			| ALLOW_BELOW_POSITION;
-	public static final int ALLOW_HORIZONTAL_POSITION = ALLOW_LEFT_POSITION
-			| ALLOW_RIGHT_POSITION;
-	public static final int ALLOW_INOUT_POSITION = ALLOW_IN_POSITION
-			| ALLOW_OUT_POSITION;
-	public static final int ALLOW_ALL_POSITION = ALLOW_VERTICAL_POSITION
-			| ALLOW_HORIZONTAL_POSITION | ALLOW_INOUT_POSITION;
+	public static final int ALLOW_VERTICAL_POSITION = ALLOW_ABOVE_POSITION | ALLOW_BELOW_POSITION;
+	public static final int ALLOW_HORIZONTAL_POSITION = ALLOW_LEFT_POSITION | ALLOW_RIGHT_POSITION;
+	public static final int ALLOW_INOUT_POSITION = ALLOW_IN_POSITION | ALLOW_OUT_POSITION;
+	public static final int ALLOW_ALL_POSITION = ALLOW_VERTICAL_POSITION | ALLOW_HORIZONTAL_POSITION
+			| ALLOW_INOUT_POSITION;
 
 	public static final String NON_STACKED_TYPE = "non-stacked"; //$NON-NLS-1$
 	public static final String STACKED_TYPE = "stacked"; //$NON-NLS-1$
@@ -117,9 +113,9 @@ public interface ChartUIConstants
 	public static final String TYPE_GANTT = "Gantt Chart"; //$NON-NLS-1$
 	public static final String TYPE_PIE = "Pie Chart"; //$NON-NLS-1$
 	public static final String TYPE_METER = "Meter Chart"; //$NON-NLS-1$
-	
-	public static final String COPY_SERIES_DEFINITION= "CopySeriesDefinition"; //$NON-NLS-1$
-	
+
+	public static final String COPY_SERIES_DEFINITION = "CopySeriesDefinition"; //$NON-NLS-1$
+
 	public static final String UPDATE_CUBE_BINDINGS = "UpdateCubeBindings"; //$NON-NLS-1$
 
 	public static final String UPDATE_MODEL = "UpdateModel"; //$NON-NLS-1$

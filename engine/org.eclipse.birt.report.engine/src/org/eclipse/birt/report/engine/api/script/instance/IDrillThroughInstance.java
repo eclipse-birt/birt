@@ -17,103 +17,104 @@ import java.util.Map;
  * 
  */
 
-public interface IDrillThroughInstance
-{
+public interface IDrillThroughInstance {
 	/**
 	 * @return the report name.
 	 */
-	String getReportName( );
-	
+	String getReportName();
+
 	/**
 	 * Set the report name.
+	 * 
 	 * @param reportName
 	 */
-	void setReportName( String reportName );
-	
+	void setReportName(String reportName);
+
 	/**
-	 * @return a set of name/value pairs for running the report in the
-	 *         drillthrough link. 
+	 * @return a set of name/value pairs for running the report in the drillthrough
+	 *         link.
 	 */
-	Map getParameterBindings( );
-	
+	Map getParameterBindings();
+
 	/**
-	 * Set a set of name/value pairs for running the report in the
-	 *         drillthrough link. 
+	 * Set a set of name/value pairs for running the report in the drillthrough
+	 * link.
 	 */
-	void setParameterBindings( Map parameterBindings );
-	
+	void setParameterBindings(Map parameterBindings);
+
 	/**
 	 * @return a set of name/value pairs for searching the report in the
 	 *         drillthrough link.
 	 */
-	Map getSearchCriteria( );
-	
+	Map getSearchCriteria();
+
 	/**
-	 * Set a set of name/value pairs for searching the report in the
-	 *         drillthrough link.
+	 * Set a set of name/value pairs for searching the report in the drillthrough
+	 * link.
 	 */
-	void setSearchCriteria( Map searchCriteria );
+	void setSearchCriteria(Map searchCriteria);
 
 	/**
 	 * @return the format of output report.
 	 * 
 	 */
-	String getFormat( );
+	String getFormat();
 
 	/**
 	 * Set the format of output report.
 	 * 
 	 */
-	void setFormat( String format );
-	
+	void setFormat(String format);
+
 	/**
-	 * @return the bookmark type. 
-	 *         True, the bookmark is a bookmark.
-	 *         False, the bookmark is a toc. 
+	 * @return the bookmark type. True, the bookmark is a bookmark. False, the
+	 *         bookmark is a toc.
 	 */
 	boolean isBookmark();
-	
+
 	/**
 	 * Set the bookmark to the drillThrough .
+	 * 
 	 * @param bookmark
 	 */
-	void setBookmark( String bookmark );
-	
+	void setBookmark(String bookmark);
+
 	/**
-	 * @return the bookmark string if the bookmark type is Bookmark.
-	 *         NULL if  the bookmark type is TOC.
+	 * @return the bookmark string if the bookmark type is Bookmark. NULL if the
+	 *         bookmark type is TOC.
 	 */
-	String getBookmark( );
-	
+	String getBookmark();
+
 	/**
 	 * Set the TOC of this drillThrough.
+	 * 
 	 * @param toc
 	 */
-	void setTOC( String toc );
-	
+	void setTOC(String toc);
+
 	/**
-	 * @return the bookmark string if the bookmark type is TOC.
-	 *         NULL if  the bookmark type is Bookmark.
+	 * @return the bookmark string if the bookmark type is TOC. NULL if the bookmark
+	 *         type is Bookmark.
 	 */
-	String getTOC( );
-	
+	String getTOC();
+
 	/**
 	 * @return the targetWindow string.
 	 */
-	String getTargetWindow( );
-	
+	String getTargetWindow();
+
 	/**
 	 * Set the targetWindow string.
 	 */
-	void setTargetWindow( String target );
-	
+	void setTargetWindow(String target);
+
 	/**
 	 * Sets target report file type for a drill-through action.
 	 */
-	void setTargetFileType( String targetFileType );
+	void setTargetFileType(String targetFileType);
 
 	/**
 	 * @return the type of the target report file.
 	 */
-	String getTargetFileType( );
+	String getTargetFileType();
 }

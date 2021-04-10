@@ -18,8 +18,7 @@ import org.eclipse.gef.commands.Command;
  * invoked when the user selects 2 columns and tries to create a join between
  * them
  */
-public class ConnectionCommand extends Command
-{
+public class ConnectionCommand extends Command {
 
 	protected EditPart source;
 	protected ColumnEditPart target;
@@ -27,8 +26,7 @@ public class ConnectionCommand extends Command
 	/**
 	 * 
 	 */
-	public ConnectionCommand( )
-	{
+	public ConnectionCommand() {
 	}
 
 	/*
@@ -36,9 +34,8 @@ public class ConnectionCommand extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	public boolean canExecute( )
-	{
-		if ( source == null || target == null)
+	public boolean canExecute() {
+		if (source == null || target == null)
 			return false;
 		else
 			return true;
@@ -47,30 +44,25 @@ public class ConnectionCommand extends Command
 	/**
 	 * @return The Source ColumnEditPart
 	 */
-	public EditPart getSource( )
-	{
+	public EditPart getSource() {
 		return source;
 	}
 
 	/**
 	 * @return The target ColumnEditPart
 	 */
-	public ColumnEditPart getTarget( )
-	{
+	public ColumnEditPart getTarget() {
 		return target;
 	}
 
-	public void setSource( EditPart newSource )
-	{
+	public void setSource(EditPart newSource) {
 		source = newSource;
 	}
 
 	/**
-	 * @param newTarget:
-	 *            The Target ColumnEditPart to be set
+	 * @param newTarget: The Target ColumnEditPart to be set
 	 */
-	public void setTarget( ColumnEditPart newTarget )
-	{
+	public void setTarget(ColumnEditPart newTarget) {
 		target = newTarget;
 	}
 

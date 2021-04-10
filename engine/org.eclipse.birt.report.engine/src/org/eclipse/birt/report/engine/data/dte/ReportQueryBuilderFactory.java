@@ -15,79 +15,59 @@ import org.eclipse.core.runtime.Platform;
 
 import java.util.logging.Logger;
 
-public class ReportQueryBuilderFactory
-{
-    
-    private static Logger logger = Logger
-            .getLogger( ReportQueryBuilderFactory.class.getName( ) );
+public class ReportQueryBuilderFactory {
 
-    /**
-     * static factory instance
-     */
-    static protected ReportQueryBuilderFactory instance;
+	private static Logger logger = Logger.getLogger(ReportQueryBuilderFactory.class.getName());
 
-    /**
-     * get instance of factory
-     * 
-     * @return the factory instance
-     */
-    synchronized public static ReportQueryBuilderFactory getInstance( )
-    {
-        if ( instance == null )
-        {
-            instance = loadQueryBuilderExtension( );
-            if ( instance == null )
-            {
-                instance = new ReportQueryBuilderFactory( );
-            }
-        }
-        return instance;
-    }
-    
-    private static ReportQueryBuilderFactory loadQueryBuilderExtension()
-    {
-        IExtensionRegistry registry = Platform.getExtensionRegistry( );
-        IExtensionPoint extensionPoint = registry
-                .getExtensionPoint( "org.eclipse.birt.core.FactoryService" );
-        IExtension[] extensions = extensionPoint.getExtensions( );
-        for ( IExtension extension : extensions )
-        {
-            IConfigurationElement[] elements = extension
-                    .getConfigurationElements( );
-            for ( IConfigurationElement element : elements )
-            {
-                String type = element.getAttribute( "type" );
-                if ( "org.eclipse.birt.report.engine.data.querybuilderfactory"
-                        .equals( type ) )
-                {
-                    try
-                    {
-                        Object factoryObject = element
-                                .createExecutableExtension( "class" );
-                        if ( factoryObject instanceof ReportQueryBuilderFactory )
-                        {
-                            return (ReportQueryBuilderFactory) factoryObject;
-                        }
-                    }
-                    catch ( CoreException ex )
-                    {
-                        logger.log( Level.WARNING,
-                                        "can not load the engine extension factory",
-                                ex );
-                    }
-                }
-            }
-        }
-        return null;
-    }
+	/**
+	 * static factory instance
+	 */
+	static protected ReportQueryBuilderFactory instance;
 
-    /**
-     * create ReportQueryBuilders
-     * @return
-     */
-    public ReportQueryBuilder createBuilder( Report report,
-            ExecutionContext context, DataRequestSession dteSession )
-    {
-        return new ReportQueryBuilder( report, context, dteSession );
-    }
+	/**
+	 * get instance of factory
+	 * 
+	 * @return the factory instance
+	 */
+	synchronized public static ReportQueryBuilderFactory getInstance() {
+		if (instance == null) {
+			instance = loadQueryBuilderExtension();
+			if (instance == null) {
+				instance = new ReportQueryBuilderFactory();
+			}
+		}
+		return instance;
+	}
+
+	private static ReportQueryBuilderFactory loadQueryBuilderExtension() {
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.birt.core.FactoryService");
+		IExtension[] extensions = extensionPoint.getExtensions();
+		for (IExtension extension : extensions) {
+			IConfigurationElement[] elements = extension.getConfigurationElements();
+			for (IConfigurationElement element : elements) {
+				String type = element.getAttribute("type");
+				if ("org.eclipse.birt.report.engine.data.querybuilderfactory".equals(type)) {
+					try {
+						Object factoryObject = element.createExecutableExtension("class");
+						if (factoryObject instanceof ReportQueryBuilderFactory) {
+							return (ReportQueryBuilderFactory) factoryObject;
+						}
+					} catch (CoreException ex) {
+						logger.log(Level.WARNING, "can not load the engine extension factory", ex);
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * create ReportQueryBuilders
+	 * 
+	 * @return
+	 */
+	public ReportQueryBuilder createBuilder(Report report, ExecutionContext context, DataRequestSession dteSession) {
+		return new ReportQueryBuilder(report, context, dteSession);
+	}
 }

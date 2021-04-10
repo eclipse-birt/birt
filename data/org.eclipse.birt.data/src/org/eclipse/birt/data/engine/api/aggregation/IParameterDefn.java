@@ -14,49 +14,47 @@ package org.eclipse.birt.data.engine.api.aggregation;
 /**
  *
  */
-public interface IParameterDefn
-{
+public interface IParameterDefn {
 
 	/**
 	 * get the native name of this parameter.
 	 * 
 	 * @return
 	 */
-	public String getName( );
+	public String getName();
 
 	/**
 	 * to indicate whether this parameter is optional.
 	 * 
 	 * @return
 	 */
-	public boolean isOptional( );
+	public boolean isOptional();
 
 	/**
-	 * to indicate whether this parameter reference to a column or binding of
-	 * BIRT.
+	 * to indicate whether this parameter reference to a column or binding of BIRT.
 	 * 
 	 * @return
 	 */
-	public boolean isDataField( );
+	public boolean isDataField();
 
 	/**
 	 * get the display name of this parameter.
 	 * 
 	 * @return
 	 */
-	public String getDisplayName( );
+	public String getDisplayName();
 
 	/**
 	 * get the description of this parameter.
 	 * 
 	 * @return
 	 */
-	public String getDescription( );
+	public String getDescription();
 
 	/**
 	 * check whether this parameter support specified data type.
 	 * 
 	 * @return
 	 */
-	public boolean supportDataType( int dataType );
+	public boolean supportDataType(int dataType);
 }

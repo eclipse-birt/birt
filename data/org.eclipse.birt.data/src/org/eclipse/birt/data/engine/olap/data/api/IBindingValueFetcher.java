@@ -14,9 +14,7 @@ package org.eclipse.birt.data.engine.olap.data.api;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggregationRowAccessor;
 
-public interface IBindingValueFetcher
-{
+public interface IBindingValueFetcher {
 
-	public abstract Object getValue( String bindingName,
-			AggregationRowAccessor row, int index ) throws DataException;
+	public abstract Object getValue(String bindingName, AggregationRowAccessor row, int index) throws DataException;
 }

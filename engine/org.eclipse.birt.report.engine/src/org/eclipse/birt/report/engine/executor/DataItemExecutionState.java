@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-public class DataItemExecutionState
-{
+public class DataItemExecutionState {
 
 	public Object lastValue;
 }

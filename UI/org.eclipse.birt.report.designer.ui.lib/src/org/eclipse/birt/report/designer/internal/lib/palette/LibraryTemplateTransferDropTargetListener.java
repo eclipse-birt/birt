@@ -20,28 +20,25 @@ import org.eclipse.swt.dnd.DropTargetEvent;
  * Drag&Drop listener for the library editor.
  * 
  */
-public class LibraryTemplateTransferDropTargetListener extends
-		ReportTemplateTransferDropTargetListener
-{
+public class LibraryTemplateTransferDropTargetListener extends ReportTemplateTransferDropTargetListener {
 
 	/**
 	 * @param viewer
 	 */
-	public LibraryTemplateTransferDropTargetListener( EditPartViewer viewer )
-	{
-		super( viewer );
+	public LibraryTemplateTransferDropTargetListener(EditPartViewer viewer) {
+		super(viewer);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse.swt.dnd.DropTargetEvent)
+	 * @see
+	 * org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse.
+	 * swt.dnd.DropTargetEvent)
 	 */
-	public void dragOver( DropTargetEvent event )
-	{
-		super.dragOver( event );
-		if ( getTargetEditPart( ) == null )
-		{
+	public void dragOver(DropTargetEvent event) {
+		super.dragOver(event);
+		if (getTargetEditPart() == null) {
 			event.detail = DND.DROP_NONE;
 			return;
 		}

@@ -26,68 +26,51 @@ import org.eclipse.ui.ISaveablePart;
  * Document provider specialized for
  * {@link org.eclipse.birt.report.designer.internal.ui.editors.IStorageEditorInput}.
  */
-public class StorageDocumentProvider extends DocumentProvider
-{
+public class StorageDocumentProvider extends DocumentProvider {
 
 	/**
 	 * Creates a new document provider.
 	 * 
 	 */
-	public StorageDocumentProvider( )
-	{
-		super( );
+	public StorageDocumentProvider() {
+		super();
 	}
 
 	/**
 	 * Creates a new document provider with the specified saveable part.
 	 * 
-	 * @param part
-	 *            the saveable part.
+	 * @param part the saveable part.
 	 */
-	public StorageDocumentProvider( ISaveablePart part )
-	{
-		super( part );
+	public StorageDocumentProvider(ISaveablePart part) {
+		super(part);
 	}
 
 	/**
-	 * Initializes the given document from the given editor input using the
-	 * given character encoding.
+	 * Initializes the given document from the given editor input using the given
+	 * character encoding.
 	 * 
-	 * @param document
-	 *            the document to be initialized
-	 * @param editorInput
-	 *            the input from which to derive the content of the document
-	 * @param encoding
-	 *            the character encoding used to read the editor input
+	 * @param document    the document to be initialized
+	 * @param editorInput the input from which to derive the content of the document
+	 * @param encoding    the character encoding used to read the editor input
 	 * @return <code>true</code> if the document content could be set,
 	 *         <code>false</code> otherwise
-	 * @throws CoreException
-	 *             if the given editor input cannot be accessed
+	 * @throws CoreException if the given editor input cannot be accessed
 	 */
-	protected boolean setDocumentContent( IDocument document,
-			IEditorInput editorInput, String encoding ) throws CoreException
-	{
+	protected boolean setDocumentContent(IDocument document, IEditorInput editorInput, String encoding)
+			throws CoreException {
 		IStorage storage = null;
-		if ( editorInput instanceof IStorageEditorInput )
-		{
-			storage = ( (IStorageEditorInput) editorInput ).getStorage( );
+		if (editorInput instanceof IStorageEditorInput) {
+			storage = ((IStorageEditorInput) editorInput).getStorage();
 		}
 
-		if ( storage != null )
-		{
-			InputStream stream = storage.getContents( );
-			try
-			{
-				setDocumentContent( document, stream, encoding );
-			}
-			finally
-			{
-				try
-				{
-					stream.close( );
-				}
-				catch ( IOException x )
-				{
+		if (storage != null) {
+			InputStream stream = storage.getContents();
+			try {
+				setDocumentContent(document, stream, encoding);
+			} finally {
+				try {
+					stream.close();
+				} catch (IOException x) {
 				}
 			}
 			return true;
@@ -98,53 +81,40 @@ public class StorageDocumentProvider extends DocumentProvider
 	/**
 	 * Returns the persisted encoding for the given element.
 	 * 
-	 * @param element
-	 *            the element for which to get the persisted encoding
+	 * @param element the element for which to get the persisted encoding
 	 * @return the persisted encoding
 	 */
-	protected String getPersistedEncoding( Object element )
-	{
-		if ( element instanceof IStorageEditorInput )
-		{
+	protected String getPersistedEncoding(Object element) {
+		if (element instanceof IStorageEditorInput) {
 			IStorage storage;
-			try
-			{
-				storage = ( (IStorageEditorInput) element ).getStorage( );
-				if ( storage instanceof IEncodedStorage )
-					return ( (IEncodedStorage) storage ).getCharset( );
-			}
-			catch ( CoreException e )
-			{
+			try {
+				storage = ((IStorageEditorInput) element).getStorage();
+				if (storage instanceof IEncodedStorage)
+					return ((IEncodedStorage) storage).getCharset();
+			} catch (CoreException e) {
 				return null;
 			}
 		}
 		return null;
 	}
 
-	public boolean isModifiable( Object element )
-	{
-		return !isReadOnly( element );
+	public boolean isModifiable(Object element) {
+		return !isReadOnly(element);
 	}
 
-	public boolean isReadOnly( Object element )
-	{
+	public boolean isReadOnly(Object element) {
 		IStorage storage = null;
-		try
-		{
-			if ( element instanceof IStorageEditorInput )
-			{
-				storage = ( (IStorageEditorInput) element ).getStorage( );
+		try {
+			if (element instanceof IStorageEditorInput) {
+				storage = ((IStorageEditorInput) element).getStorage();
 			}
-		}
-		catch ( CoreException x )
-		{
-			ExceptionHandler.handle( x );
+		} catch (CoreException x) {
+			ExceptionHandler.handle(x);
 		}
 
-		if ( storage != null )
-		{
-			return storage.isReadOnly( );
+		if (storage != null) {
+			return storage.isReadOnly();
 		}
-		return super.isReadOnly( element );
+		return super.isReadOnly(element);
 	}
 }

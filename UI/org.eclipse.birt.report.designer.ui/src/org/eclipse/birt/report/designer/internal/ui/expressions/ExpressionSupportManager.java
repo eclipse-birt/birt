@@ -24,88 +24,71 @@ import org.eclipse.core.runtime.Platform;
 /**
  * ExpressionSupportManager
  */
-public class ExpressionSupportManager
-{
+public class ExpressionSupportManager {
 
-	private ExpressionSupportManager( )
-	{
+	private ExpressionSupportManager() {
 	}
 
 	/**
 	 * @return Returns all available expressoin supports in current context.
 	 */
-	public static IExpressionSupport[] getExpressionSupports( )
-	{
-		String[] exts = getScriptExtensions( );
+	public static IExpressionSupport[] getExpressionSupports() {
+		String[] exts = getScriptExtensions();
 
-		if ( exts == null || exts.length == 0 )
-		{
+		if (exts == null || exts.length == 0) {
 			return null;
 		}
 
-		List<IExpressionSupport> supports = new ArrayList<IExpressionSupport>( );
+		List<IExpressionSupport> supports = new ArrayList<IExpressionSupport>();
 
-		for ( String scriptName : exts )
-		{
-			Object adapter = ElementAdapterManager.getAdapter( scriptName,
-					IExpressionSupport.class );
+		for (String scriptName : exts) {
+			Object adapter = ElementAdapterManager.getAdapter(scriptName, IExpressionSupport.class);
 
-			if ( adapter instanceof IExpressionSupport )
-			{
-				supports.add( (IExpressionSupport) adapter );
+			if (adapter instanceof IExpressionSupport) {
+				supports.add((IExpressionSupport) adapter);
 			}
 		}
 
-		if ( supports.size( ) == 0 )
-		{
+		if (supports.size() == 0) {
 			return null;
 		}
 
-		return supports.toArray( new IExpressionSupport[supports.size( )] );
+		return supports.toArray(new IExpressionSupport[supports.size()]);
 	}
 
 	/**
-	 * !! this method is experimental and should be replaced by API from
-	 * birt.core later
+	 * !! this method is experimental and should be replaced by API from birt.core
+	 * later
 	 * 
 	 * @return
 	 */
-	private static String[] getScriptExtensions( )
-	{
-		IExtensionRegistry registry = Platform.getExtensionRegistry( );
+	private static String[] getScriptExtensions() {
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
 
-		if ( registry == null )
-		{
+		if (registry == null) {
 			return null;
 		}
 
-		IExtensionPoint extensionPoint = registry.getExtensionPoint( "org.eclipse.birt.core.ScriptEngineFactory" ); //$NON-NLS-1$
+		IExtensionPoint extensionPoint = registry.getExtensionPoint("org.eclipse.birt.core.ScriptEngineFactory"); //$NON-NLS-1$
 
-		if ( extensionPoint == null )
-		{
+		if (extensionPoint == null) {
 			return null;
 		}
 
-		List<String> exts = new ArrayList<String>( );
+		List<String> exts = new ArrayList<String>();
 
-		for ( IExtension extension : extensionPoint.getExtensions( ) )
-		{
-			if ( extension != null )
-			{
-				IConfigurationElement[] elements = extension.getConfigurationElements( );
+		for (IExtension extension : extensionPoint.getExtensions()) {
+			if (extension != null) {
+				IConfigurationElement[] elements = extension.getConfigurationElements();
 
-				if ( elements != null )
-				{
-					for ( IConfigurationElement element : elements )
-					{
-						if ( element != null )
-						{
-							//final String id = element.getAttribute( "scriptID" ); //$NON-NLS-1$
-							String name = element.getAttribute( "scriptName" ); //$NON-NLS-1$
+				if (elements != null) {
+					for (IConfigurationElement element : elements) {
+						if (element != null) {
+							// final String id = element.getAttribute( "scriptID" ); //$NON-NLS-1$
+							String name = element.getAttribute("scriptName"); //$NON-NLS-1$
 
-							if ( name != null && name.length( ) > 0 )
-							{
-								exts.add( name );
+							if (name != null && name.length() > 0) {
+								exts.add(name);
 							}
 						}
 					}
@@ -113,12 +96,11 @@ public class ExpressionSupportManager
 			}
 		}
 
-		if ( exts.size( ) == 0 )
-		{
+		if (exts.size() == 0) {
 			return null;
 		}
 
-		return exts.toArray( new String[exts.size( )] );
+		return exts.toArray(new String[exts.size()]);
 
 	}
 }

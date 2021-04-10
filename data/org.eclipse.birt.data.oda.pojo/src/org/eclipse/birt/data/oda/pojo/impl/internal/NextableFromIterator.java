@@ -15,44 +15,40 @@ import java.util.Iterator;
 /**
  * Nextable Wrapper for Iterator
  */
-public class NextableFromIterator extends Nextable
-{
+public class NextableFromIterator extends Nextable {
 	@SuppressWarnings("unchecked")
 	private Iterator itr;
 	private Object currValue;
-	
+
 	@SuppressWarnings("unchecked")
-	public NextableFromIterator( Iterator itr )
-	{
+	public NextableFromIterator(Iterator itr) {
 		this.itr = itr;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.oda.pojo.impl.internal.Nextable#getValue()
 	 */
 	@Override
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return currValue;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.oda.pojo.impl.internal.Nextable#next()
 	 */
 	@Override
-	public boolean next( )
-	{
-		if ( itr == null )
-		{
+	public boolean next() {
+		if (itr == null) {
 			return false;
 		}
-		if ( itr.hasNext( ) )
-		{
-			currValue = itr.next( );
+		if (itr.hasNext()) {
+			currValue = itr.next();
 			return true;
-		}
-		else
-		{
+		} else {
 			currValue = null;
 			return false;
 		}

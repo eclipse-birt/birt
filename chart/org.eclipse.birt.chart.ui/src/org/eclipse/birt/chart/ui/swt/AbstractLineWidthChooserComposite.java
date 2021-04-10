@@ -17,19 +17,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
-
 /**
  * AbstractLineWidthChooserComposite
  */
 
-public abstract class AbstractLineWidthChooserComposite extends
-		CustomChooserComposite
-{
+public abstract class AbstractLineWidthChooserComposite extends CustomChooserComposite {
 
-	public AbstractLineWidthChooserComposite( Composite parent, int style,
-			Object choiceValue )
-	{
-		super( parent, style, choiceValue );
+	public AbstractLineWidthChooserComposite(Composite parent, int style, Object choiceValue) {
+		super(parent, style, choiceValue);
 	}
 
 	/**
@@ -37,15 +32,14 @@ public abstract class AbstractLineWidthChooserComposite extends
 	 * 
 	 * @return currently selected line width
 	 */
-	abstract public int getLineWidth( );
+	abstract public int getLineWidth();
 
-	abstract public void setLineWidth( int iWidth );
-	
-	abstract public void setLineWidth( int iWidth, EObject eParent );
-	
-	protected void initAccessible( )
-	{
-		super.initAccessible( );
-		ChartUIUtil.addScreenReaderAccessibility( this, (Canvas) cnvSelection );
+	abstract public void setLineWidth(int iWidth);
+
+	abstract public void setLineWidth(int iWidth, EObject eParent);
+
+	protected void initAccessible() {
+		super.initAccessible();
+		ChartUIUtil.addScreenReaderAccessibility(this, (Canvas) cnvSelection);
 	}
 }

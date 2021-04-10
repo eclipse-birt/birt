@@ -23,44 +23,35 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
  * 
  */
 
-public class CubePage extends GeneralPage
-{
+public class CubePage extends GeneralPage {
 
-	protected void buildContent( )
-	{
+	protected void buildContent() {
 
-		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( ReportItemHandle.NAME_PROP,
-				ReportDesignConstants.CUBE_ELEMENT );
-		TextSection nameSection = new TextSection( nameProvider.getDisplayName( ),
-				container,
-				true );
-		nameSection.setProvider( nameProvider );
-		nameSection.setGridPlaceholder( 4, true );
-		nameSection.setWidth( 500 );
-		addSection( CubePageSectionId.CUBE_NAME, nameSection );
+		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(ReportItemHandle.NAME_PROP,
+				ReportDesignConstants.CUBE_ELEMENT);
+		TextSection nameSection = new TextSection(nameProvider.getDisplayName(), container, true);
+		nameSection.setProvider(nameProvider);
+		nameSection.setGridPlaceholder(4, true);
+		nameSection.setWidth(500);
+		addSection(CubePageSectionId.CUBE_NAME, nameSection);
 
-		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
-		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
-				container,
-				true );
-		elementIdSection.setProvider( elementIdProvider );
-		elementIdSection.setWidth( 500 );
-		elementIdSection.setGridPlaceholder( 4, true );
-		addSection( CubePageSectionId.CUBE_ELEMENT_ID, elementIdSection );
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider();
+		TextSection elementIdSection = new TextSection(elementIdProvider.getDisplayName(), container, true);
+		elementIdSection.setProvider(elementIdProvider);
+		elementIdSection.setWidth(500);
+		elementIdSection.setGridPlaceholder(4, true);
+		addSection(CubePageSectionId.CUBE_ELEMENT_ID, elementIdSection);
 
-		PrimaryDatasetDescriptorProvider dataSetProvider = new PrimaryDatasetDescriptorProvider( );
-		TextSection dataSetSection = new TextSection( dataSetProvider.getDisplayName( ),
-				container,
-				true );
-		dataSetSection.setProvider( dataSetProvider );
-		dataSetSection.setGridPlaceholder( 4, true );
-		dataSetSection.setWidth( 500 );
-		addSection( CubePageSectionId.CUBE_PRIMARY_DATASET, dataSetSection );
+		PrimaryDatasetDescriptorProvider dataSetProvider = new PrimaryDatasetDescriptorProvider();
+		TextSection dataSetSection = new TextSection(dataSetProvider.getDisplayName(), container, true);
+		dataSetSection.setProvider(dataSetProvider);
+		dataSetSection.setGridPlaceholder(4, true);
+		dataSetSection.setWidth(500);
+		addSection(CubePageSectionId.CUBE_PRIMARY_DATASET, dataSetSection);
 
 	}
 
-	public boolean canReset( )
-	{
+	public boolean canReset() {
 		return false;
 	}
 

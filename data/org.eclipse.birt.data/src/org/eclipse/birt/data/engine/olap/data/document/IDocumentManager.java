@@ -17,8 +17,7 @@ import java.io.IOException;
  * 
  */
 
-public interface IDocumentManager
-{
+public interface IDocumentManager {
 	/**
 	 * Create a document object by name.
 	 * 
@@ -26,37 +25,37 @@ public interface IDocumentManager
 	 * @return document object if the named document object was successfully
 	 *         created; null if the named file already exists
 	 */
-	public IDocumentObject createDocumentObject( String documentObjectName ) throws IOException;
-	
+	public IDocumentObject createDocumentObject(String documentObjectName) throws IOException;
+
 	/**
 	 * Check the named document object whether exists or not
 	 * 
 	 * @param documentObjectName
 	 * @return if the named document object exists; false otherwise
 	 */
-	public boolean exist( String documentObjectName );
-	
+	public boolean exist(String documentObjectName);
+
 	/**
 	 * Open the named document object.
+	 * 
 	 * @param documentObjectName
 	 * @return
 	 */
-	public IDocumentObject openDocumentObject( String documentObjectName ) throws IOException;
-	
+	public IDocumentObject openDocumentObject(String documentObjectName) throws IOException;
+
 	/**
 	 * 
 	 * @throws IOException
 	 */
-	public void flush( ) throws IOException;
-	
+	public void flush() throws IOException;
+
 	/**
-	 * Close this document manager and releases any system resources associated
-	 * with the object.
+	 * Close this document manager and releases any system resources associated with
+	 * the object.
 	 * 
 	 * @param documentObjectName
 	 * @return
 	 */
-	public void close( ) throws IOException;
-	
-	
+	public void close() throws IOException;
+
 }

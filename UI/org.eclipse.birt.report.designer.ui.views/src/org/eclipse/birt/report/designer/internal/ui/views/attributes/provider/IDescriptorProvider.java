@@ -3,18 +3,17 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public interface IDescriptorProvider
-{
+public interface IDescriptorProvider {
 
-	Object load( );
+	Object load();
 
-	void save( Object value ) throws SemanticException;
+	void save(Object value) throws SemanticException;
 
-	void setInput( Object input );
+	void setInput(Object input);
 
-	String getDisplayName( );
+	String getDisplayName();
 
-	boolean canReset( );
+	boolean canReset();
 
-	void reset( ) throws SemanticException;
+	void reset() throws SemanticException;
 }

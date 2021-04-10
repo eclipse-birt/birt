@@ -27,37 +27,35 @@ import junit.framework.TestSuite;
  * Tests for archive package
  */
 
-public class AllArchiveTests
-{
+public class AllArchiveTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( FileCacheManagerTest.class );
-		test.addTestSuite( ArchiveEntryInputStreamTest.class );
-		test.addTestSuite( ArchiveFileFactoryTest.class );
-		test.addTestSuite( ArchiveFileTest.class );
-		test.addTestSuite( ArchivePerformanceTest.class );
-		test.addTestSuite( ArchiveRemoveTest.class );
-		test.addTestSuite( ArchiveViewTest.class );
-		test.addTestSuite( UpgradeArchiveTest.class );
-		test.addTestSuite( ArchiveFileCacheTest.class );
-		test.addTestSuite( ArchiveFileSaveTest.class );
-		test.addTestSuite( ArchiveFlushTest.class );
-		test.addTestSuite( ArchiveUtilTest.class );
-		test.addTestSuite( DocArchiveLockManagerTest.class );
-		test.addTestSuite( DocumentArchiveTest.class );
-		test.addTestSuite( FileArchiveTest.class );
-		test.addTestSuite( FolderArchiveTest.class );
-		test.addTestSuite( FolderToArchiveTest.class );
-		test.addTestSuite( InputStreamRefreshTest.class );
-		test.addTestSuite( SpecialCharacterTest.class );
-		test.addTestSuite( BufferTest.class );
+		test.addTestSuite(FileCacheManagerTest.class);
+		test.addTestSuite(ArchiveEntryInputStreamTest.class);
+		test.addTestSuite(ArchiveFileFactoryTest.class);
+		test.addTestSuite(ArchiveFileTest.class);
+		test.addTestSuite(ArchivePerformanceTest.class);
+		test.addTestSuite(ArchiveRemoveTest.class);
+		test.addTestSuite(ArchiveViewTest.class);
+		test.addTestSuite(UpgradeArchiveTest.class);
+		test.addTestSuite(ArchiveFileCacheTest.class);
+		test.addTestSuite(ArchiveFileSaveTest.class);
+		test.addTestSuite(ArchiveFlushTest.class);
+		test.addTestSuite(ArchiveUtilTest.class);
+		test.addTestSuite(DocArchiveLockManagerTest.class);
+		test.addTestSuite(DocumentArchiveTest.class);
+		test.addTestSuite(FileArchiveTest.class);
+		test.addTestSuite(FolderArchiveTest.class);
+		test.addTestSuite(FolderToArchiveTest.class);
+		test.addTestSuite(InputStreamRefreshTest.class);
+		test.addTestSuite(SpecialCharacterTest.class);
+		test.addTestSuite(BufferTest.class);
 		// add all test classes here
 
 		return test;

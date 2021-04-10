@@ -23,8 +23,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class DerivedDataSetState extends ReportElementState
-{
+public class DerivedDataSetState extends ReportElementState {
 
 	/**
 	 * The derived data set being built.
@@ -36,15 +35,12 @@ public class DerivedDataSetState extends ReportElementState
 	 * Constructs the joint data set state with design parser handler, container
 	 * element and container slot of the data source.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
+	 * @param handler the design file parser handler
 	 */
 
-	public DerivedDataSetState( ModuleParserHandler handler, Module module,
-			int slot )
-	{
-		super( handler, module, slot );
-		element = new DerivedDataSet( );
+	public DerivedDataSetState(ModuleParserHandler handler, Module module, int slot) {
+		super(handler, module, slot);
+		element = new DerivedDataSet();
 	}
 
 	/*
@@ -53,25 +49,20 @@ public class DerivedDataSetState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		initElement( attrs, true );
-		String extensionID = getAttrib( attrs,
-				DesignSchemaConstants.EXTENSION_ID_ATTRIB );
-		element.setProperty( IDerivedExtendableElementModel.EXTENSION_ID_PROP,
-				extensionID );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		initElement(attrs, true);
+		String extensionID = getAttrib(attrs, DesignSchemaConstants.EXTENSION_ID_ATTRIB);
+		element.setProperty(IDerivedExtendableElementModel.EXTENSION_ID_PROP, extensionID);
 	}
 }

@@ -23,20 +23,16 @@ import org.eclipse.draw2d.geometry.Dimension;
  * Adapter class to adapt model handle. This adapter provides convenience
  * methods to GUI requirement LabelHandleAdapter responds to model LabelHandle
  */
-public class LabelHandleAdapter extends ReportItemtHandleAdapter
-{
+public class LabelHandleAdapter extends ReportItemtHandleAdapter {
 
 	/**
 	 * Constructor
 	 * 
-	 * @param labelHandle
-	 *            The label handle.
+	 * @param labelHandle The label handle.
 	 * @param mark
 	 */
-	public LabelHandleAdapter( ReportItemHandle labelHandle,
-			IModelAdapterHelper mark )
-	{
-		super( labelHandle, mark );
+	public LabelHandleAdapter(ReportItemHandle labelHandle, IModelAdapterHelper mark) {
+		super(labelHandle, mark);
 	}
 
 	/**
@@ -44,41 +40,35 @@ public class LabelHandleAdapter extends ReportItemtHandleAdapter
 	 * 
 	 * @return the size of label item.
 	 */
-	public Dimension getSize( )
-	{
-		DimensionHandle widthHandle = ( (ReportItemHandle) getHandle( ) ).getWidth( );
+	public Dimension getSize() {
+		DimensionHandle widthHandle = ((ReportItemHandle) getHandle()).getWidth();
 
 		int px = 0;
 		int py = 0;
 
 		// percentage unit is handled in layout, here always return 0;
 
-		if ( !DesignChoiceConstants.UNITS_PERCENTAGE.equals( widthHandle.getUnits( ) ) )
-		{
-			px = (int) DEUtil.convertoToPixel( widthHandle );
+		if (!DesignChoiceConstants.UNITS_PERCENTAGE.equals(widthHandle.getUnits())) {
+			px = (int) DEUtil.convertoToPixel(widthHandle);
 		}
 
-		DimensionHandle heightHandle = ( (ReportItemHandle) getHandle( ) ).getHeight( );
+		DimensionHandle heightHandle = ((ReportItemHandle) getHandle()).getHeight();
 
-		if ( !DesignChoiceConstants.UNITS_PERCENTAGE.equals( heightHandle.getUnits( ) ) )
-		{
-			py = (int) DEUtil.convertoToPixel( heightHandle );
+		if (!DesignChoiceConstants.UNITS_PERCENTAGE.equals(heightHandle.getUnits())) {
+			py = (int) DEUtil.convertoToPixel(heightHandle);
 		}
 
-		px = Math.max( 0, px );
-		py = Math.max( 0, py );
+		px = Math.max(0, px);
+		py = Math.max(0, py);
 
-		if (DEUtil.isFixLayout( getHandle( ) ))
-		{
-			if (px ==0 && widthHandle.isSet( ))
-			{
+		if (DEUtil.isFixLayout(getHandle())) {
+			if (px == 0 && widthHandle.isSet()) {
 				px = 1;
 			}
-			if (py == 0 && heightHandle.isSet( ))
-			{
+			if (py == 0 && heightHandle.isSet()) {
 				py = 1;
 			}
 		}
-		return new Dimension( px, py );
+		return new Dimension(px, py);
 	}
 }

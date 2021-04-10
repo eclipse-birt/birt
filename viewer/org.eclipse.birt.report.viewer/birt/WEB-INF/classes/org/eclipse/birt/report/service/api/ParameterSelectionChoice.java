@@ -15,15 +15,13 @@ package org.eclipse.birt.report.service.api;
  * Viewer representation of a parameter selection choice
  * 
  */
-public class ParameterSelectionChoice
-{
+public class ParameterSelectionChoice {
 
 	private Object value;
 
 	private String label;
 
-	public ParameterSelectionChoice( String label, Object value )
-	{
+	public ParameterSelectionChoice(String label, Object value) {
 		this.label = label;
 		this.value = value;
 	}
@@ -31,34 +29,28 @@ public class ParameterSelectionChoice
 	/**
 	 * @return the value
 	 */
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return value;
 	}
 
 	/**
-	 * @param value
-	 *            the value to set
+	 * @param value the value to set
 	 */
-	public void setValue( Object value )
-	{
+	public void setValue(Object value) {
 		this.value = value;
 	}
 
 	/**
 	 * @return the label
 	 */
-	public String getLabel( )
-	{
+	public String getLabel() {
 		return label;
 	}
 
 	/**
-	 * @param label
-	 *            the label to set
+	 * @param label the label to set
 	 */
-	public void setLabel( String label )
-	{
+	public void setLabel(String label) {
 		this.label = label;
 	}
 

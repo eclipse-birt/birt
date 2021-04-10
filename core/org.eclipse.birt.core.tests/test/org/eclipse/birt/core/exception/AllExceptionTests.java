@@ -18,18 +18,16 @@ import junit.framework.TestSuite;
  * 
  */
 
-public class AllExceptionTests
-{
+public class AllExceptionTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( BirtExceptionTest.class );
+		test.addTestSuite(BirtExceptionTest.class);
 		// add all test classes here
 
 		return test;

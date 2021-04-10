@@ -20,33 +20,29 @@ import com.ibm.icu.util.Calendar;
  * Provides methods for creating simple API classes
  */
 
-public interface IComponentFactory
-{
+public interface IComponentFactory {
 
 	/**
 	 * Creates numeric data element
 	 * 
-	 * @param value
-	 *            double value
+	 * @param value double value
 	 * @return numeric data element
 	 */
-	INumberDataElement createNumberElement( double value );
+	INumberDataElement createNumberElement(double value);
 
 	/**
 	 * Creates datetime data element
 	 * 
-	 * @param date
-	 *            long Date
+	 * @param date long Date
 	 * @return datetime data element
 	 */
-	IDateTimeDataElement createDateTimeElement( long date );
+	IDateTimeDataElement createDateTimeElement(long date);
 
 	/**
 	 * Creates datetime data element
 	 * 
-	 * @param date
-	 *            calendar
+	 * @param date calendar
 	 * @return datetime data element
 	 */
-	IDateTimeDataElement createDateTimeElement( Calendar date );
+	IDateTimeDataElement createDateTimeElement(Calendar date);
 }

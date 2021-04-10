@@ -17,8 +17,7 @@ package org.eclipse.birt.report.engine.api.script.element;
  * 
  */
 
-public interface IResultSetColumn
-{
+public interface IResultSetColumn {
 
 	/**
 	 * Gets column name.
@@ -26,7 +25,7 @@ public interface IResultSetColumn
 	 * @return column name
 	 */
 
-	String getName( );
+	String getName();
 
 	/**
 	 * Gets native data type.
@@ -34,7 +33,7 @@ public interface IResultSetColumn
 	 * @return native data type.
 	 */
 
-	Integer getNativeDataType( );
+	Integer getNativeDataType();
 
 	/**
 	 * Gets position.
@@ -42,7 +41,7 @@ public interface IResultSetColumn
 	 * @return position
 	 */
 
-	Integer getPosition( );
+	Integer getPosition();
 
 	/**
 	 * Gets column data type.
@@ -50,5 +49,5 @@ public interface IResultSetColumn
 	 * @return column data type.
 	 */
 
-	String getColumnDataType( );
+	String getColumnDataType();
 }

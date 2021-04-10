@@ -15,14 +15,13 @@ import org.eclipse.draw2d.IFigure;
 
 /**
  * Provide feature to control the visible of figure.
- *  
+ * 
  */
-public interface ReportShowFigure
-{
+public interface ReportShowFigure {
 
-	void setShowing( boolean bool );
+	void setShowing(boolean bool);
 
-	boolean isControlShowing( );
+	boolean isControlShowing();
 
-	IFigure getContent( );
+	IFigure getContent();
 }

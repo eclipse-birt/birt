@@ -20,8 +20,7 @@ import org.eclipse.birt.report.debug.internal.core.vm.VMVariable;
 /**
  * RMStackFrame
  */
-public class RMStackFrame implements VMStackFrame, Serializable
-{
+public class RMStackFrame implements VMStackFrame, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,30 +28,25 @@ public class RMStackFrame implements VMStackFrame, Serializable
 	private String name;
 	private VMVariable[] vars;
 
-	public RMStackFrame( String name, VMVariable[] vars, int lineNo )
-	{
+	public RMStackFrame(String name, VMVariable[] vars, int lineNo) {
 		this.name = name;
 		this.vars = vars;
 		this.lineNo = lineNo;
 	}
 
-	public VMValue evaluate( String expression )
-	{
+	public VMValue evaluate(String expression) {
 		return null;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public VMVariable[] getVariables( )
-	{
+	public VMVariable[] getVariables() {
 		return vars;
 	}
 
-	public int getLineNumber( )
-	{
+	public int getLineNumber() {
 		return lineNo;
 	}
 

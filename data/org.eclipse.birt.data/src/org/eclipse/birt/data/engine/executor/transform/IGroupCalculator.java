@@ -20,18 +20,26 @@ import org.eclipse.birt.data.engine.executor.cache.RowResultSet;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
+public interface IGroupCalculator {
+	public void registerPreviousResultObject(IResultObject previous);
 
-public interface IGroupCalculator
-{
-	public void registerPreviousResultObject( IResultObject previous );
-	public void registerCurrentResultObject( IResultObject current );
-	public void registerNextResultObject( RowResultSet rowResultSet ) throws DataException;
-	public void next( int rowId ) throws DataException;
-	public int getStartingGroup( ) throws DataException;
-	public int getEndingGroup( ) throws DataException;
-	public void close( ) throws DataException;
-	public void doSave( StreamManager manager ) throws DataException;
-	public void setAggrHelper( IProgressiveAggregationHelper aggrHelper ) throws DataException;
-	public boolean isAggrAtIndexAvailable( String aggrName, int currentIndex ) throws DataException;
-	public Integer[] getGroupInstanceIndex();  
+	public void registerCurrentResultObject(IResultObject current);
+
+	public void registerNextResultObject(RowResultSet rowResultSet) throws DataException;
+
+	public void next(int rowId) throws DataException;
+
+	public int getStartingGroup() throws DataException;
+
+	public int getEndingGroup() throws DataException;
+
+	public void close() throws DataException;
+
+	public void doSave(StreamManager manager) throws DataException;
+
+	public void setAggrHelper(IProgressiveAggregationHelper aggrHelper) throws DataException;
+
+	public boolean isAggrAtIndexAvailable(String aggrName, int currentIndex) throws DataException;
+
+	public Integer[] getGroupInstanceIndex();
 }

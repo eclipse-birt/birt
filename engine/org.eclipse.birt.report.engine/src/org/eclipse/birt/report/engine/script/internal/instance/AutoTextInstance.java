@@ -15,32 +15,23 @@ import org.eclipse.birt.report.engine.api.script.instance.IAutoTextInstance;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
-public class AutoTextInstance extends ReportElementInstance
-		implements
-			IAutoTextInstance
-{
+public class AutoTextInstance extends ReportElementInstance implements IAutoTextInstance {
 
 	IAutoTextContent autoText;
 
-	public AutoTextInstance( IAutoTextContent autoText,
-			ExecutionContext context, RunningState runningState )
-	{
-		super( autoText, context, runningState );
+	public AutoTextInstance(IAutoTextContent autoText, ExecutionContext context, RunningState runningState) {
+		super(autoText, context, runningState);
 		this.autoText = autoText;
 	}
 
-	public void setText( String text )
-	{
-		if ( runningState != RunningState.RENDER )
-		{
-			throw new UnsupportedOperationException(
-					"setText can only be invoked in onRender" );
+	public void setText(String text) {
+		if (runningState != RunningState.RENDER) {
+			throw new UnsupportedOperationException("setText can only be invoked in onRender");
 		}
-		autoText.setText( text );
+		autoText.setText(text);
 	}
 
-	public String getText( )
-	{
-		return autoText.getText( );
+	public String getText() {
+		return autoText.getText();
 	}
 }

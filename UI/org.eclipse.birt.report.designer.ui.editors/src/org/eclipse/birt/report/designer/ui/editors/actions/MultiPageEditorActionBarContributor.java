@@ -45,10 +45,8 @@ import org.eclipse.ui.part.EditorActionBarContributor;
  * Abstract editor action bar contributor for designers
  */
 
-public abstract class MultiPageEditorActionBarContributor extends
-		EditorActionBarContributor implements
-		IMultiPageEditorActionBarContributor
-{
+public abstract class MultiPageEditorActionBarContributor extends EditorActionBarContributor
+		implements IMultiPageEditorActionBarContributor {
 
 	/**
 	 * The name of the page menu;
@@ -68,127 +66,99 @@ public abstract class MultiPageEditorActionBarContributor extends
 	private SubActionBarDef currentActionBarDef;
 	private Map subBarMap;
 
-	private static class SubActionBarDef
-	{
+	private static class SubActionBarDef {
 
 		private SubActionBars subActionBar;
 		private IEditorActionBarContributor actionBarContrubutor;
 
-		public SubActionBarDef( IActionBars rootBar,
-				IEditorActionBarContributor actionBarContrubutor )
-		{
-			this.subActionBar = new SubActionBars( rootBar );
+		public SubActionBarDef(IActionBars rootBar, IEditorActionBarContributor actionBarContrubutor) {
+			this.subActionBar = new SubActionBars(rootBar);
 			this.actionBarContrubutor = actionBarContrubutor;
 		}
 
-		public void init( IWorkbenchPage page )
-		{
-			actionBarContrubutor.init( subActionBar, page );
+		public void init(IWorkbenchPage page) {
+			actionBarContrubutor.init(subActionBar, page);
 		}
 
-		public SubActionBars getSubActionBar( )
-		{
+		public SubActionBars getSubActionBar() {
 			return subActionBar;
 		}
 
-		public void setActiveEditor( IEditorPart editor )
-		{
-			actionBarContrubutor.setActiveEditor( editor );
+		public void setActiveEditor(IEditorPart editor) {
+			actionBarContrubutor.setActiveEditor(editor);
 		}
 
-		public void activate( )
-		{
-			subActionBar.activate( );
+		public void activate() {
+			subActionBar.activate();
 		}
 
-		public void deactivate( )
-		{
-			subActionBar.deactivate( );
+		public void deactivate() {
+			subActionBar.deactivate();
 		}
 
-		public void updateActionBars( )
-		{
-			subActionBar.updateActionBars( );
-			subActionBar.getToolBarManager( ).update( true );
+		public void updateActionBars() {
+			subActionBar.updateActionBars();
+			subActionBar.getToolBarManager().update(true);
 		}
 
-		public void dispose( )
-		{
-			subActionBar.deactivate( );
-			subActionBar.dispose( );
+		public void dispose() {
+			subActionBar.deactivate();
+			subActionBar.dispose();
 
-			actionBarContrubutor.dispose( );
+			actionBarContrubutor.dispose();
 		}
 	}
 
-	public void setActiveEditor( IEditorPart targetEditor )
-	{
-		super.setActiveEditor( targetEditor );
-		if ( targetEditor instanceof IReportEditor )
-		{
-			targetEditor = ( (IReportEditor) targetEditor ).getEditorPart( );
+	public void setActiveEditor(IEditorPart targetEditor) {
+		super.setActiveEditor(targetEditor);
+		if (targetEditor instanceof IReportEditor) {
+			targetEditor = ((IReportEditor) targetEditor).getEditorPart();
 		}
-		if ( targetEditor instanceof AbstractMultiPageEditor )
-		{
+		if (targetEditor instanceof AbstractMultiPageEditor) {
 			AbstractMultiPageEditor editor = (AbstractMultiPageEditor) targetEditor;
-			if ( editor.getActivePageInstance( ) != null )
-			{
-				setActivePage( editor.getActivePageInstance( ) );
+			if (editor.getActivePageInstance() != null) {
+				setActivePage(editor.getActivePageInstance());
 			}
-			if ( currentActionBarDef != null )
-			{
-				currentActionBarDef.updateActionBars( );
+			if (currentActionBarDef != null) {
+				currentActionBarDef.updateActionBars();
 			}
-		}
-		else
-		{
+		} else {
 			return;
 		}
-		getActionBars( ).getToolBarManager( ).update( true );
-		getActionBars( ).updateActionBars( );
+		getActionBars().getToolBarManager().update(true);
+		getActionBars().updateActionBars();
 
 	}
 
-	public void setActivePage( IFormPage page )
-	{
-		if ( page == null )
-		{
+	public void setActivePage(IFormPage page) {
+		if (page == null) {
 			return;
 		}
-		if ( subBarMap == null )
-		{
-			subBarMap = new HashMap( );
+		if (subBarMap == null) {
+			subBarMap = new HashMap();
 		}
-		if ( currentActionBarDef != null )
-		{
-			currentActionBarDef.deactivate( );
-			currentActionBarDef.dispose( );
+		if (currentActionBarDef != null) {
+			currentActionBarDef.deactivate();
+			currentActionBarDef.dispose();
 			currentActionBarDef = null;
 		}
-		IActionBars rootBar = getActionBars( );
-		if ( page != null )
-		{
+		IActionBars rootBar = getActionBars();
+		if (page != null) {
 			// currentActionBarDef = (SubActionBarDef) subBarMap.get(
 			// page.getId( ) );
-			if ( currentActionBarDef == null )
-			{
-				FormEditor editor = page.getEditor( );
-				if ( editor != null )
-				{
-					EditorContributor contributor = EditorContributorManager.getInstance( )
-							.getEditorContributor( editor.getSite( ).getId( ) );
-					if ( contributor != null )
-					{
-						FormPageDef pageDef = contributor.getPage( page.getId( ) );
-						if ( pageDef != null )
-						{
-							IEditorActionBarContributor actionBarContributor = pageDef.createActionBarContributor( );
+			if (currentActionBarDef == null) {
+				FormEditor editor = page.getEditor();
+				if (editor != null) {
+					EditorContributor contributor = EditorContributorManager.getInstance()
+							.getEditorContributor(editor.getSite().getId());
+					if (contributor != null) {
+						FormPageDef pageDef = contributor.getPage(page.getId());
+						if (pageDef != null) {
+							IEditorActionBarContributor actionBarContributor = pageDef.createActionBarContributor();
 
-							if ( actionBarContributor != null )
-							{
-								currentActionBarDef = new SubActionBarDef( rootBar,
-										actionBarContributor );
-								currentActionBarDef.init( getPage( ) );
+							if (actionBarContributor != null) {
+								currentActionBarDef = new SubActionBarDef(rootBar, actionBarContributor);
+								currentActionBarDef.init(getPage());
 								// subBarMap.put( page.getId( ),
 								// currentActionBarDef
 								// );
@@ -198,59 +168,48 @@ public abstract class MultiPageEditorActionBarContributor extends
 				}
 			}
 		}
-		rootBar.clearGlobalActionHandlers( );
-		if ( currentActionBarDef != null )
-		{
-			currentActionBarDef.setActiveEditor( page );
-			Map handlers = currentActionBarDef.getSubActionBar( )
-					.getGlobalActionHandlers( );
-			if ( handlers != null )
-			{
-				for ( Iterator iter = handlers.entrySet( ).iterator( ); iter.hasNext( ); )
-				{
-					Map.Entry entry = (Map.Entry) iter.next( );
-					rootBar.setGlobalActionHandler( entry.getKey( ).toString( ),
-							(IAction) entry.getValue( ) );
+		rootBar.clearGlobalActionHandlers();
+		if (currentActionBarDef != null) {
+			currentActionBarDef.setActiveEditor(page);
+			Map handlers = currentActionBarDef.getSubActionBar().getGlobalActionHandlers();
+			if (handlers != null) {
+				for (Iterator iter = handlers.entrySet().iterator(); iter.hasNext();) {
+					Map.Entry entry = (Map.Entry) iter.next();
+					rootBar.setGlobalActionHandler(entry.getKey().toString(), (IAction) entry.getValue());
 				}
 			}
-			currentActionBarDef.activate( );
-			currentActionBarDef.updateActionBars( );
+			currentActionBarDef.activate();
+			currentActionBarDef.updateActionBars();
 		}
 
-		rootBar.getToolBarManager( ).update( true );
-		rootBar.updateActionBars( );
+		rootBar.getToolBarManager().update(true);
+		rootBar.updateActionBars();
 
 	}
 
-	public void dispose( )
-	{
-		if ( subBarMap != null )
-		{
-			for ( Iterator iter = subBarMap.values( ).iterator( ); iter.hasNext( ); )
-			{
-				SubActionBarDef def = (SubActionBarDef) iter.next( );
-				def.dispose( );
+	public void dispose() {
+		if (subBarMap != null) {
+			for (Iterator iter = subBarMap.values().iterator(); iter.hasNext();) {
+				SubActionBarDef def = (SubActionBarDef) iter.next();
+				def.dispose();
 			}
-			subBarMap.clear( );
+			subBarMap.clear();
 		}
 
-		if ( currentActionBarDef != null )
-		{
-			currentActionBarDef.deactivate( );
-			currentActionBarDef.dispose( );
+		if (currentActionBarDef != null) {
+			currentActionBarDef.deactivate();
+			currentActionBarDef.dispose();
 			currentActionBarDef = null;
 		}
-		super.dispose( );
+		super.dispose();
 	}
 
-	public void contributeToMenu( IMenuManager menuManager )
-	{
-		super.contributeToMenu( menuManager );
+	public void contributeToMenu(IMenuManager menuManager) {
+		super.contributeToMenu(menuManager);
 		// Page Menu
-		menuManager.insertAfter( IWorkbenchActionConstants.M_EDIT,
-				createPageMenu( ) );
+		menuManager.insertAfter(IWorkbenchActionConstants.M_EDIT, createPageMenu());
 
-		menuManager.update( );
+		menuManager.update();
 	};
 
 	/**
@@ -258,56 +217,47 @@ public abstract class MultiPageEditorActionBarContributor extends
 	 * 
 	 * @return the editor id
 	 */
-	abstract public String getEditorId( );
+	abstract public String getEditorId();
 
-	protected IMenuManager createPageMenu( )
-	{
-		MenuManager menuManager = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.page" ), M_PAGE ); //$NON-NLS-1$ 
-		menuManager.add( new Separator( PAGE_SET_GROUP ) );
+	protected IMenuManager createPageMenu() {
+		MenuManager menuManager = new MenuManager(Messages.getString("DesignerActionBarContributor.menu.page"), M_PAGE); //$NON-NLS-1$
+		menuManager.add(new Separator(PAGE_SET_GROUP));
 
-		final ArrayList updateActions = new ArrayList( );
-		EditorContributor editorContruContributor = EditorContributorManager.getInstance( )
-				.getEditorContributor( getEditorId( ) );
-		for ( int i = editorContruContributor.formPageList.size( ) - 1; i >= 0; i-- )
-		{
-			FormPageDef page = editorContruContributor.getPage( i );
+		final ArrayList updateActions = new ArrayList();
+		EditorContributor editorContruContributor = EditorContributorManager.getInstance()
+				.getEditorContributor(getEditorId());
+		for (int i = editorContruContributor.formPageList.size() - 1; i >= 0; i--) {
+			FormPageDef page = editorContruContributor.getPage(i);
 			final IAction action = page.pageAction;
-			if ( action instanceof UpdateAction )
-			{
-				updateActions.add( action );
+			if (action instanceof UpdateAction) {
+				updateActions.add(action);
 			}
-			if ( action instanceof MenuUpdateAction )
-			{
-				final MenuManager subMenu = new MenuManager( page.displayName );
-				subMenu.add( new NoneAction( ) );
-				subMenu.addMenuListener( new IMenuListener( ) {
+			if (action instanceof MenuUpdateAction) {
+				final MenuManager subMenu = new MenuManager(page.displayName);
+				subMenu.add(new NoneAction());
+				subMenu.addMenuListener(new IMenuListener() {
 
-					public void menuAboutToShow( IMenuManager manager )
-					{
-						( (MenuUpdateAction) action ).updateMenu( subMenu );
+					public void menuAboutToShow(IMenuManager manager) {
+						((MenuUpdateAction) action).updateMenu(subMenu);
 
 					}
-				} );
-				menuManager.insertAfter( PAGE_SET_GROUP, subMenu );
-			}
-			else
-			{
-				menuManager.insertAfter( PAGE_SET_GROUP, action );
+				});
+				menuManager.insertAfter(PAGE_SET_GROUP, subMenu);
+			} else {
+				menuManager.insertAfter(PAGE_SET_GROUP, action);
 			}
 		}
-		menuManager.addMenuListener( new IMenuListener( ) {
+		menuManager.addMenuListener(new IMenuListener() {
 
-			public void menuAboutToShow( IMenuManager manager )
-			{
-				for ( Iterator iter = updateActions.iterator( ); iter.hasNext( ); )
-				{
-					( (UpdateAction) iter.next( ) ).update( );
+			public void menuAboutToShow(IMenuManager manager) {
+				for (Iterator iter = updateActions.iterator(); iter.hasNext();) {
+					((UpdateAction) iter.next()).update();
 				}
 			}
 
-		} );
+		});
 
-		menuManager.add( new Separator( PAGE_SET_GROUP_END ) );
+		menuManager.add(new Separator(PAGE_SET_GROUP_END));
 		return menuManager;
 	}
 

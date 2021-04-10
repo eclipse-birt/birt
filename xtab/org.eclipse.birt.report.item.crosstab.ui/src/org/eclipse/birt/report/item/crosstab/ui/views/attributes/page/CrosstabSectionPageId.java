@@ -17,8 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSe
  * 
  */
 
-public class CrosstabSectionPageId extends PageSectionId
-{
+public class CrosstabSectionPageId extends PageSectionId {
 
 	public static final String COLUMNPAGEBREAK_REPEAT_ROW_HEADER = "COLUMNPAGEBREAK_REPEAT_ROW_HEADER";//$NON-NLS-1$
 	public static final String ROWPAGEBREAK_REPEAT_COLUMN_HEADER = "ROWPAGEBREAK_REPEAT_COLUMN_HEADER";//$NON-NLS-1$

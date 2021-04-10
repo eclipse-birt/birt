@@ -25,40 +25,31 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
  * Once the caller close the report item reader, the reader can't be used any
  * more.
  */
-class ReportItemReaderManager
-{
+class ReportItemReaderManager {
 
-	protected LinkedList freeList = new LinkedList( );
+	protected LinkedList freeList = new LinkedList();
 	protected ExecutionContext context;
 
-	ReportItemReaderManager( ExecutionContext context )
-	{
+	ReportItemReaderManager(ExecutionContext context) {
 		this.context = context;
 	}
 
-	ReportItemReader createExecutor( ReportItemReader parent, long offset )
-	{
-		return createExecutor( parent, offset, null );
+	ReportItemReader createExecutor(ReportItemReader parent, long offset) {
+		return createExecutor(parent, offset, null);
 	}
 
-	ReportItemReader createExecutor( ReportItemReader parent, long offset,
-			Fragment frag )
-	{
+	ReportItemReader createExecutor(ReportItemReader parent, long offset, Fragment frag) {
 		ReportItemReader executor = null;
-		if ( !freeList.isEmpty( ) )
-		{
-			executor = (ReportItemReader) freeList.removeFirst( );
+		if (!freeList.isEmpty()) {
+			executor = (ReportItemReader) freeList.removeFirst();
+		} else {
+			executor = new PooledReportItemReader(this);
 		}
-		else
-		{
-			executor = new PooledReportItemReader( this );
-		}
-		executor.initialize( parent, offset, frag );
+		executor.initialize(parent, offset, frag);
 		return executor;
 	}
 
-	void releaseExecutor( ReportItemReader executor )
-	{
-		freeList.addLast( executor );
+	void releaseExecutor(ReportItemReader executor) {
+		freeList.addLast(executor);
 	}
 }

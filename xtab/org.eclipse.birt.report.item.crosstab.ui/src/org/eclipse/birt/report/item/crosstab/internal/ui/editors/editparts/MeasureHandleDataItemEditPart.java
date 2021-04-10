@@ -16,19 +16,23 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 /**
  * The data item in the measureHandle editpart.
  */
-public class MeasureHandleDataItemEditPart extends DataEditPart
-{
+public class MeasureHandleDataItemEditPart extends DataEditPart {
 
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param model
 	 */
-	public MeasureHandleDataItemEditPart( Object model )
-	{
-		super( model );
+	public MeasureHandleDataItemEditPart(Object model) {
+		super(model);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart#getText()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * DataEditPart#getText()
 	 */
 //	protected String getText( )
 //	{

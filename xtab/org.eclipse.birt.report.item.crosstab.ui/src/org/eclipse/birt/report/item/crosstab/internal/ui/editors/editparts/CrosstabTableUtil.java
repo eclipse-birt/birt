@@ -20,8 +20,7 @@ import org.eclipse.gef.LayerConstants;
  * Util class
  */
 
-public class CrosstabTableUtil
-{
+public class CrosstabTableUtil {
 
 	/**
 	 * Calculates height of row
@@ -30,21 +29,16 @@ public class CrosstabTableUtil
 	 * @param row
 	 * @return
 	 */
-	public static int caleVisualHeight( AbstractTableEditPart part,
-			int rowNumber )
-	{
+	public static int caleVisualHeight(AbstractTableEditPart part, int rowNumber) {
 
-		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
-		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
-				.getConstraint( figure );
-		if ( data == null )
-		{
+		IFigure figure = part.getLayer(LayerConstants.PRIMARY_LAYER);
+		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager().getConstraint(figure);
+		if (data == null) {
 			return 0;
 		}
 
-		if ( rowNumber <= data.rowHeights.length )
-		{
-			return data.findRowData( rowNumber ).height;
+		if (rowNumber <= data.rowHeights.length) {
+			return data.findRowData(rowNumber).height;
 		}
 		return 0;
 	}
@@ -56,20 +50,15 @@ public class CrosstabTableUtil
 	 * @param Column
 	 * @return
 	 */
-	public static int caleVisualWidth( AbstractTableEditPart part,
-			int columnNumber )
-	{
-		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
-		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
-				.getConstraint( figure );
-		if ( data == null )
-		{
+	public static int caleVisualWidth(AbstractTableEditPart part, int columnNumber) {
+		IFigure figure = part.getLayer(LayerConstants.PRIMARY_LAYER);
+		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager().getConstraint(figure);
+		if (data == null) {
 			return 0;
 		}
 
-		if ( columnNumber <= data.columnWidths.length )
-		{
-			return data.findColumnData( columnNumber ).width;
+		if (columnNumber <= data.columnWidths.length) {
+			return data.findColumnData(columnNumber).width;
 		}
 		return 0;
 	}

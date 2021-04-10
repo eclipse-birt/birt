@@ -15,8 +15,7 @@ package org.eclipse.birt.report.item.crosstab.core.i18n;
  * Message constants for crosstab internationalization.
  */
 
-public interface MessageConstants
-{
+public interface MessageConstants {
 
 	// crosstab exceptions
 	/**
@@ -26,20 +25,20 @@ public interface MessageConstants
 	String CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION = "Error.CrosstabException.DUPLICATE_DIMENSION"; //$NON-NLS-1$
 
 	/**
-	 * Error code indicating tow measure view refer the same cube measure
-	 * element in a crosstab.
+	 * Error code indicating tow measure view refer the same cube measure element in
+	 * a crosstab.
 	 */
 	String CROSSTAB_EXCEPTION_DUPLICATE_MEASURE = "Error.CrosstabException.DUPLICATE_MEASURE"; //$NON-NLS-1$
 
 	/**
-	 * Error code indicating two level view refer the same cube level element in
-	 * a dimension view.
+	 * Error code indicating two level view refer the same cube level element in a
+	 * dimension view.
 	 */
 	String CROSSTAB_EXCEPTION_DUPLICATE_LEVEL = "Error.CrosstabException.DUPLICATE_LEVEL"; //$NON-NLS-1$
 
 	/**
-	 * Error code indicating not find a dimension view that refers a cube
-	 * dimension element in a crosstab.
+	 * Error code indicating not find a dimension view that refers a cube dimension
+	 * element in a crosstab.
 	 */
 	String CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND = "Error.CrosstabException.DIMENSION_NOT_FOUND"; //$NON-NLS-1$
 
@@ -50,8 +49,8 @@ public interface MessageConstants
 	String CROSSTAB_EXCEPTION_MEASURE_NOT_FOUND = "Error.CrosstabException.MEASURE_NOT_FOUND"; //$NON-NLS-1$
 
 	/**
-	 * Error code indicating not find a level view that refers a cube level
-	 * element in a dimension view.
+	 * Error code indicating not find a level view that refers a cube level element
+	 * in a dimension view.
 	 */
 	String CROSSTAB_EXCEPTION_LEVEL_NOT_FOUND = "Error.CrosstabException.LEVEL_NOT_FOUND"; //$NON-NLS-1$
 }

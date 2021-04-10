@@ -23,34 +23,26 @@ import javax.olap.cursor.EdgeCursor;
  * 
  */
 
-public class DummyCubeCursor extends DummyCursorSupport implements CubeCursor
-{
+public class DummyCubeCursor extends DummyCursorSupport implements CubeCursor {
 
-	private List ordinateEdges = new ArrayList( );
+	private List ordinateEdges = new ArrayList();
 
-	public void addOrdinateEdgeCursor( EdgeCursor edge )
-	{
-		ordinateEdges.add( edge );
+	public void addOrdinateEdgeCursor(EdgeCursor edge) {
+		ordinateEdges.add(edge);
 	}
 
-	public List getOrdinateEdge( ) throws OLAPException
-	{
+	public List getOrdinateEdge() throws OLAPException {
 		return ordinateEdges;
 	}
 
-	public Collection getPageEdge( ) throws OLAPException
-	{
+	public Collection getPageEdge() throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void synchronizePages( ) throws OLAPException
-	{
+	public void synchronizePages() throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
 }
-
-
-

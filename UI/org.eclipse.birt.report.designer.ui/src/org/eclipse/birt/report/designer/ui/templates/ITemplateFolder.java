@@ -14,16 +14,19 @@ package org.eclipse.birt.report.designer.ui.templates;
 /**
  * ITemplateFolder
  */
-public interface ITemplateFolder extends ITemplateEntry
-{
+public interface ITemplateFolder extends ITemplateEntry {
 
-	/**Gets the ID to decide the location on the tree.
+	/**
+	 * Gets the ID to decide the location on the tree.
+	 * 
 	 * @return
 	 */
-	String getBaseName( );
+	String getBaseName();
 
-	/**Gets the children.
+	/**
+	 * Gets the children.
+	 * 
 	 * @return
 	 */
-	ITemplateEntry[] getChildren( );
+	ITemplateEntry[] getChildren();
 }

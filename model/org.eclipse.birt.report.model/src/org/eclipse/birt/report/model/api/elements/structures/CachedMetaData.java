@@ -21,12 +21,10 @@ import org.eclipse.birt.report.model.core.PropertyStructure;
  * information when it gets from databases, input/output parameter definitions.
  */
 
-public class CachedMetaData extends PropertyStructure
-{
+public class CachedMetaData extends PropertyStructure {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public final static String CACHED_METADATA_STRUCT = "CachedMetaData"; //$NON-NLS-1$
@@ -46,13 +44,11 @@ public class CachedMetaData extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
-	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
+	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		assert false;
 		return null;
 	}
@@ -60,15 +56,12 @@ public class CachedMetaData extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
 	 * .report.model.api.SimpleValueHandle)
 	 */
 
-	public StructureHandle getHandle( SimpleValueHandle valueHandle )
-	{
-		return new CachedMetaDataHandle( valueHandle.getElementHandle( ),
-				getContext( ) );
+	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
+		return new CachedMetaDataHandle(valueHandle.getElementHandle(), getContext());
 	}
 
 	/*
@@ -77,8 +70,7 @@ public class CachedMetaData extends PropertyStructure
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return CACHED_METADATA_STRUCT;
 	}
 

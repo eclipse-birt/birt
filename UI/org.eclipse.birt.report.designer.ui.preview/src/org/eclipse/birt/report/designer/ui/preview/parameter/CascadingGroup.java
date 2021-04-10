@@ -17,10 +17,7 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
  * Cascading parameter group.
  * 
  */
-public class CascadingGroup extends AbstractParamGroup
-		implements
-			ICascadingGroup
-{
+public class CascadingGroup extends AbstractParamGroup implements ICascadingGroup {
 
 	/**
 	 * Constructor
@@ -29,47 +26,48 @@ public class CascadingGroup extends AbstractParamGroup
 	 * @param engineTask
 	 */
 
-	public CascadingGroup( ParameterGroupHandle handle )
-	{
-		super( handle );
+	public CascadingGroup(ParameterGroupHandle handle) {
+		super(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.preview.parameter.ICascadingGroup#getParameter(int)
+	 * @see org.eclipse.birt.report.designer.ui.preview.parameter.ICascadingGroup#
+	 * getParameter(int)
 	 */
-	
-	public IParameter getParameter( int index )
-	{
-		if( index >= 0 && index < childrenList.size( ) )
-			return (IParameter) childrenList.get( index );
-		
+
+	public IParameter getParameter(int index) {
+		if (index >= 0 && index < childrenList.size())
+			return (IParameter) childrenList.get(index);
+
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.preview.parameter.ICascadingGroup#getPostParameter(org.eclipse.birt.report.designer.ui.preview.parameter.IParameter)
+	 * @see org.eclipse.birt.report.designer.ui.preview.parameter.ICascadingGroup#
+	 * getPostParameter(org.eclipse.birt.report.designer.ui.preview.parameter.
+	 * IParameter)
 	 */
-	
-	public IParameter getPostParameter( IParameter parameter )
-	{
-		int index = childrenList.indexOf( parameter );
-		return getParameter( ++index );
+
+	public IParameter getPostParameter(IParameter parameter) {
+		int index = childrenList.indexOf(parameter);
+		return getParameter(++index);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.preview.parameter.ICascadingGroup#getPreParameter(org.eclipse.birt.report.designer.ui.preview.parameter.IParameter)
+	 * @see org.eclipse.birt.report.designer.ui.preview.parameter.ICascadingGroup#
+	 * getPreParameter(org.eclipse.birt.report.designer.ui.preview.parameter.
+	 * IParameter)
 	 */
-	
-	public IParameter getPreParameter( IParameter parameter )
-	{
-		int index = childrenList.indexOf( parameter );
-		return getParameter( --index );
+
+	public IParameter getPreParameter(IParameter parameter) {
+		int index = childrenList.indexOf(parameter);
+		return getParameter(--index);
 	}
 
 }

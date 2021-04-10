@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
-
-public abstract class SheetData
-{
+public abstract class SheetData {
 
 	// TODO: change type to int
 	public static final int DATE = 0;
@@ -41,148 +39,120 @@ public abstract class SheetData
 	protected int rowSpanInDesign;
 
 	private HyperlinkDef hyperLink;
-	
+
 	private BookmarkDef bookmark;
-	
+
 	private BookmarkDef linkedBookmark;
 
 	protected float height;
 
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return value;
 	}
 
-	public void setValue( Object value )
-	{
+	public void setValue(Object value) {
 		this.value = value;
 	}
 
-	public float getHeight( )
-	{
-		return Math.max( height, 0 );
+	public float getHeight() {
+		return Math.max(height, 0);
 	}
 
-	public void setHeight( float height )
-	{
+	public void setHeight(float height) {
 		this.height = height;
 	}
 
-	public BookmarkDef getLinkedBookmark( )
-	{
+	public BookmarkDef getLinkedBookmark() {
 		return linkedBookmark;
 	}
 
-	public void setLinkedBookmark( BookmarkDef linkedBookmark )
-	{
+	public void setLinkedBookmark(BookmarkDef linkedBookmark) {
 		this.linkedBookmark = linkedBookmark;
 	}
 
-	public int getRowIndex( )
-	{
+	public int getRowIndex() {
 		return rowIndex;
 	}
 
-	public void setRowIndex( int rowIndex )
-	{
+	public void setRowIndex(int rowIndex) {
 		this.rowIndex = rowIndex;
 	}
 
-	public int getDataType( )
-	{
+	public int getDataType() {
 		return dataType;
 	}
 
-	public void setDataType( int datatype )
-	{
+	public void setDataType(int datatype) {
 		this.dataType = datatype;
 	}
 
-	public boolean isBlank( )
-	{
+	public boolean isBlank() {
 		return false;
 	}
 
-	public int getRowSpanInDesign( )
-	{
+	public int getRowSpanInDesign() {
 		return rowSpanInDesign;
 	}
 
-	public void setRowSpanInDesign( int rowSpan )
-	{
+	public void setRowSpanInDesign(int rowSpan) {
 		this.rowSpanInDesign = rowSpan;
 	}
 
-	public void setStyleId( int id )
-	{
+	public void setStyleId(int id) {
 		this.styleId = id;
 	}
 
-	public int getStyleId( )
-	{
+	public int getStyleId() {
 		return styleId;
 	}
 
-	public HyperlinkDef getHyperlinkDef( )
-	{
+	public HyperlinkDef getHyperlinkDef() {
 		return hyperLink;
 	}
 
-	public void setHyperlinkDef( HyperlinkDef def )
-	{
+	public void setHyperlinkDef(HyperlinkDef def) {
 		this.hyperLink = def;
 	}
 
-	public int getRowSpan( )
-	{
+	public int getRowSpan() {
 		return rspan;
 	}
 
-	public void setRowSpan( int rs )
-	{
-		if ( rs > 0 )
-		{
+	public void setRowSpan(int rs) {
+		if (rs > 0) {
 			this.rspan = rs;
 		}
 	}
 
-	public void decreasRowSpanInDesign( )
-	{
+	public void decreasRowSpanInDesign() {
 		rowSpanInDesign--;
 	}
-	
-	public BookmarkDef getBookmark( )
-	{
+
+	public BookmarkDef getBookmark() {
 		return bookmark;
 	}
 
-	public void setBookmark( BookmarkDef bookmark )
-	{
+	public void setBookmark(BookmarkDef bookmark) {
 		this.bookmark = bookmark;
 	}
 
-	public int getElementType( )
-	{
+	public int getElementType() {
 		return -1;
 	}
 
-	public int getStartX( )
-	{
+	public int getStartX() {
 		return startX;
 	}
 
-	public void setStartX( int startX )
-	{
+	public void setStartX(int startX) {
 		this.startX = startX;
 	}
 
-	public void setEndX( int endX )
-	{
+	public void setEndX(int endX) {
 		this.endX = endX;
 	}
 
-	public int getEndX( )
-	{
+	public int getEndX() {
 		return endX;
 	}
 }

@@ -15,13 +15,12 @@ package org.eclipse.birt.report.model.api;
  * 
  */
 
-public class RowOperationParameters
-{
+public class RowOperationParameters {
 
 	/**
-	 * slot id. When group id is smaller than zero , slot id stands for
-	 * group header, or SLOT_GROUP_FOOTER; else slot id stands for
-	 * SLOT_TABLE_HEADER , SLOT_TABLE_DETAIL , SLOT_TABLE_FOOTER
+	 * slot id. When group id is smaller than zero , slot id stands for group
+	 * header, or SLOT_GROUP_FOOTER; else slot id stands for SLOT_TABLE_HEADER ,
+	 * SLOT_TABLE_DETAIL , SLOT_TABLE_FOOTER
 	 * 
 	 */
 
@@ -34,38 +33,36 @@ public class RowOperationParameters
 	private int groupId;
 
 	/**
-	 * index of source table row. The range of sourceIndex is from zero to count plus 1. 
+	 * index of source table row. The range of sourceIndex is from zero to count
+	 * plus 1.
 	 */
 
 	private int sourceIndex;
 
 	/**
-	 * index of target table row. The range of destIndex is from zero to count plus 1. 
+	 * index of target table row. The range of destIndex is from zero to count plus
+	 * 1.
 	 */
 
 	private int destIndex;
-	
+
 	/**
 	 * Default Constructor
 	 *
 	 */
-	public RowOperationParameters()
-	{
-		
+	public RowOperationParameters() {
+
 	}
-	
+
 	/**
 	 * Constructor
-	 * @param slotId
-	 * slot id
-	 * @param groupId
-	 * group id
-	 * @param destIndex
-	 * destination index
+	 * 
+	 * @param slotId    slot id
+	 * @param groupId   group id
+	 * @param destIndex destination index
 	 */
-	
-	public RowOperationParameters( int slotId , int groupId , int destIndex )
-	{
+
+	public RowOperationParameters(int slotId, int groupId, int destIndex) {
 		this.slotId = slotId;
 		this.groupId = groupId;
 		this.destIndex = destIndex;
@@ -76,21 +73,18 @@ public class RowOperationParameters
 	 * 
 	 * @return index.
 	 */
-	
-	public int getDestIndex( )
-	{
+
+	public int getDestIndex() {
 		return destIndex;
 	}
 
 	/**
 	 * Sets target index
 	 * 
-	 * @param destIndex
-	 *            target index
+	 * @param destIndex target index
 	 */
-	
-	public void setDestIndex( int destIndex )
-	{
+
+	public void setDestIndex(int destIndex) {
 		this.destIndex = destIndex;
 	}
 
@@ -99,21 +93,18 @@ public class RowOperationParameters
 	 * 
 	 * @return group id.
 	 */
-	
-	public int getGroupId( )
-	{
+
+	public int getGroupId() {
 		return groupId;
 	}
 
 	/**
 	 * Sets group id
 	 * 
-	 * @param groupId
-	 *            groupd id
+	 * @param groupId groupd id
 	 */
-	
-	public void setGroupId( int groupId )
-	{
+
+	public void setGroupId(int groupId) {
 		this.groupId = groupId;
 	}
 
@@ -122,21 +113,18 @@ public class RowOperationParameters
 	 * 
 	 * @return slot id.
 	 */
-	
-	public int getSlotId( )
-	{
+
+	public int getSlotId() {
 		return slotId;
 	}
 
 	/**
 	 * Sets slot id.
 	 * 
-	 * @param slotId
-	 *            slot id.
+	 * @param slotId slot id.
 	 */
-	
-	public void setSlotId( int slotId )
-	{
+
+	public void setSlotId(int slotId) {
 		this.slotId = slotId;
 	}
 
@@ -145,21 +133,18 @@ public class RowOperationParameters
 	 * 
 	 * @return source index.
 	 */
-	
-	public int getSourceIndex( )
-	{
+
+	public int getSourceIndex() {
 		return sourceIndex;
 	}
 
 	/**
 	 * Sets source index.
 	 * 
-	 * @param sourceIndex
-	 *            source index
+	 * @param sourceIndex source index
 	 */
-	
-	public void setSourceIndex( int sourceIndex )
-	{
+
+	public void setSourceIndex(int sourceIndex) {
 		this.sourceIndex = sourceIndex;
 	}
 }

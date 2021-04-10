@@ -23,10 +23,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
  * represents its appearance.
  */
 
-abstract class AbstractMultiViewsHandle extends DesignElementHandle
-		implements
-			IMultiViewsModel
-{
+abstract class AbstractMultiViewsHandle extends DesignElementHandle implements IMultiViewsModel {
 
 	/**
 	 * Represents the container of the view does not use any inner view.
@@ -41,23 +38,20 @@ abstract class AbstractMultiViewsHandle extends DesignElementHandle
 	protected AbstractMultiViews element;
 
 	/**
-	 * Constructs a handle for the given design and design element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * Constructs a handle for the given design and design element. The application
+	 * generally does not create handles directly. Instead, it uses one of the
+	 * navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public AbstractMultiViewsHandle( Module module, AbstractMultiViews element )
-	{
-		super( module );
+	public AbstractMultiViewsHandle(Module module, AbstractMultiViews element) {
+		super(module);
 		this.element = element;
 
-		initializeSlotHandles( );
-		cachePropertyHandles( );
+		initializeSlotHandles();
+		cachePropertyHandles();
 	}
 
 	/*
@@ -66,8 +60,7 @@ abstract class AbstractMultiViewsHandle extends DesignElementHandle
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
@@ -77,25 +70,22 @@ abstract class AbstractMultiViewsHandle extends DesignElementHandle
 	 * @return a 0-based integer
 	 */
 
-	public int getCurrentViewIndex( )
-	{
-		return getIntProperty( INDEX_PROP );
+	public int getCurrentViewIndex() {
+		return getIntProperty(INDEX_PROP);
 	}
 
 	/**
 	 * Sets the index for the view to be used.
 	 * 
-	 * @param index
-	 *            a 0-based integer
+	 * @param index a 0-based integer
 	 * 
 	 * @throws SemanticException
 	 */
 
-	public void setCurrentViewIndex( int index ) throws SemanticException
-	{
-		if ( index < HOST )
+	public void setCurrentViewIndex(int index) throws SemanticException {
+		if (index < HOST)
 			index = HOST;
 
-		setProperty( INDEX_PROP, Integer.valueOf( index ) );
+		setProperty(INDEX_PROP, Integer.valueOf(index));
 	}
 }

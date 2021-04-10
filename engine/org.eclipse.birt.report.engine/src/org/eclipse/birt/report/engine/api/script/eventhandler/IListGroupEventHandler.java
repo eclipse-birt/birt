@@ -15,19 +15,14 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IListGroup;
 import org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance;
 
-public interface IListGroupEventHandler
-{
+public interface IListGroupEventHandler {
 
-	void onPrepare( IListGroup listGroup, IReportContext context )
-			throws ScriptException;
-	
-	void onCreate( IReportElementInstance listGroup, IReportContext context )
-			throws ScriptException;
-	
-	void onRender( IReportElementInstance listGroup, IReportContext context )
-			throws ScriptException;
+	void onPrepare(IListGroup listGroup, IReportContext context) throws ScriptException;
 
-	void onPageBreak( IReportElementInstance listGroup, IReportContext context )
-			throws ScriptException;
+	void onCreate(IReportElementInstance listGroup, IReportContext context) throws ScriptException;
+
+	void onRender(IReportElementInstance listGroup, IReportContext context) throws ScriptException;
+
+	void onPageBreak(IReportElementInstance listGroup, IReportContext context) throws ScriptException;
 
 }

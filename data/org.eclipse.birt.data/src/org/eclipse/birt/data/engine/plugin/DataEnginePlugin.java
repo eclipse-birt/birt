@@ -15,31 +15,27 @@ import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.odaconsumer.ConnectionManager;
 import org.osgi.framework.BundleContext;
 
-
 /**
  * Obtain support from BIRTPlugin
  */
-public class DataEnginePlugin extends BIRTPlugin
-{
+public class DataEnginePlugin extends BIRTPlugin {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
 	 */
-	public void stop( BundleContext context ) throws Exception
-	{
-		destroyAggregationFactoryInstance( );
+	public void stop(BundleContext context) throws Exception {
+		destroyAggregationFactoryInstance();
 		ConnectionManager.releaseInstance();
-		super.stop( context );
+		super.stop(context);
 	}
-	
+
 	/**
 	 * Destroy shared instance of AggregationManager.
 	 * 
 	 */
-	private void destroyAggregationFactoryInstance( )
-	{
-		AggregationManager.destroyInstance( );
+	private void destroyAggregationFactoryInstance() {
+		AggregationManager.destroyInstance();
 	}
-	
+
 }

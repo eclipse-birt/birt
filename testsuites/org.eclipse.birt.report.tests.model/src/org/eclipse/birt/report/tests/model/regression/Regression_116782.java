@@ -23,8 +23,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 /**
  * Regression description:
  * </p>
- * NPE is thrown out when clearing content in a template item
- * nested in a table.
+ * NPE is thrown out when clearing content in a template item nested in a table.
  * <p>
  * Steps to reproduce:
  * <ol>
@@ -34,7 +33,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <li>Select a label and create a template item.
  * <li>Double click this label template and clear its content.
  * <li>Press "Enter".
- * <li> NullPointException is thrown out.
+ * <li>NullPointException is thrown out.
  * </ol>
  * </p>
  * Test description:
@@ -43,54 +42,48 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * content.
  * </p>
  */
-public class Regression_116782 extends BaseTestCase
-{
+public class Regression_116782 extends BaseTestCase {
 
 	private final static String INPUT = "regression_116782.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
-	
-	
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 * 
 	 */
-	public void test_regression_116782( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT );
+	public void test_regression_116782() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
 
 		// get the template label inside table detail.
 
-		TableHandle table = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
-		CellHandle cell = (CellHandle) ( (RowHandle) table.getDetail( ).get( 0 ) )
-				.getCells( ).get( 0 );
-		TemplateReportItemHandle templateLabel = (TemplateReportItemHandle) cell
-				.getContent( ).get( 0 );
+		TableHandle table = (TableHandle) designHandle.findElement("table1"); //$NON-NLS-1$
+		CellHandle cell = (CellHandle) ((RowHandle) table.getDetail().get(0)).getCells().get(0);
+		TemplateReportItemHandle templateLabel = (TemplateReportItemHandle) cell.getContent().get(0);
 
-		assertEquals( "templateLabel", templateLabel.getName( ) ); //$NON-NLS-1$
+		assertEquals("templateLabel", templateLabel.getName()); //$NON-NLS-1$
 
 		// edit the default label
 
-		DesignElementHandle defaultElement = templateLabel.getDefaultElement( );
-		assertTrue( defaultElement instanceof LabelHandle );
+		DesignElementHandle defaultElement = templateLabel.getDefaultElement();
+		assertTrue(defaultElement instanceof LabelHandle);
 
 		LabelHandle defaultLabel = (LabelHandle) defaultElement;
-		assertEquals( "Sample Label", defaultLabel.getText( ) ); //$NON-NLS-1$
+		assertEquals("Sample Label", defaultLabel.getText()); //$NON-NLS-1$
 
-		defaultLabel.setStringProperty( StyleHandle.COLOR_PROP, "green" ); //$NON-NLS-1$
+		defaultLabel.setStringProperty(StyleHandle.COLOR_PROP, "green"); //$NON-NLS-1$
 
 		// transfer the template item to label.
 
-		templateLabel.transformToReportItem( defaultLabel );
+		templateLabel.transformToReportItem(defaultLabel);
 
 	}
 }

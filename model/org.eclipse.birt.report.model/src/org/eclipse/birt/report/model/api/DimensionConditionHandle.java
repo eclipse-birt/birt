@@ -35,22 +35,18 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * 
  */
 
-public class DimensionConditionHandle extends StructureHandle
-{
+public class DimensionConditionHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of the cube join condition.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for the cube join condition list of one
-	 *            property
-	 * @param index
-	 *            the position of this join condition in the list
+	 * @param valueHandle the value handle for the cube join condition list of one
+	 *                    property
+	 * @param index       the position of this join condition in the list
 	 */
 
-	public DimensionConditionHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public DimensionConditionHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
@@ -59,49 +55,40 @@ public class DimensionConditionHandle extends StructureHandle
 	 * 
 	 * @return the member handle for all the DimensionJoinCondition
 	 */
-	public MemberHandle getJoinConditions( )
-	{
-		return getMember( DimensionCondition.JOIN_CONDITIONS_MEMBER );
+	public MemberHandle getJoinConditions() {
+		return getMember(DimensionCondition.JOIN_CONDITIONS_MEMBER);
 	}
 
 	/**
 	 * Gets the dimension join condition handle.
 	 * 
-	 * @param joinCondition
-	 *            the join condition.
+	 * @param joinCondition the join condition.
 	 * @return the dimension join condition handle.
 	 * @throws SemanticException
 	 */
-	public DimensionJoinConditionHandle addJoinCondition(
-			DimensionJoinCondition joinCondition ) throws SemanticException
-	{
-		return (DimensionJoinConditionHandle) getJoinConditions( ).addItem(
-				joinCondition );
+	public DimensionJoinConditionHandle addJoinCondition(DimensionJoinCondition joinCondition)
+			throws SemanticException {
+		return (DimensionJoinConditionHandle) getJoinConditions().addItem(joinCondition);
 	}
 
 	/**
 	 * Removes join condition from this dimension condition.
 	 * 
-	 * @param joinCondition
-	 *            the join condition to remove
+	 * @param joinCondition the join condition to remove
 	 * @throws SemanticException
 	 */
-	public void removeJoinCondition( DimensionJoinCondition joinCondition )
-			throws SemanticException
-	{
-		getJoinConditions( ).removeItem( joinCondition );
+	public void removeJoinCondition(DimensionJoinCondition joinCondition) throws SemanticException {
+		getJoinConditions().removeItem(joinCondition);
 	}
 
 	/**
 	 * Remove the join condition in the specified position.
 	 * 
-	 * @param index
-	 *            the position where the join condition resides
+	 * @param index the position where the join condition resides
 	 * @throws SemanticException
 	 */
-	public void removeJoinCondition( int index ) throws SemanticException
-	{
-		getJoinConditions( ).removeItem( index );
+	public void removeJoinCondition(int index) throws SemanticException {
+		getJoinConditions().removeItem(index);
 	}
 
 	/**
@@ -109,15 +96,13 @@ public class DimensionConditionHandle extends StructureHandle
 	 * 
 	 * @return hierarchy handle of this condition if found, otherwise null
 	 */
-	public HierarchyHandle getHierarchy( )
-	{
-		ElementRefValue refValue = (ElementRefValue) ( (Structure) getStructure( ) )
-				.getLocalProperty( getModule( ),
-						DimensionCondition.HIERARCHY_MEMBER );
-		if ( refValue == null || !refValue.isResolved( ) )
+	public HierarchyHandle getHierarchy() {
+		ElementRefValue refValue = (ElementRefValue) ((Structure) getStructure()).getLocalProperty(getModule(),
+				DimensionCondition.HIERARCHY_MEMBER);
+		if (refValue == null || !refValue.isResolved())
 			return null;
-		DesignElement element = refValue.getElement( );
-		return (HierarchyHandle) element.getHandle( element.getRoot( ) );
+		DesignElement element = refValue.getElement();
+		return (HierarchyHandle) element.getHandle(element.getRoot());
 	}
 
 	/**
@@ -125,36 +110,28 @@ public class DimensionConditionHandle extends StructureHandle
 	 * 
 	 * @return hierarchy name of this condition if set, otherwise null
 	 */
-	public String getHierarchyName( )
-	{
-		return getStringProperty( DimensionCondition.HIERARCHY_MEMBER );
+	public String getHierarchyName() {
+		return getStringProperty(DimensionCondition.HIERARCHY_MEMBER);
 	}
 
 	/**
 	 * Sets the referred hierarchy by the name.
 	 * 
-	 * @param hierarchyName
-	 *            the hierarchy name to set
+	 * @param hierarchyName the hierarchy name to set
 	 * @throws SemanticException
 	 */
-	public void setHierarchy( String hierarchyName ) throws SemanticException
-	{
-		setProperty( DimensionCondition.HIERARCHY_MEMBER, hierarchyName );
+	public void setHierarchy(String hierarchyName) throws SemanticException {
+		setProperty(DimensionCondition.HIERARCHY_MEMBER, hierarchyName);
 	}
 
 	/**
 	 * Sets the referred hierarchy by the handle.
 	 * 
-	 * @param hierarchyHandle
-	 *            the hierarchy handle to set
+	 * @param hierarchyHandle the hierarchy handle to set
 	 * @throws SemanticException
 	 */
-	public void setHierarchy( HierarchyHandle hierarchyHandle )
-			throws SemanticException
-	{
-		DesignElement element = hierarchyHandle == null
-				? null
-				: hierarchyHandle.getElement( );
-		setProperty( DimensionCondition.HIERARCHY_MEMBER, element );
+	public void setHierarchy(HierarchyHandle hierarchyHandle) throws SemanticException {
+		DesignElement element = hierarchyHandle == null ? null : hierarchyHandle.getElement();
+		setProperty(DimensionCondition.HIERARCHY_MEMBER, element);
 	}
 }

@@ -4,8 +4,7 @@ package org.eclipse.birt.report.engine.layout.pdf.util;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BulletFrame
-{
+public class BulletFrame {
 
 	// list style string
 	public static String CSS_LISTSTYLETYPE_DISC_VALUE = "disc";
@@ -43,9 +42,9 @@ public class BulletFrame
 	public static final int LIST_STYLE_INHERIT = 14;
 	public static final int LIST_STYLE_DECIMAL = 15;
 
-	public static final Map<String, Integer> TYPES = new HashMap<String, Integer>( );// mapping
-																						// the
-																						// types
+	public static final Map<String, Integer> TYPES = new HashMap<String, Integer>();// mapping
+																					// the
+																					// types
 	public static final String EMPTYSTRING = "";
 	public static final char DISC_CHAR = 0x2022;
 	public static final char CIRCLE_CHAR = 0x25E6;
@@ -55,8 +54,7 @@ public class BulletFrame
 	// char table
 	// ALPHA table
 	public static final int ALPHA_SIZE = 26;
-	public static final char LOWER_ALPHA_CHARS[] = {0x0061, 0x0062, 0x0063,
-			0x0064, 0x0065, // a
+	public static final char LOWER_ALPHA_CHARS[] = { 0x0061, 0x0062, 0x0063, 0x0064, 0x0065, // a
 			// b
 			// c
 			// d
@@ -68,8 +66,7 @@ public class BulletFrame
 			0x007A // z
 	};
 
-	public static final char UPPER_ALPHA_CHARS[] = {0x0041, 0x0042, 0x0043,
-			0x0044, 0x0045, // A
+	public static final char UPPER_ALPHA_CHARS[] = { 0x0041, 0x0042, 0x0043, 0x0044, 0x0045, // A
 			// B
 			// C
 			// D
@@ -83,8 +80,7 @@ public class BulletFrame
 
 	public static final int LOWER_GREEK_CHARS_SIZE = 24;
 	// Note: 0x03C2 GREEK FINAL SIGMA is not used in here....
-	public static final char LOWER_GREEK_CHARS[] = {0x03B1, 0x03B2, 0x03B3,
-			0x03B4, 0x03B5, // alpha
+	public static final char LOWER_GREEK_CHARS[] = { 0x03B1, 0x03B2, 0x03B3, 0x03B4, 0x03B5, // alpha
 			// beta
 			// gamma
 			// delta
@@ -95,254 +91,217 @@ public class BulletFrame
 			0x03C6, 0x03C7, 0x03C8, 0x03C9 // phi chi psi omega
 	};
 
-	public static final char LOWER_ROMAN_CHARSA[] = {'i', 'x', 'c', 'm'};// "ixcm";
-	public static final char UPPER_ROMAN_CHARSA[] = {'I', 'X', 'C', 'M'};// "IXCM";
-	public static final char LOWER_ROMAN_CHARSB[] = {'v', 'l', 'd'};// "vld";
-	public static final char UPPER_ROMAN_CHARSB[] = {'V', 'L', 'D'};// "VLD";
+	public static final char LOWER_ROMAN_CHARSA[] = { 'i', 'x', 'c', 'm' };// "ixcm";
+	public static final char UPPER_ROMAN_CHARSA[] = { 'I', 'X', 'C', 'M' };// "IXCM";
+	public static final char LOWER_ROMAN_CHARSB[] = { 'v', 'l', 'd' };// "vld";
+	public static final char UPPER_ROMAN_CHARSB[] = { 'V', 'L', 'D' };// "VLD";
 
 	public static char GEORGIAN_VALUE[] = { // 4 * 9 + 1 = 37
 			// 1 2 3 4 5 6 7 8 9
-			0x10D0, 0x10D1, 0x10D2, 0x10D3, 0x10D4, 0x10D5,
-			0x10D6,
-			0x10F1,
-			0x10D7,
+			0x10D0, 0x10D1, 0x10D2, 0x10D3, 0x10D4, 0x10D5, 0x10D6, 0x10F1, 0x10D7,
 			// 10 20 30 40 50 60 70 80 90
-			0x10D8, 0x10D9, 0x10DA, 0x10DB, 0x10DC, 0x10F2, 0x10DD,
-			0x10DE,
-			0x10DF,
+			0x10D8, 0x10D9, 0x10DA, 0x10DB, 0x10DC, 0x10F2, 0x10DD, 0x10DE, 0x10DF,
 			// 100 200 300 400 500 600 700 800 900
-			0x10E0, 0x10E1, 0x10E2, 0x10F3, 0x10E4, 0x10E5, 0x10E6, 0x10E7,
-			0x10E8,
+			0x10E0, 0x10E1, 0x10E2, 0x10F3, 0x10E4, 0x10E5, 0x10E6, 0x10E7, 0x10E8,
 			// 1000 2000 3000 4000 5000 6000 7000 8000 9000
-			0x10E9, 0x10EA, 0x10EB, 0x10EC, 0x10ED, 0x10EE, 0x10F4, 0x10EF,
-			0x10F0,
+			0x10E9, 0x10EA, 0x10EB, 0x10EC, 0x10ED, 0x10EE, 0x10F4, 0x10EF, 0x10F0,
 			// 10000
-			0x10F5};
+			0x10F5 };
 
-	static
-	{
-		TYPES.put( CSS_LISTSTYLETYPE_DISC_VALUE, LIST_DISC_VALUE );
-		TYPES.put( CSS_LISTSTYLETYPE_CIRCLE_VALUE, LIST_STYLE_CIRCLE );
-		TYPES.put( CSS_LISTSTYLETYPE_SQUARE_VALUE, LIST_STYLE_SQUARE );
-		TYPES.put( CSS_LISTSTYLETYPE_DECIMALLEADINGZERO_VALUE,
-				LIST_STYLE_DECIMALLEADINGZERO );
-		TYPES.put( CSS_LISTSTYLETYPE_LOWERROMAN_VALUE, LIST_STYLE_LOWERROMAN );
-		TYPES.put( CSS_LISTSTYLETYPE_UPPERROMAN_VALUE, LIST_STYLE_UPPERROMAN );
-		TYPES.put( CSS_LISTSTYLETYPE_LOWERGREEK_VALUE, LIST_STYLE_LOWERGREEK );
-		TYPES.put( CSS_LISTSTYLETYPE_LOWERLATINC_VALUE,LIST_STYLE_LOWERLATIN  );
-		TYPES.put( CSS_LISTSTYLETYPE_UPPERLATIN_VALUE, LIST_STYLE_UPPERLATIN );
-		TYPES.put( CSS_LISTSTYLETYPE_ARMENIAN_VALUE, LIST_STYLE_ARMENIAN );
-		TYPES.put( CSS_LISTSTYLETYPE_GEORGIAN_VALUE, LIST_STYLE_GEORGIAN );
-		TYPES.put( CSS_LISTSTYLETYPE_LOWERALPHA_VALUE, LIST_STYLE_LOWERALPHA );
-		TYPES.put( CSS_LISTSTYLETYPE_UPPERALPHA_VALUE, LIST_STYLE_UPPERALPHA );
-		TYPES.put( CSS_LISTSTYLETYPE_NONE_VALUE, LIST_STYLE_NONE );
-		TYPES.put( CSS_LISTSTYLETYPE_INHERIT_VALUE, LIST_STYLE_INHERIT );
-		TYPES.put( CSS_LISTSTYLETYPE_DECIMAL, LIST_STYLE_DECIMAL );
+	static {
+		TYPES.put(CSS_LISTSTYLETYPE_DISC_VALUE, LIST_DISC_VALUE);
+		TYPES.put(CSS_LISTSTYLETYPE_CIRCLE_VALUE, LIST_STYLE_CIRCLE);
+		TYPES.put(CSS_LISTSTYLETYPE_SQUARE_VALUE, LIST_STYLE_SQUARE);
+		TYPES.put(CSS_LISTSTYLETYPE_DECIMALLEADINGZERO_VALUE, LIST_STYLE_DECIMALLEADINGZERO);
+		TYPES.put(CSS_LISTSTYLETYPE_LOWERROMAN_VALUE, LIST_STYLE_LOWERROMAN);
+		TYPES.put(CSS_LISTSTYLETYPE_UPPERROMAN_VALUE, LIST_STYLE_UPPERROMAN);
+		TYPES.put(CSS_LISTSTYLETYPE_LOWERGREEK_VALUE, LIST_STYLE_LOWERGREEK);
+		TYPES.put(CSS_LISTSTYLETYPE_LOWERLATINC_VALUE, LIST_STYLE_LOWERLATIN);
+		TYPES.put(CSS_LISTSTYLETYPE_UPPERLATIN_VALUE, LIST_STYLE_UPPERLATIN);
+		TYPES.put(CSS_LISTSTYLETYPE_ARMENIAN_VALUE, LIST_STYLE_ARMENIAN);
+		TYPES.put(CSS_LISTSTYLETYPE_GEORGIAN_VALUE, LIST_STYLE_GEORGIAN);
+		TYPES.put(CSS_LISTSTYLETYPE_LOWERALPHA_VALUE, LIST_STYLE_LOWERALPHA);
+		TYPES.put(CSS_LISTSTYLETYPE_UPPERALPHA_VALUE, LIST_STYLE_UPPERALPHA);
+		TYPES.put(CSS_LISTSTYLETYPE_NONE_VALUE, LIST_STYLE_NONE);
+		TYPES.put(CSS_LISTSTYLETYPE_INHERIT_VALUE, LIST_STYLE_INHERIT);
+		TYPES.put(CSS_LISTSTYLETYPE_DECIMAL, LIST_STYLE_DECIMAL);
 
 	}
 
 	private int type;
 
-	public BulletFrame( String styleType )
-	{
-		initial( styleType );
+	public BulletFrame(String styleType) {
+		initial(styleType);
 
 	}
 
-	private void initial( String styleType )
-	{
-		if ( TYPES.get( styleType ) != null )
-			type = TYPES.get( styleType );
+	private void initial(String styleType) {
+		if (TYPES.get(styleType) != null)
+			type = TYPES.get(styleType);
 		else
 			type = LIST_STYLE_NONE;
 
 	}
 
-	public String paintBullet( int ordinal )
-	{
-		StringBuffer buffer = new StringBuffer( );
-		switch ( type )
-		{
-			case LIST_DISC_VALUE :
-				buffer.append( DISC_CHAR );
-				break;
-			case LIST_STYLE_CIRCLE :
-				buffer.append( CIRCLE_CHAR );
-				break;
-			case LIST_STYLE_SQUARE :
-				buffer.append( SQUARE_CHAR );
-				break;
-			case LIST_STYLE_DECIMALLEADINGZERO :
-				decimalLeadingZeroToText( ordinal, buffer );
-				break;
-			case LIST_STYLE_LOWERROMAN :
-				romanToText( ordinal, buffer, LOWER_ROMAN_CHARSA,
-						LOWER_ROMAN_CHARSB );
-				break;
-			case LIST_STYLE_UPPERROMAN :
-				romanToText( ordinal, buffer, UPPER_ROMAN_CHARSA,
-						UPPER_ROMAN_CHARSB );
-				break;
-			case LIST_STYLE_LOWERGREEK :
-				charListToText( ordinal, buffer, LOWER_GREEK_CHARS,
-						LOWER_GREEK_CHARS_SIZE );
-				break;
-			case LIST_STYLE_UPPERLATIN :
-			case LIST_STYLE_UPPERALPHA :
-				charListToText( ordinal, buffer, UPPER_ALPHA_CHARS, ALPHA_SIZE );
-				break;
-			case LIST_STYLE_LOWERLATIN :
-			case LIST_STYLE_LOWERALPHA :
-				charListToText( ordinal, buffer, LOWER_ALPHA_CHARS, ALPHA_SIZE );
-				break;
-			case LIST_STYLE_ARMENIAN :
-				armenianToText( ordinal, buffer );
-				break;
-			case LIST_STYLE_GEORGIAN :
-				georgianToText( ordinal, buffer );
-				break;
-			case LIST_STYLE_DECIMAL :
-				decimalToText( ordinal, buffer );
-				break;
-			case LIST_STYLE_NONE :
-			case LIST_STYLE_INHERIT :
-			default :
-				buffer.append( EMPTYSTRING );
-				break;
+	public String paintBullet(int ordinal) {
+		StringBuffer buffer = new StringBuffer();
+		switch (type) {
+		case LIST_DISC_VALUE:
+			buffer.append(DISC_CHAR);
+			break;
+		case LIST_STYLE_CIRCLE:
+			buffer.append(CIRCLE_CHAR);
+			break;
+		case LIST_STYLE_SQUARE:
+			buffer.append(SQUARE_CHAR);
+			break;
+		case LIST_STYLE_DECIMALLEADINGZERO:
+			decimalLeadingZeroToText(ordinal, buffer);
+			break;
+		case LIST_STYLE_LOWERROMAN:
+			romanToText(ordinal, buffer, LOWER_ROMAN_CHARSA, LOWER_ROMAN_CHARSB);
+			break;
+		case LIST_STYLE_UPPERROMAN:
+			romanToText(ordinal, buffer, UPPER_ROMAN_CHARSA, UPPER_ROMAN_CHARSB);
+			break;
+		case LIST_STYLE_LOWERGREEK:
+			charListToText(ordinal, buffer, LOWER_GREEK_CHARS, LOWER_GREEK_CHARS_SIZE);
+			break;
+		case LIST_STYLE_UPPERLATIN:
+		case LIST_STYLE_UPPERALPHA:
+			charListToText(ordinal, buffer, UPPER_ALPHA_CHARS, ALPHA_SIZE);
+			break;
+		case LIST_STYLE_LOWERLATIN:
+		case LIST_STYLE_LOWERALPHA:
+			charListToText(ordinal, buffer, LOWER_ALPHA_CHARS, ALPHA_SIZE);
+			break;
+		case LIST_STYLE_ARMENIAN:
+			armenianToText(ordinal, buffer);
+			break;
+		case LIST_STYLE_GEORGIAN:
+			georgianToText(ordinal, buffer);
+			break;
+		case LIST_STYLE_DECIMAL:
+			decimalToText(ordinal, buffer);
+			break;
+		case LIST_STYLE_NONE:
+		case LIST_STYLE_INHERIT:
+		default:
+			buffer.append(EMPTYSTRING);
+			break;
 		}
-		return buffer.toString( );
+		return buffer.toString();
 	}
 
-	private void decimalToText( int ordinal, StringBuffer buffer )
-	{
-		buffer.append( ordinal );
+	private void decimalToText(int ordinal, StringBuffer buffer) {
+		buffer.append(ordinal);
 	}
 
-	private void georgianToText( int ordinal, StringBuffer buffer )
-	{
-		if ( ordinal < 1 || ordinal > 19999 )
-		{
-			buffer.append( ordinal );
+	private void georgianToText(int ordinal, StringBuffer buffer) {
+		if (ordinal < 1 || ordinal > 19999) {
+			buffer.append(ordinal);
 			return;
 		}
 		int d = 0;
-		do
-		{
+		do {
 			int cur = ordinal % 10;
-			if ( cur > 0 )
-			{
-				char u = GEORGIAN_VALUE[( d * 9 ) + ( cur - 1 )];
-				buffer.append( u );
+			if (cur > 0) {
+				char u = GEORGIAN_VALUE[(d * 9) + (cur - 1)];
+				buffer.append(u);
 			}
 			++d;
 			ordinal /= 10;
-		} while ( ordinal > 0 );
-		buffer.reverse( );
+		} while (ordinal > 0);
+		buffer.reverse();
 	}
 
-	private void armenianToText( int ordinal, StringBuffer buffer )
-	{
-		if ( ordinal < 1 || ordinal > 9999 )
-		{
-			buffer.append( ordinal );
+	private void armenianToText(int ordinal, StringBuffer buffer) {
+		if (ordinal < 1 || ordinal > 9999) {
+			buffer.append(ordinal);
 			return;
 		}
 		int d = 0;
-		do
-		{
+		do {
 			int cur = ordinal % 10;
-			if ( cur > 0 )
-			{
-				char u = (char) ( 0x0530 + ( d * 9 ) + cur );
-				buffer.append( u );
+			if (cur > 0) {
+				char u = (char) (0x0530 + (d * 9) + cur);
+				buffer.append(u);
 			}
 			++d;
 			ordinal /= 10;
-		} while ( ordinal > 0 );
-		buffer.reverse( );
+		} while (ordinal > 0);
+		buffer.reverse();
 	}
 
-	private void charListToText( int ordinal, StringBuffer buffer,
-			char[] chars, int aBase )
-	{
-		if ( ordinal < 1 )
-		{
-			buffer.append( ordinal );
+	private void charListToText(int ordinal, StringBuffer buffer, char[] chars, int aBase) {
+		if (ordinal < 1) {
+			buffer.append(ordinal);
 			return;
 		}
-		do
-		{
+		do {
 			ordinal--;
 			int cur = ordinal % aBase;
-			buffer.append( chars[cur] );
+			buffer.append(chars[cur]);
 			ordinal /= aBase;
-		} while ( ordinal > 0 );
-		buffer.reverse( );
+		} while (ordinal > 0);
+		buffer.reverse();
 	}
 
-	private void decimalLeadingZeroToText( int ordinal, StringBuffer buffer )
-	{
-		if ( ordinal < 10 && ordinal > 0 )
-		{
-			buffer.append( ZERO_CHAR );
+	private void decimalLeadingZeroToText(int ordinal, StringBuffer buffer) {
+		if (ordinal < 10 && ordinal > 0) {
+			buffer.append(ZERO_CHAR);
 		}
-		buffer.append( ordinal );
+		buffer.append(ordinal);
 	}
 
-	private void romanToText( int ordinal, StringBuffer buffer, char[] achars,
-			char[] bchars )
-	{
-		if ( ordinal < 1 && ordinal > 3999 )
-		{
-			buffer.append( ordinal );
+	private void romanToText(int ordinal, StringBuffer buffer, char[] achars, char[] bchars) {
+		if (ordinal < 1 && ordinal > 3999) {
+			buffer.append(ordinal);
 			return;
 		}
-		StringBuffer addOn = new StringBuffer( );
-		StringBuffer decStr = new StringBuffer( );
-		decStr.append( ordinal );
-		int len = decStr.length( );
+		StringBuffer addOn = new StringBuffer();
+		StringBuffer decStr = new StringBuffer();
+		decStr.append(ordinal);
+		int len = decStr.length();
 		int dp = 0;
 		int end = len;
 		int romanPos = len;
 		int n;
-		for ( ; dp < end; dp++ )
-		{
+		for (; dp < end; dp++) {
 			romanPos--;
 
-			switch ( decStr.charAt( dp ) )
-			{
-				case '3' :
-					addOn.append( achars[romanPos] );
-					// FALLTHROUGH
-				case '2' :
-					addOn.append( achars[romanPos] );
-					// FALLTHROUGH
-				case '1' :
-					addOn.append( achars[romanPos] );
-					break;
-				case '4' :
-					addOn.append( achars[romanPos] );
-					// FALLTHROUGH
-				case '5' :
-				case '6' :
-				case '7' :
-				case '8' :
-					addOn.append( bchars[romanPos] );
-					for ( n = 0; '5' + n < decStr.charAt( dp ); n++ )
-					{
-						addOn.append( achars[romanPos] );
-					}
-					break;
-				case '9' :
-					addOn.append( achars[romanPos] );
-					addOn.append( achars[romanPos + 1] );
-					break;
-				default :
-					break;
+			switch (decStr.charAt(dp)) {
+			case '3':
+				addOn.append(achars[romanPos]);
+				// FALLTHROUGH
+			case '2':
+				addOn.append(achars[romanPos]);
+				// FALLTHROUGH
+			case '1':
+				addOn.append(achars[romanPos]);
+				break;
+			case '4':
+				addOn.append(achars[romanPos]);
+				// FALLTHROUGH
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+				addOn.append(bchars[romanPos]);
+				for (n = 0; '5' + n < decStr.charAt(dp); n++) {
+					addOn.append(achars[romanPos]);
+				}
+				break;
+			case '9':
+				addOn.append(achars[romanPos]);
+				addOn.append(achars[romanPos + 1]);
+				break;
+			default:
+				break;
 			}
 
 		}
-		buffer.append( addOn );
+		buffer.append(addOn);
 	}
 
 }

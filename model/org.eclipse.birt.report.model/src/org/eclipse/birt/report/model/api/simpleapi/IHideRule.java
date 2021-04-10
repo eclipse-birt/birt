@@ -19,15 +19,14 @@ import org.eclipse.birt.report.model.api.core.IStructure;
  * 
  */
 
-public interface IHideRule
-{
+public interface IHideRule {
 
 	/**
 	 * Returns format
 	 * 
 	 * @return format
 	 */
-	public String getFormat( );
+	public String getFormat();
 
 	/**
 	 * Sets format
@@ -35,14 +34,14 @@ public interface IHideRule
 	 * @param format
 	 * @throws SemanticException
 	 */
-	public void setFormat( String format ) throws SemanticException;
+	public void setFormat(String format) throws SemanticException;
 
 	/**
 	 * Returns value expression
 	 * 
 	 * @return value expression
 	 */
-	public String getValueExpr( );
+	public String getValueExpr();
 
 	/**
 	 * Sets value expression.
@@ -50,7 +49,7 @@ public interface IHideRule
 	 * @param valueExpr
 	 * @throws SemanticException
 	 */
-	public void setValueExpr( String valueExpr ) throws SemanticException;
+	public void setValueExpr(String valueExpr) throws SemanticException;
 
 	/**
 	 * Returns structure.
@@ -58,5 +57,5 @@ public interface IHideRule
 	 * @return structure
 	 */
 
-	public IStructure getStructure( );
+	public IStructure getStructure();
 }

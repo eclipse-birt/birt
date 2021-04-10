@@ -7,40 +7,37 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.util.BaseTestCase;
-
 
 /**
  * Test case for SystemPropertyDefn.
  * 
  */
-public class SystemPropertyDefnTest extends BaseTestCase
-{
-    private SystemPropertyDefn property = null;
-    /*
-     * @see TestCase#setUp()
-     */
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-        
-        property = new SystemPropertyDefn();
-    }
+public class SystemPropertyDefnTest extends BaseTestCase {
+	private SystemPropertyDefn property = null;
 
-    /**
-     * test getters and setters.
-     *
-     */
-    public void testGetterAndSetter()
-    {
-    	MetadataTestUtil.setStyleProperty( property, true );
-    	MetadataTestUtil.setIntrinsic( property, true );
-        
-        assertTrue(property.isStyleProperty());
-        assertTrue(property.isIntrinsic());
-        assertTrue(property.isSystemProperty());
-    }
+	/*
+	 * @see TestCase#setUp()
+	 */
+	protected void setUp() throws Exception {
+		super.setUp();
+
+		property = new SystemPropertyDefn();
+	}
+
+	/**
+	 * test getters and setters.
+	 *
+	 */
+	public void testGetterAndSetter() {
+		MetadataTestUtil.setStyleProperty(property, true);
+		MetadataTestUtil.setIntrinsic(property, true);
+
+		assertTrue(property.isStyleProperty());
+		assertTrue(property.isIntrinsic());
+		assertTrue(property.isSystemProperty());
+	}
 }

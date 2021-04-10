@@ -18,44 +18,40 @@ import org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition;
  * Implementation of the IMirroredDefinition
  *
  */
-public class MirroredDefinition implements IMirroredDefinition
-{
-	
+public class MirroredDefinition implements IMirroredDefinition {
+
 	private ILevelDefinition level;
 	private boolean breakHierarchy;
 
-	public MirroredDefinition( ILevelDefinition level, boolean breakHierarchy )
-	{
+	public MirroredDefinition(ILevelDefinition level, boolean breakHierarchy) {
 		this.level = level;
 		this.breakHierarchy = breakHierarchy;
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition#getMirrorStartingLevel()
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition#
+	 * getMirrorStartingLevel()
 	 */
-	public ILevelDefinition getMirrorStartingLevel( )
-	{
+	public ILevelDefinition getMirrorStartingLevel() {
 		return this.level;
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition#isBreakHierarchy()
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IMirroredDefinition#
+	 * isBreakHierarchy()
 	 */
-	public boolean isBreakHierarchy( )
-	{
+	public boolean isBreakHierarchy() {
 		return this.breakHierarchy;
 	}
 
-    /**
-     * Clone itself.
-     */
-    public IMirroredDefinition clone( )
-    {
-        MirroredDefinition cloned = new MirroredDefinition( this.level != null
-                ? this.level.clone( )
-                : null, this.breakHierarchy );
+	/**
+	 * Clone itself.
+	 */
+	public IMirroredDefinition clone() {
+		MirroredDefinition cloned = new MirroredDefinition(this.level != null ? this.level.clone() : null,
+				this.breakHierarchy);
 
-        return cloned;
-    }
+		return cloned;
+	}
 
 }

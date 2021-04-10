@@ -26,8 +26,7 @@ import com.ibm.icu.util.ULocale;
  * is not.
  */
 
-public class Choice implements Cloneable, IChoice, Comparable<Object>
-{
+public class Choice implements Cloneable, IChoice, Comparable<Object> {
 
 	/**
 	 * Name of the choice name property.
@@ -57,14 +56,11 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 	/**
 	 * Constructs a new Choice by the given name and id.
 	 * 
-	 * @param name
-	 *            the choice name
-	 * @param id
-	 *            the message ID for the display name
+	 * @param name the choice name
+	 * @param id   the message ID for the display name
 	 */
 
-	public Choice( String name, String id )
-	{
+	public Choice(String name, String id) {
 		this.name = name;
 		displayNameKey = id;
 	}
@@ -74,8 +70,7 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 	 * 
 	 */
 
-	public Choice( )
-	{
+	public Choice() {
 
 	}
 
@@ -85,9 +80,8 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 	 * @see java.lang.Object#clone()
 	 */
 
-	protected Object clone( ) throws CloneNotSupportedException
-	{
-		return super.clone( );
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 
 	/**
@@ -96,22 +90,16 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 	 * @return the localized display name for the choice.
 	 */
 
-	public String getDisplayName( )
-	{
-		if ( displayNameKey != null )
-		{
+	public String getDisplayName() {
+		if (displayNameKey != null) {
 			String displayName = null;
-			if ( messages == null )
-			{
-				displayName = ModelMessages.getMessage( this.displayNameKey );
+			if (messages == null) {
+				displayName = ModelMessages.getMessage(this.displayNameKey);
+			} else {
+				ULocale locale = ThreadResources.getLocale();
+				displayName = messages.getMessage(displayNameKey, locale);
 			}
-			else
-			{
-				ULocale locale = ThreadResources.getLocale( );
-				displayName = messages.getMessage( displayNameKey, locale );
-			}
-			if ( displayName == null )
-			{
+			if (displayName == null) {
 				displayName = name;
 			}
 			return displayName;
@@ -125,15 +113,12 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 	 * @return the localized display name for the choice.
 	 */
 
-	public String getDisplayName( ULocale locale )
-	{
-		if ( displayNameKey != null )
-		{
-			if ( messages == null )
-			{
-				return ModelMessages.getMessage( this.displayNameKey, locale );
+	public String getDisplayName(ULocale locale) {
+		if (displayNameKey != null) {
+			if (messages == null) {
+				return ModelMessages.getMessage(this.displayNameKey, locale);
 			}
-			return messages.getMessage( displayNameKey, locale );
+			return messages.getMessage(displayNameKey, locale);
 		}
 		return name;
 	}
@@ -144,8 +129,7 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 	 * @return the display name resource key
 	 */
 
-	public String getDisplayNameKey( )
-	{
+	public String getDisplayNameKey() {
 		return displayNameKey;
 	}
 
@@ -155,44 +139,38 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 	 * @return the choice name used in the XML design file
 	 */
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
 	 * Sets the resource key for display name.
 	 * 
-	 * @param theDisplayNameKey
-	 *            the resource key for display name
+	 * @param theDisplayNameKey the resource key for display name
 	 */
 
-	public void setDisplayNameKey( String theDisplayNameKey )
-	{
+	public void setDisplayNameKey(String theDisplayNameKey) {
 		this.displayNameKey = theDisplayNameKey;
 	}
 
 	/**
 	 * Sets the choice name.
 	 * 
-	 * @param theName
-	 *            the name to set
+	 * @param theName the name to set
 	 */
 
-	public void setName( String theName )
-	{
+	public void setName(String theName) {
 		this.name = theName;
 	}
 
 	/**
-	 * Returns the value of the choice. The returned value equals to the
-	 * internal name of the system choice.
+	 * Returns the value of the choice. The returned value equals to the internal
+	 * name of the system choice.
 	 * 
 	 * @return the value of the choice
 	 */
 
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return name;
 	}
 
@@ -202,12 +180,11 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 
-	public int compareTo( Object o )
-	{
+	public int compareTo(Object o) {
 		assert name != null;
 
 		Choice choice = (Choice) o;
-		return name.compareTo( choice.getName( ) );
+		return name.compareTo(choice.getName());
 	}
 
 	/*
@@ -216,11 +193,10 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 	 * @see java.lang.Object#toString()
 	 */
 
-	public String toString( )
-	{
-		if ( !StringUtil.isBlank( getName( ) ) )
-			return getName( );
-		return super.toString( );
+	public String toString() {
+		if (!StringUtil.isBlank(getName()))
+			return getName();
+		return super.toString();
 	}
 
 	/*
@@ -229,26 +205,20 @@ public class Choice implements Cloneable, IChoice, Comparable<Object>
 	 * @see org.eclipse.birt.report.model.api.metadata.IChoice#copy()
 	 */
 
-	public IChoice copy( )
-	{
-		try
-		{
-			return (IChoice) clone( );
-		}
-		catch ( CloneNotSupportedException e )
-		{
+	public IChoice copy() {
+		try {
+			return (IChoice) clone();
+		} catch (CloneNotSupportedException e) {
 			assert false;
 			return null;
 		}
 	}
 
-	public void setMessages( IMessages messages )
-	{
+	public void setMessages(IMessages messages) {
 		this.messages = messages;
 	}
 
-	public IMessages getMessages( )
-	{
+	public IMessages getMessages() {
 		return messages;
 	}
 }

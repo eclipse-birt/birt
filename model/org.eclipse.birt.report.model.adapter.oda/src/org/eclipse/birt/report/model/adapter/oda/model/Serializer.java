@@ -21,46 +21,40 @@ import java.io.OutputStream;
  * 
  * @author Actuate Corporation
  */
-public interface Serializer
-{
+public interface Serializer {
 
 	// Write Methods
 	/**
 	 * Write the designer values described by the model to the OutputStream
 	 * provided.
 	 * 
-	 * @param cModel
-	 *            The model to be serialized os The OutputStream to which the
-	 *            model is to be serialized
-	 * @param os
-	 *            the output stream
+	 * @param cModel The model to be serialized os The OutputStream to which the
+	 *               model is to be serialized
+	 * @param os     the output stream
 	 * @throws IOException
 	 */
 
-	public void write( DesignValues cModel, OutputStream os )
-			throws IOException;
+	public void write(DesignValues cModel, OutputStream os) throws IOException;
 
 	/**
 	 * Write the desinger values described to the string
 	 * 
-	 * @param values
-	 *            the design value
+	 * @param values the design value
 	 * @return the string value
 	 * @throws IOException
 	 */
 
-	public String write( DesignValues values ) throws IOException;
+	public String write(DesignValues values) throws IOException;
 
 	// Read Methods
 	/**
 	 * Parses the string to the design value.
 	 * 
-	 * @param values
-	 *            the designer values in string
+	 * @param values the designer values in string
 	 * 
 	 * @return the designer values
 	 * @throws IOException
 	 */
 
-	public DesignValues read( String values ) throws IOException;
+	public DesignValues read(String values) throws IOException;
 }

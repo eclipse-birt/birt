@@ -15,25 +15,23 @@ import testutil.ConfigText;
 import org.junit.Before;
 import org.junit.Ignore;
 
-
 /**
- *  Run a query based on DB2 database 
+ * Run a query based on DB2 database
  */
 @Ignore("Ignore tests that require manual setup")
-public class ConnectDB2Test extends ConnectionTest
-{
+public class ConnectDB2Test extends ConnectionTest {
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
-    public void connectDB2SetUp() throws Exception
-	{
-		DriverClass = ConfigText.getString( "Regre.DB2.DriverClass" );
-		URL = ConfigText.getString( "Regre.DB2.URL" );
-		User = ConfigText.getString( "Regre.DB2.User" );
-		Password = ConfigText.getString( "Regre.DB2.Password" );
+	public void connectDB2SetUp() throws Exception {
+		DriverClass = ConfigText.getString("Regre.DB2.DriverClass");
+		URL = ConfigText.getString("Regre.DB2.URL");
+		User = ConfigText.getString("Regre.DB2.User");
+		Password = ConfigText.getString("Regre.DB2.Password");
 
 	}
 }

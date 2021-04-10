@@ -17,20 +17,16 @@ import org.eclipse.core.runtime.IAdapterFactory;
  * 
  */
 
-public class BindingDialogFactory implements IAdapterFactory
-{
+public class BindingDialogFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( adapterType == IBindingDialogHelper.class )
-		{
-			return new BindingDialogHelper( );
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adapterType == IBindingDialogHelper.class) {
+			return new BindingDialogHelper();
 		}
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
+	public Class[] getAdapterList() {
 		// TODO Auto-generated method stub
 		return null;
 	}

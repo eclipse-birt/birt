@@ -30,13 +30,11 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * Tests change data set of report item.
  */
 
-public class LibraryChangeChartDataSetTest extends BaseTestCase
-{
+public class LibraryChangeChartDataSetTest extends BaseTestCase {
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		openDesign( "DesignWithChartLibrary.xml" ); //$NON-NLS-1$
+	protected void setUp() throws Exception {
+		super.setUp();
+		openDesign("DesignWithChartLibrary.xml"); //$NON-NLS-1$
 	}
 
 	/**
@@ -45,76 +43,62 @@ public class LibraryChangeChartDataSetTest extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void testChangeTableDataSet( ) throws SemanticException
-	{
-		TableHandle tableHandle = (TableHandle) designHandle
-				.findElement( "NewTable" );//$NON-NLS-1$
-		assertNotNull( tableHandle );
+	public void testChangeTableDataSet() throws SemanticException {
+		TableHandle tableHandle = (TableHandle) designHandle.findElement("NewTable");//$NON-NLS-1$
+		assertNotNull(tableHandle);
 
-		int count = getColumnBindingsCount( tableHandle
-				.columnBindingsIterator( ) );
-		assertEquals( 7, count );
+		int count = getColumnBindingsCount(tableHandle.columnBindingsIterator());
+		assertEquals(7, count);
 
 		// if the column has the same filter expression as the original column,
 		// the column will not be added.
-		ComputedColumn column = StructureFactory.newComputedColumn(
-				tableHandle, "test" ); //$NON-NLS-1$
-		List<ComputedColumn> columns = tableHandle
-				.getListProperty( ReportItemHandle.BOUND_DATA_COLUMNS_PROP );
+		ComputedColumn column = StructureFactory.newComputedColumn(tableHandle, "test"); //$NON-NLS-1$
+		List<ComputedColumn> columns = tableHandle.getListProperty(ReportItemHandle.BOUND_DATA_COLUMNS_PROP);
 
-		column.setFilterExpression( columns.get( 6 ).getFilterExpression( ) );
-		column.setExpression( columns.get( 6 ).getExpression( ) );
-		tableHandle.addColumnBinding( column, false );
+		column.setFilterExpression(columns.get(6).getFilterExpression());
+		column.setExpression(columns.get(6).getExpression());
+		tableHandle.addColumnBinding(column, false);
 
-		columns = tableHandle
-				.getListProperty( ReportItemHandle.BOUND_DATA_COLUMNS_PROP );
+		columns = tableHandle.getListProperty(ReportItemHandle.BOUND_DATA_COLUMNS_PROP);
 
-		assertEquals( 7, columns.size( ) );
+		assertEquals(7, columns.size());
 
 		// if the column does not have the same filter expression as the orginal
 		// column, the column will be added.
-		column.setFilterExpression( "new expression" ); //$NON-NLS-1$
-		tableHandle.addColumnBinding( column, false );
-		columns = tableHandle
-				.getListProperty( ReportItemHandle.BOUND_DATA_COLUMNS_PROP );
+		column.setFilterExpression("new expression"); //$NON-NLS-1$
+		tableHandle.addColumnBinding(column, false);
+		columns = tableHandle.getListProperty(ReportItemHandle.BOUND_DATA_COLUMNS_PROP);
 
-		assertEquals( 8, columns.size( ) );
+		assertEquals(8, columns.size());
 
-		DataSetHandle newDsHandle = (DataSetHandle) designHandle
-				.getElementByID( 6 );
-		assertNotNull( newDsHandle );
-		try
-		{
-			tableHandle.setDataSet( newDsHandle );
+		DataSetHandle newDsHandle = (DataSetHandle) designHandle.getElementByID(6);
+		assertNotNull(newDsHandle);
+		try {
+			tableHandle.setDataSet(newDsHandle);
 
-		}
-		catch ( SemanticException e )
-		{
-			fail( "can't set data set " + e.getMessage( ) );//$NON-NLS-1$
+		} catch (SemanticException e) {
+			fail("can't set data set " + e.getMessage());//$NON-NLS-1$
 		}
 
-		addColumnBindings( tableHandle, newDsHandle );
-		Iterator iterator = tableHandle.columnBindingsIterator( );
-		count = getColumnBindingsCount( iterator );
+		addColumnBindings(tableHandle, newDsHandle);
+		Iterator iterator = tableHandle.columnBindingsIterator();
+		count = getColumnBindingsCount(iterator);
 
-		assertEquals( 5, count );
+		assertEquals(5, count);
 	}
 
 	/**
 	 * Gets count of column bindings.
 	 * 
-	 * @param iterator
-	 *            column bindings iterator.
+	 * @param iterator column bindings iterator.
 	 * @return count of column bindings
 	 */
 
-	private int getColumnBindingsCount( Iterator iterator )
-	{
+	private int getColumnBindingsCount(Iterator iterator) {
 		int count = 0;
-		while ( iterator != null && iterator.hasNext( ) )
-		{
-			Object obj = iterator.next( );
-			if ( obj != null )
+		while (iterator != null && iterator.hasNext()) {
+			Object obj = iterator.next();
+			if (obj != null)
 				++count;
 		}
 		return count;
@@ -127,67 +111,52 @@ public class LibraryChangeChartDataSetTest extends BaseTestCase
 	 * 
 	 */
 
-	public void testChangeChartDataSet( ) throws SemanticException
-	{
-		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle
-				.findElement( "NewTestingMatrix" ); //$NON-NLS-1$
-		assertNotNull( itemHandle );
+	public void testChangeChartDataSet() throws SemanticException {
+		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle.findElement("NewTestingMatrix"); //$NON-NLS-1$
+		assertNotNull(itemHandle);
 
-		int count = getColumnBindingsCount( itemHandle.columnBindingsIterator( ) );
-		assertEquals( 5, count );
+		int count = getColumnBindingsCount(itemHandle.columnBindingsIterator());
+		assertEquals(5, count);
 
-		DataSetHandle newDsHandle = (DataSetHandle) designHandle
-				.getElementByID( 7 );
-		assertNotNull( newDsHandle );
-		try
-		{
-			itemHandle.setDataSet( newDsHandle );
+		DataSetHandle newDsHandle = (DataSetHandle) designHandle.getElementByID(7);
+		assertNotNull(newDsHandle);
+		try {
+			itemHandle.setDataSet(newDsHandle);
 
-		}
-		catch ( SemanticException e )
-		{
-			fail( "can't set data set " + e.getMessage( ) );//$NON-NLS-1$
+		} catch (SemanticException e) {
+			fail("can't set data set " + e.getMessage());//$NON-NLS-1$
 		}
 
-		addColumnBindings( itemHandle, newDsHandle );
-		Iterator iterator = itemHandle.columnBindingsIterator( );
-		count = getColumnBindingsCount( iterator );
+		addColumnBindings(itemHandle, newDsHandle);
+		Iterator iterator = itemHandle.columnBindingsIterator();
+		count = getColumnBindingsCount(iterator);
 
-		assertEquals( 7, count );
+		assertEquals(7, count);
 
 	}
 
 	/**
 	 * Add column binding for report item.
 	 * 
-	 * @param itemHandle
-	 *            report item handle
-	 * @param dsHandle
-	 *            data set handle
+	 * @param itemHandle report item handle
+	 * @param dsHandle   data set handle
 	 * @throws SemanticException
 	 */
 
-	private void addColumnBindings( ReportItemHandle itemHandle,
-			DataSetHandle dsHandle ) throws SemanticException
-	{
-		itemHandle.getColumnBindings( ).clearValue( );
+	private void addColumnBindings(ReportItemHandle itemHandle, DataSetHandle dsHandle) throws SemanticException {
+		itemHandle.getColumnBindings().clearValue();
 
-		CachedMetaDataHandle meta = dsHandle.getCachedMetaDataHandle( );
-		MemberHandle resultSet = meta.getResultSet( );
+		CachedMetaDataHandle meta = dsHandle.getCachedMetaDataHandle();
+		MemberHandle resultSet = meta.getResultSet();
 
-		if ( resultSet.getListValue( ) != null )
-		{
-			for ( int i = 0; i < resultSet.getListValue( ).size( ); i++ )
-			{
-				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) resultSet
-						.getAt( i );
-				ComputedColumn column = StructureFactory.newComputedColumn(
-						itemHandle, resultSetColumn.getColumnName( ) );
-				column.setDataType( resultSetColumn.getDataType( ) );
-				column
-						.setExpression( "row[" + resultSetColumn.getColumnName( ) + "]" );//$NON-NLS-1$ //$NON-NLS-2$
+		if (resultSet.getListValue() != null) {
+			for (int i = 0; i < resultSet.getListValue().size(); i++) {
+				ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) resultSet.getAt(i);
+				ComputedColumn column = StructureFactory.newComputedColumn(itemHandle, resultSetColumn.getColumnName());
+				column.setDataType(resultSetColumn.getDataType());
+				column.setExpression("row[" + resultSetColumn.getColumnName() + "]");//$NON-NLS-1$ //$NON-NLS-2$
 
-				itemHandle.addColumnBinding( column, false );
+				itemHandle.addColumnBinding(column, false);
 			}
 		}
 	}

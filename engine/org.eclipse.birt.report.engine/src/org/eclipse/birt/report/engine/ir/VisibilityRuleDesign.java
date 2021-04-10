@@ -7,47 +7,45 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/ 
+ *******************************************************************************/
 package org.eclipse.birt.report.engine.ir;
 
-
 /**
- *  Visibility Rule Design
+ * Visibility Rule Design
  * 
  * 
  */
-public class VisibilityRuleDesign
-{
+public class VisibilityRuleDesign {
 	/** expression */
 	protected Expression expression;
 	/** format */
 	protected String format;
+
 	/**
 	 * @return Returns the expression.
 	 */
-	public Expression getExpression( )
-	{
+	public Expression getExpression() {
 		return expression;
 	}
+
 	/**
 	 * @param expression The expression to set.
 	 */
-	public void setExpression( Expression expression )
-	{
+	public void setExpression(Expression expression) {
 		this.expression = expression;
 	}
+
 	/**
 	 * @return Returns the format.
 	 */
-	public String getFormat( )
-	{
+	public String getFormat() {
 		return format;
 	}
+
 	/**
 	 * @param format The format to set.
 	 */
-	public void setFormat( String format )
-	{
+	public void setFormat(String format) {
 		this.format = format;
 	}
 }

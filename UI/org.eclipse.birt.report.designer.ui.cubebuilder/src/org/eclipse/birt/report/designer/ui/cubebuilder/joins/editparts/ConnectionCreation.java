@@ -13,89 +13,75 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.tools.ConnectionDragCreationTool;
 
-public class ConnectionCreation extends ConnectionDragCreationTool
-{
+public class ConnectionCreation extends ConnectionDragCreationTool {
 
 	private EditPart editpart;
 
-	public ConnectionCreation( EditPart owner )
-	{
+	public ConnectionCreation(EditPart owner) {
 		editpart = owner;
-		//set the cursor style in different connection situation
-		setDisabledCursor( org.eclipse.draw2d.Cursors.NO );
-		setDefaultCursor( org.eclipse.draw2d.Cursors.ARROW );
+		// set the cursor style in different connection situation
+		setDisabledCursor(org.eclipse.draw2d.Cursors.NO);
+		setDefaultCursor(org.eclipse.draw2d.Cursors.ARROW);
 	}
 
 	private boolean IsCursorDrag = false;
 
-	//Set the cursor as default style when a column is choosed
-	protected org.eclipse.swt.graphics.Cursor getDisabledCursor( )
-	{
-		if ( IsCursorDrag == false )
-		{
-			return super.getDefaultCursor( );
-		}
-		else
-		{
-			return super.getDisabledCursor( );
+	// Set the cursor as default style when a column is choosed
+	protected org.eclipse.swt.graphics.Cursor getDisabledCursor() {
+		if (IsCursorDrag == false) {
+			return super.getDefaultCursor();
+		} else {
+			return super.getDisabledCursor();
 		}
 	}
 
-	protected boolean handleButtonDown( int button )
-	{
-		if ( this.isInState( STATE_INITIAL ) && button == 1 )
-		{
-			//Select the ColumnEditPart
-			EditPartViewer viewer = this.getCurrentViewer( );
-			viewer.select( getSourceEditPart( ) );
+	protected boolean handleButtonDown(int button) {
+		if (this.isInState(STATE_INITIAL) && button == 1) {
+			// Select the ColumnEditPart
+			EditPartViewer viewer = this.getCurrentViewer();
+			viewer.select(getSourceEditPart());
 
-			this.updateTargetRequest( );
-			this.updateTargetUnderMouse( );
-			super.handleButtonDown( button );
-			this.handleDrag( );
+			this.updateTargetRequest();
+			this.updateTargetUnderMouse();
+			super.handleButtonDown(button);
+			this.handleDrag();
 			return true;
 		}
-		return super.handleButtonDown( button );
+		return super.handleButtonDown(button);
 	}
 
-	protected boolean handleButtonUp( int button )
-	{
-		int toolState = this.getState( );
-		if ( toolState != 4 && toolState == 2 )
-			performConditionalSelection( );
-		this.updateTargetUnderMouse( );
-		return super.handleButtonUp( button );
+	protected boolean handleButtonUp(int button) {
+		int toolState = this.getState();
+		if (toolState != 4 && toolState == 2)
+			performConditionalSelection();
+		this.updateTargetUnderMouse();
+		return super.handleButtonUp(button);
 	}
 
-	protected boolean handleDragStarted( )
-	{
-		//if cursor in drag state, set the default cursor style to
+	protected boolean handleDragStarted() {
+		// if cursor in drag state, set the default cursor style to
 		// CURSOR_TREE_ADD
-		if ( IsCursorDrag == false )
-		{
-			setDefaultCursor( org.eclipse.gef.SharedCursors.CURSOR_TREE_ADD );
+		if (IsCursorDrag == false) {
+			setDefaultCursor(org.eclipse.gef.SharedCursors.CURSOR_TREE_ADD);
 			IsCursorDrag = true;
 		}
 
-		performConditionalSelection( );
-		return super.handleDragStarted( );
+		performConditionalSelection();
+		return super.handleDragStarted();
 	}
 
-	protected void performConditionalSelection( )
-	{
-		if ( getSourceEditPart( ).getSelected( ) == 0 )
-			performSelection( );
+	protected void performConditionalSelection() {
+		if (getSourceEditPart().getSelected() == 0)
+			performSelection();
 	}
 
-	protected EditPart getSourceEditPart( )
-	{
+	protected EditPart getSourceEditPart() {
 		return editpart;
 	}
 
-	protected void performSelection( )
-	{
-		EditPartViewer viewer = this.getCurrentViewer( );
-		viewer.select( getSourceEditPart( ) );
+	protected void performSelection() {
+		EditPartViewer viewer = this.getCurrentViewer();
+		viewer.select(getSourceEditPart());
 	}
 
 }

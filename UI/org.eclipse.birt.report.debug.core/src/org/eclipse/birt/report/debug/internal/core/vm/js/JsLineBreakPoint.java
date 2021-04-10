@@ -16,50 +16,42 @@ import org.eclipse.birt.report.debug.internal.core.vm.VMBreakPoint;
 /**
  * JsLineBreakPoint
  */
-public class JsLineBreakPoint implements VMBreakPoint
-{
+public class JsLineBreakPoint implements VMBreakPoint {
 
 	private static final long serialVersionUID = 1L;
 
 	protected String name;
 	protected int lineNo;
 
-	public JsLineBreakPoint( String name, int lineNo )
-	{
+	public JsLineBreakPoint(String name, int lineNo) {
 		this.name = name;
 		this.lineNo = lineNo;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public int getLineNo( )
-	{
+	public int getLineNo() {
 		return lineNo;
 	}
 
-	public int hashCode( )
-	{
-		if ( name != null )
-		{
-			return name.hashCode( ) ^ lineNo;
+	public int hashCode() {
+		if (name != null) {
+			return name.hashCode() ^ lineNo;
 		}
 		return lineNo;
 	}
 
-	public boolean equals( Object obj )
-	{
-		if ( !( obj instanceof JsLineBreakPoint ) )
-		{
+	public boolean equals(Object obj) {
+		if (!(obj instanceof JsLineBreakPoint)) {
 			return false;
 		}
 
 		JsLineBreakPoint that = (JsLineBreakPoint) obj;
 
-		return ( ( name == null && that.name == null ) || ( name != null && name.equals( that.name ) ) )
-				&& ( this.lineNo == that.lineNo );
+		return ((name == null && that.name == null) || (name != null && name.equals(that.name)))
+				&& (this.lineNo == that.lineNo);
 
 	}
 }

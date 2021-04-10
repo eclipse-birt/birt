@@ -17,29 +17,31 @@ import java.util.List;
  * IHierarchyDefinition defines Hierarchy and its levels that are used in cube.
  */
 
-public interface IHierarchyDefinition extends INamedObject
-{
+public interface IHierarchyDefinition extends INamedObject {
 	/**
 	 * Return the dimension this hierarchy belongs to.
+	 * 
 	 * @return
 	 */
 	public IDimensionDefinition getDimension();
-	
+
 	/**
-	 * Add a level to the IHierarchyDefinition. 
+	 * Add a level to the IHierarchyDefinition.
+	 * 
 	 * @param levelName
 	 * @return
 	 */
-	public ILevelDefinition createLevel( String levelName );
-	
+	public ILevelDefinition createLevel(String levelName);
+
 	/**
 	 * Return the levels that are added to the hierarchy.
+	 * 
 	 * @return
 	 */
-	public List<ILevelDefinition> getLevels( );
+	public List<ILevelDefinition> getLevels();
 
-    /**
-     * Clone itself.
-     */
-    public IHierarchyDefinition clone( );
+	/**
+	 * Clone itself.
+	 */
+	public IHierarchyDefinition clone();
 }

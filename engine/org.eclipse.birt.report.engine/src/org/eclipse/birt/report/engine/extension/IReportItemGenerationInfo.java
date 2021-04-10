@@ -16,16 +16,15 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
-public interface IReportItemGenerationInfo
-{
+public interface IReportItemGenerationInfo {
 
-	public ExtendedItemHandle getModelObject( );
+	public ExtendedItemHandle getModelObject();
 
-	public ClassLoader getApplicationClassLoader( );
-	
-	public IReportContext getReportContext( );
+	public ClassLoader getApplicationClassLoader();
 
-	public IDataQueryDefinition[] getReportQueries( );
+	public IReportContext getReportContext();
 
-	public IContent getExtendedItemContent( );
+	public IDataQueryDefinition[] getReportQueries();
+
+	public IContent getExtendedItemContent();
 }

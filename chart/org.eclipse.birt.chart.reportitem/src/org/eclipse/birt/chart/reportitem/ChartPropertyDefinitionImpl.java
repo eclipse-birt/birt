@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
  * This class defines all the chart properties definition for reportItem
  * extension.
  */
-public final class ChartPropertyDefinitionImpl extends PropertyDefinition
-{
+public final class ChartPropertyDefinitionImpl extends PropertyDefinition {
 
 	private String sGroupNameID = null;
 
@@ -41,25 +40,13 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 
 	private IMethodInfo mi = null;
 
-	public ChartPropertyDefinitionImpl( String sGroupNameID, String sName,
-			String sDisplayNameID, boolean bList, int iType, List liChoices,
-			List liMembers, Object oDefaultValue )
-	{
-		this( sGroupNameID,
-				sName,
-				sDisplayNameID,
-				bList,
-				iType,
-				liChoices,
-				liMembers,
-				oDefaultValue,
-				null );
+	public ChartPropertyDefinitionImpl(String sGroupNameID, String sName, String sDisplayNameID, boolean bList,
+			int iType, List liChoices, List liMembers, Object oDefaultValue) {
+		this(sGroupNameID, sName, sDisplayNameID, bList, iType, liChoices, liMembers, oDefaultValue, null);
 	}
 
-	public ChartPropertyDefinitionImpl( String sGroupNameID, String sName,
-			String sDisplayNameID, boolean bList, int iType, List liChoices,
-			List liMembers, Object oDefaultValue, IMethodInfo mi )
-	{
+	public ChartPropertyDefinitionImpl(String sGroupNameID, String sName, String sDisplayNameID, boolean bList,
+			int iType, List liChoices, List liMembers, Object oDefaultValue, IMethodInfo mi) {
 		this.sGroupNameID = sGroupNameID;
 		this.sName = sName;
 		this.sDisplayNameID = sDisplayNameID;
@@ -74,10 +61,10 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getGroupNameID()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getGroupNameID()
 	 */
-	public String getGroupNameID( )
-	{
+	public String getGroupNameID() {
 		return sGroupNameID;
 	}
 
@@ -86,18 +73,18 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return sName;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID(
+	 * )
 	 */
-	public String getDisplayNameID( )
-	{
+	public String getDisplayNameID() {
 		return sDisplayNameID;
 	}
 
@@ -106,8 +93,7 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return iType;
 	}
 
@@ -116,8 +102,7 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#isList()
 	 */
-	public boolean isList( )
-	{
+	public boolean isList() {
 		return bList;
 	}
 
@@ -126,8 +111,7 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getChoices()
 	 */
-	public List getChoices( )
-	{
+	public List getChoices() {
 		return liChoices;
 	}
 
@@ -136,33 +120,31 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getMembers()
 	 */
-	public List getMembers( )
-	{
+	public List getMembers() {
 		return liMembers;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getDefaultValue()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDefaultValue()
 	 */
-	public Object getDefaultValue( )
-	{
+	public Object getDefaultValue() {
 		return oDefaultValue;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isVisible()
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IPropertyDefinition#isVisible()
 	 */
-	public boolean isVisible( )
-	{
+	public boolean isVisible() {
 		return false;
 	}
 
-	public IMethodInfo getMethodInfo( )
-	{
+	public IMethodInfo getMethodInfo() {
 		return mi;
 	}
 

@@ -54,8 +54,7 @@ import org.w3c.dom.css.CSSValue;
  * 
  */
 ///TODO: change the border style's resolve.
-public class BorderConflictResolver
-{
+public class BorderConflictResolver {
 
 	final static int POSITION_LEFT = 0;
 
@@ -70,147 +69,127 @@ public class BorderConflictResolver
 	private int POSITION_TRAIL = POSITION_RIGHT;
 
 	static HashMap<Value, Integer> styleMap = null;
-	static
-	{
-		styleMap = new HashMap<Value, Integer>( );
-		styleMap.put( IStyle.NONE_VALUE, 0 );
-		styleMap.put( IStyle.INSET_VALUE, 1 );
-		styleMap.put( IStyle.GROOVE_VALUE, 2 );
-		styleMap.put( IStyle.OUTSET_VALUE, 3 );
-		styleMap.put( IStyle.RIDGE_VALUE, 4 );
-		styleMap.put( IStyle.DOTTED_VALUE, 5 );
-		styleMap.put( IStyle.DASHED_VALUE, 6 );
-		styleMap.put( IStyle.SOLID_VALUE, 7 );
-		styleMap.put( IStyle.DOUBLE_VALUE, 8 );
+	static {
+		styleMap = new HashMap<Value, Integer>();
+		styleMap.put(IStyle.NONE_VALUE, 0);
+		styleMap.put(IStyle.INSET_VALUE, 1);
+		styleMap.put(IStyle.GROOVE_VALUE, 2);
+		styleMap.put(IStyle.OUTSET_VALUE, 3);
+		styleMap.put(IStyle.RIDGE_VALUE, 4);
+		styleMap.put(IStyle.DOTTED_VALUE, 5);
+		styleMap.put(IStyle.DASHED_VALUE, 6);
+		styleMap.put(IStyle.SOLID_VALUE, 7);
+		styleMap.put(IStyle.DOUBLE_VALUE, 8);
 	}
 
-	final static int[] BORDER_COLOR_POPERTIES = new int[]{
-			IStyle.STYLE_BORDER_LEFT_COLOR, IStyle.STYLE_BORDER_TOP_COLOR,
-			IStyle.STYLE_BORDER_RIGHT_COLOR, IStyle.STYLE_BORDER_BOTTOM_COLOR};
+	final static int[] BORDER_COLOR_POPERTIES = new int[] { IStyle.STYLE_BORDER_LEFT_COLOR,
+			IStyle.STYLE_BORDER_TOP_COLOR, IStyle.STYLE_BORDER_RIGHT_COLOR, IStyle.STYLE_BORDER_BOTTOM_COLOR };
 
-	final static int[] BORDER_WIDTH_POPERTIES = new int[]{
-			IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.STYLE_BORDER_TOP_WIDTH,
-			IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.STYLE_BORDER_BOTTOM_WIDTH};
+	final static int[] BORDER_WIDTH_POPERTIES = new int[] { IStyle.STYLE_BORDER_LEFT_WIDTH,
+			IStyle.STYLE_BORDER_TOP_WIDTH, IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.STYLE_BORDER_BOTTOM_WIDTH };
 
-	final static int[] BORDER_STYLE_POPERTIES = new int[]{
-			IStyle.STYLE_BORDER_LEFT_STYLE, IStyle.STYLE_BORDER_TOP_STYLE,
-			IStyle.STYLE_BORDER_RIGHT_STYLE, IStyle.STYLE_BORDER_BOTTOM_STYLE};
+	final static int[] BORDER_STYLE_POPERTIES = new int[] { IStyle.STYLE_BORDER_LEFT_STYLE,
+			IStyle.STYLE_BORDER_TOP_STYLE, IStyle.STYLE_BORDER_RIGHT_STYLE, IStyle.STYLE_BORDER_BOTTOM_STYLE };
 
-	protected BorderCache tableLeftBorderCache = new BorderCache( 4 );
+	protected BorderCache tableLeftBorderCache = new BorderCache(4);
 
 	/**
-	 * The used style should be style of area which is writable, and the others
-	 * are styles of content which is read-only.
+	 * The used style should be style of area which is writable, and the others are
+	 * styles of content which is read-only.
 	 * 
 	 * @param tableLeft
 	 * @param columnLeft
 	 * @param cellLeft
 	 * @param usedStyle
 	 */
-	public void resolveTableLeftBorder( IStyle tableLeft, IStyle rowLeft,
-			IStyle columnLeft, IStyle cellLeft, IStyle usedStyle )
-	{
-		resolveBorder( tableLeftBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( cellLeft, POSITION_LEAD ),
-				new BorderStyleInfo( columnLeft, POSITION_LEAD ),
-				new BorderStyleInfo( rowLeft, POSITION_LEAD ),
-				new BorderStyleInfo( tableLeft, POSITION_LEAD )},
-				new BorderStyleInfo( usedStyle, POSITION_LEAD ) );
+	public void resolveTableLeftBorder(IStyle tableLeft, IStyle rowLeft, IStyle columnLeft, IStyle cellLeft,
+			IStyle usedStyle) {
+		resolveBorder(tableLeftBorderCache,
+				new BorderStyleInfo[] { new BorderStyleInfo(cellLeft, POSITION_LEAD),
+						new BorderStyleInfo(columnLeft, POSITION_LEAD), new BorderStyleInfo(rowLeft, POSITION_LEAD),
+						new BorderStyleInfo(tableLeft, POSITION_LEAD) },
+				new BorderStyleInfo(usedStyle, POSITION_LEAD));
 	}
 
-	protected BorderCache tableTopBorderCache = new BorderCache( 4 );
+	protected BorderCache tableTopBorderCache = new BorderCache(4);
 
 	/**
-	 * The used style should be style of area which is writable, and the others
-	 * are styles of content which is read-only.
+	 * The used style should be style of area which is writable, and the others are
+	 * styles of content which is read-only.
 	 * 
 	 * @param tableTop
 	 * @param rowTop
 	 * @param cellTop
 	 * @param usedStyle
 	 */
-	public void resolveTableTopBorder( IStyle tableTop, IStyle rowTop,
-			IStyle columnTop, IStyle cellTop, IStyle usedStyle )
-	{
-		resolveBorder( tableTopBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( cellTop, POSITION_TOP ),
-				new BorderStyleInfo( rowTop, POSITION_TOP ),
-				new BorderStyleInfo( columnTop, POSITION_TOP ),
-				new BorderStyleInfo( tableTop, POSITION_TOP )},
-				new BorderStyleInfo( usedStyle, POSITION_TOP ) );
+	public void resolveTableTopBorder(IStyle tableTop, IStyle rowTop, IStyle columnTop, IStyle cellTop,
+			IStyle usedStyle) {
+		resolveBorder(tableTopBorderCache,
+				new BorderStyleInfo[] { new BorderStyleInfo(cellTop, POSITION_TOP),
+						new BorderStyleInfo(rowTop, POSITION_TOP), new BorderStyleInfo(columnTop, POSITION_TOP),
+						new BorderStyleInfo(tableTop, POSITION_TOP) },
+				new BorderStyleInfo(usedStyle, POSITION_TOP));
 	}
 
-	protected BorderCache tableBottomBorderCache = new BorderCache( 4 );
+	protected BorderCache tableBottomBorderCache = new BorderCache(4);
 
 	/**
-	 * The used style should be style of area which is writable, and the others
-	 * are styles of content which is read-only.
+	 * The used style should be style of area which is writable, and the others are
+	 * styles of content which is read-only.
 	 * 
 	 * @param tableBottom
 	 * @param rowBottom
 	 * @param cellBottom
 	 * @param usedStyle
 	 */
-	public void resolveTableBottomBorder( IStyle tableBottom, IStyle rowBottom,
-			IStyle columnBottom, IStyle cellBottom, IStyle usedStyle )
-	{
-		resolveBorder( tableBottomBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( cellBottom, POSITION_BOTTOM ),
-				new BorderStyleInfo( rowBottom, POSITION_BOTTOM ),
-				new BorderStyleInfo( columnBottom, POSITION_BOTTOM ),
-				new BorderStyleInfo( tableBottom, POSITION_BOTTOM )},
-				new BorderStyleInfo( usedStyle, POSITION_BOTTOM ) );
-	}
-	
-	protected BorderCache pagenatedTableTopBorderCache = new BorderCache( 4 );
-
-	public void resolvePagenatedTableTopBorder( IStyle rowTop, IStyle cellTop,
-			IStyle usedStyle )
-	{
-		resolveBorder( pagenatedTableTopBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( cellTop, POSITION_TOP ),
-				new BorderStyleInfo( rowTop, POSITION_TOP )},
-				new BorderStyleInfo( usedStyle, POSITION_TOP ) );
-	}
-	
-	protected BorderCache pagenatedTableBottomBorderCache = new BorderCache( 4 );
-
-	public void resolvePagenatedTableBottomBorder( IStyle rowBottom,
-			IStyle cellBottom, IStyle usedStyle )
-	{
-		resolveBorder( pagenatedTableBottomBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( cellBottom, POSITION_BOTTOM ),
-				new BorderStyleInfo( rowBottom, POSITION_BOTTOM )},
-				new BorderStyleInfo( usedStyle, POSITION_BOTTOM ) );
+	public void resolveTableBottomBorder(IStyle tableBottom, IStyle rowBottom, IStyle columnBottom, IStyle cellBottom,
+			IStyle usedStyle) {
+		resolveBorder(tableBottomBorderCache, new BorderStyleInfo[] { new BorderStyleInfo(cellBottom, POSITION_BOTTOM),
+				new BorderStyleInfo(rowBottom, POSITION_BOTTOM), new BorderStyleInfo(columnBottom, POSITION_BOTTOM),
+				new BorderStyleInfo(tableBottom, POSITION_BOTTOM) }, new BorderStyleInfo(usedStyle, POSITION_BOTTOM));
 	}
 
-	protected BorderCache tableRightBorderCache = new BorderCache( 4 );
+	protected BorderCache pagenatedTableTopBorderCache = new BorderCache(4);
+
+	public void resolvePagenatedTableTopBorder(IStyle rowTop, IStyle cellTop, IStyle usedStyle) {
+		resolveBorder(pagenatedTableTopBorderCache, new BorderStyleInfo[] { new BorderStyleInfo(cellTop, POSITION_TOP),
+				new BorderStyleInfo(rowTop, POSITION_TOP) }, new BorderStyleInfo(usedStyle, POSITION_TOP));
+	}
+
+	protected BorderCache pagenatedTableBottomBorderCache = new BorderCache(4);
+
+	public void resolvePagenatedTableBottomBorder(IStyle rowBottom, IStyle cellBottom, IStyle usedStyle) {
+		resolveBorder(pagenatedTableBottomBorderCache,
+				new BorderStyleInfo[] { new BorderStyleInfo(cellBottom, POSITION_BOTTOM),
+						new BorderStyleInfo(rowBottom, POSITION_BOTTOM) },
+				new BorderStyleInfo(usedStyle, POSITION_BOTTOM));
+	}
+
+	protected BorderCache tableRightBorderCache = new BorderCache(4);
 
 	/**
-	 * The used style should be style of area which is writable, and the others
-	 * are styles of content which is read-only.
+	 * The used style should be style of area which is writable, and the others are
+	 * styles of content which is read-only.
 	 * 
 	 * @param tableRight
 	 * @param columnRight
 	 * @param cellRight
 	 * @param usedStyle
 	 */
-	public void resolveTableRightBorder( IStyle tableRight, IStyle rowRight,
-			IStyle columnRight, IStyle cellRight, IStyle usedStyle )
-	{
-		resolveBorder( tableRightBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( cellRight, POSITION_TRAIL ),
-				new BorderStyleInfo( columnRight, POSITION_TRAIL ),
-				new BorderStyleInfo( rowRight, POSITION_TRAIL ),
-				new BorderStyleInfo( tableRight, POSITION_TRAIL )},
-				new BorderStyleInfo( usedStyle, POSITION_TRAIL ) );
+	public void resolveTableRightBorder(IStyle tableRight, IStyle rowRight, IStyle columnRight, IStyle cellRight,
+			IStyle usedStyle) {
+		resolveBorder(tableRightBorderCache,
+				new BorderStyleInfo[] { new BorderStyleInfo(cellRight, POSITION_TRAIL),
+						new BorderStyleInfo(columnRight, POSITION_TRAIL), new BorderStyleInfo(rowRight, POSITION_TRAIL),
+						new BorderStyleInfo(tableRight, POSITION_TRAIL) },
+				new BorderStyleInfo(usedStyle, POSITION_TRAIL));
 	}
 
-	protected BorderCache cellLeftBorderCache = new BorderCache( 4 );
+	protected BorderCache cellLeftBorderCache = new BorderCache(4);
 
 	/**
-	 * The used style should be style of area which is writable, and the others
-	 * are styles of content which is read-only.
+	 * The used style should be style of area which is writable, and the others are
+	 * styles of content which is read-only.
 	 * 
 	 * @param preColumnRight
 	 * @param columnLeft
@@ -218,23 +197,18 @@ public class BorderConflictResolver
 	 * @param cellLeft
 	 * @param usedStyle
 	 */
-	public void resolveCellLeftBorder( IStyle preColumnRight,
-			IStyle columnLeft, IStyle preCellRight, IStyle cellLeft,
-			IStyle usedStyle )
-	{
-		resolveBorder( cellLeftBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( preCellRight, POSITION_TRAIL ),
-				new BorderStyleInfo( cellLeft, POSITION_LEAD ),
-				new BorderStyleInfo( preColumnRight, POSITION_TRAIL ),
-				new BorderStyleInfo( columnLeft, POSITION_LEAD )},
-				new BorderStyleInfo( usedStyle, POSITION_LEAD ) );
+	public void resolveCellLeftBorder(IStyle preColumnRight, IStyle columnLeft, IStyle preCellRight, IStyle cellLeft,
+			IStyle usedStyle) {
+		resolveBorder(cellLeftBorderCache, new BorderStyleInfo[] { new BorderStyleInfo(preCellRight, POSITION_TRAIL),
+				new BorderStyleInfo(cellLeft, POSITION_LEAD), new BorderStyleInfo(preColumnRight, POSITION_TRAIL),
+				new BorderStyleInfo(columnLeft, POSITION_LEAD) }, new BorderStyleInfo(usedStyle, POSITION_LEAD));
 	}
 
-	protected BorderCache cellTopBorderCache = new BorderCache( 4 );
+	protected BorderCache cellTopBorderCache = new BorderCache(4);
 
 	/**
-	 * The used style should be style of area which is writable, and the others
-	 * are styles of content which is read-only.
+	 * The used style should be style of area which is writable, and the others are
+	 * styles of content which is read-only.
 	 * 
 	 * @param preRowBottom
 	 * @param rowTop
@@ -242,211 +216,162 @@ public class BorderConflictResolver
 	 * @param cellTop
 	 * @param usedStyle
 	 */
-	public void resolveCellTopBorder( IStyle preRowBottom, IStyle rowTop,
-			IStyle preCellBottom, IStyle cellTop, IStyle usedStyle )
-	{
-		resolveBorder( cellTopBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( preCellBottom, POSITION_BOTTOM ),
-				new BorderStyleInfo( cellTop, POSITION_TOP ),
-				new BorderStyleInfo( preRowBottom, POSITION_BOTTOM ),
-				new BorderStyleInfo( rowTop, POSITION_TOP )},
-				new BorderStyleInfo( usedStyle, POSITION_TOP ) );
+	public void resolveCellTopBorder(IStyle preRowBottom, IStyle rowTop, IStyle preCellBottom, IStyle cellTop,
+			IStyle usedStyle) {
+		resolveBorder(cellTopBorderCache,
+				new BorderStyleInfo[] { new BorderStyleInfo(preCellBottom, POSITION_BOTTOM),
+						new BorderStyleInfo(cellTop, POSITION_TOP), new BorderStyleInfo(preRowBottom, POSITION_BOTTOM),
+						new BorderStyleInfo(rowTop, POSITION_TOP) },
+				new BorderStyleInfo(usedStyle, POSITION_TOP));
 	}
 
-	private void resolveBorder( BorderCache cache, BorderStyleInfo[] styles,
-			BorderStyleInfo usedStyle )
-	{
-		if ( cache.isSame( styles ) )
-		{
-			usedStyle.setBorder( cache.borderStyle, cache.borderWidth,
-					cache.borderColor );
+	private void resolveBorder(BorderCache cache, BorderStyleInfo[] styles, BorderStyleInfo usedStyle) {
+		if (cache.isSame(styles)) {
+			usedStyle.setBorder(cache.borderStyle, cache.borderWidth, cache.borderColor);
 			return;
 		}
 
 		CSSValue[] borderStyles = new CSSValue[styles.length];
-		for ( int i = 0; i < styles.length; i++ )
-		{
-			borderStyles[i] = styles[i].getBorderStyle( );
-			if ( IStyle.HIDDEN_VALUE.equals( borderStyles[i] ) )
-			{
-				usedStyle.setBorderStyle( IStyle.HIDDEN_VALUE );
-				cache.setValues( styles, IStyle.HIDDEN_VALUE, IStyle.NUMBER_0,
-						IStyle.BLACK_VALUE );
+		for (int i = 0; i < styles.length; i++) {
+			borderStyles[i] = styles[i].getBorderStyle();
+			if (IStyle.HIDDEN_VALUE.equals(borderStyles[i])) {
+				usedStyle.setBorderStyle(IStyle.HIDDEN_VALUE);
+				cache.setValues(styles, IStyle.HIDDEN_VALUE, IStyle.NUMBER_0, IStyle.BLACK_VALUE);
 				return;
 			}
 		}
-		
-		//resolve border width
+
+		// resolve border width
 		int maxWidth = 0;
 		int maxCount = 1;
 		int maxFirstIndex = 0;
 		int[] ws = new int[styles.length];
 		CSSValue[] borderWidths = new CSSValue[styles.length];
-		for ( int i = 0; i < styles.length; i++ )
-		{
-			borderWidths[i] = styles[i].getBorderWidth( );
-			ws[i] = PropertyUtil
-					.getDimensionValue( styles[i].getBorderWidth( ) );
-			if ( ws[i] > maxWidth )
-			{
+		for (int i = 0; i < styles.length; i++) {
+			borderWidths[i] = styles[i].getBorderWidth();
+			ws[i] = PropertyUtil.getDimensionValue(styles[i].getBorderWidth());
+			if (ws[i] > maxWidth) {
 				maxWidth = ws[i];
 				maxCount = 1;
 				maxFirstIndex = i;
-			}
-			else if ( ws[i] == maxWidth )
-			{
+			} else if (ws[i] == maxWidth) {
 				maxCount++;
 			}
 		}
 
-		if ( maxWidth == 0 || maxCount == 1 )
-		{
-			CSSValue color = styles[maxFirstIndex].getBorderColor( );
-			usedStyle.setBorder( borderStyles[maxFirstIndex],
-					borderWidths[maxFirstIndex], color );
-			cache.setValues( styles, borderStyles[maxFirstIndex],
-					borderWidths[maxFirstIndex], color );
+		if (maxWidth == 0 || maxCount == 1) {
+			CSSValue color = styles[maxFirstIndex].getBorderColor();
+			usedStyle.setBorder(borderStyles[maxFirstIndex], borderWidths[maxFirstIndex], color);
+			cache.setValues(styles, borderStyles[maxFirstIndex], borderWidths[maxFirstIndex], color);
 			return;
-		}
-		else
-		{
-			//resolve border style
+		} else {
+			// resolve border style
 			int max = 0;
 			int maxStyleIndex = 0;
 			int[] ss = new int[styles.length];
-			for ( int i = 0; i < styles.length; i++ )
-			{
-				if ( ws[i] == maxWidth )
-				{
-					ss[i] = ( (Integer) styleMap.get( styles[i]
-							.getBorderStyle( ) ) ).intValue( );
-					if ( ss[i] > max )
-					{
+			for (int i = 0; i < styles.length; i++) {
+				if (ws[i] == maxWidth) {
+					ss[i] = ((Integer) styleMap.get(styles[i].getBorderStyle())).intValue();
+					if (ss[i] > max) {
 						max = ss[i];
 						maxStyleIndex = i;
 					}
 				}
 			}
-			CSSValue color = styles[maxStyleIndex].getBorderColor( );
-			usedStyle.setBorder( borderStyles[maxStyleIndex],
-					borderWidths[maxStyleIndex], color );
-			cache.setValues( styles, borderStyles[maxStyleIndex],
-					borderWidths[maxStyleIndex], color );
+			CSSValue color = styles[maxStyleIndex].getBorderColor();
+			usedStyle.setBorder(borderStyles[maxStyleIndex], borderWidths[maxStyleIndex], color);
+			cache.setValues(styles, borderStyles[maxStyleIndex], borderWidths[maxStyleIndex], color);
 		}
 	}
 
-	public void setRTL( boolean rtl )
-	{
-		if ( rtl )
-		{
+	public void setRTL(boolean rtl) {
+		if (rtl) {
 			POSITION_LEAD = POSITION_RIGHT;
 			POSITION_TRAIL = POSITION_LEFT;
-		}
-		else
-		{
+		} else {
 			// XXX currently useless
 			POSITION_LEAD = POSITION_LEFT;
 			POSITION_TRAIL = POSITION_RIGHT;
 		}
 	}
 
-	protected static class BorderStyleInfo
-	{
+	protected static class BorderStyleInfo {
 
 		protected int position;
 
 		protected IStyle style;
 
-		public BorderStyleInfo( IStyle style, int position )
-		{
+		public BorderStyleInfo(IStyle style, int position) {
 			this.style = style;
 			this.position = position;
 		}
 
-		public void setBorderColor( CSSValue value )
-		{
-			assert ( style != null );
-			style.setProperty( BORDER_COLOR_POPERTIES[position], value );
+		public void setBorderColor(CSSValue value) {
+			assert (style != null);
+			style.setProperty(BORDER_COLOR_POPERTIES[position], value);
 		}
 
-		public CSSValue getBorderColor( )
-		{
-			if ( style != null )
-			{
-				return style.getProperty( BORDER_COLOR_POPERTIES[position] );
+		public CSSValue getBorderColor() {
+			if (style != null) {
+				return style.getProperty(BORDER_COLOR_POPERTIES[position]);
 			}
 			return IStyle.BLACK_RGB_VALUE;
 		}
 
-		public CSSValue getBorderStyle( )
-		{
-			if ( style != null )
-			{
-				return style.getProperty( BORDER_STYLE_POPERTIES[position] );
+		public CSSValue getBorderStyle() {
+			if (style != null) {
+				return style.getProperty(BORDER_STYLE_POPERTIES[position]);
 			}
 			return IStyle.NONE_VALUE;
 		}
 
-		public CSSValue getBorderWidth( )
-		{
-			if ( style != null )
-			{
-				return style.getProperty( BORDER_WIDTH_POPERTIES[position] );
+		public CSSValue getBorderWidth() {
+			if (style != null) {
+				return style.getProperty(BORDER_WIDTH_POPERTIES[position]);
 			}
 			return null;
 		}
 
-		private void setBorderStyle( CSSValue value )
-		{
-			style.setProperty( BORDER_STYLE_POPERTIES[position], value );
+		private void setBorderStyle(CSSValue value) {
+			style.setProperty(BORDER_STYLE_POPERTIES[position], value);
 		}
 
-		private void setBorderWidth( CSSValue value )
-		{
-			style.setProperty( BORDER_WIDTH_POPERTIES[position], value );
+		private void setBorderWidth(CSSValue value) {
+			style.setProperty(BORDER_WIDTH_POPERTIES[position], value);
 		}
 
-		public void setBorder( CSSValue style, CSSValue width, CSSValue color )
-		{
-			setBorderStyle( style );
-			setBorderWidth( width );
-			setBorderColor( color );
+		public void setBorder(CSSValue style, CSSValue width, CSSValue color) {
+			setBorderStyle(style);
+			setBorderWidth(width);
+			setBorderColor(color);
 		}
 	}
-	
-	private static class BorderCache
-	{
+
+	private static class BorderCache {
 
 		IStyle[] styles;
 		CSSValue borderStyle;
 		CSSValue borderWidth;
 		CSSValue borderColor;
 
-		BorderCache( int styleCount )
-		{
+		BorderCache(int styleCount) {
 			styles = new IStyle[styleCount];
 		}
 
-		public void setValues( BorderStyleInfo[] stylesInfo,
-				CSSValue borderStyle, CSSValue borderWidth, CSSValue borderColor )
-		{
+		public void setValues(BorderStyleInfo[] stylesInfo, CSSValue borderStyle, CSSValue borderWidth,
+				CSSValue borderColor) {
 			this.borderColor = borderColor;
 			this.borderStyle = borderStyle;
 			this.borderWidth = borderWidth;
-			for ( int i = 0; i < stylesInfo.length; i++ )
-			{
+			for (int i = 0; i < stylesInfo.length; i++) {
 				styles[i] = stylesInfo[i].style;
 			}
 		}
 
-		public boolean isSame( BorderStyleInfo[] stylesInfo )
-		{
-			if ( styles.length == stylesInfo.length )
-			{
-				for ( int i = 0; i < styles.length; i++ )
-				{
-					if ( styles[i] != stylesInfo[i].style )
-					{
+		public boolean isSame(BorderStyleInfo[] stylesInfo) {
+			if (styles.length == stylesInfo.length) {
+				for (int i = 0; i < styles.length; i++) {
+					if (styles[i] != stylesInfo[i].style) {
 						return false;
 					}
 				}

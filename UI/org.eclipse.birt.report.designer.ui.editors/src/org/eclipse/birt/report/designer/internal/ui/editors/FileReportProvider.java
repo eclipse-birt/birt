@@ -59,99 +59,77 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 /**
  * Report provider for file system report input.
  */
-public class FileReportProvider implements IReportProvider
-{
-	protected static final Logger logger = Logger.getLogger( FileReportProvider.class.getName( ) );
+public class FileReportProvider implements IReportProvider {
+	protected static final Logger logger = Logger.getLogger(FileReportProvider.class.getName());
 
 	private ModuleHandle model;
-	private static final String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#queryReportModuleHandle()
+	private static final String VERSION_MESSAGE = Messages.getString("TextPropertyDescriptor.Message.Version"); //$NON-NLS-1$
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#
+	 * queryReportModuleHandle()
 	 */
-	public ModuleHandle queryReportModuleHandle( )
-	{
+	public ModuleHandle queryReportModuleHandle() {
 		return model;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#getReportModuleHandle(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#
+	 * getReportModuleHandle(java.lang.Object)
 	 */
-	public ModuleHandle getReportModuleHandle( Object element )
-	{
-		return getReportModuleHandle( element, false );
+	public ModuleHandle getReportModuleHandle(Object element) {
+		return getReportModuleHandle(element, false);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#getReportModuleHandle(java.lang.Object,
-	 *      boolean)
+	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#
+	 * getReportModuleHandle(java.lang.Object, boolean)
 	 */
-	public ModuleHandle getReportModuleHandle( Object element, boolean reset )
-	{
+	public ModuleHandle getReportModuleHandle(Object element, boolean reset) {
 
-		if ( ( model == null || reset ) && element instanceof IPathEditorInput )
-		{
-			IPath path = ( (IPathEditorInput) element ).getPath( );
+		if ((model == null || reset) && element instanceof IPathEditorInput) {
+			IPath path = ((IPathEditorInput) element).getPath();
 
-			if ( path != null )
-			{
-				String fileName = path.toOSString( );
+			if (path != null) {
+				String fileName = path.toOSString();
 				InputStream stream = null;
 
-				try
-				{
-					stream = new FileInputStream( path.toFile( ) );
+				try {
+					stream = new FileInputStream(path.toFile());
 
-					Map properties = new HashMap( );
+					Map properties = new HashMap();
 
-					String designerVersion = MessageFormat.format( VERSION_MESSAGE,
-							new String[]{
-									ReportPlugin.getVersion( ),
-									ReportPlugin.getBuildInfo( )
-							} );
-					properties.put( IModuleModel.CREATED_BY_PROP,
-							designerVersion );
-					properties.put( IModuleOption.CREATED_BY_KEY,
-							designerVersion );
-					if (fileName.endsWith( "." + IReportElementConstants.TEMPLATE_FILE_EXTENSION ))
-					{
-						properties.put( IModuleOption.PARSER_SEMANTIC_CHECK_KEY, false );
+					String designerVersion = MessageFormat.format(VERSION_MESSAGE,
+							new String[] { ReportPlugin.getVersion(), ReportPlugin.getBuildInfo() });
+					properties.put(IModuleModel.CREATED_BY_PROP, designerVersion);
+					properties.put(IModuleOption.CREATED_BY_KEY, designerVersion);
+					if (fileName.endsWith("." + IReportElementConstants.TEMPLATE_FILE_EXTENSION)) {
+						properties.put(IModuleOption.PARSER_SEMANTIC_CHECK_KEY, false);
 					}
-					String projectFolder = getProjectFolder( (IPathEditorInput) element );
-					if ( projectFolder != null )
-					{
-						properties.put( IModuleOption.RESOURCE_FOLDER_KEY,
-								projectFolder );
+					String projectFolder = getProjectFolder((IPathEditorInput) element);
+					if (projectFolder != null) {
+						properties.put(IModuleOption.RESOURCE_FOLDER_KEY, projectFolder);
 					}
-					model = SessionHandleAdapter.getInstance( ).init( fileName,
-							stream,
-							properties );
-					//model.setResourceFolder( ReportPlugin.getDefault( ).getResourceFolder( UIUtil.getCurrentProject( ),  model) );
-				}
-				catch ( DesignFileException e )
-				{
-					logger.log(Level.SEVERE, e.getMessage(),e);
-				}
-				catch ( FileNotFoundException e )
-				{
-					logger.log(Level.SEVERE, e.getMessage(),e);
-				}
-				finally
-				{
-					try
-					{
-						if ( stream != null )
-						{
-							stream.close( );
+					model = SessionHandleAdapter.getInstance().init(fileName, stream, properties);
+					// model.setResourceFolder( ReportPlugin.getDefault( ).getResourceFolder(
+					// UIUtil.getCurrentProject( ), model) );
+				} catch (DesignFileException e) {
+					logger.log(Level.SEVERE, e.getMessage(), e);
+				} catch (FileNotFoundException e) {
+					logger.log(Level.SEVERE, e.getMessage(), e);
+				} finally {
+					try {
+						if (stream != null) {
+							stream.close();
 						}
-					}
-					catch ( IOException e )
-					{
-						logger.log( Level.SEVERE, e.getMessage( ), e );
+					} catch (IOException e) {
+						logger.log(Level.SEVERE, e.getMessage(), e);
 					}
 				}
 			}
@@ -159,178 +137,129 @@ public class FileReportProvider implements IReportProvider
 		return model;
 	}
 
-	private String getProjectFolder( IEditorInput input )
-	{
-		return UIUtil.getProjectFolder( input );
+	private String getProjectFolder(IEditorInput input) {
+		return UIUtil.getProjectFolder(input);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#saveReport(org.eclipse.birt.report.model.api.ModuleHandle,
-	 *      java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportProvider#saveReport(org.
+	 * eclipse.birt.report.model.api.ModuleHandle, java.lang.Object,
+	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void saveReport( ModuleHandle moduleHandle, Object element,
-			IProgressMonitor monitor )
-	{
-		saveReport( moduleHandle, element, null, monitor );
+	public void saveReport(ModuleHandle moduleHandle, Object element, IProgressMonitor monitor) {
+		saveReport(moduleHandle, element, null, monitor);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#saveReport(org.eclipse.birt.report.model.api.ModuleHandle,
-	 *      java.lang.Object, org.eclipse.core.runtime.IPath,
-	 *      org.eclipse.core.runtime.IProgressMonitor)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportProvider#saveReport(org.
+	 * eclipse.birt.report.model.api.ModuleHandle, java.lang.Object,
+	 * org.eclipse.core.runtime.IPath, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void saveReport( ModuleHandle moduleHandle, Object element,
-			IPath origReportPath, IProgressMonitor monitor )
-	{
-		if ( element instanceof IPathEditorInput )
-		{
+	public void saveReport(ModuleHandle moduleHandle, Object element, IPath origReportPath, IProgressMonitor monitor) {
+		if (element instanceof IPathEditorInput) {
 			IPathEditorInput input = (IPathEditorInput) element;
 
-			saveFile( moduleHandle,
-					input.getPath( ).toFile( ),
-					origReportPath,
-					monitor );
+			saveFile(moduleHandle, input.getPath().toFile(), origReportPath, monitor);
 		}
 	}
 
-	private void saveFile( final ModuleHandle moduleHandle, final File file,
-			final IPath oldReportPath, IProgressMonitor monitor )
-	{
-		if ( file.exists( ) && !file.canWrite( ) )
-		{
-			MessageDialog.openError( UIUtil.getDefaultShell( ),
-					Messages.getString( "IDEFileReportProvider.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
-					Messages.getFormattedString( "IDEFileReportProvider.ReadOnlyEncounter.Message", //$NON-NLS-1$
-							new Object[]{
-								file.getAbsolutePath( )
-							} ) );
+	private void saveFile(final ModuleHandle moduleHandle, final File file, final IPath oldReportPath,
+			IProgressMonitor monitor) {
+		if (file.exists() && !file.canWrite()) {
+			MessageDialog.openError(UIUtil.getDefaultShell(),
+					Messages.getString("IDEFileReportProvider.ReadOnlyEncounter.Title"), //$NON-NLS-1$
+					Messages.getFormattedString("IDEFileReportProvider.ReadOnlyEncounter.Message", //$NON-NLS-1$
+							new Object[] { file.getAbsolutePath() }));
 			return;
 		}
 
-		IRunnableWithProgress op = new IRunnableWithProgress( ) {
+		IRunnableWithProgress op = new IRunnableWithProgress() {
 
-			public synchronized final void run( IProgressMonitor monitor )
-					throws InvocationTargetException, InterruptedException
-			{
-				try
-				{
-					IWorkspaceRunnable workspaceRunnable = new IWorkspaceRunnable( ) {
+			public synchronized final void run(IProgressMonitor monitor)
+					throws InvocationTargetException, InterruptedException {
+				try {
+					IWorkspaceRunnable workspaceRunnable = new IWorkspaceRunnable() {
 
-						public void run( IProgressMonitor pm )
-								throws CoreException
-						{
-							try
-							{
-								execute( pm );
-							}
-							catch ( CoreException e )
-							{
+						public void run(IProgressMonitor pm) throws CoreException {
+							try {
+								execute(pm);
+							} catch (CoreException e) {
 								throw e;
-							}
-							catch ( IOException e )
-							{
-								ExceptionUtil.handle( e );
+							} catch (IOException e) {
+								ExceptionUtil.handle(e);
 							}
 						}
 					};
 
-					ResourcesPlugin.getWorkspace( ).run( workspaceRunnable,
-							ResourcesPlugin.getWorkspace( ).getRoot( ),
-							IResource.NONE,
-							monitor );
-				}
-				catch ( CoreException e )
-				{
-					throw new InvocationTargetException( e );
-				}
-				catch ( OperationCanceledException e )
-				{
-					throw new InterruptedException( e.getMessage( ) );
+					ResourcesPlugin.getWorkspace().run(workspaceRunnable, ResourcesPlugin.getWorkspace().getRoot(),
+							IResource.NONE, monitor);
+				} catch (CoreException e) {
+					throw new InvocationTargetException(e);
+				} catch (OperationCanceledException e) {
+					throw new InterruptedException(e.getMessage());
 				}
 			}
 
-			public void execute( final IProgressMonitor monitor )
-					throws CoreException, IOException
-			{
-				if ( file.exists( ) || file.createNewFile( ) )
-				{
-					OutputStream out = new BufferedOutputStream(new FileOutputStream( file ), 8192*2);
+			public void execute(final IProgressMonitor monitor) throws CoreException, IOException {
+				if (file.exists() || file.createNewFile()) {
+					OutputStream out = new BufferedOutputStream(new FileOutputStream(file), 8192 * 2);
 
-					try
-					{
-						moduleHandle.serialize( out );
-						out.flush( );
-					}
-					finally
-					{
-						out.close( );
+					try {
+						moduleHandle.serialize(out);
+						out.flush();
+					} finally {
+						out.close();
 					}
 
-					if ( oldReportPath != null )
-					{
-						copyReportConfigFile( new Path( file.getAbsolutePath( ) ),
-								oldReportPath );
+					if (oldReportPath != null) {
+						copyReportConfigFile(new Path(file.getAbsolutePath()), oldReportPath);
 					}
 				}
 			}
 		};
 
-		try
-		{
-			new ProgressMonitorDialog( UIUtil.getDefaultShell( ) ).run( false,
-					true,
-					op );
+		try {
+			new ProgressMonitorDialog(UIUtil.getDefaultShell()).run(false, true, op);
 		}
 
-		catch ( Exception e )
-		{
-			ExceptionUtil.handle( e );
+		catch (Exception e) {
+			ExceptionUtil.handle(e);
 		}
 	}
 
 	/**
 	 * Copys old report config file to new report config file.
 	 * 
-	 * @param newReportPath
-	 *            the new report path.
-	 * @param oldReportPath
-	 *            the old report path.
-	 * @throws IOException
-	 *             if an error occurs.
+	 * @param newReportPath the new report path.
+	 * @param oldReportPath the old report path.
+	 * @throws IOException if an error occurs.
 	 */
-	public static void copyReportConfigFile( IPath newReportPath,
-			IPath oldReportPath ) throws IOException
-	{
-		if ( oldReportPath != null )
-		{
+	public static void copyReportConfigFile(IPath newReportPath, IPath oldReportPath) throws IOException {
+		if (oldReportPath != null) {
 			String retConfigExtension = "rptconfig"; //$NON-NLS-1$
-			IPath newConfigPath = newReportPath.removeFileExtension( );
-			IPath oldConfigPath = oldReportPath.removeFileExtension( );
+			IPath newConfigPath = newReportPath.removeFileExtension();
+			IPath oldConfigPath = oldReportPath.removeFileExtension();
 
-			newConfigPath = newConfigPath.addFileExtension( retConfigExtension );
-			oldConfigPath = oldConfigPath.addFileExtension( retConfigExtension );
+			newConfigPath = newConfigPath.addFileExtension(retConfigExtension);
+			oldConfigPath = oldConfigPath.addFileExtension(retConfigExtension);
 
-			File newConfigFile = newConfigPath.toFile( );
-			File oldConfigFile = oldConfigPath.toFile( );
+			File newConfigFile = newConfigPath.toFile();
+			File oldConfigFile = oldConfigPath.toFile();
 
-			if ( oldConfigFile.exists( ) )
-			{
-				copyFile( oldConfigFile, newConfigFile );
-			}
-			else
-			{
-				if ( newConfigFile.exists( ) )
-				{
-					if ( !newConfigFile.delete( ) )
-					{
-						throw new IOException( Messages.getFormattedString( "FileReportProvider.CopyConfigFile.DeleteFailure", //$NON-NLS-1$
-								new Object[]{
-									newConfigFile.getAbsolutePath( )
-								} ) );
+			if (oldConfigFile.exists()) {
+				copyFile(oldConfigFile, newConfigFile);
+			} else {
+				if (newConfigFile.exists()) {
+					if (!newConfigFile.delete()) {
+						throw new IOException(
+								Messages.getFormattedString("FileReportProvider.CopyConfigFile.DeleteFailure", //$NON-NLS-1$
+										new Object[] { newConfigFile.getAbsolutePath() }));
 					}
 				}
 			}
@@ -340,17 +269,12 @@ public class FileReportProvider implements IReportProvider
 	/**
 	 * Copys a file to another file.
 	 * 
-	 * @param srcFile
-	 *            the source file
-	 * @param destFile
-	 *            the target file
-	 * @throws IOException
-	 *             if an error occurs.
+	 * @param srcFile  the source file
+	 * @param destFile the target file
+	 * @throws IOException if an error occurs.
 	 */
-	private static void copyFile( File srcFile, File destFile ) throws IOException
-	{
-		if ( srcFile.equals( destFile ) )
-		{
+	private static void copyFile(File srcFile, File destFile) throws IOException {
+		if (srcFile.equals(destFile)) {
 			// Does nothing if fils are same.
 			return;
 		}
@@ -361,84 +285,57 @@ public class FileReportProvider implements IReportProvider
 		FileChannel fcout = null;
 		Throwable exception = null;
 
-		try
-		{
-			fis = new FileInputStream( srcFile );
-			fos = new FileOutputStream( destFile );
-			fcin = fis.getChannel( );
-			fcout = fos.getChannel( );
+		try {
+			fis = new FileInputStream(srcFile);
+			fos = new FileOutputStream(destFile);
+			fcin = fis.getChannel();
+			fcout = fos.getChannel();
 
 			// Does the file copy.
-			fcin.transferTo( 0, fcin.size( ), fcout );
-		}
-		catch ( Exception e )
-		{
+			fcin.transferTo(0, fcin.size(), fcout);
+		} catch (Exception e) {
 			exception = e;
-		}
-		finally
-		{
-			if ( fis != null )
-			{
-				try
-				{
-					fis.close( );
-				}
-				catch ( Exception e )
-				{
+		} finally {
+			if (fis != null) {
+				try {
+					fis.close();
+				} catch (Exception e) {
 					exception = exception == null ? e : exception;
 				}
 			}
 
-			if ( fos != null )
-			{
-				try
-				{
-					fos.close( );
-				}
-				catch ( Exception e )
-				{
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (Exception e) {
 					exception = exception == null ? e : exception;
 				}
 			}
 
-			if ( fcin != null )
-			{
-				try
-				{
-					fcin.close( );
-				}
-				catch ( Exception e )
-				{
+			if (fcin != null) {
+				try {
+					fcin.close();
+				} catch (Exception e) {
 					exception = exception == null ? e : exception;
 				}
 			}
 
-			if ( fcout != null )
-			{
-				try
-				{
-					fcout.close( );
-				}
-				catch ( Exception e )
-				{
+			if (fcout != null) {
+				try {
+					fcout.close();
+				} catch (Exception e) {
 					exception = exception == null ? e : exception;
 				}
 			}
 		}
 
-		if ( exception instanceof RuntimeException )
-		{
+		if (exception instanceof RuntimeException) {
 			throw (RuntimeException) exception;
-		}
-		else if ( exception instanceof IOException )
-		{
+		} else if (exception instanceof IOException) {
 			throw (IOException) exception;
-		}
-		else
-		{
-			if ( exception != null )
-			{
-				logger.log( Level.SEVERE, exception.getMessage( ), exception );
+		} else {
+			if (exception != null) {
+				logger.log(Level.SEVERE, exception.getMessage(), exception);
 			}
 		}
 	}
@@ -446,19 +343,18 @@ public class FileReportProvider implements IReportProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#getSaveAsPath(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportProvider#getSaveAsPath(
+	 * java.lang.Object)
 	 */
-	public IPath getSaveAsPath( Object element )
-	{
-		if ( element instanceof IPathEditorInput )
-		{
+	public IPath getSaveAsPath(Object element) {
+		if (element instanceof IPathEditorInput) {
 			IEditorInput input = (IEditorInput) element;
 
-			SaveReportAsWizardDialog dialog = new SaveReportAsWizardDialog( UIUtil.getDefaultShell( ),
-					new SaveReportAsWizard( model, input ) );
-			if ( dialog.open( ) == Window.OK )
-			{
-				return dialog.getResult( );
+			SaveReportAsWizardDialog dialog = new SaveReportAsWizardDialog(UIUtil.getDefaultShell(),
+					new SaveReportAsWizard(model, input));
+			if (dialog.open() == Window.OK) {
+				return dialog.getResult();
 			}
 		}
 		return null;
@@ -467,20 +363,16 @@ public class FileReportProvider implements IReportProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#createNewEditorInput(org.eclipse.core.runtime.IPath)
+	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#
+	 * createNewEditorInput(org.eclipse.core.runtime.IPath)
 	 */
-	public IEditorInput createNewEditorInput( IPath path )
-	{
-		File file = new File( path.toOSString( ) );
-		try
-		{
-			if ( file.exists( ) || file.createNewFile( ) )
-			{
-				return new ReportEditorInput( file );
+	public IEditorInput createNewEditorInput(IPath path) {
+		File file = new File(path.toOSString());
+		try {
+			if (file.exists() || file.createNewFile()) {
+				return new ReportEditorInput(file);
 			}
-		}
-		catch ( IOException e )
-		{
+		} catch (IOException e) {
 		}
 		return null;
 	}
@@ -488,13 +380,13 @@ public class FileReportProvider implements IReportProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#getInputPath(org.eclipse.ui.IEditorInput)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportProvider#getInputPath(org.
+	 * eclipse.ui.IEditorInput)
 	 */
-	public IPath getInputPath( IEditorInput input )
-	{
-		if ( input instanceof IPathEditorInput )
-		{
-			return ( (IPathEditorInput) input ).getPath( );
+	public IPath getInputPath(IEditorInput input) {
+		if (input instanceof IPathEditorInput) {
+			return ((IPathEditorInput) input).getPath();
 		}
 		return null;
 	}
@@ -502,20 +394,20 @@ public class FileReportProvider implements IReportProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#getReportDocumentProvider(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#
+	 * getReportDocumentProvider(java.lang.Object)
 	 */
-	public IDocumentProvider getReportDocumentProvider( Object element )
-	{
-		return new FileReportDocumentProvider( );
+	public IDocumentProvider getReportDocumentProvider(Object element) {
+		return new FileReportDocumentProvider();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#connect(org.eclipse.birt.report.model.api.ModuleHandle)
+	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#connect(org.
+	 * eclipse.birt.report.model.api.ModuleHandle)
 	 */
-	public void connect( ModuleHandle handle )
-	{
+	public void connect(ModuleHandle handle) {
 		model = handle;
 	}
 

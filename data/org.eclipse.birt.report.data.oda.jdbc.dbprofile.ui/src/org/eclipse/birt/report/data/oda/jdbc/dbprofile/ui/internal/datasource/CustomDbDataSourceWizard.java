@@ -21,23 +21,25 @@ import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.ui.profile.db.wizards.NewDbDataSourceWizard;
 
 /**
- *  Extends ODA UI framework wizard class for this custom ODA designer.
- *  @since 2.5.2
+ * Extends ODA UI framework wizard class for this custom ODA designer.
+ * 
+ * @since 2.5.2
  */
-public class CustomDbDataSourceWizard extends NewDbDataSourceWizard
-{
+public class CustomDbDataSourceWizard extends NewDbDataSourceWizard {
 
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.profile.db.NewDbDataSourceWizardBase#setDataSourceDesignProperties(org.eclipse.datatools.connectivity.oda.design.DataSourceDesign, java.util.Properties)
-     */
-    @Override
-    protected void setDataSourceDesignProperties( DataSourceDesign newDesign, Properties customPropertyValues ) 
-        throws OdaException
-    {
-        Properties dataSourceProps = 
-            DbProfilePropertyProvider.adaptToDataSourceProperties( customPropertyValues );
-        
-        super.setDataSourceDesignProperties( newDesign, dataSourceProps );
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.profile.db.
+	 * NewDbDataSourceWizardBase#setDataSourceDesignProperties(org.eclipse.datatools
+	 * .connectivity.oda.design.DataSourceDesign, java.util.Properties)
+	 */
+	@Override
+	protected void setDataSourceDesignProperties(DataSourceDesign newDesign, Properties customPropertyValues)
+			throws OdaException {
+		Properties dataSourceProps = DbProfilePropertyProvider.adaptToDataSourceProperties(customPropertyValues);
+
+		super.setDataSourceDesignProperties(newDesign, dataSourceProps);
+	}
 
 }

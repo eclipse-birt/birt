@@ -31,11 +31,10 @@ import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.Crosst
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
-public class CrosstabPageGenerator extends AbstractPageGenerator
-{
+public class CrosstabPageGenerator extends AbstractPageGenerator {
 
-	public static final String ROWAREATITLE = Messages.getString( "CrosstabPageGenerator.TabItem.RowArea" ); //$NON-NLS-1$
-	public static final String COLUMNAREATITLE = Messages.getString( "CrosstabPageGenerator.TabItem.ColumnArea" ); //$NON-NLS-1$
+	public static final String ROWAREATITLE = Messages.getString("CrosstabPageGenerator.TabItem.RowArea"); //$NON-NLS-1$
+	public static final String COLUMNAREATITLE = Messages.getString("CrosstabPageGenerator.TabItem.ColumnArea"); //$NON-NLS-1$
 
 	protected CrosstabBindingPage bindingPage;
 	protected BaseAttributePage rowAreaPage;
@@ -45,120 +44,96 @@ public class CrosstabPageGenerator extends AbstractPageGenerator
 	protected PreviewPage mapPage;
 	protected PreviewPage highlightsPage;
 
-	protected void buildItemContent( CTabItem item )
-	{
-		if ( itemMap.containsKey( item ) && itemMap.get( item ) == null )
-		{
-			String title = tabFolder.getSelection( ).getText( );
-			if ( title.equals( BINDINGTITLE ) )
-			{
-				bindingPage = new CrosstabBindingPage( );
-				setPageInput( bindingPage );
-				refresh( tabFolder, bindingPage, true );
-				item.setControl( bindingPage.getControl( ) );
-				itemMap.put( item, bindingPage );
+	protected void buildItemContent(CTabItem item) {
+		if (itemMap.containsKey(item) && itemMap.get(item) == null) {
+			String title = tabFolder.getSelection().getText();
+			if (title.equals(BINDINGTITLE)) {
+				bindingPage = new CrosstabBindingPage();
+				setPageInput(bindingPage);
+				refresh(tabFolder, bindingPage, true);
+				item.setControl(bindingPage.getControl());
+				itemMap.put(item, bindingPage);
+			} else if (title.equals(ROWAREATITLE)) {
+				rowAreaPage = new BaseAttributePage();
+				rowAreaPage.buildUI(item.getParent());
+				rowAreaPage
+						.setCategoryProvider(RowAreaCategoryProviderFactory.getInstance().getCategoryProvider(input));
+				setPageInput(rowAreaPage);
+				refresh(tabFolder, rowAreaPage, true);
+				item.setControl(rowAreaPage.getControl());
+				itemMap.put(item, rowAreaPage);
+			} else if (title.equals(COLUMNAREATITLE)) {
+				columnAreaPage = new BaseAttributePage();
+				columnAreaPage.buildUI(item.getParent());
+				columnAreaPage.setCategoryProvider(
+						ColumnAreaCategoryProviderFactory.getInstance().getCategoryProvider(input));
+				setPageInput(columnAreaPage);
+				refresh(tabFolder, columnAreaPage, true);
+				item.setControl(columnAreaPage.getControl());
+				itemMap.put(item, columnAreaPage);
+			} else if (title.equals(FILTERTITLE)) {
+				filterPage = new FormPage(FormPropertyDescriptor.NO_UP_DOWN, new CrosstabFilterHandleProvider(), true,
+						true);
+				setPageInput(filterPage);
+				refresh(tabFolder, filterPage, true);
+				item.setControl(filterPage.getControl());
+				itemMap.put(item, filterPage);
+			} else if (title.equals(SORTINGTITLE)) {
+				sortingPage = new FormPage(FormPropertyDescriptor.NO_UP_DOWN, new CrosstabSortingHandleProvider(), true,
+						true);
+				setPageInput(sortingPage);
+				refresh(tabFolder, sortingPage, true);
+				item.setControl(sortingPage.getControl());
+				itemMap.put(item, sortingPage);
+			} else if (title.equals(MAPTITLE)) {
+				mapPage = new PreviewPage(true);
+				mapPage.setPreview(new MapPropertyDescriptor(true));
+				mapPage.setProvider(new CrosstabMapDescriptorProvider(MapHandleProvider.EXPRESSION_TYPE_DATA));
+				setPageInput(mapPage);
+				refresh(tabFolder, mapPage, true);
+				item.setControl(mapPage.getControl());
+				itemMap.put(item, mapPage);
+			} else if (title.equals(HIGHLIGHTSTITLE)) {
+				highlightsPage = new PreviewPage(true);
+				highlightsPage.setPreview(new HighlightPropertyDescriptor(true));
+				highlightsPage.setProvider(
+						new CrosstabHighlightDescriptorProvider(HighlightHandleProvider.EXPRESSION_TYPE_DATA));
+				setPageInput(highlightsPage);
+				refresh(tabFolder, highlightsPage, true);
+				item.setControl(highlightsPage.getControl());
+				itemMap.put(item, highlightsPage);
 			}
-			else if ( title.equals( ROWAREATITLE ) )
-			{
-				rowAreaPage = new BaseAttributePage( );
-				rowAreaPage.buildUI( item.getParent( ) );
-				rowAreaPage.setCategoryProvider( RowAreaCategoryProviderFactory.getInstance( )
-						.getCategoryProvider( input ) );
-				setPageInput( rowAreaPage );
-				refresh( tabFolder, rowAreaPage, true );
-				item.setControl( rowAreaPage.getControl( ) );
-				itemMap.put( item, rowAreaPage );
-			}
-			else if ( title.equals( COLUMNAREATITLE ) )
-			{
-				columnAreaPage = new BaseAttributePage( );
-				columnAreaPage.buildUI( item.getParent( ) );
-				columnAreaPage.setCategoryProvider( ColumnAreaCategoryProviderFactory.getInstance( )
-						.getCategoryProvider( input ) );
-				setPageInput( columnAreaPage );
-				refresh( tabFolder, columnAreaPage, true );
-				item.setControl( columnAreaPage.getControl( ) );
-				itemMap.put( item, columnAreaPage );
-			}
-			else if ( title.equals( FILTERTITLE ) )
-			{
-				filterPage = new FormPage( FormPropertyDescriptor.NO_UP_DOWN,
-						new CrosstabFilterHandleProvider( ),
-						true,
-						true );
-				setPageInput( filterPage );
-				refresh( tabFolder, filterPage, true );
-				item.setControl( filterPage.getControl( ) );
-				itemMap.put( item, filterPage );
-			}
-			else if ( title.equals( SORTINGTITLE ) )
-			{
-				sortingPage = new FormPage( FormPropertyDescriptor.NO_UP_DOWN,
-						new CrosstabSortingHandleProvider( ),
-						true,
-						true );
-				setPageInput( sortingPage );
-				refresh( tabFolder, sortingPage, true );
-				item.setControl( sortingPage.getControl( ) );
-				itemMap.put( item, sortingPage );
-			}
-			else if ( title.equals( MAPTITLE ) )
-			{
-				mapPage = new PreviewPage( true );
-				mapPage.setPreview( new MapPropertyDescriptor( true ) );
-				mapPage.setProvider( new CrosstabMapDescriptorProvider( MapHandleProvider.EXPRESSION_TYPE_DATA ) );
-				setPageInput( mapPage );
-				refresh( tabFolder, mapPage, true );
-				item.setControl( mapPage.getControl( ) );
-				itemMap.put( item, mapPage );
-			}
-			else if ( title.equals( HIGHLIGHTSTITLE ) )
-			{
-				highlightsPage = new PreviewPage( true );
-				highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
-				highlightsPage.setProvider( new CrosstabHighlightDescriptorProvider( HighlightHandleProvider.EXPRESSION_TYPE_DATA ) );
-				setPageInput( highlightsPage );
-				refresh( tabFolder, highlightsPage, true );
-				item.setControl( highlightsPage.getControl( ) );
-				itemMap.put( item, highlightsPage );
-			}
-		}
-		else if ( itemMap.get( item ) != null )
-		{
-			setPageInput( itemMap.get( item ) );
-			refresh( tabFolder, itemMap.get( item ), false );
+		} else if (itemMap.get(item) != null) {
+			setPageInput(itemMap.get(item));
+			refresh(tabFolder, itemMap.get(item), false);
 		}
 	}
 
-	public void createTabItems( List input )
-	{
-		super.createTabItems( input );
+	public void createTabItems(List input) {
+		super.createTabItems(input);
 		this.input = input;
-		basicPage.setInput( input );
-		addSelectionListener( this );
-		basicPage.refresh( );
-		createTabItems( );
-		if ( tabFolder.getSelection( ) != null )
-			buildItemContent( tabFolder.getSelection( ) );
+		basicPage.setInput(input);
+		addSelectionListener(this);
+		basicPage.refresh();
+		createTabItems();
+		if (tabFolder.getSelection() != null)
+			buildItemContent(tabFolder.getSelection());
 	}
 
-	protected void createTabItems( )
-	{
-		createTabItem( BINDINGTITLE, ATTRIBUTESTITLE );
-		createTabItem( ROWAREATITLE, BINDINGTITLE );
-		createTabItem( COLUMNAREATITLE, ROWAREATITLE );
-		createTabItem( MAPTITLE, COLUMNAREATITLE );
-		createTabItem( HIGHLIGHTSTITLE, MAPTITLE );
-		createTabItem( SORTINGTITLE, HIGHLIGHTSTITLE );
-		createTabItem( FILTERTITLE, SORTINGTITLE );
+	protected void createTabItems() {
+		createTabItem(BINDINGTITLE, ATTRIBUTESTITLE);
+		createTabItem(ROWAREATITLE, BINDINGTITLE);
+		createTabItem(COLUMNAREATITLE, ROWAREATITLE);
+		createTabItem(MAPTITLE, COLUMNAREATITLE);
+		createTabItem(HIGHLIGHTSTITLE, MAPTITLE);
+		createTabItem(SORTINGTITLE, HIGHLIGHTSTITLE);
+		createTabItem(FILTERTITLE, SORTINGTITLE);
 
 	}
 
-	public void createControl( Composite parent, Object input )
-	{
-		setCategoryProvider( CrosstabCategoryProviderFactory.getInstance( )
-				.getCategoryProvider( input ) );
-		super.createControl( parent, input );
+	public void createControl(Composite parent, Object input) {
+		setCategoryProvider(CrosstabCategoryProviderFactory.getInstance().getCategoryProvider(input));
+		super.createControl(parent, input);
 	}
 
 }

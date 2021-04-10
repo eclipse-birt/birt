@@ -41,8 +41,7 @@ import org.eclipse.ui.PlatformUI;
  * the RGB value into the combo box or click the builder button to open the
  * Expression Builder dialog to select the right Expression.
  */
-public class ComboBoxExpressionCellEditor extends DialogCellEditor
-{
+public class ComboBoxExpressionCellEditor extends DialogCellEditor {
 
 	/**
 	 * The ComboBox to keep the system defined and customer defined Expression.
@@ -72,48 +71,38 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor
 	private Button btnPopup;
 
 	/**
-	 * Creates a new dialog cell editor whose parent is given. The combo box
-	 * lists is <code>null</code> initially.
+	 * Creates a new dialog cell editor whose parent is given. The combo box lists
+	 * is <code>null</code> initially.
 	 * 
-	 * @param parent
-	 *            the parent control
+	 * @param parent the parent control
 	 */
-	public ComboBoxExpressionCellEditor( Composite parent )
-	{
-		super( parent );
-		setStyle( defaultStyle );
+	public ComboBoxExpressionCellEditor(Composite parent) {
+		super(parent);
+		setStyle(defaultStyle);
 	}
 
 	/**
-	 * Creates a new dialog cell editor whose parent is given. The combo box
-	 * lists is initialized with the given items.
+	 * Creates a new dialog cell editor whose parent is given. The combo box lists
+	 * is initialized with the given items.
 	 * 
-	 * @param parent
-	 *            the parent control
-	 * @param items
-	 *            the combo box list to be initialized
+	 * @param parent the parent control
+	 * @param items  the combo box list to be initialized
 	 */
-	public ComboBoxExpressionCellEditor( Composite parent, String[] items )
-	{
-		this( parent, items, defaultStyle );
+	public ComboBoxExpressionCellEditor(Composite parent, String[] items) {
+		this(parent, items, defaultStyle);
 	}
 
 	/**
-	 * Creates a new dialog cell editor whose parent and style are given. The
-	 * combo box lists is initialized with the given items.
+	 * Creates a new dialog cell editor whose parent and style are given. The combo
+	 * box lists is initialized with the given items.
 	 * 
-	 * @param parent
-	 *            the parent control
-	 * @param items
-	 *            the combo box list to be initialized
-	 * @param style
-	 *            the style of this editor
+	 * @param parent the parent control
+	 * @param items  the combo box list to be initialized
+	 * @param style  the style of this editor
 	 */
-	public ComboBoxExpressionCellEditor( Composite parent, String[] items,
-			int style )
-	{
-		super( parent, style );
-		setItems( items );
+	public ComboBoxExpressionCellEditor(Composite parent, String[] items, int style) {
+		super(parent, style);
+		setItems(items);
 	}
 
 	/**
@@ -121,37 +110,32 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor
 	 * 
 	 * @return the list of choices for the combo box
 	 */
-	public String[] getItems( )
-	{
+	public String[] getItems() {
 		return items;
 	}
 
 	/**
 	 * Sets the list of choices for the combo box
 	 * 
-	 * @param items
-	 *            the list of choices for the combo box
+	 * @param items the list of choices for the combo box
 	 */
-	public void setItems( String[] items )
-	{
-		Assert.isNotNull( items );
+	public void setItems(String[] items) {
+		Assert.isNotNull(items);
 		this.items = items;
-		populateComboBoxItems( );
+		populateComboBoxItems();
 	}
 
 	/**
 	 * Updates the list of choices for the combo box for the current control.
 	 */
-	private void populateComboBoxItems( )
-	{
-		if ( comboBox != null && items != null )
-		{
-			comboBox.removeAll( );
+	private void populateComboBoxItems() {
+		if (comboBox != null && items != null) {
+			comboBox.removeAll();
 
-			for ( int i = 0; i < items.length; i++ )
-				comboBox.add( items[i], i );
+			for (int i = 0; i < items.length; i++)
+				comboBox.add(items[i], i);
 
-			setValueValid( true );
+			setValueValid(true);
 			selection = 0;
 		}
 	}
@@ -159,151 +143,120 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected Control createContents( Composite cell )
-	{
-		Color bg = cell.getBackground( );
-		composite = new Composite( cell, getStyle( ) );
-		composite.setBackground( bg );
+	protected Control createContents(Composite cell) {
+		Color bg = cell.getBackground();
+		composite = new Composite(cell, getStyle());
+		composite.setBackground(bg);
 
-		composite.setLayout( new FillLayout( ) );
+		composite.setLayout(new FillLayout());
 
-		comboBox = new CCombo( composite, SWT.NONE );
-		comboBox.setBackground( bg );
-		comboBox.setFont( cell.getFont( ) );
-		comboBox.addSelectionListener( new SelectionAdapter( ) {
+		comboBox = new CCombo(composite, SWT.NONE);
+		comboBox.setBackground(bg);
+		comboBox.setFont(cell.getFont());
+		comboBox.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent event )
-			{
-				Object newValue = comboBox.getText( );
-				if ( newValue != null )
-				{
-					boolean newValidState = isCorrect( newValue );
-					if ( newValidState )
-					{
-						markDirty( );
-						doSetValue( newValue );
-					}
-					else
-					{
+			public void widgetSelected(SelectionEvent event) {
+				Object newValue = comboBox.getText();
+				if (newValue != null) {
+					boolean newValidState = isCorrect(newValue);
+					if (newValidState) {
+						markDirty();
+						doSetValue(newValue);
+					} else {
 						// try to insert the current value into the error
 						// message.
-						setErrorMessage( MessageFormat.format( getErrorMessage( ),
-								new Object[]{
-									newValue.toString( )
-								} ) );
+						setErrorMessage(MessageFormat.format(getErrorMessage(), new Object[] { newValue.toString() }));
 					}
-					fireApplyEditorValue( );
+					fireApplyEditorValue();
 				}
 			}
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				Object newValue = comboBox.getText( );
-				if ( newValue != null )
-				{
-					boolean newValidState = isCorrect( newValue );
-					if ( newValidState )
-					{
-						markDirty( );
-						doSetValue( newValue );
-					}
-					else
-					{
+			public void widgetDefaultSelected(SelectionEvent e) {
+				Object newValue = comboBox.getText();
+				if (newValue != null) {
+					boolean newValidState = isCorrect(newValue);
+					if (newValidState) {
+						markDirty();
+						doSetValue(newValue);
+					} else {
 						// try to insert the current value into the error
 						// message.
-						setErrorMessage( MessageFormat.format( getErrorMessage( ),
-								new Object[]{
-									newValue.toString( )
-								} ) );
+						setErrorMessage(MessageFormat.format(getErrorMessage(), new Object[] { newValue.toString() }));
 					}
-					fireApplyEditorValue( );
+					fireApplyEditorValue();
 				}
 			}
-		} );
-		comboBox.addFocusListener( new FocusAdapter( ) {
+		});
+		comboBox.addFocusListener(new FocusAdapter() {
 
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.FocusEvent)
+			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.
+			 * FocusEvent)
 			 */
-			public void focusLost( FocusEvent e )
-			{
-				if ( btnPopup != null
-						&& !btnPopup.isFocusControl( )
-						&& Display.getCurrent( ).getCursorControl( ) != btnPopup )
-				{
-					applyEditorValueAndDeactivate( );
-					super.focusLost( e );
+			public void focusLost(FocusEvent e) {
+				if (btnPopup != null && !btnPopup.isFocusControl()
+						&& Display.getCurrent().getCursorControl() != btnPopup) {
+					applyEditorValueAndDeactivate();
+					super.focusLost(e);
 
 				}
 			}
 
-		} );
+		});
 		return composite;
 	}
 
 	/**
 	 * Apply the currently selected value and de-actiavate the cell editor.
 	 */
-	void applyEditorValueAndDeactivate( )
-	{
+	void applyEditorValueAndDeactivate() {
 		// must set the selection before getting value
-		selection = comboBox.getSelectionIndex( );
-		Object newValue = doGetValue( );
+		selection = comboBox.getSelectionIndex();
+		Object newValue = doGetValue();
 
-		markDirty( );
-		boolean isValid = isCorrect( newValue );
-		setValueValid( isValid );
-		if ( !isValid )
-		{
+		markDirty();
+		boolean isValid = isCorrect(newValue);
+		setValueValid(isValid);
+		if (!isValid) {
 			// try to insert the current value into the error message.
-			setErrorMessage( MessageFormat.format( getErrorMessage( ),
-					new Object[]{
-						items[selection]
-					} ) );
+			setErrorMessage(MessageFormat.format(getErrorMessage(), new Object[] { items[selection] }));
 		}
-		fireApplyEditorValue( );
-		deactivate( );
+		fireApplyEditorValue();
+		deactivate();
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected Object openDialogBox( Control cellEditorWindow )
-	{
-		ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ),
-				comboBox.getText( ) );
-		dialog.setExpressionProvier( provider );
-		if ( dialog.open( ) == Dialog.OK )
-		{
-			return dialog.getResult( );
+	protected Object openDialogBox(Control cellEditorWindow) {
+		ExpressionBuilder dialog = new ExpressionBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				comboBox.getText());
+		dialog.setExpressionProvier(provider);
+		if (dialog.open() == Dialog.OK) {
+			return dialog.getResult();
 		}
-		setFocus( );
+		setFocus();
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected void updateContents( Object value )
-	{
-		if ( comboBox == null )
+	protected void updateContents(Object value) {
+		if (comboBox == null)
 			return;
 
 		String text = "";//$NON-NLS-1$
-		if ( value != null )
-		{
-			text = value.toString( );
+		if (value != null) {
+			text = value.toString();
 		}
-		comboBox.setText( text );
+		comboBox.setText(text);
 	}
 
-	public void setEnable( boolean flag )
-	{
-		comboBox.setEnabled( flag );
+	public void setEnable(boolean flag) {
+		comboBox.setEnabled(flag);
 	}
 
 	/*
@@ -311,9 +264,8 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor
 	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
-	protected void doSetFocus( )
-	{
-		comboBox.setFocus( );
+	protected void doSetFocus() {
+		comboBox.setFocus();
 	}
 
 	/*
@@ -321,14 +273,12 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor
 	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doGetValue()
 	 */
-	protected Object doGetValue( )
-	{
-		int selection = comboBox.getSelectionIndex( );
-		if ( selection == -1 )
-		{
-			return comboBox.getText( );
+	protected Object doGetValue() {
+		int selection = comboBox.getSelectionIndex();
+		if (selection == -1) {
+			return comboBox.getText();
 		}
-		return comboBox.getItem( selection );
+		return comboBox.getItem(selection);
 	}
 
 	/**
@@ -339,38 +289,34 @@ public class ComboBoxExpressionCellEditor extends DialogCellEditor
 	 * extend or reimplement.
 	 * </p>
 	 * 
-	 * @param parent
-	 *            the parent control
+	 * @param parent the parent control
 	 * @return the new button control
 	 */
-	protected Button createButton( Composite parent )
-	{
-		btnPopup = super.createButton( parent );
+	protected Button createButton(Composite parent) {
+		btnPopup = super.createButton(parent);
 		return btnPopup;
 	}
 
 	private IExpressionProvider provider;
 
-	public void setExpressionProvider( IExpressionProvider provider )
-	{
+	public void setExpressionProvider(IExpressionProvider provider) {
 		this.provider = provider;
 	}
 
 	/**
-	 * @deprecated Please use setExpressionProvider ( IExpressionProvider
-	 *             provider ) instead
+	 * @deprecated Please use setExpressionProvider ( IExpressionProvider provider )
+	 *             instead
 	 */
 
-	public void addFilter( ExpressionFilter filter )
-	{
+	public void addFilter(ExpressionFilter filter) {
 
 	}
+
 	/**
-	 * @deprecated Please use setExpressionProvider ( IExpressionProvider
-	 *             provider ) instead
+	 * @deprecated Please use setExpressionProvider ( IExpressionProvider provider )
+	 *             instead
 	 */
-	public void setDataSetList( List list )
-	{
+	public void setDataSetList(List list) {
 
 	}
 }

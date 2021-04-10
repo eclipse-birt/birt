@@ -13,30 +13,23 @@ package org.eclipse.birt.report.engine.internal.document.v4;
 
 import org.eclipse.birt.report.engine.content.IContent;
 
-public class TemplateExecutor extends ReportItemExecutor
-{
+public class TemplateExecutor extends ReportItemExecutor {
 
 	/**
 	 * constructor
 	 * 
-	 * @param context
-	 *            the excutor context
-	 * @param visitor
-	 *            the report executor visitor
+	 * @param context the excutor context
+	 * @param visitor the report executor visitor
 	 */
-	public TemplateExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.TEMPLATEITEM );
+	public TemplateExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.TEMPLATEITEM);
 	}
 
-	protected IContent doCreateContent( )
-	{
-		throw new IllegalStateException(
-				"can not re-generate content for template item" );
+	protected IContent doCreateContent() {
+		throw new IllegalStateException("can not re-generate content for template item");
 	}
 
-	protected void doExecute( ) throws Exception
-	{
+	protected void doExecute() throws Exception {
 
 	}
 

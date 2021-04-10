@@ -22,32 +22,28 @@ import org.eclipse.datatools.enablement.oda.xml.i18n.Messages;
  * 
  * @deprecated Please use DTP xml driver
  */
-public class Connection
-		extends
-			org.eclipse.datatools.enablement.oda.xml.impl.Connection
-{
+public class Connection extends org.eclipse.datatools.enablement.oda.xml.impl.Connection {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.datatools.connectivity.oda.IConnection#setAppContext(java.lang.Object)
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IConnection#setAppContext(java.lang.
+	 * Object)
 	 */
-	public void setAppContext( Object context ) throws OdaException
-	{
-		if ( !( context instanceof Map ) )
-			throw new OdaException( Messages.getString( "Connection.InvalidAppContext" ) );
+	public void setAppContext(Object context) throws OdaException {
+		if (!(context instanceof Map))
+			throw new OdaException(Messages.getString("Connection.InvalidAppContext"));
 		Map appContext = (Map) context;
-		if ( appContext.get( Constants.APPCONTEXT_INPUTSTREAM ) != null )
-		{
-			appContext.put( org.eclipse.datatools.enablement.oda.xml.Constants.APPCONTEXT_INPUTSTREAM,
-					appContext.get( Constants.APPCONTEXT_INPUTSTREAM ) );
+		if (appContext.get(Constants.APPCONTEXT_INPUTSTREAM) != null) {
+			appContext.put(org.eclipse.datatools.enablement.oda.xml.Constants.APPCONTEXT_INPUTSTREAM,
+					appContext.get(Constants.APPCONTEXT_INPUTSTREAM));
 		}
 
-		if ( appContext.get( Constants.APPCONTEXT_CLOSEINPUTSTREAM ) != null )
-		{
-			appContext.put( org.eclipse.datatools.enablement.oda.xml.Constants.APPCONTEXT_CLOSEINPUTSTREAM,
-					appContext.get( Constants.APPCONTEXT_CLOSEINPUTSTREAM ) );
+		if (appContext.get(Constants.APPCONTEXT_CLOSEINPUTSTREAM) != null) {
+			appContext.put(org.eclipse.datatools.enablement.oda.xml.Constants.APPCONTEXT_CLOSEINPUTSTREAM,
+					appContext.get(Constants.APPCONTEXT_CLOSEINPUTSTREAM));
 		}
-		super.setAppContext( (Map) context );
+		super.setAppContext((Map) context);
 	}
 }

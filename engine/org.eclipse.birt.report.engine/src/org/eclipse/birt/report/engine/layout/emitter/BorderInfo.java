@@ -2,41 +2,34 @@ package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
 
-
-public class BorderInfo
-{
+public class BorderInfo {
 	public static final int TOP_BORDER = 0;
 	public static final int RIGHT_BORDER = 1;
 	public static final int BOTTOM_BORDER = 2;
 	public static final int LEFT_BORDER = 3;
-	
+
 	public int startX, startY, endX, endY;
 	public int borderWidth;
 	public Color borderColor;
 	public int borderStyle;
 	public int borderType;
 
-	public BorderInfo( int startX, int startY, int endX, int endY,
-			int borderWidth, Color borderColor, int borderStyle,
-			int borderType )
-	{
+	public BorderInfo(int startX, int startY, int endX, int endY, int borderWidth, Color borderColor, int borderStyle,
+			int borderType) {
 		this.startX = startX;
 		this.startY = startY;
 		this.endX = endX;
 		this.endY = endY;
 		this.borderWidth = borderWidth;
 		this.borderColor = borderColor;
-		if ( borderStyle != org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DOUBLE
+		if (borderStyle != org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DOUBLE
 				&& borderStyle != org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DASHED
-				&& borderStyle != org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DOTTED )
-		{
+				&& borderStyle != org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_DOTTED) {
 			this.borderStyle = org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo.BORDER_STYLE_SOLID;
-		}
-		else
-		{
+		} else {
 			this.borderStyle = borderStyle;
 		}
-		
+
 		this.borderType = borderType;
 	}
 }

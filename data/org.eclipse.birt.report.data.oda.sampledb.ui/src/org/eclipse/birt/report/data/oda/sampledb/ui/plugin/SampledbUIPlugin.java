@@ -15,20 +15,17 @@ import org.eclipse.core.runtime.Plugin;
 /**
  *
  */
-public class SampledbUIPlugin extends Plugin
-{
+public class SampledbUIPlugin extends Plugin {
 
 	// The shared instance.
 	private static SampledbUIPlugin plugin;
 
-	public SampledbUIPlugin( )
-	{
-		super( );
+	public SampledbUIPlugin() {
+		super();
 		plugin = this;
 	}
-	
-	public static SampledbUIPlugin getDefault( )
-	{
+
+	public static SampledbUIPlugin getDefault() {
 		return plugin;
 	}
 }

@@ -15,21 +15,20 @@ package org.eclipse.birt.data.engine.olap.data.api;
  * 
  */
 
-public interface ISelection
-{
+public interface ISelection {
 	/**
 	 * 
 	 * @param key
 	 * @return
 	 */
-	public boolean isSelected( Object[] key );
-	
+	public boolean isSelected(Object[] key);
+
 	/**
 	 * 
 	 * @return
 	 */
-	public Object[] getMax( );
-	
+	public Object[] getMax();
+
 	/**
 	 * 
 	 * @return

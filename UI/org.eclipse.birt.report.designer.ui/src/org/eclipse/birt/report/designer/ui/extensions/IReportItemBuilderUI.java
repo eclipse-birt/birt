@@ -17,17 +17,15 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  * The interface used to define the builder for the extended element
  */
 
-public interface IReportItemBuilderUI
-{
+public interface IReportItemBuilderUI {
 
 	/**
 	 * Opens the builder to create or edit an element
 	 * 
-	 * @param handle
-	 *            the handle of the element to edit, if it is null, a new
-	 *            element will be created.
-	 * @return Returns Windows.OK if the edit operation finished,or
-	 *         Windows.CANCEL if the operation is cancelled
+	 * @param handle the handle of the element to edit, if it is null, a new element
+	 *               will be created.
+	 * @return Returns Windows.OK if the edit operation finished,or Windows.CANCEL
+	 *         if the operation is cancelled
 	 */
-	public int open( ExtendedItemHandle handle );
+	public int open(ExtendedItemHandle handle);
 }

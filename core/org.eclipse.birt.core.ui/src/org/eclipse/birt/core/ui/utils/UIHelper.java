@@ -35,8 +35,7 @@ import org.eclipse.swt.widgets.Shell;
  * This class has been created to hold methods that provide specific
  * functionality or services.
  */
-public final class UIHelper
-{
+public final class UIHelper {
 
 	public static final String IMAGE_NAV_FORWARD = "icons/obj16/forward_nav.gif"; //$NON-NLS-1$
 	public static final String IMAGE_NAV_FORWARD_DIS = "icons/obj16/forward_nav_disabled.gif"; //$NON-NLS-1$
@@ -44,52 +43,38 @@ public final class UIHelper
 	public static final String IMAGE_NAV_BACKWARD_DIS = "icons/obj16/backward_nav_disabled.gif"; //$NON-NLS-1$
 
 	/**
-	 * This is a helper method created to get the location on screen of a
-	 * composite. It does not take into account multiple monitors.
+	 * This is a helper method created to get the location on screen of a composite.
+	 * It does not take into account multiple monitors.
 	 * 
-	 * @param cmpTarget
-	 *            The composite whose location on screen is required
+	 * @param cmpTarget The composite whose location on screen is required
 	 * @return The location of the composite on screen.
 	 */
-	public static Point getScreenLocation( Composite cmpTarget )
-	{
-		Point ptScreen = new Point( 0, 0 );
-		try
-		{
+	public static Point getScreenLocation(Composite cmpTarget) {
+		Point ptScreen = new Point(0, 0);
+		try {
 			Composite cTmp = cmpTarget;
-			while ( !( cTmp instanceof Shell ) )
-			{
-				ptScreen.x += cTmp.getLocation( ).x;
-				ptScreen.y += cTmp.getLocation( ).y;
-				cTmp = cTmp.getParent( );
+			while (!(cTmp instanceof Shell)) {
+				ptScreen.x += cTmp.getLocation().x;
+				ptScreen.y += cTmp.getLocation().y;
+				cTmp = cTmp.getParent();
 			}
+		} catch (Exception e) {
+			WizardBase.displayException(e);
 		}
-		catch ( Exception e )
-		{
-			WizardBase.displayException( e );
-		}
-		return cmpTarget.getShell( ).toDisplay( ptScreen );
+		return cmpTarget.getShell().toDisplay(ptScreen);
 	}
 
 	/**
-	 * This is a helper method created to center a shell on the screen. It
-	 * centers the shell on the primary monitor in a multi-monitor
-	 * configuration.
+	 * This is a helper method created to center a shell on the screen. It centers
+	 * the shell on the primary monitor in a multi-monitor configuration.
 	 * 
-	 * @param shell
-	 *            The shell to be centered on screen
+	 * @param shell The shell to be centered on screen
 	 */
-	public static void centerOnScreen( Shell shell )
-	{
-		if ( Display.getCurrent( ).getActiveShell( ) == null )
-		{
-			centerOnMonitor( Display.getCurrent( ).getPrimaryMonitor( ), shell );
-		}
-		else
-		{
-			centerOnMonitor( Display.getCurrent( )
-					.getActiveShell( )
-					.getMonitor( ), shell );
+	public static void centerOnScreen(Shell shell) {
+		if (Display.getCurrent().getActiveShell() == null) {
+			centerOnMonitor(Display.getCurrent().getPrimaryMonitor(), shell);
+		} else {
+			centerOnMonitor(Display.getCurrent().getActiveShell().getMonitor(), shell);
 		}
 	}
 
@@ -97,52 +82,39 @@ public final class UIHelper
 	 * Center shell on specified monitor.
 	 * 
 	 * @param monitor specified monitor will display shell.
-	 * @param shell the shell to be centered on monitor.
+	 * @param shell   the shell to be centered on monitor.
 	 */
-	public static void centerOnMonitor( Monitor monitor, Shell shell) {
-		
+	public static void centerOnMonitor(Monitor monitor, Shell shell) {
+
 		Rectangle clientArea = monitor.getClientArea();
-		shell.setLocation( clientArea.x + ( clientArea.width / 2 ) - ( shell.getSize( ).x / 2 ),
-				clientArea.y + ( clientArea.height / 2 ) - ( shell.getSize( ).y / 2 ) );
+		shell.setLocation(clientArea.x + (clientArea.width / 2) - (shell.getSize().x / 2),
+				clientArea.y + (clientArea.height / 2) - (shell.getSize().y / 2));
 	}
 
 	/**
-	 * This method returns an URL for a resource given its plugin relative path.
-	 * It is intended to be used to abstract out the usage of the UI as a plugin
-	 * or standalone component when it comes to accessing resources.
+	 * This method returns an URL for a resource given its plugin relative path. It
+	 * is intended to be used to abstract out the usage of the UI as a plugin or
+	 * standalone component when it comes to accessing resources.
 	 * 
-	 * @param sPluginRelativePath
-	 *            The path to the resource relative to the plugin location.
+	 * @param sPluginRelativePath The path to the resource relative to the plugin
+	 *                            location.
 	 * @return URL representing the location of the resource.
 	 */
-	public static URL getURL( String sPluginRelativePath )
-	{
+	public static URL getURL(String sPluginRelativePath) {
 		URL url = null;
-		if ( isEclipseMode( ) )
-		{
-			try
-			{
-				url = new URL( CoreUIPlugin.getDefault( )
-						.getBundle( )
-						.getEntry( "/" ), sPluginRelativePath ); //$NON-NLS-1$
+		if (isEclipseMode()) {
+			try {
+				url = new URL(CoreUIPlugin.getDefault().getBundle().getEntry("/"), sPluginRelativePath); //$NON-NLS-1$
+			} catch (MalformedURLException e) {
+				WizardBase.displayException(e);
 			}
-			catch ( MalformedURLException e )
-			{
-				WizardBase.displayException( e );
-			}
-		}
-		else
-		{
-			url = UIHelper.class.getResource( "/" + sPluginRelativePath ); //$NON-NLS-1$
-			if ( url == null )
-			{
-				try
-				{
-					url = new URL( "file:///" + new File( sPluginRelativePath ).getAbsolutePath( ) ); //$NON-NLS-1$
-				}
-				catch ( MalformedURLException e )
-				{
-					WizardBase.displayException( e );
+		} else {
+			url = UIHelper.class.getResource("/" + sPluginRelativePath); //$NON-NLS-1$
+			if (url == null) {
+				try {
+					url = new URL("file:///" + new File(sPluginRelativePath).getAbsolutePath()); //$NON-NLS-1$
+				} catch (MalformedURLException e) {
+					WizardBase.displayException(e);
 				}
 			}
 		}
@@ -150,38 +122,26 @@ public final class UIHelper
 		return url;
 	}
 
-	private static Image createImage( String sPluginRelativePath )
-	{
+	private static Image createImage(String sPluginRelativePath) {
 		Image img = null;
-		try
-		{
-			try
-			{
-				URL url = getURL( sPluginRelativePath );
-				if ( url != null )
-				{
-					img = new Image( Display.getCurrent( ), url.openStream( ) );
+		try {
+			try {
+				URL url = getURL(sPluginRelativePath);
+				if (url != null) {
+					img = new Image(Display.getCurrent(), url.openStream());
 				}
+			} catch (MalformedURLException e1) {
+				img = new Image(Display.getCurrent(), new FileInputStream(getURL(sPluginRelativePath).toString()));
 			}
-			catch ( MalformedURLException e1 )
-			{
-				img = new Image( Display.getCurrent( ),
-						new FileInputStream( getURL( sPluginRelativePath ).toString( ) ) );
-			}
-		}
-		catch ( FileNotFoundException e )
-		{
-			WizardBase.displayException( e );
-		}
-		catch ( IOException e )
-		{
-			WizardBase.displayException( e );
+		} catch (FileNotFoundException e) {
+			WizardBase.displayException(e);
+		} catch (IOException e) {
+			WizardBase.displayException(e);
 		}
 
 		// If still can't load, return a dummy image.
-		if ( img == null )
-		{
-			img = new Image( Display.getCurrent( ), 1, 1 );
+		if (img == null) {
+			img = new Image(Display.getCurrent(), 1, 1);
 		}
 		return img;
 	}
@@ -189,20 +149,17 @@ public final class UIHelper
 	/**
 	 * This is a convenience method to get an imgIcon from a URL.
 	 * 
-	 * @param sPluginRelativePath
-	 *            The URL for the imgIcon.
+	 * @param sPluginRelativePath The URL for the imgIcon.
 	 * @return The imgIcon represented by the given URL.
 	 * @see #setImageCached( boolean )
 	 */
-	public static Image getImage( String sPluginRelativePath )
-	{
-		ImageRegistry registry = JFaceResources.getImageRegistry( );
+	public static Image getImage(String sPluginRelativePath) {
+		ImageRegistry registry = JFaceResources.getImageRegistry();
 		String resourcePath = CoreUIPlugin.ID + "/" + sPluginRelativePath; //$NON-NLS-1$
-		Image image = registry.get( resourcePath );
-		if ( image == null )
-		{
-			image = createImage( sPluginRelativePath );
-			registry.put( resourcePath, image );
+		Image image = registry.get(resourcePath);
+		if (image == null) {
+			image = createImage(sPluginRelativePath);
+			registry.put(resourcePath, image);
 		}
 		return image;
 	}
@@ -211,8 +168,7 @@ public final class UIHelper
 	 * Returns if running in eclipse mode or stand-alone mode currently.
 	 * 
 	 */
-	public static boolean isEclipseMode( )
-	{
-		return Platform.getExtensionRegistry( ) != null;
+	public static boolean isEclipseMode() {
+		return Platform.getExtensionRegistry() != null;
 	}
 }

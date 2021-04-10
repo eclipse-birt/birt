@@ -14,147 +14,116 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class AdvancePropertySection extends Section
-{
+public class AdvancePropertySection extends Section {
 
-	public AdvancePropertySection( String labelText, Composite parent,
-			boolean isControlStyle )
-	{
-		super( labelText, parent, isControlStyle );
+	public AdvancePropertySection(String labelText, Composite parent, boolean isControlStyle) {
+		super(labelText, parent, isControlStyle);
 		// TODO Auto-generated constructor stub
 	}
 
 	boolean isTabbed = false;
 
-	public AdvancePropertySection( String labelText, Composite parent,
-			boolean isControlStyle, boolean isTabbed )
-	{
-		super( labelText, parent, isControlStyle );
+	public AdvancePropertySection(String labelText, Composite parent, boolean isControlStyle, boolean isTabbed) {
+		super(labelText, parent, isControlStyle);
 		this.isTabbed = isTabbed;
 	}
 
 	private boolean showLabel = false;;
 
-	public void showDisplayLabel( boolean show )
-	{
+	public void showDisplayLabel(boolean show) {
 		this.showLabel = show;
 	}
 
 	protected AdvancePropertyDescriptor descriptor;
 
-	public void createSection( )
-	{
-		if ( isTabbed )
-			getTitleControl( parent );
-		else if ( showLabel )
-			getLabelControl( parent );
-		getControl( parent );
-		getGridPlaceholder( parent );
+	public void createSection() {
+		if (isTabbed)
+			getTitleControl(parent);
+		else if (showLabel)
+			getLabelControl(parent);
+		getControl(parent);
+		getGridPlaceholder(parent);
 
 	}
 
 	protected TabbedPropertyTitle title;
 
-	public TabbedPropertyTitle getTitleControl( )
-	{
+	public TabbedPropertyTitle getTitleControl() {
 		return title;
 	}
 
-	protected TabbedPropertyTitle getTitleControl( Composite parent )
-	{
-		if ( title == null )
-		{
-			title = new TabbedPropertyTitle( parent,
-					FormWidgetFactory.getInstance( ) );
-			title.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			title.setFont( parent.getFont( ) );
-			title.setLayoutData( new GridData( ) );
-			String text = getLabelText( );
-			if ( text != null )
-			{
-				title.setTitle( text, null );
+	protected TabbedPropertyTitle getTitleControl(Composite parent) {
+		if (title == null) {
+			title = new TabbedPropertyTitle(parent, FormWidgetFactory.getInstance());
+			title.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			title.setFont(parent.getFont());
+			title.setLayoutData(new GridData());
+			String text = getLabelText();
+			if (text != null) {
+				title.setTitle(text, null);
 			}
-			title.addDisposeListener( new DisposeListener( ) {
+			title.addDisposeListener(new DisposeListener() {
 
-				public void widgetDisposed( DisposeEvent event )
-				{
+				public void widgetDisposed(DisposeEvent event) {
 					title = null;
 				}
-			} );
-		}
-		else
-		{
-			checkParent( title, parent );
+			});
+		} else {
+			checkParent(title, parent);
 		}
 		return title;
 	}
 
-	public AdvancePropertyDescriptor getControl( )
-	{
+	public AdvancePropertyDescriptor getControl() {
 		return descriptor;
 	}
 
-	protected AdvancePropertyDescriptor getControl( Composite parent )
-	{
-		if ( descriptor == null )
-		{
-			descriptor = DescriptorToolkit.createAdvancePropertyDescriptor( true );
-			if ( getProvider( ) != null )
-				descriptor.setDescriptorProvider( getProvider( ) );
-			descriptor.createControl( parent );
-			descriptor.getControl( ).setLayoutData( new GridData( ) );
-			descriptor.getControl( )
-					.addDisposeListener( new DisposeListener( ) {
+	protected AdvancePropertyDescriptor getControl(Composite parent) {
+		if (descriptor == null) {
+			descriptor = DescriptorToolkit.createAdvancePropertyDescriptor(true);
+			if (getProvider() != null)
+				descriptor.setDescriptorProvider(getProvider());
+			descriptor.createControl(parent);
+			descriptor.getControl().setLayoutData(new GridData());
+			descriptor.getControl().addDisposeListener(new DisposeListener() {
 
-						public void widgetDisposed( DisposeEvent event )
-						{
-							descriptor = null;
-						}
-					} );
-		}
-		else
-		{
-			checkParent( descriptor.getControl( ), parent );
+				public void widgetDisposed(DisposeEvent event) {
+					descriptor = null;
+				}
+			});
+		} else {
+			checkParent(descriptor.getControl(), parent);
 		}
 		return descriptor;
 	}
 
 	int displayLabelStyle = SWT.VERTICAL;
 
-	public void setDisplayLabelStyle( int style )
-	{
+	public void setDisplayLabelStyle(int style) {
 		displayLabelStyle = style;
 	}
 
-	public void layout( )
-	{
-		GridData gd = (GridData) descriptor.getControl( ).getLayoutData( );
-		if ( getLayoutNum( ) > 0 )
-			gd.horizontalSpan = getLayoutNum( ) - placeholder;
+	public void layout() {
+		GridData gd = (GridData) descriptor.getControl().getLayoutData();
+		if (getLayoutNum() > 0)
+			gd.horizontalSpan = getLayoutNum() - placeholder;
 		else
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- placeholder;
-		if ( displayLabel != null
-				&& ( displayLabelStyle & SWT.HORIZONTAL ) != 0 )
-		{
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		if (displayLabel != null && (displayLabelStyle & SWT.HORIZONTAL) != 0) {
 			gd.horizontalSpan = gd.horizontalSpan - 1;
 		}
 
 		gd.horizontalAlignment = SWT.FILL;
-		if ( width > -1 )
-		{
+		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		}
-		else
+		} else
 			gd.grabExcessHorizontalSpace = fillControl;
 
-		if ( height > -1 )
-		{
+		if (height > -1) {
 			gd.heightHint = height;
 			gd.grabExcessVerticalSpace = false;
-		}
-		else
+		} else
 			gd.grabExcessVerticalSpace = fillControl;
 
 		gd.grabExcessVerticalSpace = true;
@@ -162,115 +131,98 @@ public class AdvancePropertySection extends Section
 		gd.grabExcessHorizontalSpace = true;
 		gd.horizontalIndent = GridData.FILL;
 
-		if ( displayLabel != null )
-		{
-			if ( ( displayLabelStyle & SWT.VERTICAL ) != 0 )
-			{
-				gd = (GridData) displayLabel.getLayoutData( );
-				gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns;
+		if (displayLabel != null) {
+			if ((displayLabelStyle & SWT.VERTICAL) != 0) {
+				gd = (GridData) displayLabel.getLayoutData();
+				gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns;
 				gd.grabExcessHorizontalSpace = true;
 				gd.horizontalAlignment = SWT.FILL;
-			}
-			else
-			{
-				gd = (GridData) displayLabel.getLayoutData( );
+			} else {
+				gd = (GridData) displayLabel.getLayoutData();
 				gd.verticalAlignment = SWT.BEGINNING;
 			}
 		}
 
-		if ( title != null )
-		{
-			gd = (GridData) title.getLayoutData( );
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns;
+		if (title != null) {
+			gd = (GridData) title.getLayoutData();
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns;
 			gd.grabExcessHorizontalSpace = true;
 			gd.horizontalAlignment = SWT.FILL;
 		}
 
 	}
 
-	public void load( )
-	{
-		if ( descriptor != null && !descriptor.getControl( ).isDisposed( ) )
-			descriptor.load( );
+	public void load() {
+		if (descriptor != null && !descriptor.getControl().isDisposed())
+			descriptor.load();
 
 	}
 
 	IDescriptorProvider provider;
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if ( descriptor != null )
-			descriptor.setDescriptorProvider( provider );
+		if (descriptor != null)
+			descriptor.setDescriptorProvider(provider);
 	}
 
 	private int height = -1;
 	private int width = -1;
 
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	public void setInput( Object input )
-	{
-		assert ( input != null );
-		descriptor.setInput( input );
+	public void setInput(Object input) {
+		assert (input != null);
+		descriptor.setInput(input);
 	}
 
 	boolean fillControl = false;
 
-	public boolean isFillControl( )
-	{
+	public boolean isFillControl() {
 		return fillControl;
 	}
 
-	public void setFillControl( boolean fillControl )
-	{
+	public void setFillControl(boolean fillControl) {
 		this.fillControl = fillControl;
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		if ( displayLabel != null )
-			WidgetUtil.setExcludeGridData( displayLabel, isHidden );
-		if ( title != null )
-			WidgetUtil.setExcludeGridData( title, isHidden );
-		if ( descriptor != null )
-			descriptor.setHidden( isHidden );
-		if ( placeholderLabel != null )
-			WidgetUtil.setExcludeGridData( placeholderLabel, isHidden );
+	public void setHidden(boolean isHidden) {
+		if (displayLabel != null)
+			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
+		if (title != null)
+			WidgetUtil.setExcludeGridData(title, isHidden);
+		if (descriptor != null)
+			descriptor.setHidden(isHidden);
+		if (placeholderLabel != null)
+			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		if ( displayLabel != null )
-			displayLabel.setVisible( isVisible );
-		if ( title != null )
-			title.setVisible( isVisible );
-		if ( descriptor != null )
-			descriptor.setVisible( isVisible );
-		if ( placeholderLabel != null )
-			placeholderLabel.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		if (displayLabel != null)
+			displayLabel.setVisible(isVisible);
+		if (title != null)
+			title.setVisible(isVisible);
+		if (descriptor != null)
+			descriptor.setVisible(isVisible);
+		if (placeholderLabel != null)
+			placeholderLabel.setVisible(isVisible);
 	}
 
-	public int getHeight( )
-	{
+	public int getHeight() {
 		return height;
 	}
 
-	public void setHeight( int height )
-	{
+	public void setHeight(int height) {
 		this.height = height;
 	}
 

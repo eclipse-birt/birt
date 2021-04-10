@@ -14,37 +14,31 @@ package org.eclipse.birt.data.engine.olap.data.util;
 import java.io.IOException;
 import java.util.Comparator;
 
-
 /**
  * 
  */
 
-public class PrimitiveDiskSortedStack extends BaseDiskSortedStack
-{
-	public PrimitiveDiskSortedStack( int bufferSize, boolean isAscending,
-			boolean forceDistinct )
-	{
-		super( bufferSize, isAscending, forceDistinct, null );
+public class PrimitiveDiskSortedStack extends BaseDiskSortedStack {
+	public PrimitiveDiskSortedStack(int bufferSize, boolean isAscending, boolean forceDistinct) {
+		super(bufferSize, isAscending, forceDistinct, null);
 	}
-	
-	public PrimitiveDiskSortedStack( int bufferSize, boolean forceDistinct,
-			Comparator comparator )
-	{
-		super( bufferSize, forceDistinct, comparator, null );
+
+	public PrimitiveDiskSortedStack(int bufferSize, boolean forceDistinct, Comparator comparator) {
+		super(bufferSize, forceDistinct, comparator, null);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.util.BaseDiskSortedStack#saveToDisk(int, int)
+	 * 
+	 * @see org.eclipse.birt.data.olap.data.util.BaseDiskSortedStack#saveToDisk(int,
+	 * int)
 	 */
-	protected void saveToDisk( int fromIndex, int toIndex ) throws IOException
-	{
-		PrimitiveDiskArray diskList = new PrimitiveDiskArray( );
-		for ( int i = fromIndex; i <= toIndex; i++ )
-		{
-			diskList.add( buffer[i] );
+	protected void saveToDisk(int fromIndex, int toIndex) throws IOException {
+		PrimitiveDiskArray diskList = new PrimitiveDiskArray();
+		for (int i = fromIndex; i <= toIndex; i++) {
+			diskList.add(buffer[i]);
 		}
-		segments.add( diskList );
+		segments.add(diskList);
 	}
 
 }

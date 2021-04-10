@@ -13,14 +13,11 @@ package org.eclipse.birt.report.engine.extension.engine;
 
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 
-public class DataExtensionAdapter implements IDataExtension
-{
+public class DataExtensionAdapter implements IDataExtension {
 
-	public void close( )
-	{
+	public void close() {
 	}
 
-	public void prepareQuery( IDataQueryDefinition query )
-	{
+	public void prepareQuery(IDataQueryDefinition query) {
 	}
 }

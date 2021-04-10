@@ -13,12 +13,13 @@ package org.eclipse.birt.core.archive;
 
 import java.util.ArrayList;
 
-public interface IStreamSorter 
-{	
+public interface IStreamSorter {
 	/**
 	 * Sort the streams.
-	 * @param streamNameList - the stream name list to be sorted. All of the entries are strings.
+	 * 
+	 * @param streamNameList - the stream name list to be sorted. All of the entries
+	 *                       are strings.
 	 * @return the sorted stream name list. All of the entries are strings.
 	 */
-	public ArrayList sortStream( ArrayList streamNameList );
+	public ArrayList sortStream(ArrayList streamNameList);
 }

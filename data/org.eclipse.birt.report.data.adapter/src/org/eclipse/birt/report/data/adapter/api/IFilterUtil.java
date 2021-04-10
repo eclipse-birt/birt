@@ -9,7 +9,6 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.data.adapter.api;
 
 import java.util.List;
@@ -19,10 +18,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 
 /**
- * The filter util interface definition that is used for filter related optimization job.
+ * The filter util interface definition that is used for filter related
+ * optimization job.
  */
-public interface IFilterUtil
-{
-	public Map<String, List<String>> populatedNonPushdownableFilterOperators(
-			DataSetHandle dataSet, int filterType ) throws BirtException;
+public interface IFilterUtil {
+	public Map<String, List<String>> populatedNonPushdownableFilterOperators(DataSetHandle dataSet, int filterType)
+			throws BirtException;
 }

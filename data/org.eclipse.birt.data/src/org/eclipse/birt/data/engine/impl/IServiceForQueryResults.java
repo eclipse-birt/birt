@@ -27,18 +27,16 @@ import org.mozilla.javascript.Scriptable;
  * Wrap the service which is provided for IQueryResults to make IQueryResults
  * knows only these information it needes.
  */
-interface IServiceForQueryResults
-{
+interface IServiceForQueryResults {
 	/**
 	 * @return
 	 */
-	public DataEngineSession getSession( );
-	
-	
+	public DataEngineSession getSession();
+
 	/**
 	 * @return
 	 */
-	public Scriptable getScope( );
+	public Scriptable getScope();
 
 	/**
 	 * If it is a nested query, this value indicates which level this query is
@@ -46,54 +44,52 @@ interface IServiceForQueryResults
 	 * 
 	 * @return
 	 */
-	public int getNestedLevel( );
-	
+	public int getNestedLevel();
+
 	/**
 	 * @return base query definition
 	 */
-	public IBaseQueryDefinition getQueryDefn( );
+	public IBaseQueryDefinition getQueryDefn();
 
 	/**
 	 * @return
 	 */
-	public IPreparedQuery getPreparedQuery( );
-	
+	public IPreparedQuery getPreparedQuery();
+
 	/**
-	 * If it is a sub query, this value indicates which group level this query
-	 * is placed.
+	 * If it is a sub query, this value indicates which group level this query is
+	 * placed.
 	 * 
 	 * @return
 	 */
-	public int getGroupLevel( );
+	public int getGroupLevel();
 
 	/**
 	 * Associated data set runtime instance.
 	 * 
 	 * @return
 	 */
-	public DataSetRuntime getDataSetRuntime( );
-	
+	public DataSetRuntime getDataSetRuntime();
+
 	/**
 	 * Associated data sets runtime, frou inner to outer.
 	 * 
-	 * @param count,
-	 *            how many levels needs to be traced.
+	 * @param count, how many levels needs to be traced.
 	 * @return
 	 */
-	public DataSetRuntime[] getDataSetRuntimes( int count );
-	
+	public DataSetRuntime[] getDataSetRuntimes(int count);
+
 	/**
 	 * @return meta data of data set
 	 * @throws DataException
 	 */
-	public IResultMetaData getResultMetaData( ) throws DataException;
-	
+	public IResultMetaData getResultMetaData() throws DataException;
+
 	/**
 	 * @return
 	 */
-	public IResultIterator executeQuery( ) throws DataException;
+	public IResultIterator executeQuery() throws DataException;
 
-	
 	/**
 	 * @param iterator
 	 * @param subQueryName
@@ -101,62 +97,63 @@ interface IServiceForQueryResults
 	 * @return
 	 * @throws DataException
 	 */
-	public IQueryResults execSubquery( IResultIterator iterator, IQueryExecutor parentQueryExecutor,
-			String subQueryName, Scriptable subScope ) throws DataException;
-	
+	public IQueryResults execSubquery(IResultIterator iterator, IQueryExecutor parentQueryExecutor, String subQueryName,
+			Scriptable subScope) throws DataException;
+
 	/**
 	 * close service
 	 */
-	public void close( );
-	
+	public void close();
+
 	/**
 	 * @return the valid property of defined column bindings
 	 * @throws DataException
 	 */
 	public void validateQuery() throws DataException;
-	
+
 	/**
 	 * @param exprName
 	 * @return associated defined binding expression
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public IBaseExpression getBindingExpr( String exprName ) throws DataException;
-	
+	public IBaseExpression getBindingExpr(String exprName) throws DataException;
+
 	/**
 	 * @param exprName
 	 * @return associated defined auto binding expression
 	 */
-	public IScriptExpression getAutoBindingExpr( String exprName );
-	
+	public IScriptExpression getAutoBindingExpr(String exprName);
+
 	/**
-	 * @return
-	 * {@link org.eclipse.birt.data.engine.impl.GroupBindingColumn}
+	 * @return {@link org.eclipse.birt.data.engine.impl.GroupBindingColumn}
 	 */
-	public List getAllBindingExprs( );
-	
+	public List getAllBindingExprs();
+
 	/**
 	 * @return the map of <column name, associated expression>
 	 */
-	public Map getAllAutoBindingExprs( );
-	
+	public Map getAllAutoBindingExprs();
+
 	/**
 	 * init auto binding at the start time
+	 * 
 	 * @throws DataException
 	 */
-	public void initAutoBinding( ) throws DataException;
-	
+	public void initAutoBinding() throws DataException;
+
 	/**
 	 * Return the query executor.
 	 */
-	public IQueryExecutor getQueryExecutor( ) throws DataException;
-	
+	public IQueryExecutor getQueryExecutor() throws DataException;
+
 	/**
-	 * Return the starting raw id for the query results. For ordinary query the starting raw id will
-	 * always be 0. For subquery the starting raw id will be the very first row id of its parent result
-	 * iterator.
+	 * Return the starting raw id for the query results. For ordinary query the
+	 * starting raw id will always be 0. For subquery the starting raw id will be
+	 * the very first row id of its parent result iterator.
+	 * 
 	 * @return
 	 * @throws DataException
 	 */
-	public int getStartingRawID( ) throws DataException;
-	
+	public int getStartingRawID() throws DataException;
+
 }

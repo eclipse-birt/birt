@@ -30,8 +30,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * Action handler for invoke RunAndRenderTask to retrieve report content.
  * 
  */
-public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
-{
+public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Output stream to store the report.
@@ -46,11 +45,9 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
 	 * @param response
 	 * @param os
 	 */
-	public BirtRunAndRenderActionHandler( IContext context,
-			Operation operation, GetUpdatedObjectsResponse response,
-			OutputStream os )
-	{
-		super( context, operation, response );
+	public BirtRunAndRenderActionHandler(IContext context, Operation operation, GetUpdatedObjectsResponse response,
+			OutputStream os) {
+		super(context, operation, response);
 		this.os = os;
 	}
 
@@ -60,25 +57,21 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
 	 * @exception ReportServiceException
 	 * @return
 	 */
-	public void __execute( ) throws Exception
-	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
-		Map params = attrBean.getParameters( );
-		Map displayTexts = attrBean.getDisplayTexts( );
-		IViewerReportDesignHandle reportDesignHandle = attrBean
-				.getReportDesignHandle( context.getRequest( ) );
-		boolean svgFlag = ParameterAccessor.getSVGFlag( context.getRequest( ) );
-		String outputDocName = attrBean.getReportDocumentName( );
+	public void __execute() throws Exception {
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
+		Map params = attrBean.getParameters();
+		Map displayTexts = attrBean.getDisplayTexts();
+		IViewerReportDesignHandle reportDesignHandle = attrBean.getReportDesignHandle(context.getRequest());
+		boolean svgFlag = ParameterAccessor.getSVGFlag(context.getRequest());
+		String outputDocName = attrBean.getReportDocumentName();
 
-		InputOptions options = createInputOptions( attrBean, svgFlag );
+		InputOptions options = createInputOptions(attrBean, svgFlag);
 
-		getReportService( ).runAndRenderReport( reportDesignHandle,
-				outputDocName, options, params, os, new ArrayList( ),
-				displayTexts );
+		getReportService().runAndRenderReport(reportDesignHandle, outputDocName, options, params, os, new ArrayList(),
+				displayTexts);
 	}
 
-	protected IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	protected IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 }

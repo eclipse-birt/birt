@@ -20,12 +20,10 @@ import org.eclipse.birt.data.engine.binding.MultiplePassTest;
  * 
  */
 
-public class CachedMultiplePassTest extends MultiplePassTest
-{
-	protected Map getAppContext()
-	{
+public class CachedMultiplePassTest extends MultiplePassTest {
+	protected Map getAppContext() {
 		Map appContext = new HashMap();
-		appContext.put( "birt.data.engine.test.memcachesize", "20000" );
+		appContext.put("birt.data.engine.test.memcachesize", "20000");
 		return appContext;
 	}
 }

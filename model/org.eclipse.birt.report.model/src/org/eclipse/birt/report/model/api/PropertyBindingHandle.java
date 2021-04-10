@@ -19,21 +19,17 @@ import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
  * and overridden value.
  */
 
-public class PropertyBindingHandle extends StructureHandle
-{
+public class PropertyBindingHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of property binding.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for property binding list of one property
-	 * @param index
-	 *            the position of this property binding in the list
+	 * @param valueHandle the value handle for property binding list of one property
+	 * @param index       the position of this property binding in the list
 	 */
 
-	public PropertyBindingHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public PropertyBindingHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
@@ -42,20 +38,17 @@ public class PropertyBindingHandle extends StructureHandle
 	 * @return the overridden value
 	 */
 
-	public String getValue( )
-	{
-		return getStringProperty( PropertyBinding.VALUE_MEMBER );
+	public String getValue() {
+		return getStringProperty(PropertyBinding.VALUE_MEMBER);
 	}
 
 	/**
-	 * Sets the property binding value. 
+	 * Sets the property binding value.
 	 * 
-	 * @param expression
-	 *            the value expression to set
+	 * @param expression the value expression to set
 	 */
 
-	public void setValue( String expression )
-	{
-		setPropertySilently( PropertyBinding.VALUE_MEMBER, expression );
+	public void setValue(String expression) {
+		setPropertySilently(PropertyBinding.VALUE_MEMBER, expression);
 	}
 }

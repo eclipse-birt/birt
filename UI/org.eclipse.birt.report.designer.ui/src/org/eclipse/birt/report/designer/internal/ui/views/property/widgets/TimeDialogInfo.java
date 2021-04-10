@@ -14,8 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 /**
  * Store the TimeDialog infomation
  */
-public class TimeDialogInfo implements DialogInfo
-{
+public class TimeDialogInfo implements DialogInfo {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,8 +29,7 @@ public class TimeDialogInfo implements DialogInfo
 	 * 
 	 * @param time
 	 */
-	public void setTime( long time )
-	{
+	public void setTime(long time) {
 		this.time = time;
 	}
 
@@ -40,8 +38,7 @@ public class TimeDialogInfo implements DialogInfo
 	 * 
 	 * @param id
 	 */
-	public void setTimeZoneID( String id )
-	{
+	public void setTimeZoneID(String id) {
 		this.timeZoneID = id;
 	}
 
@@ -50,8 +47,7 @@ public class TimeDialogInfo implements DialogInfo
 	 * 
 	 * @return time
 	 */
-	public long getTime( )
-	{
+	public long getTime() {
 		return time;
 	}
 
@@ -60,8 +56,7 @@ public class TimeDialogInfo implements DialogInfo
 	 * 
 	 * @return time zone id
 	 */
-	public String getTimeZoneID( )
-	{
+	public String getTimeZoneID() {
 		return timeZoneID;
 	}
 
@@ -70,8 +65,7 @@ public class TimeDialogInfo implements DialogInfo
 	 * 
 	 * @param format
 	 */
-	public void setFormat( String format )
-	{
+	public void setFormat(String format) {
 		this.format = format;
 	}
 
@@ -80,8 +74,7 @@ public class TimeDialogInfo implements DialogInfo
 	 * 
 	 * @return the format
 	 */
-	public String getFormat( )
-	{
+	public String getFormat() {
 		return format;
 	}
 

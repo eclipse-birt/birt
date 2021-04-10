@@ -21,44 +21,35 @@ import org.eclipse.birt.report.designer.ui.expressions.IExpressionFilterSupport;
 /**
  * DefaultExpressionContext
  */
-public class DefaultExpressionContext implements
-		IExpressionContext,
-		IExpressionFilterSupport
-{
+public class DefaultExpressionContext implements IExpressionContext, IExpressionFilterSupport {
 
 	private Object contextObject;
 
 	private List<ExpressionFilter> filters;
 
-	private Map<String, Object> extras = new HashMap<String, Object>( );
+	private Map<String, Object> extras = new HashMap<String, Object>();
 
-	public DefaultExpressionContext( Object contextObject )
-	{
+	public DefaultExpressionContext(Object contextObject) {
 		this.contextObject = contextObject;
 	}
 
-	public Object getContextObject( )
-	{
+	public Object getContextObject() {
 		return contextObject;
 	}
 
-	public void setFilters( List<ExpressionFilter> filters )
-	{
+	public void setFilters(List<ExpressionFilter> filters) {
 		this.filters = filters;
 	}
 
-	public java.util.List<ExpressionFilter> getFilters( )
-	{
+	public java.util.List<ExpressionFilter> getFilters() {
 		return filters;
 	}
 
-	public Object getExtra( String key )
-	{
-		return extras.get( key );
+	public Object getExtra(String key) {
+		return extras.get(key);
 	}
 
-	public void putExtra( String key, Object value )
-	{
-		extras.put( key, value );
+	public void putExtra(String key, Object value) {
+		extras.put(key, value);
 	}
 }

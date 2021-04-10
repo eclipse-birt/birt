@@ -10,11 +10,10 @@ import java.util.List;
  * 
  */
 
-public interface IPageGeneratorHelper
-{
+public interface IPageGeneratorHelper {
 
-	public String[] createTabItems(List input );
+	public String[] createTabItems(List input);
 
-	public TabPage buildTabContent( String tabKey );
+	public TabPage buildTabContent(String tabKey);
 
 }

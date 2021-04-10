@@ -19,27 +19,18 @@ import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
 /**
  * Default (empty) implementation of the ICellEventHandler interface
  */
-public class CellEventAdapter implements ICellEventHandler
-{
+public class CellEventAdapter implements ICellEventHandler {
 
-	public void onPrepare( ICell cell, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onPrepare(ICell cell, IReportContext reportContext) throws ScriptException {
 	}
 
-	public void onCreate( ICellInstance cellInstance,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void onCreate(ICellInstance cellInstance, IReportContext reportContext) throws ScriptException {
 	}
 
-	public void onRender( ICellInstance cellInstance,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void onRender(ICellInstance cellInstance, IReportContext reportContext) throws ScriptException {
 	}
-	
-	public void onPageBreak( ICellInstance cellInstance,
-			IReportContext reportContext ) throws ScriptException
-	{
+
+	public void onPageBreak(ICellInstance cellInstance, IReportContext reportContext) throws ScriptException {
 	}
 
 }

@@ -15,7 +15,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.provider
  * 
  */
 
-public interface IBreadcrumbValidator
-{
-	boolean validate( Object element );
+public interface IBreadcrumbValidator {
+	boolean validate(Object element);
 }

@@ -18,13 +18,9 @@ import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 /*
  * currently ReportEventContext just extends ReportContextImpl
  */
-public class ReportEventContext extends ReportContextImpl
-		implements
-			IReportEventContext
-{
+public class ReportEventContext extends ReportContextImpl implements IReportEventContext {
 
-	public ReportEventContext( ExecutionContext context )
-	{
-		super( context );
+	public ReportEventContext(ExecutionContext context) {
+		super(context);
 	}
 }

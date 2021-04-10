@@ -20,79 +20,70 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * Calculator for type Boolean. Note that all operands are expected to be
  * converted to Boolean before invoking any operation. Use method
- * getTypedObject() to convert operands to the desired datatype. 
- * Nulls are ignored in calculations.
+ * getTypedObject() to convert operands to the desired datatype. Nulls are
+ * ignored in calculations.
  */
 
-public class BooleanCalculator implements ICalculator
-{
+public class BooleanCalculator implements ICalculator {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.core.script.math.ICalculator#add(java.lang.Object,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
-	public Number add( Object a, Object b ) throws DataException
-	{
-		if( a == null && b == null )
+	public Number add(Object a, Object b) throws DataException {
+		if (a == null && b == null)
 			return null;
-		if( a == null )
-			return convertToNumber( (Boolean) b );
-		if( b == null )
-			return convertToNumber( (Boolean) a );
-		return convertToNumber( ( (Boolean) a ) || ( (Boolean) b ) );
+		if (a == null)
+			return convertToNumber((Boolean) b);
+		if (b == null)
+			return convertToNumber((Boolean) a);
+		return convertToNumber(((Boolean) a) || ((Boolean) b));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.core.script.math.ICalculator#divide(java.lang.Object,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
-	public Number divide( Object dividend, Object divisor )
-			throws DataException
-	{
-		if( dividend == null )
+	public Number divide(Object dividend, Object divisor) throws DataException {
+		if (dividend == null)
 			return null;
-		if( divisor == null )
-			return convertToNumber( (Boolean) dividend );
-		if( divisor == Boolean.FALSE )
+		if (divisor == null)
+			return convertToNumber((Boolean) dividend);
+		if (divisor == Boolean.FALSE)
 			return null; // division by 0
-		return convertToNumber( ( (Boolean) dividend ) && ( (Boolean) divisor ) );
+		return convertToNumber(((Boolean) dividend) && ((Boolean) divisor));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.core.script.math.ICalculator#multiply(java.lang.Object,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
-	public Number multiply( Object a, Object b ) throws DataException
-	{
-		if( a == null && b == null )
+	public Number multiply(Object a, Object b) throws DataException {
+		if (a == null && b == null)
 			return null;
-		if( a == null )
-			return convertToNumber( (Boolean) b );
-		if( b == null )
-			return convertToNumber( (Boolean) a );
-		return convertToNumber( ( (Boolean) a ) && ( (Boolean) b ) );
+		if (a == null)
+			return convertToNumber((Boolean) b);
+		if (b == null)
+			return convertToNumber((Boolean) a);
+		return convertToNumber(((Boolean) a) && ((Boolean) b));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.core.script.math.ICalculator#safeDivide(java.lang.Object,
-	 *      java.lang.Object, java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.core.script.math.ICalculator#safeDivide(java.lang.Object,
+	 * java.lang.Object, java.lang.Object)
 	 */
-	public Number safeDivide( Object dividend, Object divisor, Number ifZero )
-			throws DataException
-	{
-		try
-		{
-			return divide( dividend, divisor );
-		}
-		catch ( ArithmeticException e )
-		{
+	public Number safeDivide(Object dividend, Object divisor, Number ifZero) throws DataException {
+		try {
+			return divide(dividend, divisor);
+		} catch (ArithmeticException e) {
 			return ifZero;
 		}
 	}
@@ -101,38 +92,34 @@ public class BooleanCalculator implements ICalculator
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.core.script.math.ICalculator#subtract(java.lang.Object,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
-	public Number subtract( Object a, Object b ) throws DataException
-	{
-		if( a == null && b == null )
+	public Number subtract(Object a, Object b) throws DataException {
+		if (a == null && b == null)
 			return null;
-		if( a == null )
-			return convertToNumber( (Boolean) b );
-		if( b == null )
-			return convertToNumber( (Boolean) a );
-		return convertToNumber( ( (Boolean) a ) ^ ( (Boolean) b ) );
+		if (a == null)
+			return convertToNumber((Boolean) b);
+		if (b == null)
+			return convertToNumber((Boolean) a);
+		return convertToNumber(((Boolean) a) ^ ((Boolean) b));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.ICalculator#getTypedObject(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.ICalculator#getTypedObject(java.
+	 * lang.Object)
 	 */
-	public Object getTypedObject( Object obj ) throws DataException
-	{
-		try
-		{
-			return DataTypeUtil.toBoolean( obj );
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
+	public Object getTypedObject(Object obj) throws DataException {
+		try {
+			return DataTypeUtil.toBoolean(obj);
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 	}
-	
-	private Number convertToNumber( Boolean a )
-	{
+
+	private Number convertToNumber(Boolean a) {
 		return a == Boolean.TRUE ? BigDecimal.ONE : BigDecimal.ZERO;
 	}
 

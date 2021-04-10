@@ -15,14 +15,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionFactory;
 
+public class BirtDurationFunctionFactory implements IScriptFunctionFactory {
 
-public class BirtDurationFunctionFactory implements IScriptFunctionFactory
-{
-
-	public IScriptFunctionExecutor getFunctionExecutor( String functionName )
-			throws BirtException
-	{
-		return new BirtDuration( functionName );
+	public IScriptFunctionExecutor getFunctionExecutor(String functionName) throws BirtException {
+		return new BirtDuration(functionName);
 	}
 
 }

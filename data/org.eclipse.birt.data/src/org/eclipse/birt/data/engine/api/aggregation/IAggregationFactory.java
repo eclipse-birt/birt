@@ -17,16 +17,15 @@ import java.util.List;
  * 
  */
 
-public interface IAggregationFactory
-{
+public interface IAggregationFactory {
 
 	/**
-	 * returns a list of <code>IAggrFunction</code> instances that current
-	 * factory produces.
+	 * returns a list of <code>IAggrFunction</code> instances that current factory
+	 * produces.
 	 * 
 	 * @return list of aggregate functions
 	 */
-	public List<IAggrFunction> getAggregations( );
+	public List<IAggrFunction> getAggregations();
 
 	/**
 	 * get an IAggrFunction instance whos's name is <code>name</code>.
@@ -34,6 +33,6 @@ public interface IAggregationFactory
 	 * @param name
 	 * @return aggregate function
 	 */
-	public IAggrFunction getAggregation( String name );
+	public IAggrFunction getAggregation(String name);
 
 }

@@ -11,15 +11,12 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-
 /**
  * List Band.
  * 
  */
-public class ListBandDesign extends BandDesign
-{
-	public Object accept( IReportItemVisitor visitor, Object value )
-	{
+public class ListBandDesign extends BandDesign {
+	public Object accept(IReportItemVisitor visitor, Object value) {
 		return visitor.visitListBand(this, value);
 	}
 }

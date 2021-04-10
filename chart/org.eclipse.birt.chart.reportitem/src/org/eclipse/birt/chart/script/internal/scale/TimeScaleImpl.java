@@ -24,66 +24,50 @@ import org.eclipse.birt.chart.script.api.scale.ITimeScale;
  * 
  */
 
-public class TimeScaleImpl extends ScaleImpl implements ITimeScale
-{
+public class TimeScaleImpl extends ScaleImpl implements ITimeScale {
 
-	protected TimeScaleImpl( Axis axis )
-	{
-		super( axis );
+	protected TimeScaleImpl(Axis axis) {
+		super(axis);
 	}
 
-	public Date getMax( )
-	{
-		DataElement data = scale.getMax( );
-		if ( data instanceof DateTimeDataElement )
-		{
-			return ( (DateTimeDataElement) data ).getValueAsCalendar( )
-					.getTime( );
+	public Date getMax() {
+		DataElement data = scale.getMax();
+		if (data instanceof DateTimeDataElement) {
+			return ((DateTimeDataElement) data).getValueAsCalendar().getTime();
 		}
 		return null;
 	}
 
-	public Date getMin( )
-	{
-		DataElement data = scale.getMin( );
-		if ( data instanceof DateTimeDataElement )
-		{
-			return ( (DateTimeDataElement) data ).getValueAsCalendar( )
-					.getTime( );
+	public Date getMin() {
+		DataElement data = scale.getMin();
+		if (data instanceof DateTimeDataElement) {
+			return ((DateTimeDataElement) data).getValueAsCalendar().getTime();
 		}
 		return null;
 	}
 
-	public int getStepSize( )
-	{
-		return (int) scale.getStep( );
+	public int getStepSize() {
+		return (int) scale.getStep();
 	}
 
-	public String getStepTimeUnit( )
-	{
-		return scale.getUnit( ).getName( );
+	public String getStepTimeUnit() {
+		return scale.getUnit().getName();
 	}
 
-	public void setMax( Date max )
-	{
-		scale.setMax( max != null
-				? DateTimeDataElementImpl.create( max.getTime( ) ) : null );
+	public void setMax(Date max) {
+		scale.setMax(max != null ? DateTimeDataElementImpl.create(max.getTime()) : null);
 	}
 
-	public void setMin( Date min )
-	{
-		scale.setMin( min != null
-				? DateTimeDataElementImpl.create( min.getTime( ) ) : null );
+	public void setMin(Date min) {
+		scale.setMin(min != null ? DateTimeDataElementImpl.create(min.getTime()) : null);
 	}
 
-	public void setStepSize( int size )
-	{
-		scale.setStep( size );
+	public void setStepSize(int size) {
+		scale.setStep(size);
 	}
 
-	public void setStepTimeUnit( String unit )
-	{
-		scale.setUnit( ScaleUnitType.getByName( unit ) );
+	public void setStepTimeUnit(String unit) {
+		scale.setUnit(ScaleUnitType.getByName(unit));
 	}
 
 }

@@ -15,13 +15,11 @@ import java.io.IOException;
 
 import org.eclipse.birt.report.engine.api.InstanceID;
 
+public interface IReportletDocument extends IInternalReportDocument {
 
-public interface IReportletDocument extends IInternalReportDocument
-{
+	boolean isReporltetDocument() throws IOException;
 
-	boolean isReporltetDocument( ) throws IOException;
+	String getReportletBookmark() throws IOException;
 
-	String getReportletBookmark( ) throws IOException;
-
-	InstanceID getReportletInstanceID( ) throws IOException;
+	InstanceID getReportletInstanceID() throws IOException;
 }

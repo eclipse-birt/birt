@@ -9,26 +9,28 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.report.designer.ui.extensions;
+
 /**
- * Holds a property value with helper functions to 
- * extract Unit and Measure values
+ * Holds a property value with helper functions to extract Unit and Measure
+ * values
  */
-public interface IPropertyValue
-{
-    /**
-     * @return the value of the property
-     */
-    public String getStringValue( );
-    
-    /**
-     * This applies to properties with Units
-     * @return the unit of the Property value if any
-     */
-    public String getUnit( );
-    
-    /**
-     * This applies to properties with Units
-     * @return the measure value (without the Unit)
-     */
-    public String getMeasureValue( );
+public interface IPropertyValue {
+	/**
+	 * @return the value of the property
+	 */
+	public String getStringValue();
+
+	/**
+	 * This applies to properties with Units
+	 * 
+	 * @return the unit of the Property value if any
+	 */
+	public String getUnit();
+
+	/**
+	 * This applies to properties with Units
+	 * 
+	 * @return the measure value (without the Unit)
+	 */
+	public String getMeasureValue();
 }

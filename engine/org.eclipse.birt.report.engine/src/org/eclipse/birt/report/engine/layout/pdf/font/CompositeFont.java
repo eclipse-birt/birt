@@ -30,16 +30,14 @@ import com.lowagie.text.pdf.BaseFont;
  * each font's charExits() to see if it can display a character. It always has
  * more better performance.
  */
-public class CompositeFont
-{
+public class CompositeFont {
 
 	CompositeFontConfig config;
 
 	CompositeFont parent;
 
 	/**
-	 * the internal fonts used by this composite font, the order is the prefer
-	 * order
+	 * the internal fonts used by this composite font, the order is the prefer order
 	 */
 	String[] usedFonts;
 
@@ -54,8 +52,7 @@ public class CompositeFont
 	 */
 	CharSegment[][] fontsIndex;
 	/**
-	 * base fonts used to test if the char exits, in the same order with
-	 * usedFonts
+	 * base fonts used to test if the char exits, in the same order with usedFonts
 	 */
 	BaseFont[] baseFonts;
 
@@ -65,129 +62,96 @@ public class CompositeFont
 	 */
 	CharSegment[] fullIndex;
 
-	public CompositeFont( FontMappingManager manager,
-			CompositeFontConfig config, String[] sequence )
-	{
-		FontMappingManager parentManager = manager.getParent( );
-		if ( parentManager != null )
-		{
-			this.parent = parentManager.getCompositeFont( config.fontName );
+	public CompositeFont(FontMappingManager manager, CompositeFontConfig config, String[] sequence) {
+		FontMappingManager parentManager = manager.getParent();
+		if (parentManager != null) {
+			this.parent = parentManager.getCompositeFont(config.fontName);
 		}
 		this.config = config;
-		this.specialCharacters = config.getSpecialCharacters( );
+		this.specialCharacters = config.getSpecialCharacters();
 		// create the fonts follows the sequence
-		LinkedHashSet fonts = new LinkedHashSet( );
-		if ( sequence != null )
-		{
-			for ( int i = 0; i < sequence.length; i++ )
-			{
-				Collection catalogFonts = config.getFontByCatalog( sequence[i] );
-				if ( catalogFonts != null )
-				{
-					fonts.addAll( catalogFonts );
+		LinkedHashSet fonts = new LinkedHashSet();
+		if (sequence != null) {
+			for (int i = 0; i < sequence.length; i++) {
+				Collection catalogFonts = config.getFontByCatalog(sequence[i]);
+				if (catalogFonts != null) {
+					fonts.addAll(catalogFonts);
 				}
 			}
 		}
-		fonts.addAll( config.getAllFonts( ) );
-		usedFonts = (String[]) fonts.toArray( new String[]{} );
+		fonts.addAll(config.getAllFonts());
+		usedFonts = (String[]) fonts.toArray(new String[] {});
 
 		fullIndexed = true;
 		fontsIndex = new CharSegment[usedFonts.length][];
-		for ( int i = 0; i < usedFonts.length; i++ )
-		{
-			fontsIndex[i] = config.getCharSegment( usedFonts[i] );
-			if ( fontsIndex[i] == null )
-			{
+		for (int i = 0; i < usedFonts.length; i++) {
+			fontsIndex[i] = config.getCharSegment(usedFonts[i]);
+			if (fontsIndex[i] == null) {
 				fullIndexed = false;
 			}
 		}
-		if ( fullIndexed )
-		{
-			fullIndex = CharSegment.merge( fontsIndex );
-		}
-		else
-		{
+		if (fullIndexed) {
+			fullIndex = CharSegment.merge(fontsIndex);
+		} else {
 			baseFonts = new BaseFont[usedFonts.length];
-			for ( int i = 0; i < baseFonts.length; i++ )
-			{
-				baseFonts[i] = manager.createFont( usedFonts[i], Font.NORMAL );
+			for (int i = 0; i < baseFonts.length; i++) {
+				baseFonts[i] = manager.createFont(usedFonts[i], Font.NORMAL);
 			}
 		}
 	}
 
-	public String getFontName( )
-	{
+	public String getFontName() {
 		return config.fontName;
 	}
 
-	public String getDefaultFont( )
-	{
-		if ( config.defaultFont != null )
-		{
+	public String getDefaultFont() {
+		if (config.defaultFont != null) {
 			return config.defaultFont;
 		}
-		if ( parent != null )
-		{
-			return parent.getDefaultFont( );
+		if (parent != null) {
+			return parent.getDefaultFont();
 		}
 		return null;
 	}
 
-	public String getUsedFont( char ch )
-	{
-		String usedFont = findUsedFont( ch );
-		if ( usedFont != null )
-		{
+	public String getUsedFont(char ch) {
+		String usedFont = findUsedFont(ch);
+		if (usedFont != null) {
 			return usedFont;
 		}
-		return getDefaultFont( );
+		return getDefaultFont();
 	}
-	
-	protected String findUsedFont( char ch )
-	{
-		if ( specialCharacters != null )
-		{
-			int index = CharSegment.search( specialCharacters, ch );
-			if ( index != -1 )
-			{
+
+	protected String findUsedFont(char ch) {
+		if (specialCharacters != null) {
+			int index = CharSegment.search(specialCharacters, ch);
+			if (index != -1) {
 				return specialCharacters[index].name;
 			}
 		}
-		if ( fullIndexed )
-		{
-			int index = CharSegment.search( fullIndex, ch );
-			if ( index != -1 )
-			{
+		if (fullIndexed) {
+			int index = CharSegment.search(fullIndex, ch);
+			if (index != -1) {
 				return fullIndex[index].name;
 			}
-		}
-		else
-		{
+		} else {
 			// search one by one
-			for ( int i = 0; i < usedFonts.length; i++ )
-			{
-				if ( fontsIndex[i] != null )
-				{
-					if ( CharSegment.search( fontsIndex[i], ch ) != -1 )
-					{
+			for (int i = 0; i < usedFonts.length; i++) {
+				if (fontsIndex[i] != null) {
+					if (CharSegment.search(fontsIndex[i], ch) != -1) {
 						return usedFonts[i];
 					}
-				}
-				else
-				{
-					if ( baseFonts[i] != null )
-					{
-						if ( baseFonts[i].charExists( ch ) )
-						{
+				} else {
+					if (baseFonts[i] != null) {
+						if (baseFonts[i].charExists(ch)) {
 							return usedFonts[i];
 						}
 					}
 				}
 			}
 		}
-		if ( parent != null )
-		{
-			return parent.getUsedFont( ch );
+		if (parent != null) {
+			return parent.getUsedFont(ch);
 		}
 		return null;
 	}

@@ -11,52 +11,42 @@
 
 package org.eclipse.birt.core.btree;
 
-class BTreeValue<V>
-{
+class BTreeValue<V> {
 
 	private byte[] bytes;
 	private V value;
 
-	BTreeValue( )
-	{
+	BTreeValue() {
 	}
 
-	BTreeValue( byte[] bytes )
-	{
-		this( null, bytes );
+	BTreeValue(byte[] bytes) {
+		this(null, bytes);
 	}
 
-	BTreeValue( V value, byte[] bytes )
-	{
+	BTreeValue(V value, byte[] bytes) {
 		this.bytes = bytes;
 		this.value = value;
 	}
 
-	public byte[] getBytes( )
-	{
+	public byte[] getBytes() {
 		return bytes;
 	}
 
-	public void setBytes( byte[] bytes )
-	{
+	public void setBytes(byte[] bytes) {
 		this.bytes = bytes;
 	}
 
-	public V getValue( )
-	{
+	public V getValue() {
 		return value;
 	}
 
-	public void setValue( V value )
-	{
+	public void setValue(V value) {
 		this.value = value;
 	}
 
-	public String toString( )
-	{
-		if ( value != null )
-		{
-			return value.toString( );
+	public String toString() {
+		if (value != null) {
+			return value.toString();
 		}
 		return null;
 	}

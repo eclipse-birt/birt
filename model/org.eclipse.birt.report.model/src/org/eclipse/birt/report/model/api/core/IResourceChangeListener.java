@@ -27,18 +27,15 @@ import org.eclipse.birt.report.model.api.command.ResourceChangeEvent;
  * 
  */
 
-public interface IResourceChangeListener
-{
+public interface IResourceChangeListener {
 
 	/**
 	 * Notifies this listener that some resource changes happened. The supplied
 	 * event gives details.
 	 * 
-	 * @param module
-	 *            the module
+	 * @param module the module
 	 * 
-	 * @param event
-	 *            the resource change event
+	 * @param event  the resource change event
 	 */
-	public void resourceChanged( ModuleHandle module, ResourceChangeEvent event );
+	public void resourceChanged(ModuleHandle module, ResourceChangeEvent event);
 }

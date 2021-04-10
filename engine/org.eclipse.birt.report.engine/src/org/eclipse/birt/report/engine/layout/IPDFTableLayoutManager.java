@@ -16,48 +16,41 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 
-public interface IPDFTableLayoutManager
-{
+public interface IPDFTableLayoutManager {
 
-	void startRow( IRowContent content );
+	void startRow(IRowContent content);
 
-	void updateRow( RowArea area, int specifiedHeight );
+	void updateRow(RowArea area, int specifiedHeight);
 
-	int getXPos( int columnID );
+	int getXPos(int columnID);
 
-	void startCell( ICellContent cellContent );
+	void startCell(ICellContent cellContent);
 
-	int getCellWidth( int startColumn, int endColumn );
+	int getCellWidth(int startColumn, int endColumn);
 
-	void resolveBorderConflict( CellArea area );
-	
-	TableLayoutInfo getLayoutInfo( );
-	
+	void resolveBorderConflict(CellArea area);
 
-	public class TableLayoutInfo
-	{
+	TableLayoutInfo getLayoutInfo();
 
-		public TableLayoutInfo( int[] colWidth )
-		{
+	public class TableLayoutInfo {
+
+		public TableLayoutInfo(int[] colWidth) {
 			this.colWidth = colWidth;
 			this.columnNumber = colWidth.length;
 			this.xPositions = new int[columnNumber];
 			this.tableWidth = 0;
-			for ( int i = 0; i < columnNumber; i++ )
-			{
+			for (int i = 0; i < columnNumber; i++) {
 				xPositions[i] = tableWidth;
 				tableWidth += colWidth[i];
 			}
 
 		}
 
-		public int getTableWidth( )
-		{
+		public int getTableWidth() {
 			return this.tableWidth;
 		}
 
-		public int getXPosition( int index )
-		{
+		public int getXPosition(int index) {
 			return xPositions[index];
 		}
 
@@ -68,13 +61,11 @@ public interface IPDFTableLayoutManager
 		 * @param endColumn
 		 * @return
 		 */
-		public int getCellWidth( int startColumn, int endColumn )
-		{
-			assert ( startColumn < endColumn );
-			assert ( colWidth != null );
+		public int getCellWidth(int startColumn, int endColumn) {
+			assert (startColumn < endColumn);
+			assert (colWidth != null);
 			int sum = 0;
-			for ( int i = startColumn; i < endColumn; i++ )
-			{
+			for (int i = startColumn; i < endColumn; i++) {
 				sum += colWidth[i];
 			}
 			return sum;

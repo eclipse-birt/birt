@@ -23,90 +23,72 @@ import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
  * Implements of Hide Rule.
  */
 
-public class HideRuleImpl implements IHideRule
-{
+public class HideRuleImpl implements IHideRule {
 
-    private org.eclipse.birt.report.model.api.simpleapi.IHideRule hideRuleImpl;
+	private org.eclipse.birt.report.model.api.simpleapi.IHideRule hideRuleImpl;
 
-    /**
-     * Constructor
-     * 
-     * @param ruleHandle
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param ruleHandle
+	 */
 
-    public HideRuleImpl()
-    {
-        hideRuleImpl = SimpleElementFactory.getInstance().createHideRule();
-    }
+	public HideRuleImpl() {
+		hideRuleImpl = SimpleElementFactory.getInstance().createHideRule();
+	}
 
-    /**
-     * Constructor
-     * 
-     * @param ruleHandle
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param ruleHandle
+	 */
 
-    public HideRuleImpl( HideRuleHandle ruleHandle )
-    {
-        hideRuleImpl = SimpleElementFactory.getInstance().createHideRule(
-                ruleHandle );
-    }
+	public HideRuleImpl(HideRuleHandle ruleHandle) {
+		hideRuleImpl = SimpleElementFactory.getInstance().createHideRule(ruleHandle);
+	}
 
-    /**
-     * Constructor
-     * 
-     * @param rule
-     */
-    public HideRuleImpl( HideRule rule )
-    {
-        hideRuleImpl = SimpleElementFactory.getInstance().createHideRule( rule );
-    }
+	/**
+	 * Constructor
+	 * 
+	 * @param rule
+	 */
+	public HideRuleImpl(HideRule rule) {
+		hideRuleImpl = SimpleElementFactory.getInstance().createHideRule(rule);
+	}
 
-    public HideRuleImpl(
-            org.eclipse.birt.report.model.api.simpleapi.IHideRule hideRule )
-    {
-        hideRuleImpl = hideRule;
-    }
+	public HideRuleImpl(org.eclipse.birt.report.model.api.simpleapi.IHideRule hideRule) {
+		hideRuleImpl = hideRule;
+	}
 
-    public String getFormat()
-    {
-        return hideRuleImpl.getFormat();
-    }
+	public String getFormat() {
+		return hideRuleImpl.getFormat();
+	}
 
-    public String getValueExpr()
-    {
-        return hideRuleImpl.getValueExpr();
-    }
+	public String getValueExpr() {
+		return hideRuleImpl.getValueExpr();
+	}
 
-    public void setFormat( String format )  throws ScriptException
-    {
-    	try
-		{    		
-            hideRuleImpl.setFormat( format );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );				
+	public void setFormat(String format) throws ScriptException {
+		try {
+			hideRuleImpl.setFormat(format);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
-    }
+	}
 
-    public void setValueExpr( String valueExpr ) throws ScriptException
-    {
-    	try
-		{    		
-    		
-            hideRuleImpl.setValueExpr( valueExpr );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );				
+	public void setValueExpr(String valueExpr) throws ScriptException {
+		try {
+
+			hideRuleImpl.setValueExpr(valueExpr);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
-    }
+	}
 
-    public IStructure getStructure()
-    {
-        return hideRuleImpl.getStructure();
-    }
+	public IStructure getStructure() {
+		return hideRuleImpl.getStructure();
+	}
 
 }

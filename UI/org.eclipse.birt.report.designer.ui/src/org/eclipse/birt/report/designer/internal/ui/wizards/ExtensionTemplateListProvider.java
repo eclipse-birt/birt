@@ -36,227 +36,176 @@ import org.eclipse.swt.widgets.Display;
 /**
  * ExtensionTemplateListProvider
  */
-public class ExtensionTemplateListProvider implements
-		ILabelProvider,
-		ITreeContentProvider,
-		ITemplateAdaptable
-{
+public class ExtensionTemplateListProvider implements ILabelProvider, ITreeContentProvider, ITemplateAdaptable {
 
 	private List<ITemplateProvider> providers;
-	private List<TemplateNode> list = new ArrayList<TemplateNode>( );
-	private Map<String, TemplateNode> map = new HashMap<String, TemplateNode>( );
+	private List<TemplateNode> list = new ArrayList<TemplateNode>();
+	private Map<String, TemplateNode> map = new HashMap<String, TemplateNode>();
 
 	private volatile TemplateUICallback uiCallback;
 
-	private Callback providerCallback = new Callback( ) {
+	private Callback providerCallback = new Callback() {
 
-		public void contentChanged( IDynamicTemplateProvider who )
-		{
-			if ( uiCallback != null )
-			{
-				synchronized ( uiCallback )
-				{
-					Display disp = Display.getCurrent( );
-					if ( disp == null )
-					{
-						disp = Display.getDefault( );
+		public void contentChanged(IDynamicTemplateProvider who) {
+			if (uiCallback != null) {
+				synchronized (uiCallback) {
+					Display disp = Display.getCurrent();
+					if (disp == null) {
+						disp = Display.getDefault();
 					}
 
-					disp.syncExec( new Runnable( ) {
+					disp.syncExec(new Runnable() {
 
-						public void run( )
-						{
-							list.clear( );
-							map.clear( );
+						public void run() {
+							list.clear();
+							map.clear();
 
-							buildList( );
+							buildList();
 
-							uiCallback.contentChanged( );
+							uiCallback.contentChanged();
 						}
-					} );
+					});
 				}
 			}
 		}
 	};
 
-	public ExtensionTemplateListProvider( TemplateUICallback uiCallback )
-	{
+	public ExtensionTemplateListProvider(TemplateUICallback uiCallback) {
 		this.uiCallback = uiCallback;
 
-		providers = new ArrayList<ITemplateProvider>( );
+		providers = new ArrayList<ITemplateProvider>();
 
-		Object[] objs = getTemplateProviders( );
+		Object[] objs = getTemplateProviders();
 
-		if ( objs != null )
-		{
-			for ( int i = 0; i < objs.length; i++ )
-			{
-				if ( objs[i] instanceof ITemplateProvider )
-				{
-					providers.add( (ITemplateProvider) objs[i] );
+		if (objs != null) {
+			for (int i = 0; i < objs.length; i++) {
+				if (objs[i] instanceof ITemplateProvider) {
+					providers.add((ITemplateProvider) objs[i]);
 				}
 			}
 		}
 
-		buildList( );
+		buildList();
 	}
 
-	private void buildList( )
-	{
-		for ( int i = 0; i < providers.size( ); i++ )
-		{
-			build( providers.get( i ) );
+	private void buildList() {
+		for (int i = 0; i < providers.size(); i++) {
+			build(providers.get(i));
 		}
 
-		unionOneOrder( list );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			unionSameOrder( list.get( i ) );
+		unionOneOrder(list);
+		for (int i = 0; i < list.size(); i++) {
+			unionSameOrder(list.get(i));
 		}
 	}
 
-	private void build( ITemplateProvider provider )
-	{
-		if ( provider instanceof IDynamicTemplateProvider )
-		{
-			( (IDynamicTemplateProvider) provider ).init( providerCallback );
+	private void build(ITemplateProvider provider) {
+		if (provider instanceof IDynamicTemplateProvider) {
+			((IDynamicTemplateProvider) provider).init(providerCallback);
 		}
 
-		ITemplateEntry[] entrys = provider.getTemplates( );
+		ITemplateEntry[] entrys = provider.getTemplates();
 
-		if ( entrys == null )
-		{
+		if (entrys == null) {
 			return;
 		}
 
-		String id = provider.getParentBaseName( );
-		TemplateNode other = map.get( id );
+		String id = provider.getParentBaseName();
+		TemplateNode other = map.get(id);
 
-		for ( int i = 0; i < entrys.length; i++ )
-		{
+		for (int i = 0; i < entrys.length; i++) {
 			ITemplateEntry entry = entrys[i];
 
 			TemplateNode first;
-			try
-			{
-				first = addNodes( null, entry );
-			}
-			catch ( InvalidIDException e )
-			{
+			try {
+				first = addNodes(null, entry);
+			} catch (InvalidIDException e) {
 				continue;
 			}
 
-			if ( other != null )
-			{
-				union( other, first );
-			}
-			else
-			{
-				list.add( first );
+			if (other != null) {
+				union(other, first);
+			} else {
+				list.add(first);
 			}
 		}
 
 	}
 
-	private TemplateNode addNodes( TemplateNode parent, ITemplateEntry entry )
-			throws InvalidIDException
-	{
-		TemplateNode current = new TemplateNode( parent,
-				entry.getName( ),
-				entry.getImage( ) );
-		if ( entry instanceof ITemplateFile )
-		{
-			current.setHandle( ( (ITemplateFile) entry ).getReportHandle( ) );
-		}
-		else if ( entry instanceof ITemplateFolder )
+	private TemplateNode addNodes(TemplateNode parent, ITemplateEntry entry) throws InvalidIDException {
+		TemplateNode current = new TemplateNode(parent, entry.getName(), entry.getImage());
+		if (entry instanceof ITemplateFile) {
+			current.setHandle(((ITemplateFile) entry).getReportHandle());
+		} else if (entry instanceof ITemplateFolder)
 
 		{
 			ITemplateFolder folder = (ITemplateFolder) entry;
-			String folderName = folder.getBaseName( );
-			if ( folderName == null )
-			{
-				throw new InvalidIDException( "Invalid ID" ); //$NON-NLS-1$
+			String folderName = folder.getBaseName();
+			if (folderName == null) {
+				throw new InvalidIDException("Invalid ID"); //$NON-NLS-1$
 			}
 			boolean isExist = false;
-			current.setBaseName( folderName );
-			TemplateNode node = map.get( folderName );
-			if ( node != null )
-			{
+			current.setBaseName(folderName);
+			TemplateNode node = map.get(folderName);
+			if (node != null) {
 				isExist = true;
 				// throw new InvaliIDException( "Invalid ID" );
 			}
-			if ( !isExist )
-			{
-				map.put( folderName, current );
+			if (!isExist) {
+				map.put(folderName, current);
 			}
 
-			ITemplateEntry[] children = folder.getChildren( );
+			ITemplateEntry[] children = folder.getChildren();
 
-			if ( children != null )
-			{
-				for ( int i = 0; i < children.length; i++ )
-				{
-					try
-					{
-						addNodes( current, children[i] );
-					}
-					catch ( InvalidIDException e )
-					{
+			if (children != null) {
+				for (int i = 0; i < children.length; i++) {
+					try {
+						addNodes(current, children[i]);
+					} catch (InvalidIDException e) {
 						throw e;
 					}
 				}
 			}
-		}
-		else
-		{
+		} else {
 			// do nothing now
 			// throw new RuntimeException("Don't support this type");
 		}
 		return current;
 	}
 
-	private void unionSameOrder( TemplateNode root )
-	{
-		List<TemplateNode> list = root.getChildren( );
+	private void unionSameOrder(TemplateNode root) {
+		List<TemplateNode> list = root.getChildren();
 
-		unionOneOrder( list );
+		unionOneOrder(list);
 
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			TemplateNode node = list.get( i );
-			unionSameOrder( node );
+		for (int i = 0; i < list.size(); i++) {
+			TemplateNode node = list.get(i);
+			unionSameOrder(node);
 		}
 	}
 
-	private void unionOneOrder( List<TemplateNode> list )
-	{
-		List<TemplateNode> temp = new ArrayList<TemplateNode>( list );
-		Map<String, TemplateNode> names = new HashMap<String, TemplateNode>( );
-		for ( int i = 0; i < temp.size( ); i++ )
-		{
-			TemplateNode node = temp.get( i );
-			if ( names.keySet( ).contains( node.getBaseName( ) ) )
-			{
-				TemplateNode parent = map.get( node.getBaseName( ) );
-				List<TemplateNode> children = node.getChildren( );
-				for ( int j = 0; j < children.size( ); j++ )
-				{
-					TemplateNode child = children.get( j );
-					child.setParent( parent );
-					list.remove( node );
+	private void unionOneOrder(List<TemplateNode> list) {
+		List<TemplateNode> temp = new ArrayList<TemplateNode>(list);
+		Map<String, TemplateNode> names = new HashMap<String, TemplateNode>();
+		for (int i = 0; i < temp.size(); i++) {
+			TemplateNode node = temp.get(i);
+			if (names.keySet().contains(node.getBaseName())) {
+				TemplateNode parent = map.get(node.getBaseName());
+				List<TemplateNode> children = node.getChildren();
+				for (int j = 0; j < children.size(); j++) {
+					TemplateNode child = children.get(j);
+					child.setParent(parent);
+					list.remove(node);
 				}
-			}
-			else if ( node.getBaseName( ) != null )
-			{
-				names.put( node.getBaseName( ), node );
+			} else if (node.getBaseName() != null) {
+				names.put(node.getBaseName(), node);
 			}
 		}
 	}
 
-	private void union( TemplateNode owner, TemplateNode folder )
-	{
+	private void union(TemplateNode owner, TemplateNode folder) {
 		// List<TemplateNode> list = folder.getChildren( );
-		folder.setParent( owner );
+		folder.setParent(owner);
 	}
 
 	/*
@@ -264,11 +213,9 @@ public class ExtensionTemplateListProvider implements
 	 * 
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 	 */
-	public Image getImage( Object element )
-	{
-		if ( element instanceof TemplateNode )
-		{
-			return ( (TemplateNode) element ).getImage( );
+	public Image getImage(Object element) {
+		if (element instanceof TemplateNode) {
+			return ((TemplateNode) element).getImage();
 		}
 
 		return null;
@@ -279,15 +226,12 @@ public class ExtensionTemplateListProvider implements
 	 * 
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 	 */
-	public String getText( Object element )
-	{
-		if ( element instanceof TemplateNode )
-		{
-			String str = ( (TemplateNode) element ).getName( );
-			if ( str == null )
-			{
-				ReportDesignHandle handle = ( (TemplateNode) element ).getHandle( );
-				str = handle.getDisplayName( );
+	public String getText(Object element) {
+		if (element instanceof TemplateNode) {
+			String str = ((TemplateNode) element).getName();
+			if (str == null) {
+				ReportDesignHandle handle = ((TemplateNode) element).getHandle();
+				str = handle.getDisplayName();
 			}
 			str = Messages.getString(str);
 			return str;
@@ -298,48 +242,40 @@ public class ExtensionTemplateListProvider implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
 	 * jface.viewers.ILabelProviderListener)
 	 */
-	public void addListener( ILabelProviderListener listener )
-	{
+	public void addListener(ILabelProviderListener listener) {
 		// do nothing
 	}
 
-	public void dispose( )
-	{
+	public void dispose() {
 		uiCallback = null;
 
-		for ( int i = 0; i < providers.size( ); i++ )
-		{
-			providers.get( i ).release( );
+		for (int i = 0; i < providers.size(); i++) {
+			providers.get(i).release();
 		}
 
-		providers.clear( );
+		providers.clear();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang
 	 * .Object, java.lang.String)
 	 */
-	public boolean isLabelProperty( Object element, String property )
-	{
+	public boolean isLabelProperty(Object element, String property) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 	 * .jface.viewers.ILabelProviderListener)
 	 */
-	public void removeListener( ILabelProviderListener listener )
-	{
+	public void removeListener(ILabelProviderListener listener) {
 		// do nothing
 
 	}
@@ -347,15 +283,12 @@ public class ExtensionTemplateListProvider implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
 	 * Object)
 	 */
-	public Object[] getChildren( Object parentElement )
-	{
-		if ( parentElement instanceof TemplateNode )
-		{
-			return ( (TemplateNode) parentElement ).getChildren( ).toArray( );
+	public Object[] getChildren(Object parentElement) {
+		if (parentElement instanceof TemplateNode) {
+			return ((TemplateNode) parentElement).getChildren().toArray();
 		}
 		return new Object[0];
 	}
@@ -364,14 +297,11 @@ public class ExtensionTemplateListProvider implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
-	 * )
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object )
 	 */
-	public Object getParent( Object element )
-	{
-		if ( element instanceof TemplateNode )
-		{
-			return ( (TemplateNode) element ).getParent( );
+	public Object getParent(Object element) {
+		if (element instanceof TemplateNode) {
+			return ((TemplateNode) element).getParent();
 		}
 		return null;
 	}
@@ -379,25 +309,21 @@ public class ExtensionTemplateListProvider implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
 	 * Object)
 	 */
-	public boolean hasChildren( Object element )
-	{
-		return getChildren( element ).length > 0;
+	public boolean hasChildren(Object element) {
+		return getChildren(element).length > 0;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
+	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
 	 * .lang.Object)
 	 */
-	public Object[] getElements( Object inputElement )
-	{
-		return getChildren( inputElement );
+	public Object[] getElements(Object inputElement) {
+		return getChildren(inputElement);
 	}
 
 	/*
@@ -407,8 +333,7 @@ public class ExtensionTemplateListProvider implements
 	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
 	 * .viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
-	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
-	{
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// do nothing
 
 	}
@@ -417,11 +342,9 @@ public class ExtensionTemplateListProvider implements
 	 * @param element
 	 * @return
 	 */
-	public ReportDesignHandle getReportDesignHandle( Object element )
-	{
-		if ( element instanceof TemplateNode )
-		{
-			return ( (TemplateNode) element ).getHandle( );
+	public ReportDesignHandle getReportDesignHandle(Object element) {
+		if (element instanceof TemplateNode) {
+			return ((TemplateNode) element).getHandle();
 		}
 
 		return null;
@@ -430,126 +353,102 @@ public class ExtensionTemplateListProvider implements
 	/**
 	 * @return
 	 */
-	public Object[] getRootElements( )
-	{
-		return list.toArray( );
+	public Object[] getRootElements() {
+		return list.toArray();
 	}
 
-	private static class TemplateNode
-	{
+	private static class TemplateNode {
 
 		private TemplateNode parent;
-		private List<TemplateNode> children = new ArrayList<TemplateNode>( );
+		private List<TemplateNode> children = new ArrayList<TemplateNode>();
 		private String name;
 		private String baseName;
 		private ReportDesignHandle handle;
 		private Image image;
 
-		TemplateNode( TemplateNode parent, String name, Image image )
-		{
-			super( );
-			if ( parent != null && !parent.isLeaf( ) )
-			{
-				throw new RuntimeException( "Add a node to the a no leaf node" ); //$NON-NLS-1$
+		TemplateNode(TemplateNode parent, String name, Image image) {
+			super();
+			if (parent != null && !parent.isLeaf()) {
+				throw new RuntimeException("Add a node to the a no leaf node"); //$NON-NLS-1$
 			}
 			this.parent = parent;
-			if ( parent != null )
-			{
-				parent.addChild( this );
+			if (parent != null) {
+				parent.addChild(this);
 			}
 			this.name = name;
 			this.image = image;
 		}
 
-		public TemplateNode getParent( )
-		{
+		public TemplateNode getParent() {
 			return parent;
 		}
 
-		public String getName( )
-		{
+		public String getName() {
 			return name;
 		}
 
-		public String getBaseName( )
-		{
+		public String getBaseName() {
 			return baseName;
 		}
 
-		public void setBaseName( String baseName )
-		{
+		public void setBaseName(String baseName) {
 			this.baseName = baseName;
 		}
 
-		public ReportDesignHandle getHandle( )
-		{
+		public ReportDesignHandle getHandle() {
 			return handle;
 		}
 
-		public void setHandle( ReportDesignHandle handle )
-		{
+		public void setHandle(ReportDesignHandle handle) {
 			this.handle = handle;
 		}
 
-		public Image getImage( )
-		{
+		public Image getImage() {
 			return image;
 		}
 
-		public boolean isRoot( )
-		{
+		public boolean isRoot() {
 			return parent == null;
 		}
 
-		void addChild( TemplateNode node )
-		{
-			children.add( node );
+		void addChild(TemplateNode node) {
+			children.add(node);
 		}
 
-		void removeChild( TemplateNode node )
-		{
-			children.remove( node );
+		void removeChild(TemplateNode node) {
+			children.remove(node);
 		}
 
-		public boolean isLeaf( )
-		{
+		public boolean isLeaf() {
 			return handle == null && baseName != null;
 		}
 
-		public List<TemplateNode> getChildren( )
-		{
+		public List<TemplateNode> getChildren() {
 			return children;
 		}
 
-		public void setParent( TemplateNode parent )
-		{
+		public void setParent(TemplateNode parent) {
 			this.parent = parent;
-			if ( parent != null )
-			{
-				parent.addChild( this );
+			if (parent != null) {
+				parent.addChild(this);
 			}
 		}
 	}
 
-	private Object[] getTemplateProviders( )
-	{
-		Object[] retValue = ElementAdapterManager.getAdapters( this,
-				ITemplateProvider.class );
-		if ( retValue == null )
-		{
+	private Object[] getTemplateProviders() {
+		Object[] retValue = ElementAdapterManager.getAdapters(this, ITemplateProvider.class);
+		if (retValue == null) {
 			retValue = new ITemplateProvider[0];
 		}
 		return retValue;
 	}
 
-	private static class InvalidIDException extends Exception
-	{
+	private static class InvalidIDException extends Exception {
 
 		private static final long serialVersionUID = 1L;
 
-		InvalidIDException( String message )
-		{
-			super( message );
+		InvalidIDException(String message) {
+			super(message);
 		}
 	}
 
@@ -558,8 +457,8 @@ public class ExtensionTemplateListProvider implements
 	// for ( int i = 0; i < list.size( ); i++ )
 	// {
 	// TemplateNode node = list.get( i );
-	//			displayDebug( node, "" ); //$NON-NLS-1$
-	//			System.out.println( "///////////////////////////" ); //$NON-NLS-1$
+	// displayDebug( node, "" ); //$NON-NLS-1$
+	// System.out.println( "///////////////////////////" ); //$NON-NLS-1$
 	// }
 	// }
 
@@ -567,13 +466,13 @@ public class ExtensionTemplateListProvider implements
 	// {
 	// if ( !node.isLeaf( ) )
 	// {
-	//			System.out.println( space + "File == " + node.getName( ) ); //$NON-NLS-1$
+	// System.out.println( space + "File == " + node.getName( ) ); //$NON-NLS-1$
 	// }
 	// else
 	// {
-	//			System.out.println( space + "Folder == " + node.getName( ) ); //$NON-NLS-1$
+	// System.out.println( space + "Folder == " + node.getName( ) ); //$NON-NLS-1$
 	// List<TemplateNode> children = node.getChildren( );
-	//			space = space + "    "; //$NON-NLS-1$
+	// space = space + " "; //$NON-NLS-1$
 	// for ( int i = 0; i < children.size( ); i++ )
 	// {
 	// displayDebug( children.get( i ), space );
@@ -584,10 +483,9 @@ public class ExtensionTemplateListProvider implements
 	/**
 	 * TemplateUICallback
 	 */
-	static interface TemplateUICallback
-	{
+	static interface TemplateUICallback {
 
-		void contentChanged( );
+		void contentChanged();
 	}
 
 }

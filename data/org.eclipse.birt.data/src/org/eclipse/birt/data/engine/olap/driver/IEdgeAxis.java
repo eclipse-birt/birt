@@ -15,17 +15,15 @@ import javax.olap.OLAPException;
 import org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 
+public interface IEdgeAxis {
 
-public interface IEdgeAxis
-{
+	public IRowDataAccessor getRowDataAccessor();
 
-	public IRowDataAccessor getRowDataAccessor( );
+	public DimensionAxis getDimensionAxis(int index);
 
-	public DimensionAxis getDimensionAxis( int index );
+	public DimensionAxis[] getAllDimensionAxis();
 
-	public DimensionAxis[] getAllDimensionAxis( );
+	public IAggregationResultSet getQueryResultSet();
 
-	public IAggregationResultSet getQueryResultSet( );
-	
-	public void populateEdgeInfo( boolean isPage ) throws OLAPException;
+	public void populateEdgeInfo(boolean isPage) throws OLAPException;
 }

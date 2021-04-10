@@ -17,11 +17,9 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
  * 
  */
 
-public class QueryAdapter
-{
-	public static void adaptQuery( IDataQueryDefinition query )
-	{
-		
+public class QueryAdapter {
+	public static void adaptQuery(IDataQueryDefinition query) {
+
 	}
-	
+
 }

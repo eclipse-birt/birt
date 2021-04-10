@@ -19,24 +19,18 @@ import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
 /**
  * Handle class for MeasureGroup. It holds a list of MeasureHandle.
  */
-public abstract class MeasureGroupHandle extends ReportElementHandle
-		implements
-			IMeasureGroupModel
-{
+public abstract class MeasureGroupHandle extends ReportElementHandle implements IMeasureGroupModel {
 
 	/**
-	 * Constructs a handle for the given design and design element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * Constructs a handle for the given design and design element. The application
+	 * generally does not create handles directly. Instead, it uses one of the
+	 * navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public MeasureGroupHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public MeasureGroupHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 }

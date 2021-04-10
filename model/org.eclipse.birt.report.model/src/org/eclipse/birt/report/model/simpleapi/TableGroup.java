@@ -13,12 +13,10 @@ package org.eclipse.birt.report.model.simpleapi;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.simpleapi.ITableGroup;
 
-public class TableGroup extends Group implements ITableGroup
-{
+public class TableGroup extends Group implements ITableGroup {
 
-	public TableGroup( TableGroupHandle group )
-	{
-		super( group );
+	public TableGroup(TableGroupHandle group) {
+		super(group);
 	}
 
 }

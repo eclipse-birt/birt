@@ -23,11 +23,11 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Action to including or not the details of a table.
  */
-public class IncludeDetailAction extends InsertRowAction
-{
+public class IncludeDetailAction extends InsertRowAction {
 
 	/** action text */
-	private static final String ACTION_MSG_INCLUDE_DETAIL = Messages.getString( "IncludeDetailAction.actionMsg.includeDetail" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_INCLUDE_DETAIL = Messages
+			.getString("IncludeDetailAction.actionMsg.includeDetail"); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeDetailAction"; //$NON-NLS-1$
@@ -35,15 +35,13 @@ public class IncludeDetailAction extends InsertRowAction
 	/**
 	 * Constructs a new action instance.
 	 * 
-	 * @param part
-	 *            The current work bench part
+	 * @param part The current work bench part
 	 */
-	public IncludeDetailAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
+	public IncludeDetailAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
 		// setChecked( true );
-		setText( ACTION_MSG_INCLUDE_DETAIL );
+		setText(ACTION_MSG_INCLUDE_DETAIL);
 	}
 
 	/*
@@ -51,15 +49,12 @@ public class IncludeDetailAction extends InsertRowAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		if ( getTableEditPart( ) != null && !getTableEditPart( ).isDelete( ) )
-		{
-			TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-					.getTableHandleAdapter( getTableEditPart( ).getModel( ) );
-			return adapt != null
-					&& !( (TableHandle) adapt.getHandle( ) ).isSummaryTable( )
-					&& !adapt.hasSlotHandleRow( TableHandleAdapter.DETAIL );
+	protected boolean calculateEnabled() {
+		if (getTableEditPart() != null && !getTableEditPart().isDelete()) {
+			TableHandleAdapter adapt = HandleAdapterFactory.getInstance()
+					.getTableHandleAdapter(getTableEditPart().getModel());
+			return adapt != null && !((TableHandle) adapt.getHandle()).isSummaryTable()
+					&& !adapt.hasSlotHandleRow(TableHandleAdapter.DETAIL);
 		}
 		return false;
 	}
@@ -82,15 +77,12 @@ public class IncludeDetailAction extends InsertRowAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
 	 * .InsertRowAction#getTableEditPart()
 	 */
-	protected TableEditPart getTableEditPart( )
-	{
-		TableEditPart part = super.getTableEditPart( );
-		if ( part instanceof GridEditPart )
-		{
+	protected TableEditPart getTableEditPart() {
+		TableEditPart part = super.getTableEditPart();
+		if (part instanceof GridEditPart) {
 			return null;
 		}
 		return part;
@@ -99,12 +91,10 @@ public class IncludeDetailAction extends InsertRowAction
 	/**
 	 * Runs action.
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Include table detail action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Include table detail action >> Run ..."); //$NON-NLS-1$
 		}
-		getTableEditPart( ).includeSlotHandle( true, TableHandleAdapter.DETAIL );
+		getTableEditPart().includeSlotHandle(true, TableHandleAdapter.DETAIL);
 	}
 }

@@ -15,15 +15,12 @@ import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
-public class BIRTPlugin extends Plugin
-{
+public class BIRTPlugin extends Plugin {
 
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
-		if (isDebugging())
-		{
-			Platform.intializeTracing( getBundle( ).getSymbolicName( ) );
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		if (isDebugging()) {
+			Platform.intializeTracing(getBundle().getSymbolicName());
 		}
 	}
 }

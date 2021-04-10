@@ -15,62 +15,61 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
-
 /**
  * An implementation of IJoinConditionExpression.
  */
-public class JoinCondition implements IJoinCondition
-{
+public class JoinCondition implements IJoinCondition {
 	private IScriptExpression left;
 	private IScriptExpression right;
 	private int operator;
-	
+
 	/**
 	 * Constructor.
 	 * 
 	 * @param left
 	 * @param right
 	 * @param op
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public JoinCondition( IScriptExpression left, IScriptExpression right, int op) throws DataException
-	{
-		validateJoinOperator( op );
+	public JoinCondition(IScriptExpression left, IScriptExpression right, int op) throws DataException {
+		validateJoinOperator(op);
 		this.left = left;
 		this.right = right;
 		this.operator = op;
 	}
-	
-	private void validateJoinOperator( int operator ) throws DataException
-	{
-		if( !(operator == IJoinCondition.OP_EQ))
-			throw new DataException( ResourceConstants.INVALID_JOIN_OPERATOR);
+
+	private void validateJoinOperator(int operator) throws DataException {
+		if (!(operator == IJoinCondition.OP_EQ))
+			throw new DataException(ResourceConstants.INVALID_JOIN_OPERATOR);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IJoinConditionExpression#getLeftExpression()
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.IJoinConditionExpression#getLeftExpression()
 	 */
-	public IScriptExpression getLeftExpression( )
-	{
+	public IScriptExpression getLeftExpression() {
 		return left;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IJoinConditionExpression#getRightExpression()
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.IJoinConditionExpression#getRightExpression(
+	 * )
 	 */
-	public IScriptExpression getRightExpression( )
-	{
+	public IScriptExpression getRightExpression() {
 		return right;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IJoinConditionExpression#getOperator()
 	 */
-	public int getOperator( )
-	{
+	public int getOperator() {
 		return operator;
 	}
 

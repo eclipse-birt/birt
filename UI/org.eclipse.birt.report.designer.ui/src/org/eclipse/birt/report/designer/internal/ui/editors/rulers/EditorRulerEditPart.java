@@ -32,22 +32,19 @@ import org.eclipse.gef.rulers.RulerProvider;
  * Editor ruler editPart.
  * 
  */
-public class EditorRulerEditPart extends AbstractGraphicalEditPart
-{
+public class EditorRulerEditPart extends AbstractGraphicalEditPart {
 
 	protected GraphicalViewer diagramViewer;
 	private RulerProvider rulerProvider;
 	private boolean horizontal;
-	private RulerChangeListener listener = new RulerChangeListener.Stub( ) {
+	private RulerChangeListener listener = new RulerChangeListener.Stub() {
 
-		public void notifyGuideReparented( Object guide )
-		{
-			handleGuideReparented( guide );
+		public void notifyGuideReparented(Object guide) {
+			handleGuideReparented(guide);
 		}
 
-		public void notifyUnitsChanged( int newUnit )
-		{
-			handleUnitsChanged( newUnit );
+		public void notifyUnitsChanged(int newUnit) {
+			handleUnitsChanged(newUnit);
 		}
 	};
 
@@ -56,9 +53,8 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @param model
 	 */
-	public EditorRulerEditPart( Object model )
-	{
-		setModel( model );
+	public EditorRulerEditPart(Object model) {
+		setModel(model);
 	}
 
 	/*
@@ -66,24 +62,23 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#activate()
 	 */
-	public void activate( )
-	{
-		getRulerProvider( ).addRulerChangeListener( listener );
-		getRulerFigure( ).setZoomManager( getZoomManager( ) );
-		super.activate( );
-		if ( Policy.TRACING_RULER )
-		{
-			System.out.println( "Ruler >> Activated" ); //$NON-NLS-1$
+	public void activate() {
+		getRulerProvider().addRulerChangeListener(listener);
+		getRulerFigure().setZoomManager(getZoomManager());
+		super.activate();
+		if (Policy.TRACING_RULER) {
+			System.out.println("Ruler >> Activated"); //$NON-NLS-1$
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.internal.ui.rulers.RulerEditPart#getDragTracker(org.eclipse.gef.Request)
+	 * @see
+	 * org.eclipse.gef.internal.ui.rulers.RulerEditPart#getDragTracker(org.eclipse.
+	 * gef.Request)
 	 */
-	public DragTracker getDragTracker( Request request )
-	{
+	public DragTracker getDragTracker(Request request) {
 		return null;
 	}
 
@@ -92,10 +87,8 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.SELECTION_FEEDBACK_ROLE,
-				new EditRulerSelectionPolicy( ) );
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new EditRulerSelectionPolicy());
 	}
 
 	/*
@@ -103,12 +96,10 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @see org.eclipse.gef.internal.ui.rulers.RulerEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		EditorRulerFigure ruler = new EditorRulerFigure( isHorizontal( ),
-				getRulerProvider( ).getUnit( ) );
-		if ( ruler.getUnit( ) == RulerProvider.UNIT_PIXELS )
-			ruler.setInterval( 100, 2 );
+	protected IFigure createFigure() {
+		EditorRulerFigure ruler = new EditorRulerFigure(isHorizontal(), getRulerProvider().getUnit());
+		if (ruler.getUnit() == RulerProvider.UNIT_PIXELS)
+			ruler.setInterval(100, 2);
 		return ruler;
 	}
 
@@ -117,10 +108,9 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @see org.eclipse.gef.internal.ui.rulers.RulerEditPart#handleUnitsChanged(int)
 	 */
-	public void handleUnitsChanged( int newUnit )
-	{
-		getRulerFigure( ).setUnit( newUnit );
-		( (EditorRulerFigure) getFigure( ) ).setLeftSpace( ( (EditorRulerProvider) getRulerProvider( ) ).getLeftSpace( ) );
+	public void handleUnitsChanged(int newUnit) {
+		getRulerFigure().setUnit(newUnit);
+		((EditorRulerFigure) getFigure()).setLeftSpace(((EditorRulerProvider) getRulerProvider()).getLeftSpace());
 	}
 
 	/*
@@ -128,15 +118,13 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#deactivate()
 	 */
-	public void deactivate( )
-	{
-		super.deactivate( );
-		getRulerProvider( ).removeRulerChangeListener( listener );
+	public void deactivate() {
+		super.deactivate();
+		getRulerProvider().removeRulerChangeListener(listener);
 		rulerProvider = null;
-		getRulerFigure( ).setZoomManager( null );
-		if ( Policy.TRACING_RULER )
-		{
-			System.out.println( "Ruler >> Dectivated" ); //$NON-NLS-1$
+		getRulerFigure().setZoomManager(null);
+		if (Policy.TRACING_RULER) {
+			System.out.println("Ruler >> Dectivated"); //$NON-NLS-1$
 		}
 	}
 
@@ -145,17 +133,14 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @return graphical viewer associated with the diagram.
 	 */
-	public GraphicalViewer getDiagramViewer( )
-	{
+	public GraphicalViewer getDiagramViewer() {
 		return diagramViewer;
 	}
 
-	public IFigure getGuideLayer( )
-	{
-		LayerManager lm = (LayerManager) diagramViewer.getEditPartRegistry( )
-				.get( LayerManager.ID );
-		if ( lm != null )
-			return lm.getLayer( LayerConstants.GUIDE_LAYER );
+	public IFigure getGuideLayer() {
+		LayerManager lm = (LayerManager) diagramViewer.getEditPartRegistry().get(LayerManager.ID);
+		if (lm != null)
+			return lm.getLayer(LayerConstants.GUIDE_LAYER);
 		return null;
 	}
 
@@ -164,9 +149,8 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
-	protected List getModelChildren( )
-	{
-		return getRulerProvider( ).getGuides( );
+	protected List getModelChildren() {
+		return getRulerProvider().getGuides();
 	}
 
 	/**
@@ -174,9 +158,8 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @return
 	 */
-	protected EditorRulerFigure getRulerFigure( )
-	{
-		return (EditorRulerFigure) getFigure( );
+	protected EditorRulerFigure getRulerFigure() {
+		return (EditorRulerFigure) getFigure();
 	}
 
 	/**
@@ -184,8 +167,7 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @return
 	 */
-	public RulerProvider getRulerProvider( )
-	{
+	public RulerProvider getRulerProvider() {
 		return rulerProvider;
 	}
 
@@ -194,15 +176,11 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @see org.eclipse.gef.EditPart#getTargetEditPart(org.eclipse.gef.Request)
 	 */
-	public EditPart getTargetEditPart( Request request )
-	{
-		if ( request.getType( ).equals( REQ_MOVE ) )
-		{
+	public EditPart getTargetEditPart(Request request) {
+		if (request.getType().equals(REQ_MOVE)) {
 			return this;
-		}
-		else
-		{
-			return super.getTargetEditPart( request );
+		} else {
+			return super.getTargetEditPart(request);
 		}
 	}
 
@@ -211,30 +189,25 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @return
 	 */
-	public ZoomManager getZoomManager( )
-	{
-		return (ZoomManager) diagramViewer.getProperty( ZoomManager.class.toString( ) );
+	public ZoomManager getZoomManager() {
+		return (ZoomManager) diagramViewer.getProperty(ZoomManager.class.toString());
 	}
 
 	/**
 	 * @param guide
 	 */
-	public void handleGuideReparented( Object guide )
-	{
-		refreshChildren( );
-		EditPart guidePart = (EditPart) getViewer( ).getEditPartRegistry( )
-				.get( guide );
-		if ( guidePart != null )
-		{
-			getViewer( ).select( guidePart );
+	public void handleGuideReparented(Object guide) {
+		refreshChildren();
+		EditPart guidePart = (EditPart) getViewer().getEditPartRegistry().get(guide);
+		if (guidePart != null) {
+			getViewer().select(guidePart);
 		}
 	}
 
 	/**
 	 * @return
 	 */
-	public boolean isHorizontal( )
-	{
+	public boolean isHorizontal() {
 		return horizontal;
 	}
 
@@ -243,21 +216,17 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	 * 
 	 * @see org.eclipse.gef.EditPart#setParent(org.eclipse.gef.EditPart)
 	 */
-	public void setParent( EditPart parent )
-	{
-		super.setParent( parent );
-		if ( getParent( ) != null && diagramViewer == null )
-		{
-			diagramViewer = (GraphicalViewer) getViewer( ).getProperty( GraphicalViewer.class.toString( ) );
-			RulerProvider hProvider = (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER );
-			if ( hProvider != null && hProvider.getRuler( ) == getModel( ) )
-			{
+	public void setParent(EditPart parent) {
+		super.setParent(parent);
+		if (getParent() != null && diagramViewer == null) {
+			diagramViewer = (GraphicalViewer) getViewer().getProperty(GraphicalViewer.class.toString());
+			RulerProvider hProvider = (RulerProvider) diagramViewer
+					.getProperty(RulerProvider.PROPERTY_HORIZONTAL_RULER);
+			if (hProvider != null && hProvider.getRuler() == getModel()) {
 				rulerProvider = hProvider;
 				horizontal = true;
-			}
-			else
-			{
-				rulerProvider = (RulerProvider) diagramViewer.getProperty( RulerProvider.PROPERTY_VERTICAL_RULER );
+			} else {
+				rulerProvider = (RulerProvider) diagramViewer.getProperty(RulerProvider.PROPERTY_VERTICAL_RULER);
 			}
 		}
 	}
@@ -265,17 +234,15 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 	/**
 	 * EditRulerSelectionPolicy
 	 */
-	public static class EditRulerSelectionPolicy extends SelectionEditPolicy
-	{
+	public static class EditRulerSelectionPolicy extends SelectionEditPolicy {
 
 		/*
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideFocus()
 		 */
-		protected void hideFocus( )
-		{
-			( (EditorRulerFigure) getHostFigure( ) ).setDrawFocus( false );
+		protected void hideFocus() {
+			((EditorRulerFigure) getHostFigure()).setDrawFocus(false);
 		}
 
 		/*
@@ -283,9 +250,8 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 		 * 
 		 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideSelection()
 		 */
-		protected void hideSelection( )
-		{
-			( (EditorRulerFigure) getHostFigure( ) ).setDrawFocus( false );
+		protected void hideSelection() {
+			((EditorRulerFigure) getHostFigure()).setDrawFocus(false);
 		}
 
 		/*
@@ -293,8 +259,7 @@ public class EditorRulerEditPart extends AbstractGraphicalEditPart
 		 * 
 		 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#showSelection()
 		 */
-		protected void showSelection( )
-		{
+		protected void showSelection() {
 		}
 	}
 }

@@ -17,15 +17,13 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
  * 
  * 
  */
-public interface IActionListener
-{
+public interface IActionListener {
 
 	// TODO: use IActionListener instead of IPropertyRenderListener.
 	/**
 	 * Invoked when an action occurs.
 	 * 
-	 * @param newValue
-	 *            The new value saved to DE model.
+	 * @param newValue The new value saved to DE model.
 	 */
-	void performAction( String newValue ) throws Exception;
+	void performAction(String newValue) throws Exception;
 }

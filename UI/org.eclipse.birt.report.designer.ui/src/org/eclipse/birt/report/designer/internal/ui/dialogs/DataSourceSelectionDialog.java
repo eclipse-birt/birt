@@ -28,16 +28,13 @@ import org.eclipse.swt.widgets.Shell;
  * available data source.
  * 
  */
-public class DataSourceSelectionDialog extends BaseDialog
-{
+public class DataSourceSelectionDialog extends BaseDialog {
 
 	private String[] dataSourceNames;
 	private Combo combo;
 
-	public DataSourceSelectionDialog( Shell parentShell, String title,
-			String[] names )
-	{
-		super( parentShell, title );
+	public DataSourceSelectionDialog(Shell parentShell, String title, String[] names) {
+		super(parentShell, title);
 		this.dataSourceNames = names;
 	}
 
@@ -46,34 +43,27 @@ public class DataSourceSelectionDialog extends BaseDialog
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
-		Composite composite = (Composite) super.createDialogArea( parent );
-		new Label( composite, SWT.NONE ).setText( Messages.getString( "dataset.editor.label.selectDataSource" ) ); //$NON-NLS-1$
-		combo = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		combo.setVisibleItemCount( 30 );
-		combo.setItems( dataSourceNames );
+	protected Control createDialogArea(Composite parent) {
+		Composite composite = (Composite) super.createDialogArea(parent);
+		new Label(composite, SWT.NONE).setText(Messages.getString("dataset.editor.label.selectDataSource")); //$NON-NLS-1$
+		combo = new Combo(composite, SWT.BORDER | SWT.READ_ONLY);
+		combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		combo.setVisibleItemCount(30);
+		combo.setItems(dataSourceNames);
 
-		UIUtil.bindHelp( parent,
-				IHelpContextIds.ADD_DATA_SOURCE_SELECTION_DIALOG_ID );
+		UIUtil.bindHelp(parent, IHelpContextIds.ADD_DATA_SOURCE_SELECTION_DIALOG_ID);
 		return composite;
 	}
 
 	/*
 	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog
-	 * ()
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog ()
 	 */
-	protected boolean initDialog( )
-	{
-		if ( this.dataSourceNames == null || this.dataSourceNames.length == 0 )
-		{
-			this.getOkButton( ).setEnabled( false );
-		}
-		else
-		{
-			combo.select( 0 );
+	protected boolean initDialog() {
+		if (this.dataSourceNames == null || this.dataSourceNames.length == 0) {
+			this.getOkButton().setEnabled(false);
+		} else {
+			combo.select(0);
 		}
 		return true;
 	}
@@ -81,10 +71,9 @@ public class DataSourceSelectionDialog extends BaseDialog
 	/*
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	protected void okPressed( )
-	{
-		setResult( combo.getItem( combo.getSelectionIndex( ) ) );
-		super.okPressed( );
+	protected void okPressed() {
+		setResult(combo.getItem(combo.getSelectionIndex()));
+		super.okPressed();
 	}
 
 }

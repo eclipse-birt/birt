@@ -21,50 +21,41 @@ import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
  * 
  */
 
-public class LegendImpl implements ILegend
-{
+public class LegendImpl implements ILegend {
 
 	private Legend legend;
 
-	public LegendImpl( Legend legend )
-	{
+	public LegendImpl(Legend legend) {
 		this.legend = legend;
 	}
 
-	public ILabel getTitle( )
-	{
-		Label title = legend.getTitle( );
-		if ( title == null )
-		{
-			title = ChartComponentUtil.createEMFLabel( );
-			legend.setTitle( title );
+	public ILabel getTitle() {
+		Label title = legend.getTitle();
+		if (title == null) {
+			title = ChartComponentUtil.createEMFLabel();
+			legend.setTitle(title);
 		}
-		return ChartComponentUtil.convertLabel( title );
+		return ChartComponentUtil.convertLabel(title);
 	}
 
-	public boolean isVisible( )
-	{
-		return legend.isVisible( );
+	public boolean isVisible() {
+		return legend.isVisible();
 	}
 
-	public void setTitle( ILabel title )
-	{
-		legend.setTitle( ChartComponentUtil.convertILabel( title ) );
+	public void setTitle(ILabel title) {
+		legend.setTitle(ChartComponentUtil.convertILabel(title));
 	}
 
-	public void setVisible( boolean visible )
-	{
-		legend.setVisible( visible );
+	public void setVisible(boolean visible) {
+		legend.setVisible(visible);
 	}
 
-	public boolean isShowValue( )
-	{
-		return legend.isShowValue( );
+	public boolean isShowValue() {
+		return legend.isShowValue();
 	}
 
-	public void setShowValue( boolean show )
-	{
-		legend.setShowValue( show );
+	public void setShowValue(boolean show) {
+		legend.setShowValue(show);
 	}
 
 }

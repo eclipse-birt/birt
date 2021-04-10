@@ -18,16 +18,14 @@ import org.eclipse.draw2d.geometry.Insets;
  * A border class for Table/Grid.
  */
 
-public class TableBorder extends SectionBorder
-{
+public class TableBorder extends SectionBorder {
 
 	/**
 	 * Table/Grid uses Zero as default padding insets.
 	 */
-	private static final Insets DEFAULTINSETS = new Insets( 0, 0, 0, 0 );
+	private static final Insets DEFAULTINSETS = new Insets(0, 0, 0, 0);
 
-	Insets getDefaultPaddingInsets( )
-	{
+	Insets getDefaultPaddingInsets() {
 		return DEFAULTINSETS;
 	}
 
@@ -36,28 +34,27 @@ public class TableBorder extends SectionBorder
 	 * 
 	 * @see org.eclipse.draw2d.Border#getInsets(org.eclipse.draw2d.IFigure)
 	 */
-	public Insets getInsets( IFigure figure )
-	{
+	public Insets getInsets(IFigure figure) {
 		return DEFAULTINSETS;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder#getBorderInsets()
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
+	 * BaseBorder#getBorderInsets()
 	 */
-	public Insets getBorderInsets( )
-	{
+	public Insets getBorderInsets() {
 		return DEFAULTINSETS;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder#setPaddingInsets(org.eclipse.draw2d.geometry.Insets)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
+	 * BaseBorder#setPaddingInsets(org.eclipse.draw2d.geometry.Insets)
 	 */
-	public void setPaddingInsets( Insets in )
-	{
+	public void setPaddingInsets(Insets in) {
 		// does nothing, ignore the padding.
 	}
 

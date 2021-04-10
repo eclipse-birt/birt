@@ -11,17 +11,14 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-
 /**
  * 
  * test label item executor
  * 
  */
-public class LabelItemExecutorTest extends ReportItemExecutorTestAbs
-{
+public class LabelItemExecutorTest extends ReportItemExecutorTestAbs {
 
-	public void testExcute( ) throws Exception
-	{
-		compare("label.xml", "label.txt");		
+	public void testExcute() throws Exception {
+		compare("label.xml", "label.txt");
 	}
 }

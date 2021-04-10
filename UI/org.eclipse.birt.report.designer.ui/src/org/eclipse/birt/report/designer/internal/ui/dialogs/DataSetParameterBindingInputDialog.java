@@ -36,18 +36,17 @@ import org.eclipse.swt.widgets.Text;
  * 
  */
 
-public class DataSetParameterBindingInputDialog extends BaseDialog
-{
+public class DataSetParameterBindingInputDialog extends BaseDialog {
 
-	private static final String LABEL_NAME = Messages.getString( "DataSetParameterBindingInputDialog.Label.Name" ); //$NON-NLS-1$
-	private static final String LABEL_DATA_TYPE = Messages.getString( "DataSetParameterBindingInputDialog.Label.DataType" ); //$NON-NLS-1$
-	private static final String LABEL_VALUE = Messages.getString( "DataSetParameterBindingInputDialog.Label.Value" ); //$NON-NLS-1$
-	private static final String DIALOG_TITLE = Messages.getString( "DataSetParameterBindingInputDialog.Title" ); //$NON-NLS-1$
+	private static final String LABEL_NAME = Messages.getString("DataSetParameterBindingInputDialog.Label.Name"); //$NON-NLS-1$
+	private static final String LABEL_DATA_TYPE = Messages
+			.getString("DataSetParameterBindingInputDialog.Label.DataType"); //$NON-NLS-1$
+	private static final String LABEL_VALUE = Messages.getString("DataSetParameterBindingInputDialog.Label.Value"); //$NON-NLS-1$
+	private static final String DIALOG_TITLE = Messages.getString("DataSetParameterBindingInputDialog.Title"); //$NON-NLS-1$
 
-	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
-			.getStructure( DataSetParameter.STRUCT_NAME )
-			.getMember( DataSetParameter.DATA_TYPE_MEMBER )
-			.getAllowedChoices( );
+	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary()
+			.getStructure(DataSetParameter.STRUCT_NAME).getMember(DataSetParameter.DATA_TYPE_MEMBER)
+			.getAllowedChoices();
 
 	private Label nameLabel, typeLabel;
 	private Text valueEditor;
@@ -55,88 +54,73 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 	private DataSetParameterHandle handle;
 	private JSExpressionContext provider;
 
-	public DataSetParameterBindingInputDialog( Shell parentShell,
-			DataSetParameterHandle handle, JSExpressionContext provider )
-	{
-		super( parentShell, DIALOG_TITLE );
+	public DataSetParameterBindingInputDialog(Shell parentShell, DataSetParameterHandle handle,
+			JSExpressionContext provider) {
+		super(parentShell, DIALOG_TITLE);
 		this.handle = handle;
 		this.provider = provider;
 	}
 
-	public DataSetParameterBindingInputDialog( DataSetParameterHandle handle,
-			JSExpressionContext provider )
-	{
-		this( UIUtil.getDefaultShell( ), handle, provider );
+	public DataSetParameterBindingInputDialog(DataSetParameterHandle handle, JSExpressionContext provider) {
+		this(UIUtil.getDefaultShell(), handle, provider);
 	}
 
-	protected boolean initDialog( )
-	{
-		nameLabel.setText( handle.getName( ) );
-		typeLabel.setText( getParameterDataTypeDisplayName( handle.getParameterDataType( ) ) );
-		ExpressionButtonUtil.initExpressionButtonControl( valueEditor, value );
+	protected boolean initDialog() {
+		nameLabel.setText(handle.getName());
+		typeLabel.setText(getParameterDataTypeDisplayName(handle.getParameterDataType()));
+		ExpressionButtonUtil.initExpressionButtonControl(valueEditor, value);
 		return true;
 	}
 
-	private String getParameterDataTypeDisplayName( String type )
-	{
-		IChoice choice = DATA_TYPE_CHOICE_SET.findChoice( type );
-		if ( choice != null )
-			return choice.getDisplayName( );
+	private String getParameterDataTypeDisplayName(String type) {
+		IChoice choice = DATA_TYPE_CHOICE_SET.findChoice(type);
+		if (choice != null)
+			return choice.getDisplayName();
 		return type;
 	}
 
-	protected Control createDialogArea( Composite parent )
-	{
-		Composite composite = (Composite) super.createDialogArea( parent );
+	protected Control createDialogArea(Composite parent) {
+		Composite composite = (Composite) super.createDialogArea(parent);
 
-		GridLayout layout = new GridLayout( 2, false );
+		GridLayout layout = new GridLayout(2, false);
 		layout.marginWidth = layout.marginHeight = 15;
 
-		composite.setLayout( layout );
+		composite.setLayout(layout);
 
-		UIUtil.bindHelp( composite,
-				IHelpContextIds.DATA_SET_PARAMETER_BINDING_DIALOG );
+		UIUtil.bindHelp(composite, IHelpContextIds.DATA_SET_PARAMETER_BINDING_DIALOG);
 
-		new Label( composite, SWT.NONE ).setText( LABEL_NAME );
-		nameLabel = new Label( composite, SWT.NONE );
-		nameLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		new Label( composite, SWT.NONE ).setText( LABEL_DATA_TYPE );
-		typeLabel = new Label( composite, SWT.NONE );
-		typeLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		new Label( composite, SWT.NONE ).setText( LABEL_VALUE );
-		Composite valueComposite = new Composite( composite, SWT.NONE );
-		valueComposite.setLayout( UIUtil.createGridLayoutWithoutMargin( 2,
-				false ) );
-		valueComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		valueEditor = new Text( valueComposite, SWT.BORDER | SWT.MULTI );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		new Label(composite, SWT.NONE).setText(LABEL_NAME);
+		nameLabel = new Label(composite, SWT.NONE);
+		nameLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		new Label(composite, SWT.NONE).setText(LABEL_DATA_TYPE);
+		typeLabel = new Label(composite, SWT.NONE);
+		typeLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		new Label(composite, SWT.NONE).setText(LABEL_VALUE);
+		Composite valueComposite = new Composite(composite, SWT.NONE);
+		valueComposite.setLayout(UIUtil.createGridLayoutWithoutMargin(2, false));
+		valueComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		valueEditor = new Text(valueComposite, SWT.BORDER | SWT.MULTI);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.minimumWidth = 250;
-		gd.heightHint = valueEditor.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
-				- valueEditor.getBorderWidth( )
-				* 2;
-		valueEditor.setLayoutData( gd );
+		gd.heightHint = valueEditor.computeSize(SWT.DEFAULT, SWT.DEFAULT).y - valueEditor.getBorderWidth() * 2;
+		valueEditor.setLayoutData(gd);
 
-		ExpressionButtonUtil.createExpressionButton( valueComposite,
-				valueEditor,
-				provider.getExpressionProvider( ),
-				provider.getContextObject( ) );
+		ExpressionButtonUtil.createExpressionButton(valueComposite, valueEditor, provider.getExpressionProvider(),
+				provider.getContextObject());
 
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		Label label = new Label( parent, SWT.SEPARATOR | SWT.HORIZONTAL );
-		label.setLayoutData( gd );
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		Label label = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
+		label.setLayoutData(gd);
 
 		return composite;
 	}
 
-	protected void okPressed( )
-	{
-		setResult( new Expression( valueEditor.getText( ),
-				(String) valueEditor.getData( ExpressionButtonUtil.EXPR_TYPE ) ) );
-		super.okPressed( );
+	protected void okPressed() {
+		setResult(new Expression(valueEditor.getText(), (String) valueEditor.getData(ExpressionButtonUtil.EXPR_TYPE)));
+		super.okPressed();
 	}
 
-	public void setValue( Expression value )
-	{
+	public void setValue(Expression value) {
 		this.value = value;
 	}
 

@@ -27,17 +27,17 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
  * @author Administrator
  * 
  */
-public class LayoutMeasuresProvider extends AbstractDescriptorProvider
-{
+public class LayoutMeasuresProvider extends AbstractDescriptorProvider {
 
 	protected Object input;
 	protected CrosstabReportItemHandle crosstabHandle;
-	protected static final Logger logger = Logger.getLogger( LayoutMeasuresProvider.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger(LayoutMeasuresProvider.class.getName());
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#getDisplayName()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IDescriptorProvider#getDisplayName()
 	 */
 	public String getDisplayName() {
 		return Messages.getString("LayoutMeasuresProvider.DisplayName"); //$NON-NLS-1$
@@ -46,16 +46,14 @@ public class LayoutMeasuresProvider extends AbstractDescriptorProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#load()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IDescriptorProvider#load()
 	 */
 	public Object load() {
 		String vertical = ICrosstabConstants.MEASURE_DIRECTION_VERTICAL;
-		if(input == null)
-		{
+		if (input == null) {
 			return "false"; //$NON-NLS-1$
-		}else
-		if(crosstabHandle == null)
-		{
+		} else if (crosstabHandle == null) {
 			initializeCrosstab();
 		}
 		if (crosstabHandle != null) {
@@ -68,36 +66,31 @@ public class LayoutMeasuresProvider extends AbstractDescriptorProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#save(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IDescriptorProvider#save(java.lang.Object)
 	 */
 	public void save(Object value) throws SemanticException {
 		String stringValue = (String) value;
-		if(input == null)
-		{
+		if (input == null) {
 			return;
-		}else
-		if(crosstabHandle == null)
-		{
+		} else if (crosstabHandle == null) {
 			initializeCrosstab();
 		}
 		if (stringValue != null && stringValue.equalsIgnoreCase("true")) { //$NON-NLS-1$
-			crosstabHandle
-					.setMeasureDirection(ICrosstabConstants.MEASURE_DIRECTION_VERTICAL);
+			crosstabHandle.setMeasureDirection(ICrosstabConstants.MEASURE_DIRECTION_VERTICAL);
 
 		} else // false;
 		{
-			crosstabHandle
-					.setMeasureDirection(ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL);
+			crosstabHandle.setMeasureDirection(ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL);
 		}
 
 	}
 
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#setInput(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IDescriptorProvider#setInput(java.lang.Object)
 	 */
 	public void setInput(Object input) {
 		// TODO Auto-generated method stub
@@ -111,8 +104,8 @@ public class LayoutMeasuresProvider extends AbstractDescriptorProvider
 			return;
 		}
 
-		if ((!(input instanceof List && ((List) input).size() > 0 && ((List) input).get(0) instanceof ExtendedItemHandle))
-				&& (!(input instanceof ExtendedItemHandle))) {
+		if ((!(input instanceof List && ((List) input).size() > 0
+				&& ((List) input).get(0) instanceof ExtendedItemHandle)) && (!(input instanceof ExtendedItemHandle))) {
 			return;
 		}
 
@@ -129,7 +122,7 @@ public class LayoutMeasuresProvider extends AbstractDescriptorProvider
 			return;
 		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 			return;
 		}
 	}

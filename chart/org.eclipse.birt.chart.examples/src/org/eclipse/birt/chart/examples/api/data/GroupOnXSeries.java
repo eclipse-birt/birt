@@ -36,91 +36,66 @@ import com.ibm.icu.util.ULocale;
  * the report designer as follows: Chart Builder -> Data -> X Series -> Set Dat
  * Sorting / Tick Grouping Enabled
  */
-public class GroupOnXSeries
-{
+public class GroupOnXSeries {
 
 	/**
 	 * execute application
 	 * 
 	 * @param args
 	 */
-	public static void main( String[] args )
-	{
-		new GroupOnXSeries( ).groupSeries( );
+	public static void main(String[] args) {
+		new GroupOnXSeries().groupSeries();
 
 	}
-	
-	private IDesignEngine getDesignEngine( )
-	{
 
-		DesignConfig config = new DesignConfig( );
-		try
-		{
-			Platform.startup( config );
-		}
-		catch ( BirtException e )
-		{
-			e.printStackTrace( );
+	private IDesignEngine getDesignEngine() {
+
+		DesignConfig config = new DesignConfig();
+		try {
+			Platform.startup(config);
+		} catch (BirtException e) {
+			e.printStackTrace();
 		}
 
-		Object factory = Platform.createFactoryObject( IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY );
+		Object factory = Platform.createFactoryObject(IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY);
 
-		return ( (IDesignEngineFactory) factory ).createDesignEngine( config );
+		return ((IDesignEngineFactory) factory).createDesignEngine(config);
 	}
 
 	/**
-	 * Get the chart instance from the design file and group X series of the
-	 * chart.
+	 * Get the chart instance from the design file and group X series of the chart.
 	 * 
-	 * return An instance of the simulated runtime chart model (containing
-	 *         filled datasets)
+	 * return An instance of the simulated runtime chart model (containing filled
+	 * datasets)
 	 */
-	void groupSeries( )
-	{
-		SessionHandle sessionHandle = getDesignEngine( ).newSessionHandle( (ULocale) null );
+	void groupSeries() {
+		SessionHandle sessionHandle = getDesignEngine().newSessionHandle((ULocale) null);
 		ReportDesignHandle designHandle = null;
 
 		String path = "src/org/eclipse/birt/chart/examples/api/data/";//$NON-NLS-1$
 
-		try
-		{
-			designHandle = sessionHandle.openDesign( path
-					+ "NonGroupOnXSeries.rptdesign" );//$NON-NLS-1$
-			ExtendedItemHandle eih = (ExtendedItemHandle) designHandle.getBody( )
-					.getContents( )
-					.get( 0 );
-			Chart cm = (Chart) eih.getReportItem( )
-					.getProperty( "chart.instance" ); //$NON-NLS-1$
-			cm.getTitle( )
-					.getLabel( )
-					.getCaption( )
-					.setValue( "Group On X Series" );//$NON-NLS-1$
+		try {
+			designHandle = sessionHandle.openDesign(path + "NonGroupOnXSeries.rptdesign");//$NON-NLS-1$
+			ExtendedItemHandle eih = (ExtendedItemHandle) designHandle.getBody().getContents().get(0);
+			Chart cm = (Chart) eih.getReportItem().getProperty("chart.instance"); //$NON-NLS-1$
+			cm.getTitle().getLabel().getCaption().setValue("Group On X Series");//$NON-NLS-1$
 
-			SeriesDefinition sdX = ( ( (ChartWithAxes) cm ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
-					.get( 0 );
+			SeriesDefinition sdX = (((ChartWithAxes) cm).getAxes().get(0)).getSeriesDefinitions().get(0);
 
-			sdX.setSorting( SortOption.ASCENDING_LITERAL );
-			sdX.getGrouping( ).setEnabled( true );
-			sdX.getGrouping( ).setAggregateExpression( "Sum" );//$NON-NLS-1$
-			sdX.getGrouping( ).setGroupType( DataType.NUMERIC_LITERAL );
-			sdX.getGrouping( ).setGroupingInterval( 1 );
-			designHandle.saveAs( path + "GroupOnXSeries.rptdesign" );//$NON-NLS-1$
-		}
-		catch ( DesignFileException e )
-		{
-			e.printStackTrace( );
-		}
-		catch ( ExtendedElementException e )
-		{
-			e.printStackTrace( );
-		}
-		catch ( IOException e )
-		{
-			e.printStackTrace( );
-		}
-		finally
-		{
-			Platform.shutdown( );
+			sdX.setSorting(SortOption.ASCENDING_LITERAL);
+			sdX.getGrouping().setEnabled(true);
+			sdX.getGrouping().setAggregateExpression("Sum");//$NON-NLS-1$
+			sdX.getGrouping().setGroupType(DataType.NUMERIC_LITERAL);
+			sdX.getGrouping().setGroupingInterval(1);
+			designHandle.saveAs(path + "GroupOnXSeries.rptdesign");//$NON-NLS-1$
+		} catch (DesignFileException e) {
+			e.printStackTrace();
+		} catch (ExtendedElementException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			Platform.shutdown();
 		}
 
 	}

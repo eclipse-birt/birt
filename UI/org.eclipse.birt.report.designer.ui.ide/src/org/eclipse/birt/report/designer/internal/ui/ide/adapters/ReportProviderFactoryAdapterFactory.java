@@ -19,23 +19,17 @@ import org.eclipse.core.runtime.IAdapterFactory;
  * 
  */
 
-public class ReportProviderFactoryAdapterFactory implements IAdapterFactory
-{
+public class ReportProviderFactoryAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( adapterType == IReportProviderFactory.class )
-		{
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adapterType == IReportProviderFactory.class) {
 			return new IDEReportProviderFactory();
 		}
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			IReportProvider.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { IReportProvider.class };
 	}
 
 }

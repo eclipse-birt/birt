@@ -17,21 +17,17 @@ import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTask.Select
  * 
  */
 
-public class GetParameterDefinitionTaskUtil
-{
-	public static class SelectionChoiceUtil
-	{
-		public static SelectionChoice getSelectionChoice(Object obj)
-		{
-			return (SelectionChoice)obj;
+public class GetParameterDefinitionTaskUtil {
+	public static class SelectionChoiceUtil {
+		public static SelectionChoice getSelectionChoice(Object obj) {
+			return (SelectionChoice) obj;
 		}
-		
-		public static Object getValue(Object obj)
-		{
-			return ((SelectionChoice)obj).getValue( );
+
+		public static Object getValue(Object obj) {
+			return ((SelectionChoice) obj).getValue();
 		}
 	}
-	
+
 //	public SelectionChoice getInstance(Object obj)
 //	{
 //		return (SelectionChoice)obj;

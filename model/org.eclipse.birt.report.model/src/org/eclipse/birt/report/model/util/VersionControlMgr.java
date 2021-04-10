@@ -18,8 +18,7 @@ package org.eclipse.birt.report.model.util;
  * <p>
  */
 
-public class VersionControlMgr
-{
+public class VersionControlMgr {
 
 	/**
 	 * The design file version.
@@ -28,50 +27,43 @@ public class VersionControlMgr
 	private String version = null;
 
 	/**
-	 * Status that indicates whether the design/library and its included
-	 * libraries have any extended item that should do some compatibilities.
+	 * Status that indicates whether the design/library and its included libraries
+	 * have any extended item that should do some compatibilities.
 	 */
 	private boolean hasExtensionCompatibilities = false;
 
 	/**
-	 * Returns the current version. If the design file is created through codes,
-	 * the version is null.
+	 * Returns the current version. If the design file is created through codes, the
+	 * version is null.
 	 * 
 	 * @return the version
 	 */
 
-	public String getVersion( )
-	{
+	public String getVersion() {
 		return version;
 	}
 
 	/**
 	 * Sets the design file version.
 	 * 
-	 * @param version
-	 *            the version to set
+	 * @param version the version to set
 	 */
 
-	public void setVersion( String version )
-	{
+	public void setVersion(String version) {
 		this.version = version;
 	}
 
 	/**
 	 * @return the hasExtensionCompatibilities
 	 */
-	public boolean hasExtensionCompatibilities( )
-	{
+	public boolean hasExtensionCompatibilities() {
 		return hasExtensionCompatibilities;
 	}
 
 	/**
-	 * @param hasExtensionCompatibilities
-	 *            the hasExtensionCompatibilities to set
+	 * @param hasExtensionCompatibilities the hasExtensionCompatibilities to set
 	 */
-	public void setHasExtensionCompatibilities(
-			boolean hasExtensionCompatibilities )
-	{
+	public void setHasExtensionCompatibilities(boolean hasExtensionCompatibilities) {
 		this.hasExtensionCompatibilities = hasExtensionCompatibilities;
 	}
 

@@ -11,11 +11,9 @@
 
 package org.eclipse.birt.core.archive.compound.v3;
 
-public interface Ext2Constants
-{
+public interface Ext2Constants {
 
 	static final int EXT2_MAGIC_TAG = 0xEF53;
 	static final int EXT2_VERSION_0 = 0;
-
 
 }

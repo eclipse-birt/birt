@@ -43,40 +43,34 @@ import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSourceModel;
  * 
  */
 
-public class ScriptDataSource extends DataSource
-		implements
-			IScriptDataSourceModel
-{
+public class ScriptDataSource extends DataSource implements IScriptDataSourceModel {
 
 	/**
 	 * Constructs a default <code>ScriptDataSource</code>.
 	 */
 
-	public ScriptDataSource( )
-	{
+	public ScriptDataSource() {
 	}
 
 	/**
 	 * Constructs the script data source with name.
 	 * 
-	 * @param theName
-	 *            the script data source name
+	 * @param theName the script data source name
 	 */
 
-	public ScriptDataSource( String theName )
-	{
-		super( theName );
+	public ScriptDataSource(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitScriptDataSource( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitScriptDataSource(this);
 	}
 
 	/*
@@ -85,35 +79,32 @@ public class ScriptDataSource extends DataSource
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.SCRIPT_DATA_SOURCE;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public ScriptDataSourceHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new ScriptDataSourceHandle( module, this );
+	public ScriptDataSourceHandle handle(Module module) {
+		if (handle == null) {
+			handle = new ScriptDataSourceHandle(module, this);
 		}
 		return (ScriptDataSourceHandle) handle;
 	}
@@ -121,12 +112,13 @@ public class ScriptDataSource extends DataSource
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
-	{
-		List list = super.validate( module );
+	public List validate(Module module) {
+		List list = super.validate(module);
 
 		return list;
 	}

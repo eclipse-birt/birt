@@ -20,23 +20,18 @@ import org.eclipse.jface.viewers.TreeViewer;
  * Provider for the data sets node
  * 
  */
-public class EditableDataSetsNodeProvider extends DataSetsNodeProvider
-{
+public class EditableDataSetsNodeProvider extends DataSetsNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the given menu.
 	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		WizardUtil.createNewDataSetMenu( menu );
-		super.createContextMenu( sourceViewer, object, menu );
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		WizardUtil.createNewDataSetMenu(menu);
+		super.createContextMenu(sourceViewer, object, menu);
 
 	}
 

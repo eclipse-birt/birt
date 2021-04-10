@@ -24,8 +24,7 @@ import java.util.Map;
  * added later if it deems necessary.
  * 
  */
-public interface IHyperlinkAction
-{
+public interface IHyperlinkAction {
 
 	/**
 	 * hyperlink action
@@ -43,67 +42,66 @@ public interface IHyperlinkAction
 	/**
 	 * @return the type of the hyperlink
 	 */
-	public int getType( );
+	public int getType();
 
 	/**
 	 * @deprecated replaced by IDrillThroughAction.isBookmark();
 	 * 
-	 * Return the bookmark type set in the drillthrough action. The return
-	 * result indicated the target element is a toc or not.
+	 *             Return the bookmark type set in the drillthrough action. The
+	 *             return result indicated the target element is a toc or not.
 	 * 
 	 * @return <code>true</code>, the target element is a bookmark.
-	 *         <code>false</code>, the target element is indicated to be a
-	 *         toc.
+	 *         <code>false</code>, the target element is indicated to be a toc.
 	 */
 	public boolean isBookmark();
+
 	/**
-	 * @return the bookmark string (not the bookmark expression) when action
-	 *         type is bookmark or drillthrough, or null whe action type is
-	 *         hyperlink.
+	 * @return the bookmark string (not the bookmark expression) when action type is
+	 *         bookmark or drillthrough, or null whe action type is hyperlink.
 	 */
-	public String getBookmark( );
+	public String getBookmark();
 
 	/**
 	 * @return the action string that is calculated using the engine's default
 	 *         algorithm. valid for all three action types.
 	 */
-	public String getHyperlink( );
+	public String getHyperlink();
 
 	/**
 	 * @return the report name if action type is drillthrough, null otherwise
 	 */
-	public String getReportName( );
+	public String getReportName();
 
 	/**
-	 * @return a set of name/value pairs for running the report in a
-	 *         drillthrough link; null when the action type is not drillthrough,
-	 *         or no parameters are defined for the drillthrough report to run.
-	 *         In the future, when the drillthrough is against a report
-	 *         document, the parameter binding map is also null.
+	 * @return a set of name/value pairs for running the report in a drillthrough
+	 *         link; null when the action type is not drillthrough, or no parameters
+	 *         are defined for the drillthrough report to run. In the future, when
+	 *         the drillthrough is against a report document, the parameter binding
+	 *         map is also null.
 	 */
-	public Map getParameterBindings( );
+	public Map getParameterBindings();
 
 	/**
-	 * @return a set of name/value pairs for searching the report in a
-	 *         drillthrough link; null when the action type is not drillthrough,
-	 *         or no search criteria is used
+	 * @return a set of name/value pairs for searching the report in a drillthrough
+	 *         link; null when the action type is not drillthrough, or no search
+	 *         criteria is used
 	 */
-	public Map getSearchCriteria( );
+	public Map getSearchCriteria();
 
-	public String getFormat( );
+	public String getFormat();
 
 	/**
 	 * @return The name of a frame where a document is to be opened.
 	 */
-	public String getTargetWindow( );
+	public String getTargetWindow();
 
-	public void setHyperlink( String hyperlink, String target );
+	public void setHyperlink(String hyperlink, String target);
 
-	public void setReportName( String reportName );
-	
-	public void setBookmark( String bookmark );
+	public void setReportName(String reportName);
 
-	public void setBookmarkType( boolean isBookmark );
+	public void setBookmark(String bookmark);
+
+	public void setBookmarkType(boolean isBookmark);
 
 	/**
 	 * @deprecated
@@ -115,20 +113,18 @@ public interface IHyperlinkAction
 	 * @param target
 	 * @param format
 	 */
-	public void setDrillThrough( String bookmark, boolean isBookmark,
-			String reportName, Map parameterBindings, Map searchCriteria,
-			String target, String format );
-	
-	public void setDrillThrough( String bookmark, boolean isBookmark,
-			String reportName, Map<String, List<Object>> parameterBindings,
-			Map searchCriteria,
-			String target, String format, String targetFileType );
-	
-	public IDrillThroughAction getDrillThrough( );
-	
-	public void setDrillThrough( IDrillThroughAction drillThrough );
-	
+	public void setDrillThrough(String bookmark, boolean isBookmark, String reportName, Map parameterBindings,
+			Map searchCriteria, String target, String format);
+
+	public void setDrillThrough(String bookmark, boolean isBookmark, String reportName,
+			Map<String, List<Object>> parameterBindings, Map searchCriteria, String target, String format,
+			String targetFileType);
+
+	public IDrillThroughAction getDrillThrough();
+
+	public void setDrillThrough(IDrillThroughAction drillThrough);
+
 	public void setTooltip(String tooltip);
-	
+
 	public String getTooltip();
 }

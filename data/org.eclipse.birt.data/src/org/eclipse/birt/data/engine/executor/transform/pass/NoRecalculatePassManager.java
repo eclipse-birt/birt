@@ -18,30 +18,20 @@ import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 
+public class NoRecalculatePassManager extends PassManager {
 
-public class NoRecalculatePassManager extends PassManager
-{
-
-	public static void populateResultSet( ResultSetPopulator populator,
-			OdiResultSetWrapper odaResultSet, DataEngineSession session )
-			throws DataException
-	{
-		new NoRecalculatePassManager( populator ).pass( odaResultSet );
+	public static void populateResultSet(ResultSetPopulator populator, OdiResultSetWrapper odaResultSet,
+			DataEngineSession session) throws DataException {
+		new NoRecalculatePassManager(populator).pass(odaResultSet);
 	}
 
-	private NoRecalculatePassManager( ResultSetPopulator populator )
-	{
-		super( populator );
+	private NoRecalculatePassManager(ResultSetPopulator populator) {
+		super(populator);
 	}
 
-	protected void prepareQueryResultSet( ) throws DataException
-	{
-		populator.getExpressionProcessor( ).setDataSetMode( false );
-		ResultSetProcessUtil.doPopulateNoUpdateAggrFiltering( populator,
-				iccState,
-				computedColumnHelper,
-				filterByRow,
-				psController,
-				Arrays.asList( populator.getQuery( ).getOrdering( ) ) );
+	protected void prepareQueryResultSet() throws DataException {
+		populator.getExpressionProcessor().setDataSetMode(false);
+		ResultSetProcessUtil.doPopulateNoUpdateAggrFiltering(populator, iccState, computedColumnHelper, filterByRow,
+				psController, Arrays.asList(populator.getQuery().getOrdering()));
 	}
 }

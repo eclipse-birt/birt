@@ -11,11 +11,9 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-
-public interface IPageBreakListener
-{
+public interface IPageBreakListener {
 	/**
 	 * Handler to preocess page break before event.
 	 */
-	void onPageBreak( boolean isHorizontalPageBreak, boolean isFixedLayoutPageBreak);
+	void onPageBreak(boolean isHorizontalPageBreak, boolean isFixedLayoutPageBreak);
 }

@@ -12,16 +12,14 @@ package org.eclipse.birt.report.designer.core.model.schematic;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class AllTests
-{
+public class AllTests {
 
-	public static Test suite( )
-	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.designer.core.views.designer.model" );
-		//$JUnit-BEGIN$
-		suite.addTestSuite( TableHandleAdapterTest.class );
-		suite.addTestSuite( CellHandleAdapterTest.class );
-		//$JUnit-END$
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Test for org.eclipse.birt.report.designer.core.views.designer.model");
+		// $JUnit-BEGIN$
+		suite.addTestSuite(TableHandleAdapterTest.class);
+		suite.addTestSuite(CellHandleAdapterTest.class);
+		// $JUnit-END$
 		return suite;
 	}
 }

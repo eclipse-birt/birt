@@ -17,50 +17,47 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Format Specifier</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Format
+ * Specifier</b></em>'. <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class FormatSpecifierImpl extends EObjectImpl implements FormatSpecifier
-{
+public class FormatSpecifierImpl extends EObjectImpl implements FormatSpecifier {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	protected FormatSpecifierImpl( )
-	{
-		super( );
+	protected FormatSpecifierImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return AttributePackage.Literals.FORMAT_SPECIFIER;
 	}
 
 	/**
 	 * @generated
 	 */
-	public FormatSpecifier copyInstance( )
-	{
-		FormatSpecifierImpl dest = new FormatSpecifierImpl( );
-		dest.set( this );
+	public FormatSpecifier copyInstance() {
+		FormatSpecifierImpl dest = new FormatSpecifierImpl();
+		dest.set(this);
 		return dest;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( FormatSpecifier src )
-	{
+	protected void set(FormatSpecifier src) {
 
 	}
 

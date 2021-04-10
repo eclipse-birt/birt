@@ -99,8 +99,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  */
 
-public class StyleCommandTest extends BaseTestCase
-{
+public class StyleCommandTest extends BaseTestCase {
 
 	SharedStyleHandle style;
 
@@ -110,15 +109,14 @@ public class StyleCommandTest extends BaseTestCase
 	 * @see TestCase#setUp()
 	 */
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 
-		openDesign( fileName );
-		assertNotNull( design );
-		assertNotNull( designHandle );
+		openDesign(fileName);
+		assertNotNull(design);
+		assertNotNull(designHandle);
 
-		style = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
+		style = designHandle.findStyle("My-Style"); //$NON-NLS-1$
 	}
 
 	/**
@@ -135,45 +133,35 @@ public class StyleCommandTest extends BaseTestCase
 	 * 
 	 * </ul>
 	 * 
-	 * @throws Exception
-	 *             if any exception
+	 * @throws Exception if any exception
 	 */
 
-	public void testSetStyle( ) throws Exception
-	{
+	public void testSetStyle() throws Exception {
 		// set scalar element's style
 
-		Parameter param = new ScalarParameter( );
-		try
-		{
-			param.getHandle( design ).setStyleName( "helloStyle" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( StyleException e )
-		{
-			assertEquals( StyleException.DESIGN_EXCEPTION_FORBIDDEN, e
-					.getErrorCode( ) );
+		Parameter param = new ScalarParameter();
+		try {
+			param.getHandle(design).setStyleName("helloStyle"); //$NON-NLS-1$
+			fail();
+		} catch (StyleException e) {
+			assertEquals(StyleException.DESIGN_EXCEPTION_FORBIDDEN, e.getErrorCode());
 		}
 
 		// set label element's style
 
-		Label label = new Label( );
-		try
-		{
-			label.getHandle( design ).setStyleName( "worldStyle" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( StyleException e )
-		{
-			assertEquals( StyleException.DESIGN_EXCEPTION_NOT_FOUND, e
-					.getErrorCode( ) );
+		Label label = new Label();
+		try {
+			label.getHandle(design).setStyleName("worldStyle"); //$NON-NLS-1$
+			fail();
+		} catch (StyleException e) {
+			assertEquals(StyleException.DESIGN_EXCEPTION_NOT_FOUND, e.getErrorCode());
 		}
 
-		label.getHandle( design ).setStyleName( style.getName( ) );
-		assertEquals( style.getName( ), label.getStyleName( ) );
+		label.getHandle(design).setStyleName(style.getName());
+		assertEquals(style.getName(), label.getStyleName());
 
-		Label newLabel = new Label( );
-		setStyleMethod( newLabel );
+		Label newLabel = new Label();
+		setStyleMethod(newLabel);
 	}
 
 	/**
@@ -184,29 +172,27 @@ public class StyleCommandTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	private void setStyleMethod( DesignElement element ) throws StyleException,
-			Exception
-	{
+	private void setStyleMethod(DesignElement element) throws StyleException, Exception {
 		// clear all undoStack and redoStack
 		// in order not to influence results
 
-		ActivityStack cs = (ActivityStack) designHandle.getCommandStack( );
-		cs.flush( );
+		ActivityStack cs = (ActivityStack) designHandle.getCommandStack();
+		cs.flush();
 
 		// set style value to helloStyle
 
-		element.getHandle( design ).setStyle( style );
+		element.getHandle(design).setStyle(style);
 
-		assertEquals( style.getElement( ), element.getStyle( ) );
+		assertEquals(style.getElement(), element.getStyle());
 
 		// execute undo and redo operate to test if value is changed or not
 
-		undoOperate( element, cs );
-		redoOperate( element, cs );
+		undoOperate(element, cs);
+		redoOperate(element, cs);
 
-		element.getHandle( design ).setStyle( null );
+		element.getHandle(design).setStyle(null);
 
-		assertNull( element.getStyle( ) );
+		assertNull(element.getStyle());
 
 	}
 
@@ -223,75 +209,67 @@ public class StyleCommandTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testNotification( ) throws Exception
-	{
-		SharedStyleHandle style1 = designHandle.findStyle( "Style1" ); //$NON-NLS-1$
-		assertNull( style1.getProperty( Style.HIGHLIGHT_RULES_PROP ) );
+	public void testNotification() throws Exception {
+		SharedStyleHandle style1 = designHandle.findStyle("Style1"); //$NON-NLS-1$
+		assertNull(style1.getProperty(Style.HIGHLIGHT_RULES_PROP));
 
-		LabelHandle label = designHandle.getElementFactory( ).newLabel( null );
-		designHandle.getBody( ).add( label );
-		MyStyleListener listener = new MyStyleListener( );
+		LabelHandle label = designHandle.getElementFactory().newLabel(null);
+		designHandle.getBody().add(label);
+		MyStyleListener listener = new MyStyleListener();
 
-		label.addListener( listener );
+		label.addListener(listener);
 
-		label.setStyle( style1 );
+		label.setStyle(style1);
 
-		assertTrue( listener.styleChanged );
+		assertTrue(listener.styleChanged);
 
-		label.removeListener( listener );
+		label.removeListener(listener);
 	}
 
 	/**
 	 * Once operation on undo to test if value is changed to null or not.
 	 * 
-	 * @param labelElement
-	 *            DesignElement this is Label
-	 * @param cs
-	 *            CommonStack
+	 * @param labelElement DesignElement this is Label
+	 * @param cs           CommonStack
 	 */
 
-	private void undoOperate( DesignElement labelElement, ActivityStack cs )
-	{
-		assertTrue( cs.canUndo( ) );
-		assertFalse( cs.canRedo( ) );
+	private void undoOperate(DesignElement labelElement, ActivityStack cs) {
+		assertTrue(cs.canUndo());
+		assertFalse(cs.canRedo());
 
 		// undo setStyle method , then style is not helloStyle
 
-		cs.undo( );
-		assertNull( labelElement.getStyle( ) );
+		cs.undo();
+		assertNull(labelElement.getStyle());
 
-		assertFalse( cs.canUndo( ) );
-		assertTrue( cs.canRedo( ) );
+		assertFalse(cs.canUndo());
+		assertTrue(cs.canRedo());
 
-		cs.redo( );
-		cs.undo( );
+		cs.redo();
+		cs.undo();
 
 	}
 
 	/**
-	 * multiple operation on redo to test if value is changed to helloStyle or
-	 * not.
+	 * multiple operation on redo to test if value is changed to helloStyle or not.
 	 * 
-	 * @param labelElement
-	 *            DesignElement this is Label
-	 * @param cs
-	 *            CommonStack
+	 * @param labelElement DesignElement this is Label
+	 * @param cs           CommonStack
 	 */
 
-	private void redoOperate( DesignElement labelElement, ActivityStack cs )
-	{
-		assertFalse( cs.canUndo( ) );
-		assertTrue( cs.canRedo( ) );
+	private void redoOperate(DesignElement labelElement, ActivityStack cs) {
+		assertFalse(cs.canUndo());
+		assertTrue(cs.canRedo());
 
 		// first redo , then style is helloStyle
 
-		cs.redo( );
-		assertEquals( style.getElement( ), labelElement.getStyle( ) );
-		assertFalse( cs.canRedo( ) );
-		assertTrue( cs.canUndo( ) );
+		cs.redo();
+		assertEquals(style.getElement(), labelElement.getStyle());
+		assertFalse(cs.canRedo());
+		assertTrue(cs.canUndo());
 
-		cs.undo( );
-		cs.redo( );
+		cs.undo();
+		cs.redo();
 
 	}
 
@@ -304,14 +282,12 @@ public class StyleCommandTest extends BaseTestCase
 	 * <li>Normal case with API call and redo/undo.
 	 * </ul>
 	 * 
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
 
-	public void testSetStyleElement( ) throws Exception
-	{
-		Label label = new Label( );
-		setStyleMethod( label );
+	public void testSetStyleElement() throws Exception {
+		Label label = new Label();
+		setStyleMethod(label);
 	}
 
 	/**
@@ -324,102 +300,90 @@ public class StyleCommandTest extends BaseTestCase
 	 * elements.
 	 * </ul>
 	 * 
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
 
-	public void testExtendsAndClients( ) throws Exception
-	{
-		Label label = new Label( );
-		label.setName( "newLabel" ); //$NON-NLS-1$
+	public void testExtendsAndClients() throws Exception {
+		Label label = new Label();
+		label.setName("newLabel"); //$NON-NLS-1$
 
 		// first should add label to the components
 		// then you can extends it
 
-		designHandle.getComponents( ).add( label.getHandle( design ) );
+		designHandle.getComponents().add(label.getHandle(design));
 
 		// no clients, must be 0
 
-		assertEquals( ( (StyleElement) style.getElement( ) ).getClientList( )
-				.size( ), 0 );
+		assertEquals(((StyleElement) style.getElement()).getClientList().size(), 0);
 
 		// sets one client to this style.
 
-		label.getHandle( design ).setStyle( style );
-		assertEquals( ( (StyleElement) style.getElement( ) ).getClientList( )
-				.size( ), 1 );
+		label.getHandle(design).setStyle(style);
+		assertEquals(((StyleElement) style.getElement()).getClientList().size(), 1);
 
-		style.setName( "new_style" ); //$NON-NLS-1$
-		assertEquals( "new_style", //$NON-NLS-1$
-				label.getStyleName( ) );
+		style.setName("new_style"); //$NON-NLS-1$
+		assertEquals("new_style", //$NON-NLS-1$
+				label.getStyleName());
 
 		// remove the style from its client.
 
-		label.getHandle( design ).setStyle( null );
-		assertEquals( ( (StyleElement) style.getElement( ) ).getClientList( )
-				.size( ), 0 );
+		label.getHandle(design).setStyle(null);
+		assertEquals(((StyleElement) style.getElement()).getClientList().size(), 0);
 
 		// restore style name.
 		String styleName = "new-named-style"; //$NON-NLS-1$
-		style = designHandle.getElementFactory( ).newStyle( styleName );
-		designHandle.getSlot( IReportDesignModel.STYLE_SLOT ).add( style );
-		label.getHandle( design ).setStyle( style );
+		style = designHandle.getElementFactory().newStyle(styleName);
+		designHandle.getSlot(IReportDesignModel.STYLE_SLOT).add(style);
+		label.getHandle(design).setStyle(style);
 
-		Label label1 = new Label( );
-		label.getHandle( design ).setName( "label" ); //$NON-NLS-1$
+		Label label1 = new Label();
+		label.getHandle(design).setName("label"); //$NON-NLS-1$
 
-		label1.getHandle( design ).setExtendsElement( label );
+		label1.getHandle(design).setExtendsElement(label);
 
 		/*
-		 * We have an element label that uses style. Element label1 extends
-		 * label.
+		 * We have an element label that uses style. Element label1 extends label.
 		 * 
-		 * When we ask label1 for its shared style, we get null (because Y does
-		 * not explicitly set a style.)
+		 * When we ask label1 for its shared style, we get null (because Y does not
+		 * explicitly set a style.)
 		 */
 
-		assertNull( label1.getHandle( design ).getStyle( ) );
+		assertNull(label1.getHandle(design).getStyle());
 
 		/*
-		 * Suppose we have element label that uses style. We define element
-		 * label1 that extends element label. We set element label1 to use style
-		 * S. Now both label and label1 show up on style's client list. If we
-		 * change style X to use Style T, then style Y should still use style S.
+		 * Suppose we have element label that uses style. We define element label1 that
+		 * extends element label. We set element label1 to use style S. Now both label
+		 * and label1 show up on style's client list. If we change style X to use Style
+		 * T, then style Y should still use style S.
 		 */
 
-		label1.getHandle( design ).setStyle( style );
-		assertEquals( ( (StyleElement) style.getElement( ) ).getClientList( )
-				.size( ), 2 );
-		assertEquals( styleName, label1.getStyleName( ) );
+		label1.getHandle(design).setStyle(style);
+		assertEquals(((StyleElement) style.getElement()).getClientList().size(), 2);
+		assertEquals(styleName, label1.getStyleName());
 
-		Style tmpStyle = new Style( );
+		Style tmpStyle = new Style();
 		styleName = "another-new-style"; //$NON-NLS-1$
-		tmpStyle.getHandle( design ).setName( styleName );
-		designHandle.getSlot( IReportDesignModel.STYLE_SLOT ).add(
-				tmpStyle.getHandle( design ) );
-		label.getHandle( design ).setStyleElement( tmpStyle );
-		assertEquals( styleName, label.getStyleName( ) );
-		assertEquals( "new-named-style", //$NON-NLS-1$
-				label1.getStyleName( ) );
+		tmpStyle.getHandle(design).setName(styleName);
+		designHandle.getSlot(IReportDesignModel.STYLE_SLOT).add(tmpStyle.getHandle(design));
+		label.getHandle(design).setStyleElement(tmpStyle);
+		assertEquals(styleName, label.getStyleName());
+		assertEquals("new-named-style", //$NON-NLS-1$
+				label1.getStyleName());
 
 	}
 
-	class MyStyleListener implements Listener
-	{
+	class MyStyleListener implements Listener {
 
 		boolean styleChanged = false;
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		public void elementChanged( DesignElementHandle focus,
-				NotificationEvent ev )
-		{
+		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			styleChanged = true;
 		}
 	}

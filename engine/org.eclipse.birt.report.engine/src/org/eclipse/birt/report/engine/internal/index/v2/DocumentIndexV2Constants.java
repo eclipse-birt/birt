@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.internal.index.v2;
 
 import org.eclipse.birt.report.engine.internal.index.IDocumentIndexVersion;
 
-public interface DocumentIndexV2Constants extends IDocumentIndexVersion
-{
+public interface DocumentIndexV2Constants extends IDocumentIndexVersion {
 
 }

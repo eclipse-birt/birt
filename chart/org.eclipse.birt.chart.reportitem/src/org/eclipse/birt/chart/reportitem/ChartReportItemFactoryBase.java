@@ -31,47 +31,34 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  * Basic implementation of report item factory.
  */
 
-public class ChartReportItemFactoryBase implements IChartReportItemFactory
-{
+public class ChartReportItemFactoryBase implements IChartReportItemFactory {
 
-	public IActionRenderer createActionRenderer( DesignElementHandle eih,
-			IHTMLActionHandler handler, IDataRowExpressionEvaluator evaluator,
-			IReportContext context )
-	{
-		return new BIRTActionRenderer( eih, handler, evaluator, context );
+	public IActionRenderer createActionRenderer(DesignElementHandle eih, IHTMLActionHandler handler,
+			IDataRowExpressionEvaluator evaluator, IReportContext context) {
+		return new BIRTActionRenderer(eih, handler, evaluator, context);
 	}
 
-	public IReportItemPresentation createReportItemPresentation(
-			IReportItemPresentationInfo info )
-	{
-		return new ChartReportItemPresentationImpl( );
+	public IReportItemPresentation createReportItemPresentation(IReportItemPresentationInfo info) {
+		return new ChartReportItemPresentationImpl();
 	}
 
-	public Serializer createSerializer( ExtendedItemHandle eih )
-	{
-		return SerializerImpl.instance( );
+	public Serializer createSerializer(ExtendedItemHandle eih) {
+		return SerializerImpl.instance();
 	}
 
-	public ChartCubeQueryHelper createCubeQueryHelper(
-			ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter )
-	{
-		return new ChartCubeQueryHelper( handle, cm, modelAdapter );
+	public ChartCubeQueryHelper createCubeQueryHelper(ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter) {
+		return new ChartCubeQueryHelper(handle, cm, modelAdapter);
 	}
 
-	public IGroupedDataRowExpressionEvaluator createCubeEvaluator( Chart cm,
-			ICubeResultSet set )
-	{
-		return new BIRTCubeResultSetEvaluator( set );
-	}
-	
-	public IChartReportItem createChartReportItem( ExtendedItemHandle eih )
-	{
-		return new ChartReportItemImpl( eih );
+	public IGroupedDataRowExpressionEvaluator createCubeEvaluator(Chart cm, ICubeResultSet set) {
+		return new BIRTCubeResultSetEvaluator(set);
 	}
 
-	public ChartBaseQueryHelper createQueryHelper( ExtendedItemHandle handle,
-			Chart cm, IModelAdapter modelAdapter )
-	{
-		return new ChartBaseQueryHelper( handle, cm, modelAdapter );
+	public IChartReportItem createChartReportItem(ExtendedItemHandle eih) {
+		return new ChartReportItemImpl(eih);
+	}
+
+	public ChartBaseQueryHelper createQueryHelper(ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter) {
+		return new ChartBaseQueryHelper(handle, cm, modelAdapter);
 	}
 }

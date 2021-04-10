@@ -23,28 +23,23 @@ import org.eclipse.swt.widgets.Composite;
  * @author Actuate Corporation
  * 
  */
-public class AxisXSheetImpl extends AbstractAxisSubtask
-{
+public class AxisXSheetImpl extends AbstractAxisSubtask {
 
-	protected Axis getAxisForProcessing( )
-	{
-		return ChartUIUtil.getAxisXForProcessing( (ChartWithAxes) getChart( ) );
+	protected Axis getAxisForProcessing() {
+		return ChartUIUtil.getAxisXForProcessing((ChartWithAxes) getChart());
 	}
 
-	protected int getAxisAngleType( )
-	{
+	protected int getAxisAngleType() {
 		return AngleType.X;
 	}
-	
-	public void createControl( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_XAXIS );
-		super.createControl( parent );
+
+	public void createControl(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.SUBTASK_XAXIS);
+		super.createControl(parent);
 	}
 
 	@Override
-	protected Axis getDefaultValueAxis( )
-	{
-		return DefaultValueProvider.defChartWithAxes( ).getBaseAxes( )[0];
+	protected Axis getDefaultValueAxis() {
+		return DefaultValueProvider.defChartWithAxes().getBaseAxes()[0];
 	}
 }

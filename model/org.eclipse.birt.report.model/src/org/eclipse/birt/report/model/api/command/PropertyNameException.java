@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * 
  */
 
-public class PropertyNameException extends SemanticException
-{
+public class PropertyNameException extends SemanticException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -58,15 +57,12 @@ public class PropertyNameException extends SemanticException
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element that has the property.
-	 * @param propName
-	 *            the property name that caused the error
+	 * @param obj      the element that has the property.
+	 * @param propName the property name that caused the error
 	 */
 
-	public PropertyNameException( DesignElement obj, String propName )
-	{
-		super( obj, DESIGN_EXCEPTION_PROPERTY_NAME_INVALID );
+	public PropertyNameException(DesignElement obj, String propName) {
+		super(obj, DESIGN_EXCEPTION_PROPERTY_NAME_INVALID);
 		name = propName;
 	}
 
@@ -74,18 +70,13 @@ public class PropertyNameException extends SemanticException
 	 * Constructs a exception given a structure and its element and the invalid
 	 * member name.
 	 * 
-	 * @param obj
-	 *            the element that has the structure.
-	 * @param struct
-	 *            the structure that doesn't contain the member.
-	 * @param memberName
-	 *            the member name that caused the exception.
+	 * @param obj        the element that has the structure.
+	 * @param struct     the structure that doesn't contain the member.
+	 * @param memberName the member name that caused the exception.
 	 */
 
-	public PropertyNameException( DesignElement obj, IStructure struct,
-			String memberName )
-	{
-		super( obj, DESIGN_EXCEPTION_MEMBER_NAME_INVALID );
+	public PropertyNameException(DesignElement obj, IStructure struct, String memberName) {
+		super(obj, DESIGN_EXCEPTION_MEMBER_NAME_INVALID);
 		this.name = memberName;
 		this.struct = struct;
 	}
@@ -96,8 +87,7 @@ public class PropertyNameException extends SemanticException
 	 * @return the invalid property name.
 	 */
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return name;
 	}
 
@@ -107,8 +97,7 @@ public class PropertyNameException extends SemanticException
 	 * @return the invalid member name.
 	 */
 
-	public String getMemberName( )
-	{
+	public String getMemberName() {
 		return name;
 	}
 
@@ -117,21 +106,13 @@ public class PropertyNameException extends SemanticException
 	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_PROPERTY_NAME_INVALID )
-		{
-			String elementName = element == null ? "" : element.getFullName( ); //$NON-NLS-1$
-			return ModelMessages.getMessage(
-					DESIGN_EXCEPTION_PROPERTY_NAME_INVALID, new String[]{name,
-							elementName} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_MEMBER_NAME_INVALID )
-		{
-			String structName = struct == null ? "" : struct.getStructName( ); //$NON-NLS-1$
-			return ModelMessages.getMessage(
-					DESIGN_EXCEPTION_MEMBER_NAME_INVALID, new String[]{name,
-							structName} );
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_PROPERTY_NAME_INVALID) {
+			String elementName = element == null ? "" : element.getFullName(); //$NON-NLS-1$
+			return ModelMessages.getMessage(DESIGN_EXCEPTION_PROPERTY_NAME_INVALID, new String[] { name, elementName });
+		} else if (sResourceKey == DESIGN_EXCEPTION_MEMBER_NAME_INVALID) {
+			String structName = struct == null ? "" : struct.getStructName(); //$NON-NLS-1$
+			return ModelMessages.getMessage(DESIGN_EXCEPTION_MEMBER_NAME_INVALID, new String[] { name, structName });
 		}
 		return ""; //$NON-NLS-1$
 	}

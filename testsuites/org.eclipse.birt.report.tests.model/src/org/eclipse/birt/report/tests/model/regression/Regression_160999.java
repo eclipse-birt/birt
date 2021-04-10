@@ -40,33 +40,30 @@ import com.ibm.icu.util.ULocale;
  * Test as the description
  * <p>
  */
-public class Regression_160999 extends BaseTestCase
-{
+public class Regression_160999 extends BaseTestCase {
 
-	public void test_regression_160999( ) throws Exception
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_160999() throws Exception {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle label = factory.newLabel( "label" );
-		designHandle.getBody( ).add( label );
-		assertNotNull( label );
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle label = factory.newLabel("label");
+		designHandle.getBody().add(label);
+		assertNotNull(label);
 
 		// create a template element
 		TemplateElementHandle templateElement = null;
-		templateElement = label.createTemplateElement( "template" ); //$NON-NLS-1$
-		assertNotNull( templateElement );
+		templateElement = label.createTemplateElement("template"); //$NON-NLS-1$
+		assertNotNull(templateElement);
 
 		// transform to report element
-		( (TemplateReportItemHandle) templateElement )
-				.transformToReportItem( label );
+		((TemplateReportItemHandle) templateElement).transformToReportItem(label);
 
 		// transform to template element
-		templateElement = label.createTemplateElement( "template" ); //$NON-NLS-1$
-		assertNotNull( templateElement );
-		assertTrue( templateElement.isValidLayoutForCompoundElement( ) );
+		templateElement = label.createTemplateElement("template"); //$NON-NLS-1$
+		assertNotNull(templateElement);
+		assertTrue(templateElement.isValidLayoutForCompoundElement());
 
 	}
 }

@@ -18,74 +18,78 @@ import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
- * Implementation class of IParameterMetaData for the MongoDB ODA runtime driver.
- * Input parameters are not supported; always returns 0 input parameter count.
+ * Implementation class of IParameterMetaData for the MongoDB ODA runtime
+ * driver. Input parameters are not supported; always returns 0 input parameter
+ * count.
  */
-public class ParameterMetaData implements IParameterMetaData 
-{
+public class ParameterMetaData implements IParameterMetaData {
 
-	/* 
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterCount()
+	/*
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterCount()
 	 */
-	public int getParameterCount() throws OdaException 
-	{
-        return 0;
+	public int getParameterCount() throws OdaException {
+		return 0;
 	}
 
-    /*
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterMode(int)
+	/*
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterMode(
+	 * int)
 	 */
-	public int getParameterMode( int param ) throws OdaException 
-	{
+	public int getParameterMode(int param) throws OdaException {
 		return IParameterMetaData.parameterModeIn;
 	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(int)
-     */
-    public String getParameterName( int param ) throws OdaException
-    {
-        return null;    // name is not available
-    }
-
-	/* 
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterType(int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(
+	 * int)
 	 */
-	public int getParameterType( int param ) throws OdaException 
-	{
-        return java.sql.Types.CHAR;     // default value
+	public String getParameterName(int param) throws OdaException {
+		return null; // name is not available
 	}
 
-	/* 
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterTypeName(int)
+	/*
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterType(
+	 * int)
 	 */
-	public String getParameterTypeName( int param ) throws OdaException 
-	{
-        int nativeTypeCode = getParameterType( param );
-        return MongoDBDriver.getNativeDataTypeName( nativeTypeCode );
+	public int getParameterType(int param) throws OdaException {
+		return java.sql.Types.CHAR; // default value
 	}
 
-	/* 
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getPrecision(int)
+	/*
+	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#
+	 * getParameterTypeName(int)
 	 */
-	public int getPrecision( int param ) throws OdaException 
-	{
+	public String getParameterTypeName(int param) throws OdaException {
+		int nativeTypeCode = getParameterType(param);
+		return MongoDBDriver.getNativeDataTypeName(nativeTypeCode);
+	}
+
+	/*
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getPrecision(int)
+	 */
+	public int getPrecision(int param) throws OdaException {
 		return -1;
 	}
 
-	/* 
+	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getScale(int)
 	 */
-	public int getScale( int param ) throws OdaException 
-	{
+	public int getScale(int param) throws OdaException {
 		return -1;
 	}
 
-	/* 
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#isNullable(int)
+	/*
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#isNullable(int)
 	 */
-	public int isNullable( int param ) throws OdaException 
-	{
+	public int isNullable(int param) throws OdaException {
 		return IParameterMetaData.parameterNullableUnknown;
 	}
 

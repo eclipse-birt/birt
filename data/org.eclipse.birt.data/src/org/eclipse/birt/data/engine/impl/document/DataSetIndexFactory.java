@@ -19,10 +19,9 @@ import org.eclipse.birt.data.engine.impl.index.IIndexSerializer;
  * 
  */
 
-public class DataSetIndexFactory
-{
-	public static IIndexSerializer createIndex( long memory, String name, StreamManager manager, Class dataType) throws DataException
-	{
+public class DataSetIndexFactory {
+	public static IIndexSerializer createIndex(long memory, String name, StreamManager manager, Class dataType)
+			throws DataException {
 		return null;
 	}
 }

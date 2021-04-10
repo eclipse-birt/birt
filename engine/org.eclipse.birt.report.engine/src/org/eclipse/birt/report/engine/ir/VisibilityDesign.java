@@ -19,27 +19,23 @@ import java.util.Collection;
  * 
  * 
  */
-public class VisibilityDesign
-{
+public class VisibilityDesign {
 	/**
 	 * Stores the VisibilityRuleDesign items.
 	 */
-	protected ArrayList<VisibilityRuleDesign> rules = new ArrayList<VisibilityRuleDesign>( );
+	protected ArrayList<VisibilityRuleDesign> rules = new ArrayList<VisibilityRuleDesign>();
 
 	/**
 	 * Adds the VisibilityRuleDesign
 	 * 
-	 * @param rule
-	 *            the VisibilityRuleDesign
+	 * @param rule the VisibilityRuleDesign
 	 */
-	public void addRule( VisibilityRuleDesign rule )
-	{
+	public void addRule(VisibilityRuleDesign rule) {
 		assert rule != null;
-		rules.add( rule );
+		rules.add(rule);
 	}
 
-	public Collection<VisibilityRuleDesign> getRules( )
-	{
+	public Collection<VisibilityRuleDesign> getRules() {
 		return rules;
 	}
 
@@ -48,21 +44,18 @@ public class VisibilityDesign
 	 * 
 	 * @return the count of the VisibilityRuleDesign
 	 */
-	public int count( )
-	{
-		return rules.size( );
+	public int count() {
+		return rules.size();
 	}
 
 	/**
 	 * Gets the VisibilityRuleDesign according to the specified index.
 	 * 
-	 * @param index
-	 *            the specified index
+	 * @param index the specified index
 	 * @return the VisibilityRuleDesign at the specified index
 	 */
-	public VisibilityRuleDesign getRule( int index )
-	{
-		assert index >= 0 && index < rules.size( );
-		return (VisibilityRuleDesign) rules.get( index );
+	public VisibilityRuleDesign getRule(int index) {
+		assert index >= 0 && index < rules.size();
+		return (VisibilityRuleDesign) rules.get(index);
 	}
 }

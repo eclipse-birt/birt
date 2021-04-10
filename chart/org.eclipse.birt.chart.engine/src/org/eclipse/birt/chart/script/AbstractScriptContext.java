@@ -25,8 +25,7 @@ import com.ibm.icu.util.ULocale;
  * @since 2.5
  */
 
-public abstract class AbstractScriptContext implements IScriptContext
-{
+public abstract class AbstractScriptContext implements IScriptContext {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -46,17 +45,14 @@ public abstract class AbstractScriptContext implements IScriptContext
 	 * 
 	 * @see org.eclipse.birt.chart.script.IScriptContext#getExternalContext()
 	 */
-	public IExternalContext getExternalContext( )
-	{
+	public IExternalContext getExternalContext() {
 		return externalContext;
 	}
 
 	/**
-	 * @param externalContext
-	 *            the context of script
+	 * @param externalContext the context of script
 	 */
-	public void setExternalContext( IExternalContext externalContext )
-	{
+	public void setExternalContext(IExternalContext externalContext) {
 		this.externalContext = externalContext;
 	}
 
@@ -66,9 +62,8 @@ public abstract class AbstractScriptContext implements IScriptContext
 	 * @see org.eclipse.birt.chart.script.IScriptContext#getLocale()
 	 * @deprecated Use {@link #getULocale()} instead.
 	 */
-	public Locale getLocale( )
-	{
-		return locale == null ? null : locale.toLocale( );
+	public Locale getLocale() {
+		return locale == null ? null : locale.toLocale();
 	}
 
 	/*
@@ -76,19 +71,16 @@ public abstract class AbstractScriptContext implements IScriptContext
 	 * 
 	 * @see org.eclipse.birt.chart.script.IScriptContext#getLogger()
 	 */
-	public ILogger getLogger( )
-	{
+	public ILogger getLogger() {
 		return logger;
 	}
 
 	/**
 	 * Sets associated logger.
 	 * 
-	 * @param logger
-	 *            Logger
+	 * @param logger Logger
 	 */
-	public void setLogger( ILogger logger )
-	{
+	public void setLogger(ILogger logger) {
 		this.logger = logger;
 	}
 
@@ -97,19 +89,16 @@ public abstract class AbstractScriptContext implements IScriptContext
 	 * 
 	 * @see org.eclipse.birt.chart.script.IScriptContext#getULocale()
 	 */
-	public ULocale getULocale( )
-	{
+	public ULocale getULocale() {
 		return locale;
 	}
 
 	/**
 	 * Sets associated locale.
 	 * 
-	 * @param locale
-	 *            Locale
+	 * @param locale Locale
 	 */
-	public void setULocale( ULocale locale )
-	{
+	public void setULocale(ULocale locale) {
 		this.locale = locale;
 	}
 
@@ -117,32 +106,27 @@ public abstract class AbstractScriptContext implements IScriptContext
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.chart.script.IScriptContext#getProperty(java.lang.Object
-	 * )
+	 * org.eclipse.birt.chart.script.IScriptContext#getProperty(java.lang.Object )
 	 */
-	public Object getProperty( Object key )
-	{
-		if ( propertyMap == null )
-		{
+	public Object getProperty(Object key) {
+		if (propertyMap == null) {
 			return null;
 		}
-		return propertyMap.get( key );
+		return propertyMap.get(key);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.chart.script.IScriptContext#setProperty(java.lang.Object
-	 * , java.lang.Object)
+	 * org.eclipse.birt.chart.script.IScriptContext#setProperty(java.lang.Object ,
+	 * java.lang.Object)
 	 */
-	public void setProperty( Object key, Object value )
-	{
-		if ( propertyMap == null )
-		{
-			propertyMap = new HashMap<Object, Object>( );
+	public void setProperty(Object key, Object value) {
+		if (propertyMap == null) {
+			propertyMap = new HashMap<Object, Object>();
 		}
 
-		propertyMap.put( key, value );
+		propertyMap.put(key, value);
 	}
 }

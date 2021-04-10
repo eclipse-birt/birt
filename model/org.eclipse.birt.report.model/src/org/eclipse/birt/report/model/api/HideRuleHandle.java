@@ -22,28 +22,24 @@ import org.eclipse.birt.report.model.api.elements.structures.HideRule;
  * account is not past due.
  */
 
-public class HideRuleHandle extends StructureHandle
-{
+public class HideRuleHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of visibility rule.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for visibility rule list of one property
-	 * @param index
-	 *            the position of this visibility rule in the list
+	 * @param valueHandle the value handle for visibility rule list of one property
+	 * @param index       the position of this visibility rule in the list
 	 */
 
-	public HideRuleHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public HideRuleHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
 	 * Returns the output format of this visibility rule. The default value is
 	 * <code>FORMAT_TYPE_ALL</code>. The possible choices are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}and they
-	 * are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}and
+	 * they are:
 	 * <ul>
 	 * <li><code>FORMAT_TYPE_ALL</code>
 	 * <li><code>FORMAT_TYPE_VIEWER</code>
@@ -57,20 +53,20 @@ public class HideRuleHandle extends StructureHandle
 	 * <li><code>FORMAT_TYPE_POWERPOINT</code>
 	 * </ul>
 	 * 
-     * Or can be user defined format.
+	 * Or can be user defined format.
 	 * 
 	 * @return the output format of this visibility rule
 	 */
 
-	public String getFormat( )
-	{
-		return getStringProperty( HideRule.FORMAT_MEMBER );
+	public String getFormat() {
+		return getStringProperty(HideRule.FORMAT_MEMBER);
 	}
 
 	/**
 	 * Sets the output format of this visibility rule. The allowed choices are
-	 * defined in {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}
-	 * and they are:
+	 * defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants} and
+	 * they are:
 	 * <ul>
 	 * <li><code>FORMAT_TYPE_ALL</code>
 	 * <li><code>FORMAT_TYPE_VIEWER</code>
@@ -84,17 +80,14 @@ public class HideRuleHandle extends StructureHandle
 	 * <li><code>FORMAT_TYPE_POWERPOINT</code>
 	 * </ul>
 	 * 
-     * Or can be user defined format.
+	 * Or can be user defined format.
 	 * 
-	 * @param format
-	 *            the output format to set
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param format the output format to set
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setFormat( String format ) throws SemanticException
-	{
-		setProperty( HideRule.FORMAT_MEMBER, format );
+	public void setFormat(String format) throws SemanticException {
+		setProperty(HideRule.FORMAT_MEMBER, format);
 	}
 
 	/**
@@ -103,20 +96,17 @@ public class HideRuleHandle extends StructureHandle
 	 * @return the value expression of this visibility rule
 	 */
 
-	public String getExpression( )
-	{
-		return getStringProperty( HideRule.VALUE_EXPR_MEMBER );
+	public String getExpression() {
+		return getStringProperty(HideRule.VALUE_EXPR_MEMBER);
 	}
 
 	/**
 	 * Sets the value expression of this visibility rule.
 	 * 
-	 * @param expression
-	 *            the value expression to set
+	 * @param expression the value expression to set
 	 */
 
-	public void setExpression( String expression )
-	{
-		setPropertySilently( HideRule.VALUE_EXPR_MEMBER, expression );
+	public void setExpression(String expression) {
+		setPropertySilently(HideRule.VALUE_EXPR_MEMBER, expression);
 	}
 }

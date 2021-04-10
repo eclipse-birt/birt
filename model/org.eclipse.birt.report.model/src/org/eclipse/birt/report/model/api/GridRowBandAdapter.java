@@ -16,29 +16,26 @@ package org.eclipse.birt.report.model.api;
  * grids.
  */
 
-public class GridRowBandAdapter extends RowBandAdapter
-{
+public class GridRowBandAdapter extends RowBandAdapter {
 	/**
 	 * The element where the copy/paste operation occurs.
 	 */
 
 	protected GridHandle element;
-	
-	GridRowBandAdapter( )
-	{
+
+	GridRowBandAdapter() {
 	}
 
-	GridRowBandAdapter( GridHandle element )
-	{
+	GridRowBandAdapter(GridHandle element) {
 		this.element = element;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.api.GridRowBandAdapter#getElementHandle()
 	 */
-	protected ReportItemHandle getElementHandle( )
-	{
+	protected ReportItemHandle getElementHandle() {
 		return element;
 	}
 
@@ -47,19 +44,17 @@ public class GridRowBandAdapter extends RowBandAdapter
 	 * 
 	 * @see org.eclipse.birt.report.model.api.GridRowBandAdapter#getRowCount()
 	 */
-	protected int getRowCount( )
-	{
-		return element.getRows( ).getCount( );
+	protected int getRowCount() {
+		return element.getRows().getCount();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.api.GridRowBandAdapter#getColumnCount()
 	 */
-	protected int getColumnCount( )
-	{
-		return element.getColumnCount( );
+	protected int getColumnCount() {
+		return element.getColumnCount();
 	}
 
 }

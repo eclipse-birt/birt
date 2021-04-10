@@ -16,8 +16,7 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 /**
  * this listener is only invoked in HTML render phase
  */
-public class InlineTextRenderListener implements ITextListener
-{
+public class InlineTextRenderListener implements ITextListener {
 	private int textStartPos = -1;
 	private int textLength = 0;
 
@@ -30,31 +29,24 @@ public class InlineTextRenderListener implements ITextListener
 
 	private InlineTextArea inlineContainer = null;
 
-	public InlineTextRenderListener( InlineTextArea inlineContainer, int offset,
-			int dimension )
-	{
+	public InlineTextRenderListener(InlineTextArea inlineContainer, int offset, int dimension) {
 		this.inlineContainer = inlineContainer;
 		this.offset = offset;
 		this.dimension = dimension;
-		onNewLineEvent( );
+		onNewLineEvent();
 	}
 
-	public int getTextStart( )
-	{
+	public int getTextStart() {
 		return textStartPos;
 	}
 
-	public int getTextLength( )
-	{
+	public int getTextLength() {
 		return textLength;
 	}
 
-	public void onAddEvent( TextArea textArea )
-	{
-		if ( listeningStatus )
-		{
-			if ( textStartPos == -1 )
-			{
+	public void onAddEvent(TextArea textArea) {
+		if (listeningStatus) {
+			if (textStartPos == -1) {
 				textStartPos = textArea.offset;
 			}
 			readTextLength = readTextLength + textArea.textLength;
@@ -63,39 +55,28 @@ public class InlineTextRenderListener implements ITextListener
 
 	int lastTotalWidth = 0;
 
-	public void onNewLineEvent( )
-	{
-		lastTotalWidth += inlineContainer.getAllocatedWidth( );
-		if ( lastTotalWidth < offset || lastTotalWidth > offset + dimension )
-		{
+	public void onNewLineEvent() {
+		lastTotalWidth += inlineContainer.getAllocatedWidth();
+		if (lastTotalWidth < offset || lastTotalWidth > offset + dimension) {
 			listeningStatus = false;
-		}
-		else
-		{
+		} else {
 			listeningStatus = true;
 			textLength = readTextLength;
 		}
 	}
 
-	public void onTextEndEvent( )
-	{
-		if ( listeningStatus )
-		{
+	public void onTextEndEvent() {
+		if (listeningStatus) {
 			textLength = readTextLength;
 		}
 	}
-	
-	public String getSplitText( )
-	{
+
+	public String getSplitText() {
 		ITextContent textContent = (ITextContent) inlineContainer.content;
-		if ( textStartPos == -1 || textLength == 0 )
-		{
+		if (textStartPos == -1 || textLength == 0) {
 			return "";
-		}
-		else
-		{
-			String splitText = textContent.getText( ).substring( textStartPos,
-					textStartPos + textLength );
+		} else {
+			String splitText = textContent.getText().substring(textStartPos, textStartPos + textLength);
 			return splitText;
 		}
 	}

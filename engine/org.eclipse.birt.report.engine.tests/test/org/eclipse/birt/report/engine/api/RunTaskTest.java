@@ -18,11 +18,10 @@ import org.eclipse.birt.report.engine.EngineCase;
 /**
  * 
  */
-public class RunTaskTest extends EngineCase
-{
+public class RunTaskTest extends EngineCase {
 
 	static final String TEST_FOLDER = "./utest/";
-	
+
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/run_task_design.xml";
 	static final String BLANK_REPORT_DOCUMENT_RESOURCE = "org/eclipse/birt/report/engine/api/BlankReport.rptdocument";
 	static final String BLANK_REPORT_DOCUMENT = "./utest/BlankReport.rptdocument";
@@ -35,60 +34,49 @@ public class RunTaskTest extends EngineCase
 	static final String REPORT_DESIGN1 = "./utest/design.rptdesign";
 	static final String REPORT_DOCUMENT1 = "./utest/reportdocument.folder/";
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeFile( TEST_FOLDER );
-		removeFile( REPORT_DOCUMENT_ZIP );
-		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
-		copyResource( BLANK_REPORT_DOCUMENT_RESOURCE, BLANK_REPORT_DOCUMENT );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeFile(TEST_FOLDER);
+		removeFile(REPORT_DOCUMENT_ZIP);
+		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
+		copyResource(BLANK_REPORT_DOCUMENT_RESOURCE, BLANK_REPORT_DOCUMENT);
 	}
 
-	public void tearDown( ) throws Exception
-	{
-		removeFile( TEST_FOLDER );
+	public void tearDown() throws Exception {
+		removeFile(TEST_FOLDER);
 		super.tearDown();
 	}
 
-	public void testRun( )
-	{
-		try
-		{
-			IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
-			IRunTask task = engine.createRunTask( report );
-			task.run( REPORT_DOCUMENT );
-			task.close( );
-			IReportDocument doc = engine.openReportDocument( REPORT_DOCUMENT );
-			doc.close( );
-		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace( );
-			fail( );
+	public void testRun() {
+		try {
+			IReportRunnable report = engine.openReportDesign(REPORT_DESIGN);
+			IRunTask task = engine.createRunTask(report);
+			task.run(REPORT_DOCUMENT);
+			task.close();
+			IReportDocument doc = engine.openReportDocument(REPORT_DOCUMENT);
+			doc.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			fail();
 		}
 	}
-	
-	public void testRunWithArchiveView( )
-	{
-		try
-		{
-			ArchiveView view = new ArchiveView( VIEW_DOCUMENT,
-					BLANK_REPORT_DOCUMENT, "rw" );
-			ArchiveWriter writer = new ArchiveWriter( view );
-			IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
-			IRunTask task = engine.createRunTask( report );
-			task.run( writer );
-			task.close( );
-			writer.finish( );
-			view.close( );
-		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace( );
-			fail( );
+
+	public void testRunWithArchiveView() {
+		try {
+			ArchiveView view = new ArchiveView(VIEW_DOCUMENT, BLANK_REPORT_DOCUMENT, "rw");
+			ArchiveWriter writer = new ArchiveWriter(view);
+			IReportRunnable report = engine.openReportDesign(REPORT_DESIGN);
+			IRunTask task = engine.createRunTask(report);
+			task.run(writer);
+			task.close();
+			writer.finish();
+			view.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			fail();
 		}
 	}
-	
+
 //	public void testCancel( )
 //	{
 //		/*

@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
  * 
  */
 
-public interface ISortCondition
-{
+public interface ISortCondition {
 
 	/**
 	 * Returns sort direction.
@@ -28,7 +27,7 @@ public interface ISortCondition
 	 * @return sort direction.
 	 */
 
-	public String getDirection( );
+	public String getDirection();
 
 	/**
 	 * Sets sort direction.
@@ -41,7 +40,7 @@ public interface ISortCondition
 	 * @throws ScriptException
 	 */
 
-	public void setDirection( String direction ) throws ScriptException;
+	public void setDirection(String direction) throws ScriptException;
 
 	/**
 	 * Returns sort key
@@ -49,7 +48,7 @@ public interface ISortCondition
 	 * @return sort key
 	 */
 
-	public String getKey( );
+	public String getKey();
 
 	/**
 	 * Sets sort key.
@@ -58,7 +57,7 @@ public interface ISortCondition
 	 * @throws ScriptException
 	 */
 
-	public void setKey( String key ) throws ScriptException;
+	public void setKey(String key) throws ScriptException;
 
 	/**
 	 * Returns structure.
@@ -66,5 +65,5 @@ public interface ISortCondition
 	 * @return structure
 	 */
 
-	public IStructure getStructure( );
+	public IStructure getStructure();
 }

@@ -21,21 +21,15 @@ import org.eclipse.birt.report.model.elements.interfaces.ICascadingParameterGrou
  */
 
 public class CascadingParameterGroupHandle extends CascadingParameterGroupHandleImpl
-		implements
-			ICascadingParameterGroupModel
-{
+		implements ICascadingParameterGroupModel {
 	/**
 	 * Constructs the handle for a group of cascading parameters with the given
 	 * design and element.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the cascading parameter group element instance.
+	 * @param module  the module
+	 * @param element the cascading parameter group element instance.
 	 */
-	public CascadingParameterGroupHandle( Module module,
-			CascadingParameterGroup element )
-	{
-		super( module, element );
+	public CascadingParameterGroupHandle(Module module, CascadingParameterGroup element) {
+		super(module, element);
 	}
-	}
+}

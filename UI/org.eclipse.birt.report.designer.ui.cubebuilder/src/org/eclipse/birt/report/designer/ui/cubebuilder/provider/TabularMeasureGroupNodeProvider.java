@@ -34,77 +34,61 @@ import org.eclipse.ui.IWorkbenchActionConstants;
  * Provider for the data sets node
  * 
  */
-public class TabularMeasureGroupNodeProvider extends DefaultNodeProvider
-{
+public class TabularMeasureGroupNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the given menu.
 	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		// WizardUtil.createNewCubeMenu( menu );
-		super.createContextMenu( sourceViewer, object, menu );
+		super.createContextMenu(sourceViewer, object, menu);
 
-		if ( ( (MeasureGroupHandle) object ).canEdit( ) )
-		{
-			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-					new EditCubeMeasureGroupAction( object,
-							Messages.getString( "CubeMeasureGroupNodeProvider.menu.text" ) ) ); //$NON-NLS-1$
+		if (((MeasureGroupHandle) object).canEdit()) {
+			menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, new EditCubeMeasureGroupAction(object,
+					Messages.getString("CubeMeasureGroupNodeProvider.menu.text"))); //$NON-NLS-1$
 		}
 
-		menu.insertBefore( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$
-				new ShowPropertyAction( object ) );
+		menu.insertBefore(IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$
+				new ShowPropertyAction(object));
 
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new Separator( ) ); //$NON-NLS-1$
-		IAction action = new RefreshAction( sourceViewer );
-		if (action.isEnabled( ))
-		{
-			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", action ); //$NON-NLS-1$
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new Separator()); //$NON-NLS-1$
+		IAction action = new RefreshAction(sourceViewer);
+		if (action.isEnabled()) {
+			menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", action); //$NON-NLS-1$
 		}
 
 	}
 
-	public Object[] getChildren( Object model )
-	{
-		return ( (MeasureGroupHandle) model ).getContents( MeasureGroupHandle.MEASURES_PROP )
-				.toArray( );
+	public Object[] getChildren(Object model) {
+		return ((MeasureGroupHandle) model).getContents(MeasureGroupHandle.MEASURES_PROP).toArray();
 	}
 
-	public Object getParent( Object model )
-	{
+	public Object getParent(Object model) {
 		MeasureGroupHandle measures = (MeasureGroupHandle) model;
-		DesignElementHandle container = measures.getContainer( );
-		if ( container != null )
-			return container.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP );
+		DesignElementHandle container = measures.getContainer();
+		if (container != null)
+			return container.getPropertyHandle(ICubeModel.MEASURE_GROUPS_PROP);
 		return null;
 	}
 
 	/**
 	 * Gets the display name of the node.
 	 * 
-	 * @param model
-	 *            the object
+	 * @param model the object
 	 */
-	public String getNodeDisplayName( Object object )
-	{
+	public String getNodeDisplayName(Object object) {
 		MeasureGroupHandle measures = (MeasureGroupHandle) object;
-		return measures.getName( );
+		return measures.getName();
 	}
 
-	public Image getNodeIcon( Object model )
-	{
-		if ( model instanceof DesignElementHandle
-				&& ( (DesignElementHandle) model ).getSemanticErrors( ).size( ) > 0 )
-		{
-			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+	public Image getNodeIcon(Object model) {
+		if (model instanceof DesignElementHandle && ((DesignElementHandle) model).getSemanticErrors().size() > 0) {
+			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
 		}
-		return UIHelper.getImage( BuilderConstants.IMAGE_MEASUREGROUP );
+		return UIHelper.getImage(BuilderConstants.IMAGE_MEASUREGROUP);
 	}
 }

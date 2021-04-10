@@ -17,28 +17,21 @@ import org.eclipse.birt.report.designer.ui.preferences.IReportPreferenceFactory;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.Plugin;
 
-public class PreferencesAdapterFactory implements IAdapterFactory
-{
+public class PreferencesAdapterFactory implements IAdapterFactory {
 
-	private HashMap factoryMap = new HashMap( );
+	private HashMap factoryMap = new HashMap();
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		String pluginId = ( (Plugin) adaptableObject ).getBundle( )
-				.getSymbolicName( );
-		if ( !factoryMap.containsKey( pluginId ) )
-		{
-			IDEReportPreferenceFactory factory = new IDEReportPreferenceFactory( (Plugin) adaptableObject );
-			factoryMap.put( pluginId, factory );
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		String pluginId = ((Plugin) adaptableObject).getBundle().getSymbolicName();
+		if (!factoryMap.containsKey(pluginId)) {
+			IDEReportPreferenceFactory factory = new IDEReportPreferenceFactory((Plugin) adaptableObject);
+			factoryMap.put(pluginId, factory);
 		}
-		return factoryMap.get( pluginId );
+		return factoryMap.get(pluginId);
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			IReportPreferenceFactory.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { IReportPreferenceFactory.class };
 	}
 
 }

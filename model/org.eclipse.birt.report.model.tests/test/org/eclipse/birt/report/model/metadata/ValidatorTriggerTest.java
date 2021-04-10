@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.metadata;
  * Tests the validator definition and semantic validation trigger definition.
  */
 
-public class ValidatorTriggerTest extends AbstractMetaTest
-{
+public class ValidatorTriggerTest extends AbstractMetaTest {
 
 	/**
 	 * Tests the rom parsing for ValueValidator tag.
@@ -27,42 +26,29 @@ public class ValidatorTriggerTest extends AbstractMetaTest
 	 * </ul>
 	 */
 
-	public void testValueValidatorParse( ) throws Exception
-	{
+	public void testValueValidatorParse() throws Exception {
 		// The attribute "name" is missing.
 
-		try
-		{
-			loadMetaData( this.getClass( ).getResourceAsStream(
-					"input/ValidatorDefnTest.def" ) ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( MetaDataParserException e )
-		{
+		try {
+			loadMetaData(this.getClass().getResourceAsStream("input/ValidatorDefnTest.def")); //$NON-NLS-1$
+			fail();
+		} catch (MetaDataParserException e) {
 		}
 
 		// The attribute "class" is missing.
 
-		try
-		{
-			loadMetaData( this.getClass( ).getResourceAsStream(
-					"input/ValidatorDefnTest1.def" ) ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( MetaDataParserException e )
-		{
+		try {
+			loadMetaData(this.getClass().getResourceAsStream("input/ValidatorDefnTest1.def")); //$NON-NLS-1$
+			fail();
+		} catch (MetaDataParserException e) {
 		}
 
 		// The class can not be instantiated.
 
-		try
-		{
-			loadMetaData( this.getClass( ).getResourceAsStream(
-					"input/ValidatorDefnTest2.def" ) ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( MetaDataParserException e )
-		{
+		try {
+			loadMetaData(this.getClass().getResourceAsStream("input/ValidatorDefnTest2.def")); //$NON-NLS-1$
+			fail();
+		} catch (MetaDataParserException e) {
 		}
 	}
 
@@ -75,42 +61,29 @@ public class ValidatorTriggerTest extends AbstractMetaTest
 	 * </ul>
 	 */
 
-	public void testSemanticValidatorParse( ) throws Exception
-	{
+	public void testSemanticValidatorParse() throws Exception {
 		// The attribute "name" is missing.
 
-		try
-		{
-			loadMetaData( this.getClass( ).getResourceAsStream(
-					"input/ValidatorDefnTest5.def" ) ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( MetaDataParserException e )
-		{
+		try {
+			loadMetaData(this.getClass().getResourceAsStream("input/ValidatorDefnTest5.def")); //$NON-NLS-1$
+			fail();
+		} catch (MetaDataParserException e) {
 		}
 
 		// The attribute "class" is missing.
 
-		try
-		{
-			loadMetaData( this.getClass( ).getResourceAsStream(
-					"input/ValidatorDefnTest6.def" ) ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( MetaDataParserException e )
-		{
+		try {
+			loadMetaData(this.getClass().getResourceAsStream("input/ValidatorDefnTest6.def")); //$NON-NLS-1$
+			fail();
+		} catch (MetaDataParserException e) {
 		}
 
 		// The class can not be instantiated.
 
-		try
-		{
-			loadMetaData( this.getClass( ).getResourceAsStream(
-					"input/ValidatorDefnTest7.def" ) ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( MetaDataParserException e )
-		{
+		try {
+			loadMetaData(this.getClass().getResourceAsStream("input/ValidatorDefnTest7.def")); //$NON-NLS-1$
+			fail();
+		} catch (MetaDataParserException e) {
 		}
 
 	}
@@ -123,30 +96,21 @@ public class ValidatorTriggerTest extends AbstractMetaTest
 	 * </ul>
 	 */
 
-	public void testTriggerParse( ) throws Exception
-	{
+	public void testTriggerParse() throws Exception {
 		// The attribute "validator" is missing.
 
-		try
-		{
-			loadMetaData( this.getClass( ).getResourceAsStream(
-					"input/ValidatorDefnTest3.def" ) ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( MetaDataParserException e )
-		{
+		try {
+			loadMetaData(this.getClass().getResourceAsStream("input/ValidatorDefnTest3.def")); //$NON-NLS-1$
+			fail();
+		} catch (MetaDataParserException e) {
 		}
 
 		// The validator is not found.
 
-		try
-		{
-			loadMetaData( this.getClass( ).getResourceAsStream(
-					"input/ValidatorDefnTest4.def" ) ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( MetaDataParserException e )
-		{
+		try {
+			loadMetaData(this.getClass().getResourceAsStream("input/ValidatorDefnTest4.def")); //$NON-NLS-1$
+			fail();
+		} catch (MetaDataParserException e) {
 		}
 	}
 }

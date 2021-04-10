@@ -18,60 +18,46 @@ import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.w3c.css.sac.LexicalUnit;
 import org.w3c.dom.DOMException;
 
-public class BackgroundSizeManager extends AbstractLengthManager
-{
+public class BackgroundSizeManager extends AbstractLengthManager {
 
 	/**
 	 * The identifier values.
 	 */
-	protected final static StringMap values = new StringMap( );
-	static
-	{
-		values.put( CSSConstants.CSS_AUTO_VALUE, CSSValueConstants.AUTO_VALUE );
-		values.put( CSSConstants.CSS_CONTAIN_VALUE,
-				CSSValueConstants.CONTAIN_VALUE );
-		values
-				.put( CSSConstants.CSS_COVER_VALUE,
-						CSSValueConstants.COVER_VALUE );
+	protected final static StringMap values = new StringMap();
+	static {
+		values.put(CSSConstants.CSS_AUTO_VALUE, CSSValueConstants.AUTO_VALUE);
+		values.put(CSSConstants.CSS_CONTAIN_VALUE, CSSValueConstants.CONTAIN_VALUE);
+		values.put(CSSConstants.CSS_COVER_VALUE, CSSValueConstants.COVER_VALUE);
 	}
 
 	String propertyName;
 
-	public BackgroundSizeManager( String propertyName )
-	{
+	public BackgroundSizeManager(String propertyName) {
 		this.propertyName = propertyName;
 	}
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return propertyName;
 	}
 
-	public boolean isInheritedProperty( )
-	{
+	public boolean isInheritedProperty() {
 		return false;
 	}
 
-	public Value getDefaultValue( )
-	{
+	public Value getDefaultValue() {
 		return CSSValueConstants.AUTO_VALUE;
 	}
 
-	public Value createValue( LexicalUnit lu, CSSEngine engine )
-			throws DOMException
-	{
-		switch ( lu.getLexicalUnitType( ) )
-		{
-			case LexicalUnit.SAC_IDENT :
-				String s = lu.getStringValue( ).toLowerCase( ).intern( );
-				Object v = values.get( s );
-				if ( v == null )
-				{
-					throw createInvalidIdentifierDOMException( lu
-							.getStringValue( ) );
-				}
-				return (Value) v;
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
+		switch (lu.getLexicalUnitType()) {
+		case LexicalUnit.SAC_IDENT:
+			String s = lu.getStringValue().toLowerCase().intern();
+			Object v = values.get(s);
+			if (v == null) {
+				throw createInvalidIdentifierDOMException(lu.getStringValue());
+			}
+			return (Value) v;
 		}
-		return super.createValue( lu, engine );
+		return super.createValue(lu, engine);
 	}
 }

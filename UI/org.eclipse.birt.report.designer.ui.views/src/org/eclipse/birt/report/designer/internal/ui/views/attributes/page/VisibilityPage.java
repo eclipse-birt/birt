@@ -19,20 +19,18 @@ import org.eclipse.swt.widgets.Composite;
  * The visibility attribute page of DE element. Note: Visibility Not support
  * multi-selection.
  */
-public class VisibilityPage extends AttributePage
-{
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
+public class VisibilityPage extends AttributePage {
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(1));
 
-		OutputPropertyDescriptorProvider provider = new OutputPropertyDescriptorProvider( );
-		OutputSection output = new OutputSection( container, true );
-		output.setProvider( provider );
-		addSection( PageSectionId.VISIBILITY_OUTPUT, output );
+		OutputPropertyDescriptorProvider provider = new OutputPropertyDescriptorProvider();
+		OutputSection output = new OutputSection(container, true);
+		output.setProvider(provider);
+		addSection(PageSectionId.VISIBILITY_OUTPUT, output);
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
 
 }

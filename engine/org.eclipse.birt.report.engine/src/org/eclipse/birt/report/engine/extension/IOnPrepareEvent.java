@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.extension;
 
-public interface IOnPrepareEvent extends IReportEvent
-{
+public interface IOnPrepareEvent extends IReportEvent {
 
 }

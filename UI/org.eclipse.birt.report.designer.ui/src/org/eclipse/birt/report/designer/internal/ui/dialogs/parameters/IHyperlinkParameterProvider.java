@@ -14,12 +14,11 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.parameters;
 /**
  * IHyperlinkParameterProvider
  */
-public interface IHyperlinkParameterProvider
-{
+public interface IHyperlinkParameterProvider {
 
 	String CATEGORY_DEFAULT = "default"; //$NON-NLS-1$
 
-	String[] getCategories( );
+	String[] getCategories();
 
-	IHyperlinkParameter[] getParameters( String category, String format );
+	IHyperlinkParameter[] getParameters(String category, String format);
 }

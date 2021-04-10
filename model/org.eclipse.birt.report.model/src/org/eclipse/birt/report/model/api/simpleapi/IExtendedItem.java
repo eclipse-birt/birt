@@ -16,7 +16,6 @@ package org.eclipse.birt.report.model.api.simpleapi;
  *
  */
 
-public interface IExtendedItem extends IReportItem
-{
+public interface IExtendedItem extends IReportItem {
 
 }

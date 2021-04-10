@@ -15,18 +15,17 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
-
 /**
- * The interface defined the behavior of a RowResultSet which will be used in SmartCache.
+ * The interface defined the behavior of a RowResultSet which will be used in
+ * SmartCache.
  */
 
-public interface IRowResultSet
-{
+public interface IRowResultSet {
 	/**
 	 * @return result meta data
 	 */
-	IResultClass getMetaData( );
-	
+	IResultClass getMetaData();
+
 	/**
 	 * Notice the return value of this function is IResultObject. The null value
 	 * indicates the cursor exceeds the end of result set.
@@ -35,8 +34,8 @@ public interface IRowResultSet
 	 * @return next result data
 	 * @throws DataException
 	 */
-	IResultObject next( ) throws DataException;
-	
+	IResultObject next() throws DataException;
+
 	/**
 	 * Return the index.
 	 * 

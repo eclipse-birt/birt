@@ -18,19 +18,17 @@ import junit.framework.TestSuite;
  * Tests cases in extension package.
  */
 
-public class AllWriterTests
-{
+public class AllWriterTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( DesignWriterTest.class );
-		test.addTestSuite( DocumentUtilTest.class );
+		test.addTestSuite(DesignWriterTest.class);
+		test.addTestSuite(DocumentUtilTest.class);
 
 		// add all test classes here
 

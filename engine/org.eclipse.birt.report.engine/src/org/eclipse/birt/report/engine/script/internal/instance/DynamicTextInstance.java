@@ -17,24 +17,17 @@ import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
-public class DynamicTextInstance extends ReportItemInstance
-		implements
-			IDynamicTextInstance
-{
+public class DynamicTextInstance extends ReportItemInstance implements IDynamicTextInstance {
 
 	protected IForeignContent fc = null;
 	protected IDataContent dc = null;
 
-	public DynamicTextInstance( IContent content, ExecutionContext context,
-			RunningState runningState )
-	{
-		super( content, context, runningState );
-		if ( content instanceof IForeignContent )
-		{
+	public DynamicTextInstance(IContent content, ExecutionContext context, RunningState runningState) {
+		super(content, context, runningState);
+		if (content instanceof IForeignContent) {
 			fc = (IForeignContent) content;
 		}
-		if ( content instanceof IDataContent )
-		{
+		if (content instanceof IDataContent) {
 			dc = (IDataContent) content;
 		}
 	}
@@ -44,22 +37,16 @@ public class DynamicTextInstance extends ReportItemInstance
 	 * 
 	 * @see org.eclipse.birt.report.engine.script.IForeignTextInstance#getText()
 	 */
-	public String getText( )
-	{
-		if ( fc != null )
-		{
-			String type = fc.getRawType( );
-			if ( IForeignContent.TEMPLATE_TYPE.equals( type )
-					|| IForeignContent.HTML_TYPE.equals( type )
-					|| IForeignContent.TEXT_TYPE.equals( type ) )
-			{
-				return ( fc.getRawValue( ) == null ? null : fc.getRawValue( )
-						.toString( ) );
+	public String getText() {
+		if (fc != null) {
+			String type = fc.getRawType();
+			if (IForeignContent.TEMPLATE_TYPE.equals(type) || IForeignContent.HTML_TYPE.equals(type)
+					|| IForeignContent.TEXT_TYPE.equals(type)) {
+				return (fc.getRawValue() == null ? null : fc.getRawValue().toString());
 			}
 		}
-		if ( dc != null )
-		{
-			return dc.getText( );
+		if (dc != null) {
+			return dc.getText();
 		}
 
 		return null;
@@ -68,25 +55,22 @@ public class DynamicTextInstance extends ReportItemInstance
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.script.IForeignTextInstance#setText(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.script.IForeignTextInstance#setText(java.lang.
+	 * String)
 	 */
-	public void setText( String value )
-	{
-		if ( fc != null )
-		{
-			fc.setRawValue( value );
+	public void setText(String value) {
+		if (fc != null) {
+			fc.setRawValue(value);
 		}
-		if ( dc != null )
-		{
-			dc.setText( value );
+		if (dc != null) {
+			dc.setText(value);
 		}
 	}
 
-	public Object getValue( )
-	{
-		if ( dc != null )
-		{
-			return dc.getValue( );
+	public Object getValue() {
+		if (dc != null) {
+			return dc.getValue();
 		}
 		return null;
 	}

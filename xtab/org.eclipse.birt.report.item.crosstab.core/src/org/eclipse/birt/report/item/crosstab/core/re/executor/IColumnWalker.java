@@ -16,8 +16,7 @@ import javax.olap.OLAPException;
 /**
  * IColumnWalker
  */
-interface IColumnWalker
-{
+interface IColumnWalker {
 
 	boolean IGNORE_TOTAL_COLUMN_WITHOUT_AGGREGATION = true;
 
@@ -26,15 +25,15 @@ interface IColumnWalker
 	/**
 	 * Returns if has next column for this walker
 	 */
-	boolean hasNext( ) throws OLAPException;
+	boolean hasNext() throws OLAPException;
 
 	/**
 	 * Steps to next column and returns the corresponding column event
 	 */
-	ColumnEvent next( ) throws OLAPException;
+	ColumnEvent next() throws OLAPException;
 
 	/**
 	 * Puts the walker to initial state
 	 */
-	void reload( );
+	void reload();
 }

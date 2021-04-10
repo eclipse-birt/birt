@@ -11,16 +11,14 @@
 
 package org.eclipse.birt.report.engine.content;
 
+public interface IStyledElement {
 
-public interface IStyledElement
-{
+	IStyle getComputedStyle();
 
-	IStyle getComputedStyle( );
+	IStyle getStyle();
 
-	IStyle getStyle( );
+	String getStyleClass();
 
-	String getStyleClass( );
-
-	void setStyleClass( String styleClass );
+	void setStyleClass(String styleClass);
 
 }

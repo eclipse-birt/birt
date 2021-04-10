@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.api.ExpressionType;
  *
  */
 
-public interface IExpressionType
-{
+public interface IExpressionType {
 
 	/**
 	 * 
@@ -40,5 +39,5 @@ public interface IExpressionType
 	 * @return the iterator
 	 */
 
-	public Iterator<String> iterator( );
+	public Iterator<String> iterator();
 }

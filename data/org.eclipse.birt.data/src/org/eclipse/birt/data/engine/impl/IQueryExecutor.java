@@ -23,80 +23,81 @@ import org.mozilla.javascript.Scriptable;
 /**
  * 
  */
-public interface IQueryExecutor
-{
+public interface IQueryExecutor {
 	/**
 	 * Execute query
-	 * @param eventHandler 
+	 * 
+	 * @param eventHandler
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	void execute( IEventHandler eventHandler ) throws DataException;
+	void execute(IEventHandler eventHandler) throws DataException;
 
 	/**
 	 * @return shard scope
 	 */
-	Scriptable getQueryScope( ) throws DataException;
-	
+	Scriptable getQueryScope() throws DataException;
+
 	/**
 	 * @return shard scope
 	 */
-	Scriptable getSharedScope( ) throws DataException;
-	
+	Scriptable getSharedScope() throws DataException;
+
 	/**
 	 * @return scope of JS aggregation object
 	 */
-	Scriptable getJSAggrValueObject( );
-	
+	Scriptable getJSAggrValueObject();
+
 	/**
 	 * @return the nested level of this executor
 	 */
-	int getNestedLevel( );
+	int getNestedLevel();
 
 	/**
 	 * @return
 	 */
-	IDataSourceInstanceHandle getDataSourceInstanceHandle( );
+	IDataSourceInstanceHandle getDataSourceInstanceHandle();
 
 	/**
 	 * @return the data set associated with this executor
 	 */
-	DataSetRuntime getDataSet( );
+	DataSetRuntime getDataSet();
 
 	/**
 	 * @param nestedCount
 	 * @return nested data set
 	 */
-	DataSetRuntime[] getNestedDataSets( int nestedCount );
+	DataSetRuntime[] getNestedDataSets(int nestedCount);
 
 	/**
 	 * @return result set of underlying ODI layer
 	 */
-	IResultIterator getOdiResultSet( );
+	IResultIterator getOdiResultSet();
 
 	/**
 	 * @return meta data of column binding
 	 * @throws DataException
 	 */
-	IResultMetaData getResultMetaData( ) throws DataException;
-	
+	IResultMetaData getResultMetaData() throws DataException;
+
 	/**
 	 * @return meta data of data set
 	 * @throws DataException
 	 */
-	IResultClass getOdiResultClass( ) throws DataException;
+	IResultClass getOdiResultClass() throws DataException;
 
 	IQueryContextVisitor getQueryContextVisitor();
+
 	/**
 	 * 
 	 * @return
 	 */
-	Map getAppContext( );
-	
+	Map getAppContext();
+
 	/**
 	 * close
 	 */
-	void close( );
-	
+	void close();
+
 	DataEngineSession getSession();
 }

@@ -24,28 +24,23 @@ import org.eclipse.gef.Request;
  * obtaining selection, and performing generic operations.
  */
 
-public class ReportRequest extends Request implements
-		IMediatorRequest,
-		ReportRequestConstants
-{
+public class ReportRequest extends Request implements IMediatorRequest, ReportRequestConstants {
 
 	private Object source;
 
 	private IRequestConverter converter;
 
-	private List selectionObject = new ArrayList( );
+	private List selectionObject = new ArrayList();
 
 	/**
 	 * Create a report request.
 	 */
-	public ReportRequest( )
-	{
-		this( null, SELECTION );
+	public ReportRequest() {
+		this(null, SELECTION);
 	}
 
-	public ReportRequest( String type )
-	{
-		this( null, type );
+	public ReportRequest(String type) {
+		this(null, type);
 	}
 
 	/**
@@ -53,16 +48,14 @@ public class ReportRequest extends Request implements
 	 * 
 	 * @param source
 	 */
-	public ReportRequest( Object source )
-	{
-		this( source, SELECTION );
+	public ReportRequest(Object source) {
+		this(source, SELECTION);
 	}
 
-	public ReportRequest( Object source, String type )
-	{
-		super( );
-		setSource( source );
-		setType( type );
+	public ReportRequest(Object source, String type) {
+		super();
+		setSource(source);
+		setType(type);
 	}
 
 	/**
@@ -70,19 +63,16 @@ public class ReportRequest extends Request implements
 	 * 
 	 * @return Returns the source.
 	 */
-	public Object getSource( )
-	{
+	public Object getSource() {
 		return source;
 	}
 
 	/**
 	 * Set the source of request.
 	 * 
-	 * @param source
-	 *            The source to set.
+	 * @param source The source to set.
 	 */
-	public void setSource( Object source )
-	{
+	public void setSource(Object source) {
 		this.source = source;
 	}
 
@@ -91,8 +81,7 @@ public class ReportRequest extends Request implements
 	 * 
 	 * @return Returns the selectionObject.
 	 */
-	public List getSelectionObject( )
-	{
+	public List getSelectionObject() {
 		return selectionObject;
 	}
 
@@ -101,23 +90,19 @@ public class ReportRequest extends Request implements
 	 * 
 	 * @return Returns the selectionObject.
 	 */
-	public List getSelectionModelList( )
-	{
-		if ( converter != null )
-		{
-			return converter.convertSelectionToModelLisr( getSelectionObject( ) );
+	public List getSelectionModelList() {
+		if (converter != null) {
+			return converter.convertSelectionToModelLisr(getSelectionObject());
 		}
-		return getSelectionObject( );
+		return getSelectionObject();
 	}
 
 	/**
 	 * Set the selection object of reqeust source
 	 * 
-	 * @param selectionObject
-	 *            The selectionObject to set.
+	 * @param selectionObject The selectionObject to set.
 	 */
-	public void setSelectionObject( List selectionObject )
-	{
+	public void setSelectionObject(List selectionObject) {
 		assert selectionObject != null;
 		this.selectionObject = selectionObject;
 	}
@@ -125,49 +110,40 @@ public class ReportRequest extends Request implements
 	/**
 	 * @return Returns the request converter.
 	 */
-	public IRequestConverter getRequestConverter( )
-	{
+	public IRequestConverter getRequestConverter() {
 		return converter;
 	}
 
 	/**
-	 * @param convert
-	 *            The converter to set.
+	 * @param convert The converter to set.
 	 * 
 	 * @deprecated use {@link #setRequestConverter(IRequestConverter)} instead.
 	 */
-	public void setRequestConvert( IRequestConvert converter )
-	{
+	public void setRequestConvert(IRequestConvert converter) {
 		this.converter = converter;
 	}
 
 	/**
-	 * @param convert
-	 *            The converter to set.
+	 * @param convert The converter to set.
 	 */
-	public void setRequestConverter( IRequestConverter converter )
-	{
+	public void setRequestConverter(IRequestConverter converter) {
 		this.converter = converter;
 	}
 
-	public String getType( )
-	{
-		return String.valueOf( super.getType( ) );
+	public String getType() {
+		return String.valueOf(super.getType());
 	}
 
-	public Object getData( )
-	{
-		return getSelectionModelList( );
+	public Object getData() {
+		return getSelectionModelList();
 	}
 
-	public boolean isSticky( )
-	{
-		return SELECTION.equals( getType( ) );
+	public boolean isSticky() {
+		return SELECTION.equals(getType());
 	}
 
-	public Map<?, ?> getExtras( )
-	{
-		return getExtendedData( );
+	public Map<?, ?> getExtras() {
+		return getExtendedData();
 	}
 
 }

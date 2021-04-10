@@ -82,80 +82,62 @@ public class DataSetInstance implements IDataSetInstance {
 		dataSet.setExtensionProperty(name, value);
 	}
 
-
 	/**
-	 * Gets value of  a data set input parameter by name
+	 * Gets value of a data set input parameter by name
 	 */
-	public Object getInputParameterValue(String paramName)
-			throws ScriptException 
-	{
-		try 
-		{
+	public Object getInputParameterValue(String paramName) throws ScriptException {
+		try {
 			return dataSet.getInputParameterValue(paramName);
 		} catch (BirtException e) {
-			throw new ScriptException( e.getLocalizedMessage());
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
 	/**
-	 * Gets value of a data set output parameter by name 
+	 * Gets value of a data set output parameter by name
 	 */
-	public Object getOutputParameterValue(String paramName)
-			throws ScriptException 
-	{
-		try 
-		{
+	public Object getOutputParameterValue(String paramName) throws ScriptException {
+		try {
 			return dataSet.getOutputParameterValue(paramName);
-		} catch (BirtException e) 
-		{
-			throw new ScriptException( e.getLocalizedMessage());
+		} catch (BirtException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
 	/**
 	 * Sets value of a data set input parameter
 	 */
-	public void setInputParameterValue(String paramName, Object paramValue)
-			throws ScriptException 
-	{
-		try 
-		{
+	public void setInputParameterValue(String paramName, Object paramValue) throws ScriptException {
+		try {
 			dataSet.setInputParameterValue(paramName, paramValue);
-		} catch (BirtException e) 
-		{
-			throw new ScriptException (e.getLocalizedMessage());
+		} catch (BirtException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
-	
+
 	}
 
 	/**
 	 * Sets value of a data set output parameter
 	 */
-	public void setOutputParameterValue(String paramName, Object paramValue)
-			throws ScriptException 
-	{
-		try 
-		{
+	public void setOutputParameterValue(String paramName, Object paramValue) throws ScriptException {
+		try {
 			dataSet.setOutputParameterValue(paramName, paramValue);
-		} catch (BirtException e) 
-		{
-			throw new ScriptException (e.getLocalizedMessage());
+		} catch (BirtException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
 	/**
 	 * Gets name, value of all data set input parameters
 	 */
-	public Map getInputParameters() 
-	{
+	public Map getInputParameters() {
 		return dataSet.getInputParameters();
 	}
 
 	/**
 	 * Gets name, value of all data set output parameters
 	 */
-	public Map getOutputParameters() 
-	{
+	public Map getOutputParameters() {
 		return dataSet.getOutputParameters();
 	}
 

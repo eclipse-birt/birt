@@ -20,23 +20,17 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class NumberUtil
-{
-	private static final NumberFormat format = NumberFormat.getInstance( ULocale.getDefault( ) );
-	
-	public static String double2LocaleNum( double number )
-	{
-		return format.format( number );
+public class NumberUtil {
+	private static final NumberFormat format = NumberFormat.getInstance(ULocale.getDefault());
+
+	public static String double2LocaleNum(double number) {
+		return format.format(number);
 	}
-	
-	public Number localeNum2Num( String localNum )
-	{
-		try
-		{
-			return format.parse( localNum );
-		}
-		catch ( ParseException e )
-		{
+
+	public Number localeNum2Num(String localNum) {
+		try {
+			return format.parse(localNum);
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			return Double.NaN;
 		}

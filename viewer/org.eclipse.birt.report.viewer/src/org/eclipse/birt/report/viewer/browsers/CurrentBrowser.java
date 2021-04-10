@@ -14,12 +14,11 @@ package org.eclipse.birt.report.viewer.browsers;
 import org.eclipse.help.browser.IBrowser;
 
 /**
- * Wrapper for individual browsers contributed through extension point.
- * The original implmentation is from Help.
+ * Wrapper for individual browsers contributed through extension point. The
+ * original implmentation is from Help.
  * <p>
  */
-public class CurrentBrowser implements IBrowser
-{
+public class CurrentBrowser implements IBrowser {
 	private IBrowser browserAdapter;
 
 	private String browserAdapterId;
@@ -48,12 +47,11 @@ public class CurrentBrowser implements IBrowser
 	/**
 	 * Constructor.
 	 * 
-	 * @param browserImpl browser instance
+	 * @param browserImpl      browser instance
 	 * @param browserAdapterId browser adapter id
-	 * @param externalBrowser using external browser or not
+	 * @param externalBrowser  using external browser or not
 	 */
-	public CurrentBrowser( IBrowser browserImpl, String browserAdapterId, boolean externalBrowser )
-	{
+	public CurrentBrowser(IBrowser browserImpl, String browserAdapterId, boolean externalBrowser) {
 		this.browserAdapter = browserImpl;
 
 		this.browserAdapterId = browserAdapterId;
@@ -64,9 +62,8 @@ public class CurrentBrowser implements IBrowser
 	/**
 	 * Close current browser.
 	 */
-	public void close( )
-	{
-		browserAdapter.close( );
+	public void close() {
+		browserAdapter.close();
 	}
 
 	/**
@@ -74,9 +71,8 @@ public class CurrentBrowser implements IBrowser
 	 * 
 	 * @return current browser support close operation or not
 	 */
-	public boolean isCloseSupported( )
-	{
-		return browserAdapter.isCloseSupported( );
+	public boolean isCloseSupported() {
+		return browserAdapter.isCloseSupported();
 	}
 
 	/**
@@ -84,13 +80,11 @@ public class CurrentBrowser implements IBrowser
 	 * 
 	 * @param url Url
 	 */
-	public void displayURL( String url ) throws Exception
-	{
-		checkDefaultAdapter( );
+	public void displayURL(String url) throws Exception {
+		checkDefaultAdapter();
 
-		if ( newBrowserAdapter != null )
-		{
-			browserAdapter.close( );
+		if (newBrowserAdapter != null) {
+			browserAdapter.close();
 
 			browserAdapter = newBrowserAdapter;
 
@@ -100,18 +94,16 @@ public class CurrentBrowser implements IBrowser
 
 			newBrowserAdapterId = null;
 
-			if ( locationSet )
-			{
-				browserAdapter.setLocation( x, y );
+			if (locationSet) {
+				browserAdapter.setLocation(x, y);
 			}
 
-			if ( sizeSet )
-			{
-				browserAdapter.setSize( width, height );
+			if (sizeSet) {
+				browserAdapter.setSize(width, height);
 			}
 		}
 
-		browserAdapter.displayURL( url );
+		browserAdapter.displayURL(url);
 	}
 
 	/**
@@ -119,16 +111,13 @@ public class CurrentBrowser implements IBrowser
 	 * 
 	 * @return allow setting browser window location supported
 	 */
-	public boolean isSetLocationSupported( )
-	{
-		checkDefaultAdapter( );
+	public boolean isSetLocationSupported() {
+		checkDefaultAdapter();
 
-		if ( newBrowserAdapterId == null )
-		{
-			return browserAdapter.isSetLocationSupported( );
+		if (newBrowserAdapterId == null) {
+			return browserAdapter.isSetLocationSupported();
 		}
-		return browserAdapter.isSetLocationSupported( )
-				|| newBrowserAdapter.isSetLocationSupported( );
+		return browserAdapter.isSetLocationSupported() || newBrowserAdapter.isSetLocationSupported();
 	}
 
 	/**
@@ -136,29 +125,25 @@ public class CurrentBrowser implements IBrowser
 	 * 
 	 * @return allow setting browser size supported
 	 */
-	public boolean isSetSizeSupported( )
-	{
-		checkDefaultAdapter( );
+	public boolean isSetSizeSupported() {
+		checkDefaultAdapter();
 
-		if ( newBrowserAdapterId == null )
-		{
-			return browserAdapter.isSetSizeSupported( );
+		if (newBrowserAdapterId == null) {
+			return browserAdapter.isSetSizeSupported();
 		}
-		return browserAdapter.isSetSizeSupported( )
-				|| newBrowserAdapter.isSetSizeSupported( );
+		return browserAdapter.isSetSizeSupported() || newBrowserAdapter.isSetSizeSupported();
 	}
 
 	/**
 	 * Set browser window location.
 	 * 
 	 * @param x X coordinate of window's top-left corner
-	 * @param y Y coordinate of window's top-left corner 
+	 * @param y Y coordinate of window's top-left corner
 	 */
-	public void setLocation( int x, int y )
-	{
-		checkDefaultAdapter( );
+	public void setLocation(int x, int y) {
+		checkDefaultAdapter();
 
-		browserAdapter.setLocation( x, y );
+		browserAdapter.setLocation(x, y);
 
 		locationSet = true;
 
@@ -170,14 +155,13 @@ public class CurrentBrowser implements IBrowser
 	/**
 	 * Set browser window size.
 	 * 
-	 * @param width browser window width
+	 * @param width  browser window width
 	 * @param height browser window height
 	 */
-	public void setSize( int width, int height )
-	{
-		checkDefaultAdapter( );
+	public void setSize(int width, int height) {
+		checkDefaultAdapter();
 
-		browserAdapter.setSize( width, height );
+		browserAdapter.setSize(width, height);
 
 		sizeSet = true;
 
@@ -190,30 +174,18 @@ public class CurrentBrowser implements IBrowser
 	 * Checks whether default adapter has changed. If yes, sets the
 	 * newBrowserAdapterId field
 	 */
-	private void checkDefaultAdapter( )
-	{
-		if ( external )
-		{
-			if ( !browserAdapterId.equals( BrowserManager.getInstance( )
-					.getCurrentBrowserID( ) ) )
-			{
-				newBrowserAdapter = BrowserManager.getInstance( )
-						.createBrowser( true );
+	private void checkDefaultAdapter() {
+		if (external) {
+			if (!browserAdapterId.equals(BrowserManager.getInstance().getCurrentBrowserID())) {
+				newBrowserAdapter = BrowserManager.getInstance().createBrowser(true);
 
-				newBrowserAdapterId = BrowserManager.getInstance( )
-						.getCurrentBrowserID( );
+				newBrowserAdapterId = BrowserManager.getInstance().getCurrentBrowserID();
 			}
-		}
-		else
-		{
-			if ( !browserAdapterId.equals( BrowserManager.getInstance( )
-					.getCurrentInternalBrowserID( ) ) )
-			{
-				newBrowserAdapter = BrowserManager.getInstance( )
-						.createBrowser( false );
+		} else {
+			if (!browserAdapterId.equals(BrowserManager.getInstance().getCurrentInternalBrowserID())) {
+				newBrowserAdapter = BrowserManager.getInstance().createBrowser(false);
 
-				newBrowserAdapterId = BrowserManager.getInstance( )
-						.getCurrentInternalBrowserID( );
+				newBrowserAdapterId = BrowserManager.getInstance().getCurrentInternalBrowserID();
 			}
 		}
 	}

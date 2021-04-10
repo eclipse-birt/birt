@@ -39,120 +39,125 @@ import org.eclipse.birt.report.model.api.SortKeyHandle;
  * 
  */
 
-public interface IModelAdapter
-{
-	public static enum ExpressionLocation{TABLE, CUBE};
+public interface IModelAdapter {
+	public static enum ExpressionLocation {
+		TABLE, CUBE
+	};
 
 	/**
 	 * Adapts a Model data source handle to an equivalent BaseDataSourceDesign.
 	 */
-	public BaseDataSourceDesign adaptDataSource( DataSourceHandle handle )
-			throws BirtException;
+	public BaseDataSourceDesign adaptDataSource(DataSourceHandle handle) throws BirtException;
 
 	/**
 	 * Adapts a Model data set handle to an equivalent BaseDataSetDesign.
 	 */
-	public BaseDataSetDesign adaptDataSet( DataSetHandle handle )
-			throws BirtException;
+	public BaseDataSetDesign adaptDataSet(DataSetHandle handle) throws BirtException;
 
 	/**
 	 * Adapts a Model parameter definition
 	 */
-	public ParameterDefinition adaptParameter(
-			DataSetParameterHandle paramHandle );
+	public ParameterDefinition adaptParameter(DataSetParameterHandle paramHandle);
 
 	/**
 	 * Adapts a Model input parameter binding definition
 	 */
-	public InputParameterBinding adaptInputParamBinding(
-			ParamBindingHandle modelHandle );
+	public InputParameterBinding adaptInputParamBinding(ParamBindingHandle modelHandle);
 
 	/**
 	 * Adapts a Model column definition
 	 */
-	public ColumnDefinition ColumnAdaptor( ResultSetColumnHandle modelColumn );
+	public ColumnDefinition ColumnAdaptor(ResultSetColumnHandle modelColumn);
 
 	/**
 	 * Adapts a Model computed column definition
-	 * @throws AdapterException 
+	 * 
+	 * @throws AdapterException
 	 * 
 	 */
-	public ComputedColumn adaptComputedColumn( ComputedColumnHandle modelHandle ) throws AdapterException;
+	public ComputedColumn adaptComputedColumn(ComputedColumnHandle modelHandle) throws AdapterException;
 
 	/**
 	 * Adapts a Model condition
 	 * 
-	 * @param mainExpr
-	 *            Main expression; must not be null
-	 * @param operator
-	 *            Operator
+	 * @param mainExpr Main expression; must not be null
+	 * @param operator Operator
 	 */
-	public ConditionalExpression adaptConditionalExpression( String mainExpr,
-			String operator, String operand1, String operand2 );
+	public ConditionalExpression adaptConditionalExpression(String mainExpr, String operator, String operand1,
+			String operand2);
 
-	public ConditionalExpression adaptConditionalExpression(
-			Expression mainExpr, String operator,
-			Expression operand1, Expression operand2 );
+	public ConditionalExpression adaptConditionalExpression(Expression mainExpr, String operator, Expression operand1,
+			Expression operand2);
 
-	public ScriptExpression adaptExpression( Expression expr, ExpressionLocation el );
-	public ScriptExpression adaptExpression( Expression expr );
-	
+	public ScriptExpression adaptExpression(Expression expr, ExpressionLocation el);
+
+	public ScriptExpression adaptExpression(Expression expr);
+
 	/**
-	 * Constructs an expression with provided text and return data type Data
-	 * type is defined as a Model data type string
+	 * Constructs an expression with provided text and return data type Data type is
+	 * defined as a Model data type string
 	 */
 
-	public ScriptExpression adaptExpression( Expression expr, String dataType );
-	
-	public ScriptExpression adaptExpression( String jsExpr, String dataType );
-	
-	public ScriptExpression adaptJSExpression( String jsExpr, String dataType );
-	
-/*	*//**
-	 * Adapts an expression based on Model computed column handle
-	 *//*
-	public ScriptExpression adaptExpression( ComputedColumnHandle ccHandle );
-*/
+	public ScriptExpression adaptExpression(Expression expr, String dataType);
+
+	public ScriptExpression adaptExpression(String jsExpr, String dataType);
+
+	public ScriptExpression adaptJSExpression(String jsExpr, String dataType);
+
+	/*	*//**
+			 * Adapts an expression based on Model computed column handle
+			 *//*
+				 * public ScriptExpression adaptExpression( ComputedColumnHandle ccHandle );
+				 */
+
 	/**
 	 * Adapts a model filter handle
-	 * @throws AdapterException 
+	 * 
+	 * @throws AdapterException
 	 */
-	public FilterDefinition adaptFilter( FilterConditionHandle modelFilter );
+	public FilterDefinition adaptFilter(FilterConditionHandle modelFilter);
 
 	/**
 	 * Adapts a model Group handle
-	 * @throws AdapterException 
+	 * 
+	 * @throws AdapterException
 	 */
-	public GroupDefinition adaptGroup( GroupHandle groupHandle );
+	public GroupDefinition adaptGroup(GroupHandle groupHandle);
 
 	/**
 	 * Adapts a model Sort handle
-	 * @throws AdapterException 
+	 * 
+	 * @throws AdapterException
 	 */
-	public SortDefinition adaptSort( SortKeyHandle sortHandle );
+	public SortDefinition adaptSort(SortKeyHandle sortHandle);
 
 	/**
-	 * Adapts a model Sort based on a sort key expression and a Model sort
-	 * direction string
-	 * @throws AdapterException 
+	 * Adapts a model Sort based on a sort key expression and a Model sort direction
+	 * string
+	 * 
+	 * @throws AdapterException
 	 */
-	public SortDefinition adaptSort( Expression expr, String direction );
+	public SortDefinition adaptSort(Expression expr, String direction);
 
 	/**
 	 * Adapt a model computed column handle to an IBinding instance.
+	 * 
 	 * @param handle
 	 * @return
-	 * @throws AdapterException 
+	 * @throws AdapterException
 	 */
-	public IBinding adaptBinding( ComputedColumnHandle handle ) throws AdapterException;
+	public IBinding adaptBinding(ComputedColumnHandle handle) throws AdapterException;
 
 	/**
 	 * 
-	 * Adapt a model computed column handle to an IBinding instance based on ExpressionLocation, which could be TABLE, CUBE.
+	 * Adapt a model computed column handle to an IBinding instance based on
+	 * ExpressionLocation, which could be TABLE, CUBE.
+	 * 
 	 * @param handle
 	 * @param expressionLocation
 	 * @return
 	 * @throws AdapterException
 	 */
-	public IBinding adaptBinding( ComputedColumnHandle handle, ExpressionLocation expressionLocation ) throws AdapterException;
+	public IBinding adaptBinding(ComputedColumnHandle handle, ExpressionLocation expressionLocation)
+			throws AdapterException;
 }

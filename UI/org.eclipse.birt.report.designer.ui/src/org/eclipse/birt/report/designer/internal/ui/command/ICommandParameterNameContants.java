@@ -15,8 +15,7 @@ package org.eclipse.birt.report.designer.internal.ui.command;
  * 
  */
 
-public interface ICommandParameterNameContants
-{
+public interface ICommandParameterNameContants {
 
 	public static final String INSERT_GROUP_CURRENT_MODEL_NAME = "InsertPositionGroupAction.CurrentModelName"; //$NON-NLS-1$
 
@@ -55,6 +54,6 @@ public interface ICommandParameterNameContants
 	public static final String INSERT_ACTION_TYPE = "InsertAction.Type"; //$NON-NLS-1$
 
 	public static final String INSERT_ACTION_POSITION = "InsertAction.Position"; //$NON-NLS-1$
-	
+
 	public static final String SELECTION = "SelectionHandler.Section"; //$NON-NLS-1$
 }

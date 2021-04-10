@@ -20,26 +20,21 @@ import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
  * PDF output. Note this class disables any interactivity since PDF is a static
  * device renderer
  */
-public class PDFInteractiveRenderer extends SVGInteractiveRenderer
-{
+public class PDFInteractiveRenderer extends SVGInteractiveRenderer {
 
-	public PDFInteractiveRenderer( IDeviceRenderer device )
-	{
-		super( device );
+	public PDFInteractiveRenderer(IDeviceRenderer device) {
+		super(device);
 	}
 
-	public void addInteractivity( )
-	{
+	public void addInteractivity() {
 		// no interactions since we are rendering a static image
 	}
 
-	protected void groupPrimitive( PrimitiveRenderEvent pre, boolean drawText )
-	{
+	protected void groupPrimitive(PrimitiveRenderEvent pre, boolean drawText) {
 		// no interactions since we are rendering a static image
 	}
 
-	protected void ungroupPrimitive( PrimitiveRenderEvent pre, boolean drawText )
-	{
+	protected void ungroupPrimitive(PrimitiveRenderEvent pre, boolean drawText) {
 		// no interactions since we are rendering a static image
 	}
 

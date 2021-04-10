@@ -15,8 +15,7 @@ package org.eclipse.birt.report.item.crosstab.core;
  * Interface to define some constants for MeasureViewHandle.
  */
 
-public interface IMeasureViewConstants
-{
+public interface IMeasureViewConstants {
 
 	/**
 	 * Name of the property that refers a OLAP measure element.
@@ -34,11 +33,11 @@ public interface IMeasureViewConstants
 	String AGGREGATIONS_PROP = "aggregations"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that holds single CrosstabCell to show the header
-	 * for this measure.
+	 * Name of the property that holds single CrosstabCell to show the header for
+	 * this measure.
 	 */
 	String HEADER_PROP = "header"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the property that defines some filter conditions.
 	 */

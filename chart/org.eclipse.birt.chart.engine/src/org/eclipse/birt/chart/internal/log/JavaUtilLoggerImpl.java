@@ -32,8 +32,7 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
  * An ILogger implementation using java.util.logging.Logger
  */
 
-public class JavaUtilLoggerImpl implements ILogger
-{
+public class JavaUtilLoggerImpl implements ILogger {
 
 	private Logger logger;
 
@@ -42,32 +41,26 @@ public class JavaUtilLoggerImpl implements ILogger
 	private static StreamHandler fileHandler = null;
 
 	private static String stateDir = null;
-	
-	private void addLogHandler( )
-	{
-		if ( fileHandler == null )
-		{
+
+	private void addLogHandler() {
+		if (fileHandler == null) {
 			return;
 		}
 
 		/* if file handler already existed, don't add it */
 		boolean handlerExist = false;
-		for ( java.util.logging.Handler hd : this.logger.getHandlers( ) )
-		{
-			if ( hd.equals( fileHandler ) )
-			{
+		for (java.util.logging.Handler hd : this.logger.getHandlers()) {
+			if (hd.equals(fileHandler)) {
 				handlerExist = true;
 				break;
 			}
 		}
-		if ( !handlerExist )
-		{
-			this.logger.addHandler( fileHandler );
+		if (!handlerExist) {
+			this.logger.addHandler(fileHandler);
 		}
 	}
 
-	public static void setStateDir( String sStateDir )
-	{
+	public static void setStateDir(String sStateDir) {
 		stateDir = sStateDir;
 	}
 
@@ -76,23 +69,19 @@ public class JavaUtilLoggerImpl implements ILogger
 	 * 
 	 * @param name
 	 */
-	public JavaUtilLoggerImpl( String name )
-	{
-		this.logger = Logger.getLogger( name );
+	public JavaUtilLoggerImpl(String name) {
+		this.logger = Logger.getLogger(name);
 
-		if ( fileHandler != null )
-		{
-			if ( fileHandler.getLevel( ).intValue( ) < javaLevel.intValue( ) )
-			{
-				javaLevel = fileHandler.getLevel( );
+		if (fileHandler != null) {
+			if (fileHandler.getLevel().intValue() < javaLevel.intValue()) {
+				javaLevel = fileHandler.getLevel();
 			}
-			addLogHandler( );
-			this.logger.setUseParentHandlers( false );
+			addLogHandler();
+			this.logger.setUseParentHandlers(false);
 		}
 
-		if ( this.logger.getLevel( ) == null )
-		{
-			this.logger.setLevel( javaLevel );
+		if (this.logger.getLevel() == null) {
+			this.logger.setLevel(javaLevel);
 		}
 	}
 
@@ -101,17 +90,15 @@ public class JavaUtilLoggerImpl implements ILogger
 	 * 
 	 * @param name
 	 */
-	public JavaUtilLoggerImpl( String name, int verboseLevel )
-	{
-		this.logger = Logger.getLogger( name );
-		setVerboseLevel( verboseLevel );
+	public JavaUtilLoggerImpl(String name, int verboseLevel) {
+		this.logger = Logger.getLogger(name);
+		setVerboseLevel(verboseLevel);
 	}
 
 	/**
 	 * @return the inner java.util.logging.Logger
 	 */
-	public Logger getJavaLogger( )
-	{
+	public Logger getJavaLogger() {
 		return this.logger;
 	}
 
@@ -120,11 +107,10 @@ public class JavaUtilLoggerImpl implements ILogger
 	 * 
 	 * @see org.eclipse.birt.chart.log.ILogger#setVerboseLevel(int)
 	 */
-	public void setVerboseLevel( int iVerboseLevel )
-	{
-		this.javaLevel = toJavaUtilLevel( iVerboseLevel );
+	public void setVerboseLevel(int iVerboseLevel) {
+		this.javaLevel = toJavaUtilLevel(iVerboseLevel);
 
-		this.logger.setLevel( this.javaLevel );
+		this.logger.setLevel(this.javaLevel);
 	}
 
 	/*
@@ -132,17 +118,15 @@ public class JavaUtilLoggerImpl implements ILogger
 	 * 
 	 * @see org.eclipse.birt.chart.log.ILogger#log(int, java.lang.String)
 	 */
-	public void log( int iCode, String sMessage )
-	{
-		Level level = toJavaUtilLevel( iCode );
+	public void log(int iCode, String sMessage) {
+		Level level = toJavaUtilLevel(iCode);
 
-		if ( logger.isLoggable( level ) )
-		{
-			LogRecord lr = new LogRecord( level, sMessage );
-			String[] rt = inferCaller( );
-			lr.setSourceClassName( rt[0] );
-			lr.setSourceMethodName( rt[1] );
-			logger.log( lr );
+		if (logger.isLoggable(level)) {
+			LogRecord lr = new LogRecord(level, sMessage);
+			String[] rt = inferCaller();
+			lr.setSourceClassName(rt[0]);
+			lr.setSourceMethodName(rt[1]);
+			logger.log(lr);
 		}
 	}
 
@@ -151,50 +135,43 @@ public class JavaUtilLoggerImpl implements ILogger
 	 * 
 	 * @see org.eclipse.birt.chart.log.ILogger#log(java.lang.Exception)
 	 */
-	public void log( Exception ex )
-	{
-		if ( logger.isLoggable( Level.WARNING ) )
-		{
-			LogRecord lr = new LogRecord( Level.WARNING, "Exception" ); //$NON-NLS-1$
-			lr.setThrown( ex );
-			String[] rt = inferCaller( );
-			lr.setSourceClassName( rt[0] );
-			lr.setSourceMethodName( rt[1] );
-			logger.log( lr );
+	public void log(Exception ex) {
+		if (logger.isLoggable(Level.WARNING)) {
+			LogRecord lr = new LogRecord(Level.WARNING, "Exception"); //$NON-NLS-1$
+			lr.setThrown(ex);
+			String[] rt = inferCaller();
+			lr.setSourceClassName(rt[0]);
+			lr.setSourceMethodName(rt[1]);
+			logger.log(lr);
 		}
 	}
 
 	// Private method to infer the caller's class and method names
-	private String[] inferCaller( )
-	{
+	private String[] inferCaller() {
 		String[] rt = new String[2];
-		rt[0] = this.getClass( ).getName( );
+		rt[0] = this.getClass().getName();
 		rt[1] = "log"; //$NON-NLS-1$
 
 		// Get the stack trace.
-		StackTraceElement stack[] = ( new Throwable( ) ).getStackTrace( );
+		StackTraceElement stack[] = (new Throwable()).getStackTrace();
 		// First, search back to a method in the JavaUtilLoggerImpl class.
 		int ix = 0;
-		while ( ix < stack.length )
-		{
+		while (ix < stack.length) {
 			StackTraceElement frame = stack[ix];
-			String cname = frame.getClassName( );
-			if ( cname.equals( this.getClass( ).getName( ) ) )
-			{
+			String cname = frame.getClassName();
+			if (cname.equals(this.getClass().getName())) {
 				break;
 			}
 			ix++;
 		}
 		// Now search for the first frame before the "JavaUtilLoggerImpl" class.
-		while ( ix < stack.length )
-		{
+		while (ix < stack.length) {
 			StackTraceElement frame = stack[ix];
-			String cname = frame.getClassName( );
-			if ( !cname.equals( this.getClass( ).getName( ) ) )
-			{
+			String cname = frame.getClassName();
+			if (!cname.equals(this.getClass().getName())) {
 				// We've found the relevant frame.
 				rt[0] = cname;
-				rt[1] = frame.getMethodName( );
+				rt[1] = frame.getMethodName();
 				return rt;
 			}
 			ix++;
@@ -204,22 +181,17 @@ public class JavaUtilLoggerImpl implements ILogger
 		return rt;
 	}
 
-	private static Level toJavaUtilLevel( int chartLevel )
-	{
-		if ( chartLevel <= ILogger.ALL )
-		{
+	private static Level toJavaUtilLevel(int chartLevel) {
+		if (chartLevel <= ILogger.ALL) {
 			return Level.ALL;
 		}
-		if ( chartLevel <= ILogger.TRACE )
-		{
+		if (chartLevel <= ILogger.TRACE) {
 			return Level.FINER;
 		}
-		if ( chartLevel <= ILogger.INFORMATION )
-		{
+		if (chartLevel <= ILogger.INFORMATION) {
 			return Level.INFO;
 		}
-		if ( chartLevel <= ILogger.WARNING )
-		{
+		if (chartLevel <= ILogger.WARNING) {
 			return Level.WARNING;
 		}
 
@@ -227,59 +199,40 @@ public class JavaUtilLoggerImpl implements ILogger
 		return Level.SEVERE;
 	}
 
-	public static void initFileHandler( String sLogFolder, final Level level )
-			throws SecurityException, IOException
-	{
-		if ( sLogFolder == null )
-		{
-			if ( stateDir == null )
-			{
+	public static void initFileHandler(String sLogFolder, final Level level) throws SecurityException, IOException {
+		if (sLogFolder == null) {
+			if (stateDir == null) {
 				return;
-			}
-			else
-			{
+			} else {
 				sLogFolder = stateDir;
 			}
 		}
 
-		if ( sLogFolder.length( ) > 0
-				&& sLogFolder.lastIndexOf( File.separator ) == sLogFolder.length( ) - 1 )
-		{
-			sLogFolder = sLogFolder.substring( 0, sLogFolder.length( ) - 1 );
+		if (sLogFolder.length() > 0 && sLogFolder.lastIndexOf(File.separator) == sLogFolder.length() - 1) {
+			sLogFolder = sLogFolder.substring(0, sLogFolder.length() - 1);
 		}
 
-		final String sName = ChartEnginePlugin.ID
-				+ new SimpleDateFormat( "_yyyy_MM_dd_HH_mm_ss_SSS" ).format( new Date( ) ); //$NON-NLS-1$
+		final String sName = ChartEnginePlugin.ID + new SimpleDateFormat("_yyyy_MM_dd_HH_mm_ss_SSS").format(new Date()); //$NON-NLS-1$
 		final String sDir = sLogFolder;
 
-		try
-		{
-			fileHandler = AccessController.doPrivileged( new PrivilegedExceptionAction<FileHandler>( ) {
+		try {
+			fileHandler = AccessController.doPrivileged(new PrivilegedExceptionAction<FileHandler>() {
 
-				public FileHandler run( ) throws Exception
-				{
+				public FileHandler run() throws Exception {
 					Level logLevel = level != null ? level : Level.FINEST;
 
-					FileHandler fileHandler = new FileHandler( sDir
-							+ File.separator
-							+ sName
-							+ ".log", true ); //$NON-NLS-1$
-					fileHandler.setFormatter( new SimpleFormatter( ) );
-					fileHandler.setLevel( logLevel );
+					FileHandler fileHandler = new FileHandler(sDir + File.separator + sName + ".log", true); //$NON-NLS-1$
+					fileHandler.setFormatter(new SimpleFormatter());
+					fileHandler.setLevel(logLevel);
 					return fileHandler;
 				}
 
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof SecurityException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof SecurityException) {
 				throw (SecurityException) typedException;
-			}
-			else if ( typedException instanceof IOException )
-			{
+			} else if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
 		}

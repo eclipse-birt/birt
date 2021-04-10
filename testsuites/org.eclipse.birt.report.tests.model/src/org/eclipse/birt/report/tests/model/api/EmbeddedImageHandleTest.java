@@ -16,7 +16,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 import com.ibm.icu.util.ULocale;
 
 /**
- * TestCases for EmbeddedImageHandle class. 
+ * TestCases for EmbeddedImageHandle class.
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
@@ -33,58 +33,56 @@ import com.ibm.icu.util.ULocale;
  * </table>
  * 
  */
-public class EmbeddedImageHandleTest extends BaseTestCase
-{
-    String filename = "Improved_test6.xml";
-    
- 	public EmbeddedImageHandleTest(String name) {
+public class EmbeddedImageHandleTest extends BaseTestCase {
+	String filename = "Improved_test6.xml";
+
+	public EmbeddedImageHandleTest(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
 
-	 public static Test suite(){
-			
-			return new TestSuite(EmbeddedImageHandleTest.class);
-		}
-		protected void setUp( ) throws Exception
-		{
-			super.setUp( );
-			removeResource( );
-			
-			// retrieve two input files from tests-model.jar file
-			copyInputToFile( INPUT_FOLDER+ "/"+ filename  );
-		
-			
-		}
-	
-		/**
-		 * Drop embedded image.
-		 * @throws Exception
-		 */
-		public void testDrop( ) throws Exception
-		{
-	
-			SessionHandle sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
-			ReportDesignHandle designHandle = sessionHandle.openDesign(getTempFolder() + "/" +INPUT_FOLDER+ "/" + filename);
-			
-			SimpleValueHandle propHandle = (SimpleValueHandle)designHandle.getPropertyHandle( ReportDesign.IMAGES_PROP );
-			
-	
-			EmbeddedImageHandle image1handle = (EmbeddedImageHandle) designHandle
-			                                   .findImage("group confirmation logo.jpg").getHandle(propHandle);
-			EmbeddedImageHandle image2handle = (EmbeddedImageHandle) designHandle
-			                                   .findImage("circles.png").getHandle(propHandle);
+	public static Test suite() {
 
-			image1handle.drop();
-			List value = propHandle.getListValue( );
-			assertEquals( 1, value.size( ) );
-			assertEquals( image2handle.getStructure( ), value.get( 0 ) );
-			assertNull( image1handle.getStructure( ) );
-			
-			image2handle.drop();
-			List value1 =  propHandle.getListValue();
-			assertNull( value1);
-			assertNull( image2handle.getStructure( ) );
-		}
+		return new TestSuite(EmbeddedImageHandleTest.class);
+	}
+
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		// retrieve two input files from tests-model.jar file
+		copyInputToFile(INPUT_FOLDER + "/" + filename);
+
+	}
+
+	/**
+	 * Drop embedded image.
+	 * 
+	 * @throws Exception
+	 */
+	public void testDrop() throws Exception {
+
+		SessionHandle sessionHandle = DesignEngine.newSession(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = sessionHandle
+				.openDesign(getTempFolder() + "/" + INPUT_FOLDER + "/" + filename);
+
+		SimpleValueHandle propHandle = (SimpleValueHandle) designHandle.getPropertyHandle(ReportDesign.IMAGES_PROP);
+
+		EmbeddedImageHandle image1handle = (EmbeddedImageHandle) designHandle.findImage("group confirmation logo.jpg")
+				.getHandle(propHandle);
+		EmbeddedImageHandle image2handle = (EmbeddedImageHandle) designHandle.findImage("circles.png")
+				.getHandle(propHandle);
+
+		image1handle.drop();
+		List value = propHandle.getListValue();
+		assertEquals(1, value.size());
+		assertEquals(image2handle.getStructure(), value.get(0));
+		assertNull(image1handle.getStructure());
+
+		image2handle.drop();
+		List value1 = propHandle.getListValue();
+		assertNull(value1);
+		assertNull(image2handle.getStructure());
+	}
 
 }

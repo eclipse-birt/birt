@@ -24,31 +24,28 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_137174 extends BaseTestCase
-{
+public class Regression_137174 extends BaseTestCase {
 
 	private String filename = "Regression_137174.xml"; //$NON-NLS-1$
 	private String filename_lib = "Regression_137174_lib.xml"; //$NON-NLS-1$
+
 	/**
 	 * 
 	 */
-	
-	protected void setUp() throws Exception
-	{
+
+	protected void setUp() throws Exception {
 		super.setUp();
-		//removeResource();
-		copyInputToFile(INPUT_FOLDER+"/"+filename);
-		copyInputToFile(INPUT_FOLDER+"/"+filename_lib);
+		// removeResource();
+		copyInputToFile(INPUT_FOLDER + "/" + filename);
+		copyInputToFile(INPUT_FOLDER + "/" + filename_lib);
 	}
 
-	protected void tearDown() 
-	{
+	protected void tearDown() {
 		removeResource();
 	}
-	
-	//Need further investigate
-	public void test_regression_137174( )
-	{
+
+	// Need further investigate
+	public void test_regression_137174() {
 //		List infos = ModuleUtil.checkVersion( getTempFolder( ) + "/" + INPUT_FOLDER
 //				+ "/" + filename );
 //		assertEquals( 1, infos.size( ) );

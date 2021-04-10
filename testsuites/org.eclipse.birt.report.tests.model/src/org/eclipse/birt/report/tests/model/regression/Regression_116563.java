@@ -41,50 +41,42 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Make sure that including the same library twice or over twice is not allowed.
  * </p>
  */
-public class Regression_116563 extends BaseTestCase
-{
+public class Regression_116563 extends BaseTestCase {
 
 	private final static String LIBRARY = "regression_116563_lib.xml"; //$NON-NLS-1$
 	private final static String REPORT = "regression_116563.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		copyResource_INPUT( LIBRARY , LIBRARY );
-		copyResource_INPUT( REPORT , REPORT );
-		
-	
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		copyResource_INPUT(LIBRARY, LIBRARY);
+		copyResource_INPUT(REPORT, REPORT);
+
 	}
-	
+
 	/**
 	 * @throws SemanticException
 	 * @throws DesignFileException
 	 * 
 	 */
-	public void test_regression_116563( ) throws DesignFileException, SemanticException
-	{
-		openDesign( REPORT );
-		//designHandle.includeLibrary(
-		//		getClassFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY,
-		//		"regression_116563_lib" ); //$NON-NLS-1$
-		designHandle.includeLibrary(
-				this.getFullQualifiedClassName() + "/" + INPUT_FOLDER + "/" + LIBRARY,
-				"regression_116563_lib" ); //$NON-NLS-1$
+	public void test_regression_116563() throws DesignFileException, SemanticException {
+		openDesign(REPORT);
+		// designHandle.includeLibrary(
+		// getClassFolder( ) + "/" + INPUT_FOLDER + "/" + LIBRARY,
+		// "regression_116563_lib" ); //$NON-NLS-1$
+		designHandle.includeLibrary(this.getFullQualifiedClassName() + "/" + INPUT_FOLDER + "/" + LIBRARY,
+				"regression_116563_lib"); //$NON-NLS-1$
 
-		try
-		{
+		try {
 			// should throw exception when add the same library the second time.
 
-			//designHandle.includeLibrary( getClassFolder( ) + "/" + INPUT_FOLDER
-			//		+ "/" + LIBRARY, "regression_116563_lib_2" ); //$NON-NLS-1$
-			designHandle.includeLibrary( this.getFullQualifiedClassName() + "/" + INPUT_FOLDER
-					+ "/" + LIBRARY, "regression_116563_lib_2" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( Exception e )
-		{
+			// designHandle.includeLibrary( getClassFolder( ) + "/" + INPUT_FOLDER
+			// + "/" + LIBRARY, "regression_116563_lib_2" ); //$NON-NLS-1$
+			designHandle.includeLibrary(this.getFullQualifiedClassName() + "/" + INPUT_FOLDER + "/" + LIBRARY, //$NON-NLS-2$
+					"regression_116563_lib_2");
+			fail();
+		} catch (Exception e) {
 			// success
 		}
 	}

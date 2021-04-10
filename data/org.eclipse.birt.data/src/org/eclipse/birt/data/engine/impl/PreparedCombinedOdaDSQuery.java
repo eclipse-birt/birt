@@ -11,63 +11,51 @@ import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 import org.eclipse.datatools.connectivity.oda.spec.basequery.AtomicQuery;
 import org.eclipse.datatools.connectivity.oda.spec.basequery.CombinedQuery;
 
+public class PreparedCombinedOdaDSQuery extends PreparedOdaDSQuery {
 
-public class PreparedCombinedOdaDSQuery extends PreparedOdaDSQuery
-{
+	PreparedCombinedOdaDSQuery(DataEngineImpl dataEngine, IQueryDefinition queryDefn, IBaseDataSetDesign dataSetDesign,
+			Map appContext, IQueryContextVisitor visitor) throws DataException {
+		super(dataEngine, queryDefn, dataSetDesign, appContext, visitor);
+	}
 
-    PreparedCombinedOdaDSQuery( DataEngineImpl dataEngine,
-            IQueryDefinition queryDefn, IBaseDataSetDesign dataSetDesign,
-            Map appContext, IQueryContextVisitor visitor ) throws DataException
-    {
-        super( dataEngine, queryDefn, dataSetDesign, appContext, visitor );
-    }
-    
-    protected QueryExecutor newExecutor() throws DataException
-    {
-        return new CombinedDSQueryExecutor();
-    }   
+	protected QueryExecutor newExecutor() throws DataException {
+		return new CombinedDSQueryExecutor();
+	}
 
-    public class CombinedDSQueryExecutor extends OdaDSQueryExecutor
-    {
-        /*
-         * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
-         */
-        protected IQuery createOdiQuery( ) throws DataException
-        {
-            CombinedOdaDataSetRuntime extDataSet = (CombinedOdaDataSetRuntime) dataSet;
-            assert extDataSet != null;
-            
-            QueryOptimizeHints queryOptimizeHints = (QueryOptimizeHints) this.getAppContext( )
-                        .get( IQueryOptimizeHints.QUERY_OPTIMIZE_HINT );
-            Map<String, QuerySpecification> optimizedDataSets = queryOptimizeHints.getOptimizedCombinedQuerySpec( );
-            QuerySpecification combinedQuerySpec = optimizedDataSets.get( extDataSet.getName( ) );
-            if ( combinedQuerySpec != null )
-            {
-                reconstructQuerySpec( combinedQuerySpec, queryOptimizeHints, extDataSet );
-            }
+	public class CombinedDSQueryExecutor extends OdaDSQueryExecutor {
+		/*
+		 * @see
+		 * org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiQuery()
+		 */
+		protected IQuery createOdiQuery() throws DataException {
+			CombinedOdaDataSetRuntime extDataSet = (CombinedOdaDataSetRuntime) dataSet;
+			assert extDataSet != null;
 
-            return super.createOdiQuery( );
-        }
+			QueryOptimizeHints queryOptimizeHints = (QueryOptimizeHints) this.getAppContext()
+					.get(IQueryOptimizeHints.QUERY_OPTIMIZE_HINT);
+			Map<String, QuerySpecification> optimizedDataSets = queryOptimizeHints.getOptimizedCombinedQuerySpec();
+			QuerySpecification combinedQuerySpec = optimizedDataSets.get(extDataSet.getName());
+			if (combinedQuerySpec != null) {
+				reconstructQuerySpec(combinedQuerySpec, queryOptimizeHints, extDataSet);
+			}
 
-        private void reconstructQuerySpec(
-                QuerySpecification querySpec,
-                QueryOptimizeHints optimizeHints, CombinedOdaDataSetRuntime dataSet )
-        {
-            BaseQuery baseQuery = querySpec.getBaseQuery( );
-            if ( baseQuery instanceof CombinedQuery )
-            {
-                reconstructQuerySpec( ( (CombinedQuery) baseQuery ).getLeftQuery( ), optimizeHints, dataSet );
-                reconstructQuerySpec( ( (CombinedQuery) baseQuery ).getRightQuery( ), optimizeHints, dataSet );
-            }
-            if ( baseQuery instanceof AtomicQuery )
-            {
-                String dataSetName = optimizeHints.getDataSetForAtomicQuery( (AtomicQuery) baseQuery );
-                String queryText = dataSet.getQueryText( dataSetName );
-                if ( queryText != null )
-                {
-                    querySpec.setBaseQuery( new AtomicQuery( queryText ) );
-                }
-            }
-        }
-    }
+			return super.createOdiQuery();
+		}
+
+		private void reconstructQuerySpec(QuerySpecification querySpec, QueryOptimizeHints optimizeHints,
+				CombinedOdaDataSetRuntime dataSet) {
+			BaseQuery baseQuery = querySpec.getBaseQuery();
+			if (baseQuery instanceof CombinedQuery) {
+				reconstructQuerySpec(((CombinedQuery) baseQuery).getLeftQuery(), optimizeHints, dataSet);
+				reconstructQuerySpec(((CombinedQuery) baseQuery).getRightQuery(), optimizeHints, dataSet);
+			}
+			if (baseQuery instanceof AtomicQuery) {
+				String dataSetName = optimizeHints.getDataSetForAtomicQuery((AtomicQuery) baseQuery);
+				String queryText = dataSet.getQueryText(dataSetName);
+				if (queryText != null) {
+					querySpec.setBaseQuery(new AtomicQuery(queryText));
+				}
+			}
+		}
+	}
 }

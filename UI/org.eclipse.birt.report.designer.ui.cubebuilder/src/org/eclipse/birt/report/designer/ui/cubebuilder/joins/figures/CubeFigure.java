@@ -16,36 +16,33 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.ScalableLayeredPane;
 import org.eclipse.draw2d.XYLayout;
 
-
 /**
  * Report Editot root editpart.
  * 
  */
-public class CubeFigure extends ScalableLayeredPane
-{
+public class CubeFigure extends ScalableLayeredPane {
 
-	public CubeFigure()
-	{
+	public CubeFigure() {
 		setLayoutManager(new XYLayout());
 	}
-	
-	/* Do nothing
+
+	/*
+	 * Do nothing
+	 * 
 	 * @see org.eclipse.draw2d.Figure#paintBorder(org.eclipse.draw2d.Graphics)
 	 */
-	protected void paintBorder( Graphics graphics )
-	{
-		
+	protected void paintBorder(Graphics graphics) {
+
 	}
 
-	
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
-	protected void paintFigure( Graphics graphics )
-	{
-		super.paintFigure( graphics );
-		graphics.setForegroundColor( ReportColorConstants.MarginBorderColor );
+	protected void paintFigure(Graphics graphics) {
+		super.paintFigure(graphics);
+		graphics.setForegroundColor(ReportColorConstants.MarginBorderColor);
 	}
 
 }

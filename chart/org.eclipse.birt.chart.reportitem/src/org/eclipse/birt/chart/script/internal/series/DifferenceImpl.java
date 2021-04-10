@@ -23,18 +23,15 @@ import org.eclipse.birt.chart.script.internal.series.data.DifferenceDataImpl;
  * 
  */
 
-public class DifferenceImpl extends ValueSeriesImpl implements IDifference
-{
+public class DifferenceImpl extends ValueSeriesImpl implements IDifference {
 
-	public DifferenceImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public DifferenceImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 		assert series instanceof DifferenceSeries;
 	}
 
-	public ISeriesData getDataExpr( )
-	{
-		return new DifferenceDataImpl( sd );
+	public ISeriesData getDataExpr() {
+		return new DifferenceDataImpl(sd);
 	}
 
 }

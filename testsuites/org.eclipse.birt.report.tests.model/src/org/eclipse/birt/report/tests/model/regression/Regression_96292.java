@@ -25,8 +25,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * exceptions.
  * <p>
  */
-public class Regression_96292 extends BaseTestCase
-{
+public class Regression_96292 extends BaseTestCase {
 
 	private final static String INPUT = "customers.rptdesign"; //$NON-NLS-1$
 
@@ -34,26 +33,22 @@ public class Regression_96292 extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-	
-	}
-	
-	
-	public void tearDown( )
-	{
-		removeResource( );
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
 
-	public void test_regression_96292( ) throws DesignFileException
-	{
-		openDesign( INPUT );
-		List errors = designHandle.getErrorList( );
-		assertEquals( 0, errors.size( ) );
+	public void tearDown() {
+		removeResource();
+	}
+
+	public void test_regression_96292() throws DesignFileException {
+		openDesign(INPUT);
+		List errors = designHandle.getErrorList();
+		assertEquals(0, errors.size());
 	}
 }

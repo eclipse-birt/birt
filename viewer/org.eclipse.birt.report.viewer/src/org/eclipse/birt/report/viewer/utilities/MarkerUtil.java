@@ -22,8 +22,7 @@ import org.eclipse.core.runtime.Path;
 /**
  * Utility class to append error/fatal/warning/info message into Problems View.
  */
-public class MarkerUtil
-{
+public class MarkerUtil {
 
 	/**
 	 * Viewer Problem marker id
@@ -38,8 +37,7 @@ public class MarkerUtil
 	/**
 	 * Current workspace root
 	 */
-	private static IWorkspaceRoot workspaceRoot = ResourcesPlugin
-			.getWorkspace( ).getRoot( );
+	private static IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 
 	/**
 	 * Add marker
@@ -52,12 +50,10 @@ public class MarkerUtil
 	 * @param priority
 	 * @throws CoreException
 	 */
-	public static void addMarker( String systemId, String message,
-			long elementId, int lineNumber, int severity, int priority )
-			throws CoreException
-	{
-		IResource resource = createResourceFromSystemID( systemId );
-		addMarker( resource, message, elementId, lineNumber, severity, priority );
+	public static void addMarker(String systemId, String message, long elementId, int lineNumber, int severity,
+			int priority) throws CoreException {
+		IResource resource = createResourceFromSystemID(systemId);
+		addMarker(resource, message, elementId, lineNumber, severity, priority);
 	}
 
 	/**
@@ -71,24 +67,19 @@ public class MarkerUtil
 	 * @param priority
 	 * @throws CoreException
 	 */
-	public static void addMarker( IResource resource, String message,
-			long elementId, int lineNumber, int severity, int priority )
-			throws CoreException
-	{
-		if ( resource != null )
-		{
-			IMarker marker = resource.createMarker( PROBLEMS_MARKER_ID );
-			if ( message != null )
-				marker.setAttribute( IMarker.MESSAGE, message );
-			if ( lineNumber >= 0 )
-				marker.setAttribute( IMarker.LINE_NUMBER, lineNumber );
-			if ( elementId > 0 )
-				marker
-						.setAttribute( ELEMENT_ID,
-								Integer.valueOf( (int) elementId ) );
+	public static void addMarker(IResource resource, String message, long elementId, int lineNumber, int severity,
+			int priority) throws CoreException {
+		if (resource != null) {
+			IMarker marker = resource.createMarker(PROBLEMS_MARKER_ID);
+			if (message != null)
+				marker.setAttribute(IMarker.MESSAGE, message);
+			if (lineNumber >= 0)
+				marker.setAttribute(IMarker.LINE_NUMBER, lineNumber);
+			if (elementId > 0)
+				marker.setAttribute(ELEMENT_ID, Integer.valueOf((int) elementId));
 
-			marker.setAttribute( IMarker.SEVERITY, severity );
-			marker.setAttribute( IMarker.PRIORITY, priority );
+			marker.setAttribute(IMarker.SEVERITY, severity);
+			marker.setAttribute(IMarker.PRIORITY, priority);
 		}
 	}
 
@@ -98,10 +89,9 @@ public class MarkerUtil
 	 * @param systemId
 	 * @throws CoreException
 	 */
-	public static void clear( String systemId ) throws CoreException
-	{
-		IResource resource = createResourceFromSystemID( systemId );
-		clear( resource );
+	public static void clear(String systemId) throws CoreException {
+		IResource resource = createResourceFromSystemID(systemId);
+		clear(resource);
 	}
 
 	/**
@@ -110,12 +100,9 @@ public class MarkerUtil
 	 * @param resource
 	 * @throws CoreException
 	 */
-	public static void clear( IResource resource ) throws CoreException
-	{
-		if ( resource != null )
-		{
-			resource.deleteMarkers( PROBLEMS_MARKER_ID, true,
-					IResource.DEPTH_INFINITE );
+	public static void clear(IResource resource) throws CoreException {
+		if (resource != null) {
+			resource.deleteMarkers(PROBLEMS_MARKER_ID, true, IResource.DEPTH_INFINITE);
 		}
 	}
 
@@ -128,11 +115,8 @@ public class MarkerUtil
 	 * @param lineNumber
 	 * @throws CoreException
 	 */
-	public static void error( String systemId, String message, long elementId,
-			int lineNumber ) throws CoreException
-	{
-		addMarker( systemId, message, elementId, lineNumber,
-				IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL );
+	public static void error(String systemId, String message, long elementId, int lineNumber) throws CoreException {
+		addMarker(systemId, message, elementId, lineNumber, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL);
 	}
 
 	/**
@@ -144,11 +128,8 @@ public class MarkerUtil
 	 * @param lineNumber
 	 * @throws CoreException
 	 */
-	public static void fatal( String systemId, String message, long elementId,
-			int lineNumber ) throws CoreException
-	{
-		addMarker( systemId, message, elementId, lineNumber,
-				IMarker.SEVERITY_ERROR, IMarker.PRIORITY_HIGH );
+	public static void fatal(String systemId, String message, long elementId, int lineNumber) throws CoreException {
+		addMarker(systemId, message, elementId, lineNumber, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_HIGH);
 	}
 
 	/**
@@ -160,11 +141,8 @@ public class MarkerUtil
 	 * @param lineNumber
 	 * @throws CoreException
 	 */
-	public static void warning( String systemId, String message,
-			long elementId, int lineNumber ) throws CoreException
-	{
-		addMarker( systemId, message, elementId, lineNumber,
-				IMarker.SEVERITY_WARNING, IMarker.PRIORITY_LOW );
+	public static void warning(String systemId, String message, long elementId, int lineNumber) throws CoreException {
+		addMarker(systemId, message, elementId, lineNumber, IMarker.SEVERITY_WARNING, IMarker.PRIORITY_LOW);
 	}
 
 	/**
@@ -176,25 +154,20 @@ public class MarkerUtil
 	 * @param lineNumber
 	 * @throws CoreException
 	 */
-	public static void info( String systemId, String message, long elementId,
-			int lineNumber ) throws CoreException
-	{
-		addMarker( systemId, message, elementId, lineNumber,
-				IMarker.SEVERITY_INFO, IMarker.PRIORITY_NORMAL );
+	public static void info(String systemId, String message, long elementId, int lineNumber) throws CoreException {
+		addMarker(systemId, message, elementId, lineNumber, IMarker.SEVERITY_INFO, IMarker.PRIORITY_NORMAL);
 	}
 
 	/**
 	 * create a resource instance from a system identifier
 	 * 
-	 * @param systemID
-	 *            system identifier
+	 * @param systemID system identifier
 	 */
-	public static IResource createResourceFromSystemID( String systemID )
-	{
-		IPath path = new Path( systemID );
-		IResource resource = workspaceRoot.getFileForLocation( path );
-		if ( resource == null )
-			resource = workspaceRoot.getContainerForLocation( path );
+	public static IResource createResourceFromSystemID(String systemID) {
+		IPath path = new Path(systemID);
+		IResource resource = workspaceRoot.getFileForLocation(path);
+		if (resource == null)
+			resource = workspaceRoot.getContainerForLocation(path);
 
 		return resource;
 	}

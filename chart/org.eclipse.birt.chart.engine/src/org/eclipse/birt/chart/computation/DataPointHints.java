@@ -37,11 +37,10 @@ import com.ibm.icu.text.DecimalFormat;
 /**
  * Holds the information necessary to render a DataPoint Label
  */
-public class DataPointHints
-{
+public class DataPointHints {
 
-	// in the moment 
-	// only datapoint of the mini slice in pie chart is virtual 
+	// in the moment
+	// only datapoint of the mini slice in pie chart is virtual
 	private boolean isVirtual = false;
 
 	protected final RunTimeContext rtc;
@@ -70,47 +69,33 @@ public class DataPointHints
 
 	protected final FormatSpecifier fsBase, fsOrthogonal, fsSeries, fsPercentile;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.engine/computation"); //$NON-NLS-1$
 
 	/**
 	 * DataPointHints constructor.
 	 * 
-	 * @param _oBaseValue
-	 *            Category data
-	 * @param _oOrthogonalValue
-	 *            Value data
-	 * @param _sSeriesValue
-	 *            Value Series Name
-	 * @param _dp
-	 *            DataPoint for combined value retrieval
-	 * @param _fsBase
-	 *            Category Format Specifier
-	 * @param _fsOrthogonal
-	 *            Value Format Specifier
-	 * @param _fsSeries
-	 *            Value Series Name Format Specifier
-	 * @param _idx
-	 *            Category Series index
-	 * @param _lo
-	 *            Location
-	 * @param _dSize
-	 *            Size
-	 * @param _rtc
-	 *            Runtime Context
+	 * @param _oBaseValue       Category data
+	 * @param _oOrthogonalValue Value data
+	 * @param _sSeriesValue     Value Series Name
+	 * @param _dp               DataPoint for combined value retrieval
+	 * @param _fsBase           Category Format Specifier
+	 * @param _fsOrthogonal     Value Format Specifier
+	 * @param _fsSeries         Value Series Name Format Specifier
+	 * @param _idx              Category Series index
+	 * @param _lo               Location
+	 * @param _dSize            Size
+	 * @param _rtc              Runtime Context
 	 * 
 	 */
-	public DataPointHints( Object _oBaseValue, Object _oOrthogonalValue,
-			Object _oSeriesValue, Object _oPercentileValue, DataPoint _dp,
-			FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal,
-			FormatSpecifier _fsSeries, FormatSpecifier _fsPercentile, int _idx,
-			Location _lo, double _dSize, RunTimeContext _rtc )
-			throws ChartException
-	{
+	public DataPointHints(Object _oBaseValue, Object _oOrthogonalValue, Object _oSeriesValue, Object _oPercentileValue,
+			DataPoint _dp, FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal, FormatSpecifier _fsSeries,
+			FormatSpecifier _fsPercentile, int _idx, Location _lo, double _dSize, RunTimeContext _rtc)
+			throws ChartException {
 
 		dp = _dp;
 		oBaseValue = _oBaseValue;
 		oOrthogonalValue = _oOrthogonalValue;
-		oSeriesValue = _oSeriesValue instanceof String ? _rtc.externalizedMessage( (String) _oSeriesValue )
+		oSeriesValue = _oSeriesValue instanceof String ? _rtc.externalizedMessage((String) _oSeriesValue)
 				: _oSeriesValue;
 		oPercentileOrthogonalValue = _oPercentileValue;
 
@@ -137,32 +122,17 @@ public class DataPointHints
 	 * @param _fsBase
 	 * @param _fsOrthogonal
 	 * @param _fsSeries
-	 * @param _idx
-	 *            base Series index
+	 * @param _idx              base Series index
 	 * @param _lo
 	 * @param _dSize
 	 * @param _rtc
 	 */
-	public DataPointHints( Object _oBaseValue, Object _oOrthogonalValue,
-			Object _oSeriesValue, Object _oPercentileValue, DataPoint _dp,
-			FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal,
-			FormatSpecifier _fsSeries, FormatSpecifier _fsPercentile, int _idx,
-			Location _lo, double[] _dSize, RunTimeContext _rtc )
-			throws ChartException
-	{
-		this( _oBaseValue,
-				_oOrthogonalValue,
-				_oSeriesValue,
-				_oPercentileValue,
-				_dp,
-				_fsBase,
-				_fsOrthogonal,
-				_fsSeries,
-				_fsPercentile,
-				_idx,
-				_lo,
-				0,
-				_rtc );
+	public DataPointHints(Object _oBaseValue, Object _oOrthogonalValue, Object _oSeriesValue, Object _oPercentileValue,
+			DataPoint _dp, FormatSpecifier _fsBase, FormatSpecifier _fsOrthogonal, FormatSpecifier _fsSeries,
+			FormatSpecifier _fsPercentile, int _idx, Location _lo, double[] _dSize, RunTimeContext _rtc)
+			throws ChartException {
+		this(_oBaseValue, _oOrthogonalValue, _oSeriesValue, _oPercentileValue, _dp, _fsBase, _fsOrthogonal, _fsSeries,
+				_fsPercentile, _idx, _lo, 0, _rtc);
 
 		dSize[0] = _dSize[0];
 		dSize[1] = _dSize[1];
@@ -174,22 +144,10 @@ public class DataPointHints
 	 * @return copy instance
 	 * @throws ChartException
 	 */
-	public DataPointHints getVirtualCopy( ) throws ChartException
-	{
-		DataPointHints dph = new DataPointHints( oBaseValue,
-				oOrthogonalValue,
-				oSeriesValue,
-				oPercentileOrthogonalValue,
-				dp,
-				fsBase,
-				fsOrthogonal,
-				fsSeries,
-				fsPercentile,
-				index,
-				lo,
-				dSize,
-				rtc );
-		
+	public DataPointHints getVirtualCopy() throws ChartException {
+		DataPointHints dph = new DataPointHints(oBaseValue, oOrthogonalValue, oSeriesValue, oPercentileOrthogonalValue,
+				dp, fsBase, fsOrthogonal, fsSeries, fsPercentile, index, lo, dSize, rtc);
+
 		dph.isVirtual = true;
 		dph.userValueMap = this.userValueMap;
 
@@ -203,114 +161,78 @@ public class DataPointHints
 	 * @param _oOrthogonalValue
 	 * @param _oSeriesValue
 	 */
-	public void accumulate( Object _oBaseValue, Object _oOrthogonalValue,
-			Object _oSeriesValue, Object _oPercentileOrthogonalValue )
-	{
-		if ( oBaseValue instanceof Number )
-		{
-			if ( _oBaseValue instanceof Number )
-			{
-				oBaseValue = new Double( ( (Number) oBaseValue ).doubleValue( )
-						+ ( (Number) _oBaseValue ).doubleValue( ) );
+	public void accumulate(Object _oBaseValue, Object _oOrthogonalValue, Object _oSeriesValue,
+			Object _oPercentileOrthogonalValue) {
+		if (oBaseValue instanceof Number) {
+			if (_oBaseValue instanceof Number) {
+				oBaseValue = new Double(((Number) oBaseValue).doubleValue() + ((Number) _oBaseValue).doubleValue());
+			} else if (_oBaseValue instanceof NumberDataElement) {
+				oBaseValue = new Double(
+						((Number) oBaseValue).doubleValue() + ((NumberDataElement) _oBaseValue).getValue());
 			}
-			else if ( _oBaseValue instanceof NumberDataElement )
-			{
-				oBaseValue = new Double( ( (Number) oBaseValue ).doubleValue( )
-						+ ( (NumberDataElement) _oBaseValue ).getValue( ) );
-			}
-		}
-		else if ( oBaseValue instanceof NumberDataElement )
-		{
-			if ( _oBaseValue instanceof Number )
-			{
-				( (NumberDataElement) oBaseValue ).setValue( ( (NumberDataElement) oBaseValue ).getValue( )
-						+ ( (Number) _oBaseValue ).doubleValue( ) );
-			}
-			else if ( _oBaseValue instanceof NumberDataElement )
-			{
-				( (NumberDataElement) oBaseValue ).setValue( ( (NumberDataElement) oBaseValue ).getValue( )
-						+ ( (NumberDataElement) _oBaseValue ).getValue( ) );
+		} else if (oBaseValue instanceof NumberDataElement) {
+			if (_oBaseValue instanceof Number) {
+				((NumberDataElement) oBaseValue)
+						.setValue(((NumberDataElement) oBaseValue).getValue() + ((Number) _oBaseValue).doubleValue());
+			} else if (_oBaseValue instanceof NumberDataElement) {
+				((NumberDataElement) oBaseValue).setValue(
+						((NumberDataElement) oBaseValue).getValue() + ((NumberDataElement) _oBaseValue).getValue());
 			}
 		}
 
-		if ( oOrthogonalValue instanceof Number )
-		{
-			if ( _oOrthogonalValue instanceof Number )
-			{
-				oOrthogonalValue = new Double( ( (Number) oOrthogonalValue ).doubleValue( )
-						+ ( (Number) _oOrthogonalValue ).doubleValue( ) );
+		if (oOrthogonalValue instanceof Number) {
+			if (_oOrthogonalValue instanceof Number) {
+				oOrthogonalValue = new Double(
+						((Number) oOrthogonalValue).doubleValue() + ((Number) _oOrthogonalValue).doubleValue());
+			} else if (_oOrthogonalValue instanceof NumberDataElement) {
+				oOrthogonalValue = new Double(
+						((Number) oOrthogonalValue).doubleValue() + ((NumberDataElement) _oOrthogonalValue).getValue());
 			}
-			else if ( _oOrthogonalValue instanceof NumberDataElement )
-			{
-				oOrthogonalValue = new Double( ( (Number) oOrthogonalValue ).doubleValue( )
-						+ ( (NumberDataElement) _oOrthogonalValue ).getValue( ) );
-			}
-		}
-		else if ( oOrthogonalValue instanceof NumberDataElement )
-		{
-			if ( _oOrthogonalValue instanceof Number )
-			{
-				( (NumberDataElement) oOrthogonalValue ).setValue( ( (NumberDataElement) oOrthogonalValue ).getValue( )
-						+ ( (Number) _oOrthogonalValue ).doubleValue( ) );
-			}
-			else if ( _oOrthogonalValue instanceof NumberDataElement )
-			{
-				( (NumberDataElement) oOrthogonalValue ).setValue( ( (NumberDataElement) oOrthogonalValue ).getValue( )
-						+ ( (NumberDataElement) _oOrthogonalValue ).getValue( ) );
+		} else if (oOrthogonalValue instanceof NumberDataElement) {
+			if (_oOrthogonalValue instanceof Number) {
+				((NumberDataElement) oOrthogonalValue).setValue(
+						((NumberDataElement) oOrthogonalValue).getValue() + ((Number) _oOrthogonalValue).doubleValue());
+			} else if (_oOrthogonalValue instanceof NumberDataElement) {
+				((NumberDataElement) oOrthogonalValue).setValue(((NumberDataElement) oOrthogonalValue).getValue()
+						+ ((NumberDataElement) _oOrthogonalValue).getValue());
 			}
 		}
 
-		if ( oSeriesValue instanceof Number )
-		{
-			if ( _oSeriesValue instanceof Number )
-			{
-				oSeriesValue = new Double( ( (Number) oSeriesValue ).doubleValue( )
-						+ ( (Number) _oSeriesValue ).doubleValue( ) );
+		if (oSeriesValue instanceof Number) {
+			if (_oSeriesValue instanceof Number) {
+				oSeriesValue = new Double(
+						((Number) oSeriesValue).doubleValue() + ((Number) _oSeriesValue).doubleValue());
+			} else if (_oSeriesValue instanceof NumberDataElement) {
+				oSeriesValue = new Double(
+						((Number) oSeriesValue).doubleValue() + ((NumberDataElement) _oSeriesValue).getValue());
 			}
-			else if ( _oSeriesValue instanceof NumberDataElement )
-			{
-				oSeriesValue = new Double( ( (Number) oSeriesValue ).doubleValue( )
-						+ ( (NumberDataElement) _oSeriesValue ).getValue( ) );
-			}
-		}
-		else if ( oSeriesValue instanceof NumberDataElement )
-		{
-			if ( _oSeriesValue instanceof Number )
-			{
-				( (NumberDataElement) oSeriesValue ).setValue( ( (NumberDataElement) oSeriesValue ).getValue( )
-						+ ( (Number) _oSeriesValue ).doubleValue( ) );
-			}
-			else if ( _oSeriesValue instanceof NumberDataElement )
-			{
-				( (NumberDataElement) oSeriesValue ).setValue( ( (NumberDataElement) oSeriesValue ).getValue( )
-						+ ( (NumberDataElement) _oSeriesValue ).getValue( ) );
+		} else if (oSeriesValue instanceof NumberDataElement) {
+			if (_oSeriesValue instanceof Number) {
+				((NumberDataElement) oSeriesValue).setValue(
+						((NumberDataElement) oSeriesValue).getValue() + ((Number) _oSeriesValue).doubleValue());
+			} else if (_oSeriesValue instanceof NumberDataElement) {
+				((NumberDataElement) oSeriesValue).setValue(
+						((NumberDataElement) oSeriesValue).getValue() + ((NumberDataElement) _oSeriesValue).getValue());
 			}
 		}
 
-		if ( oPercentileOrthogonalValue instanceof Number )
-		{
-			if ( _oPercentileOrthogonalValue instanceof Number )
-			{
-				oPercentileOrthogonalValue = new Double( ( (Number) oPercentileOrthogonalValue ).doubleValue( )
-						+ ( (Number) _oPercentileOrthogonalValue ).doubleValue( ) );
+		if (oPercentileOrthogonalValue instanceof Number) {
+			if (_oPercentileOrthogonalValue instanceof Number) {
+				oPercentileOrthogonalValue = new Double(((Number) oPercentileOrthogonalValue).doubleValue()
+						+ ((Number) _oPercentileOrthogonalValue).doubleValue());
+			} else if (_oPercentileOrthogonalValue instanceof NumberDataElement) {
+				oPercentileOrthogonalValue = new Double(((Number) oPercentileOrthogonalValue).doubleValue()
+						+ ((NumberDataElement) _oPercentileOrthogonalValue).getValue());
 			}
-			else if ( _oPercentileOrthogonalValue instanceof NumberDataElement )
-			{
-				oPercentileOrthogonalValue = new Double( ( (Number) oPercentileOrthogonalValue ).doubleValue( )
-						+ ( (NumberDataElement) _oPercentileOrthogonalValue ).getValue( ) );
-			}
-		}
-		else if ( oPercentileOrthogonalValue instanceof NumberDataElement )
-		{
-			if ( _oPercentileOrthogonalValue instanceof Number )
-			{
-				( (NumberDataElement) oPercentileOrthogonalValue ).setValue( ( (NumberDataElement) oPercentileOrthogonalValue ).getValue( )
-						+ ( (Number) _oPercentileOrthogonalValue ).doubleValue( ) );
-			}
-			else if ( _oPercentileOrthogonalValue instanceof NumberDataElement )
-			{
-				( (NumberDataElement) oPercentileOrthogonalValue ).setValue( ( (NumberDataElement) oPercentileOrthogonalValue ).getValue( )
-						+ ( (NumberDataElement) _oPercentileOrthogonalValue ).getValue( ) );
+		} else if (oPercentileOrthogonalValue instanceof NumberDataElement) {
+			if (_oPercentileOrthogonalValue instanceof Number) {
+				((NumberDataElement) oPercentileOrthogonalValue)
+						.setValue(((NumberDataElement) oPercentileOrthogonalValue).getValue()
+								+ ((Number) _oPercentileOrthogonalValue).doubleValue());
+			} else if (_oPercentileOrthogonalValue instanceof NumberDataElement) {
+				((NumberDataElement) oPercentileOrthogonalValue)
+						.setValue(((NumberDataElement) oPercentileOrthogonalValue).getValue()
+								+ ((NumberDataElement) _oPercentileOrthogonalValue).getValue());
 			}
 		}
 
@@ -321,8 +243,7 @@ public class DataPointHints
 	 * 
 	 * @return base value
 	 */
-	public final Object getBaseValue( )
-	{
+	public final Object getBaseValue() {
 		return oBaseValue;
 	}
 
@@ -331,8 +252,7 @@ public class DataPointHints
 	 * 
 	 * @return orthogonal value
 	 */
-	public final Object getOrthogonalValue( )
-	{
+	public final Object getOrthogonalValue() {
 		return oOrthogonalValue;
 	}
 
@@ -342,23 +262,20 @@ public class DataPointHints
 	 * @param value
 	 * @since 2.5
 	 */
-	public final void setOrthogonalValue( Object value )
-	{
+	public final void setOrthogonalValue(Object value) {
 		this.oOrthogonalValue = value;
 	}
-	
+
 	/**
 	 * Returns the stacked orthogonal value.
 	 * 
 	 * @return stacked value or null if not stacked
 	 */
-	public final Double getStackOrthogonalValue( )
-	{
+	public final Double getStackOrthogonalValue() {
 		return oStackedOrthogonalValue;
 	}
 
-	public final void setStackOrthogonalValue( Double stackOrthogonalValue )
-	{
+	public final void setStackOrthogonalValue(Double stackOrthogonalValue) {
 		this.oStackedOrthogonalValue = stackOrthogonalValue;
 	}
 
@@ -366,8 +283,7 @@ public class DataPointHints
 	 * Sets current data point is outside of plot area.
 	 * 
 	 */
-	public final void markOutside( )
-	{
+	public final void markOutside() {
 		this.bOutside = true;
 	}
 
@@ -375,8 +291,7 @@ public class DataPointHints
 	 * Invalidates if current data point is outside of plot area.
 	 * 
 	 */
-	public final boolean isOutside( )
-	{
+	public final boolean isOutside() {
 		return this.bOutside;
 	}
 
@@ -385,8 +300,7 @@ public class DataPointHints
 	 * 
 	 * @return series value
 	 */
-	public final Object getSeriesValue( )
-	{
+	public final Object getSeriesValue() {
 		return oSeriesValue;
 	}
 
@@ -395,8 +309,7 @@ public class DataPointHints
 	 * 
 	 * @return percentile orthogonal value
 	 */
-	public final Object getPercentileOrthogonalValue( )
-	{
+	public final Object getPercentileOrthogonalValue() {
 		return oPercentileOrthogonalValue;
 	}
 
@@ -405,21 +318,18 @@ public class DataPointHints
 	 * 
 	 * @return location
 	 */
-	public final Location getLocation( )
-	{
+	public final Location getLocation() {
 		return lo;
 	}
 
 	/**
-	 * Returns the 3d location value of current DataPointHintes(only available
-	 * in 3d mode).
+	 * Returns the 3d location value of current DataPointHintes(only available in 3d
+	 * mode).
 	 * 
 	 * @return location
 	 */
-	public final Location3D getLocation3D( )
-	{
-		if ( lo instanceof Location3D )
-		{
+	public final Location3D getLocation3D() {
+		if (lo instanceof Location3D) {
 			return (Location3D) lo;
 		}
 
@@ -431,8 +341,7 @@ public class DataPointHints
 	 * 
 	 * @return current index
 	 */
-	public final int getIndex( )
-	{
+	public final int getIndex() {
 		return index;
 	}
 
@@ -441,20 +350,17 @@ public class DataPointHints
 	 * 
 	 * @return size value
 	 */
-	public final double getSize( )
-	{
+	public final double getSize() {
 		return dSize[0];
 	}
 
 	/**
-	 * Returns the size value of current DataPointHintes(only available in 3d
-	 * mode).
+	 * Returns the size value of current DataPointHintes(only available in 3d mode).
 	 * 
 	 * @return size value
 	 */
-	public final Size getSize2D( )
-	{
-		return SizeImpl.create( dSize[0], dSize[1] );
+	public final Size getSize2D() {
+		return SizeImpl.create(dSize[0], dSize[1]);
 	}
 
 	/**
@@ -463,18 +369,15 @@ public class DataPointHints
 	 * @param key
 	 * @return user value
 	 */
-	public final Object getUserValue( String key )
-	{
-		if ( userValueMap == null )
-		{
+	public final Object getUserValue(String key) {
+		if (userValueMap == null) {
 			return null;
 		}
-		Object value = userValueMap.get( key );
-		
-		// 
-		if ( value instanceof CDateTime )
-		{
-			return ( (CDateTime) value ).getDateTime( );
+		Object value = userValueMap.get(key);
+
+		//
+		if (value instanceof CDateTime) {
+			return ((CDateTime) value).getDateTime();
 		}
 		return value;
 	}
@@ -485,14 +388,12 @@ public class DataPointHints
 	 * @param key
 	 * @param value
 	 */
-	public final void setUserValue( String key, Object value )
-	{
-		if ( userValueMap == null )
-		{
-			userValueMap = new HashMap<String, Object>( );
+	public final void setUserValue(String key, Object value) {
+		if (userValueMap == null) {
+			userValueMap = new HashMap<String, Object>();
 		}
 
-		userValueMap.put( key, value );
+		userValueMap.put(key, value);
 	}
 
 	/**
@@ -500,9 +401,8 @@ public class DataPointHints
 	 * 
 	 * @return orthogonal value with format
 	 */
-	public final String getOrthogonalDisplayValue( )
-	{
-		return getOrthogonalDisplayValue( fsOrthogonal );
+	public final String getOrthogonalDisplayValue() {
+		return getOrthogonalDisplayValue(fsOrthogonal);
 	}
 
 	/**
@@ -510,9 +410,8 @@ public class DataPointHints
 	 * 
 	 * @return base value with format
 	 */
-	public String getBaseDisplayValue( )
-	{
-		return getBaseDisplayValue( fsBase );
+	public String getBaseDisplayValue() {
+		return getBaseDisplayValue(fsBase);
 	}
 
 	/**
@@ -520,184 +419,121 @@ public class DataPointHints
 	 * 
 	 * @return series value with format
 	 */
-	public final String getSeriesDisplayValue( )
-	{
-		return getSeriesDisplayValue( fsSeries );
+	public final String getSeriesDisplayValue() {
+		return getSeriesDisplayValue(fsSeries);
 	}
 
 	/**
-	 * Returns the percentile orthogonal display value of current
-	 * DataPointHintes.
+	 * Returns the percentile orthogonal display value of current DataPointHintes.
 	 * 
 	 * @return percentile orthogonal value with format
 	 */
-	public final String getPercentileOrthogonalDisplayValue( )
-	{
-		return getPercentileOrthogonalDisplayValue( fsPercentile );
+	public final String getPercentileOrthogonalDisplayValue() {
+		return getPercentileOrthogonalDisplayValue(fsPercentile);
 	}
 
 	/**
-	 * Returns the base display value of current DataPointHintes using given
-	 * format specifier.
+	 * Returns the base display value of current DataPointHintes using given format
+	 * specifier.
 	 * 
-	 * @param formatSpecifier
-	 *            format specifier of value to be displayed
+	 * @param formatSpecifier format specifier of value to be displayed
 	 * @return base value with format
 	 */
-	public final String getBaseDisplayValue( FormatSpecifier formatSpecifier )
-	{
-		FormatSpecifier fs = ( formatSpecifier != null ) ? formatSpecifier
-				: fsBase;
-		if ( oBaseValue == null )
-		{
+	public final String getBaseDisplayValue(FormatSpecifier formatSpecifier) {
+		FormatSpecifier fs = (formatSpecifier != null) ? formatSpecifier : fsBase;
+		if (oBaseValue == null) {
 			return IConstants.NULL_STRING;
 		}
 
 		// Format numerical category data with default pattern if no format
 		// specified
 		DecimalFormat df = null;
-		if ( fs == null && oBaseValue instanceof Number )
-		{
-			df = new DecimalFormat( ValueFormatter.getNumericPattern( (Number) oBaseValue ) );	
+		if (fs == null && oBaseValue instanceof Number) {
+			df = new DecimalFormat(ValueFormatter.getNumericPattern((Number) oBaseValue));
 		}
-		
-		try
-		{
-			if ( oBaseValue instanceof CDateTime
-					&& ( (CDateTime) oBaseValue ).isFullDateTime( )
-					&& rtc.getTimeZone( ) != null )
-			{
-				( (CDateTime) oBaseValue ).setTimeZone( rtc.getTimeZone( ) );
+
+		try {
+			if (oBaseValue instanceof CDateTime && ((CDateTime) oBaseValue).isFullDateTime()
+					&& rtc.getTimeZone() != null) {
+				((CDateTime) oBaseValue).setTimeZone(rtc.getTimeZone());
 			}
-			return ValueFormatter.format( oBaseValue, fs, rtc.getULocale( ), df );
-		}
-		catch ( Exception ex )
-		{
-			logger.log( ILogger.ERROR,
-					Messages.getString( "exception.parse.value.format.specifier", //$NON-NLS-1$
-							new Object[]{
-									oBaseValue, fs
-							},
-							rtc.getULocale( ) ) );
+			return ValueFormatter.format(oBaseValue, fs, rtc.getULocale(), df);
+		} catch (Exception ex) {
+			logger.log(ILogger.ERROR, Messages.getString("exception.parse.value.format.specifier", //$NON-NLS-1$
+					new Object[] { oBaseValue, fs }, rtc.getULocale()));
 		}
 		return IConstants.NULL_STRING;
 	}
 
 	/**
-	 * Returns the orthogonal display value of current DataPointHintes using
-	 * given format specifier.
+	 * Returns the orthogonal display value of current DataPointHintes using given
+	 * format specifier.
 	 * 
-	 * @param formatSpecifier
-	 *            format specifier of the value to be displayed
+	 * @param formatSpecifier format specifier of the value to be displayed
 	 * @return orthogonal value with format
 	 */
-	public final String getOrthogonalDisplayValue( FormatSpecifier formatSpecifier )
-	{
-		FormatSpecifier fs = ( formatSpecifier != null ) ? formatSpecifier
-				: fsOrthogonal;
-		if ( oOrthogonalValue == null )
-		{
+	public final String getOrthogonalDisplayValue(FormatSpecifier formatSpecifier) {
+		FormatSpecifier fs = (formatSpecifier != null) ? formatSpecifier : fsOrthogonal;
+		if (oOrthogonalValue == null) {
 			return IConstants.NULL_STRING;
 		}
-		try
-		{
-			if ( oOrthogonalValue instanceof CDateTime
-					&& ( (CDateTime) oOrthogonalValue ).isFullDateTime( )
-					&& rtc.getTimeZone( ) != null )
-			{
-				( (CDateTime) oOrthogonalValue ).setTimeZone( rtc.getTimeZone( ) );
+		try {
+			if (oOrthogonalValue instanceof CDateTime && ((CDateTime) oOrthogonalValue).isFullDateTime()
+					&& rtc.getTimeZone() != null) {
+				((CDateTime) oOrthogonalValue).setTimeZone(rtc.getTimeZone());
 			}
-			return ValueFormatter.format( oOrthogonalValue,
-					fs,
-					rtc.getULocale( ),
-					null );
+			return ValueFormatter.format(oOrthogonalValue, fs, rtc.getULocale(), null);
+		} catch (Exception ex) {
+			logger.log(ILogger.ERROR, Messages.getString("exception.parse.value.format.specifier", //$NON-NLS-1$
+					new Object[] { oOrthogonalValue, fs }, rtc.getULocale()));
 		}
-		catch ( Exception ex )
-		{
-			logger.log( ILogger.ERROR,
-					Messages.getString( "exception.parse.value.format.specifier", //$NON-NLS-1$
-							new Object[]{
-									oOrthogonalValue, fs
-							},
-							rtc.getULocale( ) ) );
-		}
-		return String.valueOf( oOrthogonalValue );
+		return String.valueOf(oOrthogonalValue);
 	}
 
 	/**
 	 * Returns the series display value of current DataPointHintes using given
 	 * format specifier.
 	 * 
-	 * @param formatSpecifier
-	 *            format specifier of the value to be displayed
+	 * @param formatSpecifier format specifier of the value to be displayed
 	 * @return series value with format
 	 */
-	public final String getSeriesDisplayValue( FormatSpecifier formatSpecifier )
-	{
-		FormatSpecifier fs = ( formatSpecifier != null ) ? formatSpecifier
-				: fsSeries;
-		if ( oSeriesValue == null )
-		{
+	public final String getSeriesDisplayValue(FormatSpecifier formatSpecifier) {
+		FormatSpecifier fs = (formatSpecifier != null) ? formatSpecifier : fsSeries;
+		if (oSeriesValue == null) {
 			return IConstants.NULL_STRING;
 		}
-		try
-		{
-			if ( oSeriesValue instanceof CDateTime
-					&& ( (CDateTime) oSeriesValue ).isFullDateTime( )
-					&& rtc.getTimeZone( ) != null )
-			{
-				( (CDateTime) oSeriesValue ).setTimeZone( rtc.getTimeZone( ) );
+		try {
+			if (oSeriesValue instanceof CDateTime && ((CDateTime) oSeriesValue).isFullDateTime()
+					&& rtc.getTimeZone() != null) {
+				((CDateTime) oSeriesValue).setTimeZone(rtc.getTimeZone());
 			}
-			return ValueFormatter.format( oSeriesValue,
-					fs,
-					rtc.getULocale( ),
-					null );
-		}
-		catch ( Exception ex )
-		{
-			logger.log( ILogger.ERROR,
-					Messages.getString( "exception.parse.value.format.specifier", //$NON-NLS-1$
-							new Object[]{
-									oSeriesValue, fs
-							},
-							rtc.getULocale( ) ) );
+			return ValueFormatter.format(oSeriesValue, fs, rtc.getULocale(), null);
+		} catch (Exception ex) {
+			logger.log(ILogger.ERROR, Messages.getString("exception.parse.value.format.specifier", //$NON-NLS-1$
+					new Object[] { oSeriesValue, fs }, rtc.getULocale()));
 		}
 		return IConstants.NULL_STRING;
 	}
 
 	/**
-	 * Returns the percentile orthogonal display value of current
-	 * DataPointHintes using given format specifier.
+	 * Returns the percentile orthogonal display value of current DataPointHintes
+	 * using given format specifier.
 	 * 
-	 * @param formatSpecifier
-	 *            format specifier of the value to be displayed
+	 * @param formatSpecifier format specifier of the value to be displayed
 	 * @return percentile orthogonal value with format
 	 */
-	private final String getPercentileOrthogonalDisplayValue( FormatSpecifier formatSpecifier )
-	{
-		FormatSpecifier fs = ( formatSpecifier != null ) ? formatSpecifier
-				: fsPercentile;
-		if ( oPercentileOrthogonalValue == null )
-		{
+	private final String getPercentileOrthogonalDisplayValue(FormatSpecifier formatSpecifier) {
+		FormatSpecifier fs = (formatSpecifier != null) ? formatSpecifier : fsPercentile;
+		if (oPercentileOrthogonalValue == null) {
 			return IConstants.NULL_STRING;
 		}
-		try
-		{
-			return ValueFormatter.format( oPercentileOrthogonalValue,
-					fs,
-					rtc.getULocale( ),
-					null );
+		try {
+			return ValueFormatter.format(oPercentileOrthogonalValue, fs, rtc.getULocale(), null);
+		} catch (Exception ex) {
+			logger.log(ILogger.ERROR, Messages.getString("exception.parse.value.format.specifier", //$NON-NLS-1$
+					new Object[] { oPercentileOrthogonalValue, fs }, rtc.getULocale()));
 		}
-		catch ( Exception ex )
-		{
-			logger.log( ILogger.ERROR,
-					Messages.getString( "exception.parse.value.format.specifier", //$NON-NLS-1$
-							new Object[]{
-									oPercentileOrthogonalValue, fs
-							},
-							rtc.getULocale( ) ) );
-		}
-		return String.valueOf( oPercentileOrthogonalValue );
+		return String.valueOf(oPercentileOrthogonalValue);
 	}
 
 	/**
@@ -705,90 +541,66 @@ public class DataPointHints
 	 * 
 	 * @return display value
 	 */
-	public final String getDisplayValue( )
-	{
-		return getDisplayValue( null );
+	public final String getDisplayValue() {
+		return getDisplayValue(null);
 	}
-	
+
 	/**
 	 * Returns the display value of current DataPointHintes.
 	 * 
-	 * @param fs
-	 *            format specifier of the value to be displayed
+	 * @param fs format specifier of the value to be displayed
 	 * @return display value
 	 */
-	public final String getDisplayValue( FormatSpecifier fs )
-	{
-		final StringBuffer sb = new StringBuffer( );
+	public final String getDisplayValue(FormatSpecifier fs) {
+		final StringBuffer sb = new StringBuffer();
 
-		if ( dp == null )
-		{
+		if (dp == null) {
 			// Show orthogonal value by default.
-			sb.append( getOrthogonalDisplayValue( fs ) );
-		}
-		else
-		{
-			final EList<DataPointComponent> el = dp.getComponents( );
+			sb.append(getOrthogonalDisplayValue(fs));
+		} else {
+			final EList<DataPointComponent> el = dp.getComponents();
 
-			if ( dp.getPrefix( ) != null )
-			{
-				sb.append( dp.getPrefix( ) );
+			if (dp.getPrefix() != null) {
+				sb.append(dp.getPrefix());
 			}
 			DataPointComponent dpc;
 			DataPointComponentType dpct;
 
-			for ( int i = 0; i < el.size( ); i++ )
-			{
-				dpc = el.get( i );
-				dpct = dpc.getType( );
-				if ( dpct == DataPointComponentType.BASE_VALUE_LITERAL )
-				{
-					sb.append( getBaseDisplayValue( fs ) );
-				}
-				else if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL )
-				{
-					String oType = dpc.getOrthogonalType( );
-					if ( oType.length( ) == 0 )
-					{
-						sb.append( getOrthogonalDisplayValue( fs ) );
-					}
-					else if ( !( oOrthogonalValue instanceof IDataPointEntry ) )
-					{
+			for (int i = 0; i < el.size(); i++) {
+				dpc = el.get(i);
+				dpct = dpc.getType();
+				if (dpct == DataPointComponentType.BASE_VALUE_LITERAL) {
+					sb.append(getBaseDisplayValue(fs));
+				} else if (dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL) {
+					String oType = dpc.getOrthogonalType();
+					if (oType.length() == 0) {
+						sb.append(getOrthogonalDisplayValue(fs));
+					} else if (!(oOrthogonalValue instanceof IDataPointEntry)) {
 						continue;
-					}
-					else
-					{
-						String str = ( (IDataPointEntry) oOrthogonalValue ).getFormattedString( oType,
-								fs == null ? dpc.getFormatSpecifier( ) : fs,
-								rtc.getULocale( ) );
-						if ( str == null )
-						{
+					} else {
+						String str = ((IDataPointEntry) oOrthogonalValue).getFormattedString(oType,
+								fs == null ? dpc.getFormatSpecifier() : fs, rtc.getULocale());
+						if (str == null) {
 							// Skip it if specific datapoint display is not
 							// for current series
 							continue;
 						}
-						sb.append( str );
+						sb.append(str);
 					}
+				} else if (dpct == DataPointComponentType.SERIES_VALUE_LITERAL) {
+					sb.append(getSeriesDisplayValue(fs));
+				} else if (dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL) {
+					sb.append(getPercentileOrthogonalDisplayValue(fs));
 				}
-				else if ( dpct == DataPointComponentType.SERIES_VALUE_LITERAL )
-				{
-					sb.append( getSeriesDisplayValue( fs ) );
-				}
-				else if ( dpct == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL )
-				{
-					sb.append( getPercentileOrthogonalDisplayValue( fs ) );
-				}
-				if ( i < el.size( ) - 1 )
-				{
-					sb.append( dp.getSeparator( ) );
+				if (i < el.size() - 1) {
+					sb.append(dp.getSeparator());
 				}
 			}
-			if ( dp.getSuffix( ) != null )
-			{
-				sb.append( dp.getSuffix( ) );
+			if (dp.getSuffix() != null) {
+				sb.append(dp.getSuffix());
 			}
 		}
-		return sb.toString( );
+		return sb.toString();
 	}
 
 	/*
@@ -796,30 +608,24 @@ public class DataPointHints
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public final String toString( )
-	{
-		return getDisplayValue( );
+	public final String toString() {
+		return getDisplayValue();
 	}
 
 	/**
 	 * Sets the base value.
 	 * 
-	 * @param newBaseValue
-	 *            the new base value
+	 * @param newBaseValue the new base value
 	 */
-	public final void setBaseValue( Object newBaseValue )
-	{
+	public final void setBaseValue(Object newBaseValue) {
 		oBaseValue = newBaseValue;
 	}
-	
-	public final void setIndex( int index )
-	{
+
+	public final void setIndex(int index) {
 		this.index = index;
 	}
 
-	
-	public boolean isVirtual( )
-	{
+	public boolean isVirtual() {
 		return isVirtual;
 	}
 }

@@ -16,16 +16,19 @@ import org.eclipse.swt.graphics.Image;
 /**
  * ITemplateEntry
  */
-public interface ITemplateEntry
-{
+public interface ITemplateEntry {
 
-	/**Gets the name to display.
+	/**
+	 * Gets the name to display.
+	 * 
 	 * @return
 	 */
-	String getName( );
+	String getName();
 
-	/**Gets the image to show in the tree.
+	/**
+	 * Gets the image to show in the tree.
+	 * 
 	 * @return
 	 */
-	Image getImage( );
+	Image getImage();
 }

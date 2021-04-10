@@ -26,72 +26,56 @@ import org.eclipse.jface.wizard.WizardDialog;
 /**
  * The action class for adding a resource in resource explorer.
  */
-public class AddResourceAction extends ResourceAction
-{
+public class AddResourceAction extends ResourceAction {
 
 	/**
 	 * Constructs a action for adding resource.
 	 * 
-	 * @param viewer
-	 *            the resource explorer page
+	 * @param viewer the resource explorer page
 	 */
-	public AddResourceAction( LibraryExplorerTreeViewPage viewer )
-	{
-		super( Messages.getString( "AddResourceAction.Text" ), viewer ); //$NON-NLS-1$
+	public AddResourceAction(LibraryExplorerTreeViewPage viewer) {
+		super(Messages.getString("AddResourceAction.Text"), viewer); //$NON-NLS-1$
 	}
 
 	@Override
-	public boolean isEnabled( )
-	{
-		try
-		{
-			return canInsertIntoSelectedContainer( );
-		}
-		catch ( IOException e )
-		{
+	public boolean isEnabled() {
+		try {
+			return canInsertIntoSelectedContainer();
+		} catch (IOException e) {
 			return false;
 		}
 	}
 
 	@Override
-	public void run( )
-	{
+	public void run() {
 		File container;
 
-		try
-		{
-			container = getSelectedContainer( );
-		}
-		catch ( IOException e )
-		{
-			ExceptionUtil.handle( e );
+		try {
+			container = getSelectedContainer();
+		} catch (IOException e) {
+			ExceptionUtil.handle(e);
 			return;
 		}
 
-		if ( container == null )
-		{
+		if (container == null) {
 			return;
 		}
 
-		final PublishResourceWizard publishLibrary = new PublishResourceWizard( container.getAbsolutePath( ) );
-		WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
-				publishLibrary ) {
+		final PublishResourceWizard publishLibrary = new PublishResourceWizard(container.getAbsolutePath());
+		WizardDialog dialog = new BaseWizardDialog(UIUtil.getDefaultShell(), publishLibrary) {
 
 			@Override
-			protected void okPressed( )
-			{
-				publishLibrary.setCopyFileRunnable( createCopyFileRunnable( publishLibrary.getSourceFile( ),
-						publishLibrary.getTargetFile( ) ) );
+			protected void okPressed() {
+				publishLibrary.setCopyFileRunnable(
+						createCopyFileRunnable(publishLibrary.getSourceFile(), publishLibrary.getTargetFile()));
 
-				super.okPressed( );
+				super.okPressed();
 			}
 		};
 
-		dialog.setPageSize( 500, 250 );
-		if ( dialog.open( ) == Window.OK )
-		{
-			fireResourceChanged( publishLibrary.getTargetFile( )
-					.getAbsolutePath( ) );
+		dialog.setPageSize(500, 250);
+		if (dialog.open() == Window.OK) {
+			fireResourceChanged(publishLibrary.getTargetFile().getAbsolutePath());
 		}
 	}
 }

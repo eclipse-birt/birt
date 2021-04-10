@@ -32,23 +32,17 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Check that user property definision support the four types described.
  * </p>
  */
-public class Regression_121154 extends BaseTestCase
-{
+public class Regression_121154 extends BaseTestCase {
 
 	/**
-	 * Check that user property definision support String, Boolean, DateTime,
-	 * Float type.
+	 * Check that user property definision support String, Boolean, DateTime, Float
+	 * type.
 	 */
 
-	public void test_regression_121154( )
-	{
-		assertTrue( UserPropertyDefn.getAllowedTypes( ).contains(
-				new StringPropertyType( ) ) );
-		assertTrue( UserPropertyDefn.getAllowedTypes( ).contains(
-				new BooleanPropertyType( ) ) );
-		assertTrue( UserPropertyDefn.getAllowedTypes( ).contains(
-				new DateTimePropertyType( ) ) );
-		assertTrue( UserPropertyDefn.getAllowedTypes( ).contains(
-				new FloatPropertyType( ) ) );
+	public void test_regression_121154() {
+		assertTrue(UserPropertyDefn.getAllowedTypes().contains(new StringPropertyType()));
+		assertTrue(UserPropertyDefn.getAllowedTypes().contains(new BooleanPropertyType()));
+		assertTrue(UserPropertyDefn.getAllowedTypes().contains(new DateTimePropertyType()));
+		assertTrue(UserPropertyDefn.getAllowedTypes().contains(new FloatPropertyType()));
 	}
 }

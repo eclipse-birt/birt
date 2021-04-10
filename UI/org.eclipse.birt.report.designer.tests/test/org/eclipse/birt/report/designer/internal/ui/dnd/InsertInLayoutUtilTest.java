@@ -27,18 +27,13 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  *  
  */
 
-public class InsertInLayoutUtilTest extends BaseTestCase
-{
+public class InsertInLayoutUtilTest extends BaseTestCase {
 
-	static class LayoutExtendsUtil extends InsertInLayoutUtil
-	{
+	static class LayoutExtendsUtil extends InsertInLayoutUtil {
 
-		public static DesignElementHandle performInsertDataSetColumn(
-				ResultSetColumnHandle model, Object target, Object targetParent ) throws SemanticException
-		{
-			return InsertInLayoutUtil.performInsertDataSetColumn( model,
-					target,
-					targetParent );
+		public static DesignElementHandle performInsertDataSetColumn(ResultSetColumnHandle model, Object target,
+				Object targetParent) throws SemanticException {
+			return InsertInLayoutUtil.performInsertDataSetColumn(model, target, targetParent);
 		}
 	}
 
@@ -52,60 +47,50 @@ public class InsertInLayoutUtilTest extends BaseTestCase
 	 * 
 	 * @see org.eclipse.birt.report.designer.testutil.BaseTestCase#getLoadFile()
 	 */
-	protected String getLoadFile( )
-	{
+	protected String getLoadFile() {
 		return FILE_NAME;
 	}
 
-	//	private ElementFactory getElementFactory( )
-	//	{
-	//		return getReportDesignHandle( ).getElementFactory( );
-	//	}
+	// private ElementFactory getElementFactory( )
+	// {
+	// return getReportDesignHandle( ).getElementFactory( );
+	// }
 
-	private DataSetHandle getDataSet1( )
-	{
-		return getReportDesignHandle( ).findDataSet( DATA_SET_1_NAME );
+	private DataSetHandle getDataSet1() {
+		return getReportDesignHandle().findDataSet(DATA_SET_1_NAME);
 	}
 
-	private ListHandle getListHandle( )
-	{
-		return (ListHandle) getReportDesignHandle( ).findElement( LIST1_NAME );
+	private ListHandle getListHandle() {
+		return (ListHandle) getReportDesignHandle().findElement(LIST1_NAME);
 	}
 
-	private TableHandle getTableHandle( )
-	{
-		return (TableHandle) getReportDesignHandle( ).findElement( TABLE1_NAME );
+	private TableHandle getTableHandle() {
+		return (TableHandle) getReportDesignHandle().findElement(TABLE1_NAME);
 	}
 
-	private TableGroupHandle getTableGroup( )
-	{
-		return (TableGroupHandle) getTableHandle( ).getGroups( ).get( 0 );
+	private TableGroupHandle getTableGroup() {
+		return (TableGroupHandle) getTableHandle().getGroups().get(0);
 	}
 
-	private ListGroupHandle getListGroup( )
-	{
-		return (ListGroupHandle) getListHandle( ).getGroups( ).get( 0 );
+	private ListGroupHandle getListGroup() {
+		return (ListGroupHandle) getListHandle().getGroups().get(0);
 	}
 
-	private CellHandle getCell( int row, int column )
-	{
-		return (CellHandle) HandleAdapterFactory.getInstance( )
-				.getTableHandleAdapter( getTableHandle( ) )
-				.getCell( row, column );
+	private CellHandle getCell(int row, int column) {
+		return (CellHandle) HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableHandle()).getCell(row,
+				column);
 	}
 
-	public void testOpenFile( )
-	{
-		assertTrue( "test data set 1", getDataSet1( ) != null );
-		assertTrue( "test data set 1", getDataSet1( ).getDataSource( ) != null );
-		assertTrue( "test table 1", getTableHandle( ) != null );
-		assertTrue( "test list 1", getListHandle( ) != null );
-		assertTrue( "test table group", getTableGroup( ) != null );
-		assertTrue( "test list group", getListGroup( ) != null );
+	public void testOpenFile() {
+		assertTrue("test data set 1", getDataSet1() != null);
+		assertTrue("test data set 1", getDataSet1().getDataSource() != null);
+		assertTrue("test table 1", getTableHandle() != null);
+		assertTrue("test list 1", getListHandle() != null);
+		assertTrue("test table group", getTableGroup() != null);
+		assertTrue("test list group", getListGroup() != null);
 	}
 
-	public void testPerformInsertDataSetColumn( ) throws SemanticException
-	{
+	public void testPerformInsertDataSetColumn() throws SemanticException {
 //		DataSetManager.setCurrentInstance( DataSetManager.newInstance( ) );
 //
 //		DataSetItemModel[] columnModels = DataSetManager.getCurrentInstance( )

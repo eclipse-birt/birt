@@ -16,32 +16,29 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 
-public interface IPageBuffer
-{
+public interface IPageBuffer {
 
-	public void startContainer( IContent content, boolean isFirst,
-			IContentEmitter emitter, boolean visible ) throws BirtException;
+	public void startContainer(IContent content, boolean isFirst, IContentEmitter emitter, boolean visible)
+			throws BirtException;
 
-	public void endContainer( IContent content, boolean finished,
-			IContentEmitter emitter, boolean visible ) throws BirtException;
-	
-	
-	public void startContent( IContent content, IContentEmitter emitter,
-			boolean visible ) throws BirtException;
+	public void endContainer(IContent content, boolean finished, IContentEmitter emitter, boolean visible)
+			throws BirtException;
 
-	public void setRepeated( boolean isRepeated );
+	public void startContent(IContent content, IContentEmitter emitter, boolean visible) throws BirtException;
 
-	public boolean isRepeated( );
-	
-	public void flush( ) throws BirtException;
-	
+	public void setRepeated(boolean isRepeated);
+
+	public boolean isRepeated();
+
+	public void flush() throws BirtException;
+
 	public boolean finished();
-	
-	public void openPage( INode[] nodeList ) throws BirtException;
-	
-	public void closePage( INode[] nodeList ) throws BirtException;
-	
+
+	public void openPage(INode[] nodeList) throws BirtException;
+
+	public void closePage(INode[] nodeList) throws BirtException;
+
 	public INode[] getNodeStack();
-	
+
 	public void addTableColumnHint(TableColumnHint hint);
 }

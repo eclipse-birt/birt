@@ -18,24 +18,23 @@ import org.eclipse.swt.widgets.Listener;
 /**
  * ICustomChoice
  */
-public interface ICustomChoice
-{
+public interface ICustomChoice {
 
-	void setValue( Object value );
+	void setValue(Object value);
 
-	Object getValue( );
+	Object getValue();
 
-	void addListener( int eventType, Listener listener );
+	void addListener(int eventType, Listener listener);
 
-	void notifyListeners( int eventType, Event event );
+	void notifyListeners(int eventType, Event event);
 
-	void redraw( );
+	void redraw();
 
-	void setEnabled( boolean enabled );
+	void setEnabled(boolean enabled);
 
-	boolean isEnabled( );
+	boolean isEnabled();
 
-	Point getSize( );
+	Point getSize();
 
-	void setLayoutData( Object layoutData );
+	void setLayoutData(Object layoutData);
 }

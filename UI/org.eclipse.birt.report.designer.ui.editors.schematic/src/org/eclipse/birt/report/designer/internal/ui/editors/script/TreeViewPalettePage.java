@@ -29,10 +29,7 @@ import org.eclipse.ui.part.Page;
  * The default page for the PaletteView that works in conjunction with a
  * PaletteViewerProvider.
  */
-public class TreeViewPalettePage extends Page implements
-		PalettePage,
-		IAdaptable
-{
+public class TreeViewPalettePage extends Page implements PalettePage, IAdaptable {
 
 	/** Tool tip separator between Usage and Description */
 	// private static final String TOOL_TIP_SEP = ": "; //$NON-NLS-1$
@@ -47,16 +44,15 @@ public class TreeViewPalettePage extends Page implements
 	protected Tree tree;
 
 	private ExpressionTreeSupport treeCommon;
-	
+
 	private SourceViewer targetViewer;
 
 	/**
 	 * Constructor
 	 * 
 	 */
-	public TreeViewPalettePage( )
-	{
-		treeCommon = new ExpressionTreeSupport( );
+	public TreeViewPalettePage() {
+		treeCommon = new ExpressionTreeSupport();
 	}
 
 	/**
@@ -64,29 +60,27 @@ public class TreeViewPalettePage extends Page implements
 	 * 
 	 * @see Page#createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public void createControl( Composite parent )
-	{
-		tree = new Tree( parent, SWT.NONE );
-		treeCommon.setTree( tree );
-		treeCommon.setExpressionViewer( targetViewer );
+	public void createControl(Composite parent) {
+		tree = new Tree(parent, SWT.NONE);
+		treeCommon.setTree(tree);
+		treeCommon.setExpressionViewer(targetViewer);
 
-		treeCommon.createDefaultExpressionTree( );
+		treeCommon.createDefaultExpressionTree();
 
-		treeCommon.addMouseTrackListener( );
-		treeCommon.addMouseListener( );
-		treeCommon.addDragSupportToTree( );
-		treeCommon.addDropSupportToViewer( );
+		treeCommon.addMouseTrackListener();
+		treeCommon.addMouseListener();
+		treeCommon.addDragSupportToTree();
+		treeCommon.addDropSupportToViewer();
 
 		// Add tool tips
-		tree.setToolTipText( "" ); //$NON-NLS-1$
+		tree.setToolTipText(""); //$NON-NLS-1$
 
-		tree.addDisposeListener( new DisposeListener( ) {
+		tree.addDisposeListener(new DisposeListener() {
 
-			public void widgetDisposed( DisposeEvent e )
-			{
-				treeCommon.removeDropSupportToViewer( );
+			public void widgetDisposed(DisposeEvent e) {
+				treeCommon.removeDropSupportToViewer();
 			}
-		} );
+		});
 	}
 
 	/**
@@ -105,17 +99,15 @@ public class TreeViewPalettePage extends Page implements
 	 * 
 	 * @see Page#dispose()
 	 */
-	public void dispose( )
-	{
-		tree.dispose( );
-		super.dispose( );
+	public void dispose() {
+		tree.dispose();
+		super.dispose();
 	}
 
 	/**
 	 * @see IAdaptable#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class adapter )
-	{
+	public Object getAdapter(Class adapter) {
 		return null;
 	}
 
@@ -123,8 +115,7 @@ public class TreeViewPalettePage extends Page implements
 	 * @return the palette viewer's control
 	 * @see Page#getControl()
 	 */
-	public Control getControl( )
-	{
+	public Control getControl() {
 		return tree;
 	}
 
@@ -133,19 +124,16 @@ public class TreeViewPalettePage extends Page implements
 	 * 
 	 * @see Page#setFocus()
 	 */
-	public void setFocus( )
-	{
-		tree.setFocus( );
-		treeCommon.updateParametersTree( );
+	public void setFocus() {
+		tree.setFocus();
+		treeCommon.updateParametersTree();
 	}
 
-	public ExpressionTreeSupport getSupport( )
-	{
+	public ExpressionTreeSupport getSupport() {
 		return this.treeCommon;
 	}
-	
-	void setViewer( SourceViewer viewer )
-	{
+
+	void setViewer(SourceViewer viewer) {
 		targetViewer = viewer;
 	}
 

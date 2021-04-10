@@ -21,42 +21,38 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
  * 
  */
 
-public class ParameterGroupPage extends GeneralPage
-{
+public class ParameterGroupPage extends GeneralPage {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.GeneralPage#buildContent()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * GeneralPage#buildContent()
 	 */
 	@Override
-	protected void buildContent( )
-	{
+	protected void buildContent() {
 		// TODO Auto-generated method stub
-		
-		IDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( ParameterGroupHandle.NAME_PROP,
-				ReportDesignConstants.PARAMETER_GROUP_ELEMENT );
 
-		TextSection nameSection = new TextSection( nameProvider.getDisplayName( ),
-				container,
-				true );
-		nameSection.setProvider( nameProvider );
-		nameSection.setWidth( 500 );
-		nameSection.setGridPlaceholder( 4, true );
-		addSection( PageSectionId.PARAMTER_GROUP_NAME, nameSection );
-		
-		IDescriptorProvider displayNameProvider = new TextPropertyDescriptorProvider( ParameterGroupHandle.DISPLAY_NAME_PROP,
-				ReportDesignConstants.PARAMETER_GROUP_ELEMENT );
+		IDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(ParameterGroupHandle.NAME_PROP,
+				ReportDesignConstants.PARAMETER_GROUP_ELEMENT);
 
-		TextSection displayNameSection = new TextSection( displayNameProvider.getDisplayName( ),
-				container,
-				true );
-		displayNameSection.setProvider( displayNameProvider );
-		displayNameSection.setWidth( 500 );
-		displayNameSection.setGridPlaceholder( 4, true );
-		addSection( PageSectionId.PARAMTER_GROUP_DISPLAY_NAME, displayNameSection );		
+		TextSection nameSection = new TextSection(nameProvider.getDisplayName(), container, true);
+		nameSection.setProvider(nameProvider);
+		nameSection.setWidth(500);
+		nameSection.setGridPlaceholder(4, true);
+		addSection(PageSectionId.PARAMTER_GROUP_NAME, nameSection);
+
+		IDescriptorProvider displayNameProvider = new TextPropertyDescriptorProvider(
+				ParameterGroupHandle.DISPLAY_NAME_PROP, ReportDesignConstants.PARAMETER_GROUP_ELEMENT);
+
+		TextSection displayNameSection = new TextSection(displayNameProvider.getDisplayName(), container, true);
+		displayNameSection.setProvider(displayNameProvider);
+		displayNameSection.setWidth(500);
+		displayNameSection.setGridPlaceholder(4, true);
+		addSection(PageSectionId.PARAMTER_GROUP_DISPLAY_NAME, displayNameSection);
 	}
 
-	public boolean canReset( )
-	{
+	public boolean canReset() {
 		return false;
 	}
 }

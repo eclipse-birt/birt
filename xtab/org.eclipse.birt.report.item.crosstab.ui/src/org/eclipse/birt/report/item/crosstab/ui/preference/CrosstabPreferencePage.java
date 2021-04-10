@@ -24,106 +24,84 @@ import org.eclipse.swt.widgets.Control;
  * 
  */
 
-public class CrosstabPreferencePage extends PropertyAndPreferencePage
-{
+public class CrosstabPreferencePage extends PropertyAndPreferencePage {
 
 	public static final String PREF_ID = "org.eclipse.birt.report.item.crosstab.ui.preferencepage"; //$NON-NLS-1$
 
 	private CrosstabConfigurationBlock fConfigurationBlock;
 
-	public CrosstabPreferencePage( )
-	{
-		super( );
+	public CrosstabPreferencePage() {
+		super();
 	}
 
-	public CrosstabPreferencePage( String title )
-	{
-		super( title );
+	public CrosstabPreferencePage(String title) {
+		super(title);
 	}
 
-	public CrosstabPreferencePage( String title, ImageDescriptor image )
-	{
-		super( title, image );
+	public CrosstabPreferencePage(String title, ImageDescriptor image) {
+		super(title, image);
 	}
 
-	public void createControl( Composite parent )
-	{
-		fConfigurationBlock = new CrosstabConfigurationBlock( getNewStatusChangedListener( ),
-				getProject( ) );
-		super.createControl( parent );
+	public void createControl(Composite parent) {
+		fConfigurationBlock = new CrosstabConfigurationBlock(getNewStatusChangedListener(), getProject());
+		super.createControl(parent);
 
-		UIUtil.bindHelp( getControl( ), IHelpContextIds.PREFERENCE_BIRT_XTAB_ID );
+		UIUtil.bindHelp(getControl(), IHelpContextIds.PREFERENCE_BIRT_XTAB_ID);
 
 	}
 
-	protected Control createPreferenceContent( Composite composite )
-	{
-		return fConfigurationBlock.createContents( composite );
+	protected Control createPreferenceContent(Composite composite) {
+		return fConfigurationBlock.createContents(composite);
 	}
 
-	protected boolean hasProjectSpecificOptions( IProject project )
-	{
-		return fConfigurationBlock.hasProjectSpecificOptions( project );
+	protected boolean hasProjectSpecificOptions(IProject project) {
+		return fConfigurationBlock.hasProjectSpecificOptions(project);
 	}
 
-	protected String getPreferencePageID( )
-	{
+	protected String getPreferencePageID() {
 		return PREF_ID;
 	}
 
-	protected String getPropertyPageID( )
-	{
+	protected String getPropertyPageID() {
 		return PREF_ID;
 	}
 
-	public void dispose( )
-	{
-		if ( fConfigurationBlock != null )
-		{
-			fConfigurationBlock.dispose( );
+	public void dispose() {
+		if (fConfigurationBlock != null) {
+			fConfigurationBlock.dispose();
 		}
-		super.dispose( );
+		super.dispose();
 	}
 
-	protected void enableProjectSpecificSettings(
-			boolean useProjectSpecificSettings )
-	{
-		super.enableProjectSpecificSettings( useProjectSpecificSettings );
-		if ( fConfigurationBlock != null )
-		{
-			fConfigurationBlock.useProjectSpecificSettings( useProjectSpecificSettings );
+	protected void enableProjectSpecificSettings(boolean useProjectSpecificSettings) {
+		super.enableProjectSpecificSettings(useProjectSpecificSettings);
+		if (fConfigurationBlock != null) {
+			fConfigurationBlock.useProjectSpecificSettings(useProjectSpecificSettings);
 		}
 	}
 
-	protected void performDefaults( )
-	{
-		super.performDefaults( );
-		if ( fConfigurationBlock != null )
-		{
-			fConfigurationBlock.performDefaults( );
+	protected void performDefaults() {
+		super.performDefaults();
+		if (fConfigurationBlock != null) {
+			fConfigurationBlock.performDefaults();
 		}
 	}
 
-	public boolean performOk( )
-	{
-		if ( fConfigurationBlock != null && !fConfigurationBlock.performOk( ) )
-		{
+	public boolean performOk() {
+		if (fConfigurationBlock != null && !fConfigurationBlock.performOk()) {
 			return false;
 		}
-		return super.performOk( );
+		return super.performOk();
 	}
 
-	public void performApply( )
-	{
-		if ( fConfigurationBlock != null )
-		{
-			fConfigurationBlock.performApply( );
+	public void performApply() {
+		if (fConfigurationBlock != null) {
+			fConfigurationBlock.performApply();
 		}
 	}
 
-	public void setElement( IAdaptable element )
-	{
-		super.setElement( element );
-		setDescription( null ); // no description for property page
+	public void setElement(IAdaptable element) {
+		super.setElement(element);
+		setDescription(null); // no description for property page
 	}
 }

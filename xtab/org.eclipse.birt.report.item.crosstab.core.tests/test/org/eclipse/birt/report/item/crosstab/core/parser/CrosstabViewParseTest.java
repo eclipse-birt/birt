@@ -30,8 +30,7 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
  * 
  */
 
-public class CrosstabViewParseTest extends BaseTestCase
-{
+public class CrosstabViewParseTest extends BaseTestCase {
 
 	/**
 	 * Test parser
@@ -39,27 +38,23 @@ public class CrosstabViewParseTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testParse( ) throws Exception
-	{
-		openDesign( "CrosstabViewParseTest.xml" );//$NON-NLS-1$
+	public void testParse() throws Exception {
+		openDesign("CrosstabViewParseTest.xml");//$NON-NLS-1$
 
-		List errors = designHandle.getErrorList( );
+		List errors = designHandle.getErrorList();
 		// 1 error: no cube defined for this crosstab
-		assertEquals( 1, errors.size( ) );
+		assertEquals(1, errors.size());
 
-		ExtendedItemHandle handle = (ExtendedItemHandle) designHandle.getBody( )
-				.get( 0 );
-		CrosstabReportItemHandle reportItemHandle = (CrosstabReportItemHandle) handle
-				.getReportItem( );
-		CrosstabViewHandle viewHandle = reportItemHandle
-				.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE );
-		assertNotNull( viewHandle );
+		ExtendedItemHandle handle = (ExtendedItemHandle) designHandle.getBody().get(0);
+		CrosstabReportItemHandle reportItemHandle = (CrosstabReportItemHandle) handle.getReportItem();
+		CrosstabViewHandle viewHandle = reportItemHandle.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE);
+		assertNotNull(viewHandle);
 
-		CrosstabCellHandle cellHandle = viewHandle.getGrandTotal( );
-		assertNotNull( cellHandle );
+		CrosstabCellHandle cellHandle = viewHandle.getGrandTotal();
+		assertNotNull(cellHandle);
 
-		PropertyHandle propHandle = viewHandle.getViewsProperty( );
-		assertNotNull( propHandle.get( 0 ) );
+		PropertyHandle propHandle = viewHandle.getViewsProperty();
+		assertNotNull(propHandle.get(0));
 
 		// how to get MemberValue?
 
@@ -70,12 +65,11 @@ public class CrosstabViewParseTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSemanticCheck( ) throws Exception
-	{
-		openDesign( "CrosstabViewParseTest.xml" );//$NON-NLS-1$
-		List errors = designHandle.getErrorList( );
+	public void testSemanticCheck() throws Exception {
+		openDesign("CrosstabViewParseTest.xml");//$NON-NLS-1$
+		List errors = designHandle.getErrorList();
 		// 1 error: no cube defined for this crosstab
-		assertEquals( 1, errors.size( ) );
+		assertEquals(1, errors.size());
 	}
 
 	/**
@@ -83,30 +77,26 @@ public class CrosstabViewParseTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testWriter( ) throws Exception
-	{
-		createDesign( );
-		CubeHandle cubeHandle = prepareCube( );
-		ExtendedItemHandle extendHandle = CrosstabExtendedItemFactory
-				.createCrosstabReportItem( designHandle.getRoot( ), cubeHandle, null );
-		designHandle.getBody( ).add( extendHandle );
+	public void testWriter() throws Exception {
+		createDesign();
+		CubeHandle cubeHandle = prepareCube();
+		ExtendedItemHandle extendHandle = CrosstabExtendedItemFactory.createCrosstabReportItem(designHandle.getRoot(),
+				cubeHandle, null);
+		designHandle.getBody().add(extendHandle);
 
 		// create cross tab
-		CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil
-				.getReportItem( extendHandle );
+		CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil.getReportItem(extendHandle);
 
-		CrosstabViewHandle viewHandle = crosstabItem
-				.addCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE );
-		DimensionHandle dimensionHandle = cubeHandle.getDimension( "Customer" );//$NON-NLS-1$
+		CrosstabViewHandle viewHandle = crosstabItem.addCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE);
+		DimensionHandle dimensionHandle = cubeHandle.getDimension("Customer");//$NON-NLS-1$
 
-		ExtendedItemHandle grandTotal = CrosstabExtendedItemFactory
-				.createCrosstabCell( designHandle.getRoot( ) );
-		viewHandle.getGrandTotalProperty( ).add( grandTotal );
+		ExtendedItemHandle grandTotal = CrosstabExtendedItemFactory.createCrosstabCell(designHandle.getRoot());
+		viewHandle.getGrandTotalProperty().add(grandTotal);
 
-		viewHandle.insertDimension( dimensionHandle, -1 );
+		viewHandle.insertDimension(dimensionHandle, -1);
 
-		save( designHandle.getRoot( ) );
+		save(designHandle.getRoot());
 
-		compareFile( "CrosstabViewParseTest_golden.xml" );//$NON-NLS-1$
+		compareFile("CrosstabViewParseTest_golden.xml");//$NON-NLS-1$
 	}
 }

@@ -35,29 +35,27 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  */
 
-public class Regression_136517 extends BaseTestCase
-{
+public class Regression_136517 extends BaseTestCase {
 
 	private final static String INPUT = "regression_136517.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 */
 
-	public void test_regression_136517( ) throws DesignFileException
-	{
-		openDesign( INPUT );
-		ImageHandle image = (ImageHandle) designHandle.findElement( "img1" ); //$NON-NLS-1$
-		assertEquals( "embed", image.getSource( ) ); //$NON-NLS-1$
-		assertEquals( "embedgif", image.getImageName( ) ); //$NON-NLS-1$
+	public void test_regression_136517() throws DesignFileException {
+		openDesign(INPUT);
+		ImageHandle image = (ImageHandle) designHandle.findElement("img1"); //$NON-NLS-1$
+		assertEquals("embed", image.getSource()); //$NON-NLS-1$
+		assertEquals("embedgif", image.getImageName()); //$NON-NLS-1$
 	}
 }

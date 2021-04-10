@@ -32,19 +32,16 @@ import org.eclipse.swt.graphics.Color;
  * Sets JS configuration the editor needs
  * 
  */
-public class JSSourceViewerConfiguration extends SourceViewerConfiguration
-{
+public class JSSourceViewerConfiguration extends SourceViewerConfiguration {
 
 	private RuleBasedScanner scanner;
 	protected JSSyntaxContext context;
 
-	public JSSourceViewerConfiguration( )
-	{
-		this( new JSSyntaxContext( ) );
+	public JSSourceViewerConfiguration() {
+		this(new JSSyntaxContext());
 	}
 
-	public JSSourceViewerConfiguration( JSSyntaxContext context )
-	{
+	public JSSourceViewerConfiguration(JSSyntaxContext context) {
 		this.context = context;
 	}
 
@@ -54,22 +51,16 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 	 * @param categoryColor
 	 * @return Color
 	 */
-	public static Color getColorByCategory( String categoryColor )
-	{
-		return getRgbString( categoryColor );
+	public static Color getColorByCategory(String categoryColor) {
+		return getRgbString(categoryColor);
 	}
 
 	/**
 	 * @see SourceViewerConfiguration#getConfiguredContentTypes(ISourceViewer)
 	 */
-	public String[] getConfiguredContentTypes( ISourceViewer sourceViewer )
-	{
-		return new String[]{
-				IDocument.DEFAULT_CONTENT_TYPE,
-				JSPartitionScanner.JS_COMMENT,
-				JSPartitionScanner.JS_KEYWORD,
-				JSPartitionScanner.JS_STRING
-		};
+	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
+		return new String[] { IDocument.DEFAULT_CONTENT_TYPE, JSPartitionScanner.JS_COMMENT,
+				JSPartitionScanner.JS_KEYWORD, JSPartitionScanner.JS_STRING };
 	}
 
 	/**
@@ -77,12 +68,11 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 	 * 
 	 * @return scanner
 	 */
-	protected RuleBasedScanner getDefaultScanner( )
-	{
-		if ( scanner == null )
-		{
-			scanner = new JSScanner( );
-			scanner.setDefaultReturnToken( new Token( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE ) ) );
+	protected RuleBasedScanner getDefaultScanner() {
+		if (scanner == null) {
+			scanner = new JSScanner();
+			scanner.setDefaultReturnToken(
+					new Token(UIUtil.getAttributeFor(ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE)));
 		}
 		return scanner;
 	}
@@ -90,77 +80,66 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 	/**
 	 * @see SourceViewerConfiguration#getPresentationReconciler(ISourceViewer)
 	 */
-	public IPresentationReconciler getPresentationReconciler(
-			ISourceViewer sourceViewer )
-	{
-		PresentationReconciler reconciler = new PresentationReconciler( );
+	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
+		PresentationReconciler reconciler = new PresentationReconciler();
 
-		DefaultDamagerRepairer dr = new DefaultDamagerRepairer( getDefaultScanner( ) );
-		reconciler.setDamager( dr, IDocument.DEFAULT_CONTENT_TYPE );
-		reconciler.setRepairer( dr, IDocument.DEFAULT_CONTENT_TYPE );
+		DefaultDamagerRepairer dr = new DefaultDamagerRepairer(getDefaultScanner());
+		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
+		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
 
-		NonRuleBasedDamagerRepairer commentRepairer = new NonRuleBasedDamagerRepairer( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_COMMENT_COLOR_PREFERENCE ) );
-		reconciler.setDamager( commentRepairer, JSPartitionScanner.JS_COMMENT );
-		reconciler.setRepairer( commentRepairer, JSPartitionScanner.JS_COMMENT );
+		NonRuleBasedDamagerRepairer commentRepairer = new NonRuleBasedDamagerRepairer(
+				UIUtil.getAttributeFor(ReportPlugin.EXPRESSION_COMMENT_COLOR_PREFERENCE));
+		reconciler.setDamager(commentRepairer, JSPartitionScanner.JS_COMMENT);
+		reconciler.setRepairer(commentRepairer, JSPartitionScanner.JS_COMMENT);
 
-		NonRuleBasedDamagerRepairer stringRepairer = new NonRuleBasedDamagerRepairer( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_STRING_COLOR_PREFERENCE ) );
-		reconciler.setDamager( stringRepairer, JSPartitionScanner.JS_STRING );
-		reconciler.setRepairer( stringRepairer, JSPartitionScanner.JS_STRING );
+		NonRuleBasedDamagerRepairer stringRepairer = new NonRuleBasedDamagerRepairer(
+				UIUtil.getAttributeFor(ReportPlugin.EXPRESSION_STRING_COLOR_PREFERENCE));
+		reconciler.setDamager(stringRepairer, JSPartitionScanner.JS_STRING);
+		reconciler.setRepairer(stringRepairer, JSPartitionScanner.JS_STRING);
 
-		NonRuleBasedDamagerRepairer keywordRepairer = new NonRuleBasedDamagerRepairer( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_KEYWORD_COLOR_PREFERENCE ) );
-		reconciler.setDamager( keywordRepairer, JSPartitionScanner.JS_KEYWORD );
-		reconciler.setRepairer( keywordRepairer, JSPartitionScanner.JS_KEYWORD );
+		NonRuleBasedDamagerRepairer keywordRepairer = new NonRuleBasedDamagerRepairer(
+				UIUtil.getAttributeFor(ReportPlugin.EXPRESSION_KEYWORD_COLOR_PREFERENCE));
+		reconciler.setDamager(keywordRepairer, JSPartitionScanner.JS_KEYWORD);
+		reconciler.setRepairer(keywordRepairer, JSPartitionScanner.JS_KEYWORD);
 
 		return reconciler;
 	}
 
-	private static Color getRgbString( String name )
-	{
-		if ( PreferenceNames.P_COMMENT_COLOR.equals( name ) )
-		{
-			//rgbStr = "63,127,95"; //$NON-NLS-1$
+	private static Color getRgbString(String name) {
+		if (PreferenceNames.P_COMMENT_COLOR.equals(name)) {
+			// rgbStr = "63,127,95"; //$NON-NLS-1$
 			return ReportColorConstants.JSCOMMENTCOLOR;
-		}
-		else if ( PreferenceNames.P_STRING_COLOR.equals( name ) )
-		{
-			//rgbStr = "42,0,255"; //$NON-NLS-1$
+		} else if (PreferenceNames.P_STRING_COLOR.equals(name)) {
+			// rgbStr = "42,0,255"; //$NON-NLS-1$
 			return ReportColorConstants.JSSTRINGCOLOR;
-		}
-		else if ( PreferenceNames.P_KEYWORD_COLOR.equals( name ) )
-		{
-			//rgbStr = "127,0,85"; //$NON-NLS-1$
+		} else if (PreferenceNames.P_KEYWORD_COLOR.equals(name)) {
+			// rgbStr = "127,0,85"; //$NON-NLS-1$
 			return ReportColorConstants.JSKEYWORDCOLOR;
-		}
-		else if ( PreferenceNames.P_LINENUMBER_COLOR.equals( name ) )
-		{
-			//rgbStr = "127,127,127"; //$NON-NLS-1$
+		} else if (PreferenceNames.P_LINENUMBER_COLOR.equals(name)) {
+			// rgbStr = "127,127,127"; //$NON-NLS-1$
 			return ReportColorConstants.JSLINENUMBERCOLOR;
 		}
 		return ReportColorConstants.ReportForeground;
 	}
 
-	public IContentAssistant getContentAssistant( ISourceViewer sourceViewer )
-	{
-		ContentAssistant assistant = new ContentAssistant( );
-		assistant.setContentAssistProcessor( new JSCompletionProcessor( context ),
-				IDocument.DEFAULT_CONTENT_TYPE );
-		assistant.enableAutoActivation( true );
-		assistant.setAutoActivationDelay( 500 );
-		assistant.setProposalPopupOrientation( IContentAssistant.PROPOSAL_OVERLAY );
+	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+		ContentAssistant assistant = new ContentAssistant();
+		assistant.setContentAssistProcessor(new JSCompletionProcessor(context), IDocument.DEFAULT_CONTENT_TYPE);
+		assistant.enableAutoActivation(true);
+		assistant.setAutoActivationDelay(500);
+		assistant.setProposalPopupOrientation(IContentAssistant.PROPOSAL_OVERLAY);
 		return assistant;
 	}
 
-	public void resetScannerColor( )
-	{
-		if ( scanner != null )
-		{
-			scanner.setDefaultReturnToken( new Token( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE ) ) );
+	public void resetScannerColor() {
+		if (scanner != null) {
+			scanner.setDefaultReturnToken(
+					new Token(UIUtil.getAttributeFor(ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE)));
 		}
 	}
-	
-	public static void updateSourceFont( SourceViewer sourceViewer )
-	{
+
+	public static void updateSourceFont(SourceViewer sourceViewer) {
 		// Always set default text font to source viewer
-		sourceViewer.getTextWidget( ).setFont( JFaceResources.getTextFont( ) );
+		sourceViewer.getTextWidget().setFont(JFaceResources.getTextFont());
 	}
 }

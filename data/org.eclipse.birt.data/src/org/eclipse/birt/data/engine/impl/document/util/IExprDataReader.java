@@ -18,29 +18,28 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * Read the raw expression result from report document.
  */
-interface IExprDataReader
-{
-	
+interface IExprDataReader {
+
 	/**
 	 * @return the id of current row
 	 */
-	int getRowId( );
+	int getRowId();
 
 	/**
 	 * @return the index of current row
 	 */
-	int getRowIndex( );
-	
+	int getRowIndex();
+
 	/**
 	 * @return the row count value
 	 */
-	int getCount( );
+	int getCount();
 
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	boolean next( ) throws DataException;
+	boolean next() throws DataException;
 
 	/**
 	 * Move the cursor forward
@@ -48,17 +47,17 @@ interface IExprDataReader
 	 * @param index
 	 * @throws DataException
 	 */
-	void moveTo( int index ) throws DataException;
-	
+	void moveTo(int index) throws DataException;
+
 	/**
 	 * @return value map of current row
 	 * @throws DataException
 	 */
-	Map getRowValue( ) throws DataException;
+	Map getRowValue() throws DataException;
 
 	/**
 	 * close the reader
 	 */
-	void close( );
-	
+	void close();
+
 }

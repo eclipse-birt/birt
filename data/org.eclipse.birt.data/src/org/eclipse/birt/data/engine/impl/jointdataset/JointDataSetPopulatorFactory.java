@@ -18,8 +18,7 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 /**
  * Factory class which is used to return instances of IJointDataSetPopulator.
  */
-public class JointDataSetPopulatorFactory
-{
+public class JointDataSetPopulatorFactory {
 	/**
 	 * Return instance of IJointDataSetPopulator which is used for Cartesian join.
 	 * 
@@ -31,14 +30,16 @@ public class JointDataSetPopulatorFactory
 	 * @return
 	 * @throws DataException
 	 */
-	public static IDataSetPopulator getCartesianJointDataSetPopulator( IResultIterator left, IResultIterator right, JointResultMetadata meta, IJoinConditionMatcher jcm , int joinType, DataEngineSession session, int rowFetchLimit ) throws DataException
-	{
-		IMatchResultObjectSeeker seeker = new CartesianResultObjectSeeker( jcm );
-		return new BaseJointDataSetPopulator( left, right, meta, jcm , joinType, seeker, session, rowFetchLimit );
+	public static IDataSetPopulator getCartesianJointDataSetPopulator(IResultIterator left, IResultIterator right,
+			JointResultMetadata meta, IJoinConditionMatcher jcm, int joinType, DataEngineSession session,
+			int rowFetchLimit) throws DataException {
+		IMatchResultObjectSeeker seeker = new CartesianResultObjectSeeker(jcm);
+		return new BaseJointDataSetPopulator(left, right, meta, jcm, joinType, seeker, session, rowFetchLimit);
 	}
-	
+
 	/**
-	 * Return instance of IJointDataSetPopulator which is used for oridinary left, right, and inner join.
+	 * Return instance of IJointDataSetPopulator which is used for oridinary left,
+	 * right, and inner join.
 	 * 
 	 * @param left
 	 * @param right
@@ -50,8 +51,9 @@ public class JointDataSetPopulatorFactory
 	 * @return
 	 * @throws DataException
 	 */
-	public static IDataSetPopulator getBinaryTreeDataSetPopulator( IResultIterator left, IResultIterator right, JointResultMetadata meta, IJoinConditionMatcher jcm , int joinType, DataEngineSession session, int rowFetchLimit ) throws DataException
-	{
-		return new BaseJointDataSetPopulator( left, right, meta, jcm , joinType, null, session, rowFetchLimit );
+	public static IDataSetPopulator getBinaryTreeDataSetPopulator(IResultIterator left, IResultIterator right,
+			JointResultMetadata meta, IJoinConditionMatcher jcm, int joinType, DataEngineSession session,
+			int rowFetchLimit) throws DataException {
+		return new BaseJointDataSetPopulator(left, right, meta, jcm, joinType, null, session, rowFetchLimit);
 	}
 }

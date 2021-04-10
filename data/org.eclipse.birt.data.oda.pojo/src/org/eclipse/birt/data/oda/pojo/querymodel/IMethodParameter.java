@@ -22,24 +22,23 @@ import org.w3c.dom.Element;
  * 
  */
 
-public interface IMethodParameter
-{
-	String getDataType( );
-	
-	void setDataType( String type );
-	
-	Element createElement( Document doc );
-	
+public interface IMethodParameter {
+	String getDataType();
+
+	void setDataType(String type);
+
+	Element createElement(Document doc);
+
 	/**
 	 * 
 	 * @param paramValues all query parameter values set from user
 	 * @throws OdaException
 	 */
-	void prepareValue( Map<String, Object> paramValues, ClassLoader pojoClassLoader ) throws OdaException;
-	
-	Object getTargetValue( );
-	
-	void setStringValue( String value );
-	
-	String getStringValue( );
+	void prepareValue(Map<String, Object> paramValues, ClassLoader pojoClassLoader) throws OdaException;
+
+	Object getTargetValue();
+
+	void setStringValue(String value);
+
+	String getStringValue();
 }

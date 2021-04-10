@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
 /**
  * ChartElementCommandImpl
  */
-public class ChartElementCommandImpl implements IElementCommand
-{
+public class ChartElementCommandImpl implements IElementCommand {
 
 	private ChartReportItemImpl item;
 	private Chart oldChart;
@@ -34,9 +33,8 @@ public class ChartElementCommandImpl implements IElementCommand
 	 * @param impl
 	 * 
 	 */
-	public ChartElementCommandImpl( ExtendedItemHandle handle,
-			ChartReportItemImpl impl, Chart oldChart, Chart newChart )
-	{
+	public ChartElementCommandImpl(ExtendedItemHandle handle, ChartReportItemImpl impl, Chart oldChart,
+			Chart newChart) {
 		this.handle = handle;
 		this.item = impl;
 		this.oldChart = oldChart;
@@ -48,9 +46,8 @@ public class ChartElementCommandImpl implements IElementCommand
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#execute()
 	 */
-	public void execute( )
-	{
-		item.setModel( newChart );
+	public void execute() {
+		item.setModel(newChart);
 	}
 
 	/*
@@ -58,9 +55,8 @@ public class ChartElementCommandImpl implements IElementCommand
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#undo()
 	 */
-	public void undo( )
-	{
-		item.setModel( oldChart );
+	public void undo() {
+		item.setModel(oldChart);
 	}
 
 	/*
@@ -68,9 +64,8 @@ public class ChartElementCommandImpl implements IElementCommand
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#redo()
 	 */
-	public void redo( )
-	{
-		item.setModel( newChart );
+	public void redo() {
+		item.setModel(newChart);
 	}
 
 	/*
@@ -78,8 +73,7 @@ public class ChartElementCommandImpl implements IElementCommand
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#canUndo()
 	 */
-	public boolean canUndo( )
-	{
+	public boolean canUndo() {
 		return true;
 	}
 
@@ -88,8 +82,7 @@ public class ChartElementCommandImpl implements IElementCommand
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.IElementCommand#canRedo()
 	 */
-	public boolean canRedo( )
-	{
+	public boolean canRedo() {
 		return true;
 	}
 
@@ -98,18 +91,18 @@ public class ChartElementCommandImpl implements IElementCommand
 	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#getLabel()
 	 */
-	public String getLabel( )
-	{
-		return Messages.getString( "ChartElementCommandImpl.editChart" ); //$NON-NLS-1$
+	public String getLabel() {
+		return Messages.getString("ChartElementCommandImpl.editChart"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#getElementHandle()
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IElementCommand#getElementHandle(
+	 * )
 	 */
-	public DesignElementHandle getElementHandle( )
-	{
+	public DesignElementHandle getElementHandle() {
 		return handle;
 	}
 

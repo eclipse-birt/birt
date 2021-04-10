@@ -14,20 +14,19 @@ import org.eclipse.swt.graphics.Image;
 /**
  * @author Actuate Corporation
  */
-public interface IChartSubType
-{
+public interface IChartSubType {
 
-    public String getName();
+	public String getName();
 
-    public Image getImage();
+	public Image getImage();
 
-    public String getDescription();
-    
+	public String getDescription();
+
 	/**
-	 * Returns the display name of the chart subType. 
+	 * Returns the display name of the chart subType.
 	 *
 	 * @return Chart subType display name.
 	 * @since Version 2.1
 	 */
-	public String getDisplayName( );
+	public String getDisplayName();
 }

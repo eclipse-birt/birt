@@ -28,14 +28,12 @@ import org.eclipse.gef.commands.Command;
  * Paste structure to container.
  */
 
-public class PasteStructureCommand extends Command
-{
-	protected static final Logger logger = Logger.getLogger( PasteStructureCommand.class.getName( ) );
+public class PasteStructureCommand extends Command {
+	protected static final Logger logger = Logger.getLogger(PasteStructureCommand.class.getName());
 	private IStructure copyData;
 	private Object container;
 
-	public PasteStructureCommand( IStructure copyData, Object container )
-	{
+	public PasteStructureCommand(IStructure copyData, Object container) {
 		this.copyData = copyData;
 		this.container = container;
 	}
@@ -45,9 +43,8 @@ public class PasteStructureCommand extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	public boolean canExecute( )
-	{
-		return DNDUtil.handleValidateTargetCanContain( container, copyData );
+	public boolean canExecute() {
+		return DNDUtil.handleValidateTargetCanContain(container, copyData);
 	}
 
 	/*
@@ -55,36 +52,27 @@ public class PasteStructureCommand extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute( )
-	{
-		if ( container instanceof EmbeddedImageNode )
-		{
-			container = ( (EmbeddedImageNode) container ).getReportDesignHandle( );
+	public void execute() {
+		if (container instanceof EmbeddedImageNode) {
+			container = ((EmbeddedImageNode) container).getReportDesignHandle();
 		}
-		try
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "PasteStructureCommand >>  Starts. Source: " //$NON-NLS-1$
-						+ copyData.getStructName( )
-						+ ",Target: " //$NON-NLS-1$
-						+ DEUtil.getDisplayLabel( container ) );
+		try {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("PasteStructureCommand >>  Starts. Source: " //$NON-NLS-1$
+						+ copyData.getStructName() + ",Target: " //$NON-NLS-1$
+						+ DEUtil.getDisplayLabel(container));
 			}
-			EmbeddedImage image = (EmbeddedImage) copyData.copy( );
-			( (ModuleHandle) container ).rename(image);
-			( (ModuleHandle) container ).addImage( image );
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "PasteStructureCommand >>  Finished" ); //$NON-NLS-1$
+			EmbeddedImage image = (EmbeddedImage) copyData.copy();
+			((ModuleHandle) container).rename(image);
+			((ModuleHandle) container).addImage(image);
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("PasteStructureCommand >>  Finished"); //$NON-NLS-1$
 			}
-		}
-		catch ( SemanticException e )
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "PasteStructureCommand >>  Failed" ); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("PasteStructureCommand >>  Failed"); //$NON-NLS-1$
 			}
-			logger.log( Level.SEVERE,e.getMessage( ), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 }

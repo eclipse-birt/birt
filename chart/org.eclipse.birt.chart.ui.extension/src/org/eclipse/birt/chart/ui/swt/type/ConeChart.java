@@ -18,16 +18,14 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
  * 
  */
 
-public class ConeChart extends AbstractBarChart
-{
+public class ConeChart extends AbstractBarChart {
 
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_CONE;
 
-	public ConeChart( )
-	{
-		super( "Cone", TYPE_LITERAL, RiserType.CONE_LITERAL ); //$NON-NLS-1$
+	public ConeChart() {
+		super("Cone", TYPE_LITERAL, RiserType.CONE_LITERAL); //$NON-NLS-1$
 	}
 }

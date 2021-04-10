@@ -15,18 +15,16 @@ import org.eclipse.birt.chart.util.SecurityUtil;
 /**
  * 
  */
-public final class BmpRendererImpl extends JavaxImageIOWriter
-{
+public final class BmpRendererImpl extends JavaxImageIOWriter {
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/image" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.device.extension/image"); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#getFormat()
 	 */
-	public final String getFormat( )
-	{
+	public final String getFormat() {
 		return "bmp"; //$NON-NLS-1$
 	}
 
@@ -35,8 +33,7 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
 	 * 
 	 * @see org.eclipse.birt.chart.device.IImageMapEmitter#getMimeType()
 	 */
-	public final String getMimeType( )
-	{
+	public final String getMimeType() {
 		return "image/bmp"; //$NON-NLS-1$
 	}
 
@@ -45,8 +42,7 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
 	 * 
 	 * @see org.eclipse.birt.chart.device.image.JavaxImageIOWriter#getImageType()
 	 */
-	public final int getImageType( )
-	{
+	public final int getImageType() {
 		return BufferedImage.TYPE_3BYTE_BGR;
 	}
 
@@ -55,75 +51,46 @@ public final class BmpRendererImpl extends JavaxImageIOWriter
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#after()
 	 */
-	public final void after( ) throws ChartException
-	{
-		try
-		{
-			super.after( );
-		}
-		catch ( ChartException e )
-		{
-			if ( isSupportedByJavaxImageIO( ) )
-			{
+	public final void after() throws ChartException {
+		try {
+			super.after();
+		} catch (ChartException e) {
+			if (isSupportedByJavaxImageIO()) {
 				throw e;
 			}
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "BmpRendererImpl.info.use.custom.image.writer", //$NON-NLS-1$
-							new Object[]{
-									getFormat( ), BmpWriter.class.getName( )
-							},
-							getULocale( ) ) );
+			logger.log(ILogger.INFORMATION, Messages.getString("BmpRendererImpl.info.use.custom.image.writer", //$NON-NLS-1$
+					new Object[] { getFormat(), BmpWriter.class.getName() }, getULocale()));
 
 			// If not supported by JavaxImageIO, use our own.
 			BmpWriter bw = null;
 
-			if ( _oOutputIdentifier instanceof OutputStream )
-			{
-				bw = new BmpWriter( _img );
-				try
-				{
-					bw.write( (OutputStream) _oOutputIdentifier );
+			if (_oOutputIdentifier instanceof OutputStream) {
+				bw = new BmpWriter(_img);
+				try {
+					bw.write((OutputStream) _oOutputIdentifier);
+				} catch (Exception ex) {
+					throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.RENDERING, ex);
 				}
-				catch ( Exception ex )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							ex );
-				}
-			}
-			else if ( _oOutputIdentifier instanceof String )
-			{
+			} else if (_oOutputIdentifier instanceof String) {
 				FileOutputStream fos = null;
-				try
-				{
-					fos = SecurityUtil.newFileOutputStream( (String) _oOutputIdentifier );
-					bw = new BmpWriter( _img );
-					bw.write( fos );
-					fos.close( );
+				try {
+					fos = SecurityUtil.newFileOutputStream((String) _oOutputIdentifier);
+					bw = new BmpWriter(_img);
+					bw.write(fos);
+					fos.close();
+				} catch (Exception ex) {
+					throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.RENDERING, ex);
 				}
-				catch ( Exception ex )
-				{
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.RENDERING,
-							ex );
-				}
-			}
-			else
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.RENDERING,
+			} else {
+				throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.RENDERING,
 						"BmpRendererImpl.exception.unable.write.output.identifier", //$NON-NLS-1$
-						new Object[]{
-							_oOutputIdentifier
-						},
-						Messages.getResourceBundle( getULocale( ) ) );
+						new Object[] { _oOutputIdentifier }, Messages.getResourceBundle(getULocale()));
 			}
 		}
 
 	}
 
-	protected boolean supportsTransparency( )
-	{
+	protected boolean supportsTransparency() {
 		return false;
 	}
 

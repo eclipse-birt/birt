@@ -36,368 +36,293 @@ import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 
-public class SingleCubeResultSet implements ICubeResultSet
-{
+public class SingleCubeResultSet implements ICubeResultSet {
 
 	private ICubeResultSet cube;
 
-	public SingleCubeResultSet( ICubeResultSet cube )
-	{
+	public SingleCubeResultSet(ICubeResultSet cube) {
 		this.cube = cube;
 	}
 
-	public void close( )
-	{
+	public void close() {
 	}
 
-	public Object evaluate( IBaseExpression expr ) throws BirtException
-	{
-		return cube.evaluate( expr );
+	public Object evaluate(IBaseExpression expr) throws BirtException {
+		return cube.evaluate(expr);
 	}
 
-	public Object evaluate( String expr ) throws BirtException
-	{
-		return cube.evaluate( expr );
-	}
-	
-	public Object evaluate( String language, String expr ) throws BirtException
-	{
-		return cube.evaluate( language, expr );
+	public Object evaluate(String expr) throws BirtException {
+		return cube.evaluate(expr);
 	}
 
-	public String getCellIndex( )
-	{
-		return cube.getCellIndex( );
+	public Object evaluate(String language, String expr) throws BirtException {
+		return cube.evaluate(language, expr);
 	}
 
-	public CubeCursor getCubeCursor( )
-	{
-		return new SingleCubeCursor( cube.getCubeCursor( ) );
+	public String getCellIndex() {
+		return cube.getCellIndex();
 	}
 
-	public DataSetID getID( )
-	{
-		return cube.getID( );
+	public CubeCursor getCubeCursor() {
+		return new SingleCubeCursor(cube.getCubeCursor());
 	}
 
-	public IBaseResultSet getParent( )
-	{
+	public DataSetID getID() {
+		return cube.getID();
+	}
+
+	public IBaseResultSet getParent() {
 		return cube;
 	}
 
-	public IBaseQueryResults getQueryResults( )
-	{
-		return cube.getQueryResults( );
+	public IBaseQueryResults getQueryResults() {
+		return cube.getQueryResults();
 	}
 
-	public String getRawID( ) throws BirtException
-	{
-		return cube.getRawID( );
+	public String getRawID() throws BirtException {
+		return cube.getRawID();
 	}
 
-	public int getType( )
-	{
-		return cube.getType( );
+	public int getType() {
+		return cube.getType();
 	}
 
-	public void skipTo( String cellIndex )
-	{
+	public void skipTo(String cellIndex) {
 	}
 
-	private class SingleCubeCursor implements CubeCursor
-	{
+	private class SingleCubeCursor implements CubeCursor {
 
 		private CubeCursor cursor;
 
-		SingleCubeCursor( CubeCursor cursor )
-		{
+		SingleCubeCursor(CubeCursor cursor) {
 			this.cursor = cursor;
 		}
 
-		public void close( ) throws OLAPException
-		{
+		public void close() throws OLAPException {
 		}
 
-		public InputStream getAsciiStream( int arg0 ) throws OLAPException
-		{
-			return cursor.getAsciiStream( arg0 );
+		public InputStream getAsciiStream(int arg0) throws OLAPException {
+			return cursor.getAsciiStream(arg0);
 		}
 
-		public InputStream getAsciiStream( String arg0 ) throws OLAPException
-		{
-			return cursor.getAsciiStream( arg0 );
+		public InputStream getAsciiStream(String arg0) throws OLAPException {
+			return cursor.getAsciiStream(arg0);
 		}
 
-		public BigDecimal getBigDecimal( int arg0 ) throws OLAPException
-		{
-			return cursor.getBigDecimal( arg0 );
+		public BigDecimal getBigDecimal(int arg0) throws OLAPException {
+			return cursor.getBigDecimal(arg0);
 		}
 
-		public BigDecimal getBigDecimal( String arg0 ) throws OLAPException
-		{
-			return cursor.getBigDecimal( arg0 );
+		public BigDecimal getBigDecimal(String arg0) throws OLAPException {
+			return cursor.getBigDecimal(arg0);
 		}
 
-		public InputStream getBinaryStream( int arg0 ) throws OLAPException
-		{
-			return cursor.getBinaryStream( arg0 );
+		public InputStream getBinaryStream(int arg0) throws OLAPException {
+			return cursor.getBinaryStream(arg0);
 		}
 
-		public InputStream getBinaryStream( String arg0 ) throws OLAPException
-		{
-			return cursor.getBinaryStream( arg0 );
+		public InputStream getBinaryStream(String arg0) throws OLAPException {
+			return cursor.getBinaryStream(arg0);
 		}
 
-		public Blob getBlob( int arg0 ) throws OLAPException
-		{
-			return cursor.getBlob( arg0 );
+		public Blob getBlob(int arg0) throws OLAPException {
+			return cursor.getBlob(arg0);
 		}
 
-		public Blob getBlob( String arg0 ) throws OLAPException
-		{
-			return cursor.getBlob( arg0 );
+		public Blob getBlob(String arg0) throws OLAPException {
+			return cursor.getBlob(arg0);
 		}
 
-		public boolean getBoolean( int arg0 ) throws OLAPException
-		{
-			return cursor.getBoolean( arg0 );
+		public boolean getBoolean(int arg0) throws OLAPException {
+			return cursor.getBoolean(arg0);
 		}
 
-		public boolean getBoolean( String arg0 ) throws OLAPException
-		{
-			return cursor.getBoolean( arg0 );
+		public boolean getBoolean(String arg0) throws OLAPException {
+			return cursor.getBoolean(arg0);
 		}
 
-		public byte getByte( int arg0 ) throws OLAPException
-		{
-			return cursor.getByte( arg0 );
+		public byte getByte(int arg0) throws OLAPException {
+			return cursor.getByte(arg0);
 		}
 
-		public byte getByte( String arg0 ) throws OLAPException
-		{
-			return cursor.getByte( arg0 );
+		public byte getByte(String arg0) throws OLAPException {
+			return cursor.getByte(arg0);
 		}
 
-		public byte[] getBytes( int arg0 ) throws OLAPException
-		{
-			return cursor.getBytes( arg0 );
+		public byte[] getBytes(int arg0) throws OLAPException {
+			return cursor.getBytes(arg0);
 		}
 
-		public byte[] getBytes( String arg0 ) throws OLAPException
-		{
-			return cursor.getBytes( arg0 );
+		public byte[] getBytes(String arg0) throws OLAPException {
+			return cursor.getBytes(arg0);
 		}
 
-		public Reader getCharacterStream( int arg0 ) throws OLAPException
-		{
-			return cursor.getCharacterStream( arg0 );
+		public Reader getCharacterStream(int arg0) throws OLAPException {
+			return cursor.getCharacterStream(arg0);
 		}
 
-		public Reader getCharacterStream( String arg0 ) throws OLAPException
-		{
-			return cursor.getCharacterStream( arg0 );
+		public Reader getCharacterStream(String arg0) throws OLAPException {
+			return cursor.getCharacterStream(arg0);
 		}
 
-		public Clob getClob( int arg0 ) throws OLAPException
-		{
-			return cursor.getClob( arg0 );
+		public Clob getClob(int arg0) throws OLAPException {
+			return cursor.getClob(arg0);
 		}
 
-		public Clob getClob( String arg0 ) throws OLAPException
-		{
-			return cursor.getClob( arg0 );
+		public Clob getClob(String arg0) throws OLAPException {
+			return cursor.getClob(arg0);
 		}
 
-		public Date getDate( int arg0, Calendar arg1 ) throws OLAPException
-		{
-			return cursor.getDate( arg0, arg1 );
+		public Date getDate(int arg0, Calendar arg1) throws OLAPException {
+			return cursor.getDate(arg0, arg1);
 		}
 
-		public Date getDate( int arg0 ) throws OLAPException
-		{
-			return cursor.getDate( arg0 );
+		public Date getDate(int arg0) throws OLAPException {
+			return cursor.getDate(arg0);
 		}
 
-		public Date getDate( String arg0, Calendar arg1 ) throws OLAPException
-		{
-			return cursor.getDate( arg0, arg1 );
+		public Date getDate(String arg0, Calendar arg1) throws OLAPException {
+			return cursor.getDate(arg0, arg1);
 		}
 
-		public Date getDate( String arg0 ) throws OLAPException
-		{
-			return cursor.getDate( arg0 );
+		public Date getDate(String arg0) throws OLAPException {
+			return cursor.getDate(arg0);
 		}
 
-		public double getDouble( int arg0 ) throws OLAPException
-		{
-			return cursor.getDouble( arg0 );
+		public double getDouble(int arg0) throws OLAPException {
+			return cursor.getDouble(arg0);
 		}
 
-		public double getDouble( String arg0 ) throws OLAPException
-		{
-			return cursor.getDouble( arg0 );
+		public double getDouble(String arg0) throws OLAPException {
+			return cursor.getDouble(arg0);
 		}
 
-		public float getFloat( int arg0 ) throws OLAPException
-		{
-			return cursor.getFloat( arg0 );
+		public float getFloat(int arg0) throws OLAPException {
+			return cursor.getFloat(arg0);
 		}
 
-		public float getFloat( String arg0 ) throws OLAPException
-		{
-			return cursor.getFloat( arg0 );
+		public float getFloat(String arg0) throws OLAPException {
+			return cursor.getFloat(arg0);
 		}
 
-		public String getId( ) throws OLAPException
-		{
-			return cursor.getId( );
+		public String getId() throws OLAPException {
+			return cursor.getId();
 		}
 
-		public int getInt( int arg0 ) throws OLAPException
-		{
-			return cursor.getInt( arg0 );
+		public int getInt(int arg0) throws OLAPException {
+			return cursor.getInt(arg0);
 		}
 
-		public int getInt( String arg0 ) throws OLAPException
-		{
-			return cursor.getInt( arg0 );
+		public int getInt(String arg0) throws OLAPException {
+			return cursor.getInt(arg0);
 		}
 
-		public long getLong( int arg0 ) throws OLAPException
-		{
-			return cursor.getLong( arg0 );
+		public long getLong(int arg0) throws OLAPException {
+			return cursor.getLong(arg0);
 		}
 
-		public long getLong( String arg0 ) throws OLAPException
-		{
-			return cursor.getLong( arg0 );
+		public long getLong(String arg0) throws OLAPException {
+			return cursor.getLong(arg0);
 		}
 
-		public RowDataMetaData getMetaData( ) throws OLAPException
-		{
-			return cursor.getMetaData( );
+		public RowDataMetaData getMetaData() throws OLAPException {
+			return cursor.getMetaData();
 		}
 
-		public String getName( ) throws OLAPException
-		{
-			return cursor.getName( );
+		public String getName() throws OLAPException {
+			return cursor.getName();
 		}
 
-		public Object getObject( int arg0, Map arg1 ) throws OLAPException
-		{
-			return cursor.getObject( arg0, arg1 );
+		public Object getObject(int arg0, Map arg1) throws OLAPException {
+			return cursor.getObject(arg0, arg1);
 		}
 
-		public Object getObject( int arg0 ) throws OLAPException
-		{
-			return cursor.getObject( arg0 );
+		public Object getObject(int arg0) throws OLAPException {
+			return cursor.getObject(arg0);
 		}
 
-		public Object getObject( String arg0, Map arg1 ) throws OLAPException
-		{
-			return cursor.getObject( arg0, arg1 );
+		public Object getObject(String arg0, Map arg1) throws OLAPException {
+			return cursor.getObject(arg0, arg1);
 		}
 
-		public Object getObject( String arg0 ) throws OLAPException
-		{
-			return cursor.getObject( arg0 );
+		public Object getObject(String arg0) throws OLAPException {
+			return cursor.getObject(arg0);
 		}
 
-		public List getOrdinateEdge( ) throws OLAPException
-		{
-			return cursor.getOrdinateEdge( );
+		public List getOrdinateEdge() throws OLAPException {
+			return cursor.getOrdinateEdge();
 		}
 
-		public Collection getPageEdge( ) throws OLAPException
-		{
-			return cursor.getPageEdge( );
+		public Collection getPageEdge() throws OLAPException {
+			return cursor.getPageEdge();
 		}
 
-		public short getShort( int arg0 ) throws OLAPException
-		{
-			return cursor.getShort( arg0 );
+		public short getShort(int arg0) throws OLAPException {
+			return cursor.getShort(arg0);
 		}
 
-		public short getShort( String arg0 ) throws OLAPException
-		{
-			return cursor.getShort( arg0 );
+		public short getShort(String arg0) throws OLAPException {
+			return cursor.getShort(arg0);
 		}
 
-		public String getString( int arg0 ) throws OLAPException
-		{
-			return cursor.getString( arg0 );
+		public String getString(int arg0) throws OLAPException {
+			return cursor.getString(arg0);
 		}
 
-		public String getString( String arg0 ) throws OLAPException
-		{
-			return cursor.getString( arg0 );
+		public String getString(String arg0) throws OLAPException {
+			return cursor.getString(arg0);
 		}
 
-		public Time getTime( int arg0, Calendar arg1 ) throws OLAPException
-		{
-			return cursor.getTime( arg0, arg1 );
+		public Time getTime(int arg0, Calendar arg1) throws OLAPException {
+			return cursor.getTime(arg0, arg1);
 		}
 
-		public Time getTime( int arg0 ) throws OLAPException
-		{
-			return cursor.getTime( arg0 );
+		public Time getTime(int arg0) throws OLAPException {
+			return cursor.getTime(arg0);
 		}
 
-		public Time getTime( String arg0, Calendar arg1 ) throws OLAPException
-		{
-			return cursor.getTime( arg0, arg1 );
+		public Time getTime(String arg0, Calendar arg1) throws OLAPException {
+			return cursor.getTime(arg0, arg1);
 		}
 
-		public Time getTime( String arg0 ) throws OLAPException
-		{
-			return cursor.getTime( arg0 );
+		public Time getTime(String arg0) throws OLAPException {
+			return cursor.getTime(arg0);
 		}
 
-		public Timestamp getTimestamp( int arg0, Calendar arg1 )
-				throws OLAPException
-		{
-			return cursor.getTimestamp( arg0, arg1 );
+		public Timestamp getTimestamp(int arg0, Calendar arg1) throws OLAPException {
+			return cursor.getTimestamp(arg0, arg1);
 		}
 
-		public Timestamp getTimestamp( int arg0 ) throws OLAPException
-		{
-			return cursor.getTimestamp( arg0 );
+		public Timestamp getTimestamp(int arg0) throws OLAPException {
+			return cursor.getTimestamp(arg0);
 		}
 
-		public Timestamp getTimestamp( String arg0, Calendar arg1 )
-				throws OLAPException
-		{
-			return cursor.getTimestamp( arg0, arg1 );
+		public Timestamp getTimestamp(String arg0, Calendar arg1) throws OLAPException {
+			return cursor.getTimestamp(arg0, arg1);
 		}
 
-		public Timestamp getTimestamp( String arg0 ) throws OLAPException
-		{
-			return cursor.getTimestamp( arg0 );
+		public Timestamp getTimestamp(String arg0) throws OLAPException {
+			return cursor.getTimestamp(arg0);
 		}
 
-		public void setId( String value ) throws OLAPException
-		{
+		public void setId(String value) throws OLAPException {
 			// cursor.setId( value );
 		}
 
-		public void setName( String value ) throws OLAPException
-		{
+		public void setName(String value) throws OLAPException {
 			// cursor.setName( value );
 		}
 
-		public void synchronizePages( ) throws OLAPException
-		{
-			cursor.synchronizePages( );
+		public void synchronizePages() throws OLAPException {
+			cursor.synchronizePages();
 		}
 
-		public Object clone( )
-		{
-			return new SingleCubeCursor( (CubeCursor) cursor.clone( ) );
+		public Object clone() {
+			return new SingleCubeCursor((CubeCursor) cursor.clone());
 		}
 	}
 
-	public IBaseCubeQueryDefinition getCubeQuery( )
-	{
-		return cube.getCubeQuery( );
+	public IBaseCubeQueryDefinition getCubeQuery() {
+		return cube.getCubeQuery();
 	}
 }

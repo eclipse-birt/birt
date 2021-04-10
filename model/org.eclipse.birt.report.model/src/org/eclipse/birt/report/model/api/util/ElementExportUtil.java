@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.api.util;
  * Any violation will throw <code>IllegalArgumentException</code>.
  */
 
-public class ElementExportUtil extends ElementExportUtilImpl
-{
+public class ElementExportUtil extends ElementExportUtilImpl {
 
 }

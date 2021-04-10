@@ -17,8 +17,7 @@ import org.eclipse.birt.chart.render.BaseRenderer;
 /**
  * LegendItemRenderingHints
  */
-public final class LegendItemRenderingHints
-{
+public final class LegendItemRenderingHints {
 
 	private final Bounds boLegendGraphic;
 
@@ -29,8 +28,7 @@ public final class LegendItemRenderingHints
 	 * @param _boLegendGraphic
 	 * @param _seModel
 	 */
-	public LegendItemRenderingHints( BaseRenderer _br, Bounds _boLegendGraphic )
-	{
+	public LegendItemRenderingHints(BaseRenderer _br, Bounds _boLegendGraphic) {
 		br = _br;
 		boLegendGraphic = _boLegendGraphic;
 	}
@@ -39,8 +37,7 @@ public final class LegendItemRenderingHints
 	 * 
 	 * @return
 	 */
-	public final BaseRenderer getRenderer( )
-	{
+	public final BaseRenderer getRenderer() {
 		return br;
 	}
 
@@ -48,8 +45,7 @@ public final class LegendItemRenderingHints
 	 * 
 	 * @return
 	 */
-	public final Bounds getLegendGraphicBounds( )
-	{
+	public final Bounds getLegendGraphicBounds() {
 		return boLegendGraphic;
 	}
 }

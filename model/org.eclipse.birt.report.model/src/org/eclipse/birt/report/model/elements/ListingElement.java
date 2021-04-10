@@ -42,33 +42,26 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * 
  */
 
-public abstract class ListingElement extends ReportItem
-		implements
-			IListingElementModel,
-			ISupportThemeElement
-{
+public abstract class ListingElement extends ReportItem implements IListingElementModel, ISupportThemeElement {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public ListingElement( )
-	{
-		super( );
-		initSlots( );
+	public ListingElement() {
+		super();
+		initSlots();
 	}
 
 	/**
 	 * Constructs the listing element with an optional name.
 	 * 
-	 * @param theName
-	 *            the optional name
+	 * @param theName the optional name
 	 */
 
-	public ListingElement( String theName )
-	{
-		super( theName );
-		initSlots( );
+	public ListingElement(String theName) {
+		super(theName);
+		initSlots();
 	}
 
 	/**
@@ -82,9 +75,8 @@ public abstract class ListingElement extends ReportItem
 	 *         elements.
 	 */
 
-	public List<DesignElement> getGroups( )
-	{
-		return slots[GROUP_SLOT].getContents( );
+	public List<DesignElement> getGroups() {
+		return slots[GROUP_SLOT].getContents();
 	}
 
 	/*
@@ -93,30 +85,24 @@ public abstract class ListingElement extends ReportItem
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
-	public ContainerSlot getSlot( int slot )
-	{
-		assert slot >= 0 && slot < getDefn( ).getSlotCount( );
+	public ContainerSlot getSlot(int slot) {
+		assert slot >= 0 && slot < getDefn().getSlotCount();
 		return slots[slot];
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.
 	 * eclipse.birt.report.model.elements.ReportDesign, int)
 	 */
 
-	public String getDisplayLabel( Module module, int level )
-	{
-		String displayLabel = super.getDisplayLabel( module, level );
-		if ( level == IDesignElementModel.FULL_LABEL )
-		{
-			String name = getStringProperty( module,
-					IReportItemModel.DATA_SET_PROP );
-			name = limitStringLength( name );
-			if ( !StringUtil.isBlank( name ) )
-			{
+	public String getDisplayLabel(Module module, int level) {
+		String displayLabel = super.getDisplayLabel(module, level);
+		if (level == IDesignElementModel.FULL_LABEL) {
+			String name = getStringProperty(module, IReportItemModel.DATA_SET_PROP);
+			name = limitStringLength(name);
+			if (!StringUtil.isBlank(name)) {
 				displayLabel += "(" + name + ")"; //$NON-NLS-1$//$NON-NLS-2$
 			}
 		}
@@ -126,32 +112,25 @@ public abstract class ListingElement extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List<SemanticException> validate( Module module )
-	{
-		List<SemanticException> list = super.validate( module );
+	public List<SemanticException> validate(Module module) {
+		List<SemanticException> list = super.validate(module);
 
-		list.addAll( validateStructureList( module, SORT_PROP ) );
-		list.addAll( validateStructureList( module, FILTER_PROP ) );
+		list.addAll(validateStructureList(module, SORT_PROP));
+		list.addAll(validateStructureList(module, FILTER_PROP));
 
 		// Check whether this table/list has data set or its List/Table
 		// container has data set.
 
-		if ( getDataSetElement( module ) == null )
-		{
-			list.addAll( DataSetRequiredValidator.getInstance( ).validate(
-					module, this ) );
-		}
-		else
-		{
+		if (getDataSetElement(module) == null) {
+			list.addAll(DataSetRequiredValidator.getInstance().validate(module, this));
+		} else {
 			// do the check of the group name
 
-			list.addAll( GroupNameValidator.getInstance( ).validate( module,
-					this ) );
+			list.addAll(GroupNameValidator.getInstance().validate(module, this));
 		}
 
 		return list;
@@ -167,28 +146,19 @@ public abstract class ListingElement extends ReportItem
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
 
-	public List<SemanticException> checkContent( Module module,
-			ContainerContext containerInfo, IElementDefn defn )
-	{
-		List<SemanticException> errors = super.checkContent( module,
-				containerInfo, defn );
-		if ( !errors.isEmpty( ) )
+	public List<SemanticException> checkContent(Module module, ContainerContext containerInfo, IElementDefn defn) {
+		List<SemanticException> errors = super.checkContent(module, containerInfo, defn);
+		if (!errors.isEmpty())
 			return errors;
 
 		// do the check of the group name
 
-		if ( defn.isKindOf( MetaDataDictionary.getInstance( ).getElement(
-				ReportDesignConstants.GROUP_ELEMENT ) ) )
-		{
+		if (defn.isKindOf(MetaDataDictionary.getInstance().getElement(ReportDesignConstants.GROUP_ELEMENT))) {
 			// check the data binding reference
 
-			if ( isDataBindingReferring( module ) )
-			{
-				errors.add( ContentExceptionFactory
-						.createContentException(
-								containerInfo,
-								null,
-								ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN ) );
+			if (isDataBindingReferring(module)) {
+				errors.add(ContentExceptionFactory.createContentException(containerInfo, null,
+						ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN));
 				return errors;
 			}
 		}
@@ -206,38 +176,28 @@ public abstract class ListingElement extends ReportItem
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List<SemanticException> checkContent( Module module,
-			ContainerContext containerInfo, DesignElement content )
-	{
-		List<SemanticException> errors = super.checkContent( module,
-				containerInfo, content );
-		if ( !errors.isEmpty( ) )
+	public List<SemanticException> checkContent(Module module, ContainerContext containerInfo, DesignElement content) {
+		List<SemanticException> errors = super.checkContent(module, containerInfo, content);
+		if (!errors.isEmpty())
 			return errors;
 
 		// do the check of the group name
 
-		if ( content instanceof GroupElement )
-		{
+		if (content instanceof GroupElement) {
 			// check the data binding reference
 
-			if ( isDataBindingReferring( module ) )
-			{
-				errors.add( ContentExceptionFactory
-						.createContentException(
-								containerInfo,
-								content,
-								ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN ) );
+			if (isDataBindingReferring(module)) {
+				errors.add(ContentExceptionFactory.createContentException(containerInfo, content,
+						ContentException.DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN));
 				return errors;
 			}
 
-			String checkedName = (String) content.getLocalProperty( module,
-					IGroupElementModel.GROUP_NAME_PROP );
-			if ( StringUtil.isBlank( checkedName ) )
+			String checkedName = (String) content.getLocalProperty(module, IGroupElementModel.GROUP_NAME_PROP);
+			if (StringUtil.isBlank(checkedName))
 				return errors;
 
-			errors.addAll( GroupNameValidator.getInstance( )
-					.validateForAddingGroup(
-							(ListingHandle) getHandle( module ), checkedName ) );
+			errors.addAll(GroupNameValidator.getInstance().validateForAddingGroup((ListingHandle) getHandle(module),
+					checkedName));
 		}
 
 		return errors;
@@ -246,29 +206,25 @@ public abstract class ListingElement extends ReportItem
 	/**
 	 * Returns listing elements that refers to this listing element directly.
 	 * 
-	 * @param module
-	 *            the root of the listing element
+	 * @param module the root of the listing element
 	 * 
 	 * @return a list containing listing elements.
 	 */
 
-	public List<DesignElement> findReferredListingElements( Module module )
-	{
-		List<DesignElement> returnList = new ArrayList<DesignElement>( );
+	public List<DesignElement> findReferredListingElements(Module module) {
+		List<DesignElement> returnList = new ArrayList<DesignElement>();
 
-		List<BackRef> clients = getClientList( );
-		for ( int i = 0; i < clients.size( ); i++ )
-		{
-			BackRef ref = clients.get( i );
-			DesignElement refElement = ref.getElement( );
-			if ( !IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase( ref
-					.getPropertyName( ) ) )
+		List<BackRef> clients = getClientList();
+		for (int i = 0; i < clients.size(); i++) {
+			BackRef ref = clients.get(i);
+			DesignElement refElement = ref.getElement();
+			if (!IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase(ref.getPropertyName()))
 				continue;
 
-			if ( !ModelUtil.isCompatibleDataBindingElements( this, refElement ) )
+			if (!ModelUtil.isCompatibleDataBindingElements(this, refElement))
 				continue;
 
-			returnList.add( refElement );
+			returnList.add(refElement);
 		}
 
 		return returnList;

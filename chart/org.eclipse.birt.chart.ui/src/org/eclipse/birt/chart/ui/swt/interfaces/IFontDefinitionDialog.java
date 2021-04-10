@@ -18,11 +18,10 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
  * IFontDefinitionDialog
  */
 
-public interface IFontDefinitionDialog
-{
-	int open( );
+public interface IFontDefinitionDialog {
+	int open();
 
-	FontDefinition getFontDefinition( );
+	FontDefinition getFontDefinition();
 
-	ColorDefinition getFontColor( );
+	ColorDefinition getFontColor();
 }

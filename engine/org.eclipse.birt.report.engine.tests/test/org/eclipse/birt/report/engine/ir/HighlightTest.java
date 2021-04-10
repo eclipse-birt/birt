@@ -19,9 +19,7 @@ import junit.framework.TestCase;
  * Highlight test
  * 
  */
-public class HighlightTest extends TestCase
-{
-
+public class HighlightTest extends TestCase {
 
 	/**
 	 * Test add/getRule methods
@@ -30,22 +28,18 @@ public class HighlightTest extends TestCase
 	 * 
 	 * then get the rules one by one to test if they work correctly
 	 */
-	public void testAddRule( )
-	{
-		HighlightDesign hightlight = new HighlightDesign( );
-		HighlightRuleDesign[] rules = new HighlightRuleDesign[( new Random( ) )
-				.nextInt( 10 ) + 1];
+	public void testAddRule() {
+		HighlightDesign hightlight = new HighlightDesign();
+		HighlightRuleDesign[] rules = new HighlightRuleDesign[(new Random()).nextInt(10) + 1];
 
-		//Add
-		for ( int i = 0; i < rules.length; i++ )
-		{
-			rules[i] = new HighlightRuleDesign( );
-			hightlight.addRule( rules[i] );
+		// Add
+		for (int i = 0; i < rules.length; i++) {
+			rules[i] = new HighlightRuleDesign();
+			hightlight.addRule(rules[i]);
 		}
-		assertEquals( hightlight.getRuleCount( ), rules.length );
-		for ( int i = 0; i < rules.length; i++ )
-		{
-			assertEquals( hightlight.getRule( i ), rules[i] );
+		assertEquals(hightlight.getRuleCount(), rules.length);
+		for (int i = 0; i < rules.length; i++) {
+			assertEquals(hightlight.getRule(i), rules[i]);
 		}
 
 	}

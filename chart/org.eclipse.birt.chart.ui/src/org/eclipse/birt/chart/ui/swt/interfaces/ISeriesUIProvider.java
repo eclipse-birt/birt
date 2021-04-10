@@ -24,58 +24,50 @@ import org.eclipse.swt.widgets.Composite;
  * @author Actuate Corporation
  * 
  */
-public interface ISeriesUIProvider
-{
+public interface ISeriesUIProvider {
 
 	/**
 	 * Fetches the composite used to set attribute properties for a series.
 	 * 
-	 * @param parent
-	 *            container for the series attribute composite series the series
-	 *            for which this attribute composite is being provided
+	 * @param parent container for the series attribute composite series the series
+	 *               for which this attribute composite is being provided
 	 * @return the series attribute composite
 	 * @deprecated use getSeriesAttributeSheet( Composite parent, Series series,
 	 *             IUIServiceProvider builder, Object oContext )
 	 */
-	public Composite getSeriesAttributeSheet( Composite parent, Series series );
+	public Composite getSeriesAttributeSheet(Composite parent, Series series);
 
 	/**
 	 * Fetches the composite used to set attribute properties for a series.
 	 * 
-	 * @param parent
-	 *            container for the series attribute composite series the series
-	 *            for which this attribute composite is being provided
+	 * @param parent container for the series attribute composite series the series
+	 *               for which this attribute composite is being provided
 	 * @return the series attribute composite
 	 * @since 2.1
 	 */
-	public Composite getSeriesAttributeSheet( Composite parent, Series series,
-			ChartWizardContext context );
-	
+	public Composite getSeriesAttributeSheet(Composite parent, Series series, ChartWizardContext context);
+
 	/**
 	 * Gets custom buttons to add after built-in buttons.
 	 * 
-	 * @param context
-	 *            wizard context
-	 * @param sd
-	 *            value series definition
+	 * @param context wizard context
+	 * @param sd      value series definition
 	 * @since 2.6.2
 	 */
-	public List<ISeriesButtonEntry> getCustomButtons( ChartWizardContext context, SeriesDefinition sd );
+	public List<ISeriesButtonEntry> getCustomButtons(ChartWizardContext context, SeriesDefinition sd);
 
 	/**
 	 * Fetches the composite used to set data properties for a series.
 	 * 
-	 * @param parent
-	 *            container for the series data composite series the series for
-	 *            which this data composite is being provided
+	 * @param parent container for the series data composite series the series for
+	 *               which this data composite is being provided
 	 * @return the series data composite
 	 * @deprecated
 	 * @see #getSeriesDataComponent(int, SeriesDefinition, ChartWizardContext,
 	 *      String)
 	 */
-	public Composite getSeriesDataSheet( Composite parent,
-			SeriesDefinition seriesdefinition, IUIServiceProvider builder,
-			Object oContext );
+	public Composite getSeriesDataSheet(Composite parent, SeriesDefinition seriesdefinition, IUIServiceProvider builder,
+			Object oContext);
 
 	/**
 	 * Fetches the class of the series for which this class provides services
@@ -84,11 +76,10 @@ public interface ISeriesUIProvider
 	 *         (This class has to extend the
 	 *         org.eclipse.birt.chart.model.component.Series interface.)
 	 */
-	public String getSeriesClass( );
+	public String getSeriesClass();
 
-	public ISelectDataComponent getSeriesDataComponent( int seriesType,
-			SeriesDefinition seriesDefn, ChartWizardContext context,
-			String sTitle );
+	public ISelectDataComponent getSeriesDataComponent(int seriesType, SeriesDefinition seriesDefn,
+			ChartWizardContext context, String sTitle);
 
 	/**
 	 * Validate whether the series can contain the data type.
@@ -97,8 +88,7 @@ public interface ISeriesUIProvider
 	 * @param idsp
 	 * @since 2.2
 	 */
-	public void validateSeriesBindingType( Series series,
-			IDataServiceProvider idsp ) throws ChartException;
+	public void validateSeriesBindingType(Series series, IDataServiceProvider idsp) throws ChartException;
 
 	/**
 	 * Validate the aggregation type.
@@ -109,8 +99,7 @@ public interface ISeriesUIProvider
 	 * @since 2.5
 	 * @return true if valid
 	 */
-	public boolean isValidAggregationType( Series series,
-			SeriesDefinition orthSD, SeriesDefinition baseSD );
+	public boolean isValidAggregationType(Series series, SeriesDefinition orthSD, SeriesDefinition baseSD);
 
 	/**
 	 * Get the compatible axis type according to series type.
@@ -120,15 +109,14 @@ public interface ISeriesUIProvider
 	 *         series.
 	 * @since 2.2
 	 */
-	public AxisType[] getCompatibleAxisType( Series series );
-	
+	public AxisType[] getCompatibleAxisType(Series series);
+
 	/**
 	 * 
 	 * @param series
-	 * @return An array containing the index of all data definitions not allowed
-	 *         to be null.
-	 * @deprecated to use {@link Series#getDefinedDataDefinitionIndex()}
-	 *             instead.
+	 * @return An array containing the index of all data definitions not allowed to
+	 *         be null.
+	 * @deprecated to use {@link Series#getDefinedDataDefinitionIndex()} instead.
 	 */
-	public int[] validationIndex( Series series );
+	public int[] validationIndex(Series series);
 }

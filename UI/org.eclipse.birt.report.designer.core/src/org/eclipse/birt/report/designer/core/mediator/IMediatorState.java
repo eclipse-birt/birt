@@ -16,26 +16,25 @@ import java.util.Map;
 /**
  * IMediatorState
  */
-public interface IMediatorState
-{
+public interface IMediatorState {
 
 	/**
 	 * Gets the type.
 	 */
-	String getType( );
+	String getType();
 
 	/**
 	 * Gets the data object.
 	 */
-	Object getData( );
+	Object getData();
 
 	/**
 	 * Gets the source object.
 	 */
-	Object getSource( );
+	Object getSource();
 
 	/**
 	 * Returns the extra data.
 	 */
-	Map<?, ?> getExtras( );
+	Map<?, ?> getExtras();
 }

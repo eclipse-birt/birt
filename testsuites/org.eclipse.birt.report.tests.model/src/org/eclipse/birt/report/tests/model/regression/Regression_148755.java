@@ -28,8 +28,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * be typed ROLL_BACK when rollback the transaction.
  * <p>
  */
-public class Regression_148755 extends BaseTestCase
-{
+public class Regression_148755 extends BaseTestCase {
 
 	private final static String INPUT = "regression_148755.xml"; //$NON-NLS-1$
 
@@ -38,48 +37,41 @@ public class Regression_148755 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( INPUT , INPUT );
-	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
-	}
-	
-	public void test_regression_148755( ) throws DesignFileException,
-			SemanticException
-	{
-		openDesign( INPUT );
-
-		MyActivityStackListener stackListener = new MyActivityStackListener( );
-
-		CommandStack commandStack = designHandle.getCommandStack( );
-		commandStack.addListener( stackListener );
-
-		LabelHandle label1 = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
-
-		commandStack.startTrans( "trans1" ); //$NON-NLS-1$
-		label1.setText( "updated text" ); //$NON-NLS-1$
-		label1.setHeight( "24pt" ); //$NON-NLS-1$
-		commandStack.rollback( );
-
-		assertEquals( "Sample Label", label1.getText( ) ); //$NON-NLS-1$
-
-		assertEquals( ActivityStackEvent.ROLL_BACK, stackListener.event
-				.getAction( ) );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(INPUT, INPUT);
 	}
 
-	class MyActivityStackListener implements ActivityStackListener
-	{
+	public void tearDown() {
+		removeResource();
+	}
+
+	public void test_regression_148755() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
+
+		MyActivityStackListener stackListener = new MyActivityStackListener();
+
+		CommandStack commandStack = designHandle.getCommandStack();
+		commandStack.addListener(stackListener);
+
+		LabelHandle label1 = (LabelHandle) designHandle.findElement("label1"); //$NON-NLS-1$
+
+		commandStack.startTrans("trans1"); //$NON-NLS-1$
+		label1.setText("updated text"); //$NON-NLS-1$
+		label1.setHeight("24pt"); //$NON-NLS-1$
+		commandStack.rollback();
+
+		assertEquals("Sample Label", label1.getText()); //$NON-NLS-1$
+
+		assertEquals(ActivityStackEvent.ROLL_BACK, stackListener.event.getAction());
+	}
+
+	class MyActivityStackListener implements ActivityStackListener {
 
 		ActivityStackEvent event = null;
 
-		public void stackChanged( ActivityStackEvent event )
-		{
+		public void stackChanged(ActivityStackEvent event) {
 			this.event = event;
 		}
 	}

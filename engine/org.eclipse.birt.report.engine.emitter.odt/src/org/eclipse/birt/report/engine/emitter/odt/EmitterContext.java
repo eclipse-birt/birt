@@ -21,101 +21,84 @@ import org.eclipse.birt.report.engine.odf.style.StyleConstant;
 import org.eclipse.birt.report.engine.odf.style.StyleEntry;
 import org.eclipse.birt.report.engine.odf.style.StyleManager;
 
-public class EmitterContext extends AbstractOdfEmitterContext
-{
+public class EmitterContext extends AbstractOdfEmitterContext {
 
-	private LinkedList<Double> widthList = new LinkedList<Double>( );
+	private LinkedList<Double> widthList = new LinkedList<Double>();
 
 	private boolean isFirst = true;
 	private boolean inMasterPage = false;
 
-	public EmitterContext( )
-	{
+	public EmitterContext() {
 		super();
 		inMasterPage = false;
 	}
-	
-	public void startInline( )
-	{
+
+	public void startInline() {
 		isFirst = false;
 	}
 
-	public boolean isFirstInline( )
-	{
+	public boolean isFirstInline() {
 		return isFirst;
 	}
 
-	public void endInline( )
-	{
+	public void endInline() {
 		isFirst = true;
 	}
 
-	public void addWidth( double witdh )
-	{
-		widthList.addLast( witdh );
+	public void addWidth(double witdh) {
+		widthList.addLast(witdh);
 	}
 
-	public void resetWidth( )
-	{
-		widthList.clear( );
+	public void resetWidth() {
+		widthList.clear();
 	}
 
-	public double getCurrentWidth( )
-	{
-		return widthList.getLast( );
+	public double getCurrentWidth() {
+		return widthList.getLast();
 	}
 
-	public void removeWidth( )
-	{
-		widthList.removeLast( );
+	public void removeWidth() {
+		widthList.removeLast();
 	}
 
-
-
-	public double getCellWidth( int columnId, int columnSpan )
-	{
-		double[] cols = getCurrentTableColmns( );
+	public double getCellWidth(int columnId, int columnSpan) {
+		double[] cols = getCurrentTableColmns();
 
 		double width = 0;
 
-		int colNum = Math.min( columnId + columnSpan, OdtEmitter.MAX_COLUMN );
+		int colNum = Math.min(columnId + columnSpan, OdtEmitter.MAX_COLUMN);
 
-		for ( int i = columnId; i < colNum; i++ )
-		{
+		for (int i = columnId; i < colNum; i++) {
 			width += cols[i];
 		}
 
 		return width;
 	}
-	
-	public void startMasterPage()
-	{
+
+	public void startMasterPage() {
 		inMasterPage = true;
 	}
-	
-	public void endMasterPage()
-	{
+
+	public void endMasterPage() {
 		inMasterPage = false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.odf.AbstractEmitterContext#getStyleManager()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.odf.AbstractEmitterContext#getStyleManager()
 	 */
 	@Override
-	public StyleManager getStyleManager( )
-	{
+	public StyleManager getStyleManager() {
 		// when requestng style creation in the master page,
 		// the styles must be added to the global style manager
-		if ( inMasterPage )
-		{
-			return super.getGlobalStyleManager( );
-		}
-		else
-		{
-			return super.getStyleManager( );
+		if (inMasterPage) {
+			return super.getGlobalStyleManager();
+		} else {
+			return super.getStyleManager();
 		}
 	}
-	
 
 	/**
 	 * Returns a style instance for the given row height
@@ -123,14 +106,12 @@ public class EmitterContext extends AbstractOdfEmitterContext
 	 * @param rowHeight
 	 * @return style instance
 	 */
-	public StyleEntry getRowHeightStyle( DimensionType rowHeight )
-	{
-		StyleEntry style = tables.getLast( ).getRowHeightStyle( rowHeight );
-		if ( style == null && rowHeight != null )
-		{
-			style = StyleBuilder.createEmptyStyleEntry( StyleEntry.TYPE_TABLE_ROW );
-			style.setProperty( StyleConstant.MIN_HEIGHT, OdfUtil.convertTo( rowHeight, dpi ) );
-			tables.getLast( ).addRowHeightStyle( rowHeight, style );
+	public StyleEntry getRowHeightStyle(DimensionType rowHeight) {
+		StyleEntry style = tables.getLast().getRowHeightStyle(rowHeight);
+		if (style == null && rowHeight != null) {
+			style = StyleBuilder.createEmptyStyleEntry(StyleEntry.TYPE_TABLE_ROW);
+			style.setProperty(StyleConstant.MIN_HEIGHT, OdfUtil.convertTo(rowHeight, dpi));
+			tables.getLast().addRowHeightStyle(rowHeight, style);
 		}
 		return style;
 	}

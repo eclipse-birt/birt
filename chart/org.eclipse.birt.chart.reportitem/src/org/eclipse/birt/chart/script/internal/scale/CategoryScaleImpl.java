@@ -18,12 +18,10 @@ import org.eclipse.birt.chart.script.api.scale.ICategoryScale;
  * 
  */
 
-public class CategoryScaleImpl extends ScaleImpl implements ICategoryScale
-{
+public class CategoryScaleImpl extends ScaleImpl implements ICategoryScale {
 
-	protected CategoryScaleImpl( Axis axis )
-	{
-		super( axis );
+	protected CategoryScaleImpl(Axis axis) {
+		super(axis);
 	}
 
 }

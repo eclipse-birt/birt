@@ -13,28 +13,26 @@ package org.eclipse.birt.data.engine.impl.document;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 
-
-public interface IPLSDataPopulator
-{
+public interface IPLSDataPopulator {
 
 	/**
 	 * Return the enclosed document iterator.
 	 * 
 	 * @return
 	 */
-	public ResultIterator getDocumentIterator( );
-	
+	public ResultIterator getDocumentIterator();
+
 	/**
 	 * 
 	 * @throws BirtException
 	 */
-	public void close( ) throws BirtException;
-	
+	public void close() throws BirtException;
+
 	/**
 	 * Move to next qualified row.
 	 * 
 	 * @return
 	 * @throws DataException
 	 */
-	public boolean next( ) throws DataException;
+	public boolean next() throws DataException;
 }

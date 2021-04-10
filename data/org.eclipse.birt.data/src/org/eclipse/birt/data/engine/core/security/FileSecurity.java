@@ -29,34 +29,27 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public class FileSecurity
-{
+public class FileSecurity {
 	/**
 	 * 
 	 * @param file
 	 * @return
 	 * @throws IOException
 	 */
-	public static boolean createNewFile( final File file ) throws IOException
-	{
-		if ( file == null )
+	public static boolean createNewFile(final File file) throws IOException {
+		if (file == null)
 			return false;
 
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<Boolean>( ) {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<Boolean>() {
 
-				public Boolean run( ) throws IOException
-				{
-					return file.createNewFile( );
+				public Boolean run() throws IOException {
+					return file.createNewFile();
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
 			return false;
@@ -71,27 +64,21 @@ public class FileSecurity
 	 * @throws FileNotFoundException
 	 * @throws DataException
 	 */
-	public static RandomAccessFile createRandomAccessFile( final String path,
-			final String type ) throws FileNotFoundException, DataException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<RandomAccessFile>( ) {
+	public static RandomAccessFile createRandomAccessFile(final String path, final String type)
+			throws FileNotFoundException, DataException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<RandomAccessFile>() {
 
-				public RandomAccessFile run( ) throws FileNotFoundException
-				{
-					return new RandomAccessFile( path, type );
+				public RandomAccessFile run() throws FileNotFoundException {
+					return new RandomAccessFile(path, type);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof FileNotFoundException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof FileNotFoundException) {
 				throw (FileNotFoundException) typedException;
 			}
-			throw new DataException( e.getLocalizedMessage( ) );
+			throw new DataException(e.getLocalizedMessage());
 		}
 	}
 
@@ -102,24 +89,18 @@ public class FileSecurity
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static RandomAccessFile createRandomAccessFile( final File file,
-			final String type ) throws FileNotFoundException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<RandomAccessFile>( ) {
+	public static RandomAccessFile createRandomAccessFile(final File file, final String type)
+			throws FileNotFoundException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<RandomAccessFile>() {
 
-				public RandomAccessFile run( ) throws FileNotFoundException
-				{
-					return new RandomAccessFile( file, type );
+				public RandomAccessFile run() throws FileNotFoundException {
+					return new RandomAccessFile(file, type);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof FileNotFoundException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof FileNotFoundException) {
 				throw (FileNotFoundException) typedException;
 			}
 			return null;
@@ -133,27 +114,20 @@ public class FileSecurity
 	 * @throws FileNotFoundException
 	 * @throws DataException
 	 */
-	public static FileReader createFileReader( final File file )
-			throws FileNotFoundException, DataException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<FileReader>( ) {
+	public static FileReader createFileReader(final File file) throws FileNotFoundException, DataException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<FileReader>() {
 
-				public FileReader run( ) throws FileNotFoundException
-				{
-					return new FileReader( file );
+				public FileReader run() throws FileNotFoundException {
+					return new FileReader(file);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof FileNotFoundException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof FileNotFoundException) {
 				throw (FileNotFoundException) typedException;
 			}
-			throw new DataException( e.getLocalizedMessage( ) );
+			throw new DataException(e.getLocalizedMessage());
 		}
 	}
 
@@ -164,10 +138,8 @@ public class FileSecurity
 	 * @throws FileNotFoundException
 	 * @throws DataException
 	 */
-	public static FileOutputStream createFileOutputStream( final File file )
-			throws FileNotFoundException, DataException
-	{
-		return createFileOutputStream( file, false );
+	public static FileOutputStream createFileOutputStream(final File file) throws FileNotFoundException, DataException {
+		return createFileOutputStream(file, false);
 	}
 
 	/**
@@ -178,27 +150,21 @@ public class FileSecurity
 	 * @throws FileNotFoundException
 	 * @throws DataException
 	 */
-	public static FileOutputStream createFileOutputStream( final File file,
-			final boolean append ) throws FileNotFoundException, DataException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<FileOutputStream>( ) {
+	public static FileOutputStream createFileOutputStream(final File file, final boolean append)
+			throws FileNotFoundException, DataException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<FileOutputStream>() {
 
-				public FileOutputStream run( ) throws FileNotFoundException
-				{
-					return new FileOutputStream( file, append );
+				public FileOutputStream run() throws FileNotFoundException {
+					return new FileOutputStream(file, append);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof FileNotFoundException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof FileNotFoundException) {
 				throw (FileNotFoundException) typedException;
 			}
-			throw new DataException( e.getMessage( ) );
+			throw new DataException(e.getMessage());
 		}
 	}
 
@@ -209,27 +175,20 @@ public class FileSecurity
 	 * @throws FileNotFoundException
 	 * @throws DataException
 	 */
-	public static FileInputStream createFileInputStream( final File file )
-			throws FileNotFoundException, DataException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<FileInputStream>( ) {
+	public static FileInputStream createFileInputStream(final File file) throws FileNotFoundException, DataException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<FileInputStream>() {
 
-				public FileInputStream run( ) throws FileNotFoundException
-				{
-					return new FileInputStream( file );
+				public FileInputStream run() throws FileNotFoundException {
+					return new FileInputStream(file);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof FileNotFoundException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof FileNotFoundException) {
 				throw (FileNotFoundException) typedException;
 			}
-			throw new DataException( e.getMessage( ) );
+			throw new DataException(e.getMessage());
 		}
 	}
 
@@ -238,17 +197,15 @@ public class FileSecurity
 	 * @param file
 	 * @return
 	 */
-	public static boolean fileExist( final File file )
-	{
-		if ( file == null )
+	public static boolean fileExist(final File file) {
+		if (file == null)
 			return false;
-		return AccessController.doPrivileged( new PrivilegedAction<Boolean>( ) {
+		return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
-			public Boolean run( )
-			{
-				return file.exists( );
+			public Boolean run() {
+				return file.exists();
 			}
-		} );
+		});
 	}
 
 	/**
@@ -256,17 +213,15 @@ public class FileSecurity
 	 * @param file
 	 * @return
 	 */
-	public static boolean fileIsFile( final File file )
-	{
-		if ( file == null )
+	public static boolean fileIsFile(final File file) {
+		if (file == null)
 			return false;
-		return AccessController.doPrivileged( new PrivilegedAction<Boolean>( ) {
+		return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
-			public Boolean run( )
-			{
-				return file.isFile( );
+			public Boolean run() {
+				return file.isFile();
 			}
-		} );
+		});
 	}
 
 	/**
@@ -274,17 +229,15 @@ public class FileSecurity
 	 * @param file
 	 * @return
 	 */
-	public static File[] fileListFiles( final File file )
-	{
-		if ( file == null )
+	public static File[] fileListFiles(final File file) {
+		if (file == null)
 			return new File[0];
-		return AccessController.doPrivileged( new PrivilegedAction<File[]>( ) {
+		return AccessController.doPrivileged(new PrivilegedAction<File[]>() {
 
-			public File[] run( )
-			{
-				return file.listFiles( );
+			public File[] run() {
+				return file.listFiles();
 			}
-		} );
+		});
 	}
 
 	/**
@@ -292,17 +245,15 @@ public class FileSecurity
 	 * @param file
 	 * @return
 	 */
-	public static boolean fileIsDirectory( final File file )
-	{
-		if ( file == null )
+	public static boolean fileIsDirectory(final File file) {
+		if (file == null)
 			return false;
-		return AccessController.doPrivileged( new PrivilegedAction<Boolean>( ) {
+		return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
-			public Boolean run( )
-			{
-				return file.isDirectory( );
+			public Boolean run() {
+				return file.isDirectory();
 			}
-		} );
+		});
 	}
 
 	/**
@@ -310,17 +261,15 @@ public class FileSecurity
 	 * @param file
 	 * @return
 	 */
-	public static String fileGetAbsolutePath( final File file )
-	{
-		if ( file == null )
+	public static String fileGetAbsolutePath(final File file) {
+		if (file == null)
 			return null;
-		return AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			public String run( )
-			{
-				return file.getAbsolutePath( );
+			public String run() {
+				return file.getAbsolutePath();
 			}
-		} );
+		});
 	}
 
 	/**
@@ -330,29 +279,22 @@ public class FileSecurity
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	public static String fileGetCanonicalPath( final File file )
-			throws IOException, DataException
-	{
-		if ( file == null )
+	public static String fileGetCanonicalPath(final File file) throws IOException, DataException {
+		if (file == null)
 			return null;
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<String>( ) {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<String>() {
 
-				public String run( ) throws IOException
-				{
-					return file.getCanonicalPath( );
+				public String run() throws IOException {
+					return file.getCanonicalPath();
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
-			throw new DataException( e.getMessage( ) );
+			throw new DataException(e.getMessage());
 
 		}
 	}
@@ -362,35 +304,31 @@ public class FileSecurity
 	 * @param file
 	 * @return
 	 */
-	public static boolean fileDelete( final File file )
-	{
-		if ( file == null )
+	public static boolean fileDelete(final File file) {
+		if (file == null)
 			return true;
-		return AccessController.doPrivileged( new PrivilegedAction<Boolean>( ) {
+		return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
-			public Boolean run( )
-			{
-				return file.delete( );
+			public Boolean run() {
+				return file.delete();
 			}
-		} );
+		});
 	}
 
 	/**
 	 * 
 	 * @param file
 	 */
-	public static void fileDeleteOnExit( final File file )
-	{
-		if ( file == null )
+	public static void fileDeleteOnExit(final File file) {
+		if (file == null)
 			return;
-		AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+		AccessController.doPrivileged(new PrivilegedAction<Object>() {
 
-			public Object run( )
-			{
-				file.deleteOnExit( );
+			public Object run() {
+				file.deleteOnExit();
 				return null;
 			}
-		} );
+		});
 	}
 
 	/**
@@ -398,17 +336,15 @@ public class FileSecurity
 	 * @param file
 	 * @return
 	 */
-	public static boolean fileMakeDirs( final File file )
-	{
-		if ( file == null )
+	public static boolean fileMakeDirs(final File file) {
+		if (file == null)
 			return false;
-		return AccessController.doPrivileged( new PrivilegedAction<Boolean>( ) {
+		return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
 
-			public Boolean run( )
-			{
-				return file.mkdirs( );
+			public Boolean run() {
+				return file.mkdirs();
 			}
-		} );
+		});
 	}
 
 	/**
@@ -418,29 +354,22 @@ public class FileSecurity
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	public static File fileGetCanonicalFile( final File file )
-			throws IOException, DataException
-	{
-		if ( file == null )
+	public static File fileGetCanonicalFile(final File file) throws IOException, DataException {
+		if (file == null)
 			return null;
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<File>( ) {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<File>() {
 
-				public File run( ) throws IOException
-				{
-					return file.getCanonicalFile( );
+				public File run() throws IOException {
+					return file.getCanonicalFile();
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
-			throw new DataException( e.getMessage( ) );
+			throw new DataException(e.getMessage());
 
 		}
 	}

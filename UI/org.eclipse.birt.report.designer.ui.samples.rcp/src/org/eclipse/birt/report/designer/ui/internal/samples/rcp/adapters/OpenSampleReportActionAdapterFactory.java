@@ -19,18 +19,13 @@ import org.eclipse.jface.action.IAction;
  * Add IOpenSampleReport adaptable to ReportExamplesView
  * 
  */
-public class OpenSampleReportActionAdapterFactory implements IAdapterFactory
-{
+public class OpenSampleReportActionAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		return new RCPOpenSampleReportAction( );
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		return new RCPOpenSampleReportAction();
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			IAction.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { IAction.class };
 	}
 }

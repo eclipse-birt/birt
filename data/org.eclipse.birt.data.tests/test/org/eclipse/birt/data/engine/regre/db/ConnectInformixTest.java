@@ -16,23 +16,22 @@ import org.junit.Before;
 import org.junit.Ignore;
 
 /**
- *  Run a query based on Informix database 
+ * Run a query based on Informix database
  */
 @Ignore("Ignore tests that require manual setup")
-public class ConnectInformixTest extends ConnectionTest
-{
+public class ConnectInformixTest extends ConnectionTest {
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
-    public void connectInformixSetUp() throws Exception
-	{
-		DriverClass = ConfigText.getString( "Regre.Informix.DriverClass" );
-		URL = ConfigText.getString( "Regre.Informix.URL" );
-		User = ConfigText.getString( "Regre.Informix.User" );
-		Password = ConfigText.getString( "Regre.Informix.Password" );
+	public void connectInformixSetUp() throws Exception {
+		DriverClass = ConfigText.getString("Regre.Informix.DriverClass");
+		URL = ConfigText.getString("Regre.Informix.URL");
+		User = ConfigText.getString("Regre.Informix.User");
+		Password = ConfigText.getString("Regre.Informix.Password");
 
 	}
 

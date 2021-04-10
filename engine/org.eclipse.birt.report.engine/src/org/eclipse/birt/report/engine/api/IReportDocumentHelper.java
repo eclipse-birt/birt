@@ -17,9 +17,7 @@ import java.util.Locale;
 /*
  * This interface is used only internally!
  */
-public interface IReportDocumentHelper
-{
+public interface IReportDocumentHelper {
 
-	public List<IBookmarkInfo> getBookmarkInfos( Locale locale )
-			throws EngineException;
+	public List<IBookmarkInfo> getBookmarkInfos(Locale locale) throws EngineException;
 }

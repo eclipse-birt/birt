@@ -11,13 +11,9 @@
 
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
-public class AdvancedDataSetComputedColumnsPage
-		extends
-			DataSetComputedColumnsPage
-{
-	public AdvancedDataSetComputedColumnsPage( )
-	{
-		super( );
+public class AdvancedDataSetComputedColumnsPage extends DataSetComputedColumnsPage {
+	public AdvancedDataSetComputedColumnsPage() {
+		super();
 	}
 
 }

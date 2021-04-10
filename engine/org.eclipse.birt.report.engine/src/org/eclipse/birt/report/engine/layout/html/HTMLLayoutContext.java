@@ -15,8 +15,7 @@ import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
 import org.eclipse.birt.report.engine.layout.html.buffer.PageBufferFactory;
 
-public class HTMLLayoutContext
-{
+public class HTMLLayoutContext {
 
 	protected String masterPage = null;
 
@@ -31,7 +30,7 @@ public class HTMLLayoutContext
 
 	protected HTMLReportLayoutEngine engine;
 
-	protected HTMLLayoutPageHintManager pageHintMgr = new HTMLLayoutPageHintManager( this );
+	protected HTMLLayoutPageHintManager pageHintMgr = new HTMLLayoutPageHintManager(this);
 
 	protected IPageBuffer bufferMgr;
 
@@ -39,224 +38,182 @@ public class HTMLLayoutContext
 
 	protected String newMasterPage = null;
 
-	protected PageBufferFactory bufferFactory = new PageBufferFactory( this );
-	
+	protected PageBufferFactory bufferFactory = new PageBufferFactory(this);
+
 	protected boolean emptyPage = false;
 
-	//this flag is used to control max row-span. If row-span exceeds the max value, a page-break will be insert to next row
+	// this flag is used to control max row-span. If row-span exceeds the max value,
+	// a page-break will be insert to next row
 	protected boolean softRowBreak = false;
-	
-	
 
 	/**
-	 * The flag to indicate whether the emitter need output the display:none or process it in layout
-	 * engine. true: output display:none in emitter and do not process it in
-	 * layout engine. false: process it in layout engine, not output it in
-	 * emitter.
+	 * The flag to indicate whether the emitter need output the display:none or
+	 * process it in layout engine. true: output display:none in emitter and do not
+	 * process it in layout engine. false: process it in layout engine, not output
+	 * it in emitter.
 	 */
 	protected boolean outputDisplayNone = false;
-	
-	protected boolean isFixedLayout = false;
-	
-	protected boolean isPaged = false;
-	
-	protected boolean isHorizontalPageBreak = false;
-	
 
-	public boolean isSoftRowBreak( )
-	{
+	protected boolean isFixedLayout = false;
+
+	protected boolean isPaged = false;
+
+	protected boolean isHorizontalPageBreak = false;
+
+	public boolean isSoftRowBreak() {
 		return softRowBreak;
 	}
-	
-	public boolean isHorizontalPageBreak()
-	{
+
+	public boolean isHorizontalPageBreak() {
 		return isHorizontalPageBreak;
 	}
-	
-	public void setHorizontalPageBreak(boolean isHorizontalPageBreak)
-	{
+
+	public void setHorizontalPageBreak(boolean isHorizontalPageBreak) {
 		this.isHorizontalPageBreak = isHorizontalPageBreak;
 	}
 
-	
-	public void setSoftRowBreak( boolean softRowBreak )
-	{
+	public void setSoftRowBreak(boolean softRowBreak) {
 		this.softRowBreak = softRowBreak;
 	}
-	
-	
-	public PageBufferFactory getBufferFactory( )
-	{
+
+	public PageBufferFactory getBufferFactory() {
 		return bufferFactory;
 	}
 
-	public void setNextMasterPage( String newMasterPage )
-	{
+	public void setNextMasterPage(String newMasterPage) {
 		this.newMasterPage = newMasterPage;
 	}
 
-	public void initilizePage( )
-	{
-		if ( newMasterPage != null )
-		{
+	public void initilizePage() {
+		if (newMasterPage != null) {
 			masterPage = newMasterPage;
 			newMasterPage = null;
 		}
 	}
-	
+
 	protected HTMLPageLM pageLM;
-	
-	public HTMLPageLM getPageLM( )
-	{
+
+	public HTMLPageLM getPageLM() {
 		return pageLM;
 	}
 
-	public void setPageLM( HTMLPageLM pageLM )
-	{
+	public void setPageLM(HTMLPageLM pageLM) {
 		this.pageLM = pageLM;
 	}
 
-	public void setLayoutPageContent( boolean needLayoutPageContent )
-	{
+	public void setLayoutPageContent(boolean needLayoutPageContent) {
 		this.needLayoutPageContent = needLayoutPageContent;
 	}
 
-	public boolean needLayoutPageContent( )
-	{
+	public boolean needLayoutPageContent() {
 		return needLayoutPageContent;
 	}
-	
-	public IReportExecutor getReportExecutor( )
-	{
+
+	public IReportExecutor getReportExecutor() {
 		return this.engine.executor;
 	}
 
-	public HTMLReportLayoutEngine getLayoutEngine( )
-	{
+	public HTMLReportLayoutEngine getLayoutEngine() {
 		return engine;
 	}
 
-	public void setPageBufferManager( IPageBuffer bufferMgr )
-	{
+	public void setPageBufferManager(IPageBuffer bufferMgr) {
 		this.bufferMgr = bufferMgr;
 	}
 
-	public IPageBuffer getPageBufferManager( )
-	{
+	public IPageBuffer getPageBufferManager() {
 		return this.bufferMgr;
 	}
-	
-	public HTMLLayoutPageHintManager getPageHintManager( )
-	{
+
+	public HTMLLayoutPageHintManager getPageHintManager() {
 		return pageHintMgr;
 	}
 
-	public String getMasterPage( )
-	{
+	public String getMasterPage() {
 		return masterPage;
 	}
 
-	public void setMasterPage( String masterPage )
-	{
+	public void setMasterPage(String masterPage) {
 		this.masterPage = masterPage;
 	}
 
-	public HTMLLayoutContext( HTMLReportLayoutEngine engine )
-	{
+	public HTMLLayoutContext(HTMLReportLayoutEngine engine) {
 		this.engine = engine;
 	}
 
-	public boolean allowPageBreak( )
-	{
+	public boolean allowPageBreak() {
 		return this.allowPageBreak;
 	}
 
-	public void setAllowPageBreak( boolean allowPageBreak )
-	{
+	public void setAllowPageBreak(boolean allowPageBreak) {
 		this.allowPageBreak = allowPageBreak;
 	}
 
-	public void setFinish( boolean finished )
-	{
+	public void setFinish(boolean finished) {
 		this.finished = finished;
 	}
 
-	public boolean isFinished( )
-	{
+	public boolean isFinished() {
 		return finished;
 	}
 
 	boolean cancelFlag = false;
 
-	void setCancelFlag( boolean flag )
-	{
+	void setCancelFlag(boolean flag) {
 		cancelFlag = flag;
 	}
 
-	public boolean getCancelFlag( )
-	{
+	public boolean getCancelFlag() {
 		return cancelFlag;
 	}
 
-	public void setEmptyPage(boolean emptyPage)
-	{
+	public void setEmptyPage(boolean emptyPage) {
 		this.emptyPage = emptyPage;
 	}
 
 	/**
 	 * @return the pageNumber
 	 */
-	public long getPageNumber( )
-	{
+	public long getPageNumber() {
 		return pageNumber;
 	}
 
 	/**
-	 * @param pageNumber
-	 *            the pageNumber to set
+	 * @param pageNumber the pageNumber to set
 	 */
-	public void setPageNumber( long pageNumber )
-	{
+	public void setPageNumber(long pageNumber) {
 		this.pageNumber = pageNumber;
 	}
 
-	public void setOutputDisplayNone( boolean outputDisplayNone )
-	{
+	public void setOutputDisplayNone(boolean outputDisplayNone) {
 		this.outputDisplayNone = outputDisplayNone;
 	}
 
-	public boolean getOutputDisplayNone( )
-	{
+	public boolean getOutputDisplayNone() {
 		return outputDisplayNone;
 	}
 
-	public long getPageCount( )
-	{
+	public long getPageCount() {
 		return pageCount;
 	}
 
-	public void setPageCount( long pageCount )
-	{
+	public void setPageCount(long pageCount) {
 		this.pageCount = pageCount;
 	}
-	
-	public boolean isFixedLayout( )
-	{
+
+	public boolean isFixedLayout() {
 		return isFixedLayout;
 	}
 
-	public void setFixedLayout( boolean isFixedLayout )
-	{
+	public void setFixedLayout(boolean isFixedLayout) {
 		this.isFixedLayout = isFixedLayout;
 	}
-	
-	public boolean isPaged( )
-	{
+
+	public boolean isPaged() {
 		return isPaged;
 	}
 
-	public void setPaged( boolean isPaged )
-	{
+	public void setPaged(boolean isPaged) {
 		this.isPaged = isPaged;
 	}
 

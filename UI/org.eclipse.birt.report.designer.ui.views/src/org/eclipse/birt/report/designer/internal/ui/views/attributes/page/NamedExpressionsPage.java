@@ -20,26 +20,22 @@ import org.eclipse.swt.widgets.Composite;
  * Named expression page
  */
 
-public class NamedExpressionsPage extends LibraryAttributePage
-{
+public class NamedExpressionsPage extends LibraryAttributePage {
 
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		needCheckLibraryReadOnly( true );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
-		NamedExpressionsHandleProvier namedExpressionProvider = new NamedExpressionsHandleProvier( );
-		FormSection namedExpressionSection = new FormSection( namedExpressionProvider.getDisplayName( ),
-				container,
-				true );
-		namedExpressionSection.setProvider( namedExpressionProvider );
-		namedExpressionSection.setButtonWithDialog( true );
-		namedExpressionSection.setStyle( FormPropertyDescriptor.SIMPLE_FUNCTION );
-		namedExpressionSection.setFillForm( true );
-		namedExpressionSection.setHeight( 200 );
-		addSection( PageSectionId.NAMED_EXPRESSIONS, namedExpressionSection );
-		createSections( );
-		layoutSections( );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		needCheckLibraryReadOnly(true);
+		container.setLayout(WidgetUtil.createGridLayout(1));
+		NamedExpressionsHandleProvier namedExpressionProvider = new NamedExpressionsHandleProvier();
+		FormSection namedExpressionSection = new FormSection(namedExpressionProvider.getDisplayName(), container, true);
+		namedExpressionSection.setProvider(namedExpressionProvider);
+		namedExpressionSection.setButtonWithDialog(true);
+		namedExpressionSection.setStyle(FormPropertyDescriptor.SIMPLE_FUNCTION);
+		namedExpressionSection.setFillForm(true);
+		namedExpressionSection.setHeight(200);
+		addSection(PageSectionId.NAMED_EXPRESSIONS, namedExpressionSection);
+		createSections();
+		layoutSections();
 	}
 
 }

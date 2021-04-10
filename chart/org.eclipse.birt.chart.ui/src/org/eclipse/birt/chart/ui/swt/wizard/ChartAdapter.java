@@ -29,10 +29,9 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
  * @author Actuate Corporation
  * 
  */
-public class ChartAdapter extends EContentAdapter
-{
+public class ChartAdapter extends EContentAdapter {
 
-	private Vector<ITaskChangeListener> vListeners = new Vector<ITaskChangeListener>( );
+	private Vector<ITaskChangeListener> vListeners = new Vector<ITaskChangeListener>();
 
 	// For use by sample series creation
 	private static boolean bIgnoreNotifications = false;
@@ -40,95 +39,77 @@ public class ChartAdapter extends EContentAdapter
 	// Indicates Apply button needs updating when notify changed
 	private static boolean needUpdateApply = false;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.ui/swt"); //$NON-NLS-1$
 
 	private transient WizardBase wizardContainer;
 
-	public ChartAdapter( WizardBase wizardContainer )
-	{
+	public ChartAdapter(WizardBase wizardContainer) {
 		this.wizardContainer = wizardContainer;
 	}
 
-	public void notifyChanged( Notification notification )
-	{
-		if ( needUpdateApply && wizardContainer instanceof ChartWizard )
-		{
+	public void notifyChanged(Notification notification) {
+		if (needUpdateApply && wizardContainer instanceof ChartWizard) {
 			// Update Apply button status when notification may be ignored.
-			( (ChartWizard) wizardContainer ).updateApplyButton( );
+			((ChartWizard) wizardContainer).updateApplyButton();
 		}
 
-		if ( bIgnoreNotifications || notification.isTouch( ) )
-		{
+		if (bIgnoreNotifications || notification.isTouch()) {
 			needUpdateApply = false;
 			return;
 		}
 
-		logger.log( ILogger.INFORMATION,
-				new MessageFormat( Messages.getString( "ChartAdapter.Info.NotificationRecieved" ) ).format( new Object[]{notification.getNotifier( ).getClass( ).getName( )} ) ); //$NON-NLS-1$
-		logger.log( ILogger.INFORMATION,
-				new MessageFormat( Messages.getString( "ChartAdapter.Info.NewValue" ) ).format( new Object[]{notification.getNewValue( )} ) ); //$NON-NLS-1$
+		logger.log(ILogger.INFORMATION, new MessageFormat(Messages.getString("ChartAdapter.Info.NotificationRecieved")) //$NON-NLS-1$
+				.format(new Object[] { notification.getNotifier().getClass().getName() }));
+		logger.log(ILogger.INFORMATION, new MessageFormat(Messages.getString("ChartAdapter.Info.NewValue")) //$NON-NLS-1$
+				.format(new Object[] { notification.getNewValue() }));
 
 		// Notify registered change listeners
-		for ( int iC = 0; iC < vListeners.size( ); iC++ )
-		{
-			ITaskChangeListener changeLs = vListeners.elementAt( iC );
+		for (int iC = 0; iC < vListeners.size(); iC++) {
+			ITaskChangeListener changeLs = vListeners.elementAt(iC);
 			// Only change current task
-			if ( wizardContainer.getCurrentTask( ) == changeLs
-					|| !( wizardContainer.getCurrentTask( ) instanceof ITaskChangeListener ) )
-			{
-				changeLs.changeTask( notification );
+			if (wizardContainer.getCurrentTask() == changeLs
+					|| !(wizardContainer.getCurrentTask() instanceof ITaskChangeListener)) {
+				changeLs.changeTask(notification);
 			}
 		}
 
-		if ( !needUpdateApply && wizardContainer instanceof ChartWizard )
-		{
+		if (!needUpdateApply && wizardContainer instanceof ChartWizard) {
 			// Update Apply button status after notification
-			( (ChartWizard) wizardContainer ).updateApplyButton( );
-		}
-		else
-		{
+			((ChartWizard) wizardContainer).updateApplyButton();
+		} else {
 			needUpdateApply = false;
 		}
 	}
 
-	public static void notifyUpdateApply( )
-	{
+	public static void notifyUpdateApply() {
 		needUpdateApply = true;
 	}
 
-	public static void ignoreNotifications( boolean bIgnoreNotifications )
-	{
+	public static void ignoreNotifications(boolean bIgnoreNotifications) {
 		ChartAdapter.bIgnoreNotifications = bIgnoreNotifications;
 	}
 
-	public static boolean isNotificationIgnored( )
-	{
+	public static boolean isNotificationIgnored() {
 		return ChartAdapter.bIgnoreNotifications;
 	}
 
-	public static void beginIgnoreNotifications( )
-	{
+	public static void beginIgnoreNotifications() {
 		bIgnoreNotifications = true;
 	}
 
-	public static void endIgnoreNotifications( )
-	{
+	public static void endIgnoreNotifications() {
 		bIgnoreNotifications = false;
 	}
 
-	public void addListener( ITaskChangeListener listener )
-	{
-		if ( !vListeners.contains( listener ) )
-		{
-			vListeners.add( listener );
+	public void addListener(ITaskChangeListener listener) {
+		if (!vListeners.contains(listener)) {
+			vListeners.add(listener);
 		}
 	}
 
-	public void clearListeners( )
-	{
-		if ( vListeners != null )
-		{
-			vListeners.removeAllElements( );
+	public void clearListeners() {
+		if (vListeners != null) {
+			vListeners.removeAllElements();
 		}
 	}
 }

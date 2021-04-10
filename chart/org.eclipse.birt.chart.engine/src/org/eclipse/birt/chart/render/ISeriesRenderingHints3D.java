@@ -16,13 +16,12 @@ import org.eclipse.birt.chart.computation.DataSetIterator;
 /**
  * This interface defines the 3D rendering hints required by series renderer.
  */
-public interface ISeriesRenderingHints3D extends ISeriesRenderingHints
-{
+public interface ISeriesRenderingHints3D extends ISeriesRenderingHints {
 
 	/**
 	 * Returns the dataset bound to Series.
 	 * 
 	 * @return
 	 */
-	public DataSetIterator getSeriesDataSet( );
+	public DataSetIterator getSeriesDataSet();
 }

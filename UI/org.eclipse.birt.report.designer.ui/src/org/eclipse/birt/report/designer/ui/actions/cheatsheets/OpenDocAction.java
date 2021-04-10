@@ -21,27 +21,22 @@ import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 
 /**
  */
-public class OpenDocAction extends Action implements ICheatSheetAction
-{
+public class OpenDocAction extends Action implements ICheatSheetAction {
 	IOpenDocActionHelper helper;
-	private void initHelper()
-	{
-		// *********** try using a helper provider ****************
-		IOpenDocActionHelperProvider helperProvider = (IOpenDocActionHelperProvider) ElementAdapterManager.getAdapter( this,
-				IOpenDocActionHelperProvider.class );
 
-		if ( helperProvider != null )
-		{
-			this.helper = helperProvider.createHelper( );//$NON-NLS-1$
-		}
-		else
-		{
+	private void initHelper() {
+		// *********** try using a helper provider ****************
+		IOpenDocActionHelperProvider helperProvider = (IOpenDocActionHelperProvider) ElementAdapterManager
+				.getAdapter(this, IOpenDocActionHelperProvider.class);
+
+		if (helperProvider != null) {
+			this.helper = helperProvider.createHelper();// $NON-NLS-1$
+		} else {
 			this.helper = null;
 		}
 	}
 
-	public OpenDocAction()
-	{
+	public OpenDocAction() {
 		this.initHelper();
 	}
 
@@ -49,20 +44,16 @@ public class OpenDocAction extends Action implements ICheatSheetAction
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.cheatsheets.ICheatSheetAction#run(java.lang.String[],
-	 *      org.eclipse.ui.cheatsheets.ICheatSheetManager)
+	 * org.eclipse.ui.cheatsheets.ICheatSheetManager)
 	 */
-	public void run( String[] params, ICheatSheetManager manager )
-	{
-		if ( this.helper != null )
-		{
-			this.helper.run( params, manager );
+	public void run(String[] params, ICheatSheetManager manager) {
+		if (this.helper != null) {
+			this.helper.run(params, manager);
 			return;
 		}
-		if ( params.length < 1 )
-			throw new IllegalArgumentException( );
-		PlatformUI.getWorkbench( )
-				.getHelpSystem( )
-				.displayHelpResource( params[0] );
+		if (params.length < 1)
+			throw new IllegalArgumentException();
+		PlatformUI.getWorkbench().getHelpSystem().displayHelpResource(params[0]);
 	}
 
 }

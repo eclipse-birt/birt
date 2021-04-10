@@ -28,8 +28,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * Action used to update dynamic items of menu.
  */
 
-public abstract class MenuUpdateAction extends SelectionAction
-{
+public abstract class MenuUpdateAction extends SelectionAction {
 
 	private MenuManager menu;
 
@@ -39,33 +38,29 @@ public abstract class MenuUpdateAction extends SelectionAction
 	 * Dynamic items should subclass this action. Menu action(subclass of
 	 * MenuUpdateAction) will update this item.
 	 */
-	public static abstract class DynamicItemAction extends Action
-	{
-		protected Logger logger = Logger.getLogger( DynamicItemAction.class.getName( ) );
-		protected DynamicItemAction( )
-		{
+	public static abstract class DynamicItemAction extends Action {
+		protected Logger logger = Logger.getLogger(DynamicItemAction.class.getName());
+
+		protected DynamicItemAction() {
 
 		}
 
-		protected DynamicItemAction( String text )
-		{
-			super( text );
+		protected DynamicItemAction(String text) {
+			super(text);
 		}
 
-		protected DynamicItemAction( String text, int style )
-		{
-			super( text, style );
+		protected DynamicItemAction(String text, int style) {
+			super(text, style);
 		}
+
 		private ISelection selection;
 
 		/**
 		 * Sets the current selection.
 		 * 
-		 * @param selection
-		 *            The new selection.
+		 * @param selection The new selection.
 		 */
-		public void setSelection( ISelection selection )
-		{
+		public void setSelection(ISelection selection) {
 			this.selection = selection;
 		}
 
@@ -74,8 +69,7 @@ public abstract class MenuUpdateAction extends SelectionAction
 		 * 
 		 * @return The current selection.
 		 */
-		protected ISelection getSelection( )
-		{
+		protected ISelection getSelection() {
 			return selection;
 		}
 	}
@@ -83,9 +77,8 @@ public abstract class MenuUpdateAction extends SelectionAction
 	/**
 	 * @param part
 	 */
-	public MenuUpdateAction( IWorkbenchPart part )
-	{
-		super( part );
+	public MenuUpdateAction(IWorkbenchPart part) {
+		super(part);
 	}
 
 	/*
@@ -93,8 +86,7 @@ public abstract class MenuUpdateAction extends SelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
+	protected boolean calculateEnabled() {
 		return true;
 	}
 
@@ -103,51 +95,40 @@ public abstract class MenuUpdateAction extends SelectionAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Action [" + getClass( ) + "] >> Run ..." ); //$NON-NLS-1$ //$NON-NLS-2$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Action [" + getClass() + "] >> Run ..."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		if (SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
-		{
+		if (SessionHandleAdapter.getInstance().getReportDesignHandle() == null) {
 			return;
 		}
-		if ( menu != null )
-		{
-			actionItems = getItems( );
-			menu.removeAll( );
-			for ( Iterator i = actionItems.iterator( ); i.hasNext( ); )
-			{
-				DynamicItemAction action = (DynamicItemAction) i.next( );
-				if ( action != null )
-				{
-					action.setSelection( getSelection( ) );
-					menu.add( action );
-				}
-				else
-				{
-					menu.add( new Separator( ) );
+		if (menu != null) {
+			actionItems = getItems();
+			menu.removeAll();
+			for (Iterator i = actionItems.iterator(); i.hasNext();) {
+				DynamicItemAction action = (DynamicItemAction) i.next();
+				if (action != null) {
+					action.setSelection(getSelection());
+					menu.add(action);
+				} else {
+					menu.add(new Separator());
 				}
 			}
-			if ( menu.getItems( ).length == 0 )
-			{
-				menu.add( NoneAction.getInstance( ) );
+			if (menu.getItems().length == 0) {
+				menu.add(NoneAction.getInstance());
 			}
-			menu.update( true );
+			menu.update(true);
 		}
 	}
 
 	/**
 	 * Updates then current menu.
 	 * 
-	 * @param menu
-	 *            the current menu
+	 * @param menu the current menu
 	 */
-	public void updateMenu( MenuManager menu )
-	{
+	public void updateMenu(MenuManager menu) {
 		this.menu = menu;
-		run( );
+		run();
 	}
 
 	/**
@@ -156,5 +137,5 @@ public abstract class MenuUpdateAction extends SelectionAction
 	 * 
 	 * @return items
 	 */
-	abstract protected List getItems( );
+	abstract protected List getItems();
 }

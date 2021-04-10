@@ -13,33 +13,28 @@ package org.eclipse.birt.report.engine.ooxml;
 
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
-public class OOXmlType implements ContentType
-{
+public class OOXmlType implements ContentType {
 
 	private IPart part;
 
 	private String type;
 
-	public OOXmlType( String type )
-	{
+	public OOXmlType(String type) {
 		this.type = type;
 	}
 
-	public void setPart( IPart part )
-	{
+	public void setPart(IPart part) {
 		this.part = part;
 	}
 
-	public void write( OOXmlWriter writer )
-	{
-		writer.openTag( "Override" );
-		writer.attribute( "PartName", part.getAbsoluteUri( ) );
-		writer.attribute( "ContentType", type );
-		writer.closeTag( "Overrrid" );
+	public void write(OOXmlWriter writer) {
+		writer.openTag("Override");
+		writer.attribute("PartName", part.getAbsoluteUri());
+		writer.attribute("ContentType", type);
+		writer.closeTag("Overrrid");
 	}
 
-	public String toString( )
-	{
+	public String toString() {
 		return type;
 	}
 }

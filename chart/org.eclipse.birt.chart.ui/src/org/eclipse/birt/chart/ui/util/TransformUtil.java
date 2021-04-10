@@ -19,10 +19,9 @@ import org.eclipse.swt.graphics.Rectangle;
 
 /**
  * Utility class for transform operation.
- *  
+ * 
  */
-public class TransformUtil
-{
+public class TransformUtil {
 
 	/**
 	 * Returns the rectangle transformed from the given rectangle.
@@ -31,38 +30,34 @@ public class TransformUtil
 	 * @param rect
 	 * @return
 	 */
-	public static Rectangle transformRect( AffineTransform af, Rectangle rect )
-	{
-		Rectangle rt = new Rectangle( 0, 0, 0, 0 );
-		rect = redressRect( rect );
-		Point p1 = new Point( rect.x, rect.y );
-		p1 = transformPoint( af, p1 );
+	public static Rectangle transformRect(AffineTransform af, Rectangle rect) {
+		Rectangle rt = new Rectangle(0, 0, 0, 0);
+		rect = redressRect(rect);
+		Point p1 = new Point(rect.x, rect.y);
+		p1 = transformPoint(af, p1);
 		rt.x = p1.x;
 		rt.y = p1.y;
-		rt.width = (int) ( rect.width * af.getScaleX( ) );
-		rt.height = (int) ( rect.height * af.getScaleY( ) );
+		rt.width = (int) (rect.width * af.getScaleX());
+		rt.height = (int) (rect.height * af.getScaleY());
 		return rt;
 	}
 
 	/**
-	 * Returns the rectangle which is the inverse transform of the given
-	 * rectangle.
+	 * Returns the rectangle which is the inverse transform of the given rectangle.
 	 * 
 	 * @param af
 	 * @param rect
 	 * @return
 	 */
-	public static Rectangle inverseTransformRect( AffineTransform af,
-			Rectangle rect )
-	{
-		Rectangle rt = new Rectangle( 0, 0, 0, 0 );
-		rect = redressRect( rect );
-		Point p1 = new Point( rect.x, rect.y );
-		p1 = inverseTransformPoint( af, p1 );
+	public static Rectangle inverseTransformRect(AffineTransform af, Rectangle rect) {
+		Rectangle rt = new Rectangle(0, 0, 0, 0);
+		rect = redressRect(rect);
+		Point p1 = new Point(rect.x, rect.y);
+		p1 = inverseTransformPoint(af, p1);
 		rt.x = p1.x;
 		rt.y = p1.y;
-		rt.width = (int) ( rect.width / af.getScaleX( ) );
-		rt.height = (int) ( rect.height / af.getScaleY( ) );
+		rt.width = (int) (rect.width / af.getScaleX());
+		rt.height = (int) (rect.height / af.getScaleY());
 		return rt;
 	}
 
@@ -73,12 +68,10 @@ public class TransformUtil
 	 * @param pt
 	 * @return
 	 */
-	public static Point transformPoint( AffineTransform af, Point pt )
-	{
-		Point2D src = new Point2D.Float( pt.x, pt.y );
-		Point2D dest = af.transform( src, null );
-		Point point = new Point( (int) Math.floor( dest.getX( ) ),
-				(int) Math.floor( dest.getY( ) ) );
+	public static Point transformPoint(AffineTransform af, Point pt) {
+		Point2D src = new Point2D.Float(pt.x, pt.y);
+		Point2D dest = af.transform(src, null);
+		Point point = new Point((int) Math.floor(dest.getX()), (int) Math.floor(dest.getY()));
 		return point;
 	}
 
@@ -89,51 +82,39 @@ public class TransformUtil
 	 * @param pt
 	 * @return
 	 */
-	public static Point inverseTransformPoint( AffineTransform af, Point pt )
-	{
-		Point2D src = new Point2D.Float( pt.x, pt.y );
+	public static Point inverseTransformPoint(AffineTransform af, Point pt) {
+		Point2D src = new Point2D.Float(pt.x, pt.y);
 
-		try
-		{
-			Point2D dest = af.inverseTransform( src, null );
-			return new Point( (int) Math.floor( dest.getX( ) ),
-					(int) Math.floor( dest.getY( ) ) );
-		}
-		catch ( Exception e )
-		{
-			return new Point( 0, 0 );
+		try {
+			Point2D dest = af.inverseTransform(src, null);
+			return new Point((int) Math.floor(dest.getX()), (int) Math.floor(dest.getY()));
+		} catch (Exception e) {
+			return new Point(0, 0);
 		}
 	}
 
 	/**
-	 * Redress the rectangle orientation, make it start with upper-left and
-	 * positive width and height.
+	 * Redress the rectangle orientation, make it start with upper-left and positive
+	 * width and height.
 	 * 
 	 * @param rect
 	 * @return result
 	 */
-	public static Rectangle redressRect( Rectangle rect )
-	{
-		Rectangle rt = new Rectangle( 0, 0, 0, 0 );
+	public static Rectangle redressRect(Rectangle rect) {
+		Rectangle rt = new Rectangle(0, 0, 0, 0);
 
-		if ( rect.width < 0 )
-		{
+		if (rect.width < 0) {
 			rt.x = rect.x + rect.width + 1;
 			rt.width = -rect.width;
-		}
-		else
-		{
+		} else {
 			rt.x = rect.x;
 			rt.width = rect.width;
 		}
 
-		if ( rect.height < 0 )
-		{
+		if (rect.height < 0) {
 			rt.y = rect.y + rect.height + 1;
 			rt.height = -rect.height;
-		}
-		else
-		{
+		} else {
 			rt.y = rect.y;
 			rt.height = rect.height;
 		}

@@ -20,8 +20,7 @@ import com.ibm.icu.util.ULocale;
  * Tests for DesignEngine.
  */
 
-public class DesignEngineTest extends BaseTestCase
-{
+public class DesignEngineTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
@@ -31,15 +30,14 @@ public class DesignEngineTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testNewDesignEngine( ) throws Exception
-	{
+	public void testNewDesignEngine() throws Exception {
 		IDesignEngineFactory factory = (IDesignEngineFactory) Platform
-				.createFactoryObject( IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY );
-		IDesignEngine engine = factory.createDesignEngine( new DesignConfig( ) );
-		assertNotNull( engine );
+				.createFactoryObject(IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY);
+		IDesignEngine engine = factory.createDesignEngine(new DesignConfig());
+		assertNotNull(engine);
 
-		assertNotNull( engine.newSessionHandle( ULocale.ENGLISH ) );
-		assertNotNull( engine.getMetaData( ) );
+		assertNotNull(engine.newSessionHandle(ULocale.ENGLISH));
+		assertNotNull(engine.getMetaData());
 	}
 
 	/**
@@ -50,13 +48,12 @@ public class DesignEngineTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testDesignEngine( ) throws Exception
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		assertNotNull( engine );
+	public void testDesignEngine() throws Exception {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		assertNotNull(engine);
 
-		assertNotNull( engine.newSessionHandle( ULocale.ENGLISH ) );
-		assertNotNull( engine.getMetaData( ) );
+		assertNotNull(engine.newSessionHandle(ULocale.ENGLISH));
+		assertNotNull(engine.getMetaData());
 	}
 
 	/**
@@ -67,10 +64,9 @@ public class DesignEngineTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testObsoleteDesignEngine( ) throws Exception
-	{
+	public void testObsoleteDesignEngine() throws Exception {
 
-		assertNotNull( DesignEngine.newSession( ULocale.ENGLISH ) );
-		assertNotNull( DesignEngine.getMetaDataDictionary( ) );
+		assertNotNull(DesignEngine.newSession(ULocale.ENGLISH));
+		assertNotNull(DesignEngine.getMetaDataDictionary());
 	}
 }

@@ -20,8 +20,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 
-public class IVViewTest extends EngineCase
-{
+public class IVViewTest extends EngineCase {
 
 	static final String ORIGINAL_REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/iv/originalReport.rptdesign";
 	static final String ORIGINAL_REPORT_DESIGN = "originalReport.rptdesign";
@@ -33,144 +32,111 @@ public class IVViewTest extends EngineCase
 
 	IReportEngine engine;
 
-	public void setUp( )
-	{
-		removeFile( ORIGINAL_REPORT_DESIGN );
-		removeFile( CHANGED_REPORT_DESIGN );
-		EngineConfig config = new EngineConfig( );
-		engine = new ReportEngine( config );
+	public void setUp() {
+		removeFile(ORIGINAL_REPORT_DESIGN);
+		removeFile(CHANGED_REPORT_DESIGN);
+		EngineConfig config = new EngineConfig();
+		engine = new ReportEngine(config);
 	}
 
-	public void tearDown( )
-	{
-		removeFile( ORIGINAL_REPORT_DESIGN );
-		removeFile( CHANGED_REPORT_DESIGN );
-		engine.destroy( );
+	public void tearDown() {
+		removeFile(ORIGINAL_REPORT_DESIGN);
+		removeFile(CHANGED_REPORT_DESIGN);
+		engine.destroy();
 	}
 
-	public void testRunWithArchiveView( ) throws Exception
-	{
+	public void testRunWithArchiveView() throws Exception {
 		// 1. create document from ORIGINAL_REPORT_DESIGN_RESOURCE first
-		copyResource( ORIGINAL_REPORT_DESIGN_RESOURCE, ORIGINAL_REPORT_DESIGN );
-		IReportRunnable report = engine
-				.openReportDesign( ORIGINAL_REPORT_DESIGN );
-		IRunTask task = engine.createRunTask( report );
-		try
-		{
-			task.run( ORIGINAL_REPORT_DOCUMENT );
-		}
-		finally
-		{
-			task.close( );
+		copyResource(ORIGINAL_REPORT_DESIGN_RESOURCE, ORIGINAL_REPORT_DESIGN);
+		IReportRunnable report = engine.openReportDesign(ORIGINAL_REPORT_DESIGN);
+		IRunTask task = engine.createRunTask(report);
+		try {
+			task.run(ORIGINAL_REPORT_DOCUMENT);
+		} finally {
+			task.close();
 		}
 
 		// 2. create document from CHANGED_REPORT_DESIGN_RESOURCE
-		copyResource( CHANGED_REPORT_DESIGN_RESOURCE, CHANGED_REPORT_DESIGN );
+		copyResource(CHANGED_REPORT_DESIGN_RESOURCE, CHANGED_REPORT_DESIGN);
 
-		ArchiveView view = new ArchiveView( ARCHIVE_VIEW_DOCUMENT,
-				ORIGINAL_REPORT_DOCUMENT, "rw" );
+		ArchiveView view = new ArchiveView(ARCHIVE_VIEW_DOCUMENT, ORIGINAL_REPORT_DOCUMENT, "rw");
 
-		try
-		{
-			report = engine.openReportDesign( CHANGED_REPORT_DESIGN );
-			task = engine.createRunTask( report );
-			try
-			{
+		try {
+			report = engine.openReportDesign(CHANGED_REPORT_DESIGN);
+			task = engine.createRunTask(report);
+			try {
 				// 3. new view archive and render
-				ArchiveWriter writer = new ArchiveWriter( view );
-				task.setDataSource( new ArchiveReader( view ) );
-				task.run( writer );
-			}
-			finally
-			{
-				task.close( );
+				ArchiveWriter writer = new ArchiveWriter(view);
+				task.setDataSource(new ArchiveReader(view));
+				task.run(writer);
+			} finally {
+				task.close();
 			}
 
 			// 3. create golden report document
-			report = engine.openReportDesign( CHANGED_REPORT_DESIGN );
-			task = engine.createRunTask( report );
-			try
-			{
-				task.run( CHANGED_REPORT_DOCUMENT );
+			report = engine.openReportDesign(CHANGED_REPORT_DESIGN);
+			task = engine.createRunTask(report);
+			try {
+				task.run(CHANGED_REPORT_DOCUMENT);
+			} finally {
+				task.close();
 			}
-			finally
-			{
-				task.close( );
-			}
-			IReportDocument goldenDocument = engine
-					.openReportDocument( CHANGED_REPORT_DOCUMENT );
-			try
-			{
-				IReportDocument ivDocument = engine.openReportDocument( null,
-						new ArchiveReader( view ), new HashMap( ) );
+			IReportDocument goldenDocument = engine.openReportDocument(CHANGED_REPORT_DOCUMENT);
+			try {
+				IReportDocument ivDocument = engine.openReportDocument(null, new ArchiveReader(view), new HashMap());
 
-				try
-				{
+				try {
 					// 5. compare two report document
-					compare( goldenDocument, ivDocument );
+					compare(goldenDocument, ivDocument);
+				} finally {
+					ivDocument.close();
 				}
-				finally
-				{
-					ivDocument.close( );
-				}
+			} finally {
+				goldenDocument.close();
 			}
-			finally
-			{
-				goldenDocument.close( );
-			}
-		}
-		finally
-		{
-			view.close( );
+		} finally {
+			view.close();
 		}
 	}
 
-	protected void compare( IReportDocument src, IReportDocument tgt )
-			throws Exception
-	{
-		assertTrue( src.getPageCount( ) == tgt.getPageCount( ) );
-		long pageCount = src.getPageCount( );
-		for ( long index = 1; index <= pageCount; index++ )
-		{
-			String golden = renderPage( src, index );
-			String target = renderPage( tgt, index );
+	protected void compare(IReportDocument src, IReportDocument tgt) throws Exception {
+		assertTrue(src.getPageCount() == tgt.getPageCount());
+		long pageCount = src.getPageCount();
+		for (long index = 1; index <= pageCount; index++) {
+			String golden = renderPage(src, index);
+			String target = renderPage(tgt, index);
 			/* remove auto-generated bookmark */
 			Pattern p = Pattern.compile("\"AUTOGENBOOKMARK.*\"");
 			Matcher m = p.matcher(golden);
-			while ( m.find() ) {
-				golden = golden.substring(0, m.start()+1) + golden.substring(m.end()-1);
+			while (m.find()) {
+				golden = golden.substring(0, m.start() + 1) + golden.substring(m.end() - 1);
 				m = p.matcher(golden);
 			}
 			m = p.matcher(target);
-			while ( m.find() ) {
-				target = target.substring(0, m.start()+1) + target.substring(m.end()-1);
+			while (m.find()) {
+				target = target.substring(0, m.start() + 1) + target.substring(m.end() - 1);
 				m = p.matcher(target);
 			}
-			assertEquals( golden, target );
+			assertEquals(golden, target);
 		}
 	}
 
-	protected String renderPage( IReportDocument doc, long pageNo )
-			throws Exception
-	{
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
-		assertTrue( pageNo <= doc.getPageCount( ) );
-		IRenderTask renderTask = engine.createRenderTask( doc );
-		try
-		{
-			HTMLRenderOption options = new HTMLRenderOption( );
-			options.setOutputFormat( "html" );
-			options.setOutputStream( buffer );
-			renderTask.setRenderOption( options );
-			renderTask.setPageNumber( (long) pageNo );
-			renderTask.render( );
-			List errors = renderTask.getErrors( );
-			assertEquals( 0, errors.size( ) );
+	protected String renderPage(IReportDocument doc, long pageNo) throws Exception {
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		assertTrue(pageNo <= doc.getPageCount());
+		IRenderTask renderTask = engine.createRenderTask(doc);
+		try {
+			HTMLRenderOption options = new HTMLRenderOption();
+			options.setOutputFormat("html");
+			options.setOutputStream(buffer);
+			renderTask.setRenderOption(options);
+			renderTask.setPageNumber((long) pageNo);
+			renderTask.render();
+			List errors = renderTask.getErrors();
+			assertEquals(0, errors.size());
+		} finally {
+			renderTask.close();
 		}
-		finally
-		{
-			renderTask.close( );
-		}
-		return new String( buffer.toString( "UTF-8" ) );
+		return new String(buffer.toString("UTF-8"));
 	}
 }

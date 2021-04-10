@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * Class to create a IFilterCondition.
  */
 
-public class FilterConditionFactory
-{
+public class FilterConditionFactory {
 
 	/**
 	 * Condition for an element deleted action.
@@ -45,73 +44,63 @@ public class FilterConditionFactory
 	/**
 	 * Creates a filter condition by the condition id.
 	 * 
-	 * @param filterConditionID
-	 *            the filter condition id
+	 * @param filterConditionID the filter condition id
 	 * @return the generated filter condition with the given id, otherwise null
 	 */
 
-	static public IFilterCondition createFilterCondition( int filterConditionID )
-	{
-		switch ( filterConditionID )
-		{
-			case ELEMENT_DELETED_FILTER_CONDITION :
-				return new ElementDeletedFilterCondition( );
-			case ELEMENT_ADDED_FILTER_CONDITION :
-				return new ElementAddedFilterCondition( );
-			case SAME_EVENT_FILTER_CONDITION :
-				return new SameEventFilterCondition( );
+	static public IFilterCondition createFilterCondition(int filterConditionID) {
+		switch (filterConditionID) {
+		case ELEMENT_DELETED_FILTER_CONDITION:
+			return new ElementDeletedFilterCondition();
+		case ELEMENT_ADDED_FILTER_CONDITION:
+			return new ElementAddedFilterCondition();
+		case SAME_EVENT_FILTER_CONDITION:
+			return new SameEventFilterCondition();
 		}
 		return null;
 	}
 
 	/**
-	 * Container element is deleted, events from its contents should be
-	 * filtered.
+	 * Container element is deleted, events from its contents should be filtered.
 	 */
 
-	static class ElementDeletedFilterCondition implements IFilterCondition
-	{
+	static class ElementDeletedFilterCondition implements IFilterCondition {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.activity.IFilterCondition#getFilterEvent(org.eclipse.birt.report.model.api.activity.NotificationEvent,
-		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.activity.IFilterCondition#getFilterEvent(org.
+		 * eclipse.birt.report.model.api.activity.NotificationEvent,
+		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
 
-		public int getFilterEvent( NotificationEvent ev1, NotificationEvent ev2 )
-		{
-			if ( !( ev1 instanceof ElementDeletedEvent ) )
+		public int getFilterEvent(NotificationEvent ev1, NotificationEvent ev2) {
+			if (!(ev1 instanceof ElementDeletedEvent))
 				return NO_EVENT;
 
 			ElementDeletedEvent event1 = (ElementDeletedEvent) ev1;
-			DesignElement deleted = event1.getTarget( );
+			DesignElement deleted = event1.getTarget();
 
-			if ( ev2 instanceof ContentEvent
-					&& ( (ContentEvent) ev2 ).getAction( ) == ContentEvent.REMOVE )
-			{
+			if (ev2 instanceof ContentEvent && ((ContentEvent) ev2).getAction() == ContentEvent.REMOVE) {
 				ContentEvent event = (ContentEvent) ev2;
-				DesignElement container = event.getTarget( );
+				DesignElement container = event.getTarget();
 
 				// Container is deleted, event from the content is filtered.
-				if ( container == deleted )
+				if (container == deleted)
 					return RIGHT_EVENT;
-			}
-			else if ( ev2 instanceof ElementDeletedEvent )
-			{
+			} else if (ev2 instanceof ElementDeletedEvent) {
 				ElementDeletedEvent event = (ElementDeletedEvent) ev2;
 
 				// Container is deleted, deleted event from the content is
 				// filtered.
-				if ( event.getContainer( ) == deleted )
+				if (event.getContainer() == deleted)
 					return RIGHT_EVENT;
-			}
-			else if ( ev2 instanceof PropertyEvent )
-			{
+			} else if (ev2 instanceof PropertyEvent) {
 				PropertyEvent event = (PropertyEvent) ev2;
-				DesignElement target = event.getTarget( );
+				DesignElement target = event.getTarget();
 
 				// Element is deleted, property from the element is filtered.
-				if ( target == deleted )
+				if (target == deleted)
 					return RIGHT_EVENT;
 			}
 
@@ -123,41 +112,37 @@ public class FilterConditionFactory
 	 * Container element is added, events from its contents should be filtered.
 	 */
 
-	static class ElementAddedFilterCondition implements IFilterCondition
-	{
+	static class ElementAddedFilterCondition implements IFilterCondition {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.activity.IFilterCondition#getFilterEvent(org.eclipse.birt.report.model.api.activity.NotificationEvent,
-		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.activity.IFilterCondition#getFilterEvent(org.
+		 * eclipse.birt.report.model.api.activity.NotificationEvent,
+		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
 
-		public int getFilterEvent( NotificationEvent ev1, NotificationEvent ev2 )
-		{
-			if ( !( ev1 instanceof ContentEvent && ( (ContentEvent) ev1 )
-					.getAction( ) == ContentEvent.ADD ) )
+		public int getFilterEvent(NotificationEvent ev1, NotificationEvent ev2) {
+			if (!(ev1 instanceof ContentEvent && ((ContentEvent) ev1).getAction() == ContentEvent.ADD))
 				return NO_EVENT;
 
 			// Event 1 says that an element is added.
 			ContentEvent event1 = (ContentEvent) ev1;
-			DesignElement added = (DesignElement) event1.getContent( );
+			DesignElement added = (DesignElement) event1.getContent();
 
-			if ( ev2 instanceof ContentEvent )
-			{
+			if (ev2 instanceof ContentEvent) {
 				ContentEvent event2 = (ContentEvent) ev2;
-				DesignElement container = event2.getTarget( );
+				DesignElement container = event2.getTarget();
 
 				// Event from the content is filtered.
-				if ( container == added )
+				if (container == added)
 					return RIGHT_EVENT;
-			}
-			else if ( ev2 instanceof PropertyEvent )
-			{
+			} else if (ev2 instanceof PropertyEvent) {
 				PropertyEvent event2 = (PropertyEvent) ev2;
-				DesignElement target = event2.getTarget( );
+				DesignElement target = event2.getTarget();
 
 				// Property from the element is filtered.
-				if ( target == added )
+				if (target == added)
 					return RIGHT_EVENT;
 			}
 
@@ -169,18 +154,18 @@ public class FilterConditionFactory
 	 * If second event is the same as the first one, filter it.
 	 */
 
-	static class SameEventFilterCondition implements IFilterCondition
-	{
+	static class SameEventFilterCondition implements IFilterCondition {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.activity.IFilterCondition#getFilterEvent(org.eclipse.birt.report.model.api.activity.NotificationEvent,
-		 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.activity.IFilterCondition#getFilterEvent(org.
+		 * eclipse.birt.report.model.api.activity.NotificationEvent,
+		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
 
-		public int getFilterEvent( NotificationEvent ev1, NotificationEvent ev2 )
-		{
-			if ( ev1.isSame( ev2 ) )
+		public int getFilterEvent(NotificationEvent ev1, NotificationEvent ev2) {
+			if (ev1.isSame(ev2))
 				return LEFT_EVENT;
 			return NO_EVENT;
 		}

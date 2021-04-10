@@ -23,21 +23,16 @@ import org.eclipse.birt.report.model.core.Module;
  * @see SlotHandle
  */
 
-public class ElementFactory extends ElementFactoryImpl
-{
-
+public class ElementFactory extends ElementFactoryImpl {
 
 	/**
 	 * Constructs a element factory with the given module.
 	 * 
-	 * @param module
-	 *            the module
+	 * @param module the module
 	 */
 
-	public ElementFactory( Module module )
-	{
+	public ElementFactory(Module module) {
 		super(module);
 	}
-
 
 }

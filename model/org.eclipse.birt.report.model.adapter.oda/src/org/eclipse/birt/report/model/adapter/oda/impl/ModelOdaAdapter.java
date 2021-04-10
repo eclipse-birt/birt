@@ -36,18 +36,15 @@ import org.eclipse.datatools.connectivity.oda.design.OdaDesignSession;
  * @see DataSourceDesign
  */
 
-public class ModelOdaAdapter implements IModelOdaAdapter
-{
+public class ModelOdaAdapter implements IModelOdaAdapter {
 
 	/**
 	 * Constructs a DesignEngine with the given platform config.
 	 * 
-	 * @param config
-	 *            the platform config.
+	 * @param config the platform config.
 	 */
 
-	public ModelOdaAdapter( )
-	{
+	public ModelOdaAdapter() {
 	}
 
 	/*
@@ -58,10 +55,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * (org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
 
-	public DataSourceDesign createDataSourceDesign(
-			OdaDataSourceHandle sourceHandle )
-	{
-		return new DataSourceAdapter( ).createDataSourceDesign( sourceHandle );
+	public DataSourceDesign createDataSourceDesign(OdaDataSourceHandle sourceHandle) {
+		return new DataSourceAdapter().createDataSourceDesign(sourceHandle);
 	}
 
 	/*
@@ -71,9 +66,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * createDataSetDesign(org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
 
-	public DataSetDesign createDataSetDesign( OdaDataSetHandle setHandle )
-	{
-		return new DataSetAdapter( ).createDataSetDesign( setHandle );
+	public DataSetDesign createDataSetDesign(OdaDataSetHandle setHandle) {
+		return new DataSetAdapter().createDataSetDesign(setHandle);
 	}
 
 	/*
@@ -85,13 +79,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * org.eclipse.birt.report.model.api.ModuleHandle)
 	 */
 
-	public OdaDataSetHandle createDataSetHandle( DataSetDesign setDesign,
-			ModuleHandle module ) throws SemanticException,
-			IllegalStateException
-	{
-		return new DataSetAdapter( ).createDataSetHandle( setDesign, module );
+	public OdaDataSetHandle createDataSetHandle(DataSetDesign setDesign, ModuleHandle module)
+			throws SemanticException, IllegalStateException {
+		return new DataSetAdapter().createDataSetHandle(setDesign, module);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -100,10 +92,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
 	 */
 
-	public void updateDataSetDesign( OdaDataSetHandle setHandle,
-			DataSetDesign setDesign )
-	{
-		new DataSetAdapter( ).updateDataSetDesign( setHandle, setDesign );
+	public void updateDataSetDesign(OdaDataSetHandle setHandle, DataSetDesign setDesign) {
+		new DataSetAdapter().updateDataSetDesign(setHandle, setDesign);
 	}
 
 	/*
@@ -115,11 +105,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * java.lang.String)
 	 */
 
-	public void updateDataSetDesign( OdaDataSetHandle setHandle,
-			DataSetDesign setDesign, String propertyName )
-	{
-		new DataSetAdapter( ).updateDataSetDesign( setHandle, setDesign,
-				propertyName );
+	public void updateDataSetDesign(OdaDataSetHandle setHandle, DataSetDesign setDesign, String propertyName) {
+		new DataSetAdapter().updateDataSetDesign(setHandle, setDesign, propertyName);
 	}
 
 	/*
@@ -131,11 +118,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * org.eclipse.datatools.connectivity.oda.design.DataSourceDesign)
 	 */
 
-	public void updateDataSourceDesign( OdaDataSourceHandle sourceHandle,
-			DataSourceDesign sourceDesign )
-	{
-		new DataSourceAdapter( ).updateDataSourceDesign( sourceHandle,
-				sourceDesign );
+	public void updateDataSourceDesign(OdaDataSourceHandle sourceHandle, DataSourceDesign sourceDesign) {
+		new DataSourceAdapter().updateDataSourceDesign(sourceHandle, sourceDesign);
 
 	}
 
@@ -148,12 +132,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * org.eclipse.birt.report.model.api.ModuleHandle)
 	 */
 
-	public OdaDataSourceHandle createDataSourceHandle(
-			DataSourceDesign sourceDesign, ModuleHandle module )
-			throws SemanticException, IllegalStateException
-	{
-		return new DataSourceAdapter( ).createDataSourceHandle( sourceDesign,
-				module );
+	public OdaDataSourceHandle createDataSourceHandle(DataSourceDesign sourceDesign, ModuleHandle module)
+			throws SemanticException, IllegalStateException {
+		return new DataSourceAdapter().createDataSourceHandle(sourceDesign, module);
 	}
 
 	/*
@@ -165,11 +146,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
 
-	public void updateDataSourceHandle( DataSourceDesign sourceDesign,
-			OdaDataSourceHandle sourceHandle ) throws SemanticException
-	{
-		new DataSourceAdapter( ).updateDataSourceHandle( sourceDesign,
-				sourceHandle );
+	public void updateDataSourceHandle(DataSourceDesign sourceDesign, OdaDataSourceHandle sourceHandle)
+			throws SemanticException {
+		new DataSourceAdapter().updateDataSourceHandle(sourceDesign, sourceHandle);
 	}
 
 	/*
@@ -181,12 +160,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * org.eclipse.birt.report.model.api.OdaDataSetHandle, boolean)
 	 */
 
-	public void updateDataSetHandle( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle, boolean isSourceChanged )
-			throws SemanticException
-	{
-		new DataSetAdapter( ).updateDataSetHandle( setDesign, setHandle,
-				isSourceChanged );
+	public void updateDataSetHandle(DataSetDesign setDesign, OdaDataSetHandle setHandle, boolean isSourceChanged)
+			throws SemanticException {
+		new DataSetAdapter().updateDataSetHandle(setDesign, setHandle, isSourceChanged);
 	}
 
 	/*
@@ -196,11 +172,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * newOdaDesignerState(org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
 
-	public DesignerState newOdaDesignerState( OdaDataSetHandle setHandle )
-	{
-		OdaDesignerStateHandle designerState = setHandle.getDesignerState( );
+	public DesignerState newOdaDesignerState(OdaDataSetHandle setHandle) {
+		OdaDesignerStateHandle designerState = setHandle.getDesignerState();
 
-		return DesignerStateAdapter.createOdaDesignState( designerState );
+		return DesignerStateAdapter.createOdaDesignState(designerState);
 	}
 
 	/*
@@ -212,28 +187,25 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
 
-	public void updateROMDesignerState( DesignerState designerState,
-			OdaDataSetHandle setHandle ) throws SemanticException
-	{
-		if ( designerState == null || setHandle == null )
+	public void updateROMDesignerState(DesignerState designerState, OdaDataSetHandle setHandle)
+			throws SemanticException {
+		if (designerState == null || setHandle == null)
 			return;
 
-		DesignerStateAdapter.updateROMDesignerState( designerState, setHandle );
+		DesignerStateAdapter.updateROMDesignerState(designerState, setHandle);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
-	 * newOdaDesignerState
-	 * (org.eclipse.birt.report.model.api.OdaDataSourceHandle)
+	 * newOdaDesignerState (org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
 
-	public DesignerState newOdaDesignerState( OdaDataSourceHandle sourceHandle )
-	{
-		OdaDesignerStateHandle designerState = sourceHandle.getDesignerState( );
+	public DesignerState newOdaDesignerState(OdaDataSourceHandle sourceHandle) {
+		OdaDesignerStateHandle designerState = sourceHandle.getDesignerState();
 
-		return DesignerStateAdapter.createOdaDesignState( designerState );
+		return DesignerStateAdapter.createOdaDesignState(designerState);
 	}
 
 	/*
@@ -245,14 +217,12 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
 
-	public void updateROMDesignerState( DesignerState designerState,
-			OdaDataSourceHandle sourceHandle ) throws SemanticException
-	{
-		if ( designerState == null || sourceHandle == null )
+	public void updateROMDesignerState(DesignerState designerState, OdaDataSourceHandle sourceHandle)
+			throws SemanticException {
+		if (designerState == null || sourceHandle == null)
 			return;
 
-		DesignerStateAdapter.updateROMDesignerState( designerState,
-				sourceHandle );
+		DesignerStateAdapter.updateROMDesignerState(designerState, sourceHandle);
 	}
 
 	/*
@@ -264,25 +234,19 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * org.eclipse.datatools.connectivity.oda.design.DataSourceDesign)
 	 */
 
-	public boolean isEqualDataSourceDesign( DataSourceDesign designFromHandle,
-			DataSourceDesign design )
-	{
-		return new DataSourceAdapter( ).isEqualDataSourceDesign(
-				designFromHandle, design );
+	public boolean isEqualDataSourceDesign(DataSourceDesign designFromHandle, DataSourceDesign design) {
+		return new DataSourceAdapter().isEqualDataSourceDesign(designFromHandle, design);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
-	 * createOdaDesignSession
-	 * (org.eclipse.birt.report.model.api.OdaDataSetHandle)
+	 * createOdaDesignSession (org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
 
-	public OdaDesignSession createOdaDesignSession(
-			OdaDataSetHandle dataSetHandle )
-	{
-		return new DataSetAdapter( ).createOdaDesignSession( dataSetHandle );
+	public OdaDesignSession createOdaDesignSession(OdaDataSetHandle dataSetHandle) {
+		return new DataSetAdapter().createOdaDesignSession(dataSetHandle);
 	}
 
 	/*
@@ -293,11 +257,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * org.eclipse.datatools.connectivity.oda.design.OdaDesignSession)
 	 */
 
-	public void updateDataSetHandle( OdaDataSetHandle dataSetHandle,
-			OdaDesignSession completedSession ) throws SemanticException
-	{
-		new DataSetAdapter( ).updateDataSetHandle( dataSetHandle,
-				completedSession );
+	public void updateDataSetHandle(OdaDataSetHandle dataSetHandle, OdaDesignSession completedSession)
+			throws SemanticException {
+		new DataSetAdapter().updateDataSetHandle(dataSetHandle, completedSession);
 	}
 
 	/*
@@ -308,11 +270,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * (org.eclipse.datatools.connectivity.oda.design.DataSetDesign,
 	 * org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
-	public IAmbiguousOption getAmbiguousOption( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle )
-	{
-		return new AdvancedDataSetAdapter( ).getAmbiguousOption( setDesign,
-				setHandle );
+	public IAmbiguousOption getAmbiguousOption(DataSetDesign setDesign, OdaDataSetHandle setHandle) {
+		return new AdvancedDataSetAdapter().getAmbiguousOption(setDesign, setHandle);
 	}
 
 	/*
@@ -325,14 +284,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * java.util.List, boolean)
 	 */
 
-	public void updateDataSetHandle( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle,
-			List<OdaDataSetParameter> parameterList,
-			List<OdaResultSetColumn> resultSetList, boolean isSourceChanged )
-			throws SemanticException
-	{
-		new AdvancedDataSetAdapter( ).updateDataSetHandle( setDesign,
-				setHandle, parameterList, resultSetList, isSourceChanged );
+	public void updateDataSetHandle(DataSetDesign setDesign, OdaDataSetHandle setHandle,
+			List<OdaDataSetParameter> parameterList, List<OdaResultSetColumn> resultSetList, boolean isSourceChanged)
+			throws SemanticException {
+		new AdvancedDataSetAdapter().updateDataSetHandle(setDesign, setHandle, parameterList, resultSetList,
+				isSourceChanged);
 	}
 
 	/*
@@ -344,13 +300,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * java.util.List, java.util.List)
 	 */
 
-	public void updateDataSetHandle( OdaDataSetHandle setHandle,
-			OdaDesignSession completedSession,
-			List<OdaDataSetParameter> parameterList,
-			List<OdaResultSetColumn> resultSetList ) throws SemanticException
-	{
-		new AdvancedDataSetAdapter( ).updateDataSetHandle( setHandle,
-				completedSession, parameterList, resultSetList );
+	public void updateDataSetHandle(OdaDataSetHandle setHandle, OdaDesignSession completedSession,
+			List<OdaDataSetParameter> parameterList, List<OdaResultSetColumn> resultSetList) throws SemanticException {
+		new AdvancedDataSetAdapter().updateDataSetHandle(setHandle, completedSession, parameterList, resultSetList);
 	}
 
 	/**
@@ -361,20 +313,14 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 * @param defaultDataSource
 	 * @throws SemanticException
 	 */
-	void updateLinkedParameterDataSetHandle( DataSetDesign setDesign,
-			OdaDataSetHandle setHandle, boolean isSourceChanged,
-			DataSourceHandle defaultDataSource ) throws SemanticException
-	{
-		new DataSetAdapter( defaultDataSource ).updateDataSetHandle( setDesign,
-				setHandle,
-				isSourceChanged );
+	void updateLinkedParameterDataSetHandle(DataSetDesign setDesign, OdaDataSetHandle setHandle,
+			boolean isSourceChanged, DataSourceHandle defaultDataSource) throws SemanticException {
+		new DataSetAdapter(defaultDataSource).updateDataSetHandle(setDesign, setHandle, isSourceChanged);
 	}
-	
-	public OdaDataSetHandle createLinkedParameterDataSetHandle( DataSetDesign setDesign,
-			ModuleHandle module,DataSourceHandle defaultDataSource ) throws SemanticException,
-			IllegalStateException
-	{
-		return new DataSetAdapter( defaultDataSource ).createDataSetHandle( setDesign, module );
+
+	public OdaDataSetHandle createLinkedParameterDataSetHandle(DataSetDesign setDesign, ModuleHandle module,
+			DataSourceHandle defaultDataSource) throws SemanticException, IllegalStateException {
+		return new DataSetAdapter(defaultDataSource).createDataSetHandle(setDesign, module);
 	}
 
 }

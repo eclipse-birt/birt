@@ -31,181 +31,145 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
  * <p>
  * Format: emitter_html
  */
-public class HTMLEmitter implements IContentEmitter
-{
+public class HTMLEmitter implements IContentEmitter {
 
 	protected IContentEmitter emitter;
 
-	public void initialize( IEmitterServices service )
-	{
-		emitter = (IContentEmitter) ( (HashMap) service.getRenderContext( ) )
-				.get( "emitter_class" );
+	public void initialize(IEmitterServices service) {
+		emitter = (IContentEmitter) ((HashMap) service.getRenderContext()).get("emitter_class");
 	}
 
-	public void end( IReportContent report ) throws BirtException
-	{
-		emitter.end( report );
+	public void end(IReportContent report) throws BirtException {
+		emitter.end(report);
 	}
 
-	public void endCell( ICellContent cell ) throws BirtException
-	{
-		emitter.endCell( cell );
+	public void endCell(ICellContent cell) throws BirtException {
+		emitter.endCell(cell);
 	}
 
-	public void endContainer( IContainerContent container ) throws BirtException
-	{
-		emitter.endContainer( container );
+	public void endContainer(IContainerContent container) throws BirtException {
+		emitter.endContainer(container);
 	}
 
-	public void endContent( IContent content ) throws BirtException
-	{
-		emitter.endContent( content );
+	public void endContent(IContent content) throws BirtException {
+		emitter.endContent(content);
 	}
 
-	public void endGroup( IGroupContent group ) throws BirtException
-	{
-		emitter.endGroup( group );
+	public void endGroup(IGroupContent group) throws BirtException {
+		emitter.endGroup(group);
 	}
 
-	public void endList( IListContent list ) throws BirtException
-	{
-		emitter.endList( list );
+	public void endList(IListContent list) throws BirtException {
+		emitter.endList(list);
 	}
 
-	public void endListBand( IListBandContent listBand ) throws BirtException
-	{
-		emitter.endListBand( listBand );
+	public void endListBand(IListBandContent listBand) throws BirtException {
+		emitter.endListBand(listBand);
 	}
 
-	public void endListGroup( IListGroupContent group ) throws BirtException
-	{
-		emitter.endListGroup( group );
+	public void endListGroup(IListGroupContent group) throws BirtException {
+		emitter.endListGroup(group);
 	}
 
-	public void endPage( IPageContent page ) throws BirtException
-	{
-		emitter.endPage( page );
+	public void endPage(IPageContent page) throws BirtException {
+		emitter.endPage(page);
 	}
 
-	public void endRow( IRowContent row ) throws BirtException
-	{
-		emitter.endRow( row );
+	public void endRow(IRowContent row) throws BirtException {
+		emitter.endRow(row);
 	}
 
-	public void endTable( ITableContent table ) throws BirtException
-	{
-		emitter.endTable( table );
+	public void endTable(ITableContent table) throws BirtException {
+		emitter.endTable(table);
 	}
 
-	public void endTableBand( ITableBandContent band ) throws BirtException
-	{
-		emitter.endTableBand( band );
+	public void endTableBand(ITableBandContent band) throws BirtException {
+		emitter.endTableBand(band);
 	}
 
-	public void endTableGroup( ITableGroupContent group ) throws BirtException
-	{
-		emitter.endTableGroup( group );
+	public void endTableGroup(ITableGroupContent group) throws BirtException {
+		emitter.endTableGroup(group);
 	}
 
-	public String getOutputFormat( )
-	{
-		return emitter.getOutputFormat( );
+	public String getOutputFormat() {
+		return emitter.getOutputFormat();
 	}
 
-	public void start( IReportContent report ) throws BirtException
-	{
-		emitter.start( report );
+	public void start(IReportContent report) throws BirtException {
+		emitter.start(report);
 	}
 
-	public void startAutoText( IAutoTextContent autoText ) throws BirtException
-	{
-		emitter.startAutoText( autoText );
+	public void startAutoText(IAutoTextContent autoText) throws BirtException {
+		emitter.startAutoText(autoText);
 	}
 
-	public void startCell( ICellContent cell ) throws BirtException
-	{
-		emitter.startCell( cell );
+	public void startCell(ICellContent cell) throws BirtException {
+		emitter.startCell(cell);
 	}
 
-	public void startContainer( IContainerContent container ) throws BirtException
-	{
-		emitter.startContainer( container );
+	public void startContainer(IContainerContent container) throws BirtException {
+		emitter.startContainer(container);
 	}
 
-	public void startContent( IContent content ) throws BirtException
-	{
-		emitter.startContent( content );
+	public void startContent(IContent content) throws BirtException {
+		emitter.startContent(content);
 
 	}
 
-	public void startData( IDataContent data ) throws BirtException
-	{
-		emitter.startData( data );
+	public void startData(IDataContent data) throws BirtException {
+		emitter.startData(data);
 	}
 
-	public void startForeign( IForeignContent foreign ) throws BirtException
-	{
-		emitter.startForeign( foreign );
+	public void startForeign(IForeignContent foreign) throws BirtException {
+		emitter.startForeign(foreign);
 	}
 
-	public void startGroup( IGroupContent group ) throws BirtException
-	{
-		emitter.startGroup( group );
+	public void startGroup(IGroupContent group) throws BirtException {
+		emitter.startGroup(group);
 	}
 
-	public void startImage( IImageContent image ) throws BirtException
-	{
-		emitter.startImage( image );
+	public void startImage(IImageContent image) throws BirtException {
+		emitter.startImage(image);
 	}
 
-	public void startLabel( ILabelContent label ) throws BirtException
-	{
-		emitter.startLabel( label );
+	public void startLabel(ILabelContent label) throws BirtException {
+		emitter.startLabel(label);
 	}
 
-	public void startList( IListContent list ) throws BirtException
-	{
-		emitter.startList( list );
+	public void startList(IListContent list) throws BirtException {
+		emitter.startList(list);
 	}
 
-	public void startListBand( IListBandContent listBand ) throws BirtException
-	{
-		emitter.startListBand( listBand );
+	public void startListBand(IListBandContent listBand) throws BirtException {
+		emitter.startListBand(listBand);
 	}
 
-	public void startListGroup( IListGroupContent group ) throws BirtException
-	{
-		emitter.startListGroup( group );
+	public void startListGroup(IListGroupContent group) throws BirtException {
+		emitter.startListGroup(group);
 	}
 
-	public void startPage( IPageContent page ) throws BirtException
-	{
-		emitter.startPage( page );
+	public void startPage(IPageContent page) throws BirtException {
+		emitter.startPage(page);
 	}
 
-	public void startRow( IRowContent row ) throws BirtException
-	{
-		emitter.startRow( row );
+	public void startRow(IRowContent row) throws BirtException {
+		emitter.startRow(row);
 	}
 
-	public void startTable( ITableContent table ) throws BirtException
-	{
-		emitter.startTable( table );
+	public void startTable(ITableContent table) throws BirtException {
+		emitter.startTable(table);
 	}
 
-	public void startTableBand( ITableBandContent band ) throws BirtException
-	{
-		emitter.startTableBand( band );
+	public void startTableBand(ITableBandContent band) throws BirtException {
+		emitter.startTableBand(band);
 	}
 
-	public void startTableGroup( ITableGroupContent group ) throws BirtException
-	{
-		emitter.startTableGroup( group );
+	public void startTableGroup(ITableGroupContent group) throws BirtException {
+		emitter.startTableGroup(group);
 	}
 
-	public void startText( ITextContent text ) throws BirtException
-	{
-		emitter.startText( text );
+	public void startText(ITextContent text) throws BirtException {
+		emitter.startText(text);
 	}
 
 }

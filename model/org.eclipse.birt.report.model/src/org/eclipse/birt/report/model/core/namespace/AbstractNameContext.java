@@ -17,49 +17,39 @@ import org.eclipse.birt.report.model.core.NameSpace;
 /**
  * 
  */
-abstract public class AbstractNameContext
-		implements
-			INameContext,
-			IAccessControl
-{
+abstract public class AbstractNameContext implements INameContext, IAccessControl {
 
 	protected NameSpace namespace = null;
 
 	/**
 	 * 
 	 */
-	public AbstractNameContext( )
-	{
-		initNameSpace( );
+	public AbstractNameContext() {
+		initNameSpace();
 	}
 
 	/**
-	 * Creates a name space. Generally, we create a NameSpace. However, for
-	 * special elements, we must override this method to create special name
-	 * space.
+	 * Creates a name space. Generally, we create a NameSpace. However, for special
+	 * elements, we must override this method to create special name space.
 	 */
-	protected void initNameSpace( )
-	{
-		this.namespace = new NameSpace( );
+	protected void initNameSpace() {
+		this.namespace = new NameSpace();
 	}
 
 	/**
 	 * 
 	 */
-	public NameSpace getNameSpace( )
-	{
+	public NameSpace getNameSpace() {
 		return this.namespace;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContext#canContain(
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#canContain(
 	 * java.lang.String)
 	 */
-	public boolean canContain( String elementName )
-	{
-		return namespace.getElement( elementName ) == null;
+	public boolean canContain(String elementName) {
+		return namespace.getElement(elementName) == null;
 	}
 }

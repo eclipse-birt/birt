@@ -11,20 +11,18 @@
 
 package org.eclipse.birt.report.engine.api;
 
-public interface IDocumentWriter
-{
+public interface IDocumentWriter {
 
 	/**
 	 * set a report runnable which can be used to update a report document
 	 * 
-	 * @param runnable
-	 *            a report runnable
+	 * @param runnable a report runnable
 	 */
-	public void setRunnable( IReportRunnable runnable ) throws EngineException;
+	public void setRunnable(IReportRunnable runnable) throws EngineException;
 
 	/**
-	 * close this document writer; this method might trigger updates of the
-	 * report document
+	 * close this document writer; this method might trigger updates of the report
+	 * document
 	 */
-	public void close( );
+	public void close();
 }

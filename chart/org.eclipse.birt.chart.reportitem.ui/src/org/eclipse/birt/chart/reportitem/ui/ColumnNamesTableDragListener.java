@@ -28,8 +28,7 @@ import org.eclipse.swt.widgets.TableItem;
  * @since 2.5
  */
 
-public class ColumnNamesTableDragListener extends DragSourceAdapter
-{
+public class ColumnNamesTableDragListener extends DragSourceAdapter {
 
 	private Table table;
 
@@ -40,10 +39,8 @@ public class ColumnNamesTableDragListener extends DragSourceAdapter
 	/**
 	 * 
 	 */
-	public ColumnNamesTableDragListener( Table table,
-			ExtendedItemHandle itemhandle )
-	{
-		super( );
+	public ColumnNamesTableDragListener(Table table, ExtendedItemHandle itemhandle) {
+		super();
 		this.table = table;
 		this.itemHandle = itemhandle;
 	}
@@ -51,45 +48,33 @@ public class ColumnNamesTableDragListener extends DragSourceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.swt.dnd.DragSourceListener#dragSetData(org.eclipse.swt.dnd
+	 * @see org.eclipse.swt.dnd.DragSourceListener#dragSetData(org.eclipse.swt.dnd
 	 * .DragSourceEvent)
 	 */
-	public void dragSetData( DragSourceEvent event )
-	{
-		if ( item != null )
-		{
-			event.data = ( (ColumnBindingInfo) item.getData( ) ).getName( );
+	public void dragSetData(DragSourceEvent event) {
+		if (item != null) {
+			event.data = ((ColumnBindingInfo) item.getData()).getName();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.swt.dnd.DragSourceListener#dragStart(org.eclipse.swt.dnd.
+	 * @see org.eclipse.swt.dnd.DragSourceListener#dragStart(org.eclipse.swt.dnd.
 	 * DragSourceEvent)
 	 */
-	public void dragStart( DragSourceEvent event )
-	{
-		if ( ChartReportItemHelper.instance( )
-				.getBindingCubeHandle( itemHandle ) != null )
-		{
+	public void dragStart(DragSourceEvent event) {
+		if (ChartReportItemHelper.instance().getBindingCubeHandle(itemHandle) != null) {
 			event.doit = false;
-		}
-		else
-		{
-			int index = table.getSelectionIndex( );
-			if ( index < 0 )
-			{
+		} else {
+			int index = table.getSelectionIndex();
+			if (index < 0) {
 				item = null;
 				event.doit = false;
-			}
-			else
-			{
-				item = table.getItem( index );
-				String strColumnName = ( (ColumnBindingInfo) item.getData( ) ).getName( );
-				event.doit = ( strColumnName != null && strColumnName.length( ) > 0 );
+			} else {
+				item = table.getItem(index);
+				String strColumnName = ((ColumnBindingInfo) item.getData()).getName();
+				event.doit = (strColumnName != null && strColumnName.length() > 0);
 			}
 		}
 
@@ -98,20 +83,16 @@ public class ColumnNamesTableDragListener extends DragSourceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.swt.dnd.DragSourceAdapter#dragFinished(org.eclipse.swt.dnd
+	 * @see org.eclipse.swt.dnd.DragSourceAdapter#dragFinished(org.eclipse.swt.dnd
 	 * .DragSourceEvent)
 	 */
-	public void dragFinished( DragSourceEvent event )
-	{
-		super.dragFinished( event );
+	public void dragFinished(DragSourceEvent event) {
+		super.dragFinished(event);
 
-		if ( event.detail == DND.DROP_COPY && item != null )
-		{
+		if (event.detail == DND.DROP_COPY && item != null) {
 			// Reset column color
-			String strColumnName = ( (ColumnBindingInfo) item.getData( ) ).getName( );
-			item.setBackground( ColorPalette.getInstance( )
-					.getColor( strColumnName ) );
+			String strColumnName = ((ColumnBindingInfo) item.getData()).getName();
+			item.setBackground(ColorPalette.getInstance().getColor(strColumnName));
 		}
 	}
 }

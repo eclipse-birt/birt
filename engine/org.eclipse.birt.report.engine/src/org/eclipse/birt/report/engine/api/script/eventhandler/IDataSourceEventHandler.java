@@ -18,30 +18,26 @@ import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
 /**
  * Script event handler interface for a data source
  */
-public interface IDataSourceEventHandler
-{
+public interface IDataSourceEventHandler {
 
 	/**
 	 * Handle the beforeOpen event
 	 */
-	void beforeOpen( IDataSourceInstance dataSource,
-			IReportContext reportContext ) throws ScriptException;
+	void beforeOpen(IDataSourceInstance dataSource, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the afterOpen event
 	 */
-	void afterOpen( IDataSourceInstance dataSource, IReportContext reportContext )
-			throws ScriptException;
+	void afterOpen(IDataSourceInstance dataSource, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the beforeClose event
 	 */
-	void beforeClose( IDataSourceInstance dataSource,
-			IReportContext reportContext ) throws ScriptException;
+	void beforeClose(IDataSourceInstance dataSource, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the afterClose event
 	 */
-	void afterClose( IReportContext reportContext ) throws ScriptException;
+	void afterClose(IReportContext reportContext) throws ScriptException;
 
 }

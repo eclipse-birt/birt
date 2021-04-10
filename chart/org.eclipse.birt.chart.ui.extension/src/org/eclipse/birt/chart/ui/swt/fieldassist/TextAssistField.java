@@ -22,66 +22,55 @@ import org.eclipse.swt.widgets.Text;
  * @since 2.5
  */
 
-public class TextAssistField extends AssistField
-{
+public class TextAssistField extends AssistField {
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param text
-	 *            the text to be decorated.
-	 * @param composite
-	 *            The SWT composite within which the decoration should be
-	 *            rendered. The decoration will be clipped to this composite,
-	 *            but it may be rendered on a child of the composite. The
-	 *            decoration will not be visible if the specified composite or
-	 *            its child composites are not visible in the space relative to
-	 *            the control, where the decoration is to be rendered. If this
-	 *            value is null, then the decoration will be rendered on
-	 *            whichever composite (or composites) are located in the
-	 *            specified position.
+	 * @param text      the text to be decorated.
+	 * @param composite The SWT composite within which the decoration should be
+	 *                  rendered. The decoration will be clipped to this composite,
+	 *                  but it may be rendered on a child of the composite. The
+	 *                  decoration will not be visible if the specified composite or
+	 *                  its child composites are not visible in the space relative
+	 *                  to the control, where the decoration is to be rendered. If
+	 *                  this value is null, then the decoration will be rendered on
+	 *                  whichever composite (or composites) are located in the
+	 *                  specified position.
 	 */
-	public TextAssistField( Text text, Composite composite )
-	{
-		this( text, composite, null );
+	public TextAssistField(Text text, Composite composite) {
+		this(text, composite, null);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param text
-	 *            the text to be decorated.
-	 * @param composite
-	 *            The SWT composite within which the decoration should be
-	 *            rendered. The decoration will be clipped to this composite,
-	 *            but it may be rendered on a child of the composite. The
-	 *            decoration will not be visible if the specified composite or
-	 *            its child composites are not visible in the space relative to
-	 *            the control, where the decoration is to be rendered. If this
-	 *            value is null, then the decoration will be rendered on
-	 *            whichever composite (or composites) are located in the
-	 *            specified position.
-	 * @param values
-	 *            the available contents.
+	 * @param text      the text to be decorated.
+	 * @param composite The SWT composite within which the decoration should be
+	 *                  rendered. The decoration will be clipped to this composite,
+	 *                  but it may be rendered on a child of the composite. The
+	 *                  decoration will not be visible if the specified composite or
+	 *                  its child composites are not visible in the space relative
+	 *                  to the control, where the decoration is to be rendered. If
+	 *                  this value is null, then the decoration will be rendered on
+	 *                  whichever composite (or composites) are located in the
+	 *                  specified position.
+	 * @param values    the available contents.
 	 */
-	public TextAssistField( Text text, Composite composite, String[] values )
-	{
-		super( text, composite, new CTextContentAdapter( ), values );
+	public TextAssistField(Text text, Composite composite, String[] values) {
+		super(text, composite, new CTextContentAdapter(), values);
 	}
 
 	/**
 	 * Initialize modify listener for current field.
 	 */
-	protected void initModifyListener( )
-	{
-		( (Text) control ).addModifyListener( new ModifyListener( ) {
+	protected void initModifyListener() {
+		((Text) control).addModifyListener(new ModifyListener() {
 
-			public void modifyText( ModifyEvent event )
-			{
-				FieldAssistHelper.getInstance( )
-						.handleFieldModify( TextAssistField.this );
+			public void modifyText(ModifyEvent event) {
+				FieldAssistHelper.getInstance().handleFieldModify(TextAssistField.this);
 			}
-		} );
+		});
 	}
 
 	/*
@@ -90,8 +79,7 @@ public class TextAssistField extends AssistField
 	 * @see org.eclipse.birt.chart.ui.swt.fieldassist.SmartField#isValid()
 	 */
 	@Override
-	public boolean isValid( )
-	{
+	public boolean isValid() {
 		return true;
 	}
 
@@ -101,8 +89,7 @@ public class TextAssistField extends AssistField
 	 * @see org.eclipse.birt.chart.ui.swt.fieldassist.SmartField#isWarning()
 	 */
 	@Override
-	public boolean isWarning( )
-	{
+	public boolean isWarning() {
 		return false;
 	}
 }

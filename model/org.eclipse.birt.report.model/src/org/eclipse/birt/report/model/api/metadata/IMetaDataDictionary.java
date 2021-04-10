@@ -51,8 +51,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * <p>
  */
 
-public interface IMetaDataDictionary
-{
+public interface IMetaDataDictionary {
 
 	/**
 	 * Name of the class for 'Total'.
@@ -67,34 +66,31 @@ public interface IMetaDataDictionary
 	/**
 	 * Finds the element definition by its internal name.
 	 * 
-	 * @param name
-	 *            The internal element definition name.
+	 * @param name The internal element definition name.
 	 * @return The element definition, or null if the name was not found in the
 	 *         dictionary.
 	 */
 
-	public IElementDefn getElement( String name );
+	public IElementDefn getElement(String name);
 
 	/**
 	 * Gets the metadata for a property type.
 	 * 
-	 * @param type
-	 *            numeric type code
+	 * @param type numeric type code
 	 * @return property type definition
 	 */
 
-	public PropertyType getPropertyType( int type );
+	public PropertyType getPropertyType(int type);
 
 	/**
 	 * Gets the metadata for a property type given the type's XML name.
 	 * 
-	 * @param xmlName
-	 *            XML name for the property type
+	 * @param xmlName XML name for the property type
 	 * 
 	 * @return property type definition
 	 */
 
-	public PropertyType getPropertyType( String xmlName );
+	public PropertyType getPropertyType(String xmlName);
 
 	/**
 	 * Returns the meta-data element that defines the style element.
@@ -102,7 +98,7 @@ public interface IMetaDataDictionary
 	 * @return the definition of the style element
 	 */
 
-	public IElementDefn getStyle( );
+	public IElementDefn getStyle();
 
 	/**
 	 * Enables the use of element IDs.
@@ -110,7 +106,7 @@ public interface IMetaDataDictionary
 	 * @deprecated
 	 */
 
-	public void enableElementID( );
+	public void enableElementID();
 
 	/**
 	 * Reports whether element IDs are in use.
@@ -118,7 +114,7 @@ public interface IMetaDataDictionary
 	 * @return True if new elements should use element IDs.
 	 */
 
-	public boolean useID( );
+	public boolean useID();
 
 	/**
 	 * Determines if the meta data dictionary is empty (uninitialized).
@@ -126,27 +122,25 @@ public interface IMetaDataDictionary
 	 * @return true if empty, false if it contains content
 	 */
 
-	public boolean isEmpty( );
+	public boolean isEmpty();
 
 	/**
 	 * Finds a choice set by name.
 	 * 
-	 * @param choiceSetName
-	 *            the name of the choice set
+	 * @param choiceSetName the name of the choice set
 	 * @return the choice set, or null if the choice set was not found
 	 */
 
-	public IChoiceSet getChoiceSet( String choiceSetName );
+	public IChoiceSet getChoiceSet(String choiceSetName);
 
 	/**
 	 * Finds a structure definition by name.
 	 * 
-	 * @param name
-	 *            the structure name
+	 * @param name the structure name
 	 * @return the structure, or null if the structure is not found
 	 */
 
-	public IStructureDefn getStructure( String name );
+	public IStructureDefn getStructure(String name);
 
 	/**
 	 * Returns the element list. Each one is the instance of
@@ -155,7 +149,7 @@ public interface IMetaDataDictionary
 	 * @return the element list.
 	 */
 
-	public List<IElementDefn> getElements( );
+	public List<IElementDefn> getElements();
 
 	/**
 	 * Returns the structure list. Each one is the instance of
@@ -164,7 +158,7 @@ public interface IMetaDataDictionary
 	 * @return the structure list.
 	 */
 
-	public List<IStructureDefn> getStructures( );
+	public List<IStructureDefn> getStructures();
 
 	/**
 	 * Gets the predefined style list. Each one is the instance of
@@ -173,46 +167,42 @@ public interface IMetaDataDictionary
 	 * @return the predefined style list.
 	 */
 
-	public List<IPredefinedStyle> getPredefinedStyles( );
+	public List<IPredefinedStyle> getPredefinedStyles();
 
 	/**
-	 * Returns the class list. Each one is the instance of
-	 * <code>IClassInfo</code>.
+	 * Returns the class list. Each one is the instance of <code>IClassInfo</code>.
 	 * 
 	 * @return the class list.
 	 */
 
-	public List<IClassInfo> getClasses( );
+	public List<IClassInfo> getClasses();
 
 	/**
 	 * Returns the class definition given the class name.
 	 * 
-	 * @param name
-	 *            name of the class to get.
+	 * @param name name of the class to get.
 	 * @return the class definition if found.
 	 */
 
-	public IClassInfo getClass( String name );
+	public IClassInfo getClass(String name);
 
 	/**
-	 * Returns the extension list. Each one is the instance of
-	 * {@link IElementDefn}.
+	 * Returns the extension list. Each one is the instance of {@link IElementDefn}.
 	 * 
-	 * @return the extension definition list. Return empty list if no extension
-	 *         is found.
+	 * @return the extension definition list. Return empty list if no extension is
+	 *         found.
 	 */
 
-	public List<IElementDefn> getExtensions( );
+	public List<IElementDefn> getExtensions();
 
 	/**
 	 * Returns the extension definition given the extension name.
 	 * 
-	 * @param name
-	 *            name of the extension to get
+	 * @param name name of the extension to get
 	 * @return the extension definition if found
 	 */
 
-	public IElementDefn getExtension( String name );
+	public IElementDefn getExtension(String name);
 
 	/**
 	 * Gets a list of rom-defined property types.
@@ -220,7 +210,7 @@ public interface IMetaDataDictionary
 	 * @return a list of rom-defined property types.
 	 */
 
-	public List<IPropertyType> getPropertyTypes( );
+	public List<IPropertyType> getPropertyTypes();
 
 	/**
 	 * Returns the function list. Each one is the instance of
@@ -229,45 +219,45 @@ public interface IMetaDataDictionary
 	 * @return the method list.
 	 */
 
-	public List<IMethodInfo> getFunctions( );
+	public List<IMethodInfo> getFunctions();
 
 	/**
 	 * 
 	 * @param type
 	 * @return
 	 */
-	public List<IPredefinedStyle> getPredefinedStyles( String type );
+	public List<IPredefinedStyle> getPredefinedStyles(String type);
 
 	/**
 	 * Gets all the supported report item theme types.
 	 * 
 	 * @return
 	 */
-	public List<String> getReportItemThemeTypes( );
+	public List<String> getReportItemThemeTypes();
 
 	/**
-	 * Finds the element definition with the specified report item theme type.
-	 * If the element definition defines the identical theme type with the given
-	 * value, then return it; otherwise return null if not found or report item
-	 * theme is not valid.
+	 * Finds the element definition with the specified report item theme type. If
+	 * the element definition defines the identical theme type with the given value,
+	 * then return it; otherwise return null if not found or report item theme is
+	 * not valid.
 	 * 
 	 * @param themeType
 	 * @return
 	 */
-	public IElementDefn findElementByThemeType( String themeType );
+	public IElementDefn findElementByThemeType(String themeType);
 
 	/**
 	 * Gets the default encryption id.
 	 * 
 	 * @return the ID of the default encryption helper
 	 */
-	public String getDefaultEncryptionHelperID( );
+	public String getDefaultEncryptionHelperID();
 
 	/**
 	 * Gets all encryption id.
 	 * 
 	 * @return the list of all ID of the encryption helpers
 	 */
-	public List<String> getEncryptionHelperIDs( );
+	public List<String> getEncryptionHelperIDs();
 
 }

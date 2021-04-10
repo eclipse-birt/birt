@@ -27,8 +27,7 @@ import org.eclipse.gef.handles.AbstractHandle;
 /**
  * Table guide cell handle
  */
-public abstract class TableHFHandle extends AbstractHandle
-{
+public abstract class TableHFHandle extends AbstractHandle {
 
 	public static final int WIDTH = 40;
 
@@ -38,25 +37,20 @@ public abstract class TableHFHandle extends AbstractHandle
 	 * Creates a Column and Row Handle for the given <code>TableEditPart</code>
 	 * using a default {@link Locator}.
 	 * 
-	 * @param owner
-	 *            The GraphicalEditPart to be moved by this handle.
-	 * @param loc
-	 *            The Locator used to place the handle.
+	 * @param owner The GraphicalEditPart to be moved by this handle.
+	 * @param loc   The Locator used to place the handle.
 	 */
-	public TableHFHandle( TableEditPart owner, Locator loc )
-	{
-		super( owner, loc );
-		initialize( );
+	public TableHFHandle(TableEditPart owner, Locator loc) {
+		super(owner, loc);
+		initialize();
 	}
 
 	/*
-	 * returns null, because replace by the ColumnHadle and ColumnDragHandle
-	 * tracker
+	 * returns null, because replace by the ColumnHadle and ColumnDragHandle tracker
 	 * 
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
-	protected DragTracker createDragTracker( )
-	{
+	protected DragTracker createDragTracker() {
 		return null;
 	}
 
@@ -65,27 +59,25 @@ public abstract class TableHFHandle extends AbstractHandle
 	 * 
 	 * @see org.eclipse.draw2d.IFigure#containsPoint(int, int)
 	 */
-	public boolean containsPoint( int x, int y )
-	{
-		return super.containsPoint( x, y );
+	public boolean containsPoint(int x, int y) {
+		return super.containsPoint(x, y);
 	}
 
 	/**
 	 * Initializes the handle. Sets the {@link DragTracker}and DragCursor.
 	 */
-	protected void initialize( )
-	{
-		//should draw the fill rectangle
-		setOpaque( true );
-		//draw the border line width is 1
-		LineBorder bd = new LineBorder( 1 );
-		bd.setColor( ReportColorConstants.HandleBorderColor );
-		setBorder( bd );
+	protected void initialize() {
+		// should draw the fill rectangle
+		setOpaque(true);
+		// draw the border line width is 1
+		LineBorder bd = new LineBorder(1);
+		bd.setColor(ReportColorConstants.HandleBorderColor);
+		setBorder(bd);
 
-		//set the default cursor, may not be a SIZEALL cursor()
-		setCursor( Cursors.ARROW );
+		// set the default cursor, may not be a SIZEALL cursor()
+		setCursor(Cursors.ARROW);
 
-		initChildrenHandle( );
+		initChildrenHandle();
 	}
 
 	/*
@@ -93,54 +85,43 @@ public abstract class TableHFHandle extends AbstractHandle
 	 * 
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
-	protected void paintFigure( Graphics graphics )
-	{
-		super.paintFigure( graphics );
+	protected void paintFigure(Graphics graphics) {
+		super.paintFigure(graphics);
 	}
 
-	protected abstract void initChildrenHandle( );
+	protected abstract void initChildrenHandle();
 
-	protected int getRowHeight( Object row )
-	{
-		return TableUtil.caleVisualHeight( getTableEditPart( ), row );
+	protected int getRowHeight(Object row) {
+		return TableUtil.caleVisualHeight(getTableEditPart(), row);
 	}
 
-	protected int getColumnWidth( Object column )
-	{
-		return TableUtil.caleVisualWidth( getTableEditPart( ), column );
+	protected int getColumnWidth(Object column) {
+		return TableUtil.caleVisualWidth(getTableEditPart(), column);
 	}
 
-	protected int getRowNumber( Object row )
-	{
-		RowHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-				.getRowHandleAdapter( row );
-		return adapt.getRowNumber( );
+	protected int getRowNumber(Object row) {
+		RowHandleAdapter adapt = HandleAdapterFactory.getInstance().getRowHandleAdapter(row);
+		return adapt.getRowNumber();
 	}
 
-	protected int getColumnNumber( Object column )
-	{
-		ColumnHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-				.getColumnHandleAdapter( column );
-		return adapt.getColumnNumber( );
+	protected int getColumnNumber(Object column) {
+		ColumnHandleAdapter adapt = HandleAdapterFactory.getInstance().getColumnHandleAdapter(column);
+		return adapt.getColumnNumber();
 	}
 
-	protected int getRowHeight( int rowNumber )
-	{
-		Object row = getTableEditPart( ).getRow( rowNumber );
-		return getRowHeight( row );
+	protected int getRowHeight(int rowNumber) {
+		Object row = getTableEditPart().getRow(rowNumber);
+		return getRowHeight(row);
 	}
 
-	protected int getColumnWidth( int columnNumber )
-	{
-		Object column = getTableEditPart( ).getColumn( columnNumber );
-		if ( column == null )
-		{
-			return HandleAdapterFactory.getInstance( )
-					.getTableHandleAdapter( getTableEditPart( ).getModel( ) )
-					.getDefaultWidth( columnNumber );
+	protected int getColumnWidth(int columnNumber) {
+		Object column = getTableEditPart().getColumn(columnNumber);
+		if (column == null) {
+			return HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableEditPart().getModel())
+					.getDefaultWidth(columnNumber);
 		}
 
-		return getColumnWidth( column );
+		return getColumnWidth(column);
 	}
 
 	/**
@@ -148,9 +129,8 @@ public abstract class TableHFHandle extends AbstractHandle
 	 * 
 	 * @return the table edit part.
 	 */
-	protected TableEditPart getTableEditPart( )
-	{
-		return (TableEditPart) getOwner( );
+	protected TableEditPart getTableEditPart() {
+		return (TableEditPart) getOwner();
 	}
 
 }

@@ -25,50 +25,39 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Copy cell's contents context menu
  */
-public class CopyCellContentsContextAction extends ContextSelectionAction
-{
+public class CopyCellContentsContextAction extends ContextSelectionAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.command.copyCellContentsContextAction"; //$NON-NLS-1$
 
-	public CopyCellContentsContextAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( Messages.getString( "CopyCellContentsContextAction.actionText" ) ); //$NON-NLS-1$
+	public CopyCellContentsContextAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(Messages.getString("CopyCellContentsContextAction.actionText")); //$NON-NLS-1$
 	}
 
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Copy action >> Copy " + getSelection( ) ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Copy action >> Copy " + getSelection()); //$NON-NLS-1$
 		}
 
-		try
-		{
-			CommandUtils.executeCommand( CopyCellContentsHandler.ID );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+		try {
+			CommandUtils.executeCommand(CopyCellContentsHandler.ID);
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
-	public boolean calculateEnabled( )
-	{
-		if ( canCopy( getSelectedObjects( ) ) )
+	public boolean calculateEnabled() {
+		if (canCopy(getSelectedObjects()))
 			return true;
 		return false;
 	}
 
-	public boolean canCopy( List selection )
-	{
-		if ( selection.size( ) == 1
-				&& selection.get( 0 ) instanceof TableCellEditPart )
-		{
-			TableCellEditPart tcep = (TableCellEditPart) selection.get( 0 );
-			CellHandle cellHandle = (CellHandle) tcep.getModel( );
-			return cellHandle.getContent( ).getCount( ) > 0;
+	public boolean canCopy(List selection) {
+		if (selection.size() == 1 && selection.get(0) instanceof TableCellEditPart) {
+			TableCellEditPart tcep = (TableCellEditPart) selection.get(0);
+			CellHandle cellHandle = (CellHandle) tcep.getModel();
+			return cellHandle.getContent().getCount() > 0;
 		}
 		return false;
 	}

@@ -25,37 +25,33 @@ import org.eclipse.birt.report.model.elements.ElementVisitor;
  * 
  */
 
-public class OdaCube extends Cube
-{
+public class OdaCube extends Cube {
 	/**
 	 * Default constructor.
 	 */
 
-	public OdaCube( )
-	{
+	public OdaCube() {
 	}
 
 	/**
 	 * Constructs a cube element with the given name.
 	 * 
-	 * @param name
-	 *            the name given for the element
+	 * @param name the name given for the element
 	 */
 
-	public OdaCube( String name )
-	{
-		super( name );
+	public OdaCube(String name) {
+		super(name);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitOdaCube( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitOdaCube(this);
 	}
 
 	/*
@@ -64,36 +60,33 @@ public class OdaCube extends Cube
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.ODA_CUBE_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.
+	 * birt.report.model.core.Module)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the module of the cube
+	 * @param module the module of the cube
 	 * 
 	 * @return an API handle for this element.
 	 */
 
-	public OdaCubeHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new OdaCubeHandle( module, this );
+	public OdaCubeHandle handle(Module module) {
+		if (handle == null) {
+			handle = new OdaCubeHandle(module, this);
 		}
 		return (OdaCubeHandle) handle;
 	}

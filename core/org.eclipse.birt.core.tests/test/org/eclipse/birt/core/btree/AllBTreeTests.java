@@ -17,21 +17,19 @@ import junit.framework.TestSuite;
  * Tests for btree package
  */
 
-public class AllBTreeTests
-{
+public class AllBTreeTests {
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( BTreeCursorTest.class );
-		test.addTestSuite( BTreeMultipleThreadTest.class );
-		test.addTestSuite( BTreeTest.class );
-		test.addTestSuite( NodeInputStreamTest.class );
-		test.addTestSuite( NodeOutputStreamTest.class );
+		test.addTestSuite(BTreeCursorTest.class);
+		test.addTestSuite(BTreeMultipleThreadTest.class);
+		test.addTestSuite(BTreeTest.class);
+		test.addTestSuite(NodeInputStreamTest.class);
+		test.addTestSuite(NodeOutputStreamTest.class);
 
 		return test;
 	}

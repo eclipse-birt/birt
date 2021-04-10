@@ -18,98 +18,82 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
  * 
  *
  */
-public class ResultSetMetadata implements IResultSetMetaData
-{
+public class ResultSetMetadata implements IResultSetMetaData {
 	private IAggregationResultSet rs;
 	private int levelIndex = -1;
-	
+
 	/**
 	 * 
 	 * @param rs
 	 * @param levelIndex
 	 */
-	public ResultSetMetadata( IAggregationResultSet rs, int levelIndex )
-	{
+	public ResultSetMetadata(IAggregationResultSet rs, int levelIndex) {
 		this.rs = rs;
 		this.levelIndex = levelIndex;
 	}
 
-	public String getColumnClassName( int arg0 ) throws OLAPException
-	{
+	public String getColumnClassName(int arg0) throws OLAPException {
 		return "";
 	}
 
-	public int getColumnCount( ) throws OLAPException
-	{
-		return this.rs.getLevelAttributeColCount( this.levelIndex );
+	public int getColumnCount() throws OLAPException {
+		return this.rs.getLevelAttributeColCount(this.levelIndex);
 	}
 
-	public int getColumnDisplaySize( int arg0 ) throws OLAPException
-	{
+	public int getColumnDisplaySize(int arg0) throws OLAPException {
 		return 0;
 	}
 
-	public String getColumnLabel( int arg0 ) throws OLAPException
-	{
+	public String getColumnLabel(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getColumnName( int arg0 ) throws OLAPException
-	{
-		String[] attrs = rs.getLevelAttributes( levelIndex );
+	public String getColumnName(int arg0) throws OLAPException {
+		String[] attrs = rs.getLevelAttributes(levelIndex);
 		return attrs[arg0];
 	}
 
-	public int getColumnType( int arg0 ) throws OLAPException
-	{
-		return rs.getLevelAttributeDataType( levelIndex, getColumnName( arg0 ) );
+	public int getColumnType(int arg0) throws OLAPException {
+		return rs.getLevelAttributeDataType(levelIndex, getColumnName(arg0));
 	}
 
-	public String getColumnTypeName( int arg0 ) throws OLAPException
-	{
+	public String getColumnTypeName(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public int getLevelCount( )
-	{
+	public int getLevelCount() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public int getPrecision( int arg0 ) throws OLAPException
-	{
+	public int getPrecision(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public int getScale( int arg0 ) throws OLAPException
-	{
+	public int getScale(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public boolean isCaseSensitive( int arg0 ) throws OLAPException
-	{
+	public boolean isCaseSensitive(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean isCurrency( int arg0 ) throws OLAPException
-	{
+	public boolean isCurrency(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean isNullable( int arg0 ) throws OLAPException
-	{
+	public boolean isNullable(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean isSigned( int arg0 ) throws OLAPException
-	{
+	public boolean isSigned(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}

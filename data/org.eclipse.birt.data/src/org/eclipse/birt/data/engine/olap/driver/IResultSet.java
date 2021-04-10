@@ -18,37 +18,41 @@ import org.eclipse.birt.data.engine.core.DataException;
  * column edge, page edge( aggregation)'s resultset axis.
  * 
  */
-public interface IResultSet
-{
+public interface IResultSet {
 	/**
 	 * Get resultset axis for row edge.
+	 * 
 	 * @return
 	 */
-	public IEdgeAxis getRowEdgeResult( );
-	
+	public IEdgeAxis getRowEdgeResult();
+
 	/**
 	 * Get resultset axis for column edge.
+	 * 
 	 * @return
 	 */
-	public IEdgeAxis getColumnEdgeResult( );
+	public IEdgeAxis getColumnEdgeResult();
 
 	/**
 	 * Get resultset axis for page edge.
+	 * 
 	 * @return
 	 */
-	public IEdgeAxis getPageEdgeResult( );
-	
+	public IEdgeAxis getPageEdgeResult();
+
 	/**
 	 * Get resultset axis for all aggregation.
+	 * 
 	 * @return
 	 */
-	public IEdgeAxis[] getMeasureResult( );
+	public IEdgeAxis[] getMeasureResult();
 
 	/**
 	 * Get resultset axis for certain aggregation.
+	 * 
 	 * @param name
 	 * @return
 	 */
-	public IEdgeAxis getMeasureResult( String name )  throws DataException;
+	public IEdgeAxis getMeasureResult(String name) throws DataException;
 
 }

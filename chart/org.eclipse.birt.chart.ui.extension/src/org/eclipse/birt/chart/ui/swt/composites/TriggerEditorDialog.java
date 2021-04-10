@@ -32,8 +32,7 @@ import org.eclipse.swt.widgets.Shell;
  * @author Actuate Corporation
  * 
  */
-public class TriggerEditorDialog extends TrayDialog
-{
+public class TriggerEditorDialog extends TrayDialog {
 
 	private final EList<Trigger> triggers;
 
@@ -57,75 +56,57 @@ public class TriggerEditorDialog extends TrayDialog
 	 * @param triggers
 	 * @param wizardContext
 	 * @param sTitle
-	 * @param iInteractivityType
-	 *            see <code>TriggerSupportMatrix</code>
+	 * @param iInteractivityType see <code>TriggerSupportMatrix</code>
 	 * @param optionalStyle
-	 * @param conditionFilter
-	 *            trigger condition filter. If null, no filter applied.
-	 * @param cursorFilter
-	 *            cursor filter. If null, no filter applied
+	 * @param conditionFilter    trigger condition filter. If null, no filter
+	 *                           applied.
+	 * @param cursorFilter       cursor filter. If null, no filter applied
 	 */
-	public TriggerEditorDialog( Shell shellParent, EList<Trigger> triggers,
-			EObject cursorContainer, ChartWizardContext wizardContext,
-			String sTitle, int iInteractivityType, int optionalStyle )
-	{
-		super( shellParent );
-		setHelpAvailable( false );
+	public TriggerEditorDialog(Shell shellParent, EList<Trigger> triggers, EObject cursorContainer,
+			ChartWizardContext wizardContext, String sTitle, int iInteractivityType, int optionalStyle) {
+		super(shellParent);
+		setHelpAvailable(false);
 		this.triggers = triggers;
 		this.cursorContainer = cursorContainer;
 		this.wizardContext = wizardContext;
 		this.sTitle = sTitle;
 		this.iInteractivityType = iInteractivityType;
 		this.optionalStyle = optionalStyle;
-		vOriginalTriggers = EcoreUtil.copyAll( triggers );
+		vOriginalTriggers = EcoreUtil.copyAll(triggers);
 	}
 
-	protected Control createContents( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_INTERACTIVITY );
-		getShell( ).setText( Messages.getFormattedString( "TriggerEditorDialog.Title.TriggerEditor", sTitle ) ); //$NON-NLS-1$
-		return super.createContents( parent );
+	protected Control createContents(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_INTERACTIVITY);
+		getShell().setText(Messages.getFormattedString("TriggerEditorDialog.Title.TriggerEditor", sTitle)); //$NON-NLS-1$
+		return super.createContents(parent);
 	}
 
-	protected void setShellStyle( int newShellStyle )
-	{
-		super.setShellStyle( newShellStyle
-				| SWT.DIALOG_TRIM
-				| SWT.RESIZE
-				| SWT.APPLICATION_MODAL );
+	protected void setShellStyle(int newShellStyle) {
+		super.setShellStyle(newShellStyle | SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
 
-	protected Control createDialogArea( Composite parent )
-	{
-		triggerUI = new TriggerDataComposite( parent,
-				SWT.NONE,
-				triggers,
-				cursorContainer,
-				wizardContext,
-				iInteractivityType,
-				optionalStyle );
-		GridData gdTriggerEditor = new GridData( GridData.FILL_BOTH );
-		triggerUI.setLayoutData( gdTriggerEditor );
+	protected Control createDialogArea(Composite parent) {
+		triggerUI = new TriggerDataComposite(parent, SWT.NONE, triggers, cursorContainer, wizardContext,
+				iInteractivityType, optionalStyle);
+		GridData gdTriggerEditor = new GridData(GridData.FILL_BOTH);
+		triggerUI.setLayoutData(gdTriggerEditor);
 
 		return triggerUI;
 	}
 
-	public EList<Trigger> getTriggers( )
-	{
+	public EList<Trigger> getTriggers() {
 		return triggers;
 	}
 
-	protected void okPressed( )
-	{
-		triggerUI.markSaveWhenClosing( );
-		super.okPressed( );
+	protected void okPressed() {
+		triggerUI.markSaveWhenClosing();
+		super.okPressed();
 	}
 
-	protected void cancelPressed( )
-	{
-		triggers.clear( );
-		triggers.addAll( vOriginalTriggers );
-		super.cancelPressed( );
+	protected void cancelPressed() {
+		triggers.clear();
+		triggers.addAll(vOriginalTriggers);
+		super.cancelPressed();
 	}
 
 }

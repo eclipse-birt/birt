@@ -24,64 +24,49 @@ import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
-public class DeleteJoinAction extends AbstractViewAction
-{
+public class DeleteJoinAction extends AbstractViewAction {
 
 	JoinConditionEditPart editPart = null;
 
 	/**
-	 * @param root
-	 *            : The Query model object
-	 * @param editPart
-	 *            : The edit part currently selected
-	 * @param selectedObject
-	 *            : The selected Object
+	 * @param root           : The Query model object
+	 * @param editPart       : The edit part currently selected
+	 * @param selectedObject : The selected Object
 	 */
-	public DeleteJoinAction( JoinConditionEditPart editPart,
-			Object selectedObject )
-	{
-		super( selectedObject );
+	public DeleteJoinAction(JoinConditionEditPart editPart, Object selectedObject) {
+		super(selectedObject);
 		this.editPart = editPart;
 	}
 
-	public void run( )
-	{
-		if ( this.editPart == null )
+	public void run() {
+		if (this.editPart == null)
 			return;
-		try
-		{
-			TabularCubeHandle cube = ( (ColumnEditPart) editPart.getTarget( ) ).getCube( );
-			Iterator iter = cube.joinConditionsIterator( );
-			while ( iter.hasNext( ) )
-			{
-				DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
+		try {
+			TabularCubeHandle cube = ((ColumnEditPart) editPart.getTarget()).getCube();
+			Iterator iter = cube.joinConditionsIterator();
+			while (iter.hasNext()) {
+				DimensionConditionHandle condition = (DimensionConditionHandle) iter.next();
 
-				Iterator conditionIter = condition.getJoinConditions( )
-						.iterator( );
+				Iterator conditionIter = condition.getJoinConditions().iterator();
 
-				List<DimensionJoinCondition> conditionList = new ArrayList<DimensionJoinCondition>( );
-				while ( conditionIter.hasNext( ) )
-				{
-					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
-					if ( joinCondition.equals( editPart.getModel( ) ) )
-					{
-						conditionList.add( (DimensionJoinCondition) joinCondition.getStructure( ) );
+				List<DimensionJoinCondition> conditionList = new ArrayList<DimensionJoinCondition>();
+				while (conditionIter.hasNext()) {
+					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next();
+					if (joinCondition.equals(editPart.getModel())) {
+						conditionList.add((DimensionJoinCondition) joinCondition.getStructure());
 					}
 				}
-				for ( int i = 0; i < conditionList.size( ); i++ )
-				{
-					condition.removeJoinCondition( conditionList.get( i ) );
+				for (int i = 0; i < conditionList.size(); i++) {
+					condition.removeJoinCondition(conditionList.get(i));
 				}
 			}
-			editPart.setFocus( false );
-			editPart.setSelected( 0 );
-			editPart.setSource( null );
-			editPart.setTarget( null );
-			editPart.refresh( );
-		}
-		catch ( Exception e )
-		{
-			ExceptionUtil.handle( e );
+			editPart.setFocus(false);
+			editPart.setSelected(0);
+			editPart.setSource(null);
+			editPart.setTarget(null);
+			editPart.refresh();
+		} catch (Exception e) {
+			ExceptionUtil.handle(e);
 		}
 
 	}

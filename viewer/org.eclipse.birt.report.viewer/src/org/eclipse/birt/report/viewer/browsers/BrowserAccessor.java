@@ -24,8 +24,7 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
  * Static accessor class for available borwsers.
  * <p>
  */
-public class BrowserAccessor
-{
+public class BrowserAccessor {
 
 	private static IBrowser browser;
 
@@ -34,34 +33,26 @@ public class BrowserAccessor
 	/**
 	 * Get current preview browser.
 	 * 
-	 * @param forceExternal
-	 *            forece using external browser or not
+	 * @param forceExternal forece using external browser or not
 	 * @return browser instance
 	 */
-	public static synchronized IBrowser getPreviewBrowser( boolean forceExternal )
-	{
-		if ( !forceExternal
-				&& BrowserManager.getInstance( ).isEmbeddedBrowserPresent( ) )
-		{
-			if ( internalBrowser == null )
-			{
-				internalBrowser = BrowserManager.getInstance( )
-						.createBrowser( false );
+	public static synchronized IBrowser getPreviewBrowser(boolean forceExternal) {
+		if (!forceExternal && BrowserManager.getInstance().isEmbeddedBrowserPresent()) {
+			if (internalBrowser == null) {
+				internalBrowser = BrowserManager.getInstance().createBrowser(false);
 			}
 
 			return internalBrowser;
 		}
 
-		if ( browser == null )
-		{
+		if (browser == null) {
 			// use workbench browser support first, orginal custom browser is
 			// deprecated.
-			browser = new ExternalWorkbenchBrowser( );
+			browser = new ExternalWorkbenchBrowser();
 		}
 
-		if ( browser == null )
-		{
-			browser = BrowserManager.getInstance( ).createBrowser( true );
+		if (browser == null) {
+			browser = BrowserManager.getInstance().createBrowser(true);
 		}
 
 		return browser;
@@ -70,66 +61,51 @@ public class BrowserAccessor
 	/**
 	 * ExternalWorkbenchBrowser
 	 */
-	static class ExternalWorkbenchBrowser implements IBrowser
-	{
+	static class ExternalWorkbenchBrowser implements IBrowser {
 
 		private IWebBrowser browser;
-		ExternalWorkbenchBrowser( )
-		{
+
+		ExternalWorkbenchBrowser() {
 		}
 
-		private IWebBrowser getExternalBrowser( ) throws PartInitException
-		{
-			IWorkbenchBrowserSupport support = PlatformUI.getWorkbench( )
-					.getBrowserSupport( );
-			return support.getExternalBrowser( );
+		private IWebBrowser getExternalBrowser() throws PartInitException {
+			IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
+			return support.getExternalBrowser();
 		}
 
-		public void close( )
-		{
-			if (browser != null)
-			{
-				browser.close( );
+		public void close() {
+			if (browser != null) {
+				browser.close();
 			}
 		}
 
-		public boolean isCloseSupported( )
-		{
+		public boolean isCloseSupported() {
 			return true;
 		}
 
-		public void displayURL( String url ) throws Exception
-		{
-			try
-			{
-				browser = getExternalBrowser( );
-				if ( browser != null )
-				{
-					browser.openURL( new URL( url ) );
+		public void displayURL(String url) throws Exception {
+			try {
+				browser = getExternalBrowser();
+				if (browser != null) {
+					browser.openURL(new URL(url));
 				}
-			}
-			catch ( PartInitException pie )
-			{
-				ViewerPlugin.logError( pie.getLocalizedMessage( ), pie );
+			} catch (PartInitException pie) {
+				ViewerPlugin.logError(pie.getLocalizedMessage(), pie);
 			}
 		}
 
-		public boolean isSetLocationSupported( )
-		{
+		public boolean isSetLocationSupported() {
 			return false;
 		}
 
-		public boolean isSetSizeSupported( )
-		{
+		public boolean isSetSizeSupported() {
 			return false;
 		}
 
-		public void setLocation( int x, int y )
-		{
+		public void setLocation(int x, int y) {
 		}
 
-		public void setSize( int width, int height )
-		{
+		public void setSize(int width, int height) {
 		}
 	}
 }

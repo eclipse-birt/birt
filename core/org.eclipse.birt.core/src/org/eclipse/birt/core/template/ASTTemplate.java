@@ -3,17 +3,16 @@
 package org.eclipse.birt.core.template;
 
 public class ASTTemplate extends SimpleNode {
-  public ASTTemplate(int id) {
-    super(id);
-  }
+	public ASTTemplate(int id) {
+		super(id);
+	}
 
-  public ASTTemplate(Parser p, int id) {
-    super(p, id);
-  }
+	public ASTTemplate(Parser p, int id) {
+		super(p, id);
+	}
 
-
-  /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) {
-    return visitor.visit(this, data);
-  }
+	/** Accept the visitor. **/
+	public Object jjtAccept(ParserVisitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
 }

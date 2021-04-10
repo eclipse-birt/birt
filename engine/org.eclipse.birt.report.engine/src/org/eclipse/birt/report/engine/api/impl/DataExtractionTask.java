@@ -35,293 +35,230 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
-public class DataExtractionTask implements IDataExtractionTask
-{
+public class DataExtractionTask implements IDataExtractionTask {
 
 	IDataExtractionTask task;
-	
-	TimeZone timeZone = TimeZone.getDefault( );
 
-	public DataExtractionTask( ReportEngine engine,
-			IReportDocument reader ) throws EngineException
-	{
-		String version = reader
-				.getProperty( ReportDocumentConstants.DATA_EXTRACTION_TASK_VERSION_KEY );
-		if ( ReportDocumentConstants.DATA_EXTRACTION_TASK_VERSION_0
-				.equals( version ) )
-		{
-			task = new DataExtractionTaskV0( engine, reader );
-		}
-		else if ( ReportDocumentConstants.DATA_EXTRACTION_TASK_VERSION_1
-				.equals( version ) )
-		{
-			task = new DataExtractionTaskV1( engine, reader );
+	TimeZone timeZone = TimeZone.getDefault();
+
+	public DataExtractionTask(ReportEngine engine, IReportDocument reader) throws EngineException {
+		String version = reader.getProperty(ReportDocumentConstants.DATA_EXTRACTION_TASK_VERSION_KEY);
+		if (ReportDocumentConstants.DATA_EXTRACTION_TASK_VERSION_0.equals(version)) {
+			task = new DataExtractionTaskV0(engine, reader);
+		} else if (ReportDocumentConstants.DATA_EXTRACTION_TASK_VERSION_1.equals(version)) {
+			task = new DataExtractionTaskV1(engine, reader);
 		}
 	}
 
-	public void addScriptableJavaObject( String jsName, Object obj )
-	{
-		task.addScriptableJavaObject( jsName, obj );
+	public void addScriptableJavaObject(String jsName, Object obj) {
+		task.addScriptableJavaObject(jsName, obj);
 	}
 
-	public void cancel( )
-	{
-		task.cancel( );
-	}
-	
-	public void cancel( String reason )
-	{
-		task.cancel( reason );
+	public void cancel() {
+		task.cancel();
 	}
 
-	public void close( )
-	{
-		task.close( );
+	public void cancel(String reason) {
+		task.cancel(reason);
 	}
 
-	public IExtractionResults extract( ) throws EngineException
-	{
-		return task.extract( );
+	public void close() {
+		task.close();
 	}
 
-	public Map getAppContext( )
-	{
-		return task.getAppContext( );
+	public IExtractionResults extract() throws EngineException {
+		return task.extract();
 	}
 
-	public boolean getCancelFlag( )
-	{
-		return task.getCancelFlag( );
+	public Map getAppContext() {
+		return task.getAppContext();
 	}
 
-	public IReportEngine getEngine( )
-	{
-		return task.getEngine( );
+	public boolean getCancelFlag() {
+		return task.getCancelFlag();
 	}
 
-	public List getErrors( )
-	{
-		return task.getErrors( );
+	public IReportEngine getEngine() {
+		return task.getEngine();
 	}
 
-	public int getID( )
-	{
-		return task.getID( );
+	public List getErrors() {
+		return task.getErrors();
 	}
 
-	public Locale getLocale( )
-	{
-		return task.getLocale( );
+	public int getID() {
+		return task.getID();
 	}
 
-	public List getMetaData( ) throws EngineException
-	{
-		return task.getMetaData( );
+	public Locale getLocale() {
+		return task.getLocale();
 	}
 
-	public Object getParameterDisplayText( String name )
-	{
-		return task.getParameterDisplayText( name );
+	public List getMetaData() throws EngineException {
+		return task.getMetaData();
 	}
 
-	public Object getParameterValue( String name )
-	{
-		return task.getParameterValue( name );
+	public Object getParameterDisplayText(String name) {
+		return task.getParameterDisplayText(name);
 	}
 
-	public HashMap getParameterValues( )
-	{
-		return task.getParameterValues( );
+	public Object getParameterValue(String name) {
+		return task.getParameterValue(name);
 	}
 
-	public IReportRunnable getReportRunnable( )
-	{
-		return task.getReportRunnable( );
+	public HashMap getParameterValues() {
+		return task.getParameterValues();
 	}
 
-	public List getResultSetList( ) throws EngineException
-	{
-		return task.getResultSetList( );
+	public IReportRunnable getReportRunnable() {
+		return task.getReportRunnable();
 	}
 
-	public int getStatus( )
-	{
-		return task.getStatus( );
+	public List getResultSetList() throws EngineException {
+		return task.getResultSetList();
 	}
 
-	public ULocale getULocale( )
-	{
-		return task.getULocale( );
+	public int getStatus() {
+		return task.getStatus();
 	}
 
-	public void selectColumns( String[] columnNames )
-	{
-		task.selectColumns( columnNames );
+	public ULocale getULocale() {
+		return task.getULocale();
 	}
 
-	public void selectResultSet( String resultSetName )
-	{
-		task.selectResultSet( resultSetName );
+	public void selectColumns(String[] columnNames) {
+		task.selectColumns(columnNames);
 	}
 
-	public void setAppContext( Map context )
-	{
-		task.setAppContext( context );
+	public void selectResultSet(String resultSetName) {
+		task.selectResultSet(resultSetName);
 	}
 
-	public void setDataSource( IDocArchiveReader dataSource )
-	{
-		task.setDataSource( dataSource );
+	public void setAppContext(Map context) {
+		task.setAppContext(context);
 	}
 
-	public void setDataSource( IDocArchiveReader dataSource, String reportlet )
-	{
-		task.setDataSource( dataSource, reportlet );
+	public void setDataSource(IDocArchiveReader dataSource) {
+		task.setDataSource(dataSource);
 	}
 
-	public void setFilters( IFilterDefinition[] simpleFilterExpression )
-	{
-		task.setFilters( simpleFilterExpression );
-	}
-	
-	public void setSorts( ISortDefinition[] simpleSortExpression )
-	{
-		task.setSorts( simpleSortExpression );
+	public void setDataSource(IDocArchiveReader dataSource, String reportlet) {
+		task.setDataSource(dataSource, reportlet);
 	}
 
-	public void setMaxRows( int maxRows )
-	{
-		task.setMaxRows( maxRows );
+	public void setFilters(IFilterDefinition[] simpleFilterExpression) {
+		task.setFilters(simpleFilterExpression);
 	}
 
-	public void setInstanceID( InstanceID iid )
-	{
-		task.setInstanceID( iid );
+	public void setSorts(ISortDefinition[] simpleSortExpression) {
+		task.setSorts(simpleSortExpression);
 	}
 
-	public void setLocale( Locale locale )
-	{
-		task.setLocale( locale );
+	public void setMaxRows(int maxRows) {
+		task.setMaxRows(maxRows);
 	}
 
-	public void setLocale( ULocale locale )
-	{
-		task.setLocale( locale );
+	public void setInstanceID(InstanceID iid) {
+		task.setInstanceID(iid);
 	}
-	
-	public void setTimeZone( TimeZone timeZone )
-	{
-		if ( timeZone != null )
-		{
+
+	public void setLocale(Locale locale) {
+		task.setLocale(locale);
+	}
+
+	public void setLocale(ULocale locale) {
+		task.setLocale(locale);
+	}
+
+	public void setTimeZone(TimeZone timeZone) {
+		if (timeZone != null) {
 			this.timeZone = timeZone;
 		}
-		task.setTimeZone( this.timeZone );
+		task.setTimeZone(this.timeZone);
 	}
 
-	public void setParameter( String name, Object value, String displayText )
-	{
-		task.setParameter( name, value, displayText );
-	}
-	
-	public void setParameter( String name, Object[] values, String[] displayText )
-	{
-		task.setParameter( name, values, displayText );
+	public void setParameter(String name, Object value, String displayText) {
+		task.setParameter(name, value, displayText);
 	}
 
-	public void setParameterDisplayText( String name, String displayText )
-	{
-		task.setParameterDisplayText( name, displayText );
+	public void setParameter(String name, Object[] values, String[] displayText) {
+		task.setParameter(name, values, displayText);
 	}
 
-	public void setParameterDisplayText(String name, String[] displayText)	
-	{
-		task.setParameterDisplayText( name, displayText );
-	}
-	
-	public void setParameterValue( String name, Object value )
-	{
-		task.setParameterValue( name, value );
-	}
-	
-	public void setParameterValue( String name, Object[] values )
-	{
-		task.setParameterValue( name, values );
+	public void setParameterDisplayText(String name, String displayText) {
+		task.setParameterDisplayText(name, displayText);
 	}
 
-	public void setParameterValues( Map params )
-	{
-		task.setParameterValues( params );
+	public void setParameterDisplayText(String name, String[] displayText) {
+		task.setParameterDisplayText(name, displayText);
 	}
 
-	public boolean validateParameters( )
-	{
-		return task.validateParameters( );
+	public void setParameterValue(String name, Object value) {
+		task.setParameterValue(name, value);
 	}
 
-	public Logger getLogger( )
-	{
-		return task.getLogger( );
+	public void setParameterValue(String name, Object[] values) {
+		task.setParameterValue(name, values);
 	}
 
-	public int getTaskType( )
-	{
-		return task.getTaskType( );
+	public void setParameterValues(Map params) {
+		task.setParameterValues(params);
 	}
 
-	public void setErrorHandlingOption( int option )
-	{
-		task.setErrorHandlingOption( option );
+	public boolean validateParameters() {
+		return task.validateParameters();
 	}
 
-	public void setLogger( Logger logger )
-	{
-		task.setLogger( logger );
+	public Logger getLogger() {
+		return task.getLogger();
 	}
 
-	public void extract( IExtractionOption option ) throws BirtException
-	{
-		task.extract( option );
+	public int getTaskType() {
+		return task.getTaskType();
 	}
 
-	public void setStartRow( int startRow )
-	{
-		task.setStartRow( startRow );
-	}
-	
-	public void setUserACL( String[] acl )
-	{
-		task.setUserACL( acl );
-	}
-	
-	public void setDistinctValuesOnly( boolean distinct )
-	{
-		task.setDistinctValuesOnly( distinct );
+	public void setErrorHandlingOption(int option) {
+		task.setErrorHandlingOption(option);
 	}
 
-	public void setCubeExportEnabled( boolean isCubeExportEnabled )
-	{
-		task.setCubeExportEnabled( isCubeExportEnabled );
+	public void setLogger(Logger logger) {
+		task.setLogger(logger);
 	}
-	
-	public boolean isCubeExportEnabled( )
-	{
-		return task.isCubeExportEnabled( );
+
+	public void extract(IExtractionOption option) throws BirtException {
+		task.extract(option);
 	}
-	
-	public void setProgressMonitor( IProgressMonitor monitor )
-	{
-		task.setProgressMonitor( monitor );
+
+	public void setStartRow(int startRow) {
+		task.setStartRow(startRow);
 	}
-	
-	public void setStatusHandler( IStatusHandler handler )
-	{
-		task.setStatusHandler( handler );
+
+	public void setUserACL(String[] acl) {
+		task.setUserACL(acl);
+	}
+
+	public void setDistinctValuesOnly(boolean distinct) {
+		task.setDistinctValuesOnly(distinct);
+	}
+
+	public void setCubeExportEnabled(boolean isCubeExportEnabled) {
+		task.setCubeExportEnabled(isCubeExportEnabled);
+	}
+
+	public boolean isCubeExportEnabled() {
+		return task.isCubeExportEnabled();
+	}
+
+	public void setProgressMonitor(IProgressMonitor monitor) {
+		task.setProgressMonitor(monitor);
+	}
+
+	public void setStatusHandler(IStatusHandler handler) {
+		task.setStatusHandler(handler);
 	}
 
 	@Override
-	public void setSorts( ISortDefinition[] simpleSortExpression,
-			boolean overrideExistingSorts )
-	{
-		task.setSorts( simpleSortExpression, overrideExistingSorts );
+	public void setSorts(ISortDefinition[] simpleSortExpression, boolean overrideExistingSorts) {
+		task.setSorts(simpleSortExpression, overrideExistingSorts);
 	}
 }

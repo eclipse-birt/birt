@@ -13,18 +13,15 @@ package org.eclipse.birt.report.engine.extension.internal;
 
 import org.eclipse.birt.report.engine.extension.IReportEvent;
 
-abstract class ReportEvent implements IReportEvent
-{
+abstract class ReportEvent implements IReportEvent {
 
 	protected int eventType;
 
-	ReportEvent( int type )
-	{
+	ReportEvent(int type) {
 		eventType = type;
 	}
 
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return eventType;
 	}
 }

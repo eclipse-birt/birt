@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for Grid element to store the constants.
  */
-public interface IGridItemModel
-{
+public interface IGridItemModel {
 
 	/**
 	 * Identifier of the columns slot.

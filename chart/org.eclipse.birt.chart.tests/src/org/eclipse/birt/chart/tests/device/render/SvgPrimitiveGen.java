@@ -50,9 +50,10 @@ import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import com.ibm.icu.util.StringTokenizer;
 
 /**
- * Concrete class that is used to parse a file with drawing primitives.  Each line is 
- * a specific drawing event.  This class will parse the file and create the appropriate drawing
- * event and execute the event on the SVG device renderer.
+ * Concrete class that is used to parse a file with drawing primitives. Each
+ * line is a specific drawing event. This class will parse the file and create
+ * the appropriate drawing event and execute the event on the SVG device
+ * renderer.
  */
 public class SvgPrimitiveGen {
 	protected SVGRendererImpl renderer;
@@ -63,36 +64,37 @@ public class SvgPrimitiveGen {
 	protected ColorDefinition strokeColor;
 	protected ColorDefinition shadowColor;
 	protected FontDefinition font;
-	
-	public SvgPrimitiveGen(InputStream fileName, String outFile){
+
+	public SvgPrimitiveGen(InputStream fileName, String outFile) {
 		this.fileName = fileName;
 		this.outFile = outFile;
 		startup();
 	}
-	
-	protected void startup(){
+
+	protected void startup() {
 		renderer = new SVGRendererImpl();
 		renderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, outFile);
 		// Initialize dpi to avoid error using svg gc
-		renderer.getDisplayServer( ).getDpiResolution( );
-		renderer.setProperty(IDeviceRenderer.EXPECTED_BOUNDS, BoundsImpl.create(0, 0 , 500, 500));
+		renderer.getDisplayServer().getDpiResolution();
+		renderer.setProperty(IDeviceRenderer.EXPECTED_BOUNDS, BoundsImpl.create(0, 0, 500, 500));
 	}
+
 	/**
-	 * reads a line from the primitive drawing file.
-	 * Syntax: <primitive element> <primitive parameters>...
+	 * reads a line from the primitive drawing file. Syntax: <primitive element>
+	 * <primitive parameters>...
+	 * 
 	 * @throws Exception
 	 */
-	protected void readFile() throws Exception{
+	protected void readFile() throws Exception {
 		InputStreamReader isr = new InputStreamReader(fileName);
 		BufferedReader br = new BufferedReader(isr);
 		String lineStr = null;
-		while ((lineStr = br.readLine()) != null){
+		while ((lineStr = br.readLine()) != null) {
 			StringTokenizer st = new StringTokenizer(lineStr, " ");//$NON-NLS-1$
 			String type = st.nextToken();
-			if (type == null){
+			if (type == null) {
 				throw new Exception("primitive type string is null");//$NON-NLS-1$
-			}
-			else if (type.equals("font")){//$NON-NLS-1$
+			} else if (type.equals("font")) {//$NON-NLS-1$
 				String fontName = st.nextToken();
 				float size = Float.parseFloat(st.nextToken());
 				boolean bold = Boolean.getBoolean(st.nextToken());
@@ -103,35 +105,40 @@ public class SvgPrimitiveGen {
 				double rotation = Double.parseDouble(st.nextToken());
 				TextAlignment ta = TextAlignmentImpl.create();
 				try {
-				ta.setHorizontalAlignment(HorizontalAlignment.get(Integer.parseInt(st.nextToken())));
+					ta.setHorizontalAlignment(HorizontalAlignment.get(Integer.parseInt(st.nextToken())));
 				} catch (NumberFormatException e) {
 				}
 				try {
-				ta.setVerticalAlignment(VerticalAlignment.get(Integer.parseInt(st.nextToken())));
+					ta.setVerticalAlignment(VerticalAlignment.get(Integer.parseInt(st.nextToken())));
 				} catch (NumberFormatException e) {
 				}
-				font = FontDefinitionImpl.create(fontName, size, bold, italic ,underline , strike , wordwrap , rotation, ta);
+				font = FontDefinitionImpl.create(fontName, size, bold, italic, underline, strike, wordwrap, rotation,
+						ta);
 			}
-			
-			else if (type.equals("size")){//$NON-NLS-1$
-				renderer.setProperty(IDeviceRenderer.EXPECTED_BOUNDS, BoundsImpl.create(Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken())));
-			}
-			else if (type.equals("fill")){//$NON-NLS-1$
-				fillColor = ColorDefinitionImpl.create(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
-			}
-			else if (type.equals("lineAttr")){//$NON-NLS-1$
-				lineAttr = LineAttributesImpl.create(strokeColor, LineStyle.get(Integer.parseInt(st.nextToken())), Integer.parseInt(st.nextToken()));
-			}
-			else if (type.equals("stroke")){//$NON-NLS-1$
-				strokeColor = ColorDefinitionImpl.create(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
-			}
-			else if (type.equals("shadow")){//$NON-NLS-1$
-				shadowColor = ColorDefinitionImpl.create(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
-			}
-			else if(type.startsWith("arc")){//$NON-NLS-1$
+
+			else if (type.equals("size")) {//$NON-NLS-1$
+				renderer.setProperty(IDeviceRenderer.EXPECTED_BOUNDS,
+						BoundsImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()),
+								Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
+			} else if (type.equals("fill")) {//$NON-NLS-1$
+				fillColor = ColorDefinitionImpl.create(Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()));
+			} else if (type.equals("lineAttr")) {//$NON-NLS-1$
+				lineAttr = LineAttributesImpl.create(strokeColor, LineStyle.get(Integer.parseInt(st.nextToken())),
+						Integer.parseInt(st.nextToken()));
+			} else if (type.equals("stroke")) {//$NON-NLS-1$
+				strokeColor = ColorDefinitionImpl.create(Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()));
+			} else if (type.equals("shadow")) {//$NON-NLS-1$
+				shadowColor = ColorDefinitionImpl.create(Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+			} else if (type.startsWith("arc")) {//$NON-NLS-1$
 				ArcRenderEvent are = new ArcRenderEvent(this);
 				are.setBackground(fillColor);
-				are.setTopLeft(LocationImpl.create(Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken())));
+				are.setTopLeft(
+						LocationImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
 				are.setStartAngle(Double.parseDouble(st.nextToken()));
 				are.setEndAngle(Double.parseDouble(st.nextToken()));
 				are.setHeight(Double.parseDouble(st.nextToken()));
@@ -141,93 +148,96 @@ public class SvgPrimitiveGen {
 				if (type.endsWith("fill"))//$NON-NLS-1$
 					renderer.fillArc(are);
 				else
-				renderer.drawArc(are);
-			}
-			else if(type.startsWith("line")){//$NON-NLS-1$
+					renderer.drawArc(are);
+			} else if (type.startsWith("line")) {//$NON-NLS-1$
 				LineRenderEvent line = new LineRenderEvent(this);
-				line.setStart(LocationImpl.create(Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken())));
-				line.setEnd(LocationImpl.create(Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken())));
+				line.setStart(
+						LocationImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
+				line.setEnd(
+						LocationImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
 				line.setDepth(Double.parseDouble(st.nextToken()));
 				line.setLineAttributes(lineAttr);
 				renderer.drawLine(line);
-				
-			}
-			else if(type.startsWith("oval")){//$NON-NLS-1$
+
+			} else if (type.startsWith("oval")) {//$NON-NLS-1$
 				OvalRenderEvent oval = new OvalRenderEvent(this);
 				oval.setBackground(fillColor);
-				oval.setBounds(BoundsImpl.create(Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken())));
+				oval.setBounds(BoundsImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()),
+						Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
 				oval.setOutline(lineAttr);
 				oval.setDepth(Double.parseDouble(st.nextToken()));
 				if (type.endsWith("fill"))//$NON-NLS-1$
 					renderer.fillOval(oval);
 				else
-					renderer.drawOval(oval);	
-			}
-			else if(type.startsWith("rect")){//$NON-NLS-1$
+					renderer.drawOval(oval);
+			} else if (type.startsWith("rect")) {//$NON-NLS-1$
 				RectangleRenderEvent rect = new RectangleRenderEvent(this);
 				rect.setBackground(fillColor);
-				rect.setBounds(BoundsImpl.create(Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken())));
+				rect.setBounds(BoundsImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()),
+						Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
 				rect.setOutline(lineAttr);
 				rect.setDepth(Double.parseDouble(st.nextToken()));
 				if (type.endsWith("fill"))//$NON-NLS-1$
 					renderer.fillRectangle(rect);
 				else
-					renderer.drawRectangle(rect);				
-			}
-			else if(type.startsWith("polygon")){//$NON-NLS-1$
+					renderer.drawRectangle(rect);
+			} else if (type.startsWith("polygon")) {//$NON-NLS-1$
 				PolygonRenderEvent shape = new PolygonRenderEvent(this);
 				shape.setBackground(fillColor);
 				shape.setOutline(lineAttr);
 				shape.setDepth(Double.parseDouble(st.nextToken()));
 				int pointLength = Integer.parseInt(st.nextToken());
 				Location[] locations = new Location[pointLength];
-				for (int x = 0; x < pointLength; x++){
-					locations[x] = LocationImpl.create(Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken()));
+				for (int x = 0; x < pointLength; x++) {
+					locations[x] = LocationImpl.create(Double.parseDouble(st.nextToken()),
+							Double.parseDouble(st.nextToken()));
 				}
 				shape.setPoints(locations);
 				if (type.endsWith("fill"))//$NON-NLS-1$
 					renderer.fillPolygon(shape);
 				else
-					renderer.drawPolygon(shape);				
-			}
-			else if(type.startsWith("text")){//$NON-NLS-1$
+					renderer.drawPolygon(shape);
+			} else if (type.startsWith("text")) {//$NON-NLS-1$
 				TextRenderEvent shape = new TextRenderEvent(this);
 				shape.setAction(Integer.parseInt(st.nextToken()));
-		        switch (shape.getAction())
-		        {
-		            case TextRenderEvent.RENDER_SHADOW_AT_LOCATION:
-						shape.setTextPosition(Integer.parseInt(st.nextToken()));
-						shape.setLocation(LocationImpl.create(Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken())));
-		                break;
+				switch (shape.getAction()) {
+				case TextRenderEvent.RENDER_SHADOW_AT_LOCATION:
+					shape.setTextPosition(Integer.parseInt(st.nextToken()));
+					shape.setLocation(LocationImpl.create(Double.parseDouble(st.nextToken()),
+							Double.parseDouble(st.nextToken())));
+					break;
 
-		            case TextRenderEvent.RENDER_TEXT_AT_LOCATION:
-						shape.setTextPosition(Integer.parseInt(st.nextToken()));
-						shape.setLocation(LocationImpl.create(Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken())));
-		                break;
+				case TextRenderEvent.RENDER_TEXT_AT_LOCATION:
+					shape.setTextPosition(Integer.parseInt(st.nextToken()));
+					shape.setLocation(LocationImpl.create(Double.parseDouble(st.nextToken()),
+							Double.parseDouble(st.nextToken())));
+					break;
 
-		            case TextRenderEvent.RENDER_TEXT_IN_BLOCK:
-						shape.setBlockBounds(BoundsImpl.create(Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken())));
-							TextAlignment ta = TextAlignmentImpl.create();
-							try {
-							ta.setHorizontalAlignment(HorizontalAlignment.get(Integer.parseInt(st.nextToken())));
-							} catch (NumberFormatException e) {
-							}
-							try {
-							ta.setVerticalAlignment(VerticalAlignment.get(Integer.parseInt(st.nextToken())));
-							} catch (NumberFormatException e) {
-							}
-								shape.setBlockAlignment(ta);
-		                break;
-		        }				
-				
+				case TextRenderEvent.RENDER_TEXT_IN_BLOCK:
+					shape.setBlockBounds(
+							BoundsImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()),
+									Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
+					TextAlignment ta = TextAlignmentImpl.create();
+					try {
+						ta.setHorizontalAlignment(HorizontalAlignment.get(Integer.parseInt(st.nextToken())));
+					} catch (NumberFormatException e) {
+					}
+					try {
+						ta.setVerticalAlignment(VerticalAlignment.get(Integer.parseInt(st.nextToken())));
+					} catch (NumberFormatException e) {
+					}
+					shape.setBlockAlignment(ta);
+					break;
+				}
+
 				Label label = LabelImpl.create();
 				label.setBackground(fillColor);
 				label.setOutline(lineAttr);
 				String strLabel = "";//$NON-NLS-1$
 				String strDepth = "";//$NON-NLS-1$
-				while (st.hasMoreTokens()){
+				while (st.hasMoreTokens()) {
 					strDepth = st.nextToken();
-					if (st.hasMoreTokens()){
+					if (st.hasMoreTokens()) {
 						if (strLabel.equals(""))//$NON-NLS-1$
 							strLabel = strDepth;
 						else
@@ -239,58 +249,56 @@ public class SvgPrimitiveGen {
 				text.setColor(ColorDefinitionImpl.BLACK());
 				label.setCaption(text);
 				if (shadowColor != null)
-				label.setShadowColor(shadowColor);
+					label.setShadowColor(shadowColor);
 				shape.setLabel(label);
 				shape.setDepth(Double.parseDouble(strDepth));
-				renderer.drawText(shape);								
-			}
-			else if(type.equals("transform")){//$NON-NLS-1$
+				renderer.drawText(shape);
+			} else if (type.equals("transform")) {//$NON-NLS-1$
 				TransformationEvent trans = new TransformationEvent(this);
 				trans.setTransform(Integer.parseInt(st.nextToken()));
 				trans.setDepth(Double.parseDouble(st.nextToken()));
 				trans.setRotation(Double.parseDouble(st.nextToken()));
 				trans.setScale(Double.parseDouble(st.nextToken()));
 				trans.setTranslation(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
-				renderer.applyTransformation(trans);				
-			}
-			else if(type.equals("clip")){//$NON-NLS-1$
+				renderer.applyTransformation(trans);
+			} else if (type.equals("clip")) {//$NON-NLS-1$
 				ClipRenderEvent clip = new ClipRenderEvent(this);
 				clip.setDepth(Double.parseDouble(st.nextToken()));
 				int pointLength = Integer.parseInt(st.nextToken());
 				Location[] locations = new Location[pointLength];
-				for (int x = 0; x < pointLength; x++){
-					locations[x] = LocationImpl.create(Double.parseDouble(st.nextToken()),Double.parseDouble(st.nextToken()));
+				for (int x = 0; x < pointLength; x++) {
+					locations[x] = LocationImpl.create(Double.parseDouble(st.nextToken()),
+							Double.parseDouble(st.nextToken()));
 				}
 				clip.setVertices(locations);
-				renderer.setClip(clip);				
-			}			
-			else if(type.startsWith("area")){//$NON-NLS-1$
+				renderer.setClip(clip);
+			} else if (type.startsWith("area")) {//$NON-NLS-1$
 				AreaRenderEvent area = new AreaRenderEvent(this);
-				
+
 				area.setDepth(Double.parseDouble(st.nextToken()));
 				area.setBackground(fillColor);
 				area.setOutline(lineAttr);
-				renderer.drawArea(area);				
-			}			
-			
-			else if(type.equals("image")){//$NON-NLS-1$
+				renderer.drawArea(area);
+			}
+
+			else if (type.equals("image")) {//$NON-NLS-1$
 				ImageRenderEvent image = new ImageRenderEvent(this);
-				
-				//TODO:need to test image drawing
-				renderer.drawImage(image);				
-			}			
+
+				// TODO:need to test image drawing
+				renderer.drawImage(image);
+			}
 		}
 		br.close();
-		
-		
+
 	}
-	
-	public void generate() throws Exception{
+
+	public void generate() throws Exception {
 		readFile();
 	}
-	public void flush() throws Exception{
+
+	public void flush() throws Exception {
 		renderer.after();
-		
+
 	}
 
 }

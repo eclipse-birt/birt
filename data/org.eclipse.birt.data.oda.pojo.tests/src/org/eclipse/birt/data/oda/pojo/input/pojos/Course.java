@@ -14,11 +14,9 @@ package org.eclipse.birt.data.oda.pojo.input.pojos;
  * 
  */
 
-public class Course extends WithIdAndName
-{
+public class Course extends WithIdAndName {
 
-	public Course( int id, String name )
-	{
-		super( id, name );
+	public Course(int id, String name) {
+		super(id, name);
 	}
 }

@@ -18,8 +18,7 @@ import org.eclipse.birt.core.exception.BirtException;
  * This calculator is used to calculate a numeric group key basing group
  * interval.
  */
-class NumericGroupCalculator extends GroupCalculator
-{
+class NumericGroupCalculator extends GroupCalculator {
 
 	double doubleStartValue;
 	private double firstValue = Double.MIN_VALUE;
@@ -30,39 +29,34 @@ class NumericGroupCalculator extends GroupCalculator
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public NumericGroupCalculator( Object intervalStart, double intervalRange )
-			throws BirtException
-	{
-		super( intervalStart, intervalRange );
-		if ( intervalStart == null )
+	public NumericGroupCalculator(Object intervalStart, double intervalRange) throws BirtException {
+		super(intervalStart, intervalRange);
+		if (intervalStart == null)
 			doubleStartValue = 0;
 		else
-			doubleStartValue = ( DataTypeUtil.toDouble( intervalStart ) ).doubleValue( );
+			doubleStartValue = (DataTypeUtil.toDouble(intervalStart)).doubleValue();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.impl.group.GroupCalculator#calculate(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.group.GroupCalculator#calculate(java.lang.
+	 * Object)
 	 */
-	public Object calculate( Object value ) throws BirtException
-	{
+	public Object calculate(Object value) throws BirtException {
 		double dValue = -1;
-		if( value!= null )
-			dValue = ( DataTypeUtil.toDouble( value ) ).doubleValue( );
+		if (value != null)
+			dValue = (DataTypeUtil.toDouble(value)).doubleValue();
 
-		if ( dValue < doubleStartValue )
-		{
-			if( this.firstValue == Double.MIN_VALUE )
-			{
+		if (dValue < doubleStartValue) {
+			if (this.firstValue == Double.MIN_VALUE) {
 				this.firstValue = dValue;
 			}
-			return new Double( this.firstValue );
-		}
-		else
-		{
-			return new Double( doubleStartValue + Math.floor( ( dValue - doubleStartValue )
-					/ intervalRange ) * intervalRange );
+			return new Double(this.firstValue);
+		} else {
+			return new Double(
+					doubleStartValue + Math.floor((dValue - doubleStartValue) / intervalRange) * intervalRange);
 		}
 	}
 }

@@ -22,63 +22,55 @@ import org.eclipse.birt.chart.tests.script.BaseChartTestCase;
  * 
  */
 
-public class TimeScaleTest extends BaseChartTestCase
-{
+public class TimeScaleTest extends BaseChartTestCase {
 
-	protected IScale getValueAxisScale( )
-	{
-		return getChartWithAxes( ).getValueAxes( )[0].getScale( );
+	protected IScale getValueAxisScale() {
+		return getChartWithAxes().getValueAxes()[0].getScale();
 	}
 
-	public void testStepSize( )
-	{
-		IScale scale = getValueAxisScale( );
-		assertTrue( scale instanceof ITimeScale );
+	public void testStepSize() {
+		IScale scale = getValueAxisScale();
+		assertTrue(scale instanceof ITimeScale);
 
 		ITimeScale ls = (ITimeScale) scale;
-		assertEquals( ls.getStepSize( ), 2 );
+		assertEquals(ls.getStepSize(), 2);
 
-		ls.setStepSize( 3 );
-		assertEquals( ls.getStepSize( ), 3 );
+		ls.setStepSize(3);
+		assertEquals(ls.getStepSize(), 3);
 	}
 
-	public void testStepTimeUnit( )
-	{
-		IScale scale = getValueAxisScale( );
-		assertTrue( scale instanceof ITimeScale );
+	public void testStepTimeUnit() {
+		IScale scale = getValueAxisScale();
+		assertTrue(scale instanceof ITimeScale);
 
 		ITimeScale ls = (ITimeScale) scale;
-		assertEquals( ls.getStepTimeUnit( ),
-				ScaleUnitType.WEEKS_LITERAL.getName( ) );
+		assertEquals(ls.getStepTimeUnit(), ScaleUnitType.WEEKS_LITERAL.getName());
 
-		ls.setStepTimeUnit( ScaleUnitType.MONTHS_LITERAL.getName( ) );
-		assertEquals( ls.getStepTimeUnit( ),
-				ScaleUnitType.MONTHS_LITERAL.getName( ) );
+		ls.setStepTimeUnit(ScaleUnitType.MONTHS_LITERAL.getName());
+		assertEquals(ls.getStepTimeUnit(), ScaleUnitType.MONTHS_LITERAL.getName());
 	}
 
-	public void testMin( )
-	{
-		IScale scale = getValueAxisScale( );
-		assertTrue( scale instanceof ITimeScale );
+	public void testMin() {
+		IScale scale = getValueAxisScale();
+		assertTrue(scale instanceof ITimeScale);
 
 		ITimeScale ls = (ITimeScale) scale;
-		assertEquals( 1037635200984L, ls.getMin( ).getTime( ) );
+		assertEquals(1037635200984L, ls.getMin().getTime());
 
-		ls.setMin( null );
-		assertNull( ls.getMin( ) );
+		ls.setMin(null);
+		assertNull(ls.getMin());
 	}
 
-	public void testMax( )
-	{
-		IScale scale = getValueAxisScale( );
-		assertTrue( scale instanceof ITimeScale );
+	public void testMax() {
+		IScale scale = getValueAxisScale();
+		assertTrue(scale instanceof ITimeScale);
 
 		ITimeScale ls = (ITimeScale) scale;
-		assertNull( ls.getMax( ) );
+		assertNull(ls.getMax());
 
-		Date date = new Date( );
-		ls.setMax( date );
-		assertEquals( ls.getMax( ), date );
+		Date date = new Date();
+		ls.setMax(date);
+		assertEquals(ls.getMax(), date);
 
 	}
 }

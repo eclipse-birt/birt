@@ -17,15 +17,14 @@ import org.eclipse.birt.chart.computation.Object3D;
  * An interface that all 3D rendering events must extend.
  */
 
-public interface I3DRenderEvent
-{
+public interface I3DRenderEvent {
 
 	/**
 	 * Returns the 3D object associated with this event.
 	 * 
 	 * @return
 	 */
-	Object3D getObject3D( );
+	Object3D getObject3D();
 
 	/**
 	 * Prepares the coordinates to render on 2D plane.
@@ -33,5 +32,5 @@ public interface I3DRenderEvent
 	 * @param xOffset
 	 * @param yOffset
 	 */
-	void prepare2D( double xOffset, double yOffset );
+	void prepare2D(double xOffset, double yOffset);
 }

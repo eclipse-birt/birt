@@ -18,22 +18,17 @@ import org.eclipse.jdt.launching.sourcelookup.containers.JavaSourceLookupPartici
 /**
  * Source lookup
  */
-public class ScriptSourceLookupDirector extends AbstractSourceLookupDirector
-{
+public class ScriptSourceLookupDirector extends AbstractSourceLookupDirector {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.debug.core.sourcelookup.ISourceLookupDirector#initializeParticipants()
+	 * @see org.eclipse.debug.core.sourcelookup.ISourceLookupDirector#
+	 * initializeParticipants()
 	 */
-	public void initializeParticipants( )
-	{
-		addParticipants( new ISourceLookupParticipant[]{
-				new ScriptSourceLookupParticipant( ),
-				new JavaSourceLookupParticipant( )
-		} );
+	public void initializeParticipants() {
+		addParticipants(new ISourceLookupParticipant[] { new ScriptSourceLookupParticipant(),
+				new JavaSourceLookupParticipant() });
 	}
-	
-	
 
 }

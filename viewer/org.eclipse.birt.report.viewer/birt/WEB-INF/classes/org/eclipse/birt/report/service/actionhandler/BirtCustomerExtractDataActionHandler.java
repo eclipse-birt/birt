@@ -29,10 +29,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * This action handle is used to support user extended data extraction
  * 
  */
-public class BirtCustomerExtractDataActionHandler
-		extends
-			AbstractBaseActionHandler
-{
+public class BirtCustomerExtractDataActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Default constructor
@@ -41,67 +38,55 @@ public class BirtCustomerExtractDataActionHandler
 	 * @param operation
 	 * @param response
 	 */
-	public BirtCustomerExtractDataActionHandler( IContext context,
-			Operation operation, GetUpdatedObjectsResponse response )
-	{
-		super( context, operation, response );
+	public BirtCustomerExtractDataActionHandler(IContext context, Operation operation,
+			GetUpdatedObjectsResponse response) {
+		super(context, operation, response);
 	}
 
 	/**
 	 * Execute action
 	 */
-	protected void __execute( ) throws Exception
-	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
-		String docName = attrBean.getReportDocumentName( );
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
+	protected void __execute() throws Exception {
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
+		String docName = attrBean.getReportDocumentName();
+		InputOptions options = new InputOptions();
+		options.setOption(InputOptions.OPT_REQUEST, context.getRequest());
+		options.setOption(InputOptions.OPT_LOCALE, attrBean.getLocale());
+		options.setOption(InputOptions.OPT_TIMEZONE, attrBean.getTimeZone());
 
-		String extractFormat = ParameterAccessor.getExtractFormat( context
-				.getRequest( ) );
-		String extractExtension = ParameterAccessor
-				.getExtractExtension( context.getRequest( ) );
+		String extractFormat = ParameterAccessor.getExtractFormat(context.getRequest());
+		String extractExtension = ParameterAccessor.getExtractExtension(context.getRequest());
 
-		if ( extractExtension != null )
-		{
+		if (extractExtension != null) {
 			// check extract extension
-			boolean flag = ParameterAccessor
-					.validateExtractExtension( extractExtension );
-			if ( !flag )
-			{
-				AxisFault fault = new AxisFault( );
-				fault
-						.setFaultReason( BirtResources
-								.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTEXTENSION ) );
+			boolean flag = ParameterAccessor.validateExtractExtension(extractExtension);
+			if (!flag) {
+				AxisFault fault = new AxisFault();
+				fault.setFaultReason(
+						BirtResources.getMessage(ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTEXTENSION));
 				throw fault;
 			}
 
-			extractFormat = ParameterAccessor
-					.getExtractFormat( extractExtension );
+			extractFormat = ParameterAccessor.getExtractFormat(extractExtension);
 		}
 
 		// check extract format
-		boolean flag = ParameterAccessor.validateExtractFormat( extractFormat );
-		if ( !flag )
-		{
-			AxisFault fault = new AxisFault( );
-			fault
-					.setFaultReason( BirtResources
-							.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTFORMAT ) );
+		boolean flag = ParameterAccessor.validateExtractFormat(extractFormat);
+		if (!flag) {
+			AxisFault fault = new AxisFault();
+			fault.setFaultReason(
+					BirtResources.getMessage(ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTFORMAT));
 			throw fault;
 		}
 
-		ServletOutputStream out = context.getResponse( ).getOutputStream( );
-		getReportService( ).extractData( docName, options, out );
+		ServletOutputStream out = context.getResponse().getOutputStream();
+		getReportService().extractData(docName, options, out);
 	}
 
 	/**
 	 * Returns Viewer Report Service
 	 */
-	protected IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	protected IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 }

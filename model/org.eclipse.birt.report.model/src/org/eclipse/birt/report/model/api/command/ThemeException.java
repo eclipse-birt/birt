@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * 
  */
 
-public class ThemeException extends SemanticException
-{
+public class ThemeException extends SemanticException {
 
 	/**
 	 * The serial version UID
@@ -51,17 +50,13 @@ public class ThemeException extends SemanticException
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element being changed.
-	 * @param str
-	 *            the name of the style.
-	 * @param errCode
-	 *            the error code.
+	 * @param obj     the element being changed.
+	 * @param str     the name of the style.
+	 * @param errCode the error code.
 	 */
 
-	public ThemeException( DesignElement obj, String str, String errCode )
-	{
-		super( obj, errCode );
+	public ThemeException(DesignElement obj, String str, String errCode) {
+		super(obj, errCode);
 		themeName = str;
 	}
 
@@ -71,8 +66,7 @@ public class ThemeException extends SemanticException
 	 * @return the style name.
 	 */
 
-	public Object getTheme( )
-	{
+	public Object getTheme() {
 		return themeName;
 	}
 
@@ -81,15 +75,11 @@ public class ThemeException extends SemanticException
 	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_NOT_FOUND
-				|| sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					themeName, getElementName( element )} );
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_NOT_FOUND || sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { themeName, getElementName(element) });
 		}
 
-		return ModelMessages.getMessage( sResourceKey );
+		return ModelMessages.getMessage(sResourceKey);
 	}
 }

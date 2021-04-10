@@ -14,14 +14,12 @@ package org.eclipse.birt.report.model.core;
 /**
  * 
  */
-class ContainerContextProvider extends ContainerContextProviderImpl
-{
+class ContainerContextProvider extends ContainerContextProviderImpl {
 
 	/**
 	 * @param containerInfo
 	 */
-	public ContainerContextProvider( ContainerContext containerInfo )
-	{
-		super( containerInfo );
+	public ContainerContextProvider(ContainerContext containerInfo) {
+		super(containerInfo);
 	}
 }

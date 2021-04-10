@@ -12,30 +12,24 @@ package org.eclipse.birt.report.engine.emitter.ods.layout;
 
 import org.eclipse.birt.report.engine.odf.AbstractOdfEmitterContext;
 
-
-public class OdsContext extends AbstractOdfEmitterContext
-{
+public class OdsContext extends AbstractOdfEmitterContext {
 	private boolean wrappingText = true;
-	
+
 	private Boolean hideGridlines;
-	
-	public void setWrappingText(boolean wrappingText)
-	{
+
+	public void setWrappingText(boolean wrappingText) {
 		this.wrappingText = wrappingText;
 	}
 
-	public boolean getWrappingText()
-	{
+	public boolean getWrappingText() {
 		return wrappingText;
 	}
 
-	public boolean getHideGridlines( )
-	{
+	public boolean getHideGridlines() {
 		return this.hideGridlines;
 	}
 
-	public void setHideGridlines( Boolean hideGridlines )
-	{
+	public void setHideGridlines(Boolean hideGridlines) {
 		this.hideGridlines = hideGridlines;
 	}
 }

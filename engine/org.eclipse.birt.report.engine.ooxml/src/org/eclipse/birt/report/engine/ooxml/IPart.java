@@ -16,39 +16,37 @@ import java.io.OutputStream;
 
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
+public interface IPart extends IPartContainer {
 
-public interface IPart extends IPartContainer
-{
+	String getRelativeUri();
 
-	String getRelativeUri( );
+	Package getPackage();
 
-	Package getPackage( );
+	ContentType getContentType();
 
-	ContentType getContentType( );
+	OutputStream getCacheOutputStream() throws IOException;
 
-	OutputStream getCacheOutputStream( ) throws IOException;
+	OutputStream getOutputStream() throws IOException;
 
-	OutputStream getOutputStream( ) throws IOException;
-	
-	String getAbsoluteUri( );
+	String getAbsoluteUri();
 
-	String getRelationshipId( );
+	String getRelationshipId();
 
-	String getRelationshipUri( );
+	String getRelationshipUri();
 
-	String getRelationshipType( );
+	String getRelationshipType();
 
-	OOXmlWriter getCacheWriter( ) throws IOException;
+	OOXmlWriter getCacheWriter() throws IOException;
 
-	OOXmlWriter getWriter( ) throws IOException;
+	OOXmlWriter getWriter() throws IOException;
 
-	String getHyperlinkId( String url );
+	String getHyperlinkId(String url);
 
-	String getExternalImageId( String url );
+	String getExternalImageId(String url);
 
-	boolean isCached( );
-	
-	boolean isReference( );
+	boolean isCached();
 
-	String getBookmarkId( String bmkurl );
+	boolean isReference();
+
+	String getBookmarkId(String bmkurl);
 }

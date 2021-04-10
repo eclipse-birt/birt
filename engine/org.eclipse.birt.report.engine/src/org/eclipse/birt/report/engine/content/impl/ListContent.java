@@ -25,126 +25,99 @@ import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 
-public class ListContent extends ContainerContent implements IListContent
-{
+public class ListContent extends ContainerContent implements IListContent {
 
 	Boolean headerRepeat;
 
-	ListContent( IReportContent report )
-	{
-		super( report );
+	ListContent(IReportContent report) {
+		super(report);
 	}
-	
-	ListContent(IListContent listContent)
-	{
-		super(listContent);
-		this.headerRepeat = Boolean.valueOf(listContent.isHeaderRepeat( ));
-	}
-	
 
-	public int getContentType( )
-	{
+	ListContent(IListContent listContent) {
+		super(listContent);
+		this.headerRepeat = Boolean.valueOf(listContent.isHeaderRepeat());
+	}
+
+	public int getContentType() {
 		return LIST_CONTENT;
 	}
 
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitList( this, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitList(this, value);
 	}
 
-	public void setHeaderRepeat( boolean headerRepeat )
-	{
-		if ( generateBy instanceof ListItemDesign )
-		{
-			boolean repeatHeader = ( (ListItemDesign) generateBy )
-					.isRepeatHeader( );
-			if ( repeatHeader == headerRepeat )
-			{
+	public void setHeaderRepeat(boolean headerRepeat) {
+		if (generateBy instanceof ListItemDesign) {
+			boolean repeatHeader = ((ListItemDesign) generateBy).isRepeatHeader();
+			if (repeatHeader == headerRepeat) {
 				this.headerRepeat = null;
 				return;
 			}
 		}
-		this.headerRepeat = Boolean.valueOf( headerRepeat );
+		this.headerRepeat = Boolean.valueOf(headerRepeat);
 	}
 
-	public boolean isHeaderRepeat( )
-	{
-		if ( headerRepeat != null )
-		{
-			return headerRepeat.booleanValue( );
+	public boolean isHeaderRepeat() {
+		if (headerRepeat != null) {
+			return headerRepeat.booleanValue();
 		}
-		if ( generateBy instanceof ListItemDesign )
-		{
-			return ( (ListItemDesign) generateBy ).isRepeatHeader( );
+		if (generateBy instanceof ListItemDesign) {
+			return ((ListItemDesign) generateBy).isRepeatHeader();
 		}
 
 		return false;
 	}
 
-	public IListBandContent getHeader( )
-	{
-		return getListBand( IListBandContent.BAND_HEADER );
+	public IListBandContent getHeader() {
+		return getListBand(IListBandContent.BAND_HEADER);
 	}
 
-	protected IListBandContent getListBand( int type )
-	{
+	protected IListBandContent getListBand(int type) {
 		IListBandContent listBand;
-		if ( children == null )
-		{
+		if (children == null) {
 			return null;
 		}
-		Iterator iter = children.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Object child = iter.next( );
-			if ( child instanceof IListBandContent )
-			{
+		Iterator iter = children.iterator();
+		while (iter.hasNext()) {
+			Object child = iter.next();
+			if (child instanceof IListBandContent) {
 				listBand = (IListBandContent) child;
-				if ( listBand.getBandType( ) == type )
-				{
+				if (listBand.getBandType() == type) {
 					return listBand;
 				}
 			}
 		}
 		return null;
 	}
+
 	static final protected short FIELD_HEADER_REPEAT = 1300;
 
-	protected void writeFields( DataOutputStream out ) throws IOException
-	{
-		super.writeFields( out );
-		if ( headerRepeat != null )
-		{
-			IOUtil.writeShort( out, FIELD_HEADER_REPEAT);
-			IOUtil.writeBool( out, headerRepeat.booleanValue( ) );
+	protected void writeFields(DataOutputStream out) throws IOException {
+		super.writeFields(out);
+		if (headerRepeat != null) {
+			IOUtil.writeShort(out, FIELD_HEADER_REPEAT);
+			IOUtil.writeBool(out, headerRepeat.booleanValue());
 		}
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in,
-			ClassLoader loader ) throws IOException
-	{
-		switch ( filedId )
-		{
-			case FIELD_HEADER_REPEAT :
-				headerRepeat = Boolean.valueOf( IOUtil.readBool( in ) );
-				break;
-			default :
-				super.readField( version, filedId, in, loader );
+	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
+		switch (filedId) {
+		case FIELD_HEADER_REPEAT:
+			headerRepeat = Boolean.valueOf(IOUtil.readBool(in));
+			break;
+		default:
+			super.readField(version, filedId, in, loader);
 		}
 	}
-	
-	public boolean needSave( )
-	{
-		if ( headerRepeat != null )
-		{
+
+	public boolean needSave() {
+		if (headerRepeat != null) {
 			return true;
 		}
-		return super.needSave( );
+		return super.needSave();
 	}
-	
-	protected IContent cloneContent()
-	{
+
+	protected IContent cloneContent() {
 		return new ListContent(this);
 	}
 

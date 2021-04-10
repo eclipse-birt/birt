@@ -21,23 +21,19 @@ import org.eclipse.birt.report.model.core.Module;
  * @see org.eclipse.birt.report.model.elements.ListGroup
  */
 
-public class ListGroupHandle extends GroupHandle
-{
+public class ListGroupHandle extends GroupHandle {
 
 	/**
 	 * Constructs a list group handle with the given design and the element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public ListGroupHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public ListGroupHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 }

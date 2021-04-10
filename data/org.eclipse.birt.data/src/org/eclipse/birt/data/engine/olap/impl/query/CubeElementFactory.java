@@ -30,115 +30,97 @@ import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 
 /**
- * CubeElementFactory can be used to create the elements that are needed in defining queries.
+ * CubeElementFactory can be used to create the elements that are needed in
+ * defining queries.
  */
 
-public class CubeElementFactory implements ICubeElementFactory
-{
+public class CubeElementFactory implements ICubeElementFactory {
 	/**
 	 * Create a new ICubeQueryDefinition instance.
+	 * 
 	 * @return
 	 */
-	public ICubeQueryDefinition createCubeQuery( String name )
-	{
-		return new CubeQueryDefinition( name );
+	public ICubeQueryDefinition createCubeQuery(String name) {
+		return new CubeQueryDefinition(name);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory#createSubCubeQuery(java.lang.String)
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory#
+	 * createSubCubeQuery(java.lang.String)
 	 */
-	public ISubCubeQueryDefinition createSubCubeQuery( String name )
-	{
-		return new SubCubeQueryDefinition( name );
+	public ISubCubeQueryDefinition createSubCubeQuery(String name) {
+		return new SubCubeQueryDefinition(name);
 	}
-	
-	/**
-	 * create a new ICubeFilterDefinition instance.
-	 * @return
-	 */
-	public ICubeFilterDefinition creatCubeFilterDefinition(
-			IBaseExpression filterExpr, ILevelDefinition targetLevel,
-			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue )
-	{
-		return new CubeFilterDefinition( filterExpr,
-				targetLevel,
-				axisQulifierLevel,
-				axisQulifierValue );
-	}
-	
+
 	/**
 	 * create a new ICubeFilterDefinition instance.
 	 * 
 	 * @return
 	 */
-	public ICubeFilterDefinition creatCubeFilterDefinition(
-			IBaseExpression filterExpr, ILevelDefinition targetLevel,
-			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue,
-			boolean updateAggr )
-	{
-		CubeFilterDefinition cubeFilterDefinition = new CubeFilterDefinition( filterExpr,
-				targetLevel,
-				axisQulifierLevel,
-				axisQulifierValue );
-		cubeFilterDefinition.setUpdateAggregation( updateAggr );
-		return cubeFilterDefinition;
+	public ICubeFilterDefinition creatCubeFilterDefinition(IBaseExpression filterExpr, ILevelDefinition targetLevel,
+			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue) {
+		return new CubeFilterDefinition(filterExpr, targetLevel, axisQulifierLevel, axisQulifierValue);
 	}
-	
+
 	/**
 	 * create a new ICubeFilterDefinition instance.
+	 * 
 	 * @return
 	 */
-	public IFilterDefinition creatLevelMemberFilterDefinition(
-			Collection<IScriptExpression> targetLevels, int operator,
-			Collection<Collection<IScriptExpression>> memberValues )
-	{
-		return new FilterDefinition( new CollectionConditionalExpression( targetLevels,
-				operator,
-				memberValues ) );
+	public ICubeFilterDefinition creatCubeFilterDefinition(IBaseExpression filterExpr, ILevelDefinition targetLevel,
+			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue, boolean updateAggr) {
+		CubeFilterDefinition cubeFilterDefinition = new CubeFilterDefinition(filterExpr, targetLevel, axisQulifierLevel,
+				axisQulifierValue);
+		cubeFilterDefinition.setUpdateAggregation(updateAggr);
+		return cubeFilterDefinition;
+	}
+
+	/**
+	 * create a new ICubeFilterDefinition instance.
+	 * 
+	 * @return
+	 */
+	public IFilterDefinition creatLevelMemberFilterDefinition(Collection<IScriptExpression> targetLevels, int operator,
+			Collection<Collection<IScriptExpression>> memberValues) {
+		return new FilterDefinition(new CollectionConditionalExpression(targetLevels, operator, memberValues));
 	}
 
 	/**
 	 * create a new ICubeSortDefinition instance.
 	 */
-	public ICubeSortDefinition createCubeSortDefinition(
-			String filterExpr, ILevelDefinition targetLevel,
-			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue,
-			int sortDirection )
-	{
-		return this.createCubeSortDefinition( new ScriptExpression( filterExpr ), 
-				targetLevel, axisQulifierLevel, axisQulifierValue, sortDirection );
+	public ICubeSortDefinition createCubeSortDefinition(String filterExpr, ILevelDefinition targetLevel,
+			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue, int sortDirection) {
+		return this.createCubeSortDefinition(new ScriptExpression(filterExpr), targetLevel, axisQulifierLevel,
+				axisQulifierValue, sortDirection);
 	}
-	
+
 	/**
 	 * Create a new ILevelDefinition instance.
+	 * 
 	 * @param dimensionName
 	 * @param hierarchyName
 	 * @param levelName
 	 * @return
 	 */
-	public ILevelDefinition createLevel( String dimensionName, String hierarchyName, String levelName )
-	{
+	public ILevelDefinition createLevel(String dimensionName, String hierarchyName, String levelName) {
 		return null;
 	}
 
-	public ICubeOperationFactory getCubeOperationFactory( )
-	{
-		return CubeOperationFactory.getInstance( );
+	public ICubeOperationFactory getCubeOperationFactory() {
+		return CubeOperationFactory.getInstance();
 	}
 
-	public ICubeSortDefinition createCubeSortDefinition(
-			IScriptExpression filterExpr, ILevelDefinition targetLevel,
-			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue,
-			int sortDirection )
-	{
-		CubeSortDefinition cubeSortDefn = new CubeSortDefinition( );
-		cubeSortDefn.setExpression( filterExpr );
-		cubeSortDefn.setTargetLevel( targetLevel );
-		cubeSortDefn.setAxisQualifierLevels( axisQulifierLevel );
-		cubeSortDefn.setAxisQualifierValues( axisQulifierValue );
-		cubeSortDefn.setSortDirection( sortDirection );
+	public ICubeSortDefinition createCubeSortDefinition(IScriptExpression filterExpr, ILevelDefinition targetLevel,
+			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue, int sortDirection) {
+		CubeSortDefinition cubeSortDefn = new CubeSortDefinition();
+		cubeSortDefn.setExpression(filterExpr);
+		cubeSortDefn.setTargetLevel(targetLevel);
+		cubeSortDefn.setAxisQualifierLevels(axisQulifierLevel);
+		cubeSortDefn.setAxisQualifierValues(axisQulifierValue);
+		cubeSortDefn.setSortDirection(sortDirection);
 		return cubeSortDefn;
 	}
-	
+
 }

@@ -18,8 +18,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * Tests the function to cache values in the report design.
  */
 
-public class ReportDesignCacheTest extends BaseTestCase
-{
+public class ReportDesignCacheTest extends BaseTestCase {
 
 	/**
 	 * If any activity stack operation invovles, clears the flag for caching.
@@ -27,23 +26,21 @@ public class ReportDesignCacheTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testClearCacheFlag( ) throws Exception
-	{
-		createDesign( );
-		designHandle.cacheValues( );
-		assertTrue( design.isCached( ) );
+	public void testClearCacheFlag() throws Exception {
+		createDesign();
+		designHandle.cacheValues();
+		assertTrue(design.isCached());
 
-		LabelHandle label = designHandle.getElementFactory( ).newLabel(
-				"newLabel" ); //$NON-NLS-1$
+		LabelHandle label = designHandle.getElementFactory().newLabel("newLabel"); //$NON-NLS-1$
 
-		designHandle.getBody( ).add( label );
-		assertFalse( design.isCached( ) );
+		designHandle.getBody().add(label);
+		assertFalse(design.isCached());
 
-		designHandle.cacheValues( );
-		assertTrue( design.isCached( ) );
+		designHandle.cacheValues();
+		assertTrue(design.isCached());
 
-		label.setText( "abc" );//$NON-NLS-1$
-		assertFalse( design.isCached( ) );
+		label.setText("abc");//$NON-NLS-1$
+		assertFalse(design.isCached());
 	}
 
 	/**
@@ -52,25 +49,21 @@ public class ReportDesignCacheTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testCacheStyles( ) throws Exception
-	{
-		createDesign( );
+	public void testCacheStyles() throws Exception {
+		createDesign();
 
-		StyleHandle tmpStyle = designHandle.getElementFactory( ).newStyle(
-				"style1" ); //$NON-NLS-1$
-		designHandle.getStyles( ).add( tmpStyle );
-		tmpStyle.setProperty( StyleHandle.COLOR_PROP, ColorPropertyType.RED );
+		StyleHandle tmpStyle = designHandle.getElementFactory().newStyle("style1"); //$NON-NLS-1$
+		designHandle.getStyles().add(tmpStyle);
+		tmpStyle.setProperty(StyleHandle.COLOR_PROP, ColorPropertyType.RED);
 
-		LabelHandle label = designHandle.getElementFactory( ).newLabel(
-				"newLabel" ); //$NON-NLS-1$
-		label.setStyle( (SharedStyleHandle) tmpStyle );
-		designHandle.getBody( ).add( label );
+		LabelHandle label = designHandle.getElementFactory().newLabel("newLabel"); //$NON-NLS-1$
+		label.setStyle((SharedStyleHandle) tmpStyle);
+		designHandle.getBody().add(label);
 
-		designHandle.cacheValues( );
-		assertTrue( design.isCached( ) );
+		designHandle.cacheValues();
+		assertTrue(design.isCached());
 
-		assertEquals( ColorPropertyType.RED, label
-				.getStringProperty( StyleHandle.COLOR_PROP ) );
+		assertEquals(ColorPropertyType.RED, label.getStringProperty(StyleHandle.COLOR_PROP));
 
 	}
 }

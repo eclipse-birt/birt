@@ -18,8 +18,7 @@ import org.eclipse.birt.report.engine.extension.IRowSet;
 /**
  * A BIRT implementation of IDataRowExpressionEvaluator.
  */
-public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
-{
+public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter {
 
 	private IRowSet set;
 
@@ -29,29 +28,30 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 * @param set
 	 * @param definition
 	 */
-	public BIRTDataRowEvaluator( IRowSet set )
-	{
+	public BIRTDataRowEvaluator(IRowSet set) {
 		this.set = set;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang
+	 * .String)
 	 */
-	public Object evaluate( String expression )
-	{
-		return set.evaluate( expression );
+	public Object evaluate(String expression) {
+		return set.evaluate(expression);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(
+	 * java.lang.String)
 	 */
-	public Object evaluateGlobal( String expression )
-	{
-		return evaluate( expression );
+	public Object evaluateGlobal(String expression) {
+		return evaluate(expression);
 	}
 
 	/*
@@ -59,9 +59,8 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#next()
 	 */
-	public boolean next( )
-	{
-		return set.next( );
+	public boolean next() {
+		return set.next();
 	}
 
 	/*
@@ -69,9 +68,8 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#close()
 	 */
-	public void close( )
-	{
-		set.close( );
+	public void close() {
+		set.close();
 	}
 
 	/*
@@ -79,9 +77,8 @@ public class BIRTDataRowEvaluator extends DataRowExpressionEvaluatorAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
-	public boolean first( )
-	{
-		return set.next( );
+	public boolean first() {
+		return set.next();
 	}
 
 }

@@ -24,10 +24,10 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Action of whether or not including footer of table
  */
-public class IncludeListHeaderAction extends SelectionAction
-{
+public class IncludeListHeaderAction extends SelectionAction {
 
-	private static final String ACTION_MSG_INCLUDE_HEADER = Messages.getString( "IncludeListHeaderAction.actionMsg.includeHeader" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_INCLUDE_HEADER = Messages
+			.getString("IncludeListHeaderAction.actionMsg.includeHeader"); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeListHeaderAction"; //$NON-NLS-1$
@@ -35,15 +35,13 @@ public class IncludeListHeaderAction extends SelectionAction
 	/**
 	 * Constructs new instance.
 	 * 
-	 * @param part
-	 *            current work bench part
+	 * @param part current work bench part
 	 */
-	public IncludeListHeaderAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setChecked( true );
-		setText( ACTION_MSG_INCLUDE_HEADER );
+	public IncludeListHeaderAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setChecked(true);
+		setText(ACTION_MSG_INCLUDE_HEADER);
 	}
 
 	/*
@@ -51,8 +49,7 @@ public class IncludeListHeaderAction extends SelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
+	protected boolean calculateEnabled() {
 		return true;
 	}
 
@@ -61,27 +58,22 @@ public class IncludeListHeaderAction extends SelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.SelectionAction#update()
 	 */
-	public void update( )
-	{
-		super.update( );
-		if ( getListEditpart( ) != null )
-		{
-			ListEditPart part = getListEditpart( );
-			setChecked( part.isIncludeSlotHandle( ListHandleAdapter.HEADER ) );
+	public void update() {
+		super.update();
+		if (getListEditpart() != null) {
+			ListEditPart part = getListEditpart();
+			setChecked(part.isIncludeSlotHandle(ListHandleAdapter.HEADER));
 		}
 	}
 
 	/**
 	 * Runs action.
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Include list header action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Include list header action >> Run ..."); //$NON-NLS-1$
 		}
-		getListEditpart( ).includeSlotHandle( isChecked( ),
-				ListHandleAdapter.HEADER );
+		getListEditpart().includeSlotHandle(isChecked(), ListHandleAdapter.HEADER);
 	}
 
 	/**
@@ -89,24 +81,19 @@ public class IncludeListHeaderAction extends SelectionAction
 	 * 
 	 * @return list edit part The current list edit part
 	 */
-	protected ListEditPart getListEditpart( )
-	{
-		if ( getSelectedObjects( ) == null || getSelectedObjects( ).isEmpty( ) )
+	protected ListEditPart getListEditpart() {
+		if (getSelectedObjects() == null || getSelectedObjects().isEmpty())
 			return null;
-		List list = getSelectedObjects( );
-		int size = list.size( );
+		List list = getSelectedObjects();
+		int size = list.size();
 		ListEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = getSelectedObjects( ).get( i );
+		for (int i = 0; i < size; i++) {
+			Object obj = getSelectedObjects().get(i);
 
-			if ( obj instanceof ListEditPart )
-			{
+			if (obj instanceof ListEditPart) {
 				part = (ListEditPart) obj;
-			}
-			else if ( obj instanceof ListBandEditPart )
-			{
-				part = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
+			} else if (obj instanceof ListBandEditPart) {
+				part = (ListEditPart) ((ListBandEditPart) obj).getParent();
 			}
 		}
 		return part;

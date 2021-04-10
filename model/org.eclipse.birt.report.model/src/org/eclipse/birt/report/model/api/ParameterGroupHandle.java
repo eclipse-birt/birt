@@ -23,40 +23,31 @@ import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
  * @see org.eclipse.birt.report.model.elements.ParameterGroup
  */
 
-public class ParameterGroupHandle extends ReportElementHandle
-		implements
-			IParameterGroupModel
-{
+public class ParameterGroupHandle extends ReportElementHandle implements IParameterGroupModel {
 
 	/**
 	 * Constructs the handle for a group parameters with the given design and
-	 * element. The application generally does not create handles directly.
-	 * Instead, it uses one of the navigation methods available on other element
-	 * handles.
+	 * element. The application generally does not create handles directly. Instead,
+	 * it uses one of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public ParameterGroupHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public ParameterGroupHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
-	 * Returns a slot handle to work with the parameters within the parameter
-	 * group.
+	 * Returns a slot handle to work with the parameters within the parameter group.
 	 * 
 	 * @return a handle for working with the parameters in this group
 	 * 
 	 * @see SlotHandle
 	 */
 
-	public SlotHandle getParameters( )
-	{
-		return getSlot( IParameterGroupModel.PARAMETERS_SLOT );
+	public SlotHandle getParameters() {
+		return getSlot(IParameterGroupModel.PARAMETERS_SLOT);
 	}
 
 	/**
@@ -65,24 +56,20 @@ public class ParameterGroupHandle extends ReportElementHandle
 	 * @return the help text
 	 */
 
-	public String getHelpText( )
-	{
-		return getStringProperty( IParameterGroupModel.HELP_TEXT_PROP );
+	public String getHelpText() {
+		return getStringProperty(IParameterGroupModel.HELP_TEXT_PROP);
 	}
 
 	/**
 	 * Returns additional pop-up help text associated with the group.
 	 * 
-	 * @param text
-	 *            the help text
+	 * @param text the help text
 	 * 
-	 * @throws SemanticException
-	 *             if the help text property is locked.
+	 * @throws SemanticException if the help text property is locked.
 	 */
 
-	public void setHelpText( String text ) throws SemanticException
-	{
-		setStringProperty( IParameterGroupModel.HELP_TEXT_PROP, text );
+	public void setHelpText(String text) throws SemanticException {
+		setStringProperty(IParameterGroupModel.HELP_TEXT_PROP, text);
 	}
 
 	/**
@@ -91,24 +78,21 @@ public class ParameterGroupHandle extends ReportElementHandle
 	 * @return the resource key of the help text
 	 */
 
-	public String getHelpTextKey( )
-	{
-		return getStringProperty( IParameterGroupModel.HELP_TEXT_KEY_PROP );
+	public String getHelpTextKey() {
+		return getStringProperty(IParameterGroupModel.HELP_TEXT_KEY_PROP);
 	}
 
 	/**
 	 * Sets the resource key of the help text for this parameter group.
 	 * 
-	 * @param text
-	 *            the resource key of the help text
+	 * @param text the resource key of the help text
 	 * 
-	 * @throws SemanticException
-	 *             if the resource-key of the help text property is locked.
+	 * @throws SemanticException if the resource-key of the help text property is
+	 *                           locked.
 	 */
 
-	public void setHelpTextKey( String text ) throws SemanticException
-	{
-		setStringProperty( IParameterGroupModel.HELP_TEXT_KEY_PROP, text );
+	public void setHelpTextKey(String text) throws SemanticException {
+		setStringProperty(IParameterGroupModel.HELP_TEXT_KEY_PROP, text);
 	}
 
 	/**
@@ -117,23 +101,19 @@ public class ParameterGroupHandle extends ReportElementHandle
 	 * @return <code>true</code> if can expand, otherwise <code>false</code>.
 	 */
 
-	public boolean startExpanded( )
-	{
-		return getBooleanProperty( IParameterGroupModel.START_EXPANDED_PROP );
+	public boolean startExpanded() {
+		return getBooleanProperty(IParameterGroupModel.START_EXPANDED_PROP);
 	}
 
 	/**
 	 * Sets whether the UI can expand and collapse groups.
 	 * 
-	 * @param value
-	 *            <code>true</code> if can expand, <code>false</code> not.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param value <code>true</code> if can expand, <code>false</code> not.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setStartExpanded( boolean value ) throws SemanticException
-	{
-		setBooleanProperty( IParameterGroupModel.START_EXPANDED_PROP, value );
+	public void setStartExpanded(boolean value) throws SemanticException {
+		setBooleanProperty(IParameterGroupModel.START_EXPANDED_PROP, value);
 	}
 
 	/**
@@ -143,9 +123,8 @@ public class ParameterGroupHandle extends ReportElementHandle
 	 * 
 	 */
 
-	public String getPromptText( )
-	{
-		return getStringProperty( PROMPT_TEXT_PROP );
+	public String getPromptText() {
+		return getStringProperty(PROMPT_TEXT_PROP);
 	}
 
 	/**
@@ -155,40 +134,34 @@ public class ParameterGroupHandle extends ReportElementHandle
 	 * 
 	 */
 
-	public String getPromptTextKey( )
-	{
-		return getStringProperty( PROMPT_TEXT_ID_PROP );
+	public String getPromptTextKey() {
+		return getStringProperty(PROMPT_TEXT_ID_PROP);
 	}
 
 	/**
 	 * Sets the value for the display prompt context.
 	 * 
-	 * @param promptValue
-	 *            The display prompt context.
+	 * @param promptValue The display prompt context.
 	 * 
 	 * @throws SemanticException
 	 * 
 	 */
 
-	public void setPromptText( String promptValue ) throws SemanticException
-	{
-		setStringProperty( PROMPT_TEXT_PROP, promptValue );
+	public void setPromptText(String promptValue) throws SemanticException {
+		setStringProperty(PROMPT_TEXT_PROP, promptValue);
 	}
 
 	/**
 	 * Set the value for the prompt text key.
 	 * 
-	 * @param promptIDValue
-	 *            The prompt text key.
+	 * @param promptIDValue The prompt text key.
 	 * 
 	 * @throws SemanticException
 	 * 
 	 */
 
-	public void setPromptTextKey( String promptIDValue )
-			throws SemanticException
-	{
-		setStringProperty( PROMPT_TEXT_ID_PROP, promptIDValue );
+	public void setPromptTextKey(String promptIDValue) throws SemanticException {
+		setStringProperty(PROMPT_TEXT_ID_PROP, promptIDValue);
 	}
 
 }

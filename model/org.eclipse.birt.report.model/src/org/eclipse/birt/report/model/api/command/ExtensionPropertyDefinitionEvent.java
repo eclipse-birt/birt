@@ -16,30 +16,28 @@ import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
  * Notification event to send when the dynamic property list is changed after
- * setting an extension property value. 
+ * setting an extension property value.
  */
 
-public class ExtensionPropertyDefinitionEvent extends NotificationEvent
-{
+public class ExtensionPropertyDefinitionEvent extends NotificationEvent {
 	/**
 	 * Constructor.
 	 * 
-	 * @param target
-	 *            the target element.
+	 * @param target the target element.
 	 */
 
-	public ExtensionPropertyDefinitionEvent( DesignElement target )
-	{
-		super( target );
+	public ExtensionPropertyDefinitionEvent(DesignElement target) {
+		super(target);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
+	 * )
 	 */
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return EXTENSION_PROPERTY_DEFINITION_EVENT;
 	}
 

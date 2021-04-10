@@ -13,20 +13,16 @@ package org.eclipse.birt.report.engine.extension.engine;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 
-public class DocumentExtensionAdapter implements IDocumentExtension
-{
+public class DocumentExtensionAdapter implements IDocumentExtension {
 
-	public void close( )
-	{
+	public void close() {
 	}
 
-	public IContentProcessor getContentProcessor( ) throws EngineException
-	{
+	public IContentProcessor getContentProcessor() throws EngineException {
 		return null;
 	}
 
-	public IContentProcessor getPageProcessor( ) throws EngineException
-	{
+	public IContentProcessor getPageProcessor() throws EngineException {
 		return null;
 	}
 }

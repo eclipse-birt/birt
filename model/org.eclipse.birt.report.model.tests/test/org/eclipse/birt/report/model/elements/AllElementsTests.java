@@ -18,21 +18,19 @@ import junit.framework.TestSuite;
  * Tests cases in elements package.
  */
 
-public class AllElementsTests
-{
+public class AllElementsTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
 		// add all test classes here
-		test.addTestSuite( ReportDesignTest.class );
-		test.addTestSuite( ReportDesignUserDefinedMessagesTest.class );
-		test.addTestSuite( SemanticErrorTest.class );
+		test.addTestSuite(ReportDesignTest.class);
+		test.addTestSuite(ReportDesignUserDefinedMessagesTest.class);
+		test.addTestSuite(SemanticErrorTest.class);
 
 		return test;
 	}

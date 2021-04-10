@@ -24,8 +24,7 @@ import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
  * 
  */
 
-public class ParamNodeFactory
-{
+public class ParamNodeFactory {
 
 	/**
 	 * Builds parameter tree.
@@ -34,34 +33,29 @@ public class ParamNodeFactory
 	 * @return parameter tree.
 	 */
 
-	public static IParamNode buildParamTree( IGetParameterDefinitionTask task )
-	{
-		ParameterFactory factory = new ParameterFactory( task );
-		List children = factory.getRootChildren( );
+	public static IParamNode buildParamTree(IGetParameterDefinitionTask task) {
+		ParameterFactory factory = new ParameterFactory(task);
+		List children = factory.getRootChildren();
 
-		CompositeNode rootNode = new CompositeNode( );
+		CompositeNode rootNode = new CompositeNode();
 
-		Iterator iterator = children.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			Object obj = iterator.next( );
+		Iterator iterator = children.iterator();
+		while (iterator.hasNext()) {
+			Object obj = iterator.next();
 
-			if ( obj instanceof IParameter )
-			{
+			if (obj instanceof IParameter) {
 				IParameter param = (IParameter) obj;
-				ParamLeaf leaf = new ParamLeaf( param );
-				rootNode.add( leaf );
+				ParamLeaf leaf = new ParamLeaf(param);
+				rootNode.add(leaf);
 
-			}
-			else if ( obj instanceof IParamGroup )
-			{
+			} else if (obj instanceof IParamGroup) {
 				IParamGroup paramGroup = (IParamGroup) obj;
-				CompositeNode node = new CompositeNode( );
+				CompositeNode node = new CompositeNode();
 
-				List childList = paramGroup.getChildren( );
-				rootNode.add( node );
+				List childList = paramGroup.getChildren();
+				rootNode.add(node);
 
-				buildParamGroup( node, childList );
+				buildParamGroup(node, childList);
 			}
 
 		}
@@ -74,17 +68,15 @@ public class ParamNodeFactory
 	 * @param node
 	 * @param childList
 	 */
-	private static void buildParamGroup( CompositeNode node, List childList )
-	{
+	private static void buildParamGroup(CompositeNode node, List childList) {
 		assert node != null;
 		assert childList != null;
 
-		Iterator iterator = childList.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			IParameter param = (IParameter) iterator.next( );
-			ParamLeaf leaf = new ParamLeaf( param );
-			node.add( leaf );
+		Iterator iterator = childList.iterator();
+		while (iterator.hasNext()) {
+			IParameter param = (IParameter) iterator.next();
+			ParamLeaf leaf = new ParamLeaf(param);
+			node.add(leaf);
 		}
 	}
 

@@ -15,23 +15,20 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.ColumnConne
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 
-public class JoinSelectionEditPolicy extends SelectionEditPolicy
-{
+public class JoinSelectionEditPolicy extends SelectionEditPolicy {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideSelection()
 	 */
-	protected void hideSelection( )
-	{
-		JoinConditionEditPart part = (JoinConditionEditPart) this.getHost( );
-		( (ColumnConnection) this.getHostFigure( ) ).setLineWidth( 1 );
-		if ( part.getTarget( ) instanceof ColumnEditPart )
-		{
-			if ( part.getSource( ) != null )
-				part.getSource( ).setSelected( EditPart.SELECTED_NONE );
-			part.getTarget( ).setSelected( EditPart.SELECTED_NONE );
+	protected void hideSelection() {
+		JoinConditionEditPart part = (JoinConditionEditPart) this.getHost();
+		((ColumnConnection) this.getHostFigure()).setLineWidth(1);
+		if (part.getTarget() instanceof ColumnEditPart) {
+			if (part.getSource() != null)
+				part.getSource().setSelected(EditPart.SELECTED_NONE);
+			part.getTarget().setSelected(EditPart.SELECTED_NONE);
 		}
 	}
 
@@ -40,15 +37,13 @@ public class JoinSelectionEditPolicy extends SelectionEditPolicy
 	 * 
 	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#showSelection()
 	 */
-	protected void showSelection( )
-	{
-		JoinConditionEditPart part = (JoinConditionEditPart) this.getHost( );
-		( (ColumnConnection) this.getHostFigure( ) ).setLineWidth( 2 );
-		if ( part.getTarget( ) instanceof ColumnEditPart )
-		{
-			if ( part.getSource( ) != null )
-				part.getSource( ).setSelected( EditPart.SELECTED );
-			part.getTarget( ).setSelected( EditPart.SELECTED );
+	protected void showSelection() {
+		JoinConditionEditPart part = (JoinConditionEditPart) this.getHost();
+		((ColumnConnection) this.getHostFigure()).setLineWidth(2);
+		if (part.getTarget() instanceof ColumnEditPart) {
+			if (part.getSource() != null)
+				part.getSource().setSelected(EditPart.SELECTED);
+			part.getTarget().setSelected(EditPart.SELECTED);
 		}
 	}
 

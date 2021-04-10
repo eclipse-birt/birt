@@ -26,80 +26,69 @@ import org.eclipse.swt.widgets.Text;
 /**
  * FigureDirectEditManager
  */
-public class FigureDirectEditManager extends DirectEditManager
-{
+public class FigureDirectEditManager extends DirectEditManager {
 
 	Font scaledFont;
 
 	String initialText = ""; //$NON-NLS-1$
 
-	public FigureDirectEditManager( GraphicalEditPart source )
-	{
-		super( source,
-				TextCellEditor.class,
-				new FigureCellEditorLocator( source.getFigure( ) ) );
+	public FigureDirectEditManager(GraphicalEditPart source) {
+		super(source, TextCellEditor.class, new FigureCellEditorLocator(source.getFigure()));
 	}
 
 	/**
 	 * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
 	 */
-	protected void bringDown( )
-	{
-		//This method might be re-entered when super.bringDown() is called.
+	protected void bringDown() {
+		// This method might be re-entered when super.bringDown() is called.
 		Font disposeFont = scaledFont;
 		scaledFont = null;
-		super.bringDown( );
-		if ( disposeFont != null )
-			disposeFont.dispose( );
+		super.bringDown();
+		if (disposeFont != null)
+			disposeFont.dispose();
 	}
 
-	protected void initCellEditor( )
-	{
-		Text text = (Text) getCellEditor( ).getControl( );
+	protected void initCellEditor() {
+		Text text = (Text) getCellEditor().getControl();
 
-		IFigure figure = getEditPart( ).getFigure( );
+		IFigure figure = getEditPart().getFigure();
 		String initialLabelText = initialText;
-		getCellEditor( ).setValue( initialLabelText );
+		getCellEditor().setValue(initialLabelText);
 
-		scaledFont = figure.getFont( );
-		FontData data = scaledFont.getFontData( )[0];
-		Dimension fontSize = new Dimension( 0, data.getHeight( ) );
-		figure.translateToAbsolute( fontSize );
-		data.setHeight( fontSize.height );
-		scaledFont = new Font( null, data );
+		scaledFont = figure.getFont();
+		FontData data = scaledFont.getFontData()[0];
+		Dimension fontSize = new Dimension(0, data.getHeight());
+		figure.translateToAbsolute(fontSize);
+		data.setHeight(fontSize.height);
+		scaledFont = new Font(null, data);
 
-		text.setFont( scaledFont );
-		text.selectAll( );
+		text.setFont(scaledFont);
+		text.selectAll();
 	}
 
 	/**
-	 * Creates the cell editor on the given composite. The cell editor is
-	 * created by instantiating the cell editor type passed into this
-	 * DirectEditManager's constuctor.
+	 * Creates the cell editor on the given composite. The cell editor is created by
+	 * instantiating the cell editor type passed into this DirectEditManager's
+	 * constuctor.
 	 * 
-	 * @param composite
-	 *            the composite to create the cell editor on
+	 * @param composite the composite to create the cell editor on
 	 * @return the newly created cell editor
 	 */
-	protected CellEditor createCellEditorOn( Composite composite )
-	{
-		return new TextCellEditor( composite, SWT.MULTI | SWT.WRAP );
+	protected CellEditor createCellEditorOn(Composite composite) {
+		return new TextCellEditor(composite, SWT.MULTI | SWT.WRAP);
 	}
 
 	/**
 	 * @return Returns the initialText.
 	 */
-	public String getInitialText( )
-	{
+	public String getInitialText() {
 		return initialText;
 	}
 
 	/**
-	 * @param initialText
-	 *            The initialText to set.
+	 * @param initialText The initialText to set.
 	 */
-	public void setInitialText( String initialText )
-	{
+	public void setInitialText(String initialText) {
 		this.initialText = initialText;
 	}
 

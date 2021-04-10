@@ -22,65 +22,55 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * 
  */
 
-public interface IReferencableElement
-{
+public interface IReferencableElement {
 
 	/**
 	 * Adds a client. Should be called only from
 	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
 	 * 
-	 * @param client
-	 *            The client to add.
-	 * @param propName
-	 *            the property name.
+	 * @param client   The client to add.
+	 * @param propName the property name.
 	 */
 
-	void addClient( DesignElement client, String propName );
+	void addClient(DesignElement client, String propName);
 
 	/**
 	 * Adds a client. Should be called only from
 	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
 	 * 
-	 * @param struct
-	 *            The client to add.
-	 * @param propName
-	 *            the member name
+	 * @param struct   The client to add.
+	 * @param propName the member name
 	 * 
 	 */
 
-	void addClient( Structure struct, String propName );
+	void addClient(Structure struct, String propName);
 
 	/**
 	 * Drops a client. Should be called only from
 	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
 	 * 
-	 * @param client
-	 *            The client to drop.
+	 * @param client The client to drop.
 	 */
 
-	void dropClient( DesignElement client );
+	void dropClient(DesignElement client);
 
 	/**
 	 * Drops a client.
 	 * 
-	 * @param client
-	 *            The client to drop.
-	 * @param propName
-	 *            the property name
+	 * @param client   The client to drop.
+	 * @param propName the property name
 	 */
 
-	void dropClient( DesignElement client, String propName );
+	void dropClient(DesignElement client, String propName);
 
 	/**
 	 * Drops a client.
 	 * 
-	 * @param struct
-	 *            the structure
-	 * @param propName
-	 *            the member name
+	 * @param struct   the structure
+	 * @param propName the member name
 	 */
 
-	void dropClient( Structure struct, String propName );
+	void dropClient(Structure struct, String propName);
 
 	/**
 	 * Returns the list of clients for this element.
@@ -88,7 +78,7 @@ public interface IReferencableElement
 	 * @return The list of clients.
 	 */
 
-	List<BackRef> getClientList( );
+	List<BackRef> getClientList();
 
 	/**
 	 * Checks whether the element is referred by other elements.
@@ -97,7 +87,7 @@ public interface IReferencableElement
 	 *         <code>false</code>.
 	 */
 
-	boolean hasReferences( );
+	boolean hasReferences();
 
 	/**
 	 * Updates the element reference which refers to the given referenceable
@@ -105,12 +95,12 @@ public interface IReferencableElement
 	 * 
 	 */
 
-	void updateClientReferences( );
+	void updateClientReferences();
 
 	/**
 	 * Clears all clients.
 	 */
 
-	void clearClients( );
+	void clearClients();
 
 }

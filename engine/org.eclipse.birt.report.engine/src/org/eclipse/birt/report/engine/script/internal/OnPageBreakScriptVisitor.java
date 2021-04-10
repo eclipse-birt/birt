@@ -58,211 +58,153 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
  * 
  */
 
-public class OnPageBreakScriptVisitor extends DefaultReportItemVisitorImpl
-{
+public class OnPageBreakScriptVisitor extends DefaultReportItemVisitorImpl {
 
-	protected static Logger logger = Logger
-			.getLogger( LocalizedContentVisitor.class.getName( ) );
+	protected static Logger logger = Logger.getLogger(LocalizedContentVisitor.class.getName());
 
 	private ExecutionContext context;
 	private OnPageBreakExecutor executor;
 
-	public OnPageBreakScriptVisitor( ExecutionContext context )
-	{
+	public OnPageBreakScriptVisitor(ExecutionContext context) {
 		this.context = context;
-		this.executor = new OnPageBreakExecutor( );
+		this.executor = new OnPageBreakExecutor();
 	}
 
-	public void onPageStart( Report report, PageContent pageContent,
-			Collection<IContent> contents )
-	{
-		ReportScriptExecutor.handleOnPageStartScript( report, context, pageContent,
-					contents );
+	public void onPageStart(Report report, PageContent pageContent, Collection<IContent> contents) {
+		ReportScriptExecutor.handleOnPageStartScript(report, context, pageContent, contents);
 	}
 
-	public void onPageStart( PageContent pageContent,
-			Collection<IContent> contents )
-	{
-		PageScriptExecutor.handleOnPageStartScript( context, pageContent,
-				contents );
+	public void onPageStart(PageContent pageContent, Collection<IContent> contents) {
+		PageScriptExecutor.handleOnPageStartScript(context, pageContent, contents);
 	}
 
-	public void onPageEnd( Report report, PageContent pageContent,
-			Collection<IContent> contents )
-	{
-		ReportScriptExecutor.handleOnPageEndScript( report, context, pageContent,
-				contents );
+	public void onPageEnd(Report report, PageContent pageContent, Collection<IContent> contents) {
+		ReportScriptExecutor.handleOnPageEndScript(report, context, pageContent, contents);
 	}
 
-	public void onPageEnd( PageContent pageContent,
-			Collection<IContent> contents )
-	{
-		PageScriptExecutor.handleOnPageEndScript( context, pageContent,
-				contents );
+	public void onPageEnd(PageContent pageContent, Collection<IContent> contents) {
+		PageScriptExecutor.handleOnPageEndScript(context, pageContent, contents);
 	}
 
-	public IContent onPageBreak( IContent content )
-	{
-		ReportItemDesign design = getGenerateDesign( content );
-		if ( design != null )
-		{
-			Object value = ( (ReportItemDesign) design ).accept( executor,
-					content );
+	public IContent onPageBreak(IContent content) {
+		ReportItemDesign design = getGenerateDesign(content);
+		if (design != null) {
+			Object value = ((ReportItemDesign) design).accept(executor, content);
 			return (IContent) value;
 		}
 		return content;
 	}
 
-	private ReportItemDesign getGenerateDesign( IContent content )
-	{
-		Object design = content.getGenerateBy( );
-		if ( design instanceof ReportItemDesign )
-		{
+	private ReportItemDesign getGenerateDesign(IContent content) {
+		Object design = content.getGenerateBy();
+		if (design instanceof ReportItemDesign) {
 			return (ReportItemDesign) design;
 		}
-		if ( design instanceof ReportItemHandle )
-		{
-			IReportContent reportContent = content.getReportContent( );
-			Report reportDesign = reportContent.getDesign( );
-			return reportDesign.findDesign( (ReportItemHandle) design );
+		if (design instanceof ReportItemHandle) {
+			IReportContent reportContent = content.getReportContent();
+			Report reportDesign = reportContent.getDesign();
+			return reportDesign.findDesign((ReportItemHandle) design);
 		}
 		return null;
 	}
 
-	private class OnPageBreakExecutor extends DefaultReportItemVisitorImpl
-	{
+	private class OnPageBreakExecutor extends DefaultReportItemVisitorImpl {
 
-		public Object visitAutoTextItem( AutoTextItemDesign autoText,
-				Object value )
-		{
-			AutoTextScriptExecutor.handleOnPageBreak( (IAutoTextContent) value,
-					context );
+		public Object visitAutoTextItem(AutoTextItemDesign autoText, Object value) {
+			AutoTextScriptExecutor.handleOnPageBreak((IAutoTextContent) value, context);
 			return value;
 		}
 
-		public Object visitBand( BandDesign band, Object value )
-		{
-			return visitReportItem( band, value );
+		public Object visitBand(BandDesign band, Object value) {
+			return visitReportItem(band, value);
 		}
 
-		public Object visitCell( CellDesign cell, Object value )
-		{
-			CellScriptExecutor
-					.handleOnPageBreak( (ICellContent) value, context );
+		public Object visitCell(CellDesign cell, Object value) {
+			CellScriptExecutor.handleOnPageBreak((ICellContent) value, context);
 			return value;
 		}
 
-		public Object visitDataItem( DataItemDesign data, Object value )
-		{
-			DataItemScriptExecutor.handleOnPageBreak( (IDataContent) value,
-					context );
+		public Object visitDataItem(DataItemDesign data, Object value) {
+			DataItemScriptExecutor.handleOnPageBreak((IDataContent) value, context);
 			return value;
 		}
 
-		public Object visitExtendedItem( ExtendedItemDesign item, Object value )
-		{
-			return visitReportItem( item, value );
+		public Object visitExtendedItem(ExtendedItemDesign item, Object value) {
+			return visitReportItem(item, value);
 		}
 
-		public Object visitFreeFormItem( FreeFormItemDesign container,
-				Object value )
-		{
-			return visitReportItem( container, value );
+		public Object visitFreeFormItem(FreeFormItemDesign container, Object value) {
+			return visitReportItem(container, value);
 		}
 
-		public Object visitGridItem( GridItemDesign grid, Object value )
-		{
-			GridScriptExecutor.handleOnPageBreak( (ITableContent) value,
-					context );
+		public Object visitGridItem(GridItemDesign grid, Object value) {
+			GridScriptExecutor.handleOnPageBreak((ITableContent) value, context);
 			return value;
 		}
 
-		public Object visitGroup( GroupDesign group, Object value )
-		{
-			return visitReportItem( group, value );
+		public Object visitGroup(GroupDesign group, Object value) {
+			return visitReportItem(group, value);
 		}
 
-		public Object visitImageItem( ImageItemDesign image, Object value )
-		{
-			ImageScriptExecutor.handleOnPageBreak( (IContent) value, context );
+		public Object visitImageItem(ImageItemDesign image, Object value) {
+			ImageScriptExecutor.handleOnPageBreak((IContent) value, context);
 			return value;
 		}
 
-		public Object visitLabelItem( LabelItemDesign label, Object value )
-		{
-			LabelScriptExecutor.handleOnPageBreak( (ILabelContent) value,
-					context );
+		public Object visitLabelItem(LabelItemDesign label, Object value) {
+			LabelScriptExecutor.handleOnPageBreak((ILabelContent) value, context);
 			return value;
 		}
 
-		public Object visitListBand( ListBandDesign band, Object value )
-		{
-			return visitReportItem( band, value );
+		public Object visitListBand(ListBandDesign band, Object value) {
+			return visitReportItem(band, value);
 		}
 
-		public Object visitListGroup( ListGroupDesign group, Object value )
-		{
-			ListGroupScriptExecutor.handleOnPageBreak(
-					(IListGroupContent) value, context );
+		public Object visitListGroup(ListGroupDesign group, Object value) {
+			ListGroupScriptExecutor.handleOnPageBreak((IListGroupContent) value, context);
 			return value;
 		}
 
-		public Object visitListItem( ListItemDesign list, Object value )
-		{
-			ListScriptExecutor
-					.handleOnPageBreak( (IListContent) value, context );
+		public Object visitListItem(ListItemDesign list, Object value) {
+			ListScriptExecutor.handleOnPageBreak((IListContent) value, context);
 			return value;
 		}
 
-		public Object visitListing( ListingDesign listing, Object value )
-		{
-			return visitReportItem( listing, value );
+		public Object visitListing(ListingDesign listing, Object value) {
+			return visitReportItem(listing, value);
 		}
 
-		public Object visitDynamicTextItem( DynamicTextItemDesign dynamicText,
-				Object value )
-		{
-			DynamicTextScriptExecutor.handleOnPageBreak( (IContent) value,
-					context );
+		public Object visitDynamicTextItem(DynamicTextItemDesign dynamicText, Object value) {
+			DynamicTextScriptExecutor.handleOnPageBreak((IContent) value, context);
 			return value;
 		}
 
-		public Object visitRow( RowDesign row, Object value )
-		{
-			RowScriptExecutor.handleOnPageBreak( (IRowContent) value, context );
+		public Object visitRow(RowDesign row, Object value) {
+			RowScriptExecutor.handleOnPageBreak((IRowContent) value, context);
 			return value;
 		}
 
-		public Object visitTableBand( TableBandDesign band, Object value )
-		{
-			return visitReportItem( band, value );
+		public Object visitTableBand(TableBandDesign band, Object value) {
+			return visitReportItem(band, value);
 		}
 
-		public Object visitTableGroup( TableGroupDesign group, Object value )
-		{
-			TableGroupScriptExecutor.handleOnPageBreak(
-					(ITableGroupContent) value, context );
+		public Object visitTableGroup(TableGroupDesign group, Object value) {
+			TableGroupScriptExecutor.handleOnPageBreak((ITableGroupContent) value, context);
 			return value;
 		}
 
-		public Object visitTableItem( TableItemDesign table, Object value )
-		{
-			TableScriptExecutor.handleOnPageBreak( (ITableContent) value,
-					context );
+		public Object visitTableItem(TableItemDesign table, Object value) {
+			TableScriptExecutor.handleOnPageBreak((ITableContent) value, context);
 			return value;
 		}
 
-		public Object visitTemplate( TemplateDesign template, Object value )
-		{
-			TextItemScriptExecutor
-					.handleOnPageBreak( (IContent) value, context );
+		public Object visitTemplate(TemplateDesign template, Object value) {
+			TextItemScriptExecutor.handleOnPageBreak((IContent) value, context);
 			return value;
 		}
 
-		public Object visitTextItem( TextItemDesign text, Object value )
-		{
-			TextItemScriptExecutor
-					.handleOnPageBreak( (IContent) value, context );
+		public Object visitTextItem(TextItemDesign text, Object value) {
+			TextItemScriptExecutor.handleOnPageBreak((IContent) value, context);
 			return value;
 		}
 	}

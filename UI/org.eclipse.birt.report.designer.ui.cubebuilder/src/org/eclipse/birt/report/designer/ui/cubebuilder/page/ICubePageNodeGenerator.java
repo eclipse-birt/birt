@@ -18,10 +18,8 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
  * 
  */
 
-public interface ICubePageNodeGenerator
-{
+public interface ICubePageNodeGenerator {
 
-	public PropertyNode createPropertyNode( CubeBuilder builder,
-			TabularCubeHandle cube );
+	public PropertyNode createPropertyNode(CubeBuilder builder, TabularCubeHandle cube);
 
 }

@@ -26,8 +26,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
  * 
  */
 
-public class StyleRecord extends SimpleRecord
-{
+public class StyleRecord extends SimpleRecord {
 
 	/**
 	 * The element to change.
@@ -51,67 +50,49 @@ public class StyleRecord extends SimpleRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element to modify.
-	 * @param newStyle
-	 *            the style to set.
+	 * @param obj      the element to modify.
+	 * @param newStyle the style to set.
 	 */
 
-	public StyleRecord( StyledElement obj, ElementRefValue newStyle )
-	{
+	public StyleRecord(StyledElement obj, ElementRefValue newStyle) {
 		assert obj != null;
 
 		element = obj;
 		this.newStyle = newStyle;
 
-		if ( element.getStyle( ) != null )
-			oldStyle = element.getStyle( );
+		if (element.getStyle() != null)
+			oldStyle = element.getStyle();
 		else
-			oldStyle = element.getStyleName( );
+			oldStyle = element.getStyleName();
 
-		label = CommandLabelFactory
-				.getCommandLabel( MessageConstants.SET_STYLE_MESSAGE );
+		label = CommandLabelFactory.getCommandLabel(MessageConstants.SET_STYLE_MESSAGE);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
+	 * @see org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
-		if ( undo )
-		{
-			if ( oldStyle instanceof String )
-				element.setStyleName( (String) oldStyle );
+	protected void perform(boolean undo) {
+		if (undo) {
+			if (oldStyle instanceof String)
+				element.setStyleName((String) oldStyle);
 			else
-				element.setStyle( (StyleElement) oldStyle );
-		}
-		else
-		{
+				element.setStyle((StyleElement) oldStyle);
+		} else {
 
-			if ( newStyle == null )
-			{
-				element.setStyle( null );
-			}
-			else
-			{
-				StyleElement tmpStyle = (StyleElement) newStyle.getElement( );
-				if ( tmpStyle != null )
-				{
-					element.setStyle( tmpStyle );
-				}
-				else
-				{
-					if ( newStyle.getName( ) != null )
-					{
-						element.setStyleName( newStyle.getName( ) );
-					}
-					else
-					{
-						element.setStyle( null );
+			if (newStyle == null) {
+				element.setStyle(null);
+			} else {
+				StyleElement tmpStyle = (StyleElement) newStyle.getElement();
+				if (tmpStyle != null) {
+					element.setStyle(tmpStyle);
+				} else {
+					if (newStyle.getName() != null) {
+						element.setStyleName(newStyle.getName());
+					} else {
+						element.setStyle(null);
 					}
 				}
 			}
@@ -122,26 +103,22 @@ public class StyleRecord extends SimpleRecord
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget
-	 * ()
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget ()
 	 */
 
-	public DesignElement getTarget( )
-	{
+	public DesignElement getTarget() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
+	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		return new StyleEvent( element );
+	public NotificationEvent getEvent() {
+		return new StyleEvent(element);
 	}
 
 }

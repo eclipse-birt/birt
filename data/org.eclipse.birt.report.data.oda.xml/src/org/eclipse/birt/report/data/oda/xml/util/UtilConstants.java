@@ -16,11 +16,9 @@ package org.eclipse.birt.report.data.oda.xml.util;
  * 
  * @deprecated Please use DTP xml driver
  */
-public final class UtilConstants
-{
+public final class UtilConstants {
 
-	private UtilConstants( )
-	{
+	private UtilConstants() {
 	}
 
 	public static final String XPATH_WITH_ATTR_PATTERN = ".*\\Q[@\\E.*\\Q]\\E.*";

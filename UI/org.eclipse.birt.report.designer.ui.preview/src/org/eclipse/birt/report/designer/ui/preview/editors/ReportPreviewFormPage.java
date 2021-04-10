@@ -32,9 +32,7 @@ import org.eclipse.ui.part.EditorPart;
 /**
  * This class is an <code>EditorPart</code> for preview report page.
  */
-public class ReportPreviewFormPage extends EditorPart implements
-		IReportEditorPage
-{
+public class ReportPreviewFormPage extends EditorPart implements IReportEditorPage {
 
 	/** The ID of current plug-in */
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.preview"; //$NON-NLS-1$
@@ -54,25 +52,25 @@ public class ReportPreviewFormPage extends EditorPart implements
 	/**
 	 * Creates <code>ReportPreviewFormPage</code>
 	 * 
-	 * @throws FrameworkException
-	 *             if occurs error when create viewer
+	 * @throws FrameworkException if occurs error when create viewer
 	 */
-	public ReportPreviewFormPage( ) throws FrameworkException
-	{
-		super( );
-		ViewerExtensionManager manager = (ViewerExtensionManager) Platform.createFactoryObject( ViewerExtensionManager.VIEWER_EXTENSION_MANAGER_ID );
+	public ReportPreviewFormPage() throws FrameworkException {
+		super();
+		ViewerExtensionManager manager = (ViewerExtensionManager) Platform
+				.createFactoryObject(ViewerExtensionManager.VIEWER_EXTENSION_MANAGER_ID);
 
-		reportViewer = manager.createViewer( VIEWER_ID );
+		reportViewer = manager.createViewer(VIEWER_ID);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop(org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop(
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
-	public boolean onBroughtToTop( IReportEditorPage prePage )
-	{
-		startRender( );
+	public boolean onBroughtToTop(IReportEditorPage prePage) {
+		startRender();
 		return true;
 	}
 
@@ -81,11 +79,9 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getPartControl()
 	 */
-	public Control getPartControl( )
-	{
-		if ( reportViewer instanceof SWTAbstractViewer )
-		{
-			return ( (SWTAbstractViewer) reportViewer ).getUI( );
+	public Control getPartControl() {
+		if (reportViewer instanceof SWTAbstractViewer) {
+			return ((SWTAbstractViewer) reportViewer).getUI();
 			// reportViewer.setReportDesignFile( getReportDesignFilePath( ) );
 		}
 		return null;
@@ -96,52 +92,49 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getId()
 	 */
-	public String getId( )
-	{
+	public String getId() {
 		return ID;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
-	public void createPartControl( Composite parent )
-	{
-		if ( reportViewer instanceof SWTAbstractViewer )
-		{
-			( (SWTAbstractViewer) reportViewer ).createUI( parent );
+	public void createPartControl(Composite parent) {
+		if (reportViewer instanceof SWTAbstractViewer) {
+			((SWTAbstractViewer) reportViewer).createUI(parent);
 			// reportViewer.setReportDesignFile( getReportDesignFilePath( ) );
 		}
 	}
 
-	private void startRender( )
-	{
-		if ( reportViewer == null )
-		{
+	private void startRender() {
+		if (reportViewer == null) {
 			return;
 		}
-		reportViewer.setInput( getReportDesignFilePath( ) );
-		reportViewer.render( );
+		reportViewer.setInput(getReportDesignFilePath());
+		reportViewer.render();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(
+	 * int)
 	 */
-	public void markPageStale( int type )
-	{
+	public void markPageStale(int type) {
 		staleType = type;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType()
 	 */
-	public int getStaleType( )
-	{
+	public int getStaleType() {
 		return staleType;
 	}
 
@@ -150,14 +143,12 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
-	public boolean isDirty( )
-	{
+	public boolean isDirty() {
 		return false;
 	}
 
-	protected IReportProvider getProvider( )
-	{
-		return (IReportProvider) editor.getAdapter( IReportProvider.class );
+	protected IReportProvider getProvider() {
+		return (IReportProvider) editor.getAdapter(IReportProvider.class);
 	}
 
 	/*
@@ -165,22 +156,21 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class adapter )
-	{
-		if ( adapter.equals( ActionRegistry.class ) )
-		{
-			return new ActionRegistry( );
+	public Object getAdapter(Class adapter) {
+		if (adapter.equals(ActionRegistry.class)) {
+			return new ActionRegistry();
 		}
-		return super.getAdapter( adapter );
+		return super.getAdapter(adapter);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms.editor.FormEditor)
+	 * @see
+	 * org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms.editor.
+	 * FormEditor)
 	 */
-	public void initialize( FormEditor editor )
-	{
+	public void initialize(FormEditor editor) {
 		this.editor = editor;
 
 	}
@@ -190,8 +180,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getEditor()
 	 */
-	public FormEditor getEditor( )
-	{
+	public FormEditor getEditor() {
 		return editor;
 	}
 
@@ -200,8 +189,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getManagedForm()
 	 */
-	public IManagedForm getManagedForm( )
-	{
+	public IManagedForm getManagedForm() {
 		return null;
 	}
 
@@ -210,8 +198,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setActive(boolean)
 	 */
-	public void setActive( boolean active )
-	{
+	public void setActive(boolean active) {
 		return;
 	}
 
@@ -220,8 +207,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isActive()
 	 */
-	public boolean isActive( )
-	{
+	public boolean isActive() {
 		return false;
 	}
 
@@ -230,8 +216,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#canLeaveThePage()
 	 */
-	public boolean canLeaveThePage( )
-	{
+	public boolean canLeaveThePage() {
 		return true;
 	}
 
@@ -240,8 +225,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getIndex()
 	 */
-	public int getIndex( )
-	{
+	public int getIndex() {
 		return 0;
 	}
 
@@ -250,8 +234,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setIndex(int)
 	 */
-	public void setIndex( int index )
-	{
+	public void setIndex(int index) {
 		return;
 	}
 
@@ -260,8 +243,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isEditor()
 	 */
-	public boolean isEditor( )
-	{
+	public boolean isEditor() {
 		return true;
 	}
 
@@ -270,8 +252,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#selectReveal(java.lang.Object)
 	 */
-	public boolean selectReveal( Object object )
-	{
+	public boolean selectReveal(Object object) {
 		return false;
 	}
 
@@ -280,9 +261,8 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
 	 */
-	public void setInput( IEditorInput input )
-	{
-		super.setInput( input );
+	public void setInput(IEditorInput input) {
+		super.setInput(input);
 	}
 
 	/*
@@ -290,15 +270,11 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#firePropertyChange(int)
 	 */
-	protected void firePropertyChange( int type )
-	{
-		if ( type == PROP_DIRTY )
-		{
-			editor.editorDirtyStateChanged( );
-		}
-		else
-		{
-			super.firePropertyChange( type );
+	protected void firePropertyChange(int type) {
+		if (type == PROP_DIRTY) {
+			editor.editorDirtyStateChanged();
+		} else {
+			super.firePropertyChange(type);
 		}
 	}
 
@@ -307,22 +283,20 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see java.lang.Object#finalize()
 	 */
-	protected void finalize( ) throws Throwable
-	{
-		if ( Policy.TRACING_PAGE_CLOSE )
-		{
-			System.out.println( "Report preview page finalized" ); //$NON-NLS-1$
+	protected void finalize() throws Throwable {
+		if (Policy.TRACING_PAGE_CLOSE) {
+			System.out.println("Report preview page finalized"); //$NON-NLS-1$
 		}
-		super.finalize( );
+		super.finalize();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
+	 * IProgressMonitor)
 	 */
-	public void doSave( IProgressMonitor monitor )
-	{
+	public void doSave(IProgressMonitor monitor) {
 		return;
 	}
 
@@ -331,8 +305,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
-	public void doSaveAs( )
-	{
+	public void doSaveAs() {
 		return;
 	}
 
@@ -340,13 +313,11 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
-	 *      org.eclipse.ui.IEditorInput)
+	 * org.eclipse.ui.IEditorInput)
 	 */
-	public void init( IEditorSite site, IEditorInput input )
-			throws PartInitException
-	{
-		setSite( site );
-		setInput( input );
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+		setSite(site);
+		setInput(input);
 	}
 
 	/*
@@ -354,8 +325,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 */
-	public boolean isSaveAsAllowed( )
-	{
+	public boolean isSaveAsAllowed() {
 		return false;
 	}
 
@@ -364,8 +334,7 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
-	public void setFocus( )
-	{
+	public void setFocus() {
 		return;
 	}
 
@@ -374,22 +343,18 @@ public class ReportPreviewFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.IWorkbenchPart#dispose()
 	 */
-	public void dispose( )
-	{
-		super.dispose( );
+	public void dispose() {
+		super.dispose();
 	}
 
-	private String getReportDesignFilePath( )
-	{
-		IEditorInput input = getEditorInput( );
+	private String getReportDesignFilePath() {
+		IEditorInput input = getEditorInput();
 
-		if ( input != null )
-		{
-			IReportProvider provider = getProvider( );
+		if (input != null) {
+			IReportProvider provider = getProvider();
 
-			if ( provider != null )
-			{
-				return provider.getInputPath( input ).toOSString( );
+			if (provider != null) {
+				return provider.getInputPath(input).toOSString();
 			}
 		}
 		return null;

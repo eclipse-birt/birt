@@ -10,16 +10,15 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.api;
 
 /**
- * Describes a Javascript expression used in the report design. 
+ * Describes a Javascript expression used in the report design.
  */
-public interface IScriptExpression extends IBaseExpression
-{
-    /**
-     * @return the Javascript expression text
-     */
-    public String getText();
+public interface IScriptExpression extends IBaseExpression {
+	/**
+	 * @return the Javascript expression text
+	 */
+	public String getText();
 }

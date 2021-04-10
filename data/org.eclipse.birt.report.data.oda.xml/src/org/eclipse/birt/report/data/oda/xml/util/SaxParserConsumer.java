@@ -15,12 +15,13 @@ import org.eclipse.datatools.enablement.oda.xml.util.IXMLSource;
 import org.eclipse.datatools.enablement.oda.xml.util.RelationInformation;
 
 /**
- * This class is an implementation of ISaxParserConsumer. The instance of this class deligate the communication
- * between ResultSet and SaxParser, and does the majority of result-set population job.
+ * This class is an implementation of ISaxParserConsumer. The instance of this
+ * class deligate the communication between ResultSet and SaxParser, and does
+ * the majority of result-set population job.
+ * 
  * @deprecated Please use DTP xml driver
  */
-public class SaxParserConsumer extends org.eclipse.datatools.enablement.oda.xml.util.SaxParserConsumer
-{
+public class SaxParserConsumer extends org.eclipse.datatools.enablement.oda.xml.util.SaxParserConsumer {
 	/**
 	 * 
 	 * @param rs
@@ -29,10 +30,7 @@ public class SaxParserConsumer extends org.eclipse.datatools.enablement.oda.xml.
 	 * @param tName
 	 * @throws OdaException
 	 */
-	public SaxParserConsumer( RelationInformation rinfo,
-			IXMLSource xmlSource, String tName ) throws OdaException
-	{
-		super( rinfo, xmlSource, tName );
+	public SaxParserConsumer(RelationInformation rinfo, IXMLSource xmlSource, String tName) throws OdaException {
+		super(rinfo, xmlSource, tName);
 	}
 }
-

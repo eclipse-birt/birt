@@ -18,37 +18,29 @@ import org.eclipse.birt.core.data.DataType;
  * 
  */
 
-public class Max extends AggregateFunctionAdapter
-{
+public class Max extends AggregateFunctionAdapter {
 
 	private Object max;
 
-	public void accumulate( Object oValue ) throws IllegalArgumentException
-	{
-		if ( max == null )
-		{
+	public void accumulate(Object oValue) throws IllegalArgumentException {
+		if (max == null) {
 			max = oValue;
+		} else if (oValue instanceof Comparable) {
+			max = ((Comparable) oValue).compareTo(max) >= 0 ? oValue : max;
 		}
-		else if ( oValue instanceof Comparable )
-		{
-			max = ((Comparable)oValue ).compareTo( max ) >= 0 ? oValue : max;
-		}
-		
+
 	}
 
-	public Object getAggregatedValue( )
-	{
+	public Object getAggregatedValue() {
 		return max;
 	}
 
-	public void initialize( )
-	{
+	public void initialize() {
 		max = null;
 	}
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.ANY_TYPE;
 	}
 }

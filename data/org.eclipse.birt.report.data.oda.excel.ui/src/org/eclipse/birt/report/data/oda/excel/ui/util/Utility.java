@@ -17,8 +17,7 @@ import org.eclipse.ui.PlatformUI;
  *
  */
 
-public class Utility
-{
+public class Utility {
 
 	/**
 	 * Set context-sensitive help
@@ -26,11 +25,8 @@ public class Utility
 	 * @param control
 	 * @param contextId
 	 */
-	public static void setSystemHelp( Control control, String contextId )
-	{
-		PlatformUI.getWorkbench( )
-				.getHelpSystem( )
-				.setHelp( control, contextId );
+	public static void setSystemHelp(Control control, String contextId) {
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(control, contextId);
 	}
 
 }

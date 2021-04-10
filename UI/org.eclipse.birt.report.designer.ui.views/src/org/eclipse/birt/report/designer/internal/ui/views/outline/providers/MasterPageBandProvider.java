@@ -24,77 +24,64 @@ import org.eclipse.jface.viewers.TreeViewer;
  * Provider for the MasterPageBand - MasterPage header, footer. - Populates the
  * menus for the list band node type - Implements the getDisplayName.
  * 
- *  
+ * 
  */
-public class MasterPageBandProvider extends DefaultNodeProvider
-{
+public class MasterPageBandProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object.
 	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		if ( ( object instanceof SlotHandle ) )
-		{
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		if ((object instanceof SlotHandle)) {
 			SlotHandle model = (SlotHandle) object;
-			if ( model.getElementHandle( ) instanceof SimpleMasterPageHandle )
-			{
-				if ( DNDUtil.handleValidateTargetCanContainMore( model, 0 ) )
-				{
-					//New subSelection
-					menu.add( new InsertAction( object ) );
+			if (model.getElementHandle() instanceof SimpleMasterPageHandle) {
+				if (DNDUtil.handleValidateTargetCanContainMore(model, 0)) {
+					// New subSelection
+					menu.add(new InsertAction(object));
 				}
 			}
 		}
-		super.createContextMenu( sourceViewer, object, menu );
+		super.createContextMenu(sourceViewer, object, menu);
 	}
 
 	/**
 	 * Gets the display name of the node
 	 * 
-	 * @param object
-	 *            the object
+	 * @param object the object
 	 */
-	public String getNodeDisplayName( Object object )
-	{
+	public String getNodeDisplayName(Object object) {
 		SlotHandle model = (SlotHandle) object;
-		if ( model.getElementHandle( ) instanceof SimpleMasterPageHandle )
-		{
-			switch ( model.getSlotID( ) )
-			{
-				case SimpleMasterPageHandle.PAGE_HEADER_SLOT :
-					return HEADER_DISPALYNAME;
-				case SimpleMasterPageHandle.PAGE_FOOTER_SLOT :
-					return FOOTER_DISPALYNAME;
+		if (model.getElementHandle() instanceof SimpleMasterPageHandle) {
+			switch (model.getSlotID()) {
+			case SimpleMasterPageHandle.PAGE_HEADER_SLOT:
+				return HEADER_DISPALYNAME;
+			case SimpleMasterPageHandle.PAGE_FOOTER_SLOT:
+				return FOOTER_DISPALYNAME;
 			}
 		}
-		return super.getNodeDisplayName( model );
+		return super.getNodeDisplayName(model);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(
+	 * java.lang.Object)
 	 */
-	public String getIconName( Object object )
-	{
+	public String getIconName(Object object) {
 		SlotHandle model = (SlotHandle) object;
-		if ( model.getElementHandle( ) instanceof SimpleMasterPageHandle )
-		{
-			switch ( model.getSlotID( ) )
-			{
-				case SimpleMasterPageHandle.PAGE_HEADER_SLOT :
-					return IReportGraphicConstants.ICON_NODE_HEADER;
-				case SimpleMasterPageHandle.PAGE_FOOTER_SLOT :
-					return IReportGraphicConstants.ICON_NODE_FOOTER;
+		if (model.getElementHandle() instanceof SimpleMasterPageHandle) {
+			switch (model.getSlotID()) {
+			case SimpleMasterPageHandle.PAGE_HEADER_SLOT:
+				return IReportGraphicConstants.ICON_NODE_HEADER;
+			case SimpleMasterPageHandle.PAGE_FOOTER_SLOT:
+				return IReportGraphicConstants.ICON_NODE_FOOTER;
 			}
 		}
-		return super.getIconName( model );
+		return super.getIconName(model);
 	}
 }

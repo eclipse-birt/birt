@@ -8,7 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *  
- **************************************************************************/ 
+ **************************************************************************/
 
 package org.eclipse.birt.data.engine.expression;
 
@@ -20,82 +20,71 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * <code>ConstantExpression</code> represents Javascript string, number, 
- * true, false, and null constant expressions.  <code>getValue()</code> will 
- * return a Java String, Double, Boolean, or null value.
+ * <code>ConstantExpression</code> represents Javascript string, number, true,
+ * false, and null constant expressions. <code>getValue()</code> will return a
+ * Java String, Double, Boolean, or null value.
  */
-public final class ConstantExpression extends CompiledExpression
-{
+public final class ConstantExpression extends CompiledExpression {
 	private Object m_value;
-	
-	protected static Logger logger = Logger.getLogger( ConstantExpression.class.getName( ) );
 
-	public ConstantExpression()
-	{
+	protected static Logger logger = Logger.getLogger(ConstantExpression.class.getName());
+
+	public ConstantExpression() {
 		m_value = null;
-		logger.logp( Level.FINER,
-				ConstantExpression.class.getName( ),
-				"ConstantExpression",
-				"ConstantExpression  starts up" );
+		logger.logp(Level.FINER, ConstantExpression.class.getName(), "ConstantExpression",
+				"ConstantExpression  starts up");
 	}
-	
-	ConstantExpression( double d )
-	{
-		m_value = new Double( d );
+
+	ConstantExpression(double d) {
+		m_value = new Double(d);
 	}
-	
-	public ConstantExpression( boolean b )
-	{
-		m_value = Boolean.valueOf( b );
+
+	public ConstantExpression(boolean b) {
+		m_value = Boolean.valueOf(b);
 	}
-	
-	public ConstantExpression( String s )
-	{
-		assert( s != null );
+
+	public ConstantExpression(String s) {
+		assert (s != null);
 		m_value = s;
 	}
-	
+
 	/**
-	 * Returns the value associated with this <code>ConstantExpression</code>, 
-	 * which can be one of the following: a String, Double, Boolean, 
-	 * or <code>null</code>.
-	 * @return	the value associated with this <code>ConstantExpression</code>.
+	 * Returns the value associated with this <code>ConstantExpression</code>, which
+	 * can be one of the following: a String, Double, Boolean, or <code>null</code>.
+	 * 
+	 * @return the value associated with this <code>ConstantExpression</code>.
 	 */
-	public Object getValue()
-	{
+	public Object getValue() {
 		return m_value;
 	}
-	
-	public int getType()
-	{
+
+	public int getType() {
 		return TYPE_CONSTANT_EXPR;
 	}
-	
-	public boolean equals( Object other )
-	{
-		if ( other == null || !( other instanceof ConstantExpression))
+
+	public boolean equals(Object other) {
+		if (other == null || !(other instanceof ConstantExpression))
 			return false;
 
-		ConstantExpression c2 = (ConstantExpression)other;
-		if ( m_value == null)
+		ConstantExpression c2 = (ConstantExpression) other;
+		if (m_value == null)
 			return c2.m_value == null;
 		else
-			return m_value.equals( c2.m_value );
+			return m_value.equals(c2.m_value);
 	}
-	
-	public int hashCode()
-	{
-		if ( m_value == null )
+
+	public int hashCode() {
+		if (m_value == null)
 			return 0;
-		else 
+		else
 			return m_value.hashCode();
 	}
-	
+
 	/**
-	 * @see org.eclipse.birt.data.engine.expression.CompiledExpression#evaluate(org.mozilla.javascript.Context, org.mozilla.javascript.Scriptable)
+	 * @see org.eclipse.birt.data.engine.expression.CompiledExpression#evaluate(org.mozilla.javascript.Context,
+	 *      org.mozilla.javascript.Scriptable)
 	 */
-	public Object evaluate(ScriptContext context, Scriptable scope) throws DataException
-	{
+	public Object evaluate(ScriptContext context, Scriptable scope) throws DataException {
 		return m_value;
 	}
-} 
+}

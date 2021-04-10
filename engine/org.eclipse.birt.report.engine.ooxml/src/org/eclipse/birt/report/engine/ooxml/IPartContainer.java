@@ -11,15 +11,13 @@
 
 package org.eclipse.birt.report.engine.ooxml;
 
+public interface IPartContainer {
 
-public interface IPartContainer
-{
+	IPart getPart(String uri, String type, String relationshipType);
 
-	IPart getPart( String uri, String type, String relationshipType );
+	IPart getPart(String uri, ContentType type, String relationshipType);
 
-	IPart getPart( String uri, ContentType type, String relationshipType );
+	IPart getPart(String uri);
 
-	IPart getPart( String uri );
-
-	IPart createPartReference( IPart part );
+	IPart createPartReference(IPart part);
 }

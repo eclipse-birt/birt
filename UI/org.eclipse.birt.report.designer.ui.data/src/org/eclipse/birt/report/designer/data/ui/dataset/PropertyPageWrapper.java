@@ -34,61 +34,50 @@ import org.eclipse.ui.dialogs.PropertyPage;
  * To wrap PropertyPage to IPropertyPage
  */
 
-public class PropertyPageWrapper extends AbstractPropertyPage
-{
+public class PropertyPageWrapper extends AbstractPropertyPage {
 
 	private PropertyPage propertyPage = null;
 	private DataSetDesignSession dataSetSession = null;
 	private DataSourceDesignSession dataSourceSession = null;
 
-	public PropertyPageWrapper( PropertyPage propertyPage,
-			DataSetDesignSession m_designSession )
-	{
+	public PropertyPageWrapper(PropertyPage propertyPage, DataSetDesignSession m_designSession) {
 		this.propertyPage = propertyPage;
 		this.dataSetSession = m_designSession;
 	}
 
-	public PropertyPageWrapper( PropertyPage propertyPage,
-			DataSourceDesignSession m_designSession )
-	{
+	public PropertyPageWrapper(PropertyPage propertyPage, DataSourceDesignSession m_designSession) {
 		this.propertyPage = propertyPage;
 		this.dataSourceSession = m_designSession;
 	}
 
-	public Control createPageControl( Composite parent )
-	{
-		propertyPage.setContainer( (IPreferencePageContainer) getContainer( ) );
-		propertyPage.createControl( parent );
+	public Control createPageControl(Composite parent) {
+		propertyPage.setContainer((IPreferencePageContainer) getContainer());
+		propertyPage.createControl(parent);
 
-		return propertyPage.getControl( );
+		return propertyPage.getControl();
 	}
 
-	public void pageActivated( )
-	{
-		if ( propertyPage instanceof DataSetEditorPage )
-			( (DataSetEditorPage) propertyPage ).refresh( );
-		else if ( propertyPage instanceof DataSourceEditorPage )
-			( (DataSourceEditorPage) propertyPage ).refresh( );
+	public void pageActivated() {
+		if (propertyPage instanceof DataSetEditorPage)
+			((DataSetEditorPage) propertyPage).refresh();
+		else if (propertyPage instanceof DataSourceEditorPage)
+			((DataSourceEditorPage) propertyPage).refresh();
 
-		getContainer( ).setMessage( propertyPage.getMessage( ),
-				propertyPage.getMessageType( ) );
+		getContainer().setMessage(propertyPage.getMessage(), propertyPage.getMessageType());
 	}
 
-	public PropertyPage getPropertyPage( )
-	{
+	public PropertyPage getPropertyPage() {
 		return propertyPage;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * getToolTip()
 	 */
-	public String getToolTip( )
-	{
-		return propertyPage.getTitle( );
+	public String getToolTip() {
+		return propertyPage.getTitle();
 	}
 
 	/*
@@ -96,9 +85,8 @@ public class PropertyPageWrapper extends AbstractPropertyPage
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#performOk()
 	 */
-	public boolean performOk( )
-	{
-		return canLeave( );
+	public boolean performOk() {
+		return canLeave();
 	}
 
 	/*
@@ -108,67 +96,47 @@ public class PropertyPageWrapper extends AbstractPropertyPage
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
 	 * #canLeave()
 	 */
-	public boolean canLeave( )
-	{
-		if ( propertyPage instanceof DataSetEditorPage )
-		{
-			boolean okToLeave = ( (DataSetEditorPage) propertyPage ).okToLeave( );
-			if ( okToLeave )
-			{
-				try
-				{
+	public boolean canLeave() {
+		if (propertyPage instanceof DataSetEditorPage) {
+			boolean okToLeave = ((DataSetEditorPage) propertyPage).okToLeave();
+			if (okToLeave) {
+				try {
 					DataSetDesign requestDesign = null;
 					DesignSessionResponse response = null;
-					if ( dataSetSession != null )
-					{
-						requestDesign = dataSetSession.getRequest( )
-								.getDataSetDesign( );
-						response = dataSetSession.flush( ).getResponse( );
-					}
-					else
-						response = ( (DataSetEditorPage) propertyPage ).collectPageResponse( );
+					if (dataSetSession != null) {
+						requestDesign = dataSetSession.getRequest().getDataSetDesign();
+						response = dataSetSession.flush().getResponse();
+					} else
+						response = ((DataSetEditorPage) propertyPage).collectPageResponse();
 
-					DTPUtil.getInstance( )
-							.updateDataSetHandle( response,
-									requestDesign,
-									(OdaDataSetHandle) ( (DataSetEditor) getContainer( ) ).getModel( ),
-									false );
-				}
-				catch ( OdaException e )
-				{
-					ExceptionHandler.handle( e );
+					DTPUtil.getInstance().updateDataSetHandle(response, requestDesign,
+							(OdaDataSetHandle) ((DataSetEditor) getContainer()).getModel(), false);
+				} catch (OdaException e) {
+					ExceptionHandler.handle(e);
 				}
 			}
 			return okToLeave;
 		}
 
-		if ( propertyPage instanceof DataSourceEditorPage )
-		{
-			if ( propertyPage.okToLeave( ) )
-			{
-				try
-				{
+		if (propertyPage instanceof DataSourceEditorPage) {
+			if (propertyPage.okToLeave()) {
+				try {
 					DataSourceDesign requestDesign = null;
-					if ( this.dataSourceSession != null )
-						requestDesign = this.dataSourceSession.getRequest( )
-								.getDataSourceDesign( );
+					if (this.dataSourceSession != null)
+						requestDesign = this.dataSourceSession.getRequest().getDataSourceDesign();
 
-					DTPUtil.getInstance( )
-							.updateDataSourceHandle( ( (DataSourceEditorPage) propertyPage ).getEditSessionResponse( )
-									.getResponse( ),
-									requestDesign,
-									(OdaDataSourceHandle) ( getContainer( ) ).getModel( ) );
-					( (DataSourceEditor) this.getContainer( ) ).updateDesignSession( );
-				}
-				catch ( OdaException e )
-				{
-					ExceptionHandler.handle( e );
+					DTPUtil.getInstance().updateDataSourceHandle(
+							((DataSourceEditorPage) propertyPage).getEditSessionResponse().getResponse(), requestDesign,
+							(OdaDataSourceHandle) (getContainer()).getModel());
+					((DataSourceEditor) this.getContainer()).updateDesignSession();
+				} catch (OdaException e) {
+					ExceptionHandler.handle(e);
 				}
 			}
-			return propertyPage.okToLeave( );
+			return propertyPage.okToLeave();
 		}
 
-		return super.canLeave( );
+		return super.canLeave();
 	}
 
 }

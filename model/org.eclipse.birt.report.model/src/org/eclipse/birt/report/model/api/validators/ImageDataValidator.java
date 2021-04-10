@@ -28,10 +28,9 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * 
  */
 
-public class ImageDataValidator extends AbstractElementValidator
-{
+public class ImageDataValidator extends AbstractElementValidator {
 
-	private final static ImageDataValidator instance = new ImageDataValidator( );
+	private final static ImageDataValidator instance = new ImageDataValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -39,11 +38,10 @@ public class ImageDataValidator extends AbstractElementValidator
 	 * @return the validator instance
 	 */
 
-	public static ImageDataValidator getInstance( )
-	{
+	public static ImageDataValidator getInstance() {
 		return instance;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -53,54 +51,28 @@ public class ImageDataValidator extends AbstractElementValidator
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List<SemanticException> validate( Module module, DesignElement image )
-	{
+	public List<SemanticException> validate(Module module, DesignElement image) {
 
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+		List<SemanticException> list = new ArrayList<SemanticException>();
 
-		String refType = image.getStringProperty( module,
-				IImageItemModel.SOURCE_PROP );
+		String refType = image.getStringProperty(module, IImageItemModel.SOURCE_PROP);
 
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
-				.equalsIgnoreCase( refType ) )
-		{
-			String valueExpr = image.getStringProperty( module,
-					IImageItemModel.VALUE_EXPR_PROP );
-			if ( StringUtil.isEmpty( valueExpr ) )
-			{
-				list
-						.add( new SemanticError(
-								image,
-								SemanticError.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE ) );
+		if (DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equalsIgnoreCase(refType)) {
+			String valueExpr = image.getStringProperty(module, IImageItemModel.VALUE_EXPR_PROP);
+			if (StringUtil.isEmpty(valueExpr)) {
+				list.add(new SemanticError(image, SemanticError.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE));
 			}
-		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL
-				.equalsIgnoreCase( refType )
-				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE
-						.equalsIgnoreCase( refType ) )
-		{
-			String uri = image.getStringProperty( module,
-					IImageItemModel.URI_PROP );
-			if ( StringUtil.isEmpty( uri ) )
-			{
-				list
-						.add( new SemanticError(
-								image,
-								SemanticError.DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE ) );
+		} else if (DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase(refType)
+				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase(refType)) {
+			String uri = image.getStringProperty(module, IImageItemModel.URI_PROP);
+			if (StringUtil.isEmpty(uri)) {
+				list.add(new SemanticError(image, SemanticError.DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE));
 			}
-		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
-				.equalsIgnoreCase( refType ) )
-		{
-			String name = image.getStringProperty( module,
-					IImageItemModel.IMAGE_NAME_PROP );
+		} else if (DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equalsIgnoreCase(refType)) {
+			String name = image.getStringProperty(module, IImageItemModel.IMAGE_NAME_PROP);
 
-			if ( StringUtil.isEmpty( name ) )
-			{
-				list
-						.add( new SemanticError(
-								image,
-								SemanticError.DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE ) );
+			if (StringUtil.isEmpty(name)) {
+				list.add(new SemanticError(image, SemanticError.DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE));
 			}
 		}
 

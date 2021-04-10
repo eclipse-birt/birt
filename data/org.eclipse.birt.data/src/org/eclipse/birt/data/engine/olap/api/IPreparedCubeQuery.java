@@ -18,36 +18,38 @@ import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * The IPreparedCubeQuery provides methods to acquire ICubeQueryResults instance from an ICubeQueryDefinition
+ * The IPreparedCubeQuery provides methods to acquire ICubeQueryResults instance
+ * from an ICubeQueryDefinition
  */
 
-public interface IPreparedCubeQuery extends IBasePreparedQuery
-{
+public interface IPreparedCubeQuery extends IBasePreparedQuery {
 	/**
 	 * Return the CubeCursor as defined by ICubeQueryDefinition.
+	 * 
 	 * @param scope
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 * @deprecated
 	 */
-	public ICubeQueryResults execute( Scriptable scope ) throws DataException;
-	
+	public ICubeQueryResults execute(Scriptable scope) throws DataException;
+
 	/**
-	 * Return the query definition which is used to generate current IPreparedCubeQuery instance.
+	 * Return the query definition which is used to generate current
+	 * IPreparedCubeQuery instance.
+	 * 
 	 * @return
 	 */
 	public IBaseCubeQueryDefinition getCubeQueryDefinition();
-	
+
 	/**
-     * Executes the prepared execution plan as an inner query 
-     * that appears within the scope of another query. 
-     * The outer query must have been prepared and executed, and 
-     * its results given as a parameter to this method.
-     * 
-     * @param outerResults
-     * @param scope
-     * @return
-     * @throws DataException
-     */
-	public ICubeQueryResults execute( IBaseQueryResults outerResults, Scriptable scope ) throws DataException;
+	 * Executes the prepared execution plan as an inner query that appears within
+	 * the scope of another query. The outer query must have been prepared and
+	 * executed, and its results given as a parameter to this method.
+	 * 
+	 * @param outerResults
+	 * @param scope
+	 * @return
+	 * @throws DataException
+	 */
+	public ICubeQueryResults execute(IBaseQueryResults outerResults, Scriptable scope) throws DataException;
 }

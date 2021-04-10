@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for table column element to store the constants.
  */
-public interface ITableColumnModel
-{
+public interface ITableColumnModel {
 
 	/**
 	 * Name of the property that says how many columns are described by this
@@ -25,9 +24,9 @@ public interface ITableColumnModel
 	public static final String REPEAT_PROP = "repeat"; //$NON-NLS-1$
 
 	/**
-	 * Name of the width property of the column. If not width is provided, then
-	 * the column is variable-width and will resize to fit its content and the
-	 * width of the page.
+	 * Name of the width property of the column. If not width is provided, then the
+	 * column is variable-width and will resize to fit its content and the width of
+	 * the page.
 	 */
 
 	public static final String WIDTH_PROP = "width"; //$NON-NLS-1$

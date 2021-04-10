@@ -13,76 +13,63 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 
-
 /**
  * Defines a cube aggregation.
  */
 
-public class AggregationDefinition
-{
+public class AggregationDefinition {
 	private DimLevel[] levels;
 	private int[] sortTypes;
 	private AggregationFunctionDefinition[] aggregationFunctions;
 	private AggregationFunctionDefinition[] aggregationTimeFunctions;
 	private DrilledInfo drilledAggregation;
-	
+
 	/**
 	 * 
 	 * @param levelNames
 	 * @param sortTypes
 	 * @param aggregationFunctions
 	 */
-	public AggregationDefinition( DimLevel[] levels, int[] sortTypes, AggregationFunctionDefinition[] aggregationFunctions )
-	{
+	public AggregationDefinition(DimLevel[] levels, int[] sortTypes,
+			AggregationFunctionDefinition[] aggregationFunctions) {
 		this.levels = levels;
-		
+
 		int timeFunctionCount = 0;
-		if( aggregationFunctions != null )
-		{
-			for( int i = 0; i < aggregationFunctions.length; i++ )
-			{
+		if (aggregationFunctions != null) {
+			for (int i = 0; i < aggregationFunctions.length; i++) {
 //				aggregationFunctions[i].setTimeFunction( new TestTimeFunction( ) );
-				if( aggregationFunctions[i].getTimeFunction() != null )
-				{
+				if (aggregationFunctions[i].getTimeFunction() != null) {
 					timeFunctionCount++;
 				}
 			}
 			this.aggregationFunctions = new AggregationFunctionDefinition[aggregationFunctions.length];
-			if( timeFunctionCount > 0 )
+			if (timeFunctionCount > 0)
 				this.aggregationTimeFunctions = new AggregationFunctionDefinition[timeFunctionCount];
 			int ptr = 0;
 			int tPtr = 0;
-			for( int i = 0; i < aggregationFunctions.length; i++ )
-			{
-				if( aggregationFunctions[i].getTimeFunction() == null )
-				{
+			for (int i = 0; i < aggregationFunctions.length; i++) {
+				if (aggregationFunctions[i].getTimeFunction() == null) {
 					this.aggregationFunctions[ptr++] = aggregationFunctions[i];
-				}
-				else
-				{
+				} else {
 					this.aggregationTimeFunctions[tPtr++] = aggregationFunctions[i];
 				}
 			}
-			if( timeFunctionCount > 0 )
-			{
-				for( int i = 0; i < aggregationTimeFunctions.length; i++ )
-				{
+			if (timeFunctionCount > 0) {
+				for (int i = 0; i < aggregationTimeFunctions.length; i++) {
 					this.aggregationFunctions[ptr++] = aggregationTimeFunctions[i];
 				}
 			}
 		}
 		this.sortTypes = sortTypes;
-		
-		if (this.levels != null && this.levels.length == 0)
-		{
-			//always use null to represent no aggregate on  
+
+		if (this.levels != null && this.levels.length == 0) {
+			// always use null to represent no aggregate on
 			this.levels = null;
 			this.sortTypes = null;
 		}
 	}
 
-	public AggregationFunctionDefinition[] getAggregationTimeFunctions()
-	{
+	public AggregationFunctionDefinition[] getAggregationTimeFunctions() {
 		return aggregationTimeFunctions;
 	}
 
@@ -90,34 +77,26 @@ public class AggregationDefinition
 	 * 
 	 * @return
 	 */
-	public AggregationFunctionDefinition[] getAggregationFunctions( )
-	{
+	public AggregationFunctionDefinition[] getAggregationFunctions() {
 		return aggregationFunctions;
 	}
-		
-	public void setAggregationFunctions(
-			AggregationFunctionDefinition[] aggregationFunctions )
-	{
+
+	public void setAggregationFunctions(AggregationFunctionDefinition[] aggregationFunctions) {
 		int timeFunctionCount = 0;
-		for( int i = 0; i < aggregationFunctions.length; i++ )
-		{
-			if( aggregationFunctions[i].getTimeFunction() != null )
-			{
+		for (int i = 0; i < aggregationFunctions.length; i++) {
+			if (aggregationFunctions[i].getTimeFunction() != null) {
 				timeFunctionCount++;
 			}
 		}
 		this.aggregationFunctions = new AggregationFunctionDefinition[aggregationFunctions.length - timeFunctionCount];
-		this.aggregationTimeFunctions = new AggregationFunctionDefinition[aggregationFunctions.length - timeFunctionCount];
+		this.aggregationTimeFunctions = new AggregationFunctionDefinition[aggregationFunctions.length
+				- timeFunctionCount];
 		int ptr = 0;
 		int tPtr = 0;
-		for( int i = 0; i < aggregationFunctions.length; i++ )
-		{
-			if( aggregationFunctions[i].getTimeFunction() == null )
-			{
+		for (int i = 0; i < aggregationFunctions.length; i++) {
+			if (aggregationFunctions[i].getTimeFunction() == null) {
 				this.aggregationFunctions[ptr++] = aggregationFunctions[i];
-			}
-			else
-			{
+			} else {
 				this.aggregationTimeFunctions[tPtr++] = aggregationFunctions[i];
 			}
 		}
@@ -127,8 +106,7 @@ public class AggregationDefinition
 	 * 
 	 * @return
 	 */
-	public DimLevel[] getLevels( )
-	{
+	public DimLevel[] getLevels() {
 		return levels;
 	}
 
@@ -136,26 +114,25 @@ public class AggregationDefinition
 	 * 
 	 * @return
 	 */
-	public int[] getSortTypes( )
-	{
+	public int[] getSortTypes() {
 		return sortTypes;
 	}
 
 	/**
 	 * set its related drilled info
+	 * 
 	 * @param aggregation
 	 */
-	public void setDrilledInfo( DrilledInfo aggregation )
-	{
+	public void setDrilledInfo(DrilledInfo aggregation) {
 		drilledAggregation = aggregation;
 	}
-	
+
 	/**
 	 * get its related drilled info
+	 * 
 	 * @return
 	 */
-	public DrilledInfo getDrilledInfo( )
-	{
+	public DrilledInfo getDrilledInfo() {
 		return this.drilledAggregation;
 	}
 

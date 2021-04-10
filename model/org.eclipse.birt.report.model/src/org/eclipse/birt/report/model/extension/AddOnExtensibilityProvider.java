@@ -23,22 +23,17 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * its extension property.
  */
 
-public class AddOnExtensibilityProvider extends ModelExtensibilityProvider
-{
+public class AddOnExtensibilityProvider extends ModelExtensibilityProvider {
 
 	/**
-	 * Constructs the add-on extensibility provider with the extendable element
-	 * and the extension name.
+	 * Constructs the add-on extensibility provider with the extendable element and
+	 * the extension name.
 	 * 
-	 * @param element
-	 *            the extendable element
-	 * @param extensionName
-	 *            the extension name
+	 * @param element       the extendable element
+	 * @param extensionName the extension name
 	 */
 
-	public AddOnExtensibilityProvider( DesignElement element,
-			String extensionName )
-	{
-		super( element, extensionName );
+	public AddOnExtensibilityProvider(DesignElement element, String extensionName) {
+		super(element, extensionName);
 	}
 }

@@ -55,8 +55,7 @@ import com.ibm.icu.util.StringTokenizer;
  * the appropriate drawing event and execute the event on the Png24 device
  * renderer.
  */
-public class Png24PrimitiveGen
-{
+public class Png24PrimitiveGen {
 
 	protected PngRendererImpl renderer;
 	protected InputStream fileName;
@@ -67,17 +66,15 @@ public class Png24PrimitiveGen
 	protected ColorDefinition shadowColor;
 	protected FontDefinition font;
 
-	public Png24PrimitiveGen( InputStream fileName, String outFile )
-	{
+	public Png24PrimitiveGen(InputStream fileName, String outFile) {
 		this.fileName = fileName;
 		this.outFile = outFile;
-		startup( );
+		startup();
 	}
 
-	protected void startup( )
-	{
-		renderer = new PngRendererImpl( );
-		renderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, outFile );
+	protected void startup() {
+		renderer = new PngRendererImpl();
+		renderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, outFile);
 
 	}
 
@@ -87,287 +84,238 @@ public class Png24PrimitiveGen
 	 * 
 	 * @throws Exception
 	 */
-	protected void readFile( ) throws Exception
-	{
-		InputStreamReader isr = new InputStreamReader( fileName );
-		BufferedReader br = new BufferedReader( isr );
+	protected void readFile() throws Exception {
+		InputStreamReader isr = new InputStreamReader(fileName);
+		BufferedReader br = new BufferedReader(isr);
 		String lineStr = null;
-		while ( ( lineStr = br.readLine( ) ) != null )
-		{
-			StringTokenizer st = new StringTokenizer( lineStr, " " );//$NON-NLS-1$
-			String type = st.nextToken( );
-			if ( type == null )
+		while ((lineStr = br.readLine()) != null) {
+			StringTokenizer st = new StringTokenizer(lineStr, " ");//$NON-NLS-1$
+			String type = st.nextToken();
+			if (type == null) {
+				throw new Exception("primitive type string is null");//$NON-NLS-1$
+			} else if (type.equals("font"))//$NON-NLS-1$
 			{
-				throw new Exception( "primitive type string is null" );//$NON-NLS-1$
-			}
-			else if ( type.equals( "font" ) )//$NON-NLS-1$
-			{
-				String fontName = st.nextToken( );
-				float size = Float.parseFloat( st.nextToken( ) );
-				boolean bold = Boolean.getBoolean( st.nextToken( ) );
-				boolean italic = Boolean.getBoolean( st.nextToken( ) );
-				boolean underline = Boolean.getBoolean( st.nextToken( ) );
-				boolean strike = Boolean.getBoolean( st.nextToken( ) );
-				boolean wordwrap = Boolean.getBoolean( st.nextToken( ) );
-				double rotation = Double.parseDouble( st.nextToken( ) );
-				TextAlignment ta = TextAlignmentImpl.create( );
-				try
-				{
-					ta.setHorizontalAlignment( HorizontalAlignment.get( Integer.parseInt( st.nextToken( ) ) ) );
+				String fontName = st.nextToken();
+				float size = Float.parseFloat(st.nextToken());
+				boolean bold = Boolean.getBoolean(st.nextToken());
+				boolean italic = Boolean.getBoolean(st.nextToken());
+				boolean underline = Boolean.getBoolean(st.nextToken());
+				boolean strike = Boolean.getBoolean(st.nextToken());
+				boolean wordwrap = Boolean.getBoolean(st.nextToken());
+				double rotation = Double.parseDouble(st.nextToken());
+				TextAlignment ta = TextAlignmentImpl.create();
+				try {
+					ta.setHorizontalAlignment(HorizontalAlignment.get(Integer.parseInt(st.nextToken())));
+				} catch (NumberFormatException e) {
 				}
-				catch ( NumberFormatException e ) { }
-				try
-				{
-					ta.setVerticalAlignment( VerticalAlignment.get( Integer.parseInt( st.nextToken( ) ) ) );
+				try {
+					ta.setVerticalAlignment(VerticalAlignment.get(Integer.parseInt(st.nextToken())));
+				} catch (NumberFormatException e) {
 				}
-				catch ( NumberFormatException e ) { }
-				font = FontDefinitionImpl.create( fontName,
-						size,
-						bold,
-						italic,
-						underline,
-						strike,
-						wordwrap,
-						rotation,
-						ta );
+				font = FontDefinitionImpl.create(fontName, size, bold, italic, underline, strike, wordwrap, rotation,
+						ta);
 			}
 
-			else if ( type.equals( "size" ) )//$NON-NLS-1$
+			else if (type.equals("size"))//$NON-NLS-1$
 			{
-				renderer.setProperty( IDeviceRenderer.EXPECTED_BOUNDS,
-						BoundsImpl.create( Double.parseDouble( st.nextToken( ) ),
-								Double.parseDouble( st.nextToken( ) ),
-								Double.parseDouble( st.nextToken( ) ),
-								Double.parseDouble( st.nextToken( ) ) ) );
+				renderer.setProperty(IDeviceRenderer.EXPECTED_BOUNDS,
+						BoundsImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()),
+								Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
 				// size must be the first property in the input file
 				renderer.before();
-			}
-			else if ( type.equals( "fill" ) )//$NON-NLS-1$
+			} else if (type.equals("fill"))//$NON-NLS-1$
 			{
-				fillColor = ColorDefinitionImpl.create( Integer.parseInt( st.nextToken( ) ),
-						Integer.parseInt( st.nextToken( ) ),
-						Integer.parseInt( st.nextToken( ) ),
-						Integer.parseInt( st.nextToken( ) ) );
-			}
-			else if ( type.equals( "lineAttr" ) )//$NON-NLS-1$
+				fillColor = ColorDefinitionImpl.create(Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()));
+			} else if (type.equals("lineAttr"))//$NON-NLS-1$
 			{
-				lineAttr = LineAttributesImpl.create( strokeColor,
-						LineStyle.get( Integer.parseInt( st.nextToken( ) ) ),
-						Integer.parseInt( st.nextToken( ) ) );
-			}
-			else if ( type.equals( "stroke" ) )//$NON-NLS-1$
+				lineAttr = LineAttributesImpl.create(strokeColor, LineStyle.get(Integer.parseInt(st.nextToken())),
+						Integer.parseInt(st.nextToken()));
+			} else if (type.equals("stroke"))//$NON-NLS-1$
 			{
-				strokeColor = ColorDefinitionImpl.create( Integer.parseInt( st.nextToken( ) ),
-						Integer.parseInt( st.nextToken( ) ),
-						Integer.parseInt( st.nextToken( ) ),
-						Integer.parseInt( st.nextToken( ) ) );
-			}
-			else if ( type.equals( "shadow" ) )//$NON-NLS-1$
+				strokeColor = ColorDefinitionImpl.create(Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()));
+			} else if (type.equals("shadow"))//$NON-NLS-1$
 			{
-				shadowColor = ColorDefinitionImpl.create( Integer.parseInt( st.nextToken( ) ),
-						Integer.parseInt( st.nextToken( ) ),
-						Integer.parseInt( st.nextToken( ) ) );
-			}
-			else if ( type.startsWith( "arc" ) )//$NON-NLS-1$
+				shadowColor = ColorDefinitionImpl.create(Integer.parseInt(st.nextToken()),
+						Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+			} else if (type.startsWith("arc"))//$NON-NLS-1$
 			{
-				ArcRenderEvent are = new ArcRenderEvent( this );
-				are.setBackground( fillColor );
-				are.setTopLeft( LocationImpl.create( Double.parseDouble( st.nextToken( ) ),
-						Double.parseDouble( st.nextToken( ) ) ) );
-				are.setStartAngle( Double.parseDouble( st.nextToken( ) ) );
-				are.setEndAngle( Double.parseDouble( st.nextToken( ) ) );
-				are.setHeight( Double.parseDouble( st.nextToken( ) ) );
-				are.setWidth( Double.parseDouble( st.nextToken( ) ) );
-				are.setOutline( lineAttr );
-				are.setDepth( Double.parseDouble( st.nextToken( ) ) );
-				if ( type.endsWith( "fill" ) )//$NON-NLS-1$
-					renderer.fillArc( are );
+				ArcRenderEvent are = new ArcRenderEvent(this);
+				are.setBackground(fillColor);
+				are.setTopLeft(
+						LocationImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
+				are.setStartAngle(Double.parseDouble(st.nextToken()));
+				are.setEndAngle(Double.parseDouble(st.nextToken()));
+				are.setHeight(Double.parseDouble(st.nextToken()));
+				are.setWidth(Double.parseDouble(st.nextToken()));
+				are.setOutline(lineAttr);
+				are.setDepth(Double.parseDouble(st.nextToken()));
+				if (type.endsWith("fill"))//$NON-NLS-1$
+					renderer.fillArc(are);
 				else
-					renderer.drawArc( are );
-			}
-			else if ( type.startsWith( "line" ) )//$NON-NLS-1$
+					renderer.drawArc(are);
+			} else if (type.startsWith("line"))//$NON-NLS-1$
 			{
-				LineRenderEvent line = new LineRenderEvent( this );
-				line.setStart( LocationImpl.create( Double.parseDouble( st.nextToken( ) ),
-						Double.parseDouble( st.nextToken( ) ) ) );
-				line.setEnd( LocationImpl.create( Double.parseDouble( st.nextToken( ) ),
-						Double.parseDouble( st.nextToken( ) ) ) );
-				line.setDepth( Double.parseDouble( st.nextToken( ) ) );
-				line.setLineAttributes( lineAttr );
-				renderer.drawLine( line );
+				LineRenderEvent line = new LineRenderEvent(this);
+				line.setStart(
+						LocationImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
+				line.setEnd(
+						LocationImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
+				line.setDepth(Double.parseDouble(st.nextToken()));
+				line.setLineAttributes(lineAttr);
+				renderer.drawLine(line);
 
-			}
-			else if ( type.startsWith( "oval" ) )//$NON-NLS-1$
+			} else if (type.startsWith("oval"))//$NON-NLS-1$
 			{
-				OvalRenderEvent oval = new OvalRenderEvent( this );
-				oval.setBackground( fillColor );
-				oval.setBounds( BoundsImpl.create( Double.parseDouble( st.nextToken( ) ),
-						Double.parseDouble( st.nextToken( ) ),
-						Double.parseDouble( st.nextToken( ) ),
-						Double.parseDouble( st.nextToken( ) ) ) );
-				oval.setOutline( lineAttr );
-				oval.setDepth( Double.parseDouble( st.nextToken( ) ) );
-				if ( type.endsWith( "fill" ) )//$NON-NLS-1$
-					renderer.fillOval( oval );
+				OvalRenderEvent oval = new OvalRenderEvent(this);
+				oval.setBackground(fillColor);
+				oval.setBounds(BoundsImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()),
+						Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
+				oval.setOutline(lineAttr);
+				oval.setDepth(Double.parseDouble(st.nextToken()));
+				if (type.endsWith("fill"))//$NON-NLS-1$
+					renderer.fillOval(oval);
 				else
-					renderer.drawOval( oval );
-			}
-			else if ( type.startsWith( "rect" ) )//$NON-NLS-1$
+					renderer.drawOval(oval);
+			} else if (type.startsWith("rect"))//$NON-NLS-1$
 			{
-				RectangleRenderEvent rect = new RectangleRenderEvent( this );
-				rect.setBackground( fillColor );
-				rect.setBounds( BoundsImpl.create( Double.parseDouble( st.nextToken( ) ),
-						Double.parseDouble( st.nextToken( ) ),
-						Double.parseDouble( st.nextToken( ) ),
-						Double.parseDouble( st.nextToken( ) ) ) );
-				rect.setOutline( lineAttr );
-				rect.setDepth( Double.parseDouble( st.nextToken( ) ) );
-				if ( type.endsWith( "fill" ) )//$NON-NLS-1$
-					renderer.fillRectangle( rect );
+				RectangleRenderEvent rect = new RectangleRenderEvent(this);
+				rect.setBackground(fillColor);
+				rect.setBounds(BoundsImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()),
+						Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
+				rect.setOutline(lineAttr);
+				rect.setDepth(Double.parseDouble(st.nextToken()));
+				if (type.endsWith("fill"))//$NON-NLS-1$
+					renderer.fillRectangle(rect);
 				else
-					renderer.drawRectangle( rect );
-			}
-			else if ( type.startsWith( "polygon" ) )//$NON-NLS-1$
+					renderer.drawRectangle(rect);
+			} else if (type.startsWith("polygon"))//$NON-NLS-1$
 			{
-				PolygonRenderEvent shape = new PolygonRenderEvent( this );
-				shape.setBackground( fillColor );
-				shape.setOutline( lineAttr );
-				shape.setDepth( Double.parseDouble( st.nextToken( ) ) );
-				int pointLength = Integer.parseInt( st.nextToken( ) );
+				PolygonRenderEvent shape = new PolygonRenderEvent(this);
+				shape.setBackground(fillColor);
+				shape.setOutline(lineAttr);
+				shape.setDepth(Double.parseDouble(st.nextToken()));
+				int pointLength = Integer.parseInt(st.nextToken());
 				Location[] locations = new Location[pointLength];
-				for ( int x = 0; x < pointLength; x++ )
-				{
-					locations[x] = LocationImpl.create( Double.parseDouble( st.nextToken( ) ),
-							Double.parseDouble( st.nextToken( ) ) );
+				for (int x = 0; x < pointLength; x++) {
+					locations[x] = LocationImpl.create(Double.parseDouble(st.nextToken()),
+							Double.parseDouble(st.nextToken()));
 				}
-				shape.setPoints( locations );
-				if ( type.endsWith( "fill" ) )//$NON-NLS-1$
-					renderer.fillPolygon( shape );
+				shape.setPoints(locations);
+				if (type.endsWith("fill"))//$NON-NLS-1$
+					renderer.fillPolygon(shape);
 				else
-					renderer.drawPolygon( shape );
-			}
-			else if ( type.startsWith( "text" ) )//$NON-NLS-1$
+					renderer.drawPolygon(shape);
+			} else if (type.startsWith("text"))//$NON-NLS-1$
 			{
-				TextRenderEvent shape = new TextRenderEvent( this );
-				shape.setAction( Integer.parseInt( st.nextToken( ) ) );
-				switch ( shape.getAction( ) )
-				{
-					case TextRenderEvent.RENDER_SHADOW_AT_LOCATION :
-						shape.setTextPosition( Integer.parseInt( st.nextToken( ) ) );
-						shape.setLocation( LocationImpl.create( Double.parseDouble( st.nextToken( ) ),
-								Double.parseDouble( st.nextToken( ) ) ) );
-						break;
+				TextRenderEvent shape = new TextRenderEvent(this);
+				shape.setAction(Integer.parseInt(st.nextToken()));
+				switch (shape.getAction()) {
+				case TextRenderEvent.RENDER_SHADOW_AT_LOCATION:
+					shape.setTextPosition(Integer.parseInt(st.nextToken()));
+					shape.setLocation(LocationImpl.create(Double.parseDouble(st.nextToken()),
+							Double.parseDouble(st.nextToken())));
+					break;
 
-					case TextRenderEvent.RENDER_TEXT_AT_LOCATION :
-						shape.setTextPosition( Integer.parseInt( st.nextToken( ) ) );
-						shape.setLocation( LocationImpl.create( Double.parseDouble( st.nextToken( ) ),
-								Double.parseDouble( st.nextToken( ) ) ) );
-						break;
+				case TextRenderEvent.RENDER_TEXT_AT_LOCATION:
+					shape.setTextPosition(Integer.parseInt(st.nextToken()));
+					shape.setLocation(LocationImpl.create(Double.parseDouble(st.nextToken()),
+							Double.parseDouble(st.nextToken())));
+					break;
 
-					case TextRenderEvent.RENDER_TEXT_IN_BLOCK :
-						shape.setBlockBounds( BoundsImpl.create( Double.parseDouble( st.nextToken( ) ),
-								Double.parseDouble( st.nextToken( ) ),
-								Double.parseDouble( st.nextToken( ) ),
-								Double.parseDouble( st.nextToken( ) ) ) );
-						TextAlignment ta = TextAlignmentImpl.create( );
-						try
-						{
-							ta.setHorizontalAlignment( HorizontalAlignment.get( Integer.parseInt( st.nextToken( ) ) ) );
-						}
-						catch ( NumberFormatException e ) { }
-						try
-						{
-							ta.setVerticalAlignment( VerticalAlignment.get( Integer.parseInt( st.nextToken( ) ) ) );
-						}
-						catch ( NumberFormatException e ) { }
-						shape.setBlockAlignment( ta );
-						break;
+				case TextRenderEvent.RENDER_TEXT_IN_BLOCK:
+					shape.setBlockBounds(
+							BoundsImpl.create(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()),
+									Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken())));
+					TextAlignment ta = TextAlignmentImpl.create();
+					try {
+						ta.setHorizontalAlignment(HorizontalAlignment.get(Integer.parseInt(st.nextToken())));
+					} catch (NumberFormatException e) {
+					}
+					try {
+						ta.setVerticalAlignment(VerticalAlignment.get(Integer.parseInt(st.nextToken())));
+					} catch (NumberFormatException e) {
+					}
+					shape.setBlockAlignment(ta);
+					break;
 				}
 
-				Label label = LabelImpl.create( );
-				label.setBackground( fillColor );
-				label.setOutline( lineAttr );
+				Label label = LabelImpl.create();
+				label.setBackground(fillColor);
+				label.setOutline(lineAttr);
 				String strLabel = "";//$NON-NLS-1$
 				String strDepth = "";//$NON-NLS-1$
-				while ( st.hasMoreTokens( ) )
-				{
-					strDepth = st.nextToken( );
-					if ( st.hasMoreTokens( ) )
-					{
-						if ( strLabel.equals( "" ) )//$NON-NLS-1$
+				while (st.hasMoreTokens()) {
+					strDepth = st.nextToken();
+					if (st.hasMoreTokens()) {
+						if (strLabel.equals(""))//$NON-NLS-1$
 							strLabel = strDepth;
 						else
 							strLabel += " " + strDepth;//$NON-NLS-1$
 					}
 				}
-				Text text = TextImpl.create( strLabel );
-				text.setFont( font );
+				Text text = TextImpl.create(strLabel);
+				text.setFont(font);
 				text.setColor(ColorDefinitionImpl.BLACK());
-				label.setCaption( text );
-				if ( shadowColor != null )
-					label.setShadowColor( shadowColor );
-				shape.setLabel( label );
-				shape.setDepth( Double.parseDouble( strDepth ) );
-				renderer.drawText( shape );
-			}
-			else if ( type.equals( "transform" ) )//$NON-NLS-1$
+				label.setCaption(text);
+				if (shadowColor != null)
+					label.setShadowColor(shadowColor);
+				shape.setLabel(label);
+				shape.setDepth(Double.parseDouble(strDepth));
+				renderer.drawText(shape);
+			} else if (type.equals("transform"))//$NON-NLS-1$
 			{
-				TransformationEvent trans = new TransformationEvent( this );
-				trans.setTransform( Integer.parseInt( st.nextToken( ) ) );
-				trans.setDepth( Double.parseDouble( st.nextToken( ) ) );
-				trans.setRotation( Double.parseDouble( st.nextToken( ) ) );
-				trans.setScale( Double.parseDouble( st.nextToken( ) ) );
-				trans.setTranslation( Double.parseDouble( st.nextToken( ) ),
-						Double.parseDouble( st.nextToken( ) ) );
-				renderer.applyTransformation( trans );
-			}
-			else if ( type.equals( "clip" ) )//$NON-NLS-1$
+				TransformationEvent trans = new TransformationEvent(this);
+				trans.setTransform(Integer.parseInt(st.nextToken()));
+				trans.setDepth(Double.parseDouble(st.nextToken()));
+				trans.setRotation(Double.parseDouble(st.nextToken()));
+				trans.setScale(Double.parseDouble(st.nextToken()));
+				trans.setTranslation(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()));
+				renderer.applyTransformation(trans);
+			} else if (type.equals("clip"))//$NON-NLS-1$
 			{
-				ClipRenderEvent clip = new ClipRenderEvent( this );
-				clip.setDepth( Double.parseDouble( st.nextToken( ) ) );
-				int pointLength = Integer.parseInt( st.nextToken( ) );
+				ClipRenderEvent clip = new ClipRenderEvent(this);
+				clip.setDepth(Double.parseDouble(st.nextToken()));
+				int pointLength = Integer.parseInt(st.nextToken());
 				Location[] locations = new Location[pointLength];
-				for ( int x = 0; x < pointLength; x++ )
-				{
-					locations[x] = LocationImpl.create( Double.parseDouble( st.nextToken( ) ),
-							Double.parseDouble( st.nextToken( ) ) );
+				for (int x = 0; x < pointLength; x++) {
+					locations[x] = LocationImpl.create(Double.parseDouble(st.nextToken()),
+							Double.parseDouble(st.nextToken()));
 				}
-				clip.setVertices( locations );
-				renderer.setClip( clip );
-			}
-			else if ( type.startsWith( "area" ) )//$NON-NLS-1$
+				clip.setVertices(locations);
+				renderer.setClip(clip);
+			} else if (type.startsWith("area"))//$NON-NLS-1$
 			{
-				AreaRenderEvent area = new AreaRenderEvent( this );
+				AreaRenderEvent area = new AreaRenderEvent(this);
 
-				area.setDepth( Double.parseDouble( st.nextToken( ) ) );
-				area.setBackground( fillColor );
-				area.setOutline( lineAttr );
-				renderer.drawArea( area );
+				area.setDepth(Double.parseDouble(st.nextToken()));
+				area.setBackground(fillColor);
+				area.setOutline(lineAttr);
+				renderer.drawArea(area);
 			}
 
-			else if ( type.equals( "image" ) )//$NON-NLS-1$
+			else if (type.equals("image"))//$NON-NLS-1$
 			{
-				ImageRenderEvent image = new ImageRenderEvent( this );
+				ImageRenderEvent image = new ImageRenderEvent(this);
 
 				// TODO:need to test image drawing
-				renderer.drawImage( image );
+				renderer.drawImage(image);
 			}
 		}
-		br.close( );
+		br.close();
 
 	}
 
-	public void generate( ) throws Exception
-	{
-		readFile( );
+	public void generate() throws Exception {
+		readFile();
 	}
 
-	public void flush( ) throws Exception
-	{
-		renderer.after( );
+	public void flush() throws Exception {
+		renderer.after();
 
 	}
 
 }
-
-

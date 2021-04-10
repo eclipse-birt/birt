@@ -21,23 +21,16 @@ import org.xml.sax.SAXException;
  * 
  * 
  */
-public class CompatibleVariableNamePropertyState
-		extends
-			CompatiblePropertyState
-{
+public class CompatibleVariableNamePropertyState extends CompatiblePropertyState {
 
 	/**
 	 * The constructor.
 	 * 
-	 * @param theHandler
-	 *            the parser handler.
-	 * @param element
-	 *            the design element.
+	 * @param theHandler the parser handler.
+	 * @param element    the design element.
 	 */
-	public CompatibleVariableNamePropertyState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatibleVariableNamePropertyState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
@@ -45,12 +38,10 @@ public class CompatibleVariableNamePropertyState
 	 * 
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
-		if ( !StringUtil.isBlank( value ) )
-		{
-			element.setName( value );
+	public void end() throws SAXException {
+		String value = text.toString();
+		if (!StringUtil.isBlank(value)) {
+			element.setName(value);
 		}
 	}
 }

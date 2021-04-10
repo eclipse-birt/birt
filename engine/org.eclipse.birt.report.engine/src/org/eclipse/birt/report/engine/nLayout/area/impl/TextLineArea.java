@@ -14,58 +14,44 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
+public class TextLineArea extends LineArea {
 
-public class TextLineArea extends LineArea
-{
-
-	public TextLineArea( ContainerArea parent, LayoutContext context )
-	{
-		super( parent, context );
-		//support widow and orphans, do not auto-pagebreak in textlineArea
+	public TextLineArea(ContainerArea parent, LayoutContext context) {
+		super(parent, context);
+		// support widow and orphans, do not auto-pagebreak in textlineArea
 		isInInlineStacking = true;
 	}
 
-	public TextLineArea(TextLineArea area)
-	{
+	public TextLineArea(TextLineArea area) {
 		super(area);
 	}
-	
-	public TextLineArea cloneArea( )
-	{
+
+	public TextLineArea cloneArea() {
 		return new TextLineArea(this);
 	}
-	
-	public SplitResult splitLines( int lineCount ) throws BirtException
-	{
-		if( pageBreakBefore == IStyle.AVOID_VALUE)
-		{
+
+	public SplitResult splitLines(int lineCount) throws BirtException {
+		if (pageBreakBefore == IStyle.AVOID_VALUE) {
 			return SplitResult.BEFORE_AVOID_WITH_NULL;
 		}
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
 
-
-	public SplitResult split( int height, boolean force ) throws BirtException
-	{
-		if ( force )
-		{
-			TextLineArea newArea = cloneArea( );
-			newArea.children.addAll( children );
-			children.clear( );
+	public SplitResult split(int height, boolean force) throws BirtException {
+		if (force) {
+			TextLineArea newArea = cloneArea();
+			newArea.children.addAll(children);
+			children.clear();
 			this.height = 0;
-			return new SplitResult( newArea,
-					SplitResult.SPLIT_SUCCEED_WITH_PART );
+			return new SplitResult(newArea, SplitResult.SPLIT_SUCCEED_WITH_PART);
 		}
-		if ( pageBreakBefore == IStyle.AVOID_VALUE )
-		{
+		if (pageBreakBefore == IStyle.AVOID_VALUE) {
 			return SplitResult.BEFORE_AVOID_WITH_NULL;
 		}
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
-	
 
-	public boolean isPageBreakInsideAvoid()
-	{
+	public boolean isPageBreakInsideAvoid() {
 		return true;
 	}
 }

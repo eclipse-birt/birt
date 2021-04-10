@@ -19,10 +19,10 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 /**
  * This class hosts the information of data types that are supported by flat
  * file driver
+ * 
  * @deprecated Please use DTP xml driver
  */
-public final class DataTypes
-{
+public final class DataTypes {
 	//
 	public static final int INT = Types.INTEGER;
 	public static final int DOUBLE = Types.DOUBLE;
@@ -34,62 +34,56 @@ public final class DataTypes
 	public static final int BIGDECIMAL = Types.NUMERIC;
 
 	//
-	private static HashMap typeStringIntPair = new HashMap( );
-	
-	private static HashMap typeIntStringPair = new HashMap( );
-	
-	static
-	{
-		typeStringIntPair.put( "Int", Integer.valueOf( INT ) ); //$NON-NLS-1$
-		typeStringIntPair.put( "Double", Integer.valueOf( DOUBLE ) ); //$NON-NLS-1$
-		typeStringIntPair.put( "String", Integer.valueOf( STRING ) ); //$NON-NLS-1$
-		typeStringIntPair.put( "Date", Integer.valueOf( DATE ) ); //$NON-NLS-1$
-		typeStringIntPair.put( "Time", Integer.valueOf( TIME ) ); //$NON-NLS-1$
-		typeStringIntPair.put( "Timestamp", Integer.valueOf( TIMESTAMP ) ); //$NON-NLS-1$
-		typeStringIntPair.put( "Bigdecimal", Integer.valueOf( BIGDECIMAL ) ); //$NON-NLS-1$
-		
-		typeIntStringPair.put( Integer.valueOf( INT ),"Int" ); //$NON-NLS-1$
-		typeIntStringPair.put( Integer.valueOf( DOUBLE ),"Double" ); //$NON-NLS-1$
-		typeIntStringPair.put( Integer.valueOf( STRING ),"String" ); //$NON-NLS-1$
-		typeIntStringPair.put( Integer.valueOf( DATE ),"Date" ); //$NON-NLS-1$
-		typeIntStringPair.put( Integer.valueOf( TIME ),"Time" ); //$NON-NLS-1$
-		typeIntStringPair.put( Integer.valueOf( TIMESTAMP ),"Timestamp" ); //$NON-NLS-1$
-		typeIntStringPair.put( Integer.valueOf( BIGDECIMAL ),"Bigdecimal" ); //$NON-NLS-1$
+	private static HashMap typeStringIntPair = new HashMap();
+
+	private static HashMap typeIntStringPair = new HashMap();
+
+	static {
+		typeStringIntPair.put("Int", Integer.valueOf(INT)); //$NON-NLS-1$
+		typeStringIntPair.put("Double", Integer.valueOf(DOUBLE)); //$NON-NLS-1$
+		typeStringIntPair.put("String", Integer.valueOf(STRING)); //$NON-NLS-1$
+		typeStringIntPair.put("Date", Integer.valueOf(DATE)); //$NON-NLS-1$
+		typeStringIntPair.put("Time", Integer.valueOf(TIME)); //$NON-NLS-1$
+		typeStringIntPair.put("Timestamp", Integer.valueOf(TIMESTAMP)); //$NON-NLS-1$
+		typeStringIntPair.put("Bigdecimal", Integer.valueOf(BIGDECIMAL)); //$NON-NLS-1$
+
+		typeIntStringPair.put(Integer.valueOf(INT), "Int"); //$NON-NLS-1$
+		typeIntStringPair.put(Integer.valueOf(DOUBLE), "Double"); //$NON-NLS-1$
+		typeIntStringPair.put(Integer.valueOf(STRING), "String"); //$NON-NLS-1$
+		typeIntStringPair.put(Integer.valueOf(DATE), "Date"); //$NON-NLS-1$
+		typeIntStringPair.put(Integer.valueOf(TIME), "Time"); //$NON-NLS-1$
+		typeIntStringPair.put(Integer.valueOf(TIMESTAMP), "Timestamp"); //$NON-NLS-1$
+		typeIntStringPair.put(Integer.valueOf(BIGDECIMAL), "Bigdecimal"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Return the int which stands for the type specified by input argument
 	 * 
-	 * @param typeName
-	 *            the String value of a Type
+	 * @param typeName the String value of a Type
 	 * @return the int which stands for the type specified by input typeName
-	 * @throws OdaException
-	 *             Once the input arguement is not a valid type name
+	 * @throws OdaException Once the input arguement is not a valid type name
 	 */
-	public static int getType( String typeName ) throws OdaException
-	{
-		String preparedTypeName = typeName == null ? "":typeName.trim( );
-		if ( typeStringIntPair.containsKey( preparedTypeName ) )
-			return ( (Integer) typeStringIntPair.get( preparedTypeName ) ).intValue( );
-		throw new OdaException( ); //$NON-NLS-1$
+	public static int getType(String typeName) throws OdaException {
+		String preparedTypeName = typeName == null ? "" : typeName.trim();
+		if (typeStringIntPair.containsKey(preparedTypeName))
+			return ((Integer) typeStringIntPair.get(preparedTypeName)).intValue();
+		throw new OdaException(); // $NON-NLS-1$
 	}
-	
+
 	/**
 	 * Return the String which stands for the type specified by input argument
 	 * 
-	 * @param typeName
-	 *            the int value of a Type
+	 * @param typeName the int value of a Type
 	 * @return the String which stands for the type specified by input typeName
-	 * @throws OdaException
-	 *             Once the input arguement is not a valid type name
+	 * @throws OdaException Once the input arguement is not a valid type name
 	 */
-	public static String getTypeString( int type ) throws OdaException
-	{
-		Integer typeInteger = Integer.valueOf( type );
-		if ( typeIntStringPair.containsKey( typeInteger ) )
-			return typeIntStringPair.get( typeInteger ).toString();
-		throw new OdaException( ); //$NON-NLS-1$
+	public static String getTypeString(int type) throws OdaException {
+		Integer typeInteger = Integer.valueOf(type);
+		if (typeIntStringPair.containsKey(typeInteger))
+			return typeIntStringPair.get(typeInteger).toString();
+		throw new OdaException(); // $NON-NLS-1$
 	}
+
 	/**
 	 * Evalute whether an input String is a valid type that is supported by flat
 	 * file driver
@@ -97,13 +91,11 @@ public final class DataTypes
 	 * @param typeName
 	 * @return
 	 */
-	public static boolean isValidType( String typeName )
-	{
-		return typeStringIntPair.containsKey( typeName.trim( ) );
+	public static boolean isValidType(String typeName) {
+		return typeStringIntPair.containsKey(typeName.trim());
 	}
 
-	private DataTypes( )
-	{
+	private DataTypes() {
 	}
-	
+
 }

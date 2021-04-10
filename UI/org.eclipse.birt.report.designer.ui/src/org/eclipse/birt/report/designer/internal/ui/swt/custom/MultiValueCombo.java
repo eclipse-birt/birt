@@ -29,21 +29,19 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 
-
 /**
  * 
  */
 
-public class MultiValueCombo extends Combo
-{
+public class MultiValueCombo extends Combo {
 
-	public static interface ISelection
-	{
-		public String[] doSelection( String input );
+	public static interface ISelection {
+		public String[] doSelection(String input);
+
 		public void doAfterSelection(MultiValueCombo combo);
 	}
 
-	Map<Integer, ISelection> actionMap = new HashMap<Integer, ISelection>( );
+	Map<Integer, ISelection> actionMap = new HashMap<Integer, ISelection>();
 	SelectionListener selListener;
 	ModifyListener modifyListener;
 	VerifyListener verifyListener;
@@ -56,155 +54,132 @@ public class MultiValueCombo extends Combo
 	String oldValue = null;
 	boolean shouldSaveValue = false;
 	boolean shouldClearValues = false;
-	List<String> oldValueList = new ArrayList<String>( );
-	
+	List<String> oldValueList = new ArrayList<String>();
+
 	String selStrings[] = null;
 
-	public String[] getSelStrings()
-	{
+	public String[] getSelStrings() {
 		String[] ret = selStrings;
-		if(ret == null)
-		{
+		if (ret == null) {
 			return new String[0];
-		}		
+		}
 		return ret;
 	}
-	
-	protected void checkSubclass( )
-	{
+
+	protected void checkSubclass() {
 
 	}
 
-	public void setTextBySelection( boolean set )
-	{
+	public void setTextBySelection(boolean set) {
 		setTextBySelection = set;
 	}
 
-	public MultiValueCombo( Composite parent, int style )
-	{
-		super( parent, style );
+	public MultiValueCombo(Composite parent, int style) {
+		super(parent, style);
 		// TODO Auto-generated constructor stub
 
-		actionMap.clear( );
-		initializeSelectionListener( );
+		actionMap.clear();
+		initializeSelectionListener();
 	}
 
-	public void initializeSelectionListener( )
-	{
+	public void initializeSelectionListener() {
 
-		keyListener = new KeyListener( ) {
+		keyListener = new KeyListener() {
 
-			public void keyPressed( KeyEvent e )
-			{
+			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 
 			}
 
-			public void keyReleased( KeyEvent e )
-			{
+			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
 				MultiValueCombo combo = (MultiValueCombo) e.widget;
-				String comboText = combo.getText( );
-				oldValueList.clear( );
-				oldValueList.add( comboText );
+				String comboText = combo.getText();
+				oldValueList.clear();
+				oldValueList.add(comboText);
 			}
 
 		};
 		// super.addSelectionListener( listener )
-		selListener = new SelectionListener( ) {
+		selListener = new SelectionListener() {
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
+			public void widgetDefaultSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 			}
 
-			public void widgetSelected( SelectionEvent e )
-			{
+			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 
 //				System.out.print( "Selection Listener is involved.\n" );
 
 				String eText = e.text;
 				MultiValueCombo combo = (MultiValueCombo) e.widget;
-				String comboText = combo.getText( );
-				if ( !selected )
-				{
+				String comboText = combo.getText();
+				if (!selected) {
 					return;
 				}
 				selected = false;
-				int index = combo.indexOf( comboText );
-				if ( index >= 0 )
-				{
-					if ( oldValueList.size( ) > 0 )
-					{
-						oldValue = oldValueList.get( 0 );
-						oldValueList.clear( );
+				int index = combo.indexOf(comboText);
+				if (index >= 0) {
+					if (oldValueList.size() > 0) {
+						oldValue = oldValueList.get(0);
+						oldValueList.clear();
 					}
 
-					ISelection action = actionMap.get( index );
-					if ( action == null )
-					{
+					ISelection action = actionMap.get(index);
+					if (action == null) {
 						oldValue = comboText;
-						oldValueList.add( oldValue );
+						oldValueList.add(oldValue);
 						return;
 					}
-					
-					selStrings = action.doSelection( oldValue );
+
+					selStrings = action.doSelection(oldValue);
 					String text = null;
-					
-					if(selStrings != null)
-					{
-						if(selStrings.length == 1)
-						{
+
+					if (selStrings != null) {
+						if (selStrings.length == 1) {
 							text = selStrings[0];
-						}else
-						if(selStrings.length > 1)
-						{
+						} else if (selStrings.length > 1) {
 							text = "";
-						}						
+						}
 					}
-					
-					if ( text != null )
-					{
+
+					if (text != null) {
 						oldValue = text;
 					}
 
-					oldValueList.add( oldValue );
-					combo.select( -1 );
-					combo.setText( oldValue );
+					oldValueList.add(oldValue);
+					combo.select(-1);
+					combo.setText(oldValue);
 
-					action.doAfterSelection( combo );
+					action.doAfterSelection(combo);
 				}
 
 			}
 		};
 
-		modifyListener = new ModifyListener( ) {
+		modifyListener = new ModifyListener() {
 
-			public void modifyText( ModifyEvent e )
-			{
+			public void modifyText(ModifyEvent e) {
 				// TODO Auto-generated method stub
 
 				MultiValueCombo combo = (MultiValueCombo) e.widget;
-				String comboText = combo.getText( );
+				String comboText = combo.getText();
 
 //				System.out.print( "Modify Listener is involved."
 //						+ comboText
 //						+ "\n" );
 
-				if ( selected )
-				{
+				if (selected) {
 					return;
 				}
 
-				if ( shouldClearValues )
-				{
-					oldValueList.clear( );
+				if (shouldClearValues) {
+					oldValueList.clear();
 					shouldClearValues = false;
 				}
-				if ( shouldSaveValue )
-				{
-					oldValueList.add( comboText );
+				if (shouldSaveValue) {
+					oldValueList.add(comboText);
 					shouldSaveValue = false;
 				}
 
@@ -212,10 +187,9 @@ public class MultiValueCombo extends Combo
 
 		};
 
-		verifyListener = new VerifyListener( ) {
+		verifyListener = new VerifyListener() {
 
-			public void verifyText( VerifyEvent e )
-			{
+			public void verifyText(VerifyEvent e) {
 				// TODO Auto-generated method stub
 //				System.out.print( "Verify Listener is involved.\n" );
 
@@ -223,12 +197,10 @@ public class MultiValueCombo extends Combo
 				String eText = e.text;
 				MultiValueCombo combo = (MultiValueCombo) e.widget;
 
-				if ( combo.indexOf( eText ) >= 0 )
-				{
+				if (combo.indexOf(eText) >= 0) {
 					selected = true;
-					if ( combo.indexOf( combo.getText( ) ) < 0 )
-					{
-						oldValueList.add( combo.getText( ) );
+					if (combo.indexOf(combo.getText()) < 0) {
+						oldValueList.add(combo.getText());
 						shouldClearValues = false;
 						shouldSaveValue = false;
 					}
@@ -236,8 +208,7 @@ public class MultiValueCombo extends Combo
 					return;
 				}
 
-				if ( !eText.equals( "" ) )
-				{
+				if (!eText.equals("")) {
 					shouldClearValues = true;
 					shouldSaveValue = true;
 				}
@@ -247,47 +218,41 @@ public class MultiValueCombo extends Combo
 		};
 
 		addListenerLock = false;
-		super.addKeyListener( keyListener );
-		super.addSelectionListener( selListener );
+		super.addKeyListener(keyListener);
+		super.addSelectionListener(selListener);
 		addListenerLock = true;
-		super.addModifyListener( modifyListener );
-		super.addVerifyListener( verifyListener );
+		super.addModifyListener(modifyListener);
+		super.addVerifyListener(verifyListener);
 	}
 
 	// add SelectionListener is forbidden, please use addSelectionListener(index
 	// , selection) instead.
-	public void addSelectionListener( SelectionListener listener )
-	{
+	public void addSelectionListener(SelectionListener listener) {
 		// do nothing
 	}
 
 	// add KeyListener is forbidden
-	public void addKeyListener( KeyListener listener )
-	{
+	public void addKeyListener(KeyListener listener) {
 		// do nothing
 	}
 
-	public void addListener( int eventType, Listener listener )
-	{
-		if ( addListenerLock == true
-				&& ( eventType == SWT.Selection || eventType == SWT.KeyUp || eventType == SWT.KeyDown ) )
-		{
+	public void addListener(int eventType, Listener listener) {
+		if (addListenerLock == true
+				&& (eventType == SWT.Selection || eventType == SWT.KeyUp || eventType == SWT.KeyDown)) {
 			return;
 		}
 
-		super.addListener( eventType, listener );
+		super.addListener(eventType, listener);
 	}
 
 	// index : [0, getItemCount - 1]
-	public void addSelectionListener( int index, ISelection selection )
-	{
-		actionMap.put( index, selection );
+	public void addSelectionListener(int index, ISelection selection) {
+		actionMap.put(index, selection);
 	}
 
 	// index : [0, getItemCount - 1]
-	public void removeSelectionListener( int index )
-	{
-		actionMap.remove( index );
+	public void removeSelectionListener(int index) {
+		actionMap.remove(index);
 	}
 
 }

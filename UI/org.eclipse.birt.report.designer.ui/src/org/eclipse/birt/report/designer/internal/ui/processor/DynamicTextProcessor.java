@@ -17,33 +17,25 @@ import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
+public class DynamicTextProcessor extends AbstractElementProcessor {
 
-public class DynamicTextProcessor extends AbstractElementProcessor
-{
-
-	protected DynamicTextProcessor( String elementType )
-	{
-		super( elementType );
+	protected DynamicTextProcessor(String elementType) {
+		super(elementType);
 	}
 
-	public DesignElementHandle createElement( Object extendedData )
-	{
-		TextDataHandle handle = DesignElementFactory.getInstance( ).newTextData(null);
-		try
-		{
+	public DesignElementHandle createElement(Object extendedData) {
+		TextDataHandle handle = DesignElementFactory.getInstance().newTextData(null);
+		try {
 			handle.setContentType(DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML);
-		}
-		catch ( SemanticException e )
-		{
+		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);
 			return null;
 		}
 		return handle;
 	}
 
-	public boolean editElement( DesignElementHandle handle )
-	{
-		//do nothing.
+	public boolean editElement(DesignElementHandle handle) {
+		// do nothing.
 		return false;
 	}
 

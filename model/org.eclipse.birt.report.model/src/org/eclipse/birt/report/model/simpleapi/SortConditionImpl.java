@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
  * 
  */
 
-public class SortConditionImpl extends Structure implements ISortCondition
-{
+public class SortConditionImpl extends Structure implements ISortCondition {
 
 	private SortKey sort;
 
@@ -33,10 +32,9 @@ public class SortConditionImpl extends Structure implements ISortCondition
 	 * @param sortHandle
 	 */
 
-	public SortConditionImpl( )
-	{
-		super( null );
-		sort = createSortCondition( );
+	public SortConditionImpl() {
+		super(null);
+		sort = createSortCondition();
 	}
 
 	/**
@@ -45,17 +43,13 @@ public class SortConditionImpl extends Structure implements ISortCondition
 	 * @param sortHandle
 	 */
 
-	public SortConditionImpl( SortKeyHandle sortHandle )
-	{
-		super( sortHandle );
-		if ( sortHandle == null )
-		{
-			sort = createSortCondition( );
-		}
-		else
-		{
+	public SortConditionImpl(SortKeyHandle sortHandle) {
+		super(sortHandle);
+		if (sortHandle == null) {
+			sort = createSortCondition();
+		} else {
 			structureHandle = sortHandle;
-			sort = (SortKey) sortHandle.getStructure( );
+			sort = (SortKey) sortHandle.getStructure();
 		}
 	}
 
@@ -64,15 +58,11 @@ public class SortConditionImpl extends Structure implements ISortCondition
 	 * 
 	 * @param sort
 	 */
-	public SortConditionImpl( SortKey sort )
-	{
-		super( null );
-		if ( sort == null )
-		{
-			this.sort = createSortCondition( );
-		}
-		else
-		{
+	public SortConditionImpl(SortKey sort) {
+		super(null);
+		if (sort == null) {
+			this.sort = createSortCondition();
+		} else {
 			this.sort = sort;
 		}
 	}
@@ -82,47 +72,39 @@ public class SortConditionImpl extends Structure implements ISortCondition
 	 * 
 	 * @return instance
 	 */
-	private SortKey createSortCondition( )
-	{
-		SortKey s = new SortKey( );
+	private SortKey createSortCondition() {
+		SortKey s = new SortKey();
 		return s;
 	}
 
-	public String getDirection( )
-	{
-		return sort.getDirection( );
+	public String getDirection() {
+		return sort.getDirection();
 	}
 
-	public String getKey( )
-	{
-		return sort.getKey( );
+	public String getKey() {
+		return sort.getKey();
 	}
 
-	public void setDirection( String direction ) throws SemanticException
-	{
-		if ( structureHandle != null )
-		{
-			setProperty( SortKey.DIRECTION_MEMBER, direction );
+	public void setDirection(String direction) throws SemanticException {
+		if (structureHandle != null) {
+			setProperty(SortKey.DIRECTION_MEMBER, direction);
 			return;
 		}
 
-		sort.setDirection( direction );
+		sort.setDirection(direction);
 	}
 
-	public void setKey( String key ) throws SemanticException
-	{
+	public void setKey(String key) throws SemanticException {
 		// key is required
-		if ( structureHandle != null )
-		{
-			setProperty( SortKey.KEY_MEMBER, key );
+		if (structureHandle != null) {
+			setProperty(SortKey.KEY_MEMBER, key);
 			return;
 		}
 
-		sort.setKey( key );
+		sort.setKey(key);
 	}
 
-	public IStructure getStructure( )
-	{
+	public IStructure getStructure() {
 		return sort;
 	}
 

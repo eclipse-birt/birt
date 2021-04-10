@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.swt.custom;
 
-
-public interface ITabbedPropertyConstants
-{
+public interface ITabbedPropertyConstants {
 
 	/**
 	 * These horizontal margin around the composite. Each section should use a
@@ -27,9 +25,9 @@ public interface ITabbedPropertyConstants
 	public static final int VMARGIN = 6;
 
 	/**
-	 * Horizontal space to leave between related widgets. Each section should
-	 * use these values for spacing its widgets. For example, you can use +/-
-	 * HSPACE as the offset of a left or right FlatFormAttachment.
+	 * Horizontal space to leave between related widgets. Each section should use
+	 * these values for spacing its widgets. For example, you can use +/- HSPACE as
+	 * the offset of a left or right FlatFormAttachment.
 	 * 
 	 * The tabbed property composite also inserts VSPACE pixels between section
 	 * composites if more than one section is displayed.
@@ -42,10 +40,10 @@ public interface ITabbedPropertyConstants
 	public static final int VSPACE = 4;
 
 	/**
-	 * Space to leave between the center of the property tab and the closest
-	 * widget to the left or right. I.e. for a property tab whose widgets are
-	 * logically divided into two halves, the total space between the halves
-	 * should be 2*CENTER_SPACE.
+	 * Space to leave between the center of the property tab and the closest widget
+	 * to the left or right. I.e. for a property tab whose widgets are logically
+	 * divided into two halves, the total space between the halves should be
+	 * 2*CENTER_SPACE.
 	 */
 	public static final int CENTER_SPACE = 10;
 }

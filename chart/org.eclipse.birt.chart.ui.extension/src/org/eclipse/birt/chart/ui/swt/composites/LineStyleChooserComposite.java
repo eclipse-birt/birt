@@ -22,77 +22,59 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * LineStyleChooserComposite
  */
-public class LineStyleChooserComposite extends AbstractLineStyleChooserComposite
-{
+public class LineStyleChooserComposite extends AbstractLineStyleChooserComposite {
 
-	static class LineStyleChoice extends LineCanvas implements ICustomChoice
-	{
+	static class LineStyleChoice extends LineCanvas implements ICustomChoice {
 
-		LineStyleChoice( Composite parent, int iStyle, int iLineStyle )
-		{
-			super( parent, iStyle, iLineStyle, 1 );
+		LineStyleChoice(Composite parent, int iStyle, int iLineStyle) {
+			super(parent, iStyle, iLineStyle, 1);
 		}
 
-		public Object getValue( )
-		{
-			return Integer.valueOf( getLineStyle( ) );
+		public Object getValue() {
+			return Integer.valueOf(getLineStyle());
 		}
 
-		public void setValue( Object value )
-		{
-			if ( value != null )
-			{
-				setLineStyle( ( (Integer) value ).intValue( ) );
+		public void setValue(Object value) {
+			if (value != null) {
+				setLineStyle(((Integer) value).intValue());
 			}
 		}
 
 	}
 
-	public LineStyleChooserComposite( Composite parent, int style,
-			int iLineStyle )
-	{
-		this( parent, style, iLineStyle, new Integer[]{
-				SWT.NONE, SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT
-		} );
+	public LineStyleChooserComposite(Composite parent, int style, int iLineStyle) {
+		this(parent, style, iLineStyle,
+				new Integer[] { SWT.NONE, SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT });
 	}
 
-	public LineStyleChooserComposite( Composite parent, int style,
-			int iLineStyle, Integer[] lineStyleItems )
-	{
-		super( parent, style, Integer.valueOf( iLineStyle ) );
-		setItems( lineStyleItems );
+	public LineStyleChooserComposite(Composite parent, int style, int iLineStyle, Integer[] lineStyleItems) {
+		super(parent, style, Integer.valueOf(iLineStyle));
+		setItems(lineStyleItems);
 	}
 
-	protected ICustomChoice createChoice( Composite parent, Object choiceValue )
-	{
-		if ( choiceValue == null )
-		{
-			choiceValue = Integer.valueOf( 0 );
+	protected ICustomChoice createChoice(Composite parent, Object choiceValue) {
+		if (choiceValue == null) {
+			choiceValue = Integer.valueOf(0);
 		}
-		return new LineStyleChoice( parent,
-				SWT.NONE,
-				( (Integer) choiceValue ).intValue( ) );
+		return new LineStyleChoice(parent, SWT.NONE, ((Integer) choiceValue).intValue());
 	}
 
 	/**
-	 * Returns the current selected line style as an integer corresponding to
-	 * the appropriate SWT constants.
+	 * Returns the current selected line style as an integer corresponding to the
+	 * appropriate SWT constants.
 	 * 
 	 */
-	public int getLineStyle( )
-	{
-		return ( (Integer) getChoiceValue( ) ).intValue( );
+	public int getLineStyle() {
+		return ((Integer) getChoiceValue()).intValue();
 	}
 
-	public void setLineStyle( int iStyle )
-	{
-		setChoiceValue( Integer.valueOf( iStyle ) );
+	public void setLineStyle(int iStyle) {
+		setChoiceValue(Integer.valueOf(iStyle));
 	}
 
 	@Override
-	public void setLineStyle( LineStyle style, EObject eParent )
-	{
-		setLineStyle( ChartUIExtensionUtil.getSWTLineStyle( style ) );
+	public void setLineStyle(LineStyle style, EObject eParent) {
+		setLineStyle(ChartUIExtensionUtil.getSWTLineStyle(style));
 	}
 
 }

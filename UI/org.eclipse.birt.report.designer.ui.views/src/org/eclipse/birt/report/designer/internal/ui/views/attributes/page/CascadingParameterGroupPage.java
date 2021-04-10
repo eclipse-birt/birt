@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
  * 
  */
 
-public class CascadingParameterGroupPage extends GeneralPage
-{
+public class CascadingParameterGroupPage extends GeneralPage {
 
 	/*
 	 * (non-Javadoc)
@@ -31,36 +30,30 @@ public class CascadingParameterGroupPage extends GeneralPage
 	 * GeneralPage#buildContent()
 	 */
 	@Override
-	protected void buildContent( )
-	{
+	protected void buildContent() {
 		// TODO Auto-generated method stub
 
-		IDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( CascadingParameterGroupHandle.NAME_PROP,
-				ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT );
+		IDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(CascadingParameterGroupHandle.NAME_PROP,
+				ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT);
 
-		TextSection nameSection = new TextSection( nameProvider.getDisplayName( ),
-				container,
-				true );
-		nameSection.setProvider( nameProvider );
-		nameSection.setWidth( 500 );
-		nameSection.setGridPlaceholder( 4, true );
-		addSection( PageSectionId.CASCADING_PARAMTER_GROUP_NAME, nameSection );
+		TextSection nameSection = new TextSection(nameProvider.getDisplayName(), container, true);
+		nameSection.setProvider(nameProvider);
+		nameSection.setWidth(500);
+		nameSection.setGridPlaceholder(4, true);
+		addSection(PageSectionId.CASCADING_PARAMTER_GROUP_NAME, nameSection);
 
-		IDescriptorProvider displayNameProvider = new TextPropertyDescriptorProvider( CascadingParameterGroupHandle.DISPLAY_NAME_PROP,
-				ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT );
+		IDescriptorProvider displayNameProvider = new TextPropertyDescriptorProvider(
+				CascadingParameterGroupHandle.DISPLAY_NAME_PROP,
+				ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT);
 
-		TextSection displayNameSection = new TextSection( displayNameProvider.getDisplayName( ),
-				container,
-				true );
-		displayNameSection.setProvider( displayNameProvider );
-		displayNameSection.setWidth( 500 );
-		displayNameSection.setGridPlaceholder( 4, true );
-		addSection( PageSectionId.CASCADING_PARAMTER_GROUP_DISPLAY_NAME,
-				displayNameSection );
+		TextSection displayNameSection = new TextSection(displayNameProvider.getDisplayName(), container, true);
+		displayNameSection.setProvider(displayNameProvider);
+		displayNameSection.setWidth(500);
+		displayNameSection.setGridPlaceholder(4, true);
+		addSection(PageSectionId.CASCADING_PARAMTER_GROUP_DISPLAY_NAME, displayNameSection);
 	}
 
-	public boolean canReset( )
-	{
+	public boolean canReset() {
 		return false;
 	}
 }

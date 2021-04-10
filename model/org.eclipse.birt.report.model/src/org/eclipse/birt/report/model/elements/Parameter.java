@@ -19,29 +19,23 @@ import org.eclipse.birt.report.model.elements.interfaces.IParameterModel;
  * 
  */
 
-public abstract class Parameter extends DesignElement
-		implements
-			IParameterModel
-{
+public abstract class Parameter extends DesignElement implements IParameterModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public Parameter( )
-	{
+	public Parameter() {
 	}
 
 	/**
 	 * Constructs the parameter element with a required and unique name.
 	 * 
-	 * @param theName
-	 *            the required name
+	 * @param theName the required name
 	 */
 
-	public Parameter( String theName )
-	{
-		super( theName );
+	public Parameter(String theName) {
+		super(theName);
 	}
 
 }

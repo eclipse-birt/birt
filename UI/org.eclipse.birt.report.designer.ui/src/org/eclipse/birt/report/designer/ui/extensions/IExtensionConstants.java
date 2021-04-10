@@ -15,8 +15,7 @@ package org.eclipse.birt.report.designer.ui.extensions;
  * Defines the constants used by extension framework
  */
 
-public interface IExtensionConstants
-{
+public interface IExtensionConstants {
 
 	/** Extension Point Id */
 	String EXTENSION_REPORT_ITEM_UI = "org.eclipse.birt.report.designer.ui.reportitemUI"; //$NON-NLS-1$

@@ -14,11 +14,9 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.parameters;
 /**
  * AbstractHyperlinkParameter
  */
-public abstract class AbstractHyperlinkParameter implements IHyperlinkParameter
-{
+public abstract class AbstractHyperlinkParameter implements IHyperlinkParameter {
 
-	public String getDataType( )
-	{
+	public String getDataType() {
 		return null;
 	}
 

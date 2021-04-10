@@ -19,26 +19,25 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * Validates that a dimension value should be positive( larger than zero ).
  */
 
-public class PositiveIntValidator extends SimpleValueValidator
-{
+public class PositiveIntValidator extends SimpleValueValidator {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.IMetaValidator#validate(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.IMetaValidator#validate(org.eclipse.
+	 * birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
-	public void validate( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
-	{
-		if ( value == null )
+	public void validate(Module module, PropertyDefn defn, Object value) throws PropertyValueException {
+		if (value == null)
 			return;
 
 		assert value instanceof Integer;
 
-		if ( ( (Integer) value ).intValue( ) <= 0 )
-			throw new PropertyValueException( null, defn, value,
-					PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE );
+		if (((Integer) value).intValue() <= 0)
+			throw new PropertyValueException(null, defn, value,
+					PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE);
 	}
 
 }

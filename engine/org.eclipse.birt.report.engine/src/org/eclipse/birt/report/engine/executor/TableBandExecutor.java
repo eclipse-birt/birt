@@ -22,80 +22,59 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.w3c.dom.css.CSSValue;
 
-public class TableBandExecutor extends StyledItemExecutor
-{
+public class TableBandExecutor extends StyledItemExecutor {
 
-	protected TableBandExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.TABLEBANDITEM );
+	protected TableBandExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.TABLEBANDITEM);
 	}
-	
-	public IContent execute( )
-	{
+
+	public IContent execute() {
 		// start table band
-		TableBandDesign bandDesign = (TableBandDesign) getDesign( );
-		ITableBandContent bandContent = report.createTableBandContent( );
+		TableBandDesign bandDesign = (TableBandDesign) getDesign();
+		ITableBandContent bandContent = report.createTableBandContent();
 		setContent(bandContent);
 
-		restoreResultSet( );
-		
-		initializeContent( bandDesign, bandContent );
-		startTOCEntry( bandContent );
-		handlePageBreakInterval( );
+		restoreResultSet();
+
+		initializeContent(bandDesign, bandContent);
+		startTOCEntry(bandContent);
+		handlePageBreakInterval();
 		// prepare to execute the row in the band
 		currentRow = 0;
 
-		context.getProgressMonitor( ).onProgress( IProgressMonitor.FETCH_ROW,
-				tableExecutor.rowId );
-		
+		context.getProgressMonitor().onProgress(IProgressMonitor.FETCH_ROW, tableExecutor.rowId);
+
 		return content;
 	}
-	
-	protected void handlePageBreakInterval()
-	{
-		if ( tableExecutor.breakOnDetailBand )
-		{
+
+	protected void handlePageBreakInterval() {
+		if (tableExecutor.breakOnDetailBand) {
 			BandDesign band = (BandDesign) design;
-			if ( band.getBandType( ) == BandDesign.BAND_DETAIL )
-			{
-				if ( tableExecutor.softBreakBefore )
-				{
-					IStyle style = content.getStyle( );
-					if ( style != null )
-					{
-						CSSValue pageBreak = style
-								.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
-						if ( pageBreak == null
-								|| IStyle.AUTO_VALUE.equals( pageBreak ) )
-						{
-							style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-									IStyle.SOFT_VALUE );
+			if (band.getBandType() == BandDesign.BAND_DETAIL) {
+				if (tableExecutor.softBreakBefore) {
+					IStyle style = content.getStyle();
+					if (style != null) {
+						CSSValue pageBreak = style.getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE);
+						if (pageBreak == null || IStyle.AUTO_VALUE.equals(pageBreak)) {
+							style.setProperty(IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.SOFT_VALUE);
 						}
 					}
 					tableExecutor.softBreakBefore = false;
 					tableExecutor.addAfterBreak = true;
 					tableExecutor.pageRowCount = 0;
 				}
-				tableExecutor.next( );
-				if ( tableExecutor.needSoftBreakAfter( ) )
-				{
+				tableExecutor.next();
+				if (tableExecutor.needSoftBreakAfter()) {
 					tableExecutor.softBreakBefore = true;
 				}
 			}
-			if ( band.getBandType( ) == BandDesign.GROUP_HEADER )
-			{
-				if ( tableExecutor.softBreakBefore )
-				{
-					IStyle style = content.getStyle( );
-					if ( style != null )
-					{
-						CSSValue pageBreak = style
-								.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
-						if ( pageBreak == null
-								|| IStyle.AUTO_VALUE.equals( pageBreak ) )
-						{
-							style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-									IStyle.SOFT_VALUE );
+			if (band.getBandType() == BandDesign.GROUP_HEADER) {
+				if (tableExecutor.softBreakBefore) {
+					IStyle style = content.getStyle();
+					if (style != null) {
+						CSSValue pageBreak = style.getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE);
+						if (pageBreak == null || IStyle.AUTO_VALUE.equals(pageBreak)) {
+							style.setProperty(IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.SOFT_VALUE);
 						}
 					}
 					tableExecutor.softBreakBefore = false;
@@ -106,37 +85,29 @@ public class TableBandExecutor extends StyledItemExecutor
 		}
 	}
 
-	public void close( ) throws BirtException
-	{
-		finishTOCEntry( );
-		super.close( );
+	public void close() throws BirtException {
+		finishTOCEntry();
+		super.close();
 	}
 
 	int currentRow;
 
-	public boolean hasNextChild( )
-	{
-		TableBandDesign bandDesign = (TableBandDesign) getDesign( );
-		return currentRow < bandDesign.getRowCount( );
+	public boolean hasNextChild() {
+		TableBandDesign bandDesign = (TableBandDesign) getDesign();
+		return currentRow < bandDesign.getRowCount();
 	}
 
-	public IReportItemExecutor getNextChild( )
-	{
-		TableBandDesign bandDesign = (TableBandDesign) getDesign( );
-		//TableItemExecutor tableExecutor = (TableItemExecutor) getParent( );
+	public IReportItemExecutor getNextChild() {
+		TableBandDesign bandDesign = (TableBandDesign) getDesign();
+		// TableItemExecutor tableExecutor = (TableItemExecutor) getParent( );
 
-		if ( currentRow < bandDesign.getRowCount( ) )
-		{
-			RowDesign rowDesign = bandDesign.getRow( currentRow++ );
-			ReportItemExecutor childExecutor = manager.createExecutor( this,
-					rowDesign );
-			if ( childExecutor instanceof RowExecutor )
-			{
+		if (currentRow < bandDesign.getRowCount()) {
+			RowDesign rowDesign = bandDesign.getRow(currentRow++);
+			ReportItemExecutor childExecutor = manager.createExecutor(this, rowDesign);
+			if (childExecutor instanceof RowExecutor) {
 				RowExecutor rowExecutor = (RowExecutor) childExecutor;
-				rowExecutor.setRowId( tableExecutor.rowId++ );
-			}
-			else
-			{
+				rowExecutor.setRowId(tableExecutor.rowId++);
+			} else {
 				tableExecutor.rowId++;
 			}
 			return childExecutor;
@@ -146,8 +117,7 @@ public class TableBandExecutor extends StyledItemExecutor
 
 	TableItemExecutor tableExecutor;
 
-	void setTableExecutor( TableItemExecutor tableExecutor )
-	{
+	void setTableExecutor(TableItemExecutor tableExecutor) {
 		this.tableExecutor = tableExecutor;
 	}
 }

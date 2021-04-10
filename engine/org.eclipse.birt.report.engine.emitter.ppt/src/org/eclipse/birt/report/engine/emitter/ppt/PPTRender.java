@@ -31,31 +31,23 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 /**
  * The PPT render class.
  */
-public class PPTRender extends PageDeviceRender
-{
+public class PPTRender extends PageDeviceRender {
 
 	private OutputStream pptOutput = null;
 
 	/** The default output PPT file name. */
 	public static final String REPORT_FILE = "Report.ppt"; //$NON-NLS-1$
 
-	public PPTRender( IEmitterServices services ) throws EngineException
-	{
-		initialize( services );
+	public PPTRender(IEmitterServices services) throws EngineException {
+		initialize(services);
 	}
 
-	public IPageDevice createPageDevice( String title, String author, String subject,
-			String description, IReportContext context, IReportContent report )
-			throws Exception
-	{
-		try
-		{
-			return new PPTPageDevice( pptOutput, title, author, description,
-					subject );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ) );
+	public IPageDevice createPageDevice(String title, String author, String subject, String description,
+			IReportContext context, IReportContent report) throws Exception {
+		try {
+			return new PPTPageDevice(pptOutput, title, author, description, subject);
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage());
 		}
 		return null;
 	}
@@ -65,53 +57,43 @@ public class PPTRender extends PageDeviceRender
 	 * 
 	 * @return the output format
 	 */
-	public String getOutputFormat( )
-	{
+	public String getOutputFormat() {
 		return "ppt";
 	}
 
 	/**
 	 * Initializes the PPTEmitter.
 	 * 
-	 * @param services
-	 *            the emitter services object.
-	 * @throws EngineException 
+	 * @param services the emitter services object.
+	 * @throws EngineException
 	 */
-	public void initialize( IEmitterServices services ) throws EngineException
-	{
+	public void initialize(IEmitterServices services) throws EngineException {
 		this.services = services;
-		reportRunnable = services.getReportRunnable( );
+		reportRunnable = services.getReportRunnable();
 
-		if ( reportRunnable != null )
-		{
-			reportDesign = (ReportDesignHandle) reportRunnable.getDesignHandle( );
+		if (reportRunnable != null) {
+			reportDesign = (ReportDesignHandle) reportRunnable.getDesignHandle();
 		}
-		this.context = services.getReportContext( );
-		this.pptOutput = EmitterUtil.getOuputStream( services, REPORT_FILE );
+		this.context = services.getReportContext();
+		this.pptOutput = EmitterUtil.getOuputStream(services, REPORT_FILE);
 	}
 
-	public void visitImage( IImageArea imageArea )
-	{
-		PPTPage pptPage = (PPTPage)pageGraphic;
-		pptPage.setLink( PPTUtil.getHyperlink( imageArea, services,
-				reportRunnable, context ) );
-		super.visitImage( imageArea );
-		pptPage.setLink( null );
+	public void visitImage(IImageArea imageArea) {
+		PPTPage pptPage = (PPTPage) pageGraphic;
+		pptPage.setLink(PPTUtil.getHyperlink(imageArea, services, reportRunnable, context));
+		super.visitImage(imageArea);
+		pptPage.setLink(null);
 	}
 
 	@Override
-	public void visitText( ITextArea textArea )
-	{
-		PPTPage pptPage = (PPTPage)pageGraphic;
-		pptPage.setLink( PPTUtil.getHyperlink( textArea, services,
-				reportRunnable, context ) );
-		super.visitText( textArea );
-		pptPage.setLink( null );
+	public void visitText(ITextArea textArea) {
+		PPTPage pptPage = (PPTPage) pageGraphic;
+		pptPage.setLink(PPTUtil.getHyperlink(textArea, services, reportRunnable, context));
+		super.visitText(textArea);
+		pptPage.setLink(null);
 	}
-	
-	protected void drawTextAt( ITextArea text, int x, int y, int width,
-			int height, TextStyle textStyle )
-	{
-		pageGraphic.drawText( text.getLogicalOrderText( ), x, y, width, height, textStyle );
+
+	protected void drawTextAt(ITextArea text, int x, int y, int width, int height, TextStyle textStyle) {
+		pageGraphic.drawText(text.getLogicalOrderText(), x, y, width, height, textStyle);
 	}
 }

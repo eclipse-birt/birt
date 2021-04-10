@@ -17,20 +17,17 @@ import org.eclipse.gef.ui.actions.ActionBarContributor;
  * 
  */
 
-public class ReportDocumentActionContributor extends ActionBarContributor
-{
+public class ReportDocumentActionContributor extends ActionBarContributor {
 
 	@Override
-	protected void buildActions( )
-	{
-		//do nothing now	
+	protected void buildActions() {
+		// do nothing now
 	}
 
 	@Override
-	protected void declareGlobalActionKeys( )
-	{
-		//do nothing now
-		
+	protected void declareGlobalActionKeys() {
+		// do nothing now
+
 	}
 
 }

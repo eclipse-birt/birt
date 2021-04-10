@@ -23,8 +23,7 @@ import org.mozilla.javascript.ScriptableObject;
  * 
  */
 
-public class JSMeasureAccessor extends ScriptableObject
-{
+public class JSMeasureAccessor extends ScriptableObject {
 
 	private static final long serialVersionUID = 1L;
 	private CubeCursor cursor;
@@ -36,36 +35,30 @@ public class JSMeasureAccessor extends ScriptableObject
 	 * @param measureMapping
 	 * @throws OLAPException
 	 */
-	public JSMeasureAccessor( CubeCursor cursor, Map measureMapping )
-			throws OLAPException
-	{
+	public JSMeasureAccessor(CubeCursor cursor, Map measureMapping) throws OLAPException {
 		this.cursor = cursor;
 		this.measureMapping = measureMapping;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
-	public String getClassName( )
-	{
+	public String getClassName() {
 		// TODO Auto-generated method stub
 		return "JSMeasureAccessor";
 	}
 
 	/*
 	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
-	 *      org.mozilla.javascript.Scriptable)
+	 * org.mozilla.javascript.Scriptable)
 	 */
-	public Object get( String name, Scriptable start )
-	{
-		try
-		{
-			return this.cursor.getObject( (String) measureMapping.get( name ) );
-		}
-		catch ( OLAPException e )
-		{
-			throw new RuntimeException( new DataException( e.getLocalizedMessage( ) ));
+	public Object get(String name, Scriptable start) {
+		try {
+			return this.cursor.getObject((String) measureMapping.get(name));
+		} catch (OLAPException e) {
+			throw new RuntimeException(new DataException(e.getLocalizedMessage()));
 		}
 	}
 

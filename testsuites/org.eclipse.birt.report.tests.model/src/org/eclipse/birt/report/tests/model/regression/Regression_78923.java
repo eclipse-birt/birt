@@ -31,49 +31,45 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  * 2. Check that this Class list containing this method.
  */
-public class Regression_78923 extends BaseTestCase
-{
+public class Regression_78923 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
-	public void test_regression_78923( )
-	{
-		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
+	public void test_regression_78923() {
+		MetaDataDictionary instance = MetaDataDictionary.getInstance();
 
 		// Retrieve by name
 
-		IClassInfo string = instance.getClass( "String" ); //$NON-NLS-1$
-		IMethodInfo method = string.getMethod( "fromCharCode" ); //$NON-NLS-1$
-		assertNotNull( method );
+		IClassInfo string = instance.getClass("String"); //$NON-NLS-1$
+		IMethodInfo method = string.getMethod("fromCharCode"); //$NON-NLS-1$
+		assertNotNull(method);
 
 		// Class/Method list containing this Class method
 
-		List classInfos = instance.getClasses( );
+		List classInfos = instance.getClasses();
 		IClassInfo stringCInfo = null;
-		for ( Iterator iter = classInfos.iterator( ); iter.hasNext( ); )
-		{
-			IClassInfo cInfo = (IClassInfo) iter.next( );
-			if ( cInfo.getName( ).equals( "String" ) ) //$NON-NLS-1$
+		for (Iterator iter = classInfos.iterator(); iter.hasNext();) {
+			IClassInfo cInfo = (IClassInfo) iter.next();
+			if (cInfo.getName().equals("String")) //$NON-NLS-1$
 			{
 				stringCInfo = cInfo;
 			}
 		}
 
-		assertNotNull( stringCInfo );
+		assertNotNull(stringCInfo);
 
 		IMethodInfo methodInfo = null;
-		List methodList = stringCInfo.getMethods( );
-		for ( Iterator iter = methodList.iterator( ); iter.hasNext( ); )
-		{
-			IMethodInfo mInfo = (IMethodInfo) iter.next( );
-			if ( mInfo.getName( ).equals( "fromCharCode" ) ) //$NON-NLS-1$
+		List methodList = stringCInfo.getMethods();
+		for (Iterator iter = methodList.iterator(); iter.hasNext();) {
+			IMethodInfo mInfo = (IMethodInfo) iter.next();
+			if (mInfo.getName().equals("fromCharCode")) //$NON-NLS-1$
 			{
 				methodInfo = mInfo;
 			}
 		}
 
-		assertNotNull( methodInfo );
-		
+		assertNotNull(methodInfo);
+
 	}
 }

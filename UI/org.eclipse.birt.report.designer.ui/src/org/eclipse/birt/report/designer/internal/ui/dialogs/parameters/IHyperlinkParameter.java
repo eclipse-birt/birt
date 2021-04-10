@@ -14,10 +14,9 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.parameters;
 /**
  * IHyperlinkParameter
  */
-public interface IHyperlinkParameter
-{
+public interface IHyperlinkParameter {
 
-	String getName( );
+	String getName();
 
-	String getDataType( );
+	String getDataType();
 }

@@ -21,39 +21,33 @@ import org.eclipse.birt.report.model.core.Module;
  * 
  */
 
-public class DynamicFilterParameter extends AbstractScalarParameter
-{
+public class DynamicFilterParameter extends AbstractScalarParameter {
 
 	/**
 	 * The default constructor.
 	 */
-	public DynamicFilterParameter( )
-	{
+	public DynamicFilterParameter() {
 
 	}
 
 	/**
 	 * Constructs the dynamic filter parameter with a required and unique name.
 	 * 
-	 * @param theName
-	 *            the required name
+	 * @param theName the required name
 	 */
 
-	public DynamicFilterParameter( String theName )
-	{
-		super( theName );
+	public DynamicFilterParameter(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitDynamicFilterParameter( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitDynamicFilterParameter(this);
 	}
 
 	/*
@@ -61,8 +55,7 @@ public class DynamicFilterParameter extends AbstractScalarParameter
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.DYNAMIC_FILTER_PARAMETER_ELEMENT;
 	}
 
@@ -73,25 +66,21 @@ public class DynamicFilterParameter extends AbstractScalarParameter
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
 	 * .birt.report.model.core.Module)
 	 */
-	public DesignElementHandle getHandle( Module module )
-	{
+	public DesignElementHandle getHandle(Module module) {
 
-		return handle( module );
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public DynamicFilterParameterHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new DynamicFilterParameterHandle( module, this );
+	public DynamicFilterParameterHandle handle(Module module) {
+		if (handle == null) {
+			handle = new DynamicFilterParameterHandle(module, this);
 		}
 		return (DynamicFilterParameterHandle) handle;
 	}

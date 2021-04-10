@@ -15,17 +15,16 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.AggregateExpression;
 
 /**
- * Interface to define an aggregate registry to be provided by the compiler's 
+ * Interface to define an aggregate registry to be provided by the compiler's
  * consumer. The compiler calls the registry to register each aggregate function
  * that it encounters in the compiled expression.
  */
-public interface AggregateRegistry
-{
+public interface AggregateRegistry {
 
 	/**
 	 * Registers an aggregate function that appears in a compiled expression.
 	 * Returns an integer handle for the registered aggregate function
 	 */
-	int register( AggregateExpression aggregationExpr ) throws DataException;
+	int register(AggregateExpression aggregationExpr) throws DataException;
 
 }

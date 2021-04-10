@@ -16,41 +16,37 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 
-
 /**
  * Wrappers ImportLibraryPartAction from a viewer action to a part selection
  * action.
  */
 
-public class UseLibraryPartAction extends WrapperSelectionAction
-{
+public class UseLibraryPartAction extends WrapperSelectionAction {
 
-	public UseLibraryPartAction( IWorkbenchPart part )
-	{
-		super( part );
+	public UseLibraryPartAction(IWorkbenchPart part) {
+		super(part);
 
 		setText(ImportLibraryAction.ACTION_TEXT);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.WrapperSelectionAction#calculateEnabled()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
+	 * WrapperSelectionAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
+	protected boolean calculateEnabled() {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
-	public String getId( )
-	{
+	public String getId() {
 		return ImportLibraryAction.ID;
 	}
 
-	protected IAction createActionHandler( ISelection model )
-	{
-		if ( actionHandler == null )
-		{
-			actionHandler = new ImportLibraryAction( );
+	protected IAction createActionHandler(ISelection model) {
+		if (actionHandler == null) {
+			actionHandler = new ImportLibraryAction();
 		}
 		return actionHandler;
 	}

@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for DynamicFilterParameter element to store the constants.
  */
-public interface IDynamicFilterParameterModel
-{
+public interface IDynamicFilterParameterModel {
 
 	/**
 	 * Name of the display type property.

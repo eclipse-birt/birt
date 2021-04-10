@@ -20,16 +20,14 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * 
  */
-public class DocumentWriter extends DesignWriter
-{
+public class DocumentWriter extends DesignWriter {
 
 	/**
 	 * 
 	 * @param design
 	 */
-	public DocumentWriter( ReportDesign design )
-	{
-		super( design );
+	public DocumentWriter(ReportDesign design) {
+		super(design);
 		this.enableLibraryTheme = true;
 	}
 
@@ -38,27 +36,25 @@ public class DocumentWriter extends DesignWriter
 	 * 
 	 * @see org.eclipse.birt.report.model.writer.ModuleWriter#write(java.io.File)
 	 */
-	public void write( File outputFile ) throws IOException
-	{
+	public void write(File outputFile) throws IOException {
 		markLineNumber = false;
 
-		writer = new DocumentXMLWriter( outputFile, getModule( )
-				.getUTFSignature( ) );
-		writeFile( );
-		writer.close( );
+		writer = new DocumentXMLWriter(outputFile, getModule().getUTFSignature());
+		writeFile();
+		writer.close();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.writer.ModuleWriter#write(java.io.OutputStream)
+	 * @see
+	 * org.eclipse.birt.report.model.writer.ModuleWriter#write(java.io.OutputStream)
 	 */
-	public void write( OutputStream os ) throws IOException
-	{
+	public void write(OutputStream os) throws IOException {
 		markLineNumber = false;
 
-		writer = new DocumentXMLWriter( os, getModule( ).getUTFSignature( ) );
-		writeFile( );
+		writer = new DocumentXMLWriter(os, getModule().getUTFSignature());
+		writeFile();
 	}
 
 }

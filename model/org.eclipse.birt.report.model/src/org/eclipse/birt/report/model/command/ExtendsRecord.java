@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
  * 
  */
 
-public class ExtendsRecord extends SimpleRecord
-{
+public class ExtendsRecord extends SimpleRecord {
 
 	/**
 	 * The element to modify.
@@ -54,10 +53,8 @@ public class ExtendsRecord extends SimpleRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element to modify.
-	 * @param parent
-	 *            the new parent element.
+	 * @param obj    the element to modify.
+	 * @param parent the new parent element.
 	 */
 
 	// public ExtendsRecord( DesignElement obj, DesignElement parent )
@@ -78,24 +75,20 @@ public class ExtendsRecord extends SimpleRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element to modify.
-	 * @param parent
-	 *            the style to set.
+	 * @param obj    the element to modify.
+	 * @param parent the style to set.
 	 */
 
-	public ExtendsRecord( DesignElement obj, ElementRefValue parent )
-	{
+	public ExtendsRecord(DesignElement obj, ElementRefValue parent) {
 		assert obj != null;
 
 		element = obj;
 		newParent = parent;
-		oldParent = obj.getExtendsElement( );
-		if ( oldParent == null )
-			oldName = obj.getExtendsName( );
+		oldParent = obj.getExtendsElement();
+		if (oldParent == null)
+			oldName = obj.getExtendsName();
 
-		label = CommandLabelFactory
-				.getCommandLabel( MessageConstants.SET_EXTENDS_MESSAGE );
+		label = CommandLabelFactory.getCommandLabel(MessageConstants.SET_EXTENDS_MESSAGE);
 
 	}
 
@@ -103,20 +96,15 @@ public class ExtendsRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
-		if ( undo )
-		{
-			if ( oldName != null )
-				element.setExtendsName( oldName );
+	protected void perform(boolean undo) {
+		if (undo) {
+			if (oldName != null)
+				element.setExtendsName(oldName);
 			else
-				element.setExtendsElement( oldParent );
-		}
-		else
-		{
-			DesignElement parent = newParent == null ? null : newParent
-					.getElement( );
-			element.setExtendsElement( parent );
+				element.setExtendsElement(oldParent);
+		} else {
+			DesignElement parent = newParent == null ? null : newParent.getElement();
+			element.setExtendsElement(parent);
 		}
 	}
 
@@ -124,8 +112,7 @@ public class ExtendsRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
-	public DesignElement getTarget( )
-	{
+	public DesignElement getTarget() {
 		return element;
 	}
 
@@ -133,9 +120,8 @@ public class ExtendsRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		return new ExtendsEvent( element );
+	public NotificationEvent getEvent() {
+		return new ExtendsEvent(element);
 	}
 
 }

@@ -17,15 +17,12 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * Cube Operation Factory
  */
-public interface ICubeOperationFactory
-{
+public interface ICubeOperationFactory {
 
 	/**
-	 * @param nestAggregations:
-	 *            added nest aggregations
+	 * @param nestAggregations: added nest aggregations
 	 * @return
 	 * @throws DataException
 	 */
-	ICubeOperation createAddingNestAggregationsOperation(
-			IBinding[] nestAggregations ) throws DataException;
+	ICubeOperation createAddingNestAggregationsOperation(IBinding[] nestAggregations) throws DataException;
 }

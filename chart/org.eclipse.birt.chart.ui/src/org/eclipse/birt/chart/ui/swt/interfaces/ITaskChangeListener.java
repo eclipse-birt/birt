@@ -17,8 +17,7 @@ import org.eclipse.emf.common.notify.Notification;
  * 
  */
 
-public interface ITaskChangeListener
-{
+public interface ITaskChangeListener {
 
-	void changeTask( Notification notification );
+	void changeTask(Notification notification);
 }

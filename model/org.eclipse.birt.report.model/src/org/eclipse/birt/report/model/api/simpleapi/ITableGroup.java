@@ -15,7 +15,6 @@ package org.eclipse.birt.report.model.api.simpleapi;
  *
  */
 
-public interface ITableGroup extends IGroup
-{
+public interface ITableGroup extends IGroup {
 
 }

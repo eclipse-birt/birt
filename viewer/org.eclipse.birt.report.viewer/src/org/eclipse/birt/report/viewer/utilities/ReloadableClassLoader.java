@@ -18,8 +18,7 @@ import org.eclipse.birt.core.framework.URLClassLoader;
 /**
  * This class can reload the class by specifying URL.
  */
-public class ReloadableClassLoader extends ClassLoader
-{
+public class ReloadableClassLoader extends ClassLoader {
 
 	URL[] urls;
 	URLClassLoader loader;
@@ -31,74 +30,63 @@ public class ReloadableClassLoader extends ClassLoader
 	 * @param urls
 	 * @param parent
 	 */
-	public ReloadableClassLoader( URL[] urls, ClassLoader parent )
-	{
-		super( parent );
+	public ReloadableClassLoader(URL[] urls, ClassLoader parent) {
+		super(parent);
 		this.urls = urls;
 		this.parent = parent;
-		this.loader = new URLClassLoader( urls, parent );
+		this.loader = new URLClassLoader(urls, parent);
 	}
 
 	/**
 	 * re-create URLClassLoader to reload class by URLs.
 	 */
-	public void reload( )
-	{
-		if ( this.loader != null )
-		{
-			this.loader.close( );
+	public void reload() {
+		if (this.loader != null) {
+			this.loader.close();
 		}
-		this.loader = new URLClassLoader( this.urls, this.parent );
+		this.loader = new URLClassLoader(this.urls, this.parent);
 	}
 
 	/**
 	 * @see java.lang.ClassLoader#loadClass(java.lang.String)
 	 */
-	public Class loadClass( String name ) throws ClassNotFoundException
-	{
-		return this.loader.loadClass( name );
+	public Class loadClass(String name) throws ClassNotFoundException {
+		return this.loader.loadClass(name);
 	}
 
 	/**
 	 * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
 	 */
-	protected synchronized Class loadClass( String name, boolean resolve )
-			throws ClassNotFoundException
-	{
-		Class clz = loadClass( name );
-		if ( resolve )
-			resolveClass( clz );
+	protected synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException {
+		Class clz = loadClass(name);
+		if (resolve)
+			resolveClass(clz);
 
 		return clz;
 	}
-	
-	public void setParent( ClassLoader parent )
-	{
+
+	public void setParent(ClassLoader parent) {
 		this.parent = parent;
 	}
 
 	/**
 	 * @return the urls
 	 */
-	public URL[] getUrls( )
-	{
+	public URL[] getUrls() {
 		return urls;
 	}
 
 	/**
-	 * @param urls
-	 *            the urls to set
+	 * @param urls the urls to set
 	 */
-	public void setUrls( URL[] urls )
-	{
+	public void setUrls(URL[] urls) {
 		this.urls = urls;
 	}
 
 	/**
 	 * @return the loader
 	 */
-	public URLClassLoader getLoader( )
-	{
+	public URLClassLoader getLoader() {
 		return loader;
 	}
 }

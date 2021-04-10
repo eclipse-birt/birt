@@ -23,38 +23,36 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class MarkerScript extends ChartEventHandlerAdapter
-{
+public class MarkerScript extends ChartEventHandlerAdapter {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarkerLine(org.eclipse.birt.chart.model.component.Axis,
-	 *      org.eclipse.birt.chart.model.component.MarkerLine,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarkerLine(
+	 * org.eclipse.birt.chart.model.component.Axis,
+	 * org.eclipse.birt.chart.model.component.MarkerLine,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawMarkerLine( Axis axis, MarkerLine mLine,
-			IChartScriptContext icsc )
-	{
-		ULocale.setDefault( ULocale.US );
-		if ( icsc.getULocale( ).equals( ULocale.US ) )
-		{
-			mLine.getLabel( ).getCaption( ).getColor( ).set( 165, 184, 55 );
-			mLine.getLineAttributes( ).getColor( ).set( 165, 184, 55 );
+	public void beforeDrawMarkerLine(Axis axis, MarkerLine mLine, IChartScriptContext icsc) {
+		ULocale.setDefault(ULocale.US);
+		if (icsc.getULocale().equals(ULocale.US)) {
+			mLine.getLabel().getCaption().getColor().set(165, 184, 55);
+			mLine.getLineAttributes().getColor().set(165, 184, 55);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarkerRange(org.eclipse.birt.chart.model.component.Axis,
-	 *      org.eclipse.birt.chart.model.component.MarkerRange,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarkerRange(
+	 * org.eclipse.birt.chart.model.component.Axis,
+	 * org.eclipse.birt.chart.model.component.MarkerRange,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawMarkerRange( Axis axis, MarkerRange mRange,
-			IChartScriptContext icsc )
-	{
-		mRange.getLabel( ).getCaption( ).getColor( ).set( 225, 104, 105 );
+	public void beforeDrawMarkerRange(Axis axis, MarkerRange mRange, IChartScriptContext icsc) {
+		mRange.getLabel().getCaption().getColor().set(225, 104, 105);
 	}
 
 }

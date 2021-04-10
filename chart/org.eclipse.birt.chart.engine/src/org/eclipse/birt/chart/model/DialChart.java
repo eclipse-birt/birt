@@ -12,22 +12,22 @@
 package org.eclipse.birt.chart.model;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Dial Chart</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Dial
+ * Chart</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc -->
- * DialChart represent a special type of ChartWithoutAxes class that contains information specific to dials.
+ * <!-- begin-model-doc --> DialChart represent a special type of
+ * ChartWithoutAxes class that contains information specific to dials.
  * <p xmlns="http://www.birt.eclipse.org/ChartModel">
  * To create an instance use the factory method:<br/>
  * DialChartImpl.create( );
- * </p>		
+ * </p>
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial Superimposition</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition
+ * <em>Dial Superimposition</em>}</li>
  * </ul>
  * </p>
  *
@@ -35,67 +35,72 @@ package org.eclipse.birt.chart.model;
  * @model extendedMetaData="name='DialChart' kind='elementOnly'"
  * @generated
  */
-public interface DialChart extends ChartWithoutAxes
-{
+public interface DialChart extends ChartWithoutAxes {
 
 	/**
 	 * Returns the value of the '<em><b>Dial Superimposition</b></em>' attribute.
-	 * The default value is <code>"true"</code>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * The boolean attribute "DialSuperimposition" specifies whether all 
-	 * dials are superimposed on one another, or laid out in separate cells.
-	 * <!-- end-model-doc -->
+	 * The default value is <code>"true"</code>. <!-- begin-user-doc --> <!--
+	 * end-user-doc --> <!-- begin-model-doc --> The boolean attribute
+	 * "DialSuperimposition" specifies whether all dials are superimposed on one
+	 * another, or laid out in separate cells. <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Dial Superimposition</em>' attribute.
 	 * @see #isSetDialSuperimposition()
 	 * @see #unsetDialSuperimposition()
 	 * @see #setDialSuperimposition(boolean)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getDialChart_DialSuperimposition()
-	 * @model default="true" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @model default="true" unsettable="true"
+	 *        dataType="org.eclipse.emf.ecore.xml.type.Boolean"
 	 *        extendedMetaData="kind='element' name='DialSuperimposition'"
 	 * @generated
 	 */
-	boolean isDialSuperimposition( );
+	boolean isDialSuperimposition();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial Superimposition</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial
+	 * Superimposition</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @param value the new value of the '<em>Dial Superimposition</em>' attribute.
 	 * @see #isSetDialSuperimposition()
 	 * @see #unsetDialSuperimposition()
 	 * @see #isDialSuperimposition()
 	 * @generated
 	 */
-	void setDialSuperimposition( boolean value );
+	void setDialSuperimposition(boolean value);
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial Superimposition</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Unsets the value of the
+	 * '{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial
+	 * Superimposition</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @see #isSetDialSuperimposition()
 	 * @see #isDialSuperimposition()
 	 * @see #setDialSuperimposition(boolean)
 	 * @generated
 	 */
-	void unsetDialSuperimposition( );
+	void unsetDialSuperimposition();
 
 	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial Superimposition</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Dial Superimposition</em>' attribute is set.
+	 * Returns whether the value of the
+	 * '{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial
+	 * Superimposition</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
+	 * @return whether the value of the '<em>Dial Superimposition</em>' attribute is
+	 *         set.
 	 * @see #unsetDialSuperimposition()
 	 * @see #isDialSuperimposition()
 	 * @see #setDialSuperimposition(boolean)
 	 * @generated
 	 */
-	boolean isSetDialSuperimposition( );
+	boolean isSetDialSuperimposition();
 
 	/**
 	 * @generated
 	 */
-	DialChart copyInstance( );
+	DialChart copyInstance();
 
 } // DialChart

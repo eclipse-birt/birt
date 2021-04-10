@@ -24,8 +24,7 @@ import org.osgi.framework.BundleContext;
 /**
  * The main plugin class to be used in the desktop.
  */
-public class LibraryExplorerPlugin extends AbstractUIPlugin
-{
+public class LibraryExplorerPlugin extends AbstractUIPlugin {
 
 	// The shared instance.
 	private static LibraryExplorerPlugin plugin;
@@ -35,33 +34,27 @@ public class LibraryExplorerPlugin extends AbstractUIPlugin
 	/**
 	 * The constructor.
 	 */
-	public LibraryExplorerPlugin( )
-	{
+	public LibraryExplorerPlugin() {
 		plugin = this;
 	}
 
 	/**
 	 * This method is called upon plug-in activation
 	 */
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
-		IPreferences store = PreferenceFactory.getInstance( )
-				.getPreferences( this );
-		initFilterMap( store, ResourceFilter.generateCVSFilter( ) );
-		initFilterMap( store, ResourceFilter.generateDotResourceFilter( ) );
-		initFilterMap( store, ResourceFilter.generateEmptyFolderFilter( ) );
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		IPreferences store = PreferenceFactory.getInstance().getPreferences(this);
+		initFilterMap(store, ResourceFilter.generateCVSFilter());
+		initFilterMap(store, ResourceFilter.generateDotResourceFilter());
+		initFilterMap(store, ResourceFilter.generateEmptyFolderFilter());
 		// initFilterMap( store,
 		// ResourceFilter.generateNoResourceInFolderFilter( ) );
-		Object[] filters = ElementAdapterManager.getAdapters( store,
-				ExtendedResourceFilter.class );
+		Object[] filters = ElementAdapterManager.getAdapters(store, ExtendedResourceFilter.class);
 
-		if ( filters != null )
-		{
-			for ( int i = 0; i < filters.length; i++ )
-			{
-				if ( filters[i] instanceof ExtendedResourceFilter )
-					initFilterMap( store, (ExtendedResourceFilter) filters[i] );
+		if (filters != null) {
+			for (int i = 0; i < filters.length; i++) {
+				if (filters[i] instanceof ExtendedResourceFilter)
+					initFilterMap(store, (ExtendedResourceFilter) filters[i]);
 			}
 		}
 	}
@@ -69,44 +62,38 @@ public class LibraryExplorerPlugin extends AbstractUIPlugin
 	/**
 	 * This method is called when the plug-in is stopped
 	 */
-	public void stop( BundleContext context ) throws Exception
-	{
-		super.stop( context );
+	public void stop(BundleContext context) throws Exception {
+		super.stop(context);
 		plugin = null;
 	}
 
 	/**
 	 * Returns the shared instance.
 	 */
-	public static LibraryExplorerPlugin getDefault( )
-	{
+	public static LibraryExplorerPlugin getDefault() {
 		return plugin;
 	}
 
 	/**
-	 * Returns an image descriptor for the image file at the given plug-in
-	 * relative path.
+	 * Returns an image descriptor for the image file at the given plug-in relative
+	 * path.
 	 * 
-	 * @param path
-	 *            the path
+	 * @param path the path
 	 * @return the image descriptor
 	 */
-	public static ImageDescriptor getImageDescriptor( String path )
-	{
-		return AbstractUIPlugin.imageDescriptorFromPlugin( PLUGIN_ID, path );
+	public static ImageDescriptor getImageDescriptor(String path) {
+		return AbstractUIPlugin.imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
 
-	private static LinkedHashMap filterMap = new LinkedHashMap( );
+	private static LinkedHashMap filterMap = new LinkedHashMap();
 
-	private static void initFilterMap( IPreferences store, ResourceFilter filter )
-	{
-		if ( store.contains( filter.getType( ) ) )
-			filter.setEnabled( store.getBoolean( filter.getType( ) ) );
-		filterMap.put( filter.getType( ), filter );
+	private static void initFilterMap(IPreferences store, ResourceFilter filter) {
+		if (store.contains(filter.getType()))
+			filter.setEnabled(store.getBoolean(filter.getType()));
+		filterMap.put(filter.getType(), filter);
 	}
 
-	public static LinkedHashMap getFilterMap( )
-	{
+	public static LinkedHashMap getFilterMap() {
 		return filterMap;
 	}
 }

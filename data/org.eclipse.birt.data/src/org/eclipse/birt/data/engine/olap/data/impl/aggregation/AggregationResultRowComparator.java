@@ -21,43 +21,35 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
  * 
  */
 
-public class AggregationResultRowComparator implements Comparator<IAggregationResultRow>
-{
+public class AggregationResultRowComparator implements Comparator<IAggregationResultRow> {
 	private int[] keyLevelIndexs;
 	private int[] sortTypes;
-	
-	public AggregationResultRowComparator( int[] keyLevelIndexs, int[] sortTypes )
-	{
+
+	public AggregationResultRowComparator(int[] keyLevelIndexs, int[] sortTypes) {
 		this.keyLevelIndexs = keyLevelIndexs;
 		this.sortTypes = sortTypes;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	public int compare( IAggregationResultRow o1, IAggregationResultRow o2 )
-	{
-		Member[] member1 = ( (IAggregationResultRow) o1 ).getLevelMembers( );
-		Member[] member2 = ( (IAggregationResultRow) o2 ).getLevelMembers( );
+	public int compare(IAggregationResultRow o1, IAggregationResultRow o2) {
+		Member[] member1 = ((IAggregationResultRow) o1).getLevelMembers();
+		Member[] member2 = ((IAggregationResultRow) o2).getLevelMembers();
 
-		for ( int i = 0; i < keyLevelIndexs.length; i++ )
-		{
-			//only for drill operation, the member key value will be null
-			if ( member1[keyLevelIndexs[i]] == null
-					|| member2[keyLevelIndexs[i]] == null )
-			{
+		for (int i = 0; i < keyLevelIndexs.length; i++) {
+			// only for drill operation, the member key value will be null
+			if (member1[keyLevelIndexs[i]] == null || member2[keyLevelIndexs[i]] == null) {
 				continue;
 			}
-			int result = ( member1[keyLevelIndexs[i]] ).compareTo( member2[keyLevelIndexs[i]] );
-			if( sortTypes != null && sortTypes[i] == IDimensionSortDefn.SORT_DESC )
+			int result = (member1[keyLevelIndexs[i]]).compareTo(member2[keyLevelIndexs[i]]);
+			if (sortTypes != null && sortTypes[i] == IDimensionSortDefn.SORT_DESC)
 				result = result * -1;
-			if ( result < 0 )
-			{
+			if (result < 0) {
 				return result;
-			}
-			else if ( result > 0 )
-			{
+			} else if (result > 0) {
 				return result;
 			}
 		}

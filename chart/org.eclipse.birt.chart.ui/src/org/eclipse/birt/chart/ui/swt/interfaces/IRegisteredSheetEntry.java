@@ -14,13 +14,12 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 
 /**
  * @author Actuate Corporation
- *  
+ * 
  */
-public interface IRegisteredSheetEntry
-{
-    public int getNodeIndex();
+public interface IRegisteredSheetEntry {
+	public int getNodeIndex();
 
-    public String getNodePath();
+	public String getNodePath();
 
-    public ISubtaskSheet getSheet();
+	public ISubtaskSheet getSheet();
 }

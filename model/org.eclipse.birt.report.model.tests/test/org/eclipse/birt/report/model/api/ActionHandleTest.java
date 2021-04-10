@@ -24,12 +24,12 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
-
 /**
  * TestCases for ActionHandle class. ActionHandle should be got from the
  * specific ElementHandle that contains an Action.
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
+ * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -108,121 +108,109 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * </table>
  * 
  */
-public class ActionHandleTest extends BaseTestCase
-{
+public class ActionHandleTest extends BaseTestCase {
 
 	ActionHandle actionHandle = null;
 	private static final String fileName = "ActionHandleTest_5.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		openDesign( "ActionHandleTest.xml" ); //$NON-NLS-1$
-		assertNotNull( designHandle );
+	protected void setUp() throws Exception {
+		super.setUp();
+		openDesign("ActionHandleTest.xml"); //$NON-NLS-1$
+		assertNotNull(designHandle);
 	}
 
 	/**
 	 * Get an related ActionHandle for the action defined on an image.
 	 */
 
-	private ActionHandle getAction( String imageName )
-	{
-		ImageHandle imageHandle = (ImageHandle) designHandle
-				.findElement( imageName );
-		assertNotNull( imageHandle );
-		return imageHandle.getActionHandle( );
+	private ActionHandle getAction(String imageName) {
+		ImageHandle imageHandle = (ImageHandle) designHandle.findElement(imageName);
+		assertNotNull(imageHandle);
+		return imageHandle.getActionHandle();
 	}
 
 	/**
 	 * 
 	 * @throws Exception
 	 */
-	public void testAdd( ) throws Exception
-	{
-		openDesign( "ActionHandleTest2.xml" ); //$NON-NLS-1$
+	public void testAdd() throws Exception {
+		openDesign("ActionHandleTest2.xml"); //$NON-NLS-1$
 
-		ImageHandle imageHandle = (ImageHandle) designHandle
-				.findElement( "Image1" ); //$NON-NLS-1$
-		ActionHandle actionHandle = imageHandle.getActionHandle( );
+		ImageHandle imageHandle = (ImageHandle) designHandle.findElement("Image1"); //$NON-NLS-1$
+		ActionHandle actionHandle = imageHandle.getActionHandle();
 
-		MemberHandle memberHandle = actionHandle.getParamBindings( );
-		assertEquals( 1, memberHandle.getListValue( ).size( ) );
-		assertEquals(
-				"exp0", ( (ParamBindingHandle) memberHandle.getAt( 0 ) ).getExpression( ) ); //$NON-NLS-1$
+		MemberHandle memberHandle = actionHandle.getParamBindings();
+		assertEquals(1, memberHandle.getListValue().size());
+		assertEquals("exp0", ((ParamBindingHandle) memberHandle.getAt(0)).getExpression()); //$NON-NLS-1$
 
-		memberHandle.removeItem( 0 );
-		assertNull( memberHandle.getListValue( ) );
+		memberHandle.removeItem(0);
+		assertNull(memberHandle.getListValue());
 
-		Action action = StructureFactory.createAction( );
-		actionHandle = imageHandle.setAction( action );
+		Action action = StructureFactory.createAction();
+		actionHandle = imageHandle.setAction(action);
 
 		// default is hyperlink.
-		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK,
-				actionHandle.getLinkType( ) );
-		actionHandle.setReportName( "report-name1" ); //$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK, actionHandle.getLinkType());
+		actionHandle.setReportName("report-name1"); //$NON-NLS-1$
 
 		// switch to drill-through
-		actionHandle
-				.setLinkType( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH );
-		SearchKey key1 = StructureFactory.createSearchKey( );
-		key1.setExpression( "Key1" ); //$NON-NLS-1$
-		SearchKey key2 = StructureFactory.createSearchKey( );
-		key2.setExpression( "Key2" ); //$NON-NLS-1$
+		actionHandle.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH);
+		SearchKey key1 = StructureFactory.createSearchKey();
+		key1.setExpression("Key1"); //$NON-NLS-1$
+		SearchKey key2 = StructureFactory.createSearchKey();
+		key2.setExpression("Key2"); //$NON-NLS-1$
 
-		actionHandle.addSearch( key1 );
-		actionHandle.addSearch( key2 );
+		actionHandle.addSearch(key1);
+		actionHandle.addSearch(key2);
 
-		ParamBinding param1 = StructureFactory.createParamBinding( );
-		param1.setExpression( "exp1" ); //$NON-NLS-1$
-		param1.setParamName( "param1" ); //$NON-NLS-1$
+		ParamBinding param1 = StructureFactory.createParamBinding();
+		param1.setExpression("exp1"); //$NON-NLS-1$
+		param1.setParamName("param1"); //$NON-NLS-1$
 
-		ParamBinding param2 = StructureFactory.createParamBinding( );
-		param2.setExpression( "exp2" ); //$NON-NLS-1$
-		param2.setParamName( "param2" ); //$NON-NLS-1$
+		ParamBinding param2 = StructureFactory.createParamBinding();
+		param2.setExpression("exp2"); //$NON-NLS-1$
+		param2.setParamName("param2"); //$NON-NLS-1$
 
-		actionHandle.addParamBinding( param1 ); // one way
-		actionHandle.getParamBindings( ).addItem( param2 ); // another way.
+		actionHandle.addParamBinding(param1); // one way
+		actionHandle.getParamBindings().addItem(param2); // another way.
 
-		save( );
-		assertTrue( compareFile( "ActionHandleTest2_golden.xml" ) ); //$NON-NLS-1$
+		save();
+		assertTrue(compareFile("ActionHandleTest2_golden.xml")); //$NON-NLS-1$
 	}
 
 	/**
 	 * Case1: Action is represented by a Hyperlink. LinkExpression should be the
 	 * value of the Hyperlink.
 	 * <p>
-	 * Case2: Action is represented by a Drillthrough. LinkExpression should be
-	 * the value of the BookmarkLink for the Drillthrough.
+	 * Case2: Action is represented by a Drillthrough. LinkExpression should be the
+	 * value of the BookmarkLink for the Drillthrough.
 	 * <p>
-	 * Case3: Action is represented by a BookmarkLink. LinkExpression should be
-	 * the value of the BookmarkLink.
+	 * Case3: Action is represented by a BookmarkLink. LinkExpression should be the
+	 * value of the BookmarkLink.
 	 * 
 	 * @throws Exception
 	 */
 
-	public void testGetLinkExpr( ) throws Exception
-	{
+	public void testGetLinkExpr() throws Exception {
 		// 1
-		actionHandle = getAction( "Image1" ); //$NON-NLS-1$
+		actionHandle = getAction("Image1"); //$NON-NLS-1$
 
-		assertEquals( "www.rock.com.cn/haha/test.html", actionHandle.getURI( ) ); //$NON-NLS-1$
-		assertNull( actionHandle.getTargetBookmark( ) );
+		assertEquals("www.rock.com.cn/haha/test.html", actionHandle.getURI()); //$NON-NLS-1$
+		assertNull(actionHandle.getTargetBookmark());
 
-		Iterator iter = actionHandle.paramBindingsIterator( );
-		assertFalse( iter.hasNext( ) );
+		Iterator iter = actionHandle.paramBindingsIterator();
+		assertFalse(iter.hasNext());
 
-		iter = actionHandle.searchIterator( );
-		assertFalse( iter.hasNext( ) );
+		iter = actionHandle.searchIterator();
+		assertFalse(iter.hasNext());
 
 		// 2
-		actionHandle = getAction( "Image2" ); //$NON-NLS-1$
-		assertEquals(
-				"www.rock.com/bookmarks/1.jsp", actionHandle.getTargetBookmark( ) ); //$NON-NLS-1$
+		actionHandle = getAction("Image2"); //$NON-NLS-1$
+		assertEquals("www.rock.com/bookmarks/1.jsp", actionHandle.getTargetBookmark()); //$NON-NLS-1$
 
 		// 3
-		actionHandle = getAction( "Image4" ); //$NON-NLS-1$
-		assertEquals(
-				"www.rock.com.cn/haha/index.html/bookmarklink1", actionHandle.getTargetBookmark( ) ); //$NON-NLS-1$
+		actionHandle = getAction("Image4"); //$NON-NLS-1$
+		assertEquals("www.rock.com.cn/haha/index.html/bookmarklink1", actionHandle.getTargetBookmark()); //$NON-NLS-1$
 	}
 
 	/**
@@ -231,32 +219,27 @@ public class ActionHandleTest extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void testSetLinkExpr( ) throws SemanticException
-	{
-		actionHandle = getAction( "Image1" ); //$NON-NLS-1$
+	public void testSetLinkExpr() throws SemanticException {
+		actionHandle = getAction("Image1"); //$NON-NLS-1$
 
 		// hyperlink
-		actionHandle.setURI( "http://birt.eclipse.org/" ); //$NON-NLS-1$
-		actionHandle
-				.setLinkType( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK );
-		assertEquals( "http://birt.eclipse.org/", actionHandle.getURI( ) ); //$NON-NLS-1$
-		assertNull( actionHandle.getTargetBookmark( ) );
+		actionHandle.setURI("http://birt.eclipse.org/"); //$NON-NLS-1$
+		actionHandle.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK);
+		assertEquals("http://birt.eclipse.org/", actionHandle.getURI()); //$NON-NLS-1$
+		assertNull(actionHandle.getTargetBookmark());
 
 		// bookmark
-		actionHandle.setTargetBookmark( "Bookmark1" ); //$NON-NLS-1$
-		actionHandle
-				.setLinkType( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK );
-		assertEquals( "Bookmark1", actionHandle.getTargetBookmark( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK,
-				actionHandle.getLinkType( ) );
-		assertNull( actionHandle.getURI( ) );
+		actionHandle.setTargetBookmark("Bookmark1"); //$NON-NLS-1$
+		actionHandle.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK);
+		assertEquals("Bookmark1", actionHandle.getTargetBookmark()); //$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK, actionHandle.getLinkType());
+		assertNull(actionHandle.getURI());
 
 		// drill-through as bookmark.
-		actionHandle.setTargetBookmark( "report1#section 1" ); //$NON-NLS-1$
-		actionHandle
-				.setLinkType( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH );
-		assertEquals( "report1#section 1", actionHandle.getTargetBookmark( ) ); //$NON-NLS-1$
-		assertNull( actionHandle.getURI( ) );
+		actionHandle.setTargetBookmark("report1#section 1"); //$NON-NLS-1$
+		actionHandle.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH);
+		assertEquals("report1#section 1", actionHandle.getTargetBookmark()); //$NON-NLS-1$
+		assertNull(actionHandle.getURI());
 
 	}
 
@@ -272,50 +255,45 @@ public class ActionHandleTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGetLinkType( ) throws Exception
-	{
+	public void testGetLinkType() throws Exception {
 		// 1.
-		actionHandle = getAction( "Image1" ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK,
-				actionHandle.getLinkType( ) );
+		actionHandle = getAction("Image1"); //$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK, actionHandle.getLinkType());
 
 		// 2.
-		actionHandle = getAction( "Image2" ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH,
-				actionHandle.getLinkType( ) );
+		actionHandle = getAction("Image2"); //$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH, actionHandle.getLinkType());
 
 		// 3.
-		actionHandle = getAction( "Image4" ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK,
-				actionHandle.getLinkType( ) );
+		actionHandle = getAction("Image4"); //$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK, actionHandle.getLinkType());
 
 	}
 
 	/**
-	 * Test getDrillthroughParameters(). Get a List from the element that
-	 * conains the Action. The list conains 2 DrillthroughParameters.
+	 * Test getDrillthroughParameters(). Get a List from the element that conains
+	 * the Action. The list conains 2 DrillthroughParameters.
 	 * 
 	 * @throws Exception
 	 */
 
-	public void testGetDrillthroughParameters( ) throws Exception
-	{
-		actionHandle = getAction( "Image2" ); //$NON-NLS-1$
-		Iterator iter = actionHandle.paramBindingsIterator( );
+	public void testGetDrillthroughParameters() throws Exception {
+		actionHandle = getAction("Image2"); //$NON-NLS-1$
+		Iterator iter = actionHandle.paramBindingsIterator();
 
-		ParamBindingHandle p1 = (ParamBindingHandle) iter.next( );
+		ParamBindingHandle p1 = (ParamBindingHandle) iter.next();
 
-		assertEquals( "1+1=3", p1.getExpression( ) ); //$NON-NLS-1$		
-		assertEquals( "param1", p1.getParamName( ) ); //$NON-NLS-1$
+		assertEquals("1+1=3", p1.getExpression()); //$NON-NLS-1$
+		assertEquals("param1", p1.getParamName()); //$NON-NLS-1$
 
-		assertNotNull( iter.next( ) );
-		assertNull( iter.next( ) );
+		assertNotNull(iter.next());
+		assertNull(iter.next());
 
-		p1.setExpression( "hello 1" ); //$NON-NLS-1$
-		p1.setParamName( "hello name 1" ); //$NON-NLS-1$
+		p1.setExpression("hello 1"); //$NON-NLS-1$
+		p1.setParamName("hello name 1"); //$NON-NLS-1$
 
-		assertEquals( "hello 1", p1.getExpression( ) ); //$NON-NLS-1$		
-		assertEquals( "hello name 1", p1.getParamName( ) ); //$NON-NLS-1$
+		assertEquals("hello 1", p1.getExpression()); //$NON-NLS-1$
+		assertEquals("hello name 1", p1.getParamName()); //$NON-NLS-1$
 
 	}
 
@@ -326,34 +304,30 @@ public class ActionHandleTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testAddDrillthroughParameter( ) throws Exception
-	{
-		actionHandle = getAction( "Image2" ); //$NON-NLS-1$
-		ParamBinding p = new ParamBinding( );
+	public void testAddDrillthroughParameter() throws Exception {
+		actionHandle = getAction("Image2"); //$NON-NLS-1$
+		ParamBinding p = new ParamBinding();
 
-		PropertyDefn nameProp = (PropertyDefn) p.getDefn( ).getMember(
-				ParamBinding.PARAM_NAME_MEMBER );
-		PropertyDefn exprProp = (PropertyDefn) p.getDefn( ).getMember(
-				ParamBinding.EXPRESSION_MEMBER );
+		PropertyDefn nameProp = (PropertyDefn) p.getDefn().getMember(ParamBinding.PARAM_NAME_MEMBER);
+		PropertyDefn exprProp = (PropertyDefn) p.getDefn().getMember(ParamBinding.EXPRESSION_MEMBER);
 
-		p.setProperty( nameProp, "ParamX" ); //$NON-NLS-1$
-		List values = new ArrayList( );
-		values.add( "ExprX" );//$NON-NLS-1$
-		p.setProperty( exprProp, values );
+		p.setProperty(nameProp, "ParamX"); //$NON-NLS-1$
+		List values = new ArrayList();
+		values.add("ExprX");//$NON-NLS-1$
+		p.setProperty(exprProp, values);
 
 		// PropertyHandle paramHandle = actionHandle.getParamBindings();
 
-		MemberHandle paramHandle = actionHandle.getParamBindings( );
-		paramHandle.addItem( p );
+		MemberHandle paramHandle = actionHandle.getParamBindings();
+		paramHandle.addItem(p);
 
-		Iterator iter = actionHandle.paramBindingsIterator( );
+		Iterator iter = actionHandle.paramBindingsIterator();
 		int count = 0;
-		for ( ; iter.hasNext( ); iter.next( ) )
-		{
+		for (; iter.hasNext(); iter.next()) {
 			count++;
 		}
 
-		assertEquals( 3, count );
+		assertEquals(3, count);
 	}
 
 	/**
@@ -362,19 +336,18 @@ public class ActionHandleTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testGetDrillthroughSearchKeys( ) throws Exception
-	{
-		actionHandle = getAction( "Image3" ); //$NON-NLS-1$
-		Iterator searchKeys = actionHandle.searchIterator( );
+	public void testGetDrillthroughSearchKeys() throws Exception {
+		actionHandle = getAction("Image3"); //$NON-NLS-1$
+		Iterator searchKeys = actionHandle.searchIterator();
 
-		SearchKeyHandle key1 = (SearchKeyHandle) searchKeys.next( );
-		assertEquals( "searchKey1", key1.getExpression( ) ); //$NON-NLS-1$
+		SearchKeyHandle key1 = (SearchKeyHandle) searchKeys.next();
+		assertEquals("searchKey1", key1.getExpression()); //$NON-NLS-1$
 
-		key1.setExpression( "new expression" ); //$NON-NLS-1$
-		assertEquals( "new expression", key1.getExpression( ) ); //$NON-NLS-1$
+		key1.setExpression("new expression"); //$NON-NLS-1$
+		assertEquals("new expression", key1.getExpression()); //$NON-NLS-1$
 
-		assertNotNull( searchKeys.next( ) );
-		assertNull( searchKeys.next( ) );
+		assertNotNull(searchKeys.next());
+		assertNull(searchKeys.next());
 
 	}
 
@@ -384,26 +357,24 @@ public class ActionHandleTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testaddDrillthroughSearchKeys( ) throws Exception
-	{
-		actionHandle = getAction( "Image3" ); //$NON-NLS-1$
+	public void testaddDrillthroughSearchKeys() throws Exception {
+		actionHandle = getAction("Image3"); //$NON-NLS-1$
 
-		SearchKey key = new SearchKey( );
-		PropertyDefn exprProp = (PropertyDefn) key.getDefn( ).getMember(
-				SearchKey.EXPRESSION_MEMBER );
-		key.setProperty( exprProp, "new Key3" ); //$NON-NLS-1$
+		SearchKey key = new SearchKey();
+		PropertyDefn exprProp = (PropertyDefn) key.getDefn().getMember(SearchKey.EXPRESSION_MEMBER);
+		key.setProperty(exprProp, "new Key3"); //$NON-NLS-1$
 
 		// PropertyHandle searchHandle = actionHandle.getSearch();
 
-		MemberHandle searchHandle = actionHandle.getSearch( );
-		searchHandle.addItem( key );
+		MemberHandle searchHandle = actionHandle.getSearch();
+		searchHandle.addItem(key);
 
-		Iterator iter = actionHandle.searchIterator( );
+		Iterator iter = actionHandle.searchIterator();
 
 		int count = 0;
-		for ( ; iter.hasNext( ); iter.next( ) )
+		for (; iter.hasNext(); iter.next())
 			count++;
-		assertEquals( 3, count );
+		assertEquals(3, count);
 
 	}
 
@@ -413,103 +384,84 @@ public class ActionHandleTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testOtherMethods( ) throws Exception
-	{
-		actionHandle = getAction( "Image3" ); //$NON-NLS-1$
-		assertEquals( "Window3", actionHandle.getTargetWindow( ) ); //$NON-NLS-1$
+	public void testOtherMethods() throws Exception {
+		actionHandle = getAction("Image3"); //$NON-NLS-1$
+		assertEquals("Window3", actionHandle.getTargetWindow()); //$NON-NLS-1$
 
-		actionHandle = getAction( "Image1" ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK,
-				actionHandle.getTargetWindow( ) );
+		actionHandle = getAction("Image1"); //$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK, actionHandle.getTargetWindow());
 
-		actionHandle.setTargetWindow( "new target windows" ); //$NON-NLS-1$
-		assertEquals( "new target windows", actionHandle.getTargetWindow( ) ); //$NON-NLS-1$
+		actionHandle.setTargetWindow("new target windows"); //$NON-NLS-1$
+		assertEquals("new target windows", actionHandle.getTargetWindow()); //$NON-NLS-1$
 	}
 
 	/**
-	 * The member "actionFormatType" is new added. Test the type of this member
-	 * is list: pdf, html.
+	 * The member "actionFormatType" is new added. Test the type of this member is
+	 * list: pdf, html.
 	 * 
 	 * @throws Exception
 	 * 
 	 */
-	public void testActionFormatType( ) throws Exception
-	{
-		openDesign( "ActionHandleTest3.xml" ); //$NON-NLS-1$
+	public void testActionFormatType() throws Exception {
+		openDesign("ActionHandleTest3.xml"); //$NON-NLS-1$
 
-		actionHandle = getAction( "Image" ); //$NON-NLS-1$
-		assertEquals( "html", actionHandle.getFormatType( ) ); //$NON-NLS-1$
+		actionHandle = getAction("Image"); //$NON-NLS-1$
+		assertEquals("html", actionHandle.getFormatType()); //$NON-NLS-1$
 
-		actionHandle
-				.setFormatType( DesignChoiceConstants.ACTION_FORMAT_TYPE_PDF );
-		assertEquals( "pdf", actionHandle.getFormatType( ) ); //$NON-NLS-1$
+		actionHandle.setFormatType(DesignChoiceConstants.ACTION_FORMAT_TYPE_PDF);
+		assertEquals("pdf", actionHandle.getFormatType()); //$NON-NLS-1$
 
 		// it is OK set any user defined type.
 
-		actionHandle.setFormatType( "userDefinedType" ); //$NON-NLS-1$
+		actionHandle.setFormatType("userDefinedType"); //$NON-NLS-1$
 
-		save( );
-		assertTrue( compareFile( "ActionHandleTest3_golden.xml" ) ); //$NON-NLS-1$
+		save();
+		assertTrue(compareFile("ActionHandleTest3_golden.xml")); //$NON-NLS-1$
 
 	}
 
 	/**
-	 * The member "targetFileType" is new added. Test the type of this member is
-	 * in list: report-design, report-document.
+	 * The member "targetFileType" is new added. Test the type of this member is in
+	 * list: report-design, report-document.
 	 * 
 	 * @throws Exception
 	 */
 
-	public void testActionTargetFileType( ) throws Exception
-	{
-		openDesign( "ActionHandleTest4.xml" ); //$NON-NLS-1$
+	public void testActionTargetFileType() throws Exception {
+		openDesign("ActionHandleTest4.xml"); //$NON-NLS-1$
 
-		actionHandle = getAction( "Image" ); //$NON-NLS-1$
-		assertNull( actionHandle.getTargetFileType( ) );
-		assertEquals( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC,
-				actionHandle.getTargetBookmarkType( ) );
-		actionHandle
-				.setTargetBookmarkType( DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK );
+		actionHandle = getAction("Image"); //$NON-NLS-1$
+		assertNull(actionHandle.getTargetFileType());
+		assertEquals(DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC, actionHandle.getTargetBookmarkType());
+		actionHandle.setTargetBookmarkType(DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK);
 
-		actionHandle = getAction( "Image1" ); //$NON-NLS-1$
-		assertNull( actionHandle.getTargetBookmarkType( ) );
-		assertEquals(
-				DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT,
-				actionHandle.getTargetFileType( ) );
+		actionHandle = getAction("Image1"); //$NON-NLS-1$
+		assertNull(actionHandle.getTargetBookmarkType());
+		assertEquals(DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT, actionHandle.getTargetFileType());
 
-		actionHandle
-				.setTargetFileType( DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN );
-		assertEquals(
-				DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN,
-				actionHandle.getTargetFileType( ) );
-		try
-		{
-			actionHandle.setTargetFileType( "wrong choice" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
+		actionHandle.setTargetFileType(DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN);
+		assertEquals(DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN, actionHandle.getTargetFileType());
+		try {
+			actionHandle.setTargetFileType("wrong choice"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
 
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
-							.getErrorCode( ) );
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e.getErrorCode());
 		}
 
-		save( );
-		assertTrue( compareFile( "ActionHandleTest4_golden.xml" ) ); //$NON-NLS-1$
+		save();
+		assertTrue(compareFile("ActionHandleTest4_golden.xml")); //$NON-NLS-1$
 	}
 
-	private ActionHandle getAction( int posn ) throws Exception
-	{
-		DataSetHandle dsHandle = designHandle.findDataSet( "ds" ); //$NON-NLS-1$
+	private ActionHandle getAction(int posn) throws Exception {
+		DataSetHandle dsHandle = designHandle.findDataSet("ds"); //$NON-NLS-1$
 
-		Iterator iter = dsHandle.columnHintsIterator( );
+		Iterator iter = dsHandle.columnHintsIterator();
 		int i = 1;
-		while ( iter.hasNext( ) )
-		{
-			ColumnHintHandle hintHandle = (ColumnHintHandle) iter.next( );
-			if ( i == posn )
-				return hintHandle.getActionHandle( );
+		while (iter.hasNext()) {
+			ColumnHintHandle hintHandle = (ColumnHintHandle) iter.next();
+			if (i == posn)
+				return hintHandle.getActionHandle();
 			i++;
 		}
 		return null;
@@ -519,40 +471,37 @@ public class ActionHandleTest extends BaseTestCase
 	 * Case1: Action is represented by a Hyperlink. LinkExpression should be the
 	 * value of the Hyperlink.
 	 * <p>
-	 * Case2: Action is represented by a Drillthrough. LinkExpression should be
-	 * the value of the BookmarkLink for the Drillthrough.
+	 * Case2: Action is represented by a Drillthrough. LinkExpression should be the
+	 * value of the BookmarkLink for the Drillthrough.
 	 * <p>
-	 * Case3: Action is represented by a BookmarkLink. LinkExpression should be
-	 * the value of the BookmarkLink.
+	 * Case3: Action is represented by a BookmarkLink. LinkExpression should be the
+	 * value of the BookmarkLink.
 	 * 
 	 * @throws Exception
 	 */
 
-	public void testGetLinkExprForHint( ) throws Exception
-	{
-		openDesign( "ActionHandleTest_5.xml" ); //$NON-NLS-1$
+	public void testGetLinkExprForHint() throws Exception {
+		openDesign("ActionHandleTest_5.xml"); //$NON-NLS-1$
 
 		// 1
-		actionHandle = getAction( 1 );
+		actionHandle = getAction(1);
 
-		assertEquals( "www.rock.com.cn/haha/test.html", actionHandle.getURI( ) ); //$NON-NLS-1$
-		assertNull( actionHandle.getTargetBookmark( ) );
+		assertEquals("www.rock.com.cn/haha/test.html", actionHandle.getURI()); //$NON-NLS-1$
+		assertNull(actionHandle.getTargetBookmark());
 
-		Iterator iter = actionHandle.paramBindingsIterator( );
-		assertFalse( iter.hasNext( ) );
+		Iterator iter = actionHandle.paramBindingsIterator();
+		assertFalse(iter.hasNext());
 
-		iter = actionHandle.searchIterator( );
-		assertFalse( iter.hasNext( ) );
+		iter = actionHandle.searchIterator();
+		assertFalse(iter.hasNext());
 
 		// 2
-		actionHandle = getAction( 2 );
-		assertEquals(
-				"www.rock.com/bookmarks/1.jsp", actionHandle.getTargetBookmark( ) ); //$NON-NLS-1$
+		actionHandle = getAction(2);
+		assertEquals("www.rock.com/bookmarks/1.jsp", actionHandle.getTargetBookmark()); //$NON-NLS-1$
 
 		// 3
-		actionHandle = getAction( 4 );
-		assertEquals(
-				"www.rock.com.cn/haha/index.html/bookmarklink1", actionHandle.getTargetBookmark( ) ); //$NON-NLS-1$
+		actionHandle = getAction(4);
+		assertEquals("www.rock.com.cn/haha/index.html/bookmarklink1", actionHandle.getTargetBookmark()); //$NON-NLS-1$
 	}
 
 	/**
@@ -561,33 +510,28 @@ public class ActionHandleTest extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void testSetLinkExprForHint( ) throws Exception
-	{
-		openDesign( "ActionHandleTest_5.xml" ); //$NON-NLS-1$
-		actionHandle = getAction( 1 );
+	public void testSetLinkExprForHint() throws Exception {
+		openDesign("ActionHandleTest_5.xml"); //$NON-NLS-1$
+		actionHandle = getAction(1);
 
 		// hyperlink
-		actionHandle.setURI( "http://birt.eclipse.org/" ); //$NON-NLS-1$
-		actionHandle
-				.setLinkType( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK );
-		assertEquals( "http://birt.eclipse.org/", actionHandle.getURI( ) ); //$NON-NLS-1$
-		assertNull( actionHandle.getTargetBookmark( ) );
+		actionHandle.setURI("http://birt.eclipse.org/"); //$NON-NLS-1$
+		actionHandle.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK);
+		assertEquals("http://birt.eclipse.org/", actionHandle.getURI()); //$NON-NLS-1$
+		assertNull(actionHandle.getTargetBookmark());
 
 		// bookmark
-		actionHandle.setTargetBookmark( "Bookmark1" ); //$NON-NLS-1$
-		actionHandle
-				.setLinkType( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK );
-		assertEquals( "Bookmark1", actionHandle.getTargetBookmark( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK,
-				actionHandle.getLinkType( ) );
-		assertNull( actionHandle.getURI( ) );
+		actionHandle.setTargetBookmark("Bookmark1"); //$NON-NLS-1$
+		actionHandle.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK);
+		assertEquals("Bookmark1", actionHandle.getTargetBookmark()); //$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK, actionHandle.getLinkType());
+		assertNull(actionHandle.getURI());
 
 		// drill-through as bookmark.
-		actionHandle.setTargetBookmark( "report1#section 1" ); //$NON-NLS-1$
-		actionHandle
-				.setLinkType( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH );
-		assertEquals( "report1#section 1", actionHandle.getTargetBookmark( ) ); //$NON-NLS-1$
-		assertNull( actionHandle.getURI( ) );
+		actionHandle.setTargetBookmark("report1#section 1"); //$NON-NLS-1$
+		actionHandle.setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH);
+		assertEquals("report1#section 1", actionHandle.getTargetBookmark()); //$NON-NLS-1$
+		assertNull(actionHandle.getURI());
 
 	}
 
@@ -603,53 +547,48 @@ public class ActionHandleTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGetLinkTypeForHint( ) throws Exception
-	{
-		openDesign( "ActionHandleTest_5.xml" ); //$NON-NLS-1$
+	public void testGetLinkTypeForHint() throws Exception {
+		openDesign("ActionHandleTest_5.xml"); //$NON-NLS-1$
 
 		// 1.
-		actionHandle = getAction( 1 );
-		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK,
-				actionHandle.getLinkType( ) );
+		actionHandle = getAction(1);
+		assertEquals(DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK, actionHandle.getLinkType());
 
 		// 2.
-		actionHandle = getAction( 2 );
-		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH,
-				actionHandle.getLinkType( ) );
+		actionHandle = getAction(2);
+		assertEquals(DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH, actionHandle.getLinkType());
 
 		// 3.
-		actionHandle = getAction( 4 );
-		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK,
-				actionHandle.getLinkType( ) );
+		actionHandle = getAction(4);
+		assertEquals(DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK, actionHandle.getLinkType());
 
 	}
 
 	/**
-	 * Test getDrillthroughParameters(). Get a List from the element that
-	 * conains the Action. The list conains 2 DrillthroughParameters.
+	 * Test getDrillthroughParameters(). Get a List from the element that conains
+	 * the Action. The list conains 2 DrillthroughParameters.
 	 * 
 	 * @throws Exception
 	 */
 
-	public void testGetDrillthroughParametersForHint( ) throws Exception
-	{
-		openDesign( "ActionHandleTest_5.xml" ); //$NON-NLS-1$
-		actionHandle = getAction( 2 );
-		Iterator iter = actionHandle.paramBindingsIterator( );
+	public void testGetDrillthroughParametersForHint() throws Exception {
+		openDesign("ActionHandleTest_5.xml"); //$NON-NLS-1$
+		actionHandle = getAction(2);
+		Iterator iter = actionHandle.paramBindingsIterator();
 
-		ParamBindingHandle p1 = (ParamBindingHandle) iter.next( );
+		ParamBindingHandle p1 = (ParamBindingHandle) iter.next();
 
-		assertEquals( "1+1=3", p1.getExpression( ) ); //$NON-NLS-1$		
-		assertEquals( "param1", p1.getParamName( ) ); //$NON-NLS-1$
+		assertEquals("1+1=3", p1.getExpression()); //$NON-NLS-1$
+		assertEquals("param1", p1.getParamName()); //$NON-NLS-1$
 
-		assertNotNull( iter.next( ) );
-		assertNull( iter.next( ) );
+		assertNotNull(iter.next());
+		assertNull(iter.next());
 
-		p1.setExpression( "hello 1" ); //$NON-NLS-1$
-		p1.setParamName( "hello name 1" ); //$NON-NLS-1$
+		p1.setExpression("hello 1"); //$NON-NLS-1$
+		p1.setParamName("hello name 1"); //$NON-NLS-1$
 
-		assertEquals( "hello 1", p1.getExpression( ) ); //$NON-NLS-1$		
-		assertEquals( "hello name 1", p1.getParamName( ) ); //$NON-NLS-1$
+		assertEquals("hello 1", p1.getExpression()); //$NON-NLS-1$
+		assertEquals("hello name 1", p1.getParamName()); //$NON-NLS-1$
 
 	}
 
@@ -660,35 +599,31 @@ public class ActionHandleTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testAddDrillthroughParameterForHint( ) throws Exception
-	{
-		openDesign( "ActionHandleTest_5.xml" ); //$NON-NLS-1$	
-		actionHandle = getAction( 2 );
-		ParamBinding p = new ParamBinding( );
+	public void testAddDrillthroughParameterForHint() throws Exception {
+		openDesign("ActionHandleTest_5.xml"); //$NON-NLS-1$
+		actionHandle = getAction(2);
+		ParamBinding p = new ParamBinding();
 
-		PropertyDefn nameProp = (PropertyDefn) p.getDefn( ).getMember(
-				ParamBinding.PARAM_NAME_MEMBER );
-		PropertyDefn exprProp = (PropertyDefn) p.getDefn( ).getMember(
-				ParamBinding.EXPRESSION_MEMBER );
+		PropertyDefn nameProp = (PropertyDefn) p.getDefn().getMember(ParamBinding.PARAM_NAME_MEMBER);
+		PropertyDefn exprProp = (PropertyDefn) p.getDefn().getMember(ParamBinding.EXPRESSION_MEMBER);
 
-		p.setProperty( nameProp, "ParamX" ); //$NON-NLS-1$
-		List values = new ArrayList( );
-		values.add( "ExprX" );//$NON-NLS-1$
-		p.setProperty( exprProp, values );
+		p.setProperty(nameProp, "ParamX"); //$NON-NLS-1$
+		List values = new ArrayList();
+		values.add("ExprX");//$NON-NLS-1$
+		p.setProperty(exprProp, values);
 
 		// PropertyHandle paramHandle = actionHandle.getParamBindings();
 
-		MemberHandle paramHandle = actionHandle.getParamBindings( );
-		paramHandle.addItem( p );
+		MemberHandle paramHandle = actionHandle.getParamBindings();
+		paramHandle.addItem(p);
 
-		Iterator iter = actionHandle.paramBindingsIterator( );
+		Iterator iter = actionHandle.paramBindingsIterator();
 		int count = 0;
-		for ( ; iter.hasNext( ); iter.next( ) )
-		{
+		for (; iter.hasNext(); iter.next()) {
 			count++;
 		}
 
-		assertEquals( 3, count );
+		assertEquals(3, count);
 	}
 
 	/**
@@ -697,20 +632,19 @@ public class ActionHandleTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testGetDrillthroughSearchKeysForHint( ) throws Exception
-	{
-		openDesign( "ActionHandleTest_5.xml" ); //$NON-NLS-1$
-		actionHandle = getAction( 3 );
-		Iterator searchKeys = actionHandle.searchIterator( );
+	public void testGetDrillthroughSearchKeysForHint() throws Exception {
+		openDesign("ActionHandleTest_5.xml"); //$NON-NLS-1$
+		actionHandle = getAction(3);
+		Iterator searchKeys = actionHandle.searchIterator();
 
-		SearchKeyHandle key1 = (SearchKeyHandle) searchKeys.next( );
-		assertEquals( "searchKey1", key1.getExpression( ) ); //$NON-NLS-1$
+		SearchKeyHandle key1 = (SearchKeyHandle) searchKeys.next();
+		assertEquals("searchKey1", key1.getExpression()); //$NON-NLS-1$
 
-		key1.setExpression( "new expression" ); //$NON-NLS-1$
-		assertEquals( "new expression", key1.getExpression( ) ); //$NON-NLS-1$
+		key1.setExpression("new expression"); //$NON-NLS-1$
+		assertEquals("new expression", key1.getExpression()); //$NON-NLS-1$
 
-		assertNotNull( searchKeys.next( ) );
-		assertNull( searchKeys.next( ) );
+		assertNotNull(searchKeys.next());
+		assertNull(searchKeys.next());
 
 	}
 
@@ -720,27 +654,25 @@ public class ActionHandleTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testaddDrillthroughSearchKeysForHint( ) throws Exception
-	{
-		openDesign( "ActionHandleTest_5.xml" ); //$NON-NLS-1$
-		actionHandle = getAction( 3 );
+	public void testaddDrillthroughSearchKeysForHint() throws Exception {
+		openDesign("ActionHandleTest_5.xml"); //$NON-NLS-1$
+		actionHandle = getAction(3);
 
-		SearchKey key = new SearchKey( );
-		PropertyDefn exprProp = (PropertyDefn) key.getDefn( ).getMember(
-				SearchKey.EXPRESSION_MEMBER );
-		key.setProperty( exprProp, "new Key3" ); //$NON-NLS-1$
+		SearchKey key = new SearchKey();
+		PropertyDefn exprProp = (PropertyDefn) key.getDefn().getMember(SearchKey.EXPRESSION_MEMBER);
+		key.setProperty(exprProp, "new Key3"); //$NON-NLS-1$
 
 		// PropertyHandle searchHandle = actionHandle.getSearch();
 
-		MemberHandle searchHandle = actionHandle.getSearch( );
-		searchHandle.addItem( key );
+		MemberHandle searchHandle = actionHandle.getSearch();
+		searchHandle.addItem(key);
 
-		Iterator iter = actionHandle.searchIterator( );
+		Iterator iter = actionHandle.searchIterator();
 
 		int count = 0;
-		for ( ; iter.hasNext( ); iter.next( ) )
+		for (; iter.hasNext(); iter.next())
 			count++;
-		assertEquals( 3, count );
+		assertEquals(3, count);
 
 	}
 
@@ -750,18 +682,16 @@ public class ActionHandleTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testOtherMethodsForHint( ) throws Exception
-	{
-		openDesign( "ActionHandleTest_5.xml" ); //$NON-NLS-1$
-		actionHandle = getAction( 3 );
-		assertEquals( "Window3", actionHandle.getTargetWindow( ) ); //$NON-NLS-1$
+	public void testOtherMethodsForHint() throws Exception {
+		openDesign("ActionHandleTest_5.xml"); //$NON-NLS-1$
+		actionHandle = getAction(3);
+		assertEquals("Window3", actionHandle.getTargetWindow()); //$NON-NLS-1$
 
-		actionHandle = getAction( 1 );
-		assertEquals( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK,
-				actionHandle.getTargetWindow( ) );
+		actionHandle = getAction(1);
+		assertEquals(DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK, actionHandle.getTargetWindow());
 
-		actionHandle.setTargetWindow( "new target windows" ); //$NON-NLS-1$
-		assertEquals( "new target windows", actionHandle.getTargetWindow( ) ); //$NON-NLS-1$
+		actionHandle.setTargetWindow("new target windows"); //$NON-NLS-1$
+		assertEquals("new target windows", actionHandle.getTargetWindow()); //$NON-NLS-1$
 	}
 
 }

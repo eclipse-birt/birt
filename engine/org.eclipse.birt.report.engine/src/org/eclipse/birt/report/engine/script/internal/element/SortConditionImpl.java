@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
  * 
  */
 
-public class SortConditionImpl implements ISortCondition
-{
+public class SortConditionImpl implements ISortCondition {
 
 	private org.eclipse.birt.report.model.api.simpleapi.ISortCondition sortConditionImpl;
 
@@ -35,10 +34,8 @@ public class SortConditionImpl implements ISortCondition
 	 * @param sortHandle
 	 */
 
-	public SortConditionImpl( )
-	{
-		sortConditionImpl = SimpleElementFactory.getInstance( )
-				.createSortCondition( );
+	public SortConditionImpl() {
+		sortConditionImpl = SimpleElementFactory.getInstance().createSortCondition();
 	}
 
 	/**
@@ -47,10 +44,8 @@ public class SortConditionImpl implements ISortCondition
 	 * @param sortHandle
 	 */
 
-	public SortConditionImpl( SortKeyHandle sortHandle )
-	{
-		sortConditionImpl = SimpleElementFactory.getInstance( )
-				.createSortCondition( sortHandle );
+	public SortConditionImpl(SortKeyHandle sortHandle) {
+		sortConditionImpl = SimpleElementFactory.getInstance().createSortCondition(sortHandle);
 	}
 
 	/**
@@ -58,10 +53,8 @@ public class SortConditionImpl implements ISortCondition
 	 * 
 	 * @param sort
 	 */
-	public SortConditionImpl( SortKey sort )
-	{
-		sortConditionImpl = SimpleElementFactory.getInstance( )
-				.createSortCondition( sort );
+	public SortConditionImpl(SortKey sort) {
+		sortConditionImpl = SimpleElementFactory.getInstance().createSortCondition(sort);
 	}
 
 	/**
@@ -70,52 +63,39 @@ public class SortConditionImpl implements ISortCondition
 	 * @param columnHandle
 	 */
 
-	public SortConditionImpl(
-			org.eclipse.birt.report.model.api.simpleapi.ISortCondition condition )
-	{
+	public SortConditionImpl(org.eclipse.birt.report.model.api.simpleapi.ISortCondition condition) {
 		sortConditionImpl = condition;
 	}
 
-	public String getDirection( )
-	{
-		return sortConditionImpl.getDirection( );
+	public String getDirection() {
+		return sortConditionImpl.getDirection();
 	}
 
-	public String getKey( )
-	{
-		return sortConditionImpl.getKey( );
+	public String getKey() {
+		return sortConditionImpl.getKey();
 	}
 
-	public void setDirection( String direction ) throws ScriptException
-	{
-		try
-		{
-			sortConditionImpl.setDirection( direction );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setDirection(String direction) throws ScriptException {
+		try {
+			sortConditionImpl.setDirection(direction);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
 	}
 
-	public void setKey( String key ) throws ScriptException
-	{
+	public void setKey(String key) throws ScriptException {
 		// key is required
-		try
-		{
-			sortConditionImpl.setKey( key );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+		try {
+			sortConditionImpl.setKey(key);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
 	}
 
-	public IStructure getStructure( )
-	{
-		return sortConditionImpl.getStructure( );
+	public IStructure getStructure() {
+		return sortConditionImpl.getStructure();
 	}
 
 }

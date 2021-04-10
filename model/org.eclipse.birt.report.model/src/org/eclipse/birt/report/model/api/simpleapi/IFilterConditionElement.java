@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * 
  */
 
-public interface IFilterConditionElement extends IDesignElement
-{
+public interface IFilterConditionElement extends IDesignElement {
 
 	/**
 	 * Returns the filter expression.
@@ -28,24 +27,22 @@ public interface IFilterConditionElement extends IDesignElement
 	 * @return the filter expression
 	 */
 
-	public String getExpr( );
+	public String getExpr();
 
 	/**
 	 * Sets the filter expression.
 	 * 
-	 * @param filterExpr
-	 *            the filter expression to set
-	 * @throws SemanticException
-	 *             value required exception
+	 * @param filterExpr the filter expression to set
+	 * @throws SemanticException value required exception
 	 */
 
-	public void setExpr( String filterExpr ) throws SemanticException;
+	public void setExpr(String filterExpr) throws SemanticException;
 
 	/**
 	 * Returns the operator of this filter condition. The possible values are
 	 * defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li><code>FILTER_OPERATOR_EQ</code>
 	 * <li><code>FILTER_OPERATOR_NE</code>
@@ -70,13 +67,12 @@ public interface IFilterConditionElement extends IDesignElement
 	 * @return the operator of this filter condition
 	 */
 
-	public String getOperator( );
+	public String getOperator();
 
 	/**
-	 * Sets the operator of this filter condition. The allowed values are
-	 * defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * Sets the operator of this filter condition. The allowed values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li><code>FILTER_OPERATOR_EQ</code>
 	 * <li><code>FILTER_OPERATOR_NE</code>
@@ -98,34 +94,30 @@ public interface IFilterConditionElement extends IDesignElement
 	 * <li><code>FILTER_OPERATOR_ANY</code>
 	 * </ul>
 	 * 
-	 * @param operator
-	 *            the operator to set
-	 * @throws SemanticException
-	 *             if operator is not in the choice list.
+	 * @param operator the operator to set
+	 * @throws SemanticException if operator is not in the choice list.
 	 */
 
-	public void setOperator( String operator ) throws SemanticException;
+	public void setOperator(String operator) throws SemanticException;
 
 	/**
 	 * Gets the value1 expression list of this filter condition. For most filter
-	 * operator, there is only one expression in the returned list. However,
-	 * filter operator 'in' may contain more than one expression.
+	 * operator, there is only one expression in the returned list. However, filter
+	 * operator 'in' may contain more than one expression.
 	 * 
 	 * @return the value1 expression list of this filter condition.
 	 */
 
-	public List getValue1List( );
+	public List getValue1List();
 
 	/**
 	 * Sets the value 1 expression list of this filter condition.
 	 * 
-	 * @param value1List
-	 *            the value 1 expression list to set
-	 * @throws SemanticException
-	 *             if the instance in the list is not valid
+	 * @param value1List the value 1 expression list to set
+	 * @throws SemanticException if the instance in the list is not valid
 	 */
 
-	public void setValue1( List value1List ) throws SemanticException;
+	public void setValue1(List value1List) throws SemanticException;
 
 	/**
 	 * Returns the value 2 expression of this filter condition.
@@ -133,22 +125,21 @@ public interface IFilterConditionElement extends IDesignElement
 	 * @return the value 2 expression of this filter condition
 	 */
 
-	public String getValue2( );
+	public String getValue2();
 
 	/**
 	 * Sets the value 2 expression of this filter condition.
 	 * 
-	 * @param value2Expr
-	 *            the value 2 expression to set
+	 * @param value2Expr the value 2 expression to set
 	 * @throws SemanticException
 	 */
 
-	public void setValue2( String value2Expr ) throws SemanticException;
+	public void setValue2(String value2Expr) throws SemanticException;
 
 	/**
 	 * Returns the filter target. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li><code>FILTER_TARGET_DATA_SET</code>
 	 * <li><code>FILTER_TARGET_RESULT_SET</code>
@@ -157,25 +148,23 @@ public interface IFilterConditionElement extends IDesignElement
 	 * @return the target type
 	 */
 
-	public String getFilterTarget( );
+	public String getFilterTarget();
 
 	/**
 	 * Sets the filter target. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li><code>FILTER_TARGET_DATA_SET</code>
 	 * <li><code>FILTER_TARGET_RESULT_SET</code>
 	 * </ul>
 	 * 
-	 * @param filterTarget
-	 *            the filter target to set
+	 * @param filterTarget the filter target to set
 	 * 
-	 * @throws SemanticException
-	 *             if the value is not one of the above.
+	 * @throws SemanticException if the value is not one of the above.
 	 */
 
-	public void setFilterTarget( String filterTarget ) throws SemanticException;
+	public void setFilterTarget(String filterTarget) throws SemanticException;
 
 	/**
 	 * Determines whether this filter condition is optional or not.
@@ -183,15 +172,14 @@ public interface IFilterConditionElement extends IDesignElement
 	 * @return true if this filter is optional, otherwise false
 	 */
 
-	public boolean isOptional( );
+	public boolean isOptional();
 
 	/**
 	 * Sets the optional status for this filter condition.
 	 * 
-	 * @param isOptional
-	 *            true if this filter is optional, otherwise false
+	 * @param isOptional true if this filter is optional, otherwise false
 	 * @throws SemanticException
 	 */
 
-	public void setOptional( boolean isOptional ) throws SemanticException;
+	public void setOptional(boolean isOptional) throws SemanticException;
 }

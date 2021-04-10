@@ -28,8 +28,7 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
  * to the ROM extension elements.
  */
 
-public final class ExtensionActivityRecord extends ActivityRecord
-{
+public final class ExtensionActivityRecord extends ActivityRecord {
 
 	/**
 	 * The effective extended element command this record has.
@@ -51,21 +50,19 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	private String propName = null;
 
 	/**
-	 * Constructs the extension activity record with the effective extended
-	 * element command.
+	 * Constructs the extension activity record with the effective extended element
+	 * command.
 	 * 
-	 * @param extCommand
-	 *            the effective extended element command
+	 * @param extCommand the effective extended element command
 	 */
 
-	public ExtensionActivityRecord( IElementCommand extCommand )
-	{
+	public ExtensionActivityRecord(IElementCommand extCommand) {
 		assert extCommand != null;
 		extRecord = extCommand;
-		setLabel( extCommand.getLabel( ) );
+		setLabel(extCommand.getLabel());
 
-		if ( extCommand.getElementHandle( ) != null )
-			element = extCommand.getElementHandle( ).getElement( );
+		if (extCommand.getElementHandle() != null)
+			element = extCommand.getElementHandle().getElement();
 	}
 
 	/*
@@ -74,9 +71,8 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#canRedo()
 	 */
 
-	public boolean canRedo( )
-	{
-		return extRecord.canRedo( );
+	public boolean canRedo() {
+		return extRecord.canRedo();
 	}
 
 	/*
@@ -85,9 +81,8 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#canUndo()
 	 */
 
-	public boolean canUndo( )
-	{
-		return extRecord.canUndo( );
+	public boolean canUndo() {
+		return extRecord.canUndo();
 	}
 
 	/*
@@ -96,9 +91,8 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#destroy()
 	 */
 
-	public void destroy( )
-	{
-		super.destroy( );
+	public void destroy() {
+		super.destroy();
 	}
 
 	/*
@@ -107,9 +101,8 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getTransNo()
 	 */
 
-	public int getTransNo( )
-	{
-		return super.getTransNo( );
+	public int getTransNo() {
+		return super.getTransNo();
 	}
 
 	/*
@@ -118,9 +111,8 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#execute()
 	 */
 
-	public void execute( )
-	{
-		extRecord.execute( );
+	public void execute() {
+		extRecord.execute();
 	}
 
 	/*
@@ -129,9 +121,8 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#undo()
 	 */
 
-	public void undo( )
-	{
-		extRecord.undo( );
+	public void undo() {
+		extRecord.undo();
 	}
 
 	/*
@@ -140,9 +131,8 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#redo()
 	 */
 
-	public void redo( )
-	{
-		extRecord.redo( );
+	public void redo() {
+		extRecord.redo();
 	}
 
 	/**
@@ -151,8 +141,7 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * @return the design element
 	 */
 
-	public DesignElement getTarget( )
-	{
+	public DesignElement getTarget() {
 		return element;
 	}
 
@@ -164,20 +153,16 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * 
 	 * @return event
 	 */
-	private NotificationEvent getEvent( )
-	{
+	private NotificationEvent getEvent() {
 		assert element != null;
 		NotificationEvent event = null;
 		assert element instanceof ExtendedItem;
 
-		IReportItem extElement = ( (ExtendedItem) element )
-				.getExtendedElement( );
-		if ( extElement != null && extElement.refreshPropertyDefinition( ) )
-		{
-			event = new ExtensionPropertyDefinitionEvent( element );
-		}
-		else
-			event = new PropertyEvent( element, propName );
+		IReportItem extElement = ((ExtendedItem) element).getExtendedElement();
+		if (extElement != null && extElement.refreshPropertyDefinition()) {
+			event = new ExtensionPropertyDefinitionEvent(element);
+		} else
+			event = new PropertyEvent(element, propName);
 		// Use the same notification for the done/redone and undone states.
 		return event;
 
@@ -186,14 +171,12 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getEventChain()
 	 */
 
-	public void rollback( )
-	{
-		undo( );
-		setState( ActivityRecord.UNDONE_STATE );
+	public void rollback() {
+		undo();
+		setState(ActivityRecord.UNDONE_STATE);
 	}
 
 	/*
@@ -202,13 +185,12 @@ public final class ExtensionActivityRecord extends ActivityRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	protected List<RecordTask> getPostTasks( )
-	{
-		if ( element == null )
-			return Collections.emptyList( );
+	protected List<RecordTask> getPostTasks() {
+		if (element == null)
+			return Collections.emptyList();
 
-		List<RecordTask> retList = new ArrayList<RecordTask>( );
-		retList.add( new NotificationRecordTask( element, getEvent( ) ) );
+		List<RecordTask> retList = new ArrayList<RecordTask>();
+		retList.add(new NotificationRecordTask(element, getEvent()));
 		return retList;
 	}
 }

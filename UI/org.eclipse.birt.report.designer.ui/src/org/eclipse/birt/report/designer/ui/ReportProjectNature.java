@@ -16,39 +16,48 @@ import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 
 /**
- * Nature for Report Projects. Empty implemenation, the only purpose
- * is to have the decorator.
+ * Nature for Report Projects. Empty implemenation, the only purpose is to have
+ * the decorator.
  */
 public class ReportProjectNature implements IProjectNature {
 
 	private IProject project;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#configure()
 	 */
 	public void configure() throws CoreException {
-	
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#deconfigure()
 	 */
 	public void deconfigure() throws CoreException {
-	
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#getProject()
 	 */
 	public IProject getProject() {
 		return project;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.resources.IProjectNature#setProject(org.eclipse.core.resources.IProject)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.resources.IProjectNature#setProject(org.eclipse.core.
+	 * resources.IProject)
 	 */
 	public void setProject(IProject project) {
-	
+
 		this.project = project;
 	}
 

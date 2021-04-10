@@ -18,8 +18,7 @@ import org.eclipse.birt.core.exception.BirtException;
  * This calculator is used to calculate a numeric group key basing group
  * interval.
  */
-class NumericGroupCalculator extends GroupCalculator
-{
+class NumericGroupCalculator extends GroupCalculator {
 
 	double doubleStartValue;
 
@@ -29,40 +28,34 @@ class NumericGroupCalculator extends GroupCalculator
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public NumericGroupCalculator( Object intervalStart, double intervalRange )
-			throws BirtException
-	{
-		super( intervalStart, intervalRange );
+	public NumericGroupCalculator(Object intervalStart, double intervalRange) throws BirtException {
+		super(intervalStart, intervalRange);
 		intervalRange = (intervalRange == 0 ? 1 : intervalRange);
 		this.intervalRange = intervalRange;
-		if ( intervalStart == null )
+		if (intervalStart == null)
 			doubleStartValue = 0;
 		else
-			doubleStartValue = ( DataTypeUtil.toDouble( intervalStart ) ).doubleValue( );
+			doubleStartValue = (DataTypeUtil.toDouble(intervalStart)).doubleValue();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.impl.group.GroupCalculator#calculate(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.group.GroupCalculator#calculate(java.lang.
+	 * Object)
 	 */
-	public Object calculate( Object value ) throws BirtException
-	{
-		if ( value == null )
-		{
-			return new Double( -1 );
+	public Object calculate(Object value) throws BirtException {
+		if (value == null) {
+			return new Double(-1);
 		}
 
-		double dValue = ( DataTypeUtil.toDouble( value ) ).doubleValue( );
+		double dValue = (DataTypeUtil.toDouble(value)).doubleValue();
 
-		if ( dValue < doubleStartValue )
-		{
-			return new Double( -1 );
-		}
-		else
-		{
-			return new Double( Math.floor( ( dValue - doubleStartValue )
-					/ intervalRange ) );
+		if (dValue < doubleStartValue) {
+			return new Double(-1);
+		} else {
+			return new Double(Math.floor((dValue - doubleStartValue) / intervalRange));
 
 		}
 	}

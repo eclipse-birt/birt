@@ -32,9 +32,7 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class FormatNumberPreferencePage extends BaseStylePreferencePage implements
-		IFormatChangeListener
-{
+public class FormatNumberPreferencePage extends BaseStylePreferencePage implements IFormatChangeListener {
 
 	private String name;
 
@@ -43,29 +41,25 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage implemen
 	/**
 	 * Constructs a format number preference page.
 	 * 
-	 * @param model
-	 *            The model
+	 * @param model The model
 	 */
-	public FormatNumberPreferencePage( Object model )
-	{
-		super( model );
-		setTitle( Messages.getString( "FormatNumberPreferencePage.formatNumber.title" ) ); //$NON-NLS-1$
-		setPreferenceName( NumberFormatValue.FORMAT_VALUE_STRUCT );
+	public FormatNumberPreferencePage(Object model) {
+		super(model);
+		setTitle(Messages.getString("FormatNumberPreferencePage.formatNumber.title")); //$NON-NLS-1$
+		setPreferenceName(NumberFormatValue.FORMAT_VALUE_STRUCT);
 	}
 
 	/**
 	 * Sets the preference name.
 	 */
-	private void setPreferenceName( String name )
-	{
+	private void setPreferenceName(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * Gets the preference name.
 	 */
-	public String getPreferenceName( )
-	{
+	public String getPreferenceName() {
 		return name;
 	}
 
@@ -75,9 +69,8 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage implemen
 	 * @see
 	 * org.eclipse.jface.preference.FieldEditorPreferencePage#adjustGridLayout()
 	 */
-	protected void adjustGridLayout( )
-	{
-		( (GridLayout) getFieldEditorParent( ).getLayout( ) ).numColumns = 1;
+	protected void adjustGridLayout() {
+		((GridLayout) getFieldEditorParent().getLayout()).numColumns = 1;
 	}
 
 	/*
@@ -87,27 +80,24 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage implemen
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseStylePreferencePage
 	 * #createFieldEditors()
 	 */
-	protected void createFieldEditors( )
-	{
-		super.createFieldEditors( );
-		final Composite parent = getFieldEditorParent( );
+	protected void createFieldEditors() {
+		super.createFieldEditors();
+		final Composite parent = getFieldEditorParent();
 
-		formatPage = new FormatNumberPage( parent, SWT.NULL );
-		formatPage.addFormatChangeListener( this );
-		( (Composite) formatPage ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		initiateFormatPage( );
-		UIUtil.bindHelp( getFieldEditorParent( ).getParent( ),
-				IHelpContextIds.STYLE_BUILDER_FORMATNUMBER_ID );
+		formatPage = new FormatNumberPage(parent, SWT.NULL);
+		formatPage.addFormatChangeListener(this);
+		((Composite) formatPage).setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		initiateFormatPage();
+		UIUtil.bindHelp(getFieldEditorParent().getParent(), IHelpContextIds.STYLE_BUILDER_FORMATNUMBER_ID);
 
 	}
 
-	private void initiateFormatPage( )
-	{
-		String category = ( (StylePreferenceStore) getPreferenceStore( ) ).getNumberFormatCategory( );
-		String pattern = ( (StylePreferenceStore) getPreferenceStore( ) ).getNumberFormat( );
-		ULocale locale = ( (StylePreferenceStore) getPreferenceStore( ) ).getNumberFormatLocale( );
+	private void initiateFormatPage() {
+		String category = ((StylePreferenceStore) getPreferenceStore()).getNumberFormatCategory();
+		String pattern = ((StylePreferenceStore) getPreferenceStore()).getNumberFormat();
+		ULocale locale = ((StylePreferenceStore) getPreferenceStore()).getNumberFormatLocale();
 
-		formatPage.setInput( category, pattern, locale );
+		formatPage.setInput(category, pattern, locale);
 		return;
 	}
 
@@ -118,17 +108,14 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage implemen
 	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseStylePreferencePage
 	 * #performOk()
 	 */
-	public boolean performOk( )
-	{
-		IPreferenceStore ps = getPreferenceStore( );
-		if ( ps instanceof StylePreferenceStore )
-		{
-			( (StylePreferenceStore) ps ).clearError( );
+	public boolean performOk() {
+		IPreferenceStore ps = getPreferenceStore();
+		if (ps instanceof StylePreferenceStore) {
+			((StylePreferenceStore) ps).clearError();
 		}
-		boolean rt = doStore( );
-		if ( ps instanceof StylePreferenceStore )
-		{
-			return !( (StylePreferenceStore) ps ).hasError( );
+		boolean rt = doStore();
+		if (ps instanceof StylePreferenceStore) {
+			return !((StylePreferenceStore) ps).hasError();
 		}
 		return rt;
 	}
@@ -138,75 +125,53 @@ public class FormatNumberPreferencePage extends BaseStylePreferencePage implemen
 	 * 
 	 * @return
 	 */
-	protected boolean doStore( )
-	{
-		if ( formatPage == null
-				|| !formatPage.isFormatModified( )
-				|| !formatPage.isDirty( ) )
-		{
+	protected boolean doStore() {
+		if (formatPage == null || !formatPage.isFormatModified() || !formatPage.isDirty()) {
 			return true;
 		}
-		try
-		{
-			( (StylePreferenceStore) getPreferenceStore( ) ).setNumberFormatCategory( formatPage.getCategory( ) );
-			( (StylePreferenceStore) getPreferenceStore( ) ).setNumberFormat( formatPage.getPattern( ) );
-			( (StylePreferenceStore) getPreferenceStore( ) ).setNumberFormatLocale( formatPage.getLocale( ) );
+		try {
+			((StylePreferenceStore) getPreferenceStore()).setNumberFormatCategory(formatPage.getCategory());
+			((StylePreferenceStore) getPreferenceStore()).setNumberFormat(formatPage.getPattern());
+			((StylePreferenceStore) getPreferenceStore()).setNumberFormatLocale(formatPage.getLocale());
 			return true;
-		}
-		catch ( SemanticException e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+		} catch (SemanticException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 	}
 
-
-	protected String[] getPreferenceNames( )
-	{
-		return new String[]{
-			IStyleModel.NUMBER_FORMAT_PROP
-		};
+	protected String[] getPreferenceNames() {
+		return new String[] { IStyleModel.NUMBER_FORMAT_PROP };
 	}
 
 	private FormatChangeEvent event = null;
 
-	public void formatChange( FormatChangeEvent event )
-	{
-		if ( getBuilder( ) != null )
-		{
+	public void formatChange(FormatChangeEvent event) {
+		if (getBuilder() != null) {
 			this.event = event;
-			getBuilder( ).refreshPagesStatus( );
+			getBuilder().refreshPagesStatus();
 		}
 	}
 
 	private boolean firstCheck = false;
 
-	public boolean hasLocaleProperties( )
-	{
-		if ( !firstCheck )
-		{
+	public boolean hasLocaleProperties() {
+		if (!firstCheck) {
 			firstCheck = true;
-			String[] fields = getPreferenceNames( );
-			if ( fields != null )
-			{
-				for ( int i = 0; i < fields.length; i++ )
-				{
-					if ( getPreferenceStore( ) instanceof StylePreferenceStore )
-					{
-						StylePreferenceStore store = (StylePreferenceStore) getPreferenceStore( );
-						if ( store.hasLocalValue( fields[i] ) )
-						{
+			String[] fields = getPreferenceNames();
+			if (fields != null) {
+				for (int i = 0; i < fields.length; i++) {
+					if (getPreferenceStore() instanceof StylePreferenceStore) {
+						StylePreferenceStore store = (StylePreferenceStore) getPreferenceStore();
+						if (store.hasLocalValue(fields[i])) {
 							hasLocaleProperty = true;
 							return true;
 						}
 					}
 				}
 			}
-		}
-		else
-		{
-			if ( event != null )
-			{
+		} else {
+			if (event != null) {
 				hasLocaleProperty = true;
 			}
 		}

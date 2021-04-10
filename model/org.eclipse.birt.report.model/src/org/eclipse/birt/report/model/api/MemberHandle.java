@@ -30,8 +30,7 @@ import org.eclipse.birt.report.model.util.StructureContextUtil;
  * @see StructureHandle
  */
 
-public class MemberHandle extends SimpleValueHandle
-{
+public class MemberHandle extends SimpleValueHandle {
 
 	/**
 	 * The context to the member itself.
@@ -41,27 +40,21 @@ public class MemberHandle extends SimpleValueHandle
 
 	/**
 	 * Constructs a member handle with the given structure handle and the member
-	 * property definition. This form is used by the
-	 * <code>StructureIterator</code> class.
+	 * property definition. This form is used by the <code>StructureIterator</code>
+	 * class.
 	 * 
-	 * @param structHandle
-	 *            a handle to the structure
-	 * @param member
-	 *            definition of the member within the structure
+	 * @param structHandle a handle to the structure
+	 * @param member       definition of the member within the structure
 	 */
 
-	public MemberHandle( StructureHandle structHandle, StructPropertyDefn member )
-	{
-		super( structHandle.getElementHandle( ) );
+	public MemberHandle(StructureHandle structHandle, StructPropertyDefn member) {
+		super(structHandle.getElementHandle());
 
-		if ( !StructureContextUtil.isValidStructureHandle( structHandle ) )
-		{
-			throw new RuntimeException(
-					"The structure is floating, and its handle is invalid!" ); //$NON-NLS-1$
+		if (!StructureContextUtil.isValidStructureHandle(structHandle)) {
+			throw new RuntimeException("The structure is floating, and its handle is invalid!"); //$NON-NLS-1$
 		}
 
-		memberContext = StructureContextUtil.getMemberContext( structHandle,
-				member );
+		memberContext = StructureContextUtil.getMemberContext(structHandle, member);
 		assert memberContext != null;
 	}
 
@@ -70,9 +63,8 @@ public class MemberHandle extends SimpleValueHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getDefn()
 	 */
-	public IPropertyDefn getDefn( )
-	{
-		return memberContext.getPropDefn( );
+	public IPropertyDefn getDefn() {
+		return memberContext.getPropDefn();
 	}
 
 	/*
@@ -80,22 +72,19 @@ public class MemberHandle extends SimpleValueHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getRawValue()
 	 */
-	protected Object getRawValue( )
-	{
-		return memberContext.getValue( getModule( ) );
+	protected Object getRawValue() {
+		return memberContext.getValue(getModule());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java.lang
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#setValue(java.lang
 	 * .Object)
 	 */
-	public void setValue( Object value ) throws SemanticException
-	{
-		PropertyCommand cmd = new PropertyCommand( getModule( ), getElement( ) );
-		cmd.setMember( memberContext, value );
+	public void setValue(Object value) throws SemanticException {
+		PropertyCommand cmd = new PropertyCommand(getModule(), getElement());
+		cmd.setMember(memberContext, value);
 	}
 
 	/*
@@ -103,21 +92,14 @@ public class MemberHandle extends SimpleValueHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(int)
 	 */
-	public void removeItem( int posn ) throws PropertyValueException
-	{
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-				getElement( ) );
+	public void removeItem(int posn) throws PropertyValueException {
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand(getModule(), getElement());
 
-		try
-		{
-			cmd.removeItem( memberContext, posn );
-		}
-		catch ( PropertyValueException e )
-		{
+		try {
+			cmd.removeItem(memberContext, posn);
+		} catch (PropertyValueException e) {
 			throw e;
-		}
-		catch ( SemanticException e )
-		{
+		} catch (SemanticException e) {
 			assert false;
 		}
 
@@ -126,18 +108,15 @@ public class MemberHandle extends SimpleValueHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.SimpleValueHandle#addItem(java.lang
+	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#addItem(java.lang
 	 * .Object)
 	 */
-	public void addItem( Object item ) throws SemanticException
-	{
-		if ( item == null )
+	public void addItem(Object item) throws SemanticException {
+		if (item == null)
 			return;
 
-		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
-				getElement( ) );
-		cmd.addItem( memberContext, item );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand(getModule(), getElement());
+		cmd.addItem(memberContext, item);
 
 	}
 
@@ -146,9 +125,8 @@ public class MemberHandle extends SimpleValueHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.ValueHandle#getPropertyDefn()
 	 */
-	public IElementPropertyDefn getPropertyDefn( )
-	{
-		return memberContext.getElementProp( );
+	public IElementPropertyDefn getPropertyDefn() {
+		return memberContext.getElementProp();
 	}
 
 	/*
@@ -156,8 +134,7 @@ public class MemberHandle extends SimpleValueHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.ValueHandle#getContext()
 	 */
-	public StructureContext getContext( )
-	{
+	public StructureContext getContext() {
 		return memberContext;
 	}
 
@@ -167,8 +144,7 @@ public class MemberHandle extends SimpleValueHandle
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isReadOnly()
 	 */
 
-	public boolean isReadOnly( )
-	{
+	public boolean isReadOnly() {
 		return false;
 	}
 
@@ -178,8 +154,7 @@ public class MemberHandle extends SimpleValueHandle
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#isVisible()
 	 */
 
-	public boolean isVisible( )
-	{
+	public boolean isVisible() {
 		return true;
 	}
 

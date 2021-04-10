@@ -17,61 +17,52 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Properties;
 
-public class PropertySecurity
-{
+public class PropertySecurity {
 	/**
 	 * 
 	 * @return
 	 */
-	public static HashMap createHashMap( )
-	{
-		return AccessController.doPrivileged( new PrivilegedAction<HashMap>( ) {
+	public static HashMap createHashMap() {
+		return AccessController.doPrivileged(new PrivilegedAction<HashMap>() {
 
-			public HashMap run( )
-			{
-				return new HashMap( );
+			public HashMap run() {
+				return new HashMap();
 			}
-		} );
+		});
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public static Hashtable createHashtable( )
-	{
-		return AccessController.doPrivileged( new PrivilegedAction<Hashtable>( ) {
+	public static Hashtable createHashtable() {
+		return AccessController.doPrivileged(new PrivilegedAction<Hashtable>() {
 
-			public Hashtable run( )
-			{
-				return new Hashtable( );
+			public Hashtable run() {
+				return new Hashtable();
 			}
-		} );
+		});
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public static Properties createProperties( )
-	{
-		return AccessController.doPrivileged( new PrivilegedAction<Properties>( ) {
+	public static Properties createProperties() {
+		return AccessController.doPrivileged(new PrivilegedAction<Properties>() {
 
-			public Properties run( )
-			{
-				return new Properties( );
+			public Properties run() {
+				return new Properties();
 			}
-		} );
+		});
 	}
 
-	public static String getSystemProperty( final String key )
-	{
-		return AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+	public static String getSystemProperty(final String key) {
+		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			public String run( )
-			{
-				return System.getProperty( key );
+			public String run() {
+				return System.getProperty(key);
 			}
-		} );
+		});
 	}
 }

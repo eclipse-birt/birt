@@ -15,8 +15,7 @@ package org.eclipse.birt.data.aggregation.i18n;
  * 
  */
 
-public class ResourceConstants
-{
+public class ResourceConstants {
 
 	public final static String UNSUPPORTED_DATA_TYPE = "aggregation.BadOperandType";//$NON-NLS-1$
 	public final static String DATATYPEUTIL_ERROR = "aggregation.DataConversionError";//$NON-NLS-1$

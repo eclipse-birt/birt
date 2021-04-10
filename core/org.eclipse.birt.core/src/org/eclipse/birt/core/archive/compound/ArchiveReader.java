@@ -23,126 +23,100 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
-public class ArchiveReader implements IDocArchiveReader
-{
+public class ArchiveReader implements IDocArchiveReader {
 
 	protected IArchiveFile archive;
 	protected boolean shareArchive;
 
-	public ArchiveReader( IArchiveFile archive ) throws IOException
-	{
+	public ArchiveReader(IArchiveFile archive) throws IOException {
 		shareArchive = true;
 		this.archive = archive;
 	}
 
-	public ArchiveReader( String archiveName ) throws IOException
-	{
-		if ( archiveName == null || archiveName.length( ) == 0 )
-		{
-			throw new IllegalArgumentException( archiveName );
+	public ArchiveReader(String archiveName) throws IOException {
+		if (archiveName == null || archiveName.length() == 0) {
+			throw new IllegalArgumentException(archiveName);
 		}
 
-		File fd = new File( archiveName );
-		if ( !fd.isFile( ) || !fd.exists( ) )
-		{
-			throw new FileNotFoundException( CoreMessages.getFormattedString(
-					ResourceConstants.INVALID_ARCHIVE_NAME, archiveName ) );
+		File fd = new File(archiveName);
+		if (!fd.isFile() || !fd.exists()) {
+			throw new FileNotFoundException(
+					CoreMessages.getFormattedString(ResourceConstants.INVALID_ARCHIVE_NAME, archiveName));
 		}
 
-		archiveName = fd.getCanonicalPath( ); // make sure the file name is an
+		archiveName = fd.getCanonicalPath(); // make sure the file name is an
 
 		// absolute path
 
 		shareArchive = false;
-		archive = new ArchiveFile( archiveName, "r" );
+		archive = new ArchiveFile(archiveName, "r");
 	}
 
-	public void close( ) throws IOException
-	{
-		if ( !shareArchive )
-		{
-			archive.close( );
+	public void close() throws IOException {
+		if (!shareArchive) {
+			archive.close();
 		}
 
 	}
 
-	public IArchiveFile getArchive( )
-	{
+	public IArchiveFile getArchive() {
 		return archive;
 	}
 
-	public boolean exists( String relativePath )
-	{
-		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
+	public boolean exists(String relativePath) {
+		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR))
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
-		return archive.exists( relativePath );
+		return archive.exists(relativePath);
 	}
 
-	public String getName( )
-	{
-		return archive.getName( );
+	public String getName() {
+		return archive.getName();
 	}
 
-	public RAInputStream getStream( String relativePath ) throws IOException
-	{
-		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
+	public RAInputStream getStream(String relativePath) throws IOException {
+		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR))
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
-		ArchiveEntry entry = archive.openEntry( relativePath );
-		return new ArchiveEntryInputStream( entry );
+		ArchiveEntry entry = archive.openEntry(relativePath);
+		return new ArchiveEntryInputStream(entry);
 	}
 
-	public RAInputStream getInputStream( String relativePath )
-			throws IOException
-	{
-		return getStream( relativePath );
+	public RAInputStream getInputStream(String relativePath) throws IOException {
+		return getStream(relativePath);
 	}
 
-	public List<String> listAllStreams( ) throws IOException
-	{
-		ArrayList<String> list = new ArrayList<String>( );
-		list.addAll( archive.listEntries( "/" ) );
+	public List<String> listAllStreams() throws IOException {
+		ArrayList<String> list = new ArrayList<String>();
+		list.addAll(archive.listEntries("/"));
 		return list;
 	}
 
-	public List<String> listStreams( String namePattern ) throws IOException
-	{
-		ArrayList<String> list = new ArrayList<String>( );
-		List<String> archiveEntries = archive.listEntries( namePattern );
-		for ( String name : archiveEntries )
-		{
-			if ( name.startsWith( namePattern )
-					&& !name.equalsIgnoreCase( namePattern ) )
-			{
-				String diffString = ArchiveUtil.getRelativePath(
-						namePattern, name );
-				if ( diffString.lastIndexOf( ArchiveUtil.UNIX_SEPERATOR ) == 0 )
-				{
-					list.add( name );
+	public List<String> listStreams(String namePattern) throws IOException {
+		ArrayList<String> list = new ArrayList<String>();
+		List<String> archiveEntries = archive.listEntries(namePattern);
+		for (String name : archiveEntries) {
+			if (name.startsWith(namePattern) && !name.equalsIgnoreCase(namePattern)) {
+				String diffString = ArchiveUtil.getRelativePath(namePattern, name);
+				if (diffString.lastIndexOf(ArchiveUtil.UNIX_SEPERATOR) == 0) {
+					list.add(name);
 				}
 			}
 		}
 		return list;
 	}
 
-	public void open( ) throws IOException
-	{
+	public void open() throws IOException {
 	}
 
-	public Object lock( String relativePath ) throws IOException
-	{
-		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
+	public Object lock(String relativePath) throws IOException {
+		if (!relativePath.startsWith(ArchiveUtil.UNIX_SEPERATOR))
 			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
-		return archive.lockEntry( relativePath );
+		return archive.lockEntry(relativePath);
 	}
 
-	public void unlock( Object locker )
-	{
-		try
-		{
-			archive.unlockEntry( locker );
-		}
-		catch ( IOException ex )
-		{
+	public void unlock(Object locker) {
+		try {
+			archive.unlockEntry(locker);
+		} catch (IOException ex) {
 		}
 	}
 }

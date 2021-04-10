@@ -41,23 +41,20 @@ import com.ibm.icu.util.ULocale;
  * calling <code>OdaDataSetHandle.isValid()</code>
  * <p>
  */
-public class Regression_146717 extends BaseTestCase
-{
-
+public class Regression_146717 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
 
-	public void test_regression_146717( )
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_146717() {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		OdaDataSetHandle dsHandle = factory.newOdaDataSet( "ds", null ); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory();
+		OdaDataSetHandle dsHandle = factory.newOdaDataSet("ds", null); //$NON-NLS-1$
 
-		assertTrue( dsHandle.isValid( ) );
+		assertTrue(dsHandle.isValid());
 	}
 }

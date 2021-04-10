@@ -46,183 +46,132 @@ import org.eclipse.ui.ide.IGotoMarker;
 /**
  * BIRTGotoMarker
  */
-class BIRTGotoMarker implements IGotoMarker
-{
+class BIRTGotoMarker implements IGotoMarker {
 
 	protected IDEMultiPageReportEditor editorPart;
 
-	public BIRTGotoMarker( IDEMultiPageReportEditor editorPart )
-	{
+	public BIRTGotoMarker(IDEMultiPageReportEditor editorPart) {
 		this.editorPart = editorPart;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.ide.IGotoMarker#gotoMarker(org.eclipse.core.resources.IMarker)
+	 * @see
+	 * org.eclipse.ui.ide.IGotoMarker#gotoMarker(org.eclipse.core.resources.IMarker)
 	 */
-	public void gotoMarker( IMarker marker )
-	{
+	public void gotoMarker(IMarker marker) {
 		assert editorPart != null;
 
-		if ( !marker.exists( ) )
-		{
+		if (!marker.exists()) {
 			return;
 		}
 
-		ModuleHandle moduleHandle = editorPart.getModel( );
-		ReportElementHandle reportElementHandle = getReportElementHandle( moduleHandle,
-				marker );
-		if ( reportElementHandle == null
-				|| ( reportElementHandle != null && isElementTemplateParameterDefinition( reportElementHandle ) ) )
-		{
-			gotoXMLSourcePage( marker );
-		}
-		else
-		{
-			if ( moduleHandle instanceof ReportDesignHandle )
-			{
+		ModuleHandle moduleHandle = editorPart.getModel();
+		ReportElementHandle reportElementHandle = getReportElementHandle(moduleHandle, marker);
+		if (reportElementHandle == null
+				|| (reportElementHandle != null && isElementTemplateParameterDefinition(reportElementHandle))) {
+			gotoXMLSourcePage(marker);
+		} else {
+			if (moduleHandle instanceof ReportDesignHandle) {
 				// go to master page
-				if ( isElementInMasterPage( reportElementHandle ) )
-				{
-					gotoLayoutPage( ReportMasterPageEditorFormPage.ID,
-							marker,
-							reportElementHandle );
-				}
-				else
+				if (isElementInMasterPage(reportElementHandle)) {
+					gotoLayoutPage(ReportMasterPageEditorFormPage.ID, marker, reportElementHandle);
+				} else
 				// go to Layout Page
 				{
-					gotoLayoutPage( ReportLayoutEditorFormPage.ID,
-							marker,
-							reportElementHandle );
+					gotoLayoutPage(ReportLayoutEditorFormPage.ID, marker, reportElementHandle);
 				}
-			}
-			else if ( moduleHandle instanceof LibraryHandle )
-			{
+			} else if (moduleHandle instanceof LibraryHandle) {
 				// go to master page
-				if ( isElementInMasterPage( reportElementHandle ) )
-				{
-					gotoLayoutPage( LibraryMasterPageEditorFormPage.ID,
-							marker,
-							reportElementHandle );
-				}
-				else
+				if (isElementInMasterPage(reportElementHandle)) {
+					gotoLayoutPage(LibraryMasterPageEditorFormPage.ID, marker, reportElementHandle);
+				} else
 				// go to Layout Page
 				{
-					gotoLibraryLayoutPage( marker, reportElementHandle );
+					gotoLibraryLayoutPage(marker, reportElementHandle);
 				}
 			}
 		}
 	}
 
-	protected void gotoLibraryLayoutPage( IMarker marker,
-			ReportElementHandle reportElementHandle )
-	{
+	protected void gotoLibraryLayoutPage(IMarker marker, ReportElementHandle reportElementHandle) {
 		String pageId = LibraryLayoutEditorFormPage.ID;
-		if ( activatePage( pageId ) == false )
-		{
+		if (activatePage(pageId) == false) {
 			return;
 		}
-		ModuleHandle moduleHandle = editorPart.getModel( );
-		reportElementHandle = getReportElementHandle( moduleHandle, marker );
-		if ( reportElementHandle != null
-				&& ( !isElementInMasterPage( reportElementHandle ) ) )
-		{
-			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( reportElementHandle );
-			command.execute( );
-		}
-		else
+		ModuleHandle moduleHandle = editorPart.getModel();
+		reportElementHandle = getReportElementHandle(moduleHandle, marker);
+		if (reportElementHandle != null && (!isElementInMasterPage(reportElementHandle))) {
+			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(reportElementHandle);
+			command.execute();
+		} else
 		// can not find it in this editpage
 		{
-			MessageDialog.openError( UIUtil.getDefaultShell( ),
-					Messages.getString( "BIRTGotoMarker.Error.Title" ), //$NON-NLS-1$
-					Messages.getString( "BIRTGotoMarker.Error.Message" ) ); //$NON-NLS-1$
+			MessageDialog.openError(UIUtil.getDefaultShell(), Messages.getString("BIRTGotoMarker.Error.Title"), //$NON-NLS-1$
+					Messages.getString("BIRTGotoMarker.Error.Message")); //$NON-NLS-1$
 		}
 
 	}
 
-	protected void gotoLayoutPage( String pageId, final IMarker marker,
-			final ReportElementHandle reportElementHandle )
-	{
-		if ( activatePage( pageId ) == false )
-		{
+	protected void gotoLayoutPage(String pageId, final IMarker marker, final ReportElementHandle reportElementHandle) {
+		if (activatePage(pageId) == false) {
 			return;
 		}
 
-		Display.getCurrent( ).asyncExec( new Runnable( ) {
+		Display.getCurrent().asyncExec(new Runnable() {
 
-			public void run( )
-			{
-				gotoLayoutMarker( marker, reportElementHandle );
+			public void run() {
+				gotoLayoutMarker(marker, reportElementHandle);
 			}
-		} );
+		});
 	}
 
-	protected void gotoXMLSourcePage( final IMarker marker )
-	{
-		if ( activatePage( MultiPageReportEditor.XMLSourcePage_ID ) == false )
-		{
+	protected void gotoXMLSourcePage(final IMarker marker) {
+		if (activatePage(MultiPageReportEditor.XMLSourcePage_ID) == false) {
 			return;
 		}
 
-		final IReportEditorPage reportXMLSourcePage = (IReportEditorPage) editorPart.getActivePageInstance( );
-		Display.getCurrent( ).asyncExec( new Runnable( ) {
+		final IReportEditorPage reportXMLSourcePage = (IReportEditorPage) editorPart.getActivePageInstance();
+		Display.getCurrent().asyncExec(new Runnable() {
 
-			public void run( )
-			{
-				gotoXMLSourceMarker( reportXMLSourcePage, marker );
+			public void run() {
+				gotoXMLSourceMarker(reportXMLSourcePage, marker);
 			}
-		} );
+		});
 	}
 
-	protected void gotoXMLSourceMarker( IReportEditorPage reportXMLSourcePage,
-			IMarker marker )
-	{
-		reportXMLSourcePage.selectReveal( marker );
+	protected void gotoXMLSourceMarker(IReportEditorPage reportXMLSourcePage, IMarker marker) {
+		reportXMLSourcePage.selectReveal(marker);
 	}
 
-	protected boolean activatePage( String pageId )
-	{
-		if ( pageId.equals( editorPart.getActivePageInstance( ).getId( ) ) )
-		{
+	protected boolean activatePage(String pageId) {
+		if (pageId.equals(editorPart.getActivePageInstance().getId())) {
 			return true;
 		}
 
-		IFormPage formPage = editorPart.setActivePage( pageId );
-		if ( formPage != null )
-		{
+		IFormPage formPage = editorPart.setActivePage(pageId);
+		if (formPage != null) {
 			return true;
 		}
 		return false;
 	}
 
-	protected ReportElementHandle getReportElementHandle(
-			ModuleHandle moduleHandle, IMarker marker )
-	{
-		Integer elementId = Integer.valueOf( 0 );
-		try
-		{
-			elementId = (Integer) marker.getAttribute( IDEMultiPageReportEditor.ELEMENT_ID );
+	protected ReportElementHandle getReportElementHandle(ModuleHandle moduleHandle, IMarker marker) {
+		Integer elementId = Integer.valueOf(0);
+		try {
+			elementId = (Integer) marker.getAttribute(IDEMultiPageReportEditor.ELEMENT_ID);
+		} catch (CoreException e) {
+			ExceptionUtil.handle(e);
 		}
-		catch ( CoreException e )
-		{
-			ExceptionUtil.handle( e );
-		}
-		if ( elementId != null && elementId.intValue( ) > 0 )
-		{
-			DesignElementHandle elementHandle = moduleHandle.getElementByID( elementId.intValue( ) );
-			if ( elementHandle == null
-					|| !( elementHandle instanceof ReportElementHandle ) )
-			{
+		if (elementId != null && elementId.intValue() > 0) {
+			DesignElementHandle elementHandle = moduleHandle.getElementByID(elementId.intValue());
+			if (elementHandle == null || !(elementHandle instanceof ReportElementHandle)) {
 				return null;
 			}
-			if ( elementHandle instanceof CellHandle
-					|| elementHandle instanceof ColumnHandle
-					|| elementHandle instanceof MasterPageHandle
-					|| elementHandle instanceof ReportItemHandle
-					|| elementHandle instanceof RowHandle
-					|| elementHandle instanceof TemplateElementHandle )
-			{
+			if (elementHandle instanceof CellHandle || elementHandle instanceof ColumnHandle
+					|| elementHandle instanceof MasterPageHandle || elementHandle instanceof ReportItemHandle
+					|| elementHandle instanceof RowHandle || elementHandle instanceof TemplateElementHandle) {
 				return (ReportElementHandle) elementHandle;
 			}
 		}
@@ -230,88 +179,75 @@ class BIRTGotoMarker implements IGotoMarker
 	}
 
 	/**
-	 * Select the report element in the layout(including report design and
-	 * library)
+	 * Select the report element in the layout(including report design and library)
 	 * 
-	 * @param marker
-	 *            the marker to go to
+	 * @param marker the marker to go to
 	 */
-	protected void gotoLayoutMarker( IMarker marker,
-			ReportElementHandle reportElementHandle )
-	{
-		ModuleHandle moduleHandle = editorPart.getModel( );
-		reportElementHandle = getReportElementHandle( moduleHandle, marker );
+	protected void gotoLayoutMarker(IMarker marker, ReportElementHandle reportElementHandle) {
+		ModuleHandle moduleHandle = editorPart.getModel();
+		reportElementHandle = getReportElementHandle(moduleHandle, marker);
 
-		if ( reportElementHandle == null )
-		{
-			MessageDialog.openError( UIUtil.getDefaultShell( ),
-					Messages.getString( "BIRTGotoMarker.Error.Title" ), //$NON-NLS-1$
-					Messages.getString( "BIRTGotoMarker.Error.Message" ) ); //$NON-NLS-1$
+		if (reportElementHandle == null) {
+			MessageDialog.openError(UIUtil.getDefaultShell(), Messages.getString("BIRTGotoMarker.Error.Title"), //$NON-NLS-1$
+					Messages.getString("BIRTGotoMarker.Error.Message")); //$NON-NLS-1$
 			return;
 		}
 
-		List list = new ArrayList( );
-		list.add( reportElementHandle );
-		ReportRequest r = new ReportRequest( );
-		r.setType( ReportRequest.SELECTION );
-		r.setRequestConvert( new IRequestConvert( ) {
+		List list = new ArrayList();
+		list.add(reportElementHandle);
+		ReportRequest r = new ReportRequest();
+		r.setType(ReportRequest.SELECTION);
+		r.setRequestConvert(new IRequestConvert() {
 
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert#convertSelectionToModelLisr(java.util.List)
+			 * @see
+			 * org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert#
+			 * convertSelectionToModelLisr(java.util.List)
 			 */
-			public List convertSelectionToModelLisr( List list )
-			{
-				List lst = new ArrayList( );
+			public List convertSelectionToModelLisr(List list) {
+				List lst = new ArrayList();
 
-				for ( Iterator itr = list.iterator( ); itr.hasNext( ); )
-				{
-					Object obj = itr.next( );
+				for (Iterator itr = list.iterator(); itr.hasNext();) {
+					Object obj = itr.next();
 
 					// if ( obj instanceof ReportElementModel )
 					// {
 					// lst.add( ( (ReportElementModel) obj ).getSlotHandle( ) );
 					// }
-					lst.add( obj );
+					lst.add(obj);
 				}
 				return lst;
 			}
-		} );
+		});
 
-		r.setSelectionObject( list );
-		SessionHandleAdapter.getInstance( ).getMediator( ).notifyRequest( r );
+		r.setSelectionObject(list);
+		SessionHandleAdapter.getInstance().getMediator().notifyRequest(r);
 
 	}
 
-	protected boolean isElementInMasterPage( DesignElementHandle elementHandle )
-	{
-		ModuleHandle root = elementHandle.getRoot( );
+	protected boolean isElementInMasterPage(DesignElementHandle elementHandle) {
+		ModuleHandle root = elementHandle.getRoot();
 		DesignElementHandle container = elementHandle;
-		while ( container != null && container != root )
-		{
-			if ( container instanceof MasterPageHandle )
-			{
+		while (container != null && container != root) {
+			if (container instanceof MasterPageHandle) {
 				return true;
 			}
-			container = container.getContainer( );
+			container = container.getContainer();
 		}
 
 		return false;
 	}
 
-	protected boolean isElementTemplateParameterDefinition(
-			DesignElementHandle elementHandle )
-	{
-		ModuleHandle root = elementHandle.getRoot( );
+	protected boolean isElementTemplateParameterDefinition(DesignElementHandle elementHandle) {
+		ModuleHandle root = elementHandle.getRoot();
 		DesignElementHandle container = elementHandle;
-		while ( container != null && container != root )
-		{
-			if ( container instanceof TemplateParameterDefinitionHandle )
-			{
+		while (container != null && container != root) {
+			if (container instanceof TemplateParameterDefinitionHandle) {
 				return true;
 			}
-			container = container.getContainer( );
+			container = container.getContainer();
 		}
 		return false;
 	}

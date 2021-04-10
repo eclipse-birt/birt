@@ -22,30 +22,22 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
  * 
  */
 
-public class CrosstabComputedMeasureExpressionProvider extends
-		CrosstabExpressionProvider
-{
+public class CrosstabComputedMeasureExpressionProvider extends CrosstabExpressionProvider {
 
-	public CrosstabComputedMeasureExpressionProvider( DesignElementHandle handle )
-	{
-		super( handle, null );
+	public CrosstabComputedMeasureExpressionProvider(DesignElementHandle handle) {
+		super(handle, null);
 	}
-	
-	protected List getCategoryList( )
-	{
-		List categoryList = super.getCategoryList( );
-		
-		try
-		{
-			if(CrosstabUtil.isBoundToLinkedDataSet( getCrosstabReportItemHandle()))
-			{
-				categoryList.remove( ExpressionProvider.DATASETS );
+
+	protected List getCategoryList() {
+		List categoryList = super.getCategoryList();
+
+		try {
+			if (CrosstabUtil.isBoundToLinkedDataSet(getCrosstabReportItemHandle())) {
+				categoryList.remove(ExpressionProvider.DATASETS);
 			}
+		} catch (ExtendedElementException e) {
 		}
-		catch ( ExtendedElementException e )
-		{
-		}
-		
+
 		return categoryList;
 	}
 

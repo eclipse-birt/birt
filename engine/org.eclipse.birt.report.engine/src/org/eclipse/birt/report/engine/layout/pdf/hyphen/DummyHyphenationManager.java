@@ -11,13 +11,10 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.hyphen;
 
+public class DummyHyphenationManager implements IHyphenationManager {
 
-public class DummyHyphenationManager implements IHyphenationManager
-{
-
-	public Hyphenation getHyphenation( String word )
-	{
-        return new Hyphenation(word, new int[]{0, word.length( )});
+	public Hyphenation getHyphenation(String word) {
+		return new Hyphenation(word, new int[] { 0, word.length() });
 	}
 
 }

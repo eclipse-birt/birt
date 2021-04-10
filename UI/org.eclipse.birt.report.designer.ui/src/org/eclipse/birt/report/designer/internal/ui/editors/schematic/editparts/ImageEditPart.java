@@ -51,27 +51,24 @@ import org.eclipse.ui.PlatformUI;
  * </p>
  * 
  */
-public class ImageEditPart extends ReportElementEditPart implements IResourceEditPart
-{
+public class ImageEditPart extends ReportElementEditPart implements IResourceEditPart {
 
-	private static final String IMG_TRANS_MSG = Messages.getString( "ImageEditPart.trans.editImage" ); //$NON-NLS-1$
+	private static final String IMG_TRANS_MSG = Messages.getString("ImageEditPart.trans.editImage"); //$NON-NLS-1$
 
 	/**
 	 * Constructor
 	 * 
 	 * @param model
 	 */
-	public ImageEditPart( Object model )
-	{
-		super( model );
+	public ImageEditPart(Object model) {
+		super(model);
 	}
 
 	/**
 	 * @return Returns the handle.
 	 */
-	public ImageHandleAdapter getImageAdapter( )
-	{
-		return (ImageHandleAdapter) getModelAdapter( );
+	public ImageHandleAdapter getImageAdapter() {
+		return (ImageHandleAdapter) getModelAdapter();
 	}
 
 	/*
@@ -79,9 +76,8 @@ public class ImageEditPart extends ReportElementEditPart implements IResourceEdi
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		return new ImageFigure( );
+	protected IFigure createFigure() {
+		return new ImageFigure();
 	}
 
 	/*
@@ -89,115 +85,92 @@ public class ImageEditPart extends ReportElementEditPart implements IResourceEdi
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) {
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy() {
 
-					public boolean understandsRequest( Request request )
-					{
-						if ( RequestConstants.REQ_DIRECT_EDIT.equals( request.getType( ) )
-								|| RequestConstants.REQ_OPEN.equals( request.getType( ) ) 
-								|| ReportRequest.CREATE_ELEMENT.equals(request.getType()))
-							return true;
-						return super.understandsRequest( request );
-					}
-				} );
+			public boolean understandsRequest(Request request) {
+				if (RequestConstants.REQ_DIRECT_EDIT.equals(request.getType())
+						|| RequestConstants.REQ_OPEN.equals(request.getType())
+						|| ReportRequest.CREATE_ELEMENT.equals(request.getType()))
+					return true;
+				return super.understandsRequest(request);
+			}
+		});
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		refreshBorder( (DesignElementHandle) getModel( ), new LineBorder( ) );
+	public void refreshFigure() {
+		refreshBorder((DesignElementHandle) getModel(), new LineBorder());
 
-		Insets pist = getImageAdapter( ).getPadding( getFigure( ).getInsets( ) );
+		Insets pist = getImageAdapter().getPadding(getFigure().getInsets());
 
-		( (LineBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( pist );
+		((LineBorder) (getFigure().getBorder())).setPaddingInsets(pist);
 
 		Image image = null;
-		try
-		{
-			image = getImageAdapter( ).getImage( );
-		}
-		catch ( SWTException e )
-		{
+		try {
+			image = getImageAdapter().getImage();
+		} catch (SWTException e) {
 			// Do nothing
 		}
 
-		( (ImageFigure) this.getFigure( ) ).setStretched( image != null );
-		if ( image == null )
-		{
-			image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_MISSING_IMG );
+		((ImageFigure) this.getFigure()).setStretched(image != null);
+		if (image == null) {
+			image = ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_MISSING_IMG);
 		}
 
-		( (ImageFigure) this.getFigure( ) ).setImage( image );
+		((ImageFigure) this.getFigure()).setImage(image);
 
-		if ( getImageAdapter( ).getSize( ) != null )
-		{
-			this.getFigure( ).setSize( getImageAdapter( ).getSize( ) );
-		}
-		else if ( image != null )
-		{
-			Dimension rawSize = getImageAdapter( ).getRawSize( );
+		if (getImageAdapter().getSize() != null) {
+			this.getFigure().setSize(getImageAdapter().getSize());
+		} else if (image != null) {
+			Dimension rawSize = getImageAdapter().getRawSize();
 
-			if ( rawSize.height == 0 && rawSize.width == 0 )
-			{
-				this.getFigure( )
-						.setSize( new Dimension( image.getBounds( ).width,
-								image.getBounds( ).height ) );
-			}
-			else if ( rawSize.height == 0 )
-			{
-				this.getFigure( ).setSize( new Dimension( rawSize.width,
-						(int)(image.getBounds( ).height *((double)rawSize.width/image.getBounds( ).width) ) ));
-			}
-			else
-			{
-				this.getFigure( )
-						.setSize( new Dimension( (int)(image.getBounds( ).width*((double)rawSize.height/image.getBounds( ).height) ) ,
-								rawSize.height ) );
+			if (rawSize.height == 0 && rawSize.width == 0) {
+				this.getFigure().setSize(new Dimension(image.getBounds().width, image.getBounds().height));
+			} else if (rawSize.height == 0) {
+				this.getFigure().setSize(new Dimension(rawSize.width,
+						(int) (image.getBounds().height * ((double) rawSize.width / image.getBounds().width))));
+			} else {
+				this.getFigure()
+						.setSize(new Dimension(
+								(int) (image.getBounds().width * ((double) rawSize.height / image.getBounds().height)),
+								rawSize.height));
 			}
 
 		}
 
-		refreshBackgroundColor( (DesignElementHandle) getModel( ) );
+		refreshBackgroundColor((DesignElementHandle) getModel());
 
-		refreshMargin( );
+		refreshMargin();
 
-		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
-				getFigure( ),
-				getConstraint( ) );
+		((AbstractGraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), getConstraint());
 	}
 
 	/**
 	 * @return The constraint
 	 */
-	protected Object getConstraint( )
-	{
-		ReportItemHandle handle = (ReportItemHandle) getModel( );
-		ReportItemConstraint constraint = new ReportItemConstraint( );
-		StyleHandle style = handle.getPrivateStyle( );
-		constraint.setDisplay( style.getDisplay( ) );
-		DimensionHandle value = handle.getWidth( );
+	protected Object getConstraint() {
+		ReportItemHandle handle = (ReportItemHandle) getModel();
+		ReportItemConstraint constraint = new ReportItemConstraint();
+		StyleHandle style = handle.getPrivateStyle();
+		constraint.setDisplay(style.getDisplay());
+		DimensionHandle value = handle.getWidth();
 		constraint.setMeasure(value.getMeasure());
 		constraint.setUnits(value.getUnits());
-		
-		String vAlign = style.getVerticalAlign( );
-		if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( vAlign ) )
-		{
-			constraint.setAlign( ReportFlowLayout.ALIGN_CENTER );
-		}
-		else if ( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( vAlign ) )
-		{
-			constraint.setAlign( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
-		}
-		else if (DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals( vAlign ))
-		{
-			constraint.setAlign( ReportFlowLayout.ALIGN_LEFTTOP );
+
+		String vAlign = style.getVerticalAlign();
+		if (DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals(vAlign)) {
+			constraint.setAlign(ReportFlowLayout.ALIGN_CENTER);
+		} else if (DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals(vAlign)) {
+			constraint.setAlign(ReportFlowLayout.ALIGN_RIGHTBOTTOM);
+		} else if (DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals(vAlign)) {
+			constraint.setAlign(ReportFlowLayout.ALIGN_LEFTTOP);
 		}
 		return constraint;
 	}
@@ -205,38 +178,34 @@ public class ImageEditPart extends ReportElementEditPart implements IResourceEdi
 	/**
 	 * 
 	 */
-	public void performDirectEdit( )
-	{
+	public void performDirectEdit() {
 //		List dataSetList = DEUtil.getDataSetList( (DesignElementHandle) getModel( ) );
-		List dataSetList = DEUtil.getDataSetListExcludeSelf( (DesignElementHandle) getModel( ) );
-		ImageBuilder dialog = new ImageBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), ImageBuilder.DLG_TITLE_EDIT, dataSetList );
-		dialog.setInput( getModel( ) );
-		dialog.setEditModal( true );
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
-		stack.startTrans( IMG_TRANS_MSG );
-		if ( dialog.open( ) == Window.OK )
-		{
-			stack.commit( );
-		}
-		else
-		{
-			stack.rollback( );
+		List dataSetList = DEUtil.getDataSetListExcludeSelf((DesignElementHandle) getModel());
+		ImageBuilder dialog = new ImageBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				ImageBuilder.DLG_TITLE_EDIT, dataSetList);
+		dialog.setInput(getModel());
+		dialog.setEditModal(true);
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+		stack.startTrans(IMG_TRANS_MSG);
+		if (dialog.open() == Window.OK) {
+			stack.commit();
+		} else {
+			stack.rollback();
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.IResourceEditPart#refreshResource()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * IResourceEditPart#refreshResource()
 	 */
-	public void refreshResource( )
-	{
-		String imageSource = ((ImageHandle)getImageAdapter( ).getHandle( )).getSource( );
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( imageSource ) 
-				|| DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( imageSource ))
-		{
-			refreshFigure( );
+	public void refreshResource() {
+		String imageSource = ((ImageHandle) getImageAdapter().getHandle()).getSource();
+		if (DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase(imageSource)
+				|| DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase(imageSource)) {
+			refreshFigure();
 		}
 	}
 }

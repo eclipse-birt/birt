@@ -31,33 +31,31 @@ import org.eclipse.swt.widgets.Display;
  * @version $Revision: 1.4 $ $Date: 2009/07/07 06:50:16 $
  */
 
-public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax
-{
+public class SQLKeywordScanner extends RuleBasedScanner implements ISQLSyntax {
 	/**
 	 *  
 	 */
-	public SQLKeywordScanner( )
-	{
-		super( );
-		IToken sqlKeywordsToken = new Token( new TextAttribute( ColorManager.getColor(127, 0, 85), null, SWT.BOLD ) );
-		ArrayList rules = new ArrayList( );
-		rules.add( new SQLKeywordRule( sqlKeywordsToken, reservedwords ) );
-		rules.add( new SQLKeywordRule( sqlKeywordsToken, types ) );
-		rules.add( new SQLKeywordRule( sqlKeywordsToken, constants ) );
-		rules.add( new SQLKeywordRule( sqlKeywordsToken, functions ) );
-		rules.add( new SQLKeywordRule( sqlKeywordsToken, predicates ) );
-		
+	public SQLKeywordScanner() {
+		super();
+		IToken sqlKeywordsToken = new Token(new TextAttribute(ColorManager.getColor(127, 0, 85), null, SWT.BOLD));
+		ArrayList rules = new ArrayList();
+		rules.add(new SQLKeywordRule(sqlKeywordsToken, reservedwords));
+		rules.add(new SQLKeywordRule(sqlKeywordsToken, types));
+		rules.add(new SQLKeywordRule(sqlKeywordsToken, constants));
+		rules.add(new SQLKeywordRule(sqlKeywordsToken, functions));
+		rules.add(new SQLKeywordRule(sqlKeywordsToken, predicates));
+
 		// Add generic whitespace rule.
-		rules.add( new WhitespaceRule( new IWhitespaceDetector( ) {
+		rules.add(new WhitespaceRule(new IWhitespaceDetector() {
 
-			public boolean isWhitespace( char c )
-			{
-				return Character.isWhitespace( c );
+			public boolean isWhitespace(char c) {
+				return Character.isWhitespace(c);
 			}
-		} ) );
+		}));
 
-		setRules( (IRule[]) rules.toArray( new IRule[rules.size( )] ) );
-		this.setDefaultReturnToken( new Token( new TextAttribute( Display.getDefault( ).getSystemColor( SWT.COLOR_LIST_FOREGROUND ))));
+		setRules((IRule[]) rules.toArray(new IRule[rules.size()]));
+		this.setDefaultReturnToken(
+				new Token(new TextAttribute(Display.getDefault().getSystemColor(SWT.COLOR_LIST_FOREGROUND))));
 	}
 
 }

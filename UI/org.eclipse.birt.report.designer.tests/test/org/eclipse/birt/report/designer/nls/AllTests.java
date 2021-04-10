@@ -18,15 +18,13 @@ import junit.framework.TestSuite;
  *  
  */
 
-public class AllTests
-{
+public class AllTests {
 
-	public static Test suite( )
-	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.designer.nls" );
-		//$JUnit-BEGIN$
-		suite.addTestSuite( MessagesTest.class );
-		//$JUnit-END$
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Test for org.eclipse.birt.report.designer.nls");
+		// $JUnit-BEGIN$
+		suite.addTestSuite(MessagesTest.class);
+		// $JUnit-END$
 		return suite;
 	}
 }

@@ -35,53 +35,43 @@ import org.eclipse.birt.report.model.elements.interfaces.IValueAccessControlMode
  * @deprecated
  */
 
-public class ValueAccessControlHandle extends AccessControlHandle
-		implements
-			IValueAccessControlModel
-{
+public class ValueAccessControlHandle extends AccessControlHandle implements IValueAccessControlModel {
 
 	/**
 	 * Constructs a autotext handle with the given design and the element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public ValueAccessControlHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public ValueAccessControlHandle(Module module, DesignElement element) {
+		super(module, element);
 
 	}
 
 	/**
 	 * Adds the given value to the list.
 	 * 
-	 * @param value
-	 *            the value
+	 * @param value the value
 	 * @throws SemanticException
 	 */
 
-	public void addValue( String value ) throws SemanticException
-	{
-		PropertyHandle propHandle = getPropertyHandle( VALUES_PROP );
-		propHandle.addItem( value );
+	public void addValue(String value) throws SemanticException {
+		PropertyHandle propHandle = getPropertyHandle(VALUES_PROP);
+		propHandle.addItem(value);
 
 	}
 
 	/**
 	 * Removes the given value from the list.
 	 * 
-	 * @param value
-	 *            the value to remove
+	 * @param value the value to remove
 	 * 
 	 * @throws SemanticException
 	 */
 
-	public void removeValue( String value ) throws SemanticException
-	{
+	public void removeValue(String value) throws SemanticException {
 	}
 }

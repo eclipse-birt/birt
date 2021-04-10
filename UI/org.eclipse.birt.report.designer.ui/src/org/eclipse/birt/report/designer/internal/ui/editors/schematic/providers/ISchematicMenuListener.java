@@ -14,12 +14,10 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IMenuListener;
 
-
 /**
  * 
  */
 
-public interface ISchematicMenuListener extends IMenuListener
-{
+public interface ISchematicMenuListener extends IMenuListener {
 	void setActionRegistry(ActionRegistry actionRegistry);
 }

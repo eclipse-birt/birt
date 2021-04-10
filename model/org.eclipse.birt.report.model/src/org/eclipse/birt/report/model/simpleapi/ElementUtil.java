@@ -39,106 +39,94 @@ import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
  * 
  */
 
-public class ElementUtil
-{
+public class ElementUtil {
 
 	/**
 	 * Returns the simple api element for the given <code>element</code>.
 	 * 
-	 * @param element
-	 *            the element handle
+	 * @param element the element handle
 	 * @return the simple api element instance
 	 */
 
-	public static IDesignElement getElement( DesignElementHandle element )
-	{
-		if ( element == null )
+	public static IDesignElement getElement(DesignElementHandle element) {
+		if (element == null)
 			return null;
 
-		if ( element instanceof ReportDesignHandle )
-			return new ReportDesign( (ReportDesignHandle) element );
+		if (element instanceof ReportDesignHandle)
+			return new ReportDesign((ReportDesignHandle) element);
 
-		if ( element instanceof DataItemHandle )
-			return new DataItem( (DataItemHandle) element );
+		if (element instanceof DataItemHandle)
+			return new DataItem((DataItemHandle) element);
 
-		if ( element instanceof GridHandle )
-			return new Grid( (GridHandle) element );
+		if (element instanceof GridHandle)
+			return new Grid((GridHandle) element);
 
-		if ( element instanceof ImageHandle )
-			return new Image( (ImageHandle) element );
+		if (element instanceof ImageHandle)
+			return new Image((ImageHandle) element);
 
-		if ( element instanceof LabelHandle )
-			return new Label( (LabelHandle) element );
+		if (element instanceof LabelHandle)
+			return new Label((LabelHandle) element);
 
-		if ( element instanceof ListHandle )
-			return new List( (ListHandle) element );
+		if (element instanceof ListHandle)
+			return new List((ListHandle) element);
 
-		if ( element instanceof ListGroupHandle )
-			return new ListGroup( (ListGroupHandle) element );
+		if (element instanceof ListGroupHandle)
+			return new ListGroup((ListGroupHandle) element);
 
-		if ( element instanceof TableHandle )
-			return new Table( (TableHandle) element );
+		if (element instanceof TableHandle)
+			return new Table((TableHandle) element);
 
-		if ( element instanceof TableGroupHandle )
-			return new TableGroup( (TableGroupHandle) element );
+		if (element instanceof TableGroupHandle)
+			return new TableGroup((TableGroupHandle) element);
 
-		if ( element instanceof TextDataHandle )
-			return new DynamicText( (TextDataHandle) element );
+		if (element instanceof TextDataHandle)
+			return new DynamicText((TextDataHandle) element);
 
-		if ( element instanceof TextItemHandle )
-			return new TextItem( (TextItemHandle) element );
+		if (element instanceof TextItemHandle)
+			return new TextItem((TextItemHandle) element);
 
-		if ( element instanceof CellHandle )
-			return new Cell( (CellHandle) element );
+		if (element instanceof CellHandle)
+			return new Cell((CellHandle) element);
 
-		if ( element instanceof RowHandle )
-			return new Row( (RowHandle) element );
+		if (element instanceof RowHandle)
+			return new Row((RowHandle) element);
 
-		if ( element instanceof ColumnHandle )
-			return new Column( (ColumnHandle) element );
+		if (element instanceof ColumnHandle)
+			return new Column((ColumnHandle) element);
 
-		if ( element instanceof MasterPageHandle )
-		{
-			return new MasterPage( (MasterPageHandle) element );
+		if (element instanceof MasterPageHandle) {
+			return new MasterPage((MasterPageHandle) element);
 		}
 
-		if ( element instanceof FilterConditionElementHandle )
-		{
-			return new FilterConditionElement(
-					(FilterConditionElementHandle) element );
+		if (element instanceof FilterConditionElementHandle) {
+			return new FilterConditionElement((FilterConditionElementHandle) element);
 		}
 
-		if ( element instanceof SortElementHandle )
-		{
-			return new SortElement( (SortElementHandle) element );
+		if (element instanceof SortElementHandle) {
+			return new SortElement((SortElementHandle) element);
 		}
 
-		if ( element instanceof ExtendedItemHandle )
-		{
+		if (element instanceof ExtendedItemHandle) {
 			org.eclipse.birt.report.model.api.simpleapi.IReportItem item = null;
-			try
-			{
-				IReportItem extensionItem = ( (ExtendedItemHandle) element )
-						.getReportItem( );
+			try {
+				IReportItem extensionItem = ((ExtendedItemHandle) element).getReportItem();
 
-				if ( extensionItem != null )
-					item = extensionItem.getSimpleElement( );
-			}
-			catch ( ExtendedElementException e )
-			{
+				if (extensionItem != null)
+					item = extensionItem.getSimpleElement();
+			} catch (ExtendedElementException e) {
 				// do thing.
 			}
 
-			if ( item == null )
-				item = new ExtendedItem( (ExtendedItemHandle) element );
+			if (item == null)
+				item = new ExtendedItem((ExtendedItemHandle) element);
 
 			return item;
 		}
 
-		if ( !( element instanceof ReportElementHandle ) )
+		if (!(element instanceof ReportElementHandle))
 			return null;
 
-		return new ReportElement( (ReportElementHandle) element );
+		return new ReportElement((ReportElementHandle) element);
 	}
 
 }

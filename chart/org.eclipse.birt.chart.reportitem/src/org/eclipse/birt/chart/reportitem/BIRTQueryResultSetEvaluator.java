@@ -21,12 +21,9 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
  * 
  */
 
-public final class BIRTQueryResultSetEvaluator
-		extends
-			DataRowExpressionEvaluatorAdapter
-{
+public final class BIRTQueryResultSetEvaluator extends DataRowExpressionEvaluatorAdapter {
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.reportitem/trace"); //$NON-NLS-1$
 
 	private IQueryResultSet set;
 
@@ -36,31 +33,26 @@ public final class BIRTQueryResultSetEvaluator
 	 * @param set
 	 * @param definition
 	 */
-	public BIRTQueryResultSetEvaluator( IQueryResultSet set )
-	{
+	public BIRTQueryResultSetEvaluator(IQueryResultSet set) {
 		this.set = set;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang
+	 * .String)
 	 */
-	public Object evaluate( String expression )
-	{
-		try
-		{
-			exprCodec.decode( expression );
-			if ( exprCodec.isConstant( ) )
-			{
-				return exprCodec.getExpression( );
+	public Object evaluate(String expression) {
+		try {
+			exprCodec.decode(expression);
+			if (exprCodec.isConstant()) {
+				return exprCodec.getExpression();
 			}
-			return set.evaluate( exprCodec.getType( ),
-					exprCodec.getExpression( ) );
-		}
-		catch ( BirtException e )
-		{
-			logger.log( e );
+			return set.evaluate(exprCodec.getType(), exprCodec.getExpression());
+		} catch (BirtException e) {
+			logger.log(e);
 			return null;
 		}
 	}
@@ -68,11 +60,12 @@ public final class BIRTQueryResultSetEvaluator
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(
+	 * java.lang.String)
 	 */
-	public Object evaluateGlobal( String expression )
-	{
-		return evaluate( expression );
+	public Object evaluateGlobal(String expression) {
+		return evaluate(expression);
 	}
 
 	/*
@@ -80,15 +73,11 @@ public final class BIRTQueryResultSetEvaluator
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#next()
 	 */
-	public boolean next( )
-	{
-		try
-		{
-			return set.next( );
-		}
-		catch ( BirtException e )
-		{
-			logger.log( e );
+	public boolean next() {
+		try {
+			return set.next();
+		} catch (BirtException e) {
+			logger.log(e);
 			return false;
 		}
 	}
@@ -98,9 +87,8 @@ public final class BIRTQueryResultSetEvaluator
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#close()
 	 */
-	public void close( )
-	{
-		set.close( );
+	public void close() {
+		set.close();
 	}
 
 	/*
@@ -108,15 +96,11 @@ public final class BIRTQueryResultSetEvaluator
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
-	public boolean first( )
-	{
-		try
-		{
-			return set.next( );
-		}
-		catch ( BirtException e )
-		{
-			logger.log( e );
+	public boolean first() {
+		try {
+			return set.next();
+		} catch (BirtException e) {
+			logger.log(e);
 			return false;
 		}
 	}

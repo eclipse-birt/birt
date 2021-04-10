@@ -15,47 +15,32 @@ package org.eclipse.birt.data.engine.olap.data.api;
  * 
  */
 
-public class MeasureInfo
-{
+public class MeasureInfo {
 	private String measureName;
 	private int dataType;
 
-	
-	public MeasureInfo( )
-	{
+	public MeasureInfo() {
 	}
 
-
-	public MeasureInfo( String measureName, int dataType)
-	{
+	public MeasureInfo(String measureName, int dataType) {
 		this.dataType = dataType;
 		this.measureName = measureName;
 	}
 
-	
-	public String getMeasureName( )
-	{
+	public String getMeasureName() {
 		return measureName;
 	}
 
-	
-	public void setMeasureName( String measureName )
-	{
+	public void setMeasureName(String measureName) {
 		this.measureName = measureName;
 	}
 
-	
-	public int getDataType( )
-	{
+	public int getDataType() {
 		return dataType;
 	}
 
-	
-	public void setDataType( int dataType )
-	{
+	public void setDataType(int dataType) {
 		this.dataType = dataType;
 	}
-	
-	
-	
+
 }

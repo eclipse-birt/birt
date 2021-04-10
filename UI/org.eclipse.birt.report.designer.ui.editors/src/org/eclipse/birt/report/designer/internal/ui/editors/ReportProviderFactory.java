@@ -18,11 +18,9 @@ import org.eclipse.ui.IEditorInput;
 /**
  * ReportProviderFactory
  */
-public class ReportProviderFactory implements IReportProviderFactory
-{
+public class ReportProviderFactory implements IReportProviderFactory {
 
-	public IReportProvider getProvider( IEditorInput input )
-	{
+	public IReportProvider getProvider(IEditorInput input) {
 		return new FileReportProvider();
 	}
 

@@ -20,20 +20,19 @@ import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
- * Extends the behavior of the oda.jdbc runtime driver to use a database connection profile
- * for its IConnection.
+ * Extends the behavior of the oda.jdbc runtime driver to use a database
+ * connection profile for its IConnection.
  */
-public class Driver extends OdaJdbcDriver implements IDriver
-{
-    
+public class Driver extends OdaJdbcDriver implements IDriver {
+
 	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IDriver#getConnection(java.lang.String)
+	 * @see org.eclipse.datatools.connectivity.oda.IDriver#getConnection(java.lang.
+	 * String)
 	 */
-	public IConnection getConnection( String dataSourceType ) throws OdaException
-	{
-        // this driver supports only one type of data source,
-        // ignores the specified dataSourceType
-        return new Connection();
+	public IConnection getConnection(String dataSourceType) throws OdaException {
+		// this driver supports only one type of data source,
+		// ignores the specified dataSourceType
+		return new Connection();
 	}
 
 }

@@ -48,25 +48,22 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * 
  * @author Tianli Zhang
  */
-public class Regression_146642 extends BaseTestCase
-{
+public class Regression_146642 extends BaseTestCase {
 
 	private final static String INPUT = "Regression_146642.xml"; //$NON-NLS-1$
 	private final static String LIB = "Regression_146642_lib.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
 
-		copyResource_INPUT( INPUT, INPUT );
-		copyResource_INPUT( LIB, LIB );
+		copyResource_INPUT(INPUT, INPUT);
+		copyResource_INPUT(LIB, LIB);
 
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
 
 	/**
@@ -75,30 +72,27 @@ public class Regression_146642 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_Regression_146642_Test1( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT );
+	public void test_Regression_146642_Test1() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
 
 		// find label
-		LabelHandle label = (LabelHandle) designHandle.findElement( "label" );
-		assertNotNull( label );
+		LabelHandle label = (LabelHandle) designHandle.findElement("label");
+		assertNotNull(label);
 
 		// find style
-		StyleHandle style = designHandle.findStyle( "Style" ); //$NON-NLS-1$
-		assertNotNull( style );
+		StyleHandle style = designHandle.findStyle("Style"); //$NON-NLS-1$
+		assertNotNull(style);
 
 		// set style to highlight
-		HighlightRule rule = StructureFactory.createHighlightRule( );
-		HighlightRuleHandle ruleHandle = (HighlightRuleHandle) label
-				.getPropertyHandle( "highlightRules" )
-				.addItem( rule );
-		ruleHandle.setStyle( style );
+		HighlightRule rule = StructureFactory.createHighlightRule();
+		HighlightRuleHandle ruleHandle = (HighlightRuleHandle) label.getPropertyHandle("highlightRules").addItem(rule);
+		ruleHandle.setStyle(style);
 
-		assertNotNull( ruleHandle.getStyle( ) );
+		assertNotNull(ruleHandle.getStyle());
 
-		assertEquals( "solid", ruleHandle.getStyle( ).getBorderTopStyle( ) );
-		assertEquals( "#FF0000", ruleHandle.getStyle( ).getBorderTopColor( ).getStringValue( ) );
-		assertEquals( "thick", ruleHandle.getStyle( ).getBorderTopWidth( ).getValue( ) );
+		assertEquals("solid", ruleHandle.getStyle().getBorderTopStyle());
+		assertEquals("#FF0000", ruleHandle.getStyle().getBorderTopColor().getStringValue());
+		assertEquals("thick", ruleHandle.getStyle().getBorderTopWidth().getValue());
 	}
 
 	/**
@@ -107,70 +101,64 @@ public class Regression_146642 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_Regression_146642_Test2( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT );
+	public void test_Regression_146642_Test2() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
 
 		// find a table
-		TableHandle table = (TableHandle) designHandle.findElement( "table" );
-		assertNotNull( table );
+		TableHandle table = (TableHandle) designHandle.findElement("table");
+		assertNotNull(table);
 
 		// find a predefine style
-		StyleHandle style = designHandle.findStyle( "table" );
-		assertNotNull( style );
+		StyleHandle style = designHandle.findStyle("table");
+		assertNotNull(style);
 
 		// create a highlightrule
-		HighlightRule rule = StructureFactory.createHighlightRule( );
-		HighlightRuleHandle ruleHandle = (HighlightRuleHandle) table
-				.getPropertyHandle( "highlightRules" )
-				.addItem( rule );
-		ruleHandle.setStyle( style );
+		HighlightRule rule = StructureFactory.createHighlightRule();
+		HighlightRuleHandle ruleHandle = (HighlightRuleHandle) table.getPropertyHandle("highlightRules").addItem(rule);
+		ruleHandle.setStyle(style);
 
-		assertNotNull( ruleHandle.getStyle( ) );
-		assertEquals( "small", ruleHandle.getStyle( ).getFontSize( ).getStringValue( ) );
-		assertEquals( "bold", ruleHandle.getStyle( ).getFontWeight( ) );
-		assertEquals( "italic", ruleHandle.getStyle( ).getFontStyle( ) );
-		assertEquals( "#0000FF", ruleHandle.getColor( ).getStringValue( ) );
-		assertEquals( "\"Arial\"", ruleHandle.getStyle( ).getFontFamilyHandle( ).getValue( ) );
+		assertNotNull(ruleHandle.getStyle());
+		assertEquals("small", ruleHandle.getStyle().getFontSize().getStringValue());
+		assertEquals("bold", ruleHandle.getStyle().getFontWeight());
+		assertEquals("italic", ruleHandle.getStyle().getFontStyle());
+		assertEquals("#0000FF", ruleHandle.getColor().getStringValue());
+		assertEquals("\"Arial\"", ruleHandle.getStyle().getFontFamilyHandle().getValue());
 	}
 
 	/**
 	 * 1.Create a Library, new a custom style "Style", set textUnderline,
-	 * textOverline, textLineThrough, textAlign, textIndent, textTransform
-	 * insert a text add HighlightRule referring to "Style" for the text. 2.New
-	 * a report, extend the text from the library.
+	 * textOverline, textLineThrough, textAlign, textIndent, textTransform insert a
+	 * text add HighlightRule referring to "Style" for the text. 2.New a report,
+	 * extend the text from the library.
 	 * 
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_Regression_146642_Test3( ) throws DesignFileException, SemanticException
-	{
-		openLibrary( LIB );
+	public void test_Regression_146642_Test3() throws DesignFileException, SemanticException {
+		openLibrary(LIB);
 		// LibraryHandle libHandle = designHandle.getLibrary(
 		// "Regression_146642_lib" );
 
 		// find lib.text
-		TextItemHandle text = (TextItemHandle) libraryHandle.findElement( "text" );
-		assertNotNull( text );
+		TextItemHandle text = (TextItemHandle) libraryHandle.findElement("text");
+		assertNotNull(text);
 
 		// find lib.style
-		StyleHandle style = libraryHandle.findStyle( "Style3" );
-		assertNotNull( style );
+		StyleHandle style = libraryHandle.findStyle("Style3");
+		assertNotNull(style);
 
-		HighlightRule rule = StructureFactory.createHighlightRule( );
-		HighlightRuleHandle ruleHandle = (HighlightRuleHandle) text
-				.getPropertyHandle( "highlightRules" )
-				.addItem( rule );
-		ruleHandle.setStyle( style );
-		assertNotNull( ruleHandle.getStyle( ) );
+		HighlightRule rule = StructureFactory.createHighlightRule();
+		HighlightRuleHandle ruleHandle = (HighlightRuleHandle) text.getPropertyHandle("highlightRules").addItem(rule);
+		ruleHandle.setStyle(style);
+		assertNotNull(ruleHandle.getStyle());
 
-		assertEquals( "line-through", ruleHandle.getStyle( ).getTextLineThrough( ) );
-		assertEquals( "overline", ruleHandle.getStyle( ).getTextOverline( ) );
-		assertEquals( "underline", ruleHandle.getStyle( ).getTextUnderline( ) );
-		assertEquals( "center", ruleHandle.getStyle( ).getTextAlign( ) );
-		assertEquals( "6pt", ruleHandle.getStyle( ).getTextIndent( ).getStringValue( ) );
-		assertEquals( "uppercase", ruleHandle.getStyle( ).getTextTransform( ) );
-		assertEquals( "pre", ruleHandle.getStyle( ).getWhiteSpace( ) );
+		assertEquals("line-through", ruleHandle.getStyle().getTextLineThrough());
+		assertEquals("overline", ruleHandle.getStyle().getTextOverline());
+		assertEquals("underline", ruleHandle.getStyle().getTextUnderline());
+		assertEquals("center", ruleHandle.getStyle().getTextAlign());
+		assertEquals("6pt", ruleHandle.getStyle().getTextIndent().getStringValue());
+		assertEquals("uppercase", ruleHandle.getStyle().getTextTransform());
+		assertEquals("pre", ruleHandle.getStyle().getWhiteSpace());
 
 	}
 

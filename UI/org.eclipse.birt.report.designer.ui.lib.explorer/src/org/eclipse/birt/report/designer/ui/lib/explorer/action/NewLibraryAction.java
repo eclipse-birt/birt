@@ -41,85 +41,67 @@ import org.osgi.framework.Bundle;
 /**
  * The action class for creating a libary in resource explorer.
  */
-public class NewLibraryAction extends ResourceAction
-{
+public class NewLibraryAction extends ResourceAction {
 
 	/**
 	 * Constructs an action for creating library.
 	 * 
-	 * @param page
-	 *            the resource explorer page
+	 * @param page the resource explorer page
 	 */
-	public NewLibraryAction( LibraryExplorerTreeViewPage page )
-	{
-		super( Messages.getString( "NewLibraryAction.Text" ), page ); //$NON-NLS-1$
-		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_LIBRARY ) );
+	public NewLibraryAction(LibraryExplorerTreeViewPage page) {
+		super(Messages.getString("NewLibraryAction.Text"), page); //$NON-NLS-1$
+		setImageDescriptor(ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_NEW_LIBRARY));
 	}
 
 	@Override
-	public boolean isEnabled( )
-	{
-		try
-		{
-			return canInsertIntoSelectedContainer( );
-		}
-		catch ( IOException e )
-		{
+	public boolean isEnabled() {
+		try {
+			return canInsertIntoSelectedContainer();
+		} catch (IOException e) {
 			return false;
 		}
 	}
 
 	@Override
-	public void run( )
-	{
-		try
-		{
-			File container = getSelectedContainer( );
+	public void run() {
+		try {
+			File container = getSelectedContainer();
 
-			if ( container == null )
-			{
+			if (container == null) {
 				return;
 			}
 
-			NewLibraryDialog dialog = new NewLibraryDialog( getUniqueFile( container,
-					Messages.getString( "NewLibraryWizard.displayName.NewReportFileNamePrefix" ), //$NON-NLS-1$
-					Messages.getString( "NewLibraryWizard.displayName.NewReportFileExtension" ) ) ); //$NON-NLS-1$
+			NewLibraryDialog dialog = new NewLibraryDialog(
+					getUniqueFile(container, Messages.getString("NewLibraryWizard.displayName.NewReportFileNamePrefix"), //$NON-NLS-1$
+							Messages.getString("NewLibraryWizard.displayName.NewReportFileExtension"))); //$NON-NLS-1$
 
-			if ( dialog.open( ) == Window.OK )
-			{
-				createLibrary( dialog.getPath( ) );
+			if (dialog.open() == Window.OK) {
+				createLibrary(dialog.getPath());
 			}
-		}
-		catch ( IOException e )
-		{
-			ExceptionUtil.handle( e );
+		} catch (IOException e) {
+			ExceptionUtil.handle(e);
 		}
 	}
 
 	/**
-	 * Returns an unique file with the specified prefix and the specified ext
-	 * name in the specified path.
+	 * Returns an unique file with the specified prefix and the specified ext name
+	 * in the specified path.
 	 * 
-	 * @param path
-	 *            the specified path.
-	 * @param prefix
-	 *            the specified prefix name.
-	 * @param ext
-	 *            the specified ext name.
+	 * @param path   the specified path.
+	 * @param prefix the specified prefix name.
+	 * @param ext    the specified ext name.
 	 * @return the unique file.
 	 */
-	private File getUniqueFile( File path, String prefix, String ext )
-	{
+	private File getUniqueFile(File path, String prefix, String ext) {
 		int i = 0;
 		File file = null;
 
-		do
-		{
+		do {
 			String filename = i == 0 ? prefix + ext : prefix + "_" + i + ext; //$NON-NLS-1$
 
-			file = new File( path, filename );
+			file = new File(path, filename);
 			i++;
-		} while ( file != null && file.exists( ) );
+		} while (file != null && file.exists());
 
 		return file;
 	}
@@ -127,60 +109,40 @@ public class NewLibraryAction extends ResourceAction
 	/**
 	 * Creates an library with the specified file name.
 	 * 
-	 * @param fileName
-	 *            the library's file name.
-	 * @throws IOException
-	 *             if an I/O error occurs.
+	 * @param fileName the library's file name.
+	 * @throws IOException if an I/O error occurs.
 	 */
-	private void createLibrary( final String fileName ) throws IOException
-	{
-		final String templateName = getLibraryTemplateName( );
-		IRunnableWithProgress op = new IRunnableWithProgress( ) {
+	private void createLibrary(final String fileName) throws IOException {
+		final String templateName = getLibraryTemplateName();
+		IRunnableWithProgress op = new IRunnableWithProgress() {
 
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see
-			 * org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse
+			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse
 			 * .core.runtime.IProgressMonitor)
 			 */
-			public void run( IProgressMonitor monitor )
-					throws InvocationTargetException
-			{
-				try
-				{
-					doFinish( fileName, templateName, monitor );
-				}
-				catch ( SemanticException e )
-				{
-					throw new InvocationTargetException( e );
-				}
-				catch ( DesignFileException e )
-				{
-					throw new InvocationTargetException( e );
-				}
-				catch ( IOException e )
-				{
-					throw new InvocationTargetException( e );
-				}
-				finally
-				{
-					monitor.done( );
+			public void run(IProgressMonitor monitor) throws InvocationTargetException {
+				try {
+					doFinish(fileName, templateName, monitor);
+				} catch (SemanticException e) {
+					throw new InvocationTargetException(e);
+				} catch (DesignFileException e) {
+					throw new InvocationTargetException(e);
+				} catch (IOException e) {
+					throw new InvocationTargetException(e);
+				} finally {
+					monitor.done();
 				}
 			}
 		};
 
-		try
-		{
-			new ProgressMonitorDialog( getShell( ) ).run( true, false, op );
-		}
-		catch ( InvocationTargetException e )
-		{
-			ExceptionUtil.handle( e );
-		}
-		catch ( InterruptedException e )
-		{
-			ExceptionUtil.handle( e );
+		try {
+			new ProgressMonitorDialog(getShell()).run(true, false, op);
+		} catch (InvocationTargetException e) {
+			ExceptionUtil.handle(e);
+		} catch (InterruptedException e) {
+			ExceptionUtil.handle(e);
 		}
 	}
 
@@ -188,105 +150,77 @@ public class NewLibraryAction extends ResourceAction
 	 * Returns the library template's file name.
 	 * 
 	 * @return the library template's file name.
-	 * @throws IOException
-	 *             if an I/O error occurs.
+	 * @throws IOException if an I/O error occurs.
 	 */
-	private String getLibraryTemplateName( ) throws IOException
-	{
-		Bundle resourceBundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
+	private String getLibraryTemplateName() throws IOException {
+		Bundle resourceBundle = Platform.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST);
 		URL url = resourceBundle == null ? null
-				: FileLocator.find( resourceBundle,
-						new Path( "/templates/blank_library.rpttemplate" ), //$NON-NLS-1$
-						null );
+				: FileLocator.find(resourceBundle, new Path("/templates/blank_library.rpttemplate"), //$NON-NLS-1$
+						null);
 
-		return url == null ? null : FileLocator.resolve( url ).getPath( );
+		return url == null ? null : FileLocator.resolve(url).getPath();
 	}
 
 	/**
 	 * Finishes the work.
 	 * 
-	 * @param libraryName
-	 *            the library's file name.
-	 * @param templateName
-	 *            the library template's file name.
-	 * @param monitor
-	 *            the progress monitor to use to display progress and receive
-	 *            requests for cancelation.
-	 * @throws DesignFileException
-	 *             If the library template is not found, or it contains fatal
-	 *             errors.
-	 * @throws SemanticException
-	 *             if the value of a property is incorrect.
-	 * @throws IOException
-	 *             if the file cannot be saved.
+	 * @param libraryName  the library's file name.
+	 * @param templateName the library template's file name.
+	 * @param monitor      the progress monitor to use to display progress and
+	 *                     receive requests for cancelation.
+	 * @throws DesignFileException If the library template is not found, or it
+	 *                             contains fatal errors.
+	 * @throws SemanticException   if the value of a property is incorrect.
+	 * @throws IOException         if the file cannot be saved.
 	 */
-	private void doFinish( final String libraryName, String templateName,
-			IProgressMonitor monitor ) throws DesignFileException,
-			SemanticException, IOException
-	{
-		monitor.beginTask( null, IProgressMonitor.UNKNOWN );
+	private void doFinish(final String libraryName, String templateName, IProgressMonitor monitor)
+			throws DesignFileException, SemanticException, IOException {
+		monitor.beginTask(null, IProgressMonitor.UNKNOWN);
 
-		try
-		{
-			makeLibrary( libraryName, templateName );
-			openLibrary( new File( libraryName ), true );
-		}
-		finally
-		{
-			monitor.done( );
+		try {
+			makeLibrary(libraryName, templateName);
+			openLibrary(new File(libraryName), true);
+		} finally {
+			monitor.done();
 		}
 	}
 
 	/**
 	 * Creates a new library with the specified file name.
 	 * 
-	 * @param fileName
-	 *            the library's file name.
-	 * @param templateName
-	 *            the library template's file name.
-	 * @throws DesignFileException
-	 *             If the library template is not found, or it contains fatal
-	 *             errors.
-	 * @throws SemanticException
-	 *             if the value of a property is incorrect.
-	 * @throws IOException
-	 *             if the file cannot be saved.
+	 * @param fileName     the library's file name.
+	 * @param templateName the library template's file name.
+	 * @throws DesignFileException If the library template is not found, or it
+	 *                             contains fatal errors.
+	 * @throws SemanticException   if the value of a property is incorrect.
+	 * @throws IOException         if the file cannot be saved.
 	 */
-	private void makeLibrary( final String fileName, String templateName )
-			throws DesignFileException, SemanticException, IOException
-	{
-		ModuleHandle handle = SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.createLibraryFromTemplate( templateName );
+	private void makeLibrary(final String fileName, String templateName)
+			throws DesignFileException, SemanticException, IOException {
+		ModuleHandle handle = SessionHandleAdapter.getInstance().getSessionHandle()
+				.createLibraryFromTemplate(templateName);
 
-		if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
-		{
-			handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
-					ReportPlugin.getDefault( ).getCommentPreference( ) );
+		if (ReportPlugin.getDefault().getEnableCommentPreference()) {
+			handle.setStringProperty(ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault().getCommentPreference());
 		}
 
-		if ( inPredifinedTemplateFolder( templateName ) )
-		{
-			String description = handle.getDescription( );
+		if (inPredifinedTemplateFolder(templateName)) {
+			String description = handle.getDescription();
 
-			if ( description != null && description.trim( ).length( ) > 0 )
-			{
-				handle.setDescription( Messages.getString( description ) );
+			if (description != null && description.trim().length() > 0) {
+				handle.setDescription(Messages.getString(description));
 			}
 		}
-		handle.saveAs( fileName );
-		handle.close( );
+		handle.saveAs(fileName);
+		handle.close();
 	}
 
-	private boolean inPredifinedTemplateFolder( String templateName )
-	{
-		String predifinedDir = UIUtil.getFragmentDirectory( );
-		File predifinedFile = new File( predifinedDir );
-		File sourceFile = new File( templateName );
+	private boolean inPredifinedTemplateFolder(String templateName) {
+		String predifinedDir = UIUtil.getFragmentDirectory();
+		File predifinedFile = new File(predifinedDir);
+		File sourceFile = new File(templateName);
 
-		if ( sourceFile.getAbsolutePath( )
-				.startsWith( predifinedFile.getAbsolutePath( ) ) )
-		{
+		if (sourceFile.getAbsolutePath().startsWith(predifinedFile.getAbsolutePath())) {
 			return true;
 		}
 		return false;

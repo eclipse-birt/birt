@@ -17,12 +17,11 @@ import org.eclipse.swt.widgets.Button;
 
 /**
  * Handler for custom button in <code>WizardBase</code>. If users want to add
- * more buttons in <code>WizardBase</code>, need to implement this interface
- * and add it in by invoking <code>WizardBase.addCustomButton()</code>.
+ * more buttons in <code>WizardBase</code>, need to implement this interface and
+ * add it in by invoking <code>WizardBase.addCustomButton()</code>.
  */
 
-public interface IButtonHandler
-{
+public interface IButtonHandler {
 
 	/**
 	 * Returns ID for the custom button. ID must be unique in
@@ -31,48 +30,47 @@ public interface IButtonHandler
 	 * @see IDialogConstants
 	 * @return ID for the button
 	 */
-	int getId( );
+	int getId();
 
 	/**
 	 * Returns Label for the custom button.
 	 * 
 	 * @return Label for the custom button.
 	 */
-	String getLabel( );
-	
+	String getLabel();
+
 	/**
 	 * Returns tool-tip text of this button.
 	 * 
-	 * @return  tool-tip text of this button.
+	 * @return tool-tip text of this button.
 	 */
-	String getTooltip( );
+	String getTooltip();
 
 	/**
 	 * Returns button icon.
 	 * 
 	 * @return button icon.
 	 */
-	Image getIcon( );
-	
+	Image getIcon();
+
 	/**
 	 * Restores the button control for later use. This method will be invoked by
 	 * <code>WizardBase</code>
 	 * 
-	 * @param button
-	 *            button control
+	 * @param button button control
 	 */
-	void setButton( Button button );
+	void setButton(Button button);
 
 	/**
 	 * Returns the button control.
 	 * 
 	 * @return button control
 	 */
-	Button getButton( );
+	Button getButton();
 
 	/**
 	 * Runs the operation user defined when pressing the button.
 	 * 
 	 */
-	void run( );
+	void run();
 }

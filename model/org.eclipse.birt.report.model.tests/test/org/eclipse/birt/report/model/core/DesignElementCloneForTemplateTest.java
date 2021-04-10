@@ -24,17 +24,15 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * kept.
  */
 
-public class DesignElementCloneForTemplateTest extends BaseTestCase
-{
+public class DesignElementCloneForTemplateTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 
 	}
 
@@ -44,24 +42,20 @@ public class DesignElementCloneForTemplateTest extends BaseTestCase
 	 * <li>Extends relationship is kept.
 	 * </ul>
 	 * 
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
 
-	public void testCloneForTemplateLabel( ) throws Exception
-	{
-		openDesign( "DesignElementCloneForTemplate.xml" ); //$NON-NLS-1$
+	public void testCloneForTemplateLabel() throws Exception {
+		openDesign("DesignElementCloneForTemplate.xml"); //$NON-NLS-1$
 
 		// The derived list is not cloned
 
-		TemplateElementHandle templateLabelHandle = (TemplateElementHandle) designHandle
-				.findElement( "template label" ); //$NON-NLS-1$
-		assertNotNull( templateLabelHandle );
+		TemplateElementHandle templateLabelHandle = (TemplateElementHandle) designHandle.findElement("template label"); //$NON-NLS-1$
+		assertNotNull(templateLabelHandle);
 
-		String copiedExtendsName = ( (DesignElement) templateLabelHandle
-				.copyDefaultElement( ) ).getExtendsName( );
+		String copiedExtendsName = ((DesignElement) templateLabelHandle.copyDefaultElement()).getExtendsName();
 
-		assertEquals( "Library_CloneForTemplate.NewLabel", copiedExtendsName ); //$NON-NLS-1$
+		assertEquals("Library_CloneForTemplate.NewLabel", copiedExtendsName); //$NON-NLS-1$
 
 	}
 
@@ -72,47 +66,42 @@ public class DesignElementCloneForTemplateTest extends BaseTestCase
 	 * <li>Rows and cells inside keep their baseID.
 	 * </ul>
 	 * 
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
 
-	public void testCloneForTemplateTable( ) throws Exception
-	{
-		openDesign( "DesignElementCloneForTemplate.xml" ); //$NON-NLS-1$
+	public void testCloneForTemplateTable() throws Exception {
+		openDesign("DesignElementCloneForTemplate.xml"); //$NON-NLS-1$
 
 		// The derived list is not cloned
 
-		TemplateElementHandle templateLabelHandle = (TemplateElementHandle) designHandle
-				.findElement( "template table" ); //$NON-NLS-1$
-		assertNotNull( templateLabelHandle );
+		TemplateElementHandle templateLabelHandle = (TemplateElementHandle) designHandle.findElement("template table"); //$NON-NLS-1$
+		assertNotNull(templateLabelHandle);
 
-		TableItem copiedTable = (TableItem) templateLabelHandle
-				.copyDefaultElement( );
-		String copiedExtendsName = copiedTable.getExtendsName( );
-		assertEquals( "Library_CloneForTemplate.NewTable", copiedExtendsName ); //$NON-NLS-1$
+		TableItem copiedTable = (TableItem) templateLabelHandle.copyDefaultElement();
+		String copiedExtendsName = copiedTable.getExtendsName();
+		assertEquals("Library_CloneForTemplate.NewTable", copiedExtendsName); //$NON-NLS-1$
 
 		// verify contents in the detail slot.
 
-		ContainerSlot slot = copiedTable.getSlot( TableItem.DETAIL_SLOT );
-		assertEquals( 1, slot.getCount( ) );
+		ContainerSlot slot = copiedTable.getSlot(TableItem.DETAIL_SLOT);
+		assertEquals(1, slot.getCount());
 
-		TableRow row = (TableRow) slot.getContent( 0 );
-		slot = row.getSlot( TableRow.CONTENT_SLOT );
+		TableRow row = (TableRow) slot.getContent(0);
+		slot = row.getSlot(TableRow.CONTENT_SLOT);
 
-		assertTrue( DesignElement.NO_BASE_ID != row.getBaseId( ) );
-		assertEquals( 3, slot.getCount( ) );
+		assertTrue(DesignElement.NO_BASE_ID != row.getBaseId());
+		assertEquals(3, slot.getCount());
 
 		// verify contents in the group header slot.
 
-		TableGroup group = (TableGroup) copiedTable.getSlot(
-				TableItem.GROUP_SLOT ).getContent( 0 );
-		slot = group.getSlot( TableGroup.HEADER_SLOT );
-		assertEquals( 1, slot.getCount( ) );
+		TableGroup group = (TableGroup) copiedTable.getSlot(TableItem.GROUP_SLOT).getContent(0);
+		slot = group.getSlot(TableGroup.HEADER_SLOT);
+		assertEquals(1, slot.getCount());
 
-		row = (TableRow) slot.getContent( 0 );
-		slot = row.getSlot( TableRow.CONTENT_SLOT );
+		row = (TableRow) slot.getContent(0);
+		slot = row.getSlot(TableRow.CONTENT_SLOT);
 
-		assertTrue( DesignElement.NO_BASE_ID != row.getBaseId( ) );
-		assertEquals( 3, slot.getCount( ) );
+		assertTrue(DesignElement.NO_BASE_ID != row.getBaseId());
+		assertEquals(3, slot.getCount());
 	}
 }

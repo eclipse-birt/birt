@@ -18,7 +18,7 @@ public class ExcelODAConstants {
 	public static final String CONN_FILE_URI_PROP = "URI"; //$NON-NLS-1$
 	public static final String XLS_FORMAT = "xls"; //$NON-NLS-1$
 	public static final String XLSX_FORMAT = "xlsx"; //$NON-NLS-1$
-	public static final String UNSUPPORT_FORMAT="unSupportFormat";
+	public static final String UNSUPPORT_FORMAT = "unSupportFormat";
 	public static final String CONN_INCLCOLUMNNAME_PROP = "INCLCOLUMNNAME"; //$NON-NLS-1$
 	public static final String INC_COLUMN_NAME_YES = "YES"; //$NON-NLS-1$
 	public static final String CONN_INCLTYPELINE_PROP = "INCLTYPELINE"; //$NON-NLS-1$

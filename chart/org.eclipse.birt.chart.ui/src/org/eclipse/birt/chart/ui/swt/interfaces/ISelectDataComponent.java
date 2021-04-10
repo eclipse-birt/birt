@@ -18,14 +18,13 @@ import org.eclipse.swt.widgets.Listener;
  * 
  */
 
-public interface ISelectDataComponent extends IChartUIAccessible
-{
+public interface ISelectDataComponent extends IChartUIAccessible {
 
-	Composite createArea( Composite parent );
+	Composite createArea(Composite parent);
 
-	void selectArea( boolean selected, Object data );
+	void selectArea(boolean selected, Object data);
 
-	void dispose( );
+	void dispose();
 
-	void addListener( Listener listener );
+	void addListener(Listener listener);
 }

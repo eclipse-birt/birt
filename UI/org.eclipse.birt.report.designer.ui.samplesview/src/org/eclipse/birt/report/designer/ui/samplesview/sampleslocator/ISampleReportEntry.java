@@ -17,7 +17,6 @@ import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntr
  * Represents the resource item in samples fragment, which is either folder or
  * report design file in file system
  */
-public interface ISampleReportEntry
-{
-	ResourceEntry[] getEntries( );
+public interface ISampleReportEntry {
+	ResourceEntry[] getEntries();
 }

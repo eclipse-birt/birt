@@ -21,10 +21,8 @@ public class BackgroundAttachmentManager extends IdentifierManager {
 	 */
 	protected final static StringMap values = new StringMap();
 	static {
-		values.put(CSSConstants.CSS_SCROLL_VALUE,
-				CSSValueConstants.SCROLL_VALUE);
-		values.put(CSSConstants.CSS_FIXED_VALUE,
-				CSSValueConstants.FIXED_VALUE);
+		values.put(CSSConstants.CSS_SCROLL_VALUE, CSSValueConstants.SCROLL_VALUE);
+		values.put(CSSConstants.CSS_FIXED_VALUE, CSSValueConstants.FIXED_VALUE);
 	}
 
 	public StringMap getIdentifiers() {
@@ -46,4 +44,3 @@ public class BackgroundAttachmentManager extends IdentifierManager {
 		return CSSValueConstants.SCROLL_VALUE;
 	}
 }
-

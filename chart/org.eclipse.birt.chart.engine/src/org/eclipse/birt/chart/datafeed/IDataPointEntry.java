@@ -20,36 +20,29 @@ import com.ibm.icu.util.ULocale;
  * responsible for formatting the entry according to the formatter and locale.
  */
 
-public interface IDataPointEntry
-{
+public interface IDataPointEntry {
 
 	/**
 	 * Returns the formatted string representation of current object by given
 	 * formatter and locale.
 	 * 
-	 * @param formatter
-	 *            An formatter
-	 * @param locale
-	 *            Specific locale.
+	 * @param formatter An formatter
+	 * @param locale    Specific locale.
 	 * @return The string representation
 	 */
-	String getFormattedString( FormatSpecifier formatter, ULocale locale );
+	String getFormattedString(FormatSpecifier formatter, ULocale locale);
 
 	/**
 	 * Returns the formatted string representation of current object by given
 	 * formatter and locale.
 	 * 
-	 * @param type
-	 *            data point type
-	 * @param formatter
-	 *            An formatter
-	 * @param locale
-	 *            Specific locale.
+	 * @param type      data point type
+	 * @param formatter An formatter
+	 * @param locale    Specific locale.
 	 * @return The string representation
 	 * @see #getDataPointTypes()
 	 */
-	String getFormattedString( String type, FormatSpecifier formatter,
-			ULocale locale );
+	String getFormattedString(String type, FormatSpecifier formatter, ULocale locale);
 
 	/**
 	 * Returns if the DataPointEntry is valid.
@@ -57,5 +50,5 @@ public interface IDataPointEntry
 	 * @return value or not
 	 * @since 2.5.0
 	 */
-	boolean isValid( );
+	boolean isValid();
 }

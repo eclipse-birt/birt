@@ -25,41 +25,35 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
  * The action to create a new report
  */
 
-public class NewReportAction extends Action implements IWorkbenchAction
-{
+public class NewReportAction extends Action implements IWorkbenchAction {
 
 	private IWorkbenchWindow fWindow;
 
-	public NewReportAction( IWorkbenchWindow window )
-	{
-		init( window );
-		setId( "org.eclipse.birt.report.designer.rcp.internal.ui.actions.NewReportAction" ); //$NON-NLS-1$
-		setText( DesignerWorkbenchMessages.Action_newReport );
-		setToolTipText( DesignerWorkbenchMessages.Action_newReport );
-		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_REPORT ) );
+	public NewReportAction(IWorkbenchWindow window) {
+		init(window);
+		setId("org.eclipse.birt.report.designer.rcp.internal.ui.actions.NewReportAction"); //$NON-NLS-1$
+		setText(DesignerWorkbenchMessages.Action_newReport);
+		setToolTipText(DesignerWorkbenchMessages.Action_newReport);
+		setImageDescriptor(ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_NEW_REPORT));
 	}
 
 	/*
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
+	 * IWorkbenchWindow)
 	 */
-	public void init( IWorkbenchWindow window )
-	{
-		if ( window == null )
-		{
-			throw new IllegalArgumentException( );
+	public void init(IWorkbenchWindow window) {
+		if (window == null) {
+			throw new IllegalArgumentException();
 		}
 		fWindow = window;
 	}
 
-	public void run( )
-	{
-		Dialog dialog = new BaseWizardDialog( fWindow.getShell( ),
-				new NewReportWizard( ) );
-		dialog.open( );
+	public void run() {
+		Dialog dialog = new BaseWizardDialog(fWindow.getShell(), new NewReportWizard());
+		dialog.open();
 	}
 
-	public void dispose( )
-	{
+	public void dispose() {
 		fWindow = null;
 	}
 }

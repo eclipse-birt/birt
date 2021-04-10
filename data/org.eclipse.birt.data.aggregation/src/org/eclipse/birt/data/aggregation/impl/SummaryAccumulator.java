@@ -21,27 +21,25 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * Represents the built-in summary accumulator
  */
-public abstract class SummaryAccumulator extends Accumulator
-{
+public abstract class SummaryAccumulator extends Accumulator {
 	protected boolean isFinished = false;
 
 	protected ICalculator calculator;
 
 	/**
 	 * Derived accumulator classes not using calculators will use the default
-	 * constructor.  
+	 * constructor.
 	 */
-	public SummaryAccumulator( )
-	{
+	public SummaryAccumulator() {
 		calculator = null;
 	}
+
 	/**
-	 * An explicit constructor. Derived accumulator classes should use it
-	 * for constructing calculator based on the return aggregate function
-	 * value type (or other business logic).
+	 * An explicit constructor. Derived accumulator classes should use it for
+	 * constructing calculator based on the return aggregate function value type (or
+	 * other business logic).
 	 */
-	public SummaryAccumulator( ICalculator calc )
-	{
+	public SummaryAccumulator(ICalculator calc) {
 		calculator = calc;
 	}
 
@@ -51,8 +49,7 @@ public abstract class SummaryAccumulator extends Accumulator
 	 * @see org.eclipse.birt.data.engine.api.aggregation.Accumulator#start()
 	 */
 	@Override
-	public void start( )
-	{
+	public void start() {
 		isFinished = false;
 	}
 
@@ -62,24 +59,23 @@ public abstract class SummaryAccumulator extends Accumulator
 	 * @see org.eclipse.birt.data.engine.api.aggregation.Accumulator#finish()
 	 */
 	@Override
-	public void finish( ) throws DataException
-	{
+	public void finish() throws DataException {
 		isFinished = true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#getValue()
 	 */
 	@Override
-	public Object getValue( ) throws DataException
-	{
-		if ( !isFinished )
-		{
-			throw new RuntimeException( "Error! Call summary total function before finished the dataset" ); //$NON-NLS-1$
+	public Object getValue() throws DataException {
+		if (!isFinished) {
+			throw new RuntimeException("Error! Call summary total function before finished the dataset"); //$NON-NLS-1$
 		}
-		return getSummaryValue( );
+		return getSummaryValue();
 	}
 
-	abstract public Object getSummaryValue( ) throws DataException;
+	abstract public Object getSummaryValue() throws DataException;
 
 }

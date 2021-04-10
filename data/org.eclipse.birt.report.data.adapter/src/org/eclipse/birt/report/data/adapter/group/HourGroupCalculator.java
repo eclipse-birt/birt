@@ -21,44 +21,34 @@ import com.ibm.icu.util.ULocale;
 /**
  * This calculator is used to calculate a hour group key basing group interval.
  */
-class HourGroupCalculator extends DateGroupCalculator
-{
+class HourGroupCalculator extends DateGroupCalculator {
 
-	public HourGroupCalculator( Object intervalStart, double intervalRange,
-			ULocale locale, TimeZone timeZone ) throws BirtException
-	{
-		super( intervalStart, intervalRange, locale, timeZone );
+	public HourGroupCalculator(Object intervalStart, double intervalRange, ULocale locale, TimeZone timeZone)
+			throws BirtException {
+		super(intervalStart, intervalRange, locale, timeZone);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.
+	 * lang.Object)
 	 */
-	public Object calculate( Object value )
-	{
-		if ( value == null )
-		{
-			return new Double( -1 );
+	public Object calculate(Object value) {
+		if (value == null) {
+			return new Double(-1);
 		}
 
-		if ( intervalStart == null )
-		{
-			return new Double( Math.floor( this.dateTimeUtil.diffHour( defaultStart,
-					(Date) value )
-					/ getDateIntervalRange( ) ) );
-		}
-		else
-		{
-			if ( this.dateTimeUtil.diffHour( (Date) intervalStart, (Date) value ) < 0 )
-			{
-				return new Double( -1 );
-			}
-			else
-			{
-				return new Double( Math.floor( this.dateTimeUtil.diffHour( (Date) intervalStart,
-						(Date) value )
-						/ getDateIntervalRange( ) ) );
+		if (intervalStart == null) {
+			return new Double(
+					Math.floor(this.dateTimeUtil.diffHour(defaultStart, (Date) value) / getDateIntervalRange()));
+		} else {
+			if (this.dateTimeUtil.diffHour((Date) intervalStart, (Date) value) < 0) {
+				return new Double(-1);
+			} else {
+				return new Double(Math.floor(
+						this.dateTimeUtil.diffHour((Date) intervalStart, (Date) value) / getDateIntervalRange()));
 			}
 		}
 	}

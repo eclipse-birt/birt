@@ -20,34 +20,28 @@ import org.eclipse.birt.report.model.api.extension.SimpleRowItem;
 /**
  * CrosstabCellImpl
  */
-public class CrosstabCellImpl extends SimpleRowItem implements ICrosstabCell
-{
+public class CrosstabCellImpl extends SimpleRowItem implements ICrosstabCell {
 
 	private long id = -1;
 	private String type = TYPE_HEADER;
 
-	public CrosstabCellImpl( CrosstabCellHandle cch )
-	{
-		super( (ExtendedItemHandle) cch.getModelHandle( ) );
+	public CrosstabCellImpl(CrosstabCellHandle cch) {
+		super((ExtendedItemHandle) cch.getModelHandle());
 
-		if ( cch.getModelHandle( ) != null )
-		{
-			id = cch.getModelHandle( ).getID( );
+		if (cch.getModelHandle() != null) {
+			id = cch.getModelHandle().getID();
 		}
 
-		if ( cch instanceof AggregationCellHandle )
-		{
+		if (cch instanceof AggregationCellHandle) {
 			type = TYPE_AGGREGATION;
 		}
 	}
 
-	public long getCellID( )
-	{
+	public long getCellID() {
 		return id;
 	}
 
-	public String getCellType( )
-	{
+	public String getCellType() {
 		return type;
 	}
 

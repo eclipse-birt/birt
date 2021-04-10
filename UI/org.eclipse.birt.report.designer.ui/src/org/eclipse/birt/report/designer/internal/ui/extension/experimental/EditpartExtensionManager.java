@@ -39,128 +39,100 @@ import org.eclipse.jface.resource.ImageDescriptor;
 /**
  * EditpartExtensionManager
  */
-public class EditpartExtensionManager
-{
+public class EditpartExtensionManager {
 
-	protected static final Logger logger = Logger.getLogger( EditpartExtensionManager.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger(EditpartExtensionManager.class.getName());
 
-	private static Map<Expression, IConfigurationElement> extensionMap = new HashMap<Expression, IConfigurationElement>( );
-	private static List<PaletteEntryExtension> palettes = new ArrayList<PaletteEntryExtension>( );
+	private static Map<Expression, IConfigurationElement> extensionMap = new HashMap<Expression, IConfigurationElement>();
+	private static List<PaletteEntryExtension> palettes = new ArrayList<PaletteEntryExtension>();
 
-	static
-	{
-		IExtensionRegistry registry = Platform.getExtensionRegistry( );
-		IExtensionPoint extensionPoint = registry.getExtensionPoint( "org.eclipse.birt.report.designer.ui.reportItemEditpart" ); //$NON-NLS-1$
-		if ( extensionPoint != null )
-		{
-			IConfigurationElement[] elements = extensionPoint.getConfigurationElements( );
-			for ( int i = 0; i < elements.length; i++ )
-			{
-				IConfigurationElement[] enablements = elements[i].getChildren( "enablement" ); //$NON-NLS-1$
-				if ( enablements.length == 0 )
+	static {
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IExtensionPoint extensionPoint = registry
+				.getExtensionPoint("org.eclipse.birt.report.designer.ui.reportItemEditpart"); //$NON-NLS-1$
+		if (extensionPoint != null) {
+			IConfigurationElement[] elements = extensionPoint.getConfigurationElements();
+			for (int i = 0; i < elements.length; i++) {
+				IConfigurationElement[] enablements = elements[i].getChildren("enablement"); //$NON-NLS-1$
+				if (enablements.length == 0)
 					continue;// log message
-				try
-				{
-					extensionMap.put( ExpressionConverter.getDefault( )
-							.perform( enablements[0] ), elements[i] );
+				try {
+					extensionMap.put(ExpressionConverter.getDefault().perform(enablements[0]), elements[i]);
+				} catch (CoreException e) {
+					e.printStackTrace();
 				}
-				catch ( CoreException e )
-				{
-					e.printStackTrace( );
-				}
-				IConfigurationElement[] paletteEntries = elements[i].getChildren( "paletteEntry" ); //$NON-NLS-1$
-				if ( paletteEntries.length == 1 )
-				{
-					PaletteEntryExtension entry = new PaletteEntryExtension( );
-					entry.setItemName( paletteEntries[0].getAttribute( "itemName" ) ); //$NON-NLS-1$
+				IConfigurationElement[] paletteEntries = elements[i].getChildren("paletteEntry"); //$NON-NLS-1$
+				if (paletteEntries.length == 1) {
+					PaletteEntryExtension entry = new PaletteEntryExtension();
+					entry.setItemName(paletteEntries[0].getAttribute("itemName")); //$NON-NLS-1$
 
-					String displayName = DEUtil.getMetaDataDictionary( )
-							.getExtension( entry.getItemName( ) )
-							.getDisplayName( );
+					String displayName = DEUtil.getMetaDataDictionary().getExtension(entry.getItemName())
+							.getDisplayName();
 
-					entry.setLabel( displayName );
-					entry.setMenuLabel( paletteEntries[0].getAttribute( "menuLabel" ) ); //$NON-NLS-1$
-					entry.setDescription( paletteEntries[0].getAttribute( "description" ) ); //$NON-NLS-1$
-					entry.setIcon( getImageDescriptor( paletteEntries[0],
-							paletteEntries[0].getAttribute( "icon" ) ) ); //$NON-NLS-1$
-					entry.setIconLarge( getImageDescriptor( paletteEntries[0],
-							paletteEntries[0].getAttribute( "largeIcon" ) ) ); //$NON-NLS-1$
+					entry.setLabel(displayName);
+					entry.setMenuLabel(paletteEntries[0].getAttribute("menuLabel")); //$NON-NLS-1$
+					entry.setDescription(paletteEntries[0].getAttribute("description")); //$NON-NLS-1$
+					entry.setIcon(getImageDescriptor(paletteEntries[0], paletteEntries[0].getAttribute("icon"))); //$NON-NLS-1$
+					entry.setIconLarge(
+							getImageDescriptor(paletteEntries[0], paletteEntries[0].getAttribute("largeIcon"))); //$NON-NLS-1$
 					// TODO category can't be empty
-					entry.setCategory( paletteEntries[0].getAttribute( "category" ) ); //$NON-NLS-1$
-					entry.setCategoryDisplayName( paletteEntries[0].getAttribute( "categoryDisplayName" ) ); //$NON-NLS-1$
+					entry.setCategory(paletteEntries[0].getAttribute("category")); //$NON-NLS-1$
+					entry.setCategoryDisplayName(paletteEntries[0].getAttribute("categoryDisplayName")); //$NON-NLS-1$
 					// TODO command can't be empty
-					entry.setCommand( paletteEntries[0].getAttribute( "createCommand" ) ); //$NON-NLS-1$
+					entry.setCommand(paletteEntries[0].getAttribute("createCommand")); //$NON-NLS-1$
 
-					registerImage( entry );
+					registerImage(entry);
 
-					palettes.add( entry );
+					palettes.add(entry);
 				}
 			}
 		}
 	}
 
-	private static ImageDescriptor getImageDescriptor(
-			IConfigurationElement extension, String iconPath )
-	{
-		if ( iconPath == null )
-		{
+	private static ImageDescriptor getImageDescriptor(IConfigurationElement extension, String iconPath) {
+		if (iconPath == null) {
 			return null;
 		}
-		URL path = Platform.getBundle( extension.getNamespace( ) )
-				.getEntry( "/" ); //$NON-NLS-1$
-		try
-		{
-			return ImageDescriptor.createFromURL( new URL( path, iconPath ) );
-		}
-		catch ( MalformedURLException e )
-		{
+		URL path = Platform.getBundle(extension.getNamespace()).getEntry("/"); //$NON-NLS-1$
+		try {
+			return ImageDescriptor.createFromURL(new URL(path, iconPath));
+		} catch (MalformedURLException e) {
 		}
 		return null;
 	}
 
 	// backward compatible see bug 184371
-	private static void registerImage( PaletteEntryExtension entry )
-	{
-		String symbolName = ReportPlatformUIImages.getIconSymbolName( entry.getItemName( ),
-				IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON );
-		ReportPlatformUIImages.declareImage( symbolName, entry.getIcon( ) );
-		symbolName = ReportPlatformUIImages.getIconSymbolName( entry.getItemName( ),
-				IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON );
-		ReportPlatformUIImages.declareImage( symbolName, entry.getIcon( ) );
+	private static void registerImage(PaletteEntryExtension entry) {
+		String symbolName = ReportPlatformUIImages.getIconSymbolName(entry.getItemName(),
+				IExtensionConstants.ATTRIBUTE_KEY_PALETTE_ICON);
+		ReportPlatformUIImages.declareImage(symbolName, entry.getIcon());
+		symbolName = ReportPlatformUIImages.getIconSymbolName(entry.getItemName(),
+				IExtensionConstants.ATTRIBUTE_KEY_OUTLINE_ICON);
+		ReportPlatformUIImages.declareImage(symbolName, entry.getIcon());
 	}
 
-	public static EditPart createEditPart( EditPart context, Object model )
-	{
-		EvaluationContext econtext = new EvaluationContext( null, model );
-		for ( Iterator<Expression> iterator = extensionMap.keySet( ).iterator( ); iterator.hasNext( ); )
-		{
-			try
-			{
-				Expression expression = iterator.next( );
-				if ( expression.evaluate( econtext ) == EvaluationResult.TRUE )
-				{
-					EditPart editPart = (EditPart) extensionMap.get( expression )
-							.createExecutableExtension( "type" ); //$NON-NLS-1$
-					editPart.setModel( model );
+	public static EditPart createEditPart(EditPart context, Object model) {
+		EvaluationContext econtext = new EvaluationContext(null, model);
+		for (Iterator<Expression> iterator = extensionMap.keySet().iterator(); iterator.hasNext();) {
+			try {
+				Expression expression = iterator.next();
+				if (expression.evaluate(econtext) == EvaluationResult.TRUE) {
+					EditPart editPart = (EditPart) extensionMap.get(expression).createExecutableExtension("type"); //$NON-NLS-1$
+					editPart.setModel(model);
 					return editPart;
 				}
-			}
-			catch ( CoreException e )
-			{
-				logger.log( Level.SEVERE, e.getMessage( ), e );
+			} catch (CoreException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 		return null;
 	}
 
-	public static PaletteEntryExtension getPaletteEntry( String extensionName )
-	{
-		for ( Iterator<PaletteEntryExtension> itr = palettes.iterator( ); itr.hasNext( ); )
-		{
-			PaletteEntryExtension entry = itr.next( );
+	public static PaletteEntryExtension getPaletteEntry(String extensionName) {
+		for (Iterator<PaletteEntryExtension> itr = palettes.iterator(); itr.hasNext();) {
+			PaletteEntryExtension entry = itr.next();
 
-			if ( entry.getItemName( ).equals( extensionName ) )
-			{
+			if (entry.getItemName().equals(extensionName)) {
 				return entry;
 			}
 		}
@@ -168,8 +140,7 @@ public class EditpartExtensionManager
 		return null;
 	}
 
-	public static PaletteEntryExtension[] getPaletteEntries( )
-	{
-		return palettes.toArray( new PaletteEntryExtension[palettes.size( )] );
+	public static PaletteEntryExtension[] getPaletteEntries() {
+		return palettes.toArray(new PaletteEntryExtension[palettes.size()]);
 	}
 }

@@ -18,15 +18,13 @@ import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
  * The minimal item in the table.
  */
 
-public class LayoutCell
-{
+public class LayoutCell {
 
 	/**
 	 * The empty cell.
 	 */
 
-	protected final static LayoutCell EMPTY_CELL = new LayoutCell(
-			LayoutCell.CELL_EMPTY );
+	protected final static LayoutCell EMPTY_CELL = new LayoutCell(LayoutCell.CELL_EMPTY);
 
 	/**
 	 * CELL is empty
@@ -98,25 +96,18 @@ public class LayoutCell
 	/**
 	 * Constructs a USED <code>LayoutCell</code> with the given information.
 	 * 
-	 * @param container
-	 *            the layout row
-	 * @param cellId
-	 *            the unique cell id
-	 * @param content
-	 *            the cell element
-	 * @param colSpanOffset
-	 *            the 0-based offset of the column span
-	 * @param rowSpanOffset
-	 *            the 0-based offset of the row span
-	 * @param isEffectualDrop
-	 *            Indicates whether the drop property of the cell can take
-	 *            effects.
+	 * @param container       the layout row
+	 * @param cellId          the unique cell id
+	 * @param content         the cell element
+	 * @param colSpanOffset   the 0-based offset of the column span
+	 * @param rowSpanOffset   the 0-based offset of the row span
+	 * @param isEffectualDrop Indicates whether the drop property of the cell can
+	 *                        take effects.
 	 */
 
-	LayoutCell( LayoutRow container, int cellId, Cell content,
-			int rowSpanOffset, int colSpanOffset, boolean isEffectualDrop )
-	{
-		this( cellId, CELL_USED );
+	LayoutCell(LayoutRow container, int cellId, Cell content, int rowSpanOffset, int colSpanOffset,
+			boolean isEffectualDrop) {
+		this(cellId, CELL_USED);
 		this.container = container;
 		this.content = content;
 		this.colSpanOffset = colSpanOffset;
@@ -125,25 +116,17 @@ public class LayoutCell
 	}
 
 	/**
-	 * Constructs a DROP_SPANNED <code>LayoutCell</code> with the given
-	 * information.
+	 * Constructs a DROP_SPANNED <code>LayoutCell</code> with the given information.
 	 * 
-	 * @param container
-	 *            the layout row
-	 * @param cellId
-	 *            the unique cell id
-	 * @param content
-	 *            the cell element
-	 * @param colSpanOffset
-	 *            the 0-based offset of the column span
-	 * @param rowSpanOffset
-	 *            the 0-based offset of the row span
+	 * @param container     the layout row
+	 * @param cellId        the unique cell id
+	 * @param content       the cell element
+	 * @param colSpanOffset the 0-based offset of the column span
+	 * @param rowSpanOffset the 0-based offset of the row span
 	 */
 
-	LayoutCell( LayoutRow container, int cellId, Cell content,
-			int rowSpanOffset, int colSpanOffset )
-	{
-		this( cellId, DROP_SPANNED );
+	LayoutCell(LayoutRow container, int cellId, Cell content, int rowSpanOffset, int colSpanOffset) {
+		this(cellId, DROP_SPANNED);
 		this.container = container;
 		this.content = content;
 		this.colSpanOffset = colSpanOffset;
@@ -154,15 +137,12 @@ public class LayoutCell
 	/**
 	 * Constructs a <code>LayoutCell</code> with the given status.
 	 * 
-	 * @param cellId
-	 *            the unique cell id
-	 * @param status
-	 *            the status can be <code>{@link #CELL_EMPTY}</code> or
-	 *            <code>{@link #CELL_USED}</code>.
+	 * @param cellId the unique cell id
+	 * @param status the status can be <code>{@link #CELL_EMPTY}</code> or
+	 *               <code>{@link #CELL_USED}</code>.
 	 */
 
-	private LayoutCell( int cellId, int status )
-	{
+	private LayoutCell(int cellId, int status) {
 		this.cellId = cellId;
 		this.status = status;
 	}
@@ -170,13 +150,11 @@ public class LayoutCell
 	/**
 	 * Constructs a <code>LayoutCell</code> with the given status.
 	 * 
-	 * @param status
-	 *            the status can be <code>{@link #CELL_EMPTY}</code> or
-	 *            <code>{@link #CELL_USED}</code>.
+	 * @param status the status can be <code>{@link #CELL_EMPTY}</code> or
+	 *               <code>{@link #CELL_USED}</code>.
 	 */
 
-	private LayoutCell( int status )
-	{
+	private LayoutCell(int status) {
 		this.status = status;
 	}
 
@@ -187,8 +165,7 @@ public class LayoutCell
 	 *         Otherwise <code>false</code>.
 	 */
 
-	public boolean isUsed( )
-	{
+	public boolean isUsed() {
 		return status != CELL_EMPTY;
 	}
 
@@ -200,8 +177,7 @@ public class LayoutCell
 	 *         <code>false</code>.
 	 */
 
-	public boolean isDropSpanned( )
-	{
+	public boolean isDropSpanned() {
 		return status == DROP_SPANNED;
 	}
 
@@ -211,8 +187,7 @@ public class LayoutCell
 	 * @return the corresponding cell element
 	 */
 
-	protected Cell getContent( )
-	{
+	protected Cell getContent() {
 		return content;
 	}
 
@@ -222,8 +197,7 @@ public class LayoutCell
 	 * @return the 0-based offset of the column span
 	 */
 
-	public int getColumnSpanOffset( )
-	{
+	public int getColumnSpanOffset() {
 		return colSpanOffset;
 	}
 
@@ -233,8 +207,7 @@ public class LayoutCell
 	 * @return the 0-based offset of the row span
 	 */
 
-	public int getRowSpanOffset( )
-	{
+	public int getRowSpanOffset() {
 		return rowSpanOffset;
 	}
 
@@ -244,24 +217,22 @@ public class LayoutCell
 	 * @return the string that shows the layout
 	 */
 
-	public String getLayoutString( )
-	{
-		StringBuffer sb = new StringBuffer( );
-		switch ( status )
-		{
-			case CELL_USED :
-				sb.append( cellId );
-				break;
-			case DROP_SPANNED :
-				sb.append( cellId );
-				sb.append( '.' );
-				break;
-			default :
-				sb.append( 0 );
+	public String getLayoutString() {
+		StringBuffer sb = new StringBuffer();
+		switch (status) {
+		case CELL_USED:
+			sb.append(cellId);
+			break;
+		case DROP_SPANNED:
+			sb.append(cellId);
+			sb.append('.');
+			break;
+		default:
+			sb.append(0);
 		}
 
-		sb.append( "     " ); //$NON-NLS-1$
-		return sb.toString( );
+		sb.append("     "); //$NON-NLS-1$
+		return sb.toString();
 	}
 
 	/**
@@ -271,21 +242,18 @@ public class LayoutCell
 	 *         <code>false</code>.
 	 */
 
-	public boolean isEffectualDrop( )
-	{
+	public boolean isEffectualDrop() {
 		return isEffectualDrop;
 	}
 
 	/**
-	 * Checks whether the current position is where the cell element begins to
-	 * span.
+	 * Checks whether the current position is where the cell element begins to span.
 	 * 
 	 * @return <code>true</code> if it is. Otherwise <code>false</code>.
 	 */
 
-	protected boolean isCellStartPosition( )
-	{
-		return ( colSpanOffset == 0 && rowSpanOffset == 0 );
+	protected boolean isCellStartPosition() {
+		return (colSpanOffset == 0 && rowSpanOffset == 0);
 	}
 
 	/**
@@ -294,9 +262,8 @@ public class LayoutCell
 	 * @return the corresponding handle of the cell element.
 	 */
 
-	public CellHandle getCell( )
-	{
-		return getCellRegardlessStartPosition( );
+	public CellHandle getCell() {
+		return getCellRegardlessStartPosition();
 	}
 
 	/**
@@ -306,14 +273,13 @@ public class LayoutCell
 	 * @return the corresponding handle of the cell element.
 	 */
 
-	protected CellHandle getCellRegardlessStartPosition( )
-	{
-		if ( !isUsed( ) )
+	protected CellHandle getCellRegardlessStartPosition() {
+		if (!isUsed())
 			return null;
 
-		LayoutTable table = container.getContainer( ).tableContainer;
-		if ( table.getModule( ) != null )
-			return (CellHandle) content.getHandle( table.getModule( ) );
+		LayoutTable table = container.getContainer().tableContainer;
+		if (table.getModule() != null)
+			return (CellHandle) content.getHandle(table.getModule());
 
 		assert false;
 		return null;
@@ -325,8 +291,7 @@ public class LayoutCell
 	 * @return the unique index
 	 */
 
-	protected int getCellId( )
-	{
+	protected int getCellId() {
 		return cellId;
 	}
 
@@ -337,27 +302,23 @@ public class LayoutCell
 	 *         Otherwise <code>false</code>.
 	 */
 
-	protected boolean isEmptyContent( )
-	{
-		return isUsed( )
-				&& content.getSlot( ICellModel.CONTENT_SLOT ).getCount( ) == 0;
+	protected boolean isEmptyContent() {
+		return isUsed() && content.getSlot(ICellModel.CONTENT_SLOT).getCount() == 0;
 	}
 
 	/**
 	 * Checks whether "drop" value is "all" or "detail".
 	 * 
-	 * @return <code>true</code> if "drop" value is "all" or "detail".
-	 *         Otherwise <code>false</code>.
+	 * @return <code>true</code> if "drop" value is "all" or "detail". Otherwise
+	 *         <code>false</code>.
 	 */
 
-	protected boolean isDropSet( )
-	{
-		if ( content == null )
+	protected boolean isDropSet() {
+		if (content == null)
 			return false;
 
-		String drop = (String) content.getLocalProperty( null, ICellModel.DROP_PROP );
-		if ( drop == null
-				|| DesignChoiceConstants.DROP_TYPE_NONE.equalsIgnoreCase( drop ) )
+		String drop = (String) content.getLocalProperty(null, ICellModel.DROP_PROP);
+		if (drop == null || DesignChoiceConstants.DROP_TYPE_NONE.equalsIgnoreCase(drop))
 			return false;
 
 		return true;
@@ -369,33 +330,28 @@ public class LayoutCell
 	 * @return the row number
 	 */
 
-	public int getRowSpanForDrop( )
-	{
+	public int getRowSpanForDrop() {
 		return rowSpanForDrop;
 	}
 
 	/**
 	 * Sets the row number for the drop span.
 	 * 
-	 * @param rowSpanForDrop
-	 *            the row number
+	 * @param rowSpanForDrop the row number
 	 */
 
-	protected void setRowSpanForDrop( int rowSpanForDrop )
-	{
+	protected void setRowSpanForDrop(int rowSpanForDrop) {
 		this.rowSpanForDrop = rowSpanForDrop;
 	}
 
 	/**
 	 * Sets whether the drop is effectual.
 	 * 
-	 * @param isEffectualDrop
-	 *            <code>true</code> if the drop is effectual. Otherwise
-	 *            <code>false</code>.
+	 * @param isEffectualDrop <code>true</code> if the drop is effectual. Otherwise
+	 *                        <code>false</code>.
 	 */
 
-	protected void setEffectualDrop( boolean isEffectualDrop )
-	{
+	protected void setEffectualDrop(boolean isEffectualDrop) {
 		this.isEffectualDrop = isEffectualDrop;
 	}
 
@@ -405,11 +361,9 @@ public class LayoutCell
 	 * @return 1-based column position
 	 */
 
-	protected int getColumnPosn( )
-	{
-		for ( int i = 0; i < container.getColumnCount( ); i++ )
-		{
-			if ( container.getLayoutCell( i ) == this )
+	protected int getColumnPosn() {
+		for (int i = 0; i < container.getColumnCount(); i++) {
+			if (container.getLayoutCell(i) == this)
 				return i + 1;
 		}
 
@@ -420,11 +374,10 @@ public class LayoutCell
 	/**
 	 * Returns the layout row that this layout cell resides.
 	 * 
-	 * @return the layout row 
+	 * @return the layout row
 	 */
 
-	protected LayoutRow getLayoutContainer( )
-	{
+	protected LayoutRow getLayoutContainer() {
 		return container;
 	}
 }

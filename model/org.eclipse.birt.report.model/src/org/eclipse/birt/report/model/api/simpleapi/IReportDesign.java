@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * 
  */
 
-public interface IReportDesign extends IDesignElement
-{
+public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * Gets master page script instance.
@@ -30,7 +29,7 @@ public interface IReportDesign extends IDesignElement
 	 * @return master page script instance
 	 */
 
-	IMasterPage getMasterPage( String name );
+	IMasterPage getMasterPage(String name);
 
 	/**
 	 * method to get data set design by name
@@ -38,7 +37,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return data set
 	 */
-	IDataSet getDataSet( String name );
+	IDataSet getDataSet(String name);
 
 	/**
 	 * method to get data source design by name
@@ -46,7 +45,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return data source
 	 */
-	IDataSource getDataSource( String name );
+	IDataSource getDataSource(String name);
 
 	/**
 	 * generic method to get report item by name
@@ -54,7 +53,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return report element
 	 */
-	IReportElement getReportElement( String name );
+	IReportElement getReportElement(String name);
 
 	/**
 	 * method to get a label item by name
@@ -63,7 +62,7 @@ public interface IReportDesign extends IDesignElement
 	 * @return label
 	 */
 
-	ILabel getLabel( String name );
+	ILabel getLabel(String name);
 
 	/**
 	 * method to get a grid item by name
@@ -71,7 +70,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return grid
 	 */
-	IGrid getGrid( String name );
+	IGrid getGrid(String name);
 
 	/**
 	 * mathod to get a Image item by name
@@ -79,7 +78,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return iamge
 	 */
-	IImage getImage( String name );
+	IImage getImage(String name);
 
 	/**
 	 * method to get a list item by name
@@ -87,7 +86,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return list
 	 */
-	IList getList( String name );
+	IList getList(String name);
 
 	/**
 	 * method to get a table item by name
@@ -95,7 +94,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return table
 	 */
-	ITable getTable( String name );
+	ITable getTable(String name);
 
 	/**
 	 * method to get a dynamic text data item by name.
@@ -104,7 +103,7 @@ public interface IReportDesign extends IDesignElement
 	 * @return text data
 	 */
 
-	IDynamicText getDynamicText( String name );
+	IDynamicText getDynamicText(String name);
 
 	/**
 	 * method to get a data item by name
@@ -113,7 +112,7 @@ public interface IReportDesign extends IDesignElement
 	 * @return data item
 	 */
 
-	IDataItem getDataItem( String name );
+	IDataItem getDataItem(String name);
 
 	/**
 	 * method to get a text item by name
@@ -122,19 +121,17 @@ public interface IReportDesign extends IDesignElement
 	 * @return text item
 	 */
 
-	ITextItem getTextItem( String name );
+	ITextItem getTextItem(String name);
 
 	/**
 	 * Sets the resource key of the display name.
 	 * 
-	 * @param displayNameKey
-	 *            the resource key of the display name
-	 * @throws SemanticException
-	 *             if the display name resource-key property is locked or not
-	 *             defined on this element.
+	 * @param displayNameKey the resource key of the display name
+	 * @throws SemanticException if the display name resource-key property is locked
+	 *                           or not defined on this element.
 	 */
 
-	void setDisplayNameKey( String displayNameKey ) throws SemanticException;
+	void setDisplayNameKey(String displayNameKey) throws SemanticException;
 
 	/**
 	 * Gets the resource key of the display name.
@@ -142,19 +139,17 @@ public interface IReportDesign extends IDesignElement
 	 * @return the resource key of the display name
 	 */
 
-	String getDisplayNameKey( );
+	String getDisplayNameKey();
 
 	/**
 	 * Sets the display name.
 	 * 
-	 * @param displayName
-	 *            the display name
-	 * @throws SemanticException
-	 *             if the display name property is locked or not defined on this
-	 *             element.
+	 * @param displayName the display name
+	 * @throws SemanticException if the display name property is locked or not
+	 *                           defined on this element.
 	 */
 
-	void setDisplayName( String displayName ) throws SemanticException;
+	void setDisplayName(String displayName) throws SemanticException;
 
 	/**
 	 * Gets the display name.
@@ -162,42 +157,40 @@ public interface IReportDesign extends IDesignElement
 	 * @return the display name
 	 */
 
-	String getDisplayName( );
+	String getDisplayName();
 
 	/**
-	 * Saves the module to an existing file name. Call this only when the file
-	 * name has been set.
+	 * Saves the module to an existing file name. Call this only when the file name
+	 * has been set.
 	 * 
-	 * @throws IOException
-	 *             if the file cannot be saved on the storage. Or the file name
-	 *             is not valid.
+	 * @throws IOException if the file cannot be saved on the storage. Or the file
+	 *                     name is not valid.
 	 * 
 	 * @see #saveAs(String)
 	 */
 
-	void save( ) throws IOException;
+	void save() throws IOException;
 
 	/**
 	 * Saves the design to the file name provided. The file name is saved in the
-	 * design, and subsequent calls to <code>save( )</code> will save to this
-	 * new name.
+	 * design, and subsequent calls to <code>save( )</code> will save to this new
+	 * name.
 	 * 
-	 * @param newName
-	 *            the new file name
-	 * @throws IOException
-	 *             if the file cannot be saved. Or the file name is not valid.
+	 * @param newName the new file name
+	 * @throws IOException if the file cannot be saved. Or the file name is not
+	 *                     valid.
 	 * 
 	 * @see #save()
 	 */
 
-	void saveAs( String newName ) throws IOException;
+	void saveAs(String newName) throws IOException;
 
 	/**
 	 * Gets the theme for this report design.
 	 * 
 	 * @return the theme for this report design.
 	 */
-	String getTheme( );
+	String getTheme();
 
 	/**
 	 * Sets the theme for this report design.
@@ -205,7 +198,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param theme
 	 * @throws SemanticException
 	 */
-	void setTheme( String theme ) throws SemanticException;
+	void setTheme(String theme) throws SemanticException;
 
 	/**
 	 * generic method to get report item by id
@@ -213,7 +206,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return report element
 	 */
-	IReportElement getReportElementByID( long id );
+	IReportElement getReportElementByID(long id);
 
 	/**
 	 * Create <code>IFilterCondition</code>
@@ -221,7 +214,7 @@ public interface IReportDesign extends IDesignElement
 	 * @return instance
 	 */
 
-	IFilterCondition createFilterCondition( );
+	IFilterCondition createFilterCondition();
 
 	/**
 	 * Create IHideRule instance
@@ -229,7 +222,7 @@ public interface IReportDesign extends IDesignElement
 	 * @return IHideRule
 	 */
 
-	IHideRule createHideRule( );
+	IHideRule createHideRule();
 
 	/**
 	 * Create IHighLightRule
@@ -237,7 +230,7 @@ public interface IReportDesign extends IDesignElement
 	 * @return instance
 	 */
 
-	IHighlightRule createHighLightRule( );
+	IHighlightRule createHighLightRule();
 
 	/**
 	 * Create ISortCondition
@@ -245,19 +238,17 @@ public interface IReportDesign extends IDesignElement
 	 * @return instance
 	 */
 
-	ISortCondition createSortCondition( );
+	ISortCondition createSortCondition();
 
 	/**
 	 * Creates the action structure.
 	 * 
-	 * @param action
-	 *            the structure handle
-	 * @param handle
-	 *            the element handle that holds the action structure
+	 * @param action the structure handle
+	 * @param handle the element handle that holds the action structure
 	 * @return the action
 	 */
 
-	public IAction createAction( );
+	public IAction createAction();
 
 	/**
 	 * Create <code>IDataBinding</code>
@@ -265,6 +256,6 @@ public interface IReportDesign extends IDesignElement
 	 * @return instance
 	 */
 
-	public IDataBinding createDataBinding( );
+	public IDataBinding createDataBinding();
 
 }

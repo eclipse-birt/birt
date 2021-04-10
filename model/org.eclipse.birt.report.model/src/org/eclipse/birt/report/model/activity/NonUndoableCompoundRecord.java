@@ -17,21 +17,17 @@ package org.eclipse.birt.report.model.activity;
  * 
  */
 
-class NonUndoableCompoundRecord extends CompoundRecord
-{
+class NonUndoableCompoundRecord extends CompoundRecord {
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param text
-	 *            the localized label text
-	 * @param outerMost
-	 *            indicates if it is the outer most filter event transaction.
+	 * @param text      the localized label text
+	 * @param outerMost indicates if it is the outer most filter event transaction.
 	 */
 
-	public NonUndoableCompoundRecord( String text )
-	{
-		super( text );
+	public NonUndoableCompoundRecord(String text) {
+		super(text);
 	}
 
 	/*
@@ -40,8 +36,7 @@ class NonUndoableCompoundRecord extends CompoundRecord
 	 * @see org.eclipse.birt.report.model.activity.CompoundRecord#canRedo()
 	 */
 
-	public boolean canRedo( )
-	{
+	public boolean canRedo() {
 
 		return false;
 	}
@@ -52,8 +47,7 @@ class NonUndoableCompoundRecord extends CompoundRecord
 	 * @see org.eclipse.birt.report.model.activity.CompoundRecord#canUndo()
 	 */
 
-	public boolean canUndo( )
-	{
+	public boolean canUndo() {
 
 		return false;
 	}
@@ -64,8 +58,7 @@ class NonUndoableCompoundRecord extends CompoundRecord
 	 * @see org.eclipse.birt.report.model.activity.CompoundRecord#redo()
 	 */
 
-	public void redo( )
-	{
+	public void redo() {
 
 	}
 
@@ -75,8 +68,7 @@ class NonUndoableCompoundRecord extends CompoundRecord
 	 * @see org.eclipse.birt.report.model.activity.CompoundRecord#undo()
 	 */
 
-	public void undo( )
-	{
+	public void undo() {
 
 	}
 

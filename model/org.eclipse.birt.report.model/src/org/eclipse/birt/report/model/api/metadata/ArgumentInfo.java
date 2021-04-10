@@ -18,45 +18,38 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * data type, internal name, and display name.
  */
 
-public class ArgumentInfo implements IArgumentInfo
-{
+public class ArgumentInfo implements IArgumentInfo {
 
 	private final IArgumentInfo arguInfo;
 
-	public ArgumentInfo( )
-	{
-		arguInfo = new org.eclipse.birt.report.model.metadata.ArgumentInfo( );
+	public ArgumentInfo() {
+		arguInfo = new org.eclipse.birt.report.model.metadata.ArgumentInfo();
 	}
 
-	public String getName( )
-	{
-		return arguInfo.getName( );
+	public String getName() {
+		return arguInfo.getName();
 	}
 
 	/**
-	 * Returns the display name for the property if the resource key of display
-	 * name is defined. Otherwise, return empty string.
+	 * Returns the display name for the property if the resource key of display name
+	 * is defined. Otherwise, return empty string.
 	 * 
 	 * @return the user-visible, localized display name for the property
 	 */
 
-	public String getDisplayName( )
-	{
-		String retValue = arguInfo.getDisplayName( );
+	public String getDisplayName() {
+		String retValue = arguInfo.getDisplayName();
 		return retValue != null ? retValue : ""; //$NON-NLS-1$
 	}
 
 	/**
 	 * Sets the internal name of the property.
 	 * 
-	 * @param theName
-	 *            the internal property name
+	 * @param theName the internal property name
 	 */
 
-	protected void setName( String theName )
-	{
-		( (org.eclipse.birt.report.model.metadata.ArgumentInfo) arguInfo )
-				.setName( theName );
+	protected void setName(String theName) {
+		((org.eclipse.birt.report.model.metadata.ArgumentInfo) arguInfo).setName(theName);
 	}
 
 	/**
@@ -65,23 +58,19 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @return The display name message ID.
 	 */
 
-	public String getDisplayNameKey( )
-	{
-		String retValue = arguInfo.getDisplayNameKey( );
+	public String getDisplayNameKey() {
+		String retValue = arguInfo.getDisplayNameKey();
 		return retValue != null ? retValue : ""; //$NON-NLS-1$
 	}
 
 	/**
 	 * Sets the message ID for the display name.
 	 * 
-	 * @param id
-	 *            message ID for the display name
+	 * @param id message ID for the display name
 	 */
 
-	protected void setDisplayNameKey( String id )
-	{
-		( (org.eclipse.birt.report.model.metadata.ArgumentInfo) arguInfo )
-				.setDisplayNameKey( id );
+	protected void setDisplayNameKey(String id) {
+		((org.eclipse.birt.report.model.metadata.ArgumentInfo) arguInfo).setDisplayNameKey(id);
 	}
 
 	/**
@@ -90,9 +79,8 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @return the script type to set
 	 */
 
-	public String getType( )
-	{
-		return arguInfo.getType( );
+	public String getType() {
+		return arguInfo.getType();
 	}
 
 	/**
@@ -101,22 +89,18 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @return the class type to set
 	 */
 
-	public IClassInfo getClassType( )
-	{
+	public IClassInfo getClassType() {
 		return null;
 	}
 
 	/**
 	 * Sets the script type of this argument.
 	 * 
-	 * @param type
-	 *            the script type to set
+	 * @param type the script type to set
 	 */
 
-	protected void setType( String type )
-	{
-		( (org.eclipse.birt.report.model.metadata.ArgumentInfo) arguInfo )
-				.setType( type );
+	protected void setType(String type) {
+		((org.eclipse.birt.report.model.metadata.ArgumentInfo) arguInfo).setType(type);
 	}
 
 	/*
@@ -125,10 +109,9 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @see java.lang.Object#toString()
 	 */
 
-	public String toString( )
-	{
-		if ( !StringUtil.isBlank( getName( ) ) )
-			return getName( );
-		return super.toString( );
+	public String toString() {
+		if (!StringUtil.isBlank(getName()))
+			return getName();
+		return super.toString();
 	}
 }

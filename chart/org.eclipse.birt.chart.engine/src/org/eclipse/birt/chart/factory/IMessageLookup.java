@@ -14,12 +14,11 @@ import com.ibm.icu.util.ULocale;
  * Note that the externalization service needs to be implemented by a target
  * host service. This service is provided by the BIRT reporting context.
  */
-public interface IMessageLookup
-{
+public interface IMessageLookup {
 
 	/**
-	 * Defines a separator for a fully externalized message reference containing
-	 * a key on the LHS and a value on the RHS separated by the key separator.
+	 * Defines a separator for a fully externalized message reference containing a
+	 * key on the LHS and a value on the RHS separated by the key separator.
 	 */
 	public static final char KEY_SEPARATOR = '=';
 
@@ -27,29 +26,23 @@ public interface IMessageLookup
 	 * Retrieves an externalized text message value from a message base file
 	 * associated with the report design.
 	 * 
-	 * @param sKey
-	 *            The key for which an externalized message is looked up.
-	 * @param lcl
-	 *            The locale for which an externalized message file is
-	 *            retrieved.
+	 * @param sKey The key for which an externalized message is looked up.
+	 * @param lcl  The locale for which an externalized message file is retrieved.
 	 * 
 	 * @return An externalized message for the specified key and locale.
 	 * @deprecated use {@link #getMessageValue(String, ULocale)} instead.
 	 */
-	public String getMessageValue( String sKey, Locale lcl );
+	public String getMessageValue(String sKey, Locale lcl);
 
 	/**
 	 * Retrieves an externalized text message value from a message base file
 	 * associated with the report design.
 	 * 
-	 * @param sKey
-	 *            The key for which an externalized message is looked up.
-	 * @param lcl
-	 *            The locale for which an externalized message file is
-	 *            retrieved.
+	 * @param sKey The key for which an externalized message is looked up.
+	 * @param lcl  The locale for which an externalized message file is retrieved.
 	 * 
 	 * @return An externalized message for the specified key and locale.
 	 * @since 2.1
 	 */
-	public String getMessageValue( String sKey, ULocale lcl );
+	public String getMessageValue(String sKey, ULocale lcl);
 }

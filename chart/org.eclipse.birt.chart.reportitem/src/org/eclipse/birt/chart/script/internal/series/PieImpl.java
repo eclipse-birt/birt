@@ -22,53 +22,43 @@ import org.eclipse.birt.chart.script.internal.component.ValueSeriesImpl;
  * 
  */
 
-public class PieImpl extends ValueSeriesImpl implements IPie
-{
+public class PieImpl extends ValueSeriesImpl implements IPie {
 
-	public PieImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public PieImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 		assert series instanceof PieSeries;
 	}
 
-	private ChartWithoutAxes getChart( )
-	{
-		return ( (ChartWithoutAxes) cm );
+	private ChartWithoutAxes getChart() {
+		return ((ChartWithoutAxes) cm);
 	}
 
-	private PieSeries getPie( )
-	{
+	private PieSeries getPie() {
 		return (PieSeries) series;
 	}
 
-	public double getMinSlice( )
-	{
-		return getChart( ).getMinSlice( );
+	public double getMinSlice() {
+		return getChart().getMinSlice();
 	}
 
-	public String getMinSliceLabel( )
-	{
-		return getChart( ).getMinSliceLabel( );
+	public String getMinSliceLabel() {
+		return getChart().getMinSliceLabel();
 	}
 
-	public void setMinSlice( double value )
-	{
-		getChart( ).setMinSlice( value );
+	public void setMinSlice(double value) {
+		getChart().setMinSlice(value);
 	}
 
-	public void setMinSliceLabel( String label )
-	{
-		getChart( ).setMinSliceLabel( label );
+	public void setMinSliceLabel(String label) {
+		getChart().setMinSliceLabel(label);
 	}
 
-	public String getExplosionExpr( )
-	{
-		return getPie( ).getExplosionExpression( );
+	public String getExplosionExpr() {
+		return getPie().getExplosionExpression();
 	}
 
-	public void setExplosionExpr( String expr )
-	{
-		getPie( ).setExplosionExpression( expr );
+	public void setExplosionExpr(String expr) {
+		getPie().setExplosionExpression(expr);
 	}
 
 }

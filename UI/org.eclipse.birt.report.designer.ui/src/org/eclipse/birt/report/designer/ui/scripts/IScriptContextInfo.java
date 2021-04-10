@@ -16,16 +16,15 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 /**
  * IScriptContextInfo
  */
-public interface IScriptContextInfo
-{
+public interface IScriptContextInfo {
 
 	/**
 	 * @return Returns name of this context info
 	 */
-	String getName( );
+	String getName();
 
 	/**
 	 * @return Returns type of this context info
 	 */
-	IClassInfo getType( );
+	IClassInfo getType();
 }

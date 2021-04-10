@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
  * 
  */
 
-public interface IFilterCondition
-{
+public interface IFilterCondition {
 
 	/**
 	 * Returns operator
@@ -28,7 +27,7 @@ public interface IFilterCondition
 	 * @return operator
 	 */
 
-	public String getOperator( );
+	public String getOperator();
 
 	/**
 	 * Sets operator
@@ -37,7 +36,7 @@ public interface IFilterCondition
 	 * @throws ScriptException
 	 */
 
-	public void setOperator( String operator ) throws ScriptException;
+	public void setOperator(String operator) throws ScriptException;
 
 	/**
 	 * Returns value1
@@ -45,7 +44,7 @@ public interface IFilterCondition
 	 * @return value1
 	 */
 
-	public String getValue1( );
+	public String getValue1();
 
 	/**
 	 * Sets value1
@@ -54,7 +53,7 @@ public interface IFilterCondition
 	 * @throws ScriptException
 	 */
 
-	public void setValue1( String value1 ) throws ScriptException;
+	public void setValue1(String value1) throws ScriptException;
 
 	/**
 	 * Returns value2
@@ -62,7 +61,7 @@ public interface IFilterCondition
 	 * @return value2
 	 */
 
-	public String getValue2( );
+	public String getValue2();
 
 	/**
 	 * Sets value2
@@ -71,7 +70,7 @@ public interface IFilterCondition
 	 * @throws ScriptException
 	 */
 
-	public void setValue2( String value2 ) throws ScriptException;
+	public void setValue2(String value2) throws ScriptException;
 
 	/**
 	 * Returns structure.
@@ -79,7 +78,7 @@ public interface IFilterCondition
 	 * @return structure
 	 */
 
-	public IStructure getStructure( );
+	public IStructure getStructure();
 
 	/**
 	 * Sets expr
@@ -87,7 +86,7 @@ public interface IFilterCondition
 	 * @param expr
 	 */
 
-	public void setExpr( String expr ) throws ScriptException;
+	public void setExpr(String expr) throws ScriptException;
 
 	/**
 	 * Returns expr
@@ -95,5 +94,5 @@ public interface IFilterCondition
 	 * @return expr
 	 */
 
-	public String getExpr( );
+	public String getExpr();
 }

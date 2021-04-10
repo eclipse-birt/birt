@@ -28,85 +28,71 @@ import org.eclipse.birt.report.engine.emitter.config.excel.i18n.Messages;
 /**
  * This class is a descriptor of excel emitter.
  */
-public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
-{
-	protected void initOptions( )
-	{
-		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.excel" );
+public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor {
+	protected void initOptions() {
+		loadDefaultValues("org.eclipse.birt.report.engine.emitter.config.excel");
 		// Initializes the option for WrappingText.
-		ConfigurableOption wrappingText = initializeWrappingText( );
-		
+		ConfigurableOption wrappingText = initializeWrappingText();
+
 		// Initializes the option for chart DPI.
-		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
-		chartDpi.setDisplayName( getMessage( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
-		chartDpi.setDataType( IConfigurableOption.DataType.INTEGER );
-		chartDpi.setDisplayType( IConfigurableOption.DisplayType.TEXT );
-		chartDpi.setDefaultValue( new Integer( 192 ) );
-		chartDpi.setToolTip( getMessage( "Tooltip.ChartDpi" ) );
-		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
+		ConfigurableOption chartDpi = new ConfigurableOption(CHART_DPI);
+		chartDpi.setDisplayName(getMessage("OptionDisplayValue.ChartDpi")); //$NON-NLS-1$
+		chartDpi.setDataType(IConfigurableOption.DataType.INTEGER);
+		chartDpi.setDisplayType(IConfigurableOption.DisplayType.TEXT);
+		chartDpi.setDefaultValue(new Integer(192));
+		chartDpi.setToolTip(getMessage("Tooltip.ChartDpi"));
+		chartDpi.setDescription(getMessage("OptionDescription.ChartDpi")); //$NON-NLS-1$
 
-		ConfigurableOption hideGridlines = new ConfigurableOption(
-				HIDE_GRIDLINES );
-		hideGridlines
-				.setDisplayName( getMessage( "OptionDisplayValue.HideGridlines" ) ); //$NON-NLS-1$
-		hideGridlines.setDataType( IConfigurableOption.DataType.BOOLEAN );
-		hideGridlines.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
-		hideGridlines.setDefaultValue( Boolean.FALSE );
-		hideGridlines.setToolTip( null );
-		hideGridlines
-				.setDescription( getMessage( "OptionDescription.HideGridlines" ) ); //$NON-NLS-1$
+		ConfigurableOption hideGridlines = new ConfigurableOption(HIDE_GRIDLINES);
+		hideGridlines.setDisplayName(getMessage("OptionDisplayValue.HideGridlines")); //$NON-NLS-1$
+		hideGridlines.setDataType(IConfigurableOption.DataType.BOOLEAN);
+		hideGridlines.setDisplayType(IConfigurableOption.DisplayType.CHECKBOX);
+		hideGridlines.setDefaultValue(Boolean.FALSE);
+		hideGridlines.setToolTip(null);
+		hideGridlines.setDescription(getMessage("OptionDescription.HideGridlines")); //$NON-NLS-1$
 
-		options = new IConfigurableOption[]{wrappingText, chartDpi};
-		applyDefaultValues( );
+		options = new IConfigurableOption[] { wrappingText, chartDpi };
+		applyDefaultValues();
 	}
 
-	protected String getMessage( String key )
-	{
-		return Messages.getString( key, locale );
+	protected String getMessage(String key) {
+		return Messages.getString(key, locale);
 	}
 
-	protected ConfigurableOption initializeWrappingText( )
-	{
-		ConfigurableOption wrappingText = new ConfigurableOption( WRAPPING_TEXT );
-		wrappingText
-				.setDisplayName( getMessage( "OptionDisplayValue.WrappingText" ) ); //$NON-NLS-1$
-		wrappingText.setDataType( IConfigurableOption.DataType.BOOLEAN );
-		wrappingText.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
-		wrappingText.setDefaultValue( Boolean.TRUE );
-		wrappingText.setToolTip( null );
-		wrappingText
-				.setDescription( getMessage( "OptionDescription.WrappingText" ) ); //$NON-NLS-1$
+	protected ConfigurableOption initializeWrappingText() {
+		ConfigurableOption wrappingText = new ConfigurableOption(WRAPPING_TEXT);
+		wrappingText.setDisplayName(getMessage("OptionDisplayValue.WrappingText")); //$NON-NLS-1$
+		wrappingText.setDataType(IConfigurableOption.DataType.BOOLEAN);
+		wrappingText.setDisplayType(IConfigurableOption.DisplayType.CHECKBOX);
+		wrappingText.setDefaultValue(Boolean.TRUE);
+		wrappingText.setToolTip(null);
+		wrappingText.setDescription(getMessage("OptionDescription.WrappingText")); //$NON-NLS-1$
 		return wrappingText;
 	}
 
 	@Override
-	public IConfigurableOptionObserver createOptionObserver( )
-	{
-		return new ExcelOptionObserver( );
+	public IConfigurableOptionObserver createOptionObserver() {
+		return new ExcelOptionObserver();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.emitter.config.AbstractEmitterDescriptor
+	 * @see org.eclipse.birt.report.engine.emitter.config.AbstractEmitterDescriptor
 	 * #getDescription()
 	 */
-	public String getDescription( )
-	{
-		return getMessage( "ExcelEmitter.Description" ); //$NON-NLS-1$
+	public String getDescription() {
+		return getMessage("ExcelEmitter.Description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.emitters.IEmitterDescriptor#getDisplayName
-	 * ()
+	 * org.eclipse.birt.report.engine.emitters.IEmitterDescriptor#getDisplayName ()
 	 */
-	public String getDisplayName( )
-	{
-		return getMessage( "ExcelEmitter.DisplayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return getMessage("ExcelEmitter.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
@@ -114,37 +100,29 @@ public class ExcelEmitterDescriptor extends AbstractEmitterDescriptor
 	 * 
 	 * @see org.eclipse.birt.report.engine.emitters.IEmitterDescriptor#getID()
 	 */
-	public String getID( )
-	{
+	public String getID() {
 		return "org.eclipse.birt.report.engine.emitter.prototype.excel"; //$NON-NLS-1$
 	}
 
 	/**
 	 * ExcelOptionObserver
 	 */
-	class ExcelOptionObserver extends AbstractConfigurableOptionObserver
-	{
+	class ExcelOptionObserver extends AbstractConfigurableOptionObserver {
 
-		public IConfigurableOption[] getOptions( )
-		{
+		public IConfigurableOption[] getOptions() {
 			return options;
 		}
 
-		public IRenderOption getPreferredRenderOption( )
-		{
-			EXCELRenderOption renderOption = new EXCELRenderOption( );
+		public IRenderOption getPreferredRenderOption() {
+			EXCELRenderOption renderOption = new EXCELRenderOption();
 
-			renderOption.setEmitterID( getID( ) );
-			renderOption.setOutputFormat( "xls" ); //$NON-NLS-1$
+			renderOption.setEmitterID(getID());
+			renderOption.setOutputFormat("xls"); //$NON-NLS-1$
 
-			if ( values != null && values.length > 0 )
-			{
-				for ( IOptionValue optionValue : values )
-				{
-					if ( optionValue != null )
-					{
-						renderOption.setOption( optionValue.getName( ),
-						                        optionValue.getValue( ) );
+			if (values != null && values.length > 0) {
+				for (IOptionValue optionValue : values) {
+					if (optionValue != null) {
+						renderOption.setOption(optionValue.getName(), optionValue.getValue());
 					}
 				}
 			}

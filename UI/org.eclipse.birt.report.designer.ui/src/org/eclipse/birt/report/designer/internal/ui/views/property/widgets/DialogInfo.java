@@ -17,7 +17,6 @@ import java.io.Serializable;
  * this interface do nothing, for the Dialog and componnet exchange the
  * infomation
  */
-public interface DialogInfo extends Serializable
-{
+public interface DialogInfo extends Serializable {
 
 }

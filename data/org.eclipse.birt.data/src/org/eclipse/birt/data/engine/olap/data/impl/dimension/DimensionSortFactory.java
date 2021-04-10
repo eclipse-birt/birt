@@ -13,20 +13,17 @@ package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 
-
 /**
  * no reference, should be deleted?
  */
 
-public class DimensionSortFactory
-{
+public class DimensionSortFactory {
 	/**
 	 * 
 	 * @param direction
 	 * @return
 	 */
-	public static IDimensionSortDefn createDimSortDef(int direction )
-	{
+	public static IDimensionSortDefn createDimSortDef(int direction) {
 		return null;
 	}
 }

@@ -21,8 +21,7 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  * Just copied from JDBC ODA Driver
  */
 
-public class Blob implements IBlob
-{
+public class Blob implements IBlob {
 	private java.sql.Blob blob;
 
 	/**
@@ -30,59 +29,46 @@ public class Blob implements IBlob
 	 * @param blobObj
 	 * @throws OdaException
 	 */
-	public Blob( java.sql.Blob blobObj ) throws OdaException
-	{
+	public Blob(java.sql.Blob blobObj) throws OdaException {
 		this.blob = blobObj;
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IBlob#getBinaryStream()
 	 */
-	public InputStream getBinaryStream( ) throws OdaException
-	{
-		if ( blob == null )
+	public InputStream getBinaryStream() throws OdaException {
+		if (blob == null)
 			return null;
-		try
-		{
-			return blob.getBinaryStream( );
-		}
-		catch ( SQLException e )
-		{
-			throw new OdaException( e );
+		try {
+			return blob.getBinaryStream();
+		} catch (SQLException e) {
+			throw new OdaException(e);
 		}
 	}
 
-    /*
-     * @see org.eclipse.datatools.connectivity.oda.IBlob#getBytes(long, int)
-     */
-    public byte[] getBytes( long position, int length ) throws OdaException
-    {
-		if ( blob == null )
+	/*
+	 * @see org.eclipse.datatools.connectivity.oda.IBlob#getBytes(long, int)
+	 */
+	public byte[] getBytes(long position, int length) throws OdaException {
+		if (blob == null)
 			return null;
-    	try
-    	{
-    		return blob.getBytes( position, length );
-    	}
-    	catch ( SQLException e )
-    	{
-			throw new OdaException( e );
-    	}
-    }
+		try {
+			return blob.getBytes(position, length);
+		} catch (SQLException e) {
+			throw new OdaException(e);
+		}
+	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IBlob#length()
 	 */
-	public long length( ) throws OdaException
-	{
-		if ( blob == null )
+	public long length() throws OdaException {
+		if (blob == null)
 			return 0;
-		try
-		{
-			return blob.length( );
-		}
-		catch ( SQLException e )
-		{
-			throw new OdaException( e );
+		try {
+			return blob.length();
+		} catch (SQLException e) {
+			throw new OdaException(e);
 		}
 	}
 }

@@ -17,7 +17,6 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public interface IQueryContextVisitor
-{
-	public void visit( IQueryContextVisitable visitable ) throws DataException;
+public interface IQueryContextVisitor {
+	public void visit(IQueryContextVisitable visitable) throws DataException;
 }

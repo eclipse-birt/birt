@@ -13,18 +13,15 @@ package org.eclipse.birt.report.data.oda.xml.impl;
 
 /**
  * This class descript the meta data information of xml driver.
+ * 
  * @deprecated Please use DTP xml driver
  */
-public class DataSetMetaData
-		extends
-			org.eclipse.datatools.enablement.oda.xml.impl.DataSetMetaData
-{
+public class DataSetMetaData extends org.eclipse.datatools.enablement.oda.xml.impl.DataSetMetaData {
 	/**
 	 * 
 	 * @param connection
 	 */
-	public DataSetMetaData( Connection connection )
-	{
-		super( connection );
+	public DataSetMetaData(Connection connection) {
+		super(connection);
 	}
 }

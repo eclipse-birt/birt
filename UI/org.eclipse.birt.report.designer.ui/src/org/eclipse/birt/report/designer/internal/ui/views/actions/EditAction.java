@@ -24,47 +24,37 @@ import org.eclipse.jface.viewers.IStructuredSelection;
  * 
  * 
  */
-public class EditAction extends AbstractElementAction
-{
+public class EditAction extends AbstractElementAction {
 
 	/**
 	 * the default text
 	 */
-	public static final String TEXT = Messages.getString( "EditAction.text" ); //$NON-NLS-1$
+	public static final String TEXT = Messages.getString("EditAction.text"); //$NON-NLS-1$
 
 	/**
 	 * Create a new edit action with given selection and default text
 	 * 
-	 * @param selectedObject
-	 *            the selected object,which cannot be null
+	 * @param selectedObject the selected object,which cannot be null
 	 * 
 	 */
-	public EditAction( Object selectedObject )
-	{
-		this( selectedObject, TEXT );
+	public EditAction(Object selectedObject) {
+		this(selectedObject, TEXT);
 	}
 
 	/**
 	 * Create a new edit action with given selection and text
 	 * 
-	 * @param selectedObject
-	 *            the selected object,which cannot be null
-	 * @param text
-	 *            the text of the action
+	 * @param selectedObject the selected object,which cannot be null
+	 * @param text           the text of the action
 	 */
-	public EditAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
+	public EditAction(Object selectedObject, String text) {
+		super(selectedObject, text);
 	}
 
-	public boolean isEnabled( )
-	{
-		if ( getSelectedElement( ) != null )
-		{
-			return getSelectedElement( ).canEdit( );
-		}
-		else if ( getSelectedElementDetail( ) != null )
-		{
+	public boolean isEnabled() {
+		if (getSelectedElement() != null) {
+			return getSelectedElement().canEdit();
+		} else if (getSelectedElementDetail() != null) {
 			return true;
 		}
 
@@ -77,19 +67,13 @@ public class EditAction extends AbstractElementAction
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#doAction()
 	 */
-	protected boolean doAction( ) throws Exception
-	{
-		if ( getSelectedElement( ) != null )
-		{
-			return ProviderFactory.createProvider( getSelectedElement( ) )
-					.performRequest( getSelectedElement( ),
-							new Request( IRequestConstants.REQUEST_TYPE_EDIT ) );
-		}
-		else if ( getSelectedElementDetail() != null)
-		{
-			return ProviderFactory.createProvider( getSelectedElementDetail( ) )
-					.performRequest( getSelectedElementDetail( ),
-							new Request( IRequestConstants.REQUEST_TYPE_EDIT ) );
+	protected boolean doAction() throws Exception {
+		if (getSelectedElement() != null) {
+			return ProviderFactory.createProvider(getSelectedElement()).performRequest(getSelectedElement(),
+					new Request(IRequestConstants.REQUEST_TYPE_EDIT));
+		} else if (getSelectedElementDetail() != null) {
+			return ProviderFactory.createProvider(getSelectedElementDetail()).performRequest(getSelectedElementDetail(),
+					new Request(IRequestConstants.REQUEST_TYPE_EDIT));
 		}
 		return false;
 
@@ -98,42 +82,34 @@ public class EditAction extends AbstractElementAction
 	/**
 	 * @return the model of selected GUI object.
 	 */
-	private DesignElementHandle getSelectedElement( )
-	{
-		Object obj = super.getSelection( );
-		if ( obj instanceof IStructuredSelection )
-		{
+	private DesignElementHandle getSelectedElement() {
+		Object obj = super.getSelection();
+		if (obj instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection) obj;
-			if ( selection.size( ) != 1 )
-			{// multiple selection
+			if (selection.size() != 1) {// multiple selection
 				return null;
 			}
-			obj = selection.getFirstElement( );
+			obj = selection.getFirstElement();
 		}
-		if ( obj instanceof DesignElementHandle )
-		{
+		if (obj instanceof DesignElementHandle) {
 			return (DesignElementHandle) obj;
 		}
 		return null;
 	}
 
-	private ElementDetailHandle getSelectedElementDetail( )
-	{
-		Object obj = super.getSelection( );
-		if ( obj instanceof IStructuredSelection )
-		{
+	private ElementDetailHandle getSelectedElementDetail() {
+		Object obj = super.getSelection();
+		if (obj instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection) obj;
-			if ( selection.size( ) != 1 )
-			{// multiple selection
+			if (selection.size() != 1) {// multiple selection
 				return null;
 			}
-			obj = selection.getFirstElement( );
+			obj = selection.getFirstElement();
 		}
-		if ( obj instanceof ElementDetailHandle )
-		{
+		if (obj instanceof ElementDetailHandle) {
 			return (ElementDetailHandle) obj;
 		}
 		return null;
 	}
-	
+
 }

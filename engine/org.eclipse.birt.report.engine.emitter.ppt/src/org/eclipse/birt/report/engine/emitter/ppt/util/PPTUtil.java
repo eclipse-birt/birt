@@ -23,68 +23,49 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 
+public class PPTUtil {
 
-public class PPTUtil
-{
+	private static final Logger logger = Logger.getLogger(PPTUtil.class.getName());
 
-	private static final Logger logger = Logger.getLogger( PPTUtil.class
-			.getName( ) );
-	
-	public static HyperlinkDef getHyperlink( IArea area,
-			IEmitterServices services, IReportRunnable reportRunnable,
-			IReportContext context )
-	{
-		IHyperlinkAction hyperlinkAction = area.getAction( );
-		if ( hyperlinkAction != null )
-		{
-			try
-			{
-				if ( hyperlinkAction.getType( ) != IHyperlinkAction.ACTION_BOOKMARK )
-				{
-					String link = hyperlinkAction.getHyperlink( );
-					String tooltip = hyperlinkAction.getTooltip( );
-					Object handler = services
-							.getOption( RenderOption.ACTION_HANDLER );
-					if ( handler != null
-							&& handler instanceof IHTMLActionHandler )
-					{
+	public static HyperlinkDef getHyperlink(IArea area, IEmitterServices services, IReportRunnable reportRunnable,
+			IReportContext context) {
+		IHyperlinkAction hyperlinkAction = area.getAction();
+		if (hyperlinkAction != null) {
+			try {
+				if (hyperlinkAction.getType() != IHyperlinkAction.ACTION_BOOKMARK) {
+					String link = hyperlinkAction.getHyperlink();
+					String tooltip = hyperlinkAction.getTooltip();
+					Object handler = services.getOption(RenderOption.ACTION_HANDLER);
+					if (handler != null && handler instanceof IHTMLActionHandler) {
 						IHTMLActionHandler actionHandler = (IHTMLActionHandler) handler;
-						String systemId = reportRunnable == null
-								? null
-								: reportRunnable.getReportName( );
-						Action action = new Action( systemId, hyperlinkAction );
-						link = actionHandler.getURL( action, context );
+						String systemId = reportRunnable == null ? null : reportRunnable.getReportName();
+						Action action = new Action(systemId, hyperlinkAction);
+						link = actionHandler.getURL(action, context);
 					}
-					return new HyperlinkDef( link, tooltip );
+					return new HyperlinkDef(link, tooltip);
 				}
-			}
-			catch ( Exception e )
-			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
+			} catch (Exception e) {
+				logger.log(Level.WARNING, e.getMessage(), e);
 			}
 		}
 		return null;
 	}
 
-	public static class HyperlinkDef
-	{
+	public static class HyperlinkDef {
 
 		String link;
 		String tooltip;
 
-		public HyperlinkDef( String link, String tooltip )
-		{
+		public HyperlinkDef(String link, String tooltip) {
 			this.link = link;
 			this.tooltip = tooltip;
 		}
 
-		public String getLink( )
-		{
+		public String getLink() {
 			return link;
 		}
 
-		public String getTooltip( )
-		{
+		public String getTooltip() {
 			return tooltip;
 		}
 

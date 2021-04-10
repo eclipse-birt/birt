@@ -11,18 +11,17 @@
 
 package org.eclipse.birt.report.engine.extension;
 
-public interface IExtendedItem
-{
+public interface IExtendedItem {
 
-	public IReportItemPresentation createPresentation( );
+	public IReportItemPresentation createPresentation();
 
-	public IReportItemQuery createQuery( );
+	public IReportItemQuery createQuery();
 
-	public IReportEventHandler createEventHandler( );
+	public IReportEventHandler createEventHandler();
 
-	public IReportItemPreparation createPreparation( );
+	public IReportItemPreparation createPreparation();
 
-	public IReportItemExecutor createExecutor( );
+	public IReportItemExecutor createExecutor();
 
-	public void release( );
+	public void release();
 }

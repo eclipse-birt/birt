@@ -24,24 +24,19 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
  * 
  */
 
-public class SecuredCube extends Cube
-{
+public class SecuredCube extends Cube {
 	private Map<String, Set<String>> notAccessibleDimLvls;
-	
-	public SecuredCube( String name, IDocumentManager documentManager, Map<String, Set<String>> notAccessibleDimLvls )
-	{
-		super( name, documentManager );
+
+	public SecuredCube(String name, IDocumentManager documentManager, Map<String, Set<String>> notAccessibleDimLvls) {
+		super(name, documentManager);
 		this.notAccessibleDimLvls = notAccessibleDimLvls;
 	}
-	
-	protected IDimension loadDimension( String name ) throws DataException,
-	IOException
-	{
-		if( this.notAccessibleDimLvls.containsKey( name ))
-			return DimensionFactory.loadDimension( name, documentManager, this.notAccessibleDimLvls.get( name ) );
-		
-		return DimensionFactory.loadDimension( name,
-				documentManager );
+
+	protected IDimension loadDimension(String name) throws DataException, IOException {
+		if (this.notAccessibleDimLvls.containsKey(name))
+			return DimensionFactory.loadDimension(name, documentManager, this.notAccessibleDimLvls.get(name));
+
+		return DimensionFactory.loadDimension(name, documentManager);
 	}
 
 }

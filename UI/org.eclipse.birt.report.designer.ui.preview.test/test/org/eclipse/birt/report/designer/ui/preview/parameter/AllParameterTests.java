@@ -17,18 +17,16 @@ import junit.framework.TestSuite;
  * 
  */
 
-public class AllParameterTests extends TestCase
-{
+public class AllParameterTests extends TestCase {
 
 	/**
 	 * Tests all.
 	 * 
 	 * @throws Exception
 	 */
-	public void test( ) throws Exception
-	{
-		TestSuite suite = new TestSuite( );
-		suite.addTestSuite( ParameterCreationTest.class );
-		suite.addTestSuite( ParameterTest.class );
+	public void test() throws Exception {
+		TestSuite suite = new TestSuite();
+		suite.addTestSuite(ParameterCreationTest.class);
+		suite.addTestSuite(ParameterTest.class);
 	}
 }

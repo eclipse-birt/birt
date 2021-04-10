@@ -17,17 +17,17 @@ import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
-  * Bidi implementation of JDBC ResultSetMetaData
-  * @author Ira Fishbein
+ * Bidi implementation of JDBC ResultSetMetaData
+ * 
+ * @author Ira Fishbein
  *
  */
 public class BidiResultSetMetaData implements IResultSetMetaData {
-	
+
 	String metadataBidiFormatStr;
 	IResultSetMetaData rsMetaData = null;
 
-	public BidiResultSetMetaData(IResultSetMetaData meta,
-			String contentBidiFormatStr, String metadataBidiFormatStr) {
+	public BidiResultSetMetaData(IResultSetMetaData meta, String contentBidiFormatStr, String metadataBidiFormatStr) {
 		this.rsMetaData = meta;
 		this.metadataBidiFormatStr = metadataBidiFormatStr;
 	}
@@ -47,13 +47,15 @@ public class BidiResultSetMetaData implements IResultSetMetaData {
 	public String getColumnLabel(int index) throws OdaException {
 		if (rsMetaData == null)
 			return "";
-		return BidiTransform.transform(rsMetaData.getColumnLabel(index), metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
+		return BidiTransform.transform(rsMetaData.getColumnLabel(index), metadataBidiFormatStr,
+				BidiConstants.DEFAULT_BIDI_FORMAT_STR);
 	}
 
 	public String getColumnName(int index) throws OdaException {
 		if (rsMetaData == null)
 			return "";
-		return BidiTransform.transform(rsMetaData.getColumnName(index), metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
+		return BidiTransform.transform(rsMetaData.getColumnName(index), metadataBidiFormatStr,
+				BidiConstants.DEFAULT_BIDI_FORMAT_STR);
 	}
 
 	public int getColumnType(int index) throws OdaException {

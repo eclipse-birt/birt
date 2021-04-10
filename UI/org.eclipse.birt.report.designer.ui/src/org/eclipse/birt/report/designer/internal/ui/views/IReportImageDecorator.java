@@ -17,13 +17,12 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 
-public interface IReportImageDecorator
-{
-	 /**
+public interface IReportImageDecorator {
+	/**
 	 * @param image
 	 * @param element
 	 * @return
 	 */
 	Image decorateImage(Image image, Object element);
-	
+
 }

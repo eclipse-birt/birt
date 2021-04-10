@@ -17,8 +17,7 @@ import org.eclipse.gef.commands.Command;
 /**
  * The abstract command for all the cross tab command.
  */
-public class AbstractCrosstabCommand extends Command
-{
+public class AbstractCrosstabCommand extends Command {
 
 	private DesignElementHandle handle;
 
@@ -27,8 +26,7 @@ public class AbstractCrosstabCommand extends Command
 	 * 
 	 * @param handle
 	 */
-	public AbstractCrosstabCommand( DesignElementHandle handle )
-	{
+	public AbstractCrosstabCommand(DesignElementHandle handle) {
 		assert handle != null;
 		this.handle = handle;
 	}
@@ -38,24 +36,21 @@ public class AbstractCrosstabCommand extends Command
 	 * 
 	 * @param name
 	 */
-	protected void transStart( String name )
-	{
-		handle.getModuleHandle( ).getCommandStack( ).startTrans( name );
+	protected void transStart(String name) {
+		handle.getModuleHandle().getCommandStack().startTrans(name);
 	}
 
 	/**
 	 * Commit the trans.
 	 */
-	protected void transEnd( )
-	{
-		handle.getModuleHandle( ).getCommandStack( ).commit( );
+	protected void transEnd() {
+		handle.getModuleHandle().getCommandStack().commit();
 	}
 
 	/**
 	 * Roll back the trans.
 	 */
-	protected void rollBack( )
-	{
-		handle.getModuleHandle( ).getCommandStack( ).rollback( );
+	protected void rollBack() {
+		handle.getModuleHandle().getCommandStack().rollback();
 	}
 }

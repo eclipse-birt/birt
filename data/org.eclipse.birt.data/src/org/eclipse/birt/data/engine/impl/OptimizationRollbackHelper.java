@@ -21,22 +21,15 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public class OptimizationRollbackHelper
-{
+public class OptimizationRollbackHelper {
 
-	
-	public OptimizationRollbackHelper( IQueryDefinition qd, IOdaDataSetDesign ds )
-	{
+	public OptimizationRollbackHelper(IQueryDefinition qd, IOdaDataSetDesign ds) {
 	}
-	
 
-	public void collectOriginalInfo( ) throws DataException
-	{
+	public void collectOriginalInfo() throws DataException {
 	}
-	
 
-	public void rollback( ) throws DataException
-	{
+	public void rollback() throws DataException {
 
 	}
 }

@@ -28,22 +28,19 @@ import com.ibm.icu.math.BigDecimal;
  * @since 2.5
  */
 
-public final class SharedScaleContext
-{
+public final class SharedScaleContext {
 
 	private ScaleContext scaleContext;
-	private List<Object> alMinmax = new ArrayList<Object>( 2 );
-	private long width=-1;
-	private long height=-1;
+	private List<Object> alMinmax = new ArrayList<Object>(2);
+	private long width = -1;
+	private long height = -1;
 	private boolean bShared = false;
 
-	public SharedScaleContext( ScaleContext scaleContext, Object realMin,
-			Object realMax )
-	{
-		super( );
+	public SharedScaleContext(ScaleContext scaleContext, Object realMin, Object realMax) {
+		super();
 		this.scaleContext = scaleContext;
-		alMinmax.add( realMin );
-		alMinmax.add( realMax );
+		alMinmax.add(realMin);
+		alMinmax.add(realMax);
 	}
 
 	/**
@@ -52,13 +49,11 @@ public final class SharedScaleContext
 	 * 
 	 * @param bo
 	 */
-	public void updateBounds( Bounds bo )
-	{
-		long widthNew = Math.round( bo.getWidth( ) );
-		long heightNew = Math.round( bo.getHeight( ) );
+	public void updateBounds(Bounds bo) {
+		long widthNew = Math.round(bo.getWidth());
+		long heightNew = Math.round(bo.getHeight());
 
-		if ( width != widthNew || height != heightNew )
-		{
+		if (width != widthNew || height != heightNew) {
 			width = widthNew;
 			height = heightNew;
 			bShared = false;
@@ -71,27 +66,22 @@ public final class SharedScaleContext
 	 * @param oMax
 	 * @return
 	 */
-	public static final SharedScaleContext createInstance( Object oMin,
-			Object oMax )
-	{
-		ScaleContext sct = ScaleContext.createSimpleScale( oMin, oMax );
-		return new SharedScaleContext( sct, sct.getMin( ), sct.getMax( ) );
+	public static final SharedScaleContext createInstance(Object oMin, Object oMax) {
+		ScaleContext sct = ScaleContext.createSimpleScale(oMin, oMax);
+		return new SharedScaleContext(sct, sct.getMin(), sct.getMax());
 	}
 
 	/**
 	 * @return Returns the scaleContext.
 	 */
-	public final ScaleContext getScaleContext( )
-	{
+	public final ScaleContext getScaleContext() {
 		return scaleContext;
 	}
 
 	/**
-	 * @param scaleContext
-	 *            The scaleContext to set.
+	 * @param scaleContext The scaleContext to set.
 	 */
-	public final void setScaleContext( ScaleContext scaleContext )
-	{
+	public final void setScaleContext(ScaleContext scaleContext) {
 		this.scaleContext = scaleContext;
 	}
 
@@ -101,8 +91,7 @@ public final class SharedScaleContext
 	 * @return shared or not
 	 * @since 2.5
 	 */
-	public final boolean isShared( )
-	{
+	public final boolean isShared() {
 		return bShared;
 	}
 
@@ -111,8 +100,7 @@ public final class SharedScaleContext
 	 * @since 2.5
 	 * 
 	 */
-	public final void setShared( boolean shared )
-	{
+	public final void setShared(boolean shared) {
 		bShared = shared;
 	}
 
@@ -125,26 +113,19 @@ public final class SharedScaleContext
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 */
-	public final DataSetIterator createDataSetIterator( int iDataType )
-			throws ChartException, IllegalArgumentException
-	{
-		if ( ( iDataType & IConstants.NUMERICAL ) == IConstants.NUMERICAL )
-		{
-			List<Object> minmax = new ArrayList<Object>( 2 );
-			for ( Object o : alMinmax )
-			{
-				if ( o instanceof Number )
-				{
-					minmax.add( Double.valueOf( ( (Number) o ).doubleValue( ) ) );
-				}
-				else
-				{
-					minmax.add( o );
+	public final DataSetIterator createDataSetIterator(int iDataType) throws ChartException, IllegalArgumentException {
+		if ((iDataType & IConstants.NUMERICAL) == IConstants.NUMERICAL) {
+			List<Object> minmax = new ArrayList<Object>(2);
+			for (Object o : alMinmax) {
+				if (o instanceof Number) {
+					minmax.add(Double.valueOf(((Number) o).doubleValue()));
+				} else {
+					minmax.add(o);
 				}
 			}
-			return new DataSetIterator( minmax, iDataType );
+			return new DataSetIterator(minmax, iDataType);
 		}
-		return new DataSetIterator( alMinmax, iDataType );
+		return new DataSetIterator(alMinmax, iDataType);
 	}
 
 	/**
@@ -152,30 +133,24 @@ public final class SharedScaleContext
 	 * AutoScale. This method supports big decimal.
 	 * 
 	 * @param iDataType
-	 * @param isBigNumber
-	 *            indicates current is big number.
-	 * @param divisor
-	 *            the divisor for big number, actual big number will divide the
-	 *            divisor to get a double value, the double value is used to
-	 *            compute scale of axis.
+	 * @param isBigNumber indicates current is big number.
+	 * @param divisor     the divisor for big number, actual big number will divide
+	 *                    the divisor to get a double value, the double value is
+	 *                    used to compute scale of axis.
 	 * @return
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 * @since 2.6
 	 */
-	public final DataSetIterator createDataSetIterator( int iDataType,
-			boolean isBigNumber, BigDecimal divisor ) throws ChartException,
-			IllegalArgumentException
-	{
-		if( isBigNumber )
-		{
-			List<Object> minmax = new ArrayList<Object>( 2 );
-			for ( Object o: alMinmax )
-			{
-				minmax.add( NumberUtil.asBigNumber( NumberUtil.transformNumber( o ), divisor ) );
+	public final DataSetIterator createDataSetIterator(int iDataType, boolean isBigNumber, BigDecimal divisor)
+			throws ChartException, IllegalArgumentException {
+		if (isBigNumber) {
+			List<Object> minmax = new ArrayList<Object>(2);
+			for (Object o : alMinmax) {
+				minmax.add(NumberUtil.asBigNumber(NumberUtil.transformNumber(o), divisor));
 			}
-			return new DataSetIterator( minmax, iDataType );
+			return new DataSetIterator(minmax, iDataType);
 		}
-		return createDataSetIterator( iDataType );
+		return createDataSetIterator(iDataType);
 	}
 }

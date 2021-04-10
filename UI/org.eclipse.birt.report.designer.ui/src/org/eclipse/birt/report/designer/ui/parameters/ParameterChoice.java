@@ -18,8 +18,7 @@ import java.io.Serializable;
  * 
  */
 
-public class ParameterChoice implements Serializable
-{
+public class ParameterChoice implements Serializable {
 
 	/**
 	 * 
@@ -35,20 +34,18 @@ public class ParameterChoice implements Serializable
 	 * 
 	 * @return the value of the selction choice
 	 */
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return value;
 	}
 
 	/**
-	 * returns the locale-specific label for a selection choice. The locale used
-	 * is the locale in the parameter definition request.
+	 * returns the locale-specific label for a selection choice. The locale used is
+	 * the locale in the parameter definition request.
 	 * 
 	 * @return the localized label for the parameter
 	 */
 
-	public Object getLabel( )
-	{
+	public Object getLabel() {
 		return label;
 	}
 
@@ -58,8 +55,7 @@ public class ParameterChoice implements Serializable
 	 * @param value
 	 */
 
-	public void setValue( Object value )
-	{
+	public void setValue(Object value) {
 		this.value = value;
 	}
 
@@ -69,8 +65,7 @@ public class ParameterChoice implements Serializable
 	 * @param label
 	 */
 
-	public void setLabel( Object label )
-	{
+	public void setLabel(Object label) {
 		this.label = label;
 	}
 

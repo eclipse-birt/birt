@@ -13,12 +13,10 @@ package org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb;
 
 import org.eclipse.jface.viewers.ILabelProvider;
 
-
 /**
  * 
  */
 
-public interface IBreadcrumbLabelProvider extends ILabelProvider
-{
-	 public String getTooltipText(Object element);
+public interface IBreadcrumbLabelProvider extends ILabelProvider {
+	public String getTooltipText(Object element);
 }

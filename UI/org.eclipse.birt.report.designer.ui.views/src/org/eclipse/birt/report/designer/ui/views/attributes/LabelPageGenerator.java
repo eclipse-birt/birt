@@ -11,15 +11,12 @@
 
 package org.eclipse.birt.report.designer.ui.views.attributes;
 
-
 /**
  * LabelPageGenerator
  */
-public class LabelPageGenerator extends BasePageGenerator
-{
+public class LabelPageGenerator extends BasePageGenerator {
 
-	protected void createTabItems( )
-	{
-		createTabItem( HIGHLIGHTSTITLE, ATTRIBUTESTITLE );
+	protected void createTabItems() {
+		createTabItem(HIGHLIGHTSTITLE, ATTRIBUTESTITLE);
 	}
 }

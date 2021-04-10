@@ -17,31 +17,25 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * The adapter class for {@link IExpressionSupport}.
  */
-public abstract class AbstractExpressionSupport implements IExpressionSupport
-{
+public abstract class AbstractExpressionSupport implements IExpressionSupport {
 
-	public IExpressionBuilder createBuilder( Shell shl, Object expression )
-	{
+	public IExpressionBuilder createBuilder(Shell shl, Object expression) {
 		return null;
 	}
 
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return null;
 	}
 
-	public Image getImage( )
-	{
+	public Image getImage() {
 		return null;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return null;
 	}
 
-	public IExpressionConverter getConverter( )
-	{
+	public IExpressionConverter getConverter() {
 		return null;
 	}
 

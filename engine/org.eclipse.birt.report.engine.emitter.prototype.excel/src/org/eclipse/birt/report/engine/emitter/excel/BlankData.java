@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
-
-
-public class BlankData extends Data
-{
+public class BlankData extends Data {
 
 	public static enum Type {
 		VERTICAL, HORIZONTAL, NONE
@@ -24,69 +21,56 @@ public class BlankData extends Data
 
 	private Type type;
 
-	public BlankData( SheetData data )
-	{
-		super( data );
+	public BlankData(SheetData data) {
+		super(data);
 		this.data = data;
 	}
 
-	public boolean isBlank()
-	{
+	public boolean isBlank() {
 		return true;
 	}
-	
-    public SheetData getData()
-    {
-    	return data;
-    }
 
-    public int getRowSpan( )
-    {
-		return data.getRowSpan( );
-    }
-    
-    public void setRowSpan( int rowSpan )
-    {
-		data.setRowSpan( rowSpan );
-    }
-
-    public int getRowSpanInDesign( )
-    {
-		return data.getRowSpanInDesign( );
-    }
-    
-	public void decreasRowSpanInDesign( )
-	{
-		data.decreasRowSpanInDesign( );
+	public SheetData getData() {
+		return data;
 	}
 
-	public float getHeight( )
-	{
-		return data.getHeight( );
+	public int getRowSpan() {
+		return data.getRowSpan();
 	}
 
-	public void setHeight( float height )
-	{
-		data.setHeight( height );
+	public void setRowSpan(int rowSpan) {
+		data.setRowSpan(rowSpan);
 	}
 
-	public int getStartX( )
-	{
-		return data.getStartX( );
+	public int getRowSpanInDesign() {
+		return data.getRowSpanInDesign();
 	}
 
-	public int getEndX( )
-	{
-		return data.getEndX( );
+	public void decreasRowSpanInDesign() {
+		data.decreasRowSpanInDesign();
 	}
 
-	public Type getType( )
-	{
+	public float getHeight() {
+		return data.getHeight();
+	}
+
+	public void setHeight(float height) {
+		data.setHeight(height);
+	}
+
+	public int getStartX() {
+		return data.getStartX();
+	}
+
+	public int getEndX() {
+		return data.getEndX();
+	}
+
+	public Type getType() {
 		return type;
 	}
 
-	public void setType( Type type )
-	{
+	public void setType(Type type) {
 		this.type = type;
 	}
 }

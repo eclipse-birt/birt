@@ -18,15 +18,14 @@ import org.eclipse.birt.data.engine.olap.data.util.IComparableStructure;
  * 
  */
 
-public interface IAggregationResultRow extends IComparableStructure
-{
+public interface IAggregationResultRow extends IComparableStructure {
 
-	public abstract void setLevelMembers( Member[] levelMembers );
+	public abstract void setLevelMembers(Member[] levelMembers);
 
-	public abstract Member[] getLevelMembers( );
+	public abstract Member[] getLevelMembers();
 
-	public abstract void setAggregationValues( Object[] aggregationValues );
+	public abstract void setAggregationValues(Object[] aggregationValues);
 
-	public abstract Object[] getAggregationValues( );
+	public abstract Object[] getAggregationValues();
 
 }

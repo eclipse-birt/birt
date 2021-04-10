@@ -30,10 +30,9 @@ import org.eclipse.swt.widgets.Menu;
  * displays on textVeiwer.
  * 
  */
-class TextMenuManager
-{
+class TextMenuManager {
 
-	private Hashtable htActions = new Hashtable( );
+	private Hashtable htActions = new Hashtable();
 	private MenuManager manager;
 
 	/**
@@ -41,34 +40,37 @@ class TextMenuManager
 	 * 
 	 * @param viewer
 	 */
-	TextMenuManager( TextViewer viewer )
-	{
-		manager = new MenuManager( );
-		Separator separator = new Separator( "undo" );//$NON-NLS-1$
-		manager.add( separator );
-		separator = new Separator( "copy" );//$NON-NLS-1$
-		manager.add( separator );
-		separator = new Separator( "select" );//$NON-NLS-1$
-		manager.add( separator );
-		manager.appendToGroup( "undo", getAction( "undo", viewer, JdbcPlugin.getResourceString( "sqleditor.action.undo" ), ITextOperationTarget.UNDO ) );//$NON-NLS-1$
-		manager.appendToGroup( "undo", getAction( "redo", viewer, JdbcPlugin.getResourceString( "sqleditor.action.redo" ), ITextOperationTarget.REDO ) );//$NON-NLS-1$
-		manager.appendToGroup( "copy", getAction( "cut", viewer, JdbcPlugin.getResourceString( "sqleditor.action.cut" ), ITextOperationTarget.CUT ) );//$NON-NLS-1$
-		manager.appendToGroup( "copy", getAction( "copy", viewer, JdbcPlugin.getResourceString( "sqleditor.action.copy" ), ITextOperationTarget.COPY ) );//$NON-NLS-1$
-		manager.appendToGroup( "copy", getAction( "paste", viewer, JdbcPlugin.getResourceString( "sqleditor.action.paste" ), ITextOperationTarget.PASTE ) );//$NON-NLS-1$
-		manager.appendToGroup( "select", getAction( "selectall", viewer, JdbcPlugin.getResourceString( "sqleditor.action.selectAll" ), ITextOperationTarget.SELECT_ALL ) );//$NON-NLS-1$
+	TextMenuManager(TextViewer viewer) {
+		manager = new MenuManager();
+		Separator separator = new Separator("undo");//$NON-NLS-1$
+		manager.add(separator);
+		separator = new Separator("copy");//$NON-NLS-1$
+		manager.add(separator);
+		separator = new Separator("select");//$NON-NLS-1$
+		manager.add(separator);
+		manager.appendToGroup("undo", getAction("undo", viewer, JdbcPlugin.getResourceString("sqleditor.action.undo"), //$NON-NLS-1$
+				ITextOperationTarget.UNDO));
+		manager.appendToGroup("undo", getAction("redo", viewer, JdbcPlugin.getResourceString("sqleditor.action.redo"), //$NON-NLS-1$
+				ITextOperationTarget.REDO));
+		manager.appendToGroup("copy", getAction("cut", viewer, JdbcPlugin.getResourceString("sqleditor.action.cut"), //$NON-NLS-1$
+				ITextOperationTarget.CUT));
+		manager.appendToGroup("copy", getAction("copy", viewer, JdbcPlugin.getResourceString("sqleditor.action.copy"), //$NON-NLS-1$
+				ITextOperationTarget.COPY));
+		manager.appendToGroup("copy", getAction("paste", viewer, JdbcPlugin.getResourceString("sqleditor.action.paste"), //$NON-NLS-1$
+				ITextOperationTarget.PASTE));
+		manager.appendToGroup("select", getAction("selectall", viewer, //$NON-NLS-1$
+				JdbcPlugin.getResourceString("sqleditor.action.selectAll"), ITextOperationTarget.SELECT_ALL));
 
-		manager.addMenuListener( new IMenuListener( ) {
+		manager.addMenuListener(new IMenuListener() {
 
-			public void menuAboutToShow( IMenuManager manager )
-			{
-				Enumeration elements = htActions.elements( );
-				while ( elements.hasMoreElements( ) )
-				{
-					SQLEditorAction action = (SQLEditorAction) elements.nextElement( );
-					action.update( );
+			public void menuAboutToShow(IMenuManager manager) {
+				Enumeration elements = htActions.elements();
+				while (elements.hasMoreElements()) {
+					SQLEditorAction action = (SQLEditorAction) elements.nextElement();
+					action.update();
 				}
 			}
-		} );
+		});
 	}
 
 	/**
@@ -76,9 +78,8 @@ class TextMenuManager
 	 * @param control
 	 * @return
 	 */
-	public Menu getContextMenu( Control control )
-	{
-		return manager.createContextMenu( control );
+	public Menu getContextMenu(Control control) {
+		return manager.createContextMenu(control);
 	}
 
 	/**
@@ -89,14 +90,11 @@ class TextMenuManager
 	 * @param operation
 	 * @return
 	 */
-	private final SQLEditorAction getAction( String id, TextViewer viewer,
-			String name, int operation )
-	{
-		SQLEditorAction action = (SQLEditorAction) htActions.get( id );
-		if ( action == null )
-		{
-			action = new SQLEditorAction( viewer, name, operation );
-			htActions.put( id, action );
+	private final SQLEditorAction getAction(String id, TextViewer viewer, String name, int operation) {
+		SQLEditorAction action = (SQLEditorAction) htActions.get(id);
+		if (action == null) {
+			action = new SQLEditorAction(viewer, name, operation);
+			htActions.put(id, action);
 		}
 		return action;
 	}
@@ -105,16 +103,13 @@ class TextMenuManager
 	 * SQL editor action set
 	 * 
 	 */
-	static class SQLEditorAction extends Action
-	{
+	static class SQLEditorAction extends Action {
 
 		private int operationCode = -1;
 		private TextViewer viewer = null;
 
-		public SQLEditorAction( TextViewer viewer, String text,
-				int operationCode )
-		{
-			super( text );
+		public SQLEditorAction(TextViewer viewer, String text, int operationCode) {
+			super(text);
 			this.operationCode = operationCode;
 			this.viewer = viewer;
 		}
@@ -123,18 +118,16 @@ class TextMenuManager
 		 * 
 		 * @see org.eclipse.jface.action.IAction#run()
 		 */
-		public void run( )
-		{
-			viewer.doOperation( operationCode );
+		public void run() {
+			viewer.doOperation(operationCode);
 		}
 
 		/**
 		 * update the operation
 		 * 
 		 */
-		public void update( )
-		{
-			setEnabled( viewer.canDoOperation( operationCode ) );
+		public void update() {
+			setEnabled(viewer.canDoOperation(operationCode));
 		}
 
 	}

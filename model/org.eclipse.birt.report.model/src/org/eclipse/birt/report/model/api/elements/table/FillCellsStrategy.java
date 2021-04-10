@@ -26,8 +26,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
  * <code>Cell</code> elements.
  */
 
-public class FillCellsStrategy
-{
+public class FillCellsStrategy {
 
 	/**
 	 * The layout table to apply the drop effects.
@@ -44,29 +43,25 @@ public class FillCellsStrategy
 	/**
 	 * Constructs a <code>DropStrategy</code> with the given table.
 	 * 
-	 * @param layoutTable
-	 *            the layout table
-	 * @param fillsEmptyCells
-	 *            <code>true</code> if cell elements are filled in empty
-	 *            areas. Otherwise <code>false</code>.
+	 * @param layoutTable     the layout table
+	 * @param fillsEmptyCells <code>true</code> if cell elements are filled in empty
+	 *                        areas. Otherwise <code>false</code>.
 	 * 
 	 */
 
-	public FillCellsStrategy( LayoutTable layoutTable, boolean fillsEmptyCells )
-	{
+	public FillCellsStrategy(LayoutTable layoutTable, boolean fillsEmptyCells) {
 		this.layoutTable = layoutTable;
 		this.fillsEmptyCells = fillsEmptyCells;
 	}
 
 	/**
-	 * Applies different stragegies to the layout table and table element with
-	 * the given options.
+	 * Applies different stragegies to the layout table and table element with the
+	 * given options.
 	 * 
 	 */
 
-	public void applyStrategy( )
-	{
-		fillsEmptyCellsForTable( );
+	public void applyStrategy() {
+		fillsEmptyCellsForTable();
 	}
 
 	/**
@@ -79,44 +74,32 @@ public class FillCellsStrategy
 	 * 
 	 */
 
-	private void fillsEmptyCellsForTable( )
-	{
-		int columnCount = layoutTable.getColumnCount( );
+	private void fillsEmptyCellsForTable() {
+		int columnCount = layoutTable.getColumnCount();
 		TableItem table = layoutTable.table;
 
-		fillsEmptyCellsForSlot( table
-				.getSlot( IListingElementModel.HEADER_SLOT ), layoutTable
-				.getHeader( ), columnCount );
+		fillsEmptyCellsForSlot(table.getSlot(IListingElementModel.HEADER_SLOT), layoutTable.getHeader(), columnCount);
 
-		ContainerSlot groups = table.getSlot( IListingElementModel.GROUP_SLOT );
-		int groupCount = groups.getCount( );
-		for ( int i = 0; i < groupCount; i++ )
-		{
-			TableGroup group = (TableGroup) groups.getContent( i );
-			fillsEmptyCellsForSlot( group
-					.getSlot( IGroupElementModel.HEADER_SLOT ), layoutTable
-					.getGroupHeaders( ).getLayoutSlot( i ), columnCount );
+		ContainerSlot groups = table.getSlot(IListingElementModel.GROUP_SLOT);
+		int groupCount = groups.getCount();
+		for (int i = 0; i < groupCount; i++) {
+			TableGroup group = (TableGroup) groups.getContent(i);
+			fillsEmptyCellsForSlot(group.getSlot(IGroupElementModel.HEADER_SLOT),
+					layoutTable.getGroupHeaders().getLayoutSlot(i), columnCount);
 		}
 
-		fillsEmptyCellsForSlot( table
-				.getSlot( IListingElementModel.DETAIL_SLOT ), layoutTable
-				.getDetail( ), columnCount );
+		fillsEmptyCellsForSlot(table.getSlot(IListingElementModel.DETAIL_SLOT), layoutTable.getDetail(), columnCount);
 
 		// the group level in the group is from 0 to groupCount - 1;
 		// the group level in the layout slot band is from groupCount - 1 to 0.
 
-		for ( int i = groupCount - 1; i >= 0; i-- )
-		{
-			TableGroup group = (TableGroup) groups.getContent( groupCount - i
-					- 1 );
-			fillsEmptyCellsForSlot( group
-					.getSlot( IGroupElementModel.FOOTER_SLOT ), layoutTable
-					.getGroupFooters( ).getLayoutSlot( i ), columnCount );
+		for (int i = groupCount - 1; i >= 0; i--) {
+			TableGroup group = (TableGroup) groups.getContent(groupCount - i - 1);
+			fillsEmptyCellsForSlot(group.getSlot(IGroupElementModel.FOOTER_SLOT),
+					layoutTable.getGroupFooters().getLayoutSlot(i), columnCount);
 		}
 
-		fillsEmptyCellsForSlot( table
-				.getSlot( IListingElementModel.FOOTER_SLOT ), layoutTable
-				.getFooter( ), columnCount );
+		fillsEmptyCellsForSlot(table.getSlot(IListingElementModel.FOOTER_SLOT), layoutTable.getFooter(), columnCount);
 	}
 
 	/**
@@ -127,23 +110,17 @@ public class FillCellsStrategy
 	 * <code>TableItem</code></li>
 	 * </ul>
 	 * 
-	 * @param slot
-	 *            the slot in the table element
-	 * @param layoutSlot
-	 *            the slot in the layout table
-	 * @param columnCount
-	 *            the column number of the table
+	 * @param slot        the slot in the table element
+	 * @param layoutSlot  the slot in the layout table
+	 * @param columnCount the column number of the table
 	 */
 
-	private void fillsEmptyCellsForSlot( ContainerSlot slot,
-			LayoutSlot layoutSlot, int columnCount )
-	{
-		for ( int i = 0; i < slot.getCount( ); i++ )
-		{
-			TableRow row = (TableRow) slot.getContent( i );
-			LayoutRow layoutRow = layoutSlot.getLayoutRow( i );
+	private void fillsEmptyCellsForSlot(ContainerSlot slot, LayoutSlot layoutSlot, int columnCount) {
+		for (int i = 0; i < slot.getCount(); i++) {
+			TableRow row = (TableRow) slot.getContent(i);
+			LayoutRow layoutRow = layoutSlot.getLayoutRow(i);
 
-			fillsEmptyCellsForRow( row, layoutRow, columnCount );
+			fillsEmptyCellsForRow(row, layoutRow, columnCount);
 		}
 	}
 
@@ -155,103 +132,82 @@ public class FillCellsStrategy
 	 * <code>TableItem</code></li>
 	 * </ul>
 	 * 
-	 * @param row
-	 *            the row in the table element
-	 * @param layoutRow
-	 *            the layout row in the layout table
-	 * @param columnCount
-	 *            the column number of the table
+	 * @param row         the row in the table element
+	 * @param layoutRow   the layout row in the layout table
+	 * @param columnCount the column number of the table
 	 */
 
-	private void fillsEmptyCellsForRow( TableRow row, LayoutRow layoutRow,
-			int columnCount )
-	{
+	private void fillsEmptyCellsForRow(TableRow row, LayoutRow layoutRow, int columnCount) {
 		int colPos = 0;
-		for ( Iterator iter = layoutRow.layoutCellsIterator( ); iter.hasNext( ); iter
-				.next( ) )
+		for (Iterator iter = layoutRow.layoutCellsIterator(); iter.hasNext(); iter.next())
 			colPos++;
-		if ( colPos < columnCount )
-			doFillLayoutCells( layoutRow, columnCount - colPos );
+		if (colPos < columnCount)
+			doFillLayoutCells(layoutRow, columnCount - colPos);
 
 		int[] positionsToAddCells = new int[columnCount];
 		int[] positionsToFillLayoutCells = new int[columnCount];
-		Arrays.fill( positionsToAddCells, -1 );
-		Arrays.fill( positionsToFillLayoutCells, -1 );
+		Arrays.fill(positionsToAddCells, -1);
+		Arrays.fill(positionsToFillLayoutCells, -1);
 		boolean isFillsNecessary = false;
 
-		Iterator iter = layoutRow.layoutCellsIterator( );
+		Iterator iter = layoutRow.layoutCellsIterator();
 		colPos = 1;
-		for ( int passedCells = 0, toAddCellsIndex = 0; iter.hasNext( ); colPos++ )
-		{
-			LayoutCell layoutCell = (LayoutCell) iter.next( );
-			if ( layoutCell.isUsed( ) && layoutCell.isCellStartPosition( ) )
+		for (int passedCells = 0, toAddCellsIndex = 0; iter.hasNext(); colPos++) {
+			LayoutCell layoutCell = (LayoutCell) iter.next();
+			if (layoutCell.isUsed() && layoutCell.isCellStartPosition())
 				passedCells++;
-			if ( !layoutCell.isUsed( ) && colPos <= columnCount )
-			{
+			if (!layoutCell.isUsed() && colPos <= columnCount) {
 				// fills a empty cell at this place.
 				// records the position, do not add cells during the iteration
 
-				positionsToAddCells[toAddCellsIndex] = passedCells
-						+ toAddCellsIndex;
+				positionsToAddCells[toAddCellsIndex] = passedCells + toAddCellsIndex;
 				positionsToFillLayoutCells[toAddCellsIndex++] = colPos - 1;
 
 				isFillsNecessary = true;
 			}
 		}
 
-		if ( fillsEmptyCells && isFillsNecessary )
-		{
-			doFillCells( row, positionsToAddCells, layoutRow,
-					positionsToFillLayoutCells );
+		if (fillsEmptyCells && isFillsNecessary) {
+			doFillCells(row, positionsToAddCells, layoutRow, positionsToFillLayoutCells);
 		}
 	}
 
 	/**
 	 * Fills empty areas in a row with multiple <code>LayoutCell</code>s.
 	 * 
-	 * @param row
-	 *            the table row to fill
-	 * @param numToAdd
-	 *            the number of <code>LayoutCell</code>s to add
+	 * @param row      the table row to fill
+	 * @param numToAdd the number of <code>LayoutCell</code>s to add
 	 */
 
-	private void doFillLayoutCells( LayoutRow row, int numToAdd )
-	{
-		for ( int i = 0; i < numToAdd; i++ )
-			row.addCell( LayoutCell.EMPTY_CELL );
+	private void doFillLayoutCells(LayoutRow row, int numToAdd) {
+		for (int i = 0; i < numToAdd; i++)
+			row.addCell(LayoutCell.EMPTY_CELL);
 	}
 
 	/**
 	 * Fills empty areas in a row with multiple <code>LayoutCell</code>s.
 	 * 
-	 * @param row
-	 *            the table row to fill
-	 * @param positionsToAddCells
-	 *            positions to add
-	 * @param layoutRow
-	 *            the layout row to fill
-	 * @param positionsToFillLayoutCells
-	 *            positions to add layout cells
+	 * @param row                        the table row to fill
+	 * @param positionsToAddCells        positions to add
+	 * @param layoutRow                  the layout row to fill
+	 * @param positionsToFillLayoutCells positions to add layout cells
 	 */
 
-	private void doFillCells( TableRow row, int[] positionsToAddCells,
-			LayoutRow layoutRow, int[] positionsToFillLayoutCells )
-	{
+	private void doFillCells(TableRow row, int[] positionsToAddCells, LayoutRow layoutRow,
+			int[] positionsToFillLayoutCells) {
 		assert row != null;
 		assert positionsToAddCells != null;
 
 		assert positionsToAddCells.length == positionsToFillLayoutCells.length;
 
-		for ( int i = 0; i < positionsToAddCells.length; i++ )
-		{
+		for (int i = 0; i < positionsToAddCells.length; i++) {
 			int posn = positionsToAddCells[i];
-			if ( posn < 0 )
+			if (posn < 0)
 				continue;
 
-			Cell cell = new Cell( );
-			row.add( cell, ITableRowModel.CONTENT_SLOT, posn );
-			layoutRow.fillCells( layoutTable.getNextCellId( ),
-					positionsToFillLayoutCells[i], 1, 0, cell, false );
+			Cell cell = new Cell();
+			row.add(cell, ITableRowModel.CONTENT_SLOT, posn);
+			layoutRow.fillCells(layoutTable.getNextCellId(), positionsToFillLayoutCells[i], 1, 0, cell, false);
 		}
 	}
 }

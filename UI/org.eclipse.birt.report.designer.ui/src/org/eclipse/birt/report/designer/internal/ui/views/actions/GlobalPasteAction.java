@@ -17,17 +17,14 @@ import org.eclipse.jface.viewers.ISelectionProvider;
  * Global paste action for views
  */
 
-public class GlobalPasteAction extends AbstractGlobalSelectionAction
-{
+public class GlobalPasteAction extends AbstractGlobalSelectionAction {
 
-	protected GlobalPasteAction( ISelectionProvider provider )
-	{
-		super( provider, GlobalActionFactory.PASTE );
+	protected GlobalPasteAction(ISelectionProvider provider) {
+		super(provider, GlobalActionFactory.PASTE);
 	}
 
-	public void run( )
-	{
-		new PasteAction( getSelection( ) ).run( );
+	public void run() {
+		new PasteAction(getSelection()).run();
 	}
 
 	/*
@@ -35,9 +32,8 @@ public class GlobalPasteAction extends AbstractGlobalSelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{				
-		return new PasteAction( getSelection( ) ).isEnabled( );
+	protected boolean calculateEnabled() {
+		return new PasteAction(getSelection()).isEnabled();
 	}
 
 }

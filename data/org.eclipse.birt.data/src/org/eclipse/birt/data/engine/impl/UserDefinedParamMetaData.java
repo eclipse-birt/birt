@@ -24,95 +24,96 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  * The parameter definition from UI layer. This class is added as a work-around
  * class to handle the registerOutputParameter in stored procedure
  */
-public class UserDefinedParamMetaData implements IParameterMetaData
-{
+public class UserDefinedParamMetaData implements IParameterMetaData {
 
 	private Object[] paraDefnList;
 
-	private static Logger logger = Logger.getLogger( UserDefinedParamMetaData.class.getName( ) );
+	private static Logger logger = Logger.getLogger(UserDefinedParamMetaData.class.getName());
 
 	/**
 	 * 
-	 * @param parameterDefnList
-	 *            The collection of <code>ParameterDefinition</code>
+	 * @param parameterDefnList The collection of <code>ParameterDefinition</code>
 	 */
-	public UserDefinedParamMetaData( List parameterDefnList )
-	{
-		logger.entering( UserDefinedParamMetaData.class.getName( ),
-				"UserDefinedParamMetaData",
-				parameterDefnList );
-		if ( parameterDefnList == null || parameterDefnList.size( ) == 0 )
+	public UserDefinedParamMetaData(List parameterDefnList) {
+		logger.entering(UserDefinedParamMetaData.class.getName(), "UserDefinedParamMetaData", parameterDefnList);
+		if (parameterDefnList == null || parameterDefnList.size() == 0)
 			paraDefnList = new Object[0];
 		else
-			paraDefnList = parameterDefnList.toArray( );
-		logger.exiting( UserDefinedParamMetaData.class.getName( ),
-				"UserDefinedParamMetaData" );
+			paraDefnList = parameterDefnList.toArray();
+		logger.exiting(UserDefinedParamMetaData.class.getName(), "UserDefinedParamMetaData");
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterCount()
+	 * 
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterCount()
 	 */
-	public int getParameterCount( ) throws OdaException
-	{
+	public int getParameterCount() throws OdaException {
 		return paraDefnList.length;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterMode(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterMode(
+	 * int)
 	 */
-	public int getParameterMode( int param ) throws OdaException
-	{
-		IParameterDefinition defn = (IParameterDefinition) paraDefnList[param-1];
-		if ( defn.isInputMode( ) && defn.isOutputMode( ) )
+	public int getParameterMode(int param) throws OdaException {
+		IParameterDefinition defn = (IParameterDefinition) paraDefnList[param - 1];
+		if (defn.isInputMode() && defn.isOutputMode())
 			return IParameterMetaData.parameterModeInOut;
-		else if ( defn.isInputMode( ) )
+		else if (defn.isInputMode())
 			return IParameterMetaData.parameterModeIn;
-		else if ( defn.isOutputMode( ) )
+		else if (defn.isOutputMode())
 			return IParameterMetaData.parameterModeOut;
 		else
 			return IParameterMetaData.parameterModeUnknown;
 	}
 
-	/* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(int)
-     */
-    public String getParameterName( int param ) throws OdaException
-    {
-        // TODO Auto-generated method stub
-        return ((IParameterDefinition) paraDefnList[param-1]).getName();
-    }
-
-    /*
+	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterType(int)
+	 * 
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(
+	 * int)
 	 */
-	public int getParameterType( int param ) throws OdaException
-	{
-		IParameterDefinition defn = (IParameterDefinition) paraDefnList[param -1];
-		Class dataTypeClass = DataType.getClass( defn.getType( ) );
-		return DataTypeUtil.toOdaType( dataTypeClass );
+	public String getParameterName(int param) throws OdaException {
+		// TODO Auto-generated method stub
+		return ((IParameterDefinition) paraDefnList[param - 1]).getName();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterTypeName(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterType(
+	 * int)
 	 */
-	public String getParameterTypeName( int param ) throws OdaException
-	{
+	public int getParameterType(int param) throws OdaException {
+		IParameterDefinition defn = (IParameterDefinition) paraDefnList[param - 1];
+		Class dataTypeClass = DataType.getClass(defn.getType());
+		return DataTypeUtil.toOdaType(dataTypeClass);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#
+	 * getParameterTypeName(int)
+	 */
+	public String getParameterTypeName(int param) throws OdaException {
 		return "Unknown";
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getPrecision(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getPrecision(int)
 	 */
-	public int getPrecision( int param ) throws OdaException
-	{
+	public int getPrecision(int param) throws OdaException {
 		return 0;
 	}
 
@@ -121,18 +122,17 @@ public class UserDefinedParamMetaData implements IParameterMetaData
 	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getScale(int)
 	 */
-	public int getScale( int param ) throws OdaException
-	{
+	public int getScale(int param) throws OdaException {
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#isNullable(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#isNullable(int)
 	 */
-	public int isNullable( int param ) throws OdaException
-	{
+	public int isNullable(int param) throws OdaException {
 		return IParameterMetaData.parameterNullableUnknown;
 	}
 

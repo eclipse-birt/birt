@@ -28,8 +28,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Reg_groupwithoutbinding extends BaseTestCase
-{
+public class Reg_groupwithoutbinding extends BaseTestCase {
 
 	private final static String INPUT = "Reg_groupwithoutbinding.xml"; //$NON-NLS-1$
 
@@ -37,22 +36,19 @@ public class Reg_groupwithoutbinding extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	
-	public void test_regression_groupwithoutbinding( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT );
-		TextItemHandle text1 = (TextItemHandle) designHandle
-				.findElement( "text1" ); //$NON-NLS-1$
-		TextItemHandle text4 = (TextItemHandle) designHandle
-				.findElement( "text4" ); //$NON-NLS-1$
-		assertTrue( text1.canDrop( ) );
-		assertTrue( text4.canDrop( ) );
-		text1.drop( );
-		text4.drop( );
 
-		ListHandle list = (ListHandle) designHandle.findElement( "list" ); //$NON-NLS-1$
-		GroupHandle group = (GroupHandle) list.getGroups( ).get( 0 );
-		assertEquals( 2, group.getHeader( ).getContents( ).size( ) );
-		assertEquals( 0, group.getFooter( ).getContents( ).size( ) );
+	public void test_regression_groupwithoutbinding() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
+		TextItemHandle text1 = (TextItemHandle) designHandle.findElement("text1"); //$NON-NLS-1$
+		TextItemHandle text4 = (TextItemHandle) designHandle.findElement("text4"); //$NON-NLS-1$
+		assertTrue(text1.canDrop());
+		assertTrue(text4.canDrop());
+		text1.drop();
+		text4.drop();
+
+		ListHandle list = (ListHandle) designHandle.findElement("list"); //$NON-NLS-1$
+		GroupHandle group = (GroupHandle) list.getGroups().get(0);
+		assertEquals(2, group.getHeader().getContents().size());
+		assertEquals(0, group.getFooter().getContents().size());
 	}
 }

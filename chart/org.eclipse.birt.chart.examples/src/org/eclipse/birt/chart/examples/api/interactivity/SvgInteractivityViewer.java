@@ -40,10 +40,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-public class SvgInteractivityViewer extends Composite implements
-		IUpdateNotifier,
-		SelectionListener
-{
+public class SvgInteractivityViewer extends Composite implements IUpdateNotifier, SelectionListener {
 
 	private IDeviceRenderer idr = null;
 
@@ -57,176 +54,168 @@ public class SvgInteractivityViewer extends Composite implements
 
 	private Chart cm = null;
 
-	SvgInteractivityViewer( Composite parent, int style )
-	{
-		super( parent, style );
+	SvgInteractivityViewer(Composite parent, int style) {
+		super(parent, style);
 
-		PlatformConfig config = new PlatformConfig( );
-		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		PlatformConfig config = new PlatformConfig();
+		config.setProperty("STANDALONE", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		PluginSettings.instance( config ).registerDevice( "dv.SVG", //$NON-NLS-1$
-				"org.eclipse.birt.chart.device.svg.SVGRendererImpl" ); //$NON-NLS-1$
-		cm = InteractivityCharts.createHSChart( );
+		PluginSettings.instance(config).registerDevice("dv.SVG", //$NON-NLS-1$
+				"org.eclipse.birt.chart.device.svg.SVGRendererImpl"); //$NON-NLS-1$
+		cm = InteractivityCharts.createHSChart();
 
 	}
 
-	public static void main( String args[] )
-	{
-		display = Display.getDefault( );
-		Shell shell = new Shell( display );
-		shell.setSize( 220, 80 );
-		shell.setLocation( display.getClientArea( ).width / 2 - 110,
-				display.getClientArea( ).height / 2 - 40);
-		shell.setLayout( new GridLayout( ) );
+	public static void main(String args[]) {
+		display = Display.getDefault();
+		Shell shell = new Shell(display);
+		shell.setSize(220, 80);
+		shell.setLocation(display.getClientArea().width / 2 - 110, display.getClientArea().height / 2 - 40);
+		shell.setLayout(new GridLayout());
 
-		SvgInteractivityViewer siv = new SvgInteractivityViewer( shell,
-				SWT.NONE );
-		GridData gd = new GridData( GridData.BEGINNING );
+		SvgInteractivityViewer siv = new SvgInteractivityViewer(shell, SWT.NONE);
+		GridData gd = new GridData(GridData.BEGINNING);
 		gd.widthHint = 1;
 		gd.heightHint = 1;
-		siv.setLayoutData( gd );
+		siv.setLayoutData(gd);
 
-		Composite cBottom = new Composite( shell, SWT.NONE );
-		cBottom.setLayoutData( new GridData( GridData.CENTER ) );
-		cBottom.setLayout( new RowLayout( ) );
+		Composite cBottom = new Composite(shell, SWT.NONE);
+		cBottom.setLayoutData(new GridData(GridData.CENTER));
+		cBottom.setLayout(new RowLayout());
 
-		Label la = new Label( cBottom, SWT.NONE );
-		la.setText( "&Choose: " );//$NON-NLS-1$
+		Label la = new Label(cBottom, SWT.NONE);
+		la.setText("&Choose: ");//$NON-NLS-1$
 
-		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cbType.add( "Highlight Series" );//$NON-NLS-1$
-		cbType.add( "Show Tooltip" );//$NON-NLS-1$
-		cbType.add( "Toggle Visibility" );//$NON-NLS-1$
-		cbType.add( "URL Redirect" );//$NON-NLS-1$
-		cbType.select( 0 );
+		cbType = new Combo(cBottom, SWT.DROP_DOWN | SWT.READ_ONLY);
+		cbType.add("Highlight Series");//$NON-NLS-1$
+		cbType.add("Show Tooltip");//$NON-NLS-1$
+		cbType.add("Toggle Visibility");//$NON-NLS-1$
+		cbType.add("URL Redirect");//$NON-NLS-1$
+		cbType.select(0);
 
-		btn = new Button( cBottom, SWT.NONE );
-		btn.setText( "&Show" );//$NON-NLS-1$
-		btn.addSelectionListener( siv );
-		btn.setToolTipText( "Show" );//$NON-NLS-1$
+		btn = new Button(cBottom, SWT.NONE);
+		btn.setText("&Show");//$NON-NLS-1$
+		btn.addSelectionListener(siv);
+		btn.setToolTipText("Show");//$NON-NLS-1$
 
-		shell.open( );
-		while ( !shell.isDisposed( ) )
-		{
-			if ( !display.readAndDispatch( ) )
-				display.sleep( );
+		shell.open();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
 		}
-		display.dispose( );
+		display.dispose();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
+	 * events.SelectionEvent)
 	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.widget == btn )
-		{
-			int i = cbType.getSelectionIndex( );
-			switch ( i )
-			{
-				case 0 :
-					cm = InteractivityCharts.createSVGHSChart( );
-					break;
-				case 1 :
-					cm = InteractivityCharts.createSTChart( );
-					break;
-				case 2 :
-					cm = InteractivityCharts.createTVChart( );
-					break;
-				case 3 :
-					cm = InteractivityCharts.createURChart( );
-					break;
-			}
-			
-			try
-			{
-				
-				RunTimeContext rtc = new RunTimeContext( );
-				rtc.setULocale( ULocale.getDefault( ) );
-
-				idr = PluginSettings.instance( ).getDevice( "dv.SVG" ); //$NON-NLS-1$
-				Generator gr = Generator.instance( );
-				Bounds bo = BoundsImpl.create( 0, 0, 450, 300 );
-				gcs = gr.build( idr.getDisplayServer( ),
-						cm,
-						bo,
-						null,
-						rtc,
-						null );
-				
-				idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, "c:/test.svg" ); //$NON-NLS-1$
-				idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
-						new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
-
-				gr.render( idr, gcs );
-			}
-			catch ( ChartException ce )
-			{
-				ce.printStackTrace( );
+	public void widgetSelected(SelectionEvent e) {
+		if (e.widget == btn) {
+			int i = cbType.getSelectionIndex();
+			switch (i) {
+			case 0:
+				cm = InteractivityCharts.createSVGHSChart();
+				break;
+			case 1:
+				cm = InteractivityCharts.createSTChart();
+				break;
+			case 2:
+				cm = InteractivityCharts.createTVChart();
+				break;
+			case 3:
+				cm = InteractivityCharts.createURChart();
+				break;
 			}
 
-			Shell shell = new Shell( display );
-			shell.setSize( 620, 450 );
-			shell.setLayout( new GridLayout( ) );
+			try {
 
-			Browser br = new Browser( shell, SWT.NONE );
-			br.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-			br.setUrl( "c:/test.svg" );//$NON-NLS-1$		
-			br.setVisible( true );
+				RunTimeContext rtc = new RunTimeContext();
+				rtc.setULocale(ULocale.getDefault());
 
-			shell.open( );
+				idr = PluginSettings.instance().getDevice("dv.SVG"); //$NON-NLS-1$
+				Generator gr = Generator.instance();
+				Bounds bo = BoundsImpl.create(0, 0, 450, 300);
+				gcs = gr.build(idr.getDisplayServer(), cm, bo, null, rtc, null);
+
+				idr.setProperty(IDeviceRenderer.FILE_IDENTIFIER, "c:/test.svg"); //$NON-NLS-1$
+				idr.setProperty(IDeviceRenderer.UPDATE_NOTIFIER, new EmptyUpdateNotifier(cm, gcs.getChartModel()));
+
+				gr.render(idr, gcs);
+			} catch (ChartException ce) {
+				ce.printStackTrace();
+			}
+
+			Shell shell = new Shell(display);
+			shell.setSize(620, 450);
+			shell.setLayout(new GridLayout());
+
+			Browser br = new Browser(shell, SWT.NONE);
+			br.setLayoutData(new GridData(GridData.FILL_BOTH));
+			br.setUrl("c:/test.svg");//$NON-NLS-1$
+			br.setVisible(true);
+
+			shell.open();
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
+	 * swt.events.SelectionEvent)
 	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
+	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getDesignTimeModel()
 	 */
-	public Chart getDesignTimeModel( )
-	{
+	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getRunTimeModel()
 	 */
-	public Chart getRunTimeModel( )
-	{
-		return gcs.getChartModel( );
+	public Chart getRunTimeModel() {
+		return gcs.getChartModel();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#peerInstance()
 	 */
-	public Object peerInstance( )
-	{
+	public Object peerInstance() {
 		return this;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#regenerateChart()
 	 */
-	public void regenerateChart( )
-	{
+	public void regenerateChart() {
 		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#repaintChart()
 	 */
-	public void repaintChart( )
-	{
+	public void repaintChart() {
 		// TODO Auto-generated method stub
 
 	}

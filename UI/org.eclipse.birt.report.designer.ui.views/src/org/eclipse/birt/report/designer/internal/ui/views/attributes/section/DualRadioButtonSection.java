@@ -24,8 +24,7 @@ import org.eclipse.swt.widgets.Composite;
  * A Section with a pair of radio buttons.
  */
 
-public class DualRadioButtonSection extends Section
-{
+public class DualRadioButtonSection extends Section {
 
 	private DualRadioButtonPropertyDescriptor descriptor;
 
@@ -33,125 +32,100 @@ public class DualRadioButtonSection extends Section
 
 	private int width = -1;
 
-	public DualRadioButtonSection( String labelText, Composite parent,
-			boolean isFormStyle )
-	{
-		super( labelText, parent, isFormStyle );
+	public DualRadioButtonSection(String labelText, Composite parent, boolean isFormStyle) {
+		super(labelText, parent, isFormStyle);
 	}
 
-	public void createSection( )
-	{
-		getLabelControl( parent );
-		getPropertyControl( parent );
-		getGridPlaceholder( parent );
+	public void createSection() {
+		getLabelControl(parent);
+		getPropertyControl(parent);
+		getGridPlaceholder(parent);
 	}
 
-	protected DualRadioButtonPropertyDescriptor getPropertyControl( Composite parent )
-	{
-		if ( descriptor == null )
-		{
-			descriptor = DescriptorToolkit.createRadioButtonPropertyDescriptor( true );
-			if ( getProvider( ) != null )
-			{
-				descriptor.setDescriptorProvider( getProvider( ) );
+	protected DualRadioButtonPropertyDescriptor getPropertyControl(Composite parent) {
+		if (descriptor == null) {
+			descriptor = DescriptorToolkit.createRadioButtonPropertyDescriptor(true);
+			if (getProvider() != null) {
+				descriptor.setDescriptorProvider(getProvider());
 			}
-			descriptor.createControl( parent );
-			descriptor.getControl( ).setLayoutData( new GridData( ) );
-			descriptor.getControl( )
-					.addDisposeListener( new DisposeListener( ) {
+			descriptor.createControl(parent);
+			descriptor.getControl().setLayoutData(new GridData());
+			descriptor.getControl().addDisposeListener(new DisposeListener() {
 
-						public void widgetDisposed( DisposeEvent event )
-						{
-							descriptor = null;
-						}
-					} );
-		}
-		else
-		{
-			checkParent( descriptor.getControl( ), parent );
+				public void widgetDisposed(DisposeEvent event) {
+					descriptor = null;
+				}
+			});
+		} else {
+			checkParent(descriptor.getControl(), parent);
 		}
 		return descriptor;
 	}
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void layout( )
-	{
-		GridData gd = (GridData) descriptor.getControl( ).getLayoutData( );
+	public void layout() {
+		GridData gd = (GridData) descriptor.getControl().getLayoutData();
 
-		if ( width > -1 )
-		{
+		if (width > -1) {
 			gd.widthHint = width;
 		}
 		gd.grabExcessHorizontalSpace = false;
 
 	}
 
-	public void setInput( Object input )
-	{
-		if ( input != null )
-		{
-			descriptor.setInput( input );
+	public void setInput(Object input) {
+		if (input != null) {
+			descriptor.setInput(input);
 		}
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if ( descriptor != null )
-		{
-			descriptor.setDescriptorProvider( provider );
+		if (descriptor != null) {
+			descriptor.setDescriptorProvider(provider);
 		}
 	}
 
-	public void setFocus( )
-	{
-		if ( descriptor != null )
-		{
-			descriptor.getControl( ).setFocus( );
+	public void setFocus() {
+		if (descriptor != null) {
+			descriptor.getControl().setFocus();
 		}
 	}
 
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	public void load( )
-	{
-		if ( descriptor != null && !descriptor.getControl( ).isDisposed( ) )
-			descriptor.load( );
+	public void load() {
+		if (descriptor != null && !descriptor.getControl().isDisposed())
+			descriptor.load();
 	}
 
-	public void reset( )
-	{
-		if ( descriptor != null && !descriptor.getControl( ).isDisposed( ) )
-		{
-			descriptor.reset( );
+	public void reset() {
+		if (descriptor != null && !descriptor.getControl().isDisposed()) {
+			descriptor.reset();
 		}
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		if ( displayLabel != null )
-			WidgetUtil.setExcludeGridData( displayLabel, isHidden );
-		if ( descriptor != null )
-			descriptor.setHidden( isHidden );
-		if ( placeholderLabel != null )
-			WidgetUtil.setExcludeGridData( placeholderLabel, isHidden );
+	public void setHidden(boolean isHidden) {
+		if (displayLabel != null)
+			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
+		if (descriptor != null)
+			descriptor.setHidden(isHidden);
+		if (placeholderLabel != null)
+			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		if ( displayLabel != null )
-			displayLabel.setVisible( isVisible );
-		if ( descriptor != null )
-			descriptor.setVisible( isVisible );
-		if ( placeholderLabel != null )
-			placeholderLabel.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		if (displayLabel != null)
+			displayLabel.setVisible(isVisible);
+		if (descriptor != null)
+			descriptor.setVisible(isVisible);
+		if (placeholderLabel != null)
+			placeholderLabel.setVisible(isVisible);
 	}
 
 }

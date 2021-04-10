@@ -22,25 +22,18 @@ import org.eclipse.birt.report.model.core.Module;
  * element in report.
  */
 
-public abstract class AbstractPropertyValidator
-		extends
-			AbstractSemanticValidator
-{
+public abstract class AbstractPropertyValidator extends AbstractSemanticValidator {
 
 	/**
 	 * Validates the specific property of the given element in report.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the given element to validate
-	 * @param propName
-	 *            name of the property to validate
+	 * @param module   the module
+	 * @param element  the given element to validate
+	 * @param propName name of the property to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public abstract List<SemanticException> validate( Module module,
-			DesignElement element, String propName );
+	public abstract List<SemanticException> validate(Module module, DesignElement element, String propName);
 
 }

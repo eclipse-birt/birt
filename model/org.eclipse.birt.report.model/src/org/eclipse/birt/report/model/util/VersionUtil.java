@@ -17,12 +17,11 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * Utility class to do the operations of the design file version.
  */
 
-public class VersionUtil
-{
+public class VersionUtil {
 
 	private static final int SUPPORTED_VERSION_TOKEN_LENGTH = 4;
 
-	private static final int[] expoArray = new int[]{1000000, 10000, 100, 1};
+	private static final int[] expoArray = new int[] { 1000000, 10000, 100, 1 };
 
 	public final static int VERSION_0 = 0;
 
@@ -75,46 +74,37 @@ public class VersionUtil
 	public static final int VERSION_3_2_21 = 3022100;
 
 	public static final int VERSION_3_2_22 = 3022200;
-	
+
 	public static final int VERSION_3_2_23 = 3022300;
 
 	/**
 	 * 
 	 * @param version
 	 * @return the parsed version number
-	 * @throws IllegalArgumentException
-	 *             thrown when the version string is illegal
+	 * @throws IllegalArgumentException thrown when the version string is illegal
 	 */
 
-	public static int parseVersion( String version )
-			throws IllegalArgumentException
-	{
-		if ( StringUtil.isBlank( version ) )
+	public static int parseVersion(String version) throws IllegalArgumentException {
+		if (StringUtil.isBlank(version))
 			return 0;
 
 		// parse the version string, for example
 		// 3.1.2(.0) -- 3010200, two byte for one version token
 
-		String[] versionTokers = version.split( "\\." ); //$NON-NLS-1$
+		String[] versionTokers = version.split("\\."); //$NON-NLS-1$
 		int parsedVersionNumber = 0;
-		for ( int i = 0; i < versionTokers.length; i++ )
-		{
-			if ( i > SUPPORTED_VERSION_TOKEN_LENGTH )
+		for (int i = 0; i < versionTokers.length; i++) {
+			if (i > SUPPORTED_VERSION_TOKEN_LENGTH)
 				break;
 
 			byte versionShort;
-			try
-			{
-				versionShort = Byte.parseByte( versionTokers[i] );
+			try {
+				versionShort = Byte.parseByte(versionTokers[i]);
+			} catch (NumberFormatException e) {
+				throw new IllegalArgumentException("the version string is wrong!"); //$NON-NLS-1$
 			}
-			catch ( NumberFormatException e )
-			{
-				throw new IllegalArgumentException(
-						"the version string is wrong!" ); //$NON-NLS-1$
-			}
-			if ( versionShort > 99 )
-				throw new IllegalArgumentException(
-						"the version string is wrong!" ); //$NON-NLS-1$
+			if (versionShort > 99)
+				throw new IllegalArgumentException("the version string is wrong!"); //$NON-NLS-1$
 			parsedVersionNumber += versionShort * expoArray[i];
 		}
 		// add the parsed version to the cache map

@@ -10,14 +10,13 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout.pdf.hyphen;
 
-public interface IHyphenationManager
-{
-    /**
-     * 
-     * @param lang
-     * @param country
-     * @param word
-     * @return
-     */
-    public Hyphenation getHyphenation( String word);
+public interface IHyphenationManager {
+	/**
+	 * 
+	 * @param lang
+	 * @param country
+	 * @param word
+	 * @return
+	 */
+	public Hyphenation getHyphenation(String word);
 }

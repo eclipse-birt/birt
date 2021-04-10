@@ -19,54 +19,46 @@ import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelpe
  * olap.data
  * 
  */
-public class CalculatedMember
-{
+public class CalculatedMember {
 
 	private CubeAggrDefn aggrDefn;
 	private int rsID;
 	private IJSFacttableFilterEvalHelper filterEvalHelper;
-
 
 	/**
 	 * 
 	 * @param aggrDefn
 	 * @param rsID
 	 */
-	CalculatedMember( CubeAggrDefn aggrDefn, int rsID )
-	{
+	CalculatedMember(CubeAggrDefn aggrDefn, int rsID) {
 		this.aggrDefn = aggrDefn;
 		this.rsID = rsID;
 	}
-
 
 	/**
 	 * 
 	 * @param filterEvalHelper
 	 */
-	public void setFilterEvalHelper( IJSFacttableFilterEvalHelper filterEvalHelper )
-	{
+	public void setFilterEvalHelper(IJSFacttableFilterEvalHelper filterEvalHelper) {
 		this.filterEvalHelper = filterEvalHelper;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public IJSFacttableFilterEvalHelper getFilterEvalHelper( )
-	{
+	public IJSFacttableFilterEvalHelper getFilterEvalHelper() {
 		return this.filterEvalHelper;
 	}
-	
-	public CubeAggrDefn getCubeAggrDefn( )
-	{
+
+	public CubeAggrDefn getCubeAggrDefn() {
 		return aggrDefn;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	int getRsID( )
-	{
+	int getRsID() {
 		return this.rsID;
 	}
 }

@@ -11,21 +11,19 @@
 
 package org.eclipse.birt.report.engine.emitter.config;
 
-
 /**
  * IOptionValue
  */
-public interface IOptionValue
-{
+public interface IOptionValue {
 
 	/**
 	 * Returns the option name
 	 */
-	String getName( );
+	String getName();
 
 	/**
 	 * Returns the optoin value
 	 */
-	Object getValue( );
+	Object getValue();
 
 }

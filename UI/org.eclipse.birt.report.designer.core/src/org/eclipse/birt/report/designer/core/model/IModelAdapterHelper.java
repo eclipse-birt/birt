@@ -16,36 +16,35 @@ import org.eclipse.draw2d.geometry.Insets;
 
 /**
  * Interface to provide model adapter helper.
- *  
+ * 
  */
-public interface IModelAdapterHelper
-{
+public interface IModelAdapterHelper {
 
 	/**
 	 * Marks the flag
 	 * 
 	 * @param bool
 	 */
-	void markDirty( boolean bool );
+	void markDirty(boolean bool);
 
 	/**
 	 * Gets the flag
 	 * 
 	 * @return
 	 */
-	boolean isDirty( );
+	boolean isDirty();
 
 	/**
 	 * Gets the preferred size
 	 * 
 	 * @return
 	 */
-	Dimension getPreferredSize( );
+	Dimension getPreferredSize();
 
 	/**
 	 * Gets the insets
 	 * 
 	 * @return
 	 */
-	Insets getInsets( );
+	Insets getInsets();
 }

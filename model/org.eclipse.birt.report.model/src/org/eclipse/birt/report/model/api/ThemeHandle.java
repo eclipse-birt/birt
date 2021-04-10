@@ -22,23 +22,19 @@ import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
  * @see org.eclipse.birt.report.model.elements.Theme
  */
 
-public class ThemeHandle extends AbstractThemeHandle implements IThemeModel
-{
+public class ThemeHandle extends AbstractThemeHandle implements IThemeModel {
 
 	/**
 	 * Constructs the handle for a theme with the given design and element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public ThemeHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public ThemeHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
-	}
+}

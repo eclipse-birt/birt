@@ -15,8 +15,7 @@ import java.util.List;
  * Convert the selection list to model list
  * 
  */
-public interface IRequestConverter
-{
+public interface IRequestConverter {
 
 	/**
 	 * Convert the selection list to model list
@@ -24,5 +23,5 @@ public interface IRequestConverter
 	 * @param list
 	 * @return
 	 */
-	List convertSelectionToModelLisr( List list );
+	List convertSelectionToModelLisr(List list);
 }

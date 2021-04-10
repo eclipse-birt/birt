@@ -51,8 +51,7 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  */
 
-public class Regression_128582 extends ChartTestCase
-{
+public class Regression_128582 extends ChartTestCase {
 
 	private static String GOLDEN = "Regression_128582.jpg"; //$NON-NLS-1$
 	private static String OUTPUT = "Regression_128582.jpg"; //$NON-NLS-1$
@@ -74,141 +73,112 @@ public class Regression_128582 extends ChartTestCase
 	 * 
 	 * @param args
 	 */
-	public static void main( String[] args )
-	{
-		new Regression_128582( );
+	public static void main(String[] args) {
+		new Regression_128582();
 	}
 
 	/**
 	 * Constructor
 	 */
-	public Regression_128582( )
-	{
-		final PluginSettings ps = PluginSettings.instance( );
-		try
-		{
-			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
+	public Regression_128582() {
+		final PluginSettings ps = PluginSettings.instance();
+		try {
+			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
 
+		} catch (ChartException ex) {
+			ex.printStackTrace();
 		}
-		catch ( ChartException ex )
-		{
-			ex.printStackTrace( );
-		}
-		cm = createBarChart( );
-		BufferedImage img = new BufferedImage(
-				500,
-				500,
-				BufferedImage.TYPE_INT_ARGB );
-		Graphics g = img.getGraphics( );
+		cm = createBarChart();
+		BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = img.getGraphics();
 
 		Graphics2D g2d = (Graphics2D) g;
-		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this
-				.genOutputFile( OUTPUT )
-				  );
+		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
+		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this.genOutputFile(OUTPUT));
 
-		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
-		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
+		Bounds bo = BoundsImpl.create(0, 0, 500, 500);
+		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
 
-		Generator gr = Generator.instance( );
+		Generator gr = Generator.instance();
 
-		try
-		{
-			gcs = gr.build(
-					dRenderer.getDisplayServer( ),
-					cm,
-					bo,
-					null,
-					null,
-					null );
-			gr.render( dRenderer, gcs );
-		}
-		catch ( ChartException e )
-		{
-			e.printStackTrace( );
+		try {
+			gcs = gr.build(dRenderer.getDisplayServer(), cm, bo, null, null, null);
+			gr.render(dRenderer, gcs);
+		} catch (ChartException e) {
+			e.printStackTrace();
 		}
 	}
 
-	public void test_regression_128582( ) throws Exception
-	{
-		Regression_128582 st = new Regression_128582( );
-		assertTrue( st.compareImages( GOLDEN, OUTPUT ) );
+	public void test_regression_128582() throws Exception {
+		Regression_128582 st = new Regression_128582();
+		assertTrue(st.compareImages(GOLDEN, OUTPUT));
 	}
 
 	/**
 	 * Creates a bar chart model as a reference implementation
 	 * 
-	 * @return An instance of the simulated runtime chart model (containing
-	 *         filled datasets)
+	 * @return An instance of the simulated runtime chart model (containing filled
+	 *         datasets)
 	 */
-	public static final Chart createBarChart( )
-	{
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+	public static final Chart createBarChart() {
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Chart Type
-		cwaBar.setType( "Bar Chart" );
+		cwaBar.setType("Bar Chart");
 
-		cwaBar
-				.getPlot( )
-				.setBackground(
-						ImageImpl
-								.create( "http://sprott.physics.wisc.edu/fractals/collect/1999/Wild%20Flower.jpg" ) );
+		cwaBar.getPlot().setBackground(
+				ImageImpl.create("http://sprott.physics.wisc.edu/fractals/collect/1999/Wild%20Flower.jpg"));
 
 		// Title
-		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue(
-				"Computer Hardware Sales" ); //$NON-NLS-1$
-		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
+		cwaBar.getTitle().getLabel().getCaption().setValue("Computer Hardware Sales"); //$NON-NLS-1$
+		cwaBar.getBlock().setBackground(ColorDefinitionImpl.WHITE());
 
 		// Legend
-		Legend lg = cwaBar.getLegend( );
-		lg.setVisible( false );
+		Legend lg = cwaBar.getLegend();
+		lg.setVisible(false);
 
 		// X-Axis
-		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaBar ).getPrimaryBaseAxes( )[0];
-		xAxisPrimary.getTitle( ).setVisible( false );
+		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaBar).getPrimaryBaseAxes()[0];
+		xAxisPrimary.getTitle().setVisible(false);
 
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-		xAxisPrimary.getLabel( ).getCaption( ).setColor(
-				ColorDefinitionImpl.GREEN( ).darker( ) );
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
+		xAxisPrimary.getLabel().getCaption().setColor(ColorDefinitionImpl.GREEN().darker());
 
 		// Y-Axis
-		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaBar )
-				.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
-		yAxisPrimary.getLabel( ).getCaption( ).setColor(
-				ColorDefinitionImpl.BLUE( ) );
+		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaBar).getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getLabel().getCaption().setValue("Sales Growth"); //$NON-NLS-1$
+		yAxisPrimary.getLabel().getCaption().setColor(ColorDefinitionImpl.BLUE());
 
-		yAxisPrimary.getTitle( ).setVisible( false );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+		yAxisPrimary.getTitle().setVisible(false);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		yAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
 
 		// Data Set
-		TextDataSet dsStringValue = TextDataSetImpl.create( new String[]{
-				"Keyboards", "Moritors", "Printers", "Mortherboards"} );
-		NumberDataSet dsNumericValues1 = NumberDataSetImpl
-				.create( new double[]{143.26, 156.55, 95.25, 47.56} );
+		TextDataSet dsStringValue = TextDataSetImpl
+				.create(new String[] { "Keyboards", "Moritors", "Printers", "Mortherboards" });
+		NumberDataSet dsNumericValues1 = NumberDataSetImpl.create(new double[] { 143.26, 156.55, 95.25, 47.56 });
 
 		// X-Series
-		Series seBase = SeriesImpl.create( );
-		seBase.setDataSet( dsStringValue );
+		Series seBase = SeriesImpl.create();
+		seBase.setDataSet(dsStringValue);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seBase );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seBase);
 
 		// Y-Series
-		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-		bs.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
-		bs.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
-		bs.getLabel( ).setVisible( true );
-		bs.setDataSet( dsNumericValues1 );
-		bs.setStacked( true );
+		BarSeries bs = (BarSeries) BarSeriesImpl.create();
+		bs.getLabel().getCaption().setColor(ColorDefinitionImpl.RED());
+		bs.getLabel().setBackground(ColorDefinitionImpl.CYAN());
+		bs.getLabel().setVisible(true);
+		bs.setDataSet(dsNumericValues1);
+		bs.setStacked(true);
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.GREEN( ) );
-		sdY.getSeries( ).add( bs );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeriesPalette().update(ColorDefinitionImpl.GREEN());
+		sdY.getSeries().add(bs);
 
 		return cwaBar;
 

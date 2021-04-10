@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.engine.toc;
 
+public interface ViewFilter {
 
-public interface ViewFilter
-{
-
-	boolean isVisible( ITreeNode node );
+	boolean isVisible(ITreeNode node);
 }

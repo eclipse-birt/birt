@@ -19,27 +19,24 @@ import org.eclipse.draw2d.geometry.Dimension;
  * is not a visual element.
  * 
  */
-public class EmptyFigure extends LabelFigure
-{
+public class EmptyFigure extends LabelFigure {
 
 	// private String text;
 
-	public EmptyFigure( )
-	{
-		setOpaque( true );
+	public EmptyFigure() {
+		setOpaque(true);
 //		setBackgroundColor( ReportColorConstants.greyFillColor );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure#getPreferredSize(int,
-	 *      int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.
+	 * LabelFigure#getPreferredSize(int, int)
 	 */
-	public Dimension getPreferredSize( int wHint, int hHint )
-	{
-		if ( prefSize != null )
+	public Dimension getPreferredSize(int wHint, int hHint) {
+		if (prefSize != null)
 			return prefSize;
-		return getSize( );
+		return getSize();
 	}
 }

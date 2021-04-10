@@ -32,16 +32,14 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 /**
  * SerializerImpl
  */
-public class SerializerImpl implements Serializer
-{
+public class SerializerImpl implements Serializer {
 
 	private static Serializer sz = null;
 
 	/**
 	 * Cannot invoke constructor; use instance() instead
 	 */
-	private SerializerImpl( )
-	{
+	private SerializerImpl() {
 
 	}
 
@@ -49,11 +47,9 @@ public class SerializerImpl implements Serializer
 	 * 
 	 * @return A singleton instance of the chart serializer
 	 */
-	public static synchronized final Serializer instance( )
-	{
-		if ( sz == null )
-		{
-			sz = new SerializerImpl( );
+	public static synchronized final Serializer instance() {
+		if (sz == null) {
+			sz = new SerializerImpl();
 		}
 		return sz;
 	}
@@ -61,122 +57,104 @@ public class SerializerImpl implements Serializer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.chart.model.ISerialization#write(org.eclipse.birt.chart
+	 * @see org.eclipse.birt.chart.model.ISerialization#write(org.eclipse.birt.chart
 	 * .model.Chart, java.io.OutputStream)
 	 */
 
-	public void write( DesignValues cModel, OutputStream os )
-			throws IOException
-	{
-		DocumentRoot documentRoot = ModelFactory.eINSTANCE.createDocumentRoot( );
-		documentRoot.setDesignValues( cModel );
+	public void write(DesignValues cModel, OutputStream os) throws IOException {
+		DocumentRoot documentRoot = ModelFactory.eINSTANCE.createDocumentRoot();
+		documentRoot.setDesignValues(cModel);
 
-		cModel.setVersion( IConstants.DESINGER_VALUES_VERSION );
-		
-		ModelXMLProcessor xmlProcessor = new ModelXMLProcessor( );
-		Resource resource = xmlProcessor.createResource( URI
-				.createFileURI( "test.designValue" ) ); //$NON-NLS-1$
-		resource.getContents( ).add( documentRoot );
+		cModel.setVersion(IConstants.DESINGER_VALUES_VERSION);
 
-		Map options = new HashMap( );
-		options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //$NON-NLS-1$
+		ModelXMLProcessor xmlProcessor = new ModelXMLProcessor();
+		Resource resource = xmlProcessor.createResource(URI.createFileURI("test.designValue")); //$NON-NLS-1$
+		resource.getContents().add(documentRoot);
 
-		resource.save( os, options );
+		Map options = new HashMap();
+		options.put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
+
+		resource.save(os, options);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.chart.model.ISerialization#read(java.io.InputStream)
+	 * @see org.eclipse.birt.chart.model.ISerialization#read(java.io.InputStream)
 	 */
-	protected DesignValues read( InputStream is ) throws IOException
-	{
-		ModelXMLProcessor xmlProcessor = new ModelXMLProcessor( );
-		Resource resource = xmlProcessor.createResource( URI
-				.createFileURI( "test.designValue" ) ); //$NON-NLS-1$ 
+	protected DesignValues read(InputStream is) throws IOException {
+		ModelXMLProcessor xmlProcessor = new ModelXMLProcessor();
+		Resource resource = xmlProcessor.createResource(URI.createFileURI("test.designValue")); //$NON-NLS-1$
 
-		try
-		{
-			Map options = new HashMap( );
-			options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //$NON-NLS-1$
+		try {
+			Map options = new HashMap();
+			options.put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
 
-			resource.load( is, options );
-		}
-		catch ( IOException ex )
-		{
+			resource.load(is, options);
+		} catch (IOException ex) {
 			throw ex;
 		}
-		DocumentRoot docRoot = (DocumentRoot) resource.getContents( ).get( 0 );
-		return docRoot.getDesignValues( );
+		DocumentRoot docRoot = (DocumentRoot) resource.getContents().get(0);
+		return docRoot.getDesignValues();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.chart.model.ISerialization#read(java.io.InputStream)
+	 * @see org.eclipse.birt.chart.model.ISerialization#read(java.io.InputStream)
 	 */
 
-	public DesignValues read( String values ) throws IOException
-	{
-		if ( values == null )
+	public DesignValues read(String values) throws IOException {
+		if (values == null)
 			return null;
 
-		ByteArrayInputStream bis = new ByteArrayInputStream(
-				values.getBytes( IConstants.CHAR_ENCODING ) );
+		ByteArrayInputStream bis = new ByteArrayInputStream(values.getBytes(IConstants.CHAR_ENCODING));
 
-		DesignValues retValues = read( bis );
+		DesignValues retValues = read(bis);
 
-		bis.close( );
-		convertDesignParametersToAdapterParameters( retValues );
+		bis.close();
+		convertDesignParametersToAdapterParameters(retValues);
 
 		return retValues;
 	}
 
-	private void convertDesignParametersToAdapterParameters(
-			DesignValues retValues )
-	{
-		if ( retValues == null )
+	private void convertDesignParametersToAdapterParameters(DesignValues retValues) {
+		if (retValues == null)
 			return;
 
 		org.eclipse.datatools.connectivity.oda.design.DataSetParameters designParams = retValues
-				.getDataSetParameters1( );
-		if ( designParams == null || designParams.eContents( ).isEmpty( ) )
+				.getDataSetParameters1();
+		if (designParams == null || designParams.eContents().isEmpty())
 			return;
 
-		String version = retValues.getVersion( );
-		float floatVersion = Float.parseFloat( version );
-		if ( floatVersion > 1.5 )
+		String version = retValues.getVersion();
+		float floatVersion = Float.parseFloat(version);
+		if (floatVersion > 1.5)
 			return;
 
-		DataSetParameters adapterParams = SchemaConversionUtil
-				.convertToAdapterParameters( designParams );
+		DataSetParameters adapterParams = SchemaConversionUtil.convertToAdapterParameters(designParams);
 
-		retValues.setDataSetParameters( adapterParams );
-		retValues.setDataSetParameters1( null );
+		retValues.setDataSetParameters(adapterParams);
+		retValues.setDataSetParameters1(null);
 
-		retValues.setVersion( IConstants.DESINGER_VALUES_VERSION );
+		retValues.setVersion(IConstants.DESINGER_VALUES_VERSION);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.chart.model.ISerialization#read(java.io.InputStream)
+	 * @see org.eclipse.birt.chart.model.ISerialization#read(java.io.InputStream)
 	 */
 
-	public String write( DesignValues values ) throws IOException
-	{
-		if ( values == null )
+	public String write(DesignValues values) throws IOException {
+		if (values == null)
 			return null;
 
-		ByteArrayOutputStream bos = new ByteArrayOutputStream( );
-		write( values, bos );
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		write(values, bos);
 
-		String retValue = bos.toString( IConstants.CHAR_ENCODING );
-		bos.close( );
+		String retValue = bos.toString(IConstants.CHAR_ENCODING);
+		bos.close();
 
 		return retValue;
 	}

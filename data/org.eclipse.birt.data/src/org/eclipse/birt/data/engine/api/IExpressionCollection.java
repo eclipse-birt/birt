@@ -17,11 +17,10 @@ import java.util.Collection;
  * Array.
  * 
  */
-public interface IExpressionCollection extends IBaseExpression
-{
+public interface IExpressionCollection extends IBaseExpression {
 
 	/**
 	 * Gets the expression collection.
 	 */
-	public Collection getExpressions( );
+	public Collection getExpressions();
 }

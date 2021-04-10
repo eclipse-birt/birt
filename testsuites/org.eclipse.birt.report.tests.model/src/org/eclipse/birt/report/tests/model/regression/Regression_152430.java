@@ -49,54 +49,45 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * structure member which is value required.
  * </p>
  */
-public class Regression_152430 extends BaseTestCase
-{
+public class Regression_152430 extends BaseTestCase {
 
 	/**
 	 * @throws NameException
 	 * @throws ContentException
 	 */
 
-	public void test_regression_152430( ) throws ContentException,
-			NameException
-	{
-		ReportDesignHandle reportHandle = this.createDesign( );
-		ElementFactory factory = reportHandle.getElementFactory( );
+	public void test_regression_152430() throws ContentException, NameException {
+		ReportDesignHandle reportHandle = this.createDesign();
+		ElementFactory factory = reportHandle.getElementFactory();
 
-		TableHandle table = factory.newTableItem( "newTable" ); //$NON-NLS-1$
-		reportHandle.getBody( ).add( table );
+		TableHandle table = factory.newTableItem("newTable"); //$NON-NLS-1$
+		reportHandle.getBody().add(table);
 
 		// add sorting and filter to table.
 
-		SortKey sortKey = StructureFactory.createSortKey( );
-		sortKey.setKey( "  " ); //$NON-NLS-1$
-		sortKey.setDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
+		SortKey sortKey = StructureFactory.createSortKey();
+		sortKey.setKey("  "); //$NON-NLS-1$
+		sortKey.setDirection(DesignChoiceConstants.SORT_DIRECTION_ASC);
 
-		try
-		{
-			table.getPropertyHandle( TableHandle.SORT_PROP ).addItem( sortKey );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertTrue( e instanceof PropertyValueException );
+		try {
+			table.getPropertyHandle(TableHandle.SORT_PROP).addItem(sortKey);
+			fail();
+		} catch (SemanticException e) {
+			assertTrue(e instanceof PropertyValueException);
 		}
 
-		FilterCondition filter = StructureFactory.createFilterCond( );
+		FilterCondition filter = StructureFactory.createFilterCond();
 
-		filter.setExpr( "  " ); //$NON-NLS-1$
-		filter.setOperator( DesignChoiceConstants.FILTER_OPERATOR_BETWEEN );
-		filter.setValue1( "a" ); //$NON-NLS-1$
-		filter.setValue2( "b" ); //$NON-NLS-1$
+		filter.setExpr("  "); //$NON-NLS-1$
+		filter.setOperator(DesignChoiceConstants.FILTER_OPERATOR_BETWEEN);
+		filter.setValue1("a"); //$NON-NLS-1$
+		filter.setValue2("b"); //$NON-NLS-1$
 
-		try
-		{
-			table.getPropertyHandle( TableHandle.FILTER_PROP ).addItem( filter );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertTrue( e instanceof PropertyValueException );
+		try {
+			table.getPropertyHandle(TableHandle.FILTER_PROP).addItem(filter);
+			fail();
+		} catch (SemanticException e) {
+			assertTrue(e instanceof PropertyValueException);
 		}
 
 	}

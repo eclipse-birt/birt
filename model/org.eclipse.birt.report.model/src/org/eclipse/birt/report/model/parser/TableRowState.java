@@ -23,8 +23,7 @@ import org.xml.sax.SAXException;
  * 
  */
 
-public class TableRowState extends ReportElementState
-{
+public class TableRowState extends ReportElementState {
 
 	/**
 	 * The row being created.
@@ -33,21 +32,16 @@ public class TableRowState extends ReportElementState
 	protected TableRow element;
 
 	/**
-	 * Constructs the table or list row state with the design parser handler,
-	 * the container element and the container slot of the table row.
+	 * Constructs the table or list row state with the design parser handler, the
+	 * container element and the container slot of the table row.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public TableRowState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public TableRowState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/*
@@ -56,30 +50,29 @@ public class TableRowState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new TableRow( );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new TableRow();
 
-		initSimpleElement( attrs );
+		initSimpleElement(attrs);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
+	 * String)
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		int tagValue = tagName.toLowerCase( ).hashCode( );
-		if ( ParserSchemaConstants.CELL_TAG == tagValue )
-			return new CellState( handler, element, TableRow.CONTENT_SLOT );
-		return super.startElement( tagName );
+	public AbstractParseState startElement(String tagName) {
+		int tagValue = tagName.toLowerCase().hashCode();
+		if (ParserSchemaConstants.CELL_TAG == tagValue)
+			return new CellState(handler, element, TableRow.CONTENT_SLOT);
+		return super.startElement(tagName);
 	}
 
 	/*
@@ -88,8 +81,7 @@ public class TableRowState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		makeTestExpressionCompatible( );
+	public void end() throws SAXException {
+		makeTestExpressionCompatible();
 	}
 }

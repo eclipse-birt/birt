@@ -11,52 +11,50 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.api;
 
-
 /**
  * 
  */
 
-public interface ILevel
-{
+public interface ILevel {
 	/**
 	 * 
 	 * @return
 	 */
-	public String getName( );
-	
+	public String getName();
+
 	/**
 	 * 
 	 * @return
 	 */
-	public String[] getAttributeNames( );
-	
+	public String[] getAttributeNames();
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int size( );
-	
+	public int size();
+
 	/**
 	 * @return
 	 */
-	public String[] getKeyNames( );
-	
+	public String[] getKeyNames();
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int getKeyDataType( String keyName );
-	
+	public int getKeyDataType(String keyName);
+
 	/**
 	 * 
 	 * @param attributeName
 	 * @return
 	 */
-	public int getAttributeDataType( String attributeName );
-	
+	public int getAttributeDataType(String attributeName);
+
 	/**
 	 * 
 	 * @return
 	 */
-	public String getLeveType( );
+	public String getLeveType();
 }

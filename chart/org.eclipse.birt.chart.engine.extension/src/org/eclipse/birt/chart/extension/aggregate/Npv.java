@@ -15,32 +15,32 @@ import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
 import org.eclipse.birt.chart.engine.extension.i18n.Messages;
 import org.eclipse.birt.core.data.DataType;
 
-
 /**
  * @since BIRT 2.3
  *
  */
-public class Npv extends AggregateFunctionAdapter
-{
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getDisplayParameters()
+public class Npv extends AggregateFunctionAdapter {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.aggregate.IAggregateFunction#getDisplayParameters()
 	 */
-	public String[] getDisplayParameters( )
-	{
-		return new String[]{Messages.getString("Npv.AggregateFunction.Parameters.Label.Rate")}; //$NON-NLS-1$
+	public String[] getDisplayParameters() {
+		return new String[] { Messages.getString("Npv.AggregateFunction.Parameters.Label.Rate") }; //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getParametersCount()
 	 */
-	public int getParametersCount( )
-	{
+	public int getParametersCount() {
 		return 1;
 	}
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 }

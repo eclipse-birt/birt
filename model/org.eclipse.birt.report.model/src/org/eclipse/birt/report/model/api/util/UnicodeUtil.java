@@ -19,8 +19,7 @@ import java.io.InputStream;
  * 
  */
 
-public class UnicodeUtil
-{
+public class UnicodeUtil {
 	/**
 	 * The signature for the UTF-8 files.
 	 */
@@ -52,8 +51,8 @@ public class UnicodeUtil
 	public final static String SIGNATURE_UCS4_LITTLE = "UCS-4Little"; //$NON-NLS-1$
 
 	/**
-	 * Reads a signature if it applies. Currently BIRT can recognize the
-	 * following signatures:
+	 * Reads a signature if it applies. Currently BIRT can recognize the following
+	 * signatures:
 	 * 
 	 * <ul>
 	 * <li>SIGNATURE_UTF_8</li>
@@ -63,55 +62,43 @@ public class UnicodeUtil
 	 * <li>SIGNATURE_UCS4_LITTLE</li>
 	 * </ul>
 	 * 
-	 * @param inputStream
-	 *            the input stream of the unicode file
+	 * @param inputStream the input stream of the unicode file
 	 * 
 	 * @return the encoding signature from the unicode file.
 	 * 
-	 * @throws IOException
-	 *             if errors occur when reading bytes from the input stream
+	 * @throws IOException if errors occur when reading bytes from the input stream
 	 */
 
-	public static String checkUTFSignature( InputStream inputStream )
-			throws IOException
-	{
+	public static String checkUTFSignature(InputStream inputStream) throws IOException {
 
-		inputStream.mark( 1024 );
+		inputStream.mark(1024);
 
-		int byte1 = inputStream.read( );
-		int byte2 = inputStream.read( );
-		if ( byte1 == 0xFE && byte2 == 0xFF )
-		{
+		int byte1 = inputStream.read();
+		int byte2 = inputStream.read();
+		if (byte1 == 0xFE && byte2 == 0xFF) {
 			return SIGNATURE_UNICODE_BIG;
-		}
-		else if ( byte1 == 0xFF && byte2 == 0xFE )
-		{
+		} else if (byte1 == 0xFF && byte2 == 0xFE) {
 
 			return SIGNATURE_UNICODE_LITTLE;
 		}
 
-		int byte3 = inputStream.read( );
+		int byte3 = inputStream.read();
 
 		// check for UTF-8 byte order mark
 
-		if ( byte1 == 0xEF && byte2 == 0xBB && byte3 == 0xBF )
-		{
+		if (byte1 == 0xEF && byte2 == 0xBB && byte3 == 0xBF) {
 			return SIGNATURE_UTF_8;
 		}
 
-		int byte4 = inputStream.read( );
-		if ( byte1 == 0x00 && byte2 == 0x00 && byte3 == 0xFE && byte4 == 0xFF )
-		{
+		int byte4 = inputStream.read();
+		if (byte1 == 0x00 && byte2 == 0x00 && byte3 == 0xFE && byte4 == 0xFF) {
 			return SIGNATURE_UCS4_BIG;
-		}
-		else if ( byte1 == 0x00 && byte2 == 0x00 && byte3 == 0xFF
-				&& byte4 == 0xFE )
-		{
+		} else if (byte1 == 0x00 && byte2 == 0x00 && byte3 == 0xFF && byte4 == 0xFE) {
 			return SIGNATURE_UCS4_LITTLE;
 		}
 
-		inputStream.reset( );
-		return null; 
+		inputStream.reset();
+		return null;
 	}
 
 }

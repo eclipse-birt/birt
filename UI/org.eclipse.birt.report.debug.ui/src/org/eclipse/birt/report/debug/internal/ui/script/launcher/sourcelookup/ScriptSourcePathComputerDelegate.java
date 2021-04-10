@@ -30,76 +30,59 @@ import org.eclipse.jdt.launching.StandardSourcePathProvider;
 /**
  * ScriptSourcePathComputerDelegate
  */
-public class ScriptSourcePathComputerDelegate implements
-		ISourcePathComputerDelegate
-{
+public class ScriptSourcePathComputerDelegate implements ISourcePathComputerDelegate {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.debug.core.sourcelookup.ISourcePathComputerDelegate#computeSourceContainers(org.eclipse.debug.core.ILaunchConfiguration,
-	 *      org.eclipse.core.runtime.IProgressMonitor)
+	 * @see org.eclipse.debug.core.sourcelookup.ISourcePathComputerDelegate#
+	 * computeSourceContainers(org.eclipse.debug.core.ILaunchConfiguration,
+	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public ISourceContainer[] computeSourceContainers(
-			ILaunchConfiguration configuration, IProgressMonitor monitor )
-			throws CoreException
-	{
-		List containers = new ArrayList( );
+	public ISourceContainer[] computeSourceContainers(ILaunchConfiguration configuration, IProgressMonitor monitor)
+			throws CoreException {
+		List containers = new ArrayList();
 
-		String path = getPath( configuration );
+		String path = getPath(configuration);
 
-		if ( path != null )
-		{
-			containers.add( new ScriptDirectorySourceContainer( new File( path ),
-					false ) );
+		if (path != null) {
+			containers.add(new ScriptDirectorySourceContainer(new File(path), false));
 		}
 
 		// always use standard source path provider to avoid PDE setting overwritten
-		IRuntimeClasspathProvider scp = new StandardSourcePathProvider( );
+		IRuntimeClasspathProvider scp = new StandardSourcePathProvider();
 
-		IRuntimeClasspathEntry[] entries = scp.computeUnresolvedClasspath( configuration );
-		IRuntimeClasspathEntry[] resolved = scp.resolveClasspath( entries,
-				configuration );
-		ISourceContainer[] cts = JavaRuntime.getSourceContainers( resolved );
+		IRuntimeClasspathEntry[] entries = scp.computeUnresolvedClasspath(configuration);
+		IRuntimeClasspathEntry[] resolved = scp.resolveClasspath(entries, configuration);
+		ISourceContainer[] cts = JavaRuntime.getSourceContainers(resolved);
 
-		if ( cts != null )
-		{
-			for ( int i = 0; i < cts.length; i++ )
-			{
-				containers.add( cts[i] );
+		if (cts != null) {
+			for (int i = 0; i < cts.length; i++) {
+				containers.add(cts[i]);
 			}
 		}
 
-		return (ISourceContainer[]) containers.toArray( new ISourceContainer[containers.size( )] );
+		return (ISourceContainer[]) containers.toArray(new ISourceContainer[containers.size()]);
 	}
 
-	private String getFileName( ILaunchConfiguration configuration )
-	{
+	private String getFileName(ILaunchConfiguration configuration) {
 		String retValue = ""; //$NON-NLS-1$
-		try
-		{
-			retValue = configuration.getAttribute( IReportLaunchConstants.ATTR_REPORT_FILE_NAME,
-					"" ); //$NON-NLS-1$
-		}
-		catch ( CoreException e )
-		{
+		try {
+			retValue = configuration.getAttribute(IReportLaunchConstants.ATTR_REPORT_FILE_NAME, ""); //$NON-NLS-1$
+		} catch (CoreException e) {
 			return retValue;
 		}
-		try
-		{
-			retValue = ScriptDebugUtil.getSubstitutedString( retValue );
-		}
-		catch ( CoreException e )
-		{
+		try {
+			retValue = ScriptDebugUtil.getSubstitutedString(retValue);
+		} catch (CoreException e) {
 			return retValue;
 		}
 		return retValue;
 	}
 
-	private String getPath( ILaunchConfiguration configuration )
-	{
-		String str = getFileName( configuration );
-		int index = str.lastIndexOf( File.separator );
-		return str.substring( 0, index + 1 );
+	private String getPath(ILaunchConfiguration configuration) {
+		String str = getFileName(configuration);
+		int index = str.lastIndexOf(File.separator);
+		return str.substring(0, index + 1);
 	}
 }

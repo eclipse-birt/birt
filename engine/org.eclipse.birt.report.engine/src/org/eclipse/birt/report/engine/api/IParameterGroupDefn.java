@@ -16,19 +16,18 @@ import java.util.ArrayList;
 /**
  * The interface for objects which visually groups report parameters.
  */
-public interface IParameterGroupDefn extends IParameterDefnBase
-{
+public interface IParameterGroupDefn extends IParameterDefnBase {
 	/**
 	 * returns the set of parameters that appear inside the group.
 	 * 
 	 * @return the set of parameters that appear inside the group.
 	 */
-	public ArrayList getContents( );
-	
+	public ArrayList getContents();
+
 	/**
 	 * returns whether to display the parameter group in expanded form
 	 * 
 	 * @return whether to display the parameter group expanded
 	 */
-	public boolean displayExpanded(); 
+	public boolean displayExpanded();
 }

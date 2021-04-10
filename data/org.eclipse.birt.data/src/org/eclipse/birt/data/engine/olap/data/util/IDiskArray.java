@@ -16,42 +16,46 @@ import java.io.IOException;
 import org.eclipse.birt.data.engine.api.ICloseListener;
 
 /**
- * A disk based array. 
+ * A disk based array.
  */
 
-public interface IDiskArray extends ICloseListener
-{
+public interface IDiskArray extends ICloseListener {
 	/**
 	 * Add one element to this array.
+	 * 
 	 * @param o
 	 * @return
 	 * @throws IOException
 	 */
-	public boolean add( Object o ) throws IOException;
-	
+	public boolean add(Object o) throws IOException;
+
 	/**
 	 * Get the element by index.
+	 * 
 	 * @param index
 	 * @return
 	 * @throws IOException
 	 */
-	public Object get( int index ) throws IOException;
-	
+	public Object get(int index) throws IOException;
+
 	/**
 	 * Return array size.
+	 * 
 	 * @return
 	 */
-	public int size( );
-	
+	public int size();
+
 	/**
 	 * Close this disk array and release the used resource.
+	 * 
 	 * @throws IOException
 	 */
-	public void close( ) throws IOException;
-	
+	public void close() throws IOException;
+
 	/**
 	 * Clear the elements in this disk array.
+	 * 
 	 * @throws IOException
 	 */
-	public void clear( ) throws IOException;
+	public void clear() throws IOException;
 }

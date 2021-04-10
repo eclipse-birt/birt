@@ -14,16 +14,14 @@ package org.eclipse.birt.report.data.oda.xml.i18n;
 /**
  * @deprecated Please use DTP xml driver
  */
-public class Messages
-{
+public class Messages {
 
 	/**
 	 * 
 	 * @param key
 	 * @return
 	 */
-	public static String getString( String key )
-	{
-		return org.eclipse.datatools.enablement.oda.xml.i18n.Messages.getString( key );
+	public static String getString(String key) {
+		return org.eclipse.datatools.enablement.oda.xml.i18n.Messages.getString(key);
 	}
 }

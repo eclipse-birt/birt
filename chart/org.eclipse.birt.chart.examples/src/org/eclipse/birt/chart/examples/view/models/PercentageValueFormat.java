@@ -34,71 +34,65 @@ import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 
-public class PercentageValueFormat
-{
+public class PercentageValueFormat {
 
-	public static final Chart createPercentageValueFormat( )
-	{
-		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create( );
-		cwoaPie.setType( "Pie Chart" ); //$NON-NLS-1$	
-		cwoaPie.setSubType( "Standard Pie Chart" ); //$NON-NLS-1$
-		
+	public static final Chart createPercentageValueFormat() {
+		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
+		cwoaPie.setType("Pie Chart"); //$NON-NLS-1$
+		cwoaPie.setSubType("Standard Pie Chart"); //$NON-NLS-1$
+
 		// Plot
-		cwoaPie.setSeriesThickness( 25 );
-		cwoaPie.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
+		cwoaPie.setSeriesThickness(25);
+		cwoaPie.getBlock().setBackground(ColorDefinitionImpl.WHITE());
 
 		// Legend
-		cwoaPie.getLegend( ).getText( ).getFont( ).setBold( true );
+		cwoaPie.getLegend().getText().getFont().setBold(true);
 
 		// Title
-		cwoaPie.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( "Pie Chart with Percentage Values" );//$NON-NLS-1$
-		cwoaPie.getTitle( ).getOutline( ).setVisible( true );
+		cwoaPie.getTitle().getLabel().getCaption().setValue("Pie Chart with Percentage Values");//$NON-NLS-1$
+		cwoaPie.getTitle().getOutline().setVisible(true);
 
 		// Data Set
-		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"New York", "Boston", "Chicago", "San Francisco", "Dallas"} );//$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$//$NON-NLS-5$
+		TextDataSet categoryValues = TextDataSetImpl
+				.create(new String[] { "New York", "Boston", "Chicago", "San Francisco", "Dallas" });//$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$//$NON-NLS-5$
 
-		NumberDataSet seriesValues = NumberDataSetImpl.create( new double[] {
-				54.65, 21, 75.95, 91.28, 37.43
-		} );
-		
-		SampleData sdata = DataFactory.eINSTANCE.createSampleData( );
-		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
-		sdBase.setDataSetRepresentation( "" );//$NON-NLS-1$
-		sdata.getBaseSampleData( ).add( sdBase );
+		NumberDataSet seriesValues = NumberDataSetImpl.create(new double[] { 54.65, 21, 75.95, 91.28, 37.43 });
 
-		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		sdOrthogonal.setDataSetRepresentation( "" );//$NON-NLS-1$
-		sdOrthogonal.setSeriesDefinitionIndex( 0 );
-		sdata.getOrthogonalSampleData( ).add( sdOrthogonal );
-		
-		cwoaPie.setSampleData( sdata );
+		SampleData sdata = DataFactory.eINSTANCE.createSampleData();
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
+		sdBase.setDataSetRepresentation("");//$NON-NLS-1$
+		sdata.getBaseSampleData().add(sdBase);
+
+		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData();
+		sdOrthogonal.setDataSetRepresentation("");//$NON-NLS-1$
+		sdOrthogonal.setSeriesDefinitionIndex(0);
+		sdata.getOrthogonalSampleData().add(sdOrthogonal);
+
+		cwoaPie.setSampleData(sdata);
 
 		// Base Series
-		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
 
-		SeriesDefinition sd = SeriesDefinitionImpl.create( );
-		cwoaPie.getSeriesDefinitions( ).add( sd );
-		sd.getSeriesPalette( ).shift( 0 );
-		sd.getSeries( ).add( seCategory );
+		SeriesDefinition sd = SeriesDefinitionImpl.create();
+		cwoaPie.getSeriesDefinitions().add(sd);
+		sd.getSeriesPalette().shift(0);
+		sd.getSeries().add(seCategory);
 
 		// Orthogonal Series
-		PieSeries sePie = (PieSeries) PieSeriesImpl.create( );
-		sePie.setDataSet( seriesValues );
-		sePie.setExplosion( 3 );
+		PieSeries sePie = (PieSeries) PieSeriesImpl.create();
+		sePie.setDataSet(seriesValues);
+		sePie.setExplosion(3);
 
-		SeriesDefinition sdCity = SeriesDefinitionImpl.create( );
-		sd.getSeriesDefinitions( ).add( sdCity );
-		sdCity.getSeries( ).add( sePie );
+		SeriesDefinition sdCity = SeriesDefinitionImpl.create();
+		sd.getSeriesDefinitions().add(sdCity);
+		sdCity.getSeries().add(sePie);
 
-		DataPointComponent dpc = DataPointComponentImpl.create( DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL,
-				JavaNumberFormatSpecifierImpl.create( "##.##%" )); //$NON-NLS-1$
-		sePie.getDataPoint( ).getComponents( ).clear( );
-		sePie.getDataPoint( ).getComponents( ).add( dpc );
+		DataPointComponent dpc = DataPointComponentImpl.create(
+				DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL,
+				JavaNumberFormatSpecifierImpl.create("##.##%")); //$NON-NLS-1$
+		sePie.getDataPoint().getComponents().clear();
+		sePie.getDataPoint().getComponents().add(dpc);
 
 		return cwoaPie;
 	}

@@ -15,85 +15,67 @@ import java.math.BigDecimal;
 import org.eclipse.birt.data.engine.perf.util.SizeOfUtil.SizePoint;
 import org.eclipse.birt.data.engine.perf.util.TimeUtil.TimePoint;
 
-
 /**
  * Demonstrate how to use the utility classes: TimeUtil and SizeOfUtil
  */
-public class Example
-{
+public class Example {
 	/**
 	 * Test function of TimeUtil
 	 */
-	public void testTimeUtil( )
-	{
+	public void testTimeUtil() {
 		// TimeUtil#getTime
-		System.out.println( TimeUtil.instance.getTime( ) );
+		System.out.println(TimeUtil.instance.getTime());
 
 		// TimeUtil#getTimePointSpan
-		TimePoint time1 = TimeUtil.instance.getTimePoint( );
-		try
-		{
-			Thread.sleep( 2000 );
+		TimePoint time1 = TimeUtil.instance.getTimePoint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-		catch ( InterruptedException e )
-		{
-			e.printStackTrace( );
-		}
-		TimePoint time2 = TimeUtil.instance.getTimePoint( );
+		TimePoint time2 = TimeUtil.instance.getTimePoint();
 
-		System.out.println( TimeUtil.instance.getTimePointSpan( time1, time2 ) );
+		System.out.println(TimeUtil.instance.getTimePointSpan(time1, time2));
 	}
-	
+
 	/**
 	 * Test function of SizeOfUtil
 	 */
-	public void testSizeOfUtil( )
-	{
+	public void testSizeOfUtil() {
 		// SizeOfUtil#getObjectSize
-		try
-		{
-			ObjectInstance oi = getObjectInstance( );
-			int size = SizeOfUtil.instance.getObjectSize( oi );
-			System.out.println( oi.newInstance( ).getClass( ).getName( )
-					+ ": " + size + " bytes." );
+		try {
+			ObjectInstance oi = getObjectInstance();
+			int size = SizeOfUtil.instance.getObjectSize(oi);
+			System.out.println(oi.newInstance().getClass().getName() + ": " + size + " bytes.");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( );
-		}
-		
+
 		// SizeOfUtil#getSizePointSpan
-		try
-		{
-			SizePoint sp1 = SizeOfUtil.instance.getUsedMemorySizePoint( );
+		try {
+			SizePoint sp1 = SizeOfUtil.instance.getUsedMemorySizePoint();
 			int[] i = new int[1000];
 			i[0] = 0;
-			SizePoint sp2 = SizeOfUtil.instance.getUsedMemorySizePoint( );
+			SizePoint sp2 = SizeOfUtil.instance.getUsedMemorySizePoint();
 
-			String str = "used memory is: "
-					+ SizeOfUtil.instance.getSizePointSpan( sp1, sp2 )
-					+ " bytes";
-			System.out.println( str );
-		}
-		catch ( Exception e1 )
-		{
-			e1.printStackTrace( );
+			String str = "used memory is: " + SizeOfUtil.instance.getSizePointSpan(sp1, sp2) + " bytes";
+			System.out.println(str);
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * @return objectInstance needs to be computed memory consumed
 	 */
-	private static ObjectInstance getObjectInstance( )
-	{
-		return new ObjectInstance( ) {
+	private static ObjectInstance getObjectInstance() {
+		return new ObjectInstance() {
 
-			public Object newInstance( )
-			{
-				return new BigDecimal( 1 );
-				//new BigDecimal[]{
-				//	new BigDecimal( 1 ), new BigDecimal( 1 ), new BigDecimal( 1 )
-				//};
+			public Object newInstance() {
+				return new BigDecimal(1);
+				// new BigDecimal[]{
+				// new BigDecimal( 1 ), new BigDecimal( 1 ), new BigDecimal( 1 )
+				// };
 				// return new Integer(1);
 				// BigDecimal
 				// Double
@@ -102,5 +84,5 @@ public class Example
 			}
 		};
 	}
-	
+
 }

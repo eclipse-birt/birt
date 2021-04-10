@@ -16,18 +16,16 @@ import junit.framework.TestSuite;
 
 /**
  * Class of test suite for view.attributes
- *  
+ * 
  */
-public class AllTests
-{
+public class AllTests {
 
-	public static Test suite( )
-	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.designer.ui.views.attributes" );
-		//$JUnit-BEGIN$
-		suite.addTestSuite( TabPageGeneratorTest.class );
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Test for org.eclipse.birt.report.designer.ui.views.attributes");
+		// $JUnit-BEGIN$
+		suite.addTestSuite(TabPageGeneratorTest.class);
 
-		//$JUnit-END$
+		// $JUnit-END$
 		return suite;
 	}
 

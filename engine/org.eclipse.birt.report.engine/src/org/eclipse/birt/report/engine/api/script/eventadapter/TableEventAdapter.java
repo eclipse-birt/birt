@@ -19,31 +19,22 @@ import org.eclipse.birt.report.engine.api.script.instance.ITableInstance;
 /**
  * Default (empty) implementation of the ITableEventHandler interface
  */
-public class TableEventAdapter implements ITableEventHandler
-{
+public class TableEventAdapter implements ITableEventHandler {
 
-	public void onPrepare( ITable tableHandle, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onPrepare(ITable tableHandle, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onCreate( ITableInstance table, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onCreate(ITableInstance table, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onRender( ITableInstance table, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onRender(ITableInstance table, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onPageBreak( ITableInstance table, IReportContext reportContext )
-			throws ScriptException
-	{
-		
+	public void onPageBreak(ITableInstance table, IReportContext reportContext) throws ScriptException {
+
 	}
 
 }

@@ -23,8 +23,7 @@ import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
-public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
-{
+public class BirtRenderReportActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Output stream to store the report.
@@ -37,11 +36,9 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
 	 * @param context
 	 * @param operation
 	 */
-	public BirtRenderReportActionHandler( IContext context,
-			Operation operation, GetUpdatedObjectsResponse response,
-			OutputStream os )
-	{
-		super( context, operation, response );
+	public BirtRenderReportActionHandler(IContext context, Operation operation, GetUpdatedObjectsResponse response,
+			OutputStream os) {
+		super(context, operation, response);
 		assert os != null;
 		this.os = os;
 	}
@@ -52,23 +49,19 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
 	 * @exception ReportServiceException
 	 * @return
 	 */
-	public void __execute( ) throws Exception
-	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
+	public void __execute() throws Exception {
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
 		assert attrBean != null;
 
-		String docName = attrBean.getReportDocumentName( );
+		String docName = attrBean.getReportDocumentName();
 
-		InputOptions options = createInputOptions( attrBean, ParameterAccessor
-				.getSVGFlag( context.getRequest( ) ) );
+		InputOptions options = createInputOptions(attrBean, ParameterAccessor.getSVGFlag(context.getRequest()));
 
-		getReportService( ).renderReport( docName, attrBean.getReportPage( ),
-				attrBean.getReportPageRange( ), options, os );
+		getReportService().renderReport(docName, attrBean.getReportPage(), attrBean.getReportPageRange(), options, os);
 	}
 
-	protected IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	protected IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 
 }

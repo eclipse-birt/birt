@@ -22,7 +22,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
 
 public class MegaSizeTest extends ReportRunner {
-	
+
 	@Test
 	public void testWarmup() throws BirtException, IOException {
 
@@ -30,13 +30,12 @@ public class MegaSizeTest extends ReportRunner {
 		InputStream inputStream = runAndRenderReport("MegaSize.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
-			
-			
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
+
 	@Test
 	public void testMegaXlsx() throws BirtException, IOException {
 
@@ -44,24 +43,23 @@ public class MegaSizeTest extends ReportRunner {
 		InputStream inputStream = runAndRenderReport("MegaSize.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
-			
-			
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
+
 	@Test
 	public void testMegaXls() throws BirtException, IOException {
 
 		try {
 			runAndRenderReport("MegaSize.rptdesign", "xls");
-			fail( "Should have failed!" );
-		} catch( Throwable ex ) {
-			assertEquals( "Error happened while running the report.", ex.getMessage() );
+			fail("Should have failed!");
+		} catch (Throwable ex) {
+			assertEquals("Error happened while running the report.", ex.getMessage());
 			ex = ex.getCause();
-			assertEquals( "Invalid row number (65536) outside allowable range (0..65535)", ex.getMessage() );
+			assertEquals("Invalid row number (65536) outside allowable range (0..65535)", ex.getMessage());
 		}
 	}
-	
+
 }

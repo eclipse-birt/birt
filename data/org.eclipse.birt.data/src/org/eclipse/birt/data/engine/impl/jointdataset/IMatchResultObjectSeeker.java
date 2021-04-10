@@ -18,20 +18,22 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * The instance of IMatchResultObjectSeeker is used to find an IResultObject
  * which matchs the join condition.
  */
-public interface IMatchResultObjectSeeker
-{
+public interface IMatchResultObjectSeeker {
 	/**
 	 * Return the next IResultObject instance which matchs the join condition.
+	 * 
 	 * @param currentPrimaryIndex
 	 * @return
 	 * @throws DataException
 	 */
-	IResultObject getNextMatchedResultObject( int currentPrimaryIndex ) throws DataException;
-	
+	IResultObject getNextMatchedResultObject(int currentPrimaryIndex) throws DataException;
+
 	/**
-	 * Set the ResultIterator from which the IResultObject instance will be sought from. 
+	 * Set the ResultIterator from which the IResultObject instance will be sought
+	 * from.
+	 * 
 	 * @param ri
 	 * @throws DataException
 	 */
-	void setResultIterator( IResultIterator ri ) throws DataException;
+	void setResultIterator(IResultIterator ri) throws DataException;
 }

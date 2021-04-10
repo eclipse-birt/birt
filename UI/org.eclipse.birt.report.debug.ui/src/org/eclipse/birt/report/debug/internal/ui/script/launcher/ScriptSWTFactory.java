@@ -30,8 +30,7 @@ import org.eclipse.swt.widgets.Text;
 /**
  * ScriptSWTFactory
  */
-public class ScriptSWTFactory
-{
+public class ScriptSWTFactory {
 
 	/**
 	 * Create the composite
@@ -43,15 +42,13 @@ public class ScriptSWTFactory
 	 * @param fill
 	 * @return
 	 */
-	public static Composite createComposite( Composite parent, Font font,
-			int columns, int hspan, int fill )
-	{
-		Composite g = new Composite( parent, SWT.NONE );
-		g.setLayout( new GridLayout( columns, false ) );
-		g.setFont( font );
-		GridData gd = new GridData( fill );
+	public static Composite createComposite(Composite parent, Font font, int columns, int hspan, int fill) {
+		Composite g = new Composite(parent, SWT.NONE);
+		g.setLayout(new GridLayout(columns, false));
+		g.setFont(font);
+		GridData gd = new GridData(fill);
 		gd.horizontalSpan = hspan;
-		g.setLayoutData( gd );
+		g.setLayoutData(gd);
 		return g;
 	}
 
@@ -65,16 +62,14 @@ public class ScriptSWTFactory
 	 * @param fill
 	 * @return
 	 */
-	public static Group createGroup( Composite parent, String text,
-			int columns, int hspan, int fill )
-	{
-		Group g = new Group( parent, SWT.NONE );
-		g.setLayout( new GridLayout( columns, false ) );
-		g.setText( text );
-		g.setFont( parent.getFont( ) );
-		GridData gd = new GridData( fill );
+	public static Group createGroup(Composite parent, String text, int columns, int hspan, int fill) {
+		Group g = new Group(parent, SWT.NONE);
+		g.setLayout(new GridLayout(columns, false));
+		g.setText(text);
+		g.setFont(parent.getFont());
+		GridData gd = new GridData(fill);
 		gd.horizontalSpan = hspan;
-		g.setLayoutData( gd );
+		g.setLayoutData(gd);
 		return g;
 	}
 
@@ -90,18 +85,17 @@ public class ScriptSWTFactory
 	 * @param marginheight
 	 * @return
 	 */
-	public static Composite createComposite( Composite parent, Font font,
-			int columns, int hspan, int fill, int marginwidth, int marginheight )
-	{
-		Composite g = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( columns, false );
+	public static Composite createComposite(Composite parent, Font font, int columns, int hspan, int fill,
+			int marginwidth, int marginheight) {
+		Composite g = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout(columns, false);
 		layout.marginWidth = marginwidth;
 		layout.marginHeight = marginheight;
-		g.setLayout( layout );
-		g.setFont( font );
-		GridData gd = new GridData( fill );
+		g.setLayout(layout);
+		g.setFont(font);
+		GridData gd = new GridData(fill);
 		gd.horizontalSpan = hspan;
-		g.setLayoutData( gd );
+		g.setLayoutData(gd);
 		return g;
 	}
 
@@ -112,13 +106,12 @@ public class ScriptSWTFactory
 	 * @param hspan
 	 * @return
 	 */
-	public static Text createSingleText( Composite parent, int hspan )
-	{
-		Text t = new Text( parent, SWT.SINGLE | SWT.BORDER );
-		t.setFont( parent.getFont( ) );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+	public static Text createSingleText(Composite parent, int hspan) {
+		Text t = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		t.setFont(parent.getFont());
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = hspan;
-		t.setLayoutData( gd );
+		t.setLayoutData(gd);
 		return t;
 	}
 
@@ -130,67 +123,57 @@ public class ScriptSWTFactory
 	 * @param image
 	 * @return
 	 */
-	public static Button createPushButton( Composite parent, String label,
-			Image image )
-	{
-		Button button = new Button( parent, SWT.PUSH );
-		button.setFont( parent.getFont( ) );
-		if ( image != null )
-		{
-			button.setImage( image );
+	public static Button createPushButton(Composite parent, String label, Image image) {
+		Button button = new Button(parent, SWT.PUSH);
+		button.setFont(parent.getFont());
+		if (image != null) {
+			button.setImage(image);
 		}
-		if ( label != null )
-		{
-			button.setText( label );
+		if (label != null) {
+			button.setText(label);
 		}
 
-		GridData gd = new GridData( );
-		button.setLayoutData( gd );
-		setButtonDimensionHint( button );
+		GridData gd = new GridData();
+		button.setLayoutData(gd);
+		setButtonDimensionHint(button);
 		return button;
 	}
 
-	public static Button createRadioButton( Composite parent, String label )
-	{
-		Button button = new Button( parent, SWT.RADIO );
-		button.setFont( parent.getFont( ) );
-		if ( label != null )
-		{
-			button.setText( label );
+	public static Button createRadioButton(Composite parent, String label) {
+		Button button = new Button(parent, SWT.RADIO);
+		button.setFont(parent.getFont());
+		if (label != null) {
+			button.setText(label);
 		}
 
-		GridData gd = new GridData( );
-		button.setLayoutData( gd );
-		setButtonDimensionHint( button );
+		GridData gd = new GridData();
+		button.setLayoutData(gd);
+		setButtonDimensionHint(button);
 		return button;
 	}
 
-	public static Button createCheckBox( Composite parent, String label )
-	{
-		Button button = new Button( parent, SWT.CHECK );
-		button.setFont( parent.getFont( ) );
-		if ( label != null )
-		{
-			button.setText( label );
+	public static Button createCheckBox(Composite parent, String label) {
+		Button button = new Button(parent, SWT.CHECK);
+		button.setFont(parent.getFont());
+		if (label != null) {
+			button.setText(label);
 		}
 
-		GridData gd = new GridData( );
-		button.setLayoutData( gd );
-		setButtonDimensionHint( button );
+		GridData gd = new GridData();
+		button.setLayoutData(gd);
+		setButtonDimensionHint(button);
 		return button;
 	}
 
 	/**
 	 * @param button
 	 */
-	private static void setButtonDimensionHint( Button button )
-	{
-		Assert.isNotNull( button );
-		Object gd = button.getLayoutData( );
-		if ( gd instanceof GridData )
-		{
-			( (GridData) gd ).widthHint = getButtonWidthHint( button );
-			( (GridData) gd ).horizontalAlignment = GridData.FILL;
+	private static void setButtonDimensionHint(Button button) {
+		Assert.isNotNull(button);
+		Object gd = button.getLayoutData();
+		if (gd instanceof GridData) {
+			((GridData) gd).widthHint = getButtonWidthHint(button);
+			((GridData) gd).horizontalAlignment = GridData.FILL;
 		}
 	}
 
@@ -198,14 +181,11 @@ public class ScriptSWTFactory
 	 * @param button
 	 * @return
 	 */
-	private static int getButtonWidthHint( Button button )
-	{
-		button.setFont( JFaceResources.getDialogFont( ) );
-		PixelConverter converter = new PixelConverter( button );
-		int widthHint = converter.convertHorizontalDLUsToPixels( IDialogConstants.BUTTON_WIDTH );
-		return Math.max( widthHint, button.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
+	private static int getButtonWidthHint(Button button) {
+		button.setFont(JFaceResources.getDialogFont());
+		PixelConverter converter = new PixelConverter(button);
+		int widthHint = converter.convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
+		return Math.max(widthHint, button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
 	}
 
 	/**
@@ -217,25 +197,22 @@ public class ScriptSWTFactory
 	 * @param hspan
 	 * @return
 	 */
-	public static Label createLabel( Composite parent, String text, Font font,
-			int hspan )
-	{
-		Label l = new Label( parent, SWT.NONE );
-		l.setFont( font );
-		l.setText( text );
-		GridData gd = new GridData( );
+	public static Label createLabel(Composite parent, String text, Font font, int hspan) {
+		Label l = new Label(parent, SWT.NONE);
+		l.setFont(font);
+		l.setText(text);
+		GridData gd = new GridData();
 		gd.horizontalSpan = hspan;
-		l.setLayoutData( gd );
+		l.setLayoutData(gd);
 		return l;
 	}
 
-	public static Combo createCombo( Composite parent, Font font, int hspan )
-	{
-		Combo cb = new Combo( parent, SWT.BORDER | SWT.READ_ONLY );
-		cb.setFont( font );
-		GridData gd = new GridData( );
+	public static Combo createCombo(Composite parent, Font font, int hspan) {
+		Combo cb = new Combo(parent, SWT.BORDER | SWT.READ_ONLY);
+		cb.setFont(font);
+		GridData gd = new GridData();
 		gd.horizontalSpan = hspan;
-		cb.setLayoutData( gd );
+		cb.setLayoutData(gd);
 		return cb;
 	}
 

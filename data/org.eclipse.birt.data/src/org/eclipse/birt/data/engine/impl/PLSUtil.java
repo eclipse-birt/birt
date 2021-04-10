@@ -32,22 +32,20 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 
 /**
- * This utility class provides util methods that are used by Data Engine's supporing to PLS features.
+ * This utility class provides util methods that are used by Data Engine's
+ * supporing to PLS features.
  */
 
-public final class PLSUtil
-{
+public final class PLSUtil {
 	/**
 	 * Determine whether a query is PLSEnabled.
+	 * 
 	 * @param queryDefn
 	 * @return
 	 */
-	public static boolean isPLSEnabled( IQueryDefinition queryDefn )
-	{
-		return queryDefn.getQueryExecutionHints( ) != null
-				&& queryDefn.getQueryExecutionHints( )
-						.getTargetGroupInstances( )
-						.size( ) > 0;
+	public static boolean isPLSEnabled(IQueryDefinition queryDefn) {
+		return queryDefn.getQueryExecutionHints() != null
+				&& queryDefn.getQueryExecutionHints().getTargetGroupInstances().size() > 0;
 	}
 
 	/**
@@ -58,75 +56,53 @@ public final class PLSUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static boolean needUpdateDataSet( IQueryDefinition queryDefn,
-			StreamManager manager ) throws DataException
-	{
+	public static boolean needUpdateDataSet(IQueryDefinition queryDefn, StreamManager manager) throws DataException {
 		assert queryDefn != null;
-		assert queryDefn.getQueryExecutionHints( ) != null;
-		if ( queryDefn.getQueryExecutionHints( )
-				.getTargetGroupInstances( )
-				.size( ) == 0 )
+		assert queryDefn.getQueryExecutionHints() != null;
+		if (queryDefn.getQueryExecutionHints().getTargetGroupInstances().size() == 0)
 			return false;
-		PLSInfo plsInfo = readPLSInfo( manager );
-		int currentRequestedGroupLevel = getOutmostPlsGroupLevel( queryDefn );
+		PLSInfo plsInfo = readPLSInfo(manager);
+		int currentRequestedGroupLevel = getOutmostPlsGroupLevel(queryDefn);
 		return plsInfo.groupLevel == null || plsInfo.groupLevel < currentRequestedGroupLevel;
 	}
 
-	public static boolean isRowIdSaved( StreamManager manager )
-	{
-		return readPLSInfo( manager ).rowIdSaved;
+	public static boolean isRowIdSaved(StreamManager manager) {
+		return readPLSInfo(manager).rowIdSaved;
 	}
 
-	private static PLSInfo readPLSInfo( StreamManager manager )
-	{
-		PLSInfo plsInfo = new PLSInfo( null, false );
+	private static PLSInfo readPLSInfo(StreamManager manager) {
+		PLSInfo plsInfo = new PLSInfo(null, false);
 		RAInputStream in = null;
-		try
-		{
-			if ( manager.hasInStream( DataEngineContext.PLS_GROUPLEVEL_STREAM,
-					StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE ) )
-				in = manager.getInStream(
-						DataEngineContext.PLS_GROUPLEVEL_STREAM,
-						StreamManager.ROOT_STREAM, StreamManager.BASE_SCOPE );
-			if ( in != null )
-			{
-				plsInfo.groupLevel = IOUtil.readInt( in );
-				try
-				{
-					plsInfo.rowIdSaved = IOUtil.readBool( in );
-				}
-				catch ( IOException e )
-				{
+		try {
+			if (manager.hasInStream(DataEngineContext.PLS_GROUPLEVEL_STREAM, StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE))
+				in = manager.getInStream(DataEngineContext.PLS_GROUPLEVEL_STREAM, StreamManager.ROOT_STREAM,
+						StreamManager.BASE_SCOPE);
+			if (in != null) {
+				plsInfo.groupLevel = IOUtil.readInt(in);
+				try {
+					plsInfo.rowIdSaved = IOUtil.readBool(in);
+				} catch (IOException e) {
 					// This item might not exist if the stream is old version
 				}
 			}
-		}
-		catch ( Exception e )
-		{
-		}
-		finally
-		{
-			if ( in != null )
-			{
-				try
-				{
-					in.close( );
-				}
-				catch ( IOException e )
-				{
+		} catch (Exception e) {
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
 				}
 			}
 		}
 		return plsInfo;
 	}
 
-	static class PLSInfo
-	{
+	static class PLSInfo {
 		public Integer groupLevel;
 		public boolean rowIdSaved;
-		
-		public PLSInfo( Integer groupLevel, boolean rowIdSaved )
-		{
+
+		public PLSInfo(Integer groupLevel, boolean rowIdSaved) {
 			this.groupLevel = groupLevel;
 			this.rowIdSaved = rowIdSaved;
 		}
@@ -137,135 +113,114 @@ public final class PLSUtil
 	 * @param queryDefn
 	 * @return
 	 */
-	public static int getOutmostPlsGroupLevel( IQueryDefinition queryDefn )
-	{
+	public static int getOutmostPlsGroupLevel(IQueryDefinition queryDefn) {
 		assert queryDefn != null;
-		assert queryDefn.getQueryExecutionHints( ) != null;
+		assert queryDefn.getQueryExecutionHints() != null;
 		int currentRequestedGroupLevel = 0;
-		for ( IGroupInstanceInfo info : queryDefn.getQueryExecutionHints( )
-				.getTargetGroupInstances( ) )
-		{
-			currentRequestedGroupLevel = info.getGroupLevel( ) > currentRequestedGroupLevel
-					? info.getGroupLevel( ) : currentRequestedGroupLevel;
+		for (IGroupInstanceInfo info : queryDefn.getQueryExecutionHints().getTargetGroupInstances()) {
+			currentRequestedGroupLevel = info.getGroupLevel() > currentRequestedGroupLevel ? info.getGroupLevel()
+					: currentRequestedGroupLevel;
 		}
 		return currentRequestedGroupLevel;
 	}
-	
+
 	/**
 	 * 
 	 * @param query
 	 * @param targetGroups
 	 * @return
 	 */
-	private static List<String> getReCalGroupNames( IQueryDefinition query,
-			List<IGroupInstanceInfo> targetGroups )
-	{
+	private static List<String> getReCalGroupNames(IQueryDefinition query, List<IGroupInstanceInfo> targetGroups) {
 		int groupLevel = Integer.MAX_VALUE;
-		for ( IGroupInstanceInfo instance : targetGroups )
-		{
-			if ( groupLevel > instance.getGroupLevel( ) )
-				groupLevel = instance.getGroupLevel( );
+		for (IGroupInstanceInfo instance : targetGroups) {
+			if (groupLevel > instance.getGroupLevel())
+				groupLevel = instance.getGroupLevel();
 		}
-	
-		List groups = query.getGroups( );
-		List<String> reCalGroups = new ArrayList<String>( );
-		for ( int i = groupLevel - 1; i < groups.size( ); i++ )
-		{
-			reCalGroups.add( ( (IGroupDefinition) groups.get( i ) ).getName( ) );
+
+		List groups = query.getGroups();
+		List<String> reCalGroups = new ArrayList<String>();
+		for (int i = groupLevel - 1; i < groups.size(); i++) {
+			reCalGroups.add(((IGroupDefinition) groups.get(i)).getName());
 		}
 		return reCalGroups;
 	}
 
 	/**
 	 * Construct a binding's representative in ResultClass.
+	 * 
 	 * @param originalBindingName
 	 * @return
 	 */
-	public static String constructNonReCalBindingDataSetName(
-			String originalBindingName )
-	{
+	public static String constructNonReCalBindingDataSetName(String originalBindingName) {
 		return "${RE_CAL:" + originalBindingName + "}$";
 	}
 
 	/**
-	 * The binding expression should have been processed in PreparedIVDataSourceQuery.
+	 * The binding expression should have been processed in
+	 * PreparedIVDataSourceQuery.
+	 * 
 	 * @param binding
 	 * @return
 	 */
-	public static boolean isPLSProcessedBinding( IBinding binding )
-	{
-		try
-		{
-			if ( binding.getExpression( ) instanceof IScriptExpression )
-			{
-				String columnName = ExpressionUtil.getColumnName( ( (IScriptExpression) binding.getExpression( ) ).getText( ) );
+	public static boolean isPLSProcessedBinding(IBinding binding) {
+		try {
+			if (binding.getExpression() instanceof IScriptExpression) {
+				String columnName = ExpressionUtil
+						.getColumnName(((IScriptExpression) binding.getExpression()).getText());
 
-				if ( columnName != null && columnName.startsWith( "${RE_CAL:" ) )
+				if (columnName != null && columnName.startsWith("${RE_CAL:"))
 					return true;
 			}
-		}
-		catch ( BirtException e )
-		{
-			//Igonre
+		} catch (BirtException e) {
+			// Igonre
 		}
 		return false;
-	
+
 	}
 
 	/**
 	 * Prepare the binding for a query definition.
+	 * 
 	 * @param queryDefn
 	 * @return
 	 * @throws DataException
 	 */
-	public static IQueryDefinition populateBindings( IQueryDefinition queryDefn )
-			throws DataException
-	{
-		try
-		{
-	
-			List<String> reCalGroupNames = getReCalGroupNames( queryDefn,
-					queryDefn.getQueryExecutionHints( )
-							.getTargetGroupInstances( ) );
-			Iterator<IBinding> bindingIt = queryDefn.getBindings( ).values( ).iterator( );
-			while ( bindingIt.hasNext( ) )
-			{
-				IBinding binding = bindingIt.next( );
-	
-				if ( binding.getAggregatOns( ).size( ) == 0
-						|| !reCalGroupNames.contains( binding.getAggregatOns( )
-								.get( 0 ) ) )
-				{
-					if ( binding.getExpression( ) instanceof IScriptExpression
-							&& binding.getAggrFunction( ) == null )
-					{
-						String text = ( (IScriptExpression) binding.getExpression( ) ).getText( );
-						if ( ExpressionUtil.getColumnName( text ) != null
-								|| ExpressionUtil.getColumnBindingName( text ) == null )
+	public static IQueryDefinition populateBindings(IQueryDefinition queryDefn) throws DataException {
+		try {
+
+			List<String> reCalGroupNames = getReCalGroupNames(queryDefn,
+					queryDefn.getQueryExecutionHints().getTargetGroupInstances());
+			Iterator<IBinding> bindingIt = queryDefn.getBindings().values().iterator();
+			while (bindingIt.hasNext()) {
+				IBinding binding = bindingIt.next();
+
+				if (binding.getAggregatOns().size() == 0
+						|| !reCalGroupNames.contains(binding.getAggregatOns().get(0))) {
+					if (binding.getExpression() instanceof IScriptExpression && binding.getAggrFunction() == null) {
+						String text = ((IScriptExpression) binding.getExpression()).getText();
+						if (ExpressionUtil.getColumnName(text) != null
+								|| ExpressionUtil.getColumnBindingName(text) == null)
 							continue;
 						// If refer to an aggr binding that need to be
 						// recalculated, we need also recalculate this binding.
-						if ( !referToRecAggrBinding( queryDefn,
-								reCalGroupNames,
-								text ) )
+						if (!referToRecAggrBinding(queryDefn, reCalGroupNames, text))
 							continue;
 					}
-	
-					String expr = ExpressionUtil.createJSDataSetRowExpression( constructNonReCalBindingDataSetName( binding.getBindingName( ) ) );
-					binding.setExpression( new ScriptExpression( expr ) );
-					binding.getAggregatOns( ).clear( );
-					binding.setAggrFunction( null );
+
+					String expr = ExpressionUtil.createJSDataSetRowExpression(
+							constructNonReCalBindingDataSetName(binding.getBindingName()));
+					binding.setExpression(new ScriptExpression(expr));
+					binding.getAggregatOns().clear();
+					binding.setAggrFunction(null);
 				}
 			}
-	
+
 			return queryDefn;
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param queryDefn
@@ -275,30 +230,21 @@ public final class PLSUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	private static boolean referToRecAggrBinding( IQueryDefinition queryDefn,
-			List<String> reCalGroupNames, String exprText) throws BirtException
-	{
-		List<IColumnBinding> columnBindings = (List<IColumnBinding>) ExpressionUtil.extractColumnExpressions( exprText,
-				ExpressionUtil.ROW_INDICATOR );
-		if ( columnBindings != null )
-		{
-			for ( IColumnBinding cb : columnBindings )
-			{
-				IBinding usedBinding = (IBinding) queryDefn.getBindings( )
-						.get( cb.getResultSetColumnName( ) );
-				if ( usedBinding.getAggrFunction( ) != null
-						&& usedBinding.getAggregatOns( ).size( ) > 0
-						&& reCalGroupNames.contains( usedBinding.getAggregatOns( )
-								.get( 0 ) ) )
-				{
+	private static boolean referToRecAggrBinding(IQueryDefinition queryDefn, List<String> reCalGroupNames,
+			String exprText) throws BirtException {
+		List<IColumnBinding> columnBindings = (List<IColumnBinding>) ExpressionUtil.extractColumnExpressions(exprText,
+				ExpressionUtil.ROW_INDICATOR);
+		if (columnBindings != null) {
+			for (IColumnBinding cb : columnBindings) {
+				IBinding usedBinding = (IBinding) queryDefn.getBindings().get(cb.getResultSetColumnName());
+				if (usedBinding.getAggrFunction() != null && usedBinding.getAggregatOns().size() > 0
+						&& reCalGroupNames.contains(usedBinding.getAggregatOns().get(0))) {
 					return true;
 				}
-				
-				if( usedBinding.getExpression( ) instanceof IScriptExpression )
-				{
-					String text = ((IScriptExpression)usedBinding.getExpression( )).getText( );
-					if( referToRecAggrBinding( queryDefn, reCalGroupNames, text))
-					{
+
+				if (usedBinding.getExpression() instanceof IScriptExpression) {
+					String text = ((IScriptExpression) usedBinding.getExpression()).getText();
+					if (referToRecAggrBinding(queryDefn, reCalGroupNames, text)) {
 						return true;
 					}
 				}

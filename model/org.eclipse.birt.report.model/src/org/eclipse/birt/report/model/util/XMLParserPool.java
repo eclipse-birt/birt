@@ -22,31 +22,26 @@ import org.xml.sax.SAXException;
  * The interface for reusing SAX parsers in a multi-thread environment.
  */
 
-interface XMLParserPool
-{
+interface XMLParserPool {
 
 	/**
-	 * Retrieves a parser from the pool given specified properties. If parser
-	 * can't be created using specified properties, an exception can be thrown.
+	 * Retrieves a parser from the pool given specified properties. If parser can't
+	 * be created using specified properties, an exception can be thrown.
 	 * 
-	 * @param properties
-	 *            a map of a parser properties and their values.
+	 * @param properties a map of a parser properties and their values.
 	 * @return A parser instance with given properties.
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 */
 
-	public SAXParser get( Map<String, ?> properties )
-			throws ParserConfigurationException, SAXException;
+	public SAXParser get(Map<String, ?> properties) throws ParserConfigurationException, SAXException;
 
 	/**
 	 * Returns the parser to the pool.
 	 * 
-	 * @param parser
-	 *            the parser in the pool.
-	 * @param properties
-	 *            a map of a parser properties and their values.
+	 * @param parser     the parser in the pool.
+	 * @param properties a map of a parser properties and their values.
 	 */
-	public void release( SAXParser parser, Map<String, ?> properties );
+	public void release(SAXParser parser, Map<String, ?> properties);
 
 }

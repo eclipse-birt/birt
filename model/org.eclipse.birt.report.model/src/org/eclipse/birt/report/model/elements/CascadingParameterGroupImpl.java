@@ -23,29 +23,23 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * 
  */
 
-public class CascadingParameterGroupImpl extends ParameterGroup
-		implements
-			ICascadingParameterGroupModel
-{
+public class CascadingParameterGroupImpl extends ParameterGroup implements ICascadingParameterGroupModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public CascadingParameterGroupImpl( )
-	{
+	public CascadingParameterGroupImpl() {
 	}
 
 	/**
 	 * Constructs the cascading parameter group with an optional name.
 	 * 
-	 * @param theName
-	 *            the optional name
+	 * @param theName the optional name
 	 */
 
-	public CascadingParameterGroupImpl( String theName )
-	{
-		super( theName );
+	public CascadingParameterGroupImpl(String theName) {
+		super(theName);
 	}
 
 	/*
@@ -54,38 +48,35 @@ public class CascadingParameterGroupImpl extends ParameterGroup
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT;
 	}
 
 	/**
 	 * Returns the data set element, if any, for this element.
 	 * 
-	 * @param module
-	 *            the report design of the report item
+	 * @param module the report design of the report item
 	 * 
 	 * @return the data set element defined on this cascading parameter group.
 	 */
 
-	public DataSet getDataSetElement( Module module )
-	{
-		ElementRefValue dataSetRef = (ElementRefValue) getProperty( module,
-				DATA_SET_PROP );
-		if ( dataSetRef == null )
+	public DataSet getDataSetElement(Module module) {
+		ElementRefValue dataSetRef = (ElementRefValue) getProperty(module, DATA_SET_PROP);
+		if (dataSetRef == null)
 			return null;
-		return (DataSet)dataSetRef.getElement( );
+		return (DataSet) dataSetRef.getElement();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.
+	 * birt.report.model.core.Module)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 }

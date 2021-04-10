@@ -17,8 +17,7 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 /**
  * Grid
  */
-public final class Grid
-{
+public final class Grid {
 
 	int iMajorTickStyle = 0;
 
@@ -34,34 +33,25 @@ public final class Grid
 
 	LineAttributes laMinorTicks;
 
-	public final int getTickStyle( int iMajorOrMinor )
-	{
-		if ( iMajorOrMinor == IConstants.MAJOR )
-		{
+	public final int getTickStyle(int iMajorOrMinor) {
+		if (iMajorOrMinor == IConstants.MAJOR) {
 			return iMajorTickStyle;
-		}
-		else if ( iMajorOrMinor == IConstants.MINOR )
-		{
+		} else if (iMajorOrMinor == IConstants.MINOR) {
 			return iMinorTickStyle;
 		}
 		return IConstants.TICK_NONE;
 	}
 
-	public final LineAttributes getLineAttributes( int iMajorOrMinor )
-	{
-		if ( iMajorOrMinor == IConstants.MAJOR )
-		{
+	public final LineAttributes getLineAttributes(int iMajorOrMinor) {
+		if (iMajorOrMinor == IConstants.MAJOR) {
 			return laMajorGrid;
-		}
-		else if ( iMajorOrMinor == IConstants.MINOR )
-		{
+		} else if (iMajorOrMinor == IConstants.MINOR) {
 			return laMinorGrid;
 		}
 		return null;
 	}
 
-	public final int getMinorCountPerMajor( )
-	{
+	public final int getMinorCountPerMajor() {
 		return iMinorUnitsPerMajorUnit;
 	}
 
@@ -69,14 +59,10 @@ public final class Grid
 	 * @param major
 	 * @return
 	 */
-	public LineAttributes getTickAttributes( int iMajorOrMinor )
-	{
-		if ( iMajorOrMinor == IConstants.MAJOR )
-		{
+	public LineAttributes getTickAttributes(int iMajorOrMinor) {
+		if (iMajorOrMinor == IConstants.MAJOR) {
 			return laMajorTicks;
-		}
-		else if ( iMajorOrMinor == IConstants.MINOR )
-		{
+		} else if (iMajorOrMinor == IConstants.MINOR) {
 			return laMinorTicks;
 		}
 		return null;

@@ -20,20 +20,17 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * data type, internal name, and display name.
  */
 
-public class ArgumentInfo implements IArgumentInfo
-{
+public class ArgumentInfo implements IArgumentInfo {
 
 	private Class clazz;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param argumentType
-	 *            the argument type.
+	 * @param argumentType the argument type.
 	 */
 
-	protected ArgumentInfo( Class argumentType )
-	{
+	protected ArgumentInfo(Class argumentType) {
 		this.clazz = argumentType;
 	}
 
@@ -43,8 +40,7 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @return the arguement type in class
 	 */
 
-	protected Class getArgumentClass( )
-	{
+	protected Class getArgumentClass() {
 		return clazz;
 	}
 
@@ -54,20 +50,18 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @see org.eclipse.birt.report.model.api.metadata.IArgumentInfo#getName()
 	 */
 
-	public String getName( )
-	{
+	public String getName() {
 		return StringUtil.EMPTY_STRING;
 	}
 
 	/**
-	 * Returns the display name for the property if the resource key of display
-	 * name is defined. Otherwise, return empty string.
+	 * Returns the display name for the property if the resource key of display name
+	 * is defined. Otherwise, return empty string.
 	 * 
 	 * @return the user-visible, localized display name for the property
 	 */
 
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return ""; //$NON-NLS-1$
 	}
 
@@ -77,8 +71,7 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @return The display name message ID.
 	 */
 
-	public String getDisplayNameKey( )
-	{
+	public String getDisplayNameKey() {
 		return ""; //$NON-NLS-1$
 	}
 
@@ -88,9 +81,8 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @return the script type to set
 	 */
 
-	public String getType( )
-	{
-		return clazz.getName( );
+	public String getType() {
+		return clazz.getName();
 	}
 
 	/**
@@ -99,9 +91,8 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @return the class type to set
 	 */
 
-	public IClassInfo getClassType( )
-	{
-		return new ClassInfo( clazz );
+	public IClassInfo getClassType() {
+		return new ClassInfo(clazz);
 	}
 
 	/*
@@ -110,10 +101,9 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @see java.lang.Object#toString()
 	 */
 
-	public String toString( )
-	{
-		if ( !StringUtil.isBlank( getName( ) ) )
-			return getName( );
-		return super.toString( );
+	public String toString() {
+		if (!StringUtil.isBlank(getName()))
+			return getName();
+		return super.toString();
 	}
 }

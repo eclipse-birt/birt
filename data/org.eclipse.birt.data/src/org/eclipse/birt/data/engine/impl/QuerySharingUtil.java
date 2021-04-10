@@ -15,10 +15,8 @@ package org.eclipse.birt.data.engine.impl;
  * 
  */
 
-class QuerySharingUtil
-{
-	public static String getSubQueryID( String hostQueryResultId, String queryName, int rowId )
-	{
+class QuerySharingUtil {
+	public static String getSubQueryID(String hostQueryResultId, String queryName, int rowId) {
 		return hostQueryResultId + "_" + queryName + "_" + rowId;
 	}
 }

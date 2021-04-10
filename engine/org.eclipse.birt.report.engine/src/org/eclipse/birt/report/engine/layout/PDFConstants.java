@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout;
 
-public interface PDFConstants
-{
+public interface PDFConstants {
 
 	public static final float LAYOUT_TO_PDF_RATIO = 1000f;
 

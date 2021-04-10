@@ -25,84 +25,65 @@ import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.swt.widgets.Composite;
 
-
 /**
  * 
  */
 
-public class ColumnGrandTotalPage extends LibraryAttributePage
-{
+public class ColumnGrandTotalPage extends LibraryAttributePage {
 
 	private FormSection grandTotalSection;
 
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		needCheckLibraryReadOnly( true );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ) );
-		final GrandTotalProvider grandTotalProvider = new GrandTotalProvider( );
-		grandTotalProvider.setAxis( ICrosstabConstants.COLUMN_AXIS_TYPE  );
-		grandTotalSection = new FormSection( grandTotalProvider.getDisplayName( ),
-				container,
-				true );
-		grandTotalSection.setProvider( grandTotalProvider );
-		grandTotalSection.setButtonWithDialog( true );
-		grandTotalSection.setStyle( FormPropertyDescriptor.NO_UP_DOWN );
-		grandTotalSection.setFillForm( true );
-		grandTotalSection.setHeight( 170 );
-		addSection( CrosstabPageSectionId.COLUMN_SUB_TOTALS, grandTotalSection );
-		createSections( );
-		layoutSections( );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		needCheckLibraryReadOnly(true);
+		container.setLayout(WidgetUtil.createGridLayout(1));
+		final GrandTotalProvider grandTotalProvider = new GrandTotalProvider();
+		grandTotalProvider.setAxis(ICrosstabConstants.COLUMN_AXIS_TYPE);
+		grandTotalSection = new FormSection(grandTotalProvider.getDisplayName(), container, true);
+		grandTotalSection.setProvider(grandTotalProvider);
+		grandTotalSection.setButtonWithDialog(true);
+		grandTotalSection.setStyle(FormPropertyDescriptor.NO_UP_DOWN);
+		grandTotalSection.setFillForm(true);
+		grandTotalSection.setHeight(170);
+		addSection(CrosstabPageSectionId.COLUMN_SUB_TOTALS, grandTotalSection);
+		createSections();
+		layoutSections();
 	}
 
-	
-	protected boolean isLibraryReadOnly( )
-	{
+	protected boolean isLibraryReadOnly() {
 		GroupElementHandle elementHandle = null;
-		if ( input instanceof GroupElementHandle )
-		{
-			elementHandle = ( (GroupElementHandle) input );
+		if (input instanceof GroupElementHandle) {
+			elementHandle = ((GroupElementHandle) input);
 
+		} else if (input instanceof List) {
+			elementHandle = DEUtil.getGroupElementHandle((List) input);
 		}
-		else if ( input instanceof List )
-		{
-			elementHandle = DEUtil.getGroupElementHandle( (List) input );
-		}
-		if ( elementHandle != null )
-		{
-			if ( DEUtil.getMultiSelectionHandle( DEUtil.getInputElements( elementHandle ) )
-					.isExtendedElements( ) )
-			{
+		if (elementHandle != null) {
+			if (DEUtil.getMultiSelectionHandle(DEUtil.getInputElements(elementHandle)).isExtendedElements()) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( checkControl( grandTotalSection ) )
-			grandTotalSection.getFormControl( ).addElementEvent( focus, ev );
+	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
+		if (checkControl(grandTotalSection))
+			grandTotalSection.getFormControl().addElementEvent(focus, ev);
 	}
 
-	public void clear( )
-	{
-		if ( checkControl( grandTotalSection ) )
-			grandTotalSection.getFormControl( ).clear( );
+	public void clear() {
+		if (checkControl(grandTotalSection))
+			grandTotalSection.getFormControl().clear();
 	}
 
-	public void postElementEvent( )
-	{
+	public void postElementEvent() {
 
-		if ( checkControl( grandTotalSection ) )
-			grandTotalSection.getFormControl( ).postElementEvent( );
+		if (checkControl(grandTotalSection))
+			grandTotalSection.getFormControl().postElementEvent();
 
 	}
-	
-	private boolean checkControl( FormSection form )
-	{
-		return form != null
-				&& form.getFormControl( ) != null
-				&& !form.getFormControl( ).getControl( ).isDisposed( );
+
+	private boolean checkControl(FormSection form) {
+		return form != null && form.getFormControl() != null && !form.getFormControl().getControl().isDisposed();
 	}
 }

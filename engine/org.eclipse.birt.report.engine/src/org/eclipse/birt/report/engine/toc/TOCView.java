@@ -29,13 +29,11 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
-public class TOCView implements ITOCTree
-{
+public class TOCView implements ITOCTree {
 
-	protected static final Logger logger = Logger.getLogger( TOCView.class
-			.getName( ) );
+	protected static final Logger logger = Logger.getLogger(TOCView.class.getName());
 
-	public static final ITOCTree EMPTY_TOC_VIEW = new EmptyTOCView( );
+	public static final ITOCTree EMPTY_TOC_VIEW = new EmptyTOCView();
 
 	private ViewNode root;
 	private ULocale locale;
@@ -45,255 +43,196 @@ public class TOCView implements ITOCTree
 	private String format;
 	private ViewFilter filter;
 
-	public TOCView( ITreeNode tree, ReportDesignHandle handle, ULocale locale,
-			TimeZone timeZone, String format )
-	{
-		this( tree, handle, locale, timeZone, format, null );
+	public TOCView(ITreeNode tree, ReportDesignHandle handle, ULocale locale, TimeZone timeZone, String format) {
+		this(tree, handle, locale, timeZone, format, null);
 	}
 
-	public TOCView( ITreeNode tree, ReportDesignHandle handle, ULocale locale,
-			TimeZone timeZone )
-	{
-		this( tree, handle, locale, timeZone, null, null );
+	public TOCView(ITreeNode tree, ReportDesignHandle handle, ULocale locale, TimeZone timeZone) {
+		this(tree, handle, locale, timeZone, null, null);
 	}
 
-	public TOCView( ITreeNode tree, ULocale locale, TimeZone timeZone )
-	{
-		this( tree, null, locale, timeZone, null, null );
+	public TOCView(ITreeNode tree, ULocale locale, TimeZone timeZone) {
+		this(tree, null, locale, timeZone, null, null);
 	}
 
-	public TOCView( ITreeNode tree, ReportDesignHandle handle, ULocale locale,
-			TimeZone timeZone, String format, ViewFilter filter )
-	{
-		if ( "viewer".equals( format ) )
-		{
+	public TOCView(ITreeNode tree, ReportDesignHandle handle, ULocale locale, TimeZone timeZone, String format,
+			ViewFilter filter) {
+		if ("viewer".equals(format)) {
 			this.format = "html";
-		}
-		else
-		{
+		} else {
 			this.format = format;
 		}
 		this.filter = filter;
 		this.locale = locale;
 		this.timeZone = timeZone;
-		this.formatUtil = new TOCFormatUtil( locale, timeZone );
-		if ( handle != null )
-		{
-			this.styleUtil = new TOCStyleUtil( handle );
+		this.formatUtil = new TOCFormatUtil(locale, timeZone);
+		if (handle != null) {
+			this.styleUtil = new TOCStyleUtil(handle);
 		}
-		this.root = new ViewNode( this, null, tree );
+		this.root = new ViewNode(this, null, tree);
 	}
 
-	public TOCNode getRoot( )
-	{
+	public TOCNode getRoot() {
 		return root;
 	}
 
-	public TOCNode findTOC( String tocNodeId )
-	{
-		if ( tocNodeId == null || tocNodeId.equals( "/" ) )
-		{
+	public TOCNode findTOC(String tocNodeId) {
+		if (tocNodeId == null || tocNodeId.equals("/")) {
 			return root;
 		}
-		return findTOC( root, tocNodeId, new TOCComparator( ) );
+		return findTOC(root, tocNodeId, new TOCComparator());
 	}
 
-	protected TOCNode findTOC( TOCNode node, String tocNodeId,
-			TOCComparator comparator )
-	{
-		List<ViewNode> children = node.getChildren( );
-		if ( children == null || children.isEmpty( ) )
-		{
+	protected TOCNode findTOC(TOCNode node, String tocNodeId, TOCComparator comparator) {
+		List<ViewNode> children = node.getChildren();
+		if (children == null || children.isEmpty()) {
 			return null;
 		}
 		// the TOC id is in pre-visit ordered, the parent is less than all its
 		// children,the current node is less than the following siblings
-		for ( int i = 0; i < children.size( ); i++ )
-		{
-			TOCNode child = (TOCNode) children.get( i );
-			int result = comparator.compare( child.getNodeID( ), tocNodeId );
-			if ( result == 0 )
-			{
+		for (int i = 0; i < children.size(); i++) {
+			TOCNode child = (TOCNode) children.get(i);
+			int result = comparator.compare(child.getNodeID(), tocNodeId);
+			if (result == 0) {
 				return child;
 			}
-			if ( result > 0 )
-			{
-				if ( i > 0 )
-				{
-					TOCNode prevNode = children.get( i - 1 );
-					return findTOC( prevNode, tocNodeId, comparator );
+			if (result > 0) {
+				if (i > 0) {
+					TOCNode prevNode = children.get(i - 1);
+					return findTOC(prevNode, tocNodeId, comparator);
 				}
 				return null;
 			}
 		}
 
-		TOCNode lastChild = children.get( children.size( ) - 1 );
-		return findTOC( lastChild, tocNodeId, comparator );
+		TOCNode lastChild = children.get(children.size() - 1);
+		return findTOC(lastChild, tocNodeId, comparator);
 	}
 
-	public List<ViewNode> findTOCByValue( Object tocValue )
-	{
-		if ( tocValue == null )
-		{
+	public List<ViewNode> findTOCByValue(Object tocValue) {
+		if (tocValue == null) {
 			return null;
 		}
 
-		List<ViewNode> results = new ArrayList<ViewNode>( );
-		doSearch( results, root, new SearchKey( tocValue ) );
-		if ( !results.isEmpty( ) )
-		{
+		List<ViewNode> results = new ArrayList<ViewNode>();
+		doSearch(results, root, new SearchKey(tocValue));
+		if (!results.isEmpty()) {
 			return results;
 		}
 		return null;
 	}
 
-	private class SearchKey
-	{
+	private class SearchKey {
 
-		SearchKey( Object value )
-		{
+		SearchKey(Object value) {
 			tocValue = value;
-			if ( value instanceof String )
-			{
+			if (value instanceof String) {
 				stringValue = (String) value;
-				try
-				{
-					numberValue = DataTypeUtil.toDouble( value );
-				}
-				catch ( BirtException ex )
-				{
+				try {
+					numberValue = DataTypeUtil.toDouble(value);
+				} catch (BirtException ex) {
 					// we can safely ignore this exception
 				}
-				try
-				{
-					dateValue = DataTypeUtil.toDate( stringValue, locale,
-							timeZone );
-				}
-				catch ( BirtException ex )
-				{
+				try {
+					dateValue = DataTypeUtil.toDate(stringValue, locale, timeZone);
+				} catch (BirtException ex) {
 					// we can safely ignore this exception
 				}
 			}
-			if ( value instanceof Number )
-			{
+			if (value instanceof Number) {
 				numberValue = (Number) value;
 			}
-			if ( value instanceof Date )
-			{
+			if (value instanceof Date) {
 				dateValue = (Date) value;
 			}
 		}
+
 		Object tocValue;
 		String stringValue;
 		Number numberValue;
 		Date dateValue;
 	}
 
-	private void doSearch( Collection<ViewNode> results, ViewNode node,
-			SearchKey key )
-	{
-		if ( compareTocValue( node, key ) )
-		{
-			results.add( node );
+	private void doSearch(Collection<ViewNode> results, ViewNode node, SearchKey key) {
+		if (compareTocValue(node, key)) {
+			results.add(node);
 		}
-		Collection<ViewNode> children = (Collection<ViewNode>) node
-				.getChildren( );
-		for ( ViewNode child : children )
-		{
-			doSearch( results, child, key );
+		Collection<ViewNode> children = (Collection<ViewNode>) node.getChildren();
+		for (ViewNode child : children) {
+			doSearch(results, child, key);
 		}
 	}
 
-	private boolean compareTocValue( ViewNode node, SearchKey key )
-	{
+	private boolean compareTocValue(ViewNode node, SearchKey key) {
 		// first we need compare the value with string to string
-		String label = node.getDisplayString( );
+		String label = node.getDisplayString();
 
-		if ( label != null )
-		{
-			if ( label.equals( key.stringValue ) )
-			{
+		if (label != null) {
+			if (label.equals(key.stringValue)) {
 				return true;
 			}
 		}
 
 		// then we need compare the toc value directly
-		Object value = node.getTOCValue( );
+		Object value = node.getTOCValue();
 
-		if ( value == null )
-		{
+		if (value == null) {
 			return value == key.tocValue;
 		}
 
-		if ( value instanceof Number )
-		{
-			if ( key.numberValue != null )
-			{
-				return value.equals( key.numberValue );
+		if (value instanceof Number) {
+			if (key.numberValue != null) {
+				return value.equals(key.numberValue);
 			}
 			return false;
 		}
 
-		if ( value instanceof Date )
-		{
-			if ( key.dateValue != null )
-			{
-				return value.equals( key.dateValue );
+		if (value instanceof Date) {
+			if (key.dateValue != null) {
+				return value.equals(key.dateValue);
 			}
 			return false;
 		}
 
-		if ( value instanceof String )
-		{
-			if ( key.stringValue != null )
-			{
-				return value.equals( key.stringValue );
+		if (value instanceof String) {
+			if (key.stringValue != null) {
+				return value.equals(key.stringValue);
 			}
 		}
 
-		return value.equals( key.tocValue );
+		return value.equals(key.tocValue);
 	}
 
-	protected String localizeValue( Object value, IScriptStyle style )
-	{
-		return formatUtil.localizeValue( value, style );
+	protected String localizeValue(Object value, IScriptStyle style) {
+		return formatUtil.localizeValue(value, style);
 	}
 
-	protected IScriptStyle getTOCStyle( int level, long elementId )
+	protected IScriptStyle getTOCStyle(int level, long elementId)
 
 	{
-		if ( styleUtil != null )
-		{
-			try
-			{
-				return styleUtil.getTOCStyle( level, elementId );
-			}
-			catch ( ScriptException se )
-			{
-				logger.log( Level.WARNING, se.getMessage( ), se );
+		if (styleUtil != null) {
+			try {
+				return styleUtil.getTOCStyle(level, elementId);
+			} catch (ScriptException se) {
+				logger.log(Level.WARNING, se.getMessage(), se);
 			}
 		}
 		return null;
 	}
 
-	protected boolean isHidden( ITreeNode node )
-	{
-		String formats = node.getHiddenFormats( );
-		if ( formats == null || format == null )
-		{
+	protected boolean isHidden(ITreeNode node) {
+		String formats = node.getHiddenFormats();
+		if (formats == null || format == null) {
 			return false;
 		}
 
-		if ( formats.equals( "all" ) )
-		{
+		if (formats.equals("all")) {
 			return true;
 		}
 
-		String[] fmts = formats.split( "," );
-		for ( String fmt : fmts )
-		{
-			if ( format.equalsIgnoreCase( fmt ) )
-			{
+		String[] fmts = formats.split(",");
+		for (String fmt : fmts) {
+			if (format.equalsIgnoreCase(fmt)) {
 				return true;
 			}
 		}
@@ -301,11 +240,9 @@ public class TOCView implements ITOCTree
 		return false;
 	}
 
-	protected boolean isVisible( ITreeNode node )
-	{
-		if ( filter != null )
-		{
-			return filter.isVisible( node );
+	protected boolean isVisible(ITreeNode node) {
+		if (filter != null) {
+			return filter.isVisible(node);
 		}
 		return true;
 	}

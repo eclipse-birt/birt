@@ -19,38 +19,25 @@ import java.security.CodeSource;
 import org.mozilla.javascript.PolicySecurityController;
 import org.mozilla.javascript.SecurityController;
 
-public class ScriptUtil
-{
+public class ScriptUtil {
 
-	public static SecurityController createSecurityController( )
-	{
-		return new PolicySecurityController( );
+	public static SecurityController createSecurityController() {
+		return new PolicySecurityController();
 	}
 
-	public static Object getSecurityDomain( final String file )
-	{
-		if ( file == null )
-		{
+	public static Object getSecurityDomain(final String file) {
+		if (file == null) {
 			return null;
 		}
-		if ( System.getSecurityManager( ) == null )
-		{
+		if (System.getSecurityManager() == null) {
 			return null;
 		}
-		try
-		{
-			return new CodeSource( new URL( file ),
-					(java.security.cert.Certificate[]) null );
-		}
-		catch ( MalformedURLException ex )
-		{
-			try
-			{
-				return new CodeSource( new File( file ).toURI( ).toURL( ),
-						(java.security.cert.Certificate[]) null );
-			}
-			catch ( MalformedURLException e )
-			{
+		try {
+			return new CodeSource(new URL(file), (java.security.cert.Certificate[]) null);
+		} catch (MalformedURLException ex) {
+			try {
+				return new CodeSource(new File(file).toURI().toURL(), (java.security.cert.Certificate[]) null);
+			} catch (MalformedURLException e) {
 				return null;
 			}
 		}

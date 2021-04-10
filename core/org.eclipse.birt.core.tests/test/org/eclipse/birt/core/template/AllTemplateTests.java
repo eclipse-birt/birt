@@ -31,29 +31,27 @@ import junit.framework.TestSuite;
  * Tests in template package
  */
 
-public class AllTemplateTests
-{
+public class AllTemplateTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( CoreJavaScriptWrapperTest.class );
-		test.addTestSuite( NativeDateTimeSpanTest.class );
-		test.addTestSuite( NativeFinanceTest.class );
-		test.addTestSuite( NativeJavaMapTest.class );
-		test.addTestSuite( NativeNamedListTest.class );
-		test.addTestSuite( ScriptableParametersTest.class );
-		test.addTestSuite( ScriptContextTest.class );
-		test.addTestSuite( BirtCompTest.class );
-		test.addTestSuite( BirtDateTimeTest.class );
-		test.addTestSuite( BirtDurationTest.class );
-		test.addTestSuite( BirtMathTest.class );
-		test.addTestSuite( BirtStrTest.class );
+		test.addTestSuite(CoreJavaScriptWrapperTest.class);
+		test.addTestSuite(NativeDateTimeSpanTest.class);
+		test.addTestSuite(NativeFinanceTest.class);
+		test.addTestSuite(NativeJavaMapTest.class);
+		test.addTestSuite(NativeNamedListTest.class);
+		test.addTestSuite(ScriptableParametersTest.class);
+		test.addTestSuite(ScriptContextTest.class);
+		test.addTestSuite(BirtCompTest.class);
+		test.addTestSuite(BirtDateTimeTest.class);
+		test.addTestSuite(BirtDurationTest.class);
+		test.addTestSuite(BirtMathTest.class);
+		test.addTestSuite(BirtStrTest.class);
 		// add all test classes here
 
 		return test;

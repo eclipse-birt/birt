@@ -26,14 +26,12 @@ import org.eclipse.jface.viewers.Viewer;
  * 
  */
 
-public class ResourceFileContentProvider implements IResourceContentProvider
-{
+public class ResourceFileContentProvider implements IResourceContentProvider {
 
 	private boolean showFiles;
-	private ResourceEntry.Filter filter = new ResourceEntry.Filter( ) {
+	private ResourceEntry.Filter filter = new ResourceEntry.Filter() {
 
-		public boolean accept( ResourceEntry entity )
-		{
+		public boolean accept(ResourceEntry entity) {
 			return true;
 		}
 	};
@@ -42,115 +40,91 @@ public class ResourceFileContentProvider implements IResourceContentProvider
 	/**
 	 * Constructor.
 	 * 
-	 * @param showFiles
-	 *            show files.
+	 * @param showFiles show files.
 	 */
-	public ResourceFileContentProvider( final boolean showFiles )
-	{
+	public ResourceFileContentProvider(final boolean showFiles) {
 		this.showFiles = showFiles;
-		setFilter( new ResourceEntry.Filter( ) {
+		setFilter(new ResourceEntry.Filter() {
 
-			public boolean accept( ResourceEntry entity )
-			{
-				ResourceEntryFilter filter = new ResourceEntryFilter( getResourceFilters( ) );
-				if ( entity.hasChildren( ) )
-				{
-					return filter.accept( entity );
+			public boolean accept(ResourceEntry entity) {
+				ResourceEntryFilter filter = new ResourceEntryFilter(getResourceFilters());
+				if (entity.hasChildren()) {
+					return filter.accept(entity);
 				}
-				if ( showFiles )
-					return filter.accept( entity );
-				else
-				{
-					if ( entity.isFile( ) )
+				if (showFiles)
+					return filter.accept(entity);
+				else {
+					if (entity.isFile())
 						return false;
 					else
-						return filter.accept( entity );
+						return filter.accept(entity);
 				}
 			}
-		} );
+		});
 	}
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param showFiles
-	 * @param extension
-	 *            file extensions must be lowcase
+	 * @param extension file extensions must be lowcase
 	 */
-	public ResourceFileContentProvider( final String[] extension )
-	{
+	public ResourceFileContentProvider(final String[] extension) {
 		this.showFiles = true;
 		this.fileExtension = extension;
-		setFilter( new ResourceEntry.Filter( ) {
+		setFilter(new ResourceEntry.Filter() {
 
-			public boolean accept( ResourceEntry entity )
-			{
+			public boolean accept(ResourceEntry entity) {
 
-				ResourceEntryFilter filter = new ResourceEntryFilter( getResourceFilters( ) );
+				ResourceEntryFilter filter = new ResourceEntryFilter(getResourceFilters());
 
-				if ( entity.hasChildren( ) )
-				{
-					return filter.accept( entity );
+				if (entity.hasChildren()) {
+					return filter.accept(entity);
 				}
-				for ( int i = 0; i < extension.length; i++ )
-				{
-					if ( entity.getName( )
-							.toLowerCase( )
-							.endsWith( extension[i] ) )
-					{
-						if ( filter.accept( entity ) )
+				for (int i = 0; i < extension.length; i++) {
+					if (entity.getName().toLowerCase().endsWith(extension[i])) {
+						if (filter.accept(entity))
 							return true;
 					}
 				}
 				return false;
 			}
-		} );
+		});
 	}
 
-	public void setFileNamePattern( final String[] fileNamePattern )
-	{
-		setFilter( new ResourceEntry.Filter( ) {
+	public void setFileNamePattern(final String[] fileNamePattern) {
+		setFilter(new ResourceEntry.Filter() {
 
-			public boolean accept( ResourceEntry entity )
-			{
-				ResourceEntryFilter filter = new ResourceEntryFilter( getResourceFilters( ) );
-				if ( entity.hasChildren( ) )
-				{
-					return filter.accept( entity );
+			public boolean accept(ResourceEntry entity) {
+				ResourceEntryFilter filter = new ResourceEntryFilter(getResourceFilters());
+				if (entity.hasChildren()) {
+					return filter.accept(entity);
 				}
-				for ( int i = 0; i < fileNamePattern.length; i++ )
-				{
+				for (int i = 0; i < fileNamePattern.length; i++) {
 					// FIXME
-					// 
-					if ( entity.getName( )
-							.toLowerCase( )
-							.endsWith( fileNamePattern[i].substring( 1 ) ) )
-					{
-						if ( filter.accept( entity ) )
+					//
+					if (entity.getName().toLowerCase().endsWith(fileNamePattern[i].substring(1))) {
+						if (filter.accept(entity))
 							return true;
 					}
 				}
 				return false;
 			}
-		} );
+		});
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
 	 * Object)
 	 */
-	public Object[] getChildren( Object parentElement )
-	{
-		if ( parentElement instanceof Object[] )
-		{
+	public Object[] getChildren(Object parentElement) {
+		if (parentElement instanceof Object[]) {
 			return (Object[]) parentElement;
 		}
-		if ( parentElement instanceof ResourceEntry )
-		{
-			return ( (ResourceEntry) parentElement ).getChildren( this.filter );
+		if (parentElement instanceof ResourceEntry) {
+			return ((ResourceEntry) parentElement).getChildren(this.filter);
 		}
 		return new Object[0];
 	}
@@ -159,18 +133,14 @@ public class ResourceFileContentProvider implements IResourceContentProvider
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
-	 * )
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object )
 	 */
-	public Object getParent( Object element )
-	{
-		if ( element instanceof File )
-		{
-			return ( (File) element ).getParentFile( );
+	public Object getParent(Object element) {
+		if (element instanceof File) {
+			return ((File) element).getParentFile();
 		}
-		if ( element instanceof ResourceEntry )
-		{
-			return ( (ResourceEntry) element ).getParent( );
+		if (element instanceof ResourceEntry) {
+			return ((ResourceEntry) element).getParent();
 		}
 		return null;
 	}
@@ -178,20 +148,15 @@ public class ResourceFileContentProvider implements IResourceContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
 	 * Object)
 	 */
-	public boolean hasChildren( Object element )
-	{
-		if ( element instanceof File )
-		{
-			return ( (File) element ).list( ) != null
-					&& ( (File) element ).list( ).length > 0;
+	public boolean hasChildren(Object element) {
+		if (element instanceof File) {
+			return ((File) element).list() != null && ((File) element).list().length > 0;
 		}
-		if ( element instanceof ResourceEntry )
-		{
-			return ( (ResourceEntry) element ).getChildren( filter ).length > 0;
+		if (element instanceof ResourceEntry) {
+			return ((ResourceEntry) element).getChildren(filter).length > 0;
 		}
 		return false;
 	}
@@ -199,83 +164,63 @@ public class ResourceFileContentProvider implements IResourceContentProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
+	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
 	 * .lang.Object)
 	 */
-	public Object[] getElements( Object inputElement )
-	{
+	public Object[] getElements(Object inputElement) {
 		// if ( inputElement instanceof String )
 		// {
 		// return new Object[]{
 		// new File( inputElement.toString( ) )
 		// };
 		// }
-		return getChildren( inputElement );
+		return getChildren(inputElement);
 	}
 
-	public void dispose( )
-	{
+	public void dispose() {
 
 	}
 
-	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
-	{
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 	}
 
 	/**
 	 * Sets the filter for resource browser.
 	 * 
-	 * @param filter
-	 *            the filter to set
+	 * @param filter the filter to set
 	 */
-	public void setFilter( ResourceEntry.Filter filter )
-	{
+	public void setFilter(ResourceEntry.Filter filter) {
 		this.filter = filter;
 	}
 
-	public ResourceEntry.Filter getFilter( )
-	{
+	public ResourceEntry.Filter getFilter() {
 		return this.filter;
 	}
 
 	private int showEmptyFolderStatus = 0;
 
-	public int getEmptyFolderShowStatus( )
-	{
+	public int getEmptyFolderShowStatus() {
 		return showEmptyFolderStatus;
 	}
 
-	public void setEmptyFolderShowStatus( int showStatus )
-	{
+	public void setEmptyFolderShowStatus(int showStatus) {
 		this.showEmptyFolderStatus = showStatus;
 	}
 
-	public ResourceFilter[] getResourceFilters( )
-	{
+	public ResourceFilter[] getResourceFilters() {
 		ResourceFilter[] filters;
-		if ( showEmptyFolderStatus == IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER )
-		{
-			filters = (ResourceFilter[]) ReportPlugin.getFilterMap( false )
-					.values( )
-					.toArray( new ResourceFilter[0] );
-		}
-		else if ( showEmptyFolderStatus == IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER )
-		{
-			List filterCollection = new ArrayList( );
-			filterCollection.addAll( ReportPlugin.getFilterMap( false )
-					.values( ) );
-			ResourceFilter filter = ResourceFilter.generateEmptyFolderFilter( );
-			filter.setEnabled( true );
-			filterCollection.add( filter );
-			filters = (ResourceFilter[]) filterCollection.toArray( new ResourceFilter[0] );
-		}
-		else
-		{
-			filters = (ResourceFilter[]) ReportPlugin.getFilterMap( )
-					.values( )
-					.toArray( new ResourceFilter[0] );
+		if (showEmptyFolderStatus == IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER) {
+			filters = (ResourceFilter[]) ReportPlugin.getFilterMap(false).values().toArray(new ResourceFilter[0]);
+		} else if (showEmptyFolderStatus == IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER) {
+			List filterCollection = new ArrayList();
+			filterCollection.addAll(ReportPlugin.getFilterMap(false).values());
+			ResourceFilter filter = ResourceFilter.generateEmptyFolderFilter();
+			filter.setEnabled(true);
+			filterCollection.add(filter);
+			filters = (ResourceFilter[]) filterCollection.toArray(new ResourceFilter[0]);
+		} else {
+			filters = (ResourceFilter[]) ReportPlugin.getFilterMap().values().toArray(new ResourceFilter[0]);
 		}
 		return filters;
 	}

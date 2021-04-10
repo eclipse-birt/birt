@@ -17,10 +17,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 
-
-
-public interface ICubeElementFactory
-{
+public interface ICubeElementFactory {
 
 	static final String CUBE_ELEMENT_FACTORY_CLASS_NAME = "org.eclipse.birt.data.engine.olap.impl.query.CubeElementFactory";
 
@@ -29,14 +26,14 @@ public interface ICubeElementFactory
 	 * @param name
 	 * @return
 	 */
-	public ICubeQueryDefinition createCubeQuery( String name );
+	public ICubeQueryDefinition createCubeQuery(String name);
 
 	/**
 	 * 
 	 * @param name
 	 * @return
 	 */
-	public ISubCubeQueryDefinition createSubCubeQuery( String name );
+	public ISubCubeQueryDefinition createSubCubeQuery(String name);
 
 	/**
 	 * 
@@ -46,9 +43,8 @@ public interface ICubeElementFactory
 	 * @param axisQulifierValue
 	 * @return
 	 */
-	public ICubeFilterDefinition creatCubeFilterDefinition(
-			IBaseExpression filterExpr, ILevelDefinition targetLevel,
-			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue );
+	public ICubeFilterDefinition creatCubeFilterDefinition(IBaseExpression filterExpr, ILevelDefinition targetLevel,
+			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue);
 
 	/**
 	 * @param filterExpr
@@ -58,11 +54,9 @@ public interface ICubeElementFactory
 	 * @param updateAggr
 	 * @return
 	 */
-	public ICubeFilterDefinition creatCubeFilterDefinition(
-			IBaseExpression filterExpr, ILevelDefinition targetLevel,
-			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue,
-			boolean updateAggr );
-	
+	public ICubeFilterDefinition creatCubeFilterDefinition(IBaseExpression filterExpr, ILevelDefinition targetLevel,
+			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue, boolean updateAggr);
+
 	/**
 	 * 
 	 * @param targetLevels
@@ -70,10 +64,9 @@ public interface ICubeElementFactory
 	 * @param memberValues
 	 * @return
 	 */
-	public IFilterDefinition creatLevelMemberFilterDefinition(
-			Collection<IScriptExpression> targetLevels, int operator,
-			Collection<Collection<IScriptExpression>> memberValues );
-	
+	public IFilterDefinition creatLevelMemberFilterDefinition(Collection<IScriptExpression> targetLevels, int operator,
+			Collection<Collection<IScriptExpression>> memberValues);
+
 	/**
 	 * 
 	 * @param filterExpr
@@ -83,10 +76,9 @@ public interface ICubeElementFactory
 	 * @param sortDirection
 	 * @return
 	 */
-	public ICubeSortDefinition createCubeSortDefinition( IScriptExpression filterExpr,
-			ILevelDefinition targetLevel, ILevelDefinition[] axisQulifierLevel,
-			Object[] axisQulifierValue, int sortDirection );
-	
+	public ICubeSortDefinition createCubeSortDefinition(IScriptExpression filterExpr, ILevelDefinition targetLevel,
+			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue, int sortDirection);
+
 	/**
 	 * 
 	 * @param filterExpr
@@ -96,9 +88,8 @@ public interface ICubeElementFactory
 	 * @param sortDirection
 	 * @return
 	 */
-	public ICubeSortDefinition createCubeSortDefinition( String filterExpr,
-			ILevelDefinition targetLevel, ILevelDefinition[] axisQulifierLevel,
-			Object[] axisQulifierValue, int sortDirection );
+	public ICubeSortDefinition createCubeSortDefinition(String filterExpr, ILevelDefinition targetLevel,
+			ILevelDefinition[] axisQulifierLevel, Object[] axisQulifierValue, int sortDirection);
 
 	/**
 	 * 
@@ -107,12 +98,11 @@ public interface ICubeElementFactory
 	 * @param levelName
 	 * @return
 	 */
-	public ILevelDefinition createLevel( String dimensionName,
-			String hierarchyName, String levelName );
-	
+	public ILevelDefinition createLevel(String dimensionName, String hierarchyName, String levelName);
+
 	/**
-	 * @return cube operation factory to create cube operations 
+	 * @return cube operation factory to create cube operations
 	 */
-	public ICubeOperationFactory getCubeOperationFactory( );
+	public ICubeOperationFactory getCubeOperationFactory();
 
 }

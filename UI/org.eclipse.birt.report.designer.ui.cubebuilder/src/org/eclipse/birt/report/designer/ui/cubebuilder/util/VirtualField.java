@@ -13,8 +13,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.util;
 
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 
-public class VirtualField
-{
+public class VirtualField {
 
 	public final static String TYPE_MEASURE = "measure"; //$NON-NLS-1$
 	public final static String TYPE_MEASURE_GROUP = "measureGroup"; //$NON-NLS-1$
@@ -24,71 +23,62 @@ public class VirtualField
 	public final static String TYPE_SHARED_DIMENSIONS = "shared dimensions"; //$NON-NLS-1$
 	private String type;
 
-	public VirtualField( String type )
-	{
+	public VirtualField(String type) {
 		this.type = type;
 	}
 
-	public String getType( )
-	{
+	public String getType() {
 		return type;
 	}
 
-	public void setType( String type )
-	{
+	public void setType(String type) {
 		this.type = type;
 	}
 
 	private Object model;
 
-	public String toString( )
-	{
-		if ( type.equals( TYPE_MEASURE ) )
-			return Messages.getString( "GroupsPage.VirtualField.Measure" ); //$NON-NLS-1$
-		if ( type.equals( TYPE_LEVEL ) )
-			return Messages.getString( "GroupsPage.VirtualField.Level" ); //$NON-NLS-1$
-		if ( type.equals( TYPE_MEASURE_GROUP ) )
-			return Messages.getString( "GroupsPage.VirtualField.MeasureGroup" ); //$NON-NLS-1$
-		if ( type.equals( TYPE_DIMENSION ) )
-			return Messages.getString( "GroupsPage.VirtualField.Dimension" ); //$NON-NLS-1$
-		if ( type.equals( TYPE_OTHER_DATASETS ) )
-			return Messages.getString( "Cube.Other.Datasets" ); //$NON-NLS-1$
-		if ( type.equals( TYPE_SHARED_DIMENSIONS ) )
-			return Messages.getString( "VirtualField.SharedDimensions" ); //$NON-NLS-1$
-		return super.toString( );
+	public String toString() {
+		if (type.equals(TYPE_MEASURE))
+			return Messages.getString("GroupsPage.VirtualField.Measure"); //$NON-NLS-1$
+		if (type.equals(TYPE_LEVEL))
+			return Messages.getString("GroupsPage.VirtualField.Level"); //$NON-NLS-1$
+		if (type.equals(TYPE_MEASURE_GROUP))
+			return Messages.getString("GroupsPage.VirtualField.MeasureGroup"); //$NON-NLS-1$
+		if (type.equals(TYPE_DIMENSION))
+			return Messages.getString("GroupsPage.VirtualField.Dimension"); //$NON-NLS-1$
+		if (type.equals(TYPE_OTHER_DATASETS))
+			return Messages.getString("Cube.Other.Datasets"); //$NON-NLS-1$
+		if (type.equals(TYPE_SHARED_DIMENSIONS))
+			return Messages.getString("VirtualField.SharedDimensions"); //$NON-NLS-1$
+		return super.toString();
 	}
 
-	public Object getModel( )
-	{
+	public Object getModel() {
 		return model;
 	}
 
-	public void setModel( Object model )
-	{
+	public void setModel(Object model) {
 		this.model = model;
 	}
 
-	public int hashCode( )
-	{
-		if ( getModel( ) == null )
-			return getType( ).hashCode( );
+	public int hashCode() {
+		if (getModel() == null)
+			return getType().hashCode();
 		else
-			return getModel( ).hashCode( ) + getType( ).hashCode( );
+			return getModel().hashCode() + getType().hashCode();
 	}
 
-	public boolean equals( Object obj )
-	{
-		if ( obj == null )
+	public boolean equals(Object obj) {
+		if (obj == null)
 			return false;
-		if ( !( obj instanceof VirtualField ) )
+		if (!(obj instanceof VirtualField))
 			return false;
 		VirtualField temp = (VirtualField) obj;
-		if ( temp == this )
+		if (temp == this)
 			return true;
-		else if ( temp.getModel( ) == null && this.getModel( ) != null )
+		else if (temp.getModel() == null && this.getModel() != null)
 			return false;
-		else if ( temp.getModel( ).equals( this.getModel( ) )
-				&& temp.getType( ).equals( this.getType( ) ) )
+		else if (temp.getModel().equals(this.getModel()) && temp.getType().equals(this.getType()))
 			return true;
 		return false;
 	}

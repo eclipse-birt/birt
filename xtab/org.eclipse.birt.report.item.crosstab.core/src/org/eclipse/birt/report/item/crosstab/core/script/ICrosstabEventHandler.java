@@ -16,22 +16,19 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 /**
  * ICrosstabEventHandler
  */
-public interface ICrosstabEventHandler
-{
+public interface ICrosstabEventHandler {
 
-	void onPrepareCrosstab( ICrosstab crosstab, IReportContext reportContext );
+	void onPrepareCrosstab(ICrosstab crosstab, IReportContext reportContext);
 
-	void onPrepareCell( ICrosstabCell cell, IReportContext reportContext );
+	void onPrepareCell(ICrosstabCell cell, IReportContext reportContext);
 
-	void onCreateCrosstab( ICrosstabInstance crosstab,
-			IReportContext reportContext );
+	void onCreateCrosstab(ICrosstabInstance crosstab, IReportContext reportContext);
 
-	void onCreateCell( ICrosstabCellInstance cell, IReportContext reportContext );
+	void onCreateCell(ICrosstabCellInstance cell, IReportContext reportContext);
 
-	void onRenderCrosstab( ICrosstabInstance crosstab,
-			IReportContext reportContext );
+	void onRenderCrosstab(ICrosstabInstance crosstab, IReportContext reportContext);
 
-	void onRenderCell( ICrosstabCellInstance cell, IReportContext reportContext );
+	void onRenderCell(ICrosstabCellInstance cell, IReportContext reportContext);
 
 	// void onCrosstabPageBreak( ICrosstabInstance crosstab,
 	// IReportContext reportContext );

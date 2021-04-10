@@ -31,10 +31,7 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
  * 
  */
 
-public abstract class ReferencableStructure extends Structure
-		implements
-			IReferencable
-{
+public abstract class ReferencableStructure extends Structure implements IReferencable {
 
 	/**
 	 * Name of the "libReference" property.
@@ -46,20 +43,20 @@ public abstract class ReferencableStructure extends Structure
 	 * The list of cached clients.
 	 */
 
-	protected ArrayList<BackRef> clients = new ArrayList<BackRef>( );
+	protected ArrayList<BackRef> clients = new ArrayList<BackRef>();
 
 	/**
-	 * The library reference of this structure. It consists of namespace and
-	 * name of the referred structure.
+	 * The library reference of this structure. It consists of namespace and name of
+	 * the referred structure.
 	 */
 
 	protected StructRefValue libReference = null;
 
 	/**
-	 * The list of the cached reference structures. 
+	 * The list of the cached reference structures.
 	 */
 
-	protected ArrayList<Structure> clientStructures = new ArrayList<Structure>( );
+	protected ArrayList<Structure> clientStructures = new ArrayList<Structure>();
 
 	/*
 	 * (non-Javadoc)
@@ -67,37 +64,30 @@ public abstract class ReferencableStructure extends Structure
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#isReferencable()
 	 */
 
-	public boolean isReferencable( )
-	{
+	public boolean isReferencable() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.IReferencable#addClient(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.IReferencable#addClient(org.eclipse
 	 * .birt.report.model.core.DesignElement, java.lang.String)
 	 */
-	public void addClient( DesignElement client, String propName )
-	{
-		clients.add( new BackRef( client, propName ) );
+	public void addClient(DesignElement client, String propName) {
+		clients.add(new BackRef(client, propName));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.IReferencable#dropClient(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.IReferencable#dropClient(org.eclipse
 	 * .birt.report.model.core.DesignElement)
 	 */
-	public void dropClient( DesignElement client )
-	{
-		for ( int i = 0; i < clients.size( ); i++ )
-		{
-			if ( clients.get( i ).getElement( ) == client )
-			{
-				clients.remove( i );
+	public void dropClient(DesignElement client) {
+		for (int i = 0; i < clients.size(); i++) {
+			if (clients.get(i).getElement() == client) {
+				clients.remove(i);
 				return;
 			}
 		}
@@ -110,8 +100,7 @@ public abstract class ReferencableStructure extends Structure
 	 * @see org.eclipse.birt.report.model.core.IReferencable#getClientList()
 	 */
 
-	public List<BackRef> getClientList( )
-	{
+	public List<BackRef> getClientList() {
 		return clients;
 	}
 
@@ -121,25 +110,21 @@ public abstract class ReferencableStructure extends Structure
 	 * @see org.eclipse.birt.report.model.api.core.IReferencable#hasReferences()
 	 */
 
-	public boolean hasReferences( )
-	{
-		return !clients.isEmpty( );
+	public boolean hasReferences() {
+		return !clients.isEmpty();
 	}
 
 	/**
 	 * Sends the event to all clients in addition to the routing for a design
 	 * element.
 	 * 
-	 * @param ev
-	 *            the event to send
+	 * @param ev the event to send
 	 */
 
-	public void broadcast( NotificationEvent ev )
-	{
-		ev.setDeliveryPath( NotificationEvent.STRUCTURE_CLIENT );
-		for ( int i = 0; i < clients.size( ); i++ )
-		{
-			clients.get( i ).getElement( ).broadcast( ev );
+	public void broadcast(NotificationEvent ev) {
+		ev.setDeliveryPath(NotificationEvent.STRUCTURE_CLIENT);
+		for (int i = 0; i < clients.size(); i++) {
+			clients.get(i).getElement().broadcast(ev);
 		}
 	}
 
@@ -147,25 +132,22 @@ public abstract class ReferencableStructure extends Structure
 	 * Checks whether the member of the input name is the referencable member or
 	 * not.
 	 * 
-	 * @param memberName
-	 *            the member name to check
+	 * @param memberName the member name to check
 	 * @return true if the member with the given name is referencable, otherwise
 	 *         false
 	 */
 
-	public abstract boolean isReferencableProperty( String memberName );
+	public abstract boolean isReferencableProperty(String memberName);
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( LIB_REFERENCE_MEMBER.equalsIgnoreCase( propName ) )
+	protected Object getIntrinsicProperty(String propName) {
+		if (LIB_REFERENCE_MEMBER.equalsIgnoreCase(propName))
 			return this.libReference;
 		assert false;
 		return null;
@@ -174,43 +156,38 @@ public abstract class ReferencableStructure extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getProperty(org.eclipse.
+	 * @see org.eclipse.birt.report.model.core.Structure#getProperty(org.eclipse.
 	 * birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
-	public Object getProperty( Module module, PropertyDefn propDefn )
-	{
+	public Object getProperty(Module module, PropertyDefn propDefn) {
 		assert propDefn != null;
 
 		// return local value first
 
-		Object value = getLocalProperty( module, propDefn );
-		if ( value != null )
+		Object value = getLocalProperty(module, propDefn);
+		if (value != null)
 			return value;
 
 		// first, read property values in local ; second, check the library
 		// reference and load the property values from it; third, read default
 		// in ROM
 
-		if ( libReference != null )
-		{
-			ReferencableStructure refStruct = libReference.getTargetStructure( );
-			if ( refStruct != null )
-			{
+		if (libReference != null) {
+			ReferencableStructure refStruct = libReference.getTargetStructure();
+			if (refStruct != null) {
 				Module root = null;
-				if ( module != null )
-					root = module.getLibraryWithNamespace( libReference
-							.getLibraryNamespace( ),
-							IAccessControl.DIRECTLY_INCLUDED_LEVEL );
-				value = refStruct.getProperty( root, propDefn );
-				if ( value != null )
+				if (module != null)
+					root = module.getLibraryWithNamespace(libReference.getLibraryNamespace(),
+							IAccessControl.DIRECTLY_INCLUDED_LEVEL);
+				value = refStruct.getProperty(root, propDefn);
+				if (value != null)
 					return value;
 			}
 		}
 
-		return propDefn.getDefault( );
+		return propDefn.getDefault();
 	}
 
 	/*
@@ -222,106 +199,87 @@ public abstract class ReferencableStructure extends Structure
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn)
 	 */
 
-	public Object getLocalProperty( Module module, PropertyDefn propDefn )
-	{
+	public Object getLocalProperty(Module module, PropertyDefn propDefn) {
 
 		// try to resolve the "libReference" first
 
-		if ( libReference != null && !libReference.isResolved( ) )
-		{
-			PropertyDefn libRefDefn = (PropertyDefn) getDefn( ).getMember(
-					LIB_REFERENCE_MEMBER );
+		if (libReference != null && !libReference.isResolved()) {
+			PropertyDefn libRefDefn = (PropertyDefn) getDefn().getMember(LIB_REFERENCE_MEMBER);
 			assert libRefDefn != null;
-			StructRefPropertyType type = (StructRefPropertyType) libRefDefn
-					.getType( );
-			type.resolve( module, libRefDefn, libReference );
-			if ( libReference.isResolved( ) )
-				libReference.getTargetStructure( ).addClientStructure( this );
+			StructRefPropertyType type = (StructRefPropertyType) libRefDefn.getType();
+			type.resolve(module, libRefDefn, libReference);
+			if (libReference.isResolved())
+				libReference.getTargetStructure().addClientStructure(this);
 		}
 
-		return super.getLocalProperty( module, propDefn );
+		return super.getLocalProperty(module, propDefn);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( LIB_REFERENCE_MEMBER.equalsIgnoreCase( propName ) )
-		{
-			updateReference( libReference, (StructRefValue) value );
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (LIB_REFERENCE_MEMBER.equalsIgnoreCase(propName)) {
+			updateReference(libReference, (StructRefValue) value);
 			libReference = (StructRefValue) value;
-		}
-		else
+		} else
 			assert false;
 	}
 
 	/**
 	 * Implements to cache a back-pointer from a referenced structure.
 	 * 
-	 * @param oldRef
-	 *            the old reference, if any
-	 * @param newRef
-	 *            the new reference, if any
+	 * @param oldRef the old reference, if any
+	 * @param newRef the new reference, if any
 	 */
 
-	protected void updateReference( StructRefValue oldRef, StructRefValue newRef )
-	{
+	protected void updateReference(StructRefValue oldRef, StructRefValue newRef) {
 		ReferencableStructure target;
 
 		// Drop the old reference. Clear the back pointer from the referenced
 		// element to this element.
 
-		if ( oldRef != null )
-		{
-			target = oldRef.getTargetStructure( );
-			if ( target != null )
-				target.dropClientStructure( this );
+		if (oldRef != null) {
+			target = oldRef.getTargetStructure();
+			if (target != null)
+				target.dropClientStructure(this);
 		}
 
 		// Add the new reference. Cache a back pointer from the referenced
 		// element to this element. Include the property name so we know which
 		// property to adjust it the target is deleted.
 
-		if ( newRef != null )
-		{
-			target = newRef.getTargetStructure( );
-			if ( target != null )
-				target.addClientStructure( this );
+		if (newRef != null) {
+			target = newRef.getTargetStructure();
+			if (target != null)
+				target.addClientStructure(this);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
-	 * .report.model.core.Module,
-	 * org.eclipse.birt.report.model.core.DesignElement)
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
+	 * .report.model.core.Module, org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
-	{
-		List<SemanticException> errors = new ArrayList<SemanticException>( );
+	public List<SemanticException> validate(Module module, DesignElement element) {
+		List<SemanticException> errors = new ArrayList<SemanticException>();
 
 		// if the library reference is un-resolved, fire an error
 
-		StructRefValue ref = (StructRefValue) getLocalProperty( module,
-				LIB_REFERENCE_MEMBER );
+		StructRefValue ref = (StructRefValue) getLocalProperty(module, LIB_REFERENCE_MEMBER);
 
-		if ( ref != null && !ref.isResolved( ) )
-		{
+		if (ref != null && !ref.isResolved()) {
 
-			errors.add( new SemanticError( element, new String[]{
-					getDefn( ).getName( ), getReferencableProperty( ),
-					libReference.getQualifiedReference( )},
-					SemanticError.DESIGN_EXCEPTION_INVALID_LIBRARY_REFERENCE ) );
+			errors.add(new SemanticError(element,
+					new String[] { getDefn().getName(), getReferencableProperty(),
+							libReference.getQualifiedReference() },
+					SemanticError.DESIGN_EXCEPTION_INVALID_LIBRARY_REFERENCE));
 			return errors;
 		}
 
@@ -334,51 +292,43 @@ public abstract class ReferencableStructure extends Structure
 	 * @see java.lang.Object#clone()
 	 */
 
-	protected Object clone( ) throws CloneNotSupportedException
-	{
-		ReferencableStructure struct = (ReferencableStructure) super.clone( );
+	protected Object clone() throws CloneNotSupportedException {
+		ReferencableStructure struct = (ReferencableStructure) super.clone();
 		struct.libReference = null;
-		struct.clients = new ArrayList<BackRef>( );
-		struct.clientStructures = new ArrayList<Structure>( );
+		struct.clients = new ArrayList<BackRef>();
+		struct.clientStructures = new ArrayList<Structure>();
 
-		if ( libReference == null )
+		if (libReference == null)
 			return struct;
 
 		// retrieve the member value from the lib reference
 
-		Iterator<IPropertyDefn> propIter = getDefn( ).propertiesIterator( );
-		while ( propIter.hasNext( ) )
-		{
-			PropertyDefn prop = (PropertyDefn) propIter.next( );
+		Iterator<IPropertyDefn> propIter = getDefn().propertiesIterator();
+		while (propIter.hasNext()) {
+			PropertyDefn prop = (PropertyDefn) propIter.next();
 
 			// if the structure has the local value already or the member is
 			// "libReference", then return
 
-			if ( struct.getLocalProperty( null, prop ) != null
-					|| LIB_REFERENCE_MEMBER.equals( prop.getName( ) ) )
+			if (struct.getLocalProperty(null, prop) != null || LIB_REFERENCE_MEMBER.equals(prop.getName()))
 				continue;
 
 			StructRefValue libRef = this.libReference;
-			while ( libRef != null )
-			{
-				ReferencableStructure libStructure = libRef
-						.getTargetStructure( );
-				if ( libStructure == null )
-				{
-					struct.libReference = new StructRefValue( libReference
-							.getLibraryNamespace( ), libReference.getName( ) );
+			while (libRef != null) {
+				ReferencableStructure libStructure = libRef.getTargetStructure();
+				if (libStructure == null) {
+					struct.libReference = new StructRefValue(libReference.getLibraryNamespace(),
+							libReference.getName());
 					return struct;
 				}
 
-				Object value = libStructure.getLocalProperty( null, prop );
-				if ( value != null )
-				{
-					struct.setProperty( prop, value );
+				Object value = libStructure.getLocalProperty(null, prop);
+				if (value != null) {
+					struct.setProperty(prop, value);
 					break;
 				}
 
-				libRef = (StructRefValue) libStructure.getLocalProperty( null,
-						LIB_REFERENCE_MEMBER );
+				libRef = (StructRefValue) libStructure.getLocalProperty(null, LIB_REFERENCE_MEMBER);
 			}
 		}
 
@@ -389,26 +339,22 @@ public abstract class ReferencableStructure extends Structure
 	/**
 	 * Adds a client structure of this.
 	 * 
-	 * @param struct
-	 *            the structure that refers this struct
+	 * @param struct the structure that refers this struct
 	 */
 
-	public void addClientStructure( Structure struct )
-	{
-		clientStructures.add( struct );
+	public void addClientStructure(Structure struct) {
+		clientStructures.add(struct);
 	}
 
 	/**
 	 * Drops one of the client of this structure.
 	 * 
-	 * @param struct
-	 *            the client to drop
+	 * @param struct the client to drop
 	 */
 
-	public void dropClientStructure( Structure struct )
-	{
-		assert clientStructures.contains( struct );
-		clientStructures.remove( struct );
+	public void dropClientStructure(Structure struct) {
+		assert clientStructures.contains(struct);
+		clientStructures.remove(struct);
 	}
 
 	/**
@@ -417,8 +363,7 @@ public abstract class ReferencableStructure extends Structure
 	 * @return all the client structures
 	 */
 
-	public List<Structure> getClientStructures( )
-	{
+	public List<Structure> getClientStructures() {
 		return clientStructures;
 	}
 }

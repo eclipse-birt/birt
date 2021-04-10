@@ -21,24 +21,21 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 /**
  * A class representing the runtime state of a data item
  */
-public class DataItemInstance extends ReportItemInstance implements
-		IDataItemInstance
-{
+public class DataItemInstance extends ReportItemInstance implements IDataItemInstance {
 
-	public DataItemInstance( IDataContent data, ExecutionContext context,
-			RunningState runningState )
-	{
-		super( data, context, runningState );
+	public DataItemInstance(IDataContent data, ExecutionContext context, RunningState runningState) {
+		super(data, context, runningState);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance#getValue()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance#getValue
+	 * ()
 	 */
-	public Object getValue( )
-	{
-		return ( ( IDataContent ) content ).getValue( );
+	public Object getValue() {
+		return ((IDataContent) content).getValue();
 	}
 
 	private IActionInstance actionInstance;
@@ -46,27 +43,25 @@ public class DataItemInstance extends ReportItemInstance implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#createHyperlinkActionInstance( )
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#
+	 * createHyperlinkActionInstance( )
 	 */
-	public IActionInstance createAction( )
-	{
-		IHyperlinkAction hyperlink = new ActionContent( );
-		return new ActionInstance( hyperlink );
+	public IActionInstance createAction() {
+		IHyperlinkAction hyperlink = new ActionContent();
+		return new ActionInstance(hyperlink);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#getHyperlinkInstance( )
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#
+	 * getHyperlinkInstance( )
 	 */
-	public IActionInstance getAction( )
-	{
-		IHyperlinkAction hyperlink = content.getHyperlinkAction( );
-		if ( hyperlink != null )
-		{
-			if ( actionInstance == null )
-			{
-				actionInstance = new ActionInstance( hyperlink );
+	public IActionInstance getAction() {
+		IHyperlinkAction hyperlink = content.getHyperlinkAction();
+		if (hyperlink != null) {
+			if (actionInstance == null) {
+				actionInstance = new ActionInstance(hyperlink);
 			}
 		}
 		return actionInstance;
@@ -75,24 +70,20 @@ public class DataItemInstance extends ReportItemInstance implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#setActionInstance(org.eclipse.birt.report.engine.api.script.instance.IActionInstance )
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IReportInstance#
+	 * setActionInstance(org.eclipse.birt.report.engine.api.script.instance.
+	 * IActionInstance )
 	 */
-	public void setAction( IActionInstance actionInstance )
-	{
-		if ( actionInstance == null )
-		{
-			content.setHyperlinkAction( null );
-		}
-		else if ( actionInstance instanceof ActionInstance )
-		{
-			content.setHyperlinkAction( ( (ActionInstance) actionInstance )
-					.getHyperlinkAction( ) );
+	public void setAction(IActionInstance actionInstance) {
+		if (actionInstance == null) {
+			content.setHyperlinkAction(null);
+		} else if (actionInstance instanceof ActionInstance) {
+			content.setHyperlinkAction(((ActionInstance) actionInstance).getHyperlinkAction());
 		}
 		this.actionInstance = actionInstance;
 	}
-	
-	public void setDisplayValue( Object value )
-	{
-		( (IDataContent) content ).setValue( value );
+
+	public void setDisplayValue(Object value) {
+		((IDataContent) content).setValue(value);
 	}
 }

@@ -21,23 +21,17 @@ import org.eclipse.birt.report.model.core.Module;
  * The base abstract validator class to validate an element in report.
  */
 
-public abstract class AbstractElementValidator
-		extends
-			AbstractSemanticValidator
-{
+public abstract class AbstractElementValidator extends AbstractSemanticValidator {
 
 	/**
 	 * Validates the given element which is in report.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the given element to validate
+	 * @param module  the module
+	 * @param element the given element to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public abstract List<SemanticException> validate( Module module,
-			DesignElement element );
+	public abstract List<SemanticException> validate(Module module, DesignElement element);
 
 }

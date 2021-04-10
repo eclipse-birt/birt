@@ -17,9 +17,8 @@ import org.eclipse.swt.widgets.TreeItem;
  * 
  */
 
-public interface IDataViewerTooltipProvider
-{
-	
-	String getNodeTooltip( TreeItem item );
+public interface IDataViewerTooltipProvider {
+
+	String getNodeTooltip(TreeItem item);
 
 }

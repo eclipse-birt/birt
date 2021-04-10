@@ -15,8 +15,7 @@ package org.eclipse.birt.integration.wtp.ui.internal.webapplication;
  * Bean defined for Context-Param object in web.xml
  * 
  */
-public class ContextParamBean
-{
+public class ContextParamBean {
 
 	/**
 	 * context-param name
@@ -36,8 +35,7 @@ public class ContextParamBean
 	/**
 	 * default constructor
 	 */
-	public ContextParamBean( )
-	{
+	public ContextParamBean() {
 	}
 
 	/**
@@ -46,8 +44,7 @@ public class ContextParamBean
 	 * @param name
 	 * @param value
 	 */
-	public ContextParamBean( String name, String value )
-	{
+	public ContextParamBean(String name, String value) {
 		this.name = name;
 		this.value = value;
 	}
@@ -55,51 +52,42 @@ public class ContextParamBean
 	/**
 	 * @return the name
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * @return the value
 	 */
-	public String getValue( )
-	{
+	public String getValue() {
 		return value;
 	}
 
 	/**
-	 * @param value
-	 *            the value to set
+	 * @param value the value to set
 	 */
-	public void setValue( String value )
-	{
+	public void setValue(String value) {
 		this.value = value;
 	}
 
 	/**
 	 * @return the description
 	 */
-	public String getDescription( )
-	{
+	public String getDescription() {
 		return description;
 	}
 
 	/**
-	 * @param description
-	 *            the description to set
+	 * @param description the description to set
 	 */
-	public void setDescription( String description )
-	{
+	public void setDescription(String description) {
 		this.description = description;
 	}
 

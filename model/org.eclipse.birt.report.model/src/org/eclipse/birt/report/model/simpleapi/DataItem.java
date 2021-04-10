@@ -19,38 +19,32 @@ import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.birt.report.model.api.simpleapi.IDataItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
 
-public class DataItem extends ReportItem implements IDataItem
-{
+public class DataItem extends ReportItem implements IDataItem {
 
-	public DataItem( DataItemHandle data )
-	{
-		super( data );
+	public DataItem(DataItemHandle data) {
+		super(data);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IDataItem#getValueExpr
+	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#getValueExpr
 	 * ()
 	 */
 
-	public String getHelpText( )
-	{
-		return ( (DataItemHandle) handle ).getHelpText( );
+	public String getHelpText() {
+		return ((DataItemHandle) handle).getHelpText();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IDataItem#setHelpText
+	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#setHelpText
 	 * (java.lang.String)
 	 */
 
-	public void setHelpText( String value ) throws SemanticException
-	{
-		setProperty( IDataItemModel.HELP_TEXT_PROP, value );
+	public void setHelpText(String value) throws SemanticException {
+		setProperty(IDataItemModel.HELP_TEXT_PROP, value);
 
 	}
 
@@ -58,13 +52,11 @@ public class DataItem extends ReportItem implements IDataItem
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IDataItem#getHelpTextKey
-	 * ()
+	 * org.eclipse.birt.report.engine.api.script.element.IDataItem#getHelpTextKey ()
 	 */
 
-	public String getHelpTextKey( )
-	{
-		return ( (DataItemHandle) handle ).getHelpTextKey( );
+	public String getHelpTextKey() {
+		return ((DataItemHandle) handle).getHelpTextKey();
 	}
 
 	/*
@@ -75,15 +67,12 @@ public class DataItem extends ReportItem implements IDataItem
 	 * (java.lang.String)
 	 */
 
-	public void setHelpTextKey( String value ) throws SemanticException
-	{
-		setProperty( IDataItemModel.HELP_TEXT_KEY_PROP, value );
+	public void setHelpTextKey(String value) throws SemanticException {
+		setProperty(IDataItemModel.HELP_TEXT_KEY_PROP, value);
 	}
 
-	public IAction getAction( )
-	{
-		return new ActionImpl( ( (DataItemHandle) handle ).getActionHandle( ),
-				(DataItemHandle) handle );
+	public IAction getAction() {
+		return new ActionImpl(((DataItemHandle) handle).getActionHandle(), (DataItemHandle) handle);
 	}
 
 	/*
@@ -93,50 +82,40 @@ public class DataItem extends ReportItem implements IDataItem
 	 * org.eclipse.birt.report.model.api.simpleapi.IDataItem#addAction(org.eclipse
 	 * .birt.report.model.api.simpleapi.IAction)
 	 */
-	public void addAction( IAction action ) throws SemanticException
-	{
-		if ( action == null )
+	public void addAction(IAction action) throws SemanticException {
+		if (action == null)
 			return;
 
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			( (DataItemHandle) handle ).setAction( (Action) action
-					.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			((DataItemHandle) handle).setAction((Action) action.getStructure());
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IDataItem#getResultSetColumn
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDataItem#getResultSetColumn
 	 * ()
 	 */
-	public String getResultSetColumn( )
-	{
-		return ( (DataItemHandle) handle ).getResultSetColumn( );
+	public String getResultSetColumn() {
+		return ((DataItemHandle) handle).getResultSetColumn();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IDataItem#setResultSetColumn
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDataItem#setResultSetColumn
 	 * (java.lang.String)
 	 */
-	public void setResultSetColumn( String columnName )
-			throws SemanticException
-	{
-		setProperty( IDataItemModel.RESULT_SET_COLUMN_PROP, columnName );
+	public void setResultSetColumn(String columnName) throws SemanticException {
+		setProperty(IDataItemModel.RESULT_SET_COLUMN_PROP, columnName);
 
 	}
 }

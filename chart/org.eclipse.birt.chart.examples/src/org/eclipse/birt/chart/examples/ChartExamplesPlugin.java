@@ -19,8 +19,7 @@ import org.osgi.framework.BundleContext;
 /**
  * The main plugin class to be used in the desktop.
  */
-public class ChartExamplesPlugin extends AbstractUIPlugin
-{
+public class ChartExamplesPlugin extends AbstractUIPlugin {
 
 	private static ChartExamplesPlugin plugin;
 
@@ -32,46 +31,40 @@ public class ChartExamplesPlugin extends AbstractUIPlugin
 	/**
 	 * Constructs the chart examples plugin.
 	 */
-	public ChartExamplesPlugin( )
-	{
-		
+	public ChartExamplesPlugin() {
+
 	}
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.
+	 * BundleContext)
 	 */
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
 		plugin = this;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
-	public void stop( BundleContext context ) throws Exception
-	{
+	public void stop(BundleContext context) throws Exception {
 		plugin = null;
-		super.stop( context );
+		super.stop(context);
 	}
-	
+
 	/**
 	 * Log an error to the ILog for this plugin
 	 * 
-	 * @param message
-	 *            the localized error message text
-	 * @param exception
-	 *            the associated exception, or null
+	 * @param message   the localized error message text
+	 * @param exception the associated exception, or null
 	 */
-	public static void logError( String message, Throwable exception )
-	{
-		plugin.getLog( ).log( new Status( IStatus.ERROR, plugin.getBundle( )
-				.getSymbolicName( ), 0, message, exception ) );
+	public static void logError(String message, Throwable exception) {
+		plugin.getLog().log(new Status(IStatus.ERROR, plugin.getBundle().getSymbolicName(), 0, message, exception));
 	}
 
 	/**
@@ -79,8 +72,7 @@ public class ChartExamplesPlugin extends AbstractUIPlugin
 	 * 
 	 * @return the shared instance
 	 */
-	public static ChartExamplesPlugin getDefault( )
-	{
+	public static ChartExamplesPlugin getDefault() {
 		return plugin;
 	}
 }

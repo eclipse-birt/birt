@@ -17,30 +17,26 @@ import org.eclipse.birt.report.engine.api.script.element.ITable;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public class Table extends Listing implements ITable
-{
+public class Table extends Listing implements ITable {
 
-	public Table( TableHandle table )
-	{
-		super( table );
+	public Table(TableHandle table) {
+		super(table);
 	}
 
-	public Table( org.eclipse.birt.report.model.api.simpleapi.ITable tabelImpl )
-	{
-		super( null );
+	public Table(org.eclipse.birt.report.model.api.simpleapi.ITable tabelImpl) {
+		super(null);
 		designElementImpl = tabelImpl;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getColumnCount()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#getColumnCount()
 	 */
 
-	public int getColumnCount( )
-	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
-				.getColumnCount( );
+	public int getColumnCount() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).getColumnCount();
 	}
 
 	/*
@@ -49,28 +45,23 @@ public class Table extends Listing implements ITable
 	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#repeatHeader()
 	 */
 
-	public boolean repeatHeader( )
-	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
-				.repeatHeader( );
+	public boolean repeatHeader() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).repeatHeader();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setRepeatHeader(boolean)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#setRepeatHeader(
+	 * boolean)
 	 */
 
-	public void setRepeatHeader( boolean value ) throws ScriptException
-	{
-		try
-		{
-			( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
-					.setRepeatHeader( value );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setRepeatHeader(boolean value) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).setRepeatHeader(value);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
@@ -80,28 +71,23 @@ public class Table extends Listing implements ITable
 	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getCaption()
 	 */
 
-	public String getCaption( )
-	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
-				.getCaption( );
+	public String getCaption() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).getCaption();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setCaption(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#setCaption(java.lang
+	 * .String)
 	 */
 
-	public void setCaption( String caption ) throws ScriptException
-	{
-		try
-		{
-			( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
-					.setCaption( caption );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setCaption(String caption) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).setCaption(caption);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
@@ -111,28 +97,23 @@ public class Table extends Listing implements ITable
 	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getCaptionKey()
 	 */
 
-	public String getCaptionKey( )
-	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
-				.getCaptionKey( );
+	public String getCaptionKey() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).getCaptionKey();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setCaptionKey(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#setCaptionKey(java.
+	 * lang.String)
 	 */
 
-	public void setCaptionKey( String captionKey ) throws ScriptException
-	{
-		try
-		{
-			( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
-					.setCaptionKey( captionKey );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setCaptionKey(String captionKey) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).setCaptionKey(captionKey);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
@@ -142,11 +123,8 @@ public class Table extends Listing implements ITable
 	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getColumn(int)
 	 */
 
-	public IColumn getColumn( int index )
-	{
-		return new Column(
-				( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
-						.getColumn( index ) );
+	public IColumn getColumn(int index) {
+		return new Column(((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).getColumn(index));
 	}
 
 	/*
@@ -154,27 +132,22 @@ public class Table extends Listing implements ITable
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getSummary()
 	 */
-	public String getSummary( )
-	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
-				.getSummary( );
+	public String getSummary() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).getSummary();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setSummary(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#setSummary(java.lang
+	 * .String)
 	 */
-	public void setSummary( String summary ) throws ScriptException
-	{
-		try
-		{
-			( (org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl )
-					.setSummary( summary );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setSummary(String summary) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.ITable) designElementImpl).setSummary(summary);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
 	}

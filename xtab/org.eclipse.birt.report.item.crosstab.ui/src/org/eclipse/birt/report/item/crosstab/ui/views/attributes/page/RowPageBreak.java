@@ -26,33 +26,28 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 
-public class RowPageBreak extends AttributePage
-{
+public class RowPageBreak extends AttributePage {
 
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1, 15 ) );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(1, 15));
 
-		RepeatHeaderProvider repeatHeaderProvider = new RepeatHeaderProvider( ICrosstabReportItemConstants.REPEAT_COLUMN_HEADER_PROP,
-				ReportDesignConstants.EXTENDED_ITEM );
-		CheckSection repeatRowHeaderSection = new CheckSection( container, true );
-		repeatRowHeaderSection.setProvider( repeatHeaderProvider );
-		repeatRowHeaderSection.setWidth( 200 );
-		addSection( CrosstabSectionPageId.ROWPAGEBREAK_REPEAT_COLUMN_HEADER,
-				repeatRowHeaderSection );
+		RepeatHeaderProvider repeatHeaderProvider = new RepeatHeaderProvider(
+				ICrosstabReportItemConstants.REPEAT_COLUMN_HEADER_PROP, ReportDesignConstants.EXTENDED_ITEM);
+		CheckSection repeatRowHeaderSection = new CheckSection(container, true);
+		repeatRowHeaderSection.setProvider(repeatHeaderProvider);
+		repeatRowHeaderSection.setWidth(200);
+		addSection(CrosstabSectionPageId.ROWPAGEBREAK_REPEAT_COLUMN_HEADER, repeatRowHeaderSection);
 
-		RowPageBreakProvider pageBreakProvider = new RowPageBreakProvider( );
-		FormSection pageBreakSection = new FormSection( pageBreakProvider.getDisplayName( ),
-				container,
-				true );
-		pageBreakSection.setProvider( pageBreakProvider );
-		pageBreakSection.setButtonWithDialog( true );
-		pageBreakSection.setStyle( FormPropertyDescriptor.NO_UP_DOWN );
-		pageBreakSection.setFillForm( true );
-		pageBreakSection.setHeight( 170 );
-		addSection( CrosstabPageSectionId.ROW_PAGE_BREAK, pageBreakSection );
-		createSections( );
-		layoutSections( );
+		RowPageBreakProvider pageBreakProvider = new RowPageBreakProvider();
+		FormSection pageBreakSection = new FormSection(pageBreakProvider.getDisplayName(), container, true);
+		pageBreakSection.setProvider(pageBreakProvider);
+		pageBreakSection.setButtonWithDialog(true);
+		pageBreakSection.setStyle(FormPropertyDescriptor.NO_UP_DOWN);
+		pageBreakSection.setFillForm(true);
+		pageBreakSection.setHeight(170);
+		addSection(CrosstabPageSectionId.ROW_PAGE_BREAK, pageBreakSection);
+		createSections();
+		layoutSections();
 	}
 }

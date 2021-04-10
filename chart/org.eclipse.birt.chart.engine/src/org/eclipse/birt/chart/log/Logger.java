@@ -25,16 +25,14 @@ import org.eclipse.birt.core.framework.Platform;
  * 
  * @see ILogger
  */
-final public class Logger
-{
+final public class Logger {
 
 	private static StreamHandler tracingHandler;
 
 	/**
 	 * Don't instanciate.
 	 */
-	private Logger( )
-	{
+	private Logger() {
 	}
 
 	/**
@@ -43,43 +41,35 @@ final public class Logger
 	 * @param name
 	 * @return
 	 */
-	synchronized public static final ILogger getLogger( String name )
-	{
+	synchronized public static final ILogger getLogger(String name) {
 		// TODO use java logger impl as default, later will use the extension
 		// configuration.
 
-		JavaUtilLoggerImpl chartLogger = new JavaUtilLoggerImpl( name );
+		JavaUtilLoggerImpl chartLogger = new JavaUtilLoggerImpl(name);
 
-		if ( name != null )
-		{
-			int idx = name.indexOf( "/" ); //$NON-NLS-1$
+		if (name != null) {
+			int idx = name.indexOf("/"); //$NON-NLS-1$
 
-			if ( idx > 0 )
-			{
-				String pluginId = name.substring( 0, idx );
-				boolean isDebugging = "true".equals( Platform.getDebugOption( pluginId + "/debug" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			if (idx > 0) {
+				String pluginId = name.substring(0, idx);
+				boolean isDebugging = "true".equals(Platform.getDebugOption(pluginId + "/debug")); //$NON-NLS-1$ //$NON-NLS-2$
 
-				if ( isDebugging )
-				{
+				if (isDebugging) {
 					// Enable tracing.
-					String value = Platform.getDebugOption( name );
+					String value = Platform.getDebugOption(name);
 
-					if ( "true".equals( value ) ) //$NON-NLS-1$
+					if ("true".equals(value)) //$NON-NLS-1$
 					{
 						// setup the logger.
-						java.util.logging.Logger javaLogger = chartLogger.getJavaLogger( );
-						try
-						{
-							if ( javaLogger.getLevel( ).intValue( ) > Level.FINEST.intValue( ) )
-							{
-								javaLogger.setLevel( Level.FINEST );
+						java.util.logging.Logger javaLogger = chartLogger.getJavaLogger();
+						try {
+							if (javaLogger.getLevel().intValue() > Level.FINEST.intValue()) {
+								javaLogger.setLevel(Level.FINEST);
 							}
-							javaLogger.removeHandler( getTracingHandler( ) );
-							javaLogger.addHandler( getTracingHandler( ) );
-						}
-						catch ( SecurityException e )
-						{
-							e.printStackTrace( );
+							javaLogger.removeHandler(getTracingHandler());
+							javaLogger.addHandler(getTracingHandler());
+						} catch (SecurityException e) {
+							e.printStackTrace();
 						}
 					}
 				}
@@ -89,27 +79,20 @@ final public class Logger
 		return chartLogger;
 	}
 
-	private static StreamHandler getTracingHandler( )
-	{
-		if ( tracingHandler == null )
-		{
-			tracingHandler = AccessController.doPrivileged( new PrivilegedAction<StreamHandler>( ) {
+	private static StreamHandler getTracingHandler() {
+		if (tracingHandler == null) {
+			tracingHandler = AccessController.doPrivileged(new PrivilegedAction<StreamHandler>() {
 
-				public StreamHandler run( )
-				{
-					StreamHandler handler = new StreamHandler( System.out,
-							new SimpleFormatter( ) );
-					try
-					{
-						tracingHandler.setLevel( Level.ALL );
-					}
-					catch ( SecurityException e )
-					{
-						e.printStackTrace( );
+				public StreamHandler run() {
+					StreamHandler handler = new StreamHandler(System.out, new SimpleFormatter());
+					try {
+						tracingHandler.setLevel(Level.ALL);
+					} catch (SecurityException e) {
+						e.printStackTrace();
 					}
 					return handler;
 				}
-			} );
+			});
 		}
 		return tracingHandler;
 	}

@@ -40,76 +40,71 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_121352 extends BaseTestCase
-{
+public class Regression_121352 extends BaseTestCase {
 
 	private String filename = "Regression_121352.xml"; //$NON-NLS-1$
 	private String outfile = "Regression_121352_out.xml"; //$NON-NLS-1$
 	private String goldenfile = "Regression_121352_golden.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 //		removeResource( );
 
 		// retrieve two input files from tests-model.jar file
-		copyInputToFile( INPUT_FOLDER + "/" + filename );
-		copyGoldenToFile( GOLDEN_FOLDER + "/" + goldenfile );
+		copyInputToFile(INPUT_FOLDER + "/" + filename);
+		copyGoldenToFile(GOLDEN_FOLDER + "/" + goldenfile);
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public void test_regression_121352( ) throws Exception
-	{
-		openDesign( filename );
-		List bindingList = designHandle
-				.getListProperty( Module.PROPERTY_BINDINGS_PROP );
-		assertEquals( 2, bindingList.size( ) );
+	public void test_regression_121352() throws Exception {
+		openDesign(filename);
+		List bindingList = designHandle.getListProperty(Module.PROPERTY_BINDINGS_PROP);
+		assertEquals(2, bindingList.size());
 
 		// test list and member values
 
-		PropertyBinding binding = (PropertyBinding) bindingList.get( 0 );
-		assertEquals( "text", binding.getName( ) ); //$NON-NLS-1$
-		assertEquals( 23, binding.getID( ).longValue( ) );
-		assertEquals( "params[p1]", binding.getValue( ) ); //$NON-NLS-1$
+		PropertyBinding binding = (PropertyBinding) bindingList.get(0);
+		assertEquals("text", binding.getName()); //$NON-NLS-1$
+		assertEquals(23, binding.getID().longValue());
+		assertEquals("params[p1]", binding.getValue()); //$NON-NLS-1$
 
-		binding = (PropertyBinding) bindingList.get( 1 );
-		assertEquals( "column", binding.getName( ) ); //$NON-NLS-1$
-		assertEquals( 22, binding.getID( ).longValue( ) );
-		assertEquals( "params[p2]", binding.getValue( ) ); //$NON-NLS-1$
+		binding = (PropertyBinding) bindingList.get(1);
+		assertEquals("column", binding.getName()); //$NON-NLS-1$
+		assertEquals(22, binding.getID().longValue());
+		assertEquals("params[p2]", binding.getValue()); //$NON-NLS-1$
 
 		// get the element based on the id and test getPropertyBinding method
 
-		DesignElementHandle tempHandle = designHandle.getElementByID( 23 );
-		assertNotNull( tempHandle );
-		assertTrue( tempHandle instanceof LabelHandle );
-		assertNotNull( tempHandle.getPropertyDefn( "text" ) ); //$NON-NLS-1$
-		assertEquals( "params[p1]", tempHandle.getPropertyBinding( "text" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( bindingList.get( 0 ), designHandle.getModule( )
-				.findPropertyBinding( tempHandle.getElement( ), "text" ) ); //$NON-NLS-1$
+		DesignElementHandle tempHandle = designHandle.getElementByID(23);
+		assertNotNull(tempHandle);
+		assertTrue(tempHandle instanceof LabelHandle);
+		assertNotNull(tempHandle.getPropertyDefn("text")); //$NON-NLS-1$
+		assertEquals("params[p1]", tempHandle.getPropertyBinding("text")); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals(bindingList.get(0), designHandle.getModule().findPropertyBinding(tempHandle.getElement(), "text")); //$NON-NLS-1$
 
-		tempHandle = designHandle.getElementByID( 22 );
-		assertNotNull( tempHandle );
-		assertTrue( tempHandle instanceof CellHandle );
-		assertNotNull( tempHandle.getPropertyDefn( "column" ) ); //$NON-NLS-1$
-		assertEquals( "params[p2]", tempHandle.getPropertyBinding( "column" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( bindingList.get( 1 ), designHandle.getModule( )
-				.findPropertyBinding( tempHandle.getElement( ), "column" ) ); //$NON-NLS-1$
+		tempHandle = designHandle.getElementByID(22);
+		assertNotNull(tempHandle);
+		assertTrue(tempHandle instanceof CellHandle);
+		assertNotNull(tempHandle.getPropertyDefn("column")); //$NON-NLS-1$
+		assertEquals("params[p2]", tempHandle.getPropertyBinding("column")); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals(bindingList.get(1),
+				designHandle.getModule().findPropertyBinding(tempHandle.getElement(), "column")); //$NON-NLS-1$
 
 		ReportDesignHandle copyHandle = null;
-		ReportDesign copy = (ReportDesign) designHandle.copy( );
-		assertNotNull( copy );
-		copyHandle = copy.handle( );
-		assertNotNull( copyHandle );
+		ReportDesign copy = (ReportDesign) designHandle.copy();
+		assertNotNull(copy);
+		copyHandle = copy.handle();
+		assertNotNull(copyHandle);
 
 		// makeOutputDir();
 		// saveAs( copyHandle, outfile );
 		// assertTrue( compareTextFile( goldenfile, outfile) );
 
-		String TempFile = this.genOutputFile( outfile );
-		System.out.println(TempFile );
-		designHandle.saveAs( TempFile );
-		assertTrue( compareTextFile( goldenfile, outfile ) );
+		String TempFile = this.genOutputFile(outfile);
+		System.out.println(TempFile);
+		designHandle.saveAs(TempFile);
+		assertTrue(compareTextFile(goldenfile, outfile));
 	}
 }

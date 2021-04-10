@@ -13,31 +13,27 @@ package org.eclipse.birt.report.engine.toc;
 
 import java.io.IOException;
 
-public class TOCReadWriteTest extends TOCTestCase
-{
+public class TOCReadWriteTest extends TOCTestCase {
 
-	public void testHiddenFormat4( ) throws IOException
-	{
-		ByteArrayRAOutputStream out = new ByteArrayRAOutputStream( );
-		TOCWriter writer = new TOCWriter( out );
+	public void testHiddenFormat4() throws IOException {
+		ByteArrayRAOutputStream out = new ByteArrayRAOutputStream();
+		TOCWriter writer = new TOCWriter(out);
 
-		TOCBuilder builder = new TOCBuilder( writer );
-		createTOCTest( builder );
-		writer.close( );
-		out.close( );
+		TOCBuilder builder = new TOCBuilder(writer);
+		createTOCTest(builder);
+		writer.close();
+		out.close();
 
-		ByteArrayRAInputStream in = new ByteArrayRAInputStream( out
-				.toByteArray( ) );
-		TOCReader reader = new TOCReader( in, this.getClass( ).getClassLoader( ) );
+		ByteArrayRAInputStream in = new ByteArrayRAInputStream(out.toByteArray());
+		TOCReader reader = new TOCReader(in, this.getClass().getClassLoader());
 
-		ITreeNode treeNode = reader.readTree( );
-		String tocTree = toString( treeNode );
-		reader.close( );
-		in.close( );
+		ITreeNode treeNode = reader.readTree();
+		String tocTree = toString(treeNode);
+		reader.close();
+		in.close();
 
-		System.out.println( tocTree );
-		assertEquals( GOLDEN_TOC_TEST.replaceAll( "\\s", "" ), tocTree
-				.replaceAll( "\\s", "" ) );
+		System.out.println(tocTree);
+		assertEquals(GOLDEN_TOC_TEST.replaceAll("\\s", ""), tocTree.replaceAll("\\s", ""));
 
 	}
 
@@ -46,9 +42,8 @@ public class TOCReadWriteTest extends TOCTestCase
 			+ "    <group nodeId=\"__TOC_1\" tocValue=\"\">"
 			+ "        <entry nodeId=\"__TOC_1_0\" tocValue=\"\" hiddenFormats=\"html\">"
 			+ "            <entry nodeId=\"__TOC_1_0_1\" tocValue=\"\" hiddenFormats=\"pdf\">"
-			+ "                <entry nodeId=\"__TOC_1_0_1_0\" tocValue=\"label\"/>"
-			+ "            </entry>" + "        </entry>" + "    </group>"
-			+ "</entry>";
+			+ "                <entry nodeId=\"__TOC_1_0_1_0\" tocValue=\"label\"/>" + "            </entry>"
+			+ "        </entry>" + "    </group>" + "</entry>";
 
 	/**
 	 * create the toc node. the design contains :
@@ -65,35 +60,34 @@ public class TOCReadWriteTest extends TOCTestCase
 	 *                      		label 2
 	 * </pre>
 	 */
-	protected void createTOCTest( TOCBuilder builder )
-	{
+	protected void createTOCTest(TOCBuilder builder) {
 		// header
-		createEntry( builder, null, "report-header" );
+		createEntry(builder, null, "report-header");
 
 		// group
-		TOCEntry group = startGroupEntry( builder, null, null );
+		TOCEntry group = startGroupEntry(builder, null, null);
 		{
 			// dummy list
-			TOCEntry list = startDummyEntry( builder, group, "html" );
+			TOCEntry list = startDummyEntry(builder, group, "html");
 			{
 				// dummy detail 1
-				TOCEntry detail1 = startDummyEntry( builder, list, "pdf" );
+				TOCEntry detail1 = startDummyEntry(builder, list, "pdf");
 				{
-					TOCEntry label = startDummyEntry( builder, detail1, "html" );
-					builder.closeEntry( label );
+					TOCEntry label = startDummyEntry(builder, detail1, "html");
+					builder.closeEntry(label);
 				}
-				builder.closeEntry( detail1 );
+				builder.closeEntry(detail1);
 
 				// dummy detail 2
-				TOCEntry detail2 = builder.startDummyEntry( list, "pdf" );
+				TOCEntry detail2 = builder.startDummyEntry(list, "pdf");
 				{
-					createEntry( builder, detail2, "label" );
+					createEntry(builder, detail2, "label");
 				}
-				builder.closeEntry( detail2 );
+				builder.closeEntry(detail2);
 
 			}
-			builder.closeEntry( list );
+			builder.closeEntry(list);
 		}
-		builder.closeGroupEntry( group );
+		builder.closeGroupEntry(group);
 	}
 }

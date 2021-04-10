@@ -24,8 +24,7 @@ import org.mozilla.javascript.Scriptable;
  * interface <code>Map</code>.
  * 
  */
-public class NativeRowObject implements Scriptable
-{
+public class NativeRowObject implements Scriptable {
 
 	ExecutionContext context;
 	Scriptable prototype;
@@ -34,36 +33,28 @@ public class NativeRowObject implements Scriptable
 
 	static final String JS_CLASS_NAME = "DataSetRow";
 
-	public String getClassName( )
-	{
+	public String getClassName() {
 		return JS_CLASS_NAME;
 	}
 
-	public NativeRowObject( )
-	{
+	public NativeRowObject() {
 	}
 
-	public NativeRowObject( Scriptable parent, ExecutionContext context )
-	{
-		setParentScope( parent );
+	public NativeRowObject(Scriptable parent, ExecutionContext context) {
+		setParentScope(parent);
 		this.context = context;
 	}
 
-	public NativeRowObject( Scriptable parent, IQueryResultSet rset )
-	{
-		setParentScope( parent );
+	public NativeRowObject(Scriptable parent, IQueryResultSet rset) {
+		setParentScope(parent);
 		this.rset = rset;
 	}
 
-	protected IQueryResultSet getResultSet( )
-	{
-		if ( rset == null )
-		{
-			IBaseResultSet ctxRset = context.getResultSet( );
-			if ( ctxRset != null )
-			{
-				if ( ctxRset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
-				{
+	protected IQueryResultSet getResultSet() {
+		if (rset == null) {
+			IBaseResultSet ctxRset = context.getResultSet();
+			if (ctxRset != null) {
+				if (ctxRset.getType() == IBaseResultSet.QUERY_RESULTSET) {
 					return (IQueryResultSet) ctxRset;
 				}
 			}
@@ -71,151 +62,114 @@ public class NativeRowObject implements Scriptable
 		return rset;
 	}
 
-	public Object get( String name, Scriptable start )
-	{
-		IQueryResultSet rset = getResultSet( );
-		if ( rset == null )
-		{
+	public Object get(String name, Scriptable start) {
+		IQueryResultSet rset = getResultSet();
+		if (rset == null) {
 			return null;
 		}
 
-		if ( "_outer".equals( name ) )
-		{
-			IBaseResultSet parent = rset.getParent( );
-			if ( parent != null
-					&& parent.getType( ) == IBaseResultSet.QUERY_RESULTSET )
-			{
-				return new NativeRowObject( start, (IQueryResultSet) parent );
-			}
-			else
-			{
+		if ("_outer".equals(name)) {
+			IBaseResultSet parent = rset.getParent();
+			if (parent != null && parent.getType() == IBaseResultSet.QUERY_RESULTSET) {
+				return new NativeRowObject(start, (IQueryResultSet) parent);
+			} else {
 				// TODO: return cuber object used in script
 				// return new NativeCubeObject(start, parent);
 			}
 			return null;
 		}
-		try
-		{
-			if ( "__rownum".equals( name ) )
-			{
-				return Long.valueOf( rset.getRowIndex( ) );
+		try {
+			if ("__rownum".equals(name)) {
+				return Long.valueOf(rset.getRowIndex());
 			}
-			return rset.getValue( name );
-		}
-		catch ( BirtException ex )
-		{
-			throw new EvaluatorException( ex.toString( ) );
+			return rset.getValue(name);
+		} catch (BirtException ex) {
+			throw new EvaluatorException(ex.toString());
 		}
 	}
 
-	public Object get( int index, Scriptable start )
-	{
-		if ( index == 0 )
-		{
-			return get( "__rownum", start );
+	public Object get(int index, Scriptable start) {
+		if (index == 0) {
+			return get("__rownum", start);
 		}
-		return get( String.valueOf( index ), start );
+		return get(String.valueOf(index), start);
 
 	}
 
-	public boolean has( String name, Scriptable start )
-	{
-		IQueryResultSet rset = getResultSet( );
-		if ( rset == null )
-		{
+	public boolean has(String name, Scriptable start) {
+		IQueryResultSet rset = getResultSet();
+		if (rset == null) {
 			return false;
 		}
 
-		try
-		{
-			IResultMetaData metaData = rset.getResultMetaData( );
-			for ( int i = 0; i < metaData.getColumnCount( ); i++ )
-			{
-				String colName = metaData.getColumnName( i );
-				if ( colName.equals( name ) )
-				{
+		try {
+			IResultMetaData metaData = rset.getResultMetaData();
+			for (int i = 0; i < metaData.getColumnCount(); i++) {
+				String colName = metaData.getColumnName(i);
+				if (colName.equals(name)) {
 					return true;
 				}
 			}
-		}
-		catch ( BirtException ex )
-		{
+		} catch (BirtException ex) {
 			// not exist
 		}
 		return false;
 	}
 
-	public boolean has( int index, Scriptable start )
-	{
+	public boolean has(int index, Scriptable start) {
 		return false;
 	}
 
-	public void put( String name, Scriptable start, Object value )
-	{
+	public void put(String name, Scriptable start, Object value) {
 	}
 
-	public void put( int index, Scriptable start, Object value )
-	{
+	public void put(int index, Scriptable start, Object value) {
 	}
 
-	public void delete( String name )
-	{
+	public void delete(String name) {
 	}
 
-	public void delete( int index )
-	{
+	public void delete(int index) {
 	}
 
-	public Scriptable getPrototype( )
-	{
+	public Scriptable getPrototype() {
 		return prototype;
 	}
 
-	public void setPrototype( Scriptable prototype )
-	{
+	public void setPrototype(Scriptable prototype) {
 		this.prototype = prototype;
 	}
 
-	public Scriptable getParentScope( )
-	{
+	public Scriptable getParentScope() {
 		return parent;
 	}
 
-	public void setParentScope( Scriptable parent )
-	{
+	public void setParentScope(Scriptable parent) {
 		this.parent = parent;
 	}
 
-	public Object[] getIds( )
-	{
-		IQueryResultSet rset = getResultSet( );
-		if ( rset == null )
-		{
+	public Object[] getIds() {
+		IQueryResultSet rset = getResultSet();
+		if (rset == null) {
 			return null;
 		}
-		try
-		{
-			IResultMetaData metaData = rset.getResultMetaData( );
-			Object[] names = new Object[metaData.getColumnCount( )];
-			for ( int i = 0; i < names.length; i++ )
-			{
-				names[i] = metaData.getColumnName( i );
+		try {
+			IResultMetaData metaData = rset.getResultMetaData();
+			Object[] names = new Object[metaData.getColumnCount()];
+			for (int i = 0; i < names.length; i++) {
+				names[i] = metaData.getColumnName(i);
 			}
 			return names;
-		}
-		catch ( BirtException ex )
-		{
+		} catch (BirtException ex) {
 		}
 		return null;
 	}
 
-	public Object getDefaultValue( Class hint )
-	{
+	public Object getDefaultValue(Class hint) {
 		return null;
 	}
 
-	public boolean hasInstance( Scriptable instance )
-	{
+	public boolean hasInstance(Scriptable instance) {
 		return false;
 	}
 }

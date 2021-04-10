@@ -29,8 +29,7 @@ import org.w3c.dom.css.CSSStyleSheet;
  * Implements all the parser operations of the CSS2 related.
  */
 
-public class CssParser
-{
+public class CssParser {
 
 	/**
 	 * The core implementation of the lexical analysis of CSS2 grammar.
@@ -49,37 +48,29 @@ public class CssParser
 	 * 
 	 */
 
-	public CssParser( )
-	{
-		parser = ParserFactory.createCSS2Parser( );
-		errorHandler = ParserFactory.createErrorHandler( );
+	public CssParser() {
+		parser = ParserFactory.createCSS2Parser();
+		errorHandler = ParserFactory.createErrorHandler();
 	}
 
 	/**
 	 * Parses a CSS resource and get the CSSStyleSheet as the output.
 	 * 
-	 * @param source
-	 *            the source of the CSS resource
+	 * @param source the source of the CSS resource
 	 * @return the CSSStyleSheet if succeed
-	 * @throws IOException
-	 *             if the resource is not well-located
+	 * @throws IOException if the resource is not well-located
 	 */
 
-	public CSSStyleSheet parseStyleSheet( InputSource source )
-			throws IOException
-	{
-		CssHandler handler = new CssHandler( );
-		parser.setDocumentHandler( handler );
-		parser.setErrorHandler( errorHandler );
-		try 
-		{
-			parser.parseStyleSheet( source );
+	public CSSStyleSheet parseStyleSheet(InputSource source) throws IOException {
+		CssHandler handler = new CssHandler();
+		parser.setDocumentHandler(handler);
+		parser.setErrorHandler(errorHandler);
+		try {
+			parser.parseStyleSheet(source);
+		} catch (StringIndexOutOfBoundsException e) {
+			throw new CSSException(CSSException.SAC_SYNTAX_ERR);
 		}
-		catch ( StringIndexOutOfBoundsException e ) 
-		{
-			throw new CSSException( CSSException.SAC_SYNTAX_ERR );
-		}
-		return (StyleSheet) handler.getRoot( );
+		return (StyleSheet) handler.getRoot();
 	}
 
 	/**
@@ -88,165 +79,130 @@ public class CssParser
 	 * @return the error handler
 	 */
 
-	public CssErrorHandler getErrorHandler( )
-	{
+	public CssErrorHandler getErrorHandler() {
 		return this.errorHandler;
 	}
 
-	static class CssHandler implements DocumentHandler
-	{
+	static class CssHandler implements DocumentHandler {
 
 		private Stack nodeStack;
 		private Object root = null;
 
-		public CssHandler( Stack nodeStack )
-		{
+		public CssHandler(Stack nodeStack) {
 			this.nodeStack = nodeStack;
 		}
 
-		public CssHandler( )
-		{
-			this.nodeStack = new Stack( );
+		public CssHandler() {
+			this.nodeStack = new Stack();
 		}
 
-		public Object getRoot( )
-		{
+		public Object getRoot() {
 			return root;
 		}
 
-		public void startDocument( InputSource source ) throws CSSException
-		{
-			if ( nodeStack.empty( ) )
-			{
-				StyleSheet ss = new StyleSheet( );
+		public void startDocument(InputSource source) throws CSSException {
+			if (nodeStack.empty()) {
+				StyleSheet ss = new StyleSheet();
 
-				nodeStack.push( ss );
-			}
-			else
-			{
+				nodeStack.push(ss);
+			} else {
 				// Error
 			}
 		}
 
-		public void endDocument( InputSource source ) throws CSSException
-		{
+		public void endDocument(InputSource source) throws CSSException {
 
 			// Pop style sheet nodes
-			root = nodeStack.pop( );
+			root = nodeStack.pop();
 		}
 
-		public void comment( String text ) throws CSSException
-		{
+		public void comment(String text) throws CSSException {
 		}
 
 		/**
 		 * Creates an unsupported rule and adds it to the list.
 		 * 
-		 * @param atRule
-		 *            the rule to handle
+		 * @param atRule the rule to handle
 		 */
 
-		private void unsupportedRule( String atRule )
-		{
+		private void unsupportedRule(String atRule) {
 			// Create the unknown rule and add it to the rule list
 
-			UnSupportedRule ir = new UnSupportedRule( atRule );
-			if ( !nodeStack.empty( ) )
-			{
-				( (StyleSheet) nodeStack.peek( ) ).add( ir );
-			}
-			else
-			{
+			UnSupportedRule ir = new UnSupportedRule(atRule);
+			if (!nodeStack.empty()) {
+				((StyleSheet) nodeStack.peek()).add(ir);
+			} else {
 				// nodeStack.push(ir);
 				root = ir;
 			}
 		}
 
-		public void ignorableAtRule( String atRule ) throws CSSException
-		{
-			unsupportedRule( atRule );
+		public void ignorableAtRule(String atRule) throws CSSException {
+			unsupportedRule(atRule);
 		}
 
-		public void namespaceDeclaration( String prefix, String uri )
-				throws CSSException
-		{
+		public void namespaceDeclaration(String prefix, String uri) throws CSSException {
 		}
 
-		public void importStyle( String uri, SACMediaList media,
-				String defaultNamespaceURI ) throws CSSException
-		{
-			unsupportedRule( uri );
+		public void importStyle(String uri, SACMediaList media, String defaultNamespaceURI) throws CSSException {
+			unsupportedRule(uri);
 		}
 
-		public void startMedia( SACMediaList media ) throws CSSException
-		{
-			unsupportedRule( media.toString( ) );
+		public void startMedia(SACMediaList media) throws CSSException {
+			unsupportedRule(media.toString());
 		}
 
-		public void endMedia( SACMediaList media ) throws CSSException
-		{
+		public void endMedia(SACMediaList media) throws CSSException {
 
 		}
 
-		public void startPage( String name, String pseudo_page )
-				throws CSSException
-		{
-			unsupportedRule( name + pseudo_page );
+		public void startPage(String name, String pseudo_page) throws CSSException {
+			unsupportedRule(name + pseudo_page);
 		}
 
-		public void endPage( String name, String pseudo_page )
-				throws CSSException
-		{
+		public void endPage(String name, String pseudo_page) throws CSSException {
 
 		}
 
-		public void startFontFace( ) throws CSSException
-		{
-			unsupportedRule( null );
+		public void startFontFace() throws CSSException {
+			unsupportedRule(null);
 		}
 
-		public void endFontFace( ) throws CSSException
-		{
+		public void endFontFace() throws CSSException {
 
 		}
 
-		public void startSelector( SelectorList selectors ) throws CSSException
-		{
+		public void startSelector(SelectorList selectors) throws CSSException {
 			// Create the style rule and add it to the rule list
 
-			StyleRule sr = new StyleRule( selectors );
-			if ( !nodeStack.empty( ) )
-			{
-				( (StyleSheet) nodeStack.peek( ) ).add( sr );
+			StyleRule sr = new StyleRule(selectors);
+			if (!nodeStack.empty()) {
+				((StyleSheet) nodeStack.peek()).add(sr);
 			}
 
 			// Create the style declaration
-			StyleDeclaration decl = new StyleDeclaration( );
-			sr.setStyle( decl );
-			nodeStack.push( sr );
-			nodeStack.push( decl );
+			StyleDeclaration decl = new StyleDeclaration();
+			sr.setStyle(decl);
+			nodeStack.push(sr);
+			nodeStack.push(decl);
 		}
 
-		public void endSelector( SelectorList selectors ) throws CSSException
-		{
+		public void endSelector(SelectorList selectors) throws CSSException {
 
 			// Pop both the style declaration and the style rule nodes
-			nodeStack.pop( );
-			root = nodeStack.pop( );
+			nodeStack.pop();
+			root = nodeStack.pop();
 		}
 
-		public void property( String name, LexicalUnit value, boolean important )
-				throws CSSException
-		{
-			StyleDeclaration decl = (StyleDeclaration) nodeStack.peek( );
-			decl.addProperty( new Property( name, new CSSValue( value ) ) );
+		public void property(String name, LexicalUnit value, boolean important) throws CSSException {
+			StyleDeclaration decl = (StyleDeclaration) nodeStack.peek();
+			decl.addProperty(new Property(name, new CSSValue(value)));
 		}
 	}
 
-	public static void setProperty( String key, String val )
-	{
-		Properties props = SecurityUtil.getSystemProperties( );
-		props.put( key, val );
-		System.setProperties( props );
+	public static void setProperty(String key, String val) {
+		Properties props = SecurityUtil.getSystemProperties();
+		props.put(key, val);
+		System.setProperties(props);
 	}
 }

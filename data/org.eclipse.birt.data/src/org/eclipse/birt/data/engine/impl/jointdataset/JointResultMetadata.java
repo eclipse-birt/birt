@@ -15,8 +15,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 /**
  * The result meta data of two data set join.
  */
-public class JointResultMetadata
-{
+public class JointResultMetadata {
 	public static final int COLUMN_TYPE_COMPUTED = 0;
 	public static final int COLUMN_TYPE_LEFT = 1;
 	public static final int COLUMN_TYPE_RIGHT = 2;
@@ -24,49 +23,48 @@ public class JointResultMetadata
 	private int[] columnSource;
 	private int[] columnIndex;
 	private IResultClass resultClass;
-	
+
 	/**
-	 * Constructor 
+	 * Constructor
 	 * 
 	 * @param resultClass
 	 * @param isFromLeftResultSet
 	 * @param index
 	 */
-	public JointResultMetadata( IResultClass resultClass, int[] columnSource, int[] index )
-	{
+	public JointResultMetadata(IResultClass resultClass, int[] columnSource, int[] index) {
 		this.resultClass = resultClass;
 		this.columnSource = columnSource;
 		this.columnIndex = index;
 	}
-	
+
 	/**
 	 * Return the IResultClass instance of this JointResultMetadata.
 	 * 
 	 * @return
 	 */
-	public IResultClass getResultClass(){
+	public IResultClass getResultClass() {
 		return this.resultClass;
 	}
-	
+
 	/**
-	 * Return whether the column with given index is from left join result set or right.
+	 * Return whether the column with given index is from left join result set or
+	 * right.
 	 * 
 	 * @param index
 	 * @return
 	 */
-	int getColumnSource( int index  )
-	{
+	int getColumnSource(int index) {
 		return columnSource[index - 1];
 	}
-	
+
 	/**
 	 * Return the index of column, marked by given index, in its "from" data set,
-	 * that is, either left one or right one. 
+	 * that is, either left one or right one.
+	 * 
 	 * @param index
 	 * @return
 	 */
-	int getSourceIndex( int index )
-	{
-		return columnIndex[ index - 1 ];
+	int getSourceIndex(int index) {
+		return columnIndex[index - 1];
 	}
 }

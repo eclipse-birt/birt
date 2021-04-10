@@ -15,20 +15,16 @@ import org.eclipse.birt.core.plugin.BIRTPlugin;
 import org.eclipse.birt.report.engine.javascript.JavascriptEngineFactory;
 import org.osgi.framework.BundleContext;
 
-public class JavaScriptPlugin extends BIRTPlugin
-{
+public class JavaScriptPlugin extends BIRTPlugin {
 
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
-		JavascriptEngineFactory.initMyFactory( );
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		JavascriptEngineFactory.initMyFactory();
 	}
-	
-	public void stop( BundleContext context ) throws Exception
-	{
-		super.stop( context );
-		JavascriptEngineFactory.destroyMyFactory( );
+
+	public void stop(BundleContext context) throws Exception {
+		super.stop(context);
+		JavascriptEngineFactory.destroyMyFactory();
 	}
-	
-	
+
 }

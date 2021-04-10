@@ -62,8 +62,7 @@ import static org.junit.Assert.*;
  * results ID is first used to retrieve the query result, and then expression ID
  * can be used to retrieve the detailed data.
  */
-public class ReportDocumentTest extends RDTestCase
-{
+public class ReportDocumentTest extends RDTestCase {
 	private ScriptableObject subScope;
 	private ScriptableObject subOfSubScope;
 
@@ -82,1665 +81,1522 @@ public class ReportDocumentTest extends RDTestCase
 	private List expectedValue;
 	private List expectedStartingGroupLevelValueList;
 	private List expectedEndingGroupLevelValueList;
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
-	protected DataSourceInfo getDataSourceInfo( )
-	{
-		return new DataSourceInfo( ConfigText.getString( "Api.TestData.TableName" ),
-				ConfigText.getString( "Api.TestData.TableSQL" ),
-				ConfigText.getString( "Api.TestData.TestDataFileName1" ) );
+	protected DataSourceInfo getDataSourceInfo() {
+		return new DataSourceInfo(ConfigText.getString("Api.TestData.TableName"),
+				ConfigText.getString("Api.TestData.TableSQL"), ConfigText.getString("Api.TestData.TestDataFileName1"));
 	}
-	
+
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
-    public void reportDocumentSetUp() throws Exception
-	{
+	public void reportDocumentSetUp() throws Exception {
 
-		
-		expectedValue = new ArrayList( );
-		expectedStartingGroupLevelValueList = new ArrayList( );
-		expectedEndingGroupLevelValueList = new ArrayList( );
-		
-		Context context = Context.enter( );
-		
-		subScope = context.initStandardObjects( );
-		subScope.setPrototype( scope );
+		expectedValue = new ArrayList();
+		expectedStartingGroupLevelValueList = new ArrayList();
+		expectedEndingGroupLevelValueList = new ArrayList();
 
-		subOfSubScope = context.initStandardObjects( );
-		subOfSubScope.setPrototype( subScope );
-		
-		Context.exit( );
+		Context context = Context.enter();
+
+		subScope = context.initStandardObjects();
+		subScope.setPrototype(scope);
+
+		subOfSubScope = context.initStandardObjects();
+		subOfSubScope.setPrototype(subScope);
+
+		Context.exit();
 	}
-	
+
 	/**
 	 * Basic report document test without sub query, but it has aggregation.
 	 * 
 	 * @throws BirtException
 	 */
 	@Test
-    public void testBasic( ) throws BirtException, IOException
-	{
-		this.genBasic( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		this.preBasic( );
-		this.closeArchiveReader( );
+	public void testBasic() throws BirtException, IOException {
+		this.genBasic();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preBasic();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
 
 	/**
 	 * Basic report document test without sub query, but it has aggregation.
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	@Test
-    public void testJointDataSet( ) throws Exception
-	{
-		
-		OdaDataSetDesign dset1 = new OdaDataSetDesign( "dset1" );
-		dset1.setDataSource( this.dataSource.getName( ) );
-		dset1.setQueryText( "Select * FROM "
-				+ this.getTestTableName( ) );
-		dset1.setExtensionID( JDBCOdaDataSource.DATA_SET_TYPE );
-		
-		OdaDataSetDesign dset2 = new OdaDataSetDesign( "dset2" );
-		dset2.setDataSource( this.dataSource.getName( ) );
-		dset2.setQueryText( "Select * FROM "
-				+ this.getTestTableName( ) );
-		dset2.setExtensionID( JDBCOdaDataSource.DATA_SET_TYPE );
-		
+	public void testJointDataSet() throws Exception {
+
+		OdaDataSetDesign dset1 = new OdaDataSetDesign("dset1");
+		dset1.setDataSource(this.dataSource.getName());
+		dset1.setQueryText("Select * FROM " + this.getTestTableName());
+		dset1.setExtensionID(JDBCOdaDataSource.DATA_SET_TYPE);
+
+		OdaDataSetDesign dset2 = new OdaDataSetDesign("dset2");
+		dset2.setDataSource(this.dataSource.getName());
+		dset2.setQueryText("Select * FROM " + this.getTestTableName());
+		dset2.setExtensionID(JDBCOdaDataSource.DATA_SET_TYPE);
+
 		List a = new ArrayList();
-		a.add( new JoinCondition(new ScriptExpression("dataSetRow.CITY"),new ScriptExpression("dataSetRow.CITY"),IJoinCondition.OP_EQ) );
-	
-		JointDataSetDesign dset3 = new JointDataSetDesign( "dset3", dset1.getName( ), dset2.getName( ), 0, a );
-		myGenDataEngine.defineDataSet( dset1 );
-		myGenDataEngine.defineDataSet( dset2 );
-		myGenDataEngine.defineDataSet( dset3 );
-	
-		QueryDefinition query = this.newReportQuery( dset3 );
-		
+		a.add(new JoinCondition(new ScriptExpression("dataSetRow.CITY"), new ScriptExpression("dataSetRow.CITY"),
+				IJoinCondition.OP_EQ));
+
+		JointDataSetDesign dset3 = new JointDataSetDesign("dset3", dset1.getName(), dset2.getName(), 0, a);
+		myGenDataEngine.defineDataSet(dset1);
+		myGenDataEngine.defineDataSet(dset2);
+		myGenDataEngine.defineDataSet(dset3);
+
+		QueryDefinition query = this.newReportQuery(dset3);
+
 		// prepare
 		IBaseExpression[] rowBeArray = new IBaseExpression[6];
-		
+
 		rowBeArray[0] = new ScriptExpression("dataSetRow[\"dset1::CITY\"]");
 		rowBeArray[1] = new ScriptExpression("dataSetRow[\"dset2::CITY\"]");
 		rowBeArray[2] = new ScriptExpression("dataSetRow[\"dset1::COUNTRY\"]");
 		rowBeArray[3] = new ScriptExpression("dataSetRow[\"dset2::COUNTRY\"]");
 		rowBeArray[4] = new ScriptExpression("dataSetRow[\"dset1::AMOUNT\"]");
 		rowBeArray[5] = new ScriptExpression("dataSetRow[\"dset2::AMOUNT\"]");
-						
-		//		 prepare
-		rowExprName = new String[]{"CITY1","CITY2","COUNTRY1","COUNTRY2","AMOUNT1","AMOUNT2"};
-		
-		for ( int i = 0; i < rowExprName.length; i++ )
-		{
-		
-			query.addBinding( new Binding( this.rowExprName[i], rowBeArray[i]) );
-		}
-		
-		// generation
-		IQueryResults qr = myGenDataEngine.prepare( query ).execute( scope );
-		
-		// important step
-		saveForPresentation( qr );
-		
-		IResultIterator ri = qr.getResultIterator( );		
-		while ( ri.next( ) )
-		{
-			for ( int i = 0; i < rowBeArray.length; i++ )
-				expectedValue.add( ri.getValue( rowExprName[i] ) );
+
+		// prepare
+		rowExprName = new String[] { "CITY1", "CITY2", "COUNTRY1", "COUNTRY2", "AMOUNT1", "AMOUNT2" };
+
+		for (int i = 0; i < rowExprName.length; i++) {
+
+			query.addBinding(new Binding(this.rowExprName[i], rowBeArray[i]));
 		}
 
-		ri.close( );
-	
-		qr.close( );
-	
-		myGenDataEngine.shutdown( );
-		
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		this.preBasic( );
-		this.closeArchiveReader( );
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare(query).execute(scope);
+
+		// important step
+		saveForPresentation(qr);
+
+		IResultIterator ri = qr.getResultIterator();
+		while (ri.next()) {
+			for (int i = 0; i < rowBeArray.length; i++)
+				expectedValue.add(ri.getValue(rowExprName[i]));
+		}
+
+		ri.close();
+
+		qr.close();
+
+		myGenDataEngine.shutdown();
+
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preBasic();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void genBasic( ) throws BirtException
-	{
-		QueryDefinition qd = newReportQuery( );
+	private void genBasic() throws BirtException {
+		QueryDefinition qd = newReportQuery();
 		// prepare
-		IBaseExpression[] rowBeArray = getRowExpr( );
+		IBaseExpression[] rowBeArray = getRowExpr();
 
 		rowExprName = getRowExprName();
 		totalExprName = getAggrExprName();
-		prepareExprNameAndQuery( qd );
-		
-		// generation
-		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
-		
-		// important step
-		saveForPresentation( qr );
-		
-		IResultIterator ri = qr.getResultIterator( );		
-		while ( ri.next( ) )
-		{
-			for ( int i = 0; i < rowBeArray.length; i++ )
-				expectedValue.add( ri.getValue( rowExprName[i] ) );
+		prepareExprNameAndQuery(qd);
 
-			for ( int i = 0; i < totalExprName.length; i++ )
-				expectedValue.add( ri.getValue( totalExprName[i] ) );
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare(qd).execute(scope);
+
+		// important step
+		saveForPresentation(qr);
+
+		IResultIterator ri = qr.getResultIterator();
+		while (ri.next()) {
+			for (int i = 0; i < rowBeArray.length; i++)
+				expectedValue.add(ri.getValue(rowExprName[i]));
+
+			for (int i = 0; i < totalExprName.length; i++)
+				expectedValue.add(ri.getValue(totalExprName[i]));
 		}
 
-		ri.close( );
-		ri.close( );
-		qr.close( );
-		qr.close( );
-		myGenDataEngine.shutdown( );
+		ri.close();
+		ri.close();
+		qr.close();
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
-	
-	
-	private void prepareExprNameAndQuery( BaseQueryDefinition qd ) throws DataException
-	{
+
+	private void prepareExprNameAndQuery(BaseQueryDefinition qd) throws DataException {
 		// prepare
-		IBaseExpression[] rowBeArray = getRowExpr( );
-		
+		IBaseExpression[] rowBeArray = getRowExpr();
+
 		IBaseExpression[] totalBeArray = new IBaseExpression[2];
-		this.rowExprName = this.getRowExprName( );
-		
-		
-		totalBeArray[0] = new ScriptExpression( null );
-		totalBeArray[1] = new ScriptExpression( "dataSetRow.AMOUNT" );
-		
+		this.rowExprName = this.getRowExprName();
+
+		totalBeArray[0] = new ScriptExpression(null);
+		totalBeArray[1] = new ScriptExpression("dataSetRow.AMOUNT");
+
 		totalExprName = new String[totalBeArray.length];
 		this.totalExprName[0] = "TOTAL_COUNT_1";
 		this.totalExprName[1] = "TOTAL_AMOUNT_1";
-		
-		IBinding total1 = new Binding( this.totalExprName[0], totalBeArray[0]);
-		total1.setAggrFunction( "count" );
-		
-		IBinding total2 = new Binding( this.totalExprName[1], totalBeArray[1]);
-		total2.setAggrFunction( "sum" );
-		
 
-		qd.addBinding( total1 );
-		qd.addBinding( total2 );
-		for ( int i = 0; i < rowExprName.length; i++ )
-		{
-		
-			qd.addBinding( new Binding( this.rowExprName[i], rowBeArray[i]) );
+		IBinding total1 = new Binding(this.totalExprName[0], totalBeArray[0]);
+		total1.setAggrFunction("count");
+
+		IBinding total2 = new Binding(this.totalExprName[1], totalBeArray[1]);
+		total2.setAggrFunction("sum");
+
+		qd.addBinding(total1);
+		qd.addBinding(total2);
+		for (int i = 0; i < rowExprName.length; i++) {
+
+			qd.addBinding(new Binding(this.rowExprName[i], rowBeArray[i]));
 		}
 
-		
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void preBasic( ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
-		
-		IResultIterator ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
-		
-		checkResult1( ri );
+	private void preBasic() throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		assert (qr.getResultMetaData() != null);
 
-		ri.close( );
-		myPreDataEngine.shutdown( );
+		IResultIterator ri = qr.getResultIterator();
+		assert (ri.getResultMetaData() != null);
+
+		checkResult1(ri);
+
+		ri.close();
+		myPreDataEngine.shutdown();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
 	@Test
-    public void testBasicSkip( ) throws Exception
-	{
-		this.genBasicSkip( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		deContext2.setTmpdir( this.getTempDir( ) );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
+	public void testBasicSkip() throws Exception {
+		this.genBasicSkip();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		deContext2.setTmpdir(this.getTempDir());
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
 		final int skipCount = 3;
-		this.preBasicSkip( skipCount );
-		this.closeArchiveReader( );
+		this.preBasicSkip(skipCount);
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void genBasicSkip( ) throws BirtException
-	{
-		genBasic( );
+	private void genBasicSkip() throws BirtException {
+		genBasic();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void preBasicSkip( int skipCount ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
-		
-		IResultIterator ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
-		
-		checkResult3( ri, skipCount );
-		
-		ri.close( );
-		myPreDataEngine.shutdown( );
+	private void preBasicSkip(int skipCount) throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		assert (qr.getResultMetaData() != null);
+
+		IResultIterator ri = qr.getResultIterator();
+		assert (ri.getResultMetaData() != null);
+
+		checkResult3(ri, skipCount);
+
+		ri.close();
+		myPreDataEngine.shutdown();
 	}
 
 	/**
 	 * @throws BirtException
 	 */
 	@Test
-    public void testBasicMove( ) throws Exception
-	{
-		this.genBasicMove( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		int[] destIndex = new int[]{
-				1, 3, 4, 6, 7
-		}; 
-		this.preBasicMove( destIndex );
-		this.closeArchiveReader( );
+	public void testBasicMove() throws Exception {
+		this.genBasicMove();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		int[] destIndex = new int[] { 1, 3, 4, 6, 7 };
+		this.preBasicMove(destIndex);
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void genBasicMove( ) throws BirtException
-	{
-		genBasic( );
+	private void genBasicMove() throws BirtException {
+		genBasic();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void preBasicMove( int[] destIndex ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
-		
-		IResultIterator ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
-		
-		checkResult4( ri, destIndex, true );
-		
-		ri.close( );
-		myPreDataEngine.shutdown( );
+	private void preBasicMove(int[] destIndex) throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		assert (qr.getResultMetaData() != null);
+
+		IResultIterator ri = qr.getResultIterator();
+		assert (ri.getResultMetaData() != null);
+
+		checkResult4(ri, destIndex, true);
+
+		ri.close();
+		myPreDataEngine.shutdown();
 	}
-	
+
 	/**
-	 * Without use next 
+	 * Without use next
 	 * 
 	 * @throws BirtException
 	 */
 	@Test
-    public void testBasicMove2( ) throws Exception
-	{
-		this.genBasicMove2( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		int[] destIndex = new int[]{
-				1, 3, 4, 6, 7
-		}; 
-		this.preBasicMove2( destIndex );
-		this.closeArchiveReader( );
+	public void testBasicMove2() throws Exception {
+		this.genBasicMove2();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		int[] destIndex = new int[] { 1, 3, 4, 6, 7 };
+		this.preBasicMove2(destIndex);
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void genBasicMove2( ) throws BirtException
-	{
-		genBasic( );
+	private void genBasicMove2() throws BirtException {
+		genBasic();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void preBasicMove2( int[] destIndex ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
-		
-		IResultIterator ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
-		
-		checkResult4( ri, destIndex, false );
-		
-		ri.close( );
-		myPreDataEngine.shutdown( );
+	private void preBasicMove2(int[] destIndex) throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		assert (qr.getResultMetaData() != null);
+
+		IResultIterator ri = qr.getResultIterator();
+		assert (ri.getResultMetaData() != null);
+
+		checkResult4(ri, destIndex, false);
+
+		ri.close();
+		myPreDataEngine.shutdown();
 	}
-	
+
 	/**
 	 * @throws BirtException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
-    public void testBasicDiskCache( ) throws BirtException, IOException
-	{
-		System.setProperty( "birt.data.engine.test.memcachesize", "5" );
-		this.testBasic( );
+	public void testBasicDiskCache() throws BirtException, IOException {
+		System.setProperty("birt.data.engine.test.memcachesize", "5");
+		this.testBasic();
 	}
-	
+
 	/**
 	 * Test the expression on the group header
+	 * 
 	 * @throws BirtException
 	 */
 	@Test
-    public void testGroupBeforeExpr( ) throws Exception
-	{
-		this.genGroupBeforeExpr( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		this.preGroupBeforeExpr( );
-		this.closeArchiveReader( );
+	public void testGroupBeforeExpr() throws Exception {
+		this.genGroupBeforeExpr();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preGroupBeforeExpr();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
-	
+
 	private String beforeExprID;
-	
+
 	/**
 	 *
 	 */
-	private void genGroupBeforeExpr( ) throws BirtException
-	{
-		QueryDefinition qd = newReportQuery( );
+	private void genGroupBeforeExpr() throws BirtException {
+		QueryDefinition qd = newReportQuery();
 
-		GroupDefinition groupDefn = new GroupDefinition( "G1");
-		groupDefn.setKeyColumn( "COUNTRY" );
-		qd.addGroup( groupDefn );
-		qd.addResultSetExpression("COUNTRY", new ScriptExpression( "dataSetRow.COUNTRY" ));
-		IBaseExpression rowExpr = new ScriptExpression( "dataSetRow.COUNTRY" );
+		GroupDefinition groupDefn = new GroupDefinition("G1");
+		groupDefn.setKeyColumn("COUNTRY");
+		qd.addGroup(groupDefn);
+		qd.addResultSetExpression("COUNTRY", new ScriptExpression("dataSetRow.COUNTRY"));
+		IBaseExpression rowExpr = new ScriptExpression("dataSetRow.COUNTRY");
 		rowExpr.setGroupName("G1");
 		beforeExprID = "BEFOREEXPRID";
 		qd.addResultSetExpression(beforeExprID, rowExpr);
-		//groupDefn.addExpression( rowExpr, BaseTransform.BEFORE_FIRST_ROW );
-		
+		// groupDefn.addExpression( rowExpr, BaseTransform.BEFORE_FIRST_ROW );
+
 		// generation
-		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+		IQueryResults qr = myGenDataEngine.prepare(qd).execute(scope);
 
-		queryResultID = qr.getID( );
-		
-						
-		IResultIterator ri = qr.getResultIterator( );
-		while ( ri.next( ) )
-		{
-			if ( ri.getStartingGroupLevel( ) <= 1 )
-			{
-				expectedValue.add( ri.getValue( beforeExprID ) );
-				System.out.println( ri.getValue( beforeExprID ) );
+		queryResultID = qr.getID();
+
+		IResultIterator ri = qr.getResultIterator();
+		while (ri.next()) {
+			if (ri.getStartingGroupLevel() <= 1) {
+				expectedValue.add(ri.getValue(beforeExprID));
+				System.out.println(ri.getValue(beforeExprID));
 			}
 		}
 
-		ri.close( );
-		qr.close( );
-		myGenDataEngine.shutdown( );
+		ri.close();
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
 
-	private void preGroupBeforeExpr( ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
+	private void preGroupBeforeExpr() throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		assert (qr.getResultMetaData() != null);
 
-		IResultIterator ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
+		IResultIterator ri = qr.getResultIterator();
+		assert (ri.getResultMetaData() != null);
 
-		Iterator it = this.expectedValue.iterator( );
+		Iterator it = this.expectedValue.iterator();
 
-		while ( ri.next( ) )
-		{
-			if ( ri.getStartingGroupLevel( ) <= 0 )
-			{
+		while (ri.next()) {
+			if (ri.getStartingGroupLevel() <= 0) {
 				String str = "";
-				Object ob1 = it.next( );
-				Object ob2 = ri.getValue( beforeExprID );
-				assertEquals( ob1, ob2 );
-				str += " " + ob2.toString( );
-				this.testOut.println( "row result set: " + str );
+				Object ob1 = it.next();
+				Object ob2 = ri.getValue(beforeExprID);
+				assertEquals(ob1, ob2);
+				str += " " + ob2.toString();
+				this.testOut.println("row result set: " + str);
 			}
 		}
 
-		ri.close( );
-		myPreDataEngine.shutdown( );
+		ri.close();
+		myPreDataEngine.shutdown();
 	}
-	
+
 	/**
 	 * Basic report document test without sub query, but it has aggregation.
 	 * 
 	 * @throws BirtException
 	 */
 	@Test
-    public void testBasicGroupLevel( ) throws Exception
-	{
-		this.genBasicGroupLevel( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		this.preBasicGroupLevel( );
-		this.closeArchiveReader( );
+	public void testBasicGroupLevel() throws Exception {
+		this.genBasicGroupLevel();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preBasicGroupLevel();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
-	
+
 	/**
-	 * @throws BirtException 
+	 * @throws BirtException
 	 */
-	private void genBasicGroupLevel( ) throws BirtException
-	{
-		QueryDefinition qd = newReportQuery( );
+	private void genBasicGroupLevel() throws BirtException {
+		QueryDefinition qd = newReportQuery();
 
 		// prepare
-		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+		IBaseExpression[] rowBeArray = getRowExpr();
+		IBaseExpression[] totalBeArray = getAggrExpr();
 		rowExprName = getRowExprName();
 		totalExprName = getAggrExprName();
-		prepareExprNameAndQuery( qd );
-		
-		GroupDefinition groupDefn = new GroupDefinition( );
-		groupDefn.setKeyColumn( "COUNTRY" );
-		qd.addGroup( groupDefn );
-		
-		groupDefn = new GroupDefinition( );
-		groupDefn.setKeyColumn( "CITY" );
-		qd.addGroup( groupDefn );
-		
-		// generation
-		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
-		
-		// important step
-		saveForPresentation( qr );
-		
-		IResultIterator ri = qr.getResultIterator( );		
-		while ( ri.next( ) )
-		{
-			for ( int i = 0; i < rowBeArray.length; i++ )
-				expectedValue.add( ri.getValue( rowExprName[i] ) );
+		prepareExprNameAndQuery(qd);
 
-			for ( int i = 0; i < totalBeArray.length; i++ )
-				expectedValue.add( ri.getValue( totalExprName[i] ) );
-			
-			this.expectedStartingGroupLevelValueList.add( new Integer( ri.getStartingGroupLevel( ) ) );
-			this.expectedEndingGroupLevelValueList.add( new Integer( ri.getEndingGroupLevel( ) ) );
+		GroupDefinition groupDefn = new GroupDefinition();
+		groupDefn.setKeyColumn("COUNTRY");
+		qd.addGroup(groupDefn);
+
+		groupDefn = new GroupDefinition();
+		groupDefn.setKeyColumn("CITY");
+		qd.addGroup(groupDefn);
+
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare(qd).execute(scope);
+
+		// important step
+		saveForPresentation(qr);
+
+		IResultIterator ri = qr.getResultIterator();
+		while (ri.next()) {
+			for (int i = 0; i < rowBeArray.length; i++)
+				expectedValue.add(ri.getValue(rowExprName[i]));
+
+			for (int i = 0; i < totalBeArray.length; i++)
+				expectedValue.add(ri.getValue(totalExprName[i]));
+
+			this.expectedStartingGroupLevelValueList.add(new Integer(ri.getStartingGroupLevel()));
+			this.expectedEndingGroupLevelValueList.add(new Integer(ri.getEndingGroupLevel()));
 		}
 
-		ri.close( );
-		ri.close( );
-		qr.close( );
-		qr.close( );
-		myGenDataEngine.shutdown( );
+		ri.close();
+		ri.close();
+		qr.close();
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
-	
-	/**
-	 * @throws BirtException
-	 */
-	private void preBasicGroupLevel( ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
-		
-		IResultIterator ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
-		
-		checkResult2( ri );
 
-		ri.close( );
-		myPreDataEngine.shutdown( );
+	/**
+	 * @throws BirtException
+	 */
+	private void preBasicGroupLevel() throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		assert (qr.getResultMetaData() != null);
+
+		IResultIterator ri = qr.getResultIterator();
+		assert (ri.getResultMetaData() != null);
+
+		checkResult2(ri);
+
+		ri.close();
+		myPreDataEngine.shutdown();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
 	@Test
-    public void testBasicMoveWithGroup( ) throws Exception
-	{
-		this.genBasicMoveWithGroup( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
+	public void testBasicMoveWithGroup() throws Exception {
+		this.genBasicMoveWithGroup();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
 		final int destIndex = 6;
-		this.preBasicMoveWithGroup( destIndex );
-		this.closeArchiveReader( );
+		this.preBasicMoveWithGroup(destIndex);
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void genBasicMoveWithGroup( ) throws BirtException
-	{
-		genBasicGroupLevel( );
+	private void genBasicMoveWithGroup() throws BirtException {
+		genBasicGroupLevel();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void preBasicMoveWithGroup( int destIndex ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
-		
-		IResultIterator ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
-		
-		checkResult2( ri, destIndex );
-		
-		ri.close( );
-		myPreDataEngine.shutdown( );
+	private void preBasicMoveWithGroup(int destIndex) throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		assert (qr.getResultMetaData() != null);
+
+		IResultIterator ri = qr.getResultIterator();
+		assert (ri.getResultMetaData() != null);
+
+		checkResult2(ri, destIndex);
+
+		ri.close();
+		myPreDataEngine.shutdown();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
 	@Test
-    public void testBasicSkipToEnd( ) throws Exception
-	{
-		this.genBasicSkipToEnd( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		this.preBasicSkipToEnd( );
-		this.closeArchiveReader( );
+	public void testBasicSkipToEnd() throws Exception {
+		this.genBasicSkipToEnd();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preBasicSkipToEnd();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
-	
+
 	/**
-	 * @throws BirtException 
+	 * @throws BirtException
 	 */
-	private void genBasicSkipToEnd( ) throws BirtException
-	{
-		QueryDefinition qd = newReportQuery( );
+	private void genBasicSkipToEnd() throws BirtException {
+		QueryDefinition qd = newReportQuery();
 
 		// prepare
-		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+		IBaseExpression[] rowBeArray = getRowExpr();
+		IBaseExpression[] totalBeArray = getAggrExpr();
 		rowExprName = getRowExprName();
 		totalExprName = getAggrExprName();
-		
-		prepareExprNameAndQuery( qd );
-		
-		GroupDefinition groupDefn = new GroupDefinition( );
-		groupDefn.setKeyColumn( "COUNTRY" );
-		qd.addGroup( groupDefn );
-		
-		groupDefn = new GroupDefinition( );
-		groupDefn.setKeyColumn( "CITY" );
-		qd.addGroup( groupDefn );
-		
+
+		prepareExprNameAndQuery(qd);
+
+		GroupDefinition groupDefn = new GroupDefinition();
+		groupDefn.setKeyColumn("COUNTRY");
+		qd.addGroup(groupDefn);
+
+		groupDefn = new GroupDefinition();
+		groupDefn.setKeyColumn("CITY");
+		qd.addGroup(groupDefn);
+
 		// generation
-		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
-		
+		IQueryResults qr = myGenDataEngine.prepare(qd).execute(scope);
+
 		// important step
-		saveForPresentation( qr );
-		
-		IResultIterator ri = qr.getResultIterator( );
-		ri.next( );
-		ri.skipToEnd( 1 );
-		while ( ri.next( ) )
-		{
-			for ( int i = 0; i < rowBeArray.length; i++ )
-				expectedValue.add( ri.getValue( rowExprName[i] ) );
+		saveForPresentation(qr);
 
-			for ( int i = 0; i < totalBeArray.length; i++ )
-				expectedValue.add( ri.getValue( totalExprName[i] ) );
+		IResultIterator ri = qr.getResultIterator();
+		ri.next();
+		ri.skipToEnd(1);
+		while (ri.next()) {
+			for (int i = 0; i < rowBeArray.length; i++)
+				expectedValue.add(ri.getValue(rowExprName[i]));
 
-			this.expectedStartingGroupLevelValueList.add( new Integer( ri.getStartingGroupLevel( ) ) );
-			this.expectedEndingGroupLevelValueList.add( new Integer( ri.getEndingGroupLevel( ) ) );
-		} 
+			for (int i = 0; i < totalBeArray.length; i++)
+				expectedValue.add(ri.getValue(totalExprName[i]));
 
-		ri.close( );
-		ri.close( );
-		qr.close( );
-		qr.close( );
-		myGenDataEngine.shutdown( );
+			this.expectedStartingGroupLevelValueList.add(new Integer(ri.getStartingGroupLevel()));
+			this.expectedEndingGroupLevelValueList.add(new Integer(ri.getEndingGroupLevel()));
+		}
+
+		ri.close();
+		ri.close();
+		qr.close();
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
 
 	/**
 	 * @throws BirtException
 	 */
-	private void preBasicSkipToEnd( ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
-		
-		IResultIterator ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
-		
-		ri.next( );
-		ri.skipToEnd( 1 );
-		checkResult2( ri );
+	private void preBasicSkipToEnd() throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		assert (qr.getResultMetaData() != null);
 
-		ri.close( );
-		myPreDataEngine.shutdown( );
+		IResultIterator ri = qr.getResultIterator();
+		assert (ri.getResultMetaData() != null);
+
+		ri.next();
+		ri.skipToEnd(1);
+		checkResult2(ri);
+
+		ri.close();
+		myPreDataEngine.shutdown();
 	}
 
 	/**
 	 * @throws BirtException
 	 */
 	@Test
-    public void testBasicFooter( ) throws Exception
-	{
+	public void testBasicFooter() throws Exception {
 		int countOfRow = 8;
 		List genValue = null;
 		{
-			QueryDefinition qd = newReportQuery( );
+			QueryDefinition qd = newReportQuery();
 			// prepare
-			IBaseExpression[] rowBeArray = getRowExpr( );
-			IBaseExpression[] totalBeArray = getAggrExpr( );
-			rowExprName = getRowExprName( );
-			totalExprName = getAggrExprName( );
-			prepareExprNameAndQuery( qd );
+			IBaseExpression[] rowBeArray = getRowExpr();
+			IBaseExpression[] totalBeArray = getAggrExpr();
+			rowExprName = getRowExprName();
+			totalExprName = getAggrExprName();
+			prepareExprNameAndQuery(qd);
 
 			// generation
-			IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+			IQueryResults qr = myGenDataEngine.prepare(qd).execute(scope);
 
 			// important step
-			saveForPresentation( qr );
+			saveForPresentation(qr);
 
-			IResultIterator ri = qr.getResultIterator( );
+			IResultIterator ri = qr.getResultIterator();
 
 			int currRow = -1;
-			while ( ri.next( ) )
-			{
+			while (ri.next()) {
 				currRow++;
-				if ( currRow == countOfRow - 1 )
-				{
-					genValue = new ArrayList( );
-					for ( int i = 0; i < rowBeArray.length; i++ )
-						genValue.add( ri.getValue( rowExprName[i] ) );
+				if (currRow == countOfRow - 1) {
+					genValue = new ArrayList();
+					for (int i = 0; i < rowBeArray.length; i++)
+						genValue.add(ri.getValue(rowExprName[i]));
 
-					for ( int i = 0; i < totalBeArray.length; i++ )
-						genValue.add( ri.getValue( totalExprName[i] ) );
+					for (int i = 0; i < totalBeArray.length; i++)
+						genValue.add(ri.getValue(totalExprName[i]));
 				}
 			}
-			ri.close( );
-			ri.close( );
-			qr.close( );
-			qr.close( );
-			myGenDataEngine.shutdown( );
+			ri.close();
+			ri.close();
+			qr.close();
+			qr.close();
+			myGenDataEngine.shutdown();
 		}
 
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
 		List preValue = null;
 		{
-			IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-			IResultIterator ri = qr.getResultIterator( );
-			ri.moveTo( countOfRow - 1 );
-			
-			preValue = new ArrayList( );
-			if ( rowExprName != null )
-			{
-				for ( int i = 0; i < rowExprName.length; i++ )
-				{
-					Object ob2 = ri.getValue( rowExprName[i] );
-					preValue.add( ob2 );
+			IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+			IResultIterator ri = qr.getResultIterator();
+			ri.moveTo(countOfRow - 1);
+
+			preValue = new ArrayList();
+			if (rowExprName != null) {
+				for (int i = 0; i < rowExprName.length; i++) {
+					Object ob2 = ri.getValue(rowExprName[i]);
+					preValue.add(ob2);
 				}
 			}
-			if ( totalExprName != null )
-			{
-				for ( int i = 0; i < totalExprName.length; i++ )
-				{
-					Object ob2 = ri.getValue( totalExprName[i] );
-					preValue.add( ob2 );
+			if (totalExprName != null) {
+				for (int i = 0; i < totalExprName.length; i++) {
+					Object ob2 = ri.getValue(totalExprName[i]);
+					preValue.add(ob2);
 				}
 			}
 
-			ri.close( );
-			myPreDataEngine.shutdown( );
-			this.closeArchiveReader( );
+			ri.close();
+			myPreDataEngine.shutdown();
+			this.closeArchiveReader();
 		}
-		
-		Iterator it1 = genValue.iterator( );
-		Iterator it2 = preValue.iterator( );
+
+		Iterator it1 = genValue.iterator();
+		Iterator it2 = preValue.iterator();
 		String str = "";
-		while ( it2.hasNext( ) )
-		{
-			Object ob2 = it2.next( );
-			assertTrue( it1.next( ).equals( ob2 ) );
-			str += ob2.toString( ) + " ";
+		while (it2.hasNext()) {
+			Object ob2 = it2.next();
+			assertTrue(it1.next().equals(ob2));
+			str += ob2.toString() + " ";
 		}
-		this.testOut.println( "row result set: " + str );
+		this.testOut.println("row result set: " + str);
 		this.checkOutputFile();
 	}
-	
+
 	/**
-	 * Basic report document test without sub query, but its use details
-	 * property is false;
+	 * Basic report document test without sub query, but its use details property is
+	 * false;
 	 * 
 	 * @throws BirtException
 	 */
 	@Test
-    public void testBasicGroupLevel2( ) throws Exception
-	{
-		this.genBasicGroupLevel2( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		this.preBasicGroupLevel2( );
-		this.closeArchiveReader( );
+	public void testBasicGroupLevel2() throws Exception {
+		this.genBasicGroupLevel2();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preBasicGroupLevel2();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
-	
-	/**
-	 * @throws BirtException 
-	 */
-	private void genBasicGroupLevel2( ) throws Exception
-	{
-		QueryDefinition qd = newReportQuery( );
-		qd.setUsesDetails( false );
 
-		prepareExprNameAndQuery( qd );
-		
-		GroupDefinition groupDefn = new GroupDefinition( );
-		groupDefn.setKeyColumn( "COUNTRY" );
-		qd.addGroup( groupDefn );
-		
-		groupDefn = new GroupDefinition( );
-		groupDefn.setKeyColumn( "CITY" );
-		qd.addGroup( groupDefn );
-		
-		// generation
-		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
-		
-		// important step
-		saveForPresentation( qr );
-		
-		IResultIterator ri = qr.getResultIterator( );		
-		while ( ri.next( ) )
-		{
-			for ( int i = 0; i < rowExprName.length; i++ )
-				expectedValue.add( ri.getValue( rowExprName[i] ) );
-
-			for ( int i = 0; i < totalExprName.length; i++ )
-				expectedValue.add( ri.getValue( totalExprName[i] ) );
-			
-			this.expectedStartingGroupLevelValueList.add( new Integer( ri.getStartingGroupLevel( ) ) );
-			this.expectedEndingGroupLevelValueList.add( new Integer( ri.getEndingGroupLevel( ) ) );
-		}
-
-		ri.close( );
-		ri.close( );
-		qr.close( );
-		qr.close( );
-		myGenDataEngine.shutdown( );
-	}
-	
 	/**
 	 * @throws BirtException
 	 */
-	private void preBasicGroupLevel2( ) throws BirtException
-	{
-		// ---next test
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
-		
-		IResultIterator ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
-		
-		checkResult2( ri );
+	private void genBasicGroupLevel2() throws Exception {
+		QueryDefinition qd = newReportQuery();
+		qd.setUsesDetails(false);
 
-		ri.close( );
-		
-		System.out.println("--------move to test1--------");
-		
-		// ---moveTo test
-		qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
-		
-		ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
-		
-		checkResult2( ri, 0 );
+		prepareExprNameAndQuery(qd);
 
-		ri.close( );
-		
-		System.out.println("--------move to test2--------");
-		
-		// ---moveTo test
-		qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
-		
-		ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
-		
-		checkResult2( ri, 2 );
-		
-		myPreDataEngine.shutdown( );
+		GroupDefinition groupDefn = new GroupDefinition();
+		groupDefn.setKeyColumn("COUNTRY");
+		qd.addGroup(groupDefn);
+
+		groupDefn = new GroupDefinition();
+		groupDefn.setKeyColumn("CITY");
+		qd.addGroup(groupDefn);
+
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare(qd).execute(scope);
+
+		// important step
+		saveForPresentation(qr);
+
+		IResultIterator ri = qr.getResultIterator();
+		while (ri.next()) {
+			for (int i = 0; i < rowExprName.length; i++)
+				expectedValue.add(ri.getValue(rowExprName[i]));
+
+			for (int i = 0; i < totalExprName.length; i++)
+				expectedValue.add(ri.getValue(totalExprName[i]));
+
+			this.expectedStartingGroupLevelValueList.add(new Integer(ri.getStartingGroupLevel()));
+			this.expectedEndingGroupLevelValueList.add(new Integer(ri.getEndingGroupLevel()));
+		}
+
+		ri.close();
+		ri.close();
+		qr.close();
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
-	
+
+	/**
+	 * @throws BirtException
+	 */
+	private void preBasicGroupLevel2() throws BirtException {
+		// ---next test
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		assert (qr.getResultMetaData() != null);
+
+		IResultIterator ri = qr.getResultIterator();
+		assert (ri.getResultMetaData() != null);
+
+		checkResult2(ri);
+
+		ri.close();
+
+		System.out.println("--------move to test1--------");
+
+		// ---moveTo test
+		qr = myPreDataEngine.getQueryResults(queryResultID);
+		assert (qr.getResultMetaData() != null);
+
+		ri = qr.getResultIterator();
+		assert (ri.getResultMetaData() != null);
+
+		checkResult2(ri, 0);
+
+		ri.close();
+
+		System.out.println("--------move to test2--------");
+
+		// ---moveTo test
+		qr = myPreDataEngine.getQueryResults(queryResultID);
+		assert (qr.getResultMetaData() != null);
+
+		ri = qr.getResultIterator();
+		assert (ri.getResultMetaData() != null);
+
+		checkResult2(ri, 2);
+
+		myPreDataEngine.shutdown();
+	}
+
 	/**
 	 * Basic sub query test for report document.
 	 * 
 	 * @throws BirtException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
-    public void testSubQuery( ) throws BirtException, IOException
-	{
-		this.genSubQuery( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-				
-		this.preSubQuery( );
-		this.closeArchiveReader( );
+	public void testSubQuery() throws BirtException, IOException {
+		this.genSubQuery();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preSubQuery();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
 
 	/**
 	 * @throws BirtException
 	 */
-	private void genSubQuery( ) throws BirtException
-	{
-		QueryDefinition queryDefn = newReportQuery( );
+	private void genSubQuery() throws BirtException {
+		QueryDefinition queryDefn = newReportQuery();
 
 		// add sub query
-		GroupDefinition groupDefn = new GroupDefinition( );
-		groupDefn.setKeyColumn( "COUNTRY" );
-		queryDefn.addGroup( groupDefn );
+		GroupDefinition groupDefn = new GroupDefinition();
+		groupDefn.setKeyColumn("COUNTRY");
+		queryDefn.addGroup(groupDefn);
 
-		
-		prepareExprNameAndQuery(queryDefn );
-		
-		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName, queryDefn );
-		groupDefn.addSubquery( subQueryDefn );
+		prepareExprNameAndQuery(queryDefn);
+
+		SubqueryDefinition subQueryDefn = new SubqueryDefinition(subQueryName, queryDefn);
+		groupDefn.addSubquery(subQueryDefn);
 
 		// sort on sub query
-		SortDefinition sortDefn = new SortDefinition( );
-		sortDefn.setColumn( "AMOUNT" );
-		sortDefn.setSortDirection( ISortDefinition.SORT_DESC );
-		subQueryDefn.addSort( sortDefn );
-		
-		
-		prepareExprNameAndQuery( subQueryDefn );
+		SortDefinition sortDefn = new SortDefinition();
+		sortDefn.setColumn("AMOUNT");
+		sortDefn.setSortDirection(ISortDefinition.SORT_DESC);
+		subQueryDefn.addSort(sortDefn);
+
+		prepareExprNameAndQuery(subQueryDefn);
 
 		// generation
-		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( scope );
-		
+		IQueryResults qr = myGenDataEngine.prepare(queryDefn).execute(scope);
+
 		// important step
-		saveForPresentation( qr );
-		
-		IResultIterator ri = qr.getResultIterator( );		
-		
+		saveForPresentation(qr);
+
+		IResultIterator ri = qr.getResultIterator();
+
 		int loopCount = 5;
-		for ( int i = 0; i < loopCount; i++ )
-			ri.next( );
+		for (int i = 0; i < loopCount; i++)
+			ri.next();
 
-		IResultIterator ri2 = ri.getSecondaryIterator( subQueryName, subScope );
+		IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
 
-		while ( ri2.next( ) )
-		{
-			for ( int i = 0; i < rowExprName.length; i++ )
-				expectedValue.add( ri2.getValue( rowExprName[i] ) );
+		while (ri2.next()) {
+			for (int i = 0; i < rowExprName.length; i++)
+				expectedValue.add(ri2.getValue(rowExprName[i]));
 
-			for ( int i = 0; i < totalExprName.length; i++ )
-				expectedValue.add( ri2.getValue( totalExprName[i] ) );
+			for (int i = 0; i < totalExprName.length; i++)
+				expectedValue.add(ri2.getValue(totalExprName[i]));
 		}
 
-		ri2.close( );
-		qr.close( );
-		myGenDataEngine.shutdown( );
+		ri2.close();
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
 
 	/**
 	 * @throws BirtException
 	 */
-	private void preSubQuery( ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		IResultIterator ri = qr.getResultIterator( );
+	private void preSubQuery() throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		IResultIterator ri = qr.getResultIterator();
 
 		int loopCount = 5;
-		for ( int i = 0; i < loopCount; i++ )
-			ri.next( );
+		for (int i = 0; i < loopCount; i++)
+			ri.next();
 
-		IResultIterator ri2 = ri.getSecondaryIterator( subQueryName, subScope );
+		IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
 
-		checkResult1( ri2 );
+		checkResult1(ri2);
 
-		ri2.close( );
-		qr.close( );
-		myPreDataEngine.shutdown( );
+		ri2.close();
+		qr.close();
+		myPreDataEngine.shutdown();
 	}
-	
+
 	/**
-	 * Sub query test2 for report document. This query has two features:
-	 * 1: sub query is added on the query, not on group
-	 * 2: the point of the parent query moves to the end
+	 * Sub query test2 for report document. This query has two features: 1: sub
+	 * query is added on the query, not on group 2: the point of the parent query
+	 * moves to the end
 	 * 
 	 * @throws BirtException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
-    public void testSubQuery2( ) throws BirtException, IOException
-	{
-		this.genSubQuery2( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-				
-		this.preSubQuery2( );
-		this.closeArchiveReader( );
+	public void testSubQuery2() throws BirtException, IOException {
+		this.genSubQuery2();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preSubQuery2();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void genSubQuery2( ) throws BirtException
-	{
-		QueryDefinition queryDefn = newReportQuery( );
+	private void genSubQuery2() throws BirtException {
+		QueryDefinition queryDefn = newReportQuery();
 
-		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName, queryDefn );
-		queryDefn.addSubquery( subQueryDefn );
-		
+		SubqueryDefinition subQueryDefn = new SubqueryDefinition(subQueryName, queryDefn);
+		queryDefn.addSubquery(subQueryDefn);
+
 		// prepare
-		prepareExprNameAndQuery( subQueryDefn );
+		prepareExprNameAndQuery(subQueryDefn);
 
 		// generation
-		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( scope );
-		
+		IQueryResults qr = myGenDataEngine.prepare(queryDefn).execute(scope);
+
 		// important step
-		saveForPresentation( qr );
-		
-		IResultIterator ri = qr.getResultIterator( );		
-		
-		while ( ri.next( ) );
+		saveForPresentation(qr);
 
-		IResultIterator ri2 = ri.getSecondaryIterator( subQueryName, subScope );
+		IResultIterator ri = qr.getResultIterator();
 
-		while ( ri2.next( ) )
-		{
-			for ( int i = 0; i < rowExprName.length; i++ )
-				expectedValue.add( ri2.getValue( rowExprName[i] ) );
+		while (ri.next())
+			;
 
-			for ( int i = 0; i < totalExprName.length; i++ )
-				expectedValue.add( ri2.getValue( totalExprName[i] ) );
+		IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
+
+		while (ri2.next()) {
+			for (int i = 0; i < rowExprName.length; i++)
+				expectedValue.add(ri2.getValue(rowExprName[i]));
+
+			for (int i = 0; i < totalExprName.length; i++)
+				expectedValue.add(ri2.getValue(totalExprName[i]));
 		}
 
-		ri2.close( );
-		qr.close( );
-		myGenDataEngine.shutdown( );
+		ri2.close();
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
 
 	/**
 	 * @throws BirtException
 	 */
-	private void preSubQuery2( ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		IResultIterator ri = qr.getResultIterator( );
+	private void preSubQuery2() throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		IResultIterator ri = qr.getResultIterator();
 
-		while ( ri.next( ) );
+		while (ri.next())
+			;
 
-		IResultIterator ri2 = ri.getSecondaryIterator( subQueryName, subScope );
+		IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
 
-		checkResult1( ri2 );
+		checkResult1(ri2);
 
-		ri2.close( );
-		qr.close( );
-		myPreDataEngine.shutdown( );
+		ri2.close();
+		qr.close();
+		myPreDataEngine.shutdown();
 	}
-	
+
 	/**
 	 * @throws BirtException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
-    public void testSubQuery3( ) throws BirtException, IOException
-	{
-		this.genSubQuery3( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-				
-		this.preSubQuery3( );
-		this.closeArchiveReader( );
+	public void testSubQuery3() throws BirtException, IOException {
+		this.genSubQuery3();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preSubQuery3();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void genSubQuery3( ) throws BirtException
-	{
-		QueryDefinition queryDefn = newReportQuery( );
-		
-		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName, queryDefn );
-		subQueryDefn.setApplyOnGroupFlag( false );
-		queryDefn.addSubquery( subQueryDefn );
-		
+	private void genSubQuery3() throws BirtException {
+		QueryDefinition queryDefn = newReportQuery();
+
+		SubqueryDefinition subQueryDefn = new SubqueryDefinition(subQueryName, queryDefn);
+		subQueryDefn.setApplyOnGroupFlag(false);
+		queryDefn.addSubquery(subQueryDefn);
+
 		// prepare
-		prepareExprNameAndQuery( subQueryDefn );
-		
+		prepareExprNameAndQuery(subQueryDefn);
+
 		// generation
-		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( scope );
-		
+		IQueryResults qr = myGenDataEngine.prepare(queryDefn).execute(scope);
+
 		// important step
-		saveForPresentation( qr );
-		
-		IResultIterator ri = qr.getResultIterator( );		
-		
-		while ( ri.next( ) )
-		{
-			IResultIterator ri2 = ri.getSecondaryIterator( subQueryName,
-					subScope );
-			
-			while ( ri2.next( ) )
-			{
-				for ( int i = 0; i < rowExprName.length; i++ )
-					expectedValue.add( ri2.getValue( rowExprName[i] ) );
-				
-				for ( int i = 0; i < totalExprName.length; i++ )
-					expectedValue.add( ri2.getValue( totalExprName[i] ) );
+		saveForPresentation(qr);
+
+		IResultIterator ri = qr.getResultIterator();
+
+		while (ri.next()) {
+			IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
+
+			while (ri2.next()) {
+				for (int i = 0; i < rowExprName.length; i++)
+					expectedValue.add(ri2.getValue(rowExprName[i]));
+
+				for (int i = 0; i < totalExprName.length; i++)
+					expectedValue.add(ri2.getValue(totalExprName[i]));
 			}
-			ri2.close( );
+			ri2.close();
 		}
-		
-		qr.close( );
-		myGenDataEngine.shutdown( );
+
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void preSubQuery3( ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		IResultIterator ri = qr.getResultIterator( );
-		Iterator it = expectedValue.iterator( );
-		
-		while ( ri.next( ) )
-		{
-			IResultIterator ri2 = ri.getSecondaryIterator( subQueryName,
-					subScope );
-			
-			checkResult1( it, ri2 );
-			ri2.close( );
+	private void preSubQuery3() throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		IResultIterator ri = qr.getResultIterator();
+		Iterator it = expectedValue.iterator();
+
+		while (ri.next()) {
+			IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
+
+			checkResult1(it, ri2);
+			ri2.close();
 		}
-		
-		qr.close( );
-		myPreDataEngine.shutdown( );
+
+		qr.close();
+		myPreDataEngine.shutdown();
 	}
 
 	/**
 	 * Basic sub query test for report document.
 	 * 
 	 * @throws BirtException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
-    public void testSubQuery4( ) throws BirtException, IOException
-	{
-		this.genSubQuery4( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-				
-		this.preSubQuery4( );
-		this.closeArchiveReader( );
+	public void testSubQuery4() throws BirtException, IOException {
+		this.genSubQuery4();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preSubQuery4();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
-	
 
 	/**
 	 * @throws BirtException
 	 */
-	private void genSubQuery4( ) throws BirtException
-	{
-		QueryDefinition queryDefn = newReportQuery( );
-		queryDefn.setUsesDetails( false );
+	private void genSubQuery4() throws BirtException {
+		QueryDefinition queryDefn = newReportQuery();
+		queryDefn.setUsesDetails(false);
 
 		// add sub query
-		GroupDefinition groupDefn = new GroupDefinition( );
-		groupDefn.setKeyColumn( "COUNTRY_1" );
-		queryDefn.addGroup( groupDefn );
-		//		 prepare
-	
+		GroupDefinition groupDefn = new GroupDefinition();
+		groupDefn.setKeyColumn("COUNTRY_1");
+		queryDefn.addGroup(groupDefn);
+		// prepare
+
 		rowExprName = new String[1];
 		rowExprName[0] = "COUNTRY_1";
 		IBaseExpression[] rowBeArray = new IBaseExpression[1];
-		rowBeArray[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		
-		for ( int i = 0; i < rowExprName.length; i++ )
-		{
-		
-			queryDefn.addBinding( new Binding( this.rowExprName[i], rowBeArray[i]) );
+		rowBeArray[0] = new ScriptExpression("dataSetRow.COUNTRY");
+
+		for (int i = 0; i < rowExprName.length; i++) {
+
+			queryDefn.addBinding(new Binding(this.rowExprName[i], rowBeArray[i]));
 		}
-		rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
-		rowExprName = getRowExprName( );
-		totalExprName = getAggrExprName( );		
-		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName,
-				queryDefn );
-		GroupDefinition subGroupDefn = new GroupDefinition( "group2" );
-		subGroupDefn.setKeyExpression( "row[\"CITY\"]" );
-		subQueryDefn.addGroup( subGroupDefn );
-		groupDefn.addSubquery( subQueryDefn );
-		subQueryDefn.setUsesDetails( false );
-		
-		prepareExprNameAndQuery( subQueryDefn );
+		rowBeArray = getRowExpr();
+		IBaseExpression[] totalBeArray = getAggrExpr();
+		rowExprName = getRowExprName();
+		totalExprName = getAggrExprName();
+		SubqueryDefinition subQueryDefn = new SubqueryDefinition(subQueryName, queryDefn);
+		GroupDefinition subGroupDefn = new GroupDefinition("group2");
+		subGroupDefn.setKeyExpression("row[\"CITY\"]");
+		subQueryDefn.addGroup(subGroupDefn);
+		groupDefn.addSubquery(subQueryDefn);
+		subQueryDefn.setUsesDetails(false);
+
+		prepareExprNameAndQuery(subQueryDefn);
 
 		// generation
-		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( scope );
-		
-		// important step
-		saveForPresentation( qr );
-		
-		IResultIterator ri = qr.getResultIterator( );		
-		
-		while ( ri.next( ) )
-		{
-			System.out.println( ri.getValue( "COUNTRY_1" ) );
-			IResultIterator ri2 = ri.getSecondaryIterator( subQueryName,
-					subScope );
-			while ( ri2.next( ) )
-			{
-				for ( int i = 0; i < rowBeArray.length; i++ )
-					expectedValue.add( ri2.getValue( rowExprName[i] ) );
+		IQueryResults qr = myGenDataEngine.prepare(queryDefn).execute(scope);
 
-				for ( int i = 0; i < totalBeArray.length; i++ )
-					expectedValue.add( ri2.getValue( totalExprName[i] ) );
+		// important step
+		saveForPresentation(qr);
+
+		IResultIterator ri = qr.getResultIterator();
+
+		while (ri.next()) {
+			System.out.println(ri.getValue("COUNTRY_1"));
+			IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
+			while (ri2.next()) {
+				for (int i = 0; i < rowBeArray.length; i++)
+					expectedValue.add(ri2.getValue(rowExprName[i]));
+
+				for (int i = 0; i < totalBeArray.length; i++)
+					expectedValue.add(ri2.getValue(totalExprName[i]));
 			}
-			ri2.close( );
+			ri2.close();
 		}
-		qr.close( );
-		myGenDataEngine.shutdown( );
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
-	
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void preSubQuery4( ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		IResultIterator ri = qr.getResultIterator( );
-		Iterator it = expectedValue.iterator( );
-		
-		while ( ri.next( ) )
-		{
-			IResultIterator ri2 = ri.getSecondaryIterator( subQueryName,
-					subScope );
-			
-			checkResult1( it, ri2 );
-			ri2.close( );
+	private void preSubQuery4() throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		IResultIterator ri = qr.getResultIterator();
+		Iterator it = expectedValue.iterator();
+
+		while (ri.next()) {
+			IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
+
+			checkResult1(it, ri2);
+			ri2.close();
 		}
-		
-		qr.close( );
-		myPreDataEngine.shutdown( );
+
+		qr.close();
+		myPreDataEngine.shutdown();
 	}
-	
+
 	/**
 	 * Advanced sub query test. A sub query is retrieved from another sub query.
 	 * 
 	 * @throws BirtException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
-    public void testSubOfSubQuery( ) throws BirtException, IOException
-	{
-		this.genSubOfSubQuery( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		this.preSubOfSubQuery( );
-		this.closeArchiveReader( );
+	public void testSubOfSubQuery() throws BirtException, IOException {
+		this.genSubOfSubQuery();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preSubOfSubQuery();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
+
 	@Test
-    public void testSubOfSubQueryAsSourceQuery( ) throws BirtException, IOException
-	{
-		this.genSubOfSubQuery( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		this.preSubOfSubQuery1( );
-		this.closeArchiveReader( );
-		
-		QueryDefinition baseQuery = new QueryDefinition( );
-		baseQuery.setQueryResultsID( this.queryResultID );
-		SubqueryLocator subqueryLocator1 = new SubqueryLocator( 0, subQueryName, baseQuery );
-		SubqueryLocator subqueryLocator2 = new SubqueryLocator( 0, subOfSubQueryName, subqueryLocator1 );
-		
-		QueryDefinition query = new QueryDefinition( );
-		
-		query.setSourceQuery( subqueryLocator2 );
-		
-		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT>300" );
-		query.addFilter( new FilterDefinition( filterExpr ) );
-		
-		SortDefinition sd = new SortDefinition( );
-		sd.setExpression( "row.SALE_DATE" );
-		sd.setSortDirection( ISortDefinition.SORT_DESC );
-		query.addSort( sd );
-		_preBasicSubIV1( query );
-		query = new QueryDefinition( );
-		
-		query.setSourceQuery( subqueryLocator2 );
-		
-		filterExpr = new ScriptExpression( "row.AMOUNT>401" );
-		query.addFilter( new FilterDefinition( filterExpr ) );
-		
-		sd = new SortDefinition( );
-		sd.setExpression( "row.SALE_DATE" );
-		sd.setSortDirection( ISortDefinition.SORT_DESC );
-		query.addSort( sd );
-		_preBasicSubIV1( query );
-		
-		myPreDataEngine.shutdown( );
-		
-		this.closeArchiveReader( );
-		
-		this.checkOutputFile( );
+	public void testSubOfSubQueryAsSourceQuery() throws BirtException, IOException {
+		this.genSubOfSubQuery();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preSubOfSubQuery1();
+		this.closeArchiveReader();
+
+		QueryDefinition baseQuery = new QueryDefinition();
+		baseQuery.setQueryResultsID(this.queryResultID);
+		SubqueryLocator subqueryLocator1 = new SubqueryLocator(0, subQueryName, baseQuery);
+		SubqueryLocator subqueryLocator2 = new SubqueryLocator(0, subOfSubQueryName, subqueryLocator1);
+
+		QueryDefinition query = new QueryDefinition();
+
+		query.setSourceQuery(subqueryLocator2);
+
+		ScriptExpression filterExpr = new ScriptExpression("row.AMOUNT>300");
+		query.addFilter(new FilterDefinition(filterExpr));
+
+		SortDefinition sd = new SortDefinition();
+		sd.setExpression("row.SALE_DATE");
+		sd.setSortDirection(ISortDefinition.SORT_DESC);
+		query.addSort(sd);
+		_preBasicSubIV1(query);
+		query = new QueryDefinition();
+
+		query.setSourceQuery(subqueryLocator2);
+
+		filterExpr = new ScriptExpression("row.AMOUNT>401");
+		query.addFilter(new FilterDefinition(filterExpr));
+
+		sd = new SortDefinition();
+		sd.setExpression("row.SALE_DATE");
+		sd.setSortDirection(ISortDefinition.SORT_DESC);
+		query.addSort(sd);
+		_preBasicSubIV1(query);
+
+		myPreDataEngine.shutdown();
+
+		this.closeArchiveReader();
+
+		this.checkOutputFile();
 	}
-	
-	private void preSubOfSubQuery1( ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		IResultIterator ri = qr.getResultIterator( );
 
-		ri.next( );
-		IResultIterator ri2 = ri.getSecondaryIterator( subQueryName, subScope );
-		ri2.next( );		
+	private void preSubOfSubQuery1() throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		IResultIterator ri = qr.getResultIterator();
 
-		IResultIterator ri3 = ri2.getSecondaryIterator( subOfSubQueryName, subOfSubScope );
+		ri.next();
+		IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
+		ri2.next();
 
-		ri3.close( );
-		qr.close( );
+		IResultIterator ri3 = ri2.getSecondaryIterator(subOfSubQueryName, subOfSubScope);
+
+		ri3.close();
+		qr.close();
 	}
-	
-	private void _preBasicSubIV1( QueryDefinition qd ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.prepare( qd ).execute( null );
-		
-		IResultIterator ri = qr.getResultIterator( );
 
-		ri.moveTo( 0 );
+	private void _preBasicSubIV1(QueryDefinition qd) throws BirtException {
+		IQueryResults qr = myPreDataEngine.prepare(qd).execute(null);
+
+		IResultIterator ri = qr.getResultIterator();
+
+		ri.moveTo(0);
 		String abc = "";
 		String[] subRowExprName = new String[4];
 		subRowExprName[0] = "COUNTRY";
 		subRowExprName[1] = "CITY";
 		subRowExprName[2] = "SALE_DATE";
 		subRowExprName[3] = "AMOUNT";
-		for ( int i = 0; i < subRowExprName.length; i++ )
+		for (int i = 0; i < subRowExprName.length; i++)
 			abc += subRowExprName[i] + "  ";
-		this.testPrintln( abc );
-		do
-		{
+		this.testPrintln(abc);
+		do {
 			abc = "";
-			for ( int i = 0; i < subRowExprName.length; i++ )
-				abc += ri.getValue( subRowExprName[i] ) + "  ";
-			this.testPrintln( abc + ri.getRowId( ) );
-		} while ( ri.next( ) );
+			for (int i = 0; i < subRowExprName.length; i++)
+				abc += ri.getValue(subRowExprName[i]) + "  ";
+			this.testPrintln(abc + ri.getRowId());
+		} while (ri.next());
 
-		ri.close( );
-		
+		ri.close();
+
 	}
 
 	/**
 	 * @throws BirtException
 	 */
-	private void genSubOfSubQuery( ) throws BirtException
-	{
-		QueryDefinition queryDefn = newReportQuery( );
+	private void genSubOfSubQuery() throws BirtException {
+		QueryDefinition queryDefn = newReportQuery();
 
 		// add sub query
-		GroupDefinition groupDefn = new GroupDefinition( );
-		groupDefn.setKeyColumn( "COUNTRY" );
-		queryDefn.addGroup( groupDefn );
+		GroupDefinition groupDefn = new GroupDefinition();
+		groupDefn.setKeyColumn("COUNTRY");
+		queryDefn.addGroup(groupDefn);
 		queryDefn.addResultSetExpression("COUNTRY", new ScriptExpression("dataSetRow.COUNTRY"));
-		SubqueryDefinition subQueryDefn = new SubqueryDefinition( subQueryName, queryDefn );
-		groupDefn.addSubquery( subQueryDefn );
+		SubqueryDefinition subQueryDefn = new SubqueryDefinition(subQueryName, queryDefn);
+		groupDefn.addSubquery(subQueryDefn);
 
 		// add sub query of sub query
-		GroupDefinition subGroupDefn = new GroupDefinition( );
-		subGroupDefn.setKeyColumn( "CITY" );
-		subQueryDefn.addGroup( subGroupDefn );
+		GroupDefinition subGroupDefn = new GroupDefinition();
+		subGroupDefn.setKeyColumn("CITY");
+		subQueryDefn.addGroup(subGroupDefn);
 		subQueryDefn.addResultSetExpression("CITY", new ScriptExpression("dataSetRow.CITY"));
-		SubqueryDefinition subOfSubQueryDefn = new SubqueryDefinition( subOfSubQueryName, subQueryDefn );
-		subGroupDefn.addSubquery( subOfSubQueryDefn );
+		SubqueryDefinition subOfSubQueryDefn = new SubqueryDefinition(subOfSubQueryName, subQueryDefn);
+		subGroupDefn.addSubquery(subOfSubQueryDefn);
 
 		// prepare
-		IBaseExpression[] rowBeArray = getRowExpr( );
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+		IBaseExpression[] rowBeArray = getRowExpr();
+		IBaseExpression[] totalBeArray = getAggrExpr();
 		rowExprName = getRowExprName();
 		totalExprName = getAggrExprName();
-		prepareExprNameAndQuery( subOfSubQueryDefn );
+		prepareExprNameAndQuery(subOfSubQueryDefn);
 
 		// generation
-		IQueryResults qr = myGenDataEngine.prepare( queryDefn ).execute( subScope );
-				
+		IQueryResults qr = myGenDataEngine.prepare(queryDefn).execute(subScope);
+
 		// important step
-		saveForPresentation(  qr );
-		
-		IResultIterator ri = qr.getResultIterator( );
+		saveForPresentation(qr);
 
-		ri.next( );
-		IResultIterator ri2 = ri.getSecondaryIterator( subQueryName, scope );
-		ri2.next( );
+		IResultIterator ri = qr.getResultIterator();
 
-		IResultIterator ri3 = ri2.getSecondaryIterator( subOfSubQueryName, subOfSubScope );
-		while ( ri3.next( ) )
-		{
-			for ( int i = 0; i < rowBeArray.length; i++ )
-				expectedValue.add( ri3.getValue( rowExprName[i] ) );
+		ri.next();
+		IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, scope);
+		ri2.next();
 
-			for ( int i = 0; i < totalBeArray.length; i++ )
-				expectedValue.add( ri3.getValue( totalExprName[i] ) );
+		IResultIterator ri3 = ri2.getSecondaryIterator(subOfSubQueryName, subOfSubScope);
+		while (ri3.next()) {
+			for (int i = 0; i < rowBeArray.length; i++)
+				expectedValue.add(ri3.getValue(rowExprName[i]));
+
+			for (int i = 0; i < totalBeArray.length; i++)
+				expectedValue.add(ri3.getValue(totalExprName[i]));
 		}
 
-		ri3.close( );		
-		ri2.close( );
-		qr.close( );
-		myGenDataEngine.shutdown( );
+		ri3.close();
+		ri2.close();
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
 
 	/**
 	 * @throws BirtException
 	 */
-	private void preSubOfSubQuery( ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		IResultIterator ri = qr.getResultIterator( );
+	private void preSubOfSubQuery() throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		IResultIterator ri = qr.getResultIterator();
 
-		ri.next( );
-		IResultIterator ri2 = ri.getSecondaryIterator( subQueryName, subScope );
-		ri2.next( );		
+		ri.next();
+		IResultIterator ri2 = ri.getSecondaryIterator(subQueryName, subScope);
+		ri2.next();
 
-		IResultIterator ri3 = ri2.getSecondaryIterator( subOfSubQueryName, subOfSubScope );
+		IResultIterator ri3 = ri2.getSecondaryIterator(subOfSubQueryName, subOfSubScope);
 
-		checkResult1( ri3 );
+		checkResult1(ri3);
 
-		ri3.close( );
-		qr.close( );
-		myPreDataEngine.shutdown( );
+		ri3.close();
+		qr.close();
+		myPreDataEngine.shutdown();
 	}
 
 	/**
 	 * Basic report document test with nested query
 	 * 
 	 * @throws BirtException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
-    public void testNestedQuery( ) throws BirtException, IOException
-	{
-		this.genNestedQuery( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		this.preNestedQuery( );
-		this.closeArchiveReader( );
+	public void testNestedQuery() throws BirtException, IOException {
+		this.genNestedQuery();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preNestedQuery();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
 
 	/**
 	 * @throws BirtException
 	 */
-	private void genNestedQuery( ) throws BirtException
-	{
-		QueryDefinition qd = newReportQuery( );
+	private void genNestedQuery() throws BirtException {
+		QueryDefinition qd = newReportQuery();
 
+		prepareExprNameAndQuery(qd);
 
-		prepareExprNameAndQuery( qd );
-		
 		// generation
-		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
-		qr.getResultIterator( ).next( );
+		IQueryResults qr = myGenDataEngine.prepare(qd).execute(scope);
+		qr.getResultIterator().next();
 
-		Context cx = Context.enter( );
-		ScriptableObject nestedScope = cx.initStandardObjects( );
-		nestedScope.setPrototype( this.scope );
-		Context.exit( );
+		Context cx = Context.enter();
+		ScriptableObject nestedScope = cx.initStandardObjects();
+		nestedScope.setPrototype(this.scope);
+		Context.exit();
 
-		QueryDefinition nestedQD = newReportQuery( );
-		IBaseExpression[] tempArray2 = getRowExpr( );
+		QueryDefinition nestedQD = newReportQuery();
+		IBaseExpression[] tempArray2 = getRowExpr();
 		int length = tempArray2.length;
 		IBaseExpression[] rowBeArray2 = new IBaseExpression[length + 1];
-		System.arraycopy( tempArray2, 0, rowBeArray2, 0, length );
-		rowBeArray2[length] = new ScriptExpression( "rows[0].AMOUNT" );
+		System.arraycopy(tempArray2, 0, rowBeArray2, 0, length);
+		rowBeArray2[length] = new ScriptExpression("rows[0].AMOUNT");
 		rowExprName = new String[rowBeArray2.length];
-		for( int i = 0; i < rowExprName.length; i++)
-		{
-			rowExprName[i] = "NAME_"+i;
+		for (int i = 0; i < rowExprName.length; i++) {
+			rowExprName[i] = "NAME_" + i;
 		}
-		IBaseExpression[] totalBeArray2 = getAggrExpr( );
-		
-		IBinding total1 = new Binding( this.totalExprName[0], totalBeArray2[0]);
-		total1.setAggrFunction( "count" );
-		
-		IBinding total2 = new Binding( this.totalExprName[1], totalBeArray2[1]);
-		total2.setAggrFunction( "sum" );
-		
+		IBaseExpression[] totalBeArray2 = getAggrExpr();
 
-		nestedQD.addBinding( total1 );
-		nestedQD.addBinding( total2 );
-		for ( int i = 0; i < rowExprName.length; i++ )
-		{
-		
-			nestedQD.addBinding( new Binding( this.rowExprName[i], rowBeArray2[i]) );
+		IBinding total1 = new Binding(this.totalExprName[0], totalBeArray2[0]);
+		total1.setAggrFunction("count");
+
+		IBinding total2 = new Binding(this.totalExprName[1], totalBeArray2[1]);
+		total2.setAggrFunction("sum");
+
+		nestedQD.addBinding(total1);
+		nestedQD.addBinding(total2);
+		for (int i = 0; i < rowExprName.length; i++) {
+
+			nestedQD.addBinding(new Binding(this.rowExprName[i], rowBeArray2[i]));
 		}
-	
 
-		IQueryResults qr2 = myGenDataEngine.prepare( nestedQD ).execute( qr,
-				nestedScope );
-		IResultIterator ri = qr2.getResultIterator( );
+		IQueryResults qr2 = myGenDataEngine.prepare(nestedQD).execute(qr, nestedScope);
+		IResultIterator ri = qr2.getResultIterator();
 
 		// important step
-		saveForPresentation( qr2 );
+		saveForPresentation(qr2);
 
-		while ( ri.next( ) )
-		{
-			for ( int i = 0; i < rowBeArray2.length; i++ )
-				expectedValue.add( ri.getValue( rowExprName[i] ) );
+		while (ri.next()) {
+			for (int i = 0; i < rowBeArray2.length; i++)
+				expectedValue.add(ri.getValue(rowExprName[i]));
 
-			for ( int i = 0; i < totalBeArray2.length; i++)
-				expectedValue.add( ri.getValue( totalExprName[i] ) );
+			for (int i = 0; i < totalBeArray2.length; i++)
+				expectedValue.add(ri.getValue(totalExprName[i]));
 		}
 
-		ri.close( );
-		qr2.close( );
-		qr.close( );
-		myGenDataEngine.shutdown( );
+		ri.close();
+		qr2.close();
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
 
 	/**
 	 * @throws BirtException
 	 */
-	private void preNestedQuery( ) throws BirtException
-	{
-		this.preBasic( );
+	private void preNestedQuery() throws BirtException {
+		this.preBasic();
 	}
-	
+
 	/**
 	 * Basic report document test with computed column
 	 * 
 	 * @throws BirtException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Test
-    public void testComputedColumn( ) throws BirtException, IOException
-	{
-		this.genComputedColumn( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		this.preComputedColumn( );
-		this.closeArchiveReader( );
+	public void testComputedColumn() throws BirtException, IOException {
+		this.genComputedColumn();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preComputedColumn();
+		this.closeArchiveReader();
 		this.checkOutputFile();
 	}
 
 	/**
 	 * @throws BirtException
 	 */
-	private void genComputedColumn( ) throws BirtException
-	{
-		String[] ccName = new String[]{
-				"cc1", "cc2"
-		};
-		String[] ccExpr = new String[]{
-				"row.COUNTRY", "row.AMOUNT*100"
-		};
-		int[] dataTypes = new int[]{
-				DataType.STRING_TYPE, DataType.INTEGER_TYPE
-		};
-		for ( int i = 0; i < 2; i++ )
-		{
-			ComputedColumn computedColumn = new ComputedColumn( ccName[i],
-					ccExpr[i],
-					dataTypes[i] );
-			( (BaseDataSetDesign) this.dataSet ).addComputedColumn( computedColumn );
+	private void genComputedColumn() throws BirtException {
+		String[] ccName = new String[] { "cc1", "cc2" };
+		String[] ccExpr = new String[] { "row.COUNTRY", "row.AMOUNT*100" };
+		int[] dataTypes = new int[] { DataType.STRING_TYPE, DataType.INTEGER_TYPE };
+		for (int i = 0; i < 2; i++) {
+			ComputedColumn computedColumn = new ComputedColumn(ccName[i], ccExpr[i], dataTypes[i]);
+			((BaseDataSetDesign) this.dataSet).addComputedColumn(computedColumn);
 		}
-		
-		QueryDefinition qd = newReportQuery( );
+
+		QueryDefinition qd = newReportQuery();
 
 		// prepare
-		IBaseExpression[] tempArray = getRowExpr( );
+		IBaseExpression[] tempArray = getRowExpr();
 		int length = tempArray.length;
 		IBaseExpression[] rowBeArray = new IBaseExpression[length + 2];
-		System.arraycopy( tempArray, 0, rowBeArray, 0, length );
-		for ( int i = 0; i < ccName.length; i++ )
-			rowBeArray[length + i] = new ScriptExpression( "dataSetRow." + ccName[i] );
-		
+		System.arraycopy(tempArray, 0, rowBeArray, 0, length);
+		for (int i = 0; i < ccName.length; i++)
+			rowBeArray[length + i] = new ScriptExpression("dataSetRow." + ccName[i]);
+
 		rowExprName = new String[rowBeArray.length];
-		for( int i = 0; i < rowExprName.length; i++)
-		{
-			rowExprName[i] = "NAME_"+i;
+		for (int i = 0; i < rowExprName.length; i++) {
+			rowExprName[i] = "NAME_" + i;
 		}
-		
-		IBaseExpression[] totalBeArray = getAggrExpr( );
+
+		IBaseExpression[] totalBeArray = getAggrExpr();
 		totalExprName = getAggrExprName();
-		IBaseExpression[] totalBeArray2 = getAggrExpr( );
-		
-		IBinding total1 = new Binding( this.totalExprName[0], totalBeArray2[0]);
-		total1.setAggrFunction( "count" );
-		
-		IBinding total2 = new Binding( this.totalExprName[1], totalBeArray2[1]);
-		total2.setAggrFunction( "sum" );
-		
+		IBaseExpression[] totalBeArray2 = getAggrExpr();
 
-		qd.addBinding( total1 );
-		qd.addBinding( total2 );
-		for ( int i = 0; i < rowExprName.length; i++ )
-		{
-		
-			qd.addBinding( new Binding( this.rowExprName[i], rowBeArray[i]) );
+		IBinding total1 = new Binding(this.totalExprName[0], totalBeArray2[0]);
+		total1.setAggrFunction("count");
+
+		IBinding total2 = new Binding(this.totalExprName[1], totalBeArray2[1]);
+		total2.setAggrFunction("sum");
+
+		qd.addBinding(total1);
+		qd.addBinding(total2);
+		for (int i = 0; i < rowExprName.length; i++) {
+
+			qd.addBinding(new Binding(this.rowExprName[i], rowBeArray[i]));
 		}
-	
-		
+
 		// generation
-		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
-		
-		// important step
-		saveForPresentation( qr );
-		
-		IResultIterator ri = qr.getResultIterator( );		
-		while ( ri.next( ) )
-		{
-			for ( int i = 0; i < rowBeArray.length; i++ )
-				expectedValue.add( ri.getValue( rowExprName[i] ) );
+		IQueryResults qr = myGenDataEngine.prepare(qd).execute(scope);
 
-			for ( int i = 0; i < totalBeArray.length; i++ )
-				expectedValue.add( ri.getValue( totalExprName[i] ) );
+		// important step
+		saveForPresentation(qr);
+
+		IResultIterator ri = qr.getResultIterator();
+		while (ri.next()) {
+			for (int i = 0; i < rowBeArray.length; i++)
+				expectedValue.add(ri.getValue(rowExprName[i]));
+
+			for (int i = 0; i < totalBeArray.length; i++)
+				expectedValue.add(ri.getValue(totalExprName[i]));
 		}
 
-		ri.close( );
-		qr.close( );
-		myGenDataEngine.shutdown( );
+		ri.close();
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
 
 	/**
 	 * @throws BirtException
 	 */
-	private void preComputedColumn( ) throws BirtException
-	{
-		this.preBasic( );
+	private void preComputedColumn() throws BirtException {
+		this.preBasic();
 	}
-	
+
 	/**
 	 * @return row expression array
 	 */
-	private IBaseExpression[] getRowExpr( )
-	{
+	private IBaseExpression[] getRowExpr() {
 		// row test
 		int num = 4;
 		IBaseExpression[] rowBeArray = new IBaseExpression[num];
-		rowBeArray[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		rowBeArray[1] = new ScriptExpression( "dataSetRow.CITY" );
-		rowBeArray[2] = new ScriptExpression( "dataSetRow.SALE_DATE" );
-		rowBeArray[3] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		rowBeArray[0] = new ScriptExpression("dataSetRow.COUNTRY");
+		rowBeArray[1] = new ScriptExpression("dataSetRow.CITY");
+		rowBeArray[2] = new ScriptExpression("dataSetRow.SALE_DATE");
+		rowBeArray[3] = new ScriptExpression("dataSetRow.AMOUNT");
 
 		return rowBeArray;
 	}
@@ -1748,8 +1604,7 @@ public class ReportDocumentTest extends RDTestCase
 	/**
 	 * @return row expression array
 	 */
-	private String[] getRowExprName( )
-	{
+	private String[] getRowExprName() {
 		// row test
 		int num = 4;
 		String[] rowBeArray = new String[num];
@@ -1760,15 +1615,15 @@ public class ReportDocumentTest extends RDTestCase
 
 		return rowBeArray;
 	}
+
 	/**
 	 * @return aggregation expression array
 	 */
-	private IBaseExpression[] getAggrExpr( )
-	{
+	private IBaseExpression[] getAggrExpr() {
 		int num2 = 2;
 		IBaseExpression[] totalBeArray = new IBaseExpression[num2];
-		totalBeArray[0] = new ScriptExpression( null );
-		totalBeArray[1] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		totalBeArray[0] = new ScriptExpression(null);
+		totalBeArray[1] = new ScriptExpression("dataSetRow.AMOUNT");
 
 		return totalBeArray;
 	}
@@ -1776,8 +1631,7 @@ public class ReportDocumentTest extends RDTestCase
 	/**
 	 * @return aggregation expression array
 	 */
-	private String[] getAggrExprName( )
-	{
+	private String[] getAggrExprName() {
 		int num2 = 2;
 		String[] totalBeArray = new String[num2];
 		totalBeArray[0] = "Total.Count( )";
@@ -1786,14 +1640,12 @@ public class ReportDocumentTest extends RDTestCase
 		return totalBeArray;
 	}
 
-	
 	/**
 	 * @param rowBeArray
 	 * @param totalBeArray
 	 */
-	private void saveForPresentation(  IQueryResults qr )
-	{
-		queryResultID = qr.getID( );
+	private void saveForPresentation(IQueryResults qr) {
+		queryResultID = qr.getID();
 	}
 
 	/**
@@ -1804,38 +1656,29 @@ public class ReportDocumentTest extends RDTestCase
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	private void checkResult1( IResultIterator ri )
-			throws BirtException
-	{
-		Iterator it = this.expectedValue.iterator( );
-		checkResult1( it, ri );
+	private void checkResult1(IResultIterator ri) throws BirtException {
+		Iterator it = this.expectedValue.iterator();
+		checkResult1(it, ri);
 	}
-	
+
 	/**
 	 * @param it
 	 * @param ri
 	 * @throws BirtException
 	 */
-	private void checkResult1(Iterator it, IResultIterator ri)
-			throws BirtException 
-	{
-		while (ri.next()) 
-		{
+	private void checkResult1(Iterator it, IResultIterator ri) throws BirtException {
+		while (ri.next()) {
 			String str = "";
-			if (rowExprName != null) 
-			{
-				for (int i = 0; i < rowExprName.length; i++) 
-				{
+			if (rowExprName != null) {
+				for (int i = 0; i < rowExprName.length; i++) {
 					Object ob1 = it.next();
 					Object ob2 = ri.getValue(rowExprName[i]);
 					assertEquals(ob1, ob2);
 					str += " " + ob2.toString();
 				}
 			}
-			if (totalExprName != null) 
-			{
-				for (int i = 0; i < totalExprName.length; i++) 
-				{
+			if (totalExprName != null) {
+				for (int i = 0; i < totalExprName.length; i++) {
 					Object ob1 = it.next();
 					Object ob2 = ri.getValue(totalExprName[i]);
 					assertEquals(ob1, ob2);
@@ -1853,109 +1696,101 @@ public class ReportDocumentTest extends RDTestCase
 	 * @param ri
 	 * @throws BirtException
 	 */
-	private void checkResult2( IResultIterator ri ) throws BirtException
-	{
-		Iterator it = this.expectedValue.iterator( );
-		Iterator it1 = this.expectedStartingGroupLevelValueList.iterator( );
-		Iterator it2 = this.expectedEndingGroupLevelValueList.iterator( );
+	private void checkResult2(IResultIterator ri) throws BirtException {
+		Iterator it = this.expectedValue.iterator();
+		Iterator it1 = this.expectedStartingGroupLevelValueList.iterator();
+		Iterator it2 = this.expectedEndingGroupLevelValueList.iterator();
 
-		while ( ri.next( ) )
-		{
+		while (ri.next()) {
 			String str = "";
-			for ( int i = 0; i < rowExprName.length; i++ )
-			{
-				Object ob1 = it.next( );
-				Object ob2 = ri.getValue(rowExprName[i] );
-				assertEquals( ob1, ob2 );
-				str += " " + ob2.toString( );
+			for (int i = 0; i < rowExprName.length; i++) {
+				Object ob1 = it.next();
+				Object ob2 = ri.getValue(rowExprName[i]);
+				assertEquals(ob1, ob2);
+				str += " " + ob2.toString();
 			}
 
-			for ( int i = 0; i < totalExprName.length; i++ )
-			{
-				Object ob1 = it.next( );
-				Object ob2 = ri.getValue( totalExprName[i] );
-				assertEquals( ob1, ob2 );
-				str += " " + ob2.toString( );
+			for (int i = 0; i < totalExprName.length; i++) {
+				Object ob1 = it.next();
+				Object ob2 = ri.getValue(totalExprName[i]);
+				assertEquals(ob1, ob2);
+				str += " " + ob2.toString();
 			}
 
-			System.out.println( "row result set: " + str );
+			System.out.println("row result set: " + str);
 
 			str = "";
-			Integer value1 = (Integer) it1.next( );
-			int value2 = ri.getStartingGroupLevel( );
-			assertEquals( value1.intValue( ), value2 );
+			Integer value1 = (Integer) it1.next();
+			int value2 = ri.getStartingGroupLevel();
+			assertEquals(value1.intValue(), value2);
 			str += " staring: " + value1;
 
-			Integer value3 = (Integer) it2.next( );
-			int value4 = ri.getEndingGroupLevel( );
-			assertEquals( value3.intValue( ), value4 );
+			Integer value3 = (Integer) it2.next();
+			int value4 = ri.getEndingGroupLevel();
+			assertEquals(value3.intValue(), value4);
 			str += " ending " + value3;
 
-			this.testOut.println( "row group level value: " + str );
+			this.testOut.println("row group level value: " + str);
 		}
 	}
 
 	/**
-	 * Check the result of the row result set and the starting and ending group level  
+	 * Check the result of the row result set and the starting and ending group
+	 * level
 	 * 
 	 * @param ri
 	 * @throws BirtException
 	 */
-	private void checkResult2( IResultIterator ri, int destIndex ) throws BirtException
-	{
-		Iterator it = this.expectedValue.iterator( );
-		Iterator it1 = this.expectedStartingGroupLevelValueList.iterator( );
-		Iterator it2 = this.expectedEndingGroupLevelValueList.iterator( );
+	private void checkResult2(IResultIterator ri, int destIndex) throws BirtException {
+		Iterator it = this.expectedValue.iterator();
+		Iterator it1 = this.expectedStartingGroupLevelValueList.iterator();
+		Iterator it2 = this.expectedEndingGroupLevelValueList.iterator();
 
-		for ( int k = 0; k < destIndex; k++ )
-		{
-			for ( int i = 0; i < rowExprName.length; i++ )
-				it.next( );
-			for ( int i = 0; i < totalExprName.length; i++ )
-				it.next( );
-			it1.next( ); // for starting group level
-			it2.next( ); // for ending group level
+		for (int k = 0; k < destIndex; k++) {
+			for (int i = 0; i < rowExprName.length; i++)
+				it.next();
+			for (int i = 0; i < totalExprName.length; i++)
+				it.next();
+			it1.next(); // for starting group level
+			it2.next(); // for ending group level
 		}
-		
-		if ( destIndex >= 1 )
-			ri.moveTo( destIndex - 1 );
-		
-		while ( ri.next( ) )
-		{
+
+		if (destIndex >= 1)
+			ri.moveTo(destIndex - 1);
+
+		while (ri.next()) {
 			String str = "";
-			for ( int i = 0; i < rowExprName.length; i++ )
-			{
-				Object ob1 = it.next( );
-				Object ob2 = ri.getValue( rowExprName[i] );
-				assertEquals( ob1, ob2 );
-				str += " " + ob2.toString( );
+			for (int i = 0; i < rowExprName.length; i++) {
+				Object ob1 = it.next();
+				Object ob2 = ri.getValue(rowExprName[i]);
+				assertEquals(ob1, ob2);
+				str += " " + ob2.toString();
 			}
 
-			for ( int i = 0; i < totalExprName.length; i++ )
-			{
-				Object ob1 = it.next( );
-				Object ob2 = ri.getValue( totalExprName[i] );
-				assertEquals( ob1, ob2 );
-				str += " " + ob2.toString( );
+			for (int i = 0; i < totalExprName.length; i++) {
+				Object ob1 = it.next();
+				Object ob2 = ri.getValue(totalExprName[i]);
+				assertEquals(ob1, ob2);
+				str += " " + ob2.toString();
 			}
 
-			this.testOut.println( "row result set: " + str );
+			this.testOut.println("row result set: " + str);
 
 			str = "";
-			Integer value1 = (Integer) it1.next( );
-			int value2 = ri.getStartingGroupLevel( );
-			assertEquals( value1.intValue( ), value2 );
+			Integer value1 = (Integer) it1.next();
+			int value2 = ri.getStartingGroupLevel();
+			assertEquals(value1.intValue(), value2);
 			str += " staring: " + value1;
 
-			Integer value3 = (Integer) it2.next( );
-			int value4 = ri.getEndingGroupLevel( );
-			assertEquals( value3.intValue( ), value4 );
+			Integer value3 = (Integer) it2.next();
+			int value4 = ri.getEndingGroupLevel();
+			assertEquals(value3.intValue(), value4);
 			str += " ending " + value3;
 
-			this.testOut.println( "row group level value: " + str );
+			this.testOut.println("row group level value: " + str);
 		}
 	}
-	
+
 	/**
 	 * Skip specified skipCount at the begining.
 	 * 
@@ -1963,43 +1798,37 @@ public class ReportDocumentTest extends RDTestCase
 	 * @param skipCount
 	 * @throws BirtException
 	 */
-	private void checkResult3( IResultIterator ri, int skipCount )
-			throws BirtException
-	{
-		Iterator it = this.expectedValue.iterator( );
+	private void checkResult3(IResultIterator ri, int skipCount) throws BirtException {
+		Iterator it = this.expectedValue.iterator();
 
-		for ( int k = 0; k < skipCount; k++ )
-		{
-			for ( int i = 0; i < rowExprName.length; i++ )
-				it.next( );
-			for ( int i = 0; i < totalExprName.length; i++ )
-				it.next( );
-			ri.next( );
+		for (int k = 0; k < skipCount; k++) {
+			for (int i = 0; i < rowExprName.length; i++)
+				it.next();
+			for (int i = 0; i < totalExprName.length; i++)
+				it.next();
+			ri.next();
 		}
-		
-		while ( ri.next( ) )
-		{
+
+		while (ri.next()) {
 			String str = "";
-			for ( int i = 0; i < rowExprName.length; i++ )
-			{
-				Object ob1 = it.next( );
-				Object ob2 = ri.getValue( rowExprName[i] );
-				assertEquals( ob1, ob2 );
-				str += " " + ob2.toString( );
+			for (int i = 0; i < rowExprName.length; i++) {
+				Object ob1 = it.next();
+				Object ob2 = ri.getValue(rowExprName[i]);
+				assertEquals(ob1, ob2);
+				str += " " + ob2.toString();
 			}
 
-			for ( int i = 0; i < totalExprName.length; i++ )
-			{
-				Object ob1 = it.next( );
-				Object ob2 = ri.getValue( totalExprName[i] );
-				assertEquals( ob1, ob2 );
-				str += " " + ob2.toString( );
+			for (int i = 0; i < totalExprName.length; i++) {
+				Object ob1 = it.next();
+				Object ob2 = ri.getValue(totalExprName[i]);
+				assertEquals(ob1, ob2);
+				str += " " + ob2.toString();
 			}
 
-			this.testOut.println( "row result set: " + str );
+			this.testOut.println("row result set: " + str);
 		}
 	}
-	
+
 	/**
 	 * Skip specified skipCount at the begining.
 	 * 
@@ -2007,136 +1836,123 @@ public class ReportDocumentTest extends RDTestCase
 	 * @param skipCount
 	 * @throws BirtException
 	 */
-	private void checkResult4( IResultIterator ri, int destIndex[], boolean doNextFirst )
-			throws BirtException
-	{
-		if ( doNextFirst )
-			ri.next( );
-		
+	private void checkResult4(IResultIterator ri, int destIndex[], boolean doNextFirst) throws BirtException {
+		if (doNextFirst)
+			ri.next();
+
 		int offset = rowExprName.length + totalExprName.length;
-		
-		for ( int j = 0; j < destIndex.length; j++ )
-		{
+
+		for (int j = 0; j < destIndex.length; j++) {
 			int index = destIndex[j];
-			
-			ri.moveTo( index );
-			
+
+			ri.moveTo(index);
+
 			String str = "";
-			for ( int i = 0; i < rowExprName.length; i++ )
-			{
-				Object ob1 = expectedValue.get( index * offset + i );
-				Object ob2 = ri.getValue( rowExprName[i] );
-				assertEquals( ob1, ob2 );
-				str += " " + ob1.toString( );
+			for (int i = 0; i < rowExprName.length; i++) {
+				Object ob1 = expectedValue.get(index * offset + i);
+				Object ob2 = ri.getValue(rowExprName[i]);
+				assertEquals(ob1, ob2);
+				str += " " + ob1.toString();
 			}
 
-			for ( int i = 0; i < totalExprName.length; i++ )
-			{
-				Object ob1 = expectedValue.get( index
-						* offset + rowExprName.length + i );
-				Object ob2 = ri.getValue( totalExprName[i] );
-				assertEquals( ob1, ob2 );
-				str += " " + ob1.toString( );
+			for (int i = 0; i < totalExprName.length; i++) {
+				Object ob1 = expectedValue.get(index * offset + rowExprName.length + i);
+				Object ob2 = ri.getValue(totalExprName[i]);
+				assertEquals(ob1, ob2);
+				str += " " + ob1.toString();
 			}
 
-			this.testOut.println( "row result set: " + str );
+			this.testOut.println("row result set: " + str);
 		}
 	}
-	
+
 	// for dummy data set
 	private String dummyRowExprName;
-	
+
 	/**
 	 * Basic report document without data set
 	 * 
 	 * @throws BirtException
 	 */
 	@Test
-    public void testBasicDummy( ) throws Exception
-	{
-		this.genBasicDummy( );
-		this.closeArchiveWriter( );
-		
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
-		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-		
-		this.preBasicDummy( );
-		this.closeArchiveReader( );
+	public void testBasicDummy() throws Exception {
+		this.genBasicDummy();
+		this.closeArchiveWriter();
+
+		DataEngineContext deContext2 = newContext(DataEngineContext.MODE_PRESENTATION, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+
+		this.preBasicDummy();
+		this.closeArchiveReader();
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
-	private void genBasicDummy( ) throws BirtException
-	{
-		QueryDefinition qd = new QueryDefinition( );
-		qd.setDataSetName( null );
+	private void genBasicDummy() throws BirtException {
+		QueryDefinition qd = new QueryDefinition();
+		qd.setDataSetName(null);
 
 		// prepare
-		IBaseExpression rowExpr = new ScriptExpression( "new Date()" );
+		IBaseExpression rowExpr = new ScriptExpression("new Date()");
 		dummyRowExprName = "Date";
-		qd.addResultSetExpression( dummyRowExprName, rowExpr );
+		qd.addResultSetExpression(dummyRowExprName, rowExpr);
 
 		// generation
-		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+		IQueryResults qr = myGenDataEngine.prepare(qd).execute(scope);
 
 		// important step
-		queryResultID = qr.getID( );
+		queryResultID = qr.getID();
 
-		IResultIterator ri = qr.getResultIterator( );
-		while ( ri.next( ) )
-		{
-			expectedValue.add( ri.getValue( dummyRowExprName ) );
+		IResultIterator ri = qr.getResultIterator();
+		while (ri.next()) {
+			expectedValue.add(ri.getValue(dummyRowExprName));
 		}
-		
-		assertTrue( ri.getResultMetaData( ) != null );
-		ri.close( );
-		qr.close( );
-		myGenDataEngine.shutdown( );
+
+		assertTrue(ri.getResultMetaData() != null);
+		ri.close();
+		qr.close();
+		myGenDataEngine.shutdown();
 	}
 
 	/**
 	 * @throws BirtException
 	 */
-	private void preBasicDummy( ) throws BirtException
-	{
-		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
+	private void preBasicDummy() throws BirtException {
+		IQueryResults qr = myPreDataEngine.getQueryResults(queryResultID);
+		assert (qr.getResultMetaData() != null);
 
-		IResultIterator ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
+		IResultIterator ri = qr.getResultIterator();
+		assert (ri.getResultMetaData() != null);
 
-		Iterator it = this.expectedValue.iterator( );
+		Iterator it = this.expectedValue.iterator();
 
-		while ( ri.next( ) )
-		{
+		while (ri.next()) {
 			String str = "";
-			Object ob1 = it.next( );
-			Object ob2 = ri.getValue( dummyRowExprName );
-			
-			if ( ob1 instanceof IdScriptableObject )
-			{
-				ob1 = JavascriptEvalUtil.convertJavascriptValue( ob1 );
-				ob2 = JavascriptEvalUtil.convertJavascriptValue( ob2 );
+			Object ob1 = it.next();
+			Object ob2 = ri.getValue(dummyRowExprName);
+
+			if (ob1 instanceof IdScriptableObject) {
+				ob1 = JavascriptEvalUtil.convertJavascriptValue(ob1);
+				ob2 = JavascriptEvalUtil.convertJavascriptValue(ob2);
 			}
-			
-			assertEquals( ob1, ob2 );
-			str += " " + ob2.toString( );
-			this.testOut.println( "row result set: " + str );
+
+			assertEquals(ob1, ob2);
+			str += " " + ob2.toString();
+			this.testOut.println("row result set: " + str);
 		}
 
-		assertTrue( ri.getResultMetaData( ) != null );
-		ri.close( );
-		myPreDataEngine.shutdown( );
+		assertTrue(ri.getResultMetaData() != null);
+		ri.close();
+		myPreDataEngine.shutdown();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#useFolderArchive()
 	 */
-	protected boolean useFolderArchive()
-	{
+	protected boolean useFolderArchive() {
 		return true;
 	}
 }

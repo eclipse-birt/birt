@@ -20,48 +20,47 @@ import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 /**
  * ICrosstab
  */
-public interface ICrosstab extends IReportItem, ICrosstabConstants
-{
+public interface ICrosstab extends IReportItem, ICrosstabConstants {
 
-	List<IMeasure> getMeasures( );
+	List<IMeasure> getMeasures();
 
-	List<ILevel> getRowLevels( );
+	List<ILevel> getRowLevels();
 
-	List<ILevel> getColumnLevels( );
+	List<ILevel> getColumnLevels();
 
-	String getCaption( );
+	String getCaption();
 
-	void setCaption( String caption ) throws SemanticException;
+	void setCaption(String caption) throws SemanticException;
 
-	String getCaptionKey( );
+	String getCaptionKey();
 
-	void setCaptionKey( String captionKey ) throws SemanticException;
+	void setCaptionKey(String captionKey) throws SemanticException;
 
-	String getSummary( );
+	String getSummary();
 
-	void setSummary( String summary ) throws SemanticException;
+	void setSummary(String summary) throws SemanticException;
 
-	boolean isRepeatRowHeader( );
+	boolean isRepeatRowHeader();
 
-	void setRepeatRowHeader( boolean value ) throws SemanticException;
+	void setRepeatRowHeader(boolean value) throws SemanticException;
 
-	boolean isRepeatColumnHeader( );
+	boolean isRepeatColumnHeader();
 
-	void setRepeatColumnHeader( boolean value ) throws SemanticException;
+	void setRepeatColumnHeader(boolean value) throws SemanticException;
 
-	String getMeasureDirection( );
+	String getMeasureDirection();
 
-	void setMeasureDirection( String direction ) throws SemanticException;
+	void setMeasureDirection(String direction) throws SemanticException;
 
-	String getEmptyCellValue( );
+	String getEmptyCellValue();
 
-	void setEmptyCellValue( String value ) throws SemanticException;
+	void setEmptyCellValue(String value) throws SemanticException;
 
-	int getRowPageBreakInterval( );
+	int getRowPageBreakInterval();
 
-	void setRowPageBreakInterval( int value ) throws SemanticException;
+	void setRowPageBreakInterval(int value) throws SemanticException;
 
-	int getColumnPageBreakInterval( );
+	int getColumnPageBreakInterval();
 
-	void setColumnPageBreakInterval( int value ) throws SemanticException;
+	void setColumnPageBreakInterval(int value) throws SemanticException;
 }

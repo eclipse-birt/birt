@@ -21,8 +21,7 @@ import org.eclipse.ui.IMemento;
  * 
  */
 
-public class ReportEditorInputFactory implements IElementFactory
-{
+public class ReportEditorInputFactory implements IElementFactory {
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.ReportEditorInputFactory"; //$NON-NLS-1$
 
@@ -33,21 +32,16 @@ public class ReportEditorInputFactory implements IElementFactory
 	 * 
 	 * @see org.eclipse.ui.IElementFactory#createElement(org.eclipse.ui.IMemento)
 	 */
-	public IAdaptable createElement( IMemento memento )
-	{
-		String fileName = memento.getString( TAG_PATH );
-		if ( fileName == null )
-		{
+	public IAdaptable createElement(IMemento memento) {
+		String fileName = memento.getString(TAG_PATH);
+		if (fileName == null) {
 			return null;
 		}
 
-		File file = new File( fileName );
-		if ( file != null )
-		{
-			return new ReportEditorInput( file );
-		}
-		else
-		{
+		File file = new File(fileName);
+		if (file != null) {
+			return new ReportEditorInput(file);
+		} else {
 			return null;
 		}
 	}
@@ -55,14 +49,11 @@ public class ReportEditorInputFactory implements IElementFactory
 	/**
 	 * Saves the state of the given file editor input into the given memento.
 	 * 
-	 * @param memento
-	 *            the storage area for element state
-	 * @param input
-	 *            the file editor input
+	 * @param memento the storage area for element state
+	 * @param input   the file editor input
 	 */
-	public static void saveState( IMemento memento, ReportEditorInput input )
-	{
-		File file = input.getFile( );
-		memento.putString( TAG_PATH, file.getAbsolutePath( ) );
+	public static void saveState(IMemento memento, ReportEditorInput input) {
+		File file = input.getFile();
+		memento.putString(TAG_PATH, file.getAbsolutePath());
 	}
 }

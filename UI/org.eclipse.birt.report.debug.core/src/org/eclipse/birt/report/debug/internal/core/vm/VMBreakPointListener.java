@@ -14,14 +14,13 @@ package org.eclipse.birt.report.debug.internal.core.vm;
 /**
  * VMBreakPointListener
  */
-public interface VMBreakPointListener
-{
+public interface VMBreakPointListener {
 
-	void breakPointAdded( VMBreakPoint bp );
+	void breakPointAdded(VMBreakPoint bp);
 
-	void breakPointRemoved( VMBreakPoint bp );
+	void breakPointRemoved(VMBreakPoint bp);
 
-	void breakPointChanged( VMBreakPoint bp );
+	void breakPointChanged(VMBreakPoint bp);
 
-	void breakPointCleared( );
+	void breakPointCleared();
 }

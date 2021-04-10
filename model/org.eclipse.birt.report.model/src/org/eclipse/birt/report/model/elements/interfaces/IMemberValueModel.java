@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * Defines constants for MemberValue.
  */
-public interface IMemberValueModel
-{
+public interface IMemberValueModel {
 
 	/**
 	 * Name of the property that gives the detail value of this member value.

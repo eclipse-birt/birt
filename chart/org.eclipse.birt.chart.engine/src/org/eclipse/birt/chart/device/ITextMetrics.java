@@ -21,14 +21,13 @@ import com.ibm.icu.util.ULocale;
  * Provides a layer of abstraction for text metrics retrieval via display server
  * dependent implementations.
  */
-public interface ITextMetrics
-{
+public interface ITextMetrics {
 
 	/**
 	 * Permits reuse of the text metrics instance for a new label with new
 	 * attributes.
 	 */
-	void reuse( Label la );
+	void reuse(Label la);
 
 	/**
 	 * Permits reuse of the text metrics instance for a new label with new
@@ -36,7 +35,7 @@ public interface ITextMetrics
 	 * 
 	 * @since 2.1
 	 */
-	void reuse( Label la, double forceWrappingSize );
+	void reuse(Label la, double forceWrappingSize);
 
 	/**
 	 * Returns the height of a single line of text using the font defined in the
@@ -45,67 +44,65 @@ public interface ITextMetrics
 	 * @return The height of a single line of text using the font defined in the
 	 *         contained label
 	 */
-	double getHeight( );
+	double getHeight();
 
 	/**
-	 * Returns the descent of a single line of text using the font defined in
+	 * Returns the descent of a single line of text using the font defined in the
+	 * contained label
+	 * 
+	 * @return The descent of a single line of text using the font defined in the
+	 *         contained label
+	 */
+	double getDescent();
+
+	/**
+	 * Returns the full height of all lines of text using the font defined in the
+	 * contained label
+	 * 
+	 * @return The full height of all lines of text using the font defined in the
+	 *         contained label
+	 */
+	double getFullHeight();
+
+	double getFullHeight(double fontHeight);
+
+	/**
+	 * Returns the max width of the widest line of text using the font defined in
 	 * the contained label
 	 * 
-	 * @return The descent of a single line of text using the font defined in
+	 * @return The max width of the widest line of text using the font defined in
 	 *         the contained label
 	 */
-	double getDescent( );
+	double getFullWidth();
 
 	/**
-	 * Returns the full height of all lines of text using the font defined in
-	 * the contained label
+	 * Returns the number of lines of text associated with the label to be rendered
 	 * 
-	 * @return The full height of all lines of text using the font defined in
-	 *         the contained label
+	 * @return The number of lines of text associated with the label to be rendered
 	 */
-	double getFullHeight( );
-
-	double getFullHeight( double fontHeight );
-
-	/**
-	 * Returns the max width of the widest line of text using the font defined
-	 * in the contained label
-	 * 
-	 * @return The max width of the widest line of text using the font defined
-	 *         in the contained label
-	 */
-	double getFullWidth( );
-
-	/**
-	 * Returns the number of lines of text associated with the label to be
-	 * rendered
-	 * 
-	 * @return The number of lines of text associated with the label to be
-	 *         rendered
-	 */
-	int getLineCount( );
+	int getLineCount();
 
 	/**
 	 * The text associated with a line index for multi-line text
 	 * 
-	 * @param iIndex
-	 *            The line to be retrieved from multi-line text
+	 * @param iIndex The line to be retrieved from multi-line text
 	 * 
 	 * @return A line of text (subset)
 	 */
-	String getLine( int iIndex );
-	
+	String getLine(int iIndex);
+
 	/**
 	 * The text's width of associated with a line index.
+	 * 
 	 * @param iIndex
 	 * @return
 	 */
-	double getWidth( int iIndex );
+	double getWidth(int iIndex);
 
 	/**
 	 * Perform a cleanup when this object is not required anymore
 	 */
-	void dispose( );
+	void dispose();
 
 	/**
 	 * Returns the locale associated with the text metrics implementer
@@ -113,7 +110,7 @@ public interface ITextMetrics
 	 * @return The locale
 	 * @deprecated use {@link #getULocale()} instead.
 	 */
-	Locale getLocale( );
+	Locale getLocale();
 
 	/**
 	 * Returns the locale associated with the text metrics implementer
@@ -121,5 +118,5 @@ public interface ITextMetrics
 	 * @return The locale
 	 * @since 2.1
 	 */
-	ULocale getULocale( );
+	ULocale getULocale();
 }

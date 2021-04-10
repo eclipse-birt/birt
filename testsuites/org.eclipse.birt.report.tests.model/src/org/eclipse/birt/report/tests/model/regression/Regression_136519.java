@@ -40,15 +40,13 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * provide compatibility
  * <p>
  */
-public class Regression_136519 extends BaseTestCase
-{
+public class Regression_136519 extends BaseTestCase {
 
 	private final static String INPUT = "regression_136519.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
 
 	}
 
@@ -56,12 +54,11 @@ public class Regression_136519 extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 
-	public void test_regression_136519( ) throws DesignFileException
-	{
-		openDesign( INPUT );
-		LabelHandle label = (LabelHandle) designHandle.findElement( "l1" ); //$NON-NLS-1$
+	public void test_regression_136519() throws DesignFileException {
+		openDesign(INPUT);
+		LabelHandle label = (LabelHandle) designHandle.findElement("l1"); //$NON-NLS-1$
 
-		assertEquals( "always", label.getStringProperty( StyleHandle.PAGE_BREAK_AFTER_PROP ) ); //$NON-NLS-1$
-		assertEquals( "always", label.getStringProperty( StyleHandle.PAGE_BREAK_BEFORE_PROP ) ); //$NON-NLS-1$
+		assertEquals("always", label.getStringProperty(StyleHandle.PAGE_BREAK_AFTER_PROP)); //$NON-NLS-1$
+		assertEquals("always", label.getStringProperty(StyleHandle.PAGE_BREAK_BEFORE_PROP)); //$NON-NLS-1$
 	}
 }

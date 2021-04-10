@@ -19,41 +19,39 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
  * Test case for StructListPropertyType.
  * 
  */
-public class StructListPropertyTypeTest extends PropertyTypeTestCase
-{
+public class StructListPropertyTypeTest extends PropertyTypeTestCase {
 
-	StructPropertyType type = new StructPropertyType( );
+	StructPropertyType type = new StructPropertyType();
 
-	ArrayList value = new ArrayList( );
+	ArrayList value = new ArrayList();
 
-	PropertyDefn propDefn = new PropertyDefnFake( );
+	PropertyDefn propDefn = new PropertyDefnFake();
 
 	/*
 	 * @see PropertyTypeTestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 
-		MetadataTestUtil.setIsList( propDefn, true );
+		MetadataTestUtil.setIsList(propDefn, true);
 
-		value.add( "One" ); //$NON-NLS-1$
-		value.add( "Two" ); //$NON-NLS-1$
-		value.add( "Three" ); //$NON-NLS-1$
+		value.add("One"); //$NON-NLS-1$
+		value.add("Two"); //$NON-NLS-1$
+		value.add("Three"); //$NON-NLS-1$
 
 		/*
 		 * prepareDouble = new Object[]{ null}; expectDouble = new double[]{0};
 		 * 
-		 * prepareInteger = new Object[]{ null, value}; expectInteger = new
-		 * int[]{ 0, 3 };
+		 * prepareInteger = new Object[]{ null, value}; expectInteger = new int[]{ 0, 3
+		 * };
 		 * 
 		 * prepareXml = new Object[]{ null}; expectXml = new String[]{null};
 		 * 
 		 * prepareString = new Object[]{ null, "nothing"}; expectString = new
 		 * String[]{null, null};
 		 * 
-		 * prepareValue = null; prepareInvalidValue = new Object[]{null};
-		 * expectValue = null;
+		 * prepareValue = null; prepareInvalidValue = new Object[]{null}; expectValue =
+		 * null;
 		 */
 
 	}
@@ -65,9 +63,8 @@ public class StructListPropertyTypeTest extends PropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
 	 * ()
 	 */
-	public void testGetTypeCode( )
-	{
-		assertEquals( PropertyType.STRUCT_TYPE, type.getTypeCode( ) );
+	public void testGetTypeCode() {
+		assertEquals(PropertyType.STRUCT_TYPE, type.getTypeCode());
 	}
 
 	/*
@@ -76,9 +73,8 @@ public class StructListPropertyTypeTest extends PropertyTypeTestCase
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
-	public void testGetName( )
-	{
-		assertEquals( PropertyType.STRUCT_TYPE_NAME, type.getName( ) );
+	public void testGetName() {
+		assertEquals(PropertyType.STRUCT_TYPE_NAME, type.getName());
 	}
 
 	/*
@@ -88,15 +84,11 @@ public class StructListPropertyTypeTest extends PropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
 	 * ()
 	 */
-	public void testValidateValue( ) throws PropertyValueException
-	{
-		try
-		{
-			type.validateValue( design, null, propDefn, "any-data" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
+	public void testValidateValue() throws PropertyValueException {
+		try {
+			type.validateValue(design, null, propDefn, "any-data"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
 		}
 	}
 
@@ -106,8 +98,7 @@ public class StructListPropertyTypeTest extends PropertyTypeTestCase
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testValidateInputString()
 	 */
-	public void testValidateInputString( ) throws PropertyValueException
-	{
+	public void testValidateInputString() throws PropertyValueException {
 	}
 
 	/*
@@ -117,55 +108,45 @@ public class StructListPropertyTypeTest extends PropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
 	 * ()
 	 */
-	public void testValidateXml( ) throws PropertyValueException
-	{
+	public void testValidateXml() throws PropertyValueException {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
 	 * ()
 	 */
-	public void testToDouble( )
-	{
-		assertEquals( 3.0d, type.toDouble( design, value ), 1 );
+	public void testToDouble() {
+		assertEquals(3.0d, type.toDouble(design, value), 1);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger ()
+	 */
+	public void testToInteger() {
+		assertEquals(3, type.toInteger(design, value));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 */
+	public void testToXml() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
 	 * ()
 	 */
-	public void testToInteger( )
-	{
-		assertEquals( 3, type.toInteger( design, value ) );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
-	 */
-	public void testToXml( )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
-	 * ()
-	 */
-	public void testToString( )
-	{
-		assertEquals(
-				"[One, Two, Three]", type.toString( design, propDefn, value ) ); //$NON-NLS-1$
+	public void testToString() {
+		assertEquals("[One, Two, Three]", type.toString(design, propDefn, value)); //$NON-NLS-1$
 	}
 
 	/*
@@ -174,33 +155,27 @@ public class StructListPropertyTypeTest extends PropertyTypeTestCase
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testToDisplayString()
 	 */
-	public void testToDisplayString( )
-	{
-		assertEquals(
-				"[One, Two, Three]", type.toDisplayString( design, propDefn, value ) ); //$NON-NLS-1$
+	public void testToDisplayString() {
+		assertEquals("[One, Two, Three]", type.toDisplayString(design, propDefn, value)); //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
+	 * ()
+	 */
+	public void testToNumber() {
+		assertEquals(3.0d, type.toNumber(design, value).doubleValue(), 1);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
-	 * ()
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean ()
 	 */
-	public void testToNumber( )
-	{
-		assertEquals( 3.0d, type.toNumber( design, value ).doubleValue( ), 1 );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
-	 * ()
-	 */
-	public void testToBoolean( )
-	{
+	public void testToBoolean() {
 	}
 
 }

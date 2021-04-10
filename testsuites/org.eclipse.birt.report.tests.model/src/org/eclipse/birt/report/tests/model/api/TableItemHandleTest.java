@@ -38,74 +38,68 @@ import com.ibm.icu.util.ULocale;
  * @see TableItem
  */
 
-public class TableItemHandleTest extends BaseTestCase
-{
+public class TableItemHandleTest extends BaseTestCase {
 
 	/**
 	 * @param name
 	 */
-	public TableItemHandleTest( String name )
-	{
-		super( name );
+	public TableItemHandleTest(String name) {
+		super(name);
 	}
 
-	public static Test suite( )
-	{
-		return new TestSuite( TableItemHandleTest.class );
+	public static Test suite() {
+		return new TestSuite(TableItemHandleTest.class);
 
 	}
 
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
-
 
 	/**
 	 * Test suppressduplicate in table row
+	 * 
 	 * @throws Exception
 	 */
-	public void testSuppressDuplicatesProp( ) throws Exception
-	{
-		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
-		designHandle = session.createDesign( );
-		design = (ReportDesign) designHandle.getModule( );
+	public void testSuppressDuplicatesProp() throws Exception {
+		SessionHandle session = DesignEngine.newSession(ULocale.ENGLISH);
+		designHandle = session.createDesign();
+		design = (ReportDesign) designHandle.getModule();
 
-		RowHandle row = designHandle.getElementFactory( ).newTableRow( 3 );
-		assertFalse( row.suppressDuplicates( ) );
-		row.setSuppressDuplicates( true );
-		assertTrue( row.suppressDuplicates( ) );
-		designHandle.getCommandStack( ).undo( );
-		assertFalse( row.suppressDuplicates( ) );
-		designHandle.getCommandStack( ).redo( );
-		assertTrue( row.suppressDuplicates( ) );
+		RowHandle row = designHandle.getElementFactory().newTableRow(3);
+		assertFalse(row.suppressDuplicates());
+		row.setSuppressDuplicates(true);
+		assertTrue(row.suppressDuplicates());
+		designHandle.getCommandStack().undo();
+		assertFalse(row.suppressDuplicates());
+		designHandle.getCommandStack().redo();
+		assertTrue(row.suppressDuplicates());
 
 	}
 
 	/**
 	 * Test ACLExpression and cascadeACL in table
+	 * 
 	 * @throws SemanticException
 	 */
-	public void testACL_table() throws SemanticException{
-		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
-		designHandle = session.createDesign( );
-		design = (ReportDesign) designHandle.getModule( );
-		
-		// table1 with label in header, detail and footer
-		TableHandle table1 = designHandle.getElementFactory( ).newTableItem(
-				"table1", 1, 1, 1, 1 ); 
-		designHandle.getBody( ).add( table1 );
-		
-		String acl="rule1";
-		table1.setACLExpression( acl );
-		table1.setCascadeACL( true );
-		
-		assertTrue(table1.cascadeACL( ));
-		assertEquals(acl,table1.getACLExpression( ));
-	}
+	public void testACL_table() throws SemanticException {
+		SessionHandle session = DesignEngine.newSession(ULocale.ENGLISH);
+		designHandle = session.createDesign();
+		design = (ReportDesign) designHandle.getModule();
 
+		// table1 with label in header, detail and footer
+		TableHandle table1 = designHandle.getElementFactory().newTableItem("table1", 1, 1, 1, 1);
+		designHandle.getBody().add(table1);
+
+		String acl = "rule1";
+		table1.setACLExpression(acl);
+		table1.setCascadeACL(true);
+
+		assertTrue(table1.cascadeACL());
+		assertEquals(acl, table1.getACLExpression());
+	}
 
 }

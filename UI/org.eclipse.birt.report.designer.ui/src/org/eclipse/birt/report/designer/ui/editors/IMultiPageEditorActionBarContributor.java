@@ -19,24 +19,21 @@ import org.eclipse.ui.forms.editor.IFormPage;
  * multi-page editors.
  */
 
-public interface IMultiPageEditorActionBarContributor extends
-		IEditorActionBarContributor
-{
+public interface IMultiPageEditorActionBarContributor extends IEditorActionBarContributor {
 
 	/**
 	 * Sets the active page of the the multi-page editor to be the given editor.
-	 * Redirect actions to the given editor if actions are not already being
-	 * sent to it.
+	 * Redirect actions to the given editor if actions are not already being sent to
+	 * it.
 	 * <p>
-	 * This method is called whenever the page changes. Subclasses must
-	 * implement this method to redirect actions to the given editor (if not
-	 * already directed to it).
+	 * This method is called whenever the page changes. Subclasses must implement
+	 * this method to redirect actions to the given editor (if not already directed
+	 * to it).
 	 * </p>
 	 * 
-	 * @param page
-	 *            the new active page
+	 * @param page the new active page
 	 */
 
-	public void setActivePage( IFormPage page );
+	public void setActivePage(IFormPage page);
 
 }

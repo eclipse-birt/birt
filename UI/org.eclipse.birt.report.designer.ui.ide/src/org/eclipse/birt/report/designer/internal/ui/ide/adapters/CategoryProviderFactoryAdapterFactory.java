@@ -21,32 +21,25 @@ import org.eclipse.core.runtime.IAdapterFactory;
 /**
  * CategoryProviderFactoryAdapterFactory
  */
-public class CategoryProviderFactoryAdapterFactory implements IAdapterFactory
-{
+public class CategoryProviderFactoryAdapterFactory implements IAdapterFactory {
 
-	static
-	{
+	static {
 		// fix bugzilla 224316, defer the class loading to this stage to avoid
 		// class loading circulation.
-		AttributesUtil.addCategory( AttributesUtil.EVENTHANDLER,
-				Messages.getString( "ReportPageGenerator.List.EventHandler" ), HandlerPage.class ); //$NON-NLS-1$
+		AttributesUtil.addCategory(AttributesUtil.EVENTHANDLER,
+				Messages.getString("ReportPageGenerator.List.EventHandler"), HandlerPage.class); //$NON-NLS-1$
 
 	}
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( adapterType == ICategoryProviderFactory.class )
-		{
-			return IDECategoryProviderFactory.getInstance( );
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adapterType == ICategoryProviderFactory.class) {
+			return IDECategoryProviderFactory.getInstance();
 		}
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			ICategoryProviderFactory.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { ICategoryProviderFactory.class };
 	}
 
 }

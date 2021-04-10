@@ -22,7 +22,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 
 /**
- * XlsEmitter is the leaf class for implementing the ExcelEmitter with HSSFWorkbook.
+ * XlsEmitter is the leaf class for implementing the ExcelEmitter with
+ * HSSFWorkbook.
+ * 
  * @author Jim Talbut
  *
  */
@@ -34,7 +36,7 @@ public class XlsEmitter extends ExcelEmitter {
 		super(StyleManagerHUtils.getFactory());
 		log.debug("Constructed XlsEmitter");
 	}
-	
+
 	public String getOutputFormat() {
 		return "xls";
 	}
@@ -42,14 +44,14 @@ public class XlsEmitter extends ExcelEmitter {
 	protected Workbook createWorkbook() {
 		return new HSSFWorkbook();
 	}
-	
-	protected Workbook openWorkbook( File templateFile ) throws IOException {
-		InputStream stream = new FileInputStream( templateFile );
+
+	protected Workbook openWorkbook(File templateFile) throws IOException {
+		InputStream stream = new FileInputStream(templateFile);
 		try {
-			return new HSSFWorkbook( stream );
+			return new HSSFWorkbook(stream);
 		} finally {
 			stream.close();
 		}
 	}
-	
+
 }

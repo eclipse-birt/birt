@@ -11,24 +11,22 @@
 
 package org.eclipse.birt.report.engine.dataextraction;
 
-
 /**
  * Extends Data Extraction options for CSV format
  * 
  */
-public interface ICSVDataExtractionOption extends ICommonDataExtractionOption
-{
+public interface ICSVDataExtractionOption extends ICommonDataExtractionOption {
 	public static final String SEPARATOR_PIPE = "|"; //$NON-NLS-1$
 	public static final String SEPARATOR_COMMA = ","; //$NON-NLS-1$
 	public static final String SEPARATOR_COLON = ":"; //$NON-NLS-1$
 	public static final String SEPARATOR_SEMICOLON = ";"; //$NON-NLS-1$
 	public static final String SEPARATOR_TAB = "\t"; //$NON-NLS-1$
-	
+
 	/**
 	 * the separator
 	 */
 	public static final String OUTPUT_SEPARATOR = "Separator"; //$NON-NLS-1$
-	
+
 	/**
 	 * the option checks if using CR + LF as the line separator.
 	 */
@@ -39,16 +37,16 @@ public interface ICSVDataExtractionOption extends ICommonDataExtractionOption
 	 * 
 	 * @param sep
 	 */
-	void setSeparator( String sep );
+	void setSeparator(String sep);
 
 	/**
 	 * Returns the output separator
 	 * 
 	 * @return String
 	 */
-	String getSeparator( );
-	
-	boolean getAddCR( );
+	String getSeparator();
 
-	void setAddCR( boolean addCR );
+	boolean getAddCR();
+
+	void setAddCR(boolean addCR);
 }

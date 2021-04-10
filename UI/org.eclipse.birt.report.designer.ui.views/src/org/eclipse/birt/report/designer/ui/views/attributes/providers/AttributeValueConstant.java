@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * 
  */
 
-public class AttributeValueConstant
-{
+public class AttributeValueConstant {
 
 	/**
 	 * The value defines characters with bold style.

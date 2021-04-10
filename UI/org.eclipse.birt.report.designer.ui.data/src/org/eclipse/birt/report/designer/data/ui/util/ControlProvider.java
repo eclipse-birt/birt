@@ -26,8 +26,7 @@ import org.eclipse.swt.widgets.Text;
  * 
  */
 
-public class ControlProvider
-{
+public class ControlProvider {
 
 	/**
 	 * 
@@ -35,10 +34,9 @@ public class ControlProvider
 	 * @param text
 	 * @return
 	 */
-	public static Label createLabel( Composite parent, String text )
-	{
-		Label lb = new Label( parent, SWT.NONE );
-		lb.setText( Utility.getNonNullString( text ) );
+	public static Label createLabel(Composite parent, String text) {
+		Label lb = new Label(parent, SWT.NONE);
+		lb.setText(Utility.getNonNullString(text));
 
 		return lb;
 	}
@@ -49,10 +47,9 @@ public class ControlProvider
 	 * @param text
 	 * @return
 	 */
-	public static Text createText( Composite parent, String text )
-	{
-		final Text tx = new Text( parent, SWT.SINGLE | SWT.BORDER );
-		tx.setText( Utility.getNonNullString( text ) );
+	public static Text createText(Composite parent, String text) {
+		final Text tx = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		tx.setText(Utility.getNonNullString(text));
 
 		return tx;
 	}
@@ -63,9 +60,8 @@ public class ControlProvider
 	 * @param style
 	 * @return
 	 */
-	public static Combo createCombo( Composite parent, int style )
-	{
-		Combo cb = new Combo( parent, style );
+	public static Combo createCombo(Composite parent, int style) {
+		Combo cb = new Combo(parent, style);
 
 		return cb;
 	}
@@ -77,12 +73,10 @@ public class ControlProvider
 	 * @param listener
 	 * @return
 	 */
-	public static Button createButton( Composite parent, int style,
-			SelectionListener listener )
-	{
-		Button bt = new Button( parent, style );
-		UIUtil.setExpressionButtonImage( bt );
-		bt.addSelectionListener( listener );
+	public static Button createButton(Composite parent, int style, SelectionListener listener) {
+		Button bt = new Button(parent, style);
+		UIUtil.setExpressionButtonImage(bt);
+		bt.addSelectionListener(listener);
 
 		return bt;
 	}
@@ -92,14 +86,13 @@ public class ControlProvider
 	 * @param parent
 	 * @return
 	 */
-	public static Composite getDefaultComposite( Composite parent )
-	{
-		Composite composite = new Composite( parent, SWT.NONE );
-		composite.setLayoutData( getGridDataWithHSpan( 2 ) );
-		GridLayout layout = new GridLayout( 2, false );
+	public static Composite getDefaultComposite(Composite parent) {
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setLayoutData(getGridDataWithHSpan(2));
+		GridLayout layout = new GridLayout(2, false);
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
-		composite.setLayout( layout );
+		composite.setLayout(layout);
 
 		return composite;
 	}
@@ -109,9 +102,8 @@ public class ControlProvider
 	 * @param hSpan
 	 * @return
 	 */
-	public static GridData getGridDataWithHSpan( int hSpan )
-	{
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+	public static GridData getGridDataWithHSpan(int hSpan) {
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = hSpan;
 
 		return gd;

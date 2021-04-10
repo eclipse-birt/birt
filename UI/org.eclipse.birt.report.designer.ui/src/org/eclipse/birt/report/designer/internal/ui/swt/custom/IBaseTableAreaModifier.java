@@ -15,7 +15,6 @@ package org.eclipse.birt.report.designer.internal.ui.swt.custom;
  * 
  */
 
-public interface IBaseTableAreaModifier
-{
-	public boolean editItem( Object element );
+public interface IBaseTableAreaModifier {
+	public boolean editItem(Object element);
 }

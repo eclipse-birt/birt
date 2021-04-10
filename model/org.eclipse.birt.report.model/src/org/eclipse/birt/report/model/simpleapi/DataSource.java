@@ -17,51 +17,39 @@ import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSource;
 
-public class DataSource implements IDataSource
-{
+public class DataSource implements IDataSource {
 
 	private DataSourceHandle dataSource;
 
-	public DataSource( DataSourceHandle dataSource )
-	{
+	public DataSource(DataSourceHandle dataSource) {
 		this.dataSource = dataSource;
 	}
 
-	public String getExtensionID( )
-	{
-		if ( dataSource instanceof OdaDataSourceHandle )
-			return ( (OdaDataSourceHandle) dataSource ).getExtensionID( );
+	public String getExtensionID() {
+		if (dataSource instanceof OdaDataSourceHandle)
+			return ((OdaDataSourceHandle) dataSource).getExtensionID();
 		return null;
 	}
 
-	public String getPrivateDriverProperty( String name )
-	{
-		if ( dataSource instanceof OdaDataSourceHandle )
-			return ( (OdaDataSourceHandle) dataSource )
-					.getPrivateDriverProperty( name );
+	public String getPrivateDriverProperty(String name) {
+		if (dataSource instanceof OdaDataSourceHandle)
+			return ((OdaDataSourceHandle) dataSource).getPrivateDriverProperty(name);
 		return null;
 	}
 
-	public void setPrivateDriverProperty( String name, String value )
-			throws SemanticException
-	{
-		if ( dataSource instanceof OdaDataSourceHandle )
-		{
-			ActivityStack cmdStack = dataSource.getModule( ).getActivityStack( );
+	public void setPrivateDriverProperty(String name, String value) throws SemanticException {
+		if (dataSource instanceof OdaDataSourceHandle) {
+			ActivityStack cmdStack = dataSource.getModule().getActivityStack();
 
-			cmdStack.startNonUndoableTrans( null );
-			try
-			{
-				( (OdaDataSourceHandle) dataSource ).setPrivateDriverProperty(
-						name, value );
-			}
-			catch ( SemanticException e )
-			{
-				cmdStack.rollback( );
+			cmdStack.startNonUndoableTrans(null);
+			try {
+				((OdaDataSourceHandle) dataSource).setPrivateDriverProperty(name, value);
+			} catch (SemanticException e) {
+				cmdStack.rollback();
 				throw e;
 			}
 
-			cmdStack.commit( );
+			cmdStack.commit();
 
 		}
 	}

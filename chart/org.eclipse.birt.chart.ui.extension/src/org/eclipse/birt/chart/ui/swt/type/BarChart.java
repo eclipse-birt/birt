@@ -16,8 +16,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 /**
  * BarChart
  */
-public class BarChart extends AbstractBarChart
-{
+public class BarChart extends AbstractBarChart {
 
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
@@ -27,8 +26,7 @@ public class BarChart extends AbstractBarChart
 	/**
 	 * Constructor of the class.
 	 */
-	public BarChart( )
-	{
-		super( "Bar", TYPE_LITERAL, RiserType.RECTANGLE_LITERAL ); //$NON-NLS-1$
+	public BarChart() {
+		super("Bar", TYPE_LITERAL, RiserType.RECTANGLE_LITERAL); //$NON-NLS-1$
 	}
 }

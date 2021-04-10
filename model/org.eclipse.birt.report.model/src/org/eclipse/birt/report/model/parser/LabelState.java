@@ -21,8 +21,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class LabelState extends ReportItemState
-{
+public class LabelState extends ReportItemState {
 
 	/**
 	 * The label being created.
@@ -34,48 +33,39 @@ public class LabelState extends ReportItemState
 	 * Constructs the label state with the design parser handler, the container
 	 * element and the container slot of the label.
 	 * 
-	 * @param handler
-	 *            the module parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the module parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public LabelState( ModuleParserHandler handler, DesignElement theContainer,
-			int slot )
-	{
-		super( handler, theContainer, slot );
+	public LabelState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/**
-	 * Constructs label state with the design parser handler, the container
-	 * element and the container property name of the report element.
+	 * Constructs label state with the design parser handler, the container element
+	 * and the container property name of the report element.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param prop
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param prop         the slot in which this element appears
 	 */
 
-	public LabelState( ModuleParserHandler handler, DesignElement theContainer,
-			String prop )
-	{
-		super( handler, theContainer, prop );
+	public LabelState(ModuleParserHandler handler, DesignElement theContainer, String prop) {
+		super(handler, theContainer, prop);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new Label( );
-		initElement( attrs );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new Label();
+		initElement(attrs);
 	}
 
 	/*
@@ -84,8 +74,7 @@ public class LabelState extends ReportItemState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 

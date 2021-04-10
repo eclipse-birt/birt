@@ -23,36 +23,31 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
  * <dt><strong>Namespace</strong></dt>
  * <dd>Namespace is required for an include library.</dd>
  * </dl>
- *  
+ * 
  */
 
-public class IncludedLibraryHandle extends StructureHandle
-{
+public class IncludedLibraryHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of the included library.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for the included library list of one property
-	 * @param index
-	 *            the position of this included library in the list
+	 * @param valueHandle the value handle for the included library list of one
+	 *                    property
+	 * @param index       the position of this included library in the list
 	 */
 
-	public IncludedLibraryHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public IncludedLibraryHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
-    
 	/**
 	 * Gets the file name of the include library.
 	 * 
 	 * @return the file name of the include library
 	 */
 
-	public String getFileName( )
-	{
-        return getStringProperty( IncludedLibrary.FILE_NAME_MEMBER );
+	public String getFileName() {
+		return getStringProperty(IncludedLibrary.FILE_NAME_MEMBER);
 	}
 
 	/**
@@ -62,8 +57,7 @@ public class IncludedLibraryHandle extends StructureHandle
 	 * @return the namespace of the included library.
 	 */
 
-	public String getNamespace( )
-	{
-		return getStringProperty( IncludedLibrary.NAMESPACE_MEMEBR );
+	public String getNamespace() {
+		return getStringProperty(IncludedLibrary.NAMESPACE_MEMEBR);
 	}
 }

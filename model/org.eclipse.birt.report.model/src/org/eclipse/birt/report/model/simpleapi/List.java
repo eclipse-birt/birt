@@ -14,12 +14,10 @@ package org.eclipse.birt.report.model.simpleapi;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IList;
 
-public class List extends Listing implements IList
-{
+public class List extends Listing implements IList {
 
-	public List( ListHandle list )
-	{
-		super( list );
+	public List(ListHandle list) {
+		super(list);
 	}
 
 }

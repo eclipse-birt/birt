@@ -19,19 +19,15 @@ import org.eclipse.birt.report.model.api.scripts.ClassInfo;
 /**
  * CrosstabClassInfo
  */
-public class CrosstabClassInfo extends ClassInfo
-{
+public class CrosstabClassInfo extends ClassInfo {
 
-	public CrosstabClassInfo( Class<?> clazz )
-	{
-		super( clazz );
+	public CrosstabClassInfo(Class<?> clazz) {
+		super(clazz);
 	}
 
-	protected IMethodInfo createMethodInfo( Method classMethod )
-	{
-		CrosstabMethodInfo info = new CrosstabMethodInfo( classMethod );
-		if ( !info.isDeprecated( ) )
-		{
+	protected IMethodInfo createMethodInfo(Method classMethod) {
+		CrosstabMethodInfo info = new CrosstabMethodInfo(classMethod);
+		if (!info.isDeprecated()) {
 			return info;
 		}
 		return null;

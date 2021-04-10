@@ -19,31 +19,22 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * Implements of MasterPage
  */
 
+public class MasterPage extends ReportElement implements IMasterPage {
 
-public class MasterPage extends ReportElement implements IMasterPage
-{
-
-	public MasterPage( MasterPageHandle handle )
-	{
-		super( handle );
+	public MasterPage(MasterPageHandle handle) {
+		super(handle);
 	}
 
-	public MasterPage(
-			org.eclipse.birt.report.model.api.simpleapi.IMasterPage reportElementImpl )
-	{
-		super( reportElementImpl );
+	public MasterPage(org.eclipse.birt.report.model.api.simpleapi.IMasterPage reportElementImpl) {
+		super(reportElementImpl);
 	}
 
-	public String getPageType( )
-	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.IMasterPage) designElementImpl )
-				.getPageType( );
+	public String getPageType() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.IMasterPage) designElementImpl).getPageType();
 	}
 
-	public void setPageType( String pageType ) throws SemanticException
-	{
-		( (org.eclipse.birt.report.model.api.simpleapi.IMasterPage) designElementImpl )
-				.setPageType( pageType );
+	public void setPageType(String pageType) throws SemanticException {
+		((org.eclipse.birt.report.model.api.simpleapi.IMasterPage) designElementImpl).setPageType(pageType);
 	}
 
 }

@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.data.engine.core.DataException;
@@ -22,27 +22,24 @@ import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 /**
  * Class to implement an event sink for dataSet.onFetch event
  */
-public class OnFetchScriptHelper implements IResultObjectEvent
-{
+public class OnFetchScriptHelper implements IResultObjectEvent {
 	private DataSetRuntime dataSet;
-	
-	public OnFetchScriptHelper( DataSetRuntime dataSet )
-	{
+
+	public OnFetchScriptHelper(DataSetRuntime dataSet) {
 		this.dataSet = dataSet;
 	}
-	
+
 	/**
 	 * @see org.eclipse.birt.data.engine.odi.IResultObjectEvent#process(org.eclipse.birt.data.engine.odi.IResultObject)
 	 */
-	public boolean process(IResultObject resultObject, int rowIndex) throws DataException
-	{
+	public boolean process(IResultObject resultObject, int rowIndex) throws DataException {
 		IResultIterator resultSet = dataSet.getResultSet();
 		// bind new object to row script object
-		dataSet.setRowObject( resultObject, true );
-		dataSet.setCurrentRowIndex( rowIndex );
+		dataSet.setRowObject(resultObject, true);
+		dataSet.setCurrentRowIndex(rowIndex);
 		dataSet.onFetch();
-		if( resultSet!= null )
-			dataSet.setResultSet( resultSet, true);
+		if (resultSet != null)
+			dataSet.setResultSet(resultSet, true);
 		return true;
 	}
 }

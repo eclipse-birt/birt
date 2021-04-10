@@ -31,14 +31,13 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * 
  */
 
-public class CascadingParameterTypeValidator extends AbstractElementValidator
-{
+public class CascadingParameterTypeValidator extends AbstractElementValidator {
 
 	/**
 	 * Singleton instance.
 	 */
 
-	private final static CascadingParameterTypeValidator instance = new CascadingParameterTypeValidator( );
+	private final static CascadingParameterTypeValidator instance = new CascadingParameterTypeValidator();
 
 	/**
 	 * Returns the instance of this validator.
@@ -46,45 +45,33 @@ public class CascadingParameterTypeValidator extends AbstractElementValidator
 	 * @return the instance of this validator.
 	 */
 
-	public static CascadingParameterTypeValidator getInstance( )
-	{
+	public static CascadingParameterTypeValidator getInstance() {
 		return instance;
 	}
 
 	/**
 	 * Validates whether the type of the parameter is valid.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the parameter to
+	 * @param module  the module
+	 * @param element the parameter to
 	 * 
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
-	{
-		if ( !( element instanceof ScalarParameter ) )
-		{
-			return Collections.emptyList( );
+	public List<SemanticException> validate(Module module, DesignElement element) {
+		if (!(element instanceof ScalarParameter)) {
+			return Collections.emptyList();
 		}
 
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+		List<SemanticException> list = new ArrayList<SemanticException>();
 
 		// Cascading parameter should be typed "dynamic"
 
 		ScalarParameter param = (ScalarParameter) element;
-		if ( param.getContainer( ) instanceof CascadingParameterGroup
-				&& !DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
-						.equalsIgnoreCase( param.getStringProperty( module,
-								IAbstractScalarParameterModel.VALUE_TYPE_PROP ) ) )
-		{
-			list
-					.add( new SemanticError(
-							element,
-							SemanticError.DESIGN_EXCEPTION_INVALID_SCALAR_PARAMETER_TYPE ) );
+		if (param.getContainer() instanceof CascadingParameterGroup && !DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC
+				.equalsIgnoreCase(param.getStringProperty(module, IAbstractScalarParameterModel.VALUE_TYPE_PROP))) {
+			list.add(new SemanticError(element, SemanticError.DESIGN_EXCEPTION_INVALID_SCALAR_PARAMETER_TYPE));
 		}
 
 		return list;

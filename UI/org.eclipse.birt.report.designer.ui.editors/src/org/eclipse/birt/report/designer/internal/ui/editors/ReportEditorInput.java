@@ -31,11 +31,7 @@ import org.eclipse.ui.IPersistableElement;
  * Editor input wrapper for report input is not in workspace.
  */
 
-public class ReportEditorInput implements
-		IStorageEditorInput,
-		IPathEditorInput,
-		IPersistableElement
-{
+public class ReportEditorInput implements IStorageEditorInput, IPathEditorInput, IPersistableElement {
 
 	private File file = null;
 
@@ -44,9 +40,8 @@ public class ReportEditorInput implements
 	 * 
 	 * @param input
 	 */
-	public ReportEditorInput( IPathEditorInput input )
-	{
-		this( input.getPath( ).toFile( ) );
+	public ReportEditorInput(IPathEditorInput input) {
+		this(input.getPath().toFile());
 	}
 
 	/**
@@ -54,19 +49,19 @@ public class ReportEditorInput implements
 	 * 
 	 * @param file
 	 */
-	public ReportEditorInput( File file )
-	{
+	public ReportEditorInput(File file) {
 		this.file = file;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.IStorageEditorInput#getStorage()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.IStorageEditorInput#
+	 * getStorage()
 	 */
-	public IStorage getStorage( ) throws CoreException
-	{
-		return new ReportStorage( );
+	public IStorage getStorage() throws CoreException {
+		return new ReportStorage();
 	}
 
 	/*
@@ -74,9 +69,8 @@ public class ReportEditorInput implements
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#exists()
 	 */
-	public boolean exists( )
-	{
-		return file.exists( );
+	public boolean exists() {
+		return file.exists();
 	}
 
 	/*
@@ -84,8 +78,7 @@ public class ReportEditorInput implements
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
 	 */
-	public ImageDescriptor getImageDescriptor( )
-	{
+	public ImageDescriptor getImageDescriptor() {
 		return null;
 	}
 
@@ -94,9 +87,8 @@ public class ReportEditorInput implements
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#getName()
 	 */
-	public String getName( )
-	{
-		return file.getName( );
+	public String getName() {
+		return file.getName();
 	}
 
 	/*
@@ -104,8 +96,7 @@ public class ReportEditorInput implements
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#getPersistable()
 	 */
-	public IPersistableElement getPersistable( )
-	{
+	public IPersistableElement getPersistable() {
 		return this;
 	}
 
@@ -114,9 +105,8 @@ public class ReportEditorInput implements
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#getToolTipText()
 	 */
-	public String getToolTipText( )
-	{
-		return file.getAbsolutePath( );
+	public String getToolTipText() {
+		return file.getAbsolutePath();
 	}
 
 	/*
@@ -124,9 +114,8 @@ public class ReportEditorInput implements
 	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class adapter )
-	{
-		return Platform.getAdapterManager( ).getAdapter( this, adapter );
+	public Object getAdapter(Class adapter) {
+		return Platform.getAdapterManager().getAdapter(this, adapter);
 	}
 
 	/*
@@ -134,76 +123,62 @@ public class ReportEditorInput implements
 	 * 
 	 * @see org.eclipse.ui.IPathEditorInput#getPath()
 	 */
-	public IPath getPath( )
-	{
-		return new Path( file.getAbsolutePath( ) );
+	public IPath getPath() {
+		return new Path(file.getAbsolutePath());
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on Object.
 	 * 
 	 * The <code>ReportEditorInput</code> implementation of this <code>Object</code>
-	 * method bases the equality of two <code>ReportEditorInput</code> objects
-	 * on the equality of their underlying file.
+	 * method bases the equality of two <code>ReportEditorInput</code> objects on
+	 * the equality of their underlying file.
 	 */
-	public boolean equals( Object obj )
-	{
-		if ( this == obj )
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		if ( obj instanceof IPathEditorInput )
-		{
-			obj = new ReportEditorInput( (IPathEditorInput) obj );
+		if (obj instanceof IPathEditorInput) {
+			obj = new ReportEditorInput((IPathEditorInput) obj);
 		}
-		if ( !( obj instanceof ReportEditorInput ) )
+		if (!(obj instanceof ReportEditorInput))
 			return false;
-		return file.equals( ( (ReportEditorInput) obj ).file );
-	}
-	
-	@Override
-	public int hashCode( )
-	{
-		return file.hashCode( );
+		return file.equals(((ReportEditorInput) obj).file);
 	}
 
-	public File getFile( )
-	{
+	@Override
+	public int hashCode() {
+		return file.hashCode();
+	}
+
+	public File getFile() {
 		return this.file;
 	}
 
-	private class ReportStorage implements IStorage
-	{
+	private class ReportStorage implements IStorage {
 
-		public InputStream getContents( ) throws CoreException
-		{
-			try
-			{
-				return new FileInputStream( file );
-			}
-			catch ( FileNotFoundException e )
-			{
-				ExceptionUtil.handle( e );
+		public InputStream getContents() throws CoreException {
+			try {
+				return new FileInputStream(file);
+			} catch (FileNotFoundException e) {
+				ExceptionUtil.handle(e);
 				return null;
 			}
 		}
 
-		public IPath getFullPath( )
-		{
-			return ReportEditorInput.this.getPath( );
+		public IPath getFullPath() {
+			return ReportEditorInput.this.getPath();
 		}
 
-		public String getName( )
-		{
-			return ReportEditorInput.this.getName( );
+		public String getName() {
+			return ReportEditorInput.this.getName();
 		}
 
-		public boolean isReadOnly( )
-		{
-			return !file.canWrite( );
+		public boolean isReadOnly() {
+			return !file.canWrite();
 		}
 
-		public Object getAdapter( Class adapter )
-		{
-			return ReportEditorInput.this.getAdapter( adapter );
+		public Object getAdapter(Class adapter) {
+			return ReportEditorInput.this.getAdapter(adapter);
 		}
 
 	}
@@ -213,8 +188,7 @@ public class ReportEditorInput implements
 	 * 
 	 * @see org.eclipse.ui.IPersistableElement#getFactoryId()
 	 */
-	public String getFactoryId( )
-	{
+	public String getFactoryId() {
 		return ReportEditorInputFactory.ID;
 	}
 
@@ -223,8 +197,7 @@ public class ReportEditorInput implements
 	 * 
 	 * @see org.eclipse.ui.IPersistable#saveState(org.eclipse.ui.IMemento)
 	 */
-	public void saveState( IMemento memento )
-	{
-		ReportEditorInputFactory.saveState( memento, this );
+	public void saveState(IMemento memento) {
+		ReportEditorInputFactory.saveState(memento, this);
 	}
 }

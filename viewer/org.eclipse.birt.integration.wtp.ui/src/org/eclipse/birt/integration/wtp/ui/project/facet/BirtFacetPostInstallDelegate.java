@@ -22,10 +22,8 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
  * Delegate class for invoke "POST_INSTALL" event
  * 
  */
-public final class BirtFacetPostInstallDelegate
-		extends
-			J2EEFacetInstallDelegate implements IDelegate, IBirtFacetConstants
-{
+public final class BirtFacetPostInstallDelegate extends J2EEFacetInstallDelegate
+		implements IDelegate, IBirtFacetConstants {
 
 	/**
 	 * Invoke "POST_INSTALL" event for project facet
@@ -34,9 +32,8 @@ public final class BirtFacetPostInstallDelegate
 	 *      org.eclipse.wst.common.project.facet.core.IProjectFacetVersion,
 	 *      java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void execute( IProject project, IProjectFacetVersion fv,
-			Object config, IProgressMonitor monitor ) throws CoreException
-	{
+	public void execute(IProject project, IProjectFacetVersion fv, Object config, IProgressMonitor monitor)
+			throws CoreException {
 
 	}
 

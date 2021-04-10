@@ -20,35 +20,23 @@ import org.eclipse.swt.graphics.Font;
  *  
  */
 
-public class FontManagerTest extends TestCase
-{
+public class FontManagerTest extends TestCase {
 
 	/**
 	 * Test case for test getFont() method
 	 */
-	public final void testGetFont( )
-	{
-		Font font1 = FontManager.getFont( DesignChoiceConstants.FONT_FAMILY_SERIF,
-				9,
-				0 );
-		Font font2 = FontManager.getFont( DesignChoiceConstants.FONT_FAMILY_SERIF,
-				9,
-				0 );
-		assertTrue( font1 == font2 );
+	public final void testGetFont() {
+		Font font1 = FontManager.getFont(DesignChoiceConstants.FONT_FAMILY_SERIF, 9, 0);
+		Font font2 = FontManager.getFont(DesignChoiceConstants.FONT_FAMILY_SERIF, 9, 0);
+		assertTrue(font1 == font2);
 
-		font2 = FontManager.getFont( DesignChoiceConstants.FONT_FAMILY_SANS_SERIF,
-				9,
-				0 );
-		assertTrue( !font1.equals( font2 ) );
+		font2 = FontManager.getFont(DesignChoiceConstants.FONT_FAMILY_SANS_SERIF, 9, 0);
+		assertTrue(!font1.equals(font2));
 
-		font2 = FontManager.getFont( DesignChoiceConstants.FONT_FAMILY_SERIF,
-				10,
-				0 );
-		assertTrue( !font1.equals( font2 ) );
+		font2 = FontManager.getFont(DesignChoiceConstants.FONT_FAMILY_SERIF, 10, 0);
+		assertTrue(!font1.equals(font2));
 
-		font2 = FontManager.getFont( DesignChoiceConstants.FONT_FAMILY_SERIF,
-				9,
-				1 );
-		assertTrue( !font1.equals( font2 ) );
+		font2 = FontManager.getFont(DesignChoiceConstants.FONT_FAMILY_SERIF, 9, 1);
+		assertTrue(!font1.equals(font2));
 	}
 }

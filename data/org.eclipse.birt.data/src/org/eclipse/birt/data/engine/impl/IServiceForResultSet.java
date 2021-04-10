@@ -25,50 +25,49 @@ import org.mozilla.javascript.Scriptable;
  * Wrap the service which is provided for IResultIterator to make
  * IResultIterator knows only these information it needes.
  */
-interface IServiceForResultSet
-{
+interface IServiceForResultSet {
 	/**
 	 * @return
 	 */
-	public DataEngineSession getSession( );
-	
+	public DataEngineSession getSession();
+
 	/**
 	 * @return queryResults
 	 */
-	public IQueryResults getQueryResults( );
+	public IQueryResults getQueryResults();
 
 	/**
 	 * @return base query definition
 	 */
-	public IBaseQueryDefinition getQueryDefn( );
-	
+	public IBaseQueryDefinition getQueryDefn();
+
 	/**
 	 * @param exprName
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public IBaseExpression getBindingExpr( String exprName ) throws DataException;
-	
+	public IBaseExpression getBindingExpr(String exprName) throws DataException;
+
 	/**
 	 * @param exprName
 	 * @return
 	 */
-	public IScriptExpression getAutoBindingExpr( String exprName );
-	
+	public IScriptExpression getAutoBindingExpr(String exprName);
+
 	/**
 	 * the element is GroupBindingColumn
 	 * 
 	 * @return
 	 */
-	public List getAllBindingExprs( );
-	
+	public List getAllBindingExprs();
+
 	/**
 	 * map of bound column name with associated expression
 	 * 
 	 * @return
 	 */
-	public Map getAllAutoBindingExprs( );
-	
+	public Map getAllAutoBindingExprs();
+
 	/**
 	 * @param iterator
 	 * @param subQueryName
@@ -76,7 +75,7 @@ interface IServiceForResultSet
 	 * @return the query results of specified sub query
 	 * @throws DataException
 	 */
-	public IQueryResults execSubquery( IResultIterator iterator,
-			String subQueryName, Scriptable subScope ) throws DataException;
-	
+	public IQueryResults execSubquery(IResultIterator iterator, String subQueryName, Scriptable subScope)
+			throws DataException;
+
 }

@@ -31,24 +31,21 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 
-abstract class PropertyHandleInputDialog extends StatusDialog
-{
+abstract class PropertyHandleInputDialog extends StatusDialog {
 
 	private Object structureOrHandle = null;
 
-	private static final String NEW_ACTION = Messages.getString( "PropertyHandleInputDialog.Action.New" );//$NON-NLS-1$
-	private static final String EDIT_ACTION = Messages.getString( "PropertyHandleInputDialog.Action.Edit" );//$NON-NLS-1$
+	private static final String NEW_ACTION = Messages.getString("PropertyHandleInputDialog.Action.New");//$NON-NLS-1$
+	private static final String EDIT_ACTION = Messages.getString("PropertyHandleInputDialog.Action.Edit");//$NON-NLS-1$
 
-	protected PropertyHandleInputDialog( Object structureOrHandle )
-	{
-		super( PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( ) );
-		setHelpAvailable( false );
-		
+	protected PropertyHandleInputDialog(Object structureOrHandle) {
+		super(PlatformUI.getWorkbench().getDisplay().getActiveShell());
+		setHelpAvailable(false);
+
 		this.structureOrHandle = structureOrHandle;
 	}
 
-	protected boolean isResizable( )
-	{
+	protected boolean isResizable() {
 		return true;
 	}
 
@@ -57,50 +54,46 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 	 * 
 	 * @see org.eclipse.jface.window.Window#create()
 	 */
-	public void create( )
-	{
-		super.create( );
+	public void create() {
+		super.create();
 
-		Point pt = getShell( ).computeSize( -1, -1 );
-		pt.x = Math.max( pt.x, 520 );
-		pt.y = Math.max( pt.y, 250 );
-		getShell( ).setSize( pt );
-		getShell( ).setText( getTitle( ) );
+		Point pt = getShell().computeSize(-1, -1);
+		pt.x = Math.max(pt.x, 520);
+		pt.y = Math.max(pt.y, 250);
+		getShell().setSize(pt);
+		getShell().setText(getTitle());
 	}
 
-	protected String getTitle( )
-	{
-		return structureOrHandle instanceof Structure ? NEW_ACTION
-				: EDIT_ACTION;
+	protected String getTitle() {
+		return structureOrHandle instanceof Structure ? NEW_ACTION : EDIT_ACTION;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
-		Composite composite = (Composite) super.createDialogArea( parent );
-		GridLayout layout = new GridLayout( 3, false );
+	protected Control createDialogArea(Composite parent) {
+		Composite composite = (Composite) super.createDialogArea(parent);
+		GridLayout layout = new GridLayout(3, false);
 		layout.marginHeight = 10;
 		layout.marginWidth = 10;
-		composite.setLayout( layout );
+		composite.setLayout(layout);
 
-		createCustomControls( composite );
-		validateSyntax( );
+		createCustomControls(composite);
+		validateSyntax();
 
-		addListeners(  );
-		
-		setSystemHelp( composite );
+		addListeners();
+
+		setSystemHelp(composite);
 
 		return composite;
 	}
 
-	protected void setSystemHelp( Composite composite )
-	{
-		Utility.setSystemHelp( composite,
-				IHelpConstants.CONEXT_ID_PROPERTYHANDLE_DIALOG );
+	protected void setSystemHelp(Composite composite) {
+		Utility.setSystemHelp(composite, IHelpConstants.CONEXT_ID_PROPERTYHANDLE_DIALOG);
 	}
 
 	/**
@@ -108,14 +101,13 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 	 * 
 	 * @param parent
 	 */
-	protected abstract void createCustomControls( Composite parent );
+	protected abstract void createCustomControls(Composite parent);
 
-	protected void validateSyntax( )
-	{
-		IStatus status = validateSyntax( structureOrHandle );
+	protected void validateSyntax() {
+		IStatus status = validateSyntax(structureOrHandle);
 
-		if ( status != null )
-			updateStatus( status );
+		if (status != null)
+			updateStatus(status);
 	}
 
 	/**
@@ -124,17 +116,15 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 	 * @param structureOrHandle
 	 * @return
 	 */
-	protected abstract IStatus validateSyntax( Object structureOrHandle );
-	
-	private void addListeners( )
-	{
-		getShell( ).addListener( SWT.Close, new Listener( ) {
+	protected abstract IStatus validateSyntax(Object structureOrHandle);
 
-			public void handleEvent( Event event )
-			{
-				rollback( );
+	private void addListeners() {
+		getShell().addListener(SWT.Close, new Listener() {
+
+			public void handleEvent(Event event) {
+				rollback();
 			}
-		} );
+		});
 	}
 
 	/*
@@ -142,22 +132,20 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	protected void okPressed( )
-	{
-		if ( validateSemantics( ) )
-			super.okPressed( );
+	protected void okPressed() {
+		if (validateSemantics())
+			super.okPressed();
 	}
 
-	protected boolean validateSemantics( )
-	{
-		IStatus status = validateSemantics( structureOrHandle );
+	protected boolean validateSemantics() {
+		IStatus status = validateSemantics(structureOrHandle);
 
-		if ( status == null )
+		if (status == null)
 			return true;
 
-		updateStatus( status );
+		updateStatus(status);
 
-		return status.getSeverity( ) == IStatus.OK;
+		return status.getSeverity() == IStatus.OK;
 	}
 
 	/**
@@ -166,39 +154,36 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 	 * @param structureOrHandle
 	 * @return
 	 */
-	protected abstract IStatus validateSemantics( Object structureOrHandle );
+	protected abstract IStatus validateSemantics(Object structureOrHandle);
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#cancelPressed()
 	 */
-	protected void cancelPressed( )
-	{
-		rollback( );
+	protected void cancelPressed() {
+		rollback();
 
-		super.cancelPressed( );
+		super.cancelPressed();
 	}
 
 	/**
 	 * Roll back to the original status when necessary.
 	 * 
 	 */
-	protected abstract void rollback( );
+	protected abstract void rollback();
 
-	protected Object getStructureOrHandle( )
-	{
+	protected Object getStructureOrHandle() {
 		return structureOrHandle;
 	}
-	
+
 	/**
 	 * 
 	 * @param value
 	 * @return
 	 */
-	protected boolean isBlankProperty( String value )
-	{
-		return Utility.getNonNullString( value ).trim( ).length( ) == 0;
+	protected boolean isBlankProperty(String value) {
+		return Utility.getNonNullString(value).trim().length() == 0;
 	}
 
 	/**
@@ -206,22 +191,18 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 	 * @param cellLabel
 	 * @return
 	 */
-	protected Status getBlankPropertyStatus( String cellLabel )
-	{
-		return getMiscStatus( IStatus.ERROR,
-				Messages.getFormattedString( "PropertyHandleInputDialog.messages.error.blankProperty",//$NON-NLS-1$
-						new String[]{
-							cellLabel
-						} ) );
+	protected Status getBlankPropertyStatus(String cellLabel) {
+		return getMiscStatus(IStatus.ERROR,
+				Messages.getFormattedString("PropertyHandleInputDialog.messages.error.blankProperty", //$NON-NLS-1$
+						new String[] { cellLabel }));
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	protected Status getOKStatus( )
-	{
-		return getMiscStatus( IStatus.OK, "" ); //$NON-NLS-1$
+	protected Status getOKStatus() {
+		return getMiscStatus(IStatus.OK, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -230,15 +211,10 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 	 * @param message
 	 * @return
 	 */
-	protected Status getMiscStatus( int severity, String message )
-	{
-		return new Status( severity,
-				PlatformUI.PLUGIN_ID,
-				IStatus.OK,
-				message,
-				null );
+	protected Status getMiscStatus(int severity, String message) {
+		return new Status(severity, PlatformUI.PLUGIN_ID, IStatus.OK, message, null);
 	}
-	
+
 	/**
 	 * 
 	 * @param obj
@@ -246,19 +222,14 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 	 * @param value
 	 * @return
 	 */
-	protected Status setProperty( Object obj, String propertyName, Object value )
-	{
-		try
-		{
-			Utility.setProperty( obj, propertyName, value );
-		}
-		catch ( Exception e )
-		{
-			return getMiscStatus( IStatus.ERROR,
-					Utility.getNonNullString( e.getMessage( ) ) );
+	protected Status setProperty(Object obj, String propertyName, Object value) {
+		try {
+			Utility.setProperty(obj, propertyName, value);
+		} catch (Exception e) {
+			return getMiscStatus(IStatus.ERROR, Utility.getNonNullString(e.getMessage()));
 		}
 
-		return getOKStatus( );
+		return getOKStatus();
 	}
 
 	/**
@@ -267,19 +238,14 @@ abstract class PropertyHandleInputDialog extends StatusDialog
 	 * @param propertyName
 	 * @return
 	 */
-	protected Object getProperty( Object obj, String propertyName )
-	{
-		try
-		{
-			return Utility.getProperty( obj, propertyName );
-		}
-		catch ( Exception e )
-		{
-			updateStatus( getMiscStatus( IStatus.ERROR,
-					Utility.getNonNullString( e.getMessage( ) ) ) );
+	protected Object getProperty(Object obj, String propertyName) {
+		try {
+			return Utility.getProperty(obj, propertyName);
+		} catch (Exception e) {
+			updateStatus(getMiscStatus(IStatus.ERROR, Utility.getNonNullString(e.getMessage())));
 		}
 
 		return null;
 	}
-	
+
 }

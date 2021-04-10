@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.metadata.SemanticTriggerDefnSet;
  * should implements this interface.
  */
 
-public interface ISemanticTriggerDefnSetProvider
-{
+public interface ISemanticTriggerDefnSetProvider {
 
 	/**
 	 * Returns the semantic validation trigger set.
@@ -28,6 +27,6 @@ public interface ISemanticTriggerDefnSetProvider
 	 * @return the semantic validation trigger set
 	 */
 
-	public SemanticTriggerDefnSet getTriggerDefnSet( );
+	public SemanticTriggerDefnSet getTriggerDefnSet();
 
 }

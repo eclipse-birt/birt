@@ -66,107 +66,79 @@ import org.eclipse.jface.viewers.StructuredSelection;
  * 
  */
 
-public class InsertCubeInLayoutAction extends AbstractViewAction
-{
+public class InsertCubeInLayoutAction extends AbstractViewAction {
 
-	public static final String DISPLAY_TEXT = Messages.getString( "InsertCubeInLayoutAction.action.text" ); //$NON-NLS-1$
+	public static final String DISPLAY_TEXT = Messages.getString("InsertCubeInLayoutAction.action.text"); //$NON-NLS-1$
 
 	private EditPart targetPart;
 
-	public InsertCubeInLayoutAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
+	public InsertCubeInLayoutAction(Object selectedObject, String text) {
+		super(selectedObject, text);
 		// TODO Auto-generated constructor stub
 	}
 
-	public InsertCubeInLayoutAction( Object selectedObject )
-	{
-		super( selectedObject, DISPLAY_TEXT );
+	public InsertCubeInLayoutAction(Object selectedObject) {
+		super(selectedObject, DISPLAY_TEXT);
 		// TODO Auto-generated constructor stub
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
-	public boolean isEnabled( )
-	{
-		Object obj = getSelection( );
-		if ( obj instanceof Object[] )
-		{
-			if ( ( (Object[]) obj ).length == 0
-					|| ( (Object[]) obj ).length > 1 )
-			{
+	public boolean isEnabled() {
+		Object obj = getSelection();
+		if (obj instanceof Object[]) {
+			if (((Object[]) obj).length == 0 || ((Object[]) obj).length > 1) {
 				return false;
 			}
-		}
-		else if ( obj instanceof IStructuredSelection )
-		{
-			if ( ( (IStructuredSelection) obj ).size( ) == 0
-					|| ( (IStructuredSelection) obj ).size( ) > 1 )
-			{
+		} else if (obj instanceof IStructuredSelection) {
+			if (((IStructuredSelection) obj).size() == 0 || ((IStructuredSelection) obj).size() > 1) {
 				return false;
 			}
 		}
 
-		return canDrop( getFirstSelectedObj( ), getTargetEditPart( ) );
+		return canDrop(getFirstSelectedObj(), getTargetEditPart());
 	}
 
-	protected Object getFirstSelectedObj( )
-	{
-		Object obj = getSelection( );
-		if ( obj instanceof Object[] )
-		{
-			obj = ( (Object[]) obj )[0];
-		}
-		else if ( obj instanceof IStructuredSelection )
-		{
-			obj = ( (IStructuredSelection) obj ).getFirstElement( );
+	protected Object getFirstSelectedObj() {
+		Object obj = getSelection();
+		if (obj instanceof Object[]) {
+			obj = ((Object[]) obj)[0];
+		} else if (obj instanceof IStructuredSelection) {
+			obj = ((IStructuredSelection) obj).getFirstElement();
 		}
 		return obj;
 	}
 
-	protected EditPart getTargetEditPart( )
-	{
-		if ( targetPart == null )
-		{
-			EditPartViewer viewer = UIUtil.getLayoutEditPartViewer( );
-			if ( viewer == null )
-			{
+	protected EditPart getTargetEditPart() {
+		if (targetPart == null) {
+			EditPartViewer viewer = UIUtil.getLayoutEditPartViewer();
+			if (viewer == null) {
 				return null;
 			}
-			IStructuredSelection targets = (IStructuredSelection) viewer.getSelection( );
-			if ( targets.isEmpty( ) && targets.size( ) > 1 )
+			IStructuredSelection targets = (IStructuredSelection) viewer.getSelection();
+			if (targets.isEmpty() && targets.size() > 1)
 				return null;
-			targetPart = (EditPart) targets.getFirstElement( );
+			targetPart = (EditPart) targets.getFirstElement();
 		}
 		return targetPart;
 	}
 
-	public boolean canDrop( Object transfer, Object target )
-	{
-		if ( target != null && transfer instanceof CubeHandle )
-		{
-			SlotHandle targetSlot = getTargetSlotHandle( target,
-					ICrosstabConstants.CROSSTAB_EXTENSION_NAME ); //$NON-NLS-1$
-			if ( targetSlot != null )
-			{
-				if ( DNDUtil.handleValidateTargetCanContainType( targetSlot,
-						"Crosstab" )
-						&& DNDUtil.handleValidateTargetCanContainMore( targetSlot,
-								0 ) )
+	public boolean canDrop(Object transfer, Object target) {
+		if (target != null && transfer instanceof CubeHandle) {
+			SlotHandle targetSlot = getTargetSlotHandle(target, ICrosstabConstants.CROSSTAB_EXTENSION_NAME); // $NON-NLS-1$
+			if (targetSlot != null) {
+				if (DNDUtil.handleValidateTargetCanContainType(targetSlot, "Crosstab")
+						&& DNDUtil.handleValidateTargetCanContainMore(targetSlot, 0))
 					return true;
-			}
-			else
-			{
-				IStructuredSelection models = InsertInLayoutUtil.editPart2Model( new StructuredSelection( target ) );
-				if ( !models.isEmpty( ) )
-				{
-					Object model = DNDUtil.unwrapToModel( models.getFirstElement( ) );
-					if ( model instanceof DesignElementHandle )
-					{
+			} else {
+				IStructuredSelection models = InsertInLayoutUtil.editPart2Model(new StructuredSelection(target));
+				if (!models.isEmpty()) {
+					Object model = DNDUtil.unwrapToModel(models.getFirstElement());
+					if (model instanceof DesignElementHandle) {
 						DesignElementHandle targetHandle = (DesignElementHandle) model;
-						if ( targetHandle.canContain( DEUtil.getDefaultContentName( targetHandle ),
-								ICrosstabConstants.CROSSTAB_EXTENSION_NAME ) )
+						if (targetHandle.canContain(DEUtil.getDefaultContentName(targetHandle),
+								ICrosstabConstants.CROSSTAB_EXTENSION_NAME))
 							return true;
 					}
 				}
@@ -176,204 +148,146 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 		return false;
 	}
 
-	private SlotHandle getTargetSlotHandle( Object target, String insertType )
-	{
-		IStructuredSelection models = InsertInLayoutUtil.editPart2Model( new StructuredSelection( target ) );
-		if ( models.isEmpty( ) )
-		{
+	private SlotHandle getTargetSlotHandle(Object target, String insertType) {
+		IStructuredSelection models = InsertInLayoutUtil.editPart2Model(new StructuredSelection(target));
+		if (models.isEmpty()) {
 			return null;
 		}
 		// model = models.getFirstElement( );
-		Object model = DNDUtil.unwrapToModel( models.getFirstElement( ) );
-		if ( model instanceof LibRootModel )
-		{
-			model = ( (LibRootModel) model ).getModel( );
+		Object model = DNDUtil.unwrapToModel(models.getFirstElement());
+		if (model instanceof LibRootModel) {
+			model = ((LibRootModel) model).getModel();
 		}
-		if ( model instanceof SlotHandle )
-		{
+		if (model instanceof SlotHandle) {
 			return (SlotHandle) model;
-		}
-		else if ( model instanceof DesignElementHandle )
-		{
+		} else if (model instanceof DesignElementHandle) {
 			DesignElementHandle handle = (DesignElementHandle) model;
 
-			if ( handle.getDefn( ).isContainer( ) )
-			{
-				int slotId = DEUtil.getDefaultSlotID( handle );
-				if ( handle.canContain( slotId, insertType ) )
-				{
-					return handle.getSlot( slotId );
+			if (handle.getDefn().isContainer()) {
+				int slotId = DEUtil.getDefaultSlotID(handle);
+				if (handle.canContain(slotId, insertType)) {
+					return handle.getSlot(slotId);
 				}
 			}
-			return handle.getContainerSlotHandle( );
+			return handle.getContainerSlotHandle();
 		}
 		return null;
 	}
 
 	/**
-	 * The default implementation of this <code>IAction</code> method does
-	 * nothing. Subclasses should override this method if they do not need
-	 * information from the triggering event, or override
-	 * <code>runWithEvent(Event)</code> if they do.
+	 * The default implementation of this <code>IAction</code> method does nothing.
+	 * Subclasses should override this method if they do not need information from
+	 * the triggering event, or override <code>runWithEvent(Event)</code> if they
+	 * do.
 	 */
-	public void run( )
-	{
+	public void run() {
 
-		CubeHandle transfer = (CubeHandle) this.getFirstSelectedObj( );
+		CubeHandle transfer = (CubeHandle) this.getFirstSelectedObj();
 
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
-		stack.startTrans( Messages.getString( "InsertCubeInLayoutAction.action.message" ) ); //$NON-NLS-1$
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+		stack.startTrans(Messages.getString("InsertCubeInLayoutAction.action.message")); //$NON-NLS-1$
 		CubeHandle cube = (CubeHandle) transfer;
-		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		if ( cube.getModuleHandle( ) != moduleHandle
-				&& cube.getRoot( ) instanceof LibraryHandle )
-		{
-			try
-			{
-				UIUtil.includeLibrary( moduleHandle,
-						(LibraryHandle) cube.getRoot( ) );
-				cube = (CubeHandle) moduleHandle.getElementFactory( )
-						.newElementFrom( cube, cube.getName( ) );
-				moduleHandle.getCubes( ).add( cube );
-			}
-			catch ( Exception e )
-			{
-				stack.rollback( );
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
+		if (cube.getModuleHandle() != moduleHandle && cube.getRoot() instanceof LibraryHandle) {
+			try {
+				UIUtil.includeLibrary(moduleHandle, (LibraryHandle) cube.getRoot());
+				cube = (CubeHandle) moduleHandle.getElementFactory().newElementFrom(cube, cube.getName());
+				moduleHandle.getCubes().add(cube);
+			} catch (Exception e) {
+				stack.rollback();
 				return;
 			}
 		}
 		ExtendedItemHandle handle = null;
-		String name = ReportPlugin.getDefault( )
-				.getCustomName( ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
+		String name = ReportPlugin.getDefault().getCustomName(ICrosstabConstants.CROSSTAB_EXTENSION_NAME);
 
-		try
-		{
-			handle = CrosstabExtendedItemFactory.createCrosstabReportItem( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ),
-					null,
-					name );
-		}
-		catch ( Exception e )
-		{
-			stack.rollback( );
+		try {
+			handle = CrosstabExtendedItemFactory
+					.createCrosstabReportItem(SessionHandleAdapter.getInstance().getReportDesignHandle(), null, name);
+		} catch (Exception e) {
+			stack.rollback();
 			return;
 		}
 
 		// fix for 233149
-		if ( targetPart instanceof EditPart )// drop on layout
+		if (targetPart instanceof EditPart)// drop on layout
 		{
-			EditPartViewer viewer = ( (EditPart) targetPart ).getViewer( );
+			EditPartViewer viewer = ((EditPart) targetPart).getViewer();
 			EditPart editPart = (EditPart) targetPart;
-			if ( editPart != null )
-			{
-				try
-				{
+			if (editPart != null) {
+				try {
 					// CreateRequest request = new CreateRequest( );
 					//
 					// request.getExtendedData( )
 					// .put( DesignerConstants.KEY_NEWOBJECT, handle );
 					//
 					// Command command = editPart.getCommand( request );
-					HashMap map = new HashMap( );
-					map.put( DesignerConstants.KEY_NEWOBJECT, handle );
-					CreateCommand command = new CreateCommand( map );
+					HashMap map = new HashMap();
+					map.put(DesignerConstants.KEY_NEWOBJECT, handle);
+					CreateCommand command = new CreateCommand(map);
 
-					Object parentModel = DNDUtil.unwrapToModel( targetPart.getModel( ) );
+					Object parentModel = DNDUtil.unwrapToModel(targetPart.getModel());
 
-					if ( parentModel instanceof DesignElementHandle )
-					{
+					if (parentModel instanceof DesignElementHandle) {
 						DesignElementHandle parentHandle = (DesignElementHandle) parentModel;
-						if ( parentHandle.getDefn( ).isContainer( )
-								&& ( parentHandle.canContain( DEUtil.getDefaultSlotID( parentHandle ),
-										handle ) || parentHandle.canContain( DEUtil.getDefaultContentName( parentHandle ),
-										handle ) ) )
-						{
-							command.setParent( parentHandle );
-						}
-						else
-						{
-							if ( parentHandle.getContainerSlotHandle( ) != null )
-							{
-								command.setAfter( parentHandle.getContainerSlotHandle( )
-										.get( parentHandle.getIndex( ) + 1 ) );
-							}
-							else if ( parentHandle.getContainerPropertyHandle( ) != null )
-							{
-								command.setAfter( parentHandle.getContainerPropertyHandle( )
-										.get( parentHandle.getIndex( ) + 1 ) );
+						if (parentHandle.getDefn().isContainer() && (parentHandle
+								.canContain(DEUtil.getDefaultSlotID(parentHandle), handle)
+								|| parentHandle.canContain(DEUtil.getDefaultContentName(parentHandle), handle))) {
+							command.setParent(parentHandle);
+						} else {
+							if (parentHandle.getContainerSlotHandle() != null) {
+								command.setAfter(
+										parentHandle.getContainerSlotHandle().get(parentHandle.getIndex() + 1));
+							} else if (parentHandle.getContainerPropertyHandle() != null) {
+								command.setAfter(
+										parentHandle.getContainerPropertyHandle().get(parentHandle.getIndex() + 1));
 							}
 
-							DesignElementHandle container = parentHandle.getContainer( );
+							DesignElementHandle container = parentHandle.getContainer();
 
 							// special handling for list item, always use
 							// slothandle
 							// as parent
-							if ( container instanceof ListHandle )
-							{
-								command.setParent( parentHandle.getContainerSlotHandle( ) );
-							}
-							else
-							{
-								command.setParent( container );
+							if (container instanceof ListHandle) {
+								command.setParent(parentHandle.getContainerSlotHandle());
+							} else {
+								command.setParent(container);
 							}
 						}
+					} else if (parentModel instanceof SlotHandle) {
+						command.setParent(parentModel);
+					} else {
+						command.setParent(SessionHandleAdapter.getInstance().getReportDesignHandle());
 					}
-					else if ( parentModel instanceof SlotHandle )
-					{
-						command.setParent( parentModel );
-					}
-					else
-					{
-						command.setParent( SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( ) );
-					}
-					if ( command != null && command.canExecute( ) )
-					{
-						viewer.getEditDomain( )
-								.getCommandStack( )
-								.execute( command );
+					if (command != null && command.canExecute()) {
+						viewer.getEditDomain().getCommandStack().execute(command);
 
-						handle.setProperty( IReportItemModel.CUBE_PROP, cube );
+						handle.setProperty(IReportItemModel.CUBE_PROP, cube);
 
-						List dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP );
-						for ( Iterator iterator = dimensions.iterator( ); iterator.hasNext( ); )
-						{
-							DimensionHandle dimension = (DimensionHandle) iterator.next( );
-							if ( dimension.isTimeType( ) )
-							{
-								createDimensionViewHandle( handle,
-										dimension,
-										ICrosstabConstants.COLUMN_AXIS_TYPE );
-							}
-							else
-							{
-								createDimensionViewHandle( handle,
-										dimension,
-										ICrosstabConstants.ROW_AXIS_TYPE );
+						List dimensions = cube.getContents(CubeHandle.DIMENSIONS_PROP);
+						for (Iterator iterator = dimensions.iterator(); iterator.hasNext();) {
+							DimensionHandle dimension = (DimensionHandle) iterator.next();
+							if (dimension.isTimeType()) {
+								createDimensionViewHandle(handle, dimension, ICrosstabConstants.COLUMN_AXIS_TYPE);
+							} else {
+								createDimensionViewHandle(handle, dimension, ICrosstabConstants.ROW_AXIS_TYPE);
 							}
 						}
 
-						List measureGroups = cube.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+						List measureGroups = cube.getContents(CubeHandle.MEASURE_GROUPS_PROP);
 						int index = 0;
-						for ( Iterator iterator = measureGroups.iterator( ); iterator.hasNext( ); )
-						{
-							MeasureGroupHandle measureGroup = (MeasureGroupHandle) iterator.next( );
-							List measures = measureGroup.getContents( MeasureGroupHandle.MEASURES_PROP );
-							for ( int j = 0; j < measures.size( ); j++ )
-							{
-								Object temp = measures.get( j );
-								if ( temp instanceof MeasureHandle )
-								{
-									addMeasureHandle( handle,
-											(MeasureHandle) temp,
-											index++ );
+						for (Iterator iterator = measureGroups.iterator(); iterator.hasNext();) {
+							MeasureGroupHandle measureGroup = (MeasureGroupHandle) iterator.next();
+							List measures = measureGroup.getContents(MeasureGroupHandle.MEASURES_PROP);
+							for (int j = 0; j < measures.size(); j++) {
+								Object temp = measures.get(j);
+								if (temp instanceof MeasureHandle) {
+									addMeasureHandle(handle, (MeasureHandle) temp, index++);
 								}
 							}
 						}
-						CrosstabUtil.addAllHeaderLabel( ( CrosstabReportItemHandle)handle.getReportItem( ) );
-						stack.commit( );
+						CrosstabUtil.addAllHeaderLabel((CrosstabReportItemHandle) handle.getReportItem());
+						stack.commit();
 
 						// 251960, viewer had been refreshed since model commit,
 						// and the targetEditPart is changed,
@@ -384,30 +298,22 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 						// ( (EditPart) targetPart ).getViewer( ).flush( );
 						// }
 
-						ReportRequest request = new ReportRequest( );
-						List selectionObjects = new ArrayList( );
-						selectionObjects.add( handle );
-						request.setSelectionObject( selectionObjects );
-						request.setType( ReportRequest.SELECTION );
-						SessionHandleAdapter.getInstance( )
-								.getMediator( )
-								.notifyRequest( request );
+						ReportRequest request = new ReportRequest();
+						List selectionObjects = new ArrayList();
+						selectionObjects.add(handle);
+						request.setSelectionObject(selectionObjects);
+						request.setType(ReportRequest.SELECTION);
+						SessionHandleAdapter.getInstance().getMediator().notifyRequest(request);
 
-						if ( SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( ) instanceof LibraryHandle )
-						{
-							HandleAdapterFactory.getInstance( )
-									.getLibraryHandleAdapter( )
-									.setCurrentEditorModel( handle,
-											LibraryHandleAdapter.CREATE_ELEMENT );
+						if (SessionHandleAdapter.getInstance().getReportDesignHandle() instanceof LibraryHandle) {
+							HandleAdapterFactory.getInstance().getLibraryHandleAdapter().setCurrentEditorModel(handle,
+									LibraryHandleAdapter.CREATE_ELEMENT);
 						}
 
 						return;
 					}
-				}
-				catch ( Exception e )
-				{
-					stack.rollback( );
+				} catch (Exception e) {
+					stack.rollback();
 					return;
 				}
 			}
@@ -415,60 +321,48 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 
 	}
 
-	private void addMeasureHandle( ExtendedItemHandle handle,
-			MeasureHandle measureHandle, int index ) throws SemanticException
-	{
-		IReportItem reportItem = handle.getReportItem( );
+	private void addMeasureHandle(ExtendedItemHandle handle, MeasureHandle measureHandle, int index)
+			throws SemanticException {
+		IReportItem reportItem = handle.getReportItem();
 		CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) reportItem;
-		CrosstabAdaptUtil.addMeasureHandle( xtabHandle, measureHandle, index );
+		CrosstabAdaptUtil.addMeasureHandle(xtabHandle, measureHandle, index);
 	}
 
-	private void createDimensionViewHandle( ExtendedItemHandle handle,
-			DimensionHandle dimensionHandle, int type )
-			throws SemanticException
-	{
-		if ( dimensionHandle.getDefaultHierarchy( ).getLevelCount( ) > 0 )
-		{
-			IReportItem reportItem = handle.getReportItem( );
+	private void createDimensionViewHandle(ExtendedItemHandle handle, DimensionHandle dimensionHandle, int type)
+			throws SemanticException {
+		if (dimensionHandle.getDefaultHierarchy().getLevelCount() > 0) {
+			IReportItem reportItem = handle.getReportItem();
 			CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) reportItem;
 
-			DimensionViewHandle viewHandle = xtabHandle.insertDimension( dimensionHandle,
-					type,
-					xtabHandle.getDimensionCount( type ) );
+			DimensionViewHandle viewHandle = xtabHandle.insertDimension(dimensionHandle, type,
+					xtabHandle.getDimensionCount(type));
 
-			LevelHandle[] levels = getLevelHandles( dimensionHandle );
-			for ( int j = 0; j < levels.length; j++ )
-			{
+			LevelHandle[] levels = getLevelHandles(dimensionHandle);
+			for (int j = 0; j < levels.length; j++) {
 
 				LevelHandle levelHandle = levels[j];
-				DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) xtabHandle.getModelHandle( ),
-						levelHandle );
-				LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
-						j );
-				CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
+				DataItemHandle dataHandle = CrosstabAdaptUtil
+						.createColumnBindingAndDataItem((ExtendedItemHandle) xtabHandle.getModelHandle(), levelHandle);
+				LevelViewHandle levelViewHandle = viewHandle.insertLevel(levelHandle, j);
+				CrosstabCellHandle cellHandle = levelViewHandle.getCell();
 
-				cellHandle.addContent( dataHandle );
-				
-				ActionHandle actionHandle = levelHandle.getActionHandle( );
-				if ( actionHandle != null )
-				{
-					List source = new ArrayList( );
-					source.add( actionHandle.getStructure( ) );
-					List newAction = ModelUtil.cloneStructList( source );
-					dataHandle.setAction( (Action) newAction.get( 0 ) );
+				cellHandle.addContent(dataHandle);
+
+				ActionHandle actionHandle = levelHandle.getActionHandle();
+				if (actionHandle != null) {
+					List source = new ArrayList();
+					source.add(actionHandle.getStructure());
+					List newAction = ModelUtil.cloneStructList(source);
+					dataHandle.setAction((Action) newAction.get(0));
 				}
 			}
 		}
 	}
 
-	private LevelHandle[] getLevelHandles( DimensionHandle dimensionHandle )
-	{
-		LevelHandle[] dimensionLevelHandles = new LevelHandle[dimensionHandle.getDefaultHierarchy( )
-				.getLevelCount( )];
-		for ( int i = 0; i < dimensionLevelHandles.length; i++ )
-		{
-			dimensionLevelHandles[i] = dimensionHandle.getDefaultHierarchy( )
-					.getLevel( i );
+	private LevelHandle[] getLevelHandles(DimensionHandle dimensionHandle) {
+		LevelHandle[] dimensionLevelHandles = new LevelHandle[dimensionHandle.getDefaultHierarchy().getLevelCount()];
+		for (int i = 0; i < dimensionLevelHandles.length; i++) {
+			dimensionLevelHandles[i] = dimensionHandle.getDefaultHierarchy().getLevel(i);
 		}
 		return dimensionLevelHandles;
 	}

@@ -31,8 +31,7 @@ import org.xml.sax.Attributes;
  * Constructs the state to parse resource key property.
  */
 
-public class TextPropertyState extends AbstractPropertyState
-{
+public class TextPropertyState extends AbstractPropertyState {
 
 	PropertyDefn propDefn = null;
 	PropertyDefn keyPropDefn = null;
@@ -41,28 +40,26 @@ public class TextPropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#AbstractPropertyState(DesignParserHandler
-	 *      theHandler, DesignElement element, )
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#
+	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement element,
+	 * )
 	 */
 
-	TextPropertyState( ModuleParserHandler theHandler, DesignElement element )
-	{
-		super( theHandler, element );
+	TextPropertyState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#AbstractPropertyState(DesignParserHandler
-	 *      theHandler, DesignElement element, String propName, IStructure
-	 *      struct)
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#
+	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement element,
+	 * String propName, IStructure struct)
 	 */
 
-	TextPropertyState( ModuleParserHandler theHandler, DesignElement element,
-			IStructure struct )
-	{
-		super( theHandler, element );
+	TextPropertyState(ModuleParserHandler theHandler, DesignElement element, IStructure struct) {
+		super(theHandler, element);
 
 		this.struct = struct;
 	}
@@ -70,63 +67,53 @@ public class TextPropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
-		if ( StringUtil.isBlank( name ) )
-		{
-			handler
-					.getErrorHandler( )
-					.semanticError(
-							new DesignParserException(
-									DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED ) );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		name = attrs.getValue(DesignSchemaConstants.NAME_ATTRIB);
+		if (StringUtil.isBlank(name)) {
+			handler.getErrorHandler()
+					.semanticError(new DesignParserException(DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED));
 			valid = false;
 			return;
 		}
 
-		nameValue = name.toLowerCase( ).hashCode( );
+		nameValue = name.toLowerCase().hashCode();
 		String keyName = name + IDesignElementModel.ID_SUFFIX;
 
-		if ( struct != null )
-		{
-			propDefn = (PropertyDefn) struct.getDefn( ).getMember( name );
-			keyPropDefn = (PropertyDefn) struct.getDefn( ).getMember( keyName );
+		if (struct != null) {
+			propDefn = (PropertyDefn) struct.getDefn().getMember(name);
+			keyPropDefn = (PropertyDefn) struct.getDefn().getMember(keyName);
+		} else {
+			propDefn = element.getPropertyDefn(name);
+			keyPropDefn = element.getPropertyDefn(keyName);
 		}
-		else
-		{
-			propDefn = element.getPropertyDefn( name );
-			keyPropDefn = element.getPropertyDefn( keyName );
-		}
-		if ( propDefn == null )
-		{
-			DesignParserException e = new DesignParserException(
-					new String[]{name},
-					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
-			RecoverableError.dealUndefinedProperty( handler, e );
+		if (propDefn == null) {
+			DesignParserException e = new DesignParserException(new String[] { name },
+					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY);
+			RecoverableError.dealUndefinedProperty(handler, e);
 			valid = false;
 			return;
 		}
-		if ( keyPropDefn == null )
-		{
-			DesignParserException e = new DesignParserException(
-					new String[]{keyName},
-					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
-			RecoverableError.dealUndefinedProperty( handler, e );
+		if (keyPropDefn == null) {
+			DesignParserException e = new DesignParserException(new String[] { keyName },
+					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY);
+			RecoverableError.dealUndefinedProperty(handler, e);
 			valid = false;
 			return;
 		}
 
-		String keyValue = attrs.getValue( DesignSchemaConstants.KEY_ATTRIB );
-		if ( keyValue == null )
+		String keyValue = attrs.getValue(DesignSchemaConstants.KEY_ATTRIB);
+		if (keyValue == null)
 			return;
 
-		if ( struct != null )
-			setMember( struct, propDefn.getName( ), keyName, keyValue );
+		if (struct != null)
+			setMember(struct, propDefn.getName(), keyName, keyValue);
 		else
-			setProperty( keyName, keyValue );
+			setProperty(keyName, keyValue);
 	}
 
 	/*
@@ -134,58 +121,48 @@ public class TextPropertyState extends AbstractPropertyState
 	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
-	public void end( )
-	{
-		String value = text.toString( );
+	public void end() {
+		String value = text.toString();
 
-		if ( struct != null )
-			setMember( struct, propDefn.getName( ), name, value );
-		else
-		{
+		if (struct != null)
+			setMember(struct, propDefn.getName(), name, value);
+		else {
 			// backward compatible
-			if( IReportItemModel.ALTTEXT_PROP.equals( name ))
-				setProperty( name, new Expression(value, ExpressionType.CONSTANT) );
+			if (IReportItemModel.ALTTEXT_PROP.equals(name))
+				setProperty(name, new Expression(value, ExpressionType.CONSTANT));
 			else
-				setProperty( name, value );
-			if ( !StringUtil.isBlank( keyValue ) )
-				setProperty( name + IDesignElementModel.ID_SUFFIX, keyValue );
+				setProperty(name, value);
+			if (!StringUtil.isBlank(keyValue))
+				setProperty(name + IDesignElementModel.ID_SUFFIX, keyValue);
 		}
 	}
 
 	/**
-	 * @param keyValue
-	 *            the keyValue to set
+	 * @param keyValue the keyValue to set
 	 */
-	public void setKeyValue( String keyValue )
-	{
+	public void setKeyValue(String keyValue) {
 		this.keyValue = keyValue;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
+	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
 	 */
 
-	protected AbstractParseState generalJumpTo( )
-	{
-		if ( propDefn != null
-				&& ( element instanceof TextItem && ITextItemModel.CONTENT_PROP
-						.equalsIgnoreCase( name ) )
-				&& handler.versionNumber >= VersionUtil.VERSION_3_2_16 )
-		{
+	protected AbstractParseState generalJumpTo() {
+		if (propDefn != null && (element instanceof TextItem && ITextItemModel.CONTENT_PROP.equalsIgnoreCase(name))
+				&& handler.versionNumber >= VersionUtil.VERSION_3_2_16) {
 			// do not handle extension xml representation property
 
-			if ( !( propDefn instanceof ExtensionPropertyDefn && ( (ExtensionPropertyDefn) propDefn )
-					.hasOwnModel( ) ) )
-			{
-				CompatibleCDATATextPropertyState state = new CompatibleCDATATextPropertyState(
-						handler, element );
-				state.setName( name );
+			if (!(propDefn instanceof ExtensionPropertyDefn && ((ExtensionPropertyDefn) propDefn).hasOwnModel())) {
+				CompatibleCDATATextPropertyState state = new CompatibleCDATATextPropertyState(handler, element);
+				state.setName(name);
 				return state;
 			}
 		}
-		return super.generalJumpTo( );
+		return super.generalJumpTo();
 
 	}
 

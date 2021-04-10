@@ -22,43 +22,32 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
  * 
  */
 
-abstract class CompatiblePropertyState extends PropertyState
-{
+abstract class CompatiblePropertyState extends PropertyState {
 
 	/**
 	 * Constructs the compatible state for parsing the given structure member
 	 * property value.
 	 * 
-	 * @param theHandler
-	 *            the parser handler
-	 * @param element
-	 *            the design element
-	 * @param propDefn
-	 *            the property definition
-	 * @param struct
-	 *            the structure that has this property
+	 * @param theHandler the parser handler
+	 * @param element    the design element
+	 * @param propDefn   the property definition
+	 * @param struct     the structure that has this property
 	 */
 
-	public CompatiblePropertyState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct )
-	{
-		super( theHandler, element, propDefn, struct );
+	public CompatiblePropertyState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+			IStructure struct) {
+		super(theHandler, element, propDefn, struct);
 	}
 
 	/**
-	 * Constructs the compatible state for parsing the given element property
-	 * value.
+	 * Constructs the compatible state for parsing the given element property value.
 	 * 
-	 * @param theHandler
-	 *            the parser handler
-	 * @param element
-	 *            the design element
+	 * @param theHandler the parser handler
+	 * @param element    the design element
 	 */
 
-	public CompatiblePropertyState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatiblePropertyState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
@@ -67,19 +56,19 @@ abstract class CompatiblePropertyState extends PropertyState
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#generalJumpTo()
 	 */
 
-	protected AbstractParseState generalJumpTo( )
-	{
+	protected AbstractParseState generalJumpTo() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.ExpressionState#versionConditionalJumpTo()
+	 * @see
+	 * org.eclipse.birt.report.model.parser.ExpressionState#versionConditionalJumpTo
+	 * ()
 	 */
 
-	protected AbstractParseState versionConditionalJumpTo( )
-	{
+	protected AbstractParseState versionConditionalJumpTo() {
 		return null;
 	}
 }

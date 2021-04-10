@@ -23,8 +23,7 @@ import org.eclipse.birt.report.debug.internal.core.vm.VMVariable;
 /**
  * RMValue
  */
-public class RMValue implements VMValue, Serializable, VMConstants
-{
+public class RMValue implements VMValue, Serializable, VMConstants {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,49 +33,36 @@ public class RMValue implements VMValue, Serializable, VMConstants
 
 	private transient RMClient vm;
 
-	public RMValue( long id, String valueString, String typeName,
-			VMVariable[] members )
-	{
+	public RMValue(long id, String valueString, String typeName, VMVariable[] members) {
 		this.rid = id;
 		this.valueString = valueString;
 		this.typeName = typeName;
 		this.members = members;
 	}
 
-	public void attach( RMClient vm )
-	{
+	public void attach(RMClient vm) {
 		this.vm = vm;
 	}
 
-	public VMVariable[] getLocalMembers( )
-	{
+	public VMVariable[] getLocalMembers() {
 		return members;
 	}
 
-	public VMVariable[] getMembers( )
-	{
-		if ( members == null )
-		{
-			if ( vm != null )
-			{
-				try
-				{
-					members = vm.getMembers( rid );
+	public VMVariable[] getMembers() {
+		if (members == null) {
+			if (vm != null) {
+				try {
+					members = vm.getMembers(rid);
 
-					hookVM( members );
+					hookVM(members);
 
 					return members;
-				}
-				catch ( VMException e )
-				{
-					StringWriter sw = new StringWriter( );
-					e.printStackTrace( new PrintWriter( sw ) );
+				} catch (VMException e) {
+					StringWriter sw = new StringWriter();
+					e.printStackTrace(new PrintWriter(sw));
 
-					members = new VMVariable[]{
-						new RMVariable( new RMValue( -1,
-								sw.toString( ),
-								e.getClass( ).getName( ),
-								NO_CHILD ), ERROR_LITERAL, "null" ) //$NON-NLS-1$
+					members = new VMVariable[] { new RMVariable(
+							new RMValue(-1, sw.toString(), e.getClass().getName(), NO_CHILD), ERROR_LITERAL, "null") //$NON-NLS-1$
 					};
 
 					return members;
@@ -86,38 +72,32 @@ public class RMValue implements VMValue, Serializable, VMConstants
 			members = NO_CHILD;
 		}
 
-		hookVM( members );
+		hookVM(members);
 
 		return members;
 	}
 
-	private void hookVM( VMVariable[] vars )
-	{
-		if ( vars instanceof RMVariable[] )
-		{
+	private void hookVM(VMVariable[] vars) {
+		if (vars instanceof RMVariable[]) {
 			RMVariable[] rvars = (RMVariable[]) vars;
 
-			for ( int i = 0; i < rvars.length; i++ )
-			{
-				RMValue val = (RMValue) vars[i].getValue( );
+			for (int i = 0; i < rvars.length; i++) {
+				RMValue val = (RMValue) vars[i].getValue();
 
-				if ( val != null )
-				{
-					val.attach( vm );
+				if (val != null) {
+					val.attach(vm);
 
-					hookVM( val.getLocalMembers( ) );
+					hookVM(val.getLocalMembers());
 				}
 			}
 		}
 	}
 
-	public String getTypeName( )
-	{
+	public String getTypeName() {
 		return typeName;
 	}
 
-	public String getValueString( )
-	{
+	public String getValueString() {
 		return valueString;
 	}
 }

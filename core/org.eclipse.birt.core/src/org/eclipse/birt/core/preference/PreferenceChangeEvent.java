@@ -17,8 +17,7 @@ import java.util.prefs.Preferences;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
-public class PreferenceChangeEvent extends java.util.EventObject
-{
+public class PreferenceChangeEvent extends java.util.EventObject {
 
 	/**
 	 * 
@@ -46,18 +45,13 @@ public class PreferenceChangeEvent extends java.util.EventObject
 	/**
 	 * Constructs a new <code>PreferenceChangeEvent</code> instance.
 	 * 
-	 * @param node
-	 *            The Preferences node that emitted the event.
-	 * @param key
-	 *            The key of the preference that was changed.
-	 * @param newValue
-	 *            The new value of the preference, or <tt>null</tt> if the
-	 *            preference is being removed.
+	 * @param node     The Preferences node that emitted the event.
+	 * @param key      The key of the preference that was changed.
+	 * @param newValue The new value of the preference, or <tt>null</tt> if the
+	 *                 preference is being removed.
 	 */
-	public PreferenceChangeEvent( IPreferences node, String key,
-			Object oldValue, Object newValue )
-	{
-		super( node );
+	public PreferenceChangeEvent(IPreferences node, String key, Object oldValue, Object newValue) {
+		super(node);
 		this.key = key;
 		this.newValue = newValue;
 		this.oldValue = oldValue;
@@ -68,9 +62,8 @@ public class PreferenceChangeEvent extends java.util.EventObject
 	 * 
 	 * @return The preference node that emitted the event.
 	 */
-	public Preferences getNode( )
-	{
-		return (Preferences) getSource( );
+	public Preferences getNode() {
+		return (Preferences) getSource();
 	}
 
 	/**
@@ -78,24 +71,21 @@ public class PreferenceChangeEvent extends java.util.EventObject
 	 * 
 	 * @return The key of the preference that was changed.
 	 */
-	public String getKey( )
-	{
+	public String getKey() {
 		return key;
 	}
 
 	/**
 	 * Returns the new value for the preference.
 	 * 
-	 * @return The new value for the preference, or <tt>null</tt> if the
-	 *         preference was removed.
+	 * @return The new value for the preference, or <tt>null</tt> if the preference
+	 *         was removed.
 	 */
-	public Object getNewValue( )
-	{
+	public Object getNewValue() {
 		return newValue;
 	}
 
-	public Object getOldValue( )
-	{
+	public Object getOldValue() {
 		return oldValue;
 	}
 
@@ -103,21 +93,15 @@ public class PreferenceChangeEvent extends java.util.EventObject
 	 * Throws NotSerializableException, since NodeChangeEvent objects are not
 	 * intended to be serializable.
 	 */
-	private void writeObject( java.io.ObjectOutputStream out )
-			throws NotSerializableException
-	{
-		throw new NotSerializableException(
-				CoreMessages.getString( ResourceConstants.NOT_SERIALIZABLE ) );
+	private void writeObject(java.io.ObjectOutputStream out) throws NotSerializableException {
+		throw new NotSerializableException(CoreMessages.getString(ResourceConstants.NOT_SERIALIZABLE));
 	}
 
 	/**
-	 * Throws NotSerializableException, since PreferenceChangeEvent objects are
-	 * not intended to be serializable.
+	 * Throws NotSerializableException, since PreferenceChangeEvent objects are not
+	 * intended to be serializable.
 	 */
-	private void readObject( java.io.ObjectInputStream in )
-			throws NotSerializableException
-	{
-		throw new NotSerializableException(
-				CoreMessages.getString( ResourceConstants.NOT_SERIALIZABLE ) );
+	private void readObject(java.io.ObjectInputStream in) throws NotSerializableException {
+		throw new NotSerializableException(CoreMessages.getString(ResourceConstants.NOT_SERIALIZABLE));
 	}
 }

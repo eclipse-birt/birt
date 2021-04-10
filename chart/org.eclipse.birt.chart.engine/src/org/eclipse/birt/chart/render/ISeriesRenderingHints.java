@@ -18,8 +18,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 /**
  * This interface defines the rendering hints required by series renderer.
  */
-public interface ISeriesRenderingHints
-{
+public interface ISeriesRenderingHints {
 
 	/**
 	 * Indicates the state is unknown.
@@ -75,31 +74,30 @@ public interface ISeriesRenderingHints
 	 *         <li>{@link #UNDEFINED}
 	 *         </ul>
 	 */
-	public int getDataSetStructure( );
+	public int getDataSetStructure();
 
 	/**
 	 * @return Returns the dataset bound to base series.
 	 */
-	public DataSetIterator getBaseDataSet( );
+	public DataSetIterator getBaseDataSet();
 
 	/**
 	 * @return Returns the dataset bound to orthogonal series.
 	 */
-	public DataSetIterator getOrthogonalDataSet( );
+	public DataSetIterator getOrthogonalDataSet();
 
 	/**
 	 * Returns current client area bounds.
 	 * 
-	 * @param bReduceByInsets
-	 *            Specifies if reduce the insets.
+	 * @param bReduceByInsets Specifies if reduce the insets.
 	 * @return
 	 */
-	public Bounds getClientAreaBounds( boolean bReduceByInsets );
+	public Bounds getClientAreaBounds(boolean bReduceByInsets);
 
 	/**
 	 * @return Returns all datapointhints for current rendering.
 	 * 
 	 * @see DataPointHints
 	 */
-	public DataPointHints[] getDataPoints( );
+	public DataPointHints[] getDataPoints();
 }

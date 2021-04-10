@@ -14,11 +14,10 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 import org.eclipse.draw2d.PositionConstants;
 
 /**
- *  Defines image Constants.
+ * Defines image Constants.
  */
 
-public class ImageConstants implements PositionConstants
-{
+public class ImageConstants implements PositionConstants {
 
 	/** no_repeat */
 	public static int NO_REPEAT = 0;

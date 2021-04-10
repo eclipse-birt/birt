@@ -21,14 +21,10 @@ public class BackgroundRepeatManager extends IdentifierManager {
 	 */
 	protected final static StringMap values = new StringMap();
 	static {
-		values.put(CSSConstants.CSS_REPEAT_VALUE,
-				CSSValueConstants.REPEAT_VALUE);
-		values.put(CSSConstants.CSS_REPEAT_X_VALUE,
-				CSSValueConstants.REPEAT_X_VALUE);
-		values.put(CSSConstants.CSS_REPEAT_Y_VALUE,
-				CSSValueConstants.REPEAT_Y_VALUE);
-		values.put(CSSConstants.CSS_NO_REPEAT_VALUE,
-				CSSValueConstants.NO_REPEAT_VALUE);
+		values.put(CSSConstants.CSS_REPEAT_VALUE, CSSValueConstants.REPEAT_VALUE);
+		values.put(CSSConstants.CSS_REPEAT_X_VALUE, CSSValueConstants.REPEAT_X_VALUE);
+		values.put(CSSConstants.CSS_REPEAT_Y_VALUE, CSSValueConstants.REPEAT_Y_VALUE);
+		values.put(CSSConstants.CSS_NO_REPEAT_VALUE, CSSValueConstants.NO_REPEAT_VALUE);
 	}
 
 	public StringMap getIdentifiers() {

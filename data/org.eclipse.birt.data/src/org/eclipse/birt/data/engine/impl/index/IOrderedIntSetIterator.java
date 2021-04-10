@@ -15,8 +15,8 @@ package org.eclipse.birt.data.engine.impl.index;
  * 
  */
 
-public interface IOrderedIntSetIterator
-{
+public interface IOrderedIntSetIterator {
 	public boolean hasNext();
+
 	public int next();
 }

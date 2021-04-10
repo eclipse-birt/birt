@@ -15,18 +15,20 @@ import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Palette</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object
+ * '<em><b>Palette</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc -->
- * Palette  represents a palette of Fills.
- * 			
+ * <!-- begin-model-doc --> Palette represents a palette of Fills.
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.Palette#getName <em>Name</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.Palette#getEntries <em>Entries</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.Palette#getName
+ * <em>Name</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.Palette#getEntries
+ * <em>Entries</em>}</li>
  * </ul>
  * </p>
  *
@@ -35,16 +37,15 @@ import org.eclipse.emf.common.util.EList;
  * @extends IChartObject
  * @generated
  */
-public interface Palette extends IChartObject
-{
+public interface Palette extends IChartObject {
 
 	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Attribute "Name" specifies the name that uniquely identifies this palette.
-	 * 					
+	 * Returns the value of the '<em><b>Name</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
+	 * "Name" specifies the name that uniquely identifies this palette.
+	 * 
 	 * <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPalette_Name()
@@ -52,21 +53,26 @@ public interface Palette extends IChartObject
 	 *        extendedMetaData="kind='element' name='Name'"
 	 * @generated
 	 */
-	String getName( );
+	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.Palette#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc --> Sets the name for the palette. <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.attribute.Palette#getName
+	 * <em>Name</em>}' attribute. <!-- begin-user-doc --> Sets the name for the
+	 * palette. <!-- end-user-doc -->
+	 * 
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated
 	 */
-	void setName( String value );
+	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Entries</b></em>' containment reference list. The list contents are of type
-	 * {@link org.eclipse.birt.chart.model.attribute.Fill}. <!-- begin-user-doc --> Gets the entries defined in the
-	 * palette. <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * Returns the value of the '<em><b>Entries</b></em>' containment reference
+	 * list. The list contents are of type
+	 * {@link org.eclipse.birt.chart.model.attribute.Fill}. <!-- begin-user-doc -->
+	 * Gets the entries defined in the palette. <!-- end-user-doc --> <!--
+	 * begin-model-doc -->
 	 * 
 	 * Holds the entries contained in the palette.
 	 * 
@@ -74,15 +80,15 @@ public interface Palette extends IChartObject
 	 * 
 	 * @return the value of the '<em>Entries</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getPalette_Entries()
-	 * @model type="org.eclipse.birt.chart.model.attribute.Fill" containment="true" resolveProxies="false"
-	 *        required="true"
+	 * @model type="org.eclipse.birt.chart.model.attribute.Fill" containment="true"
+	 *        resolveProxies="false" required="true"
 	 * @generated
 	 */
-	EList<Fill> getEntries( );
+	EList<Fill> getEntries();
 
 	/**
-	 * This convenience method updates the content of a palette with a library
-	 * of colors
+	 * This convenience method updates the content of a palette with a library of
+	 * colors
 	 * 
 	 * NOTE: Manually written
 	 * 
@@ -90,7 +96,7 @@ public interface Palette extends IChartObject
 	 * @deprecated to use {@link #shift(int)}
 	 * @see #shift(int)
 	 */
-	void update( int iIndex );
+	void update(int iIndex);
 
 	/**
 	 * This convenience method updates the content of a palette with a single color
@@ -99,42 +105,39 @@ public interface Palette extends IChartObject
 	 * 
 	 * @param f
 	 */
-	void update( Fill f );
+	void update(Fill f);
 
 	/**
 	 * Shifts the colors in palette with the steps.
 	 * 
 	 * NOTE: Manually written
 	 * 
-	 * @param iStep
-	 *            moving steps to rotate the color. If the step is zero or the
-	 *            absolute value is greater than the size of list, do nothing.
-	 *            Negative value means moving to the left side, and positive
-	 *            value is to the right side.
+	 * @param iStep moving steps to rotate the color. If the step is zero or the
+	 *              absolute value is greater than the size of list, do nothing.
+	 *              Negative value means moving to the left side, and positive value
+	 *              is to the right side.
 	 * @since 2.2
 	 */
-	void shift( int iStep );
+	void shift(int iStep);
 
 	/**
-	 * Re-creates the palette colors with specified size and shifts the colors
-	 * in palette with the steps.
+	 * Re-creates the palette colors with specified size and shifts the colors in
+	 * palette with the steps.
 	 * 
 	 * NOTE: Manually written
 	 * 
-	 * @param iStep
-	 *            moving steps to rotate the color. If the step is zero or the
-	 *            absolute value is greater than the size of list, do nothing.
-	 *            Negative value means moving to the left side, and positive
-	 *            value is to the right side.
-	 * @param iSize
-	 *            the size of color library to create
+	 * @param iStep moving steps to rotate the color. If the step is zero or the
+	 *              absolute value is greater than the size of list, do nothing.
+	 *              Negative value means moving to the left side, and positive value
+	 *              is to the right side.
+	 * @param iSize the size of color library to create
 	 * @since 2.2
 	 */
-	void shift( int iStep, int iSize );
+	void shift(int iStep, int iSize);
 
 	/**
 	 * @generated
 	 */
-	Palette copyInstance( );
+	Palette copyInstance();
 
 } // Palette

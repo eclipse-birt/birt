@@ -14,19 +14,18 @@ package org.eclipse.birt.report.engine.layout.html.buffer;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 
-public interface INode
-{
+public interface INode {
 
-	IContainerNode getParent( );
+	IContainerNode getParent();
 
-	void flush( ) throws BirtException;
+	void flush() throws BirtException;
 
-	void start( ) throws BirtException;
+	void start() throws BirtException;
 
-	void end( ) throws BirtException;
+	void end() throws BirtException;
 
-	boolean isStarted( );
+	boolean isStarted();
 
 	IContent getContent();
-	
+
 }

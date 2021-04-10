@@ -48,63 +48,55 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * label that is reverted from a template label.
  * </p>
  */
-public class Regression_153040 extends BaseTestCase
-{
+public class Regression_153040 extends BaseTestCase {
 
 	private final static String INPUT = "regression_153040.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( INPUT , INPUT );
-		copyResource_INPUT( "regression_153040_lib.xml" , "regression_153040_lib.xml" );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(INPUT, INPUT);
+		copyResource_INPUT("regression_153040_lib.xml", "regression_153040_lib.xml");
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
-	
+
 	/**
-	 * Tests when the label is deleted, the template definition will be cleared
-	 * too.
+	 * Tests when the label is deleted, the template definition will be cleared too.
 	 * 
 	 * @throws Exception
 	 */
 
-	public void test_regression_153040( ) throws Exception
-	{
-		this.openDesign( INPUT );
+	public void test_regression_153040() throws Exception {
+		this.openDesign(INPUT);
 
 		// originally template definition slot is empty
 
-		SlotHandle templateDefinitions = designHandle
-				.getSlot( ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
-		assertEquals( 0, templateDefinitions.getCount( ) );
+		SlotHandle templateDefinitions = designHandle.getSlot(ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT);
+		assertEquals(0, templateDefinitions.getCount());
 
-		LibraryHandle lib = designHandle.getLibrary( "regression_153040_lib" ); //$NON-NLS-1$
-		LabelHandle baseLabel = (LabelHandle) lib.findElement( "baseLabel" ); //$NON-NLS-1$
+		LibraryHandle lib = designHandle.getLibrary("regression_153040_lib"); //$NON-NLS-1$
+		LabelHandle baseLabel = (LabelHandle) lib.findElement("baseLabel"); //$NON-NLS-1$
 
-		LabelHandle label = (LabelHandle) designHandle.getElementFactory( )
-				.newElementFrom( baseLabel, "newLabel" ); //$NON-NLS-1$
+		LabelHandle label = (LabelHandle) designHandle.getElementFactory().newElementFrom(baseLabel, "newLabel"); //$NON-NLS-1$
 
-		designHandle.getBody( ).add( label );
+		designHandle.getBody().add(label);
 
 		TemplateReportItemHandle templateLabel = (TemplateReportItemHandle) label
-				.createTemplateElement( "templateLabel" ); //$NON-NLS-1$
-		assertEquals( 1, templateDefinitions.getCount( ) );
+				.createTemplateElement("templateLabel"); //$NON-NLS-1$
+		assertEquals(1, templateDefinitions.getCount());
 
 		// revert to report item.
 
-		LabelHandle label1 = designHandle.getElementFactory( ).newLabel(
-				"label1" ); //$NON-NLS-1$
-		templateLabel.transformToReportItem( label1 );
+		LabelHandle label1 = designHandle.getElementFactory().newLabel("label1"); //$NON-NLS-1$
+		templateLabel.transformToReportItem(label1);
 
 		// drop the label, which refers a template definition, make sure the
 		// unused template definition is removed.
 
-		label1.drop( );
-		assertEquals( 0, templateDefinitions.getCount( ) );
+		label1.drop();
+		assertEquals(0, templateDefinitions.getCount());
 	}
 }

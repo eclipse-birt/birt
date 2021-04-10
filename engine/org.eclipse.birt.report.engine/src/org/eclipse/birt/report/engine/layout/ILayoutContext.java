@@ -25,16 +25,15 @@ package org.eclipse.birt.report.engine.layout;
  * </ul>
  * 
  */
-public interface ILayoutContext
-{
+public interface ILayoutContext {
 
 	/**
 	 * get maximum available width in current line
 	 * 
 	 * @return
 	 */
-	public int getCurrentMaxContentWidth( );
-	
+	public int getCurrentMaxContentWidth();
+
 	public int getCurrentMaxContentHeight();
 
 	/**
@@ -43,32 +42,32 @@ public interface ILayoutContext
 	 * 
 	 * @return
 	 */
-	public int getCurrentIP( );
+	public int getCurrentIP();
 
-	public void setCurrentIP( int ip );
+	public void setCurrentIP(int ip);
 
 	/**
-	 * get current positon in block direction, the origin point is content box
-	 * start point of container
+	 * get current positon in block direction, the origin point is content box start
+	 * point of container
 	 * 
 	 * @return
 	 */
-	public int getCurrentBP( );
+	public int getCurrentBP();
 
-	public void setCurrentBP( int bp );
+	public void setCurrentBP(int bp);
 
 	/**
 	 * the X offset from border box start point to content box start point
 	 */
-	public int getOffsetX( );
+	public int getOffsetX();
 
-	public void setOffsetX( int x );
+	public void setOffsetX(int x);
 
 	/**
 	 * the Y offset from border box start point to content box start point
 	 */
-	public int getOffsetY( );
+	public int getOffsetY();
 
-	public void setOffsetY( int y );
+	public void setOffsetY(int y);
 
 }

@@ -60,8 +60,7 @@ import com.ibm.icu.util.ULocale;
  * Report content is the result of report generation.
  * 
  */
-public class ReportContent implements IReportContent
-{
+public class ReportContent implements IReportContent {
 
 	/**
 	 * css engine used by this report.
@@ -74,25 +73,25 @@ public class ReportContent implements IReportContent
 	/**
 	 * errors occured in the generation.
 	 */
-	private List<ElementExceptionInfo> errors = new ArrayList<ElementExceptionInfo>( );
+	private List<ElementExceptionInfo> errors = new ArrayList<ElementExceptionInfo>();
 
 	/**
 	 * toc of this report
 	 */
 	private ITreeNode tocTree;
-	
+
 	private IContent root;
-	
+
 	private long totalPage;
 
 	protected String acl;
-	
+
 	private IReportContext reportContext;
 
 	private ExecutionContext executionContext;
 
 	private Map<String, Object> userProperties;
-	
+
 	private Map<String, Object> extProperties;
 
 	private String title;
@@ -100,30 +99,26 @@ public class ReportContent implements IReportContent
 	/**
 	 * default constructor.
 	 */
-	public ReportContent( Report report )
-	{
-		cssEngine = report.getCSSEngine( );
+	public ReportContent(Report report) {
+		cssEngine = report.getCSSEngine();
 		this.report = report;
 		this.root = createContainerContent();
-		this.root.setStyleClass( report.getRootStyleName( ) );
+		this.root.setStyleClass(report.getRootStyleName());
 	}
 
 	/**
 	 * default constructor.
 	 */
-	public ReportContent( )
-	{
-		cssEngine = new BIRTCSSEngine( );
+	public ReportContent() {
+		cssEngine = new BIRTCSSEngine();
 	}
 
-	public Report getDesign( )
-	{
+	public Report getDesign() {
 		return report;
 	}
-	
-	public IStyle findStyle( String styleClass )
-	{
-		return ( report == null ) ? null : report.findStyle( styleClass );
+
+	public IStyle findStyle(String styleClass) {
+		return (report == null) ? null : report.findStyle(styleClass);
 	}
 
 	/**
@@ -131,248 +126,196 @@ public class ReportContent implements IReportContent
 	 * 
 	 * @return css engine
 	 */
-	public CSSEngine getCSSEngine( )
-	{
+	public CSSEngine getCSSEngine() {
 		return cssEngine;
 	}
 
-	public IContent getRoot()
-	{
+	public IContent getRoot() {
 		return this.root;
 	}
-	
-	public IPageContent getPageContent(long pageNumber)
-	{
+
+	public IPageContent getPageContent(long pageNumber) {
 		return null;
 	}
-	
-	
+
 	/**
 	 * @return the pageNumber
 	 */
-	public long getTotalPage( )
-	{
+	public long getTotalPage() {
 		return totalPage;
 	}
 
-	
 	/**
 	 * @param pageNumber the pageNumber to set
 	 */
-	public void setTotalPage( long totalPage )
-	{
+	public void setTotalPage(long totalPage) {
 		this.totalPage = totalPage;
 	}
 
-	public IContent getContent(InstanceID id)
-	{
+	public IContent getContent(InstanceID id) {
 		return null;
 	}
-	
-	public IHyperlinkAction createActionContent( )
-	{
-		return new ActionContent( );
+
+	public IHyperlinkAction createActionContent() {
+		return new ActionContent();
 	}
 
-	public IStyle createStyle( )
-	{
-		return new StyleDeclaration( cssEngine );
-	}
-	
-	public ICellContent createCellContent( )
-	{
-		return new CellContent( this );
+	public IStyle createStyle() {
+		return new StyleDeclaration(cssEngine);
 	}
 
-	public IContainerContent createContainerContent( )
-	{
-		return new ContainerContent( this );
+	public ICellContent createCellContent() {
+		return new CellContent(this);
 	}
 
-	public IPageContent createPageContent( )
-	{
-		return new PageContent( this );
+	public IContainerContent createContainerContent() {
+		return new ContainerContent(this);
 	}
 
-	public IRowContent createRowContent( )
-	{
-		return new RowContent( this );
+	public IPageContent createPageContent() {
+		return new PageContent(this);
 	}
 
-	public IListContent createListContent( )
-	{
-		return new ListContent( this );
+	public IRowContent createRowContent() {
+		return new RowContent(this);
 	}
 
-	public IListGroupContent createListGroupContent( )
-	{
-		return new ListGroupContent( this );
-	}
-	
-	public IListBandContent createListBandContent( )
-	{
-		return new ListBandContent( this );
-	}
-	
-	public ITableContent createTableContent( )
-	{
-		return new TableContent( this );
-	}
-	
-	public ITableGroupContent createTableGroupContent( )
-	{
-		return new TableGroupContent( this );
+	public IListContent createListContent() {
+		return new ListContent(this);
 	}
 
-	public ITableBandContent createTableBandContent( )
-	{
-		return new TableBandContent( this );
-	}
-	
-	public ITextContent createTextContent( )
-	{
-		return new TextContent( this );
+	public IListGroupContent createListGroupContent() {
+		return new ListGroupContent(this);
 	}
 
-	public ITextContent createTextContent( IContent content )
-	{
-		return new TextContent( content );
+	public IListBandContent createListBandContent() {
+		return new ListBandContent(this);
 	}
 
-	public IDataContent createDataContent( )
-	{
-		return new DataContent( this );
+	public ITableContent createTableContent() {
+		return new TableContent(this);
 	}
 
-	public IDataContent createDataContent( IContent content )
-	{
-		return new DataContent( content );
+	public ITableGroupContent createTableGroupContent() {
+		return new TableGroupContent(this);
 	}
 
-	public ILabelContent createLabelContent( )
-	{
-		return new LabelContent( this );
+	public ITableBandContent createTableBandContent() {
+		return new TableBandContent(this);
 	}
 
-	public ILabelContent createLabelContent( IContent content )
-	{
-		return new LabelContent( content );
-	}
-	
-	public IAutoTextContent createAutoTextContent( )
-	{
-		return new AutoTextContent( this );
+	public ITextContent createTextContent() {
+		return new TextContent(this);
 	}
 
-	public IForeignContent createForeignContent( )
-	{
-		return new ForeignContent( this );
+	public ITextContent createTextContent(IContent content) {
+		return new TextContent(content);
 	}
 
-	public IForeignContent createForeignContent( IContent content )
-	{
-		return new ForeignContent( content );
+	public IDataContent createDataContent() {
+		return new DataContent(this);
 	}
 
-	public IImageContent createImageContent( )
-	{
-		return new ImageContent( this );
+	public IDataContent createDataContent(IContent content) {
+		return new DataContent(content);
 	}
 
-	public IImageContent createImageContent( IContent content )
-	{
-		return new ImageContent( content );
-	}
-	
-	public IImageContent createObjectContent( )
-	{
-		return new ObjectContent( this );
+	public ILabelContent createLabelContent() {
+		return new LabelContent(this);
 	}
 
-	public List<ElementExceptionInfo> getErrors( )
-	{
+	public ILabelContent createLabelContent(IContent content) {
+		return new LabelContent(content);
+	}
+
+	public IAutoTextContent createAutoTextContent() {
+		return new AutoTextContent(this);
+	}
+
+	public IForeignContent createForeignContent() {
+		return new ForeignContent(this);
+	}
+
+	public IForeignContent createForeignContent(IContent content) {
+		return new ForeignContent(content);
+	}
+
+	public IImageContent createImageContent() {
+		return new ImageContent(this);
+	}
+
+	public IImageContent createImageContent(IContent content) {
+		return new ImageContent(content);
+	}
+
+	public IImageContent createObjectContent() {
+		return new ObjectContent(this);
+	}
+
+	public List<ElementExceptionInfo> getErrors() {
 		return errors;
 	}
 
-	public void setErrors( List<ElementExceptionInfo> errors )
-	{
-		if ( errors != null )
-		{
+	public void setErrors(List<ElementExceptionInfo> errors) {
+		if (errors != null) {
 			this.errors = errors;
-		}
-		else
-		{
-			this.errors = new ArrayList<ElementExceptionInfo>( );
+		} else {
+			this.errors = new ArrayList<ElementExceptionInfo>();
 		}
 	}
 
-	public ITOCTree getTOCTree( String format, ULocale locale )
-	{
-		if ( tocTree == null )
-		{
+	public ITOCTree getTOCTree(String format, ULocale locale) {
+		if (tocTree == null) {
 			return null;
 		}
-		return new TOCView( tocTree, report.getReportDesign( ), locale,
-				TimeZone.getDefault( ) );
+		return new TOCView(tocTree, report.getReportDesign(), locale, TimeZone.getDefault());
 	}
-	
-	public void setTOCTree( ITreeNode tocTree )
-	{
+
+	public void setTOCTree(ITreeNode tocTree) {
 		this.tocTree = tocTree;
 	}
 
-	public TOCNode getTOC( )
-	{
-		return getTOCTree( "viewer", ULocale.getDefault( ) ).getRoot( );
+	public TOCNode getTOC() {
+		return getTOCTree("viewer", ULocale.getDefault()).getRoot();
 	}
-	
-	public String getACL( )
-	{
+
+	public String getACL() {
 		return acl;
 	}
 
-	public void setACL( String acl )
-	{
+	public void setACL(String acl) {
 		this.acl = acl;
 	}
-	
-	public IReportContext getReportContext( )
-	{
+
+	public IReportContext getReportContext() {
 		return reportContext;
 	}
-	
-	public void setReportContext( IReportContext context )
-	{
+
+	public void setReportContext(IReportContext context) {
 		this.reportContext = context;
 	}
 
-	public ExecutionContext getExecutionContext( )
-	{
+	public ExecutionContext getExecutionContext() {
 		return executionContext;
 	}
 
-	public void setExecutionContext( ExecutionContext executionContext )
-	{
+	public void setExecutionContext(ExecutionContext executionContext) {
 		this.executionContext = executionContext;
 	}
 
-	public Map<String, Object> getUserProperties( )
-	{
+	public Map<String, Object> getUserProperties() {
 		return userProperties;
 	}
 
-	public void setUserProperties( Map<String, Object> properties )
-	{
+	public void setUserProperties(Map<String, Object> properties) {
 		this.userProperties = properties;
 	}
 
-	public Map<String, Object> getExtensions( )
-	{
+	public Map<String, Object> getExtensions() {
 		return extProperties;
 	}
 
-	public void setExtensions( Map<String, Object> properties )
-	{
+	public void setExtensions(Map<String, Object> properties) {
 		this.extProperties = properties;
 	}
 
@@ -380,62 +323,50 @@ public class ReportContent implements IReportContent
 	final static short FIELD_USER_PROPERTIES = 1;
 	final static short FIELD_EXTENSIONS = 2;
 
-	public void readContent( DataInputStream in, ClassLoader loader )
-			throws IOException
-	{
-		while ( in.available( ) > 0 )
-		{
-			int filedId = IOUtil.readShort( in );
-			readField( filedId, in, loader );
+	public void readContent(DataInputStream in, ClassLoader loader) throws IOException {
+		while (in.available() > 0) {
+			int filedId = IOUtil.readShort(in);
+			readField(filedId, in, loader);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private void readField( int fieldId, DataInputStream in, ClassLoader loader )
-			throws IOException
-	{
-		switch ( fieldId )
-		{
-			case FIELD_ACL :
-				acl = IOUtil.readString( in );
-				break;
-			case FIELD_USER_PROPERTIES :
-				userProperties = (Map<String, Object>) IOUtil.readMap( in );
-				break;
-			case FIELD_EXTENSIONS :
-				extProperties = (Map<String, Object>) IOUtil.readMap( in );
-				break;
-			default :
-				throw new IOException( MessageConstants.UNKNOWN_FIELD_ID + fieldId );
+	private void readField(int fieldId, DataInputStream in, ClassLoader loader) throws IOException {
+		switch (fieldId) {
+		case FIELD_ACL:
+			acl = IOUtil.readString(in);
+			break;
+		case FIELD_USER_PROPERTIES:
+			userProperties = (Map<String, Object>) IOUtil.readMap(in);
+			break;
+		case FIELD_EXTENSIONS:
+			extProperties = (Map<String, Object>) IOUtil.readMap(in);
+			break;
+		default:
+			throw new IOException(MessageConstants.UNKNOWN_FIELD_ID + fieldId);
 		}
 	}
 
-	public void writeContent( DataOutputStream out ) throws IOException
-	{
-		if ( acl != null )
-		{
-			IOUtil.writeShort( out, FIELD_ACL );
-			IOUtil.writeObject( out, acl );
+	public void writeContent(DataOutputStream out) throws IOException {
+		if (acl != null) {
+			IOUtil.writeShort(out, FIELD_ACL);
+			IOUtil.writeObject(out, acl);
 		}
-		if ( userProperties != null && userProperties.size( ) > 0 )
-		{
-			IOUtil.writeShort( out, FIELD_USER_PROPERTIES );
-			IOUtil.writeMap( out, userProperties );
+		if (userProperties != null && userProperties.size() > 0) {
+			IOUtil.writeShort(out, FIELD_USER_PROPERTIES);
+			IOUtil.writeMap(out, userProperties);
 		}
-		if ( extProperties != null && !extProperties.isEmpty( ) )
-		{
-			IOUtil.writeShort( out, FIELD_EXTENSIONS );
-			IOUtil.writeMap( out, extProperties );
+		if (extProperties != null && !extProperties.isEmpty()) {
+			IOUtil.writeShort(out, FIELD_EXTENSIONS);
+			IOUtil.writeMap(out, extProperties);
 		}
 	}
 
-	public void setTitle( String title )
-	{
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	public String getTitle( )
-	{
+	public String getTitle() {
 		return title;
 	}
 }

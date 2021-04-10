@@ -13,12 +13,11 @@ package org.eclipse.birt.report.engine.extension.engine;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 
-public interface IRenderExtension
-{
+public interface IRenderExtension {
 
-	long[][] getVisiblePages( ) throws EngineException;
+	long[][] getVisiblePages() throws EngineException;
 
-	IContentProcessor getRenderProcessor( );
+	IContentProcessor getRenderProcessor();
 
-	void close( );
+	void close();
 }

@@ -13,12 +13,11 @@ package org.eclipse.birt.report.engine.extension.engine;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 
-public interface IDocumentExtension
-{
+public interface IDocumentExtension {
 
-	IContentProcessor getPageProcessor( ) throws EngineException;
+	IContentProcessor getPageProcessor() throws EngineException;
 
-	IContentProcessor getContentProcessor( ) throws EngineException;
+	IContentProcessor getContentProcessor() throws EngineException;
 
-	void close( );
+	void close();
 }

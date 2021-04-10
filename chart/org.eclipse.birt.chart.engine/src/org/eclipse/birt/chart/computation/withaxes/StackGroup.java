@@ -19,10 +19,9 @@ import org.eclipse.birt.chart.model.type.LineSeries;
 /**
  * StackGroup
  */
-public class StackGroup
-{
+public class StackGroup {
 
-	ArrayList<Series> alSeries = new ArrayList<Series>( );
+	ArrayList<Series> alSeries = new ArrayList<Series>();
 
 	ArrayList<AxisSubUnit> alUnitPositions = null;
 
@@ -36,8 +35,7 @@ public class StackGroup
 	/**
 	 * The constructor.
 	 */
-	StackGroup( int iSharedUnitIndex )
-	{
+	StackGroup(int iSharedUnitIndex) {
 		this.iSharedUnitIndex = iSharedUnitIndex;
 	}
 
@@ -45,8 +43,7 @@ public class StackGroup
 	 * 
 	 * @param iSharedUnitCount
 	 */
-	final void updateCount( int iSharedUnitCount )
-	{
+	final void updateCount(int iSharedUnitCount) {
 		this.iSharedUnitCount = iSharedUnitCount;
 	}
 
@@ -54,14 +51,12 @@ public class StackGroup
 	 * 
 	 * @param se
 	 */
-	final void addSeries( Series se )
-	{
-		alSeries.add( se );
+	final void addSeries(Series se) {
+		alSeries.add(se);
 
 		// If having one series stack together, that's it.
-		if ( !bStackTogether )
-		{
-			bStackTogether = isStackTogether( se );
+		if (!bStackTogether) {
+			bStackTogether = isStackTogether(se);
 		}
 	}
 
@@ -69,18 +64,15 @@ public class StackGroup
 	 * 
 	 * @return
 	 */
-	public final ArrayList<Series> getSeries( )
-	{
+	public final ArrayList<Series> getSeries() {
 		return alSeries;
 	}
 
-	public final int getSharedIndex( )
-	{
+	public final int getSharedIndex() {
 		return iSharedUnitIndex;
 	}
 
-	public final int getSharedCount( )
-	{
+	public final int getSharedCount() {
 		return iSharedUnitCount;
 	}
 
@@ -91,8 +83,7 @@ public class StackGroup
 	 * @param series
 	 * @return
 	 */
-	private boolean isStackTogether( Series series )
-	{
+	private boolean isStackTogether(Series series) {
 		return series instanceof LineSeries;
 	}
 }

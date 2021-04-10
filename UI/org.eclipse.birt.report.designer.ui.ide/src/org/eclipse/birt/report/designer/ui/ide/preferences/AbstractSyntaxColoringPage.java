@@ -34,7 +34,14 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 
 		public void propertyChange(PropertyChangeEvent event) {
 			final String property = event.getProperty();
-			if (AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND.equals(property) || AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT.equals(property) || AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND.equals(property) || AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND_SYSTEM_DEFAULT.equals(property) || AbstractTextEditor.PREFERENCE_COLOR_SELECTION_FOREGROUND.equals(property) || AbstractTextEditor.PREFERENCE_COLOR_SELECTION_FOREGROUND_SYSTEM_DEFAULT.equals(property) || AbstractTextEditor.PREFERENCE_COLOR_SELECTION_BACKGROUND.equals(property) || AbstractTextEditor.PREFERENCE_COLOR_SELECTION_BACKGROUND_SYSTEM_DEFAULT.equals(property)) {
+			if (AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND.equals(property)
+					|| AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT.equals(property)
+					|| AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND.equals(property)
+					|| AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND_SYSTEM_DEFAULT.equals(property)
+					|| AbstractTextEditor.PREFERENCE_COLOR_SELECTION_FOREGROUND.equals(property)
+					|| AbstractTextEditor.PREFERENCE_COLOR_SELECTION_FOREGROUND_SYSTEM_DEFAULT.equals(property)
+					|| AbstractTextEditor.PREFERENCE_COLOR_SELECTION_BACKGROUND.equals(property)
+					|| AbstractTextEditor.PREFERENCE_COLOR_SELECTION_BACKGROUND_SYSTEM_DEFAULT.equals(property)) {
 				initializeSourcePreviewColors(getSourcePreviewViewer());
 			}
 		}
@@ -48,7 +55,8 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 	}
 
 	/**
-	 * Initializes the colors of the source preview window based on the values in the Editors' UI preference store
+	 * Initializes the colors of the source preview window based on the values in
+	 * the Editors' UI preference store
 	 * 
 	 * @param viewer the {@link ISourceViewer} used as the source preview
 	 */
@@ -59,7 +67,8 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 			final StyledText styledText = viewer.getTextWidget();
 
 			// ----------- foreground color --------------------
-			Color color = store.getBoolean(AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT) ? null : createColor(store, AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND, styledText.getDisplay());
+			Color color = store.getBoolean(AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND_SYSTEM_DEFAULT) ? null
+					: createColor(store, AbstractTextEditor.PREFERENCE_COLOR_FOREGROUND, styledText.getDisplay());
 			styledText.setForeground(color);
 
 			if (fForegroundColor != null)
@@ -68,7 +77,8 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 			fForegroundColor = color;
 
 			// ---------- background color ----------------------
-			color = store.getBoolean(AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND_SYSTEM_DEFAULT) ? null : createColor(store, AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND, styledText.getDisplay());
+			color = store.getBoolean(AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND_SYSTEM_DEFAULT) ? null
+					: createColor(store, AbstractTextEditor.PREFERENCE_COLOR_BACKGROUND, styledText.getDisplay());
 			styledText.setBackground(color);
 
 			if (fBackgroundColor != null)
@@ -77,7 +87,9 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 			fBackgroundColor = color;
 
 			// ----------- selection foreground color --------------------
-			color = store.getBoolean(AbstractTextEditor.PREFERENCE_COLOR_SELECTION_FOREGROUND_SYSTEM_DEFAULT) ? null : createColor(store, AbstractTextEditor.PREFERENCE_COLOR_SELECTION_FOREGROUND, styledText.getDisplay());
+			color = store.getBoolean(AbstractTextEditor.PREFERENCE_COLOR_SELECTION_FOREGROUND_SYSTEM_DEFAULT) ? null
+					: createColor(store, AbstractTextEditor.PREFERENCE_COLOR_SELECTION_FOREGROUND,
+							styledText.getDisplay());
 			styledText.setSelectionForeground(color);
 
 			if (fSelectionForegroundColor != null)
@@ -86,7 +98,9 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 			fSelectionForegroundColor = color;
 
 			// ---------- selection background color ----------------------
-			color = store.getBoolean(AbstractTextEditor.PREFERENCE_COLOR_SELECTION_BACKGROUND_SYSTEM_DEFAULT) ? null : createColor(store, AbstractTextEditor.PREFERENCE_COLOR_SELECTION_BACKGROUND, styledText.getDisplay());
+			color = store.getBoolean(AbstractTextEditor.PREFERENCE_COLOR_SELECTION_BACKGROUND_SYSTEM_DEFAULT) ? null
+					: createColor(store, AbstractTextEditor.PREFERENCE_COLOR_SELECTION_BACKGROUND,
+							styledText.getDisplay());
 			styledText.setSelectionBackground(color);
 
 			if (fSelectionBackgroundColor != null)
@@ -98,6 +112,7 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 
 	/**
 	 * Provides the {@link ISourceViewer} that is acting as the source preview
+	 * 
 	 * @return
 	 */
 	protected ISourceViewer getSourcePreviewViewer() {
@@ -136,18 +151,14 @@ public abstract class AbstractSyntaxColoringPage extends PreferencePage {
 	}
 
 	/**
-	 * Creates a color from the information stored in the given preference
-	 * store. Returns <code>null</code> if there is no such information
-	 * available.
+	 * Creates a color from the information stored in the given preference store.
+	 * Returns <code>null</code> if there is no such information available.
 	 * 
-	 * @param store
-	 *            the store to read from
-	 * @param key
-	 *            the key used for the lookup in the preference store
-	 * @param display
-	 *            the display used create the color
-	 * @return the created color according to the specification in the
-	 *         preference store
+	 * @param store   the store to read from
+	 * @param key     the key used for the lookup in the preference store
+	 * @param display the display used create the color
+	 * @return the created color according to the specification in the preference
+	 *         store
 	 * @since 2.0
 	 */
 	private Color createColor(IPreferenceStore store, String key, Display display) {

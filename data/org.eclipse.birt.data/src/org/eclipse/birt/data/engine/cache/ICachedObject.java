@@ -16,12 +16,11 @@ package org.eclipse.birt.data.engine.cache;
  * Object.
  */
 
-public interface ICachedObject
-{
+public interface ICachedObject {
 	/**
 	 * 
 	 * @return
 	 */
 	public Object[] getFieldValues();
-	
+
 }

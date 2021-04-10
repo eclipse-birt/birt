@@ -15,13 +15,11 @@ import java.util.Map;
 
 import org.eclipse.birt.report.engine.content.IDrillThroughAction;
 
-
 /**
  * 
  */
 
-public class DrillThroughAction implements IDrillThroughAction
-{
+public class DrillThroughAction implements IDrillThroughAction {
 	/**
 	 * report name
 	 */
@@ -31,7 +29,7 @@ public class DrillThroughAction implements IDrillThroughAction
 	 * bookmark string
 	 */
 	protected String bookmark;
-	
+
 	/**
 	 * Flag indicating if this is a bookmark. False means this is a TOC.
 	 */
@@ -53,21 +51,18 @@ public class DrillThroughAction implements IDrillThroughAction
 	 * the name of a frame where a document is to be opened.
 	 */
 	protected String target;
-	
+
 	/**
 	 * The type of the target file.
 	 */
 	protected String targetFileType = null;
-	
-	public DrillThroughAction( )
-	{
-		
+
+	public DrillThroughAction() {
+
 	}
-	
-	public DrillThroughAction( String bookmark, boolean isBookmark,
-				String reportName, Map parameterBindings, Map searchCriteria,
-				String target, String format, String targetFileType )
-	{
+
+	public DrillThroughAction(String bookmark, boolean isBookmark, String reportName, Map parameterBindings,
+			Map searchCriteria, String target, String format, String targetFileType) {
 		this.bookmark = bookmark;
 		this.isBookmark = isBookmark;
 		this.reportName = reportName;
@@ -77,94 +72,77 @@ public class DrillThroughAction implements IDrillThroughAction
 		this.format = format;
 		this.targetFileType = targetFileType;
 	}
-	
-	public String getBookmark( )
-	{
+
+	public String getBookmark() {
 		return bookmark;
 	}
 
-	public String getFormat( )
-	{
+	public String getFormat() {
 		return format;
 	}
 
-	public Map getParameterBindings( )
-	{
+	public Map getParameterBindings() {
 		return parameterBindings;
 	}
 
-	public String getReportName( )
-	{
+	public String getReportName() {
 		return reportName;
 	}
 
-	public Map getSearchCriteria( )
-	{
+	public Map getSearchCriteria() {
 		return searchCriteria;
 	}
 
-	public String getTargetWindow( )
-	{
+	public String getTargetWindow() {
 		return target;
 	}
 
-	public boolean isBookmark( )
-	{
+	public boolean isBookmark() {
 		return isBookmark;
 	}
 
-	public void setReportName( String reportName )
-	{
+	public void setReportName(String reportName) {
 		this.reportName = reportName;
 	}
 
-	public void setBookmark( String bookmark )
-	{
+	public void setBookmark(String bookmark) {
 		this.bookmark = bookmark;
 	}
 
-	public void setBookmarkType( boolean isBookmark )
-	{
+	public void setBookmarkType(boolean isBookmark) {
 		this.isBookmark = isBookmark;
 	}
 
-	public void setParameterBindings( Map parameterBindings )
-	{
+	public void setParameterBindings(Map parameterBindings) {
 		this.parameterBindings = parameterBindings;
 	}
 
-	public void setSearchCriteria( Map searchCriteria )
-	{
+	public void setSearchCriteria(Map searchCriteria) {
 		this.searchCriteria = searchCriteria;
 	}
 
-	public void setTargetWindow( String target )
-	{
+	public void setTargetWindow(String target) {
 		this.target = target;
 	}
 
-	public void setFormat( String format )
-	{
+	public void setFormat(String format) {
 		this.format = format;
 	}
-	
+
 	/**
-	 * Sets target report file type for a drill-through action. The format type
-	 * for action are defined in DesignChoiceConstants.
+	 * Sets target report file type for a drill-through action. The format type for
+	 * action are defined in DesignChoiceConstants.
 	 * 
-	 * @param targetFileType
-	 *            the type of the target report file.
+	 * @param targetFileType the type of the target report file.
 	 */
-	public void setTargetFileType( String targetFileType )
-	{
+	public void setTargetFileType(String targetFileType) {
 		this.targetFileType = targetFileType;
 	}
 
 	/**
 	 * @return the type of the target report file.
 	 */
-	public String getTargetFileType( )
-	{
+	public String getTargetFileType() {
 		return targetFileType;
 	}
 }

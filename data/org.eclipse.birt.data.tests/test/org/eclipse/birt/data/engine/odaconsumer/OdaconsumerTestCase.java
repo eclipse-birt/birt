@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.odaconsumer;
 
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.odaconsumer.testutil.TestSetup;
@@ -23,42 +22,34 @@ import org.junit.rules.TestName;
  */
 
 public class OdaconsumerTestCase {
-	
-	@Rule public TestName testName = new TestName();
 
-    static
-	{
-		if ( System.getProperty( "BIRT_HOME" ) == null )
-			System.setProperty( "BIRT_HOME", "./test" );
-		System.setProperty( "PROPERTY_RUN_UNDER_ECLIPSE", "false" );
-		try
-        {
-            Platform.startup( null );
-        }
-        catch( BirtException ex )
-        {
-            ex.printStackTrace();
-        }
-        
-		try
-		{
-			TestSetup.createTestTable( );
+	@Rule
+	public TestName testName = new TestName();
+
+	static {
+		if (System.getProperty("BIRT_HOME") == null)
+			System.setProperty("BIRT_HOME", "./test");
+		System.setProperty("PROPERTY_RUN_UNDER_ECLIPSE", "false");
+		try {
+			Platform.startup(null);
+		} catch (BirtException ex) {
+			ex.printStackTrace();
 		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( );
+
+		try {
+			TestSetup.createTestTable();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
-    // return test case name
-	public String getTestName( )
-	{
-		return this.testName.getMethodName( );
+	// return test case name
+	public String getTestName() {
+		return this.testName.getMethodName();
 	}
 
-    // dummy test case to avoid warning on empty test
-    public final void testDummy()
-    {        
-    }
+	// dummy test case to avoid warning on empty test
+	public final void testDummy() {
+	}
 
 }

@@ -15,18 +15,14 @@ package org.eclipse.birt.chart.script;
  * This interface defines the functions to load script classes for chart
  * scripting.
  */
-public interface IScriptClassLoader
-{
+public interface IScriptClassLoader {
 
 	/**
 	 * Loads the class by given name.
 	 * 
-	 * @param className
-	 *            Class name.
-	 * @param parentLoader
-	 *            Parent loader.
+	 * @param className    Class name.
+	 * @param parentLoader Parent loader.
 	 * @return Loaded class.
 	 */
-	Class loadClass( String className, ClassLoader parentLoader )
-			throws ClassNotFoundException;
+	Class loadClass(String className, ClassLoader parentLoader) throws ClassNotFoundException;
 }

@@ -28,15 +28,13 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * <code>MetaDataDicationary</code>.
  */
 
-public abstract class ExtensionLoader
-{
+public abstract class ExtensionLoader {
 
 	/**
 	 * Logger instance.
 	 */
 
-	private static Logger logger = Logger.getLogger( ExtensionLoader.class
-			.getName( ) );
+	private static Logger logger = Logger.getLogger(ExtensionLoader.class.getName());
 
 	private String extensionPointer = null;
 
@@ -44,12 +42,10 @@ public abstract class ExtensionLoader
 	 * Constructor with the id of extension pointer which the extension this
 	 * extension loader loads implements.
 	 * 
-	 * @param extensionPointer
-	 *            the id of extension pointer
+	 * @param extensionPointer the id of extension pointer
 	 */
 
-	ExtensionLoader( String extensionPointer )
-	{
+	ExtensionLoader(String extensionPointer) {
 		this.extensionPointer = extensionPointer;
 	}
 
@@ -59,95 +55,78 @@ public abstract class ExtensionLoader
 	 * @throws ExtensionException
 	 * @throws MetaDataException
 	 */
-	abstract protected void loadExtension( IExtension extension );
+	abstract protected void loadExtension(IExtension extension);
 
 	/**
 	 * Loads the extensions in plug-ins, and add them into metadata dictionary.
 	 * 
 	 */
 
-	public final void load( )
-	{
-		doLoad( );
+	public final void load() {
+		doLoad();
 	}
 
 	/**
 	 * Logs the exceptions when extension pointers can't be found.
 	 * 
-	 * @param e
-	 *            the extension exception.
+	 * @param e the extension exception.
 	 */
 
-	protected void handleError( MetaDataException e )
-	{
-		logger.log( Level.SEVERE, e.getMessage( ) );
-		MetaLogManager.log( "Extension loading error", e ); //$NON-NLS-1$
+	protected void handleError(MetaDataException e) {
+		logger.log(Level.SEVERE, e.getMessage());
+		MetaLogManager.log("Extension loading error", e); //$NON-NLS-1$
 	}
 
 	/**
 	 * Logs the exceptions when extension pointers can't be found.
 	 * 
-	 * @param e
-	 *            the extension exception.
+	 * @param e the extension exception.
 	 */
 
-	protected void handleError( MetaDataParserException e )
-	{
-		logger.log( Level.SEVERE, e.getMessage( ) );
-		MetaLogManager.log( "Delta Metadata parsing error", e ); //$NON-NLS-1$
+	protected void handleError(MetaDataParserException e) {
+		logger.log(Level.SEVERE, e.getMessage());
+		MetaLogManager.log("Delta Metadata parsing error", e); //$NON-NLS-1$
 	}
 
 	/**
 	 * Logs the exceptions when extension pointers can't be found.
 	 * 
-	 * @param message
-	 *            the log message
+	 * @param message the log message
 	 */
 
-	protected final void handleError( String message )
-	{
-		logger.log( Level.SEVERE, message );
-		MetaLogManager.log( message );
+	protected final void handleError(String message) {
+		logger.log(Level.SEVERE, message);
+		MetaLogManager.log(message);
 	}
 
 	/**
 	 * Loads the extended elements in plug-ins, and add them into metadata
 	 * dictionary.
 	 * 
-	 * @throws ExtensionException
-	 *             if error is found when loading extension.
-	 * @throws MetaDataException
-	 *             if error encountered when adding the element to metadata
-	 *             dictionary.
+	 * @throws ExtensionException if error is found when loading extension.
+	 * @throws MetaDataException  if error encountered when adding the element to
+	 *                            metadata dictionary.
 	 */
 
-	protected void doLoad( )
-	{
-		IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
-		if ( pluginRegistry == null )
-		{
-			handleError( new ExtensionException(
-					new String[]{extensionPointer},
-					ExtensionException.DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND ) );
+	protected void doLoad() {
+		IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry();
+		if (pluginRegistry == null) {
+			handleError(new ExtensionException(new String[] { extensionPointer },
+					ExtensionException.DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND));
 			return;
 		}
 
-		IExtensionPoint extensionPoint = pluginRegistry
-				.getExtensionPoint( extensionPointer );
-		if ( extensionPoint == null )
-		{
-			handleError( new ExtensionException(
-					new String[]{extensionPointer},
-					ExtensionException.DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND ) );
+		IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint(extensionPointer);
+		if (extensionPoint == null) {
+			handleError(new ExtensionException(new String[] { extensionPointer },
+					ExtensionException.DESIGN_EXCEPTION_EXTENSION_POINT_NOT_FOUND));
 			return;
 		}
 
-		IExtension[] extensions = extensionPoint.getExtensions( );
-		if ( extensions != null )
-		{
-			for ( int i = 0; i < extensions.length; i++ )
-			{
-				loadExtension( extensions[i] );
+		IExtension[] extensions = extensionPoint.getExtensions();
+		if (extensions != null) {
+			for (int i = 0; i < extensions.length; i++) {
+				loadExtension(extensions[i]);
 			}
 		}
 	}
@@ -157,50 +136,41 @@ public abstract class ExtensionLoader
 	 * definition file. The common constants are defined for parsing.
 	 */
 
-	abstract class ExtensionElementLoader
-	{
+	abstract class ExtensionElementLoader {
 
 		protected static final String EXTENSION_NAME_ATTRIB = "extensionName"; //$NON-NLS-1$
-		protected static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$		
+		protected static final String CLASS_ATTRIB = "class"; //$NON-NLS-1$
 
 		/**
 		 * Default constructor.
 		 */
 
-		ExtensionElementLoader( )
-		{
+		ExtensionElementLoader() {
 		}
 
 		/**
 		 * Loads the extension element definition and its properties.
 		 * 
-		 * @param elementTag
-		 *            the element tag
-		 * @throws MetaDataException
-		 *             if error encountered when adding the element to metadata
-		 *             dictionary.
+		 * @param elementTag the element tag
+		 * @throws MetaDataException if error encountered when adding the element to
+		 *                           metadata dictionary.
 		 */
 
-		abstract void loadElement( IConfigurationElement elementTag );
+		abstract void loadElement(IConfigurationElement elementTag);
 
 		/**
 		 * Checks whether the required attribute is set.
 		 * 
-		 * @param name
-		 *            the required attribute name
-		 * @param value
-		 *            the attribute value
+		 * @param name  the required attribute name
+		 * @param value the attribute value
 		 * @return true if the attribute is valid, otherwise false
-		 * @throws ExtensionException
-		 *             if the value is empty
+		 * @throws ExtensionException if the value is empty
 		 */
 
-		protected boolean checkRequiredAttribute( String name, String value )
-		{
-			if ( StringUtil.isBlank( value ) )
-			{
-				handleError( new ExtensionException( new String[]{name},
-						ExtensionException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+		protected boolean checkRequiredAttribute(String name, String value) {
+			if (StringUtil.isBlank(value)) {
+				handleError(new ExtensionException(new String[] { name },
+						ExtensionException.DESIGN_EXCEPTION_VALUE_REQUIRED));
 				return false;
 			}
 			return true;
@@ -209,26 +179,21 @@ public abstract class ExtensionLoader
 		/**
 		 * Returns the boolean value of the given attribute.
 		 * 
-		 * @param attrs
-		 *            the element attributes
-		 * @param attrName
-		 *            the attribute name
-		 * @param defaultValue
-		 *            the default value
+		 * @param attrs        the element attributes
+		 * @param attrName     the attribute name
+		 * @param defaultValue the default value
 		 * @return the boolean value
 		 */
 
-		protected boolean getBooleanAttrib( IConfigurationElement attrs,
-				String attrName, boolean defaultValue )
-		{
-			String value = attrs.getAttribute( attrName );
-			if ( value == null )
+		protected boolean getBooleanAttrib(IConfigurationElement attrs, String attrName, boolean defaultValue) {
+			String value = attrs.getAttribute(attrName);
+			if (value == null)
 				return defaultValue;
 
-			if ( "false".equalsIgnoreCase( value.trim( ) ) ) //$NON-NLS-1$
+			if ("false".equalsIgnoreCase(value.trim())) //$NON-NLS-1$
 				return false;
 
-			if ( "true".equalsIgnoreCase( value.trim( ) ) ) //$NON-NLS-1$
+			if ("true".equalsIgnoreCase(value.trim())) //$NON-NLS-1$
 				return true;
 
 			return defaultValue;

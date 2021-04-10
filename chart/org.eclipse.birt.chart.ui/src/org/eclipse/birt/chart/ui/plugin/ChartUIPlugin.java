@@ -6,8 +6,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 /**
  * The main plugin class to be used in the desktop.
  */
-public class ChartUIPlugin extends AbstractUIPlugin
-{
+public class ChartUIPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Plugin ID.
@@ -20,17 +19,15 @@ public class ChartUIPlugin extends AbstractUIPlugin
 	/**
 	 * The constructor.
 	 */
-	public ChartUIPlugin( )
-	{
-		super( );
+	public ChartUIPlugin() {
+		super();
 		plugin = this;
 	}
 
 	/**
 	 * Returns the shared instance.
 	 */
-	public static ChartUIPlugin getDefault( )
-	{
+	public static ChartUIPlugin getDefault() {
 		return plugin;
 	}
 }

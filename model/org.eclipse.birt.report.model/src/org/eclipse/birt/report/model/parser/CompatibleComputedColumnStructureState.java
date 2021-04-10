@@ -46,36 +46,32 @@ import org.xml.sax.SAXException;
  * </pre>
  */
 
-public class CompatibleComputedColumnStructureState extends CompatibleStructureState
-{
+public class CompatibleComputedColumnStructureState extends CompatibleStructureState {
 
-	CompatibleComputedColumnStructureState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn )
-	{
-		super( theHandler, element, propDefn );
+	CompatibleComputedColumnStructureState(ModuleParserHandler theHandler, DesignElement element,
+			PropertyDefn propDefn) {
+		super(theHandler, element, propDefn);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
+	 * String)
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
-			return new CompatibleComputedColumnPropertyState( handler, element,
-					propDefn, struct );
-		return super.startElement( tagName );
+	public AbstractParseState startElement(String tagName) {
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.PROPERTY_TAG))
+			return new CompatibleComputedColumnPropertyState(handler, element, propDefn, struct);
+		return super.startElement(tagName);
 	}
 
-	static class CompatibleComputedColumnPropertyState extends CompatiblePropertyState
-	{
+	static class CompatibleComputedColumnPropertyState extends CompatiblePropertyState {
 
-		CompatibleComputedColumnPropertyState( ModuleParserHandler theHandler,
-				DesignElement element, PropertyDefn propDefn, IStructure struct )
-		{
-			super( theHandler, element, propDefn, struct );
+		CompatibleComputedColumnPropertyState(ModuleParserHandler theHandler, DesignElement element,
+				PropertyDefn propDefn, IStructure struct) {
+			super(theHandler, element, propDefn, struct);
 		}
 
 		/*
@@ -84,21 +80,19 @@ public class CompatibleComputedColumnStructureState extends CompatibleStructureS
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
-		public void end( ) throws SAXException
-		{
-			if ( "columnName".equals( name ) ) //$NON-NLS-1$
+		public void end() throws SAXException {
+			if ("columnName".equals(name)) //$NON-NLS-1$
 			{
-				String value = text.toString( );
+				String value = text.toString();
 
-				assert ( struct != null );
-				assert ( propDefn != null );
+				assert (struct != null);
+				assert (propDefn != null);
 
-				setMember( struct, propDefn.getName( ),
-						ComputedColumn.NAME_MEMBER, value );
+				setMember(struct, propDefn.getName(), ComputedColumn.NAME_MEMBER, value);
 				return;
 			}
 
-			super.end( );
+			super.end();
 		}
 	}
 }

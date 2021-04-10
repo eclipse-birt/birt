@@ -22,8 +22,7 @@ import org.eclipse.birt.report.taglib.component.ParamValueField;
  * This tag is used to specify the report parameter.
  * 
  */
-public class ParamValueTag extends BodyTagSupport
-{
+public class ParamValueTag extends BodyTagSupport {
 
 	/**
 	 * Serial Version UID
@@ -40,10 +39,9 @@ public class ParamValueTag extends BodyTagSupport
 	 * 
 	 * @see javax.servlet.jsp.tagext.TagSupport#setPageContext(javax.servlet.jsp.PageContext)
 	 */
-	public void setPageContext( PageContext context )
-	{
-		super.setPageContext( context );
-		param = new ParamValueField( );
+	public void setPageContext(PageContext context) {
+		super.setPageContext(context);
+		param = new ParamValueField();
 	}
 
 	/**
@@ -51,50 +49,39 @@ public class ParamValueTag extends BodyTagSupport
 	 * 
 	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
 	 */
-	public int doEndTag( ) throws JspException
-	{
+	public int doEndTag() throws JspException {
 		// included in viewer tag
-		ParamTag paramTag = (ParamTag) TagSupport
-				.findAncestorWithClass( this, ParamTag.class );
-		if ( paramTag != null )
-		{
-			if ( bodyContent != null )
-			{
-				String bodyString = bodyContent.getString( );
-				if ( bodyString != null )
-				{
-					bodyString = bodyString.trim( );
-					if ( !"".equals(bodyString) )
-					{
+		ParamTag paramTag = (ParamTag) TagSupport.findAncestorWithClass(this, ParamTag.class);
+		if (paramTag != null) {
+			if (bodyContent != null) {
+				String bodyString = bodyContent.getString();
+				if (bodyString != null) {
+					bodyString = bodyString.trim();
+					if (!"".equals(bodyString)) {
 						// replace the value attribute with the content, if empty
-						if ( param.getValue() == null || "".equals(param.getValue()) )
-						{
-							param.setValue( bodyString );
+						if (param.getValue() == null || "".equals(param.getValue())) {
+							param.setValue(bodyString);
 						}
 					}
 				}
 			}
-			paramTag.addValue( param );
+			paramTag.addValue(param);
 		}
-		return super.doEndTag( );
-	}
-	
-	/**
-	 * @param value
-	 *            the value to set
-	 */
-	public void setValue( Object value )
-	{
-		param.setValue( value );
+		return super.doEndTag();
 	}
 
 	/**
-	 * @param displayText
-	 *            the displayText to set
+	 * @param value the value to set
 	 */
-	public void setDisplayText( String displayText )
-	{
-		param.setDisplayText( displayText );
+	public void setValue(Object value) {
+		param.setValue(value);
+	}
+
+	/**
+	 * @param displayText the displayText to set
+	 */
+	public void setDisplayText(String displayText) {
+		param.setDisplayText(displayText);
 	}
 
 }

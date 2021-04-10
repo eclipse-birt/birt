@@ -25,8 +25,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * 
  */
 
-public class ViewsContentEvent extends NotificationEvent
-{
+public class ViewsContentEvent extends NotificationEvent {
 
 	/**
 	 * New content element is added.
@@ -47,8 +46,7 @@ public class ViewsContentEvent extends NotificationEvent
 	public static final int SHIFT = 12;
 
 	/**
-	 * The type of change. One of {@link #ADD},{@link #REMOVE}, or
-	 * {@link #SHIFT}.
+	 * The type of change. One of {@link #ADD},{@link #REMOVE}, or {@link #SHIFT}.
 	 */
 
 	private int action;
@@ -71,10 +69,8 @@ public class ViewsContentEvent extends NotificationEvent
 	 * @param theAction
 	 */
 
-	public ViewsContentEvent( ContainerContext containerInfo,
-			DesignElement theContent, int theAction )
-	{
-		super( containerInfo.getElement( ) );
+	public ViewsContentEvent(ContainerContext containerInfo, DesignElement theContent, int theAction) {
+		super(containerInfo.getElement());
 		action = theAction;
 		content = theContent;
 		focus = containerInfo;
@@ -83,10 +79,11 @@ public class ViewsContentEvent extends NotificationEvent
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
+	 * )
 	 */
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return VIEWS_CONTENT_EVENT;
 	}
 
@@ -97,8 +94,7 @@ public class ViewsContentEvent extends NotificationEvent
 	 * @return the action causing this event.
 	 */
 
-	public int getAction( )
-	{
+	public int getAction() {
 		return action;
 	}
 
@@ -108,25 +104,23 @@ public class ViewsContentEvent extends NotificationEvent
 	 * @return the content element causing this event.
 	 */
 
-	public IDesignElement getContent( )
-	{
+	public IDesignElement getContent() {
 		return content;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
+	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
 
-	public boolean isSame( NotificationEvent event )
-	{
-		if ( !super.isSame( event ) )
+	public boolean isSame(NotificationEvent event) {
+		if (!super.isSame(event))
 			return false;
 		ViewsContentEvent contentEvent = (ViewsContentEvent) event;
-		if ( action != contentEvent.getAction( ) ||
-				!focus.equals( contentEvent.focus ) ||
-				content != contentEvent.getContent( ) )
+		if (action != contentEvent.getAction() || !focus.equals(contentEvent.focus)
+				|| content != contentEvent.getContent())
 			return false;
 		return true;
 	}

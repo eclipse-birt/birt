@@ -15,23 +15,21 @@ import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.IDesignEngine;
 import org.eclipse.birt.report.model.api.IDesignEngineFactory;
 
-
 /**
  * Factory pattern to create an instance of Design Engine
  */
 
-public class DesignEngineFactory implements IDesignEngineFactory
-{
+public class DesignEngineFactory implements IDesignEngineFactory {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.IDesignEngineFactory#createDesignEngine()
+	 * @see
+	 * org.eclipse.birt.report.model.api.IDesignEngineFactory#createDesignEngine()
 	 */
 
-	public IDesignEngine createDesignEngine( DesignConfig config )
-	{
-		return new DesignEngineImpl( config );
+	public IDesignEngine createDesignEngine(DesignConfig config) {
+		return new DesignEngineImpl(config);
 	}
 
 }

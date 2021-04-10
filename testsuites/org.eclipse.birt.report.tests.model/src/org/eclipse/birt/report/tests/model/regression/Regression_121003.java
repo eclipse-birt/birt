@@ -32,34 +32,28 @@ import com.ibm.icu.util.ULocale;
  * exception when setting the second one.
  * </p>
  */
-public class Regression_121003 extends BaseTestCase
-{
+public class Regression_121003 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
 	 * 
 	 */
 
-	public void test_regression_121003( ) throws SemanticException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_121003() throws SemanticException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		OdaDataSourceHandle dsource = factory.newOdaDataSource(
-				"DSource", "org.eclipse.birt.report.data.oda.jdbc" ); //$NON-NLS-1$ //$NON-NLS-2$
-		designHandle.getDataSources( ).add( dsource );
+		ElementFactory factory = designHandle.getElementFactory();
+		OdaDataSourceHandle dsource = factory.newOdaDataSource("DSource", "org.eclipse.birt.report.data.oda.jdbc"); //$NON-NLS-1$ //$NON-NLS-2$
+		designHandle.getDataSources().add(dsource);
 
-		dsource.setPropertyBinding( "odaDriverClass", "1+1" ); //$NON-NLS-1$//$NON-NLS-2$
+		dsource.setPropertyBinding("odaDriverClass", "1+1"); //$NON-NLS-1$//$NON-NLS-2$
 
-		try
-		{
-			dsource.setPropertyBinding( "odaURL", "2+2" ); //$NON-NLS-1$//$NON-NLS-2$
-		}
-		catch ( Exception e )
-		{
-			fail( );
+		try {
+			dsource.setPropertyBinding("odaURL", "2+2"); //$NON-NLS-1$//$NON-NLS-2$
+		} catch (Exception e) {
+			fail();
 		}
 
 	}

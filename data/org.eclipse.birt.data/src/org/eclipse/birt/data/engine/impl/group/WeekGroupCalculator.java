@@ -21,47 +21,37 @@ import com.ibm.icu.util.ULocale;
 /**
  * This calculator is used to calculate a week group key basing group interval.
  */
-class WeekGroupCalculator extends DateGroupCalculator
-{
+class WeekGroupCalculator extends DateGroupCalculator {
 
-	public WeekGroupCalculator( Object intervalStart, double intervalRange,
-			ULocale locale, TimeZone timeZone ) throws BirtException
-	{
-		super( intervalStart, intervalRange, locale, timeZone );
+	public WeekGroupCalculator(Object intervalStart, double intervalRange, ULocale locale, TimeZone timeZone)
+			throws BirtException {
+		super(intervalStart, intervalRange, locale, timeZone);
 		// TODO Auto-generated constructor stub
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.
+	 * lang.Object)
 	 */
-	public Object calculate( Object value ) throws BirtException
-	{
-		if ( value == null )
-		{
-			return new Double( -1 );
+	public Object calculate(Object value) throws BirtException {
+		if (value == null) {
+			return new Double(-1);
 		}
 
-		Date target = getDate( value );
-		
-		if ( intervalStart == null )
-		{
-			return new Double( Math.floor( (double)this.dateTimeUtil.diffWeek( defaultStart,
-					target )
-					/ (double)getDateIntervalRange( ) ) );
-		}
-		else
-		{
-			if ( this.dateTimeUtil.diffWeek( (Date) intervalStart, target ) < 0 )
-			{
-				return new Double( -1 );
-			}
-			else
-			{
-				return new Double( Math.floor( (double)this.dateTimeUtil.diffWeek( (Date) intervalStart,
-						target )
-						/ (double)getDateIntervalRange( ) ) );
+		Date target = getDate(value);
+
+		if (intervalStart == null) {
+			return new Double(Math.floor(
+					(double) this.dateTimeUtil.diffWeek(defaultStart, target) / (double) getDateIntervalRange()));
+		} else {
+			if (this.dateTimeUtil.diffWeek((Date) intervalStart, target) < 0) {
+				return new Double(-1);
+			} else {
+				return new Double(Math.floor((double) this.dateTimeUtil.diffWeek((Date) intervalStart, target)
+						/ (double) getDateIntervalRange()));
 			}
 		}
 	}

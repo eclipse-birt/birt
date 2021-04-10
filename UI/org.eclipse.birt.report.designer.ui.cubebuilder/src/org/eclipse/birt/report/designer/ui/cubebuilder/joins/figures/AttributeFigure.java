@@ -9,37 +9,26 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
-
-public class AttributeFigure extends ColumnFigure
-{
+public class AttributeFigure extends ColumnFigure {
 	/**
-	 *  Sets the background and foreground color when the 
-	 *  Column is selected.
+	 * Sets the background and foreground color when the Column is selected.
 	 */
-	public void setSelectedColors( )
-	{
-		this.setForegroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_SELECTION_TEXT ) );
-		this.setBackgroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_SELECTION ) );
+	public void setSelectedColors() {
+		this.setForegroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_SELECTION_TEXT));
+		this.setBackgroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_SELECTION));
 	}
 
 	/**
-	 * Sets the background and foreground color when the 
-	 * Column is  deselected.
+	 * Sets the background and foreground color when the Column is deselected.
 	 */
-	public void setDeselectedColors( )
-	{
-		this.setBackgroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
-		this.setForegroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_BLUE ) );
+	public void setDeselectedColors() {
+		this.setBackgroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
+		this.setForegroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
 	}
 
-}	
+}

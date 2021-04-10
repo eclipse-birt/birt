@@ -15,24 +15,23 @@ import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 
-
 /**
  * 
  */
-class EclipseExtensionPoint implements IExtensionPoint
-{
+class EclipseExtensionPoint implements IExtensionPoint {
 	org.eclipse.core.runtime.IExtensionPoint object;
-	
-	EclipseExtensionPoint(org.eclipse.core.runtime.IExtensionPoint object)
-	{
+
+	EclipseExtensionPoint(org.eclipse.core.runtime.IExtensionPoint object) {
 		this.object = object;
 	}
+
 	/**
 	 * @return
 	 */
 	public IConfigurationElement[] getConfigurationElements() {
 		return EclipsePlatform.wrap(object.getConfigurationElements());
 	}
+
 	/**
 	 * @param extensionId
 	 * @return
@@ -40,36 +39,42 @@ class EclipseExtensionPoint implements IExtensionPoint
 	public IExtension getExtension(String extensionId) {
 		return EclipsePlatform.wrap(object.getExtension(extensionId));
 	}
+
 	/**
 	 * @return
 	 */
 	public IExtension[] getExtensions() {
 		return EclipsePlatform.wrap(object.getExtensions());
 	}
+
 	/**
 	 * @return
 	 */
 	public String getLabel() {
 		return object.getLabel();
 	}
+
 	/**
 	 * @return
 	 */
 	public String getNamespace() {
 		return object.getContributor().getName();
 	}
+
 	/**
 	 * @return
 	 */
 	public String getSchemaReference() {
 		return object.getSchemaReference();
 	}
+
 	/**
 	 * @return
 	 */
 	public String getSimpleIdentifier() {
 		return object.getSimpleIdentifier();
 	}
+
 	/**
 	 * @return
 	 */

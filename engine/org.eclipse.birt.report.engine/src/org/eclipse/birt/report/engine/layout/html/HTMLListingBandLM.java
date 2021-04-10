@@ -25,134 +25,104 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 
-public class HTMLListingBandLM extends HTMLBlockStackingLM
-{
+public class HTMLListingBandLM extends HTMLBlockStackingLM {
 	protected boolean needSoftPageBreak = false;
-	public HTMLListingBandLM( HTMLLayoutManagerFactory factory )
-	{
-		super( factory );
+
+	public HTMLListingBandLM(HTMLLayoutManagerFactory factory) {
+		super(factory);
 	}
 
-	public int getType( )
-	{
+	public int getType() {
 		return LAYOUT_MANAGER_LIST_BAND;
 	}
 
 	boolean repeatHeader;
 
-	public void initialize( HTMLAbstractLM parent, IContent content,
-			IReportItemExecutor executor, IContentEmitter emitter )
-			throws BirtException
-	{
-		super.initialize( parent, content, executor, emitter );
+	public void initialize(HTMLAbstractLM parent, IContent content, IReportItemExecutor executor,
+			IContentEmitter emitter) throws BirtException {
+		super.initialize(parent, content, executor, emitter);
 		needSoftPageBreak = false;
 		repeatHeader = false;
-		intializeHeaderContent( );
+		intializeHeaderContent();
 	}
 
-	public void close( ) throws BirtException
-	{
-		if ( repeatHeader )
-		{
+	public void close() throws BirtException {
+		if (repeatHeader) {
 			assert executor instanceof DOMReportItemExecutor;
-			executor.close( );
+			executor.close();
 		}
-		super.close( );
+		super.close();
 	}
 
-	private void intializeHeaderContent( ) throws BirtException
-	{
+	private void intializeHeaderContent() throws BirtException {
 		assert content != null;
-		IElement pContent = content.getParent( );
+		IElement pContent = content.getParent();
 		assert pContent != null;
 		assert content instanceof IBandContent;
 
-		int type = ( (IBandContent) content ).getBandType( );
+		int type = ((IBandContent) content).getBandType();
 		repeatHeader = false;
-		if ( type == IBandContent.BAND_HEADER
-				|| type == IBandContent.BAND_GROUP_HEADER )
-		{
-			if ( pContent instanceof IGroupContent )
-			{
+		if (type == IBandContent.BAND_HEADER || type == IBandContent.BAND_GROUP_HEADER) {
+			if (pContent instanceof IGroupContent) {
 				IGroupContent groupContent = (IGroupContent) pContent;
-				repeatHeader = groupContent.isHeaderRepeat( );
-			}
-			else if ( pContent instanceof IListContent )
-			{
+				repeatHeader = groupContent.isHeaderRepeat();
+			} else if (pContent instanceof IListContent) {
 				IListContent list = (IListContent) pContent;
-				repeatHeader = list.isHeaderRepeat( );
-			}
-			else if ( pContent instanceof ITableContent )
-			{
+				repeatHeader = list.isHeaderRepeat();
+			} else if (pContent instanceof ITableContent) {
 				ITableContent table = (ITableContent) pContent;
-				repeatHeader = table.isHeaderRepeat( );
+				repeatHeader = table.isHeaderRepeat();
 			}
 		}
 
-		if ( repeatHeader )
-		{
-			Collection children = content.getChildren( );
-			if ( children == null || children.isEmpty( ) )
-			{
+		if (repeatHeader) {
+			Collection children = content.getChildren();
+			if (children == null || children.isEmpty()) {
 				// fill the contents
-				execute( content, executor );
-				if ( !pContent.getChildren( ).contains( content ) )
-				{
-					pContent.getChildren( ).add( content );
+				execute(content, executor);
+				if (!pContent.getChildren().contains(content)) {
+					pContent.getChildren().add(content);
 				}
 			}
-			executor = new DOMReportItemExecutor( content );
-			executor.execute( );
+			executor = new DOMReportItemExecutor(content);
+			executor.execute();
 		}
 	}
-	
-	protected boolean allowPageBreak( )
-	{
+
+	protected boolean allowPageBreak() {
 		IBandContent band = (IBandContent) content;
-		int type = band.getBandType( );
-		if ( type == IBandContent.BAND_HEADER )
-		{
-			if(IStyle.SOFT_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE ) ))
-			{
+		int type = band.getBandType();
+		if (type == IBandContent.BAND_HEADER) {
+			if (IStyle.SOFT_VALUE.equals(content.getStyle().getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE))) {
 				return true;
 			}
-			if(IStyle.SOFT_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_AFTER ) ))
-			{
+			if (IStyle.SOFT_VALUE.equals(content.getStyle().getProperty(IStyle.STYLE_PAGE_BREAK_AFTER))) {
 				return true;
 			}
-			IElement listContent = band.getParent( );
-			if ( listContent instanceof IListContent )
-			{
-				return !( (IListContent) listContent ).isHeaderRepeat( );
+			IElement listContent = band.getParent();
+			if (listContent instanceof IListContent) {
+				return !((IListContent) listContent).isHeaderRepeat();
 			}
-			if ( listContent instanceof ITableContent )
-			{
-				return !( (ITableContent) listContent ).isHeaderRepeat( );
+			if (listContent instanceof ITableContent) {
+				return !((ITableContent) listContent).isHeaderRepeat();
 			}
-		}
-		else if ( type == IBandContent.BAND_GROUP_HEADER )
-		{
-			if(IStyle.SOFT_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE ) ))
-			{
+		} else if (type == IBandContent.BAND_GROUP_HEADER) {
+			if (IStyle.SOFT_VALUE.equals(content.getStyle().getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE))) {
 				return true;
 			}
-			if(IStyle.SOFT_VALUE.equals( content.getStyle( ).getProperty( IStyle.STYLE_PAGE_BREAK_AFTER ) ))
-			{
+			if (IStyle.SOFT_VALUE.equals(content.getStyle().getProperty(IStyle.STYLE_PAGE_BREAK_AFTER))) {
 				return true;
 			}
-			IElement groupContent = band.getParent( );
-			if ( groupContent instanceof IGroupContent )
-			{
-				return !( (IGroupContent) groupContent ).isHeaderRepeat( );
+			IElement groupContent = band.getParent();
+			if (groupContent instanceof IGroupContent) {
+				return !((IGroupContent) groupContent).isHeaderRepeat();
 			}
 		}
 		return true;
 	}
 
-	protected boolean needPageBreakBefore( )
-	{
-		if ( super.needPageBreakBefore( ) )
-		{
+	protected boolean needPageBreakBefore() {
+		if (super.needPageBreakBefore()) {
 			needSoftPageBreak = true;
 		}
 		return false;

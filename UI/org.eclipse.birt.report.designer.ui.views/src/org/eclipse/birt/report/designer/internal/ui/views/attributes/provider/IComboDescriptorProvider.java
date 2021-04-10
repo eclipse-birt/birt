@@ -1,12 +1,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
-public interface IComboDescriptorProvider extends IDescriptorProvider
-{
+public interface IComboDescriptorProvider extends IDescriptorProvider {
 
-	String[] getItems( );
+	String[] getItems();
 
-	String getDisplayName( String key );
+	String getDisplayName(String key);
 
-	boolean isReadOnly( );
+	boolean isReadOnly();
 }

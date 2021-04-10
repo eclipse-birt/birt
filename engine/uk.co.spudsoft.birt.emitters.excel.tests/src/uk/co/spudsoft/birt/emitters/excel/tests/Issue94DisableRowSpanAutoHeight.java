@@ -26,35 +26,28 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
 
 public class Issue94DisableRowSpanAutoHeight extends ReportRunner {
-	
-/*
-	@Test
-	public void testIssue94DisableRowSpanAutoHeight() throws BirtException, IOException {
 
-		debug = false;
-		removeEmptyRows = false;
-		spannedRowHeight = null;
-		InputStream inputStream = runAndRenderReport("Issue94DisableRowSpanAutoHeight.rptdesign", "xlsx");
-		assertNotNull(inputStream);
-		try {
-			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
-			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 9, this.lastRow(sheet));
-
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(1).getHeight() );
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(3).getHeight() );
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(4).getHeight() );
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(6).getHeight() );
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(8).getHeight() );
-			assertThat( sheet.getRow(7).getHeight(), greaterThan( sheet.getRow(8).getHeight() ) );						
-		} finally {
-			inputStream.close();
-		}
-	}*/
+	/*
+	 * @Test public void testIssue94DisableRowSpanAutoHeight() throws BirtException,
+	 * IOException {
+	 * 
+	 * debug = false; removeEmptyRows = false; spannedRowHeight = null; InputStream
+	 * inputStream = runAndRenderReport("Issue94DisableRowSpanAutoHeight.rptdesign",
+	 * "xlsx"); assertNotNull(inputStream); try { XSSFWorkbook workbook = new
+	 * XSSFWorkbook(inputStream); assertNotNull(workbook);
+	 * 
+	 * assertEquals( 1, workbook.getNumberOfSheets() );
+	 * 
+	 * Sheet sheet = workbook.getSheetAt(0); assertEquals( 9, this.lastRow(sheet));
+	 * 
+	 * assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(1).getHeight() );
+	 * assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(3).getHeight() );
+	 * assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(4).getHeight() );
+	 * assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(6).getHeight() );
+	 * assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(8).getHeight() );
+	 * assertThat( sheet.getRow(7).getHeight(), greaterThan(
+	 * sheet.getRow(8).getHeight() ) ); } finally { inputStream.close(); } }
+	 */
 
 	@Test
 	public void testIssue94DisableRowSpanAutoHeightAtRow() throws BirtException, IOException {
@@ -67,17 +60,17 @@ public class Issue94DisableRowSpanAutoHeight extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
-			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 9, this.lastRow(sheet));
 
-			assertEquals( sheet.getRow(0).getHeight(), sheet.getRow(1).getHeight() );
-			assertEquals( sheet.getRow(3).getHeight(), sheet.getRow(4).getHeight() );
-			assertTrue( sheet.getRow(6).getHeight() < sheet.getRow(7).getHeight() );
-			assertTrue( sheet.getRow(6).getHeight() > sheet.getRow(8).getHeight() );
-			assertTrue( sheet.getRow(7).getHeight() > sheet.getRow(8).getHeight() );
+			assertEquals(1, workbook.getNumberOfSheets());
+
+			Sheet sheet = workbook.getSheetAt(0);
+			assertEquals(9, this.lastRow(sheet));
+
+			assertEquals(sheet.getRow(0).getHeight(), sheet.getRow(1).getHeight());
+			assertEquals(sheet.getRow(3).getHeight(), sheet.getRow(4).getHeight());
+			assertTrue(sheet.getRow(6).getHeight() < sheet.getRow(7).getHeight());
+			assertTrue(sheet.getRow(6).getHeight() > sheet.getRow(8).getHeight());
+			assertTrue(sheet.getRow(7).getHeight() > sheet.getRow(8).getHeight());
 		} finally {
 			inputStream.close();
 		}

@@ -25,44 +25,37 @@ import org.eclipse.emf.common.util.EList;
  * Chart Model helper is default implementation of IChartModelHelper.
  */
 
-public class ChartModelHelper implements IChartModelHelper
-{
+public class ChartModelHelper implements IChartModelHelper {
 
-	private static IChartModelHelper instance = new ChartModelHelper( );
+	private static IChartModelHelper instance = new ChartModelHelper();
 
-	protected ChartModelHelper( )
-	{
+	protected ChartModelHelper() {
 
 	}
 
-	public static void initInstance( IChartModelHelper newInstance )
-	{
+	public static void initInstance(IChartModelHelper newInstance) {
 		instance = newInstance;
 	}
 
-	public static IChartModelHelper instance( )
-	{
+	public static IChartModelHelper instance() {
 		return instance;
 	}
 
-	public void updateExtendedProperties( EList<ExtendedProperty> properties )
-	{
-		ExtendedProperty extendedProperty = AttributeFactory.eINSTANCE.createExtendedProperty( );
-		extendedProperty.setName( IDeviceRenderer.AREA_ALT_ENABLED );
-		extendedProperty.setValue( Boolean.FALSE.toString( ) );
-		properties.add( extendedProperty );
+	public void updateExtendedProperties(EList<ExtendedProperty> properties) {
+		ExtendedProperty extendedProperty = AttributeFactory.eINSTANCE.createExtendedProperty();
+		extendedProperty.setName(IDeviceRenderer.AREA_ALT_ENABLED);
+		extendedProperty.setValue(Boolean.FALSE.toString());
+		properties.add(extendedProperty);
 	}
 
-	public List<String> getBuiltInExtendedProperties( )
-	{
-		List<String> list = new ArrayList<String>( 3 );
-		list.add( IDeviceRenderer.AREA_ALT_ENABLED );
+	public List<String> getBuiltInExtendedProperties() {
+		List<String> list = new ArrayList<String>(3);
+		list.add(IDeviceRenderer.AREA_ALT_ENABLED);
 		return list;
 	}
 
-	public ExpressionCodec createExpressionCodec( )
-	{
-		return new ExpressionCodec( );
+	public ExpressionCodec createExpressionCodec() {
+		return new ExpressionCodec();
 	}
 
 }

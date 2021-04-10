@@ -16,15 +16,13 @@ import org.eclipse.birt.report.designer.ui.extensions.IDesignerExceptionHandler;
 /**
  * Holds the customize exception handler.
  */
-public class ExceptionHandlerRegistry
-{
+public class ExceptionHandlerRegistry {
 
 	private IDesignerExceptionHandler handler = null;
 
 	private static ExceptionHandlerRegistry instance;
 
-	private ExceptionHandlerRegistry( )
-	{
+	private ExceptionHandlerRegistry() {
 
 	}
 
@@ -34,8 +32,7 @@ public class ExceptionHandlerRegistry
 	 * 
 	 * @param handler
 	 */
-	public void registerExceptionHandler( IDesignerExceptionHandler handler )
-	{
+	public void registerExceptionHandler(IDesignerExceptionHandler handler) {
 		this.handler = handler;
 	}
 
@@ -44,16 +41,14 @@ public class ExceptionHandlerRegistry
 	 * 
 	 * @return
 	 */
-	public IDesignerExceptionHandler getExceptionHandler( )
-	{
+	public IDesignerExceptionHandler getExceptionHandler() {
 		return handler;
 	}
 
 	/**
 	 * Remove the customize exception handler
 	 */
-	public void clear( )
-	{
+	public void clear() {
 		this.handler = null;
 	}
 
@@ -62,11 +57,9 @@ public class ExceptionHandlerRegistry
 	 * 
 	 * @return ExceptionHandlerRegistry instance
 	 */
-	public static ExceptionHandlerRegistry getInstance( )
-	{
-		if ( instance == null )
-		{
-			instance = new ExceptionHandlerRegistry( );
+	public static ExceptionHandlerRegistry getInstance() {
+		if (instance == null) {
+			instance = new ExceptionHandlerRegistry();
 		}
 		return instance;
 	}

@@ -55,66 +55,59 @@ import com.ibm.icu.util.ULocale;
  * its corresponding definition during serialization.
  * 
  */
-public class Regression_136241 extends BaseTestCase
-{
+public class Regression_136241 extends BaseTestCase {
 
 	private final static String OUTPUT = "regression_136241.out"; //$NON-NLS-1$
 
-	protected void setUp() throws Exception
-	{
+	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 	}
-	
-	protected void tearDown() throws Exception
-	{
+
+	protected void tearDown() throws Exception {
 		super.tearDown();
-		
+
 	}
+
 	/**
 	 * @throws SemanticException
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 * @throws DesignFileException
 	 */
-	
-	public void test_regression_136241( ) throws SemanticException, FileNotFoundException,
-			IOException, DesignFileException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle label = factory.newLabel( "label" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( label );
+	public void test_regression_136241()
+			throws SemanticException, FileNotFoundException, IOException, DesignFileException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
+
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle label = factory.newLabel("label"); //$NON-NLS-1$
+		designHandle.getBody().add(label);
 
 		TemplateReportItemHandle templateLabel = (TemplateReportItemHandle) label
-				.createTemplateElement( "templateLabel" ); //$NON-NLS-1$
-		templateLabel.setDescription( "template label description" ); //$NON-NLS-1$
+				.createTemplateElement("templateLabel"); //$NON-NLS-1$
+		templateLabel.setDescription("template label description"); //$NON-NLS-1$
 
 		// serialize the report.
 
 		String TempFile = this.genOutputFile(OUTPUT);
-		DocumentUtil.serialize( designHandle, new FileOutputStream( TempFile));
-				
+		DocumentUtil.serialize(designHandle, new FileOutputStream(TempFile));
 
 		// open the output, make sure the report template item and its
 		// definition are written out.
 
-		designHandle = session.openDesign( TempFile );
+		designHandle = session.openDesign(TempFile);
 
-		TemplateReportItemHandle template = (TemplateReportItemHandle) designHandle
-				.findElement( "templateLabel" ); //$NON-NLS-1$
-		assertNotNull( template );
+		TemplateReportItemHandle template = (TemplateReportItemHandle) designHandle.findElement("templateLabel"); //$NON-NLS-1$
+		assertNotNull(template);
 
-		TemplateParameterDefinition defn = designHandle.getModule( )
-				.findTemplateParameterDefinition(
-						"NewTemplateParameterDefinition" ); //$NON-NLS-1$
-		assertNotNull( defn );
-		assertEquals( "Label", defn.getAllowedType( designHandle.getModule( ) ) ); //$NON-NLS-1$
-		assertEquals(
-				"template label description", defn.getDescription( designHandle.getModule( ) ) ); //$NON-NLS-1$
+		TemplateParameterDefinition defn = designHandle.getModule()
+				.findTemplateParameterDefinition("NewTemplateParameterDefinition"); //$NON-NLS-1$
+		assertNotNull(defn);
+		assertEquals("Label", defn.getAllowedType(designHandle.getModule())); //$NON-NLS-1$
+		assertEquals("template label description", defn.getDescription(designHandle.getModule())); //$NON-NLS-1$
 
 	}
 }

@@ -17,46 +17,34 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * Format number page for formatting numbers.
  */
-public class FormatNumberPage extends FormatPage
-{
+public class FormatNumberPage extends FormatPage {
 
 	/**
-	 * Constructs a page for formatting numbers, default aligns the page
-	 * virtically.
+	 * Constructs a page for formatting numbers, default aligns the page virtically.
 	 * 
-	 * @param parent
-	 *            The container
-	 * @param style
-	 *            The style of the page
+	 * @param parent The container
+	 * @param style  The style of the page
 	 */
-	public FormatNumberPage( Composite parent, int style )
-	{
-		this( parent, style, PAGE_ALIGN_VIRTICAL, true );
+	public FormatNumberPage(Composite parent, int style) {
+		this(parent, style, PAGE_ALIGN_VIRTICAL, true);
 	}
 
 	/**
 	 * Constructs a page for formatting numbers.
 	 * 
-	 * @param parent
-	 *            The container
-	 * @param style
-	 *            The style of the page
-	 * @param pageAlignment
-	 *            Aligns the page virtically(PAGE_ALIGN_VIRTICAL) or
-	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
+	 * @param parent        The container
+	 * @param style         The style of the page
+	 * @param pageAlignment Aligns the page virtically(PAGE_ALIGN_VIRTICAL) or
+	 *                      horizontally(PAGE_ALIGN_HORIZONTAL).
 	 */
-	public FormatNumberPage( Composite parent, int style, int pageAlignment,
-			boolean showLocale )
-	{
-		super( parent, style );
+	public FormatNumberPage(Composite parent, int style, int pageAlignment, boolean showLocale) {
+		super(parent, style);
 
-		this.setLayout( new FillLayout( ) );
+		this.setLayout(new FillLayout());
 
-		layoutPeer = new FormatNumberLayoutPeer( pageAlignment,
-				false,
-				showLocale );
+		layoutPeer = new FormatNumberLayoutPeer(pageAlignment, false, showLocale);
 
-		layoutPeer.createLayout( this );
+		layoutPeer.createLayout(this);
 	}
 
 }

@@ -1,12 +1,9 @@
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
+public class AdvancedDataSetSettingsPage extends DataSetSettingsPage {
 
-public class AdvancedDataSetSettingsPage extends DataSetSettingsPage
-{
-
-	public AdvancedDataSetSettingsPage( )
-	{
-		super( );
+	public AdvancedDataSetSettingsPage() {
+		super();
 	}
 
 }

@@ -21,48 +21,37 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 /**
  * ReportHyperlinkParameterProvider
  */
-public class ReportHyperlinkParameterProvider implements
-		IHyperlinkParameterProvider
-{
+public class ReportHyperlinkParameterProvider implements IHyperlinkParameterProvider {
 
 	// TODO localize
 	public static final String CATEGORY_REPORT = Messages.getString("ReportHyperlinkParameterProvider.Category.Report"); //$NON-NLS-1$
 
-	private static final String[] CATS = new String[]{
-		CATEGORY_REPORT
-	};
+	private static final String[] CATS = new String[] { CATEGORY_REPORT };
 
 	private ReportDesignHandle design;
 
-	ReportHyperlinkParameterProvider( ReportDesignHandle design )
-	{
+	ReportHyperlinkParameterProvider(ReportDesignHandle design) {
 		this.design = design;
 	}
 
-	public String[] getCategories( )
-	{
+	public String[] getCategories() {
 		return CATS;
 	}
 
-	public IHyperlinkParameter[] getParameters( String category, String format )
-	{
-		if ( design != null && CATEGORY_REPORT.equals( category ) )
-		{
-			ArrayList<IHyperlinkParameter> params = new ArrayList<IHyperlinkParameter>( );
+	public IHyperlinkParameter[] getParameters(String category, String format) {
+		if (design != null && CATEGORY_REPORT.equals(category)) {
+			ArrayList<IHyperlinkParameter> params = new ArrayList<IHyperlinkParameter>();
 
-			for ( Iterator iter = design.getAllParameters( ).iterator( ); iter.hasNext( ); )
-			{
-				Object obj = iter.next( );
+			for (Iterator iter = design.getAllParameters().iterator(); iter.hasNext();) {
+				Object obj = iter.next();
 
-				if ( obj instanceof ParameterHandle )
-				{
-					params.add( new ReportHyperlinkParameter( (ParameterHandle) obj ) );
+				if (obj instanceof ParameterHandle) {
+					params.add(new ReportHyperlinkParameter((ParameterHandle) obj));
 				}
 			}
 
-			if ( params.size( ) > 0 )
-			{
-				return params.toArray( new IHyperlinkParameter[params.size( )] );
+			if (params.size() > 0) {
+				return params.toArray(new IHyperlinkParameter[params.size()]);
 			}
 		}
 

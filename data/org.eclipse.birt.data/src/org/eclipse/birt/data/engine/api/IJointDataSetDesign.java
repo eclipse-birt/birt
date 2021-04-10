@@ -16,8 +16,7 @@ import java.util.List;
 /**
  * This interface describes the static design of a Joint Data Set.
  */
-public interface IJointDataSetDesign extends IBaseDataSetDesign
-{
+public interface IJointDataSetDesign extends IBaseDataSetDesign {
 
 	/**
 	 * The integer value stands for an inner join operator.
@@ -33,7 +32,7 @@ public interface IJointDataSetDesign extends IBaseDataSetDesign
 	 * The integer value stands for a right outer join operator.
 	 */
 	public static int RIGHT_OUTER_JOIN = 2;
-	
+
 	/**
 	 * The integer value stands for a full outer join operator.
 	 */
@@ -45,7 +44,7 @@ public interface IJointDataSetDesign extends IBaseDataSetDesign
 	 * 
 	 * @return name of data set that servers as first oprand
 	 */
-	public String getLeftDataSetDesignName( );
+	public String getLeftDataSetDesignName();
 
 	/**
 	 * This method returns the name of data set which servers as right operand of a
@@ -53,38 +52,38 @@ public interface IJointDataSetDesign extends IBaseDataSetDesign
 	 * 
 	 * @return name of data set that servers as second oprand
 	 */
-	public String getRightDataSetDesignName( );
-	
+	public String getRightDataSetDesignName();
+
 	/**
-	 * This method returns the name of data set which servers as left operand of
-	 * a joint.
+	 * This method returns the name of data set which servers as left operand of a
+	 * joint.
 	 * 
 	 * @return name of data set that servers as first oprand
 	 */
-	public String getLeftDataSetDesignQulifiedName( );
+	public String getLeftDataSetDesignQulifiedName();
 
 	/**
-	 * This method returns the name of data set which servers as right operand
-	 * of a joint.
+	 * This method returns the name of data set which servers as right operand of a
+	 * joint.
 	 * 
 	 * @return name of data set that servers as second oprand
 	 */
-	public String getRightDataSetDesignQulifiedName( );
+	public String getRightDataSetDesignQulifiedName();
 
 	/**
 	 * This method returns the Joint Type.
 	 * 
 	 * @return the integer stands for a joint type.
 	 */
-	public int getJoinType( );
+	public int getJoinType();
 
 	/**
 	 * This method returns the Joint conditions. Only rows which can make these
 	 * IJointConditionalExpression instance evaluate to true will be jointed.
 	 * 
-	 * @return the list contains joint conditions. All the elements in the list
-	 *         is IJointConditionalExpression.
+	 * @return the list contains joint conditions. All the elements in the list is
+	 *         IJointConditionalExpression.
 	 */
-	public List getJoinConditions( );
+	public List getJoinConditions();
 
 }

@@ -17,81 +17,67 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 
-public class ForeignHtmlRegionArea extends RegionArea implements IContainerArea
-{
+public class ForeignHtmlRegionArea extends RegionArea implements IContainerArea {
 
-	public ForeignHtmlRegionArea( )
-	{
-		super( );
+	public ForeignHtmlRegionArea() {
+		super();
 	}
 
-	public ForeignHtmlRegionArea( IForeignContent content, LayoutContext context )
-	{
-		super( );
+	public ForeignHtmlRegionArea(IForeignContent content, LayoutContext context) {
+		super();
 		this.context = context;
 		this.content = content;
-		this.setPageBreakInside( IStyle.AVOID_VALUE );
+		this.setPageBreakInside(IStyle.AVOID_VALUE);
 	}
 
-	ForeignHtmlRegionArea( ForeignHtmlRegionArea area )
-	{
-		super( area );
-	}
-	
-	public void initialize( ) throws BirtException
-	{
-		calculateSpecifiedWidth( content );
-		calculateSpecifiedHeight( content );
-		buildProperties( content, context );
+	ForeignHtmlRegionArea(ForeignHtmlRegionArea area) {
+		super(area);
 	}
 
-	public void close( ) throws BirtException
-	{
+	public void initialize() throws BirtException {
+		calculateSpecifiedWidth(content);
+		calculateSpecifiedHeight(content);
+		buildProperties(content, context);
+	}
+
+	public void close() throws BirtException {
 		finished = true;
-		if ( specifiedHeight > 0 )
-		{
+		if (specifiedHeight > 0) {
 			height = specifiedHeight;
+
 		}
 		else
 		{
 			height = currentBP;
 		}
 
-		if ( null != parent )
-		{
-			if ( height > parent.getMaxAvaHeight( ) )
-			{
-				height = parent.getMaxAvaHeight( );
+		if (null != parent) {
+			if (height > parent.getMaxAvaHeight()) {
+				height = parent.getMaxAvaHeight();
 			}
 		}
 	}
 
-	public SplitResult split( int height, boolean force ) throws BirtException
-	{
-		if ( force )
-		{
-			ContainerArea newArea = cloneArea( );
-			newArea.children.addAll( children );
-			children.clear( );
+	public SplitResult split(int height, boolean force) throws BirtException {
+		if (force) {
+			ContainerArea newArea = cloneArea();
+			newArea.children.addAll(children);
+			children.clear();
 			this.height = 0;
-			return new SplitResult( newArea,
-					SplitResult.SPLIT_SUCCEED_WITH_PART );
+			return new SplitResult(newArea, SplitResult.SPLIT_SUCCEED_WITH_PART);
 		}
 		return SplitResult.SUCCEED_WITH_NULL;
 	}
 
-	public void update( AbstractArea area ) throws BirtException
-	{
-		int aHeight = area.getAllocatedHeight( );
+	public void update(AbstractArea area) throws BirtException {
+		int aHeight = area.getAllocatedHeight();
 		currentBP += aHeight;
-		if ( currentIP + area.getAllocatedWidth( ) > maxAvaWidth )
-		{
-			setNeedClip( true );
+		if (currentIP + area.getAllocatedWidth() > maxAvaWidth) {
+			setNeedClip(true);
 		}
 	}
 
-	public boolean isFinished( )
-	{
+	public boolean isFinished() {
 		return finished;
 	}
 

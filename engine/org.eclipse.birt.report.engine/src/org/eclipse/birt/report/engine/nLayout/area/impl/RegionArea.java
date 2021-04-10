@@ -16,57 +16,45 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 
-public class RegionArea extends BlockContainerArea implements IContainerArea
-{
-	public RegionArea( )
-	{
-		super( );
+public class RegionArea extends BlockContainerArea implements IContainerArea {
+	public RegionArea() {
+		super();
 	}
 
-	RegionArea( RegionArea area )
-	{
-		super( area );
+	RegionArea(RegionArea area) {
+		super(area);
 	}
-	
-	public void initialize( ) throws BirtException
-	{
-		calculateSpecifiedWidth( content );
-		calculateSpecifiedHeight( content );
+
+	public void initialize() throws BirtException {
+		calculateSpecifiedWidth(content);
+		calculateSpecifiedHeight(content);
 	}
-	
+
 	// override this method because for region area, the reference height for
 	// percentage calculating can be retrieved in advance.
-	protected void calculateSpecifiedHeight( IContent content )
-	{
-		if ( content == null )
+	protected void calculateSpecifiedHeight(IContent content) {
+		if (content == null)
 			return;
-		DimensionType height = content.getHeight( );
-		if ( height != null )
-		{
-			specifiedHeight = getDimensionValue( content, height, parent.getHeight( ) );
+		DimensionType height = content.getHeight();
+		if (height != null) {
+			specifiedHeight = getDimensionValue(content, height, parent.getHeight());
 		}
 	}
-	
-	public void close( ) throws BirtException
-	{
-		if ( context.isFixedLayout( ) )
-		{
-			setContentHeight( specifiedHeight );
-		}
-		else
-		{
-			setContentHeight( Math.max( specifiedHeight, currentBP ) );
+
+	public void close() throws BirtException {
+		if (context.isFixedLayout()) {
+			setContentHeight(specifiedHeight);
+		} else {
+			setContentHeight(Math.max(specifiedHeight, currentBP));
 		}
 		finished = true;
 	}
-	
-	public void update( AbstractArea area ) throws BirtException
-	{
-		int aHeight = area.getAllocatedHeight( );
+
+	public void update(AbstractArea area) throws BirtException {
+		int aHeight = area.getAllocatedHeight();
 		currentBP += aHeight;
-		if ( currentIP + area.getAllocatedWidth( ) > maxAvaWidth )
-		{
-			setNeedClip( true );
+		if (currentIP + area.getAllocatedWidth() > maxAvaWidth) {
+			setNeedClip(true);
 		}
 	}
 

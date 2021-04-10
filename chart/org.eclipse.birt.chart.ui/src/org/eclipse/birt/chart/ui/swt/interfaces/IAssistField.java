@@ -15,28 +15,27 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
  * The class is used to wrap a control to support field assist function.
  */
 
-public interface IAssistField
-{
+public interface IAssistField {
 
 	/**
 	 * Set contents to the field.
 	 * 
 	 * @param values
 	 */
-	void setContent( String[] values );
+	void setContent(String[] values);
 
 	/**
 	 * Set contents.
 	 * 
 	 * @param contents
 	 */
-	public void setContents( String contents );
+	public void setContents(String contents);
 
 	/**
 	 * Returns contents.
 	 * 
 	 * @return
 	 */
-	public String getContents( );
+	public String getContents();
 
 }

@@ -16,13 +16,11 @@ import java.io.IOException;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
-
 /**
  * 
  */
 
-public interface IDimension
-{
+public interface IDimension {
 	public static final int TIME_DIMESION_YEAR_TYPE = 0;
 	public static final int TIME_DIMESION_QUARTER_TYPE = 1;
 	public static final int TIME_DIMESION_MONTH_TYPE = 2;
@@ -31,48 +29,49 @@ public interface IDimension
 	public static final int TIME_DIMESION_HOUR_TYPE = 5;
 	public static final int TIME_DIMESION_MINUTE_TYPE = 6;
 	public static final int TIME_DIMESION_SECOND_TYPE = 7;
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public String getName( );
-	
+	public String getName();
+
 	/**
 	 * Return whether this dimesion is a time Dimension.
+	 * 
 	 * @return
 	 */
-	public boolean isTime( );
-	
+	public boolean isTime();
+
 	/**
 	 * 
 	 * @return Hierarchy
 	 */
-	public IHierarchy getHierarchy( );
-	
+	public IHierarchy getHierarchy();
+
 	/**
 	 * 
 	 * @return
 	 */
 	public int length();
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public IDiskArray findAll( ) throws IOException;
-	
+	public IDiskArray findAll() throws IOException;
+
 	/**
 	 * 
 	 *
 	 */
-	public void close( ) throws IOException;
-	
+	public void close() throws IOException;
+
 	/**
 	 * @param stopSign
 	 * @return
 	 * @throws IOException
 	 */
-	public IDiskArray getAllRows( StopSign stopSign ) throws IOException;
-	
+	public IDiskArray getAllRows(StopSign stopSign) throws IOException;
+
 }

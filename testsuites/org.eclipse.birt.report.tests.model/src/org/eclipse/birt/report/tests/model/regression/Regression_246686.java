@@ -40,11 +40,8 @@ public class Regression_246686 extends BaseTestCase {
 
 	public void test_regression_246686() throws DesignFileException {
 		openDesign(INPUT);
-		DataItemHandle dataHandle = (DataItemHandle) designHandle
-				.findElement("data1");
-		assertEquals(0, dataHandle.getAvailableDataSetBindingReferenceList()
-				.size());
-		assertEquals(2, dataHandle.getAvailableCubeBindingReferenceList()
-				.size());
+		DataItemHandle dataHandle = (DataItemHandle) designHandle.findElement("data1");
+		assertEquals(0, dataHandle.getAvailableDataSetBindingReferenceList().size());
+		assertEquals(2, dataHandle.getAvailableCubeBindingReferenceList().size());
 	}
 }

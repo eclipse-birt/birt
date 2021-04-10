@@ -12,30 +12,31 @@ package org.eclipse.birt.report.data.adapter.api.timeFunction;
 
 import java.util.List;
 
-
-public interface ITimeFunction
-{
+public interface ITimeFunction {
 	/**
 	 * Get the function name, see<code>IBuildInTimeFunction<code>
+	 * 
 	 * @return
 	 */
-	public String getName( );
-	
+	public String getName();
+
 	/**
 	 * Get the function display name.
+	 * 
 	 * @return
 	 */
-	public String getDisplayName( );
-	
+	public String getDisplayName();
+
 	/**
 	 * Get the function's description.
+	 * 
 	 * @return
 	 */
-	public String getDescription( );
+	public String getDescription();
 
-	
 	/**
 	 * Get argument info
+	 * 
 	 * @return
 	 */
 	public List<IArgumentInfo> getArguments();

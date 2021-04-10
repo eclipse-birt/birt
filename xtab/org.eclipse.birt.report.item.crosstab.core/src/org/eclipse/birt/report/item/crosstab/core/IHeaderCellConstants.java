@@ -15,12 +15,10 @@ package org.eclipse.birt.report.item.crosstab.core;
  * Interface to define some constants for Header Cell.
  */
 
-public interface IHeaderCellConstants
-{
+public interface IHeaderCellConstants {
 
 	/**
-	 * Name of the property that refers the level view this header cell applied
-	 * on.
+	 * Name of the property that refers the level view this header cell applied on.
 	 */
 	String LEVEL_PROP = "level"; //$NON-NLS-1$
 }

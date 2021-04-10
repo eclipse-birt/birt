@@ -21,28 +21,22 @@ import org.eclipse.birt.chart.tests.script.BaseChartTestCase;
  * 
  */
 
-public class BarSeriesTest extends BaseChartTestCase
-{
+public class BarSeriesTest extends BaseChartTestCase {
 
-	public void testBarType( )
-	{
-		IValueSeries series = getChartWithAxes( ).getValueSeries( )[0][0];
-		assertTrue( series instanceof IBar );
-		assertEquals( ( (IBar) series ).getBarType( ),
-				RiserType.RECTANGLE_LITERAL.getName( ) );
-		( (IBar) series ).setBarType( RiserType.CONE_LITERAL.getName( ) );
-		assertEquals( ( (IBar) series ).getBarType( ),
-				RiserType.CONE_LITERAL.getName( ) );
+	public void testBarType() {
+		IValueSeries series = getChartWithAxes().getValueSeries()[0][0];
+		assertTrue(series instanceof IBar);
+		assertEquals(((IBar) series).getBarType(), RiserType.RECTANGLE_LITERAL.getName());
+		((IBar) series).setBarType(RiserType.CONE_LITERAL.getName());
+		assertEquals(((IBar) series).getBarType(), RiserType.CONE_LITERAL.getName());
 	}
 
-	public void testGetDataExpr( )
-	{
-		IValueSeries series = getChartWithAxes( ).getValueSeries( )[0][0];
-		assertTrue( series.getDataExpr( ) instanceof ISimpleData );
-		assertEquals( ( (ISimpleData) series.getDataExpr( ) ).getExpr( ),
-				"row[\"ORDERDATE\"]" );
+	public void testGetDataExpr() {
+		IValueSeries series = getChartWithAxes().getValueSeries()[0][0];
+		assertTrue(series.getDataExpr() instanceof ISimpleData);
+		assertEquals(((ISimpleData) series.getDataExpr()).getExpr(), "row[\"ORDERDATE\"]");
 
-		( (ISimpleData) series.getDataExpr( ) ).setExpr( "" );
-		assertEquals( ( (ISimpleData) series.getDataExpr( ) ).getExpr( ), "" );
+		((ISimpleData) series.getDataExpr()).setExpr("");
+		assertEquals(((ISimpleData) series.getDataExpr()).getExpr(), "");
 	}
 }

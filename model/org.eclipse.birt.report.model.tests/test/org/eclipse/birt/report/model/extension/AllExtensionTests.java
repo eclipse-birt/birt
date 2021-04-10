@@ -18,21 +18,19 @@ import junit.framework.TestSuite;
  * Tests cases in extension package.
  */
 
-public class AllExtensionTests
-{
+public class AllExtensionTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
 		// add all test classes here
-		test.addTestSuite( EncryptionHelperExtensionTest.class );
-		test.addTestSuite( ReportItemExtensionTest.class );
-		test.addTestSuite( PeerExtensionTest.class );
+		test.addTestSuite(EncryptionHelperExtensionTest.class);
+		test.addTestSuite(ReportItemExtensionTest.class);
+		test.addTestSuite(PeerExtensionTest.class);
 
 		return test;
 	}

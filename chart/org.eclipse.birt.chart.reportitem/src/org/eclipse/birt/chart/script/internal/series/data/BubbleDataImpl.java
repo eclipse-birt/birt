@@ -18,33 +18,27 @@ import org.eclipse.birt.chart.script.api.series.data.IBubbleData;
  * 
  */
 
-public class BubbleDataImpl extends SeriesDataImpl implements IBubbleData
-{
+public class BubbleDataImpl extends SeriesDataImpl implements IBubbleData {
 
-	public BubbleDataImpl( SeriesDefinition sd )
-	{
-		super( sd );
+	public BubbleDataImpl(SeriesDefinition sd) {
+		super(sd);
 	}
 
-	public String getBubbleSizeExpr( )
-	{
-		return getExprByIndex( 1 );
+	public String getBubbleSizeExpr() {
+		return getExprByIndex(1);
 	}
 
-	public String getOrthogonalValueExpr( )
-	{
-		return getExprByIndex( 0 );
+	public String getOrthogonalValueExpr() {
+		return getExprByIndex(0);
 	}
 
-	public void setBubbleSizeExpr( String expr )
-	{
-		setExprsByIndex( 1, expr );
+	public void setBubbleSizeExpr(String expr) {
+		setExprsByIndex(1, expr);
 
 	}
 
-	public void setOrthogonalValueExpr( String expr )
-	{
-		setExprsByIndex( 0, expr );
+	public void setOrthogonalValueExpr(String expr) {
+		setExprsByIndex(0, expr);
 	}
 
 }

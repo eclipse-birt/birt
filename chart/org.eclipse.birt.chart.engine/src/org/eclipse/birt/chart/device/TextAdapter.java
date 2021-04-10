@@ -21,29 +21,29 @@ import com.ibm.icu.util.ULocale;
  * A no-op adapter implementation for the
  * {@link org.eclipse.birt.chart.device.ITextMetrics}interface definition.
  */
-public class TextAdapter implements ITextMetrics
-{
+public class TextAdapter implements ITextMetrics {
 
 	private transient ULocale lcl = null;
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.ITextMetrics#reuse(org.eclipse.birt.chart.model.component.Label)
+	 * @see
+	 * org.eclipse.birt.chart.device.ITextMetrics#reuse(org.eclipse.birt.chart.model
+	 * .component.Label)
 	 */
-	public void reuse( Label la )
-	{
-		reuse( la, 0 );
+	public void reuse(Label la) {
+		reuse(la, 0);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.ITextMetrics#reuse(org.eclipse.birt.chart.model.component.Label,
-	 *      double)
+	 * @see
+	 * org.eclipse.birt.chart.device.ITextMetrics#reuse(org.eclipse.birt.chart.model
+	 * .component.Label, double)
 	 */
-	public void reuse( Label la, double forceWrappingSize )
-	{
+	public void reuse(Label la, double forceWrappingSize) {
 	}
 
 	/*
@@ -51,8 +51,7 @@ public class TextAdapter implements ITextMetrics
 	 * 
 	 * @see org.eclipse.birt.chart.device.ITextMetrics#getHeight()
 	 */
-	public double getHeight( )
-	{
+	public double getHeight() {
 		return 0;
 	}
 
@@ -61,8 +60,7 @@ public class TextAdapter implements ITextMetrics
 	 * 
 	 * @see org.eclipse.birt.chart.device.ITextMetrics#getDescent()
 	 */
-	public double getDescent( )
-	{
+	public double getDescent() {
 		return 0;
 	}
 
@@ -71,8 +69,7 @@ public class TextAdapter implements ITextMetrics
 	 * 
 	 * @see org.eclipse.birt.chart.device.ITextMetrics#getFullHeight()
 	 */
-	public double getFullHeight( )
-	{
+	public double getFullHeight() {
 		return 0;
 	}
 
@@ -81,8 +78,7 @@ public class TextAdapter implements ITextMetrics
 	 * 
 	 * @see org.eclipse.birt.chart.device.ITextMetrics#getFullWidth()
 	 */
-	public double getFullWidth( )
-	{
+	public double getFullWidth() {
 		return 0;
 	}
 
@@ -91,8 +87,7 @@ public class TextAdapter implements ITextMetrics
 	 * 
 	 * @see org.eclipse.birt.chart.device.ITextMetrics#getLineCount()
 	 */
-	public int getLineCount( )
-	{
+	public int getLineCount() {
 		return 0;
 	}
 
@@ -101,8 +96,7 @@ public class TextAdapter implements ITextMetrics
 	 * 
 	 * @see org.eclipse.birt.chart.device.ITextMetrics#getLine(int)
 	 */
-	public String getLine( int iIndex )
-	{
+	public String getLine(int iIndex) {
 		return null;
 	}
 
@@ -111,8 +105,7 @@ public class TextAdapter implements ITextMetrics
 	 * 
 	 * @see org.eclipse.birt.chart.device.ITextMetrics#dispose()
 	 */
-	public void dispose( )
-	{
+	public void dispose() {
 	}
 
 	/*
@@ -120,9 +113,8 @@ public class TextAdapter implements ITextMetrics
 	 * 
 	 * @see org.eclipse.birt.chart.device.ITextMetrics#getLocale()
 	 */
-	public final Locale getLocale( )
-	{
-		return getULocale( ).toLocale( );
+	public final Locale getLocale() {
+		return getULocale().toLocale();
 	}
 
 	/*
@@ -130,9 +122,8 @@ public class TextAdapter implements ITextMetrics
 	 * 
 	 * @see org.eclipse.birt.chart.device.ITextMetrics#getULocale()
 	 */
-	public final ULocale getULocale( )
-	{
-		return ( lcl == null ) ? ULocale.getDefault( ) : lcl;
+	public final ULocale getULocale() {
+		return (lcl == null) ? ULocale.getDefault() : lcl;
 	}
 
 	/**
@@ -140,21 +131,20 @@ public class TextAdapter implements ITextMetrics
 	 * 
 	 * @param lcl
 	 */
-	public final void setLocale( ULocale lcl )
-	{
+	public final void setLocale(ULocale lcl) {
 		this.lcl = lcl;
 	}
 
-	public double getFullHeight( double fontHeight )
-	{
+	public double getFullHeight(double fontHeight) {
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.device.ITextMetrics#getWidth(int)
 	 */
-	public double getWidth( int iIndex )
-	{
+	public double getWidth(int iIndex) {
 		return 0d;
 	}
 }

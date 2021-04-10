@@ -19,92 +19,63 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
-public class EventHandlerManager
-{
+public class EventHandlerManager {
 
 	private Map<DesignElementHandle, Object> eventHandlers;
 
-	public EventHandlerManager( )
-	{
-		eventHandlers = new HashMap<DesignElementHandle, Object>( );
+	public EventHandlerManager() {
+		eventHandlers = new HashMap<DesignElementHandle, Object>();
 	}
 
-	public Object getInstance( DesignElementHandle element,
-			ExecutionContext context ) throws EngineException
-	{
-		if ( element == null )
-		{
+	public Object getInstance(DesignElementHandle element, ExecutionContext context) throws EngineException {
+		if (element == null) {
 			return null;
 		}
-		if ( element.newHandlerOnEachEvent( ) )
-		{
-			return getInstance( element.getEventHandlerClass( ), context );
+		if (element.newHandlerOnEachEvent()) {
+			return getInstance(element.getEventHandlerClass(), context);
 		}
-		if ( eventHandlers.containsKey( element ) )
-		{
-			return eventHandlers.get( element );
-		}
-		else
-		{
-			Object eventHandler = getInstance( element
-					.getEventHandlerClass( ), context );
-			eventHandlers.put( element, eventHandler );
+		if (eventHandlers.containsKey(element)) {
+			return eventHandlers.get(element);
+		} else {
+			Object eventHandler = getInstance(element.getEventHandlerClass(), context);
+			eventHandlers.put(element, eventHandler);
 			return eventHandler;
 		}
 	}
 
-	public Object getInstance( ReportItemDesign element,
-			ExecutionContext context ) throws EngineException
-	{
-		if ( element == null )
+	public Object getInstance(ReportItemDesign element, ExecutionContext context) throws EngineException {
+		if (element == null)
 			return null;
-		return getInstance( element.getHandle( ), context );
+		return getInstance(element.getHandle(), context);
 	}
 
-	public static Object getInstance( String className,
-			ExecutionContext context ) throws EngineException
-	{
-		if ( className == null )
+	public static Object getInstance(String className, ExecutionContext context) throws EngineException {
+		if (className == null)
 			return null;
 
 		Object o = null;
 		Class c = null;
 
-		try
-		{
-			c = loadClass( className, context );
-			o = c.newInstance( );
-		}
-		catch ( IllegalAccessException e )
-		{
-			throw new EngineException(
-					MessageConstants.SCRIPT_CLASS_ILLEGAL_ACCESS_ERROR,
-					new Object[]{className}, e ); //$NON-NLS-1$
-		}
-		catch ( InstantiationException e )
-		{
-			throw new EngineException(
-					MessageConstants.SCRIPT_CLASS_INSTANTIATION_ERROR,
-					new Object[]{className}, e ); //$NON-NLS-1$
+		try {
+			c = loadClass(className, context);
+			o = c.newInstance();
+		} catch (IllegalAccessException e) {
+			throw new EngineException(MessageConstants.SCRIPT_CLASS_ILLEGAL_ACCESS_ERROR, new Object[] { className },
+					e); // $NON-NLS-1$
+		} catch (InstantiationException e) {
+			throw new EngineException(MessageConstants.SCRIPT_CLASS_INSTANTIATION_ERROR, new Object[] { className }, e); // $NON-NLS-1$
 		}
 		return o;
 	}
 
-	public static Class loadClass( String className, ExecutionContext context )
-	        throws EngineException
-    {
-		try
-		{
-			ClassLoader classLoader = context.getApplicationClassLoader( );
-			Class c = classLoader.loadClass( className );
+	public static Class loadClass(String className, ExecutionContext context) throws EngineException {
+		try {
+			ClassLoader classLoader = context.getApplicationClassLoader();
+			Class c = classLoader.loadClass(className);
 			return c;
+		} catch (ClassNotFoundException e) {
+			throw new EngineException(MessageConstants.SCRIPT_CLASS_NOT_FOUND_ERROR, new Object[] { className }, e); // $NON-NLS-1$
 		}
-		catch ( ClassNotFoundException e )
-		{
-			throw new EngineException(
-			        MessageConstants.SCRIPT_CLASS_NOT_FOUND_ERROR,
-			        new Object[]{className}, e ); //$NON-NLS-1$
-		}
-    }
+	}
 
 }

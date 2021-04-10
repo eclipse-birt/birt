@@ -20,35 +20,28 @@ import org.eclipse.ui.part.FileEditorInput;
  * 
  */
 
-public class ScriptDebuggerPropertyTester extends PropertyTester
-{
+public class ScriptDebuggerPropertyTester extends PropertyTester {
 
 	/**
 	 * 
 	 */
-	public ScriptDebuggerPropertyTester( )
-	{
+	public ScriptDebuggerPropertyTester() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.core.expressions.IPropertyTester#test(java.lang.Object,
-	 *      java.lang.String, java.lang.Object[], java.lang.Object)
+	 * java.lang.String, java.lang.Object[], java.lang.Object)
 	 */
-	public boolean test( Object receiver, String property, Object[] args,
-			Object expectedValue )
-	{
-		if ( property.equals( "isRptdesign" ) )//$NON-NLS-1$
+	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
+		if (property.equals("isRptdesign"))//$NON-NLS-1$
 		{
 			IFile file = null;
-			if ( receiver instanceof FileEditorInput )
-			{
+			if (receiver instanceof FileEditorInput) {
 				FileEditorInput input = (FileEditorInput) receiver;
-				if ( input.getFile( ) != null
-						&& IReportElementConstants.DESIGN_FILE_EXTENSION.equals( input.getFile( )
-								.getFileExtension( ) ) )
-				{
+				if (input.getFile() != null
+						&& IReportElementConstants.DESIGN_FILE_EXTENSION.equals(input.getFile().getFileExtension())) {
 					return true;
 				}
 			}

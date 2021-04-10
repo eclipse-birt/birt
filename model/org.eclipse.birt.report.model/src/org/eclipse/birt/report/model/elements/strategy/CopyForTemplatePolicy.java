@@ -19,32 +19,30 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * 
  */
 
-public class CopyForTemplatePolicy extends CopyPolicy
-{
+public class CopyForTemplatePolicy extends CopyPolicy {
 
 	/**
 	 * Private constructor.
 	 */
-	
-	private CopyForTemplatePolicy( )
-	{
+
+	private CopyForTemplatePolicy() {
 	}
 
-	private final static CopyForTemplatePolicy instance = new CopyForTemplatePolicy( );
+	private final static CopyForTemplatePolicy instance = new CopyForTemplatePolicy();
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.strategy.CopyStrategy#execute(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.strategy.CopyStrategy#execute(org.
+	 * eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public void execute( DesignElement from, DesignElement to )
-	{
+	public void execute(DesignElement from, DesignElement to) {
 	}
 
-	public static CopyForTemplatePolicy getInstance( )
-	{
+	public static CopyForTemplatePolicy getInstance() {
 		return instance;
 	}
 

@@ -21,28 +21,23 @@ import org.eclipse.birt.core.data.DataType;
  * 
  */
 
-public class DistinctCount extends AggregateFunctionAdapter
-{
+public class DistinctCount extends AggregateFunctionAdapter {
 	private Set<Object> uniqueValues;
 
-	public void accumulate( Object oValue ) throws IllegalArgumentException
-	{
-		uniqueValues.add( oValue );
+	public void accumulate(Object oValue) throws IllegalArgumentException {
+		uniqueValues.add(oValue);
 	}
 
-	public Object getAggregatedValue( )
-	{
-		return Integer.valueOf( uniqueValues.size( ) );
+	public Object getAggregatedValue() {
+		return Integer.valueOf(uniqueValues.size());
 	}
 
-	public void initialize( )
-	{
-		uniqueValues = new HashSet<Object>( );
+	public void initialize() {
+		uniqueValues = new HashSet<Object>();
 	}
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.INTEGER_TYPE;
 	}
 

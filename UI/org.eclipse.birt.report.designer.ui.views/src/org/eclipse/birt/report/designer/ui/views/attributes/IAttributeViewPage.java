@@ -17,7 +17,6 @@ import org.eclipse.ui.part.IPageBookViewPage;
  * This interface is to identify the page implementation that targets for the
  * *Property Editor* view.
  */
-public interface IAttributeViewPage extends IPageBookViewPage
-{
+public interface IAttributeViewPage extends IPageBookViewPage {
 
 }

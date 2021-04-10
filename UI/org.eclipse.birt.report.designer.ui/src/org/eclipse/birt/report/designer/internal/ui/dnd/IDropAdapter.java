@@ -15,11 +15,11 @@ package org.eclipse.birt.report.designer.internal.ui.dnd;
  * 
  */
 
-public interface IDropAdapter
-{
+public interface IDropAdapter {
 
 	/**
-	 * Validate the tranfer object can be droped to traget with special operation and location.
+	 * Validate the tranfer object can be droped to traget with special operation
+	 * and location.
 	 * 
 	 * @param transfer
 	 * @param target
@@ -27,8 +27,7 @@ public interface IDropAdapter
 	 * @param location
 	 * @return
 	 */
-	public int canDrop( Object transfer, Object target, int operation,
-			DNDLocation location );
+	public int canDrop(Object transfer, Object target, int operation, DNDLocation location);
 
 	/**
 	 * Perform the drop operation.
@@ -39,6 +38,5 @@ public interface IDropAdapter
 	 * @param location
 	 * @return
 	 */
-	public boolean performDrop( Object transfer, Object target, int operation,
-			DNDLocation location );
+	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location);
 }

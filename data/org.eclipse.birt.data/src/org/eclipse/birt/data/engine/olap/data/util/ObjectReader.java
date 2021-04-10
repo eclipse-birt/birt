@@ -13,43 +13,38 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
 
-
 /**
  * 
  */
 
-public class ObjectReader implements IObjectReader
-{
+public class ObjectReader implements IObjectReader {
 	private IObjectReader reader = null;
 	private int dataType = DataType.UNKNOWN_TYPE;
-	
+
 	/**
 	 * 
 	 */
-	public Object read( BufferedRandomAccessFile file ) throws IOException
-	{
-		int nullIndicator = file.read( );
-		if( nullIndicator == 0 )
+	public Object read(BufferedRandomAccessFile file) throws IOException {
+		int nullIndicator = file.read();
+		if (nullIndicator == 0)
 			return null;
-		return reader.read( file );
+		return reader.read(file);
 	}
-	
+
 	/**
 	 * 
 	 * @param dataType
 	 */
-	public void setDataType( int dataType )
-	{
+	public void setDataType(int dataType) {
 		this.dataType = dataType;
-		this.reader = IOUtil.getRandomReader( dataType );
+		this.reader = IOUtil.getRandomReader(dataType);
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int getDataType( )
-	{
+	public int getDataType() {
 		return this.dataType;
 	}
 

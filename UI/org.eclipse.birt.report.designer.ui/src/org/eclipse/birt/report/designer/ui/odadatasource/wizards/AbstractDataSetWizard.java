@@ -27,14 +27,14 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * @deprecated	As of BIRT 2.1, replaced by
- * 		{@link org.eclipse.datatools.connectivity.oda.design.ui 
- * 		   org.eclipse.datatools.connectivity.oda.design.ui } .
+ * @deprecated As of BIRT 2.1, replaced by
+ *             {@link org.eclipse.datatools.connectivity.oda.design.ui
+ *             org.eclipse.datatools.connectivity.oda.design.ui } .
  */
-public abstract class AbstractDataSetWizard extends Wizard
-{
+public abstract class AbstractDataSetWizard extends Wizard {
 
-	private static final String CREATE_DATA_SET_TRANS_NAME = Messages.getString( "AbstractDataSetWizard.ModelTrans.Create" ); //$NON-NLS-1$
+	private static final String CREATE_DATA_SET_TRANS_NAME = Messages
+			.getString("AbstractDataSetWizard.ModelTrans.Create"); //$NON-NLS-1$
 
 	private transient DataSetHandle dataSetHandle;
 
@@ -46,78 +46,65 @@ public abstract class AbstractDataSetWizard extends Wizard
 
 	private transient IConfigurationElement configurationElement = null;
 
-	public abstract boolean doCancel( );
+	public abstract boolean doCancel();
 
-	public abstract boolean doFinish( );
+	public abstract boolean doFinish();
 
-	public AbstractDataSetWizard( String title )
-	{
-		this( );
-		setWindowTitle( title );
+	public AbstractDataSetWizard(String title) {
+		this();
+		setWindowTitle(title);
 	}
 
-	public AbstractDataSetWizard( )
-	{
-		super( );
+	public AbstractDataSetWizard() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.wizard.IWizard#createPageControls(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.wizard.IWizard#createPageControls(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
-	public void createPageControls( Composite pageContainer )
-	{
-		//Call getDataSet so that it can create the data set if one hasn't been
+	public void createPageControls(Composite pageContainer) {
+		// Call getDataSet so that it can create the data set if one hasn't been
 		// created
-		getDataSet( );
+		getDataSet();
 
-		try
-		{
-			dataSetHandle.setDataSource( getDataSource( ).getName( ) );
-			dataSetHandle.setName( getDataSetName( ) );
+		try {
+			dataSetHandle.setDataSource(getDataSource().getName());
+			dataSetHandle.setName(getDataSetName());
+		} catch (SemanticException e) {
+			ExceptionHandler.handle(e);
 		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		super.createPageControls( pageContainer );
+		super.createPageControls(pageContainer);
 	}
 
-	public final boolean performFinish( )
-	{
-		boolean returnValue = doFinish( );
+	public final boolean performFinish() {
+		boolean returnValue = doFinish();
 
-		//If the return value is true
-		//add it to the slot handle
-		if ( returnValue )
-		{
-			//Add the data source element
-			DesignElementHandle parentHandle = HandleAdapterFactory.getInstance( )
-					.getReportDesignHandleAdapter( )
-					.getModuleHandle( );
-			SlotHandle slotHandle = ( (ModuleHandle) parentHandle ).getDataSets( );
+		// If the return value is true
+		// add it to the slot handle
+		if (returnValue) {
+			// Add the data source element
+			DesignElementHandle parentHandle = HandleAdapterFactory.getInstance().getReportDesignHandleAdapter()
+					.getModuleHandle();
+			SlotHandle slotHandle = ((ModuleHandle) parentHandle).getDataSets();
 
-			try
-			{
-				slotHandle.add( getDataSet( ) );
+			try {
+				slotHandle.add(getDataSet());
 
-				//If we are using transactions
-				//commit it
-				if ( isUseTransaction( ) )
-				{
-					getActivityStack( ).commit( );
+				// If we are using transactions
+				// commit it
+				if (isUseTransaction()) {
+					getActivityStack().commit();
 				}
-			}
-			catch ( ContentException e )
-			{
-				getActivityStack( ).rollback( );
-				ExceptionHandler.handle( e );
-			}
-			catch ( NameException e )
-			{
-				getActivityStack( ).rollback( );
-				ExceptionHandler.handle( e );
+			} catch (ContentException e) {
+				getActivityStack().rollback();
+				ExceptionHandler.handle(e);
+			} catch (NameException e) {
+				getActivityStack().rollback();
+				ExceptionHandler.handle(e);
 			}
 		}
 
@@ -127,33 +114,27 @@ public abstract class AbstractDataSetWizard extends Wizard
 	/*
 	 * Create a DataSet object and store it in the datSet variable
 	 */
-	public abstract DataSetHandle createDataSet( ModuleHandle handle );
+	public abstract DataSetHandle createDataSet(ModuleHandle handle);
 
-	public final DataSetHandle getDataSet( )
-	{
-		if ( dataSetHandle == null )
-		{
-            if ( isUseTransaction( ) )
-            {
-                //Start the transaction
-                getActivityStack( ).startTrans( CREATE_DATA_SET_TRANS_NAME );
-            }
-            
-			//call create data set to create an empty data set object
-			dataSetHandle = createDataSet( HandleAdapterFactory.getInstance( )
-					.getReportDesignHandleAdapter( )
-					.getModuleHandle( ) );
+	public final DataSetHandle getDataSet() {
+		if (dataSetHandle == null) {
+			if (isUseTransaction()) {
+				// Start the transaction
+				getActivityStack().startTrans(CREATE_DATA_SET_TRANS_NAME);
+			}
+
+			// call create data set to create an empty data set object
+			dataSetHandle = createDataSet(
+					HandleAdapterFactory.getInstance().getReportDesignHandleAdapter().getModuleHandle());
 		}
 		return dataSetHandle;
 	}
 
-	public final void setDataSource( DataSourceHandle dataSourceHandle )
-	{
+	public final void setDataSource(DataSourceHandle dataSourceHandle) {
 		this.dataSourceHandle = dataSourceHandle;
 	}
 
-	public final DataSourceHandle getDataSource( )
-	{
+	public final DataSourceHandle getDataSource() {
 		return dataSourceHandle;
 	}
 
@@ -162,17 +143,14 @@ public abstract class AbstractDataSetWizard extends Wizard
 	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#performCancel()
 	 */
-	public final boolean performCancel( )
-	{
-		boolean returnValue = doCancel( );
+	public final boolean performCancel() {
+		boolean returnValue = doCancel();
 
-		if ( returnValue )
-		{
-			//If we are using transactions
+		if (returnValue) {
+			// If we are using transactions
 			// Roll back the Transaction
-			if ( isUseTransaction( ) )
-			{
-				getActivityStack( ).rollback( );
+			if (isUseTransaction()) {
+				getActivityStack().rollback();
 			}
 		}
 		return returnValue;
@@ -183,61 +161,49 @@ public abstract class AbstractDataSetWizard extends Wizard
 	 * 
 	 * @return returns the stack
 	 */
-	public CommandStack getActivityStack( )
-	{
-		return SessionHandleAdapter.getInstance( )
-				.getCommandStack();
+	public CommandStack getActivityStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
 	/**
 	 * @return Returns the useTransaction.
 	 */
-	final boolean isUseTransaction( )
-	{
+	final boolean isUseTransaction() {
 		return useTransaction;
 	}
 
 	/**
-	 * @param useTransaction
-	 *            The useTransaction to set.
+	 * @param useTransaction The useTransaction to set.
 	 */
-	public final void setUseTransaction( boolean useTransaction )
-	{
+	public final void setUseTransaction(boolean useTransaction) {
 		this.useTransaction = useTransaction;
 	}
 
 	/**
 	 * @return Returns the dataSetName.
 	 */
-	public final String getDataSetName( )
-	{
+	public final String getDataSetName() {
 		return dataSetName;
 	}
 
 	/**
-	 * @param dataSetName
-	 *            The dataSetName to set.
+	 * @param dataSetName The dataSetName to set.
 	 */
-	public final void setDataSetName( String dataSetName )
-	{
+	public final void setDataSetName(String dataSetName) {
 		this.dataSetName = dataSetName;
 	}
 
 	/**
 	 * @return Returns the configurationElement.
 	 */
-	public final IConfigurationElement getConfigurationElement( )
-	{
+	public final IConfigurationElement getConfigurationElement() {
 		return configurationElement;
 	}
 
 	/**
-	 * @param configurationElement
-	 *            The configurationElement to set.
+	 * @param configurationElement The configurationElement to set.
 	 */
-	public final void setConfigurationElement(
-			IConfigurationElement configurationElement )
-	{
+	public final void setConfigurationElement(IConfigurationElement configurationElement) {
 		this.configurationElement = configurationElement;
 	}
 }

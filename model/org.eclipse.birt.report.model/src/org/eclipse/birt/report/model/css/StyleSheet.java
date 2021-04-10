@@ -26,22 +26,20 @@ import org.w3c.dom.stylesheets.MediaList;
  * loaded.
  */
 
-public class StyleSheet implements CSSStyleSheet
-{
+public class StyleSheet implements CSSStyleSheet {
 
 	/**
 	 * The list to store all the rules.
 	 */
 
-	private List<CSSRule> rules = new ArrayList<CSSRule>( );
+	private List<CSSRule> rules = new ArrayList<CSSRule>();
 
 	/**
 	 * Default constructor.
 	 * 
 	 */
 
-	public StyleSheet( )
-	{
+	public StyleSheet() {
 
 	}
 
@@ -51,35 +49,29 @@ public class StyleSheet implements CSSStyleSheet
 	 * @return the rule list
 	 */
 
-	public List<CSSRule> getRules( )
-	{
+	public List<CSSRule> getRules() {
 		return rules;
 	}
 
 	/**
 	 * Adds a rule into the tail of the style sheet.
 	 * 
-	 * @param rule
-	 *            the rule to add
+	 * @param rule the rule to add
 	 */
 
-	public void add( CSSRule rule )
-	{
-		rules.add( rule );
+	public void add(CSSRule rule) {
+		rules.add(rule);
 	}
 
 	/**
 	 * Inserts a rule to the given position of the style sheet.
 	 * 
-	 * @param rule
-	 *            the rule to insert
-	 * @param index
-	 *            the position to insert
+	 * @param rule  the rule to insert
+	 * @param index the position to insert
 	 */
 
-	public void insert( CSSRule rule, int index )
-	{
-		rules.add( index, rule );
+	public void insert(CSSRule rule, int index) {
+		rules.add(index, rule);
 	}
 
 	/*
@@ -88,14 +80,12 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see java.lang.Object#toString()
 	 */
 
-	public String toString( )
-	{
-		StringBuffer sb = new StringBuffer( );
-		for ( int i = 0; i < rules.size( ); i++ )
-		{
-			sb.append( rules.get( i ).toString( ) ).append( "\r\n" ); //$NON-NLS-1$
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < rules.size(); i++) {
+			sb.append(rules.get(i).toString()).append("\r\n"); //$NON-NLS-1$
 		}
-		return sb.toString( );
+		return sb.toString();
 	}
 
 	/*
@@ -104,8 +94,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see org.w3c.dom.css.CSSStyleSheet#deleteRule(int)
 	 */
 
-	public void deleteRule( int index ) throws DOMException
-	{
+	public void deleteRule(int index) throws DOMException {
 
 	}
 
@@ -115,8 +104,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see org.w3c.dom.css.CSSStyleSheet#insertRule(java.lang.String, int)
 	 */
 
-	public int insertRule( String rule, int index ) throws DOMException
-	{
+	public int insertRule(String rule, int index) throws DOMException {
 
 		return 0;
 	}
@@ -127,8 +115,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see org.w3c.dom.css.CSSStyleSheet#getOwnerRule()
 	 */
 
-	public CSSRule getOwnerRule( )
-	{
+	public CSSRule getOwnerRule() {
 		return null;
 	}
 
@@ -138,8 +125,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see org.w3c.dom.css.CSSStyleSheet#getCssRules()
 	 */
 
-	public CSSRuleList getCssRules( )
-	{
+	public CSSRuleList getCssRules() {
 		return null;
 	}
 
@@ -149,8 +135,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getDisabled()
 	 */
 
-	public boolean getDisabled( )
-	{
+	public boolean getDisabled() {
 		return false;
 	}
 
@@ -160,8 +145,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see org.w3c.dom.stylesheets.StyleSheet#setDisabled(boolean)
 	 */
 
-	public void setDisabled( boolean disabled )
-	{
+	public void setDisabled(boolean disabled) {
 	}
 
 	/*
@@ -170,8 +154,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getHref()
 	 */
 
-	public String getHref( )
-	{
+	public String getHref() {
 		return null;
 	}
 
@@ -181,8 +164,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getTitle()
 	 */
 
-	public String getTitle( )
-	{
+	public String getTitle() {
 		return null;
 	}
 
@@ -192,8 +174,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getType()
 	 */
 
-	public String getType( )
-	{
+	public String getType() {
 		return null;
 	}
 
@@ -203,8 +184,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getOwnerNode()
 	 */
 
-	public Node getOwnerNode( )
-	{
+	public Node getOwnerNode() {
 		return null;
 	}
 
@@ -214,8 +194,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getMedia()
 	 */
 
-	public MediaList getMedia( )
-	{
+	public MediaList getMedia() {
 		return null;
 	}
 
@@ -225,8 +204,7 @@ public class StyleSheet implements CSSStyleSheet
 	 * @see org.w3c.dom.stylesheets.StyleSheet#getParentStyleSheet()
 	 */
 
-	public org.w3c.dom.stylesheets.StyleSheet getParentStyleSheet( )
-	{
+	public org.w3c.dom.stylesheets.StyleSheet getParentStyleSheet() {
 		return null;
 	}
 }

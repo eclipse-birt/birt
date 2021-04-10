@@ -18,23 +18,19 @@ import org.eclipse.gef.requests.GroupRequest;
 /**
  * Component Role edit policy Provide delete support
  * 
- *  
+ * 
  */
-public class ReportComponentEditPolicy extends ComponentEditPolicy
-{
+public class ReportComponentEditPolicy extends ComponentEditPolicy {
 
 	/**
 	 * Constructor
 	 */
-	public ReportComponentEditPolicy( )
-	{
-		super( );
+	public ReportComponentEditPolicy() {
+		super();
 	}
 
-	protected org.eclipse.gef.commands.Command createDeleteCommand(
-			GroupRequest deleteRequest )
-	{
-		DeleteCommand command = new DeleteCommand( this.getHost( ).getModel( ) );
+	protected org.eclipse.gef.commands.Command createDeleteCommand(GroupRequest deleteRequest) {
+		DeleteCommand command = new DeleteCommand(this.getHost().getModel());
 		return command;
 	}
 }

@@ -19,13 +19,12 @@ import org.eclipse.birt.chart.exception.ChartException;
  * @since 2.5
  */
 
-public interface IAxisAdjuster
-{
+public interface IAxisAdjuster {
 	/**
 	 * Adjust axis(axes) scale and location.
 	 * 
 	 * @throws ChartException
 	 */
 	public void adjust() throws ChartException;
-	
+
 }

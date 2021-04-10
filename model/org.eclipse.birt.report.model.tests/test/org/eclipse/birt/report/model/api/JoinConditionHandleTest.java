@@ -44,8 +44,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * @see org.eclipse.birt.report.model.elements.JointDataSet
  */
 
-public class JoinConditionHandleTest extends BaseTestCase
-{
+public class JoinConditionHandleTest extends BaseTestCase {
 
 	private String fileName = "JoinConditionHandleTest.xml"; //$NON-NLS-1$
 
@@ -55,68 +54,57 @@ public class JoinConditionHandleTest extends BaseTestCase
 	 * Creates the joinConditionHandle.
 	 */
 
-	public void setUp( ) throws DesignFileException
-	{
-		openDesign( fileName );
-		JointDataSetHandle dataSet = (JointDataSetHandle) designHandle
-				.findJointDataSet( "JointDataSet" ); //$NON-NLS-1$
-		Iterator joinConditionsIterator = dataSet.joinConditionsIterator( );
-		joinConditionHandle = (JoinConditionHandle) joinConditionsIterator
-				.next( );
+	public void setUp() throws DesignFileException {
+		openDesign(fileName);
+		JointDataSetHandle dataSet = (JointDataSetHandle) designHandle.findJointDataSet("JointDataSet"); //$NON-NLS-1$
+		Iterator joinConditionsIterator = dataSet.joinConditionsIterator();
+		joinConditionHandle = (JoinConditionHandle) joinConditionsIterator.next();
 	}
 
 	/**
 	 * Tests all getters.
 	 */
 
-	public void testGetValue( )
-	{
-		assertEquals( DesignChoiceConstants.JOIN_TYPE_INNER,
-				joinConditionHandle.getJoinType( ) );
-		assertEquals( DesignChoiceConstants.JOIN_OPERATOR_EQALS,
-				joinConditionHandle.getOperator( ) );
-		assertEquals( "DataSet1", joinConditionHandle.getLeftDataSet( ) ); //$NON-NLS-1$
-		assertEquals( "DataSet2", joinConditionHandle.getRightDataSet( ) ); //$NON-NLS-1$
-		assertEquals( "leftExpression", joinConditionHandle //$NON-NLS-1$
-				.getLeftExpression( ) );
-		assertEquals( "rightExpression", joinConditionHandle //$NON-NLS-1$
-				.getRightExpression( ) );
+	public void testGetValue() {
+		assertEquals(DesignChoiceConstants.JOIN_TYPE_INNER, joinConditionHandle.getJoinType());
+		assertEquals(DesignChoiceConstants.JOIN_OPERATOR_EQALS, joinConditionHandle.getOperator());
+		assertEquals("DataSet1", joinConditionHandle.getLeftDataSet()); //$NON-NLS-1$
+		assertEquals("DataSet2", joinConditionHandle.getRightDataSet()); //$NON-NLS-1$
+		assertEquals("leftExpression", joinConditionHandle //$NON-NLS-1$
+				.getLeftExpression());
+		assertEquals("rightExpression", joinConditionHandle //$NON-NLS-1$
+				.getRightExpression());
 	}
 
 	/**
 	 * Tests all setters.
 	 * 
-	 * @throws SemanticException
-	 *             when value can't be set.
+	 * @throws SemanticException when value can't be set.
 	 */
 
-	public void testSetValue( ) throws SemanticException
-	{
-		joinConditionHandle
-				.setJoinType( DesignChoiceConstants.JOIN_TYPE_LEFT_OUT );
-		assertEquals( DesignChoiceConstants.JOIN_TYPE_LEFT_OUT,
-				joinConditionHandle.getJoinType( ) );
+	public void testSetValue() throws SemanticException {
+		joinConditionHandle.setJoinType(DesignChoiceConstants.JOIN_TYPE_LEFT_OUT);
+		assertEquals(DesignChoiceConstants.JOIN_TYPE_LEFT_OUT, joinConditionHandle.getJoinType());
 
 		String operator = DesignChoiceConstants.JOIN_OPERATOR_EQALS;
-		joinConditionHandle.setOperator( operator );
-		assertEquals( operator, joinConditionHandle.getOperator( ) );
+		joinConditionHandle.setOperator(operator);
+		assertEquals(operator, joinConditionHandle.getOperator());
 
 		String leftDataSet = "DataSet1"; //$NON-NLS-1$
-		joinConditionHandle.setLeftDataSet( leftDataSet );
-		assertEquals( leftDataSet, joinConditionHandle.getLeftDataSet( ) );
+		joinConditionHandle.setLeftDataSet(leftDataSet);
+		assertEquals(leftDataSet, joinConditionHandle.getLeftDataSet());
 
 		String rightDataSet = "DataSet2"; //$NON-NLS-1$
-		joinConditionHandle.setRightDataSet( rightDataSet );
-		assertEquals( rightDataSet, joinConditionHandle.getRightDataSet( ) );
+		joinConditionHandle.setRightDataSet(rightDataSet);
+		assertEquals(rightDataSet, joinConditionHandle.getRightDataSet());
 
 		String leftExpression = "leftExpression"; //$NON-NLS-1$
-		joinConditionHandle.setLeftExpression( leftExpression );
-		assertEquals( leftExpression, joinConditionHandle.getLeftExpression( ) );
+		joinConditionHandle.setLeftExpression(leftExpression);
+		assertEquals(leftExpression, joinConditionHandle.getLeftExpression());
 
 		String rightExpression = "rightExpression"; //$NON-NLS-1$
-		joinConditionHandle.setRightExpression( rightExpression );
-		assertEquals( rightExpression, joinConditionHandle
-				.getRightExpression( ) );
+		joinConditionHandle.setRightExpression(rightExpression);
+		assertEquals(rightExpression, joinConditionHandle.getRightExpression());
 	}
 
 }

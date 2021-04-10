@@ -18,7 +18,7 @@ public interface IResultSetItem {
 	 * @return the result set name
 	 */
 	public String getResultSetName();
-	
+
 	/**
 	 * return the display name from externalization
 	 * 

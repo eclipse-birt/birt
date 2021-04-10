@@ -30,23 +30,21 @@ import org.eclipse.swt.widgets.ScrollBar;
  * Special Canvas class used to display the image.
  * 
  */
-public class IconCanvas extends Canvas
-{
+public class IconCanvas extends Canvas {
 
 	private Image sourceImage;
 
 	private Image screenImage;
 
-	private AffineTransform transform = new AffineTransform( );
+	private AffineTransform transform = new AffineTransform();
 
 	/**
 	 * The constructor.
 	 * 
 	 * @param parent
 	 */
-	public IconCanvas( final Composite parent )
-	{
-		this( parent, 0 );
+	public IconCanvas(final Composite parent) {
+		this(parent, 0);
 	}
 
 	/**
@@ -56,17 +54,15 @@ public class IconCanvas extends Canvas
 	 * @param style
 	 * 
 	 */
-	public IconCanvas( final Composite parent, int style )
-	{
-		super( parent, style );
+	public IconCanvas(final Composite parent, int style) {
+		super(parent, style);
 
-		addPaintListener( new PaintListener( ) {
+		addPaintListener(new PaintListener() {
 
-			public void paintControl( final PaintEvent event )
-			{
-				paint( event.gc );
+			public void paintControl(final PaintEvent event) {
+				paint(event.gc);
 			}
-		} );
+		});
 	}
 
 	/*
@@ -74,135 +70,107 @@ public class IconCanvas extends Canvas
 	 * 
 	 * @see org.eclipse.swt.widgets.Widget#dispose()
 	 */
-	public void dispose( )
-	{
-		if ( sourceImage != null && !sourceImage.isDisposed( ) )
-		{
-			sourceImage.dispose( );
+	public void dispose() {
+		if (sourceImage != null && !sourceImage.isDisposed()) {
+			sourceImage.dispose();
 		}
 
-		if ( screenImage != null && !screenImage.isDisposed( ) )
-		{
-			screenImage.dispose( );
+		if (screenImage != null && !screenImage.isDisposed()) {
+			screenImage.dispose();
 		}
 	}
 
-	private void paint( GC gc )
-	{
-		Rectangle clientRect = getClientArea( );
+	private void paint(GC gc) {
+		Rectangle clientRect = getClientArea();
 
-		if ( sourceImage != null )
-		{
-			Rectangle imageRect = TransformUtil.inverseTransformRect( transform,
-					clientRect );
+		if (sourceImage != null) {
+			Rectangle imageRect = TransformUtil.inverseTransformRect(transform, clientRect);
 			int gap = 2;
 			imageRect.x -= gap;
 			imageRect.y -= gap;
 			imageRect.width += 2 * gap;
 			imageRect.height += 2 * gap;
 
-			Rectangle imageBound = sourceImage.getBounds( );
-			imageRect = imageRect.intersection( imageBound );
-			Rectangle destRect = TransformUtil.transformRect( transform,
-					imageRect );
+			Rectangle imageBound = sourceImage.getBounds();
+			imageRect = imageRect.intersection(imageBound);
+			Rectangle destRect = TransformUtil.transformRect(transform, imageRect);
 
-			if ( screenImage != null )
-				screenImage.dispose( );
-			screenImage = new Image( getDisplay( ),
-					clientRect.width,
-					clientRect.height );
-			GC newGC = new GC( screenImage );
-			newGC.setClipping( clientRect );
-			newGC.drawImage( sourceImage,
-					imageRect.x,
-					imageRect.y,
-					imageRect.width,
-					imageRect.height,
-					destRect.x,
-					destRect.y,
-					destRect.width,
-					destRect.height );
-			newGC.dispose( );
+			if (screenImage != null)
+				screenImage.dispose();
+			screenImage = new Image(getDisplay(), clientRect.width, clientRect.height);
+			GC newGC = new GC(screenImage);
+			newGC.setClipping(clientRect);
+			newGC.drawImage(sourceImage, imageRect.x, imageRect.y, imageRect.width, imageRect.height, destRect.x,
+					destRect.y, destRect.width, destRect.height);
+			newGC.dispose();
 
-			gc.drawImage( screenImage, 0, 0 );
-		}
-		else
-		{
-			gc.setClipping( clientRect );
-			gc.fillRectangle( clientRect );
+			gc.drawImage(screenImage, 0, 0);
+		} else {
+			gc.setClipping(clientRect);
+			gc.fillRectangle(clientRect);
 		}
 	}
 
 	/**
 	 * SYNC the scroll-bars with the image.
 	 */
-	public void syncScrollBars( )
-	{
-		if ( sourceImage == null )
-		{
-			redraw( );
+	public void syncScrollBars() {
+		if (sourceImage == null) {
+			redraw();
 			return;
 		}
 
 		AffineTransform af = transform;
-		double sx = af.getScaleX( ), sy = af.getScaleY( );
-		double tx = af.getTranslateX( ), ty = af.getTranslateY( );
-		if ( tx > 0 )
+		double sx = af.getScaleX(), sy = af.getScaleY();
+		double tx = af.getTranslateX(), ty = af.getTranslateY();
+		if (tx > 0)
 			tx = 0;
-		if ( ty > 0 )
+		if (ty > 0)
 			ty = 0;
 
-		Rectangle imageBound = sourceImage.getBounds( );
-		int cw = getClientArea( ).width, ch = getClientArea( ).height;
+		Rectangle imageBound = sourceImage.getBounds();
+		int cw = getClientArea().width, ch = getClientArea().height;
 
-		ScrollBar horizontal = getHorizontalBar( );
+		ScrollBar horizontal = getHorizontalBar();
 
-		if ( horizontal != null )
-		{
-			horizontal.setIncrement( ( getClientArea( ).width / 100 ) );
-			horizontal.setPageIncrement( getClientArea( ).width );
+		if (horizontal != null) {
+			horizontal.setIncrement((getClientArea().width / 100));
+			horizontal.setPageIncrement(getClientArea().width);
 
-			if ( imageBound.width * sx > cw )
-			{
-				horizontal.setMaximum( (int) ( imageBound.width * sx ) );
-				horizontal.setEnabled( true );
-				if ( ( (int) -tx ) > horizontal.getMaximum( ) - cw )
-					tx = -horizontal.getMaximum( ) + cw;
+			if (imageBound.width * sx > cw) {
+				horizontal.setMaximum((int) (imageBound.width * sx));
+				horizontal.setEnabled(true);
+				if (((int) -tx) > horizontal.getMaximum() - cw)
+					tx = -horizontal.getMaximum() + cw;
+			} else {
+				horizontal.setEnabled(false);
+				tx = (cw - imageBound.width * sx) / 2;
 			}
-			else
-			{
-				horizontal.setEnabled( false );
-				tx = ( cw - imageBound.width * sx ) / 2;
-			}
-			horizontal.setSelection( (int) ( -tx ) );
-			horizontal.setThumb( ( getClientArea( ).width ) );
+			horizontal.setSelection((int) (-tx));
+			horizontal.setThumb((getClientArea().width));
 		}
-		ScrollBar vertical = getVerticalBar( );
-		if ( vertical != null )
-		{
-			vertical.setIncrement( ( getClientArea( ).height / 100 ) );
-			vertical.setPageIncrement( ( getClientArea( ).height ) );
-			if ( imageBound.height * sy > ch )
-			{
-				vertical.setMaximum( (int) ( imageBound.height * sy ) );
-				vertical.setEnabled( true );
-				if ( ( (int) -ty ) > vertical.getMaximum( ) - ch )
-					ty = -vertical.getMaximum( ) + ch;
+		ScrollBar vertical = getVerticalBar();
+		if (vertical != null) {
+			vertical.setIncrement((getClientArea().height / 100));
+			vertical.setPageIncrement((getClientArea().height));
+			if (imageBound.height * sy > ch) {
+				vertical.setMaximum((int) (imageBound.height * sy));
+				vertical.setEnabled(true);
+				if (((int) -ty) > vertical.getMaximum() - ch)
+					ty = -vertical.getMaximum() + ch;
+			} else {
+				vertical.setEnabled(false);
+				ty = (ch - imageBound.height * sy) / 2;
 			}
-			else
-			{
-				vertical.setEnabled( false );
-				ty = ( ch - imageBound.height * sy ) / 2;
-			}
-			vertical.setSelection( (int) ( -ty ) );
-			vertical.setThumb( ( getClientArea( ).height ) );
+			vertical.setSelection((int) (-ty));
+			vertical.setThumb((getClientArea().height));
 		}
 
-		af = AffineTransform.getScaleInstance( sx, sy );
-		af.preConcatenate( AffineTransform.getTranslateInstance( tx, ty ) );
+		af = AffineTransform.getScaleInstance(sx, sy);
+		af.preConcatenate(AffineTransform.getTranslateInstance(tx, ty));
 		transform = af;
 
-		redraw( );
+		redraw();
 	}
 
 	/**
@@ -211,23 +179,18 @@ public class IconCanvas extends Canvas
 	 * @param filename
 	 * 
 	 */
-	public Image loadImage( String filename )
-	{
-		if ( sourceImage != null && !sourceImage.isDisposed( ) )
-		{
-			sourceImage.dispose( );
+	public Image loadImage(String filename) {
+		if (sourceImage != null && !sourceImage.isDisposed()) {
+			sourceImage.dispose();
 			sourceImage = null;
 		}
-		sourceImage = new Image( getDisplay( ), filename );
+		sourceImage = new Image(getDisplay(), filename);
 
-		if ( sourceImage.getBounds( ).width > this.getBounds( ).width
-				|| sourceImage.getBounds( ).height > this.getBounds( ).height )
-		{
-			fitCanvas( );
-		}
-		else
-		{
-			showOriginal( );
+		if (sourceImage.getBounds().width > this.getBounds().width
+				|| sourceImage.getBounds().height > this.getBounds().height) {
+			fitCanvas();
+		} else {
+			showOriginal();
 		}
 		return sourceImage;
 	}
@@ -237,24 +200,19 @@ public class IconCanvas extends Canvas
 	 * 
 	 * @param url
 	 */
-	public Image loadImage( URL url )
-	{
-		if ( sourceImage != null && !sourceImage.isDisposed( ) )
-		{
-			sourceImage.dispose( );
+	public Image loadImage(URL url) {
+		if (sourceImage != null && !sourceImage.isDisposed()) {
+			sourceImage.dispose();
 			sourceImage = null;
 		}
 
-		sourceImage = ImageDescriptor.createFromURL( url ).createImage( );
+		sourceImage = ImageDescriptor.createFromURL(url).createImage();
 
-		if ( sourceImage.getBounds( ).width > this.getBounds( ).width
-				|| sourceImage.getBounds( ).height > this.getBounds( ).height )
-		{
-			fitCanvas( );
-		}
-		else
-		{
-			showOriginal( );
+		if (sourceImage.getBounds().width > this.getBounds().width
+				|| sourceImage.getBounds().height > this.getBounds().height) {
+			fitCanvas();
+		} else {
+			showOriginal();
 		}
 		return sourceImage;
 	}
@@ -265,23 +223,18 @@ public class IconCanvas extends Canvas
 	 * @param filename
 	 * 
 	 */
-	public Image loadImage( InputStream is )
-	{
-		if ( sourceImage != null && !sourceImage.isDisposed( ) )
-		{
-			sourceImage.dispose( );
+	public Image loadImage(InputStream is) {
+		if (sourceImage != null && !sourceImage.isDisposed()) {
+			sourceImage.dispose();
 			sourceImage = null;
 		}
-		sourceImage = new Image( getDisplay( ), is );
+		sourceImage = new Image(getDisplay(), is);
 
-		if ( sourceImage.getBounds( ).width > this.getBounds( ).width
-				|| sourceImage.getBounds( ).height > this.getBounds( ).height )
-		{
-			fitCanvas( );
-		}
-		else
-		{
-			showOriginal( );
+		if (sourceImage.getBounds().width > this.getBounds().width
+				|| sourceImage.getBounds().height > this.getBounds().height) {
+			fitCanvas();
+		} else {
+			showOriginal();
 		}
 		return sourceImage;
 	}
@@ -289,43 +242,39 @@ public class IconCanvas extends Canvas
 	/**
 	 * Adjust the image onto the canvas
 	 */
-	public void fitCanvas( )
-	{
-		if ( sourceImage == null )
+	public void fitCanvas() {
+		if (sourceImage == null)
 			return;
-		Rectangle imageBound = sourceImage.getBounds( );
-		Rectangle destRect = getClientArea( );
+		Rectangle imageBound = sourceImage.getBounds();
+		Rectangle destRect = getClientArea();
 		double sx = (double) destRect.width / (double) imageBound.width;
 		double sy = (double) destRect.height / (double) imageBound.height;
-		double s = Math.min( sx, sy );
+		double s = Math.min(sx, sy);
 		double dx = 0.5 * destRect.width;
 		double dy = 0.5 * destRect.height;
-		centerZoom( dx, dy, s, new AffineTransform( ) );
+		centerZoom(dx, dy, s, new AffineTransform());
 	}
 
 	/**
 	 * Show the image with the original size
 	 */
-	public void showOriginal( )
-	{
-		if ( sourceImage == null )
+	public void showOriginal() {
+		if (sourceImage == null)
 			return;
-		transform = new AffineTransform( );
-		syncScrollBars( );
+		transform = new AffineTransform();
+		syncScrollBars();
 	}
 
 	/**
 	 * Clear the canvas
 	 */
-	public void clear( )
-	{
-		if ( sourceImage != null )
-		{
-			sourceImage.dispose( );
+	public void clear() {
+		if (sourceImage != null) {
+			sourceImage.dispose();
 			sourceImage = null;
-			GC clearGC = new GC( this );
-			paint( clearGC );
-			clearGC.dispose( );
+			GC clearGC = new GC(this);
+			paint(clearGC);
+			clearGC.dispose();
 		}
 	}
 
@@ -337,13 +286,11 @@ public class IconCanvas extends Canvas
 	 * @param scale
 	 * @param af
 	 */
-	public void centerZoom( double dx, double dy, double scale,
-			AffineTransform af )
-	{
-		af.preConcatenate( AffineTransform.getTranslateInstance( -dx, -dy ) );
-		af.preConcatenate( AffineTransform.getScaleInstance( scale, scale ) );
-		af.preConcatenate( AffineTransform.getTranslateInstance( dx, dy ) );
+	public void centerZoom(double dx, double dy, double scale, AffineTransform af) {
+		af.preConcatenate(AffineTransform.getTranslateInstance(-dx, -dy));
+		af.preConcatenate(AffineTransform.getScaleInstance(scale, scale));
+		af.preConcatenate(AffineTransform.getTranslateInstance(dx, dy));
 		transform = af;
-		syncScrollBars( );
+		syncScrollBars();
 	}
 }

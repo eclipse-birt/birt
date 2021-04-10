@@ -16,13 +16,12 @@ import org.eclipse.birt.core.exception.BirtException;
 /**
  * Use ICalculator interface whenever you wish to calculator a value.
  */
-public interface ICalculator
-{
+public interface ICalculator {
 
 	/**
 	 * 
 	 * @param value
 	 * @return
 	 */
-	Object calculate( Object value ) throws BirtException;
+	Object calculate(Object value) throws BirtException;
 }

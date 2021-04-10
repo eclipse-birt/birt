@@ -17,12 +17,11 @@ import org.eclipse.birt.chart.model.data.Action;
 /**
  * This interface defines the capability to manipulate action based expressions.
  */
-public interface IActionEvaluator
-{
+public interface IActionEvaluator {
 
 	/**
 	 * Returns the expressions contained in the action. Could be null if not
 	 * containing any expression.
 	 */
-	String[] getActionExpressions( Action action, StructureSource source );
+	String[] getActionExpressions(Action action, StructureSource source);
 }

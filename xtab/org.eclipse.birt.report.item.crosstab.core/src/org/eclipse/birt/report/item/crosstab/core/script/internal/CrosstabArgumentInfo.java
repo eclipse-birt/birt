@@ -16,25 +16,21 @@ import org.eclipse.birt.report.model.api.scripts.ArgumentInfo;
 /**
  * CrosstabArgumentInfo
  */
-public class CrosstabArgumentInfo extends ArgumentInfo
-{
+public class CrosstabArgumentInfo extends ArgumentInfo {
 
 	private String name;
 
-	CrosstabArgumentInfo( Class<?> argumentType, String argumentName )
-	{
-		super( argumentType );
+	CrosstabArgumentInfo(Class<?> argumentType, String argumentName) {
+		super(argumentType);
 
 		this.name = argumentName;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name == null ? "" : name; //$NON-NLS-1$
 	}
 
-	public String getDisplayName( )
-	{
-		return getName( );
+	public String getDisplayName() {
+		return getName();
 	}
 }

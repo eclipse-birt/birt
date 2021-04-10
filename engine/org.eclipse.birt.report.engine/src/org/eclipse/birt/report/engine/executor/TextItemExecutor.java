@@ -28,58 +28,49 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
  * <code>StyledItemExecutor</code> that manipulates label/text items.
  * 
  */
-public class TextItemExecutor extends QueryItemExecutor
-{
+public class TextItemExecutor extends QueryItemExecutor {
 
 	/**
 	 * constructor
 	 * 
-	 * @param context
-	 *            the executor context
-	 * @param visitor
-	 *            the report executor visitor
+	 * @param context the executor context
+	 * @param visitor the report executor visitor
 	 */
-	public TextItemExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.TEXTITEM );
+	public TextItemExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.TEXTITEM);
 	}
 
 	/**
 	 * Text item create an foreign object. The process is:
-	 * <li> create the foreign object
-	 * <li> push it into the context
-	 * <li> execute the query and seek to the first record if any.
-	 * <li> process the style, visiblity, bookmark, actions
-	 * <li> evaluate the expressions in the text.
-	 * <li> call onCreate if needed.
-	 * <li> pass it to emitter
-	 * <li> close the query
-	 * <li> pop up.
+	 * <li>create the foreign object
+	 * <li>push it into the context
+	 * <li>execute the query and seek to the first record if any.
+	 * <li>process the style, visiblity, bookmark, actions
+	 * <li>evaluate the expressions in the text.
+	 * <li>call onCreate if needed.
+	 * <li>pass it to emitter
+	 * <li>close the query
+	 * <li>pop up.
 	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExcutor#execute(IContentEmitter)
 	 */
-	public IContent execute( )
-	{
-		TextItemDesign textDesign = (TextItemDesign) getDesign( );
-		String textType = textDesign.getTextType( );
-		String text = textDesign.getText( );
-		String contentType = ForeignContent.getTextRawType( textType, text );
+	public IContent execute() {
+		TextItemDesign textDesign = (TextItemDesign) getDesign();
+		String textType = textDesign.getTextType();
+		String text = textDesign.getText();
+		String contentType = ForeignContent.getTextRawType(textType, text);
 
-		if ( IForeignContent.HTML_TYPE.equals( contentType ) )
-		{
-			return executeHtmlText( );
-		}
-		else
-		{
-			return executePlainText( );
+		if (IForeignContent.HTML_TYPE.equals(contentType)) {
+			return executeHtmlText();
+		} else {
+			return executePlainText();
 		}
 	}
 
-	public void close( ) throws BirtException
-	{
-		finishTOCEntry( );
-		closeQuery( );
-		super.close( );
+	public void close() throws BirtException {
+		finishTOCEntry();
+		closeQuery();
+		super.close();
 	}
 
 	/**
@@ -88,51 +79,45 @@ public class TextItemExecutor extends QueryItemExecutor
 	 * @param design
 	 * @param emitter
 	 */
-	protected IContent executeHtmlText( )
-	{
-		TextItemDesign textDesign = (TextItemDesign) getDesign( );
-		IForeignContent textContent = report.createForeignContent( );
-		setContent( textContent );
+	protected IContent executeHtmlText() {
+		TextItemDesign textDesign = (TextItemDesign) getDesign();
+		IForeignContent textContent = report.createForeignContent();
+		setContent(textContent);
 
-		executeQuery( );
+		executeQuery();
 		// accessQuery( );
 
-		initializeContent( textDesign, textContent );
+		initializeContent(textDesign, textContent);
 
-		processAction( textDesign, textContent );
-		processBookmark( textDesign, textContent );
-		processStyle( textDesign, textContent );
-		processVisibility( textDesign, textContent );
-		processUserProperties( textDesign, textContent );
+		processAction(textDesign, textContent);
+		processBookmark(textDesign, textContent);
+		processStyle(textDesign, textContent);
+		processVisibility(textDesign, textContent);
+		processUserProperties(textDesign, textContent);
 
-		HashMap<String, Expression> exprs = textDesign.getExpressions( );
-		if ( exprs != null && !exprs.isEmpty( ) )
-		{
-			HashMap<String, Object> results = new HashMap<String, Object>( );
-			for ( Map.Entry<String, Expression> entry : exprs.entrySet( ) )
-			{
-				Expression expr = entry.getValue( );
-				Object value = evaluate( expr );
-				results.put( entry.getKey( ), value );
+		HashMap<String, Expression> exprs = textDesign.getExpressions();
+		if (exprs != null && !exprs.isEmpty()) {
+			HashMap<String, Object> results = new HashMap<String, Object>();
+			for (Map.Entry<String, Expression> entry : exprs.entrySet()) {
+				Expression expr = entry.getValue();
+				Object value = evaluate(expr);
+				results.put(entry.getKey(), value);
 			}
 			Object[] value = new Object[2];
 			value[0] = null;
 			value[1] = results;
-			textContent.setRawValue( value );
+			textContent.setRawValue(value);
+		} else {
+			textContent.setRawValue(new Object[] { null, null });
 		}
-		else
-		{
-			textContent.setRawValue( new Object[]{null, null} );
-		}
-		textContent.setRawType( IForeignContent.TEMPLATE_TYPE );
-        textContent.setJTidy( textDesign.isJTidy( ) );
+		textContent.setRawType(IForeignContent.TEMPLATE_TYPE);
+		textContent.setJTidy(textDesign.isJTidy());
 
-		if ( context.isInFactory( ) )
-		{
-			handleOnCreate( textContent );
+		if (context.isInFactory()) {
+			handleOnCreate(textContent);
 		}
 
-		startTOCEntry( content );
+		startTOCEntry(content);
 
 		return textContent;
 	}
@@ -143,32 +128,30 @@ public class TextItemExecutor extends QueryItemExecutor
 	 * @param design
 	 * @param emitter
 	 */
-	protected IContent executePlainText( )
-	{
-		TextItemDesign textDesign = (TextItemDesign) getDesign( );
+	protected IContent executePlainText() {
+		TextItemDesign textDesign = (TextItemDesign) getDesign();
 
-		ILabelContent textContent = report.createLabelContent( );
-		setContent( textContent );
+		ILabelContent textContent = report.createLabelContent();
+		setContent(textContent);
 
-		executeQuery( );
+		executeQuery();
 		// accessQuery( design, emitter );
 
-		initializeContent( textDesign, textContent );
-		textContent.setLabelText( textDesign.getText( ) );
-		textContent.setLabelKey( textDesign.getTextKey( ) );
+		initializeContent(textDesign, textContent);
+		textContent.setLabelText(textDesign.getText());
+		textContent.setLabelKey(textDesign.getTextKey());
 
-		processAction( textDesign, textContent );
-		processBookmark( textDesign, textContent );
-		processStyle( textDesign, textContent );
-		processVisibility( textDesign, textContent );
-		processUserProperties( textDesign, textContent );
+		processAction(textDesign, textContent);
+		processBookmark(textDesign, textContent);
+		processStyle(textDesign, textContent);
+		processVisibility(textDesign, textContent);
+		processUserProperties(textDesign, textContent);
 
-		if ( context.isInFactory( ) )
-		{
-			handleOnCreate( textContent );
+		if (context.isInFactory()) {
+			handleOnCreate(textContent);
 		}
 
-		startTOCEntry( content );
+		startTOCEntry(content);
 
 		return textContent;
 	}

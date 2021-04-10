@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.engine.api;
 
-
-public interface IPostscriptRenderOption extends IRenderOption
-{
+public interface IPostscriptRenderOption extends IRenderOption {
 	public static final String PS_LEVEL = "psLevel";
 
 	public static final String OPTION_PAPER_SIZE = "OptionPagerSize";
@@ -45,55 +43,55 @@ public interface IPostscriptRenderOption extends IRenderOption
 	 * 
 	 * @param level
 	 */
-	void setPostscriptLevel( int level );
+	void setPostscriptLevel(int level);
 
 	/**
 	 * Gets postscript level.
 	 */
-	int getPostscriptLevel( );
+	int getPostscriptLevel();
 
-	void setPaperSize( String paperSize );
+	void setPaperSize(String paperSize);
 
-	String getPaperSize( );
+	String getPaperSize();
 
-	void setPaperTray( String paperTray );
+	void setPaperTray(String paperTray);
 
-	String getPaperTray( );
+	String getPaperTray();
 
-	void setDuplex( int duplex );
+	void setDuplex(int duplex);
 
-	int getDuplex( );
+	int getDuplex();
 
-	void setCopies( int copies );
+	void setCopies(int copies);
 
-	int getCopies( );
+	int getCopies();
 
-	void setCollate( boolean collate );
+	void setCollate(boolean collate);
 
-	boolean getCollate( );
+	boolean getCollate();
 
-	void setResolution( String resolution );
-	
-	String getResolution( );
+	void setResolution(String resolution);
 
-	void setColor( boolean color );
+	String getResolution();
 
-	boolean getColor( );
+	void setColor(boolean color);
 
-	void setScale( int scale );
+	boolean getColor();
 
-	int getScale( );
+	void setScale(int scale);
+
+	int getScale();
 
 	/**
 	 * Select paper size according to page size automatically.
 	 * 
 	 * @param autoPaperSizeSelection
 	 */
-	void setAutoPaperSizeSelection( boolean autoPaperSizeSelection );
+	void setAutoPaperSizeSelection(boolean autoPaperSizeSelection);
 
-	boolean getAutoPaperSizeSelection( );
+	boolean getAutoPaperSizeSelection();
 
-	void setFitToPaper( boolean fitToPaper );
+	void setFitToPaper(boolean fitToPaper);
 
-	boolean getFitToPaper( );
+	boolean getFitToPaper();
 }

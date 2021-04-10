@@ -15,7 +15,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 /**
  * <b>Bug Description:</b>
  * <p>
- * embedded image name issues 
+ * embedded image name issues
  * <p>
  * <b>steps to reproduce:</b>
  * <ol>
@@ -33,46 +33,41 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * <b>actual behavior:</b>
  * <p>
- * the one extend from library cannot be displayd properly 
+ * the one extend from library cannot be displayd properly
  * <p>
  * <b>Test Description:</b>
  * <p>
  * Check embeded image source for the local image and extended image, they are
  * different
  */
-public class Regression_152699 extends BaseTestCase
-{
+public class Regression_152699 extends BaseTestCase {
 
 	private String filename = "Regression_152699.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( filename , filename );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(filename, filename);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws Exception
 	 */
-	public void test_regression_152699( ) throws DesignFileException
-	{
-		openDesign( filename );
-		ImageHandle localimage = (ImageHandle) designHandle
-				.findElement( "Image" );//$NON-NLS-1$
-		ImageHandle extendimage = (ImageHandle) designHandle
-				.findElement( "NewImage" ); //$NON-NLS-1$
+	public void test_regression_152699() throws DesignFileException {
+		openDesign(filename);
+		ImageHandle localimage = (ImageHandle) designHandle.findElement("Image");//$NON-NLS-1$
+		ImageHandle extendimage = (ImageHandle) designHandle.findElement("NewImage"); //$NON-NLS-1$
 
-		byte[] localdata = localimage.getEmbeddedImage( ).getData( );
-		byte[] extenddata = extendimage.getEmbeddedImage( ).getData( );
-        
-		assertEquals( 2, localdata.length );
-		assertEquals( 3, extenddata.length );
+		byte[] localdata = localimage.getEmbeddedImage().getData();
+		byte[] extenddata = extendimage.getEmbeddedImage().getData();
+
+		assertEquals(2, localdata.length);
+		assertEquals(3, extenddata.length);
 
 	}
 

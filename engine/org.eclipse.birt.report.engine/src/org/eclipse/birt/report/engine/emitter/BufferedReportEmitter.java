@@ -23,10 +23,9 @@ import org.eclipse.birt.report.engine.content.IContent;
  * for handling drop, table, etc.
  * 
  */
-public class BufferedReportEmitter extends ContentEmitterAdapter
-{
+public class BufferedReportEmitter extends ContentEmitterAdapter {
 
-	LinkedList events = new LinkedList( );
+	LinkedList events = new LinkedList();
 
 	/**
 	 * refers to the non-buffered emitter
@@ -38,53 +37,40 @@ public class BufferedReportEmitter extends ContentEmitterAdapter
 	 * 
 	 * @param emitter
 	 */
-	public BufferedReportEmitter( IContentEmitter emitter )
-	{
+	public BufferedReportEmitter(IContentEmitter emitter) {
 		this.emitter = emitter;
 	}
 
-	public boolean isEmpty( )
-	{
-		return events.isEmpty( );
+	public boolean isEmpty() {
+		return events.isEmpty();
 	}
 
-	public void flush( ) throws BirtException
-	{
-		if ( emitter instanceof BufferedReportEmitter )
-		{
-			( (BufferedReportEmitter) emitter ).events.addAll( events );
-		}
-		else
-		{
-			Iterator eventIter = events.iterator( );
-			while ( eventIter.hasNext( ) )
-			{
-				BufferedNode node = (BufferedNode) eventIter.next( );
-				if ( node.start )
-				{
-					ContentEmitterUtil.startContent( node.content, emitter );
-				}
-				else
-				{
-					ContentEmitterUtil.endContent( node.content, emitter );
+	public void flush() throws BirtException {
+		if (emitter instanceof BufferedReportEmitter) {
+			((BufferedReportEmitter) emitter).events.addAll(events);
+		} else {
+			Iterator eventIter = events.iterator();
+			while (eventIter.hasNext()) {
+				BufferedNode node = (BufferedNode) eventIter.next();
+				if (node.start) {
+					ContentEmitterUtil.startContent(node.content, emitter);
+				} else {
+					ContentEmitterUtil.endContent(node.content, emitter);
 				}
 			}
 		}
-		events.clear( );
+		events.clear();
 	}
 
-	public void startContent( IContent content )
-	{
-		events.add( new BufferedNode( content, true ) );
+	public void startContent(IContent content) {
+		events.add(new BufferedNode(content, true));
 	}
 
-	public void endContent( IContent content )
-	{
-		events.add( new BufferedNode( content, false ) );
+	public void endContent(IContent content) {
+		events.add(new BufferedNode(content, false));
 	}
 
-	public static class BufferedNode
-	{
+	public static class BufferedNode {
 
 		boolean start;
 		/**
@@ -93,11 +79,9 @@ public class BufferedReportEmitter extends ContentEmitterAdapter
 		protected IContent content;
 
 		/**
-		 * @param item
-		 *            the content object
+		 * @param item the content object
 		 */
-		BufferedNode( IContent content, boolean start )
-		{
+		BufferedNode(IContent content, boolean start) {
 			this.content = content;
 			this.start = start;
 		}
@@ -105,13 +89,11 @@ public class BufferedReportEmitter extends ContentEmitterAdapter
 		/**
 		 * @return Returns the content object stored in this node
 		 */
-		public IContent getContent( )
-		{
+		public IContent getContent() {
 			return content;
 		}
 
-		public boolean isStart( )
-		{
+		public boolean isStart() {
 			return start;
 		}
 	}

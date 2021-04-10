@@ -16,20 +16,19 @@ import org.eclipse.jface.text.Position;
 /**
  * This interface for method info of script.
  */
-public interface IScriptMethodInfo
-{
+public interface IScriptMethodInfo {
 
 	/**
 	 * Returns the method name.
 	 * 
 	 * @return the method name.
 	 */
-	String getName( );
+	String getName();
 
 	/**
 	 * Returns the method position.
 	 * 
 	 * @return the method position.
 	 */
-	Position getPosition( );
+	Position getPosition();
 }

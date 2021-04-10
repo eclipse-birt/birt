@@ -14,22 +14,19 @@ package org.eclipse.birt.report.engine.api;
 /**
  * Base interface that provides accessible information for a report part
  */
-public interface IReportPart
-{
+public interface IReportPart {
 	/**
 	 * returns the runnable report design
 	 * 
 	 * @return the runnable report design
 	 */
 	public IReportRunnable getReportRunnable();
-	
+
 	/**
 	 * returns the rendering options
 	 * 
 	 * @return the rendering options
 	 */
 	public IRenderOption getRenderOption();
-	
-	
 
 }

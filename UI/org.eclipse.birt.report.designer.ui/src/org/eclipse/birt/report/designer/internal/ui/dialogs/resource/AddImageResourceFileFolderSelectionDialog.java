@@ -24,30 +24,23 @@ import org.eclipse.swt.widgets.Control;
  * 
  */
 
-public class AddImageResourceFileFolderSelectionDialog extends
-		ResourceFileFolderSelectionDialog
-{
+public class AddImageResourceFileFolderSelectionDialog extends ResourceFileFolderSelectionDialog {
 
-	private static final String[] IMAGE_FILTER = new String[]{
-		"*.gif;*.jpg;*.jpeg;*.png;*.ico;*.bmp" //$NON-NLS-1$
+	private static final String[] IMAGE_FILTER = new String[] { "*.gif;*.jpg;*.jpeg;*.png;*.ico;*.bmp" //$NON-NLS-1$
 	};
 
-	private static final String[] IMAGE_TYPES = new String[]{
-			".bmp", ".jpg", ".jpeg", ".gif", ".png", ".ico" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+	private static final String[] IMAGE_TYPES = new String[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png", ".ico" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 	};
 
-	protected ResourceEntry[] getAllRootEntries( String[] fileNamePattern )
-	{
-		ResourceEntry systemResource = new FragmentResourceEntry( fileNamePattern );
-		ResourceEntry templateResource = new FragmentResourceEntry( fileNamePattern,
-				Messages.getString( "FragmentTemplateResourceEntry.RootName" ),
-				Messages.getString( "FragmentTemplateResourceEntry.RootDisplayName" ),
-				FragmentResourceEntry.TEMPLATE_ROOT );
-		ResourceEntry sharedResource = new PathResourceEntry( fileNamePattern );
+	protected ResourceEntry[] getAllRootEntries(String[] fileNamePattern) {
+		ResourceEntry systemResource = new FragmentResourceEntry(fileNamePattern);
+		ResourceEntry templateResource = new FragmentResourceEntry(fileNamePattern,
+				Messages.getString("FragmentTemplateResourceEntry.RootName"),
+				Messages.getString("FragmentTemplateResourceEntry.RootDisplayName"),
+				FragmentResourceEntry.TEMPLATE_ROOT);
+		ResourceEntry sharedResource = new PathResourceEntry(fileNamePattern);
 
-		return new ResourceEntry[]{
-				systemResource, templateResource, sharedResource
-		};
+		return new ResourceEntry[] { systemResource, templateResource, sharedResource };
 
 	}
 
@@ -56,43 +49,36 @@ public class AddImageResourceFileFolderSelectionDialog extends
 	 * @param labelProvider
 	 * @param contentProvider
 	 */
-	public AddImageResourceFileFolderSelectionDialog( )
-	{
+	public AddImageResourceFileFolderSelectionDialog() {
 
-		super( UIUtil.getDefaultShell( ),
-				new ResourceFileLabelProvider( ),
-				new ResourceFileContentProvider( true ) );
-		this.setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER );
+		super(UIUtil.getDefaultShell(), new ResourceFileLabelProvider(), new ResourceFileContentProvider(true));
+		this.setEmptyFolderShowStatus(IResourceContentProvider.ALWAYS_NOT_SHOW_EMPTYFOLDER);
 	}
 
-	protected void initialize()
-	{
-		Object input = getAllRootEntries( IMAGE_FILTER );
-		setInput( input );
+	protected void initialize() {
+		Object input = getAllRootEntries(IMAGE_FILTER);
+		setInput(input);
 
-		setValidator( new ResourceSelectionValidator( false, false, IMAGE_TYPES ) );
-		setAllowMultiple( false );
-		setTitle( Messages.getString( "ReportPage.title.setPrewImg" ) ); //$NON-NLS-1$
-		setMessage( Messages.getString( "AddImageResourceFileFolderSelectionDialog.Message" ) ); //$NON-NLS-1$
+		setValidator(new ResourceSelectionValidator(false, false, IMAGE_TYPES));
+		setAllowMultiple(false);
+		setTitle(Messages.getString("ReportPage.title.setPrewImg")); //$NON-NLS-1$
+		setMessage(Messages.getString("AddImageResourceFileFolderSelectionDialog.Message")); //$NON-NLS-1$
 
-		setComparator( new FileViewerComparator( ) );
+		setComparator(new FileViewerComparator());
 	}
-	
-    public int open() {
-    	initialize();
-    	return super.open( );
-    }
+
+	public int open() {
+		initialize();
+		return super.open();
+	}
+
 	/*
 	 * @see Dialog#createDialogArea(Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{		
-		Control control = super.createDialogArea( parent );
-		UIUtil.bindHelp( parent, IHelpContextIds.ADD_IMAGE_FILES_DIALOG_ID );
+	protected Control createDialogArea(Composite parent) {
+		Control control = super.createDialogArea(parent);
+		UIUtil.bindHelp(parent, IHelpContextIds.ADD_IMAGE_FILES_DIALOG_ID);
 		return control;
 	}
-	
-	
-
 
 }

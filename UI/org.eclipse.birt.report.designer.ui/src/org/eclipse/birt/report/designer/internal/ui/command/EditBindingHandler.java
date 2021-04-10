@@ -21,65 +21,49 @@ import org.eclipse.ui.PlatformUI;
  * @author Administrator
  *
  */
-public class EditBindingHandler extends SelectionHandler
-{
+public class EditBindingHandler extends SelectionHandler {
 
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
 
 		// Get the first item in the list and pass the model object to the
 		// dialog
-		TableEditPart editPart = getTableEditPart( );
+		TableEditPart editPart = getTableEditPart();
 
-		ListEditPart listPart = getListEditPart( );
-		
-		ReportElementEditPart part = getTableMultipleEditPart( );
+		ListEditPart listPart = getListEditPart();
 
-		if ( editPart != null || listPart != null  || part != null)
-		{
-			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getCommandStack( );
+		ReportElementEditPart part = getTableMultipleEditPart();
 
-			stack.startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
-			DataBindingDialog dialog = new DataBindingDialog( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					getSelectedElement( ) );
+		if (editPart != null || listPart != null || part != null) {
+			CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 
-			if ( dialog.open( ) == Dialog.OK )
-			{
-				stack.commit( );
-			}
-			else
-			{
-				stack.rollback( );
+			stack.startTrans(Messages.getString("DataEditPart.stackMsg.edit")); //$NON-NLS-1$
+			DataBindingDialog dialog = new DataBindingDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+					getSelectedElement());
+
+			if (dialog.open() == Dialog.OK) {
+				stack.commit();
+			} else {
+				stack.rollback();
 			}
 		}
 
 		return Boolean.TRUE;
 	}
 
-	private ReportItemHandle getSelectedElement( )
-	{
-		if ( getTableEditPart( ) != null
-				&& getTableEditPart( ).getModel( ) instanceof ReportItemHandle )
-		{
-			return (ReportItemHandle) getTableEditPart( ).getModel( );
-
-		}
-		
-		if ( getTableMultipleEditPart( ) != null
-				&& getTableMultipleEditPart( ).getModel( ) instanceof ReportItemHandle )
-		{
-			return (ReportItemHandle) getTableMultipleEditPart( ).getModel( );
+	private ReportItemHandle getSelectedElement() {
+		if (getTableEditPart() != null && getTableEditPart().getModel() instanceof ReportItemHandle) {
+			return (ReportItemHandle) getTableEditPart().getModel();
 
 		}
 
-		if ( getListEditPart( ) != null
-				&& getListEditPart( ).getModel( ) instanceof ReportItemHandle )
-		{
-			return (ReportItemHandle) getListEditPart( ).getModel( );
+		if (getTableMultipleEditPart() != null && getTableMultipleEditPart().getModel() instanceof ReportItemHandle) {
+			return (ReportItemHandle) getTableMultipleEditPart().getModel();
+
+		}
+
+		if (getListEditPart() != null && getListEditPart().getModel() instanceof ReportItemHandle) {
+			return (ReportItemHandle) getListEditPart().getModel();
 
 		}
 

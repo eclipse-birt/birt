@@ -11,31 +11,29 @@
 
 package org.eclipse.birt.report.model.api.extension;
 
+public interface IFont {
 
-public interface IFont
-{
+	boolean isBold();
 
-	boolean isBold( );
+	void setBold(boolean isBold);
 
-	void setBold( boolean isBold );
+	boolean isItalic();
 
-	boolean isItalic( );
+	void setItalic(boolean isItalic);
 
-	void setItalic( boolean isItalic );
+	boolean isUnderline();
 
-	boolean isUnderline( );
+	void setUnderline(boolean isUnderline);
 
-	void setUnderline( boolean isUnderline );
+	boolean isStrikeThrough();
 
-	boolean isStrikeThrough( );
+	void setStrikeThrough(boolean isStrikeThrough);
 
-	void setStrikeThrough( boolean isStrikeThrough );
+	String getName();
 
-	String getName( );
+	void setName(String name);
 
-	void setName( String name );
+	float getSize();
 
-	float getSize( );
-
-	void setSize( float size );
+	void setSize(float size);
 }

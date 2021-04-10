@@ -36,20 +36,16 @@ import org.mozilla.javascript.Scriptable;
  * 
  */
 
-public class DimensionSortEvalHelper extends DimensionJSEvalHelper
-		implements
-			IJSSortHelper
-{
+public class DimensionSortEvalHelper extends DimensionJSEvalHelper implements IJSSortHelper {
 
 	protected ICubeSortDefinition sortDefinition;
 	private DimLevel targetLevel;
 	private Map<String, Object> axisDimValueMap;
-	public DimensionSortEvalHelper( IBaseQueryResults outResults, Scriptable parentScope,
-			ICubeQueryDefinition queryDefn, ICubeSortDefinition sortDefinition, ScriptContext cx )
-			throws DataException
-	{
+
+	public DimensionSortEvalHelper(IBaseQueryResults outResults, Scriptable parentScope, ICubeQueryDefinition queryDefn,
+			ICubeSortDefinition sortDefinition, ScriptContext cx) throws DataException {
 		assert sortDefinition != null;
-		initialize( outResults, parentScope, queryDefn, sortDefinition, cx );
+		initialize(outResults, parentScope, queryDefn, sortDefinition, cx);
 	}
 
 	/**
@@ -60,80 +56,71 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 	 * @param cx
 	 * @throws DataException
 	 */
-	protected void initialize( IBaseQueryResults outResults, Scriptable parentScope,
-			ICubeQueryDefinition queryDefn, ICubeSortDefinition sortDefinition,
-			ScriptContext cx ) throws DataException
-	{
-		super.init( outResults, parentScope, queryDefn, cx, sortDefinition.getExpression( ) );
+	protected void initialize(IBaseQueryResults outResults, Scriptable parentScope, ICubeQueryDefinition queryDefn,
+			ICubeSortDefinition sortDefinition, ScriptContext cx) throws DataException {
+		super.init(outResults, parentScope, queryDefn, cx, sortDefinition.getExpression());
 		this.sortDefinition = sortDefinition;
 		this.axisDimValueMap = new HashMap<String, Object>();
-		for( int i = 0; i < this.sortDefinition.getAxisQualifierLevels( ).length; i++ )
-		{
-			ILevelDefinition lvl = this.sortDefinition.getAxisQualifierLevels( )[i];
-			String lvlName = OlapExpressionUtil.getAttrReference( lvl.getHierarchy( ).getDimension( ).getName( ), lvl.getName( ), lvl.getName( ));
-			this.axisDimValueMap.put( lvlName, this.sortDefinition.getAxisQualifierValues( )[i] );
+		for (int i = 0; i < this.sortDefinition.getAxisQualifierLevels().length; i++) {
+			ILevelDefinition lvl = this.sortDefinition.getAxisQualifierLevels()[i];
+			String lvlName = OlapExpressionUtil.getAttrReference(lvl.getHierarchy().getDimension().getName(),
+					lvl.getName(), lvl.getName());
+			this.axisDimValueMap.put(lvlName, this.sortDefinition.getAxisQualifierValues()[i]);
 		}
 	}
 
 	/**
 	 * 
 	 */
-	public Object evaluate( IResultRow resultRow ) throws DataException
-	{
-		super.setData( resultRow );
-		if( resultRow instanceof AggregationRowAccessor )
-		{
-			((AggregationRowAccessor)resultRow).setCurrentAxisValue( this.axisDimValueMap );
+	public Object evaluate(IResultRow resultRow) throws DataException {
+		super.setData(resultRow);
+		if (resultRow instanceof AggregationRowAccessor) {
+			((AggregationRowAccessor) resultRow).setCurrentAxisValue(this.axisDimValueMap);
 		}
-		try
-		{
-			return ScriptEvalUtil.evalExpr( expr, cx.newContext( scope ), ScriptExpression.defaultID, 0 );
-		}
-		catch ( IJSObjectPopulator.InMatchDimensionIndicator e )
-		{
+		try {
+			return ScriptEvalUtil.evalExpr(expr, cx.newContext(scope), ScriptExpression.defaultID, 0);
+		} catch (IJSObjectPopulator.InMatchDimensionIndicator e) {
 			return null;
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper#getTargetLevel()
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper#getTargetLevel()
 	 */
-	public DimLevel getTargetLevel( )
-	{
-		if ( targetLevel == null )
-		{
-			targetLevel = new DimLevel( this.sortDefinition.getTargetLevel( ) );
+	public DimLevel getTargetLevel() {
+		if (targetLevel == null) {
+			targetLevel = new DimLevel(this.sortDefinition.getTargetLevel());
 		}
 		return targetLevel;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort#getSortDirection()
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort#
+	 * getSortDirection()
 	 */
-	public int getSortDirection( )
-	{
-		return sortDefinition.getSortDirection( );
+	public int getSortDirection() {
+		return sortDefinition.getSortDirection();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper#registerJSObjectPopulators()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper#
+	 * registerJSObjectPopulators()
 	 */
 	@Override
-	protected void registerJSObjectPopulators( ) throws DataException
-	{
-		super.registerJSObjectPopulators( );
+	protected void registerJSObjectPopulators() throws DataException {
+		super.registerJSObjectPopulators();
 		// support data expressions that reference to dimension expressions
 		// without aggregation levels
-		register( new DataJSObjectPopulator( this.outResults,
-				scope,
-				queryDefn.getBindings( ),
-				false, cx ) );
+		register(new DataJSObjectPopulator(this.outResults, scope, queryDefn.getBindings(), false, cx));
 	}
 }

@@ -11,17 +11,16 @@
 
 package org.eclipse.birt.report.engine.api;
 
-
-public interface IExcelRenderOption extends IRenderOption
-{
+public interface IExcelRenderOption extends IRenderOption {
 
 	/**
 	 * The option to decide if the text out will be wrapped
 	 */
 	public static final String WRAPPING_TEXT = "excelRenderOption.wrappingText";
-	
+
 	/**
-	 * This is the option to decide in which office version will you output the excel file
+	 * This is the option to decide in which office version will you output the
+	 * excel file
 	 */
 	public static final String OFFICE_VERSION = "excelRenderOption.officeVersion";
 
@@ -31,40 +30,41 @@ public interface IExcelRenderOption extends IRenderOption
 	public static final String HIDE_GRIDLINES = "excelRenderOption.hideGridlines";
 
 	/**
-	 * This is the option to decide in which office version will you output the excel file
+	 * This is the option to decide in which office version will you output the
+	 * excel file
 	 */
 	public static final String OPTION_MULTIPLE_SHEET = "excelRenderOption.multipleSheet";
-	
+
 	/**
 	 * Excel will ignore all image items when this option is on.
 	 */
 	public static final String IGNORE_IMAGE = "excelRenderOption.ignoreImage";
-	
+
 	/**
 	 * 
 	 * @param wrappingText
 	 */
 	public void setWrappingText(boolean wrappingText);
-	
+
 	/**
 	 * 
 	 * @param officeVersion
 	 */
 	public void setOfficeVersion(String officeVersion);
-	
+
 	/**
 	 * 
 	 * @return if the text is wrapped
 	 */
 	public boolean getWrappingText();
-	
+
 	/**
 	 * 
 	 * @return officeVersion
 	 */
 	public String getOfficeVersion();
 
-	public boolean isEnableMultipleSheet( );
-	
-	public void setEnableMultipleSheet( boolean enableMultipleSheet );
+	public boolean isEnableMultipleSheet();
+
+	public void setEnableMultipleSheet(boolean enableMultipleSheet);
 }

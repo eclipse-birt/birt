@@ -18,33 +18,29 @@ import org.eclipse.birt.chart.tests.script.BaseChartTestCase;
  * 
  */
 
-public class LegendTest extends BaseChartTestCase
-{
+public class LegendTest extends BaseChartTestCase {
 
-	public void testVisible( )
-	{
-		assertTrue( getChartWithAxes( ).getLegend( ).isVisible( ) );
-		assertFalse( getChartWithoutAxes( ).getLegend( ).isVisible( ) );
+	public void testVisible() {
+		assertTrue(getChartWithAxes().getLegend().isVisible());
+		assertFalse(getChartWithoutAxes().getLegend().isVisible());
 
-		getChartWithAxes( ).getLegend( ).setVisible( false );
-		assertFalse( getChartWithAxes( ).getLegend( ).isVisible( ) );
+		getChartWithAxes().getLegend().setVisible(false);
+		assertFalse(getChartWithAxes().getLegend().isVisible());
 	}
 
-	public void testTitle( )
-	{
-		ILabel title = getChartWithAxes( ).getLegend( ).getTitle( );
-		assertTrue( title.isVisible( ) );
-		assertEquals( title.getCaption( ).getValue( ), "LegendTitle" );
+	public void testTitle() {
+		ILabel title = getChartWithAxes().getLegend().getTitle();
+		assertTrue(title.isVisible());
+		assertEquals(title.getCaption().getValue(), "LegendTitle");
 
-		title.setVisible( false );
-		assertFalse( title.isVisible( ) );
+		title.setVisible(false);
+		assertFalse(title.isVisible());
 	}
 
-	public void testShowValue( )
-	{
-		assertFalse( getChartWithAxes( ).getLegend( ).isShowValue( ) );
+	public void testShowValue() {
+		assertFalse(getChartWithAxes().getLegend().isShowValue());
 
-		getChartWithAxes( ).getLegend( ).setShowValue( true );
-		assertTrue( getChartWithAxes( ).getLegend( ).isShowValue( ) );
+		getChartWithAxes().getLegend().setShowValue(true);
+		assertTrue(getChartWithAxes().getLegend().isShowValue());
 	}
 }

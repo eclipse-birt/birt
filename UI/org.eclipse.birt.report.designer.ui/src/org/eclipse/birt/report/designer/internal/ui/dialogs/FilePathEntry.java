@@ -32,10 +32,9 @@ import org.eclipse.ui.PlatformUI;
 /**
  * FilePathEntry
  */
-public class FilePathEntry extends BaseResourceEntity
-{
+public class FilePathEntry extends BaseResourceEntity {
 
-	protected Logger logger = Logger.getLogger( FilePathEntry.class.getName( ) );
+	protected Logger logger = Logger.getLogger(FilePathEntry.class.getName());
 
 	private String path;
 	private URL url;
@@ -49,41 +48,29 @@ public class FilePathEntry extends BaseResourceEntity
 	private ArrayList childrenList;
 	private boolean isFile;
 
-	public FilePathEntry( String filePath )
-	{
-		this( filePath, null, true );
+	public FilePathEntry(String filePath) {
+		this(filePath, null, true);
 	}
 
-	public FilePathEntry( String filePath, final boolean showFiles )
-	{
-		this( filePath, null, showFiles );
+	public FilePathEntry(String filePath, final boolean showFiles) {
+		this(filePath, null, showFiles);
 	}
 
-	public FilePathEntry( String filePath, final String[] filePattern )
-	{
-		this( filePath, filePattern, true );
+	public FilePathEntry(String filePath, final String[] filePattern) {
+		this(filePath, filePattern, true);
 	}
 
-	public FilePathEntry( String filePath, final String[] filePattern,
-			final boolean showFiles )
-	{
-		if ( filePattern != null )
-		{
-			filter = new FileFilter( ) {
+	public FilePathEntry(String filePath, final String[] filePattern, final boolean showFiles) {
+		if (filePattern != null) {
+			filter = new FileFilter() {
 
-				public boolean accept( File pathname )
-				{
-					if ( pathname.isDirectory( ) )
+				public boolean accept(File pathname) {
+					if (pathname.isDirectory())
 						return true;
-					for ( int i = 0; i < filePattern.length; i++ )
-					{
-						String[] regs = filePattern[i].split( ";" ); //$NON-NLS-1$
-						for ( int j = 0; j < regs.length; j++ )
-						{
-							if ( pathname.getName( )
-									.toLowerCase( )
-									.endsWith( regs[j].toLowerCase( )
-											.substring( 1 ) ) )
+					for (int i = 0; i < filePattern.length; i++) {
+						String[] regs = filePattern[i].split(";"); //$NON-NLS-1$
+						for (int j = 0; j < regs.length; j++) {
+							if (pathname.getName().toLowerCase().endsWith(regs[j].toLowerCase().substring(1)))
 								return true;
 						}
 					}
@@ -91,14 +78,11 @@ public class FilePathEntry extends BaseResourceEntity
 				}
 
 			};
-		}
-		else
-		{
-			filter = new FileFilter( ) {
+		} else {
+			filter = new FileFilter() {
 
-				public boolean accept( File pathname )
-				{
-					if ( pathname.isDirectory( ) )
+				public boolean accept(File pathname) {
+					if (pathname.isDirectory())
 						return true;
 					return showFiles;
 				}
@@ -106,166 +90,122 @@ public class FilePathEntry extends BaseResourceEntity
 			};
 		}
 		this.name = filePath;
-		this.displayName = new File( filePath ).getName( );
+		this.displayName = new File(filePath).getName();
 		this.isRoot = true;
-		initRoot( filePath );
+		initRoot(filePath);
 	}
 
-	private FilePathEntry( String path, String name, FilePathEntry parent )
-	{
+	private FilePathEntry(String path, String name, FilePathEntry parent) {
 		this.path = path;
 		this.name = name;
 		this.parent = parent;
 		this.filter = parent.filter;
-		try
-		{
-			File file = new File( this.path );
-			this.isFolder = file.isDirectory( );
-			this.url = file.toURL( );
-			this.isFile = file.isFile( );
-		}
-		catch ( MalformedURLException e )
-		{
+		try {
+			File file = new File(this.path);
+			this.isFolder = file.isDirectory();
+			this.url = file.toURL();
+			this.isFile = file.isFile();
+		} catch (MalformedURLException e) {
 		}
 	}
 
-	private void initRoot( String path )
-	{
+	private void initRoot(String path) {
 		this.path = path;
-		if ( this.path != null )
-		{
-			try
-			{
-				File file = new File( this.path );
-				this.isFolder = file.isDirectory( );
-				this.url = file.toURL( );
-			}
-			catch ( Exception e )
-			{
+		if (this.path != null) {
+			try {
+				File file = new File(this.path);
+				this.isFolder = file.isDirectory();
+				this.url = file.toURL();
+			} catch (Exception e) {
 			}
 		}
 	}
 
-	public boolean hasChildren( )
-	{
-		File file = new File( this.path );
-		if ( file.isDirectory( ) )
-		{
-			String[] list = file.list( );
-			if ( list == null )
+	public boolean hasChildren() {
+		File file = new File(this.path);
+		if (file.isDirectory()) {
+			String[] list = file.list();
+			if (list == null)
 				return false;
-			return file.list( ).length > 0;
-		}
-		else
+			return file.list().length > 0;
+		} else
 			return false;
 	}
 
-	public ResourceEntry[] getChildren( )
-	{
-		if ( this.childrenList == null )
-		{
-			this.childrenList = new ArrayList( );
-			try
-			{
-				File file = new File( this.path );
-				if ( file.isDirectory( ) )
-				{
-					File[] children = file.listFiles( filter );
-					if ( children != null )
-					{
-						for ( int i = 0; i < children.length; i++ )
-						{
-							FilePathEntry child = new FilePathEntry( children[i].getAbsolutePath( ),
-									children[i].getName( ),
-									this );
-							childrenList.add( child );
+	public ResourceEntry[] getChildren() {
+		if (this.childrenList == null) {
+			this.childrenList = new ArrayList();
+			try {
+				File file = new File(this.path);
+				if (file.isDirectory()) {
+					File[] children = file.listFiles(filter);
+					if (children != null) {
+						for (int i = 0; i < children.length; i++) {
+							FilePathEntry child = new FilePathEntry(children[i].getAbsolutePath(),
+									children[i].getName(), this);
+							childrenList.add(child);
 						}
 					}
 				}
-			}
-			catch ( Exception e )
-			{
-				logger.log( Level.SEVERE, e.getMessage( ), e );
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
-		return (ResourceEntry[]) childrenList.toArray( new ResourceEntry[childrenList.size( )] );
+		return (ResourceEntry[]) childrenList.toArray(new ResourceEntry[childrenList.size()]);
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return this.name;
 	}
 
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return this.displayName;
 	}
 
-	public Image getImage( )
-	{
-		if ( this.isRoot )
-			return PlatformUI.getWorkbench( )
-					.getSharedImages( )
-					.getImage( ISharedImages.IMG_OBJ_PROJECT );
-		else if ( this.isFolder )
-			return PlatformUI.getWorkbench( )
-					.getSharedImages( )
-					.getImage( ISharedImages.IMG_OBJ_FOLDER );
-		return super.getImage( );
+	public Image getImage() {
+		if (this.isRoot)
+			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_PROJECT);
+		else if (this.isFolder)
+			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FOLDER);
+		return super.getImage();
 	}
 
-	public ResourceEntry getParent( )
-	{
+	public ResourceEntry getParent() {
 		return this.parent;
 	}
 
-	public URL getURL( )
-	{
+	public URL getURL() {
 		return this.url;
 	}
 
-	public boolean isFile( )
-	{
+	public boolean isFile() {
 		return this.isFile;
 	}
 
-	public boolean isRoot( )
-	{
+	public boolean isRoot() {
 		return this.isRoot;
 	}
 
-	public void dispose( )
-	{
-		if ( this.library != null )
-		{
-			this.library.close( );
+	public void dispose() {
+		if (this.library != null) {
+			this.library.close();
 			this.library = null;
 		}
-		if ( this.childrenList != null )
-		{
-			for ( Iterator iterator = this.childrenList.iterator( ); iterator.hasNext( ); )
-			{
-				ResourceEntry entry = (ResourceEntry) iterator.next( );
-				entry.dispose( );
+		if (this.childrenList != null) {
+			for (Iterator iterator = this.childrenList.iterator(); iterator.hasNext();) {
+				ResourceEntry entry = (ResourceEntry) iterator.next();
+				entry.dispose();
 			}
 		}
 	}
 
-	public Object getAdapter( Class adapter )
-	{
-		if ( adapter == LibraryHandle.class
-				&& getURL( ).toString( ).toLowerCase( ).endsWith( "library" ) )
-		{
-			if ( !this.isFolder && this.library == null )
-			{
-				try
-				{
-					this.library = SessionHandleAdapter.getInstance( )
-							.getSessionHandle( )
-							.openLibrary( getURL( ).toString( ) );
-				}
-				catch ( DesignFileException e )
-				{
+	public Object getAdapter(Class adapter) {
+		if (adapter == LibraryHandle.class && getURL().toString().toLowerCase().endsWith("library")) {
+			if (!this.isFolder && this.library == null) {
+				try {
+					this.library = SessionHandleAdapter.getInstance().getSessionHandle()
+							.openLibrary(getURL().toString());
+				} catch (DesignFileException e) {
 				}
 			}
 			return library;
@@ -273,25 +213,22 @@ public class FilePathEntry extends BaseResourceEntity
 		return null;
 	}
 
-	public boolean equals( Object object )
-	{
-		if ( object == null )
+	public boolean equals(Object object) {
+		if (object == null)
 			return false;
-		if ( !( object instanceof FilePathEntry ) )
+		if (!(object instanceof FilePathEntry))
 			return false;
-		if ( object == this )
+		if (object == this)
 			return true;
-		else
-		{
+		else {
 			FilePathEntry temp = (FilePathEntry) object;
-			if ( temp.path.equals( this.path ) )
+			if (temp.path.equals(this.path))
 				return true;
 		}
 		return false;
 	}
 
-	public int hashCode( )
-	{
-		return this.path.hashCode( );
+	public int hashCode() {
+		return this.path.hashCode();
 	}
 }

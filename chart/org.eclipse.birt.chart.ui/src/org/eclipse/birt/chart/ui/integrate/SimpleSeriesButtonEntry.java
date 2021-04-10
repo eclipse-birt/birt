@@ -18,40 +18,33 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
  * 
  */
 
-public class SimpleSeriesButtonEntry implements ISeriesButtonEntry
-{
+public class SimpleSeriesButtonEntry implements ISeriesButtonEntry {
 
 	private final String buttonId;
 	private final String popupName;
 	private final ITaskPopupSheet popupSheet;
 	private final boolean bEnabled;
 
-	public SimpleSeriesButtonEntry( String buttonId, String popupName,
-			ITaskPopupSheet popupSheet, boolean bEnabled )
-	{
+	public SimpleSeriesButtonEntry(String buttonId, String popupName, ITaskPopupSheet popupSheet, boolean bEnabled) {
 		this.buttonId = buttonId;
 		this.popupName = popupName;
 		this.popupSheet = popupSheet;
 		this.bEnabled = bEnabled;
 	}
 
-	public String getButtonId( )
-	{
+	public String getButtonId() {
 		return this.buttonId;
 	}
 
-	public String getPopupName( )
-	{
+	public String getPopupName() {
 		return this.popupName;
 	}
 
-	public ITaskPopupSheet getPopupSheet( )
-	{
+	public ITaskPopupSheet getPopupSheet() {
 		return this.popupSheet;
 	}
 
-	public boolean isEnabled( )
-	{
+	public boolean isEnabled() {
 		return this.bEnabled;
 	}
 

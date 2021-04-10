@@ -28,8 +28,7 @@ import org.xml.sax.SAXException;
  * This class parses a template data set.
  */
 
-public class TemplateDataSetState extends ReportElementState
-{
+public class TemplateDataSetState extends ReportElementState {
 
 	/**
 	 * The template data set being created.
@@ -40,14 +39,11 @@ public class TemplateDataSetState extends ReportElementState
 	/**
 	 * Constructs the template data set state with the design parser handler.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
+	 * @param handler the design file parser handler
 	 */
 
-	public TemplateDataSetState( ModuleParserHandler handler, Module module,
-			int slot )
-	{
-		super( handler, module, slot );
+	public TemplateDataSetState(ModuleParserHandler handler, Module module, int slot) {
+		super(handler, module, slot);
 	}
 
 	/*
@@ -56,24 +52,21 @@ public class TemplateDataSetState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new TemplateDataSet( );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new TemplateDataSet();
 
-		initElement( attrs, true );
+		initElement(attrs, true);
 	}
 
 	/*
@@ -82,51 +75,28 @@ public class TemplateDataSetState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		DesignElement refTemplateParam = element
-				.getTemplateParameterElement( handler.getModule( ) );
-		if ( refTemplateParam != null )
-		{
-			DesignElement defaultElement = element.getDefaultElement( handler
-					.getModule( ) );
-			if ( !( defaultElement instanceof SimpleDataSet ) )
-			{
-				handler
-						.getErrorHandler( )
-						.semanticError(
-								new DesignParserException(
-										new String[]{
-												element.getIdentifier( ),
-												refTemplateParam
-														.getIdentifier( )},
-										DesignParserException.DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE ) );
-			}
-			else
-			{
-				if ( handler.versionNumber < VersionUtil.VERSION_3_2_2 )
-				{
-					List dataSetColumns = (List) element.getProperty(
-							handler.module, IDataSetModel.RESULT_SET_PROP );
-					Object dataSetHints = element.getProperty( handler.module,
-							IDataSetModel.RESULT_SET_HINTS_PROP );
-					if ( dataSetHints == null && dataSetColumns != null )
-						element
-								.setProperty(
-										IDataSetModel.RESULT_SET_HINTS_PROP,
-										ModelUtil
-												.copyValue(
-														element
-																.getPropertyDefn( IDataSetModel.RESULT_SET_HINTS_PROP ),
-														dataSetColumns ) );
+	public void end() throws SAXException {
+		DesignElement refTemplateParam = element.getTemplateParameterElement(handler.getModule());
+		if (refTemplateParam != null) {
+			DesignElement defaultElement = element.getDefaultElement(handler.getModule());
+			if (!(defaultElement instanceof SimpleDataSet)) {
+				handler.getErrorHandler()
+						.semanticError(new DesignParserException(
+								new String[] { element.getIdentifier(), refTemplateParam.getIdentifier() },
+								DesignParserException.DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE));
+			} else {
+				if (handler.versionNumber < VersionUtil.VERSION_3_2_2) {
+					List dataSetColumns = (List) element.getProperty(handler.module, IDataSetModel.RESULT_SET_PROP);
+					Object dataSetHints = element.getProperty(handler.module, IDataSetModel.RESULT_SET_HINTS_PROP);
+					if (dataSetHints == null && dataSetColumns != null)
+						element.setProperty(IDataSetModel.RESULT_SET_HINTS_PROP, ModelUtil.copyValue(
+								element.getPropertyDefn(IDataSetModel.RESULT_SET_HINTS_PROP), dataSetColumns));
 				}
 			}
-		}
-		else
-		{
+		} else {
 			// fire an error
 		}
-		super.end( );
+		super.end();
 	}
 
 }

@@ -27,7 +27,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
 
 public class Issue29 extends ReportRunner {
-	
+
 	@Test
 	public void testMultiRowEmptinessXlsx() throws BirtException, IOException {
 
@@ -37,28 +37,28 @@ public class Issue29 extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
-			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 6, this.firstNullRow(sheet));
 
-			for( int i = 0; i < 4; ++i ) {
-				for( Cell cell : sheet.getRow(i) ) {
-					assertEquals( 0, cell.getCellStyle().getBorderTop() );
-					assertEquals( 0, cell.getCellStyle().getBorderLeft() );
-					assertEquals( 0, cell.getCellStyle().getBorderRight() );
-					assertEquals( 0, cell.getCellStyle().getBorderBottom() );
+			assertEquals(1, workbook.getNumberOfSheets());
+
+			Sheet sheet = workbook.getSheetAt(0);
+			assertEquals(6, this.firstNullRow(sheet));
+
+			for (int i = 0; i < 4; ++i) {
+				for (Cell cell : sheet.getRow(i)) {
+					assertEquals(0, cell.getCellStyle().getBorderTop());
+					assertEquals(0, cell.getCellStyle().getBorderLeft());
+					assertEquals(0, cell.getCellStyle().getBorderRight());
+					assertEquals(0, cell.getCellStyle().getBorderBottom());
 				}
 			}
-			assertEquals( "Bibble", sheet.getRow(5).getCell(0).getStringCellValue() );
-			assertEquals( 24.0, sheet.getRow(0).getHeightInPoints(), 0.1 );
-		
+			assertEquals("Bibble", sheet.getRow(5).getCell(0).getStringCellValue());
+			assertEquals(24.0, sheet.getRow(0).getHeightInPoints(), 0.1);
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
+
 	@Test
 	public void testMultiRowEmptinessXls() throws BirtException, IOException {
 
@@ -68,27 +68,26 @@ public class Issue29 extends ReportRunner {
 		try {
 			HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 6, this.firstNullRow(sheet));
-			
-			for( int i = 0; i < 4; ++i ) {
-				for( Cell cell : sheet.getRow(i) ) {
-					assertEquals( 0, cell.getCellStyle().getBorderTop() );
-					assertEquals( 0, cell.getCellStyle().getBorderLeft() );
-					assertEquals( 0, cell.getCellStyle().getBorderRight() );
-					assertEquals( 0, cell.getCellStyle().getBorderBottom() );
+			assertEquals(6, this.firstNullRow(sheet));
+
+			for (int i = 0; i < 4; ++i) {
+				for (Cell cell : sheet.getRow(i)) {
+					assertEquals(0, cell.getCellStyle().getBorderTop());
+					assertEquals(0, cell.getCellStyle().getBorderLeft());
+					assertEquals(0, cell.getCellStyle().getBorderRight());
+					assertEquals(0, cell.getCellStyle().getBorderBottom());
 				}
 			}
-			assertEquals( "Bibble", sheet.getRow(5).getCell(0).getStringCellValue() );
-			assertEquals( 24.0, sheet.getRow(0).getHeightInPoints(), 0.1 );
-		
+			assertEquals("Bibble", sheet.getRow(5).getCell(0).getStringCellValue());
+			assertEquals(24.0, sheet.getRow(0).getHeightInPoints(), 0.1);
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
 
 }

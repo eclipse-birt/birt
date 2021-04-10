@@ -21,8 +21,7 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 /**
  * Provides necessray information to emitters
  */
-public class EngineEmitterServices implements IEmitterServices
-{
+public class EngineEmitterServices implements IEmitterServices {
 
 	/**
 	 * emitter configuration information
@@ -40,12 +39,9 @@ public class EngineEmitterServices implements IEmitterServices
 	protected IReportContext reportContext;
 
 	/**
-	 * @param task
-	 *            he engine task that results in the creation of emitter
+	 * @param task he engine task that results in the creation of emitter
 	 */
-	public EngineEmitterServices( IReportContext reportContext,
-			IRenderOption renderOptions, HashMap configs )
-	{
+	public EngineEmitterServices(IReportContext reportContext, IRenderOption renderOptions, HashMap configs) {
 		this.configs = configs;
 		this.reportContext = reportContext;
 		this.renderOptions = renderOptions;
@@ -54,28 +50,24 @@ public class EngineEmitterServices implements IEmitterServices
 	/**
 	 * @return Returns the emitterConfig.
 	 */
-	public HashMap getEmitterConfig( )
-	{
+	public HashMap getEmitterConfig() {
 		return configs;
 	}
 
 	/**
 	 * @return Returns the rendering options.
 	 */
-	public IRenderOption getRenderOption( )
-	{
+	public IRenderOption getRenderOption() {
 		return renderOptions;
 	}
 
 	/**
 	 * @return Returns the reportName.
 	 */
-	public String getReportName( )
-	{
-		IReportRunnable runnable = reportContext.getReportRunnable( );
-		if ( runnable != null )
-		{
-			return runnable.getReportName( );
+	public String getReportName() {
+		IReportRunnable runnable = reportContext.getReportRunnable();
+		if (runnable != null) {
+			return runnable.getReportName();
 		}
 		return null;
 	}
@@ -83,13 +75,12 @@ public class EngineEmitterServices implements IEmitterServices
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.IEmitterServices#getOption(java.lang.String)
+	 * @see org.eclipse.birt.report.engine.api.IEmitterServices#getOption(java.lang.
+	 * String)
 	 */
-	public Object getOption( String name )
-	{
-		if ( renderOptions != null )
-		{
-			return renderOptions.getOption( name );
+	public Object getOption(String name) {
+		if (renderOptions != null) {
+			return renderOptions.getOption(name);
 		}
 		return null;
 	}
@@ -99,11 +90,9 @@ public class EngineEmitterServices implements IEmitterServices
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.IEmitterServices#getRenderContext()
 	 */
-	public Object getRenderContext( )
-	{
-		if ( reportContext != null )
-		{
-			return reportContext.getAppContext( );
+	public Object getRenderContext() {
+		if (reportContext != null) {
+			return reportContext.getAppContext();
 		}
 		return null;
 	}
@@ -113,25 +102,20 @@ public class EngineEmitterServices implements IEmitterServices
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.IEmitterServices#getReportRunnable()
 	 */
-	public IReportRunnable getReportRunnable( )
-	{
-		if ( reportContext != null )
-		{
-			return reportContext.getReportRunnable( );
+	public IReportRunnable getReportRunnable() {
+		if (reportContext != null) {
+			return reportContext.getReportRunnable();
 		}
 		return null;
 	}
 
-	public IReportContext getReportContext( )
-	{
+	public IReportContext getReportContext() {
 		return reportContext;
 	}
 
-	public IReportEngine getReportEngine( )
-	{
-		if ( reportContext != null )
-		{
-			return reportContext.getReportRunnable( ).getReportEngine( );
+	public IReportEngine getReportEngine() {
+		if (reportContext != null) {
+			return reportContext.getReportRunnable().getReportEngine();
 		}
 		return null;
 	}

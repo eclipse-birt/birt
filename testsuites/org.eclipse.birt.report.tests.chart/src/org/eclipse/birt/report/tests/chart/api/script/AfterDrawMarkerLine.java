@@ -51,8 +51,7 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  */
 
-public class AfterDrawMarkerLine extends ChartTestCase
-{
+public class AfterDrawMarkerLine extends ChartTestCase {
 
 	private static String OUTPUT = "AfterDrawMarkerLine.jpg"; //$NON-NLS-1$
 
@@ -73,146 +72,119 @@ public class AfterDrawMarkerLine extends ChartTestCase
 	 * 
 	 * @param args
 	 */
-	public static void main( String[] args )
-	{
-		new AfterDrawMarkerLine( );
+	public static void main(String[] args) {
+		new AfterDrawMarkerLine();
 	}
 
 	/**
 	 * Constructor
 	 */
-	public AfterDrawMarkerLine( )
-	{
-		final PluginSettings ps = PluginSettings.instance( );
-		try
-		{
-			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
+	public AfterDrawMarkerLine() {
+		final PluginSettings ps = PluginSettings.instance();
+		try {
+			dRenderer = ps.getDevice("dv.JPG");//$NON-NLS-1$
 
+		} catch (ChartException ex) {
+			ex.printStackTrace();
 		}
-		catch ( ChartException ex )
-		{
-			ex.printStackTrace( );
-		}
-		cm = createLineChart( );
-		BufferedImage img = new BufferedImage(
-				500,
-				500,
-				BufferedImage.TYPE_INT_ARGB );
-		Graphics g = img.getGraphics( );
+		cm = createLineChart();
+		BufferedImage img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = img.getGraphics();
 
 		Graphics2D g2d = (Graphics2D) g;
-		dRenderer.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, g2d );
-		dRenderer.setProperty( IDeviceRenderer.FILE_IDENTIFIER, this.genOutputFile( OUTPUT ) ); //$NON-NLS-1$
+		dRenderer.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, g2d);
+		dRenderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, this.genOutputFile(OUTPUT)); // $NON-NLS-1$
 
-		Bounds bo = BoundsImpl.create( 0, 0, 500, 500 );
-		bo.scale( 72d / dRenderer.getDisplayServer( ).getDpiResolution( ) );
+		Bounds bo = BoundsImpl.create(0, 0, 500, 500);
+		bo.scale(72d / dRenderer.getDisplayServer().getDpiResolution());
 
-		Generator gr = Generator.instance( );
+		Generator gr = Generator.instance();
 
-		try
-		{
-			gcs = gr.build(
-					dRenderer.getDisplayServer( ),
-					cm,
-					bo,
-					null,
-					null,
-					null );
-			gr.render( dRenderer, gcs );
-		}
-		catch ( ChartException e )
-		{
-			e.printStackTrace( );
+		try {
+			gcs = gr.build(dRenderer.getDisplayServer(), cm, bo, null, null, null);
+			gr.render(dRenderer, gcs);
+		} catch (ChartException e) {
+			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * Creates a bar chart model as a reference implementation
 	 * 
-	 * @return An instance of the simulated runtime chart model (containing
-	 *         filled datasets)
+	 * @return An instance of the simulated runtime chart model (containing filled
+	 *         datasets)
 	 */
-	public static final Chart createLineChart( )
-	{
-		ChartWithAxes cwaLine = ChartWithAxesImpl.create( );
+	public static final Chart createLineChart() {
+		ChartWithAxes cwaLine = ChartWithAxesImpl.create();
 
 		// Chart Type
-		cwaLine.setType( "Bar Chart" );
+		cwaLine.setType("Bar Chart");
 
-		cwaLine
-				.setScript( "function afterDrawMarkerLine(axis, line, scriptContext)" //$NON-NLS-1$
-						+ "{importPackage(Packages.java.lang); " //$NON-NLS-1$
-						+ "System.out.println(line.getLabel().getCaption().getValue()); " //$NON-NLS-1$
-						+ "if (line.getLabel().getCaption().getValue() == \"abc\") " //$NON-NLS-1$
-						+ "{System.out.println(\"OK\");} " //$NON-NLS-1$
-						+ "else" //$NON-NLS-1$
-						+ "{System.out.println(\"false\");} }" //$NON-NLS-1$
-				);
+		cwaLine.setScript("function afterDrawMarkerLine(axis, line, scriptContext)" //$NON-NLS-1$
+				+ "{importPackage(Packages.java.lang); " //$NON-NLS-1$
+				+ "System.out.println(line.getLabel().getCaption().getValue()); " //$NON-NLS-1$
+				+ "if (line.getLabel().getCaption().getValue() == \"abc\") " //$NON-NLS-1$
+				+ "{System.out.println(\"OK\");} " //$NON-NLS-1$
+				+ "else" //$NON-NLS-1$
+				+ "{System.out.println(\"false\");} }" //$NON-NLS-1$
+		);
 
 		// Title
-		cwaLine.getTitle( ).getLabel( ).getCaption( ).setValue(
-				"Computer Hardware Sales" ); //$NON-NLS-1$
-		cwaLine.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
+		cwaLine.getTitle().getLabel().getCaption().setValue("Computer Hardware Sales"); //$NON-NLS-1$
+		cwaLine.getBlock().setBackground(ColorDefinitionImpl.WHITE());
 
 		// Legend
-		Legend lg = cwaLine.getLegend( );
-		lg.setVisible( false );
+		Legend lg = cwaLine.getLegend();
+		lg.setVisible(false);
 
 		// X-Axis
-		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaLine )
-				.getPrimaryBaseAxes( )[0];
-		xAxisPrimary.getTitle( ).setVisible( false );
+		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaLine).getPrimaryBaseAxes()[0];
+		xAxisPrimary.getTitle().setVisible(false);
 
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-		xAxisPrimary.getLabel( ).getCaption( ).setColor(
-				ColorDefinitionImpl.GREEN( ).darker( ) );
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
+		xAxisPrimary.getLabel().getCaption().setColor(ColorDefinitionImpl.GREEN().darker());
 
-		MarkerLine mlx = MarkerLineImpl.create(
-				xAxisPrimary,
-				NumberDataElementImpl.create( 2 ) );
-		mlx.setLineAttributes( LineAttributesImpl.create( ColorDefinitionImpl
-				.create( 21, 244, 231 ), LineStyle.SOLID_LITERAL, 1 ) );
-		mlx.getLabel( ).setVisible( true );
-		mlx.getLabel( ).getCaption( ).setValue( "abc" );
+		MarkerLine mlx = MarkerLineImpl.create(xAxisPrimary, NumberDataElementImpl.create(2));
+		mlx.setLineAttributes(
+				LineAttributesImpl.create(ColorDefinitionImpl.create(21, 244, 231), LineStyle.SOLID_LITERAL, 1));
+		mlx.getLabel().setVisible(true);
+		mlx.getLabel().getCaption().setValue("abc");
 
 		// Y-Axis
-		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaLine )
-				.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Sales Growth" ); //$NON-NLS-1$
-		yAxisPrimary.getLabel( ).getCaption( ).setColor(
-				ColorDefinitionImpl.BLUE( ) );
+		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaLine).getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getLabel().getCaption().setValue("Sales Growth"); //$NON-NLS-1$
+		yAxisPrimary.getLabel().getCaption().setColor(ColorDefinitionImpl.BLUE());
 
-		yAxisPrimary.getTitle( ).setVisible( false );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+		yAxisPrimary.getTitle().setVisible(false);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		yAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
 
 		// Data Set
-		TextDataSet dsStringValue = TextDataSetImpl.create( new String[]{
-				"Keyboards", "Moritors", "Printers", "Mortherboards"} );
-		NumberDataSet dsNumericValues1 = NumberDataSetImpl
-				.create( new double[]{143.26, 156.55, 95.25, 47.56} );
+		TextDataSet dsStringValue = TextDataSetImpl
+				.create(new String[] { "Keyboards", "Moritors", "Printers", "Mortherboards" });
+		NumberDataSet dsNumericValues1 = NumberDataSetImpl.create(new double[] { 143.26, 156.55, 95.25, 47.56 });
 
 		// X-Series
-		Series seBase = SeriesImpl.create( );
-		seBase.setDataSet( dsStringValue );
+		Series seBase = SeriesImpl.create();
+		seBase.setDataSet(dsStringValue);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seBase );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seBase);
 
 		// Y-Series
-		LineSeries ls = (LineSeries) LineSeriesImpl.create( );
-		ls.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
-		ls.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
-		ls.getLabel( ).setVisible( true );
-		ls.setDataSet( dsNumericValues1 );
-		ls.setStacked( true );
+		LineSeries ls = (LineSeries) LineSeriesImpl.create();
+		ls.getLabel().getCaption().setColor(ColorDefinitionImpl.RED());
+		ls.getLabel().setBackground(ColorDefinitionImpl.CYAN());
+		ls.getLabel().setVisible(true);
+		ls.setDataSet(dsNumericValues1);
+		ls.setStacked(true);
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.GREEN( ) );
-		sdY.getSeries( ).add( ls );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeriesPalette().update(ColorDefinitionImpl.GREEN());
+		sdY.getSeries().add(ls);
 
 		return cwaLine;
 

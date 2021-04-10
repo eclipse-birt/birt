@@ -19,45 +19,36 @@ import org.eclipse.birt.report.designer.ui.preview.BaseTestCase;
  *
  */
 
-public class ParameterCreationTest extends BaseTestCase
-{
+public class ParameterCreationTest extends BaseTestCase {
 	/**
 	 * Test getRootChildren method in ParameterFactory.
 	 * 
 	 * @throws Exception
 	 */
 
-	public void testGetRootChildren( ) throws Exception
-	{
-		ParameterFactory factory = new ParameterFactory( engineTask );
+	public void testGetRootChildren() throws Exception {
+		ParameterFactory factory = new ParameterFactory(engineTask);
 
-		List children = factory.getRootChildren( );
-		assertEquals( 3, children.size( ) );
+		List children = factory.getRootChildren();
+		assertEquals(3, children.size());
 
-		Iterator iterator = children.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			Object obj = iterator.next( );
-			if ( obj instanceof ScalarParam )
-			{
+		Iterator iterator = children.iterator();
+		while (iterator.hasNext()) {
+			Object obj = iterator.next();
+			if (obj instanceof ScalarParam) {
 				ScalarParam param = (ScalarParam) obj;
-				assertEquals( 1, param.getValueList( ).size( ) );
-			}
-			else if ( obj instanceof ParamGroup )
-			{
+				assertEquals(1, param.getValueList().size());
+			} else if (obj instanceof ParamGroup) {
 				ParamGroup group = (ParamGroup) obj;
-				if ( group.getHandle( ).getName( ).equals( "NewParameterGroup" ) ) //$NON-NLS-1$
+				if (group.getHandle().getName().equals("NewParameterGroup")) //$NON-NLS-1$
 				{
-					assertEquals( 2, group.getChildren( ).size( ) );
-				}
-				else if ( group.getHandle( ).getName( ).equals(
-						"NewCascadingParameterGroup" ) )//$NON-NLS-1$
+					assertEquals(2, group.getChildren().size());
+				} else if (group.getHandle().getName().equals("NewCascadingParameterGroup"))//$NON-NLS-1$
 				{
-					assertEquals( 3, group.getChildren( ).size( ) );
+					assertEquals(3, group.getChildren().size());
 				}
 			}
 		}
 	}
-	
-	
+
 }

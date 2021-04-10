@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 
@@ -19,7 +18,8 @@ import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
  * Represents the handle of library element. The library contains the resuable
  * element components.
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
+ * collapse" bordercolor="#111111">
  * <th width="20%">Content Item</th>
  * <th width="40%">Description</th>
  * 
@@ -89,25 +89,21 @@ import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
  * </ul>
  */
 
-public class LibraryHandle extends LibraryHandleImpl implements ILibraryModel
-{
+public class LibraryHandle extends LibraryHandleImpl implements ILibraryModel {
 
 	/**
 	 * Constructs one library handle with the given library element.
 	 * 
-	 * @param library
-	 *            library element
+	 * @param library library element
 	 */
 
-	public LibraryHandle( Library library )
-	{
-		super( library );
+	public LibraryHandle(Library library) {
+		super(library);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.DesignElementHandle#isDirectionRTL()
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#isDirectionRTL()
 	 */
 }

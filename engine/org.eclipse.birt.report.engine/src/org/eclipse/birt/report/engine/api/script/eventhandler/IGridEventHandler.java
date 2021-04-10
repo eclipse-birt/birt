@@ -19,30 +19,25 @@ import org.eclipse.birt.report.engine.api.script.instance.IGridInstance;
 /**
  * Script event handler interface for a grid
  */
-public interface IGridEventHandler
-{
+public interface IGridEventHandler {
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( IGrid grid, IReportContext reportContext )
-			throws ScriptException;
+	void onPrepare(IGrid grid, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( IGridInstance grid, IReportContext reportContext )
-			throws ScriptException;
+	void onCreate(IGridInstance grid, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( IGridInstance grid, IReportContext reportContext )
-			throws ScriptException;
+	void onRender(IGridInstance grid, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( IGridInstance grid, IReportContext reportContext )
-			throws ScriptException;
+	void onPageBreak(IGridInstance grid, IReportContext reportContext) throws ScriptException;
 
 }

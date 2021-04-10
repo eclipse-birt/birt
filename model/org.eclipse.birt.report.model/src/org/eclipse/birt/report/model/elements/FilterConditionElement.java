@@ -16,31 +16,28 @@ import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.Module;
 
-
 /**
  *
  */
-public class FilterConditionElement extends ContentElement
-{
+public class FilterConditionElement extends ContentElement {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public FilterConditionElement( )
-	{
+	public FilterConditionElement() {
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitFilterConditionElement( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitFilterConditionElement(this);
 	}
 
 	/*
@@ -49,32 +46,30 @@ public class FilterConditionElement extends ContentElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.FILTER_CONDITION_ELEMENT;
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public FilterConditionElementHandle handle( Module module )
-	{
-		return new FilterConditionElementHandle( module, this );
+	public FilterConditionElementHandle handle(Module module) {
+		return new FilterConditionElementHandle(module, this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.
+	 * birt.report.model.core.Module)
 	 */
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 }

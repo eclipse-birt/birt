@@ -18,18 +18,15 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
  * changed.
  */
 
-public interface IAttributeListener
-{
+public interface IAttributeListener {
 
 	/**
 	 * Notifies the element is validated.
 	 * 
-	 * @param targetElement
-	 *            the validated element
-	 * @param ev
-	 *            the validation event which contains the error information
+	 * @param targetElement the validated element
+	 * @param ev            the validation event which contains the error
+	 *                      information
 	 */
 
-	public void fileNameChanged( ModuleHandle targetElement,
-			AttributeEvent ev );
+	public void fileNameChanged(ModuleHandle targetElement, AttributeEvent ev);
 }

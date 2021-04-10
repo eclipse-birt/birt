@@ -22,61 +22,46 @@ import org.eclipse.ui.progress.UIJob;
  * 
  */
 
-public abstract class AbstractUIJob extends UIJob
-{
+public abstract class AbstractUIJob extends UIJob {
 
 	private String designFile;
 
-	public AbstractUIJob( String name, String designFile )
-	{
-		super( name );
+	public AbstractUIJob(String name, String designFile) {
+		super(name);
 		this.designFile = designFile;
 	}
 
-	public IStatus runInUIThread( IProgressMonitor monitor )
-	{
+	public IStatus runInUIThread(IProgressMonitor monitor) {
 		IStatus returnValue = Status.OK_STATUS;
-		setPriority( Job.SHORT );
-		monitor.beginTask( getName( ), IProgressMonitor.UNKNOWN );
+		setPriority(Job.SHORT);
+		monitor.beginTask(getName(), IProgressMonitor.UNKNOWN);
 
-		if ( monitor.isCanceled( ) )
-		{
-			Job.getJobManager( ).cancel( this.designFile );
+		if (monitor.isCanceled()) {
+			Job.getJobManager().cancel(this.designFile);
 			return Status.CANCEL_STATUS;
 		}
 
-		try
-		{
-			work( monitor );
-		}
-		catch ( RuntimeException e )
-		{
-			returnValue = new Status( IStatus.ERROR,
-					StaticHTMLPrviewPlugin.PLUGIN_ID,
-					500,
-					e.getMessage( ),
-					e );
-			Job.getJobManager( ).cancel( this.designFile );
-		}
-		finally
-		{
-			monitor.done( );
+		try {
+			work(monitor);
+		} catch (RuntimeException e) {
+			returnValue = new Status(IStatus.ERROR, StaticHTMLPrviewPlugin.PLUGIN_ID, 500, e.getMessage(), e);
+			Job.getJobManager().cancel(this.designFile);
+		} finally {
+			monitor.done();
 		}
 
-		if ( monitor.isCanceled( ) )
-		{
-			Job.getJobManager( ).cancel( this.designFile );
+		if (monitor.isCanceled()) {
+			Job.getJobManager().cancel(this.designFile);
 			returnValue = Status.CANCEL_STATUS;
 		}
 		return returnValue;
 	}
 
-	public boolean belongsTo( Object family )
-	{
-		if ( family != null && family.equals( this.designFile ) )
+	public boolean belongsTo(Object family) {
+		if (family != null && family.equals(this.designFile))
 			return true;
-		return super.belongsTo( family );
+		return super.belongsTo(family);
 	}
 
-	public abstract void work( IProgressMonitor monitor );
+	public abstract void work(IProgressMonitor monitor);
 }

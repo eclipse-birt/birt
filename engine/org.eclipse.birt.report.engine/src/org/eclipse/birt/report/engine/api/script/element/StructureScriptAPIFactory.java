@@ -18,8 +18,7 @@ package org.eclipse.birt.report.engine.api.script.element;
  * 
  */
 
-public class StructureScriptAPIFactory
-{
+public class StructureScriptAPIFactory {
 
 	/**
 	 * Create <code>IHideRule</code> instance
@@ -27,9 +26,8 @@ public class StructureScriptAPIFactory
 	 * @return IHideRule
 	 */
 
-	public static IHideRule createHideRule( )
-	{
-		return ScriptAPIFactory.getInstance( ).createHideRule( );
+	public static IHideRule createHideRule() {
+		return ScriptAPIFactory.getInstance().createHideRule();
 	}
 
 	/**
@@ -38,9 +36,8 @@ public class StructureScriptAPIFactory
 	 * @return instance
 	 */
 
-	public static IFilterCondition createFilterCondition( )
-	{
-		return ScriptAPIFactory.getInstance( ).createFilterCondition( );
+	public static IFilterCondition createFilterCondition() {
+		return ScriptAPIFactory.getInstance().createFilterCondition();
 	}
 
 	/**
@@ -49,9 +46,8 @@ public class StructureScriptAPIFactory
 	 * @return instance
 	 */
 
-	public static IDataBinding createDataBinding( )
-	{
-		return ScriptAPIFactory.getInstance( ).createDataBinding( );
+	public static IDataBinding createDataBinding() {
+		return ScriptAPIFactory.getInstance().createDataBinding();
 	}
 
 	/**
@@ -60,9 +56,8 @@ public class StructureScriptAPIFactory
 	 * @return instance
 	 */
 
-	public static IHighlightRule createHighLightRule( )
-	{
-		return ScriptAPIFactory.getInstance( ).createHighLightRule( );
+	public static IHighlightRule createHighLightRule() {
+		return ScriptAPIFactory.getInstance().createHighLightRule();
 	}
 
 	/**
@@ -71,9 +66,8 @@ public class StructureScriptAPIFactory
 	 * @return instance
 	 */
 
-	public static ISortCondition createSortCondition( )
-	{
-		return ScriptAPIFactory.getInstance( ).createSortCondition( );
+	public static ISortCondition createSortCondition() {
+		return ScriptAPIFactory.getInstance().createSortCondition();
 	}
 
 }

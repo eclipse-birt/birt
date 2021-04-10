@@ -22,70 +22,48 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 
-public class RunStatusWriter
-{
+public class RunStatusWriter {
 	protected RAOutputStream runStatusStream;
-	
-	static protected Logger logger = Logger.getLogger( RunStatusWriter.class
-			.getName( ) );
 
-	public RunStatusWriter( IDocArchiveWriter writer )
-	{
-		try
-		{
-			runStatusStream = writer
-					.createRandomAccessStream( ReportDocumentConstants.RUN_STATUS_STREAM );
-		}
-		catch ( IOException ex )
-		{
-			logger.log( Level.WARNING,
-					"Unable to create stream to write run task status" ); //$NON-NLS-1$
-			close( );
+	static protected Logger logger = Logger.getLogger(RunStatusWriter.class.getName());
+
+	public RunStatusWriter(IDocArchiveWriter writer) {
+		try {
+			runStatusStream = writer.createRandomAccessStream(ReportDocumentConstants.RUN_STATUS_STREAM);
+		} catch (IOException ex) {
+			logger.log(Level.WARNING, "Unable to create stream to write run task status"); //$NON-NLS-1$
+			close();
 		}
 	}
 
-	public void close( )
-	{
-		try
-		{
-			if ( runStatusStream != null )
-			{
-				runStatusStream.close( );
+	public void close() {
+		try {
+			if (runStatusStream != null) {
+				runStatusStream.close();
 				runStatusStream = null;
 			}
-		}
-		catch ( IOException ex )
-		{
-			logger.log( Level.WARNING,
-					"Unable to close the stream used to write run task status" ); //$NON-NLS-1$
+		} catch (IOException ex) {
+			logger.log(Level.WARNING, "Unable to close the stream used to write run task status"); //$NON-NLS-1$
 		}
 	}
-	
-	private ByteArrayOutputStream writeBuffer = new ByteArrayOutputStream( );
-	private DataOutputStream out = new DataOutputStream( writeBuffer );
-	
-	
-	public void writeRunTaskStatus( ArrayList<String> messages )
-	{
-		if ( runStatusStream == null )
-		{
+
+	private ByteArrayOutputStream writeBuffer = new ByteArrayOutputStream();
+	private DataOutputStream out = new DataOutputStream(writeBuffer);
+
+	public void writeRunTaskStatus(ArrayList<String> messages) {
+		if (runStatusStream == null) {
 			return;
 		}
-		try
-		{
-			writeBuffer.reset( );
-			runStatusStream.writeInt( messages.size( ) );
-			for( String message: messages )
-			{
-				writeBuffer.reset( );
-				IOUtil.writeString( out, message );
-				runStatusStream.write( writeBuffer.toByteArray( ) );
+		try {
+			writeBuffer.reset();
+			runStatusStream.writeInt(messages.size());
+			for (String message : messages) {
+				writeBuffer.reset();
+				IOUtil.writeString(out, message);
+				runStatusStream.write(writeBuffer.toByteArray());
 			}
-		}
-		catch ( IOException e )
-		{
-			logger.log( Level.WARNING,
-					"Exception occured during writing run task status" ); //$NON-NLS-1$
+		} catch (IOException e) {
+			logger.log(Level.WARNING, "Exception occured during writing run task status"); //$NON-NLS-1$
 		}
 	}
 

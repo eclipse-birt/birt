@@ -34,9 +34,8 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 /**
  * This class implements deferred rendering capability for chart.
  */
-public final class DeferredCache implements Comparable<DeferredCache>
-{
-	
+public final class DeferredCache implements Comparable<DeferredCache> {
+
 	public static final int FLUSH_PLANE = 1;
 	public static final int FLUSH_LINE = 2;
 	public static final int FLUSH_MARKER = 2 << 1;
@@ -44,237 +43,173 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	public static final int FLUSH_3D = 2 << 3;
 	public static final int FLUSH_PLANE_SHADOW = 2 << 4;
 	public static final int FLUSH_CONNECTION_LINE = 2 << 5;
-	public static final int FLUSH_ALL = ( 2 << 6 ) - 1;
+	public static final int FLUSH_ALL = (2 << 6) - 1;
 
 	private final IDeviceRenderer idr;
 
-	private final ArrayList<WrappedInstruction> alPlanes = new ArrayList<WrappedInstruction>( 16 );
+	private final ArrayList<WrappedInstruction> alPlanes = new ArrayList<WrappedInstruction>(16);
 
 	private Comparator<?> cpPlanes = null;
 
-	private final ArrayList<LineRenderEvent> alLines = new ArrayList<LineRenderEvent>( 16 );
+	private final ArrayList<LineRenderEvent> alLines = new ArrayList<LineRenderEvent>(16);
 
-	private final ArrayList<LineRenderEvent> alConnectionLines = new ArrayList<LineRenderEvent>( 16 );
+	private final ArrayList<LineRenderEvent> alConnectionLines = new ArrayList<LineRenderEvent>(16);
 
-	private final ArrayList<MarkerInstruction> alMarkers = new ArrayList<MarkerInstruction>( 16 );
+	private final ArrayList<MarkerInstruction> alMarkers = new ArrayList<MarkerInstruction>(16);
 
-	private final ArrayList<TextRenderEvent> alLabels = new ArrayList<TextRenderEvent>( 16 );
+	private final ArrayList<TextRenderEvent> alLabels = new ArrayList<TextRenderEvent>(16);
 
-	private final ArrayList<WrappedInstruction> alPlaneShadows = new ArrayList<WrappedInstruction>( 4 );
+	private final ArrayList<WrappedInstruction> alPlaneShadows = new ArrayList<WrappedInstruction>(4);
 
 	private Comparator<?> cpPlaneShadows = null;
 
-	public List<Object> al3D = new ArrayList<Object>( 16 );
+	public List<Object> al3D = new ArrayList<Object>(16);
 
 	private final boolean bTransposed;
 	private Chart cm;
 	private DeferredCache parentDC = null;
-	
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/factory" ); //$NON-NLS-1$
-	
+
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.engine/factory"); //$NON-NLS-1$
+
 	private int cacheIndex = 0;
 
 	/**
 	 * This field controls if all 3D polygons in current deferred cache need
-	 * antialiasing, since area, cone and tube are rendered with many small polygons,
-	 * so this is usually needed to be done for data point of area, cone and
-	 * tube 3D charts.
+	 * antialiasing, since area, cone and tube are rendered with many small
+	 * polygons, so this is usually needed to be done for data point of area, cone
+	 * and tube 3D charts.
 	 */
 	private boolean bAntialiasing = false;
-	
+
 	/**
 	 * The constructor.
 	 */
-	public DeferredCache( IDeviceRenderer idr, Chart c, int cacheIndex )
-	{
+	public DeferredCache(IDeviceRenderer idr, Chart c, int cacheIndex) {
 		this.idr = idr;
 		cm = c;
-		bTransposed = ( c instanceof ChartWithAxes && ( (ChartWithAxes) c ).isTransposed( ) );
+		bTransposed = (c instanceof ChartWithAxes && ((ChartWithAxes) c).isTransposed());
 		this.cacheIndex = cacheIndex;
 	}
 
 	/**
 	 * Adds rendering Plane event to cache.
 	 * 
-	 * @param pre
-	 *            As of now, supported types are RectanguleRenderEvent and
+	 * @param pre As of now, supported types are RectanguleRenderEvent and
 	 *            PolygonRenderEvent
 	 */
-	public final Object addPlane( PrimitiveRenderEvent pre, int iInstruction )
-	{
-		return addPlane( pre, iInstruction, 0 );
+	public final Object addPlane(PrimitiveRenderEvent pre, int iInstruction) {
+		return addPlane(pre, iInstruction, 0);
 	}
 
-	public final Object addPlane( PrimitiveRenderEvent pre, int iInstruction,
-			int zorder_hint )
-	{
+	public final Object addPlane(PrimitiveRenderEvent pre, int iInstruction, int zorder_hint) {
 		Object obj = null;
-		try
-		{
+		try {
 			WrappedInstruction wi;
-			
-			if ( pre instanceof I3DRenderEvent )
-			{
-				wi = new WrappedInstruction( this,
-						pre.copy( ),
-						iInstruction,
-						zorder_hint );
-				al3D.add( wi );
+
+			if (pre instanceof I3DRenderEvent) {
+				wi = new WrappedInstruction(this, pre.copy(), iInstruction, zorder_hint);
+				al3D.add(wi);
+			} else {
+				wi = new WrappedInstruction(this, pre.copy(), iInstruction, zorder_hint);
+				alPlanes.add(wi);
 			}
-			else
-			{
-				wi = new WrappedInstruction( this,
-						pre.copy( ),
-						iInstruction,
-						zorder_hint );
-				alPlanes.add( wi );
-			}
-			
+
 			obj = wi;
+		} catch (ChartException ufex) {
+			logger.log(ufex);
 		}
-		catch ( ChartException ufex )
-		{
-			logger.log( ufex );
-		}
-		
+
 		return obj;
 	}
 
 	/**
-	 * Adds rendering Plane event to cache. This Plane is usually a shadow or
-	 * depth, and will be in the lower z-order
+	 * Adds rendering Plane event to cache. This Plane is usually a shadow or depth,
+	 * and will be in the lower z-order
 	 * 
-	 * @param pre
-	 *            As of now, supported types are RectanguleRenderEvent and
+	 * @param pre As of now, supported types are RectanguleRenderEvent and
 	 *            PolygonRenderEvent
 	 */
-	public final void addPlaneShadow( PrimitiveRenderEvent pre, int iInstruction )
-	{
-		addPlaneShadow( pre, iInstruction, 0 );
+	public final void addPlaneShadow(PrimitiveRenderEvent pre, int iInstruction) {
+		addPlaneShadow(pre, iInstruction, 0);
 	}
 
-	public final void addPlaneShadow( PrimitiveRenderEvent pre,
-			int iInstruction, int zorder_hint )
-	{
-		try
-		{
-			if ( pre instanceof I3DRenderEvent )
-			{
-				al3D.add( new WrappedInstruction( this,
-						pre.copy( ),
-						iInstruction,
-						zorder_hint ) );
+	public final void addPlaneShadow(PrimitiveRenderEvent pre, int iInstruction, int zorder_hint) {
+		try {
+			if (pre instanceof I3DRenderEvent) {
+				al3D.add(new WrappedInstruction(this, pre.copy(), iInstruction, zorder_hint));
+			} else {
+				alPlaneShadows.add(new WrappedInstruction(this, pre.copy(), iInstruction, zorder_hint));
 			}
-			else
-			{
-				alPlaneShadows.add( new WrappedInstruction( this,
-						pre.copy( ),
-						iInstruction,
-						zorder_hint ) );
-			}
-		}
-		catch ( ChartException ufex )
-		{
-			logger.log( ufex );
+		} catch (ChartException ufex) {
+			logger.log(ufex);
 		}
 	}
 
 	/**
-	 * Adds wrapped rendering event to cache. Never use this for 3D rendering
-	 * event.
+	 * Adds wrapped rendering event to cache. Never use this for 3D rendering event.
 	 */
-	public final void addModel( WrappedInstruction wi )
-	{
-		alPlanes.add( wi );
+	public final void addModel(WrappedInstruction wi) {
+		alPlanes.add(wi);
 	}
 
 	/**
 	 * Adds line rendering event to cache.
 	 */
-	public final void addLine( LineRenderEvent lre )
-	{
-		if ( lre instanceof I3DRenderEvent )
-		{
-			if ( lre.getLineAttributes( ) != null
-					&& lre.getLineAttributes( ).isVisible( ) )
-			{
-				PrimitiveRenderEvent lre1 = lre.copy( );
-				al3D.add( lre1 );
+	public final void addLine(LineRenderEvent lre) {
+		if (lre instanceof I3DRenderEvent) {
+			if (lre.getLineAttributes() != null && lre.getLineAttributes().isVisible()) {
+				PrimitiveRenderEvent lre1 = lre.copy();
+				al3D.add(lre1);
 			}
-		}
-		else
-		{
-			alLines.add( (LineRenderEvent) lre.copy( ) );
+		} else {
+			alLines.add((LineRenderEvent) lre.copy());
 		}
 	}
 
 	/**
 	 * Adds marker connection line rendering event to cache.
 	 */
-	public final void addConnectionLine( LineRenderEvent lre )
-	{
-		alConnectionLines.add( (LineRenderEvent) lre.copy( ) );
+	public final void addConnectionLine(LineRenderEvent lre) {
+		alConnectionLines.add((LineRenderEvent) lre.copy());
 	}
-	
+
 	/**
 	 * Adds text rendering event to cache.
 	 */
-	public final void addLabel( TextRenderEvent tre )
-	{
-		if ( tre instanceof I3DRenderEvent )
-		{
-			al3D.add( tre.copy( ) );
-		}
-		else
-		{
-			alLabels.add( (TextRenderEvent) tre.copy( ) );
+	public final void addLabel(TextRenderEvent tre) {
+		if (tre instanceof I3DRenderEvent) {
+			al3D.add(tre.copy());
+		} else {
+			alLabels.add((TextRenderEvent) tre.copy());
 		}
 	}
 
 	/**
 	 * Adds marker rendering event to cache.
 	 */
-	public final void addMarker( PrimitiveRenderEvent pre, int iInstruction,
-			double iMarkerSize, int zOrder )
-	{
-		try
-		{
-			if ( pre instanceof I3DRenderEvent )
-			{
-				al3D.add( new MarkerInstruction( this,
-						pre.copy( ),
-						iInstruction,
-						iMarkerSize,
-						zOrder ) );
+	public final void addMarker(PrimitiveRenderEvent pre, int iInstruction, double iMarkerSize, int zOrder) {
+		try {
+			if (pre instanceof I3DRenderEvent) {
+				al3D.add(new MarkerInstruction(this, pre.copy(), iInstruction, iMarkerSize, zOrder));
+			} else {
+				alMarkers.add(new MarkerInstruction(this, pre.copy(), iInstruction, iMarkerSize, zOrder));
 			}
-			else
-			{
-				alMarkers.add( new MarkerInstruction( this,
-						pre.copy( ),
-						iInstruction,
-						iMarkerSize,
-						zOrder ) );
-			}
-		}
-		catch ( ChartException ufex )
-		{
-			logger.log( ufex );
+		} catch (ChartException ufex) {
+			logger.log(ufex);
 		}
 	}
 
 	/**
 	 * Flush the cache, perform all pending rendering tasks.
 	 */
-	public final void flush( ) throws ChartException
-	{
-		flushOptions( FLUSH_ALL );
+	public final void flush() throws ChartException {
+		flushOptions(FLUSH_ALL);
 	}
 
 	/**
 	 * Flush the cache of specified types.
 	 * 
-	 * @param options
-	 *            types
+	 * @param options types
 	 * @see #FLUSH_3D
 	 * @see #FLUSH_LABLE
 	 * @see #FLUSH_LINE
@@ -282,47 +217,39 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	 * @see #FLUSH_PLANE
 	 * @since 2.2
 	 */
-	public final void flushOptions( int options ) throws ChartException
-	{
+	public final void flushOptions(int options) throws ChartException {
 		// FLUSH PLANE SHADOWS
-		if ( ( options & FLUSH_PLANE_SHADOW ) == FLUSH_PLANE_SHADOW )
-		{
-			flushPlaneShadows( idr, alPlaneShadows, cpPlaneShadows );
+		if ((options & FLUSH_PLANE_SHADOW) == FLUSH_PLANE_SHADOW) {
+			flushPlaneShadows(idr, alPlaneShadows, cpPlaneShadows);
 		}
 
 		// FLUSH PLANES
-		if ( ( options & FLUSH_PLANE ) == FLUSH_PLANE )
-		{
-			flushPlanes( idr, alPlanes, cpPlanes );
+		if ((options & FLUSH_PLANE) == FLUSH_PLANE) {
+			flushPlanes(idr, alPlanes, cpPlanes);
 		}
 
 		// FLUSH LINES (WITHOUT SORTING)
-		if ( ( options & FLUSH_LINE ) == FLUSH_LINE )
-		{
-			flushLines( idr, alLines );
+		if ((options & FLUSH_LINE) == FLUSH_LINE) {
+			flushLines(idr, alLines);
 		}
 
-		if ( ( options & FLUSH_CONNECTION_LINE ) == FLUSH_CONNECTION_LINE )
-		{
-			flushLines( idr, alConnectionLines );
+		if ((options & FLUSH_CONNECTION_LINE) == FLUSH_CONNECTION_LINE) {
+			flushLines(idr, alConnectionLines);
 		}
 
 		// FLUSH MARKERS (WITHOUT SORTING)
-		if ( ( options & FLUSH_MARKER ) == FLUSH_MARKER )
-		{
-			flushMarkers( idr, alMarkers );
+		if ((options & FLUSH_MARKER) == FLUSH_MARKER) {
+			flushMarkers(idr, alMarkers);
 		}
 
 		// FLUSH TEXT (WITHOUT SORTING)
-		if ( ( options & FLUSH_LABLE ) == FLUSH_LABLE )
-		{
-			flushLabels( idr, alLabels );
+		if ((options & FLUSH_LABLE) == FLUSH_LABLE) {
+			flushLabels(idr, alLabels);
 		}
 
 		// FLUSH 3D events (already z-sorted)
-		if ( ( options & FLUSH_3D ) == FLUSH_3D )
-		{
-			flush3D( idr, al3D );
+		if ((options & FLUSH_3D) == FLUSH_3D) {
+			flush3D(idr, al3D);
 		}
 	}
 
@@ -334,69 +261,51 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	 * @throws ChartException
 	 * @since 2.2.1
 	 */
-	static void flush3D( IDeviceRenderer _idr, List alBlocks )
-			throws ChartException
-	{
-		if ( _idr == null || alBlocks == null )
-		{
+	static void flush3D(IDeviceRenderer _idr, List alBlocks) throws ChartException {
+		if (_idr == null || alBlocks == null) {
 			return;
 		}
 
 		IRenderInstruction wi;
-		for ( int i = 0; i < alBlocks.size( ); i++ )
-		{
-			Object obj = alBlocks.get( i );
+		for (int i = 0; i < alBlocks.size(); i++) {
+			Object obj = alBlocks.get(i);
 
-			if ( obj instanceof IRenderInstruction )
-			{
+			if (obj instanceof IRenderInstruction) {
 				wi = (WrappedInstruction) obj;
 
-				if ( wi.isModel( ) )
-				{
-					List al = wi.getModel( );
-					for ( int j = 0; j < al.size( ); j++ )
-					{
-						PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
-						pre.fill( _idr );
-						pre.draw( _idr );
+				if (wi.isModel()) {
+					List al = wi.getModel();
+					for (int j = 0; j < al.size(); j++) {
+						PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get(j);
+						pre.fill(_idr);
+						pre.draw(_idr);
+					}
+				} else {
+					wi.getEvent().iObjIndex = i + 1;
+					switch (wi.getInstruction()) {
+					case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW:
+						wi.getEvent().fill(_idr);
+						wi.getEvent().draw(_idr);
+						break;
+					case PrimitiveRenderEvent.FILL:
+						wi.getEvent().fill(_idr);
+						break;
+					case PrimitiveRenderEvent.DRAW:
+						wi.getEvent().draw(_idr);
+						break;
 					}
 				}
-				else
-				{
-					wi.getEvent( ).iObjIndex = i + 1;
-					switch ( wi.getInstruction( ) )
-					{
-						case PrimitiveRenderEvent.FILL
-								| PrimitiveRenderEvent.DRAW :
-							wi.getEvent( ).fill( _idr );
-							wi.getEvent( ).draw( _idr );
-							break;
-						case PrimitiveRenderEvent.FILL :
-							wi.getEvent( ).fill( _idr );
-							break;
-						case PrimitiveRenderEvent.DRAW :
-							wi.getEvent( ).draw( _idr );
-							break;
-					}
+
+				if (wi instanceof WrappedInstruction && ((WrappedInstruction) wi).getSubDeferredCache() != null) {
+					((WrappedInstruction) wi).getSubDeferredCache().flushOptions(FLUSH_3D);
 				}
-			
-				if ( wi instanceof WrappedInstruction
-						&& ( (WrappedInstruction) wi ).getSubDeferredCache( ) != null )
-				{
-					( (WrappedInstruction) wi ).getSubDeferredCache( )
-							.flushOptions( FLUSH_3D );
-				}
-			}
-			else if ( obj instanceof LineRenderEvent )
-			{
-				( (LineRenderEvent) obj ).draw( _idr );
-			}
-			else if ( obj instanceof TextRenderEvent )
-			{
-				( (TextRenderEvent) obj ).draw( _idr );
+			} else if (obj instanceof LineRenderEvent) {
+				((LineRenderEvent) obj).draw(_idr);
+			} else if (obj instanceof TextRenderEvent) {
+				((TextRenderEvent) obj).draw(_idr);
 			}
 		}
-		alBlocks.clear( );
+		alBlocks.clear();
 	}
 
 	/**
@@ -407,20 +316,16 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	 * @throws ChartException
 	 * @since 2.2.1
 	 */
-	static void flushLabels( IDeviceRenderer _idr, List labels )
-			throws ChartException
-	{
-		if ( _idr == null || labels == null )
-		{
+	static void flushLabels(IDeviceRenderer _idr, List labels) throws ChartException {
+		if (_idr == null || labels == null) {
 			return;
 		}
 
-		for ( int i = 0; i < labels.size( ); i++ )
-		{
-			TextRenderEvent tre = (TextRenderEvent) labels.get( i );
-			tre.draw( _idr );
+		for (int i = 0; i < labels.size(); i++) {
+			TextRenderEvent tre = (TextRenderEvent) labels.get(i);
+			tre.draw(_idr);
 		}
-		labels.clear( );
+		labels.clear();
 	}
 
 	/**
@@ -431,35 +336,30 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	 * @throws ChartException
 	 * @since 2.2.1
 	 */
-	static void flushMarkers( IDeviceRenderer _idr, List markers )
-			throws ChartException
-	{
-		if ( _idr == null || markers == null )
-		{
+	static void flushMarkers(IDeviceRenderer _idr, List markers) throws ChartException {
+		if (_idr == null || markers == null) {
 			return;
 		}
 
 		IRenderInstruction wi;
 		// SORT ON Marker Size
-		Collections.sort( markers );
-		for ( int i = 0; i < markers.size( ); i++ )
-		{
-			wi = (IRenderInstruction) markers.get( i );
-			switch ( wi.getInstruction( ) )
-			{
-				case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW :
-					wi.getEvent( ).fill( _idr );
-					wi.getEvent( ).draw( _idr );
-					break;
-				case PrimitiveRenderEvent.FILL :
-					wi.getEvent( ).fill( _idr );
-					break;
-				case PrimitiveRenderEvent.DRAW :
-					wi.getEvent( ).draw( _idr );
-					break;
+		Collections.sort(markers);
+		for (int i = 0; i < markers.size(); i++) {
+			wi = (IRenderInstruction) markers.get(i);
+			switch (wi.getInstruction()) {
+			case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW:
+				wi.getEvent().fill(_idr);
+				wi.getEvent().draw(_idr);
+				break;
+			case PrimitiveRenderEvent.FILL:
+				wi.getEvent().fill(_idr);
+				break;
+			case PrimitiveRenderEvent.DRAW:
+				wi.getEvent().draw(_idr);
+				break;
 			}
 		}
-		markers.clear( );
+		markers.clear();
 	}
 
 	/**
@@ -470,20 +370,16 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	 * @throws ChartException
 	 * @since 2.2.1
 	 */
-	static void flushLines( IDeviceRenderer _idr, List lines )
-			throws ChartException
-	{
-		if ( _idr == null || lines == null )
-		{
+	static void flushLines(IDeviceRenderer _idr, List lines) throws ChartException {
+		if (_idr == null || lines == null) {
 			return;
 		}
 
-		for ( int i = 0; i < lines.size( ); i++ )
-		{
-			LineRenderEvent lre = (LineRenderEvent) lines.get( i );
-			lre.draw( _idr );
+		for (int i = 0; i < lines.size(); i++) {
+			LineRenderEvent lre = (LineRenderEvent) lines.get(i);
+			lre.draw(_idr);
 		}
-		lines.clear( );
+		lines.clear();
 	}
 
 	/**
@@ -494,58 +390,46 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	 * @throws ChartException
 	 * @since 2.2.1
 	 */
-	static void flushPlanes( IDeviceRenderer _idr, List planes, Comparator cp )
-			throws ChartException
-	{
-		if ( _idr == null || planes == null )
-		{
+	static void flushPlanes(IDeviceRenderer _idr, List planes, Comparator cp) throws ChartException {
+		if (_idr == null || planes == null) {
 			return;
 		}
 
 		IRenderInstruction wi;
 
 		// SORT ON Z-ORDER
-		if ( cp != null )
-		{
-			Collections.sort( planes, cp );
-		}
-		else
-		{
-			Collections.sort( planes );
+		if (cp != null) {
+			Collections.sort(planes, cp);
+		} else {
+			Collections.sort(planes);
 		}
 
-		for ( int i = 0; i < planes.size( ); i++ )
-		{
-			wi = (IRenderInstruction) planes.get( i );
-			if ( wi.isModel( ) )
-			{
-				List al = wi.getModel( );
-				for ( int j = 0; j < al.size( ); j++ )
-				{
-					PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
-					pre.fill( _idr );
-					pre.draw( _idr );
+		for (int i = 0; i < planes.size(); i++) {
+			wi = (IRenderInstruction) planes.get(i);
+			if (wi.isModel()) {
+				List al = wi.getModel();
+				for (int j = 0; j < al.size(); j++) {
+					PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get(j);
+					pre.fill(_idr);
+					pre.draw(_idr);
 				}
-			}
-			else
-			{
-				wi.getEvent( ).iObjIndex = i + 1;
-				switch ( wi.getInstruction( ) )
-				{
-					case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW :
-						wi.getEvent( ).fill( _idr );
-						wi.getEvent( ).draw( _idr );
-						break;
-					case PrimitiveRenderEvent.FILL :
-						wi.getEvent( ).fill( _idr );
-						break;
-					case PrimitiveRenderEvent.DRAW :
-						wi.getEvent( ).draw( _idr );
-						break;
+			} else {
+				wi.getEvent().iObjIndex = i + 1;
+				switch (wi.getInstruction()) {
+				case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW:
+					wi.getEvent().fill(_idr);
+					wi.getEvent().draw(_idr);
+					break;
+				case PrimitiveRenderEvent.FILL:
+					wi.getEvent().fill(_idr);
+					break;
+				case PrimitiveRenderEvent.DRAW:
+					wi.getEvent().draw(_idr);
+					break;
 				}
 			}
 		}
-		planes.clear( );
+		planes.clear();
 	}
 
 	/**
@@ -556,74 +440,60 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	 * @throws ChartException
 	 * @since 2.2.1
 	 */
-	static void flushPlaneShadows( IDeviceRenderer _idr, List planeShadows,
-			Comparator cp ) throws ChartException
-	{
-		if ( _idr == null || planeShadows == null )
-		{
+	static void flushPlaneShadows(IDeviceRenderer _idr, List planeShadows, Comparator cp) throws ChartException {
+		if (_idr == null || planeShadows == null) {
 			return;
 		}
 
 		IRenderInstruction wi;
 
 		// SORT ON Z-ORDER
-		if ( cp != null )
-		{
-			Collections.sort( planeShadows, cp );
-		}
-		else
-		{
-			Collections.sort( planeShadows );
+		if (cp != null) {
+			Collections.sort(planeShadows, cp);
+		} else {
+			Collections.sort(planeShadows);
 		}
 
-		for ( int i = 0; i < planeShadows.size( ); i++ )
-		{
-			wi = (IRenderInstruction) planeShadows.get( i );
-			if ( wi.isModel( ) )
-			{
-				List al = wi.getModel( );
-				for ( int j = 0; j < al.size( ); j++ )
-				{
-					PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get( j );
-					pre.fill( _idr );
-					pre.draw( _idr );
+		for (int i = 0; i < planeShadows.size(); i++) {
+			wi = (IRenderInstruction) planeShadows.get(i);
+			if (wi.isModel()) {
+				List al = wi.getModel();
+				for (int j = 0; j < al.size(); j++) {
+					PrimitiveRenderEvent pre = (PrimitiveRenderEvent) al.get(j);
+					pre.fill(_idr);
+					pre.draw(_idr);
 				}
-			}
-			else
-			{
-				wi.getEvent( ).iObjIndex = i + 1;
-				switch ( wi.getInstruction( ) )
-				{
-					case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW :
-						wi.getEvent( ).fill( _idr );
-						wi.getEvent( ).draw( _idr );
-						break;
-					case PrimitiveRenderEvent.FILL :
-						wi.getEvent( ).fill( _idr );
-						break;
-					case PrimitiveRenderEvent.DRAW :
-						wi.getEvent( ).draw( _idr );
-						break;
+			} else {
+				wi.getEvent().iObjIndex = i + 1;
+				switch (wi.getInstruction()) {
+				case PrimitiveRenderEvent.FILL | PrimitiveRenderEvent.DRAW:
+					wi.getEvent().fill(_idr);
+					wi.getEvent().draw(_idr);
+					break;
+				case PrimitiveRenderEvent.FILL:
+					wi.getEvent().fill(_idr);
+					break;
+				case PrimitiveRenderEvent.DRAW:
+					wi.getEvent().draw(_idr);
+					break;
 				}
 			}
 		}
-		planeShadows.clear( );
+		planeShadows.clear();
 	}
 
 	/**
 	 * Pre-process all the 3D rendering events. This must be called before
 	 * {@link #flush()}.
 	 */
-	public void process3DEvent( Engine3D engine, double xOffset, double yOffset )
-	{
-		al3D = engine.processEvent( al3D, xOffset, yOffset, bAntialiasing );
+	public void process3DEvent(Engine3D engine, double xOffset, double yOffset) {
+		al3D = engine.processEvent(al3D, xOffset, yOffset, bAntialiasing);
 	}
 
 	/**
 	 * @return Returns if current rendering context is transposed.
 	 */
-	public boolean isTransposed( )
-	{
+	public boolean isTransposed() {
 		return bTransposed;
 	}
 
@@ -632,8 +502,7 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	 * 
 	 * @return all cached connection lines.
 	 */
-	public List<LineRenderEvent> getAllConnectionLines( )
-	{
+	public List<LineRenderEvent> getAllConnectionLines() {
 		return alConnectionLines;
 	}
 
@@ -642,8 +511,7 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	 * 
 	 * @return all cached markers.
 	 */
-	public List<MarkerInstruction> getAllMarkers( )
-	{
+	public List<MarkerInstruction> getAllMarkers() {
 		return alMarkers;
 	}
 
@@ -652,24 +520,21 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	 * 
 	 * @return all cached labels.
 	 */
-	public List<TextRenderEvent> getAllLabels( )
-	{
+	public List<TextRenderEvent> getAllLabels() {
 		return alLabels;
 	}
 
 	/*
 	 * set the z-order comparator for plane shadows
 	 */
-	public void setPlaneShadowsComparator( Comparator<?> cp )
-	{
+	public void setPlaneShadowsComparator(Comparator<?> cp) {
 		this.cpPlaneShadows = cp;
 	}
 
 	/*
 	 * set the z-order comparator for plane shadows
 	 */
-	public void setPlanesComparator( Comparator<?> cp )
-	{
+	public void setPlanesComparator(Comparator<?> cp) {
 		this.cpPlanes = cp;
 	}
 
@@ -680,41 +545,34 @@ public final class DeferredCache implements Comparable<DeferredCache>
 	 * @return
 	 * @since 2.6.2
 	 */
-	public DeferredCache deriveNewDeferredCache( ) {
-		DeferredCache dc =  new DeferredCache( this.idr, this.cm, this.cacheIndex );
-		dc.setParentDeferredCache( this );
+	public DeferredCache deriveNewDeferredCache() {
+		DeferredCache dc = new DeferredCache(this.idr, this.cm, this.cacheIndex);
+		dc.setParentDeferredCache(this);
 		return dc;
 	}
-	
-	public DeferredCache getParentDeferredCache()
-	{
+
+	public DeferredCache getParentDeferredCache() {
 		return parentDC;
 	}
-	
-	public void setParentDeferredCache( DeferredCache dc )
-	{
+
+	public void setParentDeferredCache(DeferredCache dc) {
 		this.parentDC = dc;
 	}
-	
+
 	/**
 	 * Enables if all 3D polygons in current deferred cache need antialiasing.
 	 * 
 	 * @param antialiasing
 	 */
-	public void setAntialiasing( boolean antialiasing )
-	{
+	public void setAntialiasing(boolean antialiasing) {
 		this.bAntialiasing = antialiasing;
 	}
 
-	private int getMarkerZOrder( )
-	{
-		if ( getAllMarkers( ).size( ) > 0 )
-		{
-			for ( MarkerInstruction marker : getAllMarkers( ) )
-			{
-				if ( marker != null )
-				{
-					return marker.getMarkerZOrder( );
+	private int getMarkerZOrder() {
+		if (getAllMarkers().size() > 0) {
+			for (MarkerInstruction marker : getAllMarkers()) {
+				if (marker != null) {
+					return marker.getMarkerZOrder();
 				}
 			}
 		}
@@ -722,68 +580,49 @@ public final class DeferredCache implements Comparable<DeferredCache>
 		return -1;
 	}
 
-	private int getConnectionLineZOrder( )
-	{
-		if ( getAllConnectionLines( ).size( ) > 0 )
-		{
-			for ( LineRenderEvent line : getAllConnectionLines( ) )
-			{
-				if ( line != null )
-				{
-					return line.getZOrder( );
+	private int getConnectionLineZOrder() {
+		if (getAllConnectionLines().size() > 0) {
+			for (LineRenderEvent line : getAllConnectionLines()) {
+				if (line != null) {
+					return line.getZOrder();
 				}
 			}
 		}
 		return -1;
 	}
 
-	private int getMarkerNLineZOrder( )
-	{
-		int zOrder = getMarkerZOrder( );
-		if ( zOrder >= 0 )
-		{
+	private int getMarkerNLineZOrder() {
+		int zOrder = getMarkerZOrder();
+		if (zOrder >= 0) {
 			return zOrder;
-		}
-		else
-		{
-			return getConnectionLineZOrder( );
+		} else {
+			return getConnectionLineZOrder();
 		}
 	}
 
-	private double getMarkerSize( )
-	{
-		if ( getAllMarkers( ).size( ) > 0 )
-		{
-			for ( MarkerInstruction marker : getAllMarkers( ) )
-			{
-				if ( marker != null )
-				{
-					return marker.getMarkerSize( );
+	private double getMarkerSize() {
+		if (getAllMarkers().size() > 0) {
+			for (MarkerInstruction marker : getAllMarkers()) {
+				if (marker != null) {
+					return marker.getMarkerSize();
 				}
 			}
 		}
 		return 0;
 	}
 
-	public int compareTo( DeferredCache other )
-	{
+	public int compareTo(DeferredCache other) {
 		// Compare marker line's z order firstly
-		if ( getMarkerNLineZOrder( ) != other.getMarkerNLineZOrder( ) )
-		{
-			return ( getMarkerNLineZOrder( ) - other.getMarkerNLineZOrder( ) );
-		}
-		else
-		{
+		if (getMarkerNLineZOrder() != other.getMarkerNLineZOrder()) {
+			return (getMarkerNLineZOrder() - other.getMarkerNLineZOrder());
+		} else {
 			// Compare marker size secondly. Smaller marker has higher z order
-			if ( other.getMarkerSize( ) - getMarkerSize( ) > 0 )
-			{
+			if (other.getMarkerSize() - getMarkerSize() > 0) {
 				return 1;
-			}
-			else if ( other.getMarkerSize( ) - getMarkerSize( ) < 0 )
-			{
+			} else if (other.getMarkerSize() - getMarkerSize() < 0) {
 				return -1;
 			}
-			
+
 			// Finally compare the model sequence. Latter one has higher z order
 			return this.cacheIndex - other.cacheIndex;
 		}

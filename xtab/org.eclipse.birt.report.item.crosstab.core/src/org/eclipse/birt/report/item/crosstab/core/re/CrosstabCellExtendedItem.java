@@ -22,43 +22,35 @@ import org.eclipse.birt.report.item.crosstab.core.script.internal.handler.Crosst
 /**
  * CrosstabCellExtendedItem
  */
-public class CrosstabCellExtendedItem implements IExtendedItem
-{
+public class CrosstabCellExtendedItem implements IExtendedItem {
 
 	private CrosstabHandlerCache handlerCache;
 
-	CrosstabCellExtendedItem( CrosstabHandlerCache handlerCache )
-	{
+	CrosstabCellExtendedItem(CrosstabHandlerCache handlerCache) {
 		this.handlerCache = handlerCache;
 	}
 
-	public IReportEventHandler createEventHandler( )
-	{
-		return new CrosstabCellReportEventHandler( handlerCache );
+	public IReportEventHandler createEventHandler() {
+		return new CrosstabCellReportEventHandler(handlerCache);
 	}
 
-	public IReportItemExecutor createExecutor( )
-	{
+	public IReportItemExecutor createExecutor() {
 		return null;
 	}
 
-	public IReportItemPreparation createPreparation( )
-	{
+	public IReportItemPreparation createPreparation() {
 		return null;
 	}
 
-	public IReportItemPresentation createPresentation( )
-	{
+	public IReportItemPresentation createPresentation() {
 		return null;
 	}
 
-	public IReportItemQuery createQuery( )
-	{
+	public IReportItemQuery createQuery() {
 		return null;
 	}
 
-	public void release( )
-	{
+	public void release() {
 		handlerCache = null;
 	}
 

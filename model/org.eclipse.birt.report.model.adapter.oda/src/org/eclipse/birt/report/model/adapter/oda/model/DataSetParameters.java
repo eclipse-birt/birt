@@ -11,14 +11,14 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Data Set Parameters</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Data Set
+ * Parameters</b></em>'. <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters#getParameter <em>Parameter</em>}</li>
+ * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters#getParameter
+ * <em>Parameter</em>}</li>
  * </ul>
  * </p>
  *
@@ -26,21 +26,22 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='DataSetParameters' kind='elementOnly'"
  * @generated
  */
-public interface DataSetParameters extends EObject
-{
+public interface DataSetParameters extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Parameter</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter}.
+	 * Returns the value of the '<em><b>Parameter</b></em>' containment reference
+	 * list. The list contents are of type
+	 * {@link org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Parameter</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Parameter</em>' containment reference list isn't
+	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Parameter</em>' containment reference list.
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDataSetParameters_Parameter()
-	 * @model containment="true" required="true"
-	 *        extendedMetaData="kind='element' name='parameter'"
+	 * @model containment="true" required="true" extendedMetaData="kind='element'
+	 *        name='parameter'"
 	 * @generated
 	 */
 	EList<DataSetParameter> getParameters();

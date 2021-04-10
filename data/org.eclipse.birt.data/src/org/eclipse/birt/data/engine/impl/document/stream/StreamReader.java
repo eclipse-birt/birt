@@ -20,28 +20,26 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * 
  */
-public abstract class StreamReader
-{
+public abstract class StreamReader {
 	protected HashMap streamMap;
 	protected StreamID id;
 	protected DataEngineContext context;
-	
+
 	/**
 	 * 
 	 * @param streamType
 	 * @return
 	 * @throws DataException
 	 */
-	public abstract RAInputStream getRAInputStream( int streamType ) throws DataException;
-	
+	public abstract RAInputStream getRAInputStream(int streamType) throws DataException;
+
 	/**
 	 * 
 	 * @param streamType
 	 * @return
 	 */
-	public boolean hasInputStream( int streamType )
-	{
-		return this.streamMap.get( Integer.valueOf( streamType) ) != null;
+	public boolean hasInputStream(int streamType) {
+		return this.streamMap.get(Integer.valueOf(streamType)) != null;
 	}
-	
+
 }

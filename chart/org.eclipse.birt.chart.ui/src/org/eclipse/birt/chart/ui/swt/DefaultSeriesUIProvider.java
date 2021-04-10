@@ -30,42 +30,33 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 
-public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
-{
+public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider {
 
 	/**
 	 * @deprecated
 	 */
-	public Composite getSeriesAttributeSheet( Composite parent, Series series )
-	{
+	public Composite getSeriesAttributeSheet(Composite parent, Series series) {
 		return null;
 	}
 
-	public Composite getSeriesAttributeSheet( Composite parent, Series series,
-			ChartWizardContext context )
-	{
+	public Composite getSeriesAttributeSheet(Composite parent, Series series, ChartWizardContext context) {
 		return null;
 	}
 
 	/**
 	 * @deprecated
 	 */
-	public Composite getSeriesDataSheet( Composite parent,
-			SeriesDefinition seriesdefinition, IUIServiceProvider builder,
-			Object oContext )
-	{
+	public Composite getSeriesDataSheet(Composite parent, SeriesDefinition seriesdefinition, IUIServiceProvider builder,
+			Object oContext) {
 		return null;
 	}
 
-	public String getSeriesClass( )
-	{
+	public String getSeriesClass() {
 		return null;
 	}
 
-	public ISelectDataComponent getSeriesDataComponent( int seriesType,
-			SeriesDefinition seriesDefn, ChartWizardContext context,
-			String sTitle )
-	{
+	public ISelectDataComponent getSeriesDataComponent(int seriesType, SeriesDefinition seriesDefn,
+			ChartWizardContext context, String sTitle) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -77,9 +68,7 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 	 * validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
-	public void validateSeriesBindingType( Series series,
-			IDataServiceProvider idsp ) throws ChartException
-	{
+	public void validateSeriesBindingType(Series series, IDataServiceProvider idsp) throws ChartException {
 		// Do not validate series binding type by default.
 	}
 
@@ -91,9 +80,7 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 	 * org.eclipse.birt.chart.model.data.SeriesDefinition,
 	 * org.eclipse.birt.chart.model.data.SeriesDefinition)
 	 */
-	public boolean isValidAggregationType( Series series,
-			SeriesDefinition orthSD, SeriesDefinition baseSD )
-	{
+	public boolean isValidAggregationType(Series series, SeriesDefinition orthSD, SeriesDefinition baseSD) {
 		// Do not validate series binding type by default.
 		return true;
 	}
@@ -104,8 +91,7 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#
 	 * getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series)
 	 */
-	public AxisType[] getCompatibleAxisType( Series series )
-	{
+	public AxisType[] getCompatibleAxisType(Series series) {
 		return null;
 	}
 
@@ -116,15 +102,12 @@ public abstract class DefaultSeriesUIProvider implements ISeriesUIProvider
 	 * org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#validationIndex
 	 * (org.eclipse.birt.chart.model.component.Series)
 	 */
-	public int[] validationIndex( Series series )
-	{
-		return series.getDefinedDataDefinitionIndex( );
+	public int[] validationIndex(Series series) {
+		return series.getDefinedDataDefinitionIndex();
 	}
 
-	public List<ISeriesButtonEntry> getCustomButtons(
-			ChartWizardContext context, SeriesDefinition sd )
-	{
-		return Collections.emptyList( );
+	public List<ISeriesButtonEntry> getCustomButtons(ChartWizardContext context, SeriesDefinition sd) {
+		return Collections.emptyList();
 	}
 
 }

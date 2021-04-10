@@ -17,10 +17,8 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.data.oda.pojo.api.IPojoDataSet;
 import org.eclipse.birt.data.oda.pojo.impl.internal.PojoDataSetFromCustomClass;
 
-
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 
 /**
  * 
@@ -28,54 +26,46 @@ import static org.junit.Assert.*;
 
 public class PojoDataSetFromCustomClassTest {
 
-	@SuppressWarnings({
-			"unchecked", "nls"
-	})
+	@SuppressWarnings({ "unchecked", "nls" })
 	@Test
-    public void testNext( ) throws OdaException
-	{
+	public void testNext() throws OdaException {
 		Class c = CustomDataSetClass.class;
-		IPojoDataSet pds = new PojoDataSetFromCustomClass( c );
-		pds.open( null, null );
-		assertEquals("1", pds.next( ) );
-		assertEquals("2", pds.next( ) );
-		assertEquals("3", pds.next( ) );
-		assertEquals(null, pds.next( ) );
-		pds.close( );
-		
-		pds.open( null, null );
-		assertEquals("1", pds.next( ) );
-		assertEquals("2", pds.next( ) );
-		assertEquals("3", pds.next( ) );
-		assertEquals(null, pds.next( ) );
-		pds.close( );
+		IPojoDataSet pds = new PojoDataSetFromCustomClass(c);
+		pds.open(null, null);
+		assertEquals("1", pds.next());
+		assertEquals("2", pds.next());
+		assertEquals("3", pds.next());
+		assertEquals(null, pds.next());
+		pds.close();
+
+		pds.open(null, null);
+		assertEquals("1", pds.next());
+		assertEquals("2", pds.next());
+		assertEquals("3", pds.next());
+		assertEquals(null, pds.next());
+		pds.close();
 	}
 
-	public static class CustomDataSetClass
-	{
+	public static class CustomDataSetClass {
 		private int i;
 		private Object[] objects;
+
 		@SuppressWarnings("nls")
-		public void open( Object appContext, Map<String, Object> params )
-		{
-			objects = new Object[]{"1", "2", "3"};
+		public void open(Object appContext, Map<String, Object> params) {
+			objects = new Object[] { "1", "2", "3" };
 			i = 0;
 		}
-		
-		public Object next( )
-		{
-			if ( i >= objects.length )
-			{
-				return null; 
+
+		public Object next() {
+			if (i >= objects.length) {
+				return null;
 			}
 			return objects[i++];
 		}
-		
-		public void close( )
-		{
+
+		public void close() {
 			objects = null;
 		}
-		
+
 	}
 }
-

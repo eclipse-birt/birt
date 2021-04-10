@@ -19,15 +19,14 @@ import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
  * Incremental cache data set design interface.
  */
 
-public interface IIncreCacheDataSetDesign extends IOdaDataSetDesign
-{
+public interface IIncreCacheDataSetDesign extends IOdaDataSetDesign {
 
 	/**
 	 * MODE_INCREMENTAL is one of the incremental cache modes, which cache the
-	 * latest updated data from the remote database and merge to the local cache
-	 * to speed up data accessing. The local cache will be persistent in the
-	 * local disk. In future, we may introduce another cache mode: MODE_EXPIRE,
-	 * in which the local disk cache will be expired in some period.
+	 * latest updated data from the remote database and merge to the local cache to
+	 * speed up data accessing. The local cache will be persistent in the local
+	 * disk. In future, we may introduce another cache mode: MODE_EXPIRE, in which
+	 * the local disk cache will be expired in some period.
 	 */
 	public final static int MODE_PERSISTENT = 1;
 
@@ -37,13 +36,14 @@ public interface IIncreCacheDataSetDesign extends IOdaDataSetDesign
 	 * 
 	 * @return
 	 */
-	public int getCacheMode( );
+	public int getCacheMode();
 
 	/**
 	 * get the specified timestamp column name.
+	 * 
 	 * @return
 	 */
-	public String getTimestampColumn( );
+	public String getTimestampColumn();
 
 	/**
 	 * get the parsed query for updating to retrieve the delta data.
@@ -51,11 +51,12 @@ public interface IIncreCacheDataSetDesign extends IOdaDataSetDesign
 	 * @param time
 	 * @return
 	 */
-	public String getQueryForUpdate( long time );
-	
+	public String getQueryForUpdate(long time);
+
 	/**
 	 * get the configure file URL.
+	 * 
 	 * @return
 	 */
-	public URL getConfigFileUrl( );
+	public URL getConfigFileUrl();
 }

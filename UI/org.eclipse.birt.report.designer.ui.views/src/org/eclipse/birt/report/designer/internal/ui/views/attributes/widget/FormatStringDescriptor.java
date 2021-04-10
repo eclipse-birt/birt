@@ -17,63 +17,47 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatStringLayoutPe
  * Format string page for formatting a string.
  */
 
-public class FormatStringDescriptor extends FormatDescriptor
-{
+public class FormatStringDescriptor extends FormatDescriptor {
 
 	/**
 	 * Constructs a new instance of format string page, default aligns the page
 	 * vertically.
 	 * 
-	 * @param parent
-	 *            The parent container of the page.
-	 * @param style
-	 *            style of the page
+	 * @param parent The parent container of the page.
+	 * @param style  style of the page
 	 */
 
-	public FormatStringDescriptor( )
-	{
-		this( PAGE_ALIGN_VIRTICAL, true );
+	public FormatStringDescriptor() {
+		this(PAGE_ALIGN_VIRTICAL, true);
 	}
 
 	/**
 	 * Constructs a new instance of format string page.
 	 * 
-	 * @param parent
-	 *            The parent container of the page.
-	 * @param style
-	 *            style of the page
-	 * @param pageAlignment
-	 *            Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
-	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
+	 * @param parent        The parent container of the page.
+	 * @param style         style of the page
+	 * @param pageAlignment Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
+	 *                      horizontally(PAGE_ALIGN_HORIZONTAL).
 	 */
 
-	public FormatStringDescriptor( int pageAlignment, boolean isFormStyle )
-	{
-		this( pageAlignment, isFormStyle, true );
+	public FormatStringDescriptor(int pageAlignment, boolean isFormStyle) {
+		this(pageAlignment, isFormStyle, true);
 	}
 
 	/**
 	 * Constructs a new instance of format string page.
 	 * 
-	 * @param parent
-	 *            The parent container of the page.
-	 * @param style
-	 *            style of the page
-	 * @param pageAlignment
-	 *            Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
-	 *            horizontally(PAGE_ALIGN_HORIZONTAL).
-	 * @param showLocale
-	 *            whether the UI to set locale will be shown
+	 * @param parent        The parent container of the page.
+	 * @param style         style of the page
+	 * @param pageAlignment Aligns the page vertically(PAGE_ALIGN_VIRTICAL) or
+	 *                      horizontally(PAGE_ALIGN_HORIZONTAL).
+	 * @param showLocale    whether the UI to set locale will be shown
 	 */
 
-	public FormatStringDescriptor( int pageAlignment, boolean isFormStyle,
-			boolean showLocale )
-	{
-		setFormStyle( isFormStyle );
+	public FormatStringDescriptor(int pageAlignment, boolean isFormStyle, boolean showLocale) {
+		setFormStyle(isFormStyle);
 
-		layoutPeer = new FormatStringLayoutPeer( pageAlignment,
-				isFormStyle,
-				showLocale );
+		layoutPeer = new FormatStringLayoutPeer(pageAlignment, isFormStyle, showLocale);
 	}
 
 }

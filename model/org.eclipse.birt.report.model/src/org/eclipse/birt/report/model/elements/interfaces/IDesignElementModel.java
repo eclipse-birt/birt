@@ -15,12 +15,11 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for constants of abstract design elements.
  */
 
-public interface IDesignElementModel
-{
+public interface IDesignElementModel {
 
 	/**
-	 * Property name sufficed for any string property that can be localized. If
-	 * the property name is "mumble", then the message ID for that property is
+	 * Property name sufficed for any string property that can be localized. If the
+	 * property name is "mumble", then the message ID for that property is
 	 * "mumbleID".
 	 */
 
@@ -33,8 +32,8 @@ public interface IDesignElementModel
 	public static final String CUSTOM_XML_PROP = "customXml"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that holds comments about the element. Comments
-	 * cannot be localized: they are for the use of the report developer.
+	 * Name of the property that holds comments about the element. Comments cannot
+	 * be localized: they are for the use of the report developer.
 	 */
 
 	public static final String COMMENTS_PROP = "comments"; //$NON-NLS-1$
@@ -60,14 +59,14 @@ public interface IDesignElementModel
 
 	/**
 	 * Name or reference to the element that this element extends. The extends
-	 * property is <em>intrinsic</em>: it is available as a property, but is
-	 * stored as a field.
+	 * property is <em>intrinsic</em>: it is available as a property, but is stored
+	 * as a field.
 	 */
 	public static final String EXTENDS_PROP = "extends"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that holds masks of BIRT/user defined properties for
-	 * the element.
+	 * Name of the property that holds masks of BIRT/user defined properties for the
+	 * element.
 	 */
 
 	public static final String PROPERTY_MASKS_PROP = "propertyMasks"; //$NON-NLS-1$
@@ -85,14 +84,14 @@ public interface IDesignElementModel
 	public static final String EVENT_HANDLER_CLASS_PROP = "eventHandlerClass"; //$NON-NLS-1$
 
 	/**
-	 * Name of the new handler on each event. This property controls if the
-	 * event handler should be created.
+	 * Name of the new handler on each event. This property controls if the event
+	 * handler should be created.
 	 */
 	public static final String NEW_HANDLER_ON_EACH_EVENT_PROP = "newHandlerOnEachEvent"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that defines the referred template parameter
-	 * definition. Its value is instance of ElementRefValue.
+	 * Name of the property that defines the referred template parameter definition.
+	 * Its value is instance of ElementRefValue.
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.ElementRefValue
 	 */
@@ -112,8 +111,8 @@ public interface IDesignElementModel
 	public static final int NO_SLOT = -1;
 
 	/**
-	 * Marker to indicate that at which level the user want to get the display
-	 * label of this element. The display name or name of element.
+	 * Marker to indicate that at which level the user want to get the display label
+	 * of this element. The display name or name of element.
 	 */
 
 	public static final int USER_LABEL = 0;

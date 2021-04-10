@@ -26,35 +26,33 @@ import org.eclipse.birt.report.engine.api.IRenderTask;
  * 
  */
 
-public class HTMLMastePageMarginsTest extends HTMLReportEmitterTestCase
-{
+public class HTMLMastePageMarginsTest extends HTMLReportEmitterTestCase {
 	private static String designFile = "org/eclipse/birt/report/engine/emitter/html/TableTextDecoration.xml";
-	public String getWorkSpace( )
-	{
+
+	public String getWorkSpace() {
 		// TODO Auto-generated method stub
 		return "./htmlMastePageMarginsTest";
 	}
-	
-	public void testVisionOptimize( ) throws EngineException, IOException
-	{
-		HTMLRenderOption options = new HTMLRenderOption( );
-		options.setOutputMasterPageMargins( true );
-		options.setEmbeddable( false );
-		
-		ByteArrayOutputStream output = new ByteArrayOutputStream( );
-		List instanceIDs = new ArrayList( );
-		options.setInstanceIDs( instanceIDs );
-		options.setOutputStream( output );
-		options.setEnableMetadata( true );
-		IRenderTask task = createRenderTask( designFile );
-		task.setRenderOption( options );
-		task.render( );
-		task.close( );
-		String content = new String( output.toByteArray( ) );
-		output.close( );
-		
+
+	public void testVisionOptimize() throws EngineException, IOException {
+		HTMLRenderOption options = new HTMLRenderOption();
+		options.setOutputMasterPageMargins(true);
+		options.setEmbeddable(false);
+
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		List instanceIDs = new ArrayList();
+		options.setInstanceIDs(instanceIDs);
+		options.setOutputStream(output);
+		options.setEnableMetadata(true);
+		IRenderTask task = createRenderTask(designFile);
+		task.setRenderOption(options);
+		task.render();
+		task.close();
+		String content = new String(output.toByteArray());
+		output.close();
+
 		String regex = "<col style=\"width: 1.25in;\">";
-		Matcher matcher = Pattern.compile( regex ).matcher( content );
-		assertEquals( true, matcher.find( ) );
+		Matcher matcher = Pattern.compile(regex).matcher(content);
+		assertEquals(true, matcher.find());
 	}
 }

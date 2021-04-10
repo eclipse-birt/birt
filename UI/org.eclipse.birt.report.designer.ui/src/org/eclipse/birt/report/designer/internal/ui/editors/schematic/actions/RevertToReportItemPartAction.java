@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -18,33 +18,33 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 
-
 /**
  * 
  */
 
-public class RevertToReportItemPartAction extends WrapperSelectionAction
-{
-	public static final String ID="org.eclipse.birt.report.designer.internal.ui.views.actions.RevertToReportItemAction"; //$NON-NLS-1$
-	private static final String DEFAULT_TEXT = Messages.getString( "RevertToReportItemAction.text" ); //$NON-NLS-1$	
+public class RevertToReportItemPartAction extends WrapperSelectionAction {
+	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.views.actions.RevertToReportItemAction"; //$NON-NLS-1$
+	private static final String DEFAULT_TEXT = Messages.getString("RevertToReportItemAction.text"); //$NON-NLS-1$
 
 	/**
 	 * @param part
 	 */
-	public RevertToReportItemPartAction( IWorkbenchPart part )
-	{
-		super( part );
-		
-		setId( ID );
-		setText( DEFAULT_TEXT );
+	public RevertToReportItemPartAction(IWorkbenchPart part) {
+		super(part);
+
+		setId(ID);
+		setText(DEFAULT_TEXT);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.ISelection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
+	 * WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.
+	 * ISelection)
 	 */
-	protected IAction createActionHandler( ISelection model )
-	{
-		return new RevertToReportItemAction( model );
+	protected IAction createActionHandler(ISelection model) {
+		return new RevertToReportItemAction(model);
 	}
 
 	/**
@@ -52,8 +52,7 @@ public class RevertToReportItemPartAction extends WrapperSelectionAction
 	 * 
 	 * @return returns the stack
 	 */
-	protected CommandStack getActiveCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	protected CommandStack getActiveCommandStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 }

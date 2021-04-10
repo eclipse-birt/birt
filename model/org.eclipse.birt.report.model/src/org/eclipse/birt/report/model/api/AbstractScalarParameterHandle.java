@@ -23,22 +23,17 @@ import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParamete
  */
 
 public abstract class AbstractScalarParameterHandle extends AbstractScalarParameterHandleImpl
-		implements
-			IAbstractScalarParameterModel
-{
+		implements IAbstractScalarParameterModel {
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public AbstractScalarParameterHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public AbstractScalarParameterHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 }

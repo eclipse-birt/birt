@@ -25,10 +25,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
  * represents its appearance.
  */
 
-public class MultiViewsHandle extends AbstractMultiViewsHandle
-		implements
-			IMultiViewsModel
-{
+public class MultiViewsHandle extends AbstractMultiViewsHandle implements IMultiViewsModel {
 
 	/**
 	 * 
@@ -37,20 +34,17 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle
 	private MultiViewsElementProvider provider = null;
 
 	/**
-	 * Constructs a handle for the given design and design element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * Constructs a handle for the given design and design element. The application
+	 * generally does not create handles directly. Instead, it uses one of the
+	 * navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public MultiViewsHandle( Module module, AbstractMultiViews element )
-	{
-		super( module, element );
-		provider = new MultiViewsElementProvider( this );
+	public MultiViewsHandle(Module module, AbstractMultiViews element) {
+		super(module, element);
+		provider = new MultiViewsElementProvider(this);
 	}
 
 	/*
@@ -59,8 +53,7 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
@@ -71,9 +64,8 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle
 	 *         <code>ReportItemHandle</code>.
 	 */
 
-	protected List getViews( )
-	{
-		return provider.getViews( );
+	protected List getViews() {
+		return provider.getViews();
 	}
 
 	/**
@@ -82,51 +74,42 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle
 	 * @return the view that is being used
 	 */
 
-	public DesignElementHandle getCurrentView( )
-	{
-		return provider.getCurrentView( );
+	public DesignElementHandle getCurrentView() {
+		return provider.getCurrentView();
 	}
 
 	/**
 	 * Sets the index for the view to be used.
 	 * 
-	 * @param index
-	 *            a 0-based integer
+	 * @param index a 0-based integer
 	 * 
 	 * @throws SemanticException
 	 */
 
-	public void setCurrentViewIndex( int index ) throws SemanticException
-	{
-		provider.setCurrentViewIndex( index );
+	public void setCurrentViewIndex(int index) throws SemanticException {
+		provider.setCurrentViewIndex(index);
 	}
 
 	/**
 	 * Adds a new element as the view.
 	 * 
-	 * @param viewElement
-	 *            the element
+	 * @param viewElement the element
 	 * @throws SemanticException
 	 */
 
-	public void addView( DesignElementHandle viewElement )
-			throws SemanticException
-	{
-		provider.addView( viewElement );
+	public void addView(DesignElementHandle viewElement) throws SemanticException {
+		provider.addView(viewElement);
 	}
 
 	/**
-	 * Deletes the given view. If the given element was named as the current
-	 * view, this method also set the current view to <code>HOST</code>.
+	 * Deletes the given view. If the given element was named as the current view,
+	 * this method also set the current view to <code>HOST</code>.
 	 * 
-	 * @param viewElement
-	 *            the view element
+	 * @param viewElement the view element
 	 * @throws SemanticException
 	 */
 
-	public void dropView( DesignElementHandle viewElement )
-			throws SemanticException
-	{
-		provider.dropView( viewElement );
+	public void dropView(DesignElementHandle viewElement) throws SemanticException {
+		provider.dropView(viewElement);
 	}
 }

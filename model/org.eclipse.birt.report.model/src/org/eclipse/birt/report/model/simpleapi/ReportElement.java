@@ -16,14 +16,12 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IReportElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 
-public class ReportElement extends DesignElement implements IReportElement
-{
+public class ReportElement extends DesignElement implements IReportElement {
 
 	private ReportElementHandle reportElementHandle;
 
-	public ReportElement( ReportElementHandle handle )
-	{
-		super( handle );
+	public ReportElement(ReportElementHandle handle) {
+		super(handle);
 		this.reportElementHandle = handle;
 	}
 
@@ -35,47 +33,40 @@ public class ReportElement extends DesignElement implements IReportElement
 	 * (java.lang.String)
 	 */
 
-	public void setCustomXml( String customXml ) throws SemanticException
-	{
-		setProperty( IDesignElementModel.CUSTOM_XML_PROP, customXml );
+	public void setCustomXml(String customXml) throws SemanticException {
+		setProperty(IDesignElementModel.CUSTOM_XML_PROP, customXml);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getName()
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getName()
 	 */
 
-	public String getName( )
-	{
-		return reportElementHandle.getName( );
+	public String getName() {
+		return reportElementHandle.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setName
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setName
 	 * (java.lang.String)
 	 */
 
-	public void setName( String name ) throws SemanticException
-	{
-		setProperty( IDesignElementModel.NAME_PROP, name );
+	public void setName(String name) throws SemanticException {
+		setProperty(IDesignElementModel.NAME_PROP, name);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getCustomXml
-	 * ()
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getCustomXml ()
 	 */
 
-	public String getCustomXml( )
-	{
-		return reportElementHandle.getCustomXml( );
+	public String getCustomXml() {
+		return reportElementHandle.getCustomXml();
 	}
 
 	/*
@@ -86,22 +77,19 @@ public class ReportElement extends DesignElement implements IReportElement
 	 * (java.lang.String)
 	 */
 
-	public void setComments( String theComments ) throws SemanticException
-	{
-		setProperty( IDesignElementModel.COMMENTS_PROP, theComments );
+	public void setComments(String theComments) throws SemanticException {
+		setProperty(IDesignElementModel.COMMENTS_PROP, theComments);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getComments
-	 * ()
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getComments ()
 	 */
 
-	public String getComments( )
-	{
-		return reportElementHandle.getComments( );
+	public String getComments() {
+		return reportElementHandle.getComments();
 	}
 
 	/*
@@ -111,10 +99,8 @@ public class ReportElement extends DesignElement implements IReportElement
 	 * setDisplayNameKey(java.lang.String)
 	 */
 
-	public void setDisplayNameKey( String displayNameKey )
-			throws SemanticException
-	{
-		setProperty( IDesignElementModel.DISPLAY_NAME_ID_PROP, displayNameKey );
+	public void setDisplayNameKey(String displayNameKey) throws SemanticException {
+		setProperty(IDesignElementModel.DISPLAY_NAME_ID_PROP, displayNameKey);
 	}
 
 	/*
@@ -124,9 +110,8 @@ public class ReportElement extends DesignElement implements IReportElement
 	 * getDisplayNameKey()
 	 */
 
-	public String getDisplayNameKey( )
-	{
-		return reportElementHandle.getDisplayNameKey( );
+	public String getDisplayNameKey() {
+		return reportElementHandle.getDisplayNameKey();
 	}
 
 	/*
@@ -137,10 +122,9 @@ public class ReportElement extends DesignElement implements IReportElement
 	 * (java.lang.String)
 	 */
 
-	public void setDisplayName( String displayName ) throws SemanticException
-	{
+	public void setDisplayName(String displayName) throws SemanticException {
 
-		setProperty( IDesignElementModel.DISPLAY_NAME_PROP, displayName );
+		setProperty(IDesignElementModel.DISPLAY_NAME_PROP, displayName);
 	}
 
 	/*
@@ -151,8 +135,7 @@ public class ReportElement extends DesignElement implements IReportElement
 	 * ()
 	 */
 
-	public String getDisplayName( )
-	{
-		return reportElementHandle.getDisplayName( );
+	public String getDisplayName() {
+		return reportElementHandle.getDisplayName();
 	}
 }

@@ -13,12 +13,9 @@ package org.eclipse.birt.report.engine.extension.engine;
 
 import org.eclipse.birt.report.engine.api.IReportEngine;
 
-abstract public class ReportEngineExtensionFactoryAdapter
-		implements
-			IReportEngineExtensionFactory
-{
+abstract public class ReportEngineExtensionFactoryAdapter implements IReportEngineExtensionFactory {
 
-	abstract public IReportEngineExtension createExtension( IReportEngine engine );
+	abstract public IReportEngineExtension createExtension(IReportEngine engine);
 
-	abstract public String getExtensionName( );
+	abstract public String getExtensionName();
 }

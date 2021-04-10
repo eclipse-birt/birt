@@ -30,14 +30,13 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * dataSetName ); ...
  * 
  * <pre>
- * PropertyHandle ph = ds.getPropertyHandle( ScriptDataSetHandle.RESULT_SET_PROP );
- * for ( int i = 0; i &lt; columns.length; i++ )
- * {
- * 	ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
- * 	rsc.setPosition( new Integer( i + 1 ) );
- * 	rsc.setColumnName( columns[i].getName( ) );
- * 	rsc.setDataType( columns[i].getType( ).dataType );
- * 	ph.addItem( rsc ); //&lt;= NPE 
+ * PropertyHandle ph = ds.getPropertyHandle(ScriptDataSetHandle.RESULT_SET_PROP);
+ * for (int i = 0; i &lt; columns.length; i++) {
+ * 	ResultSetColumn rsc = StructureFactory.createResultSetColumn();
+ * 	rsc.setPosition(new Integer(i + 1));
+ * 	rsc.setColumnName(columns[i].getName());
+ * 	rsc.setDataType(columns[i].getType().dataType);
+ * 	ph.addItem(rsc); // &lt;= NPE
  * }
  * </pre>
  * 
@@ -57,26 +56,22 @@ public class Regression_156977 extends BaseTestCase
 	/**
 	 * @throws SemanticException
 	 */
-	public void test_regression_156977( ) throws SemanticException
-	{
-		createDesign( );
+	public void test_regression_156977() throws SemanticException {
+		createDesign();
 
-		ScriptDataSetHandle ds = designHandle.getElementFactory( )
-				.newScriptDataSet( "dataSet1" ); //$NON-NLS-1$
+		ScriptDataSetHandle ds = designHandle.getElementFactory().newScriptDataSet("dataSet1"); //$NON-NLS-1$
 
-		PropertyHandle ph = ds
-				.getPropertyHandle( ScriptDataSetHandle.RESULT_SET_PROP );
+		PropertyHandle ph = ds.getPropertyHandle(ScriptDataSetHandle.RESULT_SET_PROP);
 
-		assertNotNull( ph );
+		assertNotNull(ph);
 
-		for ( int i = 0; i < 2; i++ )
-		{
-			ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
-			rsc.setPosition( new Integer( i + 1 ) );
-			rsc.setColumnName( "COLUMN_" + i ); //$NON-NLS-1$
-			rsc.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL );
+		for (int i = 0; i < 2; i++) {
+			ResultSetColumn rsc = StructureFactory.createResultSetColumn();
+			rsc.setPosition(new Integer(i + 1));
+			rsc.setColumnName("COLUMN_" + i); //$NON-NLS-1$
+			rsc.setDataType(DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL);
 
-			ph.addItem( rsc );
+			ph.addItem(rsc);
 		}
 	}
 }

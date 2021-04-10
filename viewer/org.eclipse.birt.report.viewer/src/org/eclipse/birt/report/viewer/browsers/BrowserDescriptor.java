@@ -15,8 +15,7 @@ import org.eclipse.help.browser.IBrowserFactory;
  * Browser descriptor class.
  * <p>
  */
-public class BrowserDescriptor
-{
+public class BrowserDescriptor {
 	private String browserID;
 
 	private String browserLabel;
@@ -26,12 +25,11 @@ public class BrowserDescriptor
 	/**
 	 * Browser descriptor constructor.
 	 * 
-	 * @param id ID of a browser as specified in plugin.xml
-	 * @param label name of the browser
+	 * @param id      ID of a browser as specified in plugin.xml
+	 * @param label   name of the browser
 	 * @param factory factory that creates instances of this browser
 	 */
-	public BrowserDescriptor( String id, String label, IBrowserFactory factory )
-	{
+	public BrowserDescriptor(String id, String label, IBrowserFactory factory) {
 		this.browserID = id;
 
 		this.browserLabel = label;
@@ -44,18 +42,16 @@ public class BrowserDescriptor
 	 * 
 	 * @return browser id
 	 */
-	public String getID( )
-	{
+	public String getID() {
 		return browserID;
 	}
 
 	/**
 	 * Get browser label
 	 * 
-	 * @return browser label 
+	 * @return browser label
 	 */
-	public String getLabel( )
-	{
+	public String getLabel() {
 		return browserLabel;
 	}
 
@@ -64,8 +60,7 @@ public class BrowserDescriptor
 	 * 
 	 * @return browser factory instance
 	 */
-	public IBrowserFactory getFactory( )
-	{
+	public IBrowserFactory getFactory() {
 		return factory;
 	}
 
@@ -74,8 +69,7 @@ public class BrowserDescriptor
 	 * 
 	 * @return browser external or not
 	 */
-	public boolean isExternal( )
-	{
-		return !BrowserManager.BROWSER_ID_EMBEDDED.equals( getID( ) );
+	public boolean isExternal() {
+		return !BrowserManager.BROWSER_ID_EMBEDDED.equals(getID());
 	}
 }

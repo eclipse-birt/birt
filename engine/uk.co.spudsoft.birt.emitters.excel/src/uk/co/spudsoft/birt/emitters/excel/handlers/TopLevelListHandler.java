@@ -36,31 +36,32 @@ import uk.co.spudsoft.birt.emitters.excel.HandlerState;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 public class TopLevelListHandler extends AbstractRealListHandler {
-	
+
 	private Stack<Integer> groupStarts;
-	
-	public TopLevelListHandler(Logger log,IHandler parent, IListContent list) {
+
+	public TopLevelListHandler(Logger log, IHandler parent, IListContent list) {
 		super(log, parent, list);
 	}
-	
+
 	@Override
 	public void startList(HandlerState state, IListContent list) throws BirtException {
-		log.debug( "Call startList on ", this );
+		log.debug("Call startList on ", this);
 		super.startList(state, list);
 		String name = list.getName();
-		if( ( name != null ) && ! name.isEmpty() ) {
+		if ((name != null) && !name.isEmpty()) {
 			state.sheetName = name;
 		}
 
-		String password = EmitterServices.stringOption( state.getRenderOptions(), list, ExcelEmitter.SHEET_PASSWORD, null);
-		if( ( password != null ) && ! password.isEmpty() ) {
+		String password = EmitterServices.stringOption(state.getRenderOptions(), list, ExcelEmitter.SHEET_PASSWORD,
+				null);
+		if ((password != null) && !password.isEmpty()) {
 			state.sheetPassword = password;
 		}
-		
+
 		BirtStyle birtStyle = new BirtStyle(list);
-		log.debug( "List Style: {}", birtStyle );
+		log.debug("List Style: {}", birtStyle);
 	}
-	
+
 	@Override
 	public void startTable(HandlerState state, ITableContent table) throws BirtException {
 		++state.colNum;
@@ -70,27 +71,27 @@ public class TopLevelListHandler extends AbstractRealListHandler {
 
 	@Override
 	public void startListGroup(HandlerState state, IListGroupContent group) throws BirtException {
-		if( groupStarts == null ) {
+		if (groupStarts == null) {
 			groupStarts = new Stack<Integer>();
 		}
 		groupStarts.push(state.rowNum);
-		
-		
+
 		Object groupDesignObject = group.getGenerateBy();
-		if( groupDesignObject instanceof ListGroupDesign ) {
-			ListGroupDesign groupDesign = (ListGroupDesign)groupDesignObject;
-			if( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS.equals( groupDesign.getPageBreakBefore() )
-					|| DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST.equals( groupDesign.getPageBreakBefore() )
-					|| DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS.equals( groupDesign.getPageBreakAfter() )
-					|| DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST.equals( groupDesign.getPageBreakAfter() )
-					) {
-				if( group.getTOC() != null ) {
+		if (groupDesignObject instanceof ListGroupDesign) {
+			ListGroupDesign groupDesign = (ListGroupDesign) groupDesignObject;
+			if (DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS.equals(groupDesign.getPageBreakBefore())
+					|| DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST
+							.equals(groupDesign.getPageBreakBefore())
+					|| DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS.equals(groupDesign.getPageBreakAfter())
+					|| DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST
+							.equals(groupDesign.getPageBreakAfter())) {
+				if (group.getTOC() != null) {
 					state.sheetName = group.getTOC().toString();
 				}
 			}
 		}
 	}
-	
+
 	@Override
 	public void startListBand(HandlerState state, IListBandContent band) throws BirtException {
 		super.startListBand(state, band);
@@ -99,16 +100,16 @@ public class TopLevelListHandler extends AbstractRealListHandler {
 	@Override
 	public void endListGroup(HandlerState state, IListGroupContent group) throws BirtException {
 		int start = groupStarts.pop();
-		if( start < state.rowNum - 2 ) {
-				
+		if (start < state.rowNum - 2) {
+
 			boolean disableGrouping = false;
-			
+
 			// Report user props and context first
-			if( EmitterServices.booleanOption( state.getRenderOptions(), group, ExcelEmitter.DISABLE_GROUPING, false ) ) {
+			if (EmitterServices.booleanOption(state.getRenderOptions(), group, ExcelEmitter.DISABLE_GROUPING, false)) {
 				disableGrouping = true;
 			}
 
-			if( ! disableGrouping ) {
+			if (!disableGrouping) {
 				state.currentSheet.groupRow(start, state.rowNum - 2);
 			}
 		}
@@ -149,6 +150,5 @@ public class TopLevelListHandler extends AbstractRealListHandler {
 		state.setHandler(new TopLevelContentHandler(state.getEmitter(), log, this));
 		state.getHandler().emitImage(state, image);
 	}
-	
-	
+
 }

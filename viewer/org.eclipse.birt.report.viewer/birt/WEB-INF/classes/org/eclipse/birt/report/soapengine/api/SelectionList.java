@@ -7,166 +7,152 @@
 
 package org.eclipse.birt.report.soapengine.api;
 
-public class SelectionList  implements java.io.Serializable {
-    private static final long serialVersionUID = 1L;
+public class SelectionList implements java.io.Serializable {
+	private static final long serialVersionUID = 1L;
 	private java.lang.String name;
-    private org.eclipse.birt.report.soapengine.api.SelectItemChoice[] selections;
+	private org.eclipse.birt.report.soapengine.api.SelectItemChoice[] selections;
 
-    public SelectionList() {
-    }
+	public SelectionList() {
+	}
 
-    public SelectionList(
-           java.lang.String name,
-           org.eclipse.birt.report.soapengine.api.SelectItemChoice[] selections) {
-           this.name = name;
-           this.selections = selections;
-    }
+	public SelectionList(java.lang.String name, org.eclipse.birt.report.soapengine.api.SelectItemChoice[] selections) {
+		this.name = name;
+		this.selections = selections;
+	}
 
+	/**
+	 * Gets the name value for this SelectionList.
+	 * 
+	 * @return name
+	 */
+	public java.lang.String getName() {
+		return name;
+	}
 
-    /**
-     * Gets the name value for this SelectionList.
-     * 
-     * @return name
-     */
-    public java.lang.String getName() {
-        return name;
-    }
+	/**
+	 * Sets the name value for this SelectionList.
+	 * 
+	 * @param name
+	 */
+	public void setName(java.lang.String name) {
+		this.name = name;
+	}
 
+	/**
+	 * Gets the selections value for this SelectionList.
+	 * 
+	 * @return selections
+	 */
+	public org.eclipse.birt.report.soapengine.api.SelectItemChoice[] getSelections() {
+		return selections;
+	}
 
-    /**
-     * Sets the name value for this SelectionList.
-     * 
-     * @param name
-     */
-    public void setName(java.lang.String name) {
-        this.name = name;
-    }
+	/**
+	 * Sets the selections value for this SelectionList.
+	 * 
+	 * @param selections
+	 */
+	public void setSelections(org.eclipse.birt.report.soapengine.api.SelectItemChoice[] selections) {
+		this.selections = selections;
+	}
 
+	public org.eclipse.birt.report.soapengine.api.SelectItemChoice getSelections(int i) {
+		return this.selections[i];
+	}
 
-    /**
-     * Gets the selections value for this SelectionList.
-     * 
-     * @return selections
-     */
-    public org.eclipse.birt.report.soapengine.api.SelectItemChoice[] getSelections() {
-        return selections;
-    }
+	public void setSelections(int i, org.eclipse.birt.report.soapengine.api.SelectItemChoice _value) {
+		this.selections[i] = _value;
+	}
 
+	private java.lang.Object __equalsCalc = null;
 
-    /**
-     * Sets the selections value for this SelectionList.
-     * 
-     * @param selections
-     */
-    public void setSelections(org.eclipse.birt.report.soapengine.api.SelectItemChoice[] selections) {
-        this.selections = selections;
-    }
+	public synchronized boolean equals(java.lang.Object obj) {
+		if (!(obj instanceof SelectionList))
+			return false;
+		SelectionList other = (SelectionList) obj;
+		if (obj == null)
+			return false;
+		if (this == obj)
+			return true;
+		if (__equalsCalc != null) {
+			return (__equalsCalc == obj);
+		}
+		__equalsCalc = obj;
+		boolean _equals;
+		_equals = true
+				&& ((this.name == null && other.getName() == null)
+						|| (this.name != null && this.name.equals(other.getName())))
+				&& ((this.selections == null && other.getSelections() == null) || (this.selections != null
+						&& java.util.Arrays.equals(this.selections, other.getSelections())));
+		__equalsCalc = null;
+		return _equals;
+	}
 
-    public org.eclipse.birt.report.soapengine.api.SelectItemChoice getSelections(int i) {
-        return this.selections[i];
-    }
+	private boolean __hashCodeCalc = false;
 
-    public void setSelections(int i, org.eclipse.birt.report.soapengine.api.SelectItemChoice _value) {
-        this.selections[i] = _value;
-    }
+	public synchronized int hashCode() {
+		if (__hashCodeCalc) {
+			return 0;
+		}
+		__hashCodeCalc = true;
+		int _hashCode = 1;
+		if (getName() != null) {
+			_hashCode += getName().hashCode();
+		}
+		if (getSelections() != null) {
+			for (int i = 0; i < java.lang.reflect.Array.getLength(getSelections()); i++) {
+				java.lang.Object obj = java.lang.reflect.Array.get(getSelections(), i);
+				if (obj != null && !obj.getClass().isArray()) {
+					_hashCode += obj.hashCode();
+				}
+			}
+		}
+		__hashCodeCalc = false;
+		return _hashCode;
+	}
 
-    private java.lang.Object __equalsCalc = null;
-    public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof SelectionList)) return false;
-        SelectionList other = (SelectionList) obj;
-        if (obj == null) return false;
-        if (this == obj) return true;
-        if (__equalsCalc != null) {
-            return (__equalsCalc == obj);
-        }
-        __equalsCalc = obj;
-        boolean _equals;
-        _equals = true && 
-            ((this.name==null && other.getName()==null) || 
-             (this.name!=null &&
-              this.name.equals(other.getName()))) &&
-            ((this.selections==null && other.getSelections()==null) || 
-             (this.selections!=null &&
-              java.util.Arrays.equals(this.selections, other.getSelections())));
-        __equalsCalc = null;
-        return _equals;
-    }
+	// Type metadata
+	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(
+			SelectionList.class, true);
 
-    private boolean __hashCodeCalc = false;
-    public synchronized int hashCode() {
-        if (__hashCodeCalc) {
-            return 0;
-        }
-        __hashCodeCalc = true;
-        int _hashCode = 1;
-        if (getName() != null) {
-            _hashCode += getName().hashCode();
-        }
-        if (getSelections() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getSelections());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getSelections(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
-        }
-        __hashCodeCalc = false;
-        return _hashCode;
-    }
+	static {
+		typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectionList"));
+		org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+		elemField.setFieldName("name");
+		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
+		elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+		elemField.setNillable(false);
+		typeDesc.addFieldDesc(elemField);
+		elemField = new org.apache.axis.description.ElementDesc();
+		elemField.setFieldName("selections");
+		elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Selections"));
+		elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectItemChoice"));
+		elemField.setNillable(false);
+		elemField.setMaxOccursUnbounded(true);
+		typeDesc.addFieldDesc(elemField);
+	}
 
-    // Type metadata
-    private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(SelectionList.class, true);
+	/**
+	 * Return type metadata object
+	 */
+	public static org.apache.axis.description.TypeDesc getTypeDesc() {
+		return typeDesc;
+	}
 
-    static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectionList"));
-        org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("name");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Name"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("selections");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "Selections"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://schemas.eclipse.org/birt", "SelectItemChoice"));
-        elemField.setNillable(false);
-        elemField.setMaxOccursUnbounded(true);
-        typeDesc.addFieldDesc(elemField);
-    }
+	/**
+	 * Get Custom Serializer
+	 */
+	public static org.apache.axis.encoding.Serializer getSerializer(java.lang.String mechType,
+			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
+		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
+	}
 
-    /**
-     * Return type metadata object
-     */
-    public static org.apache.axis.description.TypeDesc getTypeDesc() {
-        return typeDesc;
-    }
-
-    /**
-     * Get Custom Serializer
-     */
-    public static org.apache.axis.encoding.Serializer getSerializer(
-           java.lang.String mechType, 
-           java.lang.Class _javaType,  
-           javax.xml.namespace.QName _xmlType) {
-        return 
-          new  org.apache.axis.encoding.ser.BeanSerializer(
-            _javaType, _xmlType, typeDesc);
-    }
-
-    /**
-     * Get Custom Deserializer
-     */
-    public static org.apache.axis.encoding.Deserializer getDeserializer(
-           java.lang.String mechType, 
-           java.lang.Class _javaType,  
-           javax.xml.namespace.QName _xmlType) {
-        return 
-          new  org.apache.axis.encoding.ser.BeanDeserializer(
-            _javaType, _xmlType, typeDesc);
-    }
+	/**
+	 * Get Custom Deserializer
+	 */
+	public static org.apache.axis.encoding.Deserializer getDeserializer(java.lang.String mechType,
+			java.lang.Class _javaType, javax.xml.namespace.QName _xmlType) {
+		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
+	}
 
 }

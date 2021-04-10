@@ -28,122 +28,105 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The section attribute page of DE element.
  */
-public class SectionPage extends ResetAttributePage
-{
+public class SectionPage extends ResetAttributePage {
 
 	private SimpleComboSection masterSection;
 	private SeperatorSection sepSection;
 
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5 ) );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(5));
 
 		// Defines providers.
 
-		ComboPropertyDescriptorProvider beforeProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_BEFORE_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		beforeProvider.enableReset( true );
+		ComboPropertyDescriptorProvider beforeProvider = new ComboPropertyDescriptorProvider(
+				StyleHandle.PAGE_BREAK_BEFORE_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		beforeProvider.enableReset(true);
 
-		SimpleComboPropertyDescriptorProvider masterProvider = new SimpleComboPropertyDescriptorProvider( StyleHandle.MASTER_PAGE_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		
+		SimpleComboPropertyDescriptorProvider masterProvider = new SimpleComboPropertyDescriptorProvider(
+				StyleHandle.MASTER_PAGE_PROP, ReportDesignConstants.STYLE_ELEMENT);
+
 		masterProvider.enableReset(true);
 
-		ComboPropertyDescriptorProvider afterProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_AFTER_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		afterProvider.enableReset( true );
-		
-		ComboPropertyDescriptorProvider insideProvider = new ComboPropertyDescriptorProvider( StyleHandle.PAGE_BREAK_INSIDE_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		insideProvider.enableReset( true );
+		ComboPropertyDescriptorProvider afterProvider = new ComboPropertyDescriptorProvider(
+				StyleHandle.PAGE_BREAK_AFTER_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		afterProvider.enableReset(true);
+
+		ComboPropertyDescriptorProvider insideProvider = new ComboPropertyDescriptorProvider(
+				StyleHandle.PAGE_BREAK_INSIDE_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		insideProvider.enableReset(true);
 
 		// Defines sections.
 
-		ComboSection beforeSection = new ComboSection( beforeProvider.getDisplayName( ),
-				container,
-				true );
-		
-		ComboSection insideSection = new ComboSection( insideProvider.getDisplayName( ),
-				container,
-				true );
+		ComboSection beforeSection = new ComboSection(beforeProvider.getDisplayName(), container, true);
 
-		masterSection = new SimpleComboSection( masterProvider.getDisplayName( ),
-						container,
-						true );
-		ComboSection afterSection = new ComboSection( afterProvider.getDisplayName( ),
-				container,
-				true );
-		
-		sepSection = new SeperatorSection(container,SWT.HORIZONTAL);
-		beforeSection.setProvider( beforeProvider );
-		masterSection.setProvider( masterProvider );
-		afterSection.setProvider( afterProvider );
-		insideSection.setProvider( insideProvider );
-		
+		ComboSection insideSection = new ComboSection(insideProvider.getDisplayName(), container, true);
+
+		masterSection = new SimpleComboSection(masterProvider.getDisplayName(), container, true);
+		ComboSection afterSection = new ComboSection(afterProvider.getDisplayName(), container, true);
+
+		sepSection = new SeperatorSection(container, SWT.HORIZONTAL);
+		beforeSection.setProvider(beforeProvider);
+		masterSection.setProvider(masterProvider);
+		afterSection.setProvider(afterProvider);
+		insideSection.setProvider(insideProvider);
+
 		// Sets widths.
 
-		beforeSection.setWidth( 200 );
-		masterSection.setWidth( 200 );
-		afterSection.setWidth( 200 );
-		insideSection.setWidth( 200 );
+		beforeSection.setWidth(200);
+		masterSection.setWidth(200);
+		afterSection.setWidth(200);
+		insideSection.setWidth(200);
 
 		// Sets layout num.
 
-		beforeSection.setLayoutNum( 2 );
-		afterSection.setLayoutNum( 3 );
+		beforeSection.setLayoutNum(2);
+		afterSection.setLayoutNum(3);
 
 		// Sets fill grid num.
 
-		masterSection.setGridPlaceholder( 3, true );
-		afterSection.setGridPlaceholder( 1, true );
-		insideSection.setGridPlaceholder( 3, true );
+		masterSection.setGridPlaceholder(3, true);
+		afterSection.setGridPlaceholder(1, true);
+		insideSection.setGridPlaceholder(3, true);
 
 		// Adds sections into container page.
 
-		addSection( PageSectionId.SECION_PAGE_BREAK_BEFORE, beforeSection ); //$NON-NLS-1$
-		addSection( PageSectionId.SECION_PAGE_BREAK_AFTER, afterSection ); //$NON-NLS-1$
-		addSection( PageSectionId.SECION_PAGE_BREAK_INSIDE, insideSection ); //$NON-NLS-1$
-		addSection( PageSectionId.SECION_SEPERATOR, sepSection ); //$NON-NLS-1$
-		addSection( PageSectionId.SECION_MASTER_PAGE, masterSection ); //$NON-NLS-1$
+		addSection(PageSectionId.SECION_PAGE_BREAK_BEFORE, beforeSection); // $NON-NLS-1$
+		addSection(PageSectionId.SECION_PAGE_BREAK_AFTER, afterSection); // $NON-NLS-1$
+		addSection(PageSectionId.SECION_PAGE_BREAK_INSIDE, insideSection); // $NON-NLS-1$
+		addSection(PageSectionId.SECION_SEPERATOR, sepSection); // $NON-NLS-1$
+		addSection(PageSectionId.SECION_MASTER_PAGE, masterSection); // $NON-NLS-1$
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
-	
-	public void refresh( )
-	{
-		super.refresh( );
-		setVisible( );
-		container.layout( true );
-		container.redraw( );
+
+	public void refresh() {
+		super.refresh();
+		setVisible();
+		container.layout(true);
+		container.redraw();
 	}
-	
-	protected void setVisible(){
-		if ( DEUtil.getInputSize( input ) == 1
-				&& DEUtil.getInputFirstElement( input ) instanceof DesignElementHandle
-				&&  isElementInMasterPage( (DesignElementHandle)DEUtil.getInputFirstElement( input ) ) )
-		{
-			masterSection.setVisible( false );
-			sepSection.setVisible( false );
-		}
-		else{
-			masterSection.setVisible( true );
-			sepSection.setVisible( true );
+
+	protected void setVisible() {
+		if (DEUtil.getInputSize(input) == 1 && DEUtil.getInputFirstElement(input) instanceof DesignElementHandle
+				&& isElementInMasterPage((DesignElementHandle) DEUtil.getInputFirstElement(input))) {
+			masterSection.setVisible(false);
+			sepSection.setVisible(false);
+		} else {
+			masterSection.setVisible(true);
+			sepSection.setVisible(true);
 		}
 	}
-	
-	protected boolean isElementInMasterPage( DesignElementHandle elementHandle )
-	{
-		ModuleHandle root = elementHandle.getRoot( );
+
+	protected boolean isElementInMasterPage(DesignElementHandle elementHandle) {
+		ModuleHandle root = elementHandle.getRoot();
 		DesignElementHandle container = elementHandle;
-		while ( container != null && container != root )
-		{
-			if ( container instanceof MasterPageHandle )
-			{
+		while (container != null && container != root) {
+			if (container instanceof MasterPageHandle) {
 				return true;
 			}
-			container = container.getContainer( );
+			container = container.getContainer();
 		}
 
 		return false;

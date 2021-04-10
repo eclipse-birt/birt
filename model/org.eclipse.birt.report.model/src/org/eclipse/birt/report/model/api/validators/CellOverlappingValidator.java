@@ -38,10 +38,9 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * 
  */
 
-public class CellOverlappingValidator extends AbstractElementValidator
-{
+public class CellOverlappingValidator extends AbstractElementValidator {
 
-	private final static CellOverlappingValidator instance = new CellOverlappingValidator( );
+	private final static CellOverlappingValidator instance = new CellOverlappingValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -49,47 +48,40 @@ public class CellOverlappingValidator extends AbstractElementValidator
 	 * @return the validator instance
 	 */
 
-	public static CellOverlappingValidator getInstance( )
-	{
+	public static CellOverlappingValidator getInstance() {
 		return instance;
 	}
 
 	/**
 	 * Validates whether any cell in the given row overlaps others.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the row to validate
+	 * @param module  the module
+	 * @param element the row to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
-	{
-		if ( !( element instanceof TableRow ) )
-			return Collections.emptyList( );
+	public List<SemanticException> validate(Module module, DesignElement element) {
+		if (!(element instanceof TableRow))
+			return Collections.emptyList();
 
-		if ( element.getContainer( ) == null )
-			return Collections.emptyList( );
+		if (element.getContainer() == null)
+			return Collections.emptyList();
 
-		return doValidate( module, (TableRow) element );
+		return doValidate(module, (TableRow) element);
 	}
 
-	private List<SemanticException> doValidate( Module module,
-			TableRow toValidate )
-	{
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+	private List<SemanticException> doValidate(Module module, TableRow toValidate) {
+		List<SemanticException> list = new ArrayList<SemanticException>();
 
 		// Get the slot containing this row
 
-		int slotId = toValidate.getContainer( ).findSlotOf( toValidate );
-		ContainerSlot slot = toValidate.getContainer( ).getSlot( slotId );
+		int slotId = toValidate.getContainer().findSlotOf(toValidate);
+		ContainerSlot slot = toValidate.getContainer().getSlot(slotId);
 
 		// Verify that no cells overlap.
 
-		int colCount = toValidate.getColumnCount( module );
+		int colCount = toValidate.getColumnCount(module);
 
 		// if the column count is zero or negative, it means that the
 		// cells in the row may have some semantic errors. Since the check
@@ -97,56 +89,48 @@ public class CellOverlappingValidator extends AbstractElementValidator
 		// errors are collected correctly. Therefore, we can jump it if
 		// the column count is not positive.
 
-		if ( colCount <= 0 )
+		if (colCount <= 0)
 			return list;
 
 		boolean ok = true;
 		boolean cols[] = new boolean[colCount];
-		int rowPosn = slot.findPosn( toValidate );
-		int rowCount = slot.getCount( );
-		int cellCount = toValidate.getContentsSlot( ).size( );
+		int rowPosn = slot.findPosn(toValidate);
+		int rowCount = slot.getCount();
+		int cellCount = toValidate.getContentsSlot().size();
 		int impliedPosn = 0;
-		for ( int i = 0; i < cellCount; i++ )
-		{
-			Cell cell = (Cell) toValidate.getContentsSlot( ).get( i );
-			int colPosn = cell.getColumn( module );
-			int colSpan = cell.getColSpan( module );
-			int rowSpan = cell.getRowSpan( module );
+		for (int i = 0; i < cellCount; i++) {
+			Cell cell = (Cell) toValidate.getContentsSlot().get(i);
+			int colPosn = cell.getColumn(module);
+			int colSpan = cell.getColSpan(module);
+			int rowSpan = cell.getRowSpan(module);
 
-			if ( colPosn > 0 )
+			if (colPosn > 0)
 				colPosn--;
 			else
 				colPosn = impliedPosn;
 
 			// Check the horizontal and vertical cell span
 
-			if ( !checkColSpan( cols, colPosn, colSpan )
-					|| !checkRowSpan( rowCount, rowPosn, rowSpan ) )
+			if (!checkColSpan(cols, colPosn, colSpan) || !checkRowSpan(rowCount, rowPosn, rowSpan))
 				ok = false;
 
 			impliedPosn = colPosn + colSpan;
 		}
 
-		if ( !ok )
-		{
-			DesignElement container = toValidate.getContainer( );
+		if (!ok) {
+			DesignElement container = toValidate.getContainer();
 
 			// The container of the row can be TableGroup, table and grid
 
-			if ( container instanceof TableGroup )
-			{
+			if (container instanceof TableGroup) {
 				// get the table containing the table group
 
-				container = container.getContainer( );
+				container = container.getContainer();
+			} else {
+				assert container instanceof TableItem || container instanceof GridItem;
 			}
-			else
-			{
-				assert container instanceof TableItem
-						|| container instanceof GridItem;
-			}
-			list.add( new SemanticError( toValidate, new String[]{
-					container.getElementName( ), container.getFullName( )},
-					SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS ) );
+			list.add(new SemanticError(toValidate, new String[] { container.getElementName(), container.getFullName() },
+					SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS));
 		}
 
 		return list;
@@ -155,22 +139,17 @@ public class CellOverlappingValidator extends AbstractElementValidator
 	/**
 	 * Checks whether the cell horizontal overlap exists.
 	 * 
-	 * @param cols
-	 *            column array which records the cell allocation
-	 * @param colPosn
-	 *            column position of the cell
-	 * @param colSpan
-	 *            column span of the cell
+	 * @param cols    column array which records the cell allocation
+	 * @param colPosn column position of the cell
+	 * @param colSpan column span of the cell
 	 * @return whether the horizontal overlap exists
 	 */
 
-	private boolean checkColSpan( boolean cols[], int colPosn, int colSpan )
-	{
+	private boolean checkColSpan(boolean cols[], int colPosn, int colSpan) {
 		boolean ok = true;
 
-		for ( int j = 0; j < colSpan; j++ )
-		{
-			if ( cols[colPosn + j] )
+		for (int j = 0; j < colSpan; j++) {
+			if (cols[colPosn + j])
 				ok = false;
 			cols[colPosn + j] = true;
 		}
@@ -181,18 +160,14 @@ public class CellOverlappingValidator extends AbstractElementValidator
 	/**
 	 * Checks whether the cell vertical overlap exists.
 	 * 
-	 * @param rowCount
-	 *            row count of the band this cell belongs to
-	 * @param rowPosn
-	 *            row position of this cell in the band
-	 * @param rowSpan
-	 *            row span of the cell
+	 * @param rowCount row count of the band this cell belongs to
+	 * @param rowPosn  row position of this cell in the band
+	 * @param rowSpan  row span of the cell
 	 * @return whether the vertical overlap exists
 	 */
 
-	private boolean checkRowSpan( int rowCount, int rowPosn, int rowSpan )
-	{
-		return ( rowCount - rowPosn - rowSpan ) >= 0;
+	private boolean checkRowSpan(int rowCount, int rowPosn, int rowSpan) {
+		return (rowCount - rowPosn - rowSpan) >= 0;
 	}
 
 }

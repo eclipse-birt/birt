@@ -19,8 +19,7 @@ import java.io.Serializable;
  * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:57 $
  */
 
-public class Column implements Serializable
-{
+public class Column implements Serializable {
 
 	/**
 	 * serial version id
@@ -34,61 +33,59 @@ public class Column implements Serializable
 	/**
 	 *  
 	 */
-	public Column( )
-	{
-		super( );
+	public Column() {
+		super();
 	}
 
 	/**
 	 * @return Returns the name.
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            The name to set.
+	 * @param name The name to set.
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
 	/**
 	 * @return Returns the dbType.
 	 */
 	public String getDbType() {
 		return DbType;
 	}
+
 	/**
 	 * @param dbType The dbType to set.
 	 */
 	public void setDbType(String dbType) {
 		DbType = dbType;
 	}
-	
-	
+
 	/**
 	 * @return Returns the schemaName.
 	 */
 	public String getSchemaName() {
 		return schemaName;
 	}
+
 	/**
 	 * @param schemaName The schemaName to set.
 	 */
 	public void setSchemaName(String schemaName) {
 		this.schemaName = schemaName;
 	}
+
 	/**
 	 * @return Returns the tableName.
 	 */
 	public String getTableName() {
 		return tableName;
 	}
+
 	/**
 	 * @param tableName The tableName to set.
 	 */

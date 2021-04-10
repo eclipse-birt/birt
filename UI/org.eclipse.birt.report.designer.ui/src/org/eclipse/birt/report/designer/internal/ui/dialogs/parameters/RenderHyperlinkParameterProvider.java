@@ -18,33 +18,23 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 /**
  * RenderHyperlinkParameterProvider
  */
-public class RenderHyperlinkParameterProvider implements
-		IHyperlinkParameterProvider
-{
+public class RenderHyperlinkParameterProvider implements IHyperlinkParameterProvider {
 
 	// TODO localize
 	public static final String CATEGORY_RENDER = Messages.getString("RenderHyperlinkParameterProvider.Category.Render"); //$NON-NLS-1$
 
-	private static final String[] CATS = new String[]{
-		CATEGORY_RENDER
-	};
+	private static final String[] CATS = new String[] { CATEGORY_RENDER };
 
-	private IHyperlinkParameter htmlPaginationParameter = new SimpleHyperlinkParameter( "__" //$NON-NLS-1$
-			+ IRenderOption.HTML_PAGINATION,
-			DesignChoiceConstants.PARAM_TYPE_BOOLEAN );
+	private IHyperlinkParameter htmlPaginationParameter = new SimpleHyperlinkParameter("__" //$NON-NLS-1$
+			+ IRenderOption.HTML_PAGINATION, DesignChoiceConstants.PARAM_TYPE_BOOLEAN);
 
-	public String[] getCategories( )
-	{
+	public String[] getCategories() {
 		return CATS;
 	}
 
-	public IHyperlinkParameter[] getParameters( String category, String format )
-	{
-		if ( CATEGORY_RENDER.equals( category ) )
-		{
-			return new IHyperlinkParameter[]{
-				htmlPaginationParameter
-			};
+	public IHyperlinkParameter[] getParameters(String category, String format) {
+		if (CATEGORY_RENDER.equals(category)) {
+			return new IHyperlinkParameter[] { htmlPaginationParameter };
 		}
 		return null;
 	}

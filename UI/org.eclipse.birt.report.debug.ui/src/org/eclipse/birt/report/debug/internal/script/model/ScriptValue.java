@@ -20,61 +20,61 @@ import org.eclipse.debug.core.model.IVariable;
 /**
  * ScriptValue
  */
-public class ScriptValue extends ScriptDebugElement implements IValue
-{
+public class ScriptValue extends ScriptDebugElement implements IValue {
 
 	private VMValue value;
 	private ScriptStackFrame frame;
 
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param frame
 	 * @param value
 	 */
-	public ScriptValue( ScriptStackFrame frame, VMValue value )
-	{
-		super( (ScriptDebugTarget) frame.getDebugTarget( ) );
+	public ScriptValue(ScriptStackFrame frame, VMValue value) {
+		super((ScriptDebugTarget) frame.getDebugTarget());
 
 		this.value = value;
 		this.frame = frame;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.debug.core.model.IValue#getReferenceTypeName()
 	 */
-	public String getReferenceTypeName( ) throws DebugException
-	{
-		return value.getTypeName( );
+	public String getReferenceTypeName() throws DebugException {
+		return value.getTypeName();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.debug.core.model.IValue#getValueString()
 	 */
-	public String getValueString( ) throws DebugException
-	{
-		return value.getValueString( );
+	public String getValueString() throws DebugException {
+		return value.getValueString();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.debug.core.model.IValue#getVariables()
 	 */
-	public IVariable[] getVariables( ) throws DebugException
-	{
-		VMVariable[] variables = value.getMembers( );
+	public IVariable[] getVariables() throws DebugException {
+		VMVariable[] variables = value.getMembers();
 
 		IVariable[] retValue = new IVariable[variables.length];
 
-		for ( int i = 0; i < variables.length; i++ )
-		{
+		for (int i = 0; i < variables.length; i++) {
 			VMVariable variable = variables[i];
-			ScriptVariable debugVariable = new ScriptVariable( frame,
-					variable.getName( ),
-					variable.getTypeName( ) );
+			ScriptVariable debugVariable = new ScriptVariable(frame, variable.getName(), variable.getTypeName());
 
-			VMValue value = variable.getValue( );
+			VMValue value = variable.getValue();
 
-			ScriptValue debugValue = new ScriptValue( frame, value );
+			ScriptValue debugValue = new ScriptValue(frame, value);
 
-			debugVariable.setOriVale( debugValue );
+			debugVariable.setOriVale(debugValue);
 
 			retValue[i] = debugVariable;
 		}
@@ -82,33 +82,34 @@ public class ScriptValue extends ScriptDebugElement implements IValue
 		return retValue;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.debug.core.model.IValue#hasVariables()
 	 */
-	public boolean hasVariables( ) throws DebugException
-	{
-		return getVariables( ).length > 0;
+	public boolean hasVariables() throws DebugException {
+		return getVariables().length > 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.debug.core.model.IValue#isAllocated()
 	 */
-	public boolean isAllocated( ) throws DebugException
-	{
+	public boolean isAllocated() throws DebugException {
 		return true;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.debug.internal.script.model.ScriptDebugElement#getDisplayName()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.debug.internal.script.model.ScriptDebugElement#
+	 * getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		try
-		{
-			return getValueString( );
-		}
-		catch ( DebugException e )
-		{
+	public String getDisplayName() {
+		try {
+			return getValueString();
+		} catch (DebugException e) {
 			return ""; //$NON-NLS-1$
 		}
 	}

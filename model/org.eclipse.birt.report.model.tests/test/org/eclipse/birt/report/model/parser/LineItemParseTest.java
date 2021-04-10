@@ -43,8 +43,7 @@ import org.eclipse.birt.report.model.elements.LineItem;
  * @see LineItem
  */
 
-public class LineItemParseTest extends ParserTestCase
-{
+public class LineItemParseTest extends ParserTestCase {
 
 	String fileName = "LineItemParseTest.xml"; //$NON-NLS-1$
 	String outFileName = "LineItemParseTest_out.xml"; //$NON-NLS-1$
@@ -53,9 +52,8 @@ public class LineItemParseTest extends ParserTestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 
 	}
 
@@ -66,12 +64,10 @@ public class LineItemParseTest extends ParserTestCase
 	 * @throws Exception
 	 */
 
-	public void testParser( ) throws Exception
-	{
-		LineHandle lineHandle = getLineHandle( );
+	public void testParser() throws Exception {
+		LineHandle lineHandle = getLineHandle();
 
-		assertEquals( DesignChoiceConstants.LINE_ORIENTATION_VERTICAL,
-				lineHandle.getOrientation( ) );
+		assertEquals(DesignChoiceConstants.LINE_ORIENTATION_VERTICAL, lineHandle.getOrientation());
 	}
 
 	/**
@@ -79,14 +75,12 @@ public class LineItemParseTest extends ParserTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testWriter( ) throws Exception
-	{
-		LineHandle lineHandle = getLineHandle( );
-		lineHandle
-				.setOrientation( DesignChoiceConstants.LINE_ORIENTATION_HORIZONTAL );
+	public void testWriter() throws Exception {
+		LineHandle lineHandle = getLineHandle();
+		lineHandle.setOrientation(DesignChoiceConstants.LINE_ORIENTATION_HORIZONTAL);
 
 		save();
-		assertTrue( compareFile( goldenFileName) );
+		assertTrue(compareFile(goldenFileName));
 	}
 
 	/**
@@ -97,15 +91,14 @@ public class LineItemParseTest extends ParserTestCase
 	 * @throws Exception
 	 */
 
-	private LineHandle getLineHandle( ) throws Exception
-	{
-		openDesign( fileName );
-		MasterPageHandle page = designHandle.findMasterPage( "My Page" ); //$NON-NLS-1$
-		assertNotNull( page );
-		SlotHandle contents = page.getSlot( 0 );
-		assertEquals( 1, contents.getCount( ) );
+	private LineHandle getLineHandle() throws Exception {
+		openDesign(fileName);
+		MasterPageHandle page = designHandle.findMasterPage("My Page"); //$NON-NLS-1$
+		assertNotNull(page);
+		SlotHandle contents = page.getSlot(0);
+		assertEquals(1, contents.getCount());
 
-		LineHandle lineHandle = (LineHandle) contents.get( 0 );
+		LineHandle lineHandle = (LineHandle) contents.get(0);
 		return lineHandle;
 	}
 }

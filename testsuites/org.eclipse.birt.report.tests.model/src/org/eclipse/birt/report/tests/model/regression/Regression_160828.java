@@ -42,41 +42,32 @@ import com.ibm.icu.util.ULocale;
  * Test as the description
  * <p>
  */
-public class Regression_160828 extends BaseTestCase
-{
+public class Regression_160828 extends BaseTestCase {
 
-	public void test_regression_160828( ) throws Exception
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_160828() throws Exception {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
 		// create a table
-		ElementFactory factory = designHandle.getElementFactory( );
-		TableHandle table = factory.newTableItem( "table", 2, 1, 1, 1 );
-		CellHandle cell = getCellInTableSlot(
-				table,
-				TableItem.DETAIL_SLOT,
-				0,
-				0 );
-		assertNotNull( cell );
+		ElementFactory factory = designHandle.getElementFactory();
+		TableHandle table = factory.newTableItem("table", 2, 1, 1, 1);
+		CellHandle cell = getCellInTableSlot(table, TableItem.DETAIL_SLOT, 0, 0);
+		assertNotNull(cell);
 
 		// specify a table group on the table
-		TableGroupHandle group = factory.newTableGroup( );
-		table.getGroups( ).add( group );
+		TableGroupHandle group = factory.newTableGroup();
+		table.getGroups().add(group);
 
 		// set the drop on cell
-		cell.setDrop( DesignChoiceConstants.DROP_TYPE_DETAIL );
-		assertTrue( table.isValidLayoutForCompoundElement( ) );
+		cell.setDrop(DesignChoiceConstants.DROP_TYPE_DETAIL);
+		assertTrue(table.isValidLayoutForCompoundElement());
 
 	}
 
-	private CellHandle getCellInTableSlot( TableHandle table, int slotID,
-			int rowIndex, int cellIndex )
-	{
-		RowHandle row = (RowHandle) ( table.getSlot( slotID ).get( rowIndex ) );
-		CellHandle cell = (CellHandle) ( row.getSlot( TableRow.CONTENT_SLOT )
-				.get( cellIndex ) );
+	private CellHandle getCellInTableSlot(TableHandle table, int slotID, int rowIndex, int cellIndex) {
+		RowHandle row = (RowHandle) (table.getSlot(slotID).get(rowIndex));
+		CellHandle cell = (CellHandle) (row.getSlot(TableRow.CONTENT_SLOT).get(cellIndex));
 		return cell;
 	}
 }

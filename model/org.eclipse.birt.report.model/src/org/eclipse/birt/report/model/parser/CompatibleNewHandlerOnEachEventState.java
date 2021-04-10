@@ -24,23 +24,16 @@ import org.xml.sax.SAXException;
  * 
  * 
  */
-public class CompatibleNewHandlerOnEachEventState
-		extends
-			CompatiblePropertyState
-{
+public class CompatibleNewHandlerOnEachEventState extends CompatiblePropertyState {
 
 	/**
 	 * Constructor
 	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the obsolete property
+	 * @param theHandler the parser handle
+	 * @param element    the element that holds the obsolete property
 	 */
-	public CompatibleNewHandlerOnEachEventState(
-			ModuleParserHandler theHandler, DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatibleNewHandlerOnEachEventState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
@@ -48,21 +41,17 @@ public class CompatibleNewHandlerOnEachEventState
 	 * 
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
-	public void end( ) throws SAXException
-	{
+	public void end() throws SAXException {
 		// When the report version is less than 3.2.18 , the eventHandlerClass
 		// property value is not empty string and the newHandlerOnEachEvent
 		// property value is not be set, the newHandlerOnEachEvent will be set
 		// as true.
-		Object value = element.getLocalProperty( element.getRoot( ),
-				IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP );
-		String txtValue = text.toString( );
-		if ( !StringUtil.isBlank( txtValue ) && value == null )
-		{
-			setProperty( IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP,
-					Boolean.TRUE.toString( ) );
+		Object value = element.getLocalProperty(element.getRoot(), IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP);
+		String txtValue = text.toString();
+		if (!StringUtil.isBlank(txtValue) && value == null) {
+			setProperty(IDesignElementModel.NEW_HANDLER_ON_EACH_EVENT_PROP, Boolean.TRUE.toString());
 		}
 
-		doEnd( txtValue );
+		doEnd(txtValue);
 	}
 }

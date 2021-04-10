@@ -19,31 +19,26 @@ import org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance;
 /**
  * Script event handler interface for a text item
  */
-public interface ITextItemEventHandler
-{
+public interface ITextItemEventHandler {
 
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( ITextItem textItemHandle, IReportContext reportContext )
-			throws ScriptException;
+	void onPrepare(ITextItem textItemHandle, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( ITextItemInstance text, IReportContext reportContext )
-			throws ScriptException;
+	void onCreate(ITextItemInstance text, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( ITextItemInstance text, IReportContext reportContext )
-			throws ScriptException;
+	void onRender(ITextItemInstance text, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( ITextItemInstance text, IReportContext reportContext )
-			throws ScriptException;
+	void onPageBreak(ITextItemInstance text, IReportContext reportContext) throws ScriptException;
 
 }

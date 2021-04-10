@@ -25,12 +25,11 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
  * Test case for StringPropertyType.
  * 
  */
-public class StringPropertyTypeTest extends TextualPropertyTypeTestCase
-{
+public class StringPropertyTypeTest extends TextualPropertyTypeTestCase {
 
-	StringPropertyType type = new StringPropertyType( );
+	StringPropertyType type = new StringPropertyType();
 
-	PropertyDefnFake propDefn = new PropertyDefnFake( );
+	PropertyDefnFake propDefn = new PropertyDefnFake();
 
 	/*
 	 * (non-Javadoc)
@@ -39,9 +38,8 @@ public class StringPropertyTypeTest extends TextualPropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
 	 * ()
 	 */
-	public void testGetTypeCode( )
-	{
-		assertEquals( PropertyType.STRING_TYPE, type.getTypeCode( ) );
+	public void testGetTypeCode() {
+		assertEquals(PropertyType.STRING_TYPE, type.getTypeCode());
 	}
 
 	/*
@@ -50,9 +48,8 @@ public class StringPropertyTypeTest extends TextualPropertyTypeTestCase
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
-	public void testGetName( )
-	{
-		assertEquals( PropertyType.STRING_TYPE_NAME, type.getName( ) );
+	public void testGetName() {
+		assertEquals(PropertyType.STRING_TYPE_NAME, type.getName());
 	}
 
 	/*
@@ -62,21 +59,16 @@ public class StringPropertyTypeTest extends TextualPropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
 	 * ()
 	 */
-	public void testValidateValue( ) throws PropertyValueException
-	{
-		int optionValue = TextualPropertyType.TRIM_SPACE_VALUE
-				| TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE;
-		propDefn.setTrimOption( optionValue );
-		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
-		assertNull( type.validateValue( design, null, propDefn, "    " ) ); //$NON-NLS-1$
-		assertEquals( "abc", type.validateValue( design, null, propDefn, "abc" ) ); //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals(
-				"123", type.validateValue( design, null, propDefn, new Integer( 123 ) ) ); //$NON-NLS-1$
-		assertEquals(
-				"123.0", type.validateValue( design, null, propDefn, new Float( 123.0f ) ) ); //$NON-NLS-1$
-		assertEquals(
-				"123.0", type.validateValue( design, null, propDefn, new Double( 123.0d ) ) ); //$NON-NLS-1$
+	public void testValidateValue() throws PropertyValueException {
+		int optionValue = TextualPropertyType.TRIM_SPACE_VALUE | TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE;
+		propDefn.setTrimOption(optionValue);
+		assertEquals(null, type.validateValue(design, null, propDefn, null));
+		assertEquals(null, type.validateValue(design, null, propDefn, "")); //$NON-NLS-1$
+		assertNull(type.validateValue(design, null, propDefn, "    ")); //$NON-NLS-1$
+		assertEquals("abc", type.validateValue(design, null, propDefn, "abc")); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals("123", type.validateValue(design, null, propDefn, new Integer(123))); //$NON-NLS-1$
+		assertEquals("123.0", type.validateValue(design, null, propDefn, new Float(123.0f))); //$NON-NLS-1$
+		assertEquals("123.0", type.validateValue(design, null, propDefn, new Double(123.0d))); //$NON-NLS-1$
 	}
 
 	/*
@@ -85,8 +77,7 @@ public class StringPropertyTypeTest extends TextualPropertyTypeTestCase
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testValidateInputString()
 	 */
-	public void testValidateInputString( ) throws PropertyValueException
-	{
+	public void testValidateInputString() throws PropertyValueException {
 		// covered.
 	}
 
@@ -97,68 +88,55 @@ public class StringPropertyTypeTest extends TextualPropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
 	 * ()
 	 */
-	public void testValidateXml( ) throws PropertyValueException
-	{
-		int optionValue = TextualPropertyType.TRIM_SPACE_VALUE
-				| TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE;
-		propDefn.setTrimOption( optionValue );
-		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
-		assertNull( type.validateValue( design, null, propDefn, "    " ) ); //$NON-NLS-1$
-		assertEquals(
-				"any-input", type.validateXml( design, null, propDefn, "any-input" ) ); //$NON-NLS-1$//$NON-NLS-2$
+	public void testValidateXml() throws PropertyValueException {
+		int optionValue = TextualPropertyType.TRIM_SPACE_VALUE | TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE;
+		propDefn.setTrimOption(optionValue);
+		assertEquals(null, type.validateValue(design, null, propDefn, null));
+		assertEquals(null, type.validateValue(design, null, propDefn, "")); //$NON-NLS-1$
+		assertNull(type.validateValue(design, null, propDefn, "    ")); //$NON-NLS-1$
+		assertEquals("any-input", type.validateXml(design, null, propDefn, "any-input")); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
 	 * ()
 	 */
-	public void testToDouble( )
-	{
-		assertEquals( 0.0d, type.toDouble( design, "any-input" ), 1 ); //$NON-NLS-1$
+	public void testToDouble() {
+		assertEquals(0.0d, type.toDouble(design, "any-input"), 1); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger ()
+	 */
+	public void testToInteger() {
+		assertEquals(123, type.toInteger(design, "123")); //$NON-NLS-1$
+		assertEquals(0, type.toInteger(design, null));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 */
+	public void testToXml() {
+		assertEquals("any-input", type.toXml(design, propDefn, "any-input")); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
 	 * ()
 	 */
-	public void testToInteger( )
-	{
-		assertEquals( 123, type.toInteger( design, "123" ) ); //$NON-NLS-1$
-		assertEquals( 0, type.toInteger( design, null ) );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
-	 */
-	public void testToXml( )
-	{
-		assertEquals( "any-input", type.toXml( design, propDefn, "any-input" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
-	 * ()
-	 */
-	public void testToString( )
-	{
-		assertEquals(
-				"any-input", type.toString( design, propDefn, "any-input" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		Expression expression = new Expression(
-				"test1", ExpressionType.JAVASCRIPT ); //$NON-NLS-1$ 
-		assertEquals( "test1", type.toString( design, propDefn, expression ) ); //$NON-NLS-1$
+	public void testToString() {
+		assertEquals("any-input", type.toString(design, propDefn, "any-input")); //$NON-NLS-1$ //$NON-NLS-2$
+		Expression expression = new Expression("test1", ExpressionType.JAVASCRIPT); //$NON-NLS-1$
+		assertEquals("test1", type.toString(design, propDefn, expression)); //$NON-NLS-1$
 	}
 
 	/*
@@ -167,45 +145,39 @@ public class StringPropertyTypeTest extends TextualPropertyTypeTestCase
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testToDisplayString()
 	 */
-	public void testToDisplayString( )
-	{
-		assertEquals(
-				"any-input", type.toDisplayString( design, propDefn, "any-input" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+	public void testToDisplayString() {
+		assertEquals("any-input", type.toDisplayString(design, propDefn, "any-input")); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
+	 * ()
+	 */
+	public void testToNumber() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
-	 * ()
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean ()
 	 */
-	public void testToNumber( )
-	{
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
-	 * ()
-	 */
-	public void testToBoolean( )
-	{
+	public void testToBoolean() {
 	}
 
 	/**
 	 * Test case for special case of the format member of the hide rule structure
+	 * 
 	 * @throws SemanticException
 	 */
-	public void testValidateHideRule( ) throws SemanticException
-	{
-		createDesign( );
-		LabelHandle label = designHandle.getElementFactory( ).newLabel( null );
-		PropertyHandle propHandle = label.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		HideRule rule = StructureFactory.createHideRule( );
-		rule.setFormat( "ab.cd" );  //$NON-NLS-1$
-		propHandle.addItem( rule );		
+	public void testValidateHideRule() throws SemanticException {
+		createDesign();
+		LabelHandle label = designHandle.getElementFactory().newLabel(null);
+		PropertyHandle propHandle = label.getPropertyHandle(IReportItemModel.VISIBILITY_PROP);
+		HideRule rule = StructureFactory.createHideRule();
+		rule.setFormat("ab.cd"); //$NON-NLS-1$
+		propHandle.addItem(rule);
 	}
 }

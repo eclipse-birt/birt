@@ -24,10 +24,9 @@ import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveListener;
 import org.eclipse.ui.IWorkbenchPage;
 
-
 /**
  * Action to hide and show the editor breadcrumb.
-
+ * 
  * @since 2.6.2
  */
 public class ToggleBreadcrumbAction extends Action implements IPropertyChangeListener, IPerspectiveListener {
@@ -42,11 +41,13 @@ public class ToggleBreadcrumbAction extends Action implements IPropertyChangeLis
 	 */
 	public ToggleBreadcrumbAction(IWorkbenchPage page) {
 		super(null, IAction.AS_CHECK_BOX);
-		setToolTipText( Messages.getString("ToggleBreadcrumbAction.tooltip.switch.breadcrumb") ); //$NON-NLS-1$
-		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_TOGGLE_BREADCRUMB ) );
-		setDisabledImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_TOGGLE_BREADCRUMB_DISABLE ) );
-		//PlatformUI.getWorkbench().getHelpSystem().setHelp(this, IJavaHelpContextIds.TOGGLE_BREADCRUMB_ACTION);
-		fPage= page;
+		setToolTipText(Messages.getString("ToggleBreadcrumbAction.tooltip.switch.breadcrumb")); //$NON-NLS-1$
+		setImageDescriptor(ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_TOGGLE_BREADCRUMB));
+		setDisabledImageDescriptor(
+				ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_TOGGLE_BREADCRUMB_DISABLE));
+		// PlatformUI.getWorkbench().getHelpSystem().setHelp(this,
+		// IJavaHelpContextIds.TOGGLE_BREADCRUMB_ACTION);
+		fPage = page;
 		fPage.getWorkbenchWindow().addPerspectiveListener(this);
 		update();
 	}
@@ -63,10 +64,10 @@ public class ToggleBreadcrumbAction extends Action implements IPropertyChangeLis
 	 */
 	public void update() {
 		if (fStore == null) {
-			fStore= ReportPlugin.getDefault().getPreferenceStore();
+			fStore = ReportPlugin.getDefault().getPreferenceStore();
 			fStore.addPropertyChangeListener(this);
 		}
-		String key= getPreferenceKey();
+		String key = getPreferenceKey();
 		setChecked(key != null && fStore.getBoolean(key));
 		setEnabled(true);
 	}
@@ -85,41 +86,44 @@ public class ToggleBreadcrumbAction extends Action implements IPropertyChangeLis
 	public void dispose() {
 		if (fStore != null) {
 			fStore.removePropertyChangeListener(this);
-			fStore= null;
+			fStore = null;
 		}
 		if (fPage != null) {
 			fPage.getWorkbenchWindow().removePerspectiveListener(this);
-			fPage= null;
+			fPage = null;
 		}
 	}
 
 	/**
-	 * Returns the preference key for the breadcrumb. The
-	 * value depends on the current perspective.
+	 * Returns the preference key for the breadcrumb. The value depends on the
+	 * current perspective.
 	 *
 	 * @return the preference key or <code>null</code> if there's no perspective
 	 */
 	private String getPreferenceKey() {
-		IPerspectiveDescriptor perspective= fPage.getPerspective();
+		IPerspectiveDescriptor perspective = fPage.getPerspective();
 		if (perspective == null)
 			return null;
 		return GraphicalEditorWithFlyoutPalette.EDITOR_SHOW_BREADCRUMB + "." + perspective.getId(); //$NON-NLS-1$
 	}
 
 	/*
-	 * @see org.eclipse.ui.IPerspectiveListener#perspectiveActivated(org.eclipse.ui.IWorkbenchPage, org.eclipse.ui.IPerspectiveDescriptor)
+	 * @see org.eclipse.ui.IPerspectiveListener#perspectiveActivated(org.eclipse.ui.
+	 * IWorkbenchPage, org.eclipse.ui.IPerspectiveDescriptor)
+	 * 
 	 * @since 3.4
 	 */
 	public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective) {
-		boolean isChecked= fStore.getBoolean(getPreferenceKey());
+		boolean isChecked = fStore.getBoolean(getPreferenceKey());
 		if (isChecked != isChecked()) {
-			Boolean value= Boolean.valueOf(isChecked);
+			Boolean value = Boolean.valueOf(isChecked);
 			fStore.firePropertyChangeEvent(getPreferenceKey(), value, value);
 		}
 	}
 
 	/*
-	 * @see org.eclipse.ui.IPerspectiveListener#perspectiveChanged(org.eclipse.ui.IWorkbenchPage, org.eclipse.ui.IPerspectiveDescriptor, java.lang.String)
+	 * @see org.eclipse.ui.IPerspectiveListener#perspectiveChanged(org.eclipse.ui.
+	 * IWorkbenchPage, org.eclipse.ui.IPerspectiveDescriptor, java.lang.String)
 	 */
 	public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor perspective, String changeId) {
 	}

@@ -11,14 +11,13 @@
 
 package org.eclipse.birt.report.engine.nLayout.area;
 
-public interface IAreaVisitor
-{
+public interface IAreaVisitor {
 
-	void visitText( ITextArea textArea );
+	void visitText(ITextArea textArea);
 
-	void visitAutoText( ITemplateArea templateArea );
+	void visitAutoText(ITemplateArea templateArea);
 
-	void visitImage( IImageArea imageArea );
+	void visitImage(IImageArea imageArea);
 
-	void visitContainer( IContainerArea containerArea );
+	void visitContainer(IContainerArea containerArea);
 }

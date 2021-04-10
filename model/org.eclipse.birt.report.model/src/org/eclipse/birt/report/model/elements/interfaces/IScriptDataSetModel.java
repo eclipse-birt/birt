@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for script data set element to store the constants.
  */
-public interface IScriptDataSetModel
-{
+public interface IScriptDataSetModel {
 
 	/**
 	 * Name of script property for opening the data set.

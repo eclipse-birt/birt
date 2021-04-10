@@ -21,67 +21,42 @@ import org.eclipse.birt.report.engine.extension.internal.ReportEventContext;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
-public class ExtendedItemScriptExecutor extends ScriptExecutor
-{
+public class ExtendedItemScriptExecutor extends ScriptExecutor {
 
-	public static void handleOnPrepare( ExtendedItemHandle handle,
-			ExecutionContext context )
-	{
-		IReportEventHandler eventHandler = context.getExtendedItemManager( )
-				.createEventHandler( handle );
-		if ( eventHandler != null )
-		{
-			try
-			{
-				OnPrepareEvent event = new OnPrepareEvent(
-						new ReportEventContext( context ), handle );
-				eventHandler.handle( event );
-			}
-			catch ( Exception e )
-			{
-				addException( context, e, handle );
+	public static void handleOnPrepare(ExtendedItemHandle handle, ExecutionContext context) {
+		IReportEventHandler eventHandler = context.getExtendedItemManager().createEventHandler(handle);
+		if (eventHandler != null) {
+			try {
+				OnPrepareEvent event = new OnPrepareEvent(new ReportEventContext(context), handle);
+				eventHandler.handle(event);
+			} catch (Exception e) {
+				addException(context, e, handle);
 			}
 		}
 	}
 
-	public static void handleOnCreate( ExtendedItemDesign design,
-			IContent content, ExecutionContext context )
-	{
-		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
-		IReportEventHandler eventHandler = context.getExtendedItemManager( )
-				.createEventHandler( handle );
-		if ( eventHandler != null )
-		{
-			try
-			{
-				OnCreateEvent event = new OnCreateEvent(
-						new ReportEventContext( context ), handle, content );
-				eventHandler.handle( event );
-			}
-			catch ( Exception e )
-			{
-				addException( context, e, handle );
+	public static void handleOnCreate(ExtendedItemDesign design, IContent content, ExecutionContext context) {
+		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle();
+		IReportEventHandler eventHandler = context.getExtendedItemManager().createEventHandler(handle);
+		if (eventHandler != null) {
+			try {
+				OnCreateEvent event = new OnCreateEvent(new ReportEventContext(context), handle, content);
+				eventHandler.handle(event);
+			} catch (Exception e) {
+				addException(context, e, handle);
 			}
 		}
 	}
 
-	public static void handleOnRender( ExtendedItemDesign design,
-			IContent content, ExecutionContext context )
-	{
-		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
-		IReportEventHandler eventHandler = context.getExtendedItemManager( )
-				.createEventHandler( handle );
-		if ( eventHandler != null )
-		{
-			try
-			{
-				OnRenderEvent event = new OnRenderEvent(
-						new ReportEventContext( context ), handle, content );
-				eventHandler.handle( event );
-			}
-			catch ( Exception e )
-			{
-				addException( context, e, handle );
+	public static void handleOnRender(ExtendedItemDesign design, IContent content, ExecutionContext context) {
+		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle();
+		IReportEventHandler eventHandler = context.getExtendedItemManager().createEventHandler(handle);
+		if (eventHandler != null) {
+			try {
+				OnRenderEvent event = new OnRenderEvent(new ReportEventContext(context), handle, content);
+				eventHandler.handle(event);
+			} catch (Exception e) {
+				addException(context, e, handle);
 			}
 		}
 	}

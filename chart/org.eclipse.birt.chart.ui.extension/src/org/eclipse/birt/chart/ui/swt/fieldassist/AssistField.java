@@ -28,8 +28,7 @@ import org.eclipse.swt.widgets.Menu;
  * @since 2.3
  */
 
-public abstract class AssistField implements IAssistField
-{
+public abstract class AssistField implements IAssistField {
 
 	protected Menu quickFixMenu;
 
@@ -46,108 +45,88 @@ public abstract class AssistField implements IAssistField
 	/**
 	 * Constructor of the class.
 	 * 
-	 * @param control
-	 *            the control to be decorated.
-	 * @param composite
-	 *            The SWT composite within which the decoration should be
-	 *            rendered. The decoration will be clipped to this composite,
-	 *            but it may be rendered on a child of the composite. The
-	 *            decoration will not be visible if the specified composite or
-	 *            its child composites are not visible in the space relative to
-	 *            the control, where the decoration is to be rendered. If this
-	 *            value is null, then the decoration will be rendered on
-	 *            whichever composite (or composites) are located in the
-	 *            specified position.
-	 * @param adapter
-	 *            a content adapter to be used to set and retrieve content from
-	 *            current control.
+	 * @param control   the control to be decorated.
+	 * @param composite The SWT composite within which the decoration should be
+	 *                  rendered. The decoration will be clipped to this composite,
+	 *                  but it may be rendered on a child of the composite. The
+	 *                  decoration will not be visible if the specified composite or
+	 *                  its child composites are not visible in the space relative
+	 *                  to the control, where the decoration is to be rendered. If
+	 *                  this value is null, then the decoration will be rendered on
+	 *                  whichever composite (or composites) are located in the
+	 *                  specified position.
+	 * @param adapter   a content adapter to be used to set and retrieve content
+	 *                  from current control.
 	 */
-	public AssistField( Control control, Composite composite,
-			IControlContentAdapter adapter )
-	{
-		this( control, composite, adapter, null );
+	public AssistField(Control control, Composite composite, IControlContentAdapter adapter) {
+		this(control, composite, adapter, null);
 	}
 
 	/**
 	 * Constructor of the class.
 	 * 
-	 * @param control
-	 *            the control to be decorated.
-	 * @param composite
-	 *            The SWT composite within which the decoration should be
-	 *            rendered. The decoration will be clipped to this composite,
-	 *            but it may be rendered on a child of the composite. The
-	 *            decoration will not be visible if the specified composite or
-	 *            its child composites are not visible in the space relative to
-	 *            the control, where the decoration is to be rendered. If this
-	 *            value is null, then the decoration will be rendered on
-	 *            whichever composite (or composites) are located in the
-	 *            specified position.
-	 * @param adapter
-	 *            a content adapter to be used to set and retrieve content from
-	 *            current control.
-	 * @param values
-	 *            the available contents of current control.
+	 * @param control   the control to be decorated.
+	 * @param composite The SWT composite within which the decoration should be
+	 *                  rendered. The decoration will be clipped to this composite,
+	 *                  but it may be rendered on a child of the composite. The
+	 *                  decoration will not be visible if the specified composite or
+	 *                  its child composites are not visible in the space relative
+	 *                  to the control, where the decoration is to be rendered. If
+	 *                  this value is null, then the decoration will be rendered on
+	 *                  whichever composite (or composites) are located in the
+	 *                  specified position.
+	 * @param adapter   a content adapter to be used to set and retrieve content
+	 *                  from current control.
+	 * @param values    the available contents of current control.
 	 */
-	public AssistField( Control control, Composite composite,
-			IControlContentAdapter adapter, String[] values )
-	{
-		this.controlDecoration = FieldAssistHelper.getInstance( )
-				.createControlDecoration( control, composite );
+	public AssistField(Control control, Composite composite, IControlContentAdapter adapter, String[] values) {
+		this.controlDecoration = FieldAssistHelper.getInstance().createControlDecoration(control, composite);
 		this.contentAdapter = adapter;
 		this.control = control;
 
-		setContent( values );
+		setContent(values);
 
-		initAssistListeners( );
+		initAssistListeners();
 	}
 
 	/**
 	 * Initialize listeners.
 	 */
-	protected void initAssistListeners( )
-	{
+	protected void initAssistListeners() {
 		// extension class should initialize validation listener and quick fix
 		// listener in the method.
-		initModifyListener( );
+		initModifyListener();
 
 		// Initialize quick fix menu.
-		initQuickFixMenu( );
+		initQuickFixMenu();
 	}
 
 	/**
 	 * Initialize modify listener for current field.
 	 */
-	protected void initModifyListener( )
-	{
+	protected void initModifyListener() {
 		// Subclass will implement the method.
 	}
 
 	/**
 	 * Initialize quick fix menu for content assist.
 	 */
-	protected void initQuickFixMenu( )
-	{
-		if ( hasQuickFix( ) )
-		{
-			controlDecoration.addMenuDetectListener( new MenuDetectListener( ) {
+	protected void initQuickFixMenu() {
+		if (hasQuickFix()) {
+			controlDecoration.addMenuDetectListener(new MenuDetectListener() {
 
-				public void menuDetected( MenuDetectEvent event )
-				{
+				public void menuDetected(MenuDetectEvent event) {
 					// no quick fix if we aren't in error state.
-					if ( isValid( ) )
-					{
+					if (isValid()) {
 						return;
 					}
-					if ( quickFixMenu == null )
-					{
-						quickFixMenu = FieldAssistHelper.getInstance( )
-								.createQuickFixMenu( AssistField.this );
+					if (quickFixMenu == null) {
+						quickFixMenu = FieldAssistHelper.getInstance().createQuickFixMenu(AssistField.this);
 					}
-					quickFixMenu.setLocation( event.x, event.y );
-					quickFixMenu.setVisible( true );
+					quickFixMenu.setLocation(event.x, event.y);
+					quickFixMenu.setVisible(true);
 				}
-			} );
+			});
 		}
 	}
 
@@ -156,16 +135,13 @@ public abstract class AssistField implements IAssistField
 	 * 
 	 * @param values
 	 */
-	public void setContent( String[] values )
-	{
-		if ( values == null || values.length == 0 )
-		{
+	public void setContent(String[] values) {
+		if (values == null || values.length == 0) {
 			return;
 		}
 
 		hasContentAssist = true;
-		FieldAssistHelper.getInstance( )
-				.installContentProposalAdapter( control, contentAdapter, values );
+		FieldAssistHelper.getInstance().installContentProposalAdapter(control, contentAdapter, values);
 	}
 
 	/**
@@ -173,8 +149,7 @@ public abstract class AssistField implements IAssistField
 	 * 
 	 * @return
 	 */
-	public boolean isRequiredField( )
-	{
+	public boolean isRequiredField() {
 		return false;
 	}
 
@@ -183,16 +158,14 @@ public abstract class AssistField implements IAssistField
 	 * 
 	 * @return
 	 */
-	public boolean hasQuickFix( )
-	{
+	public boolean hasQuickFix() {
 		return false;
 	}
 
 	/**
 	 * The method executes quick fix.
 	 */
-	public void quickFix( )
-	{
+	public void quickFix() {
 		// do nothing, just implement in subclass.
 	}
 
@@ -201,19 +174,16 @@ public abstract class AssistField implements IAssistField
 	 * 
 	 * @return
 	 */
-	public boolean hasContentAssist( )
-	{
+	public boolean hasContentAssist() {
 		return hasContentAssist;
 	}
 
 	/**
 	 * Dispose resource.
 	 */
-	public void dispose( )
-	{
-		if ( quickFixMenu != null )
-		{
-			quickFixMenu.dispose( );
+	public void dispose() {
+		if (quickFixMenu != null) {
+			quickFixMenu.dispose();
 			quickFixMenu = null;
 		}
 	}
@@ -223,59 +193,43 @@ public abstract class AssistField implements IAssistField
 	 * 
 	 * @return
 	 */
-	public FieldDecoration getErrorDecoration( )
-	{
-		if ( errorDecoration == null )
-		{
+	public FieldDecoration getErrorDecoration() {
+		if (errorDecoration == null) {
 			FieldDecoration standardError;
-			if ( hasQuickFix( ) )
-			{
-				standardError = FieldDecorationRegistry.getDefault( )
-						.getFieldDecoration( FieldDecorationRegistry.DEC_ERROR_QUICKFIX );
+			if (hasQuickFix()) {
+				standardError = FieldDecorationRegistry.getDefault()
+						.getFieldDecoration(FieldDecorationRegistry.DEC_ERROR_QUICKFIX);
+			} else {
+				standardError = FieldDecorationRegistry.getDefault()
+						.getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
 			}
-			else
-			{
-				standardError = FieldDecorationRegistry.getDefault( )
-						.getFieldDecoration( FieldDecorationRegistry.DEC_ERROR );
-			}
-			if ( getErrorMessage( ) == null )
-			{
+			if (getErrorMessage() == null) {
 				errorDecoration = standardError;
-			}
-			else
-			{
-				errorDecoration = new FieldDecoration( standardError.getImage( ),
-						getErrorMessage( ) );
+			} else {
+				errorDecoration = new FieldDecoration(standardError.getImage(), getErrorMessage());
 			}
 		}
-		
-		if ( getErrorMessage( ) != null )
-		{
-			errorDecoration.setDescription( getErrorMessage( ) );
+
+		if (getErrorMessage() != null) {
+			errorDecoration.setDescription(getErrorMessage());
 		}
 		return errorDecoration;
 
 	}
-	
+
 	/**
 	 * Returns warning decoration.
 	 * 
 	 * @return
 	 */
-	public FieldDecoration getWarningDecoration( )
-	{
-		if ( warningDecoration == null )
-		{
-			FieldDecoration standardWarning = FieldDecorationRegistry.getDefault( )
-					.getFieldDecoration( FieldDecorationRegistry.DEC_WARNING );
-			if ( getWarningMessage( ) == null )
-			{
+	public FieldDecoration getWarningDecoration() {
+		if (warningDecoration == null) {
+			FieldDecoration standardWarning = FieldDecorationRegistry.getDefault()
+					.getFieldDecoration(FieldDecorationRegistry.DEC_WARNING);
+			if (getWarningMessage() == null) {
 				warningDecoration = standardWarning;
-			}
-			else
-			{
-				warningDecoration = new FieldDecoration( standardWarning.getImage( ),
-						getWarningMessage( ) );
+			} else {
+				warningDecoration = new FieldDecoration(standardWarning.getImage(), getWarningMessage());
 			}
 		}
 		return warningDecoration;
@@ -286,9 +240,8 @@ public abstract class AssistField implements IAssistField
 	 * 
 	 * @return
 	 */
-	public String getContents( )
-	{
-		return contentAdapter.getControlContents( control );
+	public String getContents() {
+		return contentAdapter.getControlContents(control);
 	}
 
 	/**
@@ -296,8 +249,7 @@ public abstract class AssistField implements IAssistField
 	 * 
 	 * @return
 	 */
-	public IControlContentAdapter getContentAdapter( )
-	{
+	public IControlContentAdapter getContentAdapter() {
 		return contentAdapter;
 	}
 
@@ -306,9 +258,8 @@ public abstract class AssistField implements IAssistField
 	 * 
 	 * @param contents
 	 */
-	public void setContents( String contents )
-	{
-		contentAdapter.setControlContents( control, contents, contents.length( ) );
+	public void setContents(String contents) {
+		contentAdapter.setControlContents(control, contents, contents.length());
 	}
 
 	/**
@@ -316,22 +267,21 @@ public abstract class AssistField implements IAssistField
 	 * 
 	 * @return
 	 */
-	public abstract boolean isValid( );
+	public abstract boolean isValid();
 
 	/**
 	 * Check if input content has warning.
 	 * 
 	 * @return
 	 */
-	public abstract boolean isWarning( );
+	public abstract boolean isWarning();
 
 	/**
 	 * Returns error message.
 	 * 
 	 * @return
 	 */
-	public String getErrorMessage( )
-	{
+	public String getErrorMessage() {
 		return null;
 	}
 
@@ -340,8 +290,7 @@ public abstract class AssistField implements IAssistField
 	 * 
 	 * @return
 	 */
-	public String getWarningMessage( )
-	{
+	public String getWarningMessage() {
 		return null;
 	}
 }

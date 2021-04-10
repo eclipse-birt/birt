@@ -16,24 +16,23 @@ package org.eclipse.birt.report.model.adapter.oda;
  *
  */
 
-public interface IConstants
-{
+public interface IConstants {
 
 	/**
-	 * Indicates an empty string. 
+	 * Indicates an empty string.
 	 */
-	
+
 	public final static String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	/**
-	 * Character enconding in parsing and writing designer values. 
+	 * Character enconding in parsing and writing designer values.
 	 */
-	
+
 	public final static String CHAR_ENCODING = "utf-8"; //$NON-NLS-1$
 
 	/**
-	 * The version number to set when serializes designer values. 
+	 * The version number to set when serializes designer values.
 	 */
-	
+
 	final static String DESINGER_VALUES_VERSION = "2.0"; //$NON-NLS-1$
 }

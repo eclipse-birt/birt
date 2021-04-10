@@ -24,23 +24,19 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 
-public class ElementBuilderFactory
-{
+public class ElementBuilderFactory {
 
 	static private ElementBuilderFactory instance;
 
-	private ElementBuilderFactory( )
-	{
+	private ElementBuilderFactory() {
 	}
 
 	/**
 	 * @return instance of factory.
 	 */
-	static public ElementBuilderFactory getInstance( )
-	{
-		if ( instance == null )
-		{
-			instance = new ElementBuilderFactory( );
+	static public ElementBuilderFactory getInstance() {
+		if (instance == null) {
+			instance = new ElementBuilderFactory();
 		}
 		return instance;
 	}
@@ -51,36 +47,27 @@ public class ElementBuilderFactory
 	 * @param handle
 	 * @return
 	 */
-	public Object createBuilder( DesignElementHandle handle )
-	{
-		if ( handle instanceof TextItemHandle )
-		{
-			return new TextEditor( UIUtil.getDefaultShell( ),
-					TextEditor.DLG_TITLE_NEW,
-					(TextItemHandle) handle );
+	public Object createBuilder(DesignElementHandle handle) {
+		if (handle instanceof TextItemHandle) {
+			return new TextEditor(UIUtil.getDefaultShell(), TextEditor.DLG_TITLE_NEW, (TextItemHandle) handle);
 		}
-		if ( handle instanceof TextDataHandle )
-		{
-			ExpressionBuilder dialog = new ExpressionBuilder( UIUtil.getDefaultShell( ),
-					( (TextDataHandle) handle ).getValueExpr( ) );
+		if (handle instanceof TextDataHandle) {
+			ExpressionBuilder dialog = new ExpressionBuilder(UIUtil.getDefaultShell(),
+					((TextDataHandle) handle).getValueExpr());
 
-			dialog.setExpressionProvier( new ExpressionProvider( handle ) );
+			dialog.setExpressionProvier(new ExpressionProvider(handle));
 
-			return ( dialog );
+			return (dialog);
 		}
-		if ( handle instanceof DataItemHandle )
-		{
-			ColumnBindingDialog dialog = new ColumnBindingDialog( (ReportItemHandle) handle,
-					UIUtil.getDefaultShell( ),
-					true );
-			dialog.setGroupList( DEUtil.getGroups( handle ) );
-			return ( dialog );
+		if (handle instanceof DataItemHandle) {
+			ColumnBindingDialog dialog = new ColumnBindingDialog((ReportItemHandle) handle, UIUtil.getDefaultShell(),
+					true);
+			dialog.setGroupList(DEUtil.getGroups(handle));
+			return (dialog);
 		}
-		if ( handle instanceof ImageHandle )
-		{
-			ImageBuilder dialog = new ImageBuilder( UIUtil.getDefaultShell( ),
-					ImageBuilder.DLG_TITLE_NEW );
-			dialog.setInput( handle );
+		if (handle instanceof ImageHandle) {
+			ImageBuilder dialog = new ImageBuilder(UIUtil.getDefaultShell(), ImageBuilder.DLG_TITLE_NEW);
+			dialog.setInput(handle);
 			return dialog;
 		}
 

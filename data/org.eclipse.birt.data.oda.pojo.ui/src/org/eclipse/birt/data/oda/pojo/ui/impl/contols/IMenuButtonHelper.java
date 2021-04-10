@@ -14,24 +14,20 @@ package org.eclipse.birt.data.oda.pojo.ui.impl.contols;
 import org.eclipse.birt.data.oda.pojo.ui.impl.models.ClassPathElement;
 import org.eclipse.swt.widgets.Listener;
 
+public interface IMenuButtonHelper {
 
-public interface IMenuButtonHelper
-{
+	public void addClassPathElements(ClassPathElement[] elements, boolean current);
 
-	public void addClassPathElements( ClassPathElement[] elements,
-			boolean current );
-	
-	public void setProvider( IMenuButtonProvider provider );
-	
-	public void setListener( Listener listener );
-	
-	public void setMenuButton( ClassSelectionButton button );
+	public void setProvider(IMenuButtonProvider provider);
 
-	public void notifyExpressionChangeEvent( String oldExpression,
-			String newExpression );
-	
-	public void setProperty( String key, Object value );
-	
-	public Object getPropertyValue( String key );
+	public void setListener(Listener listener);
+
+	public void setMenuButton(ClassSelectionButton button);
+
+	public void notifyExpressionChangeEvent(String oldExpression, String newExpression);
+
+	public void setProperty(String key, Object value);
+
+	public Object getPropertyValue(String key);
 
 }

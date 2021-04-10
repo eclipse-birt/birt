@@ -14,8 +14,7 @@ package org.eclipse.birt.report.debug.internal.core.vm;
 /**
  * VMConstants
  */
-public interface VMConstants
-{
+public interface VMConstants {
 
 	VMVariable[] NO_VARS = new VMVariable[0];
 	VMVariable[] NO_CHILD = NO_VARS;
@@ -69,8 +68,7 @@ public interface VMConstants
 	int CHANGE = 3;
 	int CLEAR = 4;
 
-	String[] EVENT_NAMES = {
-			"IDLE", //$NON-NLS-1$
+	String[] EVENT_NAMES = { "IDLE", //$NON-NLS-1$
 			"STEP_OVER", //$NON-NLS-1$
 			"STEP_INTO", //$NON-NLS-1$
 			"STEP_OUT", //$NON-NLS-1$

@@ -15,8 +15,7 @@ package org.eclipse.birt.core.script.functionservice;
  * 
  */
 
-public interface INamedObject
-{
+public interface INamedObject {
 	/**
 	 * Get the name.
 	 * 

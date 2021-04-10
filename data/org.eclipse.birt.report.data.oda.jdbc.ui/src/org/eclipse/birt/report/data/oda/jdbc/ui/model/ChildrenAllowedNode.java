@@ -10,63 +10,53 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc.ui.model;
 
-public abstract class ChildrenAllowedNode implements IDBNode
-{
+public abstract class ChildrenAllowedNode implements IDBNode {
 	private IDBNode[] children;
-	
-	public boolean isChildrenPrepared( )
-	{
+
+	public boolean isChildrenPrepared() {
 		return children != null;
 	}
-	
-	public void prepareChildren( FilterConfig fc, long timeout )
-	{
-		class TempThread extends Thread
-		{
+
+	public void prepareChildren(FilterConfig fc, long timeout) {
+		class TempThread extends Thread {
 			private FilterConfig fc;
-			TempThread( FilterConfig fc )
-			{
+
+			TempThread(FilterConfig fc) {
 				this.fc = fc;
 			}
+
 			private IDBNode[] result = null;
+
 			@Override
-			public void run( )
-			{
-				result = refetchChildren( fc );
+			public void run() {
+				result = refetchChildren(fc);
 			}
-			
-			public IDBNode[] getResult( )
-			{
+
+			public IDBNode[] getResult() {
 				return result;
 			}
 		}
-		TempThread tt = new TempThread( fc );
-		tt.start( );
-		try
-		{
-			tt.join( timeout );
-		}
-		catch ( InterruptedException e )
-		{
+		TempThread tt = new TempThread(fc);
+		tt.start();
+		try {
+			tt.join(timeout);
+		} catch (InterruptedException e) {
 
 		}
-		IDBNode[] children = tt.getResult( );
-		if ( children == null )
-		{
+		IDBNode[] children = tt.getResult();
+		if (children == null) {
 			children = new IDBNode[0];
 		}
-		setChildren( children );
+		setChildren(children);
 	}
 
-	protected abstract IDBNode[] refetchChildren( FilterConfig fc );
-	
-	public IDBNode[] getChildren( )
-	{
+	protected abstract IDBNode[] refetchChildren(FilterConfig fc);
+
+	public IDBNode[] getChildren() {
 		return children;
 	}
-	
-	protected void setChildren( IDBNode[] children )
-	{
+
+	protected void setChildren(IDBNode[] children) {
 		this.children = children;
 	}
 }

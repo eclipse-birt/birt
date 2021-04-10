@@ -38,10 +38,9 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * <code>MasterPage</code>.
  */
 
-public class MasterPageSizeValidator extends AbstractElementValidator
-{
+public class MasterPageSizeValidator extends AbstractElementValidator {
 
-	private static MasterPageSizeValidator instance = new MasterPageSizeValidator( );
+	private static MasterPageSizeValidator instance = new MasterPageSizeValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -49,56 +48,42 @@ public class MasterPageSizeValidator extends AbstractElementValidator
 	 * @return the validator instance
 	 */
 
-	public static MasterPageSizeValidator getInstance( )
-	{
+	public static MasterPageSizeValidator getInstance() {
 		return instance;
 	}
 
 	/**
 	 * Validates whether the page size is invalid.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the master page to validate
+	 * @param module  the module
+	 * @param element the master page to validate
 	 * 
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
-	{
-		if ( !( element instanceof MasterPage ) )
-			return Collections.emptyList( );
+	public List<SemanticException> validate(Module module, DesignElement element) {
+		if (!(element instanceof MasterPage))
+			return Collections.emptyList();
 
-		return doValidate( module, (MasterPage) element );
+		return doValidate(module, (MasterPage) element);
 	}
 
-	private List<SemanticException> doValidate( Module module,
-			MasterPage toValidate )
-	{
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+	private List<SemanticException> doValidate(Module module, MasterPage toValidate) {
+		List<SemanticException> list = new ArrayList<SemanticException>();
 
 		// Validate the size. Must be positive in both dimensions.
 
-		Point size = toValidate.getSize( module );
-		if ( size.x <= 0 || size.y <= 0 )
-		{
-			list.add( new SemanticError( toValidate,
-					SemanticError.DESIGN_EXCEPTION_INVALID_PAGE_SIZE ) );
-		}
-		else
-		{
+		Point size = toValidate.getSize(module);
+		if (size.x <= 0 || size.y <= 0) {
+			list.add(new SemanticError(toValidate, SemanticError.DESIGN_EXCEPTION_INVALID_PAGE_SIZE));
+		} else {
 			// Check margins. Must start on the page and not be of negative
 			// size.
 
-			Rectangle margins = toValidate.getContentArea( module );
-			if ( margins.x >= size.x || margins.y >= size.y
-					|| margins.height <= 0 || margins.width <= 0 )
-			{
-				list.add( new SemanticError( toValidate,
-						SemanticError.DESIGN_EXCEPTION_INVALID_PAGE_MARGINS ) );
+			Rectangle margins = toValidate.getContentArea(module);
+			if (margins.x >= size.x || margins.y >= size.y || margins.height <= 0 || margins.width <= 0) {
+				list.add(new SemanticError(toValidate, SemanticError.DESIGN_EXCEPTION_INVALID_PAGE_MARGINS));
 			}
 		}
 

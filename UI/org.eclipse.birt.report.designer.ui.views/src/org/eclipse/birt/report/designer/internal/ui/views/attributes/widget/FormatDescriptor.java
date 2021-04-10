@@ -26,119 +26,91 @@ import com.ibm.icu.util.ULocale;
 /**
  * FormatDescriptor
  */
-public abstract class FormatDescriptor extends PropertyDescriptor implements
-		IFormatPage
-{
+public abstract class FormatDescriptor extends PropertyDescriptor implements IFormatPage {
 
 	protected FormatLayoutPeer layoutPeer;
 
 	private FormatDescriptorProvider provider;
 
-	public void addFormatChangeListener( IFormatChangeListener listener )
-	{
-		layoutPeer.addFormatChangeListener( listener );
+	public void addFormatChangeListener(IFormatChangeListener listener) {
+		layoutPeer.addFormatChangeListener(listener);
 	}
 
-	public void setDescriptorProvider( IDescriptorProvider provider )
-	{
-		super.setDescriptorProvider( provider );
+	public void setDescriptorProvider(IDescriptorProvider provider) {
+		super.setDescriptorProvider(provider);
 
-		if ( provider instanceof FormatDescriptorProvider )
-		{
+		if (provider instanceof FormatDescriptorProvider) {
 			this.provider = (FormatDescriptorProvider) provider;
 		}
 	}
 
-	public void load( )
-	{
-		layoutPeer.setEnabled( true );
-		String[] result = (String[]) provider.load( );
+	public void load() {
+		layoutPeer.setEnabled(true);
+		String[] result = (String[]) provider.load();
 
-		if ( result == null || result.length == 0 )
-		{
-			layoutPeer.setEnabled( false );
-		}
-		else if ( result.length == 1 )
-		{
-			setInput( result[0] );
-		}
-		else if ( result.length == 2 )
-		{
-			layoutPeer.setInput( result[0], result[1] );
-		}
-		else if ( result.length == 3 )
-		{
-			setInput( result[0],
-					result[1],
-					FormatAdapter.getLocaleByDisplayName( result[2] ) );
+		if (result == null || result.length == 0) {
+			layoutPeer.setEnabled(false);
+		} else if (result.length == 1) {
+			setInput(result[0]);
+		} else if (result.length == 2) {
+			layoutPeer.setInput(result[0], result[1]);
+		} else if (result.length == 3) {
+			setInput(result[0], result[1], FormatAdapter.getLocaleByDisplayName(result[2]));
 		}
 	}
 
-	public void save( Object obj ) throws SemanticException
-	{
-		provider.save( obj );
+	public void save(Object obj) throws SemanticException {
+		provider.save(obj);
 	}
 
-	public String getCategory( )
-	{
-		return layoutPeer.getCategory( );
+	public String getCategory() {
+		return layoutPeer.getCategory();
 	}
 
-	public String getFormatString( )
-	{
-		return layoutPeer.getFormatString( );
+	public String getFormatString() {
+		return layoutPeer.getFormatString();
 	}
 
-	public ULocale getLocale( )
-	{
-		return layoutPeer.getLocale( );
+	public ULocale getLocale() {
+		return layoutPeer.getLocale();
 	}
 
-	public String getPattern( )
-	{
-		return layoutPeer.getPattern( );
+	public String getPattern() {
+		return layoutPeer.getPattern();
 	}
 
-	public boolean isDirty( )
-	{
-		return layoutPeer.isDirty( );
+	public boolean isDirty() {
+		return layoutPeer.isDirty();
 	}
 
-	public boolean isFormatModified( )
-	{
-		return layoutPeer.isFormatModified( );
+	public boolean isFormatModified() {
+		return layoutPeer.isFormatModified();
 	}
 
-	public void setInput( String category, String pattern, ULocale formatLocale )
-	{
-		layoutPeer.setInput( category, pattern, formatLocale );
+	public void setInput(String category, String pattern, ULocale formatLocale) {
+		layoutPeer.setInput(category, pattern, formatLocale);
 	}
 
 	@Override
-	public void setInput( Object object )
-	{
-		super.setInput( object );
-		getDescriptorProvider( ).setInput( object );
+	public void setInput(Object object) {
+		super.setInput(object);
+		getDescriptorProvider().setInput(object);
 	}
 
-	public void setInput( String formatString )
-	{
-		layoutPeer.setInput( formatString );
+	public void setInput(String formatString) {
+		layoutPeer.setInput(formatString);
 	}
 
-	public void setPreviewText( String text )
-	{
-		layoutPeer.setPreviewText( text );
+	public void setPreviewText(String text) {
+		layoutPeer.setPreviewText(text);
 	}
 
-	public Control createControl( Composite parent )
-	{
-		return layoutPeer.createLayout( parent );
+	public Control createControl(Composite parent) {
+		return layoutPeer.createLayout(parent);
 	}
 
 	@Override
-	public Control getControl( )
-	{
-		return layoutPeer.getControl( );
+	public Control getControl() {
+		return layoutPeer.getControl();
 	}
 }

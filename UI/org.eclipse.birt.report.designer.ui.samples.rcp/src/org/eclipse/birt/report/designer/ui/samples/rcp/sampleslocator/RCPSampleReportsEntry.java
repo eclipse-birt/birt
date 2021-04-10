@@ -15,25 +15,18 @@ import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntr
 import org.eclipse.birt.report.designer.ui.samplesview.sampleslocator.ISampleReportEntry;
 import org.eclipse.birt.report.designer.ui.samplesview.sampleslocator.SampleReportsEntry;
 
-
-public class RCPSampleReportsEntry implements ISampleReportEntry
-{
-	private static final String[] REPORTDESIGN_FILENAME_PATTERN = new String[]{
-		"*.rptdesign" //$NON-NLS-1$
+public class RCPSampleReportsEntry implements ISampleReportEntry {
+	private static final String[] REPORTDESIGN_FILENAME_PATTERN = new String[] { "*.rptdesign" //$NON-NLS-1$
 	};
 	SampleReportsEntry samplesEntries;
 
-	public RCPSampleReportsEntry( )
-	{
-		samplesEntries = new SampleReportsEntry( REPORTDESIGN_FILENAME_PATTERN,
-				"Report Examples", //$NON-NLS-1$
+	public RCPSampleReportsEntry() {
+		samplesEntries = new SampleReportsEntry(REPORTDESIGN_FILENAME_PATTERN, "Report Examples", //$NON-NLS-1$
 				"/samplereports", //$NON-NLS-1$
-				null,
-				false );
+				null, false);
 	}
 
-	public ResourceEntry[] getEntries( )
-	{
-		return samplesEntries.getChildren( );
+	public ResourceEntry[] getEntries() {
+		return samplesEntries.getChildren();
 	}
 }

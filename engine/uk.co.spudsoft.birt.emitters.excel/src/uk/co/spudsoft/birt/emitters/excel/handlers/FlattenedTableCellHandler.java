@@ -30,7 +30,8 @@ public class FlattenedTableCellHandler extends AbstractHandler {
 
 	private CellContentHandler contentHandler;
 
-	public FlattenedTableCellHandler(CellContentHandler contentHandler, Logger log, IHandler parent, ICellContent cell) {
+	public FlattenedTableCellHandler(CellContentHandler contentHandler, Logger log, IHandler parent,
+			ICellContent cell) {
 		super(log, parent, cell);
 		this.contentHandler = contentHandler;
 	}
@@ -81,9 +82,5 @@ public class FlattenedTableCellHandler extends AbstractHandler {
 	public void emitImage(HandlerState state, IImageContent image) throws BirtException {
 		contentHandler.emitImage(state, image);
 	}
-
-	
-	
-	
 
 }

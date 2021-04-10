@@ -29,8 +29,7 @@ import org.eclipse.birt.core.btree.BTreeOption;
 import org.eclipse.birt.core.btree.BTreeSerializer;
 import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 
-class BTreeMap extends BTree<String, Object>
-{
+class BTreeMap extends BTree<String, Object> {
 
 	static final int LONG_VALUE = 1;
 	static final int BOOKMARK_VALUE = 2;
@@ -38,181 +37,144 @@ class BTreeMap extends BTree<String, Object>
 	int indexVersion;
 	int indexType;
 
-	static public BTreeMap openTreeMap( IDocArchiveReader archive, String name,
-			int valueType ) throws IOException
-	{
-		BTreeOption<String, Object> option = new BTreeOption<String, Object>( );
-		option.setReadOnly( true );
-		option.setKeySerializer( new StringSerializer( ) );
-		option.setHasValue( true );
-		option.setAllowDuplicate( false );
-		option.setValueSerializer( new ObjectSerializer( valueType ) );
-		option.setFile( new ArchiveInputFile( archive, name ) );
-		return new BTreeMap( option, valueType );
+	static public BTreeMap openTreeMap(IDocArchiveReader archive, String name, int valueType) throws IOException {
+		BTreeOption<String, Object> option = new BTreeOption<String, Object>();
+		option.setReadOnly(true);
+		option.setKeySerializer(new StringSerializer());
+		option.setHasValue(true);
+		option.setAllowDuplicate(false);
+		option.setValueSerializer(new ObjectSerializer(valueType));
+		option.setFile(new ArchiveInputFile(archive, name));
+		return new BTreeMap(option, valueType);
 	}
 
-	static public BTreeMap createTreeMap( IDocArchiveWriter archive,
-			String name, int valueType ) throws IOException
-	{
-		BTreeOption<String, Object> option = new BTreeOption<String, Object>( );
-		option.setKeySerializer( new StringSerializer( ) );
-		option.setHasValue( true );
-		option.setAllowDuplicate( false );
-		option.setValueSerializer( new ObjectSerializer( valueType ) );
-		option.setFile( new ArchiveOutputFile( archive, name ) );
-		return new BTreeMap( option, valueType );
+	static public BTreeMap createTreeMap(IDocArchiveWriter archive, String name, int valueType) throws IOException {
+		BTreeOption<String, Object> option = new BTreeOption<String, Object>();
+		option.setKeySerializer(new StringSerializer());
+		option.setHasValue(true);
+		option.setAllowDuplicate(false);
+		option.setValueSerializer(new ObjectSerializer(valueType));
+		option.setFile(new ArchiveOutputFile(archive, name));
+		return new BTreeMap(option, valueType);
 	}
 
-	private BTreeMap( BTreeOption<String, Object> option, int valueType ) throws IOException
-	{
-		super( option );
+	private BTreeMap(BTreeOption<String, Object> option, int valueType) throws IOException {
+		super(option);
 
 		indexVersion = IndexConstants.VERSION_0;
 
-		if ( valueType == BTreeMap.BOOKMARK_VALUE )
-		{
+		if (valueType == BTreeMap.BOOKMARK_VALUE) {
 			indexVersion = IndexConstants.VERSION_1;
 		}
 		indexType = IndexConstants.BTREE_MAP;
 	}
 
-	protected void readTreeHead( DataInput in ) throws IOException
-	{
-		indexVersion = in.readInt( );
-		indexType = in.readInt( );
-		super.readTreeHead( in );
+	protected void readTreeHead(DataInput in) throws IOException {
+		indexVersion = in.readInt();
+		indexType = in.readInt();
+		super.readTreeHead(in);
 	}
 
-	protected void writeTreeHead( DataOutput out ) throws IOException
-	{
-		out.writeInt( indexVersion );
-		out.writeInt( indexType );
-		super.writeTreeHead( out );
+	protected void writeTreeHead(DataOutput out) throws IOException {
+		out.writeInt(indexVersion);
+		out.writeInt(indexType);
+		super.writeTreeHead(out);
 	}
 
-	public void close( ) throws IOException
-	{
-		super.close( );
+	public void close() throws IOException {
+		super.close();
 	}
 
-	static private class StringSerializer implements BTreeSerializer<String>
-	{
+	static private class StringSerializer implements BTreeSerializer<String> {
 
-		public byte[] getBytes( String object ) throws IOException
-		{
-			ByteArrayOutputStream out = new ByteArrayOutputStream( 1024 );
-			DataOutput oo = new DataOutputStream( out );
-			oo.writeUTF( object );
-			return out.toByteArray( );
+		public byte[] getBytes(String object) throws IOException {
+			ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
+			DataOutput oo = new DataOutputStream(out);
+			oo.writeUTF(object);
+			return out.toByteArray();
 		}
 
-		public String getObject( byte[] bytes ) throws IOException,
-				ClassNotFoundException
-		{
-			DataInput input = new DataInputStream( new ByteArrayInputStream(
-					bytes ) );
-			return input.readUTF( );
+		public String getObject(byte[] bytes) throws IOException, ClassNotFoundException {
+			DataInput input = new DataInputStream(new ByteArrayInputStream(bytes));
+			return input.readUTF();
 		}
 	}
 
-	static private class ObjectSerializer implements BTreeSerializer<Object>
-	{
+	static private class ObjectSerializer implements BTreeSerializer<Object> {
 
 		int valueType;
 
-		ObjectSerializer( int type )
-		{
+		ObjectSerializer(int type) {
 			valueType = type;
 		}
 
-		public byte[] getBytes( Object object ) throws IOException
-		{
-			ByteArrayOutputStream out = new ByteArrayOutputStream( 1024 );
-			DataOutput oo = new DataOutputStream( out );
-			if ( valueType == LONG_VALUE )
-			{
-				oo.writeLong( ( (Long) object ).longValue( ) );
+		public byte[] getBytes(Object object) throws IOException {
+			ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
+			DataOutput oo = new DataOutputStream(out);
+			if (valueType == LONG_VALUE) {
+				oo.writeLong(((Long) object).longValue());
+			} else if (valueType == BOOKMARK_VALUE) {
+				((BookmarkContent) object).writeStream(oo);
 			}
-			else if ( valueType == BOOKMARK_VALUE )
-			{
-				( (BookmarkContent) object ).writeStream( oo );
-			}
-			return out.toByteArray( );
+			return out.toByteArray();
 		}
 
-		public Object getObject( byte[] bytes ) throws IOException,
-				ClassNotFoundException
-		{
-			DataInput input = new DataInputStream( new ByteArrayInputStream(
-					bytes ) );
-			if ( valueType == LONG_VALUE )
-			{
-				return Long.valueOf( input.readLong( ) );
-			}
-			else if ( valueType == BOOKMARK_VALUE )
-			{
-				BookmarkContent content = new BookmarkContent( );
-				content.readStream( input );
+		public Object getObject(byte[] bytes) throws IOException, ClassNotFoundException {
+			DataInput input = new DataInputStream(new ByteArrayInputStream(bytes));
+			if (valueType == LONG_VALUE) {
+				return Long.valueOf(input.readLong());
+			} else if (valueType == BOOKMARK_VALUE) {
+				BookmarkContent content = new BookmarkContent();
+				content.readStream(input);
 				return content;
 			}
 			return null;
 		}
 	}
 
-	static private class ArchiveInputFile implements BTreeFile
-	{
+	static private class ArchiveInputFile implements BTreeFile {
 
 		IDocArchiveReader archive;
 		String name;
 		RAInputStream input;
 
-		ArchiveInputFile( IDocArchiveReader archive, String name )
-				throws IOException
-		{
+		ArchiveInputFile(IDocArchiveReader archive, String name) throws IOException {
 			this.archive = archive;
 			this.name = name;
-			this.input = archive.getInputStream( name );
+			this.input = archive.getInputStream(name);
 		}
 
-		public int allocBlock( ) throws IOException
-		{
-			throw new IOException( "read only stream" );
+		public int allocBlock() throws IOException {
+			throw new IOException("read only stream");
 		}
 
-		public int getTotalBlock( ) throws IOException
-		{
-			return (int) ( ( input.length( ) + BLOCK_SIZE - 1 ) / BLOCK_SIZE );
+		public int getTotalBlock() throws IOException {
+			return (int) ((input.length() + BLOCK_SIZE - 1) / BLOCK_SIZE);
 		}
 
-		public Object lock( ) throws IOException
-		{
-			return archive.lock( name );
+		public Object lock() throws IOException {
+			return archive.lock(name);
 		}
 
-		public void readBlock( int blockId, byte[] bytes ) throws IOException
-		{
-			input.seek( (long) blockId * BLOCK_SIZE );
-			input.read( bytes );
+		public void readBlock(int blockId, byte[] bytes) throws IOException {
+			input.seek((long) blockId * BLOCK_SIZE);
+			input.read(bytes);
 		}
 
-		public void unlock( Object lock ) throws IOException
-		{
-			archive.unlock( lock );
+		public void unlock(Object lock) throws IOException {
+			archive.unlock(lock);
 		}
 
-		public void writeBlock( int blockId, byte[] bytes ) throws IOException
-		{
-			throw new IOException( "read only stream" );
+		public void writeBlock(int blockId, byte[] bytes) throws IOException {
+			throw new IOException("read only stream");
 		}
 
-		public void close( ) throws IOException
-		{
-			input.close( );
+		public void close() throws IOException {
+			input.close();
 		}
 	}
 
-	static private class ArchiveOutputFile implements BTreeFile
-	{
+	static private class ArchiveOutputFile implements BTreeFile {
 
 		IDocArchiveWriter archive;
 		String name;
@@ -220,64 +182,52 @@ class BTreeMap extends BTree<String, Object>
 		RAInputStream input;
 		int totalBlock;
 
-		ArchiveOutputFile( IDocArchiveWriter archive, String name )
-				throws IOException
-		{
+		ArchiveOutputFile(IDocArchiveWriter archive, String name) throws IOException {
 			this.archive = archive;
 			this.name = name;
-			output = archive.createOutputStream( name );
-			input = archive.getInputStream( name );
+			output = archive.createOutputStream(name);
+			input = archive.getInputStream(name);
 			totalBlock = 0;
 		}
 
-		public void close( ) throws IOException
-		{
-			if ( output != null )
-			{
-				output.close( );
+		public void close() throws IOException {
+			if (output != null) {
+				output.close();
 			}
-			if ( input != null )
-			{
-				input.close( );
+			if (input != null) {
+				input.close();
 			}
 		}
 
-		public int allocBlock( ) throws IOException
-		{
+		public int allocBlock() throws IOException {
 			return totalBlock++;
 		}
 
-		public int getTotalBlock( ) throws IOException
-		{
+		public int getTotalBlock() throws IOException {
 			return totalBlock;
 		}
 
-		public Object lock( ) throws IOException
-		{
-			return archive.lock( name );
+		public Object lock() throws IOException {
+			return archive.lock(name);
 		}
 
-		public void readBlock( int blockId, byte[] bytes ) throws IOException
-		{
-			input.refresh( );
-			input.seek( (long) blockId * BLOCK_SIZE );
-			input.read( bytes );
+		public void readBlock(int blockId, byte[] bytes) throws IOException {
+			input.refresh();
+			input.seek((long) blockId * BLOCK_SIZE);
+			input.read(bytes);
 		}
 
-		public void unlock( Object lock ) throws IOException
-		{
-			archive.unlock( lock );
+		public void unlock(Object lock) throws IOException {
+			archive.unlock(lock);
 		}
 
-		public void writeBlock( int blockId, byte[] bytes ) throws IOException
-		{
-			if ( blockId >= totalBlock )
-			{
+		public void writeBlock(int blockId, byte[] bytes) throws IOException {
+			if (blockId >= totalBlock) {
 				totalBlock = blockId + 1;
 			}
-			output.seek( (long) blockId * BLOCK_SIZE );
-			output.write( bytes );
-			output.flush( );
+			output.seek((long) blockId * BLOCK_SIZE);
+			output.write(bytes);
+			output.flush();
 		}
 	}
 

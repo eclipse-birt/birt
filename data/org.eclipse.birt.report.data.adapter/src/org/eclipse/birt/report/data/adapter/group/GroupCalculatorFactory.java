@@ -24,8 +24,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * A factory of group calculator.
  */
-public class GroupCalculatorFactory
-{
+public class GroupCalculatorFactory {
 	/**
 	 * 
 	 * @param interval
@@ -35,62 +34,47 @@ public class GroupCalculatorFactory
 	 * @return
 	 * @throws DataException
 	 */
-	public static ICalculator getGroupCalculator( int interval, int dataType,
-			Object intervalStart, double intervalRange, ULocale locale, TimeZone timeZone ) throws AdapterException
-	{
-		if ( !isValidInterval( interval, dataType ) )
-		{
+	public static ICalculator getGroupCalculator(int interval, int dataType, Object intervalStart, double intervalRange,
+			ULocale locale, TimeZone timeZone) throws AdapterException {
+		if (!isValidInterval(interval, dataType)) {
 			return null;
 		}
-		try
-		{
-			switch ( interval )
-			{
-				case IGroupDefinition.YEAR_INTERVAL :
-					return new YearGroupCalculator( intervalStart,
-							intervalRange, locale, timeZone );
+		try {
+			switch (interval) {
+			case IGroupDefinition.YEAR_INTERVAL:
+				return new YearGroupCalculator(intervalStart, intervalRange, locale, timeZone);
 
-				case IGroupDefinition.MONTH_INTERVAL :
-					return new MonthGroupCalculator( intervalStart,
-							intervalRange, locale, timeZone);
+			case IGroupDefinition.MONTH_INTERVAL:
+				return new MonthGroupCalculator(intervalStart, intervalRange, locale, timeZone);
 
-				case IGroupDefinition.QUARTER_INTERVAL :
-					return new QuarterGroupCalculator( intervalStart,
-							intervalRange, locale, timeZone );
+			case IGroupDefinition.QUARTER_INTERVAL:
+				return new QuarterGroupCalculator(intervalStart, intervalRange, locale, timeZone);
 
-				case IGroupDefinition.WEEK_INTERVAL :
-					return new WeekGroupCalculator( intervalStart,
-							intervalRange, locale, timeZone );
+			case IGroupDefinition.WEEK_INTERVAL:
+				return new WeekGroupCalculator(intervalStart, intervalRange, locale, timeZone);
 
-				case IGroupDefinition.DAY_INTERVAL :
-					return new DayGroupCalculator( intervalStart, intervalRange, locale, timeZone );
+			case IGroupDefinition.DAY_INTERVAL:
+				return new DayGroupCalculator(intervalStart, intervalRange, locale, timeZone);
 
-				case IGroupDefinition.HOUR_INTERVAL :
-					return new HourGroupCalculator( intervalStart,
-							intervalRange, locale, timeZone );
+			case IGroupDefinition.HOUR_INTERVAL:
+				return new HourGroupCalculator(intervalStart, intervalRange, locale, timeZone);
 
-				case IGroupDefinition.MINUTE_INTERVAL :
-					return new MinuteGroupCalculator( intervalStart,
-							intervalRange, locale, timeZone );
+			case IGroupDefinition.MINUTE_INTERVAL:
+				return new MinuteGroupCalculator(intervalStart, intervalRange, locale, timeZone);
 
-				case IGroupDefinition.SECOND_INTERVAL :
-					return new SecondGroupCalculator( intervalStart,
-							intervalRange, locale, timeZone );
+			case IGroupDefinition.SECOND_INTERVAL:
+				return new SecondGroupCalculator(intervalStart, intervalRange, locale, timeZone);
 
-				case IGroupDefinition.NUMERIC_INTERVAL :
-					return new NumericGroupCalculator( intervalStart,
-							intervalRange );
+			case IGroupDefinition.NUMERIC_INTERVAL:
+				return new NumericGroupCalculator(intervalStart, intervalRange);
 
-				case IGroupDefinition.STRING_PREFIX_INTERVAL :
-					return new StringGroupCalculator( intervalStart,
-							intervalRange );
-				default :
-					throw new DataException( ResourceConstants.BAD_GROUP_INTERVAL_INVALID );
+			case IGroupDefinition.STRING_PREFIX_INTERVAL:
+				return new StringGroupCalculator(intervalStart, intervalRange);
+			default:
+				throw new DataException(ResourceConstants.BAD_GROUP_INTERVAL_INVALID);
 			}
-		}
-		catch ( BirtException be )
-		{
-			throw new AdapterException( be.getLocalizedMessage( ), be );
+		} catch (BirtException be) {
+			throw new AdapterException(be.getLocalizedMessage(), be);
 		}
 	}
 
@@ -101,33 +85,29 @@ public class GroupCalculatorFactory
 	 * @return
 	 * @throws DataException
 	 */
-	private static boolean isValidInterval( int interval, int dataType )
-			throws AdapterException
-	{
-		if ( dataType == DataType.ANY_TYPE || dataType == DataType.UNKNOWN_TYPE )
-		{
+	private static boolean isValidInterval(int interval, int dataType) throws AdapterException {
+		if (dataType == DataType.ANY_TYPE || dataType == DataType.UNKNOWN_TYPE) {
 			return true;
 		}
 
-		switch ( interval )
-		{
-			case IGroupDefinition.NO_INTERVAL :
+		switch (interval) {
+		case IGroupDefinition.NO_INTERVAL:
+			return true;
+		case IGroupDefinition.NUMERIC_INTERVAL:
+			if (isNumber(dataType))
 				return true;
-			case IGroupDefinition.NUMERIC_INTERVAL :
-				if ( isNumber( dataType ) )
-					return true;
-				else
-					throw new AdapterException( "The group interval is invalid" );
-			case IGroupDefinition.STRING_PREFIX_INTERVAL :
-				if ( isString( dataType ) )
-					return true;
-				else
-					throw new AdapterException( "The group interval is invalid" );
-			default :
-				if ( isDate( dataType ) )
-					return true;
-				else
-					throw new AdapterException( "The group interval is invalid" );
+			else
+				throw new AdapterException("The group interval is invalid");
+		case IGroupDefinition.STRING_PREFIX_INTERVAL:
+			if (isString(dataType))
+				return true;
+			else
+				throw new AdapterException("The group interval is invalid");
+		default:
+			if (isDate(dataType))
+				return true;
+			else
+				throw new AdapterException("The group interval is invalid");
 		}
 	}
 
@@ -136,10 +116,9 @@ public class GroupCalculatorFactory
 	 * @param dataType
 	 * @return
 	 */
-	private static boolean isNumber( int dataType )
-	{
-		return ( dataType == DataType.DECIMAL_TYPE
-				|| dataType == DataType.DOUBLE_TYPE || dataType == DataType.INTEGER_TYPE );
+	private static boolean isNumber(int dataType) {
+		return (dataType == DataType.DECIMAL_TYPE || dataType == DataType.DOUBLE_TYPE
+				|| dataType == DataType.INTEGER_TYPE);
 	}
 
 	/**
@@ -147,10 +126,9 @@ public class GroupCalculatorFactory
 	 * @param dataType
 	 * @return
 	 */
-	private static boolean isDate( int dataType )
-	{
-		return (dataType == DataType.DATE_TYPE
-				|| dataType == DataType.SQL_DATE_TYPE || dataType == DataType.SQL_TIME_TYPE);
+	private static boolean isDate(int dataType) {
+		return (dataType == DataType.DATE_TYPE || dataType == DataType.SQL_DATE_TYPE
+				|| dataType == DataType.SQL_TIME_TYPE);
 	}
 
 	/**
@@ -158,8 +136,7 @@ public class GroupCalculatorFactory
 	 * @param dataType
 	 * @return
 	 */
-	private static boolean isString( int dataType )
-	{
-		return ( dataType == DataType.STRING_TYPE );
+	private static boolean isString(int dataType) {
+		return (dataType == DataType.STRING_TYPE);
 	}
 }

@@ -39,13 +39,12 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </tr>
  * 
  * </table>
- *  
+ * 
  */
-public class DefaultSearchFileAlgorithmTest extends BaseTestCase
-{
-	
-	public static Test suite(){
-		
+public class DefaultSearchFileAlgorithmTest extends BaseTestCase {
+
+	public static Test suite() {
+
 		return new TestSuite(DefaultSearchFileAlgorithmTest.class);
 	}
 
@@ -53,8 +52,10 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
+
 	final static String INPUT = "DefaultSearchFileAlgorithm.xml";
-	//private final String fileName = "SimpleMasterPageHandleTest.xml"; //$NON-NLS-1$
+	// private final String fileName = "SimpleMasterPageHandleTest.xml";
+	// //$NON-NLS-1$
 	private ResourceLocatorImpl algorithm;
 
 	/*
@@ -62,39 +63,33 @@ public class DefaultSearchFileAlgorithmTest extends BaseTestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve input file(s) from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		
-		openDesign( INPUT );
-		algorithm = new ResourceLocatorImpl( );
+		copyResource_INPUT(INPUT, INPUT);
+
+		openDesign(INPUT);
+		algorithm = new ResourceLocatorImpl();
 	}
 
 	/**
 	 * Tests the 'findFile' method of DefaultSearchFileAlgorithm.
 	 * 
-	 * @throws Exception
-	 *             if the test fails.
+	 * @throws Exception if the test fails.
 	 */
 
-	public void testFindFile( ) throws Exception
-	{
-		URL url = algorithm.findResource( designHandle,
-				"1.xml", IResourceLocator.IMAGE ); //$NON-NLS-1$
-		assertNull( url );
+	public void testFindFile() throws Exception {
+		URL url = algorithm.findResource(designHandle, "1.xml", IResourceLocator.IMAGE); //$NON-NLS-1$
+		assertNull(url);
 
-		url = algorithm.findResource( designHandle,
-				INPUT, IResourceLocator.IMAGE ); //$NON-NLS-1$
-		assertNotNull( url );
+		url = algorithm.findResource(designHandle, INPUT, IResourceLocator.IMAGE); // $NON-NLS-1$
+		assertNotNull(url);
 
-		designHandle.setStringProperty( ReportDesign.BASE_PROP,
-				PLUGIN_PATH+ this.getFullQualifiedClassName( ) + GOLDEN_FOLDER );
-		url = algorithm.findResource( designHandle,
-				"1.xml", IResourceLocator.IMAGE ); //$NON-NLS-1$
-		assertNull( url );
+		designHandle.setStringProperty(ReportDesign.BASE_PROP,
+				PLUGIN_PATH + this.getFullQualifiedClassName() + GOLDEN_FOLDER);
+		url = algorithm.findResource(designHandle, "1.xml", IResourceLocator.IMAGE); //$NON-NLS-1$
+		assertNull(url);
 	}
 }

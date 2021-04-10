@@ -26,12 +26,10 @@ import org.eclipse.birt.report.model.core.Structure;
 /**
  * CalculationArgument.
  */
-public class CalculationArgument extends Structure
-{
+public class CalculationArgument extends Structure {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public static final String STRUCTURE_NAME = "CalculationArgument"; //$NON-NLS-1$
@@ -66,24 +64,21 @@ public class CalculationArgument extends Structure
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( NAME_MEMBER.equals( propName ) )
+	protected Object getIntrinsicProperty(String propName) {
+		if (NAME_MEMBER.equals(propName))
 			return name;
-		if ( VALUE_MEMBER.equals( propName ) )
+		if (VALUE_MEMBER.equals(propName))
 			return value;
 
 		assert false;
@@ -93,16 +88,14 @@ public class CalculationArgument extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( NAME_MEMBER.equals( propName ) )
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (NAME_MEMBER.equals(propName))
 			name = (String) value;
-		else if ( VALUE_MEMBER.equals( propName ) )
+		else if (VALUE_MEMBER.equals(propName))
 			this.value = (Expression) value;
 		else
 			assert false;
@@ -114,21 +107,18 @@ public class CalculationArgument extends Structure
 	 * @return the argument name.
 	 */
 
-	public String getName( )
-	{
-		return (String) getProperty( null, NAME_MEMBER );
+	public String getName() {
+		return (String) getProperty(null, NAME_MEMBER);
 	}
 
 	/**
 	 * Sets the argument name.
 	 * 
-	 * @param argumentName
-	 *            the argument name to set
+	 * @param argumentName the argument name to set
 	 */
 
-	public void setName( String argumentName )
-	{
-		setProperty( NAME_MEMBER, argumentName );
+	public void setName(String argumentName) {
+		setProperty(NAME_MEMBER, argumentName);
 	}
 
 	/**
@@ -137,52 +127,42 @@ public class CalculationArgument extends Structure
 	 * @return the argument value.
 	 */
 
-	public Expression getValue( )
-	{
-		return getExpressionProperty( VALUE_MEMBER );
+	public Expression getValue() {
+		return getExpressionProperty(VALUE_MEMBER);
 	}
 
 	/**
 	 * Sets the argument value.
 	 * 
-	 * @param argumentValue
-	 *            the argument value to set
+	 * @param argumentValue the argument value to set
 	 */
 
-	public void setValue( Expression argumentValue )
-	{
-		setExpressionProperty( VALUE_MEMBER, argumentValue );
+	public void setValue(Expression argumentValue) {
+		setExpressionProperty(VALUE_MEMBER, argumentValue);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
-	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
-		return new CalculationArgumentHandle( valueHandle, index );
+	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
+		return new CalculationArgumentHandle(valueHandle, index);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
-	 * .report.model.core.Module,
-	 * org.eclipse.birt.report.model.core.DesignElement)
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
+	 * .report.model.core.Module, org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public List validate( Module module, DesignElement element )
-	{
-		List list = super.validate( module, element );
+	public List validate(Module module, DesignElement element) {
+		List list = super.validate(module, element);
 
-		if ( StringUtil.isBlank( name ) )
-		{
-			list.add( new PropertyValueException( element, getDefn( )
-					.getMember( NAME_MEMBER ), name,
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+		if (StringUtil.isBlank(name)) {
+			list.add(new PropertyValueException(element, getDefn().getMember(NAME_MEMBER), name,
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED));
 		}
 
 		return list;

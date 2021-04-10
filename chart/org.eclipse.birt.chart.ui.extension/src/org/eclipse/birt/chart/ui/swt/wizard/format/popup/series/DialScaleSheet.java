@@ -22,43 +22,35 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.AbstractScaleSheet;
  * DialScaleSheet
  */
 
-public class DialScaleSheet extends AbstractScaleSheet
-{
+public class DialScaleSheet extends AbstractScaleSheet {
 
 	private DialSeries series;
 
-	public DialScaleSheet( String title, ChartWizardContext context,
-			DialSeries series )
-	{
-		super( title, context );
+	public DialScaleSheet(String title, ChartWizardContext context, DialSeries series) {
+		super(title, context);
 		this.series = series;
 	}
 
-	protected Scale getScale( )
-	{
-		return series.getDial( ).getScale( );
+	protected Scale getScale() {
+		return series.getDial().getScale();
 	}
 
-	protected int getValueType( )
-	{
+	protected int getValueType() {
 		return TextEditorComposite.TYPE_NUMBERIC;
 	}
-	
-	protected void setState( )
-	{
-		super.setState( );
 
-		if(btnShowOutside != null)
-		{
+	protected void setState() {
+		super.setState();
+
+		if (btnShowOutside != null) {
 			// Hide invalid attributes.
-			btnShowOutside.setVisible( false );
+			btnShowOutside.setVisible(false);
 		}
 	}
 
 	@Override
-	protected Scale getDefaultVauleScale( )
-	{
-		return DefaultValueProvider.defDialSeries( ).getDial( ).getScale( );
+	protected Scale getDefaultVauleScale() {
+		return DefaultValueProvider.defDialSeries().getDial().getScale();
 	}
 
 }

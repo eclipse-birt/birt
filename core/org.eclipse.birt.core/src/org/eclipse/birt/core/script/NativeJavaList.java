@@ -10,6 +10,7 @@
  *******************************************************************************/
 
 package org.eclipse.birt.core.script;
+
 import java.util.List;
 
 import org.mozilla.javascript.NativeJavaObject;
@@ -18,31 +19,29 @@ import org.mozilla.javascript.Scriptable;
 /**
  * 
  */
-public class NativeJavaList extends NativeJavaObject
-{
+public class NativeJavaList extends NativeJavaObject {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1207726021220583694L;
 
-	public NativeJavaList() { }
+	public NativeJavaList() {
+	}
 
-    public NativeJavaList(Scriptable scope, Object javaObject,
-                            Class staticType)
-    {
-    	super(scope, javaObject, staticType);
-    }
+	public NativeJavaList(Scriptable scope, Object javaObject, Class staticType) {
+		super(scope, javaObject, staticType);
+	}
 
-    public boolean has(int index, Scriptable start) {
-    	return index >= 0 && index < ((List)javaObject).size();
-    }
+	public boolean has(int index, Scriptable start) {
+		return index >= 0 && index < ((List) javaObject).size();
+	}
 
-    public Object get(int index, Scriptable start) {
-    	return ((List)javaObject).get(index);
-    }
+	public Object get(int index, Scriptable start) {
+		return ((List) javaObject).get(index);
+	}
 
-    public void put(int index, Scriptable start, Object value) {
-    	((List)javaObject).add(index, value);
-    }
+	public void put(int index, Scriptable start, Object value) {
+		((List) javaObject).add(index, value);
+	}
 }

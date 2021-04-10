@@ -15,8 +15,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
  * Property Event Constants
  */
 
-public interface IPropertyEventConstants
-{
+public interface IPropertyEventConstants {
 
 	public static final String SECOND_CHANGE_EVENT = "secchange"; //$NON-NLS-1$
 

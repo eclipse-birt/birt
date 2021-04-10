@@ -28,74 +28,63 @@ import org.eclipse.birt.report.model.writer.DocumentWriter;
  * library elements, library embedded images.
  */
 
-public class DocumentUtil
-{
+public class DocumentUtil {
 
 	/**
 	 * Writes the report design to the given output stream. The caller must call
 	 * <code>onSave</code> if the save succeeds.
 	 * 
-	 * @param designHandle
-	 *            the report design to serialize
+	 * @param designHandle the report design to serialize
 	 * 
-	 * @param out
-	 *            the output stream to which the design is written.
-	 * @throws IOException
-	 *             if the file cannot be written to the output stream
-	 *             successfully.
+	 * @param out          the output stream to which the design is written.
+	 * @throws IOException if the file cannot be written to the output stream
+	 *                     successfully.
 	 */
 
-	public static ReportDesignHandle serialize(
-			ReportDesignHandle designHandle, OutputStream out )
-			throws IOException
-	{
+	public static ReportDesignHandle serialize(ReportDesignHandle designHandle, OutputStream out) throws IOException {
 		assert out != null;
-		if ( designHandle == null )
+		if (designHandle == null)
 			return null;
 
 		ReportDesign target = null;
-		ReportDesign source = (ReportDesign) designHandle.getModule( );
+		ReportDesign source = (ReportDesign) designHandle.getModule();
 
 		// localize element property value
-		List list = (List) source.getLocalProperty( source.getRoot( ),
-				IModuleModel.LIBRARIES_PROP );
-		if ( list == null || list.size( ) == 0 )
-		{
+		List list = (List) source.getLocalProperty(source.getRoot(), IModuleModel.LIBRARIES_PROP);
+		if (list == null || list.size() == 0) {
 			// need to make a copy for the original one to avoid possible
 			// multiple thread issues.
 
-			Module copy = (Module) designHandle.copy( );
+			Module copy = (Module) designHandle.copy();
 			ReportDesign clonedDesign = (ReportDesign) copy;
-			new DocumentWriter( clonedDesign ).write( out );
-			return clonedDesign.handle( );
+			new DocumentWriter(clonedDesign).write(out);
+			return clonedDesign.handle();
 		}
 
-		target = localizeDesign( source );
+		target = localizeDesign(source);
 
 		assert target != null;
 
 		// use the writer for the document, not the general design writer
-		new DocumentWriter( target ).write( out );
-		
-		return target.handle( );
+		new DocumentWriter(target).write(out);
+
+		return target.handle();
 	}
 
 	/**
 	 * Gets a localized report design based on the source design.
 	 * 
-	 * @param source
-	 *            the source design
+	 * @param source the source design
 	 * @return the localized report design based on the source design
 	 */
 
-	static ReportDesign localizeDesign( ReportDesign source )
-	{
+	static ReportDesign localizeDesign(ReportDesign source) {
 		assert source != null;
 
-		ReportDesignSerializer visitor = new ReportDesignSerializer( );
-		source.apply( visitor );
+		ReportDesignSerializer visitor = new ReportDesignSerializer();
+		source.apply(visitor);
 
-		return visitor.getTarget( );
+		return visitor.getTarget();
 	}
 
 }

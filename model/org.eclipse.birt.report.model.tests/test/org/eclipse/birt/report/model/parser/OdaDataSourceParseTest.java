@@ -33,15 +33,14 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  * <tr>
  * <td>{@link #testParser()}</td>
- * <td>Test properties of ExtendedDataSource and DataSource after parsing
- * design file</td>
+ * <td>Test properties of ExtendedDataSource and DataSource after parsing design
+ * file</td>
  * <td>All properties are right</td>
  * </tr>
  * 
  * <tr>
  * <td>{@link #testWriter()}</td>
- * <td>Set all properties and compare the written file with the golden file
- * </td>
+ * <td>Set all properties and compare the written file with the golden file</td>
  * <td>Two files are same</td>
  * </tr>
  * 
@@ -56,8 +55,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * @see OdaDataSource
  */
 
-public class OdaDataSourceParseTest extends BaseTestCase
-{
+public class OdaDataSourceParseTest extends BaseTestCase {
 
 	String fileName = "OdaDataSourceParseTest.xml"; //$NON-NLS-1$
 	String outFileName = "OdaDataSourceParseTest_out.xml"; //$NON-NLS-1$
@@ -69,111 +67,95 @@ public class OdaDataSourceParseTest extends BaseTestCase
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
-/*
-	protected void setUp( ) throws Exception
-	{
-		// do not call super.setUp() since we don't want to load extension.
-
-		ThreadResources.setLocale( ULocale.ENGLISH );
-		MetaDataDictionary.reset( );
-		try
-		{
-			MetaDataReader.read( ReportDesign.class
-					.getResourceAsStream( ROM_DEF_NAME ) );
-		}
-		catch ( MetaDataParserException e )
-		{
-			assert false;
-		}
-
-		engine = new DesignEngine( new DesignConfig( ) );
-		createDesign( );
-	}*/
+	/*
+	 * protected void setUp( ) throws Exception { // do not call super.setUp() since
+	 * we don't want to load extension.
+	 * 
+	 * ThreadResources.setLocale( ULocale.ENGLISH ); MetaDataDictionary.reset( );
+	 * try { MetaDataReader.read( ReportDesign.class .getResourceAsStream(
+	 * ROM_DEF_NAME ) ); } catch ( MetaDataParserException e ) { assert false; }
+	 * 
+	 * engine = new DesignEngine( new DesignConfig( ) ); createDesign( ); }
+	 */
 
 	/**
 	 * This test reads the design file, and checks the properties and style
 	 * properties of line.
 	 * 
-	 * @throws Exception
-	 *             if any exception
+	 * @throws Exception if any exception
 	 */
-	public void testParser( ) throws Exception
-	{
+	public void testParser() throws Exception {
 		// Test ExtendedDataSource
 
-		OdaDataSourceHandle dataSourceHandle = getDataSource( "myDataSource" ); //$NON-NLS-1$
+		OdaDataSourceHandle dataSourceHandle = getDataSource("myDataSource"); //$NON-NLS-1$
 
 		// DataSource properties
 
-		assertEquals( "script_beforeopen", dataSourceHandle.getBeforeOpen( ) ); //$NON-NLS-1$
-		assertEquals( "script_beforeclose", dataSourceHandle.getBeforeClose( ) ); //$NON-NLS-1$
-		assertEquals( "script_afteropen", dataSourceHandle.getAfterOpen( ) ); //$NON-NLS-1$
-		assertEquals( "script_afterclose", dataSourceHandle.getAfterClose( ) ); //$NON-NLS-1$
+		assertEquals("script_beforeopen", dataSourceHandle.getBeforeOpen()); //$NON-NLS-1$
+		assertEquals("script_beforeclose", dataSourceHandle.getBeforeClose()); //$NON-NLS-1$
+		assertEquals("script_afteropen", dataSourceHandle.getAfterOpen()); //$NON-NLS-1$
+		assertEquals("script_afterclose", dataSourceHandle.getAfterClose()); //$NON-NLS-1$
 
-		dataSourceHandle = getDataSource( "myDataSource1" ); //$NON-NLS-1$
+		dataSourceHandle = getDataSource("myDataSource1"); //$NON-NLS-1$
 
-		assertEquals( "Driver Class", dataSourceHandle //$NON-NLS-1$
-				.getStringProperty( "odaDriverClass" ) ); //$NON-NLS-1$
-		assertEquals( "URL", dataSourceHandle.getStringProperty( "odaURL" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( "User", dataSourceHandle.getStringProperty( "odaUser" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( "New Password", dataSourceHandle //$NON-NLS-1$
-				.getStringProperty( "odaPassword" ) ); //$NON-NLS-1$
+		assertEquals("Driver Class", dataSourceHandle //$NON-NLS-1$
+				.getStringProperty("odaDriverClass")); //$NON-NLS-1$
+		assertEquals("URL", dataSourceHandle.getStringProperty("odaURL")); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals("User", dataSourceHandle.getStringProperty("odaUser")); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals("New Password", dataSourceHandle //$NON-NLS-1$
+				.getStringProperty("odaPassword")); //$NON-NLS-1$
 
-		assertEquals( "1.1", dataSourceHandle.getDesigerStateVersion( ) ); //$NON-NLS-1$
-		assertEquals( "content as string", dataSourceHandle //$NON-NLS-1$
-				.getDesigerStateContentAsString( ) );
-		assertEquals( "content as blob", new String( dataSourceHandle //$NON-NLS-1$
-				.getDesigerStateContentAsBlob( ), OdaDesignerState.CHARSET ) );
+		assertEquals("1.1", dataSourceHandle.getDesigerStateVersion()); //$NON-NLS-1$
+		assertEquals("content as string", dataSourceHandle //$NON-NLS-1$
+				.getDesigerStateContentAsString());
+		assertEquals("content as blob", new String(dataSourceHandle //$NON-NLS-1$
+				.getDesigerStateContentAsBlob(), OdaDesignerState.CHARSET));
 	}
 
 	/**
-	 * This test sets properties, writes the design file and compares it with
-	 * golden file.
+	 * This test sets properties, writes the design file and compares it with golden
+	 * file.
 	 * 
 	 * @throws Exception
 	 * 
 	 */
-	public void testWriter( ) throws Exception
-	{
+	public void testWriter() throws Exception {
 		// Test ExtendedDataSource
 
-		OdaDataSourceHandle dataSourceHandle = getDataSource( "myDataSource1" ); //$NON-NLS-1$
+		OdaDataSourceHandle dataSourceHandle = getDataSource("myDataSource1"); //$NON-NLS-1$
 
 		// write DataSource properties
 
-		dataSourceHandle.setBeforeOpen( "My before open" ); //$NON-NLS-1$
-		dataSourceHandle.setBeforeClose( "My before close" ); //$NON-NLS-1$
-		dataSourceHandle.setAfterOpen( "My after open" ); //$NON-NLS-1$
-		dataSourceHandle.setAfterClose( "My after close" ); //$NON-NLS-1$
+		dataSourceHandle.setBeforeOpen("My before open"); //$NON-NLS-1$
+		dataSourceHandle.setBeforeClose("My before close"); //$NON-NLS-1$
+		dataSourceHandle.setAfterOpen("My after open"); //$NON-NLS-1$
+		dataSourceHandle.setAfterClose("My after close"); //$NON-NLS-1$
 
-		dataSourceHandle.setProperty( "odaDriverClass", "New Driver Class" ); //$NON-NLS-1$ //$NON-NLS-2$
-		dataSourceHandle.setProperty( "odaURL", "New URL" ); //$NON-NLS-1$ //$NON-NLS-2$
-		dataSourceHandle.setProperty( "odaUser", "New User" ); //$NON-NLS-1$ //$NON-NLS-2$
-		dataSourceHandle.setProperty( "odaPassword", "New Password" ); //$NON-NLS-1$ //$NON-NLS-2$
+		dataSourceHandle.setProperty("odaDriverClass", "New Driver Class"); //$NON-NLS-1$ //$NON-NLS-2$
+		dataSourceHandle.setProperty("odaURL", "New URL"); //$NON-NLS-1$ //$NON-NLS-2$
+		dataSourceHandle.setProperty("odaUser", "New User"); //$NON-NLS-1$ //$NON-NLS-2$
+		dataSourceHandle.setProperty("odaPassword", "New Password"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		dataSourceHandle.setDesigerStateVersion( "2.1" ); //$NON-NLS-1$
-		dataSourceHandle
-				.setDesigerStateContentAsString( "new content as string" ); //$NON-NLS-1$
+		dataSourceHandle.setDesigerStateVersion("2.1"); //$NON-NLS-1$
+		dataSourceHandle.setDesigerStateContentAsString("new content as string"); //$NON-NLS-1$
 
 		String strBlob = "new content as blob"; //$NON-NLS-1$
 
-		dataSourceHandle.setDesigerStateContentAsBlob( strBlob
-				.getBytes( OdaDesignerState.CHARSET ) );
+		dataSourceHandle.setDesigerStateContentAsBlob(strBlob.getBytes(OdaDesignerState.CHARSET));
 
-		save( );
-		assertTrue( compareFile( goldenFileName ) );
+		save();
+		assertTrue(compareFile(goldenFileName));
 	}
 
 	/**
 	 * @throws Exception
 	 */
 
-	public void testUnknowOdaParser( ) throws Exception
-	{
-		openDesign( unknowOdafileName );
-		save( );
+	public void testUnknowOdaParser() throws Exception {
+		openDesign(unknowOdafileName);
+		save();
 
-		assertTrue( compareFile( "OdaDataSourceParseTest_golden_2.xml" ) ); //$NON-NLS-1$
+		assertTrue(compareFile("OdaDataSourceParseTest_golden_2.xml")); //$NON-NLS-1$
 	}
 
 	/**
@@ -182,22 +164,18 @@ public class OdaDataSourceParseTest extends BaseTestCase
 	 * @throws Exception
 	 * 
 	 */
-	public void testSemanticCheck( ) throws Exception
-	{
-		openDesign( semanticCheckFileName );
-		assertEquals( 2, design.getErrorList( ).size( ) );
-		ErrorDetail error = (ErrorDetail) design.getErrorList( ).get( 0 );
-		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_MANIFEST, error
-				.getErrorCode( ) );
+	public void testSemanticCheck() throws Exception {
+		openDesign(semanticCheckFileName);
+		assertEquals(2, design.getErrorList().size());
+		ErrorDetail error = (ErrorDetail) design.getErrorList().get(0);
+		assertEquals(SemanticError.DESIGN_EXCEPTION_INVALID_MANIFEST, error.getErrorCode());
 	}
 
-	private OdaDataSourceHandle getDataSource( String name ) throws Exception
-	{
-		openDesign( fileName );
+	private OdaDataSourceHandle getDataSource(String name) throws Exception {
+		openDesign(fileName);
 
-		OdaDataSourceHandle dataSource = (OdaDataSourceHandle) designHandle
-				.findDataSource( name );
-		assertNotNull( dataSource );
+		OdaDataSourceHandle dataSource = (OdaDataSourceHandle) designHandle.findDataSource(name);
+		assertNotNull(dataSource);
 
 		return dataSource;
 	}
@@ -208,13 +186,12 @@ public class OdaDataSourceParseTest extends BaseTestCase
 	 * @see junit.framework.TestCase#teardown()
 	 */
 
-	protected void tearDown( ) throws Exception
-	{
-		MetaDataDictionary.reset( );
+	protected void tearDown() throws Exception {
+		MetaDataDictionary.reset();
 
 		engine = null;
 
-		super.tearDown( );
+		super.tearDown();
 	}
 
 }

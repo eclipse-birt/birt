@@ -25,65 +25,56 @@ import org.w3c.dom.Element;
  * Test case
  * 
  */
-public class HTMLProcessorTest extends TestCase
-{
+public class HTMLProcessorTest extends TestCase {
 
-	protected String getStyle( HashMap styles, Object element, String property )
-	{
-		HashMap style = (HashMap) styles.get( element );
-		if ( styles != null )
-		{
-			return (String) style.get( property );
+	protected String getStyle(HashMap styles, Object element, String property) {
+		HashMap style = (HashMap) styles.get(element);
+		if (styles != null) {
+			return (String) style.get(property);
 		}
 		return null;
 	}
-	
-	protected String getStyleAttribute( Element element, String attribute )
-	{
-		return element.getAttribute( attribute );
+
+	protected String getStyleAttribute(Element element, String attribute) {
+		return element.getAttribute(attribute);
 	}
 
-	public void testExecute( ) throws Exception
-	{
-		Document doc = getDomTree( );
-		HashMap styles = new HashMap( );
-		new HTMLProcessor( (ReportDesignHandle) null, null ).execute(
-				(Element) doc.getFirstChild( ), styles );
-		Element iEle = (Element) doc.getFirstChild( ).getFirstChild( );
-		assertEquals( iEle.getTagName( ), "span" ); //$NON-NLS-1$
-		assertEquals( "red", getStyle( styles, iEle, "color" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+	public void testExecute() throws Exception {
+		Document doc = getDomTree();
+		HashMap styles = new HashMap();
+		new HTMLProcessor((ReportDesignHandle) null, null).execute((Element) doc.getFirstChild(), styles);
+		Element iEle = (Element) doc.getFirstChild().getFirstChild();
+		assertEquals(iEle.getTagName(), "span"); //$NON-NLS-1$
+		assertEquals("red", getStyle(styles, iEle, "color")); //$NON-NLS-1$ //$NON-NLS-2$
 
-		Element fontEle = (Element) iEle.getNextSibling( );
-		assertEquals( fontEle.getTagName( ), "font" );
-		assertEquals( "blue", getStyleAttribute( fontEle, "color" ) );
-		assertEquals( "4", getStyleAttribute( fontEle, "size" ) );
-		assertEquals( "news", getStyleAttribute( fontEle, "face" ) );
+		Element fontEle = (Element) iEle.getNextSibling();
+		assertEquals(fontEle.getTagName(), "font");
+		assertEquals("blue", getStyleAttribute(fontEle, "color"));
+		assertEquals("4", getStyleAttribute(fontEle, "size"));
+		assertEquals("news", getStyleAttribute(fontEle, "face"));
 
-		Element uEle = (Element) fontEle.getNextSibling( );
-		assertEquals( uEle.getTagName( ), "span" );
-		assertEquals( "overline underline", getStyle( styles, uEle,
-				"text-decoration" ) );
+		Element uEle = (Element) fontEle.getNextSibling();
+		assertEquals(uEle.getTagName(), "span");
+		assertEquals("overline underline", getStyle(styles, uEle, "text-decoration"));
 	}
 
-	private Document getDomTree( ) throws Exception
-	{
-		Document doc = DocumentBuilderFactory.newInstance( )
-				.newDocumentBuilder( ).newDocument( );
-		Element body = doc.createElement( "body" );
-		doc.appendChild( body );
-		Element iEle = doc.createElement( "i" );
-		iEle.setAttribute( "style", "color:red " );
-		body.appendChild( iEle );
+	private Document getDomTree() throws Exception {
+		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+		Element body = doc.createElement("body");
+		doc.appendChild(body);
+		Element iEle = doc.createElement("i");
+		iEle.setAttribute("style", "color:red ");
+		body.appendChild(iEle);
 
-		Element fontEle = doc.createElement( "font" );
-		fontEle.setAttribute( "color", "blue" );
-		fontEle.setAttribute( "size", "4" );
-		fontEle.setAttribute( "face", "news" );
-		body.appendChild( fontEle );
+		Element fontEle = doc.createElement("font");
+		fontEle.setAttribute("color", "blue");
+		fontEle.setAttribute("size", "4");
+		fontEle.setAttribute("face", "news");
+		body.appendChild(fontEle);
 
-		Element uEle = doc.createElement( "u" );
-		uEle.setAttribute( "style", "text-decoration:overline" );
-		body.appendChild( uEle );
+		Element uEle = doc.createElement("u");
+		uEle.setAttribute("style", "text-decoration:overline");
+		body.appendChild(uEle);
 		return doc;
 	}
 }

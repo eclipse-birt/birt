@@ -18,59 +18,57 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 /**
  * ICrosstabInstance
  */
-public interface ICrosstabInstance extends ICrosstabConstants
-{
+public interface ICrosstabInstance extends ICrosstabConstants {
 
-	String getCaption( );
+	String getCaption();
 
-	void setCaption( String caption );
+	void setCaption(String caption);
 
-	String getCaptionKey( );
+	String getCaptionKey();
 
-	void setCaptionKey( String captionKey );
+	void setCaptionKey(String captionKey);
 
-	String getSummary( );
+	String getSummary();
 
-	void setSummary( String summary );
-	
-	boolean isRepeatColumnHeader( );
+	void setSummary(String summary);
 
-	void setRepeatColumnHeader( boolean repeat );
+	boolean isRepeatColumnHeader();
 
-	boolean isRepeatRowHeader( );
+	void setRepeatColumnHeader(boolean repeat);
 
-	void setRepeatRowHeader( boolean repeat );
+	boolean isRepeatRowHeader();
 
-	String getName( );
+	void setRepeatRowHeader(boolean repeat);
 
-	void setName( String name );
+	String getName();
 
-	String getHelpText( );
+	void setName(String name);
 
-	void setHelpText( String helpText );
+	String getHelpText();
 
-	IScriptStyle getStyle( );
+	void setHelpText(String helpText);
 
-	String getHorizontalPosition( );
+	IScriptStyle getStyle();
 
-	void setHorizontalPosition( String position );
+	String getHorizontalPosition();
 
-	String getVerticalPosition( );
+	void setHorizontalPosition(String position);
 
-	void setVerticalPosition( String position );
+	String getVerticalPosition();
 
-	String getWidth( );
+	void setVerticalPosition(String position);
 
-	void setWidth( String width );
+	String getWidth();
 
-	String getHeight( );
+	void setWidth(String width);
 
-	void setHeight( String height );
+	String getHeight();
 
-	Object getNamedExpressionValue( String name );
+	void setHeight(String height);
 
-	Object getUserPropertyValue( String name );
+	Object getNamedExpressionValue(String name);
 
-	void setUserPropertyValue( String name, Object value )
-			throws ScriptException;
+	Object getUserPropertyValue(String name);
+
+	void setUserPropertyValue(String name, Object value) throws ScriptException;
 }

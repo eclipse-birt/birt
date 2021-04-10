@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.core.data;
 
+public interface IDimLevel {
+	public String getAttrName();
 
-public interface IDimLevel
-{
-	public String getAttrName( );
-	
-	public String getDimensionName( );
-	
-	public String getLevelName( );
-	
+	public String getDimensionName();
+
+	public String getLevelName();
+
 }

@@ -50,122 +50,100 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * 
  * 
  */
-public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
-{
+public abstract class LibraryLayoutEditor extends ReportEditorWithPalette {
 
 	private IEditorPart parentEditorPart;
 
-	public LibraryLayoutEditor( )
-	{
-		super( );
+	public LibraryLayoutEditor() {
+		super();
 	}
 
 	/**
 	 * @param parent
 	 */
-	public LibraryLayoutEditor( IEditorPart parent )
-	{
-		super( parent );
+	public LibraryLayoutEditor(IEditorPart parent) {
+		super(parent);
 		this.parentEditorPart = parent;
 	}
 
-	public boolean isSaveAsAllowed( )
-	{
+	public boolean isSaveAsAllowed() {
 		return true;
 	}
 
-	public void performRequest( IMediatorRequest request )
-	{
+	public void performRequest(IMediatorRequest request) {
 		ReportRequest rq = (ReportRequest) request;
 
-		if ( ReportRequest.OPEN_EDITOR.equals( request.getType( ) )
-				&& ( rq.getSelectionModelList( ).size( ) == 1 )
-				&& rq.getSelectionModelList( ).get( 0 ) instanceof SlotHandle )
-		{
-			SlotHandle slt = (SlotHandle) rq.getSelectionModelList( ).get( 0 );
-			if ( slt.getSlotID( ) == ReportDesignHandle.BODY_SLOT )
-			{
-				handleOpenDesigner( rq );
+		if (ReportRequest.OPEN_EDITOR.equals(request.getType()) && (rq.getSelectionModelList().size() == 1)
+				&& rq.getSelectionModelList().get(0) instanceof SlotHandle) {
+			SlotHandle slt = (SlotHandle) rq.getSelectionModelList().get(0);
+			if (slt.getSlotID() == ReportDesignHandle.BODY_SLOT) {
+				handleOpenDesigner(rq);
 			}
 			return;
 		}
 
-		super.performRequest( request );
+		super.performRequest(request);
 	}
 
-	public void selectionChanged( IWorkbenchPart part, ISelection selection )
-	{
-		super.selectionChanged( part, selection );
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		super.selectionChanged(part, selection);
 
-		IEditorPart report = getSite( ).getPage( ).getActiveEditor( );
-		if ( report != null )
-		{
-			updateActions( getSelectionActions( ) );
+		IEditorPart report = getSite().getPage().getActiveEditor();
+		if (report != null) {
+			updateActions(getSelectionActions());
 		}
 	}
 
-	protected void handleSelectionChange( ReportRequest request )
-	{
-		List list = request.getSelectionModelList( );
+	protected void handleSelectionChange(ReportRequest request) {
+		List list = request.getSelectionModelList();
 		// should be change the reuqest.getSource() interface, recode the source
 		// type.added by gao
-		if ( ( request.getSource( ) instanceof LibraryOutlinePage
-				|| request.getSource( ) instanceof TableEditPart || request.getSource( ) instanceof EditorBreadcrumb )
-				&& !isInContainer( list ) )
-		{
-			int size = list.size( );
+		if ((request.getSource() instanceof LibraryOutlinePage || request.getSource() instanceof TableEditPart
+				|| request.getSource() instanceof EditorBreadcrumb) && !isInContainer(list)) {
+			int size = list.size();
 			Object obj = null;
-			if ( size != 0 )
-			{
-				obj = list.get( size - 1 );
-				SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( obj );
-				command.execute( );
+			if (size != 0) {
+				obj = list.get(size - 1);
+				SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(obj);
+				command.execute();
 				return;
 			}
 
 		}
-		super.handleSelectionChange( request );
+		super.handleSelectionChange(request);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
-	 * GraphicalEditorWithFlyoutPalette
-	 * #handleCreateElement(org.eclipse.birt.report
+	 * GraphicalEditorWithFlyoutPalette #handleCreateElement(org.eclipse.birt.report
 	 * .designer.core.util.mediator.request.ReportRequest)
 	 */
-	protected void handleCreateElement( ReportRequest request )
-	{
-		List list = request.getSelectionModelList( );
+	protected void handleCreateElement(ReportRequest request) {
+		List list = request.getSelectionModelList();
 		// should be change the reuqest.getSource() interface, recode the source
 		// type.added by gao
 
-		int size = list.size( );
+		int size = list.size();
 		Object obj = null;
-		if ( size != 0 )
-		{
-			obj = list.get( size - 1 );
+		if (size != 0) {
+			obj = list.get(size - 1);
 		}
-		SetCurrentEditModelCommand command = new SetCurrentEditModelCommand( obj );
-		command.execute( );
+		SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(obj);
+		command.execute();
 
-		super.handleCreateElement( request );
+		super.handleCreateElement(request);
 	}
 
-	private boolean isInContainer( List list )
-	{
+	private boolean isInContainer(List list) {
 		boolean retValue = false;
-		int size = list.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof RowHandle || obj instanceof CellHandle )
-			{
+		int size = list.size();
+		for (int i = 0; i < size; i++) {
+			Object obj = list.get(i);
+			if (obj instanceof RowHandle || obj instanceof CellHandle) {
 				retValue = true;
-			}
-			else
-			{
+			} else {
 				retValue = false;
 				break;
 			}
@@ -173,17 +151,14 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 		return retValue;
 	}
 
-	protected TemplateTransferDropTargetListener createTemplateTransferDropTargetListener(
-			EditPartViewer viewer )
-	{
-		return new LibraryTemplateTransferDropTargetListener( viewer );
+	protected TemplateTransferDropTargetListener createTemplateTransferDropTargetListener(EditPartViewer viewer) {
+		return new LibraryTemplateTransferDropTargetListener(viewer);
 	}
 
 	/**
 	 * @param request
 	 */
-	private void handleOpenDesigner( ReportRequest request )
-	{
+	private void handleOpenDesigner(ReportRequest request) {
 		// if ( ( (LayoutEditor) editingDomainEditor ).isVisible( ) )
 		// {
 		// ( (LayoutEditor) editingDomainEditor ).setActivePage( 0 );
@@ -195,54 +170,42 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 	 * Returns an object which is an instance of the given class associated with
 	 * this object. Returns <code>null</code> if no such object can be found.
 	 * 
-	 * @param adapter
-	 *            the adapter class to look up
-	 * @return a object castable to the given class, or <code>null</code> if
-	 *         this object does not have an adapter for the given class
+	 * @param adapter the adapter class to look up
+	 * @return a object castable to the given class, or <code>null</code> if this
+	 *         object does not have an adapter for the given class
 	 */
-	public Object getAdapter( Class adapter )
-	{
-		if ( adapter == IContentOutlinePage.class )
-		{
+	public Object getAdapter(Class adapter) {
+		if (adapter == IContentOutlinePage.class) {
 			// ( (NonGEFSynchronizerWithMutiPageEditor)
 			// getSelectionSynchronizer( ) ).add( (NonGEFSynchronizer)
 			// outlinePage.getAdapter( NonGEFSynchronizer.class ) );
 
 			// Add JS Editor as a selection listener to Outline view selections.
 			// outlinePage.addSelectionChangedListener( jsEditor );
-			LibraryOutlinePage outline = new LibraryOutlinePage( getModel( ) );
-			getModelEventManager( ).addModelEventProcessor( outline.getModelProcessor( ) );
+			LibraryOutlinePage outline = new LibraryOutlinePage(getModel());
+			getModelEventManager().addModelEventProcessor(outline.getModelProcessor());
 			return outline;
-		}
-		else if ( adapter == IDataViewPage.class )
-		{
-			return super.getAdapter( adapter );
-		}
-		else if ( adapter == IAttributeViewPage.class )
-		{
-			return super.getAdapter( adapter );
-		}
-		else if ( adapter == IPropertySheetPage.class )
-		{
-			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( getModel( ) );
+		} else if (adapter == IDataViewPage.class) {
+			return super.getAdapter(adapter);
+		} else if (adapter == IAttributeViewPage.class) {
+			return super.getAdapter(adapter);
+		} else if (adapter == IPropertySheetPage.class) {
+			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage(getModel());
 			return sheetPage;
 		}
 
-		return super.getAdapter( adapter );
+		return super.getAdapter(adapter);
 	}
 
-	protected PaletteRoot getPaletteRoot( )
-	{
-		if ( paletteRoot == null )
-		{
-			paletteRoot = DesignerPaletteFactory.createPalette( );
+	protected PaletteRoot getPaletteRoot() {
+		if (paletteRoot == null) {
+			paletteRoot = DesignerPaletteFactory.createPalette();
 		}
 		return paletteRoot;
 
 	}
 
-	protected IEditorPart getMultiPageEditor( )
-	{
+	protected IEditorPart getMultiPageEditor() {
 		return parentEditorPart;
 	}
 
@@ -252,20 +215,17 @@ public abstract class LibraryLayoutEditor extends ReportEditorWithPalette
 	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.
 	 * AbstractReportGraphicalEditorWithFlyoutPalette#getFileType()
 	 */
-	protected int getFileType( )
-	{
+	protected int getFileType() {
 		return SessionHandleAdapter.LIBRARYFILE;
 	}
 
-	protected EditPartFactory getEditPartFactory( )
-	{
-		return new LibraryGraphicalPartFactory( );
+	protected EditPartFactory getEditPartFactory() {
+		return new LibraryGraphicalPartFactory();
 	}
 
-	protected ReportLayoutEditorBreadcrumb createBreadcrumb( )
-	{
-		ReportLayoutEditorBreadcrumb breadcrumb = new ReportLayoutEditorBreadcrumb( this );
-		breadcrumb.setBreadcrumbNodeProvider( new LibraryBreadcrumbNodeProvider( ) );
+	protected ReportLayoutEditorBreadcrumb createBreadcrumb() {
+		ReportLayoutEditorBreadcrumb breadcrumb = new ReportLayoutEditorBreadcrumb(this);
+		breadcrumb.setBreadcrumbNodeProvider(new LibraryBreadcrumbNodeProvider());
 		return breadcrumb;
 	}
 }

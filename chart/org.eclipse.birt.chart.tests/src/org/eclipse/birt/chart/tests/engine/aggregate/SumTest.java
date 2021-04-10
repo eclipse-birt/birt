@@ -20,31 +20,28 @@ import junit.framework.TestCase;
  */
 
 public class SumTest extends TestCase {
-	
-	private Object sumResult(){
+
+	private Object sumResult() {
 		final int seriesCount = 3;
 		Sum sum = new Sum();
 		final Object[] indexes = new Object[seriesCount];
 		Object tuple;
 
-		sum.initialize( );
-				
-		for ( int i = 0; i < seriesCount; i++ )
-		{
+		sum.initialize();
+
+		for (int i = 0; i < seriesCount; i++) {
 			indexes[i] = Integer.valueOf(i + 3);
-			sum.accumulate( indexes[i] );
+			sum.accumulate(indexes[i]);
 		}
-		
-		tuple = sum.getAggregatedValue( );
+
+		tuple = sum.getAggregatedValue();
 		return tuple;
 	}
 
-	
 	public void testAverage() throws Exception {
-		
-		Object expect = new Double (12.0);
-		assertEquals(expect, this.sumResult() );
+
+		Object expect = new Double(12.0);
+		assertEquals(expect, this.sumResult());
 	}
-	
-	
+
 }

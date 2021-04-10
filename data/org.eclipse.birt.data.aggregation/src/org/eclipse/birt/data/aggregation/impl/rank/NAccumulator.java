@@ -17,37 +17,35 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
- * The common parent Accumulator used by Top/Bottom N aggregations.  
+ * The common parent Accumulator used by Top/Bottom N aggregations.
  */
-public abstract class NAccumulator extends BaseTopBottomAccumulator
-{
+public abstract class NAccumulator extends BaseTopBottomAccumulator {
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.aggregation.rank.BaseTopBottomAccumulator#populateNValue(java.lang.Object)
+	 * 
+	 * @see org.eclipse.birt.data.engine.aggregation.rank.BaseTopBottomAccumulator#
+	 * populateNValue(java.lang.Object)
 	 */
-	protected double populateNValue( Object N ) throws DataException
-	{
+	protected double populateNValue(Object N) throws DataException {
 		double result = 0;
-		try
-		{
-			result = DataTypeUtil.toInteger( N ).intValue( );
-		}
-		catch ( BirtException e )
-		{
+		try {
+			result = DataTypeUtil.toInteger(N).intValue();
+		} catch (BirtException e) {
 			// conversion error
 			throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_ARGUMENT, e);
 		}
-		if( result < 0 )
+		if (result < 0)
 			throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_N_ARGUMENT);
 		return result;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.aggregation.rank.BaseTopBottomAccumulator#adjustNValue(double)
+	 * 
+	 * @see org.eclipse.birt.data.engine.aggregation.rank.BaseTopBottomAccumulator#
+	 * adjustNValue(double)
 	 */
-	protected int adjustNValue( double N )
-	{
-		return (int)( N < 0 ? 0 : N );
+	protected int adjustNValue(double N) {
+		return (int) (N < 0 ? 0 : N);
 	}
 }

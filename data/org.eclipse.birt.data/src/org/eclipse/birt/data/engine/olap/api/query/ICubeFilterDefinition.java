@@ -13,27 +13,27 @@ package org.eclipse.birt.data.engine.olap.api.query;
 
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 
-
 /**
  * 
  */
 
-public interface ICubeFilterDefinition extends IFilterDefinition
-{
+public interface ICubeFilterDefinition extends IFilterDefinition {
 	/**
 	 * Return the targeting level that this sort/filter definition will act against.
 	 */
 	public ILevelDefinition getTargetLevel();
-	
+
 	/**
 	 * Return the Axis qualifier levels.
+	 * 
 	 * @return
 	 */
-	public ILevelDefinition[] getAxisQualifierLevels( );
-	
+	public ILevelDefinition[] getAxisQualifierLevels();
+
 	/**
 	 * Return the Axis qualifier values.
+	 * 
 	 * @return
 	 */
-	public Object[] getAxisQualifierValues( );
+	public Object[] getAxisQualifierValues();
 }

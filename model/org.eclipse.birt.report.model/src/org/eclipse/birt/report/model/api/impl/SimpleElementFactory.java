@@ -69,8 +69,7 @@ import org.eclipse.birt.report.model.simpleapi.Style;
  * The factory class to create scriptable objects.
  */
 
-public class SimpleElementFactory implements ISimpleElementFactory
-{
+public class SimpleElementFactory implements ISimpleElementFactory {
 
 	/*
 	 * (non-Javadoc)
@@ -80,18 +79,17 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * (org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
 
-	public IReportItem wrapExtensionElement( ExtendedItemHandle handle, int type )
-	{
-		if ( handle == null )
+	public IReportItem wrapExtensionElement(ExtendedItemHandle handle, int type) {
+		if (handle == null)
 			return null;
 
-		if ( type == MULTI_ROW_ITEM )
-			return new MultiRowItem( handle );
+		if (type == MULTI_ROW_ITEM)
+			return new MultiRowItem(handle);
 
-		if ( type == SIMPLE_ROW_ITEM )
-			return new ReportItem( handle );
+		if (type == SIMPLE_ROW_ITEM)
+			return new ReportItem(handle);
 
-		return new ReportItem( handle );
+		return new ReportItem(handle);
 	}
 
 	/**
@@ -100,10 +98,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * @return IHideRule
 	 */
 
-	public IHideRule createHideRule( )
-	{
-		HideRule r = new HideRule( );
-		IHideRule rule = new HideRuleImpl( r );
+	public IHideRule createHideRule() {
+		HideRule r = new HideRule();
+		IHideRule rule = new HideRuleImpl(r);
 		return rule;
 	}
 
@@ -114,9 +111,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * createHideRule(org.eclipse.birt.report.model.api.core.IStructure)
 	 */
 
-	public IHideRule createHideRule( HideRule rule )
-	{
-		IHideRule hideRule = new HideRuleImpl( rule );
+	public IHideRule createHideRule(HideRule rule) {
+		IHideRule hideRule = new HideRuleImpl(rule);
 		return hideRule;
 	}
 
@@ -127,9 +123,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * createHideRule(org.eclipse.birt.report.model.api.HideRuleHandle)
 	 */
 
-	public IHideRule createHideRule( HideRuleHandle handle )
-	{
-		return new HideRuleImpl( handle );
+	public IHideRule createHideRule(HideRuleHandle handle) {
+		return new HideRuleImpl(handle);
 	}
 
 	/**
@@ -138,10 +133,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * @return instance
 	 */
 
-	public IFilterCondition createFilterCondition( )
-	{
-		FilterCondition c = new FilterCondition( );
-		IFilterCondition condition = new FilterConditionImpl( c );
+	public IFilterCondition createFilterCondition() {
+		FilterCondition c = new FilterCondition();
+		IFilterCondition condition = new FilterConditionImpl(c);
 		return condition;
 	}
 
@@ -153,9 +147,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * (org.eclipse.birt.report.model.api.elements.structures.FilterCondition)
 	 */
 
-	public IFilterCondition createFilterCondition( FilterCondition condition )
-	{
-		return new FilterConditionImpl( condition );
+	public IFilterCondition createFilterCondition(FilterCondition condition) {
+		return new FilterConditionImpl(condition);
 	}
 
 	/*
@@ -166,9 +159,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * (org.eclipse.birt.report.model.api.FilterConditionHandle)
 	 */
 
-	public IFilterCondition createFilterCondition( FilterConditionHandle handle )
-	{
-		return new FilterConditionImpl( handle );
+	public IFilterCondition createFilterCondition(FilterConditionHandle handle) {
+		return new FilterConditionImpl(handle);
 	}
 
 	/**
@@ -177,10 +169,9 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * @return instance
 	 */
 
-	public IDataBinding createDataBinding( )
-	{
-		ComputedColumn c = new ComputedColumn( );
-		IDataBinding binding = new DataBindingImpl( c );
+	public IDataBinding createDataBinding() {
+		ComputedColumn c = new ComputedColumn();
+		IDataBinding binding = new DataBindingImpl(c);
 		return binding;
 	}
 
@@ -191,9 +182,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * createDataBinding(org.eclipse.birt.report.model.api.ComputedColumnHandle)
 	 */
 
-	public IDataBinding createDataBinding( ComputedColumnHandle columnHandle )
-	{
-		return new DataBindingImpl( columnHandle );
+	public IDataBinding createDataBinding(ComputedColumnHandle columnHandle) {
+		return new DataBindingImpl(columnHandle);
 	}
 
 	/*
@@ -204,9 +194,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * (org.eclipse.birt.report.model.api.elements.structures.ComputedColumn)
 	 */
 
-	public IDataBinding createDataBinding( ComputedColumn column )
-	{
-		return new DataBindingImpl( column );
+	public IDataBinding createDataBinding(ComputedColumn column) {
+		return new DataBindingImpl(column);
 	}
 
 	/**
@@ -215,9 +204,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * @return instance
 	 */
 
-	public ISortCondition createSortCondition( )
-	{
-		return new SortConditionImpl( );
+	public ISortCondition createSortCondition() {
+		return new SortConditionImpl();
 	}
 
 	/*
@@ -228,9 +216,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * (org.eclipse.birt.report.model.api.elements.structures.SortKey)
 	 */
 
-	public ISortCondition createSortCondition( SortKey sort )
-	{
-		return new SortConditionImpl( sort );
+	public ISortCondition createSortCondition(SortKey sort) {
+		return new SortConditionImpl(sort);
 	}
 
 	/*
@@ -240,9 +227,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * createSortCondition(org.eclipse.birt.report.model.api.SortKeyHandle)
 	 */
 
-	public ISortCondition createSortCondition( SortKeyHandle sortHandle )
-	{
-		return new SortConditionImpl( sortHandle );
+	public ISortCondition createSortCondition(SortKeyHandle sortHandle) {
+		return new SortConditionImpl(sortHandle);
 	}
 
 	/*
@@ -253,17 +239,18 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * org.eclipse.birt.report.model.api.ReportItemHandle)
 	 */
 
-	public IAction createAction( ActionHandle action, ReportItemHandle handle )
-	{
-		return new ActionImpl( action, handle );
+	public IAction createAction(ActionHandle action, ReportItemHandle handle) {
+		return new ActionImpl(action, handle);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createAction()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
+	 * createAction()
 	 */
-	public IAction createAction( )
-	{
-		return new ActionImpl( );
+	public IAction createAction() {
+		return new ActionImpl();
 	}
 
 	/*
@@ -274,9 +261,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * (org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
 
-	public IDesignElement getElement( DesignElementHandle handle )
-	{
-		return ElementUtil.getElement( handle );
+	public IDesignElement getElement(DesignElementHandle handle) {
+		return ElementUtil.getElement(handle);
 	}
 
 	/*
@@ -286,9 +272,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * createDataSet(org.eclipse.birt.report.model.api.DataSetHandle)
 	 */
 
-	public IDataSet createDataSet( DataSetHandle handle )
-	{
-		return new DataSet( handle );
+	public IDataSet createDataSet(DataSetHandle handle) {
+		return new DataSet(handle);
 	}
 
 	/*
@@ -299,10 +284,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * (org.eclipse.birt.report.model.api.ResultSetColumnHandle)
 	 */
 
-	public IResultSetColumn createResultSetColumn(
-			ResultSetColumnHandle columnHandle )
-	{
-		return new ResultSetColumnImpl( columnHandle );
+	public IResultSetColumn createResultSetColumn(ResultSetColumnHandle columnHandle) {
+		return new ResultSetColumnImpl(columnHandle);
 	}
 
 	/*
@@ -312,9 +295,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * createResultSetColumn()
 	 */
 
-	public IResultSetColumn createResultSetColumn( )
-	{
-		return new ResultSetColumnImpl( );
+	public IResultSetColumn createResultSetColumn() {
+		return new ResultSetColumnImpl();
 	}
 
 	/*
@@ -324,9 +306,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * createDataSource(org.eclipse.birt.report.model.api.DataSourceHandle)
 	 */
 
-	public IDataSource createDataSource( DataSourceHandle handle )
-	{
-		return new DataSource( handle );
+	public IDataSource createDataSource(DataSourceHandle handle) {
+		return new DataSource(handle);
 	}
 
 	/*
@@ -336,9 +317,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * createHighlightRule()
 	 */
 
-	public IHighlightRule createHighlightRule( )
-	{
-		return new HighlightRuleImpl( );
+	public IHighlightRule createHighlightRule() {
+		return new HighlightRuleImpl();
 	}
 
 	/*
@@ -349,22 +329,19 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * (org.eclipse.birt.report.model.api.elements.structures.HighlightRule)
 	 */
 
-	public IHighlightRule createHighlightRule( HighlightRule highlightRule )
-	{
-		return new HighlightRuleImpl( highlightRule );
+	public IHighlightRule createHighlightRule(HighlightRule highlightRule) {
+		return new HighlightRuleImpl(highlightRule);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
-	 * createHighlightRule
-	 * (org.eclipse.birt.report.model.api.HighlightRuleHandle)
+	 * createHighlightRule (org.eclipse.birt.report.model.api.HighlightRuleHandle)
 	 */
 
-	public IHighlightRule createHighlightRule( HighlightRuleHandle handle )
-	{
-		return new HighlightRuleImpl( handle );
+	public IHighlightRule createHighlightRule(HighlightRuleHandle handle) {
+		return new HighlightRuleImpl(handle);
 	}
 
 	/*
@@ -374,9 +351,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createStyle
 	 * (org.eclipse.birt.report.model.api.StyleHandle)
 	 */
-	public IStyle createStyle( StyleHandle style )
-	{
-		return new Style( style );
+	public IStyle createStyle(StyleHandle style) {
+		return new Style(style);
 	}
 
 	/*
@@ -386,10 +362,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * createFilterConditionElement
 	 * (org.eclipse.birt.report.model.api.FilterConditionElementHandle)
 	 */
-	public IFilterConditionElement createFilterConditionElement(
-			FilterConditionElementHandle handle )
-	{
-		return new FilterConditionElement( handle );
+	public IFilterConditionElement createFilterConditionElement(FilterConditionElementHandle handle) {
+		return new FilterConditionElement(handle);
 	}
 
 	/*
@@ -398,9 +372,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#
 	 * createSortElement(org.eclipse.birt.report.model.api.SortElementHandle)
 	 */
-	public ISortElement createSortElement( SortElementHandle handle )
-	{
-		return new SortElement( handle );
+	public ISortElement createSortElement(SortElementHandle handle) {
+		return new SortElement(handle);
 	}
 
 	/*
@@ -410,9 +383,8 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	 * createExpression()
 	 */
 
-	public IExpression createExpression( )
-	{
-		return new ExpressionImpl( new Expression( null, null ) );
+	public IExpression createExpression() {
+		return new ExpressionImpl(new Expression(null, null));
 	}
 
 }

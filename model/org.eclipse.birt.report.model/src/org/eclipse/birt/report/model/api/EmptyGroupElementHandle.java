@@ -22,18 +22,16 @@ import org.eclipse.birt.report.model.core.Module;
  * Implements an empty group element handle, which actually can do nothing.
  */
 
-public class EmptyGroupElementHandle extends GroupElementHandle
-{
+public class EmptyGroupElementHandle extends GroupElementHandle {
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#hasVirtualExtendsElements()
+	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#
+	 * hasVirtualExtendsElements()
 	 */
-	
-	protected boolean allExtendedElements( )
-	{
+
+	protected boolean allExtendedElements() {
 		return false;
 	}
 
@@ -42,9 +40,8 @@ public class EmptyGroupElementHandle extends GroupElementHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getElements()
 	 */
-	
-	public List getElements( )
-	{
+
+	public List getElements() {
 		return Collections.EMPTY_LIST;
 	}
 
@@ -53,8 +50,7 @@ public class EmptyGroupElementHandle extends GroupElementHandle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getModule()
 	 */
-	public Module getModule( )
-	{
+	public Module getModule() {
 		return null;
 	}
 
@@ -64,98 +60,121 @@ public class EmptyGroupElementHandle extends GroupElementHandle
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getModuleHandle()
 	 */
 
-	public ModuleHandle getModuleHandle( )
-	{
+	public ModuleHandle getModuleHandle() {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isSameType()
 	 */
-	
-	public boolean isSameType( )
-	{
+
+	public boolean isSameType() {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getCommonProperties()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#getCommonProperties()
 	 */
-	
-	public List getCommonProperties( )
-	{
+
+	public List getCommonProperties() {
 		return Collections.EMPTY_LIST;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#visiblePropertyIterator()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#visiblePropertyIterator(
+	 * )
 	 */
-	
-	public Iterator visiblePropertyIterator( )
-	{
-		return new GroupPropertyIterator( Collections.EMPTY_LIST );
+
+	public Iterator visiblePropertyIterator() {
+		return new GroupPropertyIterator(Collections.EMPTY_LIST);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isPropertyVisible(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#isPropertyVisible(java.
+	 * lang.String)
 	 */
-	
-	protected boolean isPropertyVisible( String propName )
-	{
+
+	protected boolean isPropertyVisible(String propName) {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#clearLocalProperties()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#clearLocalProperties()
 	 */
-	
-	public void clearLocalProperties( ) throws SemanticException
-	{
-		
+
+	public void clearLocalProperties() throws SemanticException {
+
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isExtendedElements()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#isExtendedElements()
 	 */
-	
-	public boolean isExtendedElements( )
-	{
+
+	public boolean isExtendedElements() {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isPropertyReadOnly(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#isPropertyReadOnly(java.
+	 * lang.String)
 	 */
-	
-	protected boolean isPropertyReadOnly( String propName )
-	{
+
+	protected boolean isPropertyReadOnly(String propName) {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#getPropertyHandle(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#getPropertyHandle(java.
+	 * lang.String)
 	 */
-	
-	public GroupPropertyHandle getPropertyHandle( String propName )
-	{
+
+	public GroupPropertyHandle getPropertyHandle(String propName) {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#isInGroup(org.eclipse.birt.report.model.api.DesignElementHandle)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#isInGroup(org.eclipse.
+	 * birt.report.model.api.DesignElementHandle)
 	 */
-	
-	protected boolean isInGroup( DesignElementHandle element )
-	{
+
+	protected boolean isInGroup(DesignElementHandle element) {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.GroupElementHandle#clearLocalProperties()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.GroupElementHandle#clearLocalProperties()
 	 */
-	public void clearLocalPropertiesIncludeSubElement( ) throws SemanticException
-	{		
-		
+	public void clearLocalPropertiesIncludeSubElement() throws SemanticException {
+
 	}
 
 }

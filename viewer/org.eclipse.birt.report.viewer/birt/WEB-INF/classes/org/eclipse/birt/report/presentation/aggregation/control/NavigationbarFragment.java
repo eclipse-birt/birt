@@ -14,8 +14,8 @@ package org.eclipse.birt.report.presentation.aggregation.control;
 /**
  * Fragment for report tool bar.
  * <p>
+ * 
  * @see BaseFragment
  */
-public class NavigationbarFragment extends BaseControlFragment
-{
+public class NavigationbarFragment extends BaseControlFragment {
 }

@@ -14,11 +14,9 @@ package org.eclipse.birt.report.engine.emitter.ppt.plugin;
 import org.eclipse.birt.core.plugin.BIRTPlugin;
 import org.osgi.framework.BundleContext;
 
-public class PPTEmitterPlugin extends BIRTPlugin
-{
+public class PPTEmitterPlugin extends BIRTPlugin {
 
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
 	}
 }

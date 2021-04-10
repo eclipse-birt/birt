@@ -17,31 +17,29 @@ import org.eclipse.birt.report.model.core.Module;
 /**
  * Notification event that says that the module is disposed. The listener can
  * find out which module changed by calling
- * {@link org.eclipse.birt.report.model.api.activity.NotificationEvent#getTarget}( ).
+ * {@link org.eclipse.birt.report.model.api.activity.NotificationEvent#getTarget}(
+ * ).
  */
 
-public class DisposeEvent extends NotificationEvent
-{
+public class DisposeEvent extends NotificationEvent {
 
 	/**
 	 * Constructs a dispose event with the changed module.
 	 * 
-	 * @param module
-	 *            the changed module
+	 * @param module the changed module
 	 */
 
-	public DisposeEvent( Module module )
-	{
-		super( module );
+	public DisposeEvent(Module module) {
+		super(module);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return DISPOSE_EVENT;
 	}
 }

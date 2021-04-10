@@ -30,43 +30,41 @@ import org.eclipse.ui.part.ViewPart;
  * 
  * @see ViewPart
  */
-public class ChartExamplesView extends ViewPart
-{
+public class ChartExamplesView extends ViewPart {
 
 	ChartExamples instance = null;
 
 	static SaveXMLAction sxAction = null;
-	
+
 	static OpenJavaSourceAction opsAction = null;
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
-	public void createPartControl( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent,
-				ChartHelpContextIds.VIEW_CHART_EXAMPLE );
-		
-		instance = new ChartExamples( parent );
+	public void createPartControl(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.VIEW_CHART_EXAMPLE);
 
-		final IActionBars actionBars = getViewSite( ).getActionBars( );
-		IToolBarManager toolbarManager = actionBars.getToolBarManager( );
+		instance = new ChartExamples(parent);
+
+		final IActionBars actionBars = getViewSite().getActionBars();
+		IToolBarManager toolbarManager = actionBars.getToolBarManager();
 		Tools tools[] = ChartExamples.tools;
 		String group = tools[0].group;
-		toolbarManager.add( new GroupMarker( group ) );
-		for ( int i = 0; i < tools.length; i++ )
-		{
+		toolbarManager.add(new GroupMarker(group));
+		for (int i = 0; i < tools.length; i++) {
 			Tools tool = tools[i];
-			if ( !tool.group.equals( group ) )
-			{
-				toolbarManager.add( new Separator( ) );
-				toolbarManager.add( new GroupMarker( tool.group ) );
+			if (!tool.group.equals(group)) {
+				toolbarManager.add(new Separator());
+				toolbarManager.add(new GroupMarker(tool.group));
 			}
 			group = tool.group;
-			toolbarManager.appendToGroup( group, initActions( tool, parent ) );
+			toolbarManager.appendToGroup(group, initActions(tool, parent));
 		}
-		actionBars.updateActionBars( );
+		actionBars.updateActionBars();
 	}
 
 	/*
@@ -74,43 +72,35 @@ public class ChartExamplesView extends ViewPart
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
-	public void setFocus( )
-	{
-		instance.setFocus( );
+	public void setFocus() {
+		instance.setFocus();
 	}
 
 	/**
 	 * Called when the View is to be disposed.
 	 */
-	public void dispose( )
-	{
-		instance.dispose( );
+	public void dispose() {
+		instance.dispose();
 		instance = null;
-		super.dispose( );
+		super.dispose();
 	}
 
-	private Action initActions( Tools tool, Composite cmp )
-	{
-		if ( tool.name.equals( "Save" ) ) //$NON-NLS-1$
+	private Action initActions(Tools tool, Composite cmp) {
+		if (tool.name.equals("Save")) //$NON-NLS-1$
 		{
-			sxAction = new SaveXMLAction( tool, cmp );
+			sxAction = new SaveXMLAction(tool, cmp);
 			return sxAction;
-		}
-		else if ( tool.name.equals( "Open" ) ) //$NON-NLS-1$
+		} else if (tool.name.equals("Open")) //$NON-NLS-1$
 		{
-			opsAction = new OpenJavaSourceAction( tool,
-					getViewSite( ).getWorkbenchWindow( ) );
+			opsAction = new OpenJavaSourceAction(tool, getViewSite().getWorkbenchWindow());
 			return opsAction;
-		}
-		else
-		{
+		} else {
 			return null;
 		}
 	}
-	
-	public static void setActionsEnabled( boolean bEnabled )
-	{
-		sxAction.setEnabled( bEnabled );
-		opsAction.setEnabled( bEnabled );
+
+	public static void setActionsEnabled(boolean bEnabled) {
+		sxAction.setEnabled(bEnabled);
+		opsAction.setEnabled(bEnabled);
 	}
 }

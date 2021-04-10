@@ -67,351 +67,264 @@ import java.lang.reflect.Method;
  * 
  * When specifying parameter types, use <code>int.class</>,
  * <code>double.class</>, <code>short.class</>, <code>long.class</>,
- * <code>float.class</> and <code>char.class</> for primitive types.<p>
+ * <code>float.class</> and <code>char.class</> for primitive types.
+ * <p>
  *
  * Example: To set the value of an object <code>obj</> to 100 via the method
  * <code>setValue()</>:
  * <pre>
- * PrivateAccessor.invoke( obj, &quot;setValue&quot;, new Class[]{
- * 	int.class
- * }, new Object[]{
- * 	new Integer( 100 )
- * } );
+ * PrivateAccessor.invoke( obj, &quot;setValue&quot;, new Class[]{ int.class },
+ * new Object[]{ new Integer( 100 ) } );
  * </pre>
  *
  * @version $Revision: #2 $ $Date: 2005/01/27 $
- * @author <a href="mailto:vbossica@users.sourceforge.net">Vladimir R. Bossicard</a>
+ * @author <a href="mailto:vbossica@users.sourceforge.net">Vladimir R.
+ *         Bossicard</a>
  */
-public class PrivateAccessor
-{
+public class PrivateAccessor {
 
-	private PrivateAccessor( )
-	{
+	private PrivateAccessor() {
 	}
 
 	/**
-	 * Returns the value of the field on the specified object. The name
-	 * parameter is a <code>String</code> specifying the simple name of the
-	 * desired field.
+	 * Returns the value of the field on the specified object. The name parameter is
+	 * a <code>String</code> specifying the simple name of the desired field.
 	 * <p>
 	 * 
-	 * The object is first searched for any matching field. If no matching field
-	 * is found, the superclasses are recursively searched.
+	 * The object is first searched for any matching field. If no matching field is
+	 * found, the superclasses are recursively searched.
 	 * 
-	 * @exception NoSuchFieldException
-	 *                if a field with the specified name is not found.
+	 * @exception NoSuchFieldException if a field with the specified name is not
+	 *                                 found.
 	 */
-	public static Object getField( Object object, String name )
-			throws NoSuchFieldException
-	{
-		if ( object == null )
-		{
-			throw new IllegalArgumentException( "Invalid null object argument" );
+	public static Object getField(Object object, String name) throws NoSuchFieldException {
+		if (object == null) {
+			throw new IllegalArgumentException("Invalid null object argument");
 		}
-		for ( Class cls = object.getClass( ); cls != null; cls = cls.getSuperclass( ) )
-		{
-			try
-			{
-				Field field = cls.getDeclaredField( name );
-				field.setAccessible( true );
-				return field.get( object );
-			}
-			catch ( Exception ex )
-			{
+		for (Class cls = object.getClass(); cls != null; cls = cls.getSuperclass()) {
+			try {
+				Field field = cls.getDeclaredField(name);
+				field.setAccessible(true);
+				return field.get(object);
+			} catch (Exception ex) {
 				/*
-				 * in case of an exception, we will throw a new
-				 * NoSuchFieldException object
+				 * in case of an exception, we will throw a new NoSuchFieldException object
 				 */
 				;
 			}
 		}
-		throw new NoSuchFieldException( "Could get value for field "
-				+ object.getClass( ).getName( )
-				+ "."
-				+ name );
+		throw new NoSuchFieldException("Could get value for field " + object.getClass().getName() + "." + name);
 	}
 
 	/**
-	 * Returns the value of the field on the specified class. The name parameter
-	 * is a <code>String</code> specifying the simple name of the desired
-	 * field.
+	 * Returns the value of the field on the specified class. The name parameter is
+	 * a <code>String</code> specifying the simple name of the desired field.
 	 * <p>
 	 * 
-	 * The class is first searched for any matching field. If no matching field
-	 * is found, the superclasses are recursively searched.
+	 * The class is first searched for any matching field. If no matching field is
+	 * found, the superclasses are recursively searched.
 	 * 
-	 * @exception NoSuchFieldException
-	 *                if a field with the specified name is not found.
+	 * @exception NoSuchFieldException if a field with the specified name is not
+	 *                                 found.
 	 */
-	public static Object getField( Class cls, String name )
-			throws NoSuchFieldException
-	{
-		if ( cls == null )
-		{
-			throw new IllegalArgumentException( "Invalid null cls argument" );
+	public static Object getField(Class cls, String name) throws NoSuchFieldException {
+		if (cls == null) {
+			throw new IllegalArgumentException("Invalid null cls argument");
 		}
 		Class base = cls;
-		while ( base != null )
-		{
-			try
-			{
-				Field field = base.getDeclaredField( name );
-				field.setAccessible( true );
-				return field.get( base );
-			}
-			catch ( Exception ex )
-			{
+		while (base != null) {
+			try {
+				Field field = base.getDeclaredField(name);
+				field.setAccessible(true);
+				return field.get(base);
+			} catch (Exception ex) {
 				/*
-				 * in case of an exception, we will throw a new
-				 * NoSuchFieldException object
+				 * in case of an exception, we will throw a new NoSuchFieldException object
 				 */
 				;
 			}
-			base = base.getSuperclass( );
+			base = base.getSuperclass();
 		}
-		throw new NoSuchFieldException( "Could get value for static field "
-				+ cls.getName( )
-				+ "."
-				+ name );
+		throw new NoSuchFieldException("Could get value for static field " + cls.getName() + "." + name);
 	}
 
 	/**
-	 * Sets the field represented by the name value on the specified object
-	 * argument to the specified new value. The new value is automatically
-	 * unwrapped if the underlying field has a primitive type.
+	 * Sets the field represented by the name value on the specified object argument
+	 * to the specified new value. The new value is automatically unwrapped if the
+	 * underlying field has a primitive type.
 	 * <p>
 	 * 
-	 * The object is first searched for any matching field. If no matching field
-	 * is found, the superclasses are recursively searched.
+	 * The object is first searched for any matching field. If no matching field is
+	 * found, the superclasses are recursively searched.
 	 * 
-	 * @exception NoSuchFieldException
-	 *                if a field with the specified name is not found.
+	 * @exception NoSuchFieldException if a field with the specified name is not
+	 *                                 found.
 	 */
-	public static void setField( Object object, String name, Object value )
-			throws NoSuchFieldException
-	{
-		if ( object == null )
-		{
-			throw new IllegalArgumentException( "Invalid null object argument" );
+	public static void setField(Object object, String name, Object value) throws NoSuchFieldException {
+		if (object == null) {
+			throw new IllegalArgumentException("Invalid null object argument");
 		}
-		for ( Class cls = object.getClass( ); cls != null; cls = cls.getSuperclass( ) )
-		{
-			try
-			{
-				Field field = cls.getDeclaredField( name );
-				field.setAccessible( true );
-				field.set( object, value );
+		for (Class cls = object.getClass(); cls != null; cls = cls.getSuperclass()) {
+			try {
+				Field field = cls.getDeclaredField(name);
+				field.setAccessible(true);
+				field.set(object, value);
 				return;
-			}
-			catch ( Exception ex )
-			{
+			} catch (Exception ex) {
 				/*
-				 * in case of an exception, we will throw a new
-				 * NoSuchFieldException object
+				 * in case of an exception, we will throw a new NoSuchFieldException object
 				 */
 				;
 			}
 		}
-		throw new NoSuchFieldException( "Could set value for field "
-				+ object.getClass( ).getName( )
-				+ "."
-				+ name );
+		throw new NoSuchFieldException("Could set value for field " + object.getClass().getName() + "." + name);
 	}
 
 	/**
-	 * Sets the field represented by the name value on the specified class
-	 * argument to the specified new value. The new value is automatically
-	 * unwrapped if the underlying field has a primitive type.
+	 * Sets the field represented by the name value on the specified class argument
+	 * to the specified new value. The new value is automatically unwrapped if the
+	 * underlying field has a primitive type.
 	 * <p>
 	 * 
-	 * The class is first searched for any matching field. If no matching field
-	 * is found, the superclasses are recursively searched.
+	 * The class is first searched for any matching field. If no matching field is
+	 * found, the superclasses are recursively searched.
 	 * 
-	 * @exception NoSuchFieldException
-	 *                if a field with the specified name is not found.
+	 * @exception NoSuchFieldException if a field with the specified name is not
+	 *                                 found.
 	 */
-	public static void setField( Class cls, String name, Object value )
-			throws NoSuchFieldException
-	{
-		if ( cls == null )
-		{
-			throw new IllegalArgumentException( "Invalid null cls argument" );
+	public static void setField(Class cls, String name, Object value) throws NoSuchFieldException {
+		if (cls == null) {
+			throw new IllegalArgumentException("Invalid null cls argument");
 		}
 		Class base = cls;
-		while ( base != null )
-		{
-			try
-			{
-				Field field = base.getDeclaredField( name );
-				field.setAccessible( true );
-				field.set( base, value );
+		while (base != null) {
+			try {
+				Field field = base.getDeclaredField(name);
+				field.setAccessible(true);
+				field.set(base, value);
 				return;
-			}
-			catch ( Exception ex )
-			{
+			} catch (Exception ex) {
 				/*
-				 * in case of an exception, we will throw a new
-				 * NoSuchFieldException object
+				 * in case of an exception, we will throw a new NoSuchFieldException object
 				 */
 				;
 			}
-			base = base.getSuperclass( );
+			base = base.getSuperclass();
 		}
-		throw new NoSuchFieldException( "Could set value for static field "
-				+ cls.getName( )
-				+ "."
-				+ name );
+		throw new NoSuchFieldException("Could set value for static field " + cls.getName() + "." + name);
 	}
 
 	/**
-	 * Invokes the method represented by the name value on the specified object
-	 * with the specified parameters. Individual parameters are automatically
-	 * unwrapped to match primitive formal parameters, and both primitive and
-	 * reference parameters are subject to widening conversions as necessary.
-	 * The value returned by the method is automatically wrapped in an object if
-	 * it has a primitive type.
+	 * Invokes the method represented by the name value on the specified object with
+	 * the specified parameters. Individual parameters are automatically unwrapped
+	 * to match primitive formal parameters, and both primitive and reference
+	 * parameters are subject to widening conversions as necessary. The value
+	 * returned by the method is automatically wrapped in an object if it has a
+	 * primitive type.
 	 * <p>
 	 * 
-	 * The object is first searched for any matching method. If no matching
-	 * method is found, the superclasses are recursively searched.
+	 * The object is first searched for any matching method. If no matching method
+	 * is found, the superclasses are recursively searched.
 	 * 
-	 * @exception NoSuchMethodException
-	 *                if a matching method is not found or if the name is "
-	 *                <init>"or " <clinit>".
+	 * @exception NoSuchMethodException if a matching method is not found or if the
+	 *                                  name is " <init>"or " <clinit>".
 	 */
-	public static Object invoke( Object object, String name,
-			Class parameterTypes[], Object args[] ) throws Throwable
-	{
-		if ( object == null )
-		{
-			throw new IllegalArgumentException( "Invalid null object argument" );
+	public static Object invoke(Object object, String name, Class parameterTypes[], Object args[]) throws Throwable {
+		if (object == null) {
+			throw new IllegalArgumentException("Invalid null object argument");
 		}
-		Class cls = object.getClass( );
-		while ( cls != null )
-		{
-			try
-			{
-				Method method = cls.getDeclaredMethod( name, parameterTypes );
-				method.setAccessible( true );
-				return method.invoke( object, args );
-			}
-			catch ( InvocationTargetException e )
-			{
+		Class cls = object.getClass();
+		while (cls != null) {
+			try {
+				Method method = cls.getDeclaredMethod(name, parameterTypes);
+				method.setAccessible(true);
+				return method.invoke(object, args);
+			} catch (InvocationTargetException e) {
 				/*
 				 * if the method throws an exception, it is embedded into an
 				 * InvocationTargetException.
 				 */
-				throw e.getTargetException( );
-			}
-			catch ( Exception ex )
-			{
+				throw e.getTargetException();
+			} catch (Exception ex) {
 				/*
-				 * in case of an exception, we will throw a new
-				 * NoSuchFieldException object
+				 * in case of an exception, we will throw a new NoSuchFieldException object
 				 */
 				;
 			}
-			cls = cls.getSuperclass( );
+			cls = cls.getSuperclass();
 		}
-		throw new NoSuchMethodException( "Failed method invocation: "
-				+ object.getClass( ).getName( )
-				+ "."
-				+ name
-				+ "()" );
+		throw new NoSuchMethodException("Failed method invocation: " + object.getClass().getName() + "." + name + "()");
 	}
 
 	/**
-	 * Invokes the method represented by the name value on the specified class
-	 * with the specified parameters. Individual parameters are automatically
-	 * unwrapped to match primitive formal parameters, and both primitive and
-	 * reference parameters are subject to widening conversions as necessary.
-	 * The value returned by the method is automatically wrapped in an object if
-	 * it has a primitive type.
+	 * Invokes the method represented by the name value on the specified class with
+	 * the specified parameters. Individual parameters are automatically unwrapped
+	 * to match primitive formal parameters, and both primitive and reference
+	 * parameters are subject to widening conversions as necessary. The value
+	 * returned by the method is automatically wrapped in an object if it has a
+	 * primitive type.
 	 * <p>
 	 * 
-	 * The class is first searched for any matching method. If no matching class
-	 * is found, the superclasses are recursively searched.
+	 * The class is first searched for any matching method. If no matching class is
+	 * found, the superclasses are recursively searched.
 	 * 
-	 * @exception NoSuchMethodException
-	 *                if a matching method is not found or if the name is "
-	 *                <init>"or " <clinit>".
+	 * @exception NoSuchMethodException if a matching method is not found or if the
+	 *                                  name is " <init>"or " <clinit>".
 	 */
-	public static Object invoke( Class cls, String name,
-			Class parameterTypes[], Object args[] ) throws Throwable
-	{
-		if ( cls == null )
-		{
-			throw new IllegalArgumentException( "Invalid null cls argument" );
+	public static Object invoke(Class cls, String name, Class parameterTypes[], Object args[]) throws Throwable {
+		if (cls == null) {
+			throw new IllegalArgumentException("Invalid null cls argument");
 		}
 		Class base = cls;
-		while ( base != null )
-		{
-			try
-			{
-				Method method = base.getDeclaredMethod( name, parameterTypes );
-				method.setAccessible( true );
-				return method.invoke( base, args );
-			}
-			catch ( InvocationTargetException e )
-			{
+		while (base != null) {
+			try {
+				Method method = base.getDeclaredMethod(name, parameterTypes);
+				method.setAccessible(true);
+				return method.invoke(base, args);
+			} catch (InvocationTargetException e) {
 				/*
 				 * if the method throws an exception, it is embedded into an
 				 * InvocationTargetException.
 				 */
-				throw (Exception) e.getTargetException( );
-			}
-			catch ( Exception ex )
-			{
+				throw (Exception) e.getTargetException();
+			} catch (Exception ex) {
 				/*
-				 * in case of an exception, we will throw a new
-				 * NoSuchFieldException object
+				 * in case of an exception, we will throw a new NoSuchFieldException object
 				 */
 				;
 			}
-			base = base.getSuperclass( );
+			base = base.getSuperclass();
 		}
-		throw new NoSuchMethodException( "Failed static method invocation: "
-				+ cls.getName( )
-				+ "."
-				+ name
-				+ "()" );
+		throw new NoSuchMethodException("Failed static method invocation: " + cls.getName() + "." + name + "()");
 	}
 
 	/**
-	 * Invoke the constructor with no parameters to construct an new instance of
-	 * the given class
+	 * Invoke the constructor with no parameters to construct an new instance of the
+	 * given class
 	 * 
-	 * @param cls
-	 *            the Class object
+	 * @param cls the Class object
 	 * @throws Exception
 	 */
-	public static Object newInstance( Class cls ) throws Exception
-	{
-		return newInstance( cls, new Class[0], new Object[0] );
+	public static Object newInstance(Class cls) throws Exception {
+		return newInstance(cls, new Class[0], new Object[0]);
 	}
 
 	/**
-	 * Invoke the constructor with specified parameters to construct an new
-	 * instance of the given class
+	 * Invoke the constructor with specified parameters to construct an new instance
+	 * of the given class
 	 * 
-	 * @param cls
-	 *            the Class object
-	 * @param types
-	 *            the types of the parameters
-	 * @param args
-	 *            the values of the parameters
+	 * @param cls   the Class object
+	 * @param types the types of the parameters
+	 * @param args  the values of the parameters
 	 * @throws Exception
 	 */
-	public static Object newInstance( Class cls, Class[] types, Object[] args )
-			throws Exception
-	{
-		if ( cls == null )
-		{
-			throw new IllegalArgumentException( "Invalid null object argument" );
+	public static Object newInstance(Class cls, Class[] types, Object[] args) throws Exception {
+		if (cls == null) {
+			throw new IllegalArgumentException("Invalid null object argument");
 		}
-		Constructor constructor = cls.getDeclaredConstructor( types );
-		constructor.setAccessible( true );
-		return constructor.newInstance( args );
+		Constructor constructor = cls.getDeclaredConstructor(types);
+		constructor.setAccessible(true);
+		return constructor.newInstance(args);
 	}
 
 }

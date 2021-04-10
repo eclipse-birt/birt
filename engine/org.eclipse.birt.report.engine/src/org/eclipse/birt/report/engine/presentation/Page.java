@@ -15,42 +15,35 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
-public class Page
-{
+public class Page {
 
 	IPageContent pageContent;
 	IContentEmitter emitter;
 	PageRegion rootRegion;
 
-	public Page( IContentEmitter emitter, IPageContent pageContent )
-	{
+	public Page(IContentEmitter emitter, IPageContent pageContent) {
 		this.emitter = emitter;
 		this.pageContent = pageContent;
-		this.rootRegion = new PageRegion( this );
+		this.rootRegion = new PageRegion(this);
 	}
 
-	public PageRegion getRootRegion( )
-	{
+	public PageRegion getRootRegion() {
 		return rootRegion;
 	}
 
-	public IContentEmitter getEmitter( )
-	{
+	public IContentEmitter getEmitter() {
 		return this.emitter;
 	}
 
-	public void open( ) throws BirtException
-	{
-		emitter.startPage( pageContent );
+	public void open() throws BirtException {
+		emitter.startPage(pageContent);
 	}
 
-	public void close( ) throws BirtException
-	{
-		emitter.endPage( pageContent );
+	public void close() throws BirtException {
+		emitter.endPage(pageContent);
 	}
 
-	public PageRegion createRegion( )
-	{
-		return new PageRegion( this );
+	public PageRegion createRegion() {
+		return new PageRegion(this);
 	}
 }

@@ -12,14 +12,12 @@ package org.eclipse.birt.data.engine.olap.query.view;
 
 import java.util.List;
 
-
 /**
  * The RelationShip class keeps the row and column information with certain
  * measure.
  * 
  */
-public class Relationship
-{
+public class Relationship {
 
 	private List rowLevel, columnLevel, pageLevel;
 
@@ -28,8 +26,7 @@ public class Relationship
 	 * @param rowLevel
 	 * @param columnLevel
 	 */
-	public Relationship( List rowLevel, List columnLevel, List pageLevel )
-	{
+	public Relationship(List rowLevel, List columnLevel, List pageLevel) {
 		this.rowLevel = rowLevel;
 		this.columnLevel = columnLevel;
 		this.pageLevel = pageLevel;
@@ -39,8 +36,7 @@ public class Relationship
 	 * 
 	 * @return
 	 */
-	public List getLevelListOnRow( )
-	{
+	public List getLevelListOnRow() {
 		return this.rowLevel;
 	}
 
@@ -48,17 +44,15 @@ public class Relationship
 	 * 
 	 * @return
 	 */
-	public List getLevelListOnColumn( )
-	{
+	public List getLevelListOnColumn() {
 		return this.columnLevel;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public List getLevelListOnPage( )
-	{
+	public List getLevelListOnPage() {
 		return this.pageLevel;
 	}
 }

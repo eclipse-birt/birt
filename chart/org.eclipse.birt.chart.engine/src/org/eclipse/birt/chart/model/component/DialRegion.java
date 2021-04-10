@@ -12,15 +12,16 @@
 package org.eclipse.birt.chart.model.component;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Dial Region</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Dial
+ * Region</b></em>'. <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius <em>Inner Radius</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius <em>Outer Radius</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius
+ * <em>Inner Radius</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius
+ * <em>Outer Radius</em>}</li>
  * </ul>
  * </p>
  *
@@ -28,16 +29,14 @@ package org.eclipse.birt.chart.model.component;
  * @model extendedMetaData="name='DialRegion' kind='elementOnly'"
  * @generated
  */
-public interface DialRegion extends MarkerRange
-{
+public interface DialRegion extends MarkerRange {
 
 	/**
-	 * Returns the value of the '<em><b>Inner Radius</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Specifies the percentage value of the inner radius of the dial region.
-	 * <!-- end-model-doc -->
+	 * Returns the value of the '<em><b>Inner Radius</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Specifies
+	 * the percentage value of the inner radius of the dial region. <!--
+	 * end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Inner Radius</em>' attribute.
 	 * @see #isSetInnerRadius()
 	 * @see #unsetInnerRadius()
@@ -47,50 +46,55 @@ public interface DialRegion extends MarkerRange
 	 *        extendedMetaData="kind='element' name='InnerRadius'"
 	 * @generated
 	 */
-	double getInnerRadius( );
+	double getInnerRadius();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius <em>Inner Radius</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius
+	 * <em>Inner Radius</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @param value the new value of the '<em>Inner Radius</em>' attribute.
 	 * @see #isSetInnerRadius()
 	 * @see #unsetInnerRadius()
 	 * @see #getInnerRadius()
 	 * @generated
 	 */
-	void setInnerRadius( double value );
+	void setInnerRadius(double value);
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius <em>Inner Radius</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Unsets the value of the
+	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius
+	 * <em>Inner Radius</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @see #isSetInnerRadius()
 	 * @see #getInnerRadius()
 	 * @see #setInnerRadius(double)
 	 * @generated
 	 */
-	void unsetInnerRadius( );
+	void unsetInnerRadius();
 
 	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius <em>Inner Radius</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns whether the value of the
+	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getInnerRadius
+	 * <em>Inner Radius</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @return whether the value of the '<em>Inner Radius</em>' attribute is set.
 	 * @see #unsetInnerRadius()
 	 * @see #getInnerRadius()
 	 * @see #setInnerRadius(double)
 	 * @generated
 	 */
-	boolean isSetInnerRadius( );
+	boolean isSetInnerRadius();
 
 	/**
-	 * Returns the value of the '<em><b>Outer Radius</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Specifies the percentage value of the outer radius of the dial region.
-	 * <!-- end-model-doc -->
+	 * Returns the value of the '<em><b>Outer Radius</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Specifies
+	 * the percentage value of the outer radius of the dial region. <!--
+	 * end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Outer Radius</em>' attribute.
 	 * @see #isSetOuterRadius()
 	 * @see #unsetOuterRadius()
@@ -100,46 +104,52 @@ public interface DialRegion extends MarkerRange
 	 *        extendedMetaData="kind='element' name='OuterRadius'"
 	 * @generated
 	 */
-	double getOuterRadius( );
+	double getOuterRadius();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius <em>Outer Radius</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius
+	 * <em>Outer Radius</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @param value the new value of the '<em>Outer Radius</em>' attribute.
 	 * @see #isSetOuterRadius()
 	 * @see #unsetOuterRadius()
 	 * @see #getOuterRadius()
 	 * @generated
 	 */
-	void setOuterRadius( double value );
+	void setOuterRadius(double value);
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius <em>Outer Radius</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Unsets the value of the
+	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius
+	 * <em>Outer Radius</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @see #isSetOuterRadius()
 	 * @see #getOuterRadius()
 	 * @see #setOuterRadius(double)
 	 * @generated
 	 */
-	void unsetOuterRadius( );
+	void unsetOuterRadius();
 
 	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius <em>Outer Radius</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns whether the value of the
+	 * '{@link org.eclipse.birt.chart.model.component.DialRegion#getOuterRadius
+	 * <em>Outer Radius</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @return whether the value of the '<em>Outer Radius</em>' attribute is set.
 	 * @see #unsetOuterRadius()
 	 * @see #getOuterRadius()
 	 * @see #setOuterRadius(double)
 	 * @generated
 	 */
-	boolean isSetOuterRadius( );
+	boolean isSetOuterRadius();
 
 	/**
 	 * @generated
 	 */
-	DialRegion copyInstance( );
+	DialRegion copyInstance();
 
 } // DialRegion

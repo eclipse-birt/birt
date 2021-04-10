@@ -19,12 +19,11 @@ import org.eclipse.swt.widgets.Canvas;
  * 
  */
 
-public interface IChartPreviewPainter extends ControlListener
-{
+public interface IChartPreviewPainter extends ControlListener {
 
-	void dispose( );
+	void dispose();
 
-	void renderModel( IChartObject chart );
+	void renderModel(IChartObject chart);
 
-	void setPreview( Canvas previewCanvas );
+	void setPreview(Canvas previewCanvas);
 }

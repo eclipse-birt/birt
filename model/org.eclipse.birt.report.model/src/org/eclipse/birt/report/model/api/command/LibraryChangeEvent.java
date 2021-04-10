@@ -12,34 +12,32 @@
 package org.eclipse.birt.report.model.api.command;
 
 /**
- * Notification event that says that the module need refreshing. The listener can
- * find out which module changed by calling
- * {@link org.eclipse.birt.report.model.api.activity.NotificationEvent#getTarget}( ).
+ * Notification event that says that the module need refreshing. The listener
+ * can find out which module changed by calling
+ * {@link org.eclipse.birt.report.model.api.activity.NotificationEvent#getTarget}(
+ * ).
  */
 
-public class LibraryChangeEvent extends ResourceChangeEvent
-{
+public class LibraryChangeEvent extends ResourceChangeEvent {
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param path
-	 *            the file path of the changed library.
+	 * @param path the file path of the changed library.
 	 */
 
-	public LibraryChangeEvent( String path )
-	{
-		super( path );
+	public LibraryChangeEvent(String path) {
+		super(path);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return LIBRARY_CHANGE_EVENT;
 	}
 

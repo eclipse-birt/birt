@@ -30,27 +30,23 @@ import org.eclipse.birt.report.model.util.StructureContextUtil;
  * result.
  */
 
-public abstract class StyleRuleHandle extends StructureHandle
-{
+public abstract class StyleRuleHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of style rule.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for style rule list of one property
-	 * @param index
-	 *            the position of this style rule in the list
+	 * @param valueHandle the value handle for style rule list of one property
+	 * @param index       the position of this style rule in the list
 	 */
 
-	public StyleRuleHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public StyleRuleHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
 	 * Returns the operator. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>MAP_OPERATOR_EQ
 	 * <li>MAP_OPERATOR_NE
@@ -71,15 +67,14 @@ public abstract class StyleRuleHandle extends StructureHandle
 	 * @return the operator
 	 */
 
-	public String getOperator( )
-	{
-		return getStringProperty( StyleRule.OPERATOR_MEMBER );
+	public String getOperator() {
+		return getStringProperty(StyleRule.OPERATOR_MEMBER);
 	}
 
 	/**
 	 * Sets the operator. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>MAP_OPERATOR_EQ
 	 * <li>MAP_OPERATOR_NE
@@ -97,44 +92,36 @@ public abstract class StyleRuleHandle extends StructureHandle
 	 * <li>MAP_OPERATOR_ANY
 	 * </ul>
 	 * 
-	 * @param operator
-	 *            the operator to set
-	 * @throws SemanticException
-	 *             if operator is not in the choice list.
+	 * @param operator the operator to set
+	 * @throws SemanticException if operator is not in the choice list.
 	 */
 
-	public void setOperator( String operator ) throws SemanticException
-	{
-		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( CommandLabelFactory.getCommandLabel(
-				MessageConstants.CHANGE_PROPERTY_MESSAGE,
-				new String[]{StyleRule.OPERATOR_MEMBER} ) );
-		try
-		{
-			setProperty( StyleRule.OPERATOR_MEMBER, operator );
-			int level = OperatorUtil.computeStyleRuleOperatorLevel( operator );
-			switch ( level )
-			{
-				case OperatorUtil.OPERATOR_LEVEL_ONE :
-					setValue2( null );
-					break;
-				case OperatorUtil.OPERATOR_LEVEL_TWO :
-					break;
-				case OperatorUtil.OPERATOR_LEVEL_ZERO :
-					setValue2( null );
-					setValue1( (List) null );
-					break;
-				case OperatorUtil.OPERATOR_LEVEL_NOT_EXIST :
-					break;
+	public void setOperator(String operator) throws SemanticException {
+		ActivityStack stack = getModule().getActivityStack();
+		stack.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.CHANGE_PROPERTY_MESSAGE,
+				new String[] { StyleRule.OPERATOR_MEMBER }));
+		try {
+			setProperty(StyleRule.OPERATOR_MEMBER, operator);
+			int level = OperatorUtil.computeStyleRuleOperatorLevel(operator);
+			switch (level) {
+			case OperatorUtil.OPERATOR_LEVEL_ONE:
+				setValue2(null);
+				break;
+			case OperatorUtil.OPERATOR_LEVEL_TWO:
+				break;
+			case OperatorUtil.OPERATOR_LEVEL_ZERO:
+				setValue2(null);
+				setValue1((List) null);
+				break;
+			case OperatorUtil.OPERATOR_LEVEL_NOT_EXIST:
+				break;
 			}
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
+		} catch (SemanticException e) {
+			stack.rollback();
 			throw e;
 		}
 
-		stack.commit( );
+		stack.commit();
 
 	}
 
@@ -144,72 +131,63 @@ public abstract class StyleRuleHandle extends StructureHandle
 	 * @return the value 1
 	 */
 
-	public String getValue1( )
-	{
-		List valueList = getValue1List( );
-		if ( valueList == null || valueList.isEmpty( ) )
+	public String getValue1() {
+		List valueList = getValue1List();
+		if (valueList == null || valueList.isEmpty())
 			return null;
 
-		return (String) valueList.get( 0 );
+		return (String) valueList.get(0);
 	}
 
 	/**
 	 * Gets the value1 expression list. For most map operator, there is only one
-	 * expression in the returned list. However, map operator 'in' may contain
-	 * more than one expression.
+	 * expression in the returned list. However, map operator 'in' may contain more
+	 * than one expression.
 	 * 
 	 * @return the value1 expression list.
 	 * 
 	 * @deprecated {@link #getValue1ExpressionList()}
 	 */
 
-	public List getValue1List( )
-	{
-		List<Expression> valueList = (List<Expression>) getProperty( StyleRule.VALUE1_MEMBER );
-		if ( valueList == null || valueList.isEmpty( ) )
+	public List getValue1List() {
+		List<Expression> valueList = (List<Expression>) getProperty(StyleRule.VALUE1_MEMBER);
+		if (valueList == null || valueList.isEmpty())
 			return Collections.EMPTY_LIST;
-		return Collections.unmodifiableList( ModelUtil
-				.getExpressionCompatibleList( valueList ) );
+		return Collections.unmodifiableList(ModelUtil.getExpressionCompatibleList(valueList));
 	}
 
 	/**
 	 * Gets the value1 expression list. For most map operator, there is only one
-	 * expression in the returned list. However, map operator 'in' may contain
-	 * more than one expression.
+	 * expression in the returned list. However, map operator 'in' may contain more
+	 * than one expression.
 	 * 
 	 * @return the value1 expression list handle
 	 */
 
-	public ExpressionListHandle getValue1ExpressionList( )
-	{
-		return new ExpressionListHandle( elementHandle, StructureContextUtil
-				.createStructureContext( this, StyleRule.VALUE1_MEMBER ) );
+	public ExpressionListHandle getValue1ExpressionList() {
+		return new ExpressionListHandle(elementHandle,
+				StructureContextUtil.createStructureContext(this, StyleRule.VALUE1_MEMBER));
 	}
 
 	/**
 	 * Sets the value 1.
 	 * 
-	 * @param value1
-	 *            the value 1 to set
+	 * @param value1 the value 1 to set
 	 */
 
-	public void setValue1( String value1 )
-	{
-		setPropertySilently( StyleRule.VALUE1_MEMBER, value1 );
+	public void setValue1(String value1) {
+		setPropertySilently(StyleRule.VALUE1_MEMBER, value1);
 	}
 
 	/**
 	 * Sets the value 1 expression list.
 	 * 
-	 * @param value1List
-	 *            the value 1 expression list to set
-	 * @throws SemanticException
-	 *             if the instance in the list is not valid
+	 * @param value1List the value 1 expression list to set
+	 * @throws SemanticException if the instance in the list is not valid
 	 */
 
-	public void setValue1( List value1List ) throws SemanticException
-	{
-		setProperty( StyleRule.VALUE1_MEMBER, value1List );
+	public void setValue1(List value1List) throws SemanticException {
+		setProperty(StyleRule.VALUE1_MEMBER, value1List);
 	}
 
 	/**
@@ -218,20 +196,17 @@ public abstract class StyleRuleHandle extends StructureHandle
 	 * @return the value 2
 	 */
 
-	public String getValue2( )
-	{
-		return getStringProperty( StyleRule.VALUE2_MEMBER );
+	public String getValue2() {
+		return getStringProperty(StyleRule.VALUE2_MEMBER);
 	}
 
 	/**
 	 * Sets the value 2.
 	 * 
-	 * @param value2
-	 *            the value 2 to set
+	 * @param value2 the value 2 to set
 	 */
 
-	public void setValue2( String value2 )
-	{
-		setPropertySilently( StyleRule.VALUE2_MEMBER, value2 );
+	public void setValue2(String value2) {
+		setPropertySilently(StyleRule.VALUE2_MEMBER, value2);
 	}
 }

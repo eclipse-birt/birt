@@ -13,14 +13,13 @@ package org.eclipse.birt.report.engine.toc;
 
 import java.io.IOException;
 
-public interface ITOCWriter
-{
+public interface ITOCWriter {
 
-	ITreeNode getTree( );
+	ITreeNode getTree();
 
-	void startTOCEntry( TOCEntry entry ) throws IOException;
+	void startTOCEntry(TOCEntry entry) throws IOException;
 
-	void closeTOCEntry( TOCEntry entry ) throws IOException;
+	void closeTOCEntry(TOCEntry entry) throws IOException;
 
-	void close( ) throws IOException;
+	void close() throws IOException;
 }

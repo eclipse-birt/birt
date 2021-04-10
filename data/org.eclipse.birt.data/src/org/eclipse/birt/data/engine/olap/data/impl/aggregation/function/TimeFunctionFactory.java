@@ -17,33 +17,29 @@ import org.eclipse.birt.data.engine.api.timefunction.IParallelPeriod;
 import org.eclipse.birt.data.engine.api.timefunction.IPeriodsFunction;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
-public class TimeFunctionFactory
-{
-	public static IPeriodsFunction createPeriodsToDateFunction( String levelType, boolean isCurrent )
-	{
+public class TimeFunctionFactory {
+	public static IPeriodsFunction createPeriodsToDateFunction(String levelType, boolean isCurrent) {
 		IPeriodsFunction function = null;
-		if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
-			function = new YearToDateFunction( );
-		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) )
-			function = new QuarterToDateFunction( );
-		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
-			function = new MonthToDateFunction( );
-		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
-			function = new WeekToDateFunciton( );
-		else if ( levelType.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
-			function = new WeekToDateFunciton( );
-		if ( isCurrent )
-			( (AbstractMDX) function ).setIsCurrent( isCurrent );
+		if (levelType.equals(TimeMember.TIME_LEVEL_TYPE_YEAR))
+			function = new YearToDateFunction();
+		else if (levelType.equals(TimeMember.TIME_LEVEL_TYPE_QUARTER))
+			function = new QuarterToDateFunction();
+		else if (levelType.equals(TimeMember.TIME_LEVEL_TYPE_MONTH))
+			function = new MonthToDateFunction();
+		else if (levelType.equals(TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH))
+			function = new WeekToDateFunciton();
+		else if (levelType.equals(TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR))
+			function = new WeekToDateFunciton();
+		if (isCurrent)
+			((AbstractMDX) function).setIsCurrent(isCurrent);
 		return function;
 	}
-	
-	public static IPeriodsFunction createTrailingFunction( String levelType, int Offset )
-	{
-		return new TrailingFunction( levelType, Offset );
+
+	public static IPeriodsFunction createTrailingFunction(String levelType, int Offset) {
+		return new TrailingFunction(levelType, Offset);
 	}
-	
-	public static IParallelPeriod createParallelPeriodFunction( String levelType, int Offset )
-	{
-		return new PreviousNPeriodsFunction( levelType, Offset );
+
+	public static IParallelPeriod createParallelPeriodFunction(String levelType, int Offset) {
+		return new PreviousNPeriodsFunction(levelType, Offset);
 	}
 }

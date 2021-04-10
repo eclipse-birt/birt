@@ -16,54 +16,45 @@ import org.eclipse.swt.graphics.Image;
 /**
  * @author Actuate Corporation
  */
-public class NodeImpl implements INode
-{
+public class NodeImpl implements INode {
 
-    private HelpContentImpl help = null;
+	private HelpContentImpl help = null;
 
-    private String sLabel = ""; //$NON-NLS-1$
+	private String sLabel = ""; //$NON-NLS-1$
 
-    private String sPath = ""; //$NON-NLS-1$
+	private String sPath = ""; //$NON-NLS-1$
 
-    private Image imgIcon = null;
+	private Image imgIcon = null;
 
-    public IHelpContent getHelp()
-    {
-        return help;
-    }
+	public IHelpContent getHelp() {
+		return help;
+	}
 
-    public String getLabel()
-    {
-        return sLabel;
-    }
+	public String getLabel() {
+		return sLabel;
+	}
 
-    public String getPath()
-    {
-        return sPath;
-    }
+	public String getPath() {
+		return sPath;
+	}
 
-    public Image getIcon()
-    {
-        return imgIcon;
-    }
+	public Image getIcon() {
+		return imgIcon;
+	}
 
-    public void setLabel(String sLabel)
-    {
-        this.sLabel = sLabel;
-    }
+	public void setLabel(String sLabel) {
+		this.sLabel = sLabel;
+	}
 
-    public void setPath(String sPath)
-    {
-        this.sPath = sPath;
-    }
+	public void setPath(String sPath) {
+		this.sPath = sPath;
+	}
 
-    public void setIcon(Image iImage)
-    {
-        this.imgIcon = iImage;
-    }
+	public void setIcon(Image iImage) {
+		this.imgIcon = iImage;
+	}
 
-    public void setHelp(HelpContentImpl help)
-    {
-        this.help = help;
-    }
+	public void setHelp(HelpContentImpl help) {
+		this.help = help;
+	}
 }

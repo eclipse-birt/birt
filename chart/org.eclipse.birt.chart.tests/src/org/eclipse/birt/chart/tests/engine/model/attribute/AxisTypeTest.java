@@ -14,25 +14,23 @@ import junit.framework.TestCase;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 
 public class AxisTypeTest extends TestCase {
-	
-	public void testConstant() 
-	{		
-		assertEquals( AxisType.LINEAR, AxisType.LINEAR_LITERAL.getValue() );
-		assertEquals( AxisType.LOGARITHMIC, AxisType.LOGARITHMIC_LITERAL.getValue() );		
-		assertEquals( AxisType.TEXT, AxisType.TEXT_LITERAL.getValue() );
-		assertEquals( AxisType.DATE_TIME, AxisType.DATE_TIME_LITERAL.getValue() );
+
+	public void testConstant() {
+		assertEquals(AxisType.LINEAR, AxisType.LINEAR_LITERAL.getValue());
+		assertEquals(AxisType.LOGARITHMIC, AxisType.LOGARITHMIC_LITERAL.getValue());
+		assertEquals(AxisType.TEXT, AxisType.TEXT_LITERAL.getValue());
+		assertEquals(AxisType.DATE_TIME, AxisType.DATE_TIME_LITERAL.getValue());
 	}
-	
-	public void testGet() 
-	{
-		assertEquals( AxisType.LINEAR_LITERAL, AxisType.get(AxisType.LINEAR) );
-		assertEquals( AxisType.LOGARITHMIC_LITERAL, AxisType.get(AxisType.LOGARITHMIC) );
-		
-		assertEquals( AxisType.LINEAR_LITERAL, AxisType.get("Linear") ); //$NON-NLS-1$
-		assertEquals( AxisType.LOGARITHMIC_LITERAL, AxisType.get("Logarithmic") ); //$NON-NLS-1$
-		assertEquals( AxisType.TEXT_LITERAL, AxisType.get("Text") ); //$NON-NLS-1$
-		assertEquals( AxisType.DATE_TIME_LITERAL, AxisType.get("DateTime") ); //$NON-NLS-1$
-		assertNull(AxisType.get("No Match") ); //$NON-NLS-1$
-		
+
+	public void testGet() {
+		assertEquals(AxisType.LINEAR_LITERAL, AxisType.get(AxisType.LINEAR));
+		assertEquals(AxisType.LOGARITHMIC_LITERAL, AxisType.get(AxisType.LOGARITHMIC));
+
+		assertEquals(AxisType.LINEAR_LITERAL, AxisType.get("Linear")); //$NON-NLS-1$
+		assertEquals(AxisType.LOGARITHMIC_LITERAL, AxisType.get("Logarithmic")); //$NON-NLS-1$
+		assertEquals(AxisType.TEXT_LITERAL, AxisType.get("Text")); //$NON-NLS-1$
+		assertEquals(AxisType.DATE_TIME_LITERAL, AxisType.get("DateTime")); //$NON-NLS-1$
+		assertNull(AxisType.get("No Match")); //$NON-NLS-1$
+
 	}
 }

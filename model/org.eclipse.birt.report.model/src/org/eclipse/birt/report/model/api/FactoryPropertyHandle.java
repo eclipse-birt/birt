@@ -41,8 +41,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * 
  */
 
-public class FactoryPropertyHandle extends ElementDetailHandle
-{
+public class FactoryPropertyHandle extends ElementDetailHandle {
 
 	/**
 	 * Handle to the design element.
@@ -60,19 +59,14 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 	 * Constructs a factory property handle with the given
 	 * <code>DesignElementHandle</code> and the definition of the property.
 	 * 
-	 * @param element
-	 *            handle to the design element. It provides the Factory context.
-	 * @param prop
-	 *            the definition of the property
+	 * @param element handle to the design element. It provides the Factory context.
+	 * @param prop    the definition of the property
 	 */
 
-	public FactoryPropertyHandle( DesignElementHandle element,
-			ElementPropertyDefn prop )
-	{
-		super( element );
+	public FactoryPropertyHandle(DesignElementHandle element, ElementPropertyDefn prop) {
+		super(element);
 		propDefn = prop;
-		value = element.getElement( ).getFactoryProperty( element.getModule( ),
-				propDefn );
+		value = element.getElement().getFactoryProperty(element.getModule(), propDefn);
 	}
 
 	/**
@@ -83,9 +77,8 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 	 *      ElementPropertyDefn)
 	 */
 
-	public Object getValue( )
-	{
-		return ModelUtil.wrapPropertyValue( getModule( ), propDefn, value );
+	public Object getValue() {
+		return ModelUtil.wrapPropertyValue(getModule(), propDefn, value);
 	}
 
 	/**
@@ -95,35 +88,32 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 	 *         <code>false</code>.
 	 */
 
-	public boolean isStyleProperty( )
-	{
-		return propDefn.isStyleProperty( );
+	public boolean isStyleProperty() {
+		return propDefn.isStyleProperty();
 	}
 
 	/**
-	 * Tests whether this property value is set for this element. It is set if
-	 * it is defined on this element or any of its parents, or in the element's
-	 * private style. It is considered unset if it is set on a shared style.
+	 * Tests whether this property value is set for this element. It is set if it is
+	 * defined on this element or any of its parents, or in the element's private
+	 * style. It is considered unset if it is set on a shared style.
 	 * 
-	 * @return <code>true</code> if the value is set, <code>false</code> if it
-	 *         is not set
+	 * @return <code>true</code> if the value is set, <code>false</code> if it is
+	 *         not set
 	 */
 
-	public boolean isSet( )
-	{
+	public boolean isSet() {
 		return value != null;
 	}
 
 	/**
 	 * Returns the property value as an integer.
 	 * 
-	 * @return The value as an integer. Returns 0 if the value cannot be
-	 *         converted to an integer.
+	 * @return The value as an integer. Returns 0 if the value cannot be converted
+	 *         to an integer.
 	 */
 
-	public int getIntValue( )
-	{
-		return propDefn.getIntValue( getModule( ), value );
+	public int getIntValue() {
+		return propDefn.getIntValue(getModule(), value);
 	}
 
 	/**
@@ -132,76 +122,69 @@ public class FactoryPropertyHandle extends ElementDetailHandle
 	 * @return The value as a non-localized string.
 	 */
 
-	public String getStringValue( )
-	{
-		if ( value instanceof FormatValue )
-		{
+	public String getStringValue() {
+		if (value instanceof FormatValue) {
 			FormatValue formatValue = (FormatValue) value;
-			return formatValue.getPattern( );
+			return formatValue.getPattern();
 		}
 
-		return propDefn.getStringValue( getModule( ), value );
+		return propDefn.getStringValue(getModule(), value);
 	}
 
 	/**
 	 * Returns the value as a double.
 	 * 
-	 * @return The value as a double. Returns 0 if the value cannot be converted
-	 *         to a double.
+	 * @return The value as a double. Returns 0 if the value cannot be converted to
+	 *         a double.
 	 */
 
-	public double getFloatValue( )
-	{
-		return propDefn.getFloatValue( getModule( ), value );
+	public double getFloatValue() {
+		return propDefn.getFloatValue(getModule(), value);
 	}
 
 	/**
 	 * Returns the value as a number (BigDecimal).
 	 * 
-	 * @return The value as a number. Returns <code>null</code> if the value
-	 *         cannot be converted to a number.
+	 * @return The value as a number. Returns <code>null</code> if the value cannot
+	 *         be converted to a number.
 	 */
 
-	public BigDecimal getNumberValue( )
-	{
-		return propDefn.getNumberValue( getModule( ), value );
+	public BigDecimal getNumberValue() {
+		return propDefn.getNumberValue(getModule(), value);
 	}
 
 	/**
 	 * Returns the value as a Boolean.
 	 * <p>
-	 * Note: This method returns false if the value is unset. It DOES NOT return
-	 * the default value for the property. Call <code>isSet</code> before
-	 * calling this method to determine if the property is set.
+	 * Note: This method returns false if the value is unset. It DOES NOT return the
+	 * default value for the property. Call <code>isSet</code> before calling this
+	 * method to determine if the property is set.
 	 * 
 	 * @return the value as a boolean. Returns <code>false</code> if the value
 	 *         cannot be converted to a boolean, or if the value is not set.
 	 */
 
-	public boolean getBooleanValue( )
-	{
-		return propDefn.getBooleanValue( getModule( ), value );
+	public boolean getBooleanValue() {
+		return propDefn.getBooleanValue(getModule(), value);
 	}
 
 	/**
-	 * Gets the CSS color value. This is either a CSS (pre-defined) color name
-	 * or an RGB value encoded in CSS format: rgb(r,g,b). Returns
-	 * <code>null</code> if the property is not set.
+	 * Gets the CSS color value. This is either a CSS (pre-defined) color name or an
+	 * RGB value encoded in CSS format: rgb(r,g,b). Returns <code>null</code> if the
+	 * property is not set.
 	 * 
 	 * @return the color value as a string
 	 */
 
-	public String getColorValue( )
-	{
-		PropertyType type = propDefn.getType( );
+	public String getColorValue() {
+		PropertyType type = propDefn.getType();
 
 		// The property type of color with extended choice doesn't exist. So we
 		// do not
 		// need get value from property definition.
 
-		if ( type.getTypeCode( ) == IPropertyType.COLOR_TYPE )
-			return ( (ColorPropertyType) type )
-					.toCssColor( getModule( ), value );
+		if (type.getTypeCode() == IPropertyType.COLOR_TYPE)
+			return ((ColorPropertyType) type).toCssColor(getModule(), value);
 		return null;
 	}
 }

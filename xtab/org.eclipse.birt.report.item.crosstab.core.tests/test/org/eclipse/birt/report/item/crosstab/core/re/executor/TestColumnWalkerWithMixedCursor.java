@@ -20,13 +20,11 @@ import org.eclipse.birt.report.item.crosstab.core.re.SimpleMixedEdgeCursor;
  * 
  */
 
-public class TestColumnWalkerWithMixedCursor extends TestColumnWalker
-{
+public class TestColumnWalkerWithMixedCursor extends TestColumnWalker {
 
-	protected CubeCursor createSimpleCubeCursor( )
-	{
-		DummyCubeCursor dcc = new DummyCubeCursor( );
-		dcc.addOrdinateEdgeCursor( new SimpleMixedEdgeCursor( ) );
+	protected CubeCursor createSimpleCubeCursor() {
+		DummyCubeCursor dcc = new DummyCubeCursor();
+		dcc.addOrdinateEdgeCursor(new SimpleMixedEdgeCursor());
 
 		return dcc;
 	}

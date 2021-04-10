@@ -23,39 +23,33 @@ import org.eclipse.swt.widgets.Button;
  * overriden for saving operation.
  */
 
-public abstract class ApplyButtonHandler implements IButtonHandler
-{
+public abstract class ApplyButtonHandler implements IButtonHandler {
 
 	protected Button button;
 	private ChartWizard wizard;
 
-	public ApplyButtonHandler( ChartWizard wizard )
-	{
+	public ApplyButtonHandler(ChartWizard wizard) {
 		this.wizard = wizard;
 	}
 
-	public Button getButton( )
-	{
+	public Button getButton() {
 		return button;
 	}
 
-	public int getId( )
-	{
+	public int getId() {
 		return IDialogConstants.OK_ID;
 	}
 
-	public String getLabel( )
-	{
-		return Messages.getString( "ApplyButtonHandler.Label.Apply" ); //$NON-NLS-1$
+	public String getLabel() {
+		return Messages.getString("ApplyButtonHandler.Label.Apply"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Returns tool-tip text of this button.
 	 * 
-	 * @return  tool-tip text of this button.
+	 * @return tool-tip text of this button.
 	 */
-	public String getTooltip( )
-	{
+	public String getTooltip() {
 		return null;
 	}
 
@@ -64,25 +58,22 @@ public abstract class ApplyButtonHandler implements IButtonHandler
 	 * 
 	 * @return button icon.
 	 */
-	public Image getIcon( )
-	{
+	public Image getIcon() {
 		return null;
 	}
-	
-	public void setButton( Button button )
-	{
+
+	public void setButton(Button button) {
 		this.button = button;
-		( (GridData) button.getLayoutData( ) ).horizontalIndent = 10;
+		((GridData) button.getLayoutData()).horizontalIndent = 10;
 
 		// Default status is disabled
-		button.setEnabled( false );
+		button.setEnabled(false);
 	}
 
-	public void run( )
-	{
+	public void run() {
 		// Update title and button status
-		wizard.updateTitleAsEdit( );
-		getButton( ).setEnabled( false );
+		wizard.updateTitleAsEdit();
+		getButton().setEnabled(false);
 	}
 
 }

@@ -16,31 +16,30 @@ import java.util.Map;
 /**
  * IMediatorRequest
  */
-public interface IMediatorRequest
-{
+public interface IMediatorRequest {
 
 	/**
 	 * Gets the type.
 	 */
-	String getType( );
+	String getType();
 
 	/**
 	 * Gets the data object.
 	 */
-	Object getData( );
+	Object getData();
 
 	/**
 	 * Gets the source object.
 	 */
-	Object getSource( );
+	Object getSource();
 
 	/**
 	 * Returns if the request contains sticky state.
 	 */
-	boolean isSticky( );
+	boolean isSticky();
 
 	/**
 	 * Returns the extra data associated with this request.
 	 */
-	Map<?, ?> getExtras( );
+	Map<?, ?> getExtras();
 }

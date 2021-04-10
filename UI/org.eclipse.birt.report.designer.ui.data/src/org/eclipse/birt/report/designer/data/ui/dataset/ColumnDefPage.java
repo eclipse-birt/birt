@@ -20,55 +20,51 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- *  column define page for script data set
+ * column define page for script data set
  */
 
-public class ColumnDefPage extends WizardPage
-{
+public class ColumnDefPage extends WizardPage {
 
 	protected ResultSetColumnPage page;
-	
+
 	// message displayed in the top side
-	protected final static String Message = Messages.getString( "OutputColumnDefnPage.description" ); //$NON-NLS-1$
+	protected final static String Message = Messages.getString("OutputColumnDefnPage.description"); //$NON-NLS-1$
 
 	/**
 	 * @param pageName
 	 */
-	protected ColumnDefPage( )
-	{
-		super( Messages.getString( "ColumnDefPage.description" ) ); //$NON-NLS-1$
-		setTitle( Messages.getString( "ColumnDefPage.title" ) ); //$NON-NLS-1$
-		setPageComplete( true );
+	protected ColumnDefPage() {
+		super(Messages.getString("ColumnDefPage.description")); //$NON-NLS-1$
+		setTitle(Messages.getString("ColumnDefPage.title")); //$NON-NLS-1$
+		setPageComplete(true);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
-	public void createControl( Composite parent )
-	{
-		page = new ResultSetColumnPage( parent, SWT.NONE );
-		setControl( page );
-		setMessage( Message );
-		
-		Utility.setSystemHelp( getControl( ),
-				IHelpConstants.CONEXT_ID_DATASET_SCRIPT );
+	public void createControl(Composite parent) {
+		page = new ResultSetColumnPage(parent, SWT.NONE);
+		setControl(page);
+		setMessage(Message);
+
+		Utility.setSystemHelp(getControl(), IHelpConstants.CONEXT_ID_DATASET_SCRIPT);
 	}
 
-	public void saveResult( DataSetHandle handle )
-	{
-		page.saveResult( handle );
+	public void saveResult(DataSetHandle handle) {
+		page.saveResult(handle);
 	}
-	
-    /*
+
+	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
 	 */
-	public void setVisible( boolean visible )
-	{
-		super.setVisible( visible );
-		getControl( ).setFocus( );
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		getControl().setFocus();
 	}
 }

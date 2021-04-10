@@ -11,11 +11,9 @@
 
 package org.eclipse.birt.core.script;
 
+public interface IScriptContext {
 
-public interface IScriptContext
-{
+	public void setAttribute(String name, Object value);
 
-	public void setAttribute( String name, Object value );
-
-	public void removeAttribute( String name );
+	public void removeAttribute(String name);
 }

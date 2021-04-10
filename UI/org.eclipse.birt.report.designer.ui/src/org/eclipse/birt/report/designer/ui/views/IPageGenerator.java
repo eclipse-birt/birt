@@ -18,8 +18,7 @@ import org.eclipse.swt.widgets.Control;
  * Instances of this interface take charge of creating attribute pages which
  * reside in the given TabFolder control.
  */
-public interface IPageGenerator
-{
+public interface IPageGenerator {
 
 	/**
 	 * Creates the content of the page control.
@@ -27,24 +26,24 @@ public interface IPageGenerator
 	 * @param parent
 	 * @param input
 	 */
-	void createControl( Composite parent, Object input );
+	void createControl(Composite parent, Object input);
 
 	/**
 	 * Returns the page control.
 	 * 
 	 * @return
 	 */
-	Control getControl( );
+	Control getControl();
 
 	/**
 	 * Returns the input.
 	 * 
 	 * @return
 	 */
-	Object getInput( );
+	Object getInput();
 
 	/**
 	 * Refresh the page content based on current input
 	 */
-	void refresh( );
+	void refresh();
 }

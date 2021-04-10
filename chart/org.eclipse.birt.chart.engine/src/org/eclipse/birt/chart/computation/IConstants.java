@@ -16,20 +16,18 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 /**
  * Defines all constants here.
  */
-public interface IConstants
-{
+public interface IConstants {
 
-	public final double LOG_10 = Math.log( 10 );
+	public final double LOG_10 = Math.log(10);
 
 	public final int LINE_EXPAND_SIZE = 2;
 
 	public final int LINE_EXPAND_DOUBLE_SIZE = 4;
 
 	// The old size was 5, but was used without dpi consideration (so as in 72 dpi)
-	// When the dpi issue was fixed, charts in 96dpi had bigger ticks than before, 
+	// When the dpi issue was fixed, charts in 96dpi had bigger ticks than before,
 	// So the size has been adjusted to a 72/96 ratio.
 	public final double TICK_SIZE = 3.75;
-	
 
 	public final int TICK_SIDE1 = 1;
 
@@ -56,13 +54,13 @@ public interface IConstants
 	public final int DATE_TIME = 8;
 
 	public final int TEXT = 16;
-	
+
 	public final int BOOLEAN = 17;
 
 	public final int PERCENT = 32;
 
 	public final int OTHER = 64;
-	
+
 	public final int ARRAY = 128;
 
 	public final int AXIS = 1;
@@ -108,12 +106,12 @@ public interface IConstants
 	public final int OUTSIDE = 16;
 
 	public final int INSIDE = 32;
-	
+
 	/**
 	 * Used to calculate base position via AND operation.
 	 */
 	public final int POSITION_MASK = 63;// 2<<5-1
-	
+
 	/**
 	 * Used to adjust the position by one half of width or height.
 	 */
@@ -156,9 +154,9 @@ public interface IConstants
 	public final int PRIMITIVE_ARRAY = 2;
 
 	public final int NON_PRIMITIVE_ARRAY = 3;
-	
+
 	public final int BIG_NUMBER_PRIMITIVE_ARRAY = 4;
-	
+
 	public final int NUMBER_PRIMITIVE_ARRAY = 5;
 
 	public static final String EMPTY_STRING = ""; //$NON-NLS-1$
@@ -167,7 +165,7 @@ public interface IConstants
 
 	public static final String UNDEFINED_STRING = EMPTY_STRING;
 
-	public static final String NULL_STRING = Messages.getString( "constant.null.string" ); //$NON-NLS-1$
+	public static final String NULL_STRING = Messages.getString("constant.null.string"); //$NON-NLS-1$
 
 	public final int SOME_NULL = -2;
 
@@ -180,8 +178,8 @@ public interface IConstants
 	public final int LEGEND_ENTRY = 1;
 
 	public final int LEGEND_SEPERATOR = 2;
-	
+
 	public static final int LEGEND_GROUP_NAME = 4;
-	
+
 	public final int LEGEND_MINSLICE_ENTRY = 5;
 }

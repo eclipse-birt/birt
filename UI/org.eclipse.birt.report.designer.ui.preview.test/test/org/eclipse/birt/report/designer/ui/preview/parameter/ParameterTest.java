@@ -26,16 +26,15 @@ public class ParameterTest extends BaseTestCase {
 	 * @throws Exception
 	 */
 
-	public void testGetPropertyValue( ) throws Exception
-	{
-		ParameterFactory factory = new ParameterFactory( engineTask );
+	public void testGetPropertyValue() throws Exception {
+		ParameterFactory factory = new ParameterFactory(engineTask);
 
-		List children = factory.getRootChildren( );
-		assertEquals( 3, children.size( ) );
-		
-		ScalarParam param = (ScalarParam)children.get( 2 );
-		assertFalse( param.isRequired( ) ); 
-		
-		assertFalse( param.isRequired( ) );
+		List children = factory.getRootChildren();
+		assertEquals(3, children.size());
+
+		ScalarParam param = (ScalarParam) children.get(2);
+		assertFalse(param.isRequired());
+
+		assertFalse(param.isRequired());
 	}
 }

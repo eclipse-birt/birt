@@ -25,8 +25,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public class CachedQueryResults implements IQueryResults
-{
+public class CachedQueryResults implements IQueryResults {
 
 	private String queryResultID;
 	private IResultIterator resultIterator;
@@ -34,8 +33,8 @@ public class CachedQueryResults implements IQueryResults
 	private String name;
 	private DataEngineSession session;
 	private boolean existCachedFile = true;
-	
-	private static Logger logger = Logger.getLogger( CachedQueryResults.class.getName( ) );
+
+	private static Logger logger = Logger.getLogger(CachedQueryResults.class.getName());
 
 	/**
 	 * 
@@ -43,29 +42,20 @@ public class CachedQueryResults implements IQueryResults
 	 * @param queryResultID
 	 * @throws DataException
 	 */
-	public CachedQueryResults( DataEngineSession session, String queryResultID,
-			IPreparedQuery preparedQuery, Map appContext ) throws DataException
-	{
+	public CachedQueryResults(DataEngineSession session, String queryResultID, IPreparedQuery preparedQuery,
+			Map appContext) throws DataException {
 		this.session = session;
-		String tempDir = session.getTempDir( );
-		Object[] params = {
-				tempDir, queryResultID
-		};
-		logger.entering( CachedQueryResults.class.getName( ),
-				"CachedQueryResults",
-				params );
+		String tempDir = session.getTempDir();
+		Object[] params = { tempDir, queryResultID };
+		logger.entering(CachedQueryResults.class.getName(), "CachedQueryResults", params);
 
 		this.queryResultID = queryResultID;
 		this.pQuery = preparedQuery;
-		
-		this.resultIterator = new CacheResultIterator( session,
-				tempDir,
-				this,
-				appContext );
-		this.existCachedFile = ( (CacheResultIterator) this.resultIterator ).existCachedFile( );
-	
-		logger.exiting( CachedQueryResults.class.getName( ),
-				"CachedQueryResults" );
+
+		this.resultIterator = new CacheResultIterator(session, tempDir, this, appContext);
+		this.existCachedFile = ((CacheResultIterator) this.resultIterator).existCachedFile();
+
+		logger.exiting(CachedQueryResults.class.getName(), "CachedQueryResults");
 	}
 
 	/*
@@ -73,8 +63,7 @@ public class CachedQueryResults implements IQueryResults
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getPreparedQuery()
 	 */
-	public IPreparedQuery getPreparedQuery( )
-	{
+	public IPreparedQuery getPreparedQuery() {
 		return this.pQuery;
 	}
 
@@ -83,8 +72,7 @@ public class CachedQueryResults implements IQueryResults
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultIterator()
 	 */
-	public IResultIterator getResultIterator( ) throws BirtException
-	{
+	public IResultIterator getResultIterator() throws BirtException {
 		return resultIterator;
 	}
 
@@ -93,9 +81,8 @@ public class CachedQueryResults implements IQueryResults
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getResultMetaData()
 	 */
-	public IResultMetaData getResultMetaData( ) throws BirtException
-	{
-		return resultIterator.getResultMetaData( );
+	public IResultMetaData getResultMetaData() throws BirtException {
+		return resultIterator.getResultMetaData();
 	}
 
 	/*
@@ -103,44 +90,40 @@ public class CachedQueryResults implements IQueryResults
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IBaseQueryResults#close()
 	 */
-	public void close( ) throws BirtException
-	{
-		if ( resultIterator != null )
-			resultIterator.close( );
-		NamingRelationUtil.merge( this.session, this.getPreparedQuery( )
-				.getReportQueryDefn( ), this );
+	public void close() throws BirtException {
+		if (resultIterator != null)
+			resultIterator.close();
+		NamingRelationUtil.merge(this.session, this.getPreparedQuery().getReportQueryDefn(), this);
 	}
 
-	public String getID( )
-	{
+	public String getID() {
 		return queryResultID;
 	}
 
-	public void cancel( )
-	{
+	public void cancel() {
 		// TODO Auto-generated method stub
 	}
-	
-	public boolean existCachedFile( )
-	{
+
+	public boolean existCachedFile() {
 		return this.existCachedFile;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IBaseQueryResults#setName(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.IBaseQueryResults#setName(java.lang.String)
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 

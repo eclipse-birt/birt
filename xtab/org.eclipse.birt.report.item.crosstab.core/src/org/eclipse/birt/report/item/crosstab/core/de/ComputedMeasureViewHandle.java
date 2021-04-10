@@ -19,35 +19,28 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 /**
  * ComputedMeasureViewHandle
  */
-public class ComputedMeasureViewHandle extends MeasureViewHandle implements
-		IComputedMeasureViewConstants
-{
+public class ComputedMeasureViewHandle extends MeasureViewHandle implements IComputedMeasureViewConstants {
 
 	/**
 	 * 
 	 * @param handle
 	 */
-	ComputedMeasureViewHandle( DesignElementHandle handle )
-	{
-		super( handle );
+	ComputedMeasureViewHandle(DesignElementHandle handle) {
+		super(handle);
 	}
 
-	public String getName( )
-	{
-		return handle.getName( );
+	public String getName() {
+		return handle.getName();
 	}
 
 	@Override
-	public MeasureHandle getCubeMeasure( )
-	{
+	public MeasureHandle getCubeMeasure() {
 		// this does not apply to regular data cubes
-		if ( CrosstabUtil.isBoundToLinkedDataSet( this.getCrosstab( ) ) )
-		{
+		if (CrosstabUtil.isBoundToLinkedDataSet(this.getCrosstab())) {
 			// this only applies if measure has its own aggregation
-			if ( CrosstabUtil.measureHasItsOwnAggregation( this.getCrosstab( ), super.getCubeMeasure( ) ) )
-			{
+			if (CrosstabUtil.measureHasItsOwnAggregation(this.getCrosstab(), super.getCubeMeasure())) {
 				// return the super implementation
-				return super.getCubeMeasure( );
+				return super.getCubeMeasure();
 			}
 		}
 		// otherwise in all other cases return normal
@@ -55,13 +48,11 @@ public class ComputedMeasureViewHandle extends MeasureViewHandle implements
 	}
 
 	@Override
-	public String getCubeMeasureName( )
-	{
-		String measureName = (String)handle.getProperty( IComputedMeasureViewConstants.MEASURE_NAME_PROP );
-		if( measureName == null )
-		{
-			measureName = handle.getName( );	
-		} 
+	public String getCubeMeasureName() {
+		String measureName = (String) handle.getProperty(IComputedMeasureViewConstants.MEASURE_NAME_PROP);
+		if (measureName == null) {
+			measureName = handle.getName();
+		}
 		return measureName;
 	}
 }

@@ -26,12 +26,11 @@ import java.util.Iterator;
  * to generate page hint.
  * 
  */
-public class InlineTextExtension
-{
-	private ArrayList<InlineTextArea> lines = new ArrayList<InlineTextArea>( );
+public class InlineTextExtension {
+	private ArrayList<InlineTextArea> lines = new ArrayList<InlineTextArea>();
 
-	private ArrayList<Integer> lineBreaks = new ArrayList<Integer>( );
-	
+	private ArrayList<Integer> lineBreaks = new ArrayList<Integer>();
+
 	/**
 	 * @see SizeBasedContent#floatPos
 	 */
@@ -48,31 +47,27 @@ public class InlineTextExtension
 	 * @see SizeBasedContent#width
 	 */
 	private int widthRestrict;
-	
+
 	private boolean firstTimeEnter = true;
 
 	/**
 	 * when generating page hint, inline text must invoke this method first.
 	 */
-	public void updatePageHintInfo( InlineTextArea area )
-	{
-		if ( lineBreaks == null || lineBreaks.size( ) == 0 )
-		{
+	public void updatePageHintInfo(InlineTextArea area) {
+		if (lineBreaks == null || lineBreaks.size() == 0) {
 			return;
 		}
-		
+
 		// if the area is in the repeated header, its page hint info should only
 		// be updated for one time.
 		// And then we should not update the page hint info any more.
 		// Because the cloned area will not be in the lines. And the page hint
 		// info should not change any more as the area is in repeated header.
-		if ( !firstTimeEnter && area.isInRepeatedHeader( ) )
-		{
+		if (!firstTimeEnter && area.isInRepeatedHeader()) {
 			return;
 		}
 
-		if ( firstTimeEnter )
-		{
+		if (firstTimeEnter) {
 			firstTimeEnter = false;
 		}
 
@@ -80,82 +75,69 @@ public class InlineTextExtension
 		floatPos = 0;
 		dimension = 0;
 		widthRestrict = 0;
-		
-		int lineNumber = lines.indexOf( area );
+
+		int lineNumber = lines.indexOf(area);
 		// if current inlineText line is not the first line in current page for
 		// the textContent, just ignore it.
-		if ( lineNumber != 0 && !lineBreaks.contains( lineNumber - 1 ) )
-		{
+		if (lineNumber != 0 && !lineBreaks.contains(lineNumber - 1)) {
 			return;
 		}
 
-		Collections.sort( lineBreaks );
+		Collections.sort(lineBreaks);
 		int startLineNumber = lineNumber;
 
-		for ( int i = 0; i < startLineNumber; i++ )
-		{
-			offsetInContent += lines.get( i ).getAllocatedWidth( );
+		for (int i = 0; i < startLineNumber; i++) {
+			offsetInContent += lines.get(i).getAllocatedWidth();
 		}
 
-		for ( Iterator<Integer> iter = lineBreaks.iterator( ); iter.hasNext( ); )
-		{
-			int breakLineNumber = iter.next( );
-			if ( breakLineNumber >= startLineNumber )
-			{
-				InlineTextArea startLine = lines.get( startLineNumber );
-				floatPos = startLine.getAllocatedX( );
-				for ( int i = startLineNumber; i <= breakLineNumber; i++ )
-				{
-					dimension += lines.get( i ).getAllocatedWidth( );
-					widthRestrict = startLine.parent.getWidth( );
+		for (Iterator<Integer> iter = lineBreaks.iterator(); iter.hasNext();) {
+			int breakLineNumber = iter.next();
+			if (breakLineNumber >= startLineNumber) {
+				InlineTextArea startLine = lines.get(startLineNumber);
+				floatPos = startLine.getAllocatedX();
+				for (int i = startLineNumber; i <= breakLineNumber; i++) {
+					dimension += lines.get(i).getAllocatedWidth();
+					widthRestrict = startLine.parent.getWidth();
 				}
 				break;
 			}
 		}
 	}
 
-	public void addLine(InlineTextArea area )
-	{
-		lines.add( area );
+	public void addLine(InlineTextArea area) {
+		lines.add(area);
 	}
-	
-	public void replaceLine( InlineTextArea oldArea, InlineTextArea newArea )
-	{
-		int lineNumber = lines.indexOf( oldArea );
-		lines.remove( lineNumber );
-		lines.add( lineNumber, newArea );
+
+	public void replaceLine(InlineTextArea oldArea, InlineTextArea newArea) {
+		int lineNumber = lines.indexOf(oldArea);
+		lines.remove(lineNumber);
+		lines.add(lineNumber, newArea);
 	}
-	
-	public void addLineBreak( InlineTextArea area )
-	{
-		int lineNumber = lines.indexOf( area );
-		lineBreaks.add( lineNumber );
+
+	public void addLineBreak(InlineTextArea area) {
+		int lineNumber = lines.indexOf(area);
+		lineBreaks.add(lineNumber);
 	}
-	
-	public void addLineBreak( )
-	{
-		int lineNumber = lines.size( ) - 1;
-		lineBreaks.add( lineNumber );
+
+	public void addLineBreak() {
+		int lineNumber = lines.size() - 1;
+		lineBreaks.add(lineNumber);
 	}
-	
-	public int getFloatPos( )
-	{
+
+	public int getFloatPos() {
 		return floatPos;
 	}
 
-	public int getOffsetInContent( )
-	{
+	public int getOffsetInContent() {
 		return offsetInContent;
 	}
 
-	public int getDimension( )
-	{
+	public int getDimension() {
 		return dimension;
 	}
 
-	public int getWidthRestrict( )
-	{
+	public int getWidthRestrict() {
 		return widthRestrict;
 	}
-	
+
 }

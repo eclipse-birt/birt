@@ -13,42 +13,39 @@ package org.eclipse.birt.data.engine.api.querydefn;
 
 import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
 
-
 /**
  * This is an implementation to IGroupInstanceInfo.
  */
 
-public class GroupInstanceInfo implements IGroupInstanceInfo
-{
+public class GroupInstanceInfo implements IGroupInstanceInfo {
 	private int level;
 	private int rowId;
-	
+
 	/**
 	 * 
 	 * @param level
 	 * @param rowId
 	 */
-	public GroupInstanceInfo( int level, int rowId )
-	{
+	public GroupInstanceInfo(int level, int rowId) {
 		this.level = level;
 		this.rowId = rowId;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IGroupInstanceInfo#getGroupLevel()
 	 */
-	public int getGroupLevel( )
-	{
+	public int getGroupLevel() {
 		return this.level;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IGroupInstanceInfo#getRowId()
 	 */
-	public int getRowId( )
-	{
+	public int getRowId() {
 		return this.rowId;
 	}
 

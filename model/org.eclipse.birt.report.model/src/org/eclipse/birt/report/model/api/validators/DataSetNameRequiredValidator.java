@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api.validators;
 
-
 /**
  * Validates the data set name of scalar parameter is required.
  * 
@@ -23,10 +22,9 @@ package org.eclipse.birt.report.model.api.validators;
  * 
  */
 
-public class DataSetNameRequiredValidator extends DataSetNameRequiredValidatorImpl
-{
+public class DataSetNameRequiredValidator extends DataSetNameRequiredValidatorImpl {
 
-	private final static DataSetNameRequiredValidator instance = new DataSetNameRequiredValidator( );
+	private final static DataSetNameRequiredValidator instance = new DataSetNameRequiredValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -34,9 +32,8 @@ public class DataSetNameRequiredValidator extends DataSetNameRequiredValidatorIm
 	 * @return the validator instance
 	 */
 
-	public static DataSetNameRequiredValidator getInstance( )
-	{
+	public static DataSetNameRequiredValidator getInstance() {
 		return instance;
 	}
-	
+
 }

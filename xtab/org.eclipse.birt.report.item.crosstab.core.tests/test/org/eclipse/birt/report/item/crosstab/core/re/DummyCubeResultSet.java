@@ -30,215 +30,183 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
  * 
  */
 
-public class DummyCubeResultSet implements ICubeResultSet
-{
+public class DummyCubeResultSet implements ICubeResultSet {
 
 	private CubeCursor cursor;
 
-	public DummyCubeResultSet( )
-	{
-		DummyDimensionCursor ddc1 = new DummyDimensionCursor( 2 );
-		DummyDimensionCursor ddc2 = new DummyDimensionCursor( 2 );
-		DummyDimensionCursor ddc3 = new DummyDimensionCursor( 2 );
+	public DummyCubeResultSet() {
+		DummyDimensionCursor ddc1 = new DummyDimensionCursor(2);
+		DummyDimensionCursor ddc2 = new DummyDimensionCursor(2);
+		DummyDimensionCursor ddc3 = new DummyDimensionCursor(2);
 
-		DummyEdgeCursor columnEdge = new DummyEdgeCursor( 8 );
-		columnEdge.addDimensionCursor( ddc1 );
-		columnEdge.addDimensionCursor( ddc2 );
-		columnEdge.addDimensionCursor( ddc3 );
+		DummyEdgeCursor columnEdge = new DummyEdgeCursor(8);
+		columnEdge.addDimensionCursor(ddc1);
+		columnEdge.addDimensionCursor(ddc2);
+		columnEdge.addDimensionCursor(ddc3);
 
-		DummyDimensionCursor ddr1 = new DummyDimensionCursor( 2 );
-		DummyDimensionCursor ddr2 = new DummyDimensionCursor( 2 );
-		DummyDimensionCursor ddr3 = new DummyDimensionCursor( 2 );
+		DummyDimensionCursor ddr1 = new DummyDimensionCursor(2);
+		DummyDimensionCursor ddr2 = new DummyDimensionCursor(2);
+		DummyDimensionCursor ddr3 = new DummyDimensionCursor(2);
 
-		DummyEdgeCursor rowEdge = new DummyEdgeCursor( 8 );
-		rowEdge.addDimensionCursor( ddr1 );
-		rowEdge.addDimensionCursor( ddr2 );
-		rowEdge.addDimensionCursor( ddr3 );
+		DummyEdgeCursor rowEdge = new DummyEdgeCursor(8);
+		rowEdge.addDimensionCursor(ddr1);
+		rowEdge.addDimensionCursor(ddr2);
+		rowEdge.addDimensionCursor(ddr3);
 
-		DummyCubeCursor dcc = new DummyCubeCursor( );
-		dcc.addOrdinateEdgeCursor( columnEdge );
-		dcc.addOrdinateEdgeCursor( rowEdge );
+		DummyCubeCursor dcc = new DummyCubeCursor();
+		dcc.addOrdinateEdgeCursor(columnEdge);
+		dcc.addOrdinateEdgeCursor(rowEdge);
 		// dcc.addOrdinateEdgeCursor( new SimpleMixedEdgeCursor() );
 		// dcc.addOrdinateEdgeCursor( new SimpleMixedEdgeCursor() );
 
 		cursor = dcc;
 	}
 
-	public CubeCursor getCubeCursor( )
-	{
+	public CubeCursor getCubeCursor() {
 		return cursor;
 	}
 
-	public void close( )
-	{
+	public void close() {
 		// TODO Auto-generated method stub
 
 	}
 
-	public Object evaluate( String expr )
-	{
+	public Object evaluate(String expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object evaluate( IBaseExpression expr )
-	{
+	public Object evaluate(IBaseExpression expr) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public BigDecimal getBigDecimal( String name ) throws BirtException
-	{
+	public BigDecimal getBigDecimal(String name) throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Blob getBlob( String name ) throws BirtException
-	{
+	public Blob getBlob(String name) throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Boolean getBoolean( String name ) throws BirtException
-	{
+	public Boolean getBoolean(String name) throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public byte[] getBytes( String name ) throws BirtException
-	{
+	public byte[] getBytes(String name) throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public long getCurrentPosition( )
-	{
+	public long getCurrentPosition() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public Date getDate( String name ) throws BirtException
-	{
+	public Date getDate(String name) throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Double getDouble( String name ) throws BirtException
-	{
+	public Double getDouble(String name) throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public int getEndingGroupLevel( )
-	{
+	public int getEndingGroupLevel() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public String getGroupId( int groupLevel )
-	{
+	public String getGroupId(int groupLevel) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public DataSetID getID( )
-	{
+	public DataSetID getID() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Integer getInteger( String name ) throws BirtException
-	{
+	public Integer getInteger(String name) throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IResultMetaData getResultMetaData( ) throws BirtException
-	{
+	public IResultMetaData getResultMetaData() throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public int getStartingGroupLevel( )
-	{
+	public int getStartingGroupLevel() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public String getString( String name ) throws BirtException
-	{
+	public String getString(String name) throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object getValue( String name ) throws BirtException
-	{
+	public Object getValue(String name) throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public boolean isEmpty( ) throws BirtException
-	{
+	public boolean isEmpty() throws BirtException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean next( )
-	{
+	public boolean next() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean skipTo( long rows )
-	{
+	public boolean skipTo(long rows) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public String getCellIndex( )
-	{
+	public String getCellIndex() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void skipTo( String cellIndex )
-	{
+	public void skipTo(String cellIndex) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public IBaseResultSet getParent( )
-	{
+	public IBaseResultSet getParent() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IBaseQueryResults getQueryResults( )
-	{
+	public IBaseQueryResults getQueryResults() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getRawID( ) throws BirtException
-	{
+	public String getRawID() throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public int getType( )
-	{
+	public int getType() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public IBaseCubeQueryDefinition getCubeQuery( )
-	{
+	public IBaseCubeQueryDefinition getCubeQuery() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object evaluate( String language, String expr ) throws BirtException
-	{
+	public Object evaluate(String language, String expr) throws BirtException {
 		// TODO Auto-generated method stub
 		return null;
 	}

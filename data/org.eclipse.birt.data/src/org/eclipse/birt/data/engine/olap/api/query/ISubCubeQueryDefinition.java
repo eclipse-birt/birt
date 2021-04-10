@@ -15,28 +15,27 @@ package org.eclipse.birt.data.engine.olap.api.query;
  * It provide the start level on row/column to indicate starting from which
  * level should the sub cube cursor includes a full set of level member
  */
-public interface ISubCubeQueryDefinition extends IBaseCubeQueryDefinition
-{
+public interface ISubCubeQueryDefinition extends IBaseCubeQueryDefinition {
 
 	/**
 	 * @return the starting level on row edge
 	 */
-	public String getStartingLevelOnRow( );
+	public String getStartingLevelOnRow();
 
 	/**
 	 * @return the starting level on column edge
 	 */
-	public String getStartingLevelOnColumn( );
-	
+	public String getStartingLevelOnColumn();
+
 	/**
 	 * 
 	 * @param level
 	 */
-	public void setStartingLevelOnColumn( String level );
-	
+	public void setStartingLevelOnColumn(String level);
+
 	/**
 	 * 
 	 * @param level
 	 */
-	public void setStartingLevelOnRow( String level );
+	public void setStartingLevelOnRow(String level);
 }

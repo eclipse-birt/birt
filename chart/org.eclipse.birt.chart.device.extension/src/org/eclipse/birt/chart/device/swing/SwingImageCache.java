@@ -31,13 +31,12 @@ import org.eclipse.birt.chart.util.SecurityUtil;
 /**
  * 
  */
-public final class SwingImageCache
-{
+public final class SwingImageCache {
 
 	/**
 	 * 
 	 */
-	private final java.awt.Panel p = new java.awt.Panel( ); // NEEDED FOR IMAGE
+	private final java.awt.Panel p = new java.awt.Panel(); // NEEDED FOR IMAGE
 
 	/**
 	 * 
@@ -49,15 +48,14 @@ public final class SwingImageCache
 	 */
 	private final IDisplayServer idsSWING;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.device.extension/swing"); //$NON-NLS-1$
 
 	/**
 	 * 
 	 */
-	SwingImageCache( IDisplayServer idsSWING )
-	{
+	SwingImageCache(IDisplayServer idsSWING) {
 		this.idsSWING = idsSWING;
-		htCache = SecurityUtil.newHashtable( );
+		htCache = SecurityUtil.newHashtable();
 	}
 
 	/**
@@ -66,79 +64,51 @@ public final class SwingImageCache
 	 * @return
 	 * @throws ChartException
 	 */
-	final Image loadImage( URL url ) throws ChartException
-	{
-		String sUrl = url.toString( );
-		Image img = htCache.get( sUrl );
-		if ( img != null )
-		{
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "SwingImageCache.info.using.swing.cached.image",//$NON-NLS-1$
-							new Object[]{
-								url
-							}, idsSWING.getULocale( ) ) );
-		}
-		else
-		{
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "SwingImageCache.info.loading.swing.image",//$NON-NLS-1$
-							new Object[]{
-								url
-							}, idsSWING.getULocale( ) ) );
-			try
-			{
+	final Image loadImage(URL url) throws ChartException {
+		String sUrl = url.toString();
+		Image img = htCache.get(sUrl);
+		if (img != null) {
+			logger.log(ILogger.INFORMATION, Messages.getString("SwingImageCache.info.using.swing.cached.image", //$NON-NLS-1$
+					new Object[] { url }, idsSWING.getULocale()));
+		} else {
+			logger.log(ILogger.INFORMATION, Messages.getString("SwingImageCache.info.loading.swing.image", //$NON-NLS-1$
+					new Object[] { url }, idsSWING.getULocale()));
+			try {
 				try {
-					img = ImageIO.read( url );
-				} 
-				catch ( IllegalArgumentException e )
-				{
+					img = ImageIO.read(url);
+				} catch (IllegalArgumentException e) {
 					// Some special image formats are not supported by standard
 					// sun's JDK, like Microsoft Ico file, it might throw
 					// exception, here catch the exception and return null
 					// image.
 					return null;
 				}
-				
-				final MediaTracker tracker = new MediaTracker( p );
-				tracker.addImage( img, 0 );
-				tracker.waitForAll( );
 
-				if ( ( tracker.statusAll( true ) & MediaTracker.ERRORED ) != 0 )
-				{
-					StringBuffer sb = new StringBuffer( );
-					Object[] oa = tracker.getErrorsAny( );
-					sb.append( '[' );
-					for ( int i = 0; i < oa.length; i++ )
-					{
-						sb.append( oa[i] );
-						if ( i < oa.length - 1 )
-						{
-							sb.append( ", " ); //$NON-NLS-1$
+				final MediaTracker tracker = new MediaTracker(p);
+				tracker.addImage(img, 0);
+				tracker.waitForAll();
+
+				if ((tracker.statusAll(true) & MediaTracker.ERRORED) != 0) {
+					StringBuffer sb = new StringBuffer();
+					Object[] oa = tracker.getErrorsAny();
+					sb.append('[');
+					for (int i = 0; i < oa.length; i++) {
+						sb.append(oa[i]);
+						if (i < oa.length - 1) {
+							sb.append(", "); //$NON-NLS-1$
 						}
 					}
-					sb.append( ']' );
-					throw new ChartException( ChartDeviceExtensionPlugin.ID,
-							ChartException.IMAGE_LOADING,
+					sb.append(']');
+					throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.IMAGE_LOADING,
 							"SwingImageCache.exception.media.tracker", //$NON-NLS-1$
-							new Object[]{
-								sb.toString( )
-							},
-							Messages.getResourceBundle( idsSWING.getULocale( ) ) );
+							new Object[] { sb.toString() }, Messages.getResourceBundle(idsSWING.getULocale()));
 				}
+			} catch (InterruptedException ex) {
+				throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.IMAGE_LOADING, ex);
+			} catch (IOException e) {
+				throw new ChartException(ChartDeviceExtensionPlugin.ID, ChartException.IMAGE_LOADING, e);
 			}
-			catch ( InterruptedException ex )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.IMAGE_LOADING,
-						ex );
-			}
-			catch ( IOException e )
-			{
-				throw new ChartException( ChartDeviceExtensionPlugin.ID,
-						ChartException.IMAGE_LOADING,
-						e );
-			}
-			htCache.put( sUrl, img );
+			htCache.put(sUrl, img);
 		}
 		return img;
 	}
@@ -146,35 +116,27 @@ public final class SwingImageCache
 	/**
 	 * 
 	 */
-	final void flush( )
-	{
-		if ( htCache.isEmpty( ) )
-		{
+	final void flush() {
+		if (htCache.isEmpty()) {
 			return;
 		}
 		Image img;
-		final int n = htCache.size( );
-		Enumeration<Image> eV = htCache.elements( );
-		while ( eV.hasMoreElements( ) )
-		{
-			img = eV.nextElement( );
-			img.flush( );
+		final int n = htCache.size();
+		Enumeration<Image> eV = htCache.elements();
+		while (eV.hasMoreElements()) {
+			img = eV.nextElement();
+			img.flush();
 		}
-		htCache.clear( );
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "SwingImageCache.info.flushed.swing.images",//$NON-NLS-1$
-						new Object[]{
-							Integer.valueOf( n )
-						},
-						idsSWING.getULocale( ) ) );
+		htCache.clear();
+		logger.log(ILogger.INFORMATION, Messages.getString("SwingImageCache.info.flushed.swing.images", //$NON-NLS-1$
+				new Object[] { Integer.valueOf(n) }, idsSWING.getULocale()));
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	final Object getObserver( )
-	{
+	final Object getObserver() {
 		return p;
 	}
 }

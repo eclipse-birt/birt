@@ -40,10 +40,9 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 
-public class NewStyleHandler extends SelectionHandler
-{
+public class NewStyleHandler extends SelectionHandler {
 
-	private static final String STACK_MSG_ADD_STYLE = Messages.getString( "NewStyleHandler.transaction.label" ); //$NON-NLS-1$
+	private static final String STACK_MSG_ADD_STYLE = Messages.getString("NewStyleHandler.transaction.label"); //$NON-NLS-1$
 
 	private AbstractThemeHandle themeHandle;
 
@@ -54,74 +53,53 @@ public class NewStyleHandler extends SelectionHandler
 	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
 	 * .ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
 		boolean retBoolean = true;
 
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Add Style rule action >> Run ..." ); //$NON-NLS-1$
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Add Style rule action >> Run ..."); //$NON-NLS-1$
 		}
-		CommandStack stack = getActiveCommandStack( );
-		stack.startTrans( STACK_MSG_ADD_STYLE );
+		CommandStack stack = getActiveCommandStack();
+		stack.startTrans(STACK_MSG_ADD_STYLE);
 
-		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME );
-		if ( obj instanceof AbstractThemeHandle )
-		{
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
+		Object obj = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME);
+		if (obj instanceof AbstractThemeHandle) {
 			themeHandle = (AbstractThemeHandle) obj;
-		}
-		else
-		{
+		} else {
 			themeHandle = null;
 		}
 
-		ModuleHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		StyleHandle styleHandle = themeHandle != null ? DesignElementFactory.getInstance( reportDesignHandle )
-				.newStyle( themeHandle, null )
-				: DesignElementFactory.getInstance( reportDesignHandle )
-						.newStyle( null );
+		ModuleHandle reportDesignHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
+		StyleHandle styleHandle = themeHandle != null
+				? DesignElementFactory.getInstance(reportDesignHandle).newStyle(themeHandle, null)
+				: DesignElementFactory.getInstance(reportDesignHandle).newStyle(null);
 
-		try
-		{
-			StyleBuilder dialog = new StyleBuilder( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					styleHandle,
-					themeHandle,
-					StyleBuilder.DLG_TITLE_NEW );
-			if ( dialog.open( ) == Window.OK )
-			{
-				if ( themeHandle != null )
-				{
-					themeHandle.getStyles( ).add( styleHandle );
-				}
-				else
-				{
-					reportDesignHandle.getStyles( ).add( styleHandle );
-					if ( !styleHandle.isPredefined( ) )
-					{
-						applyStyle( (SharedStyleHandle) styleHandle );
+		try {
+			StyleBuilder dialog = new StyleBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(), styleHandle,
+					themeHandle, StyleBuilder.DLG_TITLE_NEW);
+			if (dialog.open() == Window.OK) {
+				if (themeHandle != null) {
+					themeHandle.getStyles().add(styleHandle);
+				} else {
+					reportDesignHandle.getStyles().add(styleHandle);
+					if (!styleHandle.isPredefined()) {
+						applyStyle((SharedStyleHandle) styleHandle);
 					}
 				}
-				stack.commit( );
-			}
-			else
-			{
-				stack.rollbackAll( );
+				stack.commit();
+			} else {
+				stack.rollbackAll();
 				retBoolean = false;
 			}
-		}
-		catch ( Exception e )
-		{
-			stack.rollbackAll( );
-			ExceptionHandler.handle( e );
+		} catch (Exception e) {
+			stack.rollbackAll();
+			ExceptionHandler.handle(e);
 			retBoolean = false;
 		}
 
-		return Boolean.valueOf( retBoolean );
+		return Boolean.valueOf(retBoolean);
 	}
 
 	/**
@@ -129,31 +107,25 @@ public class NewStyleHandler extends SelectionHandler
 	 * 
 	 * @param styleHandle
 	 */
-	private void applyStyle( SharedStyleHandle styleHandle )
-	{
-		Object elements = getElementHandles( );
-		List handles = new ArrayList( );
+	private void applyStyle(SharedStyleHandle styleHandle) {
+		Object elements = getElementHandles();
+		List handles = new ArrayList();
 //		if ( elements instanceof List )
 //		{
-			handles = (List) elements;
+		handles = (List) elements;
 //		}
 //		else
 //		{
 //			handles.add( elements );
 //		}
-		for ( int i = 0; i < handles.size( ); i++ )
-		{
-			try
-			{
-				if ( handles.get( i ) instanceof ReportElementHandle )
-				{
+		for (int i = 0; i < handles.size(); i++) {
+			try {
+				if (handles.get(i) instanceof ReportElementHandle) {
 					// set style
-					( (DesignElementHandle) handles.get( i ) ).setStyle( styleHandle );
+					((DesignElementHandle) handles.get(i)).setStyle(styleHandle);
 				}
-			}
-			catch ( StyleException e )
-			{
-				logger.log( Level.SEVERE, e.getMessage( ), e );
+			} catch (StyleException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 	}

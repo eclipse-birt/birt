@@ -22,11 +22,10 @@ import org.eclipse.birt.report.model.elements.OdaDataSource;
  * 
  */
 
-public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
-{
+public class ElementRefPropertyTypeTest extends PropertyTypeTestCase {
 
-	ElementRefPropertyType type = new ElementRefPropertyType( );
-	PropertyDefn propDefn = new PropertyDefnFake( );
+	ElementRefPropertyType type = new ElementRefPropertyType();
+	PropertyDefn propDefn = new PropertyDefnFake();
 
 	OdaDataSource ds1 = null;
 	OdaDataSource ds2 = null;
@@ -37,25 +36,21 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 
-		propDefn = (ElementPropertyDefn) MetaDataDictionary.getInstance( )
-				.getElement( ReportDesignConstants.ODA_DATA_SET ).getProperty(
-						OdaDataSet.DATA_SOURCE_PROP );
+		propDefn = (ElementPropertyDefn) MetaDataDictionary.getInstance().getElement(ReportDesignConstants.ODA_DATA_SET)
+				.getProperty(OdaDataSet.DATA_SOURCE_PROP);
 
-		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance( )
-				.getElement( ReportDesignConstants.ODA_DATA_SOURCE );
+		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance()
+				.getElement(ReportDesignConstants.ODA_DATA_SOURCE);
 
-		ds1 = new OdaDataSource( "ds1" ); //$NON-NLS-1$
-		ds2 = new OdaDataSource( "ds2" ); //$NON-NLS-1$
-		label1 = new Label( "label1" ); //$NON-NLS-1$
+		ds1 = new OdaDataSource("ds1"); //$NON-NLS-1$
+		ds2 = new OdaDataSource("ds2"); //$NON-NLS-1$
+		label1 = new Label("label1"); //$NON-NLS-1$
 
-		design.getNameHelper( ).getNameSpace( elemDefn.getNameSpaceID( ) )
-				.insert( ds1 );
-		design.getNameHelper( ).getNameSpace( elemDefn.getNameSpaceID( ) )
-				.insert( label1 );
+		design.getNameHelper().getNameSpace(elemDefn.getNameSpaceID()).insert(ds1);
+		design.getNameHelper().getNameSpace(elemDefn.getNameSpaceID()).insert(label1);
 	}
 
 	/*
@@ -65,9 +60,8 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
 	 * ()
 	 */
-	public void testGetTypeCode( )
-	{
-		assertEquals( PropertyType.ELEMENT_REF_TYPE, type.getTypeCode( ) );
+	public void testGetTypeCode() {
+		assertEquals(PropertyType.ELEMENT_REF_TYPE, type.getTypeCode());
 	}
 
 	/*
@@ -76,9 +70,8 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
-	public void testGetName( )
-	{
-		assertEquals( PropertyType.ELEMENT_REF_NAME, type.getName( ) );
+	public void testGetName() {
+		assertEquals(PropertyType.ELEMENT_REF_NAME, type.getName());
 	}
 
 	/*
@@ -88,63 +81,44 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
 	 * ()
 	 */
-	public void testValidateValue( ) throws PropertyValueException
-	{
-		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
+	public void testValidateValue() throws PropertyValueException {
+		assertEquals(null, type.validateValue(design, null, propDefn, null));
+		assertEquals(null, type.validateValue(design, null, propDefn, "")); //$NON-NLS-1$
 
 		// "ds1" is resolved.
-		ElementRefValue refValue = (ElementRefValue) type.validateValue(
-				design, null, propDefn, "ds1" ); //$NON-NLS-1$
-		assertTrue( ds1 == refValue.getElement( ) );
+		ElementRefValue refValue = (ElementRefValue) type.validateValue(design, null, propDefn, "ds1"); //$NON-NLS-1$
+		assertTrue(ds1 == refValue.getElement());
 
 		// "ds2" is unresolved.
-		refValue = (ElementRefValue) type.validateValue( design, null,
-				propDefn, "ds2" ); //$NON-NLS-1$
-		assertEquals( "ds2", refValue.getName( ) ); //$NON-NLS-1$
+		refValue = (ElementRefValue) type.validateValue(design, null, propDefn, "ds2"); //$NON-NLS-1$
+		assertEquals("ds2", refValue.getName()); //$NON-NLS-1$
 
-		try
-		{
+		try {
 			// wrong type in the same namespace.
-			type.validateValue( design, null, propDefn, "label1" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
-					e.getErrorCode( ) );
+			type.validateValue(design, null, propDefn, "label1"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE, e.getErrorCode());
 		}
 
-		refValue = (ElementRefValue) type.validateValue( design, null,
-				propDefn, ds1 );
-		assertTrue( ds1 == refValue.getElement( ) );
+		refValue = (ElementRefValue) type.validateValue(design, null, propDefn, ds1);
+		assertTrue(ds1 == refValue.getElement());
 
-		try
-		{
+		try {
 			// wrong element type.
-			type.validateValue( design, null, propDefn, label1 );
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE,
-					e.getErrorCode( ) );
+			type.validateValue(design, null, propDefn, label1);
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE, e.getErrorCode());
 		}
 
 		// wrong input type.
-		try
-		{
+		try {
 			// wrong element type.
-			type.validateValue( design, null, propDefn, new Object( ) );
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+			type.validateValue(design, null, propDefn, new Object());
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
 	}
@@ -155,8 +129,7 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testValidateInputString()
 	 */
-	public void testValidateInputString( ) throws PropertyValueException
-	{
+	public void testValidateInputString() throws PropertyValueException {
 		// covered.
 	}
 
@@ -167,58 +140,47 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
 	 * ()
 	 */
-	public void testValidateXml( ) throws PropertyValueException
-	{
+	public void testValidateXml() throws PropertyValueException {
 		// covered.
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
 	 * ()
 	 */
-	public void testToDouble( )
-	{
+	public void testToDouble() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
-	 * ()
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger ()
 	 */
-	public void testToInteger( )
-	{
+	public void testToInteger() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
-	public void testToXml( )
-	{
-		assertEquals( null, type.toXml( design, propDefn, null ) );
-		assertEquals(
-				"Element", type.toXml( design, propDefn, new ElementRefValue( null, "Element" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$	
+	public void testToXml() {
+		assertEquals(null, type.toXml(design, propDefn, null));
+		assertEquals("Element", type.toXml(design, propDefn, new ElementRefValue(null, "Element"))); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
 	 * ()
 	 */
-	public void testToString( )
-	{
-		assertEquals( null, type.toString( design, propDefn, null ) );
-		assertEquals(
-				"Element", type.toString( design, propDefn, new ElementRefValue( null, "Element" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
+	public void testToString() {
+		assertEquals(null, type.toString(design, propDefn, null));
+		assertEquals("Element", type.toString(design, propDefn, new ElementRefValue(null, "Element"))); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/*
@@ -227,46 +189,39 @@ public class ElementRefPropertyTypeTest extends PropertyTypeTestCase
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testToDisplayString()
 	 */
-	public void testToDisplayString( )
-	{
-		assertEquals( null, type.toDisplayString( design, propDefn, null ) );
-		assertEquals(
-				"Element", type.toDisplayString( design, propDefn, new ElementRefValue( null, "Element" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$	
+	public void testToDisplayString() {
+		assertEquals(null, type.toDisplayString(design, propDefn, null));
+		assertEquals("Element", type.toDisplayString(design, propDefn, new ElementRefValue(null, "Element"))); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
 	 * Tests resolving.
 	 */
 
-	public void testResolve( )
-	{
-		ElementRefValue refValue = new ElementRefValue( null, "ds1" ); //$NON-NLS-1$
-		type.resolve( design, null, propDefn, refValue );
+	public void testResolve() {
+		ElementRefValue refValue = new ElementRefValue(null, "ds1"); //$NON-NLS-1$
+		type.resolve(design, null, propDefn, refValue);
 
-		assertTrue( refValue.isResolved( ) );
+		assertTrue(refValue.isResolved());
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
 	 * ()
 	 */
-	public void testToNumber( )
-	{
+	public void testToNumber() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
-	 * ()
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean ()
 	 */
-	public void testToBoolean( )
-	{
+	public void testToBoolean() {
 	}
 
 }

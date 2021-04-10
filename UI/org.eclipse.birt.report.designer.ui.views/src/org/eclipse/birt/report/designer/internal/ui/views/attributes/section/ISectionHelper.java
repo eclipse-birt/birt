@@ -17,9 +17,7 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 
-public interface ISectionHelper
-{
+public interface ISectionHelper {
 
-	public Section createSection( Composite container, String property,
-			String element, boolean formStyle );
+	public Section createSection(Composite container, String property, String element, boolean formStyle);
 }

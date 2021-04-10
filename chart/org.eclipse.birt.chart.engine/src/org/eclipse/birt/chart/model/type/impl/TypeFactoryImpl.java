@@ -32,200 +32,190 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!--
  * end-user-doc -->
+ * 
  * @generated
  */
-public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory
-{
+public class TypeFactoryImpl extends EFactoryImpl implements TypeFactory {
 
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public static TypeFactory init( )
-	{
-		try
-		{
-			TypeFactory theTypeFactory = (TypeFactory) EPackage.Registry.INSTANCE.getEFactory( "http://www.birt.eclipse.org/ChartModelType" ); //$NON-NLS-1$ 
-			if ( theTypeFactory != null )
-			{
+	public static TypeFactory init() {
+		try {
+			TypeFactory theTypeFactory = (TypeFactory) EPackage.Registry.INSTANCE
+					.getEFactory("http://www.birt.eclipse.org/ChartModelType"); //$NON-NLS-1$
+			if (theTypeFactory != null) {
 				return theTypeFactory;
 			}
+		} catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
 		}
-		catch ( Exception exception )
-		{
-			EcorePlugin.INSTANCE.log( exception );
-		}
-		return new TypeFactoryImpl( );
+		return new TypeFactoryImpl();
 	}
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @generated
 	 */
-	public TypeFactoryImpl( )
-	{
-		super( );
+	public TypeFactoryImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public EObject create( EClass eClass )
-	{
-		switch ( eClass.getClassifierID( ) )
-		{
-			case TypePackage.AREA_SERIES :
-				return (EObject) createAreaSeries( );
-			case TypePackage.BAR_SERIES :
-				return (EObject) createBarSeries( );
-			case TypePackage.BUBBLE_SERIES :
-				return (EObject) createBubbleSeries( );
-			case TypePackage.DIAL_SERIES :
-				return (EObject) createDialSeries( );
-			case TypePackage.DIFFERENCE_SERIES :
-				return (EObject) createDifferenceSeries( );
-			case TypePackage.GANTT_SERIES :
-				return (EObject) createGanttSeries( );
-			case TypePackage.LINE_SERIES :
-				return (EObject) createLineSeries( );
-			case TypePackage.PIE_SERIES :
-				return (EObject) createPieSeries( );
-			case TypePackage.SCATTER_SERIES :
-				return (EObject) createScatterSeries( );
-			case TypePackage.STOCK_SERIES :
-				return (EObject) createStockSeries( );
-			default :
-				throw new IllegalArgumentException( "The class '" + eClass.getName( ) + "' is not a valid classifier" ); //$NON-NLS-1$ //$NON-NLS-2$
+	public EObject create(EClass eClass) {
+		switch (eClass.getClassifierID()) {
+		case TypePackage.AREA_SERIES:
+			return (EObject) createAreaSeries();
+		case TypePackage.BAR_SERIES:
+			return (EObject) createBarSeries();
+		case TypePackage.BUBBLE_SERIES:
+			return (EObject) createBubbleSeries();
+		case TypePackage.DIAL_SERIES:
+			return (EObject) createDialSeries();
+		case TypePackage.DIFFERENCE_SERIES:
+			return (EObject) createDifferenceSeries();
+		case TypePackage.GANTT_SERIES:
+			return (EObject) createGanttSeries();
+		case TypePackage.LINE_SERIES:
+			return (EObject) createLineSeries();
+		case TypePackage.PIE_SERIES:
+			return (EObject) createPieSeries();
+		case TypePackage.SCATTER_SERIES:
+			return (EObject) createScatterSeries();
+		case TypePackage.STOCK_SERIES:
+			return (EObject) createStockSeries();
+		default:
+			throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public AreaSeries createAreaSeries( )
-	{
-		AreaSeriesImpl areaSeries = new AreaSeriesImpl( );
+	public AreaSeries createAreaSeries() {
+		AreaSeriesImpl areaSeries = new AreaSeriesImpl();
 		return areaSeries;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public BarSeries createBarSeries( )
-	{
-		BarSeriesImpl barSeries = new BarSeriesImpl( );
+	public BarSeries createBarSeries() {
+		BarSeriesImpl barSeries = new BarSeriesImpl();
 		return barSeries;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public BubbleSeries createBubbleSeries( )
-	{
-		BubbleSeriesImpl bubbleSeries = new BubbleSeriesImpl( );
+	public BubbleSeries createBubbleSeries() {
+		BubbleSeriesImpl bubbleSeries = new BubbleSeriesImpl();
 		return bubbleSeries;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public DialSeries createDialSeries( )
-	{
-		DialSeriesImpl dialSeries = new DialSeriesImpl( );
+	public DialSeries createDialSeries() {
+		DialSeriesImpl dialSeries = new DialSeriesImpl();
 		return dialSeries;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public DifferenceSeries createDifferenceSeries( )
-	{
-		DifferenceSeriesImpl differenceSeries = new DifferenceSeriesImpl( );
+	public DifferenceSeries createDifferenceSeries() {
+		DifferenceSeriesImpl differenceSeries = new DifferenceSeriesImpl();
 		return differenceSeries;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public GanttSeries createGanttSeries( )
-	{
-		GanttSeriesImpl ganttSeries = new GanttSeriesImpl( );
+	public GanttSeries createGanttSeries() {
+		GanttSeriesImpl ganttSeries = new GanttSeriesImpl();
 		return ganttSeries;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public LineSeries createLineSeries( )
-	{
-		LineSeriesImpl lineSeries = new LineSeriesImpl( );
+	public LineSeries createLineSeries() {
+		LineSeriesImpl lineSeries = new LineSeriesImpl();
 		return lineSeries;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public PieSeries createPieSeries( )
-	{
-		PieSeriesImpl pieSeries = new PieSeriesImpl( );
+	public PieSeries createPieSeries() {
+		PieSeriesImpl pieSeries = new PieSeriesImpl();
 		return pieSeries;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public ScatterSeries createScatterSeries( )
-	{
-		ScatterSeriesImpl scatterSeries = new ScatterSeriesImpl( );
+	public ScatterSeries createScatterSeries() {
+		ScatterSeriesImpl scatterSeries = new ScatterSeriesImpl();
 		return scatterSeries;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public StockSeries createStockSeries( )
-	{
-		StockSeriesImpl stockSeries = new StockSeriesImpl( );
+	public StockSeries createStockSeries() {
+		StockSeriesImpl stockSeries = new StockSeriesImpl();
 		return stockSeries;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public TypePackage getTypePackage( )
-	{
-		return (TypePackage) getEPackage( );
+	public TypePackage getTypePackage() {
+		return (TypePackage) getEPackage();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @deprecated
 	 * @generated
 	 */
 	@Deprecated
-	public static TypePackage getPackage( )
-	{
+	public static TypePackage getPackage() {
 		return TypePackage.eINSTANCE;
 	}
 

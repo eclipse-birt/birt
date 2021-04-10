@@ -38,8 +38,7 @@ import com.ibm.icu.text.MessageFormat;
  * bundle are immutable.
  * 
  */
-public class BirtException extends Exception
-{
+public class BirtException extends Exception {
 
 	/**
 	 * 
@@ -47,20 +46,18 @@ public class BirtException extends Exception
 	private static final long serialVersionUID = -2152858415308815725L;
 
 	/**
-	 * The resource key that represents the internal error code used in fetching
-	 * an externalized message
+	 * The resource key that represents the internal error code used in fetching an
+	 * externalized message
 	 */
 	protected final String sResourceKey;
 
 	/**
-	 * Optional arguments to be used with a resource key to build the error
-	 * message
+	 * Optional arguments to be used with a resource key to build the error message
 	 */
 	protected final Object[] oaMessageArguments;
 
 	/**
-	 * The resource bundle that holds a collection of messages for a specific
-	 * locale
+	 * The resource bundle that holds a collection of messages for a specific locale
 	 */
 	protected final transient ResourceBundle rb;
 
@@ -82,9 +79,9 @@ public class BirtException extends Exception
 	protected int severity = ERROR;
 
 	/**
-	 * Status severity constant (value 0) indicating this exception represents
-	 * the nominal case. This constant is also used as the status code
-	 * representing the nominal case.
+	 * Status severity constant (value 0) indicating this exception represents the
+	 * nominal case. This constant is also used as the status code representing the
+	 * nominal case.
 	 * 
 	 * @see #getSeverity()
 	 */
@@ -99,36 +96,34 @@ public class BirtException extends Exception
 	public static final int INFO = 0x01;
 
 	/**
-	 * Status type severity (bit mask, value 2) indicating this exception
-	 * represents a warning.
+	 * Status type severity (bit mask, value 2) indicating this exception represents
+	 * a warning.
 	 * 
 	 * @see #getSeverity()
 	 */
 	public static final int WARNING = 0x02;
 
 	/**
-	 * Status type severity (bit mask, value 4) indicating this exception
-	 * represents an error.
+	 * Status type severity (bit mask, value 4) indicating this exception represents
+	 * an error.
 	 * 
 	 * @see #getSeverity()
 	 */
 	public static final int ERROR = 0x04;
 
 	/**
-	 * Status type severity (bit mask, value 8) indicating this exception
-	 * represents a cancelation
+	 * Status type severity (bit mask, value 8) indicating this exception represents
+	 * a cancelation
 	 * 
 	 * @see #getSeverity()
 	 */
 	public static final int CANCEL = 0x08;
 
 	/**
-	 * @param mesage
-	 *            error message
+	 * @param mesage error message
 	 */
-	public BirtException( String message )
-	{
-		super( );
+	public BirtException(String message) {
+		super();
 		this.sResourceKey = message;
 		this.rb = null;
 		this.oaMessageArguments = null;
@@ -137,15 +132,12 @@ public class BirtException extends Exception
 	/**
 	 * @deprecated Constructs a new Birt exception with no cause object.
 	 * 
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param resourceBundle
-	 *            the resourceBundle used to translate the message.
+	 * @param errorCode      used to retrieve a piece of externalized message
+	 *                       displayed to end user.
+	 * @param resourceBundle the resourceBundle used to translate the message.
 	 */
-	public BirtException( String errorCode, ResourceBundle bundle )
-	{
-		super( );
+	public BirtException(String errorCode, ResourceBundle bundle) {
+		super();
 		this.sResourceKey = errorCode;
 		this.rb = bundle;
 		this.oaMessageArguments = null;
@@ -153,18 +145,13 @@ public class BirtException extends Exception
 
 	/**
 	 * @deprecated
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param resourceBundle
-	 *            the resourceBundle used to translate the message.
-	 * @param cause
-	 *            the nested exception
+	 * @param errorCode      used to retrieve a piece of externalized message
+	 *                       displayed to end user.
+	 * @param resourceBundle the resourceBundle used to translate the message.
+	 * @param cause          the nested exception
 	 */
-	public BirtException( String errorCode, ResourceBundle bundle,
-			Throwable cause )
-	{
-		super( cause );
+	public BirtException(String errorCode, ResourceBundle bundle, Throwable cause) {
+		super(cause);
 		this.sResourceKey = errorCode;
 		this.rb = bundle;
 		this.oaMessageArguments = null;
@@ -172,18 +159,13 @@ public class BirtException extends Exception
 
 	/**
 	 * @deprecated
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param resourceBundle
-	 *            the resourceBundle used to translate the message.
-	 * @param args
-	 *            string arguments used to format error messages
+	 * @param errorCode      used to retrieve a piece of externalized message
+	 *                       displayed to end user.
+	 * @param resourceBundle the resourceBundle used to translate the message.
+	 * @param args           string arguments used to format error messages
 	 */
-	public BirtException( String errorCode, Object[] args,
-			ResourceBundle bundle, Throwable cause )
-	{
-		super( cause );
+	public BirtException(String errorCode, Object[] args, ResourceBundle bundle, Throwable cause) {
+		super(cause);
 		this.sResourceKey = errorCode;
 		this.oaMessageArguments = args;
 		this.rb = bundle;
@@ -191,41 +173,29 @@ public class BirtException extends Exception
 
 	/**
 	 * @deprecated
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param resourceBundle
-	 *            the resourceBundle used to translate the message.
-	 * @param cause
-	 *            the nested exception
-	 * @param arg0
-	 *            first argument used to format error messages
+	 * @param errorCode      used to retrieve a piece of externalized message
+	 *                       displayed to end user.
+	 * @param resourceBundle the resourceBundle used to translate the message.
+	 * @param cause          the nested exception
+	 * @param arg0           first argument used to format error messages
 	 */
-	public BirtException( String errorCode, Object arg0, ResourceBundle bundle,
-			Throwable cause )
-	{
-		super( cause );
+	public BirtException(String errorCode, Object arg0, ResourceBundle bundle, Throwable cause) {
+		super(cause);
 		this.sResourceKey = errorCode;
 		this.rb = bundle;
 
-		this.oaMessageArguments = new Object[]{
-			arg0
-		};
+		this.oaMessageArguments = new Object[] { arg0 };
 	}
 
 	/**
 	 * @deprecated
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param resourceBundle
-	 *            the resourceBundle used to translate the message.
-	 * @param args
-	 *            string arguments used to format error messages
+	 * @param errorCode      used to retrieve a piece of externalized message
+	 *                       displayed to end user.
+	 * @param resourceBundle the resourceBundle used to translate the message.
+	 * @param args           string arguments used to format error messages
 	 */
-	public BirtException( String errorCode, Object[] args, ResourceBundle bundle )
-	{
-		super( );
+	public BirtException(String errorCode, Object[] args, ResourceBundle bundle) {
+		super();
 		this.sResourceKey = errorCode;
 		this.oaMessageArguments = args;
 		this.rb = bundle;
@@ -233,57 +203,41 @@ public class BirtException extends Exception
 
 	/**
 	 * @deprecated
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param resourceBundle
-	 *            the resourceBundle used to translate the message.
-	 * @param cause
-	 *            the nested exception
-	 * @param arg0
-	 *            first argument used to format error messages
+	 * @param errorCode      used to retrieve a piece of externalized message
+	 *                       displayed to end user.
+	 * @param resourceBundle the resourceBundle used to translate the message.
+	 * @param cause          the nested exception
+	 * @param arg0           first argument used to format error messages
 	 */
-	public BirtException( String errorCode, Object arg0, ResourceBundle bundle )
-	{
-		super( );
+	public BirtException(String errorCode, Object arg0, ResourceBundle bundle) {
+		super();
 		this.sResourceKey = errorCode;
 		this.rb = bundle;
-		this.oaMessageArguments = new Object[]{
-			arg0
-		};
+		this.oaMessageArguments = new Object[] { arg0 };
 	}
 
 	/**
 	 * @deprecated
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param arg0
-	 *            first argument used to format error messages
+	 * @param errorCode used to retrieve a piece of externalized message displayed
+	 *                  to end user.
+	 * @param arg0      first argument used to format error messages
 	 */
-	public BirtException( String errorCode, Object arg0 )
-	{
-		super( );
+	public BirtException(String errorCode, Object arg0) {
+		super();
 		this.sResourceKey = errorCode;
-		this.oaMessageArguments = new Object[]{
-			arg0
-		};
+		this.oaMessageArguments = new Object[] { arg0 };
 		this.rb = null;
 	}
 
 	/**
 	 * @deprecated
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param cause
-	 *            the nested exception
-	 * @param args
-	 *            string arguments used to format error messages
+	 * @param errorCode used to retrieve a piece of externalized message displayed
+	 *                  to end user.
+	 * @param cause     the nested exception
+	 * @param args      string arguments used to format error messages
 	 */
-	public BirtException( String errorCode, Object[] args, Throwable cause )
-	{
-		super( cause );
+	public BirtException(String errorCode, Object[] args, Throwable cause) {
+		super(cause);
 		this.sResourceKey = errorCode;
 		this.oaMessageArguments = args;
 		this.rb = null;
@@ -292,49 +246,37 @@ public class BirtException extends Exception
 	/**
 	 * Constructs a new Birt exception with no cause object.
 	 * 
-	 * @param pluginId
-	 *            Returns the unique identifier of the plug-in associated with
-	 *            this exception *
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param resourceBundle
-	 *            the resourceBundle used to translate the message.
+	 * @param pluginId       Returns the unique identifier of the plug-in associated
+	 *                       with this exception *
+	 * @param errorCode      used to retrieve a piece of externalized message
+	 *                       displayed to end user.
+	 * @param resourceBundle the resourceBundle used to translate the message.
 	 */
-	public BirtException( String pluginId, String errorCode,
-			ResourceBundle bundle )
-	{
-		super( );
+	public BirtException(String pluginId, String errorCode, ResourceBundle bundle) {
+		super();
 		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.rb = bundle;
 		this.oaMessageArguments = null;
 	}
-	
-	public BirtException( )
-	{
-		super( );
+
+	public BirtException() {
+		super();
 		this.sResourceKey = null;
 		this.rb = null;
 		this.oaMessageArguments = null;
 	}
 
 	/**
-	 * @param pluginId
-	 *            Returns the unique identifier of the plug-in associated with
-	 *            this exception
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param resourceBundle
-	 *            the resourceBundle used to translate the message.
-	 * @param cause
-	 *            the nested exception
+	 * @param pluginId       Returns the unique identifier of the plug-in associated
+	 *                       with this exception
+	 * @param errorCode      used to retrieve a piece of externalized message
+	 *                       displayed to end user.
+	 * @param resourceBundle the resourceBundle used to translate the message.
+	 * @param cause          the nested exception
 	 */
-	public BirtException( String pluginId, String errorCode,
-			ResourceBundle bundle, Throwable cause )
-	{
-		super( cause );
+	public BirtException(String pluginId, String errorCode, ResourceBundle bundle, Throwable cause) {
+		super(cause);
 		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.rb = bundle;
@@ -342,21 +284,15 @@ public class BirtException extends Exception
 	}
 
 	/**
-	 * @param pluginId
-	 *            Returns the unique identifier of the plug-in associated with
-	 *            this exception
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param resourceBundle
-	 *            the resourceBundle used to translate the message.
-	 * @param args
-	 *            string arguments used to format error messages
+	 * @param pluginId       Returns the unique identifier of the plug-in associated
+	 *                       with this exception
+	 * @param errorCode      used to retrieve a piece of externalized message
+	 *                       displayed to end user.
+	 * @param resourceBundle the resourceBundle used to translate the message.
+	 * @param args           string arguments used to format error messages
 	 */
-	public BirtException( String pluginId, String errorCode, Object[] args,
-			ResourceBundle bundle, Throwable cause )
-	{
-		super( cause );
+	public BirtException(String pluginId, String errorCode, Object[] args, ResourceBundle bundle, Throwable cause) {
+		super(cause);
 		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.oaMessageArguments = args;
@@ -364,48 +300,33 @@ public class BirtException extends Exception
 	}
 
 	/**
-	 * @param pluginId
-	 *            Returns the unique identifier of the plug-in associated with
-	 *            this exception
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param resourceBundle
-	 *            the resourceBundle used to translate the message.
-	 * @param cause
-	 *            the nested exception
-	 * @param arg0
-	 *            first argument used to format error messages
+	 * @param pluginId       Returns the unique identifier of the plug-in associated
+	 *                       with this exception
+	 * @param errorCode      used to retrieve a piece of externalized message
+	 *                       displayed to end user.
+	 * @param resourceBundle the resourceBundle used to translate the message.
+	 * @param cause          the nested exception
+	 * @param arg0           first argument used to format error messages
 	 */
-	public BirtException( String pluginId, String errorCode, Object arg0,
-			ResourceBundle bundle, Throwable cause )
-	{
-		super( cause );
+	public BirtException(String pluginId, String errorCode, Object arg0, ResourceBundle bundle, Throwable cause) {
+		super(cause);
 		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.rb = bundle;
 
-		this.oaMessageArguments = new Object[]{
-			arg0
-		};
+		this.oaMessageArguments = new Object[] { arg0 };
 	}
 
 	/**
-	 * @param pluginId
-	 *            Returns the unique identifier of the plug-in associated with
-	 *            this exception
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param resourceBundle
-	 *            the resourceBundle used to translate the message.
-	 * @param args
-	 *            string arguments used to format error messages
+	 * @param pluginId       Returns the unique identifier of the plug-in associated
+	 *                       with this exception
+	 * @param errorCode      used to retrieve a piece of externalized message
+	 *                       displayed to end user.
+	 * @param resourceBundle the resourceBundle used to translate the message.
+	 * @param args           string arguments used to format error messages
 	 */
-	public BirtException( String pluginId, String errorCode, Object[] args,
-			ResourceBundle bundle )
-	{
-		super( );
+	public BirtException(String pluginId, String errorCode, Object[] args, ResourceBundle bundle) {
+		super();
 		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.oaMessageArguments = args;
@@ -413,66 +334,46 @@ public class BirtException extends Exception
 	}
 
 	/**
-	 * @param pluginId
-	 *            Returns the unique identifier of the plug-in associated with
-	 *            this exception
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param resourceBundle
-	 *            the resourceBundle used to translate the message.
-	 * @param cause
-	 *            the nested exception
-	 * @param arg0
-	 *            first argument used to format error messages
+	 * @param pluginId       Returns the unique identifier of the plug-in associated
+	 *                       with this exception
+	 * @param errorCode      used to retrieve a piece of externalized message
+	 *                       displayed to end user.
+	 * @param resourceBundle the resourceBundle used to translate the message.
+	 * @param cause          the nested exception
+	 * @param arg0           first argument used to format error messages
 	 */
-	public BirtException( String pluginId, String errorCode, Object arg0,
-			ResourceBundle bundle )
-	{
-		super( );
+	public BirtException(String pluginId, String errorCode, Object arg0, ResourceBundle bundle) {
+		super();
 		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.rb = bundle;
-		this.oaMessageArguments = new Object[]{
-			arg0
-		};
+		this.oaMessageArguments = new Object[] { arg0 };
 	}
 
 	/**
-	 * @param pluginId
-	 *            Returns the unique identifier of the plug-in associated with
-	 *            this exception
+	 * @param pluginId  Returns the unique identifier of the plug-in associated with
+	 *                  this exception
 	 * @param severity
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param arg0
-	 *            first argument used to format error messages
+	 * @param errorCode used to retrieve a piece of externalized message displayed
+	 *                  to end user.
+	 * @param arg0      first argument used to format error messages
 	 */
-	public BirtException( String pluginId, String errorCode, Object arg0 )
-	{
-		super( );
+	public BirtException(String pluginId, String errorCode, Object arg0) {
+		super();
 		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
-		this.oaMessageArguments = new Object[]{
-			arg0
-		};
+		this.oaMessageArguments = new Object[] { arg0 };
 		this.rb = null;
 	}
 
 	/**
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param cause
-	 *            the nested exception
-	 * @param args
-	 *            string arguments used to format error messages
+	 * @param errorCode used to retrieve a piece of externalized message displayed
+	 *                  to end user.
+	 * @param cause     the nested exception
+	 * @param args      string arguments used to format error messages
 	 */
-	public BirtException( String pluginId, String errorCode, Object[] args,
-			Throwable cause )
-	{
-		super( cause );
+	public BirtException(String pluginId, String errorCode, Object[] args, Throwable cause) {
+		super(cause);
 		this.pluginId = pluginId;
 		this.sResourceKey = errorCode;
 		this.oaMessageArguments = args;
@@ -482,8 +383,7 @@ public class BirtException extends Exception
 	/**
 	 * @return Returns the errorCode.
 	 */
-	public String getErrorCode( )
-	{
+	public String getErrorCode() {
 		return sResourceKey;
 	}
 
@@ -492,104 +392,79 @@ public class BirtException extends Exception
 	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	public String getLocalizedMessage( )
-	{
-		return getLocalizedMessage( sResourceKey );
+	public String getLocalizedMessage() {
+		return getLocalizedMessage(sResourceKey);
 	}
-	
-	public String getMessage()
-	{
-		return getLocalizedMessage( sResourceKey );
+
+	public String getMessage() {
+		return getLocalizedMessage(sResourceKey);
 	}
 
 	/**
-	 * Returns a localized message based on an error code. Overwrite this method
-	 * if you do not want to pass in the resource bundle
+	 * Returns a localized message based on an error code. Overwrite this method if
+	 * you do not want to pass in the resource bundle
 	 * 
-	 * @param errorCode
-	 *            the error code
+	 * @param errorCode the error code
 	 * @return Localized display message.
 	 */
-	protected String getLocalizedMessage( String errorCode )
-	{
+	protected String getLocalizedMessage(String errorCode) {
 		String localizedMessage;
 		Locale locale = null;
-		if ( rb == null )
-		{
-			localizedMessage = errorCode; 
-		}
-		else
-		{
-			locale = rb.getLocale( );
-			try
-			{
-				localizedMessage = rb.getString( errorCode );
-			}
-			catch ( Exception e )
-			{
+		if (rb == null) {
+			localizedMessage = errorCode;
+		} else {
+			locale = rb.getLocale();
+			try {
+				localizedMessage = rb.getString(errorCode);
+			} catch (Exception e) {
 				localizedMessage = errorCode;
 			}
 		}
 
-		try
-		{
-			MessageFormat form = new MessageFormat( localizedMessage,
-					locale == null ? Locale.getDefault( ) : locale );
-			return form.format( oaMessageArguments );
-		}
-		catch ( Throwable ex )
-		{
+		try {
+			MessageFormat form = new MessageFormat(localizedMessage, locale == null ? Locale.getDefault() : locale);
+			return form.format(oaMessageArguments);
+		} catch (Throwable ex) {
 			return localizedMessage;
 		}
 	}
 
 	/**
-	 * Returns the unique identifier of the plug-in associated with this
-	 * exception (this is the plug-in that defines the meaning of the error
-	 * code).
+	 * Returns the unique identifier of the plug-in associated with this exception
+	 * (this is the plug-in that defines the meaning of the error code).
 	 * 
 	 * @return the unique identifier of the relevant plug-in
 	 */
-	public String getPluginId( )
-	{
+	public String getPluginId() {
 		return pluginId;
 	}
 
 	/**
-	 * Returns the severity. The severities are as follows (in descending
-	 * order):
+	 * Returns the severity. The severities are as follows (in descending order):
 	 * <ul>
 	 * <li><code>CANCEL</code>- cancelation occurred</li>
 	 * <li><code>ERROR</code>- a serious error (most severe)</li>
 	 * <li><code>WARNING</code>- a warning (less severe)</li>
-	 * <li><code>INFO</code>- an informational ("fyi") message (least
-	 * severe)</li>
+	 * <li><code>INFO</code>- an informational ("fyi") message (least severe)</li>
 	 * <li><code>OK</code>- everything is just fine</li>
 	 * </ul>
 	 * 
 	 * @return the severity: one of <code>OK</code>,<code>ERROR</code>,
-	 *         <code>INFO</code>,<code>WARNING</code>, or
-	 *         <code>CANCEL</code>
+	 *         <code>INFO</code>,<code>WARNING</code>, or <code>CANCEL</code>
 	 */
-	public int getSeverity( )
-	{
+	public int getSeverity() {
 		return severity;
 	}
 
 	/**
 	 * Sets the severity of the exception.
 	 * 
-	 * @param severity
-	 *            the severity; one of <code>OK</code>,<code>ERROR</code>,
-	 *            <code>INFO</code>,<code>WARNING</code>, or
-	 *            <code>CANCEL</code>
+	 * @param severity the severity; one of <code>OK</code>,<code>ERROR</code>,
+	 *                 <code>INFO</code>,<code>WARNING</code>, or
+	 *                 <code>CANCEL</code>
 	 */
-	public void setSeverity( int severity )
-	{
-		assert ( severity == OK
-				|| severity == ERROR
-				|| severity == WARNING
-				|| severity == INFO || severity == CANCEL );
+	public void setSeverity(int severity) {
+		assert (severity == OK || severity == ERROR || severity == WARNING || severity == INFO || severity == CANCEL);
 		this.severity = severity;
 	}
 }

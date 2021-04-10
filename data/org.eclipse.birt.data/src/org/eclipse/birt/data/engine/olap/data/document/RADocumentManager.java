@@ -20,70 +20,72 @@ import org.eclipse.birt.core.archive.RAInputStream;
  * 
  */
 
-public class RADocumentManager implements IDocumentManager
-{
+public class RADocumentManager implements IDocumentManager {
 	private IDocArchiveReader archiveReader;
-	
+
 	/**
 	 * 
 	 * @param archiveFile
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	RADocumentManager( IDocArchiveReader reader ) throws IOException
-	{
+	RADocumentManager(IDocArchiveReader reader) throws IOException {
 		this.archiveReader = reader;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#close()
 	 */
-	public void close( ) throws IOException
-	{
-		//archiveReader.close( );
+	public void close() throws IOException {
+		// archiveReader.close( );
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#createDocumentObject(java.lang.String)
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#
+	 * createDocumentObject(java.lang.String)
 	 */
-	public IDocumentObject createDocumentObject( String documentObjectName ) throws IOException
-	{
-		throw new UnsupportedOperationException( );
+	public IDocumentObject createDocumentObject(String documentObjectName) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#exist(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#exist(java.
+	 * lang.String)
 	 */
-	public boolean exist( String documentObjectName )
-	{
-		if( archiveReader == null )
+	public boolean exist(String documentObjectName) {
+		if (archiveReader == null)
 			return false;
-		return archiveReader.exists( documentObjectName );
+		return archiveReader.exists(documentObjectName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#openDocumentObject(java.lang.String)
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#
+	 * openDocumentObject(java.lang.String)
 	 */
-	public IDocumentObject openDocumentObject( String documentObjectName ) throws IOException
-	{
-		if( archiveReader == null )
+	public IDocumentObject openDocumentObject(String documentObjectName) throws IOException {
+		if (archiveReader == null)
 			return null;
-		RAInputStream inputStream = archiveReader.getStream( documentObjectName );
-		if ( inputStream == null )
+		RAInputStream inputStream = archiveReader.getStream(documentObjectName);
+		if (inputStream == null)
 			return null;
-		return new DocumentObject( new BufferedRandomDataAccessObject( new RAReader( inputStream ), 8192 ) );
+		return new DocumentObject(new BufferedRandomDataAccessObject(new RAReader(inputStream), 8192));
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.document.IDocumentManager#flush()
 	 */
-	public void flush( ) throws IOException
-	{
-		
+	public void flush() throws IOException {
+
 	}
 
 }

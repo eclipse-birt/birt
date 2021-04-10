@@ -17,10 +17,8 @@ import org.eclipse.core.runtime.jobs.Job;
  * 
  */
 
-public class RenderJobRunner
-{
-	public static void runRenderJob( Job runJob, RenderJobRule jobRule )
-	{
+public class RenderJobRunner {
+	public static void runRenderJob(Job runJob, RenderJobRule jobRule) {
 		// boolean showDialog = true;
 		// if ( Display.getCurrent( ) == null )
 		// showDialog = false;
@@ -35,8 +33,8 @@ public class RenderJobRunner
 		// }
 
 		// runJob.setProperty( IProgressConstants.ICON_PROPERTY, image );
-		runJob.setUser( true );
-		runJob.setRule( jobRule );
-		runJob.schedule( );
+		runJob.setUser(true);
+		runJob.setRule(jobRule);
+		runJob.schedule();
 	}
 }

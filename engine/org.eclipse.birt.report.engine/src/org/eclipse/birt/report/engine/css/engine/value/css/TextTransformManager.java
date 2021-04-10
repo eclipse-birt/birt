@@ -21,12 +21,9 @@ public class TextTransformManager extends IdentifierManager {
 	 */
 	protected final static StringMap values = new StringMap();
 	static {
-		values.put(CSSConstants.CSS_CAPITALIZE_VALUE,
-				CSSValueConstants.CAPITALIZE_VALUE);
-		values.put(CSSConstants.CSS_UPPERCASE_VALUE,
-				CSSValueConstants.UPPERCASE_VALUE);
-		values.put(CSSConstants.CSS_LOWERCASE_VALUE,
-				CSSValueConstants.LOWERCASE_VALUE);
+		values.put(CSSConstants.CSS_CAPITALIZE_VALUE, CSSValueConstants.CAPITALIZE_VALUE);
+		values.put(CSSConstants.CSS_UPPERCASE_VALUE, CSSValueConstants.UPPERCASE_VALUE);
+		values.put(CSSConstants.CSS_LOWERCASE_VALUE, CSSValueConstants.LOWERCASE_VALUE);
 		values.put(CSSConstants.CSS_NONE_VALUE, CSSValueConstants.NONE_VALUE);
 	}
 

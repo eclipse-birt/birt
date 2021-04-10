@@ -33,41 +33,36 @@ import com.ibm.icu.util.ULocale;
  * the default resource locator.
  * <p>
  */
-public class Regression_150687 extends BaseTestCase
-{
+public class Regression_150687 extends BaseTestCase {
 
-	private static String jarfile ="test.jar" ;
-	
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		//copyResource_INPUT( "test.jar" , "test.jar" );
-		copyInputToFile ( INPUT_FOLDER + "/" + jarfile );
+	private static String jarfile = "test.jar";
+
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		// copyResource_INPUT( "test.jar" , "test.jar" );
+		copyInputToFile(INPUT_FOLDER + "/" + jarfile);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
-	
+
 	/**
 	 * @throws SemanticException
 	 */
-	public void test_regression_150687( ) throws SemanticException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_150687() throws SemanticException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ScriptLib lib1 = StructureFactory.createScriptLib( );
-		lib1.setName( "test.jar" ); //$NON-NLS-1$
+		ScriptLib lib1 = StructureFactory.createScriptLib();
+		lib1.setName("test.jar"); //$NON-NLS-1$
 
-		designHandle.addScriptLib( lib1 );
+		designHandle.addScriptLib(lib1);
 
-		session.setResourceFolder( getTempFolder() + "/" + INPUT_FOLDER );
-		URL url = session.getResourceLocator( ).findResource( designHandle,
-				"test.jar", IResourceLocator.JAR_FILE ); //$NON-NLS-1$
-		assertNotNull( url );
+		session.setResourceFolder(getTempFolder() + "/" + INPUT_FOLDER);
+		URL url = session.getResourceLocator().findResource(designHandle, "test.jar", IResourceLocator.JAR_FILE); //$NON-NLS-1$
+		assertNotNull(url);
 	}
 }

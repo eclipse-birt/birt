@@ -34,15 +34,13 @@ import org.eclipse.gef.commands.Command;
  * Paste structure to container.
  */
 
-public class PasteReportItemThemeCommand extends Command
-{
-	protected static final Logger logger = Logger.getLogger( PasteReportItemThemeCommand.class.getName( ) );
+public class PasteReportItemThemeCommand extends Command {
+	protected static final Logger logger = Logger.getLogger(PasteReportItemThemeCommand.class.getName());
 	private IElementCopy copyData;
 	private SlotHandle container;
 	private ThemeHandle theme;
 
-	public PasteReportItemThemeCommand( IElementCopy copyData, SlotHandle container, ThemeHandle param )
-	{
+	public PasteReportItemThemeCommand(IElementCopy copyData, SlotHandle container, ThemeHandle param) {
 		this.copyData = copyData;
 		this.container = container;
 		this.theme = param;
@@ -53,9 +51,8 @@ public class PasteReportItemThemeCommand extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	public boolean canExecute( )
-	{
-		return DNDUtil.handleValidateTargetCanContain( container, copyData );
+	public boolean canExecute() {
+		return DNDUtil.handleValidateTargetCanContain(container, copyData);
 	}
 
 	/*
@@ -63,44 +60,35 @@ public class PasteReportItemThemeCommand extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute( )
-	{
-		try
-		{
-			ModuleHandle module = theme.getModuleHandle( );
-			Module library = module.getModule( );
-			DesignElementHandle source = this.copyData.getHandle( module );
-			DesignElementHandle handle = CopyUtil.copy( source ).getHandle( module );
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "PasteReportItemThemeCommand >>  Starts. Source: " //$NON-NLS-1$
-						+ handle
-						+ ",Target: " //$NON-NLS-1$
-						+ DEUtil.getDisplayLabel( container ) );
+	public void execute() {
+		try {
+			ModuleHandle module = theme.getModuleHandle();
+			Module library = module.getModule();
+			DesignElementHandle source = this.copyData.getHandle(module);
+			DesignElementHandle handle = CopyUtil.copy(source).getHandle(module);
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("PasteReportItemThemeCommand >>  Starts. Source: " //$NON-NLS-1$
+						+ handle + ",Target: " //$NON-NLS-1$
+						+ DEUtil.getDisplayLabel(container));
 			}
-			if ( handle instanceof ReportItemThemeHandle )
-			{
-				DesignElement element = handle.getElement( );
-				NameExecutor executor = new NameExecutor( library, element.getContainer( ), element );
-				INameHelper helper = executor.getNameHelper( );
-				String namePrefix = ( (ReportItemThemeHandle) handle ).getType( ) + "-" + theme.getName( ); //$NON-NLS-1$
-				handle.setName( null );
-				String name = helper.getUniqueName( Module.THEME_NAME_SPACE, handle.getElement( ), namePrefix );
-				handle.setName( name );
-				container.add( handle );
+			if (handle instanceof ReportItemThemeHandle) {
+				DesignElement element = handle.getElement();
+				NameExecutor executor = new NameExecutor(library, element.getContainer(), element);
+				INameHelper helper = executor.getNameHelper();
+				String namePrefix = ((ReportItemThemeHandle) handle).getType() + "-" + theme.getName(); //$NON-NLS-1$
+				handle.setName(null);
+				String name = helper.getUniqueName(Module.THEME_NAME_SPACE, handle.getElement(), namePrefix);
+				handle.setName(name);
+				container.add(handle);
 			}
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "PasteReportItemThemeCommand >>  Finished" ); //$NON-NLS-1$
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("PasteReportItemThemeCommand >>  Finished"); //$NON-NLS-1$
 			}
-		}
-		catch ( Exception e )
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "PasteReportItemThemeCommand >>  Failed" ); //$NON-NLS-1$
+		} catch (Exception e) {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("PasteReportItemThemeCommand >>  Failed"); //$NON-NLS-1$
 			}
-			logger.log( Level.SEVERE,e.getMessage( ), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 }

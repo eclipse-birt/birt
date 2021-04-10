@@ -15,23 +15,20 @@ import java.util.EventListener;
 
 /**
  * The listener for format changes.
- *  
+ * 
  */
 
-public interface IFormatChangeListener extends EventListener
-{
+public interface IFormatChangeListener extends EventListener {
 
 	/**
 	 * Notification that a format has changed.
 	 * <p>
-	 * This method gets called when the observed object fires a format change
-	 * event.
+	 * This method gets called when the observed object fires a format change event.
 	 * </p>
 	 * 
-	 * @param event
-	 *            The format change event object describing which format changed
-	 *            and how.
+	 * @param event The format change event object describing which format changed
+	 *              and how.
 	 */
 
-	public void formatChange( FormatChangeEvent event );
+	public void formatChange(FormatChangeEvent event);
 }

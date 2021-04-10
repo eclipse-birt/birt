@@ -30,12 +30,14 @@ import org.eclipse.swt.widgets.Control;
 import com.ibm.icu.util.ULocale;
 
 /**
- * The builder used to generate a format string <dt><b>Styles: </b></dt> <dd>
- * STRING</dd> <dd>NUMBER</dd> <dd>DATETIME</dd>
+ * The builder used to generate a format string
+ * <dt><b>Styles: </b></dt>
+ * <dd>STRING</dd>
+ * <dd>NUMBER</dd>
+ * <dd>DATETIME</dd>
  */
 
-public class FormatBuilder extends BaseDialog
-{
+public class FormatBuilder extends BaseDialog {
 
 	/** Style Constants */
 	/** String format constant */
@@ -49,7 +51,7 @@ public class FormatBuilder extends BaseDialog
 	/** DateTime format constant */
 	public static final int TIME = 5;
 
-	private static final String DLG_TITLE = Messages.getString( "FormatBuilder.Title" ); //$NON-NLS-1$
+	private static final String DLG_TITLE = Messages.getString("FormatBuilder.Title"); //$NON-NLS-1$
 	private IFormatPage page;
 	private String formatCategory = null;
 	private String formatPattern = null;
@@ -61,101 +63,72 @@ public class FormatBuilder extends BaseDialog
 	/**
 	 * Constructs a new instance of the format builder
 	 * 
-	 * @param style
-	 *            the style of the format builder
+	 * @param style the style of the format builder
 	 * 
 	 */
-	public FormatBuilder( int type )
-	{
-		super( DLG_TITLE );
-		assert type == STRING
-				|| type == NUMBER
-				|| type == DATETIME
-				|| type == DATE
-				|| type == TIME;
+	public FormatBuilder(int type) {
+		super(DLG_TITLE);
+		assert type == STRING || type == NUMBER || type == DATETIME || type == DATE || type == TIME;
 		this.type = type;
 	}
 
-	protected Control createDialogArea( Composite parent )
-	{
-		Composite composite = (Composite) super.createDialogArea( parent );
-		ScrolledComposite scrollContent = new ScrolledComposite( composite,
-				SWT.H_SCROLL | SWT.V_SCROLL );
-		scrollContent.setAlwaysShowScrollBars( false );
-		scrollContent.setExpandHorizontal( true );
-		scrollContent.setLayout( new FillLayout( ) );
-		scrollContent.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		switch ( type )
-		{
-			case STRING :
-				page = new FormatStringPage( scrollContent,
-						SWT.NONE,
-						IFormatPage.PAGE_ALIGN_VIRTICAL,
-						false );
-				break;
-			case NUMBER :
-				page = new FormatNumberPage( scrollContent,
-						SWT.NONE,
-						IFormatPage.PAGE_ALIGN_VIRTICAL,
-						false );
-				break;
-			case DATETIME :
-			case DATE :
-			case TIME :
-				page = new FormatDateTimePage( scrollContent,
-						type,
-						SWT.NONE,
-						IFormatPage.PAGE_ALIGN_VIRTICAL,
-						false );
-				break;
+	protected Control createDialogArea(Composite parent) {
+		Composite composite = (Composite) super.createDialogArea(parent);
+		ScrolledComposite scrollContent = new ScrolledComposite(composite, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrollContent.setAlwaysShowScrollBars(false);
+		scrollContent.setExpandHorizontal(true);
+		scrollContent.setLayout(new FillLayout());
+		scrollContent.setLayoutData(new GridData(GridData.FILL_BOTH));
+		switch (type) {
+		case STRING:
+			page = new FormatStringPage(scrollContent, SWT.NONE, IFormatPage.PAGE_ALIGN_VIRTICAL, false);
+			break;
+		case NUMBER:
+			page = new FormatNumberPage(scrollContent, SWT.NONE, IFormatPage.PAGE_ALIGN_VIRTICAL, false);
+			break;
+		case DATETIME:
+		case DATE:
+		case TIME:
+			page = new FormatDateTimePage(scrollContent, type, SWT.NONE, IFormatPage.PAGE_ALIGN_VIRTICAL, false);
+			break;
 		}
-		Point size = ( (Composite) page ).computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		( (Composite) page ).setSize( size );
-		scrollContent.setContent( (Composite) page );
-		UIUtil.bindHelp( composite, IHelpContextIds.FORMAT_BUILDER_ID );
+		Point size = ((Composite) page).computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		((Composite) page).setSize(size);
+		scrollContent.setContent((Composite) page);
+		UIUtil.bindHelp(composite, IHelpContextIds.FORMAT_BUILDER_ID);
 		return composite;
 	}
 
 	/*
 	 * Set preview text
 	 */
-	public void setPreviewText( String previewText )
-	{
+	public void setPreviewText(String previewText) {
 		this.previewText = previewText;
 	}
 
 	/*
 	 * Set format categrory and patten
 	 */
-	public void setInputFormat( String formatCategroy, String formatPattern,
-			ULocale formatLocale )
-	{
-		assert !StringUtil.isBlank( formatCategroy );
+	public void setInputFormat(String formatCategroy, String formatPattern, ULocale formatLocale) {
+		assert !StringUtil.isBlank(formatCategroy);
 		this.formatCategory = formatCategroy;
 		this.formatPattern = formatPattern;
 		this.formatLocale = formatLocale;
 	}
 
-	protected boolean initDialog( )
-	{
-		page.setInput( formatCategory, formatPattern, formatLocale );
-		page.setPreviewText( previewText );
+	protected boolean initDialog() {
+		page.setInput(formatCategory, formatPattern, formatLocale);
+		page.setPreviewText(previewText);
 		return true;
 	}
 
-	protected void okPressed( )
-	{
-		if ( page.isFormatModified( ) )
-		{
+	protected void okPressed() {
+		if (page.isFormatModified()) {
 
-			setResult( new Object[]{
-					page.getCategory( ), page.getPattern( ), page.getLocale( )
-			} );
-			super.okPressed( );
-		}
-		else
-		{
-			cancelPressed( );
+			setResult(new Object[] { page.getCategory(), page.getPattern(), page.getLocale() });
+			super.okPressed();
+		} else {
+			cancelPressed();
 		}
 	}
 }

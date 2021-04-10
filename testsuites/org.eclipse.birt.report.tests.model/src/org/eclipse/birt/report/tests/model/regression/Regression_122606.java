@@ -48,61 +48,52 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * parameter name inside the child parameter group
  * </p>
  */
-public class Regression_122606 extends BaseTestCase
-{
+public class Regression_122606 extends BaseTestCase {
 
 	private final static String INPUT = "regression_122606.xml"; //$NON-NLS-1$
 
-	private final static String  LibraryName = "regression_122606_lib.xml";
-	
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	private final static String LibraryName = "regression_122606_lib.xml";
+
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		copyResource_INPUT( LibraryName , LibraryName);
+		copyResource_INPUT(INPUT, INPUT);
+		copyResource_INPUT(LibraryName, LibraryName);
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws ExtendsException
 	 * @throws NameException
 	 * @throws ContentException
 	 */
-	public void test_regression_122606( ) throws DesignFileException, ExtendsException,
-			ContentException, NameException
-	{
-		openDesign( INPUT );
+	public void test_regression_122606() throws DesignFileException, ExtendsException, ContentException, NameException {
+		openDesign(INPUT);
 
-		LibraryHandle includeLib = designHandle
-				.findLibrary( LibraryName ); //$NON-NLS-1$
-		ParameterGroupHandle parent = (ParameterGroupHandle) includeLib.getParameters( ).get( 0 );
+		LibraryHandle includeLib = designHandle.findLibrary(LibraryName); // $NON-NLS-1$
+		ParameterGroupHandle parent = (ParameterGroupHandle) includeLib.getParameters().get(0);
 
-		assertEquals(
-				"p1", parent.getParameters( ).get( 0 ).getName( ) ); //$NON-NLS-1$
-		assertEquals(
-				"p2", parent.getParameters( ).get( 1 ).getName( ) ); //$NON-NLS-1$
+		assertEquals("p1", parent.getParameters().get(0).getName()); //$NON-NLS-1$
+		assertEquals("p2", parent.getParameters().get(1).getName()); //$NON-NLS-1$
 
 		// extends from the parameter group in the library.
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		ParameterGroupHandle child = (ParameterGroupHandle) factory
-				.newElementFrom( parent, parent.getName( ) );
-		designHandle.getParameters( ).add( child );
+		ElementFactory factory = designHandle.getElementFactory();
+		ParameterGroupHandle child = (ParameterGroupHandle) factory.newElementFrom(parent, parent.getName());
+		designHandle.getParameters().add(child);
 
-		
 		// Check the parameter name inside the child parameter group
 
-		ParameterGroupHandle childHandle = (ParameterGroupHandle) designHandle
-				.getParameters( ).get( 0 );
-		assertEquals( parent.getName( ), childHandle.getName( ) );
+		ParameterGroupHandle childHandle = (ParameterGroupHandle) designHandle.getParameters().get(0);
+		assertEquals(parent.getName(), childHandle.getName());
 
-		ParameterHandle p1 = (ParameterHandle) childHandle.getParameters( ).get( 0 );
-		ParameterHandle p2 = (ParameterHandle) childHandle.getParameters( ).get( 1 );
+		ParameterHandle p1 = (ParameterHandle) childHandle.getParameters().get(0);
+		ParameterHandle p2 = (ParameterHandle) childHandle.getParameters().get(1);
 
-		assertEquals( "p1", p1.getName( ) ); //$NON-NLS-1$
-		assertEquals( "p2", p2.getName( ) ); //$NON-NLS-1$
+		assertEquals("p1", p1.getName()); //$NON-NLS-1$
+		assertEquals("p2", p2.getName()); //$NON-NLS-1$
 
 	}
 }

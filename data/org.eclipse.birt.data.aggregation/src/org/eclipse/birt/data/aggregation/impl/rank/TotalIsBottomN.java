@@ -19,58 +19,55 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * Implements the built-in Total.isBottomN aggregation.
  */
-public class TotalIsBottomN extends BaseTopBottomAggregation
-{
+public class TotalIsBottomN extends BaseTopBottomAggregation {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return IBuildInAggregation.TOTAL_BOTTOM_N_FUNC;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#newAccumulator()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggregation#newAccumulator()
 	 */
-	public Accumulator newAccumulator( )
-	{
-		return new MyAccumulator( );
+	public Accumulator newAccumulator() {
+		return new MyAccumulator();
 	}
 
-	private static class MyAccumulator extends NAccumulator
-	{
+	private static class MyAccumulator extends NAccumulator {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.aggregation.rank.NAccumulator#getNextIndex()
+		 * @see
+		 * org.eclipse.birt.data.engine.aggregation.rank.NAccumulator#getNextIndex()
 		 */
-		protected int getNextIndex( ) throws DataException
-		{
-			return RankAggregationUtil.getNextBottomIndex( cachedValues );
+		protected int getNextIndex() throws DataException {
+			return RankAggregationUtil.getNextBottomIndex(cachedValues);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	public String getDescription( )
-	{
-		return Messages.getString( "TotalIsBottomN.description" ); //$NON-NLS-1$
+	public String getDescription() {
+		return Messages.getString("TotalIsBottomN.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "TotalIsBottomN.displayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("TotalIsBottomN.displayName"); //$NON-NLS-1$
 	}
 }

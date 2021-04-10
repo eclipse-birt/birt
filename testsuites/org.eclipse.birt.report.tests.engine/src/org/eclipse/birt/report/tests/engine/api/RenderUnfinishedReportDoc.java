@@ -29,8 +29,7 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  * This case tests render output from a half generated report document.
  */
 
-public class RenderUnfinishedReportDoc extends EngineCase
-{
+public class RenderUnfinishedReportDoc extends EngineCase {
 
 	private final static String INPUT = "RenderUnfinishedReportDoc.xml"; //$NON-NLS-1$
 	private final static String REPORT_DOCUMENT_OUTPUT = "/RenderUnfinishedReportDoc/"; //$NON-NLS-1$
@@ -39,90 +38,72 @@ public class RenderUnfinishedReportDoc extends EngineCase
 	private String docfolder = null;
 	private String outputHtml = null;
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( INPUT, INPUT );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(INPUT, INPUT);
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
 
-	public RenderUnfinishedReportDoc( )
-	{
-		this.docfolder = this.genOutputFile( REPORT_DOCUMENT_OUTPUT );//$NON-NLS-1$
-		this.outputHtml = this.genOutputFile( HTML_OUTPUT ); //$NON-NLS-1$
+	public RenderUnfinishedReportDoc() {
+		this.docfolder = this.genOutputFile(REPORT_DOCUMENT_OUTPUT);// $NON-NLS-1$
+		this.outputHtml = this.genOutputFile(HTML_OUTPUT); // $NON-NLS-1$
 	}
 
-	class PageHandler implements IPageHandler
-	{
+	class PageHandler implements IPageHandler {
 
 		IRenderTask renderTask;
 
-		public void onPage( int pageNumber, boolean checkpoint,
-				IReportDocumentInfo doc )
-		{
-			if ( pageNumber == 1 )
-			{
-				try
-				{
-					IReportDocument document = engine
-							.openReportDocument( docfolder );
-					IRenderTask task = engine.createRenderTask( document );
-					task.setLocale( Locale.ENGLISH );
+		public void onPage(int pageNumber, boolean checkpoint, IReportDocumentInfo doc) {
+			if (pageNumber == 1) {
+				try {
+					IReportDocument document = engine.openReportDocument(docfolder);
+					IRenderTask task = engine.createRenderTask(document);
+					task.setLocale(Locale.ENGLISH);
 
-					IRenderOption options = new HTMLRenderOption( );
-					options.setOutputFileName( outputHtml );
-					options.setOutputFormat( "html" ); //$NON-NLS-1$
-					options.getOutputSetting( ).put(
-							HTMLRenderOption.URL_ENCODING,
-							"UTF-8" ); //$NON-NLS-1$
-					task.setRenderOption( options );
+					IRenderOption options = new HTMLRenderOption();
+					options.setOutputFileName(outputHtml);
+					options.setOutputFormat("html"); //$NON-NLS-1$
+					options.getOutputSetting().put(HTMLRenderOption.URL_ENCODING, "UTF-8"); //$NON-NLS-1$
+					task.setRenderOption(options);
 
-					task.setPageRange( "All" ); //$NON-NLS-1$
-					task.render( );
-					task.close( );
-				}
-				catch ( Exception e )
-				{
-					e.printStackTrace( );
+					task.setPageRange("All"); //$NON-NLS-1$
+					task.render();
+					task.close();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}
 	}
 
-	public void testRender_unfinished_Document( )
-	{
-		try
-		{
-			String inputFile = this.getFullQualifiedClassName( )
-					+ "/" + INPUT_FOLDER + "/" + INPUT; //$NON-NLS-1$ //$NON-NLS-2$ 
-			String outputDoc = this.genOutputFile( REPORT_DOCUMENT_OUTPUT ); //$NON-NLS-1$
+	public void testRender_unfinished_Document() {
+		try {
+			String inputFile = this.getFullQualifiedClassName() + "/" + INPUT_FOLDER + "/" + INPUT; //$NON-NLS-1$ //$NON-NLS-2$
+			String outputDoc = this.genOutputFile(REPORT_DOCUMENT_OUTPUT); // $NON-NLS-1$
 
 			// open the report runnable to execute.
 			IReportRunnable report;
-			report = engine.openReportDesign( inputFile );
+			report = engine.openReportDesign(inputFile);
 
 			// create an IRunTask
-			IRunTask task = engine.createRunTask( report );
-			task.setAppContext( new HashMap( ) );
+			IRunTask task = engine.createRunTask(report);
+			task.setAppContext(new HashMap());
 
 			// execute the report to create the report document.
-			task.setPageHandler( new PageHandler( ) );
-			task.run( outputDoc );
+			task.setPageHandler(new PageHandler());
+			task.run(outputDoc);
 
 			// close the task, release the resource.
-			task.close( );
+			task.close();
 
-			File html = new File( outputHtml );
-			assertTrue( html.exists( ) );
-		}
-		catch ( EngineException e )
-		{
-			e.printStackTrace( );
+			File html = new File(outputHtml);
+			assertTrue(html.exists());
+		} catch (EngineException e) {
+			e.printStackTrace();
 		}
 	}
 

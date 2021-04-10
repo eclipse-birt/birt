@@ -23,39 +23,35 @@ import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSetModel;
  * 
  */
 
-public class ScriptDataSet extends SimpleDataSet implements IScriptDataSetModel
-{
+public class ScriptDataSet extends SimpleDataSet implements IScriptDataSetModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public ScriptDataSet( )
-	{
-		super( );
+	public ScriptDataSet() {
+		super();
 	}
 
 	/**
 	 * Constructs a script data set with name.
 	 * 
-	 * @param theName
-	 *            the name of this script data set
+	 * @param theName the name of this script data set
 	 */
 
-	public ScriptDataSet( String theName )
-	{
-		super( theName );
+	public ScriptDataSet(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitScriptDataSet( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitScriptDataSet(this);
 	}
 
 	/*
@@ -64,35 +60,32 @@ public class ScriptDataSet extends SimpleDataSet implements IScriptDataSetModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.SCRIPT_DATA_SET;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public ScriptDataSetHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new ScriptDataSetHandle( module, this );
+	public ScriptDataSetHandle handle(Module module) {
+		if (handle == null) {
+			handle = new ScriptDataSetHandle(module, this);
 		}
 		return (ScriptDataSetHandle) handle;
 	}

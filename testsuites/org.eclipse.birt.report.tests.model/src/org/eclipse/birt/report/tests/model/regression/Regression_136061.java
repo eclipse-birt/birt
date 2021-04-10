@@ -33,7 +33,7 @@ import com.ibm.icu.util.ULocale;
  * </ol>
  * <p>
  * <b>Actual result:</b> At the second time to add the style, it pop up
- * NewStyle1 is exist. 
+ * NewStyle1 is exist.
  * <p>
  * <b>Exception result:</b> It pop up a message to ask user "st1" is exist
  * <p>
@@ -42,36 +42,28 @@ import com.ibm.icu.util.ULocale;
  * Add two styles with the same name, exception should be thrown out
  */
 
-public class Regression_136061 extends BaseTestCase
-{
+public class Regression_136061 extends BaseTestCase {
 
 	/**
 	 * @throws ContentException
 	 * @throws NameException
 	 */
 
-	public void test_regression_136061( ) throws ContentException, NameException
-	{
-		SessionHandle session = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		libraryHandle = session.createLibrary( );
-		SharedStyleHandle style = libraryHandle.getElementFactory( ).newStyle(
-				"s1" ); //$NON-NLS-1$
-		ThemeHandle theme = libraryHandle.findTheme( "defaultTheme" ); //$NON-NLS-1$
-		assertNotNull( theme );
-		theme.getStyles( ).add( style );
+	public void test_regression_136061() throws ContentException, NameException {
+		SessionHandle session = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		libraryHandle = session.createLibrary();
+		SharedStyleHandle style = libraryHandle.getElementFactory().newStyle("s1"); //$NON-NLS-1$
+		ThemeHandle theme = libraryHandle.findTheme("defaultTheme"); //$NON-NLS-1$
+		assertNotNull(theme);
+		theme.getStyles().add(style);
 
-		style = libraryHandle.getElementFactory( ).newStyle( "s1" ); //$NON-NLS-1$
+		style = libraryHandle.getElementFactory().newStyle("s1"); //$NON-NLS-1$
 
-		try
-		{
-			theme.getStyles( ).add( style );
-			fail( );
-		}
-		catch ( NameException e )
-		{
-			assertEquals( NameException.DESIGN_EXCEPTION_DUPLICATE, e
-					.getErrorCode( ) );
+		try {
+			theme.getStyles().add(style);
+			fail();
+		} catch (NameException e) {
+			assertEquals(NameException.DESIGN_EXCEPTION_DUPLICATE, e.getErrorCode());
 		}
 
 	}

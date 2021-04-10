@@ -52,8 +52,7 @@ public class AggregationDefn implements IAggregationDefn {
 	 */
 	protected boolean canIgnoreNullValues = false;
 
-	private static Logger logger = Logger.getLogger(AggregationDefn.class
-			.getName());
+	private static Logger logger = Logger.getLogger(AggregationDefn.class.getName());
 
 	AggregationDefn() {
 	}
@@ -61,22 +60,16 @@ public class AggregationDefn implements IAggregationDefn {
 	/**
 	 * Construct aggregation definition based on BIRT predefined aggregation id.
 	 * 
-	 * @param birtAggregationId
-	 *            birt predefined aggregation id.
-	 * @throws IllegalArgumentException
-	 *             exception when the passed in birt aggregation id is not
-	 *             predefined.
+	 * @param birtAggregationId birt predefined aggregation id.
+	 * @throws IllegalArgumentException exception when the passed in birt
+	 *                                  aggregation id is not predefined.
 	 */
-	public AggregationDefn(String birtAggregationId)
-			throws IllegalArgumentException {
+	public AggregationDefn(String birtAggregationId) throws IllegalArgumentException {
 
 		this.birtAggregationId = birtAggregationId;
-		if (!OdaAggregationHelper.birtPredefinedAggregationConstants
-				.contains(birtAggregationId))
-			throw new IllegalArgumentException("The Birt filter expression Id"
-					+ birtAggregationId + " is not valid.");
-		initBirtAggregation(birtAggregationId.toLowerCase().hashCode(),
-				birtAggregationId);
+		if (!OdaAggregationHelper.birtPredefinedAggregationConstants.contains(birtAggregationId))
+			throw new IllegalArgumentException("The Birt filter expression Id" + birtAggregationId + " is not valid.");
+		initBirtAggregation(birtAggregationId.toLowerCase().hashCode(), birtAggregationId);
 	}
 
 	/*
@@ -374,8 +367,7 @@ public class AggregationDefn implements IAggregationDefn {
 
 		} else {
 
-			logger.log(Level.SEVERE, "The Birt filter expression Id: " + id
-					+ " is not valid.");
+			logger.log(Level.SEVERE, "The Birt filter expression Id: " + id + " is not valid.");
 
 		}
 		// throw new IllegalArgumentException("The Birt filter expression Id"
@@ -391,8 +383,7 @@ public class AggregationDefn implements IAggregationDefn {
 	 * @return
 	 */
 	private String getAggregationDisplayName(String aggregationId) {
-		IChoiceSet allowedChoices = MetaDataDictionary
-				.getInstance()
+		IChoiceSet allowedChoices = MetaDataDictionary.getInstance()
 				.getChoiceSet(DesignChoiceConstants.CHOICE_AGGREGATION_FUNCTION);
 
 		assert allowedChoices != null;

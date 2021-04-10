@@ -43,108 +43,76 @@ import org.eclipse.birt.report.model.elements.DerivedDataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
+public class ExternalUIUtil {
 
-public class ExternalUIUtil
-{
-
-	public static void validateDataSetHandle( DataSetHandle ds )
-	{
-		if ( !( ds instanceof JointDataSetHandle ) )
-		{
-			if ( ds.getDataSource( ) == null )
-			{
-				throw new RuntimeException( Messages.getFormattedString( "dataset.editor.error.noDataSource", new String[]{ds.getQualifiedName( )} ) );//$NON-NLS-1$
+	public static void validateDataSetHandle(DataSetHandle ds) {
+		if (!(ds instanceof JointDataSetHandle)) {
+			if (ds.getDataSource() == null) {
+				throw new RuntimeException(Messages.getFormattedString("dataset.editor.error.noDataSource", //$NON-NLS-1$
+						new String[] { ds.getQualifiedName() }));
 			}
-			if ( ( ds instanceof OdaDataSetHandle && !( ds.getDataSource( ) instanceof OdaDataSourceHandle ) ) )
-			{
-				throw new RuntimeException( Messages.getFormattedString( "dataset.editor.error.nonmatchedDataSource", //$NON-NLS-1$
-						new String[]{
-								ds.getQualifiedName( ),
-								( (OdaDataSetHandle) ds ).getExtensionID( )
-						} ) );
-			}
-			else if ( ds instanceof ScriptDataSetHandle
-					&& !( ds.getDataSource( ) instanceof ScriptDataSourceHandle ) )
-			{
-				throw new RuntimeException( Messages.getFormattedString( "dataset.editor.error.nonmatchedDataSource", //$NON-NLS-1$
-						new String[]{
-								ds.getQualifiedName( ),
-								DataUIConstants.DATA_SET_SCRIPT
-						} ) );
+			if ((ds instanceof OdaDataSetHandle && !(ds.getDataSource() instanceof OdaDataSourceHandle))) {
+				throw new RuntimeException(Messages.getFormattedString("dataset.editor.error.nonmatchedDataSource", //$NON-NLS-1$
+						new String[] { ds.getQualifiedName(), ((OdaDataSetHandle) ds).getExtensionID() }));
+			} else if (ds instanceof ScriptDataSetHandle && !(ds.getDataSource() instanceof ScriptDataSourceHandle)) {
+				throw new RuntimeException(Messages.getFormattedString("dataset.editor.error.nonmatchedDataSource", //$NON-NLS-1$
+						new String[] { ds.getQualifiedName(), DataUIConstants.DATA_SET_SCRIPT }));
 			}
 		}
 	}
 
-	public static void updateColumnCache( DataSetHandle dataSetHandle,
-			boolean holdEvent ) throws BirtException
-	{
-		if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
-		{
-			EngineConfig ec = new EngineConfig( );
-			ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( ec );
+	public static void updateColumnCache(DataSetHandle dataSetHandle, boolean holdEvent) throws BirtException {
+		if (dataSetHandle.getModuleHandle() instanceof ReportDesignHandle) {
+			EngineConfig ec = new EngineConfig();
+			ReportEngine engine = (ReportEngine) new ReportEngineFactory().createReportEngine(ec);
 
-			ReportDesignHandle copy = (ReportDesignHandle) ( dataSetHandle.getModuleHandle( )
-					.copy( ).getHandle( null ) );
+			ReportDesignHandle copy = (ReportDesignHandle) (dataSetHandle.getModuleHandle().copy().getHandle(null));
 
-			DummyEngineTask engineTask = new DummyEngineTask( engine,
-					new ReportEngineHelper( engine ).openReportDesign( copy ),
-					copy );
+			DummyEngineTask engineTask = new DummyEngineTask(engine,
+					new ReportEngineHelper(engine).openReportDesign(copy), copy);
 
-			DataRequestSession session = engineTask.getDataSession( );
+			DataRequestSession session = engineTask.getDataSession();
 
-			Map appContext = new HashMap( );
-			appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
-					Integer.valueOf( dataSetHandle.getRowFetchLimit( ) ) );
+			Map appContext = new HashMap();
+			appContext.put(DataEngine.MEMORY_DATA_SET_CACHE, Integer.valueOf(dataSetHandle.getRowFetchLimit()));
 
-			appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-					createResourceIdentifiers( ) );
+			appContext.put(ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS, createResourceIdentifiers());
 
-			engineTask.setAppContext( appContext );
-			try
-			{
-				engineTask.run( );
+			engineTask.setAppContext(appContext);
+			try {
+				engineTask.run();
 
-				DataService.getInstance( ).registerSession( dataSetHandle, session );
-				session.refreshMetaData( dataSetHandle, holdEvent );
+				DataService.getInstance().registerSession(dataSetHandle, session);
+				session.refreshMetaData(dataSetHandle, holdEvent);
+			} finally {
+				DataService.getInstance().unRegisterSession(session);
+				session.shutdown();
+				engineTask.close();
+				engine.destroy();
 			}
-			finally
-			{
-				DataService.getInstance( ).unRegisterSession( session );
-				session.shutdown( );
-				engineTask.close( );
-				engine.destroy( );
-			}
-		}
-		else
-		{
-			DataSessionContext context = new DataSessionContext( DataEngineContext.DIRECT_PRESENTATION,
-					dataSetHandle.getRoot( ));
-			Map appContext = new HashMap( );
+		} else {
+			DataSessionContext context = new DataSessionContext(DataEngineContext.DIRECT_PRESENTATION,
+					dataSetHandle.getRoot());
+			Map appContext = new HashMap();
 
-			appContext.put( DataEngine.MEMORY_DATA_SET_CACHE,
-					Integer.valueOf( dataSetHandle.getRowFetchLimit( ) ) );
-			appContext.put( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-					createResourceIdentifiers( ) );
+			appContext.put(DataEngine.MEMORY_DATA_SET_CACHE, Integer.valueOf(dataSetHandle.getRowFetchLimit()));
+			appContext.put(ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS, createResourceIdentifiers());
 
-			context.setAppContext( appContext );
+			context.setAppContext(appContext);
 
-			DataRequestSession drSession = DataRequestSession.newSession( context );
-			try
-			{
-				drSession.refreshMetaData( dataSetHandle, holdEvent );
-			}
-			finally
-			{
-				drSession.shutdown( );
+			DataRequestSession drSession = DataRequestSession.newSession(context);
+			try {
+				drSession.refreshMetaData(dataSetHandle, holdEvent);
+			} finally {
+				drSession.shutdown();
 			}
 		}
 	}
 
-	public static ResourceIdentifiers createResourceIdentifiers( )
-	{
-		ResourceIdentifiers ri = new ResourceIdentifiers( );
-		ri.setDesignResourceBaseURI( getReportDesignPath( ) );
-		ri.setApplResourceBaseURI( getBIRTResourcePath( ) );
+	public static ResourceIdentifiers createResourceIdentifiers() {
+		ResourceIdentifiers ri = new ResourceIdentifiers();
+		ri.setDesignResourceBaseURI(getReportDesignPath());
+		ri.setApplResourceBaseURI(getBIRTResourcePath());
 		return ri;
 	}
 
@@ -154,21 +122,13 @@ public class ExternalUIUtil
 	 * @return
 	 * @throws URISyntaxException
 	 */
-	public static URI getReportDesignPath( )
-	{
-		if ( Utility.getReportModuleHandle( ) == null
-				|| Utility.getReportModuleHandle( ).getSystemId( ) == null )
-		{
+	public static URI getReportDesignPath() {
+		if (Utility.getReportModuleHandle() == null || Utility.getReportModuleHandle().getSystemId() == null) {
 			return null;
 		}
-		try
-		{
-			return new URI( Utility.getReportModuleHandle( )
-					.getSystemId( )
-					.getPath( ) );
-		}
-		catch ( URISyntaxException e )
-		{
+		try {
+			return new URI(Utility.getReportModuleHandle().getSystemId().getPath());
+		} catch (URISyntaxException e) {
 			return null;
 		}
 	}
@@ -178,89 +138,61 @@ public class ExternalUIUtil
 	 * 
 	 * @return
 	 */
-	public static URI getBIRTResourcePath( )
-	{
-		try
-		{
-			return new URI( encode( ReportPlugin.getDefault( )
-					.getResourceFolder( ) ) );
-		}
-		catch ( URISyntaxException e )
-		{
+	public static URI getBIRTResourcePath() {
+		try {
+			return new URI(encode(ReportPlugin.getDefault().getResourceFolder()));
+		} catch (URISyntaxException e) {
 			return null;
 		}
 	}
 
-	private static String encode( String location )
-	{
-		try
-		{
+	private static String encode(String location) {
+		try {
 			// expects the absolute path. Remove place to avoid relative path.
-			return new File( location ).toURI( )
-					.toASCIIString( );
-					//.replace( new File( "" ).toURI( ).toASCIIString( ), "" ); //$NON-NLS-1$//$NON-NLS-2$
-		}
-		catch ( Exception e )
-		{
+			return new File(location).toURI().toASCIIString();
+			// .replace( new File( "" ).toURI( ).toASCIIString( ), "" );
+			// //$NON-NLS-1$//$NON-NLS-2$
+		} catch (Exception e) {
 			return location;
 		}
 	}
-	
-	public static boolean containsDataSource( DataSetHandle ds  )
-	{
-		if ( ds instanceof JointDataSetHandle )
-		{
+
+	public static boolean containsDataSource(DataSetHandle ds) {
+		if (ds instanceof JointDataSetHandle) {
 			return false;
 		}
 		return true;
 	}
-	
-	public static String getDataSourceType( DataSetHandle ds )
-	{
+
+	public static String getDataSourceType(DataSetHandle ds) {
 		return null;
 	}
-	
-	public static String getDataSetType( DataSetHandle ds )
-	{
+
+	public static String getDataSetType(DataSetHandle ds) {
 		return null;
 	}
-	
-	public static IPropertyPage[] getCommonPages( DataSetHandle ds )
-	{
+
+	public static IPropertyPage[] getCommonPages(DataSetHandle ds) {
 		return new IPropertyPage[0];
 	}
 
-	public static DataSetHandle newDataSetHandle( DataSetHandle dataSetHandle, DesignElement element )
-	{
+	public static DataSetHandle newDataSetHandle(DataSetHandle dataSetHandle, DesignElement element) {
 		DataSetHandle targetHandle = dataSetHandle;
-		if ( dataSetHandle != null )
-		{
-			if ( dataSetHandle instanceof OdaDataSetHandle )
-			{
-				targetHandle = new OdaDataSetHandle( dataSetHandle.getModule( ),
-						(DesignElement) element );
-			}
-			else if ( dataSetHandle instanceof ScriptDataSetHandle )
-			{
-				targetHandle = new ScriptDataSetHandle( dataSetHandle.getModule( ),
-						(DesignElement) element );
-			}
-			else if ( dataSetHandle instanceof JointDataSetHandle )
-			{
-				targetHandle = new JointDataSetHandle( dataSetHandle.getModule( ),
-						(JointDataSet) element );
-			}
-			else if ( dataSetHandle instanceof DerivedDataSetHandle )
-			{
-				targetHandle = new DerivedDataSetHandle( dataSetHandle.getModule( ),
-						(DerivedDataSet) element );
+		if (dataSetHandle != null) {
+			if (dataSetHandle instanceof OdaDataSetHandle) {
+				targetHandle = new OdaDataSetHandle(dataSetHandle.getModule(), (DesignElement) element);
+			} else if (dataSetHandle instanceof ScriptDataSetHandle) {
+				targetHandle = new ScriptDataSetHandle(dataSetHandle.getModule(), (DesignElement) element);
+			} else if (dataSetHandle instanceof JointDataSetHandle) {
+				targetHandle = new JointDataSetHandle(dataSetHandle.getModule(), (JointDataSet) element);
+			} else if (dataSetHandle instanceof DerivedDataSetHandle) {
+				targetHandle = new DerivedDataSetHandle(dataSetHandle.getModule(), (DerivedDataSet) element);
 			}
 		}
 		return targetHandle;
 	}
-	
-	public static boolean disableCollation( DataSetHandle handle )
-	{
+
+	public static boolean disableCollation(DataSetHandle handle) {
 		return false;
-	}	
+	}
 }

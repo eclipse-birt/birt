@@ -34,157 +34,122 @@ import org.eclipse.ui.actions.ActionFactory;
 /**
  * The action class for renaming resource in resource explorer.
  */
-public class RenameResourceAction extends ResourceAction
-{
+public class RenameResourceAction extends ResourceAction {
 
 	/**
 	 * Constructs an action for renaming resource.
 	 * 
-	 * @param page
-	 *            the resource explorer page
+	 * @param page the resource explorer page
 	 */
-	public RenameResourceAction( LibraryExplorerTreeViewPage page )
-	{
-		super( Messages.getString( "RenameLibraryAction.Text" ), page ); //$NON-NLS-1$
-		setId( ActionFactory.RENAME.getId( ) );
+	public RenameResourceAction(LibraryExplorerTreeViewPage page) {
+		super(Messages.getString("RenameLibraryAction.Text"), page); //$NON-NLS-1$
+		setId(ActionFactory.RENAME.getId());
 	}
 
 	@Override
-	public boolean isEnabled( )
-	{
-		boolean enabled = canModifySelectedResources( );
-		if ( enabled )
-		{
-			Collection<?> resources = getSelectedResources( );
-			if ( resources.size( ) > 1 )
+	public boolean isEnabled() {
+		boolean enabled = canModifySelectedResources();
+		if (enabled) {
+			Collection<?> resources = getSelectedResources();
+			if (resources.size() > 1)
 				enabled = false;
 		}
 		return enabled;
 	}
 
 	@Override
-	public void run( )
-	{
+	public void run() {
 		Collection<File> files = null;
 
-		try
-		{
-			files = getSelectedFiles( );
-		}
-		catch ( IOException e )
-		{
-			ExceptionUtil.handle( e );
+		try {
+			files = getSelectedFiles();
+		} catch (IOException e) {
+			ExceptionUtil.handle(e);
 			return;
 		}
 
-		if ( files == null || files.size( ) != 1 )
-		{
+		if (files == null || files.size() != 1) {
 			return;
 		}
 
-		File file = files.iterator( ).next( );
-		
-		Object adapter = ElementAdapterManager.getAdapter( this, IRenameChecker.class );
+		File file = files.iterator().next();
+
+		Object adapter = ElementAdapterManager.getAdapter(this, IRenameChecker.class);
 		if (adapter != null) {
-			boolean saveAndClose = ((IRenameChecker) adapter).renameCheck( file );
+			boolean saveAndClose = ((IRenameChecker) adapter).renameCheck(file);
 
-			if ( !saveAndClose ) {
+			if (!saveAndClose) {
 				return;
-			}	
+			}
 		}
-		
-		String newName = queryNewResourceName( file );
 
-		if ( newName == null || newName.length( ) <= 0 )
-		{
+		String newName = queryNewResourceName(file);
+
+		if (newName == null || newName.length() <= 0) {
 			return;
 		}
 
-		File newFile = new Path( file.getAbsolutePath( ) ).removeLastSegments( 1 )
-				.append( newName )
-				.toFile( );
+		File newFile = new Path(file.getAbsolutePath()).removeLastSegments(1).append(newName).toFile();
 
-		try
-		{
-			new ProgressMonitorDialog( getShell( ) ).run( true,
-					true,
-					createRenameFileRunnable( file, newFile ) );
-		}
-		catch ( InvocationTargetException e )
-		{
-			ExceptionUtil.handle( e );
-		}
-		catch ( InterruptedException e )
-		{
-			ExceptionUtil.handle( e );
+		try {
+			new ProgressMonitorDialog(getShell()).run(true, true, createRenameFileRunnable(file, newFile));
+		} catch (InvocationTargetException e) {
+			ExceptionUtil.handle(e);
+		} catch (InterruptedException e) {
+			ExceptionUtil.handle(e);
 		}
 	}
 
 	/**
 	 * Returns the new name to be given to the target resource.
 	 * 
-	 * @param resource
-	 *            the resource to query status on
+	 * @param resource the resource to query status on
 	 * @return the new name
 	 */
-	protected String queryNewResourceName( final File resource )
-	{
-		final IWorkspace workspace = ResourcesPlugin.getWorkspace( );
-		final IPath prefix = new Path( resource.getAbsolutePath( ) ).removeLastSegments( 1 );
+	protected String queryNewResourceName(final File resource) {
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IPath prefix = new Path(resource.getAbsolutePath()).removeLastSegments(1);
 
-		IInputValidator validator = new IInputValidator( ) {
+		IInputValidator validator = new IInputValidator() {
 
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see
-			 * org.eclipse.jface.dialogs.IInputValidator#isValid(java.lang.String
-			 * )
+			 * @see org.eclipse.jface.dialogs.IInputValidator#isValid(java.lang.String )
 			 */
-			public String isValid( String string )
-			{
-				if ( new Path( resource.getName( ) ).removeFileExtension( )
-						.toFile( )
-						.getName( )
-						.equals( string ) )
-				{
-					return Messages.getString( "RenameResourceAction.nameExists" ); //$NON-NLS-1$
+			public String isValid(String string) {
+				if (new Path(resource.getName()).removeFileExtension().toFile().getName().equals(string)) {
+					return Messages.getString("RenameResourceAction.nameExists"); //$NON-NLS-1$
 				}
 
-				IPath newPath = new Path( string );
+				IPath newPath = new Path(string);
 
-				IStatus status = workspace.validateName( newPath.toFile( )
-						.getName( ), resource.isFile( ) ? IResource.FILE
-						: IResource.FOLDER );
+				IStatus status = workspace.validateName(newPath.toFile().getName(),
+						resource.isFile() ? IResource.FILE : IResource.FOLDER);
 
-				if ( !status.isOK( ) )
-				{
-					return status.getMessage( );
+				if (!status.isOK()) {
+					return status.getMessage();
 				}
 
-				IPath fullPath = prefix.append( string );
+				IPath fullPath = prefix.append(string);
 
-				if ( fullPath.toFile( ).exists( ) )
-				{
-					return Messages.getString( "RenameResourceAction.nameExists" ); //$NON-NLS-1$
+				if (fullPath.toFile().exists()) {
+					return Messages.getString("RenameResourceAction.nameExists"); //$NON-NLS-1$
 				}
 				return null;
 			}
 		};
 
-		InputDialog dialog = new InputDialog( getShell( ),
-				Messages.getString( "RenameResourceAction.inputDialogTitle" ), //$NON-NLS-1$
-				Messages.getString( "RenameResourceAction.inputDialogMessage" ), //$NON-NLS-1$
-				new Path( resource.getName( ) ).toFile( ).getName( ),
-				validator );
+		InputDialog dialog = new InputDialog(getShell(), Messages.getString("RenameResourceAction.inputDialogTitle"), //$NON-NLS-1$
+				Messages.getString("RenameResourceAction.inputDialogMessage"), //$NON-NLS-1$
+				new Path(resource.getName()).toFile().getName(), validator);
 
-		dialog.setBlockOnOpen( true );
-		int result = dialog.open( );
-		if ( result == Window.OK )
-		{
-			IPath newPath = new Path( dialog.getValue( ) );
+		dialog.setBlockOnOpen(true);
+		int result = dialog.open();
+		if (result == Window.OK) {
+			IPath newPath = new Path(dialog.getValue());
 
-			return newPath.toFile( ).getName( );
+			return newPath.toFile().getName();
 		}
 		return null;
 	}

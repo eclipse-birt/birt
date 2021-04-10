@@ -21,47 +21,39 @@ import org.eclipse.birt.report.designer.core.mediator.IMediatorState;
  * 
  */
 
-public class MediatorRequestImpl implements IMediatorRequest
-{
+public class MediatorRequestImpl implements IMediatorRequest {
 
 	private String type;
 	private Object data;
 	private Object source;
 	private Map<?, ?> extras;
 
-	MediatorRequestImpl( IMediatorState state )
-	{
-		this.type = state.getType( );
-		this.data = state.getData( );
-		this.source = state.getSource( );
-		if ( state.getExtras( ) != null )
-		{
-			this.extras = new HashMap<Object, Object>( state.getExtras( ) );
+	MediatorRequestImpl(IMediatorState state) {
+		this.type = state.getType();
+		this.data = state.getData();
+		this.source = state.getSource();
+		if (state.getExtras() != null) {
+			this.extras = new HashMap<Object, Object>(state.getExtras());
 		}
 	}
 
-	public String getType( )
-	{
+	public String getType() {
 		return type;
 	}
 
-	public Object getData( )
-	{
+	public Object getData() {
 		return data;
 	}
 
-	public Object getSource( )
-	{
+	public Object getSource() {
 		return source;
 	}
 
-	public boolean isSticky( )
-	{
+	public boolean isSticky() {
 		return false;
 	}
 
-	public Map<?, ?> getExtras( )
-	{
+	public Map<?, ?> getExtras() {
 		return extras;
 	}
 

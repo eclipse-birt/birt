@@ -25,59 +25,60 @@ import org.eclipse.ui.IViewPart;
  * Add the debug report action in the navigate view
  */
 
-public class DebugResourceAction implements IViewActionDelegate
-{
+public class DebugResourceAction implements IViewActionDelegate {
 
 	private IViewPart navigator;
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IViewActionDelegate#init(org.eclipse.ui.IViewPart)
 	 */
-	public void init( IViewPart view )
-	{
+	public void init(IViewPart view) {
 		navigator = view;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	public void run( IAction action )
-	{
-		IFile file = getSelectedFile( );
-		if ( file == null )
-		{
+	public void run(IAction action) {
+		IFile file = getSelectedFile();
+		if (file == null) {
 			return;
 		}
 
-		String fileName = file.getLocation( ).toOSString( );
-		ILaunchConfiguration config = ScriptLaunchShortcut.findLaunchConfiguration( fileName, ScriptLaunchShortcut.getConfigurationType( ) );
+		String fileName = file.getLocation().toOSString();
+		ILaunchConfiguration config = ScriptLaunchShortcut.findLaunchConfiguration(fileName,
+				ScriptLaunchShortcut.getConfigurationType());
 		if (config != null) {
 			DebugUITools.launch(config, "debug");//$NON-NLS-1$
-		}	
-		
+		}
+
 	}
-	
-	private IFile getSelectedFile( )
-	{
-		if ( navigator != null )
-		{
-			IStructuredSelection selection = (IStructuredSelection) navigator.getViewSite( ).getSelectionProvider( ).getSelection( );
-			if ( selection.size( ) == 1
-					&& selection.getFirstElement( ) instanceof IFile )
-			{
-				return (IFile) selection.getFirstElement( );
+
+	private IFile getSelectedFile() {
+		if (navigator != null) {
+			IStructuredSelection selection = (IStructuredSelection) navigator.getViewSite().getSelectionProvider()
+					.getSelection();
+			if (selection.size() == 1 && selection.getFirstElement() instanceof IFile) {
+				return (IFile) selection.getFirstElement();
 			}
 		}
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.
+	 * IAction, org.eclipse.jface.viewers.ISelection)
 	 */
-	public void selectionChanged( IAction action, ISelection selection )
-	{
+	public void selectionChanged(IAction action, ISelection selection) {
 		// do nothing now
-		
+
 	}
 
 }

@@ -21,10 +21,9 @@ import org.eclipse.swt.widgets.Composite;
  * The abstract class of i18n pages
  */
 
-public abstract class I18nPage extends AttributePage
-{
+public abstract class I18nPage extends AttributePage {
 
-	private static final String MESSAGE_NOTE = Messages.getString( "I18nPage.text.Note" ); //$NON-NLS-1$
+	private static final String MESSAGE_NOTE = Messages.getString("I18nPage.text.Note"); //$NON-NLS-1$
 
 	/**
 	 * The element name
@@ -34,28 +33,25 @@ public abstract class I18nPage extends AttributePage
 	 * The property name
 	 */
 	protected String propertyName;
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5 ,15) );
 
-		ResourceKeyDescriptorProvider i18nProvider = new ResourceKeyDescriptorProvider( propertyName,
-				elementName );
-		ResourceKeySection i18nSection = new ResourceKeySection( i18nProvider.getDisplayName( ),
-				container,
-				true );
-		i18nSection.setProvider( i18nProvider );
-		i18nSection.setWidth( 350 );
-		i18nSection.setGridPlaceholder( 3, true );
-		addSection( PageSectionId.I18N_I18N, i18nSection );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(5, 15));
 
-		LabelSection labelSection = new LabelSection( MESSAGE_NOTE, container, true );
-		labelSection.setGridPlaceholder( 3, true );
-		labelSection.setWidth( 350 );
-		labelSection.setFillLabel( true );
-		addSection( PageSectionId.I18N_LABEL, labelSection );
+		ResourceKeyDescriptorProvider i18nProvider = new ResourceKeyDescriptorProvider(propertyName, elementName);
+		ResourceKeySection i18nSection = new ResourceKeySection(i18nProvider.getDisplayName(), container, true);
+		i18nSection.setProvider(i18nProvider);
+		i18nSection.setWidth(350);
+		i18nSection.setGridPlaceholder(3, true);
+		addSection(PageSectionId.I18N_I18N, i18nSection);
 
-		createSections( );
-		layoutSections( );
+		LabelSection labelSection = new LabelSection(MESSAGE_NOTE, container, true);
+		labelSection.setGridPlaceholder(3, true);
+		labelSection.setWidth(350);
+		labelSection.setFillLabel(true);
+		addSection(PageSectionId.I18N_LABEL, labelSection);
+
+		createSections();
+		layoutSections();
 	}
 }

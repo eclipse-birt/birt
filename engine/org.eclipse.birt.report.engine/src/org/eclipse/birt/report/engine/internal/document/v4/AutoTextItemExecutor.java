@@ -20,55 +20,36 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * the AutoTextItem excutor
  * 
  */
-public class AutoTextItemExecutor extends ReportItemExecutor
-{
+public class AutoTextItemExecutor extends ReportItemExecutor {
 
 	/**
 	 * constructor
 	 * 
-	 * @param manager
-	 *            the excutor manager which create this executor
+	 * @param manager the excutor manager which create this executor
 	 */
-	public AutoTextItemExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.AUTOTEXTITEM );
+	public AutoTextItemExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.AUTOTEXTITEM);
 	}
 
-	protected IContent doCreateContent( )
-	{
-		return report.createAutoTextContent( );
+	protected IContent doCreateContent() {
+		return report.createAutoTextContent();
 	}
 
-	public void doExecute( ) throws Exception
-	{
+	public void doExecute() throws Exception {
 		AutoTextItemDesign textDesign = (AutoTextItemDesign) design;
 		IAutoTextContent textContent = (IAutoTextContent) content;
 
-		String type = textDesign.getType( );
-		if ( DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER
-				.equalsIgnoreCase( type ) )
-		{
-			textContent.setType( IAutoTextContent.PAGE_NUMBER );
-		}
-		else if ( DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE
-				.equalsIgnoreCase( type ) )
-		{
-			textContent.setType( IAutoTextContent.TOTAL_PAGE );
-		}
-		else if ( DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER_UNFILTERED
-				.equalsIgnoreCase( type ) )
-		{
-			textContent.setType( IAutoTextContent.UNFILTERED_PAGE_NUMBER );
-		}
-		else if ( DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE_UNFILTERED
-				.equalsIgnoreCase( type ) )
-		{
-			textContent.setType( IAutoTextContent.UNFILTERED_TOTAL_PAGE );
-		}
-		else if ( DesignChoiceConstants.AUTO_TEXT_PAGE_VARIABLE
-				.equalsIgnoreCase( type ) )
-		{
-			textContent.setType( IAutoTextContent.PAGE_VARIABLE );
+		String type = textDesign.getType();
+		if (DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER.equalsIgnoreCase(type)) {
+			textContent.setType(IAutoTextContent.PAGE_NUMBER);
+		} else if (DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE.equalsIgnoreCase(type)) {
+			textContent.setType(IAutoTextContent.TOTAL_PAGE);
+		} else if (DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER_UNFILTERED.equalsIgnoreCase(type)) {
+			textContent.setType(IAutoTextContent.UNFILTERED_PAGE_NUMBER);
+		} else if (DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE_UNFILTERED.equalsIgnoreCase(type)) {
+			textContent.setType(IAutoTextContent.UNFILTERED_TOTAL_PAGE);
+		} else if (DesignChoiceConstants.AUTO_TEXT_PAGE_VARIABLE.equalsIgnoreCase(type)) {
+			textContent.setType(IAutoTextContent.PAGE_VARIABLE);
 		}
 
 	}

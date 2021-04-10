@@ -26,8 +26,7 @@ import org.eclipse.swt.graphics.Image;
  *  
  */
 
-public class ImageManagerTest extends BaseTestCase
-{
+public class ImageManagerTest extends BaseTestCase {
 
 	private Image localImage;
 
@@ -42,49 +41,37 @@ public class ImageManagerTest extends BaseTestCase
 	// Invalid url
 	private static final String TEST_ERROR_URL = "http://"; //$NON-NLS-1$
 
-	static
-	{
-		try
-		{
-			iconPath = Platform.asLocalURL( TestsPlugin.getDefault( )
-					.getBundle( )
-					.getEntry( "/" ) ).getFile( );
-		}
-		catch ( IOException e )
-		{
+	static {
+		try {
+			iconPath = Platform.asLocalURL(TestsPlugin.getDefault().getBundle().getEntry("/")).getFile();
+		} catch (IOException e) {
 		}
 
 	}
 
 	@Override
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 
-		localImage = new Image( null, iconPath + TEST_FILE );
+		localImage = new Image(null, iconPath + TEST_FILE);
 	}
-	
+
 	@Override
-	protected void tearDown( ) throws Exception
-	{
-		localImage.dispose( );
-		
-		super.tearDown( );
+	protected void tearDown() throws Exception {
+		localImage.dispose();
+
+		super.tearDown();
 	}
 
 	/*
 	 * Class under test for Image getImage(String)
 	 */
 
-	public void testGetImageByPath( ) throws Exception
-	{
-		Image image = ImageManager.getInstance( ).getImage( iconPath
-				+ TEST_FILE );
-		assertNotNull( image );
-		if ( PlatformUtil.isWindows( ) )
-		{// platform related issue
-			assertTrue( Arrays.equals( image.getImageData( ).data,
-					localImage.getImageData( ).data ) );
+	public void testGetImageByPath() throws Exception {
+		Image image = ImageManager.getInstance().getImage(iconPath + TEST_FILE);
+		assertNotNull(image);
+		if (PlatformUtil.isWindows()) {// platform related issue
+			assertTrue(Arrays.equals(image.getImageData().data, localImage.getImageData().data));
 		}
 	}
 
@@ -92,73 +79,57 @@ public class ImageManagerTest extends BaseTestCase
 	 * Class under test for Image getImage(String)
 	 */
 
-	public void testGetImageByWrongPath( ) throws Exception
-	{
-		assertNull( ImageManager.getInstance( ).getImage( TEST_ERROR_FILE ) );
+	public void testGetImageByWrongPath() throws Exception {
+		assertNull(ImageManager.getInstance().getImage(TEST_ERROR_FILE));
 	}
 
 	/*
 	 * Class under test for Image getImage(URL)
 	 */
-	public void testGetImageByURL( ) throws Exception
-	{
-		Image image = ImageManager.getInstance( ).getImage( TEST_URL );
-		assertNotNull( image );
-		assertTrue( Arrays.equals( image.getImageData( ).data, localImage.getImageData( ).data ) );
-		assertEquals( image, ImageManager.getInstance( ).getImage( TEST_URL ) );
+	public void testGetImageByURL() throws Exception {
+		Image image = ImageManager.getInstance().getImage(TEST_URL);
+		assertNotNull(image);
+		assertTrue(Arrays.equals(image.getImageData().data, localImage.getImageData().data));
+		assertEquals(image, ImageManager.getInstance().getImage(TEST_URL));
 	}
 
 	/*
 	 * Class under test for Image getImage(URL)
 	 */
 
-	public void testGetImageByWrongURL( ) throws Exception
-	{
-		assertNull( ImageManager.getInstance( ).getImage( TEST_ERROR_URL ) );
+	public void testGetImageByWrongURL() throws Exception {
+		assertNull(ImageManager.getInstance().getImage(TEST_ERROR_URL));
 	}
 
 	/*
 	 * Class under test for Image getImage(EmbeddedImage)
 	 */
-	public void testGetImageByEmbeddedImage( ) throws Exception
-	{
-		EmbeddedImage embeddedImage = new EmbeddedImage( "Test" ); //$NON-NLS-1$
-		FileInputStream is = new FileInputStream( iconPath + TEST_FILE );
-		byte[] data = new byte[is.available( )];
-		is.read( data );
-		embeddedImage.setData( data );
-		getReportDesign( ).handle( ).addImage( embeddedImage );
-		Image image = ImageManager.getInstance( )
-				.getEmbeddedImage( getReportDesignHandle( ),
-						embeddedImage.getName( ) );
-		assertNotNull( image );
-		if ( PlatformUtil.isWindows( ) )
-		{// platform related issue
-			assertTrue( Arrays.equals( image.getImageData( ).data,
-					localImage.getImageData( ).data ) );
+	public void testGetImageByEmbeddedImage() throws Exception {
+		EmbeddedImage embeddedImage = new EmbeddedImage("Test"); //$NON-NLS-1$
+		FileInputStream is = new FileInputStream(iconPath + TEST_FILE);
+		byte[] data = new byte[is.available()];
+		is.read(data);
+		embeddedImage.setData(data);
+		getReportDesign().handle().addImage(embeddedImage);
+		Image image = ImageManager.getInstance().getEmbeddedImage(getReportDesignHandle(), embeddedImage.getName());
+		assertNotNull(image);
+		if (PlatformUtil.isWindows()) {// platform related issue
+			assertTrue(Arrays.equals(image.getImageData().data, localImage.getImageData().data));
 		}
-		assertEquals( image, ImageManager.getInstance( )
-				.getEmbeddedImage( getReportDesignHandle( ),
-						embeddedImage.getName( ) ) );
+		assertEquals(image,
+				ImageManager.getInstance().getEmbeddedImage(getReportDesignHandle(), embeddedImage.getName()));
 	}
 
-	public void testLoadImage( ) throws IOException
-	{
-		Image image = ImageManager.getInstance( ).loadImage( iconPath
-				+ TEST_FILE );
-		assertNotNull( image );
-		assertEquals( image, ImageManager.getInstance( ).loadImage( iconPath
-				+ TEST_FILE ) );
-		assertEquals( image, ImageManager.getInstance( ).getImage( iconPath
-				+ TEST_FILE ) );
-		try
-		{
-			ImageManager.getInstance( ).loadImage( TEST_ERROR_FILE );
-		}
-		catch ( Exception e )
-		{
+	public void testLoadImage() throws IOException {
+		Image image = ImageManager.getInstance().loadImage(iconPath + TEST_FILE);
+		assertNotNull(image);
+		assertEquals(image, ImageManager.getInstance().loadImage(iconPath + TEST_FILE));
+		assertEquals(image, ImageManager.getInstance().getImage(iconPath + TEST_FILE));
+		try {
+			ImageManager.getInstance().loadImage(TEST_ERROR_FILE);
+		} catch (Exception e) {
 			return;
 		}
-		fail( );
+		fail();
 	}
 }

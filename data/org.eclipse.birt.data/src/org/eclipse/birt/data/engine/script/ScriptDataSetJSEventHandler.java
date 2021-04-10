@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -24,79 +24,58 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
- * This class handles script data set events by executing the Javascript
- * event code.
- * NOTE: functionality of this class will be moved to Engine. This class
- * is temporary 
+ * This class handles script data set events by executing the Javascript event
+ * code. NOTE: functionality of this class will be moved to Engine. This class
+ * is temporary
  */
 
-public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implements
-		IScriptDataSetEventHandler
-{
-	public ScriptDataSetJSEventHandler( ScriptContext cx, IScriptDataSetDesign design )
-	{
-		super(cx,design);
+public class ScriptDataSetJSEventHandler extends DataSetJSEventHandler implements IScriptDataSetEventHandler {
+	public ScriptDataSetJSEventHandler(ScriptContext cx, IScriptDataSetDesign design) {
+		super(cx, design);
 	}
-	protected IScriptDataSetDesign getScriptDataSetDesign()
-	{
+
+	protected IScriptDataSetDesign getScriptDataSetDesign() {
 		return (IScriptDataSetDesign) getBaseDesign();
 	}
-	
-	public void handleOpen(IDataSetInstanceHandle dataSet) throws BirtException
-	{
+
+	public void handleOpen(IDataSetInstanceHandle dataSet) throws BirtException {
 		String script = getScriptDataSetDesign().getOpenScript();
-		if ( script != null && script.length() > 0 )
-		{
-			getRunner( dataSet.getScriptScope() ).runScript(
-					"open", script );
+		if (script != null && script.length() > 0) {
+			getRunner(dataSet.getScriptScope()).runScript("open", script);
 		}
 	}
 
-	public void handleClose(IDataSetInstanceHandle dataSet) throws BirtException
-	{
+	public void handleClose(IDataSetInstanceHandle dataSet) throws BirtException {
 		String script = getScriptDataSetDesign().getCloseScript();
-		if ( script != null && script.length() > 0 )
-		{
-			getRunner( dataSet.getScriptScope() ).runScript(
-					"close", script );
+		if (script != null && script.length() > 0) {
+			getRunner(dataSet.getScriptScope()).runScript("close", script);
 		}
 	}
 
-	public boolean handleFetch(IDataSetInstanceHandle dataSet, IDataRow row) throws BirtException
-	{
+	public boolean handleFetch(IDataSetInstanceHandle dataSet, IDataRow row) throws BirtException {
 		String script = getScriptDataSetDesign().getFetchScript();
-		if ( script != null && script.length() > 0 )
-		{
-			Object result = getRunner( dataSet.getScriptScope() ).runScript(
-					"fetch", script );
+		if (script != null && script.length() > 0) {
+			Object result = getRunner(dataSet.getScriptScope()).runScript("fetch", script);
 
-			if ( result instanceof Boolean )
+			if (result instanceof Boolean)
 				return ((Boolean) result).booleanValue();
 			else
-				throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
-						new Object[]{
-								"Fetch", result
-						} );
+				throw new DataException(ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE, new Object[] { "Fetch", result });
 		}
 		return false;
 	}
 
-	public boolean handleDescribe(IDataSetInstanceHandle dataSet, IScriptDataSetMetaDataDefinition metaData) 
-		throws BirtException 
-	{
+	public boolean handleDescribe(IDataSetInstanceHandle dataSet, IScriptDataSetMetaDataDefinition metaData)
+			throws BirtException {
 		String script = getScriptDataSetDesign().getDescribeScript();
-		if ( script != null && script.length() > 0 )
-		{
-			Object result = getRunner( dataSet.getScriptScope() ).runScript(
-					"describe", script );
+		if (script != null && script.length() > 0) {
+			Object result = getRunner(dataSet.getScriptScope()).runScript("describe", script);
 
-			if ( result instanceof Boolean )
+			if (result instanceof Boolean)
 				return ((Boolean) result).booleanValue();
 			else
-				throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
-						new Object[]{
-								"Describe", result
-						} );
+				throw new DataException(ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
+						new Object[] { "Describe", result });
 		}
 		return false;
 	}

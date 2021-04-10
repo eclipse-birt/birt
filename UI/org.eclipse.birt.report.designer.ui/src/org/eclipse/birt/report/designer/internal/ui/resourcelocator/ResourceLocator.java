@@ -21,65 +21,43 @@ import org.eclipse.birt.report.model.api.util.URIUtil;
  * 
  */
 
-public class ResourceLocator
-{
+public class ResourceLocator {
 
-	public static ResourceEntry[] getRootEntries( )
-	{
-		return getRootEntries( null );
+	public static ResourceEntry[] getRootEntries() {
+		return getRootEntries(null);
 	}
 
-	public static ResourceEntry[] getRootEntries( String[] fileNamePattern )
-	{
-		ResourceEntry systemResource = new FragmentResourceEntry( fileNamePattern );
-		ResourceEntry sharedResource = new PathResourceEntry( fileNamePattern );
+	public static ResourceEntry[] getRootEntries(String[] fileNamePattern) {
+		ResourceEntry systemResource = new FragmentResourceEntry(fileNamePattern);
+		ResourceEntry sharedResource = new PathResourceEntry(fileNamePattern);
 
 		// System Resources node should not be shown if no file is contained in
 		// this node.
-		if ( systemResource.hasChildren( ) )
-		{
-			return new ResourceEntry[]{
-					systemResource, sharedResource
-			};
-		}
-		else
-		{
-			return new ResourceEntry[]{
-				sharedResource
-			};
+		if (systemResource.hasChildren()) {
+			return new ResourceEntry[] { systemResource, sharedResource };
+		} else {
+			return new ResourceEntry[] { sharedResource };
 		}
 	}
 
-	public static ResourceEntry[] getResourceFolder( String[] fileNamePattern )
-	{
-		return new ResourceEntry[]{
-			new PathResourceEntry( fileNamePattern )
-		};
+	public static ResourceEntry[] getResourceFolder(String[] fileNamePattern) {
+		return new ResourceEntry[] { new PathResourceEntry(fileNamePattern) };
 	}
 
-	public static ResourceEntry getResourceEntry( String path,
-			String[] fileNamePattern, String name )
-	{
-		return new PathResourceEntry( fileNamePattern,
-				ReportPlugin.getDefault( ).getResourceFolder( )
-						+ File.separator
-						+ path,
-				name );
+	public static ResourceEntry getResourceEntry(String path, String[] fileNamePattern, String name) {
+		return new PathResourceEntry(fileNamePattern,
+				ReportPlugin.getDefault().getResourceFolder() + File.separator + path, name);
 	}
 
-	public static String relativize( String filePath )
-	{
-		return URIUtil.getRelativePath( ReportPlugin.getDefault( )
-				.getResourceFolder( ), filePath );
+	public static String relativize(String filePath) {
+		return URIUtil.getRelativePath(ReportPlugin.getDefault().getResourceFolder(), filePath);
 	}
 
-	public static String relativize( URL url )
-	{
-		if ( url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
+	public static String relativize(URL url) {
+		if (url.getProtocol().equals("file")) //$NON-NLS-1$
 		{
-			return relativize( url.toString( ) );
-		}
-		else
-			return url.getFile( );
+			return relativize(url.toString());
+		} else
+			return url.getFile();
 	}
 }

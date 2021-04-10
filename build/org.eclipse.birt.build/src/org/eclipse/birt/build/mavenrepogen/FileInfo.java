@@ -14,49 +14,40 @@ package org.eclipse.birt.build.mavenrepogen;
 
 import java.io.File;
 
-class FileInfo
-{
+class FileInfo {
 	private final File file;
 	private final String groupId;
 	private final String artifactId;
 	private String version;
-	
-	public FileInfo(final File file, final String groupId, final String artifactId,
-			final String version)
-	{
+
+	public FileInfo(final File file, final String groupId, final String artifactId, final String version) {
 		this.file = file;
 		this.groupId = groupId;
 		this.artifactId = artifactId;
 		this.version = version;
 	}
 
-	public File getFile()
-	{
+	public File getFile() {
 		return file;
 	}
 
-	public String getArtifactId()
-	{
+	public String getArtifactId() {
 		return artifactId;
 	}
 
-	public String getVersion(final boolean snapshot)
-	{
+	public String getVersion(final boolean snapshot) {
 		return version + (snapshot ? "-SNAPSHOT" : "");
 	}
-	
-	public String getVersion()
-	{
+
+	public String getVersion() {
 		return version;
 	}
-	
-	public void setVersion(String v)
-	{
+
+	public void setVersion(String v) {
 		this.version = v;
 	}
-	
-	public String getGroupId()
-	{
+
+	public String getGroupId() {
 		return groupId;
 	}
 }

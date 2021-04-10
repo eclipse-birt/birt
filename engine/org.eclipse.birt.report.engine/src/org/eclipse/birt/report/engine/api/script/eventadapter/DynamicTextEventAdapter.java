@@ -19,30 +19,21 @@ import org.eclipse.birt.report.engine.api.script.instance.IDynamicTextInstance;
 /**
  * Default (empty) implementation of the IDynamicTextEventHandler interface
  */
-public class DynamicTextEventAdapter implements IDynamicTextEventHandler
-{
+public class DynamicTextEventAdapter implements IDynamicTextEventHandler {
 
-	public void onPrepare( IDynamicText textData, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onPrepare(IDynamicText textData, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onCreate( IDynamicTextInstance text,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void onCreate(IDynamicTextInstance text, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onRender( IDynamicTextInstance text,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void onRender(IDynamicTextInstance text, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onPageBreak( IDynamicTextInstance text,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void onPageBreak(IDynamicTextInstance text, IReportContext reportContext) throws ScriptException {
 
 	}
 

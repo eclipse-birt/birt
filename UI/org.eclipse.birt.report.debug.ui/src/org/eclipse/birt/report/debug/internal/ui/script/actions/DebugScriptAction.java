@@ -1,4 +1,5 @@
 package org.eclipse.birt.report.debug.internal.ui.script.actions;
+
 import org.eclipse.birt.report.debug.internal.ui.script.launcher.ScriptLaunchShortcut;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
@@ -10,7 +11,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.forms.editor.FormEditor;
-
 
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
@@ -27,59 +27,60 @@ import org.eclipse.ui.forms.editor.FormEditor;
  * 
  */
 
-public class DebugScriptAction implements IWorkbenchWindowActionDelegate
-{
+public class DebugScriptAction implements IWorkbenchWindowActionDelegate {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
 	 */
-	public void dispose( )
-	{
-		
+	public void dispose() {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
+	 * IWorkbenchWindow)
 	 */
-	public void init( IWorkbenchWindow window )
-	{
-		
+	public void init(IWorkbenchWindow window) {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	public void run( IAction action )
-	{
+	public void run(IAction action) {
 		ModuleHandle handle = null;
 
-		if (handle == null )
-		{
-			FormEditor editor = UIUtil.getActiveReportEditor( false );
-			if (editor instanceof MultiPageReportEditor)
-			{
-				handle = ((MultiPageReportEditor)editor).getModel( );
+		if (handle == null) {
+			FormEditor editor = UIUtil.getActiveReportEditor(false);
+			if (editor instanceof MultiPageReportEditor) {
+				handle = ((MultiPageReportEditor) editor).getModel();
 			}
 		}
-		if (handle != null)
-		{
-			String fileName = handle.getFileName( );
-			
-			ILaunchConfiguration config = ScriptLaunchShortcut.findLaunchConfiguration( fileName, ScriptLaunchShortcut.getConfigurationType( ) );
+		if (handle != null) {
+			String fileName = handle.getFileName();
+
+			ILaunchConfiguration config = ScriptLaunchShortcut.findLaunchConfiguration(fileName,
+					ScriptLaunchShortcut.getConfigurationType());
 			if (config != null) {
 				DebugUITools.launch(config, "debug");//$NON-NLS-1$
-			}	
+			}
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.
+	 * IAction, org.eclipse.jface.viewers.ISelection)
 	 */
-	public void selectionChanged( IAction action, ISelection selection )
-	{
-		
+	public void selectionChanged(IAction action, ISelection selection) {
 
 	}
 

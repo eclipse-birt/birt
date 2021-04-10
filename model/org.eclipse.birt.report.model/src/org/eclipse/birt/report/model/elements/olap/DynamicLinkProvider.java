@@ -45,8 +45,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * link.
  */
 
-abstract public class DynamicLinkProvider extends ExtensibilityProvider
-{
+abstract public class DynamicLinkProvider extends ExtensibilityProvider {
 
 	private final static int DIMENSION_SPACE_ID = 0;
 
@@ -57,19 +56,17 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider
 	/**
 	 * Constructs dynamic provider with the element.
 	 * 
-	 * @param element
-	 *            the element that holds this provider
+	 * @param element the element that holds this provider
 	 */
 
-	public DynamicLinkProvider( DesignElement element )
-	{
-		super( element );
+	public DynamicLinkProvider(DesignElement element) {
+		super(element);
 		cachedExtDefn = null;
 	}
 
-	protected abstract DesignElement getTargetElement( Module module );
+	protected abstract DesignElement getTargetElement(Module module);
 
-	protected abstract boolean isValidTarget( DesignElement target );
+	protected abstract boolean isValidTarget(DesignElement target);
 
 	/*
 	 * (non-Javadoc)
@@ -79,21 +76,17 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider
 	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public final void checkExtends( DesignElement parent )
-			throws ExtendsException
-	{
+	public final void checkExtends(DesignElement parent) throws ExtendsException {
 		// do nothing
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IExtendableElement#getExtDefn()
+	 * @see org.eclipse.birt.report.model.extension.IExtendableElement#getExtDefn()
 	 */
 
-	public final ExtensionElementDefn getExtDefn( )
-	{
+	public final ExtensionElementDefn getExtDefn() {
 		return cachedExtDefn;
 	}
 
@@ -103,217 +96,172 @@ abstract public class DynamicLinkProvider extends ExtensibilityProvider
 	 * @param prop
 	 * @return
 	 */
-	public final Object getLayoutProperty( Module module,
-			ElementPropertyDefn prop )
-	{
-		return infor == null ? null : infor.layoutProps.get( prop.getName( ) );
+	public final Object getLayoutProperty(Module module, ElementPropertyDefn prop) {
+		return infor == null ? null : infor.layoutProps.get(prop.getName());
 	}
 
-	public final void setLayoutProperty( ElementPropertyDefn prop, Object value )
-	{
-		if ( infor == null )
-			infor = new LayoutInfor( );
-		infor.layoutProps.put( prop.getName( ), value );
+	public final void setLayoutProperty(ElementPropertyDefn prop, Object value) {
+		if (infor == null)
+			infor = new LayoutInfor();
+		infor.layoutProps.put(prop.getName(), value);
 	}
 
-	public final void updateLayout( Module module )
-	{
+	public final void updateLayout(Module module) {
 		// before clear the last information, we first unresolved all the
 		// reference(both element reference and structure reference) related
 		// with the elements in the layout structure
-		clearReferences( module );
-		
+		clearReferences(module);
+
 		// clear the late one
 		infor = null;
-		if ( element instanceof Dimension )
-		{
-			( (Dimension) element ).nameHelper = new DimensionNameHelper(
-					(Dimension) element );
+		if (element instanceof Dimension) {
+			((Dimension) element).nameHelper = new DimensionNameHelper((Dimension) element);
 		}
 
-		DesignElement target = getTargetElement( module );
-		if ( target != null && isValidTarget( target ) )
-		{
-			infor = new LayoutInfor( );
+		DesignElement target = getTargetElement(module);
+		if (target != null && isValidTarget(target)) {
+			infor = new LayoutInfor();
 
-			duplicateStructure( target, element, module );
+			duplicateStructure(target, element, module);
 		}
 	}
 
-	private void clearReferences( Module module )
-	{
-		ContentIterator iter = new ContentIterator( module, element );
-		while ( iter.hasNext( ) )
-		{
-			DesignElement content = iter.next( );
-			if ( !( content instanceof ReferenceableElement ) )
+	private void clearReferences(Module module) {
+		ContentIterator iter = new ContentIterator(module, element);
+		while (iter.hasNext()) {
+			DesignElement content = iter.next();
+			if (!(content instanceof ReferenceableElement))
 				continue;
 
 			ReferenceableElement referred = (ReferenceableElement) content;
-			if ( !referred.hasReferences( ) )
+			if (!referred.hasReferences())
 				continue;
 
-			List<BackRef> clientList = referred.getClientList( );
-			for ( BackRef clientRef : clientList )
-			{
-				Structure struct = clientRef.getStructure( );
-				String propName = clientRef.getPropertyName( );
-				if ( struct != null )
-				{
-					ElementRefValue refValue = (ElementRefValue) struct
-							.getLocalProperty( module, propName );
-					refValue.unresolved( refValue.getName( ) );
-				}
-				else
-				{
-					DesignElement client = clientRef.getElement( );
+			List<BackRef> clientList = referred.getClientList();
+			for (BackRef clientRef : clientList) {
+				Structure struct = clientRef.getStructure();
+				String propName = clientRef.getPropertyName();
+				if (struct != null) {
+					ElementRefValue refValue = (ElementRefValue) struct.getLocalProperty(module, propName);
+					refValue.unresolved(refValue.getName());
+				} else {
+					DesignElement client = clientRef.getElement();
 					assert client != null;
-					ElementRefValue refValue = (ElementRefValue) client
-							.getLocalProperty( module, propName );
-					refValue.unresolved( refValue.getName( ) );
+					ElementRefValue refValue = (ElementRefValue) client.getLocalProperty(module, propName);
+					refValue.unresolved(refValue.getName());
 				}
 			}
 		}
 	}
 
-	protected boolean duplicateStructure( DesignElement source,
-			DesignElement target, Module targetModule )
-	{
-		ElementDefn defn = (ElementDefn) source.getDefn( );
+	protected boolean duplicateStructure(DesignElement source, DesignElement target, Module targetModule) {
+		ElementDefn defn = (ElementDefn) source.getDefn();
 
 		// copy top level properties
-		List<IElementPropertyDefn> properties = defn.getContents( );
-		for ( int i = 0; i < properties.size( ); i++ )
-		{
-			IElementPropertyDefn propDefn = properties.get( i );
-			duplicateStructure( new ContainerContext( source, propDefn
-					.getName( ) ), new ContainerContext( target, propDefn
-					.getName( ) ), targetModule );
+		List<IElementPropertyDefn> properties = defn.getContents();
+		for (int i = 0; i < properties.size(); i++) {
+			IElementPropertyDefn propDefn = properties.get(i);
+			duplicateStructure(new ContainerContext(source, propDefn.getName()),
+					new ContainerContext(target, propDefn.getName()), targetModule);
 		}
 
 		// do some special handle for cube and dimension
 
-		if ( target instanceof TabularCube )
-		{
+		if (target instanceof TabularCube) {
 			TabularCube targetCube = (TabularCube) target;
 			Cube sourceCube = (Cube) source;
-			Module sourceRoot = sourceCube.getRoot( );
+			Module sourceRoot = sourceCube.getRoot();
 
-			DesignElement group = source.getReferenceProperty( sourceRoot,
-					ICubeModel.DEFAULT_MEASURE_GROUP_PROP );
-			if ( group != null )
-			{
-				int index = group.getIndex( sourceCube.getRoot( ) );
+			DesignElement group = source.getReferenceProperty(sourceRoot, ICubeModel.DEFAULT_MEASURE_GROUP_PROP);
+			if (group != null) {
+				int index = group.getIndex(sourceCube.getRoot());
 				assert index > -1;
-				targetCube.setDefaultMeasureGroup( index );
+				targetCube.setDefaultMeasureGroup(index);
 			}
-		}
-		else if ( target instanceof Dimension )
-		{
+		} else if (target instanceof Dimension) {
 			Dimension targetDimension = (Dimension) target;
 			Dimension sourceDimension = (Dimension) source;
-			ModelUtil.duplicateDefaultHierarchy( targetDimension,
-					sourceDimension );
+			ModelUtil.duplicateDefaultHierarchy(targetDimension, sourceDimension);
 		}
 
 		return true;
 	}
 
-	private void duplicateStructure( ContainerContext sourceInfor,
-			ContainerContext targetInfor, Module targetModule )
-	{
+	private void duplicateStructure(ContainerContext sourceInfor, ContainerContext targetInfor, Module targetModule) {
 
 		// clear the slot contents of the this element.
-		targetInfor.clearContents( );
+		targetInfor.clearContents();
 
-		for ( int j = 0; j < sourceInfor.getContentCount( null ); j++ )
-		{
-			DesignElement sourceContent = sourceInfor.getContent( null, j );
+		for (int j = 0; j < sourceInfor.getContentCount(null); j++) {
+			DesignElement sourceContent = sourceInfor.getContent(null, j);
 
 			// create an element of the same type
 
-			DesignElement targetContent = ElementFactoryUtil.newElement(
-					sourceContent.getElementName( ), sourceContent.getName( ) );
+			DesignElement targetContent = ElementFactoryUtil.newElement(sourceContent.getElementName(),
+					sourceContent.getName());
 
-			if ( targetContent != null )
-			{
+			if (targetContent != null) {
 				// set up the element id and base id
-				long id = sourceContent.getID( );
+				long id = sourceContent.getID();
 				assert id > 0;
-				targetContent.setID( sourceContent.getID( ) );
-				targetContent.setBaseId( sourceContent.getID( ) );
+				targetContent.setID(sourceContent.getID());
+				targetContent.setBaseId(sourceContent.getID());
 
 				// setup the containment relationship
-				targetInfor.add( targetModule, targetContent );
-				addLocalNames( targetContent );
+				targetInfor.add(targetModule, targetContent);
+				addLocalNames(targetContent);
 
 				// recusively duplicates the slots of the content
-				duplicateStructure( sourceContent, targetContent, targetModule );
+				duplicateStructure(sourceContent, targetContent, targetModule);
 
 			}
 		}
 	}
 
-	protected final void addLocalNames( DesignElement targetContent )
-	{
-		if ( targetContent instanceof Dimension )
-		{
-			infor.localNameSpaces[DIMENSION_SPACE_ID].insert( targetContent );
-		}
-		else if ( targetContent instanceof Level )
-		{
-			Dimension container = (Dimension) targetContent.getContainer( )
-					.getContainer( );
+	protected final void addLocalNames(DesignElement targetContent) {
+		if (targetContent instanceof Dimension) {
+			infor.localNameSpaces[DIMENSION_SPACE_ID].insert(targetContent);
+		} else if (targetContent instanceof Level) {
+			Dimension container = (Dimension) targetContent.getContainer().getContainer();
 			assert container != null;
-			container.getNameHelper( )
-					.getNameSpace( Dimension.LEVEL_NAME_SPACE ).insert(
-							targetContent );
-		}
-		else
-		{
-			infor.localNameSpaces[NON_DIMENSION_SPACE_ID]
-					.insert( targetContent );
+			container.getNameHelper().getNameSpace(Dimension.LEVEL_NAME_SPACE).insert(targetContent);
+		} else {
+			infor.localNameSpaces[NON_DIMENSION_SPACE_ID].insert(targetContent);
 		}
 	}
 
-	public final DesignElement findLocalElement( String name, IElementDefn type )
-	{
-		if ( StringUtil.isBlank( name ) || type == null || infor == null )
+	public final DesignElement findLocalElement(String name, IElementDefn type) {
+		if (StringUtil.isBlank(name) || type == null || infor == null)
 			return null;
 
-		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		if ( type.isKindOf( dd
-				.getElement( ReportDesignConstants.DIMENSION_ELEMENT ) ) )
-			return infor.localNameSpaces[DIMENSION_SPACE_ID].getElement( name );
+		MetaDataDictionary dd = MetaDataDictionary.getInstance();
+		if (type.isKindOf(dd.getElement(ReportDesignConstants.DIMENSION_ELEMENT)))
+			return infor.localNameSpaces[DIMENSION_SPACE_ID].getElement(name);
 
-		DesignElement element = infor.localNameSpaces[NON_DIMENSION_SPACE_ID]
-				.getElement( name );
-		if ( element != null && element.getDefn( ).isKindOf( type ) )
+		DesignElement element = infor.localNameSpaces[NON_DIMENSION_SPACE_ID].getElement(name);
+		if (element != null && element.getDefn().isKindOf(type))
 			return element;
 		return null;
 	}
 
-	public static class LayoutInfor
-	{
+	public static class LayoutInfor {
 
 		/**
-		 * The map to store the layout property values. When the referred the
-		 * tabular cube is resolved, this map will be set to store the values,
-		 * such as 'dimensions' and 'measureGroups' and so on. Every time the
-		 * referred cube is changed, this map will be updated.
+		 * The map to store the layout property values. When the referred the tabular
+		 * cube is resolved, this map will be set to store the values, such as
+		 * 'dimensions' and 'measureGroups' and so on. Every time the referred cube is
+		 * changed, this map will be updated.
 		 */
 		public Map<String, Object> layoutProps = null;
 
 		public NameSpace[] localNameSpaces = null;
 
-		public LayoutInfor( )
-		{
-			this.layoutProps = new HashMap<String, Object>(
-					ModelUtil.MAP_CAPACITY_LOW );
+		public LayoutInfor() {
+			this.layoutProps = new HashMap<String, Object>(ModelUtil.MAP_CAPACITY_LOW);
 			this.localNameSpaces = new NameSpace[2];
 
-			localNameSpaces[0] = new NameSpace( );
-			localNameSpaces[1] = new NameSpace( );
+			localNameSpaces[0] = new NameSpace();
+			localNameSpaces[1] = new NameSpace();
 		}
 	}
 

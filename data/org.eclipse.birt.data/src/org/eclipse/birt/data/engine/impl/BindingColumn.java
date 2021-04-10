@@ -17,17 +17,14 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
  * A simple wrapper for binding column
  */
 
-public class BindingColumn
-{
+public class BindingColumn {
 
 	public String columnName;
 	public IBaseExpression baseExpr;
 	public boolean isAggregation;
 	public int type;
 
-	public BindingColumn( String columnName, IBaseExpression baseExpr,
-			boolean isAggregation, int type )
-	{
+	public BindingColumn(String columnName, IBaseExpression baseExpr, boolean isAggregation, int type) {
 		this.columnName = columnName;
 		this.baseExpr = baseExpr;
 		this.isAggregation = isAggregation;

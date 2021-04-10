@@ -25,8 +25,7 @@ import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
  * 
  */
 
-public class ReportParameterAdapter implements IReportParameterAdapter
-{
+public class ReportParameterAdapter implements IReportParameterAdapter {
 
 	private IReportParameterAdapter adapter;
 
@@ -34,40 +33,29 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	 * The logger for errors.
 	 */
 
-	protected static final Logger errorLogger = Logger
-			.getLogger( ReportParameterAdapter.class.getName( ) );
+	protected static final Logger errorLogger = Logger.getLogger(ReportParameterAdapter.class.getName());
 
 	/**
 	 * Default constructor.
 	 */
 
-	public ReportParameterAdapter( )
-	{
-		Object factory = Platform
-				.createFactoryObject( IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY );
-		if ( factory instanceof IAdapterFactory )
-		{
-			adapter = ( (IAdapterFactory) factory )
-					.createReportParameterAdapter( );
+	public ReportParameterAdapter() {
+		Object factory = Platform.createFactoryObject(IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY);
+		if (factory instanceof IAdapterFactory) {
+			adapter = ((IAdapterFactory) factory).createReportParameterAdapter();
 		}
-		if ( adapter == null )
-		{
-			errorLogger.log( Level.INFO,
-					"Can not start the model adapter oda factory." ); //$NON-NLS-1$
+		if (adapter == null) {
+			errorLogger.log(Level.INFO, "Can not start the model adapter oda factory."); //$NON-NLS-1$
 		}
 	}
 
-	public void updateLinkedReportParameter( ScalarParameterHandle reportParam,
-			OdaDataSetParameterHandle dataSetParam, DataSetDesign dataSetDesign )
-			throws SemanticException
-	{
-		adapter.updateLinkedReportParameter( reportParam, dataSetParam,
-				dataSetDesign );
+	public void updateLinkedReportParameter(ScalarParameterHandle reportParam, OdaDataSetParameterHandle dataSetParam,
+			DataSetDesign dataSetDesign) throws SemanticException {
+		adapter.updateLinkedReportParameter(reportParam, dataSetParam, dataSetDesign);
 	}
 
-	public void updateLinkedReportParameter( ScalarParameterHandle reportParam,
-			OdaDataSetParameterHandle dataSetParam ) throws SemanticException
-	{
-		adapter.updateLinkedReportParameter( reportParam, dataSetParam );
+	public void updateLinkedReportParameter(ScalarParameterHandle reportParam, OdaDataSetParameterHandle dataSetParam)
+			throws SemanticException {
+		adapter.updateLinkedReportParameter(reportParam, dataSetParam);
 	}
 }

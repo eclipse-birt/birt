@@ -17,39 +17,34 @@ package org.eclipse.birt.data.engine.impl;
  * object.
  */
 
-public class StopSign
-{
+public class StopSign {
 	private boolean isStopped = false;
-	
-	public StopSign()
-	{
-		
+
+	public StopSign() {
+
 	}
-	
+
 	/**
 	 * 
 	 *
 	 */
-	public synchronized void start( )
-	{
+	public synchronized void start() {
 		isStopped = false;
 	}
-	
+
 	/**
 	 * 
 	 *
 	 */
-	public synchronized void stop( )
-	{
+	public synchronized void stop() {
 		isStopped = true;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public synchronized boolean isStopped()
-	{
+	public synchronized boolean isStopped() {
 		return isStopped;
 	}
 }

@@ -20,55 +20,43 @@ import org.eclipse.birt.core.data.DataType;
  * 
  */
 
-public class Range extends AggregateFunctionAdapter
-{
+public class Range extends AggregateFunctionAdapter {
 
 	private Object max;
 	private Object min;
 
-	@SuppressWarnings({
-			"unchecked", "rawtypes"
-	})
-	public void accumulate( Object oValue ) throws IllegalArgumentException
-	{
-		if ( max == null )
-		{
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void accumulate(Object oValue) throws IllegalArgumentException {
+		if (max == null) {
 			max = oValue;
 			min = oValue;
-		}
-		else if ( oValue instanceof Comparable )
-		{
-			max = ( (Comparable) oValue ).compareTo( max ) >= 0 ? oValue : max;
-			min = ( (Comparable) oValue ).compareTo( min ) <= 0 ? oValue : min;
+		} else if (oValue instanceof Comparable) {
+			max = ((Comparable) oValue).compareTo(max) >= 0 ? oValue : max;
+			min = ((Comparable) oValue).compareTo(min) <= 0 ? oValue : min;
 		}
 
 	}
 
-	public Object getAggregatedValue( )
-	{
-		switch ( getDataType( ) )
-		{
-			case NUMBER :
-				return new Double( ( (Number) max ).doubleValue( )
-						- ( (Number) min ).doubleValue( ) );
+	public Object getAggregatedValue() {
+		switch (getDataType()) {
+		case NUMBER:
+			return new Double(((Number) max).doubleValue() - ((Number) min).doubleValue());
 
-			case BIGDECIMAL :
-				return ( (BigDecimal) max ).subtract( (BigDecimal) min );
+		case BIGDECIMAL:
+			return ((BigDecimal) max).subtract((BigDecimal) min);
 
-			default :
-				return null; // THIS CONDITION SHOULD NEVER ARISE
+		default:
+			return null; // THIS CONDITION SHOULD NEVER ARISE
 		}
 	}
 
-	public void initialize( )
-	{
+	public void initialize() {
 		max = null;
 		min = null;
 	}
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 }

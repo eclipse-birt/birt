@@ -41,101 +41,81 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * @since 2.5
  */
 
-public class FieldAssistPreferencePage extends FieldEditorPreferencePage implements
-		IWorkbenchPreferencePage
-{
+public class FieldAssistPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	/**
 	 * Create the FieldAssistPreferencePage
 	 */
-	public FieldAssistPreferencePage( )
-	{
-		super( GRID );
-		setPreferenceStore( ChartUIExtensionPlugin.getDefault( )
-				.getPreferenceStore( ) );
-		setDescription( Messages.getString( "ssPreferencesDescription" ) ); //$NON-NLS-1$
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.preference.PreferencePage#createControl(org.eclipse.swt.widgets.Composite)
-	 */
-	public void createControl(Composite parent) {
-		super.createControl( parent );
-		ChartUIUtil.bindHelp( getControl(),
-				ChartHelpContextIds.PREFERENCE_CHART_FIELD_ASSIST );
-	}
-	
-	/**
-	 * Creates the field editors. Field editors are abstractions of the common
-	 * GUI blocks needed to manipulate various types of preferences. Each field
-	 * editor knows how to save and
-	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
-	 */
-	protected void createFieldEditors( )
-	{
-		addField( new BooleanFieldEditor( PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR,
-				Messages.getString( "ssPreferencesShowRequiredFieldLabelIndicator" ), //$NON-NLS-1$
-				getFieldEditorParent( ) ) );
-
-		Group g = new Group( getFieldEditorParent( ), SWT.NONE );
-		g.setText( Messages.getString( "ssPreferencesAssistSymbol" ) ); //$NON-NLS-1$
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		g.setLayoutData( gd );
-
-		addField( new RadioGroupFieldEditor( PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION,
-				Messages.getString( "ssPreferencesDecoratorVert" ), //$NON-NLS-1$
-				1,
-				new String[][]{
-						{
-								Messages.getString( "ssPreferencesDecoratorTop" ), //$NON-NLS-1$
-								PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_TOP
-						},
-						{
-								Messages.getString( "ssPreferencesDecoratorCenter" ), //$NON-NLS-1$
-								PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_CENTER
-						},
-						{
-								Messages.getString( "ssPreferencesDecoratorBottom" ), //$NON-NLS-1$
-								PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_BOTTOM
-						}
-				},
-				g ) );
-
-		addField( new RadioGroupFieldEditor( PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION,
-				Messages.getString( "ssPreferencesDecoratorHorz" ), //$NON-NLS-1$
-				1,
-				new String[][]{
-						{
-								Messages.getString( "ssPreferencesDecoratorLeft" ), //$NON-NLS-1$
-								PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION_LEFT
-						},
-						{
-								Messages.getString( "ssPreferencesDecoratorRight" ), //$NON-NLS-1$
-								PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION_RIGHT
-						}
-				},
-				g ) );
-
-		IntegerFieldEditor editor = new IntegerFieldEditor( PreferenceConstants.PREF_DECORATOR_MARGINWIDTH,
-				Messages.getString( "ssPreferencesDecoratorMargin" ), //$NON-NLS-1$
-				g );
-		editor.setValidRange( 0, 10 );
-		addField( editor );
-
-		g.setLayout( new GridLayout( ) );
-
-		Dialog.applyDialogFont( getFieldEditorParent( ) );
+	public FieldAssistPreferencePage() {
+		super(GRID);
+		setPreferenceStore(ChartUIExtensionPlugin.getDefault().getPreferenceStore());
+		setDescription(Messages.getString("ssPreferencesDescription")); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 * org.eclipse.jface.preference.PreferencePage#createControl(org.eclipse.swt.
+	 * widgets.Composite)
 	 */
-	public void init( IWorkbench workbench )
-	{
+	public void createControl(Composite parent) {
+		super.createControl(parent);
+		ChartUIUtil.bindHelp(getControl(), ChartHelpContextIds.PREFERENCE_CHART_FIELD_ASSIST);
+	}
+
+	/**
+	 * Creates the field editors. Field editors are abstractions of the common GUI
+	 * blocks needed to manipulate various types of preferences. Each field editor
+	 * knows how to save and
+	 * 
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
+	 */
+	protected void createFieldEditors() {
+		addField(new BooleanFieldEditor(PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR,
+				Messages.getString("ssPreferencesShowRequiredFieldLabelIndicator"), //$NON-NLS-1$
+				getFieldEditorParent()));
+
+		Group g = new Group(getFieldEditorParent(), SWT.NONE);
+		g.setText(Messages.getString("ssPreferencesAssistSymbol")); //$NON-NLS-1$
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		g.setLayoutData(gd);
+
+		addField(new RadioGroupFieldEditor(PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION,
+				Messages.getString("ssPreferencesDecoratorVert"), //$NON-NLS-1$
+				1, new String[][] { { Messages.getString("ssPreferencesDecoratorTop"), //$NON-NLS-1$
+						PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_TOP },
+						{ Messages.getString("ssPreferencesDecoratorCenter"), //$NON-NLS-1$
+								PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_CENTER },
+						{ Messages.getString("ssPreferencesDecoratorBottom"), //$NON-NLS-1$
+								PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_BOTTOM } },
+				g));
+
+		addField(new RadioGroupFieldEditor(PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION,
+				Messages.getString("ssPreferencesDecoratorHorz"), //$NON-NLS-1$
+				1, new String[][] { { Messages.getString("ssPreferencesDecoratorLeft"), //$NON-NLS-1$
+						PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION_LEFT },
+						{ Messages.getString("ssPreferencesDecoratorRight"), //$NON-NLS-1$
+								PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION_RIGHT } },
+				g));
+
+		IntegerFieldEditor editor = new IntegerFieldEditor(PreferenceConstants.PREF_DECORATOR_MARGINWIDTH,
+				Messages.getString("ssPreferencesDecoratorMargin"), //$NON-NLS-1$
+				g);
+		editor.setValidRange(0, 10);
+		addField(editor);
+
+		g.setLayout(new GridLayout());
+
+		Dialog.applyDialogFont(getFieldEditorParent());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 */
+	public void init(IWorkbench workbench) {
 	}
 
 }

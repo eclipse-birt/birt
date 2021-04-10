@@ -22,8 +22,7 @@ import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
  * Update the oda result column with the information in the column definition.
  */
 
-class ResultSetColumnUpdater
-{
+class ResultSetColumnUpdater {
 
 	ColumnDefinition columnDefn = null;
 
@@ -40,13 +39,10 @@ class ResultSetColumnUpdater
 	 * @param columnHandle
 	 */
 
-	ResultSetColumnUpdater( OdaResultSetColumn newColumn,
-			ColumnDefinition columnDefn, OdaDataSetHandle setHandle,
-			String dataSourceId, String dataSetId )
-	{
-		if ( newColumn == null || columnDefn == null || setHandle == null )
-			throw new IllegalArgumentException(
-					"The column definition and oda result set column can not be null!" ); //$NON-NLS-1$
+	ResultSetColumnUpdater(OdaResultSetColumn newColumn, ColumnDefinition columnDefn, OdaDataSetHandle setHandle,
+			String dataSourceId, String dataSetId) {
+		if (newColumn == null || columnDefn == null || setHandle == null)
+			throw new IllegalArgumentException("The column definition and oda result set column can not be null!"); //$NON-NLS-1$
 		this.columnDefn = columnDefn;
 		this.newColumn = newColumn;
 		this.dataSourceId = dataSourceId;
@@ -58,21 +54,18 @@ class ResultSetColumnUpdater
 	 * 
 	 */
 
-	ColumnHint process( )
-	{
-		DataElementAttributes dataAttrs = columnDefn.getAttributes( );
-		processDataElementAttributes( dataAttrs );
+	ColumnHint process() {
+		DataElementAttributes dataAttrs = columnDefn.getAttributes();
+		processDataElementAttributes(dataAttrs);
 
 		// update column hint
 		ColumnHint oldHint = null;
-		ColumnHintHandle oldHintHandle = AdapterUtil.findColumnHint( newColumn,
-				setHandle.columnHintsIterator( ) );
-		if ( oldHintHandle != null )
-			oldHint = (ColumnHint) oldHintHandle.getStructure( );
+		ColumnHintHandle oldHintHandle = AdapterUtil.findColumnHint(newColumn, setHandle.columnHintsIterator());
+		if (oldHintHandle != null)
+			oldHint = (ColumnHint) oldHintHandle.getStructure();
 
-		ColumnHint newHint = ResultSetsAdapter
-				.newROMColumnHintFromColumnDefinition( columnDefn, null,
-						oldHint, newColumn );
+		ColumnHint newHint = ResultSetsAdapter.newROMColumnHintFromColumnDefinition(columnDefn, null, oldHint,
+				newColumn);
 
 		return newHint;
 	}
@@ -80,28 +73,27 @@ class ResultSetColumnUpdater
 	/**
 	 * 
 	 */
-	private void processDataElementAttributes( DataElementAttributes dataAttrs )
-	{
+	private void processDataElementAttributes(DataElementAttributes dataAttrs) {
 		// check the native name
 
-		if ( dataAttrs == null )
+		if (dataAttrs == null)
 			return;
 
 		// update the name with the native name in oda result set column
-		String newValue = dataAttrs.getName( );
-		newColumn.setNativeName( newValue );
+		String newValue = dataAttrs.getName();
+		newColumn.setNativeName(newValue);
 
 		// update position
-		int position = dataAttrs.getPosition( );
-		newColumn.setPosition( Integer.valueOf( position ) );
+		int position = dataAttrs.getPosition();
+		newColumn.setPosition(Integer.valueOf(position));
 
 		// update native data type
-		int newNativeDataType = dataAttrs.getNativeDataTypeCode( );
-		newColumn.setNativeDataType( newNativeDataType );
+		int newNativeDataType = dataAttrs.getNativeDataTypeCode();
+		newColumn.setNativeDataType(newNativeDataType);
 
 		// update data type
-		newColumn.setDataType( AdapterUtil.convertNativeTypeToROMDataType(
-				dataSourceId, dataSetId, newNativeDataType, null ) );
+		newColumn.setDataType(
+				AdapterUtil.convertNativeTypeToROMDataType(dataSourceId, dataSetId, newNativeDataType, null));
 	}
 
 }

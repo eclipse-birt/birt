@@ -23,138 +23,108 @@ import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
  * Implements of FilterCondition.
  */
 
-public class FilterConditionImpl implements IFilterCondition
-{
+public class FilterConditionImpl implements IFilterCondition {
 
-    private org.eclipse.birt.report.model.api.simpleapi.IFilterCondition filterConditionImpl;
+	private org.eclipse.birt.report.model.api.simpleapi.IFilterCondition filterConditionImpl;
 
-    /**
-     * Constructor
-     * 
-     * @param condition
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param condition
+	 */
 
-    public FilterConditionImpl()
-    {
-        filterConditionImpl = SimpleElementFactory.getInstance()
-                .createFilterCondition();
-    }
+	public FilterConditionImpl() {
+		filterConditionImpl = SimpleElementFactory.getInstance().createFilterCondition();
+	}
 
-    /**
-     * Constructor
-     * 
-     * @param condition
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param condition
+	 */
 
-    public FilterConditionImpl( FilterCondition condition )
-    {
-        filterConditionImpl = SimpleElementFactory.getInstance()
-                .createFilterCondition( condition );
-    }
+	public FilterConditionImpl(FilterCondition condition) {
+		filterConditionImpl = SimpleElementFactory.getInstance().createFilterCondition(condition);
+	}
 
-    /**
-     * Constructor
-     * 
-     * @param conditionHandle
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param conditionHandle
+	 */
 
-    public FilterConditionImpl( FilterConditionHandle conditionHandle )
-    {
-        filterConditionImpl = SimpleElementFactory.getInstance()
-                .createFilterCondition( conditionHandle );
-    }
-    
-    /**
-     * Constructor
-     * 
-     * @param columnHandle
-     */
+	public FilterConditionImpl(FilterConditionHandle conditionHandle) {
+		filterConditionImpl = SimpleElementFactory.getInstance().createFilterCondition(conditionHandle);
+	}
 
-    public FilterConditionImpl(
-            org.eclipse.birt.report.model.api.simpleapi.IFilterCondition condition )
-    {
-        filterConditionImpl = condition;
-    }
+	/**
+	 * Constructor
+	 * 
+	 * @param columnHandle
+	 */
 
-    public String getOperator()
-    {
-        return filterConditionImpl.getOperator();
-    }
+	public FilterConditionImpl(org.eclipse.birt.report.model.api.simpleapi.IFilterCondition condition) {
+		filterConditionImpl = condition;
+	}
 
-    public String getValue1()
-    {
-        return filterConditionImpl.getValue1();
-    }
+	public String getOperator() {
+		return filterConditionImpl.getOperator();
+	}
 
-    public String getValue2()
-    {
-        return filterConditionImpl.getValue2();
-    }
+	public String getValue1() {
+		return filterConditionImpl.getValue1();
+	}
 
-    public void setOperator( String operator ) throws ScriptException
-    {
-    	try
-		{
-    		
-            filterConditionImpl.setOperator( operator );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );				
+	public String getValue2() {
+		return filterConditionImpl.getValue2();
+	}
+
+	public void setOperator(String operator) throws ScriptException {
+		try {
+
+			filterConditionImpl.setOperator(operator);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
-    }
+	}
 
-    public void setValue1( String value1 ) throws ScriptException
-    {
-    	try
-		{
-    		
-            filterConditionImpl.setValue1( value1 );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );				
+	public void setValue1(String value1) throws ScriptException {
+		try {
+
+			filterConditionImpl.setValue1(value1);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
-    }
+	}
 
-    public void setValue2( String value2 ) throws ScriptException
-    {
-    	try
-		{
-    		
-            filterConditionImpl.setValue2( value2 );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );				
+	public void setValue2(String value2) throws ScriptException {
+		try {
+
+			filterConditionImpl.setValue2(value2);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
-    }
+	}
 
-    public IStructure getStructure()
-    {
-        return filterConditionImpl.getStructure();
-    }
+	public IStructure getStructure() {
+		return filterConditionImpl.getStructure();
+	}
 
-    public String getExpr()
-    {
-        return filterConditionImpl.getExpr();
-    }
+	public String getExpr() {
+		return filterConditionImpl.getExpr();
+	}
 
-    public void setExpr( String expr ) throws ScriptException
-    {
-    	try
-		{
-    		
-            filterConditionImpl.setExpr( expr );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );				
+	public void setExpr(String expr) throws ScriptException {
+		try {
+
+			filterConditionImpl.setExpr(expr);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
-    }
+	}
 
 }

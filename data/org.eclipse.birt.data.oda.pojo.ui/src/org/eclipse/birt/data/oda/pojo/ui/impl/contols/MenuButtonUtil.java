@@ -15,25 +15,19 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 
-public class MenuButtonUtil
-{
+public class MenuButtonUtil {
 
-	public static ClassSelectionButton createClassSelectionButton(
-			POJOClassTabFolderPage folderPage, Composite parent,
-			final TableViewer viewer, final IMenuButtonProvider provider,
-			final Listener listener, int style )
-	{
-		final ClassSelectionButton button = new ClassSelectionButton( parent,
-				style,
-				provider );
-		button.setContainer( folderPage );
-		IMenuButtonHelper helper = new MenuButtonHelper( viewer );
-		helper.setProvider( provider );
-		helper.setListener( listener );
-		helper.setMenuButton( button );
-		button.setMenuButtonHelper( helper );
+	public static ClassSelectionButton createClassSelectionButton(POJOClassTabFolderPage folderPage, Composite parent,
+			final TableViewer viewer, final IMenuButtonProvider provider, final Listener listener, int style) {
+		final ClassSelectionButton button = new ClassSelectionButton(parent, style, provider);
+		button.setContainer(folderPage);
+		IMenuButtonHelper helper = new MenuButtonHelper(viewer);
+		helper.setProvider(provider);
+		helper.setListener(listener);
+		helper.setMenuButton(button);
+		button.setMenuButtonHelper(helper);
 
-		button.refresh( );
+		button.refresh();
 
 		return button;
 	}

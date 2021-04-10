@@ -24,8 +24,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class NeedleSheet extends AbstractPopupSheet 
-{
+public class NeedleSheet extends AbstractPopupSheet {
 
 	private transient SeriesDefinition seriesDefn;
 	private Series series;
@@ -37,41 +36,36 @@ public class NeedleSheet extends AbstractPopupSheet
 	 * 
 	 * @deprecated since 3.7
 	 */
-	public NeedleSheet( String title, ChartWizardContext context, SeriesDefinition seriesDefn )
-	{
-		super( title, context, true );
+	public NeedleSheet(String title, ChartWizardContext context, SeriesDefinition seriesDefn) {
+		super(title, context, true);
 		this.seriesDefn = seriesDefn;
 	}
-	
-	public NeedleSheet( String title, ChartWizardContext context, Series series )
-	{
-		super( title, context, true );
+
+	public NeedleSheet(String title, ChartWizardContext context, Series series) {
+		super(title, context, true);
 		this.series = series;
 	}
 
-	protected Composite getComponent( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_DIAL_NEEDLES);
+	protected Composite getComponent(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_DIAL_NEEDLES);
 		// Sheet content composite
-		Composite cmpContent = new Composite( parent, SWT.NONE );
+		Composite cmpContent = new Composite(parent, SWT.NONE);
 		{
 			// Layout for the content composite
-			GridLayout glContent = new GridLayout( );
+			GridLayout glContent = new GridLayout();
 			glContent.marginHeight = 7;
 			glContent.marginWidth = 7;
-			cmpContent.setLayout( glContent );
+			cmpContent.setLayout(glContent);
 		}
 
-		DialSeries dialSeries = ( series != null ) ? (DialSeries) series
-				: (DialSeries) seriesDefn.getDesignTimeSeries( );
-		
-		new NeedleComposite( cmpContent, getContext( ), dialSeries, getNeedleAttributesContext( ) );
-		
+		DialSeries dialSeries = (series != null) ? (DialSeries) series : (DialSeries) seriesDefn.getDesignTimeSeries();
+
+		new NeedleComposite(cmpContent, getContext(), dialSeries, getNeedleAttributesContext());
+
 		return cmpContent;
 	}
 
-	protected NeedleAttributesContext getNeedleAttributesContext( )
-	{
-		return new NeedleAttributesContext( );
+	protected NeedleAttributesContext getNeedleAttributesContext() {
+		return new NeedleAttributesContext();
 	}
 }

@@ -28,84 +28,66 @@ import org.eclipse.birt.report.model.api.simpleapi.IDataSet;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSource;
 import org.eclipse.birt.report.model.api.simpleapi.IResultSetColumn;
 
-public class DataSet implements IDataSet
-{
+public class DataSet implements IDataSet {
 
 	private DataSetHandle dataSet;
 
-	public DataSet( DataSetHandle dataSet )
-	{
+	public DataSet(DataSetHandle dataSet) {
 		this.dataSet = dataSet;
 	}
 
-	public IDataSource getDataSource( )
-	{
-		if ( !( dataSet instanceof OdaDataSetHandle ) )
+	public IDataSource getDataSource() {
+		if (!(dataSet instanceof OdaDataSetHandle))
 			return null;
 
-		DataSourceHandle dataSource = dataSet.getDataSource( );
-		if ( dataSource == null )
+		DataSourceHandle dataSource = dataSet.getDataSource();
+		if (dataSource == null)
 			return null;
 
-		return new DataSource( dataSource );
+		return new DataSource(dataSource);
 	}
 
-	public String getQueryText( )
-	{
-		if ( dataSet instanceof OdaDataSetHandle )
-			return ( (OdaDataSetHandle) dataSet ).getQueryText( );
+	public String getQueryText() {
+		if (dataSet instanceof OdaDataSetHandle)
+			return ((OdaDataSetHandle) dataSet).getQueryText();
 		return null;
 	}
 
-	public void setQueryText( String query ) throws SemanticException
-	{
-		if ( dataSet instanceof OdaDataSetHandle )
-		{
-			ActivityStack cmdStack = dataSet.getModule( ).getActivityStack( );
+	public void setQueryText(String query) throws SemanticException {
+		if (dataSet instanceof OdaDataSetHandle) {
+			ActivityStack cmdStack = dataSet.getModule().getActivityStack();
 
-			cmdStack.startNonUndoableTrans( null );
-			try
-			{
-				( (OdaDataSetHandle) dataSet ).setQueryText( query );
-			}
-			catch ( SemanticException e )
-			{
-				cmdStack.rollback( );
+			cmdStack.startNonUndoableTrans(null);
+			try {
+				((OdaDataSetHandle) dataSet).setQueryText(query);
+			} catch (SemanticException e) {
+				cmdStack.rollback();
 				throw e;
 			}
 
-			cmdStack.commit( );
+			cmdStack.commit();
 		}
 	}
 
-	public String getPrivateDriverProperty( String name )
-	{
-		if ( dataSet instanceof OdaDataSetHandle )
-			return ( (OdaDataSetHandle) dataSet )
-					.getPrivateDriverProperty( name );
+	public String getPrivateDriverProperty(String name) {
+		if (dataSet instanceof OdaDataSetHandle)
+			return ((OdaDataSetHandle) dataSet).getPrivateDriverProperty(name);
 		return null;
 	}
 
-	public void setPrivateDriverProperty( String name, String value )
-			throws SemanticException
-	{
-		if ( dataSet instanceof OdaDataSetHandle )
-		{
-			ActivityStack cmdStack = dataSet.getModule( ).getActivityStack( );
+	public void setPrivateDriverProperty(String name, String value) throws SemanticException {
+		if (dataSet instanceof OdaDataSetHandle) {
+			ActivityStack cmdStack = dataSet.getModule().getActivityStack();
 
-			cmdStack.startNonUndoableTrans( null );
-			try
-			{
-				( (OdaDataSetHandle) dataSet ).setPrivateDriverProperty( name,
-						value );
-			}
-			catch ( SemanticException e )
-			{
-				cmdStack.rollback( );
+			cmdStack.startNonUndoableTrans(null);
+			try {
+				((OdaDataSetHandle) dataSet).setPrivateDriverProperty(name, value);
+			} catch (SemanticException e) {
+				cmdStack.rollback();
 				throw e;
 			}
 
-			cmdStack.commit( );
+			cmdStack.commit();
 		}
 	}
 
@@ -117,24 +99,21 @@ public class DataSet implements IDataSet
 	 * ()
 	 */
 
-	public List getCachedResultSetColumns( )
-	{
-		List values = new ArrayList( );
-		CachedMetaDataHandle metaDataHandle = dataSet.getCachedMetaDataHandle( );
-		if ( metaDataHandle == null )
+	public List getCachedResultSetColumns() {
+		List values = new ArrayList();
+		CachedMetaDataHandle metaDataHandle = dataSet.getCachedMetaDataHandle();
+		if (metaDataHandle == null)
 			return values;
-		MemberHandle memberHandle = metaDataHandle.getResultSet( );
-		if ( memberHandle == null )
+		MemberHandle memberHandle = metaDataHandle.getResultSet();
+		if (memberHandle == null)
 			return values;
-		Iterator iterator = memberHandle.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			ResultSetColumnHandle columnHandle = (ResultSetColumnHandle) iterator
-					.next( );
-			IResultSetColumn column = new ResultSetColumnImpl( columnHandle );
-			values.add( column );
+		Iterator iterator = memberHandle.iterator();
+		while (iterator.hasNext()) {
+			ResultSetColumnHandle columnHandle = (ResultSetColumnHandle) iterator.next();
+			IResultSetColumn column = new ResultSetColumnImpl(columnHandle);
+			values.add(column);
 		}
-		return Collections.unmodifiableList( values );
+		return Collections.unmodifiableList(values);
 	}
 
 }

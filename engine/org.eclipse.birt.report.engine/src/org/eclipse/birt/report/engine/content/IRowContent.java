@@ -16,23 +16,22 @@ package org.eclipse.birt.report.engine.content;
  * 
  * 
  */
-public interface IRowContent extends IContainerContent
-{
-	public int getRowID( );
+public interface IRowContent extends IContainerContent {
+	public int getRowID();
 
-	public void setRowID( int rowID );
+	public void setRowID(int rowID);
 
-	public ITableContent getTable( );
+	public ITableContent getTable();
 
-	public String getGroupId( );
-	
-	public void setGroupId( String groupId );
+	public String getGroupId();
 
-	public IGroupContent getGroup( );
+	public void setGroupId(String groupId);
 
-	public IBandContent getBand( );
-	
-	public void setRepeatable (boolean repeatable);
+	public IGroupContent getGroup();
+
+	public IBandContent getBand();
+
+	public void setRepeatable(boolean repeatable);
 
 	public boolean isRepeatable();
 

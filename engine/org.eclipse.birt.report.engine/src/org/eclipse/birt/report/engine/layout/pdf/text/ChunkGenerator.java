@@ -19,101 +19,74 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
 
 import com.ibm.icu.text.Bidi;
 
-public class ChunkGenerator
-{	
+public class ChunkGenerator {
 	private FontMappingManager fontManager;
 	private ITextContent textContent;
 	private boolean bidiProcessing;
 	private boolean fontSubstitution;
 	private String text;
-	
+
 	private ISplitter bidiSplitter = null;
 	private ISplitter fontSplitter = null;
-	
-	public ChunkGenerator( FontMappingManager fontManager,
-			ITextContent textContent, boolean bidiProcessing,
-			boolean fontSubstitution )
-	{
+
+	public ChunkGenerator(FontMappingManager fontManager, ITextContent textContent, boolean bidiProcessing,
+			boolean fontSubstitution) {
 		this.fontManager = fontManager;
 		this.textContent = textContent;
 		this.text = textContent.getText();
 		this.bidiProcessing = bidiProcessing;
 		this.fontSubstitution = fontSubstitution;
-		
-		if ( text == null || text.length( ) == 0 )
+
+		if (text == null || text.length() == 0)
 			return;
-		if ( bidiProcessing )
-		{
-			//FIXME implement the getDirection() method in ComputedStyle.
-			if ( CSSConstants.CSS_RTL_VALUE.equals( textContent
-					.getComputedStyle( ).getDirection( ) ) )
-			{
-				bidiSplitter = new BidiSplitter( new Chunk( text, 0,
-						Bidi.DIRECTION_RIGHT_TO_LEFT,
-						Bidi.DIRECTION_RIGHT_TO_LEFT ) );
-			}
-			else
-			{
-				bidiSplitter = new BidiSplitter( new Chunk( text, 0,
-						Bidi.DIRECTION_LEFT_TO_RIGHT,
-						Bidi.DIRECTION_LEFT_TO_RIGHT ) );
+		if (bidiProcessing) {
+			// FIXME implement the getDirection() method in ComputedStyle.
+			if (CSSConstants.CSS_RTL_VALUE.equals(textContent.getComputedStyle().getDirection())) {
+				bidiSplitter = new BidiSplitter(
+						new Chunk(text, 0, Bidi.DIRECTION_RIGHT_TO_LEFT, Bidi.DIRECTION_RIGHT_TO_LEFT));
+			} else {
+				bidiSplitter = new BidiSplitter(
+						new Chunk(text, 0, Bidi.DIRECTION_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT));
 			}
 		}
-		
-		if ( null == bidiSplitter )
-		{
-			fontSplitter = new FontSplitter( fontManager, new Chunk( text ),
-					textContent, fontSubstitution );
-		}
-		else
-		{
-			if ( bidiSplitter.hasMore( ) )
-			{
-				fontSplitter = new FontSplitter( fontManager, bidiSplitter
-						.getNext( ), textContent, fontSubstitution );
+
+		if (null == bidiSplitter) {
+			fontSplitter = new FontSplitter(fontManager, new Chunk(text), textContent, fontSubstitution);
+		} else {
+			if (bidiSplitter.hasMore()) {
+				fontSplitter = new FontSplitter(fontManager, bidiSplitter.getNext(), textContent, fontSubstitution);
 			}
-		}		
-				
+		}
+
 	}
-	
-	public boolean hasMore( )
-	{
-		if ( text == null || text.length( ) == 0 )
+
+	public boolean hasMore() {
+		if (text == null || text.length() == 0)
 			return false;
-		if ( bidiProcessing )
-		{
-			if ( null == bidiSplitter )
+		if (bidiProcessing) {
+			if (null == bidiSplitter)
 				return false;
-			if ( bidiSplitter.hasMore( ) )
+			if (bidiSplitter.hasMore())
 				return true;
 		}
-		if ( null == fontSplitter )
+		if (null == fontSplitter)
 			return false;
-		if ( fontSplitter.hasMore( ) )
+		if (fontSplitter.hasMore())
 			return true;
 		else
 			return false;
 	}
-	
-	public Chunk getNext( )
-	{
-		while ( null != fontSplitter )
-		{
-			if ( fontSplitter.hasMore( ) )
-			{
-				return fontSplitter.getNext( );
-			}
-			else
-			{
+
+	public Chunk getNext() {
+		while (null != fontSplitter) {
+			if (fontSplitter.hasMore()) {
+				return fontSplitter.getNext();
+			} else {
 				fontSplitter = null;
 			}
-			if ( null != bidiSplitter && bidiSplitter.hasMore( ) )
-			{
-				fontSplitter = new FontSplitter( fontManager, bidiSplitter
-						.getNext( ), textContent, fontSubstitution );
-			}
-			else
-			{
+			if (null != bidiSplitter && bidiSplitter.hasMore()) {
+				fontSplitter = new FontSplitter(fontManager, bidiSplitter.getNext(), textContent, fontSubstitution);
+			} else {
 				return null;
 			}
 		}

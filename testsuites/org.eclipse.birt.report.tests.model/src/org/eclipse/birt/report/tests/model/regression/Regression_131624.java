@@ -32,37 +32,31 @@ import com.ibm.icu.util.ULocale;
  * Ensure that "AutoText" is supported.
  * </p>
  */
-public class Regression_131624 extends BaseTestCase
-{
+public class Regression_131624 extends BaseTestCase {
 
 	/**
 	 * @throws Exception
 	 */
-	public void test_regression_131624( ) throws Exception
-	{
+	public void test_regression_131624() throws Exception {
 
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		AutoTextHandle autoText = factory.newAutoText( "sf1" ); //$NON-NLS-1$
-		try
-		{
-			autoText.setAutoTextType( "page-number" ); //$NON-NLS-1$
-		}
-		catch ( SemanticException e )
-		{
-			fail( );
+		ElementFactory factory = designHandle.getElementFactory();
+		AutoTextHandle autoText = factory.newAutoText("sf1"); //$NON-NLS-1$
+		try {
+			autoText.setAutoTextType("page-number"); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			fail();
 		}
 
-		SimpleMasterPageHandle page = (SimpleMasterPageHandle) factory
-				.newSimpleMasterPage( "My Page" );//$NON-NLS-1$
-		designHandle.getMasterPages( ).add( page );
-		page.getPageHeader( ).add( autoText );
+		SimpleMasterPageHandle page = (SimpleMasterPageHandle) factory.newSimpleMasterPage("My Page");//$NON-NLS-1$
+		designHandle.getMasterPages().add(page);
+		page.getPageHeader().add(autoText);
 
-		DesignElementHandle element = page.getPageHeader( ).get( 0 );
-		assertTrue( element instanceof AutoTextHandle );
+		DesignElementHandle element = page.getPageHeader().get(0);
+		assertTrue(element instanceof AutoTextHandle);
 
 	}
 

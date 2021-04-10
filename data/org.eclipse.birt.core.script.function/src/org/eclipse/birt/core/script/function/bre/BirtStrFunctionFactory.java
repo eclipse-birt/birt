@@ -19,12 +19,10 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionFactory;
  * 
  */
 
-public class BirtStrFunctionFactory implements IScriptFunctionFactory
-{
+public class BirtStrFunctionFactory implements IScriptFunctionFactory {
 
-	public IScriptFunctionExecutor getFunctionExecutor( String functionName ) throws BirtException
-	{
-		return new BirtStr( functionName );
+	public IScriptFunctionExecutor getFunctionExecutor(String functionName) throws BirtException {
+		return new BirtStr(functionName);
 	}
 
 }

@@ -19,44 +19,32 @@ import java.util.ResourceBundle;
  * properties file
  */
 
-public class ConfigText
-{
+public class ConfigText {
 
 	private static final String BUNDLE_NAME = "testutil.messages";//$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( BUNDLE_NAME );
+	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
-	private static String tableNameString = ConfigText.createRandomString( );
+	private static String tableNameString = ConfigText.createRandomString();
 
-	private ConfigText( )
-	{
+	private ConfigText() {
 	}
 
-	public static String getString( String key )
-	{
-		try
-		{
-			return RESOURCE_BUNDLE.getString( key )
-					.replaceAll( RESOURCE_BUNDLE.getString( "TableNameParameter" ),
-							tableNameString );
-		}
-		catch ( MissingResourceException e )
-		{
+	public static String getString(String key) {
+		try {
+			return RESOURCE_BUNDLE.getString(key).replaceAll(RESOURCE_BUNDLE.getString("TableNameParameter"),
+					tableNameString);
+		} catch (MissingResourceException e) {
 			return '!' + key + '!';
 		}
 	}
 
-	private static String createRandomString( )
-	{
-		char[] temp = Long.toString( System.currentTimeMillis( ) )
-				.toCharArray( );
-		char[] array = {
-				'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'
-		};
-		for ( int i = 0; i < temp.length; i++ )
-		{
-			temp[i] = array[Integer.parseInt( String.valueOf( temp[i] ) )];
+	private static String createRandomString() {
+		char[] temp = Long.toString(System.currentTimeMillis()).toCharArray();
+		char[] array = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' };
+		for (int i = 0; i < temp.length; i++) {
+			temp[i] = array[Integer.parseInt(String.valueOf(temp[i]))];
 		}
-		return String.copyValueOf( temp );
+		return String.copyValueOf(temp);
 	}
 }

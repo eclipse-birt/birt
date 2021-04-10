@@ -9,7 +9,6 @@
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
 
-
 package org.eclipse.birt.report.taglib.component;
 
 import java.io.Serializable;
@@ -23,16 +22,14 @@ import java.io.Serializable;
  * <li>displayText</li>
  * </ol>
  */
-public class ParamValueField implements Serializable
-{
+public class ParamValueField implements Serializable {
 	private static final long serialVersionUID = -7929285151061323600L;
-	
+
 	private Object value;
 	private String displayText;
 
-	public ParamValueField( )
-	{
-		super( );
+	public ParamValueField() {
+		super();
 		value = null;
 		displayText = null;
 	}
@@ -40,34 +37,28 @@ public class ParamValueField implements Serializable
 	/**
 	 * @return the value
 	 */
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return value;
 	}
 
 	/**
-	 * @param value
-	 *            the value to set
+	 * @param value the value to set
 	 */
-	public void setValue( Object value )
-	{
+	public void setValue(Object value) {
 		this.value = value;
 	}
 
 	/**
 	 * @return the displayText
 	 */
-	public String getDisplayText( )
-	{
+	public String getDisplayText() {
 		return displayText;
 	}
 
 	/**
-	 * @param displayText
-	 *            the displayText to set
+	 * @param displayText the displayText to set
 	 */
-	public void setDisplayText( String displayText )
-	{
+	public void setDisplayText(String displayText) {
 		this.displayText = displayText;
 	}
 

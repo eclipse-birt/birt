@@ -25,8 +25,7 @@ import org.xml.sax.SAXException;
  * 
  */
 
-public class CompatibleIntervalState extends CompatiblePropertyState
-{
+public class CompatibleIntervalState extends CompatiblePropertyState {
 
 	/**
 	 * Constructor
@@ -35,10 +34,8 @@ public class CompatibleIntervalState extends CompatiblePropertyState
 	 * @param element
 	 */
 
-	public CompatibleIntervalState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatibleIntervalState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/**
@@ -47,30 +44,26 @@ public class CompatibleIntervalState extends CompatiblePropertyState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	public void end() throws SAXException {
+		String value = text.toString();
 
 		boolean isAllowed = false;
-		IChoiceSet intervalChoice = MetaDataDictionary.getInstance( )
-				.getChoiceSet( DesignChoiceConstants.CHOICE_INTERVAL_TYPE );
-		IChoice[] choices = intervalChoice.getChoices( );
-		for ( int i = 0; i < choices.length; ++i )
-		{
+		IChoiceSet intervalChoice = MetaDataDictionary.getInstance()
+				.getChoiceSet(DesignChoiceConstants.CHOICE_INTERVAL_TYPE);
+		IChoice[] choices = intervalChoice.getChoices();
+		for (int i = 0; i < choices.length; ++i) {
 			IChoice choice = choices[i];
-			String choiceName = choice.getName( );
-			if ( choiceName.equalsIgnoreCase( value ) )
-			{
+			String choiceName = choice.getName();
+			if (choiceName.equalsIgnoreCase(value)) {
 				isAllowed = true;
 				break;
 			}
 		}
-		if ( !isAllowed )
-		{
+		if (!isAllowed) {
 			value = DesignChoiceConstants.INTERVAL_TYPE_NONE;
 		}
-		setProperty( name , value );
-		
+		setProperty(name, value);
+
 	}
 
 }

@@ -17,8 +17,7 @@ import java.util.logging.Logger;
  * 
  */
 
-public class Traversalor
-{
+public class Traversalor {
 
 	private int cursor = -1;
 	private int length = 0;
@@ -29,47 +28,40 @@ public class Traversalor
 	private int[] lengthArray;
 	private int[] current;
 
-	private static Logger logger = Logger.getLogger( Traversalor.class.getName( ) );
+	private static Logger logger = Logger.getLogger(Traversalor.class.getName());
 
 	/**
 	 * 
 	 * @param lengthArray
 	 */
-	public Traversalor( int[] lengthArray )
-	{
-		logger.entering( Traversalor.class.getName( ),
-				"Traversalor",
-				lengthArray );
+	public Traversalor(int[] lengthArray) {
+		logger.entering(Traversalor.class.getName(), "Traversalor", lengthArray);
 		this.lengthArray = lengthArray;
 		this.length = lengthArray.length;
 		this.positionValue = new int[length];
 		this.current = new int[length];
 
-		init( );
-		logger.exiting( Traversalor.class.getName( ), "Traversalor" );
+		init();
+		logger.exiting(Traversalor.class.getName(), "Traversalor");
 	}
 
 	/**
 	 * 
 	 *
 	 */
-	private void init( )
-	{
-		checkSyntax( );
-		computeMaxLength( );
-		computePositionValue( );
+	private void init() {
+		checkSyntax();
+		computeMaxLength();
+		computePositionValue();
 	}
 
 	/**
 	 * 
 	 *
 	 */
-	private void checkSyntax( )
-	{
-		for ( int i = 0; i < length; i++ )
-		{
-			if ( lengthArray[i] <= 0 )
-			{
+	private void checkSyntax() {
+		for (int i = 0; i < length; i++) {
+			if (lengthArray[i] <= 0) {
 				valid = false;
 				return;
 			}
@@ -80,10 +72,8 @@ public class Traversalor
 	 * 
 	 *
 	 */
-	private void computeMaxLength( )
-	{
-		for ( int i = 0; i < length; i++ )
-		{
+	private void computeMaxLength() {
+		for (int i = 0; i < length; i++) {
 			maxLength *= lengthArray[i];
 		}
 	}
@@ -92,16 +82,12 @@ public class Traversalor
 	 * 
 	 *
 	 */
-	private void computePositionValue( )
-	{
-		for ( int i = length - 1; i >= 0; i-- )
-		{
+	private void computePositionValue() {
+		for (int i = length - 1; i >= 0; i--) {
 			positionValue[i] = 1;
 
-			if ( i != length - 1 )
-			{
-				for ( int j = length - 1; j > i; j-- )
-				{
+			if (i != length - 1) {
+				for (int j = length - 1; j > i; j--) {
 					positionValue[i] *= lengthArray[j];
 				}
 			}
@@ -112,15 +98,14 @@ public class Traversalor
 	 * 
 	 * @return
 	 */
-	public boolean next( )
-	{
-		checkValid( );
+	public boolean next() {
+		checkValid();
 
-		if ( !valid )
+		if (!valid)
 			return false;
 
 		cursor++;
-		computeCurrent( );
+		computeCurrent();
 
 		return true;
 	}
@@ -129,12 +114,11 @@ public class Traversalor
 	 * 
 	 *
 	 */
-	private void checkValid( )
-	{
-		if ( !valid )
+	private void checkValid() {
+		if (!valid)
 			return;
 
-		if ( cursor == maxLength - 1 )
+		if (cursor == maxLength - 1)
 			valid = false;
 	}
 
@@ -142,13 +126,11 @@ public class Traversalor
 	 * 
 	 *
 	 */
-	private void computeCurrent( )
-	{
+	private void computeCurrent() {
 		int position = cursor;
-		for ( int i = 0; i < length; i++ )
-		{
+		for (int i = 0; i < length; i++) {
 			current[i] = position / positionValue[i];
-			if ( current[i] > 0 )
+			if (current[i] > 0)
 				position = position % positionValue[i];
 		}
 	}
@@ -157,13 +139,11 @@ public class Traversalor
 	 * 
 	 * @return
 	 */
-	public int[] getIntArray( )
-	{
+	public int[] getIntArray() {
 		return current;
 	}
 
-	public int getInt( int index )
-	{
+	public int getInt(int index) {
 		return current[index];
 	}
 

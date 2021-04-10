@@ -28,28 +28,23 @@ import org.eclipse.birt.data.oda.pojo.api.Constants;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
-
 /**
  * Parse a class path string , where each path is separated with
  * <code>Constants.CLASS_PATH_SEPERATOR</code>, to generate an array containing
  * <code>java.net.URL<code>
  */
-public class URLParser
-{
-	private static Logger logger = Logger.getLogger( URLParser.class.getName( ) );
-	
+public class URLParser {
+	private static Logger logger = Logger.getLogger(URLParser.class.getName());
+
 	private Object resourceIdentifiers;
-	
+
 	@SuppressWarnings("rawtypes")
-	public URLParser( Map appContext )
-	{
-		if ( appContext != null )
-		{
-			resourceIdentifiers = appContext.get( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS );
+	public URLParser(Map appContext) {
+		if (appContext != null) {
+			resourceIdentifiers = appContext.get(ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS);
 		}
-		if ( resourceIdentifiers == null )
-		{
-			logger.log( Level.WARNING, "No ResourceIdentifiers are provided in appContext!" );  //$NON-NLS-1$
+		if (resourceIdentifiers == null) {
+			logger.log(Level.WARNING, "No ResourceIdentifiers are provided in appContext!"); //$NON-NLS-1$
 		}
 	}
 
@@ -57,147 +52,108 @@ public class URLParser
 	 * parse <code>classPath</code> into an array containing
 	 * <code>java.net.URL<code>
 	 * 
-	 * @param classPath
+	 * &#64;param classPath
 	 *            : each path is separated with
 	 *            <code>Constants.CLASS_PATH_SEPERATOR</code>
 	 * @return
-	 * @throws OdaException
-	 *             if error/exception occur during parsing
+	 * @throws OdaException if error/exception occur during parsing
 	 */
-	public URL[] parse( String classPath ) throws OdaException
-	{
-		if ( classPath == null )
-		{
+	public URL[] parse(String classPath) throws OdaException {
+		if (classPath == null) {
 			return new URL[0];
 		}
-		String[] paths = classPath.split( String.valueOf( Constants.CLASS_PATH_SEPERATOR ) );
-		List<URL> urls = new ArrayList<URL>( );
-		for ( String path : paths )
-		{
-			path = path.trim( );
-			if ( path.equals( "" )) //$NON-NLS-1$
+		String[] paths = classPath.split(String.valueOf(Constants.CLASS_PATH_SEPERATOR));
+		List<URL> urls = new ArrayList<URL>();
+		for (String path : paths) {
+			path = path.trim();
+			if (path.equals("")) //$NON-NLS-1$
 			{
-				//just ignore
+				// just ignore
 				continue;
 			}
 			URI uri = null;
-			if ( (new File( path )).isAbsolute( ) )
-			{
-				//an absolute path
-				uri = new File( path ).toURI( );
-				try
-				{
-					urls.add( uri.toURL( ) );					
+			if ((new File(path)).isAbsolute()) {
+				// an absolute path
+				uri = new File(path).toURI();
+				try {
+					urls.add(uri.toURL());
+				} catch (MalformedURLException e) {
+					throw new OdaException(e);
 				}
-				catch ( MalformedURLException e )
-				{
-					throw new OdaException( e );
+			} else {
+				// a relative path
+				try {
+					uri = new URI(resolveURI(path));
+				} catch (URISyntaxException e) {
+					throw new OdaException(e);
 				}
-			}
-			else
-			{
-				//a relative path
-				try
-				{
-					uri = new URI( resolveURI( path ));
-				}
-				catch ( URISyntaxException e )
-				{
-					throw new OdaException( e );
-				}
-				if ( resourceIdentifiers != null )
-				{
-					URI resovledUri = ResourceIdentifiers.resolveApplResource( resourceIdentifiers, uri );
-					if ( resovledUri == null )
-					{
-						logger.log( Level.WARNING, "Failed to resolve path:" + uri //$NON-NLS-1$
-								+ " from app resource folder(" + ResourceIdentifiers.getApplResourceBaseURI( resourceIdentifiers ) + ')');  //$NON-NLS-1$
-					
-					//then, try to resolve it from design resource
-						resovledUri = ResourceIdentifiers.resolveDesignResource( resourceIdentifiers, uri );
+				if (resourceIdentifiers != null) {
+					URI resovledUri = ResourceIdentifiers.resolveApplResource(resourceIdentifiers, uri);
+					if (resovledUri == null) {
+						logger.log(Level.WARNING, "Failed to resolve path:" + uri //$NON-NLS-1$
+								+ " from app resource folder(" //$NON-NLS-1$
+								+ ResourceIdentifiers.getApplResourceBaseURI(resourceIdentifiers) + ')');
+
+						// then, try to resolve it from design resource
+						resovledUri = ResourceIdentifiers.resolveDesignResource(resourceIdentifiers, uri);
 					}
-					if ( resovledUri == null )
-					{
-						logger.log( Level.WARNING, "Failed to resolve path:" + uri ); //$NON-NLS-1$
-					}
-					else
-					{
-						try
-						{
-							try 
-							{
-								String urlpath = enableURI( URLDecoder.decode( resovledUri.toString(), "UTF-8" ) );
-								urls.add( new URL( urlpath ) );
+					if (resovledUri == null) {
+						logger.log(Level.WARNING, "Failed to resolve path:" + uri); //$NON-NLS-1$
+					} else {
+						try {
+							try {
+								String urlpath = enableURI(URLDecoder.decode(resovledUri.toString(), "UTF-8"));
+								urls.add(new URL(urlpath));
+							} catch (UnsupportedEncodingException e) {
+								urls.add(resovledUri.toURL());
 							}
-							catch ( UnsupportedEncodingException e ) 
-							{
-								urls.add( resovledUri.toURL( ) );
-							}
-						}
-						catch ( MalformedURLException e )
-						{
-							throw new OdaException( e );
+						} catch (MalformedURLException e) {
+							throw new OdaException(e);
 						}
 					}
-				}
-				else
-				{
-					try
-					{
-						urls.add( uri.toURL( ) );
-					}
-					catch ( MalformedURLException e )
-					{
-						throw new OdaException( e );
+				} else {
+					try {
+						urls.add(uri.toURL());
+					} catch (MalformedURLException e) {
+						throw new OdaException(e);
 					}
 				}
 			}
 		}
-		return urls.toArray( new URL[0] );
+		return urls.toArray(new URL[0]);
 	}
-	
 
-	private String resolveURI( String location )
-	{
-		String result = enableURI( location );
-		if ( !result.endsWith( ".jar" ) //$NON-NLS-1$
-				&& !result.endsWith( ".zip" )) //$NON-NLS-1$
+	private String resolveURI(String location) {
+		String result = enableURI(location);
+		if (!result.endsWith(".jar") //$NON-NLS-1$
+				&& !result.endsWith(".zip")) //$NON-NLS-1$
 		{
-			//consider it as a directory
-			//but a URL not ends with "/" is treated as file
-			if ( result.charAt( result.length( ) -1 ) != '/')
-			{
-				 result += "/"; //$NON-NLS-1$
+			// consider it as a directory
+			// but a URL not ends with "/" is treated as file
+			if (result.charAt(result.length() - 1) != '/') {
+				result += "/"; //$NON-NLS-1$
 			}
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 
 	 * @param location
 	 * @return
 	 */
-	private String enableURI( String location )
-	{
+	private String enableURI(String location) {
 		String result = location;
-		try
-		{
-			if ( File.separatorChar != '/' )
-				location = location.replace( File.separatorChar, '/' );
-			if( location.startsWith( "/" ) )
-			{
-				result = new File( location ).toURI( )
-						.toASCIIString( )
-						.replaceFirst( new File( "/" ).toURI( ).toASCIIString( ), "/" );				
-			}
-			else
-				result = new File( location ).toURI( )
-					.toASCIIString( )
-					.replaceFirst( new File( "" ).toURI( ).toASCIIString( ), "" );
-		}
-		catch ( Exception e )
-		{
+		try {
+			if (File.separatorChar != '/')
+				location = location.replace(File.separatorChar, '/');
+			if (location.startsWith("/")) {
+				result = new File(location).toURI().toASCIIString().replaceFirst(new File("/").toURI().toASCIIString(),
+						"/");
+			} else
+				result = new File(location).toURI().toASCIIString().replaceFirst(new File("").toURI().toASCIIString(),
+						"");
+		} catch (Exception e) {
 			return location;
 		}
 		return result;

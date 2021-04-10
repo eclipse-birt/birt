@@ -17,20 +17,15 @@ import org.eclipse.jface.action.IAction;
 /**
  * ActionPropertyTester
  */
-public class ActionPropertyTester extends PropertyTester
-{
+public class ActionPropertyTester extends PropertyTester {
 
-	public boolean test( Object receiver, String property, Object[] args,
-			Object expectedValue )
-	{
-		if ( "id".equals( property ) ) //$NON-NLS-1$
+	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
+		if ("id".equals(property)) //$NON-NLS-1$
 		{
-			if ( receiver instanceof IAction )
-			{
-				String id = ( (IAction) receiver ).getId( );
+			if (receiver instanceof IAction) {
+				String id = ((IAction) receiver).getId();
 
-				return ( id == null ) ? ( expectedValue == null )
-						: ( id.equals( expectedValue ) );
+				return (id == null) ? (expectedValue == null) : (id.equals(expectedValue));
 			}
 		}
 		return false;

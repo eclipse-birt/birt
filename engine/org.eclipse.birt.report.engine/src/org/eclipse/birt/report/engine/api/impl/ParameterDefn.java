@@ -19,8 +19,7 @@ import org.eclipse.birt.report.engine.api.IParameterDefn;
  * Created on Oct 26, 2004 Base class for defining parameters.
  */
 
-public class ParameterDefn extends ParameterDefnBase implements IParameterDefn
-{
+public class ParameterDefn extends ParameterDefnBase implements IParameterDefn {
 
 	protected boolean isHidden;
 
@@ -35,45 +34,38 @@ public class ParameterDefn extends ParameterDefnBase implements IParameterDefn
 	/**
 	 * @param isHidden
 	 */
-	public void setIsHidden( boolean isHidden )
-	{
+	public void setIsHidden(boolean isHidden) {
 		this.isHidden = isHidden;
 	}
 
-	public boolean isHidden( )
-	{
+	public boolean isHidden() {
 		return isHidden;
 	}
 
-	public boolean isRequired( )
-	{
+	public boolean isRequired() {
 		return isRequired;
 	}
 
 	/**
 	 * @param isRequired
 	 */
-	public void setIsRequired( boolean isRequired )
-	{
+	public void setIsRequired(boolean isRequired) {
 		this.isRequired = isRequired;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api2.IScalarParameterDefn#getDataType()
+	 * @see org.eclipse.birt.report.engine.api2.IScalarParameterDefn#getDataType()
 	 */
-	public int getDataType( )
-	{
+	public int getDataType() {
 		return dataType;
 	}
 
 	/**
 	 * @param dataType
 	 */
-	public void setDataType( int dataType )
-	{
+	public void setDataType(int dataType) {
 		this.dataType = dataType;
 	}
 
@@ -81,11 +73,9 @@ public class ParameterDefn extends ParameterDefnBase implements IParameterDefn
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.api2.IScalarParameterDefn#getSelectionList
-	 * ()
+	 * org.eclipse.birt.report.engine.api2.IScalarParameterDefn#getSelectionList ()
 	 */
-	public ArrayList getSelectionList( )
-	{
+	public ArrayList getSelectionList() {
 		return selectionList;
 	}
 
@@ -96,26 +86,21 @@ public class ParameterDefn extends ParameterDefnBase implements IParameterDefn
 	 * org.eclipse.birt.report.engine.api2.IScalarParameterDefn#getSelectionListType
 	 * ()
 	 */
-	public int getSelectionListType( )
-	{
+	public int getSelectionListType() {
 		return selectionListType;
 	}
 
 	/**
-	 * @param selectionListType
-	 *            The selectionListType to set.
+	 * @param selectionListType The selectionListType to set.
 	 */
-	public void setSelectionListType( int selectionListType )
-	{
+	public void setSelectionListType(int selectionListType) {
 		this.selectionListType = selectionListType;
 	}
 
 	/**
-	 * @param paramSelectionList
-	 *            The paramSelectionList to set.
+	 * @param paramSelectionList The paramSelectionList to set.
 	 */
-	public void setSelectionList( ArrayList paramSelectionList )
-	{
+	public void setSelectionList(ArrayList paramSelectionList) {
 		this.selectionList = paramSelectionList;
 	}
 }

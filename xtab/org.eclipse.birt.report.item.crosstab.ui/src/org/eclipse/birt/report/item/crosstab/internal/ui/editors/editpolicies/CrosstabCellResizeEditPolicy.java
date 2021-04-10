@@ -25,65 +25,61 @@ import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 /**
  * Cell resize police
  */
-public class CrosstabCellResizeEditPolicy extends ResizableEditPolicy
-{
+public class CrosstabCellResizeEditPolicy extends ResizableEditPolicy {
 
 	/**
 	 * Obtains the specified layer.
 	 * 
-	 * @param layer
-	 *            the key identifying the layer
+	 * @param layer the key identifying the layer
 	 * @return the requested layer
 	 */
-	protected IFigure getLayer( Object layer )
-	{
+	protected IFigure getLayer(Object layer) {
 		IFigure figure = null;
-		if ( getHost( ) instanceof CrosstabCellEditPart )
-		{
-			figure = ( (CrosstabCellEditPart) getHost( ) ).getLayer( layer );
+		if (getHost() instanceof CrosstabCellEditPart) {
+			figure = ((CrosstabCellEditPart) getHost()).getLayer(layer);
 		}
-		if ( figure != null )
-		{
+		if (figure != null) {
 			return figure;
 		}
-		return super.getLayer( layer );
+		return super.getLayer(layer);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editpolicies.ResizableEditPolicy#createSelectionHandles()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.gef.editpolicies.ResizableEditPolicy#createSelectionHandles()
 	 */
-	protected List createSelectionHandles( )
-	{
-		List list = new ArrayList( );
-		if ( getHost( ).getSelected( ) != EditPart.SELECTED_PRIMARY )
-		{
+	protected List createSelectionHandles() {
+		List list = new ArrayList();
+		if (getHost().getSelected() != EditPart.SELECTED_PRIMARY) {
 			return list;
 		}
-		CrosstabHandleKit.addHandles( (CrosstabCellEditPart) getHost( ), list );
+		CrosstabHandleKit.addHandles((CrosstabCellEditPart) getHost(), list);
 		return list;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#getTargetEditPart(org.eclipse.gef.Request)
+	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#getTargetEditPart(org.
+	 * eclipse.gef.Request)
 	 */
-	public EditPart getTargetEditPart( Request request )
-	{
+	public EditPart getTargetEditPart(Request request) {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editpolicies.SelectionHandlesEditPolicy#addSelectionHandles()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.gef.editpolicies.SelectionHandlesEditPolicy#addSelectionHandles()
 	 */
-	protected void addSelectionHandles( )
-	{
-		if ( ( (ReportElementEditPart) getHost( ) ).isDelete( )
-				|| getHost( ).getSelected( ) != EditPart.SELECTED_PRIMARY )
-		{
+	protected void addSelectionHandles() {
+		if (((ReportElementEditPart) getHost()).isDelete() || getHost().getSelected() != EditPart.SELECTED_PRIMARY) {
 			return;
 		}
-		super.addSelectionHandles( );
+		super.addSelectionHandles();
 
 	}
 
@@ -91,9 +87,8 @@ public class CrosstabCellResizeEditPolicy extends ResizableEditPolicy
 	 * @param handle_layer
 	 * @return
 	 */
-	protected void removeSelectionHandles( )
-	{
-		super.removeSelectionHandles( );
+	protected void removeSelectionHandles() {
+		super.removeSelectionHandles();
 	}
 
 	/*
@@ -101,8 +96,7 @@ public class CrosstabCellResizeEditPolicy extends ResizableEditPolicy
 	 * 
 	 * @see org.eclipse.gef.editpolicies.NonResizableEditPolicy#showFocus()
 	 */
-	protected void showFocus( )
-	{
+	protected void showFocus() {
 		// do nothing
 	}
 }

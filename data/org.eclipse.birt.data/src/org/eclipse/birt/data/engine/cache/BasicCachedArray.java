@@ -18,8 +18,7 @@ import org.eclipse.birt.data.engine.impl.DataEngineSession;
  * when cache is not enough . It makes the reading/writing objects transparent.
  */
 
-public class BasicCachedArray
-{
+public class BasicCachedArray {
 
 	BasicCachedList cachedList = null;
 	int initialCapacity;
@@ -28,12 +27,10 @@ public class BasicCachedArray
 	 * 
 	 * @param initialCapacity
 	 */
-	public BasicCachedArray( String tempDir, int initialCapacity )
-	{
-		if ( initialCapacity < 0 )
-			throw new IllegalArgumentException( "Illegal Capacity: "
-					+ initialCapacity );
-		this.cachedList = new BasicCachedList( tempDir, DataEngineSession.getCurrentClassLoader( ) );
+	public BasicCachedArray(String tempDir, int initialCapacity) {
+		if (initialCapacity < 0)
+			throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
+		this.cachedList = new BasicCachedList(tempDir, DataEngineSession.getCurrentClassLoader());
 		this.initialCapacity = initialCapacity;
 	}
 
@@ -42,14 +39,12 @@ public class BasicCachedArray
 	 * @param index
 	 * @return
 	 */
-	public Object get( int index )
-	{
-		RangeCheck( index );
-		if ( cachedList.size( ) <= index )
-		{
-			resize( index + 1 );
+	public Object get(int index) {
+		RangeCheck(index);
+		if (cachedList.size() <= index) {
+			resize(index + 1);
 		}
-		return cachedList.get( index );
+		return cachedList.get(index);
 	}
 
 	/**
@@ -57,43 +52,34 @@ public class BasicCachedArray
 	 * @param index
 	 * @param element
 	 */
-	public void set( int index, Object element )
-	{
-		RangeCheck( index );
-		if ( cachedList.size( ) > index )
-		{
-			cachedList.set( index, element );
-		}
-		else if ( cachedList.size( ) == index )
-		{
-			cachedList.add( element );
-		}
-		else
-		{
-			resize( index + 1 );
-			cachedList.set( index, element );
+	public void set(int index, Object element) {
+		RangeCheck(index);
+		if (cachedList.size() > index) {
+			cachedList.set(index, element);
+		} else if (cachedList.size() == index) {
+			cachedList.add(element);
+		} else {
+			resize(index + 1);
+			cachedList.set(index, element);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int length( )
-	{
+	public int length() {
 		return initialCapacity;
 	}
-	
+
 	/**
 	 * 
 	 * @param size
 	 */
-	private void resize( int totalSize )
-	{
-		int oldSize = cachedList.size( );
-		for ( int i = 0; i < totalSize - oldSize; i++ )
-		{
-			cachedList.add( null );
+	private void resize(int totalSize) {
+		int oldSize = cachedList.size();
+		for (int i = 0; i < totalSize - oldSize; i++) {
+			cachedList.add(null);
 		}
 	}
 
@@ -101,11 +87,9 @@ public class BasicCachedArray
 	 * 
 	 * @param index
 	 */
-	private void RangeCheck( int index )
-	{
-		if ( index >= initialCapacity )
-			throw new IndexOutOfBoundsException( "Index: "
-					+ index + ", Size: " + initialCapacity );
+	private void RangeCheck(int index) {
+		if (index >= initialCapacity)
+			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + initialCapacity);
 	}
 
 }

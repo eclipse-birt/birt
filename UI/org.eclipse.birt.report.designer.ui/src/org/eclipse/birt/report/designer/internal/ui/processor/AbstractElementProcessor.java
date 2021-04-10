@@ -23,13 +23,11 @@ import org.eclipse.birt.report.model.api.ElementFactory;
  * The abstract class for processors
  */
 
-public abstract class AbstractElementProcessor implements IElementProcessor
-{
+public abstract class AbstractElementProcessor implements IElementProcessor {
 
 	private String elementType;
 
-	protected AbstractElementProcessor( String elementType )
-	{
+	protected AbstractElementProcessor(String elementType) {
 		this.elementType = elementType;
 	}
 
@@ -38,8 +36,7 @@ public abstract class AbstractElementProcessor implements IElementProcessor
 	 * 
 	 * @return Returns the type of the element to process
 	 */
-	public String getElementType( )
-	{
+	public String getElementType() {
 		return elementType;
 	}
 
@@ -49,30 +46,22 @@ public abstract class AbstractElementProcessor implements IElementProcessor
 	 * @return Returns the element factory of the current report design.
 	 */
 
-	protected static ElementFactory getElementFactory( )
-	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getElementFactory( );
+	protected static ElementFactory getElementFactory() {
+		return SessionHandleAdapter.getInstance().getReportDesignHandle().getElementFactory();
 	}
 
 	/**
 	 * Gets the new name for the new element from the extended data
 	 * 
-	 * @param extendedData
-	 *            the extended data for creation
+	 * @param extendedData the extended data for creation
 	 * @return Returns the new name for the new element
 	 */
-	protected static String getNewName( Object extendedData )
-	{
+	protected static String getNewName(Object extendedData) {
 		String newName = null;
-		if ( extendedData instanceof String )
-		{
+		if (extendedData instanceof String) {
 			newName = (String) extendedData;
-		}
-		else if ( extendedData instanceof Map )
-		{
-			newName = (String) ( (Map) extendedData ).get( ELEMENT_NAME );
+		} else if (extendedData instanceof Map) {
+			newName = (String) ((Map) extendedData).get(ELEMENT_NAME);
 		}
 		return newName;
 	}
@@ -80,25 +69,25 @@ public abstract class AbstractElementProcessor implements IElementProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#getCreateTransactionLabel()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#
+	 * getCreateTransactionLabel()
 	 */
-	public String getCreateTransactionLabel( )
-	{
-		return MessageFormat.format( "Create {0}", new Object[]{ //$NON-NLS-1$
-			elementType
-		} );
+	public String getCreateTransactionLabel() {
+		return MessageFormat.format("Create {0}", new Object[] { //$NON-NLS-1$
+				elementType });
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#getEditeTransactionLabel()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#
+	 * getEditeTransactionLabel()
 	 */
-	public String getEditeTransactionLabel( DesignElementHandle handle )
-	{
-		return MessageFormat.format( "Edit {0}", new Object[]{ //$NON-NLS-1$
-			DEUtil.getDisplayLabel( handle )
-		} );
+	public String getEditeTransactionLabel(DesignElementHandle handle) {
+		return MessageFormat.format("Edit {0}", new Object[] { //$NON-NLS-1$
+				DEUtil.getDisplayLabel(handle) });
 	}
 
 }

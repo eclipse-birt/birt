@@ -23,46 +23,35 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 
-public class CubeSubFolderNodeProvider extends DefaultNodeProvider
-{
+public class CubeSubFolderNodeProvider extends DefaultNodeProvider {
 
-	public Image getNodeIcon( Object model )
-	{
+	public Image getNodeIcon(Object model) {
 		PropertyHandle property = (PropertyHandle) model;
-		String name = property.getPropertyDefn( ).getName( );
-		if ( name.equals( ICubeModel.DIMENSIONS_PROP ) )
-		{
-			return UIHelper.getImage( BuilderConstants.IMAGE_DIMENSION_FOLDER );
+		String name = property.getPropertyDefn().getName();
+		if (name.equals(ICubeModel.DIMENSIONS_PROP)) {
+			return UIHelper.getImage(BuilderConstants.IMAGE_DIMENSION_FOLDER);
+		} else if (name.equals(ICubeModel.MEASURE_GROUPS_PROP)) {
+			return UIHelper.getImage(BuilderConstants.IMAGE_MEASUREGROUP_FOLDER);
 		}
-		else if ( name.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-		{
-			return UIHelper.getImage( BuilderConstants.IMAGE_MEASUREGROUP_FOLDER );
-		}
-		return super.getNodeIcon( model );
+		return super.getNodeIcon(model);
 	}
 
-	public boolean hasChildren( Object object )
-	{
-		return getChildren( object ).length > 0;
+	public boolean hasChildren(Object object) {
+		return getChildren(object).length > 0;
 	}
 
-	public Object getParent( Object model )
-	{
+	public Object getParent(Object model) {
 		PropertyHandle property = (PropertyHandle) model;
-		return property.getElementHandle( );
+		return property.getElementHandle();
 	}
 
-	public String getNodeDisplayName( Object model )
-	{
+	public String getNodeDisplayName(Object model) {
 		PropertyHandle property = (PropertyHandle) model;
-		String name = property.getPropertyDefn( ).getName( );
-		if ( name.equals( ICubeModel.DIMENSIONS_PROP ) )
-		{
-			return Messages.getString( "Cube.Groups" ); //$NON-NLS-1$
-		}
-		else if ( name.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-		{
-			return Messages.getString( "Cube.MeasureGroup" ); //$NON-NLS-1$
+		String name = property.getPropertyDefn().getName();
+		if (name.equals(ICubeModel.DIMENSIONS_PROP)) {
+			return Messages.getString("Cube.Groups"); //$NON-NLS-1$
+		} else if (name.equals(ICubeModel.MEASURE_GROUPS_PROP)) {
+			return Messages.getString("Cube.MeasureGroup"); //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -70,51 +59,39 @@ public class CubeSubFolderNodeProvider extends DefaultNodeProvider
 	/**
 	 * Gets the children element of the given model using visitor.
 	 * 
-	 * @param object
-	 *            the handle
+	 * @param object the handle
 	 */
-	public Object[] getChildren( Object object )
-	{
+	public Object[] getChildren(Object object) {
 		PropertyHandle property = (PropertyHandle) object;
-		String name = property.getPropertyDefn( ).getName( );
+		String name = property.getPropertyDefn().getName();
 
-		if ( name.equals( ICubeModel.DIMENSIONS_PROP ) )
-		{
-			CubeHandle cube = (CubeHandle) property.getElementHandle( );
-			return cube.getContents( CubeHandle.DIMENSIONS_PROP ).toArray( );
+		if (name.equals(ICubeModel.DIMENSIONS_PROP)) {
+			CubeHandle cube = (CubeHandle) property.getElementHandle();
+			return cube.getContents(CubeHandle.DIMENSIONS_PROP).toArray();
 
-		}
-		else if ( name.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-		{
-			CubeHandle cube = (CubeHandle) property.getElementHandle( );
-			return cube.getContents( CubeHandle.MEASURE_GROUPS_PROP ).toArray( );
+		} else if (name.equals(ICubeModel.MEASURE_GROUPS_PROP)) {
+			CubeHandle cube = (CubeHandle) property.getElementHandle();
+			return cube.getContents(CubeHandle.MEASURE_GROUPS_PROP).toArray();
 		}
 		return new Object[0];
 	}
 
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		PropertyHandle property = (PropertyHandle) object;
-		String name = property.getPropertyDefn( ).getName( );
+		String name = property.getPropertyDefn().getName();
 
 		EditCubeAction action = null;
 
-		if ( name.equals( ICubeModel.DIMENSIONS_PROP ) )
-		{
-			action = new EditCubeAction( property,
-					Messages.getString( "CubeModel.group.edit" ) );//$NON-NLS-1$
+		if (name.equals(ICubeModel.DIMENSIONS_PROP)) {
+			action = new EditCubeAction(property, Messages.getString("CubeModel.group.edit"));//$NON-NLS-1$
 
-		}
-		else if ( name.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-		{
-			action = new EditCubeAction( property,
-					Messages.getString( "CubeModel.summaryfield.edit" ) );//$NON-NLS-1$
+		} else if (name.equals(ICubeModel.MEASURE_GROUPS_PROP)) {
+			action = new EditCubeAction(property, Messages.getString("CubeModel.summaryfield.edit"));//$NON-NLS-1$
 		}
 
-		if ( action != null )
-			menu.add( action );
-		super.createContextMenu( sourceViewer, object, menu );
+		if (action != null)
+			menu.add(action);
+		super.createContextMenu(sourceViewer, object, menu);
 
 //		menu.insertBefore( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$
 //				new ShowPropertyAction( object ) );

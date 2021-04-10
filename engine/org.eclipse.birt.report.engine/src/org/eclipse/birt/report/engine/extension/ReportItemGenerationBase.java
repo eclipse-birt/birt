@@ -23,8 +23,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 /**
  * Implements a default generation peer that does nothing
  */
-public class ReportItemGenerationBase implements IReportItemGeneration
-{
+public class ReportItemGenerationBase implements IReportItemGeneration {
 
 	protected ExtendedItemHandle modelHandle;
 	protected ClassLoader appClassLoader;
@@ -32,27 +31,24 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 	protected IDataQueryDefinition[] queries;
 	protected IContent content;
 	protected IReportItemGenerationInfo info;
-	
+
 	/**
 	 * Constructor that does nothing
 	 */
-	public ReportItemGenerationBase( )
-	{
+	public ReportItemGenerationBase() {
 	}
-	
-	public void init( IReportItemGenerationInfo info )
-	{
-		if ( info == null )
-		{
-			throw new NullPointerException( );
+
+	public void init(IReportItemGenerationInfo info) {
+		if (info == null) {
+			throw new NullPointerException();
 		}
 
 		this.info = info;
-		setModelObject( info.getModelObject( ) );
-		setApplicationClassLoader( info.getApplicationClassLoader( ) );
-		setScriptContext( info.getReportContext( ) );
-		setReportQueries( info.getReportQueries( ) );
-		setExtendedItemContent( info.getExtendedItemContent( ) );
+		setModelObject(info.getModelObject());
+		setApplicationClassLoader(info.getApplicationClassLoader());
+		setScriptContext(info.getReportContext());
+		setReportQueries(info.getReportQueries());
+		setExtendedItemContent(info.getExtendedItemContent());
 	}
 
 	/*
@@ -60,8 +56,7 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#getSize()
 	 */
-	public Size getSize( )
-	{
+	public Size getSize() {
 		return null;
 	}
 
@@ -70,103 +65,98 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#finish()
 	 */
-	public void finish( )
-	{
+	public void finish() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemGeneration#setModelObject
+	 * (org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
-	public void setModelObject( ExtendedItemHandle modelHandle )
-	{
+	public void setModelObject(ExtendedItemHandle modelHandle) {
 		this.modelHandle = modelHandle;
 	}
 
-	public void setApplicationClassLoader( ClassLoader loader )
-	{
+	public void setApplicationClassLoader(ClassLoader loader) {
 		this.appClassLoader = loader;
 	}
-	
-	public void setScriptContext( IReportContext context )
-	{
+
+	public void setScriptContext(IReportContext context) {
 		this.context = context;
 	}
 
-	public void setReportQueries( IDataQueryDefinition[] queries )
-	{
+	public void setReportQueries(IDataQueryDefinition[] queries) {
 		this.queries = queries;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#onRowSets(org.eclipse.birt.report.engine.extension.IRowSet[])
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemGeneration#onRowSets(org.
+	 * eclipse.birt.report.engine.extension.IRowSet[])
 	 */
-	public void onRowSets( IRowSet[] rowSets ) throws BirtException
-	{
+	public void onRowSets(IRowSet[] rowSets) throws BirtException {
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#onRowSets(org.eclipse.birt.report.engine.extension.IBaseResultSet[])
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemGeneration#onRowSets(org.
+	 * eclipse.birt.report.engine.extension.IBaseResultSet[])
 	 */
-	public void onRowSets( IBaseResultSet[] results ) throws BirtException
-	{
-		if ( results == null )
-		{
-			onRowSets( (IRowSet[]) null );
+	public void onRowSets(IBaseResultSet[] results) throws BirtException {
+		if (results == null) {
+			onRowSets((IRowSet[]) null);
 			return;
 		}
 
 		int length = results.length;
 
 		// test if the IBaseResultSet is a ICubeResultSet
-		for ( int i = 0; i < length; i++ )
-		{
-			if ( results[i].getType( ) == IBaseResultSet.CUBE_RESULTSET )
-			{
+		for (int i = 0; i < length; i++) {
+			if (results[i].getType() == IBaseResultSet.CUBE_RESULTSET) {
 				return;
 			}
 		}
 
 		IRowSet[] rowSets = new IRowSet[length];
-		for ( int index = 0; index < length; index++ )
-		{
+		for (int index = 0; index < length; index++) {
 			IQueryResultSet resultSet = (IQueryResultSet) results[index];
-			rowSets[index] = new RowSet( resultSet );
+			rowSets[index] = new RowSet(resultSet);
 		}
-		onRowSets( rowSets );
+		onRowSets(rowSets);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#serialize(java.io.OutputStream)
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemGeneration#serialize(java
+	 * .io.OutputStream)
 	 */
-	public void serialize( OutputStream ostream ) throws BirtException
-	{
+	public void serialize(OutputStream ostream) throws BirtException {
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#needSerialization()
+	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#
+	 * needSerialization()
 	 */
-	public boolean needSerialization( )
-	{
+	public boolean needSerialization() {
 		return false;
 	}
 
-	public void setExtendedItemContent( IContent content )
-	{
+	public void setExtendedItemContent(IContent content) {
 		this.content = content;
 	}
 
-	public IReportItemGenerationInfo getGenerationConfig( )
-	{
+	public IReportItemGenerationInfo getGenerationConfig() {
 		return info;
 	}
 

@@ -16,8 +16,7 @@ package org.eclipse.birt.chart.ui.swt.fieldassist.preferences;
  * 
  * @since 2.5
  */
-public class PreferenceConstants
-{
+public class PreferenceConstants {
 
 	public static final String PREF_DECORATOR_VERTICALLOCATION = "prefDecoratorVerticalLocation"; //$NON-NLS-1$
 	public static final String PREF_DECORATOR_VERTICALLOCATION_TOP = "prefDecoratorVerticalTop"; //$NON-NLS-1$
@@ -47,6 +46,6 @@ public class PreferenceConstants
 	public static final String PREF_CONTENTASSISTFILTER_CUMULATIVE = "cumulative filter"; //$NON-NLS-1$
 	public static final String PREF_CONTENTASSISTFILTER_CHAR = "character filter"; //$NON-NLS-1$
 	public static final String PREF_CONTENTASSISTFILTER_NONE = "none"; //$NON-NLS-1$
-	
+
 	public static final String PREF_SHOWREQUIREDFIELDLABELINDICATOR = "prefShowRequiredFieldLabelIndicator"; //$NON-NLS-1$
 }

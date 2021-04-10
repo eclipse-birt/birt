@@ -18,24 +18,18 @@ import org.eclipse.birt.report.model.core.Module;
 /**
  * 
  */
-public class NameExecutor extends NameExecutorImpl
-{
+public class NameExecutor extends NameExecutorImpl {
 
-	public NameExecutor( Module module, DesignElement element )
-	{
-		super( module, (DesignElement)null, element );
+	public NameExecutor(Module module, DesignElement element) {
+		super(module, (DesignElement) null, element);
 	}
 
-	public NameExecutor( Module module, ContainerContext container,
-			DesignElement element )
-	{
-		super( module, container, element );
+	public NameExecutor(Module module, ContainerContext container, DesignElement element) {
+		super(module, container, element);
 	}
 
-	public NameExecutor( Module module, DesignElement container,
-			DesignElement element )
-	{
-		super( module, container, element );
+	public NameExecutor(Module module, DesignElement container, DesignElement element) {
+		super(module, container, element);
 	}
 
 }

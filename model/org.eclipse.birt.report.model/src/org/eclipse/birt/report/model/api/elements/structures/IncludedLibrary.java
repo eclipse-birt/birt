@@ -39,12 +39,10 @@ import org.eclipse.birt.report.model.core.Structure;
  * 
  */
 
-public class IncludedLibrary extends Structure
-{
+public class IncludedLibrary extends Structure {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public static final String INCLUDED_LIBRARY_STRUCT = "IncludedLibrary"; //$NON-NLS-1$
@@ -79,24 +77,21 @@ public class IncludedLibrary extends Structure
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return INCLUDED_LIBRARY_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( FILE_NAME_MEMBER.equals( propName ) )
+	protected Object getIntrinsicProperty(String propName) {
+		if (FILE_NAME_MEMBER.equals(propName))
 			return fileName;
-		else if ( NAMESPACE_MEMEBR.equals( propName ) )
+		else if (NAMESPACE_MEMEBR.equals(propName))
 			return namespace;
 
 		assert false;
@@ -106,16 +101,14 @@ public class IncludedLibrary extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( FILE_NAME_MEMBER.equals( propName ) )
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (FILE_NAME_MEMBER.equals(propName))
 			fileName = (String) value;
-		else if ( NAMESPACE_MEMEBR.equals( propName ) )
+		else if (NAMESPACE_MEMEBR.equals(propName))
 			namespace = (String) value;
 		else
 			assert false;
@@ -124,18 +117,16 @@ public class IncludedLibrary extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
 	 * .report.model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( Module module, DesignElement element )
-	{
-		ArrayList list = new ArrayList( );
+	public List validate(Module module, DesignElement element) {
+		ArrayList list = new ArrayList();
 
-		checkStringMember( fileName, FILE_NAME_MEMBER, element, list );
-		checkStringMember( namespace, NAMESPACE_MEMEBR, element, list );
+		checkStringMember(fileName, FILE_NAME_MEMBER, element, list);
+		checkStringMember(namespace, NAMESPACE_MEMEBR, element, list);
 
 		return list;
 	}
@@ -146,20 +137,17 @@ public class IncludedLibrary extends Structure
 	 * @return the file name of the include library
 	 */
 
-	public String getFileName( )
-	{
+	public String getFileName() {
 		return fileName;
 	}
 
 	/**
 	 * Sets the file name of the include library.
 	 * 
-	 * @param theFileName
-	 *            the new file name to set
+	 * @param theFileName the new file name to set
 	 */
 
-	public void setFileName( String theFileName )
-	{
+	public void setFileName(String theFileName) {
 		fileName = theFileName;
 	}
 
@@ -170,32 +158,27 @@ public class IncludedLibrary extends Structure
 	 * @return the namespace of the included library.
 	 */
 
-	public String getNamespace( )
-	{
+	public String getNamespace() {
 		return namespace;
 	}
 
 	/**
 	 * Sets the namespace for library.
 	 * 
-	 * @param namespace
-	 *            the namespace to set.
+	 * @param namespace the namespace to set.
 	 */
 
-	public void setNamespace( String namespace )
-	{
+	public void setNamespace(String namespace) {
 		this.namespace = namespace;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
-	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
-		return new IncludedLibraryHandle( valueHandle, index );
+	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
+		return new IncludedLibraryHandle(valueHandle, index);
 	}
 }

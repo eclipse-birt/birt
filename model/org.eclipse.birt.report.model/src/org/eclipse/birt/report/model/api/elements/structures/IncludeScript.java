@@ -36,15 +36,13 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * <dd>a include script structure in the report design has a required file name
  * to load the script.</dd>
  * </dl>
- *  
+ * 
  */
 
-public class IncludeScript extends Structure
-{
+public class IncludeScript extends Structure {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public static final String INCLUDE_SCRIPT_STRUCT = "IncludeScript"; //$NON-NLS-1$
@@ -63,22 +61,19 @@ public class IncludeScript extends Structure
 
 	/**
 	 * Default constructor.
-	 *  
+	 * 
 	 */
 
-	public IncludeScript( )
-	{
+	public IncludeScript() {
 	}
 
 	/**
 	 * Constructs the script with the required file name.
 	 * 
-	 * @param fileName
-	 *            file name of the script
+	 * @param fileName file name of the script
 	 */
 
-	public IncludeScript( String fileName )
-	{
+	public IncludeScript(String fileName) {
 		this.fileName = fileName;
 	}
 
@@ -88,20 +83,20 @@ public class IncludeScript extends Structure
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return INCLUDE_SCRIPT_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.
+	 * String)
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( FILE_NAME_MEMBER.equalsIgnoreCase( propName ) )
+	protected Object getIntrinsicProperty(String propName) {
+		if (FILE_NAME_MEMBER.equalsIgnoreCase(propName))
 			return fileName;
 
 		assert false;
@@ -111,13 +106,13 @@ public class IncludeScript extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.
+	 * String, java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( FILE_NAME_MEMBER.equals( propName ) )
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (FILE_NAME_MEMBER.equals(propName))
 			fileName = (String) value;
 		else
 			assert false;
@@ -129,40 +124,35 @@ public class IncludeScript extends Structure
 	 * @return file name of the script
 	 */
 
-	public String getFileName( )
-	{
-		return (String) getProperty( null, FILE_NAME_MEMBER );
+	public String getFileName() {
+		return (String) getProperty(null, FILE_NAME_MEMBER);
 	}
 
 	/**
 	 * Sets the file name of the script.
 	 * 
-	 * @param fileName
-	 *            the file name to set
+	 * @param fileName the file name to set
 	 */
 
-	public void setFileName( String fileName )
-	{
-		setProperty( FILE_NAME_MEMBER, fileName );
+	public void setFileName(String fileName) {
+		setProperty(FILE_NAME_MEMBER, fileName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt.report
+	 * .model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( Module module, DesignElement element )
-	{
-		ArrayList list = new ArrayList( );
+	public List validate(Module module, DesignElement element) {
+		ArrayList list = new ArrayList();
 
-		if ( StringUtil.isBlank( fileName ) )
-		{
-			list.add( new PropertyValueException( element,
-					getDefn( ).getMember( FILE_NAME_MEMBER ),
-					fileName,
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+		if (StringUtil.isBlank(fileName)) {
+			list.add(new PropertyValueException(element, getDefn().getMember(FILE_NAME_MEMBER), fileName,
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED));
 		}
 
 		return list;
@@ -171,11 +161,11 @@ public class IncludeScript extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.
+	 * model.api.SimpleValueHandle, int)
 	 */
-	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
-		return new IncludeScriptHandle( valueHandle, index );
+	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
+		return new IncludeScriptHandle(valueHandle, index);
 	}
 }

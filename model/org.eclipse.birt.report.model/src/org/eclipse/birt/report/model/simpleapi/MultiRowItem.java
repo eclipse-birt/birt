@@ -33,8 +33,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
  * Implements of multi row item for extension elements.
  * 
  */
-public class MultiRowItem extends ReportItem implements IMultiRowItem
-{
+public class MultiRowItem extends ReportItem implements IMultiRowItem {
 
 	private final String filterPropName;
 	private final String sortPropName;
@@ -45,70 +44,59 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 	 * @param item
 	 */
 
-	public MultiRowItem( ReportItemHandle item )
-	{
-		super( item );
+	public MultiRowItem(ReportItemHandle item) {
+		super(item);
 
-		if ( item instanceof ListingHandle )
-		{
+		if (item instanceof ListingHandle) {
 			filterPropName = IListingElementModel.FILTER_PROP;
 			sortPropName = IListingElementModel.SORT_PROP;
-		}
-		else if ( item instanceof ExtendedItemHandle )
-		{
+		} else if (item instanceof ExtendedItemHandle) {
 			filterPropName = IExtendedItemModel.FILTER_PROP;
 			sortPropName = null;
-		}
-		else
-		{
+		} else {
 			filterPropName = null;
 			sortPropName = null;
 		}
 	}
 
-	public IFilterCondition[] getFilterConditions( )
-	{
-		if ( filterPropName == null )
+	public IFilterCondition[] getFilterConditions() {
+		if (filterPropName == null)
 			return null;
 
-		PropertyHandle propHandle = handle.getPropertyHandle( filterPropName );
-		Iterator iterator = propHandle.iterator( );
+		PropertyHandle propHandle = handle.getPropertyHandle(filterPropName);
+		Iterator iterator = propHandle.iterator();
 
-		List rList = new ArrayList( );
+		List rList = new ArrayList();
 		int count = 0;
 
-		while ( iterator.hasNext( ) )
-		{
-			FilterConditionHandle conditionHandle = (FilterConditionHandle) iterator
-					.next( );
-			FilterConditionImpl f = new FilterConditionImpl( conditionHandle );
-			rList.add( f );
+		while (iterator.hasNext()) {
+			FilterConditionHandle conditionHandle = (FilterConditionHandle) iterator.next();
+			FilterConditionImpl f = new FilterConditionImpl(conditionHandle);
+			rList.add(f);
 			++count;
 		}
 
-		return (IFilterCondition[]) rList.toArray( new IFilterCondition[count] );
+		return (IFilterCondition[]) rList.toArray(new IFilterCondition[count]);
 	}
 
-	public ISortCondition[] getSortConditions( )
-	{
-		if ( sortPropName == null )
+	public ISortCondition[] getSortConditions() {
+		if (sortPropName == null)
 			return null;
 
-		PropertyHandle propHandle = handle.getPropertyHandle( sortPropName );
-		Iterator iterator = propHandle.iterator( );
+		PropertyHandle propHandle = handle.getPropertyHandle(sortPropName);
+		Iterator iterator = propHandle.iterator();
 
-		List rList = new ArrayList( );
+		List rList = new ArrayList();
 		int count = 0;
 
-		while ( iterator.hasNext( ) )
-		{
-			SortKeyHandle sortHandle = (SortKeyHandle) iterator.next( );
-			SortConditionImpl s = new SortConditionImpl( sortHandle );
-			rList.add( s );
+		while (iterator.hasNext()) {
+			SortKeyHandle sortHandle = (SortKeyHandle) iterator.next();
+			SortConditionImpl s = new SortConditionImpl(sortHandle);
+			rList.add(s);
 			++count;
 		}
 
-		return (ISortCondition[]) rList.toArray( new ISortCondition[count] );
+		return (ISortCondition[]) rList.toArray(new ISortCondition[count]);
 	}
 
 	/**
@@ -118,28 +106,23 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 	 * @throws SemanticException
 	 */
 
-	public void addFilterCondition( IFilterCondition condition )
-			throws SemanticException
-	{
+	public void addFilterCondition(IFilterCondition condition) throws SemanticException {
 
-		if ( filterPropName == null || condition == null )
+		if (filterPropName == null || condition == null)
 			return;
-		PropertyHandle propHandle = handle.getPropertyHandle( filterPropName );
+		PropertyHandle propHandle = handle.getPropertyHandle(filterPropName);
 
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			propHandle.addItem( condition.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			propHandle.addItem(condition.getStructure());
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/**
@@ -149,118 +132,95 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 	 * @throws SemanticException
 	 */
 
-	public void addSortCondition( ISortCondition condition )
-			throws SemanticException
-	{
-		if ( sortPropName == null || condition == null )
+	public void addSortCondition(ISortCondition condition) throws SemanticException {
+		if (sortPropName == null || condition == null)
 			return;
-		PropertyHandle propHandle = handle.getPropertyHandle( sortPropName );
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		PropertyHandle propHandle = handle.getPropertyHandle(sortPropName);
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			propHandle.addItem( condition.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			propHandle.addItem(condition.getStructure());
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
-	public void removeFilterCondition( IFilterCondition condition )
-			throws SemanticException
-	{
-		if ( filterPropName == null )
+	public void removeFilterCondition(IFilterCondition condition) throws SemanticException {
+		if (filterPropName == null)
 			return;
 
-		PropertyHandle propHandle = handle.getPropertyHandle( filterPropName );
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		PropertyHandle propHandle = handle.getPropertyHandle(filterPropName);
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			propHandle.removeItem( condition.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			propHandle.removeItem(condition.getStructure());
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
-	public void removeFilterConditions( ) throws SemanticException
-	{
-		if ( filterPropName == null )
+	public void removeFilterConditions() throws SemanticException {
+		if (filterPropName == null)
 			return;
 
-		PropertyHandle propHandle = handle.getPropertyHandle( filterPropName );
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		PropertyHandle propHandle = handle.getPropertyHandle(filterPropName);
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			propHandle.clearValue( );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			propHandle.clearValue();
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
-	public void removeSortCondition( ISortCondition condition )
-			throws SemanticException
-	{
-		if ( sortPropName == null )
+	public void removeSortCondition(ISortCondition condition) throws SemanticException {
+		if (sortPropName == null)
 			return;
 
-		PropertyHandle propHandle = handle.getPropertyHandle( sortPropName );
+		PropertyHandle propHandle = handle.getPropertyHandle(sortPropName);
 
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			propHandle.removeItem( condition.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			propHandle.removeItem(condition.getStructure());
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
-	public void removeSortConditions( ) throws SemanticException
-	{
-		if ( sortPropName == null )
+	public void removeSortConditions() throws SemanticException {
+		if (sortPropName == null)
 			return;
 
-		PropertyHandle propHandle = handle.getPropertyHandle( sortPropName );
+		PropertyHandle propHandle = handle.getPropertyHandle(sortPropName);
 
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			propHandle.clearValue( );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			propHandle.clearValue();
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 }

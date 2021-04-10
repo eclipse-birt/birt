@@ -11,7 +11,5 @@
 
 package org.eclipse.birt.doc.legacy;
 
-
-public class SpecChoice extends SpecObject
-{
+public class SpecChoice extends SpecObject {
 }

@@ -48,8 +48,7 @@ import org.eclipse.swt.widgets.Display;
  * list from the combo list and it also allow user to create or edit a
  * scalarParameter.
  */
-public class ParameterComboCellEditor extends DialogCellEditor
-{
+public class ParameterComboCellEditor extends DialogCellEditor {
 
 	/**
 	 * The ComboBox to keep the system defined and customer defined Expression.
@@ -77,65 +76,55 @@ public class ParameterComboCellEditor extends DialogCellEditor
 	private Composite composite;
 
 	private Button btnPopup;
-	
+
 	private Listener listener;
-	
+
 	private Object obj;
-	
+
 	/**
-	 * If the selection is zero, that means no scalarParmaeter selected, we
-	 * should set the mode to CREATE_MODE to allow user to create a new
-	 * scalarParameter. Or user could choose an exsiting report parameter to
-	 * modify its attributes in EDIT_MODE
+	 * If the selection is zero, that means no scalarParmaeter selected, we should
+	 * set the mode to CREATE_MODE to allow user to create a new scalarParameter. Or
+	 * user could choose an exsiting report parameter to modify its attributes in
+	 * EDIT_MODE
 	 */
 	private final static int CREATE_MODE = 0;
 	private final static int EDIT_MODE = 1;
-	private static String UNLINKED_REPORT_PARAM = Messages.getString( "DataSetParametersPage.reportParam.None" ); //$NON-NLS-1$
-	private static Logger logger = Logger.getLogger( ParameterComboCellEditor.class.getName( ) );
+	private static String UNLINKED_REPORT_PARAM = Messages.getString("DataSetParametersPage.reportParam.None"); //$NON-NLS-1$
+	private static Logger logger = Logger.getLogger(ParameterComboCellEditor.class.getName());
 
 	/**
-	 * Creates a new dialog cell editor whose parent is given. The combo box
-	 * lists is <code>null</code> initially.
+	 * Creates a new dialog cell editor whose parent is given. The combo box lists
+	 * is <code>null</code> initially.
 	 * 
-	 * @param parent
-	 *            the parent control
+	 * @param parent the parent control
 	 */
-	public ParameterComboCellEditor( Composite parent )
-	{
-		super( parent );
-		setStyle( defaultStyle );
+	public ParameterComboCellEditor(Composite parent) {
+		super(parent);
+		setStyle(defaultStyle);
 	}
 
 	/**
-	 * Creates a new dialog cell editor whose parent is given. The combo box
-	 * lists is initialized with the given items.
+	 * Creates a new dialog cell editor whose parent is given. The combo box lists
+	 * is initialized with the given items.
 	 * 
-	 * @param parent
-	 *            the parent control
-	 * @param items
-	 *            the combo box list to be initialized
+	 * @param parent the parent control
+	 * @param items  the combo box list to be initialized
 	 */
-	public ParameterComboCellEditor( Composite parent, String[] items )
-	{
-		this( parent, items, defaultStyle );
+	public ParameterComboCellEditor(Composite parent, String[] items) {
+		this(parent, items, defaultStyle);
 	}
 
 	/**
-	 * Creates a new dialog cell editor whose parent and style are given. The
-	 * combo box lists is initialized with the given items.
+	 * Creates a new dialog cell editor whose parent and style are given. The combo
+	 * box lists is initialized with the given items.
 	 * 
-	 * @param parent
-	 *            the parent control
-	 * @param items
-	 *            the combo box list to be initialized
-	 * @param style
-	 *            the style of this editor
+	 * @param parent the parent control
+	 * @param items  the combo box list to be initialized
+	 * @param style  the style of this editor
 	 */
-	public ParameterComboCellEditor( Composite parent, String[] items,
-			int style )
-	{
-		super( parent, style );
-		setItems( items );
+	public ParameterComboCellEditor(Composite parent, String[] items, int style) {
+		super(parent, style);
+		setItems(items);
 	}
 
 	/**
@@ -143,37 +132,32 @@ public class ParameterComboCellEditor extends DialogCellEditor
 	 * 
 	 * @return the list of choices for the combo box
 	 */
-	public String[] getItems( )
-	{
+	public String[] getItems() {
 		return items;
 	}
 
 	/**
 	 * Sets the list of choices for the combo box
 	 * 
-	 * @param items
-	 *            the list of choices for the combo box
+	 * @param items the list of choices for the combo box
 	 */
-	public void setItems( String[] items )
-	{
-		Assert.isNotNull( items );
+	public void setItems(String[] items) {
+		Assert.isNotNull(items);
 		this.items = items;
-		populateComboBoxItems( );
+		populateComboBoxItems();
 	}
 
 	/**
 	 * Updates the list of choices for the combo box for the current control.
 	 */
-	private void populateComboBoxItems( )
-	{
-		if ( comboBox != null && items != null )
-		{
-			comboBox.removeAll( );
+	private void populateComboBoxItems() {
+		if (comboBox != null && items != null) {
+			comboBox.removeAll();
 
-			for ( int i = 0; i < items.length; i++ )
-				comboBox.add( items[i], i );
+			for (int i = 0; i < items.length; i++)
+				comboBox.add(items[i], i);
 
-			setValueValid( true );
+			setValueValid(true);
 			selection = 0;
 		}
 	}
@@ -181,231 +165,183 @@ public class ParameterComboCellEditor extends DialogCellEditor
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected Control createContents( Composite cell )
-	{
-		Color bg = cell.getBackground( );
-		composite = new Composite( cell, getStyle( ) );
-		composite.setBackground( bg );
+	protected Control createContents(Composite cell) {
+		Color bg = cell.getBackground();
+		composite = new Composite(cell, getStyle());
+		composite.setBackground(bg);
 
-		composite.setLayout( new FillLayout( ) );
+		composite.setLayout(new FillLayout());
 
-		comboBox = new CCombo( composite, getStyle( ) );
-		comboBox.setBackground( bg );
-		comboBox.setFont( cell.getFont( ) );
-		comboBox.addSelectionListener( new SelectionAdapter( ) {
+		comboBox = new CCombo(composite, getStyle());
+		comboBox.setBackground(bg);
+		comboBox.setFont(cell.getFont());
+		comboBox.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent event )
-			{
-				Object newValue = comboBox.getText( );
-				if ( newValue != null )
-				{
-					boolean newValidState = isCorrect( newValue );
-					if ( newValidState )
-					{
-						markDirty( );
-						doSetValue( newValue );
-					}
-					else
-					{
+			public void widgetSelected(SelectionEvent event) {
+				Object newValue = comboBox.getText();
+				if (newValue != null) {
+					boolean newValidState = isCorrect(newValue);
+					if (newValidState) {
+						markDirty();
+						doSetValue(newValue);
+					} else {
 						// try to insert the current value into the error
 						// message.
-						setErrorMessage( MessageFormat.format( getErrorMessage( ),
-								new Object[]{
-									newValue.toString( )
-								} ) );
+						setErrorMessage(MessageFormat.format(getErrorMessage(), new Object[] { newValue.toString() }));
 					}
-					fireApplyEditorValue( );
+					fireApplyEditorValue();
 				}
 			}
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				Object newValue = comboBox.getText( );
-				if ( newValue != null )
-				{
-					boolean newValidState = isCorrect( newValue );
-					if ( newValidState )
-					{
-						markDirty( );
-						doSetValue( newValue );
-					}
-					else
-					{
+			public void widgetDefaultSelected(SelectionEvent e) {
+				Object newValue = comboBox.getText();
+				if (newValue != null) {
+					boolean newValidState = isCorrect(newValue);
+					if (newValidState) {
+						markDirty();
+						doSetValue(newValue);
+					} else {
 						// try to insert the current value into the error
 						// message.
-						setErrorMessage( MessageFormat.format( getErrorMessage( ),
-								new Object[]{
-									newValue.toString( )
-								} ) );
+						setErrorMessage(MessageFormat.format(getErrorMessage(), new Object[] { newValue.toString() }));
 					}
-					fireApplyEditorValue( );
+					fireApplyEditorValue();
 				}
 			}
-		} );
-		comboBox.addFocusListener( new FocusAdapter( ) {
+		});
+		comboBox.addFocusListener(new FocusAdapter() {
 
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.FocusEvent)
+			 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.
+			 * FocusEvent)
 			 */
-			public void focusLost( FocusEvent e )
-			{
-				if ( btnPopup != null
-						&& !btnPopup.isFocusControl( )
-						&& Display.getCurrent( ).getCursorControl( ) != btnPopup )
-				{
-					applyEditorValueAndDeactivate( );
-					super.focusLost( e );
+			public void focusLost(FocusEvent e) {
+				if (btnPopup != null && !btnPopup.isFocusControl()
+						&& Display.getCurrent().getCursorControl() != btnPopup) {
+					applyEditorValueAndDeactivate();
+					super.focusLost(e);
 
 				}
 			}
 
-		} );
+		});
 		return composite;
 	}
 
 	/**
 	 * Apply the currently selected value and de-actiavate the cell editor.
 	 */
-	void applyEditorValueAndDeactivate( )
-	{
+	void applyEditorValueAndDeactivate() {
 		// must set the selection before getting value
-		selection = comboBox.getSelectionIndex( );
-		Object newValue = doGetValue( );
+		selection = comboBox.getSelectionIndex();
+		Object newValue = doGetValue();
 
-		markDirty( );
-		boolean isValid = isCorrect( newValue );
-		setValueValid( isValid );
-		if ( !isValid )
-		{
+		markDirty();
+		boolean isValid = isCorrect(newValue);
+		setValueValid(isValid);
+		if (!isValid) {
 			// try to insert the current value into the error message.
-			setErrorMessage( MessageFormat.format( getErrorMessage( ),
-					new Object[]{
-						items[selection]
-					} ) );
+			setErrorMessage(MessageFormat.format(getErrorMessage(), new Object[] { items[selection] }));
 		}
-		fireApplyEditorValue( );
-		deactivate( );
+		fireApplyEditorValue();
+		deactivate();
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected Object openDialogBox( Control cellEditorWindow )
-	{
+	protected Object openDialogBox(Control cellEditorWindow) {
 		ParameterDialog dialog = null;
-		ParameterHandle handle = Utility.getScalarParameter( this.comboBox.getText( ) );
+		ParameterHandle handle = Utility.getScalarParameter(this.comboBox.getText());
 
 		int mode = CREATE_MODE;
-		if ( handle == null )
-		{
-			handle = (ScalarParameterHandle) ElementProcessorFactory.createProcessor( "ScalarParameter" ) //$NON-NLS-1$
-					.createElement( null );
-			dialog = new ParameterDialog( cellEditorWindow.getShell( ),
-					Messages.getString( "ParameterGroupNodeProvider.Dialogue.ParameterNew" ) ); //$NON-NLS-1$
-			if ( obj != null && obj instanceof OdaDataSetParameterHandle )
-			{
-				ReportParameterAdapter adapter = new ReportParameterAdapter( );
-				try
-				{
-					adapter.updateLinkedReportParameter( (ScalarParameterHandle) handle,
-							(OdaDataSetParameterHandle) obj );
-				}
-				catch ( SemanticException e )
-				{
+		if (handle == null) {
+			handle = (ScalarParameterHandle) ElementProcessorFactory.createProcessor("ScalarParameter") //$NON-NLS-1$
+					.createElement(null);
+			dialog = new ParameterDialog(cellEditorWindow.getShell(),
+					Messages.getString("ParameterGroupNodeProvider.Dialogue.ParameterNew")); //$NON-NLS-1$
+			if (obj != null && obj instanceof OdaDataSetParameterHandle) {
+				ReportParameterAdapter adapter = new ReportParameterAdapter();
+				try {
+					adapter.updateLinkedReportParameter((ScalarParameterHandle) handle,
+							(OdaDataSetParameterHandle) obj);
+				} catch (SemanticException e) {
 				}
 			}
 			mode = this.CREATE_MODE;
-		}
-		else
-		{
-			dialog = new ParameterDialog( cellEditorWindow.getShell( ),
-					Messages.getString( "ParameterNodeProvider.dial.title.editScalar" ) ); //$NON-NLS-1$
+		} else {
+			dialog = new ParameterDialog(cellEditorWindow.getShell(),
+					Messages.getString("ParameterNodeProvider.dial.title.editScalar")); //$NON-NLS-1$
 			mode = this.EDIT_MODE;
 		}
 
-		handle.addListener( this.listener );
-		dialog.setInput( handle );
-		if ( dialog.open( ) == Dialog.OK )
-		{
-			if ( dialog.getResult( ) instanceof ParameterHandle )
-			{
-				ParameterHandle paramerHandle = (ParameterHandle) dialog.getResult( );
-				if ( mode == this.CREATE_MODE )
-				{
-					SlotHandle parameterSlotHandle = Utility.getReportModuleHandle( )
-							.getParameters( );
-					try
-					{
-						parameterSlotHandle.add( paramerHandle );
-						comboBox.add( paramerHandle.getQualifiedName( ) );
-					}
-					catch ( ContentException e )
-					{
-						logger.log( Level.FINE, e.getMessage( ), e );
-					}
-					catch ( NameException e )
-					{
-						logger.log( Level.FINE, e.getMessage( ), e );
+		handle.addListener(this.listener);
+		dialog.setInput(handle);
+		if (dialog.open() == Dialog.OK) {
+			if (dialog.getResult() instanceof ParameterHandle) {
+				ParameterHandle paramerHandle = (ParameterHandle) dialog.getResult();
+				if (mode == this.CREATE_MODE) {
+					SlotHandle parameterSlotHandle = Utility.getReportModuleHandle().getParameters();
+					try {
+						parameterSlotHandle.add(paramerHandle);
+						comboBox.add(paramerHandle.getQualifiedName());
+					} catch (ContentException e) {
+						logger.log(Level.FINE, e.getMessage(), e);
+					} catch (NameException e) {
+						logger.log(Level.FINE, e.getMessage(), e);
 					}
 				}
 
-				return paramerHandle.getQualifiedName( );
+				return paramerHandle.getQualifiedName();
 			}
 		}
-		setFocus( );
-		handle.removeListener( this.listener );
+		setFocus();
+		handle.removeListener(this.listener);
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected void updateContents( Object value )
-	{
-		if ( comboBox == null )
+	protected void updateContents(Object value) {
+		if (comboBox == null)
 			return;
 
 		String text = "";//$NON-NLS-1$
-		if ( value != null && !value.toString( ).trim( ).equals( "" ) ) //$NON-NLS-1$
+		if (value != null && !value.toString().trim().equals("")) //$NON-NLS-1$
 		{
-			text = value.toString( );
-		}
-		else
-		{
+			text = value.toString();
+		} else {
 			text = UNLINKED_REPORT_PARAM;
 		}
-		comboBox.setText( text );
+		comboBox.setText(text);
 	}
 
-	public void setEnable( boolean flag )
-	{
-		comboBox.setEnabled( flag );
+	public void setEnable(boolean flag) {
+		comboBox.setEnabled(flag);
 	}
 
-	public void setInput( Object obj )
-	{
+	public void setInput(Object obj) {
 		this.obj = obj;
 	}
-	
+
 	/**
 	 * 
 	 * @param listener
 	 */
-	public void addScalarParmeterLister( Listener listener )
-	{
-		this.listener = listener; 
+	public void addScalarParmeterLister(Listener listener) {
+		this.listener = listener;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
-	protected void doSetFocus( )
-	{
-		comboBox.setFocus( );
+	protected void doSetFocus() {
+		comboBox.setFocus();
 	}
 
 	/*
@@ -413,13 +349,11 @@ public class ParameterComboCellEditor extends DialogCellEditor
 	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doGetValue()
 	 */
-	protected Object doGetValue( )
-	{
-		int selection = comboBox.getSelectionIndex( );
-		if ( selection == -1 )
-		{
-			return comboBox.getText( );
+	protected Object doGetValue() {
+		int selection = comboBox.getSelectionIndex();
+		if (selection == -1) {
+			return comboBox.getText();
 		}
-		return comboBox.getItem( selection );
+		return comboBox.getItem(selection);
 	}
 }

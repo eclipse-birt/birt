@@ -24,42 +24,38 @@ import org.eclipse.ui.actions.ActionFactory;
 /**
  * Paste action
  */
-public class PastePartAction extends WrapperSelectionAction
-{
+public class PastePartAction extends WrapperSelectionAction {
 
 	/**
 	 * Create a new paste action with given selection and default text
 	 * 
 	 * @param part
-	 *  
+	 * 
 	 */
-	public PastePartAction( IWorkbenchPart part )
-	{
-		super( part );
-		ISharedImages shareImages = PlatformUI.getWorkbench( )
-				.getSharedImages( );
-		setImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_PASTE ) );
-		setDisabledImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_PASTE_DISABLED ) );
-		setAccelerator( SWT.CTRL | 'V' ); //$NON-NLS-1$
+	public PastePartAction(IWorkbenchPart part) {
+		super(part);
+		ISharedImages shareImages = PlatformUI.getWorkbench().getSharedImages();
+		setImageDescriptor(shareImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
+		setDisabledImageDescriptor(shareImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
+		setAccelerator(SWT.CTRL | 'V'); // $NON-NLS-1$
 	}
 
-	public String getId( )
-	{
-		return ActionFactory.PASTE.getId( );
+	public String getId() {
+		return ActionFactory.PASTE.getId();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.ISelection)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
+	 * WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.
+	 * ISelection)
 	 */
-	protected IAction createActionHandler( ISelection model )
-	{
+	protected IAction createActionHandler(ISelection model) {
 		Object target = null;
-		if ( model instanceof IStructuredSelection )
-		{
-			target = ( (IStructuredSelection) model ).getFirstElement( );
+		if (model instanceof IStructuredSelection) {
+			target = ((IStructuredSelection) model).getFirstElement();
 		}
-		return new PasteAction( target );
+		return new PasteAction(target);
 	}
 }

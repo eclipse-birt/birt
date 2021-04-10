@@ -21,29 +21,24 @@ import org.eclipse.swt.widgets.Label;
 /**
  * Abstract super class of all element new/edit wizard page
  * 
- *  
+ * 
  */
 
-public abstract class ElementWizardPage extends WizardPage
-{
+public abstract class ElementWizardPage extends WizardPage {
 
 	private int style;
 
 	/**
 	 * Creates a new wizard page with the given name, title, and image.
 	 * 
-	 * @param pageName
-	 *            the name of the page
-	 * @param title
-	 *            the title for this wizard page, or <code>null</code> if none
-	 * @param titleImage
-	 *            the image descriptor for the title of this wizard page, or
-	 *            <code>null</code> if none
+	 * @param pageName   the name of the page
+	 * @param title      the title for this wizard page, or <code>null</code> if
+	 *                   none
+	 * @param titleImage the image descriptor for the title of this wizard page, or
+	 *                   <code>null</code> if none
 	 */
-	protected ElementWizardPage( String pageName, String title,
-			ImageDescriptor titleImage, int style )
-	{
-		super( pageName, title, titleImage );
+	protected ElementWizardPage(String pageName, String title, ImageDescriptor titleImage, int style) {
+		super(pageName, title, titleImage);
 		this.style = style;
 
 	}
@@ -56,68 +51,58 @@ public abstract class ElementWizardPage extends WizardPage
 	 * accessed via <code>getControl</code>
 	 * </p>
 	 * 
-	 * @param parent
-	 *            the parent composite
+	 * @param parent the parent composite
 	 */
-	public void createControl( Composite composite )
-	{
-		setControl( composite );
-		addListeners( );
+	public void createControl(Composite composite) {
+		setControl(composite);
+		addListeners();
 	}
 
 	/**
 	 * Adds event listeners
 	 */
-	protected abstract void addListeners( );
+	protected abstract void addListeners();
 
 	/**
 	 * Sets the content of the page
 	 * 
-	 * @param model
-	 *            the model used to fill the page
+	 * @param model the model used to fill the page
 	 */
-	public abstract void setInput( Object model );
+	public abstract void setInput(Object model);
 
 	/**
 	 * Saves the result of the page
 	 * 
-	 * @param model
-	 *            the model used to save
+	 * @param model the model used to save
 	 */
-	public abstract void saveTo( Object model );
+	public abstract void saveTo(Object model);
 
 	/**
-	 * Creates a separator line. Expects a <code>GridLayout</code> with at
-	 * least 1 column.
+	 * Creates a separator line. Expects a <code>GridLayout</code> with at least 1
+	 * column.
 	 * 
-	 * @param composite
-	 *            the parent composite
-	 * @param nColumns
-	 *            number of columns to span
-	 * @param hWidth
-	 *            the minimum width of the separator
+	 * @param composite the parent composite
+	 * @param nColumns  number of columns to span
+	 * @param hWidth    the minimum width of the separator
 	 */
-	protected void createSeparator( Composite composite, int nColumns )
-	{
-		Label sparator = new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+	protected void createSeparator(Composite composite, int nColumns) {
+		Label sparator = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = nColumns;
-		sparator.setLayoutData( gd );
+		sparator.setLayoutData(gd);
 	}
 
 	/**
 	 * @return Returns the style.
 	 */
-	public int getStyle( )
-	{
+	public int getStyle() {
 		return style;
 	}
 
 	/**
 	 * Applies status
 	 */
-	protected void applyStatus( )
-	{
-		setPageComplete( getMessageType( ) != ERROR );
+	protected void applyStatus() {
+		setPageComplete(getMessageType() != ERROR);
 	}
 }

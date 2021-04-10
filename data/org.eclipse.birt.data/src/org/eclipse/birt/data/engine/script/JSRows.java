@@ -20,57 +20,50 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 /**
- * Underlying implementation of the Javascript "rows" object. The ROM scripts use this 
- * JS object to access the array of row object 
+ * Underlying implementation of the Javascript "rows" object. The ROM scripts
+ * use this JS object to access the array of row object
  */
-public class JSRows extends ScriptableObject 
-{
+public class JSRows extends ScriptableObject {
 	/**
-	 * Array of nested data sets; element[0] is data set for outermost query;
-	 * last element is current query's data set
+	 * Array of nested data sets; element[0] is data set for outermost query; last
+	 * element is current query's data set
 	 */
 	private DataSetRuntime[] dataSets;
 
-	private static Logger logger = Logger.getLogger( JSRows.class.getName( ) );
+	private static Logger logger = Logger.getLogger(JSRows.class.getName());
 	private static final long serialVersionUID = -6381733586388272803L;
-	
+
 	/*
 	 * return the Class Name
 	 * 
 	 * @see org.mozilla.javascript.Scriptable#getClassName()
 	 */
-	public String getClassName( )
-	{
+	public String getClassName() {
 		return "DataRows";
 	}
 
 	/**
-	 * Construct the rows object from the outer query result and the row object of the current result. 
-	 * @param outerResults the outer query result 
-	 * @param currentRowObj the row object of the cuurent result 
+	 * Construct the rows object from the outer query result and the row object of
+	 * the current result.
+	 * 
+	 * @param outerResults  the outer query result
+	 * @param currentRowObj the row object of the cuurent result
 	 * @throws DataException
 	 */
-	public JSRows( DataSetRuntime[] dataSets ) throws DataException
-	{
-		logger.entering( JSRows.class.getName( ), "JSRows" );
+	public JSRows(DataSetRuntime[] dataSets) throws DataException {
+		logger.entering(JSRows.class.getName(), "JSRows");
 		this.dataSets = dataSets;
 	}
 
 	/**
 	 * Gets an indexed Row Object
 	 */
-	public Object get( int index, Scriptable start )
-	{
-		logger.entering( JSColumnDefn.class.getName( ),
-				"get",
-				Integer.valueOf( index ) );
-		if ( index >=0 && index < dataSets.length )
-		{
+	public Object get(int index, Scriptable start) {
+		logger.entering(JSColumnDefn.class.getName(), "get", Integer.valueOf(index));
+		if (index >= 0 && index < dataSets.length) {
 			return dataSets[index].getJSRowObject();
-		}
-		else
-		{
-			logger.exiting( JSColumnDefn.class.getName( ), "get", null );			
+		} else {
+			logger.exiting(JSColumnDefn.class.getName(), "get", null);
 			return null;
 		}
 	}
@@ -78,13 +71,10 @@ public class JSRows extends ScriptableObject
 	/**
 	 * Checks if an row Object exists
 	 */
-	public boolean has( int index, Scriptable start )
-	{
-		if ( logger.isLoggable( Level.FINER ) )
-			logger.entering( JSColumnDefn.class.getName( ),
-				"has",
-				Integer.valueOf( index ) );
-		return ( index >=0 && dataSets.length > index ) ? true : false;
+	public boolean has(int index, Scriptable start) {
+		if (logger.isLoggable(Level.FINER))
+			logger.entering(JSColumnDefn.class.getName(), "has", Integer.valueOf(index));
+		return (index >= 0 && dataSets.length > index) ? true : false;
 	}
 
 }

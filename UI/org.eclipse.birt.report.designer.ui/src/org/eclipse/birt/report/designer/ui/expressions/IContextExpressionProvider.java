@@ -18,8 +18,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
  * 
  * @since 2.3.0
  */
-public interface IContextExpressionProvider
-{
+public interface IContextExpressionProvider {
 
 	/**
 	 * Returns the expression provider according to given context name
@@ -27,7 +26,7 @@ public interface IContextExpressionProvider
 	 * @param contextName
 	 * @return
 	 */
-	IExpressionProvider getExpressionProvider( String contextName );
+	IExpressionProvider getExpressionProvider(String contextName);
 
 	/**
 	 * Returns the expression filters which will be applied to the given context
@@ -37,5 +36,5 @@ public interface IContextExpressionProvider
 	 * 
 	 * @since 2.5
 	 */
-	ExpressionFilter getExpressionFilter( String contextName );
+	ExpressionFilter getExpressionFilter(String contextName);
 }

@@ -15,14 +15,13 @@ package org.eclipse.birt.report.engine.api;
  * Data Action is used to generate a URL used to reterive the data from the data
  * base.
  * 
- * It has following files: <li>getDataType</li> the output data type, such as
- * csv, xml etc. <li>getReportName</li> the report document name, which is the
- * data soruce. <li>getBookmark</li> the bookmark which define the result set to
- * be exported.
+ * It has following files:
+ * <li>getDataType</li> the output data type, such as csv, xml etc.
+ * <li>getReportName</li> the report document name, which is the data soruce.
+ * <li>getBookmark</li> the bookmark which define the result set to be exported.
  * 
  */
-public interface IDataAction extends IAction
-{
+public interface IDataAction extends IAction {
 
 	/**
 	 * data action, the user can safely type cast this object to IDataAction
@@ -30,25 +29,25 @@ public interface IDataAction extends IAction
 	public final static int ACTION_DATA = 4;
 
 	/**
-	 * the output data type, such as csv, xml. the type should be registered by
-	 * a IDataExtractionExtension.
+	 * the output data type, such as csv, xml. the type should be registered by a
+	 * IDataExtractionExtension.
 	 * 
 	 * @return the data type.
 	 */
-	String getDataType( );
+	String getDataType();
 
 	/**
 	 * Returns the instance ID of associated report item instance.
 	 * 
 	 * @return The instance ID
 	 */
-	InstanceID getInstanceID( );
-	
+	InstanceID getInstanceID();
+
 	/**
 	 * Returns true if current action is to get cube data.
 	 * 
 	 * @return
 	 * @since 2.5.1
 	 */
-	boolean isCube( );
+	boolean isCube();
 }

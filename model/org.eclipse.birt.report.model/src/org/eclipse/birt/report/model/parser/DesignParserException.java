@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * 
  */
 
-public class DesignParserException extends ModelException implements ErrorCodes
-{
+public class DesignParserException extends ModelException implements ErrorCodes {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -143,8 +142,8 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	public static final String DESIGN_EXCEPTION_UNDEFINED_PROPERTY = MessageConstants.DESIGN_PARSER_EXCEPTION_UNDEFINED_PROPERTY;
 
 	/**
-	 * A unsupported exception occurred. This happens that the unicode signature
-	 * in the design file is not UTF-8.
+	 * A unsupported exception occurred. This happens that the unicode signature in
+	 * the design file is not UTF-8.
 	 */
 
 	public static final String DESIGN_EXCEPTION_UNSUPPORTED_ENCODING = MessageConstants.DESIGN_PARSER_EXCEPTION_UNSUPPORTED_ENCODING;
@@ -162,8 +161,7 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	public static final String DESIGN_EXCEPTION_INVALID_ELEMENT_ID = MessageConstants.DESIGN_PARSER_EXCEPTION_INVALID_ELEMENT_ID;
 
 	/**
-	 * The virtual parent element reference by baseId is not found in the
-	 * parent.
+	 * The virtual parent element reference by baseId is not found in the parent.
 	 */
 
 	public static final String DESIGN_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND = MessageConstants.DESIGN_PARSER_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND;
@@ -181,8 +179,7 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	public static final String DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE = MessageConstants.DESIGN_PARSER_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE;
 
 	/**
-	 * Error code indicating template parameter definition have no default
-	 * element.
+	 * Error code indicating template parameter definition have no default element.
 	 */
 
 	public static final String DESIGN_EXCEPTION_MISSING_TEMPLATE_PARAMETER_DEFAULT = MessageConstants.DESIGN_PARSER_EXCEPTION_MISSING_TEMPLATE_PARAMETER_DEFAULT;
@@ -196,28 +193,23 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	/**
 	 * Constructs the design parser exception with the error code.
 	 * 
-	 * @param errCode
-	 *            the error condition
+	 * @param errCode the error condition
 	 */
 
-	public DesignParserException( String errCode )
-	{
-		super( errCode );
+	public DesignParserException(String errCode) {
+		super(errCode);
 	}
 
 	/**
-	 * Constructs the design parser exception with the file name, the property
-	 * name and the error code.
+	 * Constructs the design parser exception with the file name, the property name
+	 * and the error code.
 	 * 
-	 * @param values
-	 *            the values for message
-	 * @param errCode
-	 *            the error condition
+	 * @param values  the values for message
+	 * @param errCode the error condition
 	 */
 
-	public DesignParserException( String[] values, String errCode )
-	{
-		super( errCode, values, null );
+	public DesignParserException(String[] values, String errCode) {
+		super(errCode, values, null);
 	}
 
 	/**
@@ -228,9 +220,8 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	 * @param values
 	 * @param ex
 	 */
-	public DesignParserException( String errCode, String[] values, Throwable ex )
-	{
-		super( errCode, values, ex );
+	public DesignParserException(String errCode, String[] values, Throwable ex) {
+		super(errCode, values, ex);
 	}
 
 	/*
@@ -239,37 +230,28 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_FILE_NOT_FOUND
-				|| sResourceKey == DESIGN_EXCEPTION_FILE_FORMAT_NOT_SUPPORT
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_FILE_NOT_FOUND || sResourceKey == DESIGN_EXCEPTION_FILE_FORMAT_NOT_SUPPORT
 				|| sResourceKey == DESIGN_EXCEPTION_UNDEFINED_PROPERTY
 				|| sResourceKey == DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE
 				|| sResourceKey == DESIGN_EXCEPTION_UNSUPPORTED_VERSION
-				|| sResourceKey == DESIGN_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND )
-		{
+				|| sResourceKey == DESIGN_EXCEPTION_VIRTUAL_PARENT_NOT_FOUND) {
 			assert oaMessageArguments.length == 1;
 
-			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_ELEMENT_ID
-				|| sResourceKey == DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID )
-		{
+			return ModelMessages.getMessage(sResourceKey, oaMessageArguments);
+		} else if (sResourceKey == DESIGN_EXCEPTION_INVALID_ELEMENT_ID
+				|| sResourceKey == DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID) {
 			assert oaMessageArguments.length == 2;
-			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE )
-		{
+			return ModelMessages.getMessage(sResourceKey, oaMessageArguments);
+		} else if (sResourceKey == DESIGN_EXCEPTION_INCONSISTENT_TEMPLATE_ELEMENT_TYPE) {
 			assert oaMessageArguments.length == 2;
-			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_MISSING_TEMPLATE_PARAMETER_DEFAULT )
-		{
+			return ModelMessages.getMessage(sResourceKey, oaMessageArguments);
+		} else if (sResourceKey == DESIGN_EXCEPTION_MISSING_TEMPLATE_PARAMETER_DEFAULT) {
 			assert oaMessageArguments.length == 1;
-			return ModelMessages.getMessage( sResourceKey, oaMessageArguments );
+			return ModelMessages.getMessage(sResourceKey, oaMessageArguments);
 		}
 
-		return ModelMessages.getMessage( sResourceKey );
+		return ModelMessages.getMessage(sResourceKey);
 
 	}
 
@@ -279,8 +261,7 @@ public class DesignParserException extends ModelException implements ErrorCodes
 	 * @see java.lang.Throwable#getMessage()
 	 */
 
-	public String getMessage( )
-	{
-		return getLocalizedMessage( );
+	public String getMessage() {
+		return getLocalizedMessage();
 	}
 }

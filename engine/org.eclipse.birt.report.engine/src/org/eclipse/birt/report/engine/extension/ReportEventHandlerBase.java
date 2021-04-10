@@ -18,51 +18,44 @@ import org.eclipse.birt.core.exception.BirtException;
  * onRender to process java scripts for extended items
  * 
  */
-public class ReportEventHandlerBase implements IReportEventHandler
-{
+public class ReportEventHandlerBase implements IReportEventHandler {
 
-	public void handle( IReportEvent event ) throws BirtException
-	{
-		if ( event == null )
+	public void handle(IReportEvent event) throws BirtException {
+		if (event == null)
 			return;
 
-		int eventType = event.getEventType( );
-		switch ( eventType )
-		{
-			case IReportEvent.ON_PREPARE_EVENT :
-				onPrepare( (IOnPrepareEvent) event );
-				break;
-			case IReportEvent.ON_CREATE_EVENT :
-				onCreate( (IOnCreateEvent) event );
-				break;
-			case IReportEvent.ON_RENDER_EVENT :
-				onRender( (IOnRenderEvent) event );
-				break;
-			case IReportEvent.ON_PAGEBREAK_EVENT :
-				onPagebreak( event );
-				break;
-			default :
+		int eventType = event.getEventType();
+		switch (eventType) {
+		case IReportEvent.ON_PREPARE_EVENT:
+			onPrepare((IOnPrepareEvent) event);
+			break;
+		case IReportEvent.ON_CREATE_EVENT:
+			onCreate((IOnCreateEvent) event);
+			break;
+		case IReportEvent.ON_RENDER_EVENT:
+			onRender((IOnRenderEvent) event);
+			break;
+		case IReportEvent.ON_PAGEBREAK_EVENT:
+			onPagebreak(event);
+			break;
+		default:
 
 		}
 	}
 
-	public void onPrepare( IOnPrepareEvent event ) throws BirtException
-	{
+	public void onPrepare(IOnPrepareEvent event) throws BirtException {
 
 	}
 
-	public void onCreate( IOnCreateEvent event ) throws BirtException
-	{
+	public void onCreate(IOnCreateEvent event) throws BirtException {
 
 	}
 
-	public void onRender( IOnRenderEvent event ) throws BirtException
-	{
+	public void onRender(IOnRenderEvent event) throws BirtException {
 
 	}
 
-	public void onPagebreak( IReportEvent event ) throws BirtException
-	{
+	public void onPagebreak(IReportEvent event) throws BirtException {
 
 	}
 }

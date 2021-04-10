@@ -27,9 +27,7 @@ import org.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor;
 /**
  * This is an utility class to retrieve emitter config extension points.
  */
-public class EmitterConfigurationManager implements
-		IEmitterConfigurationManager
-{
+public class EmitterConfigurationManager implements IEmitterConfigurationManager {
 
 	/** The extension point ID of emitter config. */
 	private static final String EXTENSION_EMITTER_CONFIG_CONTRIBUTOR = "org.eclipse.birt.report.engine.emitter.config"; //$NON-NLS-1$
@@ -41,15 +39,11 @@ public class EmitterConfigurationManager implements
 	/**
 	 * The default constructor
 	 */
-	public EmitterConfigurationManager( )
-	{
-		try
-		{
-			initExtensions( );
-		}
-		catch ( FrameworkException e )
-		{
-			e.printStackTrace( );
+	public EmitterConfigurationManager() {
+		try {
+			initExtensions();
+		} catch (FrameworkException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -59,43 +53,34 @@ public class EmitterConfigurationManager implements
 	 * @return all extension elements.
 	 * @throws FrameworkException
 	 */
-	private void initExtensions( ) throws FrameworkException
-	{
-		descriptorCache = new HashMap<String, IEmitterDescriptor>( );
-		configCache = new HashMap<String, IConfigurationElement>( );
+	private void initExtensions() throws FrameworkException {
+		descriptorCache = new HashMap<String, IEmitterDescriptor>();
+		configCache = new HashMap<String, IConfigurationElement>();
 
-		IExtensionRegistry registry = Platform.getExtensionRegistry( );
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
 
-		if ( registry == null )
-		{
+		if (registry == null) {
 			return;
 		}
 
-		IExtensionPoint extensionPoint = registry.getExtensionPoint( EXTENSION_EMITTER_CONFIG_CONTRIBUTOR );
+		IExtensionPoint extensionPoint = registry.getExtensionPoint(EXTENSION_EMITTER_CONFIG_CONTRIBUTOR);
 
-		if ( extensionPoint == null )
-		{
+		if (extensionPoint == null) {
 			return;
 		}
 
-		for ( IExtension extension : extensionPoint.getExtensions( ) )
-		{
-			if ( extension != null )
-			{
-				IConfigurationElement[] elements = extension.getConfigurationElements( );
+		for (IExtension extension : extensionPoint.getExtensions()) {
+			if (extension != null) {
+				IConfigurationElement[] elements = extension.getConfigurationElements();
 
-				if ( elements != null )
-				{
-					for ( IConfigurationElement element : elements )
-					{
-						if ( element != null )
-						{
-							String key = element.getAttribute( "id" ); //$NON-NLS-1$
+				if (elements != null) {
+					for (IConfigurationElement element : elements) {
+						if (element != null) {
+							String key = element.getAttribute("id"); //$NON-NLS-1$
 
-							IConfigurationElement oldElement = configCache.get( key );
+							IConfigurationElement oldElement = configCache.get(key);
 
-							configCache.put( key, getPrioritized( oldElement,
-									element ) );
+							configCache.put(key, getPrioritized(oldElement, element));
 						}
 					}
 				}
@@ -103,74 +88,56 @@ public class EmitterConfigurationManager implements
 		}
 	}
 
-	private IConfigurationElement getPrioritized( IConfigurationElement eleA,
-			IConfigurationElement eleB )
-	{
+	private IConfigurationElement getPrioritized(IConfigurationElement eleA, IConfigurationElement eleB) {
 		int priotiryA = eleA == null ? 0 : 1;
 		int priotiryB = eleB == null ? 0 : 1;
 
-		if ( priotiryA + priotiryB == 0 )
-		{
+		if (priotiryA + priotiryB == 0) {
 			return eleA;
 		}
 
-		if ( priotiryA + priotiryB == 1 )
-		{
-			return ( priotiryA - priotiryB < 0 ) ? eleB : eleA;
+		if (priotiryA + priotiryB == 1) {
+			return (priotiryA - priotiryB < 0) ? eleB : eleA;
 		}
 
-		try
-		{
-			priotiryA = Integer.parseInt( eleA.getAttribute( "priority" ) ); //$NON-NLS-1$
-		}
-		catch ( NumberFormatException e )
-		{
+		try {
+			priotiryA = Integer.parseInt(eleA.getAttribute("priority")); //$NON-NLS-1$
+		} catch (NumberFormatException e) {
 			priotiryA = 0;
 		}
 
-		try
-		{
-			priotiryB = Integer.parseInt( eleB.getAttribute( "priority" ) ); //$NON-NLS-1$
-		}
-		catch ( NumberFormatException e )
-		{
+		try {
+			priotiryB = Integer.parseInt(eleB.getAttribute("priority")); //$NON-NLS-1$
+		} catch (NumberFormatException e) {
 			priotiryB = 0;
 		}
 
-		return ( priotiryA - priotiryB < 0 ) ? eleB : eleA;
+		return (priotiryA - priotiryB < 0) ? eleB : eleA;
 	}
 
 	/**
 	 * Returns an emitter descriptor with the specified emitter ID.
 	 * 
-	 * @param emitterID
-	 *            the emitter ID.
+	 * @param emitterID the emitter ID.
 	 * @return an emitter descriptor with the specified emitter ID.
 	 */
-	public synchronized IEmitterDescriptor getEmitterDescriptor( String emitterID )
-	{
-		if ( emitterID == null )
-		{
+	public synchronized IEmitterDescriptor getEmitterDescriptor(String emitterID) {
+		if (emitterID == null) {
 			return null;
 		}
 
-		IEmitterDescriptor desc = getCachedEmitterDescriptor( emitterID );
+		IEmitterDescriptor desc = getCachedEmitterDescriptor(emitterID);
 
-		if ( desc == null )
-		{
-			IConfigurationElement element = configCache.get( emitterID );
+		if (desc == null) {
+			IConfigurationElement element = configCache.get(emitterID);
 
-			if ( element != null )
-			{
-				try
-				{
-					desc = (IEmitterDescriptor) element.createExecutableExtension( "class" ); //$NON-NLS-1$
+			if (element != null) {
+				try {
+					desc = (IEmitterDescriptor) element.createExecutableExtension("class"); //$NON-NLS-1$
 
-					descriptorCache.put( emitterID, desc );
-				}
-				catch ( FrameworkException e )
-				{
-					e.printStackTrace( );
+					descriptorCache.put(emitterID, desc);
+				} catch (FrameworkException e) {
+					e.printStackTrace();
 				}
 			}
 		}
@@ -178,32 +145,27 @@ public class EmitterConfigurationManager implements
 		return desc;
 	}
 
-	public synchronized IEmitterDescriptor getEmitterDescriptor( String emitterID, Locale locale )
-	{
-		if ( emitterID == null )
-		{
+	public synchronized IEmitterDescriptor getEmitterDescriptor(String emitterID, Locale locale) {
+		if (emitterID == null) {
 			return null;
 		}
 
-		IEmitterDescriptor desc = getEmitterDescriptor( emitterID );
-		
-		if ( desc != null )
-		{
-			desc.setLocale( locale );
+		IEmitterDescriptor desc = getEmitterDescriptor(emitterID);
+
+		if (desc != null) {
+			desc.setLocale(locale);
 		}
 
 		return desc;
 	}
-	
-	public synchronized IEmitterDescriptor getCachedEmitterDescriptor( String emitterID )
-	{
-		if ( emitterID != null )
-		{
-			return descriptorCache.get( emitterID );
+
+	public synchronized IEmitterDescriptor getCachedEmitterDescriptor(String emitterID) {
+		if (emitterID != null) {
+			return descriptorCache.get(emitterID);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Register a custom emitter descriptor manually. It will overwrite the
 	 * descriptor with same emitter id if exists.
@@ -211,34 +173,26 @@ public class EmitterConfigurationManager implements
 	 * @param descriptor
 	 */
 	@Deprecated
-	public synchronized void registerEmitterDescriptor(
-			IEmitterDescriptor descriptor )
-	{
-		if ( descriptor != null && descriptor.getID( ) != null )
-		{
-			descriptorCache.put( descriptor.getID( ), descriptor );
+	public synchronized void registerEmitterDescriptor(IEmitterDescriptor descriptor) {
+		if (descriptor != null && descriptor.getID() != null) {
+			descriptorCache.put(descriptor.getID(), descriptor);
 		}
 	}
 
 	/**
 	 * Remove a custom emitter descriptor manually. If there is a descriptor
-	 * registered through extension with same emitter id, then this descriptor
-	 * will still be returned in following <code>getEmitterDescriptor()</code>
-	 * call.
+	 * registered through extension with same emitter id, then this descriptor will
+	 * still be returned in following <code>getEmitterDescriptor()</code> call.
 	 * 
 	 * @param descriptor
 	 */
 	@Deprecated
-	public synchronized void deregisterEmitterDescriptor(
-			IEmitterDescriptor descriptor )
-	{
-		if ( descriptor != null && descriptor.getID( ) != null )
-		{
-			IEmitterDescriptor oldDesc = descriptorCache.get( descriptor.getID( ) );
+	public synchronized void deregisterEmitterDescriptor(IEmitterDescriptor descriptor) {
+		if (descriptor != null && descriptor.getID() != null) {
+			IEmitterDescriptor oldDesc = descriptorCache.get(descriptor.getID());
 
-			if ( oldDesc == descriptor )
-			{
-				descriptorCache.remove( descriptor.getID( ) );
+			if (oldDesc == descriptor) {
+				descriptorCache.remove(descriptor.getID());
 			}
 		}
 	}

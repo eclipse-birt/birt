@@ -33,70 +33,63 @@ import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 
-public class SeriesScript
-{
+public class SeriesScript {
 
-	public static final Chart createSeriesScript( )
-	{
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
-		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
-		
-		cwaBar.setScript( "function beforeDrawSeries(series, renderer, scriptContext)" //$NON-NLS-1$
+	public static final Chart createSeriesScript() {
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
+		cwaBar.setType("Bar Chart"); //$NON-NLS-1$
+		cwaBar.setSubType("Side-by-side"); //$NON-NLS-1$
+
+		cwaBar.setScript("function beforeDrawSeries(series, renderer, scriptContext)" //$NON-NLS-1$
 				+ "{series.getLabel().getCaption().getColor().set(12, 232, 182);}" //$NON-NLS-1$
 		);
 
-		cwaBar.getLegend( ).setVisible( false );
-		cwaBar.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( "Chart with Series Script" ); //$NON-NLS-1$
+		cwaBar.getLegend().setVisible(false);
+		cwaBar.getTitle().getLabel().getCaption().setValue("Chart with Series Script"); //$NON-NLS-1$
 
 		// X-Axis
-		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
 
 		// Y-Axis
-		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
 
 		// Data Set
-		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
-				8, 18, -15, -8, 10
-		} );
-		
-		SampleData sd = DataFactory.eINSTANCE.createSampleData( );
-		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData( );
-		sdBase.setDataSetRepresentation( "" );//$NON-NLS-1$
-		sd.getBaseSampleData( ).add( sdBase );
+		TextDataSet categoryValues = TextDataSetImpl
+				.create(new String[] { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] { 8, 18, -15, -8, 10 });
 
-		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		sdOrthogonal.setDataSetRepresentation( "" );//$NON-NLS-1$
-		sdOrthogonal.setSeriesDefinitionIndex( 0 );
-		sd.getOrthogonalSampleData( ).add( sdOrthogonal );
-		
-		cwaBar.setSampleData( sd );
+		SampleData sd = DataFactory.eINSTANCE.createSampleData();
+		BaseSampleData sdBase = DataFactory.eINSTANCE.createBaseSampleData();
+		sdBase.setDataSetRepresentation("");//$NON-NLS-1$
+		sd.getBaseSampleData().add(sdBase);
+
+		OrthogonalSampleData sdOrthogonal = DataFactory.eINSTANCE.createOrthogonalSampleData();
+		sdOrthogonal.setDataSetRepresentation("");//$NON-NLS-1$
+		sdOrthogonal.setSeriesDefinitionIndex(0);
+		sd.getOrthogonalSampleData().add(sdOrthogonal);
+
+		cwaBar.setSampleData(sd);
 
 		// X-Series
-		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seCategory );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
 
 		// Y-Series
-		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-		bs.setDataSet( orthoValues );
-		bs.getLabel( ).setVisible( true );
+		BarSeries bs = (BarSeries) BarSeriesImpl.create();
+		bs.setDataSet(orthoValues);
+		bs.getLabel().setVisible(true);
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeries( ).add( bs );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeries().add(bs);
 
 		return cwaBar;
 	}

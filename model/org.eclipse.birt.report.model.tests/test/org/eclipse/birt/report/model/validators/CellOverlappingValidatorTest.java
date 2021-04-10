@@ -22,61 +22,52 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * Tests <code>CellOverlappingValidator</code>.
  */
 
-public class CellOverlappingValidatorTest extends ValidatorTestCase
-{
+public class CellOverlappingValidatorTest extends ValidatorTestCase {
 
-	MyListener listener = new MyListener( );
+	MyListener listener = new MyListener();
 
 	/**
 	 * Tests <code>CellOverlappingValidator</code>.
 	 * 
-	 * @throws Exception
-	 *             if any exception
+	 * @throws Exception if any exception
 	 */
 
-	public void testCellOverlappingValidator( ) throws Exception
-	{
-		createDesign( );
-		MetaDataDictionary.getInstance( ).setUseValidationTrigger( true );
-		
-		GridHandle gridHandle = designHandle.getElementFactory( ).newGridItem(
-				"grid1" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( gridHandle );
+	public void testCellOverlappingValidator() throws Exception {
+		createDesign();
+		MetaDataDictionary.getInstance().setUseValidationTrigger(true);
 
-		RowHandle rowHandle1 = gridHandle.getElementFactory( ).newTableRow( 2 );
-		designHandle.addValidationListener( listener );
+		GridHandle gridHandle = designHandle.getElementFactory().newGridItem("grid1"); //$NON-NLS-1$
+		designHandle.getBody().add(gridHandle);
+
+		RowHandle rowHandle1 = gridHandle.getElementFactory().newTableRow(2);
+		designHandle.addValidationListener(listener);
 
 		// Add one row without error
 
-		gridHandle.getRows( ).add( rowHandle1 );
-		assertFalse( listener.hasError( rowHandle1, CellOverlappingValidator
-				.getInstance( ).getName( ),
-				SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS ) );
+		gridHandle.getRows().add(rowHandle1);
+		assertFalse(listener.hasError(rowHandle1, CellOverlappingValidator.getInstance().getName(),
+				SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS));
 
-		CellHandle cellHandle1 = (CellHandle) rowHandle1.getCells( ).get( 0 );
-		CellHandle cellHandle2 = (CellHandle) rowHandle1.getCells( ).get( 1 );
+		CellHandle cellHandle1 = (CellHandle) rowHandle1.getCells().get(0);
+		CellHandle cellHandle2 = (CellHandle) rowHandle1.getCells().get(1);
 
 		// Set column and columnSpan
 
-		cellHandle1.setColumn( 1 );
-		assertFalse( listener.hasError( rowHandle1, CellOverlappingValidator
-				.getInstance( ).getName( ),
-				SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS ) );
+		cellHandle1.setColumn(1);
+		assertFalse(listener.hasError(rowHandle1, CellOverlappingValidator.getInstance().getName(),
+				SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS));
 
-		cellHandle1.setColumnSpan( 2 );
-		assertFalse( listener.hasError( rowHandle1, CellOverlappingValidator
-				.getInstance( ).getName( ),
-				SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS ) );
+		cellHandle1.setColumnSpan(2);
+		assertFalse(listener.hasError(rowHandle1, CellOverlappingValidator.getInstance().getName(),
+				SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS));
 
-		cellHandle2.setColumn( 2 );
-		assertTrue( listener.hasError( rowHandle1, CellOverlappingValidator
-				.getInstance( ).getName( ),
-				SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS ) );
+		cellHandle2.setColumn(2);
+		assertTrue(listener.hasError(rowHandle1, CellOverlappingValidator.getInstance().getName(),
+				SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS));
 
-		cellHandle2.setColumnSpan( 2 );
-		assertTrue( listener.hasError( rowHandle1, CellOverlappingValidator
-				.getInstance( ).getName( ),
-				SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS ) );
+		cellHandle2.setColumnSpan(2);
+		assertTrue(listener.hasError(rowHandle1, CellOverlappingValidator.getInstance().getName(),
+				SemanticError.DESIGN_EXCEPTION_OVERLAPPING_CELLS));
 	}
 
 }

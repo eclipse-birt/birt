@@ -21,23 +21,20 @@ import org.eclipse.ui.IPathEditorInput;
  * ReportProviderFactory use for workspace resources.
  */
 
-public class IDEReportProviderFactory extends ReportProviderFactory
-{
+public class IDEReportProviderFactory extends ReportProviderFactory {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.ReportProviderFactory#getProvider(org.eclipse.ui.IEditorInput)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.ReportProviderFactory#
+	 * getProvider(org.eclipse.ui.IEditorInput)
 	 */
-	public IReportProvider getProvider( IEditorInput input )
-	{
-		if ( input instanceof IFileEditorInput )
-		{
-			return new IDEFileReportProvider( );
-		}
-		else if ( input instanceof IPathEditorInput )
-		{
-			return super.getProvider( input );
+	public IReportProvider getProvider(IEditorInput input) {
+		if (input instanceof IFileEditorInput) {
+			return new IDEFileReportProvider();
+		} else if (input instanceof IPathEditorInput) {
+			return super.getProvider(input);
 		}
 //		else
 //		{

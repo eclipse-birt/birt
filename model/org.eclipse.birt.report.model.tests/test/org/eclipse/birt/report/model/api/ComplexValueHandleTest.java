@@ -58,11 +58,10 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  * 
  * </table>
- *  
+ * 
  */
 
-public class ComplexValueHandleTest extends BaseTestCase
-{
+public class ComplexValueHandleTest extends BaseTestCase {
 
 	/**
 	 * A subclass of ComplexValueHandle for this test case.
@@ -76,104 +75,96 @@ public class ComplexValueHandleTest extends BaseTestCase
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		openDesign( "ComplexValueHandleTest.xml" ); //$NON-NLS-1$
-		assertNotNull( designHandle );
+	protected void setUp() throws Exception {
+		super.setUp();
+		openDesign("ComplexValueHandleTest.xml"); //$NON-NLS-1$
+		assertNotNull(designHandle);
 	}
 
 	/**
 	 * Tests isSet methods in ComplexValueHandle.
 	 * 
 	 * @see org.eclipse.birt.report.model.api.ComplexValueHandle
-	 * @throws SemanticException
-	 *             if one of values of properties is invalid.
+	 * @throws SemanticException if one of values of properties is invalid.
 	 */
 
-	public void testValueIsSet( ) throws SemanticException
-	{
-		LabelHandle labelHandle = (LabelHandle) designHandle
-				.findElement( "label2" ); //$NON-NLS-1$
-		assertNotNull( labelHandle );
-		fontHandle = labelHandle.getPrivateStyle( ).getFontFamilyHandle( );
+	public void testValueIsSet() throws SemanticException {
+		LabelHandle labelHandle = (LabelHandle) designHandle.findElement("label2"); //$NON-NLS-1$
+		assertNotNull(labelHandle);
+		fontHandle = labelHandle.getPrivateStyle().getFontFamilyHandle();
 
-		assertNotNull( fontHandle );
-		assertFalse( fontHandle.isSet( ) );
+		assertNotNull(fontHandle);
+		assertFalse(fontHandle.isSet());
 
 		// the value for a top-level element property.
 
-		PropertyHandle propertyHandle = labelHandle
-				.getPropertyHandle( Label.HELP_TEXT_PROP );
-		assertNotNull( propertyHandle );
-		assertFalse( propertyHandle.isSet( ) );
+		PropertyHandle propertyHandle = labelHandle.getPropertyHandle(Label.HELP_TEXT_PROP);
+		assertNotNull(propertyHandle);
+		assertFalse(propertyHandle.isSet());
 
-		propertyHandle = labelHandle.getPropertyHandle( Label.TEXT_PROP );
-		assertNotNull( propertyHandle );
-		assertTrue( propertyHandle.isSet( ) );
+		propertyHandle = labelHandle.getPropertyHandle(Label.TEXT_PROP);
+		assertNotNull(propertyHandle);
+		assertTrue(propertyHandle.isSet());
 
 		// the value for the private style property .
 
-		propertyHandle = labelHandle
-				.getPropertyHandle( Style.BACKGROUND_COLOR_PROP );
-		assertNotNull( propertyHandle );
-		assertFalse( propertyHandle.isSet( ) );
+		propertyHandle = labelHandle.getPropertyHandle(Style.BACKGROUND_COLOR_PROP);
+		assertNotNull(propertyHandle);
+		assertFalse(propertyHandle.isSet());
 
-		propertyHandle.setStringValue( "red" ); //$NON-NLS-1$
-		assertTrue( propertyHandle.isSet( ) );
+		propertyHandle.setStringValue("red"); //$NON-NLS-1$
+		assertTrue(propertyHandle.isSet());
 
 		// a label has a value for the font family property.
 
-		labelHandle = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
-		assertNotNull( labelHandle );
-		fontHandle = labelHandle.getPrivateStyle( ).getFontFamilyHandle( );
+		labelHandle = (LabelHandle) designHandle.findElement("label1"); //$NON-NLS-1$
+		assertNotNull(labelHandle);
+		fontHandle = labelHandle.getPrivateStyle().getFontFamilyHandle();
 
-		assertNotNull( fontHandle );
-		assertTrue( fontHandle.isSet( ) );
+		assertNotNull(fontHandle);
+		assertTrue(fontHandle.isSet());
 
 		// font family property handle on one style and its highlight.
 
-		StyleHandle styleHandle = designHandle.findStyle( "Style1" ); //$NON-NLS-1$
-		assertNotNull( styleHandle );
-		fontHandle = styleHandle.getFontFamilyHandle( );
-		assertNotNull( fontHandle );
-		assertTrue( fontHandle.isSet( ) );
+		StyleHandle styleHandle = designHandle.findStyle("Style1"); //$NON-NLS-1$
+		assertNotNull(styleHandle);
+		fontHandle = styleHandle.getFontFamilyHandle();
+		assertNotNull(fontHandle);
+		assertTrue(fontHandle.isSet());
 
 		// a property without a value
 
-		propertyHandle = styleHandle.getPropertyHandle( Style.TEXT_INDENT_PROP );
-		assertFalse( propertyHandle.isSet( ) );
+		propertyHandle = styleHandle.getPropertyHandle(Style.TEXT_INDENT_PROP);
+		assertFalse(propertyHandle.isSet());
 
-		//		 a property without the default value
+		// a property without the default value
 
-		propertyHandle = styleHandle
-				.getPropertyHandle( Style.STRING_FORMAT_PROP );
-		assertFalse( propertyHandle.isSet( ) );
+		propertyHandle = styleHandle.getPropertyHandle(Style.STRING_FORMAT_PROP);
+		assertFalse(propertyHandle.isSet());
 
-		Iterator iterator = styleHandle.highlightRulesIterator( );
-		assertNotNull( iterator );
+		Iterator iterator = styleHandle.highlightRulesIterator();
+		assertNotNull(iterator);
 
 		// a highlight member in the style with no font family property set.
 
-		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) iterator
-				.next( );
-		fontHandle = highlightHandle.getFontFamilyHandle( );
-		assertNotNull( fontHandle );
-		assertFalse( fontHandle.isSet( ) );
+		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) iterator.next();
+		fontHandle = highlightHandle.getFontFamilyHandle();
+		assertNotNull(fontHandle);
+		assertFalse(fontHandle.isSet());
 
-		fontHandle.setStringValue( "song" ); //$NON-NLS-1$
-		assertTrue( fontHandle.isSet( ) );
+		fontHandle.setStringValue("song"); //$NON-NLS-1$
+		assertTrue(fontHandle.isSet());
 
 		// a highlight member in the style with font family property set.
 
-		styleHandle = designHandle.findStyle( "Style2" ); //$NON-NLS-1$
-		assertNotNull( styleHandle );
-		iterator = styleHandle.highlightRulesIterator( );
-		assertNotNull( iterator );
+		styleHandle = designHandle.findStyle("Style2"); //$NON-NLS-1$
+		assertNotNull(styleHandle);
+		iterator = styleHandle.highlightRulesIterator();
+		assertNotNull(iterator);
 
-		highlightHandle = (HighlightRuleHandle) iterator.next( );
-		fontHandle = highlightHandle.getFontFamilyHandle( );
-		assertNotNull( fontHandle );
-		assertTrue( fontHandle.isSet( ) );
+		highlightHandle = (HighlightRuleHandle) iterator.next();
+		fontHandle = highlightHandle.getFontFamilyHandle();
+		assertNotNull(fontHandle);
+		assertTrue(fontHandle.isSet());
 	}
 }

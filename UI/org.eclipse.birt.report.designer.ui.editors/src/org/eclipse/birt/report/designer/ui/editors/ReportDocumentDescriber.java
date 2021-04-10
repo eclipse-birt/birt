@@ -21,12 +21,10 @@ import org.eclipse.core.runtime.content.IContentDescription;
 /**
  * ReportDocumentDescriber
  */
-public class ReportDocumentDescriber implements IContentDescriber
-{
+public class ReportDocumentDescriber implements IContentDescriber {
 
-	public ReportDocumentDescriber( )
-	{
-		super( );
+	public ReportDocumentDescriber() {
+		super();
 	}
 
 	/*
@@ -35,20 +33,16 @@ public class ReportDocumentDescriber implements IContentDescriber
 	 * @see org.eclipse.core.runtime.content.IContentDescriber#describe(java.io.
 	 * InputStream, org.eclipse.core.runtime.content.IContentDescription)
 	 */
-	public int describe( InputStream contents, IContentDescription description )
-			throws IOException
-	{
+	public int describe(InputStream contents, IContentDescription description) throws IOException {
 		return VALID;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.core.runtime.content.IContentDescriber#getSupportedOptions()
+	 * @see org.eclipse.core.runtime.content.IContentDescriber#getSupportedOptions()
 	 */
-	public QualifiedName[] getSupportedOptions( )
-	{
+	public QualifiedName[] getSupportedOptions() {
 		return IContentDescription.ALL;
 	}
 

@@ -25,49 +25,44 @@ import org.eclipse.ui.PlatformUI;
  * 
  * @version $Revision: 1.4 $ $Date: 2007/04/23 03:30:22 $
  */
-public class EditCubeDimensionAction extends AbstractElementAction
-{
+public class EditCubeDimensionAction extends AbstractElementAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.actions.EditCubeDimensionAction"; //$NON-NLS-1$
 
 	/**
 	 * @param selectedObject
 	 */
-	public EditCubeDimensionAction( Object selectedObject )
-	{
-		super( selectedObject );
-		setId( ID );
+	public EditCubeDimensionAction(Object selectedObject) {
+		super(selectedObject);
+		setId(ID);
 	}
 
 	/**
 	 * @param selectedObject
 	 * @param text
 	 */
-	public EditCubeDimensionAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
-		setId( ID );
+	public EditCubeDimensionAction(Object selectedObject, String text) {
+		super(selectedObject, text);
+		setId(ID);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#doAction()
 	 */
-	protected boolean doAction( ) throws Exception
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Edit Dimension action >> Runs ..." ); //$NON-NLS-1$
+	protected boolean doAction() throws Exception {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Edit Dimension action >> Runs ..."); //$NON-NLS-1$
 		}
-		DimensionHandle dimension = (DimensionHandle) getSelection( );
-		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), (TabularCubeHandle) dimension.getContainer( ) );
+		DimensionHandle dimension = (DimensionHandle) getSelection();
+		CubeBuilder dialog = new CubeBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				(TabularCubeHandle) dimension.getContainer());
 
-		dialog.showPage( CubeBuilder.GROUPPAGE );
+		dialog.showPage(CubeBuilder.GROUPPAGE);
 
-		return ( dialog.open( ) == IDialogConstants.OK_ID );
+		return (dialog.open() == IDialogConstants.OK_ID);
 	}
 
 	/*
@@ -75,18 +70,18 @@ public class EditCubeDimensionAction extends AbstractElementAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		return ( (DimensionHandle) getSelection( ) ).canEdit( );
+	public boolean isEnabled() {
+		return ((DimensionHandle) getSelection()).canEdit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#getTransactionLabel()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#getTransactionLabel()
 	 */
-	protected String getTransactionLabel( )
-	{
-		return Messages.getFormattedString( "cube.dimension.edit", new String[]{( (DimensionHandle) getSelection( ) ).getName( )} ); //$NON-NLS-1$
+	protected String getTransactionLabel() {
+		return Messages.getFormattedString("cube.dimension.edit", //$NON-NLS-1$
+				new String[] { ((DimensionHandle) getSelection()).getName() });
 	}
 }

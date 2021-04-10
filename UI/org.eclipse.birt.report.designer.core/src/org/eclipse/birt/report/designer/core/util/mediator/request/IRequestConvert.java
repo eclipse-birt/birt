@@ -14,6 +14,5 @@ package org.eclipse.birt.report.designer.core.util.mediator.request;
  * 
  * @deprecated use {@link IRequestConverter} instead.
  */
-public interface IRequestConvert extends IRequestConverter
-{
+public interface IRequestConvert extends IRequestConverter {
 }

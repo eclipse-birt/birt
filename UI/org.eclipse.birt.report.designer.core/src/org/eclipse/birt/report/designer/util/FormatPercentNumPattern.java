@@ -19,8 +19,7 @@ import com.ibm.icu.util.ULocale;
  * number.
  */
 
-public class FormatPercentNumPattern extends FormatNumberPattern
-{
+public class FormatPercentNumPattern extends FormatNumberPattern {
 
 	private int decPlaces = 0;
 	private boolean useSep = false;
@@ -34,21 +33,17 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 	 * @param locale
 	 * @return
 	 */
-	public static String getDefaultSymbolPosition( ULocale locale )
-	{
-		if ( locale == null )
-		{
-			locale = ULocale.getDefault( );
+	public static String getDefaultSymbolPosition(ULocale locale) {
+		if (locale == null) {
+			locale = ULocale.getDefault();
 		}
 
-		NumberFormat formater = NumberFormat.getPercentInstance( locale );
-		String result = formater.format( 1 );
-		if ( result.endsWith( "%" ) ) //$NON-NLS-1$
+		NumberFormat formater = NumberFormat.getPercentInstance(locale);
+		String result = formater.format(1);
+		if (result.endsWith("%")) //$NON-NLS-1$
 		{
 			return FormatNumberPattern.SYMBOL_POSITION_AFTER;
-		}
-		else
-		{
+		} else {
 			return FormatNumberPattern.SYMBOL_POSITION_BEFORE;
 		}
 	}
@@ -58,21 +53,18 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 	 * 
 	 * @param category
 	 */
-	public FormatPercentNumPattern( String category )
-	{
-		super( category );
-		setType( 'P' );
+	public FormatPercentNumPattern(String category) {
+		super(category);
+		setType('P');
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
 	 * #getPattern()
 	 */
-	public String getPattern( )
-	{
+	public String getPattern() {
 		String numStr = "###0"; //$NON-NLS-1$
 		String decStr = ""; //$NON-NLS-1$
 
@@ -80,13 +72,12 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		String negativePatt = null;
 		String pattern;
 
-		if ( useSep )
-		{
+		if (useSep) {
 			positivePatt = "#,##0"; //$NON-NLS-1$
 		}
-		decStr = DEUtil.getDecmalStr( decPlaces );
+		decStr = DEUtil.getDecmalStr(decPlaces);
 
-		if ( decStr != "" ) //$NON-NLS-1$
+		if (decStr != "") //$NON-NLS-1$
 		{
 			positivePatt = positivePatt + "." + decStr; //$NON-NLS-1$
 		}
@@ -94,44 +85,34 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 		// {
 		// positivePatt = zeroIndicator + positivePatt;
 		// }
-		if ( useBracket )
-		{
+		if (useBracket) {
 			negativePatt = "(" + positivePatt + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		if ( symPos.equalsIgnoreCase( FormatNumberPattern.SYMBOL_POSITION_BEFORE ) )
-		{
+		if (symPos.equalsIgnoreCase(FormatNumberPattern.SYMBOL_POSITION_BEFORE)) {
 			positivePatt = "%" + positivePatt; //$NON-NLS-1$
-			if ( negativePatt != null )
-			{
+			if (negativePatt != null) {
 				negativePatt = "%" + negativePatt;//$NON-NLS-1$
 			}
-		}
-		else if ( symPos.equalsIgnoreCase( FormatNumberPattern.SYMBOL_POSITION_AFTER ) )
-		{
+		} else if (symPos.equalsIgnoreCase(FormatNumberPattern.SYMBOL_POSITION_AFTER)) {
 			positivePatt = positivePatt + "%"; //$NON-NLS-1$
-			if ( negativePatt != null )
-			{
+			if (negativePatt != null) {
 				negativePatt = negativePatt + "%";//$NON-NLS-1$
 			}
 		}
-		if ( negativePatt != null )
-		{
+		if (negativePatt != null) {
 			pattern = positivePatt + ";" + negativePatt;//$NON-NLS-1$
-		}
-		else
-		{
+		} else {
 			pattern = positivePatt;
 		}
 
-		pattern = applyRoundingMode( pattern );
-		
+		pattern = applyRoundingMode(pattern);
+
 		/**
-		 * when the pattern equals the default value, just returns the category
-		 * name as the pattern value. DTE recognize it.
+		 * when the pattern equals the default value, just returns the category name as
+		 * the pattern value. DTE recognize it.
 		 */
-		if ( pattern.equals( DEFAULT_PERCENT_PATTERN ) )
-		{
-			return getCategory( );
+		if (pattern.equals(DEFAULT_PERCENT_PATTERN)) {
+			return getCategory();
 		}
 		return pattern;
 	}
@@ -139,32 +120,28 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
 	 * #setPattern(java.lang.String)
 	 */
-	public void setPattern( String patternStr )
-	{
-		String patt = valPattern( patternStr );
+	public void setPattern(String patternStr) {
+		String patt = valPattern(patternStr);
 
-		patt = checkRoundingMode( patt );
+		patt = checkRoundingMode(patt);
 
-		this.useSep = patt.indexOf( "," ) != -1; //$NON-NLS-1$
+		this.useSep = patt.indexOf(",") != -1; //$NON-NLS-1$
 		// this.useZero = patt.indexOf( zeroIndicator ) != -1;
-		this.useBracket = patt.indexOf( "(" ) != -1 //$NON-NLS-1$
-				&& patt.indexOf( ")" ) != -1; //$NON-NLS-1$
-		if ( patt.indexOf( "." ) != -1 ) //$NON-NLS-1$
+		this.useBracket = patt.indexOf("(") != -1 //$NON-NLS-1$
+				&& patt.indexOf(")") != -1; //$NON-NLS-1$
+		if (patt.indexOf(".") != -1) //$NON-NLS-1$
 		{
-			this.decPlaces = patt.lastIndexOf( "0" ) - patt.lastIndexOf( "." ); //$NON-NLS-1$ //$NON-NLS-2$
+			this.decPlaces = patt.lastIndexOf("0") - patt.lastIndexOf("."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		if ( patt.indexOf( "%" ) != -1 ) //$NON-NLS-1$
+		if (patt.indexOf("%") != -1) //$NON-NLS-1$
 		{
-			if ( patt.indexOf( "%" ) == 0 ) //$NON-NLS-1$
+			if (patt.indexOf("%") == 0) //$NON-NLS-1$
 			{
 				this.symPos = FormatNumberPattern.SYMBOL_POSITION_BEFORE;
-			}
-			else
-			{
+			} else {
 				this.symPos = FormatNumberPattern.SYMBOL_POSITION_AFTER;
 			}
 		}
@@ -174,60 +151,51 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern
 	 * #getDefaultPatt()
 	 */
-	protected String getDefaultPatt( )
-	{
+	protected String getDefaultPatt() {
 		return DEFAULT_PERCENT_PATTERN;
 	}
 
 	/**
-	 * ¡¡Get decPlaces
+	 * ï¿½ï¿½Get decPlaces
 	 * 
 	 * @return Returns the decPlaces.
 	 */
-	public int getDecPlaces( )
-	{
+	public int getDecPlaces() {
 		return decPlaces;
 	}
 
 	/**
 	 * Set decPlaces
 	 * 
-	 * @param decPlaces
-	 *            The decPlaces to set.
+	 * @param decPlaces The decPlaces to set.
 	 */
-	public void setDecPlaces( int decPlaces )
-	{
+	public void setDecPlaces(int decPlaces) {
 		this.decPlaces = decPlaces;
 	}
 
 	/**
 	 * Returns useSep.
 	 */
-	public boolean getUseSep( )
-	{
+	public boolean getUseSep() {
 		return this.useSep;
 	}
 
 	/**
 	 * Set UseSep
 	 * 
-	 * @param useSep
-	 *            The useSep to set.
+	 * @param useSep The useSep to set.
 	 */
-	public void setUseSep( boolean useSep )
-	{
+	public void setUseSep(boolean useSep) {
 		this.useSep = useSep;
 	}
 
 	/**
 	 * get UseBracket Returns useBracket.
 	 */
-	public boolean getUseBracket( )
-	{
+	public boolean getUseBracket() {
 
 		return this.useBracket;
 	}
@@ -235,40 +203,33 @@ public class FormatPercentNumPattern extends FormatNumberPattern
 	/**
 	 * Set useBracket
 	 * 
-	 * @param useBracket
-	 *            The useBracket to set.
+	 * @param useBracket The useBracket to set.
 	 */
-	public void setUseBracket( boolean useBracket )
-	{
+	public void setUseBracket(boolean useBracket) {
 		this.useBracket = useBracket;
 	}
 
 	/**
 	 * @return Returns the symPos.
 	 */
-	public String getSymPos( )
-	{
+	public String getSymPos() {
 		return symPos;
 	}
 
 	/**
 	 * Set SymPos
 	 * 
-	 * @param symPos
-	 *            The symPos to set.
+	 * @param symPos The symPos to set.
 	 */
-	public void setSymPos( String symPos )
-	{
+	public void setSymPos(String symPos) {
 		this.symPos = symPos;
 	}
 
-	public String getRoundingMode( )
-	{
+	public String getRoundingMode() {
 		return rounding;
 	}
 
-	public void setRoundingMode( String mode )
-	{
+	public void setRoundingMode(String mode) {
 		this.rounding = mode;
 	}
 

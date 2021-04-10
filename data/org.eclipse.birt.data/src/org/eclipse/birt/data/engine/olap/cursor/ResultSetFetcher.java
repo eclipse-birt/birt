@@ -17,8 +17,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
  * 
  *
  */
-public class ResultSetFetcher
-{
+public class ResultSetFetcher {
 
 	private IAggregationResultSet rs;
 	private int[] levelKeyColCount = null;
@@ -27,14 +26,12 @@ public class ResultSetFetcher
 	 * 
 	 * @param rs
 	 */
-	public ResultSetFetcher( IAggregationResultSet rs )
-	{
+	public ResultSetFetcher(IAggregationResultSet rs) {
 		this.rs = rs;
-		int levelCount = rs.getLevelCount( );
+		int levelCount = rs.getLevelCount();
 		levelKeyColCount = new int[levelCount];
-		for ( int i = 0; i < levelCount; i++ )
-		{
-			levelKeyColCount[i] = rs.getLevelKeyColCount( i );
+		for (int i = 0; i < levelCount; i++) {
+			levelKeyColCount[i] = rs.getLevelKeyColCount(i);
 		}
 	}
 
@@ -44,19 +41,14 @@ public class ResultSetFetcher
 	 * @param attr
 	 * @return
 	 */
-	public Object getValue( int levelIndex, int attr )
-	{
-		if ( attr >= levelKeyColCount[levelIndex] )
-		{
-			return rs.getLevelAttribute( levelIndex, attr
-					- levelKeyColCount[levelIndex] );
-		}
-		else
-		{
-			if ( rs.getLevelKeyValue( levelIndex ) == null )
+	public Object getValue(int levelIndex, int attr) {
+		if (attr >= levelKeyColCount[levelIndex]) {
+			return rs.getLevelAttribute(levelIndex, attr - levelKeyColCount[levelIndex]);
+		} else {
+			if (rs.getLevelKeyValue(levelIndex) == null)
 				return null;
 			else
-				return rs.getLevelKeyValue( levelIndex )[attr];
+				return rs.getLevelKeyValue(levelIndex)[attr];
 		}
 	}
 
@@ -66,16 +58,13 @@ public class ResultSetFetcher
 	 * @param attrName
 	 * @return
 	 */
-	public int getAttributeIndex( int levelIndex, String attrName )
-	{
-		int index = rs.getLevelKeyIndex( levelIndex, attrName );
-		if ( index >= 0 )
-		{
+	public int getAttributeIndex(int levelIndex, String attrName) {
+		int index = rs.getLevelKeyIndex(levelIndex, attrName);
+		if (index >= 0) {
 			return index;
 		}
-		index = rs.getLevelAttributeIndex( levelIndex, attrName );
-		if ( index >= 0 )
-		{
+		index = rs.getLevelAttributeIndex(levelIndex, attrName);
+		if (index >= 0) {
 			return levelKeyColCount[levelIndex] + index;
 		}
 		return -1;
@@ -86,17 +75,15 @@ public class ResultSetFetcher
 	 * @param levelIndex
 	 * @return
 	 */
-	public Object[] getLevelKeyValue( int levelIndex )
-	{
-		return rs.getLevelKeyValue( levelIndex );
+	public Object[] getLevelKeyValue(int levelIndex) {
+		return rs.getLevelKeyValue(levelIndex);
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public IAggregationResultSet getAggrResultSet( )
-	{
+	public IAggregationResultSet getAggrResultSet() {
 		return this.rs;
 	}
 }

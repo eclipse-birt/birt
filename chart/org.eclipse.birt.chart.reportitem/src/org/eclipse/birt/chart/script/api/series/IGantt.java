@@ -7,17 +7,15 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.chart.script.api.series;
 
 import org.eclipse.birt.chart.script.api.component.IValueSeries;
-
 
 /**
  * Represents Gantt series of a Chart in the scripting environment
  */
 
-public interface IGantt extends IValueSeries
-{
+public interface IGantt extends IValueSeries {
 
 }

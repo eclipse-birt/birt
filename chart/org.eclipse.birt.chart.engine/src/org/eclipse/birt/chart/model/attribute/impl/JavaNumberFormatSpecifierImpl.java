@@ -26,25 +26,26 @@ import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.util.ULocale;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Java Number Format Specifier</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object ' <em><b>Java
+ * Number Format Specifier</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getPattern <em>Pattern</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getMultiplier <em>Multiplier</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getPattern
+ * <em>Pattern</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl#getMultiplier
+ * <em>Multiplier</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implements
-		JavaNumberFormatSpecifier
-{
+public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implements JavaNumberFormatSpecifier {
 
 	/**
 	 * The default value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -54,6 +55,7 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	/**
 	 * The cached value of the '{@link #getPattern() <em>Pattern</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPattern()
 	 * @generated
 	 * @ordered
@@ -61,8 +63,9 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	protected String pattern = PATTERN_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getMultiplier() <em>Multiplier</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getMultiplier() <em>Multiplier</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMultiplier()
 	 * @generated
 	 * @ordered
@@ -70,8 +73,9 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	protected static final double MULTIPLIER_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getMultiplier() <em>Multiplier</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getMultiplier() <em>Multiplier</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getMultiplier()
 	 * @generated
 	 * @ordered
@@ -79,8 +83,8 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	protected double multiplier = MULTIPLIER_EDEFAULT;
 
 	/**
-	 * This is true if the Multiplier attribute has been set. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * This is true if the Multiplier attribute has been set. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
@@ -89,201 +93,183 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	protected JavaNumberFormatSpecifierImpl( )
-	{
-		super( );
+	protected JavaNumberFormatSpecifierImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return AttributePackage.Literals.JAVA_NUMBER_FORMAT_SPECIFIER;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public String getPattern( )
-	{
+	public String getPattern() {
 		return pattern;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setPattern( String newPattern )
-	{
+	public void setPattern(String newPattern) {
 		String oldPattern = pattern;
 		pattern = newPattern;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN,
-					oldPattern,
-					pattern ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN, oldPattern, pattern));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public double getMultiplier( )
-	{
+	public double getMultiplier() {
 		return multiplier;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setMultiplier( double newMultiplier )
-	{
+	public void setMultiplier(double newMultiplier) {
 		double oldMultiplier = multiplier;
 		multiplier = newMultiplier;
 		boolean oldMultiplierESet = multiplierESet;
 		multiplierESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER,
-					oldMultiplier,
-					multiplier,
-					!oldMultiplierESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER, oldMultiplier, multiplier,
+					!oldMultiplierESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void unsetMultiplier( )
-	{
+	public void unsetMultiplier() {
 		double oldMultiplier = multiplier;
 		boolean oldMultiplierESet = multiplierESet;
 		multiplier = MULTIPLIER_EDEFAULT;
 		multiplierESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER,
-					oldMultiplier,
-					MULTIPLIER_EDEFAULT,
-					oldMultiplierESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER, oldMultiplier, MULTIPLIER_EDEFAULT,
+					oldMultiplierESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public boolean isSetMultiplier( )
-	{
+	public boolean isSetMultiplier() {
 		return multiplierESet;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public Object eGet( int featureID, boolean resolve, boolean coreType )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN :
-				return getPattern( );
-			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER :
-				return getMultiplier( );
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN:
+			return getPattern();
+		case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER:
+			return getMultiplier();
 		}
-		return super.eGet( featureID, resolve, coreType );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet( int featureID, Object newValue )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN :
-				setPattern( (String) newValue );
-				return;
-			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER :
-				setMultiplier( (Double) newValue );
-				return;
-		}
-		super.eSet( featureID, newValue );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset( int featureID )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN :
-				setPattern( PATTERN_EDEFAULT );
-				return;
-			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER :
-				unsetMultiplier( );
-				return;
-		}
-		super.eUnset( featureID );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet( int featureID )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN :
-				return PATTERN_EDEFAULT == null ? pattern != null
-						: !PATTERN_EDEFAULT.equals( pattern );
-			case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER :
-				return isSetMultiplier( );
-		}
-		return super.eIsSet( featureID );
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public String toString( )
-	{
-		if ( eIsProxy( ) )
-			return super.toString( );
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN:
+			setPattern((String) newValue);
+			return;
+		case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER:
+			setMultiplier((Double) newValue);
+			return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (pattern: " ); //$NON-NLS-1$
-		result.append( pattern );
-		result.append( ", multiplier: " ); //$NON-NLS-1$
-		if ( multiplierESet )
-			result.append( multiplier );
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN:
+			setPattern(PATTERN_EDEFAULT);
+			return;
+		case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER:
+			unsetMultiplier();
+			return;
+		}
+		super.eUnset(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__PATTERN:
+			return PATTERN_EDEFAULT == null ? pattern != null : !PATTERN_EDEFAULT.equals(pattern);
+		case AttributePackage.JAVA_NUMBER_FORMAT_SPECIFIER__MULTIPLIER:
+			return isSetMultiplier();
+		}
+		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (pattern: "); //$NON-NLS-1$
+		result.append(pattern);
+		result.append(", multiplier: "); //$NON-NLS-1$
+		if (multiplierESet)
+			result.append(multiplier);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ')' );
-		return result.toString( );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(')');
+		return result.toString();
 	}
 
 	/**
@@ -295,10 +281,9 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	 * @param sJavaPattern
 	 * @return
 	 */
-	public static JavaNumberFormatSpecifier create( String sJavaPattern )
-	{
-		final JavaNumberFormatSpecifier jnfs = AttributeFactory.eINSTANCE.createJavaNumberFormatSpecifier( );
-		jnfs.setPattern( sJavaPattern );
+	public static JavaNumberFormatSpecifier create(String sJavaPattern) {
+		final JavaNumberFormatSpecifier jnfs = AttributeFactory.eINSTANCE.createJavaNumberFormatSpecifier();
+		jnfs.setPattern(sJavaPattern);
 		// jnfs.setMultiplier(1); // UNDEFINED SUGGESTS A DEFAULT OF '1'
 		return jnfs;
 	}
@@ -306,71 +291,68 @@ public class JavaNumberFormatSpecifierImpl extends FormatSpecifierImpl implement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#format(double)
+	 * @see org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#format(
+	 * double)
 	 */
-	public String format( double dValue, ULocale lo )
-	{
-		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance( lo );
-		df.applyPattern( getPattern( ) );
-		return isSetMultiplier( ) ? df.format( dValue * getMultiplier( ) )
-				: df.format( dValue );
+	public String format(double dValue, ULocale lo) {
+		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(lo);
+		df.applyPattern(getPattern());
+		return isSetMultiplier() ? df.format(dValue * getMultiplier()) : df.format(dValue);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#format(java.lang.Number, com.ibm.icu.util.ULocale)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.model.attribute.JavaNumberFormatSpecifier#format(java.
+	 * lang.Number, com.ibm.icu.util.ULocale)
 	 */
-	public String format( Number number, ULocale lo )
-	{
-		Number n = NumberUtil.transformNumber( number );
-		if ( n instanceof Double )
-		{
-			return format( ( (Double) n ).doubleValue( ), lo );
+	public String format(Number number, ULocale lo) {
+		Number n = NumberUtil.transformNumber(number);
+		if (n instanceof Double) {
+			return format(((Double) n).doubleValue(), lo);
 		}
 
 		// Format big decimal
 		BigDecimal bdNum = (BigDecimal) n;
-		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance( lo );
-		String vPattern = NumberUtil.adjustBigNumberFormatPattern( getPattern( ) );
-		if ( vPattern.indexOf( 'E' ) < 0 )
-		{
+		final DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(lo);
+		String vPattern = NumberUtil.adjustBigNumberFormatPattern(getPattern());
+		if (vPattern.indexOf('E') < 0) {
 			vPattern = vPattern + NumberUtil.BIG_DECIMAL_FORMAT_SUFFIX;
 		}
-		df.applyPattern( vPattern );
-		return isSetMultiplier( ) ? df.format( bdNum.multiply( BigDecimal.valueOf( getMultiplier( ) ),
-				NumberUtil.DEFAULT_MATHCONTEXT ) )
-				: df.format( bdNum );
+		df.applyPattern(vPattern);
+		return isSetMultiplier()
+				? df.format(bdNum.multiply(BigDecimal.valueOf(getMultiplier()), NumberUtil.DEFAULT_MATHCONTEXT))
+				: df.format(bdNum);
 	}
 
-	public String format( double dValue, Locale lo )
-	{
-		return format( dValue, ULocale.forLocale( lo ) );
+	public String format(double dValue, Locale lo) {
+		return format(dValue, ULocale.forLocale(lo));
 	}
 
 	/**
 	 * @generated
 	 */
-	public JavaNumberFormatSpecifier copyInstance( )
-	{
-		JavaNumberFormatSpecifierImpl dest = new JavaNumberFormatSpecifierImpl( );
-		dest.set( this );
+	public JavaNumberFormatSpecifier copyInstance() {
+		JavaNumberFormatSpecifierImpl dest = new JavaNumberFormatSpecifierImpl();
+		dest.set(this);
 		return dest;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( JavaNumberFormatSpecifier src )
-	{
+	protected void set(JavaNumberFormatSpecifier src) {
 
-		super.set( src );
+		super.set(src);
 
 		// attributes
 
-		pattern = src.getPattern( );
+		pattern = src.getPattern();
 
-		multiplier = src.getMultiplier( );
+		multiplier = src.getMultiplier();
 
-		multiplierESet = src.isSetMultiplier( );
+		multiplierESet = src.isSetMultiplier();
 
 	}
 

@@ -23,19 +23,17 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 /**
  * Base class of unit tests
  * 
- *  
+ * 
  */
 
-public abstract class BaseTestCase extends TestCase
-{
+public abstract class BaseTestCase extends TestCase {
 
 	private ReportDesignHandle report;
 
 	/**
 	 * Default constructor
 	 */
-	public BaseTestCase( )
-	{//Do nothing
+	public BaseTestCase() {// Do nothing
 	}
 
 	/**
@@ -43,33 +41,28 @@ public abstract class BaseTestCase extends TestCase
 	 * 
 	 * @param name
 	 */
-	public BaseTestCase( String name )
-	{
-		super( name );
+	public BaseTestCase(String name) {
+		super(name);
 	}
 
-	protected void setUp( ) throws Exception
-	{
-		loadFile( getLoadFile( ) );
-		report = (ReportDesignHandle)SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+	protected void setUp() throws Exception {
+		loadFile(getLoadFile());
+		report = (ReportDesignHandle) SessionHandleAdapter.getInstance().getReportDesignHandle();
 	}
 
-	protected void tearDown( ) throws Exception
-	{
-		report.close( );
+	protected void tearDown() throws Exception {
+		report.close();
 		report = null;
 	}
 
-	private void loadFile( String fileName ) throws DesignFileException
-	{
-		ModuleHandle module = SessionHandleAdapter.getInstance( ).init( fileName,
-				BaseTestCase.class.getResourceAsStream( fileName ) );
-		
-		SessionHandleAdapter.getInstance( ).setReportDesignHandle( module );
+	private void loadFile(String fileName) throws DesignFileException {
+		ModuleHandle module = SessionHandleAdapter.getInstance().init(fileName,
+				BaseTestCase.class.getResourceAsStream(fileName));
+
+		SessionHandleAdapter.getInstance().setReportDesignHandle(module);
 	}
 
-	protected String getLoadFile( )
-	{
+	protected String getLoadFile() {
 		return ITestConstants.TEST_DESIGN_FILE;
 	}
 
@@ -78,13 +71,11 @@ public abstract class BaseTestCase extends TestCase
 	 * 
 	 * @return the report design for tests
 	 */
-	protected ReportDesign getReportDesign( )
-	{
-		return report.getDesign( );
+	protected ReportDesign getReportDesign() {
+		return report.getDesign();
 	}
 
-	protected ReportDesignHandle getReportDesignHandle( )
-	{
+	protected ReportDesignHandle getReportDesignHandle() {
 		return report;
 	}
 

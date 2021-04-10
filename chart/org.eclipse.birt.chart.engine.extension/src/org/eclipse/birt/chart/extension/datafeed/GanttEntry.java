@@ -26,8 +26,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * GanttEntry
  */
-public final class GanttEntry implements IDataPointEntry
-{
+public final class GanttEntry implements IDataPointEntry {
 
 	private CDateTime dateStart;
 
@@ -42,10 +41,9 @@ public final class GanttEntry implements IDataPointEntry
 	 * @param dateEnd
 	 * @param strLabel
 	 */
-	public GanttEntry( Calendar dateStart, Calendar dateEnd, String strLabel )
-	{
-		this.dateStart = new CDateTime( dateStart );
-		this.dateEnd = new CDateTime( dateEnd );
+	public GanttEntry(Calendar dateStart, Calendar dateEnd, String strLabel) {
+		this.dateStart = new CDateTime(dateStart);
+		this.dateEnd = new CDateTime(dateEnd);
 		this.strLabel = strLabel;
 	}
 
@@ -56,10 +54,9 @@ public final class GanttEntry implements IDataPointEntry
 	 * @param dateEnd
 	 * @param strLabel
 	 */
-	public GanttEntry( Date dateStart, Date dateEnd, String strLabel )
-	{
-		this.dateStart = new CDateTime( dateStart );
-		this.dateEnd = new CDateTime( dateEnd );
+	public GanttEntry(Date dateStart, Date dateEnd, String strLabel) {
+		this.dateStart = new CDateTime(dateStart);
+		this.dateEnd = new CDateTime(dateEnd);
 		this.strLabel = strLabel;
 	}
 
@@ -70,8 +67,7 @@ public final class GanttEntry implements IDataPointEntry
 	 * @param dateEnd
 	 * @param strLabel
 	 */
-	public GanttEntry( CDateTime dateStart, CDateTime dateEnd, String strLabel )
-	{
+	public GanttEntry(CDateTime dateStart, CDateTime dateEnd, String strLabel) {
 		this.dateStart = dateStart;
 		this.dateEnd = dateEnd;
 		this.strLabel = strLabel;
@@ -82,32 +78,22 @@ public final class GanttEntry implements IDataPointEntry
 	 * 
 	 * @param oaThreeComponents
 	 */
-	GanttEntry( Object[] oaThreeComponents )
-	{
-		if ( oaThreeComponents[0] instanceof CDateTime )
-		{
+	GanttEntry(Object[] oaThreeComponents) {
+		if (oaThreeComponents[0] instanceof CDateTime) {
 			this.dateStart = (CDateTime) oaThreeComponents[0];
-		}
-		else
-		{
+		} else {
 			this.dateStart = null;
 		}
 
-		if ( oaThreeComponents[1] instanceof CDateTime )
-		{
+		if (oaThreeComponents[1] instanceof CDateTime) {
 			this.dateEnd = (CDateTime) oaThreeComponents[1];
-		}
-		else
-		{
+		} else {
 			this.dateEnd = null;
 		}
 
-		if ( oaThreeComponents[2] != null )
-		{
-			this.strLabel = String.valueOf( oaThreeComponents[2] );
-		}
-		else
-		{
+		if (oaThreeComponents[2] != null) {
+			this.strLabel = String.valueOf(oaThreeComponents[2]);
+		} else {
 			this.strLabel = null;
 		}
 	}
@@ -117,116 +103,88 @@ public final class GanttEntry implements IDataPointEntry
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString( )
-	{
-		return getFormattedString( null, ULocale.getDefault( ) );
+	public String toString() {
+		return getFormattedString(null, ULocale.getDefault());
 	}
 
 	/**
 	 * @return Returns the start datetime.
 	 */
-	public final CDateTime getStart( )
-	{
+	public final CDateTime getStart() {
 		return dateStart;
 	}
 
 	/**
-	 * @param start
-	 *            The start datetime to set.
+	 * @param start The start datetime to set.
 	 */
-	public final void setStart( CDateTime start )
-	{
+	public final void setStart(CDateTime start) {
 		this.dateStart = start;
 	}
 
 	/**
 	 * @return Returns the end datetime.
 	 */
-	public final CDateTime getEnd( )
-	{
+	public final CDateTime getEnd() {
 		return dateEnd;
 	}
 
 	/**
-	 * @param end
-	 *            The end datetime to set.
+	 * @param end The end datetime to set.
 	 */
-	public final void setEnd( CDateTime end )
-	{
+	public final void setEnd(CDateTime end) {
 		this.dateEnd = end;
 	}
 
 	/**
 	 * @return Returns the label.
 	 */
-	public final String getLabel( )
-	{
+	public final String getLabel() {
 		return strLabel;
 	}
 
 	/**
-	 * @param end
-	 *            The label to set.
+	 * @param end The label to set.
 	 */
-	public final void setLabel( String strLabel )
-	{
+	public final void setLabel(String strLabel) {
 		this.strLabel = strLabel;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.chart.datafeed.IFormattable#getFormattedString(java.
+	 * @see org.eclipse.birt.chart.datafeed.IFormattable#getFormattedString(java.
 	 * lang.Object, com.ibm.icu.util.ULocale)
 	 */
-	public String getFormattedString( FormatSpecifier formatter, ULocale locale )
-	{
-		String strStart = getFormattedString( GanttDataPointDefinition.TYPE_START_DATE,
-				formatter,
-				locale );
-		String strEnd = getFormattedString( GanttDataPointDefinition.TYPE_END_DATE,
-				formatter,
-				locale );
+	public String getFormattedString(FormatSpecifier formatter, ULocale locale) {
+		String strStart = getFormattedString(GanttDataPointDefinition.TYPE_START_DATE, formatter, locale);
+		String strEnd = getFormattedString(GanttDataPointDefinition.TYPE_END_DATE, formatter, locale);
 		String formattedString = "S " + strStart + "; E " + strEnd; //$NON-NLS-1$ //$NON-NLS-2$
-		if ( strLabel != null )
-		{
+		if (strLabel != null) {
 			formattedString += "; " + strLabel; //$NON-NLS-1$
 		}
 
 		return formattedString;
 	}
 
-	public String getFormattedString( String type, FormatSpecifier formatter,
-			ULocale locale )
-	{
+	public String getFormattedString(String type, FormatSpecifier formatter, ULocale locale) {
 		String str = "";//$NON-NLS-1$
-		try
-		{
-			if ( GanttDataPointDefinition.TYPE_START_DATE.equals( type ) )
-			{
-				str = ValueFormatter.format( dateStart, formatter, locale, null );
+		try {
+			if (GanttDataPointDefinition.TYPE_START_DATE.equals(type)) {
+				str = ValueFormatter.format(dateStart, formatter, locale, null);
+			} else if (GanttDataPointDefinition.TYPE_END_DATE.equals(type)) {
+				str = ValueFormatter.format(dateEnd, formatter, locale, null);
+			} else if (GanttDataPointDefinition.TYPE_DECORATION_LABEL.equals(type)) {
+				str = ValueFormatter.format(strLabel, formatter, locale, null);
 			}
-			else if ( GanttDataPointDefinition.TYPE_END_DATE.equals( type ) )
-			{
-				str = ValueFormatter.format( dateEnd, formatter, locale, null );
-			}
-			else if ( GanttDataPointDefinition.TYPE_DECORATION_LABEL.equals( type ) )
-			{
-				str = ValueFormatter.format( strLabel, formatter, locale, null );
-			}
-		}
-		catch ( ChartException e )
-		{
-			Logger.getLogger( "org.eclipse.birt.chart.engine/exception" ) //$NON-NLS-1$
-					.log( e );
+		} catch (ChartException e) {
+			Logger.getLogger("org.eclipse.birt.chart.engine/exception") //$NON-NLS-1$
+					.log(e);
 		}
 		return str;
 	}
 
-	public boolean isValid( )
-	{
-		return ( dateStart != null || dateEnd != null );
+	public boolean isValid() {
+		return (dateStart != null || dateEnd != null);
 	}
 
 }

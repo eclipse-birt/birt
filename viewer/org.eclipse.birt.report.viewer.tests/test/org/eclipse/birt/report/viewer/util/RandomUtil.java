@@ -19,8 +19,7 @@ import java.util.Date;
  * defined dictionary.
  * 
  */
-public class RandomUtil
-{
+public class RandomUtil {
 
 	/**
 	 * Dictionary for generating random string.
@@ -33,34 +32,29 @@ public class RandomUtil
 	 * @param length
 	 * @return
 	 */
-	public String get( int length )
-	{
-		StringBuffer buffer = new StringBuffer( );
-		SecureRandom sr = new SecureRandom( );
-		for ( int i = 0; i < length; i++ )
-		{
-			sr.setSeed( ( new Date( ).toString( ) ).getBytes( ) );
-			int rnd = sr.nextInt( dictionary.length( ) );
-			buffer.append( dictionary.charAt( rnd ) );
+	public String get(int length) {
+		StringBuffer buffer = new StringBuffer();
+		SecureRandom sr = new SecureRandom();
+		for (int i = 0; i < length; i++) {
+			sr.setSeed((new Date().toString()).getBytes());
+			int rnd = sr.nextInt(dictionary.length());
+			buffer.append(dictionary.charAt(rnd));
 		}
 
-		return buffer.toString( );
+		return buffer.toString();
 	}
 
 	/**
 	 * @return the dictionary
 	 */
-	public String getDictionary( )
-	{
+	public String getDictionary() {
 		return dictionary;
 	}
 
 	/**
-	 * @param dictionary
-	 *            the dictionary to set
+	 * @param dictionary the dictionary to set
 	 */
-	public void setDictionary( String dictionary )
-	{
+	public void setDictionary(String dictionary) {
 		this.dictionary = dictionary;
 	}
 }

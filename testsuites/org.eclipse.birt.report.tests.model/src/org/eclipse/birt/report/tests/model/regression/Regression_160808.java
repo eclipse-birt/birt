@@ -27,12 +27,10 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Test the example in description
  * <p>
  */
-public class Regression_160808 extends BaseTestCase
-{
+public class Regression_160808 extends BaseTestCase {
 
-    public void test_regression_160808( )
-    {
-        assertEquals( "test.library", URIUtil.getRelativePath( "/c:/", //$NON-NLS-1$ //$NON-NLS-2$
-                "/c:/test.library" ) ); //$NON-NLS-1$
-    }
+	public void test_regression_160808() {
+		assertEquals("test.library", URIUtil.getRelativePath("/c:/", //$NON-NLS-1$ //$NON-NLS-2$
+				"/c:/test.library")); //$NON-NLS-1$
+	}
 }

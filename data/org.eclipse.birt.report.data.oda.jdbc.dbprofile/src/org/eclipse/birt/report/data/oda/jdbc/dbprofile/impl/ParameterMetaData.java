@@ -19,87 +19,85 @@ import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
- * Wrapper of the oda.jdbc runtime driver's IParameterMetaData to extend
- * its metadata to include parameter name.
+ * Wrapper of the oda.jdbc runtime driver's IParameterMetaData to extend its
+ * metadata to include parameter name.
  */
-public class ParameterMetaData implements IParameterMetaData
-{
+public class ParameterMetaData implements IParameterMetaData {
 	private IParameterMetaData metaData;
 	private Map<Integer, String> nameMap;
-	
-	ParameterMetaData( IParameterMetaData metaData, Map<Integer, String> nameMap )
-	{
+
+	ParameterMetaData(IParameterMetaData metaData, Map<Integer, String> nameMap) {
 		this.metaData = metaData;
 		this.nameMap = nameMap;
 	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterCount()
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterCount()
 	 */
-	public int getParameterCount( ) throws OdaException
-	{
-		return metaData.getParameterCount( );
+	public int getParameterCount() throws OdaException {
+		return metaData.getParameterCount();
 	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterMode(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterMode(
+	 * int)
 	 */
-	public int getParameterMode( int param ) throws OdaException
-	{
-		return metaData.getParameterMode( param );
+	public int getParameterMode(int param) throws OdaException {
+		return metaData.getParameterMode(param);
 	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(
+	 * int)
 	 */
-	public String getParameterName( int param ) throws OdaException
-	{
-		if ( this.nameMap != null
-				&& this.nameMap.containsKey( Integer.valueOf( param ) ) )
-		{
-			return this.nameMap.get( Integer.valueOf( param ) );
+	public String getParameterName(int param) throws OdaException {
+		if (this.nameMap != null && this.nameMap.containsKey(Integer.valueOf(param))) {
+			return this.nameMap.get(Integer.valueOf(param));
 		}
-		return metaData.getParameterName( param );
+		return metaData.getParameterName(param);
 	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterType(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterType(
+	 * int)
 	 */
-	public int getParameterType( int param ) throws OdaException
-	{
-		return metaData.getParameterType( param );
+	public int getParameterType(int param) throws OdaException {
+		return metaData.getParameterType(param);
 	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterTypeName(int)
+	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#
+	 * getParameterTypeName(int)
 	 */
-	public String getParameterTypeName( int param ) throws OdaException
-	{
-		return metaData.getParameterTypeName( param );
+	public String getParameterTypeName(int param) throws OdaException {
+		return metaData.getParameterTypeName(param);
 	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getPrecision(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getPrecision(int)
 	 */
-	public int getPrecision( int param ) throws OdaException
-	{
-		return metaData.getPrecision( param );
+	public int getPrecision(int param) throws OdaException {
+		return metaData.getPrecision(param);
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getScale(int)
 	 */
-	public int getScale( int param ) throws OdaException
-	{
-		return metaData.getScale( param );
+	public int getScale(int param) throws OdaException {
+		return metaData.getScale(param);
 	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#isNullable(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#isNullable(int)
 	 */
-	public int isNullable( int param ) throws OdaException
-	{
-		return metaData.isNullable( param );
+	public int isNullable(int param) throws OdaException {
+		return metaData.isNullable(param);
 	}
 
 }

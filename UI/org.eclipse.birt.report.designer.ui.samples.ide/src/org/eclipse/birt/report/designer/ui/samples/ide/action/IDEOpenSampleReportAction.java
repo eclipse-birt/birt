@@ -71,12 +71,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.ide.IDE;
 
-public class IDEOpenSampleReportAction extends Action implements
-		IOpenSampleReportAction,
-		Listener
-{
+public class IDEOpenSampleReportAction extends Action implements IOpenSampleReportAction, Listener {
 
-	private static final String ACTION_TEXT = Messages.getString( "SampleReportsView.Action.openSampleReport" ); //$NON-NLS-1$
+	private static final String ACTION_TEXT = Messages.getString("SampleReportsView.Action.openSampleReport"); //$NON-NLS-1$
 
 	private static final String SCRIPTING_CATEGORY = "Scripted Data Source"; //$NON-NLS-1$
 
@@ -84,124 +81,92 @@ public class IDEOpenSampleReportAction extends Action implements
 
 	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details"; //$NON-NLS-1$
 
-	private static final String[] EXTENDING_PLUGIN_PATTERN = new String[]{
-		"*.zip" //$NON-NLS-1$
+	private static final String[] EXTENDING_PLUGIN_PATTERN = new String[] { "*.zip" //$NON-NLS-1$
 	};
 
 	private ReportExamples composite;
 
 	private IProject reportProject;
 
-	public IDEOpenSampleReportAction( )
-	{
-		super( ACTION_TEXT );
-		setToolTipText( Messages.getString( "SampleReportsView.Action.openSampleReport.toolTipText.ide" ) ); //$NON-NLS-1$
-		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ENABLE_IMPORT ) );
-		setDisabledImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_DISABLE_IMPORT ) );
-		setEnabled( false );
+	public IDEOpenSampleReportAction() {
+		super(ACTION_TEXT);
+		setToolTipText(Messages.getString("SampleReportsView.Action.openSampleReport.toolTipText.ide")); //$NON-NLS-1$
+		setImageDescriptor(ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_ENABLE_IMPORT));
+		setDisabledImageDescriptor(
+				ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_DISABLE_IMPORT));
+		setEnabled(false);
 	}
 
-	public void setMainComposite( ReportExamples composite )
-	{
+	public void setMainComposite(ReportExamples composite) {
 		this.composite = composite;
-		composite.addSelectedListener( this );
+		composite.addSelectedListener(this);
 	}
 
 	@SuppressWarnings("unchecked")
-	public void run( )
-	{
-		TreeItem item = (TreeItem) composite.getSelectedElement( );
-		final Object selectedElement = item.getData( );
-		if ( selectedElement == null
-				|| !( selectedElement instanceof ReportDesignHandle ) )
+	public void run() {
+		TreeItem item = (TreeItem) composite.getSelectedElement();
+		final Object selectedElement = item.getData();
+		if (selectedElement == null || !(selectedElement instanceof ReportDesignHandle))
 			return;
 
 		/*
 		 * 1.Create a report project
 		 */
-		if ( item.getParentItem( )
-				.getText( )
-				.equals( DRILL_TO_DETAILS_CATEGORY ) )
-		{
-			reportProject = createProject( DRILL_TO_DETAILS_CATEGORY, false );
+		if (item.getParentItem().getText().equals(DRILL_TO_DETAILS_CATEGORY)) {
+			reportProject = createProject(DRILL_TO_DETAILS_CATEGORY, false);
 
-			if ( reportProject == null )
-			{
+			if (reportProject == null) {
 				return;
 			}
-			PlaceResources.copyDrillThroughReport( composite.getShell( ),
-					reportProject.getLocation( ).toOSString( ),
-					item.getText( ) );
+			PlaceResources.copyDrillThroughReport(composite.getShell(), reportProject.getLocation().toOSString(),
+					item.getText());
 		}
 
 		/*
-		 * Create an Eclipse Java project if selecting scripted data source
-		 * sample.
+		 * Create an Eclipse Java project if selecting scripted data source sample.
 		 */
-		else if ( item.getParentItem( ).getText( ).equals( SCRIPTING_CATEGORY ) )
-		{
-			reportProject = createProject( SCRIPTING_CATEGORY, true );
-			if ( reportProject != null )
-			{
-				createSourceAndOutputFolder( reportProject );
-				try
-				{
-					setClasspath( reportProject );
-				}
-				catch ( JavaModelException e )
-				{
-					ExceptionUtil.handle( e );
-				}
-				catch ( CoreException e )
-				{
-					ExceptionUtil.handle( e );
+		else if (item.getParentItem().getText().equals(SCRIPTING_CATEGORY)) {
+			reportProject = createProject(SCRIPTING_CATEGORY, true);
+			if (reportProject != null) {
+				createSourceAndOutputFolder(reportProject);
+				try {
+					setClasspath(reportProject);
+				} catch (JavaModelException e) {
+					ExceptionUtil.handle(e);
+				} catch (CoreException e) {
+					ExceptionUtil.handle(e);
 				}
 
-				Enumeration enumeration = SampleIncludedSourceEntry.getJavaObjects( );
-				while ( enumeration.hasMoreElements( ) )
-				{
-					URL javaObjectURL = (URL) enumeration.nextElement( );
-					String filename = javaObjectURL.getFile( );
-					String desFileName = filename.substring( filename.lastIndexOf( '/' ) + 1 );
+				Enumeration enumeration = SampleIncludedSourceEntry.getJavaObjects();
+				while (enumeration.hasMoreElements()) {
+					URL javaObjectURL = (URL) enumeration.nextElement();
+					String filename = javaObjectURL.getFile();
+					String desFileName = filename.substring(filename.lastIndexOf('/') + 1);
 
-					PlaceResources.copy( composite.getShell( ),
-							reportProject.getFolder( "src" ) //$NON-NLS-1$
-									.getLocation( )
-									.toOSString( ),
-							desFileName,
-							javaObjectURL );
+					PlaceResources.copy(composite.getShell(), reportProject.getFolder("src") //$NON-NLS-1$
+							.getLocation().toOSString(), desFileName, javaObjectURL);
 				}
 			}
-		}
-		else
-			reportProject = createProject( item.getText( ).substring( 0,
-					item.getText( ).lastIndexOf( "." ) ), false ); //$NON-NLS-1$
+		} else
+			reportProject = createProject(item.getText().substring(0, item.getText().lastIndexOf(".")), false); //$NON-NLS-1$
 		/*
 		 * 2.Place the sample report into project folder
 		 */
-		if ( reportProject != null )
-		{
-			PlaceResources.copy( composite.getShell( ),
-					reportProject.getLocation( ).toOSString( ),
-					item.getText( ),
-					( (ReportDesignHandle) selectedElement ).getFileName( ) );
+		if (reportProject != null) {
+			PlaceResources.copy(composite.getShell(), reportProject.getLocation().toOSString(), item.getText(),
+					((ReportDesignHandle) selectedElement).getFileName());
 
-			PlaceResources.copyExcludedRptDesignes( composite.getShell( ),
-					reportProject.getLocation( ).toOSString( ),
-					( (ReportDesignHandle) selectedElement ).getFileName( ),
-					false );
-		}
-		else
-		{
+			PlaceResources.copyExcludedRptDesignes(composite.getShell(), reportProject.getLocation().toOSString(),
+					((ReportDesignHandle) selectedElement).getFileName(), false);
+		} else {
 			return;
 		}
 
 		/*
 		 * 3.Refresh the report project
 		 */
-		if ( reportProject != null )
-		{
-			refreshReportProject( reportProject );
+		if (reportProject != null) {
+			refreshReportProject(reportProject);
 		}
 
 		/*
@@ -215,54 +180,43 @@ public class IDEOpenSampleReportAction extends Action implements
 		// PlaceExtendedPlugin( item.getParentItem( ).getText( ) );
 		// }
 
-		ISafeRunnable op = new ISafeRunnable( ) {
+		ISafeRunnable op = new ISafeRunnable() {
 
-			public void run( )
-			{
-				String fileName = ( (ReportDesignHandle) selectedElement ).getFileName( );
-				doFinish( reportProject,
-						fileName.substring( fileName.lastIndexOf( '/' ) + 1 ) );
+			public void run() {
+				String fileName = ((ReportDesignHandle) selectedElement).getFileName();
+				doFinish(reportProject, fileName.substring(fileName.lastIndexOf('/') + 1));
 			}
 
-			public void handleException( Throwable exception )
-			{
-				ExceptionUtil.handle( exception );
+			public void handleException(Throwable exception) {
+				ExceptionUtil.handle(exception);
 			}
 		};
-		SafeRunner.run( op );
+		SafeRunner.run(op);
 
 	}
 
-	private void doFinish( final IContainer locationPath, final String fileName )
-	{
+	private void doFinish(final IContainer locationPath, final String fileName) {
 
-		Display.getDefault( ).asyncExec( new Runnable( ) {
+		Display.getDefault().asyncExec(new Runnable() {
 
-			public void run( )
-			{
-				IWorkbench workbench = PlatformUI.getWorkbench( );
-				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
+			public void run() {
+				IWorkbench workbench = PlatformUI.getWorkbench();
+				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 
-				IWorkbenchPage page = window.getActivePage( );
-				try
-				{
+				IWorkbenchPage page = window.getActivePage();
+				try {
 					// sanity checks
-					if ( page == null || locationPath == null )
-					{
-						throw new IllegalArgumentException( );
+					if (page == null || locationPath == null) {
+						throw new IllegalArgumentException();
 					}
 
 					// open the editor on the file
-					IDE.openEditor( page,
-							locationPath.getFile( new Path( fileName ) ),
-							true );
-				}
-				catch ( Exception e )
-				{
-					ExceptionUtil.handle( e );
+					IDE.openEditor(page, locationPath.getFile(new Path(fileName)), true);
+				} catch (Exception e) {
+					ExceptionUtil.handle(e);
 				}
 			}
-		} );
+		});
 	}
 
 	// @SuppressWarnings("unchecked")
@@ -288,138 +242,103 @@ public class IDEOpenSampleReportAction extends Action implements
 	// pluginURL );
 	// }
 
-	private IProject createProject( String projectName, boolean isJavaProject )
-	{
-		ProjectNameDialog projectNameDlg = new ProjectNameDialog( UIUtil.getDefaultShell( ) );
-		projectNameDlg.setTitle( Messages.getString( "IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName" ) );
-		projectNameDlg.setProjectName( projectName );
+	private IProject createProject(String projectName, boolean isJavaProject) {
+		ProjectNameDialog projectNameDlg = new ProjectNameDialog(UIUtil.getDefaultShell());
+		projectNameDlg.setTitle(Messages.getString("IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName"));
+		projectNameDlg.setProjectName(projectName);
 
-		if ( projectNameDlg.open( ) == Window.CANCEL )
-		{
+		if (projectNameDlg.open() == Window.CANCEL) {
 			return null;
 		}
 
-		projectName = projectNameDlg.getProjectName( );
+		projectName = projectNameDlg.getProjectName();
 
-		final IProject projectHandle = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.getProject( projectName );
+		final IProject projectHandle = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 
-		if ( projectHandle.exists( ) )
-		{
-			String[] buttonLabels = new String[]{
-					IDialogConstants.PROCEED_LABEL,
-					Messages.getString( "IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText" ),
-					IDialogConstants.CANCEL_LABEL
-			};
-			MessageDialog messageDlg = new MessageDialog( UIUtil.getDefaultShell( ),
-					Messages.getString( "IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title" ),
-					null,
-					Messages.getFormattedString( "IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message",
-							buttonLabels ),
-					MessageDialog.INFORMATION,
-					buttonLabels,
-					0 );
-			messageDlg.open( );
-			if ( messageDlg.getReturnCode( ) == 0 )
-			{
+		if (projectHandle.exists()) {
+			String[] buttonLabels = new String[] { IDialogConstants.PROCEED_LABEL,
+					Messages.getString("IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText"),
+					IDialogConstants.CANCEL_LABEL };
+			MessageDialog messageDlg = new MessageDialog(UIUtil.getDefaultShell(),
+					Messages.getString("IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title"), null,
+					Messages.getFormattedString("IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message",
+							buttonLabels),
+					MessageDialog.INFORMATION, buttonLabels, 0);
+			messageDlg.open();
+			if (messageDlg.getReturnCode() == 0) {
 				// proceed
 				return projectHandle;
 			}
 
-			if ( messageDlg.getReturnCode( ) == 1 )
-			{
+			if (messageDlg.getReturnCode() == 1) {
 				// overwrite
-				try
-				{
-					projectHandle.delete( true, null );
-				}
-				catch ( CoreException e )
-				{
+				try {
+					projectHandle.delete(true, null);
+				} catch (CoreException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace( );
+					e.printStackTrace();
 				}
 			}
 
-			if ( messageDlg.getReturnCode( ) == 2 )
-			{
+			if (messageDlg.getReturnCode() == 2) {
 				// cancel
 				return null;
 			}
 
 		}
 
-		final IProjectDescription description = ResourcesPlugin.getWorkspace( )
-				.newProjectDescription( projectHandle.getName( ) );
+		final IProjectDescription description = ResourcesPlugin.getWorkspace()
+				.newProjectDescription(projectHandle.getName());
 
-		if ( isJavaProject == true )
-		{
-			String[] natures = new String[]{
-					JavaCore.NATURE_ID,
+		if (isJavaProject == true) {
+			String[] natures = new String[] { JavaCore.NATURE_ID,
 					"org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
 			};
-			description.setNatureIds( natures );
-			addJavaBuildSpec( description );
-		}
-		else
-		{
-			String[] natures = new String[]{
-				"org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
+			description.setNatureIds(natures);
+			addJavaBuildSpec(description);
+		} else {
+			String[] natures = new String[] { "org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
 			};
-			description.setNatureIds( natures );
+			description.setNatureIds(natures);
 		}
 
 		// create the new project operation
-		WorkspaceModifyOperation op = new WorkspaceModifyOperation( ) {
+		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 
-			protected void execute( IProgressMonitor monitor )
-					throws CoreException
-			{
-				create( description, projectHandle, monitor );
+			protected void execute(IProgressMonitor monitor) throws CoreException {
+				create(description, projectHandle, monitor);
 			}
 		};
 
-		try
-		{
-			new ProgressMonitorDialog( composite.getShell( ) ).run( false,
-					true,
-					op );
-		}
-		catch ( InterruptedException e )
-		{
-			ExceptionUtil.handle( e );
+		try {
+			new ProgressMonitorDialog(composite.getShell()).run(false, true, op);
+		} catch (InterruptedException e) {
+			ExceptionUtil.handle(e);
 			return null;
-		}
-		catch ( InvocationTargetException e )
-		{
+		} catch (InvocationTargetException e) {
 			// ie.- one of the steps resulted in a core exception
-			Throwable t = e.getTargetException( );
-			if ( t instanceof CoreException )
-			{
-				if ( ( (CoreException) t ).getStatus( ).getCode( ) == IResourceStatus.CASE_VARIANT_EXISTS )
-				{
-					MessageDialog.openError( composite.getShell( ),
-							Messages.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
-							Messages.getFormattedString( "NewReportProjectWizard.caseVariantExistsError", new String[]{projectHandle.getName( )} ) //$NON-NLS-1$,
+			Throwable t = e.getTargetException();
+			if (t instanceof CoreException) {
+				if (((CoreException) t).getStatus().getCode() == IResourceStatus.CASE_VARIANT_EXISTS) {
+					MessageDialog.openError(composite.getShell(),
+							Messages.getString("NewReportProjectWizard.errorMessage"), //$NON-NLS-1$
+							Messages.getFormattedString("NewReportProjectWizard.caseVariantExistsError", //$NON-NLS-1$
+									new String[] { projectHandle.getName() }) // ,
 					);
-				}
-				else
-				{
-					ErrorDialog.openError( composite.getShell( ),
-							Messages.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
+				} else {
+					ErrorDialog.openError(composite.getShell(),
+							Messages.getString("NewReportProjectWizard.errorMessage"), //$NON-NLS-1$
 							null, // no special message
-							( (CoreException) t ).getStatus( ) );
+							((CoreException) t).getStatus());
 				}
-			}
-			else
-			{
+			} else {
 				// CoreExceptions are handled above, but unexpected runtime
 				// exceptions and errors may still occur.
-				ExceptionUtil.handle( e );
+				ExceptionUtil.handle(e);
 
-				MessageDialog.openError( composite.getShell( ),
-						Messages.getString( "NewReportProjectWizard.errorMessage" ), //$NON-NLS-1$
-						Messages.getFormattedString( "NewReportProjectWizard.internalError", new Object[]{t.getMessage( )} ) ); //$NON-NLS-1$
+				MessageDialog.openError(composite.getShell(), Messages.getString("NewReportProjectWizard.errorMessage"), //$NON-NLS-1$
+						Messages.getFormattedString("NewReportProjectWizard.internalError", //$NON-NLS-1$
+								new Object[] { t.getMessage() }));
 			}
 			return null;
 		}
@@ -427,199 +346,155 @@ public class IDEOpenSampleReportAction extends Action implements
 		return projectHandle;
 	}
 
-	private void create( IProjectDescription description,
-			IProject projectHandle, IProgressMonitor monitor )
-			throws CoreException, OperationCanceledException
-	{
-		try
-		{
-			monitor.beginTask( "", 2000 );//$NON-NLS-1$
-			projectHandle.create( description, new SubProgressMonitor( monitor,
-					1000 ) );
-			if ( monitor.isCanceled( ) )
-				throw new OperationCanceledException( );
-			projectHandle.open( new SubProgressMonitor( monitor, 1000 ) );
+	private void create(IProjectDescription description, IProject projectHandle, IProgressMonitor monitor)
+			throws CoreException, OperationCanceledException {
+		try {
+			monitor.beginTask("", 2000);//$NON-NLS-1$
+			projectHandle.create(description, new SubProgressMonitor(monitor, 1000));
+			if (monitor.isCanceled())
+				throw new OperationCanceledException();
+			projectHandle.open(new SubProgressMonitor(monitor, 1000));
 
-		}
-		finally
-		{
-			monitor.done( );
+		} finally {
+			monitor.done();
 		}
 	}
 
-	private void refreshReportProject( final IProject project )
-	{
-		WorkspaceModifyOperation op = new WorkspaceModifyOperation( ) {
+	private void refreshReportProject(final IProject project) {
+		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 
-			protected void execute( IProgressMonitor monitor )
-					throws CoreException
-			{
-				project.refreshLocal( IResource.DEPTH_INFINITE, monitor );
+			protected void execute(IProgressMonitor monitor) throws CoreException {
+				project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			}
 		};
 
-		try
-		{
-			new ProgressMonitorDialog( composite.getShell( ) ).run( false,
-					true,
-					op );
-		}
-		catch ( Exception e )
-		{
-			ExceptionUtil.handle( e );
+		try {
+			new ProgressMonitorDialog(composite.getShell()).run(false, true, op);
+		} catch (Exception e) {
+			ExceptionUtil.handle(e);
 		}
 	}
 
-	private void addJavaBuildSpec( IProjectDescription description )
-	{
-		ICommand command = description.newCommand( );
-		command.setBuilderName( JavaCore.BUILDER_ID );
-		description.setBuildSpec( new ICommand[]{
-			command
-		} );
+	private void addJavaBuildSpec(IProjectDescription description) {
+		ICommand command = description.newCommand();
+		command.setBuilderName(JavaCore.BUILDER_ID);
+		description.setBuildSpec(new ICommand[] { command });
 	}
 
-	private void createSourceAndOutputFolder( IProject project )
-	{
+	private void createSourceAndOutputFolder(IProject project) {
 
-		IFolder srcFolder = project.getFolder( "src" ); //$NON-NLS-1$
-		if ( !srcFolder.exists( ) )
-			try
-			{
-				createFolder( srcFolder );
-			}
-			catch ( CoreException e )
-			{
-				ExceptionUtil.handle( e );
+		IFolder srcFolder = project.getFolder("src"); //$NON-NLS-1$
+		if (!srcFolder.exists())
+			try {
+				createFolder(srcFolder);
+			} catch (CoreException e) {
+				ExceptionUtil.handle(e);
 			}
 
-		IFolder outputFolder = project.getFolder( "bin" ); //$NON-NLS-1$
-		if ( !outputFolder.exists( ) )
-			try
-			{
-				createFolder( outputFolder );
-			}
-			catch ( CoreException e )
-			{
-				ExceptionUtil.handle( e );
+		IFolder outputFolder = project.getFolder("bin"); //$NON-NLS-1$
+		if (!outputFolder.exists())
+			try {
+				createFolder(outputFolder);
+			} catch (CoreException e) {
+				ExceptionUtil.handle(e);
 			}
 
 	}
 
-	private void createFolder( IFolder folder ) throws CoreException
-	{
-		if ( !folder.exists( ) )
-		{
-			IContainer parent = folder.getParent( );
-			if ( parent instanceof IFolder )
-			{
-				createFolder( (IFolder) parent );
+	private void createFolder(IFolder folder) throws CoreException {
+		if (!folder.exists()) {
+			IContainer parent = folder.getParent();
+			if (parent instanceof IFolder) {
+				createFolder((IFolder) parent);
 			}
-			folder.create( true, true, null );
+			folder.create(true, true, null);
 		}
 	}
 
-	private void setClasspath( IProject project ) throws JavaModelException,
-			CoreException
-	{
-		IJavaProject javaProject = JavaCore.create( project );
+	private void setClasspath(IProject project) throws JavaModelException, CoreException {
+		IJavaProject javaProject = JavaCore.create(project);
 
-		IPath path = project.getFullPath( ).append( "bin" ); //$NON-NLS-1$
-		javaProject.setOutputLocation( path, null );
+		IPath path = project.getFullPath().append("bin"); //$NON-NLS-1$
+		javaProject.setOutputLocation(path, null);
 
-		IClasspathEntry[] entries = getClassPathEntries( project );
-		javaProject.setRawClasspath( entries, null );
+		IClasspathEntry[] entries = getClassPathEntries(project);
+		javaProject.setRawClasspath(entries, null);
 	}
 
-	private IClasspathEntry[] getClassPathEntries( IProject project )
-	{
-		IClasspathEntry[] internalClassPathEntries = getInternalClassPathEntries( project );
+	private IClasspathEntry[] getClassPathEntries(IProject project) {
+		IClasspathEntry[] internalClassPathEntries = getInternalClassPathEntries(project);
 		IClasspathEntry[] entries = new IClasspathEntry[internalClassPathEntries.length + 1];
-		System.arraycopy( internalClassPathEntries,
-				0,
-				entries,
-				0,
-				internalClassPathEntries.length );
-		entries[entries.length - 1] = JavaCore.newContainerEntry( new Path( "org.eclipse.jdt.launching.JRE_CONTAINER" ) ); //$NON-NLS-1$
+		System.arraycopy(internalClassPathEntries, 0, entries, 0, internalClassPathEntries.length);
+		entries[entries.length - 1] = JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER")); //$NON-NLS-1$
 		return entries;
 	}
 
-	protected IClasspathEntry[] getInternalClassPathEntries( IProject project )
-	{
+	protected IClasspathEntry[] getInternalClassPathEntries(IProject project) {
 		IClasspathEntry[] entries = new IClasspathEntry[1];
-		IPath path = project.getFullPath( ).append( "src" ); //$NON-NLS-1$
-		entries[0] = JavaCore.newSourceEntry( path );
+		IPath path = project.getFullPath().append("src"); //$NON-NLS-1$
+		entries[0] = JavaCore.newSourceEntry(path);
 		return entries;
 	}
 
-	public void handleEvent( Event event )
-	{
-		if ( event.widget == null || !( event.widget instanceof TreeItem ) )
-			setEnabled( false );
+	public void handleEvent(Event event) {
+		if (event.widget == null || !(event.widget instanceof TreeItem))
+			setEnabled(false);
 		TreeItem item = (TreeItem) event.widget;
-		if ( item == null )
-		{
-			super.setEnabled( false );
+		if (item == null) {
+			super.setEnabled(false);
 			return;
 		}
-		Object selectedElement = item.getData( );
-		if ( selectedElement == null )
-			super.setEnabled( false );
+		Object selectedElement = item.getData();
+		if (selectedElement == null)
+			super.setEnabled(false);
 		else
-			super.setEnabled( selectedElement instanceof ReportDesignHandle );
+			super.setEnabled(selectedElement instanceof ReportDesignHandle);
 	}
 
-	static class ProjectNameDialog extends Dialog
-	{
+	static class ProjectNameDialog extends Dialog {
 
 		Text text;
 		String projectName = "";
 		String title;
 
-		protected ProjectNameDialog( Shell shell )
-		{
-			super( shell );
+		protected ProjectNameDialog(Shell shell) {
+			super(shell);
 			// TODO Auto-generated constructor stub
 		}
 
-		public void setTitle( String title )
-		{
+		public void setTitle(String title) {
 			this.title = title;
 		}
 
-		public void setProjectName( String name )
-		{
+		public void setProjectName(String name) {
 			this.projectName = name;
 		}
 
-		public String getProjectName( )
-		{
+		public String getProjectName() {
 			return projectName;
 		}
 
-		protected Control createDialogArea( Composite parent )
-		{
-			getShell( ).setText( title );
+		protected Control createDialogArea(Composite parent) {
+			getShell().setText(title);
 
-			Composite parentComposite = (Composite) super.createDialogArea( parent );
-			Composite composite = new Composite( parentComposite, SWT.NONE );
-			GridData gd = new GridData( );
+			Composite parentComposite = (Composite) super.createDialogArea(parent);
+			Composite composite = new Composite(parentComposite, SWT.NONE);
+			GridData gd = new GridData();
 			gd.widthHint = 320;
-			composite.setLayoutData( gd );
-			GridLayout layout = new GridLayout( 2, false );
-			composite.setLayout( layout );
-			Label label = new Label( composite, SWT.NONE );
-			label.setText( Messages.getString( "IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName" ) );
-			text = new Text( composite, SWT.BORDER );
-			text.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			text.setText( projectName );
+			composite.setLayoutData(gd);
+			GridLayout layout = new GridLayout(2, false);
+			composite.setLayout(layout);
+			Label label = new Label(composite, SWT.NONE);
+			label.setText(Messages.getString("IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName"));
+			text = new Text(composite, SWT.BORDER);
+			text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			text.setText(projectName);
 			return parentComposite;
 		}
 
-		protected void okPressed( )
-		{
-			this.projectName = text.getText( ).trim( );
-			super.okPressed( );
+		protected void okPressed() {
+			this.projectName = text.getText().trim();
+			super.okPressed();
 		}
 
 	}

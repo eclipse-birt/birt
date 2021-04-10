@@ -65,12 +65,7 @@ import org.eclipse.swt.widgets.Shell;
  * </p>
  */
 
-public final class Regression_78699_swt extends Composite
-		implements
-			PaintListener,
-			IUpdateNotifier,
-			SelectionListener
-{
+public final class Regression_78699_swt extends Composite implements PaintListener, IUpdateNotifier, SelectionListener {
 
 	private IDeviceRenderer idr = null;
 
@@ -91,142 +86,121 @@ public final class Regression_78699_swt extends Composite
 	 * 
 	 * @param args
 	 */
-	public static void main( String[] args )
-	{
-		Display display = Display.getDefault( );
-		Shell shell = new Shell( display );
-		shell.setSize( 600, 400 );
-		shell.setLayout( new GridLayout( ) );
+	public static void main(String[] args) {
+		Display display = Display.getDefault();
+		Shell shell = new Shell(display);
+		shell.setSize(600, 400);
+		shell.setLayout(new GridLayout());
 
-		Regression_78699_swt siv = new Regression_78699_swt(
-				shell,
-				SWT.NO_BACKGROUND );
-		siv.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		siv.addPaintListener( siv );
+		Regression_78699_swt siv = new Regression_78699_swt(shell, SWT.NO_BACKGROUND);
+		siv.setLayoutData(new GridData(GridData.FILL_BOTH));
+		siv.addPaintListener(siv);
 
-		Composite cBottom = new Composite( shell, SWT.NONE );
-		cBottom.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		cBottom.setLayout( new RowLayout( ) );
+		Composite cBottom = new Composite(shell, SWT.NONE);
+		cBottom.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		cBottom.setLayout(new RowLayout());
 
-		Label la = new Label( cBottom, SWT.NONE );
+		Label la = new Label(cBottom, SWT.NONE);
 
-		la.setText( "Choose: " );//$NON-NLS-1$
-		cbType = new Combo( cBottom, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cbType.add( "Bar Chart" );
-		cbType.select( 0 );
+		la.setText("Choose: ");//$NON-NLS-1$
+		cbType = new Combo(cBottom, SWT.DROP_DOWN | SWT.READ_ONLY);
+		cbType.add("Bar Chart");
+		cbType.select(0);
 
-		btn = new Button( cBottom, SWT.NONE );
-		btn.setText( "Update" );//$NON-NLS-1$
-		btn.addSelectionListener( siv );
+		btn = new Button(cBottom, SWT.NONE);
+		btn.setText("Update");//$NON-NLS-1$
+		btn.addSelectionListener(siv);
 
-		shell.open( );
-		while ( !shell.isDisposed( ) )
-		{
-			if ( !display.readAndDispatch( ) )
-				display.sleep( );
+		shell.open();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
 		}
-		display.dispose( );
+		display.dispose();
 	}
 
 	/**
 	 * Get the connection with SWT device to render the graphics.
 	 */
-	Regression_78699_swt( Composite parent, int style )
-	{
-		super( parent, style );
+	Regression_78699_swt(Composite parent, int style) {
+		super(parent, style);
 
-		contextMap = new HashMap( );
+		contextMap = new HashMap();
 
-		final PluginSettings ps = PluginSettings.instance( );
-		try
-		{
-			idr = ps.getDevice( "dv.SWT" );//$NON-NLS-1$
-			idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER, this );
+		final PluginSettings ps = PluginSettings.instance();
+		try {
+			idr = ps.getDevice("dv.SWT");//$NON-NLS-1$
+			idr.setProperty(IDeviceRenderer.UPDATE_NOTIFIER, this);
+		} catch (ChartException ex) {
+			ex.printStackTrace();
 		}
-		catch ( ChartException ex )
-		{
-			ex.printStackTrace( );
-		}
-		cm = createChart( );
-		bindGroupingData( cm );
+		cm = createChart();
+		bindGroupingData(cm);
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.PaintEvent)
+	 * @see
+	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
+	 * PaintEvent)
 	 */
-	public void paintControl( PaintEvent e )
-	{
-		Rectangle d = this.getClientArea( );
-		Image imgChart = new Image( this.getDisplay( ), d );
-		GC gcImage = new GC( imgChart );
-		idr.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gcImage );
+	public void paintControl(PaintEvent e) {
+		Rectangle d = this.getClientArea();
+		Image imgChart = new Image(this.getDisplay(), d);
+		GC gcImage = new GC(imgChart);
+		idr.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, gcImage);
 
-		Bounds bo = BoundsImpl.create( 0, 0, d.width, d.height );
-		bo.scale( 72d / idr.getDisplayServer( ).getDpiResolution( ) );
+		Bounds bo = BoundsImpl.create(0, 0, d.width, d.height);
+		bo.scale(72d / idr.getDisplayServer().getDpiResolution());
 
-		Generator gr = Generator.instance( );
-		if ( bNeedsGeneration )
-		{
+		Generator gr = Generator.instance();
+		if (bNeedsGeneration) {
 			bNeedsGeneration = false;
-			try
-			{
-				gcs = gr.build(
-						idr.getDisplayServer( ),
-						cm,
-						bo,
-						null,
-						null,
-						null );
-			}
-			catch ( ChartException ce )
-			{
-				ce.printStackTrace( );
+			try {
+				gcs = gr.build(idr.getDisplayServer(), cm, bo, null, null, null);
+			} catch (ChartException ce) {
+				ce.printStackTrace();
 			}
 		}
 
-		try
-		{
-			gr.render( idr, gcs );
+		try {
+			gr.render(idr, gcs);
 			GC gc = e.gc;
-			gc.drawImage( imgChart, d.x, d.y );
-		}
-		catch ( ChartException ce )
-		{
-			ce.printStackTrace( );
+			gc.drawImage(imgChart, d.x, d.y);
+		} catch (ChartException ce) {
+			ce.printStackTrace();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
+	 * events.SelectionEvent)
 	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.widget.equals( btn ) )
-		{
-			int iSelection = cbType.getSelectionIndex( );
-			switch ( iSelection )
-			{
-				case 0 :
-					cm = Title.BarChart( );
-					break;
+	public void widgetSelected(SelectionEvent e) {
+		if (e.widget.equals(btn)) {
+			int iSelection = cbType.getSelectionIndex();
+			switch (iSelection) {
+			case 0:
+				cm = Title.BarChart();
+				break;
 			}
 			bNeedsGeneration = true;
-			this.redraw( );
+			this.redraw();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
+	 * swt.events.SelectionEvent)
 	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
+	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 	}
 
@@ -235,8 +209,7 @@ public final class Regression_78699_swt extends Composite
 	 * 
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getDesignTimeModel()
 	 */
-	public Chart getDesignTimeModel( )
-	{
+	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
@@ -245,160 +218,140 @@ public final class Regression_78699_swt extends Composite
 	 * 
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getRunTimeModel()
 	 */
-	public Chart getRunTimeModel( )
-	{
-		return gcs.getChartModel( );
+	public Chart getRunTimeModel() {
+		return gcs.getChartModel();
 	}
 
-	public Object peerInstance( )
-	{
+	public Object peerInstance() {
 		return this;
 	}
 
-	public void regenerateChart( )
-	{
+	public void regenerateChart() {
 		bNeedsGeneration = true;
-		redraw( );
+		redraw();
 	}
 
-	public void repaintChart( )
-	{
-		redraw( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
-	 */
-	public Object getContext( Object key )
-	{
-		return contextMap.get( key );
+	public void repaintChart() {
+		redraw();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
 	 */
-	public Object putContext( Object key, Object value )
-	{
-		return contextMap.put( key, value );
+	public Object getContext(Object key) {
+		return contextMap.get(key);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
+	 * java.lang.Object)
 	 */
-	public Object removeContext( Object key )
-	{
-		return contextMap.remove( key );
+	public Object putContext(Object key, Object value) {
+		return contextMap.put(key, value);
 	}
 
-	private void bindGroupingData( Chart chart )
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
+	 */
+	public Object removeContext(Object key) {
+		return contextMap.remove(key);
+	}
+
+	private void bindGroupingData(Chart chart)
 
 	{
 		// Data Set
-		final Object[][] data = new Object[][]{{"x1", new Integer( 1 ), "g1"},
-				{"x2", new Integer( 2 ), "g2"}, {"x3", new Integer( 3 ), "g1"},
-				{"x4", new Integer( 4 ), "g3"}, {"x5", new Integer( 5 ), "g2"},
-				{"x6", new Integer( 6 ), "g1"}, {"x7", new Integer( 7 ), "g3"},
-				{"x8", new Integer( 8 ), "g2"}, {"x9", new Integer( 9 ), "g2"},
-				{"x0", new Integer( 0 ), "g2"},};
+		final Object[][] data = new Object[][] { { "x1", new Integer(1), "g1" }, { "x2", new Integer(2), "g2" },
+				{ "x3", new Integer(3), "g1" }, { "x4", new Integer(4), "g3" }, { "x5", new Integer(5), "g2" },
+				{ "x6", new Integer(6), "g1" }, { "x7", new Integer(7), "g3" }, { "x8", new Integer(8), "g2" },
+				{ "x9", new Integer(9), "g2" }, { "x0", new Integer(0), "g2" }, };
 
-		try
-		{
-			Generator gr = Generator.instance( );
-			gr.bindData( new IDataRowExpressionEvaluator( ) {
+		try {
+			Generator gr = Generator.instance();
+			gr.bindData(new IDataRowExpressionEvaluator() {
 
 				int idx = 0;
 
-				public void close( )
-				{
+				public void close() {
 				}
 
-				public Object evaluate( String expression )
-				{
-					if ( "X".equals( expression ) )
-					{
+				public Object evaluate(String expression) {
+					if ("X".equals(expression)) {
 						return data[idx][0];
-					}
-					else if ( "Y".equals( expression ) )
-					{
+					} else if ("Y".equals(expression)) {
 						return data[idx][1];
-					}
-					else if ( "G".equals( expression ) )
-					{
+					} else if ("G".equals(expression)) {
 						return data[idx][2];
 					}
 					return null;
 				}
 
-				public Object evaluateGlobal( String expression )
-				{
-					return evaluate( expression );
+				public Object evaluateGlobal(String expression) {
+					return evaluate(expression);
 				}
 
-				public boolean first( )
-				{
+				public boolean first() {
 					idx = 0;
 					return true;
 				}
 
-				public boolean next( )
-				{
+				public boolean next() {
 					idx++;
-					return ( idx < 9 );
+					return (idx < 9);
 				}
-			}, chart, new RunTimeContext( ) );
-		}
-		catch ( ChartException e )
-		{
-			e.printStackTrace( );
+			}, chart, new RunTimeContext());
+		} catch (ChartException e) {
+			e.printStackTrace();
 		}
 	}
 
-	private Chart createChart( )
-	{
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+	private Chart createChart() {
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// X-Axis
-		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
 
 		// Y-Axis
-		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
 
 		// X-Series
-		Series seCategory = SeriesImpl.create( );
-		Query xQ = QueryImpl.create( "G" );
-		seCategory.getDataDefinition( ).add( xQ );
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seCategory );
+		Series seCategory = SeriesImpl.create();
+		Query xQ = QueryImpl.create("G");
+		seCategory.getDataDefinition().add(xQ);
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
 
 		// -------------------------------------------------------------
 
-		sdX.setSorting( SortOption.DESCENDING_LITERAL );
-		sdX.getGrouping( ).setEnabled( true );
-		sdX.getGrouping( ).setGroupType( DataType.TEXT_LITERAL );
-		sdX.getGrouping( ).setAggregateExpression( "Sum" );
-		sdX.getGrouping( ).setGroupingInterval( 0 );
+		sdX.setSorting(SortOption.DESCENDING_LITERAL);
+		sdX.getGrouping().setEnabled(true);
+		sdX.getGrouping().setGroupType(DataType.TEXT_LITERAL);
+		sdX.getGrouping().setAggregateExpression("Sum");
+		sdX.getGrouping().setGroupingInterval(0);
 
 		// -------------------------------------------------------------
 
 		// Y-Series
-		LineSeries bs = (LineSeries) LineSeriesImpl.create( );
-		bs.getLabel( ).setVisible( false );
-		Query yQ = QueryImpl.create( "Y" );
-		bs.getDataDefinition( ).add( yQ );
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeriesPalette( ).update( 0 );
-		sdY.getSeries( ).add( bs );
+		LineSeries bs = (LineSeries) LineSeriesImpl.create();
+		bs.getLabel().setVisible(false);
+		Query yQ = QueryImpl.create("Y");
+		bs.getDataDefinition().add(yQ);
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeriesPalette().update(0);
+		sdY.getSeries().add(bs);
 
 		return cwaBar;
 

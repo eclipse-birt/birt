@@ -16,14 +16,13 @@ import java.util.List;
  * The slot for the header and the footer in groups.
  */
 
-class LayoutGroupBand
-{
+class LayoutGroupBand {
 
 	/**
 	 * Slots in groups.
 	 */
 
-	private List<LayoutSlot> slots = new ArrayList<LayoutSlot>( );
+	private List<LayoutSlot> slots = new ArrayList<LayoutSlot>();
 
 	/**
 	 * The container of the table.
@@ -32,35 +31,28 @@ class LayoutGroupBand
 	private LayoutTable tableContainer;
 
 	/**
-	 * Constructs a <code>LayoutGroupSlot</code> with the given table and the
-	 * column count.
+	 * Constructs a <code>LayoutGroupSlot</code> with the given table and the column
+	 * count.
 	 * 
-	 * @param table
-	 *            the table has this group slot.
-	 * @param colCount
-	 *            the column count of the table
+	 * @param table    the table has this group slot.
+	 * @param colCount the column count of the table
 	 */
 
-	LayoutGroupBand( LayoutTable table, int colCount )
-	{
+	LayoutGroupBand(LayoutTable table, int colCount) {
 		tableContainer = table;
 	}
 
 	/**
 	 * Adds a Group Header or Group Footer slot to the group slot.
 	 * 
-	 * @param groupLevel
-	 *            the 1-based level of the group
-	 * @param expectedColCount
-	 *            the column count
+	 * @param groupLevel       the 1-based level of the group
+	 * @param expectedColCount the column count
 	 * @return the created slot
 	 */
 
-	public LayoutSlot addSlot( int groupLevel, int expectedColCount )
-	{
-		LayoutSlot slot = new LayoutSlot( tableContainer, groupLevel,
-				expectedColCount );
-		slots.add( slot );
+	public LayoutSlot addSlot(int groupLevel, int expectedColCount) {
+		LayoutSlot slot = new LayoutSlot(tableContainer, groupLevel, expectedColCount);
+		slots.add(slot);
 
 		return slot;
 	}
@@ -71,25 +63,21 @@ class LayoutGroupBand
 	 * @return the number of the slots in the group
 	 */
 
-	public int getGroupCount( )
-	{
-		return slots.size( );
+	public int getGroupCount() {
+		return slots.size();
 	}
 
 	/**
 	 * Gets a slot with the given level.
 	 * 
-	 * @param groupLevel
-	 *            1-based level of the group
+	 * @param groupLevel 1-based level of the group
 	 * @return a slot with the given level
 	 */
 
-	public LayoutSlot getLayoutSlotWithGroupLevel( int groupLevel )
-	{
-		for ( int i = 0; i < slots.size( ); i++ )
-		{
-			LayoutSlot slot = slots.get( i );
-			if ( groupLevel == slot.getGroupLevel( ) )
+	public LayoutSlot getLayoutSlotWithGroupLevel(int groupLevel) {
+		for (int i = 0; i < slots.size(); i++) {
+			LayoutSlot slot = slots.get(i);
+			if (groupLevel == slot.getGroupLevel())
 				return slot;
 		}
 
@@ -99,17 +87,15 @@ class LayoutGroupBand
 	/**
 	 * Returns the slot at the position of <code>index</code>.
 	 * 
-	 * @param index
-	 *            the 0-based position
+	 * @param index the 0-based position
 	 * @return the slot
 	 */
 
-	public LayoutSlot getLayoutSlot( int index )
-	{
-		if ( index > slots.size( ) - 1 )
+	public LayoutSlot getLayoutSlot(int index) {
+		if (index > slots.size() - 1)
 			return null;
 
-		return slots.get( index );
+		return slots.get(index);
 	}
 
 	/**
@@ -118,18 +104,16 @@ class LayoutGroupBand
 	 * @return the string that shows the layout
 	 */
 
-	public String getLayoutString( )
-	{
-		if ( slots.isEmpty( ) )
+	public String getLayoutString() {
+		if (slots.isEmpty())
 			return ""; //$NON-NLS-1$
 
-		StringBuffer sb = new StringBuffer( );
-		for ( int i = 0; i < slots.size( ); i++ )
-		{
-			LayoutSlot slot = slots.get( i );
-			sb.append( slot.getLayoutString( ) );
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < slots.size(); i++) {
+			LayoutSlot slot = slots.get(i);
+			sb.append(slot.getLayoutString());
 		}
-		return sb.toString( );
+		return sb.toString();
 	}
 
 	/**
@@ -138,16 +122,14 @@ class LayoutGroupBand
 	 * @return the maximal count of columns in the group slot
 	 */
 
-	protected int getColumnCount( )
-	{
+	protected int getColumnCount() {
 		int colCount = 0;
 
-		for ( int i = 0; i < slots.size( ); i++ )
-		{
-			LayoutSlot obj = slots.get( i );
-			int tmpCount = obj.getColumnCount( );
+		for (int i = 0; i < slots.size(); i++) {
+			LayoutSlot obj = slots.get(i);
+			int tmpCount = obj.getColumnCount();
 
-			if ( tmpCount > colCount )
+			if (tmpCount > colCount)
 				colCount = tmpCount;
 		}
 

@@ -17,8 +17,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSe
  * @author Administrator
  * 
  */
-public class CrosstabPageSectionId extends PageSectionId
-{
+public class CrosstabPageSectionId extends PageSectionId {
 
 	public final static String CROSSTAB_NAME = "CROSSTAB_NAME";//$NON-NLS-1$
 	public final static String CROSSTAB_LIBRARY = "CROSSTAB_LIBRARY";//$NON-NLS-1$

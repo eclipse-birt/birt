@@ -13,18 +13,15 @@ package org.eclipse.birt.core.framework.jar;
 
 import org.eclipse.core.runtime.IContributor;
 
-public class Contributor implements IContributor
-{
+public class Contributor implements IContributor {
 
 	String name;
 
-	Contributor( String name )
-	{
+	Contributor(String name) {
 		this.name = name;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 

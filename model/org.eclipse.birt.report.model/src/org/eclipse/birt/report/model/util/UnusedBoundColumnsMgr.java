@@ -17,15 +17,13 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
  * Checks unused bound columns for the specified element.
  */
 
-public class UnusedBoundColumnsMgr extends UnusedBoundColumnsMgrImpl
-{
+public class UnusedBoundColumnsMgr extends UnusedBoundColumnsMgrImpl {
 
 	/**
 	 * @param element
 	 */
 
-	public UnusedBoundColumnsMgr( DesignElementHandle element )
-	{
-		super( element );
+	public UnusedBoundColumnsMgr(DesignElementHandle element) {
+		super(element);
 	}
 }

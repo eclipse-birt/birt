@@ -16,13 +16,12 @@ import org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage;
 /**
  * The instance which provides category pages element.
  */
-public interface ICategoryProvider
-{
+public interface ICategoryProvider {
 
 	/**
 	 * Returns the category pages
 	 * 
 	 * @return the category pages
 	 */
-	public ICategoryPage[] getCategories( );
+	public ICategoryPage[] getCategories();
 }

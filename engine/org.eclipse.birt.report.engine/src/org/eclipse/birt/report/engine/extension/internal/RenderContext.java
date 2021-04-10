@@ -17,22 +17,18 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.engine.IRenderContext;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
 
-public class RenderContext extends ReportContextImpl implements IRenderContext
-{
+public class RenderContext extends ReportContextImpl implements IRenderContext {
 
-	public RenderContext( ExecutionContext context )
-	{
-		super( context );
+	public RenderContext(ExecutionContext context) {
+		super(context);
 	}
 
-	public IReportDocument getReportDocument( )
-	{
-		return context.getReportDocument( );
+	public IReportDocument getReportDocument() {
+		return context.getReportDocument();
 	}
 
-	public IReportContent getReportContent( )
-	{
-		return context.getReportContent( );
+	public IReportContent getReportContent() {
+		return context.getReportContent();
 	}
 
 }

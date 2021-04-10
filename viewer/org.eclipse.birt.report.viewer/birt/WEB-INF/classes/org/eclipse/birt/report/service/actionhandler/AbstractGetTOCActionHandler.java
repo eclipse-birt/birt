@@ -36,10 +36,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * In current implementation, toc entries are found from a document object.
  * <p>
  */
-public abstract class AbstractGetTOCActionHandler
-		extends
-			AbstractBaseActionHandler
-{
+public abstract class AbstractGetTOCActionHandler extends AbstractBaseActionHandler {
 
 	/*
 	 * Attribute Bean from request scope
@@ -61,14 +58,14 @@ public abstract class AbstractGetTOCActionHandler
 	 * 
 	 * @return String
 	 */
-	abstract protected String __getReportDocument( );
+	abstract protected String __getReportDocument();
 
 	/**
 	 * Check if document file exists.
 	 * 
 	 * @throws Exception
 	 */
-	abstract protected void __checkDocumentExists( ) throws Exception;
+	abstract protected void __checkDocumentExists() throws Exception;
 
 	/**
 	 * Constructor.
@@ -77,10 +74,8 @@ public abstract class AbstractGetTOCActionHandler
 	 * @param operation
 	 * @param response
 	 */
-	public AbstractGetTOCActionHandler( IContext context, Operation operation,
-			GetUpdatedObjectsResponse response )
-	{
-		super( context, operation, response );
+	public AbstractGetTOCActionHandler(IContext context, Operation operation, GetUpdatedObjectsResponse response) {
+		super(context, operation, response);
 	}
 
 	/**
@@ -89,11 +84,10 @@ public abstract class AbstractGetTOCActionHandler
 	 * @exception RemoteException
 	 * @return
 	 */
-	protected void __execute( ) throws Exception
-	{
-		prepareParameters( );
-		doExecution( );
-		prepareResponse( );
+	protected void __execute() throws Exception {
+		prepareParameters();
+		doExecution();
+		prepareResponse();
 	}
 
 	/**
@@ -102,11 +96,10 @@ public abstract class AbstractGetTOCActionHandler
 	 * @throws ReportServiceException
 	 * @throws RemoteException
 	 */
-	protected void prepareParameters( ) throws Exception
-	{
-		__bean = context.getBean( );
-		__docName = __getReportDocument( );
-		__checkDocumentExists( );
+	protected void prepareParameters() throws Exception {
+		__bean = context.getBean();
+		__docName = __getReportDocument();
+		__checkDocumentExists();
 	}
 
 	/**
@@ -115,29 +108,21 @@ public abstract class AbstractGetTOCActionHandler
 	 * @throws ReportServiceException
 	 * @throws RemoteException
 	 */
-	protected void doExecution( ) throws ReportServiceException,
-			RemoteException
-	{
-		Oprand[] oprands = operation.getOprand( );
-		InputOptions options = new InputOptions( );
-		HttpServletRequest request = context.getRequest( );
-		options.setOption( InputOptions.OPT_REQUEST, request );
-		BaseAttributeBean bean = (BaseAttributeBean) request
-				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
-		if ( bean != null )
-		{
-			options.setOption( InputOptions.OPT_LOCALE, bean.getLocale( ) );
-			options.setOption( InputOptions.OPT_TIMEZONE, bean.getTimeZone( ) );
+	protected void doExecution() throws ReportServiceException, RemoteException {
+		Oprand[] oprands = operation.getOprand();
+		InputOptions options = new InputOptions();
+		HttpServletRequest request = context.getRequest();
+		options.setOption(InputOptions.OPT_REQUEST, request);
+		BaseAttributeBean bean = (BaseAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
+		if (bean != null) {
+			options.setOption(InputOptions.OPT_LOCALE, bean.getLocale());
+			options.setOption(InputOptions.OPT_TIMEZONE, bean.getTimeZone());
 		}
 
-		if ( oprands != null && oprands.length > 0 )
-		{
-			__node = getReportService( ).getTOC( __docName,
-					oprands[0].getValue( ), options );
-		}
-		else
-		{
-			__node = getReportService( ).getTOC( __docName, null, options );
+		if (oprands != null && oprands.length > 0) {
+			__node = getReportService().getTOC(__docName, oprands[0].getValue(), options);
+		} else {
+			__node = getReportService().getTOC(__docName, null, options);
 		}
 	}
 
@@ -147,37 +132,31 @@ public abstract class AbstractGetTOCActionHandler
 	 * @throws ReportServiceException
 	 * @throws RemoteException
 	 */
-	protected void prepareResponse( ) throws ReportServiceException,
-			RemoteException
-	{
-		TOC toc = new TOC( );
-		List children = __node.getChildren( );
-		if ( children != null && children.size( ) > 0 )
-		{
-			TOC[] childTOCNodes = new TOC[children.size( )];
-			for ( int i = 0; i < children.size( ); i++ )
-			{
-				ToC child = (ToC) children.get( i );
-				childTOCNodes[i] = new TOC( );
-				childTOCNodes[i].setId( child.getID( ) );
-				childTOCNodes[i].setDisplayName( ParameterAccessor
-						.htmlEncode( child.getDisplayName( ) ) );
-				childTOCNodes[i].setBookmark( child.getBookmark( ) );
-				childTOCNodes[i].setStyle( child.getStyle( ) );
-				childTOCNodes[i].setIsLeaf( Boolean.valueOf(
-						child.getChildren( ) == null
-								|| child.getChildren( ).size( ) <= 0 ) );
+	protected void prepareResponse() throws ReportServiceException, RemoteException {
+		TOC toc = new TOC();
+		List children = __node.getChildren();
+		if (children != null && children.size() > 0) {
+			TOC[] childTOCNodes = new TOC[children.size()];
+			for (int i = 0; i < children.size(); i++) {
+				ToC child = (ToC) children.get(i);
+				childTOCNodes[i] = new TOC();
+				childTOCNodes[i].setId(child.getID());
+				childTOCNodes[i].setDisplayName(ParameterAccessor.htmlEncode(child.getDisplayName()));
+				childTOCNodes[i].setBookmark(child.getBookmark());
+				childTOCNodes[i].setStyle(child.getStyle());
+				childTOCNodes[i]
+						.setIsLeaf(Boolean.valueOf(child.getChildren() == null || child.getChildren().size() <= 0));
 			}
-			toc.setChild( childTOCNodes );
+			toc.setChild(childTOCNodes);
 		}
 
-		Data data = new Data( );
-		data.setTOC( toc );
-		UpdateData updateData = new UpdateData( );
-		updateData.setTarget( "birtToc" ); //$NON-NLS-1$
-		updateData.setData( data );
-		Update update = new Update( );
-		update.setUpdateData( updateData );
-		response.setUpdate( new Update[]{update} );
+		Data data = new Data();
+		data.setTOC(toc);
+		UpdateData updateData = new UpdateData();
+		updateData.setTarget("birtToc"); //$NON-NLS-1$
+		updateData.setData(data);
+		Update update = new Update();
+		update.setUpdateData(updateData);
+		response.setUpdate(new Update[] { update });
 	}
 }

@@ -20,38 +20,31 @@ import javax.imageio.ImageWriter;
  * 
  */
 
-public class ImageWriterFactory implements IImageWriterFactory
-{
+public class ImageWriterFactory implements IImageWriterFactory {
 
-	private static IImageWriterFactory factory = new ImageWriterFactory( );
+	private static IImageWriterFactory factory = new ImageWriterFactory();
 
-	public static void initInstance( IImageWriterFactory tFactory )
-	{
+	public static void initInstance(IImageWriterFactory tFactory) {
 		factory = tFactory;
 	}
 
-	public static IImageWriterFactory instance( )
-	{
+	public static IImageWriterFactory instance() {
 		return factory;
 	}
 
-	public ImageWriter createByFormatName( String formatName )
-	{
-		if ( formatName != null )
-		{
-			Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName( formatName );
-			if ( it.hasNext( ) )
-			{
-				return it.next( );
+	public ImageWriter createByFormatName(String formatName) {
+		if (formatName != null) {
+			Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName(formatName);
+			if (it.hasNext()) {
+				return it.next();
 			}
 		}
 
 		return null;
 	}
 
-	public ImageWriter createImageWriter( String formatName, String outputFormat )
-	{
-		return createByFormatName( formatName );
+	public ImageWriter createImageWriter(String formatName, String outputFormat) {
+		return createByFormatName(formatName);
 	}
 
 }

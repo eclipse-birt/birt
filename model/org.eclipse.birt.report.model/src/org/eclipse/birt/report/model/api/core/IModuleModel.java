@@ -17,8 +17,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElementCon
  * The interface for the root element to store the constants.
  */
 
-public interface IModuleModel
-{
+public interface IModuleModel {
 
 	/**
 	 * Identifier of the parameter slot.
@@ -76,8 +75,8 @@ public interface IModuleModel
 	public static final String HELP_GUIDE_PROP = "helpGuide"; //$NON-NLS-1$
 
 	/**
-	 * Name of the created by property. Gives the name of the tool that created
-	 * the design.
+	 * Name of the created by property. Gives the name of the tool that created the
+	 * design.
 	 */
 
 	public static final String CREATED_BY_PROP = "createdBy"; //$NON-NLS-1$
@@ -145,8 +144,8 @@ public interface IModuleModel
 	public static final String INCLUDE_RESOURCE_PROP = "includeResource"; //$NON-NLS-1$
 
 	/**
-	 * Name of the method called when the report starts executing in the BIRT
-	 * Report Engine.
+	 * Name of the method called when the report starts executing in the BIRT Report
+	 * Engine.
 	 */
 
 	public static final String INITIALIZE_METHOD = "initialize"; //$NON-NLS-1$

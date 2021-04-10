@@ -18,18 +18,15 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
  * target library and encapsulates the main logicas for exporting.
  */
 
-class ElementExporter extends ElementExporterImpl
-{
+class ElementExporter extends ElementExporterImpl {
 
 	/**
 	 * Constructs the exporter with the handle of target library.
 	 * 
-	 * @param libraryHandle
-	 *            handle of the target library
+	 * @param libraryHandle handle of the target library
 	 */
 
-	ElementExporter( LibraryHandle libraryHandle )
-	{
-		super( libraryHandle );
+	ElementExporter(LibraryHandle libraryHandle) {
+		super(libraryHandle);
 	}
 }

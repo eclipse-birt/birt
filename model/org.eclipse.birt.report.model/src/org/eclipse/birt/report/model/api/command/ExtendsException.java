@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * 
  */
 
-public class ExtendsException extends SemanticException
-{
+public class ExtendsException extends SemanticException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -69,8 +68,7 @@ public class ExtendsException extends SemanticException
 	/**
 	 * The element does not allow to set extends explicitly.
 	 * 
-	 * @deprecated pushed down to sub class
-	 *             <code>ExtendsForbiddenException</code>
+	 * @deprecated pushed down to sub class <code>ExtendsForbiddenException</code>
 	 */
 
 	public static final String DESIGN_EXCEPTION_EXTENDS_FORBIDDEN = ExtendsForbiddenException.DESIGN_EXCEPTION_EXTENDS_FORBIDDEN;
@@ -78,8 +76,7 @@ public class ExtendsException extends SemanticException
 	/**
 	 * The element does not allow extensions.
 	 * 
-	 * @deprecated pushed down to sub class
-	 *             <code>ExtendsForbiddenException</code>
+	 * @deprecated pushed down to sub class <code>ExtendsForbiddenException</code>
 	 */
 
 	public static final String DESIGN_EXCEPTION_CANT_EXTEND = ExtendsForbiddenException.DESIGN_EXCEPTION_CANT_EXTEND;
@@ -87,8 +84,7 @@ public class ExtendsException extends SemanticException
 	/**
 	 * The element cannot extend from itself.
 	 * 
-	 * @deprecated pushed down to sub class
-	 *             <code>CircularExtendsException</code>
+	 * @deprecated pushed down to sub class <code>CircularExtendsException</code>
 	 */
 
 	public static final String DESIGN_EXCEPTION_SELF_EXTEND = CircularExtendsException.DESIGN_EXCEPTION_SELF_EXTEND;
@@ -96,8 +92,7 @@ public class ExtendsException extends SemanticException
 	/**
 	 * The extension would create a cycle: a extends b extends a.
 	 * 
-	 * @deprecated pushed down to sub class
-	 *             <code>CircularExtendsException</code>
+	 * @deprecated pushed down to sub class <code>CircularExtendsException</code>
 	 */
 
 	public static final String DESIGN_EXCEPTION_CIRCULAR = CircularExtendsException.DESIGN_EXCEPTION_CIRCULAR;
@@ -113,8 +108,7 @@ public class ExtendsException extends SemanticException
 	/**
 	 * The parent element not in component slot of report design.
 	 * 
-	 * @deprecated pushed down to sub class
-	 *             <code>ExtendsForbiddenException</code>
+	 * @deprecated pushed down to sub class <code>ExtendsForbiddenException</code>
 	 */
 
 	public static final String DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT = ExtendsForbiddenException.DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT;
@@ -138,37 +132,28 @@ public class ExtendsException extends SemanticException
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element being changed.
-	 * @param name
-	 *            the value being set for the extends property.
-	 * @param errCode
-	 *            what went wrong.
+	 * @param obj     the element being changed.
+	 * @param name    the value being set for the extends property.
+	 * @param errCode what went wrong.
 	 */
 
-	public ExtendsException( DesignElement obj, String name, String errCode )
-	{
-		super( obj, errCode );
+	public ExtendsException(DesignElement obj, String name, String errCode) {
+		super(obj, errCode);
 		extendsName = name;
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element being changed.
-	 * @param parent
-	 *            the parent element.
-	 * @param errCode
-	 *            what went wrong.
+	 * @param obj     the element being changed.
+	 * @param parent  the parent element.
+	 * @param errCode what went wrong.
 	 */
 
-	public ExtendsException( DesignElement obj, DesignElement parent,
-			String errCode )
-	{
-		super( obj, errCode );
+	public ExtendsException(DesignElement obj, DesignElement parent, String errCode) {
+		super(obj, errCode);
 		this.parent = parent;
-		this.extendsName = parent.getFullName( );
+		this.extendsName = parent.getFullName();
 	}
 
 	/**
@@ -177,8 +162,7 @@ public class ExtendsException extends SemanticException
 	 * @return the parent element name.
 	 */
 
-	public Object getExtends( )
-	{
+	public Object getExtends() {
 		return extendsName;
 	}
 
@@ -188,36 +172,22 @@ public class ExtendsException extends SemanticException
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
+	public String getLocalizedMessage() {
 		// For backward compatibility
-		if ( sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_FOUND
-				|| sResourceKey == DESIGN_EXCEPTION_CANT_EXTEND
-				|| sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{extendsName} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE
-				|| sResourceKey == DESIGN_EXCEPTION_CIRCULAR
-				|| sResourceKey == DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( parent ), getElementName( element )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_SELF_EXTEND
-				|| sResourceKey == DESIGN_EXCEPTION_EXTENDS_FORBIDDEN
-				|| sResourceKey == DESIGN_EXCEPTION_NO_PARENT )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{getElementName( element )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_INCLUDE )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{parent
-					.getIdentifier( )} );
+		if (sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_FOUND || sResourceKey == DESIGN_EXCEPTION_CANT_EXTEND
+				|| sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { extendsName });
+		} else if (sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE || sResourceKey == DESIGN_EXCEPTION_CIRCULAR
+				|| sResourceKey == DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE) {
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { getElementName(parent), getElementName(element) });
+		} else if (sResourceKey == DESIGN_EXCEPTION_SELF_EXTEND || sResourceKey == DESIGN_EXCEPTION_EXTENDS_FORBIDDEN
+				|| sResourceKey == DESIGN_EXCEPTION_NO_PARENT) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { getElementName(element) });
+		} else if (sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_INCLUDE) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { parent.getIdentifier() });
 		}
 
-		return ModelMessages.getMessage( sResourceKey );
+		return ModelMessages.getMessage(sResourceKey);
 	}
 }

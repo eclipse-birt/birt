@@ -17,23 +17,19 @@ import org.eclipse.birt.report.model.api.TextItemHandle;
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
  * methods to GUI requirement TextHandleAdapter responds to model TextHandle
- *  
+ * 
  */
 
-public class TextItemHandleAdapter extends LabelHandleAdapter
-{
+public class TextItemHandleAdapter extends LabelHandleAdapter {
 
 	/**
 	 * Constructor
 	 * 
-	 * @param textItemHandle
-	 *            The text item handle.
+	 * @param textItemHandle The text item handle.
 	 * @param mark
 	 */
-	public TextItemHandleAdapter( TextItemHandle textItemHandle,
-			IModelAdapterHelper mark )
-	{
-		super( textItemHandle, mark );
+	public TextItemHandleAdapter(TextItemHandle textItemHandle, IModelAdapterHelper mark) {
+		super(textItemHandle, mark);
 	}
 
 }

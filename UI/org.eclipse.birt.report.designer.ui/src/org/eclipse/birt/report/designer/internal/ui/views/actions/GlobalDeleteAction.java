@@ -14,20 +14,17 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import org.eclipse.jface.viewers.ISelectionProvider;
 
 /**
- *  Global delete action for views
+ * Global delete action for views
  */
 
-public class GlobalDeleteAction extends AbstractGlobalSelectionAction
-{
+public class GlobalDeleteAction extends AbstractGlobalSelectionAction {
 
-	public GlobalDeleteAction( ISelectionProvider provider )
-	{
-		super( provider, GlobalActionFactory.DELETE );
+	public GlobalDeleteAction(ISelectionProvider provider) {
+		super(provider, GlobalActionFactory.DELETE);
 	}
 
-	public void run( )
-	{
-		new DeleteAction( getSelection( ) ).run( );
+	public void run() {
+		new DeleteAction(getSelection()).run();
 	}
 
 	/*
@@ -35,9 +32,8 @@ public class GlobalDeleteAction extends AbstractGlobalSelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{				
-		return new DeleteAction( getSelection( ) ).isEnabled( );
+	protected boolean calculateEnabled() {
+		return new DeleteAction(getSelection()).isEnabled();
 	}
 
 }

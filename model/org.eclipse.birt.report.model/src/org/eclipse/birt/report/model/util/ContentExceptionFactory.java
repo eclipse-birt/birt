@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 /**
  * 
  */
-public class ContentExceptionFactory
-{
+public class ContentExceptionFactory {
 
 	/**
 	 * Creates a ContentException from the given options.
@@ -30,18 +29,14 @@ public class ContentExceptionFactory
 	 * @param errorCode
 	 * @return
 	 */
-	public static ContentException createContentException(
-			ContainerContext containerInfor, DesignElement content,
-			String errorCode )
-	{
-		if ( containerInfor == null )
+	public static ContentException createContentException(ContainerContext containerInfor, DesignElement content,
+			String errorCode) {
+		if (containerInfor == null)
 			return null;
-		if ( !StringUtil.isBlank( containerInfor.getPropertyName( ) ) )
-			return new ContentException( containerInfor.getElement( ),
-					containerInfor.getPropertyName( ), content,
-					errorCode );
-		return new ContentException( containerInfor.getElement( ),
-				containerInfor.getSlotID( ), content, errorCode );
+		if (!StringUtil.isBlank(containerInfor.getPropertyName()))
+			return new ContentException(containerInfor.getElement(), containerInfor.getPropertyName(), content,
+					errorCode);
+		return new ContentException(containerInfor.getElement(), containerInfor.getSlotID(), content, errorCode);
 	}
 
 	/**
@@ -50,16 +45,12 @@ public class ContentExceptionFactory
 	 * @param errorCode
 	 * @return
 	 */
-	public static ContentException createContentException(
-			ContainerContext containerInfor, String errorCode )
-	{
-		if ( containerInfor == null )
+	public static ContentException createContentException(ContainerContext containerInfor, String errorCode) {
+		if (containerInfor == null)
 			return null;
-		if ( !StringUtil.isBlank( containerInfor.getPropertyName( ) ) )
-			return new ContentException( containerInfor.getElement( ),
-					containerInfor.getPropertyName( ), errorCode );
-		return new ContentException( containerInfor.getElement( ),
-				containerInfor.getSlotID( ), errorCode );
+		if (!StringUtil.isBlank(containerInfor.getPropertyName()))
+			return new ContentException(containerInfor.getElement(), containerInfor.getPropertyName(), errorCode);
+		return new ContentException(containerInfor.getElement(), containerInfor.getSlotID(), errorCode);
 	}
 
 }

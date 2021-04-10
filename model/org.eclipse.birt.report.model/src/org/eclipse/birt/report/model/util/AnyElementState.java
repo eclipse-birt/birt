@@ -7,10 +7,9 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.util;
-
 
 /**
  * Parses any valid XML; handles unimplemented tags. Often used while a parser
@@ -18,23 +17,20 @@ package org.eclipse.birt.report.model.util;
  * handle.
  */
 
-public class AnyElementState extends ParseState
-{
+public class AnyElementState extends ParseState {
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param theHandler the SAX parser handler
 	 */
-	
-	public AnyElementState( XMLParserHandler theHandler )
-	{
-		super( theHandler );
+
+	public AnyElementState(XMLParserHandler theHandler) {
+		super(theHandler);
 	}
 
-	public AbstractParseState startElement( String tagName )
-	{
-		return new AnyElementState( handler );
+	public AbstractParseState startElement(String tagName) {
+		return new AnyElementState(handler);
 	}
 
 }

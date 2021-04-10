@@ -19,12 +19,10 @@ import org.eclipse.birt.chart.model.Chart;
  * Java and JavaScript. It deprecates the JavaScript global functions.
  * 
  */
-public interface IChartScriptContext extends IScriptContext
-{
+public interface IChartScriptContext extends IScriptContext {
 
 	/**
-	 * @return Returns a runtime instance of the chart,or null if not available
-	 *         yet.
+	 * @return Returns a runtime instance of the chart,or null if not available yet.
 	 */
-	Chart getChartInstance( );
+	Chart getChartInstance();
 }

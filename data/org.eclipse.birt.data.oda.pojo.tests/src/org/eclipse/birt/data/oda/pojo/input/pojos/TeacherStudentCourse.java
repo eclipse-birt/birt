@@ -14,12 +14,11 @@ package org.eclipse.birt.data.oda.pojo.input.pojos;
  * 
  */
 
-public class TeacherStudentCourse extends TeacherStudent
-{
-	public TeacherStudentCourse( Teacher teacher, Student student, Course course )
-	{
-		super( teacher, student );
+public class TeacherStudentCourse extends TeacherStudent {
+	public TeacherStudentCourse(Teacher teacher, Student student, Course course) {
+		super(teacher, student);
 		this.course = course;
 	}
+
 	public Course course;
 }

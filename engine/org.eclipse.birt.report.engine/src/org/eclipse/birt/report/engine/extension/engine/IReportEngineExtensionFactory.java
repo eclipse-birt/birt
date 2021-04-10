@@ -18,10 +18,9 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
  * 
  * 
  */
-public interface IReportEngineExtensionFactory
-{
+public interface IReportEngineExtensionFactory {
 
-	String getExtensionName( );
+	String getExtensionName();
 
-	IReportEngineExtension createExtension( IReportEngine engine );
+	IReportEngineExtension createExtension(IReportEngine engine);
 }

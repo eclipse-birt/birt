@@ -11,17 +11,14 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-
 /**
  * Column test
  * 
  */
-public class ColumnTest extends StyledElementTestCase
-{
+public class ColumnTest extends StyledElementTestCase {
 
-	public ColumnTest( )
-	{
-		super( new ColumnDesign( ) );
+	public ColumnTest() {
+		super(new ColumnDesign());
 	}
 
 	/**
@@ -32,15 +29,14 @@ public class ColumnTest extends StyledElementTestCase
 	 * then get the values one by one to test if they work correctly
 	 */
 
-	public void testAccessor( )
-	{
+	public void testAccessor() {
 		ColumnDesign column = (ColumnDesign) element;
-		DimensionType width = new DimensionType( 5.0, DimensionType.UNITS_CM );
+		DimensionType width = new DimensionType(5.0, DimensionType.UNITS_CM);
 
 		// Set
-		column.setWidth( width );
+		column.setWidth(width);
 
 		// Get
-		assertEquals( column.getWidth( ), width );
+		assertEquals(column.getWidth(), width);
 	}
 }

@@ -15,12 +15,11 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for Dimension element to store the constants on it.
  */
 
-public interface IDimensionModel
-{
+public interface IDimensionModel {
 
 	/**
-	 * Name of the property which indicates whether a dimension element is a
-	 * special type of Time.
+	 * Name of the property which indicates whether a dimension element is a special
+	 * type of Time.
 	 */
 
 	static final String IS_TIME_TYPE_PROP = "isTimeType"; //$NON-NLS-1$

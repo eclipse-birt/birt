@@ -31,76 +31,76 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class Issue27 extends CellRangeTester {
-	
+
 	@Test
 	public void testRowSpanXls() throws BirtException, IOException {
 
 		debug = false;
 		InputStream inputStream = runAndRenderReport("Issue27.rptdesign", "xls");
-        assertNotNull(inputStream);
-        try {
-            HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
-            assertNotNull(workbook);
-    
-            Sheet sheet = workbook.getSheetAt(0);
-            int rangesValidated = 0;
-            
-            for( Row row : sheet ) {
-            	for( Cell cell : row ) {
-            		if(cell.getCellType() == Cell.CELL_TYPE_STRING) {
-            			String cellValue = cell.getStringCellValue();
-            			Matcher matcher = pattern.matcher(cellValue);
-            			if( matcher.matches() ) {
-            				validateCellRange( matcher, cell );
-            				++rangesValidated;
-            			}
-            		}
-            	}
-            }
-            assertEquals( 12, rangesValidated );
-        
-        } finally {
-            inputStream.close();
-        }
+		assertNotNull(inputStream);
+		try {
+			HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+			assertNotNull(workbook);
+
+			Sheet sheet = workbook.getSheetAt(0);
+			int rangesValidated = 0;
+
+			for (Row row : sheet) {
+				for (Cell cell : row) {
+					if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+						String cellValue = cell.getStringCellValue();
+						Matcher matcher = pattern.matcher(cellValue);
+						if (matcher.matches()) {
+							validateCellRange(matcher, cell);
+							++rangesValidated;
+						}
+					}
+				}
+			}
+			assertEquals(12, rangesValidated);
+
+		} finally {
+			inputStream.close();
+		}
 	}
-	    
+
 	@Test
 	public void testRowSpanXlsx() throws BirtException, IOException {
 
 		debug = false;
 		InputStream inputStream = runAndRenderReport("Issue27.rptdesign", "xlsx");
-        assertNotNull(inputStream);
-        try {
-            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-            assertNotNull(workbook);
-    
-            Sheet sheet = workbook.getSheetAt(0);
-            int rangesValidated = 0;
-            
-            for( Row row : sheet ) {
-            	for( Cell cell : row ) {
-            		if(cell.getCellType() == Cell.CELL_TYPE_STRING) {
-            			String cellValue = cell.getStringCellValue();
-            			
-            			Matcher matcher = pattern.matcher(cellValue);
-            			if( matcher.matches() ) {
-            				validateCellRange( matcher, cell );
-            				++rangesValidated;
-            			}
-            		}
-            	}
-            }
-            assertEquals( 12, rangesValidated );
-        
-        } finally {
-            inputStream.close();
-        }
+		assertNotNull(inputStream);
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+			assertNotNull(workbook);
+
+			Sheet sheet = workbook.getSheetAt(0);
+			int rangesValidated = 0;
+
+			for (Row row : sheet) {
+				for (Cell cell : row) {
+					if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+						String cellValue = cell.getStringCellValue();
+
+						Matcher matcher = pattern.matcher(cellValue);
+						if (matcher.matches()) {
+							validateCellRange(matcher, cell);
+							++rangesValidated;
+						}
+					}
+				}
+			}
+			assertEquals(12, rangesValidated);
+
+		} finally {
+			inputStream.close();
+		}
 	}
-	    
-    protected RenderOption prepareRenderOptions(String outputFormat, FileOutputStream outputStream) {
-        RenderOption option = super.prepareRenderOptions(outputFormat, outputStream);
-        option.setOption("ExcelEmitter.RemoveBlankRows", Boolean.FALSE);
-        return option;
-    }
+
+	protected RenderOption prepareRenderOptions(String outputFormat, FileOutputStream outputStream) {
+		RenderOption option = super.prepareRenderOptions(outputFormat, outputStream);
+		option.setOption("ExcelEmitter.RemoveBlankRows", Boolean.FALSE);
+		return option;
+	}
 
 }

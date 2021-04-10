@@ -18,8 +18,7 @@ import org.eclipse.birt.report.model.elements.ReportItem;
  * 
  */
 
-public class LayoutChangedEvent extends NotificationEvent
-{
+public class LayoutChangedEvent extends NotificationEvent {
 
 	/**
 	 * Identifies a change to existing data.
@@ -38,19 +37,18 @@ public class LayoutChangedEvent extends NotificationEvent
 	 * @param compoundElement
 	 */
 
-	public LayoutChangedEvent( ReportItem compoundElement )
-	{
-		super( compoundElement );
+	public LayoutChangedEvent(ReportItem compoundElement) {
+		super(compoundElement);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return LAYOUT_CHANGED_EVENT;
 	}
 
@@ -60,8 +58,7 @@ public class LayoutChangedEvent extends NotificationEvent
 	 * @return the type of event
 	 */
 
-	protected int getType( )
-	{
+	protected int getType() {
 		return type;
 	}
 }

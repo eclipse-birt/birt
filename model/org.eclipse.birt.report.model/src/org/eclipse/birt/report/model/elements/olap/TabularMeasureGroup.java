@@ -20,15 +20,13 @@ import org.eclipse.birt.report.model.elements.ElementVisitor;
 /**
  * Represents a group for list of Measure elements.
  */
-public class TabularMeasureGroup extends MeasureGroup
-{
+public class TabularMeasureGroup extends MeasureGroup {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public TabularMeasureGroup( )
-	{
+	public TabularMeasureGroup() {
 	}
 
 	/**
@@ -36,19 +34,18 @@ public class TabularMeasureGroup extends MeasureGroup
 	 * 
 	 * @param name
 	 */
-	public TabularMeasureGroup( String name )
-	{
-		super( name );
+	public TabularMeasureGroup(String name) {
+		super(name);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitTabularMeasureGroup( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitTabularMeasureGroup(this);
 	}
 
 	/*
@@ -56,35 +53,32 @@ public class TabularMeasureGroup extends MeasureGroup
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.TABULAR_MEASURE_GROUP_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.
+	 * birt.report.model.core.Module)
 	 */
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the module of the cube
+	 * @param module the module of the cube
 	 * 
 	 * @return an API handle for this element.
 	 */
 
-	public TabularMeasureGroupHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new TabularMeasureGroupHandle( module, this );
+	public TabularMeasureGroupHandle handle(Module module) {
+		if (handle == null) {
+			handle = new TabularMeasureGroupHandle(module, this);
 		}
 		return (TabularMeasureGroupHandle) handle;
 	}

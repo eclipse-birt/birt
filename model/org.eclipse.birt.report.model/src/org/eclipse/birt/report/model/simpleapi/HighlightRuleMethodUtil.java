@@ -27,8 +27,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
  * 
  */
 
-public class HighlightRuleMethodUtil
-{
+public class HighlightRuleMethodUtil {
 
 	/**
 	 * Adds hidelight rule.
@@ -37,13 +36,10 @@ public class HighlightRuleMethodUtil
 	 * @param rule
 	 */
 
-	public static void addHighlightRule( DesignElementHandle handle,
-			IHighlightRule rule ) throws SemanticException
-	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+	public static void addHighlightRule(DesignElementHandle handle, IHighlightRule rule) throws SemanticException {
+		PropertyHandle propHandle = handle.getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP);
 
-		propHandle.addItem( rule.getStructure( ) );
+		propHandle.addItem(rule.getStructure());
 	}
 
 	/**
@@ -53,23 +49,19 @@ public class HighlightRuleMethodUtil
 	 * @return
 	 */
 
-	public static IHighlightRule[] getHighlightRules( DesignElementHandle handle )
-	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
-		Iterator iterator = propHandle.iterator( );
-		List rList = new ArrayList( );
+	public static IHighlightRule[] getHighlightRules(DesignElementHandle handle) {
+		PropertyHandle propHandle = handle.getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP);
+		Iterator iterator = propHandle.iterator();
+		List rList = new ArrayList();
 		int count = 0;
 
-		while ( iterator.hasNext( ) )
-		{
-			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iterator
-					.next( );
-			HighlightRuleImpl rule = new HighlightRuleImpl( ruleHandle );
-			rList.add( rule );
+		while (iterator.hasNext()) {
+			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iterator.next();
+			HighlightRuleImpl rule = new HighlightRuleImpl(ruleHandle);
+			rList.add(rule);
 			++count;
 		}
-		return (IHighlightRule[]) rList.toArray( new IHighlightRule[count] );
+		return (IHighlightRule[]) rList.toArray(new IHighlightRule[count]);
 	}
 
 	/**
@@ -80,13 +72,10 @@ public class HighlightRuleMethodUtil
 	 * @throws SemanticException
 	 */
 
-	public static void removeHighlightRule( DesignElementHandle handle,
-			IHighlightRule rule ) throws SemanticException
-	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+	public static void removeHighlightRule(DesignElementHandle handle, IHighlightRule rule) throws SemanticException {
+		PropertyHandle propHandle = handle.getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP);
 
-		propHandle.removeItem( rule.getStructure( ) );
+		propHandle.removeItem(rule.getStructure());
 	}
 
 	/**
@@ -96,12 +85,9 @@ public class HighlightRuleMethodUtil
 	 * @throws SemanticException
 	 */
 
-	public static void removeHighlightRules( DesignElementHandle handle )
-			throws SemanticException
-	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+	public static void removeHighlightRules(DesignElementHandle handle) throws SemanticException {
+		PropertyHandle propHandle = handle.getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP);
 
-		propHandle.clearValue( );
+		propHandle.clearValue();
 	}
 }

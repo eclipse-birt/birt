@@ -17,8 +17,8 @@ import org.eclipse.birt.report.model.core.IReferencableElement;
 /**
  * Represents a representation to an element. This class is the reference
  * property value. It can represent either a <em>resolved</em> or
- * <em>unresolved</em> value. A resolved value is one in which we've used a
- * name to look up the actual element. An unresolved reference is one that has a
+ * <em>unresolved</em> value. A resolved value is one in which we've used a name
+ * to look up the actual element. An unresolved reference is one that has a
  * name, but has not been resolved to an element.
  * <p>
  * The class holds either a name or a pointer to the target element, never both.
@@ -40,53 +40,45 @@ import org.eclipse.birt.report.model.core.IReferencableElement;
  * 
  */
 
-public class ElementRefValue extends ReferenceValue
-{
+public class ElementRefValue extends ReferenceValue {
 
 	/**
 	 * Constructor of an unresolved reference.
 	 * 
-	 * @param namespace
-	 *            the namespace to indicate which included library this value
-	 *            refers to
-	 * @param theName
-	 *            the unresolved name
+	 * @param namespace the namespace to indicate which included library this value
+	 *                  refers to
+	 * @param theName   the unresolved name
 	 */
 
-	public ElementRefValue( String namespace, String theName )
-	{
-		super( namespace, theName );
+	public ElementRefValue(String namespace, String theName) {
+		super(namespace, theName);
 	}
 
 	/**
 	 * Constructor of a resolved reference.
 	 * 
-	 * @param namespace
-	 *            the namespace to indicate which included library this value
-	 *            refers to
-	 * @param element
-	 *            the resolved element
+	 * @param namespace the namespace to indicate which included library this value
+	 *                  refers to
+	 * @param element   the resolved element
 	 */
 
-	public ElementRefValue( String namespace, DesignElement element )
-	{
-		super( namespace, element );
+	public ElementRefValue(String namespace, DesignElement element) {
+		super(namespace, element);
 	}
 
 	/**
-	 * Gets the reference name. The name is either the unresolved name, or the
-	 * name of the resolved element.
+	 * Gets the reference name. The name is either the unresolved name, or the name
+	 * of the resolved element.
 	 * 
-	 * @return the name of the referenced element, or null if this reference is
-	 *         not set
+	 * @return the name of the referenced element, or null if this reference is not
+	 *         set
 	 */
 
-	public String getName( )
-	{
-		if ( name != null )
+	public String getName() {
+		if (name != null)
 			return name;
-		if ( resolved != null )
-			return ( (DesignElement) resolved ).getFullName( );
+		if (resolved != null)
+			return ((DesignElement) resolved).getFullName();
 		assert false;
 		return null;
 	}
@@ -94,11 +86,9 @@ public class ElementRefValue extends ReferenceValue
 	/**
 	 * Sets the resolved element.
 	 * 
-	 * @param element
-	 *            the resolved element.
+	 * @param element the resolved element.
 	 */
-	public void resolve( Object element )
-	{
+	public void resolve(Object element) {
 
 		assert element instanceof DesignElement;
 		name = null;
@@ -108,24 +98,22 @@ public class ElementRefValue extends ReferenceValue
 	/**
 	 * Returns the referenced element, if the element is resolved.
 	 * 
-	 * @return the referenced element, or null if this reference is not set, or
-	 *         is unresolved
+	 * @return the referenced element, or null if this reference is not set, or is
+	 *         unresolved
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return (DesignElement) resolved;
 	}
 
 	/**
-	 * Returns the target element as a referenceable element. This form is used
-	 * when caching references.
+	 * Returns the target element as a referenceable element. This form is used when
+	 * caching references.
 	 * 
 	 * @return the target element as a referencable element
 	 */
 
-	public IReferencableElement getTargetElement( )
-	{
+	public IReferencableElement getTargetElement() {
 		return (IReferencableElement) resolved;
 	}
 
@@ -135,45 +123,44 @@ public class ElementRefValue extends ReferenceValue
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 
-	public boolean equals( Object obj )
-	{
-		if ( !( obj instanceof ElementRefValue ) )
+	public boolean equals(Object obj) {
+		if (!(obj instanceof ElementRefValue))
 			return false;
 
 		ElementRefValue value = (ElementRefValue) obj;
-		if ( isResolved( ) != value.isResolved( ) )
+		if (isResolved() != value.isResolved())
 			return false;
 
 		// both in resolved status.
 
-		if ( value.isResolved( ) )
-			return getElement( ).equals( value.getElement( ) );
+		if (value.isResolved())
+			return getElement().equals(value.getElement());
 
 		// both in unresolved status
 
-		if ( !getName( ).equals( value.getName( ) ) )
+		if (!getName().equals(value.getName()))
 			return false;
 
-		String myNameSpace = getLibraryNamespace( );
-		String objNameSpace = value.getLibraryNamespace( );
+		String myNameSpace = getLibraryNamespace();
+		String objNameSpace = value.getLibraryNamespace();
 
-		if ( myNameSpace == null && objNameSpace == null )
+		if (myNameSpace == null && objNameSpace == null)
 			return true;
 
-		if ( myNameSpace != null && myNameSpace.equals( objNameSpace ) )
+		if (myNameSpace != null && myNameSpace.equals(objNameSpace))
 			return true;
 
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	
-	public Object copy( )
-	{
-		return new ElementRefValue( getLibraryNamespace( ), getName( ) );
+
+	public Object copy() {
+		return new ElementRefValue(getLibraryNamespace(), getName());
 	}
-	
-	
+
 }

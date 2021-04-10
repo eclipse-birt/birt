@@ -24,110 +24,93 @@ import org.eclipse.swt.widgets.Group;
  * @author Administrator
  * 
  */
-public class ContainerSection extends Section
-{
+public class ContainerSection extends Section {
 
-	//CheckPropertyDescriptor columnCheck;
+	// CheckPropertyDescriptor columnCheck;
 
 	public Group group;
 
-	public ContainerSection( String labelText, Composite parent,
-			boolean isFormStyle )
-	{
-		super( labelText, parent, isFormStyle );
+	public ContainerSection(String labelText, Composite parent, boolean isFormStyle) {
+		super(labelText, parent, isFormStyle);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section#createSection()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section
+	 * #createSection()
 	 */
-	public void createSection( )
-	{
-		getGroupSection( parent );
+	public void createSection() {
+		getGroupSection(parent);
 	}
 
-	public Composite getContainerComposite( )
-	{
+	public Composite getContainerComposite() {
 		return group;
 	}
 
-	private Group getGroupSection( Composite parent )
-	{
-		if ( group == null )
-		{
-			group = new Group( parent, SWT.NONE );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+	private Group getGroupSection(Composite parent) {
+		if (group == null) {
+			group = new Group(parent, SWT.NONE);
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan = 3;
-			group.setLayout( WidgetUtil.createGridLayout( 3 ) );
-			group.setText( getLabelText( ) );
-			group.setLayoutData( gd );
+			group.setLayout(WidgetUtil.createGridLayout(3));
+			group.setText(getLabelText());
+			group.setLayoutData(gd);
 
 		}
 		return group;
 	}
 
-	public void layout( )
-	{
-		GridData gd = (GridData) group.getLayoutData( );
-		if ( getLayoutNum( ) > 0 )
-			gd.horizontalSpan = getLayoutNum( ) - placeholder;
+	public void layout() {
+		GridData gd = (GridData) group.getLayoutData();
+		if (getLayoutNum() > 0)
+			gd.horizontalSpan = getLayoutNum() - placeholder;
 		else
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- placeholder;
-		if ( width > -1 )
-		{
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		}
-		else
+		} else
 			gd.grabExcessHorizontalSpace = true;
 	}
 
 	private int width = -1;
 
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	public void load( )
-	{
+	public void load() {
 		// if(group!=null && !group.isDisposed( ))group.load( );
 	}
 
 	IDescriptorProvider provider;
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 	}
 
-	public void setInput( Object input )
-	{
-
-	}
-
-	public void setHidden( boolean isHidden )
-	{
-		if ( group != null )
-			WidgetUtil.setExcludeGridData( group, isHidden );
+	public void setInput(Object input) {
 
 	}
 
-	public void setVisible( boolean isVisable )
-	{
-		if ( group != null )
-			group.setVisible( isVisable );
+	public void setHidden(boolean isHidden) {
+		if (group != null)
+			WidgetUtil.setExcludeGridData(group, isHidden);
+
+	}
+
+	public void setVisible(boolean isVisable) {
+		if (group != null)
+			group.setVisible(isVisable);
 
 	}
 

@@ -27,8 +27,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
  * 
  */
 
-public class UserPropertyRecord extends SimpleRecord
-{
+public class UserPropertyRecord extends SimpleRecord {
 
 	/**
 	 * Element to modify.
@@ -51,70 +50,53 @@ public class UserPropertyRecord extends SimpleRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element to which to add or remove the user-defined
-	 *            property.
-	 * @param prop
-	 *            the user-defined property.
-	 * @param add
-	 *            true to add the property, false to delete it.
+	 * @param obj  the element to which to add or remove the user-defined property.
+	 * @param prop the user-defined property.
+	 * @param add  true to add the property, false to delete it.
 	 */
 
-	public UserPropertyRecord( DesignElement obj, UserPropertyDefn prop,
-			boolean add )
-	{
+	public UserPropertyRecord(DesignElement obj, UserPropertyDefn prop, boolean add) {
 		element = obj;
 		property = prop;
 		addOp = add;
 
-		if ( addOp )
-			label = CommandLabelFactory.getCommandLabel(
-					MessageConstants.ADD_PROPERTY_MESSAGE, new String[]{prop
-							.getDisplayName( )} );
+		if (addOp)
+			label = CommandLabelFactory.getCommandLabel(MessageConstants.ADD_PROPERTY_MESSAGE,
+					new String[] { prop.getDisplayName() });
 		else
-			label = CommandLabelFactory.getCommandLabel(
-					MessageConstants.DROP_PROPERTY_MESSAGE, new String[]{prop
-							.getDisplayName( )} );
+			label = CommandLabelFactory.getCommandLabel(MessageConstants.DROP_PROPERTY_MESSAGE,
+					new String[] { prop.getDisplayName() });
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
+	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		assert state == DONE_STATE || state == UNDONE_STATE
-				|| state == REDONE_STATE;
+	public NotificationEvent getEvent() {
+		assert state == DONE_STATE || state == UNDONE_STATE || state == REDONE_STATE;
 
 		int event = UserPropertyEvent.DROP;
-		if ( addOp && state != UNDONE_STATE || !addOp && state == UNDONE_STATE )
-		{
+		if (addOp && state != UNDONE_STATE || !addOp && state == UNDONE_STATE) {
 			event = UserPropertyEvent.ADD;
 		}
-		return new UserPropertyEvent( element, property, event );
+		return new UserPropertyEvent(element, property, event);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
+	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
 	 * (boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
-		if ( addOp && !undo || !addOp && undo )
-		{
-			element.addUserPropertyDefn( property );
-		}
-		else
-		{
-			element.dropUserPropertyDefn( property );
+	protected void perform(boolean undo) {
+		if (addOp && !undo || !addOp && undo) {
+			element.addUserPropertyDefn(property);
+		} else {
+			element.dropUserPropertyDefn(property);
 		}
 	}
 
@@ -124,8 +106,7 @@ public class UserPropertyRecord extends SimpleRecord
 	 * @return true if add, false if delete.
 	 */
 
-	public boolean isAdd( )
-	{
+	public boolean isAdd() {
 		return addOp;
 	}
 
@@ -133,12 +114,10 @@ public class UserPropertyRecord extends SimpleRecord
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget
-	 * ()
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget ()
 	 */
 
-	public DesignElement getTarget( )
-	{
+	public DesignElement getTarget() {
 		return element;
 	}
 }

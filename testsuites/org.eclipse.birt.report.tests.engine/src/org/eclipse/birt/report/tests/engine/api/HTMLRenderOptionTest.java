@@ -24,21 +24,19 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  * <p>
  * This case tests methods in HTMLRenderOption API.
  */
-public class HTMLRenderOptionTest extends EngineCase
-{
+public class HTMLRenderOptionTest extends EngineCase {
 
 	private String name = "case1";
 
 	final static String INPUT = "case1.rptdesign";
-	private String rptdesign = this.genInputFile( INPUT );
+	private String rptdesign = this.genInputFile(INPUT);
 	private IGetParameterDefinitionTask task = null;
 
 	/**
 	 * @param name
 	 */
-	public HTMLRenderOptionTest( String name )
-	{
-		super( name );
+	public HTMLRenderOptionTest(String name) {
+		super(name);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -47,39 +45,35 @@ public class HTMLRenderOptionTest extends EngineCase
 	 * 
 	 * @return
 	 */
-	public static Test suite( )
-	{
-		return new TestSuite( HTMLRenderOptionTest.class );
+	public static Test suite() {
+		return new TestSuite(HTMLRenderOptionTest.class);
 	}
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( INPUT, INPUT );
-		IReportRunnable reportRunnable = engine.openReportDesign( rptdesign );
-		task = engine.createGetParameterDefinitionTask( reportRunnable );
-		assertTrue( task.getErrors( ).size( ) == 0 );
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(INPUT, INPUT);
+		IReportRunnable reportRunnable = engine.openReportDesign(rptdesign);
+		task = engine.createGetParameterDefinitionTask(reportRunnable);
+		assertTrue(task.getErrors().size() == 0);
 
 	}
 
-	protected void tearDown( ) throws Exception
-	{
-		task.close( );
-		removeResource( );
-		super.tearDown( );
+	protected void tearDown() throws Exception {
+		task.close();
+		removeResource();
+		super.tearDown();
 	}
 
 	/**
 	 * Test setEmbeddable(boolean embeddable) method Test getEmbeddable() method
 	 */
-	public void testGetEmbeddable( ) throws Exception
-	{
-		HTMLRenderOption option = new HTMLRenderOption( );
+	public void testGetEmbeddable() throws Exception {
+		HTMLRenderOption option = new HTMLRenderOption();
 		boolean bEmbed = true, bEmbedGet;
-		option.setEmbeddable( bEmbed );
-		bEmbedGet = option.getEmbeddable( );
-		assertEquals( "set/getEmbeddable() fail", bEmbed, bEmbedGet );
+		option.setEmbeddable(bEmbed);
+		bEmbedGet = option.getEmbeddable();
+		assertEquals("set/getEmbeddable() fail", bEmbed, bEmbedGet);
 
 	}
 
@@ -87,25 +81,22 @@ public class HTMLRenderOptionTest extends EngineCase
 	 * Test setUserAgent(java.lang.String userAgent) method Test getUserAgent()
 	 * method
 	 */
-	public void testGetUserAgent( )
-	{
+	public void testGetUserAgent() {
 		String agent = "agent", agentGet;
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setUserAgent( agent );
-		agentGet = option.getUserAgent( );
-		assertEquals( "set/getUserAgent() fail", agent, agentGet );
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setUserAgent(agent);
+		agentGet = option.getUserAgent();
+		assertEquals("set/getUserAgent() fail", agent, agentGet);
 	}
 
 	/**
-	 * Test setActionHandle(IHTMLActionHandler) method Test getActionHandle()
-	 * method
+	 * Test setActionHandle(IHTMLActionHandler) method Test getActionHandle() method
 	 */
-	public void testGetActionHandle( )
-	{
-		HTMLActionHandler htmlAction = new HTMLActionHandler( );
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setActionHandle( htmlAction );
-		assertNotNull( option.getActionHandle( ) );
+	public void testGetActionHandle() {
+		HTMLActionHandler htmlAction = new HTMLActionHandler();
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setActionHandle(htmlAction);
+		assertNotNull(option.getActionHandle());
 
 	}
 
@@ -113,95 +104,86 @@ public class HTMLRenderOptionTest extends EngineCase
 	 * Test setDisplayFilterIcon(boolean displayFilterIcon) method Test
 	 * getDisplayFilterIcon() method
 	 */
-	public void testGetDisplayFilterIcon( )
-	{
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setDisplayFilterIcon( true );
-		assertTrue( option.getDisplayFilterIcon( ) );
+	public void testGetDisplayFilterIcon() {
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setDisplayFilterIcon(true);
+		assertTrue(option.getDisplayFilterIcon());
 	}
 
 	/**
 	 * Test setDisplayGroupIcon(boolean displayGroupIcon) method
 	 * getDisplayGroupIcon()
 	 */
-	public void testGetDisplayGroupIcon( )
-	{
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setDisplayGroupIcon( false );
-		assertFalse( option.getDisplayGroupIcon( ) );
+	public void testGetDisplayGroupIcon() {
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setDisplayGroupIcon(false);
+		assertFalse(option.getDisplayGroupIcon());
 	}
 
 	/**
 	 * Test setEnableMetadata(boolean enableMetadata) getEnableMetadata()
 	 */
-	public void testGetEnableMetadata( )
-	{
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setEnableMetadata( false );
-		assertFalse( option.getEnableMetadata( ) );
+	public void testGetEnableMetadata() {
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setEnableMetadata(false);
+		assertFalse(option.getEnableMetadata());
 	}
 
 	/**
 	 * Test setHtmlPagination(boolean pagination) getHtmlPagination()
 	 */
-	public void testGetHtmlPagination( )
-	{
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setHtmlPagination( true );
-		assertTrue( option.getHtmlPagination( ) );
+	public void testGetHtmlPagination() {
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setHtmlPagination(true);
+		assertTrue(option.getHtmlPagination());
 	}
 
 	/**
 	 * Test setHtmlRtLFlag(boolean option) getHtmlRtLFlag()
 	 */
-	public void testGetHtmlRtLFlag( )
-	{
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setHtmlRtLFlag( true );
-		assertTrue( option.getHtmlRtLFlag( ) );
+	public void testGetHtmlRtLFlag() {
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setHtmlRtLFlag(true);
+		assertTrue(option.getHtmlRtLFlag());
 	}
 
 	/**
 	 * Test setHtmlTitle(java.lang.String htmlTitle) getHtmlTitle()
 	 */
-	public void testGetHtmlTitle( )
-	{
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setHtmlTitle( "HTMLTITLE" );
-		assertEquals( "HTMLTITLE", option.getHtmlTitle( ) );
+	public void testGetHtmlTitle() {
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setHtmlTitle("HTMLTITLE");
+		assertEquals("HTMLTITLE", option.getHtmlTitle());
 	}
 
 	/**
 	 * Test setInstanceIDs (java.util.List instanceIDs) getInstanceIDs()
 	 */
-	public void testGetInstanceIDs( )
-	{
-		ArrayList ins = new ArrayList( );
+	public void testGetInstanceIDs() {
+		ArrayList ins = new ArrayList();
 
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setInstanceIDs( ins );
-		assertNotNull( option.getInstanceIDs( ) );
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setInstanceIDs(ins);
+		assertNotNull(option.getInstanceIDs());
 
 	}
 
 	/**
 	 * Test setMasterPageContent(boolean show) getMasterPageContent()
 	 */
-	public void testGetMasterPageContent( )
-	{
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setMasterPageContent( true );
-		assertTrue( option.getMasterPageContent( ) );
+	public void testGetMasterPageContent() {
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setMasterPageContent(true);
+		assertTrue(option.getMasterPageContent());
 	}
 
 	/**
 	 * Test setPageFooterFloatFlag(boolean option) getPageFooterFloatFlag()
 	 */
-	public void testGetPageFooterFloatFlag( )
-	{
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setPageFooterFloatFlag( true );
-		assertTrue( option.getPageFooterFloatFlag( ) );
+	public void testGetPageFooterFloatFlag() {
+		HTMLRenderOption option = new HTMLRenderOption();
+		option.setPageFooterFloatFlag(true);
+		assertTrue(option.getPageFooterFloatFlag());
 	}
 
 }

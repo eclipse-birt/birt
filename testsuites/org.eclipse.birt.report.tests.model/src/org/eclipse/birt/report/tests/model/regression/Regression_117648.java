@@ -36,7 +36,7 @@ import com.ibm.icu.util.ULocale;
  * User properties can't be found in properties view. Steps to reproduce:
  * <ol>
  * <li>Custom a user property in property editor view.
- * <li> Open properties view, user properties are not displayed.
+ * <li>Open properties view, user properties are not displayed.
  * </ol>
  * </p>
  * Test description:
@@ -45,46 +45,43 @@ import com.ibm.icu.util.ULocale;
  * ensure that the user property is in the list.
  * </p>
  */
-public class Regression_117648 extends BaseTestCase
-{
+public class Regression_117648 extends BaseTestCase {
 
 	/**
 	 * @throws UserPropertyException
 	 */
-	
-	public void test_regression_117648( ) throws UserPropertyException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle label = factory.newLabel( "label" ); //$NON-NLS-1$
+	public void test_regression_117648() throws UserPropertyException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		UserPropertyDefn userProp = new UserPropertyDefn( );
-		userProp.setName( "prop1" ); //$NON-NLS-1$
-		userProp.setType( new StringPropertyType( ) );
-		userProp.setDefault( "default value" ); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle label = factory.newLabel("label"); //$NON-NLS-1$
 
-		label.addUserPropertyDefn( userProp );
+		UserPropertyDefn userProp = new UserPropertyDefn();
+		userProp.setName("prop1"); //$NON-NLS-1$
+		userProp.setType(new StringPropertyType());
+		userProp.setDefault("default value"); //$NON-NLS-1$
 
-		List elements = new ArrayList( );
-		elements.add( label );
+		label.addUserPropertyDefn(userProp);
 
-		SimpleGroupElementHandle groupHandle = new SimpleGroupElementHandle(
-				designHandle, elements );
-		Iterator propIter = groupHandle.visiblePropertyIterator( );
+		List elements = new ArrayList();
+		elements.add(label);
+
+		SimpleGroupElementHandle groupHandle = new SimpleGroupElementHandle(designHandle, elements);
+		Iterator propIter = groupHandle.visiblePropertyIterator();
 
 		GroupPropertyHandle userPropHandle = null;
-		while ( propIter.hasNext( ) )
-		{
-			GroupPropertyHandle handle = (GroupPropertyHandle) propIter.next( );
-			if ( "prop1".equals( handle.getPropertyDefn( ).getName( ) ) ); //$NON-NLS-1$
+		while (propIter.hasNext()) {
+			GroupPropertyHandle handle = (GroupPropertyHandle) propIter.next();
+			if ("prop1".equals(handle.getPropertyDefn().getName())) //$NON-NLS-1$
+				;
 			userPropHandle = handle;
 		}
 
-		assertNotNull( userPropHandle );
-		assertEquals( PropertyType.STRING_TYPE, userPropHandle.getPropertyDefn( ).getTypeCode( ) );
-		assertEquals( "default value", userPropHandle.getPropertyDefn( ).getDefault( ) ); //$NON-NLS-1$
+		assertNotNull(userPropHandle);
+		assertEquals(PropertyType.STRING_TYPE, userPropHandle.getPropertyDefn().getTypeCode());
+		assertEquals("default value", userPropHandle.getPropertyDefn().getDefault()); //$NON-NLS-1$
 	}
 }

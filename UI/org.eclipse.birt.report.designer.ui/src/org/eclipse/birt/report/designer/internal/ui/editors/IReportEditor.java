@@ -17,12 +17,12 @@ import org.eclipse.ui.IEditorPart;
  * Client implements this interface to provide some report editor's information.
  */
 
-public interface IReportEditor
-{
+public interface IReportEditor {
 
 	/**
 	 * Get the report editor's editor part.
+	 * 
 	 * @return
 	 */
-	IEditorPart getEditorPart( );
+	IEditorPart getEditorPart();
 }

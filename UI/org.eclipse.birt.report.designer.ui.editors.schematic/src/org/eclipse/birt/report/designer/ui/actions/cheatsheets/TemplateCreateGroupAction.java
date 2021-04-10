@@ -15,37 +15,40 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.In
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 
 /**
- *  Create Group action to be used in Cheat Sheets. 
- *  The first parameter is the table name
- *  inside the template file
+ * Create Group action to be used in Cheat Sheets. The first parameter is the
+ * table name inside the template file
  *
  */
-public class TemplateCreateGroupAction extends TemplateBaseDesignerAction
-{
+public class TemplateCreateGroupAction extends TemplateBaseDesignerAction {
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.TemplateBaseDesignerAction#getEditPartType()
-     */
-    protected boolean checkType( Class type)
-    {
-        return (type == TableEditPart.class );
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.
+	 * TemplateBaseDesignerAction#getEditPartType()
+	 */
+	protected boolean checkType(Class type) {
+		return (type == TableEditPart.class);
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.TemplateBaseDesignerAction#getActionID()
-     */
-    protected String getActionID()
-    {
-        return InsertTableGroupAction.ID;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.
+	 * TemplateBaseDesignerAction#getActionID()
+	 */
+	protected String getActionID() {
+		return InsertTableGroupAction.ID;
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.TemplateBaseDesignerAction#showErrorWrongElementSelection()
-     */
-    protected void showErrorWrongElementSelection()
-    {
-        // TODO Auto-generated method stub
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.cheatsheets.actions.
+	 * TemplateBaseDesignerAction#showErrorWrongElementSelection()
+	 */
+	protected void showErrorWrongElementSelection() {
+		// TODO Auto-generated method stub
+	}
 
-  
 }

@@ -18,23 +18,22 @@ import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
  * 
  */
 
-public interface IComputedMeasureHelper
-{
+public interface IComputedMeasureHelper {
 	/**
 	 * 
 	 * @return
 	 */
-	public MeasureInfo[] getAllComputedMeasureInfos( );
-	
+	public MeasureInfo[] getAllComputedMeasureInfos();
+
 	/**
 	 * 
 	 * @return
 	 */
-	public Object[] computeMeasureValues( IFacttableRow factTableRow ) throws DataException;
-	
+	public Object[] computeMeasureValues(IFacttableRow factTableRow) throws DataException;
+
 	/**
 	 * 
 	 * @throws DataException
 	 */
-	public void cleanUp( ) throws DataException;
+	public void cleanUp() throws DataException;
 }

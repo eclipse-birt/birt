@@ -19,8 +19,7 @@ import java.util.List;
  * 
  * @since 2.5
  */
-public abstract class ExpressionFilter
-{
+public abstract class ExpressionFilter {
 
 	/**
 	 * The constant parent element for all categories.
@@ -39,47 +38,39 @@ public abstract class ExpressionFilter
 	 * Filters the given elements for the given viewer. The input array is not
 	 * modified.
 	 * <p>
-	 * The default implementation of this method calls <code>select</code> on
-	 * each element in the array, and returns only those elements for which
+	 * The default implementation of this method calls <code>select</code> on each
+	 * element in the array, and returns only those elements for which
 	 * <code>select</code> returns <code>true</code>.
 	 * </p>
 	 * 
-	 * @param parent
-	 *            the parent element
-	 * @param elements
-	 *            the elements to filter
+	 * @param parent   the parent element
+	 * @param elements the elements to filter
 	 * @return the filtered elements
 	 */
-	public Object[] filter( Object parent, Object[] elements )
-	{
-		if ( elements == null )
-		{
+	public Object[] filter(Object parent, Object[] elements) {
+		if (elements == null) {
 			return null;
 		}
 
 		int size = elements.length;
-		List<Object> out = new ArrayList<Object>( size );
-		for ( int i = 0; i < size; ++i )
-		{
+		List<Object> out = new ArrayList<Object>(size);
+		for (int i = 0; i < size; ++i) {
 			Object element = elements[i];
-			if ( select( parent, element ) )
-			{
-				out.add( element );
+			if (select(parent, element)) {
+				out.add(element);
 			}
 		}
-		return out.toArray( new Object[out.size( )] );
+		return out.toArray(new Object[out.size()]);
 	}
 
 	/**
 	 * Returns whether the given element makes it through this filter.
 	 * 
-	 * @param parentElement
-	 *            the parent element,or CATEGORY if want to filter the categroy
-	 *            list
-	 * @param element
-	 *            the element
+	 * @param parentElement the parent element,or CATEGORY if want to filter the
+	 *                      categroy list
+	 * @param element       the element
 	 * @return <code>true</code> if element is included in the filtered set, and
 	 *         <code>false</code> if excluded
 	 */
-	public abstract boolean select( Object parentElement, Object element );
+	public abstract boolean select(Object parentElement, Object element);
 }

@@ -37,22 +37,19 @@ import org.eclipse.ui.IEditorPart;
  * Report design layout graphical editor.
  * </p>
  */
-public abstract class ReportLayoutEditor extends ReportEditorWithRuler
-{
+public abstract class ReportLayoutEditor extends ReportEditorWithRuler {
 
 	private IEditorPart parentEditorPart;
 
-	public ReportLayoutEditor( )
-	{
-		super( );
+	public ReportLayoutEditor() {
+		super();
 	}
 
 	/**
 	 * @param parent
 	 */
-	public ReportLayoutEditor( IEditorPart parent )
-	{
-		super( parent );
+	public ReportLayoutEditor(IEditorPart parent) {
+		super(parent);
 		this.parentEditorPart = parent;
 	}
 
@@ -61,8 +58,7 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler
 	 * 
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#isSaveAsAllowed()
 	 */
-	public boolean isSaveAsAllowed( )
-	{
+	public boolean isSaveAsAllowed() {
 		return true;
 	}
 
@@ -74,28 +70,23 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler
 	 * #performRequest(org.eclipse.birt.report.designer
 	 * .core.util.mediator.request.ReportRequest)
 	 */
-	public void performRequest( IMediatorRequest request )
-	{
-		if ( ReportRequest.OPEN_EDITOR.equals( request.getType( ) )
-				&& ( ( (ReportRequest) request ).getSelectionModelList( )
-						.size( ) == 1 )
-				&& ( (ReportRequest) request ).getSelectionModelList( ).get( 0 ) instanceof SlotHandle )
-		{
-			SlotHandle slt = (SlotHandle) ( ( (ReportRequest) request ).getSelectionModelList( ).get( 0 ) );
-			if ( slt.getSlotID( ) == ReportDesignHandle.BODY_SLOT )
-			{
-				handleOpenDesigner( (ReportRequest) request );
+	public void performRequest(IMediatorRequest request) {
+		if (ReportRequest.OPEN_EDITOR.equals(request.getType())
+				&& (((ReportRequest) request).getSelectionModelList().size() == 1)
+				&& ((ReportRequest) request).getSelectionModelList().get(0) instanceof SlotHandle) {
+			SlotHandle slt = (SlotHandle) (((ReportRequest) request).getSelectionModelList().get(0));
+			if (slt.getSlotID() == ReportDesignHandle.BODY_SLOT) {
+				handleOpenDesigner((ReportRequest) request);
 			}
 			return;
 		}
-		super.performRequest( request );
+		super.performRequest(request);
 	}
 
 	/**
 	 * @param request
 	 */
-	private void handleOpenDesigner( ReportRequest request )
-	{
+	private void handleOpenDesigner(ReportRequest request) {
 		// if ( ( (LayoutEditor) editingDomainEditor ).isVisible( ) )
 		// {
 		// ( (LayoutEditor) editingDomainEditor ).setActivePage( 0 );
@@ -107,13 +98,11 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler
 	 * Returns an object which is an instance of the given class associated with
 	 * this object. Returns <code>null</code> if no such object can be found.
 	 * 
-	 * @param adapter
-	 *            the adapter class to look up
-	 * @return a object castable to the given class, or <code>null</code> if
-	 *         this object does not have an adapter for the given class
+	 * @param adapter the adapter class to look up
+	 * @return a object castable to the given class, or <code>null</code> if this
+	 *         object does not have an adapter for the given class
 	 */
-	public Object getAdapter( Class adapter )
-	{
+	public Object getAdapter(Class adapter) {
 		// if ( adapter == DataViewPage.class )
 		// {
 		// // TODO garbage code
@@ -127,7 +116,7 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler
 		// return page;
 		// }
 
-		return super.getAdapter( adapter );
+		return super.getAdapter(adapter);
 	}
 
 	/*
@@ -136,11 +125,9 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler
 	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.
 	 * AbstractReportGraphicalEditorWithFlyoutPalette#getPaletteRoot()
 	 */
-	protected PaletteRoot getPaletteRoot( )
-	{
-		if ( paletteRoot == null )
-		{
-			paletteRoot = DesignerPaletteFactory.createPalette( );
+	protected PaletteRoot getPaletteRoot() {
+		if (paletteRoot == null) {
+			paletteRoot = DesignerPaletteFactory.createPalette();
 		}
 		return paletteRoot;
 
@@ -152,8 +139,7 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
 	 * GraphicalEditorWithFlyoutPalette#getMultiPageEditor()
 	 */
-	protected IEditorPart getMultiPageEditor( )
-	{
+	protected IEditorPart getMultiPageEditor() {
 		return parentEditorPart;
 	}
 
@@ -163,10 +149,9 @@ public abstract class ReportLayoutEditor extends ReportEditorWithRuler
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.layout.
 	 * ReportEditorWithPalette#createActions()
 	 */
-	protected void createActions( )
-	{
-		super.createActions( );
-		IAction action = new SelectAllAction( this );
-		getActionRegistry( ).registerAction( action );
+	protected void createActions() {
+		super.createActions();
+		IAction action = new SelectAllAction(this);
+		getActionRegistry().registerAction(action);
 	}
 }

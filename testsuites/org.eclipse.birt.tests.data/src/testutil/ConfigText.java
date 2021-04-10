@@ -23,8 +23,7 @@ public class ConfigText {
 
 	private static final String BUNDLE_NAME = "testutil.messages";//$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
-			.getBundle(BUNDLE_NAME);
+	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
 	private static String tableNameString = ConfigText.createRandomString();
 
@@ -39,8 +38,7 @@ public class ConfigText {
 	 */
 	public static String getString(String key) {
 		try {
-			return RESOURCE_BUNDLE.getString(key).replaceAll(
-					RESOURCE_BUNDLE.getString("TableNameParameter"),
+			return RESOURCE_BUNDLE.getString(key).replaceAll(RESOURCE_BUNDLE.getString("TableNameParameter"),
 					tableNameString);
 		} catch (MissingResourceException e) {
 			return '!' + key + '!';

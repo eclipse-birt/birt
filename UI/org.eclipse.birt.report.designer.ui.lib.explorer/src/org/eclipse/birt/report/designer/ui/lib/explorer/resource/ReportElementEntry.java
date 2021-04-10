@@ -19,8 +19,7 @@ import org.eclipse.swt.graphics.Image;
 /**
  * This class is a representation of resource entry for report element.
  */
-public class ReportElementEntry extends ReportResourceEntry
-{
+public class ReportElementEntry extends ReportResourceEntry {
 
 	/** The element in report. */
 	private final Object element;
@@ -34,93 +33,83 @@ public class ReportElementEntry extends ReportResourceEntry
 	/**
 	 * Constructs a resource entry for the specified report element.
 	 * 
-	 * @param element
-	 *            the specified report element.
-	 * @param parent
-	 *            the parent entry.
+	 * @param element the specified report element.
+	 * @param parent  the parent entry.
 	 */
-	public ReportElementEntry( Object element, ResourceEntry parent )
-	{
+	public ReportElementEntry(Object element, ResourceEntry parent) {
 		this.element = element;
 		this.parent = parent;
-		this.provider = ProviderFactory.createProvider( element );
+		this.provider = ProviderFactory.createProvider(element);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry#
+	 * getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return provider.getNodeDisplayName( element );
+	public String getDisplayName() {
+		return provider.getNodeDisplayName(element);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry#getImage()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry#
+	 * getImage()
 	 */
-	public Image getImage( )
-	{
-		return provider.getNodeIcon( element );
+	public Image getImage() {
+		return provider.getNodeIcon(element);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry#getName()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry#
+	 * getName()
 	 */
-	public String getName( )
-	{
-		return provider.getNodeDisplayName( element );
+	public String getName() {
+		return provider.getNodeDisplayName(element);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry#getParent()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry#
+	 * getParent()
 	 */
-	public ResourceEntry getParent( )
-	{
+	public ResourceEntry getParent() {
 		return parent;
 	}
 
 	@Override
-	public int hashCode( )
-	{
-		if ( element == null )
-		{
+	public int hashCode() {
+		if (element == null) {
 			return 0;
 		}
-		return element.getClass( ).hashCode( );
+		return element.getClass().hashCode();
 	}
 
 	@Override
-	public boolean equals( Object object )
-	{
-		if ( object == null || !object.getClass( ).equals( getClass( ) ) )
-		{
+	public boolean equals(Object object) {
+		if (object == null || !object.getClass().equals(getClass())) {
 			return false;
 		}
 
 		ReportElementEntry entry = (ReportElementEntry) object;
-		Object entryElement = entry.getReportElement( );
+		Object entryElement = entry.getReportElement();
 
-		if ( entry == this || entryElement == element )
-		{
+		if (entry == this || entryElement == element) {
 			return true;
-		}
-		else if ( element != null )
-		{
-			if ( element.equals( entryElement ) )
-			{
+		} else if (element != null) {
+			if (element.equals(entryElement)) {
 				return true;
-			}
-			else if ( parent != null
-					&& parent.equals( entry.getParent( ) )
-					&& element.getClass( ).equals( entryElement.getClass( ) ) )
-			{
+			} else if (parent != null && parent.equals(entry.getParent())
+					&& element.getClass().equals(entryElement.getClass())) {
 				return true;
 			}
 		}
@@ -130,10 +119,11 @@ public class ReportElementEntry extends ReportResourceEntry
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry#getReportElement()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry
+	 * #getReportElement()
 	 */
-	public Object getReportElement( )
-	{
+	public Object getReportElement() {
 		return element;
 	}
 }

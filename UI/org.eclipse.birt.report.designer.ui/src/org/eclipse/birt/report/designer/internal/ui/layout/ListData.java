@@ -13,10 +13,9 @@ package org.eclipse.birt.report.designer.internal.ui.layout;
 
 /**
  * List data, store the list band order
- *  
+ * 
  */
-public class ListData
-{
+public class ListData {
 
 	public int order;
 }

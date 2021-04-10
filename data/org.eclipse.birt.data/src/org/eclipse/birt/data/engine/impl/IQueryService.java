@@ -16,34 +16,33 @@ import org.mozilla.javascript.Scriptable;
 /**
  * 
  */
-public interface IQueryService
-{
-	
-	/**
-	 * @return
-	 */
-	public boolean isClosed( );
+public interface IQueryService {
 
 	/**
 	 * @return
 	 */
-	public int getNestedLevel( );
+	public boolean isClosed();
 
 	/**
 	 * @return
 	 */
-	public Scriptable getQueryScope( );
+	public int getNestedLevel();
 
 	/**
 	 * @return
-	 * @throws DataException 
 	 */
-	public IExecutorHelper getExecutorHelper( ) throws DataException;
+	public Scriptable getQueryScope();
+
+	/**
+	 * @return
+	 * @throws DataException
+	 */
+	public IExecutorHelper getExecutorHelper() throws DataException;
 
 	/**
 	 * @param nestedCount
 	 * @return
 	 */
-	public DataSetRuntime[] getDataSetRuntime( int nestedCount );
-	
+	public DataSetRuntime[] getDataSetRuntime(int nestedCount);
+
 }

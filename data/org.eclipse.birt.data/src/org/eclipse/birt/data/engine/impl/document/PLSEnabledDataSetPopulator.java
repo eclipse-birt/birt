@@ -31,19 +31,21 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 
 /**
- * This class is an implementation of IDataSetPopulator. It wrapped a document.ResultIterator.
+ * This class is an implementation of IDataSetPopulator. It wrapped a
+ * document.ResultIterator.
  * 
- * The wrapping is executed by following means:
- * 1.For all the columns in ResultIterator's enclosed DataSetResultSet (which represents the data from a data set),
- * the ResultClass provided by this class will include them.
- * 2.For all the non-aggr bindings that not directly referred a data set column, the ResultClass provide access to them 
- * as well. The names of those bindings in ResultClass are specified in constructNonReCalBindingDataSetName() method.
- * 3.For all the aggregation bindings that higher than the highest group level defined in List<IGroupInstanceInfo>, the 
- * ResultClass provides access to them as well. The naming convention is same as that of 2.
+ * The wrapping is executed by following means: 1.For all the columns in
+ * ResultIterator's enclosed DataSetResultSet (which represents the data from a
+ * data set), the ResultClass provided by this class will include them. 2.For
+ * all the non-aggr bindings that not directly referred a data set column, the
+ * ResultClass provide access to them as well. The names of those bindings in
+ * ResultClass are specified in constructNonReCalBindingDataSetName() method.
+ * 3.For all the aggregation bindings that higher than the highest group level
+ * defined in List<IGroupInstanceInfo>, the ResultClass provides access to them
+ * as well. The naming convention is same as that of 2.
  */
 
-public class PLSEnabledDataSetPopulator implements IDataSetPopulator
-{
+public class PLSEnabledDataSetPopulator implements IDataSetPopulator {
 
 	//
 	private IPLSDataPopulator populator = null;
@@ -58,80 +60,60 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 	 * @param docIt
 	 * @throws DataException
 	 */
-	public PLSEnabledDataSetPopulator( IQueryDefinition query,
-			List<IGroupInstanceInfo> targetGroups, ResultIterator docIt )
-			throws DataException
-	{
-		if( query.isSummaryQuery( ) )
-		{
-			this.populator = new PLSDataPopulator2(  targetGroups, docIt );
+	public PLSEnabledDataSetPopulator(IQueryDefinition query, List<IGroupInstanceInfo> targetGroups,
+			ResultIterator docIt) throws DataException {
+		if (query.isSummaryQuery()) {
+			this.populator = new PLSDataPopulator2(targetGroups, docIt);
+		} else {
+			this.populator = new PLSDataPopulator(targetGroups, docIt);
 		}
-		else
-		{
-			this.populator = new PLSDataPopulator( targetGroups, docIt );			
-		}
-		try
-		{
-			assert docIt.getExprResultSet( ).getDataSetResultSet( ) != null;
-			this.resultClass = populateResultClass( query,
-					targetGroups,
-					docIt.getExprResultSet( )
-							.getDataSetResultSet( )
-							.getResultClass( ) );
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
+		try {
+			assert docIt.getExprResultSet().getDataSetResultSet() != null;
+			this.resultClass = populateResultClass(query, targetGroups,
+					docIt.getExprResultSet().getDataSetResultSet().getResultClass());
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
-	public IResultObject next( ) throws DataException
-	{
-		if( !this.populator.next( ) )
+	public IResultObject next() throws DataException {
+		if (!this.populator.next())
 			return null;
-		Object[] field = new Object[this.resultClass.getFieldCount( )];
-		IResultObject curr = this.populator.getDocumentIterator( )
-				.getExprResultSet( )
-				.getDataSetResultSet( )
-				.getResultObject( );
-		
-		if ( curr == null )
-		{
+		Object[] field = new Object[this.resultClass.getFieldCount()];
+		IResultObject curr = this.populator.getDocumentIterator().getExprResultSet().getDataSetResultSet()
+				.getResultObject();
+
+		if (curr == null) {
 			return null;
-		}
-		
-		for ( int i = 0; i < curr.getResultClass( ).getFieldCount( ); i++ )
-		{
-			field[i] = curr.getFieldValue( i + 1 );
 		}
 
-		for ( int i = curr.getResultClass( ).getFieldCount( ); i < field.length; i++ )
-		{
-			try
-			{
-				field[i] = this.populator.getDocumentIterator( )
-						.getValue( this.originalBindingNames.get( i
-								- curr.getResultClass( ).getFieldCount( ) ) );
-			}
-			catch ( BirtException e )
-			{
-				throw new DataException( ResourceConstants.INVALID_AGGREGATION_BINDING_FOR_PLS, this.originalBindingNames.get( i
-						- curr.getResultClass( ).getFieldCount( ) )  );
+		for (int i = 0; i < curr.getResultClass().getFieldCount(); i++) {
+			field[i] = curr.getFieldValue(i + 1);
+		}
+
+		for (int i = curr.getResultClass().getFieldCount(); i < field.length; i++) {
+			try {
+				field[i] = this.populator.getDocumentIterator()
+						.getValue(this.originalBindingNames.get(i - curr.getResultClass().getFieldCount()));
+			} catch (BirtException e) {
+				throw new DataException(ResourceConstants.INVALID_AGGREGATION_BINDING_FOR_PLS,
+						this.originalBindingNames.get(i - curr.getResultClass().getFieldCount()));
 			}
 		}
-		return new ResultObject( this.resultClass, field );
+		return new ResultObject(this.resultClass, field);
 	}
 
 	/**
 	 * Return the result class.
+	 * 
 	 * @return
 	 */
-	public IResultClass getResultClass( )
-	{
+	public IResultClass getResultClass() {
 		return this.resultClass;
 	}
 
@@ -143,34 +125,25 @@ public class PLSEnabledDataSetPopulator implements IDataSetPopulator
 	 * @return
 	 * @throws BirtException
 	 */
-	private IResultClass populateResultClass( IQueryDefinition query,
-			List<IGroupInstanceInfo> targetGroups, IResultClass original )
-			throws BirtException
-	{
-		List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>( );
-		for ( int i = 1; i <= original.getFieldCount( ); i++ )
-		{
-			list.add( original.getFieldMetaData( i ) );
+	private IResultClass populateResultClass(IQueryDefinition query, List<IGroupInstanceInfo> targetGroups,
+			IResultClass original) throws BirtException {
+		List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>();
+		for (int i = 1; i <= original.getFieldCount(); i++) {
+			list.add(original.getFieldMetaData(i));
 		}
 
-		this.originalBindingNames = new ArrayList<String>( );
-		Iterator<IBinding> bindings = query.getBindings( ).values( ).iterator( );
-		while ( bindings.hasNext( ) )
-		{
-			IBinding binding = bindings.next( );
-			if ( PLSUtil.isPLSProcessedBinding( binding ) )
-			{
-				ResultFieldMetadata rfmeta = new ResultFieldMetadata( -1,
-						PLSUtil.constructNonReCalBindingDataSetName( binding.getBindingName( ) ),
-						null,
-						DataType.getClass( binding.getDataType( ) ),
-						null,
-						false,
-						-1 );
-				list.add( rfmeta );
-				this.originalBindingNames.add( binding.getBindingName( ) );
+		this.originalBindingNames = new ArrayList<String>();
+		Iterator<IBinding> bindings = query.getBindings().values().iterator();
+		while (bindings.hasNext()) {
+			IBinding binding = bindings.next();
+			if (PLSUtil.isPLSProcessedBinding(binding)) {
+				ResultFieldMetadata rfmeta = new ResultFieldMetadata(-1,
+						PLSUtil.constructNonReCalBindingDataSetName(binding.getBindingName()), null,
+						DataType.getClass(binding.getDataType()), null, false, -1);
+				list.add(rfmeta);
+				this.originalBindingNames.add(binding.getBindingName());
 			}
 		}
-		return new ResultClass( list );
+		return new ResultClass(list);
 	}
 }

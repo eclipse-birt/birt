@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for DataItem element to store the constants.
  */
-public interface IDataItemModel
-{
+public interface IDataItemModel {
 
 	/**
 	 * Name of the value expression property.

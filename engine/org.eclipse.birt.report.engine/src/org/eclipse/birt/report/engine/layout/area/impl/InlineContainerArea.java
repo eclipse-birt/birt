@@ -12,11 +12,9 @@ package org.eclipse.birt.report.engine.layout.area.impl;
 
 import org.eclipse.birt.report.engine.content.IContent;
 
-public class InlineContainerArea extends ContainerArea
-{
+public class InlineContainerArea extends ContainerArea {
 
-	InlineContainerArea(IContent content)
-	{
+	InlineContainerArea(IContent content) {
 		super(content);
 		// TODO Auto-generated constructor stub
 	}

@@ -17,32 +17,26 @@ import java.util.List;
 
 import org.eclipse.birt.report.engine.content.IElement;
 
-public class AbstractElement implements IElement
-{
+public class AbstractElement implements IElement {
 
-	final static List EMPTY_CHILDREN_LIST = new ArrayList( );
+	final static List EMPTY_CHILDREN_LIST = new ArrayList();
 	transient protected IElement parent;
 	transient protected Collection children;
 
-	public AbstractElement( )
-	{
+	public AbstractElement() {
 	}
 
-	public IElement getParent( )
-	{
+	public IElement getParent() {
 		return parent;
 	}
 
-	public void setParent( IElement parent )
-	{
+	public void setParent(IElement parent) {
 		this.parent = parent;
 	}
 
-	public Collection getChildren( )
-	{
-		if ( children == null )
-		{
-			children = new ArrayList( );
+	public Collection getChildren() {
+		if (children == null) {
+			children = new ArrayList();
 		}
 		return children;
 	}

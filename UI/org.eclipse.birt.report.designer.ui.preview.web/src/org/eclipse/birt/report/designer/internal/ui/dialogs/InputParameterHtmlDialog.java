@@ -41,8 +41,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * 
  */
-public class InputParameterHtmlDialog extends Dialog
-{
+public class InputParameterHtmlDialog extends Dialog {
 
 	/**
 	 * The title of the dialog
@@ -52,7 +51,7 @@ public class InputParameterHtmlDialog extends Dialog
 	/**
 	 * Default dialog title
 	 */
-	public static final String TITLE = Messages.getString( "InputParameterDailog.dialog.title" ); //$NON-NLS-1$
+	public static final String TITLE = Messages.getString("InputParameterDailog.dialog.title"); //$NON-NLS-1$
 
 	/**
 	 * File URI String
@@ -72,7 +71,7 @@ public class InputParameterHtmlDialog extends Dialog
 	/**
 	 * Taget Browser object
 	 */
-	//private Browser target;
+	// private Browser target;
 
 	// parameter viewer model.
 	public static final String VIEWER_PARAMETER = "parameter"; //$NON-NLS-1$
@@ -95,128 +94,106 @@ public class InputParameterHtmlDialog extends Dialog
 	/**
 	 * Constructor.
 	 * 
-	 * @param parent
-	 *            The parent shell
-	 * @param title
-	 *            The title of the dialog
+	 * @param parent The parent shell
+	 * @param title  The title of the dialog
 	 */
-	public InputParameterHtmlDialog( Shell parent, String title, String uri,
-			Browser target )
-	{
-		super( parent );
+	public InputParameterHtmlDialog(Shell parent, String title, String uri, Browser target) {
+		super(parent);
 		this.title = title;
 		this.uri = uri;
-		//this.target = target;
+		// this.target = target;
 	}
 
 	/**
 	 * Self-defined string escaper
 	 */
-	protected String stringEscape( String string )
-	{
-		return string.replaceAll( "&", "&&" ); //$NON-NLS-1$ //$NON-NLS-2$
+	protected String stringEscape(String string) {
+		return string.replaceAll("&", "&&"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
 	 * override the super method.
 	 * 
-	 * @param parent
-	 *            The parent
+	 * @param parent The parent
 	 */
-	protected Control createButtonBar( Composite parent )
-	{
+	protected Control createButtonBar(Composite parent) {
 		return parent;
 	}
 
 	/**
 	 * Creates the dialog area.
 	 * 
-	 * @param parent
-	 *            The parent
+	 * @param parent The parent
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
-		parent.setBackground( ColorManager.getColor( 219, 228, 238 ) );
-		Composite composite = (Composite) super.createDialogArea( parent );
+	protected Control createDialogArea(Composite parent) {
+		parent.setBackground(ColorManager.getColor(219, 228, 238));
+		Composite composite = (Composite) super.createDialogArea(parent);
 
-		GridData gd = new GridData( );
+		GridData gd = new GridData();
 		gd.widthHint = 520;
 		gd.heightHint = 395;
 
-		composite.setLayoutData( gd );
+		composite.setLayoutData(gd);
 
-		GridLayout layout = new GridLayout( );
+		GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		layout.verticalSpacing = 0;
 		layout.horizontalSpacing = 0;
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 
-		composite.setLayout( layout );
+		composite.setLayout(layout);
 
-		browser = new Browser( composite, SWT.NONE );
-		gd = new GridData( GridData.FILL_BOTH );
+		browser = new Browser(composite, SWT.NONE);
+		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 1;
-		browser.setLayoutData( gd );
+		browser.setLayoutData(gd);
 
 		// Listen window close event
-		browser.addCloseWindowListener( new CloseWindowListener( ) {
+		browser.addCloseWindowListener(new CloseWindowListener() {
 
-			public void close( final WindowEvent event )
-			{
-				( (Browser) event.widget ).getShell( ).close( );
-				List parameters = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getParameters( )
-						.getContents( );
-				if ( parameters != null && parameters.size( ) > 0 )
-				{
-					setReturnCode( RETURN_CODE_BROWSER_CLOSED );
+			public void close(final WindowEvent event) {
+				((Browser) event.widget).getShell().close();
+				List parameters = SessionHandleAdapter.getInstance().getReportDesignHandle().getParameters()
+						.getContents();
+				if (parameters != null && parameters.size() > 0) {
+					setReturnCode(RETURN_CODE_BROWSER_CLOSED);
 				}
 			}
-		} );
+		});
 
 		// Listen window status changed event
-		browser.addStatusTextListener( new StatusTextListener( ) {
+		browser.addStatusTextListener(new StatusTextListener() {
 
-			public void changed( StatusTextEvent event )
-			{
-				if ( STATUS_CLOSE.equalsIgnoreCase( event.text ) )
-				{
-					( (Browser) event.widget ).getShell( ).close( );
-					List parameters = SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( )
-							.getParameters( )
-							.getContents( );
-					if ( parameters != null && parameters.size( ) > 0 )
-					{
+			public void changed(StatusTextEvent event) {
+				if (STATUS_CLOSE.equalsIgnoreCase(event.text)) {
+					((Browser) event.widget).getShell().close();
+					List parameters = SessionHandleAdapter.getInstance().getReportDesignHandle().getParameters()
+							.getContents();
+					if (parameters != null && parameters.size() > 0) {
 						// refresh the report
-						setReturnCode( RETURN_CODE_BROWSER_CLOSED );
+						setReturnCode(RETURN_CODE_BROWSER_CLOSED);
 					}
-				}
-				else if ( STATUS_CANCEL.equalsIgnoreCase( event.text ) )
-				{
+				} else if (STATUS_CANCEL.equalsIgnoreCase(event.text)) {
 					// If fire cancel event, close parameter dialog directly
-					if ( !( (Browser) event.widget ).getShell( ).isDisposed( ) )
-						( (Browser) event.widget ).getShell( ).close( );
+					if (!((Browser) event.widget).getShell().isDisposed())
+						((Browser) event.widget).getShell().close();
 				}
 			}
-		} );
+		});
 
-		browser.addTitleListener( new TitleListener( ) {
+		browser.addTitleListener(new TitleListener() {
 
-			public void changed( TitleEvent event )
-			{
-				if ( STATUS_CANCEL.equalsIgnoreCase( event.title ) )
-				{
+			public void changed(TitleEvent event) {
+				if (STATUS_CANCEL.equalsIgnoreCase(event.title)) {
 					// If fire cancel event, close parameter dialog directly
-					if ( !( (Browser) event.widget ).getShell( ).isDisposed( ) )
-						( (Browser) event.widget ).getShell( ).close( );
+					if (!((Browser) event.widget).getShell().isDisposed())
+						((Browser) event.widget).getShell().close();
 				}
 			}
-		} );
-		
-		display( );
+		});
+
+		display();
 
 		return composite;
 	}
@@ -224,49 +201,42 @@ public class InputParameterHtmlDialog extends Dialog
 	/**
 	 * Refresh swt browser
 	 */
-	public void display( )
-	{
-		if ( browser != null && uri != null && uri.length( ) > 0 )
-		{
-			if ( this.options == null )
-			{
-				this.options = new HashMap( );
-				this.options.put( WebViewer.SERVLET_NAME_KEY, VIEWER_PARAMETER );
-				this.options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
+	public void display() {
+		if (browser != null && uri != null && uri.length() > 0) {
+			if (this.options == null) {
+				this.options = new HashMap();
+				this.options.put(WebViewer.SERVLET_NAME_KEY, VIEWER_PARAMETER);
+				this.options.put(WebViewer.FORMAT_KEY, WebViewer.HTML);
 			}
-			this.options.put( WebViewer.RESOURCE_FOLDER_KEY,
-					ReportPlugin.getDefault( ).getResourceFolder( ) );
-			WebViewer.display( uri, browser, this.options );
+			this.options.put(WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault().getResourceFolder());
+			WebViewer.display(uri, browser, this.options);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog#initDialog()
 	 */
 
-	protected boolean initDialog( )
-	{
+	protected boolean initDialog() {
 		return true;
 	}
 
 	/**
 	 * Configures the given shell in preparation for opening this window in it.
 	 * <p>
-	 * The <code>BaseDialog</code> overrides this framework method sets in
-	 * order to set the title of the dialog.
+	 * The <code>BaseDialog</code> overrides this framework method sets in order to
+	 * set the title of the dialog.
 	 * </p>
 	 * 
-	 * @param shell
-	 *            the shell
+	 * @param shell the shell
 	 */
-	protected void configureShell( Shell shell )
-	{
-		super.configureShell( shell );
-		if ( title != null )
-		{
-			shell.setText( title );
+	protected void configureShell(Shell shell) {
+		super.configureShell(shell);
+		if (title != null) {
+			shell.setText(title);
 		}
 	}
 
@@ -274,12 +244,10 @@ public class InputParameterHtmlDialog extends Dialog
 	 * Sets the title of the dialog
 	 */
 
-	public void setTitle( String newTitle )
-	{
+	public void setTitle(String newTitle) {
 		title = newTitle;
-		if ( getShell( ) != null )
-		{
-			getShell( ).setText( newTitle );
+		if (getShell() != null) {
+			getShell().setText(newTitle);
 		}
 	}
 
@@ -288,18 +256,15 @@ public class InputParameterHtmlDialog extends Dialog
 	 * 
 	 * @return Returns the title.
 	 */
-	public String getTitle( )
-	{
+	public String getTitle() {
 		return title;
 	}
 
-	public String getUri( )
-	{
+	public String getUri() {
 		return uri;
 	}
 
-	public void setUri( String uri )
-	{
+	public void setUri(String uri) {
 		this.uri = uri;
 	}
 }

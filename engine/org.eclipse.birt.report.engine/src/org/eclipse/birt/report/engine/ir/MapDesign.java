@@ -17,53 +17,43 @@ import java.util.Collection;
 /**
  * 
  */
-public class MapDesign
-{
-
-
+public class MapDesign {
 
 	/**
 	 * rules defined in this map
 	 */
-	protected ArrayList<MapRuleDesign> rules = new ArrayList<MapRuleDesign>( );
-
+	protected ArrayList<MapRuleDesign> rules = new ArrayList<MapRuleDesign>();
 
 	/**
 	 * get the rule count.
 	 * 
 	 * @return total rule count defined in this map.
 	 */
-	public int getRuleCount( )
-	{
-		return this.rules.size( );
+	public int getRuleCount() {
+		return this.rules.size();
 	}
 
 	/**
 	 * add map rule.
 	 * 
-	 * @param rule
-	 *            rule to be added
+	 * @param rule rule to be added
 	 */
-	public void addRule( MapRuleDesign rule )
-	{
-		this.rules.add( rule );
+	public void addRule(MapRuleDesign rule) {
+		this.rules.add(rule);
 	}
 
 	/**
 	 * get rule at index.
 	 * 
-	 * @param index
-	 *            rule index
+	 * @param index rule index
 	 * @return rule
 	 */
-	public MapRuleDesign getRule( int index )
-	{
-		assert ( index >= 0 && index < this.rules.size( ) );
-		return (MapRuleDesign) this.rules.get( index );
+	public MapRuleDesign getRule(int index) {
+		assert (index >= 0 && index < this.rules.size());
+		return (MapRuleDesign) this.rules.get(index);
 	}
 
-	public Collection<MapRuleDesign> getRules( )
-	{
+	public Collection<MapRuleDesign> getRules() {
 		return rules;
 	}
 }

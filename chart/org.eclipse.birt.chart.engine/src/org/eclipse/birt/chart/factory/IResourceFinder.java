@@ -18,7 +18,6 @@ import java.net.URL;
  * within BIRT, ChartReportItemImpl has implemented this interface by default,
  * which reuses the model's mechanism. Otherwise the user should implement it.
  */
-public interface IResourceFinder
-{
-	URL findResource( String fileName );
+public interface IResourceFinder {
+	URL findResource(String fileName);
 }

@@ -15,40 +15,31 @@ import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 
-public class HTMLGroupLM extends HTMLRepeatHeaderLM
-{
+public class HTMLGroupLM extends HTMLRepeatHeaderLM {
 
-	public HTMLGroupLM( HTMLLayoutManagerFactory factory )
-	{
-		super( factory );
+	public HTMLGroupLM(HTMLLayoutManagerFactory factory) {
+		super(factory);
 	}
 
-	public int getType( )
-	{
+	public int getType() {
 		return LAYOUT_MANAGER_GROUP;
 	}
-	
-	protected boolean isHeaderBand()
-	{
-		if(childLayout!=null)
-		{
-			IContent band = ((HTMLAbstractLM)childLayout).getContent();
-			if(band instanceof IBandContent)
-			{
-				return ((IBandContent)band).getBandType( )== IBandContent.BAND_GROUP_HEADER;
+
+	protected boolean isHeaderBand() {
+		if (childLayout != null) {
+			IContent band = ((HTMLAbstractLM) childLayout).getContent();
+			if (band instanceof IBandContent) {
+				return ((IBandContent) band).getBandType() == IBandContent.BAND_GROUP_HEADER;
 			}
 		}
 		return false;
 	}
 
-	protected boolean shouldRepeatHeader( )
-	{
-		return ( (IGroupContent) content ).isHeaderRepeat( )
-				&& getHeader( ) != null && !isHeaderBand( );
+	protected boolean shouldRepeatHeader() {
+		return ((IGroupContent) content).isHeaderRepeat() && getHeader() != null && !isHeaderBand();
 	}
 
-	protected IBandContent getHeader( )
-	{
-		return ( (IGroupContent) content ).getHeader( );
+	protected IBandContent getHeader() {
+		return ((IGroupContent) content).getHeader();
 	}
 }

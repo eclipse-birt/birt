@@ -28,8 +28,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 /**
  * MeasureViewTask
  */
-public class MeasureViewTask extends AbstractCrosstabModelTask
-{
+public class MeasureViewTask extends AbstractCrosstabModelTask {
 
 	protected MeasureViewHandle focus = null;
 
@@ -38,9 +37,8 @@ public class MeasureViewTask extends AbstractCrosstabModelTask
 	 * @param theCrosstab
 	 * @param levelView
 	 */
-	public MeasureViewTask( MeasureViewHandle levelView )
-	{
-		super( levelView );
+	public MeasureViewTask(MeasureViewHandle levelView) {
+		super(levelView);
 		this.focus = levelView;
 	}
 
@@ -49,31 +47,26 @@ public class MeasureViewTask extends AbstractCrosstabModelTask
 	 * 
 	 * @throws SemanticException
 	 */
-	public void removeHeader( ) throws SemanticException
-	{
-		PropertyHandle propHandle = focus.getHeaderProperty( );
+	public void removeHeader() throws SemanticException {
+		PropertyHandle propHandle = focus.getHeaderProperty();
 
-		List contents = propHandle.getContents( );
+		List contents = propHandle.getContents();
 
-		CommandStack stack = focus.getCommandStack( );
-		stack.startTrans( Messages.getString( "MeasureViewTask.msg.remove.header" ) ); //$NON-NLS-1$
+		CommandStack stack = focus.getCommandStack();
+		stack.startTrans(Messages.getString("MeasureViewTask.msg.remove.header")); //$NON-NLS-1$
 
-		try
-		{
-			for ( int i = 0; i < contents.size( ); i++ )
-			{
-				( (DesignElementHandle) contents.get( i ) ).drop( );
+		try {
+			for (int i = 0; i < contents.size(); i++) {
+				((DesignElementHandle) contents.get(i)).drop();
 			}
 
-		}
-		catch ( SemanticException e )
-		{
-			focus.getLogger( ).log( Level.WARNING, e.getMessage( ), e );
-			stack.rollback( );
+		} catch (SemanticException e) {
+			focus.getLogger().log(Level.WARNING, e.getMessage(), e);
+			stack.rollback();
 			throw e;
 		}
 
-		stack.commit( );
+		stack.commit();
 	}
 
 	/**
@@ -82,44 +75,35 @@ public class MeasureViewTask extends AbstractCrosstabModelTask
 	 * 
 	 * @throws SemanticException
 	 */
-	public void addHeader( ) throws SemanticException
-	{
-		PropertyHandle propHandle = focus.getHeaderProperty( );
+	public void addHeader() throws SemanticException {
+		PropertyHandle propHandle = focus.getHeaderProperty();
 
-		int expectHeaders = CrosstabModelUtil.computeAllMeasureHeaderCount( crosstab,
-				focus );
-		int availableHeaders = propHandle.getContentCount( );
+		int expectHeaders = CrosstabModelUtil.computeAllMeasureHeaderCount(crosstab, focus);
+		int availableHeaders = propHandle.getContentCount();
 
-		if ( availableHeaders >= expectHeaders )
-		{
-			focus.getLogger( ).log( Level.INFO,
-					"Measure header already present, need not add another" ); //$NON-NLS-1$
+		if (availableHeaders >= expectHeaders) {
+			focus.getLogger().log(Level.INFO, "Measure header already present, need not add another"); //$NON-NLS-1$
 			return;
 		}
 
-		CommandStack stack = focus.getCommandStack( );
-		stack.startTrans( Messages.getString( "MeasureViewTask.msg.add.header" ) ); //$NON-NLS-1$
+		CommandStack stack = focus.getCommandStack();
+		stack.startTrans(Messages.getString("MeasureViewTask.msg.add.header")); //$NON-NLS-1$
 
-		try
-		{
-			for ( int i = 0; i < expectHeaders - availableHeaders; i++ )
-			{
-				ExtendedItemHandle headerCell = CrosstabExtendedItemFactory.createCrosstabCell( focus.getModuleHandle( ) );
-				propHandle.add( headerCell );
+		try {
+			for (int i = 0; i < expectHeaders - availableHeaders; i++) {
+				ExtendedItemHandle headerCell = CrosstabExtendedItemFactory.createCrosstabCell(focus.getModuleHandle());
+				propHandle.add(headerCell);
 
-				CrosstabModelUtil.notifyCreation( ICrosstabUpdateListener.MEASURE_HEADER,
-						CrosstabUtil.getReportItem( headerCell ),
-						null );
+				CrosstabModelUtil.notifyCreation(ICrosstabUpdateListener.MEASURE_HEADER,
+						CrosstabUtil.getReportItem(headerCell), null);
 			}
-		}
-		catch ( SemanticException e )
-		{
-			focus.getLogger( ).log( Level.WARNING, e.getMessage( ), e );
-			stack.rollback( );
+		} catch (SemanticException e) {
+			focus.getLogger().log(Level.WARNING, e.getMessage(), e);
+			stack.rollback();
 			throw e;
 		}
 
-		stack.commit( );
+		stack.commit();
 	}
 
 }

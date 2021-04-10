@@ -15,12 +15,10 @@ package org.eclipse.birt.report.engine.ir;
  * Base class of styled element test case.
  * 
  */
-abstract public class StyledElementTestCase extends ReportElementTestCase
-{
+abstract public class StyledElementTestCase extends ReportElementTestCase {
 
-	public StyledElementTestCase( ReportElementDesign e )
-	{
-		super( e );
+	public StyledElementTestCase(ReportElementDesign e) {
+		super(e);
 	}
 
 	/**
@@ -31,10 +29,9 @@ abstract public class StyledElementTestCase extends ReportElementTestCase
 	 * then get it to test if they work correctly
 	 */
 
-	public void testBaseStyle( )
-	{
-		( (StyledElementDesign) element ).setStyleName( "style" );
-		assertEquals( "style", ( (StyledElementDesign) element ).getStyleName( ) );
+	public void testBaseStyle() {
+		((StyledElementDesign) element).setStyleName("style");
+		assertEquals("style", ((StyledElementDesign) element).getStyleName());
 	}
 
 }

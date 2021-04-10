@@ -30,8 +30,7 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
  * @author Administrator
  * 
  */
-public class ExcelWriter implements IExcelWriter
-{
+public class ExcelWriter implements IExcelWriter {
 
 	private ExcelXmlWriter writer, tempWriter;
 	private final ExcelContext context;
@@ -46,85 +45,65 @@ public class ExcelWriter implements IExcelWriter
 	 * @param pageFooter
 	 * @param orientation
 	 */
-	public ExcelWriter( ExcelContext context )
-	{
+	public ExcelWriter(ExcelContext context) {
 		this.context = context;
 	}
 
-
-	public void end( ) throws IOException
-	{
-		writer.end( );
+	public void end() throws IOException {
+		writer.end();
 	}
 
-	public void endRow( )
-	{
-		writer.endRow( );
+	public void endRow() {
+		writer.endRow();
 	}
 
-	public void endSheet( double[] coordinates, String oritentation,
-			int pageWidth, int pageHeight, float leftMargin, float rightMargin,
-			float topMargin, float bottomMargin )
-	{
-		writer.endSheet( coordinates, oritentation, pageWidth, pageHeight,
-				leftMargin, rightMargin, topMargin, bottomMargin );
+	public void endSheet(double[] coordinates, String oritentation, int pageWidth, int pageHeight, float leftMargin,
+			float rightMargin, float topMargin, float bottomMargin) {
+		writer.endSheet(coordinates, oritentation, pageWidth, pageHeight, leftMargin, rightMargin, topMargin,
+				bottomMargin);
 	}
 
-	public void outputData( String sheet, SheetData data, StyleEntry style, int column,
-			int colSpan ) throws IOException
-	{
-		//TODO: ignored sheet temporarily
-		outputData( data, style, column, colSpan );
+	public void outputData(String sheet, SheetData data, StyleEntry style, int column, int colSpan) throws IOException {
+		// TODO: ignored sheet temporarily
+		outputData(data, style, column, colSpan);
 	}
 
-	public void outputData( SheetData data, StyleEntry style, int column,
-			int colSpan ) throws IOException
-	{
-		writer.outputData( data, style, column, colSpan );
+	public void outputData(SheetData data, StyleEntry style, int column, int colSpan) throws IOException {
+		writer.outputData(data, style, column, colSpan);
 	}
 
-	public void start( IReportContent report, Map<StyleEntry, Integer> styles,
-	// TODO: style ranges.
+	public void start(IReportContent report, Map<StyleEntry, Integer> styles,
+			// TODO: style ranges.
 			// List<ExcelRange> styleRanges,
-			HashMap<String, BookmarkDef> bookmarkList ) throws IOException
-	{
-		writer = new ExcelXmlWriter( context );
-		writer.setSheetIndex( sheetIndex );
+			HashMap<String, BookmarkDef> bookmarkList) throws IOException {
+		writer = new ExcelXmlWriter(context);
+		writer.setSheetIndex(sheetIndex);
 		// TODO: style ranges.
 		// writer.start( report, styles, styleRanges, bookmarkList );
-		writer.start( report, styles, bookmarkList );
-		copyOutputData( );
+		writer.start(report, styles, bookmarkList);
+		copyOutputData();
 	}
 
-	private void copyOutputData( ) throws IOException
-	{
-		if ( tempWriter != null )
-		{
-			tempWriter.close( );
+	private void copyOutputData() throws IOException {
+		if (tempWriter != null) {
+			tempWriter.close();
 			BufferedReader reader = null;
-			try
-			{
-				reader = new BufferedReader( new InputStreamReader(
-						new FileInputStream( tempFilePath ), "UTF-8" ) );
-				String line = reader.readLine( );
-				XMLWriterXLS xlsWriter = writer.getWriter( );
-				while ( line != null )
-				{
-					xlsWriter.literal( "\n" );
-					xlsWriter.literal( line );
-					line = reader.readLine( );
+			try {
+				reader = new BufferedReader(new InputStreamReader(new FileInputStream(tempFilePath), "UTF-8"));
+				String line = reader.readLine();
+				XMLWriterXLS xlsWriter = writer.getWriter();
+				while (line != null) {
+					xlsWriter.literal("\n");
+					xlsWriter.literal(line);
+					line = reader.readLine();
 				}
-			}
-			finally
-			{
-				if ( reader != null )
-				{
-					reader.close( );
+			} finally {
+				if (reader != null) {
+					reader.close();
 					reader = null;
-					File file = new File( tempFilePath );
-					if ( file.exists( ) && file.isFile( ) )
-					{
-						file.delete( );
+					File file = new File(tempFilePath);
+					if (file.exists() && file.isFile()) {
+						file.delete();
 					}
 					tempFilePath = null;
 					tempWriter = null;
@@ -133,29 +112,23 @@ public class ExcelWriter implements IExcelWriter
 		}
 	}
 
-	public void startRow( double rowHeight )
-	{
-		writer.startRow( rowHeight );
+	public void startRow(double rowHeight) {
+		writer.startRow(rowHeight);
 	}
 
-	public void startSheet( String name ) throws IOException
-	{
-		if ( writer == null )
-		{
-			initializeWriterAsTempWriter( );
+	public void startSheet(String name) throws IOException {
+		if (writer == null) {
+			initializeWriterAsTempWriter();
 		}
-		writer.startSheet( name );
+		writer.startSheet(name);
 		sheetIndex++;
 	}
 
-	public void startSheet( double[] coordinates, String pageHeader,
-			String pageFooter, String name ) throws IOException
-	{
-		if ( writer == null )
-		{
-			initializeWriterAsTempWriter( );
+	public void startSheet(double[] coordinates, String pageHeader, String pageFooter, String name) throws IOException {
+		if (writer == null) {
+			initializeWriterAsTempWriter();
 		}
-		writer.startSheet( coordinates, pageHeader, pageFooter, name );
+		writer.startSheet(coordinates, pageHeader, pageFooter, name);
 		sheetIndex++;
 	}
 
@@ -163,37 +136,30 @@ public class ExcelWriter implements IExcelWriter
 	 * @throws FileNotFoundException
 	 * 
 	 */
-	private void initializeWriterAsTempWriter( ) throws FileNotFoundException
-	{
-		String tempFolder = context.getTempFileDir( );
-		if ( !( tempFolder.endsWith( "/" ) || tempFolder.endsWith( "\\" ) ) )
-		{
-			tempFolder = tempFolder.concat( "/" );
+	private void initializeWriterAsTempWriter() throws FileNotFoundException {
+		String tempFolder = context.getTempFileDir();
+		if (!(tempFolder.endsWith("/") || tempFolder.endsWith("\\"))) {
+			tempFolder = tempFolder.concat("/");
 		}
-		tempFilePath = tempFolder + "birt_xls_"
-				+ UUID.randomUUID( ).toString( );
-		FileOutputStream out = new FileOutputStream( tempFilePath );
-		tempWriter = new ExcelXmlWriter( out, context );
+		tempFilePath = tempFolder + "birt_xls_" + UUID.randomUUID().toString();
+		FileOutputStream out = new FileOutputStream(tempFilePath);
+		tempWriter = new ExcelXmlWriter(out, context);
 		writer = tempWriter;
 	}
 
-	public void endSheet( )
-	{
-		writer.endSheet( );
+	public void endSheet() {
+		writer.endSheet();
 	}
 
-	public void startRow( )
-	{
-		writer.startRow( );
+	public void startRow() {
+		writer.startRow();
 	}
 
-	public void outputData( int col, int row, int type, Object value )
-	{
-		writer.outputData( col, row, type, value );
+	public void outputData(int col, int row, int type, Object value) {
+		writer.outputData(col, row, type, value);
 	}
 
-	public String defineName( String cells )
-	{
-		return writer.defineName( cells );
+	public String defineName(String cells) {
+		return writer.defineName(cells);
 	}
 }

@@ -16,19 +16,16 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * Embedded web browser.
- * Original implementation is from HELP.
+ * Embedded web browser. Original implementation is from HELP.
  * <p>
  */
-public class EmbeddedBrowserAdapter implements IBrowser
-{
+public class EmbeddedBrowserAdapter implements IBrowser {
 	private EmbeddedBrowser browser;
 
 	/**
 	 * Adapter constructor.
 	 */
-	public EmbeddedBrowserAdapter( )
-	{
+	public EmbeddedBrowserAdapter() {
 		// Do nothing
 	}
 
@@ -37,23 +34,18 @@ public class EmbeddedBrowserAdapter implements IBrowser
 	 * 
 	 * @param url
 	 */
-	public synchronized void displayURL( final String url )
-	{
-		Display defaultDisplay = Display.getDefault( );
+	public synchronized void displayURL(final String url) {
+		Display defaultDisplay = Display.getDefault();
 
-		if ( defaultDisplay == Display.getCurrent( ) )
-		{
-			uiDisplayURL( url );
-		}
-		else
-		{
-			defaultDisplay.syncExec( new Runnable( ) {
+		if (defaultDisplay == Display.getCurrent()) {
+			uiDisplayURL(url);
+		} else {
+			defaultDisplay.syncExec(new Runnable() {
 
-				public void run( )
-				{
-					uiDisplayURL( url );
+				public void run() {
+					uiDisplayURL(url);
 				}
-			} );
+			});
 		}
 	}
 
@@ -62,55 +54,45 @@ public class EmbeddedBrowserAdapter implements IBrowser
 	 * 
 	 * @param url
 	 */
-	private void uiDisplayURL( final String url )
-	{
+	private void uiDisplayURL(final String url) {
 		// Clear sessions
-		Browser.clearSessions( );
-		
-		uiClose( );
+		Browser.clearSessions();
 
-		getBrowser( ).displayUrl( url );
+		uiClose();
+
+		getBrowser().displayUrl(url);
 	}
 
 	/**
 	 * Close browser
 	 */
-	public void close( )
-	{
-		Display defaultDisplay = Display.getDefault( );
+	public void close() {
+		Display defaultDisplay = Display.getDefault();
 
-		if ( defaultDisplay == Display.getCurrent( ) )
-		{
-			uiClose( );
-		}
-		else
-		{
-			defaultDisplay.syncExec( new Runnable( ) {
+		if (defaultDisplay == Display.getCurrent()) {
+			uiClose();
+		} else {
+			defaultDisplay.syncExec(new Runnable() {
 
-				public void run( )
-				{
-					uiClose( );
+				public void run() {
+					uiClose();
 				}
-			} );
+			});
 		}
 	}
 
 	/**
 	 * Must be run on UI thread
 	 */
-	private void uiClose( )
-	{
-		if ( browser != null && !browser.isDisposed( ) )
-		{
-			browser.close( );
+	private void uiClose() {
+		if (browser != null && !browser.isDisposed()) {
+			browser.close();
 		}
 	}
 
-	private EmbeddedBrowser getBrowser( )
-	{
-		if ( browser == null || browser.isDisposed( ) )
-		{
-			browser = new EmbeddedBrowser( );
+	private EmbeddedBrowser getBrowser() {
+		if (browser == null || browser.isDisposed()) {
+			browser = new EmbeddedBrowser();
 		}
 
 		return browser;
@@ -121,8 +103,7 @@ public class EmbeddedBrowserAdapter implements IBrowser
 	 * 
 	 * @return browser supports close operation or not
 	 */
-	public boolean isCloseSupported( )
-	{
+	public boolean isCloseSupported() {
 		return true;
 	}
 
@@ -131,8 +112,7 @@ public class EmbeddedBrowserAdapter implements IBrowser
 	 * 
 	 * @return setting browser window location or not
 	 */
-	public boolean isSetLocationSupported( )
-	{
+	public boolean isSetLocationSupported() {
 		return true;
 	}
 
@@ -141,8 +121,7 @@ public class EmbeddedBrowserAdapter implements IBrowser
 	 * 
 	 * @return setting browser window size or not
 	 */
-	public boolean isSetSizeSupported( )
-	{
+	public boolean isSetSizeSupported() {
 		return true;
 	}
 
@@ -152,65 +131,53 @@ public class EmbeddedBrowserAdapter implements IBrowser
 	 * @param x X coordinate of browser window's top-left corner
 	 * @param y Y coordinate of browser window's top-left corner
 	 */
-	public void setLocation( final int x, final int y )
-	{
-		Display defaultDisplay = Display.getDefault( );
+	public void setLocation(final int x, final int y) {
+		Display defaultDisplay = Display.getDefault();
 
-		if ( defaultDisplay == Display.getCurrent( ) )
-		{
-			uiSetLocation( x, y );
-		}
-		else
-		{
-			defaultDisplay.syncExec( new Runnable( ) {
+		if (defaultDisplay == Display.getCurrent()) {
+			uiSetLocation(x, y);
+		} else {
+			defaultDisplay.syncExec(new Runnable() {
 
-				public void run( )
-				{
-					uiSetLocation( x, y );
+				public void run() {
+					uiSetLocation(x, y);
 				}
-			} );
+			});
 		}
 	}
 
 	/**
 	 * Must be run on UI thread
 	 */
-	private void uiSetLocation( int x, int y )
-	{
-		getBrowser( ).setLocation( x, y );
+	private void uiSetLocation(int x, int y) {
+		getBrowser().setLocation(x, y);
 	}
 
 	/**
 	 * Set browser window size.
 	 * 
-	 * @param width browser window width
+	 * @param width  browser window width
 	 * @param height browser window height
 	 */
-	public void setSize( final int width, final int height )
-	{
-		Display defaultDisplay = Display.getDefault( );
+	public void setSize(final int width, final int height) {
+		Display defaultDisplay = Display.getDefault();
 
-		if ( defaultDisplay == Display.getCurrent( ) )
-		{
-			uiSetSize( width, height );
-		}
-		else
-		{
-			defaultDisplay.syncExec( new Runnable( ) {
+		if (defaultDisplay == Display.getCurrent()) {
+			uiSetSize(width, height);
+		} else {
+			defaultDisplay.syncExec(new Runnable() {
 
-				public void run( )
-				{
-					uiSetSize( width, height );
+				public void run() {
+					uiSetSize(width, height);
 				}
-			} );
+			});
 		}
 	}
 
 	/**
 	 * Must be run on UI thread
 	 */
-	private void uiSetSize( int width, int height )
-	{
-		getBrowser( ).setSize( width, height );
+	private void uiSetSize(int width, int height) {
+		getBrowser().setSize(width, height);
 	}
 }

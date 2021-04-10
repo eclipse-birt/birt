@@ -17,24 +17,23 @@ import org.eclipse.draw2d.geometry.Point;
  * A class wrapper for different loction type.
  */
 
-public class DNDLocation
-{
+public class DNDLocation {
 	private Point point;
 	private int location;
 
-	public DNDLocation(Point point){
+	public DNDLocation(Point point) {
 		this.point = point;
 	}
-	
-	public DNDLocation(int location){
+
+	public DNDLocation(int location) {
 		this.location = location;
 	}
-	
-	public Point getPoint(){
+
+	public Point getPoint() {
 		return point;
 	}
-	
-	public int getLocation(){
+
+	public int getLocation() {
 		return location;
 	}
 }

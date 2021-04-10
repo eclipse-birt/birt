@@ -17,7 +17,6 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public interface ICloseable
-{
-	public void close( ) throws DataException;
+public interface ICloseable {
+	public void close() throws DataException;
 }

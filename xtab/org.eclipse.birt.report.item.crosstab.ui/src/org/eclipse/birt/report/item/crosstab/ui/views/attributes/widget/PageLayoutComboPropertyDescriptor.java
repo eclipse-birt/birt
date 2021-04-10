@@ -22,8 +22,7 @@ import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.PageLa
  * @author Administrator
  *
  */
-public class PageLayoutComboPropertyDescriptor extends
-SimpleComboPropertyDescriptor {
+public class PageLayoutComboPropertyDescriptor extends SimpleComboPropertyDescriptor {
 
 	public PageLayoutComboPropertyDescriptor(boolean formStyle) {
 		super(formStyle);
@@ -32,41 +31,35 @@ SimpleComboPropertyDescriptor {
 	protected void refresh(String value) {
 		if (getDescriptorProvider() instanceof PageLayoutPropertyDescriptorProvider) {
 
-				String[] items = ( (PageLayoutPropertyDescriptorProvider) getDescriptorProvider( ) ).getItems( );
-				combo.setItems( items );
-				boolean stateFlag = ( ( value == null ) == combo.getEnabled( ) );
-				if ( stateFlag )
-					combo.setEnabled( value != null );
+			String[] items = ((PageLayoutPropertyDescriptorProvider) getDescriptorProvider()).getItems();
+			combo.setItems(items);
+			boolean stateFlag = ((value == null) == combo.getEnabled());
+			if (stateFlag)
+				combo.setEnabled(value != null);
 
-				if ( ( (PropertyDescriptorProvider) getDescriptorProvider( ) ).isReadOnly( ) )
-				{
-					combo.setEnabled( false );
+			if (((PropertyDescriptorProvider) getDescriptorProvider()).isReadOnly()) {
+				combo.setEnabled(false);
+			}
+
+			boolean isEditable = ((SimpleComboPropertyDescriptorProvider) getDescriptorProvider()).isEditable();
+			setComboEditable(isEditable);
+
+			int sindex = Arrays.asList(items).indexOf(oldValue);
+
+			if (((SimpleComboPropertyDescriptorProvider) getDescriptorProvider()).isSpecialProperty() && sindex < 0) {
+				if (value != null && value.length() > 0) {
+					combo.setText(value);
+					return;
 				}
 
-				boolean isEditable =  ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isEditable( ) ;
-				setComboEditable( isEditable );
-				
-				int sindex = Arrays.asList( items ).indexOf( oldValue );
-
-				if ( ( (SimpleComboPropertyDescriptorProvider) getDescriptorProvider( ) ).isSpecialProperty( )
-						&& sindex < 0 )
-				{
-					if ( value != null && value.length( ) > 0 )
-					{
-						combo.setText( value );
-						return;
-					}
-
-					if ( combo.getItemCount( ) > 0 )
-					{
-						combo.select( 0 );
-						return;
-					}
+				if (combo.getItemCount() > 0) {
+					combo.select(0);
+					return;
 				}
+			}
 
-				combo.select( sindex );
+			combo.select(sindex);
 
-			
 		} else {
 			super.refresh(value);
 		}

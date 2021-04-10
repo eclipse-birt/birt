@@ -19,33 +19,29 @@ import java.util.ArrayList;
  * the content of container should be ReportItem also.
  * 
  */
-public class FreeFormItemDesign extends ReportItemDesign
-{
+public class FreeFormItemDesign extends ReportItemDesign {
 
 	/**
 	 * items in this container.
 	 */
-	protected ArrayList items = new ArrayList( );
+	protected ArrayList items = new ArrayList();
 
 	/**
 	 * get items in this container.
 	 * 
 	 * @return items in this container.
 	 */
-	public ArrayList getItems( )
-	{
+	public ArrayList getItems() {
 		return this.items;
 	}
 
 	/**
 	 * add item into the container.
 	 * 
-	 * @param item
-	 *            item to be added.
+	 * @param item item to be added.
 	 */
-	public void addItem( ReportItemDesign item )
-	{
-		this.items.add( item );
+	public void addItem(ReportItemDesign item) {
+		this.items.add(item);
 	}
 
 	/**
@@ -53,26 +49,22 @@ public class FreeFormItemDesign extends ReportItemDesign
 	 * 
 	 * @return item count
 	 */
-	public int getItemCount( )
-	{
-		return this.items.size( );
+	public int getItemCount() {
+		return this.items.size();
 	}
 
 	/**
 	 * get item at index index.
 	 * 
-	 * @param index
-	 *            item index. the index must >= 0 and < item.count.
+	 * @param index item index. the index must >= 0 and < item.count.
 	 * @return item
 	 */
-	public ReportItemDesign getItem( int index )
-	{
-		assert ( index >= 0 && index < this.items.size( ) );
-		return (ReportItemDesign) this.items.get( index );
+	public ReportItemDesign getItem(int index) {
+		assert (index >= 0 && index < this.items.size());
+		return (ReportItemDesign) this.items.get(index);
 	}
 
-	public Object accept( IReportItemVisitor visitor, Object value)
-	{
-		return visitor.visitFreeFormItem( this , value);
+	public Object accept(IReportItemVisitor visitor, Object value) {
+		return visitor.visitFreeFormItem(this, value);
 	}
 }

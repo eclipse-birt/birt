@@ -28,71 +28,63 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * <p>
  */
-public class Regression_152300 extends BaseTestCase
-{
+public class Regression_152300 extends BaseTestCase {
 
 	private final static String REPORT = "regression_152300.xml"; //$NON-NLS-1$
 	static int seed = 0;
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(REPORT, REPORT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_152300( ) throws DesignFileException,
-			SemanticException
-	{
-		openDesign( REPORT );
-		ElementListener elementListener = new ElementListener( );
-		StackListener stackListener = new StackListener( );
+	public void test_regression_152300() throws DesignFileException, SemanticException {
+		openDesign(REPORT);
+		ElementListener elementListener = new ElementListener();
+		StackListener stackListener = new StackListener();
 
-		designHandle.addListener( elementListener );
-		designHandle.getCommandStack( ).addListener( stackListener );
+		designHandle.addListener(elementListener);
+		designHandle.getCommandStack().addListener(stackListener);
 
-		designHandle.reloadLibraries( );
+		designHandle.reloadLibraries();
 
 		// fire LibraryReloadedEvent before stack event.
 
-		assertTrue( elementListener.id < stackListener.id );
-		assertTrue( elementListener.event instanceof LibraryReloadedEvent );
-		assertTrue( stackListener.event instanceof ActivityStackEvent );
+		assertTrue(elementListener.id < stackListener.id);
+		assertTrue(elementListener.event instanceof LibraryReloadedEvent);
+		assertTrue(stackListener.event instanceof ActivityStackEvent);
 	}
 }
 
-class ElementListener implements Listener
-{
+class ElementListener implements Listener {
 
 	DesignElementHandle focus = null;
 	NotificationEvent event = null;
 	int id = 0;
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
+	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		this.id = ++Regression_152300.seed;
 		this.focus = focus;
 		this.event = ev;
 	}
 }
 
-class StackListener implements ActivityStackListener
-{
+class StackListener implements ActivityStackListener {
 
 	int id = 0;
 	ActivityStackEvent event = null;
 
-	public void stackChanged( ActivityStackEvent event )
-	{
+	public void stackChanged(ActivityStackEvent event) {
 		this.id = ++Regression_152300.seed;
 		this.event = event;
 	}

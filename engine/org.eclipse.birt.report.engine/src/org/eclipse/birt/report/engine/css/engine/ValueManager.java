@@ -15,7 +15,6 @@ import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.w3c.css.sac.LexicalUnit;
 import org.w3c.dom.DOMException;
 
-
 /**
  * This interface is implemented by objects which manage the values associated
  * with a property.
@@ -23,36 +22,35 @@ import org.w3c.dom.DOMException;
  */
 public interface ValueManager {
 
-    /**
-     * Returns the name of the property handled.
-     */
-    String getPropertyName();
-    
-    /**
-     * Whether the handled property is inherited or not.
-     */
-    boolean isInheritedProperty();
+	/**
+	 * Returns the name of the property handled.
+	 */
+	String getPropertyName();
 
-    /**
-     * Returns the default value for the handled property.
-     */
-    Value getDefaultValue();
+	/**
+	 * Whether the handled property is inherited or not.
+	 */
+	boolean isInheritedProperty();
 
-    /**
-     * Creates a value from a lexical unit.
-     * @param lu The SAC lexical unit used to create the value.
-     * @param engine The calling CSSEngine.
-     */
-    Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException;
+	/**
+	 * Returns the default value for the handled property.
+	 */
+	Value getDefaultValue();
 
-    /**
-     * Computes the given value.
-     * @param engine The CSSEngine.
-     * @param idx The property index in the engine.
-     * @param value The value to compute.
-     */
-    Value computeValue(CSSStylableElement elt, CSSEngine engine,
-                       int idx,
-                       Value value
-                       );
+	/**
+	 * Creates a value from a lexical unit.
+	 * 
+	 * @param lu     The SAC lexical unit used to create the value.
+	 * @param engine The calling CSSEngine.
+	 */
+	Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException;
+
+	/**
+	 * Computes the given value.
+	 * 
+	 * @param engine The CSSEngine.
+	 * @param idx    The property index in the engine.
+	 * @param value  The value to compute.
+	 */
+	Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value);
 }

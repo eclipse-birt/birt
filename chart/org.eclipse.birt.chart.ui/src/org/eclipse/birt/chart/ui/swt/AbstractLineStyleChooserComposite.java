@@ -18,29 +18,24 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
-
 /**
  * AbstractLineStyleChooserComposite
  */
 
-public abstract class AbstractLineStyleChooserComposite extends CustomChooserComposite
-{
+public abstract class AbstractLineStyleChooserComposite extends CustomChooserComposite {
 
-	public AbstractLineStyleChooserComposite( Composite parent, int style,
-			Object choiceValue )
-	{
-		super( parent, style, choiceValue );
+	public AbstractLineStyleChooserComposite(Composite parent, int style, Object choiceValue) {
+		super(parent, style, choiceValue);
 	}
-	
-	abstract public int getLineStyle( );
 
-	abstract public void setLineStyle( int iStyle );
-	
-	abstract public void setLineStyle( LineStyle style, EObject eParent );
-	
-	protected void initAccessible( )
-	{
-		super.initAccessible( );
-		ChartUIUtil.addScreenReaderAccessibility( this, (Canvas) cnvSelection );
+	abstract public int getLineStyle();
+
+	abstract public void setLineStyle(int iStyle);
+
+	abstract public void setLineStyle(LineStyle style, EObject eParent);
+
+	protected void initAccessible() {
+		super.initAccessible();
+		ChartUIUtil.addScreenReaderAccessibility(this, (Canvas) cnvSelection);
 	}
 }

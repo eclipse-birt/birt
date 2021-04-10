@@ -26,31 +26,27 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  */
 
-public class Regression_152694 extends BaseTestCase
-{
+public class Regression_152694 extends BaseTestCase {
 
 	private final static String REPORT = "regression_152694.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(REPORT, REPORT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_regression_152694( ) throws DesignFileException
-	{
-		openDesign( REPORT );
-		SimpleMasterPageHandle page = (SimpleMasterPageHandle) designHandle
-				.getMasterPages( ).get( 0 );
-		AutoTextHandle pageNo = (AutoTextHandle) page.getPageHeader( ).get( 0 );
-		assertFalse( pageNo.canTransformToTemplate( ) );
+	public void test_regression_152694() throws DesignFileException {
+		openDesign(REPORT);
+		SimpleMasterPageHandle page = (SimpleMasterPageHandle) designHandle.getMasterPages().get(0);
+		AutoTextHandle pageNo = (AutoTextHandle) page.getPageHeader().get(0);
+		assertFalse(pageNo.canTransformToTemplate());
 	}
 }

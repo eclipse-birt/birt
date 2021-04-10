@@ -13,35 +13,29 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import org.eclipse.birt.report.engine.emitter.excel.layout.Page;
 
-public class RowData
-{
+public class RowData {
 
 	private SheetData[] rowdata;
 	private double height;
 
-	public RowData( Page page, SheetData[] rowdata, double height )
-	{
+	public RowData(Page page, SheetData[] rowdata, double height) {
 		this.rowdata = rowdata;
 		this.height = height;
 	}
 
-	public SheetData[] getRowdata( )
-	{
+	public SheetData[] getRowdata() {
 		return rowdata;
 	}
 
-	public void setRowdata( SheetData[] rowdata )
-	{
+	public void setRowdata(SheetData[] rowdata) {
 		this.rowdata = rowdata;
 	}
 
-	public double getHeight( )
-	{
+	public double getHeight() {
 		return height;
 	}
 
-	public void setHeight( double height )
-	{
+	public void setHeight(double height) {
 		this.height = height;
 	}
 }

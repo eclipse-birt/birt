@@ -4,7 +4,6 @@
 
 package javax.olap.cursor;
 
-public interface Types
-{
+public interface Types {
 
 }

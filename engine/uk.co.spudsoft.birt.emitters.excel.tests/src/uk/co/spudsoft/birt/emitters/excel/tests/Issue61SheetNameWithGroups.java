@@ -25,7 +25,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
 
 public class Issue61SheetNameWithGroups extends ReportRunner {
-	
+
 	@Test
 	public void testIssue61() throws BirtException, IOException {
 
@@ -35,23 +35,24 @@ public class Issue61SheetNameWithGroups extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 327, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(327, workbook.getNumberOfSheets());
+
 			Sheet firstSheet = workbook.getSheetAt(0);
-			assertEquals( 7, this.firstNullRow(firstSheet));
-		
-			assertEquals( "10100", firstSheet.getSheetName() );
-			
-			for( Sheet sheet : workbook ) {
-				if( ! "Sheet326".equals( sheet.getSheetName() ) ) {
-					assertEquals( Integer.toString( (int)sheet.getRow(1).getCell(0).getNumericCellValue() ), sheet.getSheetName() );
+			assertEquals(7, this.firstNullRow(firstSheet));
+
+			assertEquals("10100", firstSheet.getSheetName());
+
+			for (Sheet sheet : workbook) {
+				if (!"Sheet326".equals(sheet.getSheetName())) {
+					assertEquals(Integer.toString((int) sheet.getRow(1).getCell(0).getNumericCellValue()),
+							sheet.getSheetName());
 				}
 			}
-			
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
+
 }

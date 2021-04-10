@@ -21,46 +21,42 @@ import org.eclipse.gef.handles.SquareHandle;
 /**
  * Table selection handle
  */
-public class TableSelectionHandle extends SquareHandle
-{
+public class TableSelectionHandle extends SquareHandle {
 
-	//GraphicalEditPart editpart;
+	// GraphicalEditPart editpart;
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
-	protected DragTracker createDragTracker( )
-	{
+	protected DragTracker createDragTracker() {
 		return null;
 	}
 
 	/**
 	 * Constructor
+	 * 
 	 * @param owner
 	 * @param rect
 	 */
-	public TableSelectionHandle( GraphicalEditPart owner, Rectangle rect )
-	{
-		super( owner, new TableRelativeLocator( owner.getFigure( ), -1 ) );
+	public TableSelectionHandle(GraphicalEditPart owner, Rectangle rect) {
+		super(owner, new TableRelativeLocator(owner.getFigure(), -1));
 
-		setOpaque( false );
+		setOpaque(false);
 
-		setPreferredSize( rect.getSize( ) );
-		setLocation( rect.getLocation( ) );
-		setSize( rect.getSize( ) );
-		
-		setBorder( new SelectionBorder(2) );
+		setPreferredSize(rect.getSize());
+		setLocation(rect.getLocation());
+		setSize(rect.getSize());
+
+		setBorder(new SelectionBorder(2));
 	}
 
-	public TableSelectionHandle( GraphicalEditPart first, GraphicalEditPart end )
-	{
-		setOpaque( false );
+	public TableSelectionHandle(GraphicalEditPart first, GraphicalEditPart end) {
+		setOpaque(false);
 	}
 
-	public void paintFigure( Graphics g )
-	{
+	public void paintFigure(Graphics g) {
 
 //		Rectangle r = getBounds( );
 //
@@ -81,13 +77,10 @@ public class TableSelectionHandle extends SquareHandle
 //		}
 	}
 
-	public boolean containsPoint( int x, int y )
-	{
-		if ( !super.containsPoint( x, y ) )
+	public boolean containsPoint(int x, int y) {
+		if (!super.containsPoint(x, y))
 			return false;
-		return !Rectangle.SINGLETON.setBounds( getBounds( ) )
-				.shrink( -2, -2 )
-				.contains( x, y );
+		return !Rectangle.SINGLETON.setBounds(getBounds()).shrink(-2, -2).contains(x, y);
 	}
 
 	/**
@@ -97,13 +90,11 @@ public class TableSelectionHandle extends SquareHandle
 
 	{
 
-		public TableRelativeLocator( IFigure reference, int location )
-		{
-			super( reference, location );
+		public TableRelativeLocator(IFigure reference, int location) {
+			super(reference, location);
 		}
 
-		public void relocate( IFigure target )
-		{
+		public void relocate(IFigure target) {
 
 		}
 	}

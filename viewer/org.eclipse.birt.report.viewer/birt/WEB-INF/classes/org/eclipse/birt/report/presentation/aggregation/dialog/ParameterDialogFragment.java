@@ -43,16 +43,14 @@ import org.eclipse.birt.report.service.api.ReportServiceException;
  * 
  * @see BaseFragment
  */
-public class ParameterDialogFragment extends BaseDialogFragment
-{
+public class ParameterDialogFragment extends BaseDialogFragment {
 
 	/**
 	 * Get unique id of the corresponding UI gesture.
 	 * 
 	 * @return id
 	 */
-	public String getClientId( )
-	{
+	public String getClientId() {
 		return "parameterDialog"; //$NON-NLS-1$
 	}
 
@@ -61,8 +59,7 @@ public class ParameterDialogFragment extends BaseDialogFragment
 	 * 
 	 * @return id
 	 */
-	public String getClientName( )
-	{
+	public String getClientName() {
 		return "Parameter"; //$NON-NLS-1$
 	}
 
@@ -72,105 +69,77 @@ public class ParameterDialogFragment extends BaseDialogFragment
 	 * @return title id
 	 */
 
-	public String getTitle( )
-	{
-		return BirtResources
-				.getMessage( ResourceConstants.PARAMETER_DIALOG_TITLE );
+	public String getTitle() {
+		return BirtResources.getMessage(ResourceConstants.PARAMETER_DIALOG_TITLE);
 	}
 
-	protected void doService( HttpServletRequest request,
-			HttpServletResponse response ) throws ServletException, IOException
-	{
-		Collection fragments = new ArrayList( );
-		IViewerReportService service = getReportService( );
+	protected void doService(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Collection fragments = new ArrayList();
+		IViewerReportService service = getReportService();
 		Collection parameters = null;
 
-		BaseAttributeBean attrBean = (BaseAttributeBean) request
-				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+		BaseAttributeBean attrBean = (BaseAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
 		assert attrBean != null;
 
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, request );
-		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
+		InputOptions options = new InputOptions();
+		options.setOption(InputOptions.OPT_REQUEST, request);
+		options.setOption(InputOptions.OPT_LOCALE, attrBean.getLocale());
+		options.setOption(InputOptions.OPT_TIMEZONE, attrBean.getTimeZone());
 
-		try
-		{
-			parameters = service.getParameterDefinitions( attrBean
-					.getReportDesignHandle( request ), options, true );
-		}
-		catch ( ReportServiceException e )
-		{
+		try {
+			parameters = service.getParameterDefinitions(attrBean.getReportDesignHandle(request), options, true);
+		} catch (ReportServiceException e) {
 			// TODO What to do here???
-			e.printStackTrace( );
+			e.printStackTrace();
 		}
 
-		if ( parameters != null )
-		{
-			Iterator iParameters = parameters.iterator( );
-			while ( iParameters != null && iParameters.hasNext( ) )
-			{
-				Object parameter = iParameters.next( );
-				if ( parameter == null )
-				{
+		if (parameters != null) {
+			Iterator iParameters = parameters.iterator();
+			while (iParameters != null && iParameters.hasNext()) {
+				Object parameter = iParameters.next();
+				if (parameter == null) {
 					continue;
 				}
 
 				IFragment fragment = null;
-				if ( parameter instanceof ParameterGroupDefinition )
-				{
-					fragment = new ParameterGroupFragment(
-							(ParameterGroupDefinition) parameter );
-				}
-				else if ( parameter instanceof ParameterDefinition )
-				{
+				if (parameter instanceof ParameterGroupDefinition) {
+					fragment = new ParameterGroupFragment((ParameterGroupDefinition) parameter);
+				} else if (parameter instanceof ParameterDefinition) {
 					ParameterDefinition scalarParameter = (ParameterDefinition) parameter;
 
-					if ( !scalarParameter.isHidden( ) )
-					{
-						switch ( scalarParameter.getControlType( ) )
-						{
-							case ParameterDefinition.TEXT_BOX :
-							{
-								fragment = new TextBoxParameterFragment(
-										scalarParameter );
-								break;
-							}
-							case ParameterDefinition.LIST_BOX :
-							{
-								fragment = new ComboBoxParameterFragment(
-										scalarParameter );
-								break;
-							}
-							case ParameterDefinition.RADIO_BUTTON :
-							{
-								fragment = new RadioButtonParameterFragment(
-										scalarParameter );
-								break;
-							}
-							case ParameterDefinition.CHECK_BOX :
-							{
-								fragment = new CheckboxParameterFragment(
-										scalarParameter );
-								break;
-							}
+					if (!scalarParameter.isHidden()) {
+						switch (scalarParameter.getControlType()) {
+						case ParameterDefinition.TEXT_BOX: {
+							fragment = new TextBoxParameterFragment(scalarParameter);
+							break;
 						}
-					}
-					else
-					{
+						case ParameterDefinition.LIST_BOX: {
+							fragment = new ComboBoxParameterFragment(scalarParameter);
+							break;
+						}
+						case ParameterDefinition.RADIO_BUTTON: {
+							fragment = new RadioButtonParameterFragment(scalarParameter);
+							break;
+						}
+						case ParameterDefinition.CHECK_BOX: {
+							fragment = new CheckboxParameterFragment(scalarParameter);
+							break;
+						}
+						}
+					} else {
 						// handle hidden parameter
-						fragment = new HiddenParameterFragment( scalarParameter );
+						fragment = new HiddenParameterFragment(scalarParameter);
 					}
 				}
 
-				if ( fragment != null )
-				{
-					fragment.setJSPRootPath( JSPRootPath );
-					fragments.add( fragment );
+				if (fragment != null) {
+					fragment.setJSPRootPath(JSPRootPath);
+					fragments.add(fragment);
 				}
 			}
 		}
 
-		request.setAttribute( "fragments", fragments ); //$NON-NLS-1$
+		request.setAttribute("fragments", fragments); //$NON-NLS-1$
 	}
 }

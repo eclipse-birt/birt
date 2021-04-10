@@ -19,39 +19,34 @@ import org.eclipse.birt.chart.model.attribute.Location3D;
 /**
  * A rendering event type for rendering 3D Line object.
  */
-public final class Line3DRenderEvent extends LineRenderEvent implements
-		I3DRenderEvent
-{
+public final class Line3DRenderEvent extends LineRenderEvent implements I3DRenderEvent {
 
 	private static final long serialVersionUID = 33812052466380930L;
 
 	private transient Object3D object3D;
-	
+
 	private transient Object3D object3DParent;
-	
+
 	/**
 	 * The constructor.
 	 */
-	public Line3DRenderEvent( Object oSource )
-	{
-		super( oSource );
-		object3D = new Object3D( 2 );
+	public Line3DRenderEvent(Object oSource) {
+		super(oSource);
+		object3D = new Object3D(2);
 	}
 
 	/**
 	 * Sets the 3D start location of the line.
 	 */
-	public void setStart3D( Location3D start )
-	{
-		object3D.getVectors( )[0] = new Vector( start );
+	public void setStart3D(Location3D start) {
+		object3D.getVectors()[0] = new Vector(start);
 	}
 
 	/**
 	 * Sets the 3D start location of the line.
 	 */
-	public void setStart3D( double x, double y, double z )
-	{
-		object3D.getVectors( )[0] = new Vector( x, y, z, true );
+	public void setStart3D(double x, double y, double z) {
+		object3D.getVectors()[0] = new Vector(x, y, z, true);
 	}
 
 	/**
@@ -59,25 +54,22 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	 * 
 	 * @return
 	 */
-	public Location3D getStart3D( )
-	{
-		return object3D.getLocation3D( )[0];
+	public Location3D getStart3D() {
+		return object3D.getLocation3D()[0];
 	}
 
 	/**
 	 * Sets the 3D end location of the line.
 	 */
-	public void setEnd3D( Location3D end )
-	{
-		object3D.getVectors( )[1] = new Vector( end );
+	public void setEnd3D(Location3D end) {
+		object3D.getVectors()[1] = new Vector(end);
 	}
 
 	/**
 	 * Sets the 3D end location of the line.
 	 */
-	public void setEnd3D( double x, double y, double z )
-	{
-		object3D.getVectors( )[1] = new Vector( x, y, z, true );
+	public void setEnd3D(double x, double y, double z) {
+		object3D.getVectors()[1] = new Vector(x, y, z, true);
 	}
 
 	/**
@@ -85,9 +77,8 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	 * 
 	 * @return
 	 */
-	public Location3D getEnd3D( )
-	{
-		return object3D.getLocation3D( )[1];
+	public Location3D getEnd3D() {
+		return object3D.getLocation3D()[1];
 	}
 
 	/*
@@ -95,16 +86,13 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	public PrimitiveRenderEvent copy( )
-	{
-		Line3DRenderEvent lre = new Line3DRenderEvent( source );
-		lre.setLineAttributes( goFactory.copyOf( lia ) );
-		if ( object3D != null )
-		{
-			lre.object3D = new Object3D( object3D );
+	public PrimitiveRenderEvent copy() {
+		Line3DRenderEvent lre = new Line3DRenderEvent(source);
+		lre.setLineAttributes(goFactory.copyOf(lia));
+		if (object3D != null) {
+			lre.object3D = new Object3D(object3D);
 		}
-		if ( object3DParent != null )
-		{
+		if (object3DParent != null) {
 			lre.object3DParent = object3DParent;
 		}
 		return lre;
@@ -115,22 +103,19 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	 * 
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
 	 */
-	public Object3D getObject3D( )
-	{
+	public Object3D getObject3D() {
 		return object3D;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double,
-	 *      double)
+	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
 	 */
-	public void prepare2D( double xOffset, double yOffset )
-	{
-		Location[] points = object3D.getPoints2D( xOffset, yOffset );
-		setStart( points[0] );
-		setEnd( points[1] );
+	public void prepare2D(double xOffset, double yOffset) {
+		Location[] points = object3D.getPoints2D(xOffset, yOffset);
+		setStart(points[0]);
+		setEnd(points[1]);
 	}
 
 	/*
@@ -138,20 +123,16 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#reset()
 	 */
-	public void reset( )
-	{
-		object3D = new Object3D( 2 );
-		super.reset( );
+	public void reset() {
+		object3D = new Object3D(2);
+		super.reset();
 	}
 
-	
-	public Object3D getObject3DParent( )
-	{
+	public Object3D getObject3DParent() {
 		return object3DParent;
 	}
 
-	public void setObject3DParent( Object3D object3DParent )
-	{
+	public void setObject3DParent(Object3D object3DParent) {
 		this.object3DParent = object3DParent;
 	}
 

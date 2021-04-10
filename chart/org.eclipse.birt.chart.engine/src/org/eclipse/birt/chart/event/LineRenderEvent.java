@@ -20,8 +20,7 @@ import org.eclipse.birt.chart.model.attribute.Location;
 /**
  * A rendering event type for rendering Line object.
  */
-public class LineRenderEvent extends PrimitiveRenderEvent
-{
+public class LineRenderEvent extends PrimitiveRenderEvent {
 
 	private static final long serialVersionUID = 7216549683820618553L;
 
@@ -36,56 +35,49 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	/**
 	 * The constructor.
 	 */
-	public LineRenderEvent( Object oSource )
-	{
-		super( oSource );
+	public LineRenderEvent(Object oSource) {
+		super(oSource);
 	}
 
 	/**
 	 * Sets the start location of the line.
 	 */
-	public final void setStart( Location _loStart )
-	{
+	public final void setStart(Location _loStart) {
 		loStart = _loStart;
 	}
 
 	/**
 	 * @return Returns the start location of the line.
 	 */
-	public final Location getStart( )
-	{
+	public final Location getStart() {
 		return loStart;
 	}
 
 	/**
 	 * Sets the end location of the line.
 	 */
-	public final void setEnd( Location _loEnd )
-	{
+	public final void setEnd(Location _loEnd) {
 		loEnd = _loEnd;
 	}
 
 	/**
 	 * @return Returns the end location of the line.
 	 */
-	public final Location getEnd( )
-	{
+	public final Location getEnd() {
 		return loEnd;
 	}
 
 	/**
 	 * Sets the line attributes of this event.
 	 */
-	public final void setLineAttributes( LineAttributes _lia )
-	{
+	public final void setLineAttributes(LineAttributes _lia) {
 		lia = _lia;
 	}
 
 	/**
 	 * @return Returns the line attributes.
 	 */
-	public final LineAttributes getLineAttributes( )
-	{
+	public final LineAttributes getLineAttributes() {
 		return lia;
 	}
 
@@ -94,14 +86,12 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#getBounds()
 	 */
-	public final Bounds getBounds( )
-	{
-		final double dMinX = Math.min( loStart.getX( ), loEnd.getX( ) );
-		final double dMaxX = Math.max( loStart.getX( ), loEnd.getX( ) );
-		final double dMinY = Math.min( loStart.getY( ), loEnd.getY( ) );
-		final double dMaxY = Math.max( loStart.getY( ), loEnd.getY( ) );
-		return goFactory.createBounds( dMinX, dMinY, dMaxX - dMinX, dMaxY
-				- dMinY );
+	public final Bounds getBounds() {
+		final double dMinX = Math.min(loStart.getX(), loEnd.getX());
+		final double dMaxX = Math.max(loStart.getX(), loEnd.getX());
+		final double dMinY = Math.min(loStart.getY(), loEnd.getY());
+		final double dMaxY = Math.max(loStart.getY(), loEnd.getY());
+		return goFactory.createBounds(dMinX, dMinY, dMaxX - dMinX, dMaxY - dMinY);
 	}
 
 	/*
@@ -109,43 +99,42 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	public PrimitiveRenderEvent copy( )
-	{
-		LineRenderEvent lre = new LineRenderEvent( source );
-		lre.setLineAttributes( goFactory.copyOf( lia ) );
+	public PrimitiveRenderEvent copy() {
+		LineRenderEvent lre = new LineRenderEvent(source);
+		lre.setLineAttributes(goFactory.copyOf(lia));
 
-		if ( loStart != null )
-		{
-			lre.setStart( loStart.copyInstance( ) );
+		if (loStart != null) {
+			lre.setStart(loStart.copyInstance());
 		}
 
-		if ( loEnd != null )
-		{
-			lre.setEnd( loEnd.copyInstance( ) );
+		if (loEnd != null) {
+			lre.setEnd(loEnd.copyInstance());
 		}
 
-		lre.setZOrder( zOrder );
+		lre.setZOrder(zOrder);
 		return lre;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 * @see
+	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart
+	 * .device.IDeviceRenderer)
 	 */
-	public void fill( IDeviceRenderer idr ) throws ChartException
-	{
-		draw( idr );
+	public void fill(IDeviceRenderer idr) throws ChartException {
+		draw(idr);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 * @see
+	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart
+	 * .device.IDeviceRenderer)
 	 */
-	public final void draw( IDeviceRenderer idr ) throws ChartException
-	{
-		idr.drawLine( this );
+	public final void draw(IDeviceRenderer idr) throws ChartException {
+		idr.drawLine(this);
 	}
 
 	/*
@@ -153,8 +142,7 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
-	public void reset( )
-	{
+	public void reset() {
 		this.loEnd = null;
 		this.loStart = null;
 		this.lia = null;
@@ -164,16 +152,14 @@ public class LineRenderEvent extends PrimitiveRenderEvent
 	/**
 	 * Sets the zOrder of the line.
 	 */
-	public final void setZOrder( int _zOrder )
-	{
+	public final void setZOrder(int _zOrder) {
 		zOrder = _zOrder;
 	}
 
 	/**
 	 * @return Returns the zOrder of the line.
 	 */
-	public final int getZOrder( )
-	{
+	public final int getZOrder() {
 		return zOrder;
 	}
 }

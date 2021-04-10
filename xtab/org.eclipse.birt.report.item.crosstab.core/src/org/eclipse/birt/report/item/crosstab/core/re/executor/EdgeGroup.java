@@ -14,8 +14,7 @@ package org.eclipse.birt.report.item.crosstab.core.re.executor;
 /**
  * EdgeGroup
  */
-class EdgeGroup
-{
+class EdgeGroup {
 
 	int dimensionIndex;
 	int levelIndex;
@@ -23,9 +22,7 @@ class EdgeGroup
 	String dimensionName;
 	String levelName;
 
-	EdgeGroup( int dimensionIndex, int levelIndex, String dimensionName,
-			String levelName )
-	{
+	EdgeGroup(int dimensionIndex, int levelIndex, String dimensionName, String levelName) {
 		this.dimensionIndex = dimensionIndex;
 		this.levelIndex = levelIndex;
 		this.dimensionName = dimensionName;

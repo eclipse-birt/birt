@@ -23,12 +23,10 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
  * Master page set action
  */
 
-public class MasterPageAction extends MenuUpdateAction
-{
+public class MasterPageAction extends MenuUpdateAction {
 
-	public MasterPageAction( )
-	{
-		super( null );
+	public MasterPageAction() {
+		super(null);
 	}
 
 	/*
@@ -36,15 +34,11 @@ public class MasterPageAction extends MenuUpdateAction
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction#getItems()
 	 */
-	public List getItems( )
-	{
-		ArrayList list = new ArrayList( );
-		for ( Iterator iter = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getMasterPages( )
-				.iterator( ); iter.hasNext( ); )
-		{
-			list.add( new MasterPageSelectionAction( (MasterPageHandle) iter.next( ) ) );
+	public List getItems() {
+		ArrayList list = new ArrayList();
+		for (Iterator iter = SessionHandleAdapter.getInstance().getReportDesignHandle().getMasterPages()
+				.iterator(); iter.hasNext();) {
+			list.add(new MasterPageSelectionAction((MasterPageHandle) iter.next()));
 		}
 		return list;
 	}
@@ -54,8 +48,7 @@ public class MasterPageAction extends MenuUpdateAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.SelectionAction#update()
 	 */
-	public void update( )
-	{
+	public void update() {
 	}
 
 }

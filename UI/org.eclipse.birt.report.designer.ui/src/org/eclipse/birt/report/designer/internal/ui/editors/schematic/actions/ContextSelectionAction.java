@@ -43,25 +43,23 @@ import org.eclipse.ui.IWorkbenchPart;
  * Selection action within context menu.
  */
 
-public class ContextSelectionAction extends SelectionAction
-{
+public class ContextSelectionAction extends SelectionAction {
 
-	protected Logger logger = Logger.getLogger( ContextSelectionAction.class.getName( ) );
+	protected Logger logger = Logger.getLogger(ContextSelectionAction.class.getName());
+
 	/**
 	 * @param part
 	 * @param style
 	 */
-	public ContextSelectionAction( IWorkbenchPart part, int style )
-	{
-		super( part );
+	public ContextSelectionAction(IWorkbenchPart part, int style) {
+		super(part);
 	}
 
 	/**
 	 * @param part
 	 */
-	public ContextSelectionAction( IWorkbenchPart part )
-	{
-		super( part );
+	public ContextSelectionAction(IWorkbenchPart part) {
+		super(part);
 	}
 
 	/*
@@ -69,8 +67,7 @@ public class ContextSelectionAction extends SelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
+	protected boolean calculateEnabled() {
 		return false;
 	}
 
@@ -79,48 +76,38 @@ public class ContextSelectionAction extends SelectionAction
 	 * 
 	 * @return the table edit part
 	 */
-	protected TableEditPart getTableEditPart( )
-	{
-		List list = getSelectedObjects( );
-		if ( list.isEmpty( ) )
-		{
+	protected TableEditPart getTableEditPart() {
+		List list = getSelectedObjects();
+		if (list.isEmpty()) {
 			return null;
 		}
 		TableEditPart part = null;
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof TableEditPart )
-			{
+		for (int i = 0; i < list.size(); i++) {
+			Object obj = list.get(i);
+			if (obj instanceof TableEditPart) {
 				part = (TableEditPart) obj;
-			}
-			else if ( obj instanceof TableCellEditPart )
-			{
-				part = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
+			} else if (obj instanceof TableCellEditPart) {
+				part = (TableEditPart) ((TableCellEditPart) obj).getParent();
 			}
 		}
 		return part;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	protected ReportElementEditPart getTableMultipleEditPart( )
-	{
-		List list = getSelectedObjects( );
-		if ( list.isEmpty( ) )
-		{
+	protected ReportElementEditPart getTableMultipleEditPart() {
+		List list = getSelectedObjects();
+		if (list.isEmpty()) {
 			return null;
 		}
 		ReportElementEditPart part = null;
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof MultipleEditPart && ((MultipleEditPart)obj).getModel( ) instanceof TableHandle)
-			{
+		for (int i = 0; i < list.size(); i++) {
+			Object obj = list.get(i);
+			if (obj instanceof MultipleEditPart && ((MultipleEditPart) obj).getModel() instanceof TableHandle) {
 				part = (ReportElementEditPart) obj;
 			}
-			
+
 		}
 		return part;
 	}
@@ -131,24 +118,18 @@ public class ContextSelectionAction extends SelectionAction
 	 * @return The current selected list edit part, null if no list edit part is
 	 *         selected.
 	 */
-	protected ListEditPart getListEditPart( )
-	{
-		List list = getSelectedObjects( );
-		if ( list.isEmpty( ) )
-		{
+	protected ListEditPart getListEditPart() {
+		List list = getSelectedObjects();
+		if (list.isEmpty()) {
 			return null;
 		}
 		ListEditPart part = null;
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof ListEditPart )
-			{
+		for (int i = 0; i < list.size(); i++) {
+			Object obj = list.get(i);
+			if (obj instanceof ListEditPart) {
 				part = (ListEditPart) obj;
-			}
-			else if ( obj instanceof ListBandEditPart )
-			{
-				part = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
+			} else if (obj instanceof ListBandEditPart) {
+				part = (ListEditPart) ((ListBandEditPart) obj).getParent();
 			}
 		}
 		return part;
@@ -160,18 +141,14 @@ public class ContextSelectionAction extends SelectionAction
 	 * @return The current selected list group part, null if no list group is
 	 *         selected.
 	 */
-	protected Object getListGroup( )
-	{
-		List list = getSelectedObjects( );
-		if ( list.isEmpty( ) )
-		{
+	protected Object getListGroup() {
+		List list = getSelectedObjects();
+		if (list.isEmpty()) {
 			return null;
 		}
-		if ( list.get( 0 ) instanceof ListBandEditPart )
-		{
-			ListBandProxy group = (ListBandProxy) ( (ListBandEditPart) list.get( 0 ) ).getModel( );
-			if ( group.getElemtHandle( ) instanceof ListGroupHandle )
-			{
+		if (list.get(0) instanceof ListBandEditPart) {
+			ListBandProxy group = (ListBandProxy) ((ListBandEditPart) list.get(0)).getModel();
+			if (group.getElemtHandle() instanceof ListGroupHandle) {
 				return group;
 			}
 		}
@@ -183,45 +160,35 @@ public class ContextSelectionAction extends SelectionAction
 	 * 
 	 * @return the selected table group object
 	 */
-	protected Object getTableGroup( )
-	{
-		List list = getSelectedObjects( );
-		if ( list.isEmpty( ) )
-		{
+	protected Object getTableGroup() {
+		List list = getSelectedObjects();
+		if (list.isEmpty()) {
 			return null;
 		}
-		List groups = new ArrayList( );
+		List groups = new ArrayList();
 		TableGroupHandle groupHandle = null;
-		for ( Iterator itor = list.iterator( ); itor.hasNext( ); )
-		{
-			Object obj = itor.next( );
-			if ( obj instanceof DummyEditpart )
-			{
+		for (Iterator itor = list.iterator(); itor.hasNext();) {
+			Object obj = itor.next();
+			if (obj instanceof DummyEditpart) {
 				DummyEditpart part = (DummyEditpart) obj;
-				if ( part.getModel( ) instanceof RowHandle )
-				{
-					RowHandle group = (RowHandle) part.getModel( );
-					if ( group.getContainer( ) instanceof TableGroupHandle )
-					{
-						TableGroupHandle handle = (TableGroupHandle) group.getContainer( );
-						if ( groupHandle != handle )
-						{
+				if (part.getModel() instanceof RowHandle) {
+					RowHandle group = (RowHandle) part.getModel();
+					if (group.getContainer() instanceof TableGroupHandle) {
+						TableGroupHandle handle = (TableGroupHandle) group.getContainer();
+						if (groupHandle != handle) {
 							// stores different group row handles.
-							groups.add( group );
+							groups.add(group);
 							groupHandle = handle;
 						}
-					}
-					else
-					{
+					} else {
 						return null;
 					}
 				}
 			}
 		}
 		// only returns one group row handle, if more, returns null.
-		if ( groups.size( ) == 1 )
-		{
-			return groups.get( 0 );
+		if (groups.size() == 1) {
+			return groups.get(0);
 		}
 		return null;
 	}
@@ -231,22 +198,17 @@ public class ContextSelectionAction extends SelectionAction
 	 * 
 	 * @return The current column objects
 	 */
-	protected List getColumnHandles( )
-	{
-		List list = getSelectedObjects( );
-		if ( list.isEmpty( ) )
-		{
+	protected List getColumnHandles() {
+		List list = getSelectedObjects();
+		if (list.isEmpty()) {
 			return Collections.EMPTY_LIST;
 		}
-		List columnHandles = new ArrayList( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof DummyEditpart )
-			{
-				if ( ( (DummyEditpart) obj ).getModel( ) instanceof ColumnHandle )
-				{
-					columnHandles.add( ( (DummyEditpart) obj ).getModel( ) );
+		List columnHandles = new ArrayList();
+		for (int i = 0; i < list.size(); i++) {
+			Object obj = list.get(i);
+			if (obj instanceof DummyEditpart) {
+				if (((DummyEditpart) obj).getModel() instanceof ColumnHandle) {
+					columnHandles.add(((DummyEditpart) obj).getModel());
 				}
 			}
 		}
@@ -259,22 +221,17 @@ public class ContextSelectionAction extends SelectionAction
 	 * @return The current selected row objects.
 	 */
 
-	protected List getRowHandles( )
-	{
-		List list = getSelectedObjects( );
-		if ( list.isEmpty( ) )
-		{
+	protected List getRowHandles() {
+		List list = getSelectedObjects();
+		if (list.isEmpty()) {
 			return Collections.EMPTY_LIST;
 		}
-		List rowHandles = new ArrayList( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof DummyEditpart )
-			{
-				if ( ( (DummyEditpart) obj ).getModel( ) instanceof RowHandle )
-				{
-					rowHandles.add( ( (DummyEditpart) obj ).getModel( ) );
+		List rowHandles = new ArrayList();
+		for (int i = 0; i < list.size(); i++) {
+			Object obj = list.get(i);
+			if (obj instanceof DummyEditpart) {
+				if (((DummyEditpart) obj).getModel() instanceof RowHandle) {
+					rowHandles.add(((DummyEditpart) obj).getModel());
 				}
 			}
 		}
@@ -282,27 +239,24 @@ public class ContextSelectionAction extends SelectionAction
 	}
 
 	/**
-	 * Gets row numbers of selected rows. And sorts the array of ints into
-	 * ascending numerical order.
+	 * Gets row numbers of selected rows. And sorts the array of ints into ascending
+	 * numerical order.
 	 */
-	protected int[] getRowNumbers( )
-	{
-		List rowHandles = getRowHandles( );
-		if ( rowHandles.isEmpty( ) )
-		{
+	protected int[] getRowNumbers() {
+		List rowHandles = getRowHandles();
+		if (rowHandles.isEmpty()) {
 			return new int[0];
 		}
-		int size = rowHandles.size( );
+		int size = rowHandles.size();
 		int[] rowNumbers = new int[size];
 
-		for ( int i = 0; i < size; i++ )
-		{
-			rowNumbers[i] = getRowNumber( rowHandles.get( i ) );
+		for (int i = 0; i < size; i++) {
+			rowNumbers[i] = getRowNumber(rowHandles.get(i));
 		}
 
 		// sorts array before returning.
 		int[] a = rowNumbers;
-		Arrays.sort( a );
+		Arrays.sort(a);
 		return a;
 	}
 
@@ -311,35 +265,29 @@ public class ContextSelectionAction extends SelectionAction
 	 * 
 	 * @return The row number of the selected row object.
 	 */
-	public int getRowNumber( Object rowHandle )
-	{
-		return HandleAdapterFactory.getInstance( )
-				.getRowHandleAdapter( rowHandle )
-				.getRowNumber( );
+	public int getRowNumber(Object rowHandle) {
+		return HandleAdapterFactory.getInstance().getRowHandleAdapter(rowHandle).getRowNumber();
 	}
 
 	/**
-	 * Gets column numbers of selected columns.. And sorts the array of ints
-	 * into ascending numerical order.
+	 * Gets column numbers of selected columns.. And sorts the array of ints into
+	 * ascending numerical order.
 	 */
-	public int[] getColumnNumbers( )
-	{
-		List columnHandles = getColumnHandles( );
-		if ( columnHandles.isEmpty( ) )
-		{
+	public int[] getColumnNumbers() {
+		List columnHandles = getColumnHandles();
+		if (columnHandles.isEmpty()) {
 			return new int[0];
 		}
-		int size = columnHandles.size( );
+		int size = columnHandles.size();
 		int[] colNumbers = new int[size];
 
-		for ( int i = 0; i < size; i++ )
-		{
-			colNumbers[i] = getColumnNumber( columnHandles.get( i ) );
+		for (int i = 0; i < size; i++) {
+			colNumbers[i] = getColumnNumber(columnHandles.get(i));
 		}
 
 		// sorts array before returning.
 		int[] a = colNumbers;
-		Arrays.sort( a );
+		Arrays.sort(a);
 		return a;
 	}
 
@@ -348,11 +296,8 @@ public class ContextSelectionAction extends SelectionAction
 	 * 
 	 * @return the column number
 	 */
-	public int getColumnNumber( Object columnHandle )
-	{
-		return HandleAdapterFactory.getInstance( )
-				.getColumnHandleAdapter( columnHandle )
-				.getColumnNumber( );
+	public int getColumnNumber(Object columnHandle) {
+		return HandleAdapterFactory.getInstance().getColumnHandleAdapter(columnHandle).getColumnNumber();
 	}
 
 	/**
@@ -360,9 +305,8 @@ public class ContextSelectionAction extends SelectionAction
 	 * 
 	 * @return
 	 */
-	protected List getElementHandles( )
-	{
-		return InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart(getSelection( ))).toList();
+	protected List getElementHandles() {
+		return InsertInLayoutUtil.editPart2Model(TableUtil.filletCellInSelectionEditorpart(getSelection())).toList();
 	}
 
 	/**
@@ -370,9 +314,8 @@ public class ContextSelectionAction extends SelectionAction
 	 * 
 	 * @return returns the stack
 	 */
-	protected CommandStack getActiveCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack();
+	protected CommandStack getActiveCommandStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
 }

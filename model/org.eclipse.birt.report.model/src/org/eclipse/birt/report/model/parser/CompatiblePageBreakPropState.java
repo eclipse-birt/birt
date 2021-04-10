@@ -21,24 +21,19 @@ import org.xml.sax.SAXException;
  * page breaks properties to group, otherwise, ignore these properties.
  */
 
-public class CompatiblePageBreakPropState extends CompatiblePropertyState
-{
+public class CompatiblePageBreakPropState extends CompatiblePropertyState {
 
 	/**
-	 * Constructs a <code>CompatiblePageBreakPropState</code> to parse an
-	 * pagebreak property.
+	 * Constructs a <code>CompatiblePageBreakPropState</code> to parse an pagebreak
+	 * property.
 	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the obsolete property
+	 * @param theHandler the parser handle
+	 * @param element    the element that holds the obsolete property
 	 * 
 	 */
 
-	public CompatiblePageBreakPropState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatiblePageBreakPropState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
@@ -47,19 +42,16 @@ public class CompatiblePageBreakPropState extends CompatiblePropertyState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
-		if ( value.equalsIgnoreCase( "left" ) //$NON-NLS-1$
-				|| value.equalsIgnoreCase( "right" ) ) //$NON-NLS-1$
+	public void end() throws SAXException {
+		String value = text.toString();
+		if (value.equalsIgnoreCase("left") //$NON-NLS-1$
+				|| value.equalsIgnoreCase("right")) //$NON-NLS-1$
 		{
 			value = DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS;
 
-			doEnd( value );
-		}
-		else
-		{
-			super.end( );
+			doEnd(value);
+		} else {
+			super.end();
 		}
 	}
 }

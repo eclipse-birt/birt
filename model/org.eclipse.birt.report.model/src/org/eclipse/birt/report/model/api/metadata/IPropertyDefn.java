@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * structure member definitions.
  */
 
-public interface IPropertyDefn extends IContainerDefn
-{
+public interface IPropertyDefn extends IContainerDefn {
 
 	/**
 	 * Type code for a system property.
@@ -66,7 +65,7 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return whether the property is a list or not.
 	 */
 
-	public boolean isList( );
+	public boolean isList();
 
 	/**
 	 * Returns the property type. See the list in {@link PropertyType}.
@@ -74,7 +73,7 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return he property type code
 	 */
 
-	public int getTypeCode( );
+	public int getTypeCode();
 
 	/**
 	 * Returns the message id for the display name.
@@ -82,7 +81,7 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return The display name message ID.
 	 */
 
-	public String getDisplayNameID( );
+	public String getDisplayNameID();
 
 	/**
 	 * Gets the list of choices for the property.
@@ -90,16 +89,16 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return the list of choices
 	 */
 
-	public IChoiceSet getChoices( );
+	public IChoiceSet getChoices();
 
 	/**
-	 * Checks if a property has a set of choices whatever choice is choice,
-	 * extended choice or user defined choice.
+	 * Checks if a property has a set of choices whatever choice is choice, extended
+	 * choice or user defined choice.
 	 * 
 	 * @return true if it has, otherwise false.
 	 */
 
-	public boolean hasChoices( );
+	public boolean hasChoices();
 
 	/**
 	 * Returns the structure definition for this value.
@@ -108,7 +107,7 @@ public interface IPropertyDefn extends IContainerDefn
 	 *         structures
 	 */
 
-	public IStructureDefn getStructDefn( );
+	public IStructureDefn getStructDefn();
 
 	/**
 	 * Returns the default value for the property.
@@ -116,7 +115,7 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return The default value.
 	 */
 
-	public Object getDefault( );
+	public Object getDefault();
 
 	/**
 	 * Return the element type associated with this property.
@@ -124,11 +123,11 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return the element type associated with the property
 	 */
 
-	public IElementDefn getTargetElementType( );
+	public IElementDefn getTargetElementType();
 
 	/**
-	 * Returns the allowed choices for this property. It contains allowed
-	 * choices for a choice type.
+	 * Returns the allowed choices for this property. It contains allowed choices
+	 * for a choice type.
 	 * <p>
 	 * If a property has not defined the restriction, then whole set will be
 	 * returned.
@@ -136,12 +135,11 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return Returns the allowed choices of this property.
 	 */
 
-	public IChoiceSet getAllowedChoices( );
+	public IChoiceSet getAllowedChoices();
 
 	/**
-	 * Returns the allowed units for this property. It contains an allowed units
-	 * set for a dimension type. Only the dimension type supports allowed units
-	 * feature.
+	 * Returns the allowed units for this property. It contains an allowed units set
+	 * for a dimension type. Only the dimension type supports allowed units feature.
 	 * <p>
 	 * If a property has not defined the restriction, then whole set will be
 	 * returned.
@@ -149,7 +147,7 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return Returns the allowed units of this property.
 	 */
 
-	public IChoiceSet getAllowedUnits( );
+	public IChoiceSet getAllowedUnits();
 
 	/**
 	 * Returns whether this property should be encrypted.
@@ -157,7 +155,7 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return <code>true</code> if this property should be encrypted.
 	 */
 
-	public boolean isEncryptable( );
+	public boolean isEncryptable();
 
 	/**
 	 * Returns the type of this value. The return can be one of the following
@@ -173,16 +171,16 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return the type of this definition
 	 */
 
-	public abstract int getValueType( );
+	public abstract int getValueType();
 
 	/**
-	 * Return the context for a method or expression. If the property type is
-	 * not method/expression, the return value is <code>null</code>.
+	 * Return the context for a method or expression. If the property type is not
+	 * method/expression, the return value is <code>null</code>.
 	 * 
 	 * @return the expression or method context
 	 */
 
-	public String getContext( );
+	public String getContext();
 
 	/**
 	 * Checks whether the expression can be the value of this property.
@@ -191,5 +189,5 @@ public interface IPropertyDefn extends IContainerDefn
 	 *         <code>false</code>.
 	 */
 
-	public boolean allowExpression( );
+	public boolean allowExpression();
 }

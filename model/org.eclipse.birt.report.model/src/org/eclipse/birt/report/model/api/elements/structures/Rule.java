@@ -31,12 +31,10 @@ import org.eclipse.birt.report.model.core.Structure;
  * 
  */
 
-public class Rule extends Structure
-{
+public class Rule extends Structure {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public static final String RULE_STRUCTURE = "Rule"; //$NON-NLS-1$
@@ -67,35 +65,30 @@ public class Rule extends Structure
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return RULE_STRUCTURE;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
-	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
-		return new RuleHandle( valueHandle, index );
+	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
+		return new RuleHandle(valueHandle, index);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( RULE_EXPRE_MEMBER.equals( propName ) )
+	protected Object getIntrinsicProperty(String propName) {
+		if (RULE_EXPRE_MEMBER.equals(propName))
 			return this.ruleExpre;
-		if ( DISPLAY_EXPRE_MEMBER.equals( propName ) )
+		if (DISPLAY_EXPRE_MEMBER.equals(propName))
 			return this.displayExpre;
 		return null;
 	}
@@ -103,18 +96,13 @@ public class Rule extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( RULE_EXPRE_MEMBER.equals( propName ) )
-		{
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (RULE_EXPRE_MEMBER.equals(propName)) {
 			ruleExpre = (Expression) value;
-		}
-		else if ( DISPLAY_EXPRE_MEMBER.equals( propName ) )
-		{
+		} else if (DISPLAY_EXPRE_MEMBER.equals(propName)) {
 			displayExpre = (Expression) value;
 		}
 	}

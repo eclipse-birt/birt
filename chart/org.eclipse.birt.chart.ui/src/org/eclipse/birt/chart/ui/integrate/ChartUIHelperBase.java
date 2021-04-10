@@ -21,32 +21,26 @@ import org.eclipse.birt.core.exception.BirtException;
  * Default implementation or base class of UI helper interface.
  */
 
-public class ChartUIHelperBase implements IChartUIHelper
-{
+public class ChartUIHelperBase implements IChartUIHelper {
 
-	public boolean isDefaultTitleSupported( )
-	{
+	public boolean isDefaultTitleSupported() {
 		return false;
 	}
 
-	public String getDefaultTitle( ChartWizardContext context )
-	{
+	public String getDefaultTitle(ChartWizardContext context) {
 		return ""; //$NON-NLS-1$
 	}
 
-	public void updateDefaultTitle( Chart cm, Object extendedItem )
-	{
+	public void updateDefaultTitle(Chart cm, Object extendedItem) {
 		// Do nothing
 	}
 
-	public boolean canCombine( IChartType type, ChartWizardContext context )
-	{
-		return type.canCombine( );
+	public boolean canCombine(IChartType type, ChartWizardContext context) {
+		return type.canCombine();
 	}
 
 	@Override
-	public boolean useDataSetRow( Object reportItem, String expression ) throws BirtException
-	{
+	public boolean useDataSetRow(Object reportItem, String expression) throws BirtException {
 		// Default implementation, do nothing
 		return false;
 	}

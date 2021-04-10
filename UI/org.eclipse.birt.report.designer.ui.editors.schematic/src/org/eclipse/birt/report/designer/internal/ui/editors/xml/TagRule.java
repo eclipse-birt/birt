@@ -13,37 +13,28 @@ package org.eclipse.birt.report.designer.internal.ui.editors.xml;
 
 import org.eclipse.jface.text.rules.*;
 
-public class TagRule extends MultiLineRule
-{
+public class TagRule extends MultiLineRule {
 
-	public TagRule( IToken token )
-	{
-		super( "<", ">", token ); //$NON-NLS-1$ //$NON-NLS-2$
+	public TagRule(IToken token) {
+		super("<", ">", token); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	protected boolean sequenceDetected( ICharacterScanner scanner,
-			char[] sequence, boolean eofAllowed )
-	{
-		int c = scanner.read( );
-		if ( sequence[0] == '<' )
-		{
-			if ( c == '?' )
-			{
+	protected boolean sequenceDetected(ICharacterScanner scanner, char[] sequence, boolean eofAllowed) {
+		int c = scanner.read();
+		if (sequence[0] == '<') {
+			if (c == '?') {
 				// processing instruction - abort
-				scanner.unread( );
+				scanner.unread();
 				return false;
 			}
-			if ( c == '!' )
-			{
-				scanner.unread( );
+			if (c == '!') {
+				scanner.unread();
 				// comment - abort
 				return false;
 			}
+		} else if (sequence[0] == '>') {
+			scanner.unread();
 		}
-		else if ( sequence[0] == '>' )
-		{
-			scanner.unread( );
-		}
-		return super.sequenceDetected( scanner, sequence, eofAllowed );
+		return super.sequenceDetected(scanner, sequence, eofAllowed);
 	}
 }

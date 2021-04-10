@@ -60,406 +60,301 @@ import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
  * 
  */
 
-public class GObjectFactory implements IGObjectFactory
-{
+public class GObjectFactory implements IGObjectFactory {
 
-	private static IGObjectFactory goFactory = new GObjectFactory( );
+	private static IGObjectFactory goFactory = new GObjectFactory();
 
-	public static IGObjectFactory instance( )
-	{
+	public static IGObjectFactory instance() {
 		return goFactory;
 	}
 
-	public static void initInstance( IGObjectFactory tFactory )
-	{
+	public static void initInstance(IGObjectFactory tFactory) {
 		goFactory = tFactory;
 	}
 
-	public Location createLocation( double dX, double dY )
-	{
-		return LocationImpl.create( dX, dY );
+	public Location createLocation(double dX, double dY) {
+		return LocationImpl.create(dX, dY);
 	}
 
-	public Location[] createLocations( double[] xa, double[] ya )
-	{
-		return LocationImpl.create( xa, ya );
+	public Location[] createLocations(double[] xa, double[] ya) {
+		return LocationImpl.create(xa, ya);
 	}
 
-	public Location3D createLocation3D( double x, double y, double z )
-	{
-		return Location3DImpl.create( x, y, z );
+	public Location3D createLocation3D(double x, double y, double z) {
+		return Location3DImpl.create(x, y, z);
 	}
 
-	public Location3D[] createLocation3Ds( double[] xa, double[] ya, double[] za )
-	{
-		return Location3DImpl.create( xa, ya, za );
+	public Location3D[] createLocation3Ds(double[] xa, double[] ya, double[] za) {
+		return Location3DImpl.create(xa, ya, za);
 	}
 
-	public ColorDefinition createColorDefinition( int iRed, int iGreen,
-			int iBlue, int iAlpha )
-	{
-		return ColorDefinitionImpl.create( iRed, iGreen, iBlue, iAlpha );
+	public ColorDefinition createColorDefinition(int iRed, int iGreen, int iBlue, int iAlpha) {
+		return ColorDefinitionImpl.create(iRed, iGreen, iBlue, iAlpha);
 	}
 
-	public ColorDefinition createColorDefinition( int iRed, int iGreen,
-			int iBlue )
-	{
-		return ColorDefinitionImpl.create( iRed, iGreen, iBlue );
+	public ColorDefinition createColorDefinition(int iRed, int iGreen, int iBlue) {
+		return ColorDefinitionImpl.create(iRed, iGreen, iBlue);
 	}
 
-	public LineAttributes createLineAttributes( ColorDefinition cd,
-			LineStyle ls, int iThickness )
-	{
-		return LineAttributesImpl.create( cd, ls, iThickness );
+	public LineAttributes createLineAttributes(ColorDefinition cd, LineStyle ls, int iThickness) {
+		return LineAttributesImpl.create(cd, ls, iThickness);
 	}
 
-	public TextAlignment createTextAlignment( )
-	{
-		return TextAlignmentImpl.create( );
+	public TextAlignment createTextAlignment() {
+		return TextAlignmentImpl.create();
 	}
 
-	public Text createText( String sValue )
-	{
-		return TextImpl.create( sValue );
+	public Text createText(String sValue) {
+		return TextImpl.create(sValue);
 	}
 
-	public Insets createInsets( double dTop, double dLeft, double dBottom,
-			double dRight )
-	{
-		return InsetsImpl.create( dTop, dLeft, dBottom, dRight );
+	public Insets createInsets(double dTop, double dLeft, double dBottom, double dRight) {
+		return InsetsImpl.create(dTop, dLeft, dBottom, dRight);
 	}
 
-	public Label copyOf( Label src )
-	{
-		if ( src == null )
-		{
+	public Label copyOf(Label src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public Label copyCompactLabel( Label src )
-	{
-		return LabelImpl.copyCompactInstance( src );
+	public Label copyCompactLabel(Label src) {
+		return LabelImpl.copyCompactInstance(src);
 	}
 
-	public Label createLabel( )
-	{
-		return LabelImpl.create( );
+	public Label createLabel() {
+		return LabelImpl.create();
 	}
 
-	public ColorDefinition BLACK( )
-	{
-		return ColorDefinitionImpl.BLACK( );
+	public ColorDefinition BLACK() {
+		return ColorDefinitionImpl.BLACK();
 	}
 
-	public ColorDefinition TRANSPARENT( )
-	{
-		return ColorDefinitionImpl.TRANSPARENT( );
+	public ColorDefinition TRANSPARENT() {
+		return ColorDefinitionImpl.TRANSPARENT();
 	}
 
-	public ColorDefinition GREY( )
-	{
-		return ColorDefinitionImpl.GREY( );
+	public ColorDefinition GREY() {
+		return ColorDefinitionImpl.GREY();
 	}
 
-	public Gradient createGradient( ColorDefinition cdStart,
-			ColorDefinition cdEnd, double dDirectionInDegrees, boolean bCyclic )
-	{
-		return GradientImpl.create( cdStart,
-				cdEnd,
-				dDirectionInDegrees,
-				bCyclic );
+	public Gradient createGradient(ColorDefinition cdStart, ColorDefinition cdEnd, double dDirectionInDegrees,
+			boolean bCyclic) {
+		return GradientImpl.create(cdStart, cdEnd, dDirectionInDegrees, bCyclic);
 	}
 
-	public ColorDefinition copyOf( ColorDefinition src )
-	{
-		if ( src == null )
-		{
+	public ColorDefinition copyOf(ColorDefinition src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public Fill copyOf( Fill src )
-	{
-		if ( src == null )
-		{
+	public Fill copyOf(Fill src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public Gradient copyOf( Gradient src )
-	{
-		if ( src == null )
-		{
+	public Gradient copyOf(Gradient src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public FontDefinition createFontDefinition( String sName, float fSize,
-			boolean bBold, boolean bItalic, boolean bUnderline,
-			boolean bStrikethrough, boolean bWordWrap, double dRotation,
-			TextAlignment ta )
-	{
-		return FontDefinitionImpl.create( sName,
-				fSize,
-				bBold,
-				bItalic,
-				bUnderline,
-				bStrikethrough,
-				bWordWrap,
-				dRotation,
-				ta );
+	public FontDefinition createFontDefinition(String sName, float fSize, boolean bBold, boolean bItalic,
+			boolean bUnderline, boolean bStrikethrough, boolean bWordWrap, double dRotation, TextAlignment ta) {
+		return FontDefinitionImpl.create(sName, fSize, bBold, bItalic, bUnderline, bStrikethrough, bWordWrap, dRotation,
+				ta);
 	}
 
-	public Text copyOf( Text src )
-	{
-		if ( src == null )
-		{
+	public Text copyOf(Text src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public FontDefinition copyOf( FontDefinition src )
-	{
-		if ( src == null )
-		{
+	public FontDefinition copyOf(FontDefinition src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public Insets copyOf( Insets src )
-	{
-		if ( src == null )
-		{
+	public Insets copyOf(Insets src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public LineAttributes copyOf( LineAttributes src )
-	{
-		if ( src == null )
-		{
+	public LineAttributes copyOf(LineAttributes src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public Bounds copyOf( Bounds src )
-	{
-		if ( src == null )
-		{
+	public Bounds copyOf(Bounds src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public Image copyOf( Image src )
-	{
-		if ( src == null )
-		{
+	public Image copyOf(Image src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public Gradient createGradient( ColorDefinition cdStart,
-			ColorDefinition cdEnd )
-	{
-		return GradientImpl.create( cdStart, cdEnd );
+	public Gradient createGradient(ColorDefinition cdStart, ColorDefinition cdEnd) {
+		return GradientImpl.create(cdStart, cdEnd);
 	}
 
-	public Image createImage( String sUrl )
-	{
-		return ImageImpl.create( sUrl );
+	public Image createImage(String sUrl) {
+		return ImageImpl.create(sUrl);
 	}
 
-	public ColorDefinition WHITE( )
-	{
-		return ColorDefinitionImpl.WHITE( );
+	public ColorDefinition WHITE() {
+		return ColorDefinitionImpl.WHITE();
 	}
 
-	public ColorDefinition RED( )
-	{
-		return ColorDefinitionImpl.RED( );
+	public ColorDefinition RED() {
+		return ColorDefinitionImpl.RED();
 	}
 
-	public ColorDefinition brighter( ColorDefinition src )
-	{
-		if ( src == null )
-		{
+	public ColorDefinition brighter(ColorDefinition src) {
+		if (src == null) {
 			return null;
 		}
-		return src.brighter( );
+		return src.brighter();
 	}
 
-	public ColorDefinition darker( ColorDefinition src )
-	{
-		if ( src == null )
-		{
+	public ColorDefinition darker(ColorDefinition src) {
+		if (src == null) {
 			return null;
 		}
-		return src.darker( );
+		return src.darker();
 	}
 
-	public ColorDefinition translucent( ColorDefinition src )
-	{
-		if ( src == null )
-		{
+	public ColorDefinition translucent(ColorDefinition src) {
+		if (src == null) {
 			return null;
 		}
-		ColorDefinition dest = copyOf( src );
-		dest.setTransparency( 127 );
+		ColorDefinition dest = copyOf(src);
+		dest.setTransparency(127);
 		return dest;
 	}
 
-	public Bounds createBounds( double dLeft, double dTop, double dWidth,
-			double dHeight )
-	{
-		return BoundsImpl.create( dLeft, dTop, dWidth, dHeight );
+	public Bounds createBounds(double dLeft, double dTop, double dWidth, double dHeight) {
+		return BoundsImpl.create(dLeft, dTop, dWidth, dHeight);
 	}
 
-	public Bounds adjusteBounds( Bounds bo, Insets ins )
-	{
-		if ( bo == null )
-		{
+	public Bounds adjusteBounds(Bounds bo, Insets ins) {
+		if (bo == null) {
 			return null;
 		}
-		Bounds dest = copyOf( bo );
-		dest.adjust( ins );
+		Bounds dest = copyOf(bo);
+		dest.adjust(ins);
 		return dest;
 	}
 
-	public Bounds scaleBounds( Bounds bo, double dScale )
-	{
-		if ( bo == null )
-		{
+	public Bounds scaleBounds(Bounds bo, double dScale) {
+		if (bo == null) {
 			return null;
 		}
-		Bounds dest = copyOf( bo );
-		dest.scale( dScale );
+		Bounds dest = copyOf(bo);
+		dest.scale(dScale);
 		return dest;
 	}
 
-	public Bounds translateBounds( Bounds bo, double dTranslateX,
-			double dTranslateY )
-	{
-		if ( bo == null )
-		{
+	public Bounds translateBounds(Bounds bo, double dTranslateX, double dTranslateY) {
+		if (bo == null) {
 			return null;
 		}
-		Bounds dest = copyOf( bo );
-		dest.translate( dTranslateX, dTranslateY );
+		Bounds dest = copyOf(bo);
+		dest.translate(dTranslateX, dTranslateY);
 		return dest;
 	}
 
-	public Insets scaleInsets( Insets ins, double dScale )
-	{
-		if ( ins == null )
-		{
+	public Insets scaleInsets(Insets ins, double dScale) {
+		if (ins == null) {
 			return null;
 		}
-		return createInsets( ins.getTop( ) * dScale,
-				ins.getLeft( ) * dScale,
-				ins.getBottom( ) * dScale,
-				ins.getRight( ) * dScale );
+		return createInsets(ins.getTop() * dScale, ins.getLeft() * dScale, ins.getBottom() * dScale,
+				ins.getRight() * dScale);
 	}
 
-	public Insets max( Insets ins1, Insets ins2 )
-	{
-		return goFactory.createInsets( Math.max( ins1.getTop( ), ins2.getTop( ) ),
-				Math.max( ins1.getLeft( ), ins2.getLeft( ) ),
-				Math.max( ins1.getBottom( ), ins2.getBottom( ) ),
-				Math.max( ins1.getRight( ), ins2.getRight( ) ) );
+	public Insets max(Insets ins1, Insets ins2) {
+		return goFactory.createInsets(Math.max(ins1.getTop(), ins2.getTop()), Math.max(ins1.getLeft(), ins2.getLeft()),
+				Math.max(ins1.getBottom(), ins2.getBottom()), Math.max(ins1.getRight(), ins2.getRight()));
 	}
 
-	public TextAlignment copyOf( TextAlignment src )
-	{
-		if ( src == null )
-		{
+	public TextAlignment copyOf(TextAlignment src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public Trigger copyOf( Trigger src )
-	{
-		if ( src == null )
-		{
+	public Trigger copyOf(Trigger src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public Trigger createTrigger( TriggerCondition tc, Action a )
-	{
-		return TriggerImpl.create( tc, a );
+	public Trigger createTrigger(TriggerCondition tc, Action a) {
+		return TriggerImpl.create(tc, a);
 	}
 
-	public Marker copyMarkerNoFill( Marker src )
-	{
-		return MarkerImpl.copyInstanceNoFill( src );
+	public Marker copyMarkerNoFill(Marker src) {
+		return MarkerImpl.copyInstanceNoFill(src);
 	}
 
-	public ActionValue copyOf( ActionValue src )
-	{
-		if ( src == null )
-		{
+	public ActionValue copyOf(ActionValue src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public Action copyOf( Action src )
-	{
-		if ( src == null )
-		{
+	public Action copyOf(Action src) {
+		if (src == null) {
 			return null;
 		}
-		return src.copyInstance( );
+		return src.copyInstance();
 	}
 
-	public Action createAction( ActionType at, ActionValue av )
-	{
-		return ActionImpl.create( at, av );
+	public Action createAction(ActionType at, ActionValue av) {
+		return ActionImpl.create(at, av);
 	}
 
-	public ScriptValue createScriptValue( String script )
-	{
-		return ScriptValueImpl.create( script );
+	public ScriptValue createScriptValue(String script) {
+		return ScriptValueImpl.create(script);
 	}
 
-	public SeriesValue createSeriesValue( String name )
-	{
-		return SeriesValueImpl.create( name );
+	public SeriesValue createSeriesValue(String name) {
+		return SeriesValueImpl.create(name);
 	}
 
-	public TooltipValue createTooltipValue( int iDelay, String sText )
-	{
-		return TooltipValueImpl.create( iDelay, sText );
+	public TooltipValue createTooltipValue(int iDelay, String sText) {
+		return TooltipValueImpl.create(iDelay, sText);
 	}
 
-	public TooltipValue createTooltipValue( int iDelay, String sText,
-			FormatSpecifier formatSpecifier )
-	{
-		return TooltipValueImpl.create( iDelay, sText, formatSpecifier );
+	public TooltipValue createTooltipValue(int iDelay, String sText, FormatSpecifier formatSpecifier) {
+		return TooltipValueImpl.create(iDelay, sText, formatSpecifier);
 	}
 
-	public URLValue createURLValue( String sBaseUrl, String sTarget,
-			String sBaseParameterName, String sValueParameterName,
-			String sSeriesParameterName )
-	{
-		return URLValueImpl.create( sBaseUrl,
-				sTarget,
-				sBaseParameterName,
-				sValueParameterName,
-				sSeriesParameterName );
+	public URLValue createURLValue(String sBaseUrl, String sTarget, String sBaseParameterName,
+			String sValueParameterName, String sSeriesParameterName) {
+		return URLValueImpl.create(sBaseUrl, sTarget, sBaseParameterName, sValueParameterName, sSeriesParameterName);
 	}
 
 }

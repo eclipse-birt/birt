@@ -32,62 +32,58 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * 2. Check that this Class list containing these methods.
  */
 
-public class Regression_78431 extends BaseTestCase
-{
+public class Regression_78431 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
-	public void test_regression_78431( )
-	{
-		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
+	public void test_regression_78431() {
+		MetaDataDictionary instance = MetaDataDictionary.getInstance();
 
 		// Retrieve by name
 
-		IClassInfo number = instance.getClass( "Date" ); //$NON-NLS-1$
-		IMethodInfo method1 = number.getMethod( "getMonth" ); //$NON-NLS-1$
-		IMethodInfo method2 = number.getMethod( "getMilliseconds" ); //$NON-NLS-1$
-		IMethodInfo method3 = number.getMethod( "getTimezoneOffset" ); //$NON-NLS-1$
-		assertNotNull( method1 );
-		assertNotNull( method2 );
-		assertNotNull( method3 );
+		IClassInfo number = instance.getClass("Date"); //$NON-NLS-1$
+		IMethodInfo method1 = number.getMethod("getMonth"); //$NON-NLS-1$
+		IMethodInfo method2 = number.getMethod("getMilliseconds"); //$NON-NLS-1$
+		IMethodInfo method3 = number.getMethod("getTimezoneOffset"); //$NON-NLS-1$
+		assertNotNull(method1);
+		assertNotNull(method2);
+		assertNotNull(method3);
 
 		// Class/Method list containing this Class method
 
-		List classInfos = instance.getClasses( );
+		List classInfos = instance.getClasses();
 		IClassInfo numberCInfo = null;
-		for ( Iterator iter = classInfos.iterator( ); iter.hasNext( ); )
-		{
-			IClassInfo cInfo = (IClassInfo) iter.next( );
-			if ( cInfo.getName( ).equals( "Date" ) ) //$NON-NLS-1$
+		for (Iterator iter = classInfos.iterator(); iter.hasNext();) {
+			IClassInfo cInfo = (IClassInfo) iter.next();
+			if (cInfo.getName().equals("Date")) //$NON-NLS-1$
 			{
 				numberCInfo = cInfo;
 			}
 		}
 
-		assertNotNull( numberCInfo );
+		assertNotNull(numberCInfo);
 
 		IMethodInfo methodInfo1 = null;
 		IMethodInfo methodInfo2 = null;
 		IMethodInfo methodInfo3 = null;
-		List methodList = numberCInfo.getMethods( );
-		for ( Iterator iter = methodList.iterator( ); iter.hasNext( ); )
-		{
-			IMethodInfo mInfo = (IMethodInfo) iter.next( );
-			if ( mInfo.getName( ).equals( "getMonth" ) ) //$NON-NLS-1$
+		List methodList = numberCInfo.getMethods();
+		for (Iterator iter = methodList.iterator(); iter.hasNext();) {
+			IMethodInfo mInfo = (IMethodInfo) iter.next();
+			if (mInfo.getName().equals("getMonth")) //$NON-NLS-1$
 			{
 				methodInfo1 = mInfo;
-				assertNotNull( methodInfo1 );
+				assertNotNull(methodInfo1);
 			}
-			if ( mInfo.getName( ).equals( "getMilliseconds" ) ) //$NON-NLS-1$
+			if (mInfo.getName().equals("getMilliseconds")) //$NON-NLS-1$
 			{
 				methodInfo2 = mInfo;
-				assertNotNull( methodInfo2 );
+				assertNotNull(methodInfo2);
 			}
-			if ( mInfo.getName( ).equals( "getTimezoneOffset" ) ) //$NON-NLS-1$
+			if (mInfo.getName().equals("getTimezoneOffset")) //$NON-NLS-1$
 			{
 				methodInfo3 = mInfo;
-				assertNotNull( methodInfo3 );
+				assertNotNull(methodInfo3);
 			}
 
 		}

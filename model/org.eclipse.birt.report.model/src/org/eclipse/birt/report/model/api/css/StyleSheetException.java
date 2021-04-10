@@ -19,13 +19,12 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * Exception thrown if an error occurs when reading an external style sheet.
  */
 
-public class StyleSheetException extends ModelException
-{
+public class StyleSheetException extends ModelException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = 5816843037267500577L;
 
 	/**
@@ -43,28 +42,23 @@ public class StyleSheetException extends ModelException
 	/**
 	 * Constructs the style sheet exception with the error code.
 	 * 
-	 * @param errCode
-	 *            the error code of the exception
+	 * @param errCode the error code of the exception
 	 */
 
-	public StyleSheetException( String errCode )
-	{
-		super( errCode );
+	public StyleSheetException(String errCode) {
+		super(errCode);
 	}
 
 	/**
 	 * Constructs the style sheet exception with the error code and the nested
 	 * exception.
 	 * 
-	 * @param errCode
-	 *            the error code of the exception
-	 * @param cause
-	 *            the nested exception
+	 * @param errCode the error code of the exception
+	 * @param cause   the nested exception
 	 */
 
-	public StyleSheetException( String errCode, Throwable cause )
-	{
-		super( PLUGIN_ID, errCode, null, null, cause );
+	public StyleSheetException(String errCode, Throwable cause) {
+		super(PLUGIN_ID, errCode, null, null, cause);
 	}
 
 	/*
@@ -73,8 +67,7 @@ public class StyleSheetException extends ModelException
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		return ModelMessages.getMessage( sResourceKey );
+	public String getLocalizedMessage() {
+		return ModelMessages.getMessage(sResourceKey);
 	}
 }

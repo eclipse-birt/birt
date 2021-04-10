@@ -11,8 +11,7 @@ import org.eclipse.birt.report.model.elements.Cell;
  * slot.
  */
 
-class CellContextInfo implements Cloneable
-{
+class CellContextInfo implements Cloneable {
 
 	/**
 	 * The cell instance.
@@ -65,18 +64,13 @@ class CellContextInfo implements Cloneable
 	/**
 	 * Constructs a <code>CellContextInfo</code>.
 	 * 
-	 * @param cell
-	 *            the cell element
-	 * @param rowSpan
-	 *            the row span of the cell
-	 * @param colSpan
-	 *            the column span of the cell
-	 * @param drop
-	 *            the drop property of the cell.
+	 * @param cell    the cell element
+	 * @param rowSpan the row span of the cell
+	 * @param colSpan the column span of the cell
+	 * @param drop    the drop property of the cell.
 	 */
 
-	CellContextInfo( Cell cell, int rowSpan, int colSpan, String drop )
-	{
+	CellContextInfo(Cell cell, int rowSpan, int colSpan, String drop) {
 		this.cell = cell;
 		this.rowSpan = rowSpan;
 		this.colSpan = colSpan;
@@ -90,8 +84,7 @@ class CellContextInfo implements Cloneable
 	 * @return the definition name of the container of the row
 	 */
 
-	protected String getContainerDefnName( )
-	{
+	protected String getContainerDefnName() {
 		return containerDefnNameOfRow;
 	}
 
@@ -101,21 +94,17 @@ class CellContextInfo implements Cloneable
 	 * @return the 0-based index of the row
 	 */
 
-	protected int getRowIndex( )
-	{
+	protected int getRowIndex() {
 		return rowIndex;
 	}
 
 	/**
-	 * Sets the definition name of the container of the row where the cell
-	 * resides.
+	 * Sets the definition name of the container of the row where the cell resides.
 	 * 
-	 * @param parent
-	 *            the definition name of the container of the row
+	 * @param parent the definition name of the container of the row
 	 */
 
-	protected void setContainerDefnName( String parent )
-	{
+	protected void setContainerDefnName(String parent) {
 		this.containerDefnNameOfRow = parent;
 	}
 
@@ -125,45 +114,39 @@ class CellContextInfo implements Cloneable
 	 * @return the slot id
 	 */
 
-	protected int getSlotId( )
-	{
+	protected int getSlotId() {
 		return slotId;
 	}
 
 	/**
 	 * Sets the slot id where the cell resides.
 	 * 
-	 * @param slotId
-	 *            the slot id
+	 * @param slotId the slot id
 	 */
 
-	protected void setSlotId( int slotId )
-	{
+	protected void setSlotId(int slotId) {
 		this.slotId = slotId;
 	}
 
 	/**
 	 * Sets the index of the row where the cell resides.
 	 * 
-	 * @param rowNumber
-	 *            the 0-based index of the row
+	 * @param rowNumber the 0-based index of the row
 	 */
 
-	protected void setRowIndex( int rowNumber )
-	{
+	protected void setRowIndex(int rowNumber) {
 		assert rowNumber != -1;
 		this.rowIndex = rowNumber;
 	}
 
 	/**
-	 * Return the cell element that this <code>CellContextInfo</code>
-	 * corresponds to.
+	 * Return the cell element that this <code>CellContextInfo</code> corresponds
+	 * to.
 	 * 
 	 * @return the cell element
 	 */
 
-	protected Cell getCell( )
-	{
+	protected Cell getCell() {
 		return cell;
 	}
 
@@ -173,20 +156,17 @@ class CellContextInfo implements Cloneable
 	 * @return the 0-based group index
 	 */
 
-	protected int getGroupId( )
-	{
+	protected int getGroupId() {
 		return groupId;
 	}
 
 	/**
 	 * Sets the group index where the cell resides.
 	 * 
-	 * @param groupId
-	 *            the 0-based group index
+	 * @param groupId the 0-based group index
 	 */
 
-	protected void setGroupId( int groupId )
-	{
+	protected void setGroupId(int groupId) {
 		this.groupId = groupId;
 	}
 
@@ -196,8 +176,7 @@ class CellContextInfo implements Cloneable
 	 * @return the row span of the cell
 	 */
 
-	protected int getRowSpan( )
-	{
+	protected int getRowSpan() {
 		return rowSpan;
 	}
 
@@ -207,8 +186,7 @@ class CellContextInfo implements Cloneable
 	 * @return the column span of the cell
 	 */
 
-	protected int getColumnSpan( )
-	{
+	protected int getColumnSpan() {
 		return colSpan;
 	}
 
@@ -218,8 +196,7 @@ class CellContextInfo implements Cloneable
 	 * @return the value of the drop property
 	 */
 
-	protected String getDrop( )
-	{
+	protected String getDrop() {
 		return drop;
 	}
 
@@ -229,11 +206,10 @@ class CellContextInfo implements Cloneable
 	 * @see java.lang.Object#clone()
 	 */
 
-	protected Object clone( ) throws CloneNotSupportedException
-	{
-		CellContextInfo clonedContext = (CellContextInfo) super.clone( );
+	protected Object clone() throws CloneNotSupportedException {
+		CellContextInfo clonedContext = (CellContextInfo) super.clone();
 
-		Cell clonedCell = (Cell) cell.clone( );
+		Cell clonedCell = (Cell) cell.clone();
 		clonedContext.cell = clonedCell;
 
 		return clonedContext;

@@ -13,13 +13,11 @@ import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.tests.engine.api.AllApiTests;
 
-public class AllTests
-{
+public class AllTests {
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
-		test.addTest( AllApiTests.suite( ) );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
+		test.addTest(AllApiTests.suite());
 		return test;
 	}
 

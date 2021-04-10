@@ -19,11 +19,10 @@ import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 /**
  * Util to create/delete temp file for merge sort.
  */
-class MergeTempFileUtil
-{
+class MergeTempFileUtil {
 	// temp dir
 	private String tempDirStr;
-	
+
 	// result object util
 	private ResultObjectUtil resultObjectUtil;
 
@@ -31,59 +30,53 @@ class MergeTempFileUtil
 	// file name for temp file.
 	private int curLevel = 0;
 	private int curIndex = 0;
-	
+
 	// the prefix of temp file
 	private final static String tempFilePrefix = "data";
-	
+
 	/**
 	 * @param tempDirStr
 	 * @param resultObjectUtil
 	 */
-	MergeTempFileUtil( String tempDirStr, ResultObjectUtil resultObjectUtil )
-	{
+	MergeTempFileUtil(String tempDirStr, ResultObjectUtil resultObjectUtil) {
 		this.tempDirStr = tempDirStr;
 		this.resultObjectUtil = resultObjectUtil;
 
-		File tempDir = new File( tempDirStr );
-		if ( FileSecurity.fileExist( tempDir ) == false )
-			FileSecurity.fileMakeDirs( tempDir );
+		File tempDir = new File(tempDirStr);
+		if (FileSecurity.fileExist(tempDir) == false)
+			FileSecurity.fileMakeDirs(tempDir);
 	}
 
 	/**
-	 * Get temp file for external sorting, template file is automatic
-	 * generated according to passed result row index value.
+	 * Get temp file for external sorting, template file is automatic generated
+	 * according to passed result row index value.
 	 * 
 	 * @param index
 	 * @return temp file
 	 * @throws IOException
 	 */
-	RowFile newTempFile( int cacheSize )
-	{
-		return new RowFile( new File( tempDirStr, tempFilePrefix
-				+ "_" + curLevel + "_" + curIndex++ ),
-				resultObjectUtil,
-				cacheSize );
+	RowFile newTempFile(int cacheSize) {
+		return new RowFile(new File(tempDirStr, tempFilePrefix + "_" + curLevel + "_" + curIndex++), resultObjectUtil,
+				cacheSize);
 	}
-	
+
 	/**
 	 * Start new merge level.
 	 * 
 	 */
-	void newMergeLevel( )
-	{
+	void newMergeLevel() {
 		curLevel++;
 		curIndex = 0;
 	}
-	
+
 	/**
 	 * Delete the temperary dir.
 	 * 
 	 */
-	void clearTempDir( )
-	{
-		File tempDir = new File( tempDirStr );
-		if ( FileSecurity.fileExist( tempDir ) )
-			FileSecurity.fileDelete( tempDir );
+	void clearTempDir() {
+		File tempDir = new File(tempDirStr);
+		if (FileSecurity.fileExist(tempDir))
+			FileSecurity.fileDelete(tempDir);
 	}
-	
+
 }

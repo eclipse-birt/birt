@@ -22,38 +22,32 @@ import org.eclipse.birt.core.script.ScriptEngineFactoryManager;
 import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.osgi.framework.BundleContext;
 
-public class CorePlugin extends BIRTPlugin
-{
+public class CorePlugin extends BIRTPlugin {
 
 	/**
 	 * This method is called upon plug-in activation.
 	 */
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
-		ClassLoader contextClassLoader = (ClassLoader) AccessController
-				.doPrivileged( new PrivilegedAction<Object>( ) {
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		ClassLoader contextClassLoader = (ClassLoader) AccessController.doPrivileged(new PrivilegedAction<Object>() {
 
-					public Object run( )
-					{
-						return Thread.currentThread( ).getContextClassLoader( );
-					}
-				} );
+			public Object run() {
+				return Thread.currentThread().getContextClassLoader();
+			}
+		});
 
-		Platform.setPlatform( new EclipsePlatform( context, contextClassLoader ) );
-		FunctionProvider.setFunctionProvider( new FunctionProviderImpl( ) );
-		ScriptEngineFactoryManager
-				.setInstance( new ScriptEngineFactoryManagerImpl( ) );
+		Platform.setPlatform(new EclipsePlatform(context, contextClassLoader));
+		FunctionProvider.setFunctionProvider(new FunctionProviderImpl());
+		ScriptEngineFactoryManager.setInstance(new ScriptEngineFactoryManagerImpl());
 	}
 
 	/**
 	 * This method is called when the plug-in is stopped
 	 */
-	public void stop( BundleContext context ) throws Exception
-	{
-		super.stop( context );
-		Platform.setPlatform( null );
-		FunctionProvider.setFunctionProvider( null );
-		ScriptEngineFactoryManager.setInstance( null );
+	public void stop(BundleContext context) throws Exception {
+		super.stop(context);
+		Platform.setPlatform(null);
+		FunctionProvider.setFunctionProvider(null);
+		ScriptEngineFactoryManager.setInstance(null);
 	}
 }

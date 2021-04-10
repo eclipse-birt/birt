@@ -10,108 +10,83 @@ import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 
-public class CellComputedStyle extends ComputedStyle
-{
+public class CellComputedStyle extends ComputedStyle {
 
 	private CSSStylableElement cell;
 	private IStyle columnStyle;
 	private IStyle rowStyle;
 
-	public CellComputedStyle( ICellContent elt )
-	{
-		super( elt );
-		IRowContent row = (IRowContent) elt.getParent( );
-		if ( row != null )
-		{
+	public CellComputedStyle(ICellContent elt) {
+		super(elt);
+		IRowContent row = (IRowContent) elt.getParent();
+		if (row != null) {
 			rowStyle = row.getStyle();
-			ITableContent table = row.getTable( );
-			if ( table != null )
-			{
-				int columnId = elt.getColumn( );
-				if ( columnId >= 0 && columnId < table.getColumnCount( ) )
-				{
-					IColumn column = table.getColumn( columnId );
-					columnStyle = column.getStyle( );
+			ITableContent table = row.getTable();
+			if (table != null) {
+				int columnId = elt.getColumn();
+				if (columnId >= 0 && columnId < table.getColumnCount()) {
+					IColumn column = table.getColumn(columnId);
+					columnStyle = column.getStyle();
 				}
 			}
 		}
 		cell = elt;
 	}
 
-	protected Value resolveProperty( int index )
-	{
-		CSSStylableElement parent = (CSSStylableElement) cell.getParent( );
+	protected Value resolveProperty(int index) {
+		CSSStylableElement parent = (CSSStylableElement) cell.getParent();
 		IStyle pcs = null;
-		if ( parent != null )
-		{
-			pcs = parent.getComputedStyle( );
+		if (parent != null) {
+			pcs = parent.getComputedStyle();
 		}
 		// get the specified style
-		IStyle s = cell.getStyle( );
+		IStyle s = cell.getStyle();
 
-		Value sv = s == null ? null : (Value) s.getProperty( index );
-		
-		//none inheritable properties
-		//background color: if the property defined in the row is empty, use column's property.
-		//vertical-align: if the row property is not null, use it, otherwise, use the column.
-		//other properties, use the property of column directly.
-		if ( sv == null && columnStyle != null )
-		{
-			if ( engine.isInheritedProperty( index ) == false )
-			{
-				if ( isBackgroundProperties( index ) )
-				{
+		Value sv = s == null ? null : (Value) s.getProperty(index);
+
+		// none inheritable properties
+		// background color: if the property defined in the row is empty, use column's
+		// property.
+		// vertical-align: if the row property is not null, use it, otherwise, use the
+		// column.
+		// other properties, use the property of column directly.
+		if (sv == null && columnStyle != null) {
+			if (engine.isInheritedProperty(index) == false) {
+				if (isBackgroundProperties(index)) {
 					Value rowValue = null;
-					if ( rowStyle != null )
-					{
-						rowValue = (Value) rowStyle.getProperty( index );
+					if (rowStyle != null) {
+						rowValue = (Value) rowStyle.getProperty(index);
 					}
-					if ( rowValue == null )
-					{
-						sv = (Value) columnStyle.getProperty( index );
+					if (rowValue == null) {
+						sv = (Value) columnStyle.getProperty(index);
 					}
+				} else if (index == STYLE_VERTICAL_ALIGN) {
+					if (rowStyle != null) {
+						sv = (Value) rowStyle.getProperty(index);
+					}
+					if (sv == null) {
+						sv = (Value) columnStyle.getProperty(index);
+					}
+				} else {
+					sv = (Value) columnStyle.getProperty(index);
 				}
-				else if ( index == STYLE_VERTICAL_ALIGN )
-				{
-					if ( rowStyle != null )
-					{
-						sv = (Value) rowStyle.getProperty( index );
-					}
-					if ( sv == null )
-					{
-						sv = (Value) columnStyle.getProperty( index );
-					}
-				}
-				else
-				{
-					sv = (Value) columnStyle.getProperty( index );
-				}
-			}
-			else
-			{
-				sv = (Value) rowStyle.getProperty( index );
-				if ( sv == null )
-				{
-					sv = (Value) columnStyle.getProperty( index );
+			} else {
+				sv = (Value) rowStyle.getProperty(index);
+				if (sv == null) {
+					sv = (Value) columnStyle.getProperty(index);
 				}
 			}
 		}
 
-		Value cv = engine.resolveStyle( elt, index, sv, pcs );
+		Value cv = engine.resolveStyle(elt, index, sv, pcs);
 		return cv;
 	}
-	
-	private boolean isBackgroundProperties(int index)
-	{
-		if (StyleConstants.STYLE_BACKGROUND_COLOR==index 
-				||StyleConstants.STYLE_BACKGROUND_ATTACHMENT==index
-				||StyleConstants.STYLE_BACKGROUND_IMAGE==index
-				||StyleConstants.STYLE_BACKGROUND_REPEAT==index)
-		{
+
+	private boolean isBackgroundProperties(int index) {
+		if (StyleConstants.STYLE_BACKGROUND_COLOR == index || StyleConstants.STYLE_BACKGROUND_ATTACHMENT == index
+				|| StyleConstants.STYLE_BACKGROUND_IMAGE == index || StyleConstants.STYLE_BACKGROUND_REPEAT == index) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}

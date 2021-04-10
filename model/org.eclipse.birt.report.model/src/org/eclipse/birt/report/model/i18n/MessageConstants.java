@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.i18n;
  * Provide message key constants for a message that needs to be localized.
  * 
  */
-public interface MessageConstants
-{
+public interface MessageConstants {
 
 	// messages.
 
@@ -106,7 +105,6 @@ public interface MessageConstants
 	public static final String CONTENT_EXCEPTION_INVALID_POSITION = "Error.ContentException.INVALID_POSITION"; //$NON-NLS-1$
 	public static final String CONTENT_EXCEPTION_SHARE_DIMENSION_NOT_EXIST = "Error.ContentException.SHARE_DIMENSION_NOT_EXIST"; //$NON-NLS-1$
 
-
 	// CustomMsgException
 	public static final String CUSTOM_MSG_EXCEPTION_RESOURCE_KEY_REQUIRED = "Error.CustomMsgException.RESOURCE_KEY_REQUIRED"; //$NON-NLS-1$
 
@@ -172,7 +170,7 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_INCONSISTENT_TABLE_COL_COUNT = "Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INCONSISTENT_TABLE_COL_COUNT_COZ_DROP = "Error.SemanticError.INCONSISTENT_TABLE_COL_COUNT_COZ_DROP"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_OVERLAPPING_CELLS = "Error.SemanticError.OVERLAPPING_CELLS"; //$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_INCONSISTENT_DROP_HEADINGS = "Error.SemanticError.INCONSISTENT_TABLE_DROP_HEADINGS"; //$NON-NLS-1$	
+	public static final String SEMANTIC_ERROR_INCONSISTENT_DROP_HEADINGS = "Error.SemanticError.INCONSISTENT_TABLE_DROP_HEADINGS"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_PAGE_SIZE = "Error.SemanticError.INVALID_PAGE_SIZE"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_INVALID_PAGE_MARGINS = "Error.SemanticError.INVALID_PAGE_MARGINS"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_MISSING_PAGE_SIZE = "Error.SemanticError.MISSING_PAGE_SIZE"; //$NON-NLS-1$
@@ -221,7 +219,7 @@ public interface MessageConstants
 	public static final String SEMANTIC_ERROR_MISSING_COLUMN_BINDING = "Error.SemanticError.MISSING_COLUMN_BINDING"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_COLUMN_INSERT_FORBIDDEN = "Error.SemanticError.COLUMN_INSERT_FORBIDDEN"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_CANNOT_SPECIFY_VALUE = "Error.SemanticError.CANNOT_SPECIFY_VALUE"; //$NON-NLS-1$
-	
+
 	public static final String SEMANTIC_ERROR_ROW_COPY_FORBIDDEN = "Error.SemanticError.ROW_COPY_FORBIDDEN";//$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_ROW_PASTE_FORBIDDEN = "Error.SemanticError.ROW_PASTE_FORBIDDEN";//$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_ROW_INSERT_FORBIDDEN = "Error.SemanticError.ROW_INSERT_FORBIDDEN";//$NON-NLS-1$
@@ -238,7 +236,6 @@ public interface MessageConstants
 
 	public static final String SEMANTIC_ERROR_VALUE_FORBIDDEN = "Error.SemanticError.VALUE_FORBIDDEN"; //$NON-NLS-1$
 	public static final String SEMANTIC_ERROR_CANNOT_SPECIFY_DATA_OBJECT = "Error.SemanticError.CANNOT_SPECIFY_DATA_OBJECT"; //$NON-NLS-1$
-
 
 	// ThemeException
 
@@ -343,9 +340,9 @@ public interface MessageConstants
 
 	// VersionInfo
 	public static final String VERSION_INFO_INVALID_DESIGN_FILE = "Info.VersionInfo.INVALID_DESIGN_FILE"; //$NON-NLS-1$
-	public static final String VERSION_INFO_CONVERT_INFO = "Info.VersionInfo.CONVERT_INFO"; //$NON-NLS-1$	
-	public static final String VERSION_INFO_INVALID_VERSION = "Info.VersionInfo.INVALID_VERSION"; //$NON-NLS-1$	
-	public static final String VERSION_INFO_LATER_VERSION = "Info.VersionInfo.LATER_VERSION"; //$NON-NLS-1$	
+	public static final String VERSION_INFO_CONVERT_INFO = "Info.VersionInfo.CONVERT_INFO"; //$NON-NLS-1$
+	public static final String VERSION_INFO_INVALID_VERSION = "Info.VersionInfo.INVALID_VERSION"; //$NON-NLS-1$
+	public static final String VERSION_INFO_LATER_VERSION = "Info.VersionInfo.LATER_VERSION"; //$NON-NLS-1$
 	public static final String VERSION_INFO_EXTENSION_COMPATIBILITY = "Info.VersionInfo.EXTENSION_COMPATIBILITY"; //$NON-NLS-1$
 
 	// EncryptionException
@@ -355,14 +352,14 @@ public interface MessageConstants
 	// Dashboard exporter
 	public static final String EXPORT_GADGET_TO_SHARED_GADGET_FILE = "Message.ExportGadgetToSharedGadgetFile"; //$NON-NLS-1$
 	public static final String EXPORT_TAB_TO_SHARED_TAB_FILE = "Message.ExportTabToSharedTabFile"; //$NON-NLS-1$
-	public static final String DASHBOARD_EXCEPTION_GADGET_INCLUDED_RECURSIVELY = "Error.ExternalGadgetFileIncludedRecursively"; //$NON-NLS-1$	
+	public static final String DASHBOARD_EXCEPTION_GADGET_INCLUDED_RECURSIVELY = "Error.ExternalGadgetFileIncludedRecursively"; //$NON-NLS-1$
 	public static final String DASHBOARD_EXCEPTION_NOT_FOUND_EXPORTER = "Error.NotFoundExporter"; //$NON-NLS-1$
 
 	// Table width adjustment exceptions
 	public static final String SEMANTIC_ERROR_TABLE_NO_COLUMN_FOUND = "Error.SemanticError.TABLE_NO_COLUMN_FOUND"; //$NON-NLS-1$
-	public static final String SEMANTIC_ERROR_TABLE_COLUMN_WITH_NO_WIDTH = "Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH"; //$NON-NLS-1$	
-	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE"; //$NON-NLS-1$	
-	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT"; //$NON-NLS-1$	
-	public static final String SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE = "Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE"; //$NON-NLS-1$			
-	
+	public static final String SEMANTIC_ERROR_TABLE_COLUMN_WITH_NO_WIDTH = "Error.SemanticError.TABLE_COLUMN_WITH_NO_WIDTH"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_UNIT_TYPE = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_UNIT_TYPE"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT = "Error.SemanticError.TABLE_COLUMN_INCONSISTENT_RELATIVE_UNIT"; //$NON-NLS-1$
+	public static final String SEMANTIC_ERROR_TABLE_COLUMN_ILLEGAL_PERCENTAGE = "Error.SemanticError.TABLE_COLUMN_ILLEGAL_PERCENTAGE"; //$NON-NLS-1$
+
 }

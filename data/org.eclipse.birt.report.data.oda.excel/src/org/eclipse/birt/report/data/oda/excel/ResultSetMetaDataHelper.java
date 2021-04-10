@@ -9,7 +9,6 @@
   *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
   *******************************************************************************/
 
-
 package org.eclipse.birt.report.data.oda.excel;
 
 import java.util.HashMap;
@@ -41,11 +40,9 @@ public class ResultSetMetaDataHelper {
 	 * @param colLabels
 	 * @throws OdaException
 	 */
-	public ResultSetMetaDataHelper(String[] colNames, String[] colTypes,
-			String[] colLabels) throws OdaException {
+	public ResultSetMetaDataHelper(String[] colNames, String[] colTypes, String[] colLabels) throws OdaException {
 		if (colNames == null)
-			throw new OdaException(
-					Messages.getString("common_ARGUMENT_CANNOT_BE_NULL")); //$NON-NLS-1$
+			throw new OdaException(Messages.getString("common_ARGUMENT_CANNOT_BE_NULL")); //$NON-NLS-1$
 
 		this.columnNames = colNames;
 		this.columnTypes = colTypes;
@@ -61,8 +58,7 @@ public class ResultSetMetaDataHelper {
 	 */
 	public ResultSetMetaDataHelper(String savedSelectedColumnsInfoString) {
 		this.savedSelectedColumnsInfoString = savedSelectedColumnsInfoString;
-		ColumnsInfoUtil ciu = new ColumnsInfoUtil(
-				savedSelectedColumnsInfoString);
+		ColumnsInfoUtil ciu = new ColumnsInfoUtil(savedSelectedColumnsInfoString);
 		this.columnNames = ciu.getColumnNames();
 		this.columnTypes = ciu.getColumnTypeNames();
 		this.originalColumnNames = ciu.getOriginalColumnNames();
@@ -82,8 +78,7 @@ public class ResultSetMetaDataHelper {
 	 *
 	 */
 	private void trimMetaDataStrings() {
-		assert columnNames.length == columnTypes.length
-				&& columnTypes.length == originalColumnNames.length
+		assert columnNames.length == columnTypes.length && columnTypes.length == originalColumnNames.length
 				&& originalColumnNames.length == columnLabels.length;
 
 		for (int i = 0; i < columnNames.length; i++) {

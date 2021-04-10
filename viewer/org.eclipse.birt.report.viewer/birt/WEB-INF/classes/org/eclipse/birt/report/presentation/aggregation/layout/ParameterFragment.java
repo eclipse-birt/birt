@@ -20,17 +20,16 @@ import org.eclipse.birt.report.presentation.aggregation.dialog.ParameterDialogFr
 /**
  * Fragment for parameter dialog.
  * <p>
+ * 
  * @see BaseFragment
  */
-public class ParameterFragment extends BirtBaseFragment
-{
+public class ParameterFragment extends BirtBaseFragment {
 	/**
 	 * Build fragment by adding parameter dialog fragment as child.
 	 */
-	protected void build( )
-	{
-		addChild( new ProgressBarFragment( ) );
-		addChild( new DialogContainerFragment( new ParameterDialogFragment( ) ) );
-		addChild( new DialogContainerFragment( new ExceptionDialogFragment( ) ) );
+	protected void build() {
+		addChild(new ProgressBarFragment());
+		addChild(new DialogContainerFragment(new ParameterDialogFragment()));
+		addChild(new DialogContainerFragment(new ExceptionDialogFragment()));
 	}
 }

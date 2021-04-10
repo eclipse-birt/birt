@@ -5,49 +5,39 @@ import java.util.LinkedList;
 
 import org.eclipse.ui.IMemento;
 
-public class Memento implements IMemento
-{
+public class Memento implements IMemento {
 
 	protected MementoElement memento;
 	private MementoBuilder builder;
-	
 
-	public Memento( MementoElement memento, MementoBuilder builder )
-	{
+	public Memento(MementoElement memento, MementoBuilder builder) {
 		this.memento = memento;
 		this.builder = builder;
 	}
 
-
-	public IMemento createChild( String id )
-	{
+	public IMemento createChild(String id) {
 		return null;
 	}
 
-	public IMemento createChild( String id, String type )
-	{
-		MementoElement child = builder.createElement( id, type );
-		memento.addChild( child );
-		return builder.createMemento( child );
+	public IMemento createChild(String id, String type) {
+		MementoElement child = builder.createElement(id, type);
+		memento.addChild(child);
+		return builder.createMemento(child);
 	}
 
-	public IMemento getChild( String id )
-	{
+	public IMemento getChild(String id) {
 		// Get the nodes.
-		MementoElement[] children = memento.getChildren( );
+		MementoElement[] children = memento.getChildren();
 		int size = children.length;
-		if ( size == 0 )
-		{
+		if (size == 0) {
 			return null;
 		}
 
 		// Find the first node which is a child of this node.
-		for ( int nX = 0; nX < size; nX++ )
-		{
+		for (int nX = 0; nX < size; nX++) {
 			MementoElement element = children[nX];
-			if ( element.getKey( ).equals( id ) )
-			{
-				return builder.createMemento( element );
+			if (element.getKey().equals(id)) {
+				return builder.createMemento(element);
 			}
 
 		}
@@ -56,186 +46,144 @@ public class Memento implements IMemento
 		return null;
 	}
 
-	public IMemento[] getChildren( String id )
-	{
-		MementoElement[] children = memento.getChildren( );
+	public IMemento[] getChildren(String id) {
+		MementoElement[] children = memento.getChildren();
 		int size = children.length;
-		if ( size == 0 )
-		{
+		if (size == 0) {
 			return new Memento[0];
 		}
-		LinkedList mementoList = new LinkedList( );
-		for ( int nX = 0; nX < size; nX++ )
-		{
+		LinkedList mementoList = new LinkedList();
+		for (int nX = 0; nX < size; nX++) {
 			MementoElement element = children[nX];
-			if ( element.getKey( ).equals( id ) )
-			{
-				mementoList.add( builder.createMemento( element ) );
+			if (element.getKey().equals(id)) {
+				mementoList.add(builder.createMemento(element));
 			}
 		}
 
-		IMemento[] mementos = new IMemento[mementoList.size( )];
-		mementoList.toArray( mementos );
+		IMemento[] mementos = new IMemento[mementoList.size()];
+		mementoList.toArray(mementos);
 		return mementos;
 	}
 
-	public IMemento[] getChildren( )
-	{
-		MementoElement[] children = memento.getChildren( );
+	public IMemento[] getChildren() {
+		MementoElement[] children = memento.getChildren();
 		int size = children.length;
-		if ( size == 0 )
-		{
+		if (size == 0) {
 			return new Memento[0];
 		}
 
 		IMemento[] mementos = new IMemento[size];
-		for ( int nX = 0; nX < size; nX++ )
-		{
+		for (int nX = 0; nX < size; nX++) {
 			MementoElement element = children[nX];
-			mementos[nX] = builder.createMemento( element ) ;
+			mementos[nX] = builder.createMemento(element);
 		}
 		return mementos;
 	}
 
-	public Float getFloat( String key )
-	{
-		Object value = memento.getAttribute( key );
+	public Float getFloat(String key) {
+		Object value = memento.getAttribute(key);
 
-		if ( value != null )
-		{
-			try
-			{
-				return new Float( value.toString( ) );
-			}
-			catch ( NumberFormatException eNumberFormat )
-			{
+		if (value != null) {
+			try {
+				return new Float(value.toString());
+			} catch (NumberFormatException eNumberFormat) {
 			}
 		}
 
 		return null;
 	}
 
-	public String getID( )
-	{
-		return memento.getKey( );
+	public String getID() {
+		return memento.getKey();
 	}
 
-	public Integer getInteger( String key )
-	{
-		Object value = memento.getAttribute( key );
+	public Integer getInteger(String key) {
+		Object value = memento.getAttribute(key);
 
-		if ( value != null )
-		{
-			try
-			{
-				return new Integer( value.toString( ) );
-			}
-			catch ( NumberFormatException eNumberFormat )
-			{
+		if (value != null) {
+			try {
+				return new Integer(value.toString());
+			} catch (NumberFormatException eNumberFormat) {
 			}
 		}
 
 		return null;
 	}
 
-	public String getString( String key )
-	{
-		Object value = memento.getAttribute( key );
+	public String getString(String key) {
+		Object value = memento.getAttribute(key);
 
-		if ( value != null )
-		{
-			return value.toString( );
+		if (value != null) {
+			return value.toString();
 		}
 
 		return null;
 	}
 
-	public String getTextData( )
-	{
-		Object value = memento.getValue( );
-		if ( value != null )
-		{
-			return value.toString( );
+	public String getTextData() {
+		Object value = memento.getValue();
+		if (value != null) {
+			return value.toString();
 		}
 
 		return null;
 	}
 
-	public void putFloat( String key, float value )
-	{
+	public void putFloat(String key, float value) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void putInteger( String key, int value )
-	{
+	public void putInteger(String key, int value) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void putMemento( IMemento memento )
-	{
+	public void putMemento(IMemento memento) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void putString( String key, String value )
-	{
+	public void putString(String key, String value) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void putTextData( String data )
-	{
+	public void putTextData(String data) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public MementoElement getMementoElement( )
-	{
+	public MementoElement getMementoElement() {
 		return memento;
 	}
 
-
-	
-	public MementoBuilder getBuilder( )
-	{
+	public MementoBuilder getBuilder() {
 		return builder;
 	}
 
-
-	
-	public void setBuilder( MementoBuilder builder )
-	{
+	public void setBuilder(MementoBuilder builder) {
 		this.builder = builder;
 	}
 
-
-	public String[] getAttributeKeys( )
-	{
+	public String[] getAttributeKeys() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-	public Boolean getBoolean( String key )
-	{
+	public Boolean getBoolean(String key) {
 		// TODO Auto-generated method stub
 		return Boolean.FALSE;
 	}
 
-
-	public String getType( )
-	{
+	public String getType() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-	public void putBoolean( String key, boolean value )
-	{
+	public void putBoolean(String key, boolean value) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

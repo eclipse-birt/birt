@@ -17,16 +17,14 @@ package org.eclipse.birt.report.model.api.metadata;
  * for updates.
  */
 
-public interface IStructureDefn extends IObjectDefn
-{
+public interface IStructureDefn extends IObjectDefn {
 
 	/**
 	 * Gets a structure member by name.
 	 * 
-	 * @param name
-	 *            the name of the member to fine
+	 * @param name the name of the member to fine
 	 * @return the member definition, or null if the member was not found
 	 */
 
-	public IPropertyDefn getMember( String name );
+	public IPropertyDefn getMember(String name);
 }

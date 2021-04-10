@@ -12,16 +12,14 @@ import org.eclipse.core.runtime.IPath;
 /**
  *
  */
-public class EclipsePath implements IPlatformPath
-{
+public class EclipsePath implements IPlatformPath {
 	protected IPath path;
-	public EclipsePath(IPath path)
-	{
+
+	public EclipsePath(IPath path) {
 		this.path = path;
 	}
-	
-	public String toString()
-	{
+
+	public String toString() {
 		return path.toString();
 	}
 }

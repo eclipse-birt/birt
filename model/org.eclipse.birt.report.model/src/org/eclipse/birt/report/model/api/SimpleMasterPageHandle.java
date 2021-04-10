@@ -22,26 +22,19 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleMasterPageModel;
  * 
  */
 
-public class SimpleMasterPageHandle extends MasterPageHandle
-		implements
-			ISimpleMasterPageModel
-{
+public class SimpleMasterPageHandle extends MasterPageHandle implements ISimpleMasterPageModel {
 
 	/**
 	 * Constructs the handle for a simple master page with the given design and
-	 * element. The application generally does not create handles directly.
-	 * Instead, it uses one of the navigation methods available on other element
-	 * handles.
+	 * element. The application generally does not create handles directly. Instead,
+	 * it uses one of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public SimpleMasterPageHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public SimpleMasterPageHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
@@ -50,26 +43,20 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 	 * @return <code>true</code> if allows to show the header on the first page.
 	 */
 
-	public boolean showHeaderOnFirst( )
-	{
-		return getBooleanProperty( ISimpleMasterPageModel.SHOW_HEADER_ON_FIRST_PROP );
+	public boolean showHeaderOnFirst() {
+		return getBooleanProperty(ISimpleMasterPageModel.SHOW_HEADER_ON_FIRST_PROP);
 	}
 
 	/**
 	 * Changes the status to show page header on the first page or not.
 	 * 
-	 * @param showHeaderOnFirst
-	 *            <code>true</code> if allow show header on the first page,
-	 *            <code>false</code> otherwise.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param showHeaderOnFirst <code>true</code> if allow show header on the first
+	 *                          page, <code>false</code> otherwise.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setShowHeaderOnFirst( boolean showHeaderOnFirst )
-			throws SemanticException
-	{
-		setBooleanProperty( ISimpleMasterPageModel.SHOW_HEADER_ON_FIRST_PROP,
-				showHeaderOnFirst );
+	public void setShowHeaderOnFirst(boolean showHeaderOnFirst) throws SemanticException {
+		setBooleanProperty(ISimpleMasterPageModel.SHOW_HEADER_ON_FIRST_PROP, showHeaderOnFirst);
 	}
 
 	/**
@@ -78,56 +65,42 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 	 * @return <code>true</code> if allows to show the footer on the last page.
 	 */
 
-	public boolean showFooterOnLast( )
-	{
-		return getBooleanProperty( ISimpleMasterPageModel.SHOW_FOOTER_ON_LAST_PROP );
+	public boolean showFooterOnLast() {
+		return getBooleanProperty(ISimpleMasterPageModel.SHOW_FOOTER_ON_LAST_PROP);
 	}
 
 	/**
 	 * Changes the status to show footer on the last page.
 	 * 
-	 * @param showFooterOnLast
-	 *            <code>true</code> to allow to show footer on last page,
-	 *            <code>false</code> otherwise.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param showFooterOnLast <code>true</code> to allow to show footer on last
+	 *                         page, <code>false</code> otherwise.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setShowFooterOnLast( boolean showFooterOnLast )
-			throws SemanticException
-	{
-		setBooleanProperty( ISimpleMasterPageModel.SHOW_FOOTER_ON_LAST_PROP,
-				showFooterOnLast );
+	public void setShowFooterOnLast(boolean showFooterOnLast) throws SemanticException {
+		setBooleanProperty(ISimpleMasterPageModel.SHOW_FOOTER_ON_LAST_PROP, showFooterOnLast);
 	}
 
 	/**
-	 * Tests whether allows the footer 'floats' after the last content on each
-	 * page.
+	 * Tests whether allows the footer 'floats' after the last content on each page.
 	 * 
-	 * @return <code>true</code> if the simple master page allows floating
-	 *         footer.
+	 * @return <code>true</code> if the simple master page allows floating footer.
 	 */
 
-	public boolean isFloatingFooter( )
-	{
-		return getBooleanProperty( ISimpleMasterPageModel.FLOATING_FOOTER );
+	public boolean isFloatingFooter() {
+		return getBooleanProperty(ISimpleMasterPageModel.FLOATING_FOOTER);
 	}
 
 	/**
 	 * Changes the status to say if it has a floating footer or not.
 	 * 
-	 * @param isFloatingFooter
-	 *            <code>true</code> to allow the footer floating,
-	 *            <code>false</code> not.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param isFloatingFooter <code>true</code> to allow the footer floating,
+	 *                         <code>false</code> not.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setFloatingFooter( boolean isFloatingFooter )
-			throws SemanticException
-	{
-		setBooleanProperty( ISimpleMasterPageModel.FLOATING_FOOTER,
-				isFloatingFooter );
+	public void setFloatingFooter(boolean isFloatingFooter) throws SemanticException {
+		setBooleanProperty(ISimpleMasterPageModel.FLOATING_FOOTER, isFloatingFooter);
 	}
 
 	/**
@@ -136,9 +109,8 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 	 * @return the page header slot handle.
 	 */
 
-	public SlotHandle getPageHeader( )
-	{
-		return getSlot( ISimpleMasterPageModel.PAGE_HEADER_SLOT );
+	public SlotHandle getPageHeader() {
+		return getSlot(ISimpleMasterPageModel.PAGE_HEADER_SLOT);
 	}
 
 	/**
@@ -147,9 +119,8 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 	 * @return the page footer slot handle.
 	 */
 
-	public SlotHandle getPageFooter( )
-	{
-		return getSlot( ISimpleMasterPageModel.PAGE_FOOTER_SLOT );
+	public SlotHandle getPageFooter() {
+		return getSlot(ISimpleMasterPageModel.PAGE_FOOTER_SLOT);
 	}
 
 	/**
@@ -158,10 +129,8 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 	 * @return a DimensionHandle for the header height.
 	 */
 
-	public DimensionHandle getHeaderHeight( )
-	{
-		return super
-				.getDimensionProperty( ISimpleMasterPageModel.HEADER_HEIGHT_PROP );
+	public DimensionHandle getHeaderHeight() {
+		return super.getDimensionProperty(ISimpleMasterPageModel.HEADER_HEIGHT_PROP);
 	}
 
 	/**
@@ -170,9 +139,7 @@ public class SimpleMasterPageHandle extends MasterPageHandle
 	 * @return a DimensionHandle for the header footer.
 	 */
 
-	public DimensionHandle getFooterHeight( )
-	{
-		return super
-				.getDimensionProperty( ISimpleMasterPageModel.FOOTER_HEIGHT_PROP );
+	public DimensionHandle getFooterHeight() {
+		return super.getDimensionProperty(ISimpleMasterPageModel.FOOTER_HEIGHT_PROP);
 	}
 }

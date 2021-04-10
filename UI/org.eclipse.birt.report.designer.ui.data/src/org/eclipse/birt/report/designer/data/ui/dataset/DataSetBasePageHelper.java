@@ -16,25 +16,19 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.jface.wizard.IWizardPage;
 
-public class DataSetBasePageHelper
-{	
-	public void addExternalDataSource( Map dataSourceMap,
-			DataSourceHandle handle )
-	{
+public class DataSetBasePageHelper {
+	public void addExternalDataSource(Map dataSourceMap, DataSourceHandle handle) {
 	}
-	
-	public IWizardPage getNextPage( DataSourceHandle dataSourceHandle, DataSetTypeElement dataSetElement )
-	{
+
+	public IWizardPage getNextPage(DataSourceHandle dataSourceHandle, DataSetTypeElement dataSetElement) {
 		return null;
 	}
 
-	public DataSetHandle createDataSet( String dataSetName, String dataSetType )
-	{
+	public DataSetHandle createDataSet(String dataSetName, String dataSetType) {
 		return null;
 	}
 
-	public boolean hasWizard( DataSourceHandle selectedDataSource )
-	{
+	public boolean hasWizard(DataSourceHandle selectedDataSource) {
 		return false;
 	}
 }

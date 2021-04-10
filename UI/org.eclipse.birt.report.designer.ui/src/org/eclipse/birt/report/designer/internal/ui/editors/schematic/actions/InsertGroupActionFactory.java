@@ -43,77 +43,59 @@ import org.eclipse.jface.action.Action;
  * position
  */
 
-public class InsertGroupActionFactory
-{
+public class InsertGroupActionFactory {
 
-	protected Logger logger = Logger.getLogger( InsertGroupActionFactory.class.getName( ) );
+	protected Logger logger = Logger.getLogger(InsertGroupActionFactory.class.getName());
 
-	private static InsertPositionGroupAction[] instances = new InsertPositionGroupAction[]{
-			new InsertAboveGroupAction( null,
-					Messages.getString( "InsertPositionGroupAction.Label.Above" ) ), //$NON-NLS-1$
-			new InsertBelowGroupAction( null,
-					Messages.getString( "InsertPositionGroupAction.Label.Below" ) ), //$NON-NLS-1$
-	// new InsertIntoGroupAction( null,
-	// Messages.getString( "InsertPositionGroupAction.Label.Into" ) )
-	// //$NON-NLS-1$
+	private static InsertPositionGroupAction[] instances = new InsertPositionGroupAction[] {
+			new InsertAboveGroupAction(null, Messages.getString("InsertPositionGroupAction.Label.Above")), //$NON-NLS-1$
+			new InsertBelowGroupAction(null, Messages.getString("InsertPositionGroupAction.Label.Below")), //$NON-NLS-1$
+			// new InsertIntoGroupAction( null,
+			// Messages.getString( "InsertPositionGroupAction.Label.Into" ) )
+			// //$NON-NLS-1$
 	};
 
 	/**
 	 * Creates a insert group action, given slotid and selection list.
 	 * 
-	 * @param slotID
-	 *            slotid
-	 * @param selection
-	 *            selected editparts
+	 * @param slotID    slotid
+	 * @param selection selected editparts
 	 * @return action
 	 */
-	public static Action createInsertGroupAction( int slotID, List selection )
-	{
-		if ( slotID == TableHandle.HEADER_SLOT
-				|| slotID == ListHandle.HEADER_SLOT )
-		{
-			return new InsertAboveGroupAction( selection,
-					Messages.getString( "InsertGroupActionFactory.label.insertGroup" ) ); //$NON-NLS-1$
-		}
-		else if ( slotID == TableHandle.DETAIL_SLOT
-				|| slotID == ListHandle.DETAIL_SLOT )
-		{
-			return new InsertBelowGroupAction( selection,
-					Messages.getString( "InsertGroupActionFactory.label.insertGroup" ) ); //$NON-NLS-1$
-		}
-		else
-		{
-			return new InsertBelowGroupAction( selection,
-					Messages.getString( "InsertGroupActionFactory.label.insertGroup" ) ); //$NON-NLS-1$
+	public static Action createInsertGroupAction(int slotID, List selection) {
+		if (slotID == TableHandle.HEADER_SLOT || slotID == ListHandle.HEADER_SLOT) {
+			return new InsertAboveGroupAction(selection,
+					Messages.getString("InsertGroupActionFactory.label.insertGroup")); //$NON-NLS-1$
+		} else if (slotID == TableHandle.DETAIL_SLOT || slotID == ListHandle.DETAIL_SLOT) {
+			return new InsertBelowGroupAction(selection,
+					Messages.getString("InsertGroupActionFactory.label.insertGroup")); //$NON-NLS-1$
+		} else {
+			return new InsertBelowGroupAction(selection,
+					Messages.getString("InsertGroupActionFactory.label.insertGroup")); //$NON-NLS-1$
 		}
 	}
 
 	/**
 	 * Gets actions array
 	 * 
-	 * @param selection
-	 *            selected editparts
+	 * @param selection selected editparts
 	 * @return actions array
 	 */
-	public static Action[] getInsertGroupActions( List selection )
-	{
-		initInstances( selection );
+	public static Action[] getInsertGroupActions(List selection) {
+		initInstances(selection);
 		return instances;
 	}
 
-	private static void initInstances( List selection )
-	{
-		for ( int i = 0; i < instances.length; i++ )
-		{
-			instances[i].setSelection( selection );
+	private static void initInstances(List selection) {
+		for (int i = 0; i < instances.length; i++) {
+			instances[i].setSelection(selection);
 		}
 	}
 }
 
-abstract class InsertPositionGroupAction extends Action
-{
+abstract class InsertPositionGroupAction extends Action {
 
-	protected Logger logger = Logger.getLogger( InsertPositionGroupAction.class.getName( ) );
+	protected Logger logger = Logger.getLogger(InsertPositionGroupAction.class.getName());
 
 	private Object currentModel;
 
@@ -122,15 +104,13 @@ abstract class InsertPositionGroupAction extends Action
 	protected static final int POSITION_TOP_LEVEL = 0;
 	protected static final int POSITION_INNERMOST = -1;
 
-	protected InsertPositionGroupAction( List selection, String text )
-	{
-		super( );
+	protected InsertPositionGroupAction(List selection, String text) {
+		super();
 		this.selection = selection;
-		setText( text );
+		setText(text);
 	}
 
-	public void setSelection( List selection )
-	{
+	public void setSelection(List selection) {
 		this.selection = selection;
 		this.currentModel = null;
 	}
@@ -140,37 +120,31 @@ abstract class InsertPositionGroupAction extends Action
 	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
+	public boolean isEnabled() {
 		boolean canContain = false;
 
-		if ( getTableEditPart( ) != null )
-		{
-			TableHandle table = (TableHandle) getTableEditPart( ).getModel( );
-			if ( table.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+		if (getTableEditPart() != null) {
+			TableHandle table = (TableHandle) getTableEditPart().getModel();
+			if (table.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
 				canContain = false;
 			else
-				canContain = table.canContain( TableHandle.GROUP_SLOT,
-						ReportDesignConstants.TABLE_GROUP_ELEMENT );
+				canContain = table.canContain(TableHandle.GROUP_SLOT, ReportDesignConstants.TABLE_GROUP_ELEMENT);
 		}
 
-		if ( getTableMultipleEditPart( ) != null )
-		{
-			TableHandle table = (TableHandle) getTableMultipleEditPart( ).getModel( );
-			if ( table.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+		if (getTableMultipleEditPart() != null) {
+			TableHandle table = (TableHandle) getTableMultipleEditPart().getModel();
+			if (table.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
 				canContain = false;
 			else
-				canContain = table.canContain( TableHandle.GROUP_SLOT,
-						ReportDesignConstants.TABLE_GROUP_ELEMENT );
+				canContain = table.canContain(TableHandle.GROUP_SLOT, ReportDesignConstants.TABLE_GROUP_ELEMENT);
 		}
 
-		if ( getListEditPart( ) != null )
-		{
-			ListHandle list = (ListHandle) getListEditPart( ).getModel( );
-			if ( list.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+		if (getListEditPart() != null) {
+			ListHandle list = (ListHandle) getListEditPart().getModel();
+			if (list.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
 				canContain = false;
-			canContain = ( (ListHandle) getListEditPart( ).getModel( ) ).canContain( ListHandle.GROUP_SLOT,
-					ReportDesignConstants.LIST_GROUP_ELEMENT );
+			canContain = ((ListHandle) getListEditPart().getModel()).canContain(ListHandle.GROUP_SLOT,
+					ReportDesignConstants.LIST_GROUP_ELEMENT);
 
 		}
 		return canContain;
@@ -180,36 +154,26 @@ abstract class InsertPositionGroupAction extends Action
 	 * Runs action.
 	 * 
 	 */
-	public void run( )
-	{
+	public void run() {
 
-		CommandUtils.setVariable( ICommandParameterNameContants.INSERT_GROUP_CURRENT_MODEL_NAME,
-				currentModel );
+		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_GROUP_CURRENT_MODEL_NAME, currentModel);
 
-		CommandUtils.setVariable( ICommandParameterNameContants.INSERT_GROUP_POSITION,
-				Integer.valueOf( getPosition( ) ) );
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertGroupCommand", //$NON-NLS-1$
-					null );
-		}
-		catch ( Exception e )
-		{
+		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_GROUP_POSITION, Integer.valueOf(getPosition()));
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.insertGroupCommand", //$NON-NLS-1$
+					null);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 
 	}
 
-	protected boolean isGroup( )
-	{
-		if ( getRowHandle( ) != null )
-		{
-			return getRowHandle( ).getContainer( ) instanceof GroupHandle;
-		}
-		else if ( getListBandProxy( ) != null )
-		{
-			return getListBandProxy( ).getElemtHandle( ) instanceof GroupHandle;
+	protected boolean isGroup() {
+		if (getRowHandle() != null) {
+			return getRowHandle().getContainer() instanceof GroupHandle;
+		} else if (getListBandProxy() != null) {
+			return getListBandProxy().getElemtHandle() instanceof GroupHandle;
 		}
 		return false;
 	}
@@ -219,8 +183,7 @@ abstract class InsertPositionGroupAction extends Action
 	 * 
 	 * @return true when slot is not footer
 	 */
-	protected boolean isNotReverse( )
-	{
+	protected boolean isNotReverse() {
 		return true;
 		// if ( currentModel != null )
 		// {
@@ -255,96 +218,74 @@ abstract class InsertPositionGroupAction extends Action
 	/**
 	 * Gets table edit part.
 	 * 
-	 * @return The current selected table edit part, null if no table edit part
-	 *         is selected.
+	 * @return The current selected table edit part, null if no table edit part is
+	 *         selected.
 	 */
-	protected TableEditPart getTableEditPart( )
-	{
-		if ( getSelection( ) == null || getSelection( ).isEmpty( ) )
+	protected TableEditPart getTableEditPart() {
+		if (getSelection() == null || getSelection().isEmpty())
 			return null;
-		List list = getSelection( );
-		int size = list.size( );
+		List list = getSelection();
+		int size = list.size();
 		TableEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = getSelection( ).get( i );
-			if ( i == 0 && obj instanceof ReportElementEditPart )
-			{
-				currentModel = ( (ReportElementEditPart) obj ).getModel( );
+		for (int i = 0; i < size; i++) {
+			Object obj = getSelection().get(i);
+			if (i == 0 && obj instanceof ReportElementEditPart) {
+				currentModel = ((ReportElementEditPart) obj).getModel();
 			}
 
 			TableEditPart currentEditPart = null;
-			if ( obj instanceof TableEditPart )
-			{
+			if (obj instanceof TableEditPart) {
 				currentEditPart = (TableEditPart) obj;
-			}
-			else if ( obj instanceof TableCellEditPart )
-			{
-				currentEditPart = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
-			}
-			else if ( obj instanceof DummyEditpart )
-			{
+			} else if (obj instanceof TableCellEditPart) {
+				currentEditPart = (TableEditPart) ((TableCellEditPart) obj).getParent();
+			} else if (obj instanceof DummyEditpart) {
 				continue;
 			}
-			if ( part == null )
-			{
+			if (part == null) {
 				part = currentEditPart;
 			}
 			// Check if select only one table
-			if ( currentEditPart == null
-					|| currentEditPart != null
-					&& part != currentEditPart )
-			{
+			if (currentEditPart == null || currentEditPart != null && part != currentEditPart) {
 				return null;
 			}
 		}
 		// Only table permitted
-		if ( part instanceof GridEditPart )
+		if (part instanceof GridEditPart)
 			return null;
 		return part;
 	}
 
 	// fix bug 217589
-	private ReportElementEditPart getTableMultipleEditPart( )
-	{
-		if ( getSelection( ) == null || getSelection( ).isEmpty( ) )
+	private ReportElementEditPart getTableMultipleEditPart() {
+		if (getSelection() == null || getSelection().isEmpty())
 			return null;
-		List list = getSelection( );
-		int size = list.size( );
+		List list = getSelection();
+		int size = list.size();
 		ReportElementEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = getSelection( ).get( i );
-			if ( i == 0 && obj instanceof ReportElementEditPart )
-			{
-				currentModel = ( (ReportElementEditPart) obj ).getModel( );
+		for (int i = 0; i < size; i++) {
+			Object obj = getSelection().get(i);
+			if (i == 0 && obj instanceof ReportElementEditPart) {
+				currentModel = ((ReportElementEditPart) obj).getModel();
 			}
 
 			ReportElementEditPart currentEditPart = null;
-			if ( obj instanceof MultipleEditPart
-					&& ( (MultipleEditPart) obj ).getModel( ) instanceof TableHandle )
-			{
+			if (obj instanceof MultipleEditPart && ((MultipleEditPart) obj).getModel() instanceof TableHandle) {
 				currentEditPart = (ReportElementEditPart) obj;
 			}
 
-			else if ( obj instanceof DummyEditpart )
-			{
+			else if (obj instanceof DummyEditpart) {
 				continue;
 			}
-			if ( part == null )
-			{
+			if (part == null) {
 				part = currentEditPart;
 			}
 			// Check if select only one table
-			if ( currentEditPart == null
-					|| currentEditPart != null
-					&& part != currentEditPart )
-			{
+			if (currentEditPart == null || currentEditPart != null && part != currentEditPart) {
 				return null;
 			}
 		}
 		// Only table permitted
-		if ( part instanceof GridEditPart )
+		if (part instanceof GridEditPart)
 			return null;
 		return part;
 	}
@@ -355,67 +296,50 @@ abstract class InsertPositionGroupAction extends Action
 	 * @return The current selected list edit part, null if no list edit part is
 	 *         selected.
 	 */
-	protected ListEditPart getListEditPart( )
-	{
-		if ( getSelection( ) == null || getSelection( ).isEmpty( ) )
+	protected ListEditPart getListEditPart() {
+		if (getSelection() == null || getSelection().isEmpty())
 			return null;
-		List list = getSelection( );
-		int size = list.size( );
+		List list = getSelection();
+		int size = list.size();
 		ListEditPart part = null;
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = getSelection( ).get( i );
-			if ( i == 0 && obj instanceof ReportElementEditPart )
-			{
-				currentModel = ( (ReportElementEditPart) obj ).getModel( );
+		for (int i = 0; i < size; i++) {
+			Object obj = getSelection().get(i);
+			if (i == 0 && obj instanceof ReportElementEditPart) {
+				currentModel = ((ReportElementEditPart) obj).getModel();
 			}
 
 			ListEditPart currentEditPart = null;
-			if ( obj instanceof ListEditPart )
-			{
+			if (obj instanceof ListEditPart) {
 				currentEditPart = (ListEditPart) obj;
+			} else if (obj instanceof ListBandEditPart) {
+				currentEditPart = (ListEditPart) ((ListBandEditPart) obj).getParent();
 			}
-			else if ( obj instanceof ListBandEditPart )
-			{
-				currentEditPart = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
-			}
-			if ( part == null )
-			{
+			if (part == null) {
 				part = currentEditPart;
 			}
 			// Check if select only one list
-			if ( currentEditPart == null
-					|| currentEditPart != null
-					&& part != currentEditPart )
-			{
+			if (currentEditPart == null || currentEditPart != null && part != currentEditPart) {
 				return null;
 			}
 		}
 		return part;
 	}
 
-	public List getSelection( )
-	{
+	public List getSelection() {
 		return selection;
 	}
 
-	protected RowHandle getRowHandle( )
-	{
-		if ( currentModel instanceof RowHandle )
-		{
+	protected RowHandle getRowHandle() {
+		if (currentModel instanceof RowHandle) {
 			return (RowHandle) currentModel;
-		}
-		else if ( currentModel instanceof CellHandle )
-		{
-			return (RowHandle) ( (CellHandle) currentModel ).getContainer( );
+		} else if (currentModel instanceof CellHandle) {
+			return (RowHandle) ((CellHandle) currentModel).getContainer();
 		}
 		return null;
 	}
 
-	protected ListBandProxy getListBandProxy( )
-	{
-		if ( currentModel instanceof ListBandProxy )
-		{
+	protected ListBandProxy getListBandProxy() {
+		if (currentModel instanceof ListBandProxy) {
 			return (ListBandProxy) currentModel;
 		}
 		return null;
@@ -426,25 +350,18 @@ abstract class InsertPositionGroupAction extends Action
 	 * 
 	 * @return the current position of the selected part
 	 */
-	protected int getCurrentPosition( )
-	{
-		if ( currentModel != null && isGroup( ) )
-		{
-			if ( getRowHandle( ) != null )
-			{
-				DesignElementHandle group = getRowHandle( ).getContainer( );
-				TableHandle table = (TableHandle) group.getContainer( );
-				return DEUtil.findInsertPosition( table.getGroups( )
-						.getElementHandle( ), group, table.getGroups( )
-						.getSlotID( ) );
-			}
-			else if ( getListBandProxy( ) != null )
-			{
-				DesignElementHandle group = getListBandProxy( ).getElemtHandle( );
-				ListHandle list = (ListHandle) group.getContainer( );
-				return DEUtil.findInsertPosition( list.getGroups( )
-						.getElementHandle( ), group, list.getGroups( )
-						.getSlotID( ) );
+	protected int getCurrentPosition() {
+		if (currentModel != null && isGroup()) {
+			if (getRowHandle() != null) {
+				DesignElementHandle group = getRowHandle().getContainer();
+				TableHandle table = (TableHandle) group.getContainer();
+				return DEUtil.findInsertPosition(table.getGroups().getElementHandle(), group,
+						table.getGroups().getSlotID());
+			} else if (getListBandProxy() != null) {
+				DesignElementHandle group = getListBandProxy().getElemtHandle();
+				ListHandle list = (ListHandle) group.getContainer();
+				return DEUtil.findInsertPosition(list.getGroups().getElementHandle(), group,
+						list.getGroups().getSlotID());
 			}
 		}
 		return POSITION_INNERMOST;
@@ -455,39 +372,32 @@ abstract class InsertPositionGroupAction extends Action
 	 * 
 	 * @return the insert position
 	 */
-	abstract protected int getPosition( );
+	abstract protected int getPosition();
 }
 
-class InsertAboveGroupAction extends InsertPositionGroupAction
-{
+class InsertAboveGroupAction extends InsertPositionGroupAction {
 
 	/**
 	 * @param editParts
 	 */
-	public InsertAboveGroupAction( List editParts, String text )
-	{
-		super( editParts, text );
+	public InsertAboveGroupAction(List editParts, String text) {
+		super(editParts, text);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
 	 * .InsertPositionGroupAction#getPosition()
 	 */
-	protected int getPosition( )
-	{
-		if ( isGroup( ) )
-		{
-			if ( isNotReverse( ) )
-			{
-				return getCurrentPosition( );
+	protected int getPosition() {
+		if (isGroup()) {
+			if (isNotReverse()) {
+				return getCurrentPosition();
 			}
-			return getCurrentPosition( ) + 1;
+			return getCurrentPosition() + 1;
 		}
-		if ( isNotReverse( ) )
-		{
+		if (isNotReverse()) {
 			return POSITION_TOP_LEVEL;
 		}
 		return POSITION_INNERMOST;
@@ -495,36 +405,29 @@ class InsertAboveGroupAction extends InsertPositionGroupAction
 
 }
 
-class InsertBelowGroupAction extends InsertPositionGroupAction
-{
+class InsertBelowGroupAction extends InsertPositionGroupAction {
 
 	/**
 	 * @param editParts
 	 */
-	public InsertBelowGroupAction( List editParts, String text )
-	{
-		super( editParts, text );
+	public InsertBelowGroupAction(List editParts, String text) {
+		super(editParts, text);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
 	 * .InsertPositionGroupAction#getPosition()
 	 */
-	protected int getPosition( )
-	{
-		if ( isGroup( ) )
-		{
-			if ( isNotReverse( ) )
-			{
-				return getCurrentPosition( ) + 1;
+	protected int getPosition() {
+		if (isGroup()) {
+			if (isNotReverse()) {
+				return getCurrentPosition() + 1;
 			}
-			return getCurrentPosition( );
+			return getCurrentPosition();
 		}
-		if ( isNotReverse( ) )
-		{
+		if (isNotReverse()) {
 			return POSITION_INNERMOST;
 		}
 		return POSITION_TOP_LEVEL;
@@ -535,38 +438,32 @@ class InsertBelowGroupAction extends InsertPositionGroupAction
  * Insert table or list group in the position
  */
 
-class InsertIntoGroupAction extends InsertPositionGroupAction
-{
+class InsertIntoGroupAction extends InsertPositionGroupAction {
 
 	/**
 	 * @param editParts
 	 */
-	public InsertIntoGroupAction( List editParts, String text )
-	{
-		super( editParts, text );
+	public InsertIntoGroupAction(List editParts, String text) {
+		super(editParts, text);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
 	 * .InsertPositionGroupAction#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		return super.isEnabled( ) && isGroup( );
+	public boolean isEnabled() {
+		return super.isEnabled() && isGroup();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions
 	 * .InsertPositionGroupAction#getPosition()
 	 */
-	protected int getPosition( )
-	{
+	protected int getPosition() {
 		return POSITION_INNERMOST;
 	}
 }

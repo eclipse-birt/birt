@@ -21,150 +21,123 @@ import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 
-public class XMLContentWriter extends ContentEmitterAdapter
-{
+public class XMLContentWriter extends ContentEmitterAdapter {
 
 	XMLWriter writer;
 
-	public String getOutputFormat( )
-	{
+	public String getOutputFormat() {
 		return "text/xml";
 	}
 
-	public void initialize( IEmitterServices service )
-	{
+	public void initialize(IEmitterServices service) {
 	}
 
-	public void start( IReportContent report )
-	{
+	public void start(IReportContent report) {
 
-		writer.openTag( "report" );
-
-	}
-
-	public void end( IReportContent report )
-	{
-		writer.closeTag( "report" );
+		writer.openTag("report");
 
 	}
 
-	public void startPage( IPageContent page )
-	{
-		writer.openTag( "page" );
+	public void end(IReportContent report) {
+		writer.closeTag("report");
+
 	}
 
-	public void endPage( IPageContent page )
-	{
-		writer.closeTag( "page" );
+	public void startPage(IPageContent page) {
+		writer.openTag("page");
 	}
 
-	public void startTable( ITableContent table )
-	{
-		writer.openTag( "table" );
+	public void endPage(IPageContent page) {
+		writer.closeTag("page");
 	}
 
-	public void endTable( ITableContent table )
-	{
-		writer.closeTag( "table" );
+	public void startTable(ITableContent table) {
+		writer.openTag("table");
 	}
 
-	public void startRow( IRowContent row )
-	{
-		writer.openTag( "row" );
+	public void endTable(ITableContent table) {
+		writer.closeTag("table");
 	}
 
-	public void endRow( IRowContent row )
-	{
-		writer.closeTag( "row" );
+	public void startRow(IRowContent row) {
+		writer.openTag("row");
 	}
 
-	public void startCell( ICellContent cell )
-	{
-		writer.openTag( "cell" );
+	public void endRow(IRowContent row) {
+		writer.closeTag("row");
 	}
 
-	public void endCell( ICellContent cell )
-	{
-		writer.closeTag( "cell" );
+	public void startCell(ICellContent cell) {
+		writer.openTag("cell");
 	}
 
-	public void startContainer( IContainerContent container )
-	{
+	public void endCell(ICellContent cell) {
+		writer.closeTag("cell");
+	}
+
+	public void startContainer(IContainerContent container) {
 		writer.openTag("container");
 	}
 
-	public void startText( ITextContent text )
-	{
+	public void startText(ITextContent text) {
 		writer.openTag("text");
 		writer.closeTag("text");
 	}
 
-	public void startData( IDataContent data )
-	{
+	public void startData(IDataContent data) {
 		writer.openTag("data");
 		writer.closeTag("data");
 	}
 
-	public void startLabel( ILabelContent label )
-	{
+	public void startLabel(ILabelContent label) {
 		writer.openTag("label");
 		writer.closeTag("label");
 	}
 
-	public void startAutoText( IAutoTextContent autoText )
-	{
+	public void startAutoText(IAutoTextContent autoText) {
 		writer.openTag("auto-text");
 		writer.closeTag("auto-text");
 	}
-	public void startForeign( IForeignContent foreign )
-	{
+
+	public void startForeign(IForeignContent foreign) {
 		writer.openTag("foreign");
 		writer.closeTag("foreign");
 	}
 
-	public void startImage( IImageContent image )
-	{
+	public void startImage(IImageContent image) {
 		writer.openTag("image");
 		writer.closeTag("image");
 	}
 
-	public void endList( IListContent list )
-	{
+	public void endList(IListContent list) {
 		writer.closeTag("list");
 	}
 
-	public void endListBand( IListBandContent listBand )
-	{
+	public void endListBand(IListBandContent listBand) {
 		writer.closeTag("list-band");
 	}
 
-	public void endTableBand( ITableBandContent band )
-	{
+	public void endTableBand(ITableBandContent band) {
 		writer.closeTag("table-band");
 	}
 
-	public void startList( IListContent list )
-	{
+	public void startList(IListContent list) {
 		writer.openTag("list");
 	}
 
-	public void startListBand( IListBandContent listBand )
-	{
-		writer.openTag( "list-band" );
+	public void startListBand(IListBandContent listBand) {
+		writer.openTag("list-band");
 	}
 
-	public void startTableBand( ITableBandContent band )
-	{
-		writer.openTag( "table-band" );
+	public void startTableBand(ITableBandContent band) {
+		writer.openTag("table-band");
 	}
 
-	public void endGroup( IGroupContent group )
-	{
-		writer.closeTag( "group" );
+	public void endGroup(IGroupContent group) {
+		writer.closeTag("group");
 	}
 
-	public void startGroup( IGroupContent group )
-	{
-		writer.openTag( "group" );
+	public void startGroup(IGroupContent group) {
+		writer.openTag("group");
 	}
 }

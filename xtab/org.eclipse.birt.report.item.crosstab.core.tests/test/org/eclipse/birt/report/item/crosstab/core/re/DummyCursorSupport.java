@@ -30,453 +30,374 @@ import javax.olap.cursor.Timestamp;
  * 
  */
 
-class DummyCursorSupport implements
-		javax.olap.cursor.RowDataNavigation,
-		javax.olap.cursor.RowDataAccessor,
-		javax.olap.cursor.Cursor
-{
+class DummyCursorSupport
+		implements javax.olap.cursor.RowDataNavigation, javax.olap.cursor.RowDataAccessor, javax.olap.cursor.Cursor {
 
-	public Object clone( )
-	{
+	public Object clone() {
 		return null;
 	}
 
-	public void afterLast( ) throws OLAPException
-	{
+	public void afterLast() throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void beforeFirst( ) throws OLAPException
-	{
+	public void beforeFirst() throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void clearWarnings( ) throws OLAPException
-	{
+	public void clearWarnings() throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void close( ) throws OLAPException
-	{
+	public void close() throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public boolean first( ) throws OLAPException
-	{
+	public boolean first() throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public long getExtent( ) throws OLAPException
-	{
+	public long getExtent() throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public int getFetchDirection( ) throws OLAPException
-	{
+	public int getFetchDirection() throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public int getFetchSize( ) throws OLAPException
-	{
+	public int getFetchSize() throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public long getPosition( ) throws OLAPException
-	{
+	public long getPosition() throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public int getType( ) throws OLAPException
-	{
+	public int getType() throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public Collection getWarnings( ) throws OLAPException
-	{
+	public Collection getWarnings() throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public boolean isAfterLast( ) throws OLAPException
-	{
+	public boolean isAfterLast() throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean isBeforeFirst( ) throws OLAPException
-	{
+	public boolean isBeforeFirst() throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean isFirst( ) throws OLAPException
-	{
+	public boolean isFirst() throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean isLast( ) throws OLAPException
-	{
+	public boolean isLast() throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean last( ) throws OLAPException
-	{
+	public boolean last() throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean next( ) throws OLAPException
-	{
+	public boolean next() throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean previous( ) throws OLAPException
-	{
+	public boolean previous() throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean relative( int arg0 ) throws OLAPException
-	{
+	public boolean relative(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public void setFetchDirection( int arg0 ) throws OLAPException
-	{
+	public void setFetchDirection(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setFetchSize( int arg0 ) throws OLAPException
-	{
+	public void setFetchSize(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setPosition( long position ) throws OLAPException
-	{
+	public void setPosition(long position) throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public InputStream getAsciiStream( int arg0 ) throws OLAPException
-	{
+	public InputStream getAsciiStream(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public InputStream getAsciiStream( String arg0 ) throws OLAPException
-	{
+	public InputStream getAsciiStream(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public BigDecimal getBigDecimal( int arg0 ) throws OLAPException
-	{
+	public BigDecimal getBigDecimal(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public BigDecimal getBigDecimal( String arg0 ) throws OLAPException
-	{
+	public BigDecimal getBigDecimal(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public InputStream getBinaryStream( int arg0 ) throws OLAPException
-	{
+	public InputStream getBinaryStream(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public InputStream getBinaryStream( String arg0 ) throws OLAPException
-	{
+	public InputStream getBinaryStream(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Blob getBlob( int arg0 ) throws OLAPException
-	{
+	public Blob getBlob(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Blob getBlob( String arg0 ) throws OLAPException
-	{
+	public Blob getBlob(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public boolean getBoolean( int arg0 ) throws OLAPException
-	{
+	public boolean getBoolean(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean getBoolean( String arg0 ) throws OLAPException
-	{
+	public boolean getBoolean(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public byte getByte( int arg0 ) throws OLAPException
-	{
+	public byte getByte(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public byte getByte( String arg0 ) throws OLAPException
-	{
+	public byte getByte(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public byte[] getBytes( int arg0 ) throws OLAPException
-	{
+	public byte[] getBytes(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public byte[] getBytes( String arg0 ) throws OLAPException
-	{
+	public byte[] getBytes(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Reader getCharacterStream( int arg0 ) throws OLAPException
-	{
+	public Reader getCharacterStream(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Reader getCharacterStream( String arg0 ) throws OLAPException
-	{
+	public Reader getCharacterStream(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Clob getClob( int arg0 ) throws OLAPException
-	{
+	public Clob getClob(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Clob getClob( String arg0 ) throws OLAPException
-	{
+	public Clob getClob(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Date getDate( int arg0 ) throws OLAPException
-	{
+	public Date getDate(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Date getDate( String arg0 ) throws OLAPException
-	{
+	public Date getDate(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Date getDate( int arg0, Calendar arg1 ) throws OLAPException
-	{
+	public Date getDate(int arg0, Calendar arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Date getDate( String arg0, Calendar arg1 ) throws OLAPException
-	{
+	public Date getDate(String arg0, Calendar arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public double getDouble( int arg0 ) throws OLAPException
-	{
+	public double getDouble(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public double getDouble( String arg0 ) throws OLAPException
-	{
+	public double getDouble(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public float getFloat( int arg0 ) throws OLAPException
-	{
+	public float getFloat(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public float getFloat( String arg0 ) throws OLAPException
-	{
+	public float getFloat(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public int getInt( int arg0 ) throws OLAPException
-	{
+	public int getInt(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public int getInt( String arg0 ) throws OLAPException
-	{
+	public int getInt(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public long getLong( int arg0 ) throws OLAPException
-	{
+	public long getLong(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public long getLong( String arg0 ) throws OLAPException
-	{
+	public long getLong(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public RowDataMetaData getMetaData( ) throws OLAPException
-	{
+	public RowDataMetaData getMetaData() throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object getObject( int arg0 ) throws OLAPException
-	{
+	public Object getObject(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object getObject( String arg0 ) throws OLAPException
-	{
+	public Object getObject(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object getObject( int arg0, Map arg1 ) throws OLAPException
-	{
+	public Object getObject(int arg0, Map arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object getObject( String arg0, Map arg1 ) throws OLAPException
-	{
+	public Object getObject(String arg0, Map arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public short getShort( int arg0 ) throws OLAPException
-	{
+	public short getShort(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public short getShort( String arg0 ) throws OLAPException
-	{
+	public short getShort(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public String getString( int arg0 ) throws OLAPException
-	{
+	public String getString(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getString( String arg0 ) throws OLAPException
-	{
+	public String getString(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Time getTime( int arg0 ) throws OLAPException
-	{
+	public Time getTime(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Time getTime( String arg0 ) throws OLAPException
-	{
+	public Time getTime(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Time getTime( int arg0, Calendar arg1 ) throws OLAPException
-	{
+	public Time getTime(int arg0, Calendar arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Time getTime( String arg0, Calendar arg1 ) throws OLAPException
-	{
+	public Time getTime(String arg0, Calendar arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Timestamp getTimestamp( int arg0 ) throws OLAPException
-	{
+	public Timestamp getTimestamp(int arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Timestamp getTimestamp( String arg0 ) throws OLAPException
-	{
+	public Timestamp getTimestamp(String arg0) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Timestamp getTimestamp( int arg0, Calendar arg1 )
-			throws OLAPException
-	{
+	public Timestamp getTimestamp(int arg0, Calendar arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Timestamp getTimestamp( String arg0, Calendar arg1 )
-			throws OLAPException
-	{
+	public Timestamp getTimestamp(String arg0, Calendar arg1) throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getId( ) throws OLAPException
-	{
+	public String getId() throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getName( ) throws OLAPException
-	{
+	public String getName() throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void setId( String value ) throws OLAPException
-	{
+	public void setId(String value) throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setName( String value ) throws OLAPException
-	{
+	public void setName(String value) throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}

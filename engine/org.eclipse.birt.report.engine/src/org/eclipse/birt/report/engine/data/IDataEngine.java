@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
  * Defines a set of data-related functions that engine needs from a data engine
  * 
  */
-public interface IDataEngine
-{
+public interface IDataEngine {
 
 	/**
 	 * define the dataset and the associated datasource in the data engine.
@@ -47,49 +46,47 @@ public interface IDataEngine
 	 * <li>all report query definitons (including sub-query definitions)
 	 * </ul>
 	 * <p>
-	 * This method needs to prepare all report queries, Verifies the elements of
-	 * a report query spec and provides a hint to the query to prepare and
-	 * optimize an execution plan.
+	 * This method needs to prepare all report queries, Verifies the elements of a
+	 * report query spec and provides a hint to the query to prepare and optimize an
+	 * execution plan.
 	 * <p>
 	 * 
-	 * @param report
-	 *            the report design
-	 * @param appContext -
-	 *            the context map that will be passed to the data engine
+	 * @param report     the report design
+	 * @param appContext - the context map that will be passed to the data engine
 	 */
-	void prepare( Report report, Map appContext );
+	void prepare(Report report, Map appContext);
 
-	void prepare( IDataQueryDefinition query ) throws BirtException;
+	void prepare(IDataQueryDefinition query) throws BirtException;
 
 	/**
 	 * Executes the prepared (data) execution plan of a report item. Returns an
 	 * IResultSet object
 	 * <p>
 	 * 
-	 * @param the
-	 *            query to be executed
+	 * @param the query to be executed
 	 * @return IResultSet object or null if the query is null
 	 */
-	IBaseResultSet execute( IDataQueryDefinition query ) throws BirtException;
-	
+	IBaseResultSet execute(IDataQueryDefinition query) throws BirtException;
+
 	/**
 	 * execute the query in the parent result
+	 * 
 	 * @param parent parent result set.
-	 * @param query query to be executed
+	 * @param query  query to be executed
 	 * @return result.
 	 */
-	IBaseResultSet execute( IBaseResultSet parent, IDataQueryDefinition query,
-			Object queryOwner, boolean useCache ) throws BirtException;
+	IBaseResultSet execute(IBaseResultSet parent, IDataQueryDefinition query, Object queryOwner, boolean useCache)
+			throws BirtException;
 
 	/**
 	 * shut down the data engine
 	 */
-	void shutdown( );
+	void shutdown();
 
 	/**
 	 * return the DTE's data session.
 	 * 
 	 * @return retuan a dataSession of DTE.
 	 */
-	DataRequestSession getDTESession( );
+	DataRequestSession getDTESession();
 }

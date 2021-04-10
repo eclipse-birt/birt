@@ -14,31 +14,28 @@ package org.eclipse.birt.report.designer.core.mediator;
 /**
  * IMediatorTarget
  */
-public interface IMediatorTarget
-{
+public interface IMediatorTarget {
 
 	/**
-	 * Adds the dispose listener. The target should notify the listener once
-	 * it's disposed. The target should ensure adding a duplicate listener has
-	 * no effect.
+	 * Adds the dispose listener. The target should notify the listener once it's
+	 * disposed. The target should ensure adding a duplicate listener has no effect.
 	 * 
 	 * @param listener
 	 */
-	void addDisposeListener( ITargetDisposeListener listener );
+	void addDisposeListener(ITargetDisposeListener listener);
 
 	/**
 	 * Removes the dispose listener.
 	 * 
 	 * @param listener
 	 */
-	void removeDisposeListener( ITargetDisposeListener listener );
+	void removeDisposeListener(ITargetDisposeListener listener);
 
 	/**
 	 * ITargetDisposeListener
 	 */
-	public interface ITargetDisposeListener
-	{
+	public interface ITargetDisposeListener {
 
-		void dispose( IMediatorTarget target );
+		void dispose(IMediatorTarget target);
 	}
 }

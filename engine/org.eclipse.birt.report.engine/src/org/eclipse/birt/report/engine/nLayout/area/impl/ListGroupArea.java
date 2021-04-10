@@ -15,54 +15,39 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
-
-public class ListGroupArea extends RepeatableArea
-{
-	public ListGroupArea( ContainerArea parent, LayoutContext context,
-			IContent content )
-	{
-		super( parent, context, content );
+public class ListGroupArea extends RepeatableArea {
+	public ListGroupArea(ContainerArea parent, LayoutContext context, IContent content) {
+		super(parent, context, content);
 	}
 
-	public ListGroupArea(ListGroupArea area)
-	{
+	public ListGroupArea(ListGroupArea area) {
 		super(area);
 	}
-	
-	public ListGroupArea cloneArea()
-	{
+
+	public ListGroupArea cloneArea() {
 		return new ListGroupArea(this);
 	}
 
-	protected boolean needRepeat( )
-	{
+	protected boolean needRepeat() {
 		IGroupContent group = (IGroupContent) content;
-		if ( group != null && group.isHeaderRepeat( ) )
-		{
+		if (group != null && group.isHeaderRepeat()) {
 			return true;
 		}
 		return false;
 	}
-	
-	protected boolean isInHeaderBand( )
-	{
-		if ( children.size( ) > 0 )
-		{
-			ContainerArea child = (ContainerArea) children
-					.get( children.size( ) - 1 );
-			IContent childContent = child.getContent( );
-			if ( childContent != null )
-			{
-				if(childContent.getContentType( )==IContent.LIST_GROUP_CONTENT)
-				{
+
+	protected boolean isInHeaderBand() {
+		if (children.size() > 0) {
+			ContainerArea child = (ContainerArea) children.get(children.size() - 1);
+			IContent childContent = child.getContent();
+			if (childContent != null) {
+				if (childContent.getContentType() == IContent.LIST_GROUP_CONTENT) {
 					return false;
 				}
-				IContent band = (IContent) childContent.getParent( );
-				if ( band instanceof IBandContent )
-				{
-					int type = ( (IBandContent) band ).getBandType( );
-					if ( type != IBandContent.BAND_GROUP_HEADER)
-					{
+				IContent band = (IContent) childContent.getParent();
+				if (band instanceof IBandContent) {
+					int type = ((IBandContent) band).getBandType();
+					if (type != IBandContent.BAND_GROUP_HEADER) {
 						return false;
 					}
 				}

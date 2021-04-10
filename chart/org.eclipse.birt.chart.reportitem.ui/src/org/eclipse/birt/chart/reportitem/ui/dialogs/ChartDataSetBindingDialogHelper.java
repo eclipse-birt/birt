@@ -7,26 +7,22 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.chart.reportitem.ui.dialogs;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BindingDialogHelper;
 import org.eclipse.swt.widgets.Composite;
 
-
 /**
  * 
  */
 
-public class ChartDataSetBindingDialogHelper extends BindingDialogHelper
-{
-	protected void createAggregateSection( Composite composite )
-	{
-		super.createAggregateSection( composite );
-		if ( ChartReportItemUtil.isChartHandle( getBindingHolder( ) ) )
-		{
-			btnTable.setText( LIST );
+public class ChartDataSetBindingDialogHelper extends BindingDialogHelper {
+	protected void createAggregateSection(Composite composite) {
+		super.createAggregateSection(composite);
+		if (ChartReportItemUtil.isChartHandle(getBindingHolder())) {
+			btnTable.setText(LIST);
 		}
 	}
 

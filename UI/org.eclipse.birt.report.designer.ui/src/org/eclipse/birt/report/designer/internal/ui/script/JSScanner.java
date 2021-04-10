@@ -22,29 +22,26 @@ import org.eclipse.jface.text.rules.WhitespaceRule;
 /**
  * Scanner for javascript editor
  */
-public class JSScanner extends RuleBasedScanner
-{
+public class JSScanner extends RuleBasedScanner {
 
 	/**
 	 * Creates a new JSScanner object.
 	 * 
 	 */
-	public JSScanner( )
-	{
-		List rules = new ArrayList( );
+	public JSScanner() {
+		List rules = new ArrayList();
 
 		// Add generic whitespace rule.
-		rules.add( new WhitespaceRule( new IWhitespaceDetector( ) {
+		rules.add(new WhitespaceRule(new IWhitespaceDetector() {
 
-			public boolean isWhitespace( char c )
-			{
-				return Character.isWhitespace( c );
+			public boolean isWhitespace(char c) {
+				return Character.isWhitespace(c);
 			}
-		} ) );
+		}));
 
-		IRule[] result = new IRule[rules.size( )];
-		rules.toArray( result );
-		setRules( result );
+		IRule[] result = new IRule[rules.size()];
+		rules.toArray(result);
+		setRules(result);
 	}
 
 }

@@ -18,40 +18,37 @@ import org.eclipse.birt.data.engine.odi.IAggrValueHolder;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 
-
 /**
  * 
  */
 
-public class AggrComputedColumnHelper implements IResultObjectEvent
-{
+public class AggrComputedColumnHelper implements IResultObjectEvent {
 	private IAggrValueHolder holder;
 	private List aggrCCNames;
-	
+
 	/**
 	 * 
 	 * @param holder
 	 * @param aggrCCNames
 	 */
-	public AggrComputedColumnHelper( IAggrValueHolder holder, List aggrCCNames )
-	{
+	public AggrComputedColumnHelper(IAggrValueHolder holder, List aggrCCNames) {
 		this.holder = holder;
 		this.aggrCCNames = aggrCCNames;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.odi.IResultObjectEvent#process(org.eclipse.birt.data.engine.odi.IResultObject, int)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.odi.IResultObjectEvent#process(org.eclipse.birt.
+	 * data.engine.odi.IResultObject, int)
 	 */
-	public boolean process( IResultObject resultObject, int rowIndex )
-			throws DataException
-	{
-		for( int i = 0; i < aggrCCNames.size( ); i++ )
-		{
-			String name = this.aggrCCNames.get( i ).toString( );
-			resultObject.setCustomFieldValue( name, holder.getAggrValue( name ) );
+	public boolean process(IResultObject resultObject, int rowIndex) throws DataException {
+		for (int i = 0; i < aggrCCNames.size(); i++) {
+			String name = this.aggrCCNames.get(i).toString();
+			resultObject.setCustomFieldValue(name, holder.getAggrValue(name));
 		}
-		
+
 		return true;
 	}
 

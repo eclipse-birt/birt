@@ -25,39 +25,30 @@ import org.eclipse.jface.viewers.TreeViewer;
  * Provider for the data sets node
  * 
  */
-public class DataSetsNodeProvider extends DefaultNodeProvider
-{
+public class DataSetsNodeProvider extends DefaultNodeProvider {
 
 	/**
-	 * Creates the context menu for the given object. Gets the action from the actionRegistry and
-	 * adds the action to the given menu.
+	 * Creates the context menu for the given object. Gets the action from the
+	 * actionRegistry and adds the action to the given menu.
 	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		super.createContextMenu( sourceViewer, object, menu );
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		super.createContextMenu(sourceViewer, object, menu);
 
 	}
 
-	public Object[] getChildren( Object model )
-	{
-		SlotHandle dataSetSlot = ( (SlotHandle) model ).getElementHandle( )
-				.getModuleHandle( )
-				.getDataSets( );
-		List dataSets = new ArrayList( dataSetSlot.getCount( ) );
+	public Object[] getChildren(Object model) {
+		SlotHandle dataSetSlot = ((SlotHandle) model).getElementHandle().getModuleHandle().getDataSets();
+		List dataSets = new ArrayList(dataSetSlot.getCount());
 
-		Iterator itr = dataSetSlot.iterator( );
-		while ( itr.hasNext( ) )
-		{
-			dataSets.add( itr.next( ) );
+		Iterator itr = dataSetSlot.iterator();
+		while (itr.hasNext()) {
+			dataSets.add(itr.next());
 		}
 
-		return dataSets.toArray( );
+		return dataSets.toArray();
 		// return ( (SlotHandle) model ).getElementHandle( )
 		// .getModuleHandle( )
 		// .getVisibleDataSets( )
@@ -67,11 +58,9 @@ public class DataSetsNodeProvider extends DefaultNodeProvider
 	/**
 	 * Gets the display name of the node.
 	 * 
-	 * @param model
-	 *            the object
+	 * @param model the object
 	 */
-	public String getNodeDisplayName( Object object )
-	{
+	public String getNodeDisplayName(Object object) {
 		return DATASETS;
 	}
 
@@ -79,11 +68,10 @@ public class DataSetsNodeProvider extends DefaultNodeProvider
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(java.lang.Object
-	 * )
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(
+	 * java.lang.Object )
 	 */
-	public String getIconName( Object model )
-	{
+	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_NODE_DATA_SETS;
 	}
 }

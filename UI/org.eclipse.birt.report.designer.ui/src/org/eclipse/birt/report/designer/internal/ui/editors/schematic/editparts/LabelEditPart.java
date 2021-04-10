@@ -41,8 +41,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
  * Provides support for label edit parts.
  * 
  */
-public class LabelEditPart extends ReportElementEditPart
-{
+public class LabelEditPart extends ReportElementEditPart {
 
 	protected static final int TRUNCATE_LENGTH = 18;
 
@@ -51,101 +50,97 @@ public class LabelEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.facade.IModelAdaptHelper#markDirty(boolean)
+	 * @see
+	 * org.eclipse.birt.report.designer.core.facade.IModelAdaptHelper#markDirty(
+	 * boolean)
 	 */
-	private static final String ELEMENT_DEFAULT_TEXT = Messages.getString( "LabelEditPart.Figure.Default" );//$NON-NLS-1$
+	private static final String ELEMENT_DEFAULT_TEXT = Messages.getString("LabelEditPart.Figure.Default");//$NON-NLS-1$
 
 	/**
 	 * Constructor
 	 * 
 	 * @param model
 	 */
-	public LabelEditPart( Object model )
-	{
-		super( model );
+	public LabelEditPart(Object model) {
+		super(model);
 	}
 
 	private DirectEditManager manager;
 
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) );
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy());
 
-		installEditPolicy( EditPolicy.DIRECT_EDIT_ROLE,
-				new LabelDirectEditPolicy( ) );
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
 	}
 
-	protected IFigure createFigure( )
-	{
-		LabelFigure label = new LabelFigure( );
+	protected IFigure createFigure() {
+		LabelFigure label = new LabelFigure();
 		return label;
 	}
 
 	/**
 	 * Perform director edit on label
 	 */
-	public void performDirectEdit( )
-	{
-		if ( manager == null )
-			manager = new LabelEditManager( this,
-					TextCellEditor.class,
-					new LabelCellEditorLocator( (Figure) getFigure( ) ) );
-		manager.show( );
+	public void performDirectEdit() {
+		if (manager == null)
+			manager = new LabelEditManager(this, TextCellEditor.class,
+					new LabelCellEditorLocator((Figure) getFigure()));
+		manager.show();
 	}
 
 	/**
 	 * @return
 	 */
-	protected LabelHandleAdapter getLabelAdapter( )
-	{
-		return (LabelHandleAdapter) getModelAdapter( );
+	protected LabelHandleAdapter getLabelAdapter() {
+		return (LabelHandleAdapter) getModelAdapter();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		StyleHandle style = ( (DesignElementHandle) getModel( ) ).getPrivateStyle( );
-		//( (LabelFigure) getFigure( ) ).setDirection( style.getTextDirection( ) ); // bidi_hcg
-		( (LabelFigure) getFigure( ) ).setDirection( getTextDirection( ) ); // bidi_hcg
-		( (LabelFigure) getFigure( ) ).setText( getText( ) );
-		( (LabelFigure) getFigure( ) ).setFont( getFont( ) );
+	public void refreshFigure() {
+		StyleHandle style = ((DesignElementHandle) getModel()).getPrivateStyle();
+		// ( (LabelFigure) getFigure( ) ).setDirection( style.getTextDirection( ) ); //
+		// bidi_hcg
+		((LabelFigure) getFigure()).setDirection(getTextDirection()); // bidi_hcg
+		((LabelFigure) getFigure()).setText(getText());
+		((LabelFigure) getFigure()).setFont(getFont());
 
-		( (LabelFigure) getFigure( ) ).setTextUnderline( style.getTextUnderline( ) );
-		( (LabelFigure) getFigure( ) ).setTextLineThrough( style.getTextLineThrough( ) );
-		( (LabelFigure) getFigure( ) ).setTextOverline( style.getTextOverline( ) );
-		( (LabelFigure) getFigure( ) ).setTextAlign( style.getTextAlign( ) );
-		( (LabelFigure) getFigure( ) ).setVerticalAlign( style.getVerticalAlign( ) );
+		((LabelFigure) getFigure()).setTextUnderline(style.getTextUnderline());
+		((LabelFigure) getFigure()).setTextLineThrough(style.getTextLineThrough());
+		((LabelFigure) getFigure()).setTextOverline(style.getTextOverline());
+		((LabelFigure) getFigure()).setTextAlign(style.getTextAlign());
+		((LabelFigure) getFigure()).setVerticalAlign(style.getVerticalAlign());
 
-		( (LabelFigure) getFigure( ) ).setDisplay( style.getDisplay( ) );
+		((LabelFigure) getFigure()).setDisplay(style.getDisplay());
 
-		( (LabelFigure) getFigure( ) ).setRecommendSize( getLabelAdapter( ).getSize( ) );
+		((LabelFigure) getFigure()).setRecommendSize(getLabelAdapter().getSize());
 
-		( (LabelFigure) getFigure( ) ).setFixLayout( isFixLayout( ) );
-		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
-				getFigure( ),
-				getConstraint( ) );
+		((LabelFigure) getFigure()).setFixLayout(isFixLayout());
+		((AbstractGraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), getConstraint());
 
-		( (LabelFigure) getFigure( ) ).setForegroundColor( ColorManager.getColor( getForegroundColor( (ReportItemHandle) getModel( ) ) ) );
+		((LabelFigure) getFigure())
+				.setForegroundColor(ColorManager.getColor(getForegroundColor((ReportItemHandle) getModel())));
 
-		refreshBorder( (DesignElementHandle) getModel( ), new LineBorder( ) );
+		refreshBorder((DesignElementHandle) getModel(), new LineBorder());
 
-		Insets pist = getLabelAdapter( ).getPadding( getFigure( ).getInsets( ) );
+		Insets pist = getLabelAdapter().getPadding(getFigure().getInsets());
 
-		( (LineBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( pist );
+		((LineBorder) (getFigure().getBorder())).setPaddingInsets(pist);
 
-		if ( !hasText( ) )
-			( (LabelFigure) getFigure( ) ).setForegroundColor( ReportColorConstants.ShadowLineColor );
+		if (!hasText())
+			((LabelFigure) getFigure()).setForegroundColor(ReportColorConstants.ShadowLineColor);
 		else
-			( (LabelFigure) getFigure( ) ).setForegroundColor( ColorManager.getColor( getForegroundColor( (ReportItemHandle) getModel( ) ) ) );
+			((LabelFigure) getFigure())
+					.setForegroundColor(ColorManager.getColor(getForegroundColor((ReportItemHandle) getModel())));
 
-		refreshBackground( (DesignElementHandle) getModel( ) );
+		refreshBackground((DesignElementHandle) getModel());
 
-		refreshMargin( );
+		refreshMargin();
 	}
 
 	/**
@@ -153,10 +148,8 @@ public class LabelEditPart extends ReportElementEditPart
 	 * 
 	 * @return
 	 */
-	protected boolean hasText( )
-	{
-		if ( StringUtil.isBlank( ( (LabelHandle) getModel( ) ).getDisplayText( ) ) )
-		{
+	protected boolean hasText() {
+		if (StringUtil.isBlank(((LabelHandle) getModel()).getDisplayText())) {
 			return false;
 		}
 
@@ -168,11 +161,9 @@ public class LabelEditPart extends ReportElementEditPart
 	 * 
 	 * @return The text shown on label
 	 */
-	protected String getText( )
-	{
-		String text = ( (LabelHandle) getModel( ) ).getDisplayText( );
-		if ( text == null )
-		{
+	protected String getText() {
+		String text = ((LabelHandle) getModel()).getDisplayText();
+		if (text == null) {
 			text = ELEMENT_DEFAULT_TEXT;
 		}
 		return text;
@@ -181,29 +172,23 @@ public class LabelEditPart extends ReportElementEditPart
 	/**
 	 * @return The constraint
 	 */
-	protected Object getConstraint( )
-	{
-		ReportItemHandle handle = (ReportItemHandle) getModel( );
-		ReportItemConstraint constraint = new ReportItemConstraint( );
+	protected Object getConstraint() {
+		ReportItemHandle handle = (ReportItemHandle) getModel();
+		ReportItemConstraint constraint = new ReportItemConstraint();
 
-		StyleHandle style = handle.getPrivateStyle( );
-		constraint.setDisplay( style.getDisplay( ) );
-		DimensionHandle value = handle.getWidth( );
-		constraint.setMeasure( value.getMeasure( ) );
-		constraint.setUnits( value.getUnits( ) );
-		
-		String vAlign = style.getVerticalAlign( );
-		if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( vAlign ) )
-		{
-			constraint.setAlign( ReportFlowLayout.ALIGN_CENTER );
-		}
-		else if ( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( vAlign ) )
-		{
-			constraint.setAlign( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
-		}
-		else if (DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals( vAlign ))
-		{
-			constraint.setAlign( ReportFlowLayout.ALIGN_LEFTTOP );
+		StyleHandle style = handle.getPrivateStyle();
+		constraint.setDisplay(style.getDisplay());
+		DimensionHandle value = handle.getWidth();
+		constraint.setMeasure(value.getMeasure());
+		constraint.setUnits(value.getUnits());
+
+		String vAlign = style.getVerticalAlign();
+		if (DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals(vAlign)) {
+			constraint.setAlign(ReportFlowLayout.ALIGN_CENTER);
+		} else if (DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals(vAlign)) {
+			constraint.setAlign(ReportFlowLayout.ALIGN_RIGHTBOTTOM);
+		} else if (DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals(vAlign)) {
+			constraint.setAlign(ReportFlowLayout.ALIGN_LEFTTOP);
 		}
 		return constraint;
 	}
@@ -211,18 +196,18 @@ public class LabelEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
-	public EditPolicy getResizePolice( EditPolicy parentPolice )
-	{
-		return new ReportElementNonResizablePolicy( );
+	public EditPolicy getResizePolice(EditPolicy parentPolice) {
+		return new ReportElementNonResizablePolicy();
 	}
-	
+
 	@Override
-	protected void updateLayoutPreference( )
-	{
-		super.updateLayoutPreference( );
-		( (LabelFigure) getFigure( ) ).setFixLayout( isFixLayout( ) );
+	protected void updateLayoutPreference() {
+		super.updateLayoutPreference();
+		((LabelFigure) getFigure()).setFixLayout(isFixLayout());
 	}
 
 }

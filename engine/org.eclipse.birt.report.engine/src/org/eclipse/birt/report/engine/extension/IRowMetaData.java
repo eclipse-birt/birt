@@ -15,37 +15,39 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * Defines a row that the extension might receive. Each column in a row comes from the
- * evaluation of a expression. The getColumnExpression method returns such an expression. 
+ * Defines a row that the extension might receive. Each column in a row comes
+ * from the evaluation of a expression. The getColumnExpression method returns
+ * such an expression.
  */
 public interface IRowMetaData {
-	
+
 	/**
 	 * Returns the number of columns in a detail row of the result set.
-	 * @return	the number of columns in a detail row.
+	 * 
+	 * @return the number of columns in a detail row.
 	 */
-	public int getColumnCount( );
-	
+	public int getColumnCount();
+
 	/**
 	 * Returns the column name at the specified index.
 	 * 
-	 * @param index	The projected column index.
-	 * @return		The name of the specified column.
-	 * @throws DataException	if given index is invalid.
+	 * @param index The projected column index.
+	 * @return The name of the specified column.
+	 * @throws DataException if given index is invalid.
 	 */
-	public String getColumnName( int index ) throws BirtException;
-	
+	public String getColumnName(int index) throws BirtException;
+
 	public int getColumnType(int index) throws BirtException;
 
 	/**
-	 * Returns the column expression that results in the data at the specified index.
+	 * Returns the column expression that results in the data at the specified
+	 * index.
 	 * 
-	 * @param index	The projected column index.
-	 * @return		The name of the specified column.
-	 * @throws DataException	if given index is invalid.
+	 * @param index The projected column index.
+	 * @return The name of the specified column.
+	 * @throws DataException if given index is invalid.
 	 */
-	//public String getColumnExpression( int index ) throws BirtException;
-	//TODO removed, DTE doesn't support this feature.
-	
-	
+	// public String getColumnExpression( int index ) throws BirtException;
+	// TODO removed, DTE doesn't support this feature.
+
 }

@@ -13,25 +13,24 @@ package org.eclipse.birt.report.engine.layout;
 
 import org.eclipse.birt.report.engine.layout.area.IArea;
 
-public interface IStackingLayoutManager extends ILayoutManager, ILayoutContext
-{
+public interface IStackingLayoutManager extends ILayoutManager, ILayoutContext {
 
 	/**
 	 * The method is called by children layout manager. The child layout manager
 	 * submits the results of layout to parent
 	 * 
 	 * @param area
-	 * @param keepWithPrevious 
-	 * @param keepWithNext 
+	 * @param keepWithPrevious
+	 * @param keepWithNext
 	 * @return true if submit succeeded
 	 */
-	boolean addArea( IArea area, boolean keepWithPrevious, boolean keepWithNext );
+	boolean addArea(IArea area, boolean keepWithPrevious, boolean keepWithNext);
 
 	/**
 	 * Identify if current page is empty
 	 * 
 	 * @return
 	 */
-	boolean isPageEmpty( );
+	boolean isPageEmpty();
 
 }

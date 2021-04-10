@@ -16,18 +16,17 @@ import java.util.List;
 /*
  * define a DynamicFilterParameter
  */
-public interface IDynamicFilterParameterDefn extends IParameterDefn
-{
+public interface IDynamicFilterParameterDefn extends IParameterDefn {
 
 	// display type
 	public static final int DISPLAY_TYPE_SIMPLE = 1;
 	public static final int DISPLAY_TYPE_ADVANCED = 2;
 
-	public int getDisplayType( );
+	public int getDisplayType();
 
-	public String getColumn( );
+	public String getColumn();
 
-	public List<String> getFilterOperatorList( );
+	public List<String> getFilterOperatorList();
 
-	public List<String> getFilterOperatorDisplayList( );
+	public List<String> getFilterOperatorDisplayList();
 }

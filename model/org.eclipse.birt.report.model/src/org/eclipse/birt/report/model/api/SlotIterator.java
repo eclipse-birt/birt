@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * returns a handle of type {@link DesignElementHandle}.
  * 
  */
-public class SlotIterator implements Iterator<DesignElementHandle>
-{
+public class SlotIterator implements Iterator<DesignElementHandle> {
 
 	/**
 	 * Handle to the slot over which to iterate.
@@ -36,11 +35,9 @@ public class SlotIterator implements Iterator<DesignElementHandle>
 	/**
 	 * Constructs an iterator for the given slot.
 	 * 
-	 * @param handle
-	 *            handle to the slot over which to iterate
+	 * @param handle handle to the slot over which to iterate
 	 */
-	public SlotIterator( SlotHandle handle )
-	{
+	public SlotIterator(SlotHandle handle) {
 		slotHandle = handle;
 		posn = 0;
 	}
@@ -49,16 +46,12 @@ public class SlotIterator implements Iterator<DesignElementHandle>
 	 * Removes the element at the current iterator position.
 	 */
 	@Override
-	public void remove( )
-	{
-		if ( !hasNext( ) )
+	public void remove() {
+		if (!hasNext())
 			return;
-		try
-		{
-			slotHandle.dropAndClear( posn );
-		}
-		catch ( SemanticException e )
-		{
+		try {
+			slotHandle.dropAndClear(posn);
+		} catch (SemanticException e) {
 			// Should not fail. But, if it does, ignore
 			// the error.
 
@@ -67,9 +60,8 @@ public class SlotIterator implements Iterator<DesignElementHandle>
 	}
 
 	@Override
-	public boolean hasNext( )
-	{
-		return posn < slotHandle.getCount( );
+	public boolean hasNext() {
+		return posn < slotHandle.getCount();
 	}
 
 	/**
@@ -79,9 +71,8 @@ public class SlotIterator implements Iterator<DesignElementHandle>
 	 * @return a handle to the next content element.
 	 */
 	@Override
-	public DesignElementHandle next()
-	{
-		return slotHandle.get( posn++ );
+	public DesignElementHandle next() {
+		return slotHandle.get(posn++);
 	}
 
 }

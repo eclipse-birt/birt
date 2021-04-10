@@ -37,54 +37,41 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 /**
  * Customized query implementation for Chart.
  */
-public final class ChartReportItemQueryImpl extends ReportItemQueryBase
-{
+public final class ChartReportItemQueryImpl extends ReportItemQueryBase {
 
 	private Chart cm = null;
 
 	private ExtendedItemHandle eih = null;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.reportitem/trace"); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.extension.IReportItemQuery#setModelObject
+	 * @see org.eclipse.birt.report.engine.extension.IReportItemQuery#setModelObject
 	 * (org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
-	public void setModelObject( ExtendedItemHandle eih )
-	{
+	public void setModelObject(ExtendedItemHandle eih) {
 		IReportItem item;
-		try
-		{
-			item = eih.getReportItem( );
-			if ( item == null )
-			{
-				try
-				{
-					eih.loadExtendedElement( );
+		try {
+			item = eih.getReportItem();
+			if (item == null) {
+				try {
+					eih.loadExtendedElement();
+				} catch (ExtendedElementException eeex) {
+					logger.log(eeex);
 				}
-				catch ( ExtendedElementException eeex )
-				{
-					logger.log( eeex );
-				}
-				item = eih.getReportItem( );
-				if ( item == null )
-				{
-					logger.log( ILogger.ERROR,
-							Messages.getString( "ChartReportItemQueryImpl.log.UnableToLocate" ) ); //$NON-NLS-1$
+				item = eih.getReportItem();
+				if (item == null) {
+					logger.log(ILogger.ERROR, Messages.getString("ChartReportItemQueryImpl.log.UnableToLocate")); //$NON-NLS-1$
 					return;
 				}
 			}
-		}
-		catch ( ExtendedElementException e )
-		{
-			logger.log( ILogger.ERROR,
-					Messages.getString( "ChartReportItemQueryImpl.log.UnableToLocate" ) ); //$NON-NLS-1$
+		} catch (ExtendedElementException e) {
+			logger.log(ILogger.ERROR, Messages.getString("ChartReportItemQueryImpl.log.UnableToLocate")); //$NON-NLS-1$
 			return;
 		}
-		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( "chart.instance" ); //$NON-NLS-1$
+		cm = (Chart) ((ChartReportItemImpl) item).getProperty("chart.instance"); //$NON-NLS-1$
 		this.eih = eih;
 	}
 
@@ -92,33 +79,23 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 	 * (non-Javadoc)
 	 * 
 	 * @seeorg.eclipse.birt.report.engine.extension.ReportItemQueryBase#
-	 * createReportQueries
-	 * (org.eclipse.birt.data.engine.api.IDataQueryDefinition)
+	 * createReportQueries (org.eclipse.birt.data.engine.api.IDataQueryDefinition)
 	 */
-	public IDataQueryDefinition[] createReportQueries(
-			IDataQueryDefinition parent ) throws BirtException
-	{
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "ChartReportItemQueryImpl.log.getReportQueries.start" ) ); //$NON-NLS-1$
+	public IDataQueryDefinition[] createReportQueries(IDataQueryDefinition parent) throws BirtException {
+		logger.log(ILogger.INFORMATION, Messages.getString("ChartReportItemQueryImpl.log.getReportQueries.start")); //$NON-NLS-1$
 
-		if ( cm == null )
-		{
+		if (cm == null) {
 			return null;
 		}
-		IDataQueryDefinition idqd = createQuery( eih, parent );
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "ChartReportItemQueryImpl.log.getReportQueries.end" ) ); //$NON-NLS-1$
+		IDataQueryDefinition idqd = createQuery(eih, parent);
+		logger.log(ILogger.INFORMATION, Messages.getString("ChartReportItemQueryImpl.log.getReportQueries.end")); //$NON-NLS-1$
 
 		// Set push down flag into query.
-		if ( idqd instanceof IQueryDefinition )
-		{
-			( (IQueryDefinition) idqd ).getQueryExecutionHints( )
-					.setEnablePushDown( eih.pushDown( ) );
+		if (idqd instanceof IQueryDefinition) {
+			((IQueryDefinition) idqd).getQueryExecutionHints().setEnablePushDown(eih.pushDown());
 		}
 
-		return new IDataQueryDefinition[]{
-			idqd
-		};
+		return new IDataQueryDefinition[] { idqd };
 	}
 
 	/**
@@ -129,16 +106,12 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 	 * @return
 	 * @throws BirtException
 	 */
-	IDataQueryDefinition createQuery( ExtendedItemHandle handle,
-			IDataQueryDefinition parent ) throws BirtException
-	{
-		
-		IModelAdapter modelAdapter = context.getDataRequestSession( )
-				.getModelAdaptor( );
-		if ( ChartReportItemHelper.instance( ).getBindingDataSetHandle( handle ) != null
-				|| ( ChartReportItemHelper.instance( )
-						.getBindingCubeHandle( handle ) == null && parent instanceof IBaseQueryDefinition ) )
-		{
+	IDataQueryDefinition createQuery(ExtendedItemHandle handle, IDataQueryDefinition parent) throws BirtException {
+
+		IModelAdapter modelAdapter = context.getDataRequestSession().getModelAdaptor();
+		if (ChartReportItemHelper.instance().getBindingDataSetHandle(handle) != null
+				|| (ChartReportItemHelper.instance().getBindingCubeHandle(handle) == null
+						&& parent instanceof IBaseQueryDefinition)) {
 			// If chart is sharing query or in multiple view, it means chart
 			// shares
 			// bindings/groupings/filters from referred report item handle,
@@ -146,63 +119,41 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 			// bindings/groupings/filters/sorts
 			// information from referred report item handle.
 			ReportItemHandle itemHandle = null;
-			if ( ChartItemUtil.isChartInheritGroups( handle ) )
-			{
+			if (ChartItemUtil.isChartInheritGroups(handle)) {
 				// Share groups and aggregations from container
-				DesignElementHandle container = handle.getContainer( );
-				while ( container != null )
-				{
-					if ( container instanceof ListingHandle )
-					{
+				DesignElementHandle container = handle.getContainer();
+				while (container != null) {
+					if (container instanceof ListingHandle) {
 						itemHandle = (ListingHandle) container;
-						return new ChartSharingQueryHelper( handle,
-								cm,
-								modelAdapter ).createQuery( parent );
+						return new ChartSharingQueryHelper(handle, cm, modelAdapter).createQuery(parent);
 					}
-					container = container.getContainer( );
+					container = container.getContainer();
 				}
+			} else {
+				itemHandle = ChartItemUtil.getReportItemReference(handle);
 			}
-			else
-			{
-				itemHandle = ChartItemUtil.getReportItemReference( handle );
-			}
-			if ( itemHandle != null )
-			{
-				return new ChartSharingQueryHelper( itemHandle, cm, modelAdapter ).createQuery( parent );
+			if (itemHandle != null) {
+				return new ChartSharingQueryHelper(itemHandle, cm, modelAdapter).createQuery(parent);
 			}
 
-			return ChartReportItemUtil.instanceQueryHelper( handle,
-					cm,
-					modelAdapter ).createBaseQuery( parent );
-		}
-		else if ( ChartReportItemHelper.instance( )
-				.getBindingCubeHandle( handle ) != null
-				|| parent instanceof ICubeQueryDefinition )
-		{
+			return ChartReportItemUtil.instanceQueryHelper(handle, cm, modelAdapter).createBaseQuery(parent);
+		} else if (ChartReportItemHelper.instance().getBindingCubeHandle(handle) != null
+				|| parent instanceof ICubeQueryDefinition) {
 			// Fixed ED 28
 			// Here we just check multiple view, because chart doesn't need
 			// create query for sharing xtab case.
-			if ( handle.getContainer( ) instanceof MultiViewsHandle )
-			{
+			if (handle.getContainer() instanceof MultiViewsHandle) {
 				// Sharing crosstab.
-				ExtendedItemHandle bindingHandle = (ExtendedItemHandle) ChartItemUtil.getReportItemReference( handle );
-				IDataQueryDefinition cubeQuery = CrosstabQueryUtil.createCubeQuery( (CrosstabReportItemHandle) bindingHandle.getReportItem( ),
-						parent,
-						modelAdapter,
-						true,
-						true,
-						true,
-						true,
-						true,
-						true );
+				ExtendedItemHandle bindingHandle = (ExtendedItemHandle) ChartItemUtil.getReportItemReference(handle);
+				IDataQueryDefinition cubeQuery = CrosstabQueryUtil.createCubeQuery(
+						(CrosstabReportItemHandle) bindingHandle.getReportItem(), parent, modelAdapter, true, true,
+						true, true, true, true);
 				return cubeQuery;
 			}
 
 			// Always create cube query definition by chart itself, even if
 			// sharing cross tab's
-			return ChartReportItemUtil.instanceCubeQueryHelper( handle,
-					cm,
-					modelAdapter ).createCubeQuery( parent );
+			return ChartReportItemUtil.instanceCubeQueryHelper(handle, cm, modelAdapter).createCubeQuery(parent);
 		}
 
 		return null;

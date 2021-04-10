@@ -6,57 +6,51 @@ import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.GregorianCalendar;
 
-public class PreviousNPeriodsFunction extends AbstractMDX implements IParallelPeriod
-{
+public class PreviousNPeriodsFunction extends AbstractMDX implements IParallelPeriod {
 	private String levelName;
 	private int offset;
-	
-	public PreviousNPeriodsFunction( String levelName, int offset )
-	{
+
+	public PreviousNPeriodsFunction(String levelName, int offset) {
 		this.levelName = levelName;
 		this.offset = offset;
 	}
-	
-	public String getLevelName( )
-	{
+
+	public String getLevelName() {
 		return levelName;
 	}
-	
-	public int getOffset()
-	{
+
+	public int getOffset() {
 		return offset;
 	}
 
-	public TimeMember getResult( TimeMember member )
-	{
-		String[] levels = member.getLevelType( );
-		int[] values = member.getMemberValue( );
+	public TimeMember getResult(TimeMember member) {
+		String[] levels = member.getLevelType();
+		int[] values = member.getMemberValue();
 
-		Calendar cal = new GregorianCalendar( TimeMemberUtil.getTimeZone( ),
-				TimeMemberUtil.getDefaultLocale( ) );
-		cal.clear( );
-		translateToCal( cal, levels, values );
-		
-		if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_YEAR ) )
-			cal.add( Calendar.YEAR, offset );
-		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_QUARTER ) )
-			cal.add( Calendar.MONTH, offset * 3 );
-		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_MONTH ) )
-			cal.add( Calendar.MONTH, offset );
-		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH ) )
-			cal.add( Calendar.WEEK_OF_MONTH, offset );
-		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR ) )
-			cal.add( Calendar.WEEK_OF_YEAR, offset );
-		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH ) )
-			cal.add( Calendar.DAY_OF_MONTH, offset );
-		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR ) )
-			cal.add( Calendar.DAY_OF_YEAR, offset );
-		else if ( levelName.equals( TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK ) )
-			cal.add( Calendar.DAY_OF_WEEK, offset );
+		Calendar cal = new GregorianCalendar(TimeMemberUtil.getTimeZone(), TimeMemberUtil.getDefaultLocale());
+		cal.clear();
+		translateToCal(cal, levels, values);
 
-		int[] newValues = getValueFromCal( cal, levels );
+		if (levelName.equals(TimeMember.TIME_LEVEL_TYPE_YEAR))
+			cal.add(Calendar.YEAR, offset);
+		else if (levelName.equals(TimeMember.TIME_LEVEL_TYPE_QUARTER))
+			cal.add(Calendar.MONTH, offset * 3);
+		else if (levelName.equals(TimeMember.TIME_LEVEL_TYPE_MONTH))
+			cal.add(Calendar.MONTH, offset);
+		else if (levelName.equals(TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH))
+			cal.add(Calendar.WEEK_OF_MONTH, offset);
+		else if (levelName.equals(TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR))
+			cal.add(Calendar.WEEK_OF_YEAR, offset);
+		else if (levelName.equals(TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH))
+			cal.add(Calendar.DAY_OF_MONTH, offset);
+		else if (levelName.equals(TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR))
+			cal.add(Calendar.DAY_OF_YEAR, offset);
+		else if (levelName.equals(TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK))
+			cal.add(Calendar.DAY_OF_WEEK, offset);
 
-		TimeMember newMember = new TimeMember( newValues, levels );
+		int[] newValues = getValueFromCal(cal, levels);
+
+		TimeMember newMember = new TimeMember(newValues, levels);
 		return newMember;
 	}
 }

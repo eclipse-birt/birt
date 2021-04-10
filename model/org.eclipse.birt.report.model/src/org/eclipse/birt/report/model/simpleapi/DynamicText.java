@@ -16,51 +16,43 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IDynamicText;
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 
-public class DynamicText extends ReportItem implements IDynamicText
-{
+public class DynamicText extends ReportItem implements IDynamicText {
 
-	public DynamicText( TextDataHandle textData )
-	{
-		super( textData );
+	public DynamicText(TextDataHandle textData) {
+		super(textData);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.ITextData#getValueExpr
+	 * @see org.eclipse.birt.report.engine.api.script.element.ITextData#getValueExpr
 	 * ()
 	 */
 
-	public String getValueExpr( )
-	{
-		return ( (TextDataHandle) handle ).getValueExpr( );
+	public String getValueExpr() {
+		return ((TextDataHandle) handle).getValueExpr();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.ITextData#setValueExpr
+	 * @see org.eclipse.birt.report.engine.api.script.element.ITextData#setValueExpr
 	 * (java.lang.String)
 	 */
 
-	public void setValueExpr( String expr ) throws SemanticException
-	{
-		setProperty( ITextDataItemModel.VALUE_EXPR_PROP, expr );
+	public void setValueExpr(String expr) throws SemanticException {
+		setProperty(ITextDataItemModel.VALUE_EXPR_PROP, expr);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.ITextData#getContentType
-	 * ()
+	 * org.eclipse.birt.report.engine.api.script.element.ITextData#getContentType ()
 	 */
 
-	public String getContentType( )
-	{
-		return ( (TextDataHandle) handle ).getContentType( );
+	public String getContentType() {
+		return ((TextDataHandle) handle).getContentType();
 	}
 
 	/*
@@ -71,8 +63,7 @@ public class DynamicText extends ReportItem implements IDynamicText
 	 * (java.lang.String)
 	 */
 
-	public void setContentType( String contentType ) throws SemanticException
-	{
-		setProperty( ITextDataItemModel.CONTENT_TYPE_PROP, contentType );
+	public void setContentType(String contentType) throws SemanticException {
+		setProperty(ITextDataItemModel.CONTENT_TYPE_PROP, contentType);
 	}
 }

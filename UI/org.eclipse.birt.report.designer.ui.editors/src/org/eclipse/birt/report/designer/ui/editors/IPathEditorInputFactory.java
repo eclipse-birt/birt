@@ -18,16 +18,14 @@ import org.eclipse.ui.IEditorInput;
  * This interface defines a factory for editor input based on the local file
  * system path.
  */
-public interface IPathEditorInputFactory
-{
+public interface IPathEditorInputFactory {
 
 	/**
 	 * Creates and returns an instance of <code>IEditorInput</code> with the
 	 * specified local file system path.
 	 * 
-	 * @param path
-	 * 		the local file system path
+	 * @param path the local file system path
 	 * @return an editor input based on the local file system path.
 	 */
-	public IEditorInput create( IPath path );
+	public IEditorInput create(IPath path);
 }

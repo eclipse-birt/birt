@@ -2,20 +2,21 @@
 /* JavaCCOptions:MULTI=true,NODE_USES_PARSER=true,VISITOR=true,TRACK_TOKENS=false,NODE_PREFIX=AST,NODE_EXTENDS=,NODE_FACTORY=,SUPPORT_CLASS_VISIBILITY_PUBLIC=true */
 package org.eclipse.birt.core.template;
 
-public
-class ASTViewTimeValueOf extends SimpleNode {
-  public ASTViewTimeValueOf(int id) {
-    super(id);
-  }
+public class ASTViewTimeValueOf extends SimpleNode {
+	public ASTViewTimeValueOf(int id) {
+		super(id);
+	}
 
-  public ASTViewTimeValueOf(Parser p, int id) {
-    super(p, id);
-  }
+	public ASTViewTimeValueOf(Parser p, int id) {
+		super(p, id);
+	}
 
-
-  /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) {
-    return visitor.visit(this, data);
-  }
+	/** Accept the visitor. **/
+	public Object jjtAccept(ParserVisitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
 }
-/* JavaCC - OriginalChecksum=2c7ad2c1951c78f0b24788ac1e9e8e56 (do not edit this line) */
+/*
+ * JavaCC - OriginalChecksum=2c7ad2c1951c78f0b24788ac1e9e8e56 (do not edit this
+ * line)
+ */

@@ -77,8 +77,7 @@ import junit.framework.TestCase;
  * case.</li>
  * 
  */
-public abstract class BaseTestCase extends TestCase
-{
+public abstract class BaseTestCase extends TestCase {
 
 	/**
 	 * The design engine.
@@ -131,7 +130,7 @@ public abstract class BaseTestCase extends TestCase
 	protected static final String INPUT_FOLDER = "input/"; //$NON-NLS-1$
 	protected static final String GOLDEN_FOLDER = "golden/"; //$NON-NLS-1$
 
-	protected static final ULocale TEST_LOCALE = new ULocale( "aa" ); //$NON-NLS-1$
+	protected static final ULocale TEST_LOCALE = new ULocale("aa"); //$NON-NLS-1$
 
 	protected ReportDesignHandle beforeSerializedDesignHandle = null;
 
@@ -139,14 +138,12 @@ public abstract class BaseTestCase extends TestCase
 	 * @see TestCase#setUp()
 	 */
 	@Override
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		ThreadResources.setLocale( ULocale.ENGLISH );
+	protected void setUp() throws Exception {
+		super.setUp();
+		ThreadResources.setLocale(ULocale.ENGLISH);
 
-		if ( engine == null )
-		{
-			engine = new DesignEngine( new DesignConfig( ) );
+		if (engine == null) {
+			engine = new DesignEngine(new DesignConfig());
 		}
 	}
 
@@ -154,10 +151,9 @@ public abstract class BaseTestCase extends TestCase
 	 * 
 	 */
 
-	protected void resetMetadata( )
-	{
-		MetaDataDictionary.reset( );
-		MetaDataDictionary.initialize( );
+	protected void resetMetadata() {
+		MetaDataDictionary.reset();
+		MetaDataDictionary.initialize();
 	}
 
 	/*
@@ -167,21 +163,20 @@ public abstract class BaseTestCase extends TestCase
 	 */
 
 	@Override
-	protected void tearDown( ) throws Exception
-	{
-		if ( beforeSerializedDesignHandle != null )
+	protected void tearDown() throws Exception {
+		if (beforeSerializedDesignHandle != null)
 			designHandle = beforeSerializedDesignHandle;
 
-		if ( designHandle != null )
-			designHandle.close( );
+		if (designHandle != null)
+			designHandle.close();
 
-		if ( libraryHandle != null )
-			libraryHandle.close( );
+		if (libraryHandle != null)
+			libraryHandle.close();
 
-		if ( os != null )
-			os.close( );
+		if (os != null)
+			os.close();
 
-		super.tearDown( );
+		super.tearDown();
 	}
 
 	/**
@@ -190,39 +185,34 @@ public abstract class BaseTestCase extends TestCase
 	 * @return the handle for new report
 	 */
 
-	protected ReportDesignHandle createDesign( )
-	{
-		return createDesign( null );
+	protected ReportDesignHandle createDesign() {
+		return createDesign(null);
 	}
 
 	/**
 	 * Creates a new report with given locale.
 	 * 
-	 * @param locale
-	 *            the user locale
+	 * @param locale the user locale
 	 * @return the handle for new report
 	 */
 
-	protected ReportDesignHandle createDesign( ULocale locale )
-	{
-		if ( engine == null )
-		{
-			engine = new DesignEngine( new DesignConfig( ) );
-			resetMetadata( );
+	protected ReportDesignHandle createDesign(ULocale locale) {
+		if (engine == null) {
+			engine = new DesignEngine(new DesignConfig());
+			resetMetadata();
 		}
-		sessionHandle = engine.newSessionHandle( locale );
-		designHandle = sessionHandle.createDesign( );
-		design = (ReportDesign) designHandle.getModule( );
+		sessionHandle = engine.newSessionHandle(locale);
+		designHandle = sessionHandle.createDesign();
+		design = (ReportDesign) designHandle.getModule();
 
-		removeExtensionStyles( design );
+		removeExtensionStyles(design);
 		return designHandle;
 	}
 
-	private void removeExtensionStyles( ReportDesign design )
-	{
+	private void removeExtensionStyles(ReportDesign design) {
 
-		ContainerSlot styles = design.getSlot( ReportDesign.STYLE_SLOT );
-		styles.clear( );
+		ContainerSlot styles = design.getSlot(ReportDesign.STYLE_SLOT);
+		styles.clear();
 		// if ( styles != null )
 		// {
 		// for ( int i = 0; i < styles.getCount( ); i++ )
@@ -238,28 +228,24 @@ public abstract class BaseTestCase extends TestCase
 	 * @return the handle for new library
 	 */
 
-	protected LibraryHandle createLibrary( )
-	{
-		return createLibrary( null );
+	protected LibraryHandle createLibrary() {
+		return createLibrary(null);
 	}
 
 	/**
 	 * Creates library with given locale.
 	 * 
-	 * @param locale
-	 *            the user locale
+	 * @param locale the user locale
 	 * @return the handle for new library
 	 */
 
-	protected LibraryHandle createLibrary( ULocale locale )
-	{
-		if ( engine == null )
-		{
-			engine = new DesignEngine( new DesignConfig( ) );
-			resetMetadata( );
+	protected LibraryHandle createLibrary(ULocale locale) {
+		if (engine == null) {
+			engine = new DesignEngine(new DesignConfig());
+			resetMetadata();
 		}
-		sessionHandle = engine.newSessionHandle( locale );
-		libraryHandle = sessionHandle.createLibrary( );
+		sessionHandle = engine.newSessionHandle(locale);
+		libraryHandle = sessionHandle.createLibrary();
 
 		return libraryHandle;
 	}
@@ -267,496 +253,388 @@ public abstract class BaseTestCase extends TestCase
 	/**
 	 * Opens design file with default locale.
 	 * 
-	 * @param fileName
-	 *            design file name
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName design file name
+	 * @throws DesignFileException if any exception
 	 */
 
-	protected void openDesign( String fileName ) throws DesignFileException
-	{
-		openDesign( fileName, true );
+	protected void openDesign(String fileName) throws DesignFileException {
+		openDesign(fileName, true);
 	}
 
 	/**
 	 * Opens design file with default locale.
 	 * 
-	 * @param fileName
-	 *            design file name
-	 * @param inSingleJarMode
-	 *            <code>true</code> if open the design that is in the single
-	 *            jar. Otherwise <code>false</code>.
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName        design file name
+	 * @param inSingleJarMode <code>true</code> if open the design that is in the
+	 *                        single jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException if any exception
 	 */
 
-	protected void openDesign( String fileName, boolean inSingleJarMode )
-			throws DesignFileException
-	{
-		openDesign( fileName, ULocale.getDefault( ), inSingleJarMode );
+	protected void openDesign(String fileName, boolean inSingleJarMode) throws DesignFileException {
+		openDesign(fileName, ULocale.getDefault(), inSingleJarMode);
 	}
 
 	/**
 	 * Opens design file providing the file name and the locale.
 	 * 
-	 * @param fileName
-	 *            the design file to be opened
-	 * @param locale
-	 *            the user locale
-	 * @param inSingleJarMode
-	 *            <code>true</code> if open the design that is in the single
-	 *            jar. Otherwise <code>false</code>.
-	 * @throws DesignFileException
-	 *             if any exception.
+	 * @param fileName        the design file to be opened
+	 * @param locale          the user locale
+	 * @param inSingleJarMode <code>true</code> if open the design that is in the
+	 *                        single jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException if any exception.
 	 */
 
-	protected void openDesign( String fileName, ULocale locale,
-			boolean inSingleJarMode ) throws DesignFileException
-	{
-		if ( inSingleJarMode )
+	protected void openDesign(String fileName, ULocale locale, boolean inSingleJarMode) throws DesignFileException {
+		if (inSingleJarMode)
 			fileName = INPUT_FOLDER + fileName;
 
-		if ( engine == null )
-		{
-			engine = new DesignEngine( new DesignConfig( ) );
-			resetMetadata( );
+		if (engine == null) {
+			engine = new DesignEngine(new DesignConfig());
+			resetMetadata();
 		}
-		sessionHandle = engine.newSessionHandle( locale );
-		assertNotNull( sessionHandle );
+		sessionHandle = engine.newSessionHandle(locale);
+		assertNotNull(sessionHandle);
 
-		if ( inSingleJarMode )
-			designHandle = sessionHandle.openDesign( getResource( fileName )
-					.toString( ) );
+		if (inSingleJarMode)
+			designHandle = sessionHandle.openDesign(getResource(fileName).toString());
 		else
-			designHandle = sessionHandle.openDesign( fileName );
+			designHandle = sessionHandle.openDesign(fileName);
 
-		design = (ReportDesign) designHandle.getModule( );
+		design = (ReportDesign) designHandle.getModule();
 	}
 
 	/**
 	 * Opens design file providing the file name and the locale.
 	 * 
-	 * @param fileName
-	 *            the design file to be opened
-	 * @param locale
-	 *            the user locale
-	 * @param inSingleJarMode
-	 *            <code>true</code> if open the design that is in the single
-	 *            jar. Otherwise <code>false</code>.
-	 * @throws DesignFileException
-	 *             if any exception.
+	 * @param fileName        the design file to be opened
+	 * @param locale          the user locale
+	 * @param inSingleJarMode <code>true</code> if open the design that is in the
+	 *                        single jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException if any exception.
 	 */
 
-	protected void openDesign( String fileName, ULocale locale )
-			throws DesignFileException
-	{
-		openDesign( fileName, locale, true );
+	protected void openDesign(String fileName, ULocale locale) throws DesignFileException {
+		openDesign(fileName, locale, true);
 	}
 
 	/**
 	 * Opens library file with given file name.
 	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName the library file name
+	 * @throws DesignFileException if any exception
 	 */
 
-	protected void openLibrary( String fileName ) throws DesignFileException
-	{
-		openLibrary( fileName, true );
+	protected void openLibrary(String fileName) throws DesignFileException {
+		openLibrary(fileName, true);
 	}
 
 	/**
 	 * Opens library file with given file name.
 	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @param inSingleJarMode
-	 *            <code>true</code> if open the design that is in the single
-	 *            jar. Otherwise <code>false</code>.
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName        the library file name
+	 * @param inSingleJarMode <code>true</code> if open the design that is in the
+	 *                        single jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException if any exception
 	 */
 
-	protected void openLibrary( String fileName, boolean inSingleJarMode )
-			throws DesignFileException
-	{
-		openLibrary( fileName, ULocale.getDefault( ), inSingleJarMode );
+	protected void openLibrary(String fileName, boolean inSingleJarMode) throws DesignFileException {
+		openLibrary(fileName, ULocale.getDefault(), inSingleJarMode);
 	}
 
 	/**
 	 * Opens library file with given file name and locale.
 	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @param locale
-	 *            the user locale
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName the library file name
+	 * @param locale   the user locale
+	 * @throws DesignFileException if any exception
 	 */
 
-	protected void openLibrary( String fileName, ULocale locale )
-			throws DesignFileException
-	{
-		openLibrary( fileName, locale, true );
+	protected void openLibrary(String fileName, ULocale locale) throws DesignFileException {
+		openLibrary(fileName, locale, true);
 	}
 
 	/**
 	 * Opens library file with given file name and locale.
 	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @param locale
-	 *            the user locale
-	 * @param inSingleJarMode
-	 *            <code>true</code> if open the design that is in the single
-	 *            jar. Otherwise <code>false</code>.
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName        the library file name
+	 * @param locale          the user locale
+	 * @param inSingleJarMode <code>true</code> if open the design that is in the
+	 *                        single jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException if any exception
 	 */
 
-	protected void openLibrary( String fileName, ULocale locale,
-			boolean inSingleJarMode ) throws DesignFileException
-	{
-		if ( inSingleJarMode )
+	protected void openLibrary(String fileName, ULocale locale, boolean inSingleJarMode) throws DesignFileException {
+		if (inSingleJarMode)
 			fileName = INPUT_FOLDER + fileName;
 
-		if ( engine == null )
-		{
-			engine = new DesignEngine( new DesignConfig( ) );
-			resetMetadata( );
+		if (engine == null) {
+			engine = new DesignEngine(new DesignConfig());
+			resetMetadata();
 		}
-		sessionHandle = engine.newSessionHandle( locale );
-		assertNotNull( sessionHandle );
+		sessionHandle = engine.newSessionHandle(locale);
+		assertNotNull(sessionHandle);
 
-		if ( inSingleJarMode )
-			libraryHandle = sessionHandle.openLibrary( getResource( fileName )
-					.toString( ), getResourceAStream( fileName ) );
+		if (inSingleJarMode)
+			libraryHandle = sessionHandle.openLibrary(getResource(fileName).toString(), getResourceAStream(fileName));
 		else
-			libraryHandle = sessionHandle.openLibrary( fileName );
+			libraryHandle = sessionHandle.openLibrary(fileName);
 	}
 
 	/**
 	 * Opens a module file with given file name.
 	 * 
-	 * @param fileName
-	 *            the module file name
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName the module file name
+	 * @throws DesignFileException if any exception
 	 */
 
-	protected void openModule( String fileName ) throws DesignFileException
-	{
-		openModule( fileName, ULocale.getDefault( ) );
+	protected void openModule(String fileName) throws DesignFileException {
+		openModule(fileName, ULocale.getDefault());
 	}
 
 	/**
 	 * Opend a module given file name and locale.
 	 * 
-	 * @param fileName
-	 *            the module file name
-	 * @param locale
-	 *            the user locale
+	 * @param fileName the module file name
+	 * @param locale   the user locale
 	 * @throws DesignFileException
 	 */
 
-	protected void openModule( String fileName, ULocale locale )
-			throws DesignFileException
-	{
-		if ( engine == null )
-		{
-			engine = new DesignEngine( new DesignConfig( ) );
-			resetMetadata( );
+	protected void openModule(String fileName, ULocale locale) throws DesignFileException {
+		if (engine == null) {
+			engine = new DesignEngine(new DesignConfig());
+			resetMetadata();
 		}
 		fileName = INPUT_FOLDER + fileName;
-		sessionHandle = engine.newSessionHandle( locale );
-		assertNotNull( sessionHandle );
+		sessionHandle = engine.newSessionHandle(locale);
+		assertNotNull(sessionHandle);
 
-		moduleHandle = sessionHandle.openModule( getResource( fileName )
-				.toString( ), getResourceAStream( fileName ) );
+		moduleHandle = sessionHandle.openModule(getResource(fileName).toString(), getResourceAStream(fileName));
 	}
 
 	/**
 	 * Reads design file as InputStream.
 	 * 
-	 * @param fileName
-	 *            Design file name
-	 * @param is
-	 *            InputStream of this design file
-	 * @throws DesignFileException
-	 *             if any exception.
+	 * @param fileName Design file name
+	 * @param is       InputStream of this design file
+	 * @throws DesignFileException if any exception.
 	 */
 
-	protected void openDesign( String fileName, InputStream is )
-			throws DesignFileException
-	{
-		openDesign( fileName, is, ULocale.getDefault( ) );
+	protected void openDesign(String fileName, InputStream is) throws DesignFileException {
+		openDesign(fileName, is, ULocale.getDefault());
 	}
 
 	/**
 	 * Opens a design file.
 	 * 
-	 * @param fileName
-	 *            the design file name
-	 * @param is
-	 *            the input stream of the design file.
-	 * @param locale
-	 *            the user locale.
-	 * @throws DesignFileException
-	 *             if any exception.
+	 * @param fileName the design file name
+	 * @param is       the input stream of the design file.
+	 * @param locale   the user locale.
+	 * @throws DesignFileException if any exception.
 	 */
-	protected void openDesign( String fileName, InputStream is, ULocale locale )
-			throws DesignFileException
-	{
-		if ( engine == null )
-		{
-			engine = new DesignEngine( new DesignConfig( ) );
-			resetMetadata( );
+	protected void openDesign(String fileName, InputStream is, ULocale locale) throws DesignFileException {
+		if (engine == null) {
+			engine = new DesignEngine(new DesignConfig());
+			resetMetadata();
 		}
-		sessionHandle = engine.newSessionHandle( locale );
-		designHandle = sessionHandle.openDesign( fileName, is );
-		design = (ReportDesign) designHandle.getModule( );
+		sessionHandle = engine.newSessionHandle(locale);
+		designHandle = sessionHandle.openDesign(fileName, is);
+		design = (ReportDesign) designHandle.getModule();
 	}
 
 	/**
 	 * Compares two text file. The comparison will ignore the line containing
 	 * "modificationDate".
 	 * 
-	 * @param goldenFileName
-	 *            the 1st file name to be compared.
-	 * @param outputFileName
-	 *            the 2nd file name to be compared.
+	 * @param goldenFileName the 1st file name to be compared.
+	 * @param outputFileName the 2nd file name to be compared.
 	 * @return true if two text files are same line by line
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
-	protected boolean compareFile( String goldenFileName, String outputFileName )
-			throws Exception
-	{
+	protected boolean compareFile(String goldenFileName, String outputFileName) throws Exception {
 		Reader readerA = null;
 		FileReader readerB = null;
 		boolean same = true;
-		StringBuffer errorText = new StringBuffer( );
+		StringBuffer errorText = new StringBuffer();
 
-		try
-		{
+		try {
 			goldenFileName = GOLDEN_FOLDER + goldenFileName;
-			outputFileName = getTempFolder( ) + OUTPUT_FOLDER + outputFileName;
+			outputFileName = getTempFolder() + OUTPUT_FOLDER + outputFileName;
 
-			readerA = new InputStreamReader(
-					getResourceAStream( goldenFileName ) );
-			readerB = new FileReader( outputFileName );
+			readerA = new InputStreamReader(getResourceAStream(goldenFileName));
+			readerB = new FileReader(outputFileName);
 
-			same = compareFile( readerA, readerB );
-		}
-		catch ( IOException e )
-		{
-			errorText.append( e.toString( ) );
-			errorText.append( "\n" ); //$NON-NLS-1$
-			e.printStackTrace( );
-		}
-		finally
-		{
-			try
-			{
-				if ( readerA != null )
-					readerA.close( );
-				if ( readerB != null )
-					readerB.close( );
-			}
-			catch ( Exception e )
-			{
+			same = compareFile(readerA, readerB);
+		} catch (IOException e) {
+			errorText.append(e.toString());
+			errorText.append("\n"); //$NON-NLS-1$
+			e.printStackTrace();
+		} finally {
+			try {
+				if (readerA != null)
+					readerA.close();
+				if (readerB != null)
+					readerB.close();
+			} catch (Exception e) {
 				readerA = null;
 				readerB = null;
 
-				errorText.append( e.toString( ) );
+				errorText.append(e.toString());
 
-				throw new Exception( errorText.toString( ) );
+				throw new Exception(errorText.toString());
 			}
 		}
 
 		return same;
 	}
 
-
 	/**
 	 * Compares two text file. The comparison will ignore the line containing
 	 * "modificationDate".
 	 * 
-	 * @param goldenFileName
-	 *            the 1st file name to be compared.
-	 * @param os
-	 *            the 2nd output stream to be compared.
+	 * @param goldenFileName the 1st file name to be compared.
+	 * @param os             the 2nd output stream to be compared.
 	 * @return true if two text files are same char by char
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
-	protected boolean compareFile( String goldenFileName ) throws Exception
-	{
+	protected boolean compareFile(String goldenFileName) throws Exception {
 		String tmpGoldenFileName = GOLDEN_FOLDER + goldenFileName;
 
-		InputStream streamA = getResourceAStream( tmpGoldenFileName );
-		if ( os == null )
+		InputStream streamA = getResourceAStream(tmpGoldenFileName);
+		if (os == null)
 			return false;
 
-		String outContent = os.toString( "utf-8" ); //$NON-NLS-1$
+		String outContent = os.toString("utf-8"); //$NON-NLS-1$
 
-		InputStream streamB = new ByteArrayInputStream( os.toByteArray( ) );
-		InputStreamReader readerA = new InputStreamReader( streamA );
-		InputStreamReader readerB = new InputStreamReader( streamB );
+		InputStream streamB = new ByteArrayInputStream(os.toByteArray());
+		InputStreamReader readerA = new InputStreamReader(streamA);
+		InputStreamReader readerB = new InputStreamReader(streamB);
 
 		boolean ok = true;
-		try
-		{
-			ok = compareFile( readerA, readerB );
-		}
-		catch ( Exception e )
-		{
-			String outFileName = goldenFileName.replaceAll( "golden", "out" );
-			saveOutputFile( outFileName, outContent );
+		try {
+			ok = compareFile(readerA, readerB);
+		} catch (Exception e) {
+			String outFileName = goldenFileName.replaceAll("golden", "out");
+			saveOutputFile(outFileName, outContent);
 
 			throw e;
 		}
 
 		return ok;
 	}
-	private InputStream getGoldenFileAsStream( String goldenFileName )
-	{
-		InputStream streamA = getResourceAStream( goldenFileName );
+
+	private InputStream getGoldenFileAsStream(String goldenFileName) {
+		InputStream streamA = getResourceAStream(goldenFileName);
 		return streamA;
 	}
 
-	private InputStream getTestDesignFileAsStream( ByteArrayOutputStream byteOS )
-	{
-		InputStream streamB = new ByteArrayInputStream( byteOS.toByteArray( ) );
+	private InputStream getTestDesignFileAsStream(ByteArrayOutputStream byteOS) {
+		InputStream streamB = new ByteArrayInputStream(byteOS.toByteArray());
 		return streamB;
 	}
 
-	protected boolean compareDesignModel( String goldenFileName,
-			String[] ignoredAttrs ) throws Exception
-	{
-		InputStream goldenFileStream = getGoldenFileAsStream( GOLDEN_FOLDER
-				+ goldenFileName );
-		InputStream designFileStream = getTestDesignFileAsStream( os );
+	protected boolean compareDesignModel(String goldenFileName, String[] ignoredAttrs) throws Exception {
+		InputStream goldenFileStream = getGoldenFileAsStream(GOLDEN_FOLDER + goldenFileName);
+		InputStream designFileStream = getTestDesignFileAsStream(os);
 		HashSet<String> ignoredSet = new HashSet<String>();
-		for (String s : ignoredAttrs){
+		for (String s : ignoredAttrs) {
 			ignoredSet.add(s);
 		}
-		return new DesignFileCompareUtil( ignoredSet ).compare( goldenFileStream,
-				designFileStream );
+		return new DesignFileCompareUtil(ignoredSet).compare(goldenFileStream, designFileStream);
 	}
-	
-    static private String PATTERN_VERSION = "version=\"[^\"]*\"";
-    static private String PATTERN_ID = "id=\"\\d+\"";
-    static private boolean IGNORE_VERSION_ID = true;
 
-    /**
-     * test two line to see if they are same.
-     * 
-     * the compare ignore id and versions as:
-     * 
-     * version="99.99" id="999"
-     * 
-     * @param line1
-     * @param line2
-     * @return
-     */
-    private boolean compareLine( String line1, String line2 )
-    {
-        if ( line1 == line2 )
-        {
-            return true;
-        }
-        if ( line1 == null || line2 == null )
-        {
-            return false;
-        }
+	static private String PATTERN_VERSION = "version=\"[^\"]*\"";
+	static private String PATTERN_ID = "id=\"\\d+\"";
+	static private boolean IGNORE_VERSION_ID = true;
 
-        String l1 = line1.trim();
-        String l2 = line2.trim();
-        if ( IGNORE_VERSION_ID )
-        {
-            l1 = l1.replaceAll( PATTERN_VERSION, "" ).replaceAll( PATTERN_ID, "" );
-            l2 = l2.replaceAll( PATTERN_VERSION, "" ).replaceAll( PATTERN_ID, "" );
-        }
-        if ( l1.equals( l2 ) )
-        {
-            return true;
-        }
-        return false;
-    }
+	/**
+	 * test two line to see if they are same.
+	 * 
+	 * the compare ignore id and versions as:
+	 * 
+	 * version="99.99" id="999"
+	 * 
+	 * @param line1
+	 * @param line2
+	 * @return
+	 */
+	private boolean compareLine(String line1, String line2) {
+		if (line1 == line2) {
+			return true;
+		}
+		if (line1 == null || line2 == null) {
+			return false;
+		}
 
-    private String[] readLines( Reader r1 ) throws IOException
-    {
-        BufferedReader br = new BufferedReader( r1 );
-        ArrayList<String> lines = new ArrayList<String>( );
-        String line = br.readLine( );
-        while ( line != null )
-        {
-            lines.add( line.trim( ) );
-            line = br.readLine( );
-        }
-        return lines.toArray( new String[lines.size( )] );
-    }
+		String l1 = line1.trim();
+		String l2 = line2.trim();
+		if (IGNORE_VERSION_ID) {
+			l1 = l1.replaceAll(PATTERN_VERSION, "").replaceAll(PATTERN_ID, "");
+			l2 = l2.replaceAll(PATTERN_VERSION, "").replaceAll(PATTERN_ID, "");
+		}
+		if (l1.equals(l2)) {
+			return true;
+		}
+		return false;
+	}
 
-    private boolean compareFile( Reader r1, Reader r2 ) throws Exception
-    {
+	private String[] readLines(Reader r1) throws IOException {
+		BufferedReader br = new BufferedReader(r1);
+		ArrayList<String> lines = new ArrayList<String>();
+		String line = br.readLine();
+		while (line != null) {
+			lines.add(line.trim());
+			line = br.readLine();
+		}
+		return lines.toArray(new String[lines.size()]);
+	}
 
-        String[] lines1 = readLines( r1 );
-        String[] lines2 = readLines( r2 );
+	private boolean compareFile(Reader r1, Reader r2) throws Exception {
 
-        return compareFile( lines1, lines2 );
-    }
+		String[] lines1 = readLines(r1);
+		String[] lines2 = readLines(r2);
+
+		return compareFile(lines1, lines2);
+	}
 
 	/**
 	 * Compares the two text files.
 	 * 
-	 * @param goldenReader
-	 *            the reader for golden file
-	 * @param outputReader
-	 *            the reader for output file
+	 * @param goldenReader the reader for golden file
+	 * @param outputReader the reader for output file
 	 * @return true if two text files are same.
-	 * @throws Exception
-	 *             if any exception
+	 * @throws Exception if any exception
 	 */
-    private boolean compareFile( String[] goldens, String[] outputs ) throws Exception
-    {
-        int lineCount = Math.min( goldens.length, outputs.length );
-        for ( int lineNo = 0; lineNo < lineCount; lineNo++ )
-        {
-            String line1 = goldens[lineNo];
-            String line2 = outputs[lineNo];
-            if ( !compareLine( line1, line2 ) )
-            {
-                raiseDiffAssert( goldens, outputs, lineNo );
-            }
-        }
-        if ( goldens.length != outputs.length )
-        {
-            raiseDiffAssert( goldens, outputs, lineCount );
-        }
-        return true;
-    }
-
-	private String joinDiffLines(String[] lines, int lineNo)
-	{
-	    StringBuilder sb = new StringBuilder();
-        int start = Math.max( 0, lineNo - 1);
-        int end = Math.min( lines.length - 1, lineNo + 1);
-        for ( int i = start; i <= end; i++) {
-            sb.append( lines[i]);
-            sb.append("\n");
-        }
-        return sb.toString();
+	private boolean compareFile(String[] goldens, String[] outputs) throws Exception {
+		int lineCount = Math.min(goldens.length, outputs.length);
+		for (int lineNo = 0; lineNo < lineCount; lineNo++) {
+			String line1 = goldens[lineNo];
+			String line2 = outputs[lineNo];
+			if (!compareLine(line1, line2)) {
+				raiseDiffAssert(goldens, outputs, lineNo);
+			}
+		}
+		if (goldens.length != outputs.length) {
+			raiseDiffAssert(goldens, outputs, lineCount);
+		}
+		return true;
 	}
 
-    private void raiseDiffAssert( String[] golden, String[] outputs, int lineNo )
-    {
-        //need 
-        Assert.assertSame( "lineNo:" + lineNo + " different", joinDiffLines( golden, lineNo ),
-                joinDiffLines( outputs, lineNo ) );
-    }
+	private String joinDiffLines(String[] lines, int lineNo) {
+		StringBuilder sb = new StringBuilder();
+		int start = Math.max(0, lineNo - 1);
+		int end = Math.min(lines.length - 1, lineNo + 1);
+		for (int i = start; i <= end; i++) {
+			sb.append(lines[i]);
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+
+	private void raiseDiffAssert(String[] golden, String[] outputs, int lineNo) {
+		// need
+		Assert.assertSame("lineNo:" + lineNo + " different", joinDiffLines(golden, lineNo),
+				joinDiffLines(outputs, lineNo));
+	}
 
 	/**
 	 * Compare the golden file with the os.
@@ -766,30 +644,25 @@ public abstract class BaseTestCase extends TestCase
 	 * @return
 	 * @throws Exception
 	 */
-	protected boolean compareFileWithOS( String goldenFileName,
-			ByteArrayOutputStream os ) throws Exception
-	{
+	protected boolean compareFileWithOS(String goldenFileName, ByteArrayOutputStream os) throws Exception {
 		String tmpGoldenFileName = GOLDEN_FOLDER + goldenFileName;
 
-		InputStream streamA = getResourceAStream( tmpGoldenFileName );
-		if ( os == null )
+		InputStream streamA = getResourceAStream(tmpGoldenFileName);
+		if (os == null)
 			return false;
 
-		String outContent = os.toString( "utf-8" ); //$NON-NLS-1$
+		String outContent = os.toString("utf-8"); //$NON-NLS-1$
 
-		InputStream streamB = new ByteArrayInputStream( os.toByteArray( ) );
-		InputStreamReader readerA = new InputStreamReader( streamA );
-		InputStreamReader readerB = new InputStreamReader( streamB );
+		InputStream streamB = new ByteArrayInputStream(os.toByteArray());
+		InputStreamReader readerA = new InputStreamReader(streamA);
+		InputStreamReader readerB = new InputStreamReader(streamB);
 
 		boolean ok = true;
-		try
-		{
-			ok = compareFile( readerA, readerB );
-		}
-		catch ( Exception e )
-		{
-			String outFileName = goldenFileName.replaceAll( "golden", "out" );
-			saveOutputFile( outFileName, outContent );
+		try {
+			ok = compareFile(readerA, readerB);
+		} catch (Exception e) {
+			String outFileName = goldenFileName.replaceAll("golden", "out");
+			saveOutputFile(outFileName, outContent);
 
 			throw e;
 		}
@@ -798,57 +671,48 @@ public abstract class BaseTestCase extends TestCase
 	}
 
 	/**
-	 * Prints out all semantic errors stored in the error list during parsing
-	 * the design file.
+	 * Prints out all semantic errors stored in the error list during parsing the
+	 * design file.
 	 */
 
-	protected void printSemanticErrors( )
-	{
-		printSemanticError( design );
+	protected void printSemanticErrors() {
+		printSemanticError(design);
 	}
 
 	/**
-	 * Prints out all semantic errors stored in the error list during parsing
-	 * the design file.
+	 * Prints out all semantic errors stored in the error list during parsing the
+	 * design file.
 	 * 
-	 * @param design
-	 *            report design
+	 * @param design report design
 	 */
 
-	protected void printSemanticError( ReportDesign design )
-	{
-		if ( design != null )
-			printErrorList( design.getAllErrors( ) );
+	protected void printSemanticError(ReportDesign design) {
+		if (design != null)
+			printErrorList(design.getAllErrors());
 	}
 
 	/**
 	 * Prints out all syntax errors stored in the error list during parsing the
 	 * design file.
 	 * 
-	 * @param e
-	 *            <code>DesignFileException</code> containing syntax error list.
+	 * @param e <code>DesignFileException</code> containing syntax error list.
 	 */
 
-	protected void printSyntaxError( DesignFileException e )
-	{
-		if ( e != null )
-			printErrorList( e.getErrorList( ) );
+	protected void printSyntaxError(DesignFileException e) {
+		if (e != null)
+			printErrorList(e.getErrorList());
 	}
 
 	/**
 	 * Prints error list.
 	 * 
-	 * @param errors
-	 *            error list
+	 * @param errors error list
 	 */
-	private void printErrorList( List errors )
-	{
-		if ( errors != null && !errors.isEmpty( ) )
-		{
-			for ( Iterator iter = errors.iterator( ); iter.hasNext( ); )
-			{
-				ErrorDetail ex = (ErrorDetail) iter.next( );
-				System.out.println( ex );
+	private void printErrorList(List errors) {
+		if (errors != null && !errors.isEmpty()) {
+			for (Iterator iter = errors.iterator(); iter.hasNext();) {
+				ErrorDetail ex = (ErrorDetail) iter.next();
+				System.out.println(ex);
 			}
 		}
 	}
@@ -856,83 +720,69 @@ public abstract class BaseTestCase extends TestCase
 	/**
 	 * Dumps the parsing errors into a text file.
 	 * 
-	 * @param filename
-	 *            the file name into which the error will be dumped.
-	 * @throws Exception
-	 *             if any exception.
+	 * @param filename the file name into which the error will be dumped.
+	 * @throws Exception if any exception.
 	 */
 
-	protected void dumpErrors( String filename ) throws Exception
-	{
-		String outputFolder = getTempFolder( ) + OUTPUT_FOLDER;
-		File f = new File( outputFolder );
-		if ( !f.exists( ) && !f.mkdir( ) )
-		{
-			throw new Exception( "Can not create the output folder!" ); //$NON-NLS-1$
+	protected void dumpErrors(String filename) throws Exception {
+		String outputFolder = getTempFolder() + OUTPUT_FOLDER;
+		File f = new File(outputFolder);
+		if (!f.exists() && !f.mkdir()) {
+			throw new Exception("Can not create the output folder!"); //$NON-NLS-1$
 		}
 		filename = outputFolder + filename;
 
-		if ( design == null )
+		if (design == null)
 			return;
-		PrintWriter writer = new PrintWriter( new FileOutputStream( filename ) );
-		List errors = design.getAllErrors( );
+		PrintWriter writer = new PrintWriter(new FileOutputStream(filename));
+		List errors = design.getAllErrors();
 		ErrorDetail ex = null;
-		for ( int i = 0; i < errors.size( ); i++ )
-		{
-			ex = (ErrorDetail) errors.get( i );
-			writer.print( design.getFileName( ) );
-			writer.println( ex );
+		for (int i = 0; i < errors.size(); i++) {
+			ex = (ErrorDetail) errors.get(i);
+			writer.print(design.getFileName());
+			writer.println(ex);
 		}
-		writer.close( );
+		writer.close();
 	}
 
 	/**
 	 * Eventually, this method will call
-	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the
-	 * output file of some unit test.
+	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the output
+	 * file of some unit test.
 	 * 
-	 * @param filename
-	 *            the test output file to be saved.
-	 * @throws IOException
-	 *             if error occurs while saving the file.
+	 * @param filename the test output file to be saved.
+	 * @throws IOException if error occurs while saving the file.
 	 */
 
-	protected void save( ) throws IOException
-	{
-		save( designHandle );
+	protected void save() throws IOException {
+		save(designHandle);
 	}
 
 	/**
 	 * Eventually, this method will call
-	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the
-	 * output file of some unit test.
+	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the output
+	 * file of some unit test.
 	 * 
-	 * @param moduleHandle
-	 *            the module to save, either a report design or a library
-	 * @throws IOException
-	 *             if error occurs while saving the file.
+	 * @param moduleHandle the module to save, either a report design or a library
+	 * @throws IOException if error occurs while saving the file.
 	 */
 
-	protected void save( ModuleHandle moduleHandle ) throws IOException
-	{
-		os = new ByteArrayOutputStream( );
-		if ( moduleHandle != null )
-			moduleHandle.serialize( os );
-		os.close( );
+	protected void save(ModuleHandle moduleHandle) throws IOException {
+		os = new ByteArrayOutputStream();
+		if (moduleHandle != null)
+			moduleHandle.serialize(os);
+		os.close();
 	}
 
 	/**
 	 * Saves library as the given file name.
 	 * 
-	 * @param filename
-	 *            the file name for saving
-	 * @throws IOException
-	 *             if any exception
+	 * @param filename the file name for saving
+	 * @throws IOException if any exception
 	 */
 
-	protected void saveLibrary( ) throws IOException
-	{
-		save( libraryHandle );
+	protected void saveLibrary() throws IOException {
+		save(libraryHandle);
 	}
 
 	/**
@@ -941,14 +791,13 @@ public abstract class BaseTestCase extends TestCase
 	 * @return temp folder of this class
 	 */
 
-	protected String getTempFolder( )
-	{
-		String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
-		if ( !tempDir.endsWith( File.separator ) )
+	protected String getTempFolder() {
+		String tempDir = System.getProperty("java.io.tmpdir"); //$NON-NLS-1$
+		if (!tempDir.endsWith(File.separator))
 			tempDir += File.separator;
 
 		String outputPath = tempDir + "org.eclipse.birt.report.model" //$NON-NLS-1$
-				+ getFullQualifiedClassName( );
+				+ getFullQualifiedClassName();
 		return outputPath;
 	}
 
@@ -956,22 +805,19 @@ public abstract class BaseTestCase extends TestCase
 	 * Gets the input stream of the given name resources.
 	 */
 
-	protected InputStream getResourceAStream( String name )
-	{
-		return this.getClass( ).getResourceAsStream( name );
+	protected InputStream getResourceAStream(String name) {
+		return this.getClass().getResourceAsStream(name);
 	}
 
 	/**
 	 * gets the url of the resource.
 	 * 
-	 * @param name
-	 *            name of the resource
+	 * @param name name of the resource
 	 * @return the url of the resource
 	 */
 
-	protected URL getResource( String name )
-	{
-		return this.getClass( ).getResource( name );
+	protected URL getResource(String name) {
+		return this.getClass().getResource(name);
 	}
 
 	/**
@@ -981,12 +827,11 @@ public abstract class BaseTestCase extends TestCase
 	 * @return the full qualified class name
 	 */
 
-	protected String getFullQualifiedClassName( )
-	{
-		String className = this.getClass( ).getName( );
-		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
-		className = className.substring( 0, lastDotIndex );
-		className = "/" + className.replace( '.', '/' ); //$NON-NLS-1$
+	protected String getFullQualifiedClassName() {
+		String className = this.getClass().getName();
+		int lastDotIndex = className.lastIndexOf("."); //$NON-NLS-1$
+		className = className.substring(0, lastDotIndex);
+		className = "/" + className.replace('.', '/'); //$NON-NLS-1$
 
 		return className;
 	}
@@ -998,58 +843,52 @@ public abstract class BaseTestCase extends TestCase
 	 *         <code>false</code>.
 	 */
 
-	protected boolean isWindowsPlatform( )
-	{
-		return System.getProperty( "os.name" ).toLowerCase( ).indexOf( //$NON-NLS-1$
-				"windows" ) >= 0; //$NON-NLS-1$
+	protected boolean isWindowsPlatform() {
+		return System.getProperty("os.name").toLowerCase().indexOf( //$NON-NLS-1$
+				"windows") >= 0; //$NON-NLS-1$
 	}
 
 	/**
 	 * Copies the file to the temporary folder.
 	 * 
-	 * @param resourceName
-	 *            the resource name. Based on the class folder.
+	 * @param resourceName the resource name. Based on the class folder.
 	 * @return the file path on the disk
 	 * @throws Exception
 	 */
 
-	protected String copyContentToFile( String resourceName ) throws Exception
-	{
-		URL url = getResource( resourceName );
-		InputStream is = url.openStream( );
+	protected String copyContentToFile(String resourceName) throws Exception {
+		URL url = getResource(resourceName);
+		InputStream is = url.openStream();
 
-		String folder = getTempFolder( );
+		String folder = getTempFolder();
 
-		int index = resourceName.lastIndexOf( INPUT_FOLDER );
-		if ( index > 0 )
-		{
-			String relateDir = resourceName.substring( 0, index - 1 );
+		int index = resourceName.lastIndexOf(INPUT_FOLDER);
+		if (index > 0) {
+			String relateDir = resourceName.substring(0, index - 1);
 			folder = folder + "/" + relateDir; //$NON-NLS-1$
 		}
 
 		folder = folder + "/" + INPUT_FOLDER; //$NON-NLS-1$
 
-		File tmpFolder = new File( folder );
-		if ( !tmpFolder.exists( ) )
-			tmpFolder.mkdirs( );
+		File tmpFolder = new File(folder);
+		if (!tmpFolder.exists())
+			tmpFolder.mkdirs();
 
 		String filename = ""; //$NON-NLS-1$
-		int lastSlash = resourceName.lastIndexOf( "/" ); //$NON-NLS-1$
-		if ( lastSlash != -1 )
-		{
-			filename = resourceName.substring( lastSlash + 1 );
+		int lastSlash = resourceName.lastIndexOf("/"); //$NON-NLS-1$
+		if (lastSlash != -1) {
+			filename = resourceName.substring(lastSlash + 1);
 		}
 
-		FileOutputStream fos = new FileOutputStream( folder + filename );
+		FileOutputStream fos = new FileOutputStream(folder + filename);
 		byte[] fileData = new byte[5120];
 		int readCount = -1;
-		while ( ( readCount = is.read( fileData ) ) != -1 )
-		{
-			fos.write( fileData, 0, readCount );
+		while ((readCount = is.read(fileData)) != -1) {
+			fos.write(fileData, 0, readCount);
 		}
 
-		fos.close( );
-		is.close( );
+		fos.close();
+		is.close();
 
 		return folder + filename;
 	}
@@ -1057,37 +896,32 @@ public abstract class BaseTestCase extends TestCase
 	/**
 	 * Saves the output stream into the output file.
 	 * 
-	 * @param fileName
-	 *            the resource name. Based on the class folder.
+	 * @param fileName the resource name. Based on the class folder.
 	 * @throws Exception
 	 */
 
-	protected void saveOutputFile( String fileName ) throws Exception
-	{
-		String strDesign = os.toString( );
-		saveOutputFile( fileName, strDesign );
+	protected void saveOutputFile(String fileName) throws Exception {
+		String strDesign = os.toString();
+		saveOutputFile(fileName, strDesign);
 	}
 
 	/**
 	 * Saves the output stream into the output file.
 	 * 
-	 * @param fileName
-	 *            the resource name. Based on the class folder.
+	 * @param fileName the resource name. Based on the class folder.
 	 * @throws Exception
 	 */
 
-	protected void saveOutputFile( String fileName, String content )
-			throws Exception
-	{
-		String folder = getTempFolder( ) + OUTPUT_FOLDER;
-		File tmpFolder = new File( folder );
-		if ( !tmpFolder.exists( ) )
-			tmpFolder.mkdirs( );
+	protected void saveOutputFile(String fileName, String content) throws Exception {
+		String folder = getTempFolder() + OUTPUT_FOLDER;
+		File tmpFolder = new File(folder);
+		if (!tmpFolder.exists())
+			tmpFolder.mkdirs();
 
-		FileOutputStream fos = new FileOutputStream( folder + fileName );
-		fos.write( content.getBytes( "UTF-8" ) ); //$NON-NLS-1$
+		FileOutputStream fos = new FileOutputStream(folder + fileName);
+		fos.write(content.getBytes("UTF-8")); //$NON-NLS-1$
 
-		fos.close( );
+		fos.close();
 	}
 
 	/**
@@ -1095,21 +929,19 @@ public abstract class BaseTestCase extends TestCase
 	 * @return
 	 */
 
-	protected static String serializeStringList( List strs )
-	{
-		if ( strs == null )
+	protected static String serializeStringList(List strs) {
+		if (strs == null)
 			return null;
 
-		StringBuffer sb = new StringBuffer( );
-		for ( int i = 0; i < strs.size( ); i++ )
-		{
-			sb.append( (String) strs.get( i ) );
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < strs.size(); i++) {
+			sb.append((String) strs.get(i));
 
-			if ( i != strs.size( ) - 1 )
-				sb.append( ", " ); //$NON-NLS-1$
+			if (i != strs.size() - 1)
+				sb.append(", "); //$NON-NLS-1$
 		}
 
-		return sb.toString( );
+		return sb.toString();
 	}
 
 	/**
@@ -1118,9 +950,8 @@ public abstract class BaseTestCase extends TestCase
 	 * @throws Exception
 	 */
 
-	protected void serializeDocument( ) throws Exception
-	{
-		serializeDocument( false );
+	protected void serializeDocument() throws Exception {
+		serializeDocument(false);
 	}
 
 	/**
@@ -1129,29 +960,25 @@ public abstract class BaseTestCase extends TestCase
 	 * @throws Exception
 	 */
 
-	protected void serializeDocument( boolean enableExternalDataMart )
-			throws Exception
-	{
+	protected void serializeDocument(boolean enableExternalDataMart) throws Exception {
 		ReportDesignHandle beforeSerializedDesignHandle = designHandle;
-		os = new ByteArrayOutputStream( );
+		os = new ByteArrayOutputStream();
 
-		ReportDesignSerializer visitor = new ReportDesignSerializer( );
-		designHandle.getModule( ).apply( visitor );
+		ReportDesignSerializer visitor = new ReportDesignSerializer();
+		designHandle.getModule().apply(visitor);
 
-		design = visitor.getTarget( );
-		designHandle = (ReportDesignHandle) design.getHandle( design );
+		design = visitor.getTarget();
+		designHandle = (ReportDesignHandle) design.getHandle(design);
 
-		if ( enableExternalDataMart )
-		{
-			design.prepareToSave( );
-			DesignWriter writer = (DesignWriter) design.getWriter( );
-			DesignWriterUtil.enableExternalDataMarts( writer );
-			writer.write( os );
-			design.onSave( );
+		if (enableExternalDataMart) {
+			design.prepareToSave();
+			DesignWriter writer = (DesignWriter) design.getWriter();
+			DesignWriterUtil.enableExternalDataMarts(writer);
+			writer.write(os);
+			design.onSave();
 
-		}
-		else
-			designHandle.serialize( os );
+		} else
+			designHandle.serialize(os);
 
 		this.beforeSerializedDesignHandle = beforeSerializedDesignHandle;
 	}

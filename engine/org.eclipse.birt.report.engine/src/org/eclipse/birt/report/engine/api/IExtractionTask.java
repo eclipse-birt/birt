@@ -5,22 +5,21 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 
-public interface IExtractionTask extends IEngineTask
-{
+public interface IExtractionTask extends IEngineTask {
 
 	/**
 	 * the filter conditions
 	 * 
 	 * @param filters
 	 */
-	void setFilters( IFilterDefinition[] filters );
+	void setFilters(IFilterDefinition[] filters);
 
 	/**
 	 * set sorting conditions
 	 * 
 	 * @param sorts
 	 */
-	void setSorts( ISortDefinition[] sorts );
+	void setSorts(ISortDefinition[] sorts);
 
 	/**
 	 * set sorting conditions
@@ -28,23 +27,22 @@ public interface IExtractionTask extends IEngineTask
 	 * @param simpleSortExpression
 	 * @param overrideExistingSorts
 	 */
-	void setSorts( ISortDefinition[] simpleSortExpression, boolean overrideExistingSorts );
-	
+	void setSorts(ISortDefinition[] simpleSortExpression, boolean overrideExistingSorts);
+
 	/**
 	 * execute this extraction task
 	 * 
 	 * @return the extraction result
 	 * @throws BirtException
 	 */
-	Object extract( ) throws BirtException;
+	Object extract() throws BirtException;
 
 	/**
 	 * execute this extraction task
 	 * 
-	 * @param option
-	 *            the extraction option
+	 * @param option the extraction option
 	 * @throws BirtException
 	 */
-	void extract( IExtractionOption option ) throws BirtException;
+	void extract(IExtractionOption option) throws BirtException;
 
 }

@@ -22,8 +22,7 @@ import org.xml.sax.Attributes;
  * This class parses a theme in the library.
  */
 
-class ThemeState extends ReportElementState
-{
+class ThemeState extends ReportElementState {
 
 	/**
 	 * The row being created.
@@ -32,59 +31,48 @@ class ThemeState extends ReportElementState
 	protected Theme element;
 
 	/**
-	 * Constructs the table or list row state with the design parser handler,
-	 * the container element and the container slot of the table row.
+	 * Constructs the table or list row state with the design parser handler, the
+	 * container element and the container slot of the table row.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	ThemeState( ModuleParserHandler handler, DesignElement theContainer,
-			int slot )
-	{
-		super( handler, theContainer, slot );
+	ThemeState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 
 	}
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		int tagValue = tagName.toLowerCase( ).hashCode( );
+	public AbstractParseState startElement(String tagName) {
+		int tagValue = tagName.toLowerCase().hashCode();
 
-		if ( ParserSchemaConstants.STYLES_TAG == tagValue )
-			return new StylesState( handler, getElement( ),
-					IAbstractThemeModel.STYLES_SLOT );
-		return super.startElement( tagName );
+		if (ParserSchemaConstants.STYLES_TAG == tagValue)
+			return new StylesState(handler, getElement(), IAbstractThemeModel.STYLES_SLOT);
+		return super.startElement(tagName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new Theme( );
-		initElement( attrs, true );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new Theme();
+		initElement(attrs, true);
 	}
 
 }

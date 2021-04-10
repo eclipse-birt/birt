@@ -32,31 +32,25 @@ import com.ibm.icu.util.ULocale;
  * tree.
  * </p>
  */
-public class Regression_118178 extends BaseTestCase
-{
+public class Regression_118178 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
 
-	public void test_regression_118178( )
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
-		
-		ElementFactory factory = designHandle.getElementFactory( );
-		OdaDataSetHandle dataset = factory.newOdaDataSet(
-				"report1.data set", null ); //$NON-NLS-1$
+	public void test_regression_118178() {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		try
-		{
-			designHandle.getDataSets( ).add( dataset );
-			//fail( );
-		}
-		catch ( Exception e )
-		{
-			assertTrue( e instanceof org.eclipse.birt.report.model.api.command.NameException );
+		ElementFactory factory = designHandle.getElementFactory();
+		OdaDataSetHandle dataset = factory.newOdaDataSet("report1.data set", null); //$NON-NLS-1$
+
+		try {
+			designHandle.getDataSets().add(dataset);
+			// fail( );
+		} catch (Exception e) {
+			assertTrue(e instanceof org.eclipse.birt.report.model.api.command.NameException);
 		}
 	}
 }

@@ -25,56 +25,47 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
  * 
  */
 
-public class SplitCrosstabHeadCellAction extends AbstractCrosstabAction
-{
+public class SplitCrosstabHeadCellAction extends AbstractCrosstabAction {
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.SplitHeadCellAction"; //$NON-NLS-1$
 	private static final String NAME = Messages.getString("SplitCrosstabHeadCellAction_name"); //$NON-NLS-1$
 	private CrosstabCellHandle cellHandle;
-	public SplitCrosstabHeadCellAction( DesignElementHandle handle )
-	{
-		super( handle );
-		setId( ID );
+
+	public SplitCrosstabHeadCellAction(DesignElementHandle handle) {
+		super(handle);
+		setId(ID);
 		setText(NAME);
-		
-		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
-		setHandle( extendedHandle );
-		try
-		{
-			cellHandle = (CrosstabCellHandle)extendedHandle.getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
+
+		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle(handle);
+		setHandle(extendedHandle);
+		try {
+			cellHandle = (CrosstabCellHandle) extendedHandle.getReportItem();
+		} catch (ExtendedElementException e) {
 			cellHandle = null;
 		}
 	}
-	
+
 	@Override
-	public void run( )
-	{
-		transStar( NAME );
-		CrosstabUtil.splitCrosstabHeaderCell(  cellHandle.getCrosstab( ) );
-		CrosstabUtil.addAllHeaderLabel( cellHandle.getCrosstab( ) );
-		transEnd( );
+	public void run() {
+		transStar(NAME);
+		CrosstabUtil.splitCrosstabHeaderCell(cellHandle.getCrosstab());
+		CrosstabUtil.addAllHeaderLabel(cellHandle.getCrosstab());
+		transEnd();
 	}
-	
-	public boolean isEnabled( )
-	{
-		if (cellHandle == null)
-		{
+
+	public boolean isEnabled() {
+		if (cellHandle == null) {
 			return false;
 		}
-		CubeHandle cubeHandle = cellHandle.getCrosstab( ).getCube( );
-		if (cubeHandle == null)
-		{
+		CubeHandle cubeHandle = cellHandle.getCrosstab().getCube();
+		if (cubeHandle == null) {
 			return false;
 		}
-		if (DEUtil.isReferenceElement( cellHandle.getCrosstabHandle( ) ))
-		{
+		if (DEUtil.isReferenceElement(cellHandle.getCrosstabHandle())) {
 			return false;
 		}
-		
-		return CrosstabUtil.canSplitCrosstabHeaderCell( cellHandle.getCrosstab( ));		
+
+		return CrosstabUtil.canSplitCrosstabHeaderCell(cellHandle.getCrosstab());
 	}
 
 }

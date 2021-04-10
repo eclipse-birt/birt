@@ -34,18 +34,15 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 /**
  * CrosstabViewHandle.
  */
-public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
-		ICrosstabViewConstants,
-		ICrosstabConstants
-{
+public class CrosstabViewHandle extends AbstractCrosstabItemHandle
+		implements ICrosstabViewConstants, ICrosstabConstants {
 
 	/**
 	 * 
 	 * @param element
 	 */
-	protected CrosstabViewHandle( DesignElementHandle element )
-	{
-		super( element );
+	protected CrosstabViewHandle(DesignElementHandle element) {
+		super(element);
 	}
 
 	/**
@@ -53,15 +50,13 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	 * 
 	 * @return
 	 */
-	public LevelHandle getMirroredStartingLevel( )
-	{
-		LevelHandle levelHandle =  (LevelHandle) handle.getElementProperty( MIRROR_STARTING_LEVEL_PROP );
-		if( levelHandle == null )
-		{
-			String fullLevelName = handle.getStringProperty( MIRROR_STARTING_LEVEL_PROP );
-			levelHandle = findLevelHandle( fullLevelName );
+	public LevelHandle getMirroredStartingLevel() {
+		LevelHandle levelHandle = (LevelHandle) handle.getElementProperty(MIRROR_STARTING_LEVEL_PROP);
+		if (levelHandle == null) {
+			String fullLevelName = handle.getStringProperty(MIRROR_STARTING_LEVEL_PROP);
+			levelHandle = findLevelHandle(fullLevelName);
 		}
-		
+
 		return levelHandle;
 	}
 
@@ -71,11 +66,8 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	 * @param value
 	 * @throws SemanticException
 	 */
-	public void setMirroredStartingLevel( LevelHandle value )
-			throws SemanticException
-	{
-		handle.setProperty( MIRROR_STARTING_LEVEL_PROP, value == null ? null
-				: value.getQualifiedName( ) );
+	public void setMirroredStartingLevel(LevelHandle value) throws SemanticException {
+		handle.setProperty(MIRROR_STARTING_LEVEL_PROP, value == null ? null : value.getQualifiedName());
 	}
 
 	/**
@@ -83,9 +75,8 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	 * 
 	 * @return grand total property handle
 	 */
-	public PropertyHandle getGrandTotalProperty( )
-	{
-		return handle.getPropertyHandle( GRAND_TOTAL_PROP );
+	public PropertyHandle getGrandTotalProperty() {
+		return handle.getPropertyHandle(GRAND_TOTAL_PROP);
 	}
 
 	/**
@@ -93,20 +84,18 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	 * 
 	 * @return dimension views property handle.
 	 */
-	public PropertyHandle getViewsProperty( )
-	{
-		return handle.getPropertyHandle( VIEWS_PROP );
+	public PropertyHandle getViewsProperty() {
+		return handle.getPropertyHandle(VIEWS_PROP);
 	}
 
 	/**
-	 * Returns the member list defined on this crosstab view. Each element in
-	 * the returned list is a <code>MemberValueHandle</code> object.
+	 * Returns the member list defined on this crosstab view. Each element in the
+	 * returned list is a <code>MemberValueHandle</code> object.
 	 * 
 	 * @return the member value list
 	 */
-	public List getMembers( )
-	{
-		return handle.getPropertyHandle( MEMBERS_PROP ).getContents( );
+	public List getMembers() {
+		return handle.getPropertyHandle(MEMBERS_PROP).getContents();
 	}
 
 	/**
@@ -115,29 +104,24 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	 * @param value
 	 * @throws SemanticException
 	 */
-	public void addMember( MemberValueHandle value ) throws SemanticException
-	{
-		handle.getPropertyHandle( MEMBERS_PROP ).add( value );
+	public void addMember(MemberValueHandle value) throws SemanticException {
+		handle.getPropertyHandle(MEMBERS_PROP).add(value);
 	}
 
 	/**
-	 * Finds a dimension view that refers a cube dimension element with the
-	 * given name.
+	 * Finds a dimension view that refers a cube dimension element with the given
+	 * name.
 	 * 
-	 * @param name
-	 *            name of the cube dimension element to find
+	 * @param name name of the cube dimension element to find
 	 * @return dimension view if found, otherwise null
 	 */
-	public DimensionViewHandle getDimension( String name )
-	{
-		for ( int i = 0; i < getDimensionCount( ); i++ )
-		{
-			DimensionViewHandle dimensionView = getDimension( i );
-			if ( dimensionView != null )
-			{
-				String cubeDimensionName = dimensionView.getCubeDimensionName( );
-				if ( ( cubeDimensionName != null && cubeDimensionName.equals( name ) )
-						|| ( cubeDimensionName == null && name == null ) )
+	public DimensionViewHandle getDimension(String name) {
+		for (int i = 0; i < getDimensionCount(); i++) {
+			DimensionViewHandle dimensionView = getDimension(i);
+			if (dimensionView != null) {
+				String cubeDimensionName = dimensionView.getCubeDimensionName();
+				if ((cubeDimensionName != null && cubeDimensionName.equals(name))
+						|| (cubeDimensionName == null && name == null))
 					return dimensionView;
 			}
 		}
@@ -147,16 +131,13 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	/**
 	 * Gets the dimension view with the given index.Index is 0-based integer.
 	 * 
-	 * @param index
-	 *            a 0-based integer of the dimension position
+	 * @param index a 0-based integer of the dimension position
 	 * @return the dimension view handle if found, otherwise null
 	 */
-	public DimensionViewHandle getDimension( int index )
-	{
+	public DimensionViewHandle getDimension(int index) {
 
-		DesignElementHandle element = getViewsProperty( ).getContent( index );
-		return (DimensionViewHandle) CrosstabUtil.getReportItem( element,
-				DIMENSION_VIEW_EXTENSION_NAME );
+		DesignElementHandle element = getViewsProperty().getContent(index);
+		return (DimensionViewHandle) CrosstabUtil.getReportItem(element, DIMENSION_VIEW_EXTENSION_NAME);
 
 	}
 
@@ -165,68 +146,54 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	 * 
 	 * @return count of dimension views
 	 */
-	public int getDimensionCount( )
-	{
-		return getViewsProperty( ).getContentCount( );
+	public int getDimensionCount() {
+		return getViewsProperty().getContentCount();
 	}
 
 	/**
 	 * Inserts a dimension into the given position. Index is 0-based integer.
 	 * 
-	 * @param dimensionHandle
-	 *            the OLAP dimension handle to use
-	 * @param index
-	 *            insert position, a 0-based integer
+	 * @param dimensionHandle the OLAP dimension handle to use
+	 * @param index           insert position, a 0-based integer
 	 * @return
 	 * @throws SemanticException
 	 */
-	public DimensionViewHandle insertDimension(
-			DimensionHandle dimensionHandle, int index )
-			throws SemanticException
-	{
-		ExtendedItemHandle extendedItem = CrosstabExtendedItemFactory.createDimensionView( moduleHandle,
-				dimensionHandle );
-		if ( extendedItem == null )
+	public DimensionViewHandle insertDimension(DimensionHandle dimensionHandle, int index) throws SemanticException {
+		ExtendedItemHandle extendedItem = CrosstabExtendedItemFactory.createDimensionView(moduleHandle,
+				dimensionHandle);
+		if (extendedItem == null)
 			return null;
 		// if this dimension handle has referred by an existing dimension view,
 		// then log error and do nothing
-		if ( dimensionHandle != null
-				&& getDimension( dimensionHandle.getQualifiedName( ) ) != null )
-		{
-			logger.log( Level.SEVERE,
-					MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION,
-					dimensionHandle.getQualifiedName( ) );
-			throw new CrosstabException( handle.getElement( ),
-					Messages.getString( MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION,
-							dimensionHandle.getQualifiedName( ) ) );
+		if (dimensionHandle != null && getDimension(dimensionHandle.getQualifiedName()) != null) {
+			logger.log(Level.SEVERE, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION,
+					dimensionHandle.getQualifiedName());
+			throw new CrosstabException(handle.getElement(), Messages.getString(
+					MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION, dimensionHandle.getQualifiedName()));
 		}
-		getViewsProperty( ).add( extendedItem, index );
-		return (DimensionViewHandle) CrosstabUtil.getReportItem( extendedItem );
+		getViewsProperty().add(extendedItem, index);
+		return (DimensionViewHandle) CrosstabUtil.getReportItem(extendedItem);
 	}
 
 	/**
 	 * Removes a dimension view that refers a cube dimension name with the given
 	 * name from the design tree.
 	 * 
-	 * @param name
-	 *            name of the dimension view to remove
+	 * @param name name of the dimension view to remove
 	 * @throws SemanticException
 	 */
-	public void removeDimension( String name ) throws SemanticException
-	{
-		new CrosstabViewTask( this ).removeDimension( name );
+	public void removeDimension(String name) throws SemanticException {
+		new CrosstabViewTask(this).removeDimension(name);
 	}
 
 	/**
 	 * Removes a dimension view in the given position. Index is 0-based integer.
 	 * 
-	 * @param index
-	 *            the position index of the dimension to remove, 0-based integer
+	 * @param index the position index of the dimension to remove, 0-based integer
 	 * @throws SemanticException
 	 */
-	public void removeDimension( int index ) throws SemanticException
-	{
-		new CrosstabViewTask( this ).removeDimension( index );
+	public void removeDimension(int index) throws SemanticException {
+		new CrosstabViewTask(this).removeDimension(index);
 	}
 
 	/**
@@ -234,12 +201,11 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	 * 
 	 * @return row/column grand total cell if set, otherwise null
 	 */
-	public CrosstabCellHandle getGrandTotal( )
-	{
-		PropertyHandle propHandle = getGrandTotalProperty( );
-		return propHandle.getContentCount( ) == 0 ? null
-				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle.getContent( 0 ),
-						CROSSTAB_CELL_EXTENSION_NAME );
+	public CrosstabCellHandle getGrandTotal() {
+		PropertyHandle propHandle = getGrandTotalProperty();
+		return propHandle.getContentCount() == 0 ? null
+				: (CrosstabCellHandle) CrosstabUtil.getReportItem(propHandle.getContent(0),
+						CROSSTAB_CELL_EXTENSION_NAME);
 	}
 
 	/**
@@ -253,9 +219,8 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	 * 
 	 * @return the location
 	 */
-	public String getGrandTotalLocation( )
-	{
-		return handle.getStringProperty( GRAND_TOTAL_LOCATIION_PROP );
+	public String getGrandTotalLocation() {
+		return handle.getStringProperty(GRAND_TOTAL_LOCATIION_PROP);
 	}
 
 	/**
@@ -266,13 +231,11 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	 * <li><code>GRAND_TOTAL_LOCATION_AFTER</code>
 	 * </ul>
 	 * 
-	 * @param value
-	 *            the location to set
+	 * @param value the location to set
 	 * @throws SemanticException
 	 */
-	public void setGrandTotalLocation( String value ) throws SemanticException
-	{
-		handle.setStringProperty( GRAND_TOTAL_LOCATIION_PROP, value );
+	public void setGrandTotalLocation(String value) throws SemanticException {
+		handle.setStringProperty(GRAND_TOTAL_LOCATIION_PROP, value);
 	}
 
 	/**
@@ -283,49 +246,42 @@ public class CrosstabViewHandle extends AbstractCrosstabItemHandle implements
 	 * @return
 	 * @throws SemanticException
 	 */
-	public CrosstabCellHandle addGrandTotal( List measureList, List functionList )
-			throws SemanticException
-	{
-		return new CrosstabViewTask( this ).addGrandTotal( measureList,
-				functionList );
+	public CrosstabCellHandle addGrandTotal(List measureList, List functionList) throws SemanticException {
+		return new CrosstabViewTask(this).addGrandTotal(measureList, functionList);
 	}
 
 	/**
-	 * Removes grand total from crosstab if it is not empty, otherwise do
-	 * nothing.
+	 * Removes grand total from crosstab if it is not empty, otherwise do nothing.
 	 */
-	public void removeGrandTotal( ) throws SemanticException
-	{
-		new CrosstabViewTask( this ).removeGrandTotal( );
+	public void removeGrandTotal() throws SemanticException {
+		new CrosstabViewTask(this).removeGrandTotal();
 	}
 
 	/**
 	 * Remove grand total on particular measure
 	 */
-	public void removeGrandTotal( int measureIndex ) throws SemanticException
-	{
-		new CrosstabViewTask( this ).removeGrandTotal( measureIndex );
+	public void removeGrandTotal(int measureIndex) throws SemanticException {
+		new CrosstabViewTask(this).removeGrandTotal(measureIndex);
 	}
 
 	/**
-	 * Gets the axis type of this crosstab view in the crosstab. If this view
-	 * lies in the design tree, the returned value is either
+	 * Gets the axis type of this crosstab view in the crosstab. If this view lies
+	 * in the design tree, the returned value is either
 	 * <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or
 	 * <code>ICrosstabConstants.COLUMN_AXIS_TYPE</code>. Otherwise return
 	 * <code>ICrosstabConstants.NO_AXIS_TYPE</code>.
 	 * 
-	 * @return the axis type if this crosstab view resides in design tree,
-	 *         otherwise -1;
+	 * @return the axis type if this crosstab view resides in design tree, otherwise
+	 *         -1;
 	 */
-	public int getAxisType( )
-	{
-		PropertyHandle propHandle = handle.getContainerPropertyHandle( );
-		if ( propHandle == null )
+	public int getAxisType() {
+		PropertyHandle propHandle = handle.getContainerPropertyHandle();
+		if (propHandle == null)
 			return NO_AXIS_TYPE;
-		String propName = propHandle.getPropertyDefn( ).getName( );
-		if ( ICrosstabReportItemConstants.ROWS_PROP.equals( propName ) )
+		String propName = propHandle.getPropertyDefn().getName();
+		if (ICrosstabReportItemConstants.ROWS_PROP.equals(propName))
 			return ROW_AXIS_TYPE;
-		if ( ICrosstabReportItemConstants.COLUMNS_PROP.equals( propName ) )
+		if (ICrosstabReportItemConstants.COLUMNS_PROP.equals(propName))
 			return COLUMN_AXIS_TYPE;
 		return NO_AXIS_TYPE;
 

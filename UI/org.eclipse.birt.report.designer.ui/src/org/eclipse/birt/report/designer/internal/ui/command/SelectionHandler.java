@@ -42,19 +42,19 @@ import org.eclipse.ui.ISources;
  * 
  */
 
-public class SelectionHandler extends AbstractHandler
-{
+public class SelectionHandler extends AbstractHandler {
 
-	protected Logger logger = Logger.getLogger( SelectionHandler.class.getName( ) );
+	protected Logger logger = Logger.getLogger(SelectionHandler.class.getName());
 	private ExecutionEvent event;
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent arg0 ) throws ExecutionException
-	{
+	public Object execute(ExecutionEvent arg0) throws ExecutionException {
 		this.event = arg0;
 		return null;
 	}
@@ -64,22 +64,16 @@ public class SelectionHandler extends AbstractHandler
 	 * 
 	 * @return element handles
 	 */
-	protected List getElements( List list )
-	{
+	protected List getElements(List list) {
 		boolean isEditPart = false;
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			if ( list.get( i ) instanceof ReportElementEditPart )
-			{
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i) instanceof ReportElementEditPart) {
 				isEditPart = true;
 			}
 		}
-		if ( isEditPart )
-		{
-			return InsertInLayoutUtil.editPart2Model( list ).toList( );
-		}
-		else
-		{
+		if (isEditPart) {
+			return InsertInLayoutUtil.editPart2Model(list).toList();
+		} else {
 			return list;
 		}
 
@@ -90,9 +84,8 @@ public class SelectionHandler extends AbstractHandler
 	 * 
 	 * @return element handles
 	 */
-	protected List getElements( ISelection selection )
-	{
-		return InsertInLayoutUtil.editPart2Model( selection ).toList( );
+	protected List getElements(ISelection selection) {
+		return InsertInLayoutUtil.editPart2Model(selection).toList();
 	}
 
 	/**
@@ -100,29 +93,24 @@ public class SelectionHandler extends AbstractHandler
 	 * 
 	 * @return The first selected object
 	 */
-	protected Object getFirstElement( List list )
-	{
-		Object[] array = getElements( list ).toArray( );
-		if ( array.length > 0 )
-		{
+	protected Object getFirstElement(List list) {
+		Object[] array = getElements(list).toArray();
+		if (array.length > 0) {
 			return array[0];
 		}
 		return null;
 	}
 
-	protected Object getFirstSelectVariable( )
-	{
-		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object selectVariable = UIUtil.getVariableFromContext( context, ISources.ACTIVE_CURRENT_SELECTION_NAME );
+	protected Object getFirstSelectVariable() {
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
+		Object selectVariable = UIUtil.getVariableFromContext(context, ISources.ACTIVE_CURRENT_SELECTION_NAME);
 		Object selectList = selectVariable;
-		if ( selectVariable instanceof StructuredSelection )
-		{
-			selectList = ( (StructuredSelection) selectVariable ).toList( );
+		if (selectVariable instanceof StructuredSelection) {
+			selectList = ((StructuredSelection) selectVariable).toList();
 		}
 
-		if ( selectList instanceof List && ( (List) selectList ).size( ) > 0 )
-		{
-			selectVariable = getFirstElement( (List) selectList );
+		if (selectList instanceof List && ((List) selectList).size() > 0) {
+			selectVariable = getFirstElement((List) selectList);
 		}
 
 		return selectVariable;
@@ -133,48 +121,38 @@ public class SelectionHandler extends AbstractHandler
 	 * 
 	 * @return the table edit part
 	 */
-	protected TableEditPart getTableEditPart( )
-	{
-		List list = (List) getSelectedObjects( );
-		if ( list.isEmpty( ) )
-		{
+	protected TableEditPart getTableEditPart() {
+		List list = (List) getSelectedObjects();
+		if (list.isEmpty()) {
 			return null;
 		}
 		TableEditPart part = null;
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof TableEditPart )
-			{
+		for (int i = 0; i < list.size(); i++) {
+			Object obj = list.get(i);
+			if (obj instanceof TableEditPart) {
 				part = (TableEditPart) obj;
-			}
-			else if ( obj instanceof TableCellEditPart )
-			{
-				part = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
+			} else if (obj instanceof TableCellEditPart) {
+				part = (TableEditPart) ((TableCellEditPart) obj).getParent();
 			}
 		}
 		return part;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	protected ReportElementEditPart getTableMultipleEditPart( )
-	{
-		List list = getSelectedObjects( );
-		if ( list.isEmpty( ) )
-		{
+	protected ReportElementEditPart getTableMultipleEditPart() {
+		List list = getSelectedObjects();
+		if (list.isEmpty()) {
 			return null;
 		}
 		ReportElementEditPart part = null;
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof MultipleEditPart && ((MultipleEditPart)obj).getModel( ) instanceof TableHandle)
-			{
+		for (int i = 0; i < list.size(); i++) {
+			Object obj = list.get(i);
+			if (obj instanceof MultipleEditPart && ((MultipleEditPart) obj).getModel() instanceof TableHandle) {
 				part = (ReportElementEditPart) obj;
 			}
-			
+
 		}
 		return part;
 	}
@@ -185,24 +163,18 @@ public class SelectionHandler extends AbstractHandler
 	 * @return The current selected list edit part, null if no list edit part is
 	 *         selected.
 	 */
-	protected ListEditPart getListEditPart( )
-	{
-		List list = getSelectedObjects( );
-		if ( list.isEmpty( ) )
-		{
+	protected ListEditPart getListEditPart() {
+		List list = getSelectedObjects();
+		if (list.isEmpty()) {
 			return null;
 		}
 		ListEditPart part = null;
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof ListEditPart )
-			{
+		for (int i = 0; i < list.size(); i++) {
+			Object obj = list.get(i);
+			if (obj instanceof ListEditPart) {
 				part = (ListEditPart) obj;
-			}
-			else if ( obj instanceof ListBandEditPart )
-			{
-				part = (ListEditPart) ( (ListBandEditPart) obj ).getParent( );
+			} else if (obj instanceof ListBandEditPart) {
+				part = (ListEditPart) ((ListBandEditPart) obj).getParent();
 			}
 		}
 		return part;
@@ -213,12 +185,11 @@ public class SelectionHandler extends AbstractHandler
 	 * 
 	 * @return A List containing the currently selected objects.
 	 */
-	protected List getSelectedObjects( )
-	{
-		IStructuredSelection selectVariable = getSelection( );
-		if ( selectVariable == null )
+	protected List getSelectedObjects() {
+		IStructuredSelection selectVariable = getSelection();
+		if (selectVariable == null)
 			return Collections.EMPTY_LIST;
-		return selectVariable.toList( );
+		return selectVariable.toList();
 	}
 
 	/**
@@ -226,19 +197,14 @@ public class SelectionHandler extends AbstractHandler
 	 * 
 	 * @return A List containing the currently selected objects.
 	 */
-	protected IStructuredSelection getSelection( )
-	{
-		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object selectVariable = UIUtil.getVariableFromContext( context, ISources.ACTIVE_CURRENT_SELECTION_NAME );
-		if ( selectVariable != null )
-		{
-			if ( selectVariable instanceof IStructuredSelection )
-			{
+	protected IStructuredSelection getSelection() {
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
+		Object selectVariable = UIUtil.getVariableFromContext(context, ISources.ACTIVE_CURRENT_SELECTION_NAME);
+		if (selectVariable != null) {
+			if (selectVariable instanceof IStructuredSelection) {
 				return (IStructuredSelection) selectVariable;
-			}
-			else
-			{
-				return new StructuredSelection( selectVariable );
+			} else {
+				return new StructuredSelection(selectVariable);
 			}
 		}
 		return null;
@@ -249,9 +215,8 @@ public class SelectionHandler extends AbstractHandler
 	 * 
 	 * @return returns the stack
 	 */
-	protected CommandStack getActiveCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	protected CommandStack getActiveCommandStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
 	/**
@@ -259,33 +224,27 @@ public class SelectionHandler extends AbstractHandler
 	 * 
 	 * @return
 	 */
-	protected List getElementHandles( )
-	{
+	protected List getElementHandles() {
 		boolean isEditPart = false;
 		List selList = null;
-		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.SELECTION );
-		if ( obj != null )
-		{
-			selList = new ArrayList( );
-			selList.add( obj );
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
+		Object obj = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.SELECTION);
+		if (obj != null) {
+			selList = new ArrayList();
+			selList.add(obj);
 		}
 
-		if ( selList == null || selList.size( ) < 1 )
-		{
-			selList = getSelectedObjects( );
+		if (selList == null || selList.size() < 1) {
+			selList = getSelectedObjects();
 		}
-		for ( int i = 0; i < selList.size( ); i++ )
-		{
-			if ( selList.get( i ) instanceof ReportElementEditPart )
-			{
+		for (int i = 0; i < selList.size(); i++) {
+			if (selList.get(i) instanceof ReportElementEditPart) {
 				isEditPart = true;
 			}
 		}
-		if ( isEditPart )
-		{
-			selList = DNDUtil.unwrapToModel( InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart( getSelection( ) ) )
-					.toList( ));
+		if (isEditPart) {
+			selList = DNDUtil.unwrapToModel(InsertInLayoutUtil
+					.editPart2Model(TableUtil.filletCellInSelectionEditorpart(getSelection())).toList());
 		}
 
 		return selList;

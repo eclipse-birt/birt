@@ -17,21 +17,20 @@ import org.eclipse.birt.report.model.metadata.ColorPropertyType;
  * The interface for constants of colors used in BIRT.
  */
 
-public interface IColorConstants
-{
+public interface IColorConstants {
 
 	/**
 	 * The color black. sRGB value "#000000".
 	 */
 
 	public static final String BLACK = "black"; //$NON-NLS-1$
-	
+
 	/**
 	 * The color blue. sRGB value "#0000FF".
 	 */
 
 	public static final String BLUE = "blue"; //$NON-NLS-1$
-	
+
 	/**
 	 * The color aqua. sRGB value "#00FFFF".
 	 */

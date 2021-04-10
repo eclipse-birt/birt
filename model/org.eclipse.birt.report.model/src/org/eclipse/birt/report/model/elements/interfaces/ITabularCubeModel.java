@@ -16,12 +16,10 @@ package org.eclipse.birt.report.model.elements.interfaces;
  *
  */
 
-public interface ITabularCubeModel
-{
+public interface ITabularCubeModel {
 
 	/**
-	 * Name of the property that specifies a list of joints with some
-	 * hierarchies.
+	 * Name of the property that specifies a list of joints with some hierarchies.
 	 */
 
 	static final String DIMENSION_CONDITIONS_PROP = "dimensionConditions"; //$NON-NLS-1$
@@ -34,8 +32,8 @@ public interface ITabularCubeModel
 
 	/**
 	 * Name of the property that determines whether to automatically generate a
-	 * primary key for elements that use this cube so that user no longer need
-	 * to set the aggregation for measure.
+	 * primary key for elements that use this cube so that user no longer need to
+	 * set the aggregation for measure.
 	 */
 	String AUTO_KEY_PROP = "autoKey"; //$NON-NLS-1$
 }

@@ -21,49 +21,37 @@ import org.eclipse.birt.report.soapengine.processor.BaseProcessorFactory;
 import org.eclipse.birt.report.soapengine.processor.IComponentProcessor;
 import org.eclipse.birt.report.soapengine.processor.IProcessorFactory;
 
-public class BirtSoapBindingImpl implements BirtSoapPort
-{
+public class BirtSoapBindingImpl implements BirtSoapPort {
 
-	public GetUpdatedObjectsResponse getUpdatedObjects(
-			GetUpdatedObjects request ) throws java.rmi.RemoteException
-	{
-		IProcessorFactory processorFactory = BaseProcessorFactory.getInstance( );
+	public GetUpdatedObjectsResponse getUpdatedObjects(GetUpdatedObjects request) throws java.rmi.RemoteException {
+		IProcessorFactory processorFactory = BaseProcessorFactory.getInstance();
 
-		GetUpdatedObjectsResponse response = new GetUpdatedObjectsResponse( );
-		Operation[] ops = request.getOperation( );
+		GetUpdatedObjectsResponse response = new GetUpdatedObjectsResponse();
+		Operation[] ops = request.getOperation();
 
-		IContext context = BirtContext.getInstance( );
-		if ( context.getBean( ).getException( ) != null )
-		{
-			AxisFault fault = new AxisFault( );
-			fault.setFaultCode( new QName(
-					"BirtSoapBindingImpl.getUpdatedObjects( )" ) ); //$NON-NLS-1$
-			fault.setFaultString( context.getBean( ).getException( )
-					.getLocalizedMessage( ) );
+		IContext context = BirtContext.getInstance();
+		if (context.getBean().getException() != null) {
+			AxisFault fault = new AxisFault();
+			fault.setFaultCode(new QName("BirtSoapBindingImpl.getUpdatedObjects( )")); //$NON-NLS-1$
+			fault.setFaultString(context.getBean().getException().getLocalizedMessage());
 			throw fault;
 		}
 
-		for ( int i = 0; i < ops.length; i++ )
-		{
+		for (int i = 0; i < ops.length; i++) {
 			Operation op = ops[i];
-			IComponentProcessor processor = processorFactory.createProcessor(
-					context.getBean( ).getCategory( ), op.getTarget( )
-							.getType( ) );
+			IComponentProcessor processor = processorFactory.createProcessor(context.getBean().getCategory(),
+					op.getTarget().getType());
 
-			if ( processor == null )
-			{
-				AxisFault fault = new AxisFault( );
-				fault.setFaultCode( new QName(
-						"BirtSoapBindingImpl.getUpdatedObjects( )" ) ); //$NON-NLS-1$
-				fault
-						.setFaultString( BirtResources
-								.getMessage(
-										ResourceConstants.SOAP_BINDING_EXCEPTION_NO_HANDLER_FOR_TARGET,
-										new Object[]{op.getTarget( )} ) );
+			if (processor == null) {
+				AxisFault fault = new AxisFault();
+				fault.setFaultCode(new QName("BirtSoapBindingImpl.getUpdatedObjects( )")); //$NON-NLS-1$
+				fault.setFaultString(
+						BirtResources.getMessage(ResourceConstants.SOAP_BINDING_EXCEPTION_NO_HANDLER_FOR_TARGET,
+								new Object[] { op.getTarget() }));
 				throw fault;
 			}
 
-			processor.process( context, op, response );
+			processor.process(context, op, response);
 		}
 
 		return response;

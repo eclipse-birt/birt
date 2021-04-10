@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.metadata;
 
@@ -18,64 +18,57 @@ import org.eclipse.birt.report.model.api.metadata.IMetaLogger;
 /**
  * Tests the meta log manager.
  */
-public class MetaLogManagerTest extends TestCase
-{
+public class MetaLogManagerTest extends TestCase {
 
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-    /**
-     * Test registerLogger.
-     * <p>
-     * The registered logger will be notified of the log(), shutDown()
-     * action. 
-     */
-    
-	public void testRegisterLogger( )
-	{
-		Logger logger = new Logger( );
-		MetaLogManager.registerLogger( logger );
-
-		MetadataTestUtil.log( "abc" ); //$NON-NLS-1$
-		assertTrue( logger.logged );
-
-		MetaLogManager.shutDown( );
-		assertTrue( logger.closed );
-	}
-
-    /**
-	 * Test removeLogger.
-	 * <p>
-	 * When a logger is removed from the manager, it will never be notified of
-	 * the log() action. It's close() was triggered when removed from the
-	 * manager.
-	 */
-    
-	public void testRemoveLogger( )
-	{
-		Logger logger = new Logger( );
-		MetaLogManager.registerLogger( logger );
-		MetaLogManager.removeLogger( logger );
-        
-		MetadataTestUtil.log( "abc" ); //$NON-NLS-1$
-		assertFalse( logger.logged );
-
-		MetaLogManager.shutDown( );
-		assertTrue( logger.closed );
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 	/**
-     * Implementation of the IMetaLogger.
-     * 
+	 * Test registerLogger.
+	 * <p>
+	 * The registered logger will be notified of the log(), shutDown() action.
 	 */
-    
-	class Logger implements IMetaLogger
-	{
+
+	public void testRegisterLogger() {
+		Logger logger = new Logger();
+		MetaLogManager.registerLogger(logger);
+
+		MetadataTestUtil.log("abc"); //$NON-NLS-1$
+		assertTrue(logger.logged);
+
+		MetaLogManager.shutDown();
+		assertTrue(logger.closed);
+	}
+
+	/**
+	 * Test removeLogger.
+	 * <p>
+	 * When a logger is removed from the manager, it will never be notified of the
+	 * log() action. It's close() was triggered when removed from the manager.
+	 */
+
+	public void testRemoveLogger() {
+		Logger logger = new Logger();
+		MetaLogManager.registerLogger(logger);
+		MetaLogManager.removeLogger(logger);
+
+		MetadataTestUtil.log("abc"); //$NON-NLS-1$
+		assertFalse(logger.logged);
+
+		MetaLogManager.shutDown();
+		assertTrue(logger.closed);
+	}
+
+	/**
+	 * Implementation of the IMetaLogger.
+	 * 
+	 */
+
+	class Logger implements IMetaLogger {
 		boolean logged = false;
 
 		boolean closed = false;
@@ -85,8 +78,7 @@ public class MetaLogManagerTest extends TestCase
 		 * 
 		 * @see org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String)
 		 */
-		public void log( String message )
-		{
+		public void log(String message) {
 			logged = true;
 		}
 
@@ -94,10 +86,9 @@ public class MetaLogManagerTest extends TestCase
 		 * (non-Javadoc)
 		 * 
 		 * @see org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String,
-		 *      java.lang.Throwable)
+		 * java.lang.Throwable)
 		 */
-		public void log( String message, Throwable t )
-		{
+		public void log(String message, Throwable t) {
 			logged = true;
 		}
 
@@ -106,8 +97,7 @@ public class MetaLogManagerTest extends TestCase
 		 * 
 		 * @see org.eclipse.birt.report.model.metadata.IMetaLogger#close()
 		 */
-		public void close( )
-		{
+		public void close() {
 			closed = true;
 		}
 	}

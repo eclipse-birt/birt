@@ -15,32 +15,29 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
 
 /**
- * Events indicating that the element is just localized. 
- *  
+ * Events indicating that the element is just localized.
+ * 
  */
 
-public class ElementLocalizeEvent extends NotificationEvent
-{
+public class ElementLocalizeEvent extends NotificationEvent {
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element that is localized.
+	 * @param obj the element that is localized.
 	 */
-	public ElementLocalizeEvent( DesignElement obj )
-	{
-		super( obj );
+	public ElementLocalizeEvent(DesignElement obj) {
+		super(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return ELEMENT_LOCALIZE_EVENT;
 	}
 

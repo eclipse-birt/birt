@@ -30,9 +30,8 @@ public class IDEResourceSynchronizer extends ReportResourceSynchronizer
 
 	// private boolean notifying = false;
 
-	public IDEResourceSynchronizer( )
-	{
-		super( );
+	public IDEResourceSynchronizer() {
+		super();
 
 		// ResourcesPlugin.getWorkspace( ).addResourceChangeListener( this,
 		// org.eclipse.core.resources.IResourceChangeEvent.POST_CHANGE );
@@ -41,8 +40,7 @@ public class IDEResourceSynchronizer extends ReportResourceSynchronizer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org
+	 * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org
 	 * .eclipse.core.resources.IResourceChangeEvent)
 	 */
 	// public void resourceChanged(
@@ -68,77 +66,57 @@ public class IDEResourceSynchronizer extends ReportResourceSynchronizer
 	 * #notifyResourceChanged(org.eclipse.birt.report.designer.ui.views.
 	 * IReportResourceChangeEvent)
 	 */
-	public void notifyResourceChanged( IReportResourceChangeEvent event )
-	{
+	public void notifyResourceChanged(IReportResourceChangeEvent event) {
 		// notifying = true;
 
-		refreshWorkspace( event );
+		refreshWorkspace(event);
 
 		// notifying = false;
 
-		notifyListeners( event );
+		notifyListeners(event);
 	}
 
-	private void refreshWorkspace( IReportResourceChangeEvent event )
-	{
-		if ( event != null )
-		{
-			Object data = event.getData( );
+	private void refreshWorkspace(IReportResourceChangeEvent event) {
+		if (event != null) {
+			Object data = event.getData();
 
-			if ( data instanceof IPath )
-			{
-				refreshResource( (IPath) data );
-			}
-			else if ( data instanceof IPath[] )
-			{
+			if (data instanceof IPath) {
+				refreshResource((IPath) data);
+			} else if (data instanceof IPath[]) {
 				// TODO smart detect path overlapping?
 
-				for ( IPath path : (IPath[]) data )
-				{
-					refreshResource( path );
+				for (IPath path : (IPath[]) data) {
+					refreshResource(path);
 				}
 			}
 		}
 	}
 
-	private void refreshResource( IPath resPath )
-	{
-		IResource[] res = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.findFilesForLocation( resPath );
+	private void refreshResource(IPath resPath) {
+		IResource[] res = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(resPath);
 
-		if ( res.length == 0 )
-		{
-			res = ResourcesPlugin.getWorkspace( )
-					.getRoot( )
-					.findContainersForLocation( resPath );
+		if (res.length == 0) {
+			res = ResourcesPlugin.getWorkspace().getRoot().findContainersForLocation(resPath);
 
-			if ( res.length == 0 )
-			{
+			if (res.length == 0) {
 				// not resources within the workspace
 				return;
 			}
 		}
 
-		try
-		{
+		try {
 			final IResource[] targes = res;
 
-			new WorkspaceModifyOperation( ) {
+			new WorkspaceModifyOperation() {
 
-				protected void execute( IProgressMonitor monitor )
-						throws CoreException
-				{
-					for ( IResource rc : targes )
-					{
-						rc.refreshLocal( IResource.DEPTH_INFINITE, null );
+				protected void execute(IProgressMonitor monitor) throws CoreException {
+					for (IResource rc : targes) {
+						rc.refreshLocal(IResource.DEPTH_INFINITE, null);
 					}
 				}
-			}.run( null );
-		}
-		catch ( Exception e )
-		{
-			ExceptionUtil.handle( e );
+			}.run(null);
+		} catch (Exception e) {
+			ExceptionUtil.handle(e);
 		}
 
 	}

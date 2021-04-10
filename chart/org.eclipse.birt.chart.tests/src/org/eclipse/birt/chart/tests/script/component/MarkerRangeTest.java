@@ -19,58 +19,47 @@ import org.eclipse.birt.chart.tests.script.BaseChartTestCase;
  * 
  */
 
-public class MarkerRangeTest extends BaseChartTestCase
-{
+public class MarkerRangeTest extends BaseChartTestCase {
 
-	public void testTitle( )
-	{
-		IMarkerRange range = getChartWithAxes( ).getCategoryAxis( )
-				.getMarkerRanges( )[0];
-		assertEquals( range.getTitle( ).getCaption( ).getValue( ), "" );
-		assertTrue( range.getTitle( ).isVisible( ) );
+	public void testTitle() {
+		IMarkerRange range = getChartWithAxes().getCategoryAxis().getMarkerRanges()[0];
+		assertEquals(range.getTitle().getCaption().getValue(), "");
+		assertTrue(range.getTitle().isVisible());
 
-		range.getTitle( ).getCaption( ).setValue( "m" );
-		assertEquals( range.getTitle( ).getCaption( ).getValue( ), "m" );
+		range.getTitle().getCaption().setValue("m");
+		assertEquals(range.getTitle().getCaption().getValue(), "m");
 	}
 
-	public void testVisible( )
-	{
-		IMarkerRange range = getChartWithAxes( ).getCategoryAxis( )
-				.getMarkerRanges( )[0];
-		assertTrue( range.isVisible( ) );
+	public void testVisible() {
+		IMarkerRange range = getChartWithAxes().getCategoryAxis().getMarkerRanges()[0];
+		assertTrue(range.isVisible());
 
-		range.setVisible( false );
-		assertFalse( range.isVisible( ) );
+		range.setVisible(false);
+		assertFalse(range.isVisible());
 	}
 
-	public void testStartValue( )
-	{
-		IMarkerRange range = getChartWithAxes( ).getCategoryAxis( )
-				.getMarkerRanges( )[0];
-		assertTrue( range.getStartValue( ) instanceof INumberDataElement );
+	public void testStartValue() {
+		IMarkerRange range = getChartWithAxes().getCategoryAxis().getMarkerRanges()[0];
+		assertTrue(range.getStartValue() instanceof INumberDataElement);
 
-		INumberDataElement data = (INumberDataElement) range.getStartValue( );
-		assertTrue( data.getValue( ) == 0 );
+		INumberDataElement data = (INumberDataElement) range.getStartValue();
+		assertTrue(data.getValue() == 0);
 
-		range.setStartValue( getChartWithAxes( ).getFactory( )
-				.createNumberElement( 1 ) );
-		data = (INumberDataElement) range.getStartValue( );
-		assertTrue( data.getValue( ) == 1 );
+		range.setStartValue(getChartWithAxes().getFactory().createNumberElement(1));
+		data = (INumberDataElement) range.getStartValue();
+		assertTrue(data.getValue() == 1);
 	}
 
-	public void testEndValue( )
-	{
-		IMarkerRange range = getChartWithAxes( ).getCategoryAxis( )
-				.getMarkerRanges( )[0];
-		assertTrue( range.getEndValue( ) instanceof INumberDataElement );
+	public void testEndValue() {
+		IMarkerRange range = getChartWithAxes().getCategoryAxis().getMarkerRanges()[0];
+		assertTrue(range.getEndValue() instanceof INumberDataElement);
 
-		INumberDataElement data = (INumberDataElement) range.getEndValue( );
-		assertTrue( data.getValue( ) == 5 );
+		INumberDataElement data = (INumberDataElement) range.getEndValue();
+		assertTrue(data.getValue() == 5);
 
-		range.setEndValue( getChartWithAxes( ).getFactory( )
-				.createNumberElement( 6 ) );
-		data = (INumberDataElement) range.getEndValue( );
-		assertTrue( data.getValue( ) == 6 );
+		range.setEndValue(getChartWithAxes().getFactory().createNumberElement(6));
+		data = (INumberDataElement) range.getEndValue();
+		assertTrue(data.getValue() == 6);
 	}
 
 }

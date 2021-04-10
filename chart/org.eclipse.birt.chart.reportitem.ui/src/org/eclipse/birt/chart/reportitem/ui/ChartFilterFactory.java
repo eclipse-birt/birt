@@ -23,8 +23,7 @@ import org.eclipse.swt.widgets.Shell;
  * @since 2.5.3
  */
 
-public class ChartFilterFactory
-{
+public class ChartFilterFactory {
 	/**
 	 * Create an instance of cube filter condition builder dialog.
 	 * 
@@ -33,20 +32,18 @@ public class ChartFilterFactory
 	 * @param message
 	 * @return
 	 */
-	public ChartCubeFilterConditionBuilder createCubeFilterConditionBuilder( Shell parentShell, String title,
-			String message )
-	{
-		return new ChartCubeFilterConditionBuilder( parentShell, title, message );
+	public ChartCubeFilterConditionBuilder createCubeFilterConditionBuilder(Shell parentShell, String title,
+			String message) {
+		return new ChartCubeFilterConditionBuilder(parentShell, title, message);
 	}
-	
+
 	/**
 	 * Check if specified element handle contains chart model.
 	 * 
 	 * @param handle
 	 * @return
 	 */
-	public boolean isChartHandle( DesignElementHandle handle )
-	{
-		return ChartItemUtil.isChartHandle( handle );
+	public boolean isChartHandle(DesignElementHandle handle) {
+		return ChartItemUtil.isChartHandle(handle);
 	}
 }

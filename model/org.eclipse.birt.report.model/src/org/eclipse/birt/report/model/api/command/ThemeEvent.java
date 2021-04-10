@@ -19,19 +19,16 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * 
  */
 
-public class ThemeEvent extends NotificationEvent
-{
+public class ThemeEvent extends NotificationEvent {
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element that changed.
+	 * @param obj the element that changed.
 	 */
 
-	public ThemeEvent( DesignElement obj )
-	{
-		super( obj );
+	public ThemeEvent(DesignElement obj) {
+		super(obj);
 	}
 
 	/*
@@ -42,8 +39,7 @@ public class ThemeEvent extends NotificationEvent
 	 * ()
 	 */
 
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return THEME_EVENT;
 	}
 

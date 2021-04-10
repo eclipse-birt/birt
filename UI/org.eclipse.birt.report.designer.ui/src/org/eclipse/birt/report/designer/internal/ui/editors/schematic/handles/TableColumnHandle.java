@@ -28,80 +28,66 @@ import org.eclipse.gef.handles.MoveHandleLocator;
  * Shows the Table ColumnHeader
  */
 
-public class TableColumnHandle extends TableHFHandle
-{
+public class TableColumnHandle extends TableHFHandle {
 
 	/**
 	 * constructor, owner must be TableEditPart
 	 * 
 	 * @param owner
 	 */
-	public TableColumnHandle( TableEditPart owner )
-	{
-		super( owner, new TableColumnHandleLocator( owner ) );
-		//setCursor( Cursors.HAND );
+	public TableColumnHandle(TableEditPart owner) {
+		super(owner, new TableColumnHandleLocator(owner));
+		// setCursor( Cursors.HAND );
 	}
 
 	/*
 	 * initialize the children Handle, include SelectionHandle and ResizeHandle
 	 * -------------------------------------------------------------- | | | | |
-	 * --------------------------------------------------------------
-	 * (ColumnHandle) (ColumnDragHandle)
+	 * -------------------------------------------------------------- (ColumnHandle)
+	 * (ColumnDragHandle)
 	 * 
-	 * @see org.eclipse.gef.examples.logicdesigner.edit.handle.TableHFHandle#initChildrenHandle()
+	 * @see org.eclipse.gef.examples.logicdesigner.edit.handle.TableHFHandle#
+	 * initChildrenHandle()
 	 */
-	protected void initChildrenHandle( )
-	{
-		TableEditPart part = getTableEditPart( );
-		int count = part.getColumnCount( );
+	protected void initChildrenHandle() {
+		TableEditPart part = getTableEditPart();
+		int count = part.getColumnCount();
 
-		//sort the columnNumber, because the list ensure the column number is
+		// sort the columnNumber, because the list ensure the column number is
 		// sort
-		int width = 0;//the handle X value
+		int width = 0;// the handle X value
 
-		for ( int i = 1; i < count + 1; i++ )
-		{
-			ColumnHandle handle = new ColumnHandle( part, i );
+		for (int i = 1; i < count + 1; i++) {
+			ColumnHandle handle = new ColumnHandle(part, i);
 
-			handle.setPreferredSize( getColumnWidth( i ), getBounds( ).height );
-			handle.setBounds( new Rectangle( width,
-					getBounds( ).y,
-					getColumnWidth( i ),
-					getBounds( ).height ) );
+			handle.setPreferredSize(getColumnWidth(i), getBounds().height);
+			handle.setBounds(new Rectangle(width, getBounds().y, getColumnWidth(i), getBounds().height));
 
-			width = width + getColumnWidth( i );
-			add( handle );
+			width = width + getColumnWidth(i);
+			add(handle);
 
-			//initialize the resizeHandle
-			if ( i == count )
-			{
+			// initialize the resizeHandle
+			if (i == count) {
 				width -= 2;
 			}
 
-			ColumnDragHandle dragHandle = new ColumnDragHandle( part,
-					i,
-					( i == count ) ? i : ( i + 1 ) );
-			dragHandle.setBounds( new Rectangle( width,
-					getBounds( ).y,
-					2,
-					getBounds( ).height ) );
-			add( dragHandle );
+			ColumnDragHandle dragHandle = new ColumnDragHandle(part, i, (i == count) ? i : (i + 1));
+			dragHandle.setBounds(new Rectangle(width, getBounds().y, 2, getBounds().height));
+			add(dragHandle);
 		}
 
 	}
 
-	private static class TableColumnHandleLocator extends MoveHandleLocator
-	{
+	private static class TableColumnHandleLocator extends MoveHandleLocator {
 
 		private TableEditPart owner;
 
 		/**
 		 * @param ref
 		 */
-		public TableColumnHandleLocator( TableEditPart part )
-		{
-			super( part.getFigure( ) );
-			setOwner( part );
+		public TableColumnHandleLocator(TableEditPart part) {
+			super(part.getFigure());
+			setOwner(part);
 		}
 
 		/*
@@ -109,99 +95,83 @@ public class TableColumnHandle extends TableHFHandle
 		 * 
 		 * @see org.eclipse.draw2d.Locator#relocate(org.eclipse.draw2d.IFigure)
 		 */
-		public void relocate( IFigure target )
-		{
+		public void relocate(IFigure target) {
 			Rectangle bounds;
-			if ( getReference( ) instanceof HandleBounds )
-				bounds = ( (HandleBounds) getReference( ) ).getHandleBounds( );
+			if (getReference() instanceof HandleBounds)
+				bounds = ((HandleBounds) getReference()).getHandleBounds();
 			else
-				bounds = getReference( ).getBounds( );
+				bounds = getReference().getBounds();
 
-			//bounds = new PrecisionRectangle(bounds.getResized(-1, -1));
-			Insets referenceInsets = getReference( ).getInsets( );
-			bounds = new PrecisionRectangle( new Rectangle( bounds.x
-					+ referenceInsets.left, bounds.y
-					+ referenceInsets.top
-					- HEIGHT, bounds.width
-					- 1
-					- ( referenceInsets.left + referenceInsets.right ), HEIGHT ) );
+			// bounds = new PrecisionRectangle(bounds.getResized(-1, -1));
+			Insets referenceInsets = getReference().getInsets();
+			bounds = new PrecisionRectangle(
+					new Rectangle(bounds.x + referenceInsets.left, bounds.y + referenceInsets.top - HEIGHT,
+							bounds.width - 1 - (referenceInsets.left + referenceInsets.right), HEIGHT));
 
-			getReference( ).translateToAbsolute( bounds );
-			target.translateToRelative( bounds );
+			getReference().translateToAbsolute(bounds);
+			target.translateToRelative(bounds);
 
-			target.setBounds( bounds );
-			relocateChildren( target, getReference( ) );
+			target.setBounds(bounds);
+			relocateChildren(target, getReference());
 		}
 
-		private void relocateChildren( IFigure parent, IFigure reference )
-		{
-			List children = parent.getChildren( );
+		private void relocateChildren(IFigure parent, IFigure reference) {
+			List children = parent.getChildren();
 
-			int size = children.size( );
+			int size = children.size();
 			int width = 0;
 
-			Dimension pDim = parent.getSize( );
+			Dimension pDim = parent.getSize();
 
 			int height = pDim.height;
-			int y = parent.getBounds( ).y;
-			for ( int i = 0; i < size; i++ )
-			{
-				IFigure f = (IFigure) children.get( i );
-				Rectangle bounds = f.getBounds( ).getCopy( );
+			int y = parent.getBounds().y;
+			for (int i = 0; i < size; i++) {
+				IFigure f = (IFigure) children.get(i);
+				Rectangle bounds = f.getBounds().getCopy();
 
-				bounds = new PrecisionRectangle( bounds );
-				Dimension dim = new PrecisionDimension( bounds.getSize( ) );
-				if ( f instanceof ColumnDragHandle )
-				{
-					dim = new PrecisionDimension( 2, bounds.height );
+				bounds = new PrecisionRectangle(bounds);
+				Dimension dim = new PrecisionDimension(bounds.getSize());
+				if (f instanceof ColumnDragHandle) {
+					dim = new PrecisionDimension(2, bounds.height);
+				} else if (f instanceof ColumnHandle) {
+					Object column = getOwner().getColumn(((ColumnHandle) f).getColumnNumber());
+					dim = new PrecisionDimension(TableUtil.caleVisualWidth(getOwner(), column), bounds.height);
 				}
-				else if ( f instanceof ColumnHandle )
-				{
-					Object column = getOwner( ).getColumn( ( (ColumnHandle) f ).getColumnNumber( ) );
-					dim = new PrecisionDimension( TableUtil.caleVisualWidth( getOwner( ),
-							column ),
-							bounds.height );
-				}
-				reference.translateToAbsolute( dim );
-				f.translateToRelative( dim );
+				reference.translateToAbsolute(dim);
+				f.translateToRelative(dim);
 
-				if ( i == 0 )
-				{
+				if (i == 0) {
 					width = bounds.x;
 				}
-				//if (dim.width == width)
-				//{
+				// if (dim.width == width)
+				// {
 				bounds.width = dim.width;
 				bounds.height = height;
-				//}
+				// }
 				bounds.y = y;
 				bounds.x = width;
-				if ( !( f instanceof ColumnDragHandle ) )
-				{
+				if (!(f instanceof ColumnDragHandle)) {
 					width = width + dim.width;
-					//height = height + bounds.height;
+					// height = height + bounds.height;
 				}
 
-				if ( i == size - 1 && f instanceof ColumnDragHandle )
-				{
+				if (i == size - 1 && f instanceof ColumnDragHandle) {
 					/**
-					 * This is the last ColumnDragHandle, adjust the position or
-					 * it can't be displayed.
+					 * This is the last ColumnDragHandle, adjust the position or it can't be
+					 * displayed.
 					 */
 					bounds.x -= dim.width;
 				}
 
-				f.setBounds( bounds );
+				f.setBounds(bounds);
 			}
 		}
 
-		public TableEditPart getOwner( )
-		{
+		public TableEditPart getOwner() {
 			return owner;
 		}
 
-		public void setOwner( TableEditPart owner )
-		{
+		public void setOwner(TableEditPart owner) {
 			this.owner = owner;
 		}
 	}

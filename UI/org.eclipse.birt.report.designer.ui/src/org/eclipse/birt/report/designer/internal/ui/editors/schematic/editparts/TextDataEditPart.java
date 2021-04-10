@@ -24,61 +24,49 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.PlatformUI;
 
-public class TextDataEditPart extends LabelEditPart
-{
+public class TextDataEditPart extends LabelEditPart {
 
-	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "TextDataEditPart.Figure.Dafault" ); //$NON-NLS-1$
+	private static final String FIGURE_DEFAULT_TEXT = Messages.getString("TextDataEditPart.Figure.Dafault"); //$NON-NLS-1$
 
-	public TextDataEditPart( Object model )
-	{
-		super( model );
+	public TextDataEditPart(Object model) {
+		super(model);
 	}
 
 	/**
 	 * Popup the builder for Data element
 	 */
-	public void performDirectEdit( )
-	{
-		TextDataHandle handle = (TextDataHandle) getModel( );
+	public void performDirectEdit() {
+		TextDataHandle handle = (TextDataHandle) getModel();
 
-		ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ),
-				handle.getValueExpr( ) );
+		ExpressionBuilder dialog = new ExpressionBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				handle.getValueExpr());
 
-		dialog.setExpressionProvier( new ExpressionProvider( handle ) );
+		dialog.setExpressionProvier(new ExpressionProvider(handle));
 
-		dialog.setEditModal( true );
+		dialog.setEditModal(true);
 
-		if ( dialog.open( ) == Dialog.OK )
-		{
-			try
-			{
-				( (TextDataHandle) getModel( ) ).setValueExpr( dialog.getResult( ) );
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
+		if (dialog.open() == Dialog.OK) {
+			try {
+				((TextDataHandle) getModel()).setValueExpr(dialog.getResult());
+			} catch (SemanticException e) {
+				ExceptionHandler.handle(e);
 				return;
 			}
-			refreshVisuals( );
+			refreshVisuals();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .LabelEditPart#getText()
 	 */
-	protected String getText( )
-	{
-		TextDataHandle handle = (TextDataHandle) getModel( );
-		String text = handle.getValueExpr( );
-		if ( text == null || text.length( ) == 0 )
-		{
-			text = FIGURE_DEFAULT_TEXT; //$NON-NLS-1$
+	protected String getText() {
+		TextDataHandle handle = (TextDataHandle) getModel();
+		String text = handle.getValueExpr();
+		if (text == null || text.length() == 0) {
+			text = FIGURE_DEFAULT_TEXT; // $NON-NLS-1$
 		}
 		// else
 		// {
@@ -95,14 +83,11 @@ public class TextDataEditPart extends LabelEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .LabelEditPart#hasText()
 	 */
-	protected boolean hasText( )
-	{
-		if ( StringUtil.isBlank( ( (TextDataHandle) getModel( ) ).getValueExpr( ) ) )
-		{
+	protected boolean hasText() {
+		if (StringUtil.isBlank(((TextDataHandle) getModel()).getValueExpr())) {
 			return false;
 		}
 		return true;
@@ -113,23 +98,20 @@ public class TextDataEditPart extends LabelEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		TextFigure text = new TextFigure( );
+	protected IFigure createFigure() {
+		TextFigure text = new TextFigure();
 		return text;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		super.refreshFigure( );
+	public void refreshFigure() {
+		super.refreshFigure();
 
-		( (LabelFigure) getFigure( ) ).setToolTipText( ( (TextDataHandle) getModel( ) ).getValueExpr( ) );
+		((LabelFigure) getFigure()).setToolTipText(((TextDataHandle) getModel()).getValueExpr());
 	}
 }

@@ -36,8 +36,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * @see ErrorDetail
  */
 
-public class DesignFileException extends ModelException
-{
+public class DesignFileException extends ModelException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -49,7 +48,7 @@ public class DesignFileException extends ModelException
 	 * The list containing errors encountered when opening the design file.
 	 */
 
-	private List<Exception> exceptionList = new ArrayList<Exception>( );
+	private List<Exception> exceptionList = new ArrayList<Exception>();
 
 	/**
 	 * The file name with the error.
@@ -76,80 +75,67 @@ public class DesignFileException extends ModelException
 	public static final String DESIGN_EXCEPTION_SEMANTIC_ERROR = MessageConstants.DESIGN_FILE_EXCEPTION_SEMANTIC_ERROR;
 
 	/**
-	 * The semantic warning, when element doesn't conform semantic check.
-	 * However, the level of this error is warning.
+	 * The semantic warning, when element doesn't conform semantic check. However,
+	 * the level of this error is warning.
 	 */
 
 	public static final String DESIGN_EXCEPTION_SEMANTIC_WARNING = MessageConstants.DESIGN_FILE_EXCEPTION_SEMANTIC_WARNING;
 
 	/**
-	 * Other exceptions thrown by SAX. Generally, it's caused when design file
-	 * is not a valid xml file.
+	 * Other exceptions thrown by SAX. Generally, it's caused when design file is
+	 * not a valid xml file.
 	 */
 
 	public static final String DESIGN_EXCEPTION_INVALID_XML = MessageConstants.DESIGN_FILE_EXCEPTION_INVALID_XML;
 
 	/**
-	 * Constructs a <code>DesignFileException</code> with the given design
-	 * filename and the specified cause. It is for the exception thrown by SAX.
+	 * Constructs a <code>DesignFileException</code> with the given design filename
+	 * and the specified cause. It is for the exception thrown by SAX.
 	 * 
-	 * @param fileName
-	 *            design file name.
-	 * @param e
-	 *            exception to wrap.
+	 * @param fileName design file name.
+	 * @param e        exception to wrap.
 	 */
 
-	public DesignFileException( String fileName, Exception e )
-	{
-		super( DESIGN_EXCEPTION_INVALID_XML, null, e );
+	public DesignFileException(String fileName, Exception e) {
+		super(DESIGN_EXCEPTION_INVALID_XML, null, e);
 		this.fileName = fileName;
 		this.e = e;
-		exceptionList.add( e );
+		exceptionList.add(e);
 	}
 
 	/**
-	 * Constructs a <code>DesignFileException</code> with the given design
-	 * filename and a list of errors. Used when syntax error is found when
-	 * parsing.
+	 * Constructs a <code>DesignFileException</code> with the given design filename
+	 * and a list of errors. Used when syntax error is found when parsing.
 	 * 
-	 * @param fileName
-	 *            design file name.
-	 * @param errList
-	 *            exception list, each of them is the syntax error.
+	 * @param fileName design file name.
+	 * @param errList  exception list, each of them is the syntax error.
 	 */
 
-	public DesignFileException( String fileName,
-			List<? extends Exception> errList )
-	{
-		super( DESIGN_EXCEPTION_SYNTAX_ERROR );
+	public DesignFileException(String fileName, List<? extends Exception> errList) {
+		super(DESIGN_EXCEPTION_SYNTAX_ERROR);
 		this.fileName = fileName;
 
-		exceptionList.addAll( errList );
+		exceptionList.addAll(errList);
 	}
 
 	/**
-	 * Constructs a <code>DesignFileException</code> with the given design
-	 * filename, a list of errors and the new exception to add. Used when syntax
-	 * error is found when parsing.
+	 * Constructs a <code>DesignFileException</code> with the given design filename,
+	 * a list of errors and the new exception to add. Used when syntax error is
+	 * found when parsing.
 	 * 
 	 * 
-	 * @param fileName
-	 *            design file name.
-	 * @param errList
-	 *            exception list, each of which is the syntax error.
-	 * @param ex
-	 *            the exception to add
+	 * @param fileName design file name.
+	 * @param errList  exception list, each of which is the syntax error.
+	 * @param ex       the exception to add
 	 * 
 	 */
 
-	public DesignFileException( String fileName,
-			List<? extends Exception> errList, Exception ex )
-	{
-		super( DESIGN_EXCEPTION_INVALID_XML, null, ex );
+	public DesignFileException(String fileName, List<? extends Exception> errList, Exception ex) {
+		super(DESIGN_EXCEPTION_INVALID_XML, null, ex);
 		this.fileName = fileName;
 
-		exceptionList.addAll( errList );
-		exceptionList.add( ex );
+		exceptionList.addAll(errList);
+		exceptionList.add(ex);
 	}
 
 	/**
@@ -159,15 +145,13 @@ public class DesignFileException extends ModelException
 	 * @return the error list.
 	 */
 
-	public List<ErrorDetail> getErrorList( )
-	{
-		List<ErrorDetail> errorList = new ArrayList<ErrorDetail>( );
-		Iterator<Exception> iter = exceptionList.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Exception e = iter.next( );
+	public List<ErrorDetail> getErrorList() {
+		List<ErrorDetail> errorList = new ArrayList<ErrorDetail>();
+		Iterator<Exception> iter = exceptionList.iterator();
+		while (iter.hasNext()) {
+			Exception e = iter.next();
 
-			errorList.add( new ErrorDetail( e ) );
+			errorList.add(new ErrorDetail(e));
 		}
 
 		return errorList;
@@ -180,8 +164,7 @@ public class DesignFileException extends ModelException
 	 * @return the exception list.
 	 */
 
-	public List<Exception> getExceptionList( )
-	{
+	public List<Exception> getExceptionList() {
 		return exceptionList;
 	}
 
@@ -191,8 +174,7 @@ public class DesignFileException extends ModelException
 	 * @return the design file name.
 	 */
 
-	public String getFileName( )
-	{
+	public String getFileName() {
 		return fileName;
 	}
 
@@ -202,12 +184,11 @@ public class DesignFileException extends ModelException
 	 * @see org.eclipse.birt.core.exception.BirtException#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == null )
+	public String getLocalizedMessage() {
+		if (sResourceKey == null)
 			return ""; //$NON-NLS-1$
 
-		return ModelMessages.getMessage( sResourceKey );
+		return ModelMessages.getMessage(sResourceKey);
 
 	}
 
@@ -217,23 +198,23 @@ public class DesignFileException extends ModelException
 	 * @see java.lang.Throwable#getMessage()
 	 */
 
-	public String getMessage( )
-	{
-		return getLocalizedMessage( );
+	public String getMessage() {
+		return getLocalizedMessage();
 	}
 
 	/**
-	 * Returns a string representation of the exception. If the exception type
-	 * is SYNTAX_ERROR or INVALID_XML, this method checks all errors in the
-	 * <code>errorList</code> and assemble them into a string. The return string
-	 * is assembled in the ways:
+	 * Returns a string representation of the exception. If the exception type is
+	 * SYNTAX_ERROR or INVALID_XML, this method checks all errors in the
+	 * <code>errorList</code> and assemble them into a string. The return string is
+	 * assembled in the ways:
 	 * 
 	 * <table border="1">
-	 * <th width="20%">Error Type</th> <th width="40%">Message</th>
+	 * <th width="20%">Error Type</th>
+	 * <th width="40%">Message</th>
 	 * 
 	 * <tr>
-	 * <td>SYNTAX_ERROR and INVALID_XML</td> <td><code>[errorType]</code>-
-	 * [numOfErrors] errors found. <br>
+	 * <td>SYNTAX_ERROR and INVALID_XML</td>
+	 * <td><code>[errorType]</code>- [numOfErrors] errors found. <br>
 	 * 1.) [detail messages.] <br>
 	 * 2.) [detail messages.] <br>
 	 * ... <br>
@@ -241,7 +222,8 @@ public class DesignFileException extends ModelException
 	 * </tr>
 	 * 
 	 * <tr>
-	 * <td>SEMANTIC_ERROR</td> <td>Impossible to occur.</td>
+	 * <td>SEMANTIC_ERROR</td>
+	 * <td>Impossible to occur.</td>
 	 * </tr>
 	 * 
 	 * </table>
@@ -255,42 +237,35 @@ public class DesignFileException extends ModelException
 	 * 
 	 */
 
-	public String toString( )
-	{
-		StringBuffer sb = new StringBuffer( );
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
 
-		sb.append( sResourceKey );
-		sb.append( " - " ); //$NON-NLS-1$
-		if ( sResourceKey == DESIGN_EXCEPTION_SYNTAX_ERROR
-				|| sResourceKey == DESIGN_EXCEPTION_INVALID_XML )
-		{
-			List<ErrorDetail> errorList = getErrorList( );
-			if ( errorList != null )
-			{
-				sb.append( errorList.size( ) );
-				sb.append( " errors found! \n" ); //$NON-NLS-1$
+		sb.append(sResourceKey);
+		sb.append(" - "); //$NON-NLS-1$
+		if (sResourceKey == DESIGN_EXCEPTION_SYNTAX_ERROR || sResourceKey == DESIGN_EXCEPTION_INVALID_XML) {
+			List<ErrorDetail> errorList = getErrorList();
+			if (errorList != null) {
+				sb.append(errorList.size());
+				sb.append(" errors found! \n"); //$NON-NLS-1$
 
 				int i = 1;
-				Iterator<ErrorDetail> iter = errorList.iterator( );
-				while ( iter.hasNext( ) )
-				{
-					ErrorDetail e = iter.next( );
+				Iterator<ErrorDetail> iter = errorList.iterator();
+				while (iter.hasNext()) {
+					ErrorDetail e = iter.next();
 
-					sb.append( i++ );
-					sb.append( ".) " ); //$NON-NLS-1$
-					sb.append( e );
-					sb.append( "\n" ); //$NON-NLS-1$
+					sb.append(i++);
+					sb.append(".) "); //$NON-NLS-1$
+					sb.append(e);
+					sb.append("\n"); //$NON-NLS-1$
 				}
 			}
-		}
-		else
-		{
+		} else {
 			// SEMANTIC_ERROR does not occurs here.
 
 			assert false;
-			return super.toString( );
+			return super.toString();
 		}
 
-		return sb.toString( );
+		return sb.toString();
 	}
 }

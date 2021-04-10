@@ -24,7 +24,7 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * Description: Group can't be added in layout editor. Steps to reproduce:
  * <ol>
- * <li> Add a table.
+ * <li>Add a table.
  * <li>Right click on the table and find that "insert group" is grayed out.
  * </ol>
  * <p>
@@ -33,22 +33,19 @@ import com.ibm.icu.util.ULocale;
  * Model provide canContain() checks, make sure it works in this case.
  * <p>
  */
-public class Regression_119216 extends BaseTestCase
-{
+public class Regression_119216 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
-	
-	public void test_regression_119216( )
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		TableHandle table = factory.newTableItem( "table", 3 ); //$NON-NLS-1$
-		assertEquals( true, table.canContain( TableHandle.GROUP_SLOT,
-				ReportDesignConstants.TABLE_GROUP_ELEMENT ) );
+	public void test_regression_119216() {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
+
+		ElementFactory factory = designHandle.getElementFactory();
+		TableHandle table = factory.newTableItem("table", 3); //$NON-NLS-1$
+		assertEquals(true, table.canContain(TableHandle.GROUP_SLOT, ReportDesignConstants.TABLE_GROUP_ELEMENT));
 	}
 }

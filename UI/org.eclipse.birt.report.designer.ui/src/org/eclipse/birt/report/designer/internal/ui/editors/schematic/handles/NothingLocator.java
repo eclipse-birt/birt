@@ -13,25 +13,21 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Locator;
 
 /**
- * Provides dummy Locator. This class is used only for the case we need a locator 
- * but really do nothing.
+ * Provides dummy Locator. This class is used only for the case we need a
+ * locator but really do nothing.
  */
-public class NothingLocator implements Locator
-{
+public class NothingLocator implements Locator {
 
 	/**
 	 * @param ref
 	 */
-	public NothingLocator( IFigure ref )
-	{
+	public NothingLocator(IFigure ref) {
 	}
 
-	public NothingLocator( )
-	{
+	public NothingLocator() {
 
 	}
 
-	public void relocate( IFigure target )
-	{
+	public void relocate(IFigure target) {
 	}
 }

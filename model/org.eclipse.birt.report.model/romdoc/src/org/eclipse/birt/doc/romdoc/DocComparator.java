@@ -13,17 +13,17 @@ package org.eclipse.birt.doc.romdoc;
 
 import java.util.Comparator;
 
-public class DocComparator implements Comparator
-{
+public class DocComparator implements Comparator {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	public int compare( Object arg0, Object arg1 )
-	{
+	public int compare(Object arg0, Object arg1) {
 		DocObject obj1 = (DocObject) arg0;
 		DocObject obj2 = (DocObject) arg1;
-		return obj1.getName( ).compareTo( obj2.getName( ) );
+		return obj1.getName().compareTo(obj2.getName());
 	}
 
 }

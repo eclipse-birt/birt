@@ -21,16 +21,14 @@ import org.eclipse.ui.IViewPart;
 /**
  * Base class for all the view action on the navigator view
  */
-public abstract class AbstractViewAction implements IViewActionDelegate
-{
+public abstract class AbstractViewAction implements IViewActionDelegate {
 
 	private IFile seletedFile;
 
 	/**
 	 * @see org.eclipse.ui.IViewActionDelegate#init(org.eclipse.ui.IViewPart)
 	 */
-	public void init( IViewPart view )
-	{
+	public void init(IViewPart view) {
 
 	}
 
@@ -38,21 +36,16 @@ public abstract class AbstractViewAction implements IViewActionDelegate
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
 	 *      .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
-	public void selectionChanged( IAction action, ISelection selection )
-	{
-		if ( selection instanceof IStructuredSelection )
-		{
+	public void selectionChanged(IAction action, ISelection selection) {
+		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection selectedElement = (IStructuredSelection) selection;
-			if ( selectedElement.size( ) == 1
-					&& selectedElement.getFirstElement( ) instanceof IFile )
-			{
-				seletedFile = (IFile) selectedElement.getFirstElement( );
+			if (selectedElement.size() == 1 && selectedElement.getFirstElement() instanceof IFile) {
+				seletedFile = (IFile) selectedElement.getFirstElement();
 			}
 		}
 	}
 
-	protected IFile getSelectedFile( )
-	{
+	protected IFile getSelectedFile() {
 		return seletedFile;
 	}
 

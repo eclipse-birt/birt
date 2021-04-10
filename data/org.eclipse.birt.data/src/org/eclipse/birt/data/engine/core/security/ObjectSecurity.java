@@ -27,8 +27,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public class ObjectSecurity
-{
+public class ObjectSecurity {
 	/**
 	 * 
 	 * @param is
@@ -36,59 +35,44 @@ public class ObjectSecurity
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	public static ObjectInputStream createObjectInputStream(
-			final InputStream is ) throws IOException, DataException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<ObjectInputStream>( ) {
+	public static ObjectInputStream createObjectInputStream(final InputStream is) throws IOException, DataException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<ObjectInputStream>() {
 
-				public ObjectInputStream run( ) throws IOException
-				{
-					return new ObjectInputStream( is );
+				public ObjectInputStream run() throws IOException {
+					return new ObjectInputStream(is);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
-			throw new DataException( e.getMessage( ) );
+			throw new DataException(e.getMessage());
 		}
 	}
-	
-	public static ObjectInputStream createObjectInputStream(
-			final InputStream is, final ClassLoader classLoader ) throws IOException, DataException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<ObjectInputStream>( ) {
 
-				public ObjectInputStream run( ) throws IOException
-				{
-					return  new ObjectInputStream( is ) {
+	public static ObjectInputStream createObjectInputStream(final InputStream is, final ClassLoader classLoader)
+			throws IOException, DataException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<ObjectInputStream>() {
 
-						protected Class resolveClass( ObjectStreamClass desc )
-								throws IOException, ClassNotFoundException
-						{
-							return Class.forName( desc.getName( ), false,
-									classLoader );
+				public ObjectInputStream run() throws IOException {
+					return new ObjectInputStream(is) {
+
+						protected Class resolveClass(ObjectStreamClass desc)
+								throws IOException, ClassNotFoundException {
+							return Class.forName(desc.getName(), false, classLoader);
 						}
 					};
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
-			throw new DataException( e.getMessage( ) );
+			throw new DataException(e.getMessage());
 		}
 	}
 
@@ -99,27 +83,20 @@ public class ObjectSecurity
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	public static ObjectOutputStream createObjectOutputStream(
-			final OutputStream os ) throws IOException, DataException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<ObjectOutputStream>( ) {
+	public static ObjectOutputStream createObjectOutputStream(final OutputStream os) throws IOException, DataException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<ObjectOutputStream>() {
 
-				public ObjectOutputStream run( ) throws IOException
-				{
-					return new ObjectOutputStream( os );
+				public ObjectOutputStream run() throws IOException {
+					return new ObjectOutputStream(os);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
-			throw new DataException( e.getMessage( ) );
+			throw new DataException(e.getMessage());
 		}
 	}
 
@@ -131,34 +108,26 @@ public class ObjectSecurity
 	 * @throws DataException
 	 * @throws ClassNotFoundException
 	 */
-	public static Object readObject( final ObjectInputStream is )
-			throws IOException, DataException, ClassNotFoundException
-	{
-		try
-		{
-			if ( is == null )
+	public static Object readObject(final ObjectInputStream is)
+			throws IOException, DataException, ClassNotFoundException {
+		try {
+			if (is == null)
 				return null;
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
 
-				public Object run( ) throws IOException, ClassNotFoundException
-				{
-					return is.readObject( );
+				public Object run() throws IOException, ClassNotFoundException {
+					return is.readObject();
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
-			}
-			else if ( typedException instanceof ClassNotFoundException )
-			{
+			} else if (typedException instanceof ClassNotFoundException) {
 				throw (ClassNotFoundException) typedException;
 			}
 
-			throw new DataException( e.getMessage( ) );
+			throw new DataException(e.getMessage());
 		}
 	}
 }

@@ -30,8 +30,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * version is updated.
  * <p>
  */
-public class Regression_145724 extends BaseTestCase
-{
+public class Regression_145724 extends BaseTestCase {
 
 	private final static String REPORT = "test_version.rptdesign"; //$NON-NLS-1$
 
@@ -39,39 +38,34 @@ public class Regression_145724 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws IOException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
-	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(REPORT, REPORT);
 	}
 
-	public void test_regression_145724( ) throws DesignFileException,
-			IOException
-	{
-		openDesign( REPORT );
-        
-		saveAs( "test_version.out" ); //$NON-NLS-1$
+	public void tearDown() {
+		removeResource();
+	}
 
-		BufferedReader br = new BufferedReader( new FileReader( this.genOutputFile( "test_version.out" ) ) ); //$NON-NLS-1$
+	public void test_regression_145724() throws DesignFileException, IOException {
+		openDesign(REPORT);
+
+		saveAs("test_version.out"); //$NON-NLS-1$
+
+		BufferedReader br = new BufferedReader(new FileReader(this.genOutputFile("test_version.out"))); //$NON-NLS-1$
 		String line = null;
-		while ( ( line = br.readLine( ) ) != null )
-		{
-			if ( line.startsWith( "<report" ) ) //$NON-NLS-1$
+		while ((line = br.readLine()) != null) {
+			if (line.startsWith("<report")) //$NON-NLS-1$
 				break;
 		}
 
-		int i = line.indexOf( "version=\"" ); //$NON-NLS-1$
-		int start = line.indexOf( '"', i );
-		int end = line.indexOf( '"', start + 1 );
+		int i = line.indexOf("version=\""); //$NON-NLS-1$
+		int start = line.indexOf('"', i);
+		int end = line.indexOf('"', start + 1);
 
-		String version = line.substring( start + 1, end );
-		assertEquals( DesignSchemaConstants.REPORT_VERSION, version );
+		String version = line.substring(start + 1, end);
+		assertEquals(DesignSchemaConstants.REPORT_VERSION, version);
 	}
 }

@@ -27,8 +27,7 @@ import org.eclipse.birt.report.soapengine.api.Operation;
  * Implement action handler for GetToc event.
  * <P>
  */
-public class BirtGetTOCActionHandler extends AbstractGetTOCActionHandler
-{
+public class BirtGetTOCActionHandler extends AbstractGetTOCActionHandler {
 
 	/**
 	 * Constructor.
@@ -37,10 +36,8 @@ public class BirtGetTOCActionHandler extends AbstractGetTOCActionHandler
 	 * @param operation
 	 * @param response
 	 */
-	public BirtGetTOCActionHandler( IContext context, Operation operation,
-			GetUpdatedObjectsResponse response )
-	{
-		super( context, operation, response );
+	public BirtGetTOCActionHandler(IContext context, Operation operation, GetUpdatedObjectsResponse response) {
+		super(context, operation, response);
 	}
 
 	/**
@@ -48,9 +45,8 @@ public class BirtGetTOCActionHandler extends AbstractGetTOCActionHandler
 	 * 
 	 * @return IViewerReportService
 	 */
-	protected IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	protected IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 
 	/**
@@ -58,9 +54,8 @@ public class BirtGetTOCActionHandler extends AbstractGetTOCActionHandler
 	 * 
 	 * @return String
 	 */
-	protected String __getReportDocument( )
-	{
-		return __bean.getReportDocumentName( );
+	protected String __getReportDocument() {
+		return __bean.getReportDocumentName();
 	}
 
 	/**
@@ -68,16 +63,12 @@ public class BirtGetTOCActionHandler extends AbstractGetTOCActionHandler
 	 * 
 	 * @throws RemoteException
 	 */
-	protected void __checkDocumentExists( ) throws RemoteException
-	{
-		File file = new File( __docName );
-		if ( !file.exists( ) )
-		{
+	protected void __checkDocumentExists() throws RemoteException {
+		File file = new File(__docName);
+		if (!file.exists()) {
 			// if document file doesn't exist, throw exception
-			AxisFault fault = new AxisFault( );
-			fault
-					.setFaultReason( BirtResources
-							.getMessage( ResourceConstants.ACTION_EXCEPTION_DOCUMENT_FILE_NO_EXIST ) );
+			AxisFault fault = new AxisFault();
+			fault.setFaultReason(BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_DOCUMENT_FILE_NO_EXIST));
 			throw fault;
 		}
 	}

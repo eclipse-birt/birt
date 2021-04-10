@@ -29,245 +29,194 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
-
 /**
  * 
  */
 
-public class ResultSetWrapper implements IResultIterator
-{
+public class ResultSetWrapper implements IResultIterator {
 	private SimpleResultSet source;
 	private int index;
 	private CachedList cachedRows;
 	private IResultClass trimedResultClass;
-	public ResultSetWrapper( DataEngineSession session, SimpleResultSet source ) throws DataException
-	{
+
+	public ResultSetWrapper(DataEngineSession session, SimpleResultSet source) throws DataException {
 		this.source = source;
-		this.index = source.getCurrentResultIndex( );
-		this.cachedRows = new CachedList( session.getTempDir( ),
-				DataEngineSession.getCurrentClassLoader( ),
-				new ResultObjectHolderCreator( ) );
+		this.index = source.getCurrentResultIndex();
+		this.cachedRows = new CachedList(session.getTempDir(), DataEngineSession.getCurrentClassLoader(),
+				new ResultObjectHolderCreator());
 		List<ResultFieldMetadata> metas = new ArrayList<ResultFieldMetadata>();
-		for( int i = 1; i <= this.source.getResultClass( ).getFieldCount( ); i++)
-		{
-			ResultFieldMetadata meta = this.source.getResultClass( ).getFieldMetaData( i );
-			if( meta.getName( ).startsWith( "_{$TEMP" ))
+		for (int i = 1; i <= this.source.getResultClass().getFieldCount(); i++) {
+			ResultFieldMetadata meta = this.source.getResultClass().getFieldMetaData(i);
+			if (meta.getName().startsWith("_{$TEMP"))
 				continue;
-			metas.add( meta );
-		} 
-		this.trimedResultClass = new ResultClass( metas );
-		if( this.index == 0 )
-		{
-			this.cachedRows.add( new ResultObjectHolder( source.getCurrentResult( ),
-					source.getStartingGroupLevel( ),
-					source.getEndingGroupLevel( ), source.getGroupIndex( ) ) );
+			metas.add(meta);
 		}
-	}
-	
-	protected void initialize( ) throws DataException
-	{
-		this.index = source.getCurrentResultIndex( );
-		if( this.index == 0 )
-		{
-			this.cachedRows.add( new ResultObjectHolder( source.getCurrentResult( ),
-					source.getStartingGroupLevel( ),
-					source.getEndingGroupLevel( ), source.getGroupIndex( ) ) );
+		this.trimedResultClass = new ResultClass(metas);
+		if (this.index == 0) {
+			this.cachedRows.add(new ResultObjectHolder(source.getCurrentResult(), source.getStartingGroupLevel(),
+					source.getEndingGroupLevel(), source.getGroupIndex()));
 		}
-	}
-	
-	public IResultClass getResultClass( ) throws DataException
-	{
-		return this.source.getResultClass( );
 	}
 
-	public boolean next( ) throws DataException
-	{
-		if( this.index < this.cachedRows.size( ) - 1 )
-		{
+	protected void initialize() throws DataException {
+		this.index = source.getCurrentResultIndex();
+		if (this.index == 0) {
+			this.cachedRows.add(new ResultObjectHolder(source.getCurrentResult(), source.getStartingGroupLevel(),
+					source.getEndingGroupLevel(), source.getGroupIndex()));
+		}
+	}
+
+	public IResultClass getResultClass() throws DataException {
+		return this.source.getResultClass();
+	}
+
+	public boolean next() throws DataException {
+		if (this.index < this.cachedRows.size() - 1) {
 			this.index++;
 			return true;
-		}
-		else if( this.index == this.cachedRows.size( ) - 1 )
-		{
-			boolean result = this.source.next( );
-			this.index++;			
-			if( result )
-			{
-				this.cachedRows.add( new ResultObjectHolder( this.source.getCurrentResult( ),
-						this.source.getStartingGroupLevel( ),
-						this.source.getEndingGroupLevel( ), source.getGroupIndex( ) ) );
+		} else if (this.index == this.cachedRows.size() - 1) {
+			boolean result = this.source.next();
+			this.index++;
+			if (result) {
+				this.cachedRows
+						.add(new ResultObjectHolder(this.source.getCurrentResult(), this.source.getStartingGroupLevel(),
+								this.source.getEndingGroupLevel(), source.getGroupIndex()));
 			}
 			return result;
-		}
-		else 
-		{
+		} else {
 			return false;
 		}
 	}
 
-	public void first( int groupingLevel ) throws DataException
-	{
-		if( groupingLevel!= 0 )
+	public void first(int groupingLevel) throws DataException {
+		if (groupingLevel != 0)
 			throw new UnsupportedOperationException();
 	}
 
-	public void last( int groupingLevel ) throws DataException
-	{
+	public void last(int groupingLevel) throws DataException {
 		throw new UnsupportedOperationException();
 	}
 
-	public IResultObject getCurrentResult( ) throws DataException
-	{
-		if( this.index >= this.cachedRows.size( )||this.index < 0)
+	public IResultObject getCurrentResult() throws DataException {
+		if (this.index >= this.cachedRows.size() || this.index < 0)
 			return null;
-		return getResultObjectHolder( ).getResultObject( );
+		return getResultObjectHolder().getResultObject();
 	}
 
-	public int getCurrentResultIndex( ) throws DataException
-	{
+	public int getCurrentResultIndex() throws DataException {
 		return this.index;
 	}
 
-	public int getCurrentGroupIndex( int groupLevel ) throws DataException
-	{
-		return this.getResultObjectHolder( ).getCurrentGroupIndex( groupLevel-1 );
+	public int getCurrentGroupIndex(int groupLevel) throws DataException {
+		return this.getResultObjectHolder().getCurrentGroupIndex(groupLevel - 1);
 	}
 
-	public int getStartingGroupLevel( ) throws DataException
-	{
-		assert this.index < this.cachedRows.size( );
-		return getResultObjectHolder( ).getStartingGroupIndex( );
+	public int getStartingGroupLevel() throws DataException {
+		assert this.index < this.cachedRows.size();
+		return getResultObjectHolder().getStartingGroupIndex();
 	}
 
-	private ResultObjectHolder getResultObjectHolder( )
-	{
-		return ((ResultObjectHolder)this.cachedRows.get( this.index ));
+	private ResultObjectHolder getResultObjectHolder() {
+		return ((ResultObjectHolder) this.cachedRows.get(this.index));
 	}
 
-	public int getEndingGroupLevel( ) throws DataException
-	{
-		assert this.index < this.cachedRows.size( );
-		return getResultObjectHolder( ).getEndingGroupIndex( );
+	public int getEndingGroupLevel() throws DataException {
+		assert this.index < this.cachedRows.size();
+		return getResultObjectHolder().getEndingGroupIndex();
 	}
 
-	public void close( ) throws DataException
-	{
-		this.source.close( );
+	public void close() throws DataException {
+		this.source.close();
 	}
 
-	public int[] getGroupStartAndEndIndex( int groupLevel )
-			throws DataException
-	{
-		return this.source.getGroupStartAndEndIndex( groupLevel );
+	public int[] getGroupStartAndEndIndex(int groupLevel) throws DataException {
+		return this.source.getGroupStartAndEndIndex(groupLevel);
 	}
-	
-	public ResultSetCache getResultSetCache( )
-	{
+
+	public ResultSetCache getResultSetCache() {
 		throw new UnsupportedOperationException();
 	}
 
-	public int getRowCount( ) throws DataException
-	{
-		return this.source.getRowCount( );
+	public int getRowCount() throws DataException {
+		return this.source.getRowCount();
 	}
 
-	public IExecutorHelper getExecutorHelper( )
-	{
-		return this.source.getExecutorHelper( );
+	public IExecutorHelper getExecutorHelper() {
+		return this.source.getExecutorHelper();
 	}
 
-	public void doSave( StreamWrapper streamsWrapper, boolean isSubQuery )
-			throws DataException
-	{
-		this.source.doSave( streamsWrapper, isSubQuery );
+	public void doSave(StreamWrapper streamsWrapper, boolean isSubQuery) throws DataException {
+		this.source.doSave(streamsWrapper, isSubQuery);
 	}
 
-	public void incrementalUpdate( StreamWrapper streamsWrapper, int rowCount,
-			boolean isSubQuery ) throws DataException
-	{
-		this.source.incrementalUpdate( streamsWrapper, rowCount, isSubQuery );
+	public void incrementalUpdate(StreamWrapper streamsWrapper, int rowCount, boolean isSubQuery) throws DataException {
+		this.source.incrementalUpdate(streamsWrapper, rowCount, isSubQuery);
 	}
 
-	public Object getAggrValue( String aggrName ) throws DataException
-	{
-		while( !this.source.aggrValueAvailable( aggrName, this.index ))
-		{
-			if( this.source.next( ) )
-			{
-					this.cachedRows.add( new ResultObjectHolder( this.source.getCurrentResult( ),
-						this.source.getStartingGroupLevel( ),
-						this.source.getEndingGroupLevel( ) ,this.source.getGroupIndex( )));
-			}
-			else
-			{
+	public Object getAggrValue(String aggrName) throws DataException {
+		while (!this.source.aggrValueAvailable(aggrName, this.index)) {
+			if (this.source.next()) {
+				this.cachedRows
+						.add(new ResultObjectHolder(this.source.getCurrentResult(), this.source.getStartingGroupLevel(),
+								this.source.getEndingGroupLevel(), this.source.getGroupIndex()));
+			} else {
 				break;
 			}
 		}
-		return this.source.getAggrHelper( ).getAggrValue( aggrName, this );
+		return this.source.getAggrHelper().getAggrValue(aggrName, this);
 	}
-	
-	private class ResultObjectHolder implements ICachedObject
-	{
+
+	private class ResultObjectHolder implements ICachedObject {
 		private IResultObject ro;
 		private int startingGroupIndex;
 		private int endingGroupIndex;
 		private Object[] groupIndex;
-		
-		public ResultObjectHolder( IResultObject ro, Integer startingGroupIndex, Integer endingGroupIndex, Object[] groupIndex )
-		{
+
+		public ResultObjectHolder(IResultObject ro, Integer startingGroupIndex, Integer endingGroupIndex,
+				Object[] groupIndex) {
 			this.ro = ro;
 			this.startingGroupIndex = startingGroupIndex;
 			this.endingGroupIndex = endingGroupIndex;
 			this.groupIndex = groupIndex;
 		}
-		
-		public int getCurrentGroupIndex( int groupLevel )
-		{
-			int candidateIndex = (Integer)this.groupIndex[groupLevel]-1;
-			if( candidateIndex >= 0 )
+
+		public int getCurrentGroupIndex(int groupLevel) {
+			int candidateIndex = (Integer) this.groupIndex[groupLevel] - 1;
+			if (candidateIndex >= 0)
 				return candidateIndex;
 			return 0;
 		}
-		
-		public IResultObject getResultObject()
-		{
+
+		public IResultObject getResultObject() {
 			return this.ro;
 		}
-		
-		public int getStartingGroupIndex()
-		{
+
+		public int getStartingGroupIndex() {
 			return this.startingGroupIndex;
 		}
-		
-		public int getEndingGroupIndex()
-		{
+
+		public int getEndingGroupIndex() {
 			return this.endingGroupIndex;
 		}
 
-		public Object[] getFieldValues( )
-		{
-			Object[] result = new Object[trimedResultClass.getFieldCount( )+2+this.groupIndex.length];
-			for( int i = 0; i < trimedResultClass.getFieldCount( ); i++ )
-			{
-				try
-				{
-					result[i] = this.ro.getFieldValue( i+1 );
-				}
-				catch ( DataException e )
-				{
+		public Object[] getFieldValues() {
+			Object[] result = new Object[trimedResultClass.getFieldCount() + 2 + this.groupIndex.length];
+			for (int i = 0; i < trimedResultClass.getFieldCount(); i++) {
+				try {
+					result[i] = this.ro.getFieldValue(i + 1);
+				} catch (DataException e) {
 					result[i] = e;
 				}
 			}
-			result[trimedResultClass.getFieldCount( )] = this.startingGroupIndex;
-			result[trimedResultClass.getFieldCount( )+1] = this.endingGroupIndex;
-			for( int i = trimedResultClass.getFieldCount( )+2; i < result.length; i++ )
-			{
-				result[i] = this.groupIndex[i-trimedResultClass.getFieldCount( )-2];
+			result[trimedResultClass.getFieldCount()] = this.startingGroupIndex;
+			result[trimedResultClass.getFieldCount() + 1] = this.endingGroupIndex;
+			for (int i = trimedResultClass.getFieldCount() + 2; i < result.length; i++) {
+				result[i] = this.groupIndex[i - trimedResultClass.getFieldCount() - 2];
 			}
 			return result;
 		}
 	}
-	
+
 	/**
 	 * A creator class implemented ICachedObjectCreator. This class is used to
 	 * create GroupInfo object.
@@ -275,37 +224,30 @@ public class ResultSetWrapper implements IResultIterator
 	 * @author Administrator
 	 * 
 	 */
-	class ResultObjectHolderCreator implements ICachedObjectCreator
-	{
+	class ResultObjectHolderCreator implements ICachedObjectCreator {
 		/*
 		 * (non-Javadoc)
-		 * @see org.eclipse.birt.data.engine.cache.ICachedObjectCreator#createInstance(java.lang.Object[])
+		 * 
+		 * @see
+		 * org.eclipse.birt.data.engine.cache.ICachedObjectCreator#createInstance(java.
+		 * lang.Object[])
 		 */
-		public ICachedObject createInstance(Object[] fields)
-		{
-			try
-			{
-				
-				Object[] resultValues = new Object[ trimedResultClass.getFieldCount( ) ];
-				System.arraycopy( fields, 0, resultValues, 0,  Math.min( fields.length, resultValues.length) );
-				
-				Object[] results = new Object[fields.length
-						- trimedResultClass.getFieldCount() - 2];
-				System.arraycopy( fields, trimedResultClass.getFieldCount( )+2, results, 0, 
-						results.length );
+		public ICachedObject createInstance(Object[] fields) {
+			try {
 
-				return new ResultObjectHolder( new ResultObject( trimedResultClass,
-						resultValues ),
-						(Integer) fields[trimedResultClass.getFieldCount( )],
-						(Integer) fields[trimedResultClass.getFieldCount( )+1],
-						results );
-			}
-			catch ( Exception e )
-			{
+				Object[] resultValues = new Object[trimedResultClass.getFieldCount()];
+				System.arraycopy(fields, 0, resultValues, 0, Math.min(fields.length, resultValues.length));
+
+				Object[] results = new Object[fields.length - trimedResultClass.getFieldCount() - 2];
+				System.arraycopy(fields, trimedResultClass.getFieldCount() + 2, results, 0, results.length);
+
+				return new ResultObjectHolder(new ResultObject(trimedResultClass, resultValues),
+						(Integer) fields[trimedResultClass.getFieldCount()],
+						(Integer) fields[trimedResultClass.getFieldCount() + 1], results);
+			} catch (Exception e) {
 				return null;
 			}
 		}
 	}
-
 
 }

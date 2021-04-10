@@ -24,18 +24,18 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 public class ResourceLocator implements IResourceLocator {
 
 	File rootDir;
-	
+
 	public ResourceLocator(File rootDir) {
 		this.rootDir = rootDir;
 	}
 
 	@Override
-	public URL findResource( ModuleHandle moduleHandle, String fileName, int type ) {
-		File result = new File( fileName );
-		if( !result.exists() ) {
-			result = new File( rootDir + File.separator + fileName );
+	public URL findResource(ModuleHandle moduleHandle, String fileName, int type) {
+		File result = new File(fileName);
+		if (!result.exists()) {
+			result = new File(rootDir + File.separator + fileName);
 		}
-		if( result.exists() ) {
+		if (result.exists()) {
 			try {
 				return result.toURI().toURL();
 			} catch (MalformedURLException e) {
@@ -46,7 +46,8 @@ public class ResourceLocator implements IResourceLocator {
 	}
 
 	@Override
-	public URL findResource( ModuleHandle moduleHandle, String fileName, int type , @SuppressWarnings("rawtypes") Map appContext ) {
+	public URL findResource(ModuleHandle moduleHandle, String fileName, int type,
+			@SuppressWarnings("rawtypes") Map appContext) {
 		return findResource(moduleHandle, fileName, type);
 	}
 

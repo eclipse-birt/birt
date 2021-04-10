@@ -16,11 +16,12 @@ import java.util.List;
 /**
  * Filter the editpart
  */
-public interface ISelectionFilter
-{
-	/**filter the editpart
+public interface ISelectionFilter {
+	/**
+	 * filter the editpart
+	 * 
 	 * @param editparts
 	 * @return
 	 */
-	List filterEditpart( List editparts );
+	List filterEditpart(List editparts);
 }

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.nLayout.area;
 
-public interface ITemplateArea extends IArea
-{
-	public int getType( );
+public interface ITemplateArea extends IArea {
+	public int getType();
 }

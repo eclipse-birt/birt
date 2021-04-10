@@ -17,35 +17,31 @@ import org.eclipse.birt.report.model.core.Module;
 /**
  * Represents a named, shared style. A named, shared style is a style defined in
  * components slot of a report design.
- *  
+ * 
  */
 
-public class SharedStyleHandle extends StyleHandle
-{
+public class SharedStyleHandle extends StyleHandle {
 
 	/**
-	 * Constructs a handle for a shared style. The application generally does
-	 * not create handles directly. Instead, it uses one of the navigation
-	 * methods available on other element handles.
+	 * Constructs a handle for a shared style. The application generally does not
+	 * create handles directly. Instead, it uses one of the navigation methods
+	 * available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public SharedStyleHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public SharedStyleHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getQualifiedName()
 	 */
-	
-	public String getQualifiedName( )
-	{
-		return getName( );
+
+	public String getQualifiedName() {
+		return getName();
 	}
 }

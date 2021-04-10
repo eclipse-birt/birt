@@ -35,9 +35,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-public class ExtendedPropertyEditorComposite extends Composite implements
-		SelectionListener
-{
+public class ExtendedPropertyEditorComposite extends Composite implements SelectionListener {
 
 	private LinkedHashMap<String, ExtendedProperty> propMap = null;
 	private LinkedHashMap<String, Boolean> propDisabledMap = null;
@@ -55,120 +53,107 @@ public class ExtendedPropertyEditorComposite extends Composite implements
 	private EList<ExtendedProperty> extendedProperties;
 	private ChartWizardContext context;
 
-	public ExtendedPropertyEditorComposite( Composite parent, int style,
-			EList<ExtendedProperty> extendedProperties,
-			ChartWizardContext context )
-	{
-		super( parent, style );
+	public ExtendedPropertyEditorComposite(Composite parent, int style, EList<ExtendedProperty> extendedProperties,
+			ChartWizardContext context) {
+		super(parent, style);
 		this.extendedProperties = extendedProperties;
 		this.context = context;
-		init( );
-		placeComponents( );
+		init();
+		placeComponents();
 	}
 
-	private void init( )
-	{
-		propMap = new LinkedHashMap<String, ExtendedProperty>( 6 );
-		for ( ExtendedProperty property : extendedProperties )
-		{
-			propMap.put( property.getName( ), property );
+	private void init() {
+		propMap = new LinkedHashMap<String, ExtendedProperty>(6);
+		for (ExtendedProperty property : extendedProperties) {
+			propMap.put(property.getName(), property);
 		}
-		propDisabledMap = new LinkedHashMap<String, Boolean>( 2 );
-		for ( String disabledName : ChartModelHelper.instance( )
-				.getBuiltInExtendedProperties( ) )
-		{
-			propDisabledMap.put( disabledName, Boolean.TRUE );
+		propDisabledMap = new LinkedHashMap<String, Boolean>(2);
+		for (String disabledName : ChartModelHelper.instance().getBuiltInExtendedProperties()) {
+			propDisabledMap.put(disabledName, Boolean.TRUE);
 		}
 	}
 
-	private void placeComponents( )
-	{
-		GridLayout glContent = new GridLayout( );
+	private void placeComponents() {
+		GridLayout glContent = new GridLayout();
 		glContent.horizontalSpacing = 5;
 		glContent.verticalSpacing = 5;
 		glContent.marginHeight = 7;
 		glContent.marginWidth = 7;
 
-		this.setLayout( glContent );
+		this.setLayout(glContent);
 
-		table = new Table( this, SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER );
-		GridData gdTable = new GridData( GridData.FILL_BOTH );
-		table.setLayoutData( gdTable );
-		table.setHeaderVisible( true );
-		table.setLinesVisible( true );
+		table = new Table(this, SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER);
+		GridData gdTable = new GridData(GridData.FILL_BOTH);
+		table.setLayoutData(gdTable);
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
-		TableColumn tcKey = new TableColumn( table, SWT.CENTER );
-		tcKey.setWidth( 186 );
-		tcKey.setText( Messages.getString( "PropertyEditorDialog.Lbl.Key" ) ); //$NON-NLS-1$
+		TableColumn tcKey = new TableColumn(table, SWT.CENTER);
+		tcKey.setWidth(186);
+		tcKey.setText(Messages.getString("PropertyEditorDialog.Lbl.Key")); //$NON-NLS-1$
 
-		TableColumn tcValue = new TableColumn( table, SWT.LEFT );
-		tcValue.setWidth( 186 );
-		tcValue.setText( Messages.getString( "PropertyEditorDialog.Lbl.Value" ) ); //$NON-NLS-1$
+		TableColumn tcValue = new TableColumn(table, SWT.LEFT);
+		tcValue.setWidth(186);
+		tcValue.setText(Messages.getString("PropertyEditorDialog.Lbl.Value")); //$NON-NLS-1$
 
-		editorValue = new TableEditor( table );
-		editorValue.setColumn( 1 );
+		editorValue = new TableEditor(table);
+		editorValue.setColumn(1);
 		editorValue.grabHorizontal = true;
 		editorValue.minimumWidth = 30;
 
-		table.addSelectionListener( this );
+		table.addSelectionListener(this);
 
 		// Layout for buttons panel
-		GridLayout glButtons = new GridLayout( );
+		GridLayout glButtons = new GridLayout();
 		glButtons.numColumns = 3;
 		glButtons.horizontalSpacing = 5;
 		glButtons.verticalSpacing = 5;
 		glButtons.marginWidth = 0;
 		glButtons.marginHeight = 0;
 
-		Composite cmpButtons = new Composite( this, SWT.NONE );
-		GridData gdCMPButtons = new GridData( GridData.FILL_HORIZONTAL );
-		cmpButtons.setLayoutData( gdCMPButtons );
-		cmpButtons.setLayout( glButtons );
+		Composite cmpButtons = new Composite(this, SWT.NONE);
+		GridData gdCMPButtons = new GridData(GridData.FILL_HORIZONTAL);
+		cmpButtons.setLayoutData(gdCMPButtons);
+		cmpButtons.setLayout(glButtons);
 
-		txtNewKey = new Text( cmpButtons, SWT.SINGLE | SWT.BORDER );
-		GridData gdTXTNewKey = new GridData( GridData.FILL_HORIZONTAL );
+		txtNewKey = new Text(cmpButtons, SWT.SINGLE | SWT.BORDER);
+		GridData gdTXTNewKey = new GridData(GridData.FILL_HORIZONTAL);
 		gdTXTNewKey.grabExcessHorizontalSpace = true;
-		txtNewKey.setLayoutData( gdTXTNewKey );
+		txtNewKey.setLayoutData(gdTXTNewKey);
 
-		btnAdd = new Button( cmpButtons, SWT.PUSH );
-		GridData gdBTNAdd = new GridData( GridData.HORIZONTAL_ALIGN_END );
+		btnAdd = new Button(cmpButtons, SWT.PUSH);
+		GridData gdBTNAdd = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		gdBTNAdd.grabExcessHorizontalSpace = false;
-		btnAdd.setLayoutData( gdBTNAdd );
-		btnAdd.setText( Messages.getString( "PropertyEditorDialog.Lbl.Add" ) ); //$NON-NLS-1$
-		btnAdd.addSelectionListener( this );
+		btnAdd.setLayoutData(gdBTNAdd);
+		btnAdd.setText(Messages.getString("PropertyEditorDialog.Lbl.Add")); //$NON-NLS-1$
+		btnAdd.addSelectionListener(this);
 
-		btnRemove = new Button( cmpButtons, SWT.PUSH );
-		GridData gdBTNRemove = new GridData( GridData.HORIZONTAL_ALIGN_END );
+		btnRemove = new Button(cmpButtons, SWT.PUSH);
+		GridData gdBTNRemove = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		gdBTNRemove.grabExcessHorizontalSpace = false;
-		btnRemove.setLayoutData( gdBTNRemove );
-		btnRemove.setText( Messages.getString( "PropertyEditorDialog.Lbl.Remove" ) ); //$NON-NLS-1$
-		btnRemove.addSelectionListener( this );
+		btnRemove.setLayoutData(gdBTNRemove);
+		btnRemove.setText(Messages.getString("PropertyEditorDialog.Lbl.Remove")); //$NON-NLS-1$
+		btnRemove.addSelectionListener(this);
 
-		populateTable( );
+		populateTable();
 	}
 
-	private void populateTable( )
-	{
-		for ( String propName : propMap.keySet( ) )
-		{
-			ExtendedProperty property = propMap.get( propName );
+	private void populateTable() {
+		for (String propName : propMap.keySet()) {
+			ExtendedProperty property = propMap.get(propName);
 			String[] sProperty = new String[2];
-			sProperty[0] = property.getName( );
-			sProperty[1] = property.getValue( );
+			sProperty[0] = property.getName();
+			sProperty[1] = property.getValue();
 
-			TableItem tiProp = new TableItem( table, SWT.CHECK );
-			tiProp.setText( sProperty );
+			TableItem tiProp = new TableItem(table, SWT.CHECK);
+			tiProp.setText(sProperty);
 		}
-		if ( table.getItemCount( ) > 0 )
-		{
-			table.select( 0 );
-			btnRemove.setEnabled( !propDisabledMap.containsKey( table.getItem( 0 )
-					.getText( ) ) );
-		}
-		else
-		{
-			txtNewKey.forceFocus( );
-			btnRemove.setEnabled( false );
+		if (table.getItemCount() > 0) {
+			table.select(0);
+			btnRemove.setEnabled(!propDisabledMap.containsKey(table.getItem(0).getText()));
+		} else {
+			txtNewKey.forceFocus();
+			btnRemove.setEnabled(false);
 		}
 	}
 
@@ -179,104 +164,86 @@ public class ExtendedPropertyEditorComposite extends Composite implements
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
+	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.getSource( ).equals( btnAdd ) )
-		{
-			String sKey = txtNewKey.getText( );
-			if ( sKey.length( ) > 0 && !propMap.containsKey( sKey ) )
-			{
+	public void widgetSelected(SelectionEvent e) {
+		if (e.getSource().equals(btnAdd)) {
+			String sKey = txtNewKey.getText();
+			if (sKey.length() > 0 && !propMap.containsKey(sKey)) {
 				String[] sProperty = new String[2];
 				sProperty[0] = sKey;
 				sProperty[1] = ""; //$NON-NLS-1$
 
-				TableItem tiProp = new TableItem( table, SWT.NONE );
-				tiProp.setText( sProperty );
-				table.select( table.getItemCount( ) - 1 );
+				TableItem tiProp = new TableItem(table, SWT.NONE);
+				tiProp.setText(sProperty);
+				table.select(table.getItemCount() - 1);
 
-				updateModel( sProperty[0], sProperty[1] );
-				txtNewKey.setText( "" ); //$NON-NLS-1$
+				updateModel(sProperty[0], sProperty[1]);
+				txtNewKey.setText(""); //$NON-NLS-1$
 			}
-		}
-		else if ( e.getSource( ).equals( btnRemove ) )
-		{
-			if ( table.getSelection( ).length != 0 )
-			{
-				int index = table.getSelectionIndex( );
-				String key = table.getSelection( )[0].getText( 0 );
-				ExtendedProperty property = propMap.get( key );
-				if ( property != null )
-				{
-					extendedProperties.remove( property );
-					propMap.remove( key );
-					table.remove( table.getSelectionIndex( ) );
-					table.select( index<table.getItemCount( ) ?index:table.getItemCount( )- 1 );
+		} else if (e.getSource().equals(btnRemove)) {
+			if (table.getSelection().length != 0) {
+				int index = table.getSelectionIndex();
+				String key = table.getSelection()[0].getText(0);
+				ExtendedProperty property = propMap.get(key);
+				if (property != null) {
+					extendedProperties.remove(property);
+					propMap.remove(key);
+					table.remove(table.getSelectionIndex());
+					table.select(index < table.getItemCount() ? index : table.getItemCount() - 1);
 				}
-				Control editor = editorValue.getEditor( );
-				if ( editor != null )
-				{
-					editor.dispose( );
+				Control editor = editorValue.getEditor();
+				if (editor != null) {
+					editor.dispose();
 				}
 			}
-		}
-		else if ( e.getSource( ).equals( table ) )
-		{
-			Control oldEditor = editorValue.getEditor( );
-			if ( oldEditor != null )
-				oldEditor.dispose( );
+		} else if (e.getSource().equals(table)) {
+			Control oldEditor = editorValue.getEditor();
+			if (oldEditor != null)
+				oldEditor.dispose();
 
 			// Identify the selected row
 			final TableItem item = (TableItem) e.item;
-			if ( item == null )
-			{
+			if (item == null) {
 				return;
 			}
 
 			// The control that will be the editor must be a child of the Table
-			Text newEditor = new Text( table, SWT.NONE );
-			newEditor.setText( item.getText( 1 ) );
-			newEditor.addListener( SWT.FocusOut, new Listener( ) {
+			Text newEditor = new Text(table, SWT.NONE);
+			newEditor.setText(item.getText(1));
+			newEditor.addListener(SWT.FocusOut, new Listener() {
 
-				public void handleEvent( Event event )
-				{
+				public void handleEvent(Event event) {
 					Text text = (Text) event.widget;
-					editorValue.getItem( ).setText( 1, text.getText( ) );
-					updateModel( item.getText( 0 ), text.getText( ) );
+					editorValue.getItem().setText(1, text.getText());
+					updateModel(item.getText(0), text.getText());
 				}
-			} );
-			newEditor.selectAll( );
-			newEditor.setFocus( );
-			editorValue.setEditor( newEditor, item, 1 );
+			});
+			newEditor.selectAll();
+			newEditor.setFocus();
+			editorValue.setEditor(newEditor, item, 1);
 		}
-		btnRemove.setEnabled( !propDisabledMap.containsKey( table.getSelection( )[0].getText( 0 ) ) );
+		btnRemove.setEnabled(!propDisabledMap.containsKey(table.getSelection()[0].getText(0)));
 	}
 
-	private void updateModel( String key, String value )
-	{
-		ExtendedProperty property = propMap.get( key );
-		if ( property == null )
-		{
-			property = AttributeFactory.eINSTANCE.createExtendedProperty( );
-			property.setName( key );
-			property.setValue( value );
-			property.eAdapters( ).addAll( context.getModel( ).eAdapters( ) );
-			extendedProperties.add( property );
-			propMap.put( key, property );
-		}
-		else
-		{
-			property.setValue( value );
+	private void updateModel(String key, String value) {
+		ExtendedProperty property = propMap.get(key);
+		if (property == null) {
+			property = AttributeFactory.eINSTANCE.createExtendedProperty();
+			property.setName(key);
+			property.setValue(value);
+			property.eAdapters().addAll(context.getModel().eAdapters());
+			extendedProperties.add(property);
+			propMap.put(key, property);
+		} else {
+			property.setValue(value);
 		}
 	}
 }

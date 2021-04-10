@@ -19,31 +19,23 @@ import org.eclipse.birt.chart.exception.ChartException;
 /**
  * This interface defines a decorator renderer for Axes
  */
-public interface IAxesDecorator
-{
+public interface IAxesDecorator {
 
 	/**
 	 * Returns the thickness for use with decoration.
 	 * 
-	 * @param xs
-	 *            The display server.
-	 * @param ax
-	 *            The runtime axis model.
+	 * @param xs The display server.
+	 * @param ax The runtime axis model.
 	 * @return
 	 */
-	double[] computeDecorationThickness( IDisplayServer xs, OneAxis ax )
-			throws ChartException;
+	double[] computeDecorationThickness(IDisplayServer xs, OneAxis ax) throws ChartException;
 
 	/**
 	 * Perform decoration.
 	 * 
-	 * @param ipr
-	 *            The renderer instance.
-	 * @param isrh
-	 *            Series rendering hints.
-	 * @param ax
-	 *            The runtime axis model.
+	 * @param ipr  The renderer instance.
+	 * @param isrh Series rendering hints.
+	 * @param ax   The runtime axis model.
 	 */
-	void decorateAxes( IPrimitiveRenderer ipr, ISeriesRenderingHints isrh,
-			OneAxis ax ) throws ChartException;
+	void decorateAxes(IPrimitiveRenderer ipr, ISeriesRenderingHints isrh, OneAxis ax) throws ChartException;
 }

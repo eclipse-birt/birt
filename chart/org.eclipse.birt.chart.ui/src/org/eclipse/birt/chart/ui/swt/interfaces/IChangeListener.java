@@ -14,15 +14,15 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
 import org.eclipse.birt.chart.model.Chart;
 
 /**
- * This interface provides a mechanism whereby a custom UI sheet provider can register a class to manage addition and
- * removal of UI sheets dynamically based on changes in the model.
+ * This interface provides a mechanism whereby a custom UI sheet provider can
+ * register a class to manage addition and removal of UI sheets dynamically
+ * based on changes in the model.
  * 
  * @author Actuate Corporation
  */
-public interface IChangeListener
-{
+public interface IChangeListener {
 
-    public void chartModified(Chart chartModel, IUIManager uiManager);
+	public void chartModified(Chart chartModel, IUIManager uiManager);
 
-    public void initialize(Chart chartModel, IUIManager uiManager);
+	public void initialize(Chart chartModel, IUIManager uiManager);
 }

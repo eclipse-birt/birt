@@ -16,17 +16,15 @@ package org.eclipse.birt.report.model.util;
  *
  */
 
-public class PropertyHandleHelper extends PropertyHandleHelperImpl
-{
+public class PropertyHandleHelper extends PropertyHandleHelperImpl {
 
-	private static PropertyHandleHelper instance = new PropertyHandleHelper( );
+	private static PropertyHandleHelper instance = new PropertyHandleHelper();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public static PropertyHandleHelper getInstance( )
-	{
+	public static PropertyHandleHelper getInstance() {
 		return instance;
 	}
 }

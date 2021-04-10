@@ -33,9 +33,7 @@ import org.eclipse.jdt.launching.JavaRuntime;
 /**
  * ReportStandardAppLaunchDelegate
  */
-public class ReportStandardAppLaunchDelegate extends JavaLaunchDelegate implements
-		IReportLaunchConstants
-{
+public class ReportStandardAppLaunchDelegate extends JavaLaunchDelegate implements IReportLaunchConstants {
 
 	// add the path for the developer
 	static final String CORE_BIN = "CoreOutput"; //$NON-NLS-1$
@@ -43,151 +41,130 @@ public class ReportStandardAppLaunchDelegate extends JavaLaunchDelegate implemen
 
 	ReportLaunchHelper helper;
 
-	public ReportStandardAppLaunchDelegate( )
-	{
-		helper = new ReportLaunchHelper( );
+	public ReportStandardAppLaunchDelegate() {
+		helper = new ReportLaunchHelper();
 	}
 
-	public void launch( ILaunchConfiguration configuration, String mode,
-			ILaunch launch, IProgressMonitor monitor ) throws CoreException
-	{
-		helper.init( configuration );
+	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor)
+			throws CoreException {
+		helper.init(configuration);
 
-		super.launch( configuration, mode, launch, monitor );
+		super.launch(configuration, mode, launch, monitor);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate#verifyWorkingDirectory(org.eclipse.debug.core.ILaunchConfiguration)
+	 * @see org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate#
+	 * verifyWorkingDirectory(org.eclipse.debug.core.ILaunchConfiguration)
 	 */
-	public File verifyWorkingDirectory( ILaunchConfiguration configuration )
-			throws CoreException
-	{
+	public File verifyWorkingDirectory(ILaunchConfiguration configuration) throws CoreException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate#getJavaLibraryPath(org.eclipse.debug.core.ILaunchConfiguration)
+	 * @see org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate#
+	 * getJavaLibraryPath(org.eclipse.debug.core.ILaunchConfiguration)
 	 */
-	public String[] getJavaLibraryPath( ILaunchConfiguration configuration )
-			throws CoreException
-	{
+	public String[] getJavaLibraryPath(ILaunchConfiguration configuration) throws CoreException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate#getVMRunner(org.eclipse.debug.core.ILaunchConfiguration,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate#getVMRunner
+	 * (org.eclipse.debug.core.ILaunchConfiguration, java.lang.String)
 	 */
-	public IVMRunner getVMRunner( ILaunchConfiguration configuration,
-			String mode ) throws CoreException
-	{
-		IVMInstall vm = verifyVMInstall( configuration );
-		return new StandardScriptVMRunner( vm, this );
+	public IVMRunner getVMRunner(ILaunchConfiguration configuration, String mode) throws CoreException {
+		IVMInstall vm = verifyVMInstall(configuration);
+		return new StandardScriptVMRunner(vm, this);
 	}
 
-	public String verifyMainTypeName( ILaunchConfiguration configuration )
-			throws CoreException
-	{
-		return ReportLauncher.class.getName( );
+	public String verifyMainTypeName(ILaunchConfiguration configuration) throws CoreException {
+		return ReportLauncher.class.getName();
 	}
 
-	protected IProject[] getBuildOrder( ILaunchConfiguration configuration,
-			String mode ) throws CoreException
-	{
-		return super.getBuildOrder( configuration, mode );
+	protected IProject[] getBuildOrder(ILaunchConfiguration configuration, String mode) throws CoreException {
+		return super.getBuildOrder(configuration, mode);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.debug.core.model.LaunchConfigurationDelegate#finalLaunchCheck(org.eclipse.debug.core.ILaunchConfiguration,
-	 *      java.lang.String, org.eclipse.core.runtime.IProgressMonitor)
+	 * @see
+	 * org.eclipse.debug.core.model.LaunchConfigurationDelegate#finalLaunchCheck(org
+	 * .eclipse.debug.core.ILaunchConfiguration, java.lang.String,
+	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public boolean finalLaunchCheck( final ILaunchConfiguration configuration,
-			String mode, IProgressMonitor monitor ) throws CoreException
-	{
+	public boolean finalLaunchCheck(final ILaunchConfiguration configuration, String mode, IProgressMonitor monitor)
+			throws CoreException {
 
-		boolean bool = super.finalLaunchCheck( configuration, mode, monitor );
+		boolean bool = super.finalLaunchCheck(configuration, mode, monitor);
 
-		if ( !bool )
-		{
+		if (!bool) {
 			return bool;
 		}
 
-		return helper.finalLaunchCheck( configuration, mode, monitor );
+		return helper.finalLaunchCheck(configuration, mode, monitor);
 	}
 
-	String getFileName( )
-	{
+	String getFileName() {
 		return helper.fileName;
 	}
 
-	String getEngineHome( )
-	{
+	String getEngineHome() {
 		return helper.engineHome;
 	}
 
-	String getTempFolder( )
-	{
+	String getTempFolder() {
 		return helper.tempFolder;
 	}
 
-	String getTargetFormat( )
-	{
+	String getTargetFormat() {
 		return helper.targetFormat;
 	}
 
-	boolean isOpenTargetFile( )
-	{
+	boolean isOpenTargetFile() {
 		return helper.isOpenTargetFile;
 	}
 
-	int getDebugType( )
-	{
+	int getDebugType() {
 		return helper.debugType;
 	}
 
-	int getTaskType( )
-	{
+	int getTaskType() {
 		return helper.taskType;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate#getClasspath(org.eclipse.debug.core.ILaunchConfiguration)
+	 * @see org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate#
+	 * getClasspath(org.eclipse.debug.core.ILaunchConfiguration)
 	 */
-	public String[] getClasspath( ILaunchConfiguration configuration )
-			throws CoreException
-	{
-		ScriptDebugClasspathProvider provider = new ScriptDebugClasspathProvider( );
-		IRuntimeClasspathEntry[] entries = provider.computeExtraBootClasspath( configuration );
-		entries = JavaRuntime.resolveRuntimeClasspath( entries, configuration );
-		List userEntries = new ArrayList( entries.length );
-		Set set = new HashSet( entries.length );
-		for ( int i = 0; i < entries.length; i++ )
-		{
-			if ( entries[i].getClasspathProperty( ) == IRuntimeClasspathEntry.USER_CLASSES )
-			{
-				String location = entries[i].getLocation( );
-				if ( location != null )
-				{
-					if ( !set.contains( location ) )
-					{
-						userEntries.add( location );
-						set.add( location );
+	public String[] getClasspath(ILaunchConfiguration configuration) throws CoreException {
+		ScriptDebugClasspathProvider provider = new ScriptDebugClasspathProvider();
+		IRuntimeClasspathEntry[] entries = provider.computeExtraBootClasspath(configuration);
+		entries = JavaRuntime.resolveRuntimeClasspath(entries, configuration);
+		List userEntries = new ArrayList(entries.length);
+		Set set = new HashSet(entries.length);
+		for (int i = 0; i < entries.length; i++) {
+			if (entries[i].getClasspathProperty() == IRuntimeClasspathEntry.USER_CLASSES) {
+				String location = entries[i].getLocation();
+				if (location != null) {
+					if (!set.contains(location)) {
+						userEntries.add(location);
+						set.add(location);
 					}
 				}
 			}
 		}
 
-		return (String[]) userEntries.toArray( new String[userEntries.size( )] );
+		return (String[]) userEntries.toArray(new String[userEntries.size()]);
 	}
 
 }

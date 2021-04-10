@@ -39,16 +39,15 @@ import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 /**
  * 
  */
-public class ModuleNameHelper extends AbstractNameHelper
-{
+public class ModuleNameHelper extends AbstractNameHelper {
 
 	protected Module module = null;
 
 	/**
-	 * The array of cached content names. These elements have not been added to
-	 * the name space in fact. However, name of them are reserved and can not be
-	 * used again to avoid the duplicate. This may be used when some extensions
-	 * is not well-parsed or other reasons.
+	 * The array of cached content names. These elements have not been added to the
+	 * name space in fact. However, name of them are reserved and can not be used
+	 * again to avoid the duplicate. This may be used when some extensions is not
+	 * well-parsed or other reasons.
 	 */
 	private HashMap<String, Set<String>> cachedContentNames;
 
@@ -57,76 +56,66 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * convert level name to local unique in dimension. It just used in parser.
 	 * After parser, we will clear it.
 	 */
-	private Map<String, DesignElement> cachedLevelNames = new HashMap<String, DesignElement>( );
+	private Map<String, DesignElement> cachedLevelNames = new HashMap<String, DesignElement>();
 
 	/**
 	 * 
 	 * @param module
 	 */
-	public ModuleNameHelper( Module module )
-	{
-		super( );
+	public ModuleNameHelper(Module module) {
+		super();
 		this.module = module;
 		cachedContentNames = new HashMap<String, Set<String>>();
 	}
 
-	protected INameContext createNameContext(String id)
-	{
-		return
-				NameContextFactory.createModuleNameContext( module, id ) ;
+	protected INameContext createNameContext(String id) {
+		return NameContextFactory.createModuleNameContext(module, id);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
+	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#getUniqueName
 	 * (org.eclipse.birt.report.model.core.DesignElement, java.lang.String)
 	 */
-	public String getUniqueName( String namespaceId, DesignElement element, String namePrefix )
-	{
-		if ( element == null )
+	public String getUniqueName(String namespaceId, DesignElement element, String namePrefix) {
+		if (element == null)
 			return null;
 
-		ElementDefn eDefn = (ElementDefn) element.getDefn( );
+		ElementDefn eDefn = (ElementDefn) element.getDefn();
 
-		String name = element.getName( );
-		if ( StringUtil.isBlank( name ) )
-		{
+		String name = element.getName();
+		if (StringUtil.isBlank(name)) {
 			// Use the given prefix if the element name is null
 			name = namePrefix;
 		}
 
-		name = StringUtil.trimString( name );
+		name = StringUtil.trimString(name);
 		// replace all the illegal chars with '_'
-		name = NamePropertyType.validateName( name );
+		name = NamePropertyType.validateName(name);
 
 		// Some elements can have a blank name.
-		if ( eDefn.getNameOption( ) == MetaDataConstants.NO_NAME )
+		if (eDefn.getNameOption() == MetaDataConstants.NO_NAME)
 			return null;
 
-		if ( eDefn.getNameOption( ) == MetaDataConstants.OPTIONAL_NAME
-				&& name == null && module instanceof ReportDesign )
+		if (eDefn.getNameOption() == MetaDataConstants.OPTIONAL_NAME && name == null && module instanceof ReportDesign)
 			return null;
 
-		if ( module instanceof Library && element instanceof StyleElement
-				&& element.getContainer( ) == null && name != null )
-		{
+		if (module instanceof Library && element instanceof StyleElement && element.getContainer() == null
+				&& name != null) {
 			return name;
 		}
 
 		// If the element already has a unique name, return it.
-		NameSpace nameSpace = getCachedNameSpace( namespaceId );
-		Set<String> cachedContentNames = getCachedContentNames( namespaceId );
-		NameSpace moduleNameSpace = getNameContext( namespaceId ).getNameSpace( );
+		NameSpace nameSpace = getCachedNameSpace(namespaceId);
+		Set<String> cachedContentNames = getCachedContentNames(namespaceId);
+		NameSpace moduleNameSpace = getNameContext(namespaceId).getNameSpace();
 
 		String validName = name;
-		if ( element instanceof StyleElement )
-			validName = validName == null ? null : validName.toLowerCase( );
-		if ( validName != null
-				&& isValidInNameSpace( nameSpace, element, validName )
-				&& isValidInNameSpace( moduleNameSpace, element, validName )
-				&& !cachedContentNames.contains( validName ) )
+		if (element instanceof StyleElement)
+			validName = validName == null ? null : validName.toLowerCase();
+		if (validName != null && isValidInNameSpace(nameSpace, element, validName)
+				&& isValidInNameSpace(moduleNameSpace, element, validName) && !cachedContentNames.contains(validName))
 			return name;
 
 		// If the element has no name, create it as "New<new name>" where
@@ -134,46 +123,38 @@ public class ModuleNameHelper extends AbstractNameHelper
 		// "New" and the new element display name are localized to the user's
 		// locale.
 
-		if ( name == null )
-		{
+		if (name == null) {
 			// When creating a new report element which requires a name, the
 			// default name will be "New" followed by the element name, such as
 			// "New Label"; also, if "NewLabel" already exists, then a number
 			// will be appended, such as "NewLabel1", etc.
 
-			if ( element instanceof ExtendedItem )
-			{
-				ExtensionElementDefn extDefn = ( (ExtendedItem) element )
-						.getExtDefn( );
+			if (element instanceof ExtendedItem) {
+				ExtensionElementDefn extDefn = ((ExtendedItem) element).getExtDefn();
 
 				PeerExtensionElementDefn peerDefn = (PeerExtensionElementDefn) extDefn;
-				IReportItemFactory peerFactory = peerDefn
-						.getReportItemFactory( );
+				IReportItemFactory peerFactory = peerDefn.getReportItemFactory();
 
 				assert peerFactory != null;
 
 				String extensionDefaultName = null;
-				IMessages msgs = peerFactory.getMessages( );
-				if ( msgs != null )
-					extensionDefaultName = msgs.getMessage( (String) extDefn
-							.getDisplayNameKey( ), module.getLocale( ) );
+				IMessages msgs = peerFactory.getMessages();
+				if (msgs != null)
+					extensionDefaultName = msgs.getMessage((String) extDefn.getDisplayNameKey(), module.getLocale());
 
-				if ( StringUtil.isBlank( extensionDefaultName ) )
-					extensionDefaultName = peerDefn.getName( );
+				if (StringUtil.isBlank(extensionDefaultName))
+					extensionDefaultName = peerDefn.getName();
 
-				name = ModelMessages
-						.getMessage( MessageConstants.NAME_PREFIX_NEW_MESSAGE );
+				name = ModelMessages.getMessage(MessageConstants.NAME_PREFIX_NEW_MESSAGE);
 
 				name = name + extensionDefaultName;
 
+			} else {
+				name = ModelMessages.getMessage("New." //$NON-NLS-1$
+						+ element.getDefn().getName());
+				name = name.trim();
 			}
-			else
-			{
-				name = ModelMessages.getMessage( "New." //$NON-NLS-1$
-						+ element.getDefn( ).getName( ) );
-				name = name.trim( );
-			}
-            name = NamePropertyType.validateName( name );
+			name = NamePropertyType.validateName(name);
 		}
 
 		// Add a numeric suffix that makes the name unique.
@@ -181,16 +162,14 @@ public class ModuleNameHelper extends AbstractNameHelper
 		int index = 0;
 		String baseName = name;
 		validName = name;
-		if ( element instanceof StyleElement )
-			validName = validName == null ? null : validName.toLowerCase( );
-		while ( nameSpace.contains( validName )
-				|| moduleNameSpace.contains( validName )
-				|| cachedContentNames.contains( validName ) )
-		{
+		if (element instanceof StyleElement)
+			validName = validName == null ? null : validName.toLowerCase();
+		while (nameSpace.contains(validName) || moduleNameSpace.contains(validName)
+				|| cachedContentNames.contains(validName)) {
 			name = baseName + ++index;
 			validName = name;
-			if ( element instanceof StyleElement )
-				validName = validName == null ? null : validName.toLowerCase( );
+			if (element instanceof StyleElement)
+				validName = validName == null ? null : validName.toLowerCase();
 		}
 
 		return name;
@@ -199,45 +178,37 @@ public class ModuleNameHelper extends AbstractNameHelper
 	/**
 	 * Gets the cached content name list with the given id.
 	 * 
-	 * @param id
-	 *            the name space id to get
+	 * @param id the name space id to get
 	 * @return the cached content name list with the given id
 	 */
-	private Set<String> getCachedContentNames( String id )
-	{
-		Set<String> cachedNames = cachedContentNames.get( id );
-		if ( cachedNames == null )
-		{
-			cachedNames = new HashSet<String>( );
-			cachedContentNames.put( id, cachedNames );
+	private Set<String> getCachedContentNames(String id) {
+		Set<String> cachedNames = cachedContentNames.get(id);
+		if (cachedNames == null) {
+			cachedNames = new HashSet<String>();
+			cachedContentNames.put(id, cachedNames);
 		}
 		return cachedNames;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#addContentName
+	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#addContentName
 	 * (int, java.lang.String)
 	 */
-	public void addContentName( String id, String name )
-	{
-		Set<String> cachedNames = getCachedContentNames( id );
-		if ( !cachedNames.contains( name ) )
-		{
-			cachedNames.add( name );
+	public void addContentName(String id, String name) {
+		Set<String> cachedNames = getCachedContentNames(id);
+		if (!cachedNames.contains(name)) {
+			cachedNames.add(name);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getElement()
+	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#getElement()
 	 */
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return module;
 	}
 
@@ -246,18 +217,16 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * @param level
 	 * @return true if level is correctly added, otherwise false
 	 */
-	public boolean addCachedLevel( DesignElement level )
-	{
-		if ( !( level instanceof Level ) )
+	public boolean addCachedLevel(DesignElement level) {
+		if (!(level instanceof Level))
 			return true;
-		String name = level.getName( );
+		String name = level.getName();
 
-		if ( name == null )
+		if (name == null)
 			return true;
-		if ( cachedLevelNames.get( name ) != null
-				&& cachedLevelNames.get( name ) != level )
+		if (cachedLevelNames.get(name) != null && cachedLevelNames.get(name) != level)
 			return false;
-		this.cachedLevelNames.put( level.getName( ), level );
+		this.cachedLevelNames.put(level.getName(), level);
 		return true;
 	}
 
@@ -267,33 +236,29 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * @param elementName
 	 * @return the level if found, otherwise null
 	 */
-	public Level findCachedLevel( String elementName )
-	{
-		if ( elementName == null )
+	public Level findCachedLevel(String elementName) {
+		if (elementName == null)
 			return null;
 
-		String namespace = StringUtil.extractNamespace( elementName );
-		String name = StringUtil.extractName( elementName );
-		if ( namespace == null )
-			return (Level) cachedLevelNames.get( name );
-		Library lib = module.getLibraryWithNamespace( namespace );
-		return lib == null ? null : (Level) ( (ModuleNameHelper) lib
-				.getNameHelper( ) ).findCachedLevel( name );
+		String namespace = StringUtil.extractNamespace(elementName);
+		String name = StringUtil.extractName(elementName);
+		if (namespace == null)
+			return (Level) cachedLevelNames.get(name);
+		Library lib = module.getLibraryWithNamespace(namespace);
+		return lib == null ? null : (Level) ((ModuleNameHelper) lib.getNameHelper()).findCachedLevel(name);
 	}
 
 	/**
 	 * 
 	 */
-	public void clearCachedLevels( )
-	{
+	public void clearCachedLevels() {
 		cachedLevelNames = null;
-		List<Library> libs = module.getAllLibraries( );
-		if ( libs == null )
+		List<Library> libs = module.getAllLibraries();
+		if (libs == null)
 			return;
-		for ( int i = 0; i < libs.size( ); i++ )
-		{
-			Library lib = libs.get( i );
-			( (ModuleNameHelper) lib.getNameHelper( ) ).cachedLevelNames = null;
+		for (int i = 0; i < libs.size(); i++) {
+			Library lib = libs.get(i);
+			((ModuleNameHelper) lib.getNameHelper()).cachedLevelNames = null;
 		}
 	}
 
@@ -305,12 +270,11 @@ public class ModuleNameHelper extends AbstractNameHelper
 	 * ()
 	 */
 
-	public void cacheValues( )
-	{
+	public void cacheValues() {
 		// do the cache for all resolved styles.
 
-		AbstractModuleNameContext tmpContext = (AbstractModuleNameContext) getNameContext( Module.STYLE_NAME_SPACE );
-		tmpContext.cacheValues( );
+		AbstractModuleNameContext tmpContext = (AbstractModuleNameContext) getNameContext(Module.STYLE_NAME_SPACE);
+		tmpContext.cacheValues();
 	}
 
 }

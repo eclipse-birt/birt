@@ -19,31 +19,23 @@ import java.util.Map;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.IDataSetInterceptorContext;
 
+public class DataSetInterceptorContext implements IDataSetInterceptorContext {
+	Map<String, DataRequestSession> sessionMap = new HashMap<String, DataRequestSession>();
 
-public class DataSetInterceptorContext implements IDataSetInterceptorContext
-{
-	Map<String, DataRequestSession> sessionMap = new HashMap<String, DataRequestSession>( );
-
-	public DataRequestSession getRequestSession( String dataSource )
-	{
-		return sessionMap.get( dataSource );
+	public DataRequestSession getRequestSession(String dataSource) {
+		return sessionMap.get(dataSource);
 	}
 
-	public void registDataRequestSession( String dataSource,
-			DataRequestSession session )
-	{
-		sessionMap.put( dataSource, session );
+	public void registDataRequestSession(String dataSource, DataRequestSession session) {
+		sessionMap.put(dataSource, session);
 	}
 
-	public void close( )
-	{
-		if( sessionMap.size( ) > 0 )
-		{
-			for( DataRequestSession session: sessionMap.values( ) )
-			{
-				session.shutdown( );
+	public void close() {
+		if (sessionMap.size() > 0) {
+			for (DataRequestSession session : sessionMap.values()) {
+				session.shutdown();
 			}
-			sessionMap.clear( );
+			sessionMap.clear();
 		}
 	}
 }

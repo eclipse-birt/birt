@@ -12,7 +12,6 @@
   *    Actuate Corporation - support defining an Excel input file path or URI as part of the data source definition
   *******************************************************************************/
 
-
 package org.eclipse.birt.report.data.oda.excel.impl;
 
 import java.util.Map;
@@ -35,6 +34,7 @@ public class Connection implements IConnection {
 	private boolean isOpen = false;
 	private Properties connProperties;
 	private Map appContext = null;
+
 	/*
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#open(java.util.Properties
@@ -42,30 +42,28 @@ public class Connection implements IConnection {
 	 */
 	public void open(Properties connProperties) throws OdaException {
 		if (connProperties == null)
-			throw new OdaException(
-					Messages.getString("connection_CONNECTION_PROPERTIES_MISSING")); //$NON-NLS-1$
+			throw new OdaException(Messages.getString("connection_CONNECTION_PROPERTIES_MISSING")); //$NON-NLS-1$
 
 		this.connProperties = connProperties;
 		validateURI();
 	}
 
-	// move the test connection to ExcelDataSourcePageHelper.createTestConnectionRunnable
-	private void validateURI( ) throws OdaException
-	{
-		String uri = connProperties.getProperty( ExcelODAConstants.CONN_FILE_URI_PROP );
+	// move the test connection to
+	// ExcelDataSourcePageHelper.createTestConnectionRunnable
+	private void validateURI() throws OdaException {
+		String uri = connProperties.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP);
 
-		if ( uri != null && uri.trim( ).length( ) > 0 ) // found
+		if (uri != null && uri.trim().length() > 0) // found
 		{
 			this.isOpen = true;
 			return; // is valid, done
 		}
 
-		throw new OdaException( Messages.getString( "connection_MISSING_FILELOCATION" ));
+		throw new OdaException(Messages.getString("connection_MISSING_FILELOCATION"));
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IConnection#setAppContext(java
+	 * @see org.eclipse.datatools.connectivity.oda.IConnection#setAppContext(java
 	 * .lang.Object)
 	 */
 	public void setAppContext(Object context) throws OdaException {
@@ -88,8 +86,7 @@ public class Connection implements IConnection {
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IConnection#getMetaData(java.lang
+	 * @see org.eclipse.datatools.connectivity.oda.IConnection#getMetaData(java.lang
 	 * .String)
 	 */
 	public IDataSetMetaData getMetaData(String dataSetType) throws OdaException {
@@ -99,24 +96,21 @@ public class Connection implements IConnection {
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IConnection#newQuery(java.lang
+	 * @see org.eclipse.datatools.connectivity.oda.IConnection#newQuery(java.lang
 	 * .String)
 	 */
 	public IQuery newQuery(String dataSetType) throws OdaException {
 		// assumes that this driver supports only one type of data set,
 		// ignores the specified dataSetType
 		if (!isOpen())
-			throw new OdaException(
-					Messages.getString("common_CONNECTION_HAS_NOT_OPEN")); //$NON-NLS-1$
+			throw new OdaException(Messages.getString("common_CONNECTION_HAS_NOT_OPEN")); //$NON-NLS-1$
 		ExcelFileQuery excelFileQuery = new ExcelFileQuery(connProperties);
-		excelFileQuery.setAppContext( appContext );
+		excelFileQuery.setAppContext(appContext);
 		return excelFileQuery;
 	}
 
-	public ResourceIdentifiers getResourceIdentifiers( )
-	{
-		return (ResourceIdentifiers) appContext.get( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS );
+	public ResourceIdentifiers getResourceIdentifiers() {
+		return (ResourceIdentifiers) appContext.get(ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS);
 	}
 
 	/*
@@ -143,8 +137,7 @@ public class Connection implements IConnection {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see
-	 * org.eclipse.datatools.connectivity.oda.IConnection#setLocale(com.ibm.
+	 * @see org.eclipse.datatools.connectivity.oda.IConnection#setLocale(com.ibm.
 	 * icu.util.ULocale)
 	 */
 	public void setLocale(ULocale locale) throws OdaException {

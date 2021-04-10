@@ -16,15 +16,17 @@ import org.eclipse.jface.window.Window;
 
 /**
  */
-public class ReportItemBuilderUI implements IReportItemBuilderUI
-{
+public class ReportItemBuilderUI implements IReportItemBuilderUI {
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI#open(org.eclipse.birt.report.model.api.ExtendedItemHandle)
-     */
-    public int open( ExtendedItemHandle handle )
-    {
-         return Window.OK;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI#open(org.
+	 * eclipse.birt.report.model.api.ExtendedItemHandle)
+	 */
+	public int open(ExtendedItemHandle handle) {
+		return Window.OK;
+	}
 
 }

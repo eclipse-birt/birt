@@ -25,104 +25,83 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * Tests the copy properties to another element.
  */
 
-public class DesignElementCopyPropertyToTest extends BaseTestCase
-{
+public class DesignElementCopyPropertyToTest extends BaseTestCase {
 
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 	/**
 	 * Tests copying property to target element.
 	 * 
-	 * @throws Exception
-	 *             if any exception
+	 * @throws Exception if any exception
 	 */
 
-	public void testCopyPropertiesTo( ) throws Exception
-	{
-		openDesign( "DesignElementCopyPropertyToTest.xml" ); //$NON-NLS-1$
+	public void testCopyPropertiesTo() throws Exception {
+		openDesign("DesignElementCopyPropertyToTest.xml"); //$NON-NLS-1$
 
-		GridHandle gridHandle = (GridHandle) designHandle.findElement( "grid1" ); //$NON-NLS-1$
-		assertNotNull( gridHandle );
+		GridHandle gridHandle = (GridHandle) designHandle.findElement("grid1"); //$NON-NLS-1$
+		assertNotNull(gridHandle);
 
-		GridHandle newGridHandle = designHandle.getElementFactory( )
-				.newGridItem( "newGrid" ); //$NON-NLS-1$
+		GridHandle newGridHandle = designHandle.getElementFactory().newGridItem("newGrid"); //$NON-NLS-1$
 
-		gridHandle.copyPropertyTo( GridItem.STYLE_PROP, newGridHandle );
-		Object obj = newGridHandle.getProperty( StyledElement.STYLE_PROP );
-		assertNotNull( obj );
-		assertEquals( "style1", (String) obj ); //$NON-NLS-1$
-		assertEquals( "style1", newGridHandle.getStyle( ).getName( ) ); //$NON-NLS-1$
+		gridHandle.copyPropertyTo(GridItem.STYLE_PROP, newGridHandle);
+		Object obj = newGridHandle.getProperty(StyledElement.STYLE_PROP);
+		assertNotNull(obj);
+		assertEquals("style1", (String) obj); //$NON-NLS-1$
+		assertEquals("style1", newGridHandle.getStyle().getName()); //$NON-NLS-1$
 
-		gridHandle.copyPropertyTo( GridItem.DATA_SET_PROP, newGridHandle );
-		assertEquals( "MyDataSet", newGridHandle.getDataSet( ).getName( ) ); //$NON-NLS-1$
+		gridHandle.copyPropertyTo(GridItem.DATA_SET_PROP, newGridHandle);
+		assertEquals("MyDataSet", newGridHandle.getDataSet().getName()); //$NON-NLS-1$
 
-		gridHandle.copyPropertyTo( GridItem.X_PROP, newGridHandle );
-		assertEquals( "12mm", newGridHandle.getX( ).getStringValue( ) ); //$NON-NLS-1$
+		gridHandle.copyPropertyTo(GridItem.X_PROP, newGridHandle);
+		assertEquals("12mm", newGridHandle.getX().getStringValue()); //$NON-NLS-1$
 
-		gridHandle.copyPropertyTo( GridItem.PARAM_BINDINGS_PROP, newGridHandle );
-		PropertyHandle propHandle = newGridHandle
-				.getPropertyHandle( GridItem.PARAM_BINDINGS_PROP );
-		Iterator iter = propHandle.iterator( );
-		assertEquals(
-				"param1", ( (ParamBindingHandle) iter.next( ) ).getParamName( ) ); //$NON-NLS-1$
-		assertEquals(
-				"param2", ( (ParamBindingHandle) iter.next( ) ).getParamName( ) ); //$NON-NLS-1$
-		assertEquals( null, iter.next( ) );
+		gridHandle.copyPropertyTo(GridItem.PARAM_BINDINGS_PROP, newGridHandle);
+		PropertyHandle propHandle = newGridHandle.getPropertyHandle(GridItem.PARAM_BINDINGS_PROP);
+		Iterator iter = propHandle.iterator();
+		assertEquals("param1", ((ParamBindingHandle) iter.next()).getParamName()); //$NON-NLS-1$
+		assertEquals("param2", ((ParamBindingHandle) iter.next()).getParamName()); //$NON-NLS-1$
+		assertEquals(null, iter.next());
 
-		designHandle.getBody( ).add( newGridHandle );
+		designHandle.getBody().add(newGridHandle);
 
-		assertEquals( "style1", newGridHandle.getStyle( ).getName( ) ); //$NON-NLS-1$
-		assertEquals( "MyDataSet", newGridHandle.getDataSet( ).getName( ) ); //$NON-NLS-1$
-		assertEquals( "12mm", newGridHandle.getX( ).getStringValue( ) ); //$NON-NLS-1$
+		assertEquals("style1", newGridHandle.getStyle().getName()); //$NON-NLS-1$
+		assertEquals("MyDataSet", newGridHandle.getDataSet().getName()); //$NON-NLS-1$
+		assertEquals("12mm", newGridHandle.getX().getStringValue()); //$NON-NLS-1$
 	}
 
 	/**
 	 * Tests copying property which is forbidden.
 	 * 
-	 * @throws Exception
-	 *             if any exception
+	 * @throws Exception if any exception
 	 */
 
-	public void testCopyingForbiddenProperty( ) throws Exception
-	{
-		openDesign( "DesignElementCopyPropertyToTest.xml" ); //$NON-NLS-1$
+	public void testCopyingForbiddenProperty() throws Exception {
+		openDesign("DesignElementCopyPropertyToTest.xml"); //$NON-NLS-1$
 
-		GridHandle gridHandle = (GridHandle) designHandle.findElement( "grid1" ); //$NON-NLS-1$
-		assertNotNull( gridHandle );
+		GridHandle gridHandle = (GridHandle) designHandle.findElement("grid1"); //$NON-NLS-1$
+		assertNotNull(gridHandle);
 
-		GridHandle newGridHandle = designHandle.getElementFactory( )
-				.newGridItem( "newGrid" ); //$NON-NLS-1$
+		GridHandle newGridHandle = designHandle.getElementFactory().newGridItem("newGrid"); //$NON-NLS-1$
 
-		try
-		{
-			gridHandle.copyPropertyTo( GridItem.NAME_PROP, newGridHandle );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN, e
-							.getErrorCode( ) );
-			assertEquals( "newGrid", newGridHandle.getName( ) ); //$NON-NLS-1$
+		try {
+			gridHandle.copyPropertyTo(GridItem.NAME_PROP, newGridHandle);
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(SemanticError.DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN, e.getErrorCode());
+			assertEquals("newGrid", newGridHandle.getName()); //$NON-NLS-1$
 		}
 
-		try
-		{
-			gridHandle.copyPropertyTo( GridItem.EXTENDS_PROP, newGridHandle );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN, e
-							.getErrorCode( ) );
-			assertEquals( null, newGridHandle.getExtends( ) );
+		try {
+			gridHandle.copyPropertyTo(GridItem.EXTENDS_PROP, newGridHandle);
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(SemanticError.DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN, e.getErrorCode());
+			assertEquals(null, newGridHandle.getExtends());
 		}
 
 	}

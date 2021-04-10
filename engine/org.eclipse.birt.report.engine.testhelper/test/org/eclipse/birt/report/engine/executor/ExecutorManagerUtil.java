@@ -15,12 +15,9 @@ package org.eclipse.birt.report.engine.executor;
  * 
  */
 
-public class ExecutorManagerUtil
-{
+public class ExecutorManagerUtil {
 
-	public static ReportItemExecutor getItemExecutor( ExecutorManager manager,
-			int type )
-	{
-		return manager.getItemExecutor( type );
+	public static ReportItemExecutor getItemExecutor(ExecutorManager manager, int type) {
+		return manager.getItemExecutor(type);
 	}
 }

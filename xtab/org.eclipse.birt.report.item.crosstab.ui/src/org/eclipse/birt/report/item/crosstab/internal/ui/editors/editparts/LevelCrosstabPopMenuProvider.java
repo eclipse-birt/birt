@@ -32,54 +32,48 @@ import org.eclipse.jface.viewers.ISelection;
 /**
  * When mouse click the triangle, popup the menu, this class provider the menu.
  */
-public class LevelCrosstabPopMenuProvider extends ContextMenuProvider
-{
+public class LevelCrosstabPopMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * Constructor
 	 * 
 	 * @param viewer
 	 */
-	public LevelCrosstabPopMenuProvider( EditPartViewer viewer )
-	{
-		super( viewer );
+	public LevelCrosstabPopMenuProvider(EditPartViewer viewer) {
+		super(viewer);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
+	 * @see
+	 * org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action
+	 * .IMenuManager)
 	 */
-	public void buildContextMenu( IMenuManager menu )
-	{
-		if ( getElements( ).size( ) != 1 )
-		{
+	public void buildContextMenu(IMenuManager menu) {
+		if (getElements().size() != 1) {
 			return;
 		}
-		Object firstSelectedElement = getFirstElement( );
+		Object firstSelectedElement = getFirstElement();
 		DesignElementHandle element = null;
-		if ( firstSelectedElement instanceof DesignElementHandle )
-		{
-			element = (DesignElementHandle)firstSelectedElement;
+		if (firstSelectedElement instanceof DesignElementHandle) {
+			element = (DesignElementHandle) firstSelectedElement;
+		} else if (firstSelectedElement instanceof CrosstabCellAdapter) {
+			element = ((CrosstabCellAdapter) firstSelectedElement).getDesignElementHandle();
 		}
-		else if (firstSelectedElement instanceof CrosstabCellAdapter)
-		{
-			element = ((CrosstabCellAdapter)firstSelectedElement).getDesignElementHandle( );
-		}
-		//if ( firstSelectedElement instanceof DesignElementHandle )
-		if (element != null)
-		{
-			IAction action = new AddLevelHandleAction( element );
-			//if (!CrosstabUtil.isBoundToLinkedDataSet( getCrosstab(element) ) )
+		// if ( firstSelectedElement instanceof DesignElementHandle )
+		if (element != null) {
+			IAction action = new AddLevelHandleAction(element);
+			// if (!CrosstabUtil.isBoundToLinkedDataSet( getCrosstab(element) ) )
 			{
-				menu.add( action );
+				menu.add(action);
 			}
-			
-			action = new AddSubTotalAction( element );
-			menu.add( action );
-		
-			action = new DeleteDimensionViewHandleAction( element);
-			menu.add( action );
+
+			action = new AddSubTotalAction(element);
+			menu.add(action);
+
+			action = new DeleteDimensionViewHandleAction(element);
+			menu.add(action);
 		}
 	}
 
@@ -88,9 +82,8 @@ public class LevelCrosstabPopMenuProvider extends ContextMenuProvider
 	 * 
 	 * @return The current selection
 	 */
-	protected ISelection getSelection( )
-	{
-		return getViewer( ).getSelection( );
+	protected ISelection getSelection() {
+		return getViewer().getSelection();
 	}
 
 	/**
@@ -98,22 +91,18 @@ public class LevelCrosstabPopMenuProvider extends ContextMenuProvider
 	 * 
 	 * @return element handles
 	 */
-	protected List getElements( )
-	{
-		return InsertInLayoutUtil.editPart2Model( getSelection( ) ).toList( );
+	protected List getElements() {
+		return InsertInLayoutUtil.editPart2Model(getSelection()).toList();
 	}
 
 	/**
 	 * Gets the current selected object.
 	 * 
-	 * @return The current selected object array. If length is one, return the
-	 *         first
+	 * @return The current selected object array. If length is one, return the first
 	 */
-	protected Object getSelectedElement( )
-	{
-		Object[] array = getElements( ).toArray( );
-		if ( array.length == 1 )
-		{
+	protected Object getSelectedElement() {
+		Object[] array = getElements().toArray();
+		if (array.length == 1) {
 			return array[0];
 		}
 		return array;
@@ -124,38 +113,30 @@ public class LevelCrosstabPopMenuProvider extends ContextMenuProvider
 	 * 
 	 * @return The first selected object
 	 */
-	protected Object getFirstElement( )
-	{
-		Object[] array = getElements( ).toArray( );
-		if ( array.length > 0 )
-		{
+	protected Object getFirstElement() {
+		Object[] array = getElements().toArray();
+		if (array.length > 0) {
 			return array[0];
 		}
 		return null;
 	}
-	
-	private CrosstabReportItemHandle getCrosstab(DesignElementHandle handle)
-	{
-		if (handle == null)
-		{
+
+	private CrosstabReportItemHandle getCrosstab(DesignElementHandle handle) {
+		if (handle == null) {
 			return null;
 		}
-		
+
 		IReportItem item = null;
-		try
-		{
-			item = ((ExtendedItemHandle)handle).getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
+		try {
+			item = ((ExtendedItemHandle) handle).getReportItem();
+		} catch (ExtendedElementException e) {
 			return null;
 		}
-		
-		if (item instanceof CrosstabReportItemHandle)
-		{
+
+		if (item instanceof CrosstabReportItemHandle) {
 			return (CrosstabReportItemHandle) item;
 		}
-		
-		return getCrosstab(handle.getContainer( ));
+
+		return getCrosstab(handle.getContainer());
 	}
 }

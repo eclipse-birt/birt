@@ -20,55 +20,46 @@ import org.eclipse.birt.chart.script.api.scale.IScale;
  * 
  */
 
-public abstract class ScaleImpl implements IScale
-{
+public abstract class ScaleImpl implements IScale {
 
 	protected Axis axis;
 	protected Scale scale;
 
-	protected ScaleImpl( Axis axis )
-	{
+	protected ScaleImpl(Axis axis) {
 		this.axis = axis;
-		this.scale = axis.getScale( );
+		this.scale = axis.getScale();
 	}
 
-	public boolean isAuto( )
-	{
-		return !scale.isSetStep( ) && !scale.isSetStepNumber( );
+	public boolean isAuto() {
+		return !scale.isSetStep() && !scale.isSetStepNumber();
 	}
 
-	public boolean isCategory( )
-	{
-		return axis.isCategoryAxis( );
+	public boolean isCategory() {
+		return axis.isCategoryAxis();
 	}
 
-	public void setAuto( )
-	{
-		scale.unsetStep( );
-		scale.unsetStepNumber( );
+	public void setAuto() {
+		scale.unsetStep();
+		scale.unsetStepNumber();
 	}
 
-	public void setCategory( boolean category )
-	{
-		axis.setCategoryAxis( category );
+	public void setCategory(boolean category) {
+		axis.setCategoryAxis(category);
 	}
 
-	public static IScale createScale( Axis axis )
-	{
-		if ( axis.isCategoryAxis( ) )
-		{
-			return new CategoryScaleImpl( axis );
+	public static IScale createScale(Axis axis) {
+		if (axis.isCategoryAxis()) {
+			return new CategoryScaleImpl(axis);
 		}
-		switch ( axis.getType( ).getValue( ) )
-		{
-			case AxisType.LINEAR :
-				return new LinearScaleImpl( axis );
-			case AxisType.DATE_TIME :
-				return new TimeScaleImpl( axis );
-			case AxisType.LOGARITHMIC :
-				return new LogarithmicScaleImpl( axis );
-			default :
-				return new CategoryScaleImpl( axis );
+		switch (axis.getType().getValue()) {
+		case AxisType.LINEAR:
+			return new LinearScaleImpl(axis);
+		case AxisType.DATE_TIME:
+			return new TimeScaleImpl(axis);
+		case AxisType.LOGARITHMIC:
+			return new LogarithmicScaleImpl(axis);
+		default:
+			return new CategoryScaleImpl(axis);
 		}
 	}
 

@@ -27,7 +27,7 @@ public class Issue56FreezePanes extends ReportRunner {
 
 	@Test
 	public void testPanes() throws Exception {
-		
+
 		debug = false;
 		groupSummaryHeader = true;
 		InputStream inputStream = runAndRenderReport("Issue56FreezePanes.rptdesign", "xlsx");
@@ -35,18 +35,18 @@ public class Issue56FreezePanes extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			
-			XSSFSheet sheet0 = workbook.getSheetAt( 0 );
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
+			XSSFSheet sheet0 = workbook.getSheetAt(0);
+
 			PaneInformation paneInfo = sheet0.getPaneInformation();
-			assertEquals( true, paneInfo.isFreezePane() );
-			assertEquals( 2, paneInfo.getVerticalSplitLeftColumn() );
-			assertEquals( 1, paneInfo.getHorizontalSplitTopRow() );
+			assertEquals(true, paneInfo.isFreezePane());
+			assertEquals(2, paneInfo.getVerticalSplitLeftColumn());
+			assertEquals(1, paneInfo.getHorizontalSplitTopRow());
 		} finally {
 			inputStream.close();
 		}
-		
+
 	}
 }

@@ -28,67 +28,57 @@ import org.eclipse.birt.data.engine.core.DataException;
  * data source. There are two choices for the old one, closed immediatelly or in
  * future, which is decided by whther the old one is used or not.
  */
-class DataSourceManager
-{
+class DataSourceManager {
 	// overwritten data source runtime list
-	private List dataSourceRuntimeList = new ArrayList( );
-	
+	private List dataSourceRuntimeList = new ArrayList();
+
 	// logger
 	private Logger logger;
 
 	/**
 	 * @param logger
 	 */
-	DataSourceManager( Logger logger )
-	{
+	DataSourceManager(Logger logger) {
 		this.logger = logger;
 	}
 
 	/**
 	 * @param dataSourceRuntime
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	void addDataSource( DataSourceRuntime dataSourceRuntime )
-			throws DataException
-	{
-		if ( dataSourceRuntime.canClose( ) == true )
-			closeDataSource( dataSourceRuntime );
+	void addDataSource(DataSourceRuntime dataSourceRuntime) throws DataException {
+		if (dataSourceRuntime.canClose() == true)
+			closeDataSource(dataSourceRuntime);
 		else
-			close( false );
-		
-		dataSourceRuntimeList.add( dataSourceRuntime );
+			close(false);
+
+		dataSourceRuntimeList.add(dataSourceRuntime);
 	}
 
 	/**
 	 * 
 	 */
-	void close( )
-	{
-		close( true );
+	void close() {
+		close(true);
 	}
 
 	/**
 	 * close all data sources
+	 * 
 	 * @param forceClose
 	 */
-	private void close( boolean forceClose )
-	{
-		Iterator it = this.dataSourceRuntimeList.iterator( );
-		while ( it.hasNext( ) )
-		{
-			DataSourceRuntime ds = (DataSourceRuntime) it.next( );
-			try
-			{
-				if ( forceClose == false && ds.canClose( ) == false )
+	private void close(boolean forceClose) {
+		Iterator it = this.dataSourceRuntimeList.iterator();
+		while (it.hasNext()) {
+			DataSourceRuntime ds = (DataSourceRuntime) it.next();
+			try {
+				if (forceClose == false && ds.canClose() == false)
 					continue;
 
-				closeDataSource( ds );
-			}
-			catch ( DataException e )
-			{
-				if ( logger.isLoggable( Level.FINE ) )
-					logger.log( Level.FINE, "The data source ("
-							+ ds + ") fails to shut down", e );
+				closeDataSource(ds);
+			} catch (DataException e) {
+				if (logger.isLoggable(Level.FINE))
+					logger.log(Level.FINE, "The data source (" + ds + ") fails to shut down", e);
 			}
 		}
 	}
@@ -97,13 +87,11 @@ class DataSourceManager
 	 * @param ds
 	 * @throws DataException
 	 */
-	private void closeDataSource( DataSourceRuntime ds ) throws DataException
-	{
-		if ( ds.isOpen( ) )
-		{
-			ds.beforeClose( );
-			ds.closeOdiDataSource( );
-			ds.afterClose( );
+	private void closeDataSource(DataSourceRuntime ds) throws DataException {
+		if (ds.isOpen()) {
+			ds.beforeClose();
+			ds.closeOdiDataSource();
+			ds.afterClose();
 		}
 	}
 

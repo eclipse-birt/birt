@@ -34,12 +34,11 @@ import com.ibm.icu.util.UResourceBundle;
  * @see ThreadResources
  */
 
-public class JdbcResourceHandle
-{
+public class JdbcResourceHandle {
 
 	/**
-	 * The actual resource bundle. The implementation assumes that Java will use
-	 * a PropertyResourceBundle to access our files.
+	 * The actual resource bundle. The implementation assumes that Java will use a
+	 * PropertyResourceBundle to access our files.
 	 */
 
 	protected UResourceBundle resources;
@@ -53,32 +52,29 @@ public class JdbcResourceHandle
 	/**
 	 * Constructor.
 	 * 
-	 * @param locale
-	 *            the user's locale. If null, the default locale for the JVM
-	 *            will be used.
+	 * @param locale the user's locale. If null, the default locale for the JVM will
+	 *               be used.
 	 */
 
-	public JdbcResourceHandle( ULocale locale )
-	{
-		String className = this.getClass( ).getName( );
+	public JdbcResourceHandle(ULocale locale) {
+		String className = this.getClass().getName();
 		String bundleName = ""; //$NON-NLS-1$
 
 		// Create the base message file name formatted like a Java class.
 		// The Java class loader will search for the file using the same
 		// algorithm used to find classes.
 
-		int index = className.lastIndexOf( '.' );
-		if ( index > -1 )
-		{
+		int index = className.lastIndexOf('.');
+		if (index > -1) {
 			// e.g: "org.eclipse.birt.report.model.util.Test"
 
-			bundleName = className.substring( 0, index ) + "."; //$NON-NLS-1$
+			bundleName = className.substring(0, index) + "."; //$NON-NLS-1$
 		}
 
 		bundleName = bundleName + BUNDLE_NAME;
-		if ( locale == null )
-			locale = ULocale.getDefault( );
-		resources = UResourceBundle.getBundleInstance( bundleName, locale.getName( ), this.getClass().getClassLoader() );
+		if (locale == null)
+			locale = ULocale.getDefault();
+		resources = UResourceBundle.getBundleInstance(bundleName, locale.getName(), this.getClass().getClassLoader());
 		assert resources != null : "ResourceBundle : " + BUNDLE_NAME + " for " + locale + " not found"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 
 	}
@@ -87,8 +83,7 @@ public class JdbcResourceHandle
 	 * @deprecated since 2.1
 	 * @return
 	 */
-	public JdbcResourceHandle( Locale locale )
-	{
+	public JdbcResourceHandle(Locale locale) {
 		this(ULocale.forLocale(locale));
 	}
 
@@ -96,23 +91,18 @@ public class JdbcResourceHandle
 	 * Get a message given the message key. An assertion will be raised if the
 	 * message key does not exist in the resource bundle.
 	 * 
-	 * @param key
-	 *            the message key
+	 * @param key the message key
 	 * @return the localized message for that key and the locale set in the
 	 *         constructor. Returns the key itself if the message was not found.
 	 * @see ResourceBundle#getString( String )
 	 */
 
-	public String getMessage( String key )
-	{
-		if ( key == null )
+	public String getMessage(String key) {
+		if (key == null)
 			return null;
-		try
-		{
-			return resources.getString( key );
-		}
-		catch ( MissingResourceException e )
-		{
+		try {
+			return resources.getString(key);
+		} catch (MissingResourceException e) {
 			// It is a programming error to refer to a missing
 			// message.
 			assert false : key + " not found in resource bundle"; //$NON-NLS-1$
@@ -124,20 +114,17 @@ public class JdbcResourceHandle
 	 * Get a message that has placeholders. An assertion will be raised if the
 	 * message key does not exist in the resource bundle.
 	 * 
-	 * @param key
-	 *            the message key
-	 * @param arguments
-	 *            the set of arguments to be plugged into the message
+	 * @param key       the message key
+	 * @param arguments the set of arguments to be plugged into the message
 	 * @return the localized message for that key and the locale set in the
 	 *         constructor. Returns the key itself if the message was not found.
 	 * @see ResourceBundle#getString( String )
 	 * @see MessageFormat#format( String, Object[] )
 	 */
 
-	public String getMessage( String key, Object[] arguments )
-	{
-		String message = getMessage( key );
-		return MessageFormat.format( message, arguments );
+	public String getMessage(String key, Object[] arguments) {
+		String message = getMessage(key);
+		return MessageFormat.format(message, arguments);
 	}
 
 	/**
@@ -147,18 +134,16 @@ public class JdbcResourceHandle
 	 * @see ResourceBundle
 	 */
 
-	public UResourceBundle getUResourceBundle( )
-	{
+	public UResourceBundle getUResourceBundle() {
 		return resources;
 	}
-	
+
 	/**
 	 * @deprecated since 2.1
 	 * @return
 	 */
-	public ResourceBundle getResourceBundle( )
-	{
-		return (UResourceBundle)getUResourceBundle();
+	public ResourceBundle getResourceBundle() {
+		return (UResourceBundle) getUResourceBundle();
 	}
 
 }

@@ -13,26 +13,26 @@ package org.eclipse.birt.build;
 import java.io.File;
 import java.io.FileFilter;
 
-public class PrefixFileFilter implements FileFilter{
-	private String prefix; 
+public class PrefixFileFilter implements FileFilter {
+	private String prefix;
 	private String name;
 
-	public PrefixFileFilter(String prefix) { 
-		this.prefix = prefix; 
-	} 
+	public PrefixFileFilter(String prefix) {
+		this.prefix = prefix;
+	}
 
-	public boolean accept(File file) { 
-		if(file.isDirectory( )) { 
-			return false; 
-		} 
+	public boolean accept(File file) {
+		if (file.isDirectory()) {
+			return false;
+		}
 
-		this.name = file.getName( ); 
+		this.name = file.getName();
 
-		int index = this.name.indexOf(this.prefix); 
-		if(index == -1) { 
-			return false; 
-		} else  { 
+		int index = this.name.indexOf(this.prefix);
+		if (index == -1) {
+			return false;
+		} else {
 			return true;
-		} 
-	} 
+		}
+	}
 }

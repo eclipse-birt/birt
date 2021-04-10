@@ -25,50 +25,47 @@ import org.eclipse.birt.chart.model.util.ChartElementUtil;
 import org.eclipse.emf.ecore.EClass;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Area Series</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Area
+ * Series</b></em>'. <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
-{
+public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	protected AreaSeriesImpl( )
-	{
-		super( );
+	protected AreaSeriesImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return TypePackage.Literals.AREA_SERIES;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.component.Series#translateFrom(org.eclipse.birt.chart.model.component.Series,
-	 *      int, org.eclipse.birt.chart.model.Chart)
+	 * @see
+	 * org.eclipse.birt.chart.model.component.Series#translateFrom(org.eclipse.birt.
+	 * chart.model.component.Series, int, org.eclipse.birt.chart.model.Chart)
 	 */
-	public void translateFrom( Series series, int iSeriesDefinitionIndex,
-			Chart chart )
-	{
-		super.translateFrom( series, iSeriesDefinitionIndex, chart );
+	public void translateFrom(Series series, int iSeriesDefinitionIndex, Chart chart) {
+		super.translateFrom(series, iSeriesDefinitionIndex, chart);
 
-		for ( Iterator<Marker> itr = getMarkers( ).iterator( ); itr.hasNext( ); )
-		{
-			Marker mk = itr.next( );
-			mk.unsetVisible( );
+		for (Iterator<Marker> itr = getMarkers().iterator(); itr.hasNext();) {
+			Marker mk = itr.next();
+			mk.unsetVisible();
 		}
 	}
 
@@ -77,10 +74,9 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	 * 
 	 * @return series instance with setting 'isSet' flag.
 	 */
-	public static Series create( )
-	{
-		final AreaSeries as = TypeFactory.eINSTANCE.createAreaSeries( );
-		( (AreaSeriesImpl) as ).initialize( );
+	public static Series create() {
+		final AreaSeries as = TypeFactory.eINSTANCE.createAreaSeries();
+		((AreaSeriesImpl) as).initialize();
 		return as;
 	}
 
@@ -89,14 +85,12 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	 * 
 	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#initialize()
 	 */
-	protected void initialize( )
-	{
-		super.initialize( );
+	protected void initialize() {
+		super.initialize();
 
-		for ( Iterator<Marker> itr = getMarkers( ).iterator( ); itr.hasNext( ); )
-		{
-			Marker mk = itr.next( );
-			mk.setVisible( false );
+		for (Iterator<Marker> itr = getMarkers().iterator(); itr.hasNext();) {
+			Marker mk = itr.next();
+			mk.setVisible(false);
 		}
 	}
 
@@ -105,10 +99,9 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	 * 
 	 * @return instance of ares series without setting 'isSet' flag.
 	 */
-	public static Series createDefault( )
-	{
-		final AreaSeries as = TypeFactory.eINSTANCE.createAreaSeries( );
-		( (AreaSeriesImpl) as ).initDefault( );
+	public static Series createDefault() {
+		final AreaSeries as = TypeFactory.eINSTANCE.createAreaSeries();
+		((AreaSeriesImpl) as).initDefault();
 		return as;
 	}
 
@@ -117,51 +110,43 @@ public class AreaSeriesImpl extends LineSeriesImpl implements AreaSeries
 	 * 
 	 * @see org.eclipse.birt.chart.model.component.impl.SeriesImpl#initialize()
 	 */
-	protected void initDefault( )
-	{
-		super.initDefault( );
+	protected void initDefault() {
+		super.initDefault();
 
-		for ( Iterator<Marker> itr = getMarkers( ).iterator( ); itr.hasNext( ); )
-		{
-			Marker mk = itr.next( );
-			try
-			{
-				ChartElementUtil.setDefaultValue( mk, "visible", false ); //$NON-NLS-1$
-			}
-			catch ( ChartException e )
-			{
+		for (Iterator<Marker> itr = getMarkers().iterator(); itr.hasNext();) {
+			Marker mk = itr.next();
+			try {
+				ChartElementUtil.setDefaultValue(mk, "visible", false); //$NON-NLS-1$
+			} catch (ChartException e) {
 				// Do nothing.
 			}
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "AreaSeriesImpl.displayName" ); //$NON-NLS-1$	
+	public String getDisplayName() {
+		return Messages.getString("AreaSeriesImpl.displayName"); //$NON-NLS-1$
 	}
 
 	/**
 	 * @generated
 	 */
-	public AreaSeries copyInstance( )
-	{
-		AreaSeriesImpl dest = new AreaSeriesImpl( );
-		dest.set( this );
+	public AreaSeries copyInstance() {
+		AreaSeriesImpl dest = new AreaSeriesImpl();
+		dest.set(this);
 		return dest;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( AreaSeries src )
-	{
+	protected void set(AreaSeries src) {
 
-		super.set( src );
+		super.set(src);
 
 	}
 

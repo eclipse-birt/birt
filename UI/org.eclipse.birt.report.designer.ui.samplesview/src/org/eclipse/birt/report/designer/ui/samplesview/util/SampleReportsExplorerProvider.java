@@ -20,96 +20,87 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 
-public class SampleReportsExplorerProvider extends ViewsTreeProvider
-{
+public class SampleReportsExplorerProvider extends ViewsTreeProvider {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#getChildren(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#
+	 * getChildren(java.lang.Object)
 	 */
-	public Object[] getChildren( Object parentElement )
-	{
-		if ( parentElement instanceof ResourceEntry )
-		{
-			Object[] children = ( (ResourceEntry) parentElement ).getChildren( );
-			List childrenList = new ArrayList( );
-			for ( int i = 0; i < children.length; i++ )
-			{
-				Object report = ( (ResourceEntry) children[i] ).getAdapter( ReportDesignHandle.class );
-				if ( report != null )
-					childrenList.add( report );
+	public Object[] getChildren(Object parentElement) {
+		if (parentElement instanceof ResourceEntry) {
+			Object[] children = ((ResourceEntry) parentElement).getChildren();
+			List childrenList = new ArrayList();
+			for (int i = 0; i < children.length; i++) {
+				Object report = ((ResourceEntry) children[i]).getAdapter(ReportDesignHandle.class);
+				if (report != null)
+					childrenList.add(report);
 				else
-					childrenList.add( children[i] );
+					childrenList.add(children[i]);
 			}
-			return childrenList.toArray( );
+			return childrenList.toArray();
 		}
-		return super.getChildren( parentElement );
+		return super.getChildren(parentElement);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#getImage(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#getImage
+	 * (java.lang.Object)
 	 */
-	public Image getImage( Object element )
-	{
-		if ( element instanceof ResourceEntry )
-		{
-			return ( (ResourceEntry) element ).getImage( );
+	public Image getImage(Object element) {
+		if (element instanceof ResourceEntry) {
+			return ((ResourceEntry) element).getImage();
 		}
-		return super.getImage( element );
+		return super.getImage(element);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#getText(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#getText(
+	 * java.lang.Object)
 	 */
-	public String getText( Object element )
-	{
-		if ( element instanceof ReportDesignHandle )
-		{
-			String fileName = ( (ReportDesignHandle) element ).getFileName( );
+	public String getText(Object element) {
+		if (element instanceof ReportDesignHandle) {
+			String fileName = ((ReportDesignHandle) element).getFileName();
 			// fileName is a URL string.
-			return fileName.substring( fileName.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
+			return fileName.substring(fileName.lastIndexOf("/") + 1); //$NON-NLS-1$
 		}
-		if ( element instanceof ResourceEntry )
-		{
-			return ( (ResourceEntry) element ).getName( );
+		if (element instanceof ResourceEntry) {
+			return ((ResourceEntry) element).getName();
 		}
-		if ( element instanceof String )
-		{
-			return element.toString( );
+		if (element instanceof String) {
+			return element.toString();
 		}
-		return super.getText( element );
+		return super.getText(element);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#hasChildren(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider#
+	 * hasChildren(java.lang.Object)
 	 */
-	public boolean hasChildren( Object element )
-	{
-		if ( element instanceof ResourceEntry )
-		{
+	public boolean hasChildren(Object element) {
+		if (element instanceof ResourceEntry) {
 			return true;
 		}
-		return super.hasChildren( element );
+		return super.hasChildren(element);
 	}
 
-	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
-	{
-		if ( oldInput instanceof Object[] )
-		{
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		if (oldInput instanceof Object[]) {
 			Object[] array = (Object[]) oldInput;
-			for ( int i = 0; i < array.length; i++ )
-			{
-				if ( array[i] instanceof ResourceEntry )
-					( (ResourceEntry) array[i] ).dispose( );
+			for (int i = 0; i < array.length; i++) {
+				if (array[i] instanceof ResourceEntry)
+					((ResourceEntry) array[i]).dispose();
 			}
 		}
-		super.inputChanged( viewer, oldInput, newInput );
+		super.inputChanged(viewer, oldInput, newInput);
 	}
 }

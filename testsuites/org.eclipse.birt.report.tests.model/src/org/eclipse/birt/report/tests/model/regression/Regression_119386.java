@@ -27,48 +27,40 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_119386 extends BaseTestCase
-{
+public class Regression_119386 extends BaseTestCase {
 
 	private String filename = "Regression_119386.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( filename , filename );
-		
+		copyResource_INPUT(filename, filename);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws ContentException
 	 * @throws NameException
 	 */
 
-	public void test_regression_119386( ) throws DesignFileException, ContentException,
-			NameException
-	{
-		openDesign( filename );
+	public void test_regression_119386() throws DesignFileException, ContentException, NameException {
+		openDesign(filename);
 
-		CascadingParameterGroupHandle paramsgroup = designHandle
-				.findCascadingParameterGroup( "ParameterGroup" ); //$NON-NLS-1$
-		IDesignElement paramsgroup1 = paramsgroup.copy( );
+		CascadingParameterGroupHandle paramsgroup = designHandle.findCascadingParameterGroup("ParameterGroup"); //$NON-NLS-1$
+		IDesignElement paramsgroup1 = paramsgroup.copy();
 
 		// Can't add a duplicated name group
-		try
-		{
-			designHandle.getParameters( ).paste( paramsgroup1 );
-			fail( );
-		}
-		catch ( NameException e )
-		{
-			assertNotNull( e );
+		try {
+			designHandle.getParameters().paste(paramsgroup1);
+			fail();
+		} catch (NameException e) {
+			assertNotNull(e);
 		}
 
-		designHandle
-				.rename( paramsgroup1.getHandle( designHandle.getModule( ) ) );
-		designHandle.getParameters( ).paste( paramsgroup1 );
+		designHandle.rename(paramsgroup1.getHandle(designHandle.getModule()));
+		designHandle.getParameters().paste(paramsgroup1);
 	}
 }

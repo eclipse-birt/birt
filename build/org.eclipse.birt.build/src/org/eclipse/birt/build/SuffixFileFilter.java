@@ -13,27 +13,25 @@ package org.eclipse.birt.build;
 import java.io.File;
 import java.io.FileFilter;
 
-public class SuffixFileFilter implements FileFilter{
-	private String suffix; 
+public class SuffixFileFilter implements FileFilter {
+	private String suffix;
 	private String name;
 
-	public SuffixFileFilter(String suffix) { 
-		this.suffix = suffix; 
-	} 
+	public SuffixFileFilter(String suffix) {
+		this.suffix = suffix;
+	}
 
-	public boolean accept(File file) { 
-		if(file.isDirectory( )) { 
-			return false; 
-		} 
-
-		this.name = file.getName( ); 
-
-		if( this.name.endsWith(this.suffix) ) { 
-			return true; 
-		} else  { 
+	public boolean accept(File file) {
+		if (file.isDirectory()) {
 			return false;
-		} 
-	} 
+		}
+
+		this.name = file.getName();
+
+		if (this.name.endsWith(this.suffix)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
-
-

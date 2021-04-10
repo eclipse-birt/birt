@@ -18,8 +18,7 @@ import org.eclipse.birt.report.model.elements.Library;
  * Indicates that the library is added, dropped or shifted.
  */
 
-public class LibraryEvent extends NotificationEvent
-{
+public class LibraryEvent extends NotificationEvent {
 
 	/**
 	 * New library is added.
@@ -36,7 +35,7 @@ public class LibraryEvent extends NotificationEvent
 	/**
 	 * The library is shifted downwards or forwards.
 	 */
-	
+
 	public static final int SHIFT = 3;
 
 	/**
@@ -44,9 +43,9 @@ public class LibraryEvent extends NotificationEvent
 	 * 
 	 * @deprecated by LibraryLoadedEvent
 	 */
-	
+
 	public static final int RELOAD = 4;
-	
+
 	/**
 	 * The type of change. One of {@link #ADD}, or {@link #DROP}.
 	 */
@@ -62,14 +61,11 @@ public class LibraryEvent extends NotificationEvent
 	/**
 	 * Constructs the event with the added or dropped library and action.
 	 * 
-	 * @param library
-	 *            the library causing this event
-	 * @param action
-	 *            th etype of change
+	 * @param library the library causing this event
+	 * @param action  th etype of change
 	 */
 
-	public LibraryEvent( Library library, int action )
-	{
+	public LibraryEvent(Library library, int action) {
 		this.library = library;
 		this.action = action;
 	}
@@ -77,11 +73,11 @@ public class LibraryEvent extends NotificationEvent
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return LIBRARY_EVENT;
 	}
 
@@ -91,8 +87,7 @@ public class LibraryEvent extends NotificationEvent
 	 * @return the type of change.
 	 */
 
-	public int getAction( )
-	{
+	public int getAction() {
 		return action;
 	}
 
@@ -102,8 +97,7 @@ public class LibraryEvent extends NotificationEvent
 	 * @return the library causing this event
 	 */
 
-	public Library getLibrary( )
-	{
+	public Library getLibrary() {
 		return library;
 	}
 }

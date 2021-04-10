@@ -22,80 +22,71 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 /**
  * A cell editor that manages a date-time property.
  */
-public class DateTimeCellEditor extends CDialogCellEditor
-{
+public class DateTimeCellEditor extends CDialogCellEditor {
 
 	/**
 	 * Creates a new date-time cell editor parented under the given control.
 	 * 
-	 * @param parent
-	 *            the parent control
+	 * @param parent the parent control
 	 */
-	public DateTimeCellEditor( Composite parent )
-	{
-		super( parent );
+	public DateTimeCellEditor(Composite parent) {
+		super(parent);
 	}
 
 	/**
 	 * Creates a new date-time cell editor parented under the given control.
 	 * 
-	 * @param parent
-	 *            the parent control
-	 * @param style
-	 *            the style bits
+	 * @param parent the parent control
+	 * @param style  the style bits
 	 */
-	public DateTimeCellEditor( Composite parent, int style )
-	{
-		super( parent, style );
+	public DateTimeCellEditor(Composite parent, int style) {
+		super(parent, style);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.swt.widgets.Control)
+	 * @see
+	 * org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.swt.
+	 * widgets.Control)
 	 */
-	protected Object openDialogBox( Control cellEditorWindow )
-	{
-		TimeOptionDialog dialog = new TimeOptionDialog( cellEditorWindow.getShell( ) );
-		Object value =  getValue( );
-		Date dateValue = new Date( );
+	protected Object openDialogBox(Control cellEditorWindow) {
+		TimeOptionDialog dialog = new TimeOptionDialog(cellEditorWindow.getShell());
+		Object value = getValue();
+		Date dateValue = new Date();
 		try {
-			if ( value != null )
-			{
-				TimeDialogInfo time = new TimeDialogInfo( );
-				if( value instanceof String && !value.toString().trim().equals("") ) //$NON-NLS-1$
+			if (value != null) {
+				TimeDialogInfo time = new TimeDialogInfo();
+				if (value instanceof String && !value.toString().trim().equals("")) //$NON-NLS-1$
 				{
-					dateValue  = new SimpleDateFormat( time.getFormat()).parse(value.toString() );
+					dateValue = new SimpleDateFormat(time.getFormat()).parse(value.toString());
+				} else if (value instanceof Date) {
+					dateValue = (Date) value;
 				}
-				else if( value instanceof Date )
-				{
-					dateValue  = (Date)value;
-				}
-				time.setTime( dateValue.getTime( ) );
-				dialog.setInfo( time );
+				time.setTime(dateValue.getTime());
+				dialog.setInfo(time);
 			}
-		} catch ( Exception e ) {
-			logger.log(Level.SEVERE, e.getMessage(),e);
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		
-		dialog.open( );
-		if ( dialog.getReturnCode( ) == SelectionDialog.OK )
-		{
-			TimeDialogInfo result = ( TimeDialogInfo ) dialog.getInfo( );
-			dateValue = new Date( result.getTime( ) );
+
+		dialog.open();
+		if (dialog.getReturnCode() == SelectionDialog.OK) {
+			TimeDialogInfo result = (TimeDialogInfo) dialog.getInfo();
+			dateValue = new Date(result.getTime());
 		}
 		return dateValue;
 	}
-	
-	
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.property.widgets.CDialogCellEditor#doValueChanged()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.property.widgets.
+	 * CDialogCellEditor#doValueChanged()
 	 */
-	protected void doValueChanged( )
-	{
+	protected void doValueChanged() {
 		// nothing
-		
+
 	}
 
 }

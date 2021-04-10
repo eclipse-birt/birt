@@ -34,71 +34,61 @@ import com.ibm.icu.util.ULocale;
 /**
  * Standard generation implementation for Chart
  */
-public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
-{
+public class ChartReportItemGenerationImpl extends ReportItemGenerationBase {
 
 	private Chart cm = null;
 
 	private RunTimeContext rtc = null;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.reportitem/trace"); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemGeneration#setModelObject
+	 * (org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
-	public void setModelObject( ExtendedItemHandle eih )
-	{
-		super.setModelObject( eih );
+	public void setModelObject(ExtendedItemHandle eih) {
+		super.setModelObject(eih);
 
 		IReportItem item = null;
-		try
-		{
-			item = eih.getReportItem( );
+		try {
+			item = eih.getReportItem();
+		} catch (ExtendedElementException e) {
+			logger.log(e);
 		}
-		catch ( ExtendedElementException e )
-		{
-			logger.log( e );
-		}
-		if ( item == null )
-		{
-			try
-			{
-				eih.loadExtendedElement( );
-				item = eih.getReportItem( );
+		if (item == null) {
+			try {
+				eih.loadExtendedElement();
+				item = eih.getReportItem();
+			} catch (ExtendedElementException eeex) {
+				logger.log(eeex);
 			}
-			catch ( ExtendedElementException eeex )
-			{
-				logger.log( eeex );
-			}
-			if ( item == null )
-			{
-				logger.log( ILogger.ERROR,
-						Messages.getString( "ChartReportItemPresentationImpl.log.UnableToLocateWrapper" ) ); //$NON-NLS-1$
+			if (item == null) {
+				logger.log(ILogger.ERROR,
+						Messages.getString("ChartReportItemPresentationImpl.log.UnableToLocateWrapper")); //$NON-NLS-1$
 				return;
 			}
 		}
-		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( "chart.instance" ); //$NON-NLS-1$
+		cm = (Chart) ((ChartReportItemImpl) item).getProperty("chart.instance"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#serialize(java.io.OutputStream)
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemGeneration#serialize(java
+	 * .io.OutputStream)
 	 */
-	public void serialize( OutputStream ostream ) throws BirtException
-	{
-		try
-		{
-			ObjectOutputStream oos = SecurityUtil.newObjectOutputStream( ostream );
-			oos.writeObject( rtc );
-			oos.flush( );
-			oos.close( );
-		}
-		catch ( Exception e )
-		{
-			logger.log( e );
+	public void serialize(OutputStream ostream) throws BirtException {
+		try {
+			ObjectOutputStream oos = SecurityUtil.newObjectOutputStream(ostream);
+			oos.writeObject(rtc);
+			oos.flush();
+			oos.close();
+		} catch (Exception e) {
+			logger.log(e);
 		}
 
 	}
@@ -106,51 +96,38 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#needSerialization()
+	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#
+	 * needSerialization()
 	 */
-	public boolean needSerialization( )
-	{
+	public boolean needSerialization() {
 		return true;
 	}
 
-	public void onRowSets( IBaseResultSet[] results ) throws BirtException
-	{
+	public void onRowSets(IBaseResultSet[] results) throws BirtException {
 		// catch unwanted null handle case
-		if ( modelHandle == null || cm == null )
-		{
+		if (modelHandle == null || cm == null) {
 			return;
 		}
 
 		// If width and height of chart is set to 0, doesn't process it.
-		Bounds bo = cm.getBlock( ).getBounds( );
-		if ( bo.getWidth( ) == 0
-				&& bo.getHeight( ) == 0
-				&& ( bo.isSetHeight( ) || bo.isSetWidth( ) ) )
-		{
+		Bounds bo = cm.getBlock().getBounds();
+		if (bo.getWidth() == 0 && bo.getHeight() == 0 && (bo.isSetHeight() || bo.isSetWidth())) {
 			return;
 		}
-		
-		String javaHandlerClass = modelHandle.getEventHandlerClass( );
-		if ( javaHandlerClass != null && javaHandlerClass.length( ) > 0 )
-		{
+
+		String javaHandlerClass = modelHandle.getEventHandlerClass();
+		if (javaHandlerClass != null && javaHandlerClass.length() > 0) {
 			// use java handler if available.
-			cm.setScript( javaHandlerClass );
+			cm.setScript(javaHandlerClass);
 		}
 
 		// prepare the chart model.
-		rtc = Generator.instance( ).prepare( cm,
-				new BIRTExternalContext( context ),
-				new BIRTScriptClassLoader( appClassLoader ),
-				ULocale.getDefault( ) );
+		rtc = Generator.instance().prepare(cm, new BIRTExternalContext(context),
+				new BIRTScriptClassLoader(appClassLoader), ULocale.getDefault());
 
 		// check empty case
-		if ( results == null
-				|| results.length == 0
-				|| ChartReportItemUtil.isEmpty( results[0] )
-				|| queries == null
-				|| queries.length == 0
-				|| queries[0] == null )
-		{
+		if (results == null || results.length == 0 || ChartReportItemUtil.isEmpty(results[0]) || queries == null
+				|| queries.length == 0 || queries[0] == null) {
 			// if the Data rows are null/empty, do nothing.
 			return;
 		}

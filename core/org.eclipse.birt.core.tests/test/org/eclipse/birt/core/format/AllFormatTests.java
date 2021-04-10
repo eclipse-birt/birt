@@ -18,20 +18,18 @@ import junit.framework.TestSuite;
  * Test cases in format package
  */
 
-public class AllFormatTests
-{
+public class AllFormatTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( DateFormatterTest.class );
-		test.addTestSuite( NumberFormatterTest.class );
-		test.addTestSuite( StringFormatterTest.class );
+		test.addTestSuite(DateFormatterTest.class);
+		test.addTestSuite(NumberFormatterTest.class);
+		test.addTestSuite(StringFormatterTest.class);
 
 		return test;
 	}

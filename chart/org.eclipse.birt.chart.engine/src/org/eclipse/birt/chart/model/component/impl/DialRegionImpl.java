@@ -24,24 +24,26 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Dial Region</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Dial
+ * Region</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialRegionImpl#getInnerRadius <em>Inner Radius</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.component.impl.DialRegionImpl#getOuterRadius <em>Outer Radius</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.DialRegionImpl#getInnerRadius
+ * <em>Inner Radius</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.component.impl.DialRegionImpl#getOuterRadius
+ * <em>Outer Radius</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
-{
+public class DialRegionImpl extends MarkerRangeImpl implements DialRegion {
 
 	/**
-	 * The default value of the '{@link #getInnerRadius() <em>Inner Radius</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getInnerRadius() <em>Inner Radius</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getInnerRadius()
 	 * @generated
 	 * @ordered
@@ -49,8 +51,9 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	protected static final double INNER_RADIUS_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getInnerRadius() <em>Inner Radius</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getInnerRadius() <em>Inner Radius</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getInnerRadius()
 	 * @generated
 	 * @ordered
@@ -58,8 +61,8 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	protected double innerRadius = INNER_RADIUS_EDEFAULT;
 
 	/**
-	 * This is true if the Inner Radius attribute has been set. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * This is true if the Inner Radius attribute has been set. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
@@ -67,8 +70,9 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	protected boolean innerRadiusESet;
 
 	/**
-	 * The default value of the '{@link #getOuterRadius() <em>Outer Radius</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getOuterRadius() <em>Outer Radius</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getOuterRadius()
 	 * @generated
 	 * @ordered
@@ -76,8 +80,9 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	protected static final double OUTER_RADIUS_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getOuterRadius() <em>Outer Radius</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getOuterRadius() <em>Outer Radius</em>}'
+	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getOuterRadius()
 	 * @generated
 	 * @ordered
@@ -85,8 +90,8 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 	protected double outerRadius = OUTER_RADIUS_EDEFAULT;
 
 	/**
-	 * This is true if the Outer Radius attribute has been set. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * This is true if the Outer Radius attribute has been set. <!-- begin-user-doc
+	 * --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
@@ -95,305 +100,270 @@ public class DialRegionImpl extends MarkerRangeImpl implements DialRegion
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	protected DialRegionImpl( )
-	{
-		super( );
+	protected DialRegionImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return ComponentPackage.Literals.DIAL_REGION;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public double getInnerRadius( )
-	{
+	public double getInnerRadius() {
 		return innerRadius;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setInnerRadius( double newInnerRadius )
-	{
+	public void setInnerRadius(double newInnerRadius) {
 		double oldInnerRadius = innerRadius;
 		innerRadius = newInnerRadius;
 		boolean oldInnerRadiusESet = innerRadiusESet;
 		innerRadiusESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					ComponentPackage.DIAL_REGION__INNER_RADIUS,
-					oldInnerRadius,
-					innerRadius,
-					!oldInnerRadiusESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL_REGION__INNER_RADIUS,
+					oldInnerRadius, innerRadius, !oldInnerRadiusESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void unsetInnerRadius( )
-	{
+	public void unsetInnerRadius() {
 		double oldInnerRadius = innerRadius;
 		boolean oldInnerRadiusESet = innerRadiusESet;
 		innerRadius = INNER_RADIUS_EDEFAULT;
 		innerRadiusESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					ComponentPackage.DIAL_REGION__INNER_RADIUS,
-					oldInnerRadius,
-					INNER_RADIUS_EDEFAULT,
-					oldInnerRadiusESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.DIAL_REGION__INNER_RADIUS,
+					oldInnerRadius, INNER_RADIUS_EDEFAULT, oldInnerRadiusESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public boolean isSetInnerRadius( )
-	{
+	public boolean isSetInnerRadius() {
 		return innerRadiusESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public double getOuterRadius( )
-	{
+	public double getOuterRadius() {
 		return outerRadius;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setOuterRadius( double newOuterRadius )
-	{
+	public void setOuterRadius(double newOuterRadius) {
 		double oldOuterRadius = outerRadius;
 		outerRadius = newOuterRadius;
 		boolean oldOuterRadiusESet = outerRadiusESet;
 		outerRadiusESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					ComponentPackage.DIAL_REGION__OUTER_RADIUS,
-					oldOuterRadius,
-					outerRadius,
-					!oldOuterRadiusESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentPackage.DIAL_REGION__OUTER_RADIUS,
+					oldOuterRadius, outerRadius, !oldOuterRadiusESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void unsetOuterRadius( )
-	{
+	public void unsetOuterRadius() {
 		double oldOuterRadius = outerRadius;
 		boolean oldOuterRadiusESet = outerRadiusESet;
 		outerRadius = OUTER_RADIUS_EDEFAULT;
 		outerRadiusESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					ComponentPackage.DIAL_REGION__OUTER_RADIUS,
-					oldOuterRadius,
-					OUTER_RADIUS_EDEFAULT,
-					oldOuterRadiusESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, ComponentPackage.DIAL_REGION__OUTER_RADIUS,
+					oldOuterRadius, OUTER_RADIUS_EDEFAULT, oldOuterRadiusESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public boolean isSetOuterRadius( )
-	{
+	public boolean isSetOuterRadius() {
 		return outerRadiusESet;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public Object eGet( int featureID, boolean resolve, boolean coreType )
-	{
-		switch ( featureID )
-		{
-			case ComponentPackage.DIAL_REGION__INNER_RADIUS :
-				return getInnerRadius( );
-			case ComponentPackage.DIAL_REGION__OUTER_RADIUS :
-				return getOuterRadius( );
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case ComponentPackage.DIAL_REGION__INNER_RADIUS:
+			return getInnerRadius();
+		case ComponentPackage.DIAL_REGION__OUTER_RADIUS:
+			return getOuterRadius();
 		}
-		return super.eGet( featureID, resolve, coreType );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eSet( int featureID, Object newValue )
-	{
-		switch ( featureID )
-		{
-			case ComponentPackage.DIAL_REGION__INNER_RADIUS :
-				setInnerRadius( (Double) newValue );
-				return;
-			case ComponentPackage.DIAL_REGION__OUTER_RADIUS :
-				setOuterRadius( (Double) newValue );
-				return;
-		}
-		super.eSet( featureID, newValue );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void eUnset( int featureID )
-	{
-		switch ( featureID )
-		{
-			case ComponentPackage.DIAL_REGION__INNER_RADIUS :
-				unsetInnerRadius( );
-				return;
-			case ComponentPackage.DIAL_REGION__OUTER_RADIUS :
-				unsetOuterRadius( );
-				return;
-		}
-		super.eUnset( featureID );
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean eIsSet( int featureID )
-	{
-		switch ( featureID )
-		{
-			case ComponentPackage.DIAL_REGION__INNER_RADIUS :
-				return isSetInnerRadius( );
-			case ComponentPackage.DIAL_REGION__OUTER_RADIUS :
-				return isSetOuterRadius( );
-		}
-		return super.eIsSet( featureID );
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public String toString( )
-	{
-		if ( eIsProxy( ) )
-			return super.toString( );
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case ComponentPackage.DIAL_REGION__INNER_RADIUS:
+			setInnerRadius((Double) newValue);
+			return;
+		case ComponentPackage.DIAL_REGION__OUTER_RADIUS:
+			setOuterRadius((Double) newValue);
+			return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (innerRadius: " ); //$NON-NLS-1$
-		if ( innerRadiusESet )
-			result.append( innerRadius );
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case ComponentPackage.DIAL_REGION__INNER_RADIUS:
+			unsetInnerRadius();
+			return;
+		case ComponentPackage.DIAL_REGION__OUTER_RADIUS:
+			unsetOuterRadius();
+			return;
+		}
+		super.eUnset(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case ComponentPackage.DIAL_REGION__INNER_RADIUS:
+			return isSetInnerRadius();
+		case ComponentPackage.DIAL_REGION__OUTER_RADIUS:
+			return isSetOuterRadius();
+		}
+		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (innerRadius: "); //$NON-NLS-1$
+		if (innerRadiusESet)
+			result.append(innerRadius);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", outerRadius: " ); //$NON-NLS-1$
-		if ( outerRadiusESet )
-			result.append( outerRadius );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", outerRadius: "); //$NON-NLS-1$
+		if (outerRadiusESet)
+			result.append(outerRadius);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ')' );
-		return result.toString( );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(')');
+		return result.toString();
 	}
 
 	/**
 	 * @return instance of <code>DialRegion</code>.
 	 */
-	public static final DialRegion create( )
-	{
-		DialRegion dr = ComponentFactory.eINSTANCE.createDialRegion( );
-		( (DialRegionImpl) dr ).initialize( );
+	public static final DialRegion create() {
+		DialRegion dr = ComponentFactory.eINSTANCE.createDialRegion();
+		((DialRegionImpl) dr).initialize();
 		return dr;
 	}
-	
-	public static final DialRegion createDefault( )
-	{
-		DialRegion dr = ComponentFactory.eINSTANCE.createDialRegion( );
-		( (DialRegionImpl) dr ).initDefault( );
+
+	public static final DialRegion createDefault() {
+		DialRegion dr = ComponentFactory.eINSTANCE.createDialRegion();
+		((DialRegionImpl) dr).initDefault();
 		return dr;
 	}
 
 	/**
 	 * 
 	 */
-	public final void initialize( )
-	{
-		LineAttributes liaOutline = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
-				LineStyle.SOLID_LITERAL,
-				1 );
-		liaOutline.setVisible( false );
-		setOutline( liaOutline );
-		setLabel( LabelImpl.create( ) );
-		setLabelAnchor( Anchor.NORTH_LITERAL );
+	public final void initialize() {
+		LineAttributes liaOutline = LineAttributesImpl.create(ColorDefinitionImpl.BLACK(), LineStyle.SOLID_LITERAL, 1);
+		liaOutline.setVisible(false);
+		setOutline(liaOutline);
+		setLabel(LabelImpl.create());
+		setLabelAnchor(Anchor.NORTH_LITERAL);
 	}
-	
-	public final void initDefault( )
-	{
-		LineAttributes liaOutline = LineAttributesImpl.createDefault( null,
-				LineStyle.SOLID_LITERAL,
-				1,
-				false );
-		setOutline( liaOutline );
-		setLabel( LabelImpl.createDefault( ) );
+
+	public final void initDefault() {
+		LineAttributes liaOutline = LineAttributesImpl.createDefault(null, LineStyle.SOLID_LITERAL, 1, false);
+		setOutline(liaOutline);
+		setLabel(LabelImpl.createDefault());
 		labelAnchor = Anchor.NORTH_LITERAL;
 	}
 
 	/**
 	 * @generated
 	 */
-	public DialRegion copyInstance( )
-	{
-		DialRegionImpl dest = new DialRegionImpl( );
-		dest.set( this );
+	public DialRegion copyInstance() {
+		DialRegionImpl dest = new DialRegionImpl();
+		dest.set(this);
 		return dest;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( DialRegion src )
-	{
+	protected void set(DialRegion src) {
 
-		super.set( src );
+		super.set(src);
 
 		// attributes
 
-		innerRadius = src.getInnerRadius( );
+		innerRadius = src.getInnerRadius();
 
-		innerRadiusESet = src.isSetInnerRadius( );
+		innerRadiusESet = src.isSetInnerRadius();
 
-		outerRadius = src.getOuterRadius( );
+		outerRadius = src.getOuterRadius();
 
-		outerRadiusESet = src.isSetOuterRadius( );
+		outerRadiusESet = src.isSetOuterRadius();
 
 	}
 

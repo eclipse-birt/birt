@@ -19,19 +19,14 @@ import org.eclipse.swt.widgets.Control;
  * @since 2.5
  */
 
-public interface IContentChangeListener
-{
+public interface IContentChangeListener {
 
 	/**
 	 * Handle content changed.
 	 * 
-	 * @param control
-	 *            the control whose content is changed.
-	 * @param newValue
-	 *            the new content.
-	 * @param oldValue
-	 *            the old content.
+	 * @param control  the control whose content is changed.
+	 * @param newValue the new content.
+	 * @param oldValue the old content.
 	 */
-	public void contentChanged( Control control, Object newValue,
-			Object oldValue );
+	public void contentChanged(Control control, Object newValue, Object oldValue);
 }

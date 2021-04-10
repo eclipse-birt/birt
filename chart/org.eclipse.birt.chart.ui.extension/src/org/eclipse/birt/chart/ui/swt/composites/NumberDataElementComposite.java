@@ -34,71 +34,53 @@ import com.ibm.icu.text.NumberFormat;
  * Composite for inputing NumberDataElement
  */
 
-public class NumberDataElementComposite extends TextEditorComposite implements
-		IDataElementComposite
-{
+public class NumberDataElementComposite extends TextEditorComposite implements IDataElementComposite {
 
 	protected EObject eParent;
 
-	public NumberDataElementComposite( Composite parent, DataElement data )
-	{
-		super( parent,
-				SWT.BORDER | SWT.SINGLE,
-				TextEditorComposite.TYPE_NUMBERIC );
-		GridData gd = new GridData( );
+	public NumberDataElementComposite(Composite parent, DataElement data) {
+		super(parent, SWT.BORDER | SWT.SINGLE, TextEditorComposite.TYPE_NUMBERIC);
+		GridData gd = new GridData();
 		gd.widthHint = 80;
-		this.setLayoutData( gd );
-		this.setDefaultValue( "" ); //$NON-NLS-1$
+		this.setLayoutData(gd);
+		this.setDefaultValue(""); //$NON-NLS-1$
 
-		setDataElement( data );
+		setDataElement(data);
 	}
 
-	public DataElement getDataElement( )
-	{
-		NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
-		try
-		{
-			Number number = nf.parse( getText( ) );
-			if (number instanceof BigInteger)
-			{
-				BigInteger biNumber = (BigInteger)number;
-				return BigNumberDataElementImpl.create( new BigDecimal( biNumber ).stripTrailingZeros( ) );
+	public DataElement getDataElement() {
+		NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance();
+		try {
+			Number number = nf.parse(getText());
+			if (number instanceof BigInteger) {
+				BigInteger biNumber = (BigInteger) number;
+				return BigNumberDataElementImpl.create(new BigDecimal(biNumber).stripTrailingZeros());
 			}
-			return NumberDataElementImpl.create( number.doubleValue( ) );
-		}
-		catch ( ParseException e1 )
-		{
+			return NumberDataElementImpl.create(number.doubleValue());
+		} catch (ParseException e1) {
 			return null;
 		}
 	}
 
-	public void notifyListeners( int eventType, Event event )
-	{
+	public void notifyListeners(int eventType, Event event) {
 		// Filter out other events
-		if ( eventType == DATA_MODIFIED || eventType == FRACTION_CONVERTED )
-		{
-			super.notifyListeners( eventType, event );
+		if (eventType == DATA_MODIFIED || eventType == FRACTION_CONVERTED) {
+			super.notifyListeners(eventType, event);
 		}
 	}
 
-	public void setDataElement( DataElement data )
-	{
-		if (data instanceof BigNumberDataElement)
-		{
-			this.setText( ( (BigNumberDataElement) data ).getValue( )
-					.stripTrailingZeros( )
-					.toString( ) );
+	public void setDataElement(DataElement data) {
+		if (data instanceof BigNumberDataElement) {
+			this.setText(((BigNumberDataElement) data).getValue().stripTrailingZeros().toString());
 		}
-		
-		if ( data == null || data instanceof NumberDataElement )
-		{
-			this.setText( data == null ? "" : ChartUIUtil.getDefaultNumberFormatInstance( ) //$NON-NLS-1$
-							.format( ( (NumberDataElement) data ).getValue( ) ) );
+
+		if (data == null || data instanceof NumberDataElement) {
+			this.setText(data == null ? "" //$NON-NLS-1$
+					: ChartUIUtil.getDefaultNumberFormatInstance().format(((NumberDataElement) data).getValue()));
 		}
 	}
 
-	public void setEObjectParent( EObject eParent )
-	{
+	public void setEObjectParent(EObject eParent) {
 		this.eParent = eParent;
 	}
 }

@@ -23,21 +23,18 @@ import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
  * data set parameter handle and a list of <code>IAmbiguousAttribute</code>.
  * 
  */
-class AmbiguousParameterNode implements IAmbiguousParameterNode
-{
+class AmbiguousParameterNode implements IAmbiguousParameterNode {
 
 	private final OdaDataSetParameterHandle paramHandle;
 	private final List<IAmbiguousAttribute> attributes;
 
-	AmbiguousParameterNode( OdaDataSetParameterHandle paramHandle,
-			List<IAmbiguousAttribute> attributes )
-	{
-		if ( paramHandle == null )
+	AmbiguousParameterNode(OdaDataSetParameterHandle paramHandle, List<IAmbiguousAttribute> attributes) {
+		if (paramHandle == null)
 			throw new IllegalArgumentException(
-					"The oda data set parameter can not be null when creating AmbiguousParameterNode!" ); //$NON-NLS-1$
+					"The oda data set parameter can not be null when creating AmbiguousParameterNode!"); //$NON-NLS-1$
 		this.paramHandle = paramHandle;
-		if ( attributes == null )
-			this.attributes = Collections.emptyList( );
+		if (attributes == null)
+			this.attributes = Collections.emptyList();
 		else
 			this.attributes = attributes;
 	}
@@ -48,8 +45,7 @@ class AmbiguousParameterNode implements IAmbiguousParameterNode
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousParameterNode#
 	 * getOdaDataSetParameterHandle()
 	 */
-	public OdaDataSetParameterHandle getOdaDataSetParameterHandle( )
-	{
+	public OdaDataSetParameterHandle getOdaDataSetParameterHandle() {
 		return this.paramHandle;
 	}
 
@@ -59,8 +55,7 @@ class AmbiguousParameterNode implements IAmbiguousParameterNode
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousParameterNode#
 	 * getAmbiguousAttributes()
 	 */
-	public List<IAmbiguousAttribute> getAmbiguousAttributes( )
-	{
+	public List<IAmbiguousAttribute> getAmbiguousAttributes() {
 		return this.attributes;
 	}
 }

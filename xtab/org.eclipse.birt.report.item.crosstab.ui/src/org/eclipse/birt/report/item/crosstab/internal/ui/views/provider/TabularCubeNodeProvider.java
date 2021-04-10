@@ -40,48 +40,38 @@ import org.eclipse.ui.PlatformUI;
  * Deals with dataset node
  * 
  */
-public class TabularCubeNodeProvider extends DefaultNodeProvider
-{
+public class TabularCubeNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the menu.
 	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 
-		menu.add( new Separator( ) );
+		menu.add(new Separator());
 
-		InsertCubeInLayoutAction insertAction = new InsertCubeInLayoutAction( object );
-		if ( insertAction.isEnabled( ) )
-		{
-			menu.add( insertAction );
+		InsertCubeInLayoutAction insertAction = new InsertCubeInLayoutAction(object);
+		if (insertAction.isEnabled()) {
+			menu.add(insertAction);
 		}
 
-		super.createContextMenu( sourceViewer, object, menu );
+		super.createContextMenu(sourceViewer, object, menu);
 
-		if ( ( (CubeHandle) object ).canEdit( ) )
-		{
-			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-					new EditCubeAction( object,
-							Messages.getString( "InsertCubeInLayoutAction.menu.text" ) ) ); //$NON-NLS-1$
+		if (((CubeHandle) object).canEdit()) {
+			menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS,
+					new EditCubeAction(object, Messages.getString("InsertCubeInLayoutAction.menu.text"))); //$NON-NLS-1$
 		}
 
-		menu.insertBefore( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$
-				new ShowPropertyAction( object ) );
+		menu.insertBefore(IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$
+				new ShowPropertyAction(object));
 
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new Separator( ) ); //$NON-NLS-1$
-		IAction action = new RefreshAction( sourceViewer );
-		if ( action.isEnabled( ) )
-		{
-			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS
-					+ "-refresh", action ); //$NON-NLS-1$
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", new Separator()); //$NON-NLS-1$
+		IAction action = new RefreshAction(sourceViewer);
+		if (action.isEnabled()) {
+			menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", action); //$NON-NLS-1$
 		}
 	}
 
@@ -91,37 +81,30 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
-	public String getNodeDisplayName( Object model )
-	{
+	public String getNodeDisplayName(Object model) {
 		CubeHandle handle = (CubeHandle) model;
-		return handle.getName( );
+		return handle.getName();
 	}
 
 	/**
 	 * Gets the children element of the given model using visitor.
 	 * 
-	 * @param object
-	 *            the handle
+	 * @param object the handle
 	 */
 
-	public Object[] getChildren( Object object )
-	{
+	public Object[] getChildren(Object object) {
 		CubeHandle handle = (CubeHandle) object;
-		return new Object[]{
-				handle.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ) ,
-				handle.getPropertyHandle( ICubeModel.MEASURE_GROUPS_PROP ) 
-		};
+		return new Object[] { handle.getPropertyHandle(ICubeModel.DIMENSIONS_PROP),
+				handle.getPropertyHandle(ICubeModel.MEASURE_GROUPS_PROP) };
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
 	 * #hasChildren(java.lang.Object)
 	 */
-	public boolean hasChildren( Object object )
-	{
+	public boolean hasChildren(Object object) {
 		return true;
 	}
 
@@ -131,25 +114,18 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
-	protected boolean performEdit( ReportElementHandle handle )
-	{
+	protected boolean performEdit(ReportElementHandle handle) {
 		TabularCubeHandle cubeHandle = (TabularCubeHandle) handle;
-		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), cubeHandle );
+		CubeBuilder dialog = new CubeBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(), cubeHandle);
 
-		return dialog.open( ) == Dialog.OK;
+		return dialog.open() == Dialog.OK;
 	}
 
-	public Image getNodeIcon( Object model )
-	{
-		if ( model instanceof DesignElementHandle
-				&& ( (DesignElementHandle) model ).getSemanticErrors( ).size( ) > 0 )
-		{
-			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+	public Image getNodeIcon(Object model) {
+		if (model instanceof DesignElementHandle && ((DesignElementHandle) model).getSemanticErrors().size() > 0) {
+			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
 		}
 
-		return decorateImage( UIHelper.getImage( BuilderConstants.IMAGE_CUBE ),
-				model );
+		return decorateImage(UIHelper.getImage(BuilderConstants.IMAGE_CUBE), model);
 	}
 }

@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.api.extension;
  * Class that provides the information for undefined properties set in extended
  * items.
  */
-public class UndefinedPropertyInfo
-{
+public class UndefinedPropertyInfo {
 
 	/**
 	 * Name of the property.
@@ -41,34 +40,30 @@ public class UndefinedPropertyInfo
 	 * @param value
 	 * @param version
 	 */
-	public UndefinedPropertyInfo( String name, Object value, String version )
-	{
+	public UndefinedPropertyInfo(String name, Object value, String version) {
 		this.propName = name;
 		this.value = value;
 		this.extensionVersion = version;
 	}
-	
+
 	/**
 	 * @return the propName
 	 */
-	public String getPropName( )
-	{
+	public String getPropName() {
 		return propName;
 	}
-	
+
 	/**
 	 * @return the value
 	 */
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return value;
 	}
-	
+
 	/**
 	 * @return the extensionVersion
 	 */
-	public String getExtensionVersion( )
-	{
+	public String getExtensionVersion() {
 		return extensionVersion;
 	}
 }

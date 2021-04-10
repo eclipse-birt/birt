@@ -44,28 +44,24 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * preferences can be accessed directly via the preference store.
  */
 
-public class PreviewServerPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage
-{
+public class PreviewServerPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
 	protected Text textServerAddr;
 
 	protected Text textServerPort;
 
-	protected Control createContents( Composite parent )
-	{
-		UIUtil.bindHelp( parent,
-				IHelpContextIds.PREFERENCE_BIRT_PREVIEW_SERVER_ID );
-		Font font = parent.getFont( );
+	protected Control createContents(Composite parent) {
+		UIUtil.bindHelp(parent, IHelpContextIds.PREFERENCE_BIRT_PREVIEW_SERVER_ID);
+		Font font = parent.getFont();
 
 		// TODO: Need set context sensitive help
 		// WorkbenchHelp.setHelp(parent, IHelpUIConstants.PREF_PAGE_APPSERVER);
 
-		Composite mainComposite = new Composite( parent, SWT.NULL );
+		Composite mainComposite = new Composite(parent, SWT.NULL);
 
-		mainComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		mainComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		GridLayout layout = new GridLayout( );
+		GridLayout layout = new GridLayout();
 
 		layout.marginHeight = 0;
 
@@ -73,49 +69,49 @@ public class PreviewServerPreferencePage extends PreferencePage implements
 
 		layout.numColumns = 2;
 
-		mainComposite.setLayout( layout );
+		mainComposite.setLayout(layout);
 
 		// Description
-		Label label = new Label( mainComposite, SWT.NONE );
+		Label label = new Label(mainComposite, SWT.NONE);
 
-		label.setText( Messages.getString( "designer.preview.preference.server.description" ) ); //$NON-NLS-1$
+		label.setText(Messages.getString("designer.preview.preference.server.description")); //$NON-NLS-1$
 
-		GridData data = new GridData( );
+		GridData data = new GridData();
 
 		data.horizontalSpan = 2;
 
-		label.setLayoutData( data );
+		label.setLayoutData(data);
 
-		label.setFont( font );
+		label.setFont(font);
 
 		// Spacer
-		label = new Label( mainComposite, SWT.NONE );
+		label = new Label(mainComposite, SWT.NONE);
 
-		data = new GridData( );
+		data = new GridData();
 
 		data.horizontalSpan = 2;
 
-		label.setLayoutData( data );
+		label.setLayoutData(data);
 
-		label.setFont( font );
+		label.setFont(font);
 
 		// Host description
-		label = new Label( mainComposite, SWT.NONE );
+		label = new Label(mainComposite, SWT.NONE);
 
-		label.setFont( font );
+		label.setFont(font);
 
-		label.setText( Messages.getString( "designer.preview.preference.server.hostDescription" ) ); //$NON-NLS-1$
+		label.setText(Messages.getString("designer.preview.preference.server.hostDescription")); //$NON-NLS-1$
 
-		data = new GridData( );
+		data = new GridData();
 
 		data.horizontalSpan = 2;
 
-		label.setLayoutData( data );
+		label.setLayoutData(data);
 
 		// Host input, TODO: need validator
-		textServerAddr = new Text( mainComposite, SWT.SINGLE | SWT.BORDER );
+		textServerAddr = new Text(mainComposite, SWT.SINGLE | SWT.BORDER);
 
-		data = new GridData( );
+		data = new GridData();
 
 		data.horizontalAlignment = GridData.FILL;
 
@@ -123,44 +119,44 @@ public class PreviewServerPreferencePage extends PreferencePage implements
 
 		data.horizontalSpan = 2;
 
-		textServerAddr.setLayoutData( data );
+		textServerAddr.setLayoutData(data);
 
-		textServerAddr.setFont( font );
+		textServerAddr.setFont(font);
 
 		// Spacer
-		label = new Label( mainComposite, SWT.NONE );
+		label = new Label(mainComposite, SWT.NONE);
 
-		data = new GridData( );
+		data = new GridData();
 
 		data.horizontalSpan = 2;
 
-		label.setLayoutData( data );
+		label.setLayoutData(data);
 
-		label.setFont( font );
+		label.setFont(font);
 
 		// Port description
-		label = new Label( mainComposite, SWT.NONE );
+		label = new Label(mainComposite, SWT.NONE);
 
-		label.setFont( font );
+		label.setFont(font);
 
-		label.setText( Messages.getString( "designer.preview.preference.server.portDescription" ) ); //$NON-NLS-1$
+		label.setText(Messages.getString("designer.preview.preference.server.portDescription")); //$NON-NLS-1$
 
-		data = new GridData( );
+		data = new GridData();
 
 		data.horizontalSpan = 2;
 
-		label.setLayoutData( data );
+		label.setLayoutData(data);
 
-		label.setFont( font );
+		label.setFont(font);
 
 		// Port input, TODO: need invalidator
-		textServerPort = new Text( mainComposite, SWT.SINGLE | SWT.BORDER );
+		textServerPort = new Text(mainComposite, SWT.SINGLE | SWT.BORDER);
 
-		textServerPort.setTextLimit( 5 );
+		textServerPort.setTextLimit(5);
 
-		data = new GridData( );
+		data = new GridData();
 
-		data.widthHint = convertWidthInCharsToPixels( 8 );
+		data.widthHint = convertWidthInCharsToPixels(8);
 
 		data.horizontalAlignment = GridData.FILL;
 
@@ -168,9 +164,9 @@ public class PreviewServerPreferencePage extends PreferencePage implements
 
 		data.horizontalSpan = 2;
 
-		textServerPort.setLayoutData( data );
+		textServerPort.setLayoutData(data);
 
-		textServerPort.setFont( font );
+		textServerPort.setFont(font);
 
 		// Validation of port field
 		// textServerPort.addModifyListener(new ModifyListener() {
@@ -195,67 +191,64 @@ public class PreviewServerPreferencePage extends PreferencePage implements
 		// });
 
 		// Spacer
-		label = new Label( mainComposite, SWT.NONE );
+		label = new Label(mainComposite, SWT.NONE);
 
-		data = new GridData( );
+		data = new GridData();
 
 		data.horizontalSpan = 2;
 
-		label.setLayoutData( data );
+		label.setLayoutData(data);
 
-		label.setFont( font );
+		label.setFont(font);
 
 		// Note
-		label = new Label( mainComposite, SWT.NONE );
+		label = new Label(mainComposite, SWT.NONE);
 
-		label.setText( Messages.getString( "designer.preview.preference.server.note" ) ); //$NON-NLS-1$
+		label.setText(Messages.getString("designer.preview.preference.server.note")); //$NON-NLS-1$
 
-		FontData[] fontData = font.getFontData( );
+		FontData[] fontData = font.getFontData();
 
-		for ( int i = 0; i < fontData.length; i++ )
-		{
-			fontData[i].setStyle( fontData[i].getStyle( ) | SWT.BOLD );
+		for (int i = 0; i < fontData.length; i++) {
+			fontData[i].setStyle(fontData[i].getStyle() | SWT.BOLD);
 		}
 
-		final Font boldFont = new Font( label.getDisplay( ), fontData );
+		final Font boldFont = new Font(label.getDisplay(), fontData);
 
-		label.setFont( boldFont );
+		label.setFont(boldFont);
 
-		label.addDisposeListener( new DisposeListener( ) {
+		label.addDisposeListener(new DisposeListener() {
 
-			public void widgetDisposed( DisposeEvent e )
-			{
-				boldFont.dispose( );
+			public void widgetDisposed(DisposeEvent e) {
+				boldFont.dispose();
 			}
-		} );
+		});
 
-		data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+		data = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 
-		label.setLayoutData( data );
+		label.setLayoutData(data);
 
 		// Require restart
-		label = new Label( mainComposite, SWT.NONE );
+		label = new Label(mainComposite, SWT.NONE);
 
-		label.setText( Messages.getString( "designer.preview.preference.server.requireRestart" ) ); //$NON-NLS-1$
+		label.setText(Messages.getString("designer.preview.preference.server.requireRestart")); //$NON-NLS-1$
 
-		data = new GridData( );
+		data = new GridData();
 
-		label.setLayoutData( data );
+		label.setLayoutData(data);
 
-		label.setFont( font );
+		label.setFont(font);
 
 		// Initialize preference
-		Preferences pref = ViewerPlugin.getDefault( ).getPluginPreferences( );
+		Preferences pref = ViewerPlugin.getDefault().getPluginPreferences();
 
-		textServerAddr.setText( pref.getString( AppServerWrapper.HOST_KEY ) );
+		textServerAddr.setText(pref.getString(AppServerWrapper.HOST_KEY));
 
-		textServerPort.setText( pref.getString( AppServerWrapper.PORT_KEY ) );
+		textServerPort.setText(pref.getString(AppServerWrapper.PORT_KEY));
 
 		return mainComposite;
 	}
 
-	public void init( IWorkbench workbench )
-	{
+	public void init(IWorkbench workbench) {
 		;
 	}
 
@@ -263,34 +256,32 @@ public class PreviewServerPreferencePage extends PreferencePage implements
 	 * Performs special processing when this page's Defaults button has been
 	 * pressed.
 	 * <p>
-	 * This is a framework hook method for sublcasses to do special things when
-	 * the Defaults button has been pressed. Subclasses may override, but should
-	 * call <code>super.performDefaults</code>.
+	 * This is a framework hook method for sublcasses to do special things when the
+	 * Defaults button has been pressed. Subclasses may override, but should call
+	 * <code>super.performDefaults</code>.
 	 * </p>
 	 */
-	protected void performDefaults( )
-	{
-		Preferences pref = ViewerPlugin.getDefault( ).getPluginPreferences( );
+	protected void performDefaults() {
+		Preferences pref = ViewerPlugin.getDefault().getPluginPreferences();
 
-		textServerAddr.setText( pref.getDefaultString( AppServerWrapper.HOST_KEY ) );
+		textServerAddr.setText(pref.getDefaultString(AppServerWrapper.HOST_KEY));
 
-		textServerPort.setText( pref.getDefaultString( AppServerWrapper.PORT_KEY ) );
+		textServerPort.setText(pref.getDefaultString(AppServerWrapper.PORT_KEY));
 
-		super.performDefaults( );
+		super.performDefaults();
 	}
 
 	/**
 	 * @see IPreferencePage
 	 */
-	public boolean performOk( )
-	{
-		Preferences pref = ViewerPlugin.getDefault( ).getPluginPreferences( );
+	public boolean performOk() {
+		Preferences pref = ViewerPlugin.getDefault().getPluginPreferences();
 
-		pref.setValue( AppServerWrapper.HOST_KEY, textServerAddr.getText( ) );
+		pref.setValue(AppServerWrapper.HOST_KEY, textServerAddr.getText());
 
-		pref.setValue( AppServerWrapper.PORT_KEY, textServerPort.getText( ) );
+		pref.setValue(AppServerWrapper.PORT_KEY, textServerPort.getText());
 
-		ViewerPlugin.getDefault( ).savePluginPreferences( );
+		ViewerPlugin.getDefault().savePluginPreferences();
 
 		return true;
 	}

@@ -4,8 +4,7 @@ package org.eclipse.birt.report.engine.extension;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 
-public abstract class ReportItemExecutorBase implements IReportItemExecutor
-{
+public abstract class ReportItemExecutorBase implements IReportItemExecutor {
 
 	/**
 	 * IExecutorContext
@@ -22,54 +21,45 @@ public abstract class ReportItemExecutorBase implements IReportItemExecutor
 	 */
 	protected IReportItemExecutor parent;
 
-	public void setContext( IExecutorContext context )
-	{
+	public void setContext(IExecutorContext context) {
 		this.executorContext = context;
 	}
 
-	public void setModelObject( Object handle )
-	{
+	public void setModelObject(Object handle) {
 		this.handle = handle;
 	}
 
-	public void setParent( IReportItemExecutor parent )
-	{
+	public void setParent(IReportItemExecutor parent) {
 		this.parent = parent;
 	}
 
-	public IExecutorContext getContext( )
-	{
+	public IExecutorContext getContext() {
 		return executorContext;
 	}
 
-	public Object getModelObject( )
-	{
+	public Object getModelObject() {
 		return handle;
 	}
 
-	public IReportItemExecutor getParent( )
-	{
+	public IReportItemExecutor getParent() {
 		return parent;
 	}
 
 	/**
 	 * get resultsets of the executor
 	 */
-	public IBaseResultSet[] getQueryResults( )
-	{
+	public IBaseResultSet[] getQueryResults() {
 		return null;
 	}
 
 	/**
 	 * get the content
 	 */
-	public IContent getContent( )
-	{
+	public IContent getContent() {
 		return null;
 	}
 
-	public void close( ) throws BirtException
-	{
+	public void close() throws BirtException {
 		executorContext = null;
 		parent = null;
 		handle = null;

@@ -15,71 +15,59 @@ import java.io.OutputStream;
 
 /**
  * Entry inside an ODF package.
+ * 
  * @see Package
  */
-public class PackageEntry
-{
+public class PackageEntry {
 	private Package pkg;
 	private String uri;
 	private boolean cached;
 	protected String contentType;
-	
+
 	private OutputStream out;
-	
-	PackageEntry( Package pkg, String uri, String contentType, boolean cached )
-	{
+
+	PackageEntry(Package pkg, String uri, String contentType, boolean cached) {
 		this.uri = uri;
 		this.pkg = pkg;
 		this.cached = cached;
 		this.contentType = contentType;
 	}
-	
-	public Package getPackage()
-	{
+
+	public Package getPackage() {
 		return pkg;
 	}
-	
-	public OutputStream getOutputStream() throws IOException
-	{
-		if ( out == null )
-		{
-			if ( cached )
-			{
-				out = pkg.getCachedOutputStream( uri );
-			}
-			else
-			{
-				out = pkg.getEntryOutputStream( uri );
+
+	public OutputStream getOutputStream() throws IOException {
+		if (out == null) {
+			if (cached) {
+				out = pkg.getCachedOutputStream(uri);
+			} else {
+				out = pkg.getEntryOutputStream(uri);
 			}
 		}
 		return out;
 	}
 
-	
 	/**
 	 * @return the uri
 	 */
-	public String getUri( )
-	{
-		return uri;
-	}
-	
-	public String getFullPath( )
-	{
+	public String getUri() {
 		return uri;
 	}
 
-	public String getContentType( )
-	{
+	public String getFullPath() {
+		return uri;
+	}
+
+	public String getContentType() {
 		return contentType;
 	}
-	
+
 	/**
 	 * @return the cached
 	 */
-	public boolean isCached( )
-	{
+	public boolean isCached() {
 		return cached;
 	}
-	
+
 }

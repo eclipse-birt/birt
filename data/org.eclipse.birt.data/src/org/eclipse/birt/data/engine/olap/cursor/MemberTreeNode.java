@@ -18,54 +18,43 @@ import java.util.List;
  * 
  *
  */
-class MemberTreeNode
-{
+class MemberTreeNode {
 
 	List<MemberTreeNode> childNodesList;
 	Object key;
 	MemberTreeNode parentNode;
-	
-	MemberTreeNode( Object key )
-	{
-		this.childNodesList = new ArrayList<MemberTreeNode>( );
+
+	MemberTreeNode(Object key) {
+		this.childNodesList = new ArrayList<MemberTreeNode>();
 		this.key = key;
 	}
 
-	void insertNode( MemberTreeNode node )
-	{
-		childNodesList.add( node );
+	void insertNode(MemberTreeNode node) {
+		childNodesList.add(node);
 	}
 
-	void addAllNodes( MemberTreeNode[] nodes )
-	{
-		List nodesList = Arrays.asList( nodes );
-		childNodesList.addAll( nodesList );
-		for ( int i = 0; i < nodesList.size( ); i++ )
-		{
-			( (MemberTreeNode) nodesList.get( i ) ).parentNode = this;
+	void addAllNodes(MemberTreeNode[] nodes) {
+		List nodesList = Arrays.asList(nodes);
+		childNodesList.addAll(nodesList);
+		for (int i = 0; i < nodesList.size(); i++) {
+			((MemberTreeNode) nodesList.get(i)).parentNode = this;
 		}
 	}
-	
-	MemberTreeNode getChild( Object childKey )
-	{
-		for ( int i = 0; i < this.childNodesList.size( ); i++ )
-		{
-			MemberTreeNode node = (MemberTreeNode) childNodesList.get( i );
-			if( node.key.equals( childKey ))
-			{
+
+	MemberTreeNode getChild(Object childKey) {
+		for (int i = 0; i < this.childNodesList.size(); i++) {
+			MemberTreeNode node = (MemberTreeNode) childNodesList.get(i);
+			if (node.key.equals(childKey)) {
 				return node;
 			}
 		}
 		return null;
 	}
-	
-	boolean containsChild( Object childKey )
-	{
-		for ( int i = 0; i < this.childNodesList.size( ); i++ )
-		{
-			MemberTreeNode node = (MemberTreeNode) childNodesList.get( i );
-			if( node.key.equals( childKey ))
-			{
+
+	boolean containsChild(Object childKey) {
+		for (int i = 0; i < this.childNodesList.size(); i++) {
+			MemberTreeNode node = (MemberTreeNode) childNodesList.get(i);
+			if (node.key.equals(childKey)) {
 				return true;
 			}
 		}

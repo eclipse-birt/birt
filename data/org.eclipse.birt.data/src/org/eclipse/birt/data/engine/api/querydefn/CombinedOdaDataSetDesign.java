@@ -13,183 +13,151 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 
 import com.ibm.icu.util.ULocale;
 
+public class CombinedOdaDataSetDesign extends OdaDataSetDesign implements ICombinedOdaDataSetDesign {
+	private IOdaDataSetDesign masterDesign;
+	private Set<IOdaDataSetDesign> dataSetDesigns = new HashSet<IOdaDataSetDesign>();
 
-public class CombinedOdaDataSetDesign extends OdaDataSetDesign implements ICombinedOdaDataSetDesign
-{
-    private IOdaDataSetDesign masterDesign;
-    private Set<IOdaDataSetDesign> dataSetDesigns = new HashSet<IOdaDataSetDesign>( );
+	public CombinedOdaDataSetDesign(IOdaDataSetDesign masterDesign) {
+		super(masterDesign.getName(), masterDesign.getDataSourceName());
+		this.masterDesign = masterDesign;
+		addDataSetDesign(masterDesign);
+	}
 
-    public CombinedOdaDataSetDesign( IOdaDataSetDesign masterDesign )
-    {
-        super( masterDesign.getName( ), masterDesign.getDataSourceName( ) );
-        this.masterDesign = masterDesign;
-        addDataSetDesign( masterDesign );
-    }
-    
-    
-    public void addDataSetDesign( IOdaDataSetDesign dataSetDesign )
-    {
-        dataSetDesigns.add( dataSetDesign );
-    }
-    
-    public Set<IOdaDataSetDesign> getDataSetDesigns( )
-    {
-        return dataSetDesigns;
-    }
+	public void addDataSetDesign(IOdaDataSetDesign dataSetDesign) {
+		dataSetDesigns.add(dataSetDesign);
+	}
 
-    @Override
-    public String getQueryText( )
-    {
-        return masterDesign.getQueryText( );
-    }
+	public Set<IOdaDataSetDesign> getDataSetDesigns() {
+		return dataSetDesigns;
+	}
 
-    @Override
-    public String getExtensionID( )
-    {
-        return masterDesign.getExtensionID( );
-    }
+	@Override
+	public String getQueryText() {
+		return masterDesign.getQueryText();
+	}
 
-    @Override
-    public String getPrimaryResultSetName( )
-    {
-        return masterDesign.getPrimaryResultSetName( );
-    }
+	@Override
+	public String getExtensionID() {
+		return masterDesign.getExtensionID();
+	}
 
-    @Override
-    public Map getPublicProperties( )
-    {
-        return masterDesign.getPublicProperties( );
-    }
+	@Override
+	public String getPrimaryResultSetName() {
+		return masterDesign.getPrimaryResultSetName();
+	}
 
-    @Override
-    public Map getPrivateProperties( )
-    {
-        return masterDesign.getPublicProperties( );
-    }
+	@Override
+	public Map getPublicProperties() {
+		return masterDesign.getPublicProperties();
+	}
 
-    @Override
-    public int getPrimaryResultSetNumber( )
-    {
-        return masterDesign.getPrimaryResultSetNumber( );
-    }
+	@Override
+	public Map getPrivateProperties() {
+		return masterDesign.getPublicProperties();
+	}
 
-    @Override
-    public String getName( )
-    {
-        return masterDesign.getName( );
-    }
+	@Override
+	public int getPrimaryResultSetNumber() {
+		return masterDesign.getPrimaryResultSetNumber();
+	}
 
-    @Override
-    public int getCacheRowCount( )
-    {
-        return masterDesign.getCacheRowCount( );
-    }
+	@Override
+	public String getName() {
+		return masterDesign.getName();
+	}
 
-    @Override
-    public boolean needDistinctValue( )
-    {
-        return masterDesign.needDistinctValue( );
-    }
+	@Override
+	public int getCacheRowCount() {
+		return masterDesign.getCacheRowCount();
+	}
 
-    @Override
-    public String getDataSourceName( )
-    {
-        return masterDesign.getDataSourceName( );
-    }
+	@Override
+	public boolean needDistinctValue() {
+		return masterDesign.needDistinctValue();
+	}
 
-    @Override
-    public List getComputedColumns( )
-    {
-        return masterDesign.getComputedColumns( );
-    }
+	@Override
+	public String getDataSourceName() {
+		return masterDesign.getDataSourceName();
+	}
 
-    @Override
-    public List getFilters( )
-    {
-        return masterDesign.getFilters( );
-    }
+	@Override
+	public List getComputedColumns() {
+		return masterDesign.getComputedColumns();
+	}
 
-    @Override
-    public List<ISortDefinition> getSortHints( )
-    {
-        return masterDesign.getSortHints( );
-    }
+	@Override
+	public List getFilters() {
+		return masterDesign.getFilters();
+	}
 
-    @Override
-    public List getParameters( )
-    {
-        return masterDesign.getParameters( );
-    }
+	@Override
+	public List<ISortDefinition> getSortHints() {
+		return masterDesign.getSortHints();
+	}
 
-    @Override
-    public List getResultSetHints( )
-    {
-        return masterDesign.getResultSetHints( );
-    }
+	@Override
+	public List getParameters() {
+		return masterDesign.getParameters();
+	}
 
-    @Override
-    public Collection getInputParamBindings( )
-    {
-        return masterDesign.getInputParamBindings( );
-    }
+	@Override
+	public List getResultSetHints() {
+		return masterDesign.getResultSetHints();
+	}
 
-    @Override
-    public String getBeforeOpenScript( )
-    {
-        return masterDesign.getBeforeOpenScript( );
-    }
+	@Override
+	public Collection getInputParamBindings() {
+		return masterDesign.getInputParamBindings();
+	}
 
-    @Override
-    public String getAfterOpenScript( )
-    {
-        return masterDesign.getAfterOpenScript( );
-    }
+	@Override
+	public String getBeforeOpenScript() {
+		return masterDesign.getBeforeOpenScript();
+	}
 
-    @Override
-    public String getOnFetchScript( )
-    {
-        return masterDesign.getOnFetchScript( );
-    }
+	@Override
+	public String getAfterOpenScript() {
+		return masterDesign.getAfterOpenScript();
+	}
 
-    @Override
-    public String getBeforeCloseScript( )
-    {
-        return masterDesign.getBeforeCloseScript( );
-    }
+	@Override
+	public String getOnFetchScript() {
+		return masterDesign.getOnFetchScript();
+	}
 
-    @Override
-    public String getAfterCloseScript( )
-    {
-        return masterDesign.getAfterCloseScript( );
-    }
+	@Override
+	public String getBeforeCloseScript() {
+		return masterDesign.getBeforeCloseScript();
+	}
 
-    @Override
-    public IBaseDataSetEventHandler getEventHandler( )
-    {
-        return masterDesign.getEventHandler( );
-    }
+	@Override
+	public String getAfterCloseScript() {
+		return masterDesign.getAfterCloseScript();
+	}
 
-    @Override
-    public void setRowFetchLimit( int max )
-    {
-        masterDesign.setRowFetchLimit( max );
-    }
+	@Override
+	public IBaseDataSetEventHandler getEventHandler() {
+		return masterDesign.getEventHandler();
+	}
 
-    @Override
-    public int getRowFetchLimit( )
-    {
-        return masterDesign.getRowFetchLimit( );
-    }
+	@Override
+	public void setRowFetchLimit(int max) {
+		masterDesign.setRowFetchLimit(max);
+	}
 
-    @Override
-    public ULocale getCompareLocale( )
-    {
-        return masterDesign.getCompareLocale( );
-    }
+	@Override
+	public int getRowFetchLimit() {
+		return masterDesign.getRowFetchLimit();
+	}
 
-    @Override
-    public String getNullsOrdering( )
-    {
-        return masterDesign.getNullsOrdering( );
-    }
+	@Override
+	public ULocale getCompareLocale() {
+		return masterDesign.getCompareLocale();
+	}
+
+	@Override
+	public String getNullsOrdering() {
+		return masterDesign.getNullsOrdering();
+	}
 }

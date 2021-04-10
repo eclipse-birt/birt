@@ -25,26 +25,23 @@ import org.eclipse.swt.graphics.Cursor;
 /**
  * A Handle used to resize a GraphicalEditPart.
  */
-public class ReportResizeHandle extends ResizeHandle
-{
+public class ReportResizeHandle extends ResizeHandle {
 
 	private DragTracker tracker;
+
 	/**
 	 * Creates a new ResizeHandle for the given GraphicalEditPart.
-	 * <code>direction</code> is the relative direction from the center of the
-	 * owner figure. For example, <code>SOUTH_EAST</code> would place the
-	 * handle in the lower-right corner of its owner figure. These direction
-	 * constants can be found in {@link org.eclipse.draw2d.PositionConstants}.
+	 * <code>direction</code> is the relative direction from the center of the owner
+	 * figure. For example, <code>SOUTH_EAST</code> would place the handle in the
+	 * lower-right corner of its owner figure. These direction constants can be
+	 * found in {@link org.eclipse.draw2d.PositionConstants}.
 	 * 
-	 * @param owner
-	 *            owner of the ResizeHandle
-	 * @param direction
-	 *            relative direction from the center of the owner figure
+	 * @param owner     owner of the ResizeHandle
+	 * @param direction relative direction from the center of the owner figure
 	 */
-	public ReportResizeHandle( GraphicalEditPart owner, int direction )
-	{
-		super( owner, direction );
-		tracker = new ReportResizeTracker(getOwner(), direction );
+	public ReportResizeHandle(GraphicalEditPart owner, int direction) {
+		super(owner, direction);
+		tracker = new ReportResizeTracker(getOwner(), direction);
 	}
 
 	/**
@@ -52,28 +49,22 @@ public class ReportResizeHandle extends ResizeHandle
 	 * 
 	 * @see SquareHandle#SquareHandle(GraphicalEditPart, Locator, Cursor)
 	 */
-	public ReportResizeHandle( GraphicalEditPart owner, Locator loc, Cursor c )
-	{
-		super( owner, loc, c );
+	public ReportResizeHandle(GraphicalEditPart owner, Locator loc, Cursor c) {
+		super(owner, loc, c);
 	}
 
 	@Override
-	protected Color getBorderColor( )
-	{
-		return ( isPrimary( ) ) ? ColorConstants.white
-				: ReportColorConstants.SelctionFillColor;
+	protected Color getBorderColor() {
+		return (isPrimary()) ? ColorConstants.white : ReportColorConstants.SelctionFillColor;
 	}
 
 	@Override
-	protected Color getFillColor( )
-	{
-		return ( isPrimary( ) ) ? ReportColorConstants.SelctionFillColor
-				: ColorConstants.white;
+	protected Color getFillColor() {
+		return (isPrimary()) ? ReportColorConstants.SelctionFillColor : ColorConstants.white;
 	}
-	
+
 	@Override
-	protected DragTracker createDragTracker( )
-	{
+	protected DragTracker createDragTracker() {
 		return tracker;
 	}
 }

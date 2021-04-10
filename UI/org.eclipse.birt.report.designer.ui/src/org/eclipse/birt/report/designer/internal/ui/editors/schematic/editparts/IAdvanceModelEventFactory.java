@@ -17,13 +17,12 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
  * Optimize the event dispatch.Mark the event start and end.
  */
 //Now use the cross tab.
-public interface IAdvanceModelEventFactory extends IModelEventFactory
-{
+public interface IAdvanceModelEventFactory extends IModelEventFactory {
 	/**
 	 * Event start
 	 */
 	void eventDispathStart();
-	
+
 	/**
 	 * Event end
 	 */

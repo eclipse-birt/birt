@@ -58,45 +58,37 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
-public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
-{
+public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog {
 
-	private final static Image IMG_FOLDER = PlatformUI.getWorkbench( )
-			.getSharedImages( )
-			.getImage( ISharedImages.IMG_OBJ_FOLDER );
+	private final static Image IMG_FOLDER = PlatformUI.getWorkbench().getSharedImages()
+			.getImage(ISharedImages.IMG_OBJ_FOLDER);
 
-	private final static Image IMG_FILE = PlatformUI.getWorkbench( )
-			.getSharedImages( )
-			.getImage( ISharedImages.IMG_OBJ_FILE );
+	private final static Image IMG_FILE = PlatformUI.getWorkbench().getSharedImages()
+			.getImage(ISharedImages.IMG_OBJ_FILE);
 
 	private File rootFolder;
 	private String[] extensions;
 	private Button importButton;
 
-	public RelativeFileSelectionDialog( Shell parent, File rootFolder,
-			String[] extensions )
-	{
-		super( parent, new LabelProvider( ), new ContentProvider( extensions ) );
-		setHelpAvailable( false );
+	public RelativeFileSelectionDialog(Shell parent, File rootFolder, String[] extensions) {
+		super(parent, new LabelProvider(), new ContentProvider(extensions));
+		setHelpAvailable(false);
 
 		assert rootFolder != null;
 
-		this.setValidator( new SelectionValidator( ) );
-		this.setInput( rootFolder.getAbsolutePath( ) );
-		this.setTitle( "SelectFile.Title" ); //$NON-NLS-1$
+		this.setValidator(new SelectionValidator());
+		this.setInput(rootFolder.getAbsolutePath());
+		this.setTitle("SelectFile.Title"); //$NON-NLS-1$
 		this.rootFolder = rootFolder;
 		this.extensions = extensions;
 	}
 
-	public URI getSelectedURI( ) throws URISyntaxException
-	{
-		Object[] selection = getResult( );
-		if ( selection != null && selection.length > 0 )
-		{
-			if ( selection[0] instanceof File )
-			{
-				URI baseURI = rootFolder.toURI( );
-				return baseURI.relativize( ( (File) selection[0] ).toURI( ) );
+	public URI getSelectedURI() throws URISyntaxException {
+		Object[] selection = getResult();
+		if (selection != null && selection.length > 0) {
+			if (selection[0] instanceof File) {
+				URI baseURI = rootFolder.toURI();
+				return baseURI.relativize(((File) selection[0]).toURI());
 			}
 		}
 		return null;
@@ -105,106 +97,85 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
+	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
 	 * .eclipse.swt.widgets.Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
-		Control c = super.createDialogArea( parent );
+	protected Control createDialogArea(Composite parent) {
+		Control c = super.createDialogArea(parent);
 
-		createImportFileArea( (Composite) c );
+		createImportFileArea((Composite) c);
 
-		this.getTreeViewer( ).expandToLevel( 2 );
+		this.getTreeViewer().expandToLevel(2);
 		return c;
 	}
 
-	private void createImportFileArea( Composite parent )
-	{
-		importButton = new Button( parent, SWT.PUSH );
-		importButton.setText( Messages.getString( "RelativeFileSelectionDialog.button.importFile" ) ); //$NON-NLS-1$
-		importButton.addSelectionListener( new SelectionAdapter( ) {
+	private void createImportFileArea(Composite parent) {
+		importButton = new Button(parent, SWT.PUSH);
+		importButton.setText(Messages.getString("RelativeFileSelectionDialog.button.importFile")); //$NON-NLS-1$
+		importButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( org.eclipse.swt.events.SelectionEvent e )
-			{
-				FileDialog dialog = new FileDialog( getShell( ) );
-				dialog.setFilterExtensions( extensions );
+			public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
+				FileDialog dialog = new FileDialog(getShell());
+				dialog.setFilterExtensions(extensions);
 
-				String selectedLocation = dialog.open( );
-				if ( selectedLocation != null )
-				{
-					File targetFolder = getSelectedFolder( );
-					File srcFile = new File( selectedLocation );
-					File targetFile = new File( targetFolder, srcFile.getName( ) );
+				String selectedLocation = dialog.open();
+				if (selectedLocation != null) {
+					File targetFolder = getSelectedFolder();
+					File srcFile = new File(selectedLocation);
+					File targetFile = new File(targetFolder, srcFile.getName());
 
-					if ( targetFile.exists( )
-							&& !MessageDialog.openConfirm( getShell( ),
-									Messages.getString( "RelativeFileSelectionDialog.title.overwrite" ), //$NON-NLS-1$
-									Messages.getString( "RelativeFileSelectionDialog.overwrite.msg" ) ) ) //$NON-NLS-1$
+					if (targetFile.exists() && !MessageDialog.openConfirm(getShell(),
+							Messages.getString("RelativeFileSelectionDialog.title.overwrite"), //$NON-NLS-1$
+							Messages.getString("RelativeFileSelectionDialog.overwrite.msg"))) //$NON-NLS-1$
 					{
 						return;
 					}
 
-					importFile( targetFile, srcFile );
+					importFile(targetFile, srcFile);
 
-					refreshResource( targetFile );
+					refreshResource(targetFile);
 
-					getTreeViewer( ).refresh( targetFolder );
-					getTreeViewer( ).expandToLevel( targetFolder, 1 );
+					getTreeViewer().refresh(targetFolder);
+					getTreeViewer().expandToLevel(targetFolder, 1);
 				}
 			};
-		} );
+		});
 	}
 
-	private void refreshResource( File file )
-	{
-		IPath resPath = Path.fromOSString( file.getAbsolutePath( ) );
+	private void refreshResource(File file) {
+		IPath resPath = Path.fromOSString(file.getAbsolutePath());
 
-		IResource[] res = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.findFilesForLocation( resPath );
+		IResource[] res = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(resPath);
 
-		if ( res.length == 0 )
-		{
-			res = ResourcesPlugin.getWorkspace( )
-					.getRoot( )
-					.findContainersForLocation( resPath );
+		if (res.length == 0) {
+			res = ResourcesPlugin.getWorkspace().getRoot().findContainersForLocation(resPath);
 
-			if ( res.length == 0 )
-			{
+			if (res.length == 0) {
 				// not resources within the workspace
 				return;
 			}
 		}
 
-		try
-		{
+		try {
 			final IResource[] targes = res;
 
-			for ( IResource rc : targes )
-			{
-				rc.refreshLocal( IResource.DEPTH_INFINITE, null );
+			for (IResource rc : targes) {
+				rc.refreshLocal(IResource.DEPTH_INFINITE, null);
 			}
-		}
-		catch ( Exception e )
-		{
+		} catch (Exception e) {
 			// ignore
 		}
 
 	}
 
-	private File getSelectedFolder( )
-	{
-		Object[] selection = getResult( );
-		if ( selection != null && selection.length > 0 )
-		{
-			if ( selection[0] instanceof File )
-			{
+	private File getSelectedFolder() {
+		Object[] selection = getResult();
+		if (selection != null && selection.length > 0) {
+			if (selection[0] instanceof File) {
 				File f = (File) selection[0];
 
-				if ( f.isFile( ) )
-				{
-					return f.getParentFile( );
+				if (f.isFile()) {
+					return f.getParentFile();
 				}
 				return f;
 			}
@@ -212,205 +183,155 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 		return null;
 	}
 
-	private void importFile( final File target, final File src )
-	{
-		try
-		{
-			new ProgressMonitorDialog( getShell( ) ).run( true,
-					false,
-					new IRunnableWithProgress( ) {
+	private void importFile(final File target, final File src) {
+		try {
+			new ProgressMonitorDialog(getShell()).run(true, false, new IRunnableWithProgress() {
 
-						@Override
-						public void run( IProgressMonitor monitor )
-								throws InvocationTargetException,
-								InterruptedException
-						{
-							monitor.beginTask( Messages.getString( "RelativeFileSelectionDialog.import.msg" ), //$NON-NLS-1$
-									1 );
+				@Override
+				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+					monitor.beginTask(Messages.getString("RelativeFileSelectionDialog.import.msg"), //$NON-NLS-1$
+							1);
 
-							try
-							{
-								doImport( target, src );
-							}
-							catch ( IOException e )
-							{
-								throw new InvocationTargetException( e );
-							}
-							finally
-							{
-								monitor.done( );
-							}
-						}
-					} );
-		}
-		catch ( Exception e )
-		{
-			MessageDialog.openError( getShell( ),
-					Messages.getString( "RelativeFileSelectionDialog.title.error" ), //$NON-NLS-1$
-					e.getLocalizedMessage( ) );
+					try {
+						doImport(target, src);
+					} catch (IOException e) {
+						throw new InvocationTargetException(e);
+					} finally {
+						monitor.done();
+					}
+				}
+			});
+		} catch (Exception e) {
+			MessageDialog.openError(getShell(), Messages.getString("RelativeFileSelectionDialog.title.error"), //$NON-NLS-1$
+					e.getLocalizedMessage());
 		}
 	}
 
-	private void doImport( File target, File src ) throws IOException
-	{
+	private void doImport(File target, File src) throws IOException {
 		FileInputStream fis = null;
 		FileOutputStream fos = null;
 		FileChannel fcin = null;
 		FileChannel fcout = null;
 
-		try
-		{
-			fis = new FileInputStream( src );
-			fos = new FileOutputStream( target );
-			fcin = fis.getChannel( );
-			fcout = fos.getChannel( );
+		try {
+			fis = new FileInputStream(src);
+			fos = new FileOutputStream(target);
+			fcin = fis.getChannel();
+			fcout = fos.getChannel();
 
-			fcin.transferTo( 0, fcin.size( ), fcout );
-		}
-		finally
-		{
-			if ( fis != null )
-			{
-				fis.close( );
+			fcin.transferTo(0, fcin.size(), fcout);
+		} finally {
+			if (fis != null) {
+				fis.close();
 			}
-			if ( fos != null )
-			{
-				fos.close( );
+			if (fos != null) {
+				fos.close();
 			}
-			if ( fcin != null )
-			{
-				fcin.close( );
+			if (fcin != null) {
+				fcin.close();
 			}
-			if ( fcout != null )
-			{
-				fcout.close( );
+			if (fcout != null) {
+				fcout.close();
 			}
 		}
 	}
 
 	@Override
-	protected void updateOKStatus( )
-	{
-		super.updateOKStatus( );
+	protected void updateOKStatus() {
+		super.updateOKStatus();
 
-		importButton.setEnabled( getSelectedFolder( ) != null );
+		importButton.setEnabled(getSelectedFolder() != null);
 	}
 
-	private static class ContentProvider implements ITreeContentProvider
-	{
+	private static class ContentProvider implements ITreeContentProvider {
 
 		private String[] exts;
 		private final String ALL_EXT = "*.*"; //$NON-NLS-1$
 
-		public ContentProvider( String[] extensionFilter )
-		{
-			if ( extensionFilter != null )
-			{
-				ArrayList<String> filters = new ArrayList<String>( );
-				for ( int i = 0; i < extensionFilter.length; i++ )
-				{
-					String[] regxs = extensionFilter[i].split( ";" ); //$NON-NLS-1$
+		public ContentProvider(String[] extensionFilter) {
+			if (extensionFilter != null) {
+				ArrayList<String> filters = new ArrayList<String>();
+				for (int i = 0; i < extensionFilter.length; i++) {
+					String[] regxs = extensionFilter[i].split(";"); //$NON-NLS-1$
 
-					for ( String regx : regxs )
-					{
-						String ext = regx.toLowerCase( Locale.US );
-						if ( ALL_EXT.equals( regx ) )
+					for (String regx : regxs) {
+						String ext = regx.toLowerCase(Locale.US);
+						if (ALL_EXT.equals(regx))
 							continue;
-						
-						filters.add( ext.substring( 1 ) );
+
+						filters.add(ext.substring(1));
 					}
 				}
-				exts = filters.toArray( new String[]{} );
+				exts = filters.toArray(new String[] {});
 			}
 		}
 
-		public Object[] getChildren( Object arg0 )
-		{
-			if ( arg0 instanceof File )
-			{
+		public Object[] getChildren(Object arg0) {
+			if (arg0 instanceof File) {
 				File f = (File) arg0;
-				if ( !f.isDirectory( ) )
-				{
+				if (!f.isDirectory()) {
 					return new File[0];
 				}
-				File[] result = f.listFiles( new FileFilter( ) {
+				File[] result = f.listFiles(new FileFilter() {
 
-					public boolean accept( File child )
-					{
-						if ( child.isDirectory( ) )
-						{
+					public boolean accept(File child) {
+						if (child.isDirectory()) {
 							return true;
 						}
-						return filter( child.getAbsolutePath( ) );
+						return filter(child.getAbsolutePath());
 					}
-				} );
-				if ( result != null )
-				{
-					Arrays.sort( result, new FileComparator( ) );
+				});
+				if (result != null) {
+					Arrays.sort(result, new FileComparator());
 				}
 				return result == null ? new File[0] : result;
 			}
 			return null;
 		}
 
-		private boolean filter( String fileName )
-		{
-			for ( int k = 0; exts != null && k < exts.length; k++ )
-			{
-				if ( fileName.toLowerCase( Locale.US ).endsWith( exts[k] ) )
+		private boolean filter(String fileName) {
+			for (int k = 0; exts != null && k < exts.length; k++) {
+				if (fileName.toLowerCase(Locale.US).endsWith(exts[k]))
 					return true;
 			}
 			return false;
 		}
 
-		public Object getParent( Object arg0 )
-		{
+		public Object getParent(Object arg0) {
 			return null;
 		}
 
-		public boolean hasChildren( Object arg0 )
-		{
-			if ( arg0 instanceof File )
-			{
+		public boolean hasChildren(Object arg0) {
+			if (arg0 instanceof File) {
 				File f = (File) arg0;
-				return getChildren( f ).length > 0;
+				return getChildren(f).length > 0;
 			}
 			return false;
 		}
 
-		public Object[] getElements( Object arg0 )
-		{
-			if ( arg0 instanceof String )
-			{
-				return new Object[]{
-					new File( (String) arg0 )
-				};
+		public Object[] getElements(Object arg0) {
+			if (arg0 instanceof String) {
+				return new Object[] { new File((String) arg0) };
 			}
 			return null;
 		}
 
-		public void dispose( )
-		{
+		public void dispose() {
 
 		}
 
-		public void inputChanged( Viewer arg0, Object arg1, Object arg2 )
-		{
+		public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 
 		}
 
 	}
 
-	private static class LabelProvider implements ILabelProvider
-	{
+	private static class LabelProvider implements ILabelProvider {
 
-		public Image getImage( Object arg0 )
-		{
-			if ( arg0 instanceof File )
-			{
+		public Image getImage(Object arg0) {
+			if (arg0 instanceof File) {
 				File f = (File) arg0;
-				if ( f.isFile( ) )
-				{
+				if (f.isFile()) {
 					return IMG_FILE;
 				}
 				return IMG_FOLDER;
@@ -418,116 +339,84 @@ public class RelativeFileSelectionDialog extends ElementTreeSelectionDialog
 			return null;
 		}
 
-		public String getText( Object arg0 )
-		{
-			if ( arg0 instanceof File )
-			{
+		public String getText(Object arg0) {
+			if (arg0 instanceof File) {
 				File f = (File) arg0;
-				if ( f.getName( ).trim( ).equals( "" ) ) //$NON-NLS-1$
+				if (f.getName().trim().equals("")) //$NON-NLS-1$
 				{
 					// For the case "File("C:\\")"
-					return f.getPath( );
+					return f.getPath();
 				}
-				return f.getName( );
+				return f.getName();
 			}
 			return ""; //$NON-NLS-1$
 		}
 
-		public void addListener( ILabelProviderListener arg0 )
-		{
+		public void addListener(ILabelProviderListener arg0) {
 
 		}
 
-		public void dispose( )
-		{
+		public void dispose() {
 
 		}
 
-		public boolean isLabelProperty( Object arg0, String arg1 )
-		{
+		public boolean isLabelProperty(Object arg0, String arg1) {
 			return false;
 		}
 
-		public void removeListener( ILabelProviderListener arg0 )
-		{
+		public void removeListener(ILabelProviderListener arg0) {
 
 		}
 
 	}
 
-	private static class SelectionValidator implements
-			ISelectionStatusValidator
-	{
+	private static class SelectionValidator implements ISelectionStatusValidator {
 
-		public IStatus validate( Object[] selections )
-		{
-			if ( selections != null && selections.length > 0 )
-			{
-				for ( Object o : selections )
-				{
-					if ( o instanceof File )
-					{
-						if ( ( (File) o ).isFile( ) )
-						{
-							return new Status( IStatus.OK,
-									"org.eclipse.datatools.connectivity.oda.flatfile.ui", //$NON-NLS-1$
-									IStatus.OK,
-									"", //$NON-NLS-1$
-									null );
+		public IStatus validate(Object[] selections) {
+			if (selections != null && selections.length > 0) {
+				for (Object o : selections) {
+					if (o instanceof File) {
+						if (((File) o).isFile()) {
+							return new Status(IStatus.OK, "org.eclipse.datatools.connectivity.oda.flatfile.ui", //$NON-NLS-1$
+									IStatus.OK, "", //$NON-NLS-1$
+									null);
 						}
 					}
 				}
 			}
-			return new Status( IStatus.ERROR,
-					"org.eclipse.datatools.connectivity.oda.flatfile.ui", //$NON-NLS-1$
-					IStatus.ERROR,
-					"", //$NON-NLS-1$
-					null );
+			return new Status(IStatus.ERROR, "org.eclipse.datatools.connectivity.oda.flatfile.ui", //$NON-NLS-1$
+					IStatus.ERROR, "", //$NON-NLS-1$
+					null);
 		}
 
 	}
 
-	public String[] getSelectedItems( )
-	{
-		List<String> result = new ArrayList<String>( );
-		Object[] selected = this.getResult( ) == null ? new Object[0]
-				: this.getResult( );
-		for ( Object o : selected )
-		{
+	public String[] getSelectedItems() {
+		List<String> result = new ArrayList<String>();
+		Object[] selected = this.getResult() == null ? new Object[0] : this.getResult();
+		for (Object o : selected) {
 			File f = (File) o;
-			if ( f.isFile( ) )
-			{
-				URI relative = rootFolder.toURI( ).relativize( f.toURI( ) );
-				result.add( relative.getPath( ) );
+			if (f.isFile()) {
+				URI relative = rootFolder.toURI().relativize(f.toURI());
+				result.add(relative.getPath());
 			}
 		}
 
-		return result.toArray( new String[0] );
+		return result.toArray(new String[0]);
 	}
 
-	public static class FileComparator implements
-			Comparator<File>,
-			Serializable
-	{
+	public static class FileComparator implements Comparator<File>, Serializable {
 
 		private static final long serialVersionUID = 1L;
 
-		public int compare( File o1, File o2 )
-		{
-			if ( o1.isDirectory( ) && o2.isDirectory( ) )
-			{
-				return o1.getName( ).compareTo( o2.getName( ) );
-			}
-			else if ( o1.isFile( ) && o2.isFile( ) )
-			{
-				return o1.getName( ).compareTo( o2.getName( ) );
-			}
-			else if ( o1.isDirectory( ) && !o2.isDirectory( ) )
-			{
+		public int compare(File o1, File o2) {
+			if (o1.isDirectory() && o2.isDirectory()) {
+				return o1.getName().compareTo(o2.getName());
+			} else if (o1.isFile() && o2.isFile()) {
+				return o1.getName().compareTo(o2.getName());
+			} else if (o1.isDirectory() && !o2.isDirectory()) {
 				return -1;
-			}
-			else
-			{
+			} else {
 				// o1 is not a directory but o2 is a directory
 				return 1;
 			}

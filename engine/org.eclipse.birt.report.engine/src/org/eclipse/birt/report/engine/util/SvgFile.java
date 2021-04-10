@@ -20,62 +20,48 @@ import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
 
-public class SvgFile
-{
+public class SvgFile {
 
-	private static Logger logger = Logger.getLogger( SvgFile.class.getName( ) );
+	private static Logger logger = Logger.getLogger(SvgFile.class.getName());
 
 	static boolean isSvg = false;
 
-	public static boolean isSvg( String uri )
-	{
-		if ( uri != null && uri.endsWith( ".svg" ) )
-		{
+	public static boolean isSvg(String uri) {
+		if (uri != null && uri.endsWith(".svg")) {
 			isSvg = true;
-		}
-		else
-		{
+		} else {
 			isSvg = false;
 		}
 		return isSvg;
 	}
-	
-	public static boolean isSvg( String mimeType, String uri, String extension )
-	{
-		isSvg = ( ( mimeType != null ) && mimeType
-				.equalsIgnoreCase( "image/svg+xml" ) ) //$NON-NLS-1$
-				|| ( ( uri != null ) && uri.toLowerCase( ).endsWith( ".svg" ) ) //$NON-NLS-1$
-				|| ( ( extension != null ) && extension.toLowerCase( )
-						.endsWith( ".svg" ) ); //$NON-NLS-1$
+
+	public static boolean isSvg(String mimeType, String uri, String extension) {
+		isSvg = ((mimeType != null) && mimeType.equalsIgnoreCase("image/svg+xml")) //$NON-NLS-1$
+				|| ((uri != null) && uri.toLowerCase().endsWith(".svg")) //$NON-NLS-1$
+				|| ((extension != null) && extension.toLowerCase().endsWith(".svg")); //$NON-NLS-1$
 		return isSvg;
 	}
 
-	public static byte[] transSvgToArray( String uri ) throws Exception
-	{
-		InputStream in = new URL( uri ).openStream( );
-		try
-		{
-			return transSvgToArray( in );
-		}
-		finally
-		{
-			in.close( );
+	public static byte[] transSvgToArray(String uri) throws Exception {
+		InputStream in = new URL(uri).openStream();
+		try {
+			return transSvgToArray(in);
+		} finally {
+			in.close();
 		}
 	}
 
-	public static byte[] transSvgToArray( InputStream inputStream )
-			throws Exception
-	{
-		PNGTranscoder transcoder = new PNGTranscoder( );
+	public static byte[] transSvgToArray(InputStream inputStream) throws Exception {
+		PNGTranscoder transcoder = new PNGTranscoder();
 		// create the transcoder input
-		TranscoderInput input = new TranscoderInput( inputStream );
+		TranscoderInput input = new TranscoderInput(inputStream);
 		// create the transcoder output
-		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
-		TranscoderOutput output = new TranscoderOutput( ostream );
-		transcoder.transcode( input, output );
+		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+		TranscoderOutput output = new TranscoderOutput(ostream);
+		transcoder.transcode(input, output);
 		// flush the stream
-		ostream.flush( );
+		ostream.flush();
 		// use the output stream as Image input stream.
-		return ostream.toByteArray( );
+		return ostream.toByteArray();
 	}
 }

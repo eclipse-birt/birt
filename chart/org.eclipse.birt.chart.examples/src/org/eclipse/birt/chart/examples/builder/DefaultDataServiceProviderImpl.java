@@ -30,8 +30,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
  * Provides a basic implementation for simulated data service. Used in launcher.
  * 
  */
-public class DefaultDataServiceProviderImpl implements IDataServiceProvider
-{
+public class DefaultDataServiceProviderImpl implements IDataServiceProvider {
 
 	private static final int COLUMN_COUNT = 8;
 	private static final int ROW_COUNT = 6;
@@ -39,14 +38,14 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getPreviewHeader(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getPreviewHeader(
+	 * java.lang.String)
 	 */
-	public String[] getPreviewHeader( )
-	{
+	public String[] getPreviewHeader() {
 		String[] columns = new String[COLUMN_COUNT];
-		for ( int i = 0; i < columns.length; i++ )
-		{
-			columns[i] = "DB Col " + ( i + 1 ); //$NON-NLS-1$
+		for (int i = 0; i < columns.length; i++) {
+			columns[i] = "DB Col " + (i + 1); //$NON-NLS-1$
 		}
 		return columns;
 	}
@@ -54,19 +53,18 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getPreviewData(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getPreviewData(java
+	 * .lang.String)
 	 */
-	public List getPreviewData( )
-	{
-		List list = new ArrayList( );
-		for ( int rowNum = 0; rowNum < ROW_COUNT; rowNum++ )
-		{
+	public List getPreviewData() {
+		List list = new ArrayList();
+		for (int rowNum = 0; rowNum < ROW_COUNT; rowNum++) {
 			String[] columns = new String[COLUMN_COUNT];
-			for ( int i = 0; i < columns.length; i++ )
-			{
-				columns[i] = String.valueOf( ( rowNum + 1 ) * ( i + 1 ) );
+			for (int i = 0; i < columns.length; i++) {
+				columns[i] = String.valueOf((rowNum + 1) * (i + 1));
 			}
-			list.add( columns );
+			list.add(columns);
 		}
 		return list;
 	}
@@ -76,119 +74,104 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	 * 
 	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getAllStyles()
 	 */
-	public String[] getAllStyles( )
-	{
-		return new String[]{};
+	public String[] getAllStyles() {
+		return new String[] {};
 	}
 
-	public String[] getAllStyleDisplayNames( )
-	{
-		return getAllStyles( );
+	public String[] getAllStyleDisplayNames() {
+		return getAllStyles();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getCurrentStyle()
+	 * @see
+	 * org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getCurrentStyle()
 	 */
-	public String getCurrentStyle( )
-	{
+	public String getCurrentStyle() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#setStyle(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#setStyle(java.lang.
+	 * String)
 	 */
-	public void setStyle( String styleName )
-	{
+	public void setStyle(String styleName) {
 		// TODO Auto-generated method stub
 	}
 
-	public Object[] getDataForColumns( String[] sExpressions, int iMaxRecords,
-			boolean byRow )
-	{
+	public Object[] getDataForColumns(String[] sExpressions, int iMaxRecords, boolean byRow) {
 		// Always provide data by column whatever the byRow is false/true.
 		Object[] array = new Object[sExpressions.length];
-		for ( int i = 0; i < sExpressions.length; i++ )// a column
+		for (int i = 0; i < sExpressions.length; i++)// a column
 		{
 			Object[] innerArray = new Object[ROW_COUNT];// a row
-			for ( int j = 0; j < ROW_COUNT; j++ )
-			{
+			for (int j = 0; j < ROW_COUNT; j++) {
 				String str = sExpressions[i];
-				int intStart = str.lastIndexOf( ' ' ) + 1;
-				int index = Integer.valueOf( str.substring( intStart,
-						intStart + 1 ) ).intValue( ) - 1;
-				innerArray[j] = new Integer( ( (String[]) getPreviewData( ).get( j ) )[index] );
+				int intStart = str.lastIndexOf(' ') + 1;
+				int index = Integer.valueOf(str.substring(intStart, intStart + 1)).intValue() - 1;
+				innerArray[j] = new Integer(((String[]) getPreviewData().get(j))[index]);
 			}
 			array[i] = innerArray;
 		}
 		return array;
 	}
 
-	public boolean isLivePreviewEnabled( )
-	{
+	public boolean isLivePreviewEnabled() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getDataType(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getDataType(
+	 * java.lang.String)
 	 */
-	public DataType getDataType( String expression )
-	{
+	public DataType getDataType(String expression) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#prepareRowExpressionEvaluator(org.eclipse.birt.chart.model.Chart,
-	 *      java.util.List, int, boolean)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#
+	 * prepareRowExpressionEvaluator(org.eclipse.birt.chart.model.Chart,
+	 * java.util.List, int, boolean)
 	 */
-	public IDataRowExpressionEvaluator prepareRowExpressionEvaluator( Chart cm,
-			List expressions, int maxRecords, boolean byRow )
-			throws ChartException
-	{
+	public IDataRowExpressionEvaluator prepareRowExpressionEvaluator(Chart cm, List expressions, int maxRecords,
+			boolean byRow) throws ChartException {
 		final Object[] columnData;
-		columnData = getDataForColumns( (String[]) expressions.toArray( new String[expressions.size( )] ),
-				-1,
-				false );
+		columnData = getDataForColumns((String[]) expressions.toArray(new String[expressions.size()]), -1, false);
 
-		final Map map = new HashMap( );
-		for ( int i = 0; i < expressions.size( ); i++ )
-		{
-			map.put( expressions.get( i ), columnData[i] );
+		final Map map = new HashMap();
+		for (int i = 0; i < expressions.size(); i++) {
+			map.put(expressions.get(i), columnData[i]);
 		}
-		IDataRowExpressionEvaluator evaluator = new DataRowExpressionEvaluatorAdapter( ) {
+		IDataRowExpressionEvaluator evaluator = new DataRowExpressionEvaluatorAdapter() {
 
 			private int i;
 			private Object[] column;
 
-			public Object evaluate( String expression )
-			{
-				column = (Object[]) map.get( expression );
-				if ( i >= column.length )
-				{
-					throw new RuntimeException( new ChartException( ChartUIPlugin.ID,
-							ChartException.DATA_SET,
-							Messages.getString( "ChartUIUtil.Exception.NoValueReturned" ) ) ); //$NON-NLS-1$
+			public Object evaluate(String expression) {
+				column = (Object[]) map.get(expression);
+				if (i >= column.length) {
+					throw new RuntimeException(new ChartException(ChartUIPlugin.ID, ChartException.DATA_SET,
+							Messages.getString("ChartUIUtil.Exception.NoValueReturned"))); //$NON-NLS-1$
 				}
 				return column[i];
 			}
 
-			public boolean first( )
-			{
+			public boolean first() {
 				i = 0;
 
-				if ( map.size( ) > 0 )
-				{
-					column = (Object[]) map.values( ).iterator( ).next( );
+				if (map.size() > 0) {
+					column = (Object[]) map.values().iterator().next();
 
-					if ( column != null && i <= column.length - 1 )
-					{
+					if (column != null && i <= column.length - 1) {
 						return true;
 					}
 				}
@@ -196,18 +179,15 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 				return false;
 			}
 
-			public boolean next( )
-			{
-				if ( column != null && i < column.length - 1 )
-				{
+			public boolean next() {
+				if (column != null && i < column.length - 1) {
 					i++;
 					return true;
 				}
 				return false;
 			}
 
-			public void close( )
-			{
+			public void close() {
 				// no-op
 			}
 		};
@@ -218,11 +198,11 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#update(int,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#update(int,
+	 * java.lang.Object)
 	 */
-	public boolean update( String type, Object value )
-	{
+	public boolean update(String type, Object value) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -230,50 +210,57 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getStateInformation()
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#
+	 * getStateInformation()
 	 */
-	public int getState( )
-	{
+	public int getState() {
 		return 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkState(int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkState(int)
 	 */
-	public boolean checkState( int state )
-	{
+	public boolean checkState(int state) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkData(java.lang.String, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkData(java.
+	 * lang.String, java.lang.Object)
 	 */
-	public Object checkData( String checkType, Object data )
-	{
+	public Object checkData(String checkType, Object data) {
 		return null;
 	}
 
-	public void adaptExpressions( IChartObject ico )
-	{
+	public void adaptExpressions(IChartObject ico) {
 		// TODO Auto-generated method stub
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#dispose()
 	 */
-	public void dispose( )
-	{
+	public void dispose() {
 		// No code here.
-		
+
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#initialize()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#initialize()
 	 */
-	public void initialize( ) throws ChartException
-	{
+	public void initialize() throws ChartException {
 		// No code here.
 	}
 }

@@ -18,10 +18,9 @@ import org.eclipse.core.runtime.Status;
 /**
  * Utility class to logger viewer related error logs.
  */
-public class LogUtil
-{
+public class LogUtil {
 
-	private static ILog logger = ViewerPlugin.getDefault( ).getLog( );
+	private static ILog logger = ViewerPlugin.getDefault().getLog();
 
 	/**
 	 * Log message
@@ -30,10 +29,8 @@ public class LogUtil
 	 * @param message
 	 * @param exception
 	 */
-	public static void log( int severity, String message, Throwable exception )
-	{
-		logger.log( new Status( severity, ViewerPlugin.PLUGIN_ID, Status.OK,
-				message, exception ) );
+	public static void log(int severity, String message, Throwable exception) {
+		logger.log(new Status(severity, ViewerPlugin.PLUGIN_ID, Status.OK, message, exception));
 	}
 
 	/**
@@ -42,10 +39,8 @@ public class LogUtil
 	 * @param message
 	 * @param exception
 	 */
-	public static void logCancel( String message, Throwable exception )
-	{
-		logger.log( new Status( Status.CANCEL, ViewerPlugin.PLUGIN_ID,
-				Status.OK, message, exception ) );
+	public static void logCancel(String message, Throwable exception) {
+		logger.log(new Status(Status.CANCEL, ViewerPlugin.PLUGIN_ID, Status.OK, message, exception));
 	}
 
 	/**
@@ -54,10 +49,8 @@ public class LogUtil
 	 * @param message
 	 * @param exception
 	 */
-	public static void logError( String message, Throwable exception )
-	{
-		logger.log( new Status( Status.ERROR, ViewerPlugin.PLUGIN_ID,
-				Status.OK, message, exception ) );
+	public static void logError(String message, Throwable exception) {
+		logger.log(new Status(Status.ERROR, ViewerPlugin.PLUGIN_ID, Status.OK, message, exception));
 	}
 
 	/**
@@ -66,10 +59,8 @@ public class LogUtil
 	 * @param message
 	 * @param exception
 	 */
-	public static void logInfo( String message, Throwable exception )
-	{
-		logger.log( new Status( Status.INFO, ViewerPlugin.PLUGIN_ID, Status.OK,
-				message, exception ) );
+	public static void logInfo(String message, Throwable exception) {
+		logger.log(new Status(Status.INFO, ViewerPlugin.PLUGIN_ID, Status.OK, message, exception));
 	}
 
 	/**
@@ -78,10 +69,8 @@ public class LogUtil
 	 * @param message
 	 * @param exception
 	 */
-	public static void logOk( String message, Throwable exception )
-	{
-		logger.log( new Status( Status.OK, ViewerPlugin.PLUGIN_ID, Status.OK,
-				message, exception ) );
+	public static void logOk(String message, Throwable exception) {
+		logger.log(new Status(Status.OK, ViewerPlugin.PLUGIN_ID, Status.OK, message, exception));
 	}
 
 	/**
@@ -90,9 +79,7 @@ public class LogUtil
 	 * @param message
 	 * @param exception
 	 */
-	public static void logWarning( String message, Throwable exception )
-	{
-		logger.log( new Status( Status.WARNING, ViewerPlugin.PLUGIN_ID,
-				Status.OK, message, exception ) );
+	public static void logWarning(String message, Throwable exception) {
+		logger.log(new Status(Status.WARNING, ViewerPlugin.PLUGIN_ID, Status.OK, message, exception));
 	}
 }

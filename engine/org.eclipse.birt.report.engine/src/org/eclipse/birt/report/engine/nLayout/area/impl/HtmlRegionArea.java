@@ -14,43 +14,33 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.nLayout.area.IContainerArea;
 
-public class HtmlRegionArea extends RegionArea implements IContainerArea
-{
-	public HtmlRegionArea( )
-	{
-		super( );
+public class HtmlRegionArea extends RegionArea implements IContainerArea {
+	public HtmlRegionArea() {
+		super();
 	}
 
-	HtmlRegionArea( HtmlRegionArea area )
-	{
-		super( area );
+	HtmlRegionArea(HtmlRegionArea area) {
+		super(area);
 	}
-	
-	public void close( ) throws BirtException
-	{
-		if ( specifiedHeight >= currentBP )
-		{	
+
+	public void close() throws BirtException {
+		if (specifiedHeight >= currentBP) {
 			finished = true;
-		}
-		else
-		{
+		} else {
 			finished = false;
 		}
-		setContentHeight( specifiedHeight );
+		setContentHeight(specifiedHeight);
 	}
-	
-	public void update( AbstractArea area ) throws BirtException
-	{
-		int aHeight = area.getAllocatedHeight( );
+
+	public void update(AbstractArea area) throws BirtException {
+		int aHeight = area.getAllocatedHeight();
 		currentBP += aHeight;
-		if ( currentIP + area.getAllocatedWidth( ) > maxAvaWidth )
-		{
-			setNeedClip( true );
+		if (currentIP + area.getAllocatedWidth() > maxAvaWidth) {
+			setNeedClip(true);
 		}
 	}
-	
-	public boolean isFinished( )
-	{
+
+	public boolean isFinished() {
 		return finished;
 	}
 

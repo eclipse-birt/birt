@@ -18,18 +18,17 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
  * Data provider class - Implements the getNodeDisplayName method for this node
  * type.
  */
-public class DataProvider extends LabelElementProvider
-{
+public class DataProvider extends LabelElementProvider {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.outline.providers.LabelElementProvider#getDescription(org.eclipse.birt.model.api.DesignElementHandle)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.outline.providers.
+	 * LabelElementProvider#getDescription(org.eclipse.birt.model.api.
+	 * DesignElementHandle)
 	 */
-	protected String getDescription( DesignElementHandle handle )
-	{
-		return getDescription( ( (DataItemHandle) handle ).getResultSetColumn( ),
-				false );
+	protected String getDescription(DesignElementHandle handle) {
+		return getDescription(((DataItemHandle) handle).getResultSetColumn(), false);
 	}
 
 }

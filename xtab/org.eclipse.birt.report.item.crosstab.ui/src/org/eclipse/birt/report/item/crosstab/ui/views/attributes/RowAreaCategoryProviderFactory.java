@@ -23,25 +23,22 @@ import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.RowSubTota
 /**
  * RowAreaCategoryProviderFactory
  */
-public class RowAreaCategoryProviderFactory extends CategoryProviderFactory
-{
+public class RowAreaCategoryProviderFactory extends CategoryProviderFactory {
 
-	private static ICategoryProviderFactory instance = new RowAreaCategoryProviderFactory( );
+	private static ICategoryProviderFactory instance = new RowAreaCategoryProviderFactory();
 
 	public final static String SUB_TOTLES = "SubTotals"; //$NON-NLS-1$
 	public final static String GRAND_TOTALS = "GrandTotals"; //$NON-NLS-1$
 	public final static String PAGE_BREAK = "PageBreak"; //$NON-NLS-1$
 
-	protected RowAreaCategoryProviderFactory( )
-	{
+	protected RowAreaCategoryProviderFactory() {
 	}
 
 	/**
 	 * 
 	 * @return The unique CategoryProviderFactory instance
 	 */
-	public static ICategoryProviderFactory getInstance( )
-	{
+	public static ICategoryProviderFactory getInstance() {
 		return instance;
 	}
 
@@ -51,20 +48,13 @@ public class RowAreaCategoryProviderFactory extends CategoryProviderFactory
 	 * @seeorg.eclipse.birt.report.designer.ui.views.attributes.providers.
 	 * ICategoryProviderFactory#getCategoryProvider(java.lang.Object)
 	 */
-	public ICategoryProvider getCategoryProvider( Object input )
-	{
-		return AttributesUtil.createCategoryProvider( null, new String[]{
-				RowAreaCategoryProviderFactory.SUB_TOTLES,
-				RowAreaCategoryProviderFactory.GRAND_TOTALS,
-				RowAreaCategoryProviderFactory.PAGE_BREAK,
-		}, new String[]{
-				Messages.getString( "CrosstabPageGenerator.List.SubTotals" ), //$NON-NLS-1$
-				Messages.getString( "CrosstabPageGenerator.List.GrandTotals" ), //$NON-NLS-1$
-				Messages.getString( "CrosstabPageGenerator.List.PageBreak" ), //$NON-NLS-1$
-		}, new Class[]{
-				RowSubTotalPage.class,
-				RowGrandTotalPage.class,
-				RowPageBreak.class,
-		} );
+	public ICategoryProvider getCategoryProvider(Object input) {
+		return AttributesUtil.createCategoryProvider(null,
+				new String[] { RowAreaCategoryProviderFactory.SUB_TOTLES, RowAreaCategoryProviderFactory.GRAND_TOTALS,
+						RowAreaCategoryProviderFactory.PAGE_BREAK, },
+				new String[] { Messages.getString("CrosstabPageGenerator.List.SubTotals"), //$NON-NLS-1$
+						Messages.getString("CrosstabPageGenerator.List.GrandTotals"), //$NON-NLS-1$
+						Messages.getString("CrosstabPageGenerator.List.PageBreak"), //$NON-NLS-1$
+				}, new Class[] { RowSubTotalPage.class, RowGrandTotalPage.class, RowPageBreak.class, });
 	}
 }

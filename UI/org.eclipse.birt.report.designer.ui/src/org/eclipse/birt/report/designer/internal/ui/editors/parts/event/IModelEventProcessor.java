@@ -20,8 +20,7 @@ import org.eclipse.core.runtime.IAdaptable;
  * event, and the processot union and ignore by the filter the event to improve
  * the performance.
  */
-public interface IModelEventProcessor extends IAdaptable
-{
+public interface IModelEventProcessor extends IAdaptable {
 
 	/**
 	 * Collect the event when the model element change.
@@ -29,15 +28,15 @@ public interface IModelEventProcessor extends IAdaptable
 	 * @param focus
 	 * @param ev
 	 */
-	void addElementEvent( DesignElementHandle focus, NotificationEvent ev );
+	void addElementEvent(DesignElementHandle focus, NotificationEvent ev);
 
 	/**
 	 * Post the event when the model event trans commit;
 	 */
-	void postElementEvent( );
+	void postElementEvent();
 
 	/**
 	 * Clear the event, when the model event trans roll back;
 	 */
-	void clear( );
+	void clear();
 }

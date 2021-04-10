@@ -16,15 +16,14 @@ import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 
 import javax.olap.cursor.CubeCursor;
 
-public interface ICubeResultSet extends IBaseResultSet
-{
+public interface ICubeResultSet extends IBaseResultSet {
 
-	CubeCursor getCubeCursor( );
+	CubeCursor getCubeCursor();
 
-	String getCellIndex( );
+	String getCellIndex();
 
-	void skipTo( String cellIndex ) throws BirtException;
-	
-	IBaseCubeQueryDefinition getCubeQuery( );
+	void skipTo(String cellIndex) throws BirtException;
+
+	IBaseCubeQueryDefinition getCubeQuery();
 
 }

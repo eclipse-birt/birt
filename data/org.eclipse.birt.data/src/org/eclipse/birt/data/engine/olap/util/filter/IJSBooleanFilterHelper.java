@@ -17,17 +17,16 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public interface IJSBooleanFilterHelper
-{
+public interface IJSBooleanFilterHelper {
 
 	/**
 	 * This method is used to evaluate the filter expression.
-	 *  
+	 * 
 	 * @param expr
 	 * @param resultRow
 	 * @return
 	 * @throws DataException
 	 */
-	public boolean evaluateFilter( IResultRow resultRow ) throws DataException;
+	public boolean evaluateFilter(IResultRow resultRow) throws DataException;
 
 }

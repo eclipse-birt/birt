@@ -16,36 +16,32 @@ import java.util.Locale;
 /**
  * IEmitterConfigurationManager
  */
-public interface IEmitterConfigurationManager
-{
+public interface IEmitterConfigurationManager {
 
 	/**
 	 * Returns an emitter descriptor with the specified emitter ID.
 	 * 
-	 * @param emitterID
-	 *            the emitter ID.
+	 * @param emitterID the emitter ID.
 	 * @return an emitter descriptor with the specified emitter ID.
 	 */
-	IEmitterDescriptor getEmitterDescriptor( String emitterID );
+	IEmitterDescriptor getEmitterDescriptor(String emitterID);
 
 	/**
 	 * Returns an emitter descriptor with the specified emitter ID.
 	 * 
-	 * @param emitterID
-	 *            the emitter ID.
-	 * @param locale
-	 * 			  the descriptor locale           
+	 * @param emitterID the emitter ID.
+	 * @param locale    the descriptor locale
 	 * @return an emitter descriptor with the specified emitter ID.
 	 */
-	IEmitterDescriptor getEmitterDescriptor( String emitterID, Locale locale );
-	
+	IEmitterDescriptor getEmitterDescriptor(String emitterID, Locale locale);
+
 	/**
 	 * Register a custom emitter descriptor manually. It will overwrite the
 	 * descriptor with same emitter id if exists.
 	 * 
 	 * @param descriptor
 	 */
-	void registerEmitterDescriptor( IEmitterDescriptor descriptor );
+	void registerEmitterDescriptor(IEmitterDescriptor descriptor);
 
 	/**
 	 * Remove a custom emitter descriptor manually. If there is a descriptor
@@ -54,5 +50,5 @@ public interface IEmitterConfigurationManager
 	 * 
 	 * @param descriptor
 	 */
-	void deregisterEmitterDescriptor( IEmitterDescriptor descriptor );
+	void deregisterEmitterDescriptor(IEmitterDescriptor descriptor);
 }

@@ -23,12 +23,10 @@ import org.eclipse.birt.report.model.api.simpleapi.IImage;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
-public class Image extends ReportItem implements IImage
-{
+public class Image extends ReportItem implements IImage {
 
-	public Image( ImageHandle image )
-	{
-		super( image );
+	public Image(ImageHandle image) {
+		super(image);
 	}
 
 	/*
@@ -37,9 +35,8 @@ public class Image extends ReportItem implements IImage
 	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getScale()
 	 */
 
-	public double getScale( )
-	{
-		return ( (ImageHandle) handle ).getScale( );
+	public double getScale() {
+		return ((ImageHandle) handle).getScale();
 	}
 
 	/*
@@ -48,24 +45,20 @@ public class Image extends ReportItem implements IImage
 	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getSize()
 	 */
 
-	public String getSize( )
-	{
-		return ( (ImageHandle) handle ).getSize( );
+	public String getSize() {
+		return ((ImageHandle) handle).getSize();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IImage#getAltText()
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getAltText()
 	 */
 	@Deprecated
-	public String getAltText( )
-	{
-		ExpressionHandle expr = ( (ImageHandle) handle ).getAltTextExpression(  );
-		if ( expr != null )
-		{
-			return expr.getStringExpression( );
+	public String getAltText() {
+		ExpressionHandle expr = ((ImageHandle) handle).getAltTextExpression();
+		if (expr != null) {
+			return expr.getStringExpression();
 		}
 		return null;
 	}
@@ -73,38 +66,31 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IImage#setAltText(java.lang
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IImage#setAltText(java.lang
 	 * .String)
 	 */
 	@Deprecated
-	public void setAltText( String altText ) throws SemanticException
-	{
-		setProperty( IReportItemModel.ALTTEXT_PROP, new Expression( altText,
-				ExpressionType.CONSTANT ) );
+	public void setAltText(String altText) throws SemanticException {
+		setProperty(IReportItemModel.ALTTEXT_PROP, new Expression(altText, ExpressionType.CONSTANT));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IImage#getAltTextKey()
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getAltTextKey()
 	 */
-	public String getAltTextKey( )
-	{
-		return ( (ImageHandle) handle ).getAltTextKey( );
+	public String getAltTextKey() {
+		return ((ImageHandle) handle).getAltTextKey();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IImage#setAltTextKey(java
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IImage#setAltTextKey(java
 	 * .lang.String)
 	 */
-	public void setAltTextKey( String altTextKey ) throws SemanticException
-	{
-		setProperty( IReportItemModel.ALTTEXT_KEY_PROP, altTextKey );
+	public void setAltTextKey(String altTextKey) throws SemanticException {
+		setProperty(IReportItemModel.ALTTEXT_KEY_PROP, altTextKey);
 	}
 
 	/*
@@ -113,23 +99,20 @@ public class Image extends ReportItem implements IImage
 	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getSource()
 	 */
 
-	public String getSource( )
-	{
-		return ( (ImageHandle) handle ).getSource( );
+	public String getSource() {
+		return ((ImageHandle) handle).getSource();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IImage#setSource(java
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setSource(java
 	 * .lang.String)
 	 */
 
-	public void setSource( String source ) throws SemanticException
-	{
+	public void setSource(String source) throws SemanticException {
 
-		setProperty( IImageItemModel.SOURCE_PROP, source );
+		setProperty(IImageItemModel.SOURCE_PROP, source);
 
 	}
 
@@ -139,22 +122,19 @@ public class Image extends ReportItem implements IImage
 	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getURI()
 	 */
 
-	public String getURI( )
-	{
-		return ( (ImageHandle) handle ).getURI( );
+	public String getURI() {
+		return ((ImageHandle) handle).getURI();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IImage#getTypeExpression
-	 * ()
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#getTypeExpression ()
 	 */
 
-	public String getTypeExpression( )
-	{
-		return ( (ImageHandle) handle ).getTypeExpression( );
+	public String getTypeExpression() {
+		return ((ImageHandle) handle).getTypeExpression();
 
 	}
 
@@ -166,51 +146,43 @@ public class Image extends ReportItem implements IImage
 	 * ()
 	 */
 
-	public String getValueExpression( )
-	{
-		return ( (ImageHandle) handle ).getValueExpression( );
+	public String getValueExpression() {
+		return ((ImageHandle) handle).getValueExpression();
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IImage#getImageName()
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getImageName()
 	 */
 
-	public String getImageName( )
-	{
-		return ( (ImageHandle) handle ).getImageName( );
+	public String getImageName() {
+		return ((ImageHandle) handle).getImageName();
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IImage#setImageName
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setImageName
 	 * (java.lang.String)
 	 */
 
-	public void setImageName( String name ) throws SemanticException
-	{
+	public void setImageName(String name) throws SemanticException {
 
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
+		cmdStack.startNonUndoableTrans(null);
 
-		try
-		{
-			( (ImageHandle) handle ).setImageName( name );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		try {
+			((ImageHandle) handle).setImageName(name);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 
 	}
 
@@ -220,22 +192,18 @@ public class Image extends ReportItem implements IImage
 	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setURI(java.lang.String)
 	 */
 
-	public void setURI( String uri ) throws SemanticException
-	{
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+	public void setURI(String uri) throws SemanticException {
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			( (ImageHandle) handle ).setURI( uri );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			((ImageHandle) handle).setURI(uri);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -245,23 +213,20 @@ public class Image extends ReportItem implements IImage
 	 * org.eclipse.birt.report.engine.api.script.element.IImage#setScale(double)
 	 */
 
-	public void setScale( double scale ) throws SemanticException
-	{
+	public void setScale(double scale) throws SemanticException {
 
-		setProperty( IImageItemModel.SCALE_PROP, Double.valueOf( scale ) );
+		setProperty(IImageItemModel.SCALE_PROP, Double.valueOf(scale));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IImage#setSize(java
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setSize(java
 	 * .lang.String)
 	 */
 
-	public void setSize( String size ) throws SemanticException
-	{
-		setProperty( IImageItemModel.SIZE_PROP, size );
+	public void setSize(String size) throws SemanticException {
+		setProperty(IImageItemModel.SIZE_PROP, size);
 	}
 
 	/*
@@ -272,22 +237,18 @@ public class Image extends ReportItem implements IImage
 	 * (java.lang.String)
 	 */
 
-	public void setTypeExpression( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+	public void setTypeExpression(String value) throws SemanticException {
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			( (ImageHandle) handle ).setTypeExpression( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			((ImageHandle) handle).setTypeExpression(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 
 	}
 
@@ -299,48 +260,40 @@ public class Image extends ReportItem implements IImage
 	 * (java.lang.String)
 	 */
 
-	public void setValueExpression( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+	public void setValueExpression(String value) throws SemanticException {
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			( (ImageHandle) handle ).setValueExpression( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			((ImageHandle) handle).setValueExpression(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IImage#getHelpText()
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getHelpText()
 	 */
 
-	public String getHelpText( )
-	{
-		return ( (ImageHandle) handle ).getHelpText( );
+	public String getHelpText() {
+		return ((ImageHandle) handle).getHelpText();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IImage#setHelpText(
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setHelpText(
 	 * java.lang.String)
 	 */
 
-	public void setHelpText( String helpText ) throws SemanticException
-	{
+	public void setHelpText(String helpText) throws SemanticException {
 
-		setProperty( IImageItemModel.HELP_TEXT_PROP, helpText );
+		setProperty(IImageItemModel.HELP_TEXT_PROP, helpText);
 	}
 
 	/*
@@ -350,22 +303,19 @@ public class Image extends ReportItem implements IImage
 	 * org.eclipse.birt.report.engine.api.script.element.IImage#getHelpTextKey()
 	 */
 
-	public String getHelpTextKey( )
-	{
-		return ( (ImageHandle) handle ).getHelpTextKey( );
+	public String getHelpTextKey() {
+		return ((ImageHandle) handle).getHelpTextKey();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IImage#setHelpTextKey
+	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setHelpTextKey
 	 * (java.lang.String)
 	 */
 
-	public void setHelpTextKey( String helpTextKey ) throws SemanticException
-	{
-		setProperty( IImageItemModel.HELP_TEXT_ID_PROP, helpTextKey );
+	public void setHelpTextKey(String helpTextKey) throws SemanticException {
+		setProperty(IImageItemModel.HELP_TEXT_ID_PROP, helpTextKey);
 	}
 
 	/*
@@ -373,10 +323,8 @@ public class Image extends ReportItem implements IImage
 	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IImage#getAction()
 	 */
-	public IAction getAction( )
-	{
-		return new ActionImpl( ( (ImageHandle) handle ).getActionHandle( ),
-				(ImageHandle) handle );
+	public IAction getAction() {
+		return new ActionImpl(((ImageHandle) handle).getActionHandle(), (ImageHandle) handle);
 	}
 
 	/*
@@ -384,22 +332,18 @@ public class Image extends ReportItem implements IImage
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setFile()
 	 */
-	public void setFile( String file ) throws SemanticException
-	{
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+	public void setFile(String file) throws SemanticException {
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			( (ImageHandle) handle ).setFile( file );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			((ImageHandle) handle).setFile(file);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -407,9 +351,8 @@ public class Image extends ReportItem implements IImage
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getFile()
 	 */
-	public String getFile( )
-	{
-		return ( (ImageHandle) handle ).getFile( );
+	public String getFile() {
+		return ((ImageHandle) handle).getFile();
 	}
 
 	/*
@@ -417,22 +360,18 @@ public class Image extends ReportItem implements IImage
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setURL()
 	 */
-	public void setURL( String url ) throws SemanticException
-	{
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+	public void setURL(String url) throws SemanticException {
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			( (ImageHandle) handle ).setURL( url );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			((ImageHandle) handle).setURL(url);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -440,37 +379,30 @@ public class Image extends ReportItem implements IImage
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getURL()
 	 */
-	public String getURL( )
-	{
-		return ( (ImageHandle) handle ).getURL( );
+	public String getURL() {
+		return ((ImageHandle) handle).getURL();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IImage#addAction(org.eclipse
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IImage#addAction(org.eclipse
 	 * .birt.report.model.api.simpleapi.IAction)
 	 */
-	public void addAction( IAction action ) throws SemanticException
-	{
-		if ( action == null )
+	public void addAction(IAction action) throws SemanticException {
+		if (action == null)
 			return;
 
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			( (ImageHandle) handle )
-					.setAction( (Action) action.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			((ImageHandle) handle).setAction((Action) action.getStructure());
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 }

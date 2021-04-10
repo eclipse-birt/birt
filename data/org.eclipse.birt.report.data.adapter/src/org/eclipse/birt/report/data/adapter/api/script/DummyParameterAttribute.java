@@ -17,8 +17,7 @@ import java.io.Serializable;
  * The dummy object to hold tha report paramter attributes
  *
  */
-public class DummyParameterAttribute implements Serializable
-{
+public class DummyParameterAttribute implements Serializable {
 
 	private static final long serialVersionUID = 29392938327489L;
 	private Object value;
@@ -29,22 +28,19 @@ public class DummyParameterAttribute implements Serializable
 	 * @param value
 	 * @param displayText
 	 */
-	public DummyParameterAttribute( Object value, String displayText )
-	{
+	public DummyParameterAttribute(Object value, String displayText) {
 		this.value = value;
 		this.displayText = displayText;
 	}
 
-	public DummyParameterAttribute( )
-	{
+	public DummyParameterAttribute() {
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public String getDisplayText( )
-	{
+	public String getDisplayText() {
 		return displayText;
 	}
 
@@ -52,8 +48,7 @@ public class DummyParameterAttribute implements Serializable
 	 * 
 	 * @param displayText
 	 */
-	public void setDisplayText( String displayText )
-	{
+	public void setDisplayText(String displayText) {
 		this.displayText = displayText;
 	}
 
@@ -61,8 +56,7 @@ public class DummyParameterAttribute implements Serializable
 	 * 
 	 * @return
 	 */
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return value;
 	}
 
@@ -70,8 +64,7 @@ public class DummyParameterAttribute implements Serializable
 	 * 
 	 * @param value
 	 */
-	public void setValue( Object value )
-	{
+	public void setValue(Object value) {
 		this.value = value;
 	}
 }

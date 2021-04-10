@@ -51,41 +51,37 @@ import org.eclipse.birt.report.model.elements.interfaces.IInternalReportItemMode
  * below.)</li>
  * <li>Adjust the element size to fit the image.</li>
  * <p>
- *  
+ * 
  */
 
-public class ImageItem extends ReportItem implements IImageItemModel
-{
+public class ImageItem extends ReportItem implements IImageItemModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public ImageItem( )
-	{
+	public ImageItem() {
 	}
 
 	/**
 	 * Constructs the image item with an optional name.
 	 * 
-	 * @param theName
-	 *            the name of this image item, which is optional.
+	 * @param theName the name of this image item, which is optional.
 	 */
 
-	public ImageItem( String theName )
-	{
-		super( theName );
+	public ImageItem(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitImage( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitImage(this);
 	}
 
 	/*
@@ -94,35 +90,32 @@ public class ImageItem extends ReportItem implements IImageItemModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.IMAGE_ITEM;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public ImageHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new ImageHandle( module, this );
+	public ImageHandle handle(Module module) {
+		if (handle == null) {
+			handle = new ImageHandle(module, this);
 		}
 		return (ImageHandle) handle;
 	}
@@ -130,30 +123,25 @@ public class ImageItem extends ReportItem implements IImageItemModel
 	/**
 	 * Returns the image scale.
 	 * 
-	 * @param design
-	 *            the report design instance
+	 * @param design the report design instance
 	 * @return the image scale value, which should be between 0 and 1.0.
 	 */
 
-	public double getImageScale( ReportDesign design )
-	{
-		return getFloatProperty( design, SCALE_PROP );
+	public double getImageScale(ReportDesign design) {
+		return getFloatProperty(design, SCALE_PROP);
 	}
 
 	/**
 	 * Returns the alternate text of the image.
 	 * 
-	 * @param design
-	 *            the report design instance
+	 * @param design the report design instance
 	 * @return the alternate text
 	 */
 
-	public String getAltText( ReportDesign design )
-	{
-		Expression expr = (Expression) getProperty( design, IInternalReportItemModel.ALTTEXT_PROP );
-		if ( expr != null )
-		{
-			return expr.getStringExpression( );
+	public String getAltText(ReportDesign design) {
+		Expression expr = (Expression) getProperty(design, IInternalReportItemModel.ALTTEXT_PROP);
+		if (expr != null) {
+			return expr.getStringExpression();
 		}
 		return null;
 	}
@@ -161,41 +149,28 @@ public class ImageItem extends ReportItem implements IImageItemModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.eclipse.
+	 * birt.report.model.elements.ReportDesign, int)
 	 */
 
-	public String getDisplayLabel( Module module, int level )
-	{
-		String displayLabel = super.getDisplayLabel( module, level );
-		if ( level == IDesignElementModel.FULL_LABEL )
-		{
+	public String getDisplayLabel(Module module, int level) {
+		String displayLabel = super.getDisplayLabel(module, level);
+		if (level == IDesignElementModel.FULL_LABEL) {
 			displayLabel += "("; //$NON-NLS-1$
 
-			String sourceType = getStringProperty( module, SOURCE_PROP );
+			String sourceType = getStringProperty(module, SOURCE_PROP);
 
-			if ( DesignChoiceConstants.IMAGE_REF_TYPE_FILE
-					.equalsIgnoreCase( sourceType )
-					|| DesignChoiceConstants.IMAGE_REF_TYPE_URL
-							.equalsIgnoreCase( sourceType ) )
-			{
-				displayLabel += limitStringLength( getStringProperty( module,
-						URI_PROP ) );
-			}
-			else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
-					.equalsIgnoreCase( sourceType ) )
-			{
-				displayLabel += limitStringLength( getStringProperty( module,
-						IMAGE_NAME_PROP ) );
-			}
-			else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
-					.equalsIgnoreCase( sourceType ) )
-			{
-				displayLabel += limitStringLength( getStringProperty( module,
-						VALUE_EXPR_PROP ) );
+			if (DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase(sourceType)
+					|| DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase(sourceType)) {
+				displayLabel += limitStringLength(getStringProperty(module, URI_PROP));
+			} else if (DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equalsIgnoreCase(sourceType)) {
+				displayLabel += limitStringLength(getStringProperty(module, IMAGE_NAME_PROP));
+			} else if (DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equalsIgnoreCase(sourceType)) {
+				displayLabel += limitStringLength(getStringProperty(module, VALUE_EXPR_PROP));
 			}
 
-			displayLabel += ")"; //$NON-NLS-1$		
+			displayLabel += ")"; //$NON-NLS-1$
 		}
 		return displayLabel;
 	}

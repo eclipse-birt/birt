@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * validation ID and the error list.
  */
 
-public class ValidationEvent extends NotificationEvent
-{
+public class ValidationEvent extends NotificationEvent {
 
 	/**
 	 * The error list returned from validator, each of which is the instance of
@@ -41,18 +40,14 @@ public class ValidationEvent extends NotificationEvent
 	/**
 	 * Constructs the validation event.
 	 * 
-	 * @param obj
-	 *            the element which is validated.
-	 * @param validationID
-	 *            the validation ID
-	 * @param errors
-	 *            the error list which is the validation result. Each one is the
-	 *            instance of <code>ErrorDetail</code>.
+	 * @param obj          the element which is validated.
+	 * @param validationID the validation ID
+	 * @param errors       the error list which is the validation result. Each one
+	 *                     is the instance of <code>ErrorDetail</code>.
 	 */
 
-	public ValidationEvent( DesignElement obj, String validationID, List errors )
-	{
-		super( obj );
+	public ValidationEvent(DesignElement obj, String validationID, List errors) {
+		super(obj);
 
 		deliveryPath = DIRECT;
 		this.validationID = validationID;
@@ -65,20 +60,18 @@ public class ValidationEvent extends NotificationEvent
 	 * @see org.eclipse.birt.report.model.activity.NotificationEvent#getEventType()
 	 */
 
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return VALIDATION_EVENT;
 	}
 
 	/**
-	 * Returns the error list which is the validation result. Each of the list
-	 * is the instance of <code>ErrorDetail</code>.
+	 * Returns the error list which is the validation result. Each of the list is
+	 * the instance of <code>ErrorDetail</code>.
 	 * 
 	 * @return the error list returned after validation
 	 */
 
-	public List getErrors( )
-	{
+	public List getErrors() {
 		return errors;
 	}
 
@@ -88,8 +81,7 @@ public class ValidationEvent extends NotificationEvent
 	 * @return the validation ID
 	 */
 
-	public String getValidationID( )
-	{
+	public String getValidationID() {
 		return validationID;
 	}
 }

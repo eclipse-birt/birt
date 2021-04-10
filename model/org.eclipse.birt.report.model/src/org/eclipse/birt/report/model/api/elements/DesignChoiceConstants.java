@@ -18,15 +18,14 @@ package org.eclipse.birt.report.model.api.elements;
  * @see ReportDesignConstants
  */
 
-public interface DesignChoiceConstants
-{
+public interface DesignChoiceConstants {
 
 	// fontFamily
 
 	public static final String CHOICE_FONT_FAMILY = "fontFamily"; //$NON-NLS-1$
-	public static final String FONT_FAMILY_SERIF = "serif"; //$NON-NLS-1$ 
-	public static final String FONT_FAMILY_SANS_SERIF = "sans-serif"; //$NON-NLS-1$ 
-	public static final String FONT_FAMILY_CURSIVE = "cursive"; //$NON-NLS-1$ 
+	public static final String FONT_FAMILY_SERIF = "serif"; //$NON-NLS-1$
+	public static final String FONT_FAMILY_SANS_SERIF = "sans-serif"; //$NON-NLS-1$
+	public static final String FONT_FAMILY_CURSIVE = "cursive"; //$NON-NLS-1$
 	public static final String FONT_FAMILY_FANTASY = "fantasy"; //$NON-NLS-1$
 	public static final String FONT_FAMILY_MONOSPACE = "monospace"; //$NON-NLS-1$
 
@@ -465,11 +464,11 @@ public interface DesignChoiceConstants
 	public static final String FORMAT_TYPE_REPORTLET = "reportlet"; //$NON-NLS-1$
 	public static final String FORMAT_TYPE_EXCEL = "excel"; //$NON-NLS-1$
 	public static final String FORMAT_TYPE_WORD = "word"; //$NON-NLS-1$
-	public static final String FORMAT_TYPE_POWERPOINT = "powerpoint"; //$NON-NLS-1$	
+	public static final String FORMAT_TYPE_POWERPOINT = "powerpoint"; //$NON-NLS-1$
 	public static final String FORMAT_TYPE_DOC = "doc"; //$NON-NLS-1$
 	/**
-	 * ImageRefType -- The image reference type. The first constant is the name
-	 * of ImageRefType choice. The followed constants are valid choice values of
+	 * ImageRefType -- The image reference type. The first constant is the name of
+	 * ImageRefType choice. The followed constants are valid choice values of
 	 * ImageRefType.
 	 */
 
@@ -481,9 +480,9 @@ public interface DesignChoiceConstants
 	public static final String IMAGE_REF_TYPE_EMBED = "embed"; //$NON-NLS-1$
 
 	/**
-	 * propertyMaskType -- The choice for the property mask. The first constant
-	 * is the name of propertyMaskType choice. The followed constants are valid
-	 * choice values of propertyMaskType.
+	 * propertyMaskType -- The choice for the property mask. The first constant is
+	 * the name of propertyMaskType choice. The followed constants are valid choice
+	 * values of propertyMaskType.
 	 */
 
 	public static final String CHOICE_PROPERTY_MASK_TYPE = "propertyMaskType"; //$NON-NLS-1$
@@ -492,9 +491,9 @@ public interface DesignChoiceConstants
 	public static final String PROPERTY_MASK_TYPE_HIDE = "hide"; //$NON-NLS-1$
 
 	/**
-	 * scalarParamAlign -- The choice for the scalarParamter alignment. The
-	 * first constant is the name of scalarParamAlign choice. The followed
-	 * constants are valid choice values of scalarParamAlign.
+	 * scalarParamAlign -- The choice for the scalarParamter alignment. The first
+	 * constant is the name of scalarParamAlign choice. The followed constants are
+	 * valid choice values of scalarParamAlign.
 	 */
 
 	public static final String CHOICE_SCALAR_PARAM_ALIGN = "scalarParamAlign"; //$NON-NLS-1$
@@ -526,9 +525,9 @@ public interface DesignChoiceConstants
 	public static final String COLUMN_DATA_TYPE_JAVA_OBJECT = "javaObject";//$NON-NLS-1$
 
 	/**
-	 * searchType -- The search type for column hint The first constant is the
-	 * name of searchType choice. The followed constants are valid choice values
-	 * of searchType.
+	 * searchType -- The search type for column hint The first constant is the name
+	 * of searchType choice. The followed constants are valid choice values of
+	 * searchType.
 	 */
 
 	public static final String CHOICE_SEARCH_TYPE = "searchType"; //$NON-NLS-1$
@@ -537,9 +536,9 @@ public interface DesignChoiceConstants
 	public static final String SEARCH_TYPE_NONE = "none"; //$NON-NLS-1$
 
 	/**
-	 * exportType -- The export type for column hint The first constant is the
-	 * name of exportType choice. The followed constants are valid choice values
-	 * of exportType.
+	 * exportType -- The export type for column hint The first constant is the name
+	 * of exportType choice. The followed constants are valid choice values of
+	 * exportType.
 	 */
 
 	public static final String CHOICE_EXPORT_TYPE = "exportType"; //$NON-NLS-1$
@@ -548,9 +547,9 @@ public interface DesignChoiceConstants
 	public static final String EXPORT_TYPE_ALWAYS = "always"; //$NON-NLS-1$
 
 	/**
-	 * analysisType -- The analysis type for column hint The first constant is
-	 * the name of analysisType choice. The followed constants are valid choice
-	 * values of analysisType.
+	 * analysisType -- The analysis type for column hint The first constant is the
+	 * name of analysisType choice. The followed constants are valid choice values
+	 * of analysisType.
 	 */
 
 	public static final String CHOICE_ANALYSIS_TYPE = "analysisType"; //$NON-NLS-1$
@@ -572,9 +571,9 @@ public interface DesignChoiceConstants
 	public static final String ANALYSIS_TYPE_NONE = "none"; //$NON-NLS-1$
 
 	/**
-	 * filterOperator -- The filter operator for filter condition The first
-	 * constant is the name of filterOperator choice. The followed constants are
-	 * valid choice values of filterOperator.
+	 * filterOperator -- The filter operator for filter condition The first constant
+	 * is the name of filterOperator choice. The followed constants are valid choice
+	 * values of filterOperator.
 	 */
 
 	public static final String CHOICE_FILTER_OPERATOR = "filterOperator"; //$NON-NLS-1$
@@ -640,7 +639,7 @@ public interface DesignChoiceConstants
 	 */
 
 	public static final String CHOICE_NUMBER_FORMAT_TYPE = "numberFormat"; //$NON-NLS-1$
-	public static final String NUMBER_FORMAT_TYPE_UNFORMATTED = "Unformatted"; //$NON-NLS-1$	
+	public static final String NUMBER_FORMAT_TYPE_UNFORMATTED = "Unformatted"; //$NON-NLS-1$
 	public static final String NUMBER_FORMAT_TYPE_GENERAL_NUMBER = "General Number"; //$NON-NLS-1$
 	public static final String NUMBER_FORMAT_TYPE_CURRENCY = "Currency"; //$NON-NLS-1$
 	public static final String NUMBER_FORMAT_TYPE_FIXED = "Fixed"; //$NON-NLS-1$
@@ -699,8 +698,8 @@ public interface DesignChoiceConstants
 	public static final String STRING_FORMAT_TYPE_UPPERCASE = ">"; //$NON-NLS-1$
 	public static final String STRING_FORMAT_TYPE_LOWERCASE = "<"; //$NON-NLS-1$
 	public static final String STRING_FORMAT_TYPE_CUSTOM = VALUE_FORMAT_TYPE_CUSTOM;
-	public static final String STRING_FORMAT_TYPE_ZIP_CODE = "Zip Code"; //$NON-NLS-1$	
-	public static final String STRING_FORMAT_TYPE_ZIP_CODE_4 = "Zip Code + 4"; //$NON-NLS-1$	
+	public static final String STRING_FORMAT_TYPE_ZIP_CODE = "Zip Code"; //$NON-NLS-1$
+	public static final String STRING_FORMAT_TYPE_ZIP_CODE_4 = "Zip Code + 4"; //$NON-NLS-1$
 	public static final String STRING_FORMAT_TYPE_PHONE_NUMBER = "Phone Number"; //$NON-NLS-1$
 	public static final String STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER = "Social Security Number"; //$NON-NLS-1$
 
@@ -713,9 +712,9 @@ public interface DesignChoiceConstants
 	public static final String TARGET_NAMES_TYPE_TOP = "_top"; //$NON-NLS-1$
 
 	/**
-	 * templateElementType -- the template element type The first constant is
-	 * the name of the templateElementType choice set. The followed constants
-	 * are valid choice values of the templateElementType.
+	 * templateElementType -- the template element type The first constant is the
+	 * name of the templateElementType choice set. The followed constants are valid
+	 * choice values of the templateElementType.
 	 */
 
 	public static final String CHOICE_TEMPLATE_ELEMENT_TYPE = "templateElementType"; //$NON-NLS-1$
@@ -733,8 +732,7 @@ public interface DesignChoiceConstants
 
 	/**
 	 * sortType -- the sort type. The first constant is the name of the sortType
-	 * choice set. The followed constants are valid choice values of the
-	 * sortType.
+	 * choice set. The followed constants are valid choice values of the sortType.
 	 */
 
 	public static final String CHOICE_SORT_TYPE = "sortType"; //$NON-NLS-1$
@@ -840,7 +838,7 @@ public interface DesignChoiceConstants
 	public static final String AGGREGATION_FUNCTION_IS_TOP_N = "is-top-n"; //$NON-NLS-1$
 	public static final String AGGREGATION_FUNCTION_IS_BOTTOM_N = "is-bottom-n"; //$NON-NLS-1$
 	public static final String AGGREGATION_FUNCTION_IS_TOP_N_PERCENT = "is-top-n-percent"; //$NON-NLS-1$
-	public static final String AGGREGATION_FUNCTION_IS_BOTTOM_N_PERCENT = "is-bottom-n-percent"; //$NON-NLS-1$	
+	public static final String AGGREGATION_FUNCTION_IS_BOTTOM_N_PERCENT = "is-bottom-n-percent"; //$NON-NLS-1$
 	public static final String AGGREGATION_FUNCTION_PERCENT_RANK = "percent-rank"; //$NON-NLS-1$
 	public static final String AGGREGATION_FUNCTION_PERCENTILE = "percentile"; //$NON-NLS-1$
 	public static final String AGGREGATION_FUNCTION_TOP_QUARTILE = "quartile"; //$NON-NLS-1$
@@ -1064,15 +1062,15 @@ public interface DesignChoiceConstants
 	public static final String NULLS_ORDERING_NULLS_LOWEST = "nulls lowest"; //$NON-NLS-1$
 	public static final String NULLS_ORDERING_NULLS_HIGHEST = "nulls highest"; //$NON-NLS-1$
 	public static final String NULLS_ORDERING_EXCLUDE_NULLS = "exclude nulls"; //$NON-NLS-1$
-	
+
 	public static final String CHOICE_FILTER_CONDITION_TYPE = "filterConditionType"; //$NON-NLS-1$
-	public static final String FILTER_CONDITION_TYPE_SLICER="slicer"; //$NON-NLS-1$
-	public static final String FILTER_CONDITION_TYPE_SIMPLE="simple"; //$NON-NLS-1$
+	public static final String FILTER_CONDITION_TYPE_SLICER = "slicer"; //$NON-NLS-1$
+	public static final String FILTER_CONDITION_TYPE_SIMPLE = "simple"; //$NON-NLS-1$
 
 	public static final String CHOICE_FLYOUT_POSITION = "flyoutPosition"; //$NON-NLS-1$
 	public static final String FLYOUT_POSITION_LEFT = "left"; //$NON-NLS-1$
 	public static final String FLYOUT_POSITION_RIGHT = "right"; //$NON-NLS-1$
-	
+
 	/**
 	 * Choice constants for reference date type.
 	 */

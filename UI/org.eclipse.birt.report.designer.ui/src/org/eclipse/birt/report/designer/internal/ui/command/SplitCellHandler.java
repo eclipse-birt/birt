@@ -20,25 +20,23 @@ import org.eclipse.core.commands.ExecutionException;
  * 
  */
 
-public class SplitCellHandler extends SelectionHandler
-{
+public class SplitCellHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
 
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Split action >> Run ..." ); //$NON-NLS-1$
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Split action >> Run ..."); //$NON-NLS-1$
 		}
-		if ( getTableEditPart( ) != null )
-		{
-			getTableEditPart( ).splitCell( getTableCellEditPart( ) );
+		if (getTableEditPart() != null) {
+			getTableEditPart().splitCell(getTableCellEditPart());
 		}
 
 		return Boolean.TRUE;
@@ -49,8 +47,7 @@ public class SplitCellHandler extends SelectionHandler
 	 * 
 	 * @return current table cell edit part
 	 */
-	private TableCellEditPart getTableCellEditPart( )
-	{
-		return (TableCellEditPart) getSelectedObjects( ).get( 0 );
+	private TableCellEditPart getTableCellEditPart() {
+		return (TableCellEditPart) getSelectedObjects().get(0);
 	}
 }

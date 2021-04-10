@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
  * 
  */
 
-public abstract class ScalarParam implements IParameter
-{
+public abstract class ScalarParam implements IParameter {
 
 	/**
 	 * Parameter Group
@@ -37,8 +36,7 @@ public abstract class ScalarParam implements IParameter
 	 * 
 	 * @return selection value.
 	 */
-	public String getSelectionValue( )
-	{
+	public String getSelectionValue() {
 		return selectionValue;
 	}
 
@@ -47,24 +45,21 @@ public abstract class ScalarParam implements IParameter
 	 * 
 	 * @param value
 	 */
-	public void setSelectionValue( String value )
-	{
+	public void setSelectionValue(String value) {
 		selectionValue = value;
 	}
 
 	/**
 	 * Sets parameter group
 	 */
-	public void setParentGroup( IParamGroup group )
-	{
+	public void setParentGroup(IParamGroup group) {
 		this.group = group;
 	}
 
 	/**
 	 * Gets parameter group
 	 */
-	public IParamGroup getParentGroup( )
-	{
+	public IParamGroup getParentGroup() {
 		return group;
 	}
 
@@ -81,14 +76,11 @@ public abstract class ScalarParam implements IParameter
 	/**
 	 * Constructor
 	 * 
-	 * @param handle
-	 *            scalar parameter handle.
-	 * @param engineTask
-	 *            engine task.
+	 * @param handle     scalar parameter handle.
+	 * @param engineTask engine task.
 	 */
 
-	public ScalarParam( ScalarParameterHandle handle, IEngineTask engineTask )
-	{
+	public ScalarParam(ScalarParameterHandle handle, IEngineTask engineTask) {
 		this.handle = handle;
 		this.engineTask = engineTask;
 	}
@@ -98,7 +90,7 @@ public abstract class ScalarParam implements IParameter
 	 * 
 	 * @return value list.
 	 */
-	public abstract List getValueList( );
+	public abstract List getValueList();
 
 	/**
 	 * Gets default value.
@@ -106,9 +98,8 @@ public abstract class ScalarParam implements IParameter
 	 * @return default value
 	 */
 
-	public String getDefaultValue( )
-	{
-		return handle.getDefaultValue( );
+	public String getDefaultValue() {
+		return handle.getDefaultValue();
 	}
 
 	/**
@@ -117,19 +108,16 @@ public abstract class ScalarParam implements IParameter
 	 * @return parameter handle.
 	 */
 
-	public ScalarParameterHandle getHandle( )
-	{
+	public ScalarParameterHandle getHandle() {
 		return handle;
 	}
 
-	public String format( String input ) throws BirtException
-	{
-		return FormatUtil.format( handle, input );
+	public String format(String input) throws BirtException {
+		return FormatUtil.format(handle, input);
 	}
 
-	public Object converToDataType( Object value ) throws BirtException
-	{
-		return DataTypeConvertUtil.convert( value, handle.getDataType( ) );
+	public Object converToDataType(Object value) throws BirtException {
+		return DataTypeConvertUtil.convert(value, handle.getDataType());
 	}
 
 	/**
@@ -137,9 +125,8 @@ public abstract class ScalarParam implements IParameter
 	 * 
 	 * @return
 	 */
-	public boolean isRequired( )
-	{
-		return handle.isRequired( );
+	public boolean isRequired() {
+		return handle.isRequired();
 	}
 
 }

@@ -10,24 +10,20 @@
  ***********************************************************************/
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 
+public class TableBandLayout extends BlockStackingLayout {
 
-public class TableBandLayout extends BlockStackingLayout
-{
+	public TableBandLayout(LayoutEngineContext context, ContainerLayout parent, IContent content) {
+		super(context, parent, content);
 
-	public TableBandLayout( LayoutEngineContext context,
-			ContainerLayout parent, IContent content )
-	{
-		super( context, parent, content );
-		
 	}
-	
-	//need not clip the row area(span cells)
-	protected void addToRoot( AbstractArea area )
-	{
-		addToRoot( area, false );
+
+	// need not clip the row area(span cells)
+	protected void addToRoot(AbstractArea area) {
+		addToRoot(area, false);
 	}
 
 }

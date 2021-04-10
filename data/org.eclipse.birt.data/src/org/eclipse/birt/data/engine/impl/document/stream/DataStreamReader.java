@@ -24,8 +24,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  * 
  */
 
-public class DataStreamReader extends StreamReader
-{
+public class DataStreamReader extends StreamReader {
 
 	/**
 	 * 
@@ -33,54 +32,43 @@ public class DataStreamReader extends StreamReader
 	 * @param id
 	 * @throws DataException
 	 */
-	public DataStreamReader( DataEngineContext context, StreamID id ) throws DataException
-	{
-		try
-		{
+	public DataStreamReader(DataEngineContext context, StreamID id) throws DataException {
+		try {
 			this.streamMap = new HashMap();
 			this.id = id;
 			this.context = context;
-			RAInputStream is = context.getInputStream( id.getStartStream( ),
-					id.getSubQueryStream( ),
-					DataEngineContext.DATASET_DATA_STREAM );
-			
-			DataInputStream metaIndexStream = new DataInputStream( is );
-						
-			int type = is.readInt( );
-			int size = is.readInt( );
-			long offset = is.getOffset( );
-			this.streamMap.put( Integer.valueOf( type ),
-					new WrapperedRAInputStream( (RAInputStream)context.getInputStream( id.getStartStream( ),
-							id.getSubQueryStream( ),
-							DataEngineContext.DATASET_DATA_STREAM ),offset,size) );
-		
-			metaIndexStream.close( );
-			
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( e.getLocalizedMessage( ) );
+			RAInputStream is = context.getInputStream(id.getStartStream(), id.getSubQueryStream(),
+					DataEngineContext.DATASET_DATA_STREAM);
+
+			DataInputStream metaIndexStream = new DataInputStream(is);
+
+			int type = is.readInt();
+			int size = is.readInt();
+			long offset = is.getOffset();
+			this.streamMap.put(Integer.valueOf(type),
+					new WrapperedRAInputStream((RAInputStream) context.getInputStream(id.getStartStream(),
+							id.getSubQueryStream(), DataEngineContext.DATASET_DATA_STREAM), offset, size));
+
+			metaIndexStream.close();
+
+		} catch (IOException e) {
+			throw new DataException(e.getLocalizedMessage());
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.impl.document.stream.StreamReader#getRAInputStream(int)
+	 * 
+	 * @see org.eclipse.birt.data.engine.impl.document.stream.StreamReader#
+	 * getRAInputStream(int)
 	 */
-	public RAInputStream getRAInputStream( int streamType )
-			throws DataException
-	{
-		Object temp = this.streamMap.get( Integer.valueOf( streamType ) );
-		if( temp == null )
-		{
-			throw new DataException( ResourceConstants.DOCUMENT_ERROR_CANNOT_LOAD_STREAM,
-					DataEngineContext.getPath( id.getStartStream( ),
-							id.getSubQueryStream( ),
-							streamType ) );
-		}
-		else
-		{
-			return (RAInputStream)temp;
+	public RAInputStream getRAInputStream(int streamType) throws DataException {
+		Object temp = this.streamMap.get(Integer.valueOf(streamType));
+		if (temp == null) {
+			throw new DataException(ResourceConstants.DOCUMENT_ERROR_CANNOT_LOAD_STREAM,
+					DataEngineContext.getPath(id.getStartStream(), id.getSubQueryStream(), streamType));
+		} else {
+			return (RAInputStream) temp;
 
 		}
 	}

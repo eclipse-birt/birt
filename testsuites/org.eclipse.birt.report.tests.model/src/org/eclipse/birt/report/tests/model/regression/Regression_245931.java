@@ -36,10 +36,8 @@ public class Regression_245931 extends BaseTestCase {
 		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
 		LibraryHandle libraryHandle = session.createLibrary();
 
-		AutoTextHandle autoTextHandle = libraryHandle.getElementFactory()
-				.newAutoText("autotext1");
-		autoTextHandle
-				.setAutoTextType(DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER);
+		AutoTextHandle autoTextHandle = libraryHandle.getElementFactory().newAutoText("autotext1");
+		autoTextHandle.setAutoTextType(DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER);
 
 		assertEquals("Page Number", autoTextHandle.getDisplayLabel());
 

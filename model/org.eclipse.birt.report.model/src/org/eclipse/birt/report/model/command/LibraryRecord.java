@@ -34,8 +34,7 @@ import org.eclipse.birt.report.model.util.ElementStructureUtil;
  * Records to add/drop library.
  */
 
-class LibraryRecord extends AbstractLibraryRecord
-{
+class LibraryRecord extends AbstractLibraryRecord {
 
 	/**
 	 * The position of the library
@@ -57,17 +56,13 @@ class LibraryRecord extends AbstractLibraryRecord
 	/**
 	 * Constructs the library record.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param library
-	 *            the library to add/drop
-	 * @param add
-	 *            whether the given library is for adding
+	 * @param module  the module
+	 * @param library the library to add/drop
+	 * @param add     whether the given library is for adding
 	 */
 
-	LibraryRecord( Module module, Library library, boolean add )
-	{
-		super( module, library );
+	LibraryRecord(Module module, Library library, boolean add) {
+		super(module, library);
 
 		this.add = add;
 	}
@@ -75,18 +70,13 @@ class LibraryRecord extends AbstractLibraryRecord
 	/**
 	 * Constructs the library record. Only for adding library.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param library
-	 *            the library to add/drop
-	 * @param values
-	 *            the cached overridden values when removing a library
+	 * @param module  the module
+	 * @param library the library to add/drop
+	 * @param values  the cached overridden values when removing a library
 	 */
 
-	LibraryRecord( Module module, Library library,
-			Map<Long, Map<Long, List<Object>>> values )
-	{
-		this( module, library, true );
+	LibraryRecord(Module module, Library library, Map<Long, Map<Long, List<Object>>> values) {
+		this(module, library, true);
 
 		overriddenValues = values;
 		assert overriddenValues != null;
@@ -95,20 +85,14 @@ class LibraryRecord extends AbstractLibraryRecord
 	/**
 	 * Constructs the library record. Only for adding library.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param library
-	 *            the library to add/drop
-	 * @param posn
-	 *            the position to insert the library
-	 * @param values
-	 *            the cached overridden values when removing a library
+	 * @param module  the module
+	 * @param library the library to add/drop
+	 * @param posn    the position to insert the library
+	 * @param values  the cached overridden values when removing a library
 	 */
 
-	LibraryRecord( Module module, Library library,
-			Map<Long, Map<Long, List<Object>>> values, int posn )
-	{
-		this( module, library, true );
+	LibraryRecord(Module module, Library library, Map<Long, Map<Long, List<Object>>> values, int posn) {
+		this(module, library, true);
 
 		this.position = posn;
 
@@ -122,19 +106,14 @@ class LibraryRecord extends AbstractLibraryRecord
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
-		if ( add && !undo || !add && undo )
-		{
+	protected void perform(boolean undo) {
+		if (add && !undo || !add && undo) {
 			int toUpdateLibraryCount;
-			if ( position == -1 )
-			{
-				module.addLibrary( library );
-				toUpdateLibraryCount = module.getLibraries( ).size( ) - 1;
-			}
-			else
-			{
-				module.insertLibrary( library, position );
+			if (position == -1) {
+				module.addLibrary(library);
+				toUpdateLibraryCount = module.getLibraries().size() - 1;
+			} else {
+				module.insertLibrary(library, position);
 				toUpdateLibraryCount = position;
 			}
 
@@ -143,71 +122,61 @@ class LibraryRecord extends AbstractLibraryRecord
 			// supported by ContentCommand. See LibraryCommand.reloadLibrary for
 			// details.
 
-			if ( add && !undo )
-				resolveAllElementDescendants( );
+			if (add && !undo)
+				resolveAllElementDescendants();
 
 			// One library is added, and the style in it can override the
 			// previous one.
 
-			updateReferenceableClients( toUpdateLibraryCount );
-		}
-		else
-		{
-			position = module.dropLibrary( library );
+			updateReferenceableClients(toUpdateLibraryCount);
+		} else {
+			position = module.dropLibrary(library);
 
 			// The update is performed only on the referred elements in the
 			// dropped library.
 
-			updateReferenceableClients( library );
+			updateReferenceableClients(library);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
-	public DesignElement getTarget( )
-	{
+	public DesignElement getTarget() {
 		return module;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
-			return new LibraryEvent( library, LibraryEvent.ADD );
+	public NotificationEvent getEvent() {
+		if (add && state != UNDONE_STATE || !add && state == UNDONE_STATE)
+			return new LibraryEvent(library, LibraryEvent.ADD);
 
-		return new LibraryEvent( library, LibraryEvent.DROP );
+		return new LibraryEvent(library, LibraryEvent.DROP);
 	}
 
 	/**
-	 * Resolves extends references for elements in the <code>module</code>.
-	 * During the resolving procedure, cached overridden values are also
-	 * distributed.
+	 * Resolves extends references for elements in the <code>module</code>. During
+	 * the resolving procedure, cached overridden values are also distributed.
 	 */
 
-	protected void resolveAllElementDescendants( )
-	{
-		for ( int i = 0; i < module.getDefn( ).getSlotCount( ); i++ )
-		{
+	protected void resolveAllElementDescendants() {
+		for (int i = 0; i < module.getDefn().getSlotCount(); i++) {
 			int slotId = i;
-			if ( module instanceof ReportDesign
-					&& ( slotId == IReportDesignModel.STYLE_SLOT || slotId == IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT ) )
+			if (module instanceof ReportDesign && (slotId == IReportDesignModel.STYLE_SLOT
+					|| slotId == IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT))
 				continue;
-			else if ( module instanceof Library
-					&& slotId == ILibraryModel.THEMES_SLOT )
+			else if (module instanceof Library && slotId == ILibraryModel.THEMES_SLOT)
 				continue;
 
-			resolveElementDescendantsInSlot( slotId );
+			resolveElementDescendantsInSlot(slotId);
 		}
 	}
 
@@ -215,47 +184,40 @@ class LibraryRecord extends AbstractLibraryRecord
 	 * Resolves extends references for elements in the given slot. During the
 	 * resolving procedure, cached overridden values are also distributed.
 	 * 
-	 * @param slotId
-	 *            the slot id
+	 * @param slotId the slot id
 	 */
 
-	private void resolveElementDescendantsInSlot( int slotId )
-	{
-		ContentIterator contentIter = new ContentIterator( module,
-				new ContainerContext( module, slotId ) );
+	private void resolveElementDescendantsInSlot(int slotId) {
+		ContentIterator contentIter = new ContentIterator(module, new ContainerContext(module, slotId));
 
-		while ( contentIter.hasNext( ) )
-		{
-			DesignElement tmpElement = contentIter.next( );
-			ElementDefn elementDefn = (ElementDefn) tmpElement.getDefn( );
-			if ( !elementDefn.canExtend( ) || !elementDefn.isContainer( ) )
+		while (contentIter.hasNext()) {
+			DesignElement tmpElement = contentIter.next();
+			ElementDefn elementDefn = (ElementDefn) tmpElement.getDefn();
+			if (!elementDefn.canExtend() || !elementDefn.isContainer())
 				continue;
 
-			String name = tmpElement.getExtendsName( );
-			if ( StringUtil.isBlank( name ) )
+			String name = tmpElement.getExtendsName();
+			if (StringUtil.isBlank(name))
 				continue;
 
 			// only handle the added library related inheritance
 
-			ElementRefValue extendRef = (ElementRefValue) tmpElement
-					.getLocalProperty( module, IDesignElementModel.EXTENDS_PROP );
-			if ( !library.getNamespace( ).equalsIgnoreCase(
-					extendRef.getLibraryNamespace( ) ) )
+			ElementRefValue extendRef = (ElementRefValue) tmpElement.getLocalProperty(module,
+					IDesignElementModel.EXTENDS_PROP);
+			if (!library.getNamespace().equalsIgnoreCase(extendRef.getLibraryNamespace()))
 				continue;
 
 			// refresh the structure and add children to name space and id-map
-			ElementStructureUtil
-					.refreshStructureFromParent( module, tmpElement );
-			ElementStructureUtil.addTheVirualElementsToNamesapce( tmpElement,
-					module );
-			module.manageId( tmpElement, true );
+			ElementStructureUtil.refreshStructureFromParent(module, tmpElement);
+			ElementStructureUtil.addTheVirualElementsToNamesapce(tmpElement, module);
+			module.manageId(tmpElement, true);
 
-			if ( overriddenValues == null )
+			if (overriddenValues == null)
 				continue;
 
-			Long idObj = Long.valueOf( tmpElement.getID( ) );
-			Map<Long, List<Object>> values = overriddenValues.get( idObj );
-			ElementStructureUtil.distributeValues( module, tmpElement, values );
+			Long idObj = Long.valueOf(tmpElement.getID());
+			Map<Long, List<Object>> values = overriddenValues.get(idObj);
+			ElementStructureUtil.distributeValues(module, tmpElement, values);
 		}
 	}
 

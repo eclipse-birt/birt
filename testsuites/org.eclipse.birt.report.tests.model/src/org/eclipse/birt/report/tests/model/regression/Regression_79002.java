@@ -26,23 +26,21 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Assert that the correct script object can be retrived from Model rom.
  * </p>
  */
-public class Regression_79002 extends BaseTestCase
-{
+public class Regression_79002 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
-	public void test_regression_79002( )
-	{
-		IMetaDataDictionary meta = MetaDataDictionary.getInstance( );
-		IClassInfo classInfo = meta.getClass( "Global" ); //$NON-NLS-1$
+	public void test_regression_79002() {
+		IMetaDataDictionary meta = MetaDataDictionary.getInstance();
+		IClassInfo classInfo = meta.getClass("Global"); //$NON-NLS-1$
 
-		assertNotNull( classInfo );
+		assertNotNull(classInfo);
 
-		IMemberInfo memInfo = classInfo.getMember( "undefined" ); //$NON-NLS-1$
-		assertNotNull( memInfo );
-		
-		IMemberInfo errorMemInfo = classInfo.getMember( "underfined" ); //$NON-NLS-1$
-		assertNull( errorMemInfo );
+		IMemberInfo memInfo = classInfo.getMember("undefined"); //$NON-NLS-1$
+		assertNotNull(memInfo);
+
+		IMemberInfo errorMemInfo = classInfo.getMember("underfined"); //$NON-NLS-1$
+		assertNull(errorMemInfo);
 	}
 }

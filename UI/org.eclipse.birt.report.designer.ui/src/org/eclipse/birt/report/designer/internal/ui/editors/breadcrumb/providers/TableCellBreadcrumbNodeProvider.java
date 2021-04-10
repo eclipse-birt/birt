@@ -17,19 +17,15 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
  * 
  */
 
-public class TableCellBreadcrumbNodeProvider extends
-		DefaultBreadcrumbNodeProvider
-{
+public class TableCellBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvider {
 
-	public Object getParent( Object element )
-	{
-		if ( element instanceof DesignElementHandle )
-			return ( (DesignElementHandle) element ).getContainer( );
-		return super.getParent( element );
+	public Object getParent(Object element) {
+		if (element instanceof DesignElementHandle)
+			return ((DesignElementHandle) element).getContainer();
+		return super.getParent(element);
 	}
 
-	public Object getRealModel( Object element )
-	{
+	public Object getRealModel(Object element) {
 		return element;
 	}
 }

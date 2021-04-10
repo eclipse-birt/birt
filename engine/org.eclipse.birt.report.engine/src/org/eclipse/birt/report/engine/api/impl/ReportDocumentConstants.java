@@ -9,19 +9,17 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-public interface ReportDocumentConstants
-{
+public interface ReportDocumentConstants {
 
 	/**
-	 * core stream of the report content. It will be lock during the write
-	 * pharse.
+	 * core stream of the report content. It will be lock during the write pharse.
 	 */
 	static final String CORE_STREAM = "/core";
 	/**
 	 * stream used to save the report design which create this report document.
 	 */
 	static final String DESIGN_STREAM = "/design"; //$NON-NLS-1$
-	
+
 	static final String ORIGINAL_DESIGN_STREAM = "/original_design";
 	/**
 	 * stream used to save the engine IR of the design
@@ -38,14 +36,13 @@ public interface ReportDocumentConstants
 	 */
 	static final String PAGEHINT_STREAM = "/pages"; //$NON-NLS-1$
 	/**
-	 * index of the page hint streams. There will be mutiple copies for
-	 * different layout.
+	 * index of the page hint streams. There will be mutiple copies for different
+	 * layout.
 	 */
 	static final String PAGEHINT_INDEX_STREAM = "/pages_index"; //$NON-NLS-1$
 	/**
-	 * toc structure. Each toc node is defined by a label and bookmark. The
-	 * whole document has only one TOC stream (it isn't changed with the
-	 * layout).
+	 * toc structure. Each toc node is defined by a label and bookmark. The whole
+	 * document has only one TOC stream (it isn't changed with the layout).
 	 */
 	static final String TOC_STREAM = "/toc"; //$NON-NLS-1$
 	/**
@@ -55,13 +52,13 @@ public interface ReportDocumentConstants
 	 */
 	static final String CONTENT_FOLDER = "/content"; //$NON-NLS-1$
 	/**
-	 * reportlet index stream. save instance id and offset of each streams.
-	 * There is only one copy in one report document.
+	 * reportlet index stream. save instance id and offset of each streams. There is
+	 * only one copy in one report document.
 	 */
 	static final String REPORTLET_ID_INDEX_STREAM = "/reportlet"; //$NON-NLS-1$
 	/**
-	 * reportlet index stream. save bookmark and offset of each streams. There
-	 * is only one copy in one report document.
+	 * reportlet index stream. save bookmark and offset of each streams. There is
+	 * only one copy in one report document.
 	 */
 	static final String REPORTLET_BOOKMARK_INDEX_STREAM = "/reportletBookmarks"; //$NON-NLS-1$
 	/**
@@ -72,23 +69,21 @@ public interface ReportDocumentConstants
 	 * page content, there will be mutiple copies for different layout.
 	 */
 	static final String PAGE_STREAM = "/content/page.dat";
-	
+
 	static final String PAGE_INDEX_STREAM = "/content/page.idx";
-	
+
 	/**
 	 * the stream saves the information about the reportlet document
 	 */
-	static final String REPORTLET_DOCUMENT_STREAM = "/reportletDocument"; 
+	static final String REPORTLET_DOCUMENT_STREAM = "/reportletDocument";
 
 	/**
-	 * the relationships of the result sets, only one copy for each report
-	 * document.
+	 * the relationships of the result sets, only one copy for each report document.
 	 */
 	static final String DATA_META_STREAM = "/Data/hierarchy";
 
 	/**
-	 * the relationships of the result sets, only one copy for each report
-	 * document.
+	 * the relationships of the result sets, only one copy for each report document.
 	 */
 	static final String DATA_SNAP_META_STREAM = "/Data/snap_hierarchy";
 	/**
@@ -102,8 +97,8 @@ public interface ReportDocumentConstants
 	 */
 	static final String REPORT_DOCUMENT_TAG = "reportdocument";
 	/**
-	 * version number, following the document tag in the core stream, used by
-	 * BIRT 2.0 before.
+	 * version number, following the document tag in the core stream, used by BIRT
+	 * 2.0 before.
 	 */
 	static final String REPORT_DOCUMENT_VERSION_1_0_0 = "1.0.0";
 	/**
@@ -146,7 +141,7 @@ public interface ReportDocumentConstants
 	 * start from 2.2.1
 	 */
 	static final String CORE_VERSION_1 = CORE_VERSION_PREFIX + 1;
-	
+
 	/**
 	 * start from 2.3.2
 	 */
@@ -192,7 +187,7 @@ public interface ReportDocumentConstants
 	static final String PAGE_HINT_VERSION_2 = "2";
 	static final String PAGE_HINT_VERSION_3 = "3";
 	static final String PAGE_HINT_VERSION_FIXED_LAYOUT = "4";
-	
+
 	/**
 	 * build number, the number is get from the org.eclipse.birt.report.engine
 	 */
@@ -204,10 +199,10 @@ public interface ReportDocumentConstants
 	 * the extension used in the document, the value is "," separated extension id.
 	 */
 	static final String BIRT_ENGINE_EXTENSIONS = "BIRT_ENGINE_EXTENSIONS";
-	
+
 	/**
 	 * the run status stream. To save the fatal exception thrown from run task.
 	 */
 	static final String RUN_STATUS_STREAM = "/runStatus"; //$NON-NLS-1$
-	
+
 }

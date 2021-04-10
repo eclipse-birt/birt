@@ -39,114 +39,114 @@ public class PageLayoutTest extends ReportRunner {
 		InputStream inputStream = runAndRenderReport("PageLayout.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
-			
+
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( "Page Layout Test", workbook.getSheetAt(0).getSheetName());
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals("Page Layout Test", workbook.getSheetAt(0).getSheetName());
+
 			XSSFSheet sheet0 = workbook.getSheetAt(0);
 			XSSFPrintSetup printSetup = sheet0.getPrintSetup();
-			assertEquals( PaperSize.A4_PAPER,  printSetup.getPaperSizeEnum() );
-			assertEquals( PrintOrientation.LANDSCAPE, printSetup.getOrientation() );
-			assertEquals( 1.0 / 2.54, printSetup.getHeaderMargin(), 0.01 );
-			assertEquals( 1.0 / 2.54, printSetup.getFooterMargin(), 0.01 );
-			assertEquals( 0.7 / 2.54, sheet0.getMargin( Sheet.LeftMargin ), 0.01 );
-			assertEquals( 0.7 / 2.54, sheet0.getMargin( Sheet.RightMargin ), 0.01 );
-			assertEquals( 1.7 / 2.54, sheet0.getMargin( Sheet.TopMargin ), 0.01 );
-			assertEquals( 1.7 / 2.54, sheet0.getMargin( Sheet.BottomMargin ), 0.01 );
-			
+			assertEquals(PaperSize.A4_PAPER, printSetup.getPaperSizeEnum());
+			assertEquals(PrintOrientation.LANDSCAPE, printSetup.getOrientation());
+			assertEquals(1.0 / 2.54, printSetup.getHeaderMargin(), 0.01);
+			assertEquals(1.0 / 2.54, printSetup.getFooterMargin(), 0.01);
+			assertEquals(0.7 / 2.54, sheet0.getMargin(Sheet.LeftMargin), 0.01);
+			assertEquals(0.7 / 2.54, sheet0.getMargin(Sheet.RightMargin), 0.01);
+			assertEquals(1.7 / 2.54, sheet0.getMargin(Sheet.TopMargin), 0.01);
+			assertEquals(1.7 / 2.54, sheet0.getMargin(Sheet.BottomMargin), 0.01);
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
+
 	@Test
 	public void testRunReportXls() throws BirtException, IOException {
 
 		InputStream inputStream = runAndRenderReport("PageLayout.rptdesign", "xls");
 		assertNotNull(inputStream);
 		try {
-			
+
 			HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( "Page Layout Test", workbook.getSheetAt(0).getSheetName());
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals("Page Layout Test", workbook.getSheetAt(0).getSheetName());
+
 			HSSFSheet sheet0 = workbook.getSheetAt(0);
 			HSSFPrintSetup printSetup = sheet0.getPrintSetup();
-			assertEquals( HSSFPrintSetup.A4_PAPERSIZE,  printSetup.getPaperSize() );
-			assertEquals( true, printSetup.getLandscape() );
-			assertEquals( 1.0 / 2.54, printSetup.getHeaderMargin(), 0.01 );
-			assertEquals( 1.0 / 2.54, printSetup.getFooterMargin(), 0.01 );
-			assertEquals( 0.7 / 2.54, sheet0.getMargin( Sheet.LeftMargin ), 0.01 );
-			assertEquals( 0.7 / 2.54, sheet0.getMargin( Sheet.RightMargin ), 0.01 );
-			assertEquals( 1.7 / 2.54, sheet0.getMargin( Sheet.TopMargin ), 0.01 );
-			assertEquals( 1.7 / 2.54, sheet0.getMargin( Sheet.BottomMargin ), 0.01 );
-			
+			assertEquals(HSSFPrintSetup.A4_PAPERSIZE, printSetup.getPaperSize());
+			assertEquals(true, printSetup.getLandscape());
+			assertEquals(1.0 / 2.54, printSetup.getHeaderMargin(), 0.01);
+			assertEquals(1.0 / 2.54, printSetup.getFooterMargin(), 0.01);
+			assertEquals(0.7 / 2.54, sheet0.getMargin(Sheet.LeftMargin), 0.01);
+			assertEquals(0.7 / 2.54, sheet0.getMargin(Sheet.RightMargin), 0.01);
+			assertEquals(1.7 / 2.54, sheet0.getMargin(Sheet.TopMargin), 0.01);
+			assertEquals(1.7 / 2.54, sheet0.getMargin(Sheet.BottomMargin), 0.01);
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
+
 	@Test
 	public void testRunReportPixelsXlsx() throws BirtException, IOException {
 
 		InputStream inputStream = runAndRenderReport("PageLayoutPixels.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
-			
+
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( "Page Layout Test", workbook.getSheetAt(0).getSheetName());
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals("Page Layout Test", workbook.getSheetAt(0).getSheetName());
+
 			XSSFSheet sheet0 = workbook.getSheetAt(0);
 			XSSFPrintSetup printSetup = sheet0.getPrintSetup();
-			assertEquals( PaperSize.A4_PAPER,  printSetup.getPaperSizeEnum() );
-			assertEquals( PrintOrientation.LANDSCAPE, printSetup.getOrientation() );
-			assertEquals( 0.3, printSetup.getHeaderMargin(), 0.01 );
-			assertEquals( 0.3, printSetup.getFooterMargin(), 0.01 );
-			assertEquals( 0.7, sheet0.getMargin( Sheet.LeftMargin ), 0.01 );
-			assertEquals( 0.7, sheet0.getMargin( Sheet.RightMargin ), 0.01 );
-			assertEquals( 0.75, sheet0.getMargin( Sheet.TopMargin ), 0.01 );
-			assertEquals( 0.75, sheet0.getMargin( Sheet.BottomMargin ), 0.01 );
-			
+			assertEquals(PaperSize.A4_PAPER, printSetup.getPaperSizeEnum());
+			assertEquals(PrintOrientation.LANDSCAPE, printSetup.getOrientation());
+			assertEquals(0.3, printSetup.getHeaderMargin(), 0.01);
+			assertEquals(0.3, printSetup.getFooterMargin(), 0.01);
+			assertEquals(0.7, sheet0.getMargin(Sheet.LeftMargin), 0.01);
+			assertEquals(0.7, sheet0.getMargin(Sheet.RightMargin), 0.01);
+			assertEquals(0.75, sheet0.getMargin(Sheet.TopMargin), 0.01);
+			assertEquals(0.75, sheet0.getMargin(Sheet.BottomMargin), 0.01);
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
+
 	@Test
 	public void testRunReportPixelsXls() throws BirtException, IOException {
 
 		InputStream inputStream = runAndRenderReport("PageLayoutPixels.rptdesign", "xls");
 		assertNotNull(inputStream);
 		try {
-			
+
 			HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( "Page Layout Test", workbook.getSheetAt(0).getSheetName());
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals("Page Layout Test", workbook.getSheetAt(0).getSheetName());
+
 			HSSFSheet sheet0 = workbook.getSheetAt(0);
 			HSSFPrintSetup printSetup = sheet0.getPrintSetup();
-			assertEquals( HSSFPrintSetup.A4_PAPERSIZE,  printSetup.getPaperSize() );
-			assertEquals( true, printSetup.getLandscape() );
-			assertEquals( 0.5, printSetup.getHeaderMargin(), 0.01 );
-			assertEquals( 0.5, printSetup.getFooterMargin(), 0.01 );
-			assertEquals( 0.75, sheet0.getMargin( Sheet.LeftMargin ), 0.01 );
-			assertEquals( 0.75, sheet0.getMargin( Sheet.RightMargin ), 0.01 );
-			assertEquals( 1.0, sheet0.getMargin( Sheet.TopMargin ), 0.01 );
-			assertEquals( 1.0, sheet0.getMargin( Sheet.BottomMargin ), 0.01 );
-			
+			assertEquals(HSSFPrintSetup.A4_PAPERSIZE, printSetup.getPaperSize());
+			assertEquals(true, printSetup.getLandscape());
+			assertEquals(0.5, printSetup.getHeaderMargin(), 0.01);
+			assertEquals(0.5, printSetup.getFooterMargin(), 0.01);
+			assertEquals(0.75, sheet0.getMargin(Sheet.LeftMargin), 0.01);
+			assertEquals(0.75, sheet0.getMargin(Sheet.RightMargin), 0.01);
+			assertEquals(1.0, sheet0.getMargin(Sheet.TopMargin), 0.01);
+			assertEquals(1.0, sheet0.getMargin(Sheet.BottomMargin), 0.01);
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
+
 }

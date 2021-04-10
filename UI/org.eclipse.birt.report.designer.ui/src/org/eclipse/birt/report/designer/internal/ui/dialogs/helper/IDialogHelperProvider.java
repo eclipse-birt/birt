@@ -14,8 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.helper;
 /**
  * IDialogHelperProvider
  */
-public interface IDialogHelperProvider
-{
+public interface IDialogHelperProvider {
 
 	/**
 	 * Creates helper for given container and specific helper key
@@ -24,6 +23,6 @@ public interface IDialogHelperProvider
 	 * @param helperKey
 	 * @return
 	 */
-	IDialogHelper createHelper( Object container, String helperKey );
+	IDialogHelper createHelper(Object container, String helperKey);
 
 }

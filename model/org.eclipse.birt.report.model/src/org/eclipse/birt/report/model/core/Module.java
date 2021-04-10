@@ -27,19 +27,16 @@ package org.eclipse.birt.report.model.core;
  * in the data dictionary.
  */
 
-public abstract class Module extends ModuleImpl
-{
+public abstract class Module extends ModuleImpl {
 
 	/**
 	 * Default constructor.
 	 * 
-	 * @param theSession
-	 *            the session of the report
+	 * @param theSession the session of the report
 	 */
 
-	protected Module( DesignSessionImpl theSession )
-	{
-		super( theSession );
+	protected Module(DesignSessionImpl theSession) {
+		super(theSession);
 	}
 
 	/*
@@ -47,8 +44,7 @@ public abstract class Module extends ModuleImpl
 	 * 
 	 * @see org.eclipse.birt.report.model.core.ModuleImpl#getModule()
 	 */
-	protected Module getModule( )
-	{
+	protected Module getModule() {
 		return this;
 	}
 }

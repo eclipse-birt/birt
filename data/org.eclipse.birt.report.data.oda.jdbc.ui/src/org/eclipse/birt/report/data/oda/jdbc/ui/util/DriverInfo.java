@@ -16,15 +16,14 @@ import java.io.Serializable;
 /**
  * Driver information including driver name ,display name ,URL template
  */
-public class DriverInfo implements Serializable
-{
+public class DriverInfo implements Serializable {
 	/**
 	 * serial version id
 	 */
 	private static final long serialVersionUID = -6628864223068044321L;
 
 	/**
-	 * Diver Name 
+	 * Diver Name
 	 */
 	private String driverName;
 
@@ -40,18 +39,18 @@ public class DriverInfo implements Serializable
 
 	/**
 	 * Constractor
+	 * 
 	 * @param driverName
 	 * @param displayName
 	 * @param urlTemplate
 	 */
-	public DriverInfo( String driverName, String displayName, String urlTemplate )
-	{
+	public DriverInfo(String driverName, String displayName, String urlTemplate) {
 		this.driverName = driverName;
-		if ( displayName == null )
+		if (displayName == null)
 			this.displayName = "";
 		else
 			this.displayName = displayName;
-		if ( urlTemplate == null )
+		if (urlTemplate == null)
 			this.urlTemplate = "";
 		else
 			this.urlTemplate = urlTemplate;
@@ -60,40 +59,35 @@ public class DriverInfo implements Serializable
 	/**
 	 * getter for displayName
 	 */
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
-	
+
 	/**
 	 * setter for displayName
 	 */
-	public void setDisplayName( String displayName )
-	{
+	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
 
 	/**
 	 * getter for urlTemplate
 	 */
-	public String getUrlTemplate( )
-	{
+	public String getUrlTemplate() {
 		return urlTemplate;
 	}
 
 	/**
 	 * setter for urlTemplate
 	 */
-	public void setUrlTemplate( String urlTemplate )
-	{
+	public void setUrlTemplate(String urlTemplate) {
 		this.urlTemplate = urlTemplate;
 	}
 
 	/**
 	 * getter for driverName
 	 */
-	public String getDriverName( )
-	{
+	public String getDriverName() {
 		return driverName;
 	}
 }

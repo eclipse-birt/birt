@@ -37,8 +37,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * editpart.So the insert position is 0.
  */
 // TODO binding the data
-public class CreateDimensionViewCommand extends AbstractCrosstabCommand
-{
+public class CreateDimensionViewCommand extends AbstractCrosstabCommand {
 
 	private CrosstabHandleAdapter handleAdpter;
 	/**
@@ -52,7 +51,7 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	 * trans name
 	 */
 	// private static final String NAME = "Create DiminsionViewHandle";
-	private static final String NAME = Messages.getString( "CreateDimensionViewCommand.TransName" );//$NON-NLS-1$
+	private static final String NAME = Messages.getString("CreateDimensionViewCommand.TransName");//$NON-NLS-1$
 
 	/**
 	 * Constructor
@@ -61,23 +60,18 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	 * @param type
 	 * @param dimensionHandle
 	 */
-	public CreateDimensionViewCommand( CrosstabHandleAdapter handleAdpter,
-			int type, DimensionHandle dimensionHandle )
-	{
-		this( handleAdpter, type, new DimensionHandle[]{
-			dimensionHandle
-		} );
+	public CreateDimensionViewCommand(CrosstabHandleAdapter handleAdpter, int type, DimensionHandle dimensionHandle) {
+		this(handleAdpter, type, new DimensionHandle[] { dimensionHandle });
 	}
 
-	public CreateDimensionViewCommand( CrosstabHandleAdapter handleAdpter,
-			int type, DimensionHandle[] dimensionHandles )
-	{
-		super( dimensionHandles[0] );
-		setHandleAdpter( handleAdpter );
-		setType( type );
-		setDimensionHandles( dimensionHandles );
-		
-		setLabel( NAME );
+	public CreateDimensionViewCommand(CrosstabHandleAdapter handleAdpter, int type,
+			DimensionHandle[] dimensionHandles) {
+		super(dimensionHandles[0]);
+		setHandleAdpter(handleAdpter);
+		setType(type);
+		setDimensionHandles(dimensionHandles);
+
+		setLabel(NAME);
 	}
 
 	/**
@@ -85,8 +79,7 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	 * 
 	 * @param handleAdpter
 	 */
-	public void setHandleAdpter( CrosstabHandleAdapter handleAdpter )
-	{
+	public void setHandleAdpter(CrosstabHandleAdapter handleAdpter) {
 		this.handleAdpter = handleAdpter;
 	}
 
@@ -95,8 +88,7 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	 * 
 	 * @return
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return type;
 	}
 
@@ -105,8 +97,7 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	 * 
 	 * @param type
 	 */
-	public void setType( int type )
-	{
+	public void setType(int type) {
 		this.type = type;
 	}
 
@@ -115,9 +106,8 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	public boolean canExecute( )
-	{
-		return getType( ) != VirtualCrosstabCellAdapter.IMMACULATE_TYPE;
+	public boolean canExecute() {
+		return getType() != VirtualCrosstabCellAdapter.IMMACULATE_TYPE;
 	}
 
 	/*
@@ -125,116 +115,95 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute( )
-	{
-		transStart( NAME );
-		CrosstabReportItemHandle crosstabHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( );
+	public void execute() {
+		transStart(NAME);
+		CrosstabReportItemHandle crosstabHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle();
 
-		for ( int i = 0; i < this.dimensionHandles.length; i++ )
-		{
+		for (int i = 0; i < this.dimensionHandles.length; i++) {
 			DimensionHandle dimensionHandle = dimensionHandles[i];
 
-			try
-			{
-				if ( crosstabHandle.getCube( ) == null )
-				{
-					crosstabHandle.setCube( CrosstabAdaptUtil.getCubeHandle( dimensionHandle ) );
+			try {
+				if (crosstabHandle.getCube() == null) {
+					crosstabHandle.setCube(CrosstabAdaptUtil.getCubeHandle(dimensionHandle));
 				}
 
-				DimensionViewHandle viewHandle = crosstabHandle.insertDimension( dimensionHandle,
-						getType( ),
-						i );
+				DimensionViewHandle viewHandle = crosstabHandle.insertDimension(dimensionHandle, getType(), i);
 
 				// add dataitem to cell
-				//			DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) reportHandle.getModelHandle( ),
-				//					levelHandle );
+				// DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem(
+				// (ExtendedItemHandle) reportHandle.getModelHandle( ),
+				// levelHandle );
 
-				LevelHandle[] levels = getLevelHandles( dimensionHandle );
-				for ( int j = 0; j < levels.length; j++ )
-				{
+				LevelHandle[] levels = getLevelHandles(dimensionHandle);
+				for (int j = 0; j < levels.length; j++) {
 
 					LevelHandle levelHandle = levels[j];
-					if ( levelHandle == null )
-					{
-						rollBack( );
+					if (levelHandle == null) {
+						rollBack();
 						return;
 					}
-					DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) crosstabHandle.getModelHandle( ),
-							levelHandle );
-					LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
-							j );
-					CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
+					DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem(
+							(ExtendedItemHandle) crosstabHandle.getModelHandle(), levelHandle);
+					LevelViewHandle levelViewHandle = viewHandle.insertLevel(levelHandle, j);
+					CrosstabCellHandle cellHandle = levelViewHandle.getCell();
 
-					cellHandle.addContent( dataHandle );
+					cellHandle.addContent(dataHandle);
 
-					ActionHandle actionHandle = levelHandle.getActionHandle( );
-					if ( actionHandle != null )
-					{
-						List source = new ArrayList( );
-						source.add( actionHandle.getStructure( ) );
-						List newAction = ModelUtil.cloneStructList( source );
-						dataHandle.setAction( (Action) newAction.get( 0 ) );
+					ActionHandle actionHandle = levelHandle.getActionHandle();
+					if (actionHandle != null) {
+						List source = new ArrayList();
+						source.add(actionHandle.getStructure());
+						List newAction = ModelUtil.cloneStructList(source);
+						dataHandle.setAction((Action) newAction.get(0));
 					}
-					
+
 					// Set content key for label
-					String displayNameKey = dimensionHandle.getDisplayNameKey( );
-					if ( displayNameKey == null
-							&& levelHandles != null
-							&& levelHandles.length != 0 )
-					{
-						displayNameKey = levelHandles[0].getDisplayNameKey( );
+					String displayNameKey = dimensionHandle.getDisplayNameKey();
+					if (displayNameKey == null && levelHandles != null && levelHandles.length != 0) {
+						displayNameKey = levelHandles[0].getDisplayNameKey();
 					}
-					CrosstabUtil.setLabelDisplayNameKey( displayNameKey );
-					CrosstabUtil.addLabelToHeader( levelViewHandle );
-					CrosstabUtil.clearLabelDisplayNameKey( );
+					CrosstabUtil.setLabelDisplayNameKey(displayNameKey);
+					CrosstabUtil.addLabelToHeader(levelViewHandle);
+					CrosstabUtil.clearLabelDisplayNameKey();
 				}
 
-			}
-			catch ( Exception e )
-			{
-				rollBack( );
-				ExceptionUtil.handle( e );
+			} catch (Exception e) {
+				rollBack();
+				ExceptionUtil.handle(e);
 				return;
 			}
 		}
-		transEnd( );
+		transEnd();
 
 	}
 
 	/**
 	 * @return
 	 */
-	public DimensionHandle[] getDimensionHandles( )
-	{
+	public DimensionHandle[] getDimensionHandles() {
 		return dimensionHandles;
 	}
 
 	/**
 	 * @param dimensionHandle
 	 */
-	public void setDimensionHandles( DimensionHandle[] dimensionHandles )
-	{
+	public void setDimensionHandles(DimensionHandle[] dimensionHandles) {
 		this.dimensionHandles = dimensionHandles;
 	}
 
-	public LevelHandle[] getLevelHandles( DimensionHandle dimensionHandle )
-	{
-		if ( levelHandles == null )
-		{
-			LevelHandle[] dimensionLevelHandles = new LevelHandle[dimensionHandle.getDefaultHierarchy( )
-					.getLevelCount( )];
-			for ( int i = 0; i < dimensionLevelHandles.length; i++ )
-			{
-				dimensionLevelHandles[i] = dimensionHandle.getDefaultHierarchy( )
-						.getLevel( i );
+	public LevelHandle[] getLevelHandles(DimensionHandle dimensionHandle) {
+		if (levelHandles == null) {
+			LevelHandle[] dimensionLevelHandles = new LevelHandle[dimensionHandle.getDefaultHierarchy()
+					.getLevelCount()];
+			for (int i = 0; i < dimensionLevelHandles.length; i++) {
+				dimensionLevelHandles[i] = dimensionHandle.getDefaultHierarchy().getLevel(i);
 			}
 			return dimensionLevelHandles;
 		}
 		return levelHandles;
 	}
 
-	public void setLevelHandles( LevelHandle[] levelHandles )
-	{
+	public void setLevelHandles(LevelHandle[] levelHandles) {
 		this.levelHandles = levelHandles;
 	}
 }

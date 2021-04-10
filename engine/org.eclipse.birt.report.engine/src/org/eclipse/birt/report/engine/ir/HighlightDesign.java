@@ -17,52 +17,43 @@ import java.util.Collection;
 /**
  * 
  */
-public class HighlightDesign
-{
-
-
+public class HighlightDesign {
 
 	/**
 	 * rules in this highlight
 	 */
-	protected ArrayList<HighlightRuleDesign> rules = new ArrayList<HighlightRuleDesign>( );
+	protected ArrayList<HighlightRuleDesign> rules = new ArrayList<HighlightRuleDesign>();
 
 	/**
 	 * get rule count.
 	 * 
 	 * @return rule count
 	 */
-	public int getRuleCount( )
-	{
-		return this.rules.size( );
+	public int getRuleCount() {
+		return this.rules.size();
 	}
 
 	/**
 	 * add rule into this hightlight.
 	 * 
-	 * @param rule
-	 *            rule to be added
+	 * @param rule rule to be added
 	 */
-	public void addRule( HighlightRuleDesign rule )
-	{
-		this.rules.add( rule );
+	public void addRule(HighlightRuleDesign rule) {
+		this.rules.add(rule);
 	}
 
-	public Collection<HighlightRuleDesign> getRules( )
-	{
+	public Collection<HighlightRuleDesign> getRules() {
 		return rules;
 	}
 
 	/**
 	 * get rule at index.
 	 * 
-	 * @param index
-	 *            index of the rule
+	 * @param index index of the rule
 	 * @return rule defined in this hightlight
 	 */
-	public HighlightRuleDesign getRule( int index )
-	{
-		assert ( index >= 0 && index < this.rules.size( ) );
-		return (HighlightRuleDesign) this.rules.get( index );
+	public HighlightRuleDesign getRule(int index) {
+		assert (index >= 0 && index < this.rules.size());
+		return (HighlightRuleDesign) this.rules.get(index);
 	}
 }

@@ -23,20 +23,18 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  */
 
-public class ResetImageSizeAction extends ContextSelectionAction
-{
+public class ResetImageSizeAction extends ContextSelectionAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ResetImageSizeAction"; //$NON-NLS-1$
-	public static final String LABEL = Messages.getString( "ResetImageSizeAction.label" ); //$NON-NLS-1$
+	public static final String LABEL = Messages.getString("ResetImageSizeAction.label"); //$NON-NLS-1$
 
 	/**
 	 * @param part
 	 */
-	public ResetImageSizeAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( LABEL );
+	public ResetImageSizeAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(LABEL);
 	}
 
 	/*
@@ -44,8 +42,7 @@ public class ResetImageSizeAction extends ContextSelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
+	public boolean isEnabled() {
 		return true;
 	}
 
@@ -54,24 +51,17 @@ public class ResetImageSizeAction extends ContextSelectionAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Reset image size action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Reset image size action >> Run ..."); //$NON-NLS-1$
 		}
-		SessionHandleAdapter.getInstance( )
-				.getCommandStack( )
-				.startTrans( LABEL );
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.resetImageSizeCommand", null ); //$NON-NLS-1$
+		SessionHandleAdapter.getInstance().getCommandStack().startTrans(LABEL);
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.resetImageSizeCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
-		}
-		SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+		SessionHandleAdapter.getInstance().getCommandStack().commit();
 	}
 
 }

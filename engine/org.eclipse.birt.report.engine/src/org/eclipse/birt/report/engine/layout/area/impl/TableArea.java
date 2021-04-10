@@ -12,18 +12,14 @@ package org.eclipse.birt.report.engine.layout.area.impl;
 
 import org.eclipse.birt.report.engine.content.ITableContent;
 
-
-public class TableArea extends ContainerArea
-{
-	TableArea(ITableContent table)
-	{
+public class TableArea extends ContainerArea {
+	TableArea(ITableContent table) {
 		super(table);
 		removeBorder();
 		removePadding();
 	}
-	
-	public boolean contains(RowArea row)
-	{
-		return children.contains( row );
+
+	public boolean contains(RowArea row) {
+		return children.contains(row);
 	}
 }

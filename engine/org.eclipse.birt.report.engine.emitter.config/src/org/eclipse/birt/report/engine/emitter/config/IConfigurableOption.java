@@ -14,8 +14,7 @@ package org.eclipse.birt.report.engine.emitter.config;
 /**
  * This interface is a representation of configurable option for emitter.
  */
-public interface IConfigurableOption
-{
+public interface IConfigurableOption {
 
 	/**
 	 * The option data type constants
@@ -34,51 +33,51 @@ public interface IConfigurableOption
 	/**
 	 * Returns the name of this option.
 	 */
-	String getName( );
+	String getName();
 
 	/**
 	 * Returns the display name of this option.
 	 */
-	String getDisplayName( );
+	String getDisplayName();
 
 	/**
 	 * Returns the data type of this option.
 	 */
-	DataType getDataType( );
+	DataType getDataType();
 
 	/**
 	 * Returns the display type of this option.
 	 */
-	DisplayType getDisplayType( );
+	DisplayType getDisplayType();
 
 	/**
 	 * Returns all choice values of this option if applicable.
 	 */
-	IOptionValue[] getChoices( );
+	IOptionValue[] getChoices();
 
 	/**
 	 * Returns the default value of this option.
 	 */
-	Object getDefaultValue( );
+	Object getDefaultValue();
 
 	/**
 	 * Returns the description of this option.
 	 */
-	String getDescription( );
+	String getDescription();
 
 	/**
 	 * Returns the tool tip of this option.
 	 */
-	String getToolTip( );
+	String getToolTip();
 
 	/**
 	 * Returns the category of this option if applicable.
 	 */
-	String getCategory( );
+	String getCategory();
 
 	/**
 	 * Returns if this option is enabled.
 	 */
-	boolean isEnabled( );
+	boolean isEnabled();
 
 }

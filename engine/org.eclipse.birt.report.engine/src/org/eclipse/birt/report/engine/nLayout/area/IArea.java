@@ -14,38 +14,37 @@ package org.eclipse.birt.report.engine.nLayout.area;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.nLayout.area.IAreaVisitor;
 
-public interface IArea
-{
+public interface IArea {
 
 	/**
 	 * Gets the x coordinate of the area's top-left border corner.
 	 * 
 	 * @return the x coordinate.
 	 */
-	int getX( );
+	int getX();
 
 	/**
 	 * Gets the y coordinate of the area's top-left border corner.
 	 * 
 	 * @return the y coordinate.
 	 */
-	int getY( );
+	int getY();
 
 	/**
 	 * Gets the width of the area, ignoring margin.
 	 * 
 	 * @return the width of the area without margin.
 	 */
-	int getWidth( );
+	int getWidth();
 
 	/**
 	 * Gets the height of the area, ignoring margin.
 	 * 
 	 * @return the height of the area without margin.
 	 */
-	int getHeight( );
+	int getHeight();
 
-	void accept( IAreaVisitor visitor );
+	void accept(IAreaVisitor visitor);
 
 	/**
 	 * Gets the scale of the area. The <i>scale</i> property is normally used in
@@ -53,9 +52,9 @@ public interface IArea
 	 * 
 	 * @return the scale.
 	 */
-	float getScale( );
+	float getScale();
 
-	String getBookmark( );
+	String getBookmark();
 
-	IHyperlinkAction getAction( );
+	IHyperlinkAction getAction();
 }

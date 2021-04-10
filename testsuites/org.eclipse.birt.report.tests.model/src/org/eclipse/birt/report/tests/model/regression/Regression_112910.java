@@ -33,32 +33,26 @@ import com.ibm.icu.util.ULocale;
  * exception.
  * </p>
  */
-public class Regression_112910 extends BaseTestCase
-{
+public class Regression_112910 extends BaseTestCase {
 
 	/**
 	 * @throws NameException
 	 */
-	public void test_regression_112910( ) throws NameException
-	{
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		LibraryHandle libHandle = sessionHandle.createLibrary( );
+	public void test_regression_112910() throws NameException {
+		SessionHandle sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		LibraryHandle libHandle = sessionHandle.createLibrary();
 
-		ElementFactory factory = libHandle.getElementFactory( );
-		TableHandle table = factory.newTableItem( null );
+		ElementFactory factory = libHandle.getElementFactory();
+		TableHandle table = factory.newTableItem(null);
 
 		// clear the name.
 
-		table.setName( null );
+		table.setName(null);
 
-		try
-		{
-			libHandle.getComponents( ).add( table );
-			fail( );
-		}
-		catch ( Exception e )
-		{
+		try {
+			libHandle.getComponents().add(table);
+			fail();
+		} catch (Exception e) {
 			// success
 		}
 

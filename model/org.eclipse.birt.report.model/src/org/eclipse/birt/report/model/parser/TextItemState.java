@@ -32,8 +32,7 @@ import org.xml.sax.SAXException;
  * 
  */
 
-public class TextItemState extends ReportItemState
-{
+public class TextItemState extends ReportItemState {
 
 	/**
 	 * The text item being created.
@@ -42,53 +41,41 @@ public class TextItemState extends ReportItemState
 	protected TextItem element;
 
 	/**
-	 * Constructs the text item state with the design parser handler, the
-	 * container element and the container slot of the text item.
+	 * Constructs the text item state with the design parser handler, the container
+	 * element and the container slot of the text item.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public TextItemState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public TextItemState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/**
-	 * Constructs the text item state with the design parser handler, the
-	 * container element and the container property name of the report element.
+	 * Constructs the text item state with the design parser handler, the container
+	 * element and the container property name of the report element.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param prop
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param prop         the slot in which this element appears
 	 */
 
-	public TextItemState( ModuleParserHandler handler,
-			DesignElement theContainer, String prop )
-	{
-		super( handler, theContainer, prop );
+	public TextItemState(ModuleParserHandler handler, DesignElement theContainer, String prop) {
+		super(handler, theContainer, prop);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new TextItem( );
-		initElement( attrs );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new TextItem();
+		initElement(attrs);
 	}
 
 	/*
@@ -97,8 +84,7 @@ public class TextItemState extends ReportItemState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
@@ -108,62 +94,50 @@ public class TextItemState extends ReportItemState
 	 * @see org.eclipse.birt.report.model.parser.ReportItemState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		super.end( );
+	public void end() throws SAXException {
+		super.end();
 
-		if ( handler.versionNumber < VersionUtil.VERSION_3_2_1 )
-		{
+		if (handler.versionNumber < VersionUtil.VERSION_3_2_1) {
 
-			String content = (String) element.getLocalProperty( handler
-					.getModule( ), ITextItemModel.CONTENT_PROP );
-			if ( !StringUtil.isBlank( content ) )
-			{
-				List jsExprs = BoundDataColumnUtil.getExpressions( content,
-						element, handler.getModule( ) );
-				updateExpressions( content, BoundDataColumnUtil
-						.handleJavaExpression( jsExprs, element, handler
-								.getModule( ), handler.tempValue ) );
+			String content = (String) element.getLocalProperty(handler.getModule(), ITextItemModel.CONTENT_PROP);
+			if (!StringUtil.isBlank(content)) {
+				List jsExprs = BoundDataColumnUtil.getExpressions(content, element, handler.getModule());
+				updateExpressions(content, BoundDataColumnUtil.handleJavaExpression(jsExprs, element,
+						handler.getModule(), handler.tempValue));
 			}
 		}
-
 
 	}
 
 	/**
 	 * Updated the given content with the input updated expressions.
 	 * 
-	 * @param contentText
-	 *            the content text
-	 * @param updatedExprs
-	 *            a mapping containing updated expressions. The keys are existed
-	 *            expressions, while, the values are the new expressions to
-	 *            replace existed ones.
+	 * @param contentText  the content text
+	 * @param updatedExprs a mapping containing updated expressions. The keys are
+	 *                     existed expressions, while, the values are the new
+	 *                     expressions to replace existed ones.
 	 */
 
-	private void updateExpressions( String contentText, Map updatedExprs )
-	{
-		if ( updatedExprs.isEmpty( ) )
+	private void updateExpressions(String contentText, Map updatedExprs) {
+		if (updatedExprs.isEmpty())
 			return;
 
-		String contentType = (String) element.getProperty(
-				handler.getModule( ), ITextItemModel.CONTENT_TYPE_PROP );
+		String contentType = (String) element.getProperty(handler.getModule(), ITextItemModel.CONTENT_TYPE_PROP);
 
-		if ( !( DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO
-				.equalsIgnoreCase( contentType ) || ( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML
-				.equalsIgnoreCase( contentType ) ) ) )
+		if (!(DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO.equalsIgnoreCase(contentType)
+				|| (DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML.equalsIgnoreCase(contentType))))
 			return;
 
-		TextTemplate template = new TemplateParser( ).parse( contentText );
+		TextTemplate template = new TemplateParser().parse(contentText);
 
-		BoundDataColumnUtil.ContentVisitor templateVisitor = new BoundDataColumnUtil.ContentVisitor(
-				template, updatedExprs );
+		BoundDataColumnUtil.ContentVisitor templateVisitor = new BoundDataColumnUtil.ContentVisitor(template,
+				updatedExprs);
 
-		String content = templateVisitor.execute( );
+		String content = templateVisitor.execute();
 
 		// reset the content.
 
-		element.setProperty( ITextItemModel.CONTENT_PROP, content );
+		element.setProperty(ITextItemModel.CONTENT_PROP, content);
 	}
 
 }

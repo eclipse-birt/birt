@@ -11,15 +11,12 @@
 
 package org.eclipse.birt.report.engine.extension.engine;
 
-public class GenerateExtensionAdapter implements IGenerateExtension
-{
+public class GenerateExtensionAdapter implements IGenerateExtension {
 
-	public void close( )
-	{
+	public void close() {
 	}
 
-	public IContentProcessor createGenerateProcessor( )
-	{
+	public IContentProcessor createGenerateProcessor() {
 		return null;
 	}
 }

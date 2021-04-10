@@ -43,8 +43,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * @see org.eclipse.birt.report.model.elements.ScriptLib
  */
 
-public class ScriptLibHandleTest extends BaseTestCase
-{
+public class ScriptLibHandleTest extends BaseTestCase {
 
 	private String fileName = "ScriptLibHandleTest.xml"; //$NON-NLS-1$
 
@@ -54,36 +53,32 @@ public class ScriptLibHandleTest extends BaseTestCase
 	 * Creates the JarFileHandle.
 	 */
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		openDesign( fileName );
+	protected void setUp() throws Exception {
+		super.setUp();
+		openDesign(fileName);
 
-		Iterator iterator = designHandle.scriptLibsIterator( );
-		scriptLibHandle = (ScriptLibHandle) iterator.next( );
+		Iterator iterator = designHandle.scriptLibsIterator();
+		scriptLibHandle = (ScriptLibHandle) iterator.next();
 	}
 
 	/**
 	 * Tests all getters.
 	 */
 
-	public void testGetValue( )
-	{
-		assertEquals( "a.jar", scriptLibHandle.getName( ) );//$NON-NLS-1$
+	public void testGetValue() {
+		assertEquals("a.jar", scriptLibHandle.getName());//$NON-NLS-1$
 
 	}
 
 	/**
 	 * Tests all setters.
 	 * 
-	 * @throws SemanticException
-	 *             when value can't be set.
+	 * @throws SemanticException when value can't be set.
 	 */
 
-	public void testSetValue( ) throws SemanticException
-	{
-		scriptLibHandle.setName( "he.jar" );//$NON-NLS-1$
-		assertEquals( "he.jar", scriptLibHandle.getName( ) );//$NON-NLS-1$
+	public void testSetValue() throws SemanticException {
+		scriptLibHandle.setName("he.jar");//$NON-NLS-1$
+		assertEquals("he.jar", scriptLibHandle.getName());//$NON-NLS-1$
 
 	}
 }

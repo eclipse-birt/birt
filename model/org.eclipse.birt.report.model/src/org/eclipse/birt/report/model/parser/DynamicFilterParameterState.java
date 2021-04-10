@@ -21,8 +21,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class DynamicFilterParameterState extends AbstractScalarParameterState
-{
+public class DynamicFilterParameterState extends AbstractScalarParameterState {
 
 	/**
 	 * The scalar parameter being created.
@@ -31,41 +30,33 @@ public class DynamicFilterParameterState extends AbstractScalarParameterState
 	protected DynamicFilterParameter param;
 
 	/**
-	 * Constructs the DynamicFilterParameter state with the design parser
-	 * handler, the container element and the container slot of the scalar
-	 * parameter.
+	 * Constructs the DynamicFilterParameter state with the design parser handler,
+	 * the container element and the container slot of the scalar parameter.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the container of this parameter.
-	 * @param slot
-	 *            the slot ID of the slot where the parameter is stored.
+	 * @param handler      the design file parser handler
+	 * @param theContainer the container of this parameter.
+	 * @param slot         the slot ID of the slot where the parameter is stored.
 	 */
 
-	public DynamicFilterParameterState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public DynamicFilterParameterState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		// First we create the dynamic filter parameter.
 
-		param = new DynamicFilterParameter( );
+		param = new DynamicFilterParameter();
 
 		// Then we initialize the properties.
 
-		initElement( attrs, true );
+		initElement(attrs, true);
 	}
 
 	/**
@@ -74,8 +65,7 @@ public class DynamicFilterParameterState extends AbstractScalarParameterState
 	 * @return the parameter instance
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return param;
 	}
 

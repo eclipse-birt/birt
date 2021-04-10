@@ -17,9 +17,8 @@ import org.eclipse.draw2d.geometry.Dimension;
  * Help to layout the fixlayout.
  */
 
-public interface IFixLayoutHelper
-{
+public interface IFixLayoutHelper {
 	Dimension getFixPreferredSize(int w, int h);
-	
+
 	Dimension getFixMinimumSize(int w, int h);
 }

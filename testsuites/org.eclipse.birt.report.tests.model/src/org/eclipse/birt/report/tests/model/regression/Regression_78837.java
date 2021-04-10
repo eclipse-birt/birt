@@ -31,8 +31,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_78837 extends BaseTestCase
-{
+public class Regression_78837 extends BaseTestCase {
 
 	private String INPUT = "Regression_78837.xml"; //$NON-NLS-1$
 
@@ -41,30 +40,26 @@ public class Regression_78837 extends BaseTestCase
 	 * @throws ContentException
 	 * @throws NameException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		copyResource_INPUT( INPUT, INPUT );
-		//copyResource_INPUT( INPUT2, INPUT2 );
+		copyResource_INPUT(INPUT, INPUT);
+		// copyResource_INPUT( INPUT2, INPUT2 );
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_78837( ) throws DesignFileException, ContentException, NameException
-	{
-		openDesign( INPUT );
-		ElementFactory factory = designHandle.getElementFactory( );
-		ParameterGroupHandle group = factory.newParameterGroup( "group" ); //$NON-NLS-1$
-		ScalarParameterHandle param = factory.newScalarParameter( "p1" ); //$NON-NLS-1$
-		
-		designHandle.getParameters( ).add( group );
-		group.getParameters( ).add( param );
-		
+
+	public void test_regression_78837() throws DesignFileException, ContentException, NameException {
+		openDesign(INPUT);
+		ElementFactory factory = designHandle.getElementFactory();
+		ParameterGroupHandle group = factory.newParameterGroup("group"); //$NON-NLS-1$
+		ScalarParameterHandle param = factory.newScalarParameter("p1"); //$NON-NLS-1$
+
+		designHandle.getParameters().add(group);
+		group.getParameters().add(param);
 
 	}
 }

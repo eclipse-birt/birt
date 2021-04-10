@@ -16,12 +16,10 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 
+public abstract class LayoutEmitterAdapter extends ContentEmitterAdapter {
+	public abstract ILayoutPageHandler getPageHandler();
 
-public abstract class LayoutEmitterAdapter extends ContentEmitterAdapter
-{
-	public abstract ILayoutPageHandler getPageHandler( );
-	
-	public abstract void setPageHandler( ILayoutPageHandler pageHandler );
+	public abstract void setPageHandler(ILayoutPageHandler pageHandler);
 
-	public abstract void outputPage( IPageContent page ) throws BirtException;
+	public abstract void outputPage(IPageContent page) throws BirtException;
 }

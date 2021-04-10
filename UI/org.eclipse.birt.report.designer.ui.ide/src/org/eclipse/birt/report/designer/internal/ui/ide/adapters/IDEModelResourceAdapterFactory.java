@@ -22,25 +22,17 @@ import org.eclipse.core.runtime.Path;
  * to resolve the current IResoruce selection when focus on non-editor views,
  * e.g. outline view, data explorer view.
  */
-public class IDEModelResourceAdapterFactory implements IAdapterFactory
-{
+public class IDEModelResourceAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( adapterType == IResource.class )
-		{
-			if ( adaptableObject instanceof SlotHandle )
-			{
-				String file = ( (SlotHandle) adaptableObject ).getModule( )
-						.getFileName( );
-				if ( file != null )
-				{
-					IResource[] res = ResourcesPlugin.getWorkspace( )
-							.getRoot( )
-							.findFilesForLocation( Path.fromOSString( file ) );
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adapterType == IResource.class) {
+			if (adaptableObject instanceof SlotHandle) {
+				String file = ((SlotHandle) adaptableObject).getModule().getFileName();
+				if (file != null) {
+					IResource[] res = ResourcesPlugin.getWorkspace().getRoot()
+							.findFilesForLocation(Path.fromOSString(file));
 
-					if ( res != null && res.length > 0 )
-					{
+					if (res != null && res.length > 0) {
 						return res[0];
 					}
 				}
@@ -49,11 +41,8 @@ public class IDEModelResourceAdapterFactory implements IAdapterFactory
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			IResource.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { IResource.class };
 	}
 
 }

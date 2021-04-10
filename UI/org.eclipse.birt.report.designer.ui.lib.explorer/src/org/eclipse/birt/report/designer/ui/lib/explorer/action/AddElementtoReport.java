@@ -45,24 +45,19 @@ import org.eclipse.ui.views.contentoutline.ContentOutline;
  * 
  */
 
-public class AddElementtoReport extends Action
-{
+public class AddElementtoReport extends Action {
 
 	private StructuredViewer viewer;
 	private Object element;
 	private int canContain;
 	private Object target;
 
-	private static final String ACTION_TEXT = Messages.getString( "AddElementtoAction.Text" ); //$NON-NLS-1$
+	private static final String ACTION_TEXT = Messages.getString("AddElementtoAction.Text"); //$NON-NLS-1$
 
-	public void setSelectedElement( Object element )
-	{
-		if ( element instanceof ReportResourceEntry )
-		{
-			this.element = ( (ReportResourceEntry) element ).getReportElement( );
-		}
-		else
-		{
+	public void setSelectedElement(Object element) {
+		if (element instanceof ReportResourceEntry) {
+			this.element = ((ReportResourceEntry) element).getReportElement();
+		} else {
 			this.element = element;
 		}
 
@@ -72,9 +67,8 @@ public class AddElementtoReport extends Action
 	 * @param text
 	 * @param style
 	 */
-	public AddElementtoReport( StructuredViewer viewer )
-	{
-		super( ACTION_TEXT );
+	public AddElementtoReport(StructuredViewer viewer) {
+		super(ACTION_TEXT);
 		this.viewer = viewer;
 		canContain = DNDUtil.CONTAIN_NO;
 	}
@@ -82,232 +76,160 @@ public class AddElementtoReport extends Action
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
-	public boolean isEnabled( )
-	{
-		Object target = getTarget( );
+	public boolean isEnabled() {
+		Object target = getTarget();
 		this.target = target;
 
-		if ( canContain( target, element ) )
-		{
+		if (canContain(target, element)) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
 
-	public Object getTarget( )
-	{
-		IViewPart viewPart = UIUtil.getView( IPageLayout.ID_OUTLINE );
-		if ( !( viewPart instanceof ContentOutline ) )
-		{
+	public Object getTarget() {
+		IViewPart viewPart = UIUtil.getView(IPageLayout.ID_OUTLINE);
+		if (!(viewPart instanceof ContentOutline)) {
 			return null;
 		}
 		ContentOutline outlineView = (ContentOutline) viewPart;
 
-		ISelection selection = outlineView.getSelection( );
-		if ( selection instanceof StructuredSelection )
-		{
+		ISelection selection = outlineView.getSelection();
+		if (selection instanceof StructuredSelection) {
 			StructuredSelection strSelection = (StructuredSelection) selection;
-			if ( strSelection.size( ) == 1 )
-			{
-				return strSelection.getFirstElement( );
+			if (strSelection.size() == 1) {
+				return strSelection.getFirstElement();
 			}
 		}
 		return null;
 	}
 
-	public void run( )
-	{
-		SessionHandleAdapter.getInstance( )
-				.getCommandStack( )
-				.startTrans( ACTION_TEXT );
-		try
-		{
-			copyData( target, element );
-			SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
-		}
-		catch ( Exception e )
-		{
-			SessionHandleAdapter.getInstance( ).getCommandStack( ).rollback( );
+	public void run() {
+		SessionHandleAdapter.getInstance().getCommandStack().startTrans(ACTION_TEXT);
+		try {
+			copyData(target, element);
+			SessionHandleAdapter.getInstance().getCommandStack().commit();
+		} catch (Exception e) {
+			SessionHandleAdapter.getInstance().getCommandStack().rollback();
 		}
 
 	}
 
-	protected boolean canContain( Object target, Object transfer )
-	{
+	protected boolean canContain(Object target, Object transfer) {
 		// bug#192319
-		if ( transfer instanceof DataSetHandle
-				|| transfer instanceof DataSourceHandle
-				|| transfer instanceof ParameterHandle
-				|| transfer instanceof ParameterGroupHandle
-				|| transfer instanceof CascadingParameterGroupHandle
-				|| transfer instanceof CubeHandle
-				|| transfer instanceof MasterPageHandle )
+		if (transfer instanceof DataSetHandle || transfer instanceof DataSourceHandle
+				|| transfer instanceof ParameterHandle || transfer instanceof ParameterGroupHandle
+				|| transfer instanceof CascadingParameterGroupHandle || transfer instanceof CubeHandle
+				|| transfer instanceof MasterPageHandle)
 			return true;
 
-		if (target instanceof LibraryHandle && transfer instanceof EmbeddedImageHandle)
-		{
-			EmbeddedImageHandle imageHandle = (EmbeddedImageHandle)transfer;
-			if (imageHandle.getModule( ) instanceof Library && !imageHandle.getModule( ).getFileName( ).equals( ((LibraryHandle)target).getFileName( )))
-			{
+		if (target instanceof LibraryHandle && transfer instanceof EmbeddedImageHandle) {
+			EmbeddedImageHandle imageHandle = (EmbeddedImageHandle) transfer;
+			if (imageHandle.getModule() instanceof Library
+					&& !imageHandle.getModule().getFileName().equals(((LibraryHandle) target).getFileName())) {
 				return true;
 			}
 		}
-		if ( DNDUtil.handleValidateTargetCanContainMore( target,
-				DNDUtil.getObjectLength( transfer ) ) )
-		{
-			canContain = DNDUtil.handleValidateTargetCanContain( target,
-					transfer,
-					true );
+		if (DNDUtil.handleValidateTargetCanContainMore(target, DNDUtil.getObjectLength(transfer))) {
+			canContain = DNDUtil.handleValidateTargetCanContain(target, transfer, true);
 			return canContain == DNDUtil.CONTAIN_THIS;
 		}
 		return false;
 
 	}
 
-	private int getPosition( Object target )
-	{
+	private int getPosition(Object target) {
 
-		int position = DNDUtil.calculateNextPosition( target, canContain );
-		if ( position > -1 )
-		{
-			this.target = DNDUtil.getDesignElementHandle( target )
-					.getContainerSlotHandle( );
+		int position = DNDUtil.calculateNextPosition(target, canContain);
+		if (position > -1) {
+			this.target = DNDUtil.getDesignElementHandle(target).getContainerSlotHandle();
 		}
 		return position;
 	}
 
-	protected boolean copyData( Object target, Object transfer )
-	{
+	protected boolean copyData(Object target, Object transfer) {
 
-		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
 
 		// bug#192319
-		if ( transfer instanceof DataSetHandle )
-		{
-			target = moduleHandle.getDataSets( );
-		}
-		else if ( transfer instanceof DataSourceHandle )
-		{
-			target = moduleHandle.getDataSources( );
-		}
-		else if ( transfer instanceof ParameterHandle
-				|| transfer instanceof ParameterGroupHandle
-				|| transfer instanceof CascadingParameterGroupHandle )
-		{
-			target = moduleHandle.getParameters( );
-		}
-		else if ( transfer instanceof CubeHandle )
-		{
-			target = moduleHandle.getCubes( );
-		}
-		else if ( transfer instanceof MasterPageHandle )
-		{
-			target = moduleHandle.getMasterPages( );
-		}
-		else if (transfer instanceof DesignElementHandle 
-				&& getAdapter() != null && getAdapter().resolveExtendedData( (DesignElementHandle) transfer )!= null)
-		{
-			target = getAdapter().getDetailHandle( moduleHandle );
+		if (transfer instanceof DataSetHandle) {
+			target = moduleHandle.getDataSets();
+		} else if (transfer instanceof DataSourceHandle) {
+			target = moduleHandle.getDataSources();
+		} else if (transfer instanceof ParameterHandle || transfer instanceof ParameterGroupHandle
+				|| transfer instanceof CascadingParameterGroupHandle) {
+			target = moduleHandle.getParameters();
+		} else if (transfer instanceof CubeHandle) {
+			target = moduleHandle.getCubes();
+		} else if (transfer instanceof MasterPageHandle) {
+			target = moduleHandle.getMasterPages();
+		} else if (transfer instanceof DesignElementHandle && getAdapter() != null
+				&& getAdapter().resolveExtendedData((DesignElementHandle) transfer) != null) {
+			target = getAdapter().getDetailHandle(moduleHandle);
 		}
 
 		// When get position, change target value if need be
-		int position = getPosition( target );
+		int position = getPosition(target);
 		boolean result = false;
 
-		if ( transfer != null && transfer instanceof DesignElementHandle )
-		{
+		if (transfer != null && transfer instanceof DesignElementHandle) {
 			DesignElementHandle sourceHandle;
-			if ( ( sourceHandle = (DesignElementHandle) transfer ).getRoot( ) instanceof LibraryHandle )
-			{
+			if ((sourceHandle = (DesignElementHandle) transfer).getRoot() instanceof LibraryHandle) {
 				// transfer element from a library.
-				LibraryHandle library = (LibraryHandle) sourceHandle.getRoot( );
-				try
-				{
-					if ( moduleHandle != library )
-					{
+				LibraryHandle library = (LibraryHandle) sourceHandle.getRoot();
+				try {
+					if (moduleHandle != library) {
 						// element from other library not itself, create a new
 						// extended element.
-						if ( UIUtil.includeLibrary( moduleHandle, library ) )
-						{
-							DNDUtil.addElementHandle( target,
-									moduleHandle.getElementFactory( )
-											.newElementFrom( sourceHandle,
-													sourceHandle.getName( ) ) );
+						if (UIUtil.includeLibrary(moduleHandle, library)) {
+							DNDUtil.addElementHandle(target, moduleHandle.getElementFactory()
+									.newElementFrom(sourceHandle, sourceHandle.getName()));
 							result = true;
 						}
+					} else {
+						result = DNDUtil.copyHandles(transfer, target, position);
 					}
-					else
-					{
-						result = DNDUtil.copyHandles( transfer,
-								target,
-								position );
-					}
+				} catch (Exception e) {
+					ExceptionUtil.handle(e);
 				}
-				catch ( Exception e )
-				{
-					ExceptionUtil.handle( e );
-				}
+			} else {
+				result = DNDUtil.copyHandles(transfer, target, position);
 			}
-			else
-			{
-				result = DNDUtil.copyHandles( transfer, target, position );
-			}
-		}
-		else if ( transfer != null && transfer instanceof EmbeddedImageHandle )
-		{
+		} else if (transfer != null && transfer instanceof EmbeddedImageHandle) {
 			EmbeddedImageHandle sourceEmbeddedImageHandle;
-			if ( ( sourceEmbeddedImageHandle = (EmbeddedImageHandle) transfer ).getElementHandle( )
-					.getRoot( ) instanceof LibraryHandle )
-			{
-				LibraryHandle library = (LibraryHandle) sourceEmbeddedImageHandle.getElementHandle( )
-						.getRoot( );
-				try
-				{
-					if ( moduleHandle != library )
-					{
+			if ((sourceEmbeddedImageHandle = (EmbeddedImageHandle) transfer).getElementHandle()
+					.getRoot() instanceof LibraryHandle) {
+				LibraryHandle library = (LibraryHandle) sourceEmbeddedImageHandle.getElementHandle().getRoot();
+				try {
+					if (moduleHandle != library) {
 						// create a new embeddedimage from other library and
 						// extend it.
-						if ( UIUtil.includeLibrary( moduleHandle, library ) )
-						{
-							EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( sourceEmbeddedImageHandle,
-									moduleHandle );
-							image.setType( sourceEmbeddedImageHandle.getType( ) );
-							DNDUtil.addEmbeddedImageHandle( target, image );
+						if (UIUtil.includeLibrary(moduleHandle, library)) {
+							EmbeddedImage image = StructureFactory.newEmbeddedImageFrom(sourceEmbeddedImageHandle,
+									moduleHandle);
+							image.setType(sourceEmbeddedImageHandle.getType());
+							DNDUtil.addEmbeddedImageHandle(target, image);
 							result = true;
 						}
+					} else {
+						result = DNDUtil.copyHandles(transfer, target, position);
 					}
-					else
-					{
-						result = DNDUtil.copyHandles( transfer,
-								target,
-								position );
-					}
+				} catch (Exception e) {
+					ExceptionUtil.handle(e);
 				}
-				catch ( Exception e )
-				{
-					ExceptionUtil.handle( e );
-				}
-			}
-			else
-			{
-				result = DNDUtil.copyHandles( transfer, target, position );
+			} else {
+				result = DNDUtil.copyHandles(transfer, target, position);
 			}
 		}
 
-		if ( result )
-		{
-			viewer.reveal( target );
+		if (result) {
+			viewer.reveal(target);
 		}
 
 		return result;
 	}
-	
-	private IExtendedDataModelUIAdapter getAdapter()
-	{
-		return ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+
+	private IExtendedDataModelUIAdapter getAdapter() {
+		return ExtendedDataModelUIAdapterHelper.getInstance().getAdapter();
 	}
 }

@@ -11,24 +11,23 @@
 
 package org.eclipse.birt.core.archive.compound;
 
-interface ArchiveConstants
-{
+interface ArchiveConstants {
 
 	/** The magic tag of the archive file: "RPTDOC" */
 	static final long DOCUMENT_TAG = 0x525054414243L;
 
 	/**
-	 * After support system id in archive file, DOCUMENT_VERSION_1 is writen
-	 * into header.
+	 * After support system id in archive file, DOCUMENT_VERSION_1 is writen into
+	 * header.
 	 */
 	static final long DOCUMENT_VERSION_0 = 0L;
 	static final long DOCUMENT_VERSION_1 = 1L;
-	
+
 	/**
 	 * the system property defines the block size, it should be times of 1024.
 	 */
 	static final String PROPERTY_DEFAULT_BLOCK_SIZE = "org.eclipse.birt.core.archive.compound.DEFAULT_BLOCK_SIZE";
-	
+
 	/**
 	 * Size of a physical block, counted in bytes.
 	 */
@@ -59,7 +58,7 @@ interface ArchiveConstants
 
 	/** default size of buffer pool - number of buffer blocks in buffer pool */
 	static final int DEFAULT_BUFFER_POOL_SIZE = 1024;
-	
+
 	/** Min size of buffer pool - number of buffer blocks in buffer pool */
 	static final int MIN_BUFFER_POOL_SIZE = 2;
 

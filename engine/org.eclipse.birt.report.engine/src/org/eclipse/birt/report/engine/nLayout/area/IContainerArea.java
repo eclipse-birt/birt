@@ -15,21 +15,20 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 
-public interface IContainerArea extends IArea
-{
+public interface IContainerArea extends IArea {
 
-	Iterator<IArea> getChildren( );
+	Iterator<IArea> getChildren();
 
-	int getChildrenCount( );
+	int getChildrenCount();
 
-	public void addChild( IArea area );
+	public void addChild(IArea area);
 
-	public boolean needClip( );
+	public boolean needClip();
 
-	public void setNeedClip( boolean needClip );
+	public void setNeedClip(boolean needClip);
 
-	public BoxStyle getBoxStyle( );
-	
-	public String getHelpText( );
+	public BoxStyle getBoxStyle();
+
+	public String getHelpText();
 
 }

@@ -59,248 +59,212 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * 
  */
 
-class CacheUtilFactory
-{
+class CacheUtilFactory {
 	/**
 	 * 
 	 * @param cacheObject
 	 * @param rs
 	 * @return
 	 */
-	public static ISaveUtil createSaveUtil( IDataSetCacheObject cacheObject , IResultClass rs, DataEngineSession session )
-	{
-		if ( cacheObject instanceof DiskDataSetCacheObject )
-		{
-			return new DiskSaveUtil( (DiskDataSetCacheObject) cacheObject,
-					rs, session  );
-		} else if ( cacheObject instanceof MemoryDataSetCacheObject )
-		{
-			return new MemorySaveUtil( (MemoryDataSetCacheObject)cacheObject, rs );
-		}
-		else if ( cacheObject instanceof IncreDataSetCacheObject )
-		{
-			return new IncreCacheSaveUtil( (IncreDataSetCacheObject) cacheObject, rs, session );
+	public static ISaveUtil createSaveUtil(IDataSetCacheObject cacheObject, IResultClass rs,
+			DataEngineSession session) {
+		if (cacheObject instanceof DiskDataSetCacheObject) {
+			return new DiskSaveUtil((DiskDataSetCacheObject) cacheObject, rs, session);
+		} else if (cacheObject instanceof MemoryDataSetCacheObject) {
+			return new MemorySaveUtil((MemoryDataSetCacheObject) cacheObject, rs);
+		} else if (cacheObject instanceof IncreDataSetCacheObject) {
+			return new IncreCacheSaveUtil((IncreDataSetCacheObject) cacheObject, rs, session);
 
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @param cacheObject
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public static ILoadUtil createLoadUtil( IDataSetCacheObject cacheObject, DataEngineSession session ) throws DataException
-	{
-		if ( cacheObject instanceof DiskDataSetCacheObject )
-		{
-			return new DiskLoadUtil( (DiskDataSetCacheObject)cacheObject, session );
-		}
-		else if ( cacheObject instanceof MemoryDataSetCacheObject )
-		{
-			return new MemoryLoadUtil( (MemoryDataSetCacheObject) cacheObject );
-		}
-		else if ( cacheObject instanceof IncreDataSetCacheObject )
-		{
-			return new IncreCacheLoadUtil( (IncreDataSetCacheObject) cacheObject, session );
-		}
-		else if ( cacheObject instanceof DataSetCacheObjectWithDummyData )
-		{
-			return new DummyDataCacheLoadUtil( (DataSetCacheObjectWithDummyData) cacheObject, session );
+	public static ILoadUtil createLoadUtil(IDataSetCacheObject cacheObject, DataEngineSession session)
+			throws DataException {
+		if (cacheObject instanceof DiskDataSetCacheObject) {
+			return new DiskLoadUtil((DiskDataSetCacheObject) cacheObject, session);
+		} else if (cacheObject instanceof MemoryDataSetCacheObject) {
+			return new MemoryLoadUtil((MemoryDataSetCacheObject) cacheObject);
+		} else if (cacheObject instanceof IncreDataSetCacheObject) {
+			return new IncreCacheLoadUtil((IncreDataSetCacheObject) cacheObject, session);
+		} else if (cacheObject instanceof DataSetCacheObjectWithDummyData) {
+			return new DummyDataCacheLoadUtil((DataSetCacheObjectWithDummyData) cacheObject, session);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @param metaMap
 	 * @throws DataException
 	 */
-	private static List<IBinding> populateDataSetRowMapping( IResultClass rsClass )
-			throws DataException
-	{
+	private static List<IBinding> populateDataSetRowMapping(IResultClass rsClass) throws DataException {
 		List<IBinding> result = new ArrayList<IBinding>();
-		for ( int i = 0; i < rsClass.getFieldCount( ); i++ )
-		{
-			IBinding binding = new Binding( rsClass.getFieldName( i + 1 ) );
-			if ( rsClass.getFieldAlias( i + 1 ) != null )
-				binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldAlias( i + 1 ) ) ) );
+		for (int i = 0; i < rsClass.getFieldCount(); i++) {
+			IBinding binding = new Binding(rsClass.getFieldName(i + 1));
+			if (rsClass.getFieldAlias(i + 1) != null)
+				binding.setExpression(new ScriptExpression(
+						ExpressionUtil.createJSDataSetRowExpression(rsClass.getFieldAlias(i + 1))));
 			else
-				binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
-			result.add( binding );
+				binding.setExpression(
+						new ScriptExpression(ExpressionUtil.createJSDataSetRowExpression(rsClass.getFieldName(i + 1))));
+			result.add(binding);
 		}
 		return result;
 	}
-	
-	
+
 	/**
 	 * Util class to save the original data retrieved from ODA driver into cache
 	 * file.
 	 */
-	private static class DiskSaveUtil implements ISaveUtil
-	{
+	private static class DiskSaveUtil implements ISaveUtil {
 		private File file;
 		private File metaFile;
 		private FileOutputStream fos;
 		private BufferedOutputStream bos;
-		
+
 		private IResultClass rsClass;
 		private ResultObjectUtil roUtil;
-		
+
 		private int rowCount;
 		private String tempFolder;
 		private DataEngineSession session;
+
 		/**
 		 * @param file
 		 * @param rsClass
 		 */
-		public DiskSaveUtil( DiskDataSetCacheObject cacheObject, IResultClass rsClass, DataEngineSession session )
-		{
+		public DiskSaveUtil(DiskDataSetCacheObject cacheObject, IResultClass rsClass, DataEngineSession session) {
 			assert rsClass != null;
 
-			this.file = cacheObject.getDataFile( );
+			this.file = cacheObject.getDataFile();
 //			FileSecurity.fileDeleteOnExit( this.file );
-			this.metaFile = cacheObject.getMetaFile( );
+			this.metaFile = cacheObject.getMetaFile();
 //			FileSecurity.fileDeleteOnExit( this.metaFile );
 			this.rsClass = rsClass;
 			this.rowCount = 0;
-			this.tempFolder = cacheObject.getCacheDir( );
+			this.tempFolder = cacheObject.getCacheDir();
 			this.session = session;
 		}
-		
+
 		/**
 		 * @param resultObject
 		 * @throws DataException
 		 */
-		public void saveObject( IResultObject resultObject ) throws DataException
-		{
-			assert resultObject!=null;
-			
-			if ( roUtil == null )
-			{				
-				roUtil = ResultObjectUtil.newInstance( rsClass, session );
-				try
-				{
-					fos = FileSecurity.createFileOutputStream( file );
-					bos = new BufferedOutputStream( fos );
-				}
-				catch ( FileNotFoundException e )
-				{
-					throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
-							e );
+		public void saveObject(IResultObject resultObject) throws DataException {
+			assert resultObject != null;
+
+			if (roUtil == null) {
+				roUtil = ResultObjectUtil.newInstance(rsClass, session);
+				try {
+					fos = FileSecurity.createFileOutputStream(file);
+					bos = new BufferedOutputStream(fos);
+				} catch (FileNotFoundException e) {
+					throw new DataException(ResourceConstants.DATASETCACHE_SAVE_ERROR, e);
 				}
 			}
-			
-			try
-			{
-				rowCount ++;
-				roUtil.writeData( bos, resultObject );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
-						e );
+
+			try {
+				rowCount++;
+				roUtil.writeData(bos, resultObject);
+			} catch (IOException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_SAVE_ERROR, e);
 			}
 		}
-		
+
 		/**
 		 * @throws DataException
 		 */
-		public void close( ) throws DataException
-		{			
-			try
-			{
-				if ( bos != null )
-				{
-					bos.close( );
-					fos.close( );
+		public void close() throws DataException {
+			try {
+				if (bos != null) {
+					bos.close();
+					fos.close();
 				}
-				
-				FileOutputStream fos1 = FileSecurity.createFileOutputStream(  metaFile );
-				BufferedOutputStream bos1 = new BufferedOutputStream( fos1 );
+
+				FileOutputStream fos1 = FileSecurity.createFileOutputStream(metaFile);
+				BufferedOutputStream bos1 = new BufferedOutputStream(fos1);
 
 				// save the count of data
-				IOUtil.writeInt( bos1, this.rowCount );
-		
-				( (ResultClass) rsClass ).doSave( bos1, populateDataSetRowMapping( rsClass ), 0 );
+				IOUtil.writeInt(bos1, this.rowCount);
 
-				bos1.close( );
-				fos1.close( );
-				
+				((ResultClass) rsClass).doSave(bos1, populateDataSetRowMapping(rsClass), 0);
+
+				bos1.close();
+				fos1.close();
+
 				// save the current time as the timestamp
-				CacheUtil.saveCurrentTime( this.tempFolder );
+				CacheUtil.saveCurrentTime(this.tempFolder);
+			} catch (IOException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_SAVE_ERROR, e);
 			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
-						e );
-			}			
 		}
 	}
-	
+
 	/**
 	 *
 	 */
-	private static class MemorySaveUtil implements ISaveUtil
-	{
+	private static class MemorySaveUtil implements ISaveUtil {
 		private MemoryDataSetCacheObject cacheObject;
-		
-				/**
+
+		/**
 		 * @param file
 		 * @param rsMeta
 		 */
-		public MemorySaveUtil( MemoryDataSetCacheObject cacheObject, IResultClass rs )
-		{
+		public MemorySaveUtil(MemoryDataSetCacheObject cacheObject, IResultClass rs) {
 			assert cacheObject != null;
 
 			this.cacheObject = cacheObject;
-			this.cacheObject.setResultClass( rs );
+			this.cacheObject.setResultClass(rs);
 		}
-		
+
 		/**
 		 * @param resultObject
 		 * @throws DataException
 		 */
-		public void saveObject( IResultObject resultObject ) throws DataException
-		{
-			assert resultObject!=null;
-			
-			this.cacheObject.populateResult( resultObject );
-			
+		public void saveObject(IResultObject resultObject) throws DataException {
+			assert resultObject != null;
+
+			this.cacheObject.populateResult(resultObject);
+
 		}
-		
+
 		/**
 		 * @throws DataException
 		 */
-		public void close( ) throws DataException
-		{			
+		public void close() throws DataException {
 		}
 	}
+
 	/**
 	 * Helper class to save result set to cache file.
 	 *
 	 */
-	private static class IncreCacheSaveUtil implements ISaveUtil
-	{
+	private static class IncreCacheSaveUtil implements ISaveUtil {
 		private File file;
 		private File metaFile;
-		
+
 		private BufferedOutputStream bos;
-		
+
 		private IResultClass rsMeta;
 		private ResultObjectUtil roUtil;
-		
+
 		private int rowCount;
 		private String tempDir;
 		private DataEngineSession session;
-		public IncreCacheSaveUtil( IncreDataSetCacheObject cacheObject, IResultClass rs, DataEngineSession session )
-		{
-			this.file = cacheObject.getDataFile( );
-			this.metaFile = cacheObject.getMetaFile( );
+
+		public IncreCacheSaveUtil(IncreDataSetCacheObject cacheObject, IResultClass rs, DataEngineSession session) {
+			this.file = cacheObject.getDataFile();
+			this.metaFile = cacheObject.getMetaFile();
 			this.rsMeta = rs;
 			this.rowCount = 0;
-			this.tempDir = cacheObject.getCacheDir( );
+			this.tempDir = cacheObject.getCacheDir();
 			this.session = session;
 		}
 
@@ -308,369 +272,303 @@ class CacheUtilFactory
 		 * @param resultObject
 		 * @throws DataException
 		 */
-		public void saveObject( IResultObject resultObject ) throws DataException
-		{
-			assert resultObject!=null;
-			
-			if ( roUtil == null )
-			{				
-				roUtil = ResultObjectUtil.newInstance( rsMeta, session );
-				try
-				{
-					bos = new BufferedOutputStream( FileSecurity.createFileOutputStream( file,
-							true ) );
-				}
-				catch ( Exception e )
-				{
-					throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
-							e );
+		public void saveObject(IResultObject resultObject) throws DataException {
+			assert resultObject != null;
+
+			if (roUtil == null) {
+				roUtil = ResultObjectUtil.newInstance(rsMeta, session);
+				try {
+					bos = new BufferedOutputStream(FileSecurity.createFileOutputStream(file, true));
+				} catch (Exception e) {
+					throw new DataException(ResourceConstants.DATASETCACHE_SAVE_ERROR, e);
 				}
 			}
-			
-			try
-			{
-				rowCount ++;
-				roUtil.writeData( bos, resultObject );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
-						e );
+
+			try {
+				rowCount++;
+				roUtil.writeData(bos, resultObject);
+			} catch (IOException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_SAVE_ERROR, e);
 			}
 		}
-		
+
 		/**
 		 * @throws DataException
 		 */
-		public void close( ) throws DataException
-		{			
-			try
-			{
-				if ( bos != null )
-				{
-					bos.close( );
+		public void close() throws DataException {
+			try {
+				if (bos != null) {
+					bos.close();
 				}
-				if ( FileSecurity.fileExist( metaFile ) )
-				{
-					FileInputStream fis1 = FileSecurity.createFileInputStream( metaFile );
-					BufferedInputStream bis1 = new BufferedInputStream( fis1 );
-					int oldCount = IOUtil.readInt( bis1 );
+				if (FileSecurity.fileExist(metaFile)) {
+					FileInputStream fis1 = FileSecurity.createFileInputStream(metaFile);
+					BufferedInputStream bis1 = new BufferedInputStream(fis1);
+					int oldCount = IOUtil.readInt(bis1);
 					rowCount += oldCount;
-					bis1.close( );
-					fis1.close( );
+					bis1.close();
+					fis1.close();
 				}
-				FileOutputStream fos1 = FileSecurity.createFileOutputStream( metaFile );
-				BufferedOutputStream bos1 = new BufferedOutputStream( fos1 );
+				FileOutputStream fos1 = FileSecurity.createFileOutputStream(metaFile);
+				BufferedOutputStream bos1 = new BufferedOutputStream(fos1);
 
 				// save the count of data
-				IOUtil.writeInt( bos1, this.rowCount );
+				IOUtil.writeInt(bos1, this.rowCount);
 				// save the meta data of result
-			
-				( (ResultClass) rsMeta ).doSave( bos1, populateDataSetRowMapping( rsMeta ), 0 );
 
-				bos1.close( );
-				fos1.close( );
-				
+				((ResultClass) rsMeta).doSave(bos1, populateDataSetRowMapping(rsMeta), 0);
+
+				bos1.close();
+				fos1.close();
+
 				// save the current time as the timestamp
-				CacheUtil.saveCurrentTimestamp( this.tempDir );
+				CacheUtil.saveCurrentTimestamp(this.tempDir);
+			} catch (IOException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_SAVE_ERROR, e);
 			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
-						e );
-			}			
 		}
 	}
+
 	/**
-	 * Helper class to load result set from cache file. 
+	 * Helper class to load result set from cache file.
 	 *
 	 */
-	private static class IncreCacheLoadUtil implements ILoadUtil
-	{
+	private static class IncreCacheLoadUtil implements ILoadUtil {
 		private File file;
 		private File metaFile;
-		
+
 		private FileInputStream fis;
 		private BufferedInputStream bis;
-		
+
 		private ResultObjectUtil roUtil;
 		private IResultClass rsClass;
-		
+
 		private int rowCount;
 		private int currIndex;
-		
+
 		private DataEngineSession session;
 
-		public IncreCacheLoadUtil( IncreDataSetCacheObject cacheObject, DataEngineSession session )
-		{
+		public IncreCacheLoadUtil(IncreDataSetCacheObject cacheObject, DataEngineSession session) {
 			assert cacheObject != null;
-			this.file = cacheObject.getDataFile( );
-			this.metaFile = cacheObject.getMetaFile( );
+			this.file = cacheObject.getDataFile();
+			this.metaFile = cacheObject.getMetaFile();
 			this.rowCount = 0;
 			this.currIndex = -1;
 			this.session = session;
 		}
-		
-		
+
 		/**
 		 * @param resultObject
 		 * @throws DataException
 		 */
-		public IResultObject loadObject( ) throws DataException
-		{			
-			if ( roUtil == null )
-				init( );
-			
-			try
-			{
-				if ( currIndex == rowCount - 1 )
+		public IResultObject loadObject() throws DataException {
+			if (roUtil == null)
+				init();
+
+			try {
+				if (currIndex == rowCount - 1)
 					return null;
 				currIndex++;
-				return roUtil.readData( bis, null, 1 )[0];
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-						e );
+				return roUtil.readData(bis, null, 1)[0];
+			} catch (IOException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 			}
 		}
-		
+
 		/**
 		 * @return
 		 * @throws DataException
 		 */
-		public IResultClass loadResultClass( ) throws DataException
-		{			
-			if ( roUtil == null )
-				init( );
-			
+		public IResultClass loadResultClass() throws DataException {
+			if (roUtil == null)
+				init();
+
 			return this.rsClass;
 		}
-		
+
 		/**
 		 * @throws DataException
 		 */
-		private void init( ) throws DataException
-		{
-			try
-			{
-				FileInputStream fis1 = FileSecurity.createFileInputStream( metaFile );
-				BufferedInputStream bis1 = new BufferedInputStream( fis1 );
+		private void init() throws DataException {
+			try {
+				FileInputStream fis1 = FileSecurity.createFileInputStream(metaFile);
+				BufferedInputStream bis1 = new BufferedInputStream(fis1);
 
-				rowCount = IOUtil.readInt( bis1 );
-				rsClass = new ResultClass( bis1, 0 );
+				rowCount = IOUtil.readInt(bis1);
+				rsClass = new ResultClass(bis1, 0);
 
-				bis1.close( );
-				fis1.close( );
+				bis1.close();
+				fis1.close();
 
-				if ( rowCount > 0 )
-				{
-					roUtil = ResultObjectUtil.newInstance( rsClass, session );
-					fis = FileSecurity.createFileInputStream( file );
-					bis = new BufferedInputStream( fis );
+				if (rowCount > 0) {
+					roUtil = ResultObjectUtil.newInstance(rsClass, session);
+					fis = FileSecurity.createFileInputStream(file);
+					bis = new BufferedInputStream(fis);
 				}
-			}
-			catch ( FileNotFoundException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-						e );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-						e );
+			} catch (FileNotFoundException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
+			} catch (IOException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 			}
 		}
-		
+
 		/**
 		 * @throws DataException
 		 */
-		public void close( ) throws DataException
-		{
-			if ( bis != null )
-			{
-				try
-				{
-					bis.close( );
-					fis.close( );
-				}
-				catch ( IOException e )
-				{
-					throw new DataException( "", e );
+		public void close() throws DataException {
+			if (bis != null) {
+				try {
+					bis.close();
+					fis.close();
+				} catch (IOException e) {
+					throw new DataException("", e);
 				}
 			}
 		}
 	}
+
 	/**
 	 * Util class to retrieve data from stored cache file.
 	 */
-	private static class DiskLoadUtil implements ILoadUtil
-	{
+	private static class DiskLoadUtil implements ILoadUtil {
 		private static final String END = "$end$";
 		private static final String BEGIN = "$begin$";
-		
+
 		private File file;
 		private File metaFile;
-		
+
 		private FileInputStream fis;
 		private BufferedInputStream bis;
-		
+
 		private ResultObjectUtil roUtil;
 		private IResultClass rsClass;
-		
+
 		private DiskDataSetCacheObject cacheObject;
 		private int rowCount;
 		private int currIndex;
 		private DataEngineSession session;
+
 		/**
-		 * @param session 
+		 * @param session
 		 * @param file
 		 * @param metaFile
-		 * @throws DataException 
+		 * @throws DataException
 		 */
-		public DiskLoadUtil( DiskDataSetCacheObject cacheObject, DataEngineSession session ) throws DataException
-		{
+		public DiskLoadUtil(DiskDataSetCacheObject cacheObject, DataEngineSession session) throws DataException {
 			assert cacheObject != null;
-			
+
 			this.cacheObject = cacheObject;
-			this.file = cacheObject.getDataFile( );
-			this.metaFile = cacheObject.getMetaFile( );
+			this.file = cacheObject.getDataFile();
+			this.metaFile = cacheObject.getMetaFile();
 			this.session = session;
 			this.rowCount = 0;
 			this.currIndex = -1;
 			this.mergeDelta();
 		}
-		
+
 		/**
 		 * @param resultObject
 		 * @throws DataException
 		 */
-		public IResultObject loadObject( ) throws DataException
-		{			
-			if ( roUtil == null )
-				init( );
-			
-			try
-			{
-				if ( currIndex == rowCount - 1 )
+		public IResultObject loadObject() throws DataException {
+			if (roUtil == null)
+				init();
+
+			try {
+				if (currIndex == rowCount - 1)
 					return null;
-				
+
 				currIndex++;
-				return roUtil.readData( bis, this.session.getEngineContext( ).getClassLoader( ), 1 )[0];
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-						e );
+				return roUtil.readData(bis, this.session.getEngineContext().getClassLoader(), 1)[0];
+			} catch (IOException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 			}
 		}
-		
+
 		/**
 		 * @return
 		 * @throws DataException
 		 */
-		public IResultClass loadResultClass( ) throws DataException
-		{			
-			if ( roUtil == null )
-				init( );
-			
+		public IResultClass loadResultClass() throws DataException {
+			if (roUtil == null)
+				init();
+
 			return this.rsClass;
 		}
-		
+
 		/**
 		 * @throws DataException
 		 */
-		private void init( ) throws DataException
-		{
-			try
-			{
-				FileInputStream fis1 = FileSecurity.createFileInputStream( metaFile );
-				BufferedInputStream bis1 = new BufferedInputStream( fis1 );
+		private void init() throws DataException {
+			try {
+				FileInputStream fis1 = FileSecurity.createFileInputStream(metaFile);
+				BufferedInputStream bis1 = new BufferedInputStream(fis1);
 
-				rowCount = IOUtil.readInt( bis1 );
-				rsClass = new ResultClass( bis1, 0 );
+				rowCount = IOUtil.readInt(bis1);
+				rsClass = new ResultClass(bis1, 0);
 
-				bis1.close( );
-				fis1.close( );
+				bis1.close();
+				fis1.close();
 
-				if ( rowCount > 0 )
-				{
-					roUtil = ResultObjectUtil.newInstance( rsClass, session );
-					fis = FileSecurity.createFileInputStream( file );
-					bis = new BufferedInputStream( fis );
+				if (rowCount > 0) {
+					roUtil = ResultObjectUtil.newInstance(rsClass, session);
+					fis = FileSecurity.createFileInputStream(file);
+					bis = new BufferedInputStream(fis);
 				}
-			}
-			catch ( FileNotFoundException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-						e );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-						e );
+			} catch (FileNotFoundException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
+			} catch (IOException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 			}
 		}
-		
+
 		/**
 		 * @throws DataException
 		 */
-		public void close( ) throws DataException
-		{
-			if ( bis != null )
-			{
-				try
-				{
-					bis.close( );
-					fis.close( );
-				}
-				catch ( IOException e )
-				{
+		public void close() throws DataException {
+			if (bis != null) {
+				try {
+					bis.close();
+					fis.close();
+				} catch (IOException e) {
 					// ignore;
 				}
 			}
 		}
-		
+
 		/**
-		 * Do the action "merging" when the user provide a specific and valid
-		 * configure file
+		 * Do the action "merging" when the user provide a specific and valid configure
+		 * file
 		 * 
 		 * @throws BirtException
 		 * @throws IOException
 		 * @throws ClassNotFoundException
 		 */
-		private void mergeDelta( ) throws DataException
-		{
-			try
-			{
-				String configFile = getCacheConfig( this.session.getDataSetCacheManager( ).getCurrentAppContext( ) );
+		private void mergeDelta() throws DataException {
+			try {
+				String configFile = getCacheConfig(this.session.getDataSetCacheManager().getCurrentAppContext());
 
-				if ( null != configFile && ( !configFile.equals( "" ) ) )
-				{
+				if (null != configFile && (!configFile.equals(""))) {
 					File dataFile = this.file;
 					// check whether the specific cache data file already exists in
 					// local disk
-					if ( FileSecurity.fileExist( dataFile ) )
-					{
+					if (FileSecurity.fileExist(dataFile)) {
 
-						File config = new File( configFile );
+						File config = new File(configFile);
 						FileReader fileReader = null;
 
-						if ( FileSecurity.fileExist( config ) )
-							fileReader = FileSecurity.createFileReader( config );
+						if (FileSecurity.fileExist(config))
+							fileReader = FileSecurity.createFileReader(config);
 
-						BufferedReader reader = new BufferedReader( fileReader );
-						ArrayList list = readConfigFile( configFile, reader );
+						BufferedReader reader = new BufferedReader(fileReader);
+						ArrayList list = readConfigFile(configFile, reader);
 						File metaFile = this.metaFile;
-						mergeDeltaToFile( dataFile, list, metaFile );
+						mergeDeltaToFile(dataFile, list, metaFile);
 
-						CacheUtil.saveCurrentTime( this.cacheObject.getCacheDir( ));
+						CacheUtil.saveCurrentTime(this.cacheObject.getCacheDir());
 					}
 				}
-			}
-			catch ( Exception e )
-			{
-				throw new DataException( e.getLocalizedMessage( ) );
+			} catch (Exception e) {
+				throw new DataException(e.getLocalizedMessage());
 			}
 		}
 
@@ -679,14 +577,12 @@ class CacheUtilFactory
 		 * @param appContext2
 		 * @return
 		 */
-		private String getCacheConfig( Map context )
-		{
-			if ( context == null )
+		private String getCacheConfig(Map context) {
+			if (context == null)
 				return null;
-			
-			return context.get( DataEngine.DATA_SET_CACHE_DELTA_FILE ) == null
-					? null
-					: String.valueOf( context.get( DataEngine.DATA_SET_CACHE_DELTA_FILE ) );
+
+			return context.get(DataEngine.DATA_SET_CACHE_DELTA_FILE) == null ? null
+					: String.valueOf(context.get(DataEngine.DATA_SET_CACHE_DELTA_FILE));
 		}
 
 		/**
@@ -699,25 +595,21 @@ class CacheUtilFactory
 		 * @throws BirtException
 		 * @throws ClassNotFoundException
 		 */
-		private void mergeDeltaToFile( File dataFile, ArrayList list, File metaFile )
-				throws DataException, IOException, BirtException,
-				ClassNotFoundException
-		{
+		private void mergeDeltaToFile(File dataFile, ArrayList list, File metaFile)
+				throws DataException, IOException, BirtException, ClassNotFoundException {
 
-			MergeUtil merge = new MergeUtil( dataFile, metaFile, session );
+			MergeUtil merge = new MergeUtil(dataFile, metaFile, session);
 			// read the objects from iterator to local file one by one
-			IResultIterator iterator = getResultIterator( list );
-			if ( iterator != null )
-			{
+			IResultIterator iterator = getResultIterator(list);
+			if (iterator != null) {
 				ResultObject ro;
-				while ( iterator.next( ) )
-				{
-					ro = (ResultObject) ( ( (ResultIterator) iterator ).getOdiResult( ).getCurrentResult( ) );
+				while (iterator.next()) {
+					ro = (ResultObject) (((ResultIterator) iterator).getOdiResult().getCurrentResult());
 
-					merge.saveObject( ro );
+					merge.saveObject(ro);
 				}
 			}
-			merge.close( );
+			merge.close();
 		}
 
 		/**
@@ -726,34 +618,27 @@ class CacheUtilFactory
 		 * @return an ArrayList that record each query block assigned by the user
 		 * @throws IOException
 		 */
-		private ArrayList readConfigFile( String file, BufferedReader reader )
-				throws IOException
-		{
-			ArrayList list = new ArrayList( );
+		private ArrayList readConfigFile(String file, BufferedReader reader) throws IOException {
+			ArrayList list = new ArrayList();
 			String line;
-			StringBuffer block = new StringBuffer( "" );
+			StringBuffer block = new StringBuffer("");
 			/* to mark the begining and the end of single query block */
 			boolean begin = false;
 
-			while ( ( line = reader.readLine( ) ) != null )
-			{
-				line = line.trim( );
-				if ( line.startsWith( BEGIN ) && !begin )
-				{
+			while ((line = reader.readLine()) != null) {
+				line = line.trim();
+				if (line.startsWith(BEGIN) && !begin) {
 					begin = true;
-					line = line.substring( 7 );
+					line = line.substring(7);
 				}
-				if ( line.endsWith( END ) && begin )
-				{
-					line = line.substring( 0, line.length( ) - 5 );
-					block.append( line );
-					list.add( this.parseQueryItem( block.toString( ) ) );
-					block = new StringBuffer( "" );
+				if (line.endsWith(END) && begin) {
+					line = line.substring(0, line.length() - 5);
+					block.append(line);
+					list.add(this.parseQueryItem(block.toString()));
+					block = new StringBuffer("");
 					begin = false;
-				}
-				else if ( begin )
-				{
-					block.append( line );
+				} else if (begin) {
+					block.append(line);
 				}
 			}
 
@@ -767,26 +652,23 @@ class CacheUtilFactory
 		 *         single query
 		 * @throws IOException
 		 */
-		private ArrayList parseQueryItem( String item )
-		{
+		private ArrayList parseQueryItem(String item) {
 			// ArrayList structure = new ArrayList();
-			ArrayList info = new ArrayList( );
-			String[] split = item.split( ";" );
+			ArrayList info = new ArrayList();
+			String[] split = item.split(";");
 			String[] temp;
-			for ( int i = 0; i < 3; i++ )
-			{
-				temp = split[i].split( "\"" );
-				info.add( temp[1] );
+			for (int i = 0; i < 3; i++) {
+				temp = split[i].split("\"");
+				info.add(temp[1]);
 			}
 			String paraName, paraValue;
-			Hashtable table = PropertySecurity.createHashtable( );
-			for ( int j = 3; j < split.length; j++ )
-			{
-				paraName = ( split[j].split( "=" ) )[0];
-				paraValue = ( split[j].split( "\"" ) )[1];
-				table.put( paraName, paraValue );
+			Hashtable table = PropertySecurity.createHashtable();
+			for (int j = 3; j < split.length; j++) {
+				paraName = (split[j].split("="))[0];
+				paraValue = (split[j].split("\""))[1];
+				table.put(paraName, paraValue);
 			}
-			info.add( table );
+			info.add(table);
 			return info;
 		}
 
@@ -800,84 +682,75 @@ class CacheUtilFactory
 		 * @throws BirtException
 		 * @throws ClassNotFoundException
 		 */
-		private IResultIterator getResultIterator( ArrayList list )
-				throws IOException, BirtException, ClassNotFoundException
-		{
+		private IResultIterator getResultIterator(ArrayList list)
+				throws IOException, BirtException, ClassNotFoundException {
 			String sql = null;
-			for ( int i = 0; i < list.size( ); i++ )
-			{
-				sql = getQualifiedSql( list, i, sql );
-				if ( sql != null )
+			for (int i = 0; i < list.size(); i++) {
+				sql = getQualifiedSql(list, i, sql);
+				if (sql != null)
 					break;
 			}
-			if ( sql == null )
+			if (sql == null)
 				return null;
-			if ( !( this.session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof OdaDataSetDesign ) )
+			if (!(this.session.getDataSetCacheManager().getCurrentDataSetDesign() instanceof OdaDataSetDesign))
 				return null;
 
-			sql = this.resetQueryText( sql );
-			if ( sql == null || "".equals( sql ) )
-			{
+			sql = this.resetQueryText(sql);
+			if (sql == null || "".equals(sql)) {
 				return null;
 			}
 
-			QueryDefinition qd = new QueryDefinition( true );
-			qd.setDataSetName( this.session.getDataSetCacheManager( ).getCurrentDataSetDesign( ).getName( ) );
-			
-			String queryBack = ( (OdaDataSetDesign) this.session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) ).getQueryText( );
-			//int savedCacheOption = this.session.getDataSetCacheManager( ).suspendCache( );
-			IResultIterator iterator = this.session.getEngine( ).prepare( qd, new HashMap() )
-					.execute( null )
-					.getResultIterator( );
-			( (OdaDataSetDesign) this.session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) ).setQueryText( queryBack );
-			//this.session.getDataSetCacheManager( ).setCacheOption( savedCacheOption );
+			QueryDefinition qd = new QueryDefinition(true);
+			qd.setDataSetName(this.session.getDataSetCacheManager().getCurrentDataSetDesign().getName());
+
+			String queryBack = ((OdaDataSetDesign) this.session.getDataSetCacheManager().getCurrentDataSetDesign())
+					.getQueryText();
+			// int savedCacheOption = this.session.getDataSetCacheManager( ).suspendCache(
+			// );
+			IResultIterator iterator = this.session.getEngine().prepare(qd, new HashMap()).execute(null)
+					.getResultIterator();
+			((OdaDataSetDesign) this.session.getDataSetCacheManager().getCurrentDataSetDesign())
+					.setQueryText(queryBack);
+			// this.session.getDataSetCacheManager( ).setCacheOption( savedCacheOption );
 			return iterator;
 		}
 
-		private String getQualifiedSql( ArrayList list, int index, String sql )
-		{
+		private String getQualifiedSql(ArrayList list, int index, String sql) {
 			{
-				ArrayList item = (ArrayList) list.get( index );
-				if ( item == null || item.size( ) == 0 )
-				{
+				ArrayList item = (ArrayList) list.get(index);
+				if (item == null || item.size() == 0) {
 					sql = null;
 				}
 
 				int count = 0;
 
-				if ( ( (String) item.get( 0 ) ).equalsIgnoreCase( this.session.getDataSetCacheManager( ).getCurrentDataSourceDesign( ).getName( ) )
-						&& ( (String) item.get( 1 ) ).equalsIgnoreCase( this.session.getDataSetCacheManager( ).getCurrentDataSetDesign( ).getName( ) ) )
-				{
-					Object[] para = this.session.getDataSetCacheManager( ).getCurrentParameterHints( ).toArray( );
+				if (((String) item.get(0))
+						.equalsIgnoreCase(this.session.getDataSetCacheManager().getCurrentDataSourceDesign().getName())
+						&& ((String) item.get(1)).equalsIgnoreCase(
+								this.session.getDataSetCacheManager().getCurrentDataSetDesign().getName())) {
+					Object[] para = this.session.getDataSetCacheManager().getCurrentParameterHints().toArray();
 
-					Hashtable table = (Hashtable) item.get( 3 );
+					Hashtable table = (Hashtable) item.get(3);
 
 					ParameterHint ph;
 
-					for ( int i = 0; i < para.length; i++ )
-					{
+					for (int i = 0; i < para.length; i++) {
 						ph = (ParameterHint) para[i];
-						if ( ph.isInputMode( ) )
-						{
-							String paraName = ph.getName( );
-							if ( table.containsKey( paraName )
-									&& ( table.get( paraName ) ).equals( ph.getDefaultInputValue( ) ) )
-							{
+						if (ph.isInputMode()) {
+							String paraName = ph.getName();
+							if (table.containsKey(paraName)
+									&& (table.get(paraName)).equals(ph.getDefaultInputValue())) {
 								count++;
-							}
-							else
-							{
+							} else {
 								count = -1;
 								sql = null;
 							}
 						}
 					}
 
-					if ( count == table.size( ) )
-					{
-						sql = (String) item.get( 2 );
-					}
-					else
+					if (count == table.size()) {
+						sql = (String) item.get(2);
+					} else
 						sql = null;
 
 				}
@@ -894,74 +767,65 @@ class CacheUtilFactory
 		 * @throws DataException
 		 * @throws ClassNotFoundException
 		 */
-		private String resetQueryText( String text ) throws IOException,
-				DataException, ClassNotFoundException
-		{
-			String timestamp = CacheUtil.getLastTime( this.cacheObject.getCacheDir() );
-			if ( timestamp == null || timestamp.length( ) != 14 )
-			{
+		private String resetQueryText(String text) throws IOException, DataException, ClassNotFoundException {
+			String timestamp = CacheUtil.getLastTime(this.cacheObject.getCacheDir());
+			if (timestamp == null || timestamp.length() != 14) {
 				return null;
 			}
 
-			return text.replaceAll( "\\Q${DATE}$\\E", timestamp );
+			return text.replaceAll("\\Q${DATE}$\\E", timestamp);
 		}
 	}
-	
+
 	/**
 	 * Util class to retrieve data from stored cache file.
 	 */
-	private static class MemoryLoadUtil implements ILoadUtil
-	{
+	private static class MemoryLoadUtil implements ILoadUtil {
 		private int currIndex;
-		
+
 		private MemoryDataSetCacheObject cacheObject;
-		
+
 		/**
 		 * @param file
 		 * @param metaFile
 		 */
-		public MemoryLoadUtil( MemoryDataSetCacheObject cacheObject )
-		{
+		public MemoryLoadUtil(MemoryDataSetCacheObject cacheObject) {
 			assert cacheObject != null;
 			this.cacheObject = cacheObject;
 			this.currIndex = -1;
 		}
-		
+
 		/**
 		 * @param resultObject
 		 * @throws DataException
 		 */
-		public IResultObject loadObject( ) throws DataException
-		{			
+		public IResultObject loadObject() throws DataException {
 			currIndex++;
-			if ( currIndex >= this.cacheObject.getSize( ) )
+			if (currIndex >= this.cacheObject.getSize())
 				return null;
-			return this.cacheObject.getResultObject( currIndex );
+			return this.cacheObject.getResultObject(currIndex);
 		}
-		
+
 		/**
 		 * @return
 		 * @throws DataException
 		 */
-		public IResultClass loadResultClass( ) throws DataException
-		{			
-			return this.cacheObject.getResultClass( );
+		public IResultClass loadResultClass() throws DataException {
+			return this.cacheObject.getResultClass();
 		}
-	
+
 		/**
 		 * @throws DataException
 		 */
-		public void close( ) throws DataException
-		{
+		public void close() throws DataException {
 		}
 	}
 
 	/**
-	 * Util class to help merge delta data with the local existed data and
-	 * update the revalent information in cache file.
+	 * Util class to help merge delta data with the local existed data and update
+	 * the revalent information in cache file.
 	 */
-	private static class MergeUtil
-	{
+	private static class MergeUtil {
 
 		private File dataFile;
 		private IResultClass rsClass;
@@ -974,6 +838,7 @@ class CacheUtilFactory
 
 		private int rowCount;
 		private DataEngineSession session;
+
 		/**
 		 * constructor of class MergeUtil
 		 * 
@@ -981,8 +846,7 @@ class CacheUtilFactory
 		 * @param rsMeta
 		 * @throws DataException
 		 */
-		private MergeUtil( File dataFile, File metaFile, DataEngineSession session ) throws DataException
-		{
+		private MergeUtil(File dataFile, File metaFile, DataEngineSession session) throws DataException {
 			assert dataFile != null;
 			assert metaFile != null;
 
@@ -990,7 +854,7 @@ class CacheUtilFactory
 			this.metaFile = metaFile;
 			this.session = session;
 			// this.metaFile.deleteOnExit( );
-			this.init( );
+			this.init();
 		}
 
 		/**
@@ -998,28 +862,20 @@ class CacheUtilFactory
 		 * 
 		 * @throws DataException
 		 */
-		private void init( ) throws DataException
-		{
-			try
-			{
-				FileInputStream fis = FileSecurity.createFileInputStream( metaFile );
-				BufferedInputStream bis = new BufferedInputStream( fis );
+		private void init() throws DataException {
+			try {
+				FileInputStream fis = FileSecurity.createFileInputStream(metaFile);
+				BufferedInputStream bis = new BufferedInputStream(fis);
 
-				rowCount = IOUtil.readInt( bis );
-				rsClass = new ResultClass( bis, 0 );
+				rowCount = IOUtil.readInt(bis);
+				rsClass = new ResultClass(bis, 0);
 
-				bis.close( );
-				fis.close( );
-			}
-			catch ( FileNotFoundException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-						e );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
-						e );
+				bis.close();
+				fis.close();
+			} catch (FileNotFoundException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
+			} catch (IOException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 			}
 		}
 
@@ -1029,35 +885,24 @@ class CacheUtilFactory
 		 * @param resultObject
 		 * @throws DataException
 		 */
-		private void saveObject( IResultObject resultObject )
-				throws DataException
-		{
+		private void saveObject(IResultObject resultObject) throws DataException {
 			assert resultObject != null;
 
-			if ( roUtil == null )
-			{
-				roUtil = ResultObjectUtil.newInstance( rsClass, session );
-				try
-				{
-					fos = FileSecurity.createFileOutputStream( dataFile, true );
-					bos = new BufferedOutputStream( fos );
-				}
-				catch ( FileNotFoundException e )
-				{
-					throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
-							e );
+			if (roUtil == null) {
+				roUtil = ResultObjectUtil.newInstance(rsClass, session);
+				try {
+					fos = FileSecurity.createFileOutputStream(dataFile, true);
+					bos = new BufferedOutputStream(fos);
+				} catch (FileNotFoundException e) {
+					throw new DataException(ResourceConstants.DATASETCACHE_SAVE_ERROR, e);
 				}
 			}
 
-			try
-			{
+			try {
 				rowCount++;
-				roUtil.writeData( bos, resultObject );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
-						e );
+				roUtil.writeData(bos, resultObject);
+			} catch (IOException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_SAVE_ERROR, e);
 			}
 		}
 
@@ -1066,37 +911,31 @@ class CacheUtilFactory
 		 * 
 		 * @throws DataException
 		 */
-		private void close( ) throws DataException
-		{
-			try
-			{
-				if ( bos != null )
-				{
-					bos.close( );
-					fos.close( );
+		private void close() throws DataException {
+			try {
+				if (bos != null) {
+					bos.close();
+					fos.close();
 				}
 
-				FileOutputStream fos1 = FileSecurity.createFileOutputStream( metaFile );
-				BufferedOutputStream bos1 = new BufferedOutputStream( fos1 );
+				FileOutputStream fos1 = FileSecurity.createFileOutputStream(metaFile);
+				BufferedOutputStream bos1 = new BufferedOutputStream(fos1);
 
 				// save the count of data
-				IOUtil.writeInt( bos1, this.rowCount );
+				IOUtil.writeInt(bos1, this.rowCount);
 
 				// save the meta data of result
-				( (ResultClass) rsClass ).doSave( bos1, populateDataSetRowMapping( rsClass ), 0 );
+				((ResultClass) rsClass).doSave(bos1, populateDataSetRowMapping(rsClass), 0);
 
-				bos1.close( );
-				fos1.close( );
+				bos1.close();
+				fos1.close();
 
-				FileInputStream fis = FileSecurity.createFileInputStream( metaFile );
-				BufferedInputStream bis = new BufferedInputStream( fis );
+				FileInputStream fis = FileSecurity.createFileInputStream(metaFile);
+				BufferedInputStream bis = new BufferedInputStream(fis);
 
-				rowCount = IOUtil.readInt( bis );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
-						e );
+				rowCount = IOUtil.readInt(bis);
+			} catch (IOException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_SAVE_ERROR, e);
 			}
 		}
 	}

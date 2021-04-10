@@ -16,33 +16,27 @@ import junit.framework.TestCase;
 import org.eclipse.birt.chart.internal.datafeed.GroupKey;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 
-public class SortKeyTest extends TestCase
-{
+public class SortKeyTest extends TestCase {
 	GroupKey key;
-	
-	protected void setUp( )
-	{
-		key = new GroupKey( "key", SortOption.ASCENDING_LITERAL ); //$NON-NLS-1$		
+
+	protected void setUp() {
+		key = new GroupKey("key", SortOption.ASCENDING_LITERAL); //$NON-NLS-1$
 	}
-	
-	protected void tearDown( )
-	{
+
+	protected void tearDown() {
 		key = null;
 	}
-	
-	public void testGetKey( )
-	{
-		assertEquals( "key", key.getKey( ) ); //$NON-NLS-1$
+
+	public void testGetKey() {
+		assertEquals("key", key.getKey()); //$NON-NLS-1$
 	}
-	
-	public void testGetDirection( )
-	{
-		assertEquals( SortOption.ASCENDING_LITERAL, key.getDirection( ) );
+
+	public void testGetDirection() {
+		assertEquals(SortOption.ASCENDING_LITERAL, key.getDirection());
 	}
-	
-	public void testGetKeyIndex( )
-	{
-		key.setKeyIndex( 2 );
-		assertEquals( 2, key.getKeyIndex( ) );
+
+	public void testGetKeyIndex() {
+		key.setKeyIndex(2);
+		assertEquals(2, key.getKeyIndex());
 	}
 }

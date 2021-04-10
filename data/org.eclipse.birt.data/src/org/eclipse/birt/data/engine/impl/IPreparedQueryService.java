@@ -18,12 +18,11 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Mainly provided for subquery execution
  */
-public interface IPreparedQueryService
-{
+public interface IPreparedQueryService {
 	/**
 	 * @return the associated data source query
 	 */
-	PreparedDataSourceQuery getDataSourceQuery( );
+	PreparedDataSourceQuery getDataSourceQuery();
 
 	/**
 	 * @param iterator
@@ -32,7 +31,7 @@ public interface IPreparedQueryService
 	 * @return query execution result of sub query
 	 * @throws DataException
 	 */
-	IQueryResults execSubquery( IResultIterator iterator, IQueryExecutor parentExecutor, String subQueryName,
-			Scriptable subScope ) throws DataException;
-	
+	IQueryResults execSubquery(IResultIterator iterator, IQueryExecutor parentExecutor, String subQueryName,
+			Scriptable subScope) throws DataException;
+
 }

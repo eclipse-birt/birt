@@ -26,47 +26,36 @@ import org.xml.sax.SAXException;
  * Parses the empty list. If the list property is element property and can be
  * inherited, this property value will be set as empty list.
  */
-public class EmptyListState extends AbstractPropertyState
-{
+public class EmptyListState extends AbstractPropertyState {
 
 	/**
 	 * Construct.
 	 * 
-	 * @param theHandler
-	 *            the module parser handler.
-	 * @param element
-	 *            the design element.
-	 * @param struct
-	 *            the structure.
+	 * @param theHandler the module parser handler.
+	 * @param element    the design element.
+	 * @param struct     the structure.
 	 */
-	EmptyListState( ModuleParserHandler theHandler, DesignElement element,
-			IStructure struct )
-	{
-		super( theHandler, element );
+	EmptyListState(ModuleParserHandler theHandler, DesignElement element, IStructure struct) {
+		super(theHandler, element);
 		this.struct = struct;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG )
-				|| tagName.equalsIgnoreCase( DesignSchemaConstants.VALUE_TAG )
-				|| tagName
-						.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
-		{
-			SemanticError ex = new SemanticError( handler.module,
-					new String[]{name},
-					SemanticError.DESIGN_EXCEPTION_VALUE_FORBIDDEN );
-			handler.getErrorHandler( ).semanticWarning( ex );
-			return new AnyElementState( getHandler( ) );
+	public AbstractParseState startElement(String tagName) {
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.STRUCTURE_TAG)
+				|| tagName.equalsIgnoreCase(DesignSchemaConstants.VALUE_TAG)
+				|| tagName.equalsIgnoreCase(DesignSchemaConstants.PROPERTY_TAG)) {
+			SemanticError ex = new SemanticError(handler.module, new String[] { name },
+					SemanticError.DESIGN_EXCEPTION_VALUE_FORBIDDEN);
+			handler.getErrorHandler().semanticWarning(ex);
+			return new AnyElementState(getHandler());
 		}
-		return super.startElement( tagName );
+		return super.startElement(tagName);
 
 	}
 
@@ -75,15 +64,14 @@ public class EmptyListState extends AbstractPropertyState
 	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
-	public void end( ) throws SAXException
-	{
+	public void end() throws SAXException {
 		assert struct == null;
-		ElementPropertyDefn defn = element.getPropertyDefn( name );
+		ElementPropertyDefn defn = element.getPropertyDefn(name);
 
 		assert defn != null;
-		assert ModelUtil.canInherit( defn );
+		assert ModelUtil.canInherit(defn);
 
-		element.setProperty( defn, new ArrayList( ) );
+		element.setProperty(defn, new ArrayList());
 
 	}
 

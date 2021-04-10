@@ -8,39 +8,33 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
- 
+
 package org.eclipse.birt.report.engine.presentation;
 
-public class TableColumnHint
-{
+public class TableColumnHint {
 	protected int start;
 	protected int columnCount;
 	protected String tableId;
-	
-	public TableColumnHint(String tableId, int start, int columnCount)
-	{
+
+	public TableColumnHint(String tableId, int start, int columnCount) {
 		this.tableId = tableId;
 		this.start = start;
 		this.columnCount = columnCount;
 	}
-	
-	public int getStart()
-	{
+
+	public int getStart() {
 		return start;
 	}
-	
-	public int getColumnCount()
-	{
+
+	public int getColumnCount() {
 		return this.columnCount;
 	}
-	
-	public String getTableId()
-	{
+
+	public String getTableId() {
 		return this.tableId;
 	}
-	
-	public String toString( )
-	{
+
+	public String toString() {
 		int end = start + columnCount;
 		return tableId + "-" + start + "-" + end;
 	}

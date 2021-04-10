@@ -18,35 +18,28 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.wrap.WrappedReportItemExecutor;
 
-public class ReportItemEmitterExecutor extends WrappedReportItemExecutor
-{
+public class ReportItemEmitterExecutor extends WrappedReportItemExecutor {
 
 	IContent content;
 
 	IContentEmitter emitter;
 
-	ReportItemEmitterExecutor( ReportEmitterExecutor reportExecutor,
-			IReportItemExecutor executor )
-	{
-		super( reportExecutor, executor );
+	ReportItemEmitterExecutor(ReportEmitterExecutor reportExecutor, IReportItemExecutor executor) {
+		super(reportExecutor, executor);
 		this.emitter = reportExecutor.emitter;
 	}
 
-	public void close( ) throws BirtException
-	{
-		if ( content != null )
-		{
-			ContentEmitterUtil.endContent( content, emitter );
+	public void close() throws BirtException {
+		if (content != null) {
+			ContentEmitterUtil.endContent(content, emitter);
 		}
-		super.close( );
+		super.close();
 	}
 
-	public IContent execute( ) throws BirtException
-	{
-		content = super.execute( );
-		if ( content != null )
-		{
-			ContentEmitterUtil.startContent( content, emitter );
+	public IContent execute() throws BirtException {
+		content = super.execute();
+		if (content != null) {
+			ContentEmitterUtil.startContent(content, emitter);
 		}
 		return content;
 	}

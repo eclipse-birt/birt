@@ -16,54 +16,49 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.scripts.MethodInfo;
 
-
-
 /**
  * The abstract class defines common methods to provide script method info.
  * 
  * @since 2.5
  */
 
-abstract public class AbstractScriptMethodInfo extends MethodInfo
-{
+abstract public class AbstractScriptMethodInfo extends MethodInfo {
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param method
 	 */
-	public AbstractScriptMethodInfo( Method method )
-	{
-		super( method );
+	public AbstractScriptMethodInfo(Method method) {
+		super(method);
 	}
 
 	/**
-	 * Returns map of javadoc of all script methods, the key if method name, value is javadoc.
+	 * Returns map of javadoc of all script methods, the key if method name, value
+	 * is javadoc.
 	 * 
 	 * @return
 	 */
-	abstract protected Map<String, String> getMethodsJavaDoc( );
-	
+	abstract protected Map<String, String> getMethodsJavaDoc();
+
 	/**
 	 * Check if method is deprecated.
 	 * 
 	 * @return
 	 */
-	public boolean isDeprecated( )
-	{
-		String javaDoc = getJavaDoc( );
-		if ( javaDoc == null )
+	public boolean isDeprecated() {
+		String javaDoc = getJavaDoc();
+		if (javaDoc == null)
 			return true;
-		return getJavaDoc( ).indexOf( "@deprecated" ) != -1; //$NON-NLS-1$
+		return getJavaDoc().indexOf("@deprecated") != -1; //$NON-NLS-1$
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#getJavaDoc()
 	 */
-	public String getJavaDoc( )
-	{
-		return getMethodsJavaDoc( ).get( getMethod( ).getName( ) );
+	public String getJavaDoc() {
+		return getMethodsJavaDoc().get(getMethod().getName());
 	}
 }

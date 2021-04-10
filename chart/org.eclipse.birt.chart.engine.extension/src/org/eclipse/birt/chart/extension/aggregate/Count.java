@@ -18,28 +18,23 @@ import org.eclipse.birt.core.data.DataType;
  * 
  */
 
-public class Count extends AggregateFunctionAdapter
-{
+public class Count extends AggregateFunctionAdapter {
 	private int iCount;
 
-	public void accumulate( Object oValue ) throws IllegalArgumentException
-	{
+	public void accumulate(Object oValue) throws IllegalArgumentException {
 		iCount++;
 	}
-	
-	public void initialize( )
-	{
+
+	public void initialize() {
 		iCount = 0;
 	}
 
-	public Object getAggregatedValue( )
-	{
-		return Integer.valueOf( iCount );
+	public Object getAggregatedValue() {
+		return Integer.valueOf(iCount);
 	}
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.INTEGER_TYPE;
 	}
 }

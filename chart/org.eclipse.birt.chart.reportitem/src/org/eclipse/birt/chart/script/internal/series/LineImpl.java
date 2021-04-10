@@ -20,12 +20,10 @@ import org.eclipse.birt.chart.script.api.series.ILine;
  * 
  */
 
-public class LineImpl extends StackableSeriesImpl implements ILine
-{
+public class LineImpl extends StackableSeriesImpl implements ILine {
 
-	public LineImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public LineImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 		assert series instanceof LineSeries;
 	}
 

@@ -25,8 +25,7 @@ import org.eclipse.birt.report.engine.dataextraction.CommonDataExtractionOption;
  * Utility class to handle parameter related stuff...
  * 
  */
-public class DataExtractionParameterUtil
-{
+public class DataExtractionParameterUtil {
 
 	public static final String DEFAULT_SEP = ","; //$NON-NLS-1$
 
@@ -57,8 +56,7 @@ public class DataExtractionParameterUtil
 	public static final String PARAM_SELECTEDCOLUMNNUMBER = ParameterAccessor.PARAM_SELECTEDCOLUMNNUMBER;
 
 	/**
-	 * Parameter name that gives the selected column names of the export data
-	 * form.
+	 * Parameter name that gives the selected column names of the export data form.
 	 */
 	public static final String PARAM_SELECTEDCOLUMN = ParameterAccessor.PARAM_SELECTEDCOLUMN;
 
@@ -66,7 +64,7 @@ public class DataExtractionParameterUtil
 	 * URL Parameter name to indicate whether exports locale neutral value.
 	 */
 	public static final String PARAM_LOCALENEUTRAL = "__localeneutral"; //$NON-NLS-1$
-	
+
 	public static final String PARAM_CARRIAGERETURN = "__carriagereturn"; //$NON-NLS-1$
 
 	/**
@@ -82,10 +80,9 @@ public class DataExtractionParameterUtil
 	 * @param options
 	 * @return
 	 */
-	public static String getResultSetName( Map options )
-	{
-		if ( options != null )
-			return (String) options.get( PARAM_RESULTSETNAME );
+	public static String getResultSetName(Map options) {
+		if (options != null)
+			return (String) options.get(PARAM_RESULTSETNAME);
 		else
 			return null;
 	}
@@ -96,30 +93,25 @@ public class DataExtractionParameterUtil
 	 * @param options
 	 * @return
 	 */
-	public static String[] getSelectedColumns( Map options )
-	{
-		if ( options == null )
+	public static String[] getSelectedColumns(Map options) {
+		if (options == null)
 			return null;
 
 		int columnCount = 0;
-		try
-		{
-			String numStr = (String) options.get( PARAM_SELECTEDCOLUMNNUMBER );
-			if ( numStr != null )
-				columnCount = Integer.parseInt( numStr );
-		}
-		catch ( Exception e )
-		{
+		try {
+			String numStr = (String) options.get(PARAM_SELECTEDCOLUMNNUMBER);
+			if (numStr != null)
+				columnCount = Integer.parseInt(numStr);
+		} catch (Exception e) {
 			columnCount = 0;
 		}
 
 		String[] columns = new String[columnCount];
 
 		// get column names
-		for ( int i = 0; i < columnCount; i++ )
-		{
-			String paramName = PARAM_SELECTEDCOLUMN + String.valueOf( i );
-			String columnName = (String) options.get( paramName );
+		for (int i = 0; i < columnCount; i++) {
+			String paramName = PARAM_SELECTEDCOLUMN + String.valueOf(i);
+			String columnName = (String) options.get(paramName);
 			columns[i] = columnName;
 		}
 
@@ -132,18 +124,17 @@ public class DataExtractionParameterUtil
 	 * @param request
 	 * @return
 	 */
-	public static String getSep( Map options )
-	{
-		if ( options == null )
+	public static String getSep(Map options) {
+		if (options == null)
 			return DEFAULT_SEP;
 
-		String sepKey = (String) options.get( PARAM_SEP );
-		if ( sepKey == null )
+		String sepKey = (String) options.get(PARAM_SEP);
+		if (sepKey == null)
 			return DEFAULT_SEP;
 
 		String key = "viewer.sep." + sepKey; //$NON-NLS-1$
-		String sep = ParameterAccessor.getInitProp( key );
-		if ( sep == null || sep.length( ) <= 0 )
+		String sep = ParameterAccessor.getInitProp(key);
+		if (sep == null || sep.length() <= 0)
 			return DEFAULT_SEP;
 		return sep;
 	}
@@ -154,15 +145,14 @@ public class DataExtractionParameterUtil
 	 * @param options
 	 * @return
 	 */
-	public static String getExportEncoding( Map options )
-	{
-		if ( options == null )
+	public static String getExportEncoding(Map options) {
+		if (options == null)
 			return CSVDataExtractionOption.UTF_8_ENCODE;
 
-		String encoding = (String) options.get( PARAM_EXPORT_ENCODING );
+		String encoding = (String) options.get(PARAM_EXPORT_ENCODING);
 
 		// use UTF-8 as the default encoding
-		if ( encoding == null )
+		if (encoding == null)
 			encoding = CSVDataExtractionOption.UTF_8_ENCODE;
 
 		return encoding;
@@ -174,13 +164,12 @@ public class DataExtractionParameterUtil
 	 * @param options
 	 * @return
 	 */
-	public static boolean isExportDataType( Map options )
-	{
-		if ( options == null )
+	public static boolean isExportDataType(Map options) {
+		if (options == null)
 			return false;
 
-		String flag = (String) options.get( PARAM_EXPORT_DATATYPE );
-		if ( "true".equalsIgnoreCase( flag ) ) //$NON-NLS-1$
+		String flag = (String) options.get(PARAM_EXPORT_DATATYPE);
+		if ("true".equalsIgnoreCase(flag)) //$NON-NLS-1$
 			return true;
 
 		return false;
@@ -192,27 +181,25 @@ public class DataExtractionParameterUtil
 	 * @param options
 	 * @return
 	 */
-	public static boolean isLocaleNeutral( Map options )
-	{
-		if ( options == null )
+	public static boolean isLocaleNeutral(Map options) {
+		if (options == null)
 			return false;
 
-		String flag = (String) options.get( PARAM_LOCALENEUTRAL );
-		if ( "true".equalsIgnoreCase( flag ) ) //$NON-NLS-1$
+		String flag = (String) options.get(PARAM_LOCALENEUTRAL);
+		if ("true".equalsIgnoreCase(flag)) //$NON-NLS-1$
 			return true;
 
 		return false;
 	}
-	
-	public static boolean isWithCarriageReturn (Map options )
-	{
+
+	public static boolean isWithCarriageReturn(Map options) {
 		if (options == null)
 			return false;
-		
-		String flag = (String) options.get( PARAM_CARRIAGERETURN );
+
+		String flag = (String) options.get(PARAM_CARRIAGERETURN);
 		if ("true".equalsIgnoreCase(flag)) //$NON-NLS-1$
 			return true;
-		
+
 		return false;
 	}
 
@@ -220,31 +207,25 @@ public class DataExtractionParameterUtil
 	 * Create a CommonDataExtractionOption configured using the common-specific
 	 * parameters.
 	 * 
-	 * @param extractOption
-	 *            common data extraction option
-	 * @param columns
-	 *            columns to export
-	 * @param locale
-	 *            locale
-	 * @param options
-	 *            general options to use for the configuration
-	 * @return instance of CommonDataExtractionOption initialized with the
-	 *         passed values
+	 * @param extractOption common data extraction option
+	 * @param columns       columns to export
+	 * @param locale        locale
+	 * @param options       general options to use for the configuration
+	 * @return instance of CommonDataExtractionOption initialized with the passed
+	 *         values
 	 */
-	public static DataExtractionOption createOptions(
-			CommonDataExtractionOption extractOption, String[] columns,
-			Locale locale, TimeZone timeZone, Map options )
-	{
-		if ( extractOption == null )
-			extractOption = new CommonDataExtractionOption( );
+	public static DataExtractionOption createOptions(CommonDataExtractionOption extractOption, String[] columns,
+			Locale locale, TimeZone timeZone, Map options) {
+		if (extractOption == null)
+			extractOption = new CommonDataExtractionOption();
 
-		extractOption.setEncoding( getExportEncoding( options ) );
-		extractOption.setExportDataType( isExportDataType( options ) );
-		extractOption.setLocaleNeutralFormat( isLocaleNeutral( options ) );
-		extractOption.setLocale( locale );
-		extractOption.setTimeZone( timeZone );
-		extractOption.setSelectedColumns( columns );
-		extractOption.setUserParameters( options );
+		extractOption.setEncoding(getExportEncoding(options));
+		extractOption.setExportDataType(isExportDataType(options));
+		extractOption.setLocaleNeutralFormat(isLocaleNeutral(options));
+		extractOption.setLocale(locale);
+		extractOption.setTimeZone(timeZone);
+		extractOption.setSelectedColumns(columns);
+		extractOption.setUserParameters(options);
 		return extractOption;
 	}
 
@@ -256,14 +237,13 @@ public class DataExtractionParameterUtil
 	 * @param options
 	 * @return
 	 */
-	public static DataExtractionOption createCSVOptions( String[] columns,
-			Locale locale, TimeZone timeZone, Map options )
-	{
-		CSVDataExtractionOption extractOption = new CSVDataExtractionOption( );
-		createOptions( extractOption, columns, locale, timeZone, options );
+	public static DataExtractionOption createCSVOptions(String[] columns, Locale locale, TimeZone timeZone,
+			Map options) {
+		CSVDataExtractionOption extractOption = new CSVDataExtractionOption();
+		createOptions(extractOption, columns, locale, timeZone, options);
 
 		// CSV separator
-		extractOption.setSeparator( getSep( options ) );
+		extractOption.setSeparator(getSep(options));
 		extractOption.setAddCR(isWithCarriageReturn(options));
 		return extractOption;
 	}
@@ -271,24 +251,18 @@ public class DataExtractionParameterUtil
 	/**
 	 * Returns an array of decoded columns names.
 	 * 
-	 * @param columns
-	 *            Collection of column names, in HTML format
+	 * @param columns Collection of column names, in HTML format
 	 * @return Returns an array of decoded columns names.
 	 */
-	public static String[] getColumnNames( Collection columns )
-	{
-		if ( columns != null && columns.size( ) > 0 )
-		{
-			String[] columnNames = new String[columns.size( )];
-			Iterator iSelectedColumns = columns.iterator( );
-			for ( int i = 0; iSelectedColumns.hasNext( ); i++ )
-			{
-				columnNames[i] = ParameterAccessor.htmlDecode( (String) iSelectedColumns.next( ) );
+	public static String[] getColumnNames(Collection columns) {
+		if (columns != null && columns.size() > 0) {
+			String[] columnNames = new String[columns.size()];
+			Iterator iSelectedColumns = columns.iterator();
+			for (int i = 0; iSelectedColumns.hasNext(); i++) {
+				columnNames[i] = ParameterAccessor.htmlDecode((String) iSelectedColumns.next());
 			}
 			return columnNames;
-		}
-		else
-		{
+		} else {
 			return null;
 		}
 	}

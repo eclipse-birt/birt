@@ -17,26 +17,24 @@ import org.eclipse.birt.core.exception.BirtException;
  * 
  */
 
-public interface IColumnValueIterator
-{
+public interface IColumnValueIterator {
 	/**
 	 * 
 	 * @return
 	 * @throws BirtException
 	 */
-	public boolean next( ) throws BirtException;
-	
+	public boolean next() throws BirtException;
+
 	/**
 	 * 
 	 * @return
 	 * @throws BirtException
 	 */
 	public Object getValue() throws BirtException;
-	
-	
+
 	/**
 	 * 
 	 * @throws BirtException
 	 */
-	public void close( ) throws BirtException;
+	public void close() throws BirtException;
 }

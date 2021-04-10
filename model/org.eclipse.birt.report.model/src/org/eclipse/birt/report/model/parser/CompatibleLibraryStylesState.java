@@ -49,8 +49,7 @@ import org.xml.sax.SAXException;
  * </pre>
  */
 
-class CompatibleLibraryStylesState extends ReportElementState
-{
+class CompatibleLibraryStylesState extends ReportElementState {
 
 	/**
 	 * 
@@ -61,41 +60,32 @@ class CompatibleLibraryStylesState extends ReportElementState
 	/**
 	 * Constructs the compatible styles state for the library.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public CompatibleLibraryStylesState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public CompatibleLibraryStylesState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 
-		theme = new Theme( ModelMessages
-				.getMessage( IThemeModel.DEFAULT_THEME_NAME ) );
-		if ( handler.markLineNumber )
-			handler.tempLineNumbers.put( theme, Integer.valueOf( handler
-					.getCurrentLineNo( ) ) );
-		addToSlot( container, slotID, theme );
-		handler.unhandleIDElements.add( theme );
+		theme = new Theme(ModelMessages.getMessage(IThemeModel.DEFAULT_THEME_NAME));
+		if (handler.markLineNumber)
+			handler.tempLineNumbers.put(theme, Integer.valueOf(handler.getCurrentLineNo()));
+		addToSlot(container, slotID, theme);
+		handler.unhandleIDElements.add(theme);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLE_TAG ) )
-			return new StyleState( handler, theme, IThemeModel.STYLES_SLOT );
-		return super.startElement( tagName );
+	public AbstractParseState startElement(String tagName) {
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.STYLE_TAG))
+			return new StyleState(handler, theme, IThemeModel.STYLES_SLOT);
+		return super.startElement(tagName);
 	}
 
 	/*
@@ -104,8 +94,7 @@ class CompatibleLibraryStylesState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return theme;
 	}
 
@@ -115,16 +104,14 @@ class CompatibleLibraryStylesState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
+	public void end() throws SAXException {
 		// set the default theme to the library.
 
-		DesignElement container = theme.getContainer( );
+		DesignElement container = theme.getContainer();
 		assert container instanceof Library;
 
-		( (Library) container ).setProperty( IModuleModel.THEME_PROP,
-				new ElementRefValue( null, theme ) );
+		((Library) container).setProperty(IModuleModel.THEME_PROP, new ElementRefValue(null, theme));
 
-		super.end( );
+		super.end();
 	}
 }

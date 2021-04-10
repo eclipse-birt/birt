@@ -21,21 +21,18 @@ import org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty;
  * and a value.
  */
 
-public class ExtendedPropertyHandle extends StructureHandle
-{
+public class ExtendedPropertyHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of Extended property.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for Extended property list of one property
-	 * @param index
-	 *            the position of this Extended property in the list
+	 * @param valueHandle the value handle for Extended property list of one
+	 *                    property
+	 * @param index       the position of this Extended property in the list
 	 */
 
-	public ExtendedPropertyHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public ExtendedPropertyHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
@@ -44,36 +41,28 @@ public class ExtendedPropertyHandle extends StructureHandle
 	 * @return the property name
 	 */
 
-	public String getName( )
-	{
-		ExtendedProperty property = (ExtendedProperty) getStructure( );
-		return property.getName( );
+	public String getName() {
+		ExtendedProperty property = (ExtendedProperty) getStructure();
+		return property.getName();
 	}
 
 	/**
 	 * Sets the property name.
 	 * 
-	 * @param name
-	 *            the property name to set
+	 * @param name the property name to set
 	 */
 
-	public void setName( String name )
-	{
-		try
-		{
+	public void setName(String name) {
+		try {
 			MemberHandle member;
 
-			member = getMember( ExtendedProperty.NAME_MEMBER );
-			member.setStringValue( name );
-		}
-		catch ( NameException e )
-		{
+			member = getMember(ExtendedProperty.NAME_MEMBER);
+			member.setStringValue(name);
+		} catch (NameException e) {
 			// Should not fail
 
 			assert false;
-		}
-		catch ( SemanticException e )
-		{
+		} catch (SemanticException e) {
 			// Should not fail
 
 			assert false;
@@ -86,36 +75,28 @@ public class ExtendedPropertyHandle extends StructureHandle
 	 * @return the property value
 	 */
 
-	public String getValue( )
-	{
-		ExtendedProperty property = (ExtendedProperty) getStructure( );
-		return property.getValue( );
+	public String getValue() {
+		ExtendedProperty property = (ExtendedProperty) getStructure();
+		return property.getValue();
 	}
 
 	/**
 	 * Sets the property value.
 	 * 
-	 * @param value
-	 *            the value to set
+	 * @param value the value to set
 	 */
 
-	public void setValue( String value )
-	{
-		try
-		{
+	public void setValue(String value) {
+		try {
 			MemberHandle member;
 
-			member = getMember( ExtendedProperty.VALUE_MEMBER );
-			member.setStringValue( value );
-		}
-		catch ( NameException e )
-		{
+			member = getMember(ExtendedProperty.VALUE_MEMBER);
+			member.setStringValue(value);
+		} catch (NameException e) {
 			// Should not fail
 
 			assert false;
-		}
-		catch ( SemanticException e )
-		{
+		} catch (SemanticException e) {
 			// Should not fail
 
 			assert false;

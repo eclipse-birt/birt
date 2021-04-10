@@ -12,12 +12,9 @@ package org.eclipse.birt.report.designer.data.ui.datasource;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.swt.widgets.Shell;
 
+public class AdvancedDataSourceEditor extends DataSourceEditor {
 
-public class AdvancedDataSourceEditor extends DataSourceEditor
-{
-	
-	public AdvancedDataSourceEditor( Shell parentShell, DataSourceHandle ds )
-	{
-		super( parentShell, ds );
+	public AdvancedDataSourceEditor(Shell parentShell, DataSourceHandle ds) {
+		super(parentShell, ds);
 	}
 }

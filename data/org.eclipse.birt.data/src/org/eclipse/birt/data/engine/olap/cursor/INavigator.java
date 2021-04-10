@@ -21,17 +21,16 @@ import javax.olap.OLAPException;
  * used in a while loop to iterator through the result set.
  * 
  */
-public interface INavigator
-{
+public interface INavigator {
 
 	/**
-	 * Move the cursor down one row from its current position. if it returns
-	 * false, it means there are no more rows in INavigator Object
+	 * Move the cursor down one row from its current position. if it returns false,
+	 * it means there are no more rows in INavigator Object
 	 * 
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean next( ) throws OLAPException;
+	public boolean next() throws OLAPException;
 
 	/**
 	 * Move the cursor to the previous row in the result set
@@ -39,7 +38,7 @@ public interface INavigator
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean previous( ) throws OLAPException;
+	public boolean previous() throws OLAPException;
 
 	/**
 	 * Move the cursor to a relative number of rows, either positive or negative
@@ -48,7 +47,7 @@ public interface INavigator
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean relative( int arg0 ) throws OLAPException;
+	public boolean relative(int arg0) throws OLAPException;
 
 	/**
 	 * Move the cursor to the first row in the result set
@@ -56,7 +55,7 @@ public interface INavigator
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean first( ) throws OLAPException;
+	public boolean first() throws OLAPException;
 
 	/**
 	 * Move the cursor to the last row in the result set
@@ -64,14 +63,14 @@ public interface INavigator
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean last( ) throws OLAPException;
+	public boolean last() throws OLAPException;
 
 	/**
 	 * Indicate whether the cursor is before the first row of result set
 	 * 
 	 * @return
 	 */
-	public boolean isBeforeFirst( );
+	public boolean isBeforeFirst();
 
 	/**
 	 * Indicate whether the cursor is after the last row of result set
@@ -79,7 +78,7 @@ public interface INavigator
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean isAfterLast( ) throws OLAPException;
+	public boolean isAfterLast() throws OLAPException;
 
 	/**
 	 * Indicate whether the cursor is the first row of result set
@@ -87,7 +86,7 @@ public interface INavigator
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean isFirst( ) throws OLAPException;
+	public boolean isFirst() throws OLAPException;
 
 	/**
 	 * Indicate whether the cursor is the last row of result set
@@ -95,21 +94,21 @@ public interface INavigator
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean isLast( ) throws OLAPException;
+	public boolean isLast() throws OLAPException;
 
 	/**
 	 * Move the cursor to the end of result set, just after the last row
 	 * 
 	 * @throws OLAPException
 	 */
-	public void afterLast( ) throws OLAPException;
-	
+	public void afterLast() throws OLAPException;
+
 	/**
 	 * Move the cursor before the first row of result set
 	 * 
 	 * @throws OLAPException
 	 */
-	public void beforeFirst( ) throws OLAPException;
+	public void beforeFirst() throws OLAPException;
 
 	/**
 	 * Move the cursor to the certain position
@@ -117,7 +116,7 @@ public interface INavigator
 	 * @param position
 	 * @throws OLAPException
 	 */
-	public void setPosition( long position ) throws OLAPException;
+	public void setPosition(long position) throws OLAPException;
 
 	/**
 	 * Get the current position of cursor
@@ -125,28 +124,28 @@ public interface INavigator
 	 * @return
 	 * @throws OLAPException
 	 */
-	public long getPosition( ) throws OLAPException;
+	public long getPosition() throws OLAPException;
 
 	/**
 	 * Release the ResultSet Object's resources
 	 * 
 	 * @throws OLAPException
 	 */
-	public void close( ) throws OLAPException;;
+	public void close() throws OLAPException;;
 
 	/**
 	 * Get the number of values positional values based on cursor dependency
 	 * 
 	 * @return
 	 */
-	public long getExtend( );
+	public long getExtend();
 
 	/**
 	 * Return the type of result set
 	 * 
 	 * @return
 	 */
-	public int getType( );
+	public int getType();
 
 	/**
 	 * Get the OLAP Warnings
@@ -154,19 +153,19 @@ public interface INavigator
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Collection getWarnings( ) throws OLAPException;
-	
+	public Collection getWarnings() throws OLAPException;
+
 	/**
 	 * Clear the warnings collection
 	 * 
 	 * @throws OLAPException
 	 */
-	public void clearWarnings( ) throws OLAPException;
-	
+	public void clearWarnings() throws OLAPException;
+
 	/**
 	 * 
 	 * @param position
 	 */
-	public void synchronizedPages( int position );
+	public void synchronizedPages(int position);
 
 }

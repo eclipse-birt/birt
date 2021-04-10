@@ -22,22 +22,20 @@ import org.mozilla.javascript.Scriptable;
 /**
  * An external context implementation for BIRT environment.
  */
-public class BIRTExternalContext implements IExternalContext
-{
+public class BIRTExternalContext implements IExternalContext {
 
 	private static final long serialVersionUID = 1L;
 
 	private transient IReportContext context;
 	private Scriptable scriptableContext;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.reportitem/trace"); //$NON-NLS-1$
 
 	/**
 	 * The constructor.
 	 */
-	public BIRTExternalContext( )
-	{
-		super( );
+	public BIRTExternalContext() {
+		super();
 	}
 
 	/**
@@ -45,28 +43,19 @@ public class BIRTExternalContext implements IExternalContext
 	 * 
 	 * @param context
 	 */
-	public BIRTExternalContext( IReportContext context )
-	{
+	public BIRTExternalContext(IReportContext context) {
 		this.context = context;
 
-		final Context cx = Context.enter( );
+		final Context cx = Context.enter();
 
-		try
-		{
-			Scriptable scope = new ImporterTopLevel( cx );
+		try {
+			Scriptable scope = new ImporterTopLevel(cx);
 
-			scriptableContext = cx.getWrapFactory( ).wrapAsJavaObject( cx,
-					scope,
-					context,
-					null );
-		}
-		catch ( Exception e )
-		{
-			logger.log( e );
-		}
-		finally
-		{
-			Context.exit( );
+			scriptableContext = cx.getWrapFactory().wrapAsJavaObject(cx, scope, context, null);
+		} catch (Exception e) {
+			logger.log(e);
+		} finally {
+			Context.exit();
 		}
 	}
 
@@ -75,8 +64,7 @@ public class BIRTExternalContext implements IExternalContext
 	 * 
 	 * @see org.eclipse.birt.chart.script.IExternalContext#getScriptable()
 	 */
-	public Scriptable getScriptable( )
-	{
+	public Scriptable getScriptable() {
 		return scriptableContext;
 	}
 
@@ -85,8 +73,7 @@ public class BIRTExternalContext implements IExternalContext
 	 * 
 	 * @see org.eclipse.birt.chart.script.IExternalContext#getObject()
 	 */
-	public Object getObject( )
-	{
+	public Object getObject() {
 		return context;
 	}
 

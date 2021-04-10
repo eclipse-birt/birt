@@ -22,25 +22,19 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaOlapElementModel;
  * @see org.eclipse.birt.report.model.elements.olap.Hierarchy
  */
 
-public class OdaHierarchyHandle extends HierarchyHandle
-		implements
-			IOdaOlapElementModel
-{
+public class OdaHierarchyHandle extends HierarchyHandle implements IOdaOlapElementModel {
 
 	/**
-	 * Constructs a handle for the given design and design element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * Constructs a handle for the given design and design element. The application
+	 * generally does not create handles directly. Instead, it uses one of the
+	 * navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public OdaHierarchyHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public OdaHierarchyHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
@@ -49,22 +43,19 @@ public class OdaHierarchyHandle extends HierarchyHandle
 	 * @return the ODA defined cube name
 	 */
 
-	public String getNativeName( )
-	{
-		return getStringProperty( NATIVE_NAME_PROP );
+	public String getNativeName() {
+		return getStringProperty(NATIVE_NAME_PROP);
 	}
 
 	/**
 	 * Sets the ODA defined cube name.
 	 * 
-	 * @param nativeName
-	 *            the ODA defined cube name
+	 * @param nativeName the ODA defined cube name
 	 * 
 	 * @throws SemanticException
 	 */
 
-	public void setNativeName( String nativeName ) throws SemanticException
-	{
-		setProperty( NATIVE_NAME_PROP, nativeName );
+	public void setNativeName(String nativeName) throws SemanticException {
+		setProperty(NATIVE_NAME_PROP, nativeName);
 	}
 }

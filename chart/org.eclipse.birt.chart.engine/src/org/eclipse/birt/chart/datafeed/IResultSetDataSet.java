@@ -18,55 +18,55 @@ package org.eclipse.birt.chart.datafeed;
  * capable of converting the resultset subset content into the expected chart
  * dataset format.
  */
-public interface IResultSetDataSet
-{
+public interface IResultSetDataSet {
 
 	/**
 	 * @return Returns the columns count for current resultset subset.
 	 */
-	int getColumnCount( );
+	int getColumnCount();
 
 	/**
-	 * Returns the data type associated with a single column resultset subset.
-	 * Note the result is only valid for single column subset.
+	 * Returns the data type associated with a single column resultset subset. Note
+	 * the result is only valid for single column subset.
 	 * 
 	 * @return A data type associated with a single column resultset
 	 */
-	int getDataType( );
-	
+	int getDataType();
+
 	/**
-	 * Returns the data type of a given column associated with a multi-column resultset subset.
+	 * Returns the data type of a given column associated with a multi-column
+	 * resultset subset.
 	 * 
 	 * @return A data type associated with a multi-column resultset
 	 */
-	int getDataType( int columnIndex );
-	
+	int getDataType(int columnIndex);
+
 	/**
 	 * Returns the number of rows associated with this resultset subset instance
 	 * 
 	 * @return The number of rows associated with this resultset subset instance
 	 */
-	long getSize( );
+	long getSize();
 
 	/**
-	 * Indicates whether another row of data is available without actually
-	 * moving the cursor
+	 * Indicates whether another row of data is available without actually moving
+	 * the cursor
 	 * 
 	 * @return 'true' if another row of data is available
 	 */
-	boolean hasNext( );
+	boolean hasNext();
 
 	/**
 	 * Returns a row of data and advances the resultset subset cursor
 	 * 
 	 * @return An 'Object[]' that represents a resultset subset tuple
 	 */
-	Object[] next( );
-	
+	Object[] next();
+
 	/**
 	 * Resets data set if data has been iterated.
 	 * 
 	 * @since 3.7
 	 */
-	void reset( );
+	void reset();
 }

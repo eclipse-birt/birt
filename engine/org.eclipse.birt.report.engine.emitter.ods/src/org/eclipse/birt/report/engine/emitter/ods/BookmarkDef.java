@@ -10,8 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.emitter.ods;
 
-public class BookmarkDef
-{
+public class BookmarkDef {
 
 	private String name;
 	private int columnNo;
@@ -19,58 +18,47 @@ public class BookmarkDef
 	private String sheetName;
 	private String generatedName;
 
-	public String getValidName( )
-	{
+	public String getValidName() {
 		return generatedName == null ? name : generatedName;
 	}
 
-	public void setGeneratedName( String generatedName )
-	{
+	public void setGeneratedName(String generatedName) {
 		this.generatedName = generatedName;
 	}
 
-	public BookmarkDef( String name )
-	{
+	public BookmarkDef(String name) {
 		this.name = name;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public int getColumnNo( )
-	{
+	public int getColumnNo() {
 		return columnNo;
 	}
 
-	public void setColumnNo( int columnNo )
-	{
+	public void setColumnNo(int columnNo) {
 		this.columnNo = columnNo;
 	}
 
-	public int getRowNo( )
-	{
+	public int getRowNo() {
 		return rowNo;
 	}
 
-	public void setRowNo( int rowNo )
-	{
+	public void setRowNo(int rowNo) {
 		this.rowNo = rowNo;
 	}
 
-	public String getSheetName( )
-	{
+	public String getSheetName() {
 		return this.sheetName;
 	}
 
-	public void setSheetName( String sheetName )
-	{
+	public void setSheetName(String sheetName) {
 		this.sheetName = sheetName;
 	}
 }

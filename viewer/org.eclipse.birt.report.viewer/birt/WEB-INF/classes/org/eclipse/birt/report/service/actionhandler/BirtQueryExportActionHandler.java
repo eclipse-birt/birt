@@ -31,10 +31,7 @@ import org.eclipse.birt.report.soapengine.api.UpdateData;
  * Implement action handler for ExportData event.
  * 
  */
-public class BirtQueryExportActionHandler
-		extends
-			AbstractQueryExportActionHandler
-{
+public class BirtQueryExportActionHandler extends AbstractQueryExportActionHandler {
 
 	/**
 	 * Constructor.
@@ -43,10 +40,8 @@ public class BirtQueryExportActionHandler
 	 * @param operation
 	 * @param response
 	 */
-	public BirtQueryExportActionHandler( IContext context, Operation operation,
-			GetUpdatedObjectsResponse response )
-	{
-		super( context, operation, response );
+	public BirtQueryExportActionHandler(IContext context, Operation operation, GetUpdatedObjectsResponse response) {
+		super(context, operation, response);
 	}
 
 	/**
@@ -54,19 +49,18 @@ public class BirtQueryExportActionHandler
 	 * 
 	 * @param resultSets
 	 */
-	protected void handleUpdate( ResultSets resultSets )
-	{
-		Data data = new Data( );
-		data.setResultSets( resultSets );
+	protected void handleUpdate(ResultSets resultSets) {
+		Data data = new Data();
+		data.setResultSets(resultSets);
 
-		UpdateData updateData = new UpdateData( );
-		updateData.setTarget( "birtSimpleExportDataDialog" ); //$NON-NLS-1$
-		updateData.setData( data );
+		UpdateData updateData = new UpdateData();
+		updateData.setTarget("birtSimpleExportDataDialog"); //$NON-NLS-1$
+		updateData.setData(data);
 
-		Update update = new Update( );
-		update.setUpdateData( updateData );
+		Update update = new Update();
+		update.setUpdateData(updateData);
 
-		response.setUpdate( new Update[]{update} );
+		response.setUpdate(new Update[] { update });
 	}
 
 	/**
@@ -74,9 +68,8 @@ public class BirtQueryExportActionHandler
 	 * 
 	 * @return IViewerReportService
 	 */
-	protected IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	protected IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 
 	/**
@@ -84,16 +77,12 @@ public class BirtQueryExportActionHandler
 	 * 
 	 * @throws RemoteException
 	 */
-	protected void __checkDocumentExists( ) throws RemoteException
-	{
-		File file = new File( __docName );
-		if ( !file.exists( ) )
-		{
+	protected void __checkDocumentExists() throws RemoteException {
+		File file = new File(__docName);
+		if (!file.exists()) {
 			// if document file doesn't exist, throw exception
-			AxisFault fault = new AxisFault( );
-			fault
-					.setFaultReason( BirtResources
-							.getMessage( ResourceConstants.ACTION_EXCEPTION_DOCUMENT_FILE_NO_EXIST ) );
+			AxisFault fault = new AxisFault();
+			fault.setFaultReason(BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_DOCUMENT_FILE_NO_EXIST));
 			throw fault;
 		}
 	}

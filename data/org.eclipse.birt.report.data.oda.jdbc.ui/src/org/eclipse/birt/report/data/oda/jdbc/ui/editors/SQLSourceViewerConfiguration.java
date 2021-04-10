@@ -29,19 +29,18 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
  * @version $Revision: 1.3 $ $Date: 2008/08/21 09:42:14 $
  */
 
-public class SQLSourceViewerConfiguration extends SourceViewerConfiguration
-{
-	private static final TextAttribute quoteString = new TextAttribute( ColorManager.getColor(42, 0, 255) ) ;
-	private static final TextAttribute comment = new TextAttribute( ColorManager.getColor(63, 127, 95) ) ;
+public class SQLSourceViewerConfiguration extends SourceViewerConfiguration {
+	private static final TextAttribute quoteString = new TextAttribute(ColorManager.getColor(42, 0, 255));
+	private static final TextAttribute comment = new TextAttribute(ColorManager.getColor(63, 127, 95));
 	private DataSourceDesign dsd;
 	private long timeout;
 	private boolean enableCodeAssist;
+
 	/**
 	 *  
 	 */
-	public SQLSourceViewerConfiguration( DataSourceDesign dsd, long timeout, boolean enableCodeAssist )
-	{
-		super( );
+	public SQLSourceViewerConfiguration(DataSourceDesign dsd, long timeout, boolean enableCodeAssist) {
+		super();
 		this.dsd = dsd;
 		this.timeout = timeout;
 		this.enableCodeAssist = enableCodeAssist;
@@ -50,54 +49,44 @@ public class SQLSourceViewerConfiguration extends SourceViewerConfiguration
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getPresentationReconciler(org.eclipse.jface.text.source.ISourceViewer)
+	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#
+	 * getPresentationReconciler(org.eclipse.jface.text.source.ISourceViewer)
 	 */
-	public IPresentationReconciler getPresentationReconciler(
-			ISourceViewer sourceViewer )
-	{
-		PresentationReconciler reconciler = new PresentationReconciler( );
-		
-		NonRuleBasedDamagerRepairer dr = new NonRuleBasedDamagerRepairer( quoteString );
-		reconciler.setDamager( dr, SQLPartitionScanner.QUOTE_STRING );
-		reconciler.setRepairer( dr, SQLPartitionScanner.QUOTE_STRING );
-		
-		
-		dr = new NonRuleBasedDamagerRepairer( comment );
-		reconciler.setDamager( dr, SQLPartitionScanner.COMMENT );
-		reconciler.setRepairer( dr, SQLPartitionScanner.COMMENT );
-		
-		
-		DefaultDamagerRepairer  ddr = new DefaultDamagerRepairer( new SQLKeywordScanner( ) );
-		reconciler.setDamager( ddr, IDocument.DEFAULT_CONTENT_TYPE );
-		reconciler.setRepairer( ddr, IDocument.DEFAULT_CONTENT_TYPE );
+	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
+		PresentationReconciler reconciler = new PresentationReconciler();
+
+		NonRuleBasedDamagerRepairer dr = new NonRuleBasedDamagerRepairer(quoteString);
+		reconciler.setDamager(dr, SQLPartitionScanner.QUOTE_STRING);
+		reconciler.setRepairer(dr, SQLPartitionScanner.QUOTE_STRING);
+
+		dr = new NonRuleBasedDamagerRepairer(comment);
+		reconciler.setDamager(dr, SQLPartitionScanner.COMMENT);
+		reconciler.setRepairer(dr, SQLPartitionScanner.COMMENT);
+
+		DefaultDamagerRepairer ddr = new DefaultDamagerRepairer(new SQLKeywordScanner());
+		reconciler.setDamager(ddr, IDocument.DEFAULT_CONTENT_TYPE);
+		reconciler.setRepairer(ddr, IDocument.DEFAULT_CONTENT_TYPE);
 
 		return reconciler;
 	}
 
 	@Override
-	public String[] getConfiguredContentTypes( ISourceViewer sourceViewer )
-	{
-		return new String[]{
-				SQLPartitionScanner.QUOTE_STRING,
-				SQLPartitionScanner.COMMENT,
+	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
+		return new String[] { SQLPartitionScanner.QUOTE_STRING, SQLPartitionScanner.COMMENT,
 				IDocument.DEFAULT_CONTENT_TYPE };
 	}
-	
 
-	public IContentAssistant getContentAssistant( ISourceViewer sourceViewer )
-	{
-		if ( !enableCodeAssist )
-		{
+	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+		if (!enableCodeAssist) {
 			return null;
 		}
-		ContentAssistant assistant = new ContentAssistant( );
-		JdbcSQLContentAssistProcessor contentAssist = new JdbcSQLContentAssistProcessor( timeout );
-		contentAssist.setDataSourceHandle( dsd );
-		assistant.setContentAssistProcessor( contentAssist,
-				IDocument.DEFAULT_CONTENT_TYPE );
-		assistant.enableAutoActivation( true );
-		assistant.setAutoActivationDelay( 500 );
-		assistant.setProposalPopupOrientation( IContentAssistant.PROPOSAL_OVERLAY );
+		ContentAssistant assistant = new ContentAssistant();
+		JdbcSQLContentAssistProcessor contentAssist = new JdbcSQLContentAssistProcessor(timeout);
+		contentAssist.setDataSourceHandle(dsd);
+		assistant.setContentAssistProcessor(contentAssist, IDocument.DEFAULT_CONTENT_TYPE);
+		assistant.enableAutoActivation(true);
+		assistant.setAutoActivationDelay(500);
+		assistant.setProposalPopupOrientation(IContentAssistant.PROPOSAL_OVERLAY);
 		return assistant;
 	}
 }

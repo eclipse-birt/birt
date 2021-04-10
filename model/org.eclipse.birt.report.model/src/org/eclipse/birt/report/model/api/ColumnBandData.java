@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.elements.TableColumn;
  * cells.
  */
 
-public class ColumnBandData implements Cloneable
-{
+public class ColumnBandData implements Cloneable {
 
 	/**
 	 * The copied column.
@@ -40,8 +39,7 @@ public class ColumnBandData implements Cloneable
 	 * Constructs a default <code>ColumnBandData</code>.
 	 */
 
-	ColumnBandData( )
-	{
+	ColumnBandData() {
 	}
 
 	/**
@@ -50,20 +48,17 @@ public class ColumnBandData implements Cloneable
 	 * @return the copied column.
 	 */
 
-	protected TableColumn getColumn( )
-	{
+	protected TableColumn getColumn() {
 		return column;
 	}
 
 	/**
 	 * Saves the copied column.
 	 * 
-	 * @param column
-	 *            the copied column object
+	 * @param column the copied column object
 	 */
 
-	void setColumn( TableColumn column )
-	{
+	void setColumn(TableColumn column) {
 		this.column = column;
 	}
 
@@ -74,21 +69,18 @@ public class ColumnBandData implements Cloneable
 	 *         <code>CellContextInfo</code>.
 	 */
 
-	protected List getCells( )
-	{
+	protected List getCells() {
 		return cells;
 	}
 
 	/**
 	 * Saves the copied cells.
 	 * 
-	 * @param cells
-	 *            a list containing cells. Each element in the list is a
-	 *            <code>CellContextInfo</code>.
+	 * @param cells a list containing cells. Each element in the list is a
+	 *              <code>CellContextInfo</code>.
 	 */
 
-	void setCells( List cells )
-	{
+	void setCells(List cells) {
 		this.cells = cells;
 	}
 
@@ -98,18 +90,16 @@ public class ColumnBandData implements Cloneable
 	 * @see java.lang.Object#clone()
 	 */
 
-	protected Object clone( ) throws CloneNotSupportedException
-	{
-		ColumnBandData clonedData = (ColumnBandData) super.clone( );
+	protected Object clone() throws CloneNotSupportedException {
+		ColumnBandData clonedData = (ColumnBandData) super.clone();
 
-		TableColumn clonedColumn = (TableColumn) column.clone( );
+		TableColumn clonedColumn = (TableColumn) column.clone();
 		clonedData.column = clonedColumn;
 
-		List clonedList = new ArrayList( );
-		for ( int i = 0; cells != null && i < cells.size( ); i++ )
-		{
-			CellContextInfo contextInfo = (CellContextInfo) cells.get( i );
-			clonedList.add( contextInfo.clone( ) );
+		List clonedList = new ArrayList();
+		for (int i = 0; cells != null && i < cells.size(); i++) {
+			CellContextInfo contextInfo = (CellContextInfo) cells.get(i);
+			clonedList.add(contextInfo.clone());
 		}
 		clonedData.cells = clonedList;
 
@@ -122,14 +112,10 @@ public class ColumnBandData implements Cloneable
 	 * @return the copy of the column band data
 	 */
 
-	public ColumnBandData copy( )
-	{
-		try
-		{
-			return (ColumnBandData) clone( );
-		}
-		catch ( CloneNotSupportedException e )
-		{
+	public ColumnBandData copy() {
+		try {
+			return (ColumnBandData) clone();
+		} catch (CloneNotSupportedException e) {
 			assert false;
 		}
 

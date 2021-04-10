@@ -19,31 +19,22 @@ import org.eclipse.birt.report.engine.api.script.instance.IGridInstance;
 /**
  * Default (empty) implementation of the IGridEventHandler interface
  */
-public class GridEventAdapter implements IGridEventHandler
-{
+public class GridEventAdapter implements IGridEventHandler {
 
-	public void onPrepare( IGrid grid, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onPrepare(IGrid grid, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onCreate( IGridInstance grid, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onCreate(IGridInstance grid, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onRender( IGridInstance grid, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onRender(IGridInstance grid, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onPageBreak( IGridInstance grid, IReportContext reportContext )
-			throws ScriptException
-	{
-		
+	public void onPageBreak(IGridInstance grid, IReportContext reportContext) throws ScriptException {
+
 	}
 
 }

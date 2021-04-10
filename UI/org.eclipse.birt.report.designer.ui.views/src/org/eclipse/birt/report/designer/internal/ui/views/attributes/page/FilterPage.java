@@ -21,38 +21,34 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.For
  * 
  * @since 2.3
  */
-public class FilterPage extends FormPage
-{
+public class FilterPage extends FormPage {
 
-	public FilterPage( int style, IFormProvider provider )
-	{
-		super( style, provider );
+	public FilterPage(int style, IFormProvider provider) {
+		super(style, provider);
 	}
 
-	public FilterPage( int style, IFormProvider provider, boolean withDialog )
-	{
-		super( style, provider, withDialog );
+	public FilterPage(int style, IFormProvider provider, boolean withDialog) {
+		super(style, provider, withDialog);
 	}
 
-	public FilterPage( int style, IFormProvider provider, boolean withDialog,
-			boolean isTabbed )
-	{
-		super( style, provider, withDialog, isTabbed );
+	public FilterPage(int style, IFormProvider provider, boolean withDialog, boolean isTabbed) {
+		super(style, provider, withDialog, isTabbed);
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage#createFormSection()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage#
+	 * createFormSection()
 	 */
-	protected void createFormSection( )
-	{
-		super.createFormSection( );
-		IDescriptorProvider provider = ((FormSection)getSection( PageSectionId.FORM_FORM )).getProvider( );
-		if ( provider instanceof AbstractFilterHandleProvider )
-		{
+	protected void createFormSection() {
+		super.createFormSection();
+		IDescriptorProvider provider = ((FormSection) getSection(PageSectionId.FORM_FORM)).getProvider();
+		if (provider instanceof AbstractFilterHandleProvider) {
 			// Set correct filter provider.
-			this.provider = ((AbstractFilterHandleProvider)provider).getConcreteFilterProvider( ); 
-			((FormSection)getSection( PageSectionId.FORM_FORM )).setProvider( this.provider );
+			this.provider = ((AbstractFilterHandleProvider) provider).getConcreteFilterProvider();
+			((FormSection) getSection(PageSectionId.FORM_FORM)).setProvider(this.provider);
 		}
 	}
 

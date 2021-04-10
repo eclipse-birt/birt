@@ -20,29 +20,25 @@ import org.eclipse.birt.report.model.core.Module;
  * Class to provide the data group element.
  */
 
-public class DataGroup extends ContentElement
-{
+public class DataGroup extends ContentElement {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public DataGroup( )
-	{
+	public DataGroup() {
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitDataGroup( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitDataGroup(this);
 	}
 
 	/*
@@ -51,22 +47,19 @@ public class DataGroup extends ContentElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.DATA_GROUP_ELEMENT;
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public DataGroupHandle handle( Module module )
-	{
-		return new DataGroupHandle( module, this );
+	public DataGroupHandle handle(Module module) {
+		return new DataGroupHandle(module, this);
 	}
 
 	/*
@@ -76,9 +69,8 @@ public class DataGroup extends ContentElement
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
 	 * .birt.report.model.core.Module)
 	 */
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 }

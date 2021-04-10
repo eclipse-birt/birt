@@ -19,31 +19,24 @@ import org.eclipse.birt.data.engine.api.IDataEngineFactory;
 /**
  * Factory pattern to create an instance of Data Engine
  */
-public class DataEngineFactory implements IDataEngineFactory
-{
-	
+public class DataEngineFactory implements IDataEngineFactory {
+
 	/*
-	 * @see org.eclipse.birt.data.engine.api.IDataEngineFactory#createDataEngine(org.eclipse.birt.data.engine.api.DataEngineContext)
+	 * @see
+	 * org.eclipse.birt.data.engine.api.IDataEngineFactory#createDataEngine(org.
+	 * eclipse.birt.data.engine.api.DataEngineContext)
 	 */
-	public DataEngine createDataEngine( DataEngineContext context ) throws BirtException
-	{
-		if ( context == null )
-		{
-			try
-			{
-				context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-						new ScriptContext( ),
-						null,
-						null,
-						null);
-			}
-			catch ( BirtException e )
-			{
+	public DataEngine createDataEngine(DataEngineContext context) throws BirtException {
+		if (context == null) {
+			try {
+				context = DataEngineContext.newInstance(DataEngineContext.DIRECT_PRESENTATION, new ScriptContext(),
+						null, null, null);
+			} catch (BirtException e) {
 				// impossible get here
 			}
 		}
 
-		return new DataEngineImpl( context );
+		return new DataEngineImpl(context);
 	}
 
 }

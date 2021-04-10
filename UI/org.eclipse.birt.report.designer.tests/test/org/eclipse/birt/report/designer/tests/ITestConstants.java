@@ -15,8 +15,7 @@ package org.eclipse.birt.report.designer.tests;
  * Defines all constants used by tests
  */
 
-public interface ITestConstants
-{
+public interface ITestConstants {
 
 	String TEST_PLUGIN = "org.eclipse.birt.report.designer.tests"; //$NON-NLS-1$
 

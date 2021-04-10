@@ -21,42 +21,29 @@ import org.eclipse.swt.widgets.Composite;
  * 
  * @author Zhipeng Zhang
  */
-public class ItemMarginPage extends ResetAttributePage
-{
+public class ItemMarginPage extends ResetAttributePage {
 
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5, 15 ) );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(5, 15));
 
-		String[] padProperties = {
-				StyleHandle.MARGIN_TOP_PROP,
-				StyleHandle.MARGIN_BOTTOM_PROP,
-				StyleHandle.MARGIN_LEFT_PROP,
-				StyleHandle.MARGIN_RIGHT_PROP
-		};
-		String[] padIDs = {
-				PageSectionId.ITEM_MARGIN_TOP,
-				PageSectionId.ITEM_MARGIN_BOTTOM,
-				PageSectionId.ITEM_MARGIN_LEFT,
-				PageSectionId.ITEM_MARGIN_RIGHT
-		};
+		String[] padProperties = { StyleHandle.MARGIN_TOP_PROP, StyleHandle.MARGIN_BOTTOM_PROP,
+				StyleHandle.MARGIN_LEFT_PROP, StyleHandle.MARGIN_RIGHT_PROP };
+		String[] padIDs = { PageSectionId.ITEM_MARGIN_TOP, PageSectionId.ITEM_MARGIN_BOTTOM,
+				PageSectionId.ITEM_MARGIN_LEFT, PageSectionId.ITEM_MARGIN_RIGHT };
 
-		for ( int i = 0; i < padProperties.length; i++ )
-		{
-			MarignPropertyDescriptorProvider provider = new MarignPropertyDescriptorProvider( padProperties[i],
-					ReportDesignConstants.STYLE_ELEMENT );
-			provider.enableReset( true );
-			MarignSection marginSection = new MarignSection( provider.getDisplayName( ),
-					container,
-					true );
-			marginSection.setProvider( provider );
-			marginSection.setGridPlaceholder( 3, true );
+		for (int i = 0; i < padProperties.length; i++) {
+			MarignPropertyDescriptorProvider provider = new MarignPropertyDescriptorProvider(padProperties[i],
+					ReportDesignConstants.STYLE_ELEMENT);
+			provider.enableReset(true);
+			MarignSection marginSection = new MarignSection(provider.getDisplayName(), container, true);
+			marginSection.setProvider(provider);
+			marginSection.setGridPlaceholder(3, true);
 			// marginSection.setWidth( 400 );
-			addSection( padIDs[i], marginSection );
+			addSection(padIDs[i], marginSection);
 		}
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
 
 }

@@ -12,8 +12,8 @@
 package org.eclipse.birt.chart.model.attribute;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Series Value</b></em>'. <!-- end-user-doc
- * -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Series
+ * Value</b></em>'. <!-- end-user-doc -->
  * 
  * <!-- begin-model-doc -->
  * 
@@ -24,7 +24,8 @@ package org.eclipse.birt.chart.model.attribute;
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.SeriesValue#getName <em>Name</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.SeriesValue#getName
+ * <em>Name</em>}</li>
  * </ul>
  * </p>
  * 
@@ -32,16 +33,15 @@ package org.eclipse.birt.chart.model.attribute;
  * @model
  * @generated
  */
-public interface SeriesValue extends ActionValue
-{
+public interface SeriesValue extends ActionValue {
 
 	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Attribute "Name" specifies the name for the series definition.
-	 * 							
+	 * Returns the value of the '<em><b>Name</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
+	 * "Name" specifies the name for the series definition.
+	 * 
 	 * <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getSeriesValue_Name()
@@ -49,20 +49,22 @@ public interface SeriesValue extends ActionValue
 	 *        extendedMetaData="kind='element' name='Name'"
 	 * @generated
 	 */
-	String getName( );
+	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.SeriesValue#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.attribute.SeriesValue#getName
+	 * <em>Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated
 	 */
-	void setName( String value );
+	void setName(String value);
 
 	/**
 	 * @generated
 	 */
-	SeriesValue copyInstance( );
+	SeriesValue copyInstance();
 
 } // SeriesValue

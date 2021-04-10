@@ -16,36 +16,24 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 /**
  * CrosstabEventHandlerAdapter
  */
-public class CrosstabEventHandlerAdapter implements ICrosstabEventHandler
-{
+public class CrosstabEventHandlerAdapter implements ICrosstabEventHandler {
 
-	public void onPrepareCrosstab( ICrosstab crosstab,
-			IReportContext reportContext )
-	{
+	public void onPrepareCrosstab(ICrosstab crosstab, IReportContext reportContext) {
 	}
 
-	public void onPrepareCell( ICrosstabCell cell, IReportContext reportContext )
-	{
+	public void onPrepareCell(ICrosstabCell cell, IReportContext reportContext) {
 	}
 
-	public void onCreateCrosstab( ICrosstabInstance crosstab,
-			IReportContext reportContext )
-	{
+	public void onCreateCrosstab(ICrosstabInstance crosstab, IReportContext reportContext) {
 	}
 
-	public void onCreateCell( ICrosstabCellInstance cell,
-			IReportContext reportContext )
-	{
+	public void onCreateCell(ICrosstabCellInstance cell, IReportContext reportContext) {
 	}
 
-	public void onRenderCrosstab( ICrosstabInstance crosstab,
-			IReportContext reportContext )
-	{
+	public void onRenderCrosstab(ICrosstabInstance crosstab, IReportContext reportContext) {
 	}
 
-	public void onRenderCell( ICrosstabCellInstance cell,
-			IReportContext reportContext )
-	{
+	public void onRenderCell(ICrosstabCellInstance cell, IReportContext reportContext) {
 	}
 
 	// public void onCrosstabPageBreak( ICrosstabInstance crosstab,

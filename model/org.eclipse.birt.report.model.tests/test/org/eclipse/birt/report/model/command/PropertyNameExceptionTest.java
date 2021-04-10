@@ -26,8 +26,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * Tests the error messages defined by PropertyNameException.
  */
 
-public class PropertyNameExceptionTest extends BaseTestCase
-{
+public class PropertyNameExceptionTest extends BaseTestCase {
 
 	/**
 	 * Tests the error message.
@@ -35,43 +34,36 @@ public class PropertyNameExceptionTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testErrorMessages( ) throws Exception
-	{
+	public void testErrorMessages() throws Exception {
 
-		DesignElement table = new TableItem( );
-		os = new ByteArrayOutputStream( );
-		table.setName( "customerTable" ); //$NON-NLS-1$
+		DesignElement table = new TableItem();
+		os = new ByteArrayOutputStream();
+		table.setName("customerTable"); //$NON-NLS-1$
 
-		Structure customColor = new CustomColor( );
-		customColor.setProperty( CustomColor.NAME_MEMBER, "Color1" ); //$NON-NLS-1$
+		Structure customColor = new CustomColor();
+		customColor.setProperty(CustomColor.NAME_MEMBER, "Color1"); //$NON-NLS-1$
 
-		PropertyNameException error = new PropertyNameException( table,
-				GridItem.BOOKMARK_PROP );
-		print( error );
+		PropertyNameException error = new PropertyNameException(table, GridItem.BOOKMARK_PROP);
+		print(error);
 
-		error = new PropertyNameException( table, customColor,
-				CustomColor.COLOR_MEMBER );
-		print( error );
+		error = new PropertyNameException(table, customColor, CustomColor.COLOR_MEMBER);
+		print(error);
 
-		os.close( );
+		os.close();
 
-		assertTrue( compareFile( "PropertyNameExceptionError.golden.txt" ) ); //$NON-NLS-1$
+		assertTrue(compareFile("PropertyNameExceptionError.golden.txt")); //$NON-NLS-1$
 
 	}
 
-	private void print( PropertyNameException error )
-	{
-		String code = error.getErrorCode( );
-		try
-		{
-			os.write( code.getBytes( ) );
-			for ( int i = code.length( ); i < 60; i++ )
-				os.write( ' ' );
-			os.write( error.getMessage( ).getBytes( ) );
-			os.write( '\n' );
-		}
-		catch ( IOException e )
-		{
+	private void print(PropertyNameException error) {
+		String code = error.getErrorCode();
+		try {
+			os.write(code.getBytes());
+			for (int i = code.length(); i < 60; i++)
+				os.write(' ');
+			os.write(error.getMessage().getBytes());
+			os.write('\n');
+		} catch (IOException e) {
 			assert false;
 		}
 	}

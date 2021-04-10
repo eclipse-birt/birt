@@ -14,13 +14,12 @@ package org.eclipse.birt.report.debug.internal.core.vm;
 /**
  * VMValue
  */
-public interface VMValue
-{
+public interface VMValue {
 
-	String getTypeName( );
+	String getTypeName();
 
-	String getValueString( );
+	String getValueString();
 
-	VMVariable[] getMembers( );
+	VMVariable[] getMembers();
 
 }

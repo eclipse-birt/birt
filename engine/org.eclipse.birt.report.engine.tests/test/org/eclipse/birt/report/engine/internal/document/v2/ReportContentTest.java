@@ -13,32 +13,26 @@ package org.eclipse.birt.report.engine.internal.document.v2;
 
 import org.eclipse.birt.report.engine.EngineCase;
 
-public class ReportContentTest extends EngineCase
-{
+public class ReportContentTest extends EngineCase {
 
 	final static String REPORT_DOCUMENT_NAME = ".internal.test.rptdocument";
 
-	public void setUp( )
-	{
-		removeFile( REPORT_DOCUMENT_NAME );
+	public void setUp() {
+		removeFile(REPORT_DOCUMENT_NAME);
 	}
 
-	public void tearDown( )
-	{
-		removeFile( REPORT_DOCUMENT_NAME );
+	public void tearDown() {
+		removeFile(REPORT_DOCUMENT_NAME);
 	}
 
-	public void testReportContentStream( ) throws Exception
-	{
-		doWrite( );
-		doRead( );
+	public void testReportContentStream() throws Exception {
+		doWrite();
+		doRead();
 	}
 
-	protected void doWrite( ) throws Exception
-	{
+	protected void doWrite() throws Exception {
 	}
 
-	protected void doRead( ) throws Exception
-	{
+	protected void doRead() throws Exception {
 	}
 }

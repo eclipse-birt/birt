@@ -18,55 +18,46 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-public class ChangeDataColumnAction extends AbstractElementAction
-{
+public class ChangeDataColumnAction extends AbstractElementAction {
 
-	private static final String DEFAULT_TEXT = Messages.getString( "ChangeDataColumnAction.text" ); //$NON-NLS-1$	
+	private static final String DEFAULT_TEXT = Messages.getString("ChangeDataColumnAction.text"); //$NON-NLS-1$
 
-	public ChangeDataColumnAction( Object selectedObject )
-	{
-		super( selectedObject, DEFAULT_TEXT );
+	public ChangeDataColumnAction(Object selectedObject) {
+		super(selectedObject, DEFAULT_TEXT);
 	}
 
-	public ChangeDataColumnAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
+	public ChangeDataColumnAction(Object selectedObject, String text) {
+		super(selectedObject, text);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#doAction()
 	 */
-	protected boolean doAction( ) throws Exception
-	{
-		if ( getSelectedElement( ) == null )
-		{
+	protected boolean doAction() throws Exception {
+		if (getSelectedElement() == null) {
 			return false;
 		}
 
-		return ProviderFactory.createProvider( getSelectedElement( ) )
-				.performRequest( getSelectedElement( ),
-						new Request( IRequestConstants.REQUEST_CHANGE_DATA_COLUMN ) );
+		return ProviderFactory.createProvider(getSelectedElement()).performRequest(getSelectedElement(),
+				new Request(IRequestConstants.REQUEST_CHANGE_DATA_COLUMN));
 	}
 
 	/**
 	 * @return the model of selected GUI object.
 	 */
-	ReportElementHandle getSelectedElement( )
-	{
-		Object obj = super.getSelection( );
-		if ( obj instanceof IStructuredSelection )
-		{
+	ReportElementHandle getSelectedElement() {
+		Object obj = super.getSelection();
+		if (obj instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection) obj;
-			if ( selection.size( ) != 1 )
-			{// multiple selection
+			if (selection.size() != 1) {// multiple selection
 				return null;
 			}
-			obj = selection.getFirstElement( );
+			obj = selection.getFirstElement();
 		}
-		if ( obj instanceof ReportElementHandle )
-		{
+		if (obj instanceof ReportElementHandle) {
 			return (ReportElementHandle) obj;
 		}
 		return null;

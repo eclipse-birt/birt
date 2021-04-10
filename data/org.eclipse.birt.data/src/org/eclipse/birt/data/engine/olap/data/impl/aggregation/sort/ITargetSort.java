@@ -17,19 +17,18 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
  * 
  */
 
-public interface ITargetSort
-{
+public interface ITargetSort {
 
 	/**
 	 * 
 	 * @return
 	 */
-	public abstract DimLevel getTargetLevel( );
+	public abstract DimLevel getTargetLevel();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public abstract int getSortDirection( );
+	public abstract int getSortDirection();
 
 }

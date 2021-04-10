@@ -29,27 +29,21 @@ import org.eclipse.ui.PlatformUI;
  * CascadingParameterGroupNodeProvider.
  */
 
-public class CascadingParameterGroupNodeProvider extends DefaultNodeProvider
-{
+public class CascadingParameterGroupNodeProvider extends DefaultNodeProvider {
 
-	public CascadingParameterGroupNodeProvider( )
-	{
-		super( );
+	public CascadingParameterGroupNodeProvider() {
+		super();
 	}
 
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		super.createContextMenu( sourceViewer, object, menu );
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		super.createContextMenu(sourceViewer, object, menu);
 
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-				new EditAction( object,
-						Messages.getString( "ParameterGroupNodeProvider.Action.ParameterEdit" ) ) ); //$NON-NLS-1$
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS,
+				new EditAction(object, Messages.getString("ParameterGroupNodeProvider.Action.ParameterEdit"))); //$NON-NLS-1$
 
 	}
 
-	public String getIconName( Object model )
-	{
+	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_ELEMENT_PARAMETER_GROUP;
 //		if ( !DEUtil.isLinkedElement( (DesignElementHandle)model ) )
 //		{
@@ -60,25 +54,21 @@ public class CascadingParameterGroupNodeProvider extends DefaultNodeProvider
 //		}
 	}
 
-	protected DesignElementHandle createElement( String type ) throws Exception
-	{
+	protected DesignElementHandle createElement(String type) throws Exception {
 		return null;
 	}
 
-	public Object[] getChildren( Object model )
-	{
-		return getChildrenBySlotHandle( ( (CascadingParameterGroupHandle) model ).getParameters( ) );
+	public Object[] getChildren(Object model) {
+		return getChildrenBySlotHandle(((CascadingParameterGroupHandle) model).getParameters());
 	}
 
-	protected boolean performEdit( ReportElementHandle handle )
-	{
-		CascadingParametersDialog dialog = new CascadingParametersDialog( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ),
-				Messages.getString("ParameterNodeProvider.dial.title.editCascading") ); //$NON-NLS-1$
+	protected boolean performEdit(ReportElementHandle handle) {
+		CascadingParametersDialog dialog = new CascadingParametersDialog(
+				PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				Messages.getString("ParameterNodeProvider.dial.title.editCascading")); //$NON-NLS-1$
 
-		dialog.setInput( handle );
+		dialog.setInput(handle);
 
-		return dialog.open( ) == Dialog.OK;
+		return dialog.open() == Dialog.OK;
 	}
 }

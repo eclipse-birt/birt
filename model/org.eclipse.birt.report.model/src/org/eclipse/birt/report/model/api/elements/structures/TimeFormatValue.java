@@ -20,48 +20,39 @@ import org.eclipse.birt.report.model.api.StructureHandle;
  * 
  */
 
-public class TimeFormatValue extends FormatValue
-{
+public class TimeFormatValue extends FormatValue {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public static final String FORMAT_VALUE_STRUCT = "TimeFormatValue"; //$NON-NLS-1$
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return FORMAT_VALUE_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
-	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
+	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		assert false;
 		return null;
 	}
 
 	/**
-	 * Return an <code>FormatValueHandle</code> to deal with the date-time
-	 * format.
+	 * Return an <code>FormatValueHandle</code> to deal with the date-time format.
 	 * 
-	 * @param valueHandle
-	 *            the property or member handle
+	 * @param valueHandle the property or member handle
 	 * @return the structure handle
 	 * 
 	 */
 
-	public StructureHandle getHandle( SimpleValueHandle valueHandle )
-	{
-		return new FormatValueHandle( valueHandle.getElementHandle( ),
-				getContext( ) );
+	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
+		return new FormatValueHandle(valueHandle.getElementHandle(), getContext());
 	}
 }

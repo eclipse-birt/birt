@@ -83,8 +83,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 /**
  * A class used to create script event handlers
  */
-public class ScriptExecutor
-{
+public class ScriptExecutor {
 
 	public static final String PROPERTYSEPARATOR = EngineConstants.PROPERTYSEPARATOR;
 
@@ -94,122 +93,91 @@ public class ScriptExecutor
 
 	public static final String PROJECT_CLASSPATH_KEY = EngineConstants.PROJECT_CLASSPATH_KEY;
 
-	protected static Logger log = Logger.getLogger( ScriptExecutor.class
-			.getName( ) );
+	protected static Logger log = Logger.getLogger(ScriptExecutor.class.getName());
 
-	private static ScriptChecker scriptChecker = new ScriptChecker( );
+	private static ScriptChecker scriptChecker = new ScriptChecker();
 
-	protected static ScriptStatus handleScript( Object scope,
-			Expression expr, ExecutionContext context ) throws BirtException
-	{
-		return handleScriptInternal( scope, expr, context );
+	protected static ScriptStatus handleScript(Object scope, Expression expr, ExecutionContext context)
+			throws BirtException {
+		return handleScriptInternal(scope, expr, context);
 	}
 
-	private static ScriptStatus handleScriptInternal( Object scope,
-			Expression expr, ExecutionContext context ) throws BirtException
-	{
-		if ( expr != null )
-		{
-			try
-			{
-				if ( scope != null )
-					context.newScope( scope );
+	private static ScriptStatus handleScriptInternal(Object scope, Expression expr, ExecutionContext context)
+			throws BirtException {
+		if (expr != null) {
+			try {
+				if (scope != null)
+					context.newScope(scope);
 				Object result = null;
-				result = context.evaluate( expr );
-				return new ScriptStatus( true, result );
-			} finally
-			{
-				if ( scope != null )
-					context.exitScope( );
+				result = context.evaluate(expr);
+				return new ScriptStatus(true, result);
+			} finally {
+				if (scope != null)
+					context.exitScope();
 			}
 		}
 		return ScriptStatus.NO_RUN;
 	}
-	
-	protected static boolean needOnCreate( ReportItemDesign design )
-	{
-		if ( design == null )
-		{
+
+	protected static boolean needOnCreate(ReportItemDesign design) {
+		if (design == null) {
 			return false;
 		}
-		return design.getOnCreate( ) != null || design.getJavaClass( ) != null;
+		return design.getOnCreate() != null || design.getJavaClass() != null;
 	}
-	
-	protected static boolean needOnRender( ReportItemDesign design )
-	{
-		if ( design == null )
-		{
+
+	protected static boolean needOnRender(ReportItemDesign design) {
+		if (design == null) {
 			return false;
 		}
-		return design.getOnRender( ) != null || design.getJavaClass( ) != null;
+		return design.getOnRender() != null || design.getJavaClass() != null;
 	}
-	
-	public static boolean needOnPageBreak( ReportItemDesign design,
-	        ExecutionContext context )
-	{
-		if ( design == null )
-		{
+
+	public static boolean needOnPageBreak(ReportItemDesign design, ExecutionContext context) {
+		if (design == null) {
 			return false;
 		}
-		if ( design instanceof ExtendedItemDesign )
-		{
+		if (design instanceof ExtendedItemDesign) {
 			return false;
 		}
-		if ( design.getOnPageBreak( ) != null )
-		{
+		if (design.getOnPageBreak() != null) {
 			return true;
 		}
-		String javaClass = design.getJavaClass( );
-		if ( javaClass == null )
-		{
+		String javaClass = design.getJavaClass();
+		if (javaClass == null) {
 			return false;
 		}
-		Object extensionData = design.getExtensionData( );
-		if ( extensionData != null )
-		{
+		Object extensionData = design.getExtensionData();
+		if (extensionData != null) {
 			return (Boolean) extensionData;
 		}
 		// design.getJavaClass() must not be null here.
-		EventHandlerManager eventHandlerManager = context
-		        .getEventHandlerManager( );
+		EventHandlerManager eventHandlerManager = context.getEventHandlerManager();
 		Class<?> clazz = null;
 		boolean result = false;
-		try
-		{
-			clazz = eventHandlerManager.loadClass( javaClass, context );
-			result = (Boolean) design.accept( scriptChecker, clazz );
+		try {
+			clazz = eventHandlerManager.loadClass(javaClass, context);
+			result = (Boolean) design.accept(scriptChecker, clazz);
+		} catch (EngineException e) {
+			e.printStackTrace();
 		}
-		catch ( EngineException e )
-		{
-			e.printStackTrace( );
-		}
-		design.setExtensionData( result );
+		design.setExtensionData(result);
 		return result;
 	}
 
-	protected static Object getInstance( DesignElementHandle handle,
-			ExecutionContext context ) throws EngineException
-	{
-		EventHandlerManager eventHandlerManager = context
-				.getEventHandlerManager( );
-		return eventHandlerManager.getInstance( handle, context );
+	protected static Object getInstance(DesignElementHandle handle, ExecutionContext context) throws EngineException {
+		EventHandlerManager eventHandlerManager = context.getEventHandlerManager();
+		return eventHandlerManager.getInstance(handle, context);
 	}
 
-	protected static Object getInstance( String className,
-			ExecutionContext context ) throws EngineException
-	{
-		EventHandlerManager eventHandlerManager = context
-				.getEventHandlerManager( );
-		return eventHandlerManager.getInstance( className, context );
+	protected static Object getInstance(String className, ExecutionContext context) throws EngineException {
+		EventHandlerManager eventHandlerManager = context.getEventHandlerManager();
+		return eventHandlerManager.getInstance(className, context);
 	}
 
-	protected static Object getInstance( ReportItemDesign design,
-			ExecutionContext context ) throws EngineException
-	{
-		EventHandlerManager eventHandlerManager = context
-				.getEventHandlerManager( );
-		return eventHandlerManager.getInstance( design,
-				context );
+	protected static Object getInstance(ReportItemDesign design, ExecutionContext context) throws EngineException {
+		EventHandlerManager eventHandlerManager = context.getEventHandlerManager();
+		return eventHandlerManager.getInstance(design, context);
 	}
 
 	/*
@@ -218,235 +186,165 @@ public class ScriptExecutor
 	 * addException( context, e, MessageConstants.SCRIPT_CLASS_CAST_ERROR, new
 	 * Object[] { className, requiredInterface.getName( ) } ); }
 	 */
-	protected static void addClassCastException( ExecutionContext context,
-			Exception e, DesignElementHandle handle, Class requiredInterface )
-	{
-		EngineException ex = new EngineException(
-				MessageConstants.SCRIPT_CLASS_CAST_ERROR, new Object[]{
-						handle.getEventHandlerClass( ),
-						requiredInterface.getName( )}, e );
+	protected static void addClassCastException(ExecutionContext context, Exception e, DesignElementHandle handle,
+			Class requiredInterface) {
+		EngineException ex = new EngineException(MessageConstants.SCRIPT_CLASS_CAST_ERROR,
+				new Object[] { handle.getEventHandlerClass(), requiredInterface.getName() }, e);
 
-		log.log( Level.WARNING, e.getMessage( ), e );
-		if ( context == null )
+		log.log(Level.WARNING, e.getMessage(), e);
+		if (context == null)
 			return;
 
-		context.addException( handle, ex );
+		context.addException(handle, ex);
 	}
 
-	protected static void addException( ExecutionContext context, Exception e )
-	{
-		addException( context, e, null );
+	protected static void addException(ExecutionContext context, Exception e) {
+		addException(context, e, null);
 	}
-	
-	protected static void addException( ExecutionContext context, Exception e,
-			DesignElementHandle handle )
-	{
+
+	protected static void addException(ExecutionContext context, Exception e, DesignElementHandle handle) {
 		EngineException eex = null;
-		if ( e instanceof EngineException )
+		if (e instanceof EngineException)
 			eex = (EngineException) e;
-		else if ( e instanceof BirtException )
-		{
-			eex = new EngineException( (BirtException) e );
+		else if (e instanceof BirtException) {
+			eex = new EngineException((BirtException) e);
+		} else {
+			eex = new EngineException(MessageConstants.UNHANDLED_SCRIPT_ERROR, e);
 		}
-		else
-		{
-			eex = new EngineException( MessageConstants.UNHANDLED_SCRIPT_ERROR,
-					e );
-		}
-		
-		log.log( Level.WARNING, eex.getMessage( ), eex );
-		if ( context == null )
+
+		log.log(Level.WARNING, eex.getMessage(), eex);
+		if (context == null)
 			return;
-		
-		if( handle == null )
-			context.addException( eex );
+
+		if (handle == null)
+			context.addException(eex);
 		else
-			context.addException( handle, eex );
+			context.addException(handle, eex);
 	}
-	
-	protected static class ScriptStatus
-	{
+
+	protected static class ScriptStatus {
 		private boolean didRun;
 
 		private Object result;
 
-		public static final ScriptStatus NO_RUN = new ScriptStatus( false,
-				null );
+		public static final ScriptStatus NO_RUN = new ScriptStatus(false, null);
 
-		public ScriptStatus( boolean didRun, Object result )
-		{
+		public ScriptStatus(boolean didRun, Object result) {
 			this.didRun = didRun;
 			this.result = result;
 		}
 
-		public boolean didRun( )
-		{
+		public boolean didRun() {
 			return didRun;
 		}
 
-		public Object result( )
-		{
+		public Object result() {
 			return result;
 		}
 	}
 
-	private static class ScriptChecker extends DefaultReportItemVisitorImpl
-	{
+	private static class ScriptChecker extends DefaultReportItemVisitorImpl {
 
 		@Override
-		public Object visitListItem( ListItemDesign list, Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               IListEventHandler.class,
-			                               IListInstance.class,
-			                               ListEventAdapter.class );
+		public Object visitListItem(ListItemDesign list, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, IListEventHandler.class, IListInstance.class,
+					ListEventAdapter.class);
 		}
 
 		@Override
-		public Object visitTextItem( TextItemDesign text, Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               ITextItemEventHandler.class,
-			                               ITextItemInstance.class,
-			                               TextItemEventAdapter.class );
+		public Object visitTextItem(TextItemDesign text, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, ITextItemEventHandler.class, ITextItemInstance.class,
+					TextItemEventAdapter.class);
 		}
 
 		@Override
-		public Object visitLabelItem( LabelItemDesign label, Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               ILabelEventHandler.class,
-			                               ILabelInstance.class,
-			                               LabelEventAdapter.class );
+		public Object visitLabelItem(LabelItemDesign label, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, ILabelEventHandler.class, ILabelInstance.class,
+					LabelEventAdapter.class);
 		}
 
 		@Override
-		public Object visitAutoTextItem( AutoTextItemDesign autoText,
-		        Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               IAutoTextEventHandler.class,
-			                               IAutoTextInstance.class,
-			                               AutoTextEventAdapter.class );
+		public Object visitAutoTextItem(AutoTextItemDesign autoText, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, IAutoTextEventHandler.class, IAutoTextInstance.class,
+					AutoTextEventAdapter.class);
 		}
 
 		@Override
-		public Object visitDataItem( DataItemDesign data, Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               IDataItemEventHandler.class,
-			                               IDataItemInstance.class,
-			                               DataItemEventAdapter.class );
+		public Object visitDataItem(DataItemDesign data, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, IDataItemEventHandler.class, IDataItemInstance.class,
+					DataItemEventAdapter.class);
 		}
 
 		@Override
-		public Object visitDynamicTextItem( DynamicTextItemDesign multiLine,
-		        Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               IDynamicTextEventHandler.class,
-			                               IDynamicTextInstance.class,
-			                               DynamicTextEventAdapter.class );
+		public Object visitDynamicTextItem(DynamicTextItemDesign multiLine, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, IDynamicTextEventHandler.class, IDynamicTextInstance.class,
+					DynamicTextEventAdapter.class);
 		}
 
 		@Override
-		public Object visitGridItem( GridItemDesign grid, Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               IGridEventHandler.class,
-			                               IGridInstance.class,
-			                               GridEventAdapter.class );
+		public Object visitGridItem(GridItemDesign grid, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, IGridEventHandler.class, IGridInstance.class,
+					GridEventAdapter.class);
 		}
 
 		@Override
-		public Object visitTableItem( TableItemDesign table, Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               ITableEventHandler.class,
-			                               ITableInstance.class,
-			                               TableEventAdapter.class );
+		public Object visitTableItem(TableItemDesign table, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, ITableEventHandler.class, ITableInstance.class,
+					TableEventAdapter.class);
 		}
 
 		@Override
-		public Object visitImageItem( ImageItemDesign image, Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               IImageEventHandler.class,
-			                               IImageInstance.class,
-			                               ImageEventAdapter.class );
+		public Object visitImageItem(ImageItemDesign image, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, IImageEventHandler.class, IImageInstance.class,
+					ImageEventAdapter.class);
 		}
 
 		@Override
-		public Object visitRow( RowDesign row, Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               IRowEventHandler.class,
-			                               IRowInstance.class,
-			                               RowEventAdapter.class );
+		public Object visitRow(RowDesign row, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, IRowEventHandler.class, IRowInstance.class,
+					RowEventAdapter.class);
 		}
 
 		@Override
-		public Object visitCell( CellDesign cell, Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               ICellEventHandler.class,
-			                               ICellInstance.class,
-			                               CellEventAdapter.class );
+		public Object visitCell(CellDesign cell, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, ICellEventHandler.class, ICellInstance.class,
+					CellEventAdapter.class);
 		}
 
 		@Override
-		public Object visitTemplate( TemplateDesign template, Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               ITextItemEventHandler.class,
-			                               ITextItemInstance.class,
-			                               TextItemEventAdapter.class );
+		public Object visitTemplate(TemplateDesign template, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, ITextItemEventHandler.class, ITextItemInstance.class,
+					TextItemEventAdapter.class);
 		}
 
 		@Override
-		public Object visitListGroup( ListGroupDesign group, Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               IListGroupEventHandler.class,
-			                               IReportElementInstance.class,
-			                               ListGroupEventAdapter.class );
+		public Object visitListGroup(ListGroupDesign group, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, IListGroupEventHandler.class, IReportElementInstance.class,
+					ListGroupEventAdapter.class);
 		}
 
 		@Override
-		public Object visitTableGroup( TableGroupDesign group, Object value )
-		{
-			return checkOnPageBreakMethod( (Class<?>) value,
-			                               ITableGroupEventHandler.class,
-			                               IReportElementInstance.class,
-			                               TableGroupEventAdapter.class );
+		public Object visitTableGroup(TableGroupDesign group, Object value) {
+			return checkOnPageBreakMethod((Class<?>) value, ITableGroupEventHandler.class, IReportElementInstance.class,
+					TableGroupEventAdapter.class);
 		}
 
-		public Object visitReportItem( ReportItemDesign item, Object value )
-		{
+		public Object visitReportItem(ReportItemDesign item, Object value) {
 			return false;
 		}
 
-		public Object checkOnPageBreakMethod( Class<?> clazz, Class<?> handler,
-		        Class<?> instance, Class<?> adapter )
-		{
-			if ( !handler.isAssignableFrom( clazz ) )
-			{
+		public Object checkOnPageBreakMethod(Class<?> clazz, Class<?> handler, Class<?> instance, Class<?> adapter) {
+			if (!handler.isAssignableFrom(clazz)) {
 				return false;
 			}
-			try
-			{
-				Method method = clazz.getMethod( "onPageBreak", instance,
-				                                 IReportContext.class );
-				return method.getDeclaringClass( ) != adapter;
-			}
-			catch ( SecurityException e )
-			{
+			try {
+				Method method = clazz.getMethod("onPageBreak", instance, IReportContext.class);
+				return method.getDeclaringClass() != adapter;
+			} catch (SecurityException e) {
 				// If checking the method is forbidden by security policy, the
 				// method has to be executed.
 				return true;
-			}
-			catch ( NoSuchMethodException e )
-			{
+			} catch (NoSuchMethodException e) {
 				return false;
 			}
 		}

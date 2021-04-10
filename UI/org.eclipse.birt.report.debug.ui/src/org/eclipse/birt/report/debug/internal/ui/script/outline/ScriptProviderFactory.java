@@ -22,36 +22,32 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * Factory to create node provider
  */
 
-public class ScriptProviderFactory
-{
-	static private DefaultNodeProvider defaultProvider = new DefaultNodeProvider( );
+public class ScriptProviderFactory {
+	static private DefaultNodeProvider defaultProvider = new DefaultNodeProvider();
 
 	/**
 	 * Gets the default provider
 	 * 
 	 * @return Returns the default provider
 	 */
-	public static DefaultNodeProvider getDefaultProvider( )
-	{
+	public static DefaultNodeProvider getDefaultProvider() {
 		return defaultProvider;
 	}
-	
+
 	/**
-	 * Create the  povider
+	 * Create the povider
+	 * 
 	 * @param object
 	 * @return
 	 */
-	public static INodeProvider createProvider( Object object )
-	{
-		if (object instanceof ReportDesignHandle)
-		{
+	public static INodeProvider createProvider(Object object) {
+		if (object instanceof ReportDesignHandle) {
 			return new ScriptReportDesignNodeProvider();
 		}
-		if (object instanceof IScriptTreeNode)
-		{
+		if (object instanceof IScriptTreeNode) {
 			return new ScriptDebugTreeNodeProvider();
 		}
-			
-		return  getDefaultProvider( );
+
+		return getDefaultProvider();
 	}
 }

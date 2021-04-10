@@ -24,32 +24,24 @@ import org.eclipse.birt.data.engine.script.ScriptConstants;
  * 
  */
 
-public class SecuredDimension extends Dimension
-{
-	private static Logger logger = Logger.getLogger( Dimension.class.getName( ) );
+public class SecuredDimension extends Dimension {
+	private static Logger logger = Logger.getLogger(Dimension.class.getName());
 
 	private Set<String> inaccessibleLevels = new HashSet<String>();
 
-	SecuredDimension( String name, IDocumentManager documentManager, Set<String> notAccessibleLevels )
-			throws IOException, DataException
-	{
-		Object[] params = {
-				name, documentManager
-		};
-		logger.entering( SecuredDimension.class.getName( ),
-				ScriptConstants.DIMENSION_SCRIPTABLE,
-				params );
+	SecuredDimension(String name, IDocumentManager documentManager, Set<String> notAccessibleLevels)
+			throws IOException, DataException {
+		Object[] params = { name, documentManager };
+		logger.entering(SecuredDimension.class.getName(), ScriptConstants.DIMENSION_SCRIPTABLE, params);
 		this.name = name;
 		this.documentManager = documentManager;
 		this.inaccessibleLevels = notAccessibleLevels;
-		loadFromDisk( );
-		logger.exiting( SecuredDimension.class.getName( ),
-				ScriptConstants.DIMENSION_SCRIPTABLE );
-		
+		loadFromDisk();
+		logger.exiting(SecuredDimension.class.getName(), ScriptConstants.DIMENSION_SCRIPTABLE);
+
 	}
-	
-	protected Hierarchy loadHierarchy( String hierarchyName )
-	{
-		return new SecuredHierarchy( documentManager, name, hierarchyName, this.inaccessibleLevels );
+
+	protected Hierarchy loadHierarchy(String hierarchyName) {
+		return new SecuredHierarchy(documentManager, name, hierarchyName, this.inaccessibleLevels);
 	}
 }

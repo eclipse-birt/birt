@@ -23,38 +23,30 @@ import org.eclipse.birt.report.model.elements.olap.TabularDimension;
  * @see org.eclipse.birt.report.model.elements.olap.Dimension
  */
 
-public class TabularDimensionHandle extends DimensionHandle
-		implements
-			ITabularDimensionModel
-{
+public class TabularDimensionHandle extends DimensionHandle implements ITabularDimensionModel {
 
 	/**
-	 * Constructs a handle for the given design and design element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * Constructs a handle for the given design and design element. The application
+	 * generally does not create handles directly. Instead, it uses one of the
+	 * navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public TabularDimensionHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public TabularDimensionHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
-	
+
 	/**
 	 * Checks if this dimension is time type.
 	 */
-	public boolean isTimeType( ) 
-	{
-		DimensionHandle sharedDimension = getSharedDimension( );
-		if ( sharedDimension == null )
-			return getBooleanProperty( IS_TIME_TYPE_PROP );
-		else 
-		{
-			return sharedDimension.isTimeType( );
+	public boolean isTimeType() {
+		DimensionHandle sharedDimension = getSharedDimension();
+		if (sharedDimension == null)
+			return getBooleanProperty(IS_TIME_TYPE_PROP);
+		else {
+			return sharedDimension.isTimeType();
 		}
 	}
 
@@ -64,34 +56,28 @@ public class TabularDimensionHandle extends DimensionHandle
 	 * @return the dimension object
 	 */
 
-	public DimensionHandle getSharedDimension( )
-	{
-		DesignElement refDim = ( (TabularDimension) getElement( ) )
-				.getSharedDimension( module );
-		if ( refDim == null )
+	public DimensionHandle getSharedDimension() {
+		DesignElement refDim = ((TabularDimension) getElement()).getSharedDimension(module);
+		if (refDim == null)
 			return null;
 
-		return (DimensionHandle) refDim.getHandle( refDim.getRoot( ) );
+		return (DimensionHandle) refDim.getHandle(refDim.getRoot());
 	}
 
 	/**
 	 * Sets the dimension object this dimension refers to.
 	 * 
-	 * @param handle
-	 *            the dimension object
+	 * @param handle the dimension object
 	 * 
-	 * @throws SemanticException
-	 *             if the property is locked, or the dimension object is invalid
+	 * @throws SemanticException if the property is locked, or the dimension object
+	 *                           is invalid
 	 */
 
-	public void setSharedDimension( DimensionHandle handle )
-			throws SemanticException
-	{
-		if ( handle == null )
-			setStringProperty( INTERNAL_DIMENSION_RFF_TYPE_PROP, null );
-		else
-		{
-			setProperty( INTERNAL_DIMENSION_RFF_TYPE_PROP, handle );
+	public void setSharedDimension(DimensionHandle handle) throws SemanticException {
+		if (handle == null)
+			setStringProperty(INTERNAL_DIMENSION_RFF_TYPE_PROP, null);
+		else {
+			setProperty(INTERNAL_DIMENSION_RFF_TYPE_PROP, handle);
 		}
 	}
 

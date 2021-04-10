@@ -13,43 +13,39 @@ package org.eclipse.birt.report.engine.layout;
 
 import org.eclipse.birt.report.engine.layout.area.IArea;
 
-public interface ITextLayoutManager
-{
+public interface ITextLayoutManager {
 
 	/**
 	 * This method is for inline text only. If a inline text has a left or right
 	 * padding/border/margin, the space holders keeps space for the
 	 * padding/border/margin when layouting.
 	 * 
-	 * @param area
-	 *            the inline container which contains the padding/border/margin.
+	 * @param area the inline container which contains the padding/border/margin.
 	 */
-	public void addSpaceHolder( IArea area );
+	public void addSpaceHolder(IArea area);
 
 	/**
 	 * Tells the TextLayoutManager to add a line of text into its parent.
 	 * 
-	 * @param area
-	 *            for block text, it is the line of text itself. for inline
-	 *            text, it is the inline container which contains the line of
-	 *            text.
+	 * @param area for block text, it is the line of text itself. for inline text,
+	 *             it is the inline container which contains the line of text.
 	 */
-	public void addTextLine( IArea area );
+	public void addTextLine(IArea area);
 
 	/**
 	 * Tells the TextLayoutManager to start a new line.
 	 * 
 	 */
-	public void newLine( );
+	public void newLine();
 
 	/**
 	 * Returns the remain space available to add new areas in current line.
 	 */
-	public int getFreeSpace( );
+	public int getFreeSpace();
 
 	/**
-	 * Returns true if current text content exceeds current page; otherwise,
-	 * returns false.
+	 * Returns true if current text content exceeds current page; otherwise, returns
+	 * false.
 	 */
-	public boolean needPause( );
+	public boolean needPause();
 }

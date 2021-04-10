@@ -36,11 +36,9 @@ public final class DataTypes {
 	/**
 	 * Returns the data type code that represents the given type name.
 	 *
-	 * @param typeName
-	 *            a data type name
+	 * @param typeName a data type name
 	 * @return the data type code that represents the given type name
-	 * @throws OdaException
-	 *             If the given data type name is invalid
+	 * @throws OdaException If the given data type name is invalid
 	 */
 	public static int getTypeCode(String typeName) throws OdaException {
 		if (typeName == null || typeName.trim().length() == 0)
@@ -56,21 +54,18 @@ public final class DataTypes {
 
 		// get the data type definition from my plugin manifest for all other
 		// types
-		DataTypeMapping typeMapping = getManifest().getDataSetType(null)
-				.getDataTypeMapping(preparedTypeName);
+		DataTypeMapping typeMapping = getManifest().getDataSetType(null).getDataTypeMapping(preparedTypeName);
 		if (typeMapping != null)
 			return typeMapping.getNativeTypeCode();
 
-		throw new OdaException(Messages
-                .getString( "dataTypes_TYPE_NAME_INVALID" ) + typeName); //$NON-NLS-1$
+		throw new OdaException(Messages.getString("dataTypes_TYPE_NAME_INVALID") + typeName); //$NON-NLS-1$
 	}
 
 	/**
-	 * Evaluates whether the given data type name is a valid type supported by
-	 * this driver.
+	 * Evaluates whether the given data type name is a valid type supported by this
+	 * driver.
 	 *
-	 * @param typeName
-	 *            a data type name
+	 * @param typeName a data type name
 	 * @return true if the given data type name is supported by the driver
 	 */
 	public static boolean isValidType(String typeName) {
@@ -83,8 +78,7 @@ public final class DataTypes {
 		// types
 		DataTypeMapping typeMapping = null;
 		try {
-			typeMapping = getManifest().getDataSetType(null)
-					.getDataTypeMapping(preparedTypeName);
+			typeMapping = getManifest().getDataSetType(null).getDataTypeMapping(preparedTypeName);
 		} catch (OdaException e) {
 			// ignore
 		}
@@ -92,23 +86,20 @@ public final class DataTypes {
 		return (typeMapping != null);
 	}
 
-    /**
-     * Returns the native data type name of the specified code, as
-     * defined in this data source extension's manifest.
-     * @param nativeTypeCode    the native data type code
-     * @return                  corresponding native data type name
-     * @throws OdaException     if lookup fails
-     */
-    public static String getNativeDataTypeName( int nativeDataTypeCode )
-        throws OdaException
-    {
-        DataTypeMapping typeMapping =
-                            getManifest().getDataSetType( null )
-                                .getDataTypeMapping( nativeDataTypeCode );
-        if( typeMapping != null )
-            return typeMapping.getNativeType();
-        return "Non-defined";
-    }
+	/**
+	 * Returns the native data type name of the specified code, as defined in this
+	 * data source extension's manifest.
+	 * 
+	 * @param nativeTypeCode the native data type code
+	 * @return corresponding native data type name
+	 * @throws OdaException if lookup fails
+	 */
+	public static String getNativeDataTypeName(int nativeDataTypeCode) throws OdaException {
+		DataTypeMapping typeMapping = getManifest().getDataSetType(null).getDataTypeMapping(nativeDataTypeCode);
+		if (typeMapping != null)
+			return typeMapping.getNativeType();
+		return "Non-defined";
+	}
 
 	private DataTypes() {
 	}
@@ -119,8 +110,7 @@ public final class DataTypes {
 	 * @throws OdaException
 	 */
 	static ExtensionManifest getManifest() throws OdaException {
-		return ManifestExplorer.getInstance().getExtensionManifest(
-				EXCEL_DATA_SOURCE_ID);
+		return ManifestExplorer.getInstance().getExtensionManifest(EXCEL_DATA_SOURCE_ID);
 	}
 
 }

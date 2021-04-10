@@ -18,16 +18,13 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.IFilterUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 
-
-public class FilterUtil implements IFilterUtil
-{
+public class FilterUtil implements IFilterUtil {
 
 	/*
 	 * 
 	 */
-	public Map<String, List<String>> populatedNonPushdownableFilterOperators(
-			DataSetHandle dataSet, int filterType ) throws BirtException
-	{
-		throw new UnsupportedOperationException( );
+	public Map<String, List<String>> populatedNonPushdownableFilterOperators(DataSetHandle dataSet, int filterType)
+			throws BirtException {
+		throw new UnsupportedOperationException();
 	}
 }

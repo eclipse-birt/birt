@@ -12,25 +12,21 @@ import org.eclipse.birt.report.tests.engine.BaseEmitter;
 /**
  * <b>Test IColumn API methods</b>
  */
-public class IColumnTest extends BaseEmitter
-{
+public class IColumnTest extends BaseEmitter {
 
 	private String reportName = "IColumnTest.rptdesign";
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( reportName, reportName );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(reportName, reportName);
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
 
-	protected String getReportName( )
-	{
+	protected String getReportName() {
 		return reportName;
 	}
 
@@ -39,32 +35,27 @@ public class IColumnTest extends BaseEmitter
 	 * 
 	 * @throws EngineException
 	 */
-	public void testIColumn( ) throws EngineException
-	{
-		runandrender_emitter( EMITTER_HTML, false );
+	public void testIColumn() throws EngineException {
+		runandrender_emitter(EMITTER_HTML, false);
 	}
 
-	public void endTable( ITableContent table )
-	{
-		IColumn column = table.getColumn( 0 );
-		IStyle inStyle = column.getInlineStyle( );
+	public void endTable(ITableContent table) {
+		IColumn column = table.getColumn(0);
+		IStyle inStyle = column.getInlineStyle();
 		// TODO: find no way to set column inlinestyle.
-		assertEquals( "pdf", column.getVisibleFormat( ) );
+		assertEquals("pdf", column.getVisibleFormat());
 
-		assertTrue( column.hasDataItemsInDetail( ) );
-		assertEquals( 15, column.getInstanceID( ).getComponentID( ) );
-		assertTrue( column.getGenerateBy( ) instanceof ColumnDesign );
-		assertTrue( column.getWidth( ).getMeasure( ) == 1.5 );
-		assertEquals( "in", column.getWidth( ).getUnits( ) );
-		System.out.println( );
+		assertTrue(column.hasDataItemsInDetail());
+		assertEquals(15, column.getInstanceID().getComponentID());
+		assertTrue(column.getGenerateBy() instanceof ColumnDesign);
+		assertTrue(column.getWidth().getMeasure() == 1.5);
+		assertEquals("in", column.getWidth().getUnits());
+		System.out.println();
 
 	}
 
-	public void endCell( ICellContent cell )
-	{
-		assertEquals( "rgb(128, 128, 128)", cell
-				.getStyle( )
-				.getBackgroundColor( ) );
+	public void endCell(ICellContent cell) {
+		assertEquals("rgb(128, 128, 128)", cell.getStyle().getBackgroundColor());
 	}
 
 }

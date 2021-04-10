@@ -78,199 +78,176 @@ import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 import org.eclipse.birt.report.model.api.simpleapi.ITable;
 import org.eclipse.birt.report.model.api.simpleapi.ITextItem;
 
-public class ElementUtil
-{
+public class ElementUtil {
 
-	static InstanceBuilder instanceBuilder = new InstanceBuilder( );
+	static InstanceBuilder instanceBuilder = new InstanceBuilder();
 
-	public static class InstanceBuilder extends ContentVisitorAdapter
-	{
-		
+	public static class InstanceBuilder extends ContentVisitorAdapter {
+
 		private RunningState runningState;
 
-		public Object visit( IContent content, Object value )
-				throws BirtException
-		{
-			return content.accept( this, value );
+		public Object visit(IContent content, Object value) throws BirtException {
+			return content.accept(this, value);
 		}
 
-		public Object visitContent( IContent content, Object value )
-		{
+		public Object visitContent(IContent content, Object value) {
 			ExecutionContext context = (ExecutionContext) value;
-			return new ReportElementInstance( content, context, runningState );
+			return new ReportElementInstance(content, context, runningState);
 		}
 
-		public Object visitCell( ICellContent cell, Object value )
-		{
+		public Object visitCell(ICellContent cell, Object value) {
 			ExecutionContext context = (ExecutionContext) value;
-			return new CellInstance( cell, context, runningState, false );
+			return new CellInstance(cell, context, runningState, false);
 		}
 
-		public Object visitData( IDataContent data, Object value )
-		{
+		public Object visitData(IDataContent data, Object value) {
 			ExecutionContext context = (ExecutionContext) value;
-			return new DataItemInstance( data, context, runningState );
+			return new DataItemInstance(data, context, runningState);
 		}
 
-		public Object visitForeign( IForeignContent foreign, Object value )
-		{
+		public Object visitForeign(IForeignContent foreign, Object value) {
 			ExecutionContext context = (ExecutionContext) value;
-			if ( IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) )
-					|| IForeignContent.TEXT_TYPE.equals( foreign.getRawType( ) )
-					|| IForeignContent.TEMPLATE_TYPE.equals( foreign
-							.getRawType( ) ) )
-				return new TextItemInstance( foreign, context, runningState );
+			if (IForeignContent.HTML_TYPE.equals(foreign.getRawType())
+					|| IForeignContent.TEXT_TYPE.equals(foreign.getRawType())
+					|| IForeignContent.TEMPLATE_TYPE.equals(foreign.getRawType()))
+				return new TextItemInstance(foreign, context, runningState);
 			return null;
 		}
 
-		public Object visitImage( IImageContent image, Object value )
-		{
+		public Object visitImage(IImageContent image, Object value) {
 			ExecutionContext context = (ExecutionContext) value;
-			return new ImageInstance( image, context, runningState );
+			return new ImageInstance(image, context, runningState);
 		}
 
-		public Object visitLabel( ILabelContent label, Object value )
-		{
+		public Object visitLabel(ILabelContent label, Object value) {
 			ExecutionContext context = (ExecutionContext) value;
-			return new LabelInstance( label, context, runningState );
+			return new LabelInstance(label, context, runningState);
 
 		}
 
-		public Object visitList( IListContent list, Object value )
-		{
+		public Object visitList(IListContent list, Object value) {
 			ExecutionContext context = (ExecutionContext) value;
-			return new ListInstance( list, context, runningState );
+			return new ListInstance(list, context, runningState);
 		}
 
-		public Object visitRow( IRowContent row, Object value )
-		{
+		public Object visitRow(IRowContent row, Object value) {
 			ExecutionContext context = (ExecutionContext) value;
-			return new RowInstance( row, context, runningState );
+			return new RowInstance(row, context, runningState);
 		}
 
-		public Object visitTable( ITableContent table, Object value )
-		{
+		public Object visitTable(ITableContent table, Object value) {
 			ExecutionContext context = (ExecutionContext) value;
-			Object genBy = table.getGenerateBy( );
-			if ( genBy instanceof TableItemDesign )
-				return new TableInstance( table, context, runningState );
-			else if ( genBy instanceof GridItemDesign )
-				return new GridInstance( table, context, runningState );
+			Object genBy = table.getGenerateBy();
+			if (genBy instanceof TableItemDesign)
+				return new TableInstance(table, context, runningState);
+			else if (genBy instanceof GridItemDesign)
+				return new GridInstance(table, context, runningState);
 			return null;
 		}
 
-		public Object visitText( ITextContent text, Object value )
-		{
+		public Object visitText(ITextContent text, Object value) {
 			ExecutionContext context = (ExecutionContext) value;
-			return new TextItemInstance( text, context, runningState );
+			return new TextItemInstance(text, context, runningState);
 		}
 
-		public void setRunningState( RunningState runningState )
-		{
+		public void setRunningState(RunningState runningState) {
 			this.runningState = runningState;
 		}
 	};
 
-	public static IReportElementInstance getInstance( IElement element,
-			ExecutionContext context, RunningState runningState )
-			throws BirtException
-	{
-		if ( element == null )
+	public static IReportElementInstance getInstance(IElement element, ExecutionContext context,
+			RunningState runningState) throws BirtException {
+		if (element == null)
 			return null;
 
-		if ( element instanceof IContent )
-		{
-			instanceBuilder.setRunningState( runningState );
-			return (IReportElementInstance) instanceBuilder.visit(
-					(IContent) element, context );
+		if (element instanceof IContent) {
+			instanceBuilder.setRunningState(runningState);
+			return (IReportElementInstance) instanceBuilder.visit((IContent) element, context);
 		}
 		return null;
 	}
 
-	public static IDesignElement getElement( DesignElementHandle element )
-	{
-		if ( element == null )
+	public static IDesignElement getElement(DesignElementHandle element) {
+		if (element == null)
 			return null;
-		if ( element instanceof ReportDesignHandle )
-			return new ReportDesign( (ReportDesignHandle) element );
+		if (element instanceof ReportDesignHandle)
+			return new ReportDesign((ReportDesignHandle) element);
 
-		if ( !( element instanceof ReportElementHandle ) )
+		if (!(element instanceof ReportElementHandle))
 			return null;
 
-		if ( element instanceof DataItemHandle )
-			return new DataItem( (DataItemHandle) element );
+		if (element instanceof DataItemHandle)
+			return new DataItem((DataItemHandle) element);
 
-		if ( element instanceof GridHandle )
-			return new Grid( (GridHandle) element );
+		if (element instanceof GridHandle)
+			return new Grid((GridHandle) element);
 
-		if ( element instanceof ImageHandle )
-			return new Image( (ImageHandle) element );
+		if (element instanceof ImageHandle)
+			return new Image((ImageHandle) element);
 
-		if ( element instanceof LabelHandle )
-			return new Label( (LabelHandle) element );
+		if (element instanceof LabelHandle)
+			return new Label((LabelHandle) element);
 
-		if ( element instanceof ListHandle )
-			return new List( (ListHandle) element );
+		if (element instanceof ListHandle)
+			return new List((ListHandle) element);
 
-		if ( element instanceof TableHandle )
-			return new Table( (TableHandle) element );
+		if (element instanceof TableHandle)
+			return new Table((TableHandle) element);
 
-		if ( element instanceof TextDataHandle )
-			return new DynamicText( (TextDataHandle) element );
-		
-		if ( element instanceof MasterPageHandle )
-			return new MasterPage( (MasterPageHandle) element );
+		if (element instanceof TextDataHandle)
+			return new DynamicText((TextDataHandle) element);
 
-		if ( element instanceof TextItemHandle )
-			return new TextItem( (TextItemHandle) element );
+		if (element instanceof MasterPageHandle)
+			return new MasterPage((MasterPageHandle) element);
 
-		return new ReportElement( (ReportElementHandle) element );
+		if (element instanceof TextItemHandle)
+			return new TextItem((TextItemHandle) element);
+
+		return new ReportElement((ReportElementHandle) element);
 
 	}
 
-	public static IDesignElement getElement(
-			org.eclipse.birt.report.model.api.simpleapi.IDesignElement element )
-	{
-		if ( element == null )
+	public static IDesignElement getElement(org.eclipse.birt.report.model.api.simpleapi.IDesignElement element) {
+		if (element == null)
 			return null;
 
-		if ( element instanceof IReportDesign )
-			return new ReportDesign( (IReportDesign) element );
+		if (element instanceof IReportDesign)
+			return new ReportDesign((IReportDesign) element);
 
-		if ( element instanceof IDataItem )
-			return new DataItem( (IDataItem) element );
+		if (element instanceof IDataItem)
+			return new DataItem((IDataItem) element);
 
-		if ( element instanceof IGrid )
-			return new Grid( (IGrid) element );
+		if (element instanceof IGrid)
+			return new Grid((IGrid) element);
 
-		if ( element instanceof IImage )
-			return new Image( (IImage) element );
+		if (element instanceof IImage)
+			return new Image((IImage) element);
 
-		if ( element instanceof ILabel )
-			return new Label( (ILabel) element );
+		if (element instanceof ILabel)
+			return new Label((ILabel) element);
 
-		if ( element instanceof IList )
-			return new List( (IList) element );
+		if (element instanceof IList)
+			return new List((IList) element);
 
-		if ( element instanceof ITable )
-			return new Table( (ITable) element );
+		if (element instanceof ITable)
+			return new Table((ITable) element);
 
-		if ( element instanceof IDynamicText )
-			return new DynamicText( (IDynamicText) element );
+		if (element instanceof IDynamicText)
+			return new DynamicText((IDynamicText) element);
 
-		if ( element instanceof ITextItem )
-			return new TextItem( (ITextItem) element );
-		
-		if ( element instanceof IMasterPage )
-			return new MasterPage( (IMasterPage) element );
+		if (element instanceof ITextItem)
+			return new TextItem((ITextItem) element);
 
-		if ( element instanceof IReportItem )
-			return new ReportItem( (IReportItem) element );
+		if (element instanceof IMasterPage)
+			return new MasterPage((IMasterPage) element);
 
-		if ( element instanceof IReportElement )
-			return new ReportElement( (IReportElement) element );
-		
-		return new DesignElement( element );
+		if (element instanceof IReportItem)
+			return new ReportItem((IReportItem) element);
+
+		if (element instanceof IReportElement)
+			return new ReportElement((IReportElement) element);
+
+		return new DesignElement(element);
 
 	}
 

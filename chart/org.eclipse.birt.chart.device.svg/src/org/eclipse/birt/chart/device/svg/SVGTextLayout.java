@@ -26,25 +26,19 @@ import org.eclipse.birt.chart.device.util.ChartTextLayout;
  * 
  */
 
-public class SVGTextLayout extends ChartTextLayout
-{
+public class SVGTextLayout extends ChartTextLayout {
 
-	public SVGTextLayout( String value,
-			Map<? extends Attribute, ?> fontAttributes, FontRenderContext frc )
-	{
-		super( value, fontAttributes, frc );
+	public SVGTextLayout(String value, Map<? extends Attribute, ?> fontAttributes, FontRenderContext frc) {
+		super(value, fontAttributes, frc);
 	}
 
 	@Override
-	public void draw( Graphics2D g2d, float x, float y )
-	{
-		if ( frc.isAntiAliased( ) )
-			g2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
-					RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
+	public void draw(Graphics2D g2d, float x, float y) {
+		if (frc.isAntiAliased())
+			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		else
-			g2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
-					RenderingHints.VALUE_TEXT_ANTIALIAS_OFF );
-		g2d.drawString( value, x, y );
+			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+		g2d.drawString(value, x, y);
 	}
 
 }

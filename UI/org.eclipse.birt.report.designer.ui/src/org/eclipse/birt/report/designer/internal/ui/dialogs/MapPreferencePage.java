@@ -61,41 +61,32 @@ import org.eclipse.swt.widgets.TableItem;
  * Preference page for map style.
  */
 
-public class MapPreferencePage extends BaseStylePreferencePage
-{
+public class MapPreferencePage extends BaseStylePreferencePage {
 
-	class MapLabelProvider extends LabelProvider implements ITableLabelProvider
-	{
+	class MapLabelProvider extends LabelProvider implements ITableLabelProvider {
 
-		public Image getColumnImage( Object element, int columnIndex )
-		{
+		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
-		public String getColumnText( Object element, int columnIndex )
-		{
-			return provider.getColumnText( element, columnIndex );
+		public String getColumnText(Object element, int columnIndex) {
+			return provider.getColumnText(element, columnIndex);
 		}
 
 	}
 
-	class MapContentProvider implements IStructuredContentProvider
-	{
+	class MapContentProvider implements IStructuredContentProvider {
 
-		public Object[] getElements( Object inputElement )
-		{
-			Object[] elements = provider.getElements( inputElement );
+		public Object[] getElements(Object inputElement) {
+			Object[] elements = provider.getElements(inputElement);
 
 			return elements;
 		}
 
-		public void inputChanged( Viewer viewer, Object oldInput,
-				Object newInput )
-		{
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
-		public void dispose( )
-		{
+		public void dispose() {
 		}
 
 	}
@@ -112,7 +103,7 @@ public class MapPreferencePage extends BaseStylePreferencePage
 
 	private Button fMoveDownButton;
 
-	private MapHandleProvider provider = new MapHandleProvider( );
+	private MapHandleProvider provider = new MapHandleProvider();
 
 	private Object model;
 
@@ -121,14 +112,12 @@ public class MapPreferencePage extends BaseStylePreferencePage
 	/**
 	 * Default constructor.
 	 * 
-	 * @param model
-	 *            the model of preference page.
+	 * @param model the model of preference page.
 	 */
-	public MapPreferencePage( Object model )
-	{
-		super( model );
-		setTitle( Messages.getString( "MapPreferencePage.displayname.Title" ) ); //$NON-NLS-1$
-		setDescription( Messages.getString( "MapPreferencePage.text.Description" ) ); //$NON-NLS-1$
+	public MapPreferencePage(Object model) {
+		super(model);
+		setTitle(Messages.getString("MapPreferencePage.displayname.Title")); //$NON-NLS-1$
+		setDescription(Messages.getString("MapPreferencePage.text.Description")); //$NON-NLS-1$
 
 		this.model = model;
 	}
@@ -136,441 +125,373 @@ public class MapPreferencePage extends BaseStylePreferencePage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createContents
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createContents
 	 * (org.eclipse.swt.widgets.Composite)
 	 */
-	protected Control createContents( Composite ancestor )
-	{
-		super.createFieldEditors( );
-		UIUtil.bindHelp( ancestor, IHelpContextIds.STYLE_BUILDER_MAP_ID );
+	protected Control createContents(Composite ancestor) {
+		super.createFieldEditors();
+		UIUtil.bindHelp(ancestor, IHelpContextIds.STYLE_BUILDER_MAP_ID);
 
-		final Composite parent = new Composite( ancestor, SWT.NONE );
-		GridLayout layout = new GridLayout( );
+		final Composite parent = new Composite(ancestor, SWT.NONE);
+		GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
-		parent.setLayout( layout );
+		parent.setLayout(layout);
 
-		final Table table = new Table( parent, SWT.BORDER | SWT.FULL_SELECTION );
+		final Table table = new Table(parent, SWT.BORDER | SWT.FULL_SELECTION);
 
-		GridData data = new GridData( GridData.FILL_BOTH );
-		table.setLayoutData( data );
+		GridData data = new GridData(GridData.FILL_BOTH);
+		table.setLayoutData(data);
 
-		table.setHeaderVisible( true );
-		table.setLinesVisible( false );
+		table.setHeaderVisible(true);
+		table.setLinesVisible(false);
 
-		TableLayout tableLayout = new TableLayout( );
-		table.setLayout( tableLayout );
+		TableLayout tableLayout = new TableLayout();
+		table.setLayout(tableLayout);
 
-		final TableColumn column1 = new TableColumn( table, SWT.NONE );
-		column1.setText( Messages.getString( "MapPreferencePage.displayname.DisplayValue" ) ); //$NON-NLS-1$
+		final TableColumn column1 = new TableColumn(table, SWT.NONE);
+		column1.setText(Messages.getString("MapPreferencePage.displayname.DisplayValue")); //$NON-NLS-1$
 
-		final TableColumn column2 = new TableColumn( table, SWT.NONE );
-		column2.setText( Messages.getString( "MapPreferencePage.displayname.Condition" ) ); //$NON-NLS-1$
+		final TableColumn column2 = new TableColumn(table, SWT.NONE);
+		column2.setText(Messages.getString("MapPreferencePage.displayname.Condition")); //$NON-NLS-1$
 
-		fTableViewer = new TableViewer( table );
-		fTableViewer.setLabelProvider( new MapLabelProvider( ) );
-		fTableViewer.setContentProvider( new MapContentProvider( ) );
+		fTableViewer = new TableViewer(table);
+		fTableViewer.setLabelProvider(new MapLabelProvider());
+		fTableViewer.setContentProvider(new MapContentProvider());
 
-		fTableViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
+		fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			public void selectionChanged( SelectionChangedEvent event )
-			{
-				updateButtons( );
+			public void selectionChanged(SelectionChangedEvent event) {
+				updateButtons();
 			}
-		} );
+		});
 
-		fTableViewer.addDoubleClickListener( new IDoubleClickListener( ) {
+		fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			public void doubleClick( DoubleClickEvent event )
-			{
-				edit( );
+			public void doubleClick(DoubleClickEvent event) {
+				edit();
 			}
-		} );
+		});
 
-		table.addKeyListener( new KeyAdapter( ) {
+		table.addKeyListener(new KeyAdapter() {
 
-			public void keyPressed( KeyEvent e )
-			{
-				handleTableKeyPressEvent( e );
+			public void keyPressed(KeyEvent e) {
+				handleTableKeyPressEvent(e);
 			}
-		} );
+		});
 
-		parent.addControlListener( new ControlAdapter( ) {
+		parent.addControlListener(new ControlAdapter() {
 
 			// Resize the table columns when the parent is resized.
-			public void controlResized( ControlEvent e )
-			{
-				Rectangle area = parent.getClientArea( );
-				Point preferredSize = table.computeSize( SWT.DEFAULT,
-						SWT.DEFAULT );
-				int width = area.width - 2 * table.getBorderWidth( );
-				if ( preferredSize.y > area.height )
-				{
-					Point vBarSize = table.getVerticalBar( ).getSize( );
+			public void controlResized(ControlEvent e) {
+				Rectangle area = parent.getClientArea();
+				Point preferredSize = table.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+				int width = area.width - 2 * table.getBorderWidth();
+				if (preferredSize.y > area.height) {
+					Point vBarSize = table.getVerticalBar().getSize();
 					width -= vBarSize.x;
 				}
-				Point oldSize = table.getSize( );
-				if ( oldSize.x > width )
-				{
-					column1.setWidth( width / 4 );
-					column2.setWidth( width - column1.getWidth( ) - 50 );
+				Point oldSize = table.getSize();
+				if (oldSize.x > width) {
+					column1.setWidth(width / 4);
+					column2.setWidth(width - column1.getWidth() - 50);
 					// table.setSize( width, area.height );
-				}
-				else
-				{
+				} else {
 					// table.setSize( width, area.height );
-					column1.setWidth( width / 4 );
-					column2.setWidth( width - column1.getWidth( ) - 50 );
+					column1.setWidth(width / 4);
+					column2.setWidth(width - column1.getWidth() - 50);
 				}
 			}
-		} );
+		});
 
-		Composite buttons = new Composite( parent, SWT.NONE );
-		buttons.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
-		layout = new GridLayout( );
+		Composite buttons = new Composite(parent, SWT.NONE);
+		buttons.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+		layout = new GridLayout();
 		layout.numColumns = 7;
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
-		buttons.setLayout( layout );
+		buttons.setLayout(layout);
 
-		fAddButton = new Button( buttons, SWT.PUSH );
-		fAddButton.setText( Messages.getString( "MapPreferencePage.text.Add" ) ); //$NON-NLS-1$
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.widthHint = Math.max( fAddButton.computeSize( -1, -1 ).x, 60 );
+		fAddButton = new Button(buttons, SWT.PUSH);
+		fAddButton.setText(Messages.getString("MapPreferencePage.text.Add")); //$NON-NLS-1$
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = Math.max(fAddButton.computeSize(-1, -1).x, 60);
 		// data.heightHint = 24;
-		fAddButton.setLayoutData( data );
+		fAddButton.setLayoutData(data);
 
-		fAddButton.addListener( SWT.Selection, new Listener( ) {
+		fAddButton.addListener(SWT.Selection, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				add( );
+			public void handleEvent(Event e) {
+				add();
 			}
-		} );
+		});
 
-		fEditButton = new Button( buttons, SWT.PUSH );
-		fEditButton.setText( Messages.getString( "MapPreferencePage.text.Edit" ) ); //$NON-NLS-1$
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.widthHint = Math.max( fEditButton.computeSize( -1, -1 ).x, 60 );
+		fEditButton = new Button(buttons, SWT.PUSH);
+		fEditButton.setText(Messages.getString("MapPreferencePage.text.Edit")); //$NON-NLS-1$
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = Math.max(fEditButton.computeSize(-1, -1).x, 60);
 		// data.heightHint = 24;
-		fEditButton.setLayoutData( data );
-		fEditButton.addListener( SWT.Selection, new Listener( ) {
+		fEditButton.setLayoutData(data);
+		fEditButton.addListener(SWT.Selection, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				edit( );
+			public void handleEvent(Event e) {
+				edit();
 			}
-		} );
+		});
 
-		fDeleteButton = new Button( buttons, SWT.PUSH );
-		fDeleteButton.setText( Messages.getString( "MapPreferencePage.text.Delete" ) ); //$NON-NLS-1$
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.widthHint = Math.max( fDeleteButton.computeSize( -1, -1 ).x, 60 );
+		fDeleteButton = new Button(buttons, SWT.PUSH);
+		fDeleteButton.setText(Messages.getString("MapPreferencePage.text.Delete")); //$NON-NLS-1$
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = Math.max(fDeleteButton.computeSize(-1, -1).x, 60);
 		// data.heightHint = 24;
-		fDeleteButton.setLayoutData( data );
-		fDeleteButton.addListener( SWT.Selection, new Listener( ) {
+		fDeleteButton.setLayoutData(data);
+		fDeleteButton.addListener(SWT.Selection, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				delete( );
+			public void handleEvent(Event e) {
+				delete();
 			}
-		} );
+		});
 
-		fMoveUpButton = new Button( buttons, SWT.PUSH );
-		fMoveUpButton.setText( Messages.getString( "FormPage.Button.Up" ) ); //$NON-NLS-1$
-		fMoveUpButton.setToolTipText( Messages.getString( "MapPreferencePage.toolTipText.Up" ) ); //$NON-NLS-1$
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.widthHint = Math.max( fMoveUpButton.computeSize( -1, -1 ).x, 60 );
+		fMoveUpButton = new Button(buttons, SWT.PUSH);
+		fMoveUpButton.setText(Messages.getString("FormPage.Button.Up")); //$NON-NLS-1$
+		fMoveUpButton.setToolTipText(Messages.getString("MapPreferencePage.toolTipText.Up")); //$NON-NLS-1$
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = Math.max(fMoveUpButton.computeSize(-1, -1).x, 60);
 		// data.heightHint = 24;
-		fMoveUpButton.setLayoutData( data );
-		fMoveUpButton.addListener( SWT.Selection, new Listener( ) {
+		fMoveUpButton.setLayoutData(data);
+		fMoveUpButton.addListener(SWT.Selection, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				moveUp( );
+			public void handleEvent(Event e) {
+				moveUp();
 			}
-		} );
+		});
 
-		fMoveDownButton = new Button( buttons, SWT.PUSH );
-		fMoveDownButton.setText( Messages.getString( "FormPage.Button.Down" ) ); //$NON-NLS-1$
-		fMoveDownButton.setToolTipText( Messages.getString( "MapPreferencePage.toolTipText.Down" ) ); //$NON-NLS-1$
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.widthHint = Math.max( fMoveDownButton.computeSize( -1, -1 ).x, 60 );
+		fMoveDownButton = new Button(buttons, SWT.PUSH);
+		fMoveDownButton.setText(Messages.getString("FormPage.Button.Down")); //$NON-NLS-1$
+		fMoveDownButton.setToolTipText(Messages.getString("MapPreferencePage.toolTipText.Down")); //$NON-NLS-1$
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = Math.max(fMoveDownButton.computeSize(-1, -1).x, 60);
 		// data.heightHint = 24;
-		fMoveDownButton.setLayoutData( data );
-		fMoveDownButton.addListener( SWT.Selection, new Listener( ) {
+		fMoveDownButton.setLayoutData(data);
+		fMoveDownButton.addListener(SWT.Selection, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				moveDown( );
+			public void handleEvent(Event e) {
+				moveDown();
 			}
-		} );
+		});
 
-		fDuplicateButton = new Button( buttons, SWT.PUSH );
-		fDuplicateButton.setText( Messages.getString( "MapPreferencePage.text.Duplicate" ) ); //$NON-NLS-1$
-		fDuplicateButton.setToolTipText( Messages.getString( "MapPreferencePage.toolTipText.Duplicate" ) ); //$NON-NLS-1$
-		data = new GridData( GridData.FILL_HORIZONTAL );
-		data.widthHint = Math.max( fDuplicateButton.computeSize( -1, -1 ).x, 60 );
+		fDuplicateButton = new Button(buttons, SWT.PUSH);
+		fDuplicateButton.setText(Messages.getString("MapPreferencePage.text.Duplicate")); //$NON-NLS-1$
+		fDuplicateButton.setToolTipText(Messages.getString("MapPreferencePage.toolTipText.Duplicate")); //$NON-NLS-1$
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		data.widthHint = Math.max(fDuplicateButton.computeSize(-1, -1).x, 60);
 		// data.heightHint = 24;
-		fDuplicateButton.setLayoutData( data );
-		fDuplicateButton.addListener( SWT.Selection, new Listener( ) {
+		fDuplicateButton.setLayoutData(data);
+		fDuplicateButton.addListener(SWT.Selection, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				duplicate( );
+			public void handleEvent(Event e) {
+				duplicate();
 			}
-		} );
+		});
 
-		fTableViewer.setInput( model );
+		fTableViewer.setInput(model);
 
-		updateButtons( );
+		updateButtons();
 
-		Dialog.applyDialogFont( parent );
+		Dialog.applyDialogFont(parent);
 
 		return parent;
 	}
 
-	protected void duplicate( )
-	{
-		int index = fTableViewer.getTable( ).getSelectionIndex( );
-		PropertyHandle phandle = ( (StyleHandle) model ).getPropertyHandle( StyleHandle.MAP_RULES_PROP );
-		MapRule rule = (MapRule) phandle.getListValue( ).get( index );
-		try
-		{
-			MapRule newRule = (MapRule) rule.copy( );
-			phandle.addItem( newRule );
+	protected void duplicate() {
+		int index = fTableViewer.getTable().getSelectionIndex();
+		PropertyHandle phandle = ((StyleHandle) model).getPropertyHandle(StyleHandle.MAP_RULES_PROP);
+		MapRule rule = (MapRule) phandle.getListValue().get(index);
+		try {
+			MapRule newRule = (MapRule) rule.copy();
+			phandle.addItem(newRule);
 
-			fTableViewer.add( newRule.getHandle( phandle, phandle.getItems( )
-					.size( ) - 1 ) );
-			int itemCount = fTableViewer.getTable( ).getItemCount( );
-			fTableViewer.getTable( ).deselectAll( );
-			fTableViewer.getTable( ).select( itemCount - 1 );
-			fTableViewer.getTable( ).setFocus( );
+			fTableViewer.add(newRule.getHandle(phandle, phandle.getItems().size() - 1));
+			int itemCount = fTableViewer.getTable().getItemCount();
+			fTableViewer.getTable().deselectAll();
+			fTableViewer.getTable().select(itemCount - 1);
+			fTableViewer.getTable().setFocus();
 
-			updateButtons( );
-			refreshTableItemView( );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
+			updateButtons();
+			refreshTableItemView();
+		} catch (SemanticException e) {
+			ExceptionHandler.handle(e);
 		}
 	}
 
-	private void refreshTableItemView( )
-	{
-		for ( int i = 0; i < fTableViewer.getTable( ).getItemCount( ); i++ )
-		{
-			TableItem ti = fTableViewer.getTable( ).getItem( i );
+	private void refreshTableItemView() {
+		for (int i = 0; i < fTableViewer.getTable().getItemCount(); i++) {
+			TableItem ti = fTableViewer.getTable().getItem(i);
 
-			MapRuleHandle handle = (MapRuleHandle) ti.getData( );
+			MapRuleHandle handle = (MapRuleHandle) ti.getData();
 
-			ti.setText( 0, provider.getColumnText( handle, 0 ) );
-			ti.setText( 1, provider.getColumnText( handle, 1 ) );
+			ti.setText(0, provider.getColumnText(handle, 0));
+			ti.setText(1, provider.getColumnText(handle, 1));
 		}
 
-		fTableViewer.getTable( ).setFocus( );
+		fTableViewer.getTable().setFocus();
 	}
 
-	private void updateButtons( )
-	{
-		fEditButton.setEnabled( fTableViewer.getTable( ).getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) );
-		fDeleteButton.setEnabled( fEditButton.getEnabled( ) );
-		fDuplicateButton.setEnabled( fEditButton.getEnabled( ) );
+	private void updateButtons() {
+		fEditButton.setEnabled(fTableViewer.getTable().getSelectionIndex() >= 0
+				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount());
+		fDeleteButton.setEnabled(fEditButton.getEnabled());
+		fDuplicateButton.setEnabled(fEditButton.getEnabled());
 
-		fMoveUpButton.setEnabled( fTableViewer.getTable( ).getSelectionIndex( ) > 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) );
-		fMoveDownButton.setEnabled( fTableViewer.getTable( )
-				.getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) - 1 );
+		fMoveUpButton.setEnabled(fTableViewer.getTable().getSelectionIndex() > 0
+				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount());
+		fMoveDownButton.setEnabled(fTableViewer.getTable().getSelectionIndex() >= 0
+				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount() - 1);
 	}
 
-	private void add( )
-	{
-		MapRuleBuilder builder = new MapRuleBuilder( getShell( ),
-				MapRuleBuilder.DLG_TITLE_NEW,
-				provider );
+	private void add() {
+		MapRuleBuilder builder = new MapRuleBuilder(getShell(), MapRuleBuilder.DLG_TITLE_NEW, provider);
 
-		builder.updateHandle( null, fTableViewer.getTable( ).getItemCount( ) );
+		builder.updateHandle(null, fTableViewer.getTable().getItemCount());
 
-		builder.setDesignHandle( (DesignElementHandle) model );
-		if ( model instanceof ReportItemHandle )
-		{
-			builder.setReportElement( (ReportItemHandle) model );
-		}
-		else if ( model instanceof GroupHandle )
-		{
-			builder.setReportElement( (ReportItemHandle) ( (GroupHandle) model ).getContainer( ) );
+		builder.setDesignHandle((DesignElementHandle) model);
+		if (model instanceof ReportItemHandle) {
+			builder.setReportElement((ReportItemHandle) model);
+		} else if (model instanceof GroupHandle) {
+			builder.setReportElement((ReportItemHandle) ((GroupHandle) model).getContainer());
 		}
 
-		if ( builder.open( ) == Window.OK )
-		{
-			fTableViewer.add( builder.getHandle( ) );
+		if (builder.open() == Window.OK) {
+			fTableViewer.add(builder.getHandle());
 
-			int itemCount = fTableViewer.getTable( ).getItemCount( );
+			int itemCount = fTableViewer.getTable().getItemCount();
 
-			fTableViewer.getTable( ).deselectAll( );
+			fTableViewer.getTable().deselectAll();
 
-			fTableViewer.getTable( ).select( itemCount - 1 );
+			fTableViewer.getTable().select(itemCount - 1);
 
-			fTableViewer.getTable( ).setFocus( );
+			fTableViewer.getTable().setFocus();
 
-			updateButtons( );
+			updateButtons();
 
-			refreshTableItemView( );
+			refreshTableItemView();
 
-			getBuilder( ).refreshPagesStatus( );
+			getBuilder().refreshPagesStatus();
 		}
 	}
 
-	private void edit( )
-	{
-		if ( fTableViewer.getTable( ).getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) )
-		{
-			MapRuleBuilder builder = new MapRuleBuilder( getShell( ),
-					MapRuleBuilder.DLG_TITLE_EDIT,
-					provider );
+	private void edit() {
+		if (fTableViewer.getTable().getSelectionIndex() >= 0
+				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount()) {
+			MapRuleBuilder builder = new MapRuleBuilder(getShell(), MapRuleBuilder.DLG_TITLE_EDIT, provider);
 
-			MapRuleHandle handle = (MapRuleHandle) fTableViewer.getTable( )
-					.getItem( fTableViewer.getTable( ).getSelectionIndex( ) )
-					.getData( );
+			MapRuleHandle handle = (MapRuleHandle) fTableViewer.getTable()
+					.getItem(fTableViewer.getTable().getSelectionIndex()).getData();
 
-			builder.updateHandle( handle, fTableViewer.getTable( )
-					.getItemCount( ) );
+			builder.updateHandle(handle, fTableViewer.getTable().getItemCount());
 
-			builder.setDesignHandle( (DesignElementHandle) model );
+			builder.setDesignHandle((DesignElementHandle) model);
 
-			if ( model instanceof ReportItemHandle )
-			{
-				builder.setReportElement( (ReportItemHandle) model );
-			}
-			else if ( model instanceof GroupHandle )
-			{
-				builder.setReportElement( (ReportItemHandle) ( (GroupHandle) model ).getContainer( ) );
+			if (model instanceof ReportItemHandle) {
+				builder.setReportElement((ReportItemHandle) model);
+			} else if (model instanceof GroupHandle) {
+				builder.setReportElement((ReportItemHandle) ((GroupHandle) model).getContainer());
 			}
 
-			if ( builder.open( ) == Window.OK )
-			{
-				updateButtons( );
+			if (builder.open() == Window.OK) {
+				updateButtons();
 
-				refreshTableItemView( );
+				refreshTableItemView();
 			}
 		}
 	}
 
-	private void delete( )
-	{
-		if ( fTableViewer.getTable( ).getSelectionIndex( ) >= 0
-				&& fTableViewer.getTable( ).getSelectionIndex( ) < fTableViewer.getTable( )
-						.getItemCount( ) )
-		{
-			int idx = fTableViewer.getTable( ).getSelectionIndex( );
+	private void delete() {
+		if (fTableViewer.getTable().getSelectionIndex() >= 0
+				&& fTableViewer.getTable().getSelectionIndex() < fTableViewer.getTable().getItemCount()) {
+			int idx = fTableViewer.getTable().getSelectionIndex();
 
-			try
-			{
-				provider.doDeleteItem( idx );
+			try {
+				provider.doDeleteItem(idx);
 
-				fTableViewer.getTable( ).remove( idx );
-				fTableViewer.refresh( );
+				fTableViewer.getTable().remove(idx);
+				fTableViewer.refresh();
 
-				if ( idx >= fTableViewer.getTable( ).getItemCount( ) )
-				{
+				if (idx >= fTableViewer.getTable().getItemCount()) {
 					idx--;
 				}
 
-				fTableViewer.getTable( ).select( idx );
+				fTableViewer.getTable().select(idx);
 
-				refreshTableItemView( );
-			}
-			catch ( Exception e )
-			{
-				WidgetUtil.processError( getShell( ), e );
+				refreshTableItemView();
+			} catch (Exception e) {
+				WidgetUtil.processError(getShell(), e);
 			}
 
-			updateButtons( );
+			updateButtons();
 
-			getBuilder( ).refreshPagesStatus( );
+			getBuilder().refreshPagesStatus();
 		}
 	}
 
-	private void moveUp( )
-	{
-		int index = fTableViewer.getTable( ).getSelectionIndex( );
+	private void moveUp() {
+		int index = fTableViewer.getTable().getSelectionIndex();
 
-		try
-		{
-			provider.doSwapItem( index, -1 );
+		try {
+			provider.doSwapItem(index, -1);
 
-			Object handle = fTableViewer.getTable( ).getItem( index ).getData( );
+			Object handle = fTableViewer.getTable().getItem(index).getData();
 
-			fTableViewer.remove( handle );
-			fTableViewer.insert( handle, index - 1 );
-			fTableViewer.refresh( );
+			fTableViewer.remove(handle);
+			fTableViewer.insert(handle, index - 1);
+			fTableViewer.refresh();
 
-			fTableViewer.getTable( ).select( index - 1 );
+			fTableViewer.getTable().select(index - 1);
 
-			refreshTableItemView( );
-		}
-		catch ( Exception e )
-		{
-			WidgetUtil.processError( getShell( ), e );
+			refreshTableItemView();
+		} catch (Exception e) {
+			WidgetUtil.processError(getShell(), e);
 		}
 
-		updateButtons( );
+		updateButtons();
 	}
 
-	private void moveDown( )
-	{
-		int index = fTableViewer.getTable( ).getSelectionIndex( );
+	private void moveDown() {
+		int index = fTableViewer.getTable().getSelectionIndex();
 
-		try
-		{
-			provider.doSwapItem( index, 1 );
+		try {
+			provider.doSwapItem(index, 1);
 
-			Object handle = fTableViewer.getTable( ).getItem( index ).getData( );
+			Object handle = fTableViewer.getTable().getItem(index).getData();
 
-			fTableViewer.remove( handle );
-			fTableViewer.insert( handle, index + 1 );
-			fTableViewer.refresh( );
+			fTableViewer.remove(handle);
+			fTableViewer.insert(handle, index + 1);
+			fTableViewer.refresh();
 
-			fTableViewer.getTable( ).select( index + 1 );
+			fTableViewer.getTable().select(index + 1);
 
-			refreshTableItemView( );
+			refreshTableItemView();
 
-		}
-		catch ( Exception e )
-		{
-			WidgetUtil.processError( getShell( ), e );
+		} catch (Exception e) {
+			WidgetUtil.processError(getShell(), e);
 		}
 
-		updateButtons( );
+		updateButtons();
 	}
 
-	protected void handleTableKeyPressEvent( KeyEvent e )
-	{
-		if ( e.keyCode == SWT.DEL )
-		{
-			delete( );
+	protected void handleTableKeyPressEvent(KeyEvent e) {
+		if (e.keyCode == SWT.DEL) {
+			delete();
 		}
 	}
 
-	protected String[] getPreferenceNames( )
-	{
+	protected String[] getPreferenceNames() {
 		return new String[0];
 	}
 
-	public boolean hasLocaleProperties( )
-	{
-		PropertyHandle phandle = ( (StyleHandle) model ).getPropertyHandle( StyleHandle.MAP_RULES_PROP );
-		if ( phandle.getListValue( ) != null
-				&& phandle.getListValue( ).size( ) > 0 )
-		{
+	public boolean hasLocaleProperties() {
+		PropertyHandle phandle = ((StyleHandle) model).getPropertyHandle(StyleHandle.MAP_RULES_PROP);
+		if (phandle.getListValue() != null && phandle.getListValue().size() > 0) {
 			return true;
 		}
 		return false;

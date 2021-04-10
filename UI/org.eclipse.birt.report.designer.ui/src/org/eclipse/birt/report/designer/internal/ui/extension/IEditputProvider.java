@@ -17,8 +17,7 @@ import org.eclipse.ui.IEditorInput;
  * 
  */
 
-public interface IEditputProvider
-{
+public interface IEditputProvider {
 	/**
 	 * @param file
 	 * @return

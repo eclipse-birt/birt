@@ -70,29 +70,26 @@ import org.eclipse.ui.part.Page;
 /**
  * Attribute view shows the attributes of the selected control. If no control is
  * selected, it will show no attributes and a sentence describing there is
- * nothing to show for the selected object. </p> Multi-selection of control of
- * the same type will normally show the same UI as if only one control was
- * selected. Some of the values may be gray or blank if the selected controls
- * have different attributes. If the controls have different type, nothing will
- * be shown in the attributes view. </P>
+ * nothing to show for the selected object.
+ * </p>
+ * Multi-selection of control of the same type will normally show the same UI as
+ * if only one control was selected. Some of the values may be gray or blank if
+ * the selected controls have different attributes. If the controls have
+ * different type, nothing will be shown in the attributes view.
+ * </P>
  */
-public class AttributeViewPage extends Page implements
-		IAttributeViewPage,
-		INullSelectionListener,
-		IMediatorColleague,
-		IModelEventProcessor
-{
+public class AttributeViewPage extends Page
+		implements IAttributeViewPage, INullSelectionListener, IMediatorColleague, IModelEventProcessor {
 
 	/**
 	 * WorkbenchPart ID list that attribute view interests in selection changing
 	 * occupied in these WorkbenchParts.
 	 */
-	protected List<String> PART_IDS = Arrays.asList( new String[]{
-			"org.eclipse.birt.report.designer.ui.editors.ReportEditor",//$NON-NLS-1$
-			"org.eclipse.birt.report.designer.ui.editors.LibraryReportEditor",//$NON-NLS-1$
-			"org.eclipse.birt.report.designer.ui.editors.TemplateEditor",//$NON-NLS-1$
-			IPageLayout.ID_OUTLINE,
-	} );
+	protected List<String> PART_IDS = Arrays
+			.asList(new String[] { "org.eclipse.birt.report.designer.ui.editors.ReportEditor", //$NON-NLS-1$
+					"org.eclipse.birt.report.designer.ui.editors.LibraryReportEditor", //$NON-NLS-1$
+					"org.eclipse.birt.report.designer.ui.editors.TemplateEditor", //$NON-NLS-1$
+					IPageLayout.ID_OUTLINE, });
 
 	/**
 	 * Keeps current selection When AttributeView is not on the top of window.
@@ -109,46 +106,37 @@ public class AttributeViewPage extends Page implements
 
 	private ModuleHandle model;
 
-	public class RestoreLibraryPropertiesAction extends Action
-	{
+	public class RestoreLibraryPropertiesAction extends Action {
 
 		AttributeViewPage view;
 
-		RestoreLibraryPropertiesAction( AttributeViewPage view )
-		{
+		RestoreLibraryPropertiesAction(AttributeViewPage view) {
 			this.view = view;
-			setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ENABLE_RESTORE_PROPERTIES ) );
-			setEnabled( false );
-			setToolTipText( Messages.getString( "AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg" ) ); //$NON-NLS-1$
+			setImageDescriptor(
+					ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_ENABLE_RESTORE_PROPERTIES));
+			setEnabled(false);
+			setToolTipText(
+					Messages.getString("AttributeView.toolbar.tooltip.RestoreLibraryPropertiesAction.RestoreMsg")); //$NON-NLS-1$
 		}
 
-		public void run( )
-		{
-			if ( view != null )
-			{
+		public void run() {
+			if (view != null) {
 
-				MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
-						Messages.getString( "AttributeView.dialg.Message.Warning" ),//$NON-NLS-1$
-						null,
-						Messages.getString( "AttributeView.dialg.Message.PromptMsg" ),//$NON-NLS-1$
-						MessageDialog.INFORMATION,
-						new String[]{
-								Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
-								Messages.getString( "AttributeView.dialg.Message.No" )//$NON-NLS-1$
-						},
-						0 );
-				int ret = prefDialog.open( );
+				MessageDialog prefDialog = new MessageDialog(UIUtil.getDefaultShell(),
+						Messages.getString("AttributeView.dialg.Message.Warning"), //$NON-NLS-1$
+						null, Messages.getString("AttributeView.dialg.Message.PromptMsg"), //$NON-NLS-1$
+						MessageDialog.INFORMATION, new String[] { Messages.getString("AttributeView.dialg.Message.Yes"), //$NON-NLS-1$
+								Messages.getString("AttributeView.dialg.Message.No")//$NON-NLS-1$
+						}, 0);
+				int ret = prefDialog.open();
 
-				if ( !( ret == 2 ) )
-				{
+				if (!(ret == 2)) {
 
-					if ( ret == Window.OK )
-					{
-						resetLocalProperties( ret );
-						pageGenerator = builder.getPageGenerator( getModelList( selection ) );
-						pageGenerator.createControl( container,
-								getModelList( selection ) );
-						setEnabled( false );
+					if (ret == Window.OK) {
+						resetLocalProperties(ret);
+						pageGenerator = builder.getPageGenerator(getModelList(selection));
+						pageGenerator.createControl(container, getModelList(selection));
+						setEnabled(false);
 					}
 				}
 
@@ -156,8 +144,7 @@ public class AttributeViewPage extends Page implements
 		}
 	}
 
-	public AttributeViewPage( ModuleHandle model )
-	{
+	public AttributeViewPage(ModuleHandle model) {
 		this.model = model;
 	}
 
@@ -166,46 +153,33 @@ public class AttributeViewPage extends Page implements
 	 * 
 	 * @param ret
 	 */
-	public void resetLocalProperties( int ret )
-	{
-		try
-		{
-			Object data = SessionHandleAdapter.getInstance( )
-					.getMediator( model )
-					.getState( )
-					.getData( );
+	public void resetLocalProperties(int ret) {
+		try {
+			Object data = SessionHandleAdapter.getInstance().getMediator(model).getState().getData();
 
 			StructuredSelection selection;
 
-			if ( data instanceof List )
-			{
-				selection = new StructuredSelection( (List) data );
-			}
-			else if ( data != null )
-			{
-				selection = new StructuredSelection( data );
-			}
-			else
-			{
-				selection = new StructuredSelection( );
+			if (data instanceof List) {
+				selection = new StructuredSelection((List) data);
+			} else if (data != null) {
+				selection = new StructuredSelection(data);
+			} else {
+				selection = new StructuredSelection();
 			}
 
-			DEUtil.getGroupElementHandle( getModelList( selection ) )
-					.clearLocalProperties( );
-			DEUtil.getGroupElementHandle( getModelList( selection ) )
-					.clearLocalPropertiesIncludeSubElement( );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionUtil.handle( e );
+			DEUtil.getGroupElementHandle(getModelList(selection)).clearLocalProperties();
+			DEUtil.getGroupElementHandle(getModelList(selection)).clearLocalPropertiesIncludeSubElement();
+		} catch (SemanticException e) {
+			ExceptionUtil.handle(e);
 		}
 		return;
 	}
+
 	/**
 	 * Creates the SWT controls for this workbench part.
 	 * <p>
-	 * Clients should not call this method (the workbench calls this method when
-	 * it needs to, which may be never).
+	 * Clients should not call this method (the workbench calls this method when it
+	 * needs to, which may be never).
 	 * </p>
 	 * <p>
 	 * For implementors this is a multi-step process:
@@ -219,67 +193,49 @@ public class AttributeViewPage extends Page implements
 	 * </ol>
 	 * </p>
 	 * 
-	 * @param parent
-	 *            the parent control
+	 * @param parent the parent control
 	 */
 	private Composite container;
 
-	public void createControl( Composite parent )
-	{
-		addActions( );
-		container = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( );
+	public void createControl(Composite parent) {
+		addActions();
+		container = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
 		layout.marginWidth = layout.marginHeight = 0;
-		container.setLayout( layout );
-		builder = new AttributesBuilder( );
+		container.setLayout(layout);
+		builder = new AttributesBuilder();
 
-		IWorkbenchPage page = getSite( ).getPage( );
-		selection = page.getSelection( );
-		page.addSelectionListener( this );
+		IWorkbenchPage page = getSite().getPage();
+		selection = page.getSelection();
+		page.addSelectionListener(this);
 
-		if ( selection == null && UIUtil.getActiveReportEditor( ) != null )
-		{
-			selection = (ISelection) UIUtil.getActiveReportEditor( )
-					.getAdapter( ISelection.class );
+		if (selection == null && UIUtil.getActiveReportEditor() != null) {
+			selection = (ISelection) UIUtil.getActiveReportEditor().getAdapter(ISelection.class);
 		}
 
-		SessionHandleAdapter.getInstance( )
-				.getMediator( model )
-				.addColleague( this );
+		SessionHandleAdapter.getInstance().getMediator(model).addColleague(this);
 
-		handleSelectionChanged( selection );
+		handleSelectionChanged(selection);
 	}
 
-	private void addActions( )
-	{
-		if ( restoreLibraryPropertiesAction == null )
-		{
-			restoreLibraryPropertiesAction = new RestoreLibraryPropertiesAction( this );
+	private void addActions() {
+		if (restoreLibraryPropertiesAction == null) {
+			restoreLibraryPropertiesAction = new RestoreLibraryPropertiesAction(this);
 		}
-		clearOldRestoreLibraryPropertiesAction( );
+		clearOldRestoreLibraryPropertiesAction();
 
-		getSite( ).getActionBars( )
-				.getToolBarManager( )
-				.add( restoreLibraryPropertiesAction );
+		getSite().getActionBars().getToolBarManager().add(restoreLibraryPropertiesAction);
 
 	}
 
-	private void clearOldRestoreLibraryPropertiesAction( )
-	{
-		IContributionItem[] items = getSite( ).getActionBars( )
-				.getToolBarManager( )
-				.getItems( );
-		for ( IContributionItem item : items )
-		{
+	private void clearOldRestoreLibraryPropertiesAction() {
+		IContributionItem[] items = getSite().getActionBars().getToolBarManager().getItems();
+		for (IContributionItem item : items) {
 
-			if ( item instanceof ActionContributionItem )
-			{
+			if (item instanceof ActionContributionItem) {
 				ActionContributionItem aItem = (ActionContributionItem) item;
-				if ( aItem.getAction( ) instanceof RestoreLibraryPropertiesAction )
-				{
-					getSite( ).getActionBars( )
-							.getToolBarManager( )
-							.remove( item );
+				if (aItem.getAction() instanceof RestoreLibraryPropertiesAction) {
+					getSite().getActionBars().getToolBarManager().remove(item);
 				}
 			}
 		}
@@ -293,79 +249,64 @@ public class AttributeViewPage extends Page implements
 	 * <code>IWorkbenchPage.activate(IWorkbenchPart) instead</code>.
 	 * </p>
 	 */
-	public void setFocus( )
-	{
-		Display.getCurrent( ).asyncExec( new Runnable( ) {
+	public void setFocus() {
+		Display.getCurrent().asyncExec(new Runnable() {
 
-			public void run( )
-			{
-				handleSelectionChanged( selection );
+			public void run() {
+				handleSelectionChanged(selection);
 			}
-		} );
+		});
 	}
 
-	private void setPartName( )
-	{
-		String typeInfo = builder.getTypeInfo( );
-		IViewPart view = UIUtil.getView( AttributeView.ID );
-		if ( view != null && typeInfo != null )
-			( (AttributeView) view ).setPartName( typeInfo );
+	private void setPartName() {
+		String typeInfo = builder.getTypeInfo();
+		IViewPart view = UIUtil.getView(AttributeView.ID);
+		if (view != null && typeInfo != null)
+			((AttributeView) view).setPartName(typeInfo);
 	}
 
-	private boolean hasLocalProperties( ISelection selection )
-	{
-		return hasLocalProperties( getModelList( selection ) );
+	private boolean hasLocalProperties(ISelection selection) {
+		return hasLocalProperties(getModelList(selection));
 	}
 
-	private boolean hasLocalProperties( List modelList )
-	{
-		GroupElementHandle groupHandle = DEUtil.getGroupElementHandle( modelList );
+	private boolean hasLocalProperties(List modelList) {
+		GroupElementHandle groupHandle = DEUtil.getGroupElementHandle(modelList);
 
-		return groupHandle.hasLocalPropertiesForExtendedElements( )
-				|| groupHandle.hasLocalPropertiesIncludeSubElement( );
+		return groupHandle.hasLocalPropertiesForExtendedElements() || groupHandle.hasLocalPropertiesIncludeSubElement();
 	}
 
-	public void resetRestorePropertiesAction( List modelList )
-	{
-		restoreLibraryPropertiesAction.setEnabled( hasLocalProperties( modelList ) );
+	public void resetRestorePropertiesAction(List modelList) {
+		restoreLibraryPropertiesAction.setEnabled(hasLocalProperties(modelList));
 	}
 
 	/**
 	 * Parse out the DE models for all kinds of input source.
 	 * 
-	 * @param selection
-	 *            the current selection.
+	 * @param selection the current selection.
 	 * @return
 	 */
-	protected List getModelList( ISelection selection )
-	{
-		List list = new ArrayList( );
-		if ( selection == null )
+	protected List getModelList(ISelection selection) {
+		List list = new ArrayList();
+		if (selection == null)
 			return list;
-		if ( !( selection instanceof StructuredSelection ) )
+		if (!(selection instanceof StructuredSelection))
 			return list;
 
 		StructuredSelection structured = (StructuredSelection) selection;
-		if ( structured.getFirstElement( ) instanceof ReportElementEditPart )
-		{
+		if (structured.getFirstElement() instanceof ReportElementEditPart) {
 			boolean bool = false;
-			for ( Iterator it = structured.iterator( ); it.hasNext( ); )
-			{
-				ReportElementEditPart object = (ReportElementEditPart) it.next( );
-				if ( object instanceof DummyEditpart )
-				{
-					list.add( object.getModel( ) );
+			for (Iterator it = structured.iterator(); it.hasNext();) {
+				ReportElementEditPart object = (ReportElementEditPart) it.next();
+				if (object instanceof DummyEditpart) {
+					list.add(object.getModel());
 					bool = true;
 				}
-				if ( !bool )
-				{
-					list.add( object.getModel( ) );
+				if (!bool) {
+					list.add(object.getModel());
 				}
 			}
-		}
-		else
-		{
-			list = structured.toList( );
+		} else {
+			list = structured.toList();
 		}
 		return list;
 	}
@@ -376,49 +317,35 @@ public class AttributeViewPage extends Page implements
 	 * This method is called when the selection changes from one to a
 	 * <code>non-null</code> value, but not when the selection changes to
 	 * <code>null</code>. If there is a requirement to be notified in the latter
-	 * scenario, implement <code>INullSelectionListener</code>. The event will
-	 * be posted through this method.
+	 * scenario, implement <code>INullSelectionListener</code>. The event will be
+	 * posted through this method.
 	 * </p>
 	 * 
-	 * @param part
-	 *            the workbench part containing the selection
-	 * @param selection
-	 *            the current selection. This may be <code>null</code> if
-	 *            <code>INullSelectionListener</code> is implemented.
+	 * @param part      the workbench part containing the selection
+	 * @param selection the current selection. This may be <code>null</code> if
+	 *                  <code>INullSelectionListener</code> is implemented.
 	 */
-	public void selectionChanged( IWorkbenchPart part, ISelection selection )
-	{
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		// if ( part != null && !PART_IDS.contains( part.getSite( ).getId( ) )
 		// && !ID.equals( part.getSite( ).getId( ) )
 		// && !PaletteView.ID.equals( part.getSite( ).getId( ) ) )
-		if ( SessionHandleAdapter.getInstance( ).getModule( ) == model )
-		{
-			if ( part != null
-					&& !ReportPlugin.getDefault( )
-							.containIgnoreViewID( part.getSite( ).getId( ) ) )
-			{
-				if ( selection == null && requesList.isEmpty( ) )
-				{
-					IMediator mediator = SessionHandleAdapter.getInstance( )
-							.getMediator( model, false );
-					if ( mediator != null
-							&& mediator.getState( ) != null
-							&& mediator.getState( ).getData( ) instanceof List )
-					{
+		if (SessionHandleAdapter.getInstance().getModule() == model) {
+			if (part != null && !ReportPlugin.getDefault().containIgnoreViewID(part.getSite().getId())) {
+				if (selection == null && requesList.isEmpty()) {
+					IMediator mediator = SessionHandleAdapter.getInstance().getMediator(model, false);
+					if (mediator != null && mediator.getState() != null
+							&& mediator.getState().getData() instanceof List) {
 						// When close and reopen the attribute view, display the
 						// old selection.
-						ReportRequest request = new ReportRequest( this );
-						request.setSelectionObject( (List) mediator.getState( )
-								.getData( ) );
-						request.setType( ReportRequest.SELECTION );
-						SessionHandleAdapter.getInstance( )
-								.getMediator( model )
-								.notifyRequest( request );
+						ReportRequest request = new ReportRequest(this);
+						request.setSelectionObject((List) mediator.getState().getData());
+						request.setType(ReportRequest.SELECTION);
+						SessionHandleAdapter.getInstance().getMediator(model).notifyRequest(request);
 						return;
 					}
 
 				}
-				handleSelectionChanged( new StructuredSelection( ) );
+				handleSelectionChanged(new StructuredSelection());
 			}
 		}
 	}
@@ -426,11 +353,10 @@ public class AttributeViewPage extends Page implements
 	/**
 	 * Disposes of this workbench part.
 	 * <p>
-	 * This is the last method called on the <code>IWorkbenchPart</code>. At
-	 * this point the part controls (if they were ever created) have been
-	 * disposed as part of an SWT composite. There is no guarantee that
-	 * createPartControl() has been called, so the part controls may never have
-	 * been created.
+	 * This is the last method called on the <code>IWorkbenchPart</code>. At this
+	 * point the part controls (if they were ever created) have been disposed as
+	 * part of an SWT composite. There is no guarantee that createPartControl() has
+	 * been called, so the part controls may never have been created.
 	 * </p>
 	 * <p>
 	 * Within this method a part may release any resources, fonts, images,
@@ -442,142 +368,107 @@ public class AttributeViewPage extends Page implements
 	 * appropriate times).
 	 * </p>
 	 */
-	public void dispose( )
-	{
-		if ( pageGenerator instanceof AbstractPageGenerator )
-		{
-			( (AbstractPageGenerator) pageGenerator ).dispose( );
+	public void dispose() {
+		if (pageGenerator instanceof AbstractPageGenerator) {
+			((AbstractPageGenerator) pageGenerator).dispose();
 		}
-		deRegisterEventManager( );
-		IWorkbenchPage page = getSite( ).getPage( );
-		page.removeSelectionListener( this );
+		deRegisterEventManager();
+		IWorkbenchPage page = getSite().getPage();
+		page.removeSelectionListener(this);
 		// page.removePartListener( partListener );
 
 		// remove the mediator listener
-		IMediator mediator = SessionHandleAdapter.getInstance( )
-				.getMediator( model, false );
-		if ( mediator != null )
-		{
-			mediator.removeColleague( this );
+		IMediator mediator = SessionHandleAdapter.getInstance().getMediator(model, false);
+		if (mediator != null) {
+			mediator.removeColleague(this);
 		}
 
-		super.dispose( );
+		super.dispose();
 	}
 
 	/**
 	 * Handles all global actions
 	 */
-	private void handleGlobalAction( )
-	{
-		for ( int i = 0; i < GlobalActionFactory.GLOBAL_STACK_ACTIONS.length; i++ )
-		{
+	private void handleGlobalAction() {
+		for (int i = 0; i < GlobalActionFactory.GLOBAL_STACK_ACTIONS.length; i++) {
 			String id = GlobalActionFactory.GLOBAL_STACK_ACTIONS[i];
-			getSite( ).getActionBars( ).setGlobalActionHandler( id,
-					GlobalActionFactory.createStackAction( id,
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( ) ) );
+			getSite().getActionBars().setGlobalActionHandler(id,
+					GlobalActionFactory.createStackAction(id, SessionHandleAdapter.getInstance().getCommandStack()));
 		}
 
-		getSite( ).getActionBars( )
-				.setGlobalActionHandler( ActionFactory.SELECT_ALL.getId( ),
-						new SelectAllAction( ) );
+		getSite().getActionBars().setGlobalActionHandler(ActionFactory.SELECT_ALL.getId(), new SelectAllAction());
 
-		getSite( ).getActionBars( ).updateActionBars( );
+		getSite().getActionBars().updateActionBars();
 	}
 
-	private static class SelectAllAction extends Action
-	{
+	private static class SelectAllAction extends Action {
 
-		private SelectAllAction( )
-		{
-			setId( ActionFactory.SELECT_ALL.getId( ) );
+		private SelectAllAction() {
+			setId(ActionFactory.SELECT_ALL.getId());
 		}
 
-		public void runWithEvent( Event event )
-		{
-			try
-			{
-				execute( );
-			}
-			catch ( ExecutionException e )
-			{
-				ExceptionUtil.handle( e );
+		public void runWithEvent(Event event) {
+			try {
+				execute();
+			} catch (ExecutionException e) {
+				ExceptionUtil.handle(e);
 			}
 		}
+
 		/**
-		 * The parameters to pass to the method this handler invokes. This
-		 * handler always passes no parameters.
+		 * The parameters to pass to the method this handler invokes. This handler
+		 * always passes no parameters.
 		 */
 		protected static final Class[] NO_PARAMETERS = new Class[0];
 
 		private static final String methodName = "selectAll";//$NON-NLS-1$
 
-		public final Object execute( ) throws ExecutionException
-		{
-			final Method methodToExecute = getMethodToExecute( );
-			if ( methodToExecute != null )
-			{
-				try
-				{
-					final Control focusControl = Display.getCurrent( )
-							.getFocusControl( );
+		public final Object execute() throws ExecutionException {
+			final Method methodToExecute = getMethodToExecute();
+			if (methodToExecute != null) {
+				try {
+					final Control focusControl = Display.getCurrent().getFocusControl();
 
 					// if it's an embedded swing component, fail gracefully for
 					// now.
-					if ( ( focusControl instanceof Composite )
-							&& ( ( ( (Composite) focusControl ).getStyle( ) & SWT.EMBEDDED ) != 0 ) )
-					{
+					if ((focusControl instanceof Composite)
+							&& ((((Composite) focusControl).getStyle() & SWT.EMBEDDED) != 0)) {
 						return null;
 					}
 
-					final int numParams = methodToExecute.getParameterTypes( ).length;
+					final int numParams = methodToExecute.getParameterTypes().length;
 
-					if ( numParams == 0 )
-					{
+					if (numParams == 0) {
 						// This is a no-argument selectAll method.
-						methodToExecute.invoke( focusControl, (Object[]) null );
-						focusControl.notifyListeners( SWT.Selection, null );
+						methodToExecute.invoke(focusControl, (Object[]) null);
+						focusControl.notifyListeners(SWT.Selection, null);
 
-					}
-					else if ( numParams == 1 )
-					{
+					} else if (numParams == 1) {
 						// This is a single-point selection method.
-						final Method textLimitAccessor = focusControl.getClass( )
-								.getMethod( "getTextLimit", NO_PARAMETERS ); //$NON-NLS-1$
-						final Integer textLimit = (Integer) textLimitAccessor.invoke( focusControl,
-								(Object[]) null );
-						final Object[] parameters = {
-							new Point( 0, textLimit.intValue( ) )
-						};
-						methodToExecute.invoke( focusControl, parameters );
-						focusControl.notifyListeners( SWT.Selection, null );
+						final Method textLimitAccessor = focusControl.getClass().getMethod("getTextLimit", //$NON-NLS-1$
+								NO_PARAMETERS);
+						final Integer textLimit = (Integer) textLimitAccessor.invoke(focusControl, (Object[]) null);
+						final Object[] parameters = { new Point(0, textLimit.intValue()) };
+						methodToExecute.invoke(focusControl, parameters);
+						focusControl.notifyListeners(SWT.Selection, null);
 
-					}
-					else
-					{
+					} else {
 						/*
-						 * This means that getMethodToExecute() has been
-						 * changed, while this method hasn't.
+						 * This means that getMethodToExecute() has been changed, while this method
+						 * hasn't.
 						 */
-						throw new ExecutionException( "Too many parameters on select all", new Exception( ) ); //$NON-NLS-1$
+						throw new ExecutionException("Too many parameters on select all", new Exception()); //$NON-NLS-1$
 
 					}
 
-				}
-				catch ( IllegalAccessException e )
-				{
+				} catch (IllegalAccessException e) {
 					// The method is protected, so do nothing.
 
-				}
-				catch ( InvocationTargetException e )
-				{
-					throw new ExecutionException( "An exception occurred while executing " //$NON-NLS-1$
-							+ getMethodToExecute( ),
-							e.getTargetException( ) );
+				} catch (InvocationTargetException e) {
+					throw new ExecutionException("An exception occurred while executing " //$NON-NLS-1$
+							+ getMethodToExecute(), e.getTargetException());
 
-				}
-				catch ( NoSuchMethodException e )
-				{
+				} catch (NoSuchMethodException e) {
 					// I can't get the text limit. Do nothing.
 
 				}
@@ -591,143 +482,111 @@ public class AttributeViewPage extends Page implements
 		 * 
 		 * @return The method on the focus control; <code>null</code> if none.
 		 */
-		protected Method getMethodToExecute( )
-		{
-			final Control focusControl = Display.getCurrent( )
-					.getFocusControl( );
+		protected Method getMethodToExecute() {
+			final Control focusControl = Display.getCurrent().getFocusControl();
 			Method method = null;
 
-			if ( focusControl != null )
-			{
-				final Class clazz = focusControl.getClass( );
-				try
-				{
-					method = clazz.getMethod( methodName, NO_PARAMETERS );
-				}
-				catch ( NoSuchMethodException e )
-				{
+			if (focusControl != null) {
+				final Class clazz = focusControl.getClass();
+				try {
+					method = clazz.getMethod(methodName, NO_PARAMETERS);
+				} catch (NoSuchMethodException e) {
 					// Fall through...
 				}
 			}
 
-			if ( ( method == null )
-					&& ( focusControl instanceof Composite )
-					&& ( ( ( (Composite) focusControl ).getStyle( ) & SWT.EMBEDDED ) != 0 ) )
-			{
+			if ((method == null) && (focusControl instanceof Composite)
+					&& ((((Composite) focusControl).getStyle() & SWT.EMBEDDED) != 0)) {
 				/*
-				 * We couldn't find the appropriate method on the current focus
-				 * control. It is possible that the current focus control is an
-				 * embedded SWT composite, which could be containing some Swing
-				 * components. If this is the case, then we should try to pass
-				 * through to the underlying Swing component hierarchy.
+				 * We couldn't find the appropriate method on the current focus control. It is
+				 * possible that the current focus control is an embedded SWT composite, which
+				 * could be containing some Swing components. If this is the case, then we
+				 * should try to pass through to the underlying Swing component hierarchy.
 				 * Insha'allah, this will work.
 				 */
-				try
-				{
-					final Class focusManagerClass = Class.forName( "javax.swing.FocusManager" ); //$NON-NLS-1$
-					final Method focusManagerGetCurrentManagerMethod = focusManagerClass.getMethod( "getCurrentManager", (Class[]) null ); //$NON-NLS-1$
-					final Object focusManager = focusManagerGetCurrentManagerMethod.invoke( focusManagerClass,
-							(Object[]) null );
-					final Method focusManagerGetFocusOwner = focusManagerClass.getMethod( "getFocusOwner", (Class[]) null ); //$NON-NLS-1$
-					final Object focusComponent = focusManagerGetFocusOwner.invoke( focusManager,
-							(Object[]) null );
-					final Class clazz = focusComponent.getClass( );
+				try {
+					final Class focusManagerClass = Class.forName("javax.swing.FocusManager"); //$NON-NLS-1$
+					final Method focusManagerGetCurrentManagerMethod = focusManagerClass.getMethod("getCurrentManager", //$NON-NLS-1$
+							(Class[]) null);
+					final Object focusManager = focusManagerGetCurrentManagerMethod.invoke(focusManagerClass,
+							(Object[]) null);
+					final Method focusManagerGetFocusOwner = focusManagerClass.getMethod("getFocusOwner", //$NON-NLS-1$
+							(Class[]) null);
+					final Object focusComponent = focusManagerGetFocusOwner.invoke(focusManager, (Object[]) null);
+					final Class clazz = focusComponent.getClass();
 
-					try
-					{
-						method = clazz.getMethod( methodName, NO_PARAMETERS );
-					}
-					catch ( NoSuchMethodException e )
-					{
+					try {
+						method = clazz.getMethod(methodName, NO_PARAMETERS);
+					} catch (NoSuchMethodException e) {
 						// Do nothing.
 					}
-				}
-				catch ( final ClassNotFoundException e )
-				{
+				} catch (final ClassNotFoundException e) {
 					// There is no Swing support, so do nothing.
 
-				}
-				catch ( final NoSuchMethodException e )
-				{
+				} catch (final NoSuchMethodException e) {
 					// The API has changed, which seems amazingly unlikely.
-					throw new Error( "Something is seriously wrong here" ); //$NON-NLS-1$
-				}
-				catch ( IllegalAccessException e )
-				{
+					throw new Error("Something is seriously wrong here"); //$NON-NLS-1$
+				} catch (IllegalAccessException e) {
 					// The API has changed, which seems amazingly unlikely.
-					throw new Error( "Something is seriously wrong here" ); //$NON-NLS-1$
-				}
-				catch ( InvocationTargetException e )
-				{
+					throw new Error("Something is seriously wrong here"); //$NON-NLS-1$
+				} catch (InvocationTargetException e) {
 					// The API has changed, which seems amazingly unlikely.
-					throw new Error( "Something is seriously wrong here" ); //$NON-NLS-1$
+					throw new Error("Something is seriously wrong here"); //$NON-NLS-1$
 				}
 			}
 
 			return method;
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
 	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
-	 * (
-	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
-	 * )
+	 * ( org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest )
 	 */
 	List requesList = Collections.EMPTY_LIST;
 
 	private IPageGenerator pageGenerator;
 
-	public boolean isInterested( IMediatorRequest request )
-	{
+	public boolean isInterested(IMediatorRequest request) {
 		return request instanceof ReportRequest;
 	}
 
-	public void performRequest( IMediatorRequest request )
-	{
-		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
-		{
-			if ( !requesList.equals( request.getData( ) ) )
-			{
-				deRegisterEventManager( );
-				requesList = (List) request.getData( );
-				handleSelectionChanged( new StructuredSelection( requesList ) );
-				registerEventManager( );
+	public void performRequest(IMediatorRequest request) {
+		if (ReportRequest.SELECTION.equals(request.getType())) {
+			if (!requesList.equals(request.getData())) {
+				deRegisterEventManager();
+				requesList = (List) request.getData();
+				handleSelectionChanged(new StructuredSelection(requesList));
+				registerEventManager();
 			}
-			if ( request.getExtras( ) != null
-					&& request.getExtras( )
-							.containsKey( AbstractPageGenerator.ACTIVE_PAGE ) )
-			{
-				if ( pageGenerator instanceof TabPageGenerator
-						&& request.getExtras( )
-								.get( TabPageGenerator.ACTIVE_PAGE ) instanceof String )
-				{
-					( (TabPageGenerator) pageGenerator ).selectTabItem( (String) request.getExtras( )
-							.get( TabPageGenerator.ACTIVE_PAGE ) );
+			if (request.getExtras() != null && request.getExtras().containsKey(AbstractPageGenerator.ACTIVE_PAGE)) {
+				if (pageGenerator instanceof TabPageGenerator
+						&& request.getExtras().get(TabPageGenerator.ACTIVE_PAGE) instanceof String) {
+					((TabPageGenerator) pageGenerator)
+							.selectTabItem((String) request.getExtras().get(TabPageGenerator.ACTIVE_PAGE));
 				}
 			}
-			setPartName( );
+			setPartName();
 		}
 	}
 
 	/**
 	 * Removes model change listener.
 	 */
-	protected void deRegisterEventManager( )
-	{
-		if ( UIUtil.getModelEventManager( ) != null )
-			UIUtil.getModelEventManager( ).removeModelEventProcessor( this );
+	protected void deRegisterEventManager() {
+		if (UIUtil.getModelEventManager() != null)
+			UIUtil.getModelEventManager().removeModelEventProcessor(this);
 	}
 
 	/**
 	 * Registers model change listener to DE elements.
 	 */
-	protected void registerEventManager( )
-	{
-		if ( UIUtil.getModelEventManager( ) != null )
-			UIUtil.getModelEventManager( ).addModelEventProcessor( this );
+	protected void registerEventManager() {
+		if (UIUtil.getModelEventManager() != null)
+			UIUtil.getModelEventManager().addModelEventProcessor(this);
 	}
 
 	/**
@@ -736,159 +595,128 @@ public class AttributeViewPage extends Page implements
 	 * This method is called when the selection changes from one to a
 	 * <code>non-null</code> value, but not when the selection changes to
 	 * <code>null</code>. If there is a requirement to be notified in the latter
-	 * scenario, implement <code>INullSelectionListener</code>. The event will
-	 * be posted through this method.
+	 * scenario, implement <code>INullSelectionListener</code>. The event will be
+	 * posted through this method.
 	 * </p>
 	 * 
-	 * @param part
-	 *            the workbench part containing the selection
-	 * @param selection
-	 *            the current selection. This may be <code>null</code> if
-	 *            <code>INullSelectionListener</code> is implemented.
+	 * @param part      the workbench part containing the selection
+	 * @param selection the current selection. This may be <code>null</code> if
+	 *                  <code>INullSelectionListener</code> is implemented.
 	 */
 
-	public void handleSelectionChanged( ISelection selection )
-	{
-		List modelList = getModelList( selection );
-		if ( modelList == null || modelList.size( ) == 0 )
+	public void handleSelectionChanged(ISelection selection) {
+		List modelList = getModelList(selection);
+		if (modelList == null || modelList.size() == 0)
 			return;
-		pageGenerator = builder.getPageGenerator( modelList );
-		if ( container != null && !container.isDisposed( ) )
-		{
-			pageGenerator.createControl( container, modelList );
-			pageGenerator.refresh( );
+		pageGenerator = builder.getPageGenerator(modelList);
+		if (container != null && !container.isDisposed()) {
+			pageGenerator.createControl(container, modelList);
+			pageGenerator.refresh();
 		}
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null )
-		{
-			restoreLibraryPropertiesAction.setEnabled( hasLocalProperties( selection ) );
-			handleGlobalAction( );
-			setPartName( );
+		if (SessionHandleAdapter.getInstance().getReportDesignHandle() != null) {
+			restoreLibraryPropertiesAction.setEnabled(hasLocalProperties(selection));
+			handleGlobalAction();
+			setPartName();
 		}
 		this.selection = selection;
 	}
 
-	static class MessagePageGenerator extends TabPageGenerator
-	{
+	static class MessagePageGenerator extends TabPageGenerator {
 
-		public void createTabItems( List input )
-		{
-			super.createTabItems( input );
-			Composite pane = new Composite( tabFolder, SWT.NONE );
-			pane.setLayout( new FillLayout( ) );
+		public void createTabItems(List input) {
+			super.createTabItems(input);
+			Composite pane = new Composite(tabFolder, SWT.NONE);
+			pane.setLayout(new FillLayout());
 
-			new MessageAttributePage( pane, SWT.NONE, input );
+			new MessageAttributePage(pane, SWT.NONE, input);
 
-			CTabItem tabItem = new CTabItem( tabFolder, SWT.NONE );
+			CTabItem tabItem = new CTabItem(tabFolder, SWT.NONE);
 
-			if ( input.get( 0 ) instanceof ModelClassWrapper )
-			{
-				tabItem.setText( ( (ModelClassWrapper) input.get( 0 ) ).getTypeMessage( ) );
+			if (input.get(0) instanceof ModelClassWrapper) {
+				tabItem.setText(((ModelClassWrapper) input.get(0)).getTypeMessage());
 			}
-			tabItem.setControl( pane );
+			tabItem.setControl(pane);
 		}
 	}
 
-	static class MessageAttributePage extends Composite
-	{
+	static class MessageAttributePage extends Composite {
 
 		private List model;
 
-		public MessageAttributePage( Composite parent, int style, List input )
-		{
-			super( parent, style );
+		public MessageAttributePage(Composite parent, int style, List input) {
+			super(parent, style);
 			model = input;
-			buildUI( );
+			buildUI();
 
 		}
 
-		private void buildUI( )
-		{
+		private void buildUI() {
 
-			FillLayout layout = new FillLayout( );
-			setLayout( layout );
+			FillLayout layout = new FillLayout();
+			setLayout(layout);
 
-			Label label = new Label( this, SWT.LEFT | SWT.TOP | SWT.WRAP );
+			Label label = new Label(this, SWT.LEFT | SWT.TOP | SWT.WRAP);
 			String extendsString = "";//$NON-NLS-1$
-			if ( model.get( 0 ) instanceof ModelClassWrapper )
-			{
+			if (model.get(0) instanceof ModelClassWrapper) {
 
-				extendsString = ( (ModelClassWrapper) model.get( 0 ) ).getExtendsString( );
+				extendsString = ((ModelClassWrapper) model.get(0)).getExtendsString();
 			}
 
-			label.setText( extendsString );
+			label.setText(extendsString);
 		}
 	}
 
-	static class ModelClassWrapper
-	{
+	static class ModelClassWrapper {
 
 		private GroupElementHandle groupElementHandle;
 
-		public ModelClassWrapper( List modelList )
-		{
-			groupElementHandle = DEUtil.getMultiSelectionHandle( modelList );
+		public ModelClassWrapper(List modelList) {
+			groupElementHandle = DEUtil.getMultiSelectionHandle(modelList);
 		}
 
-		public String getTypeMessage( )
-		{
-			if ( groupElementHandle.getElements( ).get( 0 ) instanceof DesignElementHandle )
-			{
-				return DEUtil.getDisplayLabel( groupElementHandle.getElements( )
-						.get( 0 ) );
+		public String getTypeMessage() {
+			if (groupElementHandle.getElements().get(0) instanceof DesignElementHandle) {
+				return DEUtil.getDisplayLabel(groupElementHandle.getElements().get(0));
 			}
 			return "";//$NON-NLS-1$
 		}
 
-		public String getExtendsString( )
-		{
-			DesignElementHandle handle = (DesignElementHandle) groupElementHandle.getElements( )
-					.get( 0 );
-			String name = DEUtil.getDisplayLabel( handle );
-			String extendsFrom = handle.getExtends( ).getDisplayLabel( );
-			String libName = handle.getExtends( ).getRoot( ).getDisplayLabel( );
-			return Messages.getFormattedString( "AttributeView.view.message.Emptypage", new Object[]{name,//$NON-NLS-1$
-							extendsFrom,
-							libName,
-							name
-					} );
+		public String getExtendsString() {
+			DesignElementHandle handle = (DesignElementHandle) groupElementHandle.getElements().get(0);
+			String name = DEUtil.getDisplayLabel(handle);
+			String extendsFrom = handle.getExtends().getDisplayLabel();
+			String libName = handle.getExtends().getRoot().getDisplayLabel();
+			return Messages.getFormattedString("AttributeView.view.message.Emptypage", new Object[] { name, //$NON-NLS-1$
+					extendsFrom, libName, name });
 		}
 
-		public Object getElement( )
-		{
-			if ( groupElementHandle != null )
-			{
-				return groupElementHandle.getElements( ).get( 0 );
+		public Object getElement() {
+			if (groupElementHandle != null) {
+				return groupElementHandle.getElements().get(0);
 			}
-			return new Object( );
+			return new Object();
 		}
 	}
 
-	public Control getControl( )
-	{
+	public Control getControl() {
 		return container;
 	}
 
-	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
-	{
+	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
 
 	}
 
-	public void clear( )
-	{
+	public void clear() {
 
 	}
 
-	public void postElementEvent( )
-	{
-		restoreLibraryPropertiesAction.setEnabled( hasLocalProperties( selection ) );
-		if ( pageGenerator != null
-				&& pageGenerator.getControl( ) != null
-				&& !pageGenerator.getControl( ).isDisposed( ) )
-			pageGenerator.refresh( );
+	public void postElementEvent() {
+		restoreLibraryPropertiesAction.setEnabled(hasLocalProperties(selection));
+		if (pageGenerator != null && pageGenerator.getControl() != null && !pageGenerator.getControl().isDisposed())
+			pageGenerator.refresh();
 	}
 
-	public Object getAdapter( Class adapter )
-	{
+	public Object getAdapter(Class adapter) {
 		return null;
 	}
 }

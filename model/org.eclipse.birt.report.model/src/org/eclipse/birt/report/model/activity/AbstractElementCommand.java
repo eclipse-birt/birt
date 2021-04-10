@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.core.Module;
  * 
  */
 
-public abstract class AbstractElementCommand extends Command
-{
+public abstract class AbstractElementCommand extends Command {
 
 	/**
 	 * The element to modify.
@@ -32,15 +31,12 @@ public abstract class AbstractElementCommand extends Command
 	/**
 	 * Constructor.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param obj
-	 *            the element to modify
+	 * @param module the module
+	 * @param obj    the element to modify
 	 */
 
-	public AbstractElementCommand( Module module, DesignElement obj )
-	{
-		super( module );
+	public AbstractElementCommand(Module module, DesignElement obj) {
+		super(module);
 		assert obj != null;
 		element = obj;
 	}
@@ -48,32 +44,25 @@ public abstract class AbstractElementCommand extends Command
 	/**
 	 * Checks and adjusts the new position.
 	 * 
-	 * @param oldPosn
-	 *            the old position
-	 * @param newPosn
-	 *            the new position
-	 * @param size
-	 *            the list size
+	 * @param oldPosn the old position
+	 * @param newPosn the new position
+	 * @param size    the list size
 	 * @return the adjusted new position.
 	 */
 
-	static protected int checkAndAdjustPosition( int oldPosn, int newPosn,
-			int size )
-	{
-		if ( newPosn < 0 )
+	static protected int checkAndAdjustPosition(int oldPosn, int newPosn, int size) {
+		if (newPosn < 0)
 			newPosn = 0;
-		if ( newPosn > size - 1 )
+		if (newPosn > size - 1)
 			newPosn = size - 1;
 
-		if ( oldPosn < 0 || oldPosn > size )
-			throw new IndexOutOfBoundsException(
-					"From: " + oldPosn + ", List Size: " + size ); //$NON-NLS-1$//$NON-NLS-2$
+		if (oldPosn < 0 || oldPosn > size)
+			throw new IndexOutOfBoundsException("From: " + oldPosn + ", List Size: " + size); //$NON-NLS-1$//$NON-NLS-2$
 
-		if ( newPosn < 0 || newPosn > size )
-			throw new IndexOutOfBoundsException(
-					"To: " + newPosn + ", List Size: " + size ); //$NON-NLS-1$//$NON-NLS-2$
+		if (newPosn < 0 || newPosn > size)
+			throw new IndexOutOfBoundsException("To: " + newPosn + ", List Size: " + size); //$NON-NLS-1$//$NON-NLS-2$
 
-		if ( oldPosn == newPosn )
+		if (oldPosn == newPosn)
 			return oldPosn;
 
 		return newPosn;

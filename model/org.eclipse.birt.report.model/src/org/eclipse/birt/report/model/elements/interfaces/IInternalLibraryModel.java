@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * 
  */
 
-public interface IInternalLibraryModel
-{
+public interface IInternalLibraryModel {
 
 	/**
 	 * Identifier of the slot that holds themes.

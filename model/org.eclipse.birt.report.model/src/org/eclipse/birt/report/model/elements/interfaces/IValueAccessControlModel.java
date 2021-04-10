@@ -11,14 +11,12 @@
 
 package org.eclipse.birt.report.model.elements.interfaces;
 
-
 /**
  * Lists all constants that an value access control element may use.
  * 
  */
 
-public interface IValueAccessControlModel extends IAccessControlModel
-{
+public interface IValueAccessControlModel extends IAccessControlModel {
 
 	/**
 	 * Name of the member which defines values.

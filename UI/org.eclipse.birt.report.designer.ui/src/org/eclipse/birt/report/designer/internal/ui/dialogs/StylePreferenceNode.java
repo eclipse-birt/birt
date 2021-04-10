@@ -21,28 +21,22 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 
-public class StylePreferenceNode extends PreferenceNode
-{
+public class StylePreferenceNode extends PreferenceNode {
 
-	public StylePreferenceNode( String id, IPreferencePage preferencePage )
-	{
-		super( id, preferencePage );
+	public StylePreferenceNode(String id, IPreferencePage preferencePage) {
+		super(id, preferencePage);
 	}
 
 	private Image image;
 
-	public Image getLabelImage( )
-	{
+	public Image getLabelImage() {
 		image = null;
-		if ( getPage( ) instanceof BaseStylePreferencePage )
-		{
-			BaseStylePreferencePage page = (BaseStylePreferencePage) getPage( );
-			if ( page.hasLocaleProperties( ) )
-			{
-				image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_STYLE_MODIFIED );
-			}
-			else
-				image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_STYLE_DEFAULT );
+		if (getPage() instanceof BaseStylePreferencePage) {
+			BaseStylePreferencePage page = (BaseStylePreferencePage) getPage();
+			if (page.hasLocaleProperties()) {
+				image = ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_STYLE_MODIFIED);
+			} else
+				image = ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_STYLE_DEFAULT);
 		}
 
 		return image;

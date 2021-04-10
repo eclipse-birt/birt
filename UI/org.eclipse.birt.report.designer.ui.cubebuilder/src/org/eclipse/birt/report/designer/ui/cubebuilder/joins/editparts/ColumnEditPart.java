@@ -37,7 +37,8 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 /**
  * The Edit Part corresponding to the Column of a Table
  * 
- * @see <p>
+ * @see
+ *      <p>
  *      NodeDditPartHelper
  *      <p>
  *      for other methods defined here
@@ -53,17 +54,15 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 	 * @param context
 	 * @param column
 	 */
-	public ColumnEditPart( EditPart parent, ResultSetColumnHandle column )
-	{
-		setParent( parent );
-		setModel( column );
-		this.cube = ( (DatasetNodeEditPart) getParent( ) ).getCube( );
+	public ColumnEditPart(EditPart parent, ResultSetColumnHandle column) {
+		setParent(parent);
+		setModel(column);
+		this.cube = ((DatasetNodeEditPart) getParent()).getCube();
 	}
 
 	private TabularCubeHandle cube;
 
-	public TabularCubeHandle getCube( )
-	{
+	public TabularCubeHandle getCube() {
 		return cube;
 	}
 
@@ -72,27 +71,25 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
+	protected IFigure createFigure() {
 		ColumnFigure columnFigure = null;
-		columnFigure = new ColumnFigure( );
-		FlowLayout layout = new FlowLayout( );
-		layout.setMinorSpacing( 2 );
-		columnFigure.setLayoutManager( layout );
-		columnFigure.setOpaque( true );
-		String name = OlapUtil.getDataFieldDisplayName( getColumn( ) );
-		label = new Label( name );
-		columnFigure.add( label );
+		columnFigure = new ColumnFigure();
+		FlowLayout layout = new FlowLayout();
+		layout.setMinorSpacing(2);
+		columnFigure.setLayoutManager(layout);
+		columnFigure.setOpaque(true);
+		String name = OlapUtil.getDataFieldDisplayName(getColumn());
+		label = new Label(name);
+		columnFigure.add(label);
 		return columnFigure;
 	}
 
 	/**
 	 * @return Gets the Model object represented by this Edit Part
 	 */
-	private ResultSetColumnHandle getColumn( )
-	{
+	private ResultSetColumnHandle getColumn() {
 		// TODO Auto-generated method stub
-		return (ResultSetColumnHandle) getModel( );
+		return (ResultSetColumnHandle) getModel();
 	}
 
 	/*
@@ -100,71 +97,54 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
+	protected void createEditPolicies() {
 		// // TODO Auto-generated method stub
-		ColumnSelectionEditPolicy colEditPol = new ColumnSelectionEditPolicy( );
-		this.installEditPolicy( "Selection Policy", colEditPol ); //$NON-NLS-1$
-		installEditPolicy( EditPolicy.GRAPHICAL_NODE_ROLE,
-				new ConnectionCreationEditPolicy( ) );
+		ColumnSelectionEditPolicy colEditPol = new ColumnSelectionEditPolicy();
+		this.installEditPolicy("Selection Policy", colEditPol); //$NON-NLS-1$
+		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new ConnectionCreationEditPolicy());
 
 	}
 
-	public IFigure getChopFigure( )
-	{
-		return ( (AbstractGraphicalEditPart) this.getParent( ) ).getFigure( );
+	public IFigure getChopFigure() {
+		return ((AbstractGraphicalEditPart) this.getParent()).getFigure();
 	}
 
-	protected List getModelTargetConnections( )
-	{
-		List targetjoins = new ArrayList( );
+	protected List getModelTargetConnections() {
+		List targetjoins = new ArrayList();
 
-		DatasetNodeEditPart datasetEditpart = (DatasetNodeEditPart) getParent( );
-		TabularCubeHandle cube = datasetEditpart.getCube( );
-		Iterator iter = cube.joinConditionsIterator( );
-		while ( iter.hasNext( ) )
-		{
-			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
-			Iterator conditionIter = condition.getJoinConditions( ).iterator( );
-			while ( conditionIter.hasNext( ) )
-			{
-				DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next( );
-				if ( joinCondition.getCubeKey( )
-						.equals( getColumn( ).getColumnName( ) ) )
-				{
-					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) condition.getHierarchy( );
-					if ( hierarchy == null || hierarchy.getDataSet( ) == null )
+		DatasetNodeEditPart datasetEditpart = (DatasetNodeEditPart) getParent();
+		TabularCubeHandle cube = datasetEditpart.getCube();
+		Iterator iter = cube.joinConditionsIterator();
+		while (iter.hasNext()) {
+			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next();
+			Iterator conditionIter = condition.getJoinConditions().iterator();
+			while (conditionIter.hasNext()) {
+				DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIter.next();
+				if (joinCondition.getCubeKey().equals(getColumn().getColumnName())) {
+					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) condition.getHierarchy();
+					if (hierarchy == null || hierarchy.getDataSet() == null)
 						break;
 
-					if ( OlapUtil.getDataField( hierarchy.getDataSet( ),
-							joinCondition.getHierarchyKey( ) ) != null )
-					{
-						List columnList = new ArrayList( );
+					if (OlapUtil.getDataField(hierarchy.getDataSet(), joinCondition.getHierarchyKey()) != null) {
+						List columnList = new ArrayList();
 
-						TabularLevelHandle[] levels = (TabularLevelHandle[]) hierarchy.getContents( IHierarchyModel.LEVELS_PROP )
-								.toArray( new TabularLevelHandle[0] );
-						if ( levels != null )
-						{
-							for ( int i = 0; i < levels.length; i++ )
-							{
-								ResultSetColumnHandle resultSetColumn = OlapUtil.getDataField( hierarchy.getDataSet( ),
-										levels[i].getColumnName( ) );
-								if ( resultSetColumn != null
-										&& !columnList.contains( resultSetColumn ) )
-									columnList.add( resultSetColumn );
+						TabularLevelHandle[] levels = (TabularLevelHandle[]) hierarchy
+								.getContents(IHierarchyModel.LEVELS_PROP).toArray(new TabularLevelHandle[0]);
+						if (levels != null) {
+							for (int i = 0; i < levels.length; i++) {
+								ResultSetColumnHandle resultSetColumn = OlapUtil.getDataField(hierarchy.getDataSet(),
+										levels[i].getColumnName());
+								if (resultSetColumn != null && !columnList.contains(resultSetColumn))
+									columnList.add(resultSetColumn);
 							}
 						}
 
-						for ( int i = 0; i < columnList.size( ); i++ )
-						{
-							ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get( i );
+						for (int i = 0; i < columnList.size(); i++) {
+							ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) columnList.get(i);
 
-							if ( resultSetColumn != null
-									&& resultSetColumn.getColumnName( ) != null
-									&& resultSetColumn.getColumnName( )
-											.equals( joinCondition.getHierarchyKey( ) ) )
-							{
-								targetjoins.add( joinCondition );
+							if (resultSetColumn != null && resultSetColumn.getColumnName() != null
+									&& resultSetColumn.getColumnName().equals(joinCondition.getHierarchyKey())) {
+								targetjoins.add(joinCondition);
 								break;
 							}
 						}
@@ -176,28 +156,23 @@ public class ColumnEditPart extends NodeEditPartHelper implements Listener
 		return targetjoins;
 	}
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
-		if ( isActive( ) && !isDelete( ) )
-		{
-			refreshTargetConnections( );
+	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
+		if (isActive() && !isDelete()) {
+			refreshTargetConnections();
 		}
 	}
 
-	public void deactivate( )
-	{
-		super.deactivate( );
-		cube.removeListener( this );
+	public void deactivate() {
+		super.deactivate();
+		cube.removeListener(this);
 	}
 
-	public void activate( )
-	{
-		super.activate( );
-		cube.addListener( this );
+	public void activate() {
+		super.activate();
+		cube.addListener(this);
 	}
 
-	public String getColumnName( )
-	{
-		return getColumn( ).getColumnName( );
+	public String getColumnName() {
+		return getColumn().getColumnName();
 	}
 }

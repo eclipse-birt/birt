@@ -25,48 +25,39 @@ import org.eclipse.jface.dialogs.Dialog;
 /**
  * Text edit part class
  */
-public class TextEditPart extends LabelEditPart
-{
+public class TextEditPart extends LabelEditPart {
 
-	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "TextEditPart.Figure.Dafault" ); //$NON-NLS-1$
+	private static final String FIGURE_DEFAULT_TEXT = Messages.getString("TextEditPart.Figure.Dafault"); //$NON-NLS-1$
 
-	private static final String TEXT_TRANS_MSG = Messages.getString( "TextEditPart.trans.editText" ); //$NON-NLS-1$
+	private static final String TEXT_TRANS_MSG = Messages.getString("TextEditPart.trans.editText"); //$NON-NLS-1$
 
 	/**
 	 * The constructor.
 	 * 
 	 * @param model
 	 */
-	public TextEditPart( Object model )
-	{
-		super( model );
+	public TextEditPart(Object model) {
+		super(model);
 	}
 
 	/**
 	 * Perform direct edit.
 	 */
-	public void performDirectEdit( )
-	{
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
-		stack.startTrans( TEXT_TRANS_MSG );
+	public void performDirectEdit() {
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+		stack.startTrans(TEXT_TRANS_MSG);
 
 		String title = TextEditor.DLG_TITLE_EDIT;
 
-		TextEditor dialog = new TextEditor( UIUtil.getDefaultShell( ),
-				title,
-				( (TextItemHandle) getModel( ) ) );
+		TextEditor dialog = new TextEditor(UIUtil.getDefaultShell(), title, ((TextItemHandle) getModel()));
 
-		dialog.setEditModal( true );
+		dialog.setEditModal(true);
 
-		if ( dialog.open( ) == Dialog.OK )
-		{
-			stack.commit( );
-			refreshVisuals( );
-		}
-		else
-		{
-			stack.rollback( );
+		if (dialog.open() == Dialog.OK) {
+			stack.commit();
+			refreshVisuals();
+		} else {
+			stack.rollback();
 		}
 	}
 
@@ -75,47 +66,38 @@ public class TextEditPart extends LabelEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		TextFigure text = new TextFigure( );
+	protected IFigure createFigure() {
+		TextFigure text = new TextFigure();
 		return text;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		super.refreshFigure( );
+	public void refreshFigure() {
+		super.refreshFigure();
 
-		( (LabelFigure) getFigure( ) ).setToolTipText( ( (TextItemHandle) getModel( ) ).getDisplayContent( ) );
+		((LabelFigure) getFigure()).setToolTipText(((TextItemHandle) getModel()).getDisplayContent());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .LabelEditPart#getText()
 	 */
-	protected String getText( )
-	{
-		TextItemHandle handle = (TextItemHandle) getModel( );
-		String text = handle.getDisplayContent( );
-		if ( text == null || text.length( ) == 0 )
-		{
+	protected String getText() {
+		TextItemHandle handle = (TextItemHandle) getModel();
+		String text = handle.getDisplayContent();
+		if (text == null || text.length() == 0) {
 			text = FIGURE_DEFAULT_TEXT;
-		}
-		else
-		{
-			if ( text.length( ) > TRUNCATE_LENGTH
-					&& DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML.equals( handle.getContentType( ) ) )
-			{
-				text = text.substring( 0, TRUNCATE_LENGTH - 2 ) + ELLIPSIS;
+		} else {
+			if (text.length() > TRUNCATE_LENGTH
+					&& DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML.equals(handle.getContentType())) {
+				text = text.substring(0, TRUNCATE_LENGTH - 2) + ELLIPSIS;
 			}
 		}
 		return text;
@@ -124,14 +106,11 @@ public class TextEditPart extends LabelEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .LabelEditPart#hasText()
 	 */
-	protected boolean hasText( )
-	{
-		if ( StringUtil.isBlank( ( (TextItemHandle) getModel( ) ).getDisplayContent( ) ) )
-		{
+	protected boolean hasText() {
+		if (StringUtil.isBlank(((TextItemHandle) getModel()).getDisplayContent())) {
 			return false;
 		}
 

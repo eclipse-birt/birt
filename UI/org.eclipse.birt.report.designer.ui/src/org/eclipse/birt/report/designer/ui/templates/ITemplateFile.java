@@ -16,11 +16,12 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 /**
  * ITemplateFile
  */
-public interface ITemplateFile extends ITemplateEntry
-{
+public interface ITemplateFile extends ITemplateEntry {
 
-	/**Gets the Template
+	/**
+	 * Gets the Template
+	 * 
 	 * @return
 	 */
-	ReportDesignHandle getReportHandle( );
+	ReportDesignHandle getReportHandle();
 }

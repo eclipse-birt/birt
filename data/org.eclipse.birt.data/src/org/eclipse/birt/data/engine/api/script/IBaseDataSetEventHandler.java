@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.api.script;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -18,12 +18,14 @@ import org.eclipse.birt.core.exception.BirtException;
 /**
  * Handler for data set events
  */
-public interface IBaseDataSetEventHandler
-{
-	public void handleBeforeOpen( IDataSetInstanceHandle dataSet ) throws BirtException;
-	public void handleBeforeClose( IDataSetInstanceHandle dataSet ) throws BirtException;
-	public void handleAfterOpen( IDataSetInstanceHandle dataSet ) throws BirtException;
-	public void handleAfterClose( IDataSetInstanceHandle dataSet ) throws BirtException;
-	
-	public void handleOnFetch( IDataSetInstanceHandle dataSet, IDataRow row) throws BirtException;
+public interface IBaseDataSetEventHandler {
+	public void handleBeforeOpen(IDataSetInstanceHandle dataSet) throws BirtException;
+
+	public void handleBeforeClose(IDataSetInstanceHandle dataSet) throws BirtException;
+
+	public void handleAfterOpen(IDataSetInstanceHandle dataSet) throws BirtException;
+
+	public void handleAfterClose(IDataSetInstanceHandle dataSet) throws BirtException;
+
+	public void handleOnFetch(IDataSetInstanceHandle dataSet, IDataRow row) throws BirtException;
 }

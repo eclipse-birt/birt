@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.report.data.adapter;
 
 import org.eclipse.birt.core.plugin.BIRTPlugin;
@@ -18,8 +18,7 @@ import org.eclipse.birt.core.plugin.BIRTPlugin;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends BIRTPlugin 
-{
+public class Activator extends BIRTPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.birt.report.data.adapter";
 

@@ -18,28 +18,23 @@ import org.eclipse.birt.chart.script.api.data.INumberDataElement;
  * 
  */
 
-public class NumberElementImpl implements INumberDataElement
-{
+public class NumberElementImpl implements INumberDataElement {
 
 	private double data;
 
-	public NumberElementImpl( NumberDataElement data )
-	{
-		this.data = data.getValue( );
+	public NumberElementImpl(NumberDataElement data) {
+		this.data = data.getValue();
 	}
 
-	public NumberElementImpl( double data )
-	{
+	public NumberElementImpl(double data) {
 		this.data = data;
 	}
 
-	public double getValue( )
-	{
+	public double getValue() {
 		return data;
 	}
 
-	public void setValue( double value )
-	{
+	public void setValue(double value) {
 		data = value;
 	}
 

@@ -13,12 +13,10 @@ package org.eclipse.birt.data.engine.impl;
 
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 
-
 /**
  * 
  */
 
-public class CubeCreationQueryDefinition extends QueryDefinition
-{
+public class CubeCreationQueryDefinition extends QueryDefinition {
 
 }

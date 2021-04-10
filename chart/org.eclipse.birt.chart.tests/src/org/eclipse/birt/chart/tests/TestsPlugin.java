@@ -8,16 +8,16 @@ import java.util.*;
  * The main plugin class to be used in the desktop.
  */
 public class TestsPlugin extends Plugin {
-	//The shared instance.
+	// The shared instance.
 	private static TestsPlugin plugin;
-	//Resource bundle.
+	// Resource bundle.
 	private ResourceBundle resourceBundle;
-	
+
 	/**
 	 * Plugin ID.
 	 */
-	public static final String ID = "org.eclipse.birt.chart.tests"; //$NON-NLS-1$ 
-	
+	public static final String ID = "org.eclipse.birt.chart.tests"; //$NON-NLS-1$
+
 	/**
 	 * The constructor.
 	 */
@@ -53,8 +53,7 @@ public class TestsPlugin extends Plugin {
 	}
 
 	/**
-	 * Returns the string from the plugin's resource bundle,
-	 * or 'key' if not found.
+	 * Returns the string from the plugin's resource bundle, or 'key' if not found.
 	 */
 	public static String getResourceString(String key) {
 		ResourceBundle bundle = TestsPlugin.getDefault().getResourceBundle();

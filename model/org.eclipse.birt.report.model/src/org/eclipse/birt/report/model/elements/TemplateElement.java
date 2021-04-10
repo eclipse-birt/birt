@@ -34,43 +34,39 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * @see org.eclipse.birt.report.model.elements.TemplateDataSet
  */
 
-public abstract class TemplateElement extends DesignElement
-{
+public abstract class TemplateElement extends DesignElement {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public TemplateElement( )
-	{
+	public TemplateElement() {
 	}
 
 	/**
 	 * Constructs the template element with a name.
 	 * 
-	 * @param theName
-	 *            the name
+	 * @param theName the name
 	 */
 
-	public TemplateElement( String theName )
-	{
-		super( theName );
+	public TemplateElement(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
-	{
-		List list = super.validate( module );
+	public List validate(Module module) {
+		List list = super.validate(module);
 
 		// Check the element reference of refTemplateParameter property
 
-		list.addAll( ElementReferenceValidator.getInstance( ).validate( module,
-				this, REF_TEMPLATE_PARAMETER_PROP ) );
+		list.addAll(ElementReferenceValidator.getInstance().validate(module, this, REF_TEMPLATE_PARAMETER_PROP));
 
 		return list;
 	}
@@ -78,84 +74,78 @@ public abstract class TemplateElement extends DesignElement
 	/**
 	 * Gets allowed type of the template element.
 	 * 
-	 * @param module
-	 *            the module of the template element
+	 * @param module the module of the template element
 	 * @return the allowed type of the template element
 	 */
 
-	public String getAllowedType( Module module )
-	{
-		TemplateParameterDefinition refTemplateParam = (TemplateParameterDefinition) getTemplateParameterElement( module );
-		if ( refTemplateParam == null )
+	public String getAllowedType(Module module) {
+		TemplateParameterDefinition refTemplateParam = (TemplateParameterDefinition) getTemplateParameterElement(
+				module);
+		if (refTemplateParam == null)
 			return null;
-		return refTemplateParam.getAllowedType( module );
+		return refTemplateParam.getAllowedType(module);
 	}
 
 	/**
 	 * Returns the static description for the template element.
 	 * 
-	 * @param module
-	 *            the module of the template element
+	 * @param module the module of the template element
 	 * @return the static description to display
 	 */
 
-	public String getDescription( Module module )
-	{
-		TemplateParameterDefinition refTemplateParam = (TemplateParameterDefinition) getTemplateParameterElement( module );
-		if ( refTemplateParam == null )
+	public String getDescription(Module module) {
+		TemplateParameterDefinition refTemplateParam = (TemplateParameterDefinition) getTemplateParameterElement(
+				module);
+		if (refTemplateParam == null)
 			return null;
-		return refTemplateParam.getDescription( module );
+		return refTemplateParam.getDescription(module);
 	}
 
 	/**
-	 * Returns the localized description for the template element. If the
-	 * localized description for the description resource key is found, it will
-	 * be returned. Otherwise, the static description will be returned.
+	 * Returns the localized description for the template element. If the localized
+	 * description for the description resource key is found, it will be returned.
+	 * Otherwise, the static description will be returned.
 	 * 
-	 * @param module
-	 *            the module of the template element
+	 * @param module the module of the template element
 	 * @return the localized description for the template element
 	 */
 
-	public String getDisplayDescription( Module module )
-	{
-		TemplateParameterDefinition refTemplateParam = (TemplateParameterDefinition) getTemplateParameterElement( module );
-		if ( refTemplateParam == null )
+	public String getDisplayDescription(Module module) {
+		TemplateParameterDefinition refTemplateParam = (TemplateParameterDefinition) getTemplateParameterElement(
+				module);
+		if (refTemplateParam == null)
 			return null;
-		return refTemplateParam.getDisplayDescription( module );
+		return refTemplateParam.getDisplayDescription(module);
 	}
 
 	/**
-	 * Returns the resource key of the static description of the template
-	 * element.
+	 * Returns the resource key of the static description of the template element.
 	 * 
-	 * @param module
-	 *            the module of the template element
+	 * @param module the module of the template element
 	 * @return the resource key of the static description
 	 */
 
-	public String getDescriptionKey( Module module )
-	{
-		TemplateParameterDefinition refTemplateParam = (TemplateParameterDefinition) getTemplateParameterElement( module );
-		if ( refTemplateParam == null )
+	public String getDescriptionKey(Module module) {
+		TemplateParameterDefinition refTemplateParam = (TemplateParameterDefinition) getTemplateParameterElement(
+				module);
+		if (refTemplateParam == null)
 			return null;
-		return refTemplateParam.getDescriptionKey( module );
+		return refTemplateParam.getDescriptionKey(module);
 	}
 
 	/**
 	 * Gets the default element of this template element.
 	 * 
-	 * @param module
-	 *            the module of the template element
+	 * @param module the module of the template element
 	 * @return the default element of this template element
 	 */
 
-	public DesignElement getDefaultElement( Module module )
-	{
-		TemplateParameterDefinition refTemplateParam = (TemplateParameterDefinition) getTemplateParameterElement( module );
-		if ( refTemplateParam == null )
+	public DesignElement getDefaultElement(Module module) {
+		TemplateParameterDefinition refTemplateParam = (TemplateParameterDefinition) getTemplateParameterElement(
+				module);
+		if (refTemplateParam == null)
 			return null;
-		return refTemplateParam.getDefaultElement( );
+		return refTemplateParam.getDefaultElement();
 	}
 
 	/*
@@ -164,24 +154,18 @@ public abstract class TemplateElement extends DesignElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#clone()
 	 */
 
-	public Object doClone( CopyPolicy policy )
-			throws CloneNotSupportedException
-	{
-		DesignElement element = (DesignElement) super.doClone( policy );
+	public Object doClone(CopyPolicy policy) throws CloneNotSupportedException {
+		DesignElement element = (DesignElement) super.doClone(policy);
 
 		// if template parameter definition is resolved, copy the resolved
 		// element to the result
 
 		ElementRefValue templateParam = (ElementRefValue) propValues
-				.get( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP );
-		if ( templateParam != null )
-		{
-			if ( templateParam.getElement( ) != null )
-			{
-				ElementRefValue ref = new ElementRefValue( null, templateParam
-						.getElement( ) );
-				element.setProperty( IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP,
-						ref );
+				.get(IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP);
+		if (templateParam != null) {
+			if (templateParam.getElement() != null) {
+				ElementRefValue ref = new ElementRefValue(null, templateParam.getElement());
+				element.setProperty(IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP, ref);
 			}
 
 		}

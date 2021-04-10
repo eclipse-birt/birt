@@ -85,8 +85,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	 * Creates a new dialog cell editor parented under the given control. The
 	 * combobox lists is <code>null</code> initially
 	 * 
-	 * @param parent
-	 *            the parent control
+	 * @param parent the parent control
 	 */
 	public ComboBoxDimensionCellEditor(Composite parent) {
 		super(parent);
@@ -94,42 +93,33 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	}
 
 	/**
-	 * Creates a new dialog cell editor parented under the given control. The
-	 * combo box box lists is initialized with the items parameter
+	 * Creates a new dialog cell editor parented under the given control. The combo
+	 * box box lists is initialized with the items parameter
 	 * 
-	 * @param parent
-	 *            the parent control
-	 * @param items
-	 *            the initilizing combobox list
+	 * @param parent the parent control
+	 * @param items  the initilizing combobox list
 	 */
 	public ComboBoxDimensionCellEditor(Composite parent, String[] items) {
 		this(parent, items, defaultStyle);
 	}
 
-	public ComboBoxDimensionCellEditor(Composite parent, String[] items,
-			String[] values) {
+	public ComboBoxDimensionCellEditor(Composite parent, String[] items, String[] values) {
 		this(parent, items, values, defaultStyle);
 	}
 
 	/**
-	 * Creates a new dialog cell editor parented under the given control and
-	 * givend style. The combo box box lists is initialized with the items
-	 * parameter
+	 * Creates a new dialog cell editor parented under the given control and givend
+	 * style. The combo box box lists is initialized with the items parameter
 	 * 
-	 * @param parent
-	 *            the parent control
-	 * @param items
-	 *            the initilizing combobox list
-	 * @param style
-	 *            the style of this editor
+	 * @param parent the parent control
+	 * @param items  the initilizing combobox list
+	 * @param style  the style of this editor
 	 */
-	public ComboBoxDimensionCellEditor(Composite parent, String[] items,
-			int style) {
+	public ComboBoxDimensionCellEditor(Composite parent, String[] items, int style) {
 		this(parent, items, null, style);
 	}
 
-	public ComboBoxDimensionCellEditor(Composite parent, String[] items,
-			String[] values, int style) {
+	public ComboBoxDimensionCellEditor(Composite parent, String[] items, String[] values, int style) {
 		super(parent, style);
 		if (items != null) {
 			if (values != null) {
@@ -159,8 +149,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	/**
 	 * Sets the list of choices for the combo box
 	 * 
-	 * @param items
-	 *            the list of choices for the combo box
+	 * @param items the list of choices for the combo box
 	 */
 	public void setItems(String[] items) {
 		Assert.isNotNull(items);
@@ -198,7 +187,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 		composite.setLayout(new FillLayout());
 
 		comboBox = new CCombo(composite, SWT.NONE);
-		comboBox.setVisibleItemCount( 30 );
+		comboBox.setVisibleItemCount(30);
 		comboBox.setBackground(bg);
 		comboBox.setFont(cell.getFont());
 
@@ -224,8 +213,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 		comboBox.addTraverseListener(new TraverseListener() {
 
 			public void keyTraversed(TraverseEvent e) {
-				if (e.detail == SWT.TRAVERSE_ESCAPE
-						|| e.detail == SWT.TRAVERSE_RETURN) {
+				if (e.detail == SWT.TRAVERSE_ESCAPE || e.detail == SWT.TRAVERSE_RETURN) {
 					e.doit = false;
 				}
 			}
@@ -255,18 +243,15 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.
+	 * @see org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.
 	 * swt.widgets.Control)
 	 */
 	protected Object openDialogBox(Control cellEditorWindow) {
-		DimensionBuilderDialog dialog = new DimensionBuilderDialog(
-				cellEditorWindow.getShell());
+		DimensionBuilderDialog dialog = new DimensionBuilderDialog(cellEditorWindow.getShell());
 
 		DimensionValue value;
 		try {
-			value = StringUtil.parseInput((String) comboBox.getText(), ULocale
-					.getDefault());
+			value = StringUtil.parseInput((String) comboBox.getText(), ULocale.getDefault());
 		} catch (PropertyValueException e) {
 			value = null;
 		}
@@ -286,11 +271,9 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 			if (dialog.getMeasureData() instanceof Double) {
 				doubleValue = (Double) dialog.getMeasureData();
 			} else if (dialog.getMeasureData() instanceof DimensionValue) {
-				doubleValue = ((DimensionValue) dialog.getMeasureData())
-						.getMeasure();
+				doubleValue = ((DimensionValue) dialog.getMeasureData()).getMeasure();
 			}
-			DimensionValue dValue = new DimensionValue(doubleValue, dialog
-					.getUnitName());
+			DimensionValue dValue = new DimensionValue(doubleValue, dialog.getUnitName());
 			if (dValue != null) {
 				newValue = dValue.toDisplayString();
 			}
@@ -314,15 +297,13 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 			if (value instanceof String) {
 				DimensionValue dValue;
 				try {
-					dValue = StringUtil.parseInput((String) value, ULocale
-							.getDefault());
+					dValue = StringUtil.parseInput((String) value, ULocale.getDefault());
 				} catch (PropertyValueException e) {
 					dValue = null;
 				}
 
 				if (dValue != null) {
-					text = NumberUtil.double2LocaleNum(dValue.getMeasure())
-							+ dValue.getUnits();
+					text = NumberUtil.double2LocaleNum(dValue.getMeasure()) + dValue.getUnits();
 				} else {
 					text = value.toString();
 				}
@@ -350,8 +331,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt
+	 * @see org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt
 	 * .events.KeyEvent)
 	 */
 	protected void keyReleaseOccured(KeyEvent keyEvent) {
@@ -385,9 +365,9 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	/**
 	 * Processes a focus lost event that occurred in this cell editor.
 	 * <p>
-	 * The default implementation of this framework method applies the current
-	 * value and deactivates the cell editor. Subclasses should call this method
-	 * at appropriate times. Subclasses may also extend or reimplement.
+	 * The default implementation of this framework method applies the current value
+	 * and deactivates the cell editor. Subclasses should call this method at
+	 * appropriate times. Subclasses may also extend or reimplement.
 	 * </p>
 	 */
 	protected void focusLost() {
@@ -461,8 +441,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor {
 	private DimensionValue parseString2dValue(String strValue) {
 		DimensionValue dValue = null;
 		try {
-			dValue = StringUtil.parseInput((String) strValue, ULocale
-					.getDefault());
+			dValue = StringUtil.parseInput((String) strValue, ULocale.getDefault());
 		} catch (PropertyValueException e) {
 			dValue = null;
 		}

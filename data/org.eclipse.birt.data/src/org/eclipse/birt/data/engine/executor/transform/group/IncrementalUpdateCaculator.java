@@ -17,8 +17,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.odi.IAggrValueHolder;
 
-public class IncrementalUpdateCaculator
-{
+public class IncrementalUpdateCaculator {
 
 	protected ResultSetPopulator populator;
 	protected List<GroupInfo>[] originGroups;
@@ -29,69 +28,54 @@ public class IncrementalUpdateCaculator
 	protected GroupInfoUpdator[] groupUpdators;
 	protected AggrValuesUpdator[] aggrValuesUpdators;
 
-	public IncrementalUpdateCaculator( ResultSetPopulator populator ) throws DataException
-	{
+	public IncrementalUpdateCaculator(ResultSetPopulator populator) throws DataException {
 		this.populator = populator;
-		this.tempDir = populator.getSession( ).getTempDir( );
-		
-		List<IAggrValueHolder> aggrValues = populator.getResultIterator( )
-				.getAggrValueHolders( );
-		this.aggrValuesUpdators = new AggrValuesUpdator[aggrValues.size( )];
-		for ( int i = 0; i < aggrValuesUpdators.length; i++ )
-		{
-			aggrValuesUpdators[i] = new AggrValuesUpdator( aggrValues.get( i ),
-					populator );
+		this.tempDir = populator.getSession().getTempDir();
+
+		List<IAggrValueHolder> aggrValues = populator.getResultIterator().getAggrValueHolders();
+		this.aggrValuesUpdators = new AggrValuesUpdator[aggrValues.size()];
+		for (int i = 0; i < aggrValuesUpdators.length; i++) {
+			aggrValuesUpdators[i] = new AggrValuesUpdator(aggrValues.get(i), populator);
 		}
-		
-		this.groupInfoUtil = populator.getGroupProcessorManager( )
-				.getGroupCalculationUtil( )
-				.getGroupInformationUtil( );
-		this.originGroups = groupInfoUtil.getGroups( );
+
+		this.groupInfoUtil = populator.getGroupProcessorManager().getGroupCalculationUtil().getGroupInformationUtil();
+		this.originGroups = groupInfoUtil.getGroups();
 		this.groupSize = new int[originGroups.length];
 		this.groupUpdators = new GroupInfoUpdator[originGroups.length];
-		for ( int i = 0; i < originGroups.length; i++ )
-		{
-			groupUpdators[i] = new GroupInfoUpdator( i,
-					tempDir,
-					originGroups[i],
-					getLastGroupIndex( i ),
-					aggrValuesUpdators );
-			groupSize[i] = originGroups[i].size( );
+		for (int i = 0; i < originGroups.length; i++) {
+			groupUpdators[i] = new GroupInfoUpdator(i, tempDir, originGroups[i], getLastGroupIndex(i),
+					aggrValuesUpdators);
+			groupSize[i] = originGroups[i].size();
 		}
-		
+
 	}
 
-	protected int getLastGroupIndex( int level ) throws DataException
-	{
+	protected int getLastGroupIndex(int level) throws DataException {
 		int last;
-		if ( level < originGroups.length - 1 )
-			last = originGroups[level + 1].size( ) - 1;
+		if (level < originGroups.length - 1)
+			last = originGroups[level + 1].size() - 1;
 		else
-			last = populator.getCache( ).getCount( ) - 1;
+			last = populator.getCache().getCount() - 1;
 		return last;
 	}
 
-	protected int getCurrentGroupIndex( int level ) throws DataException
-	{
-		return groupInfoUtil.getCurrentGroupIndex( level );
+	protected int getCurrentGroupIndex(int level) throws DataException {
+		return groupInfoUtil.getCurrentGroupIndex(level);
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<GroupInfo>[] getGroups( )
-	{
-		ArrayList<List<GroupInfo>> groups = new ArrayList<List<GroupInfo>>( );
-		for ( int i = 0; i < groupUpdators.length; i++ )
-		{
-			groupUpdators[i].close( );
-			groups.add( groupUpdators[i].getGroups( ) );
+	public List<GroupInfo>[] getGroups() {
+		ArrayList<List<GroupInfo>> groups = new ArrayList<List<GroupInfo>>();
+		for (int i = 0; i < groupUpdators.length; i++) {
+			groupUpdators[i].close();
+			groups.add(groupUpdators[i].getGroups());
 		}
-		return groups.toArray( new List[0] );
+		return groups.toArray(new List[0]);
 	}
-	
-	protected void acceptAggrValues( int rowIndex )
-	{
-		for ( int i = 0; i < aggrValuesUpdators.length; i++ )
-			aggrValuesUpdators[i].onRow( rowIndex );
+
+	protected void acceptAggrValues(int rowIndex) {
+		for (int i = 0; i < aggrValuesUpdators.length; i++)
+			aggrValuesUpdators[i].onRow(rowIndex);
 	}
 
 }

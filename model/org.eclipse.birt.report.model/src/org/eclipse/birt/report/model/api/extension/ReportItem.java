@@ -29,37 +29,27 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
  * method will do nothing or return null.
  */
 
-public class ReportItem
-		implements
-			IReportItem,
-			ICompatibleReportItem,
-			Cloneable
-{
+public class ReportItem implements IReportItem, ICompatibleReportItem, Cloneable {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IReportItem#serialize(java.lang
+	 * @see org.eclipse.birt.report.model.extension.IReportItem#serialize(java.lang
 	 * .String)
 	 */
 
-	public ByteArrayOutputStream serialize( String propName )
-	{
+	public ByteArrayOutputStream serialize(String propName) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IReportItem#deserialize(java.
+	 * @see org.eclipse.birt.report.model.extension.IReportItem#deserialize(java.
 	 * lang.String, java.io.ByteArrayInputStream)
 	 */
 
-	public void deserialize( String propName, ByteArrayInputStream data )
-			throws ExtendedElementException
-	{
+	public void deserialize(String propName, ByteArrayInputStream data) throws ExtendedElementException {
 		return;
 	}
 
@@ -67,50 +57,41 @@ public class ReportItem
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.extension.IReportItem#getPropertyDefinitions
-	 * ()
+	 * org.eclipse.birt.report.model.extension.IReportItem#getPropertyDefinitions ()
 	 */
-	public IPropertyDefinition[] getPropertyDefinitions( )
-	{
+	public IPropertyDefinition[] getPropertyDefinitions() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IReportItem#getProperty(java.
+	 * @see org.eclipse.birt.report.model.extension.IReportItem#getProperty(java.
 	 * lang.String)
 	 */
-	public Object getProperty( String propName )
-	{
+	public Object getProperty(String propName) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IReportItem#checkProperty(java
+	 * @see org.eclipse.birt.report.model.extension.IReportItem#checkProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	public void checkProperty( String propName, Object value )
-			throws ExtendedElementException
-	{
+	public void checkProperty(String propName, Object value) throws ExtendedElementException {
 		return;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.IReportItem#setProperty(java.
+	 * @see org.eclipse.birt.report.model.extension.IReportItem#setProperty(java.
 	 * lang.String, java.lang.Object)
 	 */
 
-	public void setProperty( String propName, Object value )
-	{
+	public void setProperty(String propName, Object value) {
 		return;
 	}
 
@@ -120,9 +101,8 @@ public class ReportItem
 	 * @see org.eclipse.birt.report.model.extension.IReportItem#validate()
 	 */
 
-	public List<SemanticException> validate( )
-	{
-		return Collections.emptyList( );
+	public List<SemanticException> validate() {
+		return Collections.emptyList();
 	}
 
 	/*
@@ -131,14 +111,10 @@ public class ReportItem
 	 * @see org.eclipse.birt.report.model.extension.IReportItem#copy()
 	 */
 
-	public IReportItem copy( )
-	{
-		try
-		{
-			return (IReportItem) super.clone( );
-		}
-		catch ( CloneNotSupportedException e )
-		{
+	public IReportItem copy() {
+		try {
+			return (IReportItem) super.clone();
+		} catch (CloneNotSupportedException e) {
 			assert false;
 		}
 		return null;
@@ -152,8 +128,7 @@ public class ReportItem
 	 * ()
 	 */
 
-	public boolean refreshPropertyDefinition( )
-	{
+	public boolean refreshPropertyDefinition() {
 		return false;
 	}
 
@@ -163,8 +138,7 @@ public class ReportItem
 	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getMethods()
 	 */
 
-	public IPropertyDefinition[] getMethods( )
-	{
+	public IPropertyDefinition[] getMethods() {
 		return null;
 	}
 
@@ -175,8 +149,7 @@ public class ReportItem
 	 * getScriptPropertyDefinition()
 	 */
 
-	public IPropertyDefinition getScriptPropertyDefinition( )
-	{
+	public IPropertyDefinition getScriptPropertyDefinition() {
 		return null;
 	}
 
@@ -188,29 +161,25 @@ public class ReportItem
 	 * ()
 	 */
 
-	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement( )
-	{
+	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement() {
 		return null;
 	}
 
 	/**
 	 * 
 	 */
-	public List getPredefinedStyles( )
-	{
+	public List getPredefinedStyles() {
 		return Collections.EMPTY_LIST;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.extension.IReportItem#getMethods(java
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#getMethods(java
 	 * .lang.String)
 	 */
 
-	public IMethodInfo[] getMethods( String methodName )
-	{
+	public IMethodInfo[] getMethods(String methodName) {
 		return null;
 	}
 
@@ -220,9 +189,8 @@ public class ReportItem
 	 * @seeorg.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
 	 * checkCompatibility()
 	 */
-	public CompatibilityStatus checkCompatibility( )
-	{
-		return new CompatibilityStatus( );
+	public CompatibilityStatus checkCompatibility() {
+		return new CompatibilityStatus();
 	}
 
 	/*
@@ -231,8 +199,7 @@ public class ReportItem
 	 * @seeorg.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
 	 * getRowExpressions()
 	 */
-	public List getRowExpressions( )
-	{
+	public List getRowExpressions() {
 		return Collections.EMPTY_LIST;
 	}
 
@@ -242,20 +209,17 @@ public class ReportItem
 	 * @seeorg.eclipse.birt.report.model.api.extension.ICompatibleReportItem#
 	 * updateRowExpressions(java.util.Map)
 	 */
-	public void updateRowExpressions( Map newExpressions )
-	{
+	public void updateRowExpressions(Map newExpressions) {
 		// do nothing by default
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.extension.IReportItem#setHandle(org
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#setHandle(org
 	 * .eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
-	public void setHandle( ExtendedItemHandle handle )
-	{
+	public void setHandle(ExtendedItemHandle handle) {
 		// do nothing by default
 	}
 
@@ -266,8 +230,7 @@ public class ReportItem
 	 * org.eclipse.birt.report.model.api.extension.IReportItem#canExportSingleChart
 	 * ()
 	 */
-	public boolean canExport( )
-	{
+	public boolean canExport() {
 		return true;
 	}
 
@@ -275,31 +238,25 @@ public class ReportItem
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.api.extension.IReportItem#availableBindings
-	 * ()
+	 * org.eclipse.birt.report.model.api.extension.IReportItem#availableBindings ()
 	 */
-	public Iterator availableBindings( )
-	{
-		return Collections.EMPTY_LIST.iterator( );
+	public Iterator availableBindings() {
+		return Collections.EMPTY_LIST.iterator();
 	}
-	
-	public StyleHandle[] getReferencedStyle( )
-	{
+
+	public StyleHandle[] getReferencedStyle() {
 		return null;
 	}
 
-	public void updateStyleReference( Map<String, String> styleMap )
-	{
+	public void updateStyleReference(Map<String, String> styleMap) {
 		// TODO Auto-generated method stub
 	}
 
-	public void handleCompatibilityIssue( )
-	{
+	public void handleCompatibilityIssue() {
 		// TODO Auto-generated method stub
 	}
 
-	public boolean hasFixedSize( )
-	{
+	public boolean hasFixedSize() {
 		return false;
 	}
 }

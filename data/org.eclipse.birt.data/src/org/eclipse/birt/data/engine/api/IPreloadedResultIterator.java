@@ -20,24 +20,21 @@ package org.eclipse.birt.data.engine.api;
  * @since 4.8
  */
 
-public interface IPreloadedResultIterator extends IResultIterator
-{
+public interface IPreloadedResultIterator extends IResultIterator {
 
 	/**
 	 * Sets max number of rows.
 	 * 
-	 * @param rowNum
-	 *            max number of rows.
+	 * @param rowNum max number of rows.
 	 * @since 4.8
 	 */
-	void setMaxRows( int rowNum );
+	void setMaxRows(int rowNum);
 
 	/**
 	 * Sets starting row index.
 	 * 
-	 * @param startIndex
-	 *            starting row index
+	 * @param startIndex starting row index
 	 * @since 4.8
 	 */
-	void setStartingRow( int startIndex );
+	void setStartingRow(int startIndex);
 }

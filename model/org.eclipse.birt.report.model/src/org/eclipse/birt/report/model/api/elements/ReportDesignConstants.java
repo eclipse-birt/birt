@@ -11,14 +11,12 @@
 
 package org.eclipse.birt.report.model.api.elements;
 
-
 /**
  * Defines constants for design element name.
  * 
  * @see DesignChoiceConstants
  */
 
-public interface ReportDesignConstants extends IReportDesignConstants
-{
+public interface ReportDesignConstants extends IReportDesignConstants {
 
 }

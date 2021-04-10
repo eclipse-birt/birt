@@ -15,53 +15,41 @@ import java.awt.Color;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValue;
 
+public class BorderInfo extends AreaConstants {
 
-
-public class BorderInfo  extends AreaConstants
-{
-	
-	
-	
 	private Color color;
 	private int width;
 	private int style;
-	
-	public BorderInfo(Color color, int style, int width)
-	{
+
+	public BorderInfo(Color color, int style, int width) {
 		this.color = color;
 		this.style = style;
 		this.width = width;
 	}
-	
-	public BorderInfo(BorderInfo border)
-	{
+
+	public BorderInfo(BorderInfo border) {
 		this.color = border.color;
 		this.style = border.style;
 		this.width = border.width;
 	}
-	
-	public BorderInfo(CSSValue color, CSSValue style, CSSValue width)
-	{
-		this(PropertyUtil.getColor( color ), valueStyleMap.get( style ), PropertyUtil.getDimensionValue( width ));
+
+	public BorderInfo(CSSValue color, CSSValue style, CSSValue width) {
+		this(PropertyUtil.getColor(color), valueStyleMap.get(style), PropertyUtil.getDimensionValue(width));
 	}
-	
-	public BorderInfo(CSSValue color, CSSValue style, int width)
-	{
-		this(PropertyUtil.getColor( color ), valueStyleMap.get( style ),width);
+
+	public BorderInfo(CSSValue color, CSSValue style, int width) {
+		this(PropertyUtil.getColor(color), valueStyleMap.get(style), width);
 	}
-	
-	public int getStyle()
-	{
+
+	public int getStyle() {
 		return style;
 	}
-	
-	public Color getColor()
-	{
+
+	public Color getColor() {
 		return color;
 	}
-	
-	public int getWidth()
-	{
+
+	public int getWidth() {
 		return width;
 	}
 }

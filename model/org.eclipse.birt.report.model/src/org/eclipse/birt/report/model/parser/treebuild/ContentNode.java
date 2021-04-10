@@ -26,8 +26,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * the extension is not found or some other config.
  */
 
-public class ContentNode implements Cloneable
-{
+public class ContentNode implements Cloneable {
 
 	protected ContentNode parent = null;
 	protected List<ContentNode> children = null;
@@ -39,30 +38,25 @@ public class ContentNode implements Cloneable
 	/**
 	 * Constructs the content node with the name.
 	 * 
-	 * @param name
-	 *            name of the content node
+	 * @param name name of the content node
 	 */
 
-	public ContentNode( String name )
-	{
+	public ContentNode(String name) {
 		this.name = name;
-		children = new ArrayList<ContentNode>( );
-		attributes = new LinkedHashMap<String, Object>(
-				ModelUtil.MAP_CAPACITY_LOW );
+		children = new ArrayList<ContentNode>();
+		attributes = new LinkedHashMap<String, Object>(ModelUtil.MAP_CAPACITY_LOW);
 	}
 
 	/**
 	 * Adds one child to this node.
 	 * 
-	 * @param child
-	 *            the child to add
+	 * @param child the child to add
 	 */
 
-	public void addChild( ContentNode child )
-	{
-		if ( child == null )
+	public void addChild(ContentNode child) {
+		if (child == null)
 			return;
-		children.add( child );
+		children.add(child);
 		child.parent = this;
 	}
 
@@ -72,9 +66,8 @@ public class ContentNode implements Cloneable
 	 * @param name
 	 * @param value
 	 */
-	public void setAttribute( String name, Object value )
-	{
-		attributes.put( name, value );
+	public void setAttribute(String name, Object value) {
+		attributes.put(name, value);
 	}
 
 	/**
@@ -82,22 +75,19 @@ public class ContentNode implements Cloneable
 	 * 
 	 * @param attributes
 	 */
-	public void setAttributes( Map<String, Object> attributes )
-	{
-		this.attributes.putAll( attributes );
+	public void setAttributes(Map<String, Object> attributes) {
+		this.attributes.putAll(attributes);
 	}
 
 	/**
 	 * Gets the attribute value with the given name.
 	 * 
-	 * @param name
-	 *            the attribute name to get
+	 * @param name the attribute name to get
 	 * @return value with the give name if set, otherwise <code>null</code>
 	 */
 
-	public Object getAttribute( String name )
-	{
-		return attributes.get( name );
+	public Object getAttribute(String name) {
+		return attributes.get(name);
 	}
 
 	/**
@@ -106,10 +96,9 @@ public class ContentNode implements Cloneable
 	 * 
 	 * @return the children
 	 */
-	public List<ContentNode> getChildren( )
-	{
-		if ( children == null || children.isEmpty( ) )
-			return Collections.emptyList( );
+	public List<ContentNode> getChildren() {
+		if (children == null || children.isEmpty())
+			return Collections.emptyList();
 		return children;
 	}
 
@@ -119,8 +108,7 @@ public class ContentNode implements Cloneable
 	 * @return name of this node
 	 */
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -130,10 +118,9 @@ public class ContentNode implements Cloneable
 	 * @return the attribute map
 	 */
 
-	public Map<String, Object> getAttributes( )
-	{
-		if ( attributes == null || attributes.isEmpty( ) )
-			return Collections.emptyMap( );
+	public Map<String, Object> getAttributes() {
+		if (attributes == null || attributes.isEmpty())
+			return Collections.emptyMap();
 		return attributes;
 	}
 
@@ -141,38 +128,32 @@ public class ContentNode implements Cloneable
 	 * @return the value
 	 */
 
-	public String getValue( )
-	{
+	public String getValue() {
 		return value;
 	}
 
 	/**
-	 * @param value
-	 *            the value to set
+	 * @param value the value to set
 	 */
 
-	public void setValue( String value )
-	{
-		this.value = StringUtil.trimString( value );
+	public void setValue(String value) {
+		this.value = StringUtil.trimString(value);
 	}
 
 	/**
 	 * @return the isCDATASection
 	 */
-	public boolean isCDATASection( )
-	{
-		if ( DesignSchemaConstants.XML_PROPERTY_TAG.equalsIgnoreCase( name )
-				|| DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase( name ) )
+	public boolean isCDATASection() {
+		if (DesignSchemaConstants.XML_PROPERTY_TAG.equalsIgnoreCase(name)
+				|| DesignSchemaConstants.METHOD_TAG.equalsIgnoreCase(name))
 			return true;
 		return isCDATASection;
 	}
 
 	/**
-	 * @param isCDATASection
-	 *            the isCDATASection to set
+	 * @param isCDATASection the isCDATASection to set
 	 */
-	public void setCDATASection( boolean isCDATASection )
-	{
+	public void setCDATASection(boolean isCDATASection) {
 		this.isCDATASection = isCDATASection;
 	}
 
@@ -181,25 +162,21 @@ public class ContentNode implements Cloneable
 	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	public Object clone( ) throws CloneNotSupportedException
-	{
-		ContentNode clonedNode = (ContentNode) super.clone( );
+	public Object clone() throws CloneNotSupportedException {
+		ContentNode clonedNode = (ContentNode) super.clone();
 
 		// clone attribute map
-		clonedNode.attributes = new LinkedHashMap<String, Object>(
-				ModelUtil.MAP_CAPACITY_LOW );
-		clonedNode.attributes.putAll( attributes );
+		clonedNode.attributes = new LinkedHashMap<String, Object>(ModelUtil.MAP_CAPACITY_LOW);
+		clonedNode.attributes.putAll(attributes);
 
 		// clone children
-		if ( children != null )
-		{
-			clonedNode.children = new ArrayList<ContentNode>( );
-			for ( int i = 0; i < children.size( ); i++ )
-			{
-				ContentNode child = children.get( i );
-				ContentNode clonedChild = (ContentNode) child.clone( );
+		if (children != null) {
+			clonedNode.children = new ArrayList<ContentNode>();
+			for (int i = 0; i < children.size(); i++) {
+				ContentNode child = children.get(i);
+				ContentNode clonedChild = (ContentNode) child.clone();
 
-				clonedNode.children.add( clonedChild );
+				clonedNode.children.add(clonedChild);
 				clonedChild.parent = clonedNode;
 			}
 		}

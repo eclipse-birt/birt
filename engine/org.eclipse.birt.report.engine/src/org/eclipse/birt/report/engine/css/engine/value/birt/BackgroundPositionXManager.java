@@ -31,19 +31,15 @@ public class BackgroundPositionXManager extends AbstractLengthManager {
 	protected final static StringMap values = new StringMap();
 	static {
 		values.put(CSSConstants.CSS_LEFT_VALUE, CSSValueConstants.LEFT_VALUE);
-		values.put(CSSConstants.CSS_CENTER_VALUE,
-				CSSValueConstants.CENTER_VALUE);
+		values.put(CSSConstants.CSS_CENTER_VALUE, CSSValueConstants.CENTER_VALUE);
 		values.put(CSSConstants.CSS_RIGHT_VALUE, CSSValueConstants.RIGHT_VALUE);
 	}
 
 	protected final static StringMap percentValues = new StringMap();
 	static {
-		percentValues.put(CSSConstants.CSS_LEFT_VALUE,
-				CSSValueConstants.PERCENT_0);
-		percentValues.put(CSSConstants.CSS_CENTER_VALUE,
-				CSSValueConstants.PERCENT_50);
-		percentValues.put(CSSConstants.CSS_RIGHT_VALUE,
-				CSSValueConstants.PERCENT_100);
+		percentValues.put(CSSConstants.CSS_LEFT_VALUE, CSSValueConstants.PERCENT_0);
+		percentValues.put(CSSConstants.CSS_CENTER_VALUE, CSSValueConstants.PERCENT_50);
+		percentValues.put(CSSConstants.CSS_RIGHT_VALUE, CSSValueConstants.PERCENT_100);
 	}
 
 	public BackgroundPositionXManager() {
@@ -61,8 +57,7 @@ public class BackgroundPositionXManager extends AbstractLengthManager {
 		return CSSValueConstants.PERCENT_0;
 	}
 
-	public Value createValue(LexicalUnit lu, CSSEngine engine)
-			throws DOMException {
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		switch (lu.getLexicalUnitType()) {
 		case LexicalUnit.SAC_IDENT:
 			String s = lu.getStringValue().toLowerCase().intern();
@@ -76,20 +71,17 @@ public class BackgroundPositionXManager extends AbstractLengthManager {
 	}
 
 	/**
-	 * Implements {@link
-	 * ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * Implements
+	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
-	public Value computeValue(CSSStylableElement elt, CSSEngine engine,
-			int idx, Value value) {
+	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		if (value.getCssValueType() == CSSValue.CSS_PRIMITIVE_VALUE) {
 			if (value.getPrimitiveType() == CSSPrimitiveValue.CSS_IDENT) {
-				Value percentage = (Value) percentValues.get(value
-						.getStringValue());
+				Value percentage = (Value) percentValues.get(value.getStringValue());
 				if (percentage != null) {
 					return percentage;
 				}
-				throw createInvalidIdentifierDOMException(value
-						.getStringValue());
+				throw createInvalidIdentifierDOMException(value.getStringValue());
 			}
 		}
 		return super.computeValue(elt, engine, idx, value);

@@ -25,73 +25,61 @@ import org.eclipse.debug.core.model.IWatchExpressionResult;
 /**
  * ScriptWatchExpressionDelegate
  */
-public class ScriptWatchExpressionDelegate implements IWatchExpressionDelegate
-{
-
+public class ScriptWatchExpressionDelegate implements IWatchExpressionDelegate {
 
 	private IWatchExpressionListener fListener;
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.debug.core.model.IWatchExpressionDelegate#evaluateExpression(java.lang.String, org.eclipse.debug.core.model.IDebugElement, org.eclipse.debug.core.model.IWatchExpressionListener)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.debug.core.model.IWatchExpressionDelegate#evaluateExpression(java
+	 * .lang.String, org.eclipse.debug.core.model.IDebugElement,
+	 * org.eclipse.debug.core.model.IWatchExpressionListener)
 	 */
-	public void evaluateExpression( String expression, IDebugElement context,
-			IWatchExpressionListener listener )
-	{
+	public void evaluateExpression(String expression, IDebugElement context, IWatchExpressionListener listener) {
 		fListener = listener;
 		// find a stack frame context if possible.
 		IStackFrame frame = null;
-		if ( context instanceof IStackFrame )
-		{
+		if (context instanceof IStackFrame) {
 			frame = (IStackFrame) context;
-		}
-		else if ( context instanceof IThread )
-		{
-			try
-			{
-				frame = ( (IThread) context ).getTopStackFrame( );
-			}
-			catch ( DebugException e )
-			{
+		} else if (context instanceof IThread) {
+			try {
+				frame = ((IThread) context).getTopStackFrame();
+			} catch (DebugException e) {
 			}
 		}
 
 		final IStackFrame tempFrame = frame;
 		final String tempStr = expression;
-		IWatchExpressionResult watchResult = new IWatchExpressionResult( ) {
+		IWatchExpressionResult watchResult = new IWatchExpressionResult() {
 
-			public IValue getValue( )
-			{
-				if ( tempFrame != null )
-				{
-					return ( (ScriptDebugTarget) tempFrame.getDebugTarget( ) ).evaluate( (ScriptStackFrame) tempFrame,
-							tempStr );
+			public IValue getValue() {
+				if (tempFrame != null) {
+					return ((ScriptDebugTarget) tempFrame.getDebugTarget()).evaluate((ScriptStackFrame) tempFrame,
+							tempStr);
 				}
 				return null;
 			}
 
-			public boolean hasErrors( )
-			{
-				return getValue( ) == null;
+			public boolean hasErrors() {
+				return getValue() == null;
 			}
 
-			public String[] getErrorMessages( )
-			{
-				return new String[]{
-					"(Watch expressions not supported)" //$NON-NLS-1$
+			public String[] getErrorMessages() {
+				return new String[] { "(Watch expressions not supported)" //$NON-NLS-1$
 				};
 			}
 
-			public String getExpressionText( )
-			{
+			public String getExpressionText() {
 				return tempStr;
 			}
 
-			public DebugException getException( )
-			{
+			public DebugException getException() {
 				return null;
 			}
 		};
 
-		fListener.watchEvaluationFinished( watchResult );
+		fListener.watchEvaluationFinished(watchResult);
 	}
 }

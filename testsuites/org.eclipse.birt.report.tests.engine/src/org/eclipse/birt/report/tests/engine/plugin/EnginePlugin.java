@@ -12,13 +12,10 @@ package org.eclipse.birt.report.tests.engine.plugin;
 
 import org.eclipse.birt.core.plugin.BIRTPlugin;
 
+public class EnginePlugin extends BIRTPlugin {
 
-public class EnginePlugin extends BIRTPlugin
-{
-
-	public EnginePlugin( )
-	{
-		super( );
+	public EnginePlugin() {
+		super();
 	}
 
 }

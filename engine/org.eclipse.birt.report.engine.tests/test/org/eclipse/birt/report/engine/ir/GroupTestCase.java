@@ -17,13 +17,11 @@ import junit.framework.TestCase;
  * base class of Group type test
  * 
  */
-public abstract class GroupTestCase extends TestCase
-{
+public abstract class GroupTestCase extends TestCase {
 
 	protected GroupDesign group;
 
-	public GroupTestCase( GroupDesign g )
-	{
+	public GroupTestCase(GroupDesign g) {
 		group = g;
 	}
 
@@ -35,14 +33,13 @@ public abstract class GroupTestCase extends TestCase
 	 * then get it to test if they work correctly
 	 */
 
-	public void testBaseGroup( )
-	{
+	public void testBaseGroup() {
 		// Expression exp = new Expression( );
 
-		//Set
-		//group.setKeyExpr( exp );
+		// Set
+		// group.setKeyExpr( exp );
 
-		//Get
-		//assertEquals( group.getKeyExpr( ), exp );
+		// Get
+		// assertEquals( group.getKeyExpr( ), exp );
 	}
 }

@@ -23,62 +23,57 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
  * parameters.
  * 
  */
-public class ParameterGroupDefn extends ParameterDefnBase implements IParameterGroupDefn
-{
-	
+public class ParameterGroupDefn extends ParameterDefnBase implements IParameterGroupDefn {
 
 	protected ArrayList contents = new ArrayList();
 
-
-	public void addParameter(IParameterDefnBase param)
-	{
+	public void addParameter(IParameterDefnBase param) {
 		contents.add(param);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api2.IParameterGroupDefn#getContents()
 	 */
-	public ArrayList getContents()
-	{
+	public ArrayList getContents() {
 		return contents;
 	}
-	
-	public void setContents(ArrayList list)
-	{
+
+	public void setContents(ArrayList list) {
 		contents = list;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
-	public Object clone() throws CloneNotSupportedException
-	{
+	public Object clone() throws CloneNotSupportedException {
 		ParameterGroupDefn newParam = (ParameterGroupDefn) super.clone();
 		ArrayList list = newParam.getContents();
-		if(list==null)
+		if (list == null)
 			return newParam;
-		
+
 		ArrayList newList = new ArrayList();
-		for(int i=0; i<list.size(); i++)
-		{
+		for (int i = 0; i < list.size(); i++) {
 			Object parameterDefn = list.get(i);
-			if( parameterDefn instanceof ParameterDefn )
-			{
+			if (parameterDefn instanceof ParameterDefn) {
 				ParameterDefn p = (ParameterDefn) parameterDefn;
 				newList.add(p.clone());
+			} else {
+				throw new CloneNotSupportedException(MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION);
 			}
-			else 
-			{
-				throw new CloneNotSupportedException(
-						MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION);
-			}						
 		}
 		newParam.setContents(newList);
 		return newParam;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api2.IParameterGroupDefn#displayExpanded()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api2.IParameterGroupDefn#displayExpanded()
 	 */
 	public boolean displayExpanded() {
 		return true;

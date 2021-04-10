@@ -32,9 +32,8 @@ import com.ibm.icu.util.ULocale;
  */
 public class ExternalCssStyleSheet3Test extends BaseTestCase {
 
-	
 	private String fileName = "ExternalCssStyleSheet3Test.css";
-	
+
 	public ExternalCssStyleSheet3Test(String name) {
 		super(name);
 	}
@@ -46,24 +45,26 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		removeResource( );
-		
-		copyInputToFile ( INPUT_FOLDER + "/" + fileName );
-	
-	//	Platform.initialize( null );
-		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
-		designHandle = session.createDesign( );
+		removeResource();
+
+		copyInputToFile(INPUT_FOLDER + "/" + fileName);
+
+		// Platform.initialize( null );
+		SessionHandle session = DesignEngine.newSession(ULocale.ENGLISH);
+		designHandle = session.createDesign();
 	}
+
 	/**
 	 * Test Import CSS style
+	 * 
 	 * @throws Exception
 	 */
 	public void testImportExternalCssStyleSheet() throws Exception {
-			
-		//open a external style sheet with relative filename
+
+		// open a external style sheet with relative filename
 		designHandle.setBase(PLUGIN_PATH);
-		
-		CssStyleSheetHandle stylesheet = loadStyleSheet( getTempFolder()+"/"+INPUT_FOLDER+"/"+fileName );
+
+		CssStyleSheetHandle stylesheet = loadStyleSheet(getTempFolder() + "/" + INPUT_FOLDER + "/" + fileName);
 		assertNotNull(stylesheet);
 		SharedStyleHandle style1 = stylesheet.findStyle("STYLE1");
 		SharedStyleHandle style2 = stylesheet.findStyle("styl2");
@@ -74,9 +75,9 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 		ArrayList styleList = new ArrayList();
 		styleList.add(0, style1);
 		styleList.add(1, style3);
-		
+
 		assertEquals(0, designHandle.getStyles().getCount());
-		//import a external style sheet into a report design
+		// import a external style sheet into a report design
 		designHandle.importCssStyles(stylesheet, styleList);
 		// two styles must be copied: style1 and style3
 		assertEquals(2, designHandle.getStyles().getCount());
@@ -86,29 +87,26 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 
 	/**
 	 * Test import css style from invalid file
+	 * 
 	 * @throws Exception
 	 */
-		public void testImportExternalCssStyleSheetWithFile() throws Exception {
-			
-	   //open a no-existing external style
-		try{
-		 //CssStyleSheetHandle stylesheet3 = loadStyleSheet(fileName+"NoCssStyleSheet.xml");
+	public void testImportExternalCssStyleSheetWithFile() throws Exception {
+
+		// open a no-existing external style
+		try {
+			// CssStyleSheetHandle stylesheet3 =
+			// loadStyleSheet(fileName+"NoCssStyleSheet.xml");
 			CssStyleSheetHandle stylesheet3 = loadStyleSheet(fileName);
 			fail();
+		} catch (Exception e) {
+			assertNotNull(e);
 		}
-		catch(Exception e)
-		{
-		 assertNotNull(e);
-		}
-		
-	}
-    
-	private CssStyleSheetHandle loadStyleSheet( String fileName )
-	throws Exception
-       {
-		//fileName = INPUT_FOLDER + "/" + fileName;
-		return designHandle.openCssStyleSheet( fileName );
-       }
 
-	
+	}
+
+	private CssStyleSheetHandle loadStyleSheet(String fileName) throws Exception {
+		// fileName = INPUT_FOLDER + "/" + fileName;
+		return designHandle.openCssStyleSheet(fileName);
+	}
+
 }

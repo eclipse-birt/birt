@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataParserException;
  * file or the building the meta-data description.
  */
 
-public class MetaDataReaderException extends ModelException
-{
+public class MetaDataReaderException extends ModelException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -38,19 +37,15 @@ public class MetaDataReaderException extends ModelException
 	public final static String DESIGN_EXCEPTION_META_DATA_ERROR = MessageConstants.META_DATA_READER_EXCEPTION_META_DATA_ERROR;
 
 	/**
-	 * Constructs the meta-data reader exception with the error code and the
-	 * caused parser exception.
+	 * Constructs the meta-data reader exception with the error code and the caused
+	 * parser exception.
 	 * 
-	 * @param errCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user
-	 * @param cause
-	 *            the nested exception
+	 * @param errCode used to retrieve a piece of externalized message displayed to
+	 *                end user
+	 * @param cause   the nested exception
 	 */
-	public MetaDataReaderException( String errCode,
-			MetaDataParserException cause )
-	{
-		super( PLUGIN_ID, errCode, null, null, cause );
+	public MetaDataReaderException(String errCode, MetaDataParserException cause) {
+		super(PLUGIN_ID, errCode, null, null, cause);
 		assert cause != null;
 		this.e = cause;
 	}
@@ -61,9 +56,8 @@ public class MetaDataReaderException extends ModelException
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		return e.getLocalizedMessage( );
+	public String getLocalizedMessage() {
+		return e.getLocalizedMessage();
 	}
 
 	/*
@@ -72,8 +66,7 @@ public class MetaDataReaderException extends ModelException
 	 * @see java.lang.Throwable#getMessage()
 	 */
 
-	public String getMessage( )
-	{
-		return getLocalizedMessage( );
+	public String getMessage() {
+		return getLocalizedMessage();
 	}
 }

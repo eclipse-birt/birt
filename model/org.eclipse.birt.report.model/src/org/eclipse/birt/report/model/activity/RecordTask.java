@@ -16,12 +16,11 @@ import java.util.Stack;
  * 
  */
 
-public abstract class RecordTask
-{
+public abstract class RecordTask {
 
 	/**
-	 * The design element or <code>ReferencableStructure</code> that the task
-	 * focus on.
+	 * The design element or <code>ReferencableStructure</code> that the task focus
+	 * on.
 	 */
 
 	private Object target;
@@ -29,12 +28,10 @@ public abstract class RecordTask
 	/**
 	 * Constructor.
 	 * 
-	 * @param target
-	 *            the target design element
+	 * @param target the target design element
 	 */
 
-	RecordTask( Object target )
-	{
+	RecordTask(Object target) {
 		this.target = target;
 	}
 
@@ -45,8 +42,7 @@ public abstract class RecordTask
 	 * @return the target.
 	 */
 
-	public Object getTarget( )
-	{
+	public Object getTarget() {
 		return target;
 	}
 
@@ -54,12 +50,9 @@ public abstract class RecordTask
 	 * Performs the task after the execution of <code>record</code> with the
 	 * transaction stack status.
 	 * 
-	 * @param record
-	 *            the record executed
-	 * @param transStack
-	 *            the current transaction stack
+	 * @param record     the record executed
+	 * @param transStack the current transaction stack
 	 */
 
-	public abstract void doTask( ActivityRecord record,
-			Stack<CompoundRecord> transStack );
+	public abstract void doTask(ActivityRecord record, Stack<CompoundRecord> transStack);
 }

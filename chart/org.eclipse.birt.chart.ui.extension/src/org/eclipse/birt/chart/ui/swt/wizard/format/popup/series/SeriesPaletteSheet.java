@@ -38,8 +38,7 @@ import org.eclipse.swt.widgets.TabItem;
  * 
  */
 
-public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionListener
-{
+public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionListener {
 
 	private SeriesDefinition cSeriesDefn = null;
 
@@ -58,7 +57,7 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 	private Composite cmpMPE = null;
 
 	private TabFolder tf = null;
-	
+
 	private final int iFillChooserStyle;
 
 	private Button btnAutoPals;
@@ -72,14 +71,12 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 	 * @param cSeriesDefn
 	 * @param vSeriesDefns
 	 * @param isGroupedSeries
-	 * @param iFillChooserStyle
-	 *            style to decide what fill types should display in fill chooser
+	 * @param iFillChooserStyle style to decide what fill types should display in
+	 *                          fill chooser
 	 */
-	public SeriesPaletteSheet( String title, ChartWizardContext context,
-			SeriesDefinition cSeriesDefn, SeriesDefinition[] vSeriesDefns,
-			boolean isGroupedSeries, int iFillChooserStyle )
-	{
-		super( title, context, true );
+	public SeriesPaletteSheet(String title, ChartWizardContext context, SeriesDefinition cSeriesDefn,
+			SeriesDefinition[] vSeriesDefns, boolean isGroupedSeries, int iFillChooserStyle) {
+		super(title, context, true);
 		this.context = context;
 		this.cSeriesDefn = cSeriesDefn;
 		this.vSeriesDefns = vSeriesDefns;
@@ -90,225 +87,195 @@ public class SeriesPaletteSheet extends AbstractPopupSheet implements SelectionL
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISheet#getComponent(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.ISheet#getComponent(org.eclipse.swt.
+	 * widgets.Composite)
 	 */
-	public Composite getComponent( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_SERIES_PALETTE );
+	public Composite getComponent(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_SERIES_PALETTE);
 		// Sheet content composite
-		cmpContent = new Composite( parent, SWT.NONE );
+		cmpContent = new Composite(parent, SWT.NONE);
 		{
 			// Layout for the content composite
-			GridLayout glContent = new GridLayout( );
+			GridLayout glContent = new GridLayout();
 			glContent.marginHeight = 7;
 			glContent.marginWidth = 7;
-			cmpContent.setLayout( glContent );
+			cmpContent.setLayout(glContent);
 		}
 
-		btnAutoPals = new Button( cmpContent, SWT.CHECK );
-		btnAutoPals.setText( Messages.getString("SeriesPaletteSheet.Label.Auto") ); //$NON-NLS-1$
-		btnAutoPals.addSelectionListener( this );
-		btnAutoPals.setVisible( context.getUIFactory( ).supportAutoUI( ) );
-		
+		btnAutoPals = new Button(cmpContent, SWT.CHECK);
+		btnAutoPals.setText(Messages.getString("SeriesPaletteSheet.Label.Auto")); //$NON-NLS-1$
+		btnAutoPals.addSelectionListener(this);
+		btnAutoPals.setVisible(context.getUIFactory().supportAutoUI());
+
 		// Palete composite
-		createPaletteUI( cmpContent );
-		updateUIStatus( );
-		cmpContent.pack( );
+		createPaletteUI(cmpContent);
+		updateUIStatus();
+		cmpContent.pack();
 		return cmpContent;
 	}
 
-	protected void updateSeriesPalette( )
-	{
-		// Add series palettes, user can specify/modify color palette for series defintions.
-		ChartDefaultValueUtil.updateSeriesPalettes( getChart( ), getChart( ).eAdapters( ) );
+	protected void updateSeriesPalette() {
+		// Add series palettes, user can specify/modify color palette for series
+		// defintions.
+		ChartDefaultValueUtil.updateSeriesPalettes(getChart(), getChart().eAdapters());
 	}
 
-	private void createPaletteUI( Composite cmpContent )
-	{
-		boolean isAutoPalette = ChartDefaultValueUtil.isAutoSeriesPalette( getChart( ) );
-		slPalette = new StackLayout( );
+	private void createPaletteUI(Composite cmpContent) {
+		boolean isAutoPalette = ChartDefaultValueUtil.isAutoSeriesPalette(getChart());
+		slPalette = new StackLayout();
 
-		grpPalette = new Group( cmpContent, SWT.NONE );
-		GridData gdGRPPalette = new GridData( GridData.FILL_BOTH );
+		grpPalette = new Group(cmpContent, SWT.NONE);
+		GridData gdGRPPalette = new GridData(GridData.FILL_BOTH);
 		gdGRPPalette.heightHint = 300;
 
-		grpPalette.setLayoutData( gdGRPPalette );
-		grpPalette.setLayout( slPalette );
-		grpPalette.setText( Messages.getString( "BaseSeriesAttributeSheetImpl.Lbl.Palette" ) ); //$NON-NLS-1$
+		grpPalette.setLayoutData(gdGRPPalette);
+		grpPalette.setLayout(slPalette);
+		grpPalette.setText(Messages.getString("BaseSeriesAttributeSheetImpl.Lbl.Palette")); //$NON-NLS-1$
 		/*
-		 * To let group palettee show out, otherwise the patette will disapper
-		 * after modifying the value of 'auto' checkbox.
+		 * To let group palettee show out, otherwise the patette will disapper after
+		 * modifying the value of 'auto' checkbox.
 		 */
-		if ( cmpContent.isVisible( ) )
-		{
-			grpPalette.getShell( ).pack( );
-		}
-		
-		/*
-		 * If Auto selected, show default series palette with action disabled
-		 * TED - 47366
-		 */
-		Chart chart = getChart( );
-		if ( isAutoPalette )
-		{
-			chart = getChart( ).copyInstance( );
-			ChartDefaultValueUtil.updateSeriesPalettes( chart,
-					chart.eAdapters( ) );
-			vSeriesDefns = ChartUtil.getValueSeriesDefinitions( chart );
-			cSeriesDefn = ChartUtil.getCategorySeriesDefinition( chart );
+		if (cmpContent.isVisible()) {
+			grpPalette.getShell().pack();
 		}
 
-		cmpPE = new PaletteEditorComposite( grpPalette,
-				getContext( ),
-				cSeriesDefn.getSeriesPalette( ),
-				vSeriesDefns,
-				iFillChooserStyle );
-		cmpPE.setEnabled( !isAutoPalette );
+		/*
+		 * If Auto selected, show default series palette with action disabled TED -
+		 * 47366
+		 */
+		Chart chart = getChart();
+		if (isAutoPalette) {
+			chart = getChart().copyInstance();
+			ChartDefaultValueUtil.updateSeriesPalettes(chart, chart.eAdapters());
+			vSeriesDefns = ChartUtil.getValueSeriesDefinitions(chart);
+			cSeriesDefn = ChartUtil.getCategorySeriesDefinition(chart);
+		}
 
-		cmpMPE = new Composite( grpPalette, SWT.NONE );
+		cmpPE = new PaletteEditorComposite(grpPalette, getContext(), cSeriesDefn.getSeriesPalette(), vSeriesDefns,
+				iFillChooserStyle);
+		cmpPE.setEnabled(!isAutoPalette);
+
+		cmpMPE = new Composite(grpPalette, SWT.NONE);
 		{
-			GridLayout gl = new GridLayout( );
+			GridLayout gl = new GridLayout();
 			gl.marginLeft = 0;
 			gl.marginRight = 0;
-			cmpMPE.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-			cmpMPE.setLayout( gl );
+			cmpMPE.setLayoutData(new GridData(GridData.FILL_BOTH));
+			cmpMPE.setLayout(gl);
 		}
 
-		tf = new TabFolder( cmpMPE, SWT.NONE );
+		tf = new TabFolder(cmpMPE, SWT.NONE);
 		{
-			tf.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+			tf.setLayoutData(new GridData(GridData.FILL_BOTH));
 		}
 
-		if ( isGroupedSeries && isColoredByValue( ) )
-		{
-			for ( int i = 0; i < vSeriesDefns.length; i++ )
-			{
-				TabItem ti = new TabItem( tf, SWT.NONE );
-				ti.setText( Messages.getString("SeriesPaletteSheet.Tab.Series") + ( i + 1 ) ); //$NON-NLS-1$
-				PaletteEditorComposite pec = new PaletteEditorComposite( tf,
-						getContext( ),
-						vSeriesDefns[i].getSeriesPalette( ),
-						null,
-						iFillChooserStyle );
-				pec.setEnabled( !isAutoPalette );
-				ti.setControl( pec );
+		if (isGroupedSeries && isColoredByValue()) {
+			for (int i = 0; i < vSeriesDefns.length; i++) {
+				TabItem ti = new TabItem(tf, SWT.NONE);
+				ti.setText(Messages.getString("SeriesPaletteSheet.Tab.Series") + (i + 1)); //$NON-NLS-1$
+				PaletteEditorComposite pec = new PaletteEditorComposite(tf, getContext(),
+						vSeriesDefns[i].getSeriesPalette(), null, iFillChooserStyle);
+				pec.setEnabled(!isAutoPalette);
+				ti.setControl(pec);
 			}
-			tf.setSelection( 0 );
+			tf.setSelection(0);
 			slPalette.topControl = cmpMPE;
-		}
-		else
-		{
-			if ( isMultiAxes( ) && isColoredByValue( ) )
-			{
+		} else {
+			if (isMultiAxes() && isColoredByValue()) {
 
-				for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( chart ); i++ )
-				{
-					SeriesDefinition[] seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
-							i )
-							.toArray( new SeriesDefinition[]{} ) ;
-					TabItem ti = new TabItem( tf, SWT.NONE );
-					ti.setText( Messages.getString("SeriesPaletteSheet.Tab.Axis") + ( i + 1 ) ); //$NON-NLS-1$
-					PaletteEditorComposite pec = new PaletteEditorComposite( tf,
-							getContext( ),
-							seriesDefns[0].getSeriesPalette( ),
-							seriesDefns,
-							iFillChooserStyle );
-					pec.setEnabled( !isAutoPalette );
-					ti.setControl( pec );
+				for (int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber(chart); i++) {
+					SeriesDefinition[] seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions(chart, i)
+							.toArray(new SeriesDefinition[] {});
+					TabItem ti = new TabItem(tf, SWT.NONE);
+					ti.setText(Messages.getString("SeriesPaletteSheet.Tab.Axis") + (i + 1)); //$NON-NLS-1$
+					PaletteEditorComposite pec = new PaletteEditorComposite(tf, getContext(),
+							seriesDefns[0].getSeriesPalette(), seriesDefns, iFillChooserStyle);
+					pec.setEnabled(!isAutoPalette);
+					ti.setControl(pec);
 				}
-				tf.setSelection( 0 );
+				tf.setSelection(0);
 				slPalette.topControl = cmpMPE;
-			}
-			else
-			{
+			} else {
 				slPalette.topControl = cmpPE;
 			}
 		}
 	}
 
-	private void updateUIStatus( )
-	{
-		if ( context.getUIFactory( ).supportAutoUI( )
-				&& ChartDefaultValueUtil.isAutoSeriesPalette( getChart( ) ) )
-		{
+	private void updateUIStatus() {
+		if (context.getUIFactory().supportAutoUI() && ChartDefaultValueUtil.isAutoSeriesPalette(getChart())) {
 			// It means there isn't specified color palette, it is Auto mode.
-			btnAutoPals.setSelection( true );
-			grpPalette.setEnabled( false );
-		}
-		else
-		{
-			btnAutoPals.setSelection( false );
-			grpPalette.setEnabled( true );			
+			btnAutoPals.setSelection(true);
+			grpPalette.setEnabled(false);
+		} else {
+			btnAutoPals.setSelection(false);
+			grpPalette.setEnabled(true);
 		}
 	}
-	
-	public void setGroupedPalette( boolean isGroupedSeries )
-	{
+
+	public void setGroupedPalette(boolean isGroupedSeries) {
 		this.isGroupedSeries = isGroupedSeries;
 	}
 
-	public void setCategorySeries( SeriesDefinition sd )
-	{
+	public void setCategorySeries(SeriesDefinition sd) {
 		this.cSeriesDefn = sd;
 	}
 
-	private boolean isColoredByValue( )
-	{
-		return context.getModel( ).getLegend( ).getItemType( ).getValue( ) == LegendItemType.SERIES;
+	private boolean isColoredByValue() {
+		return context.getModel().getLegend().getItemType().getValue() == LegendItemType.SERIES;
 	}
-	
-	private boolean isMultiAxes( )
-	{
-		return ChartUIUtil.getOrthogonalAxisNumber( context.getModel( ) ) > 1;
+
+	private boolean isMultiAxes() {
+		return ChartUIUtil.getOrthogonalAxisNumber(context.getModel()) > 1;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
+	 * swt.events.SelectionEvent)
 	 */
-	public void widgetDefaultSelected( SelectionEvent arg0 )
-	{
+	public void widgetDefaultSelected(SelectionEvent arg0) {
 		// Do nothing.
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
+	 * events.SelectionEvent)
 	 */
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( btnAutoPals == e.widget )
-		{
-			if ( btnAutoPals.getSelection( ) )
-			{
-				grpPalette.setEnabled( false );
-				grpPalette.setVisible( false );
-				
-				// Disable series palettes, removed all palettes from series definitions of chart.
-				ChartDefaultValueUtil.removeSerlesPalettes( getChart( ) );
+	public void widgetSelected(SelectionEvent e) {
+		if (btnAutoPals == e.widget) {
+			if (btnAutoPals.getSelection()) {
+				grpPalette.setEnabled(false);
+				grpPalette.setVisible(false);
+
+				// Disable series palettes, removed all palettes from series definitions of
+				// chart.
+				ChartDefaultValueUtil.removeSerlesPalettes(getChart());
+			} else {
+				grpPalette.setEnabled(true);
+				grpPalette.setVisible(true);
+
+				updateSeriesPalette();
 			}
-			else
-			{
-				grpPalette.setEnabled( true );
-				grpPalette.setVisible( true );
-				
-				updateSeriesPalette( );
-			}
-			
-			refreshPaletteUI( );
+
+			refreshPaletteUI();
 		}
 	}
 
-	private void refreshPaletteUI( )
-	{
-		vSeriesDefns = ChartUtil.getValueSeriesDefinitions( getChart( ) );
-		cSeriesDefn = ChartUtil.getCategorySeriesDefinition( getChart( ) );
-		if ( grpPalette != null && !grpPalette.isDisposed( ) )
-		{
-			grpPalette.dispose( );
+	private void refreshPaletteUI() {
+		vSeriesDefns = ChartUtil.getValueSeriesDefinitions(getChart());
+		cSeriesDefn = ChartUtil.getCategorySeriesDefinition(getChart());
+		if (grpPalette != null && !grpPalette.isDisposed()) {
+			grpPalette.dispose();
 		}
-		createPaletteUI( cmpContent );
+		createPaletteUI(cmpContent);
 		updateUIStatus();
-		cmpContent.getShell( ).layout( );
-		cmpContent.getShell( ).pack( );
+		cmpContent.getShell().layout();
+		cmpContent.getShell().pack();
 	}
-	
+
 }

@@ -21,46 +21,45 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 /**
  * Defines interface to supply emitters with necessary information
  */
-public interface IEmitterServices
-{
+public interface IEmitterServices {
 
 	/**
 	 * TODO: review, return IEmitterConfig, by format.
 	 * 
 	 * @return emitter configuration of engine
 	 */
-	public HashMap getEmitterConfig( );
+	public HashMap getEmitterConfig();
 
 	/**
 	 * @return render options
 	 */
-	public IRenderOption getRenderOption( );
+	public IRenderOption getRenderOption();
 
 	/**
 	 * @return the current report name
 	 */
-	public String getReportName( );
+	public String getReportName();
 
 	/**
 	 * 
-	 * @deprecated the user should use getReportContext().getRenderContext() to get the render options.
+	 * @deprecated the user should use getReportContext().getRenderContext() to get
+	 *             the render options.
 	 * @return render context
 	 */
-	public Object getRenderContext( );
+	public Object getRenderContext();
 
 	/**
 	 * @return the report runnable
 	 */
-	public IReportRunnable getReportRunnable( );
+	public IReportRunnable getReportRunnable();
 
 	/**
-	 * @param name
-	 *            option name
+	 * @param name option name
 	 * @return option value
 	 */
-	public Object getOption( String name );
+	public Object getOption(String name);
 
-	public IReportContext getReportContext( );
-	
-	public IReportEngine getReportEngine( );
+	public IReportContext getReportContext();
+
+	public IReportEngine getReportEngine();
 }

@@ -18,8 +18,7 @@ import org.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute;
  * 
  */
 
-class AmbiguousAttribute implements IAmbiguousAttribute
-{
+class AmbiguousAttribute implements IAmbiguousAttribute {
 
 	private String name;
 	private Object oldValue;
@@ -33,9 +32,7 @@ class AmbiguousAttribute implements IAmbiguousAttribute
 	 * @param isFromReportParameter
 	 */
 
-	AmbiguousAttribute( String name, Object oldValue, Object toSet,
-			boolean isFromReportParameter )
-	{
+	AmbiguousAttribute(String name, Object oldValue, Object toSet, boolean isFromReportParameter) {
 		this.name = name;
 		this.oldValue = oldValue;
 		this.toSetValue = toSet;
@@ -48,8 +45,7 @@ class AmbiguousAttribute implements IAmbiguousAttribute
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute#
 	 * getAttributeName()
 	 */
-	public String getAttributeName( )
-	{
+	public String getAttributeName() {
 		return name;
 	}
 
@@ -59,8 +55,7 @@ class AmbiguousAttribute implements IAmbiguousAttribute
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute#
 	 * getPreviousValue()
 	 */
-	public Object getPreviousValue( )
-	{
+	public Object getPreviousValue() {
 		return oldValue;
 	}
 
@@ -71,8 +66,7 @@ class AmbiguousAttribute implements IAmbiguousAttribute
 	 * org.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute#getRevisedValue
 	 * ()
 	 */
-	public Object getRevisedValue( )
-	{
+	public Object getRevisedValue() {
 		return toSetValue;
 	}
 
@@ -82,8 +76,7 @@ class AmbiguousAttribute implements IAmbiguousAttribute
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousAttribute#
 	 * isLinkedReportParameterAttribute()
 	 */
-	public boolean isLinkedReportParameterAttribute( )
-	{
+	public boolean isLinkedReportParameterAttribute() {
 		return isFromReportParameter;
 	}
 

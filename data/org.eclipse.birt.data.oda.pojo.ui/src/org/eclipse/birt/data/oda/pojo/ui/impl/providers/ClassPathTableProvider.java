@@ -20,75 +20,57 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 
+public class ClassPathTableProvider implements ITableLabelProvider, IStructuredContentProvider {
 
-public class ClassPathTableProvider
-		implements
-			ITableLabelProvider,
-			IStructuredContentProvider
-{
-
-	public ClassPathTableProvider( )
-	{
+	public ClassPathTableProvider() {
 
 	}
 
-	public Image getColumnImage( Object arg0, int arg1 )
-	{
-		if ( arg1 == 0 && ( arg0 instanceof ClassPathElement ) )
-		{
-			return ( (ClassPathElement) arg0 ).getIcon( );
+	public Image getColumnImage(Object arg0, int arg1) {
+		if (arg1 == 0 && (arg0 instanceof ClassPathElement)) {
+			return ((ClassPathElement) arg0).getIcon();
 		}
 		return null;
 	}
 
-	public String getColumnText( Object arg0, int arg1 )
-	{
-		if ( arg1 == 0 && ( arg0 instanceof ClassPathElement ) )
-		{
-			return getDisplayText( (ClassPathElement) arg0 );
+	public String getColumnText(Object arg0, int arg1) {
+		if (arg1 == 0 && (arg0 instanceof ClassPathElement)) {
+			return getDisplayText((ClassPathElement) arg0);
 		}
 		return null;
 	}
 
-	private String getDisplayText( ClassPathElement element )
-	{
-		String value = element.getValue( );
-		if ( value != null )
-		{
-			value = value + " - " + element.getFullPath( ); //$NON-NLS-1$
+	private String getDisplayText(ClassPathElement element) {
+		String value = element.getValue();
+		if (value != null) {
+			value = value + " - " + element.getFullPath(); //$NON-NLS-1$
 		}
 		return value;
 	}
 
-	public void addListener( ILabelProviderListener arg0 )
-	{
+	public void addListener(ILabelProviderListener arg0) {
 
 	}
 
-	public void dispose( )
-	{
+	public void dispose() {
 
 	}
 
-	public boolean isLabelProperty( Object arg0, String arg1 )
-	{
+	public boolean isLabelProperty(Object arg0, String arg1) {
 		return false;
 	}
 
-	public void removeListener( ILabelProviderListener arg0 )
-	{
+	public void removeListener(ILabelProviderListener arg0) {
 
 	}
 
-	public Object[] getElements( Object arg0 )
-	{
-		if ( arg0 instanceof List )
-			return ( (List) arg0 ).toArray( );
+	public Object[] getElements(Object arg0) {
+		if (arg0 instanceof List)
+			return ((List) arg0).toArray();
 		return new Object[0];
 	}
 
-	public void inputChanged( Viewer arg0, Object arg1, Object arg2 )
-	{
+	public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 
 	}
 

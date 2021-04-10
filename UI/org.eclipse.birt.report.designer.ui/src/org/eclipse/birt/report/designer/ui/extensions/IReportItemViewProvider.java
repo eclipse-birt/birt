@@ -18,17 +18,15 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
  * This interface is used to create alternavite reportitem view for multi-view
  * host.
  */
-public interface IReportItemViewProvider
-{
+public interface IReportItemViewProvider {
 
 	/**
 	 * Returns the name of this view
 	 */
-	String getViewName( );
+	String getViewName();
 
 	/**
 	 * Creates view upon given multiview host
 	 */
-	DesignElementHandle createView( DesignElementHandle host )
-			throws BirtException;
+	DesignElementHandle createView(DesignElementHandle host) throws BirtException;
 }

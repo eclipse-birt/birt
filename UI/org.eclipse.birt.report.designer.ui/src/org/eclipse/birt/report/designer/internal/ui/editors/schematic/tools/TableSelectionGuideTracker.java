@@ -18,85 +18,76 @@ import org.eclipse.gef.tools.DragEditPartsTracker;
 /**
  * TableSelectionGuideTracker
  */
-public abstract class TableSelectionGuideTracker extends DragEditPartsTracker
-{
+public abstract class TableSelectionGuideTracker extends DragEditPartsTracker {
 
 	private int number;
 
 	/**
 	 * Constructor
+	 * 
 	 * @param sourceEditPart
 	 */
-	public TableSelectionGuideTracker( TableEditPart sourceEditPart, int number )
-	{
-		super( sourceEditPart );
+	public TableSelectionGuideTracker(TableEditPart sourceEditPart, int number) {
+		super(sourceEditPart);
 		this.number = number;
-		setDefaultCursor( SharedCursors.ARROW );
-		setUnloadWhenFinished( false );
+		setDefaultCursor(SharedCursors.ARROW);
+		setUnloadWhenFinished(false);
 	}
 
-	protected boolean handleButtonUp( int button )
-	{
-		if ( stateTransition( STATE_DRAG_IN_PROGRESS, STATE_TERMINAL ) )
-		{
+	protected boolean handleButtonUp(int button) {
+		if (stateTransition(STATE_DRAG_IN_PROGRESS, STATE_TERMINAL)) {
 			return true;
 		}
 
-		return super.handleButtonUp( button );
+		return super.handleButtonUp(button);
 	}
 
-	protected void performConditionalSelection( )
-	{
+	protected void performConditionalSelection() {
 		super.performConditionalSelection();
-		select( );
+		select();
 	}
 
-	protected void performSelection() 
-	{
-		
+	protected void performSelection() {
+
 	}
-	protected boolean handleDragInProgress( )
-	{
-		if (isDealwithDrag())
-		{
+
+	protected boolean handleDragInProgress() {
+		if (isDealwithDrag()) {
 			selectDrag();
 		}
-		
+
 		return true;
 	}
 
 	/**
 	 * @return number
 	 */
-	public int getNumber( )
-	{
+	public int getNumber() {
 		return number;
 	}
 
 	/**
 	 * Set number
+	 * 
 	 * @param number
 	 */
-	public void setNumber( int number )
-	{
+	public void setNumber(int number) {
 		this.number = number;
 	}
 
 	/**
 	 * Provides select feature for tracker.
 	 */
-	public abstract void select( );
-	
-	public boolean isDealwithDrag()
-	{
+	public abstract void select();
+
+	public boolean isDealwithDrag() {
 		return true;
 	}
-	
-	public void selectDrag( )
-	{
-		
+
+	public void selectDrag() {
+
 	}
-	
+
 //	protected boolean isSameTable()
 //	{
 //		if (getHandleUnderMouse() == null)
@@ -120,11 +111,13 @@ public abstract class TableSelectionGuideTracker extends DragEditPartsTracker
 //		}
 //		return false;
 //	}
-	
+
 	/**
-	 * Updates the target editpart and returns <code>true</code> if the target changes.  The
-	 * target is updated by using the target conditional and the target request.  If the
-	 * target has been locked, this method does nothing and returns <code>false</code>.
+	 * Updates the target editpart and returns <code>true</code> if the target
+	 * changes. The target is updated by using the target conditional and the target
+	 * request. If the target has been locked, this method does nothing and returns
+	 * <code>false</code>.
+	 * 
 	 * @return <code>true</code> if the target was changed
 	 */
 //	protected EditPart getEditPartUnderMouse() {
@@ -139,8 +132,7 @@ public abstract class TableSelectionGuideTracker extends DragEditPartsTracker
 //			return null;
 //			
 //	}
-	protected Handle getHandleUnderMouse()
-	{
-		return ((DeferredGraphicalViewer)(getSourceEditPart().getViewer())).findHandleAt(getLocation());
+	protected Handle getHandleUnderMouse() {
+		return ((DeferredGraphicalViewer) (getSourceEditPart().getViewer())).findHandleAt(getLocation());
 	}
 }

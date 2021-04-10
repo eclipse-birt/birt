@@ -13,28 +13,23 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 
-
 /**
  * 
  */
 
-public class EmptySelection implements ISelection
-{
+public class EmptySelection implements ISelection {
 
-	public Object[] getMax( )
-	{
+	public Object[] getMax() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object[] getMin( )
-	{
+	public Object[] getMin() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public boolean isSelected( Object[] key )
-	{
+	public boolean isSelected(Object[] key) {
 		return false;
 	}
 

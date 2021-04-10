@@ -10,11 +10,9 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.api.timefunction;
 
-
-public enum TimePeriodType implements java.io.Serializable, java.lang.Comparable<TimePeriodType>
-{ 
+public enum TimePeriodType implements java.io.Serializable, java.lang.Comparable<TimePeriodType> {
 	DAY, MONTH, QUARTER, WEEK, YEAR;
 }

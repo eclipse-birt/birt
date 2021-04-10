@@ -20,12 +20,11 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * Class that records some status after the report item checks the
  * compatibilities.
  */
-public class CompatibilityStatus
-{
+public class CompatibilityStatus {
 
 	/**
-	 * Status that indicates the report item has no compatibilities and its
-	 * version is supported also.
+	 * Status that indicates the report item has no compatibilities and its version
+	 * is supported also.
 	 */
 	public static final int OK_TYPE = 0;
 
@@ -52,8 +51,7 @@ public class CompatibilityStatus
 	/**
 	 * Default constructor.
 	 */
-	public CompatibilityStatus( )
-	{
+	public CompatibilityStatus() {
 
 	}
 
@@ -63,33 +61,28 @@ public class CompatibilityStatus
 	 * @param errors
 	 * @param type
 	 */
-	public CompatibilityStatus( List<? extends SemanticException> errors,
-			int type )
-	{
-		this.errors = new ArrayList<SemanticException>( );
-		this.errors.addAll( errors );
-		setStatusType( type );
+	public CompatibilityStatus(List<? extends SemanticException> errors, int type) {
+		this.errors = new ArrayList<SemanticException>();
+		this.errors.addAll(errors);
+		setStatusType(type);
 	}
 
 	/**
-	 * Gets the error list of this status after checking the compatibilities.
-	 * Each item in the list is instance of <code>SemanticException</code>.
+	 * Gets the error list of this status after checking the compatibilities. Each
+	 * item in the list is instance of <code>SemanticException</code>.
 	 * 
 	 * @return the errors
 	 */
-	public List<SemanticException> getErrors( )
-	{
+	public List<SemanticException> getErrors() {
 		return errors;
 	}
 
 	/**
 	 * Sets the error list of this status.
 	 * 
-	 * @param errors
-	 *            the errors to set
+	 * @param errors the errors to set
 	 */
-	public void setErrors( List<SemanticException> errors )
-	{
+	public void setErrors(List<SemanticException> errors) {
 		this.errors = errors;
 	}
 
@@ -106,8 +99,7 @@ public class CompatibilityStatus
 	 * 
 	 * @return the statusType
 	 */
-	public int getStatusType( )
-	{
+	public int getStatusType() {
 		return statusType;
 	}
 
@@ -120,20 +112,17 @@ public class CompatibilityStatus
 	 * <li>CONVERT_COMPATIBILITY_TYPE
 	 * </ul>
 	 * 
-	 * @param type
-	 *            the status type to set
+	 * @param type the status type to set
 	 */
-	public void setStatusType( int type )
-	{
-		switch ( type )
-		{
-			case OK_TYPE :
-			case NOT_SUPPORTED_TYPE :
-			case CONVERT_COMPATIBILITY_TYPE :
-				this.statusType = type;
-				break;
-			default :
-				break;
+	public void setStatusType(int type) {
+		switch (type) {
+		case OK_TYPE:
+		case NOT_SUPPORTED_TYPE:
+		case CONVERT_COMPATIBILITY_TYPE:
+			this.statusType = type;
+			break;
+		default:
+			break;
 		}
 	}
 

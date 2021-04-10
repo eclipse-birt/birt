@@ -23,32 +23,27 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <li>Create Template Report Item
  * </ol>
  */
-public class Regression_164436 extends BaseTestCase
-{
+public class Regression_164436 extends BaseTestCase {
 
 	private final static String REPORT = "regression_164436.xml";
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
 
-		copyInputToFile( INPUT_FOLDER + "/" + REPORT );
+		copyInputToFile(INPUT_FOLDER + "/" + REPORT);
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
 
-	public void test_regression_164436( ) throws Exception
-	{
-		openDesign( REPORT );
+	public void test_regression_164436() throws Exception {
+		openDesign(REPORT);
 
 		// find the chart
-		ExtendedItemHandle chart = (ExtendedItemHandle) designHandle
-				.findElement( "Chart1" );
-		assertNotNull( chart );
+		ExtendedItemHandle chart = (ExtendedItemHandle) designHandle.findElement("Chart1");
+		assertNotNull(chart);
 
 		// create chart to template Report Item
 //		TemplateElementHandle chartTemp = chart

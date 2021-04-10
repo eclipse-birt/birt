@@ -33,14 +33,13 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * can be accomondated in memory, then MemoryCache will be used. Otherwise
  * DiskCache will be used.
  */
-public class SmartCache implements ResultSetCache
-{
+public class SmartCache implements ResultSetCache {
 	/** concrete implementation of ResultSetCache */
 	private ResultSetCache resultSetCache;
-	
+
 	// open flag
 	private boolean isOpen = true;
-			
+
 	/**
 	 * Retrieve data from ODA, used in normal query
 	 * 
@@ -51,15 +50,12 @@ public class SmartCache implements ResultSetCache
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public SmartCache( CacheRequest cacheRequest, ResultSet odaResultSet,
-			IResultClass rsMeta, DataEngineSession session ) throws DataException
-	{
-		SmartCacheHelper smartCacheHelper = new SmartCacheHelper( session );
-		this.resultSetCache = smartCacheHelper.getResultSetCache( cacheRequest,
-				odaResultSet,
-				rsMeta );
+	public SmartCache(CacheRequest cacheRequest, ResultSet odaResultSet, IResultClass rsMeta, DataEngineSession session)
+			throws DataException {
+		SmartCacheHelper smartCacheHelper = new SmartCacheHelper(session);
+		this.resultSetCache = smartCacheHelper.getResultSetCache(cacheRequest, odaResultSet, rsMeta);
 	}
-	
+
 	/**
 	 * @param cacheRequest
 	 * @param odiAdapter
@@ -67,39 +63,31 @@ public class SmartCache implements ResultSetCache
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public SmartCache( CacheRequest cacheRequest, OdiAdapter odiAdapter,
-			IResultClass rsMeta, DataEngineSession session ) throws DataException
-	{
-		SmartCacheHelper smartCacheHelper = new SmartCacheHelper( session );
-		this.resultSetCache = smartCacheHelper.getResultSetCache( cacheRequest,
-				odiAdapter,
-				rsMeta );
+	public SmartCache(CacheRequest cacheRequest, OdiAdapter odiAdapter, IResultClass rsMeta, DataEngineSession session)
+			throws DataException {
+		SmartCacheHelper smartCacheHelper = new SmartCacheHelper(session);
+		this.resultSetCache = smartCacheHelper.getResultSetCache(cacheRequest, odiAdapter, rsMeta);
 	}
-	
+
 	/**
 	 * Retrieve data from ODI, used in sub query
 	 * 
 	 * @param query
 	 * @param resultCache, parent resultSetCache
-	 * @param startIndex, included
-	 * @param endIndex, excluded
+	 * @param startIndex,  included
+	 * @param endIndex,    excluded
 	 * @param rsMeta
 	 * @param sortSpec
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public SmartCache( CacheRequest cacheRequest, ResultSetCache resultCache,
-			int startIndex, int endIndex, IResultClass rsMeta, DataEngineSession session )
-			throws DataException
-	{
-		SmartCacheHelper smartCacheHelper = new SmartCacheHelper( session );
-		this.resultSetCache = smartCacheHelper.getResultSetCache( cacheRequest,
-				resultCache,
-				startIndex,
-				endIndex,
-				rsMeta );
+	public SmartCache(CacheRequest cacheRequest, ResultSetCache resultCache, int startIndex, int endIndex,
+			IResultClass rsMeta, DataEngineSession session) throws DataException {
+		SmartCacheHelper smartCacheHelper = new SmartCacheHelper(session);
+		this.resultSetCache = smartCacheHelper.getResultSetCache(cacheRequest, resultCache, startIndex, endIndex,
+				rsMeta);
 	}
-	
+
 	/**
 	 * @param cacheRequest
 	 * @param rowResultSet
@@ -107,147 +95,119 @@ public class SmartCache implements ResultSetCache
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public SmartCache( CacheRequest cacheRequest, IRowResultSet rowResultSet,
-			IResultClass rsMeta, DataEngineSession session ) throws DataException
-	{
-		SmartCacheHelper smartCacheHelper = new SmartCacheHelper( session );
-		this.resultSetCache = smartCacheHelper.getResultSetCache( cacheRequest,
-				rowResultSet,
-				rsMeta );
+	public SmartCache(CacheRequest cacheRequest, IRowResultSet rowResultSet, IResultClass rsMeta,
+			DataEngineSession session) throws DataException {
+		SmartCacheHelper smartCacheHelper = new SmartCacheHelper(session);
+		this.resultSetCache = smartCacheHelper.getResultSetCache(cacheRequest, rowResultSet, rsMeta);
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCount()
 	 */
-	public int getCount( ) throws DataException
-	{
+	public int getCount() throws DataException {
 		assert isOpen;
-		
-		return resultSetCache.getCount( );
+
+		return resultSetCache.getCount();
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCurrentIndex()
+	 * @see
+	 * org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCurrentIndex()
 	 */
-	public int getCurrentIndex( ) throws DataException
-	{
+	public int getCurrentIndex() throws DataException {
 		assert isOpen;
-		
-		return resultSetCache.getCurrentIndex( );
+
+		return resultSetCache.getCurrentIndex();
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCurrentResult()
+	 * @see
+	 * org.eclipse.birt.data.engine.executor.cache.ResultSetCache#getCurrentResult()
 	 */
-	public IResultObject getCurrentResult( ) throws DataException
-	{
+	public IResultObject getCurrentResult() throws DataException {
 		assert isOpen;
-		
-		return resultSetCache.getCurrentResult( );
+
+		return resultSetCache.getCurrentResult();
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#nextRow()
 	 */
-	public boolean next( ) throws DataException
-	{
+	public boolean next() throws DataException {
 		assert isOpen;
-		
-		return resultSetCache.next( );
+
+		return resultSetCache.next();
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#fetch()
 	 */
-	public IResultObject fetch( ) throws DataException
-	{
+	public IResultObject fetch() throws DataException {
 		assert isOpen;
-		
-		return resultSetCache.fetch( );
+
+		return resultSetCache.fetch();
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#moveTo(int)
 	 */
-	public void moveTo( int destIndex ) throws DataException
-	{
+	public void moveTo(int destIndex) throws DataException {
 		assert isOpen;
-		
-		resultSetCache.moveTo( destIndex );
+
+		resultSetCache.moveTo(destIndex);
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#reset()
 	 */
-	public void reset( ) throws DataException
-	{
+	public void reset() throws DataException {
 		assert isOpen;
-		
-		resultSetCache.reset( );
+
+		resultSetCache.reset();
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#close()
 	 */
-	public void close( ) throws DataException
-	{
-		if ( isOpen == false )
+	public void close() throws DataException {
+		if (isOpen == false)
 			return;
-		
-		resultSetCache.close( );
+
+		resultSetCache.close();
 		resultSetCache = null;
 		isOpen = false;
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
+	 * @see
+	 * org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.
+	 * io.OutputStream)
 	 */
-	public void doSave( DataOutputStream outputStream,
-			DataOutputStream rowLensStream,
-			Map<String, StringTable> stringTable,
-			Map<String, IIndexSerializer> index,
-			List<IBinding> cacheRequestMap, int version,
-			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators, 
-			boolean saveRowId )
-			throws DataException
-	{
-		this.resultSetCache.doSave( outputStream,
-				rowLensStream,
-				stringTable,
-				index,
-				cacheRequestMap,
-				version,
-				auxiliaryIndexCreators,
-				saveRowId );
+	public void doSave(DataOutputStream outputStream, DataOutputStream rowLensStream,
+			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMap,
+			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators, boolean saveRowId) throws DataException {
+		this.resultSetCache.doSave(outputStream, rowLensStream, stringTable, index, cacheRequestMap, version,
+				auxiliaryIndexCreators, saveRowId);
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
+	 * @see
+	 * org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.
+	 * io.OutputStream)
 	 */
-	public void incrementalUpdate( OutputStream outputStream,
-			OutputStream rowLensStream, int originalRowCount,
-			Map<String, StringTable> stringTable,
-			Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap,
-			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
-			throws DataException
-	{
-		this.resultSetCache.incrementalUpdate( outputStream,
-				rowLensStream,
-				originalRowCount,
-				stringTable,
-				map,
-				cacheRequestMap,
-				version,
-				auxiliaryIndexCreators );
+	public void incrementalUpdate(OutputStream outputStream, OutputStream rowLensStream, int originalRowCount,
+			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap,
+			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators) throws DataException {
+		this.resultSetCache.incrementalUpdate(outputStream, rowLensStream, originalRowCount, stringTable, map,
+				cacheRequestMap, version, auxiliaryIndexCreators);
 	}
-	
+
 	/**
 	 * 
 	 * @param rsMeta
 	 * @throws DataException
 	 */
-	public void setResultClass( IResultClass rsMeta ) throws DataException
-	{
-		this.resultSetCache.setResultClass( rsMeta );
+	public void setResultClass(IResultClass rsMeta) throws DataException {
+		this.resultSetCache.setResultClass(rsMeta);
 	}
 }

@@ -17,8 +17,7 @@ import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
  * Implements <code>IChoiceDefinition</code> for testing
  */
 
-public class ChoiceDefinitionImpl implements IChoiceDefinition
-{
+public class ChoiceDefinitionImpl implements IChoiceDefinition {
 
 	String displayNameID = null;
 	Object value = null;
@@ -29,8 +28,7 @@ public class ChoiceDefinitionImpl implements IChoiceDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IChoiceDefn#getDisplayName()
 	 */
-	public String getDisplayNameID( )
-	{
+	public String getDisplayNameID() {
 		return displayNameID;
 	}
 
@@ -39,8 +37,7 @@ public class ChoiceDefinitionImpl implements IChoiceDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IChoiceDefn#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -49,8 +46,7 @@ public class ChoiceDefinitionImpl implements IChoiceDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IChoiceDefn#getValue()
 	 */
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return value;
 	}
 

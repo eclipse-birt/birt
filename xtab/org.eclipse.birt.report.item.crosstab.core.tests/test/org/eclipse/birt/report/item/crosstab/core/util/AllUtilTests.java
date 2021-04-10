@@ -19,17 +19,15 @@ import junit.framework.TestSuite;
  *
  */
 
-public class AllUtilTests
-{
+public class AllUtilTests {
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( CrosstabUtilTest.class );
+		test.addTestSuite(CrosstabUtilTest.class);
 
 		// add all test classes here
 

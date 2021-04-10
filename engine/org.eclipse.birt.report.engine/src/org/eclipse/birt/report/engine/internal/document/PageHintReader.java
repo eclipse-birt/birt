@@ -29,69 +29,51 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
  * It can support multiple versions.
  * 
  */
-public class PageHintReader implements IPageHintReader
-{
+public class PageHintReader implements IPageHintReader {
 
 	IPageHintReader reader;
 	IPageHint cachedHint;
 
-	public PageHintReader( IReportDocument document ) throws IOException
-	{
-		String version = document
-				.getProperty( ReportDocumentConstants.PAGE_HINT_VERSION_KEY );
+	public PageHintReader(IReportDocument document) throws IOException {
+		String version = document.getProperty(ReportDocumentConstants.PAGE_HINT_VERSION_KEY);
 
-		if ( ReportDocumentConstants.PAGE_HINT_VERSION_1.equals( version ) )
-		{
-			this.reader = new PageHintReaderV1( document );
-		}
-		else if ( ReportDocumentConstants.PAGE_HINT_VERSION_2.equals( version ) )
-		{
-			this.reader = new PageHintReaderV2( document.getArchive( ) );
-		}
-		else if ( ReportDocumentConstants.PAGE_HINT_VERSION_FIXED_LAYOUT.equals( version ) )
-		{
-			this.reader = new FixedLayoutPageHintReader( document.getArchive( ) );
-		} 
-		else
-		{
-			this.reader = new PageHintReaderV3( document.getArchive( ) );
+		if (ReportDocumentConstants.PAGE_HINT_VERSION_1.equals(version)) {
+			this.reader = new PageHintReaderV1(document);
+		} else if (ReportDocumentConstants.PAGE_HINT_VERSION_2.equals(version)) {
+			this.reader = new PageHintReaderV2(document.getArchive());
+		} else if (ReportDocumentConstants.PAGE_HINT_VERSION_FIXED_LAYOUT.equals(version)) {
+			this.reader = new FixedLayoutPageHintReader(document.getArchive());
+		} else {
+			this.reader = new PageHintReaderV3(document.getArchive());
 		}
 	}
 
-	public int getVersion( )
-	{
-		return reader.getVersion( );
+	public int getVersion() {
+		return reader.getVersion();
 	}
 
-	public void close( )
-	{
-		reader.close( );
+	public void close() {
+		reader.close();
 	}
 
-	public long getTotalPage( ) throws IOException
-	{
-		return reader.getTotalPage( );
+	public long getTotalPage() throws IOException {
+		return reader.getTotalPage();
 	}
 
-	public Collection<PageVariable> getPageVariables( ) throws IOException
-	{
-		return reader.getPageVariables( );
+	public Collection<PageVariable> getPageVariables() throws IOException {
+		return reader.getPageVariables();
 	}
 
-	public IPageHint getPageHint( long pageNumber ) throws IOException
-	{
-		if ( cachedHint != null && cachedHint.getPageNumber( ) == pageNumber )
-		{
+	public IPageHint getPageHint(long pageNumber) throws IOException {
+		if (cachedHint != null && cachedHint.getPageNumber() == pageNumber) {
 			return cachedHint;
 		}
-		cachedHint = reader.getPageHint( pageNumber );
+		cachedHint = reader.getPageHint(pageNumber);
 		return cachedHint;
 	}
 
-	public long getPageOffset( long pageNumber, String masterPage )
-			throws IOException
-	{
-		return reader.getPageOffset( pageNumber, masterPage );
+	public long getPageOffset(long pageNumber, String masterPage) throws IOException {
+		return reader.getPageOffset(pageNumber, masterPage);
 	}
-	
+
 }

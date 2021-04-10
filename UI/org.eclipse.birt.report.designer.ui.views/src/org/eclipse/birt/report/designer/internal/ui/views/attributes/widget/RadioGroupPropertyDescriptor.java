@@ -27,20 +27,17 @@ import org.eclipse.swt.widgets.Control;
 /**
  * ComboPropertyDescriptor manages Combo choice control.
  */
-public class RadioGroupPropertyDescriptor extends PropertyDescriptor
-{
+public class RadioGroupPropertyDescriptor extends PropertyDescriptor {
 
 	protected String oldValue;
 
-	public RadioGroupPropertyDescriptor( boolean formStyle )
-	{
-		setFormStyle( formStyle );
+	public RadioGroupPropertyDescriptor(boolean formStyle) {
+		setFormStyle(formStyle);
 	}
 
-	public void setInput( Object handle )
-	{
+	public void setInput(Object handle) {
 		this.input = handle;
-		getDescriptorProvider( ).setInput( input );
+		getDescriptorProvider().setInput(input);
 	}
 
 	private Composite composite;
@@ -50,23 +47,17 @@ public class RadioGroupPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor
+	 * @see org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor
 	 * #resetUIData()
 	 */
-	void refresh( String value )
-	{
-		String displayName = ( (ComboPropertyDescriptorProvider) getDescriptorProvider( ) ).getDisplayName( value );
+	void refresh(String value) {
+		String displayName = ((ComboPropertyDescriptorProvider) getDescriptorProvider()).getDisplayName(value);
 		displayName = displayName != null ? displayName : value;
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			if ( choices[i].getText( ).equals( displayName ) )
-			{
-				choices[i].setSelection( true );
-			}
-			else
-			{
-				choices[i].setSelection( false );
+		for (int i = 0; i < choices.length; i++) {
+			if (choices[i].getText().equals(displayName)) {
+				choices[i].setSelection(true);
+			} else {
+				choices[i].setSelection(false);
 			}
 		}
 	}
@@ -74,12 +65,10 @@ public class RadioGroupPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
-	public Control getControl( )
-	{
+	public Control getControl() {
 		return composite;
 	}
 
@@ -89,92 +78,69 @@ public class RadioGroupPropertyDescriptor extends PropertyDescriptor
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public Control createControl( Composite parent )
-	{
-		if ( isFormStyle( ) )
-		{
-			composite = FormWidgetFactory.getInstance( )
-					.createComposite( parent, SWT.NONE );
-		}
-		else
-		{
-			composite = new Composite( parent, SWT.NONE );
+	public Control createControl(Composite parent) {
+		if (isFormStyle()) {
+			composite = FormWidgetFactory.getInstance().createComposite(parent, SWT.NONE);
+		} else {
+			composite = new Composite(parent, SWT.NONE);
 		}
 
-		if ( getDescriptorProvider( ) instanceof ComboPropertyDescriptorProvider )
-		{
-			ComboPropertyDescriptorProvider provider = (ComboPropertyDescriptorProvider) getDescriptorProvider( );
-			String[] items = provider.getItems( );
-			GridLayout layout = new GridLayout( );
+		if (getDescriptorProvider() instanceof ComboPropertyDescriptorProvider) {
+			ComboPropertyDescriptorProvider provider = (ComboPropertyDescriptorProvider) getDescriptorProvider();
+			String[] items = provider.getItems();
+			GridLayout layout = new GridLayout();
 			layout.numColumns = items.length;
-			composite.setLayout( layout );
+			composite.setLayout(layout);
 
 			choices = new Button[items.length];
 
-			for ( int i = 0; i < items.length; i++ )
-			{
-				if ( isFormStyle( ) )
-				{
-					choices[i] = FormWidgetFactory.getInstance( )
-							.createButton( composite, items[i], SWT.RADIO );
-				}
-				else
-				{
-					choices[i] = new Button( composite, SWT.RADIO );
-					choices[i].setText( items[i] );
+			for (int i = 0; i < items.length; i++) {
+				if (isFormStyle()) {
+					choices[i] = FormWidgetFactory.getInstance().createButton(composite, items[i], SWT.RADIO);
+				} else {
+					choices[i] = new Button(composite, SWT.RADIO);
+					choices[i].setText(items[i]);
 				}
 
 				final Button button = choices[i];
-				choices[i].addSelectionListener( new SelectionAdapter( ) {
+				choices[i].addSelectionListener(new SelectionAdapter() {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						try
-						{
-							if ( button.getSelection( ) )
-								save( button.getText( ) );
-						}
-						catch ( SemanticException e1 )
-						{
-							for ( int i = 0; i < choices.length; i++ )
-							{
-								if ( choices[i].getText( ).equals( oldValue ) )
-								{
-									choices[i].setSelection( true );
-								}
-								else
-								{
-									choices[i].setSelection( false );
+					public void widgetSelected(SelectionEvent e) {
+						try {
+							if (button.getSelection())
+								save(button.getText());
+						} catch (SemanticException e1) {
+							for (int i = 0; i < choices.length; i++) {
+								if (choices[i].getText().equals(oldValue)) {
+									choices[i].setSelection(true);
+								} else {
+									choices[i].setSelection(false);
 								}
 							}
-							ExceptionHandler.handle( e1 );
+							ExceptionHandler.handle(e1);
 						}
 					}
-				} );
+				});
 			}
 		}
 
 		return composite;
 	}
 
-	public void save( Object value ) throws SemanticException
-	{
-		descriptorProvider.save( value );
+	public void save(Object value) throws SemanticException {
+		descriptorProvider.save(value);
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		WidgetUtil.setExcludeGridData( composite, isHidden );
+	public void setHidden(boolean isHidden) {
+		WidgetUtil.setExcludeGridData(composite, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		composite.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		composite.setVisible(isVisible);
 	}
 
-	public void load( )
-	{
-		oldValue = getDescriptorProvider( ).load( ).toString( );
-		refresh( oldValue );
+	public void load() {
+		oldValue = getDescriptorProvider().load().toString();
+		refresh(oldValue);
 	}
 }

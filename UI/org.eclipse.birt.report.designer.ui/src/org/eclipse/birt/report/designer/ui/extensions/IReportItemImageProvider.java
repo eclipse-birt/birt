@@ -16,9 +16,8 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  */
-public interface IReportItemImageProvider
-{
-    public Image getImage( ExtendedItemHandle handle );
-    
-    public void disposeImage( ExtendedItemHandle handle, Image image );
+public interface IReportItemImageProvider {
+	public Image getImage(ExtendedItemHandle handle);
+
+	public void disposeImage(ExtendedItemHandle handle, Image image);
 }

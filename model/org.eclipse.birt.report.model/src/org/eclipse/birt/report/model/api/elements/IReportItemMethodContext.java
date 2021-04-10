@@ -16,20 +16,19 @@ package org.eclipse.birt.report.model.api.elements;
  * 
  */
 
-public interface IReportItemMethodContext
-{
+public interface IReportItemMethodContext {
 
 	/**
-	 * Name of the on-create context. It is for a script executed when the
-	 * element is created in the Factory. Called after the item is created, but
-	 * before the item is saved to the report document file.
+	 * Name of the on-create context. It is for a script executed when the element
+	 * is created in the Factory. Called after the item is created, but before the
+	 * item is saved to the report document file.
 	 */
 
 	String ON_CREATE_CONTEXT = "onCreate"; //$NON-NLS-1$
 
 	/**
-	 * Name of the on-render context. It is for a script Executed when the
-	 * element is prepared for rendering in the Presentation engine.
+	 * Name of the on-render context. It is for a script Executed when the element
+	 * is prepared for rendering in the Presentation engine.
 	 */
 
 	String ON_RENDER_CONTEXT = "onRender"; //$NON-NLS-1$

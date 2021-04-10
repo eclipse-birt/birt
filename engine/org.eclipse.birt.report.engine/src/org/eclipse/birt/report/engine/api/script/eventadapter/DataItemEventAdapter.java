@@ -19,27 +19,18 @@ import org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance;
 /**
  * Default (empty) implementation of the IDataItemEventHandler interface
  */
-public class DataItemEventAdapter implements IDataItemEventHandler
-{
+public class DataItemEventAdapter implements IDataItemEventHandler {
 
-	public void onPrepare( IDataItem dataItemHandle,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void onPrepare(IDataItem dataItemHandle, IReportContext reportContext) throws ScriptException {
 	}
 
-	public void onCreate( IDataItemInstance data, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onCreate(IDataItemInstance data, IReportContext reportContext) throws ScriptException {
 	}
 
-	public void onRender( IDataItemInstance data, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onRender(IDataItemInstance data, IReportContext reportContext) throws ScriptException {
 	}
 
-	public void onPageBreak( IDataItemInstance data,
-			IReportContext reportContext ) throws ScriptException
-	{		
+	public void onPageBreak(IDataItemInstance data, IReportContext reportContext) throws ScriptException {
 	}
 
 }

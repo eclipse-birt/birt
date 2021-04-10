@@ -43,21 +43,17 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
  * 
  */
 
-public class EmbeddedImageHandle extends StructureHandle
-{
+public class EmbeddedImageHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of embedded image.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for embedded image list of one property
-	 * @param index
-	 *            the position of this embedded image in the list
+	 * @param valueHandle the value handle for embedded image list of one property
+	 * @param index       the position of this embedded image in the list
 	 */
 
-	public EmbeddedImageHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public EmbeddedImageHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
@@ -66,70 +62,60 @@ public class EmbeddedImageHandle extends StructureHandle
 	 * @return the byte array of image data
 	 */
 
-	public byte[] getData( )
-	{
-		EmbeddedImage image = (EmbeddedImage) getStructure( );
-		return image.getData( getModule( ) );
+	public byte[] getData() {
+		EmbeddedImage image = (EmbeddedImage) getStructure();
+		return image.getData(getModule());
 	}
 
 	/**
 	 * Sets the byte array of image data.
 	 * 
-	 * @param data
-	 *            the byte array to set
+	 * @param data the byte array to set
 	 */
 
-	public void setData( byte[] data )
-	{
+	public void setData(byte[] data) {
 		String toSet = null;
 
-		try
-		{
-			if ( data != null )
-				toSet = new String( data, EmbeddedImage.CHARSET );
-		}
-		catch ( UnsupportedEncodingException e )
-		{
+		try {
+			if (data != null)
+				toSet = new String(data, EmbeddedImage.CHARSET);
+		} catch (UnsupportedEncodingException e) {
 			// Should not fail
 
 			assert false;
 		}
 
-		setPropertySilently( EmbeddedImage.DATA_MEMBER, toSet );
+		setPropertySilently(EmbeddedImage.DATA_MEMBER, toSet);
 
 	}
 
 	/**
-	 * Returns the embedded image name. This name is used to identify an
-	 * embedded image by image item.
+	 * Returns the embedded image name. This name is used to identify an embedded
+	 * image by image item.
 	 * 
 	 * @return the embedded image name
 	 */
 
-	public String getName( )
-	{
-		return getStringProperty( EmbeddedImage.NAME_MEMBER );
+	public String getName() {
+		return getStringProperty(EmbeddedImage.NAME_MEMBER);
 	}
 
 	/**
-	 * Sets the embedded image name. This name is used to identify an embedded
-	 * image by image item.
+	 * Sets the embedded image name. This name is used to identify an embedded image
+	 * by image item.
 	 * 
-	 * @param name
-	 *            the embedded image name to set
-	 * @throws SemanticException
-	 *             value required exception
+	 * @param name the embedded image name to set
+	 * @throws SemanticException value required exception
 	 */
 
-	public void setName( String name ) throws SemanticException
-	{
-		setProperty( EmbeddedImage.NAME_MEMBER, name );
+	public void setName(String name) throws SemanticException {
+		setProperty(EmbeddedImage.NAME_MEMBER, name);
 	}
 
 	/**
 	 * Returns the image type. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li><code>IMAGE_TYPE_IMAGE_JPEG</code>
 	 * <li><code>IMAGE_TYPE_IMAGE_BMP</code>
@@ -141,15 +127,14 @@ public class EmbeddedImageHandle extends StructureHandle
 	 * @return the image type
 	 */
 
-	public String getType( )
-	{
-		return getStringProperty( EmbeddedImage.TYPE_MEMBER );
+	public String getType() {
+		return getStringProperty(EmbeddedImage.TYPE_MEMBER);
 	}
 
 	/**
 	 * Sets the image type. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li><code>IMAGE_TYPE_IMAGE_JPEG</code>
 	 * <li><code>IMAGE_TYPE_IMAGE_BMP</code>
@@ -158,55 +143,49 @@ public class EmbeddedImageHandle extends StructureHandle
 	 * <li><code>IMAGE_TYPE_IMAGE_X_PNG</code>
 	 * </ul>
 	 * 
-	 * @param type
-	 *            the image type to set
-	 * @throws SemanticException
-	 *             if the image type is not in the choice list.
+	 * @param type the image type to set
+	 * @throws SemanticException if the image type is not in the choice list.
 	 */
 
-	public void setType( String type ) throws SemanticException
-	{
-		setProperty( EmbeddedImage.TYPE_MEMBER, type );
+	public void setType(String type) throws SemanticException {
+		setProperty(EmbeddedImage.TYPE_MEMBER, type);
 	}
 
 	/**
-	 * Returns the qualified name of this element. The qualified name is the
-	 * name of this element if this element is in module user is editing.
+	 * Returns the qualified name of this element. The qualified name is the name of
+	 * this element if this element is in module user is editing.
 	 * 
 	 * @return the qualified name of thie element.
 	 */
 
-	public String getQualifiedName( )
-	{
+	public String getQualifiedName() {
 
-		if ( getName( ) == null )
+		if (getName() == null)
 			return null;
 
-		Module module = getModule( );
-		if ( module instanceof Library )
-		{
-			String namespace = ( (Library) module ).getNamespace( );
-			return StringUtil.buildQualifiedReference( namespace, getName( ) );
+		Module module = getModule();
+		if (module instanceof Library) {
+			String namespace = ((Library) module).getNamespace();
+			return StringUtil.buildQualifiedReference(namespace, getName());
 		}
 
-		return getName( );
+		return getName();
 	}
 
 	/**
-	 * Checks whether <code>EmbeddedImage</code> has reference to library
-	 * embedded image.
+	 * Checks whether <code>EmbeddedImage</code> has reference to library embedded
+	 * image.
 	 * 
-	 * @return if <code>EmbeddedImage</code> has reference to library image and
-	 *         the reference is resolved return <code>true</code> else return
+	 * @return if <code>EmbeddedImage</code> has reference to library image and the
+	 *         reference is resolved return <code>true</code> else return
 	 *         <code>false</code>
 	 */
-	public boolean isLibReference( )
-	{
-		EmbeddedImage image = (EmbeddedImage) getStructure( );
-		StructRefValue ref = (StructRefValue) image.getLocalProperty(
-				getModule( ), ReferencableStructure.LIB_REFERENCE_MEMBER );
+	public boolean isLibReference() {
+		EmbeddedImage image = (EmbeddedImage) getStructure();
+		StructRefValue ref = (StructRefValue) image.getLocalProperty(getModule(),
+				ReferencableStructure.LIB_REFERENCE_MEMBER);
 
-		if ( ref == null || ( !ref.isResolved( ) ) )
+		if (ref == null || (!ref.isResolved()))
 			return false;
 
 		return true;

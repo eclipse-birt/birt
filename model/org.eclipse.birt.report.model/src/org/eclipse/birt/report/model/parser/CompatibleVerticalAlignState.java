@@ -25,30 +25,24 @@ import org.xml.sax.SAXException;
  * 
  */
 
-public class CompatibleVerticalAlignState extends CompatiblePropertyState
-{
+public class CompatibleVerticalAlignState extends CompatiblePropertyState {
 
-	CompatibleVerticalAlignState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	CompatibleVerticalAlignState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 
 	}
 
-	public void end( ) throws SAXException
-	{
+	public void end() throws SAXException {
 		/**
-		 * Now Engine just supports 'top', 'middle','buttom' three choice types.
-		 * So if the old file has other choice types, should clean those choice
-		 * types.
+		 * Now Engine just supports 'top', 'middle','buttom' three choice types. So if
+		 * the old file has other choice types, should clean those choice types.
 		 */
 
-		String value = text.toString( );
-		if ( DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals( value )
-				|| DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( value )
-				|| DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( value ) )
-		{
-			super.end( );
+		String value = text.toString();
+		if (DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals(value)
+				|| DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals(value)
+				|| DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals(value)) {
+			super.end();
 		}
 
 	}

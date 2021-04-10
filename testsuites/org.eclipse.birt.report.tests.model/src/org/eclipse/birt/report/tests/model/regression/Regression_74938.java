@@ -25,31 +25,27 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_74938 extends BaseTestCase
-{
+public class Regression_74938 extends BaseTestCase {
 
 	private String filename = "Regression_74938.xml"; //$NON-NLS-1$
 
 	/**
 	 * @throws DesignFileException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		copyResource_INPUT( filename, filename );
-		//copyResource_INPUT( INPUT2, INPUT2 );
+		copyResource_INPUT(filename, filename);
+		// copyResource_INPUT( INPUT2, INPUT2 );
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_74938( ) throws DesignFileException
-	{
-		openDesign( filename );
+
+	public void test_regression_74938() throws DesignFileException {
+		openDesign(filename);
 
 	}
 }

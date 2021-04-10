@@ -28,9 +28,7 @@ import org.eclipse.swt.widgets.Control;
  * UI constants for chart builder
  * 
  */
-public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardContext<C>> implements
-		ISubtaskSheet
-{
+public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardContext<C>> implements ISubtaskSheet {
 
 	private String sNodePath = ""; //$NON-NLS-1$
 
@@ -46,112 +44,91 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 
 	private ITask parentTask;
 
-	public SubtaskSheetBase( )
-	{
-		super( );
+	public SubtaskSheetBase() {
+		super();
 	}
 
-	public void createControl( Composite parent )
-	{
-		cmpContent = new Composite( parent, SWT.NONE );
-		FillLayout fillLayout = new FillLayout( );
-		cmpContent.setLayout( fillLayout );
+	public void createControl(Composite parent) {
+		cmpContent = new Composite(parent, SWT.NONE);
+		FillLayout fillLayout = new FillLayout();
+		cmpContent.setLayout(fillLayout);
 	}
 
-	public Object onHide( )
-	{
-		if ( cmpContent != null )
-		{
-			cmpContent.dispose( );
+	public Object onHide() {
+		if (cmpContent != null) {
+			cmpContent.dispose();
 		}
-		return getContext( );
+		return getContext();
 	}
 
 	@SuppressWarnings("unchecked")
-	public void onShow( Object context, Object container )
-	{
+	public void onShow(Object context, Object container) {
 		this.context = (CX) context;
 		this.wizard = (WizardBase) container;
 	}
 
-	protected C getChart( )
-	{
-		return context.getModel( );
+	protected C getChart() {
+		return context.getModel();
 	}
 
-	protected CX getContext( )
-	{
+	protected CX getContext() {
 		return context;
 	}
-	
-	protected void setContext( CX context )
-	{
+
+	protected void setContext(CX context) {
 		this.context = context;
 	}
 
-	protected WizardBase getWizard( )
-	{
+	protected WizardBase getWizard() {
 		return wizard;
 	}
 
-	protected void setWizard( WizardBase wizard )
-	{
+	protected void setWizard(WizardBase wizard) {
 		this.wizard = wizard;
 	}
 
-	public void setIndex( int index )
-	{
+	public void setIndex(int index) {
 		subtaskIndex = index;
 	}
 
-	protected int getIndex( )
-	{
+	protected int getIndex() {
 		return subtaskIndex;
 	}
 
-	public void setParentTask( ITask parentTask )
-	{
+	public void setParentTask(ITask parentTask) {
 		this.parentTask = parentTask;
 	}
 
-	protected ITask getParentTask( )
-	{
+	protected ITask getParentTask() {
 		return parentTask;
 	}
 
-	protected void switchTo( String subtaskPath )
-	{
-		if ( parentTask instanceof CompoundTask )
-		{
-			( (CompoundTask) parentTask ).switchTo( subtaskPath );
+	protected void switchTo(String subtaskPath) {
+		if (parentTask instanceof CompoundTask) {
+			((CompoundTask) parentTask).switchTo(subtaskPath);
 		}
 	}
 
-	public void setNodePath( String nodePath )
-	{
+	public void setNodePath(String nodePath) {
 		this.sNodePath = nodePath;
 	}
 
-	public String getNodePath( )
-	{
+	public String getNodePath() {
 		return sNodePath;
 	}
 
-	public void dispose( )
-	{
+	public void dispose() {
 		// To be overridden
 	}
 
-	public Control getControl( )
-	{
+	public Control getControl() {
 		return cmpContent;
 	}
 
 	/**
 	 * @deprecated For later use
 	 */
-	public String getDescription( )
-	{
+	public String getDescription() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -159,8 +136,7 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
-	public String getErrorMessage( )
-	{
+	public String getErrorMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -168,8 +144,7 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
-	public Image getImage( )
-	{
+	public Image getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -177,22 +152,19 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
-	public String getMessage( )
-	{
+	public String getMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getTitle( )
-	{
+	public String getTitle() {
 		return this.sTitle;
 	}
 
 	/**
 	 * @deprecated For later use
 	 */
-	public void performHelp( )
-	{
+	public void performHelp() {
 		// TODO Auto-generated method stub
 
 	}
@@ -200,8 +172,7 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
-	public void setDescription( String description )
-	{
+	public void setDescription(String description) {
 		// TODO Auto-generated method stub
 
 	}
@@ -209,30 +180,25 @@ public class SubtaskSheetBase<C extends IChartObject, CX extends IChartWizardCon
 	/**
 	 * @deprecated For later use
 	 */
-	public void setImageDescriptor( ImageDescriptor image )
-	{
+	public void setImageDescriptor(ImageDescriptor image) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setTitle( String title )
-	{
+	public void setTitle(String title) {
 		this.sTitle = title;
 	}
 
-	public void setVisible( boolean visible )
-	{
-		getControl( ).setVisible( visible );
+	public void setVisible(boolean visible) {
+		getControl().setVisible(visible);
 	}
 
-	public boolean attachPopup( String popupID )
-	{
+	public boolean attachPopup(String popupID) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean detachPopup( )
-	{
+	public boolean detachPopup() {
 		return false;
 	}
 }

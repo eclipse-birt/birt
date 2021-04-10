@@ -17,30 +17,36 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
  * 
  */
 
-public abstract class AggrFunction implements IAggrFunction
-{
+public abstract class AggrFunction implements IAggrFunction {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDefaultValue()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDefaultValue()
 	 */
-	public Object getDefaultValue( )
-	{
+	public Object getDefaultValue() {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getNumberOfPasses()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getNumberOfPasses(
+	 * )
 	 */
-	public int getNumberOfPasses( )
-	{
+	public int getNumberOfPasses() {
 		return 1;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#isDataOrderSensitive()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#
+	 * isDataOrderSensitive()
 	 */
-	public boolean isDataOrderSensitive( )
-	{
+	public boolean isDataOrderSensitive() {
 		return false;
 	}
 }

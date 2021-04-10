@@ -24,67 +24,56 @@ import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.Crosst
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
-public class CrosstabCellPageGenerator extends AbstractPageGenerator
-{
+public class CrosstabCellPageGenerator extends AbstractPageGenerator {
 
 	protected PreviewPage mapPage;
 	protected PreviewPage highlightsPage;
 
-	public void createControl( Composite parent, Object input )
-	{
-		setCategoryProvider( CrosstabCellCategoryProviderFactory.getInstance( )
-				.getCategoryProvider( input ) );
-		super.createControl( parent, input );
+	public void createControl(Composite parent, Object input) {
+		setCategoryProvider(CrosstabCellCategoryProviderFactory.getInstance().getCategoryProvider(input));
+		super.createControl(parent, input);
 	}
 
-	protected void buildItemContent( CTabItem item )
-	{
-		if ( itemMap.containsKey( item ) && itemMap.get( item ) == null )
-		{
-			String title = tabFolder.getSelection( ).getText( );
-			if ( title.equals( MAPTITLE ) )
-			{
-				mapPage = new PreviewPage( true );
-				mapPage.setPreview( new MapPropertyDescriptor( true ) );
-				mapPage.setProvider( new CrosstabMapDescriptorProvider( MapHandleProvider.EXPRESSION_TYPE_DATA ) );
-				setPageInput( mapPage );
-				refresh( tabFolder, mapPage, true );
-				item.setControl( mapPage.getControl( ) );
-				itemMap.put( item, mapPage );
+	protected void buildItemContent(CTabItem item) {
+		if (itemMap.containsKey(item) && itemMap.get(item) == null) {
+			String title = tabFolder.getSelection().getText();
+			if (title.equals(MAPTITLE)) {
+				mapPage = new PreviewPage(true);
+				mapPage.setPreview(new MapPropertyDescriptor(true));
+				mapPage.setProvider(new CrosstabMapDescriptorProvider(MapHandleProvider.EXPRESSION_TYPE_DATA));
+				setPageInput(mapPage);
+				refresh(tabFolder, mapPage, true);
+				item.setControl(mapPage.getControl());
+				itemMap.put(item, mapPage);
+			} else if (title.equals(HIGHLIGHTSTITLE)) {
+				highlightsPage = new PreviewPage(true);
+				highlightsPage.setPreview(new HighlightPropertyDescriptor(true));
+				highlightsPage.setProvider(
+						new CrosstabHighlightDescriptorProvider(HighlightHandleProvider.EXPRESSION_TYPE_DATA));
+				setPageInput(highlightsPage);
+				refresh(tabFolder, highlightsPage, true);
+				item.setControl(highlightsPage.getControl());
+				itemMap.put(item, highlightsPage);
 			}
-			else if ( title.equals( HIGHLIGHTSTITLE ) )
-			{
-				highlightsPage = new PreviewPage( true );
-				highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
-				highlightsPage.setProvider( new CrosstabHighlightDescriptorProvider(HighlightHandleProvider.EXPRESSION_TYPE_DATA ) );
-				setPageInput( highlightsPage );
-				refresh( tabFolder, highlightsPage, true );
-				item.setControl( highlightsPage.getControl( ) );
-				itemMap.put( item, highlightsPage );
-			}
-		}
-		else if ( itemMap.get( item ) != null )
-		{
-			setPageInput( itemMap.get( item ) );
-			refresh( tabFolder, itemMap.get( item ), false );
+		} else if (itemMap.get(item) != null) {
+			setPageInput(itemMap.get(item));
+			refresh(tabFolder, itemMap.get(item), false);
 		}
 	}
 
-	public void createTabItems( List input )
-	{
-		super.createTabItems( input );
+	public void createTabItems(List input) {
+		super.createTabItems(input);
 		this.input = input;
-		basicPage.setInput( input );
-		addSelectionListener( this );
-		basicPage.refresh( );
-		createTabItems( );
-		if ( tabFolder.getSelection( ) != null )
-			buildItemContent( tabFolder.getSelection( ) );
+		basicPage.setInput(input);
+		addSelectionListener(this);
+		basicPage.refresh();
+		createTabItems();
+		if (tabFolder.getSelection() != null)
+			buildItemContent(tabFolder.getSelection());
 	}
 
-	protected void createTabItems( )
-	{
-		createTabItem( MAPTITLE, ATTRIBUTESTITLE );
-		createTabItem( HIGHLIGHTSTITLE, MAPTITLE );
+	protected void createTabItems() {
+		createTabItem(MAPTITLE, ATTRIBUTESTITLE);
+		createTabItem(HIGHLIGHTSTITLE, MAPTITLE);
 	}
 }

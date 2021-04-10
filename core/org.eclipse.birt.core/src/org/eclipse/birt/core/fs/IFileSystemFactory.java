@@ -21,47 +21,39 @@ import org.eclipse.birt.core.archive.compound.IArchiveFile;
  * allows to extend BIRT to support any file system.
  */
 
-public interface IFileSystemFactory
-{
+public interface IFileSystemFactory {
 
 	/**
 	 * ID for File System Factory extension.
 	 */
-	static String EXTENSION_FILE_SYSTEM_FACTORY = IFileSystemFactory.class
-			.getName( );
+	static String EXTENSION_FILE_SYSTEM_FACTORY = IFileSystemFactory.class.getName();
 
 	/**
 	 * Creates file object according to file path.
 	 * 
-	 * @param fileName
-	 *            file path
+	 * @param fileName file path
 	 * @return file object
 	 */
-	IFile getFile( String fileName );
+	IFile getFile(String fileName);
 
 	/**
 	 * Creates file object according to file URI.
 	 * 
-	 * @param uri
-	 *            file URI
+	 * @param uri file URI
 	 * @return file object
 	 */
-	IFile getFile( URI uri );
-	
+	IFile getFile(URI uri);
+
 	/**
 	 * Creates archive file with specific arguments.
 	 * 
-	 * @param systemId
-	 *            system id
-	 * @param fileName
-	 *            file name
-	 * @param mode
-	 *            file mode
-	 * @param externalFile
-	 *            external file link
+	 * @param systemId     system id
+	 * @param fileName     file name
+	 * @param mode         file mode
+	 * @param externalFile external file link
 	 * @return archive file
 	 * @throws IOException
 	 */
-	IArchiveFile createArchiveFile( String systemId, String fileName,
-			String mode, IFile externalFile ) throws IOException;
+	IArchiveFile createArchiveFile(String systemId, String fileName, String mode, IFile externalFile)
+			throws IOException;
 }

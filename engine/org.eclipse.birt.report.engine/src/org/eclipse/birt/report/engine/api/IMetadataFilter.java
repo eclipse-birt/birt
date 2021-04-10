@@ -18,8 +18,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
  * 
  */
 
-public interface IMetadataFilter
-{
+public interface IMetadataFilter {
 
 	/**
 	 * Output the IID or not. Only use the key, not the value. If the key "iid"
@@ -37,9 +36,9 @@ public interface IMetadataFilter
 	public static final String KEY_ATTR_ELEMENT_TYPE = "element_type";
 	/**
 	 * Only use the key, not the value. If the key "iid_list" exists, and the
-	 * "iid","bookmark", "element_type" have all been output, the HTML emitter
-	 * will add the element informations ( "iid","bookmark" and "element_type" )
-	 * into the output instance IDs list.
+	 * "iid","bookmark", "element_type" have all been output, the HTML emitter will
+	 * add the element informations ( "iid","bookmark" and "element_type" ) into the
+	 * output instance IDs list.
 	 */
 	public static final String KEY_ADD_INTO_IID_LIST = "iid_list";
 	/**
@@ -55,7 +54,7 @@ public interface IMetadataFilter
 	 * "group-id" exists, the HTML emitter will output the group-id.
 	 */
 	public static final String KEY_OUTPUT_GOURP_ID = "group-id";
-	
+
 	/**
 	 * Output the raw_data or not. Only use the key, not the value. If the key
 	 * "raw_data" exists, the HTML emitter will output the raw_data.
@@ -69,6 +68,6 @@ public interface IMetadataFilter
 	 * @return a HashMap which contains the metadata properties outputting
 	 *         requirement.
 	 */
-	public HashMap needMetaData( ReportElementHandle elementHandle );
+	public HashMap needMetaData(ReportElementHandle elementHandle);
 
 }

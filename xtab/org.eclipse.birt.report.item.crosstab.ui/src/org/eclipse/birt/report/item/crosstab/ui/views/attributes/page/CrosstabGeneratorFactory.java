@@ -28,47 +28,34 @@ import org.eclipse.core.runtime.IAdapterFactory;
  * 
  */
 
-public class CrosstabGeneratorFactory implements IAdapterFactory
-{
-	protected static final Logger logger = Logger.getLogger( CrosstabGeneratorFactory.class.getName( ) );
+public class CrosstabGeneratorFactory implements IAdapterFactory {
+	protected static final Logger logger = Logger.getLogger(CrosstabGeneratorFactory.class.getName());
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( !( adaptableObject instanceof ExtendedItemHandle ) )
-		{
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (!(adaptableObject instanceof ExtendedItemHandle)) {
 			return null;
 		}
 		ExtendedItemHandle item = (ExtendedItemHandle) adaptableObject;
 		IReportItem reportItem = null;
-		try
-		{
-			reportItem = item.getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
+		try {
+			reportItem = item.getReportItem();
+		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		if(reportItem == null)
-		{
+		if (reportItem == null) {
 			return null;
 		}
-		if ( reportItem instanceof CrosstabReportItemHandle)
-		{
-			return new CrosstabPageGenerator( );
-		}
-		else if (reportItem instanceof CrosstabCellHandle)
-		{
-			return new CrosstabCellPageGenerator( );
+		if (reportItem instanceof CrosstabReportItemHandle) {
+			return new CrosstabPageGenerator();
+		} else if (reportItem instanceof CrosstabCellHandle) {
+			return new CrosstabCellPageGenerator();
 		}
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			IPageGenerator.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { IPageGenerator.class };
 	}
 
 }

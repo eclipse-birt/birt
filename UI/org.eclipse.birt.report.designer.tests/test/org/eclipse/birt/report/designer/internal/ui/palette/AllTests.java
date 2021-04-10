@@ -12,15 +12,13 @@ package org.eclipse.birt.report.designer.internal.ui.palette;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class AllTests
-{
+public class AllTests {
 
-	public static Test suite( )
-	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.designer.palette" );
-		//$JUnit-BEGIN$
-		suite.addTestSuite( EditorPaletteFactoryTest.class );
-		//$JUnit-END$
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Test for org.eclipse.birt.report.designer.palette");
+		// $JUnit-BEGIN$
+		suite.addTestSuite(EditorPaletteFactoryTest.class);
+		// $JUnit-END$
 		return suite;
 	}
 }

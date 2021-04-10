@@ -46,21 +46,17 @@ public class ExceptionDialog extends IconAndMessageDialog {
 	/**
 	 * @param parentShell
 	 */
-	protected ExceptionDialog(Shell parentShell, String title, String msg,
-								Throwable ex) {
-		super( parentShell );
+	protected ExceptionDialog(Shell parentShell, String title, String msg, Throwable ex) {
+		super(parentShell);
 		this._title = title;
 		this.message = msg;
 		this._exception = ex;
-		if ( parentShell != null )
-			this._display = parentShell.getDisplay( );
+		if (parentShell != null)
+			this._display = parentShell.getDisplay();
 		else
-			this._display = PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( )
-					.getDisplay( );
+			this._display = PlatformUI.getWorkbench().getDisplay().getActiveShell().getDisplay();
 
-		setShellStyle( SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL );
+		setShellStyle(SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
 
 	/*
@@ -85,10 +81,8 @@ public class ExceptionDialog extends IconAndMessageDialog {
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
 		// create OK and Details buttons
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
-				true);
-		_detailsButton = createButton(parent, IDialogConstants.DETAILS_ID,
-				IDialogConstants.SHOW_DETAILS_LABEL, false);
+		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+		_detailsButton = createButton(parent, IDialogConstants.DETAILS_ID, IDialogConstants.SHOW_DETAILS_LABEL, false);
 	}
 
 	// If Details button is pressed, toggle the detail area
@@ -97,8 +91,7 @@ public class ExceptionDialog extends IconAndMessageDialog {
 		if (id == IDialogConstants.DETAILS_ID) {
 			// was the details button pressed?
 			toggleDetailsArea();
-		}
-		else {
+		} else {
 			super.buttonPressed(id);
 		}
 	}
@@ -115,18 +108,14 @@ public class ExceptionDialog extends IconAndMessageDialog {
 			_textArea.dispose();
 			_textCreated = false;
 			_detailsButton.setText(IDialogConstants.SHOW_DETAILS_LABEL);
-		}
-		else {
+		} else {
 			_textArea = createTextArea((Composite) getContents());
 			_detailsButton.setText(IDialogConstants.HIDE_DETAILS_LABEL);
 		}
 
 		Point newSize = getShell().computeSize(SWT.DEFAULT, SWT.DEFAULT);
 
-		getShell()
-				.setSize(
-						new Point(windowSize.x, windowSize.y
-								+ (newSize.y - oldSize.y)));
+		getShell().setSize(new Point(windowSize.x, windowSize.y + (newSize.y - oldSize.y)));
 
 	}
 
@@ -152,8 +141,7 @@ public class ExceptionDialog extends IconAndMessageDialog {
 	}
 
 	protected Text createTextArea(Composite parent) {
-		_textArea = new Text(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.MULTI);
+		_textArea = new Text(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI);
 
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
@@ -161,9 +149,8 @@ public class ExceptionDialog extends IconAndMessageDialog {
 
 		_textArea.setText(sw.toString());
 
-		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
-				| GridData.GRAB_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL
-				| GridData.GRAB_VERTICAL);
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
+				| GridData.VERTICAL_ALIGN_FILL | GridData.GRAB_VERTICAL);
 		data.heightHint = 200;
 		data.horizontalSpan = 2;
 		_textArea.setLayoutData(data);

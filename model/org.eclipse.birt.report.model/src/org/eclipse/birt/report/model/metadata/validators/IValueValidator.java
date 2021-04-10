@@ -17,11 +17,10 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Validator used to validate a property using a specific rule.
- *  
+ * 
  */
 
-public interface IValueValidator
-{
+public interface IValueValidator {
 
 	/**
 	 * Return the name of the validator.
@@ -29,22 +28,17 @@ public interface IValueValidator
 	 * @return name of the validator.
 	 */
 
-	public String getName( );
+	public String getName();
 
 	/**
 	 * Validate a specific property.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param defn
-	 *            definition of the property.
-	 * @param value
-	 *            value to be validated.
-	 * @throws PropertyValueException
-	 *             if the property has any semantic error.
+	 * @param module the module
+	 * @param defn   definition of the property.
+	 * @param value  value to be validated.
+	 * @throws PropertyValueException if the property has any semantic error.
 	 */
 
-	public void validate( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException;
+	public void validate(Module module, PropertyDefn defn, Object value) throws PropertyValueException;
 
 }

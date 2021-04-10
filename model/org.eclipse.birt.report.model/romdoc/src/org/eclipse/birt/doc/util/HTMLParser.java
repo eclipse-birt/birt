@@ -17,384 +17,322 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 
-public class HTMLParser
-{
+public class HTMLParser {
 	FileReader reader;
 	LineNumberReader in;
 	String token;
-	ArrayList attribs = new ArrayList( );
+	ArrayList attribs = new ArrayList();
 	int pushC = -1;
 	private boolean ignoreWhitespace = true;
-	
+
 	public static final int EOF = -1;
 	public static final int TEXT = 1;
 	public static final int DOCTYPE = 2;
 	public static final int ELEMENT = 3;
 	public static final int COMMENT = 4;
 	public static final int SPECIAL_ELEMENT = 5;
-	
+
 	public static final int START_ELEMENT = 0;
 	public static final int END_ELEMENT = 1;
 	public static final int SINGLE_ELEMENT = 2;
-	
-	public HTMLParser( )
-	{
+
+	public HTMLParser() {
 	}
-	
-	public void open( String fileName ) throws FileNotFoundException
-	{
-		reader = new FileReader( fileName );
-		in = new LineNumberReader( reader );
+
+	public void open(String fileName) throws FileNotFoundException {
+		reader = new FileReader(fileName);
+		in = new LineNumberReader(reader);
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void close( )
-	{
-		try
-		{
-			in.close( );
-			reader.close( );
-		}
-		catch ( IOException e1 )
-		{
+	public void close() {
+		try {
+			in.close();
+			reader.close();
+		} catch (IOException e1) {
 			// Ignore
 		}
 	}
 
-	public String getTokenText( )
-	{
+	public String getTokenText() {
 		return token;
 	}
-	
-	public int getElementType( )
-	{
-		if ( token.startsWith( "/" ) ) //$NON-NLS-1$
+
+	public int getElementType() {
+		if (token.startsWith("/")) //$NON-NLS-1$
 			return END_ELEMENT;
-		if ( token.endsWith( "/" ) ) //$NON-NLS-1$
+		if (token.endsWith("/")) //$NON-NLS-1$
 			return SINGLE_ELEMENT;
 		return START_ELEMENT;
 	}
-	
-	public String getElement( )
-	{
-		if ( token.startsWith( "/" ) ) //$NON-NLS-1$
-			return token.substring( 1 );
-		if ( token.endsWith( "/" ) ) //$NON-NLS-1$
-			return token.substring( 0, token.length( ) - 1 );
+
+	public String getElement() {
+		if (token.startsWith("/")) //$NON-NLS-1$
+			return token.substring(1);
+		if (token.endsWith("/")) //$NON-NLS-1$
+			return token.substring(0, token.length() - 1);
 		return token;
-		
+
 	}
-	
-	public ArrayList getAttribs( )
-	{
+
+	public ArrayList getAttribs() {
 		return attribs;
 	}
-	
-	public String getAttrib( String name )
-	{
-		for ( int i = 0;  i < attribs.size( );  i++ )
-		{
-			AttribPair a = (AttribPair) attribs.get( i );
-			if ( a.attrib.equalsIgnoreCase( name ) )
+
+	public String getAttrib(String name) {
+		for (int i = 0; i < attribs.size(); i++) {
+			AttribPair a = (AttribPair) attribs.get(i);
+			if (a.attrib.equalsIgnoreCase(name))
 				return a.value;
 		}
 		return null;
 	}
-	
-	private int getC( )
-	{
-		if ( pushC != -1 )
-		{
+
+	private int getC() {
+		if (pushC != -1) {
 			int c = pushC;
 			pushC = -1;
 			return c;
 		}
-		try
-		{
-			return in.read( );
-		}
-		catch ( IOException e )
-		{
+		try {
+			return in.read();
+		} catch (IOException e) {
 			return EOF;
 		}
 	}
-	
-	private void pushC( int c )
-	{
+
+	private void pushC(int c) {
 		pushC = c;
 	}
-	
-	public int getToken( )
-	{
-		for ( ; ; )
-		{
-			int c = getC( );
-			switch ( c )
-			{
-				case -1:
-					return EOF;
-				case '<':
-					return getElement( c );
-				default:
-				{
-					parseText( c );
-					if ( ! ignoreWhitespace  ||  token.trim( ).length( ) > 0 )
-						return TEXT;
-				}
+
+	public int getToken() {
+		for (;;) {
+			int c = getC();
+			switch (c) {
+			case -1:
+				return EOF;
+			case '<':
+				return getElement(c);
+			default: {
+				parseText(c);
+				if (!ignoreWhitespace || token.trim().length() > 0)
+					return TEXT;
+			}
 			}
 		}
 	}
 
-	private int parseText( int c )
-	{
-		StringBuffer text = new StringBuffer( );
-		for ( ; ; )
-		{
-			if ( c == EOF )
+	private int parseText(int c) {
+		StringBuffer text = new StringBuffer();
+		for (;;) {
+			if (c == EOF)
 				break;
-			if ( c == '<' )
-			{
-				pushC( c );
+			if (c == '<') {
+				pushC(c);
 				break;
 			}
-			
+
 			// Convert MS-Word-style quotes.
-			
-			if ( c == 8220  ||  c == 8221 )
-				text.append( "&quot;" );
+
+			if (c == 8220 || c == 8221)
+				text.append("&quot;");
 			else
-				text.append( (char) c );
-			c = getC( );
+				text.append((char) c);
+			c = getC();
 		}
 
-		token = text.toString( );
+		token = text.toString();
 		return TEXT;
 	}
 
-	private int skipSpace( int c )
-	{
-		while ( c != EOF  &&  Character.isWhitespace( (char)c ) )
-		{
-			c = getC( );
+	private int skipSpace(int c) {
+		while (c != EOF && Character.isWhitespace((char) c)) {
+			c = getC();
 		}
 		return c;
 	}
-	
-	private int getElement( int c )
-	{
-		c = getC( );
-		
+
+	private int getElement(int c) {
+		c = getC();
+
 		// Broken element
-		
-		if ( c == EOF )
+
+		if (c == EOF)
 			return EOF;
-		
-		if ( c == '!' )
-			return getSpecialElement( );
-		
-		attribs.clear( );
-		c = skipSpace( c );
-		if ( c == EOF )
+
+		if (c == '!')
+			return getSpecialElement();
+
+		attribs.clear();
+		c = skipSpace(c);
+		if (c == EOF)
 			return EOF;
-		
-		StringBuffer tag = new StringBuffer( );
-		if ( c == '/' )
-		{
-			tag.append( (char) c );
-			c = skipSpace( getC( ) );
-			while ( c != EOF  &&  c != '>'  && ! Character.isWhitespace( (char)c ) )
-			{
-				tag.append( (char) c );
-				c = getC( );
+
+		StringBuffer tag = new StringBuffer();
+		if (c == '/') {
+			tag.append((char) c);
+			c = skipSpace(getC());
+			while (c != EOF && c != '>' && !Character.isWhitespace((char) c)) {
+				tag.append((char) c);
+				c = getC();
 			}
-			token = tag.toString( );
-			for ( ; ; )
-			{
-				if ( c == '>'  ||  c == -1 )
+			token = tag.toString();
+			for (;;) {
+				if (c == '>' || c == -1)
 					break;
-				c = getC( );
+				c = getC();
 			}
-			return ELEMENT;			
-		}
-		
-		while ( c != EOF  &&  c != '>'  &&  c != '/'  && ! Character.isWhitespace( (char)c ) )
-		{
-			tag.append( (char) c );
-			c = getC( );
-		}
-		if ( c == EOF )
-		{
-			token = tag.toString( );
 			return ELEMENT;
 		}
-		
-		for ( ; ; )
-		{
-			c = skipSpace( c );
-			if ( c == EOF  ||  c == '>' || c == '/' )
-				break;
-			c = getAttrib( c );
+
+		while (c != EOF && c != '>' && c != '/' && !Character.isWhitespace((char) c)) {
+			tag.append((char) c);
+			c = getC();
 		}
-		if ( c == '/' )
-		{
-			tag.append( (char) c );
-			for ( ; ; )
-			{
-				c = getC( );
-				if ( c == -1  ||  c == '>' )
+		if (c == EOF) {
+			token = tag.toString();
+			return ELEMENT;
+		}
+
+		for (;;) {
+			c = skipSpace(c);
+			if (c == EOF || c == '>' || c == '/')
+				break;
+			c = getAttrib(c);
+		}
+		if (c == '/') {
+			tag.append((char) c);
+			for (;;) {
+				c = getC();
+				if (c == -1 || c == '>')
 					break;
 			}
 		}
-		token = tag.toString( );
+		token = tag.toString();
 		return ELEMENT;
 	}
-	
-	private int getAttrib( int c )
-	{
-		AttribPair a = new AttribPair( );
-		StringBuffer s = new StringBuffer( );
-		while ( c != EOF  &&  c != '='  &&  ! Character.isWhitespace( (char)c ) )
-		{
-			s.append( (char) c );
-			c = getC( );
+
+	private int getAttrib(int c) {
+		AttribPair a = new AttribPair();
+		StringBuffer s = new StringBuffer();
+		while (c != EOF && c != '=' && !Character.isWhitespace((char) c)) {
+			s.append((char) c);
+			c = getC();
 		}
-		a.attrib = s.toString( );
-		c = skipSpace( c );
-		if ( c != '=' )
-		{
-			attribs.add( a );
+		a.attrib = s.toString();
+		c = skipSpace(c);
+		if (c != '=') {
+			attribs.add(a);
 			return c;
 		}
-		s = new StringBuffer( );
-		c = skipSpace( getC( ) );
-		if ( c == '\'' || c == '"' )
-		{
+		s = new StringBuffer();
+		c = skipSpace(getC());
+		if (c == '\'' || c == '"') {
 			int quote = c;
-			for ( ; ; )
-			{
-				c = getC( );
-				if ( c == -1 )
+			for (;;) {
+				c = getC();
+				if (c == -1)
 					break;
-				if ( c == quote )
-				{
-					c = getC( );
+				if (c == quote) {
+					c = getC();
 					break;
 				}
-				if ( c == '\\' )
-				{
-					c = getC( );
-					if ( c == EOF )
+				if (c == '\\') {
+					c = getC();
+					if (c == EOF)
 						break;
-					s.append( '\\' );
-					s.append( (char) c );
-				}
-				else
-				{
-					s.append( (char) c );
+					s.append('\\');
+					s.append((char) c);
+				} else {
+					s.append((char) c);
 				}
 			}
-		}
-		else
-		{
-			for ( ; ; )
-			{
-				c = getC( );
-				if ( c == -1 )
+		} else {
+			for (;;) {
+				c = getC();
+				if (c == -1)
 					break;
-				if ( c == '>'  ||  c == '/'  ||  Character.isWhitespace( (char)c ) )
-				{
-					c = getC( );
+				if (c == '>' || c == '/' || Character.isWhitespace((char) c)) {
+					c = getC();
 					break;
 				}
-				s.append( (char) c );
+				s.append((char) c);
 			}
 		}
-		a.value = s.toString( );
-		attribs.add( a );
+		a.value = s.toString();
+		attribs.add(a);
 		return c;
 	}
-	
-	static class AttribPair
-	{
+
+	static class AttribPair {
 		String attrib;
 		String value;
 	}
-	
-	private int getSpecialElement(  )
-	{
-		StringBuffer text = new StringBuffer( );
-		text.append( "<!" ); //$NON-NLS-1$
-		for ( ; ; )
-		{
-			int c = getC( );
-			if ( c == EOF || c == '>' )
+
+	private int getSpecialElement() {
+		StringBuffer text = new StringBuffer();
+		text.append("<!"); //$NON-NLS-1$
+		for (;;) {
+			int c = getC();
+			if (c == EOF || c == '>')
 				break;
-			text.append( (char) c );
+			text.append((char) c);
 		}
-		text.append( '>' );
-		token = text.toString( );
-		if ( token.startsWith( "<!--" ) ) //$NON-NLS-1$
+		text.append('>');
+		token = text.toString();
+		if (token.startsWith("<!--")) //$NON-NLS-1$
 			return COMMENT;
 		return SPECIAL_ELEMENT;
 	}
 
-	static String formatTags[ ] =
-	{
-			"i", "b",  //$NON-NLS-1$//$NON-NLS-2$
-			"strong", "em",  //$NON-NLS-1$//$NON-NLS-2$
+	static String formatTags[] = { "i", "b", //$NON-NLS-1$//$NON-NLS-2$
+			"strong", "em", //$NON-NLS-1$//$NON-NLS-2$
 			"code", "span", //$NON-NLS-1$ //$NON-NLS-2$
 			"a" //$NON-NLS-1$
 	};
-	
-	public boolean isFormatTag( )
-	{
-		return isFormatTag( getElement( ) );
+
+	public boolean isFormatTag() {
+		return isFormatTag(getElement());
 	}
-	
-	public boolean isFormatTag( String tag )
-	{
-		for ( int i = 0;  i < formatTags.length;  i++ )
-		{
-			if ( formatTags[ i ].equalsIgnoreCase( tag ) )
+
+	public boolean isFormatTag(String tag) {
+		for (int i = 0; i < formatTags.length; i++) {
+			if (formatTags[i].equalsIgnoreCase(tag))
 				return true;
 		}
 		return false;
 	}
 
-	public Object getFullElement( )
-	{
-		StringBuffer text = new StringBuffer( );
-		text.append( '<' );
-		int elementType = getElementType( );
-		if ( elementType == END_ELEMENT )
-			text.append( '/' );
-		text.append( getElement( ) );
-		
-		for ( int i = 0;  i < attribs.size( );  i++ )
-		{
-			text.append( ' ' );
-			AttribPair a = (AttribPair) attribs.get( i );
-			text.append( a.attrib );
-			text.append( "=\"" ); //$NON-NLS-1$
-			if ( a.value != null )
-				text.append( a.value );
-			text.append( "\"" ); //$NON-NLS-1$
+	public Object getFullElement() {
+		StringBuffer text = new StringBuffer();
+		text.append('<');
+		int elementType = getElementType();
+		if (elementType == END_ELEMENT)
+			text.append('/');
+		text.append(getElement());
+
+		for (int i = 0; i < attribs.size(); i++) {
+			text.append(' ');
+			AttribPair a = (AttribPair) attribs.get(i);
+			text.append(a.attrib);
+			text.append("=\""); //$NON-NLS-1$
+			if (a.value != null)
+				text.append(a.value);
+			text.append("\""); //$NON-NLS-1$
 		}
-		if ( elementType == SINGLE_ELEMENT )
-			text.append( '/' );
-		text.append( '>' );
-		return text.toString( );
+		if (elementType == SINGLE_ELEMENT)
+			text.append('/');
+		text.append('>');
+		return text.toString();
 	}
 
-	public int getLineNo( )
-	{
-		return in.getLineNumber( );
+	public int getLineNo() {
+		return in.getLineNumber();
 	}
 
-	public void ignoreWhitespace( boolean b )
-	{
+	public void ignoreWhitespace(boolean b) {
 		ignoreWhitespace = b;
 	}
 

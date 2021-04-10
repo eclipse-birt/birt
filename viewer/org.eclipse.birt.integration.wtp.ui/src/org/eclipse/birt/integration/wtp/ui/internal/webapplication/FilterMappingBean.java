@@ -15,8 +15,7 @@ package org.eclipse.birt.integration.wtp.ui.internal.webapplication;
  * Bean defined for Filter-Mapping object in web.xml
  * 
  */
-public class FilterMappingBean
-{
+public class FilterMappingBean {
 
 	/**
 	 * Filter name
@@ -36,8 +35,7 @@ public class FilterMappingBean
 	/**
 	 * default constructor
 	 */
-	public FilterMappingBean( )
-	{
+	public FilterMappingBean() {
 	}
 
 	/**
@@ -46,8 +44,7 @@ public class FilterMappingBean
 	 * @param name
 	 * @param servletName
 	 */
-	public FilterMappingBean( String name, String servletName )
-	{
+	public FilterMappingBean(String name, String servletName) {
 		this.name = name;
 		this.servletName = servletName;
 	}
@@ -55,51 +52,42 @@ public class FilterMappingBean
 	/**
 	 * @return the name
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * @return the servletName
 	 */
-	public String getServletName( )
-	{
+	public String getServletName() {
 		return servletName;
 	}
 
 	/**
-	 * @param servletName
-	 *            the servletName to set
+	 * @param servletName the servletName to set
 	 */
-	public void setServletName( String servletName )
-	{
+	public void setServletName(String servletName) {
 		this.servletName = servletName;
 	}
 
 	/**
 	 * @return the uri
 	 */
-	public String getUri( )
-	{
+	public String getUri() {
 		return uri;
 	}
 
 	/**
-	 * @param uri
-	 *            the uri to set
+	 * @param uri the uri to set
 	 */
-	public void setUri( String uri )
-	{
+	public void setUri(String uri) {
 		this.uri = uri;
 	}
 }

@@ -15,24 +15,18 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_176145 extends BaseTestCase
-{
+public class Regression_176145 extends BaseTestCase {
 
-	public void test_Regression_176145( ) throws Exception
-	{
+	public void test_Regression_176145() throws Exception {
 
-		openDesign( "regression_176145.xml" );
+		openDesign("regression_176145.xml");
 
-		try
-		{
-			ScalarParameterHandle param = (ScalarParameterHandle) designHandle
-					.getParameters( ).get( 0 );
-			param.setControlType( "text-box" );
-			param.setControlType( "list-box" );
-		}
-		catch ( Exception e )
-		{
-			fail( );
+		try {
+			ScalarParameterHandle param = (ScalarParameterHandle) designHandle.getParameters().get(0);
+			param.setControlType("text-box");
+			param.setControlType("list-box");
+		} catch (Exception e) {
+			fail();
 		}
 
 	}

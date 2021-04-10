@@ -21,12 +21,10 @@ import org.eclipse.birt.report.model.core.PropertyStructure;
  * cube and hierarchy.
  */
 
-public class DimensionCondition extends PropertyStructure
-{
+public class DimensionCondition extends PropertyStructure {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public final static String DIMENSION_CONDITION_STRUCT = "DimensionCondition"; //$NON-NLS-1$
@@ -46,12 +44,12 @@ public class DimensionCondition extends PropertyStructure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.
+	 * model.api.SimpleValueHandle, int)
 	 */
-	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
-		return new DimensionConditionHandle( valueHandle, index );
+	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
+		return new DimensionConditionHandle(valueHandle, index);
 	}
 
 	/*
@@ -59,8 +57,7 @@ public class DimensionCondition extends PropertyStructure
 	 * 
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#getStructName()
 	 */
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return DIMENSION_CONDITION_STRUCT;
 	}
 }

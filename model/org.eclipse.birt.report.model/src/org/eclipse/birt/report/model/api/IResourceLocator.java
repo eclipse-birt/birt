@@ -28,14 +28,10 @@ package org.eclipse.birt.report.model.api;
  * method.
  */
 
-public interface IResourceLocator extends IResourceLocatorBase
-{
+public interface IResourceLocator extends IResourceLocatorBase {
 
 	/**
-	 * The location mask which searches all the locations. 
-	 */	
-	public int ALL_RESOURCE = RESOURCE_FILEPATH 
-			| RESOURCE_BUNDLE
-			| RESOURCE_FOLDER
-			| RESOURCE_DESIGN;
+	 * The location mask which searches all the locations.
+	 */
+	public int ALL_RESOURCE = RESOURCE_FILEPATH | RESOURCE_BUNDLE | RESOURCE_FOLDER | RESOURCE_DESIGN;
 }

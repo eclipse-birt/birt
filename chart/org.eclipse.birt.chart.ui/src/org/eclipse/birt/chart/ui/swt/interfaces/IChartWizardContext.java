@@ -19,63 +19,60 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
  * Chart's extension of IWizardContext
  */
 
-public interface IChartWizardContext<C extends IChartObject> extends
-		IWizardContext
-{
+public interface IChartWizardContext<C extends IChartObject> extends IWizardContext {
 
 	/**
 	 * 
 	 * @return the UIServiceProvider in context.
 	 */
-	IUIServiceProvider getUIServiceProvider( );
+	IUIServiceProvider getUIServiceProvider();
 
 	/**
 	 * 
 	 * @return the DataServiceProvider in context.
 	 */
-	IDataServiceProvider getDataServiceProvider( );
+	IDataServiceProvider getDataServiceProvider();
 
 	/**
 	 * @return DataSheet
 	 */
-	IChartDataSheet getDataSheet( );
+	IChartDataSheet getDataSheet();
 
 	/**
 	 * 
 	 * @return the StyleProcessor
 	 */
-	IStyleProcessor getProcessor( );
+	IStyleProcessor getProcessor();
 
 	/**
 	 * set the StyleProcessor
 	 */
-	void setProcessor( IStyleProcessor processor );
+	void setProcessor(IStyleProcessor processor);
 
 	/**
 	 * 
 	 * @return ExtendedItem
 	 */
-	Object getExtendedItem( );
+	Object getExtendedItem();
 
 	/**
 	 * 
 	 * @param extendedItem
 	 */
-	void setExtendedItem( Object extendedItem );
+	void setExtendedItem(Object extendedItem);
 
 	/**
 	 * Returns the model on which wizard context is used.
 	 */
-	C getModel( );
+	C getModel();
 
 	/**
-	 * Returns if the UI is enabled or not.The UI, including task, subtask or
-	 * toggle button, is identified by the exclusive id.
+	 * Returns if the UI is enabled or not.The UI, including task, subtask or toggle
+	 * button, is identified by the exclusive id.
 	 * 
-	 * @param id
-	 *            the exclusive id to identify the UI
+	 * @param id the exclusive id to identify the UI
 	 * @return the UI enabled state
 	 * @since 2.3
 	 */
-	boolean isEnabled( String id );
+	boolean isEnabled(String id);
 }

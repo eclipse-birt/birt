@@ -14,36 +14,30 @@ package org.eclipse.birt.report.engine.javascript;
 import org.eclipse.birt.core.script.ICompiledScript;
 import org.mozilla.javascript.Script;
 
-public class CompiledJavascript implements ICompiledScript
-{
+public class CompiledJavascript implements ICompiledScript {
 	private int lineNo;
 	private String scriptText;
 	private Script compiledScript;
 
-	public CompiledJavascript( String source, int lineNo, String scriptText, Script script)
-	{
+	public CompiledJavascript(String source, int lineNo, String scriptText, Script script) {
 		this.compiledScript = script;
 		this.scriptText = scriptText;
 		this.lineNo = lineNo;
 	}
 
-	public String getLanguage( )
-	{
-		return "javascript"; //FIXME: return a constant
+	public String getLanguage() {
+		return "javascript"; // FIXME: return a constant
 	}
-	
-	public Script getCompiledScript( )
-	{
+
+	public Script getCompiledScript() {
 		return compiledScript;
 	}
 
-	public int getLineNo( )
-	{
+	public int getLineNo() {
 		return lineNo;
 	}
 
-	public String getScriptText( )
-	{
+	public String getScriptText() {
 		return scriptText;
 	}
 }

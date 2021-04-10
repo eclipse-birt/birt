@@ -15,12 +15,10 @@ package org.eclipse.birt.report.engine.ir;
  * Text element test
  * 
  */
-public class TextItemTest extends ReportItemTestCase
-{
+public class TextItemTest extends ReportItemTestCase {
 
-	public TextItemTest( )
-	{
-		super( new TextItemDesign( ) );
+	public TextItemTest() {
+		super(new TextItemDesign());
 	}
 
 	/**
@@ -30,17 +28,16 @@ public class TextItemTest extends ReportItemTestCase
 	 * 
 	 * then get the texts and check the text type to test if they work correctly
 	 */
-	public void testStaticText( )
-	{
-		TextItemDesign text = new TextItemDesign( );
-		//Set
+	public void testStaticText() {
+		TextItemDesign text = new TextItemDesign();
+		// Set
 		String testKey = "TestKey";
 		String testText = "TestText";
-		text.setText( testKey, testText );
+		text.setText(testKey, testText);
 
-		//Get
-		assertEquals( text.getText( ), testText );
-		assertEquals( text.getTextKey( ), testKey );
+		// Get
+		assertEquals(text.getText(), testText);
+		assertEquals(text.getTextKey(), testKey);
 	}
 
 }

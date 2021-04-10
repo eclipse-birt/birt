@@ -19,30 +19,25 @@ import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
 /**
  * Script event handler interface for a label
  */
-public interface ILabelEventHandler
-{
+public interface ILabelEventHandler {
 
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( ILabel labelHandle, IReportContext reportContext )
-			throws ScriptException;
+	void onPrepare(ILabel labelHandle, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( ILabelInstance label, IReportContext reportContext )
-			throws ScriptException;
+	void onCreate(ILabelInstance label, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( ILabelInstance label, IReportContext reportContext )
-			throws ScriptException;
-	
+	void onRender(ILabelInstance label, IReportContext reportContext) throws ScriptException;
+
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( ILabelInstance label, IReportContext reportContext )
-			throws ScriptException;
+	void onPageBreak(ILabelInstance label, IReportContext reportContext) throws ScriptException;
 }

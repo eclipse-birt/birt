@@ -18,27 +18,24 @@ import org.eclipse.jface.wizard.Wizard;
  * 
  * @version $Revision: 1.2 $ $Date: 2006/07/19 07:06:03 $
  */
-public class DefaultDataSourceWizard extends Wizard
-{
+public class DefaultDataSourceWizard extends Wizard {
 
-	private DataSourceSelectionPage page = new DataSourceSelectionPage( "datasourceselection" ); //$NON-NLS-1$  
+	private DataSourceSelectionPage page = new DataSourceSelectionPage("datasourceselection"); //$NON-NLS-1$
 
 	/**
 	 * Constructor
 	 */
-	public DefaultDataSourceWizard( )
-	{
-		super( );
-		addPage( page );
-		setForcePreviousAndNextButtons( true );
+	public DefaultDataSourceWizard() {
+		super();
+		addPage(page);
+		setForcePreviousAndNextButtons(true);
 	}
 
 	/*
 	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
-	public boolean performFinish( )
-	{
-		return page.performFinish( );
+	public boolean performFinish() {
+		return page.performFinish();
 	}
 }

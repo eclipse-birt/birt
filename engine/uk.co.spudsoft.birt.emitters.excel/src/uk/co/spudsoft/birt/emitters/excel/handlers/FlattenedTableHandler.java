@@ -25,7 +25,7 @@ import uk.co.spudsoft.birt.emitters.excel.HandlerState;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 public class FlattenedTableHandler extends AbstractHandler {
-	
+
 	private CellContentHandler contentHandler;
 
 	public FlattenedTableHandler(CellContentHandler contentHandler, Logger log, IHandler parent, ITableContent table) {
@@ -35,15 +35,16 @@ public class FlattenedTableHandler extends AbstractHandler {
 
 	@Override
 	public void startTable(HandlerState state, ITableContent table) throws BirtException {
-		if( ( state.sheetName == null ) || state.sheetName.isEmpty() ) {
+		if ((state.sheetName == null) || state.sheetName.isEmpty()) {
 			String name = table.getName();
-			if( ( name != null ) && ! name.isEmpty() ) {
+			if ((name != null) && !name.isEmpty()) {
 				state.sheetName = name;
 			}
 		}
-		if( ( state.sheetPassword == null ) || state.sheetPassword.isEmpty() ) {
-			String password = EmitterServices.stringOption( state.getRenderOptions(), table, ExcelEmitter.SHEET_PASSWORD, null);
-			if( ( password != null ) && ! password.isEmpty() ) {
+		if ((state.sheetPassword == null) || state.sheetPassword.isEmpty()) {
+			String password = EmitterServices.stringOption(state.getRenderOptions(), table, ExcelEmitter.SHEET_PASSWORD,
+					null);
+			if ((password != null) && !password.isEmpty()) {
 				state.sheetPassword = password;
 			}
 		}
@@ -75,7 +76,5 @@ public class FlattenedTableHandler extends AbstractHandler {
 	@Override
 	public void endTableGroup(HandlerState state, ITableGroupContent group) throws BirtException {
 	}
-	
-	
-	
+
 }

@@ -23,13 +23,13 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * This DummyOutputStream is used to cache user output to Memory.  
+ * This DummyOutputStream is used to cache user output to Memory.
+ * 
  * @deprecated
  */
-public class DummyOutputStream extends OutputStream
-{
+public class DummyOutputStream extends OutputStream {
 	private static final int BUFF_SIZE = 4000;
-	
+
 	private List cachedByteArray;
 	private int currentListIndex;
 	private int nextArrayIndex;
@@ -39,12 +39,10 @@ public class DummyOutputStream extends OutputStream
 	private int type;
 	private boolean isClosed;
 
-	
-	DummyOutputStream( DataEngineContext context, StreamID id, int type )
-	{
-		this.cachedByteArray = new ArrayList(); 
+	DummyOutputStream(DataEngineContext context, StreamID id, int type) {
+		this.cachedByteArray = new ArrayList();
 		this.currentArray = new byte[BUFF_SIZE];
-		this.cachedByteArray.add( this.currentArray );
+		this.cachedByteArray.add(this.currentArray);
 		this.nextArrayIndex = 0;
 		this.currentListIndex = 0;
 		this.context = context;
@@ -52,21 +50,17 @@ public class DummyOutputStream extends OutputStream
 		this.type = type;
 		this.isClosed = false;
 	}
-	
-	
-	public void write( int b ) throws IOException
-	{
-		if ( this.nextArrayIndex < BUFF_SIZE )
-		{
-			this.currentArray[this.nextArrayIndex] = (byte)b;
-			this.nextArrayIndex ++;
-		}else
-		{
+
+	public void write(int b) throws IOException {
+		if (this.nextArrayIndex < BUFF_SIZE) {
+			this.currentArray[this.nextArrayIndex] = (byte) b;
+			this.nextArrayIndex++;
+		} else {
 			this.currentArray = new byte[BUFF_SIZE];
-			this.cachedByteArray.add( this.currentArray );
+			this.cachedByteArray.add(this.currentArray);
 			this.currentListIndex++;
 			this.nextArrayIndex = 0;
-			this.write( b );
+			this.write(b);
 		}
 	}
 
@@ -74,56 +68,44 @@ public class DummyOutputStream extends OutputStream
 	 * 
 	 * @return
 	 */
-	public byte[] toByteArray( )
-	{
-		byte[] result = new byte[this.currentListIndex
-				* BUFF_SIZE + this.nextArrayIndex];
-		for ( int i = 0; i < this.cachedByteArray.size( ); i++ )
-		{
-			byte[] temp = (byte[]) this.cachedByteArray.get( i );
+	public byte[] toByteArray() {
+		byte[] result = new byte[this.currentListIndex * BUFF_SIZE + this.nextArrayIndex];
+		for (int i = 0; i < this.cachedByteArray.size(); i++) {
+			byte[] temp = (byte[]) this.cachedByteArray.get(i);
 			int count = BUFF_SIZE;
-			if ( i == this.cachedByteArray.size( ) - 1 )
+			if (i == this.cachedByteArray.size() - 1)
 				count = this.nextArrayIndex;
-			for ( int j = 0; j < count; j++ )
-			{
+			for (int j = 0; j < count; j++) {
 				result[i * BUFF_SIZE + j] = temp[j];
 			}
 		}
 		return result;
 	}
-	
-	public long getOffset( )
-	{
-		return BUFF_SIZE
-				* ( cachedByteArray.size( ) - 1 ) + this.nextArrayIndex - 1;
+
+	public long getOffset() {
+		return BUFF_SIZE * (cachedByteArray.size() - 1) + this.nextArrayIndex - 1;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.io.OutputStream#close()
 	 */
-	public void close( ) throws IOException
-	{
-		if ( this.isClosed )
+	public void close() throws IOException {
+		if (this.isClosed)
 			return;
 		else
 			this.isClosed = true;
-		try
-		{
-			if ( this.type == DataEngineContext.DATASET_DATA_STREAM
-					|| this.type == DataEngineContext.DATASET_META_STREAM )
-			{
-				saveToData( );
-			}
-			else
-			{
-				saveToMeta( );
+		try {
+			if (this.type == DataEngineContext.DATASET_DATA_STREAM
+					|| this.type == DataEngineContext.DATASET_META_STREAM) {
+				saveToData();
+			} else {
+				saveToMeta();
 			}
 
-		}
-		catch ( Exception e )
-		{
-			throw new IOException( e.getLocalizedMessage( ) );
+		} catch (Exception e) {
+			throw new IOException(e.getLocalizedMessage());
 		}
 
 	}
@@ -133,20 +115,18 @@ public class DummyOutputStream extends OutputStream
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	private void saveToData( ) throws DataException, IOException
-	{
+	private void saveToData() throws DataException, IOException {
 
-		RAOutputStream data = context.getOutputStream( id.getStartStream( ),
-				id.getSubQueryStream( ),
-				DataEngineContext.DATASET_DATA_STREAM );
-		data.seek( data.length( ) );
-		DataOutputStream dos = new DataOutputStream( data );
-		byte[] temp = this.toByteArray( );
-		dos.writeInt( type );
-		dos.writeInt( temp.length );
-		dos.write( temp );
-		dos.close( );
-		data.close( );
+		RAOutputStream data = context.getOutputStream(id.getStartStream(), id.getSubQueryStream(),
+				DataEngineContext.DATASET_DATA_STREAM);
+		data.seek(data.length());
+		DataOutputStream dos = new DataOutputStream(data);
+		byte[] temp = this.toByteArray();
+		dos.writeInt(type);
+		dos.writeInt(temp.length);
+		dos.write(temp);
+		dos.close();
+		data.close();
 
 	}
 
@@ -155,41 +135,34 @@ public class DummyOutputStream extends OutputStream
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	private void saveToMeta( ) throws DataException, IOException
-	{
-		RAOutputStream raMetaOs = context.getOutputStream( id.getStartStream( ),
-				id.getSubQueryStream( ),
-				DataEngineContext.META_STREAM );
-		DataOutputStream metaOs = new DataOutputStream( raMetaOs );
+	private void saveToMeta() throws DataException, IOException {
+		RAOutputStream raMetaOs = context.getOutputStream(id.getStartStream(), id.getSubQueryStream(),
+				DataEngineContext.META_STREAM);
+		DataOutputStream metaOs = new DataOutputStream(raMetaOs);
 
-		if ( context.hasOutStream( id.getStartStream( ),
-				id.getSubQueryStream( ),
-				DataEngineContext.META_STREAM ) )
-			raMetaOs.seek( raMetaOs.length( ) );
+		if (context.hasOutStream(id.getStartStream(), id.getSubQueryStream(), DataEngineContext.META_STREAM))
+			raMetaOs.seek(raMetaOs.length());
 
-		RAOutputStream raMetaIndexOs = context.getOutputStream( id.getStartStream( ),
-				id.getSubQueryStream( ),
-				DataEngineContext.META_INDEX_STREAM );
+		RAOutputStream raMetaIndexOs = context.getOutputStream(id.getStartStream(), id.getSubQueryStream(),
+				DataEngineContext.META_INDEX_STREAM);
 
-		DataOutputStream metaIndexOs = new DataOutputStream( raMetaIndexOs );
-		if ( context.hasOutStream( id.getStartStream( ),
-				id.getSubQueryStream( ),
-				DataEngineContext.META_INDEX_STREAM ) )
-			raMetaIndexOs.seek( raMetaIndexOs.length( ) );
+		DataOutputStream metaIndexOs = new DataOutputStream(raMetaIndexOs);
+		if (context.hasOutStream(id.getStartStream(), id.getSubQueryStream(), DataEngineContext.META_INDEX_STREAM))
+			raMetaIndexOs.seek(raMetaIndexOs.length());
 
-		long offset = raMetaOs.length( );
+		long offset = raMetaOs.length();
 
 		Integer streamType = this.type;
 
-		byte[] temp = this.toByteArray( );
+		byte[] temp = this.toByteArray();
 		int size = temp.length;
 
-		IOUtil.writeInt( metaIndexOs, streamType.intValue( ) );
-		IOUtil.writeLong( metaIndexOs, offset );
-		IOUtil.writeInt( metaIndexOs, size );
-		metaOs.write( temp );
+		IOUtil.writeInt(metaIndexOs, streamType.intValue());
+		IOUtil.writeLong(metaIndexOs, offset);
+		IOUtil.writeInt(metaIndexOs, size);
+		metaOs.write(temp);
 
-		metaOs.close( );
-		metaIndexOs.close( );
+		metaOs.close();
+		metaIndexOs.close();
 	}
 }

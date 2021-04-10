@@ -13,8 +13,7 @@ package org.eclipse.birt.report.engine.api;
 
 import org.eclipse.birt.core.exception.BirtException;
 
-public interface IReportDocumentLockManager
-{
+public interface IReportDocumentLockManager {
 
 	/**
 	 * try to lock a file, onece the user get the lock of the file, it should
@@ -24,5 +23,5 @@ public interface IReportDocumentLockManager
 	 * @return the locker.
 	 * @throws BirtException
 	 */
-	IReportDocumentLock lock( String document ) throws BirtException;
+	IReportDocumentLock lock(String document) throws BirtException;
 }

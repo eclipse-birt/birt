@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.internal.index;
 
-public interface IDocumentIndexVersion
-{
+public interface IDocumentIndexVersion {
 
 	static final int VERSION_0 = 0;
 	static final int VERSION_1 = 1;

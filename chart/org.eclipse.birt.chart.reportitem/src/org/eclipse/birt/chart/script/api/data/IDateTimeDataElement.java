@@ -14,8 +14,8 @@ package org.eclipse.birt.chart.script.api.data;
 import com.ibm.icu.util.Calendar;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Date Time Data Element</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Date
+ * Time Data Element</b></em>'. <!-- end-user-doc -->
  * 
  * <!-- begin-model-doc -->
  * 
@@ -25,8 +25,7 @@ import com.ibm.icu.util.Calendar;
  * 
  */
 
-public interface IDateTimeDataElement extends IDataElement
-{
+public interface IDateTimeDataElement extends IDataElement {
 
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute. <!--
@@ -39,17 +38,17 @@ public interface IDateTimeDataElement extends IDataElement
 	 * @return the value of the '<em>Value</em>' attribute.
 	 * @see #setValue(long)
 	 */
-	long getValue( );
+	long getValue();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue <em>Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.data.DateTimeDataElement#getValue
+	 * <em>Value</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param value
-	 *            the new value of the '<em>Value</em>' attribute.
+	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #getValue()
 	 */
-	void setValue( long value );
+	void setValue(long value);
 
 	/**
 	 * A convenient method provided to return the datetime value as a Calendar
@@ -57,5 +56,5 @@ public interface IDateTimeDataElement extends IDataElement
 	 * 
 	 * @return calendar date
 	 */
-	Calendar getValueAsCalendar( );
+	Calendar getValueAsCalendar();
 }

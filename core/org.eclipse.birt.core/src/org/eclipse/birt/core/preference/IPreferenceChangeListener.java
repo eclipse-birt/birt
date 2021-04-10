@@ -13,8 +13,7 @@ package org.eclipse.birt.core.preference;
 
 import java.util.EventListener;
 
-public interface IPreferenceChangeListener extends EventListener
-{
+public interface IPreferenceChangeListener extends EventListener {
 
-	public void preferenceChange( PreferenceChangeEvent event );
+	public void preferenceChange(PreferenceChangeEvent event);
 }

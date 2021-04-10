@@ -12,7 +12,6 @@ package org.eclipse.birt.report.engine.emitter.odp;
 
 import org.eclipse.birt.report.engine.odf.AbstractOdfEmitterContext;
 
-public class OdpContext extends AbstractOdfEmitterContext
-{
+public class OdpContext extends AbstractOdfEmitterContext {
 
 }

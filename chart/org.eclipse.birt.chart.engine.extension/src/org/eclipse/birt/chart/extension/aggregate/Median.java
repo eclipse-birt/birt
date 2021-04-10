@@ -14,17 +14,14 @@ package org.eclipse.birt.chart.extension.aggregate;
 import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
 import org.eclipse.birt.core.data.DataType;
 
-
 /**
  * @since BIRT 2.3
  *
  */
-public class Median extends AggregateFunctionAdapter
-{
+public class Median extends AggregateFunctionAdapter {
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.ANY_TYPE;
 	}
 }

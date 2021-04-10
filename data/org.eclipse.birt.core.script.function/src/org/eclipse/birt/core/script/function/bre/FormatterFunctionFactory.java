@@ -14,13 +14,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionFactory;
 
+public class FormatterFunctionFactory implements IScriptFunctionFactory {
 
-public class FormatterFunctionFactory implements IScriptFunctionFactory
-{
-
-	public IScriptFunctionExecutor getFunctionExecutor( String functionName ) throws BirtException
-	{
-		return new Formatter( functionName );
+	public IScriptFunctionExecutor getFunctionExecutor(String functionName) throws BirtException {
+		return new Formatter(functionName);
 	}
 
 }

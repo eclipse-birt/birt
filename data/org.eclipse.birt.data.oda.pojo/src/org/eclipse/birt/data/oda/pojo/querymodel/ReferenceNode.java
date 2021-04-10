@@ -10,47 +10,38 @@
  *******************************************************************************/
 package org.eclipse.birt.data.oda.pojo.querymodel;
 
-
 /**
  * A reference from the ROOT POJO object
  */
-public abstract class ReferenceNode
-{
+public abstract class ReferenceNode {
 	protected RelayReferenceNode parent;
 	private IMappingSource reference;
-	
-	
-	public ReferenceNode( RelayReferenceNode parent, IMappingSource reference )
-	{
+
+	public ReferenceNode(RelayReferenceNode parent, IMappingSource reference) {
 		assert reference != null;
 		this.parent = parent;
 		this.reference = reference;
-		if ( parent != null )
-		{
-			parent.addChild( this );
+		if (parent != null) {
+			parent.addChild(this);
 		}
 	}
-	
-	
+
 	/**
 	 * @return the parent
 	 */
-	public RelayReferenceNode getParent( )
-	{
+	public RelayReferenceNode getParent() {
 		return parent;
 	}
-	
-	
+
 	/**
 	 * @return the reference
 	 */
-	public IMappingSource getReference( )
-	{
+	public IMappingSource getReference() {
 		return reference;
 	}
-	
+
 	/**
 	 * @return the Column References from this reference
 	 */
-	public abstract ColumnReferenceNode[] getColumnReferenceNodes( );
+	public abstract ColumnReferenceNode[] getColumnReferenceNodes();
 }

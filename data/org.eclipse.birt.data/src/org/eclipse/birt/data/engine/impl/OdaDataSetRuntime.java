@@ -27,129 +27,106 @@ import org.eclipse.datatools.connectivity.oda.spec.ValidationContext;
 /**
  * Encapulates the runtime definition of a generic extended (ODA) data set.
  */
-public class OdaDataSetRuntime extends DataSetRuntime
-{
-	private String 	queryText;
-	
+public class OdaDataSetRuntime extends DataSetRuntime {
+	private String queryText;
+
 	/** Public properties as a (String -> String) map */
-	private Map		publicProperties;
-	
+	private Map publicProperties;
+
 	private ValidationContext validationContext;
-	
-	private static Logger logger = Logger.getLogger( OdaDataSetRuntime.class.getName( ) );
 
-	OdaDataSetRuntime( IOdaDataSetDesign dataSet, IQueryExecutor executor, DataEngineSession session )
-    {
-        super( dataSet, executor, session );
-        
-		Object[] params = {
-				dataSet, executor
-		};
-		logger.entering( OdaDataSetRuntime.class.getName( ),
-				"OdaDataSetRuntime",
-				params );
-        // Copy from design all properties that may change at runtime
-        queryText = dataSet.getQueryText();
-        publicProperties = new HashMap();
-        publicProperties.putAll( dataSet.getPublicProperties() );
-        
-		DataEngineImpl de = (DataEngineImpl) session.getEngine( );
-		validationContext = de.getValidationContext( 
-				de.getDataSourceRuntime( dataSet.getDataSourceName( ) ), 
-				dataSet );
-        
-		logger.exiting( OdaDataSetRuntime.class.getName( ), "OdaDataSetRuntime" );
-		logger.log( Level.FINER, "OdaDataSetRuntime starts up" );
-    }
+	private static Logger logger = Logger.getLogger(OdaDataSetRuntime.class.getName());
 
-    public IOdaDataSetDesign getSubdesign()
-	{
+	OdaDataSetRuntime(IOdaDataSetDesign dataSet, IQueryExecutor executor, DataEngineSession session) {
+		super(dataSet, executor, session);
+
+		Object[] params = { dataSet, executor };
+		logger.entering(OdaDataSetRuntime.class.getName(), "OdaDataSetRuntime", params);
+		// Copy from design all properties that may change at runtime
+		queryText = dataSet.getQueryText();
+		publicProperties = new HashMap();
+		publicProperties.putAll(dataSet.getPublicProperties());
+
+		DataEngineImpl de = (DataEngineImpl) session.getEngine();
+		validationContext = de.getValidationContext(de.getDataSourceRuntime(dataSet.getDataSourceName()), dataSet);
+
+		logger.exiting(OdaDataSetRuntime.class.getName(), "OdaDataSetRuntime");
+		logger.log(Level.FINER, "OdaDataSetRuntime starts up");
+	}
+
+	public IOdaDataSetDesign getSubdesign() {
 		return (IOdaDataSetDesign) getDesign();
 	}
 
-    public OdaDataSourceRuntime getExtendedDataSource()
-    {
-        assert getDataSource() instanceof OdaDataSourceRuntime;
-        return (OdaDataSourceRuntime) getDataSource();
-    }
+	public OdaDataSourceRuntime getExtendedDataSource() {
+		assert getDataSource() instanceof OdaDataSourceRuntime;
+		return (OdaDataSourceRuntime) getDataSource();
+	}
 
-    public String getQueryText()
-    {
-    	return queryText;
-    }
-    
-    public void setQueryText( String queryText )
-    {
-    	this.queryText = queryText;
-    }
+	public String getQueryText() {
+		return queryText;
+	}
 
-    
-    public String getExtensionID()
-    {
-        return getSubdesign().getExtensionID();
-    }
+	public void setQueryText(String queryText) {
+		this.queryText = queryText;
+	}
 
-    public String getPrimaryResultSetName()
-    {
-        return getSubdesign().getPrimaryResultSetName();
-    }
+	public String getExtensionID() {
+		return getSubdesign().getExtensionID();
+	}
 
-	public Map getPublicProperties( ) 
-	{
+	public String getPrimaryResultSetName() {
+		return getSubdesign().getPrimaryResultSetName();
+	}
+
+	public Map getPublicProperties() {
 		return this.publicProperties;
 	}
 
-	public Map getPrivateProperties( ) 
-	{
-        return getSubdesign().getPrivateProperties();
+	public Map getPrivateProperties() {
+		return getSubdesign().getPrivateProperties();
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getAllExtensionProperties()
 	 */
-	public Map getAllExtensionProperties()
-	{
+	public Map getAllExtensionProperties() {
 		return this.publicProperties;
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#getExtensionProperty(java.lang.String)
 	 */
-	public String getExtensionProperty(String name)
-	{
-		return (String) this.publicProperties.get( name );
+	public String getExtensionProperty(String name) {
+		return (String) this.publicProperties.get(name);
 	}
 
 	/**
-	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#setExtensionProperty(java.lang.String, java.lang.String)
+	 * @see org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle#setExtensionProperty(java.lang.String,
+	 *      java.lang.String)
 	 */
-	public void setExtensionProperty(String name, String value)
-	{
-		this.publicProperties.put( name, value );
+	public void setExtensionProperty(String name, String value) {
+		this.publicProperties.put(name, value);
 	}
-	
+
 	/**
 	 * Return the ValidationContext if exist
 	 */
-	public ValidationContext getValidationContext( )
-	{
+	public ValidationContext getValidationContext() {
 		return this.validationContext;
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.DataSetRuntime#close()
 	 */
-	public void close( ) throws DataException
-	{
-		super.close( );
+	public void close() throws DataException {
+		super.close();
 	}
-	
-	public QuerySpecification getCombinedQuerySpecification( )
-	{
-		if ( dataSetDesign instanceof OdaDataSetAdapter )
-			return ( (OdaDataSetAdapter) dataSetDesign ).getCombinedQuerySpecification( );
-		else
-		{
+
+	public QuerySpecification getCombinedQuerySpecification() {
+		if (dataSetDesign instanceof OdaDataSetAdapter)
+			return ((OdaDataSetAdapter) dataSetDesign).getCombinedQuerySpecification();
+		else {
 			return null;
 		}
 	}

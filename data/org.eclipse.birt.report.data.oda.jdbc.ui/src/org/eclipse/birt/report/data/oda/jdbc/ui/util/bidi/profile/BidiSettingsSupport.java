@@ -9,9 +9,7 @@
  * IBM Corporation - initial API and implementation
  ***********************************************************************/
 
-
 package org.eclipse.birt.report.data.oda.jdbc.ui.util.bidi.profile;
-
 
 import java.util.Properties;
 
@@ -26,75 +24,72 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-
 /**
  * @author bidi_hcg
  *
  */
-public class BidiSettingsSupport 
-{
+public class BidiSettingsSupport {
 	private Button bidiButton;
 	private BidiFormat metadataBidiFormat = null;
 	private BidiFormat contentBidiFormat = null;
 	private BidiFormat disabledMetadataBidiFormat = null;
 	private BidiFormat disabledContentBidiFormat = null;
-	
-   
-    public BidiSettingsSupport() {
-    	String bidiFormatString = JdbcPlugin.getDefault( ).getPluginPreferences( ).getString(JDBCDataSourcePreferencePage.EXTERNAL_BIDI_FORMAT);
+
+	public BidiSettingsSupport() {
+		String bidiFormatString = JdbcPlugin.getDefault().getPluginPreferences()
+				.getString(JDBCDataSourcePreferencePage.EXTERNAL_BIDI_FORMAT);
 		contentBidiFormat = metadataBidiFormat = new BidiFormat(bidiFormatString);
-		
+
 	}
-	public void drawBidiSettingsButton( Composite parent, Properties props )
-    {
-    	initBidiFormats(props);
 
-		bidiButton = new Button( parent, SWT.PUSH );
-    	bidiButton.setText( JdbcPlugin.getResourceString( "wizard.label.bidiSettings" ) );//$NON-NLS-1$
-    	bidiButton.setLayoutData( new GridData( GridData.END ) );
-    	bidiButton.addSelectionListener( new SelectionAdapter( ) {
+	public void drawBidiSettingsButton(Composite parent, Properties props) {
+		initBidiFormats(props);
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				doSetAdvancedBidiSettings( );
+		bidiButton = new Button(parent, SWT.PUSH);
+		bidiButton.setText(JdbcPlugin.getResourceString("wizard.label.bidiSettings"));//$NON-NLS-1$
+		bidiButton.setLayoutData(new GridData(GridData.END));
+		bidiButton.addSelectionListener(new SelectionAdapter() {
+
+			public void widgetSelected(SelectionEvent e) {
+				doSetAdvancedBidiSettings();
 			}
-		} );
+		});
 
-    }
-    private void doSetAdvancedBidiSettings()
-    	{
-    		AdvancedBidiDialog dlg = new AdvancedBidiDialog(this);
-    		dlg.open( );
-    	}
+	}
 
-    public BidiFormat getContentBidiFormat(){
-    	return contentBidiFormat;
-    }
-    
-    public BidiFormat getMetadataBidiFormat(){
-    	return metadataBidiFormat;
-    }
-    
-    public BidiFormat getDdisabledContentBidiFormat(){
-    	return disabledContentBidiFormat;
-    }
-    
-    public BidiFormat getDdisabledMetadataBidiFormat(){
-    	return disabledMetadataBidiFormat;
-    }
-	public void setBidiFormats(BidiFormat metadataBidiFormat,
-			BidiFormat contentBidiFormat, 
-			BidiFormat disabledMetadataBidiFormat,
-			BidiFormat disabledContentBidiFormat) {
+	private void doSetAdvancedBidiSettings() {
+		AdvancedBidiDialog dlg = new AdvancedBidiDialog(this);
+		dlg.open();
+	}
+
+	public BidiFormat getContentBidiFormat() {
+		return contentBidiFormat;
+	}
+
+	public BidiFormat getMetadataBidiFormat() {
+		return metadataBidiFormat;
+	}
+
+	public BidiFormat getDdisabledContentBidiFormat() {
+		return disabledContentBidiFormat;
+	}
+
+	public BidiFormat getDdisabledMetadataBidiFormat() {
+		return disabledMetadataBidiFormat;
+	}
+
+	public void setBidiFormats(BidiFormat metadataBidiFormat, BidiFormat contentBidiFormat,
+			BidiFormat disabledMetadataBidiFormat, BidiFormat disabledContentBidiFormat) {
 		this.contentBidiFormat = contentBidiFormat;
 		this.metadataBidiFormat = metadataBidiFormat;
 		this.disabledContentBidiFormat = disabledContentBidiFormat;
 		this.disabledMetadataBidiFormat = disabledMetadataBidiFormat;
 	}
-	
-	public Properties getBidiFormats(){
+
+	public Properties getBidiFormats() {
 		Properties p = new Properties();
-		BidiFormat externalDefaultBDiFormat = new BidiFormat(JdbcPlugin.getDefault( ).getPluginPreferences( ).getString(JDBCDataSourcePreferencePage.EXTERNAL_BIDI_FORMAT));
+		BidiFormat externalDefaultBDiFormat = new BidiFormat(JdbcPlugin.getDefault().getPluginPreferences()
+				.getString(JDBCDataSourcePreferencePage.EXTERNAL_BIDI_FORMAT));
 		if (contentBidiFormat != null)
 			p.setProperty(BidiConstants.CONTENT_FORMAT_PROP_NAME, contentBidiFormat.getBiDiFormatString());
 		else
@@ -105,8 +100,8 @@ public class BidiSettingsSupport
 			p.setProperty(BidiConstants.METADATA_FORMAT_PROP_NAME, externalDefaultBDiFormat.getBiDiFormatString());
 		return p;
 	}
-	
-	private void initBidiFormats(Properties props){
+
+	private void initBidiFormats(Properties props) {
 		BidiFormat contentFormat = null;
 		BidiFormat metadataFormat = null;
 		if (props == null)
@@ -131,26 +126,28 @@ public class BidiSettingsSupport
 			disabledMetadataBidiFormat = new BidiFormat(str);
 		else
 			disabledMetadataBidiFormat = null;
-		
+
 		setBidiFormats(metadataFormat, contentFormat, disabledMetadataBidiFormat, disabledContentBidiFormat);
 	}
+
 	public Properties addBidiProperties(Properties props) {
-		if (props != null){
+		if (props != null) {
 			if (contentBidiFormat != null)
 				props.setProperty(BidiConstants.CONTENT_FORMAT_PROP_NAME, contentBidiFormat.toString());
 			if (metadataBidiFormat != null)
 				props.setProperty(BidiConstants.METADATA_FORMAT_PROP_NAME, metadataBidiFormat.toString());
 			if (disabledContentBidiFormat != null)
-				props.setProperty(BidiConstants.DISABLED_CONTENT_FORMAT_PROP_NAME, disabledContentBidiFormat.toString());
+				props.setProperty(BidiConstants.DISABLED_CONTENT_FORMAT_PROP_NAME,
+						disabledContentBidiFormat.toString());
 			else
 				props.setProperty(BidiConstants.DISABLED_CONTENT_FORMAT_PROP_NAME, BidiConstants.EMPTY_STR);
 			if (disabledMetadataBidiFormat != null)
-				props.setProperty(BidiConstants.DISABLED_METADATA_FORMAT_PROP_NAME, disabledMetadataBidiFormat.toString());
+				props.setProperty(BidiConstants.DISABLED_METADATA_FORMAT_PROP_NAME,
+						disabledMetadataBidiFormat.toString());
 			else
 				props.setProperty(BidiConstants.DISABLED_METADATA_FORMAT_PROP_NAME, BidiConstants.EMPTY_STR);
 		}
 		return props;
 	}
-    
-}
 
+}

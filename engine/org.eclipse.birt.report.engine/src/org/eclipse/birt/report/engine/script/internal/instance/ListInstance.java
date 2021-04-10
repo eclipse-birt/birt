@@ -18,13 +18,10 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 /**
  * A class representing the runtime state of a list
  */
-public class ListInstance extends ReportItemInstance implements IListInstance
-{
+public class ListInstance extends ReportItemInstance implements IListInstance {
 
-	public ListInstance( IListContent list, ExecutionContext context,
-			RunningState runningState )
-	{
-		super( list, context, runningState );
+	public ListInstance(IListContent list, ExecutionContext context, RunningState runningState) {
+		super(list, context, runningState);
 	}
 
 }

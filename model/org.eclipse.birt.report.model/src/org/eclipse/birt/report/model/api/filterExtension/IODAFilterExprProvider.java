@@ -19,21 +19,18 @@ import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprD
  * 
  */
 
-public interface IODAFilterExprProvider
-{
+public interface IODAFilterExprProvider {
 
 	/**
-	 * Only returns the filter expression which can be mapped between BIRT
-	 * defined and ODA filter extension provider.
+	 * Only returns the filter expression which can be mapped between BIRT defined
+	 * and ODA filter extension provider.
 	 * 
-	 * @param odaDatasetExtensionId
-	 *            oda datasource extension id.
-	 * @param odaDataSourceExtensionId
-	 *            oda dataset extension id.
+	 * @param odaDatasetExtensionId    oda datasource extension id.
+	 * @param odaDataSourceExtensionId oda dataset extension id.
 	 * @return List of IFilterExprDefinition instance.
 	 */
-	public List<IFilterExprDefinition> getMappedFilterExprDefinitions(
-			String odaDatasetExtensionId, String odaDataSourceExtensionId );
+	public List<IFilterExprDefinition> getMappedFilterExprDefinitions(String odaDatasetExtensionId,
+			String odaDataSourceExtensionId);
 
 	/**
 	 * Indicates if currently under the environment support the ODA extension
@@ -41,19 +38,16 @@ public interface IODAFilterExprProvider
 	 * 
 	 * @return true if supported, false, if not supported.
 	 */
-	public boolean supportOdaExtensionFilters( );
+	public boolean supportOdaExtensionFilters();
 
 	/**
 	 * Indicates if the given data source and data set support the ODA extension
 	 * Filters.
 	 * 
-	 * @param dataSourceExtId
-	 *            the extension id of the data source
-	 * @param dataSetExtId
-	 *            the extension id of the data set
+	 * @param dataSourceExtId the extension id of the data source
+	 * @param dataSetExtId    the extension id of the data set
 	 * @return true if supported, false, if not supported.
 	 */
-	public boolean supportODAFilterPushDown( String dataSourceExtId,
-			String dataSetExtId );
+	public boolean supportODAFilterPushDown(String dataSourceExtId, String dataSetExtId);
 
 }

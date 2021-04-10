@@ -10,29 +10,22 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.script.internal;
 
+final class ScriptTextUtil {
 
-final class ScriptTextUtil
-{
-	
 	/**
 	 * Whether the script string is null or comments
 	 * 
 	 */
-	static boolean isNullOrComments( String script )
-	{
-		if ( script == null )
+	static boolean isNullOrComments(String script) {
+		if (script == null)
 			return true;
-		try
-		{
-			String scriptWithoutComments = script.replaceAll( "(?:/\\*(?:[^*]|(?:\\*+[^*/]))*\\*+/)|(?://.*)",
-					"" );
-			if ( scriptWithoutComments.trim( ).length( ) == 0 )
+		try {
+			String scriptWithoutComments = script.replaceAll("(?:/\\*(?:[^*]|(?:\\*+[^*/]))*\\*+/)|(?://.*)", "");
+			if (scriptWithoutComments.trim().length() == 0)
 				return true;
 			else
 				return false;
-		}
-		catch ( Throwable e )
-		{
+		} catch (Throwable e) {
 			return false;
 		}
 	}

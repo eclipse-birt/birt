@@ -17,18 +17,15 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
  * Receives validation events after one element is validated.
  */
 
-public interface IValidationListener
-{
+public interface IValidationListener {
 
 	/**
 	 * Notifies the element is validated.
 	 * 
-	 * @param targetElement
-	 *            the validated element
-	 * @param ev
-	 *            the validation event which contains the error information
+	 * @param targetElement the validated element
+	 * @param ev            the validation event which contains the error
+	 *                      information
 	 */
 
-	public void elementValidated( DesignElementHandle targetElement,
-			ValidationEvent ev );
+	public void elementValidated(DesignElementHandle targetElement, ValidationEvent ev);
 }

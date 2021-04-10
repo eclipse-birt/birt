@@ -19,12 +19,9 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionFactory;
  * 
  */
 
-public class BirtFinanceFunctionFactory implements IScriptFunctionFactory
-{
-	public IScriptFunctionExecutor getFunctionExecutor( String functionName )
-			throws BirtException
-	{
-		return Finance.getExecutor( functionName );
+public class BirtFinanceFunctionFactory implements IScriptFunctionFactory {
+	public IScriptFunctionExecutor getFunctionExecutor(String functionName) throws BirtException {
+		return Finance.getExecutor(functionName);
 	}
 
 }

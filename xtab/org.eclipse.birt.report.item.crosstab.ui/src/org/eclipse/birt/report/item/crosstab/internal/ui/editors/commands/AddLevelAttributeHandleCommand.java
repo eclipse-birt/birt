@@ -40,13 +40,11 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * Add the Dimension handle to the cross tab.When drag the Dimension handle to
  * the column or row area of the cross tab, execute the command.
  */
-public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
-{
+public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand {
 
 	private BaseCrosstabAdapter handleAdpter;
 	/**
-	 * Column or the row type.See the ICrosstabConstants row and column axis
-	 * type.
+	 * Column or the row type.See the ICrosstabConstants row and column axis type.
 	 */
 	private int type = -1;
 	private LevelAttributeHandle[] levelAttributeHandles;
@@ -58,7 +56,7 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 	 * Trans name
 	 */
 	// private static final String NAME = "Add DiminsionViewHandle";
-	private static final String NAME = Messages.getString( "AddDimensionViewHandleCommand.TransName" );//$NON-NLS-1$
+	private static final String NAME = Messages.getString("AddDimensionViewHandleCommand.TransName");//$NON-NLS-1$
 
 	/**
 	 * Constructor
@@ -67,35 +65,27 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 	 * @param type
 	 * @param levelHandle
 	 */
-	public AddLevelAttributeHandleCommand( CrosstabCellAdapter handleAdpter,
-			int type, DimensionHandle dimensionHandle,
-			LevelAttributeHandle[] levelAttrHandles, Object after )
-	{
-		super( dimensionHandle );
+	public AddLevelAttributeHandleCommand(CrosstabCellAdapter handleAdpter, int type, DimensionHandle dimensionHandle,
+			LevelAttributeHandle[] levelAttrHandles, Object after) {
+		super(dimensionHandle);
 		this.dimensionHandle = dimensionHandle;
 		this.levelAttributeHandles = levelAttrHandles;
-		setHandleAdpter( handleAdpter );
-		setType( type );
-		setDimensionHandles( new DimensionHandle[]{
-			dimensionHandle
-		} );
+		setHandleAdpter(handleAdpter);
+		setType(type);
+		setDimensionHandles(new DimensionHandle[] { dimensionHandle });
 		this.after = after;
-		setLabel( NAME );
+		setLabel(NAME);
 	}
 
-	public AddLevelAttributeHandleCommand( CrosstabHandleAdapter handleAdpter,
-			int type, DimensionHandle dimensionHandle,
-			LevelAttributeHandle[] levelAttrHandles )
-	{
-		super( dimensionHandle );
+	public AddLevelAttributeHandleCommand(CrosstabHandleAdapter handleAdpter, int type, DimensionHandle dimensionHandle,
+			LevelAttributeHandle[] levelAttrHandles) {
+		super(dimensionHandle);
 		this.dimensionHandle = dimensionHandle;
 		this.levelAttributeHandles = levelAttrHandles;
-		setHandleAdpter( handleAdpter );
-		setType( type );
-		setDimensionHandles( new DimensionHandle[]{
-			dimensionHandle
-		} );
-		setLabel( NAME );
+		setHandleAdpter(handleAdpter);
+		setType(type);
+		setDimensionHandles(new DimensionHandle[] { dimensionHandle });
+		setLabel(NAME);
 	}
 
 	/**
@@ -103,8 +93,7 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 	 * 
 	 * @param handleAdpter
 	 */
-	public void setHandleAdpter( BaseCrosstabAdapter handleAdpter )
-	{
+	public void setHandleAdpter(BaseCrosstabAdapter handleAdpter) {
 		this.handleAdpter = handleAdpter;
 	}
 
@@ -113,20 +102,17 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 	 * 
 	 * @return
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return type;
 	}
 
 	/**
 	 * Sets the type
 	 * 
-	 * @param type
-	 *            ICrosstabConstants.COLUMN_AXIS_TYPE or
-	 *            ICrosstabConstants.ROW_AXIS_TYPE
+	 * @param type ICrosstabConstants.COLUMN_AXIS_TYPE or
+	 *             ICrosstabConstants.ROW_AXIS_TYPE
 	 */
-	public void setType( int type )
-	{
+	public void setType(int type) {
 		this.type = type;
 	}
 
@@ -135,21 +121,16 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	public boolean canExecute( )
-	{
-		return getType( ) != VirtualCrosstabCellAdapter.IMMACULATE_TYPE;
+	public boolean canExecute() {
+		return getType() != VirtualCrosstabCellAdapter.IMMACULATE_TYPE;
 	}
 
-	public CrosstabReportItemHandle getCrosstabHandle( )
-	{
-		if ( this.handleAdpter instanceof CrosstabHandleAdapter )
-		{
-			return (CrosstabReportItemHandle) ( (CrosstabHandleAdapter) this.handleAdpter ).getCrosstabItemHandle( );
+	public CrosstabReportItemHandle getCrosstabHandle() {
+		if (this.handleAdpter instanceof CrosstabHandleAdapter) {
+			return (CrosstabReportItemHandle) ((CrosstabHandleAdapter) this.handleAdpter).getCrosstabItemHandle();
 		}
-		if ( this.handleAdpter instanceof CrosstabCellAdapter )
-		{
-			return ( (CrosstabCellAdapter) this.handleAdpter ).getCrosstabCellHandle( )
-					.getCrosstab( );
+		if (this.handleAdpter instanceof CrosstabCellAdapter) {
+			return ((CrosstabCellAdapter) this.handleAdpter).getCrosstabCellHandle().getCrosstab();
 		}
 		return null;
 	}
@@ -159,111 +140,85 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute( )
-	{
-		if ( this.levelAttributeHandles != null
-				&& this.levelAttributeHandles.length > 0 )
-		{
-			transStart( NAME );
-			CrosstabReportItemHandle crosstabHandle = getCrosstabHandle( );
+	public void execute() {
+		if (this.levelAttributeHandles != null && this.levelAttributeHandles.length > 0) {
+			transStart(NAME);
+			CrosstabReportItemHandle crosstabHandle = getCrosstabHandle();
 
-			try
-			{
+			try {
 				// if dimension is not in the crosstab, then add it
 				DimensionViewHandle viewHandle = null;
-				int position = findCellPosition( );
-				if ( CrosstabUtil.canContain( crosstabHandle,
-						this.dimensionHandle ) )
-				{
-					if ( crosstabHandle.getCube( ) == null )
-					{
-						crosstabHandle.setCube( CrosstabAdaptUtil.getCubeHandle( dimensionHandle ) );
+				int position = findCellPosition();
+				if (CrosstabUtil.canContain(crosstabHandle, this.dimensionHandle)) {
+					if (crosstabHandle.getCube() == null) {
+						crosstabHandle.setCube(CrosstabAdaptUtil.getCubeHandle(dimensionHandle));
 					}
-					viewHandle = crosstabHandle.insertDimension( dimensionHandle,
-							getType( ),
-							position );
-				}
-				else
-				{
-					viewHandle = crosstabHandle.getDimension( getType( ),
-							position - 1 );
+					viewHandle = crosstabHandle.insertDimension(dimensionHandle, getType(), position);
+				} else {
+					viewHandle = crosstabHandle.getDimension(getType(), position - 1);
 				}
 
 				// if level attribute's level is not in the crosstab, then add
 				// it
-				LevelHandle levelHandle = (LevelHandle) this.levelAttributeHandles[0].getElementHandle( );
-				if ( levelHandle == null )
-				{
-					rollBack( );
+				LevelHandle levelHandle = (LevelHandle) this.levelAttributeHandles[0].getElementHandle();
+				if (levelHandle == null) {
+					rollBack();
 					return;
 				}
 				LevelViewHandle levelViewHandle = null;
-				if ( viewHandle.getLevel( levelHandle.getQualifiedName( ) ) == null )
-				{
-					DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) crosstabHandle.getModelHandle( ),
-							levelHandle );
-					levelViewHandle = viewHandle.insertLevel( levelHandle,
-							viewHandle.getLevelCount( ) );
-					CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
-					cellHandle.addContent( dataHandle );
-					
-					ActionHandle actionHandle = levelHandle.getActionHandle( );
-					if ( actionHandle != null )
-					{
-						List source = new ArrayList( );
-						source.add( actionHandle.getStructure( ) );
-						List newAction = ModelUtil.cloneStructList( source );
-						dataHandle.setAction( (Action) newAction.get( 0 ) );
+				if (viewHandle.getLevel(levelHandle.getQualifiedName()) == null) {
+					DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem(
+							(ExtendedItemHandle) crosstabHandle.getModelHandle(), levelHandle);
+					levelViewHandle = viewHandle.insertLevel(levelHandle, viewHandle.getLevelCount());
+					CrosstabCellHandle cellHandle = levelViewHandle.getCell();
+					cellHandle.addContent(dataHandle);
+
+					ActionHandle actionHandle = levelHandle.getActionHandle();
+					if (actionHandle != null) {
+						List source = new ArrayList();
+						source.add(actionHandle.getStructure());
+						List newAction = ModelUtil.cloneStructList(source);
+						dataHandle.setAction((Action) newAction.get(0));
 					}
-					
-					CrosstabUtil.addLabelToHeader( levelViewHandle );
-				}
-				else
-				{
-					levelViewHandle = viewHandle.getLevel( levelHandle.getQualifiedName( ) );
+
+					CrosstabUtil.addLabelToHeader(levelViewHandle);
+				} else {
+					levelViewHandle = viewHandle.getLevel(levelHandle.getQualifiedName());
 				}
 
-				position = findPosition( );
+				position = findPosition();
 
 				// add level attribute to crosstab
-				for ( LevelAttributeHandle lah : this.levelAttributeHandles )
-				{
-					DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) crosstabHandle.getModelHandle( ),
-							lah );
-					CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
-					if ( position > 0 )
-						cellHandle.addContent( dataHandle, position );
+				for (LevelAttributeHandle lah : this.levelAttributeHandles) {
+					DataItemHandle dataHandle = CrosstabAdaptUtil
+							.createColumnBindingAndDataItem((ExtendedItemHandle) crosstabHandle.getModelHandle(), lah);
+					CrosstabCellHandle cellHandle = levelViewHandle.getCell();
+					if (position > 0)
+						cellHandle.addContent(dataHandle, position);
 					else
-						cellHandle.addContent( dataHandle );
+						cellHandle.addContent(dataHandle);
 				}
-				transEnd( );
-			}
-			catch ( Exception e )
-			{
-				rollBack( );
-				ExceptionUtil.handle( e );
+				transEnd();
+			} catch (Exception e) {
+				rollBack();
+				ExceptionUtil.handle(e);
 			}
 		}
 	}
 
-	private int findCellPosition( )
-	{
-		if ( this.handleAdpter instanceof CrosstabCellAdapter )
-		{
-			int base = CrosstabAdaptUtil.getDimensionViewHandle( (ExtendedItemHandle) ( (CrosstabCellAdapter) handleAdpter ).getCrosstabCellHandle( )
-					.getModelHandle( ) )
-					.getModelHandle( )
-					.getIndex( );
+	private int findCellPosition() {
+		if (this.handleAdpter instanceof CrosstabCellAdapter) {
+			int base = CrosstabAdaptUtil.getDimensionViewHandle(
+					(ExtendedItemHandle) ((CrosstabCellAdapter) handleAdpter).getCrosstabCellHandle().getModelHandle())
+					.getModelHandle().getIndex();
 			return base + 1;
 		}
 		return 0;
 	}
 
-	private int findPosition( )
-	{
-		if ( after instanceof DesignElementHandle )
-		{
-			return ( (DesignElementHandle) after ).getIndex( );
+	private int findPosition() {
+		if (after instanceof DesignElementHandle) {
+			return ((DesignElementHandle) after).getIndex();
 		}
 		return 0;
 	}
@@ -271,16 +226,14 @@ public class AddLevelAttributeHandleCommand extends AbstractCrosstabCommand
 	/**
 	 * @return
 	 */
-	public DimensionHandle[] getDimensionHandles( )
-	{
+	public DimensionHandle[] getDimensionHandles() {
 		return dimensionHandles;
 	}
 
 	/**
 	 * @param dimensionHandle
 	 */
-	public void setDimensionHandles( DimensionHandle[] dimensionHandles )
-	{
+	public void setDimensionHandles(DimensionHandle[] dimensionHandles) {
 		this.dimensionHandles = dimensionHandles;
 	}
 }

@@ -10,8 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc;
 
-class ConnectionPoolFactory
-{
+class ConnectionPoolFactory {
 
 	private static IConnectionPoolManager mgr_instance;
 
@@ -20,32 +19,20 @@ class ConnectionPoolFactory
 	 * 
 	 * @return
 	 */
-	static IConnectionPoolManager getInstance( )
-	{
-		if ( mgr_instance == null )
-		{
-			synchronized ( ConnectionPoolFactory.class )
-			{
+	static IConnectionPoolManager getInstance() {
+		if (mgr_instance == null) {
+			synchronized (ConnectionPoolFactory.class) {
 				Class clazz;
-				try
-				{
-					clazz = Class.forName( "org.eclipse.birt.report.data.oda.jdbc.connectionpool.ConnectionPoolManager" );
-				}
-				catch ( ClassNotFoundException e )
-				{
+				try {
+					clazz = Class.forName("org.eclipse.birt.report.data.oda.jdbc.connectionpool.ConnectionPoolManager");
+				} catch (ClassNotFoundException e) {
 					return null;
 				}
-				if ( IConnectionPoolManager.class.isAssignableFrom( clazz ) )
-				{
-					try
-					{
-						mgr_instance = (IConnectionPoolManager) ( clazz.newInstance( ) );
-					}
-					catch ( InstantiationException e )
-					{
-					}
-					catch ( IllegalAccessException e )
-					{
+				if (IConnectionPoolManager.class.isAssignableFrom(clazz)) {
+					try {
+						mgr_instance = (IConnectionPoolManager) (clazz.newInstance());
+					} catch (InstantiationException e) {
+					} catch (IllegalAccessException e) {
 					}
 				}
 			}

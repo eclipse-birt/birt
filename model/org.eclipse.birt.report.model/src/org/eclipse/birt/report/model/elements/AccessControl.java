@@ -29,38 +29,34 @@ import org.eclipse.birt.report.model.core.Module;
  * @deprecated since BIRT 2.5.1
  */
 
-public class AccessControl extends ContentElement
-{
+public class AccessControl extends ContentElement {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public AccessControl( )
-	{
+	public AccessControl() {
 
 	}
 
 	/**
 	 * Constructs the autotext item with an optional name.
 	 * 
-	 * @param theName
-	 *            the optional name
+	 * @param theName the optional name
 	 */
 
-	public AccessControl( String theName )
-	{
-		super( theName );
+	public AccessControl(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
+	public void apply(ElementVisitor visitor) {
 	}
 
 	/*
@@ -69,31 +65,29 @@ public class AccessControl extends ContentElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.ACCESS_CONTROL;
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public AccessControlHandle handle( Module module )
-	{
-		return new AccessControlHandle( module, this );
+	public AccessControlHandle handle(Module module) {
+		return new AccessControlHandle(module, this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.
+	 * birt.report.model.core.Module)
 	 */
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 }

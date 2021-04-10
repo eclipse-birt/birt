@@ -22,44 +22,34 @@ import com.ibm.icu.util.ULocale;
  * This calculator is used to calculate a day group key basing group interval.
  */
 
-class DayGroupCalculator extends DateGroupCalculator
-{
-	public DayGroupCalculator( Object intervalStart, double intervalRange,
-			ULocale locale, TimeZone timeZone ) throws BirtException
-	{
-		super( intervalStart, intervalRange, locale, timeZone );
+class DayGroupCalculator extends DateGroupCalculator {
+	public DayGroupCalculator(Object intervalStart, double intervalRange, ULocale locale, TimeZone timeZone)
+			throws BirtException {
+		super(intervalStart, intervalRange, locale, timeZone);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.
+	 * lang.Object)
 	 */
-	public Object calculate( Object value ) throws BirtException
-	{
-		if ( value == null )
-		{
-			return new Double( -1 );
+	public Object calculate(Object value) throws BirtException {
+		if (value == null) {
+			return new Double(-1);
 		}
 
-		Date target = getDate( value );
-		if ( intervalStart == null )
-		{
-			return new Double( Math.floor( (double) this.dateTimeUtil.diffDay( defaultStart,
-					target )
-					/ (double) getDateIntervalRange( ) ) );
-		}
-		else
-		{
-			if ( this.dateTimeUtil.diffDay( (Date) intervalStart, target ) < 0 )
-			{
-				return new Double( -1 );
-			}
-			else
-			{
-				return new Double( Math.floor( (double) this.dateTimeUtil.diffDay( (Date) intervalStart,
-						target )
-						/ (double) getDateIntervalRange( ) ) );
+		Date target = getDate(value);
+		if (intervalStart == null) {
+			return new Double(Math
+					.floor((double) this.dateTimeUtil.diffDay(defaultStart, target) / (double) getDateIntervalRange()));
+		} else {
+			if (this.dateTimeUtil.diffDay((Date) intervalStart, target) < 0) {
+				return new Double(-1);
+			} else {
+				return new Double(Math.floor((double) this.dateTimeUtil.diffDay((Date) intervalStart, target)
+						/ (double) getDateIntervalRange()));
 			}
 		}
 	}

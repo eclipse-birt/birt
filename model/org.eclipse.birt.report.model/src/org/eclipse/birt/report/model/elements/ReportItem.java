@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.elements;
 
-
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISupportThemeElement;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
@@ -23,39 +22,31 @@ import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrat
  * 
  */
 
-public abstract class ReportItem extends ReportItemImpl
-		implements
-			IReportItemModel,
-			ISupportThemeElement
-{
+public abstract class ReportItem extends ReportItemImpl implements IReportItemModel, ISupportThemeElement {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public ReportItem( )
-	{
-		this( null );
+	public ReportItem() {
+		this(null);
 	}
 
 	/**
 	 * Constructs the report item with an optional name.
 	 * 
-	 * @param theName
-	 *            the optional name
+	 * @param theName the optional name
 	 */
 
-	public ReportItem( String theName )
-	{
-		super( theName );
-		cachedPropStrategy = ReportItemPropSearchStrategy.getInstance( );
+	public ReportItem(String theName) {
+		super(theName);
+		cachedPropStrategy = ReportItemPropSearchStrategy.getInstance();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 }

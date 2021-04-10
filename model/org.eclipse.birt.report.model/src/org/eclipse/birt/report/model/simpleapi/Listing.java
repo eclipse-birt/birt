@@ -19,17 +19,15 @@ import org.eclipse.birt.report.model.api.simpleapi.IListing;
  * 
  */
 
-public class Listing extends MultiRowItem implements IListing
-{
+public class Listing extends MultiRowItem implements IListing {
 
 	/**
 	 * Constructor
 	 * 
 	 * @param listing
 	 */
-	public Listing( ListingHandle listing )
-	{
-		super( listing );
+	public Listing(ListingHandle listing) {
+		super(listing);
 	}
 
 }

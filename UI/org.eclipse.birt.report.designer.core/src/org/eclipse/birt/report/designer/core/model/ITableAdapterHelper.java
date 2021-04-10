@@ -16,8 +16,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 /**
  * Interface to provide the function to calculate table visual size
  */
-public interface ITableAdapterHelper extends IModelAdapterHelper
-{
+public interface ITableAdapterHelper extends IModelAdapterHelper {
 
 	/**
 	 * Calculates the column visual width
@@ -25,7 +24,7 @@ public interface ITableAdapterHelper extends IModelAdapterHelper
 	 * @param columnNumber
 	 * @return
 	 */
-	public int caleVisualWidth( int columnNumber );
+	public int caleVisualWidth(int columnNumber);
 
 	/**
 	 * Calculates the row visual width
@@ -33,7 +32,7 @@ public interface ITableAdapterHelper extends IModelAdapterHelper
 	 * @param rowNumber
 	 * @return
 	 */
-	public int caleVisualHeight( int rowNumber );
+	public int caleVisualHeight(int rowNumber);
 
 	/**
 	 * Gets the row Minimum height
@@ -41,7 +40,7 @@ public interface ITableAdapterHelper extends IModelAdapterHelper
 	 * @param rowNumber
 	 * @return
 	 */
-	public int getMinHeight( int rowNumber );
+	public int getMinHeight(int rowNumber);
 
 	/**
 	 * Gets the column Minimum width
@@ -49,13 +48,13 @@ public interface ITableAdapterHelper extends IModelAdapterHelper
 	 * @param columnNumber
 	 * @return
 	 */
-	public int getMinWidth( int columnNumber );
+	public int getMinWidth(int columnNumber);
 
 	/**
 	 * Returns the client area size for associated figure.
 	 * 
 	 * @return
 	 */
-	public Dimension getClientAreaSize( );
+	public Dimension getClientAreaSize();
 
 }

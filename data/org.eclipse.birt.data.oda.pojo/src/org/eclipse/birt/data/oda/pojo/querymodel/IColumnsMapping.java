@@ -14,21 +14,20 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * A mapping that map a source to columns 
+ * A mapping that map a source to columns
  */
-public interface IColumnsMapping
-{
-	/** 
+public interface IColumnsMapping {
+	/**
 	 * @return the mapping source
 	 */
-	IMappingSource getSource( );
-	
+	IMappingSource getSource();
+
 	/**
 	 * 
 	 * @param parent
 	 * @return the corresponding reference node
 	 */
-	ReferenceNode createReferenceNode( RelayReferenceNode parent );
-	
-	Element createElement( Document doc );
+	ReferenceNode createReferenceNode(RelayReferenceNode parent);
+
+	Element createElement(Document doc);
 }

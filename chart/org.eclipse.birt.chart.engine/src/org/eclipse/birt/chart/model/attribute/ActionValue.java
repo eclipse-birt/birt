@@ -15,8 +15,8 @@ import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Action Value</b></em>'. <!-- end-user-doc
- * -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Action
+ * Value</b></em>'. <!-- end-user-doc -->
  * 
  * <!-- begin-model-doc -->
  * 
@@ -29,39 +29,41 @@ import org.eclipse.birt.chart.model.component.Label;
  * @model
  * @generated
  */
-public interface ActionValue extends IChartObject
-{
+public interface ActionValue extends IChartObject {
 
 	/**
-	 * Returns the value of the '<em><b>Label</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Label</b></em>' containment reference. <!--
+	 * begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Label</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Label</em>' containment reference.
 	 * @see #setLabel(Label)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getActionValue_Label()
-	 * @model containment="true" required="true"
-	 *        extendedMetaData="kind='element' name='Label'"
+	 * @model containment="true" required="true" extendedMetaData="kind='element'
+	 *        name='Label'"
 	 * @generated
 	 */
-	Label getLabel( );
+	Label getLabel();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ActionValue#getLabel <em>Label</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.attribute.ActionValue#getLabel
+	 * <em>Label</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @param value the new value of the '<em>Label</em>' containment reference.
 	 * @see #getLabel()
 	 * @generated
 	 */
-	void setLabel( Label value );
+	void setLabel(Label value);
 
 	/**
 	 * @generated
 	 */
-	ActionValue copyInstance( );
+	ActionValue copyInstance();
 
 } // ActionValue

@@ -29,55 +29,51 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  */
-public class TogglePropertyDescriptor extends PropertyDescriptor
-{
+public class TogglePropertyDescriptor extends PropertyDescriptor {
 
 	Button button;
 
-	public TogglePropertyDescriptor( )
-	{
-		setFormStyle( false );
+	public TogglePropertyDescriptor() {
+		setFormStyle(false);
 	}
 
-	public void load( )
-	{
-		String value = getDescriptorProvider( ).load( ).toString( );
-		boolean stateFlag = ( ( value == null ) == button.getEnabled( ) );
-		if ( stateFlag )
-			button.setEnabled( value != null );
-		if ( getDescriptorProvider( ) instanceof FontStylePropertyDescriptorProvider )
-		{
-			String imageName = ( (FontStylePropertyDescriptorProvider) getDescriptorProvider( ) ).getImageName( );
-			if ( !button.isEnabled( ) )
+	public void load() {
+		String value = getDescriptorProvider().load().toString();
+		boolean stateFlag = ((value == null) == button.getEnabled());
+		if (stateFlag)
+			button.setEnabled(value != null);
+		if (getDescriptorProvider() instanceof FontStylePropertyDescriptorProvider) {
+			String imageName = ((FontStylePropertyDescriptorProvider) getDescriptorProvider()).getImageName();
+			if (!button.isEnabled())
 				imageName += IReportGraphicConstants.DIS;
-			if(button.getImage( )==null )button.setImage( ReportPlatformUIImages.getImage( imageName ) );
-			boolean boolValue = ( (FontStylePropertyDescriptorProvider) getDescriptorProvider( ) ).getToogleValue( )
-					.equals( value );
-			if ( button.getSelection( ) != boolValue )
-			{
-				button.setSelection( boolValue );
+			if (button.getImage() == null)
+				button.setImage(ReportPlatformUIImages.getImage(imageName));
+			boolean boolValue = ((FontStylePropertyDescriptorProvider) getDescriptorProvider()).getToogleValue()
+					.equals(value);
+			if (button.getSelection() != boolValue) {
+				button.setSelection(boolValue);
 			}
-			button.setToolTipText( ( (FontStylePropertyDescriptorProvider) getDescriptorProvider( ) ).getTooltipText( ) );
+			button.setToolTipText(((FontStylePropertyDescriptorProvider) getDescriptorProvider()).getTooltipText());
 		}
-		if ( getDescriptorProvider( ) instanceof BorderToggleDescriptorProvider )
-		{
-			String imageName = ( (BorderToggleDescriptorProvider) getDescriptorProvider( ) ).getImageName( );
-			if(button.getImage( )==null  )button.setImage( ReportPlatformUIImages.getImage( imageName ) );
-			boolean boolValue = ( (Boolean) ( (BorderToggleDescriptorProvider) getDescriptorProvider( ) ).load( ) ).booleanValue( );
-			if ( button.getSelection( ) != boolValue )
-			{
-				button.setSelection( boolValue );
+		if (getDescriptorProvider() instanceof BorderToggleDescriptorProvider) {
+			String imageName = ((BorderToggleDescriptorProvider) getDescriptorProvider()).getImageName();
+			if (button.getImage() == null)
+				button.setImage(ReportPlatformUIImages.getImage(imageName));
+			boolean boolValue = ((Boolean) ((BorderToggleDescriptorProvider) getDescriptorProvider()).load())
+					.booleanValue();
+			if (button.getSelection() != boolValue) {
+				button.setSelection(boolValue);
 			}
-			button.setToolTipText( ( (BorderToggleDescriptorProvider) getDescriptorProvider( ) ).getTooltipText( ) );
+			button.setToolTipText(((BorderToggleDescriptorProvider) getDescriptorProvider()).getTooltipText());
 		}
-		
-		button.getAccessible( ).addAccessibleListener(new AccessibleAdapter() {
+
+		button.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 			public void getName(AccessibleEvent e) {
-					Accessible accessible = (Accessible) e.getSource();
-					Button item = (Button) accessible.getControl();
-					if (item != null) {
-						e.result = item.getToolTipText();
-					}
+				Accessible accessible = (Accessible) e.getSource();
+				Button item = (Button) accessible.getControl();
+				if (item != null) {
+					e.result = item.getToolTipText();
+				}
 			}
 		});
 	}
@@ -85,68 +81,57 @@ public class TogglePropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#getControl()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#getControl()
 	 */
-	public Control getControl( )
-	{
+	public Control getControl() {
 		return button;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public Control createControl( Composite parent )
-	{
-		button = new Button( parent, SWT.TOGGLE );
-		button.addSelectionListener( new SelectionAdapter( ) {
+	public Control createControl(Composite parent) {
+		button = new Button(parent, SWT.TOGGLE);
+		button.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleSelectEvent( );
+			public void widgetSelected(SelectionEvent e) {
+				handleSelectEvent();
 			}
-		} );
+		});
 		return button;
 	}
 
-	public void setToolTipText( String toolTip )
-	{
-		if ( button != null )
-			button.setToolTipText( toolTip );
+	public void setToolTipText(String toolTip) {
+		if (button != null)
+			button.setToolTipText(toolTip);
 	}
 
-
-	public void save( Object value ) throws SemanticException
-	{
-		descriptorProvider.save( value );
+	public void save(Object value) throws SemanticException {
+		descriptorProvider.save(value);
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		WidgetUtil.setExcludeGridData( button, isHidden );
+	public void setHidden(boolean isHidden) {
+		WidgetUtil.setExcludeGridData(button, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		button.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		button.setVisible(isVisible);
 	}
 
-	protected void handleSelectEvent( )
-	{
-		try
-		{
-			save( Boolean.valueOf( button.getSelection( ) ) );
-		}
-		catch ( SemanticException e1 )
-		{
-			WidgetUtil.processError( button.getShell( ), e1 );
+	protected void handleSelectEvent() {
+		try {
+			save(Boolean.valueOf(button.getSelection()));
+		} catch (SemanticException e1) {
+			WidgetUtil.processError(button.getShell(), e1);
 		}
 	}
 
-	public void setInput( Object handle )
-	{
+	public void setInput(Object handle) {
 		this.input = handle;
-		getDescriptorProvider( ).setInput( input );
+		getDescriptorProvider().setInput(input);
 	}
 }

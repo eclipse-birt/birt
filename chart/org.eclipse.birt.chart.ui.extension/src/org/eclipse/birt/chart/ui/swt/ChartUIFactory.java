@@ -44,238 +44,266 @@ import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
-
 /**
  * ChartUIFactory
  */
 
-public class ChartUIFactory implements IChartUIFactory
-{
+public class ChartUIFactory implements IChartUIFactory {
 
-	public IChartUIHelper createUIHelper( )
-	{
-		return new ChartUIHelperBase( );
+	public IChartUIHelper createUIHelper() {
+		return new ChartUIHelperBase();
 	}
 
-	public TriggerSupportMatrix createSupportMatrix( String outputFormat,
-			int iType )
-	{
-		return new TriggerSupportMatrix( outputFormat, iType );
+	public TriggerSupportMatrix createSupportMatrix(String outputFormat, int iType) {
+		return new TriggerSupportMatrix(outputFormat, iType);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartCheckbox(org.eclipse.swt.widgets.Composite, int, boolean)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartCheckbox(
+	 * org.eclipse.swt.widgets.Composite, int, boolean)
 	 */
-	public ChartCheckbox createChartCheckbox( Composite parent,
-			int styles, boolean defaultSelection )
-	{
-		return new ChartCheckbox( parent, styles, defaultSelection );
+	public ChartCheckbox createChartCheckbox(Composite parent, int styles, boolean defaultSelection) {
+		return new ChartCheckbox(parent, styles, defaultSelection);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartSpinner(org.eclipse.swt.widgets.Composite, int, org.eclipse.emf.ecore.EObject, java.lang.String, boolean)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartSpinner(
+	 * org.eclipse.swt.widgets.Composite, int, org.eclipse.emf.ecore.EObject,
+	 * java.lang.String, boolean)
 	 */
-	public ChartSpinner createChartSpinner( Composite parent, int styles, EObject obj,
-			String property, boolean enabled )
-	{
-		return new ChartSpinner( parent, styles, obj, property, enabled );
+	public ChartSpinner createChartSpinner(Composite parent, int styles, EObject obj, String property,
+			boolean enabled) {
+		return new ChartSpinner(parent, styles, obj, property, enabled);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartSpinner(org.eclipse.swt.widgets.Composite, int, org.eclipse.emf.ecore.EObject, java.lang.String, boolean, java.lang.String, java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartSpinner(
+	 * org.eclipse.swt.widgets.Composite, int, org.eclipse.emf.ecore.EObject,
+	 * java.lang.String, boolean, java.lang.String, java.lang.String)
 	 */
-	public ChartSpinner createChartSpinner( Composite parent, int styles, EObject obj,
-			String property, boolean enabled, String label, String endLabel )
-	{
-		return new ChartSpinner( parent, styles, obj, property, enabled, label, endLabel );
+	public ChartSpinner createChartSpinner(Composite parent, int styles, EObject obj, String property, boolean enabled,
+			String label, String endLabel) {
+		return new ChartSpinner(parent, styles, obj, property, enabled, label, endLabel);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartInsetsComposite(org.eclipse.swt.widgets.Composite, int, int, org.eclipse.birt.chart.model.attribute.Insets, java.lang.String, org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider, org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext, org.eclipse.birt.chart.model.attribute.Insets)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#
+	 * createChartInsetsComposite(org.eclipse.swt.widgets.Composite, int, int,
+	 * org.eclipse.birt.chart.model.attribute.Insets, java.lang.String,
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider,
+	 * org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext,
+	 * org.eclipse.birt.chart.model.attribute.Insets)
 	 */
-	public AbstractChartInsets createChartInsetsComposite( Composite parent, int style, int numberRows,
-			Insets insets, String sUnits, IUIServiceProvider serviceprovider,
-			ChartWizardContext context, Insets defInsets )
-	{
-		InsetsComposite insetsComp = new InsetsComposite( parent,
-				style,
-				numberRows,
-				insets,
-				sUnits,
-				serviceprovider,
-				context );
-		insetsComp.setDefaultInsets( defInsets );
+	public AbstractChartInsets createChartInsetsComposite(Composite parent, int style, int numberRows, Insets insets,
+			String sUnits, IUIServiceProvider serviceprovider, ChartWizardContext context, Insets defInsets) {
+		InsetsComposite insetsComp = new InsetsComposite(parent, style, numberRows, insets, sUnits, serviceprovider,
+				context);
+		insetsComp.setDefaultInsets(defInsets);
 		return insetsComp;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartIntSpinner(org.eclipse.swt.widgets.Composite, int, int, org.eclipse.emf.ecore.EObject, java.lang.String, boolean)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#
+	 * createChartIntSpinner(org.eclipse.swt.widgets.Composite, int, int,
+	 * org.eclipse.emf.ecore.EObject, java.lang.String, boolean)
 	 */
-	public AbstractChartIntSpinner createChartIntSpinner( Composite parent,
-			int style, int iCurrentValue, EObject obj, String property,
-			boolean enabled )
-	{
-		AbstractChartIntSpinner cis =  new IntegerSpinControl( parent, style, iCurrentValue );
-		cis.setEnabled( enabled );
+	public AbstractChartIntSpinner createChartIntSpinner(Composite parent, int style, int iCurrentValue, EObject obj,
+			String property, boolean enabled) {
+		AbstractChartIntSpinner cis = new IntegerSpinControl(parent, style, iCurrentValue);
+		cis.setEnabled(enabled);
 		return cis;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createNumberDataElementComposite(org.eclipse.swt.widgets.Composite, org.eclipse.birt.chart.model.data.DataElement, org.eclipse.emf.ecore.EObject, java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#
+	 * createNumberDataElementComposite(org.eclipse.swt.widgets.Composite,
+	 * org.eclipse.birt.chart.model.data.DataElement, org.eclipse.emf.ecore.EObject,
+	 * java.lang.String)
 	 */
-	public IDataElementComposite createNumberDataElementComposite( Composite parent,
-			DataElement data, EObject eParent, String sProperty  )
-	{
-		return new NumberDataElementComposite( parent, data );
+	public IDataElementComposite createNumberDataElementComposite(Composite parent, DataElement data, EObject eParent,
+			String sProperty) {
+		return new NumberDataElementComposite(parent, data);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createDateTimeDataElementComposite(org.eclipse.swt.widgets.Composite, int, org.eclipse.birt.chart.model.data.DateTimeDataElement, boolean, org.eclipse.emf.ecore.EObject, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#
+	 * createDateTimeDataElementComposite(org.eclipse.swt.widgets.Composite, int,
+	 * org.eclipse.birt.chart.model.data.DateTimeDataElement, boolean,
+	 * org.eclipse.emf.ecore.EObject, java.lang.String)
 	 */
-	public IDataElementComposite createDateTimeDataElementComposite( Composite parent,
-			int style, DateTimeDataElement data, boolean isNullAllowed, EObject eParent, String sProperty  )
-	{
-		return new DateTimeDataElementComposite( parent, style, data, isNullAllowed );
+	public IDataElementComposite createDateTimeDataElementComposite(Composite parent, int style,
+			DateTimeDataElement data, boolean isNullAllowed, EObject eParent, String sProperty) {
+		return new DateTimeDataElementComposite(parent, style, data, isNullAllowed);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartCombo(org.eclipse.swt.widgets.Composite, int, org.eclipse.emf.ecore.EObject, java.lang.String, java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartCombo(org
+	 * .eclipse.swt.widgets.Composite, int, org.eclipse.emf.ecore.EObject,
+	 * java.lang.String, java.lang.String)
 	 */
-	public ChartCombo createChartCombo( Composite parent, int style, EObject eParent,
-			String sProperty, String defaultItem  )
-	{
-		return new ChartCombo( parent, style, eParent, sProperty, defaultItem );
+	public ChartCombo createChartCombo(Composite parent, int style, EObject eParent, String sProperty,
+			String defaultItem) {
+		return new ChartCombo(parent, style, eParent, sProperty, defaultItem);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createLineStyleChooserComposite(org.eclipse.swt.widgets.Composite, int, int, java.lang.Integer[], org.eclipse.emf.ecore.EObject, java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#
+	 * createLineStyleChooserComposite(org.eclipse.swt.widgets.Composite, int, int,
+	 * java.lang.Integer[], org.eclipse.emf.ecore.EObject, java.lang.String)
 	 */
 	public AbstractLineStyleChooserComposite createLineStyleChooserComposite(Composite parent, int style,
-			int iLineStyle, Integer[] lineStyleItems, EObject eParent, String sProperty  )
-	{
-		return new LineStyleChooserComposite( parent, style, iLineStyle, lineStyleItems );
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createLineWidthChooserComposite(org.eclipse.swt.widgets.Composite, int, int, java.lang.Integer[], org.eclipse.emf.ecore.EObject, java.lang.String)
-	 */
-	public AbstractLineWidthChooserComposite createLineWidthChooserComposite(
-			Composite parent, int style, int iWidth, Integer[] lineWidths, EObject eParent, String sProperty )
-	{
-		return new LineWidthChooserComposite( parent, style, iWidth, lineWidths );
+			int iLineStyle, Integer[] lineStyleItems, EObject eParent, String sProperty) {
+		return new LineStyleChooserComposite(parent, style, iLineStyle, lineStyleItems);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#canEnableUI(org.eclipse.birt.chart.ui.swt.ChartCheckbox)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#
+	 * createLineWidthChooserComposite(org.eclipse.swt.widgets.Composite, int, int,
+	 * java.lang.Integer[], org.eclipse.emf.ecore.EObject, java.lang.String)
 	 */
-	public boolean canEnableUI( ChartCheckbox button )
-	{
-		return button.getSelectionState( ) == ChartCheckbox.STATE_SELECTED;
+	public AbstractLineWidthChooserComposite createLineWidthChooserComposite(Composite parent, int style, int iWidth,
+			Integer[] lineWidths, EObject eParent, String sProperty) {
+		return new LineWidthChooserComposite(parent, style, iWidth, lineWidths);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createHeadStyleChooserComposite(org.eclipse.swt.widgets.Composite, int, int, org.eclipse.emf.ecore.EObject, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#canEnableUI(org.
+	 * eclipse.birt.chart.ui.swt.ChartCheckbox)
 	 */
-	public AbstractHeadStyleChooserComposite createHeadStyleChooserComposite(
-			Composite parent, int style, int iLineDecorator, EObject eParent,
-			String sProperty )
-	{
-		return new HeadStyleChooserComposite( parent, style, iLineDecorator );
+	public boolean canEnableUI(ChartCheckbox button) {
+		return button.getSelectionState() == ChartCheckbox.STATE_SELECTED;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createFontDefinitionDialog(org.eclipse.swt.widgets.Shell, org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext, org.eclipse.birt.chart.model.attribute.FontDefinition, org.eclipse.birt.chart.model.attribute.ColorDefinition, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#
+	 * createHeadStyleChooserComposite(org.eclipse.swt.widgets.Composite, int, int,
+	 * org.eclipse.emf.ecore.EObject, java.lang.String)
 	 */
-	public IFontDefinitionDialog createFontDefinitionDialog( Shell shellParent,
-			ChartWizardContext wizardContext, FontDefinition fdCurrent,
-			ColorDefinition cdCurrent, int optionalStyle )
-	{
-		return new FontDefinitionDialog( shellParent, wizardContext, fdCurrent, cdCurrent, optionalStyle );
+	public AbstractHeadStyleChooserComposite createHeadStyleChooserComposite(Composite parent, int style,
+			int iLineDecorator, EObject eParent, String sProperty) {
+		return new HeadStyleChooserComposite(parent, style, iLineDecorator);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartTextEditor(org.eclipse.swt.widgets.Composite, int, org.eclipse.emf.ecore.EObject, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#
+	 * createFontDefinitionDialog(org.eclipse.swt.widgets.Shell,
+	 * org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext,
+	 * org.eclipse.birt.chart.model.attribute.FontDefinition,
+	 * org.eclipse.birt.chart.model.attribute.ColorDefinition, int)
 	 */
-	public AbstractChartTextEditor createChartTextEditor( Composite parent,
-			int style, EObject eParent, String sProperty )
-	{
-		return new TextEditorComposite( parent, style );
+	public IFontDefinitionDialog createFontDefinitionDialog(Shell shellParent, ChartWizardContext wizardContext,
+			FontDefinition fdCurrent, ColorDefinition cdCurrent, int optionalStyle) {
+		return new FontDefinitionDialog(shellParent, wizardContext, fdCurrent, cdCurrent, optionalStyle);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartNumberEditor(org.eclipse.swt.widgets.Composite, int, java.lang.String, org.eclipse.emf.ecore.EObject, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#
+	 * createChartTextEditor(org.eclipse.swt.widgets.Composite, int,
+	 * org.eclipse.emf.ecore.EObject, java.lang.String)
 	 */
-	public AbstractChartNumberEditor createChartNumberEditor( Composite parent,
-			int style, String sUnit, EObject eParent, String sProperty )
-	{
-		return new LocalizedNumberEditorComposite( parent, style, sUnit );
+	public AbstractChartTextEditor createChartTextEditor(Composite parent, int style, EObject eParent,
+			String sProperty) {
+		return new TextEditorComposite(parent, style);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartSlider(org.eclipse.swt.widgets.Composite, int, org.eclipse.emf.ecore.EObject, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#
+	 * createChartNumberEditor(org.eclipse.swt.widgets.Composite, int,
+	 * java.lang.String, org.eclipse.emf.ecore.EObject, java.lang.String)
 	 */
-	public ChartSlider createChartSlider( Composite parent, int style,
-			EObject eParent, String sProperty )
-	{
-		return new ChartSlider( parent, style );
+	public AbstractChartNumberEditor createChartNumberEditor(Composite parent, int style, String sUnit, EObject eParent,
+			String sProperty) {
+		return new LocalizedNumberEditorComposite(parent, style, sUnit);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#createChartSlider(
+	 * org.eclipse.swt.widgets.Composite, int, org.eclipse.emf.ecore.EObject,
+	 * java.lang.String)
+	 */
+	public ChartSlider createChartSlider(Composite parent, int style, EObject eParent, String sProperty) {
+		return new ChartSlider(parent, style);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#supportAutoUI()
 	 */
-	public boolean supportAutoUI( )
-	{
+	public boolean supportAutoUI() {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#isSetInvisible(org.eclipse.emf.ecore.EObject)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartUIFactory#isSetInvisible(org.
+	 * eclipse.emf.ecore.EObject)
 	 */
-	public boolean isSetInvisible( EObject obj )
-	{
+	public boolean isSetInvisible(EObject obj) {
 		boolean isSetInvisible = false;
-		try
-		{
-			Method m = obj.getClass( ).getMethod( "isVisible" ); //$NON-NLS-1$
-			isSetInvisible = !( (Boolean)m.invoke( obj ) );
-		}
-		catch ( SecurityException e )
-		{
+		try {
+			Method m = obj.getClass().getMethod("isVisible"); //$NON-NLS-1$
+			isSetInvisible = !((Boolean) m.invoke(obj));
+		} catch (SecurityException e) {
 			// Do nothing.
-		}
-		catch ( NoSuchMethodException e )
-		{
+		} catch (NoSuchMethodException e) {
 			// Do nothing.
-		}
-		catch ( IllegalArgumentException e )
-		{
+		} catch (IllegalArgumentException e) {
 			// Do nothing.
-		}
-		catch ( IllegalAccessException e )
-		{
+		} catch (IllegalAccessException e) {
 			// Do nothing.
-		}
-		catch ( InvocationTargetException e )
-		{
+		} catch (InvocationTargetException e) {
 			// Do nothing.
 		}
 		return isSetInvisible;
 	}
 
-	public TrayDialog createChartMarkerIconDialog( Shell parent, Fill fill,
-			ChartWizardContext context )
-	{
-		return new ImageDialog( parent, fill, context, true, false, true );
+	public TrayDialog createChartMarkerIconDialog(Shell parent, Fill fill, ChartWizardContext context) {
+		return new ImageDialog(parent, fill, context, true, false, true);
 	}
 
-	public TrayDialog createChartImageDialog( Shell parentShell, Fill fCurrent,
-			ChartWizardContext context, boolean bEmbeddedImageEnabled,
-			boolean bResourceImageEnabled )
-	{
-		return new ImageDialog( parentShell,
-				fCurrent,
-				context,
-				bEmbeddedImageEnabled,
-				bResourceImageEnabled );
+	public TrayDialog createChartImageDialog(Shell parentShell, Fill fCurrent, ChartWizardContext context,
+			boolean bEmbeddedImageEnabled, boolean bResourceImageEnabled) {
+		return new ImageDialog(parentShell, fCurrent, context, bEmbeddedImageEnabled, bResourceImageEnabled);
 	}
 }

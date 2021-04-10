@@ -18,45 +18,32 @@ import org.eclipse.birt.report.model.api.util.ColorUtil;
 /**
  * CrosstabFactoryStyle
  */
-class CrosstabFactoryStyle implements IStyleDeclaration
-{
+class CrosstabFactoryStyle implements IStyleDeclaration {
 
 	private String name;
 
-	CrosstabFactoryStyle( String name )
-	{
+	CrosstabFactoryStyle(String name) {
 		this.name = name;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public Object getProperty( String name )
-	{
-		if ( BORDER_BOTTOM_STYLE_PROP.equals( name )
-				|| BORDER_TOP_STYLE_PROP.equals( name )
-				|| BORDER_LEFT_STYLE_PROP.equals( name )
-				|| BORDER_RIGHT_STYLE_PROP.equals( name ) )
-		{
+	public Object getProperty(String name) {
+		if (BORDER_BOTTOM_STYLE_PROP.equals(name) || BORDER_TOP_STYLE_PROP.equals(name)
+				|| BORDER_LEFT_STYLE_PROP.equals(name) || BORDER_RIGHT_STYLE_PROP.equals(name)) {
 			return DesignChoiceConstants.LINE_STYLE_SOLID;
 		}
 
-		if ( BORDER_BOTTOM_WIDTH_PROP.equals( name )
-				|| BORDER_TOP_WIDTH_PROP.equals( name )
-				|| BORDER_LEFT_WIDTH_PROP.equals( name )
-				|| BORDER_RIGHT_WIDTH_PROP.equals( name ) )
-		{
+		if (BORDER_BOTTOM_WIDTH_PROP.equals(name) || BORDER_TOP_WIDTH_PROP.equals(name)
+				|| BORDER_LEFT_WIDTH_PROP.equals(name) || BORDER_RIGHT_WIDTH_PROP.equals(name)) {
 			return "1pt"; //$NON-NLS-1$
 		}
 
-		if ( BORDER_BOTTOM_COLOR_PROP.equals( name )
-				|| BORDER_TOP_COLOR_PROP.equals( name )
-				|| BORDER_LEFT_COLOR_PROP.equals( name )
-				|| BORDER_RIGHT_COLOR_PROP.equals( name ) )
-		{
-			return Integer.valueOf( ColorUtil.formRGB( 0xcc, 0xcc, 0xcc ) );
+		if (BORDER_BOTTOM_COLOR_PROP.equals(name) || BORDER_TOP_COLOR_PROP.equals(name)
+				|| BORDER_LEFT_COLOR_PROP.equals(name) || BORDER_RIGHT_COLOR_PROP.equals(name)) {
+			return Integer.valueOf(ColorUtil.formRGB(0xcc, 0xcc, 0xcc));
 		}
 		return null;
 	}

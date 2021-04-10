@@ -16,32 +16,29 @@ package org.eclipse.birt.chart.datafeed;
  * datapoint entry and the display text.
  */
 
-public interface IDataPointDefinition
-{
+public interface IDataPointDefinition {
 
 	/**
 	 * Creates and returns a data types array.
 	 * 
 	 * @return data types
 	 */
-	String[] getDataPointTypes( );
+	String[] getDataPointTypes();
 
 	/**
 	 * Returns the externalized text for display
 	 * 
-	 * @param type
-	 *            data type
+	 * @param type data type
 	 * @return display text
 	 */
-	String getDisplayText( String type );
+	String getDisplayText(String type);
 
 	/**
 	 * Check if data type of specified component type is any.
 	 * 
-	 * @param type
-	 *            component type
+	 * @param type component type
 	 * @return the compatible data types, it's a combination of
 	 *         (IConstants.NUMERICAL, IConstants.TEXT and IConstants.DATE_TIME).
 	 */
-	int getCompatibleDataType( String type );
+	int getCompatibleDataType(String type);
 }

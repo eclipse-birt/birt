@@ -28,8 +28,7 @@ import org.eclipse.birt.report.model.api.elements.structures.SortKey;
  * 
  * @deprecated
  */
-public class ScriptAPIBaseFactory implements IScriptAPIFactory
-{
+public class ScriptAPIBaseFactory implements IScriptAPIFactory {
 
 	/**
 	 * Create <code>IHideRule</code> instance
@@ -37,10 +36,9 @@ public class ScriptAPIBaseFactory implements IScriptAPIFactory
 	 * @return IHideRule
 	 */
 
-	public IHideRule createHideRule( )
-	{
-		HideRule r = new HideRule( );
-		IHideRule rule = new HideRuleImpl( r );
+	public IHideRule createHideRule() {
+		HideRule r = new HideRule();
+		IHideRule rule = new HideRuleImpl(r);
 		return rule;
 	}
 
@@ -50,10 +48,9 @@ public class ScriptAPIBaseFactory implements IScriptAPIFactory
 	 * @return instance
 	 */
 
-	public IFilterCondition createFilterCondition( )
-	{
-		FilterCondition c = new FilterCondition( );
-		IFilterCondition condition = new FilterConditionImpl( c );
+	public IFilterCondition createFilterCondition() {
+		FilterCondition c = new FilterCondition();
+		IFilterCondition condition = new FilterConditionImpl(c);
 		return condition;
 	}
 
@@ -63,10 +60,9 @@ public class ScriptAPIBaseFactory implements IScriptAPIFactory
 	 * @return instance
 	 */
 
-	public IDataBinding createDataBinding( )
-	{
-		ComputedColumn c = new ComputedColumn( );
-		IDataBinding binding = new DataBindingImpl( c );
+	public IDataBinding createDataBinding() {
+		ComputedColumn c = new ComputedColumn();
+		IDataBinding binding = new DataBindingImpl(c);
 		return binding;
 	}
 
@@ -76,10 +72,9 @@ public class ScriptAPIBaseFactory implements IScriptAPIFactory
 	 * @return instance
 	 */
 
-	public IHighlightRule createHighLightRule( )
-	{
-		HighlightRule h = new HighlightRule( );
-		IHighlightRule rule = new HighlightRuleImpl( h );
+	public IHighlightRule createHighLightRule() {
+		HighlightRule h = new HighlightRule();
+		IHighlightRule rule = new HighlightRuleImpl(h);
 		return rule;
 	}
 
@@ -89,10 +84,9 @@ public class ScriptAPIBaseFactory implements IScriptAPIFactory
 	 * @return instance
 	 */
 
-	public ISortCondition createSortCondition( )
-	{
-		SortKey s = new SortKey( );
-		ISortCondition sort = new SortConditionImpl( s );
+	public ISortCondition createSortCondition() {
+		SortKey s = new SortKey();
+		ISortCondition sort = new SortConditionImpl(s);
 		return sort;
 	}
 }

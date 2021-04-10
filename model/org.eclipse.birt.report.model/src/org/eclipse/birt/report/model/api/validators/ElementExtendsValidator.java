@@ -23,15 +23,13 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 /**
  * Validates the element extends property. If the value can refer to an actual
  * element, it will be resolved after validation.
- * <h3>Rule</h3>
- * The rule is that the element extends value should refer to an actual element
- * in the same report or included libraries.
- * <h3>Applicability</h3>
- * This validator is only applied to the element extends property.
+ * <h3>Rule</h3> The rule is that the element extends value should refer to an
+ * actual element in the same report or included libraries.
+ * <h3>Applicability</h3> This validator is only applied to the element extends
+ * property.
  */
 
-public class ElementExtendsValidator extends AbstractElementValidator
-{
+public class ElementExtendsValidator extends AbstractElementValidator {
 
 	/**
 	 * Name of this validator.
@@ -43,7 +41,7 @@ public class ElementExtendsValidator extends AbstractElementValidator
 	 * The singleton instance of the validator.
 	 */
 
-	protected final static ElementExtendsValidator instance = new ElementExtendsValidator( );
+	protected final static ElementExtendsValidator instance = new ElementExtendsValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -51,31 +49,25 @@ public class ElementExtendsValidator extends AbstractElementValidator
 	 * @return the validator instance
 	 */
 
-	public static ElementExtendsValidator getInstance( )
-	{
+	public static ElementExtendsValidator getInstance() {
 		return instance;
 	}
 
 	/**
 	 * Validates the element reference value can refer to an actual element.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the element to validate
+	 * @param module  the module
+	 * @param element the element to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List validate( Module module, DesignElement element )
-	{
-		List list = new ArrayList( );
+	public List validate(Module module, DesignElement element) {
+		List list = new ArrayList();
 
-		if ( !StringUtil.isEmpty( element.getExtendsName( ) )
-				&& element.getExtendsElement( ) == null )
-		{
-			list.add( new InvalidParentException( element, element.getExtendsName( ),
-					InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND ) );
+		if (!StringUtil.isEmpty(element.getExtendsName()) && element.getExtendsElement() == null) {
+			list.add(new InvalidParentException(element, element.getExtendsName(),
+					InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND));
 		}
 
 		return list;

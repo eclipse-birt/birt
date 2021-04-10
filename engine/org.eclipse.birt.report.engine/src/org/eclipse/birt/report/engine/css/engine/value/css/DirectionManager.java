@@ -16,36 +16,30 @@ import org.eclipse.birt.report.engine.css.engine.value.StringMap;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 
-public class DirectionManager extends IdentifierManager
-{
+public class DirectionManager extends IdentifierManager {
 
 	/**
 	 * The identifier values.
 	 */
-	protected final static StringMap values = new StringMap( );
-	static
-	{
-		values.put( CSSConstants.CSS_RTL_VALUE, CSSValueConstants.RTL_VALUE );
-		values.put( CSSConstants.CSS_LTR_VALUE, CSSValueConstants.LTR_VALUE );
+	protected final static StringMap values = new StringMap();
+	static {
+		values.put(CSSConstants.CSS_RTL_VALUE, CSSValueConstants.RTL_VALUE);
+		values.put(CSSConstants.CSS_LTR_VALUE, CSSValueConstants.LTR_VALUE);
 	}
 
-	public StringMap getIdentifiers( )
-	{
+	public StringMap getIdentifiers() {
 		return values;
 	}
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return BIRTConstants.CSS_DIRECTION_PROPERTY;
 	}
 
-	public boolean isInheritedProperty( )
-	{
+	public boolean isInheritedProperty() {
 		return true;
 	}
 
-	public Value getDefaultValue( )
-	{
+	public Value getDefaultValue() {
 		return CSSValueConstants.NULL_STRING_VALUE;
 	}
 }

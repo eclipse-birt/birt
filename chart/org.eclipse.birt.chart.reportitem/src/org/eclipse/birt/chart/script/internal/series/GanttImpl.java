@@ -23,18 +23,15 @@ import org.eclipse.birt.chart.script.internal.series.data.GanttDataImpl;
  * 
  */
 
-public class GanttImpl extends ValueSeriesImpl implements IGantt
-{
+public class GanttImpl extends ValueSeriesImpl implements IGantt {
 
-	public GanttImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public GanttImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 		assert series instanceof GanttSeries;
 	}
 
-	public ISeriesData getDataExpr( )
-	{
-		return new GanttDataImpl( sd );
+	public ISeriesData getDataExpr() {
+		return new GanttDataImpl(sd);
 	}
 
 }

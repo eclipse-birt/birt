@@ -25,39 +25,32 @@ import com.ibm.icu.util.UResourceBundle;
  * Provides useful methods to retrieve localized text for the
  * org.eclipse.birt.chart.device.extension plug-in classes
  */
-public final class Messages
-{
+public final class Messages {
 
 	/**
 	 * Bundle name
 	 */
 	private static final String RADAR_EXAMPLES = "org.eclipse.birt.chart.examples.radar.i18n.nls"; //$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance( RADAR_EXAMPLES,
-			ULocale.getDefault( ),
-			SecurityUtil.getClassLoader( Messages.class ) );
-	
-	private static Map<ULocale, ResourceBundle> hmLocalToBundle = new HashMap<ULocale, ResourceBundle>( 2 );
+	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance(RADAR_EXAMPLES,
+			ULocale.getDefault(), SecurityUtil.getClassLoader(Messages.class));
 
-	private Messages( )
-	{
+	private static Map<ULocale, ResourceBundle> hmLocalToBundle = new HashMap<ULocale, ResourceBundle>(2);
+
+	private Messages() {
 	}
 
-	public static ResourceBundle getResourceBundle( )
-	{
+	public static ResourceBundle getResourceBundle() {
 		return RESOURCE_BUNDLE;
 	}
 
-	public static ResourceBundle getResourceBundle( ULocale locale )
-	{
-		ResourceBundle bundle = hmLocalToBundle.get( locale );
+	public static ResourceBundle getResourceBundle(ULocale locale) {
+		ResourceBundle bundle = hmLocalToBundle.get(locale);
 
-		if ( bundle == null )
-		{
-			bundle = UResourceBundle.getBundleInstance( RADAR_EXAMPLES,
-				locale,
-					SecurityUtil.getClassLoader( Messages.class ) );
-			hmLocalToBundle.put( locale, bundle );
+		if (bundle == null) {
+			bundle = UResourceBundle.getBundleInstance(RADAR_EXAMPLES, locale,
+					SecurityUtil.getClassLoader(Messages.class));
+			hmLocalToBundle.put(locale, bundle);
 		}
 
 		return bundle;
@@ -66,39 +59,29 @@ public final class Messages
 	/**
 	 * @param key
 	 */
-	public static String getString( String key )
-	{
-		return getString( key, ULocale.getDefault( ) );
+	public static String getString(String key) {
+		return getString(key, ULocale.getDefault());
 	}
 
 	/**
 	 * @param key
 	 * @param lcl
 	 */
-	public static String getString( String key, ULocale lcl )
-	{
-		try
-		{
-			return getResourceBundle( lcl ).getString( key );
-		}
-		catch ( MissingResourceException e )
-		{
+	public static String getString(String key, ULocale lcl) {
+		try {
+			return getResourceBundle(lcl).getString(key);
+		} catch (MissingResourceException e) {
 			return '!' + key + '!';
 		}
 	}
 
 	/**
 	 * 
-	 * @param key
-	 *            key
-	 * @param oa
-	 *            single argument
+	 * @param key key
+	 * @param oa  single argument
 	 */
-	public static String getString( String key, Object oa, ULocale lcl )
-	{
-		return getString( key, new Object[]{
-			oa
-		}, lcl );
+	public static String getString(String key, Object oa, ULocale lcl) {
+		return getString(key, new Object[] { oa }, lcl);
 	}
 
 	/**
@@ -106,16 +89,11 @@ public final class Messages
 	 * @param oa
 	 * @param lcl
 	 */
-	public static String getString( String key, Object[] oa, ULocale lcl )
-	{
-		try
-		{
-			return SecurityUtil.formatMessage( getResourceBundle( lcl ).getString( key ),
-					oa );
-		}
-		catch ( MissingResourceException e )
-		{
-			e.printStackTrace( );
+	public static String getString(String key, Object[] oa, ULocale lcl) {
+		try {
+			return SecurityUtil.formatMessage(getResourceBundle(lcl).getString(key), oa);
+		} catch (MissingResourceException e) {
+			e.printStackTrace();
 			return '!' + key + '!';
 		}
 	}

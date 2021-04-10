@@ -18,16 +18,15 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Indicates an error while setting the style of an element.
- *  
+ * 
  */
 
-public class StyleException extends SemanticException
-{
+public class StyleException extends SemanticException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = -4383500737464797856L;
 
 	/**
@@ -51,17 +50,13 @@ public class StyleException extends SemanticException
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element being changed.
-	 * @param str
-	 *            the name of the style.
-	 * @param errCode
-	 *            the error code.
+	 * @param obj     the element being changed.
+	 * @param str     the name of the style.
+	 * @param errCode the error code.
 	 */
 
-	public StyleException( DesignElement obj, String str, String errCode )
-	{
-		super( obj, errCode );
+	public StyleException(DesignElement obj, String str, String errCode) {
+		super(obj, errCode);
 		styleName = str;
 	}
 
@@ -71,8 +66,7 @@ public class StyleException extends SemanticException
 	 * @return the style name.
 	 */
 
-	public Object getStyle( )
-	{
+	public Object getStyle() {
 		return styleName;
 	}
 
@@ -81,19 +75,13 @@ public class StyleException extends SemanticException
 	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_FORBIDDEN )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{getElementName( element )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_NOT_FOUND )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{styleName, getElementName( element )} );
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_FORBIDDEN) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { getElementName(element) });
+		} else if (sResourceKey == DESIGN_EXCEPTION_NOT_FOUND) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { styleName, getElementName(element) });
 		}
 
-		return ModelMessages.getMessage( sResourceKey );
+		return ModelMessages.getMessage(sResourceKey);
 	}
 }

@@ -17,41 +17,31 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.DataSetInstance;
 
-public class DataSetRow implements IDataSetRow
-{
+public class DataSetRow implements IDataSetRow {
 
 	protected IDataRow row;
 
-	public DataSetRow( IDataRow row )
-	{
+	public DataSetRow(IDataRow row) {
 		this.row = row;
 	}
 
-	public IDataSetInstance getDataSet( )
-	{
-		return new DataSetInstance( row.getDataSet( ) );
+	public IDataSetInstance getDataSet() {
+		return new DataSetInstance(row.getDataSet());
 	}
 
-	public Object getColumnValue( int index ) throws ScriptException
-	{
-		try
-		{
-			return row.getColumnValue( index );
-		} catch ( BirtException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public Object getColumnValue(int index) throws ScriptException {
+		try {
+			return row.getColumnValue(index);
+		} catch (BirtException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
-
-	public Object getColumnValue( String name ) throws ScriptException
-	{
-		try
-		{
-			return row.getColumnValue( name );
-		} catch ( BirtException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public Object getColumnValue(String name) throws ScriptException {
+		try {
+			return row.getColumnValue(name);
+		} catch (BirtException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 

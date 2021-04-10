@@ -20,32 +20,27 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class ScriptDataSourceState extends DataSourceState
-{
+public class ScriptDataSourceState extends DataSourceState {
 
 	/**
 	 * Constructs the state for parsing script data source.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
+	 * @param handler the design file parser handler
 	 */
 
-	public ScriptDataSourceState( ModuleParserHandler handler, int slot )
-	{
-		super( handler, slot );
-		element = new ScriptDataSource( );
+	public ScriptDataSourceState(ModuleParserHandler handler, int slot) {
+		super(handler, slot);
+		element = new ScriptDataSource();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		initElement( attrs, true );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		initElement(attrs, true);
 	}
 }

@@ -22,9 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * AbstractBindingDialogHelper
  */
-public abstract class AbstractBindingDialogHelper implements
-		IBindingDialogHelper
-{
+public abstract class AbstractBindingDialogHelper implements IBindingDialogHelper {
 
 	protected ReportItemHandle bindingHolder;
 	protected ComputedColumnHandle binding;
@@ -37,150 +35,119 @@ public abstract class AbstractBindingDialogHelper implements
 	private Object itemContainer;
 
 	private String[] groups = new String[0];
-	
-	public boolean isAggregate( )
-	{
+
+	public boolean isAggregate() {
 		return isAggregate;
 	}
 
-	public void setAggregate( boolean isAggregate )
-	{
+	public void setAggregate(boolean isAggregate) {
 		this.isAggregate = isAggregate;
 	}
-	
-	public boolean isMeasure( )
-	{
+
+	public boolean isMeasure() {
 		return isMeasure;
 	}
 
-	public void setMeasure( boolean isMeasure )
-	{
+	public void setMeasure(boolean isMeasure) {
 		this.isMeasure = isMeasure;
 	}
-	
-	public boolean isTimePeriod()
-	{
+
+	public boolean isTimePeriod() {
 		return isTimePeriod;
 	}
 
-	public void setTimePeriod(boolean timePeriod)
-	{
+	public void setTimePeriod(boolean timePeriod) {
 		this.isTimePeriod = timePeriod;
 	}
 
-	public ReportItemHandle getBindingHolder( )
-	{
+	public ReportItemHandle getBindingHolder() {
 		return bindingHolder;
 	}
 
-	public void setBindingHolder( ReportItemHandle bindingHolder )
-	{
+	public void setBindingHolder(ReportItemHandle bindingHolder) {
 		this.bindingHolder = bindingHolder;
 	}
 
-	public ComputedColumnHandle getBinding( )
-	{
+	public ComputedColumnHandle getBinding() {
 		return binding;
 	}
 
-	public void setBinding( ComputedColumnHandle binding )
-	{
+	public void setBinding(ComputedColumnHandle binding) {
 		this.binding = binding;
-		if ( this.binding != null )
-		{
-			setAggregate ( this.binding.getAggregateFunction( ) != null
-					&& !this.binding.getAggregateFunction( ).equals( "" ) ); //$NON-NLS-1$
-			if ( !isAggregate( ) )
-			{
-				setMeasure( this.binding.getAggregateOn( ) != null
-						&& !this.binding.getAggregateOn( ).equals( "" ) ); //$NON-NLS-1$
+		if (this.binding != null) {
+			setAggregate(
+					this.binding.getAggregateFunction() != null && !this.binding.getAggregateFunction().equals("")); //$NON-NLS-1$
+			if (!isAggregate()) {
+				setMeasure(this.binding.getAggregateOn() != null && !this.binding.getAggregateOn().equals("")); //$NON-NLS-1$
 			}
-			if ( isMeasure( ) && !isAggregate( ) )
-			{
-				setAggregate( true );
+			if (isMeasure() && !isAggregate()) {
+				setAggregate(true);
 			}
 		}
-		if (this.binding != null)
-		{
-			setTimePeriod(this.binding.getTimeDimension() != null
-					&& !this.binding.getTimeDimension().equals( "" ));//$NON-NLS-1$
+		if (this.binding != null) {
+			setTimePeriod(this.binding.getTimeDimension() != null && !this.binding.getTimeDimension().equals(""));//$NON-NLS-1$
 		}
 	}
 
-	public ComputedColumnHandle getBindingColumn( )
-	{
+	public ComputedColumnHandle getBindingColumn() {
 		return this.binding;
 	}
 
-	public DataColumnBindingDialog getDialog( )
-	{
+	public DataColumnBindingDialog getDialog() {
 		return dialog;
 	}
 
-	public void setDialog( DataColumnBindingDialog dialog )
-	{
+	public void setDialog(DataColumnBindingDialog dialog) {
 		this.dialog = dialog;
 	}
 
-	public ExpressionProvider getExpressionProvider( )
-	{
+	public ExpressionProvider getExpressionProvider() {
 		return expressionProvider;
 	}
 
-	public void setExpressionProvider( ExpressionProvider expressionProvider )
-	{
+	public void setExpressionProvider(ExpressionProvider expressionProvider) {
 		this.expressionProvider = expressionProvider;
 	}
 
-	public void setDataItemContainer( Object itemContainer )
-	{
+	public void setDataItemContainer(Object itemContainer) {
 		this.itemContainer = itemContainer;
 	}
 
-	public Object getDataItemContainer( )
-	{
+	public Object getDataItemContainer() {
 		return this.itemContainer;
 	}
 
-	public boolean canProcessWithWarning( )
-	{
+	public boolean canProcessWithWarning() {
 		return true;
 	}
 
-	public boolean canProcessAggregation( )
-	{
-		if ( bindingHolder != null && bindingHolder instanceof ListingHandle )
+	public boolean canProcessAggregation() {
+		if (bindingHolder != null && bindingHolder instanceof ListingHandle)
 			return true;
 		return false;
 	}
 
-	protected void setContentSize( Composite composite )
-	{
-		Point size = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		composite.setSize( Math.max( size.x, 400 ), Math.max( size.y,
-				isAggregate( ) ? 320 : 50 ) );
+	protected void setContentSize(Composite composite) {
+		Point size = composite.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		composite.setSize(Math.max(size.x, 400), Math.max(size.y, isAggregate() ? 320 : 50));
 	}
 
-	public void setEditModal( boolean isEditModal )
-	{
+	public void setEditModal(boolean isEditModal) {
 
 	}
 
 	@Override
-	public boolean canProcessMeasure( )
-	{
+	public boolean canProcessMeasure() {
 		return false;
 	}
 
 	@Override
-	public void setGroups( String[] groups )
-	{
+	public void setGroups(String[] groups) {
 		this.groups = groups;
 	}
 
 	@Override
-	public String[] getGroups( )
-	{
+	public String[] getGroups() {
 		return this.groups;
 	}
 }

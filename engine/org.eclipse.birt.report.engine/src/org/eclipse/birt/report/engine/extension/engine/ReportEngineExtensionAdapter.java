@@ -17,65 +17,46 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 
-abstract public class ReportEngineExtensionAdapter
-		implements
-			IReportEngineExtension
-{
+abstract public class ReportEngineExtensionAdapter implements IReportEngineExtension {
 
 	protected IReportEngine engine;
 
-	public ReportEngineExtensionAdapter( IReportEngine engine )
-	{
+	public ReportEngineExtensionAdapter(IReportEngine engine) {
 		this.engine = engine;
 	}
 
-	public IReportEngine getReportEngine( )
-	{
+	public IReportEngine getReportEngine() {
 		return engine;
 	}
 
-	public void close( )
-	{
+	public void close() {
 	}
 
-	public boolean needExtension( IReportRunnable runnable )
-	{
+	public boolean needExtension(IReportRunnable runnable) {
 		return false;
 	}
 
-	public IReportDocumentExtension createDocumentExtension(
-			IReportDocument document ) throws EngineException
-	{
+	public IReportDocumentExtension createDocumentExtension(IReportDocument document) throws EngineException {
 		return null;
 	}
 
-	public IDataExtension createDataExtension( IRunContext context )
-			throws EngineException
-	{
+	public IDataExtension createDataExtension(IRunContext context) throws EngineException {
 		return null;
 	}
 
-	public IDocumentExtension createDocumentExtension( IRunContext context )
-			throws EngineException
-	{
+	public IDocumentExtension createDocumentExtension(IRunContext context) throws EngineException {
 		return null;
 	}
 
-	public IGenerateExtension createGenerateExtension( IRunContext context )
-			throws EngineException
-	{
+	public IGenerateExtension createGenerateExtension(IRunContext context) throws EngineException {
 		return null;
 	}
 
-	public IRenderExtension createRenderExtension( IRenderContext context )
-			throws EngineException
-	{
+	public IRenderExtension createRenderExtension(IRenderContext context) throws EngineException {
 		return null;
 	}
-	
-	public IEngineTask createEngineTask( String taskName )
-			throws EngineException
-	{
+
+	public IEngineTask createEngineTask(String taskName) throws EngineException {
 		return null;
 	}
 }

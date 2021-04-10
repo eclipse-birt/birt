@@ -29,8 +29,7 @@ import java.io.Serializable;
  * <li>style</li>
  * </ol>
  */
-public class ParamDefField implements Serializable
-{
+public class ParamDefField implements Serializable {
 
 	/**
 	 * Serial Version UID
@@ -52,162 +51,133 @@ public class ParamDefField implements Serializable
 	 * 
 	 * @return
 	 */
-	public boolean validate( )
-	{
-		return id != null && id.trim( ).length( ) > 0 && name != null
-				&& name.trim( ).length( ) > 0 ? true : false;
+	public boolean validate() {
+		return id != null && id.trim().length() > 0 && name != null && name.trim().length() > 0 ? true : false;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public String getId( )
-	{
+	public String getId() {
 		return id;
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
+	 * @param id the id to set
 	 */
-	public void setId( String id )
-	{
+	public void setId(String id) {
 		this.id = id;
 	}
 
 	/**
 	 * @return the name
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * @return the pattern
 	 */
-	public String getPattern( )
-	{
+	public String getPattern() {
 		return pattern;
 	}
 
 	/**
-	 * @param pattern
-	 *            the pattern to set
+	 * @param pattern the pattern to set
 	 */
-	public void setPattern( String pattern )
-	{
+	public void setPattern(String pattern) {
 		this.pattern = pattern;
 	}
 
 	/**
 	 * @return the value
 	 */
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return value;
 	}
 
 	/**
-	 * @param value
-	 *            the value to set
+	 * @param value the value to set
 	 */
-	public void setValue( Object value )
-	{
+	public void setValue(Object value) {
 		this.value = value;
 	}
 
 	/**
 	 * @return the displayText
 	 */
-	public String getDisplayText( )
-	{
+	public String getDisplayText() {
 		return displayText;
 	}
 
 	/**
-	 * @param displayText
-	 *            the displayText to set
+	 * @param displayText the displayText to set
 	 */
-	public void setDisplayText( String displayText )
-	{
+	public void setDisplayText(String displayText) {
 		this.displayText = displayText;
 	}
 
 	/**
 	 * @return the isLocale
 	 */
-	public String getIsLocale( )
-	{
+	public String getIsLocale() {
 		return isLocale;
 	}
 
 	/**
-	 * @param isLocale
-	 *            the isLocale to set
+	 * @param isLocale the isLocale to set
 	 */
-	public void setIsLocale( String isLocale )
-	{
+	public void setIsLocale(String isLocale) {
 		this.isLocale = isLocale;
 	}
 
 	/**
 	 * @return the title
 	 */
-	public String getTitle( )
-	{
+	public String getTitle() {
 		return title;
 	}
 
 	/**
-	 * @param title
-	 *            the title to set
+	 * @param title the title to set
 	 */
-	public void setTitle( String title )
-	{
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	/**
 	 * @return the cssClass
 	 */
-	public String getCssClass( )
-	{
+	public String getCssClass() {
 		return cssClass;
 	}
 
 	/**
-	 * @param cssClass
-	 *            the cssClass to set
+	 * @param cssClass the cssClass to set
 	 */
-	public void setCssClass( String cssClass )
-	{
+	public void setCssClass(String cssClass) {
 		this.cssClass = cssClass;
 	}
 
 	/**
 	 * @return the style
 	 */
-	public String getStyle( )
-	{
+	public String getStyle() {
 		return style;
 	}
 
 	/**
-	 * @param style
-	 *            the style to set
+	 * @param style the style to set
 	 */
-	public void setStyle( String style )
-	{
+	public void setStyle(String style) {
 		this.style = style;
 	}
 

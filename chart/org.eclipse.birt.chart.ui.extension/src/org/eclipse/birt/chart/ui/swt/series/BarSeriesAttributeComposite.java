@@ -40,120 +40,93 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class BarSeriesAttributeComposite extends Composite
-		implements
-			Listener
-{
+public class BarSeriesAttributeComposite extends Composite implements Listener {
 	protected FillChooserComposite fccRiserOutline = null;
 
 	protected Series series = null;
 
 	protected ChartWizardContext context;
 
-	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
+	protected static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.ui.extension/swt.series"); //$NON-NLS-1$
 
 	/**
 	 * @param parent
 	 * @param style
 	 */
-	public BarSeriesAttributeComposite( Composite parent, int style,
-			ChartWizardContext context, Series series )
-	{
-		super( parent, style );
-		if ( !( series instanceof BarSeries ) )
-		{
-			try
-			{
-				throw new ChartException( ChartUIExtensionPlugin.ID,
-						ChartException.VALIDATION,
-						"BarSeriesAttributeComposite.Exception.IllegalArgument", new Object[]{series.getClass( ).getName( )}, Messages.getResourceBundle( ) ); //$NON-NLS-1$
-			}
-			catch ( ChartException e )
-			{
-				logger.log( e );
-				e.printStackTrace( );
+	public BarSeriesAttributeComposite(Composite parent, int style, ChartWizardContext context, Series series) {
+		super(parent, style);
+		if (!(series instanceof BarSeries)) {
+			try {
+				throw new ChartException(ChartUIExtensionPlugin.ID, ChartException.VALIDATION,
+						"BarSeriesAttributeComposite.Exception.IllegalArgument", //$NON-NLS-1$
+						new Object[] { series.getClass().getName() }, Messages.getResourceBundle());
+			} catch (ChartException e) {
+				logger.log(e);
+				e.printStackTrace();
 			}
 		}
 		this.series = series;
 		this.context = context;
-		init( );
-		placeComponents( );
+		init();
+		placeComponents();
 
-		initContextHelp( parent, context );
+		initContextHelp(parent, context);
 	}
 
-	private void initContextHelp( Composite parent, ChartWizardContext context )
-	{
+	private void initContextHelp(Composite parent, ChartWizardContext context) {
 		String contextHelpID = ChartHelpContextIds.SUBTASK_YSERIES_BAR;
-		IChartType ct = context.getChartType( );
-		if ( ct instanceof TubeChart )
-		{
+		IChartType ct = context.getChartType();
+		if (ct instanceof TubeChart) {
 			contextHelpID = ChartHelpContextIds.SUBTASK_YSERIES_TUBE;
-		}
-		else if ( ct instanceof PyramidChart )
-		{
+		} else if (ct instanceof PyramidChart) {
 			contextHelpID = ChartHelpContextIds.SUBTASK_YSERIES_PYRAMID;
-		}
-		else if ( ct instanceof ConeChart )
-		{
+		} else if (ct instanceof ConeChart) {
 			contextHelpID = ChartHelpContextIds.SUBTASK_YSERIES_CONE;
 		}
-		ChartUIUtil.bindHelp( parent, contextHelpID );
+		ChartUIUtil.bindHelp(parent, contextHelpID);
 	}
 
-	private void init( )
-	{
-		this.setSize( getParent( ).getClientArea( ).width,
-				getParent( ).getClientArea( ).height );
+	private void init() {
+		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
 	}
 
-	protected void placeComponents( )
-	{
+	protected void placeComponents() {
 		// Layout for content composite
-		GridLayout glContent = new GridLayout( );
+		GridLayout glContent = new GridLayout();
 		glContent.numColumns = 2;
 		glContent.marginHeight = 2;
 		glContent.marginWidth = 2;
 
 		// Main content composite
-		this.setLayout( glContent );
+		this.setLayout(glContent);
 
 		// Riser Outline
-		Label lblRiserOutline = new Label( this, SWT.NONE );
-		GridData gdLBLRiserOutline = new GridData( );
-		lblRiserOutline.setLayoutData( gdLBLRiserOutline );
-		lblRiserOutline.setText( Messages.getString( "BarSeriesAttributeComposite.Lbl.SeriesOutline" ) ); //$NON-NLS-1$
+		Label lblRiserOutline = new Label(this, SWT.NONE);
+		GridData gdLBLRiserOutline = new GridData();
+		lblRiserOutline.setLayoutData(gdLBLRiserOutline);
+		lblRiserOutline.setText(Messages.getString("BarSeriesAttributeComposite.Lbl.SeriesOutline")); //$NON-NLS-1$
 
-		this.fccRiserOutline = new FillChooserComposite( this,
-				SWT.NONE,
-				context,
-				( (BarSeries) series ).getRiserOutline( ),
-				false,
-				false,
-				true,
-				true );
-		GridData gdFCCRiserOutline = new GridData( GridData.FILL_HORIZONTAL );
-		fccRiserOutline.setLayoutData( gdFCCRiserOutline );
-		fccRiserOutline.addListener( this );
+		this.fccRiserOutline = new FillChooserComposite(this, SWT.NONE, context, ((BarSeries) series).getRiserOutline(),
+				false, false, true, true);
+		GridData gdFCCRiserOutline = new GridData(GridData.FILL_HORIZONTAL);
+		fccRiserOutline.setLayoutData(gdFCCRiserOutline);
+		fccRiserOutline.addListener(this);
 	}
 
-	public Point getPreferredSize( )
-	{
-		return new Point( 400, 200 );
+	public Point getPreferredSize() {
+		return new Point(400, 200);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
-	public void handleEvent( Event event )
-	{
-		if ( event.widget.equals( fccRiserOutline ) )
-		{
-			if ( event.type == FillChooserComposite.FILL_CHANGED_EVENT )
-			{
-				( (BarSeries) series ).setRiserOutline( (ColorDefinition) event.data );
+	public void handleEvent(Event event) {
+		if (event.widget.equals(fccRiserOutline)) {
+			if (event.type == FillChooserComposite.FILL_CHANGED_EVENT) {
+				((BarSeries) series).setRiserOutline((ColorDefinition) event.data);
 			}
 		}
 	}

@@ -24,26 +24,20 @@ import org.xml.sax.SAXException;
  * conversion for BIRT 2.1.1.
  */
 
-public class CompatibleColumnDataTypeState extends CompatiblePropertyState
-{
+public class CompatibleColumnDataTypeState extends CompatiblePropertyState {
 
 	/**
 	 * Default constructor.
 	 * 
-	 * @param theHandler
-	 *            the parser handler
-	 * @param element
-	 *            the element to parse
-	 * @param propDefn
-	 *            the property definition
-	 * @param struct
-	 *            the structure of OdaDataSetParameter
+	 * @param theHandler the parser handler
+	 * @param element    the element to parse
+	 * @param propDefn   the property definition
+	 * @param struct     the structure of OdaDataSetParameter
 	 */
 
-	CompatibleColumnDataTypeState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct )
-	{
-		super( theHandler, element, propDefn, struct );
+	CompatibleColumnDataTypeState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+			IStructure struct) {
+		super(theHandler, element, propDefn, struct);
 	}
 
 	/*
@@ -52,10 +46,9 @@ public class CompatibleColumnDataTypeState extends CompatiblePropertyState
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	public void end() throws SAXException {
+		String value = text.toString();
 
-		doEnd( DataTypeConversionUtil.converToParamType( value ) );
+		doEnd(DataTypeConversionUtil.converToParamType(value));
 	}
 }

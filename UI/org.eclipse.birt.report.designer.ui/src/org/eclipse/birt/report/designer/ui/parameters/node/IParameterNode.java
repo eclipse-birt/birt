@@ -20,8 +20,7 @@ import org.eclipse.birt.core.exception.BirtException;
  * 
  */
 
-public interface IParameterNode
-{
+public interface IParameterNode {
 
 	/**
 	 * Gets value list. Only used for parameter.
@@ -29,7 +28,7 @@ public interface IParameterNode
 	 * @return value list. each item is <code>String</code>
 	 */
 
-	public List getValueList( );
+	public List getValueList();
 
 	/**
 	 * Format input string.
@@ -38,7 +37,7 @@ public interface IParameterNode
 	 * @return formatted value.
 	 */
 
-	public String format( String input ) throws BirtException;
+	public String format(String input) throws BirtException;
 
 	/**
 	 * Gets children of parameter group node.
@@ -46,6 +45,6 @@ public interface IParameterNode
 	 * @return children of node.each item is <code>IParameterNode</code>
 	 */
 
-	public List getChildren( );
+	public List getChildren();
 
 }

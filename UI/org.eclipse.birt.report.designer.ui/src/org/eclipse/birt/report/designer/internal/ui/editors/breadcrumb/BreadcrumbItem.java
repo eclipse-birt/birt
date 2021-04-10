@@ -9,7 +9,6 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -36,8 +35,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * @since 2.6.2
  */
-class BreadcrumbItem extends Item
-{
+class BreadcrumbItem extends Item {
 
 	private IBreadcrumbLabelProvider fLabelProvider;
 	private ITreeContentProvider fContentProvider;
@@ -52,32 +50,26 @@ class BreadcrumbItem extends Item
 	/**
 	 * A new breadcrumb item which is shown inside the given viewer.
 	 * 
-	 * @param viewer
-	 *            the items viewer
-	 * @param parent
-	 *            the container containing the item
+	 * @param viewer the items viewer
+	 * @param parent the container containing the item
 	 */
-	public BreadcrumbItem( BreadcrumbViewer viewer, Composite parent )
-	{
-		super( parent, SWT.NONE );
+	public BreadcrumbItem(BreadcrumbViewer viewer, Composite parent) {
+		super(parent, SWT.NONE);
 
 		fParent = viewer;
 
-		fContainer = new Composite( parent, SWT.NONE );
-		fContainer.setLayoutData( new GridData( SWT.FILL,
-				SWT.CENTER,
-				false,
-				false ) );
-		GridLayout layout = new GridLayout( 2, false );
+		fContainer = new Composite(parent, SWT.NONE);
+		fContainer.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		GridLayout layout = new GridLayout(2, false);
 		layout.marginBottom = 1;
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		layout.horizontalSpacing = 0;
-		fContainer.setLayout( layout );
+		fContainer.setLayout(layout);
 
-		fDetailsBlock = new BreadcrumbItemDetails( this, fContainer );
+		fDetailsBlock = new BreadcrumbItemDetails(this, fContainer);
 
-		fExpandBlock = new BreadcrumbItemDropDown( this, fContainer );
+		fExpandBlock = new BreadcrumbItemDropDown(this, fContainer);
 	}
 
 	/**
@@ -85,51 +77,43 @@ class BreadcrumbItem extends Item
 	 * 
 	 * @return the viewer showing this item
 	 */
-	public BreadcrumbViewer getViewer( )
-	{
+	public BreadcrumbViewer getViewer() {
 		return fParent;
 	}
 
 	/**
 	 * Sets the content provider of this item.
 	 * 
-	 * @param contentProvider
-	 *            the content provider to use
+	 * @param contentProvider the content provider to use
 	 */
-	public void setContentProvider( ITreeContentProvider contentProvider )
-	{
+	public void setContentProvider(ITreeContentProvider contentProvider) {
 		fContentProvider = contentProvider;
 	}
 
 	/**
 	 * Sets the label provider of this item.
 	 * 
-	 * @param labelProvider
-	 *            the label provider to use
+	 * @param labelProvider the label provider to use
 	 */
-	public void setLabelProvider( IBreadcrumbLabelProvider labelProvider )
-	{
+	public void setLabelProvider(IBreadcrumbLabelProvider labelProvider) {
 		fLabelProvider = labelProvider;
 	}
 
 	/*
 	 * @see org.eclipse.swt.widgets.Widget#dispose()
 	 */
-	public void dispose( )
-	{
-		fContainer.dispose( );
-		super.dispose( );
+	public void dispose() {
+		fContainer.dispose();
+		super.dispose();
 	}
 
 	/**
 	 * Should this item show a text label.
 	 * 
-	 * @param enabled
-	 *            true if it should
+	 * @param enabled true if it should
 	 */
-	void setShowText( boolean enabled )
-	{
-		fDetailsBlock.setTextVisible( enabled );
+	void setShowText(boolean enabled) {
+		fDetailsBlock.setTextVisible(enabled);
 	}
 
 	/**
@@ -137,9 +121,8 @@ class BreadcrumbItem extends Item
 	 * 
 	 * @return true if it does.
 	 */
-	boolean isShowText( )
-	{
-		return fDetailsBlock.isTextVisible( );
+	boolean isShowText() {
+		return fDetailsBlock.isTextVisible();
 	}
 
 	/**
@@ -147,28 +130,23 @@ class BreadcrumbItem extends Item
 	 * 
 	 * @return the width of this item
 	 */
-	int getWidth( )
-	{
-		return fDetailsBlock.getWidth( ) + fExpandBlock.getWidth( ) + 2;
+	int getWidth() {
+		return fDetailsBlock.getWidth() + fExpandBlock.getWidth() + 2;
 	}
 
 	/**
 	 * Sets whether this item has to be marked as selected or not.
 	 * 
-	 * @param selected
-	 *            true if marked as selected
+	 * @param selected true if marked as selected
 	 */
-	void setSelected( boolean selected )
-	{
-		fDetailsBlock.setSelected( selected );
+	void setSelected(boolean selected) {
+		fDetailsBlock.setSelected(selected);
 	}
 
 	/**
 	 * Sets whether this item has the keyboard focus.
 	 * 
-	 * @param state
-	 *            <code>true</code> if it has focus, <code>false</code>
-	 *            otherwise
+	 * @param state <code>true</code> if it has focus, <code>false</code> otherwise
 	 */
 //	void setFocus( boolean state )
 //	{
@@ -188,70 +166,59 @@ class BreadcrumbItem extends Item
 	/**
 	 * Redraw this item, retrieves new labels from its label provider.
 	 */
-	void refresh( )
-	{
-		if ( getData( ) != null )
-		{
-			String text = fLabelProvider.getText( getData( ) );
-			Image image = fLabelProvider.getImage( getData( ) );
-			String toolTip = fLabelProvider
-					.getTooltipText(  getData( ) );
-			fDetailsBlock.setText( text );
-			fDetailsBlock.setImage( image );
-			fDetailsBlock.setToolTip( toolTip );
+	void refresh() {
+		if (getData() != null) {
+			String text = fLabelProvider.getText(getData());
+			Image image = fLabelProvider.getImage(getData());
+			String toolTip = fLabelProvider.getTooltipText(getData());
+			fDetailsBlock.setText(text);
+			fDetailsBlock.setImage(image);
+			fDetailsBlock.setToolTip(toolTip);
 		}
-		refreshArrow( );
+		refreshArrow();
 	}
 
 	/**
 	 * Refresh the arrows visibility.
 	 */
-	void refreshArrow( )
-	{
-		fExpandBlock.setEnabled( fContentProvider.hasChildren( getData( ) ) );
+	void refreshArrow() {
+		fExpandBlock.setEnabled(fContentProvider.hasChildren(getData()));
 	}
 
 	/**
 	 * Set whether this is the last item in the breadcrumb item chain or not.
 	 * 
-	 * @param isLast
-	 *            <code>true</code> if this is the last item, <code>false</code>
-	 *            otherwise
+	 * @param isLast <code>true</code> if this is the last item, <code>false</code>
+	 *               otherwise
 	 */
-	void setIsLastItem( boolean isLast )
-	{
+	void setIsLastItem(boolean isLast) {
 		fIsLast = isLast;
 
-		GridData data = (GridData) fContainer.getLayoutData( );
+		GridData data = (GridData) fContainer.getLayoutData();
 		data.grabExcessHorizontalSpace = isLast;
 	}
 
 	/**
-	 * Sets whether or not the this item should show the details (name and
-	 * label).
+	 * Sets whether or not the this item should show the details (name and label).
 	 * 
-	 * @param visible
-	 *            true if the item shows details
+	 * @param visible true if the item shows details
 	 */
-	void setDetailsVisible( boolean visible )
-	{
-		fDetailsBlock.setVisible( visible );
+	void setDetailsVisible(boolean visible) {
+		fDetailsBlock.setVisible(visible);
 	}
 
 	/**
 	 * Expand this item, shows the drop down menu.
 	 */
-	void openDropDownMenu( )
-	{
-		fExpandBlock.showMenu( );
+	void openDropDownMenu() {
+		fExpandBlock.showMenu();
 	}
 
 	/**
 	 * @return true if this item is expanded
 	 */
-	boolean isMenuShown( )
-	{
-		return fExpandBlock.isMenuShown( );
+	boolean isMenuShown() {
+		return fExpandBlock.isMenuShown();
 	}
 
 	/**
@@ -259,9 +226,8 @@ class BreadcrumbItem extends Item
 	 * 
 	 * @return the shell of the drop down if shown, <code>null</code> otherwise
 	 */
-	Shell getDropDownShell( )
-	{
-		return fExpandBlock.getDropDownShell( );
+	Shell getDropDownShell() {
+		return fExpandBlock.getDropDownShell();
 	}
 
 	/**
@@ -269,9 +235,8 @@ class BreadcrumbItem extends Item
 	 * 
 	 * @return the selection provider of the drop down or <code>null</code>
 	 */
-	ISelectionProvider getDropDownSelectionProvider( )
-	{
-		return fExpandBlock.getDropDownSelectionProvider( );
+	ISelectionProvider getDropDownSelectionProvider() {
+		return fExpandBlock.getDropDownSelectionProvider();
 	}
 
 	/**
@@ -279,32 +244,28 @@ class BreadcrumbItem extends Item
 	 * 
 	 * @return the bounds of this item
 	 */
-	public Rectangle getBounds( )
-	{
-		return fContainer.getBounds( );
+	public Rectangle getBounds() {
+		return fContainer.getBounds();
 	}
 
 	/*
 	 * @see org.eclipse.swt.widgets.Item#setText(java.lang.String)
 	 */
-	public void setText( String string )
-	{
-		super.setText( string );
-		fDetailsBlock.setText( string );
+	public void setText(String string) {
+		super.setText(string);
+		fDetailsBlock.setText(string);
 
 		// more or less space might be required for the label
-		if ( fIsLast )
-			fContainer.layout( true, true );
+		if (fIsLast)
+			fContainer.layout(true, true);
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.swt.widgets.Item#setImage(org.eclipse.swt.graphics.Image)
+	 * @see org.eclipse.swt.widgets.Item#setImage(org.eclipse.swt.graphics.Image)
 	 */
-	public void setImage( Image image )
-	{
-		super.setImage( image );
-		fDetailsBlock.setImage( image );
+	public void setImage(Image image) {
+		super.setImage(image);
+		fDetailsBlock.setImage(image);
 	}
 
 }

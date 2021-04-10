@@ -20,8 +20,7 @@ import org.xml.sax.Attributes;
 /**
  * This class parses a measure group within a cube element.
  */
-public class OdaMeasureGroupState extends ReportElementState
-{
+public class OdaMeasureGroupState extends ReportElementState {
 
 	/**
 	 * The measure group being created.
@@ -30,33 +29,29 @@ public class OdaMeasureGroupState extends ReportElementState
 	protected MeasureGroup element = null;
 
 	/**
-	 * Constructs text data item state with the design parser handler, the
-	 * container element and the container property name of the report element.
+	 * Constructs text data item state with the design parser handler, the container
+	 * element and the container property name of the report element.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param prop
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param prop         the slot in which this element appears
 	 */
 
-	public OdaMeasureGroupState( ModuleParserHandler handler,
-			DesignElement theContainer, String prop )
-	{
-		super( handler, theContainer, prop );
+	public OdaMeasureGroupState(ModuleParserHandler handler, DesignElement theContainer, String prop) {
+		super(handler, theContainer, prop);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new OdaMeasureGroup( );
-		initElement( attrs, false );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new OdaMeasureGroup();
+		initElement(attrs, false);
 	}
 
 	/*
@@ -64,8 +59,7 @@ public class OdaMeasureGroupState extends ReportElementState
 	 * 
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#getElement()
 	 */
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 }

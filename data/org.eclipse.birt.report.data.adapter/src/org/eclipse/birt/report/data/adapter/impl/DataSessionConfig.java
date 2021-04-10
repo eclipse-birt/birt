@@ -10,16 +10,13 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.adapter.impl;
 
-public class DataSessionConfig
-{
-	
-	public static void startup( DataRequestSessionImpl engine )
-	{
-		
+public class DataSessionConfig {
+
+	public static void startup(DataRequestSessionImpl engine) {
+
 	}
 
-	public static void finalize( DataRequestSessionImpl engine )
-	{
-		
+	public static void finalize(DataRequestSessionImpl engine) {
+
 	}
 }

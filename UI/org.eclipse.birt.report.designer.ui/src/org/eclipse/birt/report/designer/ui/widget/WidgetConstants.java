@@ -16,8 +16,7 @@ package org.eclipse.birt.report.designer.ui.widget;
  * 
  * @since 2.5
  */
-public interface WidgetConstants
-{
+public interface WidgetConstants {
 
 	/**
 	 * The number of pixels between the edge of one control and the edge of its

@@ -20,26 +20,22 @@ import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
  *
  */
 
-class ExpressionTypeImpl implements IExpressionType
-{
+class ExpressionTypeImpl implements IExpressionType {
 
-	private static IExpressionType instance = new ExpressionTypeImpl( );
+	private static IExpressionType instance = new ExpressionTypeImpl();
 
-	protected static IExpressionType getInstance( )
-	{
+	protected static IExpressionType getInstance() {
 		return instance;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IExpressionType#iterator()
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IExpressionType#iterator()
 	 */
 
-	public Iterator<String> iterator( )
-	{
-		return ExpressionType.iterator( );
+	public Iterator<String> iterator() {
+		return ExpressionType.iterator();
 	}
 
 }

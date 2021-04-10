@@ -21,21 +21,19 @@ import org.eclipse.ui.IWorkbenchPart;
  * Delete table group action
  */
 
-public class DeleteTableGroupAction extends ContextSelectionAction
-{
+public class DeleteTableGroupAction extends ContextSelectionAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction"; //$NON-NLS-1$
 
-	private String ACTION_MSG_DELETE_GROUP = Messages.getString( "DeleteGroupAction.actionMsg.deleteGroup" ); //$NON-NLS-1$
+	private String ACTION_MSG_DELETE_GROUP = Messages.getString("DeleteGroupAction.actionMsg.deleteGroup"); //$NON-NLS-1$
 
 	/**
 	 * @param part
 	 */
-	public DeleteTableGroupAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( ACTION_MSG_DELETE_GROUP );
+	public DeleteTableGroupAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(ACTION_MSG_DELETE_GROUP);
 	}
 
 	/*
@@ -43,9 +41,8 @@ public class DeleteTableGroupAction extends ContextSelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		return getRowHandles( ).size( ) == 1 && getTableGroup( ) != null;
+	protected boolean calculateEnabled() {
+		return getRowHandles().size() == 1 && getTableGroup() != null;
 	}
 
 	/*
@@ -53,18 +50,15 @@ public class DeleteTableGroupAction extends ContextSelectionAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Delete table action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Delete table action >> Run ..."); //$NON-NLS-1$
 		}
-		if ( getTableGroup( ) != null && getTableEditPart( ) != null )
-		{
-			TableEditPart part = getTableEditPart( );
-			EditPartViewer viewer = part.getViewer( );
-			part.removeGroup( getTableGroup( ) );
-			viewer.select( part );
+		if (getTableGroup() != null && getTableEditPart() != null) {
+			TableEditPart part = getTableEditPart();
+			EditPartViewer viewer = part.getViewer();
+			part.removeGroup(getTableGroup());
+			viewer.select(part);
 		}
 	}
 }

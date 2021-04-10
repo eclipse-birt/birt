@@ -16,32 +16,22 @@ import org.eclipse.birt.report.model.api.scripts.ClassInfo;
 import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.scripts.ScriptableClassInfo;
 
-public class EngineScriptableClassInfo extends ScriptableClassInfo
-		implements
-			IScriptableObjectClassInfo
-{
+public class EngineScriptableClassInfo extends ScriptableClassInfo implements IScriptableObjectClassInfo {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo#
+	 * @see org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo#
 	 * getScriptableClass(java.lang.String)
 	 */
-	public IClassInfo getScriptableClass( String className )
-	{
-		try
-		{
-			Class clazz = Class.forName( className );
-			ClassInfo info = new ClassInfo( clazz );
+	public IClassInfo getScriptableClass(String className) {
+		try {
+			Class clazz = Class.forName(className);
+			ClassInfo info = new ClassInfo(clazz);
 			return info;
-		}
-		catch ( ClassNotFoundException e )
-		{
-			return getClass( className );
-		}
-		catch ( RuntimeException e )
-		{
+		} catch (ClassNotFoundException e) {
+			return getClass(className);
+		} catch (RuntimeException e) {
 			return null;
 		}
 	}

@@ -13,13 +13,10 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures;
 
 import org.eclipse.draw2d.IFigure;
 
-
-public class LevelFigure extends ColumnFigure
-{
-	public void setDeselectedFonts( )
-	{
-		( (IFigure) this.getChildren( ).get( 0 ) ).setFont( selectedFont );
-		repaint( );
+public class LevelFigure extends ColumnFigure {
+	public void setDeselectedFonts() {
+		((IFigure) this.getChildren().get(0)).setFont(selectedFont);
+		repaint();
 	}
-	
+
 }

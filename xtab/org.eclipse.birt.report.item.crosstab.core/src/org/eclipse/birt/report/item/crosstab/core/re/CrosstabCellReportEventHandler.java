@@ -26,64 +26,54 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 /**
  * CrosstabCellReportEventHandler
  */
-public class CrosstabCellReportEventHandler extends ReportEventHandlerBase
-{
+public class CrosstabCellReportEventHandler extends ReportEventHandlerBase {
 
 	private CrosstabHandlerCache handlerCache;
 
-	CrosstabCellReportEventHandler( CrosstabHandlerCache handlerCache )
-	{
+	CrosstabCellReportEventHandler(CrosstabHandlerCache handlerCache) {
 		this.handlerCache = handlerCache;
 	}
 
 	@Override
-	public void onCreate( IOnCreateEvent event ) throws BirtException
-	{
-		DesignElementHandle modelHandle = event.getHandle( );
+	public void onCreate(IOnCreateEvent event) throws BirtException {
+		DesignElementHandle modelHandle = event.getHandle();
 
-		if ( !( modelHandle instanceof ExtendedItemHandle ) )
-		{
+		if (!(modelHandle instanceof ExtendedItemHandle)) {
 			return;
 		}
 
-		String script = handlerCache.getOnCreateScript( modelHandle );
+		String script = handlerCache.getOnCreateScript(modelHandle);
 
-		if ( script == null || script.length( ) == 0 )
-		{
+		if (script == null || script.length() == 0) {
 			return;
 		}
 
-		CrosstabCreationHandler handler = handlerCache.getCreateHandler( modelHandle,
-				event.getContext( ).getApplicationClassLoader( ) );
+		CrosstabCreationHandler handler = handlerCache.getCreateHandler(modelHandle,
+				event.getContext().getApplicationClassLoader());
 
-		handler.handleCell( (CrosstabCellHandle) ( (ExtendedItemHandle) modelHandle ).getReportItem( ),
-				(ICellContent) event.getContent( ),
-				event.getContext( ) );
+		handler.handleCell((CrosstabCellHandle) ((ExtendedItemHandle) modelHandle).getReportItem(),
+				(ICellContent) event.getContent(), event.getContext());
 	}
 
 	@Override
-	public void onRender( IOnRenderEvent event ) throws BirtException
-	{
-		DesignElementHandle modelHandle = event.getHandle( );
+	public void onRender(IOnRenderEvent event) throws BirtException {
+		DesignElementHandle modelHandle = event.getHandle();
 
-		if ( !( modelHandle instanceof ExtendedItemHandle ) )
-		{
+		if (!(modelHandle instanceof ExtendedItemHandle)) {
 			return;
 		}
 
-		String script = handlerCache.getOnRenderScript( modelHandle );
+		String script = handlerCache.getOnRenderScript(modelHandle);
 
-		if ( script == null || script.length( ) == 0 )
-		{
+		if (script == null || script.length() == 0) {
 			return;
 		}
 
-		CrosstabRenderingHandler handler = handlerCache.getRenderHandler( modelHandle,
-				event.getContext( ).getApplicationClassLoader( ) );
+		CrosstabRenderingHandler handler = handlerCache.getRenderHandler(modelHandle,
+				event.getContext().getApplicationClassLoader());
 
-		handler.handleCell( (CrosstabCellHandle) ( (ExtendedItemHandle) modelHandle ).getReportItem( ),
-				(ICellContent) event.getContent( ),
-				event.getContext( ) );
+		handler.handleCell((CrosstabCellHandle) ((ExtendedItemHandle) modelHandle).getReportItem(),
+				(ICellContent) event.getContent(), event.getContext());
 	}
 
 }

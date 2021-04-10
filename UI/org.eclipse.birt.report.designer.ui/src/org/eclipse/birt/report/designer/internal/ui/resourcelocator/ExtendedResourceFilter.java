@@ -17,29 +17,22 @@ import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntr
  * 
  */
 
-public abstract class ExtendedResourceFilter extends ResourceFilter implements
-		Filter
-{
+public abstract class ExtendedResourceFilter extends ResourceFilter implements Filter {
 
-	public ExtendedResourceFilter( )
-	{
+	public ExtendedResourceFilter() {
 	};
 
-	public ExtendedResourceFilter( String type, String displayName,
-			boolean isEnabled )
-	{
-		setType( type );
-		setDisplayName( displayName );
-		setEnabled( isEnabled );
+	public ExtendedResourceFilter(String type, String displayName, boolean isEnabled) {
+		setType(type);
+		setDisplayName(displayName);
+		setEnabled(isEnabled);
 	};
 
-	public ExtendedResourceFilter( String type, String displayName,
-			boolean isEnabled, String helpContent )
-	{
-		setType( type );
-		setDisplayName( displayName );
-		setEnabled( isEnabled );
-		setDescription( helpContent );
+	public ExtendedResourceFilter(String type, String displayName, boolean isEnabled, String helpContent) {
+		setType(type);
+		setDisplayName(displayName);
+		setEnabled(isEnabled);
+		setDescription(helpContent);
 	};
 
 }

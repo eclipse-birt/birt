@@ -17,8 +17,7 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.InvalidRegistryObjectException;
 
 @SuppressWarnings("deprecation")
-public class Extension implements IExtension
-{
+public class Extension implements IExtension {
 
 	protected Bundle bundle;
 	protected String namespace;
@@ -29,85 +28,68 @@ public class Extension implements IExtension
 
 	protected ConfigurationElement[] configuration;
 
-	Extension( Bundle bundle, String id )
-	{
+	Extension(Bundle bundle, String id) {
 		this.bundle = bundle;
-		int dotAt = id.lastIndexOf( '.' );
-		if ( dotAt == -1 )
-		{
-			this.namespace = bundle.getSymbolicName( );
+		int dotAt = id.lastIndexOf('.');
+		if (dotAt == -1) {
+			this.namespace = bundle.getSymbolicName();
 			this.name = id;
-			if ( id.length( ) != 0 )
-			{
+			if (id.length() != 0) {
 				this.uniqueId = this.namespace + "." + id;
 			}
-		}
-		else
-		{
+		} else {
 			this.uniqueId = id;
-			this.name = id.substring( dotAt + 1 );
+			this.name = id.substring(dotAt + 1);
 		}
 	}
 
-	public IConfigurationElement[] getConfigurationElements( )
-	{
+	public IConfigurationElement[] getConfigurationElements() {
 		return configuration;
 	}
 
-	public String getExtensionPointUniqueIdentifier( )
-	{
+	public String getExtensionPointUniqueIdentifier() {
 		return extensionPointId;
 	}
 
-	public String getLabel( )
-	{
+	public String getLabel() {
 		return label;
 	}
 
-	public String getUniqueIdentifier( )
-	{
+	public String getUniqueIdentifier() {
 		return uniqueId != null ? uniqueId : getNamespaceIdentifier();
 	}
 
-	public String getNamespace( )
-	{
+	public String getNamespace() {
 		return namespace;
 	}
 
-	public String toString( )
-	{
-		StringBuilder sb = new StringBuilder( );
-		sb.append( uniqueId );
-		sb.append( " extends " );
-		sb.append( extensionPointId );
-		sb.append( " from " );
-		sb.append( bundle.getSymbolicName( ) );
-		return sb.toString( );
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(uniqueId);
+		sb.append(" extends ");
+		sb.append(extensionPointId);
+		sb.append(" from ");
+		sb.append(bundle.getSymbolicName());
+		return sb.toString();
 	}
 
-	public IContributor getContributor( ) throws InvalidRegistryObjectException
-	{
-		return bundle.getContributor( );
+	public IContributor getContributor() throws InvalidRegistryObjectException {
+		return bundle.getContributor();
 	}
 
-	public String getLabel( String arg0 ) throws InvalidRegistryObjectException
-	{
+	public String getLabel(String arg0) throws InvalidRegistryObjectException {
 		return null;
 	}
 
-	public String getNamespaceIdentifier( )
-			throws InvalidRegistryObjectException
-	{
-		return bundle.getSymbolicName( );
+	public String getNamespaceIdentifier() throws InvalidRegistryObjectException {
+		return bundle.getSymbolicName();
 	}
 
-	public String getSimpleIdentifier( ) throws InvalidRegistryObjectException
-	{
+	public String getSimpleIdentifier() throws InvalidRegistryObjectException {
 		return name;
 	}
 
-	public boolean isValid( )
-	{
+	public boolean isValid() {
 		return true;
 	}
 }

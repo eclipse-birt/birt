@@ -28,39 +28,32 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Cut action
  */
-public class CutAction extends AbstractViewAction
-{
+public class CutAction extends AbstractViewAction {
 
-	private static final String DEFAULT_TEXT = Messages.getString( "CutAction.text" ); //$NON-NLS-1$
+	private static final String DEFAULT_TEXT = Messages.getString("CutAction.text"); //$NON-NLS-1$
 
 	/**
 	 * Create a new cut action with given selection and default text
 	 * 
-	 * @param selectedObject
-	 *            the selected object,which cannot be null
+	 * @param selectedObject the selected object,which cannot be null
 	 * 
 	 */
-	public CutAction( Object selectedObject )
-	{
-		this( selectedObject, DEFAULT_TEXT );
+	public CutAction(Object selectedObject) {
+		this(selectedObject, DEFAULT_TEXT);
 	}
 
 	/**
 	 * Create a new cut action with given selection and text
 	 * 
-	 * @param selectedObject
-	 *            the selected object,which cannot be null
-	 * @param text
-	 *            the text of the action
+	 * @param selectedObject the selected object,which cannot be null
+	 * @param text           the text of the action
 	 */
-	public CutAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
-		ISharedImages shareImages = PlatformUI.getWorkbench( )
-				.getSharedImages( );
-		setImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_CUT ) );
-		setDisabledImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_CUT_DISABLED ) );
-		setAccelerator( SWT.CTRL | 'X' );
+	public CutAction(Object selectedObject, String text) {
+		super(selectedObject, text);
+		ISharedImages shareImages = PlatformUI.getWorkbench().getSharedImages();
+		setImageDescriptor(shareImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
+		setDisabledImageDescriptor(shareImages.getImageDescriptor(ISharedImages.IMG_TOOL_CUT_DISABLED));
+		setAccelerator(SWT.CTRL | 'X');
 	}
 
 	/*
@@ -68,21 +61,17 @@ public class CutAction extends AbstractViewAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
+	public boolean isEnabled() {
 		Object selection = getSelection();
-		
-		if(selection instanceof IStructuredSelection 
-				&& ((IStructuredSelection)selection).getFirstElement( ) instanceof DesignElementHandle)
-		{
-			if( getAdapter() != null && getAdapter().resolveExtendedData( 
-					(DesignElementHandle) ((IStructuredSelection)selection).getFirstElement( ) ) != null)
-			{
-				return createDeleteAction( selection ).isEnabled( );
+
+		if (selection instanceof IStructuredSelection
+				&& ((IStructuredSelection) selection).getFirstElement() instanceof DesignElementHandle) {
+			if (getAdapter() != null && getAdapter().resolveExtendedData(
+					(DesignElementHandle) ((IStructuredSelection) selection).getFirstElement()) != null) {
+				return createDeleteAction(selection).isEnabled();
 			}
 		}
-		return DNDUtil.handleValidateDragInOutline( selection )
-				&& createDeleteAction( selection ).isEnabled( );
+		return DNDUtil.handleValidateDragInOutline(selection) && createDeleteAction(selection).isEnabled();
 	}
 
 	/*
@@ -90,41 +79,34 @@ public class CutAction extends AbstractViewAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.cutCommand", null ); //$NON-NLS-1$
-		}
-		catch ( Exception e )
-		{
-			logger.log(Level.SEVERE, e.getMessage(),e);
+	public void run() {
+
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.cutCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
-	protected DeleteAction createDeleteAction( final Object objects )
-	{
-		return new DeleteAction( objects ) {
+	protected DeleteAction createDeleteAction(final Object objects) {
+		return new DeleteAction(objects) {
 
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction#getTransactionLabel()
+			 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction#
+			 * getTransactionLabel()
 			 */
-			protected String getTransactionLabel( )
-			{
-				if ( objects instanceof IStructuredSelection )
-				{
-					return Messages.getString( "CutAction.trans" ); //$NON-NLS-1$
+			protected String getTransactionLabel() {
+				if (objects instanceof IStructuredSelection) {
+					return Messages.getString("CutAction.trans"); //$NON-NLS-1$
 				}
-				return DEFAULT_TEXT + " " + DEUtil.getDisplayLabel( objects ); //$NON-NLS-1$
+				return DEFAULT_TEXT + " " + DEUtil.getDisplayLabel(objects); //$NON-NLS-1$
 			}
 		};
 	}
-	
-	private IExtendedDataModelUIAdapter getAdapter()
-	{
-		return ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+
+	private IExtendedDataModelUIAdapter getAdapter() {
+		return ExtendedDataModelUIAdapterHelper.getInstance().getAdapter();
 	}
 }

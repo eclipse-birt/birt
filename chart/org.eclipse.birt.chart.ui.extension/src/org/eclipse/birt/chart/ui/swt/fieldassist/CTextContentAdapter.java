@@ -27,34 +27,29 @@ import org.eclipse.swt.widgets.Text;
  * @since 2.5
  */
 
-public class CTextContentAdapter extends TextContentAdapter
-{
+public class CTextContentAdapter extends TextContentAdapter {
 
 	/** The listeners list. */
-	private List<IContentChangeListener> listeners = new ArrayList<IContentChangeListener>( 2 );
+	private List<IContentChangeListener> listeners = new ArrayList<IContentChangeListener>(2);
 
 	/**
 	 * Constructor.
 	 */
-	CTextContentAdapter( )
-	{
-		super( );
+	CTextContentAdapter() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.fieldassist.TextContentAdapter#setControlContents(org
+	 * @see org.eclipse.jface.fieldassist.TextContentAdapter#setControlContents(org
 	 * .eclipse.swt.widgets.Control, java.lang.String, int)
 	 */
-	public void setControlContents( Control control, String text,
-			int cursorPosition )
-	{
-		String oldValue = ( (Text) control ).getText( );
-		( (Text) control ).setText( text );
-		( (Text) control ).setSelection( cursorPosition, cursorPosition );
-		notifyContentChanged( control, ( (Text) control ).getText( ), oldValue );
+	public void setControlContents(Control control, String text, int cursorPosition) {
+		String oldValue = ((Text) control).getText();
+		((Text) control).setText(text);
+		((Text) control).setSelection(cursorPosition, cursorPosition);
+		notifyContentChanged(control, ((Text) control).getText(), oldValue);
 	}
 
 	/*
@@ -64,20 +59,16 @@ public class CTextContentAdapter extends TextContentAdapter
 	 * org.eclipse.jface.fieldassist.IControlContentAdapter#insertControlContents
 	 * (org.eclipse.swt.widgets.Control, java.lang.String, int)
 	 */
-	public void insertControlContents( Control control, String text,
-			int cursorPosition )
-	{
-		String oldValue = ( (Text) control ).getText( );
-		Point selection = ( (Text) control ).getSelection( );
-		( (Text) control ).insert( text );
+	public void insertControlContents(Control control, String text, int cursorPosition) {
+		String oldValue = ((Text) control).getText();
+		Point selection = ((Text) control).getSelection();
+		((Text) control).insert(text);
 		// Insert will leave the cursor at the end of the inserted text. If this
 		// is not what we wanted, reset the selection.
-		if ( cursorPosition < text.length( ) )
-		{
-			( (Text) control ).setSelection( selection.x + cursorPosition,
-					selection.x + cursorPosition );
+		if (cursorPosition < text.length()) {
+			((Text) control).setSelection(selection.x + cursorPosition, selection.x + cursorPosition);
 		}
-		notifyContentChanged( control, ( (Text) control ).getText( ), oldValue );
+		notifyContentChanged(control, ((Text) control).getText(), oldValue);
 	}
 
 	/**
@@ -85,11 +76,9 @@ public class CTextContentAdapter extends TextContentAdapter
 	 * 
 	 * @param listener
 	 */
-	public void addContentChangeListener( IContentChangeListener listener )
-	{
-		if ( !listeners.contains( listener ) )
-		{
-			listeners.add( 0, listener );
+	public void addContentChangeListener(IContentChangeListener listener) {
+		if (!listeners.contains(listener)) {
+			listeners.add(0, listener);
 		}
 	}
 
@@ -98,30 +87,21 @@ public class CTextContentAdapter extends TextContentAdapter
 	 * 
 	 * @param listener
 	 */
-	public void removeContentChangeListener( IContentChangeListener listener )
-	{
-		listeners.remove( listener );
+	public void removeContentChangeListener(IContentChangeListener listener) {
+		listeners.remove(listener);
 	}
 
 	/**
 	 * Notify content is changed to all listeners.
 	 * 
-	 * @param control
-	 *            the control whose content is changed.
-	 * @param newValue
-	 *            the new content.
-	 * @param oldValue
-	 *            the old content.
+	 * @param control  the control whose content is changed.
+	 * @param newValue the new content.
+	 * @param oldValue the old content.
 	 */
-	public void notifyContentChanged( Control control, Object newValue,
-			Object oldValue )
-	{
-		Object[] s = listeners.toArray( );
-		for ( int i = 0; i < s.length; i++ )
-		{
-			( (IContentChangeListener) s[i] ).contentChanged( control,
-					newValue,
-					oldValue );
+	public void notifyContentChanged(Control control, Object newValue, Object oldValue) {
+		Object[] s = listeners.toArray();
+		for (int i = 0; i < s.length; i++) {
+			((IContentChangeListener) s[i]).contentChanged(control, newValue, oldValue);
 		}
 	}
 }

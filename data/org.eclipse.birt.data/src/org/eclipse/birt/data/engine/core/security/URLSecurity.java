@@ -23,8 +23,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public class URLSecurity
-{
+public class URLSecurity {
 	/**
 	 * 
 	 * @param protocol
@@ -34,31 +33,25 @@ public class URLSecurity
 	 * @throws MalformedURLException
 	 * @throws DataException
 	 */
-	public static URL getURL( final String protocol, final String host,
-			final String file ) throws MalformedURLException, DataException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<URL>( ) {
+	public static URL getURL(final String protocol, final String host, final String file)
+			throws MalformedURLException, DataException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<URL>() {
 
-				public URL run( ) throws MalformedURLException
-				{
-					return new URL( protocol, host, file );
+				public URL run() throws MalformedURLException {
+					return new URL(protocol, host, file);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof MalformedURLException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof MalformedURLException) {
 				throw (MalformedURLException) typedException;
 			}
-			throw new DataException( e.getLocalizedMessage( ) );
+			throw new DataException(e.getLocalizedMessage());
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * @param spec
@@ -66,26 +59,20 @@ public class URLSecurity
 	 * @throws MalformedURLException
 	 * @throws DataException
 	 */
-	public static URL getURL( final String spec ) throws MalformedURLException, DataException
-	{
-		try
-		{
-			return AccessController.doPrivileged( new PrivilegedExceptionAction<URL>( ) {
+	public static URL getURL(final String spec) throws MalformedURLException, DataException {
+		try {
+			return AccessController.doPrivileged(new PrivilegedExceptionAction<URL>() {
 
-				public URL run( ) throws MalformedURLException
-				{
-					return new URL( spec );
+				public URL run() throws MalformedURLException {
+					return new URL(spec);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof MalformedURLException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof MalformedURLException) {
 				throw (MalformedURLException) typedException;
 			}
-			throw new DataException( e.getLocalizedMessage( ) );
+			throw new DataException(e.getLocalizedMessage());
 		}
 
 	}

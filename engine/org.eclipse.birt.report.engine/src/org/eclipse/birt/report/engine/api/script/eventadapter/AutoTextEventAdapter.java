@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api.script.eventadapter;
 
-
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IAutoText;
@@ -21,27 +20,18 @@ import org.eclipse.birt.report.engine.api.script.instance.IAutoTextInstance;
 /**
  * Default (empty) implementation of the IAutoTextEventHandler interface
  */
-public class AutoTextEventAdapter implements IAutoTextEventHandler
-{
+public class AutoTextEventAdapter implements IAutoTextEventHandler {
 
-	public void onCreate( IAutoTextInstance autoTextInstance,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void onCreate(IAutoTextInstance autoTextInstance, IReportContext reportContext) throws ScriptException {
 	}
 
-	public void onPageBreak( IAutoTextInstance autoTextInstance,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void onPageBreak(IAutoTextInstance autoTextInstance, IReportContext reportContext) throws ScriptException {
 	}
 
-	public void onPrepare( IAutoText autoText, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onPrepare(IAutoText autoText, IReportContext reportContext) throws ScriptException {
 	}
 
-	public void onRender( IAutoTextInstance autoTextInstance,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void onRender(IAutoTextInstance autoTextInstance, IReportContext reportContext) throws ScriptException {
 	}
 
 }

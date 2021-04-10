@@ -13,14 +13,13 @@ package org.eclipse.birt.report.engine.nLayout.area;
 
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
-public interface ITextArea extends IArea
-{
+public interface ITextArea extends IArea {
 
-	String getText( );
+	String getText();
 
-	String getLogicalOrderText( );
+	String getLogicalOrderText();
 
-	TextStyle getTextStyle( );
-	
-	boolean needClip( );
+	TextStyle getTextStyle();
+
+	boolean needClip();
 }

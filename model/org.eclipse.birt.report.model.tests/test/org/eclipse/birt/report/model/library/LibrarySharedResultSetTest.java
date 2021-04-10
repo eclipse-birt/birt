@@ -40,8 +40,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  */
 
-public class LibrarySharedResultSetTest extends BaseTestCase
-{
+public class LibrarySharedResultSetTest extends BaseTestCase {
 
 	/**
 	 * Shared Result set report items cannot be extended.
@@ -49,46 +48,33 @@ public class LibrarySharedResultSetTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testCannotExtends( ) throws Exception
-	{
-		openDesign( "BlankDesign.xml" ); //$NON-NLS-1$
+	public void testCannotExtends() throws Exception {
+		openDesign("BlankDesign.xml"); //$NON-NLS-1$
 
-		designHandle.includeLibrary( "SharedResultSetLibrary.xml", "lib1" ); //$NON-NLS-1$ //$NON-NLS-2$
+		designHandle.includeLibrary("SharedResultSetLibrary.xml", "lib1"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		libraryHandle = designHandle.getLibrary( "lib1" ); //$NON-NLS-1$
-		assertTrue( libraryHandle.isValid( ) );
-		TableHandle table2 = (TableHandle) libraryHandle.findElement( "table2" ); //$NON-NLS-1$
-		assertEquals( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF, table2
-				.getDataBindingType( ) );
+		libraryHandle = designHandle.getLibrary("lib1"); //$NON-NLS-1$
+		assertTrue(libraryHandle.isValid());
+		TableHandle table2 = (TableHandle) libraryHandle.findElement("table2"); //$NON-NLS-1$
+		assertEquals(ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF, table2.getDataBindingType());
 
-		try
-		{
-			designHandle.getElementFactory( ).newElementFrom( table2,
-					"newTable2" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( ExtendsException e )
-		{
-			assertEquals(
-					ExtendsForbiddenException.DESIGN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND,
-					e.getErrorCode( ) );
+		try {
+			designHandle.getElementFactory().newElementFrom(table2, "newTable2"); //$NON-NLS-1$
+			fail();
+		} catch (ExtendsException e) {
+			assertEquals(ExtendsForbiddenException.DESIGN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND, e.getErrorCode());
 		}
 
 		// tests extend report item which contains an result set shared report
 		// item.
 
-		DesignElementHandle grid = libraryHandle.findElement( "NewGrid" );//$NON-NLS-1$
+		DesignElementHandle grid = libraryHandle.findElement("NewGrid");//$NON-NLS-1$
 
-		try
-		{
-			designHandle.getElementFactory( ).newElementFrom( grid, "newGrid" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( ExtendsException e )
-		{
-			assertEquals(
-					ExtendsForbiddenException.DESIGN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND,
-					e.getErrorCode( ) );
+		try {
+			designHandle.getElementFactory().newElementFrom(grid, "newGrid"); //$NON-NLS-1$
+			fail();
+		} catch (ExtendsException e) {
+			assertEquals(ExtendsForbiddenException.DESIGN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND, e.getErrorCode());
 		}
 
 	}

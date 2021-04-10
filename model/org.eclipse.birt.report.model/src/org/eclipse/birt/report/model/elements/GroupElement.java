@@ -28,10 +28,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * 
  */
 
-public abstract class GroupElement extends DesignElement
-		implements
-			IGroupElementModel
-{
+public abstract class GroupElement extends DesignElement implements IGroupElementModel {
 
 	/**
 	 * The constants value representing no group level.
@@ -49,10 +46,9 @@ public abstract class GroupElement extends DesignElement
 	 * Default constructor. Note that groups do not have names.
 	 */
 
-	public GroupElement( )
-	{
-		initSlots( );
-		cachedPropStrategy = GroupPropSearchStrategy.getInstance( );
+	public GroupElement() {
+		initSlots();
+		cachedPropStrategy = GroupPropSearchStrategy.getInstance();
 	}
 
 	/*
@@ -61,27 +57,24 @@ public abstract class GroupElement extends DesignElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
-	public ContainerSlot getSlot( int slot )
-	{
+	public ContainerSlot getSlot(int slot) {
 		assert slot >= 0 && slot < SLOT_COUNT;
 		return slots[slot];
 	}
 
 	/**
-	 * Returns the level of this group within the list. The grouping level is
-	 * cached for performance.
+	 * Returns the level of this group within the list. The grouping level is cached
+	 * for performance.
 	 * 
 	 * @return the 1-based grouping level of this group
 	 */
 
-	public int getGroupLevel( )
-	{
-		DesignElement container = getContainer( );
-		if ( container == null )
+	public int getGroupLevel() {
+		DesignElement container = getContainer();
+		if (container == null)
 			groupLevel = LEVEL_NOT_SET;
-		else
-		{
-			groupLevel = getContainerInfo( ).indexOf( this ) + 1;
+		else {
+			groupLevel = getContainerInfo().indexOf(this) + 1;
 		}
 		return groupLevel;
 	}
@@ -89,20 +82,17 @@ public abstract class GroupElement extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List<SemanticException> validate( Module module )
-	{
-		List<SemanticException> list = super.validate( module );
+	public List<SemanticException> validate(Module module) {
+		List<SemanticException> list = super.validate(module);
 
-		list.addAll( validateStructureList( module, SORT_PROP ) );
-		list.addAll( validateStructureList( module, FILTER_PROP ) );
+		list.addAll(validateStructureList(module, SORT_PROP));
+		list.addAll(validateStructureList(module, FILTER_PROP));
 
-		list.addAll( ValueRequiredValidator.getInstance( ).validate( module,
-				this, KEY_EXPR_PROP ) );
+		list.addAll(ValueRequiredValidator.getInstance().validate(module, this, KEY_EXPR_PROP));
 
 		return list;
 	}
@@ -114,70 +104,60 @@ public abstract class GroupElement extends DesignElement
 	 * org.eclipse.birt.report.model.core.DesignElement#getNameForDisplayLabel()
 	 */
 
-	protected String getNameForDisplayLabel( )
-	{
+	protected String getNameForDisplayLabel() {
 		// This getting is not relative to design.
 
-		ElementPropertyDefn propDefn = (ElementPropertyDefn) getDefn( )
-				.getProperty( GROUP_NAME_PROP );
-		return (String) getStrategy( ).getPropertyFromElement( null, this,
-				propDefn );
+		ElementPropertyDefn propDefn = (ElementPropertyDefn) getDefn().getProperty(GROUP_NAME_PROP);
+		return (String) getStrategy().getPropertyFromElement(null, this, propDefn);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getFactoryProperty(org
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getFactoryProperty(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
-	public Object getFactoryProperty( Module module, ElementPropertyDefn prop )
-	{
-		if ( !prop.isStyleProperty( ) )
-			return super.getFactoryProperty( module, prop );
+	public Object getFactoryProperty(Module module, ElementPropertyDefn prop) {
+		if (!prop.isStyleProperty())
+			return super.getFactoryProperty(module, prop);
 
-		return getStrategy( ).getPropertyFromElement( module, this, prop );
+		return getStrategy().getPropertyFromElement(module, this, prop);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#canDrop(org.eclipse.
+	 * @see org.eclipse.birt.report.model.core.DesignElement#canDrop(org.eclipse.
 	 * birt.report.model.core.Module)
 	 */
 
-	public boolean canDrop( Module module )
-	{
-		boolean retValue = super.canDrop( module );
-		if ( !retValue )
+	public boolean canDrop(Module module) {
+		boolean retValue = super.canDrop(module);
+		if (!retValue)
 			return retValue;
 
-		return !isReferredDataGroup( module );
+		return !isReferredDataGroup(module);
 	}
 
 	/**
 	 * Checks whether the group refers to groups in the other listing element.
 	 * 
-	 * @param module
-	 *            the root of the group element
+	 * @param module the root of the group element
 	 * @return <code>true</code> if the group shares data with other groups.
 	 *         Otherwise <code>false</code>.
 	 */
 
-	private boolean isReferredDataGroup( Module module )
-	{
-		ListingElement tmpContainer = (ListingElement) getContainer( );
-		if ( tmpContainer == null )
+	private boolean isReferredDataGroup(Module module) {
+		ListingElement tmpContainer = (ListingElement) getContainer();
+		if (tmpContainer == null)
 			return false;
 
-		return tmpContainer.isDataBindingReferring( module );
+		return tmpContainer.isDataBindingReferring(module);
 	}
 
-	public void setName( String name )
-	{
-		this.setProperty( GROUP_NAME_PROP, name );
+	public void setName(String name) {
+		this.setProperty(GROUP_NAME_PROP, name);
 	}
 }

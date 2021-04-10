@@ -17,6 +17,5 @@ package org.eclipse.birt.report.engine.content;
  * This interface represents styled containers in the elements tree of the
  * report.
  */
-public interface IContainerContent extends IContent
-{
+public interface IContainerContent extends IContent {
 }

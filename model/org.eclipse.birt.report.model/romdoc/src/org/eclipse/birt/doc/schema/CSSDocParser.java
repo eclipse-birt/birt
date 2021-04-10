@@ -23,38 +23,33 @@ import org.eclipse.birt.doc.util.HtmlDocReader;
  *
  */
 
-public class CSSDocParser  extends HtmlDocReader
-{
+public class CSSDocParser extends HtmlDocReader {
 	/**
 	 * css map, key is css property name , value is css property value.
 	 */
-	
+
 	protected Map cssMap = new HashMap();
 
 	String templateDir = "romdoc/docs/css/CssProperty.html"; //$NON-NLS-1$
 
 	/**
 	 * Parser css property html.
+	 * 
 	 * @throws ParseException
 	 */
-	
-	public void parse(  ) throws ParseException
-	{
-		try
-		{
-			parser.open( templateDir );
-		}
-		catch ( FileNotFoundException e )
-		{
+
+	public void parse() throws ParseException {
+		try {
+			parser.open(templateDir);
+		} catch (FileNotFoundException e) {
 			return;
 		}
 
-		parseElement( );
+		parseElement();
 	}
 
 	/**
-	 * Parser element.
-	 * format is :
+	 * Parser element. format is :
 	 * <tr>
 	 * <td>name
 	 * <td>values
@@ -62,65 +57,61 @@ public class CSSDocParser  extends HtmlDocReader
 	 * @throws ParseException
 	 * 
 	 */
-	private void parseElement( ) throws ParseException
-	{
-		skipTo( "table" );//$NON-NLS-1$
+	private void parseElement() throws ParseException {
+		skipTo("table");//$NON-NLS-1$
 
-		for ( ;; )
-		{
-			int token = getToken( );
-			if ( token == HTMLParser.EOF )
+		for (;;) {
+			int token = getToken();
+			if (token == HTMLParser.EOF)
 				return;
-			
-			if( isElement( token , "/table" ))//$NON-NLS-1$
+
+			if (isElement(token, "/table"))//$NON-NLS-1$
 				return;
-			assert ( isElement( token, "tr" )  );//$NON-NLS-1$
-			
-			token = getToken( );
-			assert( isElement( token, "td"));//$NON-NLS-1$
-			
+			assert (isElement(token, "tr"));//$NON-NLS-1$
+
 			token = getToken();
-			assert( token == HTMLParser.TEXT );
-			String name = parser.getTokenText( ).trim( );
-			
+			assert (isElement(token, "td"));//$NON-NLS-1$
+
 			token = getToken();
-			assert( isElement( token , "td"));//$NON-NLS-1$
-			
+			assert (token == HTMLParser.TEXT);
+			String name = parser.getTokenText().trim();
+
 			token = getToken();
-			assert( token == HTMLParser.TEXT );
-			String values = parser.getTokenText( ).trim( );
-			
-			//parser template name, the seperate is ','.
-			
-			if( name.indexOf(  "," ) == -1 )//$NON-NLS-1$
+			assert (isElement(token, "td"));//$NON-NLS-1$
+
+			token = getToken();
+			assert (token == HTMLParser.TEXT);
+			String values = parser.getTokenText().trim();
+
+			// parser template name, the seperate is ','.
+
+			if (name.indexOf(",") == -1)//$NON-NLS-1$
 			{
-				cssMap.put(  name , values );
+				cssMap.put(name, values);
 				continue;
 			}
-			String[] nameList = name.split( "," );//$NON-NLS-1$
-			for( int i=0; i<nameList.length ; ++i)
-			{
-				String subName = nameList[i].trim( );
-				cssMap.put( subName , values );
+			String[] nameList = name.split(",");//$NON-NLS-1$
+			for (int i = 0; i < nameList.length; ++i) {
+				String subName = nameList[i].trim();
+				cssMap.put(subName, values);
 			}
 		}
 	}
-	
-	static class ParseException extends Exception
-	{
+
+	static class ParseException extends Exception {
 
 		/**
 		 * UID
 		 */
 		private static final long serialVersionUID = 1L;
-		
+
 		/**
 		 * Constructor
+		 * 
 		 * @param msg exception message
 		 */
-		public ParseException( String msg )
-		{
-			super( msg );
+		public ParseException(String msg) {
+			super(msg);
 		}
 	}
 

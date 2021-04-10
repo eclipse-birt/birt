@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 /**
  * 
  */
-public class DimensionNameHelper extends AbstractNameHelper
-{
+public class DimensionNameHelper extends AbstractNameHelper {
 
 	protected Dimension dimension = null;
 
@@ -28,16 +27,13 @@ public class DimensionNameHelper extends AbstractNameHelper
 	 * 
 	 * @param dimension
 	 */
-	public DimensionNameHelper( Dimension dimension )
-	{
-		super( );
+	public DimensionNameHelper(Dimension dimension) {
+		super();
 		this.dimension = dimension;
 	}
 
-	protected INameContext createNameContext( String name )
-	{
-		return NameContextFactory.createDimensionNameContext( dimension,
-				Dimension.LEVEL_NAME_SPACE );
+	protected INameContext createNameContext(String name) {
+		return NameContextFactory.createDimensionNameContext(dimension, Dimension.LEVEL_NAME_SPACE);
 	}
 
 	/**
@@ -45,40 +41,34 @@ public class DimensionNameHelper extends AbstractNameHelper
 	 * 
 	 * @param element
 	 */
-	public void addElement( DesignElement element )
-	{
-		if ( element == null || element.getName( ) == null )
+	public void addElement(DesignElement element) {
+		if (element == null || element.getName() == null)
 			return;
-		ElementDefn defn = (ElementDefn) element.getDefn( );
-		if ( !dimension.getDefn( ).isKindOf(
-				defn.getNameConfig( ).getNameContainer( ) ) )
+		ElementDefn defn = (ElementDefn) element.getDefn();
+		if (!dimension.getDefn().isKindOf(defn.getNameConfig().getNameContainer()))
 			return;
-		String id = defn.getNameSpaceID( );
-		NameSpace ns = getCachedNameSpace( id );
-		if ( !ns.contains( element.getName( ) ) )
-			ns.insert( element );
+		String id = defn.getNameSpaceID();
+		NameSpace ns = getCachedNameSpace(id);
+		if (!ns.contains(element.getName()))
+			ns.insert(element);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#addContentName
+	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#addContentName
 	 * (int, java.lang.String)
 	 */
-	public void addContentName( String id, String name )
-	{
+	public void addContentName(String id, String name) {
 		// do nothing
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameHelper#getElement()
+	 * @see org.eclipse.birt.report.model.core.namespace.INameHelper#getElement()
 	 */
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return dimension;
 	}
 }

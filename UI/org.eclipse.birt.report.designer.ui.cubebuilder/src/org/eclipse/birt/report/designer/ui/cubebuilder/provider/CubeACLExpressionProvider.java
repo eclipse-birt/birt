@@ -16,41 +16,32 @@ import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
- * The expression provider for the Access Control List Expressions. 
- * Basically this is the default CubeExpressionProvider except that 
- * it filters the data set row category for the data set rows 
- * are not available while evaluating the ACL expression for a level.
+ * The expression provider for the Access Control List Expressions. Basically
+ * this is the default CubeExpressionProvider except that it filters the data
+ * set row category for the data set rows are not available while evaluating the
+ * ACL expression for a level.
  */
-public class CubeACLExpressionProvider extends CubeExpressionProvider
-{
-	public CubeACLExpressionProvider(DesignElementHandle handle)
-	{
+public class CubeACLExpressionProvider extends CubeExpressionProvider {
+	public CubeACLExpressionProvider(DesignElementHandle handle) {
 		super(handle);
 	}
 
-	protected void addFilterToProvider()
-	{
-		this.addFilter( new ExpressionFilter( ) {
+	protected void addFilterToProvider() {
+		this.addFilter(new ExpressionFilter() {
 
-			public boolean select( Object parentElement, Object element )
-			{
-				if ( ExpressionFilter.CATEGORY.equals( parentElement )
-						&& ExpressionProvider.CURRENT_CUBE.equals( element ) )
-				{
+			public boolean select(Object parentElement, Object element) {
+				if (ExpressionFilter.CATEGORY.equals(parentElement)
+						&& ExpressionProvider.CURRENT_CUBE.equals(element)) {
 					return false;
 				}
-				if ( ExpressionFilter.CATEGORY.equals( parentElement )
-						&& ExpressionProvider.MEASURE.equals( element ) )
-				{
+				if (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.MEASURE.equals(element)) {
 					return false;
 				}
-				if ( ExpressionFilter.CATEGORY.equals( parentElement )
-						&& ExpressionProvider.DATASETS.equals( element ) )
-				{
+				if (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.DATASETS.equals(element)) {
 					return false;
 				}
 				return true;
 			}
-		} );
+		});
 	}
 }

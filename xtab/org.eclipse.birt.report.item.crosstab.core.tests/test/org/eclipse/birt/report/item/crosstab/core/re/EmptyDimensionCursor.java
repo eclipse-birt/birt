@@ -17,41 +17,33 @@ import javax.olap.OLAPException;
  * 
  */
 
-public class EmptyDimensionCursor extends DummyDimensionCursor
-{
+public class EmptyDimensionCursor extends DummyDimensionCursor {
 
-	public EmptyDimensionCursor( )
-	{
-		super( 1 );
+	public EmptyDimensionCursor() {
+		super(1);
 	}
-	
-	public boolean isFirst( ) throws OLAPException
-	{
+
+	public boolean isFirst() throws OLAPException {
 		return false;
 	}
-	
-	public boolean isLast( ) throws OLAPException
-	{
+
+	public boolean isLast() throws OLAPException {
 		return false;
 	}
-	
-	public boolean next( ) throws OLAPException
-	{
+
+	public boolean next() throws OLAPException {
 		return false;
 	}
-	
-	public long getPosition( ) throws OLAPException
-	{
+
+	public long getPosition() throws OLAPException {
 		return -1;
 	}
-	
-	public long getEdgeEnd( ) throws OLAPException
-	{
+
+	public long getEdgeEnd() throws OLAPException {
 		return -1;
 	}
-	
-	public long getEdgeStart( ) throws OLAPException
-	{
+
+	public long getEdgeStart() throws OLAPException {
 		return -1;
 	}
 }

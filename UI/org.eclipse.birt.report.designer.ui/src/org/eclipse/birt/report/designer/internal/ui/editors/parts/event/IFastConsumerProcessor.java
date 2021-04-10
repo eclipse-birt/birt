@@ -12,14 +12,16 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.parts.event;
 
 /**
- * Because the outline processot is create frequently, and now hasn't a good way to 
- * remove the processor from the manager, so the interface use to manage this kind of processor.
- * When the processod is overdued, Event manager remove the processor.
+ * Because the outline processot is create frequently, and now hasn't a good way
+ * to remove the processor from the manager, so the interface use to manage this
+ * kind of processor. When the processod is overdued, Event manager remove the
+ * processor.
  */
 
-public interface IFastConsumerProcessor extends IModelEventProcessor
-{
-	/**If the processor is overdued.
+public interface IFastConsumerProcessor extends IModelEventProcessor {
+	/**
+	 * If the processor is overdued.
+	 * 
 	 * @return
 	 */
 	boolean isOverdued();

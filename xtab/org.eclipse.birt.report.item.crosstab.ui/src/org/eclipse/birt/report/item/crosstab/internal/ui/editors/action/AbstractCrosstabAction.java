@@ -19,43 +19,37 @@ import org.eclipse.jface.action.Action;
 /**
  * Abstract class for the cross tab action.
  */
-public abstract class AbstractCrosstabAction extends Action
-{
+public abstract class AbstractCrosstabAction extends Action {
 
 	private DesignElementHandle handle = null;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param handle
-	 *            the element handle
+	 * @param handle the element handle
 	 */
-	public AbstractCrosstabAction( DesignElementHandle handle )
-	{
-		super( );
+	public AbstractCrosstabAction(DesignElementHandle handle) {
+		super();
 		this.handle = handle;
 	}
 
 	/**
 	 * Star the trans for the special name.
 	 * 
-	 * @param name
-	 *            trans name
+	 * @param name trans name
 	 */
-	public void transStar( String name )
-	{
-		CommandStack stack = handle.getModuleHandle( ).getCommandStack( );
+	public void transStar(String name) {
+		CommandStack stack = handle.getModuleHandle().getCommandStack();
 		// start trans
-		stack.startTrans( name );
+		stack.startTrans(name);
 	}
 
 	/**
 	 * Ends a transaction on the current activity stack
 	 */
-	public void transEnd( )
-	{
-		CommandStack stack = handle.getModuleHandle( ).getCommandStack( );
-		stack.commit( );
+	public void transEnd() {
+		CommandStack stack = handle.getModuleHandle().getCommandStack();
+		stack.commit();
 	}
 
 	/**
@@ -63,8 +57,7 @@ public abstract class AbstractCrosstabAction extends Action
 	 * 
 	 * @return
 	 */
-	public DesignElementHandle getHandle( )
-	{
+	public DesignElementHandle getHandle() {
 		return handle;
 	}
 
@@ -73,22 +66,19 @@ public abstract class AbstractCrosstabAction extends Action
 	 * 
 	 * @param handle
 	 */
-	public void setHandle( DesignElementHandle handle )
-	{
+	public void setHandle(DesignElementHandle handle) {
 		this.handle = handle;
 	}
 
 	/**
 	 * 
 	 */
-	protected void rollBack( )
-	{
-		handle.getModuleHandle( ).getCommandStack( ).rollback( );
+	protected void rollBack() {
+		handle.getModuleHandle().getCommandStack().rollback();
 	}
 
-	public boolean isEnabled( )
-	{
-		return !DEUtil.isReferenceElement( handle );
+	public boolean isEnabled() {
+		return !DEUtil.isReferenceElement(handle);
 	}
 
 }

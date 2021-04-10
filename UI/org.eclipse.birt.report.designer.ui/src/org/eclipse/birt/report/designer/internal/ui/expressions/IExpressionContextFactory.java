@@ -14,8 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.expressions;
 /**
  * IExpressionContextFactory
  */
-public interface IExpressionContextFactory
-{
+public interface IExpressionContextFactory {
 
-	IExpressionContext getContext( String expressionType, Object contextObj );
+	IExpressionContext getContext(String expressionType, Object contextObj);
 }

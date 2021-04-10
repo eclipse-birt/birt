@@ -38,8 +38,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.lowagie.text.pdf.PdfTemplate;
 
-public class PDFRender extends PageDeviceRender
-{
+public class PDFRender extends PageDeviceRender {
 
 	/**
 	 * The output stream
@@ -52,78 +51,63 @@ public class PDFRender extends PageDeviceRender
 
 	protected PDFPageDevice currentPageDevice = null;
 
-	protected HashSet<String> bookmarks = new HashSet<String>( );
+	protected HashSet<String> bookmarks = new HashSet<String>();
 
-	public PDFRender( IEmitterServices services ) throws EngineException
-	{
-		initialize( services );
+	public PDFRender(IEmitterServices services) throws EngineException {
+		initialize(services);
 	}
 
-	public IPageDevice createPageDevice( String title, String author,
-			String subject, String description, IReportContext context,
-			IReportContent report ) throws Exception
-	{
-		currentPageDevice = new PDFPageDevice( output, title, author, subject,
-				description, context, report );
+	public IPageDevice createPageDevice(String title, String author, String subject, String description,
+			IReportContext context, IReportContent report) throws Exception {
+		currentPageDevice = new PDFPageDevice(output, title, author, subject, description, context, report);
 		return currentPageDevice;
 	}
 
-	public String getOutputFormat( )
-	{
+	public String getOutputFormat() {
 		return "pdf";
 	}
 
-	protected void newPage( IContainerArea page )
-	{
-		super.newPage( page );
+	protected void newPage(IContainerArea page) {
+		super.newPage(page);
 		currentPage = (PDFPage) pageGraphic;
 	}
 
-	public void visitImage( IImageArea imageArea )
-	{
-		int imageX = currentX + getX( imageArea );
-		int imageY = currentY + getY( imageArea );
-		super.visitImage( imageArea );
-		createBookmark( imageArea, imageX, imageY );
-		createHyperlink( imageArea, imageX, imageY );
+	public void visitImage(IImageArea imageArea) {
+		int imageX = currentX + getX(imageArea);
+		int imageY = currentY + getY(imageArea);
+		super.visitImage(imageArea);
+		createBookmark(imageArea, imageX, imageY);
+		createHyperlink(imageArea, imageX, imageY);
 	}
 
-	public void visitText( ITextArea textArea )
-	{
-		super.visitText( textArea );
-		int x = currentX + getX( textArea );
-		int y = currentY + getY( textArea );
-		createBookmark( textArea, x, y );
-		createHyperlink( textArea, x, y );
+	public void visitText(ITextArea textArea) {
+		super.visitText(textArea);
+		int x = currentX + getX(textArea);
+		int y = currentY + getY(textArea);
+		createBookmark(textArea, x, y);
+		createHyperlink(textArea, x, y);
 	}
 
-	public void visitAutoText( ITemplateArea templateArea )
-	{
-		super.visitAutoText( templateArea );
-		int x = currentX + getX( templateArea );
-		int y = currentY + getY( templateArea );
+	public void visitAutoText(ITemplateArea templateArea) {
+		super.visitAutoText(templateArea);
+		int x = currentX + getX(templateArea);
+		int y = currentY + getY(templateArea);
 		// create template according to the page scale
-		createTotalPageTemplate( x, y, getWidth( templateArea ),
-				getHeight( templateArea ), scale );
+		createTotalPageTemplate(x, y, getWidth(templateArea), getHeight(templateArea), scale);
 	}
 
-	public void setTotalPage( ITextArea totalPage )
-	{
-		super.setTotalPage( totalPage );
+	public void setTotalPage(ITextArea totalPage) {
+		super.setTotalPage(totalPage);
 		isTotalPage = true;
-		HashMap<Float, PdfTemplate> map = ( (PDFPageDevice) pageDevice )
-				.getTemplateMap( );
-		if ( !map.isEmpty( ) )
-		{
+		HashMap<Float, PdfTemplate> map = ((PDFPageDevice) pageDevice).getTemplateMap();
+		if (!map.isEmpty()) {
 			float scaleCache = this.scale;
-			for ( Entry<Float, PdfTemplate> e : map.entrySet( ) )
-			{
-				Float s = e.getKey( );
-				PdfTemplate template = e.getValue( );
-				if ( template != null )
-				{
-					this.scale = s.floatValue( );
-					drawText( totalPage );
+			for (Entry<Float, PdfTemplate> e : map.entrySet()) {
+				Float s = e.getKey();
+				PdfTemplate template = e.getValue();
+				if (template != null) {
+					this.scale = s.floatValue();
+					drawText(totalPage);
 				}
 			}
 			this.scale = scaleCache;
@@ -134,138 +118,105 @@ public class PDFRender extends PageDeviceRender
 	/**
 	 * Closes the document.
 	 *
-	 * @param rc
-	 *            the report content.
+	 * @param rc the report content.
 	 */
-	public void end( IReportContent rc )
-	{
-		createTOC( );
-		super.end( rc );
+	public void end(IReportContent rc) {
+		createTOC();
+		super.end(rc);
 	}
 
-	protected void drawContainer( IContainerArea container )
-	{
-		super.drawContainer( container );
-		int x = currentX + getX( container );
-		int y = currentY + getY( container );
-		createBookmark( container, x, y );
-		createHyperlink( container, x, y );
+	protected void drawContainer(IContainerArea container) {
+		super.drawContainer(container);
+		int x = currentX + getX(container);
+		int y = currentY + getY(container);
+		createBookmark(container, x, y);
+		createHyperlink(container, x, y);
 	}
 
 	/**
 	 * Initializes the pdfEmitter.
 	 *
-	 * @param services
-	 *            the emitter services object.
+	 * @param services the emitter services object.
 	 * @throws EngineException
 	 */
-	private void initialize( IEmitterServices services ) throws EngineException
-	{
+	private void initialize(IEmitterServices services) throws EngineException {
 		this.services = services;
 		// Gets the output file name from RenderOptionBase.OUTPUT_FILE_NAME.
 		// It has the top preference.
-		reportRunnable = services.getReportRunnable( );
-		if ( reportRunnable != null )
-		{
-			reportDesign = (ReportDesignHandle) reportRunnable
-					.getDesignHandle( );
+		reportRunnable = services.getReportRunnable();
+		if (reportRunnable != null) {
+			reportDesign = (ReportDesignHandle) reportRunnable.getDesignHandle();
 		}
 
-		this.context = services.getReportContext( );
-		this.output = EmitterUtil.getOuputStream( services, "report.pdf" );
+		this.context = services.getReportContext();
+		this.output = EmitterUtil.getOuputStream(services, "report.pdf");
 	}
 
-	protected void drawTextAt( ITextArea text, int x, int y, int width,
-			int height, TextStyle textInfo )
-	{
-		if ( isTotalPage )
-		{
-			currentPage.drawTotalPage( text.getText( ), x, y, width, height,
-					textInfo, scale );
-		}
-		else
-		{
-			currentPage.drawText( text.getText( ), x, y, width, height,
-					textInfo );
+	protected void drawTextAt(ITextArea text, int x, int y, int width, int height, TextStyle textInfo) {
+		if (isTotalPage) {
+			currentPage.drawTotalPage(text.getText(), x, y, width, height, textInfo, scale);
+		} else {
+			currentPage.drawText(text.getText(), x, y, width, height, textInfo);
 		}
 	}
 
-	private void createHyperlink( IArea area, int x, int y )
-	{
-		IHyperlinkAction hlAction = area.getAction( );
-		if ( null != hlAction )
-			try
-			{
-				String systemId = reportRunnable == null
-						? null
-						: reportRunnable.getReportName( );
-				int width = getWidth( area );
-				int height = getHeight( area );
-				String bookmark = hlAction.getBookmark( );
-				String targetWindow = hlAction.getTargetWindow( );
-				int type = hlAction.getType( );
-				Action act = new Action( systemId, hlAction );
+	private void createHyperlink(IArea area, int x, int y) {
+		IHyperlinkAction hlAction = area.getAction();
+		if (null != hlAction)
+			try {
+				String systemId = reportRunnable == null ? null : reportRunnable.getReportName();
+				int width = getWidth(area);
+				int height = getHeight(area);
+				String bookmark = hlAction.getBookmark();
+				String targetWindow = hlAction.getTargetWindow();
+				int type = hlAction.getType();
+				Action act = new Action(systemId, hlAction);
 				String link = null;
 				IHTMLActionHandler actionHandler = null;
-				Object ac = services.getOption( RenderOption.ACTION_HANDLER );
-				if ( ac != null && ac instanceof IHTMLActionHandler )
-				{
+				Object ac = services.getOption(RenderOption.ACTION_HANDLER);
+				if (ac != null && ac instanceof IHTMLActionHandler) {
 					actionHandler = (IHTMLActionHandler) ac;
 				}
-				if ( actionHandler != null )
-				{
-					link = actionHandler.getURL( act, context );
-				}
-				else
-				{
-					link = hlAction.getHyperlink( );
+				if (actionHandler != null) {
+					link = actionHandler.getURL(act, context);
+				} else {
+					link = hlAction.getHyperlink();
 				}
 
-				switch ( type )
-				{
-					case IHyperlinkAction.ACTION_BOOKMARK :
-						currentPage.createHyperlink( link, bookmark,
-								targetWindow, type, x, y, width, height );
-						break;
+				switch (type) {
+				case IHyperlinkAction.ACTION_BOOKMARK:
+					currentPage.createHyperlink(link, bookmark, targetWindow, type, x, y, width, height);
+					break;
 
-					case IHyperlinkAction.ACTION_HYPERLINK :
-						currentPage.createHyperlink( link, null, targetWindow,
-								type, x, y, width, height );
-						break;
+				case IHyperlinkAction.ACTION_HYPERLINK:
+					currentPage.createHyperlink(link, null, targetWindow, type, x, y, width, height);
+					break;
 
-					case IHyperlinkAction.ACTION_DRILLTHROUGH :
-						currentPage.createHyperlink( link, null, targetWindow,
-								type, x, y, width, height );
-						break;
+				case IHyperlinkAction.ACTION_DRILLTHROUGH:
+					currentPage.createHyperlink(link, null, targetWindow, type, x, y, width, height);
+					break;
 				}
-			}
-			catch ( Exception e )
-			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
+			} catch (Exception e) {
+				logger.log(Level.WARNING, e.getMessage(), e);
 			}
 	}
 
-	protected void createBookmark( IArea area, int x, int y )
-	{
-		String bookmark = area.getBookmark( );
-		if ( null != bookmark )
-		{
-			int height = getHeight( area );
-			int width = getWidth( area );
-			currentPage.createBookmark( bookmark, x, y, width, height );
-			bookmarks.add( bookmark );
+	protected void createBookmark(IArea area, int x, int y) {
+		String bookmark = area.getBookmark();
+		if (null != bookmark) {
+			int height = getHeight(area);
+			int width = getWidth(area);
+			currentPage.createBookmark(bookmark, x, y, width, height);
+			bookmarks.add(bookmark);
 		}
 	}
 
-	private void createTOC( )
-	{
-		currentPageDevice.createTOC( bookmarks );
+	private void createTOC() {
+		currentPageDevice.createTOC(bookmarks);
 	}
 
-	private void createTotalPageTemplate( int x, int y, int width, int height,
-			float scale )
-	{
-		currentPage.createTotalPageTemplate( x, y, width, height, scale );
+	private void createTotalPageTemplate(int x, int y, int width, int height, float scale) {
+		currentPage.createTotalPageTemplate(x, y, width, height, scale);
 	}
 
 }

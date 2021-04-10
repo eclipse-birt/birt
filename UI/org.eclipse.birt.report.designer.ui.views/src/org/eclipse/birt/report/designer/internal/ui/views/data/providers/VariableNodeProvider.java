@@ -28,21 +28,16 @@ import org.eclipse.ui.IWorkbenchActionConstants;
  * 
  */
 
-public class VariableNodeProvider extends DefaultNodeProvider
-{
+public class VariableNodeProvider extends DefaultNodeProvider {
 
 	@Override
-	public Object getParent( Object model )
-	{
-		if ( model != null
-				&& ( (VariableElementHandle) model ).getRoot( ) != null )
-			return ( (VariableElementHandle) model ).getRoot( )
-					.getPropertyHandle( IReportDesignModel.PAGE_VARIABLES_PROP );
+	public Object getParent(Object model) {
+		if (model != null && ((VariableElementHandle) model).getRoot() != null)
+			return ((VariableElementHandle) model).getRoot().getPropertyHandle(IReportDesignModel.PAGE_VARIABLES_PROP);
 		return null;
 	}
 
-	public Object[] getChildren( Object model )
-	{
+	public Object[] getChildren(Object model) {
 		return new Object[0];
 	}
 
@@ -50,34 +45,26 @@ public class VariableNodeProvider extends DefaultNodeProvider
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry for the given object and adds them to the menu
 	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		super.createContextMenu( sourceViewer, object, menu );
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		super.createContextMenu(sourceViewer, object, menu);
 		// menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
 		// new EditVariableAction( object ) );
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-				new EditAction( object,
-						Messages.getString( "ParameterNodeProvider.menu.text.edit" ) ) );
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS,
+				new EditAction(object, Messages.getString("ParameterNodeProvider.menu.text.edit")));
 	}
 
-	public String getNodeDisplayName( Object object )
-	{
-		return ( (VariableElementHandle) object ).getDisplayLabel( );
+	public String getNodeDisplayName(Object object) {
+		return ((VariableElementHandle) object).getDisplayLabel();
 	}
 
-	protected boolean performEdit( ContentElementHandle handle )
-	{
-		VariableDialog dialog = new VariableDialog( Messages.getString( "VariableNodeProvider.DialogTitle" ), //$NON-NLS-1$
-				(ReportDesignHandle) SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ),
-				(VariableElementHandle) handle );
-		dialog.open( );
+	protected boolean performEdit(ContentElementHandle handle) {
+		VariableDialog dialog = new VariableDialog(Messages.getString("VariableNodeProvider.DialogTitle"), //$NON-NLS-1$
+				(ReportDesignHandle) SessionHandleAdapter.getInstance().getReportDesignHandle(),
+				(VariableElementHandle) handle);
+		dialog.open();
 		return true;
 	}
 

@@ -25,12 +25,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * Implements <code>IReportItem</code> for testing
  */
 
-public class ReportItemImpl extends ReportItem
-		implements
-			IReportItem,
-			Cloneable
-{
-
+public class ReportItemImpl extends ReportItem implements IReportItem, Cloneable {
 
 	private ModuleHandle moduleHandle = null;
 	private DesignElementHandle extItemHandle = null;
@@ -42,45 +37,41 @@ public class ReportItemImpl extends ReportItem
 	 * @param elementHandle
 	 */
 
-	public ReportItemImpl( IReportItemFactory extDefn,
-			DesignElementHandle elementHandle )
-	{
+	public ReportItemImpl(IReportItemFactory extDefn, DesignElementHandle elementHandle) {
 		assert elementHandle != null;
-		this.moduleHandle = elementHandle.getModuleHandle( );
+		this.moduleHandle = elementHandle.getModuleHandle();
 		extItemHandle = elementHandle;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.model.extension.IExtendedElement#getProperty(java.lang.String)
+	 * @see org.eclipse.birt.model.extension.IExtendedElement#getProperty(java.lang.
+	 * String)
 	 */
-	public Object getProperty( String propName )
-	{
-		IPropertyDefn defn = extItemHandle.getPropertyDefn( propName );
-		if ( defn == null )
+	public Object getProperty(String propName) {
+		IPropertyDefn defn = extItemHandle.getPropertyDefn(propName);
+		if (defn == null)
 			return null;
-		assert ( (ElementPropertyDefn) defn ).isStyleProperty( );
+		assert ((ElementPropertyDefn) defn).isStyleProperty();
 
-		FactoryPropertyHandle factoryHandle = extItemHandle
-				.getFactoryPropertyHandle( propName );
-		Object value = factoryHandle == null ? null : factoryHandle.getValue( );
-		if ( value != null )
+		FactoryPropertyHandle factoryHandle = extItemHandle.getFactoryPropertyHandle(propName);
+		Object value = factoryHandle == null ? null : factoryHandle.getValue();
+		if (value != null)
 			return value;
 
-		DesignElementHandle container = extItemHandle.getContainer( );
-		return container == null ? null : container.getProperty( propName );
+		DesignElementHandle container = extItemHandle.getContainer();
+		return container == null ? null : container.getProperty(propName);
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#canExport()
 	 */
-	public boolean canExport( )
-	{
-		if ( "TestingTable1".equals( extItemHandle.getStringProperty( ExtendedItemHandle.EXTENSION_NAME_PROP ))) //$NON-NLS-1$
+	public boolean canExport() {
+		if ("TestingTable1".equals(extItemHandle.getStringProperty(ExtendedItemHandle.EXTENSION_NAME_PROP))) //$NON-NLS-1$
 			return false;
 		return true;
 	}

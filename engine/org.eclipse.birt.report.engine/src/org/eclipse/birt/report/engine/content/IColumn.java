@@ -19,43 +19,43 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * 
  * 
  */
-public interface IColumn extends IStyledElement
-{
+public interface IColumn extends IStyledElement {
 	/**
 	 * @return Return this column is a column header or not.
 	 */
-	public boolean isColumnHeader( );
-	
+	public boolean isColumnHeader();
+
 	/**
 	 * @return Returns the width.
 	 */
-	public DimensionType getWidth( );
+	public DimensionType getWidth();
 
-	public void setWidth( DimensionType width );
+	public void setWidth(DimensionType width);
 
 	/**
-	 * get the instance id of the column.
-	 * the instance id is the unique id of the content.
+	 * get the instance id of the column. the instance id is the unique id of the
+	 * content.
+	 * 
 	 * @return
 	 */
 	public InstanceID getInstanceID();
-	
-	public String getVisibleFormat( );
-	
+
+	public String getVisibleFormat();
+
 	/**
 	 * @return inline style
 	 */
-	IStyle getInlineStyle( );
+	IStyle getInlineStyle();
 
-	void setInlineStyle( IStyle style );
-	
-	public void setGenerateBy( Object generateBy );
-	
-	public Object getGenerateBy( );
+	void setInlineStyle(IStyle style);
 
-	public boolean hasDataItemsInDetail( );
-	
-	public boolean isRepeated( );
+	public void setGenerateBy(Object generateBy);
 
-	public void setRepeated( boolean isRepeated );
+	public Object getGenerateBy();
+
+	public boolean hasDataItemsInDetail();
+
+	public boolean isRepeated();
+
+	public void setRepeated(boolean isRepeated);
 }

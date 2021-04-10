@@ -17,8 +17,7 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
  *
  */
 
-public class ScriptableClassInfo
-{
+public class ScriptableClassInfo {
 
 	/**
 	 * Returns the scriptable class information for the given class full name.
@@ -27,8 +26,7 @@ public class ScriptableClassInfo
 	 * @return the class information
 	 */
 
-	public IClassInfo getClass( String className )
-	{
+	public IClassInfo getClass(String className) {
 		return null;
 	}
 }

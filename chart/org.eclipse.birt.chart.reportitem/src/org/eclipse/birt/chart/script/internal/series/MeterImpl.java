@@ -21,12 +21,10 @@ import org.eclipse.birt.chart.script.internal.component.ValueSeriesImpl;
  * 
  */
 
-public class MeterImpl extends ValueSeriesImpl implements IMeter
-{
+public class MeterImpl extends ValueSeriesImpl implements IMeter {
 
-	public MeterImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public MeterImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 		assert series instanceof DialSeries;
 	}
 

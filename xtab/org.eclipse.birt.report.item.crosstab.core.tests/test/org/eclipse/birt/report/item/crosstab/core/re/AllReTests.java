@@ -19,16 +19,14 @@ import junit.framework.TestSuite;
  *
  */
 
-public class AllReTests
-{
+public class AllReTests {
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
-		
+	public static Test suite() {
+		TestSuite test = new TestSuite();
+
 		// add all test classes here
 
 		return test;

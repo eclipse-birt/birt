@@ -20,20 +20,19 @@ import java.util.ResourceBundle;
 /**
  * This class deals with the translation with the given key.
  */
-public class Messages
-{
+public class Messages {
 
 	/** The resource bundle name. */
 	private static final String BUNDLE_NAME = "org.eclipse.birt.report.engine.emitter.config.postscript.i18n.messages"; //$NON-NLS-1$
 
 	/** The resource bundle. */
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( BUNDLE_NAME );
-	private static Map<Locale, ResourceBundle> localeToBundle = new HashMap<Locale, ResourceBundle>( );
+	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
+	private static Map<Locale, ResourceBundle> localeToBundle = new HashMap<Locale, ResourceBundle>();
+
 	/**
 	 * Constructor of this class.
 	 */
-	private Messages( )
-	{
+	private Messages() {
 		// This is private constructor.
 	}
 
@@ -42,8 +41,7 @@ public class Messages
 	 * 
 	 * @return the resource bundle.
 	 */
-	public static ResourceBundle getReportResourceBundle( )
-	{
+	public static ResourceBundle getReportResourceBundle() {
 		return RESOURCE_BUNDLE;
 	}
 
@@ -52,21 +50,16 @@ public class Messages
 	 * 
 	 * @return the resource bundle.
 	 */
-	public static ResourceBundle getReportResourceBundle( Locale locale )
-	{
-		ResourceBundle bundle = getReportResourceBundle( );
-		if ( locale != null )
-		{
-			bundle = localeToBundle.get( locale );
-			if ( bundle == null )
-			{
-				synchronized(localeToBundle)
-				{
-					bundle = localeToBundle.get( locale );
-					if ( bundle == null)
-					{
-						bundle = ResourceBundle.getBundle( BUNDLE_NAME, locale );
-						localeToBundle.put( locale, bundle );
+	public static ResourceBundle getReportResourceBundle(Locale locale) {
+		ResourceBundle bundle = getReportResourceBundle();
+		if (locale != null) {
+			bundle = localeToBundle.get(locale);
+			if (bundle == null) {
+				synchronized (localeToBundle) {
+					bundle = localeToBundle.get(locale);
+					if (bundle == null) {
+						bundle = ResourceBundle.getBundle(BUNDLE_NAME, locale);
+						localeToBundle.put(locale, bundle);
 					}
 				}
 			}
@@ -77,32 +70,25 @@ public class Messages
 	/**
 	 * Returns common translation for current local.
 	 * 
-	 * @param key
-	 *            the key to translate.
+	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
 
-	public static String getString( String key )
-	{
-		return getString( key, Locale.getDefault( ) );
+	public static String getString(String key) {
+		return getString(key, Locale.getDefault());
 	}
 
 	/**
 	 * Returns common translation for current local.
 	 * 
-	 * @param key
-	 *            the key to translate.
+	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
-	public static String getString( String key, Locale locale )
-	{
-		try
-		{
-			String result = getReportResourceBundle( locale ).getString( key );
+	public static String getString(String key, Locale locale) {
+		try {
+			String result = getReportResourceBundle(locale).getString(key);
 			return result;
-		}
-		catch ( Exception e )
-		{
+		} catch (Exception e) {
 			assert false;
 			return key;
 		}
@@ -111,39 +97,31 @@ public class Messages
 	/**
 	 * Returns formatted translation for current local.
 	 * 
-	 * @param key
-	 *            the key to translate.
+	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
-	public static String getFormattedString( String key, Object[] arguments )
-	{
-		return getFormattedString( key, arguments, Locale.getDefault( ) );
+	public static String getFormattedString(String key, Object[] arguments) {
+		return getFormattedString(key, arguments, Locale.getDefault());
 	}
 
 	/**
 	 * Returns formatted translation for current local.
 	 * 
-	 * @param key
-	 *            the key to translate.
+	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
-	public static String getFormattedString( String key, Object[] arguments,
-			Locale locale )
-	{
-		return MessageFormat.format( getString( key, locale ), arguments );
+	public static String getFormattedString(String key, Object[] arguments, Locale locale) {
+		return MessageFormat.format(getString(key, locale), arguments);
 	}
 
 	/**
-	 * In meta xml file we use %keyName% as externalized key instead of value We
-	 * use this method to translate the %keyName% into value from resource
-	 * bundle.
+	 * In meta xml file we use %keyName% as externalized key instead of value We use
+	 * this method to translate the %keyName% into value from resource bundle.
 	 * 
-	 * @param key
-	 *            the externalized key like %keyName%
+	 * @param key the externalized key like %keyName%
 	 * @return value the %keyName% represent
 	 */
-	public static String getXMLKey( String key )
-	{
+	public static String getXMLKey(String key) {
 		return key;
 	}
 }

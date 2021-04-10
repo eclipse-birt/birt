@@ -18,56 +18,45 @@ import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 
-public class PDFTextInlineBlockLM extends PDFBlockStackingLM
-		implements
-			IBlockStackingLayoutManager
-{
+public class PDFTextInlineBlockLM extends PDFBlockStackingLM implements IBlockStackingLayoutManager {
 
-	public PDFTextInlineBlockLM( PDFLayoutEngineContext context,
-			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
-	{
-		super( context, parent, content, executor );
+	public PDFTextInlineBlockLM(PDFLayoutEngineContext context, PDFStackingLM parent, IContent content,
+			IReportItemExecutor executor) {
+		super(context, parent, content, executor);
 	}
 
-	protected void initialize( )
-	{
-		boolean isNewArea = (root==null);
-		//TODO refactor
-		createRoot( );
-		if(isNewArea)
-		{
-			IStyle areaStyle = root.getStyle( );
-			validateBoxProperty( areaStyle, parent.getCurrentMaxContentWidth( ),
-					context.getMaxHeight( ) );
+	protected void initialize() {
+		boolean isNewArea = (root == null);
+		// TODO refactor
+		createRoot();
+		if (isNewArea) {
+			IStyle areaStyle = root.getStyle();
+			validateBoxProperty(areaStyle, parent.getCurrentMaxContentWidth(), context.getMaxHeight());
 			// initialize offsetX and offsetY
-			setOffsetX( root.getContentX( ) );
-			setOffsetY( isFirst?
-					root.getContentY( ): 0 );
+			setOffsetX(root.getContentX());
+			setOffsetY(isFirst ? root.getContentY() : 0);
 			// support user defined width
-			int maxWidth = parent.getCurrentMaxContentWidth( );
-			//int leftWidth = maxWidth - parent.getCurrentIP( );
-			calculateSpecifiedWidth( );
+			int maxWidth = parent.getCurrentMaxContentWidth();
+			// int leftWidth = maxWidth - parent.getCurrentIP( );
+			calculateSpecifiedWidth();
 			int width = maxWidth;
-			if ( specifiedWidth > 0 )
-			{
-				width = Math.min( specifiedWidth, maxWidth );
+			if (specifiedWidth > 0) {
+				width = Math.min(specifiedWidth, maxWidth);
 			}
-			root.setAllocatedWidth( width );
-			//can be removed?
-			setCurrentBP( 0 );
-			setCurrentIP( 0 );
+			root.setAllocatedWidth(width);
+			// can be removed?
+			setCurrentBP(0);
+			setCurrentIP(0);
 		}
-		maxAvaWidth = root.getContentWidth( );
-		root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ));
-		maxAvaHeight = root.getContentHeight( );
-		
+		maxAvaWidth = root.getContentWidth();
+		root.setAllocatedHeight(parent.getCurrentMaxContentHeight());
+		maxAvaHeight = root.getContentHeight();
+
 	}
 
-	protected void createRoot( )
-	{
-		if(root==null)
-		{
-			root = (ContainerArea) AreaFactory.createBlockContainer( content );
+	protected void createRoot() {
+		if (root == null) {
+			root = (ContainerArea) AreaFactory.createBlockContainer(content);
 		}
 	}
 

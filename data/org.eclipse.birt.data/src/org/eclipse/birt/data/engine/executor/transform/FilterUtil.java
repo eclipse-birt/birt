@@ -27,26 +27,24 @@ import org.eclipse.birt.data.engine.script.NEvaluator;
 /**
  * The utiliy class which serves for filtering purpose.
  */
-public final class FilterUtil
-{
+public final class FilterUtil {
 
 	/**
 	 * No instance
 	 */
-	private FilterUtil( )
-	{
+	private FilterUtil() {
 	}
-	
+
 	/**
-	 * Exam whether one filter need multipass. A filter that need multipass is
-	 * the Top/Bottom N filters
+	 * Exam whether one filter need multipass. A filter that need multipass is the
+	 * Top/Bottom N filters
 	 * 
 	 * @param filter
 	 * @return
 	 */
-	public static boolean isFilterNeedMultiPass( IFilterDefinition filter )
-	{
-		return ( filter.getExpression( ) instanceof IConditionalExpression && isMultiPassFilterOperator( ( (IConditionalExpression) filter.getExpression( ) ).getOperator( ) ) );
+	public static boolean isFilterNeedMultiPass(IFilterDefinition filter) {
+		return (filter.getExpression() instanceof IConditionalExpression
+				&& isMultiPassFilterOperator(((IConditionalExpression) filter.getExpression()).getOperator()));
 	}
 
 	/**
@@ -55,12 +53,9 @@ public final class FilterUtil
 	 * @param operatorId
 	 * @return
 	 */
-	private static boolean isMultiPassFilterOperator( int operatorId )
-	{
-		if ( operatorId == IConditionalExpression.OP_BOTTOM_N
-				|| operatorId == IConditionalExpression.OP_BOTTOM_PERCENT
-				|| operatorId == IConditionalExpression.OP_TOP_N
-				|| operatorId == IConditionalExpression.OP_TOP_PERCENT )
+	private static boolean isMultiPassFilterOperator(int operatorId) {
+		if (operatorId == IConditionalExpression.OP_BOTTOM_N || operatorId == IConditionalExpression.OP_BOTTOM_PERCENT
+				|| operatorId == IConditionalExpression.OP_TOP_N || operatorId == IConditionalExpression.OP_TOP_PERCENT)
 			return true;
 		return false;
 	}
@@ -72,36 +67,27 @@ public final class FilterUtil
 	 * 
 	 * @param expr
 	 */
-	public static void prepareFilterExpression( String tempDir,
-			IBaseExpression expr,
-			FilterPassController filterPass, IExecutorHelper helper ) throws DataException
-	{
+	public static void prepareFilterExpression(String tempDir, IBaseExpression expr, FilterPassController filterPass,
+			IExecutorHelper helper) throws DataException {
 		// Check if this is a top/bottom(n) expressions
-		if ( expr instanceof IConditionalExpression )
-		{
+		if (expr instanceof IConditionalExpression) {
 			ConditionalExpression ce = (ConditionalExpression) expr;
-			int operator = ce.getOperator( );
-			if ( operator == IConditionalExpression.OP_TOP_N
-					|| operator == IConditionalExpression.OP_TOP_PERCENT
+			int operator = ce.getOperator();
+			if (operator == IConditionalExpression.OP_TOP_N || operator == IConditionalExpression.OP_TOP_PERCENT
 					|| operator == IConditionalExpression.OP_BOTTOM_N
-					|| operator == IConditionalExpression.OP_BOTTOM_PERCENT )
-			{
+					|| operator == IConditionalExpression.OP_BOTTOM_PERCENT) {
 				// Check if we have already prepared an NEvaluator for this
 				// expression
-				Object handle = expr.getHandle( );
-				if ( handle instanceof NEvaluator )
-				{
+				Object handle = expr.getHandle();
+				if (handle instanceof NEvaluator) {
 					// Already prepared; no-op
 					return;
 				}
 
 				// Tag expression with NEvaluator
-				NEvaluator evaluator = NEvaluator.newInstance( tempDir,
-						operator,
-						ce.getExpression( ),
-						(IScriptExpression) ce.getOperand1( ),
-						filterPass );
-				expr.setHandle( evaluator );
+				NEvaluator evaluator = NEvaluator.newInstance(tempDir, operator, ce.getExpression(),
+						(IScriptExpression) ce.getOperand1(), filterPass);
+				expr.setHandle(evaluator);
 			}
 		}
 
@@ -114,23 +100,20 @@ public final class FilterUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static boolean hasMultiPassFilters( FilterByRow filterByRow )
-			throws DataException
-	{
-		if( filterByRow == null )
+	public static boolean hasMultiPassFilters(FilterByRow filterByRow) throws DataException {
+		if (filterByRow == null)
 			return false;
-		if( filterByRow.isFilterSetExist(FilterByRow.GROUP_FILTER))
+		if (filterByRow.isFilterSetExist(FilterByRow.GROUP_FILTER))
 			return true;
-		if( filterByRow.isFilterSetExist(FilterByRow.QUERY_FILTER))
+		if (filterByRow.isFilterSetExist(FilterByRow.QUERY_FILTER))
 			return true;
-		List list = filterByRow.getFilterList( FilterByRow.ALL_ROW_FILTER );
-		if ( list == null )
+		List list = filterByRow.getFilterList(FilterByRow.ALL_ROW_FILTER);
+		if (list == null)
 			return false;
-			for ( int j = 0; j < list.size( ); j++ )
-			{
-				if ( FilterUtil.isFilterNeedMultiPass( (IFilterDefinition) ( list.get( j ) ) ) )
-					return true;
-			}
+		for (int j = 0; j < list.size(); j++) {
+			if (FilterUtil.isFilterNeedMultiPass((IFilterDefinition) (list.get(j))))
+				return true;
+		}
 		return false;
 	}
 
@@ -139,11 +122,9 @@ public final class FilterUtil
 	 * @param needMultiPass
 	 * @return
 	 */
-	public static boolean hasMutipassFilters( List list )
-	{
-		for ( int j = 0; j < list.size( ); j++ )
-		{
-			if ( FilterUtil.isFilterNeedMultiPass( (IFilterDefinition) ( list.get( j ) ) ) )
+	public static boolean hasMutipassFilters(List list) {
+		for (int j = 0; j < list.size(); j++) {
+			if (FilterUtil.isFilterNeedMultiPass((IFilterDefinition) (list.get(j))))
 				return true;
 		}
 		return false;

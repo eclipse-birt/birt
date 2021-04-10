@@ -17,46 +17,36 @@ import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 
-public class PDFRegionLM extends PDFBlockContainerLM
-{
+public class PDFRegionLM extends PDFBlockContainerLM {
 
-	public PDFRegionLM( PDFLayoutEngineContext context,
-			IContainerArea container, IContent content,
-			IReportItemExecutor executor )
-	{
-		super( context, null, content, executor );
-		if ( container != null )
-		{
+	public PDFRegionLM(PDFLayoutEngineContext context, IContainerArea container, IContent content,
+			IReportItemExecutor executor) {
+		super(context, null, content, executor);
+		if (container != null) {
 			root = (ContainerArea) container;
+		} else {
+			root = (ContainerArea) AreaFactory.createLogicContainer(content.getReportContent());
 		}
-		else
-		{
-			root = (ContainerArea) AreaFactory.createLogicContainer( content.getReportContent( ));
-		}
-		maxAvaWidth = root.getContentWidth( );
-		// set unlimited length for block direction
-		maxAvaHeight = Integer.MAX_VALUE ;
-	}
-
-	protected void initialize( )
-	{
-		createRoot( );
-		maxAvaWidth = root.getContentWidth( );
+		maxAvaWidth = root.getContentWidth();
 		// set unlimited length for block direction
 		maxAvaHeight = Integer.MAX_VALUE;
 	}
 
-	protected void createRoot( )
-	{
-		if ( root == null )
-		{
-			root = (ContainerArea) AreaFactory.createLogicContainer( content.getReportContent( ));
+	protected void initialize() {
+		createRoot();
+		maxAvaWidth = root.getContentWidth();
+		// set unlimited length for block direction
+		maxAvaHeight = Integer.MAX_VALUE;
+	}
+
+	protected void createRoot() {
+		if (root == null) {
+			root = (ContainerArea) AreaFactory.createLogicContainer(content.getReportContent());
 		}
 	}
 
-	protected void closeLayout( )
-	{
+	protected void closeLayout() {
 		// set dimension property for root TODO suppport user defined height
-		root.setHeight( Math.max( getCurrentBP( ), root.getHeight( ) ) );
+		root.setHeight(Math.max(getCurrentBP(), root.getHeight()));
 	}
 }

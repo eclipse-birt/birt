@@ -36,27 +36,24 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <li>style for data is in the pre-define style list
  * </ol>
  */
-public class Regression_146787 extends BaseTestCase
-{
+public class Regression_146787 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
-	public void test_regression_146787( )
-	{
-		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
-		PredefinedStyle dataStyle = (PredefinedStyle) instance.getPredefinedStyle( "data" ); //$NON-NLS-1$
-		assertNotNull( dataStyle );
+	public void test_regression_146787() {
+		MetaDataDictionary instance = MetaDataDictionary.getInstance();
+		PredefinedStyle dataStyle = (PredefinedStyle) instance.getPredefinedStyle("data"); //$NON-NLS-1$
+		assertNotNull(dataStyle);
 
 		boolean data = false;
-		List list = instance.getPredefinedStyles( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			PredefinedStyle style = (PredefinedStyle) list.get( i );
-			if ( style.getName( ).equals( "data" ) ) //$NON-NLS-1$
+		List list = instance.getPredefinedStyles();
+		for (int i = 0; i < list.size(); i++) {
+			PredefinedStyle style = (PredefinedStyle) list.get(i);
+			if (style.getName().equals("data")) //$NON-NLS-1$
 				data = true;
 		}
-		assertTrue( data );
+		assertTrue(data);
 
 	}
 }

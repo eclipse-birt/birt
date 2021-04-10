@@ -18,18 +18,16 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 
-public class CreatePlaceHolderPartAction extends WrapperSelectionAction
-{
+public class CreatePlaceHolderPartAction extends WrapperSelectionAction {
 
-	private static final String DEFAULT_TEXT = Messages.getString( "CreatePlaceHolderAction.text" ); //$NON-NLS-1$
-	
+	private static final String DEFAULT_TEXT = Messages.getString("CreatePlaceHolderAction.text"); //$NON-NLS-1$
+
 	public static final String ID = "org.eclipse.birt.report.designer.ui.actions.CreatePlaceHolderAction"; //$NON-NLS-1$
 
-	public CreatePlaceHolderPartAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( DEFAULT_TEXT );
+	public CreatePlaceHolderPartAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(DEFAULT_TEXT);
 	}
 
 	/**
@@ -37,14 +35,12 @@ public class CreatePlaceHolderPartAction extends WrapperSelectionAction
 	 * 
 	 * @return returns the stack
 	 */
-	protected CommandStack getActiveCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	protected CommandStack getActiveCommandStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
-	protected IAction createActionHandler( ISelection model )
-	{
-		return new CreatePlaceHolderAction( model );
+	protected IAction createActionHandler(ISelection model) {
+		return new CreatePlaceHolderAction(model);
 	}
 
 }

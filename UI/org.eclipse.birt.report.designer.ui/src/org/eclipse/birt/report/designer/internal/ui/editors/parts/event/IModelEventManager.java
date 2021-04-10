@@ -16,18 +16,17 @@ import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 /**
  * IModelEventManager
  */
-public interface IModelEventManager
-{
+public interface IModelEventManager {
 
-	void addModelEventProcessor( IModelEventProcessor processor );
+	void addModelEventProcessor(IModelEventProcessor processor);
 
-	void removeModelEventProcessor( IModelEventProcessor processor );
+	void removeModelEventProcessor(IModelEventProcessor processor);
 
-	void hookRoot( Object obj );
+	void hookRoot(Object obj);
 
-	void unhookRoot( Object obj );
+	void unhookRoot(Object obj);
 
-	void hookCommandStack( WrapperCommandStack stack );
+	void hookCommandStack(WrapperCommandStack stack);
 
-	void unhookCommandStack( WrapperCommandStack stack );
+	void unhookCommandStack(WrapperCommandStack stack);
 }

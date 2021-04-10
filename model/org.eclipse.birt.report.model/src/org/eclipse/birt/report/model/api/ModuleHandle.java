@@ -17,7 +17,8 @@ import org.eclipse.birt.report.model.core.Module;
  * Abstract module handle which provides the common functionalities of report
  * design and library.
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
+ * collapse" bordercolor="#111111">
  * <th width="20%">Content Item</th>
  * <th width="40%">Description</th>
  * 
@@ -77,18 +78,15 @@ import org.eclipse.birt.report.model.core.Module;
  * </table>
  */
 
-public abstract class ModuleHandle extends ModuleHandleImpl
-{
+public abstract class ModuleHandle extends ModuleHandleImpl {
 
 	/**
 	 * Constructs one module handle with the given module element.
 	 * 
-	 * @param module
-	 *            module
+	 * @param module module
 	 */
 
-	public ModuleHandle( Module module )
-	{
-		super( module );
+	public ModuleHandle(Module module) {
+		super(module);
 	}
 }

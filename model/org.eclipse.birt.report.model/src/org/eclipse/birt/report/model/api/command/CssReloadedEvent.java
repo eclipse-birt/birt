@@ -20,9 +20,8 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
  *
  */
 
-public class CssReloadedEvent extends NotificationEvent
-{
-	
+public class CssReloadedEvent extends NotificationEvent {
+
 	/**
 	 * The css style sheet causing the event.
 	 */
@@ -32,41 +31,35 @@ public class CssReloadedEvent extends NotificationEvent
 	/**
 	 * Constructor.
 	 * 
-	 * @param host
-	 *            the host module in which the css lies in
+	 * @param host the host module in which the css lies in
 	 * 
-	 * @param css
-	 *            the element that is to reload css.
+	 * @param css  the element that is to reload css.
 	 */
 
-	public CssReloadedEvent( Module host, CssStyleSheet css )
-	{
-		super( host );
+	public CssReloadedEvent(Module host, CssStyleSheet css) {
+		super(host);
 		this.css = css;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return CSS_RELOADED_EVENT;
 	}
 
 	/**
-	 * Returns the css causing this event. If the css is
-	 * <code>null</code>, it means that the css is not found during the
-	 * reload-action.
+	 * Returns the css causing this event. If the css is <code>null</code>, it means
+	 * that the css is not found during the reload-action.
 	 * 
-	 * @return the css causing this event, or null if the css is not
-	 *         found
+	 * @return the css causing this event, or null if the css is not found
 	 */
 
-	public CssStyleSheet getCss( )
-	{
+	public CssStyleSheet getCss() {
 		return css;
 	}
 }

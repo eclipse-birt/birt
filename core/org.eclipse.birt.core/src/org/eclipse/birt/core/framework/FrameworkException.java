@@ -26,8 +26,7 @@ import com.ibm.icu.util.UResourceBundle;
  * 
  * @see IStatus
  */
-public class FrameworkException extends BirtException
-{
+public class FrameworkException extends BirtException {
 
 	/**
 	 * 
@@ -36,26 +35,21 @@ public class FrameworkException extends BirtException
 
 	protected static String pluginId = "org.eclipse.birt.core";
 
-	static protected UResourceBundle urb = new ResourceHandle( ULocale
-			.getDefault( ) ).getUResourceBundle( );
+	static protected UResourceBundle urb = new ResourceHandle(ULocale.getDefault()).getUResourceBundle();
 
-	public FrameworkException( String errorCode )
-	{
-		super( pluginId, errorCode, urb );
+	public FrameworkException(String errorCode) {
+		super(pluginId, errorCode, urb);
 	}
 
-	public FrameworkException( String errorCode, Throwable cause )
-	{
-		super( pluginId, errorCode, urb, cause );
+	public FrameworkException(String errorCode, Throwable cause) {
+		super(pluginId, errorCode, urb, cause);
 	}
 
-	public FrameworkException( String errorCode, Object[] args )
-	{
-		super( pluginId, errorCode, args, urb );
+	public FrameworkException(String errorCode, Object[] args) {
+		super(pluginId, errorCode, args, urb);
 	}
 
-	public FrameworkException( String errorCode, Object[] args, Throwable cause )
-	{
-		super( pluginId, errorCode, args, urb, cause );
+	public FrameworkException(String errorCode, Object[] args, Throwable cause) {
+		super(pluginId, errorCode, args, urb, cause);
 	}
 }

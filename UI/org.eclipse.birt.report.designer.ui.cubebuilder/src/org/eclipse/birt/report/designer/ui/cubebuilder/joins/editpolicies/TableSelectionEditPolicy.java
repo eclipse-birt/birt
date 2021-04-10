@@ -12,18 +12,16 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TablePaneFigure;
 import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 
-public class TableSelectionEditPolicy extends SelectionEditPolicy
-{
+public class TableSelectionEditPolicy extends SelectionEditPolicy {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideSelection()
 	 */
-	protected void hideSelection( )
-	{
+	protected void hideSelection() {
 
-		( (TablePaneFigure) this.getHostFigure( ) ).setDeselectedColors( );
+		((TablePaneFigure) this.getHostFigure()).setDeselectedColors();
 	}
 
 	/*
@@ -31,9 +29,8 @@ public class TableSelectionEditPolicy extends SelectionEditPolicy
 	 * 
 	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#showSelection()
 	 */
-	protected void showSelection( )
-	{
-		( (TablePaneFigure) this.getHostFigure( ) ).setSelectedColors( );
+	protected void showSelection() {
+		((TablePaneFigure) this.getHostFigure()).setSelectedColors();
 	}
 
 }

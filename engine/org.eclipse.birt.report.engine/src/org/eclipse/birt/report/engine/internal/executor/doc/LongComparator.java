@@ -13,13 +13,11 @@ package org.eclipse.birt.report.engine.internal.executor.doc;
 
 import java.util.Comparator;
 
-public class LongComparator implements Comparator
-{
+public class LongComparator implements Comparator {
 
-	public int compare( Object arg0, Object arg1 )
-	{
+	public int compare(Object arg0, Object arg1) {
 		Long l1 = (Long) arg0;
 		Long l2 = (Long) arg1;
-		return l1.compareTo( l2 );
+		return l1.compareTo(l2);
 	}
 }

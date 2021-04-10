@@ -33,71 +33,55 @@ import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
 import org.eclipse.birt.report.engine.internal.executor.wrap.WrappedReportExecutor;
 import org.w3c.dom.css.CSSValue;
 
-public class ReportletBodyExecutor implements IReportItemExecutor
-{
+public class ReportletBodyExecutor implements IReportItemExecutor {
 
 	long offset;
 	IReportItemExecutor bodyExecutor;
-	ArrayList<IReportItemExecutor> parentExecutors = new ArrayList<IReportItemExecutor>( );
+	ArrayList<IReportItemExecutor> parentExecutors = new ArrayList<IReportItemExecutor>();
 	IContent bodyContent;
 	IReportItemExecutor childExecutor;
 	WrappedReportExecutor reportExecutor;
 
-	ReportletBodyExecutor( ExecutorManager manager, Fragment fragment,
-			long offset ) throws BirtException
-	{
-		this.bodyExecutor = new ReportBodyExecutor( manager, fragment );
-		this.reportExecutor = new WrappedReportExecutor( manager.reportExecutor );
+	ReportletBodyExecutor(ExecutorManager manager, Fragment fragment, long offset) throws BirtException {
+		this.bodyExecutor = new ReportBodyExecutor(manager, fragment);
+		this.reportExecutor = new WrappedReportExecutor(manager.reportExecutor);
 		this.offset = offset;
-		parentExecutors.add( bodyExecutor );
-		doExecute( );
+		parentExecutors.add(bodyExecutor);
+		doExecute();
 	}
 
-	public void close( ) throws BirtException
-	{
-		if ( !parentExecutors.isEmpty( ) )
-		{
-			for ( IReportItemExecutor executor : parentExecutors )
-			{
-				executor.close( );
+	public void close() throws BirtException {
+		if (!parentExecutors.isEmpty()) {
+			for (IReportItemExecutor executor : parentExecutors) {
+				executor.close();
 			}
-			parentExecutors.clear( );
+			parentExecutors.clear();
 		}
 		bodyExecutor = null;
 		childExecutor = null;
 	}
 
-	protected void doExecute( ) throws BirtException
-	{
+	protected void doExecute() throws BirtException {
 		IReportItemExecutor executor = bodyExecutor;
 		IContent content = null;
-		executor.execute( );
-		while ( executor.hasNextChild( ) )
-		{
-			executor = executor.getNextChild( );
-			parentExecutors.add( executor );
-			content = executor.execute( );
-			DocumentExtension docExt = (DocumentExtension) content
-					.getExtension( IContent.DOCUMENT_EXTENSION );
+		executor.execute();
+		while (executor.hasNextChild()) {
+			executor = executor.getNextChild();
+			parentExecutors.add(executor);
+			content = executor.execute();
+			DocumentExtension docExt = (DocumentExtension) content.getExtension(IContent.DOCUMENT_EXTENSION);
 			{
-				if ( docExt != null )
-				{
-					if ( docExt.getIndex( ) == offset )
-					{
-						if ( content instanceof TableGroupContent
-								|| content instanceof RowContent
-								|| content instanceof CellContent
-								|| content instanceof AbstractBandContent )
-						{
-							do
-							{
-								content = (IContent) content.getParent( );
+				if (docExt != null) {
+					if (docExt.getIndex() == offset) {
+						if (content instanceof TableGroupContent || content instanceof RowContent
+								|| content instanceof CellContent || content instanceof AbstractBandContent) {
+							do {
+								content = (IContent) content.getParent();
 								// wrap parent executor which has only one child
-								WrappedExecutor parentExecutor = new WrappedExecutor( executor.getParent( ),
-										content,
-										executor );
+								WrappedExecutor parentExecutor = new WrappedExecutor(executor.getParent(), content,
+										executor);
 								executor = parentExecutor;
-							} while ( !( content instanceof TableContent ) );
+							} while (!(content instanceof TableContent));
 						}
 						bodyContent = content;
 						childExecutor = executor;
@@ -106,62 +90,49 @@ public class ReportletBodyExecutor implements IReportItemExecutor
 				}
 			}
 		}
-		IStyle cs = bodyContent.getComputedStyle( );
-		IStyle is = bodyContent.getInlineStyle( );
-		CSSEngine engine = bodyContent.getCSSEngine( );
-		IStyle mergedStyle = ( is != null ? is : new StyleDeclaration( engine ) );
-		for ( int i = 0; i < StyleConstants.NUMBER_OF_STYLE; i++ )
-		{
-			if ( isNullValue( mergedStyle.getProperty( i ) )
-					&& engine.isInheritedProperty( i ) )
-			{
-				mergedStyle.setProperty( i, cs.getProperty( i ) );
+		IStyle cs = bodyContent.getComputedStyle();
+		IStyle is = bodyContent.getInlineStyle();
+		CSSEngine engine = bodyContent.getCSSEngine();
+		IStyle mergedStyle = (is != null ? is : new StyleDeclaration(engine));
+		for (int i = 0; i < StyleConstants.NUMBER_OF_STYLE; i++) {
+			if (isNullValue(mergedStyle.getProperty(i)) && engine.isInheritedProperty(i)) {
+				mergedStyle.setProperty(i, cs.getProperty(i));
 			}
 		}
 		bodyContent.setInlineStyle(mergedStyle);
 	}
-	
-	private boolean isNullValue( CSSValue value )
-	{
-		if ( value == null )
-		{
+
+	private boolean isNullValue(CSSValue value) {
+		if (value == null) {
 			return true;
 		}
 
-		if ( value instanceof DataFormatValue )
-		{
+		if (value instanceof DataFormatValue) {
 			return true;
 		}
 
-		String cssText = value.getCssText( );
-		return "none".equalsIgnoreCase( cssText )
-				|| "transparent".equalsIgnoreCase( cssText );
+		String cssText = value.getCssText();
+		return "none".equalsIgnoreCase(cssText) || "transparent".equalsIgnoreCase(cssText);
 	}
 
-	public IContent execute( )
-	{
+	public IContent execute() {
 		return null;
 	}
 
-	public IContent getContent( )
-	{
+	public IContent getContent() {
 		return bodyContent;
 	}
 
-	public IExecutorContext getContext( )
-	{
-		return bodyExecutor.getContext( );
+	public IExecutorContext getContext() {
+		return bodyExecutor.getContext();
 	}
 
-	public Object getModelObject( )
-	{
-		return bodyExecutor.getModelObject( );
+	public Object getModelObject() {
+		return bodyExecutor.getModelObject();
 	}
 
-	public IReportItemExecutor getNextChild( )
-	{
-		if ( childExecutor != null )
-		{
+	public IReportItemExecutor getNextChild() {
+		if (childExecutor != null) {
 			IReportItemExecutor executor = childExecutor;
 			childExecutor = null;
 			return executor;
@@ -169,77 +140,60 @@ public class ReportletBodyExecutor implements IReportItemExecutor
 		return null;
 	}
 
-	public IReportItemExecutor getParent( )
-	{
+	public IReportItemExecutor getParent() {
 		return null;
 	}
 
-	public IBaseResultSet[] getQueryResults( )
-	{
+	public IBaseResultSet[] getQueryResults() {
 		return null;
 	}
 
-	public boolean hasNextChild( )
-	{
+	public boolean hasNextChild() {
 		return childExecutor != null;
 	}
 
-	public void setContext( IExecutorContext context )
-	{
+	public void setContext(IExecutorContext context) {
 	}
 
-	public void setModelObject( Object handle )
-	{
+	public void setModelObject(Object handle) {
 	}
 
-	public void setParent( IReportItemExecutor parent )
-	{
+	public void setParent(IReportItemExecutor parent) {
 
 	}
-	
-	static class WrappedExecutor implements IReportItemExecutor
-	{
+
+	static class WrappedExecutor implements IReportItemExecutor {
 		IContent content;
 		IReportItemExecutor executor;
 		IReportItemExecutor childExecutor;
 
-		WrappedExecutor( IReportItemExecutor executor, IContent content,
-				IReportItemExecutor childExecutor )
-		{
+		WrappedExecutor(IReportItemExecutor executor, IContent content, IReportItemExecutor childExecutor) {
 			this.content = content;
 			this.executor = executor;
 			this.childExecutor = childExecutor;
 		}
 
-		public void close( ) throws BirtException
-		{
+		public void close() throws BirtException {
 		}
 
-		
-		public IContent execute( )
-		{
+		public IContent execute() {
 			return content;
 		}
 
-		public IContent getContent( )
-		{
+		public IContent getContent() {
 			return content;
 		}
 
-		public IExecutorContext getContext( )
-		{
-			return executor.getContext( );
+		public IExecutorContext getContext() {
+			return executor.getContext();
 		}
 
-		public Object getModelObject( )
-		{
-			return executor.getModelObject( );
+		public Object getModelObject() {
+			return executor.getModelObject();
 		}
 
-		public IReportItemExecutor getNextChild( )
-		{
-			if ( childExecutor != null )
-			{
+		public IReportItemExecutor getNextChild() {
+			if (childExecutor != null) {
 				IReportItemExecutor executor = childExecutor;
 				childExecutor = null;
 				return executor;
@@ -247,31 +201,25 @@ public class ReportletBodyExecutor implements IReportItemExecutor
 			return null;
 		}
 
-		public IReportItemExecutor getParent( )
-		{
-			return executor.getParent( );
+		public IReportItemExecutor getParent() {
+			return executor.getParent();
 		}
 
-		public IBaseResultSet[] getQueryResults( )
-		{
-			return executor.getQueryResults( );
+		public IBaseResultSet[] getQueryResults() {
+			return executor.getQueryResults();
 		}
 
-		public boolean hasNextChild( )
-		{
+		public boolean hasNextChild() {
 			return childExecutor != null;
 		}
 
-		public void setContext( IExecutorContext context )
-		{
+		public void setContext(IExecutorContext context) {
 		}
 
-		public void setModelObject( Object handle )
-		{
+		public void setModelObject(Object handle) {
 		}
 
-		public void setParent( IReportItemExecutor parent )
-		{
+		public void setParent(IReportItemExecutor parent) {
 		}
 	}
 }

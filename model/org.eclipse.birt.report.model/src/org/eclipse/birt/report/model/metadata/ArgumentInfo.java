@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
@@ -29,11 +28,10 @@ import com.ibm.icu.util.ULocale;
  * data type, internal name, and display name.
  */
 
-public class ArgumentInfo implements IArgumentInfo
-{
+public class ArgumentInfo implements IArgumentInfo {
 
 	protected IMessages messages;
-	
+
 	/**
 	 * The script type of this argument.
 	 */
@@ -63,34 +61,27 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @return the internal (non-localized) name for the argument
 	 */
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * Returns the display name for the property if the resource key of display
-	 * name is defined. Otherwise, return empty string.
+	 * Returns the display name for the property if the resource key of display name
+	 * is defined. Otherwise, return empty string.
 	 * 
 	 * @return the user-visible, localized display name for the property
 	 */
 
-	public String getDisplayName( )
-	{
-		if ( displayNameKey != null )
-		{
+	public String getDisplayName() {
+		if (displayNameKey != null) {
 			String displayName = null;
-			if ( messages == null )
-			{
-				displayName = ModelMessages.getMessage( this.displayNameKey );
+			if (messages == null) {
+				displayName = ModelMessages.getMessage(this.displayNameKey);
+			} else {
+				ULocale locale = ThreadResources.getLocale();
+				displayName = messages.getMessage(displayNameKey, locale);
 			}
-			else
-			{
-				ULocale locale = ThreadResources.getLocale( );
-				displayName = messages.getMessage( displayNameKey, locale );
-			}
-			if ( displayName != null )
-			{
+			if (displayName != null) {
 				return displayName;
 			}
 		}
@@ -100,12 +91,10 @@ public class ArgumentInfo implements IArgumentInfo
 	/**
 	 * Sets the internal name of the property.
 	 * 
-	 * @param theName
-	 *            the internal property name
+	 * @param theName the internal property name
 	 */
 
-	public void setName( String theName )
-	{
+	public void setName(String theName) {
 		name = theName;
 	}
 
@@ -115,20 +104,17 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @return The display name message ID.
 	 */
 
-	public String getDisplayNameKey( )
-	{
+	public String getDisplayNameKey() {
 		return displayNameKey;
 	}
 
 	/**
 	 * Sets the message ID for the display name.
 	 * 
-	 * @param id
-	 *            message ID for the display name
+	 * @param id message ID for the display name
 	 */
 
-	public void setDisplayNameKey( String id )
-	{
+	public void setDisplayNameKey(String id) {
 		displayNameKey = id;
 	}
 
@@ -138,67 +124,58 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @return the script type to set
 	 */
 
-	public String getType( )
-	{
+	public String getType() {
 		return type;
 	}
 
 	/**
-	 * Sets the element definition so that the scriptable factory can be
-	 * retrieved. This method is only for peer extension elements.
+	 * Sets the element definition so that the scriptable factory can be retrieved.
+	 * This method is only for peer extension elements.
 	 * 
-	 * @param elementDefn
-	 *            the element definition
+	 * @param elementDefn the element definition
 	 */
 
-	void setElementDefn( IElementDefn elementDefn )
-	{
+	void setElementDefn(IElementDefn elementDefn) {
 		assert elementDefn instanceof PeerExtensionElementDefn;
 
 		this.elementDefn = elementDefn;
 	}
 
-	public void setClassType( IClassInfo classType )
-	{
+	public void setClassType(IClassInfo classType) {
 		this.classType = classType;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.IArgumentInfo#getClassType()
+	 * @see org.eclipse.birt.report.model.api.metadata.IArgumentInfo#getClassType()
 	 */
 
-	public IClassInfo getClassType( )
-	{
-		if ( classType != null )
+	public IClassInfo getClassType() {
+		if (classType != null)
 			return classType;
-		
-		IClassInfo tmpInfo = new ScriptableClassInfo( ).getClass( type );
-		if ( tmpInfo != null )
+
+		IClassInfo tmpInfo = new ScriptableClassInfo().getClass(type);
+		if (tmpInfo != null)
 			return tmpInfo;
 
-		if ( elementDefn == null )
+		if (elementDefn == null)
 			return null;
 
-		IScriptableObjectClassInfo factory = ( (PeerExtensionElementDefn) elementDefn )
-				.getScriptableFactory( );
-		if ( factory == null )
+		IScriptableObjectClassInfo factory = ((PeerExtensionElementDefn) elementDefn).getScriptableFactory();
+		if (factory == null)
 			return null;
 
-		return factory.getScriptableClass( type );
+		return factory.getScriptableClass(type);
 	}
 
 	/**
 	 * Sets the script type of this argument.
 	 * 
-	 * @param type
-	 *            the script type to set
+	 * @param type the script type to set
 	 */
 
-	public void setType( String type )
-	{
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -208,20 +185,17 @@ public class ArgumentInfo implements IArgumentInfo
 	 * @see java.lang.Object#toString()
 	 */
 
-	public String toString( )
-	{
-		if ( !StringUtil.isBlank( getName( ) ) )
-			return getName( );
-		return super.toString( );
+	public String toString() {
+		if (!StringUtil.isBlank(getName()))
+			return getName();
+		return super.toString();
 	}
 
-	public void setMessages( IMessages messages )
-	{
+	public void setMessages(IMessages messages) {
 		this.messages = messages;
 	}
 
-	public IMessages getMessages( )
-	{
+	public IMessages getMessages() {
 		return messages;
 	}
 }

@@ -17,54 +17,47 @@ import org.eclipse.birt.report.engine.odf.pkg.PackageEntry;
 
 @SuppressWarnings("nls")
 /**
- * Writer for the manifest file, containing the list of files available
- * in an ODF package, including their MIME-type.
+ * Writer for the manifest file, containing the list of files available in an
+ * ODF package, including their MIME-type.
  */
-public class ManifestWriter
-{
+public class ManifestWriter {
 	protected XMLWriter writer;
-	
-	public ManifestWriter( OutputStream out )
-	{
-		writer = new XMLWriter();		
-		writer.open( out );
+
+	public ManifestWriter(OutputStream out) {
+		writer = new XMLWriter();
+		writer.open(out);
 	}
-	
-	public void start( String rootMime )
-	{
-		writer.startWriter( );
-		writer.openTag( "manifest:manifest" );
-		writer.attribute( "xmlns:manifest", "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0" );
-		
-		writeRootEntry( rootMime );
+
+	public void start(String rootMime) {
+		writer.startWriter();
+		writer.openTag("manifest:manifest");
+		writer.attribute("xmlns:manifest", "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0");
+
+		writeRootEntry(rootMime);
 	}
-	
-	private void writeRootEntry( String rootMime )
-	{
-		writer.openTag( "manifest:file-entry" );
-		writer.attribute( "manifest:media-type", rootMime );
-		writer.attribute( "manifest:version", "1.2" );
-		writer.attribute( "manifest:full-path", "/" );
-		writer.closeTag( "manifest:file-entry" );
+
+	private void writeRootEntry(String rootMime) {
+		writer.openTag("manifest:file-entry");
+		writer.attribute("manifest:media-type", rootMime);
+		writer.attribute("manifest:version", "1.2");
+		writer.attribute("manifest:full-path", "/");
+		writer.closeTag("manifest:file-entry");
 	}
-	
-	public void writeEntry( PackageEntry entry )
-	{		
-		String mediaType = entry.getContentType( );
-		if ( mediaType == null )
-		{
+
+	public void writeEntry(PackageEntry entry) {
+		String mediaType = entry.getContentType();
+		if (mediaType == null) {
 			mediaType = "";
 		}
-		writer.openTag( "manifest:file-entry" );
-		writer.attribute( "manifest:media-type", mediaType );
-		writer.attribute( "manifest:full-path", entry.getFullPath() );
-		writer.closeTag( "manifest:file-entry" );
+		writer.openTag("manifest:file-entry");
+		writer.attribute("manifest:media-type", mediaType);
+		writer.attribute("manifest:full-path", entry.getFullPath());
+		writer.closeTag("manifest:file-entry");
 	}
-	
-	public void end()
-	{
-		writer.closeTag( "manifest:manifest" );
-		writer.close( );
+
+	public void end() {
+		writer.closeTag("manifest:manifest");
+		writer.close();
 	}
 
 }

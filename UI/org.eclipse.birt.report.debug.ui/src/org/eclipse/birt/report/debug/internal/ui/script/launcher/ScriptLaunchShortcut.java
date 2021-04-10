@@ -33,41 +33,38 @@ import org.eclipse.ui.part.FileEditorInput;
  * 
  */
 
-public class ScriptLaunchShortcut implements ILaunchShortcut
-{
+public class ScriptLaunchShortcut implements ILaunchShortcut {
 
-	private static final Logger logger = Logger.getLogger( ScriptLaunchShortcut.class.getName( ) );
+	private static final Logger logger = Logger.getLogger(ScriptLaunchShortcut.class.getName());
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.debug.ui.ILaunchShortcut#launch(org.eclipse.jface.viewers.ISelection,
-	 *      java.lang.String)
+	 * @see org.eclipse.debug.ui.ILaunchShortcut#launch(org.eclipse.jface.viewers.
+	 * ISelection, java.lang.String)
 	 */
-	public void launch( ISelection selection, String mode )
-	{
+	public void launch(ISelection selection, String mode) {
 		// don't support now
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.debug.ui.ILaunchShortcut#launch(org.eclipse.ui.IEditorPart, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.debug.ui.ILaunchShortcut#launch(org.eclipse.ui.IEditorPart,
+	 * java.lang.String)
 	 */
-	public void launch( IEditorPart editor, String mode )
-	{
-		Object obj = editor.getEditorInput( );
-		if ( !( obj instanceof FileEditorInput ) )
-		{
+	public void launch(IEditorPart editor, String mode) {
+		Object obj = editor.getEditorInput();
+		if (!(obj instanceof FileEditorInput)) {
 			return;
 		}
 
 		FileEditorInput input = (FileEditorInput) obj;
-		String fileName = input.getPath( ).toOSString( );
-		ILaunchConfiguration config = findLaunchConfiguration( fileName,
-				getConfigurationType( ) );
-		if ( config != null )
-		{
-			DebugUITools.launch( config, mode );
+		String fileName = input.getPath().toOSString();
+		ILaunchConfiguration config = findLaunchConfiguration(fileName, getConfigurationType());
+		if (config != null) {
+			DebugUITools.launch(config, mode);
 		}
 
 	}
@@ -75,17 +72,16 @@ public class ScriptLaunchShortcut implements ILaunchShortcut
 	/**
 	 * @return
 	 */
-	public static ILaunchConfigurationType getConfigurationType( )
-	{
-		return getLaunchManager( ).getLaunchConfigurationType( "org.eclipse.birt.report.debug.ui.launchConfigurationType.script" );//$NON-NLS-1$
+	public static ILaunchConfigurationType getConfigurationType() {
+		return getLaunchManager()
+				.getLaunchConfigurationType("org.eclipse.birt.report.debug.ui.launchConfigurationType.script");//$NON-NLS-1$
 	}
 
 	/**
 	 * @return
 	 */
-	protected static ILaunchManager getLaunchManager( )
-	{
-		return DebugPlugin.getDefault( ).getLaunchManager( );
+	protected static ILaunchManager getLaunchManager() {
+		return DebugPlugin.getDefault().getLaunchManager();
 	}
 
 	/**
@@ -93,70 +89,51 @@ public class ScriptLaunchShortcut implements ILaunchShortcut
 	 * @param configType
 	 * @return
 	 */
-	public static ILaunchConfiguration findLaunchConfiguration(
-			String fileName, ILaunchConfigurationType configType )
-	{
+	public static ILaunchConfiguration findLaunchConfiguration(String fileName, ILaunchConfigurationType configType) {
 		// String fileName = input.getPath( ).toOSString( );
 		List candidateConfigs = Collections.EMPTY_LIST;
-		try
-		{
-			ILaunchConfiguration[] configs = DebugPlugin.getDefault( )
-					.getLaunchManager( )
-					.getLaunchConfigurations( configType );
-			candidateConfigs = new ArrayList( configs.length );
-			for ( int i = 0; i < configs.length; i++ )
-			{
+		try {
+			ILaunchConfiguration[] configs = DebugPlugin.getDefault().getLaunchManager()
+					.getLaunchConfigurations(configType);
+			candidateConfigs = new ArrayList(configs.length);
+			for (int i = 0; i < configs.length; i++) {
 				ILaunchConfiguration config = configs[i];
-				if ( config.getAttribute( IReportLaunchConstants.ATTR_REPORT_FILE_NAME,
-						"" )//$NON-NLS-1$
-						.equals( fileName ) )
-				{ 
-					candidateConfigs.add( config );
+				if (config.getAttribute(IReportLaunchConstants.ATTR_REPORT_FILE_NAME, "")//$NON-NLS-1$
+						.equals(fileName)) {
+					candidateConfigs.add(config);
 				}
 			}
-		}
-		catch ( CoreException e )
-		{
-			logger.warning( e.getMessage( ) );
+		} catch (CoreException e) {
+			logger.warning(e.getMessage());
 		}
 
-		int candidateCount = candidateConfigs.size( );
-		if ( candidateCount < 1 )
-		{
-			return createConfiguration( fileName );
-		}
-		else
-			return (ILaunchConfiguration) candidateConfigs.get( 0 );
+		int candidateCount = candidateConfigs.size();
+		if (candidateCount < 1) {
+			return createConfiguration(fileName);
+		} else
+			return (ILaunchConfiguration) candidateConfigs.get(0);
 	}
 
 	/**
 	 * @param fileName
 	 * @return
 	 */
-	protected static ILaunchConfiguration createConfiguration( String fileName )
-	{
+	protected static ILaunchConfiguration createConfiguration(String fileName) {
 		// String fileName = input.getPath( ).toOSString( );
 		// int index = fileName.indexOf( File.separator );
 		String name = "New_configuration";//$NON-NLS-1$
 
-		name = DebugPlugin.getDefault( )
-				.getLaunchManager( )
-				.generateUniqueLaunchConfigurationNameFrom( name );
+		name = DebugPlugin.getDefault().getLaunchManager().generateUniqueLaunchConfigurationNameFrom(name);
 		ILaunchConfiguration config = null;
 		ILaunchConfigurationWorkingCopy wc = null;
-		try
-		{
-			ILaunchConfigurationType configType = getConfigurationType( );
-			wc = configType.newInstance( null,
-					getLaunchManager( ).generateUniqueLaunchConfigurationNameFrom( name ) );
-			wc.setAttribute( IReportLaunchConstants.ATTR_REPORT_FILE_NAME,
-					fileName );
+		try {
+			ILaunchConfigurationType configType = getConfigurationType();
+			wc = configType.newInstance(null, getLaunchManager().generateUniqueLaunchConfigurationNameFrom(name));
+			wc.setAttribute(IReportLaunchConstants.ATTR_REPORT_FILE_NAME, fileName);
 
-			config = wc.doSave( );
-		}
-		catch ( CoreException exception )
-		{
-			logger.warning( exception.getMessage( ) );
+			config = wc.doSave();
+		} catch (CoreException exception) {
+			logger.warning(exception.getMessage());
 		}
 		return config;
 	}

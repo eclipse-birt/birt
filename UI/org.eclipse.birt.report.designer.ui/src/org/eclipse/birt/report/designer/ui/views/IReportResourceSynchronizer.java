@@ -14,11 +14,10 @@ package org.eclipse.birt.report.designer.ui.views;
 /**
  * IReportResourceSynchronizer
  */
-public interface IReportResourceSynchronizer
-{	
-	void addListener(int type, IReportResourceChangeListener listener );
+public interface IReportResourceSynchronizer {
+	void addListener(int type, IReportResourceChangeListener listener);
 
-	void removeListener(int type, IReportResourceChangeListener listener );
+	void removeListener(int type, IReportResourceChangeListener listener);
 
-	void notifyResourceChanged( IReportResourceChangeEvent ev );
+	void notifyResourceChanged(IReportResourceChangeEvent ev);
 }

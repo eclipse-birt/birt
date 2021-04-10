@@ -13,13 +13,11 @@ package org.eclipse.birt.chart.device.plugin;
 
 import org.eclipse.core.runtime.Plugin;
 
-
 /**
  * Plugin class for Chart Device Extension
  */
 
-public class ChartDeviceExtensionPlugin extends Plugin
-{
+public class ChartDeviceExtensionPlugin extends Plugin {
 
 	/**
 	 * Plugin ID.

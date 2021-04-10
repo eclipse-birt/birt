@@ -38,51 +38,43 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Column binding with the same name can't be added to the container itself but
  * can be added to its inner element
  */
-public class Regression_155513 extends BaseTestCase
-{
+public class Regression_155513 extends BaseTestCase {
 
 	private String filename = "Regression_155513.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( filename , filename );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(filename, filename);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_regression_155513( ) throws DesignFileException, SemanticException
-	{
-		openDesign( filename );
-		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$
-		ComputedColumn column = StructureFactory.createComputedColumn( );
-		column.setName( "a" ); //$NON-NLS-1$
-		column.setExpression( "b" ); //$NON-NLS-1$
+	public void test_regression_155513() throws DesignFileException, SemanticException {
+		openDesign(filename);
+		TableHandle table = (TableHandle) designHandle.findElement("table"); //$NON-NLS-1$
+		ComputedColumn column = StructureFactory.createComputedColumn();
+		column.setName("a"); //$NON-NLS-1$
+		column.setExpression("b"); //$NON-NLS-1$
 
 		// Table can't have two column bindings with the same name
-		try
-		{
+		try {
 
-			table.addColumnBinding( column, false );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS,
-					e.getErrorCode( ) );
+			table.addColumnBinding(column, false);
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS, e.getErrorCode());
 		}
 
 		// Column binding on data can be the same as table
-		DataItemHandle data = (DataItemHandle) designHandle
-				.findElement( "data" ); //$NON-NLS-1$
-		data.addColumnBinding( column, false );
+		DataItemHandle data = (DataItemHandle) designHandle.findElement("data"); //$NON-NLS-1$
+		data.addColumnBinding(column, false);
 
 	}
 }

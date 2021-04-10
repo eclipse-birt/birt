@@ -9,6 +9,7 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.chart.examples.api.preference;
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
@@ -29,77 +30,54 @@ import org.eclipse.birt.chart.style.SimpleStyle;
 /**
  * SimpleProcessor
  */
-public final class LabelStyleProcessor extends BaseStyleProcessor
-{
+public final class LabelStyleProcessor extends BaseStyleProcessor {
 
 	private static SimpleStyle sstyle = null;
 
 	/**
 	 * The constructor.
 	 */
-	public LabelStyleProcessor( String fontName, float size, boolean bBold,
-			boolean bItalic, ColorDefinition cd )
-	{
-		TextAlignment ta = TextAlignmentImpl.create( );
-		ta.setHorizontalAlignment( HorizontalAlignment.RIGHT_LITERAL );
-		ta.setVerticalAlignment( VerticalAlignment.BOTTOM_LITERAL );
+	public LabelStyleProcessor(String fontName, float size, boolean bBold, boolean bItalic, ColorDefinition cd) {
+		TextAlignment ta = TextAlignmentImpl.create();
+		ta.setHorizontalAlignment(HorizontalAlignment.RIGHT_LITERAL);
+		ta.setVerticalAlignment(VerticalAlignment.BOTTOM_LITERAL);
 
-		FontDefinition font = FontDefinitionImpl.create( ( fontName == null ) ? "Arial" : fontName, //$NON-NLS-1$
-				( size <= 0 ) ? (float)16.0 : size,
-				bBold,
-				bItalic,
-				false,
-				false,
-				true,
-				0.0,
-				ta );
+		FontDefinition font = FontDefinitionImpl.create((fontName == null) ? "Arial" : fontName, //$NON-NLS-1$
+				(size <= 0) ? (float) 16.0 : size, bBold, bItalic, false, false, true, 0.0, ta);
 
-		sstyle = new SimpleStyle( font,
-				cd,
-				ColorDefinitionImpl.CREAM( ),
-				null,
-				InsetsImpl.create( 1.0, 1.0, 1.0, 1.0 ) );
+		sstyle = new SimpleStyle(font, cd, ColorDefinitionImpl.CREAM(), null, InsetsImpl.create(1.0, 1.0, 1.0, 1.0));
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.style.IStyleProcessor#getStyle(org.eclipse.birt.chart.model.attribute.StyledComponent)
+	 * @see
+	 * org.eclipse.birt.chart.style.IStyleProcessor#getStyle(org.eclipse.birt.chart.
+	 * model.attribute.StyledComponent)
 	 */
-	public IStyle getStyle( Chart model, StyledComponent name )
-	{
-		if ( model != null && model.getStyles( ).size( ) > 0 )
-		{
-			for ( StyleMap sm : model.getStyles( ) )
-			{
-				if ( sm.getComponentName( ).equals( name ) )
-				{
-					Style style = sm.getStyle( );
+	public IStyle getStyle(Chart model, StyledComponent name) {
+		if (model != null && model.getStyles().size() > 0) {
+			for (StyleMap sm : model.getStyles()) {
+				if (sm.getComponentName().equals(name)) {
+					Style style = sm.getStyle();
 
-					SimpleStyle rt = new SimpleStyle( sstyle );
+					SimpleStyle rt = new SimpleStyle(sstyle);
 
-					if ( style.getFont( ) != null )
-					{
-						rt.setFont( style.getFont( ).copyInstance( ) );
+					if (style.getFont() != null) {
+						rt.setFont(style.getFont().copyInstance());
 					}
-					if ( style.getColor( ) != null )
-					{
-						rt.setColor( style.getColor( ).copyInstance( ) );
+					if (style.getColor() != null) {
+						rt.setColor(style.getColor().copyInstance());
 					}
-					if ( style.getBackgroundColor( ) != null )
-					{
-						rt.setBackgroundColor( style.getBackgroundColor( )
-								.copyInstance( ) );
+					if (style.getBackgroundColor() != null) {
+						rt.setBackgroundColor(style.getBackgroundColor().copyInstance());
 					}
-					if ( style.getBackgroundImage( ) != null )
-					{
-						rt.setBackgroundImage( style.getBackgroundImage( )
-								.copyInstance( ) );
+					if (style.getBackgroundImage() != null) {
+						rt.setBackgroundImage(style.getBackgroundImage().copyInstance());
 					}
-					if ( style.getPadding( ) != null )
-					{
-						rt.setPadding( style.getPadding( ).copyInstance( ) );
+					if (style.getPadding() != null) {
+						rt.setPadding(style.getPadding().copyInstance());
 					}
 
 					return rt;
@@ -107,7 +85,7 @@ public final class LabelStyleProcessor extends BaseStyleProcessor
 			}
 		}
 
-		return sstyle.copy( );
+		return sstyle.copy();
 
 	}
 }

@@ -11,22 +11,20 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-
 /**
  * 
  * test ListItemExecutor
  * 
  * 
  */
-public class ListItemExecutorTest extends ReportItemExecutorTestAbs
-{
+public class ListItemExecutorTest extends ReportItemExecutorTestAbs {
 
-    /**
+	/**
 	 * test single table
+	 * 
 	 * @throws Exception
 	 */
-	public void testExcuteList1( ) throws Exception
-	{
+	public void testExcuteList1() throws Exception {
 		compare("List1.xml", "List1.txt");
 	}
 }

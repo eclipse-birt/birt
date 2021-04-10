@@ -22,22 +22,21 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 
-public class ImportCSSHandler extends SelectionHandler
-{
+public class ImportCSSHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
 
-		Dialog dialog = new BaseWizardDialog( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), new SelectCssStyleWizard( getSelection( ) ) );
-		dialog.open( );
+		Dialog dialog = new BaseWizardDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				new SelectCssStyleWizard(getSelection()));
+		dialog.open();
 
 		return Boolean.TRUE;
 	}

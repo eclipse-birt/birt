@@ -15,27 +15,26 @@ package org.eclipse.birt.chart.script.api.attribute;
  * Represents Label object in a Chart in the scripting environment
  */
 
-public interface ILabel
-{
+public interface ILabel {
 
 	/**
 	 * Checks if current label is visible
 	 * 
 	 * @return visible or not
 	 */
-	boolean isVisible( );
+	boolean isVisible();
 
 	/**
 	 * Sets if current label is visible
 	 * 
 	 * @param visible
 	 */
-	void setVisible( boolean visible );
+	void setVisible(boolean visible);
 
 	/**
 	 * Gets the caption in the Label
 	 * 
 	 * @return the caption text
 	 */
-	IText getCaption( );
+	IText getCaption();
 }

@@ -18,27 +18,20 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_173242 extends BaseTestCase
-{
+public class Regression_173242 extends BaseTestCase {
 
 	private String filename = "regression_173242.xml";
 
-	public void test_Regression_173242( ) throws Exception
-	{
+	public void test_Regression_173242() throws Exception {
 
-		openDesign( filename );
-		TableHandle tableHandle = (TableHandle) designHandle
-				.findElement( "table" );
-		TableGroupHandle tableGroupHandle = (TableGroupHandle) tableHandle
-				.getGroups( ).get( 0 );
-		RowHandle tableGroupRowHandle = (RowHandle) tableGroupHandle
-				.getHeader( ).get( 0 );
-		tableGroupRowHandle.setProperty( "pageBreakBefore", "always" );
+		openDesign(filename);
+		TableHandle tableHandle = (TableHandle) designHandle.findElement("table");
+		TableGroupHandle tableGroupHandle = (TableGroupHandle) tableHandle.getGroups().get(0);
+		RowHandle tableGroupRowHandle = (RowHandle) tableGroupHandle.getHeader().get(0);
+		tableGroupRowHandle.setProperty("pageBreakBefore", "always");
 
-		assertEquals( "auto", tableGroupRowHandle
-				.getProperty( DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER ) );
-		assertNotSame( "always", tableGroupHandle
-				.getProperty( "pageBreakBefore" ) );
+		assertEquals("auto", tableGroupRowHandle.getProperty(DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER));
+		assertNotSame("always", tableGroupHandle.getProperty("pageBreakBefore"));
 
 	}
 }

@@ -36,8 +36,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </table>
  */
 
-public class ReportItemHandleTest extends BaseTestCase
-{
+public class ReportItemHandleTest extends BaseTestCase {
 
 	/**
 	 * @param name
@@ -50,9 +49,8 @@ public class ReportItemHandleTest extends BaseTestCase
 	DesignElement element;
 	InnerReportItemHandle innerHandle;
 
-	
-	public static Test suite(){
-		return new TestSuite(ReportItemHandleTest.class);	
+	public static Test suite() {
+		return new TestSuite(ReportItemHandleTest.class);
 	}
 	/*
 	 * (non-Javadoc)
@@ -60,64 +58,59 @@ public class ReportItemHandleTest extends BaseTestCase
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( "ReportItemHandleTest.xml" , "ReportItemHandleTest.xml" );
-		openDesign( "ReportItemHandleTest.xml" ); //$NON-NLS-1$ 
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT("ReportItemHandleTest.xml", "ReportItemHandleTest.xml");
+		openDesign("ReportItemHandleTest.xml"); //$NON-NLS-1$
 
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
-	
+
 	/**
 	 * 
 	 */
 
-	class InnerReportItemHandle extends ReportItemHandle
-	{
+	class InnerReportItemHandle extends ReportItemHandle {
 
-		InnerReportItemHandle( ReportDesign design, DesignElement element )
-		{
-			super( design, element );
+		InnerReportItemHandle(ReportDesign design, DesignElement element) {
+			super(design, element);
 		}
 	}
 
-
-	
 	/**
 	 * Tests ACLExpression for report item
+	 * 
 	 * @throws SemanticException
 	 */
-	public void testACL() throws SemanticException{
-		TextItemHandle textHandle=(TextItemHandle)designHandle.findElement( "myText" );
-		String aclExp="rule1:root";
-		textHandle.setACLExpression( aclExp );
-		assertEquals(aclExp,textHandle.getACLExpression( ));
-		assertFalse(textHandle.cascadeACL( ));
-		textHandle.setCascadeACL( true );
-		assertFalse(textHandle.cascadeACL( ));
-		assertFalse(((Boolean)textHandle.getProperty( IReportItemModel.CASCADE_ACL_PROP )).booleanValue());
-		
-		aclExp="sid1,sid2";
-		textHandle.setACLExpression( aclExp );
-		assertEquals(aclExp,textHandle.getACLExpression( ));
+	public void testACL() throws SemanticException {
+		TextItemHandle textHandle = (TextItemHandle) designHandle.findElement("myText");
+		String aclExp = "rule1:root";
+		textHandle.setACLExpression(aclExp);
+		assertEquals(aclExp, textHandle.getACLExpression());
+		assertFalse(textHandle.cascadeACL());
+		textHandle.setCascadeACL(true);
+		assertFalse(textHandle.cascadeACL());
+		assertFalse(((Boolean) textHandle.getProperty(IReportItemModel.CASCADE_ACL_PROP)).booleanValue());
+
+		aclExp = "sid1,sid2";
+		textHandle.setACLExpression(aclExp);
+		assertEquals(aclExp, textHandle.getACLExpression());
 
 //		aclExp=null;
 //		textHandle.setACLExpression( aclExp );
 //		assertEquals("__all",textHandle.getACLExpression( ));
 
-		aclExp="普通用户~!@#$%^&*()_+=-`{}|:;.?'";
-		textHandle.setACLExpression( aclExp );
-		assertEquals(aclExp,textHandle.getACLExpression( ));
+		aclExp = "普通用户~!@#$%^&*()_+=-`{}|:;.?'";
+		textHandle.setACLExpression(aclExp);
+		assertEquals(aclExp, textHandle.getACLExpression());
 
-		aclExp=" ";
-		textHandle.setACLExpression( aclExp );
-		assertEquals(aclExp,textHandle.getACLExpression( ));
+		aclExp = " ";
+		textHandle.setACLExpression(aclExp);
+		assertEquals(aclExp, textHandle.getACLExpression());
 
 	}
 

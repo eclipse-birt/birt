@@ -14,18 +14,18 @@ package org.eclipse.birt.core.script.functionservice;
 import org.eclipse.birt.core.exception.BirtException;
 
 /**
- * This interface is the entry point of an Script Function Service extension. It provides information such as 
- * Categories and ScriptFunctions that can be provided by the extension.
+ * This interface is the entry point of an Script Function Service extension. It
+ * provides information such as Categories and ScriptFunctions that can be
+ * provided by the extension.
  * 
  */
-public interface IScriptFunctionFactory
-{
+public interface IScriptFunctionFactory {
 	/**
 	 * Return an array of script function executors according to the function name.
 	 * 
 	 * @param category
 	 * @return
 	 */
-	public IScriptFunctionExecutor getFunctionExecutor( String functionName ) throws BirtException;
-	
+	public IScriptFunctionExecutor getFunctionExecutor(String functionName) throws BirtException;
+
 }

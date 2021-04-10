@@ -19,8 +19,7 @@ import java.util.Iterator;
  * objects.
  */
 
-public interface IObjectDefn
-{
+public interface IObjectDefn {
 
 	/**
 	 * Gets the display name.
@@ -28,7 +27,7 @@ public interface IObjectDefn
 	 * @return Returns the display name.
 	 */
 
-	public String getDisplayName( );
+	public String getDisplayName();
 
 	/**
 	 * Gets the resource key for the display name.
@@ -36,7 +35,7 @@ public interface IObjectDefn
 	 * @return The display name resource key.
 	 */
 
-	public Object getDisplayNameKey( );
+	public Object getDisplayNameKey();
 
 	/**
 	 * Gets the internal name for the element.
@@ -44,18 +43,16 @@ public interface IObjectDefn
 	 * @return Returns the name.
 	 */
 
-	public String getName( );
+	public String getName();
 
 	/**
 	 * Gets a property definition given the property name.
 	 * 
-	 * @param propName
-	 *            the name of the property to get
-	 * @return the property with that name, or null if the property cannot be
-	 *         found
+	 * @param propName the name of the property to get
+	 * @return the property with that name, or null if the property cannot be found
 	 */
 
-	public IPropertyDefn findProperty( String propName );
+	public IPropertyDefn findProperty(String propName);
 
 	/**
 	 * Returns an iterator over the property definitions. The
@@ -65,7 +62,7 @@ public interface IObjectDefn
 	 * @return an iterator over the property definitions.
 	 */
 
-	public Iterator<IPropertyDefn> getPropertyIterator( );
+	public Iterator<IPropertyDefn> getPropertyIterator();
 
 	/**
 	 * Returns an iterator over the property definitions. The
@@ -74,5 +71,5 @@ public interface IObjectDefn
 	 * @return an iterator over the property definitions.
 	 */
 
-	public Iterator<IPropertyDefn> propertiesIterator( );
+	public Iterator<IPropertyDefn> propertiesIterator();
 }

@@ -15,12 +15,9 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for library element to store the constants.
  */
 
-public interface ILibraryModel extends IInternalLibraryModel
-{
+public interface ILibraryModel extends IInternalLibraryModel {
 
 	// Library slots
 	// See constants defined in the module class.
-
-	
 
 }

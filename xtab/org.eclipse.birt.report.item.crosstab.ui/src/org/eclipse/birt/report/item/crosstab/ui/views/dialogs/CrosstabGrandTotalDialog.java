@@ -60,10 +60,9 @@ import org.eclipse.swt.widgets.Shell;
  * 
  */
 
-public class CrosstabGrandTotalDialog extends BaseDialog
-{
+public class CrosstabGrandTotalDialog extends BaseDialog {
 
-	public final static String TITLE = Messages.getString( "CrosstabGrandTotalDialog.Title" ); //$NON-NLS-1$
+	public final static String TITLE = Messages.getString("CrosstabGrandTotalDialog.Title"); //$NON-NLS-1$
 
 	protected String[] FUNCTION_LIST_ARRAY;
 
@@ -77,218 +76,185 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 
 	private int axis;
 
-	protected CrosstabGrandTotalDialog( String title )
-	{
-		this( UIUtil.getDefaultShell( ), title );
+	protected CrosstabGrandTotalDialog(String title) {
+		this(UIUtil.getDefaultShell(), title);
 		// TODO Auto-generated constructor stub
 	}
 
-	protected CrosstabGrandTotalDialog( Shell parentShell, String title )
-	{
-		super( parentShell, title );
+	protected CrosstabGrandTotalDialog(Shell parentShell, String title) {
+		super(parentShell, title);
 	}
 
-	public CrosstabGrandTotalDialog( CrosstabReportItemHandle reportItem,
-			int axis )
-	{
-		this( TITLE );
+	public CrosstabGrandTotalDialog(CrosstabReportItemHandle reportItem, int axis) {
+		this(TITLE);
 		this.reportItemHandle = reportItem;
 		this.axis = axis;
 	}
 
-	private CommandStack getActionStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	private CommandStack getActionStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
-	protected void okPressed( )
-	{
-		CommandStack stack = getActionStack( );
+	protected void okPressed() {
+		CommandStack stack = getActionStack();
 
-		if ( input == null )
-		{
-			stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
-			List measureList = new ArrayList( );
-			List functionList = new ArrayList( );
-			measureList.add( getMeasureViewHandle( dataFieldCombo.getText( ) ) );
-			functionList.add( getFunctionNames( )[0] );
-			try
-			{
-				CrosstabCellHandle cellHandle = reportItemHandle.addGrandTotal( axis,
-						measureList,
-						functionList );
-				if ( cellHandle != null )
-					CrosstabUIHelper.createGrandTotalLabel( cellHandle );
-				stack.commit( );
-			}
-			catch ( SemanticException e )
-			{
-				stack.rollback( );
+		if (input == null) {
+			stack.startTrans(Messages.getString("FormPage.Menu.ModifyProperty")); //$NON-NLS-1$
+			List measureList = new ArrayList();
+			List functionList = new ArrayList();
+			measureList.add(getMeasureViewHandle(dataFieldCombo.getText()));
+			functionList.add(getFunctionNames()[0]);
+			try {
+				CrosstabCellHandle cellHandle = reportItemHandle.addGrandTotal(axis, measureList, functionList);
+				if (cellHandle != null)
+					CrosstabUIHelper.createGrandTotalLabel(cellHandle);
+				stack.commit();
+			} catch (SemanticException e) {
+				stack.rollback();
 			}
 
 		}
-		super.okPressed( );
+		super.okPressed();
 	}
 
-	public void setInput( GrandTotalInfo grandTotalInfo )
-	{
+	public void setInput(GrandTotalInfo grandTotalInfo) {
 		this.input = grandTotalInfo;
 	}
 
-	protected void iniValue( )
-	{
-		ExtendedItemHandle extendedItem = (ExtendedItemHandle) reportItemHandle.getModelHandle( );
+	protected void iniValue() {
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) reportItemHandle.getModelHandle();
 
-		measures = extendedItem.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
-				.getContents( );
+		measures = extendedItem.getPropertyHandle(ICrosstabReportItemConstants.MEASURES_PROP).getContents();
 
-		if ( input == null )
-		{
-			List measureNames = new ArrayList( );
-			for ( int i = 0; i < measures.size( ); i++ )
-			{
-				ExtendedItemHandle extHandle = (ExtendedItemHandle) measures.get( i );
+		if (input == null) {
+			List measureNames = new ArrayList();
+			for (int i = 0; i < measures.size(); i++) {
+				ExtendedItemHandle extHandle = (ExtendedItemHandle) measures.get(i);
 				MeasureViewHandle measureViewHandle = null;
-				try
-				{
-					measureViewHandle = (MeasureViewHandle) extHandle.getReportItem( );
-					if(measureViewHandle instanceof ComputedMeasureViewHandle)
-					{
+				try {
+					measureViewHandle = (MeasureViewHandle) extHandle.getReportItem();
+					if (measureViewHandle instanceof ComputedMeasureViewHandle) {
 						continue;
 					}
-					if ( !inGrandTotalList( reportItemHandle, measureViewHandle ) )
-					{
-						measureNames.add( measureViewHandle.getCubeMeasureName( ) );
+					if (!inGrandTotalList(reportItemHandle, measureViewHandle)) {
+						measureNames.add(measureViewHandle.getCubeMeasureName());
 					}
-				}
-				catch ( ExtendedElementException e1 )
-				{
-					ExceptionUtil.handle( e1 );
+				} catch (ExtendedElementException e1) {
+					ExceptionUtil.handle(e1);
 				}
 			}
-			String[] names = new String[measureNames.size( )];
-			measureNames.toArray( names );
-			dataFieldCombo.setItems( names );
-			dataFieldCombo.select( 0 );
+			String[] names = new String[measureNames.size()];
+			measureNames.toArray(names);
+			dataFieldCombo.setItems(names);
+			dataFieldCombo.select(0);
+		} else {
+			dataFieldCombo.add(input.getMeasureName());
+			dataFieldCombo.select(0);
 		}
-		else
-		{
-			dataFieldCombo.add( input.getMeasureName( ) );
-			dataFieldCombo.select( 0 );
-		}
-		GridData dataFieldGd = (GridData) dataFieldCombo.getLayoutData( );
-		int width = dataFieldCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		dataFieldGd.widthHint = width > dataFieldGd.widthHint ? width
-				: dataFieldGd.widthHint;
-		dataFieldCombo.setLayoutData( dataFieldGd );
-		dataFieldCombo.getParent( ).layout( );
+		GridData dataFieldGd = (GridData) dataFieldCombo.getLayoutData();
+		int width = dataFieldCombo.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
+		dataFieldGd.widthHint = width > dataFieldGd.widthHint ? width : dataFieldGd.widthHint;
+		dataFieldCombo.setLayoutData(dataFieldGd);
+		dataFieldCombo.getParent().layout();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
-	protected Control createContents( Composite parent )
-	{
+	protected Control createContents(Composite parent) {
 		GridData gdata;
 		GridLayout glayout;
-		Composite contents = new Composite( parent, SWT.NONE );
-		contents.setLayout( new GridLayout( ) );
-		contents.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		Composite contents = new Composite(parent, SWT.NONE);
+		contents.setLayout(new GridLayout());
+		contents.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		createTitleArea( contents );
+		createTitleArea(contents);
 
-		Composite composite = new Composite( contents, SWT.NONE );
-		glayout = new GridLayout( );
+		Composite composite = new Composite(contents, SWT.NONE);
+		glayout = new GridLayout();
 		glayout.marginHeight = 0;
 		glayout.marginWidth = 0;
 		glayout.verticalSpacing = 0;
-		composite.setLayout( glayout );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		applyDialogFont( composite );
-		initializeDialogUnits( composite );
+		composite.setLayout(glayout);
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		applyDialogFont(composite);
+		initializeDialogUnits(composite);
 
-		Composite innerParent = (Composite) createDialogArea( composite );
-		createButtonBar( composite );
+		Composite innerParent = (Composite) createDialogArea(composite);
+		createButtonBar(composite);
 
-		createGrandTotalContent( innerParent );
+		createGrandTotalContent(innerParent);
 
-		Composite space = new Composite( innerParent, SWT.NONE );
-		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		Composite space = new Composite(innerParent, SWT.NONE);
+		gdata = new GridData(GridData.FILL_HORIZONTAL);
 		gdata.minimumWidth = 200;
 		gdata.heightHint = 10;
-		space.setLayoutData( gdata );
+		space.setLayoutData(gdata);
 
-		iniValue( );
-		updateButtons( );
+		iniValue();
+		updateButtons();
 
 		return composite;
 	}
 
-	protected void createGrandTotalContent( Composite parent )
-	{
-		Composite container = new Composite( parent, SWT.NONE );
-		container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		GridLayout glayout = new GridLayout( 2, false );
-		container.setLayout( glayout );
+	protected void createGrandTotalContent(Composite parent) {
+		Composite container = new Composite(parent, SWT.NONE);
+		container.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		GridLayout glayout = new GridLayout(2, false);
+		container.setLayout(glayout);
 
-		Label lb = new Label( container, SWT.NONE );
-		lb.setText( Messages.getString( "CrosstabGrandTotalDialog.Text.DataField" ) ); //$NON-NLS-1$
+		Label lb = new Label(container, SWT.NONE);
+		lb.setText(Messages.getString("CrosstabGrandTotalDialog.Text.DataField")); //$NON-NLS-1$
 
-		dataFieldCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
-		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
+		dataFieldCombo = new Combo(container, SWT.BORDER | SWT.READ_ONLY);
+		GridData gdata = new GridData(GridData.FILL_HORIZONTAL);
 		gdata.minimumWidth = 140;
-		dataFieldCombo.setLayoutData( gdata );
-		dataFieldCombo.setVisibleItemCount( 30 );
-		dataFieldCombo.addModifyListener( new ModifyListener( ) {
+		dataFieldCombo.setLayoutData(gdata);
+		dataFieldCombo.setVisibleItemCount(30);
+		dataFieldCombo.addModifyListener(new ModifyListener() {
 
-			public void modifyText( ModifyEvent e )
-			{
-				updateButtons( );
+			public void modifyText(ModifyEvent e) {
+				updateButtons();
 			}
-		} );
+		});
 
 	}
 
-	private Composite createTitleArea( Composite parent )
-	{
+	private Composite createTitleArea(Composite parent) {
 		int heightMargins = 3;
 		int widthMargins = 8;
-		final Composite titleArea = new Composite( parent, SWT.NONE );
-		FormLayout layout = new FormLayout( );
+		final Composite titleArea = new Composite(parent, SWT.NONE);
+		FormLayout layout = new FormLayout();
 		layout.marginHeight = heightMargins;
 		layout.marginWidth = widthMargins;
-		titleArea.setLayout( layout );
+		titleArea.setLayout(layout);
 
-		Display display = parent.getDisplay( );
-		Color background = JFaceColors.getBannerBackground( display );
-		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
-		layoutData.heightHint = 20 + ( heightMargins * 2 );
-		titleArea.setLayoutData( layoutData );
-		titleArea.setBackground( background );
+		Display display = parent.getDisplay();
+		Color background = JFaceColors.getBannerBackground(display);
+		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
+		layoutData.heightHint = 20 + (heightMargins * 2);
+		titleArea.setLayoutData(layoutData);
+		titleArea.setBackground(background);
 
-		titleArea.addPaintListener( new PaintListener( ) {
+		titleArea.addPaintListener(new PaintListener() {
 
-			public void paintControl( PaintEvent e )
-			{
-				e.gc.setForeground( titleArea.getDisplay( )
-						.getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
-				Rectangle bounds = titleArea.getClientArea( );
+			public void paintControl(PaintEvent e) {
+				e.gc.setForeground(titleArea.getDisplay().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW));
+				Rectangle bounds = titleArea.getClientArea();
 				bounds.height = bounds.height - 2;
 				bounds.width = bounds.width - 1;
-				e.gc.drawRectangle( bounds );
+				e.gc.drawRectangle(bounds);
 			}
-		} );
+		});
 
-		Label label = new Label( titleArea, SWT.NONE );
-		label.setBackground( background );
-		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
-				10,
-				SWT.BOLD ) );
-		label.setText( getTitle( ) );
-		UIUtil.bindHelp( parent,
-				IHelpContextIds.INSERT_EDIT_GRAND_TOTAL_DIALOG_ID );
+		Label label = new Label(titleArea, SWT.NONE);
+		label.setBackground(background);
+		label.setFont(FontManager.getFont(label.getFont().toString(), 10, SWT.BOLD));
+		label.setText(getTitle());
+		UIUtil.bindHelp(parent, IHelpContextIds.INSERT_EDIT_GRAND_TOTAL_DIALOG_ID);
 		return titleArea;
 	}
 
@@ -296,39 +262,30 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 	 * Refreshes the OK button state.
 	 * 
 	 */
-	protected void updateButtons( )
-	{
-		getOkButton( ).setEnabled( isConditionOK( ) );
+	protected void updateButtons() {
+		getOkButton().setEnabled(isConditionOK());
 	}
 
-	private boolean isConditionOK( )
-	{
-		if ( dataFieldCombo.getSelectionIndex( ) == -1 )
-		{
+	private boolean isConditionOK() {
+		if (dataFieldCombo.getSelectionIndex() == -1) {
 			return false;
 		}
 		return true;
 	}
 
-	private MeasureViewHandle getMeasureViewHandle( String measureName )
-	{
+	private MeasureViewHandle getMeasureViewHandle(String measureName) {
 		MeasureViewHandle retValue = null;
-		for ( int i = 0; i < measures.size( ); i++ )
-		{
-			ExtendedItemHandle extHandle = (ExtendedItemHandle) measures.get( i );
+		for (int i = 0; i < measures.size(); i++) {
+			ExtendedItemHandle extHandle = (ExtendedItemHandle) measures.get(i);
 			MeasureViewHandle measureViewHandle = null;
-			try
-			{
-				measureViewHandle = (MeasureViewHandle) extHandle.getReportItem( );
-			}
-			catch ( ExtendedElementException e1 )
-			{
+			try {
+				measureViewHandle = (MeasureViewHandle) extHandle.getReportItem();
+			} catch (ExtendedElementException e1) {
 				// TODO Auto-generated catch block
-				logger.log( Level.SEVERE, e1.getMessage( ), e1 );
+				logger.log(Level.SEVERE, e1.getMessage(), e1);
 			}
 
-			if ( measureViewHandle.getCubeMeasureName( ).equals( measureName ) )
-			{
+			if (measureViewHandle.getCubeMeasureName().equals(measureName)) {
 				retValue = measureViewHandle;
 				break;
 			}
@@ -337,62 +294,47 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 		return retValue;
 	}
 
-	private String[] getFunctionDisplayNames( )
-	{
-		IChoice[] choices = getFunctions( );
-		if ( choices == null )
+	private String[] getFunctionDisplayNames() {
+		IChoice[] choices = getFunctions();
+		if (choices == null)
 			return new String[0];
 
 		String[] displayNames = new String[choices.length];
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			displayNames[i] = choices[i].getDisplayName( );
+		for (int i = 0; i < choices.length; i++) {
+			displayNames[i] = choices[i].getDisplayName();
 		}
 		return displayNames;
 
 	}
 
-	private String[] getFunctionNames( )
-	{
-		IChoice[] choices = getFunctions( );
-		if ( choices == null )
+	private String[] getFunctionNames() {
+		IChoice[] choices = getFunctions();
+		if (choices == null)
 			return new String[0];
 
 		String[] displayNames = new String[choices.length];
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			displayNames[i] = choices[i].getName( );
+		for (int i = 0; i < choices.length; i++) {
+			displayNames[i] = choices[i].getName();
 		}
 		return displayNames;
 	}
 
-	private String getFunctionDisplayName( String name )
-	{
-		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
-				DEUtil.getMetaDataDictionary( )
-						.getElement( ReportDesignConstants.MEASURE_ELEMENT )
-						.getProperty( IMeasureModel.FUNCTION_PROP )
-						.getAllowedChoices( ) );
+	private String getFunctionDisplayName(String name) {
+		return ChoiceSetFactory.getDisplayNameFromChoiceSet(name,
+				DEUtil.getMetaDataDictionary().getElement(ReportDesignConstants.MEASURE_ELEMENT)
+						.getProperty(IMeasureModel.FUNCTION_PROP).getAllowedChoices());
 	}
 
-	private IChoice[] getFunctions( )
-	{
-		return DEUtil.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.MEASURE_ELEMENT )
-				.getProperty( IMeasureModel.FUNCTION_PROP )
-				.getAllowedChoices( )
-				.getChoices( );
+	private IChoice[] getFunctions() {
+		return DEUtil.getMetaDataDictionary().getElement(ReportDesignConstants.MEASURE_ELEMENT)
+				.getProperty(IMeasureModel.FUNCTION_PROP).getAllowedChoices().getChoices();
 	}
 
-	private boolean inGrandTotalList( CrosstabReportItemHandle reportHandle,
-			MeasureViewHandle speHandle )
-	{
-		List measures = reportHandle.getAggregationMeasures( axis );
-		for ( int i = 0; i < measures.size( ); i++ )
-		{
-			MeasureViewHandle measureViewHandle = (MeasureViewHandle) measures.get( i );
-			if ( measureViewHandle.getCubeMeasure( ) == speHandle.getCubeMeasure( ) )
-			{
+	private boolean inGrandTotalList(CrosstabReportItemHandle reportHandle, MeasureViewHandle speHandle) {
+		List measures = reportHandle.getAggregationMeasures(axis);
+		for (int i = 0; i < measures.size(); i++) {
+			MeasureViewHandle measureViewHandle = (MeasureViewHandle) measures.get(i);
+			if (measureViewHandle.getCubeMeasure() == speHandle.getCubeMeasure()) {
 				return true;
 			}
 

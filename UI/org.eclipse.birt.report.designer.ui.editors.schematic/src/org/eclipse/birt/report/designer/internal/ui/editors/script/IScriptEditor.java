@@ -19,43 +19,41 @@ import org.eclipse.ui.IEditorPart;
 /**
  * An editor for script.
  */
-public interface IScriptEditor extends IEditorPart
-{
+public interface IScriptEditor extends IEditorPart {
 
 	/**
 	 * Returns the context about script
 	 * 
 	 * @return the context about script
 	 */
-	JSSyntaxContext getContext( );
+	JSSyntaxContext getContext();
 
 	/**
-	 * Returns the editor's source viewer. May return <code>null</code> before
-	 * the editor's part has been created and after disposal.
+	 * Returns the editor's source viewer. May return <code>null</code> before the
+	 * editor's part has been created and after disposal.
 	 * 
 	 * @return the editor's source viewer which may be <code>null</code>
 	 */
-	ISourceViewer getViewer( );
+	ISourceViewer getViewer();
 
 	/**
 	 * Returns the current script.
 	 * 
 	 * @return the current script.
 	 */
-	String getScript( );
+	String getScript();
 
 	/**
 	 * Sets the script text to edit.
 	 * 
-	 * @param script
-	 *            the script text
+	 * @param script the script text
 	 */
-	void setScript( String text );
+	void setScript(String text);
 
 	/**
 	 * Returns the action registry.
 	 * 
 	 * @return the action registry.
 	 */
-	ActionRegistry getActionRegistry( );
+	ActionRegistry getActionRegistry();
 }

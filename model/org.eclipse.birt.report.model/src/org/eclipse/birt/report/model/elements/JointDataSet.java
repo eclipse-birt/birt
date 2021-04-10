@@ -30,41 +30,35 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * @see org.eclipse.birt.report.model.elements.SimpleDataSet
  */
 
-public class JointDataSet extends DataSet implements IJointDataSetModel
-{
+public class JointDataSet extends DataSet implements IJointDataSetModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public JointDataSet( )
-	{
-		super( );
+	public JointDataSet() {
+		super();
 	}
 
 	/**
 	 * Constructs this joint data set with a required name.
 	 * 
-	 * @param theName
-	 *            the required name
+	 * @param theName the required name
 	 */
 
-	public JointDataSet( String theName )
-	{
-		super( theName );
+	public JointDataSet(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitJointDataSet( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitJointDataSet(this);
 	}
 
 	/*
@@ -73,8 +67,7 @@ public class JointDataSet extends DataSet implements IJointDataSetModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.JOINT_DATA_SET;
 	}
 
@@ -86,25 +79,21 @@ public class JointDataSet extends DataSet implements IJointDataSetModel
 	 * .birt.report.model.core.Module)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design of the joint data set
+	 * @param module the report design of the joint data set
 	 * 
 	 * @return an API handle for this element
 	 */
 
-	public JointDataSetHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new JointDataSetHandle( module, this );
+	public JointDataSetHandle handle(Module module) {
+		if (handle == null) {
+			handle = new JointDataSetHandle(module, this);
 		}
 		return (JointDataSetHandle) handle;
 	}
@@ -112,38 +101,30 @@ public class JointDataSet extends DataSet implements IJointDataSetModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.elements.DataSet#validate(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.elements.DataSet#validate(org.eclipse.birt
 	 * .report.model.core.Module)
 	 */
 
-	public List<SemanticException> validate( Module module )
-	{
-		return Collections.emptyList( );
+	public List<SemanticException> validate(Module module) {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * Gets the names of the data sets in this joint data set.
 	 * 
-	 * @param module
-	 *            the root module of the element
+	 * @param module the root module of the element
 	 * 
 	 * @return a list of names of data sets in this joint data set.
 	 */
 
-	public List<String> getDataSetNames( Module module )
-	{
-		List<Object> dataSetsReferences = getListProperty( module,
-				IJointDataSetModel.DATA_SETS_PROP );
-		if ( dataSetsReferences == null )
-		{
-			return Collections.emptyList( );
+	public List<String> getDataSetNames(Module module) {
+		List<Object> dataSetsReferences = getListProperty(module, IJointDataSetModel.DATA_SETS_PROP);
+		if (dataSetsReferences == null) {
+			return Collections.emptyList();
 		}
-		List<String> results = new ArrayList<String>( );
-		for ( int i = 0; i < dataSetsReferences.size( ); i++ )
-		{
-			results.add( ( (ElementRefValue) dataSetsReferences.get( i ) )
-					.getQualifiedReference( ) );
+		List<String> results = new ArrayList<String>();
+		for (int i = 0; i < dataSetsReferences.size(); i++) {
+			results.add(((ElementRefValue) dataSetsReferences.get(i)).getQualifiedReference());
 		}
 		return results;
 	}

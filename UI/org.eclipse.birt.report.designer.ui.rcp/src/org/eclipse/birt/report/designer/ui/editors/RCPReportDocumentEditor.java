@@ -22,23 +22,19 @@ import org.eclipse.ui.PartInitException;
  * 
  */
 
-public class RCPReportDocumentEditor extends ReportDocumentEditor
-{
+public class RCPReportDocumentEditor extends ReportDocumentEditor {
 
 	@Override
-	public void init( IEditorSite site, IEditorInput input )
-			throws PartInitException
-	{
-		super.init( site, input );
-		if ( input instanceof ReportEditorInput )
-		{
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+		super.init(site, input);
+		if (input instanceof ReportEditorInput) {
 			ReportEditorInput reportInput = (ReportEditorInput) input;
-			String fileName = reportInput.getFile( ).getAbsolutePath( );
-			setFileName( fileName );
+			String fileName = reportInput.getFile().getAbsolutePath();
+			setFileName(fileName);
 
-			int index = fileName.lastIndexOf( File.separator );
+			int index = fileName.lastIndexOf(File.separator);
 
-			setPartName( fileName.substring( index + 1, fileName.length( ) ) );
+			setPartName(fileName.substring(index + 1, fileName.length()));
 
 		}
 

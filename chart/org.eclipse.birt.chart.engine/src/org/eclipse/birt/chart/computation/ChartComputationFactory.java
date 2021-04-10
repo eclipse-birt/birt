@@ -15,29 +15,24 @@ package org.eclipse.birt.chart.computation;
  * 
  */
 
-public class ChartComputationFactory implements IChartComputationFactory
-{
+public class ChartComputationFactory implements IChartComputationFactory {
 
-	private static IChartComputationFactory factory = new ChartComputationFactory( );
+	private static IChartComputationFactory factory = new ChartComputationFactory();
 
-	public static void initInstance( IChartComputationFactory tFactory )
-	{
+	public static void initInstance(IChartComputationFactory tFactory) {
 		factory = tFactory;
 	}
 
-	public static IChartComputationFactory instance( )
-	{
+	public static IChartComputationFactory instance() {
 		return factory;
 	}
 
-	public IGObjectFactory createGObjectFactory( )
-	{
-		return new GObjectFactory( );
+	public IGObjectFactory createGObjectFactory() {
+		return new GObjectFactory();
 	}
 
-	public IChartComputation createChartComputation( )
-	{
-		return new BIRTChartComputation( );
+	public IChartComputation createChartComputation() {
+		return new BIRTChartComputation();
 	}
 
 }

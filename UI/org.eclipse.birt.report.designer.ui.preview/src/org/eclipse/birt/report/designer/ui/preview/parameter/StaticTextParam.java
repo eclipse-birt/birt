@@ -23,28 +23,26 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
  *
  */
 
-public class StaticTextParam extends ScalarParam
-{
+public class StaticTextParam extends ScalarParam {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param handle
 	 * @param engineTask
 	 */
-	
-	public StaticTextParam( ScalarParameterHandle handle , IEngineTask engineTask )
-	{
-		super( handle , engineTask );
+
+	public StaticTextParam(ScalarParameterHandle handle, IEngineTask engineTask) {
+		super(handle, engineTask);
 	}
 
 	/**
 	 * Gets Text parameter value list. contain and only contain one value.
 	 */
 
-	public List getValueList( )
-	{
-		List values = new ArrayList( );
-		values.add( getDefaultValue() );
+	public List getValueList() {
+		List values = new ArrayList();
+		values.add(getDefaultValue());
 		return values;
 	}
 

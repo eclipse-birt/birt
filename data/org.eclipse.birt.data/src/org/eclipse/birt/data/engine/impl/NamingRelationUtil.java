@@ -23,8 +23,7 @@ import org.eclipse.birt.data.engine.impl.document.NamingRelation;
  * 
  */
 
-public class NamingRelationUtil
-{
+public class NamingRelationUtil {
 
 	/**
 	 * 
@@ -32,68 +31,50 @@ public class NamingRelationUtil
 	 * @param queryDefn
 	 * @param queryResults
 	 */
-	public static void merge( DataEngineSession session,
-			IBaseQueryDefinition queryDefn, IQueryResults queryResults )
-	{
-		if ( session == null
-			|| queryResults.getPreparedQuery( ) == null
-			|| queryResults.getPreparedQuery( ).getReportQueryDefn( )== null
-			|| queryResults.getPreparedQuery( ).getReportQueryDefn( ).getBindings( ).size( ) == 0
-			|| queryDefn instanceof ISubqueryDefinition )
-				return;
-		String elementId = queryDefn.getName( );
-		String bookmark = queryResults.getName( );
-		String rsId = queryResults.getID( );
+	public static void merge(DataEngineSession session, IBaseQueryDefinition queryDefn, IQueryResults queryResults) {
+		if (session == null || queryResults.getPreparedQuery() == null
+				|| queryResults.getPreparedQuery().getReportQueryDefn() == null
+				|| queryResults.getPreparedQuery().getReportQueryDefn().getBindings().size() == 0
+				|| queryDefn instanceof ISubqueryDefinition)
+			return;
+		String elementId = queryDefn.getName();
+		String bookmark = queryResults.getName();
+		String rsId = queryResults.getID();
 
-		NamingRelation relation = session.getNamingRelation( );
-		if ( relation == null )
-		{
-			relation = new NamingRelation( );
-			session.setNamingRelation( relation );
+		NamingRelation relation = session.getNamingRelation();
+		if (relation == null) {
+			relation = new NamingRelation();
+			session.setNamingRelation(relation);
 		}
-		Map bookmarkMap = relation.getBookmarkMap( );
-		Map elementIdMap = relation.getElementIdMap( );
-		if ( bookmark != null )
-		{
-			if ( bookmarkMap.get( bookmark ) == null )
-			{
-				bookmarkMap.put( bookmark, rsId );
-			}
-			else
-			{
-				Object value = bookmarkMap.get( bookmark );
-				if ( value instanceof String )
-				{
-					Map subMap = new HashMap( );
-					subMap.put( getSubKey( subMap ), value );
-					bookmarkMap.put( bookmark, subMap );
-				}
-				else if ( value instanceof Map )
-				{
+		Map bookmarkMap = relation.getBookmarkMap();
+		Map elementIdMap = relation.getElementIdMap();
+		if (bookmark != null) {
+			if (bookmarkMap.get(bookmark) == null) {
+				bookmarkMap.put(bookmark, rsId);
+			} else {
+				Object value = bookmarkMap.get(bookmark);
+				if (value instanceof String) {
+					Map subMap = new HashMap();
+					subMap.put(getSubKey(subMap), value);
+					bookmarkMap.put(bookmark, subMap);
+				} else if (value instanceof Map) {
 					Map subMap = (Map) value;
-					subMap.put( getSubKey( subMap ), rsId );
+					subMap.put(getSubKey(subMap), rsId);
 				}
 			}
 		}
-		if ( elementId != null )
-		{
-			if ( elementIdMap.get( elementId ) == null )
-			{
-				elementIdMap.put( elementId, rsId );
-			}
-			else
-			{
-				Object value = elementIdMap.get( elementId );
-				if ( value instanceof String )
-				{
-					Map subMap = new HashMap( );
-					subMap.put( getSubKey( subMap ), value );
-					elementIdMap.put( elementId, subMap );
-				}
-				else if ( value instanceof Map )
-				{
+		if (elementId != null) {
+			if (elementIdMap.get(elementId) == null) {
+				elementIdMap.put(elementId, rsId);
+			} else {
+				Object value = elementIdMap.get(elementId);
+				if (value instanceof String) {
+					Map subMap = new HashMap();
+					subMap.put(getSubKey(subMap), value);
+					elementIdMap.put(elementId, subMap);
+				} else if (value instanceof Map) {
 					Map subMap = (Map) value;
-					subMap.put( getSubKey( subMap ), rsId );
+					subMap.put(getSubKey(subMap), rsId);
 				}
 			}
 		}
@@ -105,9 +86,8 @@ public class NamingRelationUtil
 	 * @param subMap
 	 * @return
 	 */
-	private static String getSubKey( Map subMap )
-	{
-		return String.valueOf( subMap.size( ) + 1 );
+	private static String getSubKey(Map subMap) {
+		return String.valueOf(subMap.size() + 1);
 	}
 
 }

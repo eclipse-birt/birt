@@ -15,156 +15,125 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IImageContent;
 
-public class ImageContent extends AbstractContentWrapper implements IImageContent
-{
+public class ImageContent extends AbstractContentWrapper implements IImageContent {
 	IImageContent imageContent;
-	public ImageContent( IImageContent content )
-	{
-		super( content );
+
+	public ImageContent(IImageContent content) {
+		super(content);
 		imageContent = content;
 	}
 
-
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitImage( this, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitImage(this, value);
 	}
 
-
-	public String getAltText( )
-	{
-		return imageContent.getAltText( );
+	public String getAltText() {
+		return imageContent.getAltText();
 	}
 
-
-	public String getAltTextKey( )
-	{
-		return imageContent.getAltTextKey( );
+	public String getAltTextKey() {
+		return imageContent.getAltTextKey();
 	}
 
-
-	public void setAltText( String altText )
-	{
+	public void setAltText(String altText) {
 		imageContent.setAltText(altText);
 	}
 
-
-	public void setAltTextKey( String key )
-	{
+	public void setAltTextKey(String key) {
 		imageContent.setAltTextKey(key);
 	}
 
-
-	public void setHelpKey( String key )
-	{
+	public void setHelpKey(String key) {
 		imageContent.setHelpText(key);
 	}
 
-
-	public String getHelpKey( )
-	{
+	public String getHelpKey() {
 		return imageContent.getHelpKey();
 	}
 
-
-	public byte[] getData( )
-	{
-		return imageContent.getData( );
+	public byte[] getData() {
+		return imageContent.getData();
 	}
 
-
-	public void setData( byte[] data )
-	{
-		imageContent.setData( data );
+	public void setData(byte[] data) {
+		imageContent.setData(data);
 	}
 
-
-	public String getExtension( )
-	{
-		return imageContent.getExtension( );
+	public String getExtension() {
+		return imageContent.getExtension();
 	}
 
-
-	public void setExtension( String extension )
-	{
-		imageContent.setExtension( extension);
+	public void setExtension(String extension) {
+		imageContent.setExtension(extension);
 	}
 
-
-	public String getURI( )
-	{
-		return imageContent.getURI( );
+	public String getURI() {
+		return imageContent.getURI();
 	}
 
-
-	public void setURI( String uri )
-	{
-		imageContent.setURI( uri );
+	public void setURI(String uri) {
+		imageContent.setURI(uri);
 	}
 
-
-	public int getImageSource( )
-	{
-		return imageContent.getImageSource( );
+	public int getImageSource() {
+		return imageContent.getImageSource();
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.IImageContent#getImageMap()
 	 */
-	public Object getImageMap( )
-	{
-		return imageContent.getImageMap( );
+	public Object getImageMap() {
+		return imageContent.getImageMap();
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.IImageContent#getMIMEType()
 	 */
-	public String getMIMEType( )
-	{
-		return imageContent.getMIMEType( );
+	public String getMIMEType() {
+		return imageContent.getMIMEType();
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.content.IImageContent#setImageMap(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IImageContent#setImageMap(java.lang.
+	 * Object)
 	 */
-	public void setImageMap( Object map )
-	{
-		imageContent.setImageMap( map );
+	public void setImageMap(Object map) {
+		imageContent.setImageMap(map);
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.IImageContent#setImageSource(int)
 	 */
-	public void setImageSource( int source )
-	{
-		imageContent.setImageSource( source );
+	public void setImageSource(int source) {
+		imageContent.setImageSource(source);
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.content.IImageContent#setMIMEType(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IImageContent#setMIMEType(java.lang.
+	 * String)
 	 */
-	public void setMIMEType( String mimeType )
-	{
-		imageContent.setMIMEType( mimeType );
+	public void setMIMEType(String mimeType) {
+		imageContent.setMIMEType(mimeType);
 	}
 
-
-	public int getResolution( )
-	{
-		return imageContent.getResolution( );
+	public int getResolution() {
+		return imageContent.getResolution();
 	}
 
-
-	public void setResolution( int resolution )
-	{
-		imageContent.setResolution( resolution );
+	public void setResolution(int resolution) {
+		imageContent.setResolution(resolution);
 	}
 
-	
 }

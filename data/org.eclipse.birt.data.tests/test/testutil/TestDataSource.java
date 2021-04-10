@@ -21,13 +21,12 @@ import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 /**
  * This abstract class is used to define the interface and shared behaviors of a
  * "data base visitor".
- *  
+ * 
  */
-public interface TestDataSource
-{
-	
-	// JDBC test part	
-	/**	
+public interface TestDataSource {
+
+	// JDBC test part
+	/**
 	 * Create table in test data source
 	 * 
 	 * @param tableName
@@ -35,8 +34,7 @@ public interface TestDataSource
 	 * @param isOverwrite
 	 * @throws SQLException
 	 */
-	public void createTable( String tableName, String createSql,
-			boolean isOverwrite ) throws SQLException;
+	public void createTable(String tableName, String createSql, boolean isOverwrite) throws SQLException;
 
 	/**
 	 * Create stored procedure in test data source
@@ -46,8 +44,7 @@ public interface TestDataSource
 	 * @param isOverwrite
 	 * @throws SQLException
 	 */
-	public void createStoredProcedure( String proName, String createSql,
-			boolean isOverwrite ) throws SQLException;
+	public void createStoredProcedure(String proName, String createSql, boolean isOverwrite) throws SQLException;
 
 	/**
 	 * Insert data into table of test data source
@@ -57,8 +54,7 @@ public interface TestDataSource
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public void populateTable( String testTableName, InputStream testTableDataFile )
-			throws SQLException, IOException;
+	public void populateTable(String testTableName, InputStream testTableDataFile) throws SQLException, IOException;
 
 	/**
 	 * Drop table from test data source
@@ -66,25 +62,25 @@ public interface TestDataSource
 	 * @param tableName
 	 * @throws SQLException
 	 */
-	public void dropTable( String tableName ) throws SQLException;
-	
+	public void dropTable(String tableName) throws SQLException;
+
 	/**
 	 * Close data source
 	 * 
 	 * @param dropTable
 	 * @throws SQLException
 	 */
-	public void close( boolean dropTable ) throws SQLException;
+	public void close(boolean dropTable) throws SQLException;
 
 	// Oda part
 	/**
 	 * @return ODA data source
 	 */
-	public OdaDataSourceDesign getOdaDataSourceDesign( );
+	public OdaDataSourceDesign getOdaDataSourceDesign();
 
 	/**
 	 * @return ODA data set
 	 */
-	public OdaDataSetDesign getOdaDataSetDesign( );
-	
+	public OdaDataSetDesign getOdaDataSetDesign();
+
 }

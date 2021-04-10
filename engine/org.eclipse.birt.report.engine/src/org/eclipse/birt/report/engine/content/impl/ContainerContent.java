@@ -17,33 +17,24 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
 
-public class ContainerContent extends AbstractContent
-		implements
-			IContainerContent
-{
-	ContainerContent(IContainerContent container)
-	{
+public class ContainerContent extends AbstractContent implements IContainerContent {
+	ContainerContent(IContainerContent container) {
 		super(container);
 	}
-	
-	public int getContentType( )
-	{
+
+	public int getContentType() {
 		return CONTAINER_CONTENT;
 	}
 
-	ContainerContent( IReportContent report )
-	{
-		super( report );
+	ContainerContent(IReportContent report) {
+		super(report);
 	}
 
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitContainer( this, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitContainer(this, value);
 	}
-	
-	protected IContent cloneContent()
-	{
+
+	protected IContent cloneContent() {
 		return new ContainerContent(this);
 	}
 }

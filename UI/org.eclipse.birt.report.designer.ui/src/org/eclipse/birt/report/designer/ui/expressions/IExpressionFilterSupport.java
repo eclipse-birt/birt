@@ -18,16 +18,15 @@ import java.util.List;
  * 
  * @since 2.5.2
  */
-public interface IExpressionFilterSupport
-{
+public interface IExpressionFilterSupport {
 
 	/**
 	 * Sets the filters.
 	 */
-	void setFilters( List<ExpressionFilter> filters );
+	void setFilters(List<ExpressionFilter> filters);
 
 	/**
 	 * Returns the filters.
 	 */
-	List<ExpressionFilter> getFilters( );
+	List<ExpressionFilter> getFilters();
 }

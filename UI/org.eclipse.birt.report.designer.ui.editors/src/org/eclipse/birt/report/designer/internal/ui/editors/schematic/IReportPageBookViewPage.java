@@ -14,12 +14,10 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.ui.part.IPageBookViewPage;
 
-
 /**
  * 
  */
 
-public interface IReportPageBookViewPage extends IPageBookViewPage
-{
+public interface IReportPageBookViewPage extends IPageBookViewPage {
 	public ISelectionProvider getSelectionProvider();
 }

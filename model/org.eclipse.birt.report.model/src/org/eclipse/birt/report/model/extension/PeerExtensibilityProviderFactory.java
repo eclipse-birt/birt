@@ -18,27 +18,22 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * Factory class to create a PeerExtensibilityProvider.
  */
 
-public class PeerExtensibilityProviderFactory
-{
+public class PeerExtensibilityProviderFactory {
 
 	/**
-	 * Returns the PeerExtensibilityProvider based on the element and the
-	 * extension Id.
+	 * Returns the PeerExtensibilityProvider based on the element and the extension
+	 * Id.
 	 * 
-	 * @param element
-	 *            the extended element.
-	 * @param extensionID
-	 *            The extension Id used to create the corresponding extended
-	 *            element definition.
+	 * @param element     the extended element.
+	 * @param extensionID The extension Id used to create the corresponding extended
+	 *                    element definition.
 	 * @return the PeerExtensibilityProvider instance.
 	 */
-	public static PeerExtensibilityProvider createProvider(
-			DesignElement element, String extensionID )
-	{
-		if ( extensionID == null )
-			return new DummyPeerExtensibilityProvider( element, null );
-		if ( MetaDataDictionary.getInstance( ).getElement( extensionID ) != null )
-			return new SimplePeerExtensibilityProvider( element, extensionID );
-		return new DummyPeerExtensibilityProvider( element, extensionID );
+	public static PeerExtensibilityProvider createProvider(DesignElement element, String extensionID) {
+		if (extensionID == null)
+			return new DummyPeerExtensibilityProvider(element, null);
+		if (MetaDataDictionary.getInstance().getElement(extensionID) != null)
+			return new SimplePeerExtensibilityProvider(element, extensionID);
+		return new DummyPeerExtensibilityProvider(element, extensionID);
 	}
 }

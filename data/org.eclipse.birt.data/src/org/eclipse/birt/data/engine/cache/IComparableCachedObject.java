@@ -15,7 +15,6 @@ package org.eclipse.birt.data.engine.cache;
  * 
  */
 
-public interface IComparableCachedObject extends ICachedObject, Comparable
-{
+public interface IComparableCachedObject extends ICachedObject, Comparable {
 
 }

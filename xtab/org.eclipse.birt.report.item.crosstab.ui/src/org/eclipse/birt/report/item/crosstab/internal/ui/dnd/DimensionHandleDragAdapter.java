@@ -19,19 +19,16 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
  * 
  */
 
-public class DimensionHandleDragAdapter implements IDragAdapter
-{
+public class DimensionHandleDragAdapter implements IDragAdapter {
 
-	public int canDrag( Object object )
-	{
-		if ( object instanceof DimensionHandle )
+	public int canDrag(Object object) {
+		if (object instanceof DimensionHandle)
 			return DNDService.LOGIC_TRUE;
 		return DNDService.LOGIC_UNKNOW;
 	}
 
-	public Object getDragTransfer( Object transfer )
-	{
-		if(transfer instanceof DimensionHandle)
+	public Object getDragTransfer(Object transfer) {
+		if (transfer instanceof DimensionHandle)
 			return transfer;
 		return null;
 	}

@@ -28,224 +28,164 @@ import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
 import com.ibm.icu.util.ULocale;
 
-public class RootArea extends BlockContainerArea
-{
+public class RootArea extends BlockContainerArea {
 
 	protected transient LayoutEmitterAdapter emitter;
-	
+
 	protected PageArea page;
 
-	public RootArea( LayoutContext context, IContent content,
-			LayoutEmitterAdapter emitter )
-	{
-		super( null, context, content );
+	public RootArea(LayoutContext context, IContent content, LayoutEmitterAdapter emitter) {
+		super(null, context, content);
 		this.emitter = emitter;
 	}
 
-	public RootArea( RootArea area )
-	{
-		super( area );
-	}
-	
-	public int getMaxAvaHeight( )
-	{
-		return context.getMaxBP( );
+	public RootArea(RootArea area) {
+		super(area);
 	}
 
-	
-	public boolean autoPageBreak( ) throws BirtException
-	{
-		int height = context.getMaxBP( );
-		SplitResult result = split( height, false) ;
-		
-		if(result==SplitResult.BEFORE_AVOID_WITH_NULL || result == SplitResult.SUCCEED_WITH_NULL)
-		{
+	public int getMaxAvaHeight() {
+		return context.getMaxBP();
+	}
+
+	public boolean autoPageBreak() throws BirtException {
+		int height = context.getMaxBP();
+		SplitResult result = split(height, false);
+
+		if (result == SplitResult.BEFORE_AVOID_WITH_NULL || result == SplitResult.SUCCEED_WITH_NULL) {
 			result = split(height, true);
 		}
-		if ( result.getResult( )!= null )
-		{
+		if (result.getResult() != null) {
 			// If size overflow, one row may move to next page. Set a flag to
 			// handle it properly later
-			context.setSizeOverflowPageBreak( true );
+			context.setSizeOverflowPageBreak(true);
 
-			page.setBody( result.getResult( ) );
-			page.close( );
+			page.setBody(result.getResult());
+			page.close();
 
 			// Reset overflow page break state
-			context.setSizeOverflowPageBreak( false );
+			context.setSizeOverflowPageBreak(false);
 		}
-		updateChildrenPosition( );
-		initialize( );
+		updateChildrenPosition();
+		initialize();
 		return true;
 	}
 
-	public RootArea cloneArea( )
-	{
-		return new RootArea( this );
+	public RootArea cloneArea() {
+		return new RootArea(this);
 	}
-	
-	public void initialize( ) throws BirtException
-	{
+
+	public void initialize() throws BirtException {
 		IPageContent pageContent = (IPageContent) content;
 
-		if ( context.getEngineTaskType( ) == IEngineTask.TASK_RENDER )
-		{
-			if ( context.isFixedLayout( ) )
-			{
-				if ( context.isReserveDocumentPageNumbers( )
-						&& context.getHtmlLayoutContext( ) != null
-						&& context.getHtmlLayoutContext( ).isPaged( ) )
-				{
-					long number = pageContent.getPageNumber( );
-					if ( number > 0 )
-					{
-						context.setPageNumber( number );
+		if (context.getEngineTaskType() == IEngineTask.TASK_RENDER) {
+			if (context.isFixedLayout()) {
+				if (context.isReserveDocumentPageNumbers() && context.getHtmlLayoutContext() != null
+						&& context.getHtmlLayoutContext().isPaged()) {
+					long number = pageContent.getPageNumber();
+					if (number > 0) {
+						context.setPageNumber(number);
 					}
+				} else {
+					context.setPageNumber(context.getPageNumber() + 1);
+					pageContent = createPageContent(pageContent);
 				}
-				else
-				{
-					context.setPageNumber( context.getPageNumber( ) + 1 );
-					pageContent = createPageContent( pageContent );
-				}	
+			} else {
+				if (context.isReserveDocumentPageNumbers()) {
+					long number = pageContent.getPageNumber();
+					if (number > 0) {
+						context.setPageNumber(number);
+					}
+				} else {
+					context.setPageNumber(context.getPageNumber() + 1);
+					pageContent = createPageContent(pageContent);
+				}
 			}
-			else
-			{
-				if ( context.isReserveDocumentPageNumbers( ) )
-				{
-					long number = pageContent.getPageNumber( );
-					if ( number > 0 )
-					{
-						context.setPageNumber( number );
-					}
-				}
-				else
-				{
-					context.setPageNumber( context.getPageNumber( ) + 1 );
-					pageContent = createPageContent( pageContent );
+		} else {
+			if (context.isAutoPageBreak()) {
+				context.setPageNumber(context.getPageNumber() + 1);
+				pageContent = createPageContent(pageContent);
+			} else {
+				long number = pageContent.getPageNumber();
+				if (number > 0) {
+					context.setPageNumber(number);
 				}
 			}
 		}
-		else
-		{
-			if ( context.isAutoPageBreak( ) )
-			{
-				context.setPageNumber( context.getPageNumber( ) + 1 );
-				pageContent = createPageContent( pageContent );
-			}
-			else
-			{
-				long number = pageContent.getPageNumber( );
-				if ( number > 0 )
-				{
-					context.setPageNumber( number );
-				}
-			}
-		}
-		
-		createNewPage( pageContent );
-		maxAvaWidth = page.getBody( ).getWidth( );
-		//this.height = page.getBody( ).getHeight( );
+
+		createNewPage(pageContent);
+		maxAvaWidth = page.getBody().getWidth();
+		// this.height = page.getBody( ).getHeight( );
 		width = maxAvaWidth;
 	}
-	
-	protected void createNewPage(IPageContent pageContent) throws BirtException
-	{
+
+	protected void createNewPage(IPageContent pageContent) throws BirtException {
 		page = new PageArea(context, pageContent, emitter);
 		page.initialize();
 	}
-	
-	protected IPageContent createPageContent( IPageContent htmlPageContent )
-	{
-		if ( context.getPageNumber( ) == htmlPageContent.getPageNumber( ) )
-		{
-			return htmlPageContent;
-		}
-		else
-		{
-			if ( context.getEngineTaskType( ) == IEngineTask.TASK_RUNANDRENDER )
-			{
 
-				IPageContent pageContent = (IPageContent) cloneContent(
-						(IContent) htmlPageContent.getParent( ),
-						htmlPageContent, context.getPageNumber( ),
-						context.getTotalPage( ) );
-				pageContent.setPageNumber( context.getPageNumber( ) );
+	protected IPageContent createPageContent(IPageContent htmlPageContent) {
+		if (context.getPageNumber() == htmlPageContent.getPageNumber()) {
+			return htmlPageContent;
+		} else {
+			if (context.getEngineTaskType() == IEngineTask.TASK_RUNANDRENDER) {
+
+				IPageContent pageContent = (IPageContent) cloneContent((IContent) htmlPageContent.getParent(),
+						htmlPageContent, context.getPageNumber(), context.getTotalPage());
+				pageContent.setPageNumber(context.getPageNumber());
 				return pageContent;
-			}
-			else
-			{
+			} else {
 				IPageContent pageContent = htmlPageContent;
-				try
-				{
-					pageContent = ReportExecutorUtil.executeMasterPage( context
-							.getHtmlLayoutContext( ).getReportExecutor( ),
-							context.getPageNumber( ),
-							(MasterPageDesign) pageContent.getGenerateBy( ) );
-					HTMLLayoutContext htmlContext = context
-							.getHtmlLayoutContext( );
-					if ( htmlContext != null && htmlContext.needLayoutPageContent( ) )
-					{
-						htmlContext.getPageLM( )
-								.layoutPageContent( pageContent );
+				try {
+					pageContent = ReportExecutorUtil.executeMasterPage(
+							context.getHtmlLayoutContext().getReportExecutor(), context.getPageNumber(),
+							(MasterPageDesign) pageContent.getGenerateBy());
+					HTMLLayoutContext htmlContext = context.getHtmlLayoutContext();
+					if (htmlContext != null && htmlContext.needLayoutPageContent()) {
+						htmlContext.getPageLM().layoutPageContent(pageContent);
 					}
-				}
-				catch ( BirtException e )
-				{
-					logger.log( Level.WARNING, e.getMessage( ), e );
+				} catch (BirtException e) {
+					logger.log(Level.WARNING, e.getMessage(), e);
 				}
 				return pageContent;
 			}
 		}
 	}
 
-	protected IContent cloneContent( IContent parent, IContent content, long pageNumber,
-			long totalPageNumber )
-	{
-		IContent newContent = content.cloneContent( false );
-		newContent.setParent( parent );
-		if ( newContent.getContentType( ) == IContent.AUTOTEXT_CONTENT )
-		{
+	protected IContent cloneContent(IContent parent, IContent content, long pageNumber, long totalPageNumber) {
+		IContent newContent = content.cloneContent(false);
+		newContent.setParent(parent);
+		if (newContent.getContentType() == IContent.AUTOTEXT_CONTENT) {
 			IAutoTextContent autoText = (IAutoTextContent) newContent;
-			int type = autoText.getType( );
-			if ( type == IAutoTextContent.PAGE_NUMBER
-					|| type == IAutoTextContent.UNFILTERED_PAGE_NUMBER )
-			{
-				DataFormatValue format = autoText.getComputedStyle( )
-						.getDataFormat( );
+			int type = autoText.getType();
+			if (type == IAutoTextContent.PAGE_NUMBER || type == IAutoTextContent.UNFILTERED_PAGE_NUMBER) {
+				DataFormatValue format = autoText.getComputedStyle().getDataFormat();
 				NumberFormatter nf = null;
-				if ( format == null )
-				{
-					nf = new NumberFormatter( );
-				}
-				else
-				{
-					String pattern = format.getNumberPattern( );
-					String locale = format.getNumberLocale( );
-					if ( locale == null )
-						nf = new NumberFormatter( pattern );
+				if (format == null) {
+					nf = new NumberFormatter();
+				} else {
+					String pattern = format.getNumberPattern();
+					String locale = format.getNumberLocale();
+					if (locale == null)
+						nf = new NumberFormatter(pattern);
 					else
-						nf = new NumberFormatter( pattern, new ULocale( locale ) );
+						nf = new NumberFormatter(pattern, new ULocale(locale));
 				}
-				autoText.setText( nf.format( pageNumber ) );
+				autoText.setText(nf.format(pageNumber));
 			}
 		}
-		Iterator iter = content.getChildren( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			IContent child = (IContent) iter.next( );
-			IContent newChild = cloneContent( newContent, child, pageNumber,
-					totalPageNumber );
-			newChild.setParent( newContent );
-			newContent.getChildren( ).add( newChild );
+		Iterator iter = content.getChildren().iterator();
+		while (iter.hasNext()) {
+			IContent child = (IContent) iter.next();
+			IContent newChild = cloneContent(newContent, child, pageNumber, totalPageNumber);
+			newChild.setParent(newContent);
+			newContent.getChildren().add(newChild);
 		}
 		return newContent;
 	}
 
-
-	public void close( ) throws BirtException
-	{
-			page.setBody( this );
-			page.close( );
-			finished = true;
+	public void close() throws BirtException {
+		page.setBody(this);
+		page.close();
+		finished = true;
 	}
 }

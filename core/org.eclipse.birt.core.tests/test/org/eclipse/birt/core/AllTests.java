@@ -20,17 +20,15 @@ import junit.framework.TestSuite;
  * Tests cases run in the build script.
  */
 
-public class AllTests
-{
+public class AllTests {
 
 	/**
 	 * @return test run in build script
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
-		test.addTest( AllScriptTests.suite( ) );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
+		test.addTest(AllScriptTests.suite());
 
 		return test;
 	}

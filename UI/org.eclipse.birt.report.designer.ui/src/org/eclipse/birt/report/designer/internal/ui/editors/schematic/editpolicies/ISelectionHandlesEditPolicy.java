@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * This interface exposes the handles of the selected EditPart
  */
-public interface ISelectionHandlesEditPolicy
-{
-    public List getHandles();
+public interface ISelectionHandlesEditPolicy {
+	public List getHandles();
 }

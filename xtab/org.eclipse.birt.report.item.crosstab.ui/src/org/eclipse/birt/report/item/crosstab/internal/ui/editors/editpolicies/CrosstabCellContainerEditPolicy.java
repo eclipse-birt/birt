@@ -16,13 +16,14 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 /**
  * 
  */
-public class CrosstabCellContainerEditPolicy extends ReportContainerEditPolicy
-{
+public class CrosstabCellContainerEditPolicy extends ReportContainerEditPolicy {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.ContainerEditPolicy#getOrphanChildrenCommand(org.eclipse.gef.requests.GroupRequest)
+	 * @see
+	 * org.eclipse.gef.editpolicies.ContainerEditPolicy#getOrphanChildrenCommand(org
+	 * .eclipse.gef.requests.GroupRequest)
 	 */
 //	public Command getOrphanChildrenCommand( GroupRequest request )
 //	{

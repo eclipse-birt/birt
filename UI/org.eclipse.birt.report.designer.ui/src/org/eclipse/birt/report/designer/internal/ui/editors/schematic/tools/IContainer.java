@@ -17,8 +17,7 @@ import org.eclipse.draw2d.geometry.Point;
  * Helper Interface for parameter transfer.
  */
 
-public interface IContainer
-{
+public interface IContainer {
 
 	/**
 	 * If the point is contained within specified object.
@@ -26,7 +25,7 @@ public interface IContainer
 	 * @param pt
 	 * @return
 	 */
-	boolean contains( Point pt );
-	
+	boolean contains(Point pt);
+
 	boolean isSelect();
 }

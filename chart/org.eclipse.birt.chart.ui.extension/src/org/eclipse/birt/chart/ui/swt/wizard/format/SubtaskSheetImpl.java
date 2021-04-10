@@ -44,12 +44,8 @@ import org.eclipse.swt.widgets.Widget;
  * UI constants for chart builder
  * 
  */
-public class SubtaskSheetImpl extends
-		SubtaskSheetBase<Chart, ChartWizardContext> implements
-		ShellListener,
-		ChartUIConstants,
-		ITaskPreviewable
-{
+public class SubtaskSheetImpl extends SubtaskSheetBase<Chart, ChartWizardContext>
+		implements ShellListener, ChartUIConstants, ITaskPreviewable {
 
 	private Shell popupShell;
 
@@ -57,72 +53,61 @@ public class SubtaskSheetImpl extends
 
 	private static boolean POPUP_ATTACHING = false;
 
-	private Map<String, Button> popupButtonRegistry = new HashMap<String, Button>( 6 );
+	private Map<String, Button> popupButtonRegistry = new HashMap<String, Button>(6);
 
-	private Map<String, ITaskPopupSheet> popupSheetRegistry = new HashMap<String, ITaskPopupSheet>( 6 );
+	private Map<String, ITaskPopupSheet> popupSheetRegistry = new HashMap<String, ITaskPopupSheet>(6);
 
-	private Map<String, String> lastPopupRegistry = new HashMap<String, String>( 3 );
+	private Map<String, String> lastPopupRegistry = new HashMap<String, String>(3);
 
-	public SubtaskSheetImpl( )
-	{
-		super( );
+	public SubtaskSheetImpl() {
+		super();
 	}
 
-	public Object onHide( )
-	{
+	public Object onHide() {
 		// No need to clear popup selection because it's closed automatically
 		ChartWizard.POPUP_CLOSING_BY_USER = false;
-		detachPopup( );
+		detachPopup();
 		ChartWizard.POPUP_CLOSING_BY_USER = true;
 
-		popupButtonRegistry.clear( );
-		popupSheetRegistry.clear( );
-		return super.onHide( );
+		popupButtonRegistry.clear();
+		popupSheetRegistry.clear();
+		return super.onHide();
 	}
 
 	/**
-	 * Detaches the popup dialogue if the name is same with the widget. Called
-	 * when clicking buttons manually.
+	 * Detaches the popup dialogue if the name is same with the widget. Called when
+	 * clicking buttons manually.
 	 * 
-	 * @param widget
-	 *            the button widget
+	 * @param widget the button widget
 	 * @return detach result
 	 */
-	protected boolean detachPopup( Widget widget )
-	{
-		if ( widget instanceof Button
-				&& popupShell != null
-				&& !popupShell.isDisposed( )
-				&& !isButtonSelected( ) )
-		{
-			getWizard( ).detachPopup( );
+	protected boolean detachPopup(Widget widget) {
+		if (widget instanceof Button && popupShell != null && !popupShell.isDisposed() && !isButtonSelected()) {
+			getWizard().detachPopup();
 			popupShell = null;
 
 			// Clear selection if user unselected the button.
-			setCurrentPopupSelection( null );
-			getParentTask( ).setPopupSelection( null );
+			setCurrentPopupSelection(null);
+			getParentTask().setPopupSelection(null);
 			return true;
 		}
 		return false;
 	}
 
-	public boolean detachPopup( )
-	{
-		if ( popupShell != null && !popupShell.isDisposed( ) )
-		{
-			getWizard( ).detachPopup( );
+	public boolean detachPopup() {
+		if (popupShell != null && !popupShell.isDisposed()) {
+			getWizard().detachPopup();
 			popupShell = null;
 			return true;
 		}
 		return false;
 	}
 
-	protected Shell createPopupShell( )
-	{
+	protected Shell createPopupShell() {
 		POPUP_ATTACHING = true;
-		Shell shell = getWizard( ).createPopupContainer( );
-		shell.addShellListener( this );
-		shell.setImage( UIHelper.getImage( "icons/obj16/chartbuilder.gif" ) ); //$NON-NLS-1$
+		Shell shell = getWizard().createPopupContainer();
+		shell.addShellListener(this);
+		shell.setImage(UIHelper.getImage("icons/obj16/chartbuilder.gif")); //$NON-NLS-1$
 		POPUP_ATTACHING = false;
 		return shell;
 	}
@@ -130,28 +115,22 @@ public class SubtaskSheetImpl extends
 	/**
 	 * Selects all registered buttons
 	 * 
-	 * @param isSelected
-	 *            selection status
+	 * @param isSelected selection status
 	 */
-	final protected void selectAllButtons( boolean isSelected )
-	{
-		Iterator<Button> buttons = popupButtonRegistry.values( ).iterator( );
-		while ( buttons.hasNext( ) )
-		{
-			buttons.next( ).setSelection( isSelected );
+	final protected void selectAllButtons(boolean isSelected) {
+		Iterator<Button> buttons = popupButtonRegistry.values().iterator();
+		while (buttons.hasNext()) {
+			buttons.next().setSelection(isSelected);
 		}
 	}
 
 	/**
 	 * Checks if there's a selected button.
 	 */
-	protected boolean isButtonSelected( )
-	{
-		Iterator<Button> buttons = popupButtonRegistry.values( ).iterator( );
-		while ( buttons.hasNext( ) )
-		{
-			if ( buttons.next( ).getSelection( ) )
-			{
+	protected boolean isButtonSelected() {
+		Iterator<Button> buttons = popupButtonRegistry.values().iterator();
+		while (buttons.hasNext()) {
+			if (buttons.next().getSelection()) {
 				return true;
 			}
 		}
@@ -161,13 +140,10 @@ public class SubtaskSheetImpl extends
 	/**
 	 * Checks whether the specified widget is registered in current subtask
 	 */
-	protected boolean isRegistered( Widget widget )
-	{
-		Iterator<Button> buttons = popupButtonRegistry.values( ).iterator( );
-		while ( buttons.hasNext( ) )
-		{
-			if ( buttons.next( ).equals( widget ) )
-			{
+	protected boolean isRegistered(Widget widget) {
+		Iterator<Button> buttons = popupButtonRegistry.values().iterator();
+		while (buttons.hasNext()) {
+			if (buttons.next().equals(widget)) {
 				return true;
 			}
 		}
@@ -177,16 +153,13 @@ public class SubtaskSheetImpl extends
 	/**
 	 * Returns all registered toggle buttons.
 	 */
-	protected Collection<Button> getToggleButtons( )
-	{
-		return popupButtonRegistry.values( );
+	protected Collection<Button> getToggleButtons() {
+		return popupButtonRegistry.values();
 	}
 
-	protected void refreshPopupSheet( )
-	{
-		if ( popupShell != null && !popupShell.isDisposed( ) )
-		{
-			popupSheet.refreshComponent( popupShell );
+	protected void refreshPopupSheet() {
+		if (popupShell != null && !popupShell.isDisposed()) {
+			popupSheet.refreshComponent(popupShell);
 		}
 	}
 
@@ -195,50 +168,41 @@ public class SubtaskSheetImpl extends
 	 * buttons are registered, each button enable should call
 	 * setToggleButtonEnabled().
 	 * 
-	 * @param parent
-	 *            control parent
-	 * @param buttonId
-	 *            button id without node path
-	 * @param popupName
-	 *            button text and registry key
-	 * @param popupSheet
-	 *            popup sheet
-	 * @param bEnabled
-	 *            enabled state
+	 * @param parent     control parent
+	 * @param buttonId   button id without node path
+	 * @param popupName  button text and registry key
+	 * @param popupSheet popup sheet
+	 * @param bEnabled   enabled state
 	 * @return button control
 	 */
-	protected Button createToggleButton( Composite parent, String buttonId,
-			String popupName, ITaskPopupSheet popupSheet, boolean bEnabled )
-	{
-		Button button = new Button( parent, SWT.TOGGLE );
-		button.setText( popupName );
+	protected Button createToggleButton(Composite parent, String buttonId, String popupName, ITaskPopupSheet popupSheet,
+			boolean bEnabled) {
+		Button button = new Button(parent, SWT.TOGGLE);
+		button.setText(popupName);
 
 		// Use GC to calculate the button width
-		GC gc = new GC( parent );
-		int width = Math.max( 80, gc.textExtent( popupName ).x + 17 );
-		gc.dispose( );
+		GC gc = new GC(parent);
+		int width = Math.max(80, gc.textExtent(popupName).x + 17);
+		gc.dispose();
 
 		// To set the span for Button if width is too long
 		// int horizontalSpan = width / 66;
 
-		GridData gd = new GridData( );
+		GridData gd = new GridData();
 		gd.widthHint = width;
 		// gd.horizontalSpan = horizontalSpan;
-		button.setLayoutData( gd );
+		button.setLayoutData(gd);
 
-		String id = getNodePath( ) + buttonId;
+		String id = getNodePath() + buttonId;
 		// Save the button id for holding the same type of buttons
-		button.setData( buttonId );
-		popupButtonRegistry.put( id, button );
-		popupSheetRegistry.put( id, popupSheet );
-		if ( !getContext( ).isEnabled( id ) )
-		{
+		button.setData(buttonId);
+		popupButtonRegistry.put(id, button);
+		popupSheetRegistry.put(id, popupSheet);
+		if (!getContext().isEnabled(id)) {
 			// Disable the button if it's registered as disabled
-			button.setEnabled( false );
-		}
-		else
-		{
-			button.setEnabled( bEnabled );
+			button.setEnabled(false);
+		} else {
+			button.setEnabled(bEnabled);
 		}
 
 		return button;
@@ -249,229 +213,182 @@ public class SubtaskSheetImpl extends
 	 * buttons are registered, each button enable should call
 	 * setToggleButtonEnabled().
 	 * 
-	 * @param parent
-	 *            control parent
-	 * @param buttonId
-	 *            button id without node path
-	 * @param popupName
-	 *            button text and registry key
-	 * @param popupSheet
-	 *            popup sheet
+	 * @param parent     control parent
+	 * @param buttonId   button id without node path
+	 * @param popupName  button text and registry key
+	 * @param popupSheet popup sheet
 	 * @return button control
 	 */
-	protected Button createToggleButton( Composite parent, String buttonId,
-			String popupName, ITaskPopupSheet popupSheet )
-	{
-		return createToggleButton( parent,
-				buttonId,
-				popupName,
-				popupSheet,
-				true );
+	protected Button createToggleButton(Composite parent, String buttonId, String popupName,
+			ITaskPopupSheet popupSheet) {
+		return createToggleButton(parent, buttonId, popupName, popupSheet, true);
 	}
 
 	/**
 	 * Updates popup sheet
 	 * 
-	 * @param buttonId
-	 *            button id without node path
-	 * @param popupSheet
-	 *            popup sheet
+	 * @param buttonId   button id without node path
+	 * @param popupSheet popup sheet
 	 * @since 3.7
 	 */
-	protected void updatePopupSheet( String buttonId, ITaskPopupSheet popupSheet )
-	{
-		String id = getNodePath( ) + buttonId;
-		if ( popupSheetRegistry.containsKey( id ) )
-		{
-			popupSheetRegistry.put( id, popupSheet );
+	protected void updatePopupSheet(String buttonId, ITaskPopupSheet popupSheet) {
+		String id = getNodePath() + buttonId;
+		if (popupSheetRegistry.containsKey(id)) {
+			popupSheetRegistry.put(id, popupSheet);
 		}
 	}
 
 	/**
 	 * Finds the toggle button by exclusive id or button id
 	 * 
-	 * @param buttonId
-	 *            exclusive id or button id
+	 * @param buttonId exclusive id or button id
 	 * @return the toggle button or null
 	 */
-	protected Button getToggleButton( String buttonId )
-	{
-		Button button = popupButtonRegistry.get( buttonId );
-		if ( button == null )
-		{
-			button = popupButtonRegistry.get( getNodePath( ) + buttonId );
+	protected Button getToggleButton(String buttonId) {
+		Button button = popupButtonRegistry.get(buttonId);
+		if (button == null) {
+			button = popupButtonRegistry.get(getNodePath() + buttonId);
 		}
 		return button;
 	}
-	
-	protected boolean getToggleButtonSelection( String buttonId )
-	{
-		Button button = popupButtonRegistry.get( buttonId );
-		if ( button == null )
-		{
-			button = popupButtonRegistry.get( getNodePath( ) + buttonId );
+
+	protected boolean getToggleButtonSelection(String buttonId) {
+		Button button = popupButtonRegistry.get(buttonId);
+		if (button == null) {
+			button = popupButtonRegistry.get(getNodePath() + buttonId);
 		}
-		if ( button != null )
-		{
-			return button.getSelection( );
+		if (button != null) {
+			return button.getSelection();
 		}
 		return false;
 	}
 
-	protected void setToggleButtonEnabled( String buttonId, boolean isEnabled )
-	{
-		String id = getNodePath( ) + buttonId;
-		if ( getToggleButton( id ) == null )
-		{
+	protected void setToggleButtonEnabled(String buttonId, boolean isEnabled) {
+		String id = getNodePath() + buttonId;
+		if (getToggleButton(id) == null) {
 			return;
 		}
 
-		if ( getContext( ).isEnabled( id ) )
-		{
-			getToggleButton( id ).setEnabled( isEnabled );
-		}
-		else
-		{
-			getToggleButton( id ).setEnabled( false );
+		if (getContext().isEnabled(id)) {
+			getToggleButton(id).setEnabled(isEnabled);
+		} else {
+			getToggleButton(id).setEnabled(false);
 		}
 	}
 
-	public void shellActivated( ShellEvent e )
-	{
+	public void shellActivated(ShellEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void shellClosed( ShellEvent e )
-	{
-		Control focusControl = Display.getDefault( ).getFocusControl( );
-		if ( focusControl instanceof Text )
-		{
+	public void shellClosed(ShellEvent e) {
+		Control focusControl = Display.getDefault().getFocusControl();
+		if (focusControl instanceof Text) {
 			// Focus saving the text by focus out
-			focusControl.notifyListeners( SWT.FocusOut, null );
+			focusControl.notifyListeners(SWT.FocusOut, null);
 		}
 
-		if ( e.widget.equals( popupShell ) )
-		{
-			if ( !POPUP_ATTACHING )
-			{
-				selectAllButtons( false );
+		if (e.widget.equals(popupShell)) {
+			if (!POPUP_ATTACHING) {
+				selectAllButtons(false);
 			}
 
-			if ( ChartWizard.POPUP_CLOSING_BY_USER )
-			{
+			if (ChartWizard.POPUP_CLOSING_BY_USER) {
 				// Clear selection if user closed the popup.
-				setCurrentPopupSelection( null );
-				getParentTask( ).setPopupSelection( null );
+				setCurrentPopupSelection(null);
+				getParentTask().setPopupSelection(null);
 			}
 		}
 	}
 
-	public void shellDeactivated( ShellEvent e )
-	{
+	public void shellDeactivated(ShellEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void shellDeiconified( ShellEvent e )
-	{
+	public void shellDeiconified(ShellEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void shellIconified( ShellEvent e )
-	{
+	public void shellIconified(ShellEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public boolean attachPopup( String buttonId )
-	{
+	public boolean attachPopup(String buttonId) {
 		// If general selection is null or not existent, to open subtask
 		// selection.
 		boolean affectTaskSelection = true;
-		String id = buttonId == null ? null : getNodePath( ) + buttonId;
-		if ( id == null || !popupSheetRegistry.containsKey( id ) )
-		{
-			buttonId = getCurrentPopupSelection( );
-			id = buttonId == null ? null : getNodePath( ) + buttonId;
+		String id = buttonId == null ? null : getNodePath() + buttonId;
+		if (id == null || !popupSheetRegistry.containsKey(id)) {
+			buttonId = getCurrentPopupSelection();
+			id = buttonId == null ? null : getNodePath() + buttonId;
 			// Keep task selection since user doesn't change it
 			affectTaskSelection = false;
 		}
 
 		// If subtask selection is null, do nothing.
-		if ( buttonId == null )
-		{
+		if (buttonId == null) {
 			return false;
 		}
 
-		detachPopup( );
+		detachPopup();
 
-		if ( popupSheetRegistry.containsKey( id )
-				&& getToggleButton( id ).isEnabled( ) )
-		{
+		if (popupSheetRegistry.containsKey(id) && getToggleButton(id).isEnabled()) {
 			// Select the button
-			selectAllButtons( false );
-			getToggleButton( id ).setSelection( true );
+			selectAllButtons(false);
+			getToggleButton(id).setSelection(true);
 
 			// Store last popup selection
-			setCurrentPopupSelection( buttonId );
-			if ( affectTaskSelection )
-			{
-				getParentTask( ).setPopupSelection( buttonId );
+			setCurrentPopupSelection(buttonId);
+			if (affectTaskSelection) {
+				getParentTask().setPopupSelection(buttonId);
 			}
 
 			// Open the popup
-			popupShell = createPopupShell( );
-			popupSheet = popupSheetRegistry.get( id );
-			popupSheet.getUI( popupShell );
+			popupShell = createPopupShell();
+			popupSheet = popupSheetRegistry.get(id);
+			popupSheet.getUI(popupShell);
 
-			getWizard( ).attachPopup( popupSheet.getTitle( ), -1, -1 );
+			getWizard().attachPopup(popupSheet.getTitle(), -1, -1);
 
 			return true;
 		}
 		return false;
 	}
 
-	private String getCurrentPopupSelection( )
-	{
-		return lastPopupRegistry.get( getContext( ).getWizardID( ) );
+	private String getCurrentPopupSelection() {
+		return lastPopupRegistry.get(getContext().getWizardID());
 	}
 
-	private void setCurrentPopupSelection( String lastPopup )
-	{
-		lastPopupRegistry.put( getContext( ).getWizardID( ), lastPopup );
+	private void setCurrentPopupSelection(String lastPopup) {
+		lastPopupRegistry.put(getContext().getWizardID(), lastPopup);
 	}
 
-	public boolean isPreviewable( )
-	{
+	public boolean isPreviewable() {
 		// Doesn't support preview by default
 		return false;
 	}
 
-	public ChartPreviewPainter createPreviewPainter( )
-	{
+	public ChartPreviewPainter createPreviewPainter() {
 		return null;
 	}
 
-	public void doPreview( )
-	{
+	public void doPreview() {
 
 	}
 
-	public Canvas getPreviewCanvas( )
-	{
+	public Canvas getPreviewCanvas() {
 		return null;
 	}
-	
-	public void setParentTask( ITask parentTask )
-	{
+
+	public void setParentTask(ITask parentTask) {
 		assert parentTask instanceof TreeCompoundTask;
-		super.setParentTask( parentTask );
+		super.setParentTask(parentTask);
 	}
 
-	protected TreeCompoundTask getParentTask( )
-	{
-		return (TreeCompoundTask) super.getParentTask( );
+	protected TreeCompoundTask getParentTask() {
+		return (TreeCompoundTask) super.getParentTask();
 	}
 }

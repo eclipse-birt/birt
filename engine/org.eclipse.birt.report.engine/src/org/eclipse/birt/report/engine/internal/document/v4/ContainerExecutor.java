@@ -34,11 +34,11 @@ import org.eclipse.birt.report.engine.presentation.InstanceIndex;
  * <p>
  * To create the child executor, the container needs:
  * <ul>
- * <li> if it starts with the segment, call skipToExecutor to locate the current
+ * <li>if it starts with the segment, call skipToExecutor to locate the current
  * executor.</li>
- * <li> call createExecutor() to the next executor.</li>
- * <li> get the content from executor to see if it matches the edge end.</li>
- * <li> if it reaches the edge end, skip to the next segment.</li>
+ * <li>call createExecutor() to the next executor.</li>
+ * <li>get the content from executor to see if it matches the edge end.</li>
+ * <li>if it reaches the edge end, skip to the next segment.</li>
  * </ul>
  * </p>
  * <p>
@@ -49,8 +49,7 @@ import org.eclipse.birt.report.engine.presentation.InstanceIndex;
  * <li>otherwise,
  * 
  */
-abstract public class ContainerExecutor extends ReportItemExecutor
-{
+abstract public class ContainerExecutor extends ReportItemExecutor {
 	/**
 	 * we need prepare the next executable child
 	 */
@@ -72,9 +71,8 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 
 	protected long nextOffset;
 
-	protected ContainerExecutor( ExecutorManager manager, int type )
-	{
-		super( manager, type );
+	protected ContainerExecutor(ExecutorManager manager, int type) {
+		super(manager, type);
 		needPrepareNext = true;
 		prepareFirstChild = true;
 		sections = null;
@@ -83,11 +81,9 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 		nextOffset = -1;
 	}
 
-	public void close( )
-	{
-		if ( nextOffset != -1 )
-		{
-			reader.unloadContent( nextOffset );
+	public void close() {
+		if (nextOffset != -1) {
+			reader.unloadContent(nextOffset);
 			nextOffset = -1;
 		}
 		prepareFirstChild = true;
@@ -96,60 +92,45 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 		useNextSection = true;
 		nextSection = -1;
 		nextOffset = -1;
-		super.close( );
+		super.close();
 	}
 
 	private IReportItemExecutor childExecutor;
 
-	public boolean hasNextChild( )
-	{
-		if ( needPrepareNext )
-		{
-			try
-			{
-				childExecutor = prepareChildExecutor( );
-			}
-			catch ( Exception ex )
-			{
+	public boolean hasNextChild() {
+		if (needPrepareNext) {
+			try {
+				childExecutor = prepareChildExecutor();
+			} catch (Exception ex) {
 				childExecutor = null;
-				logger.log( Level.WARNING, ex.getMessage( ), ex );
-				context.addException( this.getDesign( ), new EngineException(
-						ex.getLocalizedMessage( ), ex ) );
+				logger.log(Level.WARNING, ex.getMessage(), ex);
+				context.addException(this.getDesign(), new EngineException(ex.getLocalizedMessage(), ex));
 			}
 			needPrepareNext = false;
 		}
 		return childExecutor != null;
 	}
 
-	public IReportItemExecutor getNextChild( )
-	{
-		if ( hasNextChild( ) )
-		{
+	public IReportItemExecutor getNextChild() {
+		if (hasNextChild()) {
 			needPrepareNext = true;
 			return childExecutor;
 		}
 		return null;
 	}
 
-	protected IReportItemExecutor prepareChildExecutor( ) throws Exception
-	{
+	protected IReportItemExecutor prepareChildExecutor() throws Exception {
 		// prepare the offset of the next content
-		if ( prepareFirstChild )
-		{
-			if ( fragment == null && nextOffset == -1 )
-			{
-				DocumentExtension docExt = (DocumentExtension) content
-						.getExtension( IContent.DOCUMENT_EXTENSION );
-				if ( docExt != null )
-				{
-					nextOffset = docExt.getFirstChild( );
+		if (prepareFirstChild) {
+			if (fragment == null && nextOffset == -1) {
+				DocumentExtension docExt = (DocumentExtension) content.getExtension(IContent.DOCUMENT_EXTENSION);
+				if (docExt != null) {
+					nextOffset = docExt.getFirstChild();
 				}
 			}
-			if ( fragment != null )
-			{
-				if ( sections == null )
-				{
-					sections = fragment.getSections( );
+			if (fragment != null) {
+				if (sections == null) {
+					sections = fragment.getSections();
 					nextSection = -1;
 					useNextSection = true;
 				}
@@ -157,62 +138,50 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 			prepareFirstChild = false;
 		}
 
-		if ( fragment != null )
-		{
-			if ( useNextSection )
-			{
+		if (fragment != null) {
+			if (useNextSection) {
 				useNextSection = false;
 				nextSection++;
-				if ( sections == null || nextSection >= sections.length )
-				{
+				if (sections == null || nextSection >= sections.length) {
 					// this is the last one
 					return null;
 				}
 
 				Object leftEdge = sections[nextSection][0];
-				if ( leftEdge == Segment.LEFT_MOST_EDGE )
-				{
-					DocumentExtension docExt = (DocumentExtension) content
-							.getExtension( IContent.DOCUMENT_EXTENSION );
-					if ( docExt != null )
-					{
-						nextOffset = docExt.getFirstChild( );
+				if (leftEdge == Segment.LEFT_MOST_EDGE) {
+					DocumentExtension docExt = (DocumentExtension) content.getExtension(IContent.DOCUMENT_EXTENSION);
+					if (docExt != null) {
+						nextOffset = docExt.getFirstChild();
 					}
-				}
-				else
-				{
+				} else {
 					InstanceIndex leftIndex = (InstanceIndex) leftEdge;
-					InstanceID leftId = leftIndex.getInstanceID( );
-					long leftOffset = leftIndex.getOffset( );
+					InstanceID leftId = leftIndex.getInstanceID();
+					long leftOffset = leftIndex.getOffset();
 
-					if ( leftOffset == -1 )
-					{
+					if (leftOffset == -1) {
 						DocumentExtension docExt = (DocumentExtension) content
-								.getExtension( IContent.DOCUMENT_EXTENSION );
-						if ( docExt != null )
-						{
-							leftOffset = docExt.getFirstChild( );
+								.getExtension(IContent.DOCUMENT_EXTENSION);
+						if (docExt != null) {
+							leftOffset = docExt.getFirstChild();
 						}
 					}
 
-					while ( leftOffset != -1 )
-					{
-						IContent leftContent = reader.loadContent( leftOffset );
-						InstanceID contentId = leftContent.getInstanceID( );
-						if ( compare( leftId, contentId ) <= 0 )
-						{
+					while (leftOffset != -1) {
+						IContent leftContent = reader.loadContent(leftOffset);
+						InstanceID contentId = leftContent.getInstanceID();
+						if (compare(leftId, contentId) <= 0) {
 							break;
 						}
-						reader.unloadContent( leftOffset );
+						reader.unloadContent(leftOffset);
 						DocumentExtension docExt = (DocumentExtension) leftContent
-								.getExtension( IContent.DOCUMENT_EXTENSION );
+								.getExtension(IContent.DOCUMENT_EXTENSION);
 						assert docExt != null;
-						leftOffset = docExt.getNext( );
+						leftOffset = docExt.getNext();
 					}
 
 					nextOffset = leftOffset;
-					doSkipToExecutor( leftId, nextOffset );
-					uniqueId = leftId.getUniqueID( );
+					doSkipToExecutor(leftId, nextOffset);
+					uniqueId = leftId.getUniqueID();
 				}
 			}
 		}
@@ -220,40 +189,31 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 		// nextOffset points to the offset of next child in the document
 		// nextInstanceID points to the instance id of the next child
 
-		ReportItemExecutor childExecutor = doCreateExecutor( nextOffset );
-		if ( childExecutor != null )
-		{
-			IContent childContent = childExecutor.execute( );
-			if ( childContent != null )
-			{
+		ReportItemExecutor childExecutor = doCreateExecutor(nextOffset);
+		if (childExecutor != null) {
+			IContent childContent = childExecutor.execute();
+			if (childContent != null) {
 				// find fragment for the child.
-				if ( fragment != null )
-				{
-					InstanceID childId = childContent.getInstanceID( );
-					Fragment childFragment = fragment.getFragment( childId );
-					if ( childFragment != null )
-					{
-						childExecutor.setFragment( childFragment );
+				if (fragment != null) {
+					InstanceID childId = childContent.getInstanceID();
+					Fragment childFragment = fragment.getFragment(childId);
+					if (childFragment != null) {
+						childExecutor.setFragment(childFragment);
 					}
 					Object rightEdge = sections[nextSection][1];
-					if ( rightEdge != Segment.RIGHT_MOST_EDGE )
-					{
+					if (rightEdge != Segment.RIGHT_MOST_EDGE) {
 						InstanceIndex rightIndex = (InstanceIndex) rightEdge;
-						InstanceID rightId = rightIndex.getInstanceID( );
-						if ( isSameInstance( rightId, childId ) )
-						{
+						InstanceID rightId = rightIndex.getInstanceID();
+						if (isSameInstance(rightId, childId)) {
 							useNextSection = true;
 						}
 					}
 				}
 
-				DocumentExtension docExt = (DocumentExtension) childContent
-						.getExtension( IContent.DOCUMENT_EXTENSION );
-				if ( docExt != null )
-				{
-					if ( docExt.getIndex( ) == nextOffset )
-					{
-						nextOffset = docExt.getNext( );
+				DocumentExtension docExt = (DocumentExtension) childContent.getExtension(IContent.DOCUMENT_EXTENSION);
+				if (docExt != null) {
+					if (docExt.getIndex() == nextOffset) {
+						nextOffset = docExt.getNext();
 					}
 				}
 			}
@@ -261,17 +221,15 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 		return childExecutor;
 	}
 
-	abstract protected ReportItemExecutor doCreateExecutor( long offset )
-			throws Exception;
+	abstract protected ReportItemExecutor doCreateExecutor(long offset) throws Exception;
 
 	/**
 	 * adjust the nextItem to the nextContent.
 	 * 
-	 * before call this method, both the nextContent and the nextFragment can't
-	 * be NULL.
+	 * before call this method, both the nextContent and the nextFragment can't be
+	 * NULL.
 	 * 
 	 * @return
 	 */
-	abstract protected void doSkipToExecutor( InstanceID id, long offset )
-			throws Exception;
+	abstract protected void doSkipToExecutor(InstanceID id, long offset) throws Exception;
 }

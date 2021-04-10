@@ -15,15 +15,14 @@ import org.eclipse.birt.data.engine.api.IBinding;
 
 /**
  * Represents extra operations based on common <code>ICubeQueryDefinition</code>
- * execution result, i.e., <code>IAggregationResultSet[]</code> Currently,
- * only <code>AddNestAggregations</code> is provided
+ * execution result, i.e., <code>IAggregationResultSet[]</code> Currently, only
+ * <code>AddNestAggregations</code> is provided
  */
-public interface ICubeOperation
-{
+public interface ICubeOperation {
 
 	/**
-	 * @return new bindings introduced by cube operation an empty array is
-	 *         returned when no new binding is introduced
+	 * @return new bindings introduced by cube operation an empty array is returned
+	 *         when no new binding is introduced
 	 */
-	IBinding[] getNewBindings( );
+	IBinding[] getNewBindings();
 }

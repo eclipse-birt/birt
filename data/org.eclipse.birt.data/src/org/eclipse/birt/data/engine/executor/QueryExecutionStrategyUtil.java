@@ -47,8 +47,7 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
  * @author Work
  *
  */
-public final class QueryExecutionStrategyUtil
-{
+public final class QueryExecutionStrategyUtil {
 	/**
 	 * 
 	 * @author Work
@@ -65,177 +64,150 @@ public final class QueryExecutionStrategyUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static Strategy getQueryExecutionStrategy( DataEngineSession session, IQueryDefinition query,
-			IBaseDataSetDesign dataSet ) throws DataException
-	{
-		/*if ( session.getEngineContext( ).getDataEngineOption( ) > 4 )
-			return Strategy.Complex;*/
-		
-		SortingOptimizer opt = new SortingOptimizer( dataSet, query );
+	public static Strategy getQueryExecutionStrategy(DataEngineSession session, IQueryDefinition query,
+			IBaseDataSetDesign dataSet) throws DataException {
+		/*
+		 * if ( session.getEngineContext( ).getDataEngineOption( ) > 4 ) return
+		 * Strategy.Complex;
+		 */
 
-		if ( session.getEngineContext( ).getMode( ) == DataEngineContext.MODE_UPDATE )
+		SortingOptimizer opt = new SortingOptimizer(dataSet, query);
+
+		if (session.getEngineContext().getMode() == DataEngineContext.MODE_UPDATE)
 			return Strategy.Complex;
-		if ( query.getGroups( ) != null && query.getGroups( ).size( ) > 0 )
-		{
-			for( IGroupDefinition group : (List<IGroupDefinition>) query.getGroups( ) )
-			{
-				if ( group.getSubqueries( ) != null
-						&& group.getSubqueries( ).size( ) > 0 )
+		if (query.getGroups() != null && query.getGroups().size() > 0) {
+			for (IGroupDefinition group : (List<IGroupDefinition>) query.getGroups()) {
+				if (group.getSubqueries() != null && group.getSubqueries().size() > 0)
 					return Strategy.Complex;
-				if ( !isDirectColumnRefGroupKey( group, query ) )
+				if (!isDirectColumnRefGroupKey(group, query))
 					return Strategy.Complex;
-				if( group.getFilters( ).isEmpty( ) && group.getSorts( ).isEmpty( ) && !query.getQueryExecutionHints( ).doSortBeforeGrouping( ))
+				if (group.getFilters().isEmpty() && group.getSorts().isEmpty()
+						&& !query.getQueryExecutionHints().doSortBeforeGrouping())
 					continue;
-				if( opt.acceptGroupSorting( ) )
-				{
+				if (opt.acceptGroupSorting()) {
 					continue;
 				}
 				return Strategy.Complex;
 			}
 		}
 
-		if ( query.getFilters( ) != null && query.getFilters( ).size( ) > 0 )
-		{
-			if ( FilterUtil.hasMutipassFilters( query.getFilters( ) ) )
+		if (query.getFilters() != null && query.getFilters().size() > 0) {
+			if (FilterUtil.hasMutipassFilters(query.getFilters()))
 				return Strategy.Complex;
-			
-			Set<String> bindings = new HashSet<String>();			
-			for( Object filter : query.getFilters())
-			{
-				IBaseExpression baseExpr = ((IFilterDefinition)filter).getExpression();
-				if( ExpressionCompilerUtil.hasAggregationInExpr( baseExpr ))
+
+			Set<String> bindings = new HashSet<String>();
+			for (Object filter : query.getFilters()) {
+				IBaseExpression baseExpr = ((IFilterDefinition) filter).getExpression();
+				if (ExpressionCompilerUtil.hasAggregationInExpr(baseExpr))
 					return Strategy.Complex;
-				bindings.addAll(ExpressionCompilerUtil.extractColumnExpression( baseExpr, ExpressionUtil.ROW_INDICATOR ));
-				
-				//TODO: support progressive viewing on viewing time filter
-				if( ((IFilterDefinition)filter).updateAggregation() == false )
+				bindings.addAll(ExpressionCompilerUtil.extractColumnExpression(baseExpr, ExpressionUtil.ROW_INDICATOR));
+
+				// TODO: support progressive viewing on viewing time filter
+				if (((IFilterDefinition) filter).updateAggregation() == false)
 					return Strategy.Complex;
 			}
-			
-			if (PreparedQueryUtil.existAggregationBinding(bindings,
-					query.getBindings())) 
-			{
+
+			if (PreparedQueryUtil.existAggregationBinding(bindings, query.getBindings())) {
 				return Strategy.Complex;
 			}
 		}
 
-		if ( query.getSorts( ) != null && query.getSorts( ).size( ) > 0 )
-		{
-			if( !opt.acceptQuerySorting( ) )
+		if (query.getSorts() != null && query.getSorts().size() > 0) {
+			if (!opt.acceptQuerySorting())
 				return Strategy.Complex;
 		}
 
-		if ( query.getSubqueries( ) != null
-				&& query.getSubqueries( ).size( ) > 0 )
+		if (query.getSubqueries() != null && query.getSubqueries().size() > 0)
 			return Strategy.Complex;
 
-		if( !query.usesDetails( ) )
-		{
+		if (!query.usesDetails()) {
 			return Strategy.Complex;
 		}
 
 		boolean hasAggregation = false;
-		
-		if ( query.getBindings( ) != null )
-		{
-			Iterator bindingIt = query.getBindings( ).values( ).iterator( );
 
-			while ( bindingIt.hasNext( ) )
-			{
-				IBinding binding = (IBinding) bindingIt.next( );
-				if ( binding.getAggrFunction( ) != null )
-				{
+		if (query.getBindings() != null) {
+			Iterator bindingIt = query.getBindings().values().iterator();
+
+			while (bindingIt.hasNext()) {
+				IBinding binding = (IBinding) bindingIt.next();
+				if (binding.getAggrFunction() != null) {
 					hasAggregation = true;
 					IAggrFunction aggr = AggregationManager.getInstance().getAggregation(binding.getAggrFunction());
-					if( aggr!= null && aggr.getNumberOfPasses() > 1 )
-					{
+					if (aggr != null && aggr.getNumberOfPasses() > 1) {
 						return Strategy.Complex;
 					}
-					
-					//TODO:Enhance me
+
+					// TODO:Enhance me
 					List exprs = new ArrayList();
 					exprs.addAll(binding.getArguments());
-					if( binding.getExpression()!= null )
+					if (binding.getExpression() != null)
 						exprs.add(binding.getExpression());
-					for( int i = 0; i < exprs.size(); i++ )
-					{
+					for (int i = 0; i < exprs.size(); i++) {
 						Object expr = exprs.get(i);
-						if( !(expr instanceof IScriptExpression) )
-						{
+						if (!(expr instanceof IScriptExpression)) {
 							return Strategy.Complex;
 						}
-						
-						IScriptExpression scriptExpr = (IScriptExpression)expr;
-						try
-						{
-							List<IColumnBinding> columnExprs = ExpressionUtil.extractColumnExpressions( scriptExpr.getText() );
-							for( IColumnBinding temp : columnExprs )
-							{
-								Object obj = query.getBindings().get( temp.getResultSetColumnName());
-								if( obj instanceof IBinding )
-								{
-									IBinding bindingObj = (IBinding)obj;
-									if( bindingObj.getAggrFunction()!= null )
+
+						IScriptExpression scriptExpr = (IScriptExpression) expr;
+						try {
+							List<IColumnBinding> columnExprs = ExpressionUtil
+									.extractColumnExpressions(scriptExpr.getText());
+							for (IColumnBinding temp : columnExprs) {
+								Object obj = query.getBindings().get(temp.getResultSetColumnName());
+								if (obj instanceof IBinding) {
+									IBinding bindingObj = (IBinding) obj;
+									if (bindingObj.getAggrFunction() != null)
 										return Strategy.Complex;
-									
+
 									IBaseExpression baseExpr = ((IBinding) obj).getExpression();
-									if( baseExpr instanceof IScriptExpression )
-									{
-										String cb = ExpressionUtil.getColumnName(((IScriptExpression)baseExpr).getText());
-										if( ScriptEvalUtil.compare(bindingObj.getBindingName(), cb)!= 0)
+									if (baseExpr instanceof IScriptExpression) {
+										String cb = ExpressionUtil
+												.getColumnName(((IScriptExpression) baseExpr).getText());
+										if (ScriptEvalUtil.compare(bindingObj.getBindingName(), cb) != 0)
 											return Strategy.Complex;
 									}
 								}
 							}
-						}
-						catch( BirtException e )
-						{
+						} catch (BirtException e) {
 							return Strategy.Complex;
 						}
 					}
 				}
 
-				if ( ExpressionCompilerUtil.hasAggregationInExpr( binding.getExpression( ) ))
-				{
+				if (ExpressionCompilerUtil.hasAggregationInExpr(binding.getExpression())) {
 					return Strategy.Complex;
 				}
 			}
 		}
-		if ( dataSet != null )
-		{
-			if ( dataSet.getFilters( ) != null )
-			{
-				if ( FilterUtil.hasMutipassFilters( dataSet.getFilters( ) ) )
-				{
+		if (dataSet != null) {
+			if (dataSet.getFilters() != null) {
+				if (FilterUtil.hasMutipassFilters(dataSet.getFilters())) {
 					return Strategy.Complex;
 				}
-				
-				for( Object filter : dataSet.getFilters())
-				{
-					IBaseExpression baseExpr = ((IFilterDefinition)filter).getExpression();
-					if( ExpressionCompilerUtil.hasAggregationInExpr( baseExpr ))
+
+				for (Object filter : dataSet.getFilters()) {
+					IBaseExpression baseExpr = ((IFilterDefinition) filter).getExpression();
+					if (ExpressionCompilerUtil.hasAggregationInExpr(baseExpr))
 						return Strategy.Complex;
-					
-					if( ((IFilterDefinition)filter).updateAggregation() == false )
+
+					if (((IFilterDefinition) filter).updateAggregation() == false)
 						return Strategy.Complex;
 				}
 			}
 
-			if ( dataSet.needDistinctValue( ) )
+			if (dataSet.needDistinctValue())
 				return Strategy.Complex;
 
-			if ( dataSet.getComputedColumns( ) != null )
-			{
-				List computedColumns = dataSet.getComputedColumns( );
-				for ( int i = 0; i < computedColumns.size( ); i++ )
-				{
-					IComputedColumn computedColumn = (IComputedColumn) computedColumns.get( i );
-					if ( computedColumn.getAggregateFunction( ) != null )
+			if (dataSet.getComputedColumns() != null) {
+				List computedColumns = dataSet.getComputedColumns();
+				for (int i = 0; i < computedColumns.size(); i++) {
+					IComputedColumn computedColumn = (IComputedColumn) computedColumns.get(i);
+					if (computedColumn.getAggregateFunction() != null)
 						return Strategy.Complex;
-					if ( computedColumn.getExpression( ) instanceof IScriptExpression )
-					{
-						if ( ExpressionUtil.hasAggregation( ( (IScriptExpression) computedColumn.getExpression( ) ).getText( ) ) )
-						{
+					if (computedColumn.getExpression() instanceof IScriptExpression) {
+						if (ExpressionUtil
+								.hasAggregation(((IScriptExpression) computedColumn.getExpression()).getText())) {
 							return Strategy.Complex;
 						}
 					}
@@ -243,75 +215,56 @@ public final class QueryExecutionStrategyUtil
 			}
 		}
 
-		return hasAggregation?Strategy.SimpleLookingFoward:Strategy.SimpleNoLookingFoward;
+		return hasAggregation ? Strategy.SimpleLookingFoward : Strategy.SimpleNoLookingFoward;
 	}
-	
-	private static boolean isDirectColumnRefGroupKey(IGroupDefinition group,IQueryDefinition query )
-	{
+
+	private static boolean isDirectColumnRefGroupKey(IGroupDefinition group, IQueryDefinition query) {
 		String expr = getGroupKeyExpression(group);
 		String dataSetExpr;
-		try
-		{
-			dataSetExpr = getDataSetExpr( expr,query );
-		}
-		catch (DataException e)
-		{
+		try {
+			dataSetExpr = getDataSetExpr(expr, query);
+		} catch (DataException e) {
 			dataSetExpr = null;
 		}
-		try
-		{
-			if( dataSetExpr != null && ExpressionUtil.getColumnName( dataSetExpr ) == null && ExpressionUtil.getColumnBindingName(dataSetExpr) == null)
-			{
+		try {
+			if (dataSetExpr != null && ExpressionUtil.getColumnName(dataSetExpr) == null
+					&& ExpressionUtil.getColumnBindingName(dataSetExpr) == null) {
 				return false;
 			}
-		}
-		catch (BirtException e)
-		{
+		} catch (BirtException e) {
 			return false;
 		}
 		return true;
 	}
-	
-	
-	private static String getGroupKeyExpression(IGroupDefinition src) 
-	{
-		String expr = src.getKeyColumn( );
-		if ( expr == null )
-		{
-			expr = src.getKeyExpression( );
-		}
-		else
-		{
-			expr = getColumnRefExpression( expr );
+
+	private static String getGroupKeyExpression(IGroupDefinition src) {
+		String expr = src.getKeyColumn();
+		if (expr == null) {
+			expr = src.getKeyExpression();
+		} else {
+			expr = getColumnRefExpression(expr);
 		}
 		return expr;
 	}
 
-	private static String getColumnRefExpression( String expr )
-	{
-		return ExpressionUtil.createJSRowExpression( expr );
+	private static String getColumnRefExpression(String expr) {
+		return ExpressionUtil.createJSRowExpression(expr);
 	}
-	
-	private static String getDataSetExpr( String rowExpr,IQueryDefinition query ) throws DataException
-	{
-		String dataSetExpr = null ;
-		try
-		{
-			String bindingName = ExpressionUtil.getColumnBindingName( rowExpr );
-			Object binding = query.getBindings( ).get( bindingName );
-			if( binding != null )
-			{
-				IBaseExpression expr = ( (IBinding) binding ).getExpression( );
-				if( expr != null && expr instanceof IScriptExpression )
-				{
-					dataSetExpr = ( ( IScriptExpression )expr ).getText( );
+
+	private static String getDataSetExpr(String rowExpr, IQueryDefinition query) throws DataException {
+		String dataSetExpr = null;
+		try {
+			String bindingName = ExpressionUtil.getColumnBindingName(rowExpr);
+			Object binding = query.getBindings().get(bindingName);
+			if (binding != null) {
+				IBaseExpression expr = ((IBinding) binding).getExpression();
+				if (expr != null && expr instanceof IScriptExpression) {
+					dataSetExpr = ((IScriptExpression) expr).getText();
 				}
 			}
 			return dataSetExpr;
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 	}
 }

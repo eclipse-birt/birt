@@ -26,71 +26,52 @@ import org.eclipse.birt.report.engine.odf.style.HyperlinkInfo;
 
 import com.lowagie.text.pdf.BaseFont;
 
+public class OdpUtil {
 
-public class OdpUtil
-{
+	private static final Logger logger = Logger.getLogger(OdpUtil.class.getName());
 
-	private static final Logger logger = Logger.getLogger( OdpUtil.class
-			.getName( ) );
-	
-	public static HyperlinkInfo getHyperlink( IArea area,
-			IEmitterServices services, IReportRunnable reportRunnable,
-			IReportContext context )
-	{
-		IHyperlinkAction hyperlinkAction = area.getAction( );
-		if ( hyperlinkAction != null )
-		{
-			try
-			{
-				if ( hyperlinkAction.getType( ) != IHyperlinkAction.ACTION_BOOKMARK )
-				{
-					String link = hyperlinkAction.getHyperlink( );
-					String tooltip = hyperlinkAction.getTooltip( );
-					Object handler = services
-							.getOption( RenderOption.ACTION_HANDLER );
-					if ( handler != null
-							&& handler instanceof IHTMLActionHandler )
-					{
+	public static HyperlinkInfo getHyperlink(IArea area, IEmitterServices services, IReportRunnable reportRunnable,
+			IReportContext context) {
+		IHyperlinkAction hyperlinkAction = area.getAction();
+		if (hyperlinkAction != null) {
+			try {
+				if (hyperlinkAction.getType() != IHyperlinkAction.ACTION_BOOKMARK) {
+					String link = hyperlinkAction.getHyperlink();
+					String tooltip = hyperlinkAction.getTooltip();
+					Object handler = services.getOption(RenderOption.ACTION_HANDLER);
+					if (handler != null && handler instanceof IHTMLActionHandler) {
 						IHTMLActionHandler actionHandler = (IHTMLActionHandler) handler;
-						String systemId = reportRunnable == null
-								? null
-								: reportRunnable.getReportName( );
-						Action action = new Action( systemId, hyperlinkAction );
-						link = actionHandler.getURL( action, context );
+						String systemId = reportRunnable == null ? null : reportRunnable.getReportName();
+						Action action = new Action(systemId, hyperlinkAction);
+						link = actionHandler.getURL(action, context);
 					}
-					return new HyperlinkInfo( HyperlinkInfo.BOOKMARK, link, tooltip );
+					return new HyperlinkInfo(HyperlinkInfo.BOOKMARK, link, tooltip);
 				}
-			}
-			catch ( Exception e )
-			{
-				logger.log( Level.WARNING, e.getMessage( ), e );
+			} catch (Exception e) {
+				logger.log(Level.WARNING, e.getMessage(), e);
 			}
 		}
 		return null;
 	}
 
-	public static void appendComponent( StringBuffer buffer, int component )
-	{
-		String hex = Integer.toHexString( component );
-		if ( hex.length( ) == 1)
-		{
-			buffer.append( '0' );
+	public static void appendComponent(StringBuffer buffer, int component) {
+		String hex = Integer.toHexString(component);
+		if (hex.length() == 1) {
+			buffer.append('0');
 		}
-		buffer.append( hex );
+		buffer.append(hex);
 	}
 
-	public static String getColorString( Color color )
-	{
+	public static String getColorString(Color color) {
 		StringBuffer buffer = new StringBuffer("#"); //$NON-NLS-1$
-		appendComponent( buffer, color.getRed( ) );
-		appendComponent( buffer, color.getGreen( ) );
-		appendComponent( buffer, color.getBlue( ) );
-		return buffer.toString( );
+		appendComponent(buffer, color.getRed());
+		appendComponent(buffer, color.getGreen());
+		appendComponent(buffer, color.getBlue());
+		return buffer.toString();
 	}
 
-	public static String getFontName( BaseFont baseFont )
-	{
-		String[][] familyFontNames = baseFont.getFamilyFontName( );
+	public static String getFontName(BaseFont baseFont) {
+		String[][] familyFontNames = baseFont.getFamilyFontName();
 		String[] family = familyFontNames[familyFontNames.length - 1];
 		return family[family.length - 1];
 	}

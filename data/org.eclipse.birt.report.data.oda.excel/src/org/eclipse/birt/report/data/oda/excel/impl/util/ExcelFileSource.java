@@ -53,37 +53,33 @@ public class ExcelFileSource {
 	private boolean isFirstTimeToReadSourceData = true;
 	private List<String> nextDataLine;
 
-	// use Object type in case ResourceIdentifiers instance was loaded by a different classloader
-    private Object resourceIdentifiers;
+	// use Object type in case ResourceIdentifiers instance was loaded by a
+	// different classloader
+	private Object resourceIdentifiers;
 
-    /**
+	/**
 	 * Constructor
 	 *
-	 * @param connProperties
-	 *            Connection properties
-	 * @param currentTableName
-	 *            The current table name of this connection
-	 * @param statementMaxRows
-	 *            The max number of rows specified in the query
-	 * @param rsmd
-	 *            ResultSet meta-data
-	 * @param rsmdHelper
-	 *            ResultSet meta-data helper
+	 * @param connProperties   Connection properties
+	 * @param currentTableName The current table name of this connection
+	 * @param statementMaxRows The max number of rows specified in the query
+	 * @param rsmd             ResultSet meta-data
+	 * @param rsmdHelper       ResultSet meta-data helper
 	 * @throws OdaException
-     * @throws IOException
+	 * @throws IOException
 	 */
-	public ExcelFileSource(Properties connProperties, String currentTableName,
-			String workSheetNames,
-			int statementMaxRows, IResultSetMetaData rsmd,
-			ResultSetMetaDataHelper rsmdHelper, Map appContext) throws OdaException {
+	public ExcelFileSource(Properties connProperties, String currentTableName, String workSheetNames,
+			int statementMaxRows, IResultSetMetaData rsmd, ResultSetMetaDataHelper rsmdHelper, Map appContext)
+			throws OdaException {
 		this.rsmd = rsmd;
 		this.rsmdHelper = rsmdHelper;
 		this.statementMaxRows = statementMaxRows;
 		this.currentTableName = currentTableName;
-		this.resourceIdentifiers = appContext != null ?
-		                appContext.get( ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS ) :
-		                null;
-		this.fileExtension = ExcelFileReader.getExtensionName(resourceIdentifiers, connProperties.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP));
+		this.resourceIdentifiers = appContext != null
+				? appContext.get(ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS)
+				: null;
+		this.fileExtension = ExcelFileReader.getExtensionName(resourceIdentifiers,
+				connProperties.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP));
 		Properties properties = getCopyOfConnectionProperties(connProperties);
 		populateHomeDir(properties);
 		populateHasColumnNames(properties);
@@ -131,22 +127,15 @@ public class ExcelFileSource {
 	private Properties getCopyOfConnectionProperties(Properties connProperties) {
 		Properties copyConnProperites = new Properties();
 
-        if (connProperties
-				.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP) != null)
-        {
+		if (connProperties.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP) != null) {
 			copyConnProperites.setProperty(ExcelODAConstants.CONN_FILE_URI_PROP,
-				connProperties
-						.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP));
-        }
+					connProperties.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP));
+		}
 
-        copyConnProperites
-				.setProperty(
-						ExcelODAConstants.CONN_INCLCOLUMNNAME_PROP,
-						connProperties
-								.getProperty(ExcelODAConstants.CONN_INCLCOLUMNNAME_PROP));
-		copyConnProperites.setProperty(
-				ExcelODAConstants.CONN_INCLTYPELINE_PROP, connProperties
-						.getProperty(ExcelODAConstants.CONN_INCLTYPELINE_PROP));
+		copyConnProperites.setProperty(ExcelODAConstants.CONN_INCLCOLUMNNAME_PROP,
+				connProperties.getProperty(ExcelODAConstants.CONN_INCLCOLUMNNAME_PROP));
+		copyConnProperites.setProperty(ExcelODAConstants.CONN_INCLTYPELINE_PROP,
+				connProperties.getProperty(ExcelODAConstants.CONN_INCLTYPELINE_PROP));
 
 		return copyConnProperites;
 	}
@@ -157,38 +146,29 @@ public class ExcelFileSource {
 	 * @throws OdaException
 	 */
 	private void populateHomeDir(Properties connProperties) throws OdaException {
-		this.uriPath = connProperties.getProperty( ExcelODAConstants.CONN_FILE_URI_PROP );
-		uri = ResourceLocatorUtil.resolvePath( resourceIdentifiers, uriPath );
+		this.uriPath = connProperties.getProperty(ExcelODAConstants.CONN_FILE_URI_PROP);
+		uri = ResourceLocatorUtil.resolvePath(resourceIdentifiers, uriPath);
 
-		if (uri == null)
-		{
-			throw new OdaException(
-					Messages.getFormattedString("fileSource_excelFileNotFound",  //$NON-NLS-1$
-					        new Object[]{uriPath} ));
+		if (uri == null) {
+			throw new OdaException(Messages.getFormattedString("fileSource_excelFileNotFound", //$NON-NLS-1$
+					new Object[] { uriPath }));
 		}
 
-		try
-		{
-			ResourceLocatorUtil.validateFileURI( uri );
-		}
-		catch (Exception e)
-		{
-			throw new OdaException( Messages.getFormattedString( "fileSource_excelFileNotFound", //$NON-NLS-1$
-					new Object[]{
-						uriPath
-					} ) );
+		try {
+			ResourceLocatorUtil.validateFileURI(uri);
+		} catch (Exception e) {
+			throw new OdaException(Messages.getFormattedString("fileSource_excelFileNotFound", //$NON-NLS-1$
+					new Object[] { uriPath }));
 		}
 	}
-
 
 	/**
 	 *
 	 * @param connProperties
 	 */
 	private void populateHasColumnNames(Properties connProperties) {
-		this.hasColumnNames = connProperties.getProperty(
-				ExcelODAConstants.CONN_INCLCOLUMNNAME_PROP).equalsIgnoreCase(
-				ExcelODAConstants.INC_COLUMN_NAME_NO) ? false : true;
+		this.hasColumnNames = connProperties.getProperty(ExcelODAConstants.CONN_INCLCOLUMNNAME_PROP)
+				.equalsIgnoreCase(ExcelODAConstants.INC_COLUMN_NAME_NO) ? false : true;
 	}
 
 	/**
@@ -196,9 +176,8 @@ public class ExcelFileSource {
 	 * @param connProperties
 	 */
 	private void populateHasTypeLine(Properties connProperties) {
-		this.hasTypeLine = connProperties.getProperty(
-				ExcelODAConstants.CONN_INCLTYPELINE_PROP).equalsIgnoreCase(
-				ExcelODAConstants.INC_TYPE_LINE_NO) ? false : true;
+		this.hasTypeLine = connProperties.getProperty(ExcelODAConstants.CONN_INCLTYPELINE_PROP)
+				.equalsIgnoreCase(ExcelODAConstants.INC_TYPE_LINE_NO) ? false : true;
 	}
 
 	/**
@@ -206,15 +185,12 @@ public class ExcelFileSource {
 	 * @param connProperties
 	 * @throws OdaException
 	 */
-	private void populateWorksheetNames(String workSheetNames)
-			throws OdaException {
+	private void populateWorksheetNames(String workSheetNames) throws OdaException {
 		if (workSheetNames == null) {
-			throw new OdaException(
-					Messages.getString("query_WORKSHEET_CANNOT_BE_NULL") //$NON-NLS-1$
+			throw new OdaException(Messages.getString("query_WORKSHEET_CANNOT_BE_NULL") //$NON-NLS-1$
 			);
 		}
-		String[] workSheetNamesArray = workSheetNames
-				.split(ExcelODAConstants.DELIMITER_SEMICOLON_VALUE);
+		String[] workSheetNamesArray = workSheetNames.split(ExcelODAConstants.DELIMITER_SEMICOLON_VALUE);
 		for (int index = 0; index < workSheetNamesArray.length; index++) {
 			sheetNameList.add(workSheetNamesArray[index]);
 		}
@@ -249,25 +225,20 @@ public class ExcelFileSource {
 	/**
 	 * Find the absolute path of the file in which a specific table resides.
 	 *
-	 * @param tableName
-	 *            the name of table
+	 * @param tableName the name of table
 	 * @return the String which contains the absolute path of that table
-	 * @throws OdaException
-	 *             if the table name cannot be found
+	 * @throws OdaException if the table name cannot be found
 	 */
 	public String findDataFileAbsolutePath() throws OdaException {
-		if (uri == null)
-		{
-			throw new OdaException( Messages.getFormattedString( "fileSource_excelFileNotFound", //$NON-NLS-1$
-					new Object[]{
-					uriPath
-					} ) );
+		if (uri == null) {
+			throw new OdaException(Messages.getFormattedString("fileSource_excelFileNotFound", //$NON-NLS-1$
+					new Object[] { uriPath }));
 		}
 		try {
 			ResourceLocatorUtil.validateFileURI(uri);
 		} catch (Exception e) {
-			throw new OdaException( Messages.getString( "query_invalidTableName" ) //$NON-NLS-1$
-					+ this.uriPath );
+			throw new OdaException(Messages.getString("query_invalidTableName") //$NON-NLS-1$
+					+ this.uriPath);
 		}
 
 		return uri.toString();
@@ -308,8 +279,7 @@ public class ExcelFileSource {
 				// make a copy of column names if there are
 				if (this.hasColumnNames) {
 					List<String> columeNameLine;
-					while (isEmptyRow(columeNameLine = excelFileReader
-							.readLine())) {
+					while (isEmptyRow(columeNameLine = excelFileReader.readLine())) {
 						continue;
 					}
 					this.originalColumnNames = getColumnNameArray(columeNameLine);
@@ -342,10 +312,8 @@ public class ExcelFileSource {
 
 			int counterLimitPerFetch = fetchCounter + MAX_ROWS_PER_FETCH;
 
-			while ((this.maxRowsToRead <= 0 ? true
-					: this.fetchCounter < this.maxRowsToRead)
-					&& this.fetchCounter < counterLimitPerFetch
-					&& nextDataLine != null) {
+			while ((this.maxRowsToRead <= 0 ? true : this.fetchCounter < this.maxRowsToRead)
+					&& this.fetchCounter < counterLimitPerFetch && nextDataLine != null) {
 				if (!isEmptyRow(nextDataLine)) {
 					fetchCounter++;
 					result.add(fetchQueriedDataFromRow(nextDataLine));
@@ -360,16 +328,15 @@ public class ExcelFileSource {
 	}
 
 	/**
-	 * Feed the row data from a List to a two-dimension array. The string value
-	 * is trimmed before being copied into array.
+	 * Feed the row data from a List to a two-dimension array. The string value is
+	 * trimmed before being copied into array.
 	 *
 	 * @param v
-	 * @return a String two dimension array with each horizontal array contains
-	 *         a row
+	 * @return a String two dimension array with each horizontal array contains a
+	 *         row
 	 * @throws OdaException
 	 */
-	private String[][] copyDataFromListToTwoDimensionArray(List<String[]> v)
-			throws OdaException {
+	private String[][] copyDataFromListToTwoDimensionArray(List<String[]> v) throws OdaException {
 		String[][] rowSet = new String[v.size()][this.rsmd.getColumnCount()];
 		for (int i = 0; i < v.size(); i++) {
 			String[] temp = (String[]) v.get(i);
@@ -377,8 +344,7 @@ public class ExcelFileSource {
 				if (temp[j] != null)
 					rowSet[i][j] = temp[j].trim();
 				else
-					throw new OdaException(
-							Messages.getString("data_read_error")); //$NON-NLS-1$
+					throw new OdaException(Messages.getString("data_read_error")); //$NON-NLS-1$
 			}
 		}
 		return rowSet;
@@ -388,14 +354,12 @@ public class ExcelFileSource {
 		assert originalColumnNames != null;
 		HashMap<String, Integer> originalColumnNameIndexMap = new HashMap<String, Integer>();
 		for (int i = 0; i < originalColumnNames.length; i++) {
-			originalColumnNameIndexMap.put(originalColumnNames[i].trim()
-					.toUpperCase(), Integer.valueOf(i));
+			originalColumnNameIndexMap.put(originalColumnNames[i].trim().toUpperCase(), Integer.valueOf(i));
 		}
 		selectColumIndexes = new int[rsmd.getColumnCount()];
 
 		for (int i = 0; i < rsmd.getColumnCount(); i++) {
-			selectColumIndexes[i] = findIndex(
-					rsmdHelper.getOriginalColumnName(rsmd.getColumnName(i + 1)),
+			selectColumIndexes[i] = findIndex(rsmdHelper.getOriginalColumnName(rsmd.getColumnName(i + 1)),
 					originalColumnNameIndexMap);
 		}
 	}
@@ -406,8 +370,7 @@ public class ExcelFileSource {
 	 * @return
 	 * @throws OdaException
 	 */
-	private String[] createTempColumnNames(List<String> aRow)
-			throws OdaException {
+	private String[] createTempColumnNames(List<String> aRow) throws OdaException {
 		String[] tempColumnNames = new String[aRow.size()];
 
 		for (int i = 0; i < aRow.size(); i++) {
@@ -417,29 +380,25 @@ public class ExcelFileSource {
 		return tempColumnNames;
 	}
 
-	private static String formatTempColumnName( int columnPosition )
-	{
-	    return "COLUMN_" + columnPosition; //$NON-NLS-1$
+	private static String formatTempColumnName(int columnPosition) {
+		return "COLUMN_" + columnPosition; //$NON-NLS-1$
 	}
 
 	/**
 	 * Fetch data from a row.
 	 *
-	 * @param aRow
-	 *            a row read from table
-	 * @return an array of data values for each specified column names from a
-	 *         row. The "specified column names" are obtained from meta data
+	 * @param aRow a row read from table
+	 * @return an array of data values for each specified column names from a row.
+	 *         The "specified column names" are obtained from meta data
 	 * @throws OdaException
 	 */
-	private String[] fetchQueriedDataFromRow(List<String> aRow)
-			throws OdaException {
+	private String[] fetchQueriedDataFromRow(List<String> aRow) throws OdaException {
 		String[] sArray = new String[rsmd.getColumnCount()];
 		for (int i = 0; i < sArray.length; i++) {
 			int location = selectColumIndexes[i];
 			if (location != -1) {
 				if (location >= aRow.size()) {
-					throw new OdaException(
-							Messages.getString("query_INVALID_EXCEL_FILE")); //$NON-NLS-1$
+					throw new OdaException(Messages.getString("query_INVALID_EXCEL_FILE")); //$NON-NLS-1$
 				} else {
 					sArray[i] = aRow.get(location).toString();
 				}
@@ -455,10 +414,8 @@ public class ExcelFileSource {
 	 * @param array
 	 * @return
 	 */
-	private int findIndex(String value,
-			HashMap<String, Integer> originalColumnNameIndexMap) {
-		Integer index = originalColumnNameIndexMap.get(value.trim()
-				.toUpperCase());
+	private int findIndex(String value, HashMap<String, Integer> originalColumnNameIndexMap) {
+		Integer index = originalColumnNameIndexMap.get(value.trim().toUpperCase());
 		if (index == null) {
 			return -1;
 		} else {
@@ -475,10 +432,10 @@ public class ExcelFileSource {
 		return excelFileReader.readLine();
 	}
 
-	public void resetRowCounter(){
-		
-		if( this.excelFileReader != null)
-		this.excelFileReader.setCurrentRowIndex(0);
+	public void resetRowCounter() {
+
+		if (this.excelFileReader != null)
+			this.excelFileReader.setCurrentRowIndex(0);
 	}
 
 	/**
@@ -488,10 +445,10 @@ public class ExcelFileSource {
 	 */
 	private void initialiseReader() throws OdaException, IOException {
 
-		if( isReaderInitialised )
-		    return;
-		this.fileExtension = ExcelFileReader.getExtensionName( uri );
-		this.excelFileReader = new ExcelFileReader(ResourceLocatorUtil.getURIStream( uri ), this.fileExtension,
+		if (isReaderInitialised)
+			return;
+		this.fileExtension = ExcelFileReader.getExtensionName(uri);
+		this.excelFileReader = new ExcelFileReader(ResourceLocatorUtil.getURIStream(uri), this.fileExtension,
 				this.sheetNameList, this.statementMaxRows);
 		isReaderInitialised = true;
 
@@ -507,8 +464,7 @@ public class ExcelFileSource {
 	 */
 	public String[] getColumnNameArray(List<?> line) throws OdaException {
 		if (line == null)
-			throw new OdaException(
-					Messages.getString("common_CANNOT_FIND_COLUMN")); //$NON-NLS-1$
+			throw new OdaException(Messages.getString("common_CANNOT_FIND_COLUMN")); //$NON-NLS-1$
 		return getStringArrayFromList(line);
 	}
 
@@ -522,11 +478,10 @@ public class ExcelFileSource {
 		String[] array = null;
 		if (list != null) {
 			array = new String[list.size()];
-			for (int i = 0; i < list.size(); i++)
-			{
-			    String columnName = (String) list.get(i);
-			    if( columnName == null || columnName.isEmpty() )
-			        columnName = formatTempColumnName(i+1);
+			for (int i = 0; i < list.size(); i++) {
+				String columnName = (String) list.get(i);
+				if (columnName == null || columnName.isEmpty())
+					columnName = formatTempColumnName(i + 1);
 				array[i] = columnName;
 			}
 		}
@@ -542,8 +497,7 @@ public class ExcelFileSource {
 	 */
 	public boolean isEmptyRow(List<String> line) throws OdaException {
 		if (line == null)
-			throw new OdaException(
-					Messages.getString("query_INVALID_EXCEL_FILE")); //$NON-NLS-1$
+			throw new OdaException(Messages.getString("query_INVALID_EXCEL_FILE")); //$NON-NLS-1$
 
 		return line.isEmpty() || (line.size() == 1 && line.get(0).equals("")); //$NON-NLS-1$
 	}
@@ -574,8 +528,8 @@ public class ExcelFileSource {
 	 */
 	public int getMaxRowsToRead(int resultSetMaxRows) {
 		this.resultSetMaxRows = resultSetMaxRows;
-		return this.maxRowsToRead = ((this.statementMaxRows != 0 && this.statementMaxRows < this.resultSetMaxRows) || this.resultSetMaxRows == 0) ? this.statementMaxRows
-				: this.resultSetMaxRows;
+		return this.maxRowsToRead = ((this.statementMaxRows != 0 && this.statementMaxRows < this.resultSetMaxRows)
+				|| this.resultSetMaxRows == 0) ? this.statementMaxRows : this.resultSetMaxRows;
 	}
 
 	/**

@@ -20,20 +20,17 @@ import com.ibm.icu.util.ULocale;
  * Represents the choice wrapping ODA choice.
  */
 
-public class ODAChoice implements IChoice
-{
+public class ODAChoice implements IChoice {
 
 	private PropertyChoice choice;
 
 	/**
 	 * Constructs the choice with ODA choice definition.
 	 * 
-	 * @param choice
-	 *            ODA choice definition
+	 * @param choice ODA choice definition
 	 */
 
-	public ODAChoice( PropertyChoice choice )
-	{
+	public ODAChoice(PropertyChoice choice) {
 		this.choice = choice;
 	}
 
@@ -42,9 +39,8 @@ public class ODAChoice implements IChoice
 	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IChoice#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return choice.getDisplayName( );
+	public String getDisplayName() {
+		return choice.getDisplayName();
 	}
 
 	/**
@@ -53,20 +49,18 @@ public class ODAChoice implements IChoice
 	 * @return the localized display name for the choice.
 	 */
 
-	public String getDisplayName( ULocale locale )
-	{
-		return choice.getDisplayName( );
+	public String getDisplayName(ULocale locale) {
+		return choice.getDisplayName();
 	}
-	
+
 	/**
-	 * Returns <code>null</code> always. No display name key of ODA choice can
-	 * be got.
+	 * Returns <code>null</code> always. No display name key of ODA choice can be
+	 * got.
 	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IChoice#getDisplayNameKey()
 	 */
 
-	public String getDisplayNameKey( )
-	{
+	public String getDisplayNameKey() {
 		return null;
 	}
 
@@ -76,9 +70,8 @@ public class ODAChoice implements IChoice
 	 * @see org.eclipse.birt.report.model.api.metadata.IChoice#getName()
 	 */
 
-	public String getName( )
-	{
-		return choice.getName( );
+	public String getName() {
+		return choice.getName();
 	}
 
 	/*
@@ -87,9 +80,8 @@ public class ODAChoice implements IChoice
 	 * @see org.eclipse.birt.report.model.api.metadata.IChoice#getValue()
 	 */
 
-	public Object getValue( )
-	{
-		return choice.getValue( );
+	public Object getValue() {
+		return choice.getValue();
 	}
 
 	/*
@@ -98,14 +90,10 @@ public class ODAChoice implements IChoice
 	 * @see org.eclipse.birt.report.model.api.metadata.IChoice#copy()
 	 */
 
-	public IChoice copy( )
-	{
-		try
-		{
-			return (IChoice) clone( );
-		}
-		catch ( CloneNotSupportedException e )
-		{
+	public IChoice copy() {
+		try {
+			return (IChoice) clone();
+		} catch (CloneNotSupportedException e) {
 			return null;
 		}
 	}
@@ -116,9 +104,8 @@ public class ODAChoice implements IChoice
 	 * @see java.lang.Object#clone()
 	 */
 
-	protected Object clone( ) throws CloneNotSupportedException
-	{
-		ODAChoice clone = (ODAChoice) super.clone( );
+	protected Object clone() throws CloneNotSupportedException {
+		ODAChoice clone = (ODAChoice) super.clone();
 		clone.choice = choice;
 
 		return clone;

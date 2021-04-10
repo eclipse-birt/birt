@@ -25,8 +25,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  * 
  */
 
-public class DirectoryDocumentManager implements IDocumentManager
-{
+public class DirectoryDocumentManager implements IDocumentManager {
 	private String documentDir = null;
 
 	/**
@@ -35,87 +34,75 @@ public class DirectoryDocumentManager implements IDocumentManager
 	 * @param deleteOld
 	 * @throws DataException
 	 */
-	public DirectoryDocumentManager( String documentDir, boolean deleteOld ) throws DataException
-	{
+	public DirectoryDocumentManager(String documentDir, boolean deleteOld) throws DataException {
 		this.documentDir = documentDir;
-		File dir = new File( documentDir );
-		if(!FileSecurity.fileExist( dir )||!FileSecurity.fileIsDirectory( dir ))
-		{
-			if ( !FileSecurity.fileMakeDirs( dir ) )
-			{
-				throw new DataException( ResourceConstants.OLAPDIR_CREATE_FAIL,
-						documentDir );
+		File dir = new File(documentDir);
+		if (!FileSecurity.fileExist(dir) || !FileSecurity.fileIsDirectory(dir)) {
+			if (!FileSecurity.fileMakeDirs(dir)) {
+				throw new DataException(ResourceConstants.OLAPDIR_CREATE_FAIL, documentDir);
 			}
 		}
-		if ( deleteOld )
-		{
-			File[] oldFiles = FileSecurity.fileListFiles( dir );
-			for ( int i = 0; i < oldFiles.length; i++ )
-			{
-				FileSecurity.fileDelete( oldFiles[i] );
+		if (deleteOld) {
+			File[] oldFiles = FileSecurity.fileListFiles(dir);
+			for (int i = 0; i < oldFiles.length; i++) {
+				FileSecurity.fileDelete(oldFiles[i]);
 			}
 		}
 	}
 
-	public void close( ) throws IOException
-	{
-		
+	public void close() throws IOException {
+
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.document.IDocumentManager#createDocumentObject(java.lang.String)
+	 * 
+	 * @see org.eclipse.birt.data.olap.data.document.IDocumentManager#
+	 * createDocumentObject(java.lang.String)
 	 */
-	public IDocumentObject createDocumentObject( String documentObjectName ) throws IOException
-	{
-		File file =  new File(documentDir + File.separatorChar + documentObjectName);
-		if ( FileSecurity.fileExist( file ) )
-		{
+	public IDocumentObject createDocumentObject(String documentObjectName) throws IOException {
+		File file = new File(documentDir + File.separatorChar + documentObjectName);
+		if (FileSecurity.fileExist(file)) {
 			return null;
-		}
-		else
-		{
-			if ( !FileSecurity.createNewFile( file ) )
-			{
+		} else {
+			if (!FileSecurity.createNewFile(file)) {
 				return null;
 			}
-			return new DocumentObject( new BufferedRandomDataAccessObject( new SimpleRandomAccessObject( file,
-					"rw" ),
-					1024 ) );
+			return new DocumentObject(
+					new BufferedRandomDataAccessObject(new SimpleRandomAccessObject(file, "rw"), 1024));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.document.IDocumentManager#openDocumentObject(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.olap.data.document.IDocumentManager#openDocumentObject(
+	 * java.lang.String)
 	 */
-	public IDocumentObject openDocumentObject( String documentObjectName ) throws IOException
-	{
-		File file = new File( documentDir
-				+ File.separatorChar + documentObjectName );
-		if ( !FileSecurity.fileExist( file ) )
-		{
+	public IDocumentObject openDocumentObject(String documentObjectName) throws IOException {
+		File file = new File(documentDir + File.separatorChar + documentObjectName);
+		if (!FileSecurity.fileExist(file)) {
 			return null;
 		}
-		
-		return new DocumentObject( new BufferedRandomDataAccessObject( new SimpleRandomAccessObject( file,
-				"rw" ),
-				1024 ) );
+
+		return new DocumentObject(new BufferedRandomDataAccessObject(new SimpleRandomAccessObject(file, "rw"), 1024));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.document.IDocumentManager#exist(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.olap.data.document.IDocumentManager#exist(java.lang.
+	 * String)
 	 */
-	public boolean exist( String documentObjectName )
-	{
-		File file =  new File(documentDir + File.separatorChar + documentObjectName);
-		return FileSecurity.fileExist( file );
+	public boolean exist(String documentObjectName) {
+		File file = new File(documentDir + File.separatorChar + documentObjectName);
+		return FileSecurity.fileExist(file);
 	}
 
-	public void flush( ) throws IOException
-	{
-		
+	public void flush() throws IOException {
+
 	}
 
 }

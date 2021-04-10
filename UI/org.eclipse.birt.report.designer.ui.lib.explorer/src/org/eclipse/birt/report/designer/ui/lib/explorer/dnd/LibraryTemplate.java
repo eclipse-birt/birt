@@ -15,12 +15,10 @@ package org.eclipse.birt.report.designer.ui.lib.explorer.dnd;
  * 
  */
 
-public class LibraryTemplate
-{
+public class LibraryTemplate {
 
-	public LibraryTemplate( )
-	{
-		super( );
+	public LibraryTemplate() {
+		super();
 	}
 
 }

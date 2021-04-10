@@ -16,17 +16,16 @@ import org.eclipse.birt.report.service.api.ParameterDefinition;
 /**
  * Fragment help rendering scalar parameter.
  * <p>
+ * 
  * @see org.eclipse.birt.report.presentation.aggregation.BaseFragment
  */
-public class CheckboxParameterFragment extends ScalarParameterFragment
-{
+public class CheckboxParameterFragment extends ScalarParameterFragment {
 	/**
 	 * Protected constructor.
 	 * 
 	 * @param parameter parameter definition reference.
 	 */
-	public CheckboxParameterFragment( ParameterDefinition parameter )
-	{
-		super( parameter );
+	public CheckboxParameterFragment(ParameterDefinition parameter) {
+		super(parameter);
 	}
 }

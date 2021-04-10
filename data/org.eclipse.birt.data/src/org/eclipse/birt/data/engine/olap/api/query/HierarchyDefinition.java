@@ -14,72 +14,69 @@ package org.eclipse.birt.data.engine.olap.api.query;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * 
  */
 
-public class HierarchyDefinition extends NamedObject
-		implements
-			IHierarchyDefinition
-{
+public class HierarchyDefinition extends NamedObject implements IHierarchyDefinition {
 	private List levels;
 	private IDimensionDefinition dim;
-	
-	public HierarchyDefinition ( IDimensionDefinition dim, String hierarchyName )
-	{
-		super( hierarchyName );
+
+	public HierarchyDefinition(IDimensionDefinition dim, String hierarchyName) {
+		super(hierarchyName);
 		this.levels = new ArrayList();
 		this.dim = dim;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition#createLevel(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition#createLevel(
+	 * java.lang.String)
 	 */
-	public ILevelDefinition createLevel( String levelName )
-	{
-		ILevelDefinition level = new LevelDefiniton( this, levelName );
-		this.levels.add( level );
+	public ILevelDefinition createLevel(String levelName) {
+		ILevelDefinition level = new LevelDefiniton(this, levelName);
+		this.levels.add(level);
 		return level;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition#getDimension()
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition#getDimension
+	 * ()
 	 */
-	public IDimensionDefinition getDimension( )
-	{
+	public IDimensionDefinition getDimension() {
 		return this.dim;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition#getLevels()
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition#getLevels()
 	 */
-	public List getLevels( )
-	{
+	public List getLevels() {
 		return this.levels;
 	}
 
-    /**
-     * Clone itself
-     */
-    public IHierarchyDefinition clone( )
-    {
-        HierarchyDefinition cloned = new HierarchyDefinition(
-                this.dim.clone( ), this.getName( ) );
-        cloneFields( cloned );
+	/**
+	 * Clone itself
+	 */
+	public IHierarchyDefinition clone() {
+		HierarchyDefinition cloned = new HierarchyDefinition(this.dim.clone(), this.getName());
+		cloneFields(cloned);
 
-        return cloned;
-    }
+		return cloned;
+	}
 
-    /*
-     * Clone fields. Separate this method for extension classes.
-     */
-    protected void cloneFields( HierarchyDefinition cloned )
-    {
-        cloned.levels.addAll( this.levels );
-    }
+	/*
+	 * Clone fields. Separate this method for extension classes.
+	 */
+	protected void cloneFields(HierarchyDefinition cloned) {
+		cloned.levels.addAll(this.levels);
+	}
 
 }

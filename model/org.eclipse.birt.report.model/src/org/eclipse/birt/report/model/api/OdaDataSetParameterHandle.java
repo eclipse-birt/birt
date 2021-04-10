@@ -34,46 +34,37 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter
  * 
  */
 
-public class OdaDataSetParameterHandle extends DataSetParameterHandle
-{
+public class OdaDataSetParameterHandle extends DataSetParameterHandle {
 
 	/**
 	 * Constructs the handle of oda data set parameter.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for oda data set parameter list of one
-	 *            property
-	 * @param index
-	 *            the position of this oda data set parameter in the list
+	 * @param valueHandle the value handle for oda data set parameter list of one
+	 *                    property
+	 * @param index       the position of this oda data set parameter in the list
 	 */
-	public OdaDataSetParameterHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public OdaDataSetParameterHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
-	 * Sets the report parameter name which refered by this oda dataset
-	 * parameter.
+	 * Sets the report parameter name which refered by this oda dataset parameter.
 	 * 
-	 * @param name
-	 *            report parameter name.
+	 * @param name report parameter name.
 	 */
 
-	public void setParamName( String name )
-	{
-		setPropertySilently( OdaDataSetParameter.PARAM_NAME_MEMBER, name );
+	public void setParamName(String name) {
+		setPropertySilently(OdaDataSetParameter.PARAM_NAME_MEMBER, name);
 	}
 
 	/**
 	 * Sets the native name for this oda dataset parameter.
 	 * 
-	 * @param nativeName
-	 *            native name
+	 * @param nativeName native name
 	 */
 
-	public void setNativeName( String nativeName )
-	{
-		setPropertySilently( OdaDataSetParameter.NATIVE_NAME_MEMBER, nativeName );
+	public void setNativeName(String nativeName) {
+		setPropertySilently(OdaDataSetParameter.NATIVE_NAME_MEMBER, nativeName);
 	}
 
 	/**
@@ -83,9 +74,8 @@ public class OdaDataSetParameterHandle extends DataSetParameterHandle
 	 * @return report parameter name.
 	 */
 
-	public String getParamName( )
-	{
-		return getStringProperty( OdaDataSetParameter.PARAM_NAME_MEMBER );
+	public String getParamName() {
+		return getStringProperty(OdaDataSetParameter.PARAM_NAME_MEMBER);
 	}
 
 	/**
@@ -93,10 +83,9 @@ public class OdaDataSetParameterHandle extends DataSetParameterHandle
 	 * 
 	 * @return the native name
 	 */
-	
-	public String getNativeName( )
-	{
-		return getStringProperty( OdaDataSetParameter.NATIVE_NAME_MEMBER );
+
+	public String getNativeName() {
+		return getStringProperty(OdaDataSetParameter.NATIVE_NAME_MEMBER);
 	}
 
 	/**
@@ -105,21 +94,17 @@ public class OdaDataSetParameterHandle extends DataSetParameterHandle
 	 * @return the parameter native data type.
 	 */
 
-	public Integer getNativeDataType( )
-	{
-		return (Integer) getProperty( OdaDataSetParameter.NATIVE_DATA_TYPE_MEMBER );
+	public Integer getNativeDataType() {
+		return (Integer) getProperty(OdaDataSetParameter.NATIVE_DATA_TYPE_MEMBER);
 	}
 
 	/**
 	 * Sets the parameter native data type.
 	 * 
-	 * @param dataType
-	 *            the native data type to set.
+	 * @param dataType the native data type to set.
 	 */
 
-	public void setNativeDataType( Integer dataType )
-	{
-		setPropertySilently( OdaDataSetParameter.NATIVE_DATA_TYPE_MEMBER,
-				dataType );
+	public void setNativeDataType(Integer dataType) {
+		setPropertySilently(OdaDataSetParameter.NATIVE_DATA_TYPE_MEMBER, dataType);
 	}
 }

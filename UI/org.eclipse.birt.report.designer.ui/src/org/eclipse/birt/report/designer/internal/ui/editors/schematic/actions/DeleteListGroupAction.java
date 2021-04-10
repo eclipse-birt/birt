@@ -18,21 +18,20 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Delete List Group Action
  */
-public class DeleteListGroupAction extends ContextSelectionAction
-{
+public class DeleteListGroupAction extends ContextSelectionAction {
 
-	private static final String ACTION_MSG_DELETE_GROUP = Messages.getString( "DeleteListGroupAction.actionMsg.deleteGroup" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_DELETE_GROUP = Messages
+			.getString("DeleteListGroupAction.actionMsg.deleteGroup"); //$NON-NLS-1$
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteListGroup"; //$NON-NLS-1$
 
 	/**
 	 * @param part
 	 */
-	public DeleteListGroupAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( ACTION_MSG_DELETE_GROUP );
+	public DeleteListGroupAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(ACTION_MSG_DELETE_GROUP);
 	}
 
 	/*
@@ -40,23 +39,19 @@ public class DeleteListGroupAction extends ContextSelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		return getListGroup( ) != null;
+	protected boolean calculateEnabled() {
+		return getListGroup() != null;
 	}
 
 	/**
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Delete list group action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Delete list group action >> Run ..."); //$NON-NLS-1$
 		}
-		if ( getListGroup( ) != null && getListEditPart( ) != null )
-		{
-			getListEditPart( ).removeGroup( getListGroup( ) );
+		if (getListGroup() != null && getListEditPart() != null) {
+			getListEditPart().removeGroup(getListGroup());
 		}
 	}
 }

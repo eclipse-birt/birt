@@ -14,21 +14,21 @@ package org.eclipse.birt.report.data.oda.xml.util;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
- * This class is used to dealing with the strings which are parsed as arguments to 
- * create an XML data source connection.The structure of string must follow the given rule:
+ * This class is used to dealing with the strings which are parsed as arguments
+ * to create an XML data source connection.The structure of string must follow
+ * the given rule:
  * TableName1#:#[TableRootPath]#:#{columnName1;Type;RelativeXPath},{columnName2;Type;RelativeXPath}...
  * #-#TableName2#:#[TableRootPath]#:#{columnName1;Type;RelativeXpath}.....
+ * 
  * @deprecated Please use DTP xml driver
  */
-public class RelationInformation extends org.eclipse.datatools.enablement.oda.xml.util.RelationInformation
-{
+public class RelationInformation extends org.eclipse.datatools.enablement.oda.xml.util.RelationInformation {
 	/**
 	 * 
 	 * @param relationString
 	 * @throws OdaException
 	 */
-	public RelationInformation( String relationString ) throws OdaException
-	{
-		super( relationString );
+	public RelationInformation(String relationString) throws OdaException {
+		super(relationString);
 	}
 }

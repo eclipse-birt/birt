@@ -12,8 +12,6 @@ package org.eclipse.birt.report.tests.chart.plugin;
 
 import org.eclipse.core.runtime.Plugin;
 
-
-public class ChartPlugin extends Plugin
-{
+public class ChartPlugin extends Plugin {
 
 }

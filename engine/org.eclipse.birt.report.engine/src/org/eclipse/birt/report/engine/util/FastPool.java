@@ -11,38 +11,32 @@
 
 package org.eclipse.birt.report.engine.util;
 
-public class FastPool
-{
+public class FastPool {
 
 	private Object[] pool;
 	private int poolSize;
 
-	public FastPool( )
-	{
+	public FastPool() {
 		pool = new Object[16];
 		poolSize = 0;
 
 	}
 
-	public boolean isEmpty( )
-	{
+	public boolean isEmpty() {
 		return poolSize == 0;
 	}
 
-	public void add( Object obj )
-	{
-		if ( poolSize >= pool.length )
-		{
+	public void add(Object obj) {
+		if (poolSize >= pool.length) {
 			Object[] newPool = new Object[pool.length + 16];
-			System.arraycopy( pool, 0, newPool, 0, pool.length );
+			System.arraycopy(pool, 0, newPool, 0, pool.length);
 			pool = newPool;
 		}
 		pool[poolSize] = obj;
 		poolSize++;
 	}
 
-	public Object remove( )
-	{
+	public Object remove() {
 		poolSize--;
 		return pool[poolSize];
 	}

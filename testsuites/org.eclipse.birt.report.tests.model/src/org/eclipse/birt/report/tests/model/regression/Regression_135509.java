@@ -41,39 +41,34 @@ import com.ibm.icu.util.ULocale;
  * exception will be throwed when adding a binding with an existing name
  * </p>
  */
-public class Regression_135509 extends BaseTestCase
-{
+public class Regression_135509 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_135509( ) throws SemanticException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_135509() throws SemanticException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		DataItemHandle data = factory.newDataItem( "data" ); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory();
+		DataItemHandle data = factory.newDataItem("data"); //$NON-NLS-1$
 
-		ComputedColumn col1 = StructureFactory.createComputedColumn( );
-		col1.setName( "a" ); //$NON-NLS-1$
-		col1.setExpression( "dataSetRow[\"xxx1\"]" ); //$NON-NLS-1$
+		ComputedColumn col1 = StructureFactory.createComputedColumn();
+		col1.setName("a"); //$NON-NLS-1$
+		col1.setExpression("dataSetRow[\"xxx1\"]"); //$NON-NLS-1$
 
-		data.addColumnBinding( col1, true );
+		data.addColumnBinding(col1, true);
 
-		ComputedColumn col2 = StructureFactory.createComputedColumn( );
-		col2.setName( "a" ); //$NON-NLS-1$
-		col2.setExpression( "dataSetRow[\"xxx2\"]" ); //$NON-NLS-1$
-		try
-		{
-			data.addColumnBinding( col1, true );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertTrue( e instanceof PropertyValueException );
+		ComputedColumn col2 = StructureFactory.createComputedColumn();
+		col2.setName("a"); //$NON-NLS-1$
+		col2.setExpression("dataSetRow[\"xxx2\"]"); //$NON-NLS-1$
+		try {
+			data.addColumnBinding(col1, true);
+			fail();
+		} catch (SemanticException e) {
+			assertTrue(e instanceof PropertyValueException);
 		}
 
 	}

@@ -20,76 +20,75 @@ import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
  * 
  */
 
-public interface IFactTableRowIterator
-{
+public interface IFactTableRowIterator {
 	/**
 	 * 
 	 * @return
 	 */
-	public int getDimensionCount( );
-	
+	public int getDimensionCount();
+
 	/**
 	 * 
 	 * @param dimensionName
 	 * @return
 	 */
-	public int getDimensionIndex( String dimensionName );
-	
+	public int getDimensionIndex(String dimensionName);
+
 	/**
 	 * 
 	 * @param dimensionIndex
 	 * @return
 	 */
-	public int getDimensionPosition( int dimensionIndex );
-	
+	public int getDimensionPosition(int dimensionIndex);
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int[] getDimensionPosition( );
-	
+	public int[] getDimensionPosition();
+
 	/**
 	 * 
 	 * @param measureIndex
 	 * @return
 	 */
-	public Object getMeasure( int measureIndex );
-	
+	public Object getMeasure(int measureIndex);
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int getMeasureCount( );
-	
+	public int getMeasureCount();
+
 	/**
 	 * 
 	 * @return
 	 */
-	public MeasureInfo[] getMeasureInfos( );
-	
+	public MeasureInfo[] getMeasureInfos();
+
 	/**
 	 * 
 	 * @param measureName
 	 * @return
 	 */
-	public int getMeasureIndex( String measureName );
-	
+	public int getMeasureIndex(String measureName);
+
 	/**
 	 * 
 	 * @return
 	 * @throws IOException
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public boolean next( ) throws IOException, DataException;
-	
+	public boolean next() throws IOException, DataException;
+
 	/**
 	 * @throws IOException
 	 */
 	public void close() throws DataException, IOException;
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public boolean isDuplicatedRow( );
+	public boolean isDuplicatedRow();
 }

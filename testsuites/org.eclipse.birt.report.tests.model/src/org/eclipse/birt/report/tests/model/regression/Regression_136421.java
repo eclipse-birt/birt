@@ -27,16 +27,14 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * @deprecated : Column binding namespace for compound element is changed, only
  *             search itself.
  */
-public class Regression_136421 extends BaseTestCase
-{
+public class Regression_136421 extends BaseTestCase {
 
 	private final static String INPUT = "regression_136421.xml"; //$NON-NLS-1$
 
 	/**
 	 * 
 	 */
-	public void test_regression_136421( )
-	{
+	public void test_regression_136421() {
 	}
 	/**
 	 * @throws DesignFileException

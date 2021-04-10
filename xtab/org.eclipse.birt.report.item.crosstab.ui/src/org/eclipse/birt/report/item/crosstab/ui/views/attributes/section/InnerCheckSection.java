@@ -21,23 +21,22 @@ import org.eclipse.swt.widgets.Composite;
 public class InnerCheckSection extends CheckSection {
 
 	protected ContainerSection section;
+
 	public InnerCheckSection(Composite parent, boolean isFormStyle) {
 		super(parent, isFormStyle);
 		// TODO Auto-generated constructor stub
 	}
 
-	public InnerCheckSection(ContainerSection section, boolean isFormStyle) {		
+	public InnerCheckSection(ContainerSection section, boolean isFormStyle) {
 		super(null, isFormStyle);
 		this.section = section;
 	}
-	
-	public void createSection( )
-	{
-		if(parent == null && section != null)
-		{
+
+	public void createSection() {
+		if (parent == null && section != null) {
 			parent = section.getContainerComposite();
 		}
 		super.createSection();
 	}
-	
+
 }

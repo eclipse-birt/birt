@@ -11,14 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
-
 /**
  * WidgetUtil defines constant values to custom control size and provides common
  * layout mechanism.
  * 
- * @deprecated use {@link org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil} instead.
+ * @deprecated use
+ *             {@link org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil}
+ *             instead.
  */
-public class WidgetUtil extends
-		org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil
-{
+public class WidgetUtil extends org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil {
 }

@@ -13,23 +13,18 @@ package org.eclipse.birt.doc.romdoc;
 
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
-
-public class DocMethod extends DocProperty
-{
+public class DocMethod extends DocProperty {
 	String returnText;
 
-	public DocMethod( ElementPropertyDefn propDefn )
-	{
-		super( propDefn );
+	public DocMethod(ElementPropertyDefn propDefn) {
+		super(propDefn);
 	}
 
-	public void setReturnText( String value )
-	{
+	public void setReturnText(String value) {
 		returnText = value;
 	}
-	
-	public String getReturnText( )
-	{
+
+	public String getReturnText() {
 		return returnText;
 	}
 }

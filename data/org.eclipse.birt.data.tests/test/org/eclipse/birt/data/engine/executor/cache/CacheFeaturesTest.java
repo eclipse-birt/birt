@@ -15,17 +15,14 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.binding.FeaturesTest;
 
-
 /**
  *
  */
-public class CacheFeaturesTest extends FeaturesTest
-{
+public class CacheFeaturesTest extends FeaturesTest {
 
-	protected Map getAppContext()
-	{
+	protected Map getAppContext() {
 		Map appContext = new HashMap();
-		appContext.put( "birt.data.engine.test.memcachesize", "20000" );
+		appContext.put("birt.data.engine.test.memcachesize", "20000");
 		return appContext;
 	}
 }

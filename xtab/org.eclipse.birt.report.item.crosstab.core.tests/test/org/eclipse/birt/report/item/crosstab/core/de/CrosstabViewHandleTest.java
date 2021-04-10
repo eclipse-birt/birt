@@ -18,18 +18,17 @@ import org.eclipse.birt.report.item.crosstab.core.BaseTestCase;
  * 
  */
 
-public class CrosstabViewHandleTest extends BaseTestCase
-{
+public class CrosstabViewHandleTest extends BaseTestCase {
 	/**
 	 * Test removeGrandTotal method
+	 * 
 	 * @throws Exception
 	 */
-	
-	public void testRemoveGrandTotal( ) throws Exception
-	{
-		openDesign( "CrosstabViewHandleTest.xml" );//$NON-NLS-1$
-		
-		//TODO
-	
+
+	public void testRemoveGrandTotal() throws Exception {
+		openDesign("CrosstabViewHandleTest.xml");//$NON-NLS-1$
+
+		// TODO
+
 	}
 }

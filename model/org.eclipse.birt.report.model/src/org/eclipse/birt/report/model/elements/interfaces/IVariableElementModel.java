@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * Defines constants for Variable.
  */
 
-public interface IVariableElementModel
-{
+public interface IVariableElementModel {
 
 	/**
 	 * Name of the "name" property.
@@ -31,10 +30,10 @@ public interface IVariableElementModel
 	String VALUE_PROP = "value"; //$NON-NLS-1$
 
 	/**
-	 * Name of the type property which indicates how this variable works. It can
-	 * be report variable or page variable.
+	 * Name of the type property which indicates how this variable works. It can be
+	 * report variable or page variable.
 	 */
-	
+
 	String TYPE_PROP = "type"; //$NON-NLS-1$
 
 }

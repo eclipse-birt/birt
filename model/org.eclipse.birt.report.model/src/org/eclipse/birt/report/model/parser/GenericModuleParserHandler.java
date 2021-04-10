@@ -23,19 +23,14 @@ import org.eclipse.birt.report.model.elements.Library;
  * 
  */
 
-public class GenericModuleParserHandler extends GenericModuleParserHandlerImpl
-{
+public class GenericModuleParserHandler extends GenericModuleParserHandlerImpl {
 
-	GenericModuleParserHandler( DesignSessionImpl theSession, URL systemID,
-			String fileName, ModuleOption options )
-	{
-		super( theSession, systemID, fileName, options );
+	GenericModuleParserHandler(DesignSessionImpl theSession, URL systemID, String fileName, ModuleOption options) {
+		super(theSession, systemID, fileName, options);
 	}
 
-	GenericModuleParserHandler( DesignSessionImpl theSession, URL systemID,
-			String fileName, ModuleOption options,
-			Map<String, Library> reloadLibs )
-	{
-		super( theSession, systemID, fileName, options, reloadLibs );
+	GenericModuleParserHandler(DesignSessionImpl theSession, URL systemID, String fileName, ModuleOption options,
+			Map<String, Library> reloadLibs) {
+		super(theSession, systemID, fileName, options, reloadLibs);
 	}
 }

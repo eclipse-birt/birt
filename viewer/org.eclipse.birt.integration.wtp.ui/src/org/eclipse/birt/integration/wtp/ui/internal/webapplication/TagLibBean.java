@@ -15,8 +15,7 @@ package org.eclipse.birt.integration.wtp.ui.internal.webapplication;
  * Bean defined for TagLib object in web.xml
  * 
  */
-public class TagLibBean
-{
+public class TagLibBean {
 
 	/**
 	 * taglib uri
@@ -31,8 +30,7 @@ public class TagLibBean
 	/**
 	 * default constructor
 	 */
-	public TagLibBean( )
-	{
+	public TagLibBean() {
 
 	}
 
@@ -42,41 +40,36 @@ public class TagLibBean
 	 * @param uri
 	 * @param location
 	 */
-	public TagLibBean( String uri, String location )
-	{
+	public TagLibBean(String uri, String location) {
 		this.uri = uri;
-		this.location = location;		
+		this.location = location;
 	}
 
 	/**
 	 * @return the uri
 	 */
-	public String getUri( )
-	{
+	public String getUri() {
 		return uri;
 	}
-	
+
 	/**
 	 * @param uri the uri to set
 	 */
-	public void setUri( String uri )
-	{
+	public void setUri(String uri) {
 		this.uri = uri;
 	}
 
 	/**
 	 * @return the location
 	 */
-	public String getLocation( )
-	{
+	public String getLocation() {
 		return location;
 	}
 
 	/**
 	 * @param location the location to set
 	 */
-	public void setLocation( String location )
-	{
+	public void setLocation(String location) {
 		this.location = location;
 	}
 }

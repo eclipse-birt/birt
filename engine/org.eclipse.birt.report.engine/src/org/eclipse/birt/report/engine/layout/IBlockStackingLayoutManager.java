@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.layout;
 
-public interface IBlockStackingLayoutManager extends IStackingLayoutManager
-{
+public interface IBlockStackingLayoutManager extends IStackingLayoutManager {
 
 }

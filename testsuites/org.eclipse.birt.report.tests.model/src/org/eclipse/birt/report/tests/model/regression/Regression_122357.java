@@ -38,21 +38,19 @@ import com.ibm.icu.util.ULocale;
  * </p>
  */
 
-public class Regression_122357 extends BaseTestCase
-{
+public class Regression_122357 extends BaseTestCase {
 
 	private static String INPUT = "Regression_122357.xml"; //$NON-NLS-1$
 	private static String LIB = "regression_122357_exportlib.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-			super.setUp( );
-			removeResource( );
-			
-			// retrieve two input files from tests-model.jar file
-			copyInputToFile ( INPUT_FOLDER + "/" + INPUT );
-			//copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenFileName );
-			
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		// retrieve two input files from tests-model.jar file
+		copyInputToFile(INPUT_FOLDER + "/" + INPUT);
+		// copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenFileName );
+
 	}
 
 	/**
@@ -61,29 +59,23 @@ public class Regression_122357 extends BaseTestCase
 	 * @throws IOException
 	 */
 
-	public void test_regression_122357( ) throws DesignFileException, SemanticException,
-			IOException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		
-		ReportDesignHandle design = session.openDesign(  getTempFolder() + "/" + INPUT_FOLDER + "/" +INPUT ); 
-		
-		
-		String output = this.genOutputFile(LIB);
-		File outputFile = new File( output );
-		if ( outputFile.exists( ) )
-			outputFile.delete( );
+	public void test_regression_122357() throws DesignFileException, SemanticException, IOException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
 
-		ElementExportUtil.exportDesign( design, output, true, true );
-		
-		
-		
-		//LibraryHandle lib = session.openLibrary( this.genOutputFile(LIB));
-		LibraryHandle lib = session.openLibrary( output );
-		DesignElementHandle chart = lib.getComponents( ).get( 0 );
-		assertEquals( "NewChart", chart.getName( ) ); //$NON-NLS-1$
-		assertEquals(
-				"Chart", ( (ExtendedItemHandle) chart ).getExtensionName( ) ); //$NON-NLS-1$
+		ReportDesignHandle design = session.openDesign(getTempFolder() + "/" + INPUT_FOLDER + "/" + INPUT);
+
+		String output = this.genOutputFile(LIB);
+		File outputFile = new File(output);
+		if (outputFile.exists())
+			outputFile.delete();
+
+		ElementExportUtil.exportDesign(design, output, true, true);
+
+		// LibraryHandle lib = session.openLibrary( this.genOutputFile(LIB));
+		LibraryHandle lib = session.openLibrary(output);
+		DesignElementHandle chart = lib.getComponents().get(0);
+		assertEquals("NewChart", chart.getName()); //$NON-NLS-1$
+		assertEquals("Chart", ((ExtendedItemHandle) chart).getExtensionName()); //$NON-NLS-1$
 	}
 }

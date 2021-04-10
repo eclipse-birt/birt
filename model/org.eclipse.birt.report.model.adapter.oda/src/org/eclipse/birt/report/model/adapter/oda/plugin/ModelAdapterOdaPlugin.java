@@ -18,17 +18,16 @@ import org.osgi.framework.BundleContext;
  * The class to use the eclipse tracing facilities.
  */
 
-public class ModelAdapterOdaPlugin extends BIRTPlugin
-{
+public class ModelAdapterOdaPlugin extends BIRTPlugin {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.core.plugin.BIRTPlugin#start(org.osgi.framework.BundleContext)
+	 * @see org.eclipse.birt.core.plugin.BIRTPlugin#start(org.osgi.framework.
+	 * BundleContext)
 	 */
 
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
 	}
 }

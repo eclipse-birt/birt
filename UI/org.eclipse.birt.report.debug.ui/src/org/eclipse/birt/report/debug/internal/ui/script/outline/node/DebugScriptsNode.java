@@ -18,27 +18,27 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
  * Script root node.
  */
 
-public class DebugScriptsNode extends ScriptsNode
-{
+public class DebugScriptsNode extends ScriptsNode {
 
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param handle
 	 */
-	public DebugScriptsNode( ReportDesignHandle handle )
-	{
-		super( handle );
+	public DebugScriptsNode(ReportDesignHandle handle) {
+		super(handle);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.core.model.views.outline.ScriptsNode#getChildren()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.core.model.views.outline.ScriptsNode#
+	 * getChildren()
 	 */
-	public Object[] getChildren( )
-	{
-		if ( getParent( ) != null )
-		{
-			DebugScriptedDesignVisitor visitor = new DebugScriptedDesignVisitor( );
-			return visitor.getScriptNodes( (ReportDesignHandle) getParent( ) )
-					.toArray( );
+	public Object[] getChildren() {
+		if (getParent() != null) {
+			DebugScriptedDesignVisitor visitor = new DebugScriptedDesignVisitor();
+			return visitor.getScriptNodes((ReportDesignHandle) getParent()).toArray();
 
 		}
 		return new Object[0];

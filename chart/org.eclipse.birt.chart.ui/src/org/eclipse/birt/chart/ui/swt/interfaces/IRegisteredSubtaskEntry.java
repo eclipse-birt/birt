@@ -17,14 +17,13 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
  * @author Actuate Corporation
  * 
  */
-public interface IRegisteredSubtaskEntry
-{
+public interface IRegisteredSubtaskEntry {
 
-	public int getNodeIndex( );
+	public int getNodeIndex();
 
-	public String getNodePath( );
+	public String getNodePath();
 
-	public ISubtaskSheet getSheet( );
+	public ISubtaskSheet getSheet();
 
-	public String getDisplayName( );
+	public String getDisplayName();
 }

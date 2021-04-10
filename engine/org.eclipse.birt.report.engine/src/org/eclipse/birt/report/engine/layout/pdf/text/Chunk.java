@@ -15,38 +15,32 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 
 import com.ibm.icu.text.Bidi;
 
-public class Chunk 
-{
+public class Chunk {
 	private String text;
 	private int offset;
 	private FontInfo fontInfo;
 	private int baseLevel;
 	private int runLevel;
-	
+
 	public static final Chunk HARD_LINE_BREAK = new Chunk("\n"); //$NON-NLS-1$
-	
-	public Chunk(String text)
-	{
-		this( text, 0, Bidi.DIRECTION_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT, null );
+
+	public Chunk(String text) {
+		this(text, 0, Bidi.DIRECTION_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT, null);
 	}
-	
-	public Chunk(String text, int offset, FontInfo fi)
-	{
-		this( text, offset, Bidi.DIRECTION_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT, fi );
+
+	public Chunk(String text, int offset, FontInfo fi) {
+		this(text, offset, Bidi.DIRECTION_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT, fi);
 	}
-	
-	public Chunk(Chunk chunk)	
-	{
-		this( chunk.text, chunk.offset, chunk.baseLevel, chunk.runLevel, null );
+
+	public Chunk(Chunk chunk) {
+		this(chunk.text, chunk.offset, chunk.baseLevel, chunk.runLevel, null);
 	}
-	
-	public Chunk(String text, int offset, int baseLevel, int runLevel)
-	{
-		this( text, offset, baseLevel, runLevel, null );
+
+	public Chunk(String text, int offset, int baseLevel, int runLevel) {
+		this(text, offset, baseLevel, runLevel, null);
 	}
-	
-	public Chunk(String text, int offset, int baseLevel, int runLevel, FontInfo fi)
-	{
+
+	public Chunk(String text, int offset, int baseLevel, int runLevel, FontInfo fi) {
 		this.text = text;
 		this.offset = offset;
 		this.fontInfo = null;
@@ -54,67 +48,56 @@ public class Chunk
 		this.runLevel = runLevel;
 		this.fontInfo = fi;
 	}
-	
-	public void setText(String text)
-	{
+
+	public void setText(String text) {
 		this.text = text;
 	}
-	
-	public void setOffset( int offset )
-	{
+
+	public void setOffset(int offset) {
 		this.offset = offset;
 	}
 
-	public String getText()
-	{
+	public String getText() {
 		return this.text;
 	}
-	
-	public int getLength( )
-	{
-		if ( text != null )
-		{
+
+	public int getLength() {
+		if (text != null) {
 			return text.length();
 		}
 		return 0;
 	}
-	
-	public void setFontInfo(FontInfo fi)
-	{
+
+	public void setFontInfo(FontInfo fi) {
 		this.fontInfo = fi;
 	}
-	
-	public FontInfo getFontInfo()
-	{
+
+	public FontInfo getFontInfo() {
 		return this.fontInfo;
 	}
-	
-	public int getOffset()
-	{
+
+	public int getOffset() {
 		return this.offset;
 	}
-	
-	public void setBaseLevel(int baseLevel)
-	{
+
+	public void setBaseLevel(int baseLevel) {
 		this.baseLevel = baseLevel;
 	}
-	
-	public int getBaseLevel()
-	{
+
+	public int getBaseLevel() {
 		return this.baseLevel;
 	}
-	
+
 	/**
 	 * Sets direction of this chunk.
 	 * 
 	 * @param runLevel An integer value from 0 to 62
-	 *            
+	 * 
 	 * @see #getRunLevel()
 	 * 
 	 * @author bidi_hcg
 	 */
-	public void setRunLevel( int runLevel )
-	{
+	public void setRunLevel(int runLevel) {
 		this.runLevel = runLevel;
 	}
 
@@ -128,8 +111,7 @@ public class Chunk
 	 * 
 	 * @author bidi_hcg
 	 */
-	public int getRunLevel( )
-	{
+	public int getRunLevel() {
 		return this.runLevel;
 	}
 }

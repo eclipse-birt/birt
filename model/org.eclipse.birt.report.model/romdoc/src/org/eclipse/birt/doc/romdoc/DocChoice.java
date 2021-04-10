@@ -13,40 +13,33 @@ package org.eclipse.birt.doc.romdoc;
 
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 
-public class DocChoice
-{
+public class DocChoice {
 	IChoice choice;
 	String description;
-	
-	public DocChoice( IChoice item )
-	{
+
+	public DocChoice(IChoice item) {
 		choice = item;
 	}
-	
-	public String getName( )
-	{
-		return choice.getName( );
+
+	public String getName() {
+		return choice.getName();
 	}
-	
-	public String getDisplayName( )
-	{
-		return choice.getDisplayName( );
+
+	public String getDisplayName() {
+		return choice.getDisplayName();
 	}
-	
-	public String getValue( )
-	{
-		if ( choice.getValue( ) == null )
+
+	public String getValue() {
+		if (choice.getValue() == null)
 			return null;
-		return choice.getValue( ).toString( );
+		return choice.getValue().toString();
 	}
-	
-	public String getDescription( )
-	{
+
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription( String descrip )
-	{
+	public void setDescription(String descrip) {
 		description = descrip;
 	}
 }

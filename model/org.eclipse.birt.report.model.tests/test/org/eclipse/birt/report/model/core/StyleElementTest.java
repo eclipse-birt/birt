@@ -76,16 +76,15 @@ import com.ibm.icu.util.ULocale;
  * <tr>
  * <td></td>
  * <td>broadcast the event</td>
- * <td>the listener registered to style is notified, and those registered to
- * its clients are also notified.</td>
+ * <td>the listener registered to style is notified, and those registered to its
+ * clients are also notified.</td>
  * </tr>
  * 
  * </table>
  * 
  */
 
-public class StyleElementTest extends BaseTestCase
-{
+public class StyleElementTest extends BaseTestCase {
 
 	StyledElement label1;
 	StyledElement label2;
@@ -106,26 +105,23 @@ public class StyleElementTest extends BaseTestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( (ULocale) null );
-		designHandle = sessionHandle.createDesign( );
+		SessionHandle sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle((ULocale) null);
+		designHandle = sessionHandle.createDesign();
 
-		DesignElementHandle handle = designHandle.getElementFactory( )
-				.newLabel( "label1" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( handle );
-		label1 = (Label) handle.getElement( );
+		DesignElementHandle handle = designHandle.getElementFactory().newLabel("label1"); //$NON-NLS-1$
+		designHandle.getBody().add(handle);
+		label1 = (Label) handle.getElement();
 
-		handle = designHandle.getElementFactory( ).newLabel( "label2" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( handle );
-		label2 = (Label) handle.getElement( );
+		handle = designHandle.getElementFactory().newLabel("label2"); //$NON-NLS-1$
+		designHandle.getBody().add(handle);
+		label2 = (Label) handle.getElement();
 
-		handle = designHandle.getElementFactory( ).newStyle( "style" ); //$NON-NLS-1$
-		designHandle.getStyles( ).add( handle );
-		style = (StyleElement) handle.getElement( );
+		handle = designHandle.getElementFactory().newStyle("style"); //$NON-NLS-1$
+		designHandle.getStyles().add(handle);
+		style = (StyleElement) handle.getElement();
 	}
 
 	/**
@@ -144,24 +140,20 @@ public class StyleElementTest extends BaseTestCase
 	 * <li>find added client</li>
 	 * </ul>
 	 */
-	public void testAddAndDropClient( )
-	{
-		label1.setStyle( style );
-		label2.setStyle( style );
-		assertEquals( 2, style.getClientList( ).size( ) );
-		assertEquals( label1, ( (BackRef) style.getClientList( ).get( 0 ) )
-				.getElement( ) );
-		assertEquals( label2, ( (BackRef) style.getClientList( ).get( 1 ) )
-				.getElement( ) );
+	public void testAddAndDropClient() {
+		label1.setStyle(style);
+		label2.setStyle(style);
+		assertEquals(2, style.getClientList().size());
+		assertEquals(label1, ((BackRef) style.getClientList().get(0)).getElement());
+		assertEquals(label2, ((BackRef) style.getClientList().get(1)).getElement());
 
-		style.dropClient( label1 );
-		assertEquals( 1, style.getClientList( ).size( ) );
-		assertFalse( style.getClientList( ).contains( label1 ) );
-		assertEquals( style, label1.getStyle( ) );
+		style.dropClient(label1);
+		assertEquals(1, style.getClientList().size());
+		assertFalse(style.getClientList().contains(label1));
+		assertEquals(style, label1.getStyle());
 
-		style.addClient( label1, (String) null );
-		assertEquals( label1, ( (BackRef) style.getClientList( ).get( 1 ) )
-				.getElement( ) );
+		style.addClient(label1, (String) null);
+		assertEquals(label1, ((BackRef) style.getClientList().get(1)).getElement());
 
 	}
 
@@ -176,43 +168,40 @@ public class StyleElementTest extends BaseTestCase
 	 * Excepted:
 	 * <ul>
 	 * <li>contain listener</li>
-	 * <li>the listener registered to style is notified, and those registered to
-	 * its clients are also notified.</li>
+	 * <li>the listener registered to style is notified, and those registered to its
+	 * clients are also notified.</li>
 	 * </ul>
 	 */
-	public void testBroadcast( )
-	{
-		MyActionListener styleListener = new MyActionListener( );
-		MyActionListener clientListener1 = new MyActionListener( );
-		MyActionListener clientListener2 = new MyActionListener( );
+	public void testBroadcast() {
+		MyActionListener styleListener = new MyActionListener();
+		MyActionListener clientListener1 = new MyActionListener();
+		MyActionListener clientListener2 = new MyActionListener();
 
-		style.addListener( styleListener );
-		label1.addListener( clientListener1 );
-		label2.addListener( clientListener2 );
+		style.addListener(styleListener);
+		label1.addListener(clientListener1);
+		label2.addListener(clientListener2);
 
-		assertTrue( CoreTestUtil.getListeners( label1 ).contains(
-				clientListener1 ) );
-		assertTrue( CoreTestUtil.getListeners( label2 ).contains(
-				clientListener2 ) );
+		assertTrue(CoreTestUtil.getListeners(label1).contains(clientListener1));
+		assertTrue(CoreTestUtil.getListeners(label2).contains(clientListener2));
 
 		// Set new style and broadcast
 
-		label1.setStyle( style );
-		label2.setStyle( style );
+		label1.setStyle(style);
+		label2.setStyle(style);
 
-		NotificationEvent ev = new ExtendsEvent( style );
-		style.broadcast( ev );
+		NotificationEvent ev = new ExtendsEvent(style);
+		style.broadcast(ev);
 
 		// Check listeners
 
-		assertTrue( styleListener.done );
-		assertEquals( NotificationEvent.DIRECT, styleListener.path );
+		assertTrue(styleListener.done);
+		assertEquals(NotificationEvent.DIRECT, styleListener.path);
 
-		assertTrue( clientListener1.done );
-		assertEquals( NotificationEvent.STYLE_CLIENT, clientListener1.path );
+		assertTrue(clientListener1.done);
+		assertEquals(NotificationEvent.STYLE_CLIENT, clientListener1.path);
 
-		assertTrue( clientListener2.done );
-		assertEquals( NotificationEvent.STYLE_CLIENT, clientListener2.path );
+		assertTrue(clientListener2.done);
+		assertEquals(NotificationEvent.STYLE_CLIENT, clientListener2.path);
 	}
 
 	/**
@@ -222,77 +211,66 @@ public class StyleElementTest extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void testBroadcastAfterDropStyle( ) throws SemanticException
-	{
+	public void testBroadcastAfterDropStyle() throws SemanticException {
 
-		TableHandle table = designHandle.getElementFactory( ).newTableItem(
-				"table" ); //$NON-NLS-1$
+		TableHandle table = designHandle.getElementFactory().newTableItem("table"); //$NON-NLS-1$
 
-		SharedStyleHandle myStyle = designHandle.getElementFactory( ).newStyle(
-				"myStyle" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( table );
-		designHandle.getStyles( ).add( myStyle );
-		table.setStyle( myStyle );
+		SharedStyleHandle myStyle = designHandle.getElementFactory().newStyle("myStyle"); //$NON-NLS-1$
+		designHandle.getBody().add(table);
+		designHandle.getStyles().add(myStyle);
+		table.setStyle(myStyle);
 
-		MyActionListener styleListener = new MyActionListener( );
-		table.addListener( styleListener );
+		MyActionListener styleListener = new MyActionListener();
+		table.addListener(styleListener);
 
-		assertFalse( styleListener.done );
-		designHandle.getStyles( ).dropAndClear( myStyle );
-		assertTrue( styleListener.done );
+		assertFalse(styleListener.done);
+		designHandle.getStyles().dropAndClear(myStyle);
+		assertTrue(styleListener.done);
 	}
 
 	/**
 	 * Tests the broadcast when a selector style changes.
 	 * 
-	 * @throws Exception
-	 *             if any exception
+	 * @throws Exception if any exception
 	 */
 
-	public void testBroadcastFromSimpleSelectorStyle( ) throws Exception
-	{
+	public void testBroadcastFromSimpleSelectorStyle() throws Exception {
 
-		style.setName( "label" ); //$NON-NLS-1$
+		style.setName("label"); //$NON-NLS-1$
 
-		MyActionListener clientListener1 = new MyActionListener( );
-		label1.addListener( clientListener1 );
+		MyActionListener clientListener1 = new MyActionListener();
+		label1.addListener(clientListener1);
 
-		style.getHandle( design ).setProperty( Style.BACKGROUND_COLOR_PROP,
-				"red" ); //$NON-NLS-1$
-		assertTrue( clientListener1.done );
-		assertEquals( NotificationEvent.STYLE_CLIENT, clientListener1.path );
+		style.getHandle(design).setProperty(Style.BACKGROUND_COLOR_PROP, "red"); //$NON-NLS-1$
+		assertTrue(clientListener1.done);
+		assertEquals(NotificationEvent.STYLE_CLIENT, clientListener1.path);
 	}
 
 	/**
 	 * Tests the broadcast when a selector style representing container/slot
 	 * selector changes.
 	 * 
-	 * @throws Exception
-	 *             if any exception
+	 * @throws Exception if any exception
 	 */
 
-	public void testBroadcastFromContainerSlotSelectorStyle( ) throws Exception
-	{
-		designHandle.getStyles( ).dropAndClear(
-				style.getHandle( designHandle.getModule( ) ) );
-		designHandle.getBody( ).dropAndClear(
-				label1.getHandle( designHandle.getModule( ) ) );
+	public void testBroadcastFromContainerSlotSelectorStyle() throws Exception {
+		designHandle.getStyles().dropAndClear(style.getHandle(designHandle.getModule()));
+		designHandle.getBody().dropAndClear(label1.getHandle(designHandle.getModule()));
 
-		style.setName( "list-header" ); //$NON-NLS-1$
+		style.setName("list-header"); //$NON-NLS-1$
 
-		ListHandle listHandle = designHandle.getElementFactory( ).newList(
-				"list1" ); //$NON-NLS-1$
+		ListHandle listHandle = designHandle.getElementFactory().newList("list1"); //$NON-NLS-1$
 
-		designHandle.getBody( ).add( listHandle );
-		designHandle.getStyles( ).add( style.getHandle( design ) );
-		listHandle.getHeader( ).add( label1.getHandle( design ) );
+		designHandle.getBody().add(listHandle);
+		designHandle.getStyles().add(style.getHandle(design));
+		listHandle.getHeader().add(label1.getHandle(design));
 
-		MyActionListener clientListener1 = new MyActionListener( );
-		label1.addListener( clientListener1 );
+		MyActionListener clientListener1 = new MyActionListener();
+		label1.addListener(clientListener1);
 
-		style.getHandle( design ).setProperty( Style.COLOR_PROP, "red" ); //$NON-NLS-1$
-		assertTrue( clientListener1.done );
-		assertEquals( NotificationEvent.STYLE_CLIENT, clientListener1.path );
+		style.getHandle(design).setProperty(Style.COLOR_PROP, "red"); //$NON-NLS-1$
+		assertTrue(clientListener1.done);
+		assertEquals(NotificationEvent.STYLE_CLIENT, clientListener1.path);
 	}
 
 	// the group style selectors are not supported by R1.
@@ -335,295 +313,275 @@ public class StyleElementTest extends BaseTestCase
 	// }
 	private StyleHandle reportSelector = null;
 
-	private void prepareForSelectorBroadCastTest( ) throws ContentException,
-			NameException
-	{
+	private void prepareForSelectorBroadCastTest() throws ContentException, NameException {
 
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( (ULocale) null );
-		designHandle = sessionHandle.createDesign( );
+		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle((ULocale) null);
+		designHandle = sessionHandle.createDesign();
 
-		tableSelector = designHandle.getElementFactory( ).newStyle( "table" ); //$NON-NLS-1$
-		listSelector = designHandle.getElementFactory( ).newStyle( "list" ); //$NON-NLS-1$
-		reportSelector = designHandle.getElementFactory( ).newStyle( "report" ); //$NON-NLS-1$
+		tableSelector = designHandle.getElementFactory().newStyle("table"); //$NON-NLS-1$
+		listSelector = designHandle.getElementFactory().newStyle("list"); //$NON-NLS-1$
+		reportSelector = designHandle.getElementFactory().newStyle("report"); //$NON-NLS-1$
 
-		designHandle.getStyles( ).add( reportSelector );
-		designHandle.getStyles( ).add( tableSelector );
-		designHandle.getStyles( ).add( listSelector );
+		designHandle.getStyles().add(reportSelector);
+		designHandle.getStyles().add(tableSelector);
+		designHandle.getStyles().add(listSelector);
 
-		table = designHandle.getElementFactory( ).newTableItem( "my Tabel" ); //$NON-NLS-1$
-		label = designHandle.getElementFactory( ).newLabel( "My Label" ); //$NON-NLS-1$
-		RowHandle row = designHandle.getElementFactory( ).newTableRow( );
-		CellHandle cell = designHandle.getElementFactory( ).newCell( );
+		table = designHandle.getElementFactory().newTableItem("my Tabel"); //$NON-NLS-1$
+		label = designHandle.getElementFactory().newLabel("My Label"); //$NON-NLS-1$
+		RowHandle row = designHandle.getElementFactory().newTableRow();
+		CellHandle cell = designHandle.getElementFactory().newCell();
 
-		designHandle.getBody( ).add( table );
-		table.getDetail( ).add( row );
-		row.getCells( ).add( cell );
-		cell.getContent( ).add( label );
+		designHandle.getBody().add(table);
+		table.getDetail().add(row);
+		row.getCells().add(cell);
+		cell.getContent().add(label);
 
-		list1 = designHandle.getElementFactory( ).newList( "list1" ); //$NON-NLS-1$
-		list2 = designHandle.getElementFactory( ).newList( "list2" ); //$NON-NLS-1$
+		list1 = designHandle.getElementFactory().newList("list1"); //$NON-NLS-1$
+		list2 = designHandle.getElementFactory().newList("list2"); //$NON-NLS-1$
 
-		cell.getContent( ).add( list1 );
-		list1.getDetail( ).add( list2 );
+		cell.getContent().add(list1);
+		list1.getDetail().add(list2);
 
-		clientListenerTable = new MyActionListener( );
-		table.addListener( clientListenerTable );
+		clientListenerTable = new MyActionListener();
+		table.addListener(clientListenerTable);
 
-		clientListenerLabel = new MyActionListener( );
-		label.addListener( clientListenerLabel );
+		clientListenerLabel = new MyActionListener();
+		label.addListener(clientListenerLabel);
 
-		clientListenerList1 = new MyActionListener( );
-		list1.addListener( clientListenerList1 );
+		clientListenerList1 = new MyActionListener();
+		list1.addListener(clientListenerList1);
 
-		clientListenerList2 = new MyActionListener( );
-		list2.addListener( clientListenerList2 );
+		clientListenerList2 = new MyActionListener();
+		list2.addListener(clientListenerList2);
 
 	}
 
 	/**
-	 * test after add a selector style into design, the top level elements which
-	 * use the style will receive a notifications. But those elements under the
-	 * top one will not.
+	 * test after add a selector style into design, the top level elements which use
+	 * the style will receive a notifications. But those elements under the top one
+	 * will not.
 	 * 
 	 * @throws SemanticException
 	 */
 
-	public void testBroadcastAfterAddSelector( ) throws SemanticException
-	{
+	public void testBroadcastAfterAddSelector() throws SemanticException {
 
-		prepareForSelectorBroadCastTest( );
+		prepareForSelectorBroadCastTest();
 
-		designHandle.getStyles( ).dropAndClear( tableSelector );
-		designHandle.getStyles( ).dropAndClear( listSelector );
+		designHandle.getStyles().dropAndClear(tableSelector);
+		designHandle.getStyles().dropAndClear(listSelector);
 
-		table.removeListener( clientListenerTable );
-		label.removeListener( clientListenerLabel );
-		list1.removeListener( clientListenerList1 );
-		list2.removeListener( clientListenerList2 );
+		table.removeListener(clientListenerTable);
+		label.removeListener(clientListenerLabel);
+		list1.removeListener(clientListenerList1);
+		list2.removeListener(clientListenerList2);
 
-		clientListenerTable = new MyActionListener( );
-		clientListenerLabel = new MyActionListener( );
-		clientListenerList1 = new MyActionListener( );
-		clientListenerList2 = new MyActionListener( );
+		clientListenerTable = new MyActionListener();
+		clientListenerLabel = new MyActionListener();
+		clientListenerList1 = new MyActionListener();
+		clientListenerList2 = new MyActionListener();
 
-		table.addListener( clientListenerTable );
-		label.addListener( clientListenerLabel );
-		list1.addListener( clientListenerList1 );
-		list2.addListener( clientListenerList2 );
+		table.addListener(clientListenerTable);
+		label.addListener(clientListenerLabel);
+		list1.addListener(clientListenerList1);
+		list2.addListener(clientListenerList2);
 
-		designHandle.getStyles( ).add( tableSelector );
+		designHandle.getStyles().add(tableSelector);
 
-		assertTrue( clientListenerTable.done );
-		assertEquals( NotificationEvent.STYLE_CLIENT, clientListenerTable.path );
-		assertFalse( clientListenerLabel.done );
+		assertTrue(clientListenerTable.done);
+		assertEquals(NotificationEvent.STYLE_CLIENT, clientListenerTable.path);
+		assertFalse(clientListenerLabel.done);
 
-		designHandle.getStyles( ).add( listSelector );
+		designHandle.getStyles().add(listSelector);
 
-		assertTrue( clientListenerList1.done );
-		assertEquals( NotificationEvent.STYLE_CLIENT, clientListenerList1.path );
-		assertFalse( clientListenerList2.done );
+		assertTrue(clientListenerList1.done);
+		assertEquals(NotificationEvent.STYLE_CLIENT, clientListenerList1.path);
+		assertFalse(clientListenerList2.done);
 	}
 
 	/**
-	 * test after dropping a selector style, the top level element will receive
-	 * the notification.
+	 * test after dropping a selector style, the top level element will receive the
+	 * notification.
 	 * 
 	 * @throws SemanticException
 	 */
-	public void testBroadcastAfterDropSelector( ) throws SemanticException
-	{
+	public void testBroadcastAfterDropSelector() throws SemanticException {
 
-		prepareForSelectorBroadCastTest( );
+		prepareForSelectorBroadCastTest();
 
-		assertFalse( clientListenerTable.done );
+		assertFalse(clientListenerTable.done);
 
-		designHandle.getStyles( ).dropAndClear( tableSelector );
+		designHandle.getStyles().dropAndClear(tableSelector);
 
-		assertTrue( clientListenerTable.done );
-		assertEquals( 2, clientListenerTable.path );
-		assertFalse( clientListenerLabel.done );
+		assertTrue(clientListenerTable.done);
+		assertEquals(2, clientListenerTable.path);
+		assertFalse(clientListenerLabel.done);
 
-		assertFalse( clientListenerList1.done );
-		designHandle.getStyles( ).dropAndClear( listSelector );
+		assertFalse(clientListenerList1.done);
+		designHandle.getStyles().dropAndClear(listSelector);
 
-		assertTrue( clientListenerList1.done );
-		assertEquals( 2, clientListenerList1.path );
-		assertFalse( clientListenerList2.done );
+		assertTrue(clientListenerList1.done);
+		assertEquals(2, clientListenerList1.path);
+		assertFalse(clientListenerList2.done);
 
 	}
 
 	/**
-	 * test after renaming a selector style, the top level element which uses
-	 * the style will receive notification.
+	 * test after renaming a selector style, the top level element which uses the
+	 * style will receive notification.
 	 * 
 	 * @throws ContentException
 	 * @throws NameException
 	 */
 
-	public void testBroadcastAfterRenameSelector( ) throws ContentException,
-			NameException
-	{
+	public void testBroadcastAfterRenameSelector() throws ContentException, NameException {
 
 		// test when the selector style is renamed, the top element will receive
 		// notification
 
-		prepareForSelectorBroadCastTest( );
-		assertFalse( clientListenerTable.done );
+		prepareForSelectorBroadCastTest();
+		assertFalse(clientListenerTable.done);
 
-		tableSelector.setName( "table-style" ); //$NON-NLS-1$
+		tableSelector.setName("table-style"); //$NON-NLS-1$
 
-		assertTrue( clientListenerTable.done );
-		assertEquals( NotificationEvent.STYLE_CLIENT, clientListenerTable.path );
-		assertFalse( clientListenerLabel.done );
+		assertTrue(clientListenerTable.done);
+		assertEquals(NotificationEvent.STYLE_CLIENT, clientListenerTable.path);
+		assertFalse(clientListenerLabel.done);
 
-		listSelector.setName( "list-style" ); //$NON-NLS-1$
+		listSelector.setName("list-style"); //$NON-NLS-1$
 
-		assertTrue( clientListenerList1.done );
-		assertEquals( NotificationEvent.STYLE_CLIENT, clientListenerList1.path );
-		assertFalse( clientListenerList2.done );
+		assertTrue(clientListenerList1.done);
+		assertEquals(NotificationEvent.STYLE_CLIENT, clientListenerList1.path);
+		assertFalse(clientListenerList2.done);
 
 	}
 
 	/**
-	 * test after modifing the property of a selector style, the top level
-	 * element which uses this style will receive a notification.
+	 * test after modifing the property of a selector style, the top level element
+	 * which uses this style will receive a notification.
 	 * 
 	 * @throws SemanticException
 	 */
 
-	public void testBroadcastAfterSelectorPropertyChanged( )
-			throws SemanticException
-	{
+	public void testBroadcastAfterSelectorPropertyChanged() throws SemanticException {
 
 		// set the name back. change the style property value. the top level
 		// element will receive the notification
 
-		prepareForSelectorBroadCastTest( );
+		prepareForSelectorBroadCastTest();
 
-		assertFalse( clientListenerTable.done );
-		tableSelector.getBackgroundColor( ).setStringValue( "yellow" ); //$NON-NLS-1$
+		assertFalse(clientListenerTable.done);
+		tableSelector.getBackgroundColor().setStringValue("yellow"); //$NON-NLS-1$
 
-		assertTrue( clientListenerTable.done );
-		assertEquals( NotificationEvent.STYLE_CLIENT, clientListenerTable.path );
-		assertFalse( clientListenerLabel.done );
+		assertTrue(clientListenerTable.done);
+		assertEquals(NotificationEvent.STYLE_CLIENT, clientListenerTable.path);
+		assertFalse(clientListenerLabel.done);
 
-		assertFalse( clientListenerList1.done );
-		listSelector.getBackgroundColor( ).setStringValue( "red" ); //$NON-NLS-1$
+		assertFalse(clientListenerList1.done);
+		listSelector.getBackgroundColor().setStringValue("red"); //$NON-NLS-1$
 
-		assertTrue( clientListenerList1.done );
-		assertEquals( NotificationEvent.STYLE_CLIENT, clientListenerList1.path );
-		assertFalse( clientListenerList2.done );
+		assertTrue(clientListenerList1.done);
+		assertEquals(NotificationEvent.STYLE_CLIENT, clientListenerList1.path);
+		assertFalse(clientListenerList2.done);
 	}
 
 	/**
 	 * 
 	 * @throws SemanticException
 	 */
-	public void testBroadcastForReportSelector( ) throws SemanticException
-	{
+	public void testBroadcastForReportSelector() throws SemanticException {
 
-		prepareForSelectorBroadCastTest( );
-		MyActionListener designListener = new MyActionListener( );
-		designHandle.addListener( designListener );
+		prepareForSelectorBroadCastTest();
+		MyActionListener designListener = new MyActionListener();
+		designHandle.addListener(designListener);
 
-		assertFalse( designListener.done );
-		reportSelector.getColor( ).setStringValue( "yellow" ); //$NON-NLS-1$
-		assertTrue( designListener.done );
+		assertFalse(designListener.done);
+		reportSelector.getColor().setStringValue("yellow"); //$NON-NLS-1$
+		assertTrue(designListener.done);
 
 	}
 
 	/**
-	 * When a selector is renamed to another selector, both of the elements
-	 * which apply the old selector and the elements which apply the new
-	 * selector should be notified.
+	 * When a selector is renamed to another selector, both of the elements which
+	 * apply the old selector and the elements which apply the new selector should
+	 * be notified.
 	 * 
 	 * @throws NameException
 	 * @throws ContentException
 	 * 
 	 */
 
-	public void testBroadcastWhenRenameSelector( ) throws ContentException,
-			NameException
-	{
+	public void testBroadcastWhenRenameSelector() throws ContentException, NameException {
 
-		TableHandle table = designHandle.getElementFactory( ).newTableItem(
-				"table" ); //$NON-NLS-1$
-		ListHandle list = designHandle.getElementFactory( ).newList( "list" ); //$NON-NLS-1$
+		TableHandle table = designHandle.getElementFactory().newTableItem("table"); //$NON-NLS-1$
+		ListHandle list = designHandle.getElementFactory().newList("list"); //$NON-NLS-1$
 
-		designHandle.getBody( ).add( table );
-		designHandle.getBody( ).add( list );
+		designHandle.getBody().add(table);
+		designHandle.getBody().add(list);
 
-		StyleHandle style = designHandle.getElementFactory( )
-				.newStyle( "table" ); //$NON-NLS-1$
+		StyleHandle style = designHandle.getElementFactory().newStyle("table"); //$NON-NLS-1$
 
-		designHandle.getStyles( ).add( style );
+		designHandle.getStyles().add(style);
 
-		MyActionListener clientListener1 = new MyActionListener( );
-		MyActionListener clientListener2 = new MyActionListener( );
-		table.addListener( clientListener1 );
-		list.addListener( clientListener2 );
+		MyActionListener clientListener1 = new MyActionListener();
+		MyActionListener clientListener2 = new MyActionListener();
+		table.addListener(clientListener1);
+		list.addListener(clientListener2);
 
-		assertFalse( clientListener1.done );
-		assertFalse( clientListener2.done );
+		assertFalse(clientListener1.done);
+		assertFalse(clientListener2.done);
 
-		style.setName( "list" ); //$NON-NLS-1$
+		style.setName("list"); //$NON-NLS-1$
 
-		assertTrue( clientListener1.done );
-		assertTrue( clientListener2.done );
+		assertTrue(clientListener1.done);
+		assertTrue(clientListener2.done);
 	}
 
 	/**
-	 * Tests broadcast when predefined style of the table header cell is
-	 * modified.
+	 * Tests broadcast when predefined style of the table header cell is modified.
 	 * 
 	 * @throws Exception
 	 */
-	public void testBroadcastPredefinedStyle( ) throws Exception
-	{
-		openDesign( "BroadcastPredefinedStyleTest.xml" ); //$NON-NLS-1$
+	public void testBroadcastPredefinedStyle() throws Exception {
+		openDesign("BroadcastPredefinedStyleTest.xml"); //$NON-NLS-1$
 
-		DesignElementHandle style = designHandle
-				.findStyle( "table-header-cell" );//$NON-NLS-1$
+		DesignElementHandle style = designHandle.findStyle("table-header-cell");//$NON-NLS-1$
 
-		DesignElementHandle cellInHeader = designHandle.getElementByID( 10 );
-		DesignElementHandle cellInGroupHeader = designHandle
-				.getElementByID( 125 );
+		DesignElementHandle cellInHeader = designHandle.getElementByID(10);
+		DesignElementHandle cellInGroupHeader = designHandle.getElementByID(125);
 
-		MyActionListener styleListener = new MyActionListener( );
-		MyActionListener clientListener1 = new MyActionListener( );
-		MyActionListener clientListener2 = new MyActionListener( );
+		MyActionListener styleListener = new MyActionListener();
+		MyActionListener clientListener1 = new MyActionListener();
+		MyActionListener clientListener2 = new MyActionListener();
 
-		style.addListener( styleListener );
-		cellInHeader.addListener( clientListener1 );
-		cellInGroupHeader.addListener( clientListener2 );
+		style.addListener(styleListener);
+		cellInHeader.addListener(clientListener1);
+		cellInGroupHeader.addListener(clientListener2);
 
-		style.setProperty( IStyleModel.FONT_STYLE_PROP,
-				DesignChoiceConstants.FONT_STYLE_ITALIC );
+		style.setProperty(IStyleModel.FONT_STYLE_PROP, DesignChoiceConstants.FONT_STYLE_ITALIC);
 
 		// the style property was changed, the style and the cell in table
 		// header should be notified.
-		assertTrue( styleListener.done );
-		assertEquals( NotificationEvent.DIRECT, styleListener.path );
+		assertTrue(styleListener.done);
+		assertEquals(NotificationEvent.DIRECT, styleListener.path);
 
-		assertTrue( clientListener1.done );
-		assertEquals( NotificationEvent.STYLE_CLIENT, clientListener1.path );
+		assertTrue(clientListener1.done);
+		assertEquals(NotificationEvent.STYLE_CLIENT, clientListener1.path);
 
 		// the style property was changed,the cell in table group
 		// header should not be notified.
-		assertFalse( clientListener2.done );
+		assertFalse(clientListener2.done);
 
-		style = designHandle.findStyle( "table-group-header-cell" );//$NON-NLS-1$
-		style.setProperty( IStyleModel.FONT_STYLE_PROP,
-				DesignChoiceConstants.FONT_STYLE_ITALIC );
+		style = designHandle.findStyle("table-group-header-cell");//$NON-NLS-1$
+		style.setProperty(IStyleModel.FONT_STYLE_PROP, DesignChoiceConstants.FONT_STYLE_ITALIC);
 
 		// the style property was changed, the style and the cell in table group
 		// header should be notified.
-		assertTrue( styleListener.done );
-		assertEquals( NotificationEvent.DIRECT, styleListener.path );
+		assertTrue(styleListener.done);
+		assertEquals(NotificationEvent.DIRECT, styleListener.path);
 
-		assertTrue( clientListener2.done );
-		assertEquals( NotificationEvent.STYLE_CLIENT, clientListener2.path );
+		assertTrue(clientListener2.done);
+		assertEquals(NotificationEvent.STYLE_CLIENT, clientListener2.path);
 
 	}
 
@@ -631,8 +589,7 @@ public class StyleElementTest extends BaseTestCase
 	 * Mock up the listener.
 	 */
 
-	class MyActionListener implements Listener
-	{
+	class MyActionListener implements Listener {
 
 		boolean done = false;
 		int path = -1;
@@ -640,16 +597,13 @@ public class StyleElementTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		public void elementChanged( DesignElementHandle focus,
-				NotificationEvent ev )
-		{
+		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			done = true;
-			path = ev.getDeliveryPath( );
+			path = ev.getDeliveryPath();
 		}
 	}
 }

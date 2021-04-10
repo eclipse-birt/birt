@@ -17,11 +17,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Si
  * @author Administrator
  *
  */
-public class CrosstabComboPropertyDescriptorProvider extends
-		SimpleComboPropertyDescriptorProvider {
+public class CrosstabComboPropertyDescriptorProvider extends SimpleComboPropertyDescriptorProvider {
 
-	public CrosstabComboPropertyDescriptorProvider(String property,
-			String element) {
+	public CrosstabComboPropertyDescriptorProvider(String property, String element) {
 		super(property, element);
 	}
 

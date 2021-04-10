@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for Dimension element to store the constants on it.
  */
 
-public interface ITabularDimensionModel
-{
+public interface ITabularDimensionModel {
 
 	/**
 	 * Name of the property which refers to an internal dimension.

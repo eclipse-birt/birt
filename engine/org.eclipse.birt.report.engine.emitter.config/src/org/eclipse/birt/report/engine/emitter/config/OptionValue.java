@@ -14,8 +14,7 @@ package org.eclipse.birt.report.engine.emitter.config;
 /**
  * This interface is a representation of option value.
  */
-public final class OptionValue implements IOptionValue
-{
+public final class OptionValue implements IOptionValue {
 
 	/** The value. */
 	private Object value;
@@ -26,27 +25,22 @@ public final class OptionValue implements IOptionValue
 	/**
 	 * Constructs an entry of option value with the specified value.
 	 * 
-	 * @param value
-	 *            the option value.
+	 * @param value the option value.
 	 */
-	public OptionValue( Object value )
-	{
-		this( value, String.valueOf( value ) );
+	public OptionValue(Object value) {
+		this(value, String.valueOf(value));
 	}
 
 	/**
 	 * Constructs an entry of option value with the specified value and the
 	 * specified display value.
 	 * 
-	 * @param value
-	 *            the option value.
-	 * @param displayValue
-	 *            the display value.
+	 * @param value        the option value.
+	 * @param displayValue the display value.
 	 */
-	public OptionValue( Object value, String name )
-	{
-		setValue( value );
-		setName( name );
+	public OptionValue(Object value, String name) {
+		setValue(value);
+		setName(name);
 	}
 
 	/**
@@ -54,19 +48,16 @@ public final class OptionValue implements IOptionValue
 	 * 
 	 * @return option value.
 	 */
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return value;
 	}
 
 	/**
 	 * Sets option value.
 	 * 
-	 * @param value
-	 *            the option value to set.
+	 * @param value the option value to set.
 	 */
-	public void setValue( Object value )
-	{
+	public void setValue(Object value) {
 		this.value = value;
 	}
 
@@ -75,19 +66,16 @@ public final class OptionValue implements IOptionValue
 	 * 
 	 * @return name.
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
 	 * Sets name.
 	 * 
-	 * @param name
-	 *            the name to set.
+	 * @param name the name to set.
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 }

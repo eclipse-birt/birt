@@ -19,24 +19,21 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 
-
 /**
  * 
  */
 
-public class ExportElementToLibraryPartAction extends WrapperSelectionAction
-{
+public class ExportElementToLibraryPartAction extends WrapperSelectionAction {
 
-	private static final String DEFAULT_TEXT = Messages.getString( "ExportToLibraryAction.action.text" ); //$NON-NLS-1$
-	
+	private static final String DEFAULT_TEXT = Messages.getString("ExportToLibraryAction.action.text"); //$NON-NLS-1$
+
 	public static final String ID = "org.eclipse.birt.report.designer.ui.actions.ExportElementToLibraryAction"; //$NON-NLS-1$
 
-	public ExportElementToLibraryPartAction( IWorkbenchPart part )
-	{
-		super( part );
+	public ExportElementToLibraryPartAction(IWorkbenchPart part) {
+		super(part);
 		// TODO Auto-generated constructor stub
-		setId( ID );
-		setText( DEFAULT_TEXT );
+		setId(ID);
+		setText(DEFAULT_TEXT);
 	}
 
 	/**
@@ -44,19 +41,21 @@ public class ExportElementToLibraryPartAction extends WrapperSelectionAction
 	 * 
 	 * @return returns the stack
 	 */
-	protected CommandStack getActiveCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	protected CommandStack getActiveCommandStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.ISelection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
+	 * WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.
+	 * ISelection)
 	 */
 	@Override
-	protected IAction createActionHandler( ISelection model )
-	{
+	protected IAction createActionHandler(ISelection model) {
 		// TODO Auto-generated method stub
-		return new ExportElementToLibraryAction( model );
+		return new ExportElementToLibraryAction(model);
 	}
 
 }

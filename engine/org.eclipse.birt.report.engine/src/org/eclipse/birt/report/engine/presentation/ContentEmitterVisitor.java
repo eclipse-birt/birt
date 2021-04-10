@@ -36,186 +36,142 @@ import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
-public class ContentEmitterVisitor implements IContentVisitor
-{
+public class ContentEmitterVisitor implements IContentVisitor {
 
 	IContentEmitter emitter;
 
-	public ContentEmitterVisitor( IContentEmitter emitter )
-	{
+	public ContentEmitterVisitor(IContentEmitter emitter) {
 		this.emitter = emitter;
 	}
 
-	public Object visit( IContent content, Object value ) throws BirtException
-	{
-		return content.accept( this, value );
+	public Object visit(IContent content, Object value) throws BirtException {
+		return content.accept(this, value);
 	}
 
-	public Object visitContent( IContent content, Object value )
-			throws BirtException
-	{
-		emitter.startContent( content );
+	public Object visitContent(IContent content, Object value) throws BirtException {
+		emitter.startContent(content);
 		return value;
 	}
 
-	public Object visitPage( IPageContent page, Object value )
-			throws BirtException
-	{
+	public Object visitPage(IPageContent page, Object value) throws BirtException {
 		// emitter.startPage( page );
 		// emitter.endPage( page );
 		return value;
 	}
 
-	public Object visitContainer( IContainerContent container, Object value )
-			throws BirtException
-	{
-		emitter.startContainer( container );
-		visitChildren( container, value );
-		emitter.endContainer( container );
+	public Object visitContainer(IContainerContent container, Object value) throws BirtException {
+		emitter.startContainer(container);
+		visitChildren(container, value);
+		emitter.endContainer(container);
 		return value;
 	}
 
-	public Object visitTable( ITableContent table, Object value )
-			throws BirtException
-	{
-		emitter.startTable( table );
-		visitChildren( table, value );
-		emitter.endTable( table );
+	public Object visitTable(ITableContent table, Object value) throws BirtException {
+		emitter.startTable(table);
+		visitChildren(table, value);
+		emitter.endTable(table);
 		return value;
 	}
 
-	public Object visitTableBand( ITableBandContent tableBand, Object value )
-			throws BirtException
-	{
-		emitter.startTableBand( tableBand );
-		visitChildren( tableBand, value );
-		emitter.endTableBand( tableBand );
+	public Object visitTableBand(ITableBandContent tableBand, Object value) throws BirtException {
+		emitter.startTableBand(tableBand);
+		visitChildren(tableBand, value);
+		emitter.endTableBand(tableBand);
 		return value;
 	}
 
-	public Object visitRow( IRowContent row, Object value )
-			throws BirtException
-	{
-		emitter.startRow( row );
-		visitChildren( row, value );
-		emitter.endRow( row );
+	public Object visitRow(IRowContent row, Object value) throws BirtException {
+		emitter.startRow(row);
+		visitChildren(row, value);
+		emitter.endRow(row);
 		return value;
 	}
 
-	public Object visitCell( ICellContent cell, Object value )
-			throws BirtException
-	{
-		emitter.startCell( cell );
-		visitChildren( cell, value );
-		emitter.endCell( cell );
+	public Object visitCell(ICellContent cell, Object value) throws BirtException {
+		emitter.startCell(cell);
+		visitChildren(cell, value);
+		emitter.endCell(cell);
 		return value;
 	}
 
-	public Object visitText( ITextContent text, Object value )
-			throws BirtException
-	{
-		emitter.startText( text );
+	public Object visitText(ITextContent text, Object value) throws BirtException {
+		emitter.startText(text);
 		return value;
 	}
 
-	public Object visitLabel( ILabelContent label, Object value )
-			throws BirtException
-	{
-		emitter.startLabel( label );
-		return value;
-	}
-	
-	public Object visitAutoText( IAutoTextContent autoText, Object value )
-			throws BirtException
-	{
-		emitter.startAutoText( autoText );
+	public Object visitLabel(ILabelContent label, Object value) throws BirtException {
+		emitter.startLabel(label);
 		return value;
 	}
 
-	public Object visitData( IDataContent data, Object value )
-			throws BirtException
-	{
-		emitter.startData( data );
+	public Object visitAutoText(IAutoTextContent autoText, Object value) throws BirtException {
+		emitter.startAutoText(autoText);
 		return value;
 	}
 
-	public Object visitImage( IImageContent image, Object value )
-			throws BirtException
-	{
-		emitter.startImage( image );
+	public Object visitData(IDataContent data, Object value) throws BirtException {
+		emitter.startData(data);
 		return value;
 	}
 
-	public Object visitForeign( IForeignContent foreign, Object value )
-			throws BirtException
-	{
-		emitter.startForeign( foreign );
+	public Object visitImage(IImageContent image, Object value) throws BirtException {
+		emitter.startImage(image);
 		return value;
 	}
 
-	public Object visitChildren( IContent content, Object value )
-			throws BirtException
-	{
-		Collection list = content.getChildren( );
-		if ( list == null )
-		{
+	public Object visitForeign(IForeignContent foreign, Object value) throws BirtException {
+		emitter.startForeign(foreign);
+		return value;
+	}
+
+	public Object visitChildren(IContent content, Object value) throws BirtException {
+		Collection list = content.getChildren();
+		if (list == null) {
 			return value;
 		}
 
-		Iterator iter = list.iterator( );
-		while (iter.hasNext())
-		{
+		Iterator iter = list.iterator();
+		while (iter.hasNext()) {
 			Object child = iter.next();
-			if ( child instanceof IContent )
-			{
-				visit( (IContent) child, value );
+			if (child instanceof IContent) {
+				visit((IContent) child, value);
 			}
 		}
 		return value;
 	}
 
-	public Object visitList( IListContent list, Object value )
-			throws BirtException
-	{
-		emitter.startList( list );
-		visitChildren( list, value );
-		emitter.endList( list );
+	public Object visitList(IListContent list, Object value) throws BirtException {
+		emitter.startList(list);
+		visitChildren(list, value);
+		emitter.endList(list);
 		return value;
 	}
 
-	public Object visitListBand( IListBandContent listBand, Object value )
-			throws BirtException
-	{
-		emitter.startListBand( listBand );
-		visitChildren( listBand, value );
-		emitter.endListBand( listBand );
+	public Object visitListBand(IListBandContent listBand, Object value) throws BirtException {
+		emitter.startListBand(listBand);
+		visitChildren(listBand, value);
+		emitter.endListBand(listBand);
 		return value;
 	}
 
-	public Object visitGroup( IGroupContent group, Object value )
-			throws BirtException
-	{
-		emitter.startGroup( group );
+	public Object visitGroup(IGroupContent group, Object value) throws BirtException {
+		emitter.startGroup(group);
 		visitChildren(group, value);
-		emitter.endGroup( group );
+		emitter.endGroup(group);
 		return null;
 	}
 
-	public Object visitListGroup( IListGroupContent group, Object value )
-			throws BirtException
-	{
-		emitter.startListGroup( group );
+	public Object visitListGroup(IListGroupContent group, Object value) throws BirtException {
+		emitter.startListGroup(group);
 		visitChildren(group, value);
-		emitter.endListGroup( group );
+		emitter.endListGroup(group);
 		return null;
 	}
 
-	public Object visitTableGroup( ITableGroupContent group, Object value )
-			throws BirtException
-	{
-		emitter.startTableGroup( group );
+	public Object visitTableGroup(ITableGroupContent group, Object value) throws BirtException {
+		emitter.startTableGroup(group);
 		visitChildren(group, value);
-		emitter.endTableGroup( group );
+		emitter.endTableGroup(group);
 		return null;
 	}
 }

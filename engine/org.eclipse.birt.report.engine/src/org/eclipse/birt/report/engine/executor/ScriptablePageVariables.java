@@ -18,62 +18,51 @@ import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
 
-public class ScriptablePageVariables extends BaseScriptable
-{
+public class ScriptablePageVariables extends BaseScriptable {
 
 	private Map<String, PageVariable> variables;
 
 	private static final String JS_CLASS_NAME = "ScriptableVariables";
 
-	public ScriptablePageVariables( Map<String, PageVariable> variables,
-			Scriptable scope )
-	{
-		setParentScope( scope );
+	public ScriptablePageVariables(Map<String, PageVariable> variables, Scriptable scope) {
+		setParentScope(scope);
 		this.variables = variables;
 	}
 
-	public Object get( String name, Scriptable start )
-	{
-		PageVariable variable = variables.get( name );
-		if ( variable != null )
-		{
-			return variable.getValue( );
+	public Object get(String name, Scriptable start) {
+		PageVariable variable = variables.get(name);
+		if (variable != null) {
+			return variable.getValue();
 		}
 		String errorMessage = "Report variable\"" + name + "\" does not exist";
-		throw new JavaScriptException( errorMessage, "<unknown>", -1 );
+		throw new JavaScriptException(errorMessage, "<unknown>", -1);
 	}
 
-	public Object get( int index, Scriptable start )
-	{
-		return get( String.valueOf( index ), start );
+	public Object get(int index, Scriptable start) {
+		return get(String.valueOf(index), start);
 	}
 
-	public boolean has( String name, Scriptable start )
-	{
-		return variables.get( name ) != null;
+	public boolean has(String name, Scriptable start) {
+		return variables.get(name) != null;
 	}
 
 	/**
 	 * Support setting parameter value by following methods:
 	 */
-	public void put( String name, Scriptable start, Object value )
-	{
-		PageVariable variable = variables.get( name );
-		if ( variable != null )
-		{
-			if ( value instanceof Wrapper )
-			{
-				value = ( (Wrapper) value ).unwrap( );
+	public void put(String name, Scriptable start, Object value) {
+		PageVariable variable = variables.get(name);
+		if (variable != null) {
+			if (value instanceof Wrapper) {
+				value = ((Wrapper) value).unwrap();
 			}
-			variable.setValue( value );
+			variable.setValue(value);
 			return;
 		}
 		String errorMessage = "Report variable\"" + name + "\" does not exist";
-		throw new JavaScriptException( errorMessage, "<unknown>", -1 );
+		throw new JavaScriptException(errorMessage, "<unknown>", -1);
 	}
 
-	public String getClassName( )
-	{
+	public String getClassName() {
 		return JS_CLASS_NAME;
 	}
 }

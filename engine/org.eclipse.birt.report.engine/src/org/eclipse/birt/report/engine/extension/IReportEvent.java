@@ -13,8 +13,7 @@ package org.eclipse.birt.report.engine.extension;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
-public interface IReportEvent
-{
+public interface IReportEvent {
 
 	public static final int ON_PREPARE_EVENT = 1;
 
@@ -24,9 +23,9 @@ public interface IReportEvent
 
 	public static final int ON_PAGEBREAK_EVENT = 4;
 
-	int getEventType( );
+	int getEventType();
 
-	DesignElementHandle getHandle( );
+	DesignElementHandle getHandle();
 
-	IReportEventContext getContext( );
+	IReportEventContext getContext();
 }

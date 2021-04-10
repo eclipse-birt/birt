@@ -19,27 +19,25 @@ import java.util.List;
  * name ID, and tool tip ID.
  */
 
-public interface IClassInfo extends ILocalizableInfo
-{
+public interface IClassInfo extends ILocalizableInfo {
 
 	/**
-	 * Returns the method definition list. For methods that have the same name,
-	 * only return one method.
+	 * Returns the method definition list. For methods that have the same name, only
+	 * return one method.
 	 * 
 	 * @return a list of method definitions
 	 */
 
-	public List<IMethodInfo> getMethods( );
+	public List<IMethodInfo> getMethods();
 
 	/**
 	 * Get the method definition given the method name.
 	 * 
-	 * @param name
-	 *            the name of the method to get
+	 * @param name the name of the method to get
 	 * @return the definition of the method to get
 	 */
 
-	public IMethodInfo getMethod( String name );
+	public IMethodInfo getMethod(String name);
 
 	/**
 	 * Returns the list of member definitions.
@@ -47,17 +45,16 @@ public interface IClassInfo extends ILocalizableInfo
 	 * @return the list of member definitions
 	 */
 
-	public List<IMemberInfo> getMembers( );
+	public List<IMemberInfo> getMembers();
 
 	/**
 	 * Returns the member definition given method name.
 	 * 
-	 * @param name
-	 *            name of the member to get
+	 * @param name name of the member to get
 	 * @return the member definition to get
 	 */
 
-	public IMemberInfo getMember( String name );
+	public IMemberInfo getMember(String name);
 
 	/**
 	 * Returns the constructor definition.
@@ -65,7 +62,7 @@ public interface IClassInfo extends ILocalizableInfo
 	 * @return the constructor definition
 	 */
 
-	public IMethodInfo getConstructor( );
+	public IMethodInfo getConstructor();
 
 	/**
 	 * Returns whether a class object is native.
@@ -74,5 +71,5 @@ public interface IClassInfo extends ILocalizableInfo
 	 *         <code>false</code>
 	 */
 
-	public boolean isNative( );
+	public boolean isNative();
 }

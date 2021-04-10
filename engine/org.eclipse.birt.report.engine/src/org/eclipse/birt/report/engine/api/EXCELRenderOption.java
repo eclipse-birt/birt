@@ -11,29 +11,24 @@
 
 package org.eclipse.birt.report.engine.api;
 
+public class EXCELRenderOption extends RenderOption implements IExcelRenderOption {
 
-public class EXCELRenderOption extends RenderOption implements IExcelRenderOption
-{
-
-	public EXCELRenderOption()
-	{
+	public EXCELRenderOption() {
 		super();
 	}
-	
-	public EXCELRenderOption(IRenderOption options)
-	{
+
+	public EXCELRenderOption(IRenderOption options) {
 		super(options);
 	}
-	
+
 	/**
 	 * Get office version.
 	 * 
 	 * @return office version
 	 */
-	public String getOfficeVersion( )
-	{
-		
-		if(getStringOption(OFFICE_VERSION) == null)
+	public String getOfficeVersion() {
+
+		if (getStringOption(OFFICE_VERSION) == null)
 			return "office2003";
 		return getStringOption(OFFICE_VERSION);
 	}
@@ -43,9 +38,8 @@ public class EXCELRenderOption extends RenderOption implements IExcelRenderOptio
 	 * 
 	 * @return text if it is wrapped
 	 */
-	public boolean getWrappingText( )
-	{
-		return getBooleanOption(WRAPPING_TEXT , true);
+	public boolean getWrappingText() {
+		return getBooleanOption(WRAPPING_TEXT, true);
 	}
 
 	/**
@@ -53,9 +47,8 @@ public class EXCELRenderOption extends RenderOption implements IExcelRenderOptio
 	 * 
 	 * @param officeVersion
 	 */
-	public void setOfficeVersion( String officeVersion )
-	{
-		setOption(OFFICE_VERSION , officeVersion);
+	public void setOfficeVersion(String officeVersion) {
+		setOption(OFFICE_VERSION, officeVersion);
 	}
 
 	/**
@@ -63,39 +56,34 @@ public class EXCELRenderOption extends RenderOption implements IExcelRenderOptio
 	 * 
 	 * @param wrappingText
 	 */
-	public void setWrappingText( boolean wrappingText )
-	{
-		setOption(WRAPPING_TEXT , wrappingText);
+	public void setWrappingText(boolean wrappingText) {
+		setOption(WRAPPING_TEXT, wrappingText);
 	}
-	
+
 	/**
 	 * Set hide gridlines.
 	 * 
 	 * @param hide gridlines
 	 */
-	public void setHideGridlines( boolean hideGridlines )
-	{
-		setOption( HIDE_GRIDLINES, hideGridlines );
+	public void setHideGridlines(boolean hideGridlines) {
+		setOption(HIDE_GRIDLINES, hideGridlines);
 	}
-	
+
 	/**
 	 * Get hide gridlines.
 	 * 
 	 * @param hide gridlines
 	 */
-	public boolean getHideGridlines()
-	{
-		return getBooleanOption(HIDE_GRIDLINES,false);
+	public boolean getHideGridlines() {
+		return getBooleanOption(HIDE_GRIDLINES, false);
 	}
 
-	public boolean isEnableMultipleSheet( )
-	{
-		return getBooleanOption( OPTION_MULTIPLE_SHEET, true );
+	public boolean isEnableMultipleSheet() {
+		return getBooleanOption(OPTION_MULTIPLE_SHEET, true);
 	}
 
-	public void setEnableMultipleSheet( boolean enableMultipleSheet )
-	{
-		setOption( OPTION_MULTIPLE_SHEET, enableMultipleSheet );
+	public void setEnableMultipleSheet(boolean enableMultipleSheet) {
+		setOption(OPTION_MULTIPLE_SHEET, enableMultipleSheet);
 	}
 
 }

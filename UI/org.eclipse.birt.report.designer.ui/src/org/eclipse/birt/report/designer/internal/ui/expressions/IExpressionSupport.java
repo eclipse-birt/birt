@@ -17,41 +17,37 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * IExpressionSupport
  */
-public interface IExpressionSupport
-{
+public interface IExpressionSupport {
 
 	/**
 	 * @return Return the unique name of this expression support.
 	 */
-	String getName( );
+	String getName();
 
 	/**
 	 * @return Return the name of this expression support for displaying.
 	 */
-	String getDisplayName( );
+	String getDisplayName();
 
 	/**
 	 * @return Returns the icon to reprensent this expression support.
 	 */
-	Image getImage( );
+	Image getImage();
 
 	/**
 	 * @return Returns the expression converter for this expressoin type if
 	 *         applicable.
 	 */
-	IExpressionConverter getConverter( );
-	
+	IExpressionConverter getConverter();
+
 	/**
 	 * Creates the expression builder.
 	 * 
-	 * @param shl
-	 *            The shell used to create the dialog.
-	 * @param expression
-	 *            The inital expression object.
-	 * @return The expression builder instance, or <code>null</code> if no
-	 *         builder support is available.
+	 * @param shl        The shell used to create the dialog.
+	 * @param expression The inital expression object.
+	 * @return The expression builder instance, or <code>null</code> if no builder
+	 *         support is available.
 	 */
-	IExpressionBuilder createBuilder( Shell shl, Object expression );
-	
-	
+	IExpressionBuilder createBuilder(Shell shl, Object expression);
+
 }

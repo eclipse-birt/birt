@@ -17,12 +17,11 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 
-public interface ITaskPopupSheet
-{
+public interface ITaskPopupSheet {
 
-	void refreshComponent( Composite parent );
+	void refreshComponent(Composite parent);
 
-	Composite getUI( Composite parent );
+	Composite getUI(Composite parent);
 
-	String getTitle( );
+	String getTitle();
 }

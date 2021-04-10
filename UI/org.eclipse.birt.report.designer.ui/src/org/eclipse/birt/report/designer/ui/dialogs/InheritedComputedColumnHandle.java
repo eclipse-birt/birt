@@ -12,27 +12,22 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 
-
 /**
  * A simple wrapper class denotes for the inherited computed column handle
  */
-public class InheritedComputedColumnHandle 
-{
+public class InheritedComputedColumnHandle {
 	private ComputedColumnHandle handle;
 
-	public InheritedComputedColumnHandle( ComputedColumnHandle handle )
-	{
-		super( );
+	public InheritedComputedColumnHandle(ComputedColumnHandle handle) {
+		super();
 		this.handle = handle;
 	}
 
-	public String getName( )
-	{
-		return handle.getName( );
+	public String getName() {
+		return handle.getName();
 	}
 
-	public ComputedColumnHandle getHandle( )
-	{
+	public ComputedColumnHandle getHandle() {
 		return handle;
 	}
 }

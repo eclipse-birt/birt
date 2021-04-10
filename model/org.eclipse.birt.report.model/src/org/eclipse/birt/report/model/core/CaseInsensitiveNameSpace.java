@@ -14,89 +14,77 @@ package org.eclipse.birt.report.model.core;
 /**
  * Class to store the names for style elements.
  */
-public class CaseInsensitiveNameSpace extends NameSpace
-{
+public class CaseInsensitiveNameSpace extends NameSpace {
 
 	/**
 	 * Constructor.
 	 */
 
-	public CaseInsensitiveNameSpace( )
-	{
+	public CaseInsensitiveNameSpace() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.NameSpace#insert(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.NameSpace#insert(org.eclipse.birt.
 	 * report.model.core.DesignElement)
 	 */
 
-	public void insert( DesignElement element )
-	{
-		String name = element.getName( );
+	public void insert(DesignElement element) {
+		String name = element.getName();
 
-		name = name == null ? null : name.toLowerCase( );
+		name = name == null ? null : name.toLowerCase();
 
-		assert names.get( name ) == null;
-		names.put( name, element );
+		assert names.get(name) == null;
+		names.put(name, element);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.NameSpace#remove(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.NameSpace#remove(org.eclipse.birt.
 	 * report.model.core.DesignElement)
 	 */
 
-	public void remove( DesignElement element )
-	{
-		String name = element.getName( );
+	public void remove(DesignElement element) {
+		String name = element.getName();
 		assert name != null;
 
-		name = name.toLowerCase( );
+		name = name.toLowerCase();
 
-		assert names.get( name ) == element;
-		names.remove( name );
+		assert names.get(name) == element;
+		names.remove(name);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.NameSpace#rename(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.NameSpace#rename(org.eclipse.birt.
 	 * report.model.core.DesignElement, java.lang.String, java.lang.String)
 	 */
 
-	public void rename( DesignElement element, String oldName, String newName )
-	{
-		if ( oldName != null )
-		{
-			oldName = oldName.toLowerCase( );
-			assert names.get( oldName ) == element;
-			names.remove( oldName );
+	public void rename(DesignElement element, String oldName, String newName) {
+		if (oldName != null) {
+			oldName = oldName.toLowerCase();
+			assert names.get(oldName) == element;
+			names.remove(oldName);
 		}
-		if ( newName != null )
-		{
-			newName = newName.toLowerCase( );
-			assert names.get( newName ) == null;
-			names.put( newName, element );
+		if (newName != null) {
+			newName = newName.toLowerCase();
+			assert names.get(newName) == null;
+			names.put(newName, element);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.NameSpace#contains(java.lang.String)
+	 * @see org.eclipse.birt.report.model.core.NameSpace#contains(java.lang.String)
 	 */
 
-	public boolean contains( String name )
-	{
-		String styleName = name == null ? null : name.toLowerCase( );
-		return names.containsKey( styleName );
+	public boolean contains(String name) {
+		String styleName = name == null ? null : name.toLowerCase();
+		return names.containsKey(styleName);
 	}
 
 	/*
@@ -106,9 +94,8 @@ public class CaseInsensitiveNameSpace extends NameSpace
 	 * org.eclipse.birt.report.model.core.NameSpace#getElement(java.lang.String)
 	 */
 
-	public DesignElement getElement( String name )
-	{
-		String styleName = name == null ? null : name.toLowerCase( );
-		return names.get( styleName );
+	public DesignElement getElement(String name) {
+		String styleName = name == null ? null : name.toLowerCase();
+		return names.get(styleName);
 	}
 }

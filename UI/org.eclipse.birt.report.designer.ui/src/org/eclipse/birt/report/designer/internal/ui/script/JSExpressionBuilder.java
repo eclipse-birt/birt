@@ -20,46 +20,38 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * JSExpressionBuilder
  */
-public class JSExpressionBuilder extends ExpressionBuilder implements
-		IExpressionBuilder
-{
+public class JSExpressionBuilder extends ExpressionBuilder implements IExpressionBuilder {
 
-	public JSExpressionBuilder( Shell parentShell, String initExpression )
-	{
-		super( parentShell, initExpression );
+	public JSExpressionBuilder(Shell parentShell, String initExpression) {
+		super(parentShell, initExpression);
 	}
 
-	public Object getExpression( )
-	{
+	public Object getExpression() {
 		return expression;
 	}
 
-	public String getTitle( )
-	{
+	public String getTitle() {
 		return title;
 	}
 
 	@Override
-	public void setTitle( String newTitle )
-	{
+	public void setTitle(String newTitle) {
 		this.title = newTitle;
 
-		super.setTitle( newTitle );
+		super.setTitle(newTitle);
 	}
 
-	public void setExpression( Object exprObj )
-	{
-		String exp = exprObj == null ? null : exprObj.toString( );
+	public void setExpression(Object exprObj) {
+		String exp = exprObj == null ? null : exprObj.toString();
 
-		this.expression = UIUtil.convertToGUIString( exp );
+		this.expression = UIUtil.convertToGUIString(exp);
 	}
 
-	public void setExpressionContext( IExpressionContext context )
-	{
-		if(context instanceof JSExpressionContext){
-			this.setExpressionProvider( ((JSExpressionContext)context).getExpressionProvider( ) );
+	public void setExpressionContext(IExpressionContext context) {
+		if (context instanceof JSExpressionContext) {
+			this.setExpressionProvider(((JSExpressionContext) context).getExpressionProvider());
 		}
-		
+
 	}
 
 }

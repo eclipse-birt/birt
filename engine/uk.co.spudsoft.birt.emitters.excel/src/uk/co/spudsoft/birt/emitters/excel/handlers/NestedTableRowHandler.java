@@ -28,13 +28,13 @@ public class NestedTableRowHandler extends AbstractRealTableRowHandler {
 
 	@Override
 	public void startRow(HandlerState state, IRowContent row) throws BirtException {
-		log.debug( "startRow called with colOffset = ", startCol );
+		log.debug("startRow called with colOffset = ", startCol);
 		super.startRow(state, row);
 	}
 
 	@Override
 	public void startCell(HandlerState state, ICellContent cell) throws BirtException {
-		log.debug( "startCell called with colOffset = ", startCol );
+		log.debug("startCell called with colOffset = ", startCol);
 		state.setHandler(new NestedTableCellHandler(state.getEmitter(), log, this, cell, startCol));
 		state.getHandler().startCell(state, cell);
 	}
@@ -48,5 +48,5 @@ public class NestedTableRowHandler extends AbstractRealTableRowHandler {
 	protected boolean isNested() {
 		return true;
 	}
-	
+
 }

@@ -5,8 +5,7 @@ import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.extension.IStyleDeclaration;
 
-public class MatrixStyle implements IStyleDeclaration
-{
+public class MatrixStyle implements IStyleDeclaration {
 
 	StyleHandle style = null;
 
@@ -15,8 +14,7 @@ public class MatrixStyle implements IStyleDeclaration
 	 * @param name
 	 */
 
-	public MatrixStyle( StyleHandle style )
-	{
+	public MatrixStyle(StyleHandle style) {
 		this.style = style;
 	}
 
@@ -25,23 +23,23 @@ public class MatrixStyle implements IStyleDeclaration
 	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IStyleDeclaration#getName()
 	 */
-	public String getName( )
-	{
-		return style.getName( );
+	public String getName() {
+		return style.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IStyleDeclaration#getProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IStyleDeclaration#getProperty(
+	 * java.lang.String)
 	 */
-	public Object getProperty( String name )
-	{
-		FactoryPropertyHandle factoryPropHandle = style.getFactoryPropertyHandle( name );
+	public Object getProperty(String name) {
+		FactoryPropertyHandle factoryPropHandle = style.getFactoryPropertyHandle(name);
 		if (factoryPropHandle == null)
 			return null;
-		
-		return factoryPropHandle.getValue( );
+
+		return factoryPropHandle.getValue();
 	}
 
 }

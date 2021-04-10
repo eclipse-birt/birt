@@ -23,20 +23,18 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
  * @author Dazhen Gao
  * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:14 $
  */
-public class GridFigure extends TableFigure
-{
+public class GridFigure extends TableFigure {
 
-	private static final String BORDER_TEXT = Messages.getString( "GridFigure.BORDER_TEXT" ); //$NON-NLS-1$
+	private static final String BORDER_TEXT = Messages.getString("GridFigure.BORDER_TEXT"); //$NON-NLS-1$
 
 	/**
 	 * Constructor
 	 */
-	public GridFigure( )
-	{
-		SectionBorder border = new TableBorder( );
-		border.setIndicatorLabel( BORDER_TEXT );
+	public GridFigure() {
+		SectionBorder border = new TableBorder();
+		border.setIndicatorLabel(BORDER_TEXT);
 
-		border.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_GRID ) );
-		setBorder( border );
+		border.setIndicatorIcon(ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_GRID));
+		setBorder(border);
 	}
 }

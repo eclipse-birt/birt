@@ -11,50 +11,42 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-
 /**
  * Band used in a TableItem.
  * 
  */
-public class TableBandDesign extends BandDesign
-{
+public class TableBandDesign extends BandDesign {
 
 	/**
 	 * get the row number defined in this band.
 	 * 
 	 * @return row number
 	 */
-	public int getRowCount( )
-	{
-		return getContentCount( );
+	public int getRowCount() {
+		return getContentCount();
 	}
 
 	/**
 	 * add a row definition in this band.
 	 * 
-	 * @param row
-	 *            row to be added.
+	 * @param row row to be added.
 	 */
-	public void addRow( RowDesign row )
-	{
-		assert ( row != null );
-		addContent( row );
+	public void addRow(RowDesign row) {
+		assert (row != null);
+		addContent(row);
 	}
 
 	/**
 	 * get row in this band.
 	 * 
-	 * @param index
-	 *            row index
+	 * @param index row index
 	 * @return row.
 	 */
-	public RowDesign getRow( int index )
-	{
-		return (RowDesign) getContent( index );
+	public RowDesign getRow(int index) {
+		return (RowDesign) getContent(index);
 	}
 
-	public Object accept( IReportItemVisitor visitor, Object value )
-	{
-		return visitor.visitTableBand( this, value );
+	public Object accept(IReportItemVisitor visitor, Object value) {
+		return visitor.visitTableBand(this, value);
 	}
 }

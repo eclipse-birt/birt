@@ -26,173 +26,139 @@ import org.eclipse.birt.report.designer.core.mediator.IMediatorStateConverter;
 /**
  * MediatorImpl
  */
-public class MediatorImpl implements IMediator
-{
+public class MediatorImpl implements IMediator {
 
-	private static final List<IMediatorColleague> globalListeners = new LinkedList<IMediatorColleague>( );
+	private static final List<IMediatorColleague> globalListeners = new LinkedList<IMediatorColleague>();
 
-	public static void addGlobalColleague( IMediatorColleague colleague )
-	{
-		if ( !globalListeners.contains( colleague ) )
-		{
-			globalListeners.add( colleague );
+	public static void addGlobalColleague(IMediatorColleague colleague) {
+		if (!globalListeners.contains(colleague)) {
+			globalListeners.add(colleague);
 		}
 	}
 
-	public static void removeGlobalColleague( IMediatorColleague colleague )
-	{
-		globalListeners.remove( colleague );
+	public static void removeGlobalColleague(IMediatorColleague colleague) {
+		globalListeners.remove(colleague);
 	}
 
-	private final List<IMediatorColleague> listeners = new ArrayList<IMediatorColleague>( );
-	private List<MediatorStateImpl> stack = new ArrayList<MediatorStateImpl>( );
+	private final List<IMediatorColleague> listeners = new ArrayList<IMediatorColleague>();
+	private List<MediatorStateImpl> stack = new ArrayList<MediatorStateImpl>();
 	private int stackPointer = 0;
-	private MediatorStateImpl currentState = new MediatorStateImpl( );
+	private MediatorStateImpl currentState = new MediatorStateImpl();
 	private boolean isDispatching = false;
 	private IMediatorStateConverter converter;
 
-	public void addColleague( IMediatorColleague colleague )
-	{
-		if ( !listeners.contains( colleague ) )
-		{
-			listeners.add( colleague );
+	public void addColleague(IMediatorColleague colleague) {
+		if (!listeners.contains(colleague)) {
+			listeners.add(colleague);
 		}
 	}
 
-	public void removeColleague( IMediatorColleague colleague )
-	{
-		listeners.remove( colleague );
+	public void removeColleague(IMediatorColleague colleague) {
+		listeners.remove(colleague);
 	}
 
-	public void notifyRequest( IMediatorRequest request )
-	{
-		if ( isDispatching )
-		{
+	public void notifyRequest(IMediatorRequest request) {
+		if (isDispatching) {
 			return;
 		}
 
 		isDispatching = true;
 
-		if ( request.isSticky( ) )
-		{
-			currentState.copyFrom( convertRequestToState( request ) );
+		if (request.isSticky()) {
+			currentState.copyFrom(convertRequestToState(request));
 		}
 
-		int size = listeners.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			IMediatorColleague colleague = listeners.get( i );
-			if ( colleague.isInterested( request ) )
-			{
-				colleague.performRequest( request );
+		int size = listeners.size();
+		for (int i = 0; i < size; i++) {
+			IMediatorColleague colleague = listeners.get(i);
+			if (colleague.isInterested(request)) {
+				colleague.performRequest(request);
 			}
 		}
 
-		size = globalListeners.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			IMediatorColleague colleague = globalListeners.get( i );
-			if ( colleague.isInterested( request ) )
-			{
-				colleague.performRequest( request );
+		size = globalListeners.size();
+		for (int i = 0; i < size; i++) {
+			IMediatorColleague colleague = globalListeners.get(i);
+			if (colleague.isInterested(request)) {
+				colleague.performRequest(request);
 			}
 		}
 
 		isDispatching = false;
 	}
 
-	public IMediatorState getState( )
-	{
+	public IMediatorState getState() {
 		return currentState;
 	}
 
-	public void pushState( )
-	{
-		try
-		{
+	public void pushState() {
+		try {
 			MediatorStateImpl s;
-			if ( stack.size( ) > stackPointer )
-			{
-				s = stack.get( stackPointer );
-				s.copyFrom( currentState );
-			}
-			else
-			{
-				stack.add( (MediatorStateImpl) currentState.clone( ) );
+			if (stack.size() > stackPointer) {
+				s = stack.get(stackPointer);
+				s.copyFrom(currentState);
+			} else {
+				stack.add((MediatorStateImpl) currentState.clone());
 			}
 			stackPointer++;
-		}
-		catch ( CloneNotSupportedException e )
-		{
-			throw new RuntimeException( e.getMessage( ), e );
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
 
-	public void popState( )
-	{
+	public void popState() {
 		stackPointer--;
-		if ( stackPointer != 0 )
-		{
-			restoreState( stack.get( stackPointer ) );
+		if (stackPointer != 0) {
+			restoreState(stack.get(stackPointer));
 		}
-		if ( stackPointer == 0 )
-		{
-			stack.clear( );
+		if (stackPointer == 0) {
+			stack.clear();
 		}
 	}
 
-	public void restoreState( )
-	{
-		restoreState( stack.get( stackPointer - 1 ) );
+	public void restoreState() {
+		restoreState(stack.get(stackPointer - 1));
 	}
 
-	private void restoreState( MediatorStateImpl s )
-	{
-		currentState.copyFrom( s );
-		IMediatorRequest request = convertStateToRequest( s );
-		notifyRequest( request );
+	private void restoreState(MediatorStateImpl s) {
+		currentState.copyFrom(s);
+		IMediatorRequest request = convertStateToRequest(s);
+		notifyRequest(request);
 	}
 
-	private IMediatorState convertRequestToState( IMediatorRequest request )
-	{
-		MediatorStateImpl state = new MediatorStateImpl( );
-		state.setType( request.getType( ) );
-		state.setSource( request.getSource( ) );
-		state.setData( request.getData( ) );
+	private IMediatorState convertRequestToState(IMediatorRequest request) {
+		MediatorStateImpl state = new MediatorStateImpl();
+		state.setType(request.getType());
+		state.setSource(request.getSource());
+		state.setData(request.getData());
 
-		Map<?, ?> extras = request.getExtras( );
-		if ( extras != null && !extras.isEmpty( ) )
-		{
-			state.setExtras( new HashMap<Object, Object>( extras ) );
+		Map<?, ?> extras = request.getExtras();
+		if (extras != null && !extras.isEmpty()) {
+			state.setExtras(new HashMap<Object, Object>(extras));
 		}
 
 		return state;
 	}
 
-	private IMediatorRequest convertStateToRequest( IMediatorState state )
-	{
-		if ( converter != null )
-		{
-			return converter.convertStateToRequest( state );
+	private IMediatorRequest convertStateToRequest(IMediatorState state) {
+		if (converter != null) {
+			return converter.convertStateToRequest(state);
 		}
-		return new MediatorRequestImpl( state );
+		return new MediatorRequestImpl(state);
 	}
 
-	public void dispose( )
-	{
+	public void dispose() {
 		currentState = null;
-		listeners.clear( );
+		listeners.clear();
 		stackPointer = 0;
 		stack = null;
 	}
 
-	public void setStateConverter( IMediatorStateConverter converter )
-	{
+	public void setStateConverter(IMediatorStateConverter converter) {
 		this.converter = converter;
 	}
 
-	public IMediatorStateConverter getStateConverter( )
-	{
+	public IMediatorStateConverter getStateConverter() {
 		return converter;
 	}
 

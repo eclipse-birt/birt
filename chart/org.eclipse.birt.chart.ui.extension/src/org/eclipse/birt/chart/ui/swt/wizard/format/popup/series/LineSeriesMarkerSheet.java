@@ -63,10 +63,7 @@ import org.eclipse.swt.widgets.ScrollBar;
  * 
  */
 
-public class LineSeriesMarkerSheet extends AbstractPopupSheet
-		implements
-			SelectionListener
-{
+public class LineSeriesMarkerSheet extends AbstractPopupSheet implements SelectionListener {
 
 	private transient LineSeries series;
 
@@ -97,7 +94,7 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 	private transient MarkerEditorComposite newMarkerEditor;
 
 	private transient MarkerEditorComposite currentMarkerEditor;
-	
+
 	private transient boolean bPositive = true;
 
 	/** Holds the selected index of marker */
@@ -109,494 +106,374 @@ public class LineSeriesMarkerSheet extends AbstractPopupSheet
 	private NameSet markerTypeSet = null;
 
 	private String outlineText = null;
-	
-	public LineSeriesMarkerSheet( String title, ChartWizardContext context,
-			LineSeries series )
-	{
-		super( title, context, false );
+
+	public LineSeriesMarkerSheet(String title, ChartWizardContext context, LineSeries series) {
+		super(title, context, false);
 		this.series = series;
 	}
-	
-	public LineSeriesMarkerSheet( String title, ChartWizardContext context,
-			LineSeries series, NameSet markerTypeSet, String outlineText )
-	{
-		super( title, context, false );
+
+	public LineSeriesMarkerSheet(String title, ChartWizardContext context, LineSeries series, NameSet markerTypeSet,
+			String outlineText) {
+		super(title, context, false);
 		this.series = series;
 		this.markerTypeSet = markerTypeSet;
 		this.outlineText = outlineText;
 	}
-	
-	public LineSeriesMarkerSheet( String title, ChartWizardContext context,
-			LineSeries series, boolean bPositive )
-	{
-		super( title, context, false );
+
+	public LineSeriesMarkerSheet(String title, ChartWizardContext context, LineSeries series, boolean bPositive) {
+		super(title, context, false);
 		this.series = series;
 		this.bPositive = bPositive;
 	}
 
-	protected Composite getComponent( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent,
-				ChartHelpContextIds.POPUP_SERIES_LINE_MARKER );
+	protected Composite getComponent(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_SERIES_LINE_MARKER);
 
-		Composite cmpContent = new Composite( parent, SWT.NO_FOCUS );
+		Composite cmpContent = new Composite(parent, SWT.NO_FOCUS);
 		{
-			GridLayout layout = new GridLayout( );
-			cmpContent.setLayout( layout );
+			GridLayout layout = new GridLayout();
+			cmpContent.setLayout(layout);
 		}
 
-		Group grpTop = new Group( cmpContent, SWT.NO_FOCUS );
+		Group grpTop = new Group(cmpContent, SWT.NO_FOCUS);
 		{
-			GridLayout layout = new GridLayout( 5, false );
-			grpTop.setLayout( layout );
-			grpTop.setLayoutData( new GridData( ) );
-			grpTop.setText( Messages.getString( "LineSeriesMarkerSheet.Label.Markers" ) ); //$NON-NLS-1$
+			GridLayout layout = new GridLayout(5, false);
+			grpTop.setLayout(layout);
+			grpTop.setLayoutData(new GridData());
+			grpTop.setText(Messages.getString("LineSeriesMarkerSheet.Label.Markers")); //$NON-NLS-1$
 		}
 
-		cnvMarkers = new Canvas( grpTop, SWT.V_SCROLL );
+		cnvMarkers = new Canvas(grpTop, SWT.V_SCROLL);
 		{
-			GridData gd = new GridData( GridData.FILL_BOTH );
+			GridData gd = new GridData(GridData.FILL_BOTH);
 			gd.horizontalSpan = 5;
 			gd.widthHint = MARKER_ROW_MAX_NUMBER * MARKER_BLOCK_WIDTH + 10;
 			gd.heightHint = MARKER_COLUMN_MAX_NUMBER * MARKER_BLOCK_HEIGHT + 5;
-			cnvMarkers.setLayoutData( gd );
+			cnvMarkers.setLayoutData(gd);
 
-			Listener canvasMarkerslistener = new Listener( ) {
+			Listener canvasMarkerslistener = new Listener() {
 
-				public void handleEvent( Event event )
-				{
-					handleEventCanvasMarkers( event );
+				public void handleEvent(Event event) {
+					handleEventCanvasMarkers(event);
 				}
 			};
 
-			int[] canvasMarkersEvents = {
-					SWT.KeyDown, SWT.MouseDown, SWT.Traverse, SWT.Paint
-			};
-			for ( int i = 0; i < canvasMarkersEvents.length; i++ )
-			{
-				cnvMarkers.addListener( canvasMarkersEvents[i],
-						canvasMarkerslistener );
+			int[] canvasMarkersEvents = { SWT.KeyDown, SWT.MouseDown, SWT.Traverse, SWT.Paint };
+			for (int i = 0; i < canvasMarkersEvents.length; i++) {
+				cnvMarkers.addListener(canvasMarkersEvents[i], canvasMarkerslistener);
 			}
 
-			updateScrollBar( );
-			cnvMarkers.getVerticalBar( ).addSelectionListener( this );
+			updateScrollBar();
+			cnvMarkers.getVerticalBar().addSelectionListener(this);
 		}
 
-		createButtonGroup( grpTop );
+		createButtonGroup(grpTop);
 
 		// This control needs to be repainted by gc
-		if ( markerTypeSet != null )
-		{
-			String name = getMarkers( ).get( 0 ).getType( ).getName( );
-			if ( markerTypeSet.getNameIndex( name ) < 0 )
-			{
-				Marker m = MarkerImpl.create( MarkerType.getByName( markerTypeSet.getNames( )[0] ), 4 );
-				m.setVisible( true );
-				LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes( );
-				la.setVisible( true );
-				m.setOutline( la );
-				getMarkers().remove( 0 );
-				getMarkers().add( 0, m );
-				m.eAdapters( ).addAll( series.eAdapters( ) );
+		if (markerTypeSet != null) {
+			String name = getMarkers().get(0).getType().getName();
+			if (markerTypeSet.getNameIndex(name) < 0) {
+				Marker m = MarkerImpl.create(MarkerType.getByName(markerTypeSet.getNames()[0]), 4);
+				m.setVisible(true);
+				LineAttributes la = AttributeFactory.eINSTANCE.createLineAttributes();
+				la.setVisible(true);
+				m.setOutline(la);
+				getMarkers().remove(0);
+				getMarkers().add(0, m);
+				m.eAdapters().addAll(series.eAdapters());
 			}
 		}
-		currentMarkerEditor = new MarkerEditorComposite( cnvMarkers,
-				getMarkers( ).get( 0 ),
-				getContext( ),
-				getDefaultMarker( ) );
+		currentMarkerEditor = new MarkerEditorComposite(cnvMarkers, getMarkers().get(0), getContext(),
+				getDefaultMarker());
 		{
-			currentMarkerEditor.setBounds( 0,
-					0,
-					MARKER_BLOCK_WIDTH,
-					MARKER_BLOCK_HEIGHT );
+			currentMarkerEditor.setBounds(0, 0, MARKER_BLOCK_WIDTH, MARKER_BLOCK_HEIGHT);
 		}
-		if ( markerTypeSet != null )
-		{
-			currentMarkerEditor.setSupportedMarkerTypes( markerTypeSet );
-			
-		}
-		if ( outlineText != null )
-		{
-			currentMarkerEditor.setOutlineText( outlineText );
-		}
-		
-		setEnabledState( );
+		if (markerTypeSet != null) {
+			currentMarkerEditor.setSupportedMarkerTypes(markerTypeSet);
 
-		try
-		{
-			idrSWT = ChartEngine.instance( ).getRenderer( "dv.SWT" ); //$NON-NLS-1$
-			idrSWT.getDisplayServer( );
 		}
-		catch ( ChartException pex )
-		{
-			WizardBase.displayException( pex );
+		if (outlineText != null) {
+			currentMarkerEditor.setOutlineText(outlineText);
 		}
-		
-		cmpContent.addDisposeListener( new DisposeListener( ) {
 
-			public void widgetDisposed( DisposeEvent e )
-			{
-				if ( idrSWT != null )
-				{
-					idrSWT.dispose( );
+		setEnabledState();
+
+		try {
+			idrSWT = ChartEngine.instance().getRenderer("dv.SWT"); //$NON-NLS-1$
+			idrSWT.getDisplayServer();
+		} catch (ChartException pex) {
+			WizardBase.displayException(pex);
+		}
+
+		cmpContent.addDisposeListener(new DisposeListener() {
+
+			public void widgetDisposed(DisposeEvent e) {
+				if (idrSWT != null) {
+					idrSWT.dispose();
 				}
 			}
-		} );
+		});
 
 		return cmpContent;
 	}
 
-	void handleEventCanvasMarkers( Event event )
-	{
-		switch ( event.type )
-		{
-			case SWT.KeyDown :
-			{
-				if ( event.keyCode == SWT.ARROW_LEFT )
-				{
-					if ( iSelectedIndex - 1 >= 0 )
-					{
-						iSelectedIndex--;
-						setEnabledState( );
-					}
+	void handleEventCanvasMarkers(Event event) {
+		switch (event.type) {
+		case SWT.KeyDown: {
+			if (event.keyCode == SWT.ARROW_LEFT) {
+				if (iSelectedIndex - 1 >= 0) {
+					iSelectedIndex--;
+					setEnabledState();
 				}
-				else if ( event.keyCode == SWT.ARROW_RIGHT )
-				{
-					if ( iSelectedIndex + 1 < getMarkers( ).size( ) )
-					{
-						iSelectedIndex++;
-						setEnabledState( );
-					}
+			} else if (event.keyCode == SWT.ARROW_RIGHT) {
+				if (iSelectedIndex + 1 < getMarkers().size()) {
+					iSelectedIndex++;
+					setEnabledState();
 				}
-				else if ( event.keyCode == SWT.ARROW_UP )
-				{
-					if ( iSelectedIndex - MARKER_ROW_MAX_NUMBER >= 0 )
-					{
-						iSelectedIndex -= MARKER_ROW_MAX_NUMBER;
-						setEnabledState( );
-					}
+			} else if (event.keyCode == SWT.ARROW_UP) {
+				if (iSelectedIndex - MARKER_ROW_MAX_NUMBER >= 0) {
+					iSelectedIndex -= MARKER_ROW_MAX_NUMBER;
+					setEnabledState();
 				}
-				else if ( event.keyCode == SWT.ARROW_DOWN )
-				{
-					if ( iSelectedIndex + MARKER_ROW_MAX_NUMBER < getMarkers( ).size( ) )
-					{
-						iSelectedIndex += MARKER_ROW_MAX_NUMBER;
-						setEnabledState( );
-					}
+			} else if (event.keyCode == SWT.ARROW_DOWN) {
+				if (iSelectedIndex + MARKER_ROW_MAX_NUMBER < getMarkers().size()) {
+					iSelectedIndex += MARKER_ROW_MAX_NUMBER;
+					setEnabledState();
 				}
-				
-				else if ( event.keyCode == SWT.CR
-						|| event.keyCode == SWT.KEYPAD_CR )
-				{
-					currentMarkerEditor.setFocus( );
-				}
-				else if ( event.keyCode == SWT.ESC )
-				{
-					cnvMarkers.getShell( ).close( );
-				}
-				break;
 			}
-			case SWT.Traverse :
-			{
-				switch ( event.detail )
-				{
-					case SWT.TRAVERSE_RETURN :
-					case SWT.TRAVERSE_TAB_NEXT :
-					case SWT.TRAVERSE_TAB_PREVIOUS :
-					case SWT.TRAVERSE_ARROW_PREVIOUS :
-					case SWT.TRAVERSE_ARROW_NEXT :
-						event.doit = true;
-						cnvMarkers.redraw( );
-				}
-				break;
+
+			else if (event.keyCode == SWT.CR || event.keyCode == SWT.KEYPAD_CR) {
+				currentMarkerEditor.setFocus();
+			} else if (event.keyCode == SWT.ESC) {
+				cnvMarkers.getShell().close();
 			}
-			case SWT.Paint :
-				paintControl( new PaintEvent( event ) );
-				break;
-			case SWT.MouseDown :
-				mouseDown( new MouseEvent( event ) );
-				break;
+			break;
+		}
+		case SWT.Traverse: {
+			switch (event.detail) {
+			case SWT.TRAVERSE_RETURN:
+			case SWT.TRAVERSE_TAB_NEXT:
+			case SWT.TRAVERSE_TAB_PREVIOUS:
+			case SWT.TRAVERSE_ARROW_PREVIOUS:
+			case SWT.TRAVERSE_ARROW_NEXT:
+				event.doit = true;
+				cnvMarkers.redraw();
+			}
+			break;
+		}
+		case SWT.Paint:
+			paintControl(new PaintEvent(event));
+			break;
+		case SWT.MouseDown:
+			mouseDown(new MouseEvent(event));
+			break;
 		}
 	}
 
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.widget.equals( btnAdd ) )
-		{
+	public void widgetSelected(SelectionEvent e) {
+		if (e.widget.equals(btnAdd)) {
 			// Select the new marker
-			iSelectedIndex = getMarkers( ).size( );
+			iSelectedIndex = getMarkers().size();
 
 			// If the selected is under the bottom, move to new row
-			if ( ( iStartRow + MARKER_COLUMN_MAX_NUMBER )
-					* MARKER_ROW_MAX_NUMBER == iSelectedIndex )
-			{
+			if ((iStartRow + MARKER_COLUMN_MAX_NUMBER) * MARKER_ROW_MAX_NUMBER == iSelectedIndex) {
 				iStartRow++;
 			}
 
-			getMarkers( ).add( newMarkerEditor.getMarker( ) );
-			newMarkerEditor.setMarker( createMarker( ) );
+			getMarkers().add(newMarkerEditor.getMarker());
+			newMarkerEditor.setMarker(createMarker());
 
-			cnvMarkers.redraw( );
-			updateScrollBar( );
-			setEnabledState( );
-		}
-		else if ( e.widget.equals( btnRemove ) )
-		{
+			cnvMarkers.redraw();
+			updateScrollBar();
+			setEnabledState();
+		} else if (e.widget.equals(btnRemove)) {
 			// If the selected is the first of the bottom row, move to the
 			// previous
-			if ( iStartRow > 0
-					&& ( iStartRow + MARKER_COLUMN_MAX_NUMBER - 1 )
-							* MARKER_ROW_MAX_NUMBER == iSelectedIndex )
-			{
+			if (iStartRow > 0 && (iStartRow + MARKER_COLUMN_MAX_NUMBER - 1) * MARKER_ROW_MAX_NUMBER == iSelectedIndex) {
 				iStartRow--;
 			}
 
 			// Return to the previous if it's the last
-			if ( this.iSelectedIndex == getMarkers( ).size( ) - 1 )
-			{
+			if (this.iSelectedIndex == getMarkers().size() - 1) {
 				iSelectedIndex--;
 			}
 
-			getMarkers( ).remove( currentMarkerEditor.getMarker( ) );
-			currentMarkerEditor.setMarker( getMarkers( ).get( iSelectedIndex ) );
+			getMarkers().remove(currentMarkerEditor.getMarker());
+			currentMarkerEditor.setMarker(getMarkers().get(iSelectedIndex));
 
-			cnvMarkers.redraw( );
-			updateScrollBar( );
-			setEnabledState( );
-		}
-		else if ( e.widget.equals( btnUp ) )
-		{
-			if ( iSelectedIndex > 0 )
-			{
+			cnvMarkers.redraw();
+			updateScrollBar();
+			setEnabledState();
+		} else if (e.widget.equals(btnUp)) {
+			if (iSelectedIndex > 0) {
 				iSelectedIndex--;
-				getMarkers( ).move( iSelectedIndex,
-						currentMarkerEditor.getMarker( ) );
-				cnvMarkers.redraw( );
-				setEnabledState( );
+				getMarkers().move(iSelectedIndex, currentMarkerEditor.getMarker());
+				cnvMarkers.redraw();
+				setEnabledState();
 			}
-		}
-		else if ( e.widget.equals( btnDown ) )
-		{
-			if ( iSelectedIndex < getMarkers( ).size( ) - 1 )
-			{
+		} else if (e.widget.equals(btnDown)) {
+			if (iSelectedIndex < getMarkers().size() - 1) {
 				iSelectedIndex++;
-				getMarkers( ).move( iSelectedIndex,
-						currentMarkerEditor.getMarker( ) );
-				cnvMarkers.redraw( );
-				setEnabledState( );
+				getMarkers().move(iSelectedIndex, currentMarkerEditor.getMarker());
+				cnvMarkers.redraw();
+				setEnabledState();
 			}
-		}
-		else if ( e.widget.equals( cnvMarkers.getVerticalBar( ) ) )
-		{
-			iStartRow = cnvMarkers.getVerticalBar( ).getSelection( );
-			cnvMarkers.redraw( );
+		} else if (e.widget.equals(cnvMarkers.getVerticalBar())) {
+			iStartRow = cnvMarkers.getVerticalBar().getSelection();
+			cnvMarkers.redraw();
 		}
 	}
 
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
+	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	protected void createButtonGroup( Group grpTop )
-	{
-		btnAdd = new Button( grpTop, SWT.NONE );
+	protected void createButtonGroup(Group grpTop) {
+		btnAdd = new Button(grpTop, SWT.NONE);
 		{
-			btnAdd.setText( Messages.getString( "LineSeriesMarkerSheet.Label.Add" ) ); //$NON-NLS-1$
-			btnAdd.addSelectionListener( this );
+			btnAdd.setText(Messages.getString("LineSeriesMarkerSheet.Label.Add")); //$NON-NLS-1$
+			btnAdd.addSelectionListener(this);
 		}
 
-		newMarkerEditor = new MarkerEditorComposite( grpTop,
-				createMarker( ),
-				getContext( ),
-				getDefaultMarker( ) );
-		if ( markerTypeSet != null )
-		{
-			newMarkerEditor.setSupportedMarkerTypes( markerTypeSet );
+		newMarkerEditor = new MarkerEditorComposite(grpTop, createMarker(), getContext(), getDefaultMarker());
+		if (markerTypeSet != null) {
+			newMarkerEditor.setSupportedMarkerTypes(markerTypeSet);
 		}
-		if ( outlineText != null )
-		{
-			newMarkerEditor.setOutlineText( outlineText );
-		}
-		
-		btnRemove = new Button( grpTop, SWT.NONE );
-		{
-			btnRemove.setText( Messages.getString( "LineSeriesMarkerSheet.Label.Remove" ) ); //$NON-NLS-1$
-			btnRemove.addSelectionListener( this );
+		if (outlineText != null) {
+			newMarkerEditor.setOutlineText(outlineText);
 		}
 
-		btnUp = new Button( grpTop, SWT.ARROW | SWT.UP );
+		btnRemove = new Button(grpTop, SWT.NONE);
 		{
-			btnUp.setToolTipText( Messages.getString( "PaletteEditorComposite.Lbl.Up" ) ); //$NON-NLS-1$
-			btnUp.addSelectionListener( this );
+			btnRemove.setText(Messages.getString("LineSeriesMarkerSheet.Label.Remove")); //$NON-NLS-1$
+			btnRemove.addSelectionListener(this);
 		}
 
-		btnDown = new Button( grpTop, SWT.ARROW | SWT.DOWN );
+		btnUp = new Button(grpTop, SWT.ARROW | SWT.UP);
 		{
-			btnDown.setToolTipText( Messages.getString( "PaletteEditorComposite.Lbl.Down" ) ); //$NON-NLS-1$
-			btnDown.addSelectionListener( this );
+			btnUp.setToolTipText(Messages.getString("PaletteEditorComposite.Lbl.Up")); //$NON-NLS-1$
+			btnUp.addSelectionListener(this);
+		}
+
+		btnDown = new Button(grpTop, SWT.ARROW | SWT.DOWN);
+		{
+			btnDown.setToolTipText(Messages.getString("PaletteEditorComposite.Lbl.Down")); //$NON-NLS-1$
+			btnDown.addSelectionListener(this);
 		}
 	}
-	
-	private Marker createMarker( )
-	{
+
+	private Marker createMarker() {
 		Marker marker;
-		if ( markerTypeSet != null )
-		{
-			marker = MarkerImpl.createDefault( MarkerType.getByName( markerTypeSet.getNames( )[0] ),
-					4, false );
+		if (markerTypeSet != null) {
+			marker = MarkerImpl.createDefault(MarkerType.getByName(markerTypeSet.getNames()[0]), 4, false);
+		} else {
+			marker = MarkerImpl.createDefault(MarkerType.BOX_LITERAL, 4, false);
 		}
-		else
-		{
-			marker = MarkerImpl.createDefault( MarkerType.BOX_LITERAL, 4, false );
-		}
-		marker.eAdapters( ).addAll( series.eAdapters( ) );
+		marker.eAdapters().addAll(series.eAdapters());
 		return marker;
 	}
 
-	void paintControl( PaintEvent e )
-	{
+	void paintControl(PaintEvent e) {
 		GC gc = e.gc;
 
-		int markerSize = getMarkers( ).size( );
+		int markerSize = getMarkers().size();
 		int x = 0;
 		int y = 0;
-		for ( int i = 0; i < markerSize; )
-		{
-			if ( i < iStartRow * MARKER_ROW_MAX_NUMBER )
-			{
+		for (int i = 0; i < markerSize;) {
+			if (i < iStartRow * MARKER_ROW_MAX_NUMBER) {
 				i += MARKER_ROW_MAX_NUMBER;
 				continue;
 			}
 
-			paintMarker( gc, getMarkers( ).get( i ),
-					LocationImpl.create( x + MARKER_BLOCK_WIDTH / 2, y
-							+ MARKER_BLOCK_HEIGHT / 2 ) );
+			paintMarker(gc, getMarkers().get(i),
+					LocationImpl.create(x + MARKER_BLOCK_WIDTH / 2, y + MARKER_BLOCK_HEIGHT / 2));
 
-			if ( i == iSelectedIndex )
-			{
-				currentMarkerEditor.setMarker( getMarkers( ).get( i ) );
-				currentMarkerEditor.setLocation( x + 8, y );
+			if (i == iSelectedIndex) {
+				currentMarkerEditor.setMarker(getMarkers().get(i));
+				currentMarkerEditor.setLocation(x + 8, y);
 			}
 
 			i++;
-			if ( i % MARKER_ROW_MAX_NUMBER == 0 )
-			{
+			if (i % MARKER_ROW_MAX_NUMBER == 0) {
 				y += MARKER_BLOCK_HEIGHT;
 				x = 0;
-			}
-			else
-			{
+			} else {
 				x += MARKER_BLOCK_WIDTH;
 			}
 		}
 	}
 
-	private void paintMarker( GC gc, Marker currentMarker, Location location )
-	{
+	private void paintMarker(GC gc, Marker currentMarker, Location location) {
 		// Paint an icon sample, not a real icon in the Fill
 		Marker renderMarker = currentMarker;
-		if ( currentMarker.getType( ) == MarkerType.ICON_LITERAL )
-		{
-			renderMarker = currentMarker.copyInstance( );
-			renderMarker.setFill( ImageImpl.create( UIHelper.getURL( "icons/obj16/marker_icon.gif" ).toString( ) ) ); //$NON-NLS-1$
+		if (currentMarker.getType() == MarkerType.ICON_LITERAL) {
+			renderMarker = currentMarker.copyInstance();
+			renderMarker.setFill(ImageImpl.create(UIHelper.getURL("icons/obj16/marker_icon.gif").toString())); //$NON-NLS-1$
 		}
 
-		idrSWT.setProperty( IDeviceRenderer.GRAPHICS_CONTEXT, gc );
-		final MarkerRenderer mr = new MarkerRenderer( idrSWT,
-				StructureSource.createUnknown( null ),
-				location,
-				LineAttributesImpl.create( renderMarker.isVisible( )
-						? ColorDefinitionImpl.BLUE( )
-						: ColorDefinitionImpl.GREY( ),
-						LineStyle.SOLID_LITERAL,
-						1 ),
-				renderMarker.isVisible( ) ? ColorDefinitionImpl.create( 80,
-						168,
-						218 ) : ColorDefinitionImpl.GREY( ),
-				renderMarker,
-				Integer.valueOf( 4 ),
-				null,
-				false,
-				false );
-		try
-		{
-			mr.draw( idrSWT );
-			ChartWizard.removeException( ChartWizard.LineSMarkerSh_ID );
-		}
-		catch ( ChartException ex )
-		{
-			ChartWizard.showException( ChartWizard.LineSMarkerSh_ID,
-					ex.getLocalizedMessage( ) );
+		idrSWT.setProperty(IDeviceRenderer.GRAPHICS_CONTEXT, gc);
+		final MarkerRenderer mr = new MarkerRenderer(idrSWT, StructureSource.createUnknown(null), location,
+				LineAttributesImpl.create(
+						renderMarker.isVisible() ? ColorDefinitionImpl.BLUE() : ColorDefinitionImpl.GREY(),
+						LineStyle.SOLID_LITERAL, 1),
+				renderMarker.isVisible() ? ColorDefinitionImpl.create(80, 168, 218) : ColorDefinitionImpl.GREY(),
+				renderMarker, Integer.valueOf(4), null, false, false);
+		try {
+			mr.draw(idrSWT);
+			ChartWizard.removeException(ChartWizard.LineSMarkerSh_ID);
+		} catch (ChartException ex) {
+			ChartWizard.showException(ChartWizard.LineSMarkerSh_ID, ex.getLocalizedMessage());
 		}
 	}
 
-	private EList<Marker> getMarkers( )
-	{
-		if ( bPositive )
-		{
-			return series.getMarkers( );
+	private EList<Marker> getMarkers() {
+		if (bPositive) {
+			return series.getMarkers();
 		}
-		return ( (DifferenceSeries) series ).getNegativeMarkers( );		
-	}
-	
-	private Marker getDefaultMarker( )
-	{
-		if ( bPositive )
-		{
-			return ((LineSeries)ChartDefaultValueUtil.getDefaultSeries( series )).getMarkers( ).get( 0 );
-		}
-		return ( (DifferenceSeries) ChartDefaultValueUtil.getDefaultSeries( series ) ).getNegativeMarkers( ).get( 0 );		
+		return ((DifferenceSeries) series).getNegativeMarkers();
 	}
 
-	private void updateScrollBar( )
-	{
-		ScrollBar vsb = cnvMarkers.getVerticalBar( );
-		vsb.setValues( iStartRow,
-				0,
-				Math.max( 0, ( getMarkers( ).size( ) - 1 )
-						/ MARKER_ROW_MAX_NUMBER + 2 - MARKER_COLUMN_MAX_NUMBER ),
-				1,
-				1,
-				1 );
+	private Marker getDefaultMarker() {
+		if (bPositive) {
+			return ((LineSeries) ChartDefaultValueUtil.getDefaultSeries(series)).getMarkers().get(0);
+		}
+		return ((DifferenceSeries) ChartDefaultValueUtil.getDefaultSeries(series)).getNegativeMarkers().get(0);
 	}
 
-	void mouseDown( MouseEvent e )
-	{
-		if ( e.widget.equals( cnvMarkers ) )
-		{
+	private void updateScrollBar() {
+		ScrollBar vsb = cnvMarkers.getVerticalBar();
+		vsb.setValues(iStartRow, 0,
+				Math.max(0, (getMarkers().size() - 1) / MARKER_ROW_MAX_NUMBER + 2 - MARKER_COLUMN_MAX_NUMBER), 1, 1, 1);
+	}
+
+	void mouseDown(MouseEvent e) {
+		if (e.widget.equals(cnvMarkers)) {
 			int ix = e.x / MARKER_BLOCK_WIDTH;
 			int iy = e.y / MARKER_BLOCK_HEIGHT + iStartRow;
 			int clickIndex = iy * MARKER_ROW_MAX_NUMBER + ix;
-			if ( ix >= MARKER_ROW_MAX_NUMBER
-					|| clickIndex >= getMarkers( ).size( ) )
-			{
+			if (ix >= MARKER_ROW_MAX_NUMBER || clickIndex >= getMarkers().size()) {
 				// Keep the previous selection if the current is out of bound
 				return;
 			}
 			iSelectedIndex = clickIndex;
-			this.cnvMarkers.redraw( );
+			this.cnvMarkers.redraw();
 
-			setEnabledState( );
+			setEnabledState();
 		}
 	}
 
-	protected void setEnabledState( )
-	{
-		if ( iSelectedIndex < 0 )
-		{
-			btnUp.setEnabled( false );
-			btnDown.setEnabled( false );
-			btnRemove.setEnabled( false );
-			currentMarkerEditor.setVisible( false );
-		}
-		else
-		{
-			btnUp.setEnabled( iSelectedIndex > 0 );
-			btnDown.setEnabled( iSelectedIndex < getMarkers( ).size( ) - 1 );
-			btnRemove.setEnabled( getMarkers( ).size( ) > 1 );
-			currentMarkerEditor.setVisible( true );
+	protected void setEnabledState() {
+		if (iSelectedIndex < 0) {
+			btnUp.setEnabled(false);
+			btnDown.setEnabled(false);
+			btnRemove.setEnabled(false);
+			currentMarkerEditor.setVisible(false);
+		} else {
+			btnUp.setEnabled(iSelectedIndex > 0);
+			btnDown.setEnabled(iSelectedIndex < getMarkers().size() - 1);
+			btnRemove.setEnabled(getMarkers().size() > 1);
+			currentMarkerEditor.setVisible(true);
 		}
 	}
 }

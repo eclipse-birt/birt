@@ -13,11 +13,10 @@ package org.eclipse.birt.report.designer.ui;
 
 /**
  * The default setting for palette
- *  
+ * 
  */
 
-public interface IPreferenceConstants
-{
+public interface IPreferenceConstants {
 
 	/**
 	 * the doc location

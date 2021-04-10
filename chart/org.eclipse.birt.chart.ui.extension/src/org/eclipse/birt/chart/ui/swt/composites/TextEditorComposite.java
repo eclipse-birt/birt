@@ -55,12 +55,8 @@ import com.ibm.icu.text.SimpleDateFormat;
  * 
  * @author Actuate Corporation
  */
-public class TextEditorComposite extends AbstractChartTextEditor implements
-		ModifyListener,
-		FocusListener,
-		KeyListener
-{
-	
+public class TextEditorComposite extends AbstractChartTextEditor implements ModifyListener, FocusListener, KeyListener {
+
 	public static final int TYPE_NONE = 0;
 	public static final int TYPE_NUMBERIC = 1;
 	public static final int TYPE_DATETIME = 2;
@@ -78,7 +74,7 @@ public class TextEditorComposite extends AbstractChartTextEditor implements
 	public static final int TEXT_MODIFIED = 0;
 
 	public static final int TEXT_FRACTION_CONVERTED = 1;
-	
+
 	public static final String TEXT_RESET_MODEL = "Reset";//$NON-NLS-1$
 
 	protected transient boolean bEnabled = true;
@@ -93,362 +89,296 @@ public class TextEditorComposite extends AbstractChartTextEditor implements
 	 * @param parent
 	 * @param iStyle
 	 */
-	public TextEditorComposite( Composite parent, int iStyle )
-	{
-		this( parent, iStyle, TYPE_NONE );
+	public TextEditorComposite(Composite parent, int iStyle) {
+		this(parent, iStyle, TYPE_NONE);
 	}
 
 	/**
 	 * 
 	 * @param parent
 	 * @param iStyle
-	 * @param isNumber
-	 *            If this argument is true, only number value is valid. The
-	 *            fraction value, like "1/3" also is supported as a double
-	 *            value.
+	 * @param isNumber If this argument is true, only number value is valid. The
+	 *                 fraction value, like "1/3" also is supported as a double
+	 *                 value.
 	 */
-	public TextEditorComposite( Composite parent, int iStyle, boolean isNumber )
-	{
-		this( parent, iStyle, isNumber ? TYPE_NUMBERIC : TYPE_NONE );
+	public TextEditorComposite(Composite parent, int iStyle, boolean isNumber) {
+		this(parent, iStyle, isNumber ? TYPE_NUMBERIC : TYPE_NONE);
 	}
-	
+
 	/**
 	 * 
 	 * @param parent
 	 * @param iStyle
-	 * @param valueType
-	 *            Value type for validation, valid type is {@link #TYPE_DATETIME},
-	 *            {@link #TYPE_NUMBERIC} or {@link #TYPE_NONE}
+	 * @param valueType Value type for validation, valid type is
+	 *                  {@link #TYPE_DATETIME}, {@link #TYPE_NUMBERIC} or
+	 *                  {@link #TYPE_NONE}
 	 */
-	public TextEditorComposite( Composite parent, int iStyle, int valueType )
-	{
-		super( parent, SWT.NONE );
+	public TextEditorComposite(Composite parent, int iStyle, int valueType) {
+		super(parent, SWT.NONE);
 		this.iStyle = iStyle;
 		this.valueType = valueType;
-		init( );
-		placeComponents( );
-		initAccessible( );
+		init();
+		placeComponents();
+		initAccessible();
 	}
 
-	private void init( )
-	{
+	private void init() {
 		sText = ""; //$NON-NLS-1$
-		vListeners = new Vector<Listener>( );
-		this.setLayout( new FillLayout( ) );
+		vListeners = new Vector<Listener>();
+		this.setLayout(new FillLayout());
 	}
 
-	protected void placeComponents( )
-	{
-		GridLayout gl = new GridLayout( 1, false );
+	protected void placeComponents() {
+		GridLayout gl = new GridLayout(1, false);
 		gl.marginBottom = 0;
 		gl.marginHeight = 0;
 		gl.marginLeft = 0;
 		gl.marginRight = 0;
 		gl.marginTop = 0;
 		gl.marginWidth = 0;
-		this.setLayout( gl );
-		createTextEdit( );
+		this.setLayout(gl);
+		createTextEdit();
 	}
 
-	protected void createTextEdit( )
-	{
-		txtValue = new Text( this, iStyle );
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		txtValue.setLayoutData( gd );
-		if ( valueType == TYPE_NUMBERIC )
-		{
-			txtValue.setToolTipText( Messages.getString( "TextEditorComposite.Tooltip.EnterDecimalOrFractionValue" ) ); //$NON-NLS-1$
+	protected void createTextEdit() {
+		txtValue = new Text(this, iStyle);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		txtValue.setLayoutData(gd);
+		if (valueType == TYPE_NUMBERIC) {
+			txtValue.setToolTipText(Messages.getString("TextEditorComposite.Tooltip.EnterDecimalOrFractionValue")); //$NON-NLS-1$
+		} else if (valueType == TYPE_DATETIME) {
+			txtValue.setToolTipText("MM-dd-yyyy HH:mm:ss"); //$NON-NLS-1$
 		}
-		else if ( valueType == TYPE_DATETIME )
-		{
-			txtValue.setToolTipText( "MM-dd-yyyy HH:mm:ss" ); //$NON-NLS-1$
-		}
-		txtValue.addModifyListener( this );
-		txtValue.addFocusListener( this );
-		txtValue.addKeyListener( this );
+		txtValue.addModifyListener(this);
+		txtValue.addFocusListener(this);
+		txtValue.addKeyListener(this);
 	}
 
-	public void addScreenreaderAccessbility( String description )
-	{
-		ChartUIUtil.addScreenReaderAccessbility( txtValue, description );
+	public void addScreenreaderAccessbility(String description) {
+		ChartUIUtil.addScreenReaderAccessbility(txtValue, description);
 	}
 
-	public void setEnabled( boolean bState )
-	{
-		this.txtValue.setEnabled( bState );
+	public void setEnabled(boolean bState) {
+		this.txtValue.setEnabled(bState);
 		this.bEnabled = bState;
 	}
 
-	public boolean isEnabled( )
-	{
+	public boolean isEnabled() {
 		return this.bEnabled;
 	}
 
-	public void setText( String sText )
-	{
-		txtValue.setText( sText );
+	public void setText(String sText) {
+		txtValue.setText(sText);
 	}
 
-	public String getText( )
-	{
-		return txtValue.getText( );
+	public String getText() {
+		return txtValue.getText();
 	}
 
-	public void setToolTipText( String string )
-	{
-		txtValue.setToolTipText( string );
+	public void setToolTipText(String string) {
+		txtValue.setToolTipText(string);
 	}
 
-	public void addListener( Listener listener )
-	{
-		vListeners.add( listener );
+	public void addListener(Listener listener) {
+		vListeners.add(listener);
 	}
 
 	/**
-	 * Sets the default value when current text is for numeric only. If the
-	 * inputed text is not numeric, will use this default value.
+	 * Sets the default value when current text is for numeric only. If the inputed
+	 * text is not numeric, will use this default value.
 	 * 
-	 * @param value
-	 *            default value
+	 * @param value default value
 	 */
-	public void setDefaultValue( String value )
-	{
+	public void setDefaultValue(String value) {
 		this.defaultValue = value;
 	}
 
-	protected void fireEvent( )
-	{		
+	protected void fireEvent() {
 		boolean isFractionConverted = false;
-		if ( valueType == TYPE_NUMBERIC )
-		{
-			int iDelimiter = sText.indexOf( '/' );
-			if ( iDelimiter < 0 )
-			{
-				iDelimiter = sText.indexOf( ':' );
+		if (valueType == TYPE_NUMBERIC) {
+			int iDelimiter = sText.indexOf('/');
+			if (iDelimiter < 0) {
+				iDelimiter = sText.indexOf(':');
 			}
-			if ( iDelimiter > 0 )
-			{
+			if (iDelimiter > 0) {
 				// Handle the fraction conversion
 				isFractionConverted = true;
-				String numerator = sText.substring( 0, iDelimiter );
-				String denominator = sText.substring( iDelimiter + 1 );
-				try
-				{
-					this.sText = String.valueOf( Double.parseDouble( numerator )
-							/ Double.parseDouble( denominator ) );
-				}
-				catch ( NumberFormatException e )
-				{
+				String numerator = sText.substring(0, iDelimiter);
+				String denominator = sText.substring(iDelimiter + 1);
+				try {
+					this.sText = String.valueOf(Double.parseDouble(numerator) / Double.parseDouble(denominator));
+				} catch (NumberFormatException e) {
 					this.sText = defaultValue == null ? "" : defaultValue; //$NON-NLS-1$
 				}
-				this.txtValue.setText( sText );
-			}
-			else
-			{
+				this.txtValue.setText(sText);
+			} else {
 				// Test if the text is a number format
-				try
-				{
-					ChartUIUtil.getDefaultNumberFormatInstance( )
-							.parse( this.sText )
-							.doubleValue( );
-				}
-				catch ( ParseException e )
-				{
+				try {
+					ChartUIUtil.getDefaultNumberFormatInstance().parse(this.sText).doubleValue();
+				} catch (ParseException e) {
 					this.sText = defaultValue == null ? "" : defaultValue; //$NON-NLS-1$
-					this.txtValue.setText( this.sText );
+					this.txtValue.setText(this.sText);
 				}
 			}
-		}
-		else if ( valueType == TYPE_DATETIME )
-		{
-			SimpleDateFormat sdf = new SimpleDateFormat( "MM-dd-yyyy HH:mm:ss" ); //$NON-NLS-1$
-			try
-			{
-				sdf.parse( this.sText );
-			}
-			catch ( ParseException e )
-			{
-				if ( defaultValue == null  )
-				{
-					Date today = new Date( );
-					this.sText = sdf.format( today );
-				}
-				else
-				{
+		} else if (valueType == TYPE_DATETIME) {
+			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss"); //$NON-NLS-1$
+			try {
+				sdf.parse(this.sText);
+			} catch (ParseException e) {
+				if (defaultValue == null) {
+					Date today = new Date();
+					this.sText = sdf.format(today);
+				} else {
 					this.sText = defaultValue;
 				}
-				this.txtValue.setText( this.sText );
+				this.txtValue.setText(this.sText);
 			}
 		}
 
-		Event e = new Event( );
+		Event e = new Event();
 		e.data = this.sText;
 		e.widget = this;
 		e.type = TEXT_MODIFIED;
-		notifyListeners( e.type, e );
+		notifyListeners(e.type, e);
 
-		if ( isFractionConverted )
-		{
-			e = new Event( );
+		if (isFractionConverted) {
+			e = new Event();
 			e.data = this.sText;
 			e.widget = this;
 			e.type = TEXT_FRACTION_CONVERTED;
-			notifyListeners( e.type, e );
+			notifyListeners(e.type, e);
 		}
 	}
-	
-	public void notifyListeners( int eventType, Event event )
-	{
-		if ( event == null )
-		{
-			event = new Event( );
+
+	public void notifyListeners(int eventType, Event event) {
+		if (event == null) {
+			event = new Event();
 		}
-		if ( !TEXT_RESET_MODEL.equals(event.data) )
-		{
+		if (!TEXT_RESET_MODEL.equals(event.data)) {
 			event.data = this.sText;
 		}
 		event.widget = this;
 		event.type = eventType;
-		for ( int i = 0; i < vListeners.size( ); i++ )
-		{
-			vListeners.get( i ).handleEvent( event );
+		for (int i = 0; i < vListeners.size(); i++) {
+			vListeners.get(i).handleEvent(event);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.
+	 * ModifyEvent)
 	 */
-	public void modifyText( ModifyEvent e )
-	{
+	public void modifyText(ModifyEvent e) {
 		this.bTextModified = true;
-		this.sText = txtValue.getText( );
+		this.sText = txtValue.getText();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events.FocusEvent)
+	 * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events.
+	 * FocusEvent)
 	 */
-	public void focusGained( FocusEvent e )
-	{
+	public void focusGained(FocusEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events.FocusEvent)
+	 * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events.
+	 * FocusEvent)
 	 */
-	public void focusLost( FocusEvent e )
-	{
-		if ( bTextModified )
-		{
-			fireEvent( );
+	public void focusLost(FocusEvent e) {
+		if (bTextModified) {
+			fireEvent();
 		}
 	}
 
-	public void keyPressed( KeyEvent e )
-	{
-		if ( e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR )
-		{
-			if ( bTextModified )
-			{
-				fireEvent( );
+	public void keyPressed(KeyEvent e) {
+		if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
+			if (bTextModified) {
+				fireEvent();
 			}
-		}
-		else if ( e.keyCode == SWT.ARROW_DOWN || e.keyCode == SWT.ARROW_UP )
-		{
+		} else if (e.keyCode == SWT.ARROW_DOWN || e.keyCode == SWT.ARROW_UP) {
 			Event event = new Event();
 			event.keyCode = e.keyCode;
 			event.stateMask = e.stateMask;
-			this.notifyListeners( SWT.KeyDown, event );
+			this.notifyListeners(SWT.KeyDown, event);
 		}
 	}
 
-	public void keyReleased( KeyEvent e )
-	{
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	void initAccessible( )
-	{
-		getAccessible( ).addAccessibleListener( new AccessibleAdapter( ) {
+	void initAccessible() {
+		getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-			public void getHelp( AccessibleEvent e )
-			{
-				e.result = getToolTipText( );
+			public void getHelp(AccessibleEvent e) {
+				e.result = getToolTipText();
 			}
-		} );
+		});
 
-		getAccessible( ).addAccessibleTextListener( new AccessibleTextAdapter( ) {
+		getAccessible().addAccessibleTextListener(new AccessibleTextAdapter() {
 
-			public void getCaretOffset( AccessibleTextEvent e )
-			{
-				e.offset = txtValue.getCaretPosition( );
+			public void getCaretOffset(AccessibleTextEvent e) {
+				e.offset = txtValue.getCaretPosition();
 			}
-		} );
+		});
 
-		getAccessible( ).addAccessibleControlListener( new AccessibleControlAdapter( ) {
+		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			public void getChildAtPoint( AccessibleControlEvent e )
-			{
-				Point testPoint = toControl( new Point( e.x, e.y ) );
-				if ( getBounds( ).contains( testPoint ) )
-				{
+			public void getChildAtPoint(AccessibleControlEvent e) {
+				Point testPoint = toControl(new Point(e.x, e.y));
+				if (getBounds().contains(testPoint)) {
 					e.childID = ACC.CHILDID_SELF;
 				}
 			}
 
-			public void getLocation( AccessibleControlEvent e )
-			{
-				Rectangle location = getBounds( );
-				Point pt = toDisplay( new Point( location.x, location.y ) );
+			public void getLocation(AccessibleControlEvent e) {
+				Rectangle location = getBounds();
+				Point pt = toDisplay(new Point(location.x, location.y));
 				e.x = pt.x;
 				e.y = pt.y;
 				e.width = location.width;
 				e.height = location.height;
 			}
 
-			public void getChildCount( AccessibleControlEvent e )
-			{
+			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
-			public void getRole( AccessibleControlEvent e )
-			{
+			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_TEXT;
 			}
 
-			public void getState( AccessibleControlEvent e )
-			{
+			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
 
-			public void getValue( AccessibleControlEvent e )
-			{
-				e.result = getText( );
+			public void getValue(AccessibleControlEvent e) {
+				e.result = getText();
 			}
-		} );
-		
-		ChartUIUtil.addScreenReaderAccessibility( this, txtValue );
+		});
+
+		ChartUIUtil.addScreenReaderAccessibility(this, txtValue);
 	}
-	
+
 	/**
 	 * Returns text control.
 	 * 
 	 * @return actual text widget.
 	 */
-	public Text getTextControl( )
-	{
+	public Text getTextControl() {
 		return txtValue;
 	}
 
 	@Override
-	public void setEObjectParent( EObject eParent )
-	{
+	public void setEObjectParent(EObject eParent) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

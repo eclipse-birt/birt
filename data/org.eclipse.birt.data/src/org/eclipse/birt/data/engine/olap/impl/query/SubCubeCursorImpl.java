@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.olap.impl.query;
 
 import javax.olap.OLAPException;
@@ -23,24 +23,19 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.mozilla.javascript.Scriptable;
 
+public class SubCubeCursorImpl extends CubeCursorImpl {
 
-public class SubCubeCursorImpl extends CubeCursorImpl
-{
-
-	public SubCubeCursorImpl( IBaseQueryResults outerResults,
-			CubeCursor cursor, Scriptable scope, ScriptContext cx,
-			ICubeQueryDefinition queryDefn, BirtCubeView view )
-			throws DataException
-	{
-		super( outerResults, cursor, scope, cx, queryDefn, view );
+	public SubCubeCursorImpl(IBaseQueryResults outerResults, CubeCursor cursor, Scriptable scope, ScriptContext cx,
+			ICubeQueryDefinition queryDefn, BirtCubeView view) throws DataException {
+		super(outerResults, cursor, scope, cx, queryDefn, view);
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.impl.query.CubeCursorImpl#close()
 	 */
-	public void close( ) throws OLAPException
-	{
-		//do nothing
+	public void close() throws OLAPException {
+		// do nothing
 	}
 }

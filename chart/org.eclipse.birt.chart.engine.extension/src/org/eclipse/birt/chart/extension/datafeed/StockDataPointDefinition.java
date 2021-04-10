@@ -19,8 +19,7 @@ import org.eclipse.birt.chart.engine.extension.i18n.Messages;
  * 
  */
 
-public class StockDataPointDefinition extends AbstractDataPointDefinition
-{
+public class StockDataPointDefinition extends AbstractDataPointDefinition {
 
 	public final static String TYPE_HIGH = "stock_high"; //$NON-NLS-1$
 
@@ -30,51 +29,31 @@ public class StockDataPointDefinition extends AbstractDataPointDefinition
 
 	public final static String TYPE_CLOSE = "stock_close"; //$NON-NLS-1$
 
-	private final String[] saTypeNames = {
-			TYPE_HIGH, TYPE_LOW, TYPE_OPEN, TYPE_CLOSE
-	};
+	private final String[] saTypeNames = { TYPE_HIGH, TYPE_LOW, TYPE_OPEN, TYPE_CLOSE };
 
-	private final int[] iaTypeCompatibles = {
-			IConstants.NUMERICAL,
-			IConstants.NUMERICAL,
-			IConstants.NUMERICAL,
-			IConstants.NUMERICAL
-	};
+	private final int[] iaTypeCompatibles = { IConstants.NUMERICAL, IConstants.NUMERICAL, IConstants.NUMERICAL,
+			IConstants.NUMERICAL };
 
-	public String[] getDataPointTypes( )
-	{
-		return new String[]{
-				TYPE_HIGH, TYPE_LOW, TYPE_OPEN, TYPE_CLOSE
-		};
+	public String[] getDataPointTypes() {
+		return new String[] { TYPE_HIGH, TYPE_LOW, TYPE_OPEN, TYPE_CLOSE };
 	}
 
-	public String getDisplayText( String type )
-	{
-		if ( TYPE_HIGH.equals( type ) )
-		{
-			return Messages.getString( "info.datapoint.High" ); //$NON-NLS-1$
-		}
-		else if ( TYPE_LOW.equals( type ) )
-		{
-			return Messages.getString( "info.datapoint.Low" ); //$NON-NLS-1$
-		}
-		else if ( TYPE_OPEN.equals( type ) )
-		{
-			return Messages.getString( "info.datapoint.Open" ); //$NON-NLS-1$
-		}
-		else if ( TYPE_CLOSE.equals( type ) )
-		{
-			return Messages.getString( "info.datapoint.Close" ); //$NON-NLS-1$
+	public String getDisplayText(String type) {
+		if (TYPE_HIGH.equals(type)) {
+			return Messages.getString("info.datapoint.High"); //$NON-NLS-1$
+		} else if (TYPE_LOW.equals(type)) {
+			return Messages.getString("info.datapoint.Low"); //$NON-NLS-1$
+		} else if (TYPE_OPEN.equals(type)) {
+			return Messages.getString("info.datapoint.Open"); //$NON-NLS-1$
+		} else if (TYPE_CLOSE.equals(type)) {
+			return Messages.getString("info.datapoint.Close"); //$NON-NLS-1$
 		}
 		return null;
 	}
 
-	public int getCompatibleDataType( String type )
-	{
-		for ( int i = 0; i < saTypeNames.length; i++ )
-		{
-			if ( saTypeNames[i].equals( type ) )
-			{
+	public int getCompatibleDataType(String type) {
+		for (int i = 0; i < saTypeNames.length; i++) {
+			if (saTypeNames[i].equals(type)) {
 				return this.iaTypeCompatibles[i];
 			}
 		}

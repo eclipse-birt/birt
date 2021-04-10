@@ -19,10 +19,8 @@ import org.eclipse.birt.data.oda.pojo.util.PojoQueryParser;
 import org.eclipse.birt.data.oda.pojo.util.PojoQueryWriter;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 
 /**
  * 
@@ -30,31 +28,28 @@ import static org.junit.Assert.*;
 
 public class PojoQueryWriterTest {
 	@Test
-    public void testWrite( ) throws IOException, OdaException
-	{
-		InputStream in = InputFileOpener.openFile( InputFileOpener.SIMPLE_QUERY_FILE );
-		
-		String text = InputFileOpener.fromInputStream( in );
-		
-		PojoQuery query = PojoQueryParser.parse( text );
-		
-		String result = PojoQueryWriter.write( query );
-		
-		System.out.println( result );
-		
-		PojoQuery newQuery = PojoQueryParser.parse( result );
-		
-		assertEquals( query.getAppContextKey( ), newQuery.getAppContextKey( ));
-		assertEquals( query.getVersion( ), newQuery.getVersion( ));
-		assertEquals( query.getDataSetClass( ), newQuery.getDataSetClass( ));
-		
-		assertEquals( query.getColumnsMappings( ).length, newQuery.getColumnsMappings( ).length );
-		
-		for ( int i=0; i<query.getColumnsMappings( ).length; i++)
-		{
-			PojoQueryParserTest.assertEqualColumnsMapping( 
-					query.getColumnsMappings( )[i], 
-					newQuery.getColumnsMappings( )[i]);
+	public void testWrite() throws IOException, OdaException {
+		InputStream in = InputFileOpener.openFile(InputFileOpener.SIMPLE_QUERY_FILE);
+
+		String text = InputFileOpener.fromInputStream(in);
+
+		PojoQuery query = PojoQueryParser.parse(text);
+
+		String result = PojoQueryWriter.write(query);
+
+		System.out.println(result);
+
+		PojoQuery newQuery = PojoQueryParser.parse(result);
+
+		assertEquals(query.getAppContextKey(), newQuery.getAppContextKey());
+		assertEquals(query.getVersion(), newQuery.getVersion());
+		assertEquals(query.getDataSetClass(), newQuery.getDataSetClass());
+
+		assertEquals(query.getColumnsMappings().length, newQuery.getColumnsMappings().length);
+
+		for (int i = 0; i < query.getColumnsMappings().length; i++) {
+			PojoQueryParserTest.assertEqualColumnsMapping(query.getColumnsMappings()[i],
+					newQuery.getColumnsMappings()[i]);
 		}
 	}
 

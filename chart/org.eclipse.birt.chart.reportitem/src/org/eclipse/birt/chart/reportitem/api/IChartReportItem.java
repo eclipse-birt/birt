@@ -19,27 +19,21 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
  * 
  */
 
-public interface IChartReportItem extends IReportItem
-{
+public interface IChartReportItem extends IReportItem {
 
 	/**
 	 * Sets the new chart through a command for command stack integration.
 	 * 
-	 * @param eih
-	 *            handle
-	 * @param oldChart
-	 *            old model
-	 * @param newChart
-	 *            new model
+	 * @param eih      handle
+	 * @param oldChart old model
+	 * @param newChart new model
 	 */
-	public void executeSetModelCommand( ExtendedItemHandle eih, Chart oldChart,
-			Chart newChart );
+	public void executeSetModelCommand(ExtendedItemHandle eih, Chart oldChart, Chart newChart);
 
 	/**
 	 * Set the chart directly without command.
 	 * 
-	 * @param chart
-	 *            chart model
+	 * @param chart chart model
 	 */
-	public void setModel( Chart chart );
+	public void setModel(Chart chart);
 }

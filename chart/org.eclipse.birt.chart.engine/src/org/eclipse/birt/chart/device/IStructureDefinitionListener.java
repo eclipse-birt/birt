@@ -18,8 +18,7 @@ import org.eclipse.birt.chart.script.ScriptHandler;
  * Notifies a listener of group change events associated with a structure being
  * rendered.
  */
-public interface IStructureDefinitionListener
-{
+public interface IStructureDefinitionListener {
 	/**
 	 * Comment for <code>BEFORE_DRAW_BLOCK</code>
 	 */
@@ -44,12 +43,12 @@ public interface IStructureDefinitionListener
 	 * Comment for <code>BEFORE_DRAW_LEGEND_ITEM</code>
 	 */
 	public static final String BEFORE_DRAW_LEGEND_ITEM = ScriptHandler.BEFORE_DRAW_LEGEND_ITEM;
-	
+
 	/**
 	 * Comment for <code>AFTER_DRAW_LEGEND_ITEM</code>
 	 */
 	public static final String AFTER_DRAW_LEGEND_ITEM = ScriptHandler.AFTER_DRAW_LEGEND_ITEM;
-	
+
 	/**
 	 * Comment for <code>BEFORE_DRAW_SERIES</code>
 	 */
@@ -69,12 +68,12 @@ public interface IStructureDefinitionListener
 	 * Comment for <code>AFTER_DRAW_SERIES_TITLE</code>
 	 */
 	public static final String AFTER_DRAW_SERIES_TITLE = ScriptHandler.AFTER_DRAW_SERIES_TITLE;
-	
+
 	/**
 	 * Comment for <code>BEFORE_DRAW_MARKER</code>
 	 */
 	public static final String BEFORE_DRAW_MARKER = ScriptHandler.BEFORE_DRAW_MARKER;
-	
+
 	/**
 	 * Comment for <code>AFTER_DRAW_MARKER</code>
 	 */
@@ -103,16 +102,14 @@ public interface IStructureDefinitionListener
 	/**
 	 * Comment for <code>BEFORE_DRAW_ELEMENT</code>
 	 * 
-	 * @deprecated Not used anymore. This is kept just for backward
-	 *             compatibility.
+	 * @deprecated Not used anymore. This is kept just for backward compatibility.
 	 */
 	public static final String BEFORE_DRAW_ELEMENT = ScriptHandler.BEFORE_DRAW_ELEMENT;
 
 	/**
 	 * Comment for <code>AFTER_DRAW_ELEMENT</code>
 	 * 
-	 * @deprecated Not used anymore. This is kept just for backward
-	 *             compatibility.
+	 * @deprecated Not used anymore. This is kept just for backward compatibility.
 	 */
 	public static final String AFTER_DRAW_ELEMENT = ScriptHandler.AFTER_DRAW_ELEMENT;
 
@@ -167,12 +164,11 @@ public interface IStructureDefinitionListener
 	public static final String AFTER_DRAW_AXIS_TITLE = ScriptHandler.AFTER_DRAW_AXIS_TITLE;
 
 	/**
-	 * Sends out a notification to a listener indicating that a structure group
-	 * has changed (either via a start or end) notification.
+	 * Sends out a notification to a listener indicating that a structure group has
+	 * changed (either via a start or end) notification.
 	 * 
-	 * @param scev
-	 *            Encapsulated information associated with the structure change
-	 *            notification that identifies the source object being changed.
+	 * @param scev Encapsulated information associated with the structure change
+	 *             notification that identifies the source object being changed.
 	 */
-	public void changeStructure( StructureChangeEvent scev );
+	public void changeStructure(StructureChangeEvent scev);
 }

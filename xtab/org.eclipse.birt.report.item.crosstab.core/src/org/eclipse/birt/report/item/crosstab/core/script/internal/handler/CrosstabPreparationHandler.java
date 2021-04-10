@@ -45,11 +45,9 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 /**
  * CrosstabPreparationHandler
  */
-public class CrosstabPreparationHandler extends BaseCrosstabEventHandler implements
-		ICrosstabConstants
-{
+public class CrosstabPreparationHandler extends BaseCrosstabEventHandler implements ICrosstabConstants {
 
-	private static final Logger logger = Logger.getLogger( CrosstabPreparationHandler.class.getName( ) );
+	private static final Logger logger = Logger.getLogger(CrosstabPreparationHandler.class.getName());
 
 	private static final String AUTO_EMPTY_VALUE_EXPR_PREFIX = "/*AUTO_EXPR_EMPTY_VALUE*/"; //$NON-NLS-1$
 
@@ -57,196 +55,157 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 	private CrosstabReportItemHandle crosstab;
 	private IPreparationContext context;
 
-	public CrosstabPreparationHandler( CrosstabReportItemHandle crosstab,
-			IPreparationContext context ) throws BirtException
-	{
-		ExtendedItemHandle modelHandle = (ExtendedItemHandle) crosstab.getModelHandle( );
+	public CrosstabPreparationHandler(CrosstabReportItemHandle crosstab, IPreparationContext context)
+			throws BirtException {
+		ExtendedItemHandle modelHandle = (ExtendedItemHandle) crosstab.getModelHandle();
 
-		String javaClass = modelHandle.getEventHandlerClass( );
-		String script = modelHandle.getOnPrepare( );
+		String javaClass = modelHandle.getEventHandlerClass();
+		String script = modelHandle.getOnPrepare();
 
 		this.crosstab = crosstab;
 		this.context = context;
 
-		if ( ( javaClass == null || javaClass.trim( ).length( ) == 0 )
-				&& ( script == null || script.trim( ).length( ) == 0 ) )
-		{
+		if ((javaClass == null || javaClass.trim().length() == 0) && (script == null || script.trim().length() == 0)) {
 			return;
 		}
 
-		handler = createScriptHandler( modelHandle,
-				ICrosstabReportItemConstants.ON_PREPARE_METHOD,
-				script,
-				context.getApplicationClassLoader( ) );
+		handler = createScriptHandler(modelHandle, ICrosstabReportItemConstants.ON_PREPARE_METHOD, script,
+				context.getApplicationClassLoader());
 
 	}
 
-	public void handle( ) throws BirtException
-	{
-		if ( handler != null )
-		{
-			ICrosstab crosstabItem = new CrosstabImpl( crosstab );
+	public void handle() throws BirtException {
+		if (handler != null) {
+			ICrosstab crosstabItem = new CrosstabImpl(crosstab);
 
-			handler.callFunction( CrosstabScriptHandler.ON_PREPARE_CROSSTAB,
-					crosstabItem,
-					context );
+			handler.callFunction(CrosstabScriptHandler.ON_PREPARE_CROSSTAB, crosstabItem, context);
 		}
 
-		handleChildren( );
+		handleChildren();
 	}
 
-	private void handleChildren( ) throws BirtException
-	{
-		String emptyValue = crosstab.getEmptyCellValue( );
+	private void handleChildren() throws BirtException {
+		String emptyValue = crosstab.getEmptyCellValue();
 
 		// process crosstab header
-		int headerCount = crosstab.getHeaderCount( );
+		int headerCount = crosstab.getHeaderCount();
 
-		for ( int i = 0; i < headerCount; i++ )
-		{
-			handleCell( crosstab.getHeader( i ), null );
+		for (int i = 0; i < headerCount; i++) {
+			handleCell(crosstab.getHeader(i), null);
 		}
 
 		// process column edge
-		if ( crosstab.getDimensionCount( COLUMN_AXIS_TYPE ) > 0 )
-		{
+		if (crosstab.getDimensionCount(COLUMN_AXIS_TYPE) > 0) {
 			// TODO check visibility?
-			for ( int i = 0; i < crosstab.getDimensionCount( COLUMN_AXIS_TYPE ); i++ )
-			{
-				DimensionViewHandle dv = crosstab.getDimension( COLUMN_AXIS_TYPE,
-						i );
+			for (int i = 0; i < crosstab.getDimensionCount(COLUMN_AXIS_TYPE); i++) {
+				DimensionViewHandle dv = crosstab.getDimension(COLUMN_AXIS_TYPE, i);
 
-				for ( int j = 0; j < dv.getLevelCount( ); j++ )
-				{
-					LevelViewHandle lv = dv.getLevel( j );
+				for (int j = 0; j < dv.getLevelCount(); j++) {
+					LevelViewHandle lv = dv.getLevel(j);
 
-					handleCell( lv.getCell( ), null );
-					handleCell( lv.getAggregationHeader( ), null );
+					handleCell(lv.getCell(), null);
+					handleCell(lv.getAggregationHeader(), null);
 				}
 			}
 
 		}
 
 		// process column grandtotal header
-		handleCell( crosstab.getGrandTotal( COLUMN_AXIS_TYPE ), null );
+		handleCell(crosstab.getGrandTotal(COLUMN_AXIS_TYPE), null);
 
 		// process row edge
-		if ( crosstab.getDimensionCount( ROW_AXIS_TYPE ) > 0 )
-		{
+		if (crosstab.getDimensionCount(ROW_AXIS_TYPE) > 0) {
 			// TODO check visibility?
-			for ( int i = 0; i < crosstab.getDimensionCount( ROW_AXIS_TYPE ); i++ )
-			{
-				DimensionViewHandle dv = crosstab.getDimension( ROW_AXIS_TYPE,
-						i );
+			for (int i = 0; i < crosstab.getDimensionCount(ROW_AXIS_TYPE); i++) {
+				DimensionViewHandle dv = crosstab.getDimension(ROW_AXIS_TYPE, i);
 
-				for ( int j = 0; j < dv.getLevelCount( ); j++ )
-				{
-					LevelViewHandle lv = dv.getLevel( j );
+				for (int j = 0; j < dv.getLevelCount(); j++) {
+					LevelViewHandle lv = dv.getLevel(j);
 
-					handleCell( lv.getCell( ), null );
-					handleCell( lv.getAggregationHeader( ), null );
+					handleCell(lv.getCell(), null);
+					handleCell(lv.getAggregationHeader(), null);
 				}
 			}
 
 		}
 
 		// process row grandtotal header
-		handleCell( crosstab.getGrandTotal( ROW_AXIS_TYPE ), null );
+		handleCell(crosstab.getGrandTotal(ROW_AXIS_TYPE), null);
 
 		// process measure
-		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
-		{
+		for (int i = 0; i < crosstab.getMeasureCount(); i++) {
 			// TODO check visibility?
-			MeasureViewHandle mv = crosstab.getMeasure( i );
+			MeasureViewHandle mv = crosstab.getMeasure(i);
 
-			for ( int j = 0; j < mv.getHeaderCount( ); j++ )
-			{
-				handleCell( mv.getHeader( j ), null );
+			for (int j = 0; j < mv.getHeaderCount(); j++) {
+				handleCell(mv.getHeader(j), null);
 			}
 
-			handleCell( mv.getCell( ), emptyValue );
+			handleCell(mv.getCell(), emptyValue);
 
-			for ( int j = 0; j < mv.getAggregationCount( ); j++ )
-			{
-				handleCell( mv.getAggregationCell( j ), emptyValue );
+			for (int j = 0; j < mv.getAggregationCount(); j++) {
+				handleCell(mv.getAggregationCell(j), emptyValue);
 			}
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private void handleCell( CrosstabCellHandle cell, String emptyVlaue )
-			throws BirtException
-	{
-		if ( cell == null )
-		{
+	private void handleCell(CrosstabCellHandle cell, String emptyVlaue) throws BirtException {
+		if (cell == null) {
 			return;
 		}
 
-		if ( handler != null )
-		{
-			ICrosstabCell cellItem = new CrosstabCellImpl( cell );
+		if (handler != null) {
+			ICrosstabCell cellItem = new CrosstabCellImpl(cell);
 
-			handler.callFunction( CrosstabScriptHandler.ON_PREPARE_CELL,
-					cellItem,
-					context );
+			handler.callFunction(CrosstabScriptHandler.ON_PREPARE_CELL, cellItem, context);
 		}
 
 		// prepare contents
-		for ( Iterator itr = cell.getContents( ).iterator( ); itr.hasNext( ); )
-		{
-			ReportElementHandle handle = (ReportElementHandle) itr.next( );
+		for (Iterator itr = cell.getContents().iterator(); itr.hasNext();) {
+			ReportElementHandle handle = (ReportElementHandle) itr.next();
 
-			context.prepare( handle );
+			context.prepare(handle);
 
 			// handle empty value mapping, this is done by adding an extra
 			// mapping rule to related data item.
-			if ( handle instanceof DataItemHandle )
-			{
+			if (handle instanceof DataItemHandle) {
 				DataItemHandle dataHandle = (DataItemHandle) handle;
 
-				PropertyHandle mapHandle = dataHandle.getPropertyHandle( StyleHandle.MAP_RULES_PROP );
+				PropertyHandle mapHandle = dataHandle.getPropertyHandle(StyleHandle.MAP_RULES_PROP);
 
-				ArrayList<MapRule> rules = mapHandle.getListValue( );
+				ArrayList<MapRule> rules = mapHandle.getListValue();
 
-				if ( rules != null )
-				{
+				if (rules != null) {
 					// try clear the existing auto map rule first
-					List<MapRule> removeList = new ArrayList<MapRule>( );
+					List<MapRule> removeList = new ArrayList<MapRule>();
 
-					for ( MapRule rl : rules )
-					{
-						if ( rl.getTestExpression( ) != null
-								&& rl.getTestExpression( )
-										.startsWith( AUTO_EMPTY_VALUE_EXPR_PREFIX ) )
-						{
-							removeList.add( rl );
+					for (MapRule rl : rules) {
+						if (rl.getTestExpression() != null
+								&& rl.getTestExpression().startsWith(AUTO_EMPTY_VALUE_EXPR_PREFIX)) {
+							removeList.add(rl);
 						}
 					}
 
-					if ( removeList.size( ) > 0 )
-					{
-						mapHandle.removeItems( removeList );
+					if (removeList.size() > 0) {
+						mapHandle.removeItems(removeList);
 					}
 				}
 
-				if ( emptyVlaue != null )
-				{
-					MapRule rule = StructureFactory.createMapRule( );
+				if (emptyVlaue != null) {
+					MapRule rule = StructureFactory.createMapRule();
 
-					rule.setTestExpression( AUTO_EMPTY_VALUE_EXPR_PREFIX
-							+ ExpressionUtil.createJSDataExpression( dataHandle.getResultSetColumn( ) ) );
-					rule.setOperator( DesignChoiceConstants.MAP_OPERATOR_NULL );
-					rule.setDisplay( emptyVlaue );
+					rule.setTestExpression(AUTO_EMPTY_VALUE_EXPR_PREFIX
+							+ ExpressionUtil.createJSDataExpression(dataHandle.getResultSetColumn()));
+					rule.setOperator(DesignChoiceConstants.MAP_OPERATOR_NULL);
+					rule.setDisplay(emptyVlaue);
 
-					try
-					{
-						mapHandle.addItem( rule );
-					}
-					catch ( SemanticException e )
-					{
-						logger.log( Level.SEVERE,
-								Messages.getString( "CrosstabReportItemQuery.error.register.empty.cell.value" ), //$NON-NLS-1$
-								e );
+					try {
+						mapHandle.addItem(rule);
+					} catch (SemanticException e) {
+						logger.log(Level.SEVERE,
+								Messages.getString("CrosstabReportItemQuery.error.register.empty.cell.value"), //$NON-NLS-1$
+								e);
 					}
 				}
 			}

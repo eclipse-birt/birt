@@ -18,8 +18,7 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-public class DocArchiveLockManagerTest extends TestCase
-{
+public class DocArchiveLockManagerTest extends TestCase {
 
     static final String LOCK_FILE_NAME = "lock.lck";
     static final int THREAD_COUNT = 20;

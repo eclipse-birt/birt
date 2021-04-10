@@ -51,264 +51,176 @@ import org.eclipse.emf.common.util.EList;
  * the data point markers which are 'absolute' rather than repositioned in the
  * middle of each unit (as is done for Line plots).
  */
-public class Scatter extends Line
-{
+public class Scatter extends Line {
 
 	/**
 	 * The constructor.
 	 */
-	public Scatter( )
-	{
-		super( );
+	public Scatter() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.render.AxesRenderer#renderSeries(org.eclipse.birt.chart.event.IPrimitiveRenderListener,
-	 *      org.eclipse.birt.chart.model.layout.Plot,
-	 *      org.eclipse.birt.chart.computation.axes.SeriesRenderingHints)
+	 * @see
+	 * org.eclipse.birt.chart.render.AxesRenderer#renderSeries(org.eclipse.birt.
+	 * chart.event.IPrimitiveRenderListener,
+	 * org.eclipse.birt.chart.model.layout.Plot,
+	 * org.eclipse.birt.chart.computation.axes.SeriesRenderingHints)
 	 */
 	@Override
-	public void renderSeries( IPrimitiveRenderer ipr, Plot p,
-			ISeriesRenderingHints isrh ) throws ChartException
-	{
-		final ChartWithAxes cwa = (ChartWithAxes) getModel( );
-		if ( cwa.getDimension( ) != ChartDimension.TWO_DIMENSIONAL_LITERAL )
-		{
-			throw new ChartException( ChartEngineExtensionPlugin.ID,
-					ChartException.RENDERING,
+	public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
+		final ChartWithAxes cwa = (ChartWithAxes) getModel();
+		if (cwa.getDimension() != ChartDimension.TWO_DIMENSIONAL_LITERAL) {
+			throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING,
 					"exception.scatter.dimension", //$NON-NLS-1$
-					new Object[]{
-						cwa.getDimension( ).getName( )
-					},
-					Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
+					new Object[] { cwa.getDimension().getName() },
+					Messages.getResourceBundle(getRunTimeContext().getULocale()));
 		}
 
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "info.render.series",//$NON-NLS-1$
-						new Object[]{
-								getClass( ).getName( ),
-								Integer.valueOf( iSeriesIndex + 1 ),
-								Integer.valueOf( iSeriesCount )
-						},
-						getRunTimeContext( ).getULocale( ) ) );
-		ScatterSeries ss = (ScatterSeries) getSeries( );
+		logger.log(ILogger.INFORMATION, Messages.getString("info.render.series", //$NON-NLS-1$
+				new Object[] { getClass().getName(), Integer.valueOf(iSeriesIndex + 1), Integer.valueOf(iSeriesCount) },
+				getRunTimeContext().getULocale()));
+		ScatterSeries ss = (ScatterSeries) getSeries();
 
-		if ( !ss.isVisible( ) )
-		{
-			restoreClipping( ipr );
+		if (!ss.isVisible()) {
+			restoreClipping(ipr);
 			return;
 		}
 
 		// COMPUTE THE POINTS THROUGH WHICH THE LINE SERIES IS RENDERED
-		final AbstractScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		final AbstractScriptHandler sh = getRunTimeContext().getScriptHandler();
 		final SeriesRenderingHints srh = (SeriesRenderingHints) isrh;
-		DataPointHints[] dpha = srh.getDataPoints( );
+		DataPointHints[] dpha = srh.getDataPoints();
 		Location lo;
-		LineAttributes lia = ss.getLineAttributes( );
+		LineAttributes lia = ss.getLineAttributes();
 		double[] faX = new double[dpha.length];
 		double[] faY = new double[dpha.length];
 
 		// SETUP THE RISER FILL COLOR FROM THE SERIES DEFINITION PALETTE (BY
 		// CATEGORIES OR BY SERIES)
-		SeriesDefinition sd = getSeriesDefinition( );
-		final EList<Fill> elPalette = sd.getSeriesPalette( ).getEntries( );
-		if ( elPalette.isEmpty( ) )
-		{
-			throw new ChartException( ChartEngineExtensionPlugin.ID,
-					ChartException.RENDERING,
-					"exception.empty.palette",//$NON-NLS-1$
-					new Object[]{
-						ss
-					},
-					Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
+		SeriesDefinition sd = getSeriesDefinition();
+		final EList<Fill> elPalette = sd.getSeriesPalette().getEntries();
+		if (elPalette.isEmpty()) {
+			throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING, "exception.empty.palette", //$NON-NLS-1$
+					new Object[] { ss }, Messages.getResourceBundle(getRunTimeContext().getULocale()));
 		}
 
-		final boolean bPaletteByCategory = isPaletteByCategory( );
+		final boolean bPaletteByCategory = isPaletteByCategory();
 
-		if ( bPaletteByCategory && ss.eContainer( ) instanceof SeriesDefinition )
-		{
-			sd = (SeriesDefinition) ss.eContainer( );
+		if (bPaletteByCategory && ss.eContainer() instanceof SeriesDefinition) {
+			sd = (SeriesDefinition) ss.eContainer();
 		}
 
-		int iThisSeriesIndex = sd.getRunTimeSeries( ).indexOf( ss );
-		if ( iThisSeriesIndex < 0 )
-		{
-			throw new ChartException( ChartEngineExtensionPlugin.ID,
-					ChartException.RENDERING,
-					"exception.missing.series.for.palette.index",//$NON-NLS-1$ 
-					new Object[]{
-							ss, sd
-					},
-					Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
+		int iThisSeriesIndex = sd.getRunTimeSeries().indexOf(ss);
+		if (iThisSeriesIndex < 0) {
+			throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING,
+					"exception.missing.series.for.palette.index", //$NON-NLS-1$
+					new Object[] { ss, sd }, Messages.getResourceBundle(getRunTimeContext().getULocale()));
 		}
 
 		Marker m = null;
-		if ( ss.getMarkers( ).size( ) > 0 )
-		{
-			m = ss.getMarkers( ).get( iThisSeriesIndex
-					% ss.getMarkers( ).size( ) );
+		if (ss.getMarkers().size() > 0) {
+			m = ss.getMarkers().get(iThisSeriesIndex % ss.getMarkers().size());
 		}
 
 		Fill fPaletteEntry = null;
-		if ( !bPaletteByCategory )
-		{
-			fPaletteEntry = FillUtil.getPaletteFill( elPalette,
-					iThisSeriesIndex );
+		if (!bPaletteByCategory) {
+			fPaletteEntry = FillUtil.getPaletteFill(elPalette, iThisSeriesIndex);
+		} else if (iSeriesIndex > 0) {
+			fPaletteEntry = FillUtil.getPaletteFill(elPalette, iSeriesIndex - 1);
 		}
-		else if ( iSeriesIndex > 0 )
-		{
-			fPaletteEntry = FillUtil.getPaletteFill( elPalette,
-					iSeriesIndex - 1 );
-		}
-		updateTranslucency( fPaletteEntry, ss );
+		updateTranslucency(fPaletteEntry, ss);
 
-		boolean isCategoryAxis = srh.isCategoryScale( );
+		boolean isCategoryAxis = srh.isCategoryScale();
 
-		for ( int i = 0; i < dpha.length; i++ )
-		{
-			double unitSize = dpha[i].getSize( );
-			lo = dpha[i].getLocation( );
+		for (int i = 0; i < dpha.length; i++) {
+			double unitSize = dpha[i].getSize();
+			lo = dpha[i].getLocation();
 
-			if ( cwa.isTransposed( ) )
-			{
-				faX[i] = lo.getX( );
-				faY[i] = lo.getY( ) + ( isCategoryAxis ? ( unitSize / 2 ) : 0 );
-			}
-			else
-			{
-				faX[i] = lo.getX( ) + ( isCategoryAxis ? ( unitSize / 2 ) : 0 );
-				faY[i] = lo.getY( );
+			if (cwa.isTransposed()) {
+				faX[i] = lo.getX();
+				faY[i] = lo.getY() + (isCategoryAxis ? (unitSize / 2) : 0);
+			} else {
+				faX[i] = lo.getX() + (isCategoryAxis ? (unitSize / 2) : 0);
+				faY[i] = lo.getY();
 			}
 		}
-		
-		handleOutsideDataPoints( ipr, srh, faX, faY, false );
 
-		if ( ss.isCurve( ) )
-		{
-			CurveRenderer cr = new CurveRenderer( cwa,
-					this,
-					ss.getLineAttributes( ),
-					goFactory.createLocations( faX, faY ),
-					false,
-					-1,
-					false,
-					true,
-					fPaletteEntry,
-					ss.isPaletteLineColor( ),
-					true );
-			cr.draw( ipr );
+		handleOutsideDataPoints(ipr, srh, faX, faY, false);
 
-			renderShadowAsCurve( ipr, lia, srh, goFactory.createLocations( faX,
-					faY ), false, -1 );
+		if (ss.isCurve()) {
+			CurveRenderer cr = new CurveRenderer(cwa, this, ss.getLineAttributes(), goFactory.createLocations(faX, faY),
+					false, -1, false, true, fPaletteEntry, ss.isPaletteLineColor(), true);
+			cr.draw(ipr);
+
+			renderShadowAsCurve(ipr, lia, srh, goFactory.createLocations(faX, faY), false, -1);
 
 			// RENDER THE MARKERS NEXT
-			if ( m != null )
-			{
-				for ( int i = 0; i < dpha.length; i++ )
-				{
-					if ( dpha[i].isOutside( ) )
-					{
+			if (m != null) {
+				for (int i = 0; i < dpha.length; i++) {
+					if (dpha[i].isOutside()) {
 						continue;
 					}
-					
-					if ( bPaletteByCategory )
-					{
-						fPaletteEntry = FillUtil.getPaletteFill( elPalette, i );
+
+					if (bPaletteByCategory) {
+						fPaletteEntry = FillUtil.getPaletteFill(elPalette, i);
+					} else {
+						fPaletteEntry = FillUtil.getPaletteFill(elPalette, iThisSeriesIndex);
 					}
-					else
-					{
-						fPaletteEntry = FillUtil.getPaletteFill( elPalette,
-								iThisSeriesIndex );
-					}
-					updateTranslucency( fPaletteEntry, ss );
-					
-					ScriptHandler.callFunction( sh,
-							ScriptHandler.BEFORE_DRAW_ELEMENT,
-							dpha[i],
-							fPaletteEntry );
-					ScriptHandler.callFunction( sh,
-							ScriptHandler.BEFORE_DRAW_DATA_POINT,
-							dpha[i],
-							fPaletteEntry,
-							getRunTimeContext( ).getScriptContext( ) );
-					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_ELEMENT,
-							dpha[i] );
-					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT,
-							dpha[i] );
-					renderMarker( ss,
-							ipr,
-							m,
-							goFactory.createLocation( faX[i], faY[i] ),
-							ss.getLineAttributes( ),
-							fPaletteEntry,
-							dpha[i],
-							null,
-							true,
-							true );
-					ScriptHandler.callFunction( sh,
-							ScriptHandler.AFTER_DRAW_ELEMENT,
-							dpha[i],
-							fPaletteEntry );
-					ScriptHandler.callFunction( sh,
-							ScriptHandler.AFTER_DRAW_DATA_POINT,
-							dpha[i],
-							fPaletteEntry,
-							getRunTimeContext( ).getScriptContext( ) );
-					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_ELEMENT,
-							dpha[i] );
-					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_DATA_POINT,
-							dpha[i] );
+					updateTranslucency(fPaletteEntry, ss);
+
+					ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_ELEMENT, dpha[i], fPaletteEntry);
+					ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_DATA_POINT, dpha[i], fPaletteEntry,
+							getRunTimeContext().getScriptContext());
+					getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_ELEMENT,
+							dpha[i]);
+					getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT,
+							dpha[i]);
+					renderMarker(ss, ipr, m, goFactory.createLocation(faX[i], faY[i]), ss.getLineAttributes(),
+							fPaletteEntry, dpha[i], null, true, true);
+					ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_ELEMENT, dpha[i], fPaletteEntry);
+					ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_DATA_POINT, dpha[i], fPaletteEntry,
+							getRunTimeContext().getScriptContext());
+					getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_ELEMENT, dpha[i]);
+					getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_DATA_POINT,
+							dpha[i]);
 				}
 			}
-		}
-		else
-		{
+		} else {
 			// COMPUTE THE PLOTTED CO-ORDINATES FOR EACH DATA POINT
 			LineRenderEvent lre;
 
-			final Location positionDelta = ( cwa.isTransposed( ) ) ? goFactory.createLocation( -3
-					* getDeviceScale( ),
-					0 )
-					: goFactory.createLocation( 0, 3 * getDeviceScale( ) );
+			final Location positionDelta = (cwa.isTransposed()) ? goFactory.createLocation(-3 * getDeviceScale(), 0)
+					: goFactory.createLocation(0, 3 * getDeviceScale());
 
 			// RENDER THE SHADOW OF THE LINE IF APPLICABLE
 			Location[] loaShadow = null;
-			lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( ss ),
-					LineRenderEvent.class );
-			final ColorDefinition cLineShadow = ss.getShadowColor( );
-			boolean bConnectMissing = ss.isConnectMissingValue( );
+			lre = ((EventObjectCache) ipr).getEventObject(StructureSource.createSeries(ss), LineRenderEvent.class);
+			final ColorDefinition cLineShadow = ss.getShadowColor();
+			boolean bConnectMissing = ss.isConnectMissingValue();
 
-			if ( !ChartUtil.isColorTransparent( cLineShadow ) )
-			{
-				for ( int i = 1; i < dpha.length; i++ )
-				{
+			if (!ChartUtil.isColorTransparent(cLineShadow)) {
+				for (int i = 1; i < dpha.length; i++) {
 					int pindex = -1;
 
-					if ( bConnectMissing )
-					{
-						if ( isNaN( dpha[i].getOrthogonalValue( ) ) )
-						{
+					if (bConnectMissing) {
+						if (isNaN(dpha[i].getOrthogonalValue())) {
 							continue;
 						}
 
-						pindex = getPreviousNonNullIndex( i, dpha );
+						pindex = getPreviousNonNullIndex(i, dpha);
 
-						if ( pindex == -1 )
-						{
+						if (pindex == -1) {
 							continue;
 						}
-					}
-					else
-					{
-						if ( isNaN( dpha[i].getOrthogonalValue( ) ) )
-						{
+					} else {
+						if (isNaN(dpha[i].getOrthogonalValue())) {
 							continue;
 						}
 
-						if ( i > 0 && isNaN( dpha[i - 1].getOrthogonalValue( ) ) )
-						{
+						if (i > 0 && isNaN(dpha[i - 1].getOrthogonalValue())) {
 							continue;
 						}
 						pindex = i - 1;
@@ -317,155 +229,108 @@ public class Scatter extends Line
 					// TODO: THIS DOES NOT TAKE INTO ACCOUNT LINES RENDERED AT
 					// ARBITRARY ANGLES...ONLY STRAIGHT LINES
 					// AND TRANSPOSED LINES ARE HANDLED
-					if ( loaShadow == null )
-					{
+					if (loaShadow == null) {
 						loaShadow = new Location[2];
-						loaShadow[0] = goFactory.createLocation( faX[pindex]
-								+ positionDelta.getX( ), faY[pindex]
-								+ positionDelta.getY( ) );
-						loaShadow[1] = goFactory.createLocation( faX[i]
-								+ positionDelta.getX( ), faY[i]
-								+ positionDelta.getY( ) );
+						loaShadow[0] = goFactory.createLocation(faX[pindex] + positionDelta.getX(),
+								faY[pindex] + positionDelta.getY());
+						loaShadow[1] = goFactory.createLocation(faX[i] + positionDelta.getX(),
+								faY[i] + positionDelta.getY());
+					} else {
+						loaShadow[0].set(faX[pindex] + positionDelta.getX(), faY[pindex] + positionDelta.getY());
+						loaShadow[1].set(faX[i] + positionDelta.getX(), faY[i] + positionDelta.getY());
 					}
-					else
-					{
-						loaShadow[0].set( faX[pindex] + positionDelta.getX( ),
-								faY[pindex] + positionDelta.getY( ) );
-						loaShadow[1].set( faX[i] + positionDelta.getX( ),
-								faY[i] + positionDelta.getY( ) );
-					}
-					lre.setStart( loaShadow[0] );
-					lre.setEnd( loaShadow[1] );
-					lre.setZOrder( getSeriesDefinition( ).getZOrder( ) );
-					LineAttributes liaShadow = goFactory.copyOf( lia );
-					liaShadow.setColor( cLineShadow );
-					lre.setLineAttributes( liaShadow );
-					dc.addConnectionLine( lre );
+					lre.setStart(loaShadow[0]);
+					lre.setEnd(loaShadow[1]);
+					lre.setZOrder(getSeriesDefinition().getZOrder());
+					LineAttributes liaShadow = goFactory.copyOf(lia);
+					liaShadow.setColor(cLineShadow);
+					lre.setLineAttributes(liaShadow);
+					dc.addConnectionLine(lre);
 				}
 			}
 
-			if ( lia.isVisible( ) )
-			{
+			if (lia.isVisible()) {
 				Location[] loa = new Location[2];
-				for ( int i = 1; i < dpha.length; i++ )
-				{
+				for (int i = 1; i < dpha.length; i++) {
 					int pindex = -1;
 
-					if ( bConnectMissing )
-					{
-						if ( isNaN( dpha[i].getOrthogonalValue( ) ) )
-						{
+					if (bConnectMissing) {
+						if (isNaN(dpha[i].getOrthogonalValue())) {
 							continue;
 						}
 
-						pindex = getPreviousNonNullIndex( i, dpha );
+						pindex = getPreviousNonNullIndex(i, dpha);
 
-						if ( pindex == -1 )
-						{
+						if (pindex == -1) {
 							continue;
 						}
-					}
-					else
-					{
-						if ( isNaN( dpha[i].getOrthogonalValue( ) ) )
-						{
+					} else {
+						if (isNaN(dpha[i].getOrthogonalValue())) {
 							continue;
 						}
 
-						if ( i > 0 && isNaN( dpha[i - 1].getOrthogonalValue( ) ) )
-						{
+						if (i > 0 && isNaN(dpha[i - 1].getOrthogonalValue())) {
 							continue;
 						}
 						pindex = i - 1;
 					}
 
-					loa[0] = goFactory.createLocation( faX[pindex], faY[pindex] );
-					loa[1] = goFactory.createLocation( faX[i], faY[i] );
+					loa[0] = goFactory.createLocation(faX[pindex], faY[pindex]);
+					loa[1] = goFactory.createLocation(faX[i], faY[i]);
 					// ONLY SUPPORT 2D STYLE.
 					// if (cd.getValue() == ChartDimension.TWO_DIMENSIONAL)
 					{
-						lre = ( (EventObjectCache) ipr ).getEventObject( StructureSource.createSeries( ss ),
-								LineRenderEvent.class );
-						if ( ss.isPaletteLineColor( ) )
-						{
-							LineAttributes newLia = goFactory.copyOf( lia );
-							newLia.setColor( FillUtil.getColor( fPaletteEntry ) );
-							lre.setLineAttributes( newLia );
+						lre = ((EventObjectCache) ipr).getEventObject(StructureSource.createSeries(ss),
+								LineRenderEvent.class);
+						if (ss.isPaletteLineColor()) {
+							LineAttributes newLia = goFactory.copyOf(lia);
+							newLia.setColor(FillUtil.getColor(fPaletteEntry));
+							lre.setLineAttributes(newLia);
+						} else {
+							lre.setLineAttributes(lia);
 						}
-						else
-						{
-							lre.setLineAttributes( lia );
-						}
-						
-						lre.setStart( loa[0] );
-						lre.setEnd( loa[1] );
-						lre.setZOrder( getSeriesDefinition( ).getZOrder( ) );
-						dc.addConnectionLine( lre );
+
+						lre.setStart(loa[0]);
+						lre.setEnd(loa[1]);
+						lre.setZOrder(getSeriesDefinition().getZOrder());
+						dc.addConnectionLine(lre);
 					}
 					/*
-					 * else // TBD: BSP HIDDEN SURFACE REMOVAL FOR INTERSECTING
-					 * PLANES? { renderPlane(ipr, p, loa,
-					 * lia.getColor().brighter(), lia, cd, dSeriesThickness); }
+					 * else // TBD: BSP HIDDEN SURFACE REMOVAL FOR INTERSECTING PLANES? {
+					 * renderPlane(ipr, p, loa, lia.getColor().brighter(), lia, cd,
+					 * dSeriesThickness); }
 					 */
 				}
 			}
 
 			// RENDER THE MARKERS NEXT
-			if ( m != null )
-			{
-				for ( int i = 0; i < dpha.length; i++ )
-				{
-					if ( dpha[i].isOutside( ) )
-					{
+			if (m != null) {
+				for (int i = 0; i < dpha.length; i++) {
+					if (dpha[i].isOutside()) {
 						continue;
 					}
-					
-					if ( bPaletteByCategory )
-					{
-						fPaletteEntry = FillUtil.getPaletteFill( elPalette, i );
+
+					if (bPaletteByCategory) {
+						fPaletteEntry = FillUtil.getPaletteFill(elPalette, i);
+					} else {
+						fPaletteEntry = FillUtil.getPaletteFill(elPalette, iThisSeriesIndex);
 					}
-					else
-					{
-						fPaletteEntry = FillUtil.getPaletteFill( elPalette,
-								iThisSeriesIndex );
-					}
-					updateTranslucency( fPaletteEntry, ss );
-					ScriptHandler.callFunction( sh,
-							ScriptHandler.BEFORE_DRAW_ELEMENT,
-							dpha[i],
-							fPaletteEntry );
-					ScriptHandler.callFunction( sh,
-							ScriptHandler.BEFORE_DRAW_DATA_POINT,
-							dpha[i],
-							fPaletteEntry,
-							getRunTimeContext( ).getScriptContext( ) );
-					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_ELEMENT,
-							dpha[i] );
-					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT,
-							dpha[i] );
-					renderMarker( ss,
-							ipr,
-							m,
-							goFactory.createLocation( faX[i], faY[i] ),
-							ss.getLineAttributes( ),
-							fPaletteEntry,
-							dpha[i],
-							null,
-							true,
-							true );
-					ScriptHandler.callFunction( sh,
-							ScriptHandler.AFTER_DRAW_ELEMENT,
-							dpha[i],
-							fPaletteEntry );
-					ScriptHandler.callFunction( sh,
-							ScriptHandler.AFTER_DRAW_DATA_POINT,
-							dpha[i],
-							fPaletteEntry,
-							getRunTimeContext( ).getScriptContext( ) );
-					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_ELEMENT,
-							dpha[i] );
-					getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_DATA_POINT,
-							dpha[i] );
+					updateTranslucency(fPaletteEntry, ss);
+					ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_ELEMENT, dpha[i], fPaletteEntry);
+					ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_DATA_POINT, dpha[i], fPaletteEntry,
+							getRunTimeContext().getScriptContext());
+					getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_ELEMENT,
+							dpha[i]);
+					getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT,
+							dpha[i]);
+					renderMarker(ss, ipr, m, goFactory.createLocation(faX[i], faY[i]), ss.getLineAttributes(),
+							fPaletteEntry, dpha[i], null, true, true);
+					ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_ELEMENT, dpha[i], fPaletteEntry);
+					ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_DATA_POINT, dpha[i], fPaletteEntry,
+							getRunTimeContext().getScriptContext());
+					getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_ELEMENT, dpha[i]);
+					getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_DATA_POINT,
+							dpha[i]);
 				}
 			}
 		}
@@ -474,105 +339,66 @@ public class Scatter extends Line
 		Label laDataPoint = null;
 		Position pDataPoint = null;
 		Location loDataPoint = null;
-		try
-		{
-			laDataPoint = srh.getLabelAttributes( ss );
-			pDataPoint = srh.getLabelPosition( ss );
-			loDataPoint = goFactory.createLocation( 0, 0 );
-		}
-		catch ( Exception ex )
-		{
-			throw new ChartException( ChartEngineExtensionPlugin.ID,
-					ChartException.RENDERING,
-					ex );
+		try {
+			laDataPoint = srh.getLabelAttributes(ss);
+			pDataPoint = srh.getLabelPosition(ss);
+			loDataPoint = goFactory.createLocation(0, 0);
+		} catch (Exception ex) {
+			throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING, ex);
 		}
 
-		if ( laDataPoint.isVisible( ) )
-		{
-			final double dSize = m == null ? 0 : m.getSize( );
-			for ( int i = 0; i < dpha.length; i++ )
-			{
-				if ( isNaN( dpha[i].getOrthogonalValue( ) ) || dpha[i].isOutside( ) )
-				{
+		if (laDataPoint.isVisible()) {
+			final double dSize = m == null ? 0 : m.getSize();
+			for (int i = 0; i < dpha.length; i++) {
+				if (isNaN(dpha[i].getOrthogonalValue()) || dpha[i].isOutside()) {
 					continue;
 				}
-				laDataPoint = srh.getLabelAttributes( ss );
-				laDataPoint.getCaption( ).setValue( dpha[i].getDisplayValue( ) );
-				switch ( pDataPoint.getValue( ) )
-				{
-					case Position.ABOVE :
-						loDataPoint.set( faX[i], faY[i]
-								- dSize
-								- p.getVerticalSpacing( ) );
-						break;
-					case Position.BELOW :
-						loDataPoint.set( faX[i], faY[i]
-								+ dSize
-								+ p.getVerticalSpacing( ) );
-						break;
-					case Position.LEFT :
-						loDataPoint.set( faX[i]
-								- dSize
-								- p.getHorizontalSpacing( ), faY[i] );
-						break;
-					case Position.RIGHT :
-						loDataPoint.set( faX[i]
-								+ dSize
-								+ p.getHorizontalSpacing( ), faY[i] );
-						break;
-					default :
-						throw new ChartException( ChartEngineExtensionPlugin.ID,
-								ChartException.RENDERING,
-								"exception.invalid.data.point.position.scatter",//$NON-NLS-1$
-								new Object[]{
-									pDataPoint
-								},
-								Messages.getResourceBundle( getRunTimeContext( ).getULocale( ) ) );
+				laDataPoint = srh.getLabelAttributes(ss);
+				laDataPoint.getCaption().setValue(dpha[i].getDisplayValue());
+				switch (pDataPoint.getValue()) {
+				case Position.ABOVE:
+					loDataPoint.set(faX[i], faY[i] - dSize - p.getVerticalSpacing());
+					break;
+				case Position.BELOW:
+					loDataPoint.set(faX[i], faY[i] + dSize + p.getVerticalSpacing());
+					break;
+				case Position.LEFT:
+					loDataPoint.set(faX[i] - dSize - p.getHorizontalSpacing(), faY[i]);
+					break;
+				case Position.RIGHT:
+					loDataPoint.set(faX[i] + dSize + p.getHorizontalSpacing(), faY[i]);
+					break;
+				default:
+					throw new ChartException(ChartEngineExtensionPlugin.ID, ChartException.RENDERING,
+							"exception.invalid.data.point.position.scatter", //$NON-NLS-1$
+							new Object[] { pDataPoint }, Messages.getResourceBundle(getRunTimeContext().getULocale()));
 				}
-				ScriptHandler.callFunction( sh,
-						ScriptHandler.BEFORE_DRAW_DATA_POINT_LABEL,
-						dpha[i],
-						laDataPoint,
-						getRunTimeContext( ).getScriptContext( ) );
-				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT_LABEL,
-						dpha[i] );
-				if ( laDataPoint.isVisible( ) )
-				{
-					renderLabel( WrappedStructureSource.createSeriesDataPoint( ss,
-							dpha[i] ),
-							TextRenderEvent.RENDER_TEXT_AT_LOCATION,
-							laDataPoint,
-							pDataPoint,
-							loDataPoint,
-							null );
+				ScriptHandler.callFunction(sh, ScriptHandler.BEFORE_DRAW_DATA_POINT_LABEL, dpha[i], laDataPoint,
+						getRunTimeContext().getScriptContext());
+				getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.BEFORE_DRAW_DATA_POINT_LABEL,
+						dpha[i]);
+				if (laDataPoint.isVisible()) {
+					renderLabel(WrappedStructureSource.createSeriesDataPoint(ss, dpha[i]),
+							TextRenderEvent.RENDER_TEXT_AT_LOCATION, laDataPoint, pDataPoint, loDataPoint, null);
 				}
-				ScriptHandler.callFunction( sh,
-						ScriptHandler.AFTER_DRAW_DATA_POINT_LABEL,
-						dpha[i],
-						laDataPoint,
-						getRunTimeContext( ).getScriptContext( ) );
-				getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_DATA_POINT_LABEL,
-						dpha[i] );
+				ScriptHandler.callFunction(sh, ScriptHandler.AFTER_DRAW_DATA_POINT_LABEL, dpha[i], laDataPoint,
+						getRunTimeContext().getScriptContext());
+				getRunTimeContext().notifyStructureChange(IStructureDefinitionListener.AFTER_DRAW_DATA_POINT_LABEL,
+						dpha[i]);
 			}
 		}
 
 		// Render the fitting curve.
-		if ( getSeries( ).getCurveFitting( ) != null )
-		{
+		if (getSeries().getCurveFitting() != null) {
 			Location[] larray = new Location[faX.length];
-			for ( int i = 0; i < larray.length; i++ )
-			{
-				larray[i] = goFactory.createLocation( faX[i], faY[i] );
+			for (int i = 0; i < larray.length; i++) {
+				larray[i] = goFactory.createLocation(faX[i], faY[i]);
 			}
-			larray = filterNull( larray, isrh.getDataPoints( ) );
-			renderFittingCurve( ipr,
-					larray,
-					getSeries( ).getCurveFitting( ),
-					false,
-					true );
+			larray = filterNull(larray, isrh.getDataPoints());
+			renderFittingCurve(ipr, larray, getSeries().getCurveFitting(), false, true);
 		}
-		
-		restoreClipping( ipr );
+
+		restoreClipping(ipr);
 
 	}
 }

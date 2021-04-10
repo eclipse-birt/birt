@@ -46,11 +46,7 @@ import org.eclipse.birt.report.model.util.ContentIterator;
  * 
  */
 
-abstract class ReportDesignImpl extends LayoutModule
-		implements
-			IReportDesignModel,
-			ICssStyleSheetOperation
-{
+abstract class ReportDesignImpl extends LayoutModule implements IReportDesignModel, ICssStyleSheetOperation {
 
 	private ICssStyleSheetOperation operation = null;
 
@@ -63,50 +59,44 @@ abstract class ReportDesignImpl extends LayoutModule
 	 * @deprecated
 	 */
 
-	public ReportDesignImpl( )
-	{
-		super( null );
-		initSlots( );
-		onCreate( );
+	public ReportDesignImpl() {
+		super(null);
+		initSlots();
+		onCreate();
 	}
 
 	/**
 	 * Constructs the report design with the session.
 	 * 
-	 * @param session
-	 *            the session that owns this design
+	 * @param session the session that owns this design
 	 */
 
-	public ReportDesignImpl( DesignSessionImpl session )
-	{
-		super( session );
-		initSlots( );
-		onCreate( );
+	public ReportDesignImpl(DesignSessionImpl session) {
+		super(session);
+		initSlots();
+		onCreate();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public final List<SemanticException> validate( Module module )
-	{
-		List<SemanticException> list = super.validate( module );
+	public final List<SemanticException> validate(Module module) {
+		List<SemanticException> list = super.validate(module);
 
 		// Must there is more than one master page in setup page
 
-		list.addAll( MasterPageRequiredValidator.getInstance( ).validate( this,
-				this ) );
+		list.addAll(MasterPageRequiredValidator.getInstance().validate(this, this));
 
-		list.addAll( validateStructureList( module, IMAGES_PROP ) );
-		list.addAll( validateStructureList( module, COLOR_PALETTE_PROP ) );
+		list.addAll(validateStructureList(module, IMAGES_PROP));
+		list.addAll(validateStructureList(module, COLOR_PALETTE_PROP));
 
-		list.addAll( validateStructureList( module, INCLUDE_SCRIPTS_PROP ) );
-		list.addAll( validateStructureList( module, LIBRARIES_PROP ) );
-		list.addAll( validateStructureList( module, PROPERTY_BINDINGS_PROP ) );
+		list.addAll(validateStructureList(module, INCLUDE_SCRIPTS_PROP));
+		list.addAll(validateStructureList(module, LIBRARIES_PROP));
+		list.addAll(validateStructureList(module, PROPERTY_BINDINGS_PROP));
 
 		return list;
 	}
@@ -117,22 +107,19 @@ abstract class ReportDesignImpl extends LayoutModule
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public final String getElementName( )
-	{
+	public final String getElementName() {
 		return ReportDesignConstants.REPORT_DESIGN_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public final DesignElementHandle getHandle( Module module )
-	{
-		return handle( );
+	public final DesignElementHandle getHandle(Module module) {
+		return handle();
 	}
 
 	/**
@@ -141,36 +128,30 @@ abstract class ReportDesignImpl extends LayoutModule
 	 * @return an API handle for this element
 	 */
 
-	public abstract ReportDesignHandle handle( );
+	public abstract ReportDesignHandle handle();
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty
 	 * (java.lang.String)
 	 */
 
 	/**
 	 * Finds an include script by the file name.
 	 * 
-	 * @param fileName
-	 *            the script file name
-	 * @return the defined include script that matches, or <code>null</code> if
-	 *         the file name was not found in the include scripts list.
+	 * @param fileName the script file name
+	 * @return the defined include script that matches, or <code>null</code> if the
+	 *         file name was not found in the include scripts list.
 	 */
 
-	public final IncludeScript findIncludeScript( String fileName )
-	{
-		List<Object> list = (ArrayList) getLocalProperty( null,
-				INCLUDE_SCRIPTS_PROP );
-		if ( list == null )
+	public final IncludeScript findIncludeScript(String fileName) {
+		List<Object> list = (ArrayList) getLocalProperty(null, INCLUDE_SCRIPTS_PROP);
+		if (list == null)
 			return null;
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			IncludeScript script = (IncludeScript) list.get( i );
-			if ( script.getFileName( ) != null
-					&& script.getFileName( ).equals( fileName ) )
+		for (int i = 0; i < list.size(); i++) {
+			IncludeScript script = (IncludeScript) list.get(i);
+			if (script.getFileName() != null && script.getFileName().equals(fileName))
 				return script;
 		}
 
@@ -183,46 +164,35 @@ abstract class ReportDesignImpl extends LayoutModule
 	 * @see org.eclipse.birt.report.model.core.module#getSlotCount()
 	 */
 
-	protected final int getSlotCount( )
-	{
+	protected final int getSlotCount() {
 		return SLOT_COUNT;
 	}
 
 	/**
 	 * Gets all TOCs or bookmarks defined in the slot of the module.
 	 * 
-	 * @param slotId
-	 *            slot id in which the items hold TOCs.
-	 * @param propName
-	 *            property name
+	 * @param slotId   slot id in which the items hold TOCs.
+	 * @param propName property name
 	 * @return all TOCs or bookmarks defined in the slot of the module.
 	 */
 
-	public final List<Object> collectPropValues( int slotId, String propName )
-	{
-		List<Object> rtnList = new ArrayList<Object>( );
-		ContentIterator contents = new ContentIterator( this,
-				new ContainerContext( this, slotId ) );
+	public final List<Object> collectPropValues(int slotId, String propName) {
+		List<Object> rtnList = new ArrayList<Object>();
+		ContentIterator contents = new ContentIterator(this, new ContainerContext(this, slotId));
 
-		while ( contents.hasNext( ) )
-		{
-			DesignElement ele = contents.next( );
-			if ( ele.getContainer( ) != null
-					&& ele.getContainer( ) instanceof MultiViews )
-			{
+		while (contents.hasNext()) {
+			DesignElement ele = contents.next();
+			if (ele.getContainer() != null && ele.getContainer() instanceof MultiViews) {
 				// Use getLocalProperty to avoid mutli-view element delegating
-				Object obj = ele.getLocalProperty( this, propName );
-				if ( obj != null )
-					rtnList.add( obj );
+				Object obj = ele.getLocalProperty(this, propName);
+				if (obj != null)
+					rtnList.add(obj);
+			} else {
+				Object obj = ele.getProperty(this, propName);
+				if (obj != null)
+					rtnList.add(obj);
 			}
-			else
-			{
-				Object obj = ele.getProperty( this, propName );
-				if ( obj != null )
-					rtnList.add( obj );
-			}
-			
-			
+
 		}
 
 		return rtnList;
@@ -234,18 +204,14 @@ abstract class ReportDesignImpl extends LayoutModule
 	 * @return the thumbnail image in Base64 encoding
 	 */
 
-	public final byte[] getThumbnail( )
-	{
-		String data = getStringProperty( this, THUMBNAIL_PROP );
-		if ( data == null )
+	public final byte[] getThumbnail() {
+		String data = getStringProperty(this, THUMBNAIL_PROP);
+		if (data == null)
 			return null;
 
-		try
-		{
-			return data.getBytes( CHARSET );
-		}
-		catch ( UnsupportedEncodingException e )
-		{
+		try {
+			return data.getBytes(CHARSET);
+		} catch (UnsupportedEncodingException e) {
 			assert false;
 		}
 
@@ -255,30 +221,26 @@ abstract class ReportDesignImpl extends LayoutModule
 	/**
 	 * Drops the given css from css list.
 	 * 
-	 * @param css
-	 *            the css to drop
+	 * @param css the css to drop
 	 * @return the position of the css to drop
 	 */
 
-	public final int dropCss( CssStyleSheet css )
-	{
-		if ( operation == null )
+	public final int dropCss(CssStyleSheet css) {
+		if (operation == null)
 			return -1;
-		return operation.dropCss( css );
+		return operation.dropCss(css);
 	}
 
 	/**
 	 * Adds the given css to css list.
 	 * 
-	 * @param css
-	 *            the css to insert
+	 * @param css the css to insert
 	 */
 
-	public final void addCss( CssStyleSheet css )
-	{
-		if ( operation == null )
-			operation = new CssStyleSheetAdapter( );
-		operation.addCss( css );
+	public final void addCss(CssStyleSheet css) {
+		if (operation == null)
+			operation = new CssStyleSheetAdapter();
+		operation.addCss(css);
 	}
 
 	/**
@@ -288,11 +250,10 @@ abstract class ReportDesignImpl extends LayoutModule
 	 * @param index
 	 */
 
-	public final void insertCss( CssStyleSheet css, int index )
-	{
-		if ( operation == null )
-			operation = new CssStyleSheetAdapter( );
-		operation.insertCss( css, index );
+	public final void insertCss(CssStyleSheet css, int index) {
+		if (operation == null)
+			operation = new CssStyleSheetAdapter();
+		operation.insertCss(css, index);
 	}
 
 	/**
@@ -301,11 +262,10 @@ abstract class ReportDesignImpl extends LayoutModule
 	 * @return list of csses. each item is <code>CssStyleSheet</code>
 	 */
 
-	public final List<CssStyleSheet> getCsses( )
-	{
-		if ( operation == null )
-			return Collections.emptyList( );
-		return operation.getCsses( );
+	public final List<CssStyleSheet> getCsses() {
+		if (operation == null)
+			return Collections.emptyList();
+		return operation.getCsses();
 	}
 
 	/*
@@ -316,48 +276,39 @@ abstract class ReportDesignImpl extends LayoutModule
 	 * .model.elements.strategy.CopyPolicy)
 	 */
 
-	public Object doClone( CopyPolicy policy )
-			throws CloneNotSupportedException
-	{
-		Module module = (Module) super.doClone( policy );
-		
-		if ( isCached( ) )
-		{
-			module.cacheValues( );
+	public Object doClone(CopyPolicy policy) throws CloneNotSupportedException {
+		Module module = (Module) super.doClone(policy);
+
+		if (isCached()) {
+			module.cacheValues();
 		}
-		
+
 		// clone operation
-		this.cloneOperation( this, (ReportDesignImpl)module );
+		this.cloneOperation(this, (ReportDesignImpl) module);
 		return module;
 	}
-	
-	private void cloneOperation( ReportDesignImpl oldReportDesign, ReportDesignImpl newReportDesign )
-			throws CloneNotSupportedException
-	{	
+
+	private void cloneOperation(ReportDesignImpl oldReportDesign, ReportDesignImpl newReportDesign)
+			throws CloneNotSupportedException {
 		CssStyleSheetAdapter oldCssStyleSheetAdapter = (CssStyleSheetAdapter) oldReportDesign.operation;
-		if( oldCssStyleSheetAdapter == null )
-		{
-			return ;
+		if (oldCssStyleSheetAdapter == null) {
+			return;
 		}
-		CssStyleSheetAdapter newCssStyleSheetAdapter = new CssStyleSheetAdapter( );
-		List<CssStyleSheet> oldSheetList = oldCssStyleSheetAdapter.getCsses( );
-		List<CssStyleSheet> newSheetList = new ArrayList<CssStyleSheet>( );
+		CssStyleSheetAdapter newCssStyleSheetAdapter = new CssStyleSheetAdapter();
+		List<CssStyleSheet> oldSheetList = oldCssStyleSheetAdapter.getCsses();
+		List<CssStyleSheet> newSheetList = new ArrayList<CssStyleSheet>();
 		// clone CssStyleSheetAdapter
-		if ( oldSheetList != null && oldSheetList.size( ) > 0 )
-		{
-			for ( CssStyleSheet sheet : oldSheetList )
-			{
+		if (oldSheetList != null && oldSheetList.size() > 0) {
+			for (CssStyleSheet sheet : oldSheetList) {
 				// clone CssStyleSheet
-				CssStyleSheet newSheet = (CssStyleSheet) sheet.clone( );
-				newSheet.setContainer( newReportDesign );
-				newSheetList.add( newSheet );
+				CssStyleSheet newSheet = (CssStyleSheet) sheet.clone();
+				newSheet.setContainer(newReportDesign);
+				newSheetList.add(newSheet);
 			}
 		}
-		if ( newSheetList != null && newSheetList.size( ) > 0 )
-		{
-			for ( CssStyleSheet sheet : newSheetList )
-			{
-				newCssStyleSheetAdapter.addCss( sheet );
+		if (newSheetList != null && newSheetList.size() > 0) {
+			for (CssStyleSheet sheet : newSheetList) {
+				newCssStyleSheetAdapter.addCss(sheet);
 			}
 		}
 		newReportDesign.operation = newCssStyleSheetAdapter;
@@ -368,98 +319,75 @@ abstract class ReportDesignImpl extends LayoutModule
 	 * 
 	 * @see org.eclipse.birt.report.model.core.Module#cacheValues()
 	 */
-	public final void cacheValues( )
-	{
-		setIsCached( true );
+	public final void cacheValues() {
+		setIsCached(true);
 
-		super.cacheValues( );
+		super.cacheValues();
 
 		// grid or table lies in body and master page slot
-		doCacheValues( BODY_SLOT );
-		doCacheValues( IModuleModel.PAGE_SLOT );
+		doCacheValues(BODY_SLOT);
+		doCacheValues(IModuleModel.PAGE_SLOT);
 	}
 
-	private void doCacheValues( int slotID )
-	{
-		ContentIterator iter1 = new ContentIterator( this,
-				new ContainerContext( this, slotID ) );
-		while ( iter1.hasNext( ) )
-		{
-			DesignElement tmpElement = iter1.next( );
-			if ( !( tmpElement instanceof ReportItem ) )
+	private void doCacheValues(int slotID) {
+		ContentIterator iter1 = new ContentIterator(this, new ContainerContext(this, slotID));
+		while (iter1.hasNext()) {
+			DesignElement tmpElement = iter1.next();
+			if (!(tmpElement instanceof ReportItem))
 				continue;
 
-			( (ReportItem) tmpElement ).cacheValues( );
+			((ReportItem) tmpElement).cacheValues();
 		}
 	}
 
 	/**
 	 * Finds a variable element in this report design itself.
 	 * 
-	 * @param name
-	 *            the variable name.
+	 * @param name the variable name.
 	 * @return variable element.
 	 */
-	public final VariableElement findVariableElement( String name )
-	{
-		return (VariableElement) nameHelper.getNameSpace(
-				VARIABLE_ELEMENT_NAME_SPACE ).getElement( name );
+	public final VariableElement findVariableElement(String name) {
+		return (VariableElement) nameHelper.getNameSpace(VARIABLE_ELEMENT_NAME_SPACE).getElement(name);
 	}
 
 	/**
 	 * Caches the flatten element.
 	 * 
-	 * @param originalElement
-	 *            the original element
-	 * @param flattenElement
-	 *            the flatten element
+	 * @param originalElement the original element
+	 * @param flattenElement  the flatten element
 	 */
-	public void cacheFlattenElement( DesignElement originalElement,
-			DesignElement flattenElement )
-	{
-		if ( sourceMap == null )
-		{
-			sourceMap = new LinkedHashMap<DesignElement, String>( );
-			namespaceMap = new LinkedHashMap<String, HashMap<String, DesignElement>>( );
+	public void cacheFlattenElement(DesignElement originalElement, DesignElement flattenElement) {
+		if (sourceMap == null) {
+			sourceMap = new LinkedHashMap<DesignElement, String>();
+			namespaceMap = new LinkedHashMap<String, HashMap<String, DesignElement>>();
 		}
-		String namespace = originalElement.getRoot( ).getNamespace( );
-		sourceMap.put( flattenElement, namespace );
+		String namespace = originalElement.getRoot().getNamespace();
+		sourceMap.put(flattenElement, namespace);
 
-		HashMap<String, DesignElement> nameMapping = namespaceMap
-				.get( namespace );
-		if ( nameMapping == null )
-		{
-			nameMapping = new LinkedHashMap<String, DesignElement>( );
-			namespaceMap.put( namespace, nameMapping );
+		HashMap<String, DesignElement> nameMapping = namespaceMap.get(namespace);
+		if (nameMapping == null) {
+			nameMapping = new LinkedHashMap<String, DesignElement>();
+			namespaceMap.put(namespace, nameMapping);
 		}
-		nameMapping.put( originalElement.getName( ), flattenElement );
+		nameMapping.put(originalElement.getName(), flattenElement);
 	}
 
 	/**
 	 * Gets the flatten element by the original name.
 	 * 
-	 * @param element
-	 *            a flatten element once in the same namespace
-	 * @param originalName
-	 *            the original name of the element
+	 * @param element      a flatten element once in the same namespace
+	 * @param originalName the original name of the element
 	 * 
 	 * @return the flatten element, or null if not found
 	 */
-	public DesignElement getFlattenElement( DesignElement element,
-			String originalName )
-	{
-		if ( element != null && sourceMap != null )
-		{
-			String namespace = sourceMap.get( element );
-			if ( namespace != null )
-			{
-				HashMap<String, DesignElement> nameMapping = namespaceMap
-						.get( namespace );
-				if ( nameMapping != null )
-				{
-					DesignElement flattenElement = nameMapping
-							.get( originalName );
-					if ( flattenElement != null )
+	public DesignElement getFlattenElement(DesignElement element, String originalName) {
+		if (element != null && sourceMap != null) {
+			String namespace = sourceMap.get(element);
+			if (namespace != null) {
+				HashMap<String, DesignElement> nameMapping = namespaceMap.get(namespace);
+				if (nameMapping != null) {
+					DesignElement flattenElement = nameMapping.get(originalName);
+					if (flattenElement != null)
 						return flattenElement;
 				}
 			}

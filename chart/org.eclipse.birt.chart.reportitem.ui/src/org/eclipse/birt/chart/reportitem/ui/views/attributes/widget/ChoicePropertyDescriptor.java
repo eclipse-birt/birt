@@ -35,8 +35,7 @@ import org.eclipse.swt.widgets.Control;
 /**
  * ChoicePropertyDescriptor manages Combo choice control.
  */
-public class ChoicePropertyDescriptor extends PropertyDescriptor
-{
+public class ChoicePropertyDescriptor extends PropertyDescriptor {
 
 	protected CCombo combo;
 
@@ -44,84 +43,70 @@ public class ChoicePropertyDescriptor extends PropertyDescriptor
 
 	private int style = SWT.BORDER;
 
-
-	public ChoicePropertyDescriptor(boolean isFormStyle){
-		super.setFormStyle( isFormStyle );
+	public ChoicePropertyDescriptor(boolean isFormStyle) {
+		super.setFormStyle(isFormStyle);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#getControl()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#getControl()
 	 */
-	public Control getControl( )
-	{
+	public Control getControl() {
 		return combo;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public Control createControl( Composite parent )
-	{
-		if ( !isFormStyle( ) )
-		{
-			combo = new CCombo( parent, style | SWT.READ_ONLY );
+	public Control createControl(Composite parent) {
+		if (!isFormStyle()) {
+			combo = new CCombo(parent, style | SWT.READ_ONLY);
+		} else {
+			combo = FormWidgetFactory.getInstance().createCCombo(parent, true);
 		}
-		else
-		{
-			combo = FormWidgetFactory.getInstance( )
-					.createCCombo( parent, true );
-		}
-		combo.addControlListener( new ControlListener( ) {
+		combo.addControlListener(new ControlListener() {
 
-			public void controlMoved( ControlEvent e )
-			{
-				combo.clearSelection( );
+			public void controlMoved(ControlEvent e) {
+				combo.clearSelection();
 			}
 
-			public void controlResized( ControlEvent e )
-			{
-				combo.clearSelection( );
+			public void controlResized(ControlEvent e) {
+				combo.clearSelection();
 			}
-		} );
-		combo.addSelectionListener( new SelectionListener( ) {
+		});
+		combo.addSelectionListener(new SelectionListener() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleSelectEvent( );
+			public void widgetSelected(SelectionEvent e) {
+				handleSelectEvent();
 			}
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				handleSelectEvent( );
+			public void widgetDefaultSelected(SelectionEvent e) {
+				handleSelectEvent();
 			}
-		} );
+		});
 		return combo;
 	}
 
 	/**
 	 * Processes the save action.
 	 */
-	protected void handleSelectEvent( )
-	{
-		String newValue = ChartUIUtil.getText( combo );
-		if ( ChoiceSetFactory.CHOICE_NONE.equals( newValue ) )
-		{
+	protected void handleSelectEvent() {
+		String newValue = ChartUIUtil.getText(combo);
+		if (ChoiceSetFactory.CHOICE_NONE.equals(newValue)) {
 			newValue = null;
 		}
 
-		try
-		{
-			save( newValue );
-		}
-		catch ( SemanticException e )
-		{
-			AttributesUtil.handleError( e );
-			ChartUIUtil.setText( combo, oldValue );
-			combo.setSelection( new Point( 0, oldValue.length( ) ) );
+		try {
+			save(newValue);
+		} catch (SemanticException e) {
+			AttributesUtil.handleError(e);
+			ChartUIUtil.setText(combo, oldValue);
+			combo.setSelection(new Point(0, oldValue.length()));
 		}
 
 	}
@@ -129,96 +114,81 @@ public class ChoicePropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#resetUIData()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#resetUIData()
 	 */
-	public void load( )
-	{
+	public void load() {
 		String[] items = new String[0];
 		String[] values = null;
 
-		
-		combo.setItems( provider.getItems( ) );
-		values = provider.getValues( );
-		
-		oldValue = provider.load( ).toString( );
-		boolean stateFlag = ( ( oldValue == null ) == combo.getEnabled( ) );
-		if ( stateFlag )
-			combo.setEnabled( oldValue != null );
+		combo.setItems(provider.getItems());
+		values = provider.getValues();
 
-		if ( provider.isReadOnly( ) )
-		{
-			combo.setEnabled( false );
+		oldValue = provider.load().toString();
+		boolean stateFlag = ((oldValue == null) == combo.getEnabled());
+		if (stateFlag)
+			combo.setEnabled(oldValue != null);
+
+		if (provider.isReadOnly()) {
+			combo.setEnabled(false);
 		}
 
-		int sindex = values == null ? Arrays.asList( items ).indexOf( oldValue )
-				: Arrays.asList( values ).indexOf( oldValue );
+		int sindex = values == null ? Arrays.asList(items).indexOf(oldValue) : Arrays.asList(values).indexOf(oldValue);
 
-		if ( provider.assertProperty( )
-				&& sindex < 0 )
-		{
-			if ( oldValue != null && oldValue.length( ) > 0 )
-			{
-				ChartUIUtil.setText( combo, oldValue );
+		if (provider.assertProperty() && sindex < 0) {
+			if (oldValue != null && oldValue.length() > 0) {
+				ChartUIUtil.setText(combo, oldValue);
 				return;
 			}
 
-			if ( combo.getItemCount( ) > 0 )
-			{
-				combo.select( 0 );
+			if (combo.getItemCount() > 0) {
+				combo.select(0);
 				return;
 			}
 		}
 
-		combo.select( sindex );
+		combo.select(sindex);
 	}
 
 	/**
 	 * @return Returns the SWT style.
 	 */
-	public int getStyle( )
-	{
+	public int getStyle() {
 		return style;
 	}
 
 	/**
 	 * Add a SWT style to the combo widget
 	 * 
-	 * @param style
-	 *            The SWT style to add.
+	 * @param style The SWT style to add.
 	 */
-	public void addStyle( int style )
-	{
+	public void addStyle(int style) {
 		this.style |= style;
 	}
 
-	public void save( Object obj ) throws SemanticException
-	{
-		provider.save( obj );
+	public void save(Object obj) throws SemanticException {
+		provider.save(obj);
 	}
-	
+
 	ChoicePropertyDescriptorProvider provider;
-	
-	public void setDescriptorProvider( IDescriptorProvider provider ){
-		super.setDescriptorProvider( provider );
-		if(provider instanceof ChoicePropertyDescriptorProvider)
-			this.provider = (ChoicePropertyDescriptorProvider)provider;
-	}
-	
 
-	public void setHidden( boolean isHidden )
-	{
-		WidgetUtil.setExcludeGridData( combo, isHidden );
+	public void setDescriptorProvider(IDescriptorProvider provider) {
+		super.setDescriptorProvider(provider);
+		if (provider instanceof ChoicePropertyDescriptorProvider)
+			this.provider = (ChoicePropertyDescriptorProvider) provider;
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		combo.setVisible( isVisible );
+	public void setHidden(boolean isHidden) {
+		WidgetUtil.setExcludeGridData(combo, isHidden);
 	}
-	
-	public void setInput(Object input){
-		super.setInput( input );
-		getDescriptorProvider( ).setInput( input );
+
+	public void setVisible(boolean isVisible) {
+		combo.setVisible(isVisible);
 	}
-	
-	
+
+	public void setInput(Object input) {
+		super.setInput(input);
+		getDescriptorProvider().setInput(input);
+	}
+
 }

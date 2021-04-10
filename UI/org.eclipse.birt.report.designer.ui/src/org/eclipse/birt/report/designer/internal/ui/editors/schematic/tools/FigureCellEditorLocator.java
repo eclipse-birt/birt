@@ -21,8 +21,7 @@ import org.eclipse.swt.widgets.Text;
 /**
  * FigureCellEditorLocator
  */
-final public class FigureCellEditorLocator implements CellEditorLocator
-{
+final public class FigureCellEditorLocator implements CellEditorLocator {
 
 	private IFigure figure;
 
@@ -44,46 +43,45 @@ final public class FigureCellEditorLocator implements CellEditorLocator
 
 	/**
 	 * Constructor.
+	 * 
 	 * @param figure
 	 */
-	public FigureCellEditorLocator( IFigure figure )
-	{
+	public FigureCellEditorLocator(IFigure figure) {
 		this.figure = figure;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.tools.CellEditorLocator#relocate(org.eclipse.jface.viewers.CellEditor)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.gef.tools.CellEditorLocator#relocate(org.eclipse.jface.viewers.
+	 * CellEditor)
 	 */
-	public void relocate( CellEditor celleditor )
-	{
-		Text text = (Text) celleditor.getControl( );
+	public void relocate(CellEditor celleditor) {
+		Text text = (Text) celleditor.getControl();
 
-		Rectangle rect = figure.getClientArea( ).getCopy( );
-		figure.translateToAbsolute( rect );
+		Rectangle rect = figure.getClientArea().getCopy();
+		figure.translateToAbsolute(rect);
 
 		int xOffset = 0;
 		int wOffset = 0;
 		int yOffset = 0;
 		int hOffset = 0;
 
-		if ( SWT.getPlatform( ).equalsIgnoreCase( "gtk" ) ) { //$NON-NLS-1$
+		if (SWT.getPlatform().equalsIgnoreCase("gtk")) { //$NON-NLS-1$
 			xOffset = GTK_X_OFFSET;
 			wOffset = GTK_W_OFFSET;
-		}
-		else if ( SWT.getPlatform( ).equalsIgnoreCase( "carbon" ) ) { //$NON-NLS-1$
+		} else if (SWT.getPlatform().equalsIgnoreCase("carbon")) { //$NON-NLS-1$
 			xOffset = MAC_X_OFFSET;
 			wOffset = MAC_W_OFFSET;
 			yOffset = MAC_Y_OFFSET;
 			hOffset = MAC_H_OFFSET;
-		}
-		else
-		{
+		} else {
 			xOffset = WIN_X_OFFSET;
 			wOffset = WIN_W_OFFSET;
 		}
 
-		text.setBounds( rect.x + xOffset, rect.y + yOffset, rect.width
-				+ wOffset, rect.height + hOffset );
+		text.setBounds(rect.x + xOffset, rect.y + yOffset, rect.width + wOffset, rect.height + hOffset);
 	}
 
 }

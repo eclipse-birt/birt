@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.core.framework.parser;
 
@@ -34,101 +34,92 @@ import org.xml.sax.helpers.DefaultHandler;
  * @see XMLParserException
  */
 
-public abstract class XMLParserHandler extends DefaultHandler
-{
+public abstract class XMLParserHandler extends DefaultHandler {
 	/**
 	 * The current element being parsed.
 	 */
-	
+
 	protected String currentElement = null;
-	
+
 	/**
-	 * Stack of active parse states.  Corresponds to the stack of currently
-	 * active elements.
+	 * Stack of active parse states. Corresponds to the stack of currently active
+	 * elements.
 	 */
-	
-	protected Stack stateStack = new Stack( );
-	
+
+	protected Stack stateStack = new Stack();
+
 	/**
 	 * SAX <code>Locator</code> for reporting errors.
 	 */
-	
+
 	protected Locator locator = null;
-	
+
 	/**
 	 * The list contains errors encountered when parsing a XML file.
 	 */
-	
-	protected ArrayList errors = new ArrayList( );
+
+	protected ArrayList errors = new ArrayList();
 
 	/**
 	 * Constructor
 	 */
-	
-	public XMLParserHandler( )
-	{
+
+	public XMLParserHandler() {
 	}
 
-    /*
-     * (non-Javadoc)
-     * 
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.xml.sax.ContentHandler#startDocument()
 	 */
-	
-	public void startDocument( ) throws SAXException
-	{
-		super.startDocument( );
-		assert stateStack.isEmpty( );
-		pushState( createStartState( ) );
+
+	public void startDocument() throws SAXException {
+		super.startDocument();
+		assert stateStack.isEmpty();
+		pushState(createStartState());
 	}
-	
-    /*
-     * (non-Javadoc)
-     * 
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.xml.sax.ContentHandler#endDocument()
 	 */
-	
-	public void endDocument( ) throws SAXException
-	{
-		super.endDocument( );
-		assert stateStack.size( ) == 1;
-		topState( ).end();
-		popState( );
-	}
-	
-	/**
-	 * Add a recoverable semantic error to the error list.
-	 * 
-     * @param e
-     *            The exception to log.
-	 */
-	
-	public void semanticError( Exception e )
-	{
-		semanticError( new XMLParserException( e ) );
+
+	public void endDocument() throws SAXException {
+		super.endDocument();
+		assert stateStack.size() == 1;
+		topState().end();
+		popState();
 	}
 
 	/**
 	 * Add a recoverable semantic error to the error list.
 	 * 
-     * @param e
-     *            The exception to log.
+	 * @param e The exception to log.
 	 */
-	
-	public abstract void semanticError( XMLParserException e );
+
+	public void semanticError(Exception e) {
+		semanticError(new XMLParserException(e));
+	}
+
+	/**
+	 * Add a recoverable semantic error to the error list.
+	 * 
+	 * @param e The exception to log.
+	 */
+
+	public abstract void semanticError(XMLParserException e);
 
 	/**
 	 * Private method to add a parse state to the state stack.
 	 * 
-     * @param state
-     *            the state to push
+	 * @param state the state to push
 	 */
-	
-	protected void pushState( AbstractParseState state )
-	{
+
+	protected void pushState(AbstractParseState state) {
 		assert state != null;
 		state.context = currentElement;
-		stateStack.push( state );
+		stateStack.push(state);
 	}
 
 	/**
@@ -136,14 +127,12 @@ public abstract class XMLParserHandler extends DefaultHandler
 	 * 
 	 * @return the state at the top of the stack
 	 */
-	
-	private AbstractParseState popState( )
-	{
-		assert ! stateStack.isEmpty( );
-		AbstractParseState state = (AbstractParseState) stateStack.pop( );
-		if ( stateStack.size( ) > 0 )
-		{
-			topState( ).endElement( state );
+
+	private AbstractParseState popState() {
+		assert !stateStack.isEmpty();
+		AbstractParseState state = (AbstractParseState) stateStack.pop();
+		if (stateStack.size() > 0) {
+			topState().endElement(state);
 		}
 		return state;
 	}
@@ -153,30 +142,27 @@ public abstract class XMLParserHandler extends DefaultHandler
 	 * 
 	 * @return the state at the top of the state stack
 	 */
-	
-	protected AbstractParseState topState( )
-	{
-		assert ! stateStack.isEmpty( );
-		return (AbstractParseState) stateStack.lastElement( );
+
+	protected AbstractParseState topState() {
+		assert !stateStack.isEmpty();
+		return (AbstractParseState) stateStack.lastElement();
 	}
 
 	/**
-	 * Starts an XML element. Delegates to the current state the task of
-	 * creating a new parse state for the new element.
+	 * Starts an XML element. Delegates to the current state the task of creating a
+	 * new parse state for the new element.
 	 * 
 	 * @see org.xml.sax.ContentHandler#startElement(String, String, String,
 	 *      Attributes)
 	 */
-	
-	public void startElement( String namespaceURI, String localName,
-			String qName, Attributes atts ) throws SAXException
-	{
+
+	public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
 		currentElement = qName;
-		AbstractParseState newState = topState( ).startElement( qName );
+		AbstractParseState newState = topState().startElement(qName);
 		newState.elementName = currentElement;
-		pushState( newState );
-		newState.parseAttrs( atts );
-		
+		pushState(newState);
+		newState.parseAttrs(atts);
+
 	}
 
 	/**
@@ -184,65 +170,56 @@ public abstract class XMLParserHandler extends DefaultHandler
 	 * 
 	 * @see org.xml.sax.ContentHandler#endElement(String, String, String)
 	 */
-	
-	public void endElement( String namespaceURI, String localName, String qName )
-			throws SAXException
-	{
-		AbstractParseState state = topState( );
-		state.end( );
-		popState( );
-		if ( ! stateStack.isEmpty( ) )
-			topState( ).endElement( state );
+
+	public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
+		AbstractParseState state = topState();
+		state.end();
+		popState();
+		if (!stateStack.isEmpty())
+			topState().endElement(state);
 	}
 
 	/**
 	 * @see org.xml.sax.ContentHandler#characters(char[], int, int)
 	 */
-	
-	public void characters( char[] ch, int start, int length )
-			throws SAXException
-	{
-		if ( ! stateStack.isEmpty( ) )
-		{
-			topState( ).text.append( ch, start, length );
+
+	public void characters(char[] ch, int start, int length) throws SAXException {
+		if (!stateStack.isEmpty()) {
+			topState().text.append(ch, start, length);
 		}
 	}
-	
+
 	/**
-     * Parser handlers must implement this method to return the "start state":
-     * the state that will recognize the top-level element(s) in the XML file.
+	 * Parser handlers must implement this method to return the "start state": the
+	 * state that will recognize the top-level element(s) in the XML file.
 	 * 
 	 * @return the start state specific to the derived parser
 	 */
-	
-	public abstract AbstractParseState createStartState( );
+
+	public abstract AbstractParseState createStartState();
 
 	/**
-     * Base class provides the parse state framework. By default, it reports an
-     * error if an unexpected tag is seen.
+	 * Base class provides the parse state framework. By default, it reports an
+	 * error if an unexpected tag is seen.
 	 */
-	
-	public class InnerParseState extends ParseState
-	{
-		public InnerParseState( )
-		{
-			super( XMLParserHandler.this );
+
+	public class InnerParseState extends ParseState {
+		public InnerParseState() {
+			super(XMLParserHandler.this);
 		}
-		
+
 	}
 
 	/**
-	 * Parses any valid XML; handles unimplemented tags. Often used while
-     * building a parser to silently parse and ignore tags that the parser is
-     * not yet ready to handle.
+	 * Parses any valid XML; handles unimplemented tags. Often used while building a
+	 * parser to silently parse and ignore tags that the parser is not yet ready to
+	 * handle.
 	 */
-	
-	public class InnerAnyTagState extends InnerParseState
-	{
 
-		public AbstractParseState startElement( String tagName )
-		{
-			return new InnerAnyTagState( );
+	public class InnerAnyTagState extends InnerParseState {
+
+		public AbstractParseState startElement(String tagName) {
+			return new InnerAnyTagState();
 		}
 
 	}
@@ -252,52 +229,49 @@ public abstract class XMLParserHandler extends DefaultHandler
 	 * 
 	 * @see org.xml.sax.ContentHandler#setDocumentLocator(org.xml.sax.Locator)
 	 */
-	
-	public void setDocumentLocator( Locator theLocator )
-	{
-		super.setDocumentLocator( locator );
+
+	public void setDocumentLocator(Locator theLocator) {
+		super.setDocumentLocator(locator);
 		locator = theLocator;
 	}
 
-    /*
-     * (non-Javadoc)
-     * 
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
 	 */
-	
-	public void error( SAXParseException e ) throws SAXException
-	{
-		semanticError( new XMLParserException( e ) );
+
+	public void error(SAXParseException e) throws SAXException {
+		semanticError(new XMLParserException(e));
 	}
-	
-    /*
-     * (non-Javadoc)
-     * 
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
 	 */
-	
-	public void warning( SAXParseException e ) throws SAXException
-	{
-		semanticError( new XMLParserException( e ) );
+
+	public void warning(SAXParseException e) throws SAXException {
+		semanticError(new XMLParserException(e));
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
 	 */
-	
-	public void fatalError( SAXParseException e ) throws SAXException
-	{
-		semanticError( new XMLParserException( e ) );
+
+	public void fatalError(SAXParseException e) throws SAXException {
+		semanticError(new XMLParserException(e));
 	}
-	
+
 	/**
 	 * Returns the error list when parsing xml file.
 	 * 
 	 * @return the errors
 	 */
-	
-	public List getErrors( )
-	{
+
+	public List getErrors() {
 		return errors;
 	}
 }

@@ -21,8 +21,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
  * 
  */
 
-public interface IAggregationCalculator
-{
+public interface IAggregationCalculator {
 	/**
 	 * 
 	 * @param stopSign
@@ -30,5 +29,5 @@ public interface IAggregationCalculator
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	public IAggregationResultSet execute( StopSign stopSign ) throws IOException, DataException;
+	public IAggregationResultSet execute(StopSign stopSign) throws IOException, DataException;
 }

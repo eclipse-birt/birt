@@ -39,22 +39,19 @@ import com.ibm.icu.util.ULocale;
  * </p>
  */
 
-public class Regression_76643 extends BaseTestCase
-{
+public class Regression_76643 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
 	 */
-	
-	public void test_regression_76643( ) throws SemanticException
-	{
-		SessionHandle session = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		designHandle = session.createDesign( );
-		ElementFactory factory = designHandle.getElementFactory( );
-		TextItemHandle text = factory.newTextItem( "text" ); //$NON-NLS-1$
-		text.setContent( " text1 text2" ); //$NON-NLS-1$
-		assertEquals( " text1 text2", text.getContent( ) ); //$NON-NLS-1$
+
+	public void test_regression_76643() throws SemanticException {
+		SessionHandle session = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		designHandle = session.createDesign();
+		ElementFactory factory = designHandle.getElementFactory();
+		TextItemHandle text = factory.newTextItem("text"); //$NON-NLS-1$
+		text.setContent(" text1 text2"); //$NON-NLS-1$
+		assertEquals(" text1 text2", text.getContent()); //$NON-NLS-1$
 
 	}
 }

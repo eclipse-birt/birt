@@ -17,29 +17,23 @@ import org.eclipse.core.expressions.PropertyTester;
 /**
  * PathResourcePropertyTester
  */
-public class PathResourcePropertyTester extends PropertyTester
-{
+public class PathResourcePropertyTester extends PropertyTester {
 
-	public PathResourcePropertyTester( )
-	{
+	public PathResourcePropertyTester() {
 	}
 
-	public boolean test( Object receiver, String property, Object[] args,
-			Object expectedValue )
-	{
-		if ( receiver instanceof PathResourceEntry )
-		{
+	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
+		if (receiver instanceof PathResourceEntry) {
 			PathResourceEntry entry = (PathResourceEntry) receiver;
 
-			if ( "isFile".equals( property ) ) //$NON-NLS-1$
+			if ("isFile".equals(property)) //$NON-NLS-1$
 			{
-				return entry.isFile( ) == Boolean.parseBoolean( String.valueOf( expectedValue ) );
-			}
-			else if ( "pathEndsWith".equals( property ) ) //$NON-NLS-1$
+				return entry.isFile() == Boolean.parseBoolean(String.valueOf(expectedValue));
+			} else if ("pathEndsWith".equals(property)) //$NON-NLS-1$
 			{
-				String path = entry.getURL( ).toString( ).toLowerCase( );
+				String path = entry.getURL().toString().toLowerCase();
 
-				return path.endsWith( String.valueOf( expectedValue ) );
+				return path.endsWith(String.valueOf(expectedValue));
 			}
 		}
 

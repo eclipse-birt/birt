@@ -47,16 +47,14 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * the style property is refreshed in the child text.
  * </p>
  */
-public class Regression_134231 extends BaseTestCase
-{
+public class Regression_134231 extends BaseTestCase {
 
 	private final static String INPUT = "regression_134231.xml"; //$NON-NLS-1$
 
 	private final static String LIBRARY = "regression_134231_lib.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 	/**
@@ -65,31 +63,30 @@ public class Regression_134231 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_134231( ) throws DesignFileException, IOException, SemanticException
-	{
+	public void test_regression_134231() throws DesignFileException, IOException, SemanticException {
 
-		openDesign( INPUT );
-		openLibrary( LIBRARY );
+		openDesign(INPUT);
+		openLibrary(LIBRARY);
 
-		TextItemHandle text = (TextItemHandle) designHandle.findElement( "NewText" ); //$NON-NLS-1$
-		assertEquals( "Sample Text", text.getContent( ) ); //$NON-NLS-1$
+		TextItemHandle text = (TextItemHandle) designHandle.findElement("NewText"); //$NON-NLS-1$
+		assertEquals("Sample Text", text.getContent()); //$NON-NLS-1$
 
-		StyleHandle style = libraryHandle.findStyle( "s1" );
-		assertNotNull( style );
-		
-		assertEquals( "#FF0000", text.getStringProperty( style.COLOR_PROP ) );
-		assertEquals( "small", text.getStringProperty( style.FONT_SIZE_PROP ) ); //$NON-NLS-1$
+		StyleHandle style = libraryHandle.findStyle("s1");
+		assertNotNull(style);
+
+		assertEquals("#FF0000", text.getStringProperty(style.COLOR_PROP));
+		assertEquals("small", text.getStringProperty(style.FONT_SIZE_PROP)); //$NON-NLS-1$
 
 		// Go to library, change the style, set the font color as "blue".
 
-		style.setStringProperty( StyleHandle.COLOR_PROP, "blue" ); //$NON-NLS-1$
-		assertEquals("blue", style.getStringProperty( StyleHandle.COLOR_PROP ));
+		style.setStringProperty(StyleHandle.COLOR_PROP, "blue"); //$NON-NLS-1$
+		assertEquals("blue", style.getStringProperty(StyleHandle.COLOR_PROP));
 //		String tgt = this.genOutputFile( LIBRARY );
 //		libraryHandle.saveAs( tgt );
 
-		//designHandle.reloadLibraries( );
-		text = (TextItemHandle) designHandle.findElement( "NewText" );//$NON-NLS-1$
-		assertEquals( "#FF0000", text.getStringProperty( StyleHandle.COLOR_PROP ) ); //$NON-NLS-1$
+		// designHandle.reloadLibraries( );
+		text = (TextItemHandle) designHandle.findElement("NewText");//$NON-NLS-1$
+		assertEquals("#FF0000", text.getStringProperty(StyleHandle.COLOR_PROP)); //$NON-NLS-1$
 		// copyFile( LIBRARY, LIBRARY );
 	}
 }

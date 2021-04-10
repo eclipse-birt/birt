@@ -30,84 +30,73 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Parameter group provider
  */
-public class ParameterGroupNodeProvider extends DefaultNodeProvider
-{
+public class ParameterGroupNodeProvider extends DefaultNodeProvider {
 
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		// Add new parameter action
-		menu.add( new InsertAction( object,
-				Messages.getString( "ParameterGroupNodeProvider.Action.ParameterNew" ), //$NON-NLS-1$
-				ReportDesignConstants.SCALAR_PARAMETER_ELEMENT ) );
+		menu.add(new InsertAction(object, Messages.getString("ParameterGroupNodeProvider.Action.ParameterNew"), //$NON-NLS-1$
+				ReportDesignConstants.SCALAR_PARAMETER_ELEMENT));
 
-		super.createContextMenu( sourceViewer, object, menu );
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-				new EditAction( object,
-						Messages.getString( "ParameterGroupNodeProvider.Action.ParameterEdit" ) ) ); //$NON-NLS-1$
+		super.createContextMenu(sourceViewer, object, menu);
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS,
+				new EditAction(object, Messages.getString("ParameterGroupNodeProvider.Action.ParameterEdit"))); //$NON-NLS-1$
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.outline.providers.INodeProvider#getChildren(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.outline.providers.
+	 * INodeProvider#getChildren(java.lang.Object)
 	 */
-	public Object[] getChildren( Object model )
-	{
+	public Object[] getChildren(Object model) {
 		ParameterGroupHandle paramGrpHandle = (ParameterGroupHandle) model;
-		return this.getChildrenBySlotHandle( paramGrpHandle.getParameters( ) );
+		return this.getChildrenBySlotHandle(paramGrpHandle.getParameters());
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.views.process.IOutlineProcess#getNoteDisplayName(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.ui.views.process.IOutlineProcess#
+	 * getNoteDisplayName(java.lang.Object)
 	 */
-	public String getNodeDisplayName( Object object )
-	{
-		String name = super.getNodeDisplayName( object );
-		if ( !MISSINGNAME.equals( name ) )
-		{
+	public String getNodeDisplayName(Object object) {
+		String name = super.getNodeDisplayName(object);
+		if (!MISSINGNAME.equals(name)) {
 			return name;
 		}
-		return Messages.getString( "ParameterGroupNodeProvider.Node.Group" ); //$NON-NLS-1$
+		return Messages.getString("ParameterGroupNodeProvider.Node.Group"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#createElement(java.lang.String)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
+	 * createElement(java.lang.String)
 	 */
-	protected DesignElementHandle createElement( String type ) throws Exception
-	{
-		DesignElementHandle handle = super.createElement( type );
-		ParameterDialog dialog = new ParameterDialog( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ),
-				Messages.getString( "ParameterGroupNodeProvider.Dialogue.ParameterNew" ) ); //$NON-NLS-1$
-		dialog.setInput( handle );
-		if ( dialog.open( ) == Dialog.CANCEL )
-		{
+	protected DesignElementHandle createElement(String type) throws Exception {
+		DesignElementHandle handle = super.createElement(type);
+		ParameterDialog dialog = new ParameterDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				Messages.getString("ParameterGroupNodeProvider.Dialogue.ParameterNew")); //$NON-NLS-1$
+		dialog.setInput(handle);
+		if (dialog.open() == Dialog.CANCEL) {
 			return null;
 		}
-		return (DesignElementHandle) dialog.getResult( );
+		return (DesignElementHandle) dialog.getResult();
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#performEdit(org.eclipse.birt.model.api.ReportElementHandle)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
+	 * performEdit(org.eclipse.birt.model.api.ReportElementHandle)
 	 */
-	protected boolean performEdit( ReportElementHandle handle )
-	{
-		ParameterGroupDialog dialog = new ParameterGroupDialog( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ),
-				Messages.getString( "ParameterGroupNodeProvider.Dialogue.ParameterEdit" ) ); //$NON-NLS-1$
-		dialog.setInput( handle );
-		return dialog.open( ) == Dialog.OK;
+	protected boolean performEdit(ReportElementHandle handle) {
+		ParameterGroupDialog dialog = new ParameterGroupDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				Messages.getString("ParameterGroupNodeProvider.Dialogue.ParameterEdit")); //$NON-NLS-1$
+		dialog.setInput(handle);
+		return dialog.open() == Dialog.OK;
 	}
 }

@@ -17,85 +17,71 @@ import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.core.runtime.CoreException;
 
-
 /**
  * 
  */
-class EclipseConfigurationElement implements IConfigurationElement
-{
+class EclipseConfigurationElement implements IConfigurationElement {
 	org.eclipse.core.runtime.IConfigurationElement object;
-	EclipseConfigurationElement(org.eclipse.core.runtime.IConfigurationElement object)
-	{
+
+	EclipseConfigurationElement(org.eclipse.core.runtime.IConfigurationElement object) {
 		this.object = object;
 	}
-	public Object createExecutableExtension(String propertyName) throws FrameworkException
-	{
-		try
-		{
+
+	public Object createExecutableExtension(String propertyName) throws FrameworkException {
+		try {
 			return object.createExecutableExtension(propertyName);
-		}
-		catch(CoreException ex)
-		{
-			throw new FrameworkException(
-					ResourceConstants.CREATE_EXTENSION_FAIL, ex );
+		} catch (CoreException ex) {
+			throw new FrameworkException(ResourceConstants.CREATE_EXTENSION_FAIL, ex);
 		}
 	}
 
-	public String getAttribute(String name)
-	{
+	public String getAttribute(String name) {
 		return object.getAttribute(name);
 	}
 
 	/**
-	 * @deprecated The method is equivalent to the {@link #getAttribute(String)}. Contrary to its description,
-	 * this method returns a translated value. Use the {@link #getAttribute(String)} method instead.
+	 * @deprecated The method is equivalent to the {@link #getAttribute(String)}.
+	 *             Contrary to its description, this method returns a translated
+	 *             value. Use the {@link #getAttribute(String)} method instead.
 	 */
-	public String getAttributeAsIs(String name)
-	{
+	public String getAttributeAsIs(String name) {
 		return object.getAttributeAsIs(name);
 	}
 
-	public String[] getAttributeNames()
-	{
+	public String[] getAttributeNames() {
 		return object.getAttributeNames();
 	}
 
-	public IConfigurationElement[] getChildren()
-	{
+	public IConfigurationElement[] getChildren() {
 		return EclipsePlatform.wrap(object.getChildren());
 	}
 
-	public IConfigurationElement[] getChildren(String name)
-	{
+	public IConfigurationElement[] getChildren(String name) {
 		return EclipsePlatform.wrap(object.getChildren(name));
 	}
 
-	public IExtension getDeclaringExtension()
-	{
+	public IExtension getDeclaringExtension() {
 		return EclipsePlatform.wrap(object.getDeclaringExtension());
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return object.getName();
 	}
-	
-	public Object getParent()
-	{
+
+	public Object getParent() {
 		return EclipsePlatform.wrap(object.getParent());
 	}
 
-	public String getValue()
-	{
+	public String getValue() {
 		return object.getValue();
 	}
 
 	/**
-	 * @deprecated The method is equivalent to the {@link #getValue()}. Contrary to its description,
-	 * this method returns a translated value. Use the {@link #getValue()} method instead.
+	 * @deprecated The method is equivalent to the {@link #getValue()}. Contrary to
+	 *             its description, this method returns a translated value. Use the
+	 *             {@link #getValue()} method instead.
 	 */
-	public String getValueAsIs()
-	{
+	public String getValueAsIs() {
 		return object.getValueAsIs();
 	}
 

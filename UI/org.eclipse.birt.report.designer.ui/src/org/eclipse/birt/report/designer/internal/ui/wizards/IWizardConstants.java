@@ -13,11 +13,10 @@ package org.eclipse.birt.report.designer.internal.ui.wizards;
 
 /**
  * wizard constant
- *  
+ * 
  */
 
-public interface IWizardConstants
-{
+public interface IWizardConstants {
 
 	final public static int NEW = 0;
 

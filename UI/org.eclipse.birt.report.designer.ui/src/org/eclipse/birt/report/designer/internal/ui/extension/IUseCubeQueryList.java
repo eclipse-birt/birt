@@ -19,7 +19,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  * 
  */
 
-public interface IUseCubeQueryList
-{
-	public List getQueryList(String expression, ExtendedItemHandle extendedItem );
+public interface IUseCubeQueryList {
+	public List getQueryList(String expression, ExtendedItemHandle extendedItem);
 }

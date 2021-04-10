@@ -29,20 +29,21 @@ import org.eclipse.swt.widgets.Listener;
  * Creation page for Report Wizard without Advanced control
  * 
  */
-public class WizardNewReportCreationPage extends WizardPage
-{
+public class WizardNewReportCreationPage extends WizardPage {
 
-	private static final String MSG_DUPLICATE_FILE_NAME = Messages.getString( "WizardNewReportCreationPage.msg.duplicate.fileName" ); //$NON-NLS-1$
+	private static final String MSG_DUPLICATE_FILE_NAME = Messages
+			.getString("WizardNewReportCreationPage.msg.duplicate.fileName"); //$NON-NLS-1$
 
-	private static final String MSG_EMPTY_FILE_LOCATION_DIRECTORY = Messages.getString( "WizardNewReportCreationPage.msg.empty.file.locationDirectory" ); //$NON-NLS-1$
+	private static final String MSG_EMPTY_FILE_LOCATION_DIRECTORY = Messages
+			.getString("WizardNewReportCreationPage.msg.empty.file.locationDirectory"); //$NON-NLS-1$
 
-	private static final String MSG_EMPTY_FILE_NAME = Messages.getString( "WizardNewReportCreationPage.msg.empty.file.name" ); //$NON-NLS-1$
+	private static final String MSG_EMPTY_FILE_NAME = Messages
+			.getString("WizardNewReportCreationPage.msg.empty.file.name"); //$NON-NLS-1$
 
-	private Listener locationModifyListener = new Listener( ) {
+	private Listener locationModifyListener = new Listener() {
 
-		public void handleEvent( Event e )
-		{
-			setPageComplete( validatePage( ) );
+		public void handleEvent(Event e) {
+			setPageComplete(validatePage());
 		}
 	};
 
@@ -53,78 +54,61 @@ public class WizardNewReportCreationPage extends WizardPage
 	 * 
 	 * @param pageName
 	 */
-	public WizardNewReportCreationPage( String pageName )
-	{
-		super( pageName );
-		pageSupport = new NewReportPageSupport( );
+	public WizardNewReportCreationPage(String pageName) {
+		super(pageName);
+		pageSupport = new NewReportPageSupport();
 	}
 
 	/**
-	 * Sets the initial file name that this page will use when created. The name
-	 * is ignored if the createControl(Composite) method has already been
-	 * called. Leading and trailing spaces in the name are ignored.
+	 * Sets the initial file name that this page will use when created. The name is
+	 * ignored if the createControl(Composite) method has already been called.
+	 * Leading and trailing spaces in the name are ignored.
 	 * 
-	 * @param name
-	 *            initial file name for this page
+	 * @param name initial file name for this page
 	 */
-	public void setInitialFileName( String name )
-	{
-		pageSupport.setInitialFileName( name );
+	public void setInitialFileName(String name) {
+		pageSupport.setInitialFileName(name);
 	}
 
-	public void setInitialFileLocation( String path )
-	{
-		pageSupport.setInitialFileLocation( path );
+	public void setInitialFileLocation(String path) {
+		pageSupport.setInitialFileLocation(path);
 	}
 
-	public void createControl( Composite parent )
-	{
-		initializeDialogUnits( parent );
-		setControl( pageSupport.createComposite( parent ) );
+	public void createControl(Composite parent) {
+		initializeDialogUnits(parent);
+		setControl(pageSupport.createComposite(parent));
 
-		pageSupport.getFileNameField( ).addListener( SWT.Modify,
-				locationModifyListener );
-		pageSupport.getLocationPathField( ).addListener( SWT.Modify,
-				locationModifyListener );
+		pageSupport.getFileNameField().addListener(SWT.Modify, locationModifyListener);
+		pageSupport.getLocationPathField().addListener(SWT.Modify, locationModifyListener);
 
-		setPageComplete( validatePage( ) );
-		setErrorMessage( null );
-		setMessage( null );
-		
-		if ( getFileName( ).endsWith( IReportElementConstants.TEMPLATE_FILE_EXTENSION ) )
-		{
-			UIUtil.bindHelp( getControl( ),
-					IHelpContextIds.NEW_TEMPLATE_WIZARD_ID );
-		}
-		else if ( getFileName( ).endsWith( IReportElementConstants.DESIGN_FILE_EXTENSION ) )
-		{
-			UIUtil.bindHelp( getControl( ),
-					IHelpContextIds.NEW_REPORT_WIZARD_ID );
+		setPageComplete(validatePage());
+		setErrorMessage(null);
+		setMessage(null);
+
+		if (getFileName().endsWith(IReportElementConstants.TEMPLATE_FILE_EXTENSION)) {
+			UIUtil.bindHelp(getControl(), IHelpContextIds.NEW_TEMPLATE_WIZARD_ID);
+		} else if (getFileName().endsWith(IReportElementConstants.DESIGN_FILE_EXTENSION)) {
+			UIUtil.bindHelp(getControl(), IHelpContextIds.NEW_REPORT_WIZARD_ID);
 		}
 	}
 
-	public String getFileName( )
-	{
-		return pageSupport.getFileName( );
+	public String getFileName() {
+		return pageSupport.getFileName();
 	}
 
-	public IPath getFileLocationFullPath( )
-	{
-		return pageSupport.getFileLocationFullPath( );
+	public IPath getFileLocationFullPath() {
+		return pageSupport.getFileLocationFullPath();
 	}
 
-	public void setVisible( boolean visible )
-	{
-		getControl( ).setVisible( visible );
-		if ( visible )
-		{
-			pageSupport.getFileNameField( ).setFocus( );
+	public void setVisible(boolean visible) {
+		getControl().setVisible(visible);
+		if (visible) {
+			pageSupport.getFileNameField().setFocus();
 		}
 	}
 
-	public boolean validatePage( )
-	{
-		return validatePage( IReportEditorContants.DESIGN_FILE_EXTENTION );
+	public boolean validatePage() {
+		return validatePage(IReportEditorContants.DESIGN_FILE_EXTENTION);
 	}
 
 	/*
@@ -132,66 +116,51 @@ public class WizardNewReportCreationPage extends WizardPage
 	 * 
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validatePage()
 	 */
-	public boolean validatePage( String suffix )
-	{
-		if ( getFileName( ).equals( "" ) )//$NON-NLS-1$
+	public boolean validatePage(String suffix) {
+		if (getFileName().equals(""))//$NON-NLS-1$
 		{
-			setErrorMessage( null );
-			setMessage( MSG_EMPTY_FILE_NAME );
+			setErrorMessage(null);
+			setMessage(MSG_EMPTY_FILE_NAME);
 			return false;
 		}
 
-		String location = getFileLocationFullPath( ).toOSString( );
+		String location = getFileLocationFullPath().toOSString();
 
-		if ( location.equals( "" ) ) //$NON-NLS-1$
+		if (location.equals("")) //$NON-NLS-1$
 		{
-			setErrorMessage( null );
-			setMessage( MSG_EMPTY_FILE_LOCATION_DIRECTORY );
+			setErrorMessage(null);
+			setMessage(MSG_EMPTY_FILE_LOCATION_DIRECTORY);
 			return false;
 		}
 
 		IPath path;
 
-		if ( !Platform.getOS( ).equals( Platform.OS_WIN32 ) )
-		{
-			if ( !getFileName( ).endsWith( suffix ) )
-			{
-				path = getFileLocationFullPath( ).append( getFileName( )
-						+ suffix );
+		if (!Platform.getOS().equals(Platform.OS_WIN32)) {
+			if (!getFileName().endsWith(suffix)) {
+				path = getFileLocationFullPath().append(getFileName() + suffix);
+			} else {
+				path = getFileLocationFullPath().append(getFileName());
 			}
-			else
-			{
-				path = getFileLocationFullPath( ).append( getFileName( ) );
-			}
-		}
-		else
-		{
-			if ( !getFileName( ).toLowerCase( )
-					.endsWith( suffix.toLowerCase( ) ) )
-			{
-				path = getFileLocationFullPath( ).append( getFileName( )
-						+ suffix );
-			}
-			else
-			{
-				path = getFileLocationFullPath( ).append( getFileName( ) );
+		} else {
+			if (!getFileName().toLowerCase().endsWith(suffix.toLowerCase())) {
+				path = getFileLocationFullPath().append(getFileName() + suffix);
+			} else {
+				path = getFileLocationFullPath().append(getFileName());
 			}
 		}
 
-		if ( path.lastSegment( ).equals( suffix ) )
-		{
-			setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameEmpty" ) ); //$NON-NLS-1$
+		if (path.lastSegment().equals(suffix)) {
+			setErrorMessage(Messages.getString("WizardNewReportCreationPage.Errors.nameEmpty")); //$NON-NLS-1$
 			return false;
 		}
 
-		if ( path.toFile( ).exists( ) )
-		{
-			setErrorMessage( MSG_DUPLICATE_FILE_NAME );
+		if (path.toFile().exists()) {
+			setErrorMessage(MSG_DUPLICATE_FILE_NAME);
 			return false;
 		}
 
-		setErrorMessage( null );
-		setMessage( null );
+		setErrorMessage(null);
+		setMessage(null);
 		return true;
 	}
 }

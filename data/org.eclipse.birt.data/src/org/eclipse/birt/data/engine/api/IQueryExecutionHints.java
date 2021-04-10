@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 
 package org.eclipse.birt.data.engine.api;
 
@@ -21,45 +21,48 @@ import java.util.List;
  * 
  *
  */
-public interface IQueryExecutionHints
-{
+public interface IQueryExecutionHints {
 	/**
-	 * Indicate whether should we enable the pushdown of sort/filter/aggregation to ODA
-	 * whenever applicable.
+	 * Indicate whether should we enable the pushdown of sort/filter/aggregation to
+	 * ODA whenever applicable.
+	 * 
 	 * @return
 	 */
 	public boolean enablePushDown();
-	
+
 	/**
-	 * Set whether should the pushdown be enabled. 
+	 * Set whether should the pushdown be enabled.
+	 * 
 	 * @param enablePushDown
 	 */
-	public void setEnablePushDown( boolean enablePushDown );
-	
+	public void setEnablePushDown(boolean enablePushDown);
+
 	/**
 	 * Indicate whether should we do sort before grouping.
 	 * 
 	 * @return
 	 */
 	public boolean doSortBeforeGrouping();
-	
-	/**
-     * Return a list of IGroupInstanceInfo instances that is needed in target
-     * ResultSet.
-     * 
-     * @return
-     */
-    public List<IGroupInstanceInfo> getTargetGroupInstances( );
 
-    /**
-     * Set whether to sort before grouping.
-     * @param doSortBeforeGrouping
-     */
-    public void setSortBeforeGrouping( boolean doSortBeforeGrouping );
-    
-    /**
-     * Add a target group instance.
-     * @param info
-     */
-    public void addTargetGroupInstance( IGroupInstanceInfo info );
+	/**
+	 * Return a list of IGroupInstanceInfo instances that is needed in target
+	 * ResultSet.
+	 * 
+	 * @return
+	 */
+	public List<IGroupInstanceInfo> getTargetGroupInstances();
+
+	/**
+	 * Set whether to sort before grouping.
+	 * 
+	 * @param doSortBeforeGrouping
+	 */
+	public void setSortBeforeGrouping(boolean doSortBeforeGrouping);
+
+	/**
+	 * Add a target group instance.
+	 * 
+	 * @param info
+	 */
+	public void addTargetGroupInstance(IGroupInstanceInfo info);
 }

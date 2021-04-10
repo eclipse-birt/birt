@@ -24,58 +24,58 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 /**
  * 
  */
-public class DummyEventHandler implements IEventHandler
-{	
+public class DummyEventHandler implements IEventHandler {
 	/*
-	 * @see org.eclipse.birt.data.engine.odi.IEventHandler#handleEndOfDataSetProcess(org.eclipse.birt.data.engine.odi.IResultIterator)
+	 * @see
+	 * org.eclipse.birt.data.engine.odi.IEventHandler#handleEndOfDataSetProcess(org.
+	 * eclipse.birt.data.engine.odi.IResultIterator)
 	 */
-	public void handleEndOfDataSetProcess( IResultIterator resultIterator )
-	{
+	public void handleEndOfDataSetProcess(IResultIterator resultIterator) {
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getValue(org.eclipse.birt.data.engine.odi.IResultObject,
-	 *      int, java.lang.String)
+	 * @see
+	 * org.eclipse.birt.data.engine.odi.IEventHandler#getValue(org.eclipse.birt.data
+	 * .engine.odi.IResultObject, int, java.lang.String)
 	 */
-	public Object getValue( IResultObject rsObject, int index, String name )
-			throws DataException
-	{
-		return rsObject.getFieldValue( index );
+	public Object getValue(IResultObject rsObject, int index, String name) throws DataException {
+		return rsObject.getFieldValue(index);
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IEventHandler#isRowID(int,
-	 *      java.lang.String)
+	 * java.lang.String)
 	 */
-	public boolean isRowID( int index, String columnName )
-	{
+	public boolean isRowID(int index, String columnName) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getExecutorHelper()
 	 */
-	public IExecutorHelper getExecutorHelper( )
-	{
+	public IExecutorHelper getExecutorHelper() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.odi.IEventHandler#setExecutorHelper(org.eclipse.birt.data.engine.impl.ExecutorHelper)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.odi.IEventHandler#setExecutorHelper(org.eclipse.
+	 * birt.data.engine.impl.ExecutorHelper)
 	 */
-	public void setExecutorHelper( IExecutorHelper helper )
-	{
-				
+	public void setExecutorHelper(IExecutorHelper helper) {
+
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getExprs()
 	 */
-	public Map getColumnBindings( )
-	{
+	public Map getColumnBindings() {
 		return null;
 	}
 
@@ -84,28 +84,24 @@ public class DummyEventHandler implements IEventHandler
 		return null;
 	}
 
-	public Map getAppContext( )
-	{
+	public Map getAppContext() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public List getAggrDefinitions( ) throws DataException
-	{
+	public List getAggrDefinitions() throws DataException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IBinding getBinding( String name ) throws DataException
-	{
+	public IBinding getBinding(String name) throws DataException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public DataSetRuntime getDataSetRuntime( )
-	{
+	public DataSetRuntime getDataSetRuntime() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

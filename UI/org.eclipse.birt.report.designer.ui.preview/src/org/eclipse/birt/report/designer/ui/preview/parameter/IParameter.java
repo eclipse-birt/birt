@@ -19,8 +19,7 @@ import org.eclipse.birt.core.exception.BirtException;
  * Parameter interface
  * 
  */
-public interface IParameter
-{
+public interface IParameter {
 
 	/**
 	 * Gets parameter values
@@ -28,7 +27,7 @@ public interface IParameter
 	 * @return parameter values.
 	 */
 
-	public List getValueList( );
+	public List getValueList();
 
 	/**
 	 * Formats input value.
@@ -36,7 +35,7 @@ public interface IParameter
 	 * @param input
 	 * @return formatted input value
 	 */
-	public String format( String input ) throws BirtException;
+	public String format(String input) throws BirtException;
 
 	/**
 	 * Converts the value to chosen data type
@@ -46,8 +45,7 @@ public interface IParameter
 	 * @return value of chosen data type
 	 * @throws BirtException
 	 */
-	public Object converToDataType( Object value )
-			throws BirtException;
+	public Object converToDataType(Object value) throws BirtException;
 
 	/**
 	 * Gets default value.
@@ -55,7 +53,7 @@ public interface IParameter
 	 * @return default value.
 	 */
 
-	public String getDefaultValue( );
+	public String getDefaultValue();
 
 	/**
 	 * Sets parameter group
@@ -63,35 +61,34 @@ public interface IParameter
 	 * @param group
 	 */
 
-	public void setParentGroup( IParamGroup group );
+	public void setParentGroup(IParamGroup group);
 
 	/**
 	 * Gets parameter group
 	 * 
 	 * @return
 	 */
-	public IParamGroup getParentGroup( );
+	public IParamGroup getParentGroup();
 
 	/**
 	 * Sets selection value.
 	 * 
 	 * @param value
 	 */
-	public void setSelectionValue( String value );
+	public void setSelectionValue(String value);
 
 	/**
 	 * Gets selection value.
 	 * 
 	 * @return selection value.
 	 */
-	public String getSelectionValue( );
+	public String getSelectionValue();
 
-	
 	/**
 	 * Gets isRequired property.
 	 * 
 	 * @return
 	 */
-	public boolean isRequired( );
+	public boolean isRequired();
 
 }

@@ -7,30 +7,24 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.chart.reportitem.ui.views.provider;
 
 import org.eclipse.birt.report.designer.ui.expressions.AbstractContextExpressionProvider;
 import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
 
-
 /**
  * 
  */
 
-public class ChartContextExpressionProvider
-		extends
-			AbstractContextExpressionProvider
-{
+public class ChartContextExpressionProvider extends AbstractContextExpressionProvider {
 
-	private ExpressionFilter filter = new ExpressionFilter( ) {
+	private ExpressionFilter filter = new ExpressionFilter() {
 
 		@Override
-		public boolean select( Object parentElement, Object element )
-		{
-			if ( ExpressionFilter.CATEGORY.equals( parentElement )
-					&& ( ExpressionFilter.CATEGORY_PARAMETERS.equals( element ) ) )
-			{
+		public boolean select(Object parentElement, Object element) {
+			if (ExpressionFilter.CATEGORY.equals(parentElement)
+					&& (ExpressionFilter.CATEGORY_PARAMETERS.equals(element))) {
 				return false;
 			}
 			return true;
@@ -38,8 +32,7 @@ public class ChartContextExpressionProvider
 	};
 
 	@Override
-	public ExpressionFilter getExpressionFilter( String contextName )
-	{
+	public ExpressionFilter getExpressionFilter(String contextName) {
 		return filter;
 	}
 

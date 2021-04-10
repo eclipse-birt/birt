@@ -16,20 +16,14 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IMasterPageEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IPageInstance;
 
+public class MasterPageEventAdapter implements IMasterPageEventHandler {
 
-public class MasterPageEventAdapter implements IMasterPageEventHandler
-{
-
-	public void onPageStart( IPageInstance page, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onPageStart(IPageInstance page, IReportContext reportContext) throws ScriptException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void onPageEnd( IPageInstance page, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onPageEnd(IPageInstance page, IReportContext reportContext) throws ScriptException {
 		// TODO Auto-generated method stub
 
 	}

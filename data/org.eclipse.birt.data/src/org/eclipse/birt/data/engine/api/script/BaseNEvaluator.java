@@ -11,6 +11,6 @@ import org.mozilla.javascript.Scriptable;
  */
 public abstract class BaseNEvaluator {
 
-	public abstract boolean evaluate( ScriptContext cx, Scriptable scope ) throws DataException;
+	public abstract boolean evaluate(ScriptContext cx, Scriptable scope) throws DataException;
 
 }

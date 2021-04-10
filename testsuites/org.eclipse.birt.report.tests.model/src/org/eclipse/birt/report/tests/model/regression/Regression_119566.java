@@ -28,44 +28,40 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_119566 extends BaseTestCase
-{
+public class Regression_119566 extends BaseTestCase {
 
 	private String filename = "Regression_119566.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( filename , filename );
-		
+		copyResource_INPUT(filename, filename);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	
-	public void test_regression_119566( ) throws DesignFileException, SemanticException
-	{
-		openDesign( filename );
-		
+
+	public void test_regression_119566() throws DesignFileException, SemanticException {
+		openDesign(filename);
+
 		// text and label are under master page header/footer.
-		
-		LabelHandle label = (LabelHandle) designHandle.findElement( "label" ); //$NON-NLS-1$
-		TextItemHandle text = (TextItemHandle) designHandle
-				.findElement( "text" ); //$NON-NLS-1$
-		
-		
-		SlotHandle templateParamsSlot = designHandle.getSlot( ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 
-		assertEquals( 0, templateParamsSlot.getCount( ) );
-		assertTrue( label.canTransformToTemplate( ) );
-		assertTrue( text.canTransformToTemplate( ) );
+		LabelHandle label = (LabelHandle) designHandle.findElement("label"); //$NON-NLS-1$
+		TextItemHandle text = (TextItemHandle) designHandle.findElement("text"); //$NON-NLS-1$
 
-		label.createTemplateElement( "tempLabel" ); //$NON-NLS-1$
-		text.createTemplateElement( "tempText" ); //$NON-NLS-1$
-		assertEquals( 2, templateParamsSlot.getCount( ) );
+		SlotHandle templateParamsSlot = designHandle.getSlot(ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT);
+
+		assertEquals(0, templateParamsSlot.getCount());
+		assertTrue(label.canTransformToTemplate());
+		assertTrue(text.canTransformToTemplate());
+
+		label.createTemplateElement("tempLabel"); //$NON-NLS-1$
+		text.createTemplateElement("tempText"); //$NON-NLS-1$
+		assertEquals(2, templateParamsSlot.getCount());
 	}
 }

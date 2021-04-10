@@ -21,43 +21,42 @@ import org.eclipse.birt.data.engine.olap.data.util.Bytes;
  * 
  */
 
-public interface IDocumentObject
-{
+public interface IDocumentObject {
 	/**
 	 * 
 	 * @param newLength
 	 * @throws IOException
 	 */
-	public void setLength( long newLength ) throws IOException;
-	
+	public void setLength(long newLength) throws IOException;
+
 	/**
 	 * 
 	 * @param pos
 	 * @throws IOException
 	 */
-	public void seek( long pos ) throws IOException;
-	
+	public void seek(long pos) throws IOException;
+
 	/**
 	 * 
 	 * @param n
 	 * @return
 	 * @throws IOException
 	 */
-	public int skipBytes( int n ) throws IOException;
-	
+	public int skipBytes(int n) throws IOException;
+
 	/**
 	 * 
 	 * @return
 	 */
-	public long getFilePointer( );
-	
+	public long getFilePointer();
+
 	/**
 	 * 
 	 * @return
 	 * @throws IOException
 	 */
-	public long length( ) throws IOException;
-	
+	public long length() throws IOException;
+
 	/**
 	 * 
 	 * @param b
@@ -65,8 +64,8 @@ public interface IDocumentObject
 	 * @param len
 	 * @throws IOException
 	 */
-	public void write( byte[] b,int pos, int len ) throws IOException;
-	
+	public void write(byte[] b, int pos, int len) throws IOException;
+
 	/**
 	 * 
 	 * @param b
@@ -75,51 +74,51 @@ public interface IDocumentObject
 	 * @return
 	 * @throws IOException
 	 */
-	public int read( byte[] b,int pos, int len ) throws IOException;
-	
+	public int read(byte[] b, int pos, int len) throws IOException;
+
 	/**
 	 * 
 	 * @param b
 	 * @throws IOException
 	 */
-	public void writeBytes( Bytes b ) throws IOException;
-	
+	public void writeBytes(Bytes b) throws IOException;
+
 	/**
 	 * 
 	 * @param b
 	 * @return
 	 * @throws IOException
 	 */
-	public Bytes readBytes( ) throws IOException;
-	
+	public Bytes readBytes() throws IOException;
+
 	/**
 	 * 
 	 * @param b
 	 * @throws IOException
 	 */
-	public void writeByte( int b ) throws IOException;
-	
+	public void writeByte(int b) throws IOException;
+
 	/**
 	 * 
 	 * @return
 	 * @throws IOException
 	 */
-	public byte readByte( ) throws IOException;
-	
+	public byte readByte() throws IOException;
+
 	/**
 	 * 
 	 * @param value
 	 * @throws IOException
 	 */
-	public void writeBoolean( boolean value ) throws IOException;
-	
+	public void writeBoolean(boolean value) throws IOException;
+
 	/**
 	 * 
 	 * @return
 	 * @throws IOException
 	 */
-	public boolean readBoolean( ) throws IOException;
-	
+	public boolean readBoolean() throws IOException;
+
 	/**
 	 * 
 	 * @param diskObjectName
@@ -127,8 +126,8 @@ public interface IDocumentObject
 	 * @param bytes
 	 * @return
 	 */
-	public void writeInt( int value) throws IOException;
-	
+	public void writeInt(int value) throws IOException;
+
 	/**
 	 * 
 	 * @param diskObjectName
@@ -136,8 +135,8 @@ public interface IDocumentObject
 	 * @param bytes
 	 * @return
 	 */
-	public int readInt( ) throws IOException;
-	
+	public int readInt() throws IOException;
+
 	/**
 	 * 
 	 * @param diskObjectName
@@ -145,8 +144,8 @@ public interface IDocumentObject
 	 * @param bytes
 	 * @return
 	 */
-	public void writeShort( int value) throws IOException;
-	
+	public void writeShort(int value) throws IOException;
+
 	/**
 	 * 
 	 * @param diskObjectName
@@ -154,8 +153,8 @@ public interface IDocumentObject
 	 * @param bytes
 	 * @return
 	 */
-	public int readShort( ) throws IOException;
-	
+	public int readShort() throws IOException;
+
 	/**
 	 * 
 	 * @param diskObjectName
@@ -163,76 +162,76 @@ public interface IDocumentObject
 	 * @param value
 	 */
 	public void writeDouble(double value) throws IOException;
-	
+
 	/**
 	 * 
 	 * @param diskObjectName
 	 * @param offset
 	 * @return
 	 */
-	public double readDouble( ) throws IOException;
-	
+	public double readDouble() throws IOException;
+
 	/**
 	 * 
 	 * @param diskObjectName
 	 * @param offset
 	 * @param value
 	 */
-	public void writeBigDecimal( BigDecimal value ) throws IOException;
-	
+	public void writeBigDecimal(BigDecimal value) throws IOException;
+
 	/**
 	 * 
 	 * @param diskObjectName
 	 * @param offset
 	 * @return
 	 */
-	public BigDecimal readBigDecimal(  ) throws IOException;
-	
+	public BigDecimal readBigDecimal() throws IOException;
+
 	/**
 	 * 
 	 * @param diskObjectName
 	 * @param offset
 	 * @param value
 	 */
-	public void writeDate( Date value) throws IOException;
-	
+	public void writeDate(Date value) throws IOException;
+
 	/**
 	 * 
 	 * @param diskObjectName
 	 * @param offset
 	 * @return
 	 */
-	public Date readDate( ) throws IOException;
-	
+	public Date readDate() throws IOException;
+
 	/**
 	 * 
 	 * @param diskObjectName
 	 * @param offset
 	 * @param value
 	 */
-	public void writeString( String value) throws IOException;
-	
+	public void writeString(String value) throws IOException;
+
 	/**
 	 * 
 	 * @param diskObjectName
 	 * @param offset
 	 * @return
 	 */
-	public String readString( ) throws IOException;
-	
-	public Object readObject( ) throws IOException;
-	
-	public void writeObject( Object o ) throws IOException;
-	
+	public String readString() throws IOException;
+
+	public Object readObject() throws IOException;
+
+	public void writeObject(Object o) throws IOException;
+
 	/**
 	 * 
 	 *
 	 */
-	public void close( ) throws IOException;
-	
+	public void close() throws IOException;
+
 	/**
 	 * 
 	 * @throws IOException
 	 */
-	public void flush( ) throws IOException;
+	public void flush() throws IOException;
 }

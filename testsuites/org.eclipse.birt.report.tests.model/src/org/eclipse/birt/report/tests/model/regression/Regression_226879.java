@@ -19,7 +19,6 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
-
 /**
  * Regression description:
  * </p>
@@ -29,41 +28,36 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * </p>
  */
-public class Regression_226879 extends BaseTestCase
-{
+public class Regression_226879 extends BaseTestCase {
 	private final static String CSS = "regression_226879.css";
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyInputToFile(INPUT_FOLDER + "/"+ CSS);
-		
-		SessionHandle sessionHandle=DesignEngine.newSession( ULocale.ENGLISH );
-		designHandle=sessionHandle.createDesign( );
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyInputToFile(INPUT_FOLDER + "/" + CSS);
+
+		SessionHandle sessionHandle = DesignEngine.newSession(ULocale.ENGLISH);
+		designHandle = sessionHandle.createDesign();
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
-	
 
 	/**
-	 * @throws Exception 
+	 * @throws Exception
 	 * 
 	 */
-	
-	public void test_regression_225252( ) throws Exception
-	{
-		CssStyleSheetHandle cssStyleSheetHandle=loadStyleSheet(CSS);
-		assertEquals(1,cssStyleSheetHandle.getUnsupportedStyles( ).size( ));
-		assertEquals("p:first-line",cssStyleSheetHandle.getUnsupportedStyles( ).get( 0 ).toString( ));
+
+	public void test_regression_225252() throws Exception {
+		CssStyleSheetHandle cssStyleSheetHandle = loadStyleSheet(CSS);
+		assertEquals(1, cssStyleSheetHandle.getUnsupportedStyles().size());
+		assertEquals("p:first-line", cssStyleSheetHandle.getUnsupportedStyles().get(0).toString());
 	}
-	
-	private CssStyleSheetHandle loadStyleSheet(String fileName) throws StyleSheetException{
+
+	private CssStyleSheetHandle loadStyleSheet(String fileName) throws StyleSheetException {
 		fileName = INPUT_FOLDER + "/" + fileName;
-		InputStream is = Regression_226879.class.getResourceAsStream( fileName );
-		return designHandle.openCssStyleSheet( is );
+		InputStream is = Regression_226879.class.getResourceAsStream(fileName);
+		return designHandle.openCssStyleSheet(is);
 	}
 }

@@ -46,42 +46,39 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * accessed from the design.
  * </p>
  */
-public class Regression_121008 extends BaseTestCase
-{
+public class Regression_121008 extends BaseTestCase {
 
 	private final static String TEMPLATE = "regression_121008_template.xml"; //$NON-NLS-1$
 	private final static String libname = "regression_121008_lib.xml";
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( TEMPLATE , TEMPLATE );
-		copyResource_INPUT(  libname, libname );
+		copyResource_INPUT(TEMPLATE, TEMPLATE);
+		copyResource_INPUT(libname, libname);
 	}
+
 	/**
 	 * @throws ContentException
 	 * @throws NameException
 	 * @throws DesignFileException
 	 */
 
-	public void test_regression_121008( ) throws ContentException, NameException,
-			DesignFileException
-	{
-		openDesign( TEMPLATE );
-		ImageHandle image = (ImageHandle) designHandle.findElement( "NewImage" ); //$NON-NLS-1$
+	public void test_regression_121008() throws ContentException, NameException, DesignFileException {
+		openDesign(TEMPLATE);
+		ImageHandle image = (ImageHandle) designHandle.findElement("NewImage"); //$NON-NLS-1$
 
-		ImageHandle copy = (ImageHandle) image.copy( ).getHandle( design );
-		designHandle.rename( copy );
+		ImageHandle copy = (ImageHandle) image.copy().getHandle(design);
+		designHandle.rename(copy);
 
-		designHandle.getBody( ).paste( copy );
-		ImageHandle image2 = (ImageHandle) designHandle.getBody( ).get( 1 );
+		designHandle.getBody().paste(copy);
+		ImageHandle image2 = (ImageHandle) designHandle.getBody().get(1);
 
-		
 		// ensure the the referenced image can be accessed from the design.
 
-		assertEquals( "regression_121008_lib.lvback.gif", image2.getEmbeddedImage( ).getQualifiedName( ) );
-		assertNotNull( image2.getEmbeddedImage( ).getData( ) );
+		assertEquals("regression_121008_lib.lvback.gif", image2.getEmbeddedImage().getQualifiedName());
+		assertNotNull(image2.getEmbeddedImage().getData());
 	}
 }

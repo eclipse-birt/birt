@@ -16,24 +16,19 @@ package org.eclipse.birt.report.model.api.elements.table;
  * 
  */
 
-public class BasicLayoutStrategies
-{
+public class BasicLayoutStrategies {
 
 	/**
-	 * Applies different strategies to the layout table and table element with
-	 * the given options.
+	 * Applies different strategies to the layout table and table element with the
+	 * given options.
 	 * 
-	 * @param layoutTable
-	 *            the layout table to apply strategies
-	 * @param fillsEmptyCells
-	 *            <code>true</code> if cell elements are filled in empty
-	 *            areas. Otherwise <code>false</code>.
+	 * @param layoutTable     the layout table to apply strategies
+	 * @param fillsEmptyCells <code>true</code> if cell elements are filled in empty
+	 *                        areas. Otherwise <code>false</code>.
 	 */
 
-	public static void appliesStrategies( LayoutTable layoutTable,
-			boolean fillsEmptyCells )
-	{
-		new FillCellsStrategy( layoutTable, fillsEmptyCells ).applyStrategy( );
-		new DropStrategy( layoutTable ).applyStrategy( );
+	public static void appliesStrategies(LayoutTable layoutTable, boolean fillsEmptyCells) {
+		new FillCellsStrategy(layoutTable, fillsEmptyCells).applyStrategy();
+		new DropStrategy(layoutTable).applyStrategy();
 	}
 }

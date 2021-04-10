@@ -54,21 +54,17 @@ import org.eclipse.birt.report.model.util.StructureContextUtil;
  * 
  */
 
-public class FilterConditionHandle extends StructureHandle
-{
+public class FilterConditionHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of filter condition.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for filter condition list of one property
-	 * @param index
-	 *            the position of this filter condition in the list
+	 * @param valueHandle the value handle for filter condition list of one property
+	 * @param index       the position of this filter condition in the list
 	 */
 
-	public FilterConditionHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public FilterConditionHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
@@ -77,30 +73,26 @@ public class FilterConditionHandle extends StructureHandle
 	 * @return the filter expression
 	 */
 
-	public String getExpr( )
-	{
-		return getStringProperty( FilterCondition.EXPR_MEMBER );
+	public String getExpr() {
+		return getStringProperty(FilterCondition.EXPR_MEMBER);
 	}
 
 	/**
 	 * Sets the filter expression.
 	 * 
-	 * @param filterExpr
-	 *            the filter expression to set
-	 * @throws SemanticException
-	 *             value required exception
+	 * @param filterExpr the filter expression to set
+	 * @throws SemanticException value required exception
 	 */
 
-	public void setExpr( String filterExpr ) throws SemanticException
-	{
-		setProperty( FilterCondition.EXPR_MEMBER, filterExpr );
+	public void setExpr(String filterExpr) throws SemanticException {
+		setProperty(FilterCondition.EXPR_MEMBER, filterExpr);
 	}
 
 	/**
 	 * Returns the operator of this filter condition. The possible values are
 	 * defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li><code>FILTER_OPERATOR_EQ</code>
 	 * <li><code>FILTER_OPERATOR_NE</code>
@@ -119,8 +111,7 @@ public class FilterConditionHandle extends StructureHandle
 	 * <li><code>
 	 * FILTER_OPERATOR_LIKE</code>
 	 * <li><code>FILTER_OPERATOR_TOP_N</code>
-	 * <li>
-	 * <code>FILTER_OPERATOR_BOTTOM_N</code>
+	 * <li><code>FILTER_OPERATOR_BOTTOM_N</code>
 	 * <li><code>
 	 * FILTER_OPERATOR_TOP_PERCENT</code>
 	 * <li><code>
@@ -132,16 +123,14 @@ public class FilterConditionHandle extends StructureHandle
 	 * @return the operator of this filter condition
 	 */
 
-	public String getOperator( )
-	{
-		return getStringProperty( FilterCondition.OPERATOR_MEMBER );
+	public String getOperator() {
+		return getStringProperty(FilterCondition.OPERATOR_MEMBER);
 	}
 
 	/**
-	 * Sets the operator of this filter condition. The allowed values are
-	 * defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * Sets the operator of this filter condition. The allowed values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li><code>FILTER_OPERATOR_EQ</code>
 	 * <li><code>FILTER_OPERATOR_NE</code>
@@ -160,8 +149,7 @@ public class FilterConditionHandle extends StructureHandle
 	 * <li><code>
 	 * FILTER_OPERATOR_LIKE</code>
 	 * <li><code>FILTER_OPERATOR_TOP_N</code>
-	 * <li>
-	 * <code>FILTER_OPERATOR_BOTTOM_N</code>
+	 * <li><code>FILTER_OPERATOR_BOTTOM_N</code>
 	 * <li><code>
 	 * FILTER_OPERATOR_TOP_PERCENT</code>
 	 * <li><code>
@@ -170,45 +158,37 @@ public class FilterConditionHandle extends StructureHandle
 	 * </code>
 	 * </ul>
 	 * 
-	 * @param operator
-	 *            the operator to set
-	 * @throws SemanticException
-	 *             if operator is not in the choice list.
+	 * @param operator the operator to set
+	 * @throws SemanticException if operator is not in the choice list.
 	 */
 
-	public void setOperator( String operator ) throws SemanticException
-	{
+	public void setOperator(String operator) throws SemanticException {
 
-		ActivityStack stack = getModule( ).getActivityStack( );
-		stack.startTrans( CommandLabelFactory.getCommandLabel(
-				MessageConstants.CHANGE_PROPERTY_MESSAGE,
-				new String[]{IFilterConditionElementModel.OPERATOR_PROP} ) );
-		try
-		{
-			setProperty( FilterCondition.OPERATOR_MEMBER, operator );
-			int level = OperatorUtil.computeFilterOperatorLevel( operator );
-			switch ( level )
-			{
-				case OperatorUtil.OPERATOR_LEVEL_ONE :
-					setValue2( (Expression) null );
-					break;
-				case OperatorUtil.OPERATOR_LEVEL_TWO :
-					break;
-				case OperatorUtil.OPERATOR_LEVEL_ZERO :
-					setValue2( (Expression) null );
-					setValue1( (List) null );
-					break;
-				case OperatorUtil.OPERATOR_LEVEL_NOT_EXIST :
-					break;
+		ActivityStack stack = getModule().getActivityStack();
+		stack.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.CHANGE_PROPERTY_MESSAGE,
+				new String[] { IFilterConditionElementModel.OPERATOR_PROP }));
+		try {
+			setProperty(FilterCondition.OPERATOR_MEMBER, operator);
+			int level = OperatorUtil.computeFilterOperatorLevel(operator);
+			switch (level) {
+			case OperatorUtil.OPERATOR_LEVEL_ONE:
+				setValue2((Expression) null);
+				break;
+			case OperatorUtil.OPERATOR_LEVEL_TWO:
+				break;
+			case OperatorUtil.OPERATOR_LEVEL_ZERO:
+				setValue2((Expression) null);
+				setValue1((List) null);
+				break;
+			case OperatorUtil.OPERATOR_LEVEL_NOT_EXIST:
+				break;
 			}
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
+		} catch (SemanticException e) {
+			stack.rollback();
 			throw e;
 		}
 
-		stack.commit( );
+		stack.commit();
 	}
 
 	/**
@@ -217,71 +197,62 @@ public class FilterConditionHandle extends StructureHandle
 	 * @return the value 1 expression of this filter condition
 	 */
 
-	public String getValue1( )
-	{
-		List valueList = getValue1List( );
-		if ( valueList == null || valueList.isEmpty( ) )
+	public String getValue1() {
+		List valueList = getValue1List();
+		if (valueList == null || valueList.isEmpty())
 			return null;
 
-		return (String) valueList.get( 0 );
+		return (String) valueList.get(0);
 	}
 
 	/**
 	 * Gets the value1 expression list of this filter condition. For most filter
-	 * operator, there is only one expression in the returned list. However,
-	 * filter operator 'in' may contain more than one expression.
+	 * operator, there is only one expression in the returned list. However, filter
+	 * operator 'in' may contain more than one expression.
 	 * 
 	 * @return the value1 expression list of this filter condition.
 	 * 
 	 * @deprecated {@link #getValue1ExpressionList()}
 	 */
-	public List getValue1List( )
-	{
-		List valueList = (List) getProperty( FilterCondition.VALUE1_MEMBER );
-		if ( valueList == null || valueList.isEmpty( ) )
+	public List getValue1List() {
+		List valueList = (List) getProperty(FilterCondition.VALUE1_MEMBER);
+		if (valueList == null || valueList.isEmpty())
 			return Collections.EMPTY_LIST;
-		return Collections.unmodifiableList( ModelUtil
-				.getExpressionCompatibleList( valueList ) );
+		return Collections.unmodifiableList(ModelUtil.getExpressionCompatibleList(valueList));
 	}
 
 	/**
 	 * Gets the value1 expression list of this filter condition. For most filter
-	 * operator, there is only one expression in the returned list. However,
-	 * filter operator 'in' may contain more than one expression.
+	 * operator, there is only one expression in the returned list. However, filter
+	 * operator 'in' may contain more than one expression.
 	 * 
 	 * @return the value1 expression list handle of this filter condition.
 	 */
 
-	public ExpressionListHandle getValue1ExpressionList( )
-	{
-		return new ExpressionListHandle( elementHandle, StructureContextUtil
-				.createStructureContext( this, FilterCondition.VALUE1_MEMBER ) );
+	public ExpressionListHandle getValue1ExpressionList() {
+		return new ExpressionListHandle(elementHandle,
+				StructureContextUtil.createStructureContext(this, FilterCondition.VALUE1_MEMBER));
 	}
 
 	/**
 	 * Sets the value 1 expression of this filter condition.
 	 * 
-	 * @param value1Expr
-	 *            the value 1 expression to set
+	 * @param value1Expr the value 1 expression to set
 	 */
 
-	public void setValue1( String value1Expr )
-	{
-		setPropertySilently( FilterCondition.VALUE1_MEMBER, value1Expr );
+	public void setValue1(String value1Expr) {
+		setPropertySilently(FilterCondition.VALUE1_MEMBER, value1Expr);
 	}
 
 	/**
 	 * Sets the value 1 expression list of this filter condition.
 	 * 
-	 * @param value1List
-	 *            the value 1 expression list to set
-	 * @throws SemanticException
-	 *             if the instance in the list is not valid
+	 * @param value1List the value 1 expression list to set
+	 * @throws SemanticException if the instance in the list is not valid
 	 */
 
-	public void setValue1( List value1List ) throws SemanticException
-	{
-		setProperty( FilterCondition.VALUE1_MEMBER, value1List );
+	public void setValue1(List value1List) throws SemanticException {
+		setProperty(FilterCondition.VALUE1_MEMBER, value1List);
 	}
 
 	/**
@@ -290,21 +261,18 @@ public class FilterConditionHandle extends StructureHandle
 	 * @return the value 2 expression of this filter condition
 	 */
 
-	public String getValue2( )
-	{
-		return getStringProperty( FilterCondition.VALUE2_MEMBER );
+	public String getValue2() {
+		return getStringProperty(FilterCondition.VALUE2_MEMBER);
 	}
 
 	/**
 	 * Sets the value 2 expression of this filter condition.
 	 * 
-	 * @param value2Expr
-	 *            the value 2 expression to set
+	 * @param value2Expr the value 2 expression to set
 	 */
 
-	public void setValue2( String value2Expr )
-	{
-		setPropertySilently( FilterCondition.VALUE2_MEMBER, value2Expr );
+	public void setValue2(String value2Expr) {
+		setPropertySilently(FilterCondition.VALUE2_MEMBER, value2Expr);
 	}
 
 	/**
@@ -315,22 +283,19 @@ public class FilterConditionHandle extends StructureHandle
 	 * @deprecated This property has been removed.
 	 */
 
-	public String getColumn( )
-	{
+	public String getColumn() {
 		return null;
 	}
 
 	/**
 	 * Sets the column name of this filter condition. NOT support any more.
 	 * 
-	 * @param column
-	 *            the column name to set
+	 * @param column the column name to set
 	 * 
 	 * @deprecated This property has been removed.
 	 * 
 	 */
-	public void setColumn( String column )
-	{
+	public void setColumn(String column) {
 	}
 
 	/**
@@ -341,24 +306,20 @@ public class FilterConditionHandle extends StructureHandle
 	 * @deprecated Replaced by the method {@link #getExpr()}
 	 */
 
-	public String getFilterExpr( )
-	{
-		return getExpr( );
+	public String getFilterExpr() {
+		return getExpr();
 	}
 
 	/**
 	 * Sets the filter expression.
 	 * 
-	 * @param filterExpr
-	 *            the filter expression to set
-	 * @throws SemanticException
-	 *             value required exception
+	 * @param filterExpr the filter expression to set
+	 * @throws SemanticException value required exception
 	 * @deprecated Replaced by the method {@link #setExpr(String)}
 	 */
 
-	public void setFilterExpr( String filterExpr ) throws SemanticException
-	{
-		setExpr( filterExpr );
+	public void setFilterExpr(String filterExpr) throws SemanticException {
+		setExpr(filterExpr);
 	}
 
 	/**
@@ -369,23 +330,20 @@ public class FilterConditionHandle extends StructureHandle
 	 * @deprecated Replaced by the method {@link #getValue1()}
 	 */
 
-	public String getValue1Expr( )
-	{
-		return getValue1( );
+	public String getValue1Expr() {
+		return getValue1();
 	}
 
 	/**
 	 * Sets the value 1 expression of this filter condition.
 	 * 
-	 * @param value1Expr
-	 *            the value 1 expression to set
+	 * @param value1Expr the value 1 expression to set
 	 * 
 	 * @deprecated Replaced by the method {@link #setValue1(String)}
 	 */
 
-	public void setValue1Expr( String value1Expr )
-	{
-		setValue1( value1Expr );
+	public void setValue1Expr(String value1Expr) {
+		setValue1(value1Expr);
 	}
 
 	/**
@@ -396,29 +354,26 @@ public class FilterConditionHandle extends StructureHandle
 	 * @deprecated Replaced by the method {@link #getValue2()}
 	 */
 
-	public String getValue2Expr( )
-	{
-		return getValue2( );
+	public String getValue2Expr() {
+		return getValue2();
 	}
 
 	/**
 	 * Sets the value 2 expression of this filter condition.
 	 * 
-	 * @param value2Expr
-	 *            the value 2 expression to set
+	 * @param value2Expr the value 2 expression to set
 	 * 
 	 * @deprecated Replaced by the method {@link #setValue2(String)}
 	 */
 
-	public void setValue2Expr( String value2Expr )
-	{
-		setValue2( value2Expr );
+	public void setValue2Expr(String value2Expr) {
+		setValue2(value2Expr);
 	}
 
 	/**
 	 * Returns the filter target. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li><code>FILTER_TARGET_DATA_SET</code>
 	 * <li><code>
@@ -428,31 +383,27 @@ public class FilterConditionHandle extends StructureHandle
 	 * @return the target type
 	 */
 
-	public String getFilterTarget( )
-	{
-		return (String) getProperty( FilterCondition.FILTER_TARGET_MEMBER );
+	public String getFilterTarget() {
+		return (String) getProperty(FilterCondition.FILTER_TARGET_MEMBER);
 	}
 
 	/**
 	 * Sets the filter target. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li><code>FILTER_TARGET_DATA_SET</code>
 	 * <li><code>
 	 * FILTER_TARGET_RESULT_SET</code>
 	 * </ul>
 	 * 
-	 * @param filterTarget
-	 *            the filter target to set
+	 * @param filterTarget the filter target to set
 	 * 
-	 * @throws SemanticException
-	 *             if the value is not one of the above.
+	 * @throws SemanticException if the value is not one of the above.
 	 */
 
-	public void setFilterTarget( String filterTarget ) throws SemanticException
-	{
-		setProperty( FilterCondition.FILTER_TARGET_MEMBER, filterTarget );
+	public void setFilterTarget(String filterTarget) throws SemanticException {
+		setProperty(FilterCondition.FILTER_TARGET_MEMBER, filterTarget);
 	}
 
 	/**
@@ -460,142 +411,120 @@ public class FilterConditionHandle extends StructureHandle
 	 * 
 	 * @return true if this filter is optional, otherwise false
 	 */
-	public boolean isOptional( )
-	{
-		Boolean isOptional = (Boolean) getProperty( FilterCondition.IS_OPTIONAL_MEMBER );
-		if ( isOptional == null )
+	public boolean isOptional() {
+		Boolean isOptional = (Boolean) getProperty(FilterCondition.IS_OPTIONAL_MEMBER);
+		if (isOptional == null)
 			return false;
-		return isOptional.booleanValue( );
+		return isOptional.booleanValue();
 	}
 
 	/**
 	 * Sets the optional status for this filter condition.
 	 * 
-	 * @param isOptional
-	 *            true if this filter is optional, otherwise false
+	 * @param isOptional true if this filter is optional, otherwise false
 	 */
-	public void setOptional( boolean isOptional )
-	{
-		setPropertySilently( FilterCondition.IS_OPTIONAL_MEMBER, Boolean
-				.valueOf( isOptional ) );
+	public void setOptional(boolean isOptional) {
+		setPropertySilently(FilterCondition.IS_OPTIONAL_MEMBER, Boolean.valueOf(isOptional));
 	}
 
 	/**
 	 * Returns the unique id of an
-	 * org.eclipse.datatools.connectivity.oda.filterExpressions extension to
-	 * whose custom expressions are defined to map to a BIRT filter operator.
+	 * org.eclipse.datatools.connectivity.oda.filterExpressions extension to whose
+	 * custom expressions are defined to map to a BIRT filter operator.
 	 * 
 	 * @return the extension name
 	 */
-	public String getExtensionName( )
-	{
-		return getStringProperty( FilterCondition.EXTENSION_NAME_MEMBER );
+	public String getExtensionName() {
+		return getStringProperty(FilterCondition.EXTENSION_NAME_MEMBER);
 	}
 
 	/**
-	 * Returns the id of a custom filter expression contributed and defined by
-	 * the extension identified in the consumerExpressionMapping.
+	 * Returns the id of a custom filter expression contributed and defined by the
+	 * extension identified in the consumerExpressionMapping.
 	 * 
 	 * @return the extension expression id
 	 */
 
-	public String getExtensionExprId( )
-	{
-		return getStringProperty( FilterCondition.EXTENSION_EXPR_ID_MEMBER );
+	public String getExtensionExprId() {
+		return getStringProperty(FilterCondition.EXTENSION_EXPR_ID_MEMBER);
 	}
 
 	/**
-	 * Indicate if the current filter condition will be pushed down to the
-	 * database. Default value is false. Only the oda extension provider
-	 * supported operators can be pushed down to database. For those only BIRT
-	 * supported operators even this property is set to true, will be ignored.
+	 * Indicate if the current filter condition will be pushed down to the database.
+	 * Default value is false. Only the oda extension provider supported operators
+	 * can be pushed down to database. For those only BIRT supported operators even
+	 * this property is set to true, will be ignored.
 	 * 
 	 * @return true if the current filter condition will be pushed down to the
 	 *         database, otherwise false.
 	 */
 
-	public boolean pushDown( )
-	{
-		Boolean pushDown = (Boolean) getProperty( FilterCondition.PUSH_DOWN_MEMBER );
-		if ( pushDown == null )
-		{
+	public boolean pushDown() {
+		Boolean pushDown = (Boolean) getProperty(FilterCondition.PUSH_DOWN_MEMBER);
+		if (pushDown == null) {
 			return false;
 		}
-		return pushDown.booleanValue( );
+		return pushDown.booleanValue();
 	}
 
 	/**
-	 * Returns the name of the dynamic filter parameter to reference when the
-	 * filter condition is dynamic.
+	 * Returns the name of the dynamic filter parameter to reference when the filter
+	 * condition is dynamic.
 	 * 
 	 * @return the name to the dynamic filter parameter to reference.
 	 */
 
-	public String getDynamicFilterParameter( )
-	{
-		return getStringProperty( FilterCondition.DYNAMIC_FILTER_PARAMETER_MEMBER );
+	public String getDynamicFilterParameter() {
+		return getStringProperty(FilterCondition.DYNAMIC_FILTER_PARAMETER_MEMBER);
 	}
 
 	/**
 	 * Sets the unique id of an
-	 * org.eclipse.datatools.connectivity.oda.filterExpressions extension to
-	 * whose custom expressions are defined to map to a BIRT filter operator.
+	 * org.eclipse.datatools.connectivity.oda.filterExpressions extension to whose
+	 * custom expressions are defined to map to a BIRT filter operator.
 	 * 
-	 * @param extensionName
-	 *            the extension name to set
+	 * @param extensionName the extension name to set
 	 */
 
-	public void setExtensionName( String extensionName )
-	{
-		setPropertySilently( FilterCondition.EXTENSION_NAME_MEMBER,
-				extensionName );
+	public void setExtensionName(String extensionName) {
+		setPropertySilently(FilterCondition.EXTENSION_NAME_MEMBER, extensionName);
 	}
 
 	/**
 	 * Sets the id of a custom filter expression contributed and defined by the
 	 * extension identified in the consumerExpressionMapping.
 	 * 
-	 * @param extensionExprId
-	 *            the id to set
+	 * @param extensionExprId the id to set
 	 */
 
-	public void setExtensionExprId( String extensionExprId )
-	{
-		setPropertySilently( FilterCondition.EXTENSION_EXPR_ID_MEMBER,
-				extensionExprId );
+	public void setExtensionExprId(String extensionExprId) {
+		setPropertySilently(FilterCondition.EXTENSION_EXPR_ID_MEMBER, extensionExprId);
 	}
 
 	/**
 	 * Sets the push down status for this filter condition
 	 * 
-	 * @param pushDown
-	 *            true if the current filter condition will be pushed down to
-	 *            the database, otherwise false.
+	 * @param pushDown true if the current filter condition will be pushed down to
+	 *                 the database, otherwise false.
 	 */
-	public void setPushDown( boolean pushDown )
-	{
-		setPropertySilently( FilterCondition.PUSH_DOWN_MEMBER, Boolean
-				.valueOf( pushDown ) );
+	public void setPushDown(boolean pushDown) {
+		setPropertySilently(FilterCondition.PUSH_DOWN_MEMBER, Boolean.valueOf(pushDown));
 	}
 
 	/**
 	 * Sets the name of the dynamic filter parameter to reference.
 	 * 
-	 * @param parameterName
-	 *            the name of the dynamic filter parameter to set
+	 * @param parameterName the name of the dynamic filter parameter to set
 	 */
 
-	public void setDynamicFilterParameter( String parameterName )
-	{
-		setPropertySilently( FilterCondition.DYNAMIC_FILTER_PARAMETER_MEMBER,
-				parameterName );
+	public void setDynamicFilterParameter(String parameterName) {
+		setPropertySilently(FilterCondition.DYNAMIC_FILTER_PARAMETER_MEMBER, parameterName);
 	}
 
 	/**
-	 * Returns the type of this filter condition. The possible values are
-	 * defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * Returns the type of this filter condition. The possible values are defined in
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li><code>FILTER_CONDITION_TYPE_SLICER</code>
 	 * <li><code>FILTER_CONDITION_TYPE_SIMPLE</code>
@@ -604,71 +533,60 @@ public class FilterConditionHandle extends StructureHandle
 	 * @return the operator of this filter condition
 	 */
 
-	public String getType( )
-	{
-		return getStringProperty( FilterCondition.TYPE_MEMBER );
+	public String getType() {
+		return getStringProperty(FilterCondition.TYPE_MEMBER);
 	}
 
 	/**
 	 * Sets the type of this filter condition. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li><code>FILTER_CONDITION_TYPE_SLICER</code>
 	 * <li><code>FILTER_CONDITION_TYPE_SIMPLE</code>
 	 * </ul>
 	 * 
-	 * @param type
-	 *            the type to set
-	 * @throws SemanticException
-	 *             if type is not in the choice list.
+	 * @param type the type to set
+	 * @throws SemanticException if type is not in the choice list.
 	 */
 
-	public void setType( String type ) throws SemanticException
-	{
+	public void setType(String type) throws SemanticException {
 
-		setProperty( FilterCondition.TYPE_MEMBER, type );
+		setProperty(FilterCondition.TYPE_MEMBER, type);
 	}
-	
+
 	/**
 	 * Sets the value 2 expression of this filter condition.
 	 * 
-	 * @param value2Expr
-	 *            the value 2 expression to set
-	 * @throws SemanticException          
+	 * @param value2Expr the value 2 expression to set
+	 * @throws SemanticException
 	 */
 
-	public void setValue2( Expression value2Expr ) throws SemanticException
-	{
-		setExpressionProperty( FilterCondition.VALUE2_MEMBER, value2Expr );
+	public void setValue2(Expression value2Expr) throws SemanticException {
+		setExpressionProperty(FilterCondition.VALUE2_MEMBER, value2Expr);
 	}
-	
+
 	/**
 	 * Checks if this filter condition needs to update aggregation.
 	 * 
 	 * @return the flag to indicate updating aggregation or not.
 	 */
-	public boolean updateAggregation( )
-	{
-		Boolean updateAggregation = (Boolean) getProperty( FilterCondition.UPDATE_AGGREGATION_MEMBER );
-		if ( updateAggregation == null )
+	public boolean updateAggregation() {
+		Boolean updateAggregation = (Boolean) getProperty(FilterCondition.UPDATE_AGGREGATION_MEMBER);
+		if (updateAggregation == null)
 			return false;
-		return updateAggregation.booleanValue( );
+		return updateAggregation.booleanValue();
 	}
 
 	/**
 	 * Sets the updateAggregation flag of the filter condition.
 	 * 
-	 * @param updateAggregation
-	 *            the updateAggregation flag to set
+	 * @param updateAggregation the updateAggregation flag to set
 	 * @throws SemanticException
 	 */
 
-	public void setUpdateAggregation( boolean updateAggregation )
-			throws SemanticException
-	{
-		setProperty( FilterCondition.UPDATE_AGGREGATION_MEMBER,
-				Boolean.valueOf( updateAggregation ) );
+	public void setUpdateAggregation(boolean updateAggregation) throws SemanticException {
+		setProperty(FilterCondition.UPDATE_AGGREGATION_MEMBER, Boolean.valueOf(updateAggregation));
 	}
 
 	/**
@@ -676,9 +594,8 @@ public class FilterConditionHandle extends StructureHandle
 	 * 
 	 * @return the flag to indicate updating aggregation or not.
 	 */
-	public String getCustomValue( )
-	{
-		return getStringProperty( FilterCondition.CUSTOM_VALUE );
+	public String getCustomValue() {
+		return getStringProperty(FilterCondition.CUSTOM_VALUE);
 	}
 
 	/**
@@ -686,8 +603,7 @@ public class FilterConditionHandle extends StructureHandle
 	 * 
 	 */
 
-	public void setCustomValue( String customValue ) throws SemanticException
-	{
-		setProperty( FilterCondition.CUSTOM_VALUE, customValue );
+	public void setCustomValue(String customValue) throws SemanticException {
+		setProperty(FilterCondition.CUSTOM_VALUE, customValue);
 	}
 }

@@ -16,13 +16,12 @@ package org.eclipse.birt.data.engine.olap.data.util;
  * Object.
  */
 
-public interface IStructure
-{
+public interface IStructure {
 
 	/**
 	 * 
 	 * @return
 	 */
-	public Object[] getFieldValues( );
+	public Object[] getFieldValues();
 
 }

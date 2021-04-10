@@ -12,12 +12,13 @@
 package org.eclipse.birt.chart.device.util;
 
 /**
- * This interface defines method to encode/decode special characters for HTML, javascript and other cases.
+ * This interface defines method to encode/decode special characters for HTML,
+ * javascript and other cases.
+ * 
  * @since 2.6
  */
 
-public interface ICharacterEncoderAdapter
-{
+public interface ICharacterEncoderAdapter {
 	/**
 	 * Escapes special characters for HTML.
 	 * 
@@ -25,9 +26,10 @@ public interface ICharacterEncoderAdapter
 	 * @return
 	 */
 	public String escape(String s);
-	
+
 	/**
 	 * Transforms a string to JS string constants.
+	 * 
 	 * @param s
 	 * @return
 	 */

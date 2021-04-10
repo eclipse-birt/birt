@@ -31,61 +31,48 @@ import org.eclipse.birt.sample.reportitem.rotatedtext.util.SwingGraphicsUtil;
 /**
  * RotatedTextPresentationImpl
  */
-public class RotatedTextPresentationImpl extends ReportItemPresentationBase
-{
+public class RotatedTextPresentationImpl extends ReportItemPresentationBase {
 
 	private RotatedTextItem textItem;
 
-	public void setModelObject( ExtendedItemHandle modelHandle )
-	{
-		try
-		{
-			textItem = (RotatedTextItem) modelHandle.getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
-			e.printStackTrace( );
+	public void setModelObject(ExtendedItemHandle modelHandle) {
+		try {
+			textItem = (RotatedTextItem) modelHandle.getReportItem();
+		} catch (ExtendedElementException e) {
+			e.printStackTrace();
 		}
 	}
 
-	public int getOutputType( )
-	{
+	public int getOutputType() {
 		return OUTPUT_AS_IMAGE;
 	}
 
-	public Object onRowSets( IRowSet[] rowSets ) throws BirtException
-	{
-		if ( textItem == null )
-		{
+	public Object onRowSets(IRowSet[] rowSets) throws BirtException {
+		if (textItem == null) {
 			return null;
 		}
 
-		int angle = textItem.getRotationAngle( );
-		String text = textItem.getText( );
+		int angle = textItem.getRotationAngle();
+		String text = textItem.getText();
 
-		BufferedImage rotatedImage = SwingGraphicsUtil.createRotatedTextImage( text,
-				angle,
-				new Font( "Default", 0, 12 ) ); //$NON-NLS-1$
+		BufferedImage rotatedImage = SwingGraphicsUtil.createRotatedTextImage(text, angle, new Font("Default", 0, 12)); //$NON-NLS-1$
 
 		ByteArrayInputStream bis = null;
 
-		try
-		{
-			ImageIO.setUseCache( false );
+		try {
+			ImageIO.setUseCache(false);
 
-			ByteArrayOutputStream baos = new ByteArrayOutputStream( );
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-			ImageOutputStream ios = ImageIO.createImageOutputStream( baos );
+			ImageOutputStream ios = ImageIO.createImageOutputStream(baos);
 
-			ImageIO.write( rotatedImage, "png", ios ); //$NON-NLS-1$
-			ios.flush( );
-			ios.close( );
+			ImageIO.write(rotatedImage, "png", ios); //$NON-NLS-1$
+			ios.flush();
+			ios.close();
 
-			bis = new ByteArrayInputStream( baos.toByteArray( ) );
-		}
-		catch ( IOException e )
-		{
-			e.printStackTrace( );
+			bis = new ByteArrayInputStream(baos.toByteArray());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		return bis;

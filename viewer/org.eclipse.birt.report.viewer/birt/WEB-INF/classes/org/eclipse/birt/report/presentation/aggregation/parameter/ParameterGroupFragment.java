@@ -35,8 +35,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * 
  * @see BaseFragment
  */
-public class ParameterGroupFragment extends BirtBaseFragment
-{
+public class ParameterGroupFragment extends BirtBaseFragment {
 
 	/**
 	 * Reference to the real parameter group definition.
@@ -46,113 +45,87 @@ public class ParameterGroupFragment extends BirtBaseFragment
 	/**
 	 * Protected constructor.
 	 * 
-	 * @param parameterGroup
-	 *            parameter group definition reference.
+	 * @param parameterGroup parameter group definition reference.
 	 */
-	public ParameterGroupFragment( ParameterGroupDefinition parameterGroup )
-	{
+	public ParameterGroupFragment(ParameterGroupDefinition parameterGroup) {
 		this.parameterGroup = parameterGroup;
 	}
 
 	/**
 	 * Get report parameters from engine.
 	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
+	 * @param request  incoming http request
+	 * @param response http response
 	 * @return target jsp pages
 	 * @exception ServletException
 	 * @exception IOException
 	 */
-	protected void doService( HttpServletRequest request,
-			HttpServletResponse response ) throws ServletException, IOException
-	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
-				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+	protected void doService(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
 		assert attrBean != null;
 
 		assert parameterGroup != null;
-		ParameterGroupBean parameterGroupBean = new ParameterGroupBean(
-				parameterGroup );
-		attrBean.setParameterBean( parameterGroupBean );
+		ParameterGroupBean parameterGroupBean = new ParameterGroupBean(parameterGroup);
+		attrBean.setParameterBean(parameterGroupBean);
 
 		// Display name.
-		String displayName = parameterGroup.getPromptText( );
-		displayName = ( displayName == null || displayName.length( ) <= 0 )
-				? parameterGroup.getDisplayName( )
+		String displayName = parameterGroup.getPromptText();
+		displayName = (displayName == null || displayName.length() <= 0) ? parameterGroup.getDisplayName()
 				: displayName;
 
-		displayName = ParameterAccessor.htmlEncode( displayName );
-		parameterGroupBean.setDisplayName( displayName );
+		displayName = ParameterAccessor.htmlEncode(displayName);
+		parameterGroupBean.setDisplayName(displayName);
 
 		// Parameters inside group.
-		Collection fragments = new ArrayList( );
+		Collection fragments = new ArrayList();
 		IFragment fragment = null;
 
-		for ( Iterator iter = parameterGroup.getParameters( ).iterator( ); iter
-				.hasNext( ); )
-		{
-			Object obj = iter.next( );
-			if ( obj instanceof ParameterDefinition )
-			{
+		for (Iterator iter = parameterGroup.getParameters().iterator(); iter.hasNext();) {
+			Object obj = iter.next();
+			if (obj instanceof ParameterDefinition) {
 				ParameterDefinition scalarParameter = (ParameterDefinition) obj;
 
-				if ( !scalarParameter.isHidden( ) )
-				{
-					switch ( scalarParameter.getControlType( ) )
-					{
-						case ParameterDefinition.TEXT_BOX :
-						{
-							fragment = new TextBoxParameterFragment(
-									scalarParameter );
-							break;
-						}
-						case ParameterDefinition.LIST_BOX :
-						{
-							fragment = new ComboBoxParameterFragment(
-									scalarParameter );
-							break;
-						}
-						case ParameterDefinition.RADIO_BUTTON :
-						{
-							fragment = new RadioButtonParameterFragment(
-									scalarParameter );
-							break;
-						}
-						case ParameterDefinition.CHECK_BOX :
-						{
-							fragment = new CheckboxParameterFragment(
-									scalarParameter );
-							break;
-						}
+				if (!scalarParameter.isHidden()) {
+					switch (scalarParameter.getControlType()) {
+					case ParameterDefinition.TEXT_BOX: {
+						fragment = new TextBoxParameterFragment(scalarParameter);
+						break;
 					}
-				}
-				else
-				{
+					case ParameterDefinition.LIST_BOX: {
+						fragment = new ComboBoxParameterFragment(scalarParameter);
+						break;
+					}
+					case ParameterDefinition.RADIO_BUTTON: {
+						fragment = new RadioButtonParameterFragment(scalarParameter);
+						break;
+					}
+					case ParameterDefinition.CHECK_BOX: {
+						fragment = new CheckboxParameterFragment(scalarParameter);
+						break;
+					}
+					}
+				} else {
 					// handle hidden parameter
-					fragment = new HiddenParameterFragment( scalarParameter );
+					fragment = new HiddenParameterFragment(scalarParameter);
 				}
 
-				if ( fragment != null )
-				{
-					fragment.setJSPRootPath( JSPRootPath );
-					fragments.add( fragment );
+				if (fragment != null) {
+					fragment.setJSPRootPath(JSPRootPath);
+					fragments.add(fragment);
 				}
 			}
 		}
 
-		request.setAttribute( "fragments", fragments ); //$NON-NLS-1$
+		request.setAttribute("fragments", fragments); //$NON-NLS-1$
 	}
 
 	/**
 	 * Override implementation of doPostService.
 	 */
-	protected String doPostService( HttpServletRequest request,
-			HttpServletResponse response ) throws ServletException, IOException
-	{
-		String className = getClass( ).getName( ).substring(
-				getClass( ).getName( ).lastIndexOf( '.' ) + 1 );
-		return JSPRootPath + "/pages/parameter/" + className + ".jsp"; //$NON-NLS-1$  //$NON-NLS-2$
+	protected String doPostService(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String className = getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1);
+		return JSPRootPath + "/pages/parameter/" + className + ".jsp"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

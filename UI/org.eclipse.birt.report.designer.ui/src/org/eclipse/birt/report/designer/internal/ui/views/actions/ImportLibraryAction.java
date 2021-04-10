@@ -32,25 +32,20 @@ import org.eclipse.jface.window.Window;
  * The action used to add library to a report design
  */
 
-public class ImportLibraryAction extends Action
-{
+public class ImportLibraryAction extends Action {
 
 	public static final String ID = "UseLibraryAction"; //$NON-NLS-1$
-	public static final String ACTION_TEXT = Messages.getString( "UseLibraryAction.Text" ); //$NON-NLS-1$
-	
+	public static final String ACTION_TEXT = Messages.getString("UseLibraryAction.Text"); //$NON-NLS-1$
 
-	public static final String DIALOG_TITLE = Messages.getString( "ImportLibraryAction.Dialog.Titile" ); //$NON-NLS-1$
-	public static final String DIALOG_MESSAGE = Messages.getString( "ImportLibraryAction.Dialog.Message" ); //$NON-NLS-1$
-	private static final String[] LIBRARY_FILE_TYPE = new String[]{
-		".rptlibrary", //$NON-NLS-1$
+	public static final String DIALOG_TITLE = Messages.getString("ImportLibraryAction.Dialog.Titile"); //$NON-NLS-1$
+	public static final String DIALOG_MESSAGE = Messages.getString("ImportLibraryAction.Dialog.Message"); //$NON-NLS-1$
+	private static final String[] LIBRARY_FILE_TYPE = new String[] { ".rptlibrary", //$NON-NLS-1$
 	};
-	private static final String[] LIBRARY_FILE_PATTERN = new String[]{
-		"*.rptlibrary", //$NON-NLS-1$
+	private static final String[] LIBRARY_FILE_PATTERN = new String[] { "*.rptlibrary", //$NON-NLS-1$
 	};
 
-	public ImportLibraryAction( )
-	{
-		setText( ACTION_TEXT ); //$NON-NLS-1$
+	public ImportLibraryAction() {
+		setText(ACTION_TEXT); // $NON-NLS-1$
 	}
 
 	/*
@@ -58,8 +53,7 @@ public class ImportLibraryAction extends Action
 	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
+	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
 	}
@@ -69,8 +63,7 @@ public class ImportLibraryAction extends Action
 	 * 
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
-	public void run( )
-	{
+	public void run() {
 		// FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ),
 		// SWT.OPEN );
 		// dialog.setFilterExtensions( new String[]{
@@ -122,77 +115,58 @@ public class ImportLibraryAction extends Action
 		// }
 
 		// Bugzilla Bug 160806
-		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
-				LIBRARY_FILE_PATTERN );
-		dialog.setTitle( DIALOG_TITLE ); 
-		dialog.setMessage( DIALOG_MESSAGE );
-		dialog.setAllowImportFile( true );
-		ResourceSelectionValidator validator = new ResourceSelectionValidator( LIBRARY_FILE_TYPE );
-		dialog.setValidator( validator );
-		
-		if ( dialog.open( ) == Window.OK )
-		{
-			try
-			{
-				String filename = dialog.getPath( );
-				ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( );
-				UIUtil.includeLibrary( moduleHandle, filename );
-			}
-			catch ( Exception e )
-			{
-				ExceptionHandler.handle( e );
+		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog(true, LIBRARY_FILE_PATTERN);
+		dialog.setTitle(DIALOG_TITLE);
+		dialog.setMessage(DIALOG_MESSAGE);
+		dialog.setAllowImportFile(true);
+		ResourceSelectionValidator validator = new ResourceSelectionValidator(LIBRARY_FILE_TYPE);
+		dialog.setValidator(validator);
+
+		if (dialog.open() == Window.OK) {
+			try {
+				String filename = dialog.getPath();
+				ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
+				UIUtil.includeLibrary(moduleHandle, filename);
+			} catch (Exception e) {
+				ExceptionHandler.handle(e);
 			}
 		}
 	}
 
-	private String copyToResourceFolder( String filename ) throws IOException
-	{
-		File orgFile = new File( filename );
-		File resourceFolder = new File( ReportPlugin.getDefault( )
-				.getResourceFolder( ) );
-		if ( resourceFolder.exists( ) )
-		{
-			File targetFile = new File( resourceFolder, orgFile.getName( ) );
-			if ( targetFile.exists( ) )
-			{
-				if ( targetFile.getAbsolutePath( )
-						.equals( orgFile.getAbsolutePath( ) ) )
-				{
-					return orgFile.getAbsolutePath( );
+	private String copyToResourceFolder(String filename) throws IOException {
+		File orgFile = new File(filename);
+		File resourceFolder = new File(ReportPlugin.getDefault().getResourceFolder());
+		if (resourceFolder.exists()) {
+			File targetFile = new File(resourceFolder, orgFile.getName());
+			if (targetFile.exists()) {
+				if (targetFile.getAbsolutePath().equals(orgFile.getAbsolutePath())) {
+					return orgFile.getAbsolutePath();
 				}
-				if ( MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
-						Messages.getString( "UseLibraryAction.Error.Title" ), //$NON-NLS-1$
-						Messages.getFormattedString( "UseLibraryAction.Error.Message", //$NON-NLS-1$
-								new String[]{
-									targetFile.getName( )
-								} ) ) )
-					coypFile( orgFile, targetFile );
+				if (MessageDialog.openConfirm(UIUtil.getDefaultShell(),
+						Messages.getString("UseLibraryAction.Error.Title"), //$NON-NLS-1$
+						Messages.getFormattedString("UseLibraryAction.Error.Message", //$NON-NLS-1$
+								new String[] { targetFile.getName() })))
+					coypFile(orgFile, targetFile);
+			} else {
+				coypFile(orgFile, targetFile);
 			}
-			else
-			{
-				coypFile( orgFile, targetFile );
-			}
-			return targetFile.getAbsolutePath( );
+			return targetFile.getAbsolutePath();
 		}
 
 		return null;
 	}
 
-	private void coypFile( File org, File dest ) throws IOException
-	{
-		if ( dest.exists( ) || dest.createNewFile( ) )
-		{
-			FileInputStream in = new FileInputStream( org );
-			FileOutputStream out = new FileOutputStream( dest );
+	private void coypFile(File org, File dest) throws IOException {
+		if (dest.exists() || dest.createNewFile()) {
+			FileInputStream in = new FileInputStream(org);
+			FileOutputStream out = new FileOutputStream(dest);
 			byte[] bytes = new byte[64];
 			int length = 0;
-			while ( ( length = in.read( bytes ) ) != -1 )
-			{
-				out.write( bytes, 0, length );
+			while ((length = in.read(bytes)) != -1) {
+				out.write(bytes, 0, length);
 			}
-			in.close( );
-			out.close( );
+			in.close();
+			out.close();
 		}
 	}
 

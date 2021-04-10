@@ -14,8 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 /**
  * IDialogHelperProvider
  */
-public interface ISectionHelperProvider
-{
+public interface ISectionHelperProvider {
 
 	/**
 	 * Creates helper for given container and specific helper key
@@ -24,6 +23,6 @@ public interface ISectionHelperProvider
 	 * @param helperKey
 	 * @return
 	 */
-	ISectionHelper createHelper( Object container, String helperKey );
+	ISectionHelper createHelper(Object container, String helperKey);
 
 }

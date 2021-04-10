@@ -12,9 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 /**
- Presents Text figure for text edit part
+ * Presents Text figure for text edit part
  */
-public class TextFigure extends LabelFigure
-{
+public class TextFigure extends LabelFigure {
 
 }

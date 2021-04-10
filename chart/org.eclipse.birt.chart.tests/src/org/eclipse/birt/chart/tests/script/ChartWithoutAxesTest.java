@@ -17,12 +17,10 @@ import org.eclipse.birt.chart.script.api.component.IValueSeries;
  * 
  */
 
-public class ChartWithoutAxesTest extends BaseChartTestCase
-{
+public class ChartWithoutAxesTest extends BaseChartTestCase {
 
-	public void testGetValueSeries( )
-	{
-		IValueSeries[] series = getChartWithoutAxes( ).getValueSeries( );
-		assertEquals( "IChartWithoutAxes.getValueSeries", series.length, 2 );
+	public void testGetValueSeries() {
+		IValueSeries[] series = getChartWithoutAxes().getValueSeries();
+		assertEquals("IChartWithoutAxes.getValueSeries", series.length, 2);
 	}
 }

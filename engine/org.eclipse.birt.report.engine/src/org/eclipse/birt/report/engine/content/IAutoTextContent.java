@@ -22,31 +22,29 @@ package org.eclipse.birt.report.engine.content;
  * <li><code>TOTAL_PAGE</code></li>
  * <li><code>PAGE_NUMBER</code></li>
  */
-public interface IAutoTextContent extends ITextContent
-{
+public interface IAutoTextContent extends ITextContent {
 	public static final int TOTAL_PAGE = 0;
 	public static final int PAGE_NUMBER = 1;
 	public static final int UNFILTERED_TOTAL_PAGE = 2;
 	public static final int UNFILTERED_PAGE_NUMBER = 3;
 	public static final int PAGE_VARIABLE = 4;
-	
+
 	/**
 	 * Set the type of the AutoText Content. This type must be one of the
 	 * predefines.
 	 * <li><code>TOTAL_PAGE</code></li>
 	 * <li><code>PAGE_NUMBER</code></li>
-	 * @param type
-	 *            the type of the AutoText Content.
+	 * 
+	 * @param type the type of the AutoText Content.
 	 */
-	void setType ( int type );
-	
+	void setType(int type);
+
 	/**
-	 * Get the type of the AutoText Content. 
+	 * Get the type of the AutoText Content.
 	 * <p>
-	 * The return value must be on of the
-	 * predefines.
+	 * The return value must be on of the predefines.
 	 * <li><code>TOTAL_PAGE</code></li>
 	 * <li><code>PAGE_NUMBER</code></li>
 	 */
-	int getType ( );
+	int getType();
 }

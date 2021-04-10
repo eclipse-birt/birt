@@ -26,7 +26,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
 
 public class Issue95ClickThroughHyperlinksTest extends CellRangeTester {
-	
+
 	@Test
 	public void testHyperlinksXlsx() throws BirtException, IOException {
 
@@ -36,19 +36,21 @@ public class Issue95ClickThroughHyperlinksTest extends CellRangeTester {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 2002, this.firstNullRow(sheet));
+			assertEquals(2002, this.firstNullRow(sheet));
 
-			for(int i = 1; i < 2000; ++i ) {
-				assertEquals( "http://www.spudsoft.co.uk/?p=" + i,              sheet.getRow(i).getCell(0).getHyperlink().getAddress());
+			for (int i = 1; i < 2000; ++i) {
+				assertEquals("http://www.spudsoft.co.uk/?p=" + i,
+						sheet.getRow(i).getCell(0).getHyperlink().getAddress());
 
-				assertEquals( "run?__report=Issue95ClickThroughHyperlinks.rptdesign&Pointless=" + i + "&__overwrite=true"
-						, sheet.getRow(i).getCell(1).getHyperlink().getAddress() );
+				assertEquals(
+						"run?__report=Issue95ClickThroughHyperlinks.rptdesign&Pointless=" + i + "&__overwrite=true",
+						sheet.getRow(i).getCell(1).getHyperlink().getAddress());
 			}
-		
+
 		} finally {
 			inputStream.close();
 		}
@@ -63,23 +65,24 @@ public class Issue95ClickThroughHyperlinksTest extends CellRangeTester {
 		try {
 			HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 2002, this.firstNullRow(sheet));
+			assertEquals(2002, this.firstNullRow(sheet));
 
-			for(int i = 1; i < 2000; ++i ) {
-				assertEquals( "http://www.spudsoft.co.uk/?p=" + i,              sheet.getRow(i).getCell(0).getHyperlink().getAddress());
+			for (int i = 1; i < 2000; ++i) {
+				assertEquals("http://www.spudsoft.co.uk/?p=" + i,
+						sheet.getRow(i).getCell(0).getHyperlink().getAddress());
 
-				assertEquals( "run?__report=Issue95ClickThroughHyperlinks.rptdesign&Pointless=" + i + "&__overwrite=true"
-						, sheet.getRow(i).getCell(1).getHyperlink().getAddress() );
+				assertEquals(
+						"run?__report=Issue95ClickThroughHyperlinks.rptdesign&Pointless=" + i + "&__overwrite=true",
+						sheet.getRow(i).getCell(1).getHyperlink().getAddress());
 			}
-		
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
 
 }

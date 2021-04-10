@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.api.script;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -19,8 +19,8 @@ import org.eclipse.birt.core.exception.BirtException;
  * Event handler for a script data source
  *
  */
-public interface IScriptDataSourceEventHandler extends IBaseDataSourceEventHandler
-{
-	public void handleOpen( IDataSourceInstanceHandle dataSource ) throws BirtException;
-	public void handleClose( IDataSourceInstanceHandle dataSource ) throws BirtException;
+public interface IScriptDataSourceEventHandler extends IBaseDataSourceEventHandler {
+	public void handleOpen(IDataSourceInstanceHandle dataSource) throws BirtException;
+
+	public void handleClose(IDataSourceInstanceHandle dataSource) throws BirtException;
 }

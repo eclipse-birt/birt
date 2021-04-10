@@ -14,26 +14,19 @@ import org.eclipse.birt.report.engine.nLayout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.nLayout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
-
-public class TemplateArea extends TextArea implements ITemplateArea
-{
+public class TemplateArea extends TextArea implements ITemplateArea {
 	protected int type;
-	
-	public TemplateArea( String text, TextStyle style, int type )
-	{
-		super( text, style );
+
+	public TemplateArea(String text, TextStyle style, int type) {
+		super(text, style);
 		this.type = type;
 	}
 
-	
-	public void accept( IAreaVisitor visitor )
-	{
-		visitor.visitAutoText( this );
+	public void accept(IAreaVisitor visitor) {
+		visitor.visitAutoText(this);
 	}
 
-
-	public int getType( )
-	{
+	public int getType() {
 		return type;
 	}
 }

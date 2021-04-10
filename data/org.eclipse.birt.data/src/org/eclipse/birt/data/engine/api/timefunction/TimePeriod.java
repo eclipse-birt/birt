@@ -10,39 +10,34 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.api.timefunction;
 
-public class TimePeriod implements ITimePeriod
-{
-	public int countOfUnit =0;
+public class TimePeriod implements ITimePeriod {
+	public int countOfUnit = 0;
 	public TimePeriodType type;
 	public boolean isCurrent = false;
-	
-	public TimePeriod( int countOfUnit, TimePeriodType type )
-	{
+
+	public TimePeriod(int countOfUnit, TimePeriodType type) {
 		this.countOfUnit = countOfUnit;
 		this.type = type;
 	}
-	
-	public TimePeriod( int countOfUnit, TimePeriodType type, boolean isCurrent )
-	{
+
+	public TimePeriod(int countOfUnit, TimePeriodType type, boolean isCurrent) {
 		this.countOfUnit = countOfUnit;
 		this.type = type;
 		this.isCurrent = isCurrent;
 	}
-	
-	public int countOfUnit( ) 
-	{
+
+	public int countOfUnit() {
 		return this.countOfUnit;
 	}
 
 	public TimePeriodType getType() {
 		return type;
 	}
-	
-	public boolean isCurrent()
-	{
+
+	public boolean isCurrent() {
 		return this.isCurrent;
 	}
 

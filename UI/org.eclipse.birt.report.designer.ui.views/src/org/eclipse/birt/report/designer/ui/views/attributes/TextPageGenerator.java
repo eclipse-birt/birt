@@ -15,12 +15,10 @@ package org.eclipse.birt.report.designer.ui.views.attributes;
  * Instances of TextPageGenerator take change of creating attribute page
  * correspond to TextItem element.
  */
-public class TextPageGenerator extends BasePageGenerator
-{
+public class TextPageGenerator extends BasePageGenerator {
 
-	protected void createTabItems( )
-	{
-		createTabItem( BINDINGTITLE, ATTRIBUTESTITLE );
-		createTabItem( HIGHLIGHTSTITLE, BINDINGTITLE );
+	protected void createTabItems() {
+		createTabItem(BINDINGTITLE, ATTRIBUTESTITLE);
+		createTabItem(HIGHLIGHTSTITLE, BINDINGTITLE);
 	}
 }

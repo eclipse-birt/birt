@@ -18,18 +18,15 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.w3c.dom.css.CSSValue;
 
-public class ContentUtil
-{
+public class ContentUtil {
 
-	public static long getDesignID( IContent content )
-	{
-		if ( content == null )
+	public static long getDesignID(IContent content) {
+		if (content == null)
 			return -1L;
 
-		Object design = content.getGenerateBy( );
-		if ( design instanceof ReportElementDesign )
-		{
-			return ( (ReportElementDesign) design ).getID( );
+		Object design = content.getGenerateBy();
+		if (design instanceof ReportElementDesign) {
+			return ((ReportElementDesign) design).getID();
 		}
 		return -1L;
 	}
@@ -40,21 +37,17 @@ public class ContentUtil
 	 * @param table
 	 * @return
 	 */
-	public static boolean hasHorzPageBreak( ITableContent table )
-	{
-		int count = table.getColumnCount( );
-		for ( int i = 0; i < count; i++ )
-		{
-			IColumn column = table.getColumn( i );
-			IStyle style = column.getStyle( );
-			CSSValue pageBreak = style.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
-			if ( i > 0 && IStyle.ALWAYS_VALUE == pageBreak )
-			{
+	public static boolean hasHorzPageBreak(ITableContent table) {
+		int count = table.getColumnCount();
+		for (int i = 0; i < count; i++) {
+			IColumn column = table.getColumn(i);
+			IStyle style = column.getStyle();
+			CSSValue pageBreak = style.getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE);
+			if (i > 0 && IStyle.ALWAYS_VALUE == pageBreak) {
 				return true;
 			}
-			pageBreak = style.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
-			if ( i < count - 1 && IStyle.ALWAYS_VALUE == pageBreak )
-			{
+			pageBreak = style.getProperty(IStyle.STYLE_PAGE_BREAK_AFTER);
+			if (i < count - 1 && IStyle.ALWAYS_VALUE == pageBreak) {
 				return true;
 			}
 		}

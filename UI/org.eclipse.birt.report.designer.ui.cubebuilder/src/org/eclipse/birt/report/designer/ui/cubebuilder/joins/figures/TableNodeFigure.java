@@ -21,25 +21,22 @@ import org.eclipse.swt.widgets.Display;
  * Figure for representing a Table object. This uses a ToolBarLayout to List all
  * the columns
  */
-public class TableNodeFigure extends Panel
-{
+public class TableNodeFigure extends Panel {
 
-	public TableNodeFigure( String name )
-	{
-		ToolbarLayout mainLayout = new ToolbarLayout( );
-		mainLayout.setStretchMinorAxis( true );
-		mainLayout.setVertical( true );
-		mainLayout.setSpacing( 1 );
-		this.setLayoutManager( mainLayout );
-		this.setOpaque( true );
+	public TableNodeFigure(String name) {
+		ToolbarLayout mainLayout = new ToolbarLayout();
+		mainLayout.setStretchMinorAxis(true);
+		mainLayout.setVertical(true);
+		mainLayout.setSpacing(1);
+		this.setLayoutManager(mainLayout);
+		this.setOpaque(true);
 
 	}
 
 	private boolean isFact;
 
-	public TableNodeFigure( String name, boolean isFact )
-	{
-		this( name );
+	public TableNodeFigure(String name, boolean isFact) {
+		this(name);
 		this.isFact = isFact;
 	}
 
@@ -48,8 +45,7 @@ public class TableNodeFigure extends Panel
 	 * 
 	 * @see org.eclipse.draw2d.Figure#useLocalCoordinates()
 	 */
-	protected boolean useLocalCoordinates( )
-	{
+	protected boolean useLocalCoordinates() {
 		return true;
 	}
 
@@ -58,34 +54,29 @@ public class TableNodeFigure extends Panel
 	 * 
 	 * @see org.eclipse.draw2d.IFigure#getMinimumSize(int, int)
 	 */
-	public Dimension getMinimumSize( int wHint, int hHint )
-	{
+	public Dimension getMinimumSize(int wHint, int hHint) {
 
-		return getPreferredSize( );
+		return getPreferredSize();
 	}
 
 	/**
 	 * Sets the color of the figure , when it is selected.
 	 * 
 	 */
-	public void setSelectedColors( )
-	{
-		this.setOpaque( true );
-		this.setForegroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
-		( (TableBorderFigure) this.getBorder( ) ).setSelectedColors( isFact );
+	public void setSelectedColors() {
+		this.setOpaque(true);
+		this.setForegroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_FOREGROUND));
+		((TableBorderFigure) this.getBorder()).setSelectedColors(isFact);
 	}
 
 	/**
 	 * Sets the color of the figure when it is deselected.
 	 * 
 	 */
-	public void setDeselectedColors( )
-	{
-		this.setOpaque( true );
-		this.setForegroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
-		( (TableBorderFigure) this.getBorder( ) ).setDeselectedColors( isFact );
+	public void setDeselectedColors() {
+		this.setOpaque(true);
+		this.setForegroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_FOREGROUND));
+		((TableBorderFigure) this.getBorder()).setDeselectedColors(isFact);
 	}
 
 }

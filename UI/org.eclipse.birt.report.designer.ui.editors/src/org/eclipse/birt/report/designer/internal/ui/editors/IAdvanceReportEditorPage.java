@@ -17,7 +17,6 @@ import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
  * Some page is not sensitive the part active.
  */
 
-public interface IAdvanceReportEditorPage extends IReportEditorPage
-{
+public interface IAdvanceReportEditorPage extends IReportEditorPage {
 	boolean isSensitivePartChange();
 }

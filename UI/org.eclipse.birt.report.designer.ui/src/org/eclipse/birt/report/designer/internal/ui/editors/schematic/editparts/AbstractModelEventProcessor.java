@@ -24,25 +24,21 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 /**
  * AbstractModelEventProcessor
  */
-public abstract class AbstractModelEventProcessor implements
-		IModelEventProcessor
-{
+public abstract class AbstractModelEventProcessor implements IModelEventProcessor {
 
-	private List<IModelEventInfo> infoList = new ArrayList<IModelEventInfo>( );
+	private List<IModelEventInfo> infoList = new ArrayList<IModelEventInfo>();
 	private IModelEventFactory factory;
 	private IModelEventFilter filter;
-	private IModelEventInfoFactory eventInfoFactory = createModelEventInfoFactory( );
+	private IModelEventInfoFactory eventInfoFactory = createModelEventInfoFactory();
 
 	/**
 	 * @param factory
 	 */
-	public AbstractModelEventProcessor( IModelEventFactory factory )
-	{
+	public AbstractModelEventProcessor(IModelEventFactory factory) {
 		this.factory = factory;
 	}
 
-	public IModelEventFactory getFactory( )
-	{
+	public IModelEventFactory getFactory() {
 		return factory;
 	}
 
@@ -54,32 +50,26 @@ public abstract class AbstractModelEventProcessor implements
 	 * #addElementEvent(org.eclipse.birt.report.model.api.DesignElementHandle,
 	 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
-	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
-	{
+	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
 		boolean isAccept = false;
-		List<IModelEventInfo> temp = new ArrayList<IModelEventInfo>( infoList );
-		int size = temp.size( );
-		IModelEventInfo newInfo = eventInfoFactory.createModelEventInfo( focus,
-				ev );
-		for ( int i = 0; i < size; i++ )
-		{
-			IModelEventInfo info = temp.get( i );
-			if ( info.canAcceptModelEvent( newInfo ) )
-			{
-				info.addModelEvent( newInfo );
+		List<IModelEventInfo> temp = new ArrayList<IModelEventInfo>(infoList);
+		int size = temp.size();
+		IModelEventInfo newInfo = eventInfoFactory.createModelEventInfo(focus, ev);
+		for (int i = 0; i < size; i++) {
+			IModelEventInfo info = temp.get(i);
+			if (info.canAcceptModelEvent(newInfo)) {
+				info.addModelEvent(newInfo);
 				isAccept = true;
 				break;
 			}
-			if ( newInfo.canAcceptModelEvent( info ) )
-			{
-				newInfo.addModelEvent( info );
-				infoList.remove( info );
+			if (newInfo.canAcceptModelEvent(info)) {
+				newInfo.addModelEvent(info);
+				infoList.remove(info);
 				continue;
 			}
 		}
-		if ( !isAccept )
-		{
-			infoList.add( newInfo );
+		if (!isAccept) {
+			infoList.add(newInfo);
 		}
 	}
 
@@ -89,9 +79,8 @@ public abstract class AbstractModelEventProcessor implements
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.
 	 * IModelEventProcessor#clear()
 	 */
-	public void clear( )
-	{
-		infoList.clear( );
+	public void clear() {
+		infoList.clear();
 	}
 
 	/*
@@ -100,29 +89,23 @@ public abstract class AbstractModelEventProcessor implements
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.
 	 * IModelEventProcessor#postElementEvent()
 	 */
-	public void postElementEvent( )
-	{
-		int size = infoList.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			IModelEventInfo info = infoList.get( i );
-			Runnable run = factory.createModelEventRunnable( info.getTarget( ),
-					info.getType( ),
-					info.getOtherInfo( ) );
-			if ( run != null )
-			{
-				run.run( );
+	public void postElementEvent() {
+		int size = infoList.size();
+		for (int i = 0; i < size; i++) {
+			IModelEventInfo info = infoList.get(i);
+			Runnable run = factory.createModelEventRunnable(info.getTarget(), info.getType(), info.getOtherInfo());
+			if (run != null) {
+				run.run();
 			}
 
 		}
-		infoList.clear( );
+		infoList.clear();
 	}
 
 	/**
 	 * IModelEventFactory
 	 */
-	public interface IModelEventFactory
-	{
+	public interface IModelEventFactory {
 
 		/**
 		 * Gets the reportrunnable from the model event infomation.
@@ -132,12 +115,12 @@ public abstract class AbstractModelEventProcessor implements
 		 * @param args
 		 * @return
 		 */
-		Runnable createModelEventRunnable( Object focus, int type, Map args );
+		Runnable createModelEventRunnable(Object focus, int type, Map args);
 
 		/**
 		 * @return
 		 */
-		boolean isDispose( );
+		boolean isDispose();
 	}
 
 	/*
@@ -145,23 +128,15 @@ public abstract class AbstractModelEventProcessor implements
 	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class adapter )
-	{
-		if ( adapter == IModelEventFilter.class )
-		{
-			if ( filter == null )
-			{
-				filter = new IModelEventFilter( ) {
+	public Object getAdapter(Class adapter) {
+		if (adapter == IModelEventFilter.class) {
+			if (filter == null) {
+				filter = new IModelEventFilter() {
 
-					public boolean filterModelEvent( DesignElementHandle focus,
-							NotificationEvent ev )
-					{
-						if ( includeEventType( ev.getEventType( ) ) )
-						{
+					public boolean filterModelEvent(DesignElementHandle focus, NotificationEvent ev) {
+						if (includeEventType(ev.getEventType())) {
 							return false;
-						}
-						else
-						{
+						} else {
 							return true;
 						}
 					}
@@ -179,26 +154,24 @@ public abstract class AbstractModelEventProcessor implements
 	 * @param type
 	 * @return
 	 */
-	protected boolean includeEventType( int type )
-	{
+	protected boolean includeEventType(int type) {
 		return true;
 	}
 
 	/**
 	 * IModelEventInfo
 	 */
-	public interface IModelEventInfo
-	{
+	public interface IModelEventInfo {
 
-		int getType( );
+		int getType();
 
-		DesignElementHandle getTarget( );
+		DesignElementHandle getTarget();
 
-		Map getOtherInfo( );
+		Map getOtherInfo();
 
-		boolean canAcceptModelEvent( IModelEventInfo info );
+		boolean canAcceptModelEvent(IModelEventInfo info);
 
-		void addModelEvent( IModelEventInfo info );
+		void addModelEvent(IModelEventInfo info);
 
 	}
 
@@ -206,21 +179,19 @@ public abstract class AbstractModelEventProcessor implements
 	 * Because the model event, Be care the target and type.Maybe in the future,
 	 * need the detail infomation.
 	 */
-	protected static class ModelEventInfo implements IModelEventInfo
-	{
+	protected static class ModelEventInfo implements IModelEventInfo {
 
 		private DesignElementHandle target;
 		private int type;
-		private Map otherInfo = new HashMap( );
+		private Map otherInfo = new HashMap();
 
 		/**
 		 * @param focus
 		 * @param ev
 		 */
-		public ModelEventInfo( DesignElementHandle focus, NotificationEvent ev )
-		{
-			setTarget( focus );
-			setType( ev.getEventType( ) );
+		public ModelEventInfo(DesignElementHandle focus, NotificationEvent ev) {
+			setTarget(focus);
+			setType(ev.getEventType());
 		}
 
 		/**
@@ -228,58 +199,50 @@ public abstract class AbstractModelEventProcessor implements
 		 * @param ev
 		 * @return
 		 */
-		public boolean canAcceptModelEvent( IModelEventInfo info )
-		{
-			return getTarget( ).equals( info.getTarget( ) )
-					&& info.getType( ) == getType( );
+		public boolean canAcceptModelEvent(IModelEventInfo info) {
+			return getTarget().equals(info.getTarget()) && info.getType() == getType();
 		}
 
 		/**
 		 * @param focus
 		 * @param ev
 		 */
-		public void addModelEvent( IModelEventInfo info )
-		{
+		public void addModelEvent(IModelEventInfo info) {
 			// do nothing now
 		}
 
 		/**
 		 * @return
 		 */
-		public DesignElementHandle getTarget( )
-		{
+		public DesignElementHandle getTarget() {
 			return target;
 		}
 
 		/**
 		 * @param target
 		 */
-		public void setTarget( DesignElementHandle target )
-		{
+		public void setTarget(DesignElementHandle target) {
 			this.target = target;
 		}
 
 		/**
 		 * @return
 		 */
-		public int getType( )
-		{
+		public int getType() {
 			return type;
 		}
 
 		/**
 		 * @param type
 		 */
-		public void setType( int type )
-		{
+		public void setType(int type) {
 			this.type = type;
 		}
 
 		/**
 		 * @return
 		 */
-		public Map getOtherInfo( )
-		{
+		public Map getOtherInfo() {
 			// now retrun null
 			return otherInfo;
 		}
@@ -288,13 +251,12 @@ public abstract class AbstractModelEventProcessor implements
 	/**
 	 * Creats the factory to creat the event info object.
 	 */
-	protected abstract IModelEventInfoFactory createModelEventInfoFactory( );
+	protected abstract IModelEventInfoFactory createModelEventInfoFactory();
 
 	/**
 	 * IModelEventInfoFactory
 	 */
-	public interface IModelEventInfoFactory
-	{
+	public interface IModelEventInfoFactory {
 
 		/**
 		 * Creats the event info object for given event.
@@ -303,8 +265,7 @@ public abstract class AbstractModelEventProcessor implements
 		 * @param ev
 		 * @return
 		 */
-		public IModelEventInfo createModelEventInfo( DesignElementHandle focus,
-				NotificationEvent ev );
+		public IModelEventInfo createModelEventInfo(DesignElementHandle focus, NotificationEvent ev);
 
 	}
 

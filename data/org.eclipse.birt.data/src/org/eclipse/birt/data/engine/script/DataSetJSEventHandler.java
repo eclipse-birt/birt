@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -22,85 +22,64 @@ import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * This class handles data set events by executing the Javascript
- * event code.
- * NOTE: functionality of this class will be moved to Engine. This class
- * is temporary 
+ * This class handles data set events by executing the Javascript event code.
+ * NOTE: functionality of this class will be moved to Engine. This class is
+ * temporary
  */
-public class DataSetJSEventHandler implements IBaseDataSetEventHandler
-{
+public class DataSetJSEventHandler implements IBaseDataSetEventHandler {
 	protected IBaseDataSetDesign design;
 	protected JSMethodRunner runner;
 	private ScriptContext cx;
-	
-	public DataSetJSEventHandler( ScriptContext cx, IBaseDataSetDesign dataSetDesign )
-	{
+
+	public DataSetJSEventHandler(ScriptContext cx, IBaseDataSetDesign dataSetDesign) {
 		this.design = dataSetDesign;
 		this.cx = cx;
 	}
 
-	protected IBaseDataSetDesign getBaseDesign()
-	{
+	protected IBaseDataSetDesign getBaseDesign() {
 		return design;
 	}
 
-	protected JSMethodRunner getRunner( Scriptable scope )
-	{
-		if ( runner == null )
-		{
+	protected JSMethodRunner getRunner(Scriptable scope) {
+		if (runner == null) {
 			String scopeName = "DataSet[" + design.getName() + "]";
-			runner = new JSMethodRunner( cx, scope, scopeName );
+			runner = new JSMethodRunner(cx, scope, scopeName);
 		}
 		return runner;
 	}
-	
-	public void handleBeforeOpen(IDataSetInstanceHandle dataSet) throws BirtException
-	{
+
+	public void handleBeforeOpen(IDataSetInstanceHandle dataSet) throws BirtException {
 		String script = getBaseDesign().getBeforeOpenScript();
-		if ( script != null && script.length() > 0 )
-		{
-			getRunner( dataSet.getScriptScope() ).runScript(
-					"beforeOpen", script );
+		if (script != null && script.length() > 0) {
+			getRunner(dataSet.getScriptScope()).runScript("beforeOpen", script);
 		}
 	}
 
-	public void handleBeforeClose(IDataSetInstanceHandle dataSet) throws BirtException
-	{
+	public void handleBeforeClose(IDataSetInstanceHandle dataSet) throws BirtException {
 		String script = getBaseDesign().getBeforeCloseScript();
-		if ( script != null && script.length() > 0 )
-		{
-			getRunner( dataSet.getScriptScope() ).runScript(
-					"beforeClose", script );
+		if (script != null && script.length() > 0) {
+			getRunner(dataSet.getScriptScope()).runScript("beforeClose", script);
 		}
 	}
 
-	public void handleAfterOpen(IDataSetInstanceHandle dataSet) throws BirtException
-	{
+	public void handleAfterOpen(IDataSetInstanceHandle dataSet) throws BirtException {
 		String script = getBaseDesign().getAfterOpenScript();
-		if ( script != null && script.length() > 0 )
-		{
-			getRunner( dataSet.getScriptScope() ).runScript(
-					"afterOpen", script );
+		if (script != null && script.length() > 0) {
+			getRunner(dataSet.getScriptScope()).runScript("afterOpen", script);
 		}
 	}
 
-	public void handleAfterClose(IDataSetInstanceHandle dataSet) throws BirtException
-	{
+	public void handleAfterClose(IDataSetInstanceHandle dataSet) throws BirtException {
 		String script = getBaseDesign().getAfterCloseScript();
-		if ( script != null && script.length() > 0 )
-		{
-			getRunner( dataSet.getScriptScope() ).runScript(
-					"afterClose", script );
+		if (script != null && script.length() > 0) {
+			getRunner(dataSet.getScriptScope()).runScript("afterClose", script);
 		}
 	}
 
-	public void handleOnFetch(IDataSetInstanceHandle dataSet, IDataRow row) throws BirtException
-	{
+	public void handleOnFetch(IDataSetInstanceHandle dataSet, IDataRow row) throws BirtException {
 		String script = getBaseDesign().getOnFetchScript();
-		if ( script != null && script.length() > 0 )
-		{
-			getRunner( dataSet.getScriptScope() ).runScript(
-					"onFetch", script );
+		if (script != null && script.length() > 0) {
+			getRunner(dataSet.getScriptScope()).runScript("onFetch", script);
 		}
 	}
 }

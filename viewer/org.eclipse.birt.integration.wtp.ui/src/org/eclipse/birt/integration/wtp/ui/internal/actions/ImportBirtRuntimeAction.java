@@ -57,11 +57,7 @@ import org.eclipse.ui.dialogs.IOverwriteQuery;
  * Import BIRT runtime component into a J2EE Dynamic Web Project
  * 
  */
-public class ImportBirtRuntimeAction extends Action
-		implements
-			IWorkbenchWindowActionDelegate,
-			IBirtWizardConstants
-{
+public class ImportBirtRuntimeAction extends Action implements IWorkbenchWindowActionDelegate, IBirtWizardConstants {
 
 	private IStructuredSelection fSelection = null;
 	private IProject project = null;
@@ -74,10 +70,9 @@ public class ImportBirtRuntimeAction extends Action
 	/**
 	 * default constructor
 	 */
-	public ImportBirtRuntimeAction( )
-	{
-		super( );
-		this.properties = new HashMap( );
+	public ImportBirtRuntimeAction() {
+		super();
+		this.properties = new HashMap();
 	}
 
 	/**
@@ -85,8 +80,7 @@ public class ImportBirtRuntimeAction extends Action
 	 * 
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
 	 */
-	public void init( IWorkbenchWindow window )
-	{
+	public void init(IWorkbenchWindow window) {
 	}
 
 	/**
@@ -95,46 +89,42 @@ public class ImportBirtRuntimeAction extends Action
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
 	 *      org.eclipse.jface.viewers.ISelection)
 	 */
-	public void selectionChanged( IAction action, ISelection selection )
-	{
+	public void selectionChanged(IAction action, ISelection selection) {
 		boolean bEnable = false;
-		if ( selection instanceof IStructuredSelection )
-		{
+		if (selection instanceof IStructuredSelection) {
 			fSelection = (IStructuredSelection) selection;
-			bEnable = validateSelected( fSelection );
+			bEnable = validateSelected(fSelection);
 		}
-		( (Action) action ).setEnabled( bEnable );
+		((Action) action).setEnabled(bEnable);
 	}
 
 	/**
 	 * check if it is a J2EE Dynamic Web Project
 	 */
-	protected boolean isValidProject( IProject fProject )
-	{
-		return JavaEEProjectUtilities.isDynamicWebProject( fProject );
+	protected boolean isValidProject(IProject fProject) {
+		return JavaEEProjectUtilities.isDynamicWebProject(fProject);
 	}
 
 	/**
 	 * Invoke selectionChanged method to check selected project.
 	 */
-	protected boolean validateSelected( ISelection selection )
-	{
-		if ( !( selection instanceof IStructuredSelection ) )
+	protected boolean validateSelected(ISelection selection) {
+		if (!(selection instanceof IStructuredSelection))
 			return false;
 
 		fSelection = (IStructuredSelection) selection;
 
 		// if IJavaProject
-		Object selectedProject = fSelection.getFirstElement( );
-		if ( selectedProject instanceof IJavaProject )
-			selectedProject = ( (IJavaProject) selectedProject ).getProject( );
+		Object selectedProject = fSelection.getFirstElement();
+		if (selectedProject instanceof IJavaProject)
+			selectedProject = ((IJavaProject) selectedProject).getProject();
 
 		// Not a project, return false
-		if ( !( selectedProject instanceof IProject ) )
+		if (!(selectedProject instanceof IProject))
 			return false;
 
 		project = (IProject) selectedProject;
-		return isValidProject( project );
+		return isValidProject(project);
 	}
 
 	/**
@@ -142,8 +132,7 @@ public class ImportBirtRuntimeAction extends Action
 	 * 
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
 	 */
-	public void dispose( )
-	{
+	public void dispose() {
 		// Default
 	}
 
@@ -152,35 +141,28 @@ public class ImportBirtRuntimeAction extends Action
 	 * 
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	public void run( IAction action )
-	{
-		try
-		{
+	public void run(IAction action) {
+		try {
 			// initialize webapp settings from Extension
-			BirtWizardUtil.initWebapp( this.properties );
+			BirtWizardUtil.initWebapp(this.properties);
 
-			IModelProvider modelProvider = ModelProviderManager
-					.getModelProvider(project);
-			final IBirtFacetUtil util = BirtFacetUtilFactory.getInstance(modelProvider.getModelObject());		
-			
+			IModelProvider modelProvider = ModelProviderManager.getModelProvider(project);
+			final IBirtFacetUtil util = BirtFacetUtilFactory.getInstance(modelProvider.getModelObject());
+
 			// initialize webapp settings from existed web.xml
-			util.initializeWebapp( this.properties, project );
+			util.initializeWebapp(this.properties, project);
 
-			IWorkbenchWindow window = PlatformUI.getWorkbench( )
-					.getWorkbenchWindows( )[0];
-			BirtConfigurationDialog dialog = new BirtConfigurationDialog(
-					window.getShell( ), (Map) properties
-							.get( EXT_CONTEXT_PARAM ) );
-			dialog.open( );
-			if ( dialog.getReturnCode( ) == Window.CANCEL )
+			IWorkbenchWindow window = PlatformUI.getWorkbench().getWorkbenchWindows()[0];
+			BirtConfigurationDialog dialog = new BirtConfigurationDialog(window.getShell(),
+					(Map) properties.get(EXT_CONTEXT_PARAM));
+			dialog.open();
+			if (dialog.getReturnCode() == Window.CANCEL)
 				return;
 
 			// import birt runtime component
-			doImport( window, dialog.isClear( ) );
-		}
-		catch ( Exception e )
-		{
-			Logger.logException( e );
+			doImport(window, dialog.isClear());
+		} catch (Exception e) {
+			Logger.logException(e);
 		}
 	}
 
@@ -191,43 +173,36 @@ public class ImportBirtRuntimeAction extends Action
 	 * @param monitor
 	 * @throws Exception
 	 */
-	protected void doClearAction( IPath webContentPath, IProgressMonitor monitor )
-			throws Exception
-	{
+	protected void doClearAction(IPath webContentPath, IProgressMonitor monitor) throws Exception {
 		// remove the root folder
 		IPath webPath = webContentPath;
-		if ( webPath.segmentCount( ) > 0 )
-			webPath = webPath.removeFirstSegments( 1 );
+		if (webPath.segmentCount() > 0)
+			webPath = webPath.removeFirstSegments(1);
 
 		// get conflict resources
-		Map map = BirtWizardUtil.initConflictResources( null );
+		Map map = BirtWizardUtil.initConflictResources(null);
 
 		// clear
-		Iterator it = map.entrySet( ).iterator( );
-		while ( it.hasNext( ) )
-		{
-			Map.Entry entry = (Map.Entry)it.next( );
-			String folder = (String) entry.getKey( );
-			if ( folder == null )
+		Iterator it = map.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry entry = (Map.Entry) it.next();
+			String folder = (String) entry.getKey();
+			if (folder == null)
 				continue;
 
 			// get the target folder
-			IPath path = webPath.append( folder );
-			IFolder tempFolder = project.getFolder( path );
-			if ( tempFolder == null || !tempFolder.exists( ) )
+			IPath path = webPath.append(folder);
+			IFolder tempFolder = project.getFolder(path);
+			if (tempFolder == null || !tempFolder.exists())
 				continue;
 
-			List files = (List) entry.getValue( );
-			if ( files == null || files.size( ) <= 0 )
-			{
+			List files = (List) entry.getValue();
+			if (files == null || files.size() <= 0) {
 				// delete the whole folder
-				tempFolder.delete( true, monitor );
-			}
-			else
-			{
+				tempFolder.delete(true, monitor);
+			} else {
 				// delete the defined files
-				tempFolder.accept( new LibResourceVisitor( monitor, files ),
-						IResource.DEPTH_INFINITE, false );
+				tempFolder.accept(new LibResourceVisitor(monitor, files), IResource.DEPTH_INFINITE, false);
 			}
 		}
 	}
@@ -239,47 +214,38 @@ public class ImportBirtRuntimeAction extends Action
 	 * @param isClear
 	 * @throws Exception
 	 */
-	protected void doImport( IWorkbenchWindow window, boolean isClear )
-			throws Exception
-	{
+	protected void doImport(IWorkbenchWindow window, boolean isClear) throws Exception {
 		ProgressMonitorDialog monitor = null;
-		try
-		{
+		try {
 			// web content folder
-			IPath webContentPath = BirtWizardUtil.getWebContentPath( project );
+			IPath webContentPath = BirtWizardUtil.getWebContentPath(project);
 
 			// do import birt runtime
-			monitor = new ProgressMonitorDialog( window.getShell( ) );
-			monitor.open( );
+			monitor = new ProgressMonitorDialog(window.getShell());
+			monitor.open();
 
 			// check whether clears the old birt runtime files
-			if ( isClear )
-				doClearAction( webContentPath, monitor.getProgressMonitor( ) );
+			if (isClear)
+				doClearAction(webContentPath, monitor.getProgressMonitor());
 
 			// import birt runtime component
-			BirtWizardUtil.doImports( project, null, webContentPath, monitor
-					.getProgressMonitor( ), new ImportOverwriteQuery( monitor
-					.getShell( ) ) );
+			BirtWizardUtil.doImports(project, null, webContentPath, monitor.getProgressMonitor(),
+					new ImportOverwriteQuery(monitor.getShell()));
 
 			// process defined folders
-			BirtWizardUtil.processCheckFolder( properties, project,
-					webContentPath.toFile( ).getName( ), monitor
-							.getProgressMonitor( ) );
+			BirtWizardUtil.processCheckFolder(properties, project, webContentPath.toFile().getName(),
+					monitor.getProgressMonitor());
 
 			// configurate web.xml
-			processConfiguration( monitor.getProgressMonitor( ), monitor
-					.getShell( ) );
-		}
-		finally
-		{
+			processConfiguration(monitor.getProgressMonitor(), monitor.getShell());
+		} finally {
 			// closs dialog
-			if ( monitor != null )
-			{
-				monitor.close( );
+			if (monitor != null) {
+				monitor.close();
 			}
 		}
 	}
-	
+
 	/**
 	 * Process BIRT deployment configuration.
 	 * <p>
@@ -288,54 +254,41 @@ public class ImportBirtRuntimeAction extends Action
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	protected void processConfiguration( final IProgressMonitor monitor, Shell shell )
-			throws CoreException
-	{
-		final SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
-		IModelProvider modelProvider = ModelProviderManager
-				.getModelProvider(project);
+	protected void processConfiguration(final IProgressMonitor monitor, Shell shell) throws CoreException {
+		final SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery();
+		IModelProvider modelProvider = ModelProviderManager.getModelProvider(project);
 		IPath modelPath = new Path("WEB-INF").append("web.xml"); //$NON-NLS-1$ //$NON-NLS-2$
-		boolean exists = project.getProjectRelativePath().append(modelPath)
-				.toFile().exists();
+		boolean exists = project.getProjectRelativePath().append(modelPath).toFile().exists();
 		if (BirtFacetUtilFactory.isWebApp25(modelProvider.getModelObject()) && !exists) {
 			modelPath = IModelProvider.FORCESAVE;
 		}
-		
+
 		final IBirtFacetUtil util = BirtFacetUtilFactory.getInstance(modelProvider.getModelObject());
 		modelProvider.modify(new Runnable() {
 			public void run() {
-				util.configureWebApp((WebAppBean) properties
-						.get(EXT_WEBAPP), project, query, monitor);
-				util.configureContextParam((Map) properties
-						.get(EXT_CONTEXT_PARAM), project, query, monitor);
-				util.configureListener((Map) properties.get(EXT_LISTENER),
-						project, query, monitor);
+				util.configureWebApp((WebAppBean) properties.get(EXT_WEBAPP), project, query, monitor);
+				util.configureContextParam((Map) properties.get(EXT_CONTEXT_PARAM), project, query, monitor);
+				util.configureListener((Map) properties.get(EXT_LISTENER), project, query, monitor);
 
-				util.configureServlet((Map) properties.get(EXT_SERVLET),
-						project, query, monitor);
+				util.configureServlet((Map) properties.get(EXT_SERVLET), project, query, monitor);
 
-				util.configureServletMapping((Map) properties
-						.get(EXT_SERVLET_MAPPING), project, query, monitor);
+				util.configureServletMapping((Map) properties.get(EXT_SERVLET_MAPPING), project, query, monitor);
 
-				util.configureFilter((Map) properties.get(EXT_FILTER),
-						project, query, monitor);
+				util.configureFilter((Map) properties.get(EXT_FILTER), project, query, monitor);
 
-				util.configureFilterMapping((Map) properties
-						.get(EXT_FILTER_MAPPING), project, query, monitor);
+				util.configureFilterMapping((Map) properties.get(EXT_FILTER_MAPPING), project, query, monitor);
 
-				util.configureTaglib((Map) properties.get(EXT_TAGLIB),
-						project, query, monitor);
+				util.configureTaglib((Map) properties.get(EXT_TAGLIB), project, query, monitor);
 			}
 		}, modelPath);
 	}
 
 	/**
-	 * Implement IResourceVisitor to clear the old birt runtime jar files under
-	 * lib folder.
+	 * Implement IResourceVisitor to clear the old birt runtime jar files under lib
+	 * folder.
 	 * 
 	 */
-	private static class LibResourceVisitor implements IResourceVisitor
-	{
+	private static class LibResourceVisitor implements IResourceVisitor {
 
 		// progress monitor
 		private IProgressMonitor monitor;
@@ -348,8 +301,7 @@ public class ImportBirtRuntimeAction extends Action
 		 * 
 		 * @param monitor
 		 */
-		public LibResourceVisitor( IProgressMonitor monitor, List files )
-		{
+		public LibResourceVisitor(IProgressMonitor monitor, List files) {
 			this.monitor = monitor;
 			this.files = files;
 		}
@@ -360,21 +312,17 @@ public class ImportBirtRuntimeAction extends Action
 		 * @param resource
 		 * @exception CoreException
 		 */
-		public boolean visit( IResource resource ) throws CoreException
-		{
-			if ( resource instanceof IFile )
-			{
+		public boolean visit(IResource resource) throws CoreException {
+			if (resource instanceof IFile) {
 				IFile file = (IFile) resource;
-				if ( file == null || files == null )
+				if (file == null || files == null)
 					return true;
 
-				Iterator it = files.iterator( );
-				while ( it.hasNext( ) )
-				{
-					String name = (String) it.next( );
-					if ( name != null && file.getName( ).startsWith( name ) )
-					{
-						file.delete( true, monitor );
+				Iterator it = files.iterator();
+				while (it.hasNext()) {
+					String name = (String) it.next();
+					if (name != null && file.getName().startsWith(name)) {
+						file.delete(true, monitor);
 						break;
 					}
 				}
@@ -387,8 +335,7 @@ public class ImportBirtRuntimeAction extends Action
 	 * Implement IOverwriteQuery for importing process
 	 * 
 	 */
-	private static class ImportOverwriteQuery implements IOverwriteQuery
-	{
+	private static class ImportOverwriteQuery implements IOverwriteQuery {
 
 		// if all
 		private boolean isALL = false;
@@ -400,8 +347,7 @@ public class ImportBirtRuntimeAction extends Action
 		 * 
 		 * @param shell
 		 */
-		public ImportOverwriteQuery( Shell shell )
-		{
+		public ImportOverwriteQuery(Shell shell) {
 			this.shell = shell;
 		}
 
@@ -411,43 +357,36 @@ public class ImportBirtRuntimeAction extends Action
 		 * @param file
 		 * @return
 		 */
-		private int openDialog( final String file )
-		{
-			final int[] result = {IDialogConstants.CANCEL_ID};
-			shell.getDisplay( ).syncExec( new Runnable( ) {
+		private int openDialog(final String file) {
+			final int[] result = { IDialogConstants.CANCEL_ID };
+			shell.getDisplay().syncExec(new Runnable() {
 
-				public void run( )
-				{
+				public void run() {
 					String title = BirtWTPMessages.BIRTOverwriteQuery_title;
-					String msg = NLS.bind(
-							BirtWTPMessages.BIRTOverwriteQuery_message, file );
-					String[] options = {IDialogConstants.YES_LABEL,
-							IDialogConstants.NO_LABEL,
-							IDialogConstants.YES_TO_ALL_LABEL,
-							IDialogConstants.CANCEL_LABEL};
-					MessageDialog dialog = new MessageDialog( shell, title,
-							null, msg, MessageDialog.QUESTION, options, 0 );
-					result[0] = dialog.open( );
+					String msg = NLS.bind(BirtWTPMessages.BIRTOverwriteQuery_message, file);
+					String[] options = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
+							IDialogConstants.YES_TO_ALL_LABEL, IDialogConstants.CANCEL_LABEL };
+					MessageDialog dialog = new MessageDialog(shell, title, null, msg, MessageDialog.QUESTION, options,
+							0);
+					result[0] = dialog.open();
 				}
-			} );
+			});
 			return result[0];
 		}
 
 		/**
-		 * wait to query overwrite result. If has selected ALL, always return
-		 * ALL.
+		 * wait to query overwrite result. If has selected ALL, always return ALL.
 		 */
-		public String queryOverwrite( String file )
-		{
-			if ( isALL )
+		public String queryOverwrite(String file) {
+			if (isALL)
 				return ALL;
 
-			String[] returnCodes = {YES, NO, ALL, CANCEL};
-			int returnVal = openDialog( file );
+			String[] returnCodes = { YES, NO, ALL, CANCEL };
+			int returnVal = openDialog(file);
 			String result = returnVal < 0 ? CANCEL : returnCodes[returnVal];
 
 			// check if selected ALL
-			isALL = result.equalsIgnoreCase( ALL ) ? true : false;
+			isALL = result.equalsIgnoreCase(ALL) ? true : false;
 
 			return result;
 		}

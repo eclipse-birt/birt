@@ -11,18 +11,13 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-
 /**
  * Unit test for <code>ImageItemExecutor</code>.
  * 
  */
-public class ImageItemExecutorTest extends ReportItemExecutorTestAbs
-{
+public class ImageItemExecutorTest extends ReportItemExecutorTestAbs {
 
-
-
-	public void testImageExcute( ) throws Exception
-	{
+	public void testImageExcute() throws Exception {
 		compare("image.xml", "image.txt");
 	}
 }

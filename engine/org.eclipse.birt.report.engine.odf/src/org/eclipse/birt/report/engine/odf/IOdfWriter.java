@@ -12,40 +12,37 @@ package org.eclipse.birt.report.engine.odf;
 
 import org.eclipse.birt.report.engine.odf.style.StyleEntry;
 
+public interface IOdfWriter {
 
-public interface IOdfWriter
-{
+	void endTable();
 
-	void endTable( );
+	void endTableCell();
 
-	void endTableCell( );
+	void endTableHeader();
 
-	void endTableHeader( );
+	void endTableRow();
 
-	void endTableRow( );
+	void startTable(String name, StyleEntry style);
 
+	void startTableCell(StyleEntry cellStyle, SpanInfo info);
 
-	void startTable( String name, StyleEntry style );
+	void startTableHeader();
 
-	void startTableCell( StyleEntry cellStyle, SpanInfo info );
+	void startTableRow(StyleEntry rowStyle);
 
-	void startTableHeader( );
+	void writeAutoText(int type);
 
-	void startTableRow( StyleEntry rowStyle );
+	void writeColumn(StyleEntry[] colStyles);
 
-	void writeAutoText( int type );
-	
-	void writeColumn( StyleEntry[] colStyles );
+	void writeSpanCell(SpanInfo info);
 
-	void writeSpanCell( SpanInfo info );
+	void writeString(String txt);
 
-	void writeString( String txt );
-	
-	void writeEmptyCell( );
-	
-	void close( ) throws Exception;
+	void writeEmptyCell();
 
-	public abstract void endTableRowGroup( );
+	void close() throws Exception;
 
-	public abstract void startTableRowGroup( );
+	public abstract void endTableRowGroup();
+
+	public abstract void startTableRowGroup();
 }

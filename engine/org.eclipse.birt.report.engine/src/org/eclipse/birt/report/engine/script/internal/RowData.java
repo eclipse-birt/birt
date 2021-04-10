@@ -37,51 +37,43 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
  * 
  */
 
-public class RowData implements IRowData
-{
+public class RowData implements IRowData {
 	/**
 	 * the logger
 	 */
-	protected static Logger logger = Logger.getLogger( IRowData.class.getName( ) );
-	
+	protected static Logger logger = Logger.getLogger(IRowData.class.getName());
+
 	private IBaseResultSet rset;
-	private ArrayList bindingNames = new ArrayList( );
+	private ArrayList bindingNames = new ArrayList();
 
-	private static final Pattern rowWithIndex = Pattern.compile( "(row\\[\\d+\\])",
-			Pattern.CASE_INSENSITIVE );
+	private static final Pattern rowWithIndex = Pattern.compile("(row\\[\\d+\\])", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern rowWithWord = Pattern.compile( "(row\\[\\w+\\])",
-			Pattern.CASE_INSENSITIVE );
+	private static final Pattern rowWithWord = Pattern.compile("(row\\[\\w+\\])", Pattern.CASE_INSENSITIVE);
 
-	public RowData( IBaseResultSet rset, ReportItemHandle element )
-	{
+	public RowData(IBaseResultSet rset, ReportItemHandle element) {
 		this.rset = rset;
 		// intialize the bindings and bindingNames
-		if ( element != null )
-		{
-			addColumnBindings( element.columnBindingsIterator( ) );
+		if (element != null) {
+			addColumnBindings(element.columnBindingsIterator());
 		}
 	}
 
-	private void addColumnBindings( Iterator bindingIter )
-	{
-		if ( bindingIter != null )
-		{
-			while ( bindingIter.hasNext( ) )
-			{
-				ComputedColumnHandle binding = (ComputedColumnHandle) bindingIter.next( );
-				bindingNames.add( binding.getName( ) );
+	private void addColumnBindings(Iterator bindingIter) {
+		if (bindingIter != null) {
+			while (bindingIter.hasNext()) {
+				ComputedColumnHandle binding = (ComputedColumnHandle) bindingIter.next();
+				bindingNames.add(binding.getName());
 			}
 		}
 	}
 
 	/**
-	 * Get the value of the provided expression. The expression must be defined
-	 * on the report item. Some processing is done to the expression to make
-	 * thing easier. It is ok to for an expression to contain things like
+	 * Get the value of the provided expression. The expression must be defined on
+	 * the report item. Some processing is done to the expression to make thing
+	 * easier. It is ok to for an expression to contain things like
 	 * row[CUSTOMERNAME] for example (will be replaced with row["CUSTOMENAME"]).
-	 * row[123] will be kept as row[123] (index lookup). The regex used is to
-	 * find things to replace is: row\\[\\w+\\], Pattern.CASE_INSENSITIVE minus
+	 * row[123] will be kept as row[123] (index lookup). The regex used is to find
+	 * things to replace is: row\\[\\w+\\], Pattern.CASE_INSENSITIVE minus
 	 * row\\[\\d+\\], Pattern.CASE_INSENSITIVE.
 	 * 
 	 * @deprecated
@@ -89,17 +81,12 @@ public class RowData implements IRowData
 	 * @return the evaluated value of the provided expression
 	 * @throws ScriptException
 	 */
-	public Object getExpressionValue( String expression )
-			throws ScriptException
-	{
-		expression = process( expression );
-		try
-		{
-			return rset.evaluate( expression );
-		}
-		catch ( BirtException e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
+	public Object getExpressionValue(String expression) throws ScriptException {
+		expression = process(expression);
+		try {
+			return rset.evaluate(expression);
+		} catch (BirtException e) {
+			logger.log(Level.WARNING, e.getMessage(), e);
 		}
 		return null;
 	}
@@ -107,100 +94,79 @@ public class RowData implements IRowData
 	/**
 	 * @deprecated
 	 */
-	public Object getExpressionValue( int index ) throws ScriptException
-	{
-		String name = getColumnName( index );
-		if ( name != null )
-		{
-			return getColumnValue( name );
+	public Object getExpressionValue(int index) throws ScriptException {
+		String name = getColumnName(index);
+		if (name != null) {
+			return getColumnValue(name);
 		}
 		return null;
 	}
 
 	// Process the expression (replace row[something] with row["something"])
-	private String process( String expression )
-	{
-		if ( expression == null )
+	private String process(String expression) {
+		if (expression == null)
 			return null;
-		expression = expression.trim( );
+		expression = expression.trim();
 		// Replace row[something] with row["something"]
-		Matcher mWord = rowWithWord.matcher( expression );
-		StringBuffer sb = new StringBuffer( );
-		while ( mWord.find( ) )
-		{
-			String group = mWord.group( 1 );
+		Matcher mWord = rowWithWord.matcher(expression);
+		StringBuffer sb = new StringBuffer();
+		while (mWord.find()) {
+			String group = mWord.group(1);
 			// TODO: This could probably be merged into the main pattern
-			Matcher mIndex = rowWithIndex.matcher( group );
+			Matcher mIndex = rowWithIndex.matcher(group);
 			// Don't replace row[123] with row["123"] (index)
-			if ( !mIndex.matches( ) )
-			{
-				group = group.replaceAll( "\\[", "[\"" );
-				group = group.replaceAll( "\\]", "\"]" );
+			if (!mIndex.matches()) {
+				group = group.replaceAll("\\[", "[\"");
+				group = group.replaceAll("\\]", "\"]");
 			}
-			mWord.appendReplacement( sb, group );
+			mWord.appendReplacement(sb, group);
 		}
-		mWord.appendTail( sb );
-		return sb.toString( );
+		mWord.appendTail(sb);
+		return sb.toString();
 	}
 
-	public int getExpressionCount( )
-	{
-		return getColumnCount( );
+	public int getExpressionCount() {
+		return getColumnCount();
 	}
 
-	public Object getColumnValue( String name ) throws ScriptException
-	{
-		try
-		{
-			if ( rset != null )
-			{
-				if ( rset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
-				{
-					return ( (IQueryResultSet) rset ).getValue( name );
-				}
-				else
-				{
+	public Object getColumnValue(String name) throws ScriptException {
+		try {
+			if (rset != null) {
+				if (rset.getType() == IBaseResultSet.QUERY_RESULTSET) {
+					return ((IQueryResultSet) rset).getValue(name);
+				} else {
 					// FIXME: if the rset is ICubeResultSet
 				}
 			}
-		}
-		catch ( BirtException e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
+		} catch (BirtException e) {
+			logger.log(Level.WARNING, e.getMessage(), e);
 		}
 		return null;
 	}
 
 	/**
-	 * get column value by index
-	 * index start from 0
+	 * get column value by index index start from 0
 	 */
-	public Object getColumnValue( int index ) throws ScriptException
-	{
-		String name = getColumnName( index );
-		if ( name != null )
-		{
-			return getColumnValue( name );
+	public Object getColumnValue(int index) throws ScriptException {
+		String name = getColumnName(index);
+		if (name != null) {
+			return getColumnValue(name);
 		}
 		return null;
 	}
 
 	/**
-	 * get column name by index
-	 * index start from 0
+	 * get column name by index index start from 0
 	 */
-	public String getColumnName( int index )
-	{
-		if ( index < bindingNames.size( ) )
-		{
-			return (String) bindingNames.get( index );
+	public String getColumnName(int index) {
+		if (index < bindingNames.size()) {
+			return (String) bindingNames.get(index);
 		}
 		return null;
 	}
 
-	public int getColumnCount( )
-	{
-		return bindingNames.size( );
+	public int getColumnCount() {
+		return bindingNames.size();
 	}
 
 }

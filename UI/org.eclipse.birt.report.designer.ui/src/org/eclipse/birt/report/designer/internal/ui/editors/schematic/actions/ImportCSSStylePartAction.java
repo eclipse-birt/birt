@@ -21,24 +21,19 @@ import org.eclipse.ui.IWorkbenchPart;
  * action.
  */
 
-public class ImportCSSStylePartAction extends WrapperSelectionAction
-{
-	public ImportCSSStylePartAction( IWorkbenchPart part )
-	{
-		super( part );
+public class ImportCSSStylePartAction extends WrapperSelectionAction {
+	public ImportCSSStylePartAction(IWorkbenchPart part) {
+		super(part);
 		setText(ImportCSSStyleAction.ACTION_TEXT);
 	}
 
-	public String getId( )
-	{
+	public String getId() {
 		return ImportCSSStyleAction.ID;
 	}
 
-	protected IAction createActionHandler( ISelection model )
-	{
-		if ( actionHandler == null )
-		{
-			actionHandler = new ImportCSSStyleAction( model );
+	protected IAction createActionHandler(ISelection model) {
+		if (actionHandler == null) {
+			actionHandler = new ImportCSSStyleAction(model);
 		}
 		return actionHandler;
 	}

@@ -17,31 +17,24 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperationFactory;
 
 /**
- * A implementation of <code>ICubeOperationFactory</code>, single instance
- * mode
+ * A implementation of <code>ICubeOperationFactory</code>, single instance mode
  */
-public class CubeOperationFactory implements ICubeOperationFactory
-{
+public class CubeOperationFactory implements ICubeOperationFactory {
 
 	// the only one instance in the app
 	private static ICubeOperationFactory instance = null;
 
-	private CubeOperationFactory( )
-	{
+	private CubeOperationFactory() {
 
 	}
 
-	public ICubeOperation createAddingNestAggregationsOperation(
-			IBinding[] nestAggregations ) throws DataException
-	{
-		return new AddingNestAggregations( nestAggregations );
+	public ICubeOperation createAddingNestAggregationsOperation(IBinding[] nestAggregations) throws DataException {
+		return new AddingNestAggregations(nestAggregations);
 	}
 
-	public static ICubeOperationFactory getInstance( )
-	{
-		if ( instance == null )
-		{
-			instance = new CubeOperationFactory( );
+	public static ICubeOperationFactory getInstance() {
+		if (instance == null) {
+			instance = new CubeOperationFactory();
 		}
 		return instance;
 	}
@@ -50,24 +43,19 @@ public class CubeOperationFactory implements ICubeOperationFactory
 	 * Create a IPreparedCubeOperation instance according to a ICubeOperation
 	 * instance
 	 * 
-	 * @param operation:
-	 *            the original cube operation used added
+	 * @param operation: the original cube operation used added
 	 * @return
 	 * @throws DataException
 	 */
-	public static IPreparedCubeOperation createPreparedCubeOperation(
-			ICubeOperation operation )
-			throws DataException
-	{
+	public static IPreparedCubeOperation createPreparedCubeOperation(ICubeOperation operation) throws DataException {
 		assert operation != null;
-		if ( operation instanceof AddingNestAggregations )
-		{
-			return new PreparedAddingNestAggregations( (AddingNestAggregations) operation);
+		if (operation instanceof AddingNestAggregations) {
+			return new PreparedAddingNestAggregations((AddingNestAggregations) operation);
 		}
 		// Currently, only AddingNestAggregations is provided, program never
 		// goes here
 		assert false;
-		throw new IllegalArgumentException( "Unsupported cube operation:" //$NON-NLS-1$
-				+ operation );
+		throw new IllegalArgumentException("Unsupported cube operation:" //$NON-NLS-1$
+				+ operation);
 	}
 }

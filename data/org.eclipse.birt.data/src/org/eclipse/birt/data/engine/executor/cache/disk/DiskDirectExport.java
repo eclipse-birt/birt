@@ -23,73 +23,63 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * One implemenation of DataBaseExport. This class will directly read data from
  * data base and export to file without any middle operation.
  */
-class DiskDirectExport extends DiskDataExport
-{
+class DiskDirectExport extends DiskDataExport {
 	private RowFile rowFile;
 	private int dataCountOfUnit;
-	
+
 	/**
 	 * @param rowFile
 	 */
-	DiskDirectExport( Map infoMap, ResultObjectUtil resultObjectUtil )
-	{
-		dataCountOfUnit = Integer.parseInt( (String) infoMap.get( "dataCountOfUnit" ) );
-		rowFile = new RowFile( new File( (String) infoMap.get( "goalFile" ) ),
-				resultObjectUtil,
-				dataCountOfUnit );
+	DiskDirectExport(Map infoMap, ResultObjectUtil resultObjectUtil) {
+		dataCountOfUnit = Integer.parseInt((String) infoMap.get("dataCountOfUnit"));
+		rowFile = new RowFile(new File((String) infoMap.get("goalFile")), resultObjectUtil, dataCountOfUnit);
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#exportStartDataToDisk(org.eclipse.birt.data.engine.odi.IResultObject[])
+	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#
+	 * exportStartDataToDisk(org.eclipse.birt.data.engine.odi.IResultObject[])
 	 */
-	public void exportStartDataToDisk( IResultObject[] resultObjects )
-			throws IOException, DataException
-	{
-		innerExportStartData( resultObjects );
+	public void exportStartDataToDisk(IResultObject[] resultObjects) throws IOException, DataException {
+		innerExportStartData(resultObjects);
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#exportRestDataToDisk(org.eclipse.birt.data.engine.odi.IResultObject,
-	 *      org.eclipse.birt.data.engine.executor.cache.RowResultSet)
+	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#
+	 * exportRestDataToDisk(org.eclipse.birt.data.engine.odi.IResultObject,
+	 * org.eclipse.birt.data.engine.executor.cache.RowResultSet)
 	 */
-	public int exportRestDataToDisk( IResultObject resultObject,
-			IRowResultSet rs, int maxRows ) throws DataException, IOException
-	{
-		int result = innerExportRestData( resultObject, rs, dataCountOfUnit, maxRows );
-		rowFile.endWrite( );
+	public int exportRestDataToDisk(IResultObject resultObject, IRowResultSet rs, int maxRows)
+			throws DataException, IOException {
+		int result = innerExportRestData(resultObject, rs, dataCountOfUnit, maxRows);
+		rowFile.endWrite();
 		return result;
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#getRowIterator()
+	 * @see
+	 * org.eclipse.birt.data.engine.executor.cache.DataBaseExport#getRowIterator()
 	 */
-	public IRowIterator getRowIterator()
-	{
+	public IRowIterator getRowIterator() {
 		return rowFile;
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#close()
 	 */
-	public void close( )
-	{
+	public void close() {
 		// do nothing
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.sort4.DiskExport#outputRowsUnit(org.eclipse.birt.sort4.RowData[],
-	 *      int)
+	 * @see org.eclipse.birt.sort4.DiskExport#outputRowsUnit(org.eclipse.birt.sort4.
+	 * RowData[], int)
 	 */
-	protected void outputResultObjects( IResultObject[] resultObjects, int indexOfUnit )
-			throws IOException, DataException
-	{
-		try
-		{
-			rowFile.writeRows( resultObjects, resultObjects.length );
-		}
-		catch( IOException ie )
-		{
-			rowFile.close( );
+	protected void outputResultObjects(IResultObject[] resultObjects, int indexOfUnit)
+			throws IOException, DataException {
+		try {
+			rowFile.writeRows(resultObjects, resultObjects.length);
+		} catch (IOException ie) {
+			rowFile.close();
 			throw ie;
 		}
 	}

@@ -26,107 +26,81 @@ import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.core.runtime.IAdaptable;
 
-public class CrosstabFilterExpressionProvider extends
-		CrosstabExpressionProvider
-{
+public class CrosstabFilterExpressionProvider extends CrosstabExpressionProvider {
 
 	private boolean isDetail = false;
 
-	public void setDetail( boolean isDetail )
-	{
+	public void setDetail(boolean isDetail) {
 		this.isDetail = isDetail;
 	}
 
 	/**
 	 * @param handle
 	 */
-	public CrosstabFilterExpressionProvider( DesignElementHandle handle )
-	{
-		super( handle, null );
+	public CrosstabFilterExpressionProvider(DesignElementHandle handle) {
+		super(handle, null);
 	}
 
-	protected void addFilterToProvider( )
-	{
-		addFilter( new ExpressionFilter( ) {
+	protected void addFilterToProvider() {
+		addFilter(new ExpressionFilter() {
 
-			public boolean select( Object parentElement, Object element )
-			{
+			public boolean select(Object parentElement, Object element) {
 
-				if ( ExpressionFilter.CATEGORY.equals( parentElement )
-						&& ExpressionProvider.MEASURE.equals( element ) )
-				{
+				if (ExpressionFilter.CATEGORY.equals(parentElement) && ExpressionProvider.MEASURE.equals(element)) {
 					return false;
 				}
 
-				if ( ( parentElement instanceof String && ( (String) parentElement ).equals( CURRENT_CUBE ) ) )
-				{
+				if ((parentElement instanceof String && ((String) parentElement).equals(CURRENT_CUBE))) {
 					PropertyHandle handle = null;
-					if ( element instanceof PropertyHandle )
+					if (element instanceof PropertyHandle)
 						handle = (PropertyHandle) element;
-					else if ( element instanceof IAdaptable
-							&& ( (IAdaptable) element ).getAdapter( PropertyHandle.class ) instanceof PropertyHandle )
-						handle = (PropertyHandle) ( (IAdaptable) element ).getAdapter( PropertyHandle.class );
+					else if (element instanceof IAdaptable
+							&& ((IAdaptable) element).getAdapter(PropertyHandle.class) instanceof PropertyHandle)
+						handle = (PropertyHandle) ((IAdaptable) element).getAdapter(PropertyHandle.class);
 
-					if ( handle != null
-							&& handle.getPropertyDefn( )
-									.getName( )
-									.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-					{
+					if (handle != null && handle.getPropertyDefn().getName().equals(ICubeModel.MEASURE_GROUPS_PROP)) {
 						return false;
 					}
 				}
 
-				if ( parentElement instanceof PropertyHandle )
-				{
+				if (parentElement instanceof PropertyHandle) {
 					PropertyHandle handle = (PropertyHandle) parentElement;
-					if ( handle.getPropertyDefn( )
-							.getName( )
-							.equals( ICubeModel.DIMENSIONS_PROP ) )
-					{
-						try
-						{
-							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
+					if (handle.getPropertyDefn().getName().equals(ICubeModel.DIMENSIONS_PROP)) {
+						try {
+							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle();
 							boolean result;
-							if ( xtabHandle.getDimension( ( (DimensionHandle) element ).getName( ) ) != null )
+							if (xtabHandle.getDimension(((DimensionHandle) element).getName()) != null)
 								result = true;
 							else
 								result = false;
-							if ( isDetail )
+							if (isDetail)
 								result = !result;
 							return result;
-						}
-						catch ( ExtendedElementException e )
-						{
+						} catch (ExtendedElementException e) {
 							return false;
 						}
 					}
 				}
 				return true;
 			}
-		} );
+		});
 	}
 
-	protected List getChildrenList( Object parent )
-	{
-		if ( isDetail )
-		{
-			if ( parent instanceof DimensionHandle )
-			{
-				List children = new ArrayList( );
+	protected List getChildrenList(Object parent) {
+		if (isDetail) {
+			if (parent instanceof DimensionHandle) {
+				List children = new ArrayList();
 				DimensionHandle handle = (DimensionHandle) parent;
-				if ( handle.getDefaultHierarchy( ).getLevelCount( ) > 0 )
-					children.addAll( handle.getDefaultHierarchy( )
-							.getPropertyHandle( IHierarchyModel.LEVELS_PROP )
-							.getContents( ) );
+				if (handle.getDefaultHierarchy().getLevelCount() > 0)
+					children.addAll(
+							handle.getDefaultHierarchy().getPropertyHandle(IHierarchyModel.LEVELS_PROP).getContents());
 				return children;
-			}
-			else if ( parent instanceof LevelHandle )
-			{
-				List children = new ArrayList( );
+			} else if (parent instanceof LevelHandle) {
+				List children = new ArrayList();
 				return children;
 			}
 		}
-		return super.getChildrenList( parent );
+		return super.getChildrenList(parent);
 	}
 
 }

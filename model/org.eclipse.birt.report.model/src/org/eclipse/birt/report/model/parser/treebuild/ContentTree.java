@@ -15,16 +15,14 @@ package org.eclipse.birt.report.model.parser.treebuild;
  * Represents the content tree of a trunk of xml file.
  */
 
-public class ContentTree extends ContentNode
-{
+public class ContentTree extends ContentNode {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public ContentTree( )
-	{
-		super( null );
+	public ContentTree() {
+		super(null);
 	}
 
 	/**
@@ -33,8 +31,7 @@ public class ContentTree extends ContentNode
 	 * @return tree if it is empty, otherwise false
 	 */
 
-	public boolean isEmpty( )
-	{
-		return getChildren( ).isEmpty( );
-	}	
+	public boolean isEmpty() {
+		return getChildren().isEmpty();
+	}
 }

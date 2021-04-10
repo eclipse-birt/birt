@@ -18,10 +18,9 @@ import org.eclipse.birt.report.engine.script.internal.element.ScriptAPIBaseFacto
  * 
  * @deprecated
  */
-public class ScriptAPIFactory implements IScriptAPIFactory
-{/*
- * Factory used to create the structure instance.
- */
+public class ScriptAPIFactory implements IScriptAPIFactory {/*
+															 * Factory used to create the structure instance.
+															 */
 
 	private static IScriptAPIFactory baseFactory = null;
 
@@ -36,46 +35,37 @@ public class ScriptAPIFactory implements IScriptAPIFactory
 	 * @return ODAProviderFactory instance.
 	 */
 
-	public static ScriptAPIFactory getInstance( )
-	{
-		if ( instance == null )
-		{
-			synchronized ( ScriptAPIFactory.class )
-			{
-				if ( instance == null )
-					instance = new ScriptAPIFactory( );
+	public static ScriptAPIFactory getInstance() {
+		if (instance == null) {
+			synchronized (ScriptAPIFactory.class) {
+				if (instance == null)
+					instance = new ScriptAPIFactory();
 			}
 		}
 		return instance;
 	}
 
-	public static IScriptAPIFactory getBaseFactory( )
-	{
-		if ( baseFactory != null )
-		{
+	public static IScriptAPIFactory getBaseFactory() {
+		if (baseFactory != null) {
 			return baseFactory;
 		}
-		synchronized ( ScriptAPIFactory.class )
-		{
-			if ( baseFactory == null )
-			{
-				baseFactory = new ScriptAPIBaseFactory( );
+		synchronized (ScriptAPIFactory.class) {
+			if (baseFactory == null) {
+				baseFactory = new ScriptAPIBaseFactory();
 			}
 		}
 		return baseFactory;
 	}
 
 	/**
-	 * Set the base factory for this class. This method should be called before
-	 * any other operation.
+	 * Set the base factory for this class. This method should be called before any
+	 * other operation.
 	 * 
-	 * @param base
-	 *            The real factory class used to create the script structure.
+	 * @param base The real factory class used to create the script structure.
 	 */
 
-	public synchronized static void initeTheFactory( IScriptAPIFactory base )
-	{
-		if ( baseFactory != null )
+	public synchronized static void initeTheFactory(IScriptAPIFactory base) {
+		if (baseFactory != null)
 			return;
 
 		baseFactory = base;
@@ -84,8 +74,7 @@ public class ScriptAPIFactory implements IScriptAPIFactory
 	/**
 	 * Singleton instance release method.
 	 */
-	public static void releaseInstance( )
-	{
+	public static void releaseInstance() {
 		baseFactory = null;
 		instance = null;
 	}
@@ -96,10 +85,9 @@ public class ScriptAPIFactory implements IScriptAPIFactory
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IScriptAPIFactory#
 	 * createDataBinding()
 	 */
-	public IDataBinding createDataBinding( )
-	{
-		if ( baseFactory != null )
-			return baseFactory.createDataBinding( );
+	public IDataBinding createDataBinding() {
+		if (baseFactory != null)
+			return baseFactory.createDataBinding();
 		return null;
 	}
 
@@ -109,10 +97,9 @@ public class ScriptAPIFactory implements IScriptAPIFactory
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IScriptAPIFactory#
 	 * createFilterCondition()
 	 */
-	public IFilterCondition createFilterCondition( )
-	{
-		if ( baseFactory != null )
-			return baseFactory.createFilterCondition( );
+	public IFilterCondition createFilterCondition() {
+		if (baseFactory != null)
+			return baseFactory.createFilterCondition();
 		return null;
 	}
 
@@ -122,10 +109,9 @@ public class ScriptAPIFactory implements IScriptAPIFactory
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IScriptAPIFactory#
 	 * createHideRule()
 	 */
-	public IHideRule createHideRule( )
-	{
-		if ( baseFactory != null )
-			return baseFactory.createHideRule( );
+	public IHideRule createHideRule() {
+		if (baseFactory != null)
+			return baseFactory.createHideRule();
 		return null;
 	}
 
@@ -135,10 +121,9 @@ public class ScriptAPIFactory implements IScriptAPIFactory
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IScriptAPIFactory#
 	 * createHighLightRule()
 	 */
-	public IHighlightRule createHighLightRule( )
-	{
-		if ( baseFactory != null )
-			return baseFactory.createHighLightRule( );
+	public IHighlightRule createHighLightRule() {
+		if (baseFactory != null)
+			return baseFactory.createHighLightRule();
 		return null;
 	}
 
@@ -148,10 +133,9 @@ public class ScriptAPIFactory implements IScriptAPIFactory
 	 * @seeorg.eclipse.birt.report.engine.api.script.element.IScriptAPIFactory#
 	 * createSortCondition()
 	 */
-	public ISortCondition createSortCondition( )
-	{
-		if ( baseFactory != null )
-			return baseFactory.createSortCondition( );
+	public ISortCondition createSortCondition() {
+		if (baseFactory != null)
+			return baseFactory.createSortCondition();
 		return null;
 	}
 

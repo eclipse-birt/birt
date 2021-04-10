@@ -34,8 +34,7 @@ import org.eclipse.ui.IViewPart;
  * is enabled when library is selected.
  */
 
-public class PublishLibraryNavigatorAction implements IViewActionDelegate
-{
+public class PublishLibraryNavigatorAction implements IViewActionDelegate {
 
 	protected IViewPart navigator;
 
@@ -44,8 +43,7 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 	 * 
 	 * @see org.eclipse.ui.IViewActionDelegate#init(org.eclipse.ui.IViewPart)
 	 */
-	public void init( IViewPart view )
-	{
+	public void init(IViewPart view) {
 		navigator = view;
 	}
 
@@ -54,55 +52,41 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 	 * 
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	public void run( IAction action )
-	{
-		IFile file = getSelectedFile( );
-		if ( file == null )
-		{
+	public void run(IAction action) {
+		IFile file = getSelectedFile();
+		if (file == null) {
 			return;
 		}
 
-		String url = file.getLocation( ).toOSString( );
+		String url = file.getLocation().toOSString();
 		ModuleHandle handle = null;
-		try
-		{
-			handle = SessionHandleAdapter.getInstance( )
-					.getSessionHandle( )
-					.openLibrary( url );
+		try {
+			handle = SessionHandleAdapter.getInstance().getSessionHandle().openLibrary(url);
 
-			if ( handle == null )
-			{
-				action.setEnabled( false );
+			if (handle == null) {
+				action.setEnabled(false);
 				return;
 			}
 
-			String filePath = handle.getFileName( );
+			String filePath = handle.getFileName();
 			String fileName = null;
-			if ( filePath != null && filePath.length( ) != 0 )
-			{
-				fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
+			if (filePath != null && filePath.length() != 0) {
+				fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1);
 			}
 
-			PublishLibraryWizard publishLibrary = new PublishLibraryWizard( (LibraryHandle) handle,
-					fileName,
-					ReportPlugin.getDefault( ).getResourceFolder( ) );
+			PublishLibraryWizard publishLibrary = new PublishLibraryWizard((LibraryHandle) handle, fileName,
+					ReportPlugin.getDefault().getResourceFolder());
 
-			WizardDialog dialog = new BaseWizardDialog( UIUtil.getDefaultShell( ),
-					publishLibrary );
+			WizardDialog dialog = new BaseWizardDialog(UIUtil.getDefaultShell(), publishLibrary);
 
-			dialog.setPageSize( 500, 250 );
-			dialog.open( );
-		}
-		catch ( Exception e )
-		{
-			ExceptionUtil.handle( e );
+			dialog.setPageSize(500, 250);
+			dialog.open();
+		} catch (Exception e) {
+			ExceptionUtil.handle(e);
 			return;
-		}
-		finally
-		{
-			if ( handle != null )
-			{
-				handle.close( );
+		} finally {
+			if (handle != null) {
+				handle.close();
 			}
 		}
 
@@ -111,11 +95,11 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
-	 *      org.eclipse.jface.viewers.ISelection)
+	 * @see
+	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.
+	 * IAction, org.eclipse.jface.viewers.ISelection)
 	 */
-	public void selectionChanged( IAction action, ISelection selection )
-	{
+	public void selectionChanged(IAction action, ISelection selection) {
 
 	}
 
@@ -124,15 +108,12 @@ public class PublishLibraryNavigatorAction implements IViewActionDelegate
 	 * 
 	 * @return IFile Selected file
 	 */
-	protected IFile getSelectedFile( )
-	{
-		if ( navigator != null )
-		{
-			IStructuredSelection selection = (IStructuredSelection) navigator.getViewSite( ).getSelectionProvider( ).getSelection( );
-			if ( selection.size( ) == 1
-					&& selection.getFirstElement( ) instanceof IFile )
-			{
-				return (IFile) selection.getFirstElement( );
+	protected IFile getSelectedFile() {
+		if (navigator != null) {
+			IStructuredSelection selection = (IStructuredSelection) navigator.getViewSite().getSelectionProvider()
+					.getSelection();
+			if (selection.size() == 1 && selection.getFirstElement() instanceof IFile) {
+				return (IFile) selection.getFirstElement();
 			}
 		}
 		return null;

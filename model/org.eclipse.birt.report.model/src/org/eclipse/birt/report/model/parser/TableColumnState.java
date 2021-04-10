@@ -18,29 +18,23 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses a column within a table or grid item.
- *  
+ * 
  */
 
-class TableColumnState extends ReportElementState
-{
+class TableColumnState extends ReportElementState {
 
 	protected TableColumn element = null;
 
 	/**
 	 * Constructs the state to parse table column.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public TableColumnState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public TableColumnState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/*
@@ -49,28 +43,27 @@ class TableColumnState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new TableColumn( );
-		
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new TableColumn();
+
 		// get the "id" of the element
 
-		initSimpleElement( attrs );
+		initSimpleElement(attrs);
 	}
 
-	public void end( )
-	{
-		makeTestExpressionCompatible( );
+	public void end() {
+		makeTestExpressionCompatible();
 	}
 }

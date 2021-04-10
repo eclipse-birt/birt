@@ -18,25 +18,23 @@ import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 /**
  * ICrosstabCellInstance
  */
-public interface ICrosstabCellInstance
-{
+public interface ICrosstabCellInstance {
 
 	String TYPE_HEADER = ICrosstabCell.TYPE_HEADER;
 
 	String TYPE_AGGREGATION = ICrosstabCell.TYPE_AGGREGATION;
 
-	long getCellID( );
+	long getCellID();
 
-	String getCellType( );
+	String getCellType();
 
-	Object getDataValue( String bindingName ) throws BirtException;
+	Object getDataValue(String bindingName) throws BirtException;
 
-	IScriptStyle getStyle( );
+	IScriptStyle getStyle();
 
-	Object getNamedExpressionValue( String name );
+	Object getNamedExpressionValue(String name);
 
-	Object getUserPropertyValue( String name );
+	Object getUserPropertyValue(String name);
 
-	void setUserPropertyValue( String name, Object value )
-			throws ScriptException;
+	void setUserPropertyValue(String name, Object value) throws ScriptException;
 }

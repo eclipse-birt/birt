@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.api.command;
 
@@ -19,29 +19,27 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * 
  */
 
-public class ExtendsEvent extends NotificationEvent
-{
+public class ExtendsEvent extends NotificationEvent {
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element that changed.
+	 * @param obj the element that changed.
 	 */
 
-	public ExtendsEvent( DesignElement obj )
-	{
-		super( obj );
+	public ExtendsEvent(DesignElement obj) {
+		super(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
+	 * )
 	 */
-	
-	public int getEventType( )
-	{
+
+	public int getEventType() {
 		return EXTENDS_EVENT;
 	}
 

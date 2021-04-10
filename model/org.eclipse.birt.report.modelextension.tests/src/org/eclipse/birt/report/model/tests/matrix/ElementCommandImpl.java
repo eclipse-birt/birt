@@ -18,14 +18,13 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * Implements <code>IElementCommand</code> for testing
  */
 
-public class ElementCommandImpl implements IElementCommand
-{
+public class ElementCommandImpl implements IElementCommand {
 
 	private ReportItemImpl element = null;
 	private DesignElementHandle extItemHandle = null;
 	private String propName = null;
 
-	private static String commandTag = "initial"; //$NON-NLS-1$	
+	private static String commandTag = "initial"; //$NON-NLS-1$
 	private static final String EXECUTE_TAG = "execute"; //$NON-NLS-1$
 	private static final String REDO_TAG = "redo"; //$NON-NLS-1$
 	private static final String UNDO_TAG = "undo"; //$NON-NLS-1$
@@ -45,17 +44,13 @@ public class ElementCommandImpl implements IElementCommand
 	/**
 	 * Constructor.
 	 * 
-	 * @param propertyOwner
-	 *            the report element that has the property
-	 * @param name
-	 *            the name of the property to change
-	 * @param value
-	 *            the new value
+	 * @param propertyOwner the report element that has the property
+	 * @param name          the name of the property to change
+	 * @param value         the new value
 	 */
 
-	public ElementCommandImpl( ReportItemImpl propertyOwner, String name,
-			Object value, DesignElementHandle elementHandle )
-	{
+	public ElementCommandImpl(ReportItemImpl propertyOwner, String name, Object value,
+			DesignElementHandle elementHandle) {
 		assert propertyOwner != null;
 		element = propertyOwner;
 		assert name != null;
@@ -65,24 +60,24 @@ public class ElementCommandImpl implements IElementCommand
 
 		propName = name;
 		newValue = value;
-		oldValue = propertyOwner.getProperty( name );
+		oldValue = propertyOwner.getProperty(name);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.model.design.core.activity.SimpleRecord#perform(boolean)
+	 * @see
+	 * org.eclipse.birt.model.design.core.activity.SimpleRecord#perform(boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
+	protected void perform(boolean undo) {
 		Object value = undo ? oldValue : newValue;
-		if ( propName.equals( "company" ) && value != null ) //$NON-NLS-1$
-			element.doSetProperty( propName, value.toString( ) + commandTag );
-		else if ( propName.equals( "company" ) && value == null ) //$NON-NLS-1$
-			element.doSetProperty( propName, commandTag );
+		if (propName.equals("company") && value != null) //$NON-NLS-1$
+			element.doSetProperty(propName, value.toString() + commandTag);
+		else if (propName.equals("company") && value == null) //$NON-NLS-1$
+			element.doSetProperty(propName, commandTag);
 		else
-			element.doSetProperty( propName, value );
+			element.doSetProperty(propName, value);
 	}
 
 	/*
@@ -90,10 +85,9 @@ public class ElementCommandImpl implements IElementCommand
 	 * 
 	 * @see org.eclipse.birt.model.extension.IExtendedElementCommand#execute()
 	 */
-	public void execute( )
-	{
+	public void execute() {
 		commandTag = EXECUTE_TAG;
-		perform( false );
+		perform(false);
 	}
 
 	/*
@@ -101,10 +95,9 @@ public class ElementCommandImpl implements IElementCommand
 	 * 
 	 * @see org.eclipse.birt.model.extension.IExtendedElementCommand#undo()
 	 */
-	public void undo( )
-	{
+	public void undo() {
 		commandTag = UNDO_TAG;
-		perform( true );
+		perform(true);
 
 	}
 
@@ -113,10 +106,9 @@ public class ElementCommandImpl implements IElementCommand
 	 * 
 	 * @see org.eclipse.birt.model.extension.IExtendedElementCommand#redo()
 	 */
-	public void redo( )
-	{
+	public void redo() {
 		commandTag = REDO_TAG;
-		perform( false );
+		perform(false);
 
 	}
 
@@ -125,8 +117,7 @@ public class ElementCommandImpl implements IElementCommand
 	 * 
 	 * @see org.eclipse.birt.model.extension.IExtendedElementCommand#canUndo()
 	 */
-	public boolean canUndo( )
-	{
+	public boolean canUndo() {
 		return true;
 	}
 
@@ -135,8 +126,7 @@ public class ElementCommandImpl implements IElementCommand
 	 * 
 	 * @see org.eclipse.birt.model.extension.IExtendedElementCommand#canRedo()
 	 */
-	public boolean canRedo( )
-	{
+	public boolean canRedo() {
 		return true;
 	}
 
@@ -145,18 +135,18 @@ public class ElementCommandImpl implements IElementCommand
 	 * 
 	 * @see org.eclipse.birt.model.extension.IExtendedElementCommand#getLabel()
 	 */
-	public String getLabel( )
-	{
+	public String getLabel() {
 		return "Command"; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#getElementHandle()
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IElementCommand#getElementHandle(
+	 * )
 	 */
-	public DesignElementHandle getElementHandle( )
-	{
+	public DesignElementHandle getElementHandle() {
 		return extItemHandle;
 	}
 }

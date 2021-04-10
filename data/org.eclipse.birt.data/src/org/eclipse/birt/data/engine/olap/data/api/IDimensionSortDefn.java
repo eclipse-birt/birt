@@ -15,32 +15,32 @@ package org.eclipse.birt.data.engine.olap.data.api;
  * 
  */
 
-public interface IDimensionSortDefn
-{
+public interface IDimensionSortDefn {
 	/**
-     * Sorts in ascending order of sort key values
-     */
-    public static final int SORT_UNDEFINED = -1; 
-    
-	/**
-     * Sorts in ascending order of sort key values
-     */
-    public static final int SORT_ASC = 0; 
+	 * Sorts in ascending order of sort key values
+	 */
+	public static final int SORT_UNDEFINED = -1;
 
-    /**
-     * Sorts in descending order of sort key values
-     */
-    public static final int SORT_DESC = 1;
-    
-    /**
+	/**
+	 * Sorts in ascending order of sort key values
+	 */
+	public static final int SORT_ASC = 0;
+
+	/**
+	 * Sorts in descending order of sort key values
+	 */
+	public static final int SORT_DESC = 1;
+
+	/**
 	 * refactor to getSortLevel
+	 * 
 	 * @return
 	 */
-	public ILevel getLevel( );
-	
-    /**
-     * 
-     * @return
-     */
-    public int getDirection( );
+	public ILevel getLevel();
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getDirection();
 }

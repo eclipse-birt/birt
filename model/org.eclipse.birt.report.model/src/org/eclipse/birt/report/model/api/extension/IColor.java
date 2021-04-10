@@ -11,14 +11,13 @@
 
 package org.eclipse.birt.report.model.api.extension;
 
-public interface IColor
-{
+public interface IColor {
 
-	int getRed( );
+	int getRed();
 
-	int getGreen( );
+	int getGreen();
 
-	int getBlue( );
+	int getBlue();
 
 	/**
 	 * Returns the transpareny depth.
@@ -26,13 +25,13 @@ public interface IColor
 	 * @return the integer between 0 and 255.
 	 */
 
-	int getTransparency( );
+	int getTransparency();
 
-	void setRed( int red );
+	void setRed(int red);
 
-	void setGreen( int green );
+	void setGreen(int green);
 
-	void setBlue( int blud );
+	void setBlue(int blud);
 
 	/**
 	 * Sets the transpareny depth.
@@ -40,5 +39,5 @@ public interface IColor
 	 * @param value the integer between 0 and 255.
 	 */
 
-	void setTransparency( int value );
+	void setTransparency(int value);
 }

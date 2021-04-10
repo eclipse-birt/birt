@@ -7,14 +7,13 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.chart.script.api.series;
 
 /**
  * Represents Difference series of a Chart in the scripting environment
  */
 
-public interface IDifference
-{
+public interface IDifference {
 
 }

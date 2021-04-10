@@ -16,35 +16,31 @@ import org.mozilla.javascript.Token;
 /**
  * This class is a utility class which is used to pass total constants.
  */
-public class AggregationConstantsUtil
-{
+public class AggregationConstantsUtil {
 	//
 	private static String NO_FILTER = "NO_FILTER";
 	private static String CURRENT_GROUP = "CURRENT_GROUP";
 	private static String OVERALL = "OVERALL";
 	private static String TOTAL = "TOTAL";
-	
+
 	/**
 	 * Return the Constant Expression referred by the total constants.
+	 * 
 	 * @param child
 	 * @return
 	 */
-	public static ConstantExpression getConstantExpression( Node child )
-	{
-		if ( child.getFirstChild( ).getType( ) == Token.NAME
-			&& child.getFirstChild( ).getString( ).equalsIgnoreCase( TOTAL )
-			&& child.getLastChild( ).getType( ) == Token.STRING )
-		{
-			String property = child.getLastChild( ).getString( );
-			if ( CURRENT_GROUP.equalsIgnoreCase( property )
-				|| OVERALL.equalsIgnoreCase( property ) )
-				return new ConstantExpression( property.toUpperCase( ) );
-			if ( NO_FILTER.equalsIgnoreCase( property ) )
+	public static ConstantExpression getConstantExpression(Node child) {
+		if (child.getFirstChild().getType() == Token.NAME && child.getFirstChild().getString().equalsIgnoreCase(TOTAL)
+				&& child.getLastChild().getType() == Token.STRING) {
+			String property = child.getLastChild().getString();
+			if (CURRENT_GROUP.equalsIgnoreCase(property) || OVERALL.equalsIgnoreCase(property))
+				return new ConstantExpression(property.toUpperCase());
+			if (NO_FILTER.equalsIgnoreCase(property))
 				return new ConstantExpression();
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Return the group level the constant stand for.
 	 * 
@@ -53,24 +49,20 @@ public class AggregationConstantsUtil
 	 * @param innerMostGroupLevel
 	 * @return
 	 */
-	public static int getGroupLevel( String constant, int currentGroupLevel, int innerMostGroupLevel, boolean isDetailedRow)
-	{
+	public static int getGroupLevel(String constant, int currentGroupLevel, int innerMostGroupLevel,
+			boolean isDetailedRow) {
 		int result = -1;
-		if ( OVERALL.equalsIgnoreCase( (String) constant ))
-		{
+		if (OVERALL.equalsIgnoreCase((String) constant)) {
 			result = 0;
-		}else if( CURRENT_GROUP.equalsIgnoreCase( (String)constant))
-		{
+		} else if (CURRENT_GROUP.equalsIgnoreCase((String) constant)) {
 			//
-			if( currentGroupLevel == 0 && isDetailedRow)
-			{
+			if (currentGroupLevel == 0 && isDetailedRow) {
 				result = innerMostGroupLevel;
-			}else
-			{
+			} else {
 				result = currentGroupLevel;
 			}
 		}
 		return result;
 	}
-	
+
 }

@@ -8,11 +8,9 @@
 
 package org.eclipse.birt.core.framework;
 
-abstract public class PlatformLauncher
-{
+abstract public class PlatformLauncher {
 
-	abstract public void startup( final PlatformConfig config )
-			throws FrameworkException;
+	abstract public void startup(final PlatformConfig config) throws FrameworkException;
 
-	abstract public void shutdown( );
+	abstract public void shutdown();
 }

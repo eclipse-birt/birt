@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
  * Deals with dataset column
  */
 
-public class ResultSetColumnProvider extends DefaultNodeProvider
-{
+public class ResultSetColumnProvider extends DefaultNodeProvider {
 
 	/**
 	 * Returns the right ICON name constant of given elemen
@@ -29,30 +28,27 @@ public class ResultSetColumnProvider extends DefaultNodeProvider
 	 * @param model
 	 * @return icon name
 	 */
-	public String getIconName( Object model )
-	{
+	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_DATA_COLUMN;
 	}
 
 	/**
 	 * Gets the children element of the given model using visitor
 	 * 
-	 * @param object
-	 *            the handle
+	 * @param object the handle
 	 */
-	public Object[] getChildren( Object object )
-	{
-		return new Object[]{};
+	public Object[] getChildren(Object object) {
+		return new Object[] {};
 	}
 
 	/*
 	 * (non-Javadoc
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getNodeDisplayName(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
+	 * getNodeDisplayName(java.lang.Object)
 	 */
-	public String getNodeDisplayName( Object model )
-	{
-		return UIUtil.getColumnDisplayName( ( (ResultSetColumnHandle) model ) );
+	public String getNodeDisplayName(Object model) {
+		return UIUtil.getColumnDisplayName(((ResultSetColumnHandle) model));
 	}
 
 }

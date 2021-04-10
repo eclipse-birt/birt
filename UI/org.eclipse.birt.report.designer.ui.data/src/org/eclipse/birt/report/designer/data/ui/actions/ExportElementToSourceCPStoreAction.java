@@ -31,14 +31,12 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 
-public class ExportElementToSourceCPStoreAction extends AbstractViewAction
-{
-	private static final String DISPLAY_TEXT = Messages.getString( "ExportToCPSouceAction.action.text" ); //$NON-NLS-1$
-	private final static String BUTTON_OK = Messages.getString( "datasource.exportToCP.errorBox.button.OK" ); //$NON-NLS-1$
+public class ExportElementToSourceCPStoreAction extends AbstractViewAction {
+	private static final String DISPLAY_TEXT = Messages.getString("ExportToCPSouceAction.action.text"); //$NON-NLS-1$
+	private final static String BUTTON_OK = Messages.getString("datasource.exportToCP.errorBox.button.OK"); //$NON-NLS-1$
 
-	public ExportElementToSourceCPStoreAction( Object selectedObject )
-	{
-		super( selectedObject, DISPLAY_TEXT );
+	public ExportElementToSourceCPStoreAction(Object selectedObject) {
+		super(selectedObject, DISPLAY_TEXT);
 	}
 
 	/*
@@ -46,32 +44,26 @@ public class ExportElementToSourceCPStoreAction extends AbstractViewAction
 	 * 
 	 * @see isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
+	public boolean isEnabled() {
 		// will implement it later.
-		Object selection = getSelection( );
-		if ( selection instanceof StructuredSelection )
-		{
-			if ( ( (StructuredSelection) selection ).size( ) > 1 )
-			{
+		Object selection = getSelection();
+		if (selection instanceof StructuredSelection) {
+			if (((StructuredSelection) selection).size() > 1) {
 				return false;
 			}
-			selection = ( (StructuredSelection) selection ).getFirstElement( );
+			selection = ((StructuredSelection) selection).getFirstElement();
 		}
-		if ( selection instanceof OdaDataSourceHandle )
-		{
-			return !isSampleDB( (OdaDataSourceHandle)selection );
+		if (selection instanceof OdaDataSourceHandle) {
+			return !isSampleDB((OdaDataSourceHandle) selection);
 		}
 		return false;
 	}
-	
-	private boolean isSampleDB( OdaDataSourceHandle handle )
-	{
-		if ( "org.eclipse.birt.report.data.oda.jdbc".equals( handle.getExtensionID( ) ) )
-		{
-			Object driverClass = handle.getProperty( "odaDriverClass" );
-			if ( driverClass != null
-					&& "org.eclipse.birt.report.data.oda.sampledb.Driver".equals( driverClass.toString( ) ) )
+
+	private boolean isSampleDB(OdaDataSourceHandle handle) {
+		if ("org.eclipse.birt.report.data.oda.jdbc".equals(handle.getExtensionID())) {
+			Object driverClass = handle.getProperty("odaDriverClass");
+			if (driverClass != null
+					&& "org.eclipse.birt.report.data.oda.sampledb.Driver".equals(driverClass.toString()))
 				return true;
 		}
 		return false;
@@ -82,63 +74,39 @@ public class ExportElementToSourceCPStoreAction extends AbstractViewAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		Object selection = getSelection( );
-		if ( selection instanceof StructuredSelection )
-		{
-			selection = ( (StructuredSelection) selection ).getFirstElement( );
+	public void run() {
+		Object selection = getSelection();
+		if (selection instanceof StructuredSelection) {
+			selection = ((StructuredSelection) selection).getFirstElement();
 		}
-		if ( selection instanceof OdaDataSourceHandle )
-		{
-			try
-			{
-				DesignSessionRequest designSessionRequest = DTPUtil.getInstance( )
-						.createDesignSessionRequest( (OdaDataSourceHandle) selection );
-				
-				if ( designSessionRequest.getDataSourceDesign( )
-						.hasLinkToProfile( ) )
-				{
-					MessageDialog errorDialog = new MessageDialog( UIUtil.getDefaultShell( ),
-							Messages.getString( "datasource.exprotToCP.title" ),
-							null,
-							Messages.getFormattedString( "datasource.exportToCP.error.alreadyExported",
-									new Object[]{
-										( (OdaDataSourceHandle) selection ).getName( )
-									} ),
-							MessageDialog.ERROR,
-							new String[]{
-								BUTTON_OK
-							},
-							0 );
+		if (selection instanceof OdaDataSourceHandle) {
+			try {
+				DesignSessionRequest designSessionRequest = DTPUtil.getInstance()
+						.createDesignSessionRequest((OdaDataSourceHandle) selection);
 
-					errorDialog.open( );
+				if (designSessionRequest.getDataSourceDesign().hasLinkToProfile()) {
+					MessageDialog errorDialog = new MessageDialog(UIUtil.getDefaultShell(),
+							Messages.getString("datasource.exprotToCP.title"), null,
+							Messages.getFormattedString("datasource.exportToCP.error.alreadyExported",
+									new Object[] { ((OdaDataSourceHandle) selection).getName() }),
+							MessageDialog.ERROR, new String[] { BUTTON_OK }, 0);
+
+					errorDialog.open();
 					return;
 				}
-				ExportDataSourceDialog dialog = new ExportDataSourceDialog( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ),
-						Messages.getString( "datasource.exprotToCP.title" ),
-						(DataSourceHandle) selection );
-				
-				if ( dialog.open( ) == Dialog.OK )
-				{
-					OdaDesignSession session = DataSourceDesignSession.convertDesignToLinkedProfile( designSessionRequest,
-							dialog.getProfileName( ),
-							dialog.isExternalToCP( ),
-							dialog.doesCreateProfileStore( ),
-							PlatformUI.getWorkbench( )
-									.getDisplay( )
-									.getActiveShell( ) );
-					DTPUtil.getInstance( )
-							.updateDataSourceHandle( session.getResponse( ),
-									session.getRequestDataSourceDesign( ),
-									(OdaDataSourceHandle) selection );
+				ExportDataSourceDialog dialog = new ExportDataSourceDialog(
+						PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+						Messages.getString("datasource.exprotToCP.title"), (DataSourceHandle) selection);
+
+				if (dialog.open() == Dialog.OK) {
+					OdaDesignSession session = DataSourceDesignSession.convertDesignToLinkedProfile(
+							designSessionRequest, dialog.getProfileName(), dialog.isExternalToCP(),
+							dialog.doesCreateProfileStore(), PlatformUI.getWorkbench().getDisplay().getActiveShell());
+					DTPUtil.getInstance().updateDataSourceHandle(session.getResponse(),
+							session.getRequestDataSourceDesign(), (OdaDataSourceHandle) selection);
 				}
-			}
-			catch ( Exception ex )
-			{
-				ExceptionHandler.handle( ex );
+			} catch (Exception ex) {
+				ExceptionHandler.handle(ex);
 			}
 		}
 	}

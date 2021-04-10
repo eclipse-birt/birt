@@ -15,8 +15,8 @@ import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.soapengine.api.ReportIdType;
 import org.eclipse.birt.report.soapengine.processor.IComponentProcessor;
 
-public interface IProcessorFactory
-{
-	abstract public void init( ) throws AxisFault;
-	abstract public IComponentProcessor createProcessor( String category, ReportIdType component );
+public interface IProcessorFactory {
+	abstract public void init() throws AxisFault;
+
+	abstract public IComponentProcessor createProcessor(String category, ReportIdType component);
 }

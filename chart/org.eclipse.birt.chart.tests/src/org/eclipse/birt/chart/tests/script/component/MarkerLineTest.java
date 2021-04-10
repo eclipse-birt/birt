@@ -19,40 +19,35 @@ import org.eclipse.birt.chart.tests.script.BaseChartTestCase;
  * 
  */
 
-public class MarkerLineTest extends BaseChartTestCase
-{
+public class MarkerLineTest extends BaseChartTestCase {
 
-	public void testTitle( )
-	{
-		IMarkerLine line = getChartWithAxes( ).getValueAxes( )[1].getMarkerLines( )[0];
-		assertEquals( line.getTitle( ).getCaption( ).getValue( ), "" );
-		assertTrue( line.getTitle( ).isVisible( ) );
+	public void testTitle() {
+		IMarkerLine line = getChartWithAxes().getValueAxes()[1].getMarkerLines()[0];
+		assertEquals(line.getTitle().getCaption().getValue(), "");
+		assertTrue(line.getTitle().isVisible());
 
-		line.getTitle( ).getCaption( ).setValue( "m" );
-		assertEquals( line.getTitle( ).getCaption( ).getValue( ), "m" );
+		line.getTitle().getCaption().setValue("m");
+		assertEquals(line.getTitle().getCaption().getValue(), "m");
 	}
 
-	public void testVisible( )
-	{
-		IMarkerLine line = getChartWithAxes( ).getValueAxes( )[1].getMarkerLines( )[0];
-		assertTrue( line.isVisible( ) );
+	public void testVisible() {
+		IMarkerLine line = getChartWithAxes().getValueAxes()[1].getMarkerLines()[0];
+		assertTrue(line.isVisible());
 
-		line.setVisible( false );
-		assertFalse( line.isVisible( ) );
+		line.setVisible(false);
+		assertFalse(line.isVisible());
 	}
 
-	public void testValue( )
-	{
-		IMarkerLine line = getChartWithAxes( ).getValueAxes( )[1].getMarkerLines( )[0];
-		assertTrue( line.getValue( ) instanceof INumberDataElement );
+	public void testValue() {
+		IMarkerLine line = getChartWithAxes().getValueAxes()[1].getMarkerLines()[0];
+		assertTrue(line.getValue() instanceof INumberDataElement);
 
-		INumberDataElement data = (INumberDataElement) line.getValue( );
-		assertTrue( data.getValue( ) == 10105 );
+		INumberDataElement data = (INumberDataElement) line.getValue();
+		assertTrue(data.getValue() == 10105);
 
-		line.setValue( getChartWithAxes( ).getFactory( )
-				.createNumberElement( 10106 ) );
-		data = (INumberDataElement) line.getValue( );
-		assertTrue( data.getValue( ) == 10106 );
+		line.setValue(getChartWithAxes().getFactory().createNumberElement(10106));
+		data = (INumberDataElement) line.getValue();
+		assertTrue(data.getValue() == 10106);
 	}
 
 }

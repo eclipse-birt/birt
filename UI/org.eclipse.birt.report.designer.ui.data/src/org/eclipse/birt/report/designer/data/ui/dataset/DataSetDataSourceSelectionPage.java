@@ -35,102 +35,84 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
-public class DataSetDataSourceSelectionPage
-		extends
-			AbstractDescriptionPropertyPage implements Listener
-{
+public class DataSetDataSourceSelectionPage extends AbstractDescriptionPropertyPage implements Listener {
 
 	Combo combo;
 	int lastSelectedDataSourceIndex = -1;
 
-	public DataSetDataSourceSelectionPage( )
-	{
-		super( );
+	public DataSetDataSourceSelectionPage() {
+		super();
 	}
 
-	public Control createContents( Composite parent )
-	{
-		Composite composite = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( );
+	public Control createContents(Composite parent) {
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
-		composite.setLayout( layout );
+		composite.setLayout(layout);
 
-		Label label = new Label( composite, SWT.NONE );
-		label.setText( Messages.getString( "dataset.editor.label.selectDataSource" ) ); //$NON-NLS-1$
+		Label label = new Label(composite, SWT.NONE);
+		label.setText(Messages.getString("dataset.editor.label.selectDataSource")); //$NON-NLS-1$
 
-		combo = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		combo = new Combo(composite, SWT.BORDER | SWT.READ_ONLY);
+		combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		// populate the combo box with data sources of the same type
-		combo.setItems( getSimilarDataSources( ) );
-		combo.setVisibleItemCount( 30 );
-		selectCurrentDataSource( );
-		
-		( (DataSetHandle) this.getContainer( ).getModel( ) ).addListener( this );
+		combo.setItems(getSimilarDataSources());
+		combo.setVisibleItemCount(30);
+		selectCurrentDataSource();
+
+		((DataSetHandle) this.getContainer().getModel()).addListener(this);
 
 		return composite;
 	}
 
-	public void pageActivated( )
-	{
-		getContainer( ).setMessage( Messages.getString( "dataset.editor.dataSource" ), IMessageProvider.NONE ); //$NON-NLS-1$
-		lastSelectedDataSourceIndex = combo.getSelectionIndex( );
+	public void pageActivated() {
+		getContainer().setMessage(Messages.getString("dataset.editor.dataSource"), IMessageProvider.NONE); //$NON-NLS-1$
+		lastSelectedDataSourceIndex = combo.getSelectionIndex();
 	}
 
-	private void selectCurrentDataSource( )
-	{
-		String current = getCurrentDataSource( ).getName( );
-		String[] items = combo.getItems( );
-		for ( int n = 0; n < items.length; n++ )
-		{
-			if ( items[n].equals( current ) )
-			{
-				combo.select( n );
+	private void selectCurrentDataSource() {
+		String current = getCurrentDataSource().getName();
+		String[] items = combo.getItems();
+		for (int n = 0; n < items.length; n++) {
+			if (items[n].equals(current)) {
+				combo.select(n);
 				break;
 			}
 		}
 	}
 
-	private DataSourceHandle getCurrentDataSource( )
-	{
-		return ( (DataSetHandle) getContainer( ).getModel( ) ).getDataSource( );
+	private DataSourceHandle getCurrentDataSource() {
+		return ((DataSetHandle) getContainer().getModel()).getDataSource();
 	}
 
-	private String[] getSimilarDataSources( )
-	{
-		DataSourceHandle currentDataSource = getCurrentDataSource( );
-		return getSimilarDataSources( currentDataSource );
+	private String[] getSimilarDataSources() {
+		DataSourceHandle currentDataSource = getCurrentDataSource();
+		return getSimilarDataSources(currentDataSource);
 	}
-	
-	private String[] getSimilarDataSources( DataSourceHandle currentDataSource )
-	{
-		ArrayList similarDataSources = new ArrayList( );
-		List dataSources = Utility.getDataSources( );
-		Class clazz = currentDataSource.getClass( );
-		if ( dataSources != null && !dataSources.isEmpty( ) )
-		{
-			Iterator iter = dataSources.iterator( );
-			while ( iter.hasNext( ) )
-			{
-				DataSourceHandle dataSource = (DataSourceHandle) iter.next( );
 
-				if ( dataSource.getClass( ).equals( clazz ) )
-				{
-					if ( clazz.equals( OdaDataSourceHandle.class ) )
-					{
-						if ( ( (OdaDataSourceHandle) dataSource ).getExtensionID( )
-								.equals( ( (OdaDataSourceHandle) currentDataSource ).getExtensionID( ) ) )
-						{
-							similarDataSources.add( dataSource.getName( ) );
+	private String[] getSimilarDataSources(DataSourceHandle currentDataSource) {
+		ArrayList similarDataSources = new ArrayList();
+		List dataSources = Utility.getDataSources();
+		Class clazz = currentDataSource.getClass();
+		if (dataSources != null && !dataSources.isEmpty()) {
+			Iterator iter = dataSources.iterator();
+			while (iter.hasNext()) {
+				DataSourceHandle dataSource = (DataSourceHandle) iter.next();
+
+				if (dataSource.getClass().equals(clazz)) {
+					if (clazz.equals(OdaDataSourceHandle.class)) {
+						if (((OdaDataSourceHandle) dataSource).getExtensionID()
+								.equals(((OdaDataSourceHandle) currentDataSource).getExtensionID())) {
+							similarDataSources.add(dataSource.getName());
 						}
-					}
-					else
-						similarDataSources.add( dataSource.getName( ) );
+					} else
+						similarDataSources.add(dataSource.getName());
 
 				}
 			}
 		}
-		return (String[]) similarDataSources.toArray( new String[]{} );
+		return (String[]) similarDataSources.toArray(new String[] {});
 	}
 
 	/*
@@ -140,28 +122,23 @@ public class DataSetDataSourceSelectionPage
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
 	 * #canLeave()
 	 */
-	public boolean canLeave( )
-	{
-		try
-		{
-			if ( combo != null && !combo.isDisposed( ) )
-			{
-				if ( lastSelectedDataSourceIndex != combo.getSelectionIndex( ) )
-				{
-					DataSetHandle datasetHandle = (DataSetHandle) getContainer( ).getModel( ) ;
-					datasetHandle.setDataSource( combo.getItem( combo.getSelectionIndex( ) ) );
-					( (DataSetEditor) ( getContainer( ) ) ).updateDataSetDesign( this );
-					if ( datasetHandle instanceof OdaDataSetHandle && datasetHandle.getProperty( DataSetHandle.RESULT_SET_PROP ) != null )
-						datasetHandle.clearProperty( DataSetHandle.RESULT_SET_PROP );
+	public boolean canLeave() {
+		try {
+			if (combo != null && !combo.isDisposed()) {
+				if (lastSelectedDataSourceIndex != combo.getSelectionIndex()) {
+					DataSetHandle datasetHandle = (DataSetHandle) getContainer().getModel();
+					datasetHandle.setDataSource(combo.getItem(combo.getSelectionIndex()));
+					((DataSetEditor) (getContainer())).updateDataSetDesign(this);
+					if (datasetHandle instanceof OdaDataSetHandle
+							&& datasetHandle.getProperty(DataSetHandle.RESULT_SET_PROP) != null)
+						datasetHandle.clearProperty(DataSetHandle.RESULT_SET_PROP);
 				}
 			}
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
+		} catch (SemanticException e) {
+			ExceptionHandler.handle(e);
 			return false;
 		}
-		return super.canLeave( );
+		return super.canLeave();
 	}
 
 	/*
@@ -171,33 +148,26 @@ public class DataSetDataSourceSelectionPage
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
 	 * #performOk()
 	 */
-	public boolean performOk( )
-	{
-		try
-		{
-			if ( combo != null
-					&& !combo.isDisposed( ) && combo.getSelectionIndex( ) > -1 )
-			{
-				if ( lastSelectedDataSourceIndex != combo.getSelectionIndex( ) )
-				{
-					DataSetHandle datasetHandle = (DataSetHandle) getContainer( ).getModel( );
-					datasetHandle.setDataSource( combo.getItem( combo.getSelectionIndex( ) ) );
-					( (DataSetEditor) ( getContainer( ) ) ).updateDataSetDesign( this );
+	public boolean performOk() {
+		try {
+			if (combo != null && !combo.isDisposed() && combo.getSelectionIndex() > -1) {
+				if (lastSelectedDataSourceIndex != combo.getSelectionIndex()) {
+					DataSetHandle datasetHandle = (DataSetHandle) getContainer().getModel();
+					datasetHandle.setDataSource(combo.getItem(combo.getSelectionIndex()));
+					((DataSetEditor) (getContainer())).updateDataSetDesign(this);
 
-					if ( datasetHandle instanceof OdaDataSetHandle
-							&& datasetHandle.getProperty( DataSetHandle.RESULT_SET_PROP ) != null )
-						datasetHandle.clearProperty( DataSetHandle.RESULT_SET_PROP );
+					if (datasetHandle instanceof OdaDataSetHandle
+							&& datasetHandle.getProperty(DataSetHandle.RESULT_SET_PROP) != null)
+						datasetHandle.clearProperty(DataSetHandle.RESULT_SET_PROP);
 				}
 			}
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
+		} catch (SemanticException e) {
+			ExceptionHandler.handle(e);
 			return false;
 		}
-		
-		( (DataSetHandle) ( getContainer( ).getModel( ) ) ).removeListener( this );
-		return super.performOk( );
+
+		((DataSetHandle) (getContainer().getModel())).removeListener(this);
+		return super.performOk();
 	}
 
 	/*
@@ -205,25 +175,21 @@ public class DataSetDataSourceSelectionPage
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.IPropertyPage#performCancel()
 	 */
-	public boolean performCancel( )
-	{
-		( (DataSetHandle) ( getContainer( ).getModel( ) ) ).removeListener( this );
+	public boolean performCancel() {
+		((DataSetHandle) (getContainer().getModel())).removeListener(this);
 		return true;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * getToolTip()
 	 */
-	public String getToolTip( )
-	{
-		return Messages.getString( "dataset.editor.dataSource.Tooltip" ); //$NON-NLS-1$
+	public String getToolTip() {
+		return Messages.getString("dataset.editor.dataSource.Tooltip"); //$NON-NLS-1$
 	}
 
-	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-	{
+	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 	}
 }

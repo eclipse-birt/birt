@@ -22,8 +22,7 @@ import org.eclipse.jface.action.Action;
  * 
  */
 
-public class NewParameterAction extends Action implements UpdateAction
-{
+public class NewParameterAction extends Action implements UpdateAction {
 
 	public static final String INSERT_SCALAR_PARAMETER = "org.eclipse.birt.report.designer.ui.actions.newScalarParameter"; //$NON-NLS-1$
 
@@ -35,20 +34,18 @@ public class NewParameterAction extends Action implements UpdateAction
 
 	private String type;
 
-	public NewParameterAction( String ID, String type )
-	{
-		super( );
+	public NewParameterAction(String ID, String type) {
+		super();
 
-		setId( ID );
+		setId(ID);
 
 		this.type = type;
 	}
 
-	public NewParameterAction( String ID, String type, String text )
-	{
+	public NewParameterAction(String ID, String type, String text) {
 		this(ID, type);
 
-		setText( text );
+		setText(text);
 	}
 
 	/*
@@ -56,33 +53,27 @@ public class NewParameterAction extends Action implements UpdateAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.UpdateAction#update()
 	 */
-	public void update( )
-	{
-		if ( action == null )
-		{
-			ModuleHandle module = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
+	public void update() {
+		if (action == null) {
+			ModuleHandle module = SessionHandleAdapter.getInstance().getReportDesignHandle();
 
-			if ( module == null )
-			{
-				setEnabled( false );
+			if (module == null) {
+				setEnabled(false);
 				return;
 			}
-			action = new InsertAction( module.getParameters( ),
-					Messages.getString( "ParametersNodeProvider.menu.text.cascadingParameter" ), //$NON-NLS-1$
-					type );
+			action = new InsertAction(module.getParameters(),
+					Messages.getString("ParametersNodeProvider.menu.text.cascadingParameter"), //$NON-NLS-1$
+					type);
 		}
-		setEnabled( action.isEnabled( ) );
+		setEnabled(action.isEnabled());
 	}
 
 	@Override
-	public boolean isEnabled( )
-	{
-		if ( action == null )
-		{
-			update( );
+	public boolean isEnabled() {
+		if (action == null) {
+			update();
 		}
-		return super.isEnabled( );
+		return super.isEnabled();
 	}
 
 	/*
@@ -90,9 +81,8 @@ public class NewParameterAction extends Action implements UpdateAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		action.run( );
+	public void run() {
+		action.run();
 	}
 
 }

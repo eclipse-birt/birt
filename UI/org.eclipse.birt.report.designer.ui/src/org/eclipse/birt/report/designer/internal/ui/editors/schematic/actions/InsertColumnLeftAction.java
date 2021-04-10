@@ -21,10 +21,10 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Action of inserting a column on the left of current column
  */
-public class InsertColumnLeftAction extends InsertColumnAction
-{
+public class InsertColumnLeftAction extends InsertColumnAction {
 
-	private static final String ACTION_MSG_COLUMN_TO_THE_LEFT = Messages.getString( "InsertColumnLeftAction.actionMsg.columnToLeft" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_COLUMN_TO_THE_LEFT = Messages
+			.getString("InsertColumnLeftAction.actionMsg.columnToLeft"); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnLeftAction"; //$NON-NLS-1$
@@ -32,14 +32,12 @@ public class InsertColumnLeftAction extends InsertColumnAction
 	/**
 	 * Constructs new instance
 	 * 
-	 * @param part
-	 *            current work bench part
+	 * @param part current work bench part
 	 */
-	public InsertColumnLeftAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( ACTION_MSG_COLUMN_TO_THE_LEFT );
+	public InsertColumnLeftAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(ACTION_MSG_COLUMN_TO_THE_LEFT);
 	}
 
 	/*
@@ -47,29 +45,23 @@ public class InsertColumnLeftAction extends InsertColumnAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		return super.calculateEnabled( );
+	protected boolean calculateEnabled() {
+		return super.calculateEnabled();
 	}
 
 	/**
 	 * Runs action.
-	 *  
+	 * 
 	 */
-	public void run( )
-	{
+	public void run() {
 
-		CommandUtils.setVariable( ICommandParameterNameContants.INSERT_COLUMN_POSITION,
-				Integer.valueOf( -1 ) );
+		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_COLUMN_POSITION, Integer.valueOf(-1));
 
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertColumnCommand", null ); //$NON-NLS-1$
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.insertColumnCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ),e );
-		}
-		
+
 	}
 }

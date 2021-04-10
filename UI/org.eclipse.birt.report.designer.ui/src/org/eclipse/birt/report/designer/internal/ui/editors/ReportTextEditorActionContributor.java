@@ -19,17 +19,12 @@ import org.eclipse.ui.texteditor.ITextEditor;
  * 
  */
 
-public class ReportTextEditorActionContributor extends BasicTextEditorActionContributor
-{
-	public void setActiveEditor( IEditorPart part )
-	{
-		if (part.getAdapter( ITextEditor.class ) != null)
-		{
-			super.setActiveEditor( (ITextEditor)part.getAdapter( ITextEditor.class ));
+public class ReportTextEditorActionContributor extends BasicTextEditorActionContributor {
+	public void setActiveEditor(IEditorPart part) {
+		if (part.getAdapter(ITextEditor.class) != null) {
+			super.setActiveEditor((ITextEditor) part.getAdapter(ITextEditor.class));
+		} else {
+			super.setActiveEditor(part);
 		}
-		else
-		{
-			super.setActiveEditor( part );
-		}	
 	}
 }

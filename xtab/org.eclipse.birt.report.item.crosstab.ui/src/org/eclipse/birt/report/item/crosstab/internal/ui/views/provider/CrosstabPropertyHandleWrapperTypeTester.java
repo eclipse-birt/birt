@@ -16,22 +16,17 @@ import org.eclipse.core.expressions.PropertyTester;
 /**
  * CrosstabPropertyHandleWrapperTypeTester
  */
-public class CrosstabPropertyHandleWrapperTypeTester extends PropertyTester
-{
+public class CrosstabPropertyHandleWrapperTypeTester extends PropertyTester {
 
-	public CrosstabPropertyHandleWrapperTypeTester( )
-	{
+	public CrosstabPropertyHandleWrapperTypeTester() {
 	}
 
-	public boolean test( Object receiver, String property, Object[] args,
-			Object expectedValue )
-	{
-		if ( "type".equals( property ) ) //$NON-NLS-1$
+	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
+		if ("type".equals(property)) //$NON-NLS-1$
 		{
-			if ( receiver instanceof CrosstabPropertyHandleWrapper )
-			{
-				String propertyName = expectedValue.toString( );
-				return propertyName.equals( ( ( (CrosstabPropertyHandleWrapper) receiver ).getTestType( ) ));
+			if (receiver instanceof CrosstabPropertyHandleWrapper) {
+				String propertyName = expectedValue.toString();
+				return propertyName.equals((((CrosstabPropertyHandleWrapper) receiver).getTestType()));
 
 			}
 		}

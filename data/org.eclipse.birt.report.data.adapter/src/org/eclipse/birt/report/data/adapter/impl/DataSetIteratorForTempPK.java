@@ -15,53 +15,44 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 
-
 /**
  * 
  */
 
-public class DataSetIteratorForTempPK implements IDatasetIterator
-{
+public class DataSetIteratorForTempPK implements IDatasetIterator {
 	private static String COUNT_BINDING_NAME = "COUNT"; //$NON-NLS-1$
 	private int rowCount;
-	private int currRowNum = -1; //row.__rownum
-	
+	private int currRowNum = -1; // row.__rownum
+
 	@SuppressWarnings("unchecked")
-	DataSetIteratorForTempPK( int rowCount ) throws BirtException
-	{
+	DataSetIteratorForTempPK(int rowCount) throws BirtException {
 		this.rowCount = rowCount;
 	}
-	
-	public void close( ) throws BirtException
-	{
-		//nothing to do
+
+	public void close() throws BirtException {
+		// nothing to do
 
 	}
 
-	public int getFieldIndex( String name ) throws BirtException
-	{
+	public int getFieldIndex(String name) throws BirtException {
 		return 1;
 	}
 
-	public int getFieldType( String name ) throws BirtException
-	{
+	public int getFieldType(String name) throws BirtException {
 		return DataType.INTEGER_TYPE;
 	}
 
-	public Object getValue( int fieldIndex ) throws BirtException
-	{
+	public Object getValue(int fieldIndex) throws BirtException {
 		return currRowNum;
 	}
 
-	public boolean next( ) throws BirtException
-	{
-		if ( rowCount > 0 && currRowNum < rowCount )
-		{
+	public boolean next() throws BirtException {
+		if (rowCount > 0 && currRowNum < rowCount) {
 			currRowNum++;
 			return true;
 		}
 		return false;
-		
+
 	}
 
 }

@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.report.soapengine.processor;
 
-abstract public class AbstractBaseTableProcessor extends AbstractBaseComponentProcessor
-{
+abstract public class AbstractBaseTableProcessor extends AbstractBaseComponentProcessor {
 	/**
 	 * Constructor.
 	 */
-	public AbstractBaseTableProcessor( )
-	{
-		super( );
+	public AbstractBaseTableProcessor() {
+		super();
 	}
 }

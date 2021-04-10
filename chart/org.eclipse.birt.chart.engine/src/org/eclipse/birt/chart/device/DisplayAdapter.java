@@ -27,14 +27,13 @@ import com.ibm.icu.util.ULocale;
  * A no-op adapter implementation for the
  * {@link org.eclipse.birt.chart.device.IDisplayServer}interface definition.
  */
-public class DisplayAdapter implements IDisplayServer
-{
+public class DisplayAdapter implements IDisplayServer {
 
 	/**
 	 * An internal instance of the locale being used for processing
 	 */
 	private transient ULocale lcl = null;
-	
+
 	protected transient IResourceFinder resourceFinder = null;
 
 	/*
@@ -42,28 +41,28 @@ public class DisplayAdapter implements IDisplayServer
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#debug()
 	 */
-	public void debug( )
-	{
+	public void debug() {
 		// DO NOTHING
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IDisplayServer#logCreation(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.chart.device.IDisplayServer#logCreation(java.lang.Object)
 	 */
-	public void logCreation( Object oMisc )
-	{
+	public void logCreation(Object oMisc) {
 		// DO NOTHING
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IDisplayServer#createFont(org.eclipse.birt.chart.model.attribute.FontDefinition)
+	 * @see
+	 * org.eclipse.birt.chart.device.IDisplayServer#createFont(org.eclipse.birt.
+	 * chart.model.attribute.FontDefinition)
 	 */
-	public Object createFont( FontDefinition fd )
-	{
+	public Object createFont(FontDefinition fd) {
 		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
 		return null;
 	}
@@ -71,10 +70,11 @@ public class DisplayAdapter implements IDisplayServer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IDisplayServer#getColor(org.eclipse.birt.chart.model.attribute.ColorDefinition)
+	 * @see
+	 * org.eclipse.birt.chart.device.IDisplayServer#getColor(org.eclipse.birt.chart.
+	 * model.attribute.ColorDefinition)
 	 */
-	public Object getColor( ColorDefinition cd )
-	{
+	public Object getColor(ColorDefinition cd) {
 		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
 		return null;
 	}
@@ -84,14 +84,12 @@ public class DisplayAdapter implements IDisplayServer
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#getDpiResolution()
 	 */
-	public int getDpiResolution( )
-	{
+	public int getDpiResolution() {
 		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
 		return 96;
 	}
 
-	public void setDpiResolution( int dpi )
-	{
+	public void setDpiResolution(int dpi) {
 		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
 	}
 
@@ -100,8 +98,7 @@ public class DisplayAdapter implements IDisplayServer
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#loadImage(java.net.URL)
 	 */
-	public Object loadImage( URL url ) throws ChartException
-	{
+	public Object loadImage(URL url) throws ChartException {
 		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
 		return null;
 	}
@@ -111,8 +108,7 @@ public class DisplayAdapter implements IDisplayServer
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#getSize(java.lang.Object)
 	 */
-	public Size getSize( Object oImage )
-	{
+	public Size getSize(Object oImage) {
 		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
 		return null;
 	}
@@ -122,8 +118,7 @@ public class DisplayAdapter implements IDisplayServer
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#getObserver()
 	 */
-	public Object getObserver( )
-	{
+	public Object getObserver() {
 		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
 		return null;
 	}
@@ -131,11 +126,12 @@ public class DisplayAdapter implements IDisplayServer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IDisplayServer#getTextMetrics(org.eclipse.birt.chart.model.component.Label)
+	 * @see
+	 * org.eclipse.birt.chart.device.IDisplayServer#getTextMetrics(org.eclipse.birt.
+	 * chart.model.component.Label)
 	 */
-	public ITextMetrics getTextMetrics( Label la )
-	{
-		return getTextMetrics( la, true );
+	public ITextMetrics getTextMetrics(Label la) {
+		return getTextMetrics(la, true);
 	}
 
 	/*
@@ -143,9 +139,8 @@ public class DisplayAdapter implements IDisplayServer
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#getLocale()
 	 */
-	public final Locale getLocale( )
-	{
-		return getULocale( ).toLocale( );
+	public final Locale getLocale() {
+		return getULocale().toLocale();
 	}
 
 	/*
@@ -153,29 +148,24 @@ public class DisplayAdapter implements IDisplayServer
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#getULocale()
 	 */
-	public final ULocale getULocale( )
-	{
-		return ( lcl == null ) ? ULocale.getDefault( ) : lcl;
+	public final ULocale getULocale() {
+		return (lcl == null) ? ULocale.getDefault() : lcl;
 	}
 
 	/**
 	 * A convenience method provided to associate a locale with a display server
 	 * 
-	 * @param lcl
-	 *            The locale to be set
+	 * @param lcl The locale to be set
 	 */
-	public final void setLocale( ULocale lcl )
-	{
+	public final void setLocale(ULocale lcl) {
 		this.lcl = lcl;
 	}
-	
-	public void dispose( )
-	{
+
+	public void dispose() {
 		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
 	}
 
-	public void setGraphicsContext( Object graphicContext )
-	{
+	public void setGraphicsContext(Object graphicContext) {
 		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
 	}
 
@@ -186,26 +176,21 @@ public class DisplayAdapter implements IDisplayServer
 	 * org.eclipse.birt.chart.device.IDisplayServer#setResourceFinder(org.eclipse
 	 * .birt.chart.util.IResourceFinder)
 	 */
-	public void setResourceFinder( IResourceFinder resourceFinder )
-	{
+	public void setResourceFinder(IResourceFinder resourceFinder) {
 		this.resourceFinder = resourceFinder;
 	}
 
-	protected URL findResource( URL urlOriginal )
-	{
-		if ( resourceFinder != null )
-		{
-			URL urlFound = resourceFinder.findResource( urlOriginal.getPath( ) );
-			if ( urlFound != null )
-			{
+	protected URL findResource(URL urlOriginal) {
+		if (resourceFinder != null) {
+			URL urlFound = resourceFinder.findResource(urlOriginal.getPath());
+			if (urlFound != null) {
 				return urlFound;
 			}
 		}
 		return urlOriginal;
 	}
 
-	public ITextMetrics getTextMetrics( Label la, boolean autoReuse )
-	{
+	public ITextMetrics getTextMetrics(Label la, boolean autoReuse) {
 		return null;
 	}
 

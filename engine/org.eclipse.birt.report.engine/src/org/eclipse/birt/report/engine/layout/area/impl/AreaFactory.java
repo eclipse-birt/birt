@@ -32,22 +32,18 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
  * backgroud-image offset
  * 
  */
-public class AreaFactory
-{
+public class AreaFactory {
 
-	public static IImageArea createImageArea( IImageContent image )
-	{
-		return new ImageArea( image );
+	public static IImageArea createImageArea(IImageContent image) {
+		return new ImageArea(image);
 	}
-	
-	public static IArea createTableGroupArea(IContent group)
-	{
+
+	public static IArea createTableGroupArea(IContent group) {
 		return new BlockContainerArea(group);
 	}
 
-	public static IArea createTemplateArea( IAutoTextContent autoText )
-	{
-		return new TemplateArea( autoText );
+	public static IArea createTemplateArea(IAutoTextContent autoText) {
+		return new TemplateArea(autoText);
 	}
 
 	/**
@@ -57,27 +53,22 @@ public class AreaFactory
 	 * @param fi
 	 * @return
 	 */
-	public static IArea createTextArea( ITextContent content, String text,
-			FontInfo fi )
-	{
-		return new TextArea( content, text, fi );
+	public static IArea createTextArea(ITextContent content, String text, FontInfo fi) {
+		return new TextArea(content, text, fi);
 	}
-	
-	public static IArea createTextArea( ITextContent textContent, FontInfo fi, boolean blankLine )
-	{
-		return new TextArea( textContent, fi, blankLine );
+
+	public static IArea createTextArea(ITextContent textContent, FontInfo fi, boolean blankLine) {
+		return new TextArea(textContent, fi, blankLine);
 	}
-	
-	public static IArea createTextArea( ITextContent textContent, int offset, int baseLevel, int runLevel,
-			FontInfo fontInfo )
-	{
-		return new TextArea( textContent, offset, baseLevel, runLevel, fontInfo );
+
+	public static IArea createTextArea(ITextContent textContent, int offset, int baseLevel, int runLevel,
+			FontInfo fontInfo) {
+		return new TextArea(textContent, offset, baseLevel, runLevel, fontInfo);
 	}
-	
-	public static IArea createTextArea( ITextContent textContent, IStyle areaStyle, int offset, int baseLevel, int runLevel,
-			FontInfo fontInfo )
-	{
-		return new TextArea( textContent, areaStyle, offset, baseLevel, runLevel, fontInfo );
+
+	public static IArea createTextArea(ITextContent textContent, IStyle areaStyle, int offset, int baseLevel,
+			int runLevel, FontInfo fontInfo) {
+		return new TextArea(textContent, areaStyle, offset, baseLevel, runLevel, fontInfo);
 	}
 
 	/**
@@ -86,9 +77,8 @@ public class AreaFactory
 	 * @param content
 	 * @return
 	 */
-	public static IContainerArea createBlockContainer( IContent content )
-	{
-		return new BlockContainerArea( content );
+	public static IContainerArea createBlockContainer(IContent content) {
+		return new BlockContainerArea(content);
 	}
 
 	/**
@@ -97,9 +87,8 @@ public class AreaFactory
 	 * @param content
 	 * @return
 	 */
-	public static IContainerArea createLogicContainer( IReportContent report )
-	{
-		return new LogicContainerArea( report );
+	public static IContainerArea createLogicContainer(IReportContent report) {
+		return new LogicContainerArea(report);
 	}
 
 	/**
@@ -108,9 +97,8 @@ public class AreaFactory
 	 * @param cell
 	 * @return
 	 */
-	public static CellArea createCellArea( ICellContent cell )
-	{
-		return new CellArea( cell );
+	public static CellArea createCellArea(ICellContent cell) {
+		return new CellArea(cell);
 	}
 
 	/**
@@ -119,9 +107,8 @@ public class AreaFactory
 	 * @param pageContent
 	 * @return
 	 */
-	public static IContainerArea createPageArea( IPageContent pageContent )
-	{
-		return new PageArea( pageContent );
+	public static IContainerArea createPageArea(IPageContent pageContent) {
+		return new PageArea(pageContent);
 	}
 
 	/**
@@ -130,9 +117,8 @@ public class AreaFactory
 	 * @param table
 	 * @return
 	 */
-	public static TableArea createTableArea( ITableContent table )
-	{
-		return new TableArea( table );
+	public static TableArea createTableArea(ITableContent table) {
+		return new TableArea(table);
 	}
 
 	/**
@@ -141,42 +127,37 @@ public class AreaFactory
 	 * @param row
 	 * @return
 	 */
-	public static RowArea createRowArea( IRowContent row )
-	{
-		return new RowArea( row );
+	public static RowArea createRowArea(IRowContent row) {
+		return new RowArea(row);
 	}
 
-	public static LineArea createLineArea( IReportContent report )
-	{
-		return new LineArea( report );
+	public static LineArea createLineArea(IReportContent report) {
+		return new LineArea(report);
 	}
 
-	public static IContainerArea createInlineContainer( IContent content )
-	{
-		return new InlineContainerArea( content );
+	public static IContainerArea createInlineContainer(IContent content) {
+		return new InlineContainerArea(content);
 	}
-	
+
 	/**
 	 * create inline container area by content
+	 * 
 	 * @param content the content object
 	 * @param isFirst if this area is the first area of the content
-	 * @param isLast if this area is the last area of the content
+	 * @param isLast  if this area is the last area of the content
 	 * @return
 	 */
-	public static IContainerArea createInlineContainer(IContent content, boolean isFirst, boolean isLast)
-	{
-		IContainerArea containerArea = AreaFactory.createInlineContainer( content );
+	public static IContainerArea createInlineContainer(IContent content, boolean isFirst, boolean isLast) {
+		IContainerArea containerArea = AreaFactory.createInlineContainer(content);
 		IStyle style = containerArea.getStyle();
-		//remove left padding, border and margin if it is not the first child
-		if(!isFirst)
-		{
+		// remove left padding, border and margin if it is not the first child
+		if (!isFirst) {
 			style.setProperty(IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.NUMBER_0);
 			style.setProperty(IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0);
 			style.setProperty(IStyle.STYLE_MARGIN_LEFT, IStyle.NUMBER_0);
 		}
-		//remove right padding, border and margin if it is not the last child
-		if(!isLast)
-		{
+		// remove right padding, border and margin if it is not the last child
+		if (!isLast) {
 			style.setProperty(IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.NUMBER_0);
 			style.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0);
 			style.setProperty(IStyle.STYLE_MARGIN_RIGHT, IStyle.NUMBER_0);

@@ -17,9 +17,8 @@ import org.eclipse.birt.data.engine.cache.ICachedObjectCreator;
  * Structure to hold information about a group instance at a particular grouping
  * level.
  */
-public final class GroupInfo implements ICachedObject
-{
-	
+public final class GroupInfo implements ICachedObject {
+
 	/**
 	 * Index of the the parent group, i.e., the immediate outer group that this
 	 * group belongs to
@@ -27,8 +26,8 @@ public final class GroupInfo implements ICachedObject
 	public int parent = -1;
 
 	/**
-	 * Index of the first child group. If the current group is the innermost
-	 * group, this is the ID of the first data row in the group
+	 * Index of the first child group. If the current group is the innermost group,
+	 * this is the ID of the first data row in the group
 	 */
 	public int firstChild = -1;
 
@@ -36,23 +35,22 @@ public final class GroupInfo implements ICachedObject
 	 * 
 	 * @return
 	 */
-	public static ICachedObjectCreator getCreator()
-	{
+	public static ICachedObjectCreator getCreator() {
 		return new GroupInfoCreator();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.cache.ICachedObject#getFieldValues()
 	 */
-	public Object[] getFieldValues()
-	{
+	public Object[] getFieldValues() {
 		Object[] fields = new Object[2];
-		fields[0] = Integer.valueOf( parent );
-		fields[1] = Integer.valueOf( firstChild );
+		fields[0] = Integer.valueOf(parent);
+		fields[1] = Integer.valueOf(firstChild);
 		return fields;
 	}
-	
+
 }
 
 /**
@@ -62,17 +60,18 @@ public final class GroupInfo implements ICachedObject
  * @author Administrator
  * 
  */
-class GroupInfoCreator implements ICachedObjectCreator
-{
+class GroupInfoCreator implements ICachedObjectCreator {
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.cache.ICachedObjectCreator#createInstance(java.lang.Object[])
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.cache.ICachedObjectCreator#createInstance(java.
+	 * lang.Object[])
 	 */
-	public ICachedObject createInstance(Object[] fields)
-	{
+	public ICachedObject createInstance(Object[] fields) {
 		GroupInfo groupInfo = new GroupInfo();
-		groupInfo.parent = ((Integer)fields[0]).intValue( );
-		groupInfo.firstChild = ((Integer)fields[1]).intValue( );
+		groupInfo.parent = ((Integer) fields[0]).intValue();
+		groupInfo.firstChild = ((Integer) fields[1]).intValue();
 		return groupInfo;
 	}
 }

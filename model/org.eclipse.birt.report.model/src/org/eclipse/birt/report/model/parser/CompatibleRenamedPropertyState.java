@@ -25,8 +25,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * </ul>
  */
 
-class CompatibleRenamedPropertyState extends CompatiblePropertyState
-{
+class CompatibleRenamedPropertyState extends CompatiblePropertyState {
 
 	/**
 	 * The obsolete property name.
@@ -35,45 +34,34 @@ class CompatibleRenamedPropertyState extends CompatiblePropertyState
 	private String obsoletePropName;
 
 	/**
-	 * Constructs a <code>CompatibleRenamedPropertyState</code> to parse an
-	 * obsolete property.
+	 * Constructs a <code>CompatibleRenamedPropertyState</code> to parse an obsolete
+	 * property.
 	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the obsolete property
-	 * @param obsoletePropName
-	 *            the name of the obsolete property.
+	 * @param theHandler       the parser handle
+	 * @param element          the element that holds the obsolete property
+	 * @param obsoletePropName the name of the obsolete property.
 	 */
 
-	public CompatibleRenamedPropertyState( ModuleParserHandler theHandler,
-			DesignElement element, String obsoletePropName )
-	{
-		super( theHandler, element );
+	public CompatibleRenamedPropertyState(ModuleParserHandler theHandler, DesignElement element,
+			String obsoletePropName) {
+		super(theHandler, element);
 		this.obsoletePropName = obsoletePropName;
 	}
 
 	/**
-	 * Constructs a <code>CompatibleRenamedPropertyState</code> to parse an
-	 * obsolete property.
+	 * Constructs a <code>CompatibleRenamedPropertyState</code> to parse an obsolete
+	 * property.
 	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the obsolete property
-	 * @param propDefn
-	 *            the property defnition
-	 * @param struct
-	 *            the strucutre
-	 * @param obsoletePropName
-	 *            the name of the obsolete property.
+	 * @param theHandler       the parser handle
+	 * @param element          the element that holds the obsolete property
+	 * @param propDefn         the property defnition
+	 * @param struct           the strucutre
+	 * @param obsoletePropName the name of the obsolete property.
 	 */
 
-	CompatibleRenamedPropertyState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct,
-			String obsoletePropName )
-	{
-		super( theHandler, element );
+	CompatibleRenamedPropertyState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+			IStructure struct, String obsoletePropName) {
+		super(theHandler, element);
 
 		this.propDefn = propDefn;
 		this.struct = struct;
@@ -86,8 +74,7 @@ class CompatibleRenamedPropertyState extends CompatiblePropertyState
 	 * @return the name of the obsolete property
 	 */
 
-	protected String getObsoletePropName( )
-	{
+	protected String getObsoletePropName() {
 		return obsoletePropName;
 	}
 

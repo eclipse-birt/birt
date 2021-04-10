@@ -15,8 +15,7 @@ package org.eclipse.birt.chart.log;
  * Provides an abstraction layer into the logging framework capable of writing
  * categorized messages into a target repository (or console).
  */
-public interface ILogger
-{
+public interface ILogger {
 
 	/**
 	 * All message type.
@@ -49,30 +48,26 @@ public interface ILogger
 	public static final int FATAL = 8;
 
 	/**
-	 * Sets the verbose level to specify the granularity of messages being
-	 * logged based on the message type.
+	 * Sets the verbose level to specify the granularity of messages being logged
+	 * based on the message type.
 	 * 
-	 * @param iVerboseLevel
-	 *            Determines how to filter messages to be displayed on the
-	 *            console.
+	 * @param iVerboseLevel Determines how to filter messages to be displayed on the
+	 *                      console.
 	 */
-	public void setVerboseLevel( int iVerboseLevel );
+	public void setVerboseLevel(int iVerboseLevel);
 
 	/**
 	 * Logs a message for the given message type into a target repository.
 	 * 
-	 * @param iCode
-	 *            The message type to be logged.
-	 * @param sMessage
-	 *            The actual message to be logged
+	 * @param iCode    The message type to be logged.
+	 * @param sMessage The actual message to be logged
 	 */
-	public void log( int iCode, String sMessage );
+	public void log(int iCode, String sMessage);
 
 	/**
 	 * Logs an exception into the target repository or destination.
 	 * 
-	 * @param ex
-	 *            The exception to be logged.
+	 * @param ex The exception to be logged.
 	 */
-	public void log( Exception ex );
+	public void log(Exception ex);
 }

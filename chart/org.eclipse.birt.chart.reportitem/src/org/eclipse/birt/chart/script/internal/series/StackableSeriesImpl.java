@@ -20,28 +20,21 @@ import org.eclipse.birt.chart.script.internal.component.ValueSeriesImpl;
  * 
  */
 
-public abstract class StackableSeriesImpl extends ValueSeriesImpl
-		implements
-			IStackableSeries
-{
+public abstract class StackableSeriesImpl extends ValueSeriesImpl implements IStackableSeries {
 
-	public StackableSeriesImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public StackableSeriesImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 	}
 
-	public boolean isStacked( )
-	{
-		return series.isStacked( );
+	public boolean isStacked() {
+		return series.isStacked();
 	}
 
-	public void setStacked( boolean stacked )
-	{
-		series.setStacked( stacked );
+	public void setStacked(boolean stacked) {
+		series.setStacked(stacked);
 	}
 
-	public void setPercent( boolean percent )
-	{
-		getAxis( ).setPercent( percent );
+	public void setPercent(boolean percent) {
+		getAxis().setPercent(percent);
 	}
 }

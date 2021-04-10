@@ -11,16 +11,14 @@
 
 package org.eclipse.birt.report.model.elements.interfaces;
 
-
 /**
  * The interface for oda extensible element to store the constants.
  */
 
-public interface IOdaExtendableElementModel
-{
+public interface IOdaExtendableElementModel {
 
 	/**
-	 * Name of the property that identifies the extension. 
+	 * Name of the property that identifies the extension.
 	 */
 
 	public static final String EXTENSION_ID_PROP = "extensionID"; //$NON-NLS-1$

@@ -34,8 +34,7 @@ import org.eclipse.birt.report.model.core.Structure;
  * @see Action
  */
 
-public class SearchKey extends Structure
-{
+public class SearchKey extends Structure {
 
 	/**
 	 * Name of the structure.
@@ -61,22 +60,19 @@ public class SearchKey extends Structure
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return SEARCHKEY_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( EXPRESSION_MEMBER.equals( propName ) )
+	protected Object getIntrinsicProperty(String propName) {
+		if (EXPRESSION_MEMBER.equals(propName))
 			return expression;
 
 		assert false;
@@ -86,14 +82,12 @@ public class SearchKey extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( EXPRESSION_MEMBER.equals( propName ) )
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (EXPRESSION_MEMBER.equals(propName))
 			expression = (Expression) value;
 		else
 			assert false;
@@ -102,13 +96,11 @@ public class SearchKey extends Structure
 	/**
 	 * Sets the expression value of this key.
 	 * 
-	 * @param expression
-	 *            the expression to set
+	 * @param expression the expression to set
 	 */
 
-	public void setExpression( String expression )
-	{
-		setProperty( EXPRESSION_MEMBER, expression );
+	public void setExpression(String expression) {
+		setProperty(EXPRESSION_MEMBER, expression);
 	}
 
 	/**
@@ -117,20 +109,17 @@ public class SearchKey extends Structure
 	 * @return the expression value
 	 */
 
-	public String getExpression( )
-	{
-		return getStringProperty( null, EXPRESSION_MEMBER );
+	public String getExpression() {
+		return getStringProperty(null, EXPRESSION_MEMBER);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
-	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
-		return new SearchKeyHandle( valueHandle, index );
+	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
+		return new SearchKeyHandle(valueHandle, index);
 	}
 }

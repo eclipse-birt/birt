@@ -21,62 +21,51 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-public class GroupsPage extends AbstractCubePropertyPage
-{
+public class GroupsPage extends AbstractCubePropertyPage {
 
-	public static final String GROUPPAGE_MESSAGE = Messages.getString( "GroupsPage.Title.Message" ); //$NON-NLS-1$
+	public static final String GROUPPAGE_MESSAGE = Messages.getString("GroupsPage.Title.Message"); //$NON-NLS-1$
 	private TabularCubeHandle input;
 	private CubeGroupContent cubeGroup;
 	private CubeBuilder builder;
 
-	public GroupsPage( CubeBuilder builder, TabularCubeHandle model )
-	{
+	public GroupsPage(CubeBuilder builder, TabularCubeHandle model) {
 		input = model;
 		this.builder = builder;
 	}
 
-	public Control createContents( Composite parent )
-	{
-		cubeGroup = getCubeGroupContent( parent );
+	public Control createContents(Composite parent) {
+		cubeGroup = getCubeGroupContent(parent);
 		return cubeGroup;
 	}
 
-	protected CubeGroupContent getCubeGroupContent( Composite parent )
-	{
-		Object[] contentProviders = ElementAdapterManager.getAdapters( input,
-				ICubeGroupContentProvider.class );
-		if ( contentProviders != null )
-		{
-			for ( int i = 0; i < contentProviders.length; i++ )
-			{
+	protected CubeGroupContent getCubeGroupContent(Composite parent) {
+		Object[] contentProviders = ElementAdapterManager.getAdapters(input, ICubeGroupContentProvider.class);
+		if (contentProviders != null) {
+			for (int i = 0; i < contentProviders.length; i++) {
 				ICubeGroupContentProvider contentProvider = (ICubeGroupContentProvider) contentProviders[i];
-				if ( contentProvider != null )
-				{
-					return contentProvider.createGroupContent( parent, SWT.NONE );
+				if (contentProvider != null) {
+					return contentProvider.createGroupContent(parent, SWT.NONE);
 				}
 			}
 		}
-		return new CubeGroupContent( parent, SWT.NONE );
+		return new CubeGroupContent(parent, SWT.NONE);
 	}
 
-	public void pageActivated( )
-	{
-		UIUtil.bindHelp( builder.getShell( ),
-				IHelpContextIds.CUBE_BUILDER_GROUPS_PAGE );
-		getContainer( ).setMessage( Messages.getString( "GroupsPage.Container.Title.Message" ),//$NON-NLS-1$
-				IMessageProvider.NONE );
-		builder.setTitleTitle( Messages.getString( "GroupsPage.Title.Title" ) ); //$NON-NLS-1$
-		builder.setErrorMessage( null );
-		builder.setTitleMessage( GROUPPAGE_MESSAGE );
-		load( );
+	public void pageActivated() {
+		UIUtil.bindHelp(builder.getShell(), IHelpContextIds.CUBE_BUILDER_GROUPS_PAGE);
+		getContainer().setMessage(Messages.getString("GroupsPage.Container.Title.Message"), //$NON-NLS-1$
+				IMessageProvider.NONE);
+		builder.setTitleTitle(Messages.getString("GroupsPage.Title.Title")); //$NON-NLS-1$
+		builder.setErrorMessage(null);
+		builder.setTitleMessage(GROUPPAGE_MESSAGE);
+		load();
 	}
 
-	private void load( )
-	{
-		if ( input != null )
-		{
-			cubeGroup.setInput( input, null );
-			cubeGroup.load( );
-		};
+	private void load() {
+		if (input != null) {
+			cubeGroup.setInput(input, null);
+			cubeGroup.load();
+		}
+		;
 	}
 }
