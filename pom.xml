@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-	Copyright (c) 2015, 2021 Eclipse BIRT contributors and others
-
-	This program and the accompanying materials are made available under the
-	terms of the Eclipse Public License 2.0 which is available at
-	https://www.eclipse.org/legal/epl-2.0/.
-
-	SPDX-License-Identifier: EPL-2.0
--->
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<!-- Copyright (c) 2015, 2021 Eclipse BIRT contributors and others This program 
+	and the accompanying materials are made available under the terms of the 
+	Eclipse Public License 2.0 which is available at https://www.eclipse.org/legal/epl-2.0/. 
+	SPDX-License-Identifier: EPL-2.0 -->
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt-parent</artifactId>
@@ -20,107 +18,108 @@
 		<antrun.version>3.0.0</antrun.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
-		<!--<build>v${maven.build.timestamp}</build>-->
+		<!--<build>v${maven.build.timestamp}</build> -->
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<tycho.scmUrl>scm:git:https://github.com/eclipse/birt.git</tycho.scmUrl>
-		<!-- required-java-version>1.8</required-java-version-->
+		<required-java-version>1.8</required-java-version>
 		<required-maven-version>3.6.3</required-maven-version>
+		<junit-version>4.13.2</junit-version>
 	</properties>
 
 	<!-- make release builds in particular quicker and more reliable -->
 	<profiles>
-	    <profile>
-            <id>master</id>
-            <activation>
-            	<activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <eclipse.release.name>latest</eclipse.release.name>
-                <tycho.version>2.2.0</tycho.version>
-                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/latest/</eclipse.repo.url>
-                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
-                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
-                <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
+		<profile>
+			<id>master</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<eclipse.release.name>latest</eclipse.release.name>
+				<tycho.version>2.3.0</tycho.version>
+				<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/latest/</eclipse.repo.url>
+				<emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
+				<gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
+				<!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
 				<!-- wtp.repo.url>https://download.eclipse.org/webtools/downloads/drops/R3.13.0/R-3.13.0-20190308131645/repository/</wtp.repo.url -->
-                <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
-                <orbit.repo.url>https://download.eclipse.org/tools/orbit/downloads/latest-R</orbit.repo.url>
-                <!-- https://eclipse.org/datatools/downloads.php  -->
-                <dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/</dtp.repo.url>
-                <jetty.version>9.4.15.v20190215</jetty.version>
-                <!--jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
-                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
-                <mongodb.version>3.2.2.v20181004-1955</mongodb.version>
+				<!-- http://download.eclipse.org/tools/orbit/downloads/ -->
+				<orbit.repo.url>https://download.eclipse.org/tools/orbit/downloads/latest-R</orbit.repo.url>
+				<!-- https://eclipse.org/datatools/downloads.php -->
+				<dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/</dtp.repo.url>
+				<jetty.version>9.4.15.v20190215</jetty.version>
+				<!--jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
+				<jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+				<mongodb.version>3.2.2.v20181004-1955</mongodb.version>
 				<lucene.version>(3.0.0,7.6.0)</lucene.version>
-            </properties>
-        </profile>
+			</properties>
+		</profile>
 		<profile>
-            <id>2018-09</id>
-            <properties>
+			<id>2018-09</id>
+			<properties>
 				<eclipse.release.name>2018-09</eclipse.release.name>
-                <tycho.version>1.0.0</tycho.version>
-                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.9/</eclipse.repo.url>
-                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
-                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
-                <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
+				<tycho.version>1.0.0</tycho.version>
+				<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.9/</eclipse.repo.url>
+				<emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
+				<gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
+				<!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
 				<wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.11.0/R-3.11.0-20180910170749/repository/</wtp.repo.url>
-                <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
-                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/</orbit.repo.url>
-                <!-- https://eclipse.org/datatools/downloads.php  -->
-                <dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.102.201809101906/repository/</dtp.repo.url>
-                <jetty.version>9.4.11.v20180605</jetty.version>
-                <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
-                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
-                <mongodb.version>3.2.2.v20181004-1955</mongodb.version>
+				<!-- http://download.eclipse.org/tools/orbit/downloads/ -->
+				<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/</orbit.repo.url>
+				<!-- https://eclipse.org/datatools/downloads.php -->
+				<dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.102.201809101906/repository/</dtp.repo.url>
+				<jetty.version>9.4.11.v20180605</jetty.version>
+				<!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
+				<jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+				<mongodb.version>3.2.2.v20181004-1955</mongodb.version>
 				<lucene.version>(3.0.0,7.2.0)</lucene.version>
-            </properties>
-        </profile>
+			</properties>
+		</profile>
 		<profile>
-            <id>photon</id>
-            <properties>
-                <eclipse.release.name>photon</eclipse.release.name>
-                <tycho.version>1.0.0</tycho.version>
-                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.8/</eclipse.repo.url>
-                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
-                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
-                <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
-                <wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.10.0/R-3.10.0-20180611164516/repository/</wtp.repo.url>
-                <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
-                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/</orbit.repo.url>
-                <!-- https://eclipse.org/datatools/downloads.php  -->
-                <dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.102.201809101906/repository/</dtp.repo.url>
-                <jetty.version>9.4.10.v20180503</jetty.version>
-                <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
-                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
-                <mongodb.version>3.2.2.v20181004-1955</mongodb.version>
+			<id>photon</id>
+			<properties>
+				<eclipse.release.name>photon</eclipse.release.name>
+				<tycho.version>1.0.0</tycho.version>
+				<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.8/</eclipse.repo.url>
+				<emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
+				<gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
+				<!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
+				<wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.10.0/R-3.10.0-20180611164516/repository/</wtp.repo.url>
+				<!-- http://download.eclipse.org/tools/orbit/downloads/ -->
+				<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/</orbit.repo.url>
+				<!-- https://eclipse.org/datatools/downloads.php -->
+				<dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.102.201809101906/repository/</dtp.repo.url>
+				<jetty.version>9.4.10.v20180503</jetty.version>
+				<!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
+				<jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+				<mongodb.version>3.2.2.v20181004-1955</mongodb.version>
 				<lucene.version>(3.0.0,7.2.0)</lucene.version>
-            </properties>
-        </profile>  
-	    <profile>
-            <id>oxygen</id>
-            <properties>
-                <eclipse.release.name>oxygen</eclipse.release.name>
-                <tycho.version>1.0.0</tycho.version>
-                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.7/R-4.7.3a-201803300640/</eclipse.repo.url>
-                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.13/</emf.repo.url>
-                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
-                <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
-                <wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.9.0/R-3.9.0-20170613094504/repository/</wtp.repo.url>
-                <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
-                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/</orbit.repo.url>
-                <!-- https://eclipse.org/datatools/downloads.php  -->
-                <dtp.repo.url>http://download.eclipse.org/datatools/1.14.1.201712071719/repository/</dtp.repo.url>
-                <jetty.version>9.4.37.v20210219</jetty.version>
-                <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
-                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
-                <mongodb.version>3.2.2.v20181004-1955</mongodb.version>
+			</properties>
+		</profile>
+		<profile>
+			<id>oxygen</id>
+			<properties>
+				<eclipse.release.name>oxygen</eclipse.release.name>
+				<tycho.version>1.0.0</tycho.version>
+				<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.7/R-4.7.3a-201803300640/</eclipse.repo.url>
+				<emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.13/</emf.repo.url>
+				<gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
+				<!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
+				<wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.9.0/R-3.9.0-20170613094504/repository/</wtp.repo.url>
+				<!-- http://download.eclipse.org/tools/orbit/downloads/ -->
+				<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/</orbit.repo.url>
+				<!-- https://eclipse.org/datatools/downloads.php -->
+				<dtp.repo.url>http://download.eclipse.org/datatools/1.14.1.201712071719/repository/</dtp.repo.url>
+				<jetty.version>9.4.37.v20210219</jetty.version>
+				<!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
+				<jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+				<mongodb.version>3.2.2.v20181004-1955</mongodb.version>
 				<lucene.version>(3.0.0,6.2.0)</lucene.version>
-            </properties>
-        </profile>        
+			</properties>
+		</profile>
 		<profile>
 			<id>localdeps</id>
 			<properties>
-				<!-- mavenists would claim that these should be relative to ${basedir}
-				     1. ${basedir} is each plugin dir in turn, 2. causes massive memleaks -->
+				<!-- mavenists would claim that these should be relative to ${basedir} 
+					1. ${basedir} is each plugin dir in turn, 2. causes massive memleaks -->
 				<eclipse.repo.url>file://${pwd}/build/deps/eclipse</eclipse.repo.url>
 				<emf.repo.url>file://${pwd}/build/deps/emf</emf.repo.url>
 				<gef.repo.url>file://${pwd}/build/deps/gef</gef.repo.url>
@@ -130,8 +129,8 @@
 			</properties>
 		</profile>
 
-		<!-- "build-server" profile only gets run inside eclipse so it can
-		     sign with their key -->
+		<!-- "build-server" profile only gets run inside eclipse so it can sign 
+			with their key -->
 		<profile>
 			<id>build-server</id>
 			<build>
@@ -180,46 +179,15 @@
 		</profile>
 	</profiles>
 
-	<!--
-	<repositories>
-		BIRTs need Eclipse/EMF/GEF/DTP/ORBIT/WTP
-		<repository>
-			<id>eclipse</id>
-			<url>${eclipse.repo.url}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>emf</id>
-			<url>${emf.repo.url}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>wtp</id>
-			<url>${wtp.repo.url}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>gef</id>
-			<url>${gef.repo.url}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>orbit</id>
-			<url>${orbit.repo.url}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>dtp</id>
-			<url>${dtp.repo.url}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>jetty</id>
-			<url>${jetty.repo.url}</url>
-			<layout>p2</layout>
-		</repository>
-	</repositories>
-	-->
+	<!-- <repositories> BIRTs need Eclipse/EMF/GEF/DTP/ORBIT/WTP <repository> 
+		<id>eclipse</id> <url>${eclipse.repo.url}</url> <layout>p2</layout> </repository> 
+		<repository> <id>emf</id> <url>${emf.repo.url}</url> <layout>p2</layout> 
+		</repository> <repository> <id>wtp</id> <url>${wtp.repo.url}</url> <layout>p2</layout> 
+		</repository> <repository> <id>gef</id> <url>${gef.repo.url}</url> <layout>p2</layout> 
+		</repository> <repository> <id>orbit</id> <url>${orbit.repo.url}</url> <layout>p2</layout> 
+		</repository> <repository> <id>dtp</id> <url>${dtp.repo.url}</url> <layout>p2</layout> 
+		</repository> <repository> <id>jetty</id> <url>${jetty.repo.url}</url> <layout>p2</layout> 
+		</repository> </repositories> -->
 	<pluginRepositories>
 		<pluginRepository>
 			<id>cbi</id>
@@ -278,7 +246,7 @@
 					<configuration>
 						<format>'v'yyyyMMddHHmm</format>
 						<archive>
-						  <addMavenDescriptor>false</addMavenDescriptor>
+							<addMavenDescriptor>false</addMavenDescriptor>
 						</archive>
 						<sourceReferences>
 							<generate>true</generate>
@@ -298,16 +266,16 @@
 					<version>${tycho.version}</version>
 					<configuration>
 						<excludes>
-							<plugin id="org.apache.axis"/>
-							<plugin id="org.apache.commons.discovery"/>
-							<plugin id="org.apache.xerces"/>
-							<plugin id="org.apache.xml.resolver"/>
-							<plugin id="org.apache.xml.serializer"/>
-							<plugin id="javax.xml"/>
-							<pluign id="javax.xml.stream"/>
-							<plugin id="javax.xml.rpc"/>
-							<plugin id="javax.xml.soap"/>
-							<plugin id="javax.wsdl"/>
+							<plugin id="org.apache.axis" />
+							<plugin id="org.apache.commons.discovery" />
+							<plugin id="org.apache.xerces" />
+							<plugin id="org.apache.xml.resolver" />
+							<plugin id="org.apache.xml.serializer" />
+							<plugin id="javax.xml" />
+							<pluign id="javax.xml.stream" />
+							<plugin id="javax.xml.rpc" />
+							<plugin id="javax.xml.soap" />
+							<plugin id="javax.wsdl" />
 						</excludes>
 					</configuration>
 					<executions>
@@ -341,33 +309,14 @@
 		</pluginManagement>
 
 		<plugins>
-			<!--plugin>
-				<inherited>true</inherited>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>3.0.0-M3</version>
-				<executions>
-				<execution>
-					<id>enforce-maven-version</id>
-					<goals>
-						<goal>enforce</goal>
-					</goals>
-					<configuration>
-						<rules>
-							<requireMavenVersion>
-								<version>${required-maven-version}</version>
-							</requireMavenVersion>
-							<requireJavaVersion>
-								<version>${required-java-version}</version>
-							</requireJavaVersion>
-						</rules>
-						<fail>true</fail>
-						<failFast>true</failFast>
-					</configuration>
-				</execution>
-				</executions>
-			</plugin-->
-			
+			<!--plugin> <inherited>true</inherited> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-enforcer-plugin</artifactId> <version>3.0.0-M3</version> 
+				<executions> <execution> <id>enforce-maven-version</id> <goals> <goal>enforce</goal> 
+				</goals> <configuration> <rules> <requireMavenVersion> <version>${required-maven-version}</version> 
+				</requireMavenVersion> <requireJavaVersion> <version>${required-java-version}</version> 
+				</requireJavaVersion> </rules> <fail>true</fail> <failFast>true</failFast> 
+				</configuration> </execution> </executions> </plugin -->
+
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
@@ -483,7 +432,8 @@
 								<version>${jetty.version}</version>
 							</restrictTo>
 						</filter>
-						<!-- Restrict MongoDB to specific version to allow only one version included in plugins -->
+						<!-- Restrict MongoDB to specific version to allow only one version 
+							included in plugins -->
 						<filter>
 							<type>eclipse-plugin</type>
 							<id>org.eclipse.orbit.mongodb</id>
@@ -491,12 +441,13 @@
 								<version>${mongodb.version}</version>
 							</restrictTo>
 						</filter>
-						<!-- Restrict lucene version to specific range to avoid version conflict in 4.9 build-->
+						<!-- Restrict lucene version to specific range to avoid version conflict 
+							in 4.9 build -->
 						<filter>
 							<type>eclipse-plugin</type>
 							<id>org.apache.lucene.core</id>
 							<restrictTo>
-							    <versionRange>${lucene.version}</versionRange>
+								<versionRange>${lucene.version}</versionRange>
 							</restrictTo>
 						</filter>
 						<filter>
@@ -536,11 +487,14 @@
 				<artifactId>tycho-versions-plugin</artifactId>
 				<version>${tycho.version}</version>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.8.0</version>
+				<configuration>
+					<release>11</release>
+				</configuration>
 			</plugin>
 
 			<!-- build source plugins -->
@@ -570,18 +524,12 @@
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<version>${tycho.version}</version>
-<!-- Exclude integration tests that may hang or cause other occasional delays
-	in integration test. Uncomment the following config block to disable these
-	tests temporarely. -->
-<!--
-				<configuration>
-					<testRuntime>default</testRuntime>
-					<excludes>
-						<exclude>**/FolderArchiveTest.*</exclude>
-						<exclude>**/org/eclipse/birt/data/engine/**/*Test.*</exclude>
-					</excludes>
-				</configuration>
--->
+				<!-- Exclude integration tests that may hang or cause other occasional 
+					delays in integration test. Uncomment the following config block to disable 
+					these tests temporarely. -->
+				<!-- <configuration> <testRuntime>default</testRuntime> <excludes> <exclude>**/FolderArchiveTest.*</exclude> 
+					<exclude>**/org/eclipse/birt/data/engine/**/*Test.*</exclude> </excludes> 
+					</configuration> -->
 			</plugin>
 
 			<!-- generate code coverage report -->
@@ -620,13 +568,13 @@
 							<goal>check</goal>
 						</goals>
 						<configuration>
-							<rules/>
+							<rules />
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 
-           <plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
@@ -636,7 +584,7 @@
 						<phase>prepare-package</phase>
 						<configuration>
 							<delimiters>
-								 <delimiter>@</delimiter>
+								<delimiter>@</delimiter>
 							</delimiters>
 							<outputDirectory>${project.build.directory}</outputDirectory>
 							<overwrite>true</overwrite>
