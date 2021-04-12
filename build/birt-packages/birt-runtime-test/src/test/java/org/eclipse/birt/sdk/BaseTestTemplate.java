@@ -17,7 +17,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * 
+ *
  */
 
 public abstract class BaseTestTemplate {
@@ -81,7 +81,6 @@ public abstract class BaseTestTemplate {
 				}
 				return false;
 			}
-
 		});
 	}
 

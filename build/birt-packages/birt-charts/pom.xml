@@ -25,7 +25,7 @@
 						<id>re-package</id>
 						<phase>package</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<copy todir="${project.build.directory}/build/ChartRuntime/eclipse">
 									<fileset dir="ChartRuntime/target/eclipse"/>
 								</copy>
@@ -41,7 +41,7 @@
 								<zip destfile="${project.build.directory}/${project.artifactId}-${birt.version}-${maven.build.timestamp}.zip" basedir="${project.build.directory}/build"/>
 								<delete dir="build"/>
 								<attachartifact file="./target/${project.artifactId}-${birt.version}-${maven.build.timestamp}.zip" type="zip"/>
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>

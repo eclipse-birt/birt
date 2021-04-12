@@ -24,12 +24,12 @@
 							<execution>
 								<phase>process-resources</phase>
 								<configuration>
-									<tasks>
+									<target>
 										<replace token="jetty.http.host" value="jetty.host"
 											file="jettyhome/etc/jetty-selector.xml" />
 										<replace token="jetty.http.port" value="jetty.port"
 											file="jettyhome/etc/jetty-selector.xml" />
-									</tasks>
+									</target>
 								</configuration>
 								<goals>
 									<goal>run</goal>
