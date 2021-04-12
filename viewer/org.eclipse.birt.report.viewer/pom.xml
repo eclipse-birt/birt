@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
@@ -10,38 +12,42 @@
 	<artifactId>org.eclipse.birt.report.viewer</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	<profiles>
-        <profile>
-       	    <id>mars</id>
-            <!-- Jetty server connector property 'jetty.host' and 'jetty.port' was replaced by 'jetty.http.host' and 'jetty.http.port' in Jetty 9.3+ -->
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>process-resources</phase>
-                                <configuration>
-                                    <tasks>
-                                        <replace token="jetty.http.host" value="jetty.host" file="jettyhome/etc/jetty-selector.xml"/>
-                                        <replace token="jetty.http.port" value="jetty.port" file="jettyhome/etc/jetty-selector.xml"/>
-                                    </tasks>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+		<profile>
+			<id>mars</id>
+			<!-- Jetty server connector property 'jetty.host' and 'jetty.port' was 
+				replaced by 'jetty.http.host' and 'jetty.http.port' in Jetty 9.3+ -->
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>process-resources</phase>
+								<configuration>
+									<tasks>
+										<replace token="jetty.http.host" value="jetty.host"
+											file="jettyhome/etc/jetty-selector.xml" />
+										<replace token="jetty.http.port" value="jetty.port"
+											file="jettyhome/etc/jetty-selector.xml" />
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-jspc-maven-plugin</artifactId>
-				<version>9.0.2.v20130417</version>
+				<!-- >version>9.0.2.v20130417</version -->
+				<version>9.4.39.v20210325</version>
 				<executions>
 					<execution>
 						<id>pre-compile-jsp</id>
@@ -50,14 +56,15 @@
 							<goal>jspc</goal>
 						</goals>
 						<configuration>
+							<sourceVersion>1.8</sourceVersion>
+							<targetVersion>1.8</targetVersion>
+							<classesDirectory>${project.basedir}/birt/WEB-INF/classes</classesDirectory>
 							<webAppSourceDirectory>${project.basedir}/birt/</webAppSourceDirectory>
 							<webXml>${project.basedir}/birt/WEB-INF/web-viewer.xml</webXml>
 							<generatedClasses>${project.build.directory}/jsp/classes</generatedClasses>
 							<useProvidedScope>true</useProvidedScope>
 							<keepSources>true</keepSources>
-							<!--	
-							<ignoreJspFragmentErrors>true</ignoreJspFragmentErrors>
-							-->
+							<!-- <ignoreJspFragmentErrors>true</ignoreJspFragmentErrors> -->
 						</configuration>
 					</execution>
 				</executions>
@@ -73,8 +80,9 @@
 						<configuration>
 							<target>
 								<jar destfile="${project.basedir}/birt/WEB-INF/lib/jsp.jar"
-								     basedir="${project.build.directory}/jsp/classes" />
-								<copy file="${project.build.directory}/web.xml" todir="${project.basedir}/birt/WEB-INF"/>
+									basedir="${project.build.directory}/jsp/classes" />
+								<copy file="${project.build.directory}/web.xml"
+									todir="${project.basedir}/birt/WEB-INF" />
 							</target>
 						</configuration>
 						<goals>
