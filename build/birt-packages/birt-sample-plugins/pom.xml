@@ -21,7 +21,7 @@
 						<id>copy</id>
 						<phase>package</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<delete file="${basedir}/target/repository/artifacts.jar"/>
 								<delete file="${basedir}/target/repository/content.jar"/>
 								<move todir="${basedir}/target/repository/eclipse">
@@ -35,7 +35,7 @@
 								</copy>
 								<zip destfile="target/birt-sample-plugins-${birt.version}-${maven.build.timestamp}.zip" basedir="target/repository"/>
 								<attachartifact file="./target/birt-sample-plugins-${birt.version}-${maven.build.timestamp}.zip" type="zip"/>
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>

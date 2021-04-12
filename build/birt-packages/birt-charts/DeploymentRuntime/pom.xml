@@ -39,7 +39,7 @@
                         <id>re-package</id>
                         <phase>package</phase>
                         <configuration>
-                            <tasks>
+                            <target>
                                 <copy todir="target/DeploymentRuntime/ChartEngine">
                                     <fileset dir="target/repository/plugins" />
                                     <fileset dir="." includes="*.txt"/>
@@ -58,7 +58,7 @@
                                 </copy>
                                 <war destfile="target/DeploymentRuntime/chart-viewer-sample.war" basedir="target/DeploymentRuntime/chart-viewer-sample" />
                                 <delete dir="target/DeploymentRuntime/chart-viewer-sample" />
-                            </tasks>
+                            </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>

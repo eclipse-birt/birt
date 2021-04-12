@@ -31,7 +31,7 @@
 						<id>re-package</id>
 						<phase>package</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<copy todir="target/eclipse">
 									<!-- features/plugins dir -->
 									<fileset dir="target/repository" includes="*/*" />
@@ -41,7 +41,7 @@
 								<zip destfile="target/${project.artifactId}-${birt.version}-${maven.build.timestamp}.zip" basedir="target/eclipse" />
 								<delete dir="target/eclipse" />
 								<attachartifact file="./target/${project.artifactId}-${birt.version}-${maven.build.timestamp}.zip" type="zip"/>
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>

@@ -25,7 +25,7 @@
 							<goal>run</goal>
 						</goals>
 						<configuration>
-							<tasks>
+							<target>
                                                             <unzip src="..\..\..\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-${birt.version}-SNAPSHOT.zip"
 									dest="${project.build.directory}/p2updatesite"/>
 								<copy todir="${project.build.directory}/content/ChartRuntime\eclipse\plugins">
@@ -71,7 +71,7 @@
 								</copy>
 								<zip destfile="target/NLpack1-birt-charts.zip"
 									basedir="target/content"/>
-							</tasks>
+							</target>
 						</configuration>
 					</execution>
 				</executions>
