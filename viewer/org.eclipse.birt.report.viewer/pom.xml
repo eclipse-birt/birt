@@ -51,14 +51,14 @@
 				<executions>
 					<execution>
 						<id>pre-compile-jsp</id>
-						<phase>process-resources</phase>
+						<phase>process-classes</phase>
 						<goals>
 							<goal>jspc</goal>
 						</goals>
 						<configuration>
 							<sourceVersion>1.8</sourceVersion>
 							<targetVersion>1.8</targetVersion>
-							<classesDirectory>${project.basedir}/birt/WEB-INF/classes</classesDirectory>
+							<classesDirectory>${project.build.directory}/birt/WEB-INF/lib/viewservlets.jar-classes</classesDirectory>
 							<webAppSourceDirectory>${project.basedir}/birt/</webAppSourceDirectory>
 							<webXml>${project.basedir}/birt/WEB-INF/web-viewer.xml</webXml>
 							<generatedClasses>${project.build.directory}/jsp/classes</generatedClasses>
@@ -76,7 +76,7 @@
 				<executions>
 					<execution>
 						<id>jar-pre-compile-jsp</id>
-						<phase>process-resources</phase>
+						<phase>process-classes</phase>
 						<configuration>
 							<target>
 								<jar destfile="${project.basedir}/birt/WEB-INF/lib/jsp.jar"
