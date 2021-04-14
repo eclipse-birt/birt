@@ -114,7 +114,8 @@ public class DesignWriterTest extends BaseTestCase {
 			fail();
 		} catch (DesignFileException e) {
 			List<ErrorDetail> list = e.getErrorList();
-			assertTrue(list.get(0).getExceptionName().endsWith("MalformedByteSequenceException"));
+			assertTrue(list.get(0).getExceptionName(),list.get(0).getExceptionName().endsWith("XMLParserException"));
+		//	assertTrue(list.get(0).getExceptionName(),list.get(0).getExceptionName().endsWith("MalformedByteSequenceException"));
 		}
 
 		createDesign();
