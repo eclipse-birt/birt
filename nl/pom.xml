@@ -102,7 +102,7 @@
 							<configuration>
 								<target description="Remove generated properties files" name="CleanPropertyFiles">
 									<delete>
-										<fileset dir="${basedir}" includes="**/*_??_??.properties"/>
+										<fileset dir="${basedir}" includes="**/*_??_??.properties" />
 									</delete>
 								</target>
 							</configuration>
@@ -115,10 +115,10 @@
 							<phase>compile</phase>
 							<configuration>
 								<target description="Execute native2ascii for *.msg files" name="NativeToAscii">
-									<native2ascii implementation="builtin" dest="." encoding="Cp1252" ext=".properties" includes="**/*_de_DE.msg, **/*_fr_FR.msg, **/*_es_ES.msg" src="."/>
-									<native2ascii implementation="builtin" dest="." encoding="GBK" ext=".properties" includes="**/*_zh_CN.msg" src="."/>
-									<native2ascii implementation="builtin" dest="." encoding="SJIS" ext=".properties" includes="**/*_ja_JP.msg" src="."/>
-									<native2ascii implementation="builtin" dest="." encoding="MS949" ext=".properties" includes="**/*_ko_KR.msg" src="."/>
+									<native2ascii implementation="builtin" dest="." encoding="Cp1252" ext=".properties" includes="**/*_de_DE.msg, **/*_fr_FR.msg, **/*_es_ES.msg" src="." />
+									<native2ascii implementation="builtin" dest="." encoding="GBK" ext=".properties" includes="**/*_zh_CN.msg" src="." />
+									<native2ascii implementation="builtin" dest="." encoding="SJIS" ext=".properties" includes="**/*_ja_JP.msg" src="." />
+									<native2ascii implementation="builtin" dest="." encoding="MS949" ext=".properties" includes="**/*_ko_KR.msg" src="." />
 								</target>
 							</configuration>
 							<goals>
@@ -166,7 +166,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				</plugin>
+			</plugin>
 		</plugins>
 	</build>
 </project>

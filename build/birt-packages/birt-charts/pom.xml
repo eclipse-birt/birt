@@ -27,20 +27,20 @@
 						<configuration>
 							<target>
 								<copy todir="${project.build.directory}/build/ChartRuntime/eclipse">
-									<fileset dir="ChartRuntime/target/eclipse"/>
+									<fileset dir="ChartRuntime/target/eclipse" />
 								</copy>
 								<copy todir="${project.build.directory}/build/ChartSDK/eclipse">
-									<fileset dir="ChartSDK/target/eclipse"/>
+									<fileset dir="ChartSDK/target/eclipse" />
 								</copy>
 								<copy todir="${project.build.directory}/build/DeploymentRuntime">
-									<fileset dir="DeploymentRuntime/target/DeploymentRuntime"/>
+									<fileset dir="DeploymentRuntime/target/DeploymentRuntime" />
 								</copy>
 								<copy todir="${project.build.directory}/build">
-									<fileset dir="../../org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles" includes="*.html"/>
+									<fileset dir="../../org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles" includes="*.html" />
 								</copy>
-								<zip destfile="${project.build.directory}/${project.artifactId}-${birt.version}-${maven.build.timestamp}.zip" basedir="${project.build.directory}/build"/>
-								<delete dir="build"/>
-								<attachartifact file="./target/${project.artifactId}-${birt.version}-${maven.build.timestamp}.zip" type="zip"/>
+								<zip destfile="${project.build.directory}/${project.artifactId}-${birt.version}-${maven.build.timestamp}.zip" basedir="${project.build.directory}/build" />
+								<delete dir="build" />
+								<attachartifact file="./target/${project.artifactId}-${birt.version}-${maven.build.timestamp}.zip" type="zip" />
 							</target>
 						</configuration>
 						<goals>

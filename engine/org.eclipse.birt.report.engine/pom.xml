@@ -25,9 +25,9 @@
 						</goals>
 						<configuration>
 							<classifier>api</classifier>
-					<archive>
-                                            <manifestFile>api/engineapi/MANIFEST.MF</manifestFile>
-					</archive>
+							<archive>
+								<manifestFile>api/engineapi/MANIFEST.MF</manifestFile>
+							</archive>
 							<excludes>
 								<exclude>**/*Test.class</exclude>
 								<exclude>**/*Test.class</exclude>
@@ -57,20 +57,20 @@
 							<goal>jar</goal>
 						</goals>
 						<configuration>
-                                                    <classifier>scriptapi</classifier>
-					<archive>
-                                            <manifestFile>api/scriptapi/MANIFEST.MF</manifestFile>
-					</archive>
-                                                    <excludes>
-                                                        <exclude>**/api/script/**/*Test.class</exclude>
-                                                    </excludes>
-                                                        <includes>
-                                                            <include>**/api/script/**/*.class</include>
+							<classifier>scriptapi</classifier>
+							<archive>
+								<manifestFile>api/scriptapi/MANIFEST.MF</manifestFile>
+							</archive>
+							<excludes>
+								<exclude>**/api/script/**/*Test.class</exclude>
+							</excludes>
+							<includes>
+								<include>**/api/script/**/*.class</include>
 							</includes>
 						</configuration>
 					</execution>
 				</executions>
-                            </plugin>
+			</plugin>
 		</plugins>
 	</build>
 </project>

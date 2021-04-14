@@ -22,21 +22,21 @@
 						<phase>package</phase>
 						<configuration>
 							<target>
-								<delete file="${basedir}/target/repository/artifacts.jar"/>
-								<delete file="${basedir}/target/repository/content.jar"/>
+								<delete file="${basedir}/target/repository/artifacts.jar" />
+								<delete file="${basedir}/target/repository/content.jar" />
 								<move todir="${basedir}/target/repository/eclipse">
 									<fileset dir="${basedir}/target/repository">
-										<include name="**/*"/>
-										<include name="**/*.*"/>
+										<include name="**/*" />
+										<include name="**/*.*" />
 									</fileset>
 								</move>
 								<copy todir="${basedir}/target/repository">
 									<fileset dir="${basedir}/../../org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/birt.tests/test.scripts">
-										<exclude name="testRunner.xml"/>
+										<exclude name="testRunner.xml" />
 									</fileset>
 								</copy>
-								<zip destfile="target/birt-tests-suite-${birt.version}-${maven.build.timestamp}.zip" basedir="target/repository"/>
-								<attachartifact file="./target/birt-tests-suite-${birt.version}-${maven.build.timestamp}.zip" type="zip"/>
+								<zip destfile="target/birt-tests-suite-${birt.version}-${maven.build.timestamp}.zip" basedir="target/repository" />
+								<attachartifact file="./target/birt-tests-suite-${birt.version}-${maven.build.timestamp}.zip" type="zip" />
 							</target>
 						</configuration>
 						<goals>

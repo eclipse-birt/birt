@@ -30,42 +30,42 @@
 					<includeAllDependencies>false</includeAllDependencies>
 				</configuration>
 			</plugin>
-            
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>${antrun.version}</version>
-                <executions>
-                    <execution>
-                        <id>re-package</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <copy todir="target/DeploymentRuntime/ChartEngine">
-                                    <fileset dir="target/repository/plugins" />
-                                    <fileset dir="." includes="*.txt"/>
-                                </copy>
-                                <copy todir="target/DeploymentRuntime/ChartEngine/docs">
-                                    <fileset dir="." includes="*.doc" />
-                                </copy>
-                                <copy todir="target/DeploymentRuntime/chart-viewer-sample">
-                                    <fileset dir="../../../../chart/org.eclipse.birt.chart.viewer/WebContent" />
-                                </copy>
-                                <copy todir="target/DeploymentRuntime/chart-viewer-sample/WEB-INF/lib">
-                                    <fileset dir="../../../../chart/org.eclipse.birt.chart.viewer" includes="chart-viewer.jar" />
-                                </copy>
-                                <copy todir="target/DeploymentRuntime/chart-viewer-sample/WEB-INF/lib">
-                                    <fileset dir="target/DeploymentRuntime/ChartEngine" includes="*.*" />
-                                </copy>
-                                <war destfile="target/DeploymentRuntime/chart-viewer-sample.war" basedir="target/DeploymentRuntime/chart-viewer-sample" />
-                                <delete dir="target/DeploymentRuntime/chart-viewer-sample" />
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution> 
-                </executions>
-            </plugin>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>${antrun.version}</version>
+				<executions>
+					<execution>
+						<id>re-package</id>
+						<phase>package</phase>
+						<configuration>
+							<target>
+								<copy todir="target/DeploymentRuntime/ChartEngine">
+									<fileset dir="target/repository/plugins" />
+									<fileset dir="." includes="*.txt" />
+								</copy>
+								<copy todir="target/DeploymentRuntime/ChartEngine/docs">
+									<fileset dir="." includes="*.doc" />
+								</copy>
+								<copy todir="target/DeploymentRuntime/chart-viewer-sample">
+									<fileset dir="../../../../chart/org.eclipse.birt.chart.viewer/WebContent" />
+								</copy>
+								<copy todir="target/DeploymentRuntime/chart-viewer-sample/WEB-INF/lib">
+									<fileset dir="../../../../chart/org.eclipse.birt.chart.viewer" includes="chart-viewer.jar" />
+								</copy>
+								<copy todir="target/DeploymentRuntime/chart-viewer-sample/WEB-INF/lib">
+									<fileset dir="target/DeploymentRuntime/ChartEngine" includes="*.*" />
+								</copy>
+								<war destfile="target/DeploymentRuntime/chart-viewer-sample.war" basedir="target/DeploymentRuntime/chart-viewer-sample" />
+								<delete dir="target/DeploymentRuntime/chart-viewer-sample" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>

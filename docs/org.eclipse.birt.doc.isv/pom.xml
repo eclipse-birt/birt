@@ -55,16 +55,16 @@
 						</goals>
 						<configuration>
 							<target>
-								<property name="core.src.dir" location="${basedir}/../../core/"/>
-								<property name="engine.src.dir" location="${basedir}/../../engine/"/>
-								<property name="model.src.dir" location="${basedir}/../../model/"/>
+								<property name="core.src.dir" location="${basedir}/../../core/" />
+								<property name="engine.src.dir" location="${basedir}/../../engine/" />
+								<property name="model.src.dir" location="${basedir}/../../model/" />
 								<ant antfile="${basedir}/BuildISVDoc.xml" target="Javadoc">
-									<reference refid="maven.compile.classpath" torefid="class.path"/>
-									<property name="BranchVersion" value="${project.version}"/>
-									<property name="core.dir" value="${core.src.dir}/org.eclipse.birt.core"/>
-									<property name="core.ui.dir" value="${core.src.dir}/org.eclipse.birt.core.ui"/>
-									<property name="engine.dir" value="${engine.src.dir}/org.eclipse.birt.report.engine"/>
-									<property name="model.dir" value="${model.src.dir}/org.eclipse.birt.report.model"/>
+									<reference refid="maven.compile.classpath" torefid="class.path" />
+									<property name="BranchVersion" value="${project.version}" />
+									<property name="core.dir" value="${core.src.dir}/org.eclipse.birt.core" />
+									<property name="core.ui.dir" value="${core.src.dir}/org.eclipse.birt.core.ui" />
+									<property name="engine.dir" value="${engine.src.dir}/org.eclipse.birt.report.engine" />
+									<property name="model.dir" value="${model.src.dir}/org.eclipse.birt.report.model" />
 								</ant>
 							</target>
 						</configuration>
@@ -77,7 +77,7 @@
 						</goals>
 						<configuration>
 							<target>
-								<ant antfile="${basedir}/BuildISVDoc.xml" target="cleanBuild"/>
+								<ant antfile="${basedir}/BuildISVDoc.xml" target="cleanBuild" />
 							</target>
 						</configuration>
 					</execution>

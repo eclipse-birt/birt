@@ -50,16 +50,16 @@
 						</goals>
 						<configuration>
 							<target>
-								<property name="chart.src.dir" location="${basedir}/../../chart/"/>
+								<property name="chart.src.dir" location="${basedir}/../../chart/" />
 								<ant antfile="${basedir}/BuildChartISVDoc.xml" target="Javadoc">
-									<reference refid="maven.compile.classpath" torefid="class.path"/>
-									<property name="BranchVersion" value="${project.version}"/>
-									<property name="chartengine.dir" value="${chart.src.dir}/org.eclipse.birt.chart.engine"/>
-									<property name="chartengine.ext.dir" value="${chart.src.dir}/org.eclipse.birt.chart.engine.extension"/>
-									<property name="chartexamples.dir" value="${chart.src.dir}/org.eclipse.birt.chart.examples"/>
-									<property name="chartui.dir" value="${chart.src.dir}/org.eclipse.birt.chart.ui"/>
-									<property name="chartreportitem.dir" value="${chart.src.dir}/org.eclipse.birt.chart.reportitem"/>
-									<property name="model.dir" value="${chart.src.dir}/org.eclipse.birt.report.model"/>
+									<reference refid="maven.compile.classpath" torefid="class.path" />
+									<property name="BranchVersion" value="${project.version}" />
+									<property name="chartengine.dir" value="${chart.src.dir}/org.eclipse.birt.chart.engine" />
+									<property name="chartengine.ext.dir" value="${chart.src.dir}/org.eclipse.birt.chart.engine.extension" />
+									<property name="chartexamples.dir" value="${chart.src.dir}/org.eclipse.birt.chart.examples" />
+									<property name="chartui.dir" value="${chart.src.dir}/org.eclipse.birt.chart.ui" />
+									<property name="chartreportitem.dir" value="${chart.src.dir}/org.eclipse.birt.chart.reportitem" />
+									<property name="model.dir" value="${chart.src.dir}/org.eclipse.birt.report.model" />
 								</ant>
 							</target>
 						</configuration>
@@ -72,7 +72,7 @@
 						</goals>
 						<configuration>
 							<target>
-								<ant antfile="${basedir}/BuildChartISVDoc.xml" target="Clean"/>
+								<ant antfile="${basedir}/BuildChartISVDoc.xml" target="Clean" />
 							</target>
 						</configuration>
 					</execution>

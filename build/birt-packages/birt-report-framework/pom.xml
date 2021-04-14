@@ -40,13 +40,13 @@
 								</copy>
 								<zip destfile="target/${project.artifactId}-${birt.version}-${maven.build.timestamp}.zip" basedir="target/eclipse" />
 								<delete dir="target/eclipse" />
-								<attachartifact file="./target/${project.artifactId}-${birt.version}-${maven.build.timestamp}.zip" type="zip"/>
+								<attachartifact file="./target/${project.artifactId}-${birt.version}-${maven.build.timestamp}.zip" type="zip" />
 							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>
 						</goals>
-					</execution> 
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>

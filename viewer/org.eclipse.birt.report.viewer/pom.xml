@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
@@ -25,10 +23,8 @@
 								<phase>process-resources</phase>
 								<configuration>
 									<target>
-										<replace token="jetty.http.host" value="jetty.host"
-											file="jettyhome/etc/jetty-selector.xml" />
-										<replace token="jetty.http.port" value="jetty.port"
-											file="jettyhome/etc/jetty-selector.xml" />
+										<replace token="jetty.http.host" value="jetty.host" file="jettyhome/etc/jetty-selector.xml" />
+										<replace token="jetty.http.port" value="jetty.port" file="jettyhome/etc/jetty-selector.xml" />
 									</target>
 								</configuration>
 								<goals>
@@ -79,10 +75,8 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<target>
-								<jar destfile="${project.basedir}/birt/WEB-INF/lib/jsp.jar"
-									basedir="${project.build.directory}/jsp/classes" />
-								<copy file="${project.build.directory}/web.xml"
-									todir="${project.basedir}/birt/WEB-INF" />
+								<jar destfile="${project.basedir}/birt/WEB-INF/lib/jsp.jar" basedir="${project.build.directory}/jsp/classes" />
+								<copy file="${project.build.directory}/web.xml" todir="${project.basedir}/birt/WEB-INF" />
 							</target>
 						</configuration>
 						<goals>

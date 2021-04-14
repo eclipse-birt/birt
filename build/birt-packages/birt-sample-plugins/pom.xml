@@ -22,19 +22,19 @@
 						<phase>package</phase>
 						<configuration>
 							<target>
-								<delete file="${basedir}/target/repository/artifacts.jar"/>
-								<delete file="${basedir}/target/repository/content.jar"/>
+								<delete file="${basedir}/target/repository/artifacts.jar" />
+								<delete file="${basedir}/target/repository/content.jar" />
 								<move todir="${basedir}/target/repository/eclipse">
 									<fileset dir="${basedir}/target/repository">
-										<include name="**/*"/>
-										<include name="**/*.*"/>
+										<include name="**/*" />
+										<include name="**/*.*" />
 									</fileset>
 								</move>
 								<copy todir="${basedir}/target/repository/eclipse">
-									<fileset dir="${basedir}/../../org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles" includes="*.html"/>
+									<fileset dir="${basedir}/../../org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles" includes="*.html" />
 								</copy>
-								<zip destfile="target/birt-sample-plugins-${birt.version}-${maven.build.timestamp}.zip" basedir="target/repository"/>
-								<attachartifact file="./target/birt-sample-plugins-${birt.version}-${maven.build.timestamp}.zip" type="zip"/>
+								<zip destfile="target/birt-sample-plugins-${birt.version}-${maven.build.timestamp}.zip" basedir="target/repository" />
+								<attachartifact file="./target/birt-sample-plugins-${birt.version}-${maven.build.timestamp}.zip" type="zip" />
 							</target>
 						</configuration>
 						<goals>

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt.build</groupId>
@@ -9,7 +7,7 @@
 		<version>4.9.0-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
-	
+
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.sdk</artifactId>
 	<packaging>eclipse-plugin</packaging>
@@ -110,41 +108,41 @@
 					</execution>
 				</executions>
 			</plugin>
-			 <plugin>
-				 <groupId>org.apache.maven.plugins</groupId>
-				 <artifactId>maven-dependency-plugin</artifactId>
-				 <version>2.10</version>
-				 <executions>
-					 <execution>
-						 <id>unpack</id>
-						 <phase>package</phase>
-						 <goals>
-							 <goal>unpack</goal>
-						 </goals>
-						 <configuration>
-							 <artifactItems>
-								 <artifactItem>
-									 <groupId>org.eclipse.birt</groupId>
-									 <artifactId>org.eclipse.birt.core</artifactId>
-									 <version>3.8.1</version>
-									 <type>jar</type>
-									 <overWrite>false</overWrite>
-									 <outputDirectory></outputDirectory>
-									 <destFileName>optional-new-name.jar</destFileName>
-									 <includes>**/*.class,**/*.xml</includes>
-									 <excludes>**/*test.class</excludes>
-								 </artifactItem>
-							 </artifactItems>
-							 <includes>**/*.java</includes>
-							 <excludes>**/*.properties</excludes>
-							 <outputDirectory>${project.build.directory}/wars</outputDirectory>
-							 <overWriteReleases>false</overWriteReleases>
-							 <overWriteSnapshots>true</overWriteSnapshots>
-						 </configuration>
-					 </execution>
-				 </executions>
-			 </plugin>
-		 </plugins>
-	 </build>	
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.10</version>
+				<executions>
+					<execution>
+						<id>unpack</id>
+						<phase>package</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.eclipse.birt</groupId>
+									<artifactId>org.eclipse.birt.core</artifactId>
+									<version>3.8.1</version>
+									<type>jar</type>
+									<overWrite>false</overWrite>
+									<outputDirectory></outputDirectory>
+									<destFileName>optional-new-name.jar</destFileName>
+									<includes>**/*.class,**/*.xml</includes>
+									<excludes>**/*test.class</excludes>
+								</artifactItem>
+							</artifactItems>
+							<includes>**/*.java</includes>
+							<excludes>**/*.properties</excludes>
+							<outputDirectory>${project.build.directory}/wars</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

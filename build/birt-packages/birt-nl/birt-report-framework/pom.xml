@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt.build.package.nl</groupId>
@@ -27,315 +24,163 @@
 						</goals>
 						<configuration>
 							<target>
-								<unzip
-									src="..\..\..\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-${birt.version}-SNAPSHOT.zip"
-									dest="${project.build.directory}/p2updatesite" />
-								<copy
-									todir="${project.build.directory}/content/eclipse\plugins">
-									<fileset
-										dir="${project.build.directory}/p2updatesite/plugins">
-										<include
-											name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.chart.device.swt.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.chart.engine.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.chart.examples.core.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.chart.examples.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.chart.integration.wtp.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.chart.reportitem.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.chart.ui.extension.nl1_*.jar" />
+								<unzip src="..\..\..\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-${birt.version}-SNAPSHOT.zip" dest="${project.build.directory}/p2updatesite" />
+								<copy todir="${project.build.directory}/content/eclipse\plugins">
+									<fileset dir="${project.build.directory}/p2updatesite/plugins">
+										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.device.swt.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.examples.core.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.examples.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.integration.wtp.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.reportitem.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.chart.ui.extension.nl1_*.jar" />
 										<include name="org.eclipse.birt.chart.ui.nl1_*.jar" />
 										<include name="org.eclipse.birt.core.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.core.script.function.nl1_*.jar" />
+										<include name="org.eclipse.birt.core.script.function.nl1_*.jar" />
 										<include name="org.eclipse.birt.core.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.data.aggregation.nl1_*.jar" />
+										<include name="org.eclipse.birt.data.aggregation.nl1_*.jar" />
 										<include name="org.eclipse.birt.data.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.data.oda.mongodb.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.data.oda.mongodb.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.data.oda.pojo.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.data.oda.pojo.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.integration.wtp.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.adapter.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.oda.excel.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.oda.excel.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.oda.hive.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.oda.hive.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.oda.jdbc.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.oda.sampledb.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.data.oda.xml.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.debug.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.core.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.cubebuilder.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.editor.script.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.editor.xml.wtp.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.editors.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.editors.schematic.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.ide.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.lib.explorer.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.lib.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.preview.web.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.samples.ide.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.samplesview.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.designer.ui.views.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.engine.dataextraction.csv.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.engine.dataextraction.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.engine.emitter.config.docx.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.engine.emitter.config.excel.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.engine.emitter.config.html.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.engine.emitter.config.pdf.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.engine.emitter.config.postscript.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.engine.emitter.config.ppt.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.engine.emitter.config.pptx.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.engine.emitter.config.wpml.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.engine.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.item.crosstab.core.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.item.crosstab.ui.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.model.nl1_*.jar" />
-										<include
-											name="org.eclipse.birt.report.viewers.nl1_*.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.apache.derby.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.apache.derby.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.console.profile.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.db.generic.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.db.generic.ui.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.oda.consumer.nl1_3.1.2.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.oda.design.nl1_3.0.5.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.oda.design.ui.nl1_3.0.6.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.oda.flatfile.nl1_3.0.5.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.oda.flatfile.ui.nl1_3.0.6.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.oda.nl1_3.1.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.oda.profile.nl1_3.0.6.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.oda.template.ui.nl1_3.0.6.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.sqm.core.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.sqm.core.ui.nl1_1.1.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.sqm.server.ui.nl1_1.1.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.ui.dse.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.connectivity.ui.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.hsqldb.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.hsqldb.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.hsqldb.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.db2.iseries.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.db2.iseries.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.db2.luw.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.db2.luw.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.db2.zseries.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.db2.zseries.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.informix.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.informix.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.informix.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ibm.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ingres.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ingres.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.ingres.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.jdt.classpath.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.msft.sqlserver.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.msft.sqlserver.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.mysql.dbdefinition.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.mysql.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.mysql.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.oda.ws.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.oda.ws.ui.nl1_1.0.2.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.oda.xml.nl1_1.0.3.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.oda.xml.ui.nl1_1.0.3.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.oracle.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.oracle.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.oracle.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.postgresql.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.postgresql.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.sap.maxdb.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.sap.maxdb.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.sap.maxdb.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.sqlite.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.sqlite.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.sqlite.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.sybase.asa.models.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.sybase.asa.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.sybase.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.enablement.sybase.ui.nl1_1.0.0.jar" />
-										<include
-											name="org.eclipse.datatools.modelbase.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.modelbase.derby.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.modelbase.sql.edit.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.modelbase.sql.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.modelbase.sql.query.edit.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.modelbase.sql.query.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.modelbase.sql.xml.query.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.sqltools.common.ui.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.sqltools.db.derby.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.sqltools.db.generic.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.sqltools.editor.core.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.sqltools.parsers.sql.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.sqltools.parsers.sql.query.nl1_1.0.1.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.sqltools.plan.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.sqltools.result.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.sqltools.sql.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.sqltools.sqlbuilder.nl1_1.0.0.v20150420-1235.jar" />
-										<include
-											name="org.eclipse.datatools.sqltools.sqleditor.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.birt.data.oda.mongodb.nl1_*.jar" />
+										<include name="org.eclipse.birt.data.oda.mongodb.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.data.oda.pojo.nl1_*.jar" />
+										<include name="org.eclipse.birt.data.oda.pojo.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.integration.wtp.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.adapter.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.excel.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.excel.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.hive.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.hive.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.jdbc.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.sampledb.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.data.oda.xml.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.debug.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.core.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.cubebuilder.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.editor.script.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.editor.xml.wtp.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.editors.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.editors.schematic.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.ide.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.lib.explorer.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.lib.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.preview.web.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.samples.ide.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.samplesview.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.designer.ui.views.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.dataextraction.csv.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.dataextraction.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.docx.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.excel.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.html.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.pdf.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.postscript.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.ppt.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.pptx.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.emitter.config.wpml.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.item.crosstab.core.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.item.crosstab.ui.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.model.nl1_*.jar" />
+										<include name="org.eclipse.birt.report.viewers.nl1_*.jar" />
+										<include name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.apache.derby.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.apache.derby.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.console.profile.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.db.generic.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.db.generic.ui.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1_3.1.2.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.design.nl1_3.0.5.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.design.ui.nl1_3.0.6.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1_3.0.5.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.flatfile.ui.nl1_3.0.6.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.nl1_3.1.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.profile.nl1_3.0.6.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.oda.template.ui.nl1_3.0.6.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.sqm.core.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.sqm.core.ui.nl1_1.1.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.sqm.server.ui.nl1_1.1.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.ui.dse.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.connectivity.ui.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.hsqldb.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.hsqldb.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.hsqldb.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.db2.iseries.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.db2.iseries.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.db2.luw.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.db2.luw.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.db2.zseries.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.db2.zseries.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.informix.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.informix.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.informix.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ibm.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ingres.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ingres.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.ingres.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.jdt.classpath.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.msft.sqlserver.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.msft.sqlserver.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.mysql.dbdefinition.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.mysql.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.mysql.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.oda.ws.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.oda.ws.ui.nl1_1.0.2.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.oda.xml.nl1_1.0.3.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.oda.xml.ui.nl1_1.0.3.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.oracle.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.oracle.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.oracle.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.postgresql.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.postgresql.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.sap.maxdb.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.sap.maxdb.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.sap.maxdb.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.sqlite.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.sqlite.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.sqlite.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.sybase.asa.models.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.sybase.asa.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.sybase.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.enablement.sybase.ui.nl1_1.0.0.jar" />
+										<include name="org.eclipse.datatools.modelbase.dbdefinition.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.modelbase.derby.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.modelbase.sql.edit.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.modelbase.sql.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.modelbase.sql.query.edit.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.modelbase.sql.query.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.modelbase.sql.xml.query.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.sqltools.common.ui.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.sqltools.db.derby.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.sqltools.db.generic.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.sqltools.editor.core.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.sqltools.parsers.sql.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.sqltools.parsers.sql.query.nl1_1.0.1.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.sqltools.plan.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.sqltools.result.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.sqltools.sql.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.sqltools.sqlbuilder.nl1_1.0.0.v20150420-1235.jar" />
+										<include name="org.eclipse.datatools.sqltools.sqleditor.nl1_1.0.0.v20150420-1235.jar" />
 									</fileset>
 								</copy>
-								<zip destfile="target/NLpack1-birt-report-framework.zip"
-									basedir="target/content" />
+								<zip destfile="target/NLpack1-birt-report-framework.zip" basedir="target/content" />
 							</target>
 						</configuration>
 					</execution>
