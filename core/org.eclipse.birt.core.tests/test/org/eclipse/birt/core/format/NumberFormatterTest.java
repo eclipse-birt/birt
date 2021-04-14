@@ -23,7 +23,7 @@ import com.ibm.icu.util.ULocale;
 import junit.framework.TestCase;
 
 /**
- * 
+ *
  */
 public class NumberFormatterTest extends TestCase {
 	@Test
@@ -287,7 +287,8 @@ public class NumberFormatterTest extends TestCase {
 				double value = values[vindex];
 				String res = nf.format(value);
 				try {
-					assertEquals(araGoldens[pindex][vindex], new String(res.getBytes("UTF-8"), "UTF-8"));
+					assertEquals(araGoldens[1][vindex],
+							new String(res.getBytes("UTF-8"), "UTF-8"));
 				} catch (Exception e1) {
 					fail(e1.toString());
 				}

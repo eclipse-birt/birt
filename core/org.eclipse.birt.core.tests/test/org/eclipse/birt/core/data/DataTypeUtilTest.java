@@ -34,7 +34,7 @@ import com.ibm.icu.util.ULocale;
 import junit.framework.TestCase;
 
 /**
- * 
+ *
  * Test case for DataTypeUtil
  */
 public class DataTypeUtilTest extends TestCase {
@@ -340,7 +340,7 @@ public class DataTypeUtilTest extends TestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param value
 	 */
 	private void failSqlTimeString(String value) {
@@ -721,7 +721,7 @@ public class DataTypeUtilTest extends TestCase {
 		for (int i = 0; i < autoValueInputObject.length; i++) {
 			try {
 				result = DataTypeUtil.toAutoValue(autoValueInputObject[i]);
-				assertEquals(result, autoValueExpectedResult[i]);
+				assertEquals("(" + i + ")", result, autoValueExpectedResult[i]);
 			} catch (Exception e) {
 				fail("Should not throw Exception.");// e.printStackTrace( );
 			}
@@ -738,19 +738,19 @@ public class DataTypeUtilTest extends TestCase {
 		// the same object use toString() and toDate() several times it won't bring any
 		// error
 		Date date = new GregorianCalendar(1998, 1 - 1, 25).getTime();
-		String str = "1/25/1998";
+		String str = java.text.DateFormat.getDateInstance().format(date);
 		try {
 			assertEquals(DataTypeUtil.toDate(str), date);
 
 			assertEquals(DataTypeUtil.toString(DataTypeUtil.toDate(str)), DataTypeUtil.toString(date));
 		} catch (BirtException e) {
-			fail("Should not throw Exception.");
+			fail("Should not throw Exception. " + str);
 		}
 	}
 
 	/**
 	 * Test DataTypeUtil#convert( Object source, Class toTypeClass )
-	 * 
+	 *
 	 * @throws BirtException
 	 *
 	 */
@@ -762,7 +762,7 @@ public class DataTypeUtilTest extends TestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -774,7 +774,7 @@ public class DataTypeUtilTest extends TestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -788,7 +788,7 @@ public class DataTypeUtilTest extends TestCase {
 
 	/**
 	 * Test DataTypeUtil#toApiDataType( int odaDataTypeCode )
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -817,7 +817,7 @@ public class DataTypeUtilTest extends TestCase {
 
 	/**
 	 * A wrapped scriptable object for test
-	 * 
+	 *
 	 */
 	class WrappedObject extends BaseScriptable implements Wrapper {
 		WrappedObject() {
@@ -825,7 +825,7 @@ public class DataTypeUtilTest extends TestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.Wrapper#unwrap()
 		 */
 		public Object unwrap() {
@@ -834,7 +834,7 @@ public class DataTypeUtilTest extends TestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.Scriptable#get(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
@@ -844,7 +844,7 @@ public class DataTypeUtilTest extends TestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.Scriptable#getClassName()
 		 */
 		public String getClassName() {
@@ -853,7 +853,7 @@ public class DataTypeUtilTest extends TestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.Scriptable#has(java.lang.String,
 		 * org.mozilla.javascript.Scriptable)
 		 */
@@ -863,7 +863,7 @@ public class DataTypeUtilTest extends TestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.mozilla.javascript.Scriptable#put(java.lang.String,
 		 * org.mozilla.javascript.Scriptable, java.lang.Object)
 		 */
