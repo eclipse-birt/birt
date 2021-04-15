@@ -215,9 +215,9 @@ public class IGetParameterDefinitionTaskTest extends EngineCase {
 		ArrayList selist = (ArrayList) task.getSelectionList("p2_static_dt");
 
 		IParameterSelectionChoice se = (IParameterSelectionChoice) selist.get(0);
-		assertEquals("Tue May 11 00:00:00 PDT 2004", se.getValue().toString());
+		assertEquals("Tue May 11 00:00:00 UTC 2004", se.getValue().toString());
 		se = (IParameterSelectionChoice) selist.get(1);
-		assertEquals("Tue May 18 00:00:00 PDT 2004", se.getValue().toString());
+		assertEquals("Tue May 18 00:00:00 UTC 2004", se.getValue().toString());
 
 		/*
 		 * 05/11/2004 12:00:00 AM 05/18/2004 12:00:00 AM

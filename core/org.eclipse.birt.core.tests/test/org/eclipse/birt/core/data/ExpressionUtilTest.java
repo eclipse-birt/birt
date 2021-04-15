@@ -20,11 +20,14 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 /**
- * 
+ *
  */
 public class ExpressionUtilTest extends TestCase {
+
 	@Test
 	public void testToNewExpression() {
+		ExpressionUtil.resetSuffix();
+
 		String[] oldExpressions = new String[] { null, "   " + Messages.getString("ExpressionUtilTest.old.0"),
 				Messages.getString("ExpressionUtilTest.old.1"), Messages.getString("ExpressionUtilTest.old.2"),
 				Messages.getString("ExpressionUtilTest.old.3"), Messages.getString("ExpressionUtilTest.old.4"),

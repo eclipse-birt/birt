@@ -65,7 +65,7 @@
 						<executions>
 							<execution>
 								<id>sign</id>
-								<phase/>
+								<phase />
 							</execution>
 						</executions>
 					</plugin>

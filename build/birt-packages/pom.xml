@@ -2,12 +2,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<properties>
-		<antrun.version>1.8</antrun.version>
 		<!-- just for filenames beneath this directory -->
 		<maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
 		<birtpackages.basedir>${project.basedir}</birtpackages.basedir>
 	</properties>
-    
+
 	<parent>
 		<groupId>org.eclipse.birt.build</groupId>
 		<artifactId>org.eclipse.birt.build-parent</artifactId>

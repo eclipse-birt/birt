@@ -47,7 +47,7 @@
 						<phase>clean</phase>
 						<configuration>
 							<target>
-								<ant antfile="build.xml" target="clean" dir="${basedir}"/>
+								<ant antfile="build.xml" target="clean" dir="${basedir}" />
 							</target>
 						</configuration>
 						<goals>
@@ -60,9 +60,9 @@
 						<configuration>
 							<target>
 								<ant antfile="build.xml" target="package" dir="${basedir}">
-									<property name="BIRT_VERSION" value="${unqualifiedVersion}-${maven.build.timestamp}"/>
+									<property name="BIRT_VERSION" value="${unqualifiedVersion}-${maven.build.timestamp}" />
 								</ant>
-								<attachartifact file="${project.build.directory}/birt-runtime-${unqualifiedVersion}-${maven.build.timestamp}.zip" type="zip"/>
+								<attachartifact file="${project.build.directory}/birt-runtime-${unqualifiedVersion}-${maven.build.timestamp}.zip" type="zip" />
 							</target>
 						</configuration>
 						<goals>
@@ -70,7 +70,7 @@
 						</goals>
 					</execution>
 				</executions>
-		</plugin>
+			</plugin>
 		</plugins>
 	</build>
 </project>

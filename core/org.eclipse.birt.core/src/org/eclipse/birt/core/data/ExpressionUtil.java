@@ -23,7 +23,7 @@ import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
 /**
  * This class help to manipulate expressions.
- * 
+ *
  */
 public final class ExpressionUtil {
 
@@ -56,7 +56,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Return a row expression text according to given row name.
-	 * 
+	 *
 	 * @param rowName
 	 * @return
 	 */
@@ -65,8 +65,16 @@ public final class ExpressionUtil {
 	}
 
 	/**
+	 * When tests repeat, the static suffix has a wrong value. This method enables
+	 * tests to reset the suffix.
+	 */
+	public static void resetSuffix() {
+		suffix = 0;
+	}
+
+	/**
 	 * Return a dataSetRow expression text according to given row name.
-	 * 
+	 *
 	 * @param rowName
 	 * @return
 	 */
@@ -76,7 +84,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Return a JS row expression text according to given row name.
-	 * 
+	 *
 	 * @param rowName
 	 * @return
 	 */
@@ -86,7 +94,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Return a JS measure expression text according to given measure name.
-	 * 
+	 *
 	 * @param measureName
 	 * @return
 	 */
@@ -96,7 +104,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Return a JS data expression text according to given data name.
-	 * 
+	 *
 	 * @param dataName
 	 * @return
 	 */
@@ -107,7 +115,7 @@ public final class ExpressionUtil {
 	/**
 	 * Return a JS dimension expression text according to given dimension and
 	 * measure name.By default it is reference to "ID" attribute of that level.
-	 * 
+	 *
 	 * @param dimensionName
 	 * @param levelName
 	 * @return
@@ -119,7 +127,7 @@ public final class ExpressionUtil {
 	/**
 	 * Return a JS dimension expression text according to given dimension and
 	 * measure name.
-	 * 
+	 *
 	 * @param dimensionName
 	 * @param levelName
 	 * @param attributeName
@@ -132,7 +140,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Return a JS dataSetRow expression text according to given row name.
-	 * 
+	 *
 	 * @param rowName
 	 * @return
 	 */
@@ -142,7 +150,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Return a JS parameter expression text according to given row name.
-	 * 
+	 *
 	 * @param rowName
 	 * @return
 	 */
@@ -152,7 +160,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Return a JavaScript parameter value according to an expression.
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 */
@@ -166,7 +174,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Return a row expression text according to given row index, which is 1-based.
-	 * 
+	 *
 	 * @param index
 	 * @return
 	 * @deprecated
@@ -177,7 +185,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Extract all column expression info
-	 * 
+	 *
 	 * @param oldExpression
 	 * @return
 	 * @throws BirtException
@@ -189,7 +197,7 @@ public final class ExpressionUtil {
 	/**
 	 * Get the simplest column binding name. Such as row["col1"] pattern, we will
 	 * return the column name "col1"
-	 * 
+	 *
 	 * @param oldExpression
 	 * @return
 	 * @throws BirtException
@@ -205,7 +213,7 @@ public final class ExpressionUtil {
 	/**
 	 * Get the simplest column binding name. Such as dataSetRow["col1"] pattern, we
 	 * will return the column name "col1"
-	 * 
+	 *
 	 * @param oldExpression
 	 * @return
 	 * @throws BirtException
@@ -221,7 +229,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Extract all column expression info
-	 * 
+	 *
 	 * @param oldExpression
 	 * @param mode          if true, it means to compile the "row" expression.else
 	 *                      extract "dataSetRow" expression
@@ -239,7 +247,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Extract all column expression info
-	 * 
+	 *
 	 * @param oldExpression
 	 * @param mode          if true, it means to compile the "row" expression.else
 	 *                      extract "dataSetRow" expression
@@ -261,7 +269,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * whethter the expression has aggregation
-	 * 
+	 *
 	 * @param oldExpression
 	 * @return
 	 * @throws BirtException
@@ -280,7 +288,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Return an IColumnBinding instance according to given oldExpression.
-	 * 
+	 *
 	 * @param oldExpression
 	 * @return
 	 */
@@ -292,7 +300,7 @@ public final class ExpressionUtil {
 	/**
 	 * Translate the old expression with "row" as indicator to new expression using
 	 * "dataSetRow" as indicator.
-	 * 
+	 *
 	 * @param oldExpression
 	 * @return
 	 */
@@ -340,7 +348,7 @@ public final class ExpressionUtil {
 	/**
 	 * Translate the old expression with "rows" as parent query indicator to new
 	 * expression using "row._outer" as parent query indicator.
-	 * 
+	 *
 	 * @param oldExpression
 	 * @param isParameterBinding
 	 * @return
@@ -400,7 +408,7 @@ public final class ExpressionUtil {
 	/**
 	 * whether the exression is report paramter reference.The pattern should like
 	 * params["aa"].if yes, return true. else return false;
-	 * 
+	 *
 	 * @param expression
 	 */
 	public static boolean isScalarParamReference(String expression) {
@@ -412,7 +420,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * This method is used to provide information necessary for next step parsing.
-	 * 
+	 *
 	 * @param chars
 	 * @param i
 	 * @param omitNextQuote
@@ -473,7 +481,7 @@ public final class ExpressionUtil {
 
 	/**
 	 * Test whether the char immediately before the candidate "row" key is valid.
-	 * 
+	 *
 	 * @param operator
 	 * @return
 	 */
@@ -485,7 +493,7 @@ public final class ExpressionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param jointColumName
 	 * @return
 	 */
@@ -507,13 +515,13 @@ public final class ExpressionUtil {
 	/**
 	 * Gets the data set name with the given full name. The full name may contain
 	 * the library namespace.
-	 * 
+	 *
 	 * <p>
 	 * For example,
 	 * <ul>
 	 * <li>"dataSet1" is extracted from "new_library.dataSet1"
 	 * </ul>
-	 * 
+	 *
 	 * @param fullDataSetName the data set
 	 * @return the name
 	 */
@@ -532,7 +540,7 @@ public final class ExpressionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @return
 	 * @throws CoreException
@@ -542,11 +550,11 @@ public final class ExpressionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
-	 * 
+	 *
 	 * @deprecated replaced by getAllReferencedMeasures
-	 * 
+	 *
 	 * @return get the first measure name in this expression
 	 * @throws CoreException
 	 */
@@ -556,7 +564,7 @@ public final class ExpressionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @return get the referenced measure name in this expression
 	 * @throws CoreException
@@ -566,7 +574,7 @@ public final class ExpressionUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expr
 	 * @param paramOldName
 	 * @param paramNewName
@@ -584,7 +592,7 @@ public final class ExpressionUtil {
 	/**
 	 * Generate a Javascript constant expression by user input string and target
 	 * BIRT data type.
-	 * 
+	 *
 	 * @param input    user input string.
 	 * @param dataType target BIRT data type. available values defined in
 	 *                 {@code org.eclipse.birt.core.data.DataType}
@@ -608,7 +616,7 @@ public final class ExpressionUtil {
 
 /**
  * A utility class for internal use only.
- * 
+ *
  */
 class ParseIndicator {
 

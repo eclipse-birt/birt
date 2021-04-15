@@ -19,3 +19,5 @@ Export-Package: org.eclipse.birt.report.engine.emitter.odp,
  org.eclipse.birt.report.engine.emitter.odp.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.odp
+Import-Package: org.w3c.dom;version="3.0.0",
+ org.w3c.dom.css;version="2.0.0"

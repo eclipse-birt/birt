@@ -100,8 +100,8 @@
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${jetty.version}</version>
-				<configuration>					
-					<war>${birtpackages.basedir}/birt-runtime-osgi/target/package/birt.war</war> 					
+				<configuration>
+					<war>${birtpackages.basedir}/birt-runtime-osgi/target/package/birt.war</war>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
 					<stopKey>foo</stopKey>
 					<stopPort>8090</stopPort>
@@ -129,8 +129,8 @@
 						<phase>post-integration-test</phase>
 					</execution>
 				</executions>
-				<dependencies/>
+				<dependencies />
 			</plugin>
- 		</plugins>
+		</plugins>
 	</build>
 </project>

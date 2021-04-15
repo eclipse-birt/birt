@@ -14,7 +14,7 @@
 			<plugin>
 				<groupId>org.eclipse.tycho.extras</groupId>
 				<artifactId>tycho-source-feature-plugin</artifactId>
-				</plugin>
+			</plugin>
 		</plugins>
 	</build>
 </project>

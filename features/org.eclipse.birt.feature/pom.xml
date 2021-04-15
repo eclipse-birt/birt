@@ -18,12 +18,12 @@
 				<version>${tycho.version}</version>
 				<configuration>
 					<excludes>
-						<plugin id="org.apache.axis"/>
-						<plugin id="org.apache.commons.discovery"/>
-						<plugin id="javax.xml.rpc"/>
-						<plugin id="javax.xml.stream"/>
-						<plugin id="javax.xml.soap"/>
-						<plugin id="javax.wsdl"/>
+						<plugin id="org.apache.axis" />
+						<plugin id="org.apache.commons.discovery" />
+						<plugin id="javax.xml.rpc" />
+						<plugin id="javax.xml.stream" />
+						<plugin id="javax.xml.soap" />
+						<plugin id="javax.wsdl" />
 					</excludes>
 				</configuration>
 			</plugin>

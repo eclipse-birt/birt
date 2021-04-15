@@ -15,27 +15,27 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
+				<version>${antrun.version}</version>
 				<executions>
 					<execution>
 						<id>copy</id>
 						<phase>package</phase>
 						<configuration>
-							<tasks>
-								<delete file="${basedir}/target/repository/artifacts.jar"/>
-								<delete file="${basedir}/target/repository/content.jar"/>
+							<target>
+								<delete file="${basedir}/target/repository/artifacts.jar" />
+								<delete file="${basedir}/target/repository/content.jar" />
 								<move todir="${basedir}/target/repository/eclipse">
 									<fileset dir="${basedir}/target/repository">
-										<include name="**/*"/>
-										<include name="**/*.*"/>
+										<include name="**/*" />
+										<include name="**/*.*" />
 									</fileset>
 								</move>
 								<copy todir="${basedir}/target/repository/eclipse">
-									<fileset dir="${basedir}/../../org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles" includes="*.html"/>
+									<fileset dir="${basedir}/../../org.eclipse.birt.releng.birtbuilder/extras/root/rootfiles" includes="*.html" />
 								</copy>
-								<zip destfile="target/birt-sample-plugins-${birt.version}-${maven.build.timestamp}.zip" basedir="target/repository"/>
-								<attachartifact file="./target/birt-sample-plugins-${birt.version}-${maven.build.timestamp}.zip" type="zip"/>
-							</tasks>
+								<zip destfile="target/birt-sample-plugins-${birt.version}-${maven.build.timestamp}.zip" basedir="target/repository" />
+								<attachartifact file="./target/birt-sample-plugins-${birt.version}-${maven.build.timestamp}.zip" type="zip" />
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>

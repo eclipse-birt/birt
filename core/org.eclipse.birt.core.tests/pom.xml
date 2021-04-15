@@ -33,7 +33,7 @@
 								<id>org.eclipse.birt.report.engine.script.javascript</id>
 								<versionRange>0.0.0</versionRange>
 							</requirement>
-						 </extraRequirements>
+						</extraRequirements>
 					</dependency-resolution>
 				</configuration>
 			</plugin>

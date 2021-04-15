@@ -25,7 +25,7 @@ public class FolderToArchiveTest extends TestCase {
 
 	/**
 	 * create a folder archive and save it as file archive.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -40,6 +40,9 @@ public class FolderToArchiveTest extends TestCase {
 			"//host/e:/../<>|$@.", "//", "///" };
 
 	private void createFolderArchive(String folder) throws IOException {
+
+		ArchiveUtilTest.removeFile(new File(folder));
+
 		FolderArchiveFile archive = new FolderArchiveFile(folder);
 		try {
 			archive.setSystemId("systemId");
