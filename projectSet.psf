@@ -23,9 +23,11 @@
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-nl/birt-report-framework"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-nl/birt-runtime"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,common/org.apache.derby.core"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.api"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,viewer/org.eclipse.birt.axis.overlay"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.build"/>
+<project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/birt-packages/birt-nl"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,build/org.eclipse.birt.chart"/>
 <project reference="1.0,https://github.com/eclipse/birt.git,How_to_import_BIRT_code_into_eclipse_#628,docs/org.eclipse.birt.chart.cshelp"/>
@@ -312,6 +314,8 @@
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/NLpack1-birt-report-framework" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/NLpack1-birt-rcp-report-designer" type="4"/>
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/NLpack1-birt-report-designer-all-in-one" type="4"/>
+<item elementID="=org.eclipse.birt" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/org.eclipse.birt.build.package-parent" type="4"/>
 </workingSets>
 <workingSets editPageId="org.eclipse.jdt.ui.JavaWorkingSetPage" id="1618502680681_5" label="BChart" name="BChart">
 <item elementID="=org.eclipse.birt.chart.ui" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
