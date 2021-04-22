@@ -83,4 +83,14 @@ plugin@javax.xml.stream,1.0.1=GET,http://download.eclipse.org/tools/orbit/downlo
 
 plugin@org.eclipse.orbit.mongodb,2.10.1=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.eclipse.orbit.mongodb_2.10.1.v20130422-1135.jar
 
-plugin@org.apache.poi,3.9.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.apache.poi_3.9.0.v201303080712.jar
+plugin@org.apache.poi,4.1.1=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/I20210306035740/repository/plugins/org.apache.poi_4.1.1.v20200604-1524.jar
+
+plugin@org.apache.poi.ooxml,4.1.1=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/I20210306035740/repository/plugins/org.apache.poi.ooxml_4.1.1.v20200820-1148.jar
+
+plugin@org.apache.poi.ooxml.schemas,4.1.1=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/I20210306035740/repository/plugins/org.apache.poi.ooxml.schemas_4.1.1.v20200922-2105.jar
+
+plugin@org.apache.commons.collections4,4.4.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/I20210306035740/repository/plugins/org.apache.commons.collections4_4.4.0.v20200420-1700.jar
+
+plugin@org.apache.commons.compress,1.19.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/I20210306035740/repository/plugins/org.apache.commons.compress_1.19.0.v20200106-2343.jar
+
+plugin@org.apache.xmlbeans,3.1.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/I20210306035740/repository/plugins/org.apache.xmlbeans_3.1.0.v20200922-1359.jar

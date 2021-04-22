@@ -20,6 +20,9 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.util.Units;
+import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap;
+import org.apache.poi.xssf.usermodel.IndexedColorMap;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -172,7 +175,9 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 		byte[] rgbByte = { (byte) -1, (byte) rgbInt[0], (byte) rgbInt[1], (byte) rgbInt[2] };
 		// System.out.println( "The X colour for " + colour + " is [ " + rgbByte[0] +
 		// "," + rgbByte[1] + "," + rgbByte[2] + "," + rgbByte[3] + "]" );
-		XSSFColor result = new XSSFColor(rgbByte);
+		// XSSFColor result = new XSSFColor(rgbByte);
+		IndexedColorMap colorMap = new DefaultIndexedColorMap();
+		XSSFColor result = new XSSFColor( rgbByte, colorMap );
 		return result;
 	}
 
@@ -218,7 +223,8 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 		int bgRgb[] = parseColour(bgColour == null ? null : bgColour.getCssText(), "white");
 
 		XSSFColor colour = ((XSSFFont) font).getXSSFColor();
-		int fgRgb[] = rgbOnly(colour.getARgb());
+		// int fgRgb[] = rgbOnly(colour.getARgb());
+		int fgRgb[] = rgbOnly(colour.getARGB());
 		if ((fgRgb[0] == 255) && (fgRgb[1] == 255) && (fgRgb[2] == 255)) {
 			fgRgb[0] = fgRgb[1] = fgRgb[2] = 0;
 		} else if ((fgRgb[0] == 0) && (fgRgb[1] == 0) && (fgRgb[2] == 0)) {
@@ -243,7 +249,8 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 
 	@Override
 	public int anchorDyFromPoints(float height, float rowHeight) {
-		return (int) (height * XSSFShape.EMU_PER_POINT);
+		// return (int) (height * XSSFShape.EMU_PER_POINT);
+		return (int)( height * Units.EMU_PER_POINT );
 	}
 
 	@Override

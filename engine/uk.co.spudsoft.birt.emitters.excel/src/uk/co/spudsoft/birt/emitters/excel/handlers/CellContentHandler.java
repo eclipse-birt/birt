@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -158,13 +159,14 @@ public class CellContentHandler extends AbstractHandler {
 			}
 		}
 		if (hyperlinkUrl != null) {
-			Hyperlink hyperlink = cell.getSheet().getWorkbook().getCreationHelper().createHyperlink(Hyperlink.LINK_URL);
+			Hyperlink hyperlink = cell.getSheet().getWorkbook().getCreationHelper()
+					.createHyperlink(HyperlinkType.URL /* Hyperlink.LINK_URL */);
 			hyperlink.setAddress(hyperlinkUrl);
 			cell.setHyperlink(hyperlink);
 		}
 		if (hyperlinkBookmark != null) {
 			Hyperlink hyperlink = cell.getSheet().getWorkbook().getCreationHelper()
-					.createHyperlink(Hyperlink.LINK_DOCUMENT);
+					.createHyperlink(HyperlinkType.DOCUMENT /* Hyperlink.LINK_DOCUMENT */);
 			hyperlink.setAddress(prepareName(hyperlinkBookmark));
 			cell.setHyperlink(hyperlink);
 		}
@@ -247,7 +249,7 @@ public class CellContentHandler extends AbstractHandler {
 				&& ((lastValue instanceof String) || (lastValue instanceof RichTextString))) {
 			int spannedRowAlgorithm = EmitterServices.integerOption(state.getRenderOptions(), element,
 					ExcelEmitter.SPANNED_ROW_HEIGHT, ExcelEmitter.SPANNED_ROW_HEIGHT_SPREAD);
-			Font defaultFont = state.getWb().getFontAt(cell.getCellStyle().getFontIndex());
+			Font defaultFont = state.getWb().getFontAt(cell.getCellStyle().getFontIndexAsInt() /* .getFontIndex() */);
 			double cellWidth = spanWidthMillimetres(state.currentSheet, cell.getColumnIndex(),
 					cell.getColumnIndex() + colSpan - 1);
 			float cellDesiredHeight = smu.calculateTextHeightPoints(cell.getStringCellValue(), defaultFont, cellWidth,
@@ -396,7 +398,7 @@ public class CellContentHandler extends AbstractHandler {
 		if (CSSConstants.CSS_LEFT_VALUE.equals(newAlign.getCssText())) {
 			return newAlign;
 		} else if (CSSConstants.CSS_RIGHT_VALUE.equals(newAlign.getCssText())) {
-			if (CSSConstants.CSS_CENTER_VALUE.equals(preferredAlignment)) {
+			if (CSSConstants.CSS_CENTER_VALUE.equals(preferredAlignment.getCssText())) {
 				return newAlign;
 			} else {
 				return preferredAlignment;

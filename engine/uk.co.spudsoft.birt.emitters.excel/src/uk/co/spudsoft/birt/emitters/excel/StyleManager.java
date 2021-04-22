@@ -19,6 +19,8 @@ import java.util.Locale;
 
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -61,7 +63,7 @@ public class StyleManager {
 	private List<StylePair> styles = new ArrayList<StylePair>();
 	private StyleManagerUtils smu;
 	private CSSEngine cssEngine;
-	private Logger log;
+	// private Logger log;
 	private Locale locale;
 
 	/**
@@ -76,7 +78,7 @@ public class StyleManager {
 	public StyleManager(Workbook workbook, Logger log, StyleManagerUtils smu, CSSEngine cssEngine, Locale locale) {
 		this.workbook = workbook;
 		this.fm = new FontManager(cssEngine, workbook, smu);
-		this.log = log;
+		// this.log = log;
 		this.smu = smu;
 		this.cssEngine = cssEngine;
 		this.locale = locale;
@@ -162,7 +164,10 @@ public class StyleManager {
 			poiStyle.setFont(font);
 		}
 		// Alignment
-		poiStyle.setAlignment(smu.poiAlignmentFromBirtAlignment(birtStyle.getString(StyleConstants.STYLE_TEXT_ALIGN)));
+		// poiStyle.setAlignment(smu.poiAlignmentFromBirtAlignment(birtStyle.getString(StyleConstants.STYLE_TEXT_ALIGN)));
+		HorizontalAlignment alignment = smu
+				.poiAlignmentFromBirtAlignment(birtStyle.getString(StyleConstants.STYLE_TEXT_ALIGN));
+		poiStyle.setAlignment(alignment);
 		// Background colour
 		smu.addBackgroundColourToStyle(workbook, poiStyle, birtStyle.getString(StyleConstants.STYLE_BACKGROUND_COLOR));
 		// Top border
@@ -193,11 +198,11 @@ public class StyleManager {
 		}
 		// Vertical alignment
 		if (CSSConstants.CSS_TOP_VALUE.equals(birtStyle.getString(StyleConstants.STYLE_VERTICAL_ALIGN))) {
-			poiStyle.setVerticalAlignment(CellStyle.VERTICAL_TOP);
+			poiStyle.setVerticalAlignment(VerticalAlignment.TOP);
 		} else if (CSSConstants.CSS_MIDDLE_VALUE.equals(birtStyle.getString(StyleConstants.STYLE_VERTICAL_ALIGN))) {
-			poiStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+			poiStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 		} else if (CSSConstants.CSS_BOTTOM_VALUE.equals(birtStyle.getString(StyleConstants.STYLE_VERTICAL_ALIGN))) {
-			poiStyle.setVerticalAlignment(CellStyle.VERTICAL_BOTTOM);
+			poiStyle.setVerticalAlignment(VerticalAlignment.BOTTOM);
 		}
 		// Rotation
 		CSSValue rotation = birtStyle.getProperty(BirtStyle.TEXT_ROTATION);

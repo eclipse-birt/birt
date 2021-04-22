@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.InputStream;
 
-import org.apache.poi.hssf.util.PaneInformation;
+import org.apache.poi.ss.util.PaneInformation;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;

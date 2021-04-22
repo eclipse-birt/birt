@@ -102,12 +102,17 @@
 			<unit id="org.apache.commons.codec" version="0.0.0"/>
 			<unit id="org.apache.derby" version="0.0.0"/>
 			<unit id="org.apache.lucene.analysis" version="0.0.0"/>
-			<unit id="org.apache.poi" version="0.0.0"/>
-			<unit id="org.apache.poi.ooxml" version="0.0.0"/>
-			<unit id="org.apache.poi.ooxml.schemas" version="0.0.0"/>
-			<unit id="org.apache.xmlbeans" version="0.0.0"/>
 			<unit id="org.eclipse.orbit.mongodb" version="0.0.0"/>
 			<unit id="org.dom4j" version="0.0.0"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/I20210306035740/repository/"/>
+			<unit id="org.apache.poi" version="4.1.1.v20200604-1524"/>
+			<unit id="org.apache.poi.ooxml" version="4.1.1.v20200820-1148"/>
+			<unit id="org.apache.poi.ooxml.schemas" version="4.1.1.v20200922-2105"/>
+			<unit id="org.apache.commons.collections4" version="4.4.0.v20200420-1700"/>
+			<unit id="org.apache.commons.compress" version="1.19.0.v20200106-2343"/>
+			<unit id="org.apache.xmlbeans" version="3.1.0.v20200922-1359"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="https://download.eclipse.org/webtools/downloads/drops/R3.13.0/R-3.13.0-20190308131645/repository/"/>

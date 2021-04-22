@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
@@ -46,7 +46,7 @@ public class SimpleTableReportTest extends ReportRunner {
 			assertEquals("1", sheet.getRow(0).getCell(0).getStringCellValue());
 			assertEquals("2", sheet.getRow(1).getCell(0).getStringCellValue());
 			assertEquals(3.0, sheet.getRow(0).getCell(1).getNumericCellValue(), 0.001);
-			assertEquals(Cell.CELL_TYPE_BLANK, sheet.getRow(1).getCell(1).getCellType());
+			assertEquals(CellType.BLANK /* Cell.CELL_TYPE_BLANK */, sheet.getRow(1).getCell(1).getCellType());
 
 			assertEquals("Title\nSubtitle", sheet.getHeader().getLeft());
 			assertEquals("The Writer", sheet.getFooter().getLeft());
