@@ -1,6 +1,5 @@
 bin
 build.xml
-.settings
 target
 modeltests.jar
 /meta.log
