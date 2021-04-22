@@ -38,24 +38,25 @@ org.eclipse.platform
    <splash
       location="org.eclipse.platform" />
    <launcher>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
 
    <plugins>
    </plugins>
 
    <features>
-      <feature id="org.eclipse.birt"/>
-      <feature id="org.eclipse.platform"/>
-      <feature id="org.eclipse.pde"/>
-      <feature id="org.eclipse.rcp"/>
-      <feature id="org.eclipse.jdt"/>
+      <feature id="org.eclipse.birt" installMode="root"/>
+      <feature id="org.eclipse.platform" installMode="root"/>
+      <feature id="org.eclipse.pde" installMode="root"/>
+      <feature id="org.eclipse.rcp" installMode="root"/>
+      <feature id="org.eclipse.jdt" installMode="root"/>
    </features>
 
    <configurations>

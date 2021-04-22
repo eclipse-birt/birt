@@ -198,7 +198,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.birt.data.oda.mongodb.ui"
          download-size="0"
@@ -212,30 +212,30 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="javax.xml.rpc"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="0.0.0"/>
 
    <plugin
          id="javax.xml.soap"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.apache.axis"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"/>
+         version="0.0.0"/>
 
    <plugin
          id="javax.wsdl"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
@@ -645,7 +645,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.w3c.dom.svg.extension"
          download-size="0"
@@ -653,5 +653,5 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
 </feature>
