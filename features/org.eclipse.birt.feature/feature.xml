@@ -54,7 +54,6 @@
       <import plugin="org.eclipse.ui.views" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.ui.workbench.texteditor" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.help.base" version="3.2.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.datatools.connectivity.sqm.core" version="1.0.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.datatools.connectivity.apache.derby" version="1.0.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.datatools.connectivity.apache.derby.dbdefinition" version="1.0.0" match="greaterOrEqual"/>
@@ -181,77 +180,77 @@
          id="org.apache.batik.bridge"
          download-size="0"
          install-size="0"
-         version="1.9.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.css"
          download-size="0"
          install-size="0"
-         version="1.9.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.dom"
          download-size="0"
          install-size="0"
-         version="1.9.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.dom.svg"
          download-size="0"
          install-size="0"
-         version="1.9.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.ext.awt"
          download-size="0"
          install-size="0"
-         version="1.9.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.parser"
          download-size="0"
          install-size="0"
-         version="1.9.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.svggen"
          download-size="0"
          install-size="0"
-         version="1.9.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.transcoder"
          download-size="0"
          install-size="0"
-         version="1.9.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.util"
          download-size="0"
          install-size="0"
-         version="1.9.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.util.gui"
          download-size="0"
          install-size="0"
-         version="1.9.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.xml"
          download-size="0"
          install-size="0"
-         version="1.9.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
@@ -604,31 +603,31 @@
          id="javax.xml.rpc"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"/>
+         version="0.0.0"/>
 
    <plugin
          id="javax.xml.soap"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.apache.commons.discovery"
          download-size="0"
          install-size="0"
-         version="0.2.0.qualifier"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.apache.axis"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"/>
+         version="0.0.0"/>
 
    <plugin
          id="javax.wsdl"
          download-size="0"
          install-size="0"
-         version="1.5.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
@@ -663,7 +662,7 @@
          id="com.lowagie.text"
          download-size="0"
          install-size="0"
-         version="2.1.7.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin

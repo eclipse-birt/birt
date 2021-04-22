@@ -14,16 +14,16 @@ Require-Bundle: org.eclipse.birt.chart.device.svg;bundle-version="4.7.0",
  org.apache.batik.bridge;bundle-version="[1.7.0,2.0.0)",
  org.apache.batik.css;bundle-version="[1.7.0,2.0.0)",
  org.apache.batik.dom.svg;bundle-version="[1.7.0,2.0.0)",
- org.apache.batik.ext.awt;bundle-version="[1.7.0,2.0.0)",
  org.apache.batik.parser;bundle-version="[1.7.0,2.0.0)",
  org.apache.batik.svggen;bundle-version="[1.7.0,2.0.0)",
  org.apache.batik.util.gui;bundle-version="[1.7.0,2.0.0)",
- org.apache.batik.xml;bundle-version="[1.7.0,2.0.0)",
- org.w3c.dom.svg;bundle-version="[1.1.0,2.0.0)"
+ org.apache.batik.xml;bundle-version="[1.7.0,2.0.0)"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.chart.device.pdf
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .,
- lib/fop-2.3.jar
+ lib/fop-2.6.jar 
 Automatic-Module-Name: org.eclipse.birt.chart.device.pdf
+Import-Package: org.apache.batik.ext.awt.color;version="1.13.0",
+ org.w3c.dom.events;version="2.0.0"
 
