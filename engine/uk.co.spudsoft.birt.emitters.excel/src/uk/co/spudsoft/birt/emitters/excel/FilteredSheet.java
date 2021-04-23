@@ -9,13 +9,17 @@
  * 
  * Contributors:
  *     James Talbut - Initial implementation.
+ *     Steve Schafer - Upgrade to poi 4.1.1
  ************************************************************************************/
 
 package uk.co.spudsoft.birt.emitters.excel;
 
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.poi.hssf.util.PaneInformation;
+// import org.apache.poi.hssf.util.PaneInformation;
 import org.apache.poi.ss.usermodel.AutoFilter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellRange;
@@ -26,12 +30,15 @@ import org.apache.poi.ss.usermodel.DataValidationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Footer;
 import org.apache.poi.ss.usermodel.Header;
+import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.SheetConditionalFormatting;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.PaneInformation;
 
 public class FilteredSheet implements Sheet {
 
@@ -90,7 +97,6 @@ public class FilteredSheet implements Sheet {
 	}
 
 	public CellRangeAddress getRepeatingRows() {
-		// TODO Auto-generated method stub
 		return sheet.getRepeatingRows();
 	}
 
@@ -319,7 +325,11 @@ public class FilteredSheet implements Sheet {
 	}
 
 	public void setZoom(int numerator, int denominator) {
-		sheet.setZoom(numerator, denominator);
+		// sheet.setZoom(numerator, denominator);
+		double dnum = Integer.valueOf(numerator).doubleValue();
+		double dden = Integer.valueOf(denominator).doubleValue();
+		double pct = dnum / dden * 100.0;
+		sheet.setZoom(Double.valueOf(pct).intValue());		
 	}
 
 	public short getTopRow() {
@@ -363,7 +373,6 @@ public class FilteredSheet implements Sheet {
 	}
 
 	public boolean isDisplayGridlines() {
-		// TODO Auto-generated method stub
 		return sheet.isDisplayGridlines();
 	}
 
@@ -408,7 +417,6 @@ public class FilteredSheet implements Sheet {
 	}
 
 	public boolean isColumnBroken(int column) {
-		// TODO Auto-generated method stub
 		return sheet.isColumnBroken(column);
 	}
 
@@ -453,10 +461,10 @@ public class FilteredSheet implements Sheet {
 	}
 
 	public Comment getCellComment(int row, int column) {
-		return sheet.getCellComment(row, column);
+		return sheet.getCellComment(new CellAddress(row, column));
 	}
 
-	public Drawing createDrawingPatriarch() {
+	public Drawing<?> createDrawingPatriarch() {
 		return sheet.createDrawingPatriarch();
 	}
 
@@ -496,4 +504,103 @@ public class FilteredSheet implements Sheet {
 		return sheet.getSheetConditionalFormatting();
 	}
 
+	@Override
+	public float getColumnWidthInPixels(int columnIndex) {
+		return sheet.getColumnWidthInPixels(columnIndex);
+	}
+
+	@Override
+	public int addMergedRegionUnsafe(CellRangeAddress region) {
+		return sheet.addMergedRegionUnsafe(region);
+	}
+
+	@Override
+	public void validateMergedRegions() {
+		sheet.validateMergedRegions();
+	}
+
+	@Override
+	public void removeMergedRegions(Collection<Integer> indices) {
+		sheet.removeMergedRegions(indices);
+	}
+
+	@Override
+	public List<CellRangeAddress> getMergedRegions() {
+		return sheet.getMergedRegions();
+	}
+
+	@Override
+	public boolean isPrintRowAndColumnHeadings() {
+		return sheet.isPrintRowAndColumnHeadings();
+	}
+
+	@Override
+	public void setPrintRowAndColumnHeadings(boolean show) {
+		sheet.setPrintRowAndColumnHeadings(show);
+	}
+
+	@Override
+	public void setZoom(int scale) {
+		sheet.setZoom(scale);
+	}
+
+	@Override
+	public void showInPane(int toprow, int leftcol) {
+		sheet.showInPane(toprow, leftcol);
+	}
+
+	@Override
+	public void shiftColumns(int startColumn, int endColumn, int n) {
+		sheet.shiftColumns(startColumn, endColumn, n);
+	}
+
+	@Override
+	public Comment getCellComment(CellAddress ref) {
+		return sheet.getCellComment(ref);
+	}
+
+	@Override
+	public Map<CellAddress, ? extends Comment> getCellComments() {
+		return sheet.getCellComments();
+	}
+
+	@Override
+	public Drawing<?> getDrawingPatriarch() {
+		return sheet.getDrawingPatriarch();
+	}
+
+	@Override
+	public List<? extends DataValidation> getDataValidations() {
+		return sheet.getDataValidations();
+	}
+
+	@Override
+	public int getColumnOutlineLevel(int columnIndex) {
+		return sheet.getColumnOutlineLevel(columnIndex);
+	}
+
+	@Override
+	public Hyperlink getHyperlink(int row, int column) {
+		return sheet.getHyperlink(row, column);
+	}
+
+	@Override
+	public Hyperlink getHyperlink(CellAddress addr) {
+		return sheet.getHyperlink(addr);
+	}
+
+	@Override
+	public List<? extends Hyperlink> getHyperlinkList() {
+		return sheet.getHyperlinkList();
+	}
+
+	@Override
+	public CellAddress getActiveCell() {
+		return sheet.getActiveCell();
+	}
+
+	@Override
+	public void setActiveCell(CellAddress address) {
+		sheet.setActiveCell(address);
+	}
 }

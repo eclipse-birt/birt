@@ -9,13 +9,13 @@ Require-Bundle: org.eclipse.core.runtime,
  org.junit,
  org.eclipse.birt.report.engine,
  com.ibm.icu;bundle-version="4.4.2",
- org.apache.poi;bundle-version="[3.9.0,4.0.0)",
- org.apache.poi.ooxml;bundle-version="[3.9.0,4.0.0)",
- org.apache.poi.ooxml.schemas;bundle-version="[3.9.0,4.0.0)"
+ org.apache.poi;bundle-version="[4.1.1,5.0.0)",
+ org.apache.poi.ooxml;bundle-version="[4.1.1,5.0.0)",
+ org.apache.poi.ooxml.schemas;bundle-version="[4.1.1,5.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  lib/commons-codec-1.5.jar
-Import-Package: uk.co.spudsoft.birt.emitters.excel
+Import-Package: uk.co.spudsoft.birt.emitters.excel, org.apache.xmlbeans
 Eclipse-BundleShape: dir
 Automatic-Module-Name: uk.co.spudsoft.birt.emitters.excel.tests

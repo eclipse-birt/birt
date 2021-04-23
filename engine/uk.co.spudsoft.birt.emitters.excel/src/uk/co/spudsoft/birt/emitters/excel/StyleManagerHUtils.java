@@ -19,7 +19,9 @@ import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -76,9 +78,9 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 	 * @param width      The width of the border as understood by BIRT.
 	 * @return One of the CellStyle BORDER constants.
 	 */
-	private short poiBorderStyleFromBirt(String birtBorder, String width) {
+	private BorderStyle poiBorderStyleFromBirt(String birtBorder, String width) {
 		if ("none".equals(birtBorder)) {
-			return CellStyle.BORDER_NONE;
+			return BorderStyle.NONE; // CellStyle.BORDER_NONE;
 		}
 		DimensionType dim = DimensionType.parserUnit(width);
 		double pxWidth = 3.0;
@@ -87,28 +89,28 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 		}
 		if ("solid".equals(birtBorder)) {
 			if (pxWidth < 2.9) {
-				return CellStyle.BORDER_THIN;
+				return BorderStyle.THIN; // CellStyle.BORDER_THIN;
 			} else if (pxWidth < 3.1) {
-				return CellStyle.BORDER_MEDIUM;
+				return BorderStyle.MEDIUM; // CellStyle.BORDER_MEDIUM;
 			} else {
-				return CellStyle.BORDER_THICK;
+				return BorderStyle.THICK; // CellStyle.BORDER_THICK;
 			}
 		} else if ("dashed".equals(birtBorder)) {
 			if (pxWidth < 2.9) {
-				return CellStyle.BORDER_DASHED;
+				return BorderStyle.DASHED; // CellStyle.BORDER_DASHED;
 			} else {
-				return CellStyle.BORDER_MEDIUM_DASHED;
+				return BorderStyle.MEDIUM_DASHED; // CellStyle.BORDER_MEDIUM_DASHED;
 			}
 		} else if ("dotted".equals(birtBorder)) {
-			return CellStyle.BORDER_DOTTED;
+			return BorderStyle.DOTTED; // CellStyle.BORDER_DOTTED;
 		} else if ("double".equals(birtBorder)) {
-			return CellStyle.BORDER_DOUBLE;
+			return BorderStyle.DOUBLE; // CellStyle.BORDER_DOUBLE;
 		} else if ("none".equals(birtBorder)) {
-			return CellStyle.BORDER_NONE;
+			return BorderStyle.NONE; // CellStyle.BORDER_NONE;
 		}
 
 		log.debug("Border style \"", birtBorder, "\" is not recognised");
-		return CellStyle.BORDER_NONE;
+		return BorderStyle.NONE; // CellStyle.BORDER_NONE;
 	}
 
 	/**
@@ -153,10 +155,10 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 			if (style instanceof HSSFCellStyle) {
 				HSSFCellStyle hStyle = (HSSFCellStyle) style;
 
-				short hBorderStyle = poiBorderStyleFromBirt(borderStyleString, widthString);
+				BorderStyle hBorderStyle = poiBorderStyleFromBirt(borderStyleString, widthString);
 				short colourIndex = getHColour((HSSFWorkbook) workbook, colourString);
 				if (colourIndex > 0) {
-					if (hBorderStyle != CellStyle.BORDER_NONE) {
+					if (!BorderStyle.NONE /* CellStyle.BORDER_NONE */.equals(hBorderStyle)) {
 						switch (side) {
 						case TOP:
 							hStyle.setBorderTop(hBorderStyle);
@@ -194,7 +196,8 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 		if (colour == null) {
 			return;
 		}
-		if (IStyle.TRANSPARENT_VALUE.equals(colour)) {
+		// if (IStyle.TRANSPARENT_VALUE.equals(colour)) {
+		if(IStyle.TRANSPARENT_VALUE.getCssText().equals(colour)) {
 			return;
 		}
 		if (font instanceof HSSFFont) {
@@ -219,7 +222,8 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 			short colourIndex = getHColour((HSSFWorkbook) workbook, colour);
 			if (colourIndex > 0) {
 				cellStyle.setFillForegroundColor(colourIndex);
-				cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+				// cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+				cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 			}
 		}
 	}
@@ -231,7 +235,8 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 		CSSValue bgColour = birtStyle.getProperty(StyleConstants.STYLE_BACKGROUND_COLOR);
 		int bgRgb[] = parseColour(bgColour == null ? null : bgColour.getCssText(), "white");
 
-		short fgRgb[] = HSSFColor.BLACK.triplet;
+		// short fgRgb[] = HSSFColor.BLACK.triplet;
+		short fgRgb[] = HSSFColor.HSSFColorPredefined.BLACK.getTriplet();
 		if ((font != null) && (font.getColor() != Short.MAX_VALUE)) {
 			fgRgb = palette.getColor(font.getColor()).getTriplet();
 		}

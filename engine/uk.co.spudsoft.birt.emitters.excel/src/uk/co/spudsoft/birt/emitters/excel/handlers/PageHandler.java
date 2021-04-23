@@ -17,6 +17,7 @@ import java.util.Collection;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.ClientAnchor.AnchorType;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.HeaderFooter;
 import org.apache.poi.ss.usermodel.PrintSetup;
@@ -240,7 +241,7 @@ public class PageHandler extends AbstractHandler {
 			state.sheetPassword = null;
 		}
 
-		Drawing drawing = null;
+		Drawing<?> drawing = null;
 		if (!state.images.isEmpty()) {
 			drawing = state.currentSheet.createDrawingPatriarch();
 		}
@@ -277,7 +278,7 @@ public class PageHandler extends AbstractHandler {
 	 * 
 	 * @param cellImage The image to be placed on the sheet.
 	 */
-	private void processCellImage(HandlerState state, Drawing drawing, CellImage cellImage) {
+	private void processCellImage(HandlerState state, Drawing<?> drawing, CellImage cellImage) {
 		Coordinate location = cellImage.location;
 
 		Cell cell = state.currentSheet.getRow(location.getRow()).getCell(location.getCol());
@@ -347,7 +348,7 @@ public class PageHandler extends AbstractHandler {
 		anchor.setRow2(cell.getRowIndex() + rowsSpanned);
 		anchor.setDx2(dx);
 		anchor.setDy2(smu.anchorDyFromPoints(ptHeight, cell.getRow().getHeightInPoints()));
-		anchor.setAnchorType(ClientAnchor.MOVE_DONT_RESIZE);
+		anchor.setAnchorType(AnchorType.MOVE_DONT_RESIZE /* ClientAnchor.MOVE_DONT_RESIZE */);
 		drawing.createPicture(anchor, cellImage.imageIdx);
 	}
 

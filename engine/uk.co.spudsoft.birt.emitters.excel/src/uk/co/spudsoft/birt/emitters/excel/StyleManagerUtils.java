@@ -30,8 +30,11 @@ import java.util.Locale;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
@@ -120,17 +123,17 @@ public abstract class StyleManagerUtils {
 	 * @param alignment The BIRT alignment string.
 	 * @return One of the CellStyle.ALIGN* constants.
 	 */
-	public short poiAlignmentFromBirtAlignment(String alignment) {
+	public HorizontalAlignment poiAlignmentFromBirtAlignment(String alignment) {
 		if (CSSConstants.CSS_LEFT_VALUE.equals(alignment)) {
-			return CellStyle.ALIGN_LEFT;
+			return HorizontalAlignment.LEFT; // CellStyle.ALIGN_LEFT;
 		}
 		if (CSSConstants.CSS_RIGHT_VALUE.equals(alignment)) {
-			return CellStyle.ALIGN_RIGHT;
+			return HorizontalAlignment.RIGHT; // CellStyle.ALIGN_RIGHT;
 		}
 		if (CSSConstants.CSS_CENTER_VALUE.equals(alignment)) {
-			return CellStyle.ALIGN_CENTER;
+			return HorizontalAlignment.CENTER; // CellStyle.ALIGN_CENTER;
 		}
-		return CellStyle.ALIGN_GENERAL;
+		return HorizontalAlignment.GENERAL; // CellStyle.ALIGN_GENERAL;
 	}
 
 	/**
@@ -211,14 +214,14 @@ public abstract class StyleManagerUtils {
 	 * @param fontWeight The font weight as understood by BIRT.
 	 * @return One of the Font.BOLDWEIGHT_* constants.
 	 */
-	public short poiFontWeightFromBirt(String fontWeight) {
+	public boolean poiFontWeightFromBirt(String fontWeight) {
 		if (fontWeight == null) {
-			return 0;
+			return false; // 0;
 		}
 		if ("bold".equals(fontWeight)) {
-			return Font.BOLDWEIGHT_BOLD;
+			return true; // Font.BOLDWEIGHT_BOLD;
 		}
-		return Font.BOLDWEIGHT_NORMAL;
+		return false; // Font.BOLDWEIGHT_NORMAL;
 	}
 
 	/**
@@ -280,14 +283,16 @@ public abstract class StyleManagerUtils {
 	 * @return true is the cell is empty and has no style or has no background fill.
 	 */
 	public static boolean cellIsEmpty(Cell cell) {
-		if (cell.getCellType() != Cell.CELL_TYPE_BLANK) {
+		// if (cell.getCellType() != Cell.CELL_TYPE_BLANK) {
+		if(!CellType.BLANK.equals(cell.getCellType())) {
 			return false;
 		}
 		CellStyle cellStyle = cell.getCellStyle();
 		if (cellStyle == null) {
 			return true;
 		}
-		if (cellStyle.getFillPattern() == CellStyle.NO_FILL) {
+		// if (cellStyle.getFillPattern() == CellStyle.NO_FILL) {
+		if(FillPatternType.NO_FILL.equals(cellStyle.getFillPattern())) {
 			return true;
 		}
 		return false;
@@ -656,7 +661,8 @@ public abstract class StyleManagerUtils {
 	protected void addFontAttributes(AttributedString attrString, Font font, int startIdx, int endIdx) {
 		attrString.addAttribute(TextAttribute.FAMILY, font.getFontName(), startIdx, endIdx);
 		attrString.addAttribute(TextAttribute.SIZE, (float) font.getFontHeightInPoints(), startIdx, endIdx);
-		if (font.getBoldweight() == Font.BOLDWEIGHT_BOLD)
+		// if (font.getBoldweight() == Font.BOLDWEIGHT_BOLD)
+		if (font.getBold())
 			attrString.addAttribute(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD, startIdx, endIdx);
 		if (font.getItalic())
 			attrString.addAttribute(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE, startIdx, endIdx);

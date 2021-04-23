@@ -22,6 +22,7 @@ import java.util.regex.Matcher;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -47,7 +48,7 @@ public class Issue27 extends CellRangeTester {
 
 			for (Row row : sheet) {
 				for (Cell cell : row) {
-					if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+					if (CellType.STRING /* Cell.CELL_TYPE_STRING */.equals(cell.getCellType())) {
 						String cellValue = cell.getStringCellValue();
 						Matcher matcher = pattern.matcher(cellValue);
 						if (matcher.matches()) {
@@ -79,7 +80,7 @@ public class Issue27 extends CellRangeTester {
 
 			for (Row row : sheet) {
 				for (Cell cell : row) {
-					if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+					if (CellType.STRING /* Cell.CELL_TYPE_STRING */.equals(cell.getCellType())) {
 						String cellValue = cell.getStringCellValue();
 
 						Matcher matcher = pattern.matcher(cellValue);

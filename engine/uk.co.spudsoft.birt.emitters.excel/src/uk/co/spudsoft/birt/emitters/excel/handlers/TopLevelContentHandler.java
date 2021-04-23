@@ -43,7 +43,8 @@ public class TopLevelContentHandler extends CellContentHandler {
 				(!"inline".equals(getStyleProperty(text, StyleConstants.STYLE_DISPLAY, "block"))));
 
 		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell(0);
-		currentCell.setCellType(Cell.CELL_TYPE_BLANK);
+		// currentCell.setCellType(Cell.CELL_TYPE_BLANK);
+		currentCell.setBlank();
 
 		endCellContent(state, null, text, currentCell, null);
 
@@ -60,7 +61,8 @@ public class TopLevelContentHandler extends CellContentHandler {
 				(!"inline".equals(getStyleProperty(data, StyleConstants.STYLE_DISPLAY, "block"))));
 
 		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell(0);
-		currentCell.setCellType(Cell.CELL_TYPE_BLANK);
+		// currentCell.setCellType(Cell.CELL_TYPE_BLANK);
+		currentCell.setBlank();
 
 		endCellContent(state, null, data, currentCell, null);
 
@@ -78,7 +80,8 @@ public class TopLevelContentHandler extends CellContentHandler {
 				(!"inline".equals(getStyleProperty(label, StyleConstants.STYLE_DISPLAY, "block"))));
 
 		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell(0);
-		currentCell.setCellType(Cell.CELL_TYPE_BLANK);
+		// currentCell.setCellType(Cell.CELL_TYPE_BLANK);
+		currentCell.setBlank();
 
 		endCellContent(state, null, label, currentCell, null);
 
@@ -105,7 +108,8 @@ public class TopLevelContentHandler extends CellContentHandler {
 
 		recordImage(state, new Coordinate(state.rowNum, 0), image, true);
 		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell(0);
-		currentCell.setCellType(Cell.CELL_TYPE_BLANK);
+		// currentCell.setCellType(Cell.CELL_TYPE_BLANK);
+		currentCell.setBlank();
 
 		endCellContent(state, null, image, currentCell, null);
 
