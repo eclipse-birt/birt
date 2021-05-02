@@ -7,7 +7,7 @@ https://eclipse.org/birt
 [![Build Status](https://github.com/eclipse/birt/workflows/CI/badge.svg)](https://github.com/eclipse/birt/actions)
 
 ## Building BIRT
-BIRT is built with [Apache Maven](http://maven.apache.org).
+BIRT is built with [Apache Maven](http://maven.apache.org) through [Tycho](https://github.com/eclipse/tycho).
 
 To build BIRT with the latest Eclipse platform, run:
 
