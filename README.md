@@ -22,7 +22,7 @@ To build BIRT with Eclipse Oxygen, run:
     mvn package -Poxygen -DskipTests
     
 ### Building environment
-* JDK 1.11
+* JDK 11
 * Maven 3.6.3
 * Internet access
 
