@@ -20,9 +20,9 @@ plugin@org.apache.batik.css,1.14.0=GET,https://download.eclipse.org/tools/orbit/
 
 plugin@org.apache.batik.css.source,1.14.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.css.source_1.14.0.v20210324-0332.jar,usetimestamp=true
 
-plugin@org.apache.batik.dom,1.14.1=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.dom_1.14.0.v20210324-0332.jar,usetimestamp=true
+plugin@org.apache.batik.dom,1.14.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.dom_1.14.0.v20210324-0332.jar,usetimestamp=true
 
-plugin@org.apache.batik.dom.source,1.14.1=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.dom.source_1.14.0.v20210324-0332.jar,usetimestamp=true
+plugin@org.apache.batik.dom.source,1.14.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.dom.source_1.14.0.v20210324-0332.jar,usetimestamp=true
 
 plugin@org.apache.batik.dom.svg,1.14.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.dom.svg_1.14.0.v20210324-0332.jar,usetimestamp=true
 
@@ -32,15 +32,9 @@ plugin@org.apache.batik.ext,1.14.0=GET,https://download.eclipse.org/tools/orbit/
 
 plugin@org.apache.batik.ext.source,1.14.0=https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.ext.source_1.14.0.v20210324-0332.jar,usetimestamp=true
 
-plugin@org.apache.batik.ext.awt,1.9.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.ext.awt_1.9.1.v20190730-1743.jar,usetimestamp=true
-
-plugin@org.apache.batik.ext.awt.source,1.9.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.ext.awt.source_1.9.1.v20190730-1743.jar,usetimestamp=true
-
 plugin@org.apache.batik.parser,1.14.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.parser_1.14.0.v20210324-0332.jar,usetimestamp=true
 
 plugin@org.apache.batik.parser.source,1.14.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.parser.source_1.14.0.v20210324-0332.jar,usetimestamp=true
-
-plugin@org.apache.batik.pdf,1.9.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.pdf_1.9.1.v20190730-1743.jar,usetimestamp=true
 
 plugin@org.apache.batik.svggen,1.14.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.svggen_1.14.0.v20210324-0332.jar,usetimestamp=true
 
@@ -53,8 +47,6 @@ plugin@org.apache.batik.transcoder.source,1.14.0=GET,https://download.eclipse.or
 plugin@org.apache.batik.util,1.14.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.util_1.14.0.v20210324-0332.jar,usetimestamp=true
 
 plugin@org.apache.batik.util.source,1.14.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.util.source_1.14.0.v20210324-0332.jar,usetimestamp=true
-
-plugin@org.apache.batik.util.gui,1.9.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.util.gui_1.9.1.v20190730-1743.jar,usetimestamp=true
 
 plugin@org.apache.batik.xml,1.14.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops2/R20210602031627/repository/plugins/org.apache.batik.xml_1.14.0.v20210324-0332.jar,usetimestamp=true
 
@@ -81,7 +73,7 @@ plugin@org.w3c.dom.svg.source,1.1.0=GET,http://download.eclipse.org/tools/orbit/
 
 plugin@com.lowagie.text,2.1.7=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/com.lowagie.text_2.1.7.v201004222200.jar,usetimestamp=true
 
-plugin@org.w3c.dom.events,3.0.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/plugins/org.w3c.dom.events_3.0.0.draft20060413_v201105210656.jar,usetimestamp=true
+plugin@org.w3c.dom.events,3.0.0=GET,https://download.eclipse.org/tools/orbit/downloads/drops/R20201118194144/repository/plugins/org.w3c.dom.events_3.0.0.draft20060413_v201105210656.jar,usetimestamp=true
 
 plugin@org.mozilla.javascript,1.7.5=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20150428165605/repository/plugins/org.mozilla.javascript_1.7.5.v201504281450.jar,usetimestamp=true
 
