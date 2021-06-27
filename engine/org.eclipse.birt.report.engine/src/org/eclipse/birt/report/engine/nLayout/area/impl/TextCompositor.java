@@ -275,13 +275,14 @@ public class TextCompositor {
 				wordVestige = null;
 				insertFirstExceedWord = false;
 			}
-			if (isNewLine && context.isEnableWordbreak()) {
-				doWordBreak(word.getValue(), textArea);
-			} else if (isNewLine && textArea.isEmpty()) {
-				// If width of a word is larger than the max line width, add
-				// it into the line directly.
-				addWord(textArea, textLength, wordWidth);
-
+			if (isNewLine && textArea.isEmpty()) {
+				if (context.isEnableWordbreak()) {
+					doWordBreak(word.getValue(), textArea);
+				} else {
+					// If width of a word is larger than the max line width,
+					// add it into the line directly.
+					addWord(textArea, textLength, wordWidth);
+				}
 			} else {
 				wordVestige = null;
 				remainWord = word;
