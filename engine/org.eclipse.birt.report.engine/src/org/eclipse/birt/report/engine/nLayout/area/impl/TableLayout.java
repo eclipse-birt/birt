@@ -618,6 +618,16 @@ public class TableLayout {
 		return false;
 	}
 
+	private boolean isEmptyRow(RowArea rowArea) {
+		for (int i = startCol; i <= endCol; i++) {
+			CellArea cell = rowArea.getCell(i);
+			if (cell != null && cell.getChildrenCount() > 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * 1) Creates row wrapper. 2) For the null cell in the row wrapper, fills the
 	 * relevant position with dummy cell or empty cell. 3) Updates the height of the
@@ -642,7 +652,8 @@ public class TableLayout {
 			lastRow = (RowArea) rows.getCurrent();
 		}
 		currentRow = rowArea;
-		int sheight = rowArea.getSpecifiedHeight();
+		// Do not use specified height if row is empty to avoid endless page break
+		int sheight = isEmptyRow(rowArea) ? 0 : rowArea.getSpecifiedHeight();
 		int height = sheight;
 		/*
 		 * In this case, the row should be the first row of new page. 1. this row is the
