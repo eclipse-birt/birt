@@ -18,6 +18,9 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
@@ -77,8 +80,38 @@ public class ElementDefnTest extends AbstractMetaTest {
 	 */
 	public void testGetGroupNames() {
 		ThreadResources.setLocale(ULocale.ENGLISH);
-		IElementDefn elemDefn = MetaDataDictionary.getInstance().getElement(MetaDataConstants.STYLE_NAME);
+
+		MetaDataDictionary dict = MetaDataDictionary.getInstance();
+		System.out.println("dict = " + dict);
+		System.out.println("  elements:");
+		for (IElementDefn ed : dict.getElements()) {
+			System.out.println("    " + ed.getName());
+		}
+		System.out.println("  extensions:");
+		for (IElementDefn ed : dict.getExtensions()) {
+			System.out.println("    " + ed.getName());
+		}
+		dict.getFunctions();
+		System.out.println("  functions:");
+		for(IMethodInfo methodInfo : dict.getFunctions()) {
+			System.out.println("    " + methodInfo.getName());
+		}
+		System.out.println("  predefined styles:");
+		for(IPredefinedStyle predefinedStyle : dict.getPredefinedStyles()) {
+			System.out.println("    " + predefinedStyle.getName());
+		}
+		System.out.println("  property types:");
+		for(IPropertyType propertyType : dict.getPropertyTypes()) {
+			System.out.println("    " + propertyType.getName());
+		}
+		System.out.println("  structures:");
+		for(IStructureDefn structure : dict.getStructures()) {
+			System.out.println("    " + structure.getName());
+		}
+		IElementDefn elemDefn = dict.getElement(MetaDataConstants.STYLE_NAME);
 		assertNotNull(elemDefn);
+
+		System.out.println("elemDefn name = " + elemDefn.getName());
 
 		List groupNames = elemDefn.getGroupNames();
 		assertEquals(6, groupNames.size());
