@@ -527,11 +527,14 @@ public final class MetaDataDictionary implements IMetaDataDictionary {
 			return;
 		}
 
+		System.out.println("initializing MetaDataDictionary");
 		try {
 			InputStream input = (ReportDesign.class.getResourceAsStream(ROM_DEF_FILE_NAME));
 			MetaDataReader.read(input);
 			ExtensionManager.getInstance().initialize();
 		} catch (MetaDataParserException e) {
+			System.out.println("caught MetaDataDictionary initialization exception");
+			e.printStackTrace();
 			// we provide logger, so do not assert.
 		} finally {
 			initialized = true;
