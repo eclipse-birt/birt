@@ -47,7 +47,7 @@ jobs:
           ${{ runner.os }}-build-
           ${{ runner.os }}-
     - name: Build with Maven
-      run: mvn clean install --no-transfer-progress -U -fn
+      run: mvn clean install --no-transfer-progress -U -DskipTests
     - name: Test Model
       run: mvn -B -pl :org.eclipse.birt.report.model.tests integration-test
     - name: Test Charts
@@ -56,4 +56,3 @@ jobs:
       run: mvn -B -pl :org.eclipse.birt.report.tests.engine integration-test
     - name: Test Core
       run: mvn -B -pl :org.eclipse.birt.core.tests integration-test
-        

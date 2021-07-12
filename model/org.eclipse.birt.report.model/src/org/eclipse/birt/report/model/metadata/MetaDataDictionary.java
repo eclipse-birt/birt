@@ -529,7 +529,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary {
 		}
 
 		System.out.println("initializing MetaDataDictionary from " + ROM_DEF_FILE_NAME);
-		Thread.dumpStack();
+		// Thread.dumpStack();
 		try {
 			InputStream input = (ReportDesign.class.getResourceAsStream(ROM_DEF_FILE_NAME));
 			MetaDataReader.read(input);
