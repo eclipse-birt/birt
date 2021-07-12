@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -112,8 +113,14 @@ public class ElementDefnTest extends AbstractMetaTest {
 		assertNotNull(elemDefn);
 
 		System.out.println("elemDefn name = " + elemDefn.getName());
-
+		System.out.println("  properties:");
+		for(IElementPropertyDefn propDefn : elemDefn.getProperties()) {
+			System.out.println("    " + propDefn.getName());
+		}
+		
 		List groupNames = elemDefn.getGroupNames();
+		System.out.println("  groupNames = " + groupNames);
+
 		assertEquals(6, groupNames.size());
 	}
 
