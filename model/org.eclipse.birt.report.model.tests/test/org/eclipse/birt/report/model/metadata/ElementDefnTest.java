@@ -120,6 +120,11 @@ public class ElementDefnTest extends AbstractMetaTest {
 		
 		List groupNames = elemDefn.getGroupNames();
 		System.out.println("  groupNames = " + groupNames);
+		if(groupNames.isEmpty()) {
+			// this is where it's failing
+			IElementDefn reportDesignDefn = dict.getElement("ReportDesign");
+			System.out.println("  reportDesign = " + reportDesignDefn.getContents());
+		}
 
 		assertEquals(6, groupNames.size());
 	}

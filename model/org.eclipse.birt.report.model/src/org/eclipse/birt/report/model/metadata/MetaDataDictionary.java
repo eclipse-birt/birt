@@ -492,6 +492,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary {
 	 */
 
 	public synchronized static void reset() {
+		System.out.println("resetting MetaDataDictionary");
 		instance = new MetaDataDictionary();
 		ExtensionManager.releaseInstance();
 		initialized = false;
@@ -527,6 +528,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary {
 			return;
 		}
 
+		System.out.println("initializing MetaDataDictionary from " + ROM_DEF_FILE_NAME);
 		try {
 			InputStream input = (ReportDesign.class.getResourceAsStream(ROM_DEF_FILE_NAME));
 			MetaDataReader.read(input);
@@ -551,6 +553,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary {
 
 	void addElementDefn(ElementDefn type) throws MetaDataException {
 		String name = type.getName();
+		System.out.println("adding ElementDefn '" + name + "' to MetaDataDictionary");
 		if (StringUtil.isBlank(name))
 			throw new MetaDataException(MetaDataException.DESIGN_EXCEPTION_MISSING_ELEMENT_NAME);
 		if (elementNameMap.containsKey(name))
