@@ -229,7 +229,7 @@ public abstract class ExcelEmitter implements IContentEmitter {
 		log.removePrefix('>');
 		log.debug("end:", report);
 
-		String reportTitle = report.getTitle();
+		String reportTitle = handlerState.correctSheetName(report.getTitle());
 		if ((handlerState.getWb().getNumberOfSheets() == 1) && (reportTitle != null)) {
 			handlerState.getWb().setSheetName(0, reportTitle);
 		}
