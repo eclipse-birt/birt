@@ -47,7 +47,7 @@ public class TopLevelListHandler extends AbstractRealListHandler {
 	public void startList(HandlerState state, IListContent list) throws BirtException {
 		log.debug("Call startList on ", this);
 		super.startList(state, list);
-		String name = list.getName();
+		String name = state.correctSheetName(list.getName());
 		if ((name != null) && !name.isEmpty()) {
 			state.sheetName = name;
 		}
@@ -86,7 +86,7 @@ public class TopLevelListHandler extends AbstractRealListHandler {
 					|| DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST
 							.equals(groupDesign.getPageBreakAfter())) {
 				if (group.getTOC() != null) {
-					state.sheetName = group.getTOC().toString();
+					state.sheetName = state.correctSheetName(group.getTOC().toString());
 				}
 			}
 		}
