@@ -42,7 +42,7 @@
 				<orbit.repo.url>https://download.eclipse.org/tools/orbit/downloads/latest-R</orbit.repo.url>
 				<!-- https://eclipse.org/datatools/downloads.php -->
 				<dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/</dtp.repo.url>
-				<jetty.version>9.4.37.v20210219</jetty.version>
+				<jetty.version>10.0.5</jetty.version>
 				<!--jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
 				<jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
 				<mongodb.version>3.2.2.v20181004-1955</mongodb.version>
@@ -105,9 +105,9 @@
 				<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/</orbit.repo.url>
 				<!-- https://eclipse.org/datatools/downloads.php -->
 				<dtp.repo.url>http://download.eclipse.org/datatools/1.14.1.201712071719/repository/</dtp.repo.url>
-				<jetty.version>9.4.37.v20210219</jetty.version>
-				<!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
-				<jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+				<jetty.version>10.0.6</jetty.version>
+				<!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url >
+				<jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url -->
 				<mongodb.version>3.2.2.v20181004-1955</mongodb.version>
 				<lucene.version>(3.0.0,6.2.0)</lucene.version>
 			</properties>
@@ -302,6 +302,57 @@
 						</execution>
 					</executions>
 				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-clean-plugin</artifactId>
+										<versionRange>[2.5,)</versionRange>
+										<goals>
+											<goal>clean</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.eclipse.tycho</groupId>
+										<artifactId>tycho-packaging-plugin</artifactId>
+										<versionRange>[2.3.0,)</versionRange>
+										<goals>
+											<goal>build-qualifier-aggregator</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.10,)</versionRange>
+										<goals>
+											<goal>unpack</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
@@ -338,13 +389,13 @@
 					</environments>
 					<filters>
 						<!-- restrict Jetty bundles to specific version only -->
-						<filter>
+						<!-- filter>
 							<type>eclipse-plugin</type>
 							<id>org.eclipse.jetty.continuation</id>
 							<restrictTo>
 								<version>${jetty.version}</version>
 							</restrictTo>
-						</filter>
+						</filter -->
 						<filter>
 							<type>eclipse-plugin</type>
 							<id>org.eclipse.jetty.deploy</id>

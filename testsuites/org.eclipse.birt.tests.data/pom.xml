@@ -11,7 +11,7 @@
 	<packaging>eclipse-test-plugin</packaging>
 	<build>
 		<plugins>
-			<plugin>
+	<!-- 		<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
@@ -26,13 +26,13 @@
 						</extraRequirements>
 					</dependency-resolution>
 				</configuration>
-			</plugin>
+			</plugin>  -->
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
-					<testSuite>org.eclipse.birt.tests.data.engine</testSuite>
+					<!--  testSuite>org.eclipse.birt.tests.data.engine</testSuite -->
 					<testClass>org.eclipse.birt.tests.data.engine.AllTests</testClass>
 				</configuration>
 			</plugin>

@@ -1,10 +1,10 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -35,7 +35,7 @@ import javax.servlet.descriptor.JspConfigDescriptor;
 
 /**
  * Mock a ServletContext class for Viewer UnitTest
- * 
+ *
  */
 public class ServletContextSimulator implements ServletContext {
 
@@ -61,7 +61,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 */
 	public ServletContextSimulator() {
 		this.initParameters = new Hashtable();
@@ -70,7 +70,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getAttribute(java.lang.String)
 	 */
 	public Object getAttribute(String name) {
@@ -79,7 +79,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getAttributeNames()
 	 */
 	public Enumeration getAttributeNames() {
@@ -92,7 +92,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#removeAttribute(java.lang.String)
 	 */
 	public void removeAttribute(String name) {
@@ -101,7 +101,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getContext(java.lang.String)
 	 */
 	public ServletContext getContext(String uri) {
@@ -110,7 +110,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getInitParameter(java.lang.String)
 	 */
 	public String getInitParameter(String name) {
@@ -126,7 +126,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getInitParameterNames()
 	 */
 	public Enumeration getInitParameterNames() {
@@ -135,7 +135,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/**
 	 * Set init parameter
-	 * 
+	 *
 	 * @param name
 	 * @param value
 	 */
@@ -146,7 +146,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getMajorVersion()
 	 */
 	public int getMajorVersion() {
@@ -155,7 +155,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getMimeType(java.lang.String)
 	 */
 	public String getMimeType(String arg0) {
@@ -164,7 +164,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getMinorVersion()
 	 */
 	public int getMinorVersion() {
@@ -173,7 +173,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getNamedDispatcher(java.lang.String)
 	 */
 	public RequestDispatcher getNamedDispatcher(String uri) {
@@ -182,7 +182,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getRealPath(java.lang.String)
 	 */
 	public String getRealPath(String path) {
@@ -194,7 +194,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getRequestDispatcher(java.lang.String)
 	 */
 	public RequestDispatcher getRequestDispatcher(String uri) {
@@ -203,7 +203,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getResource(java.lang.String)
 	 */
 	public URL getResource(String path) throws MalformedURLException {
@@ -212,7 +212,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getResourceAsStream(java.lang.String)
 	 */
 	public InputStream getResourceAsStream(String arg0) {
@@ -221,7 +221,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getResourcePaths(java.lang.String)
 	 */
 	public Set getResourcePaths(String arg0) {
@@ -230,7 +230,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getServerInfo()
 	 */
 	public String getServerInfo() {
@@ -239,7 +239,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getServlet(java.lang.String)
 	 */
 	public Servlet getServlet(String name) throws ServletException {
@@ -248,7 +248,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getServletContextName()
 	 */
 	public String getServletContextName() {
@@ -257,7 +257,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getServletNames()
 	 */
 	public Enumeration getServletNames() {
@@ -266,7 +266,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#getServlets()
 	 */
 	public Enumeration getServlets() {
@@ -275,7 +275,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#log(java.lang.String)
 	 */
 	public void log(String content) {
@@ -284,7 +284,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#log(java.lang.Exception, java.lang.String)
 	 */
 	public void log(Exception exception, String content) {
@@ -293,7 +293,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.ServletContext#log(java.lang.String, java.lang.Throwable)
 	 */
 	public void log(String content, Throwable throwable) {
@@ -330,7 +330,7 @@ public class ServletContextSimulator implements ServletContext {
 
 	/**
 	 * Pass a Servlet object to create RequestDispatcher
-	 * 
+	 *
 	 * @param servlet
 	 */
 	public void setDispatcher(Servlet servlet) {
@@ -497,5 +497,47 @@ public class ServletContextSimulator implements ServletContext {
 	public String getVirtualServerName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Dynamic addJspFile(String servletName, String jspFile) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getSessionTimeout() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setSessionTimeout(int sessionTimeout) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getRequestCharacterEncoding() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setRequestCharacterEncoding(String encoding) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String getResponseCharacterEncoding() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setResponseCharacterEncoding(String encoding) {
+		// TODO Auto-generated method stub
+
 	}
 }

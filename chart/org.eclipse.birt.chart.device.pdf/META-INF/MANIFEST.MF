@@ -25,5 +25,6 @@ Bundle-ClassPath: .,
  lib/fop-2.6.jar
 Automatic-Module-Name: org.eclipse.birt.chart.device.pdf
 Import-Package: org.apache.batik.ext.awt.color;version="1.13.0",
+ org.apache.fop.svg;version="1.9.1",
  org.w3c.dom.events;version="2.0.0"
 

@@ -3,8 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Web Viewer
 Bundle-SymbolicName: org.eclipse.birt.report.viewer; singleton:=true
 Bundle-Version: 4.9.0.qualifier
-Bundle-ClassPath: ., viewer.jar,
- birt/WEB-INF/classes,
+Bundle-ClassPath: .,
+ viewer.jar,
  birt/WEB-INF/lib/viewservlets.jar
 Bundle-Activator: org.eclipse.birt.report.viewer.ViewerPlugin
 Bundle-Vendor: Eclipse BIRT Project
@@ -46,13 +46,13 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)",
  org.apache.xerces;bundle-version="[2.8.0,3.0.0)";resolution:=optional,
  org.eclipse.birt.report.item.crosstab.core;bundle-version="[2.2.0,5.0.0)";resolution:=optional,
  org.eclipse.birt.report.designer.core,
- org.eclipse.jetty.osgi.boot,
  org.eclipse.jetty.server,
  org.eclipse.jetty.util,
  org.eclipse.jetty.webapp,
  org.eclipse.jetty.plus,
  org.eclipse.jetty.servlet,
  org.eclipse.jetty.http,
+ org.eclipse.jetty.osgi.boot,
  org.apache.jasper.glassfish;bundle-version="2.2.2"
 Bundle-ActivationPolicy: lazy
 Eclipse-BuddyPolicy: registered

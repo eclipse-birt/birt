@@ -15,9 +15,6 @@
    <feature id="org.eclipse.birt.doc.isv">
       <category name="Birt"/>
    </feature>
-   <feature id="org.eclipse.birt.source">
-      <category name="Birt"/>
-   </feature>
    <feature id="org.eclipse.birt.chart">
       <category name="Chart"/>
    </feature>
@@ -25,9 +22,6 @@
       <category name="Chart"/>
    </feature>
    <feature id="org.eclipse.birt.chart.doc.isv">
-      <category name="Chart"/>
-   </feature>
-   <feature id="org.eclipse.birt.chart.source">
       <category name="Chart"/>
    </feature>
    <feature id="org.eclipse.birt.engine.runtime">
@@ -42,25 +36,13 @@
    <feature id="org.eclipse.birt.chart.integration.wtp">
       <category name="wtpIntegration"/>
    </feature>
-   <feature id="org.eclipse.birt.chart.integration.wtp.source">
-      <category name="wtpIntegration"/>
-   </feature>
    <feature id="org.eclipse.birt.integration.wtp">
-      <category name="wtpIntegration"/>
-   </feature>
-   <feature id="org.eclipse.birt.integration.wtp.source">
       <category name="wtpIntegration"/>
    </feature>
    <feature id="org.eclipse.birt.testhelper">
       <category name="BirtTest"/>
    </feature>
-   <feature id="org.eclipse.birt.testhelper.source">
-      <category name="BirtTest"/>
-   </feature>
    <feature id="org.eclipse.birt.tests">
-      <category name="BirtTest"/>
-   </feature>
-   <feature id="org.eclipse.birt.tests.source">
       <category name="BirtTest"/>
    </feature>
    <feature id="org.eclipse.birt.nl">
