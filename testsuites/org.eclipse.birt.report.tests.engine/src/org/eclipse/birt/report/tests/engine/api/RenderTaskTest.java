@@ -571,8 +571,8 @@ public class RenderTaskTest extends EngineCase {
 				if (pageRange != null && (pageRange.equals("0") || pageRange.equals("abc"))) {
 					assertFalse(pdfFile.exists());
 				} else {
-					assertTrue("Render " + fileName + " to pdf failed. " + pageRange, pdfFile.exists());
-					assertTrue("Render " + fileName + " to pdf failed. " + pageRange, pdfFile.length() != 0);
+					assertTrue("Render " + fileName + " to pdf - file does not exist. " + pageRange, pdfFile.exists());
+					assertTrue("Render " + fileName + " to pdf - file has zero length. " + pageRange, pdfFile.length() != 0);
 				}
 			}
 			return null;
