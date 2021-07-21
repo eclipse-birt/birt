@@ -57,6 +57,7 @@
       <plugin id="org.apache.batik.util"  version="1.14.0.qualifier"/>
       <!-- <plugin id="org.apache.batik.util.gui"  version="1.14.0.qualifier"/> -->
       <plugin id="org.apache.batik.xml"  version="1.14.0.qualifier"/>
+      <plugin id="org.apache.batik.ext"  version="1.14.0.qualifier"/>
       <plugin id="org.apache.commons.codec"/>
       <plugin id="org.apache.commons.discovery"/>
       <plugin id="org.apache.commons.logging"/>
