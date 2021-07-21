@@ -103,13 +103,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.ext.awt"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.apache.batik.parser"
          download-size="0"
          install-size="0"
@@ -131,13 +124,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.util.gui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.apache.batik.util"
          download-size="0"
          install-size="0"
@@ -146,6 +132,13 @@
 
    <plugin
          id="org.apache.batik.xml"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.batik.ext"
          download-size="0"
          install-size="0"
          version="0.0.0"
