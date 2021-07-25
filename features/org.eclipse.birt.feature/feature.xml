@@ -205,7 +205,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.ext.awt"
+         id="org.apache.batik.ext"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -235,7 +235,6 @@
    <plugin
          id="org.apache.batik.util"
          download-size="0"
-         install-size="0"
          version="0.0.0"
          unpack="false"/>
 
@@ -258,6 +257,13 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.w3c.dom.events"
+         download-size="0"
+         install-size="0"
+         version="3.0.0.draft20060413_v201105210656"
          unpack="false"/>
 
    <plugin

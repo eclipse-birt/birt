@@ -533,6 +533,7 @@ public class RenderTaskTest extends EngineCase {
 
 				// render html output
 				outputFileName = outputPath + fileName + "/html/page" + pageRange + ".html";
+				System.out.println("HTML output filename = " + outputFileName);
 				removeFile(outputFileName);
 				htmlRenderOptions.setOutputFileName(outputFileName);
 				task = engine.createRenderTask(reportDoc);
@@ -554,6 +555,7 @@ public class RenderTaskTest extends EngineCase {
 				}
 				// render pdf output
 				outputFileName = outputPath + fileName + "/pdf/page" + pageRange + ".pdf";
+				System.out.println("PDF output filename = " + outputFileName);
 				removeFile(outputFileName);
 				pdfRenderOptions.setOutputFileName(outputFileName);
 
@@ -563,6 +565,7 @@ public class RenderTaskTest extends EngineCase {
 				task.setRenderOption(pdfRenderOptions);
 				task.setPageRange(pageRange);
 				task.render();
+				System.out.println("PDF error count = " + task.getErrors().size());
 				if (task.getErrors().size() > 0)
 					return task.getErrors();
 				task.close();
@@ -571,8 +574,8 @@ public class RenderTaskTest extends EngineCase {
 				if (pageRange != null && (pageRange.equals("0") || pageRange.equals("abc"))) {
 					assertFalse(pdfFile.exists());
 				} else {
-					assertTrue("Render " + fileName + " to pdf failed. " + pageRange, pdfFile.exists());
-					assertTrue("Render " + fileName + " to pdf failed. " + pageRange, pdfFile.length() != 0);
+					assertTrue("Render " + fileName + " to pdf - file does not exist. " + pageRange, pdfFile.exists());
+					assertTrue("Render " + fileName + " to pdf - file has zero length. " + pageRange, pdfFile.length() != 0);
 				}
 			}
 			return null;
