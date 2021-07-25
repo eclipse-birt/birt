@@ -33,7 +33,6 @@
       <import plugin="org.eclipse.equinox.jsp.jasper.registry" version="1.0.0" match="compatible"/>
       <import plugin="org.eclipse.equinox.http.registry" version="1.0.0" match="compatible"/>
       <import plugin="org.eclipse.ui" version="3.2.0" match="compatible"/>
-      <import plugin="javax.servlet"/>
       <import plugin="javax.servlet.jsp"/>
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.eclipse.equinox.http.jetty"/>

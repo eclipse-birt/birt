@@ -8,25 +8,14 @@
 
    <launcherArgs>
       <programArgs>-product
-
 org.eclipse.epp.package.reporting.product
-
 --launcher.defaultAction
-
 openFile
-
---launcher.XXMaxPermSize
-
-256M
-
 -showsplash
-
 org.eclipse.platform
       </programArgs>
       <vmArgs>-Dosgi.requiredJavaVersion=1.8
-
 -Xms256m
-
 -Xmx1024m
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
@@ -43,10 +32,8 @@ org.eclipse.platform
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
    </plugins>
@@ -57,12 +44,13 @@ org.eclipse.platform
       <feature id="org.eclipse.pde" installMode="root"/>
       <feature id="org.eclipse.rcp" installMode="root"/>
       <feature id="org.eclipse.jdt" installMode="root"/>
+      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full" installMode="root"/>
    </features>
 
    <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
-      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />

@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="BIRT Engine Runtime" uid="org.eclipse.birt.engine.runtime" version="4.8.0.qualifier" useFeatures="true" includeLaunchers="false">
+<product name="BIRT Engine Runtime" uid="org.eclipse.birt.engine.runtime" version="4.9.0.qualifier" useFeatures="true" includeLaunchers="false">
 
    <configIni use="default">
    </configIni>
+
+   <launcherArgs>
+   </launcherArgs>
+
+   <launcher>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
 
    <plugins>
    </plugins>
 
    <features>
       <feature id="org.eclipse.birt.engine.runtime"/>
+      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full" installMode="root"/>
    </features>
 
-  <configurations>
-    <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0"/>
-    <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2"/>
-    <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2"/>
-    <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2"/>
-    <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0"/>
-    <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1"/>
-    <property name="org.eclipse.update.reconcile" value="false"/>
-  </configurations>
+   <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <property name="org.eclipse.update.reconcile" value="false" />
+   </configurations>
 
 </product>

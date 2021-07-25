@@ -27,7 +27,6 @@
       <import plugin="com.lowagie.text"/>
       <import plugin="javax.el"/>
       <import plugin="javax.servlet.jsp"/>
-      <import plugin="javax.servlet"/>
       <import plugin="javax.wsdl"/>
       <import plugin="javax.xml.rpc"/>
       <import plugin="javax.xml.soap"/>
@@ -99,7 +98,6 @@
       <import plugin="org.eclipse.help.base"/>
       <import plugin="org.eclipse.help.ui"/>
       <import plugin="org.eclipse.help.webapp"/>
-      <import plugin="org.eclipse.jetty.continuation"/>
       <import plugin="org.eclipse.jetty.http"/>
       <import plugin="org.eclipse.jetty.io"/>
       <import plugin="org.eclipse.jetty.security"/>
@@ -732,7 +730,7 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
          id="org.w3c.dom.svg.extension"
          download-size="0"
