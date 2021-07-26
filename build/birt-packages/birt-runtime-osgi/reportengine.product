@@ -23,7 +23,6 @@
 
    <features>
       <feature id="org.eclipse.birt.engine.runtime"/>
-      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full" installMode="root"/>
    </features>
 
    <configurations>

@@ -43,7 +43,7 @@
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="https://download.eclipse.org/eclipse/updates/latest/"/>
-			<unit id="a.jre.javase" version="0.0.0"/>
+			<unit id="a.jre.javase" version="11.0.0"/>
 			<unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.cvs.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
@@ -86,6 +86,7 @@
 			<unit id="org.apache.batik.transcoder" version="0.0.0"/>
 			<unit id="org.apache.batik.util.gui" version="0.0.0"/>
 			<unit id="org.apache.batik.xml" version="0.0.0"/>
+			<unit id="org.apache.batik.ext" version="0.0.0"/>
 			<unit id="org.apache.commons.codec" version="0.0.0"/>
 			<unit id="org.apache.lucene.analysis" version="0.0.0"/>
 			<unit id="org.apache.derby" version="0.0.0"/>

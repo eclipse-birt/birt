@@ -28,7 +28,6 @@
 
    <features>
       <feature id="org.eclipse.birt.rcp"/>
-      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full" installMode="root"/>
    </features>
 
    <configurations>

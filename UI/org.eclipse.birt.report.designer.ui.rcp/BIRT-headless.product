@@ -48,6 +48,7 @@
       <plugin id="org.apache.batik.css"/>
       <plugin id="org.apache.batik.dom"/>
       <plugin id="org.apache.batik.dom.svg"/>
+      <plugin id="org.apache.batik.ext"/>
       <plugin id="org.apache.batik.ext.awt"/>
       <plugin id="org.apache.batik.parser"/>
       <plugin id="org.apache.batik.svggen"/>

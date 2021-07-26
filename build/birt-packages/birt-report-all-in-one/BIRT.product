@@ -131,7 +131,6 @@
       <feature id="org.eclipse.wst.xml_userdoc.feature" installMode="root"/>
       <feature id="org.eclipse.xsd.edit" installMode="root"/>
       <feature id="org.eclipse.xsd" installMode="root"/>
-      <feature id="org.eclipse.justj.openjdk.hotspot.jre.full" installMode="root"/>
    </features>
 
    <configurations>
