@@ -68,7 +68,7 @@ public class NestedTableHandler extends AbstractRealTableHandler {
 		log.debug("startTable called with topLeft = [", topLeft.getRow(), ", ", topLeft.getCol(), "]");
 		super.startTable(state, table);
 		if ((state.sheetName == null) || state.sheetName.isEmpty()) {
-			String name = table.getName();
+			String name = state.correctSheetName(table.getName());
 			if ((name != null) && !name.isEmpty()) {
 				state.sheetName = name;
 			}

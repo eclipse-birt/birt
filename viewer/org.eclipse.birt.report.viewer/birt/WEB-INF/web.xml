@@ -49,14 +49,14 @@
 	</context-param>
 
 	<!--
-		Settings for how to deal with the url report path. e.g. "http://host/repo/test.rptdesign". 
-		
+		Settings for how to deal with the url report path. e.g. "http://host/repo/test.rptdesign".
+
 		Following values are supported:
-		
+
 		<all> 		- All paths.
 		<domain>	- Only the paths with host matches current domain. Note the comparison is literal, "127.0.0.1" and "localhost" are considered as different hosts.
 		<none> 		- URL paths are not supported.
-		
+
 		Defaults to "domain".
 	-->
 	<context-param>
@@ -272,8 +272,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.common.processing_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.common.processing_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.CancelTask_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.CancelTask_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -297,18 +297,13 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.parameter.CheckboxParameterFragment_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.parameter.CheckboxParameterFragment_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.parameter.HiddenParameterFragment_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.parameter.HiddenParameterFragment_jsp</servlet-class>
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.DocumentFragment_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.layout.DocumentFragment_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.parameter.TextBoxParameterFragment_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.parameter.TextBoxParameterFragment_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.ParameterFragment_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.layout.ParameterFragment_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -324,6 +319,11 @@ Automatically created by Apache Tomcat JspC.
     <servlet>
         <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.RunFragment_jsp</servlet-name>
         <servlet-class>org.apache.jsp.webcontent.birt.pages.layout.RunFragment_jsp</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.ReportFragment_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.layout.ReportFragment_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -372,8 +372,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.FramesetFragment_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.layout.FramesetFragment_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -382,8 +382,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.SimpleExportDataDialogFragment_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.dialog.SimpleExportDataDialogFragment_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -399,11 +399,6 @@ Automatically created by Apache Tomcat JspC.
     <servlet>
         <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExportDataDialogFragment_jsp</servlet-name>
         <servlet-class>org.apache.jsp.webcontent.birt.pages.dialog.ExportDataDialogFragment_jsp</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExportReportDialogFragment_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.dialog.ExportReportDialogFragment_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -467,18 +462,18 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.parameter.CheckboxParameterFragment_jsp</servlet-name>
-        <url-pattern>/webcontent/birt/pages/parameter/CheckboxParameterFragment.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.parameter.ComboBoxParameterFragment_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/parameter/ComboBoxParameterFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.DocumentFragment_jsp</servlet-name>
-        <url-pattern>/webcontent/birt/pages/layout/DocumentFragment.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.parameter.HiddenParameterFragment_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/parameter/HiddenParameterFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.parameter.TextBoxParameterFragment_jsp</servlet-name>
-        <url-pattern>/webcontent/birt/pages/parameter/TextBoxParameterFragment.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.ParameterFragment_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/layout/ParameterFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -494,6 +489,11 @@ Automatically created by Apache Tomcat JspC.
     <servlet-mapping>
         <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.RunFragment_jsp</servlet-name>
         <url-pattern>/webcontent/birt/pages/layout/RunFragment.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.ReportFragment_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/layout/ReportFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -542,8 +542,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-name>
-        <url-pattern>/webcontent/birt/pages/dialog/ExceptionDialogFragment.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.FramesetFragment_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/layout/FramesetFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -552,8 +552,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.SimpleExportDataDialogFragment_jsp</servlet-name>
-        <url-pattern>/webcontent/birt/pages/dialog/SimpleExportDataDialogFragment.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/dialog/ExceptionDialogFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -569,11 +569,6 @@ Automatically created by Apache Tomcat JspC.
     <servlet-mapping>
         <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExportDataDialogFragment_jsp</servlet-name>
         <url-pattern>/webcontent/birt/pages/dialog/ExportDataDialogFragment.jsp</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExportReportDialogFragment_jsp</servlet-name>
-        <url-pattern>/webcontent/birt/pages/dialog/ExportReportDialogFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

@@ -12,11 +12,13 @@
 package org.eclipse.birt.report.engine.emitter.pdf;
 
 import java.awt.Color;
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -160,6 +162,11 @@ public class PDFPageDevice implements IPageDevice {
 											FileInputStream fis = new FileInputStream(f);
 
 											pdfs.add(fis);
+										} else {
+											// get the file using context.getResource() for relative or universal paths
+											URL url = context.getResource(fileName);
+											InputStream is = new BufferedInputStream(url.openStream());
+											pdfs.add(is);
 										}
 									} catch (Exception e) {
 										logger.log(Level.WARNING, e.getMessage(), e);
@@ -187,6 +194,11 @@ public class PDFPageDevice implements IPageDevice {
 									FileInputStream fis = new FileInputStream(f);
 
 									pdfs.add(fis);
+								} else {
+									// get the file using context.getResource() for relative or universal paths
+									URL url = context.getResource(fileName);
+									InputStream is = new BufferedInputStream(url.openStream());
+									pdfs.add(is);
 								}
 							} catch (Exception e) {
 								logger.log(Level.WARNING, e.getMessage(), e);
@@ -199,7 +211,7 @@ public class PDFPageDevice implements IPageDevice {
 						// this hasn't been initialized yet, open the doc
 						if (!this.doc.isOpen())
 							this.doc.open();
-						concatPDFs(pdfs, true);
+						concatPDFs(pdfs, false);
 					}
 				}
 			}
@@ -294,6 +306,11 @@ public class PDFPageDevice implements IPageDevice {
 										FileInputStream fis = new FileInputStream(f);
 
 										pdfs.add(fis);
+									} else {
+										// get the file using context.getResource() for relative or universal paths
+										URL url = context.getResource(fileName);
+										InputStream is = new BufferedInputStream(url.openStream());
+										pdfs.add(is);
 									}
 								} catch (Exception e) {
 									logger.log(Level.WARNING, e.getMessage(), e);
@@ -321,6 +338,11 @@ public class PDFPageDevice implements IPageDevice {
 								FileInputStream fis = new FileInputStream(f);
 
 								pdfs.add(fis);
+							} else {
+								// get the file using context.getResource() for relative or universal paths
+								URL url = context.getResource(fileName);
+								InputStream is = new BufferedInputStream(url.openStream());
+								pdfs.add(is);
 							}
 						} catch (Exception e) {
 							logger.log(Level.WARNING, e.getMessage(), e);
@@ -330,7 +352,7 @@ public class PDFPageDevice implements IPageDevice {
 
 				// check size of PDFs to make sure we aren't calling this on a 0 size array
 				if (pdfs.size() > 0) {
-					concatPDFs(pdfs, true);
+					concatPDFs(pdfs, false);
 				}
 			}
 		}

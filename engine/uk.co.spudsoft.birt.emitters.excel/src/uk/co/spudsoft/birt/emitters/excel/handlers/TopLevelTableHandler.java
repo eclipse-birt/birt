@@ -40,7 +40,7 @@ public class TopLevelTableHandler extends AbstractRealTableHandler {
 	public void startTable(HandlerState state, ITableContent table) throws BirtException {
 		state.colNum = 0;
 		super.startTable(state, table);
-		String name = table.getName();
+		String name = state.correctSheetName(table.getName());
 		if ((name != null) && !name.isEmpty()) {
 			state.sheetName = name;
 		}
@@ -101,7 +101,7 @@ public class TopLevelTableHandler extends AbstractRealTableHandler {
 					|| DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST
 							.equals(groupDesign.getPageBreakAfter())) {
 				if (group.getTOC() != null) {
-					state.sheetName = group.getTOC().toString();
+					state.sheetName = state.correctSheetName(group.getTOC().toString());
 				}
 			}
 		}
