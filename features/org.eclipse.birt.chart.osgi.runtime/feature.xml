@@ -52,7 +52,7 @@
          id="org.apache.axis"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"/>
+         version="1.4.1.qualifier"/>
 
    <plugin
          id="org.apache.commons.discovery"
