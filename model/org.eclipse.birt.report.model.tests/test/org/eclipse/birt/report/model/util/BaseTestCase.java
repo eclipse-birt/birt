@@ -143,6 +143,7 @@ public abstract class BaseTestCase extends TestCase {
 		ThreadResources.setLocale(ULocale.ENGLISH);
 
 		if (engine == null) {
+			MetaDataDictionary.reset(); // will force MetaDataDictionary to initialize
 			engine = new DesignEngine(new DesignConfig());
 		}
 	}

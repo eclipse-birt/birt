@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * All rights reserved. This program and the accompanying materials 
+ *
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -185,22 +185,6 @@ public class PageHandler extends AbstractHandler {
 		state.getSmu().prepareMarginDimensions(state.currentSheet, page);
 	}
 
-	private String prepareSheetName(HandlerState state) {
-		if (state.sheetName != null) {
-			String preparedName = state.sheetName;
-			Integer nameCount = state.sheetNames.get(preparedName);
-			if (nameCount != null) {
-				++nameCount;
-				state.sheetNames.put(preparedName, nameCount);
-				preparedName = preparedName + " " + nameCount;
-			} else {
-				state.sheetNames.put(preparedName, 1);
-			}
-			return preparedName;
-		}
-		return null;
-	}
-
 	@Override
 	public void endPage(HandlerState state, IPageContent page) throws BirtException {
 
@@ -213,7 +197,7 @@ public class PageHandler extends AbstractHandler {
 			outputStructuredHeaderFooter(state, page.getFooter());
 		}
 
-		String sheetName = prepareSheetName(state);
+		String sheetName = state.prepareSheetName();
 		if (sheetName != null) {
 			log.debug("Attempting to name sheet ", (state.getWb().getNumberOfSheets() - 1), " \"", sheetName, "\" ");
 			int existingSheetIndex = -1;
@@ -275,7 +259,7 @@ public class PageHandler extends AbstractHandler {
 	 * This involves changing the row height as necesssary and determining the
 	 * column spread of the image.
 	 * </p>
-	 * 
+	 *
 	 * @param cellImage The image to be placed on the sheet.
 	 */
 	private void processCellImage(HandlerState state, Drawing<?> drawing, CellImage cellImage) {
