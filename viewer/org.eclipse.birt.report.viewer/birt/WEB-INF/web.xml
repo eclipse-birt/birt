@@ -49,14 +49,14 @@
 	</context-param>
 
 	<!--
-		Settings for how to deal with the url report path. e.g. "http://host/repo/test.rptdesign". 
-		
+		Settings for how to deal with the url report path. e.g. "http://host/repo/test.rptdesign".
+
 		Following values are supported:
-		
+
 		<all> 		- All paths.
 		<domain>	- Only the paths with host matches current domain. Note the comparison is literal, "127.0.0.1" and "localhost" are considered as different hosts.
 		<none> 		- URL paths are not supported.
-		
+
 		Defaults to "domain".
 	-->
 	<context-param>
@@ -262,8 +262,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.common.Attributes_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.common.Attributes_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.common.Error_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.common.Error_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -277,8 +277,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.common.Locale_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.common.Locale_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.common.processing_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.common.processing_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -302,8 +302,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.RequesterFragment_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.layout.RequesterFragment_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.ParameterFragment_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.layout.ParameterFragment_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -327,8 +327,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.SidebarFragment_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.layout.SidebarFragment_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.control.ToolbarFragment_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.control.ToolbarFragment_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -337,8 +337,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.control.ProgressBarFragment_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.control.ProgressBarFragment_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.FramesetFragment_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.layout.FramesetFragment_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -377,8 +377,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.PrintReportServerDialogFragment_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.dialog.PrintReportServerDialogFragment_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.SimpleExportDataDialogFragment_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.dialog.SimpleExportDataDialogFragment_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -397,8 +397,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet>
 
     <servlet>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-name>
-        <servlet-class>org.apache.jsp.webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-class>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExportReportDialogFragment_jsp</servlet-name>
+        <servlet-class>org.apache.jsp.webcontent.birt.pages.dialog.ExportReportDialogFragment_jsp</servlet-class>
     </servlet>
 
     <servlet>
@@ -447,8 +447,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.common.Locale_jsp</servlet-name>
-        <url-pattern>/webcontent/birt/pages/common/Locale.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.common.processing_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/common/processing.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -472,8 +472,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.RequesterFragment_jsp</servlet-name>
-        <url-pattern>/webcontent/birt/pages/layout/RequesterFragment.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.ParameterFragment_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/layout/ParameterFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -497,8 +497,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.SidebarFragment_jsp</servlet-name>
-        <url-pattern>/webcontent/birt/pages/layout/SidebarFragment.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.control.ToolbarFragment_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/control/ToolbarFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -507,8 +507,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.control.ProgressBarFragment_jsp</servlet-name>
-        <url-pattern>/webcontent/birt/pages/control/ProgressBarFragment.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.layout.FramesetFragment_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/layout/FramesetFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -547,8 +547,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.PrintReportServerDialogFragment_jsp</servlet-name>
-        <url-pattern>/webcontent/birt/pages/dialog/PrintReportServerDialogFragment.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.SimpleExportDataDialogFragment_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/dialog/SimpleExportDataDialogFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
@@ -567,8 +567,8 @@ Automatically created by Apache Tomcat JspC.
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExceptionDialogFragment_jsp</servlet-name>
-        <url-pattern>/webcontent/birt/pages/dialog/ExceptionDialogFragment.jsp</url-pattern>
+        <servlet-name>org.apache.jsp.webcontent.birt.pages.dialog.ExportReportDialogFragment_jsp</servlet-name>
+        <url-pattern>/webcontent/birt/pages/dialog/ExportReportDialogFragment.jsp</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
