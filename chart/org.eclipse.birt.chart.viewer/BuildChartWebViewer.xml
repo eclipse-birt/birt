@@ -121,7 +121,7 @@
 			</fileset>
 			<fileset dir="${baseLocation}/plugins">
 				<!-- orbit projects -->
-				<include name="com.ibm.icu_*.jar" />
+				<include name="com.ibm.icu_63.1.0.v20181030-1705.jar" />
 				<include name="javax.servlet_*.jar" />
 				<include name="javax.servlet.jsp_*.jar" />
 				<include name="org.apache.jasper_*.jar" />

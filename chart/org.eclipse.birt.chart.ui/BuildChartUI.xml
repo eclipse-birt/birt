@@ -122,7 +122,7 @@
 			<include name="org.eclipse.swt*.jar"/>
 			<include name="org.eclipse.jface_*.jar"/>
 			<include name="org.eclipse.equinox*.jar"/>
-			<include name="com.ibm.icu_*.jar"/>
+			<include name="com.ibm.icu_63.1.0.v20181030-1705.jar"/>
 		</fileset>
 		
 		<fileset dir="../org.mozilla.rhino">

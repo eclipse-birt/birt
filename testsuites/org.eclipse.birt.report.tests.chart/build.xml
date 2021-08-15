@@ -62,7 +62,7 @@
 		</fileset>
 
 		<fileset dir="${eclipse.home}/plugins">
-			<include name="com.ibm.icu_*.jar" />
+			<include name="com.ibm.icu_63.1.0.v20181030-1705.jar" />
 			<include name="org.eclipse.emf*.jar" />
 			<include name="org.eclipse.swt*.jar" />
 			<include name="org.junit_*/*.jar" />

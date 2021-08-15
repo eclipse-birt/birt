@@ -111,7 +111,7 @@
 		<!-- dependend on eclipse due to Plugin class -->
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="org.junit_*/*.jar"/>
-			<include name="com.ibm.icu_*.jar"/>
+			<include name="com.ibm.icu_63.1.0.v20181030-1705.jar"/>
 			<include name="org.eclipse.core.runtime*.jar"/>
 			<include name="org.eclipse.datatools.connectivity*.jar"/>
             <include name="org.eclipse.datatools.connectivity*/*.jar"/>

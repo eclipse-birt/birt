@@ -249,7 +249,7 @@
 					<include name="javax.servlet*.jar" />
 					<include name="org.apache.jasper*.jar" />
 					<include name="org.apache.commons.logging*.jar" />
-					<include name="com.ibm.icu_*.jar" />
+					<include name="com.ibm.icu_63.1.0.v20181030-1705.jar" />
 				</fileset>
 				<pathelement path="${build.result.folder}/${birt.dir}/WEB-INF/lib/model.jar" />
 				<pathelement path="${build.result.folder}/${birt.dir}/WEB-INF/lib/engine.jar" />
@@ -445,7 +445,7 @@
 		<!-- copy plugins needed in the system fold ./eclipse/plugins into the directory -->
 		<copy todir="${export.dir}/lib" overwrite="true">
 			<fileset dir="${baseLocation}/plugins">
-				<include name="com.ibm.icu_*.jar" />
+				<include name="com.ibm.icu_63.1.0.v20181030-1705.jar" />
 				<include name="org.eclipse.core.contenttype_*.jar" />
 				<include name="org.eclipse.core.jobs_*.jar" />
 				<include name="org.eclipse.core.runtime_*.jar" />
@@ -553,7 +553,7 @@
 		<copy todir="${export.dir}/plugins" overwrite="true">
 		<fileset dir="${baseLocation}/plugins">
 			<include name="org.junit_*/**" />
-			<include name="com.ibm.icu_*.jar" />
+			<include name="com.ibm.icu_63.1.0.v20181030-1705.jar" />
 			<include name="org.eclipse.core.contenttype_*.jar" />
 			<include name="org.eclipse.core.jobs_*.jar" />
 			<include name="org.eclipse.core.runtime_*.jar" />
@@ -706,7 +706,7 @@
 		<mkdir dir="${export.dir}/lib" />
 		<copy todir="${export.dir}/lib">
 			<fileset dir="${export.dir}/plugins">
-				<include name="com.ibm.icu_*.jar" />
+				<include name="com.ibm.icu_63.1.0.v20181030-1705.jar" />
 			</fileset>
 		</copy>
 		<copy todir="${export.dir}/lib">

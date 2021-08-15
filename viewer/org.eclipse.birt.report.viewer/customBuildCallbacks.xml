@@ -89,7 +89,7 @@
 					<include name="org.apache.jasper*.jar" />
 					<include name="org.apache.commons.logging*.jar" />
 					<include name="org.apache.commons.el*.jar"/>
-					<include name="com.ibm.icu_*.jar" />
+					<include name="com.ibm.icu_63.1.0.v20181030-1705.jar" />
 					<include name="javax.wsdl_1.5*.jar"/>			
 				</fileset>
 				

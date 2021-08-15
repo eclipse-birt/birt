@@ -126,7 +126,7 @@
 			<include name="${swt.dir}.${basews}_*/ws/${basews}/swt.jar"/>
 			<include name="org.eclipse.swt*.jar"/>
 			<include name="org.eclipse.equinox.*.jar"/>
-			<include name="com.ibm.icu_*.jar"/>
+			<include name="com.ibm.icu_63.1.0.v20181030-1705.jar"/>
 			<include name="org.eclipse.ui.workbench.texteditor_*.jar"/>
 			<include name="org.eclipse.core.filesystem.jar"/>
 			<include name="org.eclipse.core.resources.jar"/>

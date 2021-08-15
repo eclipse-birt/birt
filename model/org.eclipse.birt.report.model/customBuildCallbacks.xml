@@ -68,7 +68,7 @@
 					<include name="*.jar" />
 			    </fileset>					
 			    <fileset dir="${baseLocation}/plugins/">			
-					<include name="com.ibm.icu_*.jar"/>
+					<include name="com.ibm.icu_63.1.0.v20181030-1705.jar"/>
 			    	<include name="org.apache.commons.codec_*.jar"/>
 			    	<include name="org.w3c.css.sac_*.jar"/>
 			    </fileset>				

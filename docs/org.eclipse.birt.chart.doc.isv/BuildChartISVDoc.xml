@@ -98,7 +98,7 @@
 			<include name="org.eclipse.core.runtime*.jar"/>
 			<include name="org.eclipse.osgi_*/*.jar"/>
 			<include name="org.eclipse.osgi*.jar"/>
-			<include name="com.ibm.icu_*.jar"/>
+			<include name="com.ibm.icu_63.1.0.v20181030-1705.jar"/>
 			<include name="org.eclipse.swt*.jar"/>
 		</fileset>
 		<fileset dir="${baseLocation.emf}/plugins">
