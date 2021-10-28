@@ -84,7 +84,6 @@
 			<unit id="org.apache.batik.svggen" version="0.0.0"/>
 			<unit id="org.apache.batik.swing" version="0.0.0"/>
 			<unit id="org.apache.batik.transcoder" version="0.0.0"/>
-			<unit id="org.apache.batik.util.gui" version="0.0.0"/>
 			<unit id="org.apache.batik.xml" version="0.0.0"/>
 			<unit id="org.apache.batik.ext" version="0.0.0"/>
 			<unit id="org.apache.commons.codec" version="0.0.0"/>
@@ -112,67 +111,67 @@
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
-			<version>10.0.5</version>
+			<version>10.0.6</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-servlet</artifactId>
-			<version>10.0.5</version>
+			<version>10.0.6</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-io</artifactId>
-			<version>10.0.5</version>
+			<version>10.0.6</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-deploy</artifactId>
-			<version>10.0.5</version>
+			<version>10.0.6</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-plus</artifactId>
-			<version>10.0.5</version>
+			<version>10.0.6</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-jndi</artifactId>
-			<version>10.0.5</version>
+			<version>10.0.6</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-security</artifactId>
-			<version>10.0.5</version>
+			<version>10.0.6</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-util</artifactId>
-			<version>10.0.5</version>
+			<version>10.0.6</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-webapp</artifactId>
-			<version>10.0.5</version>
+			<version>10.0.6</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-xml</artifactId>
-			<version>10.0.5</version>
+			<version>10.0.6</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.eclipse.jetty.osgi</groupId>
 			<artifactId>jetty-osgi-boot</artifactId>
-			<version>10.0.5</version>
+			<version>10.0.6</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
@@ -203,6 +202,27 @@
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-continuation</artifactId>
 			<version>9.4.44.v20210927</version>
+			<type>jar</type>
+		</location>
+		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-gui-util</artifactId>
+			<version>1.14</version>
+			<type>jar</type>
+			<instructions><![CDATA[
+Bundle-Name:           org.apache.batik.util.gui
+version:               ${version_cleanup;${mvnVersion}}
+Bundle-SymbolicName:   org.apache.batik.util.gui
+Bundle-Version:        ${version}
+Import-Package:        *;resolution:=optional
+Export-Package:        *;version="${version}";-noimport:=true
+DynamicImport-Package: *
+]]></instructions>
+		</location>
+		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+			<groupId>com.innoventsolutions.birt.runtime</groupId>
+			<artifactId>flute</artifactId>
+			<version>4.8.0</version>
 			<type>jar</type>
 		</location>
 	</locations>
