@@ -21,6 +21,7 @@
 		<required-java-version>11</required-java-version>
 		<required-maven-version>3.6.3</required-maven-version>
 		<junit-version>4.13.2</junit-version>
+		<maven-jar-plugin-version>3.2.0</maven-jar-plugin-version>
 	</properties>
 
 	<!-- make release builds in particular quicker and more reliable -->
@@ -32,7 +33,7 @@
 			</activation>
 			<properties>
 				<eclipse.release.name>latest</eclipse.release.name>
-				<tycho.version>2.4.0</tycho.version>
+				<tycho.version>2.5.0</tycho.version>
 				<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/latest/</eclipse.repo.url>
 				<emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
 				<gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
@@ -42,10 +43,9 @@
 				<orbit.repo.url>https://download.eclipse.org/tools/orbit/downloads/latest-R</orbit.repo.url>
 				<!-- https://eclipse.org/datatools/downloads.php -->
 				<dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/</dtp.repo.url>
-				<jetty.version>10.0.5</jetty.version>
-				<icu.version>69.1</icu.version>
+				<jetty.version>10.0.6</jetty.version>
 				<!--jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
-				<jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+				<!--jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url -->
 				<mongodb.version>3.2.2.v20181004-1955</mongodb.version>
 				<lucene.version>[3.0.0,9.0.0)</lucene.version>
 			</properties>
@@ -551,7 +551,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.6</version>
+				<version>${maven-jar-plugin-version}</version>
 				<executions>
 					<execution>
 						<id>process-about.mappings</id>

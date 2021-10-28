@@ -3,7 +3,7 @@
  * program and the accompanying materials are made available under the terms of
  * the Eclipse Public License v1.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors: Actuate Corporation - Initial implementation.
  ******************************************************************************/
 
@@ -56,7 +56,7 @@ public class AppServerWrapper {
 
 	/**
 	 * Get wrapper instance.
-	 * 
+	 *
 	 * @return wrapper instance
 	 */
 	public synchronized static AppServerWrapper getInstance() {
@@ -111,10 +111,10 @@ public class AppServerWrapper {
 
 	/**
 	 * Start web appserver based on Jetty Http Service
-	 * 
+	 *
 	 * @param webappName
 	 * @throws Exception
-	 * 
+	 *
 	 * @deprecated use {@link #start(String, String)}
 	 */
 	public void start(String webappName) throws Exception {
@@ -125,7 +125,7 @@ public class AppServerWrapper {
 
 	/**
 	 * Start web appserver based on Jetty Http Service
-	 * 
+	 *
 	 * @param webappName
 	 * @throws Exception
 	 */
@@ -160,7 +160,7 @@ public class AppServerWrapper {
 
 	/**
 	 * Stop http server by webapp name
-	 * 
+	 *
 	 * @param webappName
 	 * @throws Exception
 	 */
@@ -179,7 +179,7 @@ public class AppServerWrapper {
 	/**
 	 * Ensures that the bundle with the specified name and the highest available
 	 * version is started.
-	 * 
+	 *
 	 * @param symbolicName
 	 */
 	private void ensureBundleStarted(String symbolicName) throws BundleException {
@@ -211,9 +211,10 @@ public class AppServerWrapper {
 	private void startJettyServer(String webAppName) throws IOException, BundleException {
 
 		// must setup logging configuration before jetty loaded
-		System.setProperty("org.eclipse.jetty.util.log.class", "org.eclipse.jetty.util.log.JavaUtilLog");
-		System.setProperty("org.eclipse.jetty.LEVEL", "INFO");
-		System.setProperty("org.eclipse.jetty.websocket.LEVEL", "INFO");
+//		System.setProperty("org.eclipse.jetty.util.log.class", "org.eclipse.jetty.util.log.JavaUtilLog");
+		System.setProperty("org.eclipse.jetty.util.log.class", "org.eclipse.jetty.util.log.StdErrLog");
+		System.setProperty("org.eclipse.jetty.LEVEL", "DEBUG");
+		System.setProperty("org.eclipse.jetty.websocket.LEVEL", "DEBUG");
 
 		ensureBundleStarted("org.eclipse.jetty.osgi.boot"); //$NON-NLS-1$
 
