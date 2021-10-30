@@ -11,9 +11,9 @@ Require-Bundle: org.eclipse.birt.chart.device.svg;bundle-version="4.7.0",
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.chart.device.pdf
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-ClassPath: .,
- lib/fop-2.6.jar
+Bundle-ClassPath: .
 Automatic-Module-Name: org.eclipse.birt.chart.device.pdf
-Import-Package: org.apache.batik.ext.awt.color;version="1.13.0",
+Import-Package: org.apache.batik.ext.awt.color;version="1.14.0",
  org.apache.batik.transcoder;version="1.14.0",
+ org.apache.fop.svg;version="2.6.0",
  org.w3c.dom.events;version="2.0.0"

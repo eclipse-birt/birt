@@ -9,42 +9,4 @@
 	</parent>
 	<artifactId>org.eclipse.birt.chart.device.pdf</artifactId>
 	<packaging>eclipse-plugin</packaging>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-maven-plugin</artifactId>
-				<version>${tycho.version}</version>
-				<extensions>true</extensions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.10</version>
-				<executions>
-					<execution>
-						<id>Copy jars</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.apache.xmlgraphics</groupId>
-									<artifactId>fop</artifactId>
-									<version>2.6</version>
-									<type>jar</type>
-									<overWrite>false</overWrite>
-									<outputDirectory>${project.basedir}/lib</outputDirectory>
-									<destFileName>fop-2.6.jar</destFileName>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>

@@ -692,16 +692,14 @@
         <setEntry value="org.opentest4j@default:default"/>
         <setEntry value="org.sat4j.core@default:default"/>
         <setEntry value="org.sat4j.pb@default:default"/>
-        <setEntry value="org.slf4j.api@default:default"/>
-        <setEntry value="org.slf4j.osgi-over-slf4j@default:default"/>
         <setEntry value="org.tukaani.xz@default:default"/>
         <setEntry value="org.uddi4j@default:default"/>
         <setEntry value="org.w3c.css.sac@default:default"/>
         <setEntry value="org.w3c.dom.events@default:default"/>
         <setEntry value="org.w3c.dom.smil@default:default"/>
         <setEntry value="org.w3c.dom.svg@default:default"/>
-        <setEntry value="slf4j.api*2.0.0.alpha5@default:default"/>
-        <setEntry value="slf4j.simple@default:default"/>
+        <setEntry value="slf4j.api*1.7.30@default:true"/>
+        <setEntry value="slf4j.simple*1.7.30@default:false"/>
         <setEntry value="wrapped.com.innoventsolutions.birt.runtime.flute@default:default"/>
         <setEntry value="wrapped.org.apache.tomcat.annotations-api@default:default"/>
         <setEntry value="wrapped.org.apache.tomcat.catalina@default:default"/>
@@ -711,8 +709,13 @@
         <setEntry value="wrapped.org.apache.tomcat.jasper@default:default"/>
         <setEntry value="wrapped.org.apache.tomcat.jsp-api@default:default"/>
         <setEntry value="wrapped.org.apache.tomcat.juli@default:default"/>
+        <setEntry value="wrapped.org.apache.xmlgraphics.fop-core@default:default"/>
+        <setEntry value="wrapped.org.apache.xmlgraphics.fop-events@default:default"/>
+        <setEntry value="wrapped.org.apache.xmlgraphics.fop-util@default:default"/>
+        <setEntry value="wrapped.org.apache.xmlgraphics.fop@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
+        <setEntry value="org.apache.axis@default:default"/>
         <setEntry value="org.eclipse.birt.axis.overlay@default:false"/>
         <setEntry value="org.eclipse.birt.build@default:default"/>
         <setEntry value="org.eclipse.birt.chart.cshelp@default:default"/>
