@@ -73,6 +73,7 @@
 
 	<property name="eclipse.home" location="." />
 
+	<property name="javadoc.version" value="11" />
 	<property name="core.dir" value="../org.eclipse.birt.core" />
 	<property name="core.javadoc.dir" value="core/api" />
 	<property name="module.name" value = "org.eclipse.birt.doc.isv" />
@@ -237,7 +238,7 @@
 						 useexternalfile="yes" author="true" version="true" use="true"
 						 windowtitle="Birt Engine API ${doc.version}"
 						 doctitle="BIRT Engine API ${doc.version} (Provisional)"
-						 source="1.6"
+						 source="${javadoc.version}"
 						 packagenames="org.eclipse.birt.report.engine.api"
 						 additionalparam="-Xmaxwarns 5 -Xdoclint:none">
 			<fileset dir="${engine.dir}/src" defaultexcludes="yes">
@@ -258,7 +259,7 @@
 						 useexternalfile="yes" author="true" version="true" use="true"
 						 windowtitle="Birt Script API ${doc.version}"
 						 doctitle="BIRT Script API ${doc.version} (Provisional)"
-						 source="1.6"
+						 source="${javadoc.version}"
 						 packagenames="org.eclipse.birt.report.engine.api.*"
 						 additionalparam="-Xmaxwarns 5 -Xdoclint:none">
 			<fileset dir="${engine.dir}/src" defaultexcludes="yes">
@@ -276,7 +277,7 @@
 							 useexternalfile="yes" author="true" version="true" use="true"
 							 windowtitle="BIRT Model API ${doc.version}"
 							 doctitle="BIRT Model API ${doc.version}"
-							 source="1.6"
+							 source="${javadoc.version}"
 							 packagenames="org.eclipse.birt.report.model.*"
 							 additionalparam="-Xmaxwarns 5 -Xdoclint:none">
 			<packageset dir="${model.dir}/src" defaultexcludes="yes">
@@ -294,7 +295,7 @@
 							 useexternalfile="yes" author="true" version="true" use="true"
 							 windowtitle="BIRT Data Engine API ${doc.version} Specification - Provisional"
 							 doctitle="BIRT Data Engine API ${doc.version} (Provisional)"
-							 source="1.6"
+							 source="${javadoc.version}"
 							 packagenames="org.eclipse.birt.data.*"
 							 additionalparam="-Xmaxwarns 5 -Xdoclint:none">
 				<packageset dir="${data.dir}/src" defaultexcludes="yes">
@@ -312,7 +313,7 @@
 						 useexternalfile="yes" author="true" version="true" use="true"
 						 windowtitle="BIRT Core API Reference v${doc.version} (Provisional)"
 						 doctitle="BIRT Core API Reference v${doc.version} (Provisional)"
-						 source="1.6"
+						 source="${javadoc.version}"
 						 sourcepath="${core.dir}/src"
 						 packagenames="org.eclipse.birt.core.archive,
 													 org.eclipse.birt.core.archive.compound,
@@ -343,7 +344,7 @@
 						 useexternalfile="yes" author="true" version="true" use="true"
 						 windowtitle="BIRT Core UI API Reference v${doc.version} (Provisional)"
 						 doctitle="BIRT Core UI API Reference v${doc.version} (Provisional)"
-						 source="1.6"
+						 source="${javadoc.version}"
 						 sourcepath="${core.ui.dir}/src"
 						 packagenames="org.eclipse.birt.core.ui.frameworks.errordisplay,
 													 org.eclipse.birt.core.ui.frameworks.taskwizard,

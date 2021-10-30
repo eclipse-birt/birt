@@ -9,9 +9,9 @@
 	</parent>
 	<artifactId>org.eclipse.birt.report.engine.emitter.html.tests</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
-	<build>
+		<!--  <build>
 		<plugins>
-			<plugin>
+		<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
@@ -28,5 +28,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-	</build>
+	</build>  -->
 </project>

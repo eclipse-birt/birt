@@ -3,5 +3,5 @@
   <fixed facet="jst.java"/>
   <fixed facet="jst.web"/>
   <installed facet="jst.web" version="2.3"/>
-  <installed facet="jst.java" version="5.0"/>
+  <installed facet="jst.java" version="1.8"/>
 </faceted-project>

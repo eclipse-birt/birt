@@ -13,6 +13,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>org.eclipse.birt.target</module>
 		<module>org.eclipse.birt.p2updatesite</module>
 		<!-- <module>org.eclipse.birt.sdk</module> -->
 		<module>org.eclipse.birt.example</module>
@@ -20,6 +21,5 @@
 		<module>org.eclipse.birt.api</module>
 		<module>org.eclipse.birt.build</module>
 		<module>birt-packages</module>
-		<module>org.eclipse.birt.target</module>
 	</modules>
 </project>

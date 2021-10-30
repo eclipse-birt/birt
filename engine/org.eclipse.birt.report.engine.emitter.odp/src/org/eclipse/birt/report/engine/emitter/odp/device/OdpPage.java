@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.emitter.odp.util.OdpUtil;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
-import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
+import org.eclipse.birt.report.engine.nLayout.area.style.AreaConstants;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.odf.OdfUtil;
 import org.eclipse.birt.report.engine.odf.pkg.ImageEntry;
@@ -30,10 +30,15 @@ import org.eclipse.birt.report.engine.odf.style.HyperlinkInfo;
 import org.eclipse.birt.report.engine.odf.style.StyleBuilder;
 import org.eclipse.birt.report.engine.odf.style.StyleConstant;
 import org.eclipse.birt.report.engine.odf.style.StyleEntry;
+import org.w3c.dom.css.CSSPrimitiveValue;
 
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
 
+/**
+ * @since 3.3
+ *
+ */
 public class OdpPage extends AbstractPage {
 
 	private OdpWriter writer;
@@ -43,6 +48,13 @@ public class OdpPage extends AbstractPage {
 
 	private StyleEntry textFrameStyle;
 
+	/**
+	 * @param pageWidth
+	 * @param pageHeight
+	 * @param backgroundColor
+	 * @param writer
+	 * @param context
+	 */
 	public OdpPage(int pageWidth, int pageHeight, Color backgroundColor, OdpWriter writer, OdpContext context) {
 		super(pageWidth, pageHeight);
 		this.context = context;
@@ -132,7 +144,7 @@ public class OdpPage extends AbstractPage {
 
 	protected void drawLine(float startX, float startY, float endX, float endY, float width, Color color,
 			int lineStyle) {
-		if (null == color || 0f == width || lineStyle == BorderInfo.BORDER_STYLE_NONE) {
+		if (null == color || 0f == width || lineStyle == AreaConstants.BORDER_STYLE_NONE) {
 			return;
 		}
 
@@ -140,11 +152,11 @@ public class OdpPage extends AbstractPage {
 		entry.setProperty(StyleConstant.COLOR_PROP, OdpUtil.getColorString(color));
 		entry.setProperty(StyleConstant.GRAPHIC_STROKE_WIDTH, width / OdfUtil.INCH_PT);
 
-		if (lineStyle == BorderInfo.BORDER_STYLE_DASHED || lineStyle == BorderInfo.BORDER_STYLE_DOTTED) {
-			entry.setProperty(StyleConstant.GRAPHIC_STROKE, "dash");
+		if (lineStyle == AreaConstants.BORDER_STYLE_DASHED || lineStyle == AreaConstants.BORDER_STYLE_DOTTED) {
+			entry.setProperty(StyleConstant.GRAPHIC_STROKE, "dash"); //$NON-NLS-1$
 			// TODO: dash style, which is quite complex to implement
 		} else {
-			entry.setProperty(StyleConstant.GRAPHIC_STROKE, "solid");
+			entry.setProperty(StyleConstant.GRAPHIC_STROKE, "solid"); //$NON-NLS-1$
 		}
 
 		context.addStyle(entry);
@@ -174,7 +186,8 @@ public class OdpPage extends AbstractPage {
 		style.setProperty(StyleConstant.DIRECTION_PROP, textStyle.getDirection());
 		style.setProperty(StyleConstant.COLOR_PROP, OdpUtil.getColorString(textStyle.getColor()));
 		style.setProperty(StyleConstant.LETTER_SPACING,
-				new FloatValue(FloatValue.CSS_PT, textStyle.getLetterSpacing() / PDFConstants.LAYOUT_TO_PDF_RATIO));
+				new FloatValue(CSSPrimitiveValue.CSS_PT,
+						textStyle.getLetterSpacing() / PDFConstants.LAYOUT_TO_PDF_RATIO));
 
 		if (fontInfo != null) {
 			BaseFont baseFont = fontInfo.getBaseFont();
@@ -184,11 +197,11 @@ public class OdpPage extends AbstractPage {
 			style.setProperty(StyleConstant.FONT_SIZE_PROP, Double.valueOf(fontInfo.getFontSize()));
 
 			if ((fontInfo.getFontStyle() & Font.BOLD) != 0) {
-				style.setProperty(StyleConstant.FONT_WEIGHT_PROP, "bold");
+				style.setProperty(StyleConstant.FONT_WEIGHT_PROP, "bold"); //$NON-NLS-1$
 			}
 
 			if ((fontInfo.getFontStyle() & Font.ITALIC) != 0) {
-				style.setProperty(StyleConstant.FONT_STYLE_PROP, "italic");
+				style.setProperty(StyleConstant.FONT_STYLE_PROP, "italic"); //$NON-NLS-1$
 			}
 
 			if (textStyle.isLinethrough()) {
@@ -210,6 +223,9 @@ public class OdpPage extends AbstractPage {
 		writer.drawText(text, textX, textY, width, height + descend * 0.6f, textFrameStyle, style, link);
 	}
 
+	/**
+	 * @param link
+	 */
 	public void setLink(HyperlinkInfo link) {
 		this.link = link;
 	}

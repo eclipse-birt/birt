@@ -18,7 +18,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceRegistration;
 
 /**
- * 
+ *
  */
 
 public class ViewerWebApp {
@@ -40,7 +40,7 @@ public class ViewerWebApp {
 		WebAppContext webapp = new WebAppContext();
 		Dictionary<String, Object> props = new Hashtable<String, Object>();
 		props.put(OSGiWebappConstants.RFC66_WEB_CONTEXTPATH, contextPath);
-		props.put(OSGiWebappConstants.JETTY_WAR_FOLDER_PATH, getWebAppPath(bundle, webAppPath));
+		props.put(OSGiWebappConstants.JETTY_WAR_RESOURCE_PATH, getWebAppPath(bundle, webAppPath));
 		props.put(OSGiServerConstants.MANAGED_JETTY_SERVER_NAME, ViewerWebServer.VIEWER_WEB_SERVER_ID);
 		if (encoding != null) {
 			// Jetty need those property to change the request encoding

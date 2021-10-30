@@ -49,7 +49,7 @@ public class MonthDateFormatTest extends TestCase {
 			ULocale locale = itr.next();
 			IDateFormatWrapper formatter = DateFormatWrapperFactory.getPreferredDateFormat(Calendar.MONTH, locale,
 					true);
-			assertEquals(locales.get(locale), formatter.format(date));
+			assertEquals("Locale " + locale.getBaseName(), locales.get(locale), formatter.format(date)); //$NON-NLS-1$
 		}
 	}
 }

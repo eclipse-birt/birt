@@ -7,11 +7,12 @@ Bundle-ClassPath: .,
  WebContent/WEB-INF/lib/
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-ActivationPolicy: lazy
-Require-Bundle: javax.servlet,
- javax.servlet.jsp,
+Require-Bundle: javax.servlet.jsp,
  org.eclipse.birt.chart.engine,
  org.eclipse.birt.chart.engine.extension
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.ibm.icu.text;version="3.4.4",
- com.ibm.icu.util;version="3.4.4"
+ com.ibm.icu.util;version="3.4.4",
+ javax.servlet;version="3.1.0",
+ javax.servlet.http;version="3.1.0"
 Automatic-Module-Name: org.eclipse.birt.chart.viewer
