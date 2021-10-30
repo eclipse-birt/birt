@@ -247,13 +247,31 @@
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>2.0.0-alpha5</version>
+			<version>2.0.0-alpha1</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.slf4j</groupId>
 			<artifactId>osgi-over-slf4j</artifactId>
-			<version>2.0.0-alpha5</version>
+			<version>2.0.0-alpha1</version>
+			<type>jar</type>
+			<instructions><![CDATA[
+Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}
+version:               ${version_cleanup;${mvnVersion}}
+Bundle-SymbolicName:   wrapped.${mvnGroupId}.${mvnArtifactId}
+Bundle-Version:        ${version}
+Import-Package:        *;resolution:=optional
+Export-Package:        *;version="${version}";-noimport:=true
+DynamicImport-Package: *
+Require-Capability: osgi.extender;filter:="(osgi.extender=osgi.service
+ loader.processor)",osgi.serviceloader;filter:="(osgi.serviceloader=or
+ g.slf4j.spi.SLF4JServiceProvider)"
+]]></instructions>
+		</location>
+		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>fop</artifactId>
+			<version>2.6</version>
 			<type>jar</type>
 		</location>
 	</locations>
