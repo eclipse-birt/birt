@@ -15,6 +15,17 @@
     label="BIRT">
   <annotation
       source="http://www.eclipse.org/oomph/setup/ConfigurationReference"/>
+  <annotation
+      source="http://www.eclipse.org/oomph/setup/BrandingInfo">
+    <detail
+        key="imageURI">
+      <value>https://raw.githubusercontent.com/eclipse/birt/master/build/org.eclipse.birt/eclipse32.png</value>
+    </detail>
+    <detail
+        key="siteURI">
+      <value>https://www.eclipse.org/birt/</value>
+    </detail>
+  </annotation>
   <setupTask
       xsi:type="setup:CompoundTask"
       name="User Preferences">
@@ -47,6 +58,14 @@
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
+        name="org.eclipse.pde.api.tools">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.pde.api.tools/missing_default_api_profile"
+          value="Warning"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:CompoundTask"
         name="org.eclipse.m2e.core">
       <setupTask
           xsi:type="setup:PreferenceTask"
@@ -61,13 +80,6 @@
           key="/instance/org.eclipse.oomph.setup.ui/showToolBarContributions"
           value="true"/>
     </setupTask>
-  </setupTask>
-  <setupTask
-      xsi:type="jdt:JRETask"
-      version="JavaSE-11"
-      location="${jre.location-11}"
-      name="JRE for JavaSE-11">
-    <description>Define the JRE needed to compile and run the Java projects of ${scope.project.label}</description>
   </setupTask>
   <setupTask
       xsi:type="setup:EclipseIniTask"
@@ -103,6 +115,10 @@
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="setup.p2:P2Task">
+    <requirement
+        name="org.sonatype.tycho.m2e.feature.feature.group"/>
+    <repository
+        url="https://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/0.9.0/N/LATEST/"/>
     <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}</description>
   </setupTask>
   <setupTask
@@ -117,7 +133,7 @@
       </detail>
       <detail
           key="label">
-        <value>The BIRT Git repository</value>
+        <value>${scope.project.label} Github repository</value>
       </detail>
       <detail
           key="target">
@@ -129,7 +145,7 @@
   <setupTask
       xsi:type="setup.targlets:TargletTask">
     <targlet
-        name="BIRT">
+        name="${scope.project.label}">
       <requirement
           name="org.eclipse.sdk.feature.group"/>
       <requirement
@@ -164,7 +180,7 @@
     <description>The dynamic working sets for ${scope.project.label}</description>
   </setupTask>
   <stream name="master"
-      label="Master">
+      label="Workspace setup for branch master">
     <setupTask
         xsi:type="setup:EclipseIniTask"
         disabled="true"
@@ -173,9 +189,16 @@
         vm="true">
       <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
     </setupTask>
+    <setupTask
+        xsi:type="jdt:JRETask"
+        version="JavaSE-11"
+        location="${jre.location-11}"
+        name="JRE for JavaSE-11">
+      <description>Define the JRE needed to compile and run the Java projects of ${scope.project.label}</description>
+    </setupTask>
   </stream>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
       href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']"/>
-  <description>BIRT provides cool stuff.</description>
+  <description>BIRT is an open source technology platform used to create data visualizations and reports that can be embedded into rich client and web applications.</description>
 </setup:Project>
