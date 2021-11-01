@@ -268,7 +268,7 @@ Require-Capability: osgi.extender;filter:="(osgi.extender=osgi.service
  g.slf4j.spi.SLF4JServiceProvider)"
 ]]></instructions>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>fop</artifactId>
 			<version>2.6</version>
