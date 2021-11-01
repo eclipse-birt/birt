@@ -152,7 +152,7 @@
   </setupTask>
   <setupTask
       xsi:type="pde:TargetPlatformTask"
-      name="org.eclipse.birt.target"/>
+      name="BIRT Target"/>
   <setupTask
       xsi:type="setup.workingsets:WorkingSetTask"
       prefix="org.eclipse.birt-">
