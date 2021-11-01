@@ -32,7 +32,6 @@
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
-					<testSuite>org.eclipse.birt.report.tests.chart</testSuite>
 					<testClass>org.eclipse.birt.report.tests.chart.AllTests</testClass>
 				</configuration>
 			</plugin>

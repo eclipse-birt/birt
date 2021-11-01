@@ -30,7 +30,7 @@
     <list-property name="images">
         <structure>
             <property name="name">logo.jpg</property>
-            <property name="data">123</property>
+            <property name="data">MTIzNDU2Nzg5MA==</property>
         </structure>
     </list-property>
 </report>

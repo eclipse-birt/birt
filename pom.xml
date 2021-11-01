@@ -22,6 +22,7 @@
 		<required-maven-version>3.6.3</required-maven-version>
 		<junit-version>4.13.2</junit-version>
 		<maven-jar-plugin-version>3.2.0</maven-jar-plugin-version>
+		<maven-surefire-plugin-version>2.22.0</maven-surefire-plugin-version>
 	</properties>
 
 	<!-- make release builds in particular quicker and more reliable -->
@@ -129,7 +130,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.19.1</version>
+				<version>${maven-surefire-plugin-version}</version>
 				<configuration>
 					<aggregate>true</aggregate>
 				</configuration>
