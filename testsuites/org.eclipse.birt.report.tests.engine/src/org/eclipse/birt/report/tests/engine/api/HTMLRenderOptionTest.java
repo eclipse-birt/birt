@@ -8,16 +8,16 @@
 
 package org.eclipse.birt.report.tests.engine.api;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import java.util.ArrayList;
 
-import java.util.*;
-
-import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.HTMLActionHandler;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.tests.engine.EngineCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * <b>HTMLRenderOption test</b>
@@ -42,7 +42,7 @@ public class HTMLRenderOptionTest extends EngineCase {
 
 	/**
 	 * Test suite()
-	 * 
+	 *
 	 * @return
 	 */
 	public static Test suite() {
@@ -61,8 +61,8 @@ public class HTMLRenderOptionTest extends EngineCase {
 
 	protected void tearDown() throws Exception {
 		task.close();
-		removeResource();
 		super.tearDown();
+		removeResource();
 	}
 
 	/**

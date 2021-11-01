@@ -27,7 +27,8 @@ public class IElementTest extends BaseEmitter {
 		copyResource_INPUT(report, report);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 

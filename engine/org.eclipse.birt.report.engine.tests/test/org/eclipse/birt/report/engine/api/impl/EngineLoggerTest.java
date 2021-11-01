@@ -41,8 +41,8 @@ public class EngineLoggerTest extends TestCase {
 		Logger logger = Logger.getLogger("");
 		if (rootLoggerHandler == null) {
 			rootLoggerHandler = new FileHandler(logFile);
-			logger.addHandler(rootLoggerHandler);
 		}
+		logger.addHandler(rootLoggerHandler);
 		logger.setLevel(logLevel);
 	}
 
@@ -63,7 +63,7 @@ public class EngineLoggerTest extends TestCase {
 	/**
 	 * if the user doesn't setup any ENGINE logger, ENGINE should use the system
 	 * logger as all other components
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDefaultLogger() throws Exception {
@@ -87,7 +87,7 @@ public class EngineLoggerTest extends TestCase {
 	/**
 	 * the user setup a file logger. All the logger should be outputted to the file.
 	 * If the log level is OFF, no log file should be created.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testFileLogger() throws Exception {
@@ -106,7 +106,7 @@ public class EngineLoggerTest extends TestCase {
 	/**
 	 * the user uses the user defined log. All log should be outputted to the user
 	 * defined logger.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testUserLogger() throws Exception {
@@ -141,7 +141,7 @@ public class EngineLoggerTest extends TestCase {
 	 * the user setup a thread logger. Those logs output in those thread should be
 	 * output to the defined logger, the thread without logger should be output to
 	 * the original logger.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testThreadLogger() throws Exception {
@@ -219,19 +219,20 @@ public class EngineLoggerTest extends TestCase {
 	}
 
 	private static void logThread(final String logFile, final Level logLevel) {
-		new Thread(new LogThread(logFile, logLevel)).start();
+		new Thread(new LogThread(logFile, logLevel), logFile).start();
 	}
 
-	private static void log() {
+	@SuppressWarnings("nls")
+	private synchronized static void log() {
 		Logger logger = Logger.getLogger("org.eclipse.birt.report.engine");
 		logger.log(Level.FINEST, "FINEST_LOG_RECORD");
 		logger.log(Level.FINE, "FINE_LOG_RECORD");
 		logger.log(Level.WARNING, "WARNING_LOG_RECORD");
 	}
 
+	@SuppressWarnings("nls")
 	private String getFileContent(String fileName) throws IOException {
-		FileInputStream in = new FileInputStream(fileName);
-		try {
+		try (FileInputStream in = new FileInputStream(fileName)) {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			byte[] buffer = new byte[4096];
 			int readSize = in.read(buffer);
@@ -239,11 +240,7 @@ public class EngineLoggerTest extends TestCase {
 				out.write(buffer, 0, readSize);
 				readSize = in.read(buffer);
 			}
-
 			return out.toString("utf-8");
-
-		} finally {
-			in.close();
 		}
 	}
 

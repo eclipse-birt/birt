@@ -25,7 +25,8 @@ public class IBandContentTest extends BaseEmitter {
 		copyResource_INPUT(reportName, reportName);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 
@@ -52,7 +53,7 @@ public class IBandContentTest extends BaseEmitter {
 
 	/**
 	 * Test IBandContent methods with report
-	 * 
+	 *
 	 * @throws EngineException
 	 */
 	public void testBandFromReport() throws EngineException {
