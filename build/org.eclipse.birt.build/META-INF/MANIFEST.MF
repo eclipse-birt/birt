@@ -11,5 +11,6 @@ Automatic-Module-Name: org.eclipse.birt.build
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.dom4j;version="2.1.1",
  org.dom4j.dom;version="2.1.1",
- org.dom4j.io;version="2.1.1"
+ org.dom4j.io;version="2.1.1",
+ org.dom4j.tree;version="2.1.1"
 
