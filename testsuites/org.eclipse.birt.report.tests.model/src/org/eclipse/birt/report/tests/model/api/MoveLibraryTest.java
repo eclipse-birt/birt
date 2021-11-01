@@ -2,9 +2,6 @@ package org.eclipse.birt.report.tests.model.api;
 
 import java.io.File;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -13,22 +10,25 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * TestCases for Library operation.
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
- * 
+ *
  * <tr>
  * <td>{@link #testCopyLibA()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testMoveLibrary()}</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class MoveLibraryTest extends BaseTestCase {
 	String fileName = "BlankReport.xml";
@@ -66,7 +66,7 @@ public class MoveLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test saveAs library
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCopyLibA() throws Exception {
@@ -84,7 +84,7 @@ public class MoveLibraryTest extends BaseTestCase {
 
 	/**
 	 * Test remove library used in report
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testMoveLibrary() throws Exception {
@@ -114,12 +114,17 @@ public class MoveLibraryTest extends BaseTestCase {
 		assertEquals("yellow", dataHandle.getExtends().getStringProperty("backgroundColor"));
 		assertEquals("red", textHandle.getExtends().getStringProperty("backgroundColor"));
 
-		File deleteLibD = new File(LibD);
-		deleteLibD.delete();
 		String TempFile = this.genOutputFile("SavedReport.xml");
 		designHandle.saveAs(TempFile);
 
-		openDesign("SavedReport.xml");
+		// Delete any lingering library
+		String tempLibFile = this.genOutputFile(LibD);
+		File f = new File(tempLibFile);
+		f.delete();
+
+		designHandle.saveAs(TempFile);
+
+		openDesign(TempFile, false);
 		assertNotNull((TextItemHandle) designHandle.findElement("text1"));
 		assertNotNull((DataItemHandle) designHandle.findElement("data1"));
 		assertEquals(null, ((TextItemHandle) designHandle.findElement("text1")).getStringProperty("backgroundColor"));

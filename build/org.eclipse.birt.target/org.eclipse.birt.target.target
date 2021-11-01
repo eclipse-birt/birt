@@ -209,9 +209,9 @@
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>jasper</artifactId>
-			<version>6.0.53</version>
+			<groupId>org.apache.jasper</groupId>
+			<artifactId>glassfish</artifactId>
+			<version>2.2.2-v201205150955</version>
 			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">

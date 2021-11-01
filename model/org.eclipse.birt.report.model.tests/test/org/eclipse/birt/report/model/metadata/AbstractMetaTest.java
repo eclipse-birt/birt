@@ -21,16 +21,9 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 abstract public class AbstractMetaTest extends BaseTestCase {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.util.BaseTestCase#tearDown()
-	 */
 	protected void tearDown() throws Exception {
 		MetaDataDictionary.reset();
-
 		engine = null;
-
 		super.tearDown();
 	}
 
@@ -41,7 +34,6 @@ abstract public class AbstractMetaTest extends BaseTestCase {
 
 	protected final void loadMetaData(InputStream is) throws MetaDataParserException {
 		MetaDataDictionary.reset();
-
 		MetadataTestUtil.readRom(is);
 	}
 
