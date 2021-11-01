@@ -35,3 +35,4 @@ https://download.eclipse.org/birt/update-site/snapshot/
 
 ## Latest designer download towards 4.9.0
 https://ci.eclipse.org/birt/job/birt-master/lastSuccessfulBuild/artifact/build/birt-packages/birt-report-all-in-one/target/products/
+
