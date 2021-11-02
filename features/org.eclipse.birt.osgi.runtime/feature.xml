@@ -648,49 +648,7 @@
          unpack="false"/>
 
    <plugin
-         id="wrapped.org.apache.xmlgraphics.fop"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="wrapped.org.apache.xmlgraphics.fop-core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="wrapped.org.apache.xmlgraphics.fop-core.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="wrapped.org.apache.xmlgraphics.fop-events"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="wrapped.org.apache.xmlgraphics.fop-events.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="wrapped.org.apache.xmlgraphics.fop-util"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="wrapped.org.apache.xmlgraphics.fop-util.source"
+         id="org.apache.fop"
          download-size="0"
          install-size="0"
          version="0.0.0"

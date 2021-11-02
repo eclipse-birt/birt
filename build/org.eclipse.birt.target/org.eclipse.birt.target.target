@@ -283,12 +283,6 @@ Export-Package:        *;version="${version}";-noimport:=true
 DynamicImport-Package: *
 ]]></instructions>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>fop</artifactId>
-			<version>2.6</version>
-			<type>jar</type>
-		</location>
 		<location includeDependencyScope="test" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
