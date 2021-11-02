@@ -52,7 +52,9 @@ jobs:
       run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.model.tests integration-test
     - name: Model Regression Test
       run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.model integration-test
-    - name: Charts Test
+    - name: Charts Core Test
+      run: mvn -B -pl :org.eclipse.birt.report.chart.tests integration-test
+    - name: Charts Regression Test
       run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.chart integration-test
     - name: Engine Regression Test
       run: mvn -Dtest=AllTests -B -pl :org.eclipse.birt.report.tests.engine integration-test
