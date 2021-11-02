@@ -7,4 +7,6 @@ Fragment-Host: org.apache.batik.transcoder;bundle-version="[1.14.0,1.15.0)"
 Bundle-Vendor: Eclipse BIRT
 Automatic-Module-Name: org.apache.batik.ext.awt.extension
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Require-Bundle: org.apache.batik.codec;bundle-version="1.14.0"
+Require-Bundle: org.apache.batik.codec;bundle-version="[1.14.0,1.15.0)"
+Import-Package: org.apache.batik.w3c.dom;version="[1.14.0,1.15.0)",
+ org.apache.batik.w3c.dom.events;version="[1.14.0,1.15.0)"

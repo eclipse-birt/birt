@@ -257,14 +257,16 @@
 			</dependencies>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>com.ibm.icu</groupId>
-					<artifactId>icu4j</artifactId>
-					<version>69.1</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
+			<groupId>org.apache.jasper</groupId>
+			<artifactId>glassfish</artifactId>
+			<version>2.2.2-v201205150955</version>
+			<type>jar</type>
+		</location>
+		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+			<version>70.1</version>
+			<type>jar</type>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="error" type="Maven">
 			<dependencies>
