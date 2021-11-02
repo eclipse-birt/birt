@@ -24,7 +24,8 @@ public class ICellContentTest extends BaseEmitter {
 		cell = new ReportContent().createCellContent();
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 

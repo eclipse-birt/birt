@@ -12,9 +12,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -24,6 +21,9 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 import org.eclipse.birt.report.tests.engine.EngineCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * <b>ReportEngine test</b>
@@ -39,7 +39,8 @@ public class ReportEngineTest extends EngineCase {
 		copyResource_INPUT("parameter.rptdesign", "parameter.rptdesign");
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 
@@ -52,7 +53,7 @@ public class ReportEngineTest extends EngineCase {
 
 	/**
 	 * Test suite
-	 * 
+	 *
 	 * @return
 	 */
 	public static Test suite() {
@@ -72,7 +73,7 @@ public class ReportEngineTest extends EngineCase {
 
 	/**
 	 * Test openReportDesign(string)
-	 * 
+	 *
 	 * @throws EngineException
 	 */
 	public void testOpenReportDesign() throws EngineException {

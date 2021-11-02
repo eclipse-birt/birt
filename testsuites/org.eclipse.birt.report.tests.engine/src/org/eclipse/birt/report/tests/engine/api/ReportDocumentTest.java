@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
@@ -23,6 +20,9 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
 import com.ibm.icu.util.ULocale;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * <b>Report Document creation test</b>
@@ -51,7 +51,8 @@ public class ReportDocumentTest extends EngineCase {
 		copyResource_INPUT("report_document.rptdesign", "report_document.rptdesign");
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 
@@ -232,7 +233,7 @@ public class ReportDocumentTest extends EngineCase {
 
 	/**
 	 * create the report document.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void createReportDocument(String reportdesign, String reportdocument) throws Exception {
@@ -251,7 +252,7 @@ public class ReportDocumentTest extends EngineCase {
 
 	/**
 	 * create the report document, set inputParams for it.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void createReportDocument_param(String reportdesign, String reportdocument) throws Exception {

@@ -19,11 +19,14 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * 
+ *
  */
 
 public class AllTests {
 
+	/**
+	 * @return the test
+	 */
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test for org.eclipse.birt.report.engine");
 		AllTestsHelper.suite(suite);
@@ -198,9 +201,13 @@ public class AllTests {
 
 	};
 
+	/**
+	 * @param args
+	 * @throws IOException
+	 */
 	public static void main(String args[]) throws IOException {
 		File root = new File("./test/");
-		ArrayList test = new ArrayList();
+		ArrayList<String> test = new ArrayList<String>();
 
 		listTests(test, root.getCanonicalPath(), root);
 
@@ -216,7 +223,7 @@ public class AllTests {
 		}
 	}
 
-	static protected void listTests(java.util.ArrayList tests, String root, File folder) throws IOException {
+	static protected void listTests(ArrayList<String> tests, String root, File folder) throws IOException {
 		if (folder.isDirectory()) {
 			File[] files = folder.listFiles();
 			for (int i = 0; i < files.length; i++) {

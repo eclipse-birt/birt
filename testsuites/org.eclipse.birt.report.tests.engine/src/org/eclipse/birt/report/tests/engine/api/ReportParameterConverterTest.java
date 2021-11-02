@@ -10,13 +10,14 @@ package org.eclipse.birt.report.tests.engine.api;
 
 import java.util.Date;
 import java.util.Locale;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import java.util.TimeZone;
 
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ReportParameterConverter;
 import org.eclipse.birt.report.tests.engine.EngineCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * <b>ReportParameterConverter test</b>
@@ -25,16 +26,25 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  */
 public class ReportParameterConverterTest extends EngineCase {
 
+	private TimeZone fTimeZone;
+
 	/**
 	 * @param name
 	 */
 	public ReportParameterConverterTest(String name) {
 		super(name);
+		fTimeZone = TimeZone.getDefault();
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+	}
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 	/**
 	 * Test suite
-	 * 
+	 *
 	 * @return
 	 */
 	public static Test suite() {
