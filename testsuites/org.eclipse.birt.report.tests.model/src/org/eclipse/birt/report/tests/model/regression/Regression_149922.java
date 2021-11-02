@@ -23,16 +23,16 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * access the resources through file or URI expression:
  * <p>
  * Accessing file images:
- * 
+ *
  * <pre>
  *        &lt;image id=&quot;4&quot;&gt;
  *            &lt;property name=��source��&gt;file&lt;/property&gt;
  *            &lt;expression name=&quot;uri&quot;&gt;&quot;pict 103.jpg&quot;&lt;/expression&gt;
  *         &lt;/image&gt;
  * </pre>
- * 
+ *
  * Accessing URI images
- * 
+ *
  * <pre>
  *           &lt;image id=&quot;5&quot;&gt;
  *              &lt;property name=��source��&gt;url&lt;/property&gt;
@@ -40,21 +40,21 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  *   name=&quot;uri&quot;&gt;&quot;http://www.google.com/intl/en/images/logo.gif&quot;&lt;/expression&gt;
  *   &lt;/image&gt;
  * </pre>
- * 
+ *
  * Unfortunately, the designer doesn��t distinguish those two kinds of
  * resources. The created report design is:
- * 
+ *
  * <pre>
  *   &lt;image id=&quot;4&quot;&gt;
  *      &lt;expression name=&quot;uri&quot;&gt;&quot;pict 103.jpg&quot;&lt;/expression&gt;
  *   &lt;/image&gt;
- *   
+ *
  *   &lt;image id=&quot;5&quot;&gt;
  *      &lt;expression
  *   name=&quot;uri&quot;&gt;&quot;http://www.google.com/intl/en/images/logo.gif&quot;&lt;/expression&gt;
  *   &lt;/image&gt;
  * </pre>
- * 
+ *
  * <p>
  * That means both the local resources and the global resources are specified by
  * the URI expression.
@@ -85,7 +85,7 @@ public class Regression_149922 extends BaseTestCase {
 	 */
 
 	public void test_regression_149922() throws Exception {
-		this.createDesign();
+		this.createBlankDesign();
 		ElementFactory factory = designHandle.getElementFactory();
 
 		ImageHandle image = factory.newImage("img1"); //$NON-NLS-1$

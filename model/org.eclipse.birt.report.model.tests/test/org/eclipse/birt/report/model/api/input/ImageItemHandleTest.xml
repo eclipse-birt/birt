@@ -22,10 +22,7 @@
 	<list-property name="images">
         <structure>
             <property name="name">A_001.jpg</property>
-            <property name="data">
-				/9j/4AAQSkZJRg
-                P1pAuQdy9e1AH//Z
-			</property>
+            <property name="data">MTIzNDU2Nzg5MA==</property>
 	    </structure>
 	</list-property>
     <styles>
