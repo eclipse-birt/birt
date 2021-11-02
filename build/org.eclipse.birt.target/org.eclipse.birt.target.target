@@ -273,6 +273,15 @@ Require-Capability: osgi.extender;filter:="(osgi.extender=osgi.service
 			<artifactId>fop</artifactId>
 			<version>2.6</version>
 			<type>jar</type>
+			<instructions><![CDATA[
+Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}
+version:               ${version_cleanup;${mvnVersion}}
+Bundle-SymbolicName:   org.apache.fop
+Bundle-Version:        ${version}
+Import-Package:        *;resolution:=optional
+Export-Package:        *;version="${version}";-noimport:=true
+DynamicImport-Package: *
+]]></instructions>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<groupId>org.apache.xmlgraphics</groupId>
