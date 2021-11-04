@@ -394,7 +394,6 @@
         <setEntry value="org.eclipse.jdt.apt.ui@default:default"/>
         <setEntry value="org.eclipse.jdt.compiler.apt@default:false"/>
         <setEntry value="org.eclipse.jdt.compiler.tool@default:false"/>
-        <setEntry value="org.eclipse.jdt.core.compiler.batch@default:default"/>
         <setEntry value="org.eclipse.jdt.core.formatterapp@default:default"/>
         <setEntry value="org.eclipse.jdt.core.manipulation@default:default"/>
         <setEntry value="org.eclipse.jdt.core@default:default"/>
@@ -700,19 +699,12 @@
         <setEntry value="org.w3c.dom.events@default:default"/>
         <setEntry value="org.w3c.dom.smil@default:default"/>
         <setEntry value="org.w3c.dom.svg@default:default"/>
-        <setEntry value="slf4j.api*2.0.0.alpha5@default:default"/>
+        <setEntry value="slf4j.api@default:default"/>
         <setEntry value="slf4j.simple@default:default"/>
         <setEntry value="wrapped.com.innoventsolutions.birt.runtime.flute@default:default"/>
-        <setEntry value="wrapped.org.apache.tomcat.annotations-api@default:default"/>
-        <setEntry value="wrapped.org.apache.tomcat.catalina@default:default"/>
-        <setEntry value="wrapped.org.apache.tomcat.coyote@default:default"/>
-        <setEntry value="wrapped.org.apache.tomcat.el-api@default:default"/>
-        <setEntry value="wrapped.org.apache.tomcat.jasper-el@default:default"/>
-        <setEntry value="wrapped.org.apache.tomcat.jasper@default:default"/>
-        <setEntry value="wrapped.org.apache.tomcat.jsp-api@default:default"/>
-        <setEntry value="wrapped.org.apache.tomcat.juli@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
+        <setEntry value="org.apache.axis@default:default"/>
         <setEntry value="org.eclipse.birt.axis.overlay@default:false"/>
         <setEntry value="org.eclipse.birt.build@default:default"/>
         <setEntry value="org.eclipse.birt.chart.cshelp@default:default"/>

@@ -22,7 +22,8 @@ public class CancelOnErrorTest extends EngineCase {
 		copyResource_INPUT(inputName, inputName);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 

@@ -33,7 +33,8 @@ public class IEmitterServicesTest extends BaseEmitter {
 		copyResource_INPUT(report, report);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 
@@ -43,7 +44,7 @@ public class IEmitterServicesTest extends BaseEmitter {
 
 	/**
 	 * Test IEmitterServices methods.
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	public void testIEmitterServices() throws BirtException {

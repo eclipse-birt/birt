@@ -19,7 +19,7 @@
     <list-property name="images">
         <structure>
             <property name="name">logo.jpg</property>
-            <property name="data">12345</property>
+            <property name="data">MTIzNDU=</property>
         </structure>
     </list-property>
 </library>

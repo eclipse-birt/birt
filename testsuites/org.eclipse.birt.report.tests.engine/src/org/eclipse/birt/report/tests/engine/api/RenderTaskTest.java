@@ -10,9 +10,6 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -26,6 +23,9 @@ import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.tests.engine.EngineCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * <b>IRenderTask test</b>
@@ -63,7 +63,8 @@ public class RenderTaskTest extends EngineCase {
 		engine.getConfig().setLogConfig(this.genOutputFolder() + "/", Level.WARNING);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 
@@ -651,7 +652,7 @@ public class RenderTaskTest extends EngineCase {
 
 	/**
 	 * create the report document.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void createReportDocument(String reportdesign, String reportdocument) throws Exception {

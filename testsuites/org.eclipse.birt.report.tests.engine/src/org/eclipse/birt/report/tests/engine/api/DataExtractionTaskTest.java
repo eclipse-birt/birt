@@ -57,7 +57,8 @@ public class DataExtractionTaskTest extends EngineCase {
 		copyResource_INPUT(INPUT_nestquery, INPUT_nestquery);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 
@@ -103,7 +104,7 @@ public class DataExtractionTaskTest extends EngineCase {
 
 	/**
 	 * Test normal data extraction with filter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDataExtractionWithFilter() throws Exception {
@@ -148,7 +149,7 @@ public class DataExtractionTaskTest extends EngineCase {
 
 	/**
 	 * test setInstanceID in DataExtractionTask with subquery structure
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDataExtractionFromIID_subquery() throws Exception {
@@ -258,7 +259,7 @@ public class DataExtractionTaskTest extends EngineCase {
 
 	/**
 	 * test setInstanceID in DataExtractionTask with subquery structure
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDataExtractionFromIID_nestquery() throws Exception {
@@ -367,7 +368,7 @@ public class DataExtractionTaskTest extends EngineCase {
 
 	/**
 	 * create the report document.
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */

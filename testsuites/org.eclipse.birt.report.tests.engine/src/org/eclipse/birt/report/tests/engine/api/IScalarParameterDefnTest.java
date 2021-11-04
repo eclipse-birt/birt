@@ -1,14 +1,14 @@
 
 package org.eclipse.birt.report.tests.engine.api;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.tests.engine.EngineCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * <b>IScalarParameterDefn test</b>
@@ -42,9 +42,9 @@ public class IScalarParameterDefnTest extends EngineCase {
 
 	protected void tearDown() throws Exception {
 		paramTask.close();
-		engine.shutdown();
-		removeResource();
+		engine.destroy();
 		super.tearDown();
+		removeResource();
 	}
 
 	/*

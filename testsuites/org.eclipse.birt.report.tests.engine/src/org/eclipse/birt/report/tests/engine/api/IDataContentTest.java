@@ -22,7 +22,8 @@ public class IDataContentTest extends BaseEmitter {
 		copyResource_INPUT(reportName, reportName);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 
@@ -65,7 +66,7 @@ public class IDataContentTest extends BaseEmitter {
 
 	/**
 	 * Test IDataContent methods through report
-	 * 
+	 *
 	 * @throws EngineException
 	 */
 	public void testIDataContentFromReport() throws EngineException {

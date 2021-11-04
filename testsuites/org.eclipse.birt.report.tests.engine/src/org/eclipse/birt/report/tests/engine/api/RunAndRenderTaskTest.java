@@ -34,7 +34,8 @@ public class RunAndRenderTaskTest extends EngineCase {
 		copyResource_INPUT("pages9.rptdesign", "pages9.rptdesign");
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 

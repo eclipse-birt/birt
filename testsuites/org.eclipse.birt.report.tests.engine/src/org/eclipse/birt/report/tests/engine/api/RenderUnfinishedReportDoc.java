@@ -44,7 +44,8 @@ public class RenderUnfinishedReportDoc extends EngineCase {
 		copyResource_INPUT(INPUT, INPUT);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 
