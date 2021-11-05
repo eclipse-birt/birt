@@ -2,16 +2,12 @@ package org.eclipse.birt.report.tests.model.api;
 
 import java.util.ArrayList;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
-import com.ibm.icu.util.ULocale;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * TestCases for ExternalCssStyleSheet.
@@ -19,16 +15,16 @@ import com.ibm.icu.util.ULocale;
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
- * 
+ *
  * <tr>
  * <td>{@link #testImportExternalCssStyleSheet()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testImportExternalCssStyleSheetWithFile()}</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class ExternalCssStyleSheet3Test extends BaseTestCase {
 
@@ -46,17 +42,14 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-
 		copyInputToFile(INPUT_FOLDER + "/" + fileName);
+		super.createBlankDesign();
 
-		// Platform.initialize( null );
-		SessionHandle session = DesignEngine.newSession(ULocale.ENGLISH);
-		designHandle = session.createDesign();
 	}
 
 	/**
 	 * Test Import CSS style
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testImportExternalCssStyleSheet() throws Exception {
@@ -87,7 +80,7 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 
 	/**
 	 * Test import css style from invalid file
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testImportExternalCssStyleSheetWithFile() throws Exception {

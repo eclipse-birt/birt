@@ -24,7 +24,7 @@ public class DataSetIDTest extends EngineCase {
 
 	/**
 	 * Test DataSetID methods with input report design
-	 * 
+	 *
 	 * @throws EngineException
 	 * @throws IOException
 	 */
@@ -34,7 +34,8 @@ public class DataSetIDTest extends EngineCase {
 		copyResource_INPUT(INPUT, INPUT);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 

@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.eclipse.birt.core.archive.FolderArchiveReader;
 import org.eclipse.birt.core.archive.FolderArchiveWriter;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -22,6 +19,9 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.tests.engine.EngineCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * <b>RenderFolderDocument test</b>
@@ -54,7 +54,8 @@ public class RenderFolderDocumentTest extends EngineCase {
 		htmlOption.setOutputFormat(HTMLRenderOption.HTML);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 
@@ -172,7 +173,7 @@ public class RenderFolderDocumentTest extends EngineCase {
 
 	/**
 	 * create folder-based report document
-	 * 
+	 *
 	 * @param design    source report design with absolute path
 	 * @param folderDoc folderdocument with absolute path like "c:/doc/"
 	 * @throws IOException
@@ -194,7 +195,7 @@ public class RenderFolderDocumentTest extends EngineCase {
 
 	/**
 	 * render output html from folder-based document
-	 * 
+	 *
 	 * @param docName . The value must be "folderdocument_reportname"
 	 */
 	private void renderFolderDocument(String docName) {

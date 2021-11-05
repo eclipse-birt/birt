@@ -24,7 +24,8 @@ public class IAutoTextContentTest extends BaseEmitter {
 		copyResource_INPUT(reportName + ".rptdesign", reportName + ".rptdesign");
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 

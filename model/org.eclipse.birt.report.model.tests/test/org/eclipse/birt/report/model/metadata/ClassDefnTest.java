@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 public class ClassDefnTest extends AbstractMetaTest {
 	/**
 	 * Test the meta-data parser for class definition.
-	 * 
+	 *
 	 * @throws MetaDataParserException if any exception.
 	 */
 
@@ -108,7 +108,7 @@ public class ClassDefnTest extends AbstractMetaTest {
 
 	/**
 	 * Test whether optional argument can be displayed correctly.
-	 * 
+	 *
 	 */
 
 	public void testOptionalArgument() {
@@ -126,7 +126,7 @@ public class ClassDefnTest extends AbstractMetaTest {
 					assertEquals("...", argu.getDisplayName()); //$NON-NLS-1$
 			}
 		}
-
+		// testClassesInRom();
 	}
 
 	/**
@@ -184,11 +184,14 @@ public class ClassDefnTest extends AbstractMetaTest {
 
 	/**
 	 * Test the classes defined in rom.def.
-	 * 
+	 *
 	 */
-
 	public void testClassesInRom() {
 		MetaDataDictionary dd = MetaDataDictionary.getInstance();
+		if (dd.getClasses().size() == 0) {
+			// not yet initialized by previous test
+			return;
+		}
 
 		assertEquals(11, dd.getClasses().size());
 

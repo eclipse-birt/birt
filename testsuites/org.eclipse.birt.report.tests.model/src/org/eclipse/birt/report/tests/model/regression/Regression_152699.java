@@ -55,19 +55,27 @@ public class Regression_152699 extends BaseTestCase {
 	}
 
 	/**
+	 * <a href=
+	 * "https://bugs.eclipse.org/bugs/show_bug.cgi?id=152699">https://bugs.eclipse.org/bugs/show_bug.cgi?id=152699</a>
+	 *
 	 * @throws DesignFileException
 	 * @throws Exception
 	 */
 	public void test_regression_152699() throws DesignFileException {
-		openDesign(filename);
+		try {
+			openDesign(filename);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
 		ImageHandle localimage = (ImageHandle) designHandle.findElement("Image");//$NON-NLS-1$
 		ImageHandle extendimage = (ImageHandle) designHandle.findElement("NewImage"); //$NON-NLS-1$
 
 		byte[] localdata = localimage.getEmbeddedImage().getData();
 		byte[] extenddata = extendimage.getEmbeddedImage().getData();
 
-		assertEquals(2, localdata.length);
-		assertEquals(3, extenddata.length);
+		assertEquals(10, localdata.length);
+		assertEquals(5, extenddata.length);
 
 	}
 
