@@ -16,7 +16,10 @@
     name="birt"
     label="BIRT">
   <annotation
-      source="http://www.eclipse.org/oomph/setup/ConfigurationReference"/>
+      source="http://www.eclipse.org/oomph/setup/ConfigurationReference">
+    <reference
+        href="BIRTConfiguration.setup#/"/>
+  </annotation>
   <annotation
       source="http://www.eclipse.org/oomph/setup/BrandingInfo">
     <detail
@@ -49,6 +52,10 @@
           key="/instance/org.eclipse.core.resources/encoding">
         <value>record</value>
       </detail>
+      <detail
+          key="/instance/org.eclipse.epp.mpc.ui/org.eclipse.epp.mpc.naturelookup">
+        <value>record</value>
+      </detail>
     </annotation>
     <setupTask
         xsi:type="setup:CompoundTask"
@@ -60,11 +67,11 @@
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
-        name="org.eclipse.pde.api.tools">
+        name="org.eclipse.epp.mpc.ui">
       <setupTask
           xsi:type="setup:PreferenceTask"
-          key="/instance/org.eclipse.pde.api.tools/missing_default_api_profile"
-          value="Warning"/>
+          key="/instance/org.eclipse.epp.mpc.ui/org.eclipse.epp.mpc.naturelookup"
+          value="false"/>
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
@@ -81,6 +88,14 @@
           xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.oomph.setup.ui/showToolBarContributions"
           value="true"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:CompoundTask"
+        name="org.eclipse.pde.api.tools">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.pde.api.tools/missing_default_api_profile"
+          value="Warning"/>
     </setupTask>
   </setupTask>
   <setupTask
@@ -171,7 +186,6 @@
       label="Workspace setup for branch master">
     <setupTask
         xsi:type="setup:EclipseIniTask"
-        disabled="true"
         option="-Doomph.redirection.birt"
         value="=https://raw.githubusercontent.com/eclipse/birt/master/build/org.eclipse.birt.releng/BIRT.setup->${git.clone.birt.location|uri}/build/org.eclipse.birt.releng/BIRT.setup"
         vm="true">
@@ -279,9 +293,6 @@
           <repository
               url="https://download.eclipse.org/webtools/repository/latest/"/>
         </repositoryList>
-        <unit
-            id="org.eclipse.datatools.sqltools.doc.user.feature.group"
-            version="0.0.0"/>
       </targlet>
     </setupTask>
   </stream>
