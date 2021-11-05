@@ -16,5 +16,4 @@ Bundle-ClassPath: .,
 Automatic-Module-Name: org.eclipse.birt.chart.device.pdf
 Import-Package: org.apache.batik.ext.awt.color;version="1.13.0",
  org.apache.batik.transcoder;version="1.14.0",
- org.apache.fop.svg;version="2.6.0",
  org.w3c.dom.events;version="2.0.0"
