@@ -12,7 +12,8 @@
     xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0"
     xmlns:setup.targlets="http://www.eclipse.org/oomph/setup/targlets/1.0"
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
-    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/setup/pde/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore"
+    xmlns:workingsets="http://www.eclipse.org/oomph/workingsets/1.0"
+    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/setup/pde/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore http://www.eclipse.org/oomph/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/WorkingSets.ecore"
     name="birt"
     label="BIRT">
   <annotation
@@ -170,17 +171,127 @@
       name="BIRT Target"/>
   <setupTask
       xsi:type="setup.workingsets:WorkingSetTask"
+      id="birt.workingsets"
       prefix="org.eclipse.birt-">
     <workingSet
-        name="${scope.project.label}">
+        name="BIRT Bundles">
       <predicate
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="predicates:RepositoryPredicate"
             project="org.eclipse.birt"/>
+        <operand
+            xsi:type="predicates:NaturePredicate"
+            nature="org.eclipse.pde.PluginNature"/>
+        <operand
+            xsi:type="workingsets:ExclusionPredicate"
+            excludedWorkingSet="//'birt.workingsets'/@workingSets[name='BIRT%20NL'] //'birt.workingsets'/@workingSets[name='BIRT%20Tests'] //'birt.workingsets'/@workingSets[name='BIRT%20Features'] //'birt.workingsets'/@workingSets[name='BIRT%20Releng']"/>
       </predicate>
     </workingSet>
-    <description>The dynamic working sets for ${scope.project.label}</description>
+    <workingSet
+        name="BIRT Tests">
+      <predicate
+          xsi:type="predicates:AndPredicate">
+        <operand
+            xsi:type="predicates:RepositoryPredicate"
+            project="org.eclipse.birt"/>
+        <operand
+            xsi:type="predicates:OrPredicate">
+          <operand
+              xsi:type="predicates:FilePredicate"
+              filePattern=".classpath"
+              contentPattern="JUNIT"/>
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern=".*\.tests"/>
+        </operand>
+      </predicate>
+    </workingSet>
+    <workingSet
+        name="BIRT Features">
+      <predicate
+          xsi:type="predicates:AndPredicate">
+        <operand
+            xsi:type="predicates:RepositoryPredicate"
+            project="org.eclipse.birt"/>
+        <operand
+            xsi:type="predicates:NaturePredicate"
+            nature="org.eclipse.pde.FeatureNature"/>
+      </predicate>
+    </workingSet>
+    <workingSet
+        name="BIRT Products">
+      <predicate
+          xsi:type="predicates:AndPredicate">
+        <operand
+            xsi:type="predicates:RepositoryPredicate"
+            project="org.eclipse.birt"/>
+        <operand
+            xsi:type="predicates:FilePredicate"
+            filePattern="*.product"/>
+      </predicate>
+    </workingSet>
+    <workingSet
+        name="BIRT Categories">
+      <predicate
+          xsi:type="predicates:AndPredicate">
+        <operand
+            xsi:type="predicates:RepositoryPredicate"
+            project="org.eclipse.birt"/>
+        <operand
+            xsi:type="predicates:FilePredicate"
+            filePattern="category.xml"/>
+      </predicate>
+    </workingSet>
+    <workingSet
+        name="BIRT NL">
+      <predicate
+          xsi:type="predicates:AndPredicate">
+        <operand
+            xsi:type="predicates:RepositoryPredicate"
+            project="org.eclipse.birt"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="NLpack1.*|nl|.*\.nl"/>
+      </predicate>
+    </workingSet>
+    <workingSet
+        name="BIRT Releng">
+      <predicate
+          xsi:type="predicates:AndPredicate">
+        <operand
+            xsi:type="predicates:RepositoryPredicate"
+            project="org.eclipse.birt"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern=".*releng.*|org\.eclipse\.birt\.target|org\.eclipse\.birt\.api|birt-charts|birt-publish|birt-runtime|birt-charts"/>
+      </predicate>
+    </workingSet>
+    <workingSet
+        name="BIRT Parents">
+      <predicate
+          xsi:type="predicates:AndPredicate">
+        <operand
+            xsi:type="predicates:RepositoryPredicate"
+            project="org.eclipse.birt"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern=".*-parent.*"/>
+      </predicate>
+    </workingSet>
+    <workingSet
+        name="BIRT Misc">
+      <predicate
+          xsi:type="predicates:AndPredicate">
+        <operand
+            xsi:type="predicates:RepositoryPredicate"
+            project="org.eclipse.birt"/>
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="pptx_project|org\.eclipse\.birt\.site"/>
+      </predicate>
+    </workingSet>
+    <description>The dynamic working sets for  BIRT</description>
   </setupTask>
   <stream name="master"
       label="Workspace setup for branch master">
