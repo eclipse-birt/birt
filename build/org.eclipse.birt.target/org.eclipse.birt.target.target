@@ -257,16 +257,24 @@
 			</dependencies>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
-			<groupId>org.apache.jasper</groupId>
-			<artifactId>glassfish</artifactId>
-			<version>2.2.2-v201205150955</version>
-			<type>jar</type>
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.jasper</groupId>
+					<artifactId>glassfish</artifactId>
+					<version>2.2.2-v201205150955</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
-			<groupId>com.ibm.icu</groupId>
-			<artifactId>icu4j</artifactId>
-			<version>70.1</version>
-			<type>jar</type>
+			<dependencies>
+				<dependency>
+					<groupId>com.ibm.icu</groupId>
+					<artifactId>icu4j</artifactId>
+					<version>70.1</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="error" type="Maven">
 			<dependencies>
@@ -346,6 +354,16 @@ Require-Capability: osgi.extender;filter:="(osgi.extender=osgi.service
 					<groupId>org.apache.xmlgraphics</groupId>
 					<artifactId>fop</artifactId>
 					<version>2.6</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
+		</location>
+		<location includeSource="true" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.xmlgraphics</groupId>
+					<artifactId>batik-ext</artifactId>
+					<version>1.14</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
