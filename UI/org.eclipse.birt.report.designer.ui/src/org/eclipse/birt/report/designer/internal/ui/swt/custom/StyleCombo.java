@@ -3,7 +3,7 @@
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -25,6 +25,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
@@ -91,11 +92,11 @@ public final class StyleCombo extends Composite {
 	 * constants. The class description lists the style constants that are
 	 * applicable to the class. Style bits are also inherited from superclasses.
 	 * </p>
-	 * 
+	 *
 	 * @param parent a widget which will be the parent of the new instance (cannot
 	 *               be null)
 	 * @param style  the style of widget to construct
-	 * 
+	 *
 	 * @exception IllegalArgumentException
 	 *                                     <ul>
 	 *                                     <li>ERROR_NULL_ARGUMENT - if the parent
@@ -107,7 +108,7 @@ public final class StyleCombo extends Composite {
 	 *                                     called from the thread that created the
 	 *                                     parent</li>
 	 *                                     </ul>
-	 * 
+	 *
 	 * @see SWT#BORDER
 	 * @see SWT#READ_ONLY
 	 * @see SWT#FLAT
@@ -317,9 +318,9 @@ public final class StyleCombo extends Composite {
 	/**
 	 * Adds the listener to receive events.
 	 * <p>
-	 * 
+	 *
 	 * @param listener the listener
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -336,9 +337,9 @@ public final class StyleCombo extends Composite {
 	/**
 	 * Adds the listener to receive events.
 	 * <p>
-	 * 
+	 *
 	 * @param listener the listener
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -390,7 +391,7 @@ public final class StyleCombo extends Composite {
 	/**
 	 * Clears the current selection.
 	 * <p>
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -483,9 +484,9 @@ public final class StyleCombo extends Composite {
 	 * If the item at an index is selected, it is deselected. If the item at an
 	 * index is not selected, it remains deselected. Indices that are out of range
 	 * are ignored. Indexing is zero based.
-	 * 
+	 *
 	 * @param index the index of the item
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -499,10 +500,10 @@ public final class StyleCombo extends Composite {
 	/**
 	 * Deselects all items.
 	 * <p>
-	 * 
+	 *
 	 * If an item is selected, it is deselected. If an item is not selected, it
 	 * remains unselected.
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -571,13 +572,13 @@ public final class StyleCombo extends Composite {
 	 * Gets an item at an index.
 	 * <p>
 	 * Indexing is zero based.
-	 * 
+	 *
 	 * This operation will fail when the index is out of range or an item could not
 	 * be queried from the OS.
-	 * 
+	 *
 	 * @param index the index of the item
 	 * @return the item
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -617,9 +618,9 @@ public final class StyleCombo extends Composite {
 	 * <p>
 	 * This operation will fail if the number of items could not be queried from the
 	 * OS.
-	 * 
+	 *
 	 * @return the number of items in the widget
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -635,9 +636,9 @@ public final class StyleCombo extends Composite {
 	 * <p>
 	 * This operation will fail if the height of one item could not be queried from
 	 * the OS.
-	 * 
+	 *
 	 * @return the height of one item in the widget
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -652,9 +653,9 @@ public final class StyleCombo extends Composite {
 	 * Gets the items.
 	 * <p>
 	 * This operation will fail if the items cannot be queried from the OS.
-	 * 
+	 *
 	 * @return the items in the widget
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -669,9 +670,9 @@ public final class StyleCombo extends Composite {
 	 * Gets the index of the selected item.
 	 * <p>
 	 * Indexing is zero based. If no item is selected -1 is returned.
-	 * 
+	 *
 	 * @return the index of the selected item.
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -690,9 +691,9 @@ public final class StyleCombo extends Composite {
 	/**
 	 * Gets the number of items that are visible in the drop down portion of the
 	 * receiver's list.
-	 * 
+	 *
 	 * @return the number of items that are visible
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -700,7 +701,7 @@ public final class StyleCombo extends Composite {
 	 *                         <li>ERROR_THREAD_INVALID_ACCESS - if not called from
 	 *                         the thread that created the receiver</li>
 	 *                         </ul>
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public int getVisibleItemCount() {
@@ -713,10 +714,10 @@ public final class StyleCombo extends Composite {
 	 * <p>
 	 * The list is searched starting at 0 until an item is found that is equal to
 	 * the search item. If no item is found, -1 is returned. Indexing is zero based.
-	 * 
+	 *
 	 * @param string the search item
 	 * @return the index of the item
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -765,7 +766,9 @@ public final class StyleCombo extends Composite {
 		disposeImages();
 		for (int i = 0; i < provider.getItems().length; i++) {
 			TableItem item = table.getItem(i);
-			item.setImage(0, provider.getImage(provider.getItems()[i], imageWidth, imageHeight, table, this));
+			Image image = provider.getImage(provider.getItems()[i], imageWidth, imageHeight, table, this);
+			item.setImage(0, image);
+			item.addDisposeListener(e -> org.eclipse.birt.report.designer.ui.util.UIUtil.dispose(image));
 		}
 		if (table.getSelectionCount() > 0) {
 			label.setImage(table.getSelection()[0].getImage());
@@ -937,9 +940,9 @@ public final class StyleCombo extends Composite {
 	/**
 	 * Removes the listener.
 	 * <p>
-	 * 
+	 *
 	 * @param listener the listener
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -955,9 +958,9 @@ public final class StyleCombo extends Composite {
 	/**
 	 * Removes the listener.
 	 * <p>
-	 * 
+	 *
 	 * @param listener the listener
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -976,9 +979,9 @@ public final class StyleCombo extends Composite {
 	 * <p>
 	 * If the item at an index is not selected, it is selected. Indices that are out
 	 * of range are ignored. Indexing is zero based.
-	 * 
+	 *
 	 * @param index the index of the item
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -1006,9 +1009,9 @@ public final class StyleCombo extends Composite {
 
 	/**
 	 * Sets the editable state.
-	 * 
+	 *
 	 * @param editable the new editable state
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -1016,9 +1019,9 @@ public final class StyleCombo extends Composite {
 	 *                         <li>ERROR_THREAD_INVALID_ACCESS - if not called from
 	 *                         the thread that created the receiver</li>
 	 *                         </ul>
-	 * 
+	 *
 	 * @since 3.0
-	 * 
+	 *
 	 */
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
@@ -1060,9 +1063,9 @@ public final class StyleCombo extends Composite {
 
 	/**
 	 * Sets all items.
-	 * 
+	 *
 	 * @param items the array of items
-	 * 
+	 *
 	 * @exception SWTError (ERROR_THREAD_INVALID_ACCESS) when called from the wrong
 	 *                     thread
 	 * @exception SWTError (ERROR_WIDGET_DISPOSED) when the widget has been disposed
@@ -1118,9 +1121,9 @@ public final class StyleCombo extends Composite {
 	/**
 	 * Sets the number of items that are visible in the drop down portion of the
 	 * receiver's list.
-	 * 
+	 *
 	 * @param count the new number of items to be visible
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -1128,7 +1131,7 @@ public final class StyleCombo extends Composite {
 	 *                         <li>ERROR_THREAD_INVALID_ACCESS - if not called from
 	 *                         the thread that created the receiver</li>
 	 *                         </ul>
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public void setVisibleItemCount(int count) {

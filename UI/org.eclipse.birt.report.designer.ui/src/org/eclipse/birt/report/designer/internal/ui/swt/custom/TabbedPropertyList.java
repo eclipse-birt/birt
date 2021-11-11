@@ -491,7 +491,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 	/**
 	 * Returns the element with the given index from this list viewer. Returns
 	 * <code>null</code> if the index is out of range.
-	 * 
+	 *
 	 * @param index the zero-based index
 	 * @return the element at the given index, or <code>null</code> if the index is
 	 *         out of range
@@ -506,7 +506,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 	/**
 	 * Returns the zero-relative index of the item which is currently selected in
 	 * the receiver, or -1 if no item is selected.
-	 * 
+	 *
 	 * @return the index of the selected item
 	 */
 	public int getSelectionIndex() {
@@ -669,6 +669,11 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 	private Point getTextDimension(String text) {
 		if (textGc == null || textGc.isDisposed()) {
 			textGc = new GC(this);
+			addDisposeListener(e -> {
+				if (textGc != null && !textGc.isDisposed()) {
+					textGc.dispose();
+				}
+			});
 		}
 		textGc.setFont(getFont());
 		Point point = textGc.textExtent(text);
@@ -755,7 +760,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 	/**
 	 * Get the height of a tab. The height of the tab is the height of the text plus
 	 * buffer.
-	 * 
+	 *
 	 * @return the height of a tab.
 	 */
 	private int getTabHeight() {
@@ -817,7 +822,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 
 	/**
 	 * Layout the tabs.
-	 * 
+	 *
 	 * @param up if <code>true</code>, then we are laying out as a result of an
 	 *           scroll up request.
 	 */
