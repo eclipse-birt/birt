@@ -43,7 +43,7 @@ public abstract class StyleComboProvider extends BorderDescriptorProvider implem
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * IComboProvider#getItems()
 	 */
@@ -57,7 +57,7 @@ public abstract class StyleComboProvider extends BorderDescriptorProvider implem
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * IComboProvider#setItems(java.lang.Object[])
 	 */
@@ -71,13 +71,7 @@ public abstract class StyleComboProvider extends BorderDescriptorProvider implem
 		indexText = index;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
-	 * IComboProvider#getImage(java.lang.Object, int, int,
-	 * org.eclipse.swt.widgets.Control, org.eclipse.swt.widgets.Control)
-	 */
+	@Override
 	public Image getImage(Object item, int width, int height, Control control, Control parent) {
 		assert control != null;
 		assert parent != null;

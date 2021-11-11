@@ -58,10 +58,8 @@ public class DualRadioButtonPropertyDescriptor extends PropertyDescriptor {
 			radio1.setData(items[0]);
 			radio2.setData(items[1]);
 
-			radio1.setImage(
-					ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_LAYOUT_AUTO).createImage());
-			radio2.setImage(
-					ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_LAYOUT_FIXED).createImage());
+			radio1.setImage(ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_LAYOUT_AUTO));
+			radio2.setImage(ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_LAYOUT_FIXED));
 
 			radio1.setText(Messages.getString("ApplyLayoutPreferenceAction.autoLayout")); //$NON-NLS-1$
 			radio2.setText(Messages.getString("ApplyLayoutPreferenceAction.fixedLayout")); //$NON-NLS-1$
