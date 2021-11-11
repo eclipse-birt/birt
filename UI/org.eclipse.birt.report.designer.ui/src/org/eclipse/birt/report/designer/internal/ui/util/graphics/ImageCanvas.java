@@ -366,14 +366,6 @@ public class ImageCanvas extends Canvas {
 	}
 
 	/**
-	 * @param sourceImage2
-	 */
-	private void doDispose(Image sourceImage2) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
 	 * Load image from a input-stream.
 	 *
 	 * @param is

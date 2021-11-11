@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
@@ -669,11 +670,7 @@ public class TabbedPropertyList extends Canvas implements IPropertyList {
 	private Point getTextDimension(String text) {
 		if (textGc == null || textGc.isDisposed()) {
 			textGc = new GC(this);
-			addDisposeListener(e -> {
-				if (textGc != null && !textGc.isDisposed()) {
-					textGc.dispose();
-				}
-			});
+			addDisposeListener(e -> UIUtil.dispose(textGc));
 		}
 		textGc.setFont(getFont());
 		Point point = textGc.textExtent(text);
