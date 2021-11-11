@@ -725,6 +725,7 @@
         <setEntry value="org.eclipse.birt.chart.integration.wtp.ui@default:default"/>
         <setEntry value="org.eclipse.birt.chart.reportitem.ui@default:default"/>
         <setEntry value="org.eclipse.birt.chart.reportitem@default:default"/>
+        <setEntry value="org.eclipse.birt.chart.tests@default:default"/>
         <setEntry value="org.eclipse.birt.chart.ui.extension@default:default"/>
         <setEntry value="org.eclipse.birt.chart.ui@default:default"/>
         <setEntry value="org.eclipse.birt.chart.viewer@default:default"/>
@@ -827,6 +828,7 @@
         <setEntry value="org.eclipse.birt.report.viewer@default:default"/>
         <setEntry value="org.eclipse.birt.resources@default:default"/>
         <setEntry value="org.eclipse.birt.sdk@default:default"/>
+        <setEntry value="org.eclipse.birt.tests.core@default:default"/>
         <setEntry value="org.eclipse.birt@default:default"/>
     </setAttribute>
     <booleanAttribute key="show_selected_only" value="false"/>
