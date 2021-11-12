@@ -34,7 +34,7 @@
     <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
-    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17"/>
+    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JRE for JavaSE-11"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.birt.chart.tests.AllTests"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.birt.chart.tests"/>
@@ -722,12 +722,11 @@
         <setEntry value="org.w3c.dom.svg@default:default"/>
         <setEntry value="slf4j.api@default:default"/>
         <setEntry value="slf4j.simple@default:default"/>
-        <setEntry value="wrapped.com.innoventsolutions.birt.runtime.flute@default:default"/>
         <setEntry value="wrapped.org.apache.xmlgraphics.fop@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
         <setEntry value="org.apache.axis@default:default"/>
-        <setEntry value="org.apache.batik.transcoder.birt.ext@default:default"/>
+        <setEntry value="org.apache.batik.transcoder.birt.ext@default:false"/>
         <setEntry value="org.apache.derby.core@default:default"/>
         <setEntry value="org.eclipse.birt.axis.overlay@default:false"/>
         <setEntry value="org.eclipse.birt.build@default:default"/>
