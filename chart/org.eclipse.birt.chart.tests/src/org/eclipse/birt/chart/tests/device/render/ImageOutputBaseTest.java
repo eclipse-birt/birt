@@ -23,8 +23,6 @@ import java.util.Map;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 
 import junit.framework.TestCase;
 import utility.ImageUtil;
@@ -93,8 +91,6 @@ public class ImageOutputBaseTest extends TestCase {
 						+ ".svg", //$NON-NLS-1$
 				workspaceDir + File.separator + ImageRenderTest.OUTDIR + dirName + File.separator + filename + ".svg" //$NON-NLS-1$
 		};
-		Bundle bundle = FrameworkUtil.getBundle(getClass());
-		WirePrint.printTree(bundle);
 
 		for (String file : files) {
 			InputStream inStream = new FileInputStream(file);
