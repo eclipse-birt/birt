@@ -35,12 +35,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.birt.chart.device.pdf,
  org.eclipse.birt.report.model,
  org.eclipse.birt.chart.reportitem,
- org.eclipse.birt.tests.core,
- org.apache.xerces;bundle-version="[2.8.0,3.0.0)";resolution:=optional
+ org.eclipse.birt.tests.core
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.ibm.icu.text;version="3.4.4",
  com.ibm.icu.util;version="3.4.4",
- org.apache.batik.transcoder;version="1.14.0",
- org.apache.batik.transcoder.image;version="1.14.0"
+ org.apache.batik.transcoder;version="[1.14.0,1.15.0)",
+ org.apache.batik.transcoder.image;version="[1.14.0,1.15.0)"
 Automatic-Module-Name: org.eclipse.birt.chart.tests

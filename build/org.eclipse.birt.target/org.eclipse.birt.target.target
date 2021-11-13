@@ -261,7 +261,7 @@
 				<dependency>
 					<groupId>com.ibm.icu</groupId>
 					<artifactId>icu4j</artifactId>
-					<version>69.1</version>
+					<version>70.1</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -282,16 +282,6 @@
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-continuation</artifactId>
 					<version>9.4.44.v20210927</version>
-					<type>jar</type>
-				</dependency>
-			</dependencies>
-		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
-			<dependencies>
-				<dependency>
-					<groupId>com.innoventsolutions.birt.runtime</groupId>
-					<artifactId>flute</artifactId>
-					<version>4.8.0</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -347,6 +337,25 @@ Require-Capability: osgi.extender;filter:="(osgi.extender=osgi.service
 					<type>jar</type>
 				</dependency>
 			</dependencies>
+		</location>
+		<location includeSource="true" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.xmlgraphics</groupId>
+					<artifactId>batik-ext</artifactId>
+					<version>1.14</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
+			<instructions><![CDATA[
+Bundle-Name:           Bundle derived from maven artifact ${mvnGroupId}:${mvnArtifactId}:${mvnVersion}
+version:               ${version_cleanup;${mvnVersion}}
+Bundle-SymbolicName:   ${mvnGroupId}.${mvnArtifactId}
+Bundle-Version:        ${version}
+Import-Package:        *;resolution:=optional
+Export-Package:        *;version="${version}";-noimport:=true
+DynamicImport-Package: *
+]]></instructions>
 		</location>
 	</locations>
 	<environment>

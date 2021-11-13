@@ -288,7 +288,7 @@
             project="org.eclipse.birt"/>
         <operand
             xsi:type="predicates:NamePredicate"
-            pattern="pptx_project|org\.eclipse\.birt\.site"/>
+            pattern="pptx_project|org\.eclipse\.birt\.site|.*birt.ext"/>
       </predicate>
     </workingSet>
     <description>The dynamic working sets for  BIRT</description>

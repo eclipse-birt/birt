@@ -11,14 +11,14 @@
 
 package org.eclipse.birt.chart.tests.engine.util;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.util.Calendar;
+
+import junit.framework.TestCase;
 
 public class ChartUtilTest extends TestCase {
 
@@ -40,7 +40,7 @@ public class ChartUtilTest extends TestCase {
 
 	/**
 	 * Test whether the given color definition is transparent.
-	 * 
+	 *
 	 */
 	public void testIsColorTransparent() {
 		assertFalse(ChartUtil.isColorTransparent(ColorDefinitionImpl.BLUE()));
@@ -49,7 +49,7 @@ public class ChartUtilTest extends TestCase {
 
 	/**
 	 * Test whether the given label defines a shadow.
-	 * 
+	 *
 	 */
 	public void testIsShadowDefined() {
 		Label label = LabelImpl.create();
@@ -61,7 +61,7 @@ public class ChartUtilTest extends TestCase {
 	/**
 	 * Test whether the given left double value is greater than the given right
 	 * value within a small precision.
-	 * 
+	 *
 	 */
 	public void testMathGT() {
 		assertTrue(ChartUtil.mathGT(1.0 + 1.0 * 1E-9, 1.0));
@@ -79,7 +79,7 @@ public class ChartUtilTest extends TestCase {
 
 	/**
 	 * Test whether the given two double values are equal within a small precision.
-	 * 
+	 *
 	 */
 	public void testMathEqual() {
 		assertFalse(ChartUtil.mathEqual(1.0 + 1.0 * 1E-9, 1.0));
@@ -136,7 +136,7 @@ public class ChartUtilTest extends TestCase {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(2015, 0, 22, 11, 56, 10);
 		calendar.set(Calendar.MILLISECOND, 125);
-		assertEquals("2015-01-22 11:56:10.125-0800", //$NON-NLS-1$
-				ChartUtil.stringValue(calendar));
+		assertTrue(ChartUtil.stringValue(calendar),
+				ChartUtil.stringValue(calendar).startsWith("2015-01-22 11:56:10.125")); //$NON-NLS-1$
 	}
 }

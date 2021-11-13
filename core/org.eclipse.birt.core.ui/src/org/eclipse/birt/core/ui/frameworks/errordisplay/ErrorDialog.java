@@ -35,6 +35,9 @@ import org.eclipse.swt.widgets.Text;
 public class ErrorDialog implements SelectionListener {
 
 	// CONSTANTS
+	/**
+	 * javadoc comment
+	 */
 	public static final String OPTION_ACCEPT = "ACCEPT"; //$NON-NLS-1$
 	public static final String OPTION_CANCEL = "CANCEL"; //$NON-NLS-1$
 	public static final int MAX_TRACE_DEPTH = 2;
@@ -319,7 +322,7 @@ public class ErrorDialog implements SelectionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
@@ -329,7 +332,7 @@ public class ErrorDialog implements SelectionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
@@ -346,7 +349,7 @@ public class ErrorDialog implements SelectionListener {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void toggleDetails(boolean bVisible) {
 		if (bVisible) {
