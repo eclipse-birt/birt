@@ -6,8 +6,7 @@ Bundle-Version: 4.9.0.qualifier
 Require-Bundle: org.eclipse.birt.report.engine,
  org.eclipse.birt.chart.engine,
  org.eclipse.birt.chart.engine.extension,
- org.eclipse.birt.chart.reportitem,
- javax.xml;bundle-version="1.3.4"
+ org.eclipse.birt.chart.reportitem
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.excel.plugin.ExcelemitterPlugin
