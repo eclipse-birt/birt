@@ -19,7 +19,7 @@ Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.birt.chart.device.pdf,
  org.eclipse.birt.chart.device.swt,
  org.eclipse.birt.tests.core
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: com.ibm.icu.util
 Bundle-Vendor: Eclipse BIRT Project
 Automatic-Module-Name: org.eclipse.birt.report.tests.chart

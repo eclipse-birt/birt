@@ -10,4 +10,4 @@ Require-Bundle: org.eclipse.birt.core,
 Bundle-ClassPath: .
 Import-Package: com.ibm.icu.util;version="3.4.4"
 Automatic-Module-Name: org.eclipse.birt.report.modelextension.tests
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11

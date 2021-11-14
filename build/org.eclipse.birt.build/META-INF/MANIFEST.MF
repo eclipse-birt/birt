@@ -8,7 +8,7 @@ Bundle-ClassPath: lib/dom4j-1.6.1.jar,
  .
 Require-Bundle: org.apache.ant
 Automatic-Module-Name: org.eclipse.birt.build
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.dom4j;version="2.1.1",
  org.dom4j.dom;version="2.1.1",
  org.dom4j.io;version="2.1.1",

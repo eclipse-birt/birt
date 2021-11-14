@@ -18,5 +18,5 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.2.0,4.0.0)",
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.report.data.oda.hive.ui.plugin,
  org.eclipse.birt.report.data.oda.hive.ui.profile
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.report.data.oda.hive.ui
