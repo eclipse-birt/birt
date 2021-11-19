@@ -64,6 +64,38 @@
 						</configuration>
 					</execution>
 				</executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-util</artifactId>
+                        <version>${jetty.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.mortbay.jasper</groupId>
+                        <artifactId>apache-jsp</artifactId>
+                        <version>8.5.35.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.mortbay.jasper</groupId>
+                        <artifactId>apache-el</artifactId>
+                        <version>8.5.35.1</version>
+                    </dependency>                    
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant</artifactId>
+                        <version>1.10.9</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>javax.servlet-api</artifactId>
+                        <version>3.1.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.eclipse.jetty.orbit</groupId>
+                        <artifactId>org.eclipse.jdt.core</artifactId>
+                        <version>3.8.2.v20130121</version>
+                    </dependency>
+                </dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
