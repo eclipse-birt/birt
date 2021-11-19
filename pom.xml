@@ -471,13 +471,7 @@
 				<configuration>
 					<toolchains>
 						<jdk>
-							<id>JavaSE-1.6</id>
-						</jdk>
-						<jdk>
-							<id>JavaSE-1.7</id>
-						</jdk>
-						<jdk>
-							<id>JavaSE-1.8</id>
+							<id>1.8</id>
 						</jdk>
 					</toolchains>
 				</configuration>
