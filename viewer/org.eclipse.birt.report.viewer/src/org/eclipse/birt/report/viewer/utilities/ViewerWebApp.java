@@ -9,6 +9,8 @@ import java.net.URL;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.apache.tomcat.InstanceManager;
+import org.apache.tomcat.SimpleInstanceManager;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jetty.osgi.boot.OSGiServerConstants;
 import org.eclipse.jetty.osgi.boot.OSGiWebappConstants;
@@ -42,6 +44,8 @@ public class ViewerWebApp {
 		WebXmlConfiguration servletsConfiguration = new WebXmlConfiguration();
 
 		webapp.addConfiguration(servletsConfiguration);
+
+		webapp.setAttribute(InstanceManager.class.getName(), new SimpleInstanceManager());
 
 		Dictionary<String, Object> props = new Hashtable<String, Object>();
 		props.put(OSGiWebappConstants.RFC66_WEB_CONTEXTPATH, contextPath); // Web-ContextPath: /viewer

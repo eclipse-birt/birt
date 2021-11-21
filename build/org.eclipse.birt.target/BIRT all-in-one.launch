@@ -420,6 +420,7 @@
         <setEntry value="org.eclipse.jem.workbench@default:default"/>
         <setEntry value="org.eclipse.jem@default:default"/>
         <setEntry value="org.eclipse.jetty.annotations@default:default"/>
+        <setEntry value="org.eclipse.jetty.apache-jsp@default:default"/>
         <setEntry value="org.eclipse.jetty.deploy@default:default"/>
         <setEntry value="org.eclipse.jetty.http@default:default"/>
         <setEntry value="org.eclipse.jetty.io@default:default"/>
@@ -680,6 +681,8 @@
         <setEntry value="org.junit.platform.suite.api@default:default"/>
         <setEntry value="org.junit.vintage.engine@default:default"/>
         <setEntry value="org.junit@default:default"/>
+        <setEntry value="org.mortbay.jasper.apache-el@default:default"/>
+        <setEntry value="org.mortbay.jasper.apache-jsp@default:default"/>
         <setEntry value="org.mozilla.javascript@default:default"/>
         <setEntry value="org.objectweb.asm*9.1.0.v20210209-1849@default:default"/>
         <setEntry value="org.objectweb.asm*9.1.0@default:default"/>
