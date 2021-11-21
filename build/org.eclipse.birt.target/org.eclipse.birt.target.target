@@ -247,12 +247,14 @@
 			</dependencies>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>apache-jsp</artifactId>
-				<version>10.0.6</version>
-				<type>jar</type>
-			</dependency>
+			<dependencies>
+				<dependency>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>apache-jsp</artifactId>
+					<version>10.0.6</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
 		</location>
 		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
