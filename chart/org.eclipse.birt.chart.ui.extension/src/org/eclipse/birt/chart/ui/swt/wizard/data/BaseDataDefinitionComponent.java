@@ -876,7 +876,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				ec.decode(expression);
 				expression = ec.convertJSExpression(false);
 
-				boolean enabled = this.context.getUIFactory().createUIHelper().useDataSetRow(context.getExtendedItem(),
+				boolean enabled = !this.context.getUIFactory().createUIHelper().useDataSetRow(context.getExtendedItem(),
 						expression);
 				fAggEditorComposite.setEnabled(enabled);
 			} catch (BirtException e) {
