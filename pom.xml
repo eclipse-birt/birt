@@ -25,7 +25,7 @@
             <properties>
                 <eclipse.release.name>photon</eclipse.release.name>
                 <tycho.version>1.0.0</tycho.version>
-                <eclipse.repo.url>https://download.eclipse.org/eclipse/updates/4.8/</eclipse.repo.url>
+                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.8/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
