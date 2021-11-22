@@ -36,7 +36,7 @@
                 <dtp.repo.url>http://download.eclipse.org/datatools/1.14.1.201712071719/repository/</dtp.repo.url>
                 <jetty.version>9.4.10.v20180503</jetty.version>
                 <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
-                <jetty.repo.url>https://archive.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+                <jetty.repo.url>https://archive.eclipse.org/jetty/updates/jetty-bundles-9.x/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
                 <mongodb.version>3.2.2.v20170222-2110</mongodb.version>
             </properties>
         </profile>
@@ -471,13 +471,7 @@
 				<configuration>
 					<toolchains>
 						<jdk>
-							<id>JavaSE-1.6</id>
-						</jdk>
-						<jdk>
-							<id>JavaSE-1.7</id>
-						</jdk>
-						<jdk>
-							<id>JavaSE-1.8</id>
+							<id>1.8</id>
 						</jdk>
 					</toolchains>
 				</configuration>
