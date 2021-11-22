@@ -29,7 +29,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.Request;
@@ -251,20 +250,7 @@ public class CellDragTracker extends DragEditPartsTracker implements IDelaySelec
 			return;
 		}
 
-		boolean first = true;
-
-		for (Iterator itr = lst.iterator(); itr.hasNext();) {
-			GraphicalEditPart part = (GraphicalEditPart) itr.next();
-
-			if (first) {
-				getCurrentViewer().select(part);
-				first = false;
-			} else {
-				getCurrentViewer().appendSelection(part);
-			}
-
-			getCurrentViewer().reveal(part);
-		}
+		getCurrentViewer().setSelection(new StructuredSelection(lst));
 
 	}
 
