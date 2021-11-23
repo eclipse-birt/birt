@@ -32,7 +32,7 @@ public class MutipleThreadRenderTest extends EngineCase {
 	 * Start the render threads at the same time with create thread. In the rener
 	 * thread, it will test if the document is finished. If it is finished, it will
 	 * start to render.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testMutipleThreadWithProgressive() throws Exception {
@@ -281,7 +281,7 @@ public class MutipleThreadRenderTest extends EngineCase {
 		while (runningThread > 0) {
 			Thread.sleep(200);
 			waitingTime += 200;
-			if (waitingTime > 20000) {
+			if (waitingTime > 200000) {
 				fail();
 			}
 		}

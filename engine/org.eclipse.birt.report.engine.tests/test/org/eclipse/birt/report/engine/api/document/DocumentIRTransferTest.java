@@ -34,12 +34,12 @@ import org.eclipse.birt.report.model.api.TableHandle;
 
 /**
  * in the report document, we have:
- * 
+ *
  * table id="6" bookmark is reportlet_table list id="38" bookmark is
  * reportlet_group_[groupid]
- * 
- * 
- * 
+ *
+ *
+ *
  */
 public class DocumentIRTransferTest extends EngineCase {
 
@@ -152,6 +152,7 @@ public class DocumentIRTransferTest extends EngineCase {
 			String strIid = matcher.group(1);
 			InstanceID iid = InstanceID.parse(strIid);
 			long designId = iid.getComponentID();
+			renderTask = engine.createRenderTask(document);
 			IReportRunnable runnable = renderTask.getReportRunnable();
 			ReportDesignHandle report = (ReportDesignHandle) runnable.getDesignHandle();
 			DesignElementHandle element = report.getElementByID(designId);

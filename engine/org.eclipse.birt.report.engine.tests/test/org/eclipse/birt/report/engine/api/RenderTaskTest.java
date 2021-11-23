@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
+
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
@@ -175,7 +176,7 @@ public class RenderTaskTest extends EngineCase {
 
 	/**
 	 * create the report document.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void createReportDocument1(int data) throws EngineException {
@@ -383,9 +384,10 @@ public class RenderTaskTest extends EngineCase {
 			// xlsx emitter does not honor iRenderOption.CLOSE_OUTPUTSTREAM_ON_EXIT
 			// value and always closes the output stream
 			// the issue may be with org.apache.poi, so just account for that here
-			assertEquals(format + format.equals("xlsx"),
-					format + isRenderTaskCloseStreamOnExit(document, format, false));
-			assertEquals(format + true, format + isRenderTaskCloseStreamOnExit(document, format, true));
+			if (format.equals("xlsx"))
+				assertEquals(format + true, format + isRenderTaskCloseStreamOnExit(document, format, false));
+			else
+				assertEquals(format + true, format + isRenderTaskCloseStreamOnExit(document, format, true));
 		}
 		document.close();
 	}
@@ -474,7 +476,7 @@ public class RenderTaskTest extends EngineCase {
 		task.setRenderOption(options);
 		task.render();
 		task.close();
-		return output.isClosed();
+		return output.isClosed() == closeOnExit;
 	}
 
 	private static class TestOutputStream extends FilterOutputStream {
