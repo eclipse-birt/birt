@@ -44,7 +44,7 @@
 				<orbit.repo.url>https://download.eclipse.org/tools/orbit/downloads/latest-R</orbit.repo.url>
 				<!-- https://eclipse.org/datatools/downloads.php -->
 				<dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/</dtp.repo.url>
-				<jetty.version>10.0.7</jetty.version>
+				<jetty.version>10.0.6</jetty.version>
 				<!--jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
 				<!--jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url -->
 				<mongodb.version>3.2.2.v20181004-1955</mongodb.version>
