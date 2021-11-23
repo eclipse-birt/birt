@@ -79,7 +79,7 @@
 			<unit id="org.apache.poi.ooxml" version="4.1.1.v20200820-1148"/>
 			<unit id="org.apache.poi.ooxml.schemas" version="4.1.1.v20200922-2105"/>
 			<unit id="org.apache.commons.collections4" version="4.4.0.v20200420-1700"/>
-			<unit id="org.apache.commons.compress" version="1.20.0.v20210713-1928"/>
+			<unit id="org.apache.commons.compress" version="0.0.0"/>
 			<unit id="org.apache.xmlbeans" version="3.1.0.v20200922-1359"/>
 			<unit id="jakarta.servlet.source" version="5.0.0.v20210105-0527"/>
 			<unit id="org.apache.batik.anim" version="1.14.0.v20210324-0332"/>
@@ -112,7 +112,7 @@
 			<unit id="org.apache.batik.xml.source" version="1.14.0.v20210324-0332"/>
 			<unit id="org.apache.commons.codec.source" version="1.14.0.v20200818-1422"/>
 			<unit id="org.apache.commons.collections4.source" version="4.4.0.v20200420-1700"/>
-			<unit id="org.apache.commons.compress.source" version="1.20.0.v20210713-1928"/>
+			<unit id="org.apache.commons.compress.source" version="0.0.0"/>
 			<unit id="org.apache.lucene.analyzers-common.source" version="8.4.1.v20200122-1459"/>
 			<unit id="org.apache.lucene.analyzers-smartcn" version="8.4.1.v20200122-1459"/>
 			<unit id="org.apache.lucene.analyzers-smartcn.source" version="8.4.1.v20200122-1459"/>
@@ -141,7 +141,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-server</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.7</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -151,7 +151,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-servlet</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.7</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -161,7 +161,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-io</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.7</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -171,7 +171,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-deploy</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.7</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -181,7 +181,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-plus</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.7</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -191,7 +191,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-jndi</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.7</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -201,7 +201,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-security</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.7</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -211,7 +211,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-util</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.7</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -221,7 +221,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-webapp</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.7</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -231,7 +231,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-xml</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.7</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -241,7 +241,7 @@
 				<dependency>
 					<groupId>org.eclipse.jetty.osgi</groupId>
 					<artifactId>jetty-osgi-boot</artifactId>
-					<version>10.0.6</version>
+					<version>10.0.7</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -300,8 +300,18 @@
 			<dependencies>
 				<dependency>
 					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+					<version>2.0.0-alpha5</version>
+					<type>jar</type>
+				</dependency>
+			</dependencies>
+		</location>
+		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+			<dependencies>
+				<dependency>
+					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-simple</artifactId>
-					<version>2.0.0-alpha1</version>
+					<version>2.0.0-alpha5</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -311,7 +321,7 @@
 				<dependency>
 					<groupId>org.slf4j</groupId>
 					<artifactId>osgi-over-slf4j</artifactId>
-					<version>2.0.0-alpha1</version>
+					<version>2.0.0-alpha5</version>
 					<type>jar</type>
 				</dependency>
 			</dependencies>
@@ -323,9 +333,8 @@ Bundle-Version:        ${version}
 Import-Package:        *;resolution:=optional
 Export-Package:        *;version="${version}";-noimport:=true
 DynamicImport-Package: *
-Require-Capability: osgi.extender;filter:="(osgi.extender=osgi.service
- loader.processor)",osgi.serviceloader;filter:="(osgi.serviceloader=or
- g.slf4j.spi.SLF4JServiceProvider)"
+Provide-Capability:    osgi.extender;filter:="(osgi.extender=osgi.serviceloader.processor)",\
+osgi.serviceloader;filter:="(osgi.serviceloader=org.slf4j.spi.SLF4JServiceProvider)"
 ]]></instructions>
 		</location>
 		<location includeSource="true" missingManifest="generate" type="Maven">
