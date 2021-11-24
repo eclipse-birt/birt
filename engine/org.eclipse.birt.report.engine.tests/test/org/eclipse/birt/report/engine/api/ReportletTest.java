@@ -69,6 +69,7 @@ public class ReportletTest extends EngineCase {
 		Pattern iidPattern = Pattern.compile("iid=\"([^\"]*)\"");
 		Matcher matcher = iidPattern.matcher(content);
 		while (matcher.find()) {
+			render = engine.createRenderTask(document);
 			String strIid = matcher.group(1);
 			InstanceID iid = InstanceID.parse(strIid);
 			long designId = iid.getComponentID();
