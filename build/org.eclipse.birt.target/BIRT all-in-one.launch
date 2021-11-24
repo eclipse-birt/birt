@@ -420,25 +420,18 @@
         <setEntry value="org.eclipse.jem@default:default"/>
         <setEntry value="org.eclipse.jetty.annotations@default:default"/>
         <setEntry value="org.eclipse.jetty.deploy@default:default"/>
-        <setEntry value="org.eclipse.jetty.http*10.0.6@default:default"/>
-        <setEntry value="org.eclipse.jetty.http*10.0.7@default:default"/>
-        <setEntry value="org.eclipse.jetty.io*10.0.6@default:default"/>
-        <setEntry value="org.eclipse.jetty.io*10.0.7@default:default"/>
+        <setEntry value="org.eclipse.jetty.http@default:default"/>
+        <setEntry value="org.eclipse.jetty.io@default:default"/>
         <setEntry value="org.eclipse.jetty.jmx@default:default"/>
         <setEntry value="org.eclipse.jetty.jndi@default:default"/>
         <setEntry value="org.eclipse.jetty.osgi.boot@default:default"/>
         <setEntry value="org.eclipse.jetty.plus@default:default"/>
-        <setEntry value="org.eclipse.jetty.security*10.0.6@default:default"/>
-        <setEntry value="org.eclipse.jetty.security*10.0.7@default:default"/>
-        <setEntry value="org.eclipse.jetty.server*10.0.6@default:default"/>
-        <setEntry value="org.eclipse.jetty.server*10.0.7@default:default"/>
-        <setEntry value="org.eclipse.jetty.servlet*10.0.6@default:default"/>
-        <setEntry value="org.eclipse.jetty.servlet*10.0.7@default:default"/>
+        <setEntry value="org.eclipse.jetty.security@default:default"/>
+        <setEntry value="org.eclipse.jetty.server@default:default"/>
         <setEntry value="org.eclipse.jetty.servlet-api@default:default"/>
-        <setEntry value="org.eclipse.jetty.util*10.0.6@default:default"/>
-        <setEntry value="org.eclipse.jetty.util*10.0.7@default:default"/>
-        <setEntry value="org.eclipse.jetty.util.ajax*10.0.6@default:default"/>
-        <setEntry value="org.eclipse.jetty.util.ajax*10.0.7@default:default"/>
+        <setEntry value="org.eclipse.jetty.servlet@default:default"/>
+        <setEntry value="org.eclipse.jetty.util.ajax@default:default"/>
+        <setEntry value="org.eclipse.jetty.util@default:default"/>
         <setEntry value="org.eclipse.jetty.webapp@default:default"/>
         <setEntry value="org.eclipse.jetty.xml@default:default"/>
         <setEntry value="org.eclipse.jface.databinding@default:default"/>
@@ -508,10 +501,11 @@
         <setEntry value="org.eclipse.ltk.core.refactoring@default:default"/>
         <setEntry value="org.eclipse.ltk.ui.refactoring@default:default"/>
         <setEntry value="org.eclipse.orbit.mongodb@default:default"/>
+        <setEntry value="org.eclipse.osgi*3.17.0.v20210823-1805@-1:true"/>
         <setEntry value="org.eclipse.osgi.compatibility.state@default:false"/>
-        <setEntry value="org.eclipse.osgi.services@2:true"/>
+        <setEntry value="org.eclipse.osgi.services*3.10.200.v20210723-0643@2:true"/>
+        <setEntry value="org.eclipse.osgi.services*3.9.0.v20200511-1725@2:true"/>
         <setEntry value="org.eclipse.osgi.util@default:true"/>
-        <setEntry value="org.eclipse.osgi@-1:true"/>
         <setEntry value="org.eclipse.pde.api.tools.annotations@default:default"/>
         <setEntry value="org.eclipse.pde.api.tools.ui@default:default"/>
         <setEntry value="org.eclipse.pde.api.tools@default:default"/>
@@ -678,10 +672,12 @@
         <setEntry value="org.mozilla.javascript@default:default"/>
         <setEntry value="org.objectweb.asm*9.1.0.v20210209-1849@default:default"/>
         <setEntry value="org.objectweb.asm*9.2.0@default:default"/>
-        <setEntry value="org.objectweb.asm.commons@default:default"/>
+        <setEntry value="org.objectweb.asm.commons*9.1.0@default:default"/>
+        <setEntry value="org.objectweb.asm.commons*9.2.0@default:default"/>
         <setEntry value="org.objectweb.asm.tree*9.1.0.v20210209-1849@default:default"/>
         <setEntry value="org.objectweb.asm.tree*9.2.0@default:default"/>
-        <setEntry value="org.objectweb.asm.tree.analysis@default:default"/>
+        <setEntry value="org.objectweb.asm.tree.analysis*9.1.0@default:default"/>
+        <setEntry value="org.objectweb.asm.tree.analysis*9.2.0@default:default"/>
         <setEntry value="org.objectweb.asm.util@default:default"/>
         <setEntry value="org.sat4j.core@default:default"/>
         <setEntry value="org.sat4j.pb@default:default"/>
@@ -692,6 +688,7 @@
         <setEntry value="org.w3c.dom.events@default:default"/>
         <setEntry value="org.w3c.dom.smil@default:default"/>
         <setEntry value="org.w3c.dom.svg@default:default"/>
+        <setEntry value="slf4j.api@default:default"/>
         <setEntry value="slf4j.simple@default:true"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
@@ -883,7 +880,6 @@
         <setEntry value="org.eclipse.birt@default:default"/>
         <setEntry value="org.w3c.dom.svg.extension@default:false"/>
         <setEntry value="org.w3c.sac@default:default"/>
-        <setEntry value="slf4j.api@default:default"/>
     </setAttribute>
     <booleanAttribute key="show_selected_only" value="false"/>
     <stringAttribute key="templateConfig" value="${target_home}\configuration\config.ini"/>
