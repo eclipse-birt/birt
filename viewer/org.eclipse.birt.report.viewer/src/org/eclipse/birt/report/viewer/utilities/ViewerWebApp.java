@@ -51,7 +51,7 @@ public class ViewerWebApp {
 		props.put(OSGiWebappConstants.RFC66_WEB_CONTEXTPATH, contextPath); // Web-ContextPath: /viewer
 		props.put(OSGiWebappConstants.JETTY_WAR_RESOURCE_PATH, getWebAppPath(bundle, webAppPath)); // Jetty-WarResourcePath:
 		props.put(OSGiServerConstants.MANAGED_JETTY_SERVER_NAME, ViewerWebServer.VIEWER_WEB_SERVER_ID);
-		props.put("Jetty-WebXmlFilePath", "birt/WEB-INF/web.xml");		//$NON-NLS-1$	 //$NON-NLS-2$
+		props.put("Jetty-WebXmlFilePath", "birt/WEB-INF/web-viewer.xml"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		URL url = bundle.getEntry(webAppPath);
 		if (url != null) {
