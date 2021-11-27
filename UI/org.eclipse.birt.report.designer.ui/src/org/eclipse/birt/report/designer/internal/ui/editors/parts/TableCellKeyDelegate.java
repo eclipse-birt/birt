@@ -838,20 +838,6 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler {
 			return;
 		}
 
-		boolean first = true;
-
-		for (Iterator itr = parts.iterator(); itr.hasNext();) {
-			GraphicalEditPart part = (GraphicalEditPart) itr.next();
-
-			if (first) {
-				getViewer().select(part);
-				first = false;
-			} else {
-				getViewer().appendSelection(part);
-			}
-
-			getViewer().reveal(part);
-		}
-
+		getViewer().setSelection(new StructuredSelection(parts));
 	}
 }

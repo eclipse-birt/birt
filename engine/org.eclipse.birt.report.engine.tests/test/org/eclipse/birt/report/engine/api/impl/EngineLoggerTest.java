@@ -67,21 +67,22 @@ public class EngineLoggerTest extends TestCase {
 	 * @throws Exception
 	 */
 	public void testDefaultLogger() throws Exception {
-		// init the root logger
-		setupRootLogger("./utest/logger.txt", Level.FINE);
 		try {
+			// init the root logger
+			setupRootLogger("./utest/logger.txt", Level.FINE);
 			// start a default logger
-			LoggerSetting setting = EngineLogger.createSetting(null, null, null, null, 0, 0);
+			LoggerSetting setting = EngineLogger.createSetting(null, null, null, Level.FINE, 0, 0);
 
 			// all the log should be output to the root logger
 			log();
 
 			EngineLogger.removeSetting(setting);
+
+			// test the log file content
+			checkLogging("./utest/logger.txt", 0, 1, 1);
 		} finally {
 			removeRootLogger();
 		}
-		// test the log file content
-		checkLogging("./utest/logger.txt", 0, 1, 1);
 	}
 
 	/**
@@ -148,23 +149,24 @@ public class EngineLoggerTest extends TestCase {
 		setupRootLogger("./utest/logger.txt", Level.FINEST);
 		try {
 			// start a default logger
-			LoggerSetting setting = EngineLogger.createSetting(null, null, null, null, 0, 0);
+			LoggerSetting setting = EngineLogger.createSetting(null, null, null, Level.FINEST, 0, 0);
+
+			// all the log should be output to the root logger
+			log();
 
 			logThread("./utest/logger1.txt", Level.WARNING);
 			logThread("./utest/logger2.txt", Level.FINE);
 
-			// all the log should be output to the root logger
-			log();
+			waitLogThreads();
+			// test the log file content
+			checkLogging("./utest/logger.txt", 1, 1, 1);
+			checkLogging("./utest/logger1.txt", 0, 0, 1);
+			checkLogging("./utest/logger2.txt", 0, 1, 1);
 
 			EngineLogger.removeSetting(setting);
 		} finally {
 			removeRootLogger();
 		}
-		waitLogThreads();
-		// test the log file content
-		checkLogging("./utest/logger.txt", 1, 1, 1);
-		checkLogging("./utest/logger1.txt", 0, 0, 1);
-		checkLogging("./utest/logger2.txt", 0, 1, 1);
 	}
 
 	private static void waitLogThreads() {

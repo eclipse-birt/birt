@@ -30,6 +30,9 @@ To build BIRT with Eclipse Oxygen, run:
 
 [![Create Eclipse Development Environment for Eclipse BIRT](https://download.eclipse.org/oomph/www/setups/svg/birt.svg)](https://www.eclipse.org/setups/installer/?url=https://raw.githubusercontent.com/eclipse/birt/master/build/org.eclipse.birt.releng/BIRTConfiguration.setup&show=true "Click to open Eclipse-Installer Auto Launch or drag into your running installer")
 
+## Current version 4.8.0
+https://download.eclipse.org/birt/downloads/drops/R-R1-4.8.0-201806261756/
+
 ## Latest snapshot repository towards 4.9.0
 https://download.eclipse.org/birt/update-site/snapshot/
 
