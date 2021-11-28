@@ -9,7 +9,7 @@ Bundle-ClassPath: .,
 Bundle-Activator: org.eclipse.birt.report.viewer.ViewerPlugin
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.servlet;version="2.4.0",
  javax.servlet.http;version="2.4.0",
  javax.servlet.jsp;version="2.0.0",
