@@ -3,7 +3,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
 		<attributes>
 			<attribute name="module" value="true"/>
-			<attribute name="limit-modules" value="openj9.dtfjview,openj9.dataaccess,jdk.charsets,jdk.pack,jdk.xml.dom,jdk.rmic,jdk.httpserver,jdk.jcmd,java.se,jdk.zipfs,jdk.jshell,openj9.jvm,jdk.editpad,jdk.jsobject,jdk.sctp,java.smartcardio,jdk.jlink,jdk.unsupported,jdk.scripting.nashorn.shell,jdk.unsupported.desktop,jdk.accessibility,jdk.security.jgss,openj9.gpu,jdk.crypto.cryptoki,jdk.net,openj9.sharedclasses,openj9.zosconditionhandling,jdk.naming.rmi,jdk.jconsole,jdk.crypto.mscapi,jdk.security.auth,jdk.jartool,jdk.naming.dns,jdk.localedata"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
