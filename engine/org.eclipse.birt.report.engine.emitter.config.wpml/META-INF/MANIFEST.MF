@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Word Emitter Descriptor
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.config.wpml;singleton:=true
 Bundle-Version: 4.9.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.birt.core;bundle-version="[2.3.1,5.0.0)",

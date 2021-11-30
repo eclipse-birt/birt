@@ -6,5 +6,5 @@ Bundle-Version: 4.9.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Require-Bundle: org.eclipse.help;bundle-version="[3.2.0,4.0.0)"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.doc

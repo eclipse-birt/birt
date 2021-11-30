@@ -11,6 +11,6 @@ Import-Package: com.ibm.icu.text;version="3.4.4",
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.birt.core,
  org.junit;resolution:=optional;visibility:=reexport
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: Eclipse BIRT Project
 Automatic-Module-Name: org.eclipse.birt.core.tests

@@ -9,7 +9,7 @@ Require-Bundle: org.junit,
 Export-Package: utility
 Bundle-ClassPath: .,
  utility.jar
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: com.ibm.icu.util
 Bundle-Vendor: Eclipse BIRT Project
 Automatic-Module-Name: org.eclipse.birt.tests.core

@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.birt.chart.device.svg;bundle-version="4.7.0",
  org.eclipse.birt.chart.device.extension;bundle-version="4.7.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.chart.device.pdf
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ClassPath: .,
  lib/fop-2.6.jar
 Automatic-Module-Name: org.eclipse.birt.chart.device.pdf

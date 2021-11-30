@@ -25,6 +25,6 @@ Export-Package: org.eclipse.birt.report.designer.ui.actions,
  org.eclipse.birt.report.designer.ui.preview.editors,
  org.eclipse.birt.report.designer.ui.preferences
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: com.ibm.icu.util;version="3.4.4"
 Automatic-Module-Name: org.eclipse.birt.report.designer.ui.preview.web

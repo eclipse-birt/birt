@@ -34,5 +34,5 @@ Export-Package: org.eclipse.birt.report.designer.internal.ui.swt.custom,
  org.eclipse.birt.report.designer.ui.views.attributes.providers,
  org.eclipse.birt.report.designer.ui.views.data
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: org.eclipse.birt.report.designer.ui.views
