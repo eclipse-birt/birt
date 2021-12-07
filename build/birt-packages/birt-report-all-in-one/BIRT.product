@@ -20,7 +20,7 @@ org.eclipse.birt.report.designer.ui
    <windowImages/>
 
    <splash
-      location="org.eclipse.platform" />
+      location="org.eclipse.birt" />
    <launcher name="birt">
       <win useIco="false">
          <bmp/>
@@ -144,9 +144,9 @@ org.eclipse.birt.report.designer.ui
       <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.update.configurator" autoStart="false" startLevel="4" />
-      <property name="org.eclipse.update.reconcile" value="false" />
-      <property name="eclipse.application" value="org.eclipse.ui.ide.workbench" />
       <property name="eclipse.product" value="org.eclipse.platform.ide" />
+      <property name="eclipse.application" value="org.eclipse.ui.ide.workbench" />
+      <property name="org.eclipse.update.reconcile" value="false" />
    </configurations>
 
 </product>

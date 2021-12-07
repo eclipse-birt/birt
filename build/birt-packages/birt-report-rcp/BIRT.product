@@ -17,6 +17,8 @@ org.eclipse.birt.report.designer.ui
       </vmArgsMac>
    </launcherArgs>
 
+   <splash
+      location="org.eclipse.birt" />
    <launcher name="birt">
       <win useIco="false">
          <bmp/>
