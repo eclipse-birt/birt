@@ -211,76 +211,31 @@
                menubarPath="debug">
          </action>
       </viewerContribution>
-         <viewerContribution
-               id="org.eclipse.birt.report.designer.ui.ide.Report"
-               targetID="org.eclipse.ui.views.ResourceNavigator">
-            <menu
-                  id="org.eclipse.birt.report.designer.ui.ide.Report"
-                  label="%Menu.Report"
-                  path="additions">
-               <groupMarker
-                     name="report">
-               </groupMarker>
-            </menu>
-            <visibility>
-               <or>
-                  <and>
-                     <objectClass
-                           name="org.eclipse.core.resources.IFile">
-                     </objectClass>
-                     <objectState
-                           name="contentTypeId"
-                           value="org.eclipse.birt.report.designer.ui.editors.reportdesign">
-                     </objectState>
-                  </and>
-                  <and>
-                     <objectClass
-                           name="org.eclipse.core.resources.IFile">
-                     </objectClass>
-                     <objectState
-                           name="contentTypeId"
-                           value="org.eclipse.birt.report.designer.ui.editors.reporttemplate">
-                     </objectState>
-                  </and>
-               </or>
-            </visibility>
-         </viewerContribution>
-         <viewerContribution
-               id="org.eclipse.Script.debug.ui.DebugResourceAction"
-               targetID="org.eclipse.ui.views.ResourceNavigator">
-            <action
-                  class="org.eclipse.birt.report.debug.internal.ui.script.actions.DebugResourceAction"
-                  enablesFor="1"
-                  icon="icons/full/ctool16/birtdebugger.gif"
-                  id="org.eclipse.Script.debug.ui.DebugResource"
-                  label="%Action.DebugReport"
-                  menubarPath="org.eclipse.birt.report.designer.ui.ide.Report/report">
-            </action>
-            <visibility>
-               <or>
-                  <and>
-                     <objectClass
-                           name="org.eclipse.core.resources.IFile">
-                     </objectClass>
-                     <objectState
-                           name="contentTypeId"
-                           value="org.eclipse.birt.report.designer.ui.editors.reportdesign">
-                     </objectState>
-                  </and>
-                  <and>
-                     <objectClass
-                           name="org.eclipse.core.resources.IFile">
-                     </objectClass>
-                     <objectState
-                           name="contentTypeId"
-                           value="org.eclipse.birt.report.designer.ui.editors.reporttemplate">
-                     </objectState>
-                  </and>
-               </or>
-            </visibility>
-         </viewerContribution>
-    </extension>   
-    
+    </extension>
+
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.birt.report.designer.ui.ide.reportMenu">
+         <command commandId="org.eclipse.birt.report.designer.ui.ide.debugReport.command"
+               label="%Action.DebugReport"
+               icon="icons/full/ctool16/birtdebugger.gif"
+               style="push">
+
+            <visibleWhen>
+               <with variable="selection">
+                  <iterate operator="or" ifEmpty="false">
+                     <adapt type="org.eclipse.core.resources.IResource">
+                        <or>
+                           <test property="org.eclipse.core.resources.extension" value="rpttemplate" />
+                           <test property="org.eclipse.core.resources.extension" value="rptdesign" />
+                        </or>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+
     <extension point="org.eclipse.jdt.launching.classpathProviders">
        <classpathProvider
           id="org.eclipse.birt.report.debug.script.ScriptDebugClasspathProvider"
@@ -422,4 +377,12 @@
         </part>
      </actionSetPartAssociation>
   </extension>
+
+   <extension point="org.eclipse.ui.commands">
+      <command id="org.eclipse.birt.report.designer.ui.ide.debugReport.command" name="%Action.DebugReport"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.handlers">
+      <handler commandId="org.eclipse.birt.report.designer.ui.ide.debugReport.command" class="org.eclipse.birt.report.debug.internal.ui.script.handlers.DebugResourceHandler"/>
+   </extension>
 </plugin>

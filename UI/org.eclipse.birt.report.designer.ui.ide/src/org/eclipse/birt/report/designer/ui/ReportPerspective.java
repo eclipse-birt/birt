@@ -30,8 +30,8 @@ import org.osgi.service.prefs.Preferences;
 /**
  * JRPPerspective generates the initial page layout and visible action set for
  * birt.
- * 
- * 
+ *
+ *
  */
 public class ReportPerspective implements IPerspectiveFactory {
 
@@ -58,16 +58,16 @@ public class ReportPerspective implements IPerspectiveFactory {
 
 	/**
 	 * Defines the initial layout for a perspective.
-	 * 
+	 *
 	 * Implementors of this method may add additional views to a perspective. The
 	 * perspective already contains an editor folder with
 	 * <code>ID = ILayoutFactory.ID_EDITORS</code>. Add additional views to the
 	 * perspective in reference to the editor folder.
-	 * 
+	 *
 	 * This method is only called when a new perspective is created. If an old
 	 * perspective is restored from a persistence file then this method is not
 	 * called.
-	 * 
+	 *
 	 * @param layout the factory used to add views to the perspective
 	 */
 	public void createInitialLayout(IPageLayout layout) {
@@ -97,7 +97,7 @@ public class ReportPerspective implements IPerspectiveFactory {
 		addNewWizardShortcut(layout, NEW_TEMPLATE_ID);
 
 		// Add "show views".
-		addShowViewShortcut(layout, IPageLayout.ID_RES_NAV);
+		addShowViewShortcut(layout, IPageLayout.ID_PROJECT_EXPLORER);
 		addShowViewShortcut(layout, IPageLayout.ID_OUTLINE);
 		addShowViewShortcut(layout, PaletteView.ID);
 		addShowViewShortcut(layout, AttributeView.ID);
@@ -150,7 +150,7 @@ public class ReportPerspective implements IPerspectiveFactory {
 		// Bottom left.
 		IFolderLayout bottomLeft = layout.createFolder("bottomLeft", IPageLayout.BOTTOM, (float) 0.50, //$NON-NLS-1$
 				"topLeft");//$NON-NLS-1$
-		addLayoutView(bottomLeft, IReportPerspectiveExtra.LAYOUT_BOTTOM_LEFT, IPageLayout.ID_RES_NAV);
+		addLayoutView(bottomLeft, IReportPerspectiveExtra.LAYOUT_BOTTOM_LEFT, IPageLayout.ID_PROJECT_EXPLORER);
 		addLayoutView(bottomLeft, IReportPerspectiveExtra.LAYOUT_BOTTOM_LEFT, IPageLayout.ID_OUTLINE);
 
 		// Bottom right.
