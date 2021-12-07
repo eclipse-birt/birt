@@ -7,6 +7,9 @@
    </configIni>
 
    <launcherArgs>
+      <programArgs>-perspective
+org.eclipse.birt.report.designer.ui
+      </programArgs>
       <vmArgs>-Xms512m
 -Xmx1024m
       </vmArgs>

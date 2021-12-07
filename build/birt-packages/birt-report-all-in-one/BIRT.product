@@ -7,6 +7,9 @@
    </configIni>
 
    <launcherArgs>
+      <programArgs>-perspective
+org.eclipse.birt.report.designer.ui
+      </programArgs>
       <vmArgs>-Xms512m
 -Xmx1024m
       </vmArgs>
@@ -141,9 +144,9 @@
       <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.update.configurator" autoStart="false" startLevel="4" />
-      <property name="eclipse.product" value="org.eclipse.platform.ide" />
       <property name="org.eclipse.update.reconcile" value="false" />
       <property name="eclipse.application" value="org.eclipse.ui.ide.workbench" />
+      <property name="eclipse.product" value="org.eclipse.platform.ide" />
    </configurations>
 
 </product>
