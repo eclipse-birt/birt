@@ -39,6 +39,8 @@ import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.parser.TextParser;
+import org.eclipse.birt.report.engine.util.DataProtocolUtil;
+import org.eclipse.birt.report.engine.util.DataProtocolUtil.DataUrlInfo;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -299,7 +301,7 @@ import org.w3c.dom.css.CSSValue;
  * <li>display</li>
  * <li>visibility</li>
  * </ul>
- * 
+ *
  * Supported css shorthand as following
  * <table border=1>
  * <tr>
@@ -474,12 +476,12 @@ public class HTML2Content implements HTMLConstants {
 
 	/**
 	 * Visits the children nodes of the specific node
-	 * 
+	 *
 	 * @param ele        the specific node
 	 * @param needEscape the flag indicating the content needs escaping
 	 * @param cssStyles
 	 * @param content    the parent content of the element
-	 * 
+	 *
 	 */
 	static void processNodes(Element ele, Map cssStyles, IContent content, ActionContent action, int nestCount) {
 		int level = 0;
@@ -671,7 +673,7 @@ public class HTML2Content implements HTMLConstants {
 
 	/**
 	 * Checks if the content inside the DOM should be escaped.
-	 * 
+	 *
 	 * @param doc the root of the DOM tree
 	 * @return true if the content needs escaping, otherwise false.
 	 */
@@ -686,7 +688,7 @@ public class HTML2Content implements HTMLConstants {
 
 	/**
 	 * Outputs the A element
-	 * 
+	 *
 	 * @param ele the A element instance
 	 */
 	protected static ActionContent handleAnchor(Element ele, IContent content, ActionContent defaultAction) {
@@ -740,7 +742,7 @@ public class HTML2Content implements HTMLConstants {
 
 	/**
 	 * Outputs the embed content. Currently only support flash.
-	 * 
+	 *
 	 * @param ele
 	 * @param cssStyles
 	 * @param content
@@ -754,7 +756,7 @@ public class HTML2Content implements HTMLConstants {
 
 	/**
 	 * Outputs the flash.
-	 * 
+	 *
 	 * @param ele
 	 * @param cssStyles
 	 * @param content
@@ -829,10 +831,10 @@ public class HTML2Content implements HTMLConstants {
 
 	/**
 	 * Outputs the image
-	 * 
+	 *
 	 * @param ele the IMG element instance
 	 */
-	protected static void outputImg(Element ele, Map cssStyles, IContent content) {
+	protected static void outputImg(Element ele, Map<Element, StyleProperties> cssStyles, IContent content) {
 		String src = ele.getAttribute("src"); //$NON-NLS-1$
 		if (src != null) {
 			IImageContent image = content.getReportContent().createImageContent();
@@ -841,6 +843,11 @@ public class HTML2Content implements HTMLConstants {
 
 			if (!FileUtil.isLocalResource(src)) {
 				image.setImageSource(IImageContent.IMAGE_URL);
+				image.setURI(src);
+			} else if (src.startsWith(DataProtocolUtil.DATA_PROTOCOL)) {
+				DataUrlInfo parseDataUrl = DataProtocolUtil.parseDataUrl(src);
+				image.setImageSource(IImageContent.IMAGE_URL);
+				image.setMIMEType(parseDataUrl.getMediaType());
 				image.setURI(src);
 			} else {
 				ReportDesignHandle handle = content.getReportContent().getDesign().getReportDesign();
