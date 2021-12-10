@@ -8,7 +8,7 @@
  *
  * Contributors: Claes Rosell - initial API and implementation
  ******************************************************************************/
-package org.eclipse.birt.report.engine.util;
+package org.eclipse.birt.report.engine.internal.util;
 
 import org.eclipse.core.runtime.Assert;
 
