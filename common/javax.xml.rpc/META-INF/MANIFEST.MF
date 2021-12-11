@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Export-Package: javax.xml.rpc.encoding;uses:="javax.xml.namespace";ver
+ sion="1.1",javax.xml.rpc.handler;uses:="javax.xml.namespace";version=
+ "1.1",javax.xml.rpc.handler.soap;uses:="javax.xml.rpc.handler,javax.x
+ ml.soap";version="1.1",javax.xml.rpc.server;uses:="javax.servlet,java
+ x.xml.rpc.handler,javax.servlet.http,javax.xml.rpc";version="1.1",jav
+ ax.xml.rpc.holders;uses:="javax.xml.namespace";version="1.1",javax.xm
+ l.rpc.soap;uses:="javax.xml.soap,javax.xml.namespace";version="1.1",j
+ avax.xml.rpc;uses:="javax.xml.rpc.encoding,javax.xml.rpc.handler,java
+ x.xml.namespace";version="1.1"
+Implementation-Version: 1.1.2
+Built-By: sumasri
+Specification-Vendor: Oracle Corporation
+Tool: Bnd-0.0.255
+Bundle-Name: javax.xml.rpc API
+Created-By: 1.7.0_80 (Oracle Corporation)
+Bundle-Vendor: Oracle Corporation
+Implementation-Vendor: Oracle Corporation
+Implementation-Vendor-Id: org.glassfish
+Bundle-Version: 1.1.2.qualifier
+Build-Jdk: 1.7.0_80
+Bnd-LastModified: 1521631176304
+Bundle-ManifestVersion: 2
+Bundle-License: https://oss.oracle.com/licenses/CDDL+GPL-1.1
+Bundle-Description: JavaTM APIs for XML based RPC 1.1 Design Specifica
+ tion
+Specification-Version: 1.1
+Import-Package: javax.servlet;version="4.0",
+ javax.servlet.http;version="4.0",
+ javax.xml.namespace,
+ javax.xml.soap
+Bundle-SymbolicName: javax.xml.rpc
+Bundle-DocURL: http://www.oracle.com
+Extension-Name: javax.xml.rpc
+Archiver-Version: Plexus Archiver
+
