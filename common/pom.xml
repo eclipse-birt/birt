@@ -18,5 +18,6 @@
 		<module>org.apache.batik.transcoder.birt.ext</module>
 		<module>org.apache.batik.dom.birt.ext</module>
 		<module>org.apache.axis</module>
+		<module>javax.xml.rpc-api</module>
 	</modules>
 </project>
