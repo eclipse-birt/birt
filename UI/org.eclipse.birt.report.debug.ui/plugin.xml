@@ -225,8 +225,8 @@
                   <iterate operator="or" ifEmpty="false">
                      <adapt type="org.eclipse.core.resources.IResource">
                         <or>
-                           <test property="org.eclipse.core.resources.extension" value="rpttemplate" />
-                           <test property="org.eclipse.core.resources.extension" value="rptdesign" />
+                           <test property="org.eclipse.core.resources.contentTypeId" value="org.eclipse.birt.report.designer.ui.editors.reporttemplate" />
+                           <test property="org.eclipse.core.resources.contentTypeId" value="org.eclipse.birt.report.designer.ui.editors.reportdesign" />
                         </or>
                      </adapt>
                   </iterate>

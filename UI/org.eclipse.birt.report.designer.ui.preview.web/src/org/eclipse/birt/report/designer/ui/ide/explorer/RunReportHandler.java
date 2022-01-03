@@ -20,21 +20,24 @@ import org.eclipse.birt.report.designer.ui.preview.PreviewUtil;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
+import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
  * The handler to run a report in navigator view
  */
-public class RunReportHandler extends AbstractViewHandler {
+public class RunReportHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		PreviewUtil.clearSystemProperties();
-		IFile file = getSelectedFile();
-		if (file != null) {
 
+		IFile file = ViewHandlerUtil.getSelectedFile(HandlerUtil.getCurrentStructuredSelection(event));
+
+		if (file != null) {
 			String url = file.getLocation().toOSString();
 			try {
 				ModuleHandle handle = SessionHandleAdapter.getInstance().getSessionHandle().openDesign(url);

@@ -17,18 +17,22 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.preview.PreviewUtil;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
+import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
  * The handler to view report document in navigator view
  */
-public class ViewDocumentHandler extends AbstractViewHandler {
+public class ViewDocumentHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) {
 		PreviewUtil.clearSystemProperties();
-		IFile file = getSelectedFile();
+
+		IFile file = ViewHandlerUtil.getSelectedFile(HandlerUtil.getCurrentStructuredSelection(event));
+
 		if (file != null) {
 			String url = file.getLocation().toString();
 			Map<String, Object> options = new HashMap<>();

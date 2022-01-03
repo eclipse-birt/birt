@@ -18,20 +18,22 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.preview.PreviewUtil;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
+import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
  * The handler to generate report document in navigator view
  */
-public class GenerateDocumentHandler extends AbstractViewHandler {
+public class GenerateDocumentHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		PreviewUtil.clearSystemProperties();
 
-		IFile file = getSelectedFile();
+		IFile file = ViewHandlerUtil.getSelectedFile(HandlerUtil.getCurrentStructuredSelection(event));
 		if (file != null) {
 			String url = file.getLocation().toOSString();
 

@@ -111,8 +111,6 @@
 	</extension>
 -->
 
-	<!-- Example code below -->
-
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.birt.report.designer.ui.ide.reportMenu">
          <command commandId="org.eclipse.birt.report.designer.ui.ide.runReport.command"
@@ -125,9 +123,9 @@
                   <iterate operator="or" ifEmpty="false">
                      <adapt type="org.eclipse.core.resources.IResource">
                         <or>
-                           <test property="org.eclipse.core.resources.extension" value="rpttemplate" />
-                           <test property="org.eclipse.core.resources.extension" value="rptdesign" />
-                        </or>
+                           <test property="org.eclipse.core.resources.contentTypeId" value="org.eclipse.birt.report.designer.ui.editors.reporttemplate" />
+                           <test property="org.eclipse.core.resources.contentTypeId" value="org.eclipse.birt.report.designer.ui.editors.reportdesign" />
+                         </or>
                      </adapt>
                   </iterate>
                </with>
@@ -162,8 +160,8 @@
                   <iterate operator="or" ifEmpty="false">
                      <adapt type="org.eclipse.core.resources.IResource">
                         <or>
-                           <test property="org.eclipse.core.resources.extension" value="rpttemplate" />
-                           <test property="org.eclipse.core.resources.extension" value="rptdesign" />
+                           <test property="org.eclipse.core.resources.contentTypeId" value="org.eclipse.birt.report.designer.ui.editors.reporttemplate" />
+                           <test property="org.eclipse.core.resources.contentTypeId" value="org.eclipse.birt.report.designer.ui.editors.reportdesign" />
                         </or>
                      </adapt>
                   </iterate>
