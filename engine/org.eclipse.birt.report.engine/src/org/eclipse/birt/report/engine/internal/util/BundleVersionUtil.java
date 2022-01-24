@@ -19,6 +19,12 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
+/**
+ * Class to retrieve the version from the bundle.
+ *
+ * @since 3.3
+ *
+ */
 public class BundleVersionUtil {
 
 	/**
@@ -30,10 +36,14 @@ public class BundleVersionUtil {
 	private static String UNKNOWN_VERSION = "UNKNOWN";
 
 	public static String getBundleVersion(String bundleName) {
-		Bundle bundle = Platform.getBundle(bundleName);
-		if (bundle != null) {
-			return bundle.getVersion().toString();
+
+		if (Platform.isRunning()) {
+			Bundle bundle = Platform.getBundle(bundleName);
+			if (bundle != null) {
+				return bundle.getVersion().toString();
+			}
 		}
+
 		// the engine.jar are in the class path
 		ProtectionDomain domain = BundleVersionUtil.class.getProtectionDomain();
 		if (domain != null) {
