@@ -30,6 +30,7 @@ import java.util.TreeSet;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.format.DateFormatter;
+import org.eclipse.birt.core.util.EclipseUtil;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -2590,7 +2591,7 @@ public class DEUtil {
 	}
 
 	public static LibraryHandle getDefaultLibraryHandle() {
-		URL url = FileLocator.find(Platform.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST),
+		URL url = FileLocator.find(EclipseUtil.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST),
 				new Path(DEFAULT_LIBRARY), null);
 
 		if (url == null) {

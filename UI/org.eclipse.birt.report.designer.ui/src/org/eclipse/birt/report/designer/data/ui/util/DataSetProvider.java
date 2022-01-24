@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.util.EclipseUtil;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
@@ -784,7 +785,7 @@ public final class DataSetProvider {
 	private static List<URL> getDefaultViewerScriptLibURLs() {
 		List<URL> urls = new ArrayList<URL>();
 		try {
-			Bundle bundle = Platform.getBundle(VIEWER_NAMESPACE);
+			Bundle bundle = EclipseUtil.getBundle(VIEWER_NAMESPACE);
 
 			// Prepare ScriptLib location
 			Enumeration bundleFile = bundle.getEntryPaths(BIRT_SCRIPTLIB);

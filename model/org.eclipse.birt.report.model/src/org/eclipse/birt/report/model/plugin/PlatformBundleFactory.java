@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.plugin;
 
 import java.net.URL;
 
+import org.eclipse.birt.core.util.EclipseUtil;
 import org.eclipse.birt.report.model.api.IBundleFactory;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
@@ -33,7 +34,7 @@ public class PlatformBundleFactory implements IBundleFactory {
 	 */
 
 	public URL getBundleResource(String bundleName, String resourceName) {
-		Bundle bundle = Platform.getBundle(bundleName);
+		Bundle bundle = EclipseUtil.getBundle(bundleName);
 		if (bundle != null)
 			return bundle.getResource(resourceName);
 

@@ -16,7 +16,7 @@ import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.logging.Logger;
 
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.birt.core.util.EclipseUtil;
 import org.osgi.framework.Bundle;
 
 /**
@@ -37,11 +37,9 @@ public class BundleVersionUtil {
 
 	public static String getBundleVersion(String bundleName) {
 
-		if (Platform.isRunning()) {
-			Bundle bundle = Platform.getBundle(bundleName);
-			if (bundle != null) {
-				return bundle.getVersion().toString();
-			}
+		Bundle bundle = EclipseUtil.getBundle(bundleName);
+		if (bundle != null) {
+			return bundle.getVersion().toString();
 		}
 
 		// the engine.jar are in the class path

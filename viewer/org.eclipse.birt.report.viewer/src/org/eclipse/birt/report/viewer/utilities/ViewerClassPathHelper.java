@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import org.eclipse.birt.core.util.EclipseUtil;
 import org.eclipse.birt.report.designer.ui.IReportClasspathResolver;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.runtime.Platform;
@@ -124,7 +125,7 @@ public class ViewerClassPathHelper {
 	 */
 	public static String getWorkspaceClassPath() {
 		try {
-			Bundle bundle = Platform.getBundle(FINDER_BUNDLE_NAME);
+			Bundle bundle = EclipseUtil.getBundle(FINDER_BUNDLE_NAME);
 			if (bundle != null) {
 				if (bundle.getState() == Bundle.RESOLVED) {
 					bundle.start(Bundle.START_TRANSIENT);

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.eclipse.birt.core.util.EclipseUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
@@ -183,7 +184,7 @@ public class AppServerWrapper {
 	 * @param symbolicName
 	 */
 	private void ensureBundleStarted(String symbolicName) throws BundleException {
-		Bundle bundle = Platform.getBundle(symbolicName);
+		Bundle bundle = EclipseUtil.getBundle(symbolicName);
 		if (bundle != null) {
 			if (bundle.getState() == Bundle.RESOLVED) {
 				bundle.start(Bundle.START_TRANSIENT);
@@ -222,7 +223,7 @@ public class AppServerWrapper {
 		viewerServer.start();
 
 		IWebAppInfo webAppInfo = WebViewer.getCurrentWebApp();
-		Bundle webAppBundle = Platform.getBundle(webAppInfo.getID());
+		Bundle webAppBundle = EclipseUtil.getBundle(webAppInfo.getID());
 		viewerApp = new ViewerWebApp(webAppBundle, webAppInfo.getWebAppPath(), webAppInfo.getWebAppContextPath(),
 				webAppInfo.getURIEncoding());
 		viewerApp.start();

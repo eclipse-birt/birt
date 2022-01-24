@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.util.EclipseUtil;
 import org.eclipse.birt.report.viewer.api.AppContextExtension;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -161,7 +162,7 @@ public class AppContextUtil {
 	 */
 	private static Class loadClass(String bundleName, String className) {
 		try {
-			Bundle bundle = Platform.getBundle(bundleName);
+			Bundle bundle = EclipseUtil.getBundle(bundleName);
 			if (bundle != null) {
 				if (bundle.getState() == Bundle.RESOLVED) {
 					bundle.start(Bundle.START_TRANSIENT);

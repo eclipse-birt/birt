@@ -17,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Locale;
 
+import org.eclipse.birt.core.util.EclipseUtil;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
@@ -231,10 +232,10 @@ public class WizardNewLibraryCreationPage extends WizardPage implements INewLibr
 			}
 		}
 
-		if (Platform.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST) == null) {
+		if (EclipseUtil.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST) == null) {
 			return true;
 		}
-		URL url = FileLocator.find(Platform.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST), new Path(TEMPLATE_FILE),
+		URL url = FileLocator.find(EclipseUtil.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST), new Path(TEMPLATE_FILE),
 				null);
 
 		if (url == null) {

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.chart.examples.ChartExamplesPlugin;
 import org.eclipse.birt.chart.examples.view.description.Messages;
+import org.eclipse.birt.core.util.EclipseUtil;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
@@ -88,7 +89,7 @@ public class ItemContentProvider {
 	 * @throws IOException
 	 */
 	private static void openDescriptorFile() throws IOException {
-		Bundle bundle = Platform.getBundle(ChartExamplesPlugin.ID);
+		Bundle bundle = EclipseUtil.getBundle(ChartExamplesPlugin.ID);
 		Path path = new Path("/src/org/eclipse/birt/chart/examples/view/util/description.txt"); //$NON-NLS-1$
 		URL fileURL = FileLocator.find(bundle, path, null);
 
