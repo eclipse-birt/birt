@@ -146,7 +146,6 @@
         <setEntry value="org.eclipse.core.resources@default:default"/>
         <setEntry value="org.eclipse.core.runtime@default:true"/>
         <setEntry value="org.eclipse.core.variables@default:default"/>
-        <setEntry value="org.eclipse.cvs@default:default"/>
         <setEntry value="org.eclipse.datatools.common.doc.user@default:default"/>
         <setEntry value="org.eclipse.datatools.connectivity.apache.derby.dbdefinition@default:default"/>
         <setEntry value="org.eclipse.datatools.connectivity.apache.derby.ui@default:default"/>

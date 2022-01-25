@@ -47,7 +47,6 @@
 			<repository location="https://download.eclipse.org/eclipse/updates/4.23-I-builds/"/>
 			<unit id="a.jre.javase" version="11.0.0"/>
 			<unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
-			<unit id="org.eclipse.cvs.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
 			<unit id="org.eclipse.rcp.configuration.feature.group" version="0.0.0"/>
 		</location>

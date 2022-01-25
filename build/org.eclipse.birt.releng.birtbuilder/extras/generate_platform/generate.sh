@@ -35,7 +35,6 @@ export Profile=SDKProfile
 #export EMF_XSD_URL=http://download.eclipse.org/modeling/emf/emf/updates/2.7milestones/
 #export GEF_URL=http://download.eclipse.org/tools/gef/updates/milestones/
 
-export ECLIPSE_CVS_URL=jar:file://$REPO_LOCATION/org.eclipse.cvs-4.4M6.zip!/
 export ECLIPSE_JDT_URL=jar:file://$REPO_LOCATION/org.eclipse.jdt-4.4M6.zip!/
 export ECLIPSE_PDE_URL=jar:file://$REPO_LOCATION/org.eclipse.pde-4.4M6.zip!/
 export EMF_XSD_URL=jar:file://$REPO_LOCATION/emf-xsd-Update-2.10.0M6.zip!/
@@ -47,7 +46,6 @@ $ECLIPSE_RUNNER \
  -application org.eclipse.equinox.p2.director \
  -metadataRepository $ECLIPSE_CVS_URL \
  -artifactRepository $ECLIPSE_CVS_URL \
- -installIU org.eclipse.cvs.feature.group \
  -destination $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
  -profile $Profile \
  -bundlepool $TARGET_LOCATION/$PACKAGE_TYPE/eclipse \
