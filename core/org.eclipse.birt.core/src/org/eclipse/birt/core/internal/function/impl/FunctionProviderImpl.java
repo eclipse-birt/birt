@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.core.script.functionservice.impl.FunctionProviderBaseImpl;
 import org.osgi.framework.Bundle;
 
@@ -46,7 +47,7 @@ public class FunctionProviderImpl extends FunctionProviderBaseImpl {
 		String source = confElement.getAttribute(ATTRIBUTE_LOCATION);
 		IExtension extension = confElement.getDeclaringExtension();
 		String namespace = extension.getNamespace();
-		Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(namespace);
+		Bundle bundle = EclipseUtil.getBundle(namespace);
 		// available on OSGi platform
 		if (bundle != null) {
 			Enumeration<String> files = bundle.getEntryPaths(source);

@@ -24,6 +24,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.Random;
 
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultObject;
@@ -64,8 +65,8 @@ public class LargeObjectTest extends ConnectionTest {
 	private static String sm_birtFlatfileId = BIRT_FLATFILE_DATASOURCE_ID;
 	private static boolean sm_pluginTest = org.eclipse.core.runtime.Platform.isRunning();
 
-	private static final Bundle dataBundle = org.eclipse.core.runtime.Platform.getBundle("org.eclipse.birt.data");
-	private static final Bundle driverBundle = org.eclipse.core.runtime.Platform.getBundle(sm_dtpFlatfileId);
+	private static final Bundle dataBundle = EclipseUtil.getBundle("org.eclipse.birt.data");
+	private static final Bundle driverBundle = EclipseUtil.getBundle(sm_dtpFlatfileId);
 
 	@BeforeClass
 	public static void largeObjectSetUp() throws Exception {
