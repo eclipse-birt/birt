@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.eclipse.birt.core.util.EclipseUtil;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.viewer.ViewerPlugin;

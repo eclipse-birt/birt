@@ -23,7 +23,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.util.EclipseUtil;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.report.engine.util.SecurityUtil;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;

@@ -24,7 +24,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.Random;
 
-import org.eclipse.birt.core.util.EclipseUtil;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultObject;

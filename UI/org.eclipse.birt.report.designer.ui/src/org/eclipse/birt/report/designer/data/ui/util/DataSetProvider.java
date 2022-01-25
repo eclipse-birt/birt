@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.util.EclipseUtil;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;

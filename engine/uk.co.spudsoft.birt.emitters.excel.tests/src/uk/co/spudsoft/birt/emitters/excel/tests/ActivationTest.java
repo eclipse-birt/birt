@@ -15,7 +15,7 @@ package uk.co.spudsoft.birt.emitters.excel.tests;
 
 import static org.junit.Assert.*;
 
-import org.eclipse.birt.core.util.EclipseUtil;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.core.runtime.Platform;
 import org.junit.Test;
 import org.osgi.framework.Bundle;

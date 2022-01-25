@@ -8,7 +8,7 @@
  * Contributors:
  *  Wim Jongman - initial API and implementation
  *******************************************************************************/
-package org.eclipse.birt.core.util;
+package org.eclipse.birt.core.internal.util;
 
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;

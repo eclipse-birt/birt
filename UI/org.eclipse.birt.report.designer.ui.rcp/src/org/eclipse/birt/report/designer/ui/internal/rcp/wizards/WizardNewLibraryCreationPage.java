@@ -17,7 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Locale;
 
-import org.eclipse.birt.core.util.EclipseUtil;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import org.eclipse.birt.chart.examples.ChartExamplesPlugin;
 import org.eclipse.birt.chart.examples.view.ChartExamples;
 import org.eclipse.birt.chart.examples.view.description.Messages;
-import org.eclipse.birt.core.util.EclipseUtil;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;

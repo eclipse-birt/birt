@@ -16,7 +16,7 @@ import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.util.EclipseUtil;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.osgi.framework.Bundle;
 
 /**

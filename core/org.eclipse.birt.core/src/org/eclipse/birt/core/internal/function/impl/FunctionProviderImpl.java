@@ -21,8 +21,8 @@ import java.util.List;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.core.script.functionservice.impl.FunctionProviderBaseImpl;
-import org.eclipse.birt.core.util.EclipseUtil;
 import org.osgi.framework.Bundle;
 
 /**

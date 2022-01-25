@@ -30,7 +30,7 @@ import java.util.TreeSet;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.format.DateFormatter;
-import org.eclipse.birt.core.util.EclipseUtil;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;

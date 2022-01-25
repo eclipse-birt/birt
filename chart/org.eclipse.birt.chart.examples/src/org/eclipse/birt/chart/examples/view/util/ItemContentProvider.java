@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.chart.examples.ChartExamplesPlugin;
 import org.eclipse.birt.chart.examples.view.description.Messages;
-import org.eclipse.birt.core.util.EclipseUtil;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
