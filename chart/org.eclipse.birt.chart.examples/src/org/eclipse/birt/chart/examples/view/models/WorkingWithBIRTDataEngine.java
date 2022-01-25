@@ -50,6 +50,7 @@ import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.data.Constants;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -369,7 +370,7 @@ public class WorkingWithBIRTDataEngine {
 		static final String INCLTYPELINE = "NO"; //$NON-NLS-1$
 		static String HOME = null;
 		static {
-			Bundle bundle = Platform.getBundle(ChartExamplesPlugin.ID);
+			Bundle bundle = EclipseUtil.getBundle(ChartExamplesPlugin.ID);
 			Path path = new Path("data"); //$NON-NLS-1$
 			URL fileURL = FileLocator.find(bundle, path, null);
 

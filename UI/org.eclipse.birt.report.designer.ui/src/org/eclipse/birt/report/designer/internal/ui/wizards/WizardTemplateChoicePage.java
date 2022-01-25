@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ReportGraphicsViewPainter;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -693,7 +694,7 @@ public class WizardTemplateChoicePage extends WizardPage implements TemplateUICa
 	private URL getPreviewImageURL(String reportFileName, String key) {
 		URL url = null;
 
-		Bundle bundle = Platform.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST);
+		Bundle bundle = EclipseUtil.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST);
 		if (bundle == null) {
 			return null;
 		}
