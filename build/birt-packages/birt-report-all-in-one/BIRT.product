@@ -40,7 +40,6 @@
       <feature id="org.eclipse.birt.example" installMode="root"/>
       <feature id="org.eclipse.birt.report.designer.editor.xml.wtp" installMode="root"/>
       <feature id="org.eclipse.birt" installMode="root"/>
-      <feature id="org.eclipse.cvs" installMode="root"/>
       <feature id="org.eclipse.datatools.common.doc.user" installMode="root"/>
       <feature id="org.eclipse.datatools.connectivity.doc.user" installMode="root"/>
       <feature id="org.eclipse.datatools.connectivity.feature" installMode="root"/>

@@ -320,8 +320,6 @@
             name="a.jre.javase"
             versionRange="11.0.0"/>
         <requirement
-            name="org.eclipse.cvs.feature.group"/>
-        <requirement
             name="org.eclipse.datatools.common.doc.user.feature.group"/>
         <requirement
             name="org.eclipse.datatools.connectivity.feature.feature.group"/>
@@ -394,7 +392,7 @@
           <repository
               url="https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/"/>
           <repository
-              url="https://download.eclipse.org/eclipse/updates/latest/"/>
+              url="https://download.eclipse.org/eclipse/updates/4.23-I-builds/"/>
           <repository
               url="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest/"/>
           <repository

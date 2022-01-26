@@ -71,10 +71,6 @@
     </feature>
 
     <feature
-      id="org.eclipse.cvs"
-      version="latest">
-    </feature>
-    <feature
       id="org.eclipse.jdt"
       version="latest">
     </feature>
