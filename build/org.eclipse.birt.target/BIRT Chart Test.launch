@@ -71,7 +71,6 @@
         <setEntry value="javax.transaction@default:false"/>
         <setEntry value="javax.wsdl@default:default"/>
         <setEntry value="javax.xml.bind@default:default"/>
-        <setEntry value="javax.xml.rpc@default:default"/>
         <setEntry value="javax.xml.soap@default:default"/>
         <setEntry value="javax.xml.stream@default:default"/>
         <setEntry value="javax.xml@default:default"/>
@@ -724,6 +723,7 @@
         <setEntry value="wrapped.org.apache.xmlgraphics.fop@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
+        <setEntry value="javax.xml.rpc@default:default"/>
         <setEntry value="org.apache.axis@default:default"/>
         <setEntry value="org.apache.batik.transcoder.birt.ext@default:false"/>
         <setEntry value="org.apache.derby.core@default:default"/>

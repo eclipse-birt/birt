@@ -10,7 +10,7 @@
     <booleanAttribute key="clearConfig" value="true"/>
     <booleanAttribute key="clearws" value="true"/>
     <booleanAttribute key="clearwslog" value="false"/>
-    <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/BIRT all-in-one"/>
+    <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/BIRT all-in-one-MAC"/>
     <booleanAttribute key="default" value="false"/>
     <setAttribute key="deselected_workspace_bundles"/>
     <booleanAttribute key="includeOptional" value="false"/>
@@ -55,7 +55,6 @@
         <setEntry value="javax.transaction@default:false"/>
         <setEntry value="javax.wsdl@default:default"/>
         <setEntry value="javax.xml.bind@default:default"/>
-        <setEntry value="javax.xml.rpc@default:default"/>
         <setEntry value="javax.xml.soap@default:default"/>
         <setEntry value="javax.xml.stream@default:default"/>
         <setEntry value="javax.xml@default:default"/>
@@ -687,6 +686,7 @@
         <setEntry value="slf4j.simple@default:true"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
+        <setEntry value="javax.xml.rpc@default:default"/>
         <setEntry value="org.apache.axis@default:default"/>
         <setEntry value="org.apache.batik.dom.birt.ext@default:false"/>
         <setEntry value="org.apache.batik.transcoder.birt.ext@default:false"/>
