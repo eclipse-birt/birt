@@ -19,5 +19,6 @@
 		<module>org.apache.batik.dom.birt.ext</module>
 		<module>org.apache.axis</module>
 		<module>javax.xml.rpc</module>
+		<module>com.github.librepdf.openpdf</module>
 	</modules>
 </project>
