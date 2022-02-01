@@ -36,8 +36,6 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
@@ -59,6 +57,8 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.ReportRunner;
+
+import junit.framework.TestCase;
 
 /**
  * Base class for Engine test.
@@ -96,23 +96,15 @@ public abstract class EngineCase extends TestCase {
 	private boolean pagination = false;
 	private Locale locale = Locale.ENGLISH;
 
-	/*
-	 * @see TestCase#setUp()
-	 */
 	protected void setUp() throws Exception {
 		super.setUp();
-
-		// IPlatformContext context = new PlatformFileContext( );
-		// config.setEngineContext( context );
-		// this.engine = new ReportEngine( config );
-
 		EngineConfig config = new EngineConfig();
 		this.engine = createReportEngine(config);
 	}
 
 	/**
 	 * Create a report engine instance.
-	 * 
+	 *
 	 * @param config
 	 * @return
 	 * @throws BirtException
@@ -143,7 +135,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Constructor for DemoCase.
-	 * 
+	 *
 	 * @param name
 	 */
 	public EngineCase(String name) {
@@ -181,7 +173,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Make a copy of a given file to the target file.
-	 * 
+	 *
 	 * @param from the file where to copy from
 	 * @param to   the target file to copy to.
 	 * @throws IOException
@@ -220,7 +212,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Make a copy of a testing resource file to the target folder.
-	 * 
+	 *
 	 * @param src the file that is testing resource file
 	 * @param tgt the file that is testing input file.
 	 */
@@ -260,7 +252,7 @@ public abstract class EngineCase extends TestCase {
 	/**
 	 * Make a copy of a testing resource file from resource input folder to the
 	 * testing input folder.
-	 * 
+	 *
 	 * @param src   input_resource the file that is resource input file name.
 	 * @param input the file that is testing input file name.
 	 */
@@ -271,7 +263,7 @@ public abstract class EngineCase extends TestCase {
 	/**
 	 * Make a copy of a testing resource file from resource golden folder to the
 	 * testing golden folder.
-	 * 
+	 *
 	 * @param src   input_resource the file that is resource golden file name.
 	 * @param input the file that is testing golden file name.
 	 */
@@ -282,7 +274,7 @@ public abstract class EngineCase extends TestCase {
 	/**
 	 * Make a copy of a testing resource file from resource script folder to the
 	 * testing script folder.
-	 * 
+	 *
 	 * @param src   input_resource the file that is resource script file name.
 	 * @param input the file that is testing script file name.
 	 */
@@ -292,7 +284,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Remove a given file or directory recursively.
-	 * 
+	 *
 	 * @param file
 	 */
 	public void removeFile(File file) {
@@ -311,7 +303,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Remove a given file or directory recursively.
-	 * 
+	 *
 	 * @param file
 	 */
 
@@ -329,7 +321,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the folder where the unit test java source file is saved.
-	 * 
+	 *
 	 * @return the path name where the test java source file locates.
 	 */
 
@@ -362,7 +354,7 @@ public abstract class EngineCase extends TestCase {
 	/**
 	 * Compares two text file. The comparison will ignore the line containing
 	 * "modificationDate".
-	 * 
+	 *
 	 * @param golden the 1st file name to be compared.
 	 * @param output the 2nd file name to be compared.
 	 * @return true if two text files are same line by line
@@ -409,7 +401,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Compares the string. The comparison will ignore the line containing
-	 * 
+	 *
 	 * @param output      the file name to be compared.
 	 * @param checkstring the string to be compared.
 	 * @param checktimes  the times that the checkstring display.
@@ -444,7 +436,7 @@ public abstract class EngineCase extends TestCase {
 	/**
 	 * Run and render the given design file into html file. If the input is "a.xml",
 	 * output html file will be named "a.html" under folder "output".
-	 * 
+	 *
 	 * @param input
 	 * @throws EngineException
 	 */
@@ -458,7 +450,7 @@ public abstract class EngineCase extends TestCase {
 	 * Run and render the given design file into html file with pagination. If the
 	 * input is "a.xml", output html file will be named "a.html" under folder
 	 * "output".
-	 * 
+	 *
 	 * @param input
 	 * @throws EngineException
 	 */
@@ -471,7 +463,7 @@ public abstract class EngineCase extends TestCase {
 	/**
 	 * Run and render the given design file into pdf file. If the input is "a.xml",
 	 * output html file will be named "a.pdf" under folder "output".
-	 * 
+	 *
 	 * @param input
 	 * @throws EngineException
 	 */
@@ -482,7 +474,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the testing resource and output folder
-	 * 
+	 *
 	 * @return className testing resource and output folder.
 	 */
 	protected String getFullQualifiedClassName() {
@@ -546,7 +538,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Run a report, generate a self-contained report document.
-	 * 
+	 *
 	 * @throws EngineException
 	 */
 
@@ -586,7 +578,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Render a report document into PDF file.
-	 * 
+	 *
 	 * @param doc
 	 * @param output
 	 * @param pageRange
@@ -635,7 +627,7 @@ public abstract class EngineCase extends TestCase {
 	 * Run the input design, generate a report document, and then render the report
 	 * document into a html file, <code>pageRange</code> specified the page(s) to
 	 * render.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws EngineException
 	 */
@@ -667,7 +659,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Compares the two text files.
-	 * 
+	 *
 	 * @param golden the reader for golden file
 	 * @param output the reader for output file
 	 * @return true if two text files are same.
@@ -748,7 +740,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Compares the two times.
-	 * 
+	 *
 	 * @param checktimes  the times that the string display.
 	 * @param countstring the golden times.
 	 * @return true if two times are same.
@@ -809,7 +801,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Replace the given string with a replacement if it matches a certain pattern.
-	 * 
+	 *
 	 * @param str
 	 * @return filtered string, the tokens that matches the patterns are replaced
 	 *         with replacement.
@@ -834,7 +826,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the folder where the unit test java source file is saved.
-	 * 
+	 *
 	 * @return the path where the test java source file locates.
 	 */
 	protected String getBaseFolder() {
@@ -860,7 +852,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Set locale for run/render report
-	 * 
+	 *
 	 * @param loc location used to run report
 	 */
 	protected void setLocale(Locale loc) {
@@ -869,7 +861,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Set image folder to save rendered temp image file
-	 * 
+	 *
 	 * @param imageDir folder to save temp image.
 	 */
 	protected void setImageDir(String imageDir) {
@@ -883,7 +875,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the testing output folder
-	 * 
+	 *
 	 * @return outputFolder testing output folder.
 	 */
 	protected String genOutputFolder() {
@@ -894,7 +886,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the testing input folder
-	 * 
+	 *
 	 * @return inputFolder testing input folder.
 	 */
 	protected String genInputFolder() {
@@ -905,7 +897,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the testing golden folder
-	 * 
+	 *
 	 * @return goldenFolder testing golden folder.
 	 */
 	protected String genGoldenFolder() {
@@ -916,7 +908,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the testing output file
-	 * 
+	 *
 	 * @return outputFile testing output file.
 	 */
 	protected String genOutputFile(String output) {
@@ -926,7 +918,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the testing input file
-	 * 
+	 *
 	 * @return inputFile testing input file.
 	 */
 	protected String genInputFile(String input) {
@@ -936,7 +928,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the testing golden file
-	 * 
+	 *
 	 * @return goldenFile testing golden file.
 	 */
 	protected String genGoldenFile(String golden) {
@@ -1008,7 +1000,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the temporary path that to save the resource folder and output folder
-	 * 
+	 *
 	 * @return tempDir testing temporary path.
 	 */
 	public String tempFolder() {
@@ -1020,7 +1012,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the testing resource folder
-	 * 
+	 *
 	 * @return resourceFolder testing resource file.
 	 */
 	public String getInputResourceFolder() {
@@ -1030,7 +1022,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the testing output folder
-	 * 
+	 *
 	 * @return outputFolder testing output folder.
 	 */
 	public String getOutputResourceFolder() {

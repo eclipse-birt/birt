@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c)2010 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,12 +19,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.internal.util.DataProtocolUtil;
+import org.eclipse.birt.report.engine.internal.util.DataProtocolUtil.DataUrlInfo;
 import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.engine.util.SvgFile;
@@ -157,7 +165,31 @@ public class ImageReader {
 			status = RESOURCE_UNREACHABLE;
 			return;
 		}
-		readImage(new URL(uri));
+
+		/* If the image is using the data protocol, decode the data and read bytes instead */
+		if (uri.startsWith(DataProtocolUtil.DATA_PROTOCOL)) {
+			try {
+				DataUrlInfo parseDataUrl = DataProtocolUtil.parseDataUrl(uri);
+
+				byte[] bytes = null;
+				if (Objects.equals(parseDataUrl.getEncoding(), "base64")) { //$NON-NLS-1$
+					bytes = Base64.getDecoder().decode(parseDataUrl.getData());
+				} else if (parseDataUrl.getEncoding() == null) {
+					/* The case of no encoding, the data is a string on the URL */
+					bytes = parseDataUrl.getData().getBytes(StandardCharsets.UTF_8); /* Charset of the SVG file */
+				}
+
+				if (bytes != null) {
+					readImage(bytes);
+				} else {
+					status = RESOURCE_UNREACHABLE;
+				}
+			} catch (Exception e) {
+				status = RESOURCE_UNREACHABLE;
+			}
+		} else {
+			readImage(new URL(uri));
+		}
 	}
 
 	private void readImage(URL url) throws IOException {

@@ -4,7 +4,7 @@ Bundle-Name: BIRT Jetty Overlay
 Bundle-SymbolicName: org.eclipse.birt.jetty.overlay;singleton:=true
 Bundle-Version: 4.9.0.qualifier
 Fragment-Host: system.bundle
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.mortbay.util;version="6.1.23"
 Bundle-Vendor: Eclipse BIRT Project
 Automatic-Module-Name: org.eclipse.birt.jetty.overlay

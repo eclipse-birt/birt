@@ -7,6 +7,6 @@ Bundle-Vendor: Eclipse BIRT Project
 Require-Bundle: org.eclipse.birt.report.designer.ui.preview,
  org.eclipse.birt.report.engine,
  org.junit
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: com.ibm.icu.util
 Automatic-Module-Name: org.eclipse.birt.report.designer.ui.preview.test

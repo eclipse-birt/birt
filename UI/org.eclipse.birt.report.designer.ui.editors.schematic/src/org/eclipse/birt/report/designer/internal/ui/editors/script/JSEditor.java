@@ -1,10 +1,10 @@
 /*************************************************************************************
  * Copyright (c) 2004-2009 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -70,6 +70,7 @@ import org.eclipse.core.commands.operations.OperationHistoryFactory;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.views.palette.PalettePage;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
@@ -334,7 +335,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Creates script editor, dosen't include controller
-	 * 
+	 *
 	 * @return a script editor
 	 */
 	protected IScriptEditor createScriptEditor() {
@@ -360,7 +361,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.editors.text.TextEditor#isSaveAsAllowed()
 	 */
 	public boolean isSaveAsAllowed() {
@@ -514,7 +515,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
 	 * .Composite)
@@ -591,7 +592,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Connect the root to add the listener
-	 * 
+	 *
 	 * @param root
 	 */
 	public void connectRoot(ModuleHandle root) {
@@ -604,7 +605,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * DisConnect the root to add the listener
-	 * 
+	 *
 	 * @param root
 	 */
 	public void disConnectRoot(ModuleHandle root) {
@@ -617,7 +618,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Sets the status of the text listener.
-	 * 
+	 *
 	 * @param enabled <code>true</code> if enable, <code>false</code> otherwise.
 	 */
 	private void setTextListenerEnable(boolean enabled) {
@@ -626,7 +627,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Get current edit element, not report design model.
-	 * 
+	 *
 	 * @return
 	 */
 	public Object getModel() {
@@ -636,7 +637,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Returns parent editor.
-	 * 
+	 *
 	 * @return parent editor.
 	 */
 	public IEditorPart getParentEditor() {
@@ -655,7 +656,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
 	public Object getAdapter(Class adapter) {
@@ -709,9 +710,9 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	}
 
 	/**
-	 * 
+	 *
 	 * initEditorLayout - initialize the UI components of the editor
-	 * 
+	 *
 	 */
 	private Composite initEditorLayout(Composite parent) {
 		// Create the editor parent composite.
@@ -742,7 +743,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse
 			 * .swt.events.PaintEvent)
 			 */
@@ -767,7 +768,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Creates tool bar pane.
-	 * 
+	 *
 	 * @param parent the parent of controller
 	 */
 	private void createController(Composite parent) {
@@ -803,7 +804,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
 			 * .swt.events.SelectionEvent)
 			 */
@@ -826,7 +827,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
 			 * .swt.events.SelectionEvent)
 			 */
@@ -849,7 +850,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
 			 * .swt.events.SelectionEvent)
 			 */
@@ -874,7 +875,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Creates description pane.
-	 * 
+	 *
 	 * @param parent the parent of controller
 	 */
 	private void createDescriptionPane(Composite parent) {
@@ -897,7 +898,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse
 			 * .swt.events.PaintEvent)
 			 */
@@ -925,7 +926,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Hides a control from its parent composite.
-	 * 
+	 *
 	 * @param control the control to hide
 	 */
 	private void hideControl(Control control) {
@@ -951,7 +952,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Shows a control from its parent composite.
-	 * 
+	 *
 	 * @param control the control to show
 	 */
 	private void showControl(Control control) {
@@ -1185,7 +1186,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * setEditorText - sets the editor content.
-	 * 
+	 *
 	 * @param text
 	 */
 	protected void setEditorText(String text) {
@@ -1209,7 +1210,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * getEditorText() - gets the editor content.
-	 * 
+	 *
 	 */
 	String getEditorText() {
 		return scriptEditor.getScript();
@@ -1217,7 +1218,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * saveEditorContentsDE - saves the current editor contents to ROM using DE API
-	 * 
+	 *
 	 * @param desHdl
 	 * @return true if updated else false.
 	 */
@@ -1266,7 +1267,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Returns current undo level.
-	 * 
+	 *
 	 * @return current undo level.
 	 */
 	private int getUndoLevel() {
@@ -1333,7 +1334,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Gets source viewer in the editor
-	 * 
+	 *
 	 * @return source viewer
 	 */
 	public SourceViewer getViewer() {
@@ -1346,7 +1347,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
 	 * ( org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest )
@@ -1395,7 +1396,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Reset the selection forcely.
-	 * 
+	 *
 	 * @param list
 	 */
 	public void handleSelectionChange(List list) {
@@ -1409,7 +1410,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Returns the current script editor.
-	 * 
+	 *
 	 * @return the current script editor.
 	 */
 	protected IScriptEditor getScriptEditor() {
@@ -1442,8 +1443,8 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Sets the validate icon with the specified image and tool tip text.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param image the icon image
 	 * @param tip   the tool tip text
 	 */
@@ -1456,7 +1457,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
 	public void doSaveAs() {
@@ -1465,7 +1466,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
@@ -1477,7 +1478,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
 	public void setFocus() {
@@ -1485,7 +1486,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void resetText() {
 		if (editObject instanceof DesignElementHandle && cmbItemLastSelected != null) {
@@ -1498,7 +1499,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Updates the description label with the specified method name.
-	 * 
+	 *
 	 * @param methodName the method to update.
 	 */
 	private void updateMethodDescription(String methodName) {
@@ -1517,26 +1518,21 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 
 	/**
 	 * Sets the description with the specified text.
-	 * 
+	 *
 	 * @param text the text to set.
 	 */
 	private void setDescriptionText(String text) {
-		Font font = descriptionText.getFont();
-		FontData[] fontData = font.getFontData();
+		Font fontToUse;
 		String description;
 
 		if (text != null && text.length() > 0) {
-			for (int i = 0; i < fontData.length; i++) {
-				fontData[i].setStyle(fontData[i].getStyle() & ~SWT.ITALIC);
-			}
+			fontToUse = JFaceResources.getFontRegistry().get(JFaceResources.DEFAULT_FONT);
 			description = text;
 		} else {
-			for (int i = 0; i < fontData.length; i++) {
-				fontData[i].setStyle(fontData[i].getStyle() | SWT.ITALIC);
-			}
+			fontToUse = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
 			description = Messages.getString("JSEditor.Text.NoDescription"); //$NON-NLS-1$ ;
 		}
-		descriptionText.setFont(new Font(font.getDevice(), fontData));
+		descriptionText.setFont(fontToUse);
 		descriptionText.setText(description);
 	}
 }
@@ -1544,7 +1540,7 @@ public class JSEditor extends EditorPart implements IMediatorColleague {
 /**
  * class JSExpListProvider - Is the content and label provider for the
  * expression list
- * 
+ *
  */
 
 class JSExpListProvider implements IStructuredContentProvider, ILabelProvider {
@@ -1603,7 +1599,7 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 	 */
 	public Image getImage(Object element) {
@@ -1612,7 +1608,7 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
 	 * jface.viewers.ILabelProviderListener)
 	 */
@@ -1622,7 +1618,7 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang
 	 * .Object, java.lang.String)
 	 */
@@ -1632,7 +1628,7 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 	 * .jface.viewers.ILabelProviderListener)
 	 */

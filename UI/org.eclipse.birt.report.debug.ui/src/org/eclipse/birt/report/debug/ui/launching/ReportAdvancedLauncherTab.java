@@ -13,6 +13,7 @@ package org.eclipse.birt.report.debug.ui.launching;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -59,7 +60,7 @@ import org.eclipse.swt.widgets.Label;
 
 /**
  * ReportAdvancedLauncherTab
- * 
+ *
  * @deprecated
  */
 public class ReportAdvancedLauncherTab extends AbstractLauncherTab
@@ -192,7 +193,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.ui.ILaunchConfigurationTab#dispose()
 	 */
 	public void dispose() {
@@ -203,7 +204,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.ILaunchConfigurationTab#createControl(org.eclipse.swt.
 	 * widgets.Composite)
@@ -221,7 +222,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void hookListeners() {
 //		SelectionAdapter adapter = new SelectionAdapter( ) {
@@ -479,7 +480,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 			fPluginTreeViewer.setSubtreeChecked(fWorkspacePlugins[i], true);
 		}
 
-		TreeSet deselected = ReportLauncherUtils.parseDeselectedWSIds(config);
+		Set<String> deselected = ReportLauncherUtils.parseDeselectedWSIds(config);
 		for (int i = 0; i < fWorkspaceBIRTModels.length; i++) {
 			if (!deselected.contains(fWorkspaceBIRTModels[i].getName())) {
 				if (fPluginTreeViewer.setChecked(fWorkspaceBIRTModels[i], false)) {
@@ -540,7 +541,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.ILaunchConfigurationTab#initializeFrom(org.eclipse.debug
 	 * .core.ILaunchConfiguration)
@@ -658,7 +659,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.ILaunchConfigurationTab#setDefaults(org.eclipse.debug.
 	 * core.ILaunchConfigurationWorkingCopy)
@@ -674,7 +675,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.ILaunchConfigurationTab#performApply(org.eclipse.debug.
 	 * core.ILaunchConfigurationWorkingCopy)
@@ -764,7 +765,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.ui.ILaunchConfigurationTab#getName()
 	 */
 	public String getName() {
@@ -773,7 +774,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.ui.ILaunchConfigurationTab#getImage()
 	 */
 	public Image getImage() {

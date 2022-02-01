@@ -1,10 +1,10 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  * Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -158,7 +158,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	private List stackActionIDs = new ArrayList();
 	/**
 	 * the list of action ids that are editor actions
-	 * 
+	 *
 	 */
 	private List editorActionIDs = new ArrayList();
 
@@ -244,7 +244,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	/**
 	 * Creates a PaletteViewerProvider that will be used to create palettes for the
 	 * view and the flyout.
-	 * 
+	 *
 	 * @return the palette provider
 	 */
 	protected PaletteViewerProvider createPaletteViewerProvider() {
@@ -290,7 +290,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.gef.ui.palette.PaletteViewerProvider#createPaletteViewer
 			 * (org.eclipse.swt.widgets.Composite)
 			 */
@@ -324,7 +324,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.gef.ui.actions.UndoAction#init()
 			 */
 			protected void init() {
@@ -340,7 +340,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.gef.ui.actions.UndoAction#refresh()
 			 */
 			protected void refresh() {
@@ -611,7 +611,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 	/**
 	 * Returns the PaletteRoot for the palette viewer.
-	 * 
+	 *
 	 * @return the palette root
 	 */
 	protected abstract PaletteRoot getPaletteRoot();
@@ -619,7 +619,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	/**
 	 * Returns the palette viewer provider that is used to create palettes for the
 	 * view and the flyout. Creates one if it doesn't already exist.
-	 * 
+	 *
 	 * @return the PaletteViewerProvider that can be used to create PaletteViewers
 	 *         for this editor
 	 * @see #createPaletteViewerProvider()
@@ -632,7 +632,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 	/**
 	 * Sets the edit domain for this editor.
-	 * 
+	 *
 	 * @param ed The new EditDomain
 	 */
 	protected void setEditDomain(DefaultEditDomain ed) {
@@ -642,7 +642,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 	/**
 	 * Creates the GraphicalViewer on the specified <code>Composite</code>.
-	 * 
+	 *
 	 * @param parent the parent composite
 	 */
 	protected void createGraphicalViewer(Composite parent) {
@@ -661,7 +661,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	 * PaletteViewers (one displayed in the editor and the other displayed in the
 	 * PaletteView) in sync when switching from one to the other (i.e., it helps
 	 * maintain state across the two viewers).
-	 * 
+	 *
 	 * @author Pratik Shah
 	 * @since 3.0
 	 */
@@ -669,7 +669,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 		/**
 		 * Constructor
-		 * 
+		 *
 		 * @param provider the provider used to create a PaletteViewer
 		 */
 		public CustomPalettePage(PaletteViewerProvider provider) {
@@ -719,7 +719,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 	/**
 	 * Returns the selection listener.
-	 * 
+	 *
 	 * @return the <code>ISelectionListener</code>
 	 */
 	protected ISelectionListener getSelectionListener() {
@@ -729,7 +729,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	/**
 	 * Adds an action to this editor's <code>ActionRegistry</code>. (This is a
 	 * helper method.)
-	 * 
+	 *
 	 * @param action the action to add.
 	 */
 	protected void addAction(IAction action) {
@@ -738,10 +738,10 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 	/**
 	 * Adds an editor action to this editor.
-	 * 
+	 *
 	 * <p>
 	 * <Editor actions are actions that depend and work on the editor.
-	 * 
+	 *
 	 * @param action the editor action
 	 */
 	protected void addEditorAction(EditorPartAction action) {
@@ -751,11 +751,11 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 	/**
 	 * Adds an <code>EditPart</code> action to this editor.
-	 * 
+	 *
 	 * <p>
 	 * <code>EditPart</code> actions are actions that depend and work on the
 	 * selected <code>EditPart</code>s.
-	 * 
+	 *
 	 * @param action the <code>EditPart</code> action
 	 */
 	protected void addEditPartAction(SelectionAction action) {
@@ -770,11 +770,11 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 	/**
 	 * Adds an <code>CommandStack</code> action to this editor.
-	 * 
+	 *
 	 * <p>
 	 * <code>CommandStack</code> actions are actions that depend and work on the
 	 * <code>CommandStack</code>.
-	 * 
+	 *
 	 * @param action the <code>CommandStack</code> action
 	 */
 	protected void addStackAction(StackAction action) {
@@ -784,7 +784,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 
 	/**
 	 * Updates the specified actions.
-	 * 
+	 *
 	 * @param actionIds the list of ids of actions to update
 	 */
 	protected void updateActions(List actionIds) {
@@ -828,6 +828,10 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor
 	private Composite fBreadcrumbComposite;
 
 	public String getBreadcrumbPreferenceKey() {
+		if(getSite() == null || getSite().getPage() == null) {
+			return null;
+		}
+
 		IPerspectiveDescriptor perspective = getSite().getPage().getPerspective();
 		if (perspective == null)
 			return null;

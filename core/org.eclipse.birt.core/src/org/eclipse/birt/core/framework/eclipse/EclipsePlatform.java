@@ -30,6 +30,7 @@ import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.IPlatform;
 import org.eclipse.birt.core.framework.IPlatformPath;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
@@ -62,7 +63,7 @@ public class EclipsePlatform implements IPlatform {
 	}
 
 	public IBundle getBundle(String symbolicName) {
-		Bundle bundle = Platform.getBundle(symbolicName);
+		Bundle bundle = EclipseUtil.getBundle(symbolicName);
 		if (bundle != null) {
 			return new EclipseBundle(bundle);
 		}
@@ -175,7 +176,7 @@ public class EclipsePlatform implements IPlatform {
 	 */
 	public void initializeTracing(String pluginId) {
 
-		Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(pluginId);
+		Bundle bundle = EclipseUtil.getBundle(pluginId);
 		String debugFlag = pluginId + "/debug";
 		if (bundle != null) {
 

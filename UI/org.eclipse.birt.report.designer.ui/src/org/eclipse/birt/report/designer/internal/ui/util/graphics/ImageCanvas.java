@@ -16,6 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.eclipse.birt.report.designer.ui.util.UIUtil;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -39,7 +40,7 @@ import org.eclipse.swt.widgets.ScrollBar;
 
 /**
  * Special Canvas class used to display the image.
- * 
+ *
  */
 public class ImageCanvas extends Canvas {
 
@@ -55,7 +56,7 @@ public class ImageCanvas extends Canvas {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parent
 	 */
 	public ImageCanvas(final Composite parent) {
@@ -65,10 +66,10 @@ public class ImageCanvas extends Canvas {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
-	 * 
+	 *
 	 */
 	public ImageCanvas(final Composite parent, int style) {
 		super(parent, style);
@@ -138,11 +139,6 @@ public class ImageCanvas extends Canvas {
 		getAccessible().addAccessibleListener(accessibleAdapter);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.widgets.Widget#dispose()
-	 */
 	public void dispose() {
 		if (sourceImage != null && !sourceImage.isDisposed()) {
 			sourceImage.dispose();
@@ -151,6 +147,7 @@ public class ImageCanvas extends Canvas {
 		if (screenImage != null && !screenImage.isDisposed()) {
 			screenImage.dispose();
 		}
+		super.dispose();
 	}
 
 	private void paint(GC gc) {
@@ -171,6 +168,7 @@ public class ImageCanvas extends Canvas {
 			if (screenImage != null)
 				screenImage.dispose();
 			screenImage = new Image(getDisplay(), clientRect.width, clientRect.height);
+			addDisposeListener(e -> UIUtil.dispose(screenImage));
 			GC newGC = new GC(screenImage);
 			newGC.setClipping(clientRect);
 			newGC.drawImage(sourceImage, imageRect.x, imageRect.y, imageRect.width, imageRect.height, destRect.x,
@@ -236,7 +234,7 @@ public class ImageCanvas extends Canvas {
 
 	/**
 	 * Returns the Source image.
-	 * 
+	 *
 	 * @return sourceImage.
 	 */
 	public Image getSourceImage() {
@@ -307,9 +305,9 @@ public class ImageCanvas extends Canvas {
 
 	/**
 	 * Load the image from a file
-	 * 
+	 *
 	 * @param filename
-	 * 
+	 *
 	 * @return
 	 */
 	public Image loadImage(String filename) {
@@ -329,7 +327,7 @@ public class ImageCanvas extends Canvas {
 
 	/**
 	 * Load image from a byte array.
-	 * 
+	 *
 	 * @param filename
 	 * @return
 	 */
@@ -339,9 +337,9 @@ public class ImageCanvas extends Canvas {
 
 	/**
 	 * Load the image to canvas.
-	 * 
+	 *
 	 * @param img
-	 * @return
+	 * @return the new image
 	 */
 	public Image loadImage(Image img) {
 		if (sourceImage != null && !sourceImage.isDisposed()) {
@@ -355,6 +353,7 @@ public class ImageCanvas extends Canvas {
 			return null;
 		}
 		sourceImage = new Image(getDisplay(), img.getImageData());
+		addDisposeListener(e -> UIUtil.dispose(sourceImage));
 
 		if (sourceImage.getBounds().width > this.getBounds().width
 				|| sourceImage.getBounds().height > this.getBounds().height) {
@@ -368,7 +367,7 @@ public class ImageCanvas extends Canvas {
 
 	/**
 	 * Load image from a input-stream.
-	 * 
+	 *
 	 * @param is
 	 * @return
 	 */
@@ -391,7 +390,7 @@ public class ImageCanvas extends Canvas {
 
 	/**
 	 * Load the image from a URL.
-	 * 
+	 *
 	 * @param url
 	 * @return
 	 */
@@ -414,7 +413,7 @@ public class ImageCanvas extends Canvas {
 
 	/**
 	 * Reset the image data and update the image.
-	 * 
+	 *
 	 * @param data
 	 */
 	public void setImageData(ImageData data) {
@@ -468,7 +467,7 @@ public class ImageCanvas extends Canvas {
 
 	/**
 	 * Perform a zooming operation.
-	 * 
+	 *
 	 * @param dx
 	 * @param dy
 	 * @param scale

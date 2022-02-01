@@ -1,6 +1,8 @@
 
 package org.eclipse.birt.report.tests.engine.api;
 
+import java.util.TimeZone;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IDataIterator;
@@ -24,11 +26,16 @@ public class IDataIteratorTest extends EngineCase {
 		copyResource_INPUT(report, report);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 
 	public void testIDataIterator() throws BirtException {
+
+		TimeZone timeZone = TimeZone.getDefault();
+		try {
+			TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 		run(report, output);
 		String outputFile = this.genOutputFile(output);
 		IReportDocument reportDoc = engine.openReportDocument(outputFile);
@@ -41,6 +48,9 @@ public class IDataIteratorTest extends EngineCase {
 		checkGetResultMetaData(iterator);
 		checkGetValue(iterator);
 		checkNext(iterator);
+	} finally {
+		TimeZone.setDefault(timeZone);
+	}
 	}
 
 	private void checkGetQueryResults(IDataIterator iterator, IExtractionResults results) {

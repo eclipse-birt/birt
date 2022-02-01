@@ -1,0 +1,3 @@
+org.eclipse.osgi/resolver=true
+org.eclipse.osgi/resolver/roots=true
+org.eclipse.osgi/resolver/report=true

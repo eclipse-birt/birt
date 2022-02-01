@@ -4,7 +4,7 @@ Bundle-Name: Extension for org.w3c.dom.svg
 Bundle-SymbolicName: org.w3c.dom.svg.extension;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Fragment-Host: org.w3c.dom.svg;bundle-version="[1.1.0,1.2.0)"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.w3c.dom.smil;bundle-version="[1.0.0,1.1.0)"
 Import-Package: org.w3c.dom,org.w3c.dom.ev
  ents;version="[3.0.0,4.0.0)"

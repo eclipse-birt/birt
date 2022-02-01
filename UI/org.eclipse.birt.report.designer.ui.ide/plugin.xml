@@ -247,90 +247,74 @@
         </adapter>
      </adaptable>
    </extension>
-   
-	<extension point="org.eclipse.ui.popupMenus"> 
-	    <viewerContribution
-	         id="org.eclipse.birt.report.designer.ui.ide.report.publishTemplate"
-	         targetID="org.eclipse.ui.views.ResourceNavigator">
-	      <action
-	            class="org.eclipse.birt.report.designer.ui.ide.navigator.PublishTemplateNavigatorAction"
-	            enablesFor="1"
-	            id="org.eclipse.birt.report.designer.ui.ide.navigator.publishTemplate"
-	            label="%Action.Publish"
-	            menubarPath="additions-end"/>
-	      <visibility>
-	         <and>
-	            <objectClass name="org.eclipse.core.resources.IFile"/>
-             <or>
-                <objectState
-                      name="extension"
-                      value="rpttemplate"/>
-                <objectState
-                      name="extension"
-                      value="rptdesign"/>
-             </or>
-	         </and>
-	      </visibility>
-	   </viewerContribution>
-     <viewerContribution
-           id="org.eclipse.birt.report.designer.ui.ide.report.publishLibrary"
-           targetID="org.eclipse.ui.views.ResourceNavigator">
-        <action
-              class="org.eclipse.birt.report.designer.ui.ide.navigator.PublishLibraryNavigatorAction"
-              enablesFor="1"
-              id="org.eclipse.birt.report.designer.ui.ide.navigator.publishLibrary"
-              label="%Action.PublishLibrary"
-              menubarPath="additions-end"/>
-        <visibility>
-           <and>
-              <objectClass name="org.eclipse.core.resources.IFile"/>
-              <objectState
-                    name="extension"
-                    value="rptlibrary"/>
-           </and>
-        </visibility>
-     </viewerContribution>
-     <viewerContribution
-           id="org.eclipse.birt.report.designer.ui.ide.Report"
-           targetID="org.eclipse.ui.views.ResourceNavigator">
-        <menu
-              id="org.eclipse.birt.report.designer.ui.ide.Report"
-              label="%Menu.Report"
-              path="additions">
-           <groupMarker
-                 name="report">
-           </groupMarker>
-        </menu>
-        <visibility>
-           <objectClass
-                 name="org.eclipse.core.resources.IProject">
-           </objectClass>
-        </visibility>
-     </viewerContribution>
-     <viewerContribution
-           id="org.eclipse.birt.report.designer.ui.ide.report.AddReportNature"
-           targetID="org.eclipse.ui.views.ResourceNavigator">
-        <action
-              class="org.eclipse.birt.report.designer.ui.ide.navigator.SetupReportProjectAction"
-              id="org.eclipse.birt.report.designer.ui.ide.navigator.AddReportNature"
-              label="%Action.AddReportNature"
-              menubarPath="org.eclipse.birt.report.designer.ui.ide.Report/report">
-        </action>
-        <visibility>
-           <and>
-              <objectClass
-                    name="org.eclipse.core.resources.IProject">
-              </objectClass>
-              <not>
-                 <objectState
-                       name="projectNature"
-                       value="org.eclipse.birt.report.designer.ui.reportprojectnature">
-                 </objectState>
-              </not>
-           </and>
-        </visibility>
-     </viewerContribution> 	 
-	</extension>
+
+   <extension point="org.eclipse.ui.navigator.navigatorContent">
+      <commonWizard type="new" wizardId="org.eclipse.birt.report.designer.ui.ide.wizards.NewReportWizard">
+         <enablement>
+            <adapt type="org.eclipse.core.resources.IProject">
+               <test property="org.eclipse.core.resources.projectNature" value="org.eclipse.birt.report.designer.ui.reportprojectnature"/>
+            </adapt>
+         </enablement>
+      </commonWizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
+         <command commandId="org.eclipse.birt.report.designer.ui.ide.publishTemplate.command" label="%Action.Publish">
+            <visibleWhen>
+               <with variable="selection">
+                  <count value="1"/>
+
+                     <adapt type="org.eclipse.core.resources.IResource">
+                        <or>
+                           <test property="org.eclipse.core.resources.extension" value="rpttemplate" />
+                           <test property="org.eclipse.core.resources.extension" value="rptdesign" />
+                        </or>
+                     </adapt>
+
+               </with>
+            </visibleWhen>
+         </command>
+         <command commandId="org.eclipse.birt.report.designer.ui.ide.publishLibrary.command" label="%Action.PublishLibrary">
+            <visibleWhen>
+               <with variable="selection">
+                  <count value="1"/>
+                  <iterate operator="or" ifEmpty="false">
+                     <adapt type="org.eclipse.core.resources.IResource">
+                        <test property="org.eclipse.core.resources.extension" value="rptlibrary" />
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+
+      <menuContribution locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
+         <menu id="org.eclipse.birt.report.designer.ui.ide.reportMenu" label="%Menu.Report"/>
+      </menuContribution>
+
+      <menuContribution locationURI="popup:org.eclipse.birt.report.designer.ui.ide.reportMenu">
+         <command commandId="org.eclipse.birt.report.designer.ui.ide.addReportNature.command"
+               label="%Action.AddReportNature"
+               style="push">
+
+            <visibleWhen>
+               <with variable="selection">
+                  <iterate>
+                     <adapt type="org.eclipse.core.resources.IProject">
+                        <and>
+                           <not>
+                              <test property="org.eclipse.core.resources.projectNature" value="org.eclipse.birt.report.designer.ui.reportprojectnature"/>
+                           </not>
+                        </and>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+
  <extension
        point="org.eclipse.core.contenttype.contentTypes">
     <file-association
@@ -363,7 +347,17 @@
             id="org.eclipse.birt.report.designer.ui.preferences.ExpressionSyntaxColoringPreferencePage">
       </page>
    </extension>
-   
-   
-   
+
+   <extension point="org.eclipse.ui.commands">
+      <command id="org.eclipse.birt.report.designer.ui.ide.publishTemplate.command" name="%Action.Publish"/>
+      <command id="org.eclipse.birt.report.designer.ui.ide.publishLibrary.command" name="%Action.PublishLibrary"/>
+      <command id="org.eclipse.birt.report.designer.ui.ide.addReportNature.command" name="%Action.AddReportNature"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.handlers">
+      <handler commandId="org.eclipse.birt.report.designer.ui.ide.publishTemplate.command" class="org.eclipse.birt.report.designer.ui.ide.explorer.PublishTemplateExplorerHandler"/>
+      <handler commandId="org.eclipse.birt.report.designer.ui.ide.publishLibrary.command" class="org.eclipse.birt.report.designer.ui.ide.explorer.PublishLibraryExplorerHandler"/>
+      <handler commandId="org.eclipse.birt.report.designer.ui.ide.addReportNature.command" class="org.eclipse.birt.report.designer.ui.ide.explorer.SetupReportProjectHandler"/>
+   </extension>
+
  </plugin>

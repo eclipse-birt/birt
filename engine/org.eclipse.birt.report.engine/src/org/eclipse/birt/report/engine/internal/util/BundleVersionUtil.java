@@ -1,9 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,9 +19,15 @@ import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.logging.Logger;
 
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.osgi.framework.Bundle;
 
+/**
+ * Class to retrieve the version from the bundle.
+ *
+ * @since 3.3
+ *
+ */
 public class BundleVersionUtil {
 
 	/**
@@ -30,10 +39,12 @@ public class BundleVersionUtil {
 	private static String UNKNOWN_VERSION = "UNKNOWN";
 
 	public static String getBundleVersion(String bundleName) {
-		Bundle bundle = Platform.getBundle(bundleName);
+
+		Bundle bundle = EclipseUtil.getBundle(bundleName);
 		if (bundle != null) {
 			return bundle.getVersion().toString();
 		}
+
 		// the engine.jar are in the class path
 		ProtectionDomain domain = BundleVersionUtil.class.getProtectionDomain();
 		if (domain != null) {

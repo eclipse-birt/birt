@@ -91,6 +91,7 @@ public class ImageOutputBaseTest extends TestCase {
 						+ ".svg", //$NON-NLS-1$
 				workspaceDir + File.separator + ImageRenderTest.OUTDIR + dirName + File.separator + filename + ".svg" //$NON-NLS-1$
 		};
+
 		for (String file : files) {
 			InputStream inStream = new FileInputStream(file);
 			TranscoderInput input = new TranscoderInput(inStream);

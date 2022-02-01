@@ -22,7 +22,8 @@ public class IColumnTest extends BaseEmitter {
 		copyResource_INPUT(reportName, reportName);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 
@@ -32,7 +33,7 @@ public class IColumnTest extends BaseEmitter {
 
 	/**
 	 * Test all methods in IColumn API through generate report
-	 * 
+	 *
 	 * @throws EngineException
 	 */
 	public void testIColumn() throws EngineException {

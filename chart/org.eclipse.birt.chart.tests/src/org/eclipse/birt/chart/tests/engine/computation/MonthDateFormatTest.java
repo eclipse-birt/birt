@@ -32,7 +32,7 @@ public class MonthDateFormatTest extends TestCase {
 		calendar.set(Calendar.DATE, 8);
 		Date date = calendar.getTime();
 		Hashtable<ULocale, String> locales = new Hashtable<ULocale, String>();
-		locales.put(ULocale.CANADA, "Jun 2013"); //$NON-NLS-1$
+		locales.put(ULocale.CANADA, "Jun. 2013"); //$NON-NLS-1$
 		locales.put(ULocale.CHINA, "2013年6月"); //$NON-NLS-1$
 		locales.put(ULocale.ENGLISH, "Jun 2013"); //$NON-NLS-1$
 		locales.put(ULocale.FRANCE, "juin 2013"); //$NON-NLS-1$

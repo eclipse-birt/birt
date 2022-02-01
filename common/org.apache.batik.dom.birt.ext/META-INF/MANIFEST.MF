@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Batik DOM Extension
+Bundle-SymbolicName: org.apache.batik.dom.birt.ext;singleton:=true
+Bundle-Version: 1.14.0.qualifier
+Fragment-Host: org.apache.batik.dom;bundle-version="1.14.0"
+Bundle-Vendor: Eclipse BIRT
+Automatic-Module-Name: org.apache.batik.ext.awt.extension
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Import-Package: org.apache.batik.w3c.dom;version="1.14.0",
+ org.apache.batik.w3c.dom.events;version="1.14.0"

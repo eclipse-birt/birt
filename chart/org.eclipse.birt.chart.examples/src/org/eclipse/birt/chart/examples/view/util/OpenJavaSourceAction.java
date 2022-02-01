@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import org.eclipse.birt.chart.examples.ChartExamplesPlugin;
 import org.eclipse.birt.chart.examples.view.ChartExamples;
 import org.eclipse.birt.chart.examples.view.description.Messages;
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;
@@ -85,7 +86,7 @@ public class OpenJavaSourceAction extends Action {
 	}
 
 	private String getPath(String fileName) {
-		Bundle bundle = Platform.getBundle(ChartExamplesPlugin.ID);
+		Bundle bundle = EclipseUtil.getBundle(ChartExamplesPlugin.ID);
 		Path relativePath = new Path("/src/org/eclipse/birt/chart/examples/view/models/" + fileName + JAVA_EXTENSION); //$NON-NLS-1$
 		URL relativeURL = FileLocator.find(bundle, relativePath, null);
 

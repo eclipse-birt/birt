@@ -15,6 +15,7 @@ package uk.co.spudsoft.birt.emitters.excel.tests;
 
 import static org.junit.Assert.*;
 
+import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.core.runtime.Platform;
 import org.junit.Test;
 import org.osgi.framework.Bundle;
@@ -23,7 +24,7 @@ public class ActivationTest {
 
 	@Test
 	public void test() {
-		Bundle bundle = Platform.getBundle("uk.co.spudsoft.birt.emitters.excel");
+		Bundle bundle = EclipseUtil.getBundle("uk.co.spudsoft.birt.emitters.excel");
 		assertNotNull(bundle);
 	}
 

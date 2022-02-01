@@ -15,14 +15,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLServerImageHandler;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.tests.engine.EngineCase;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 /**
  * <b>HTMLServerImageHandler test</b>
@@ -46,13 +46,14 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 		copyResource_INPUT(INPUT, INPUT);
 	}
 
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		super.tearDown();
 		removeResource();
 	}
 
 	/**
 	 * Test suite()
-	 * 
+	 *
 	 * @return
 	 */
 	public static Test suite() {

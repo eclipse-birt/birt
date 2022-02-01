@@ -4,7 +4,7 @@ Bundle-Name: CSV data extraction tests fragment
 Bundle-SymbolicName: org.eclipse.birt.report.engine.dataextraction.csv.tests
 Bundle-Version: 4.9.0.qualifier
 Fragment-Host: org.eclipse.birt.report.engine.dataextraction.csv
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.junit;resolution:=optional;visibility:=reexport
 Export-Package: org.eclipse.birt.report.engine.dataextraction.csv,
  org.eclipse.birt.report.engine.dataextraction.csv.mock
