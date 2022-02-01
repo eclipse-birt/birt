@@ -40,7 +40,7 @@ public class DataEngineFactory {
 	static protected DataEngineFactory sm_instance;
 
 	/**
-	 * private constractor
+	 * private constructor
 	 */
 	protected DataEngineFactory() {
 	}
