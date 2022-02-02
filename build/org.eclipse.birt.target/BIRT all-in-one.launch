@@ -32,8 +32,8 @@
     <setAttribute key="selected_target_bundles">
         <setEntry value="com.ibm.icu*67.1.0.v20200706-1749@default:default"/>
         <setEntry value="com.lowagie.text@default:default"/>
-        <setEntry value="com.sun.jna*5.8.0.v20210503-0343@default:default"/>
-        <setEntry value="com.sun.jna.platform*5.8.0.v20210406-1004@default:default"/>
+        <setEntry value="com.sun.jna.platform@default:default"/>
+        <setEntry value="com.sun.jna@default:default"/>
         <setEntry value="jakarta.annotation-api@default:default"/>
         <setEntry value="jakarta.servlet-api@default:default"/>
         <setEntry value="javax.activation@default:default"/>
@@ -287,7 +287,7 @@
         <setEntry value="org.eclipse.ltk.core.refactoring@default:default"/>
         <setEntry value="org.eclipse.ltk.ui.refactoring@default:default"/>
         <setEntry value="org.eclipse.orbit.mongodb@default:default"/>
-        <setEntry value="org.eclipse.osgi*3.17.100.v20211104-1730@-1:true"/>
+        <setEntry value="org.eclipse.osgi*3.17.200.v20220128-1919@-1:true"/>
         <setEntry value="org.eclipse.osgi.compatibility.state@default:false"/>
         <setEntry value="org.eclipse.osgi.services*3.10.200.v20210723-0643@2:true"/>
         <setEntry value="org.eclipse.osgi.services*3.9.0.v20200511-1725@2:true"/>
