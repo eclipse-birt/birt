@@ -1,3 +1,17 @@
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <project default="main">
 
 	<!-- Steps Ant properties available at runtime: - eclipse.pdebuild.scripts: 
@@ -687,7 +701,7 @@
 
 		<copy todir="${wtptmpsite}/new/eclipse" failonerror="false">
 			<fileset dir="${baseLocation}/../PackageFiles/template/legal"
-				includes="epl-v10.html,notice.html" />
+				includes="epl-2.0.html,notice.html" />
 		</copy>
 
 		<exec executable="zip" dir="${wtptmpsite}/new">

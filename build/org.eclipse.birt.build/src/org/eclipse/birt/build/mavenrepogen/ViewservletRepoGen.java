@@ -1,15 +1,16 @@
-/*
-Copyright (c) 2012 Innovent Solutions, Inc.
-
-Unless otherwise indicated, all Content made available 
-by Innovent Solutions, Inc  is provided to you under the terms and 
-conditions of the Eclipse Public License Version 1.0 ("EPL"). A copy 
-of the EPL is provided with this Content and is also available at 
-http://www.eclipse.org/legal/epl-v10.html. For purposes of the EPL, 
-"Program" will mean the Content.
-
-Author: Steve Schafer
- */
+/*******************************************************************************
+ * Copyright (c) 2012 Innovent Solutions, Inc.
+ * 
+ * Unless otherwise indicated, all Content made available 
+ * by Innovent Solutions, Inc  is provided to you under the terms and 
+ * conditions of the Eclipse Public License Version 2.0 ("EPL"). A copy 
+ * of the EPL is provided with this Content and is also available at 
+ * http://www.eclipse.org/legal/epl-2.0.html. For purposes of the EPL, 
+ * "Program" will mean the Content.
+ * 
+ * Contributors:
+ *   Steve Schafer
+ *******************************************************************************/
 package org.eclipse.birt.build.mavenrepogen;
 
 import java.io.BufferedReader;
@@ -467,8 +468,8 @@ public class ViewservletRepoGen {
 			pw.println("  <url>http://www.eclipse.org/projects/project.php?id=birt</url>");
 			pw.println("  <licenses>");
 			pw.println("    <license>");
-			pw.println("      <name>Eclipse Public License - v 1.0</name>");
-			pw.println("      <url>http://www.eclipse.org/org/documents/epl-v10.html</url>");
+			pw.println("      <name>Eclipse Public License - v 2.0</name>");
+			pw.println("      <url>https://www.eclipse.org/legal/epl-2.0.html</url>");
 			pw.println("    </license>");
 			pw.println("  </licenses>");
 			pw.println("  <scm>");

@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1"><property name="createdBy">Eclipse BIRT Designer Version 2.6.2.v20110606-0605 Build &lt;2.6.2.v20110606-0605></property><data-sources><script-data-source name="Data Source" id="3"/></data-sources><data-sets><script-data-set name="Data Set" id="4"><list-property name="resultSetHints"><structure><property name="position">0</property><property name="name">a</property><property name="dataType">string</property></structure></list-property><list-property name="columnHints"><structure><property name="columnName">a</property><property name="analysis">attribute</property></structure></list-property><structure name="cachedMetaData"><list-property name="resultSet"><structure><property name="position">1</property><property name="name">a</property><property name="dataType">string</property></structure></list-property></structure><property name="dataSource">Data Source</property><method name="open"><![CDATA[i = 10;]]></method><method name="fetch"><![CDATA[i --;
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 if( i < 0)
 return false;
 row["a"] = i;
