@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+
 <!--
  *******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
@@ -13,8 +15,6 @@
  *   See git history
  *******************************************************************************
 -->
-
-
 <!-- 
 	The default behavior:
    	1. 	PDF emitter loads the font files from the fonts folder of the plug-in 

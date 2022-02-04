@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
  *******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
@@ -12,7 +13,6 @@
  *   See git history
  *******************************************************************************
 -->
-﻿<?xml version="1.0" encoding="utf-8"?>
 <cheatsheet title="簡易リストレポートの作成">
   <intro href="/org.eclipse.birt.doc/birt/lay-LayingOutAReport.html">
     <description>ここでは、BIRT を使用して簡易リストレポートを作成する手順を紹介します。

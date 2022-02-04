@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?NLS type="org.eclipse.help.contexts"?>
+
 <!--
  *******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
@@ -14,7 +15,6 @@
  *   See git history
  *******************************************************************************
 -->
-
 <contexts>
 <context id="dummy_outer_container" title="BIRT contexts">
 <description>Contexts for items identified by Actuate, 09/2013</description>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
+
 <!--
  *******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
@@ -14,7 +15,6 @@
  *   See git history
  *******************************************************************************
 -->
-
 <toc label="BIRT Charting Programmer Reference" >
  <link toc="ChartRefToc.xml" />
 </toc>

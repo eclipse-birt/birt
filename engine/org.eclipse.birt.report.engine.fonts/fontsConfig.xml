@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+
 <!--
  *******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
@@ -13,8 +15,6 @@
  *   See git history
  *******************************************************************************
 -->
-
-
 <!--
 	The priority of fonts configuration file is as following:
 	Two major levels of configuration files:

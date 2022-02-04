@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?NLS type="org.eclipse.help.contexts"?>
+
 <!--
  *******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
@@ -14,7 +15,6 @@
  *   See git history
  *******************************************************************************
 -->
-
 <contexts>
 >
 <context id="Page_DataSourceProperties_ID" title="Edit Data Source - JDBC Database Connection for Query Builder - Property Binding">

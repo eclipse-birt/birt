@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!--
  *******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
@@ -12,7 +13,6 @@
  *   See git history
  *******************************************************************************
 -->
-﻿<?xml version="1.0" encoding="utf-8"?>
 <cheatsheet title="Erstellen eines Berichts mit Diagramm und Liste nebeneinander">
   <intro href="/org.eclipse.birt.doc/birt/lay-LayingOutAReport.html">
     <description>In diesem Lernprogramm erfahren Sie, wie Sie mit BIRT einen Bericht mit Diagramm und Liste nebeneinander erstellen.

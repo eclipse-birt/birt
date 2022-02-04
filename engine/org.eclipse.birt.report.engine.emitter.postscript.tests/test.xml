@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+
 <!--
  *******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
@@ -13,7 +14,6 @@
  *   See git history
  *******************************************************************************
 -->
-
 <project name="birttestsuite" default="run" basedir=".">
 	<!-- The property ${eclipse-home} should be passed into this script -->
 	<!-- or set as a default value -->
