@@ -336,7 +336,7 @@
 				</dependency>
 			</dependencies>
 		</location>
-		<location includeDependencyScope="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<location includeSource="true" missingManifest="generate" type="Maven">
 			<dependencies>
 				<dependency>
 					<groupId>com.github.librepdf</groupId>
