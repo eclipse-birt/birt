@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <project default="javadoc">
     <target name="javadoc">
         <javadoc access="public" author="true" classpath="C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.equinox.registry_3.5.200.v20120522-1841.jar;C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.birt.jetty.overlay_4.2.2.v201210101433.jar;C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.equinox.common_3.6.100.v20120522-1841.jar;C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.birt.core_4.2.2.v201212241449.jar;C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.birt.report.engine_4.2.2.v201302051125.jar;C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.equinox.app_1.3.100.v20120522-1841.jar;lib/poi-ooxml-3.8-20120326.jar;C:\Program Files\eclipse-4.2.2\plugins\org.mozilla.javascript_1.7.2.v201005080400.jar;../.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.birt.report.engine_4.2.2.v201302051125/lib/commons-cli-1.0.jar;C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.equinox.preferences_3.5.1.v20121031-182809.jar;C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.core.contenttype_3.4.200.v20120523-2004.jar;C:\Program Files\eclipse-4.2.2\plugins\org.apache.xml.resolver_1.2.0.v201005080400.jar;lib/xmlbeans-2.3.0.jar;lib/poi-3.8-20120326.jar;C:\Program Files\eclipse-4.2.2\plugins\org.apache.xerces_2.9.0.v201101211617.jar;C:\Program Files\eclipse-4.2.2\plugins\javax.xml_1.3.4.v201005080400.jar;lib/slf4j-api-1.6.2.jar;lib/commons-codec-1.5.jar;C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.persistence.jpa.equinox.weaving_2.4.1.v20121003-ad44345.jar;C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.core.jobs_3.5.300.v20120912-155018.jar;lib/stax-api-1.0.1.jar;C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.birt.report.model_4.2.2.v201301151658.jar;../.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.birt.report.engine_4.2.2.v201302051125/lib/Tidy.jar;C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.osgi_3.8.2.v20130124-134944.jar;C:\Program Files\eclipse-4.2.2\plugins\org.eclipse.core.runtime_3.8.0.v20120912-155025.jar;lib/poi-ooxml-schemas-3.8-20120326.jar;lib/dom4j-1.6.1.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="uk.co.spudsoft.birt.s.excel.framework,uk.co.spudsoft.birt.emitters.excel.handlers,uk.co.spudsoft.birt.emitters.excel" source="1.6" sourcepath="src" splitindex="true" use="true" version="true"/>
