@@ -1,9 +1,9 @@
 ###############################################################################
 # Copyright (c) 2000, 2005 IBM Corporation and others.
 # All rights reserved. This program and the accompanying materials 
-# are made available under the terms of the Eclipse Public License v1.0
+# are made available under the terms of the Eclipse Public License v2.0
 # which accompanies this distribution, and is available at
-# http://www.eclipse.org/legal/epl-v10.html
+# http://www.eclipse.org/legal/epl-2.0.html
 # 
 # Contributors:
 #     Actuate Corporation - initial API and implementation
@@ -58,8 +58,8 @@ Applicable Licenses\n\
 \n\
 Unless otherwise indicated, all Content made available by the Eclipse Foundation\n\
 is provided to you under the terms and conditions of the Eclipse Public\n\
-License Version 1.0 ("EPL"). A copy of the EPL is provided with this\n\
-Content and is also available at http://www.eclipse.org/legal/epl-v10.html.\n\
+License Version 2.0 ("EPL"). A copy of the EPL is provided with this\n\
+Content and is also available at http://www.eclipse.org/legal/epl-2.0.html.\n\
 For purposes of the EPL, "Program" will mean the Content.\n\
 \n\
 Content includes, but is not limited to, source code, object code,\n\

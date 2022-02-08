@@ -1,4 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *******************************************************************************
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0/.
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ * 
+ * Contributors:
+ *   See git history
+ *******************************************************************************
+-->
 <cheatsheet title="연속 차트 및 목록 보고서 생성">
   <intro href="/org.eclipse.birt.doc/birt/lay-LayingOutAReport.html">
     <description>이 자습서는 BIRT를 사용하여 연속 차트 및 목록 보고서를 생성할 수 있도록 도와 줍니다.

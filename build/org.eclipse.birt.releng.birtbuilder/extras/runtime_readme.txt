@@ -36,7 +36,7 @@ License
 -------
   The Eclipse Foundation makes available all content in this plug-in ("Content"). Unless otherwise 
 indicated below, the Content is provided to you under the terms and conditions of the Eclipse Public
-License Version 1.0 ("EPL"). A copy of the EPL is available at http://www.eclipse.org/legal/epl-v10.html.
+License Version 1.0 ("EPL"). A copy of the EPL is available at http://www.eclipse.org/legal/epl-2.0.html.
 For purposes of the EPL, "Program" will mean the Content.
 
 Redistributed Content
