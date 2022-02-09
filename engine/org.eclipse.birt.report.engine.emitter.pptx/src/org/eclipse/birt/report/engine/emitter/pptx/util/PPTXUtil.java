@@ -71,6 +71,8 @@ public class PPTXUtil {
 		if (cssDimension == null || "0".equals(cssDimension)) {
 			return 0;
 		}
-		return convertToEnums(DimensionType.parserUnit(cssDimension).convertTo(DimensionType.UNITS_PT) * 1000);
+
+		DimensionType dimensionType = DimensionType.parserUnit(cssDimension);
+		return dimensionType != null ? convertToEnums(dimensionType.convertTo(DimensionType.UNITS_PT) * 1000) : 0;
 	}
 }
