@@ -24,21 +24,6 @@
 	<artifactId>org.eclipse.birt.build</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
-	<profiles>
-		<profile>
-			<id>build-server</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.eclipse.cbi.maven.plugins</groupId>
-						<artifactId>eclipse-winsigner-plugin</artifactId>
-						<version>${cbi-version}</version>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 	<build>
 		<plugins>
 			<plugin>
