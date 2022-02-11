@@ -52,10 +52,10 @@
 								<phase>package</phase>
 								<configuration>
 									<signFiles>
-										<signFile>target/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/birt.exe</signFile>
-										<signFile>target/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/birtc.exe</signFile>
-										<signFile>target/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/eclipse.exe</signFile>
-										<signFile>target/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/eclipsec.exe</signFile>
+										<signFile>${project.build.directory}/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/birt.exe</signFile>
+										<signFile>${project.build.directory}/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/birtc.exe</signFile>
+										<signFile>${project.build.directory}/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/eclipse.exe</signFile>
+										<signFile>${project.build.directory}/products/org.eclipse.birt.report.designer.all/win32/win32/x86_64/eclipse/eclipsec.exe</signFile>
 									</signFiles>
 								</configuration>
 							</execution>
