@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Describes where to send out the event.
- * 
+ *
  */
 
 public class ContentElementInfo {
@@ -39,7 +39,7 @@ public class ContentElementInfo {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param element  the element
 	 * @param propDefn the property definition
 	 */
@@ -51,40 +51,39 @@ public class ContentElementInfo {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param enablePath <code>true</code> to enable path trace
 	 */
 
 	public ContentElementInfo(boolean enablePath) {
 		this.enablePath = enablePath;
-		path = new ArrayList<Step>();
+		path = new ArrayList<>();
 	}
 
 	/**
 	 * Returns the event destination.
-	 * 
+	 *
 	 * @return the element
 	 */
 
 	public DesignElement getElement() {
-		if (element != null)
-			return element;
-
-		return null;
+		return element;
 	}
 
 	/**
 	 * Returns the property name of the target event.
-	 * 
+	 *
 	 * @return the property name
 	 */
 
 	public String getPropName() {
-		if (propDefn != null)
+		if (propDefn != null) {
 			return propDefn.getName();
+		}
 
-		if (path.isEmpty())
+		if (path.isEmpty()) {
 			return null;
+		}
 
 		Step topStep = path.get(path.size() - 1);
 		propDefn = topStep.stepPropDefn;
@@ -94,19 +93,20 @@ public class ContentElementInfo {
 
 	/**
 	 * Adds one step.
-	 * 
+	 *
 	 * @param stepPropDefn
 	 * @param index
 	 */
 
 	public void pushStep(PropertyDefn stepPropDefn, int index) {
-		if (enablePath)
+		if (enablePath) {
 			path.add(new Step(stepPropDefn, index));
+		}
 	}
 
 	/**
 	 * Sets the top container that is not content element.
-	 * 
+	 *
 	 * @param topElement
 	 */
 
@@ -117,33 +117,35 @@ public class ContentElementInfo {
 
 	/**
 	 * Returns the iterator for the steps.
-	 * 
+	 *
 	 * @return the list of the step
 	 */
 
 	public List<Step> stepIterator() {
-		if (path == null)
+		if (path == null) {
 			return Collections.emptyList();
+		}
 
 		return path;
 	}
 
 	/**
 	 * Copies the path from the target to this info.
-	 * 
+	 *
 	 * @param target
 	 */
 
 	public void copyPath(ContentElementInfo target) {
-		if (target == null)
+		if (target == null) {
 			return;
+		}
 
 		path = target.path;
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
 
 	static class Step {

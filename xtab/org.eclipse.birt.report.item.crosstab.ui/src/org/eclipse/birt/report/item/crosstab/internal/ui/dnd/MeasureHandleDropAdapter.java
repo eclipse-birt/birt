@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
- * 
+ *
  */
 
 /**
@@ -54,6 +54,7 @@ import org.eclipse.gef.requests.CreateRequest;
 public class MeasureHandleDropAdapter implements IDropAdapter {
 	private IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance().getAdapter();
 
+	@Override
 	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		if (!isMeasureHandle(transfer)) {
 			return DNDService.LOGIC_UNKNOW;
@@ -61,10 +62,11 @@ public class MeasureHandleDropAdapter implements IDropAdapter {
 		if (target instanceof EditPart) {
 			EditPart editPart = (EditPart) target;
 			if (editPart.getModel() instanceof IVirtualValidator) {
-				if (((IVirtualValidator) editPart.getModel()).handleValidate(transfer))
+				if (((IVirtualValidator) editPart.getModel()).handleValidate(transfer)) {
 					return DNDService.LOGIC_TRUE;
-				else
+				} else {
 					return DNDService.LOGIC_FALSE;
+				}
 			}
 		}
 		return DNDService.LOGIC_UNKNOW;
@@ -72,7 +74,7 @@ public class MeasureHandleDropAdapter implements IDropAdapter {
 
 	/**
 	 * Allow drop multi MeasureHandle or single MeasureGroupHandle
-	 * 
+	 *
 	 * @param transfer
 	 * @return
 	 */
@@ -80,14 +82,16 @@ public class MeasureHandleDropAdapter implements IDropAdapter {
 		if (transfer instanceof Object[]) {
 			Object[] items = (Object[]) transfer;
 			for (int i = 0; i < items.length; i++) {
-				if (!(items[i] instanceof MeasureHandle))
+				if (!(items[i] instanceof MeasureHandle)) {
 					return false;
+				}
 			}
 			return true;
 		}
 		return transfer instanceof MeasureHandle || transfer instanceof MeasureGroupHandle;
 	}
 
+	@Override
 	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		// if ( transfer instanceof Object[] )
 		// {
@@ -154,8 +158,9 @@ public class MeasureHandleDropAdapter implements IDropAdapter {
 					crosstab.getModuleHandle().getCommandStack().commit();
 				}
 				return true;
-			} else
+			} else {
 				return false;
+			}
 
 		}
 		return false;

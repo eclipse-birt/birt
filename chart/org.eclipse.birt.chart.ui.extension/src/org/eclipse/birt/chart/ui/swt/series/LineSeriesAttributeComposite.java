@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -49,7 +49,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * @author Actuate Corporation
- * 
+ *
  */
 public class LineSeriesAttributeComposite extends Composite implements SelectionListener, Listener {
 
@@ -221,10 +221,11 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget == btnCurve) {
 			ChartElementUtil.setEObjectAttribute(series, "curve", //$NON-NLS-1$
@@ -243,20 +244,22 @@ public class LineSeriesAttributeComposite extends Composite implements Selection
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		boolean isUnset = (event.detail == ChartUIExtensionUtil.PROPERTY_UNSET);
 		if (event.widget.equals(liacLine)) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ import org.eclipse.birt.report.model.util.ReferenceValueUtil;
  * search the property list to find any properties that are of this type.
  * <p>
  * The reference value are stored as an <code>ElementRefValue</code>
- * 
+ *
  * @see ElementRefValue
  */
 
@@ -68,20 +68,22 @@ public class ElementRefPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
+	@Override
 	public int getTypeCode() {
 		return ELEMENT_REF_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
+	@Override
 	public String getName() {
 		return ELEMENT_REF_NAME;
 	}
@@ -91,7 +93,7 @@ public class ElementRefPropertyType extends PropertyType {
 	 * <code>ElementRefValue</code> that reference the target element. The target
 	 * element to be referenced can be identified by its name or the element
 	 * instance.
-	 * 
+	 *
 	 * @return the corresponding <code>ElementRefValue</code>, it will be resolved
 	 *         if the target element is found in the namespace. Return
 	 *         <code>null</code> if value is null.
@@ -100,10 +102,12 @@ public class ElementRefPropertyType extends PropertyType {
 	 *                                <code>defn</code>.
 	 */
 
+	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		ElementDefn targetDefn = (ElementDefn) defn.getTargetElementType();
 		if (value instanceof String) {
@@ -123,7 +127,7 @@ public class ElementRefPropertyType extends PropertyType {
 
 	/**
 	 * Validates the element name.
-	 * 
+	 *
 	 * @param module     report design
 	 * @param targetDefn definition of target element
 	 * @param name       element name
@@ -136,8 +140,9 @@ public class ElementRefPropertyType extends PropertyType {
 	private ElementRefValue validateStringValue(Module module, DesignElement element, ElementDefn targetDefn,
 			PropertyDefn propDefn, String name) throws PropertyValueException {
 		name = StringUtil.trimString(name);
-		if (name == null)
+		if (name == null) {
 			return null;
+		}
 
 		// special case for theme property since it can be directly referred.
 		ElementRefValue refValue = module.getNameHelper().resolve(element, name, propDefn, targetDefn);
@@ -146,17 +151,19 @@ public class ElementRefPropertyType extends PropertyType {
 
 		// Element is unresolved.
 
-		if (!refValue.isResolved())
+		if (!refValue.isResolved()) {
 			return refValue;
+		}
 
 		DesignElement target = refValue.getElement();
 		assert target != null;
 
 		// Check type.
 
-		if (!target.getDefn().isKindOf(targetDefn))
+		if (!target.getDefn().isKindOf(targetDefn)) {
 			throw new PropertyValueException(target.getFullName(),
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE, IPropertyType.ELEMENT_REF_TYPE);
+		}
 
 		// Resolved reference.
 
@@ -165,7 +172,7 @@ public class ElementRefPropertyType extends PropertyType {
 
 	/**
 	 * Validates the element value.
-	 * 
+	 *
 	 * @param module     report design
 	 * @param targetDefn definition of target element
 	 * @param target     target element
@@ -185,9 +192,10 @@ public class ElementRefPropertyType extends PropertyType {
 
 		// Check type.
 
-		if (!target.getDefn().isKindOf(targetDefn))
+		if (!target.getDefn().isKindOf(targetDefn)) {
 			throw new PropertyValueException(target.getFullName(),
 					PropertyValueException.DESIGN_EXCEPTION_WRONG_ELEMENT_TYPE, IPropertyType.ELEMENT_REF_TYPE);
+		}
 
 		// Resolved reference.
 
@@ -197,17 +205,20 @@ public class ElementRefPropertyType extends PropertyType {
 	/**
 	 * Converts this property type into a string, return the element name of the
 	 * referenced element.
-	 * 
+	 *
 	 * @return the element name of the referenced element, return <code>null</code>
 	 *         if value is null;
 	 */
 
+	@Override
 	public String toString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
-		if (value instanceof String)
+		if (value instanceof String) {
 			return (String) value;
+		}
 
 		ElementRefValue refValue = (ElementRefValue) value;
 
@@ -222,15 +233,16 @@ public class ElementRefPropertyType extends PropertyType {
 	 * Resolves an element reference. Look up the name in the name space of the
 	 * target element type. If the target is found, replace the element name with
 	 * the cached element.
-	 * 
+	 *
 	 * @param module the report design
 	 * @param defn   the definition of the element ref property
 	 * @param ref    the element reference
 	 */
 
 	public void resolve(Module module, DesignElement element, PropertyDefn defn, ElementRefValue ref) {
-		if (ref.isResolved())
+		if (ref.isResolved()) {
 			return;
+		}
 
 		// Let the corresponding name scope do the resolve things for the
 		// element reference value. The scope will search the target element not
@@ -240,10 +252,11 @@ public class ElementRefPropertyType extends PropertyType {
 
 		// special case for theme property since it can be direcly referred.
 
-		DesignElement target = null;
+		DesignElement target;
 		target = module.resolveElement(element, name, defn, null);
 
-		if (target != null)
+		if (target != null) {
 			ref.resolve(target);
+		}
 	}
 }

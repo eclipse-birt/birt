@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - Initial implementation.
  ******************************************************************************/
 
@@ -41,6 +41,7 @@ public class PreviewCascadingMenuGroup extends PreviewSupport implements IWorkbe
 	 * @see org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt
 	 *      .widgets.Control)
 	 */
+	@Override
 	public Menu getMenu(Control parent) {
 		return getPreviewMenu(parent, false);
 	}
@@ -49,6 +50,7 @@ public class PreviewCascadingMenuGroup extends PreviewSupport implements IWorkbe
 	 * @see org.eclipse.jface.action.IMenuCreator#getMenu(org.eclipse.swt.widgets
 	 *      .Menu)
 	 */
+	@Override
 	public Menu getMenu(Menu parent) {
 		return getPreviewMenu(parent, false);
 	}
@@ -57,6 +59,7 @@ public class PreviewCascadingMenuGroup extends PreviewSupport implements IWorkbe
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
 	 *      .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		action.setEnabled(isEnable());
 	}
@@ -80,8 +83,9 @@ public class PreviewCascadingMenuGroup extends PreviewSupport implements IWorkbe
 					.findContentTypesFor(editor.getEditorInput().getName());
 			for (IContentType type : contentTypes) {
 				if (type.getId().equals("org.eclipse.birt.report.designer.ui.editors.reportdesign") //$NON-NLS-1$
-						|| type.getId().equals("org.eclipse.birt.report.designer.ui.editors.reporttemplate")) //$NON-NLS-1$
+						|| type.getId().equals("org.eclipse.birt.report.designer.ui.editors.reporttemplate")) {
 					return true;
+				}
 			}
 		}
 		return false;
@@ -91,18 +95,21 @@ public class PreviewCascadingMenuGroup extends PreviewSupport implements IWorkbe
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
 	 *      IWorkbenchWindow)
 	 */
+	@Override
 	public void init(IWorkbenchWindow window) {
 	}
 
 	/**
 	 * @see org.eclipse.birt.report.designer.ui.actions.PreviewAction#dispose()
 	 */
+	@Override
 	public void dispose() {
 	}
 
 	/**
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
+	@Override
 	public void run(IAction action) {
 		// do nothing - this is just a menu
 	}

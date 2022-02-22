@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  ******************************************************************************/
 
 package utility;
@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.net.URL;
+import java.nio.file.FileSystems;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.ArrayList;
@@ -38,8 +39,6 @@ import java.util.ResourceBundle;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
@@ -62,6 +61,8 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.ReportRunner;
+
+import junit.framework.TestCase;
 
 /**
  * Base class for Engine test.
@@ -102,6 +103,7 @@ public abstract class EngineCase extends TestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -115,7 +117,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Create a report engine instance.
-	 * 
+	 *
 	 * @param config
 	 * @return
 	 * @throws BirtException
@@ -146,7 +148,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Constructor for DemoCase.
-	 * 
+	 *
 	 * @param name
 	 */
 	public EngineCase(String name) {
@@ -161,10 +163,10 @@ public abstract class EngineCase extends TestCase {
 	protected void runCase(String args[]) {
 		Vector runArgs = new Vector();
 		// invoke the report runner.
-		String input = PLUGIN_PATH + System.getProperty("file.separator") //$NON-NLS-1$
-				+ RESOURCE_BUNDLE.getString("CASE_INPUT"); //$NON-NLS-1$
-		input += System.getProperty("file.separator") + caseName //$NON-NLS-1$
-				+ ".rptdesign"; //$NON-NLS-1$
+		String input = PLUGIN_PATH + FileSystems.getDefault().getSeparator() //$NON-NLS-1$
+		+ RESOURCE_BUNDLE.getString("CASE_INPUT");
+		input += FileSystems.getDefault().getSeparator() + caseName //$NON-NLS-1$
+		+ ".rptdesign";
 		System.out.println("input is : " + input); //$NON-NLS-1$
 
 		// run report runner.
@@ -184,7 +186,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Make a copy of a given file to the target file.
-	 * 
+	 *
 	 * @param from the file where to copy from
 	 * @param to   the target file to copy to.
 	 * @throws IOException
@@ -209,11 +211,13 @@ public abstract class EngineCase extends TestCase {
 			throw e;
 		} finally {
 			try {
-				if (bis != null)
+				if (bis != null) {
 					bis.close();
+				}
 
-				if (bos != null)
+				if (bos != null) {
 					bos.close();
+				}
 			} catch (IOException e) {
 				// ignore
 			}
@@ -265,7 +269,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Remove a given file or directory recursively.
-	 * 
+	 *
 	 * @param file
 	 */
 	public void removeFile(File file) {
@@ -284,7 +288,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Remove a given file or directory recursively.
-	 * 
+	 *
 	 * @param file
 	 */
 
@@ -299,7 +303,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the folder where the unit test java source file is saved.
-	 * 
+	 *
 	 * @return the path name where the test java source file locates.
 	 */
 
@@ -313,10 +317,12 @@ public abstract class EngineCase extends TestCase {
 				URL url = source.getLocation();
 				pathBase = url.getPath();
 
-				if (pathBase.endsWith("bin/")) //$NON-NLS-1$
+				if (pathBase.endsWith("bin/")) { //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 4);
-				if (pathBase.endsWith("bin")) //$NON-NLS-1$
+				}
+				if (pathBase.endsWith("bin")) { //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 3);
+				}
 			}
 		}
 
@@ -332,7 +338,7 @@ public abstract class EngineCase extends TestCase {
 	/**
 	 * Compares two text file. The comparison will ignore the line containing
 	 * "modificationDate".
-	 * 
+	 *
 	 * @param golden the 1st file name to be compared.
 	 * @param output the 2nd file name to be compared.
 	 * @return true if two text files are same line by line
@@ -343,7 +349,7 @@ public abstract class EngineCase extends TestCase {
 		FileReader readerA = null;
 		FileReader readerB = null;
 		boolean same = true;
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 
 		try {
 
@@ -377,7 +383,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Compares the string. The comparison will ignore the line containing
-	 * 
+	 *
 	 * @param output      the file name to be compared.
 	 * @param checkstring the string to be compared.
 	 * @param checktimes  the times that the checkstring display.
@@ -385,7 +391,7 @@ public abstract class EngineCase extends TestCase {
 	 * @throws Exception if any exception.
 	 */
 	protected boolean compareHTML_STRING(String output, String checkstring, int checktimes) {
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 		String outputFile = genOutputFile(output);
 		String line = null;
 		int count = 0;
@@ -412,7 +418,7 @@ public abstract class EngineCase extends TestCase {
 	/**
 	 * Run and render the given design file into html file. If the input is "a.xml",
 	 * output html file will be named "a.html" under folder "output".
-	 * 
+	 *
 	 * @param input
 	 * @throws EngineException
 	 */
@@ -426,7 +432,7 @@ public abstract class EngineCase extends TestCase {
 	 * Run and render the given design file into html file with pagination. If the
 	 * input is "a.xml", output html file will be named "a.html" under folder
 	 * "output".
-	 * 
+	 *
 	 * @param input
 	 * @throws EngineException
 	 */
@@ -439,7 +445,7 @@ public abstract class EngineCase extends TestCase {
 	/**
 	 * Run and render the given design file into pdf file. If the input is "a.xml",
 	 * output html file will be named "a.pdf" under folder "output".
-	 * 
+	 *
 	 * @param input
 	 * @throws EngineException
 	 */
@@ -508,7 +514,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Run a report, generate a self-contained report document.
-	 * 
+	 *
 	 * @throws EngineException
 	 */
 
@@ -548,7 +554,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Render a report document into PDF file.
-	 * 
+	 *
 	 * @param doc
 	 * @param output
 	 * @param pageRange
@@ -597,7 +603,7 @@ public abstract class EngineCase extends TestCase {
 	 * Run the input design, generate a report document, and then render the report
 	 * document into a html file, <code>pageRange</code> specified the page(s) to
 	 * render.
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws EngineException
 	 */
@@ -615,10 +621,11 @@ public abstract class EngineCase extends TestCase {
 
 		try {
 			copyFile(from, this.getFullQualifiedClassName() + "/" + INPUT_FOLDER + "/" + tempDoc);
-			if (FORMAT_PDF.equals(format)) // $NON-NLS-1$
+			if (FORMAT_PDF.equals(format)) { // $NON-NLS-1$
 				return render_PDF(tempDoc, output, pageRange);
-			else
+			} else { // $NON-NLS-1$
 				return render_HTML(tempDoc, output, pageRange);
+			}
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -629,7 +636,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Compares the two text files.
-	 * 
+	 *
 	 * @param golden the reader for golden file
 	 * @param output the reader for output file
 	 * @return true if two text files are same.
@@ -637,7 +644,7 @@ public abstract class EngineCase extends TestCase {
 	 */
 
 	protected boolean compareTextFile(Reader golden, Reader output, String fileName) throws Exception {
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 
 		BufferedReader lineReaderA = null;
 		BufferedReader lineReaderB = null;
@@ -659,7 +666,7 @@ public abstract class EngineCase extends TestCase {
 				same = filterA.trim().equals(filterB.trim());
 
 				if (!same) {
-					StringBuffer message = new StringBuffer();
+					StringBuilder message = new StringBuilder();
 
 					message.append("line="); //$NON-NLS-1$
 					message.append(lineNo);
@@ -710,7 +717,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Compares the two times.
-	 * 
+	 *
 	 * @param checktimes  the times that the string display.
 	 * @param countstring the golden times.
 	 * @return true if two times are same.
@@ -718,12 +725,13 @@ public abstract class EngineCase extends TestCase {
 	 */
 	private boolean compareString(int checktimes, int countstring) {
 		boolean same = true;
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 		try {
-			if (checktimes == countstring)
+			if (checktimes == countstring) {
 				same = true;
-			else
+			} else {
 				same = false;
+			}
 		} catch (Exception e) {
 			errorText.append(e.toString());
 		}
@@ -771,7 +779,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Replace the given string with a replacement if it matches a certain pattern.
-	 * 
+	 *
 	 * @param str
 	 * @return filtered string, the tokens that matches the patterns are replaced
 	 *         with replacement.
@@ -796,7 +804,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Locates the folder where the unit test java source file is saved.
-	 * 
+	 *
 	 * @return the path where the test java source file locates.
 	 */
 	protected String getBaseFolder() {
@@ -820,7 +828,7 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Set locale for run/render report
-	 * 
+	 *
 	 * @param loc location used to run report
 	 */
 	protected void setLocale(Locale loc) {
@@ -829,13 +837,14 @@ public abstract class EngineCase extends TestCase {
 
 	/**
 	 * Set image folder to save rendered temp image file
-	 * 
+	 *
 	 * @param imageDir folder to save temp image.
 	 */
 	protected void setImageDir(String imageDir) {
 		IMAGE_DIR = imageDir;
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		this.engine.destroy();
 		super.tearDown();
@@ -843,8 +852,9 @@ public abstract class EngineCase extends TestCase {
 
 	protected String genOutputFile(String output) {
 		String tempDir = System.getProperty("java.io.tmpdir"); //$NON-NLS-1$
-		if (!tempDir.endsWith(File.separator))
+		if (!tempDir.endsWith(File.separator)) {
 			tempDir += File.separator;
+		}
 		String outputFile = tempDir + getFullQualifiedClassName() // $NON-NLS-1$
 				+ "/" + OUTPUT_FOLDER + "/" + output;
 		return outputFile;
@@ -857,13 +867,15 @@ public abstract class EngineCase extends TestCase {
 
 		File[] files = from.listFiles(new FilenameFilter() {
 
+			@Override
 			public boolean accept(File dir, String name) {
 				return true;
 			}
 		});
 
-		if (!to.exists())
+		if (!to.exists()) {
 			to.mkdir();
+		}
 		System.out.println("size is " + files.length);
 		for (int i = 0; i < files.length; i++) {
 			// File file = files[i];
@@ -907,8 +919,9 @@ public abstract class EngineCase extends TestCase {
 
 	public String tempFolder() {
 		String tempDir = System.getProperty("java.io.tmpdir");
-		if (!tempDir.endsWith(File.separator))
+		if (!tempDir.endsWith(File.separator)) {
 			tempDir += File.separator;
+		}
 		return tempDir;
 	}
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -86,11 +86,11 @@ public class ItemContentList {
 			addNewElementName(defaultNames, newElement);
 		}
 
-	};
+	}
 
 	/**
 	 * Add the element to the table if which is not in the preferece table
-	 * 
+	 *
 	 * @param oldElement The array of elements in the preference store
 	 * @param newElement The array of new elements
 	 */
@@ -108,7 +108,7 @@ public class ItemContentList {
 					break;
 				}
 			}
-			if (find == false) {
+			if (!find) {
 				content = new ItemContent(""); //$NON-NLS-1$
 				content.setDefaultName(newElement[i]); // $NON-NLS-1$
 				content.setDescription(""); //$NON-NLS-1$
@@ -126,7 +126,7 @@ public class ItemContentList {
 
 	/**
 	 * Set content for ItemContent List
-	 * 
+	 *
 	 * @param i
 	 * @param itemContent
 	 * @return
@@ -150,8 +150,9 @@ public class ItemContentList {
 		ItemContent content = new ItemContent("New Custom Name"); //$NON-NLS-1$
 		contents.add(contents.size(), content);
 		Iterator iterator = changeListeners.iterator();
-		while (iterator.hasNext())
+		while (iterator.hasNext()) {
 			((IItemListViewer) iterator.next()).addContent(content);
+		}
 		updateKeyValues();
 	}
 
@@ -161,39 +162,42 @@ public class ItemContentList {
 	public void addContent(ItemContent content) {
 		contents.add(contents.size(), content);
 		Iterator iterator = changeListeners.iterator();
-		while (iterator.hasNext())
+		while (iterator.hasNext()) {
 			((IItemListViewer) iterator.next()).addContent(content);
+		}
 		updateKeyValues();
 	}
 
 	/**
 	 * Remove a content from ItemContent List
-	 * 
+	 *
 	 * @param content
 	 */
 	public void removeContent(ItemContent content) {
 		contents.remove(content);
 		Iterator iterator = changeListeners.iterator();
-		while (iterator.hasNext())
+		while (iterator.hasNext()) {
 			((IItemListViewer) iterator.next()).removeContent(content);
+		}
 		updateKeyValues();
 	}
 
 	/**
 	 * Change all the ItemContent in List
-	 * 
+	 *
 	 * @param content
 	 */
 	public void contentChanged(ItemContent content) {
 		Iterator iterator = changeListeners.iterator();
-		while (iterator.hasNext())
+		while (iterator.hasNext()) {
 			((IItemListViewer) iterator.next()).updateContent(content);
+		}
 		updateKeyValues();
 	}
 
 	/**
 	 * Remove listener for ItemContent List
-	 * 
+	 *
 	 * @param viewer
 	 */
 	public void removeChangeListener(IItemListViewer viewer) {
@@ -202,7 +206,7 @@ public class ItemContentList {
 
 	/**
 	 * Add listener on ItemContentList changing
-	 * 
+	 *
 	 * @param viewer
 	 */
 	public void addChangeListener(IItemListViewer viewer) {
@@ -210,9 +214,9 @@ public class ItemContentList {
 	}
 
 	private void updateKeyValues() {
-		StringBuffer defaultNamePreference = new StringBuffer();
-		StringBuffer customNamePreference = new StringBuffer();
-		StringBuffer descriptionPreference = new StringBuffer();
+		StringBuilder defaultNamePreference = new StringBuilder();
+		StringBuilder customNamePreference = new StringBuilder();
+		StringBuilder descriptionPreference = new StringBuilder();
 		Vector contents = getContents();
 		for (int i = 0; i < contents.size(); i++) {
 			ItemContent content = (ItemContent) contents.get(i);

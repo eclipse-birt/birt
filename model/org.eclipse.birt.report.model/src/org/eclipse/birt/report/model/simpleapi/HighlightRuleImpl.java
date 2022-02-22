@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 
 /**
  * Implements of HighLightRule.
- * 
+ *
  */
 
 public class HighlightRuleImpl extends Structure implements IHighlightRule {
@@ -37,7 +37,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param ruleHandle
 	 */
 
@@ -48,7 +48,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param ruleHandle
 	 */
 
@@ -64,7 +64,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param rule
 	 * @param handle
 	 */
@@ -84,11 +84,13 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 		return r;
 	}
 
+	@Override
 	public String getColor() {
 		Object obj = rule.getProperty(null, HighlightRule.COLOR_MEMBER);
 
-		if (obj == null)
+		if (obj == null) {
 			return null;
+		}
 
 		if (obj instanceof Integer) {
 			return StringUtil.toRgbText(((Integer) obj).intValue()).toUpperCase();
@@ -97,38 +99,46 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 		return obj.toString();
 	}
 
+	@Override
 	public String getDateTimeFormat() {
 		Object value = rule.getProperty(null, HighlightRule.DATE_TIME_FORMAT_MEMBER);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof DateTimeFormatValue;
 
 		return ((DateTimeFormatValue) value).getPattern();
 	}
 
+	@Override
 	public String getFontStyle() {
 		return (String) rule.getProperty(null, HighlightRule.FONT_STYLE_MEMBER);
 	}
 
+	@Override
 	public String getFontWeight() {
 		return (String) rule.getProperty(null, HighlightRule.FONT_WEIGHT_MEMBER);
 	}
 
+	@Override
 	public String getStringFormat() {
 		Object value = rule.getProperty(null, HighlightRule.STRING_FORMAT_MEMBER);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof StringFormatValue;
 
 		return ((StringFormatValue) value).getPattern();
 	}
 
+	@Override
 	public String getTestExpression() {
 		return rule.getTestExpression();
 	}
 
+	@Override
 	public void setColor(String color) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(HighlightRule.COLOR_MEMBER, color);
@@ -138,6 +148,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 		rule.setProperty(HighlightRule.COLOR_MEMBER, color);
 	}
 
+	@Override
 	public void setDateTimeFormat(String format) throws SemanticException {
 		if (structureHandle != null) {
 			ActivityStack cmdStack = structureHandle.getModule().getActivityStack();
@@ -162,6 +173,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 
 	}
 
+	@Override
 	public void setFontStyle(String style) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(HighlightRule.FONT_STYLE_MEMBER, style);
@@ -171,6 +183,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 		rule.setProperty(HighlightRule.FONT_STYLE_MEMBER, style);
 	}
 
+	@Override
 	public void setFontWeight(String weight) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(HighlightRule.FONT_WEIGHT_MEMBER, weight);
@@ -180,6 +193,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 		rule.setProperty(HighlightRule.FONT_WEIGHT_MEMBER, weight);
 	}
 
+	@Override
 	public void setStringFormat(String format) throws SemanticException {
 		if (structureHandle != null) {
 			ActivityStack cmdStack = structureHandle.getModule().getActivityStack();
@@ -203,6 +217,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 		}
 	}
 
+	@Override
 	public void setTestExpression(String expression) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(HighlightRule.TEST_EXPR_MEMBER, expression);
@@ -212,6 +227,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 		rule.setTestExpression(expression);
 	}
 
+	@Override
 	public void setValue1(String value1) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(StyleRule.VALUE1_MEMBER, value1);
@@ -221,6 +237,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 		rule.setValue1(value1);
 	}
 
+	@Override
 	public void setValue2(String value2) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(StyleRule.VALUE2_MEMBER, value2);
@@ -230,6 +247,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 		rule.setValue2(value2);
 	}
 
+	@Override
 	public void setOperator(String operator) throws SemanticException {
 		if (structureHandle != null) {
 			ActivityStack cmdStack = structureHandle.getModule().getActivityStack();
@@ -249,6 +267,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 		rule.setOperator(operator);
 	}
 
+	@Override
 	public void setBackGroundColor(String color) throws SemanticException {
 		if (structureHandle != null) {
 			setProperty(HighlightRule.BACKGROUND_COLOR_MEMBER, color);
@@ -258,15 +277,18 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 		rule.setProperty(HighlightRule.BACKGROUND_COLOR_MEMBER, color);
 	}
 
+	@Override
 	public IStructure getStructure() {
 		return rule;
 	}
 
+	@Override
 	public String getBackGroundColor() {
 		Object obj = rule.getProperty(null, HighlightRule.BACKGROUND_COLOR_MEMBER);
 
-		if (obj == null)
+		if (obj == null) {
 			return null;
+		}
 
 		if (obj instanceof Integer) {
 			return StringUtil.toRgbText(((Integer) obj).intValue()).toUpperCase();
@@ -275,14 +297,17 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule {
 		return obj.toString();
 	}
 
+	@Override
 	public String getOperator() {
 		return rule.getOperator();
 	}
 
+	@Override
 	public String getValue1() {
 		return rule.getValue1();
 	}
 
+	@Override
 	public String getValue2() {
 		return rule.getValue2();
 	}

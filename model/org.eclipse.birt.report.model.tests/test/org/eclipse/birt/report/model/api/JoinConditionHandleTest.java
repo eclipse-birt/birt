@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,9 +16,9 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Iterator;
 
-import org.eclipse.birt.report.model.util.BaseTestCase;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Unit test for JoinConditionHandle. The test cases are:
@@ -28,14 +28,14 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected Result</th>
- * 
+ *
  * <tr>
  * <td>testGetter</td>
  * <td><code>JoinConditionHandle</code>'s getters work.</td>
  * <td>All fields of the <code>JoinConditionHandle</code> can be read by the
  * respective getter.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testWriter</td>
  * <td><code>JoinConditionHandle</code>'s setters work.</td>
@@ -43,7 +43,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
  * resprective setter.</td>
  * </tr>
  * </table>
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.JointDataSet
  */
 
@@ -57,6 +57,7 @@ public class JoinConditionHandleTest extends BaseTestCase {
 	 * Creates the joinConditionHandle.
 	 */
 
+	@Override
 	public void setUp() throws DesignFileException {
 		openDesign(fileName);
 		JointDataSetHandle dataSet = (JointDataSetHandle) designHandle.findJointDataSet("JointDataSet"); //$NON-NLS-1$
@@ -81,7 +82,7 @@ public class JoinConditionHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests all setters.
-	 * 
+	 *
 	 * @throws SemanticException when value can't be set.
 	 */
 

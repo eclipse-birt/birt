@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -341,7 +341,7 @@ public class TableColumnGenerator implements ICrosstabConstants {
 
 		int i = 0;
 
-		int[] checkPoint = new int[] { -1 };
+		int[] checkPoint = { -1 };
 
 		// TODO fix potential issue for only have one global notify flag. May
 		// need a flag stack.
@@ -405,19 +405,17 @@ public class TableColumnGenerator implements ICrosstabConstants {
 						col.getStyle().setProperty(IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.ALWAYS_VALUE);
 					}
 				}
-			} else {
-				// only handle vertical measure case and last measure column
-				if (event.measureIndex == -1 || event.measureIndex == lastTotalMeasureIndex[currentGroupIndex]) {
-					// process page_break_after and
-					// page_break_after_excluding_last
-					if (pageBreakAfterInts[currentGroupIndex] == 1) {
-						col.getStyle().setProperty(IStyle.STYLE_PAGE_BREAK_AFTER, IStyle.ALWAYS_VALUE);
-					} else if (pageBreakAfterInts[currentGroupIndex] == 2) {
-						boolean isLast = groupCursors.get(currentGroupIndex).isLast();
+			} else // only handle vertical measure case and last measure column
+			if (event.measureIndex == -1 || event.measureIndex == lastTotalMeasureIndex[currentGroupIndex]) {
+				// process page_break_after and
+				// page_break_after_excluding_last
+				if (pageBreakAfterInts[currentGroupIndex] == 1) {
+					col.getStyle().setProperty(IStyle.STYLE_PAGE_BREAK_AFTER, IStyle.ALWAYS_VALUE);
+				} else if (pageBreakAfterInts[currentGroupIndex] == 2) {
+					boolean isLast = groupCursors.get(currentGroupIndex).isLast();
 
-						if (!isLast) {
-							notifyNextPageBreak = currentGroupIndex;
-						}
+					if (!isLast) {
+						notifyNextPageBreak = currentGroupIndex;
 					}
 				}
 			}

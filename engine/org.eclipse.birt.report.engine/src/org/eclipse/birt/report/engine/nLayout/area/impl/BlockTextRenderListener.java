@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -37,6 +37,7 @@ public class BlockTextRenderListener implements ITextListener {
 		onNewLineEvent();
 	}
 
+	@Override
 	public void onAddEvent(TextArea textArea) {
 		if (listeningStatus) {
 			if (textStartPos == -1) {
@@ -46,6 +47,7 @@ public class BlockTextRenderListener implements ITextListener {
 		}
 	}
 
+	@Override
 	public void onNewLineEvent() {
 		if (blockContainer.getCurrentBP() < offset || blockContainer.getCurrentBP() > offset + dimension) {
 			listeningStatus = false;
@@ -55,6 +57,7 @@ public class BlockTextRenderListener implements ITextListener {
 		}
 	}
 
+	@Override
 	public void onTextEndEvent() {
 		if (blockContainer.getCurrentBP() < offset || blockContainer.getCurrentBP() > offset + dimension) {
 			listeningStatus = false;

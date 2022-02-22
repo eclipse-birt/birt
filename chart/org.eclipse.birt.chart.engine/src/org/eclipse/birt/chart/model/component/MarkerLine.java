@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -26,14 +26,14 @@ import org.eclipse.emf.common.util.EList;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Marker
  * Line</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
- * 
+ *
  * This type defines a single line element. It is intended for use as a marker
  * associated with an Axis. e.g. To denote a Target value
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
@@ -47,7 +47,7 @@ import org.eclipse.emf.common.util.EList;
  * <em>Label Position</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine()
  * @model
  * @generated
@@ -58,11 +58,11 @@ public interface MarkerLine extends IChartObject {
 	 * Returns the value of the '<em><b>Line Attributes</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Specify the line properties.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Line Attributes</em>' containment reference.
 	 * @see #setLineAttributes(LineAttributes)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_LineAttributes()
@@ -76,7 +76,7 @@ public interface MarkerLine extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLineAttributes
 	 * <em>Line Attributes</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Line Attributes</em>' containment
 	 *              reference.
 	 * @see #getLineAttributes()
@@ -87,12 +87,12 @@ public interface MarkerLine extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Defines where this line is to be positioned w.r.t the axis. (Can be a value
 	 * on the axis or a category name).
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Value</em>' containment reference.
 	 * @see #setValue(DataElement)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_Value()
@@ -106,7 +106,7 @@ public interface MarkerLine extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine#getValue
 	 * <em>Value</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Value</em>' containment reference.
 	 * @see #getValue()
 	 * @generated
@@ -116,11 +116,11 @@ public interface MarkerLine extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the label associated with this line.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Label</em>' containment reference.
 	 * @see #setLabel(Label)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_Label()
@@ -134,7 +134,7 @@ public interface MarkerLine extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabel
 	 * <em>Label</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Label</em>' containment reference.
 	 * @see #getLabel()
 	 * @generated
@@ -146,12 +146,12 @@ public interface MarkerLine extends IChartObject {
 	 * default value is <code>"North"</code>. The literals are from the enumeration
 	 * {@link org.eclipse.birt.chart.model.attribute.Anchor}. <!-- begin-user-doc
 	 * --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies where the label associated with this line is to be positioned with
 	 * respect to the line itself.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Label Anchor</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Anchor
 	 * @see #isSetLabelAnchor()
@@ -168,7 +168,7 @@ public interface MarkerLine extends IChartObject {
 	 * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor
 	 * <em>Label Anchor</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Label Anchor</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Anchor
 	 * @see #isSetLabelAnchor()
@@ -183,7 +183,7 @@ public interface MarkerLine extends IChartObject {
 	 * {@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor
 	 * <em>Label Anchor</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetLabelAnchor()
 	 * @see #getLabelAnchor()
 	 * @see #setLabelAnchor(Anchor)
@@ -196,7 +196,7 @@ public interface MarkerLine extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine#getLabelAnchor
 	 * <em>Label Anchor</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Label Anchor</em>' attribute is set.
 	 * @see #unsetLabelAnchor()
 	 * @see #getLabelAnchor()
@@ -209,11 +209,11 @@ public interface MarkerLine extends IChartObject {
 	 * Returns the value of the '<em><b>Format Specifier</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Specifies the formatting for marker line labels.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Format Specifier</em>' containment reference.
 	 * @see #setFormatSpecifier(FormatSpecifier)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_FormatSpecifier()
@@ -227,7 +227,7 @@ public interface MarkerLine extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine#getFormatSpecifier
 	 * <em>Format Specifier</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Format Specifier</em>' containment
 	 *              reference.
 	 * @see #getFormatSpecifier()
@@ -240,11 +240,11 @@ public interface MarkerLine extends IChartObject {
 	 * list. The list contents are of type
 	 * {@link org.eclipse.birt.chart.model.data.Trigger}. <!-- begin-user-doc -->
 	 * <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Holds the triggers for the marker line.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Triggers</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_Triggers()
 	 * @model containment="true" extendedMetaData="kind='element' name='Triggers'"
@@ -256,7 +256,7 @@ public interface MarkerLine extends IChartObject {
 	 * Returns the value of the '<em><b>Cursor</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The element
 	 * represents a cursor for marker line. <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Cursor</em>' containment reference.
 	 * @see #setCursor(Cursor)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerLine_Cursor()
@@ -270,7 +270,7 @@ public interface MarkerLine extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerLine#getCursor
 	 * <em>Cursor</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Cursor</em>' containment reference.
 	 * @see #getCursor()
 	 * @generated
@@ -280,6 +280,7 @@ public interface MarkerLine extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	MarkerLine copyInstance();
 
 } // MarkerLine

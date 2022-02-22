@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -498,14 +498,15 @@ public class LinkedProperties extends LinkedHashMap<Object, Object> {
 					}
 					out[outLen++] = (char) value;
 				} else {
-					if (aChar == 't')
+					if (aChar == 't') {
 						aChar = '\t';
-					else if (aChar == 'r')
+					} else if (aChar == 'r') {
 						aChar = '\r';
-					else if (aChar == 'n')
+					} else if (aChar == 'n') {
 						aChar = '\n';
-					else if (aChar == 'f')
+					} else if (aChar == 'f') {
 						aChar = '\f';
+					}
 					out[outLen++] = aChar;
 				}
 			} else {
@@ -525,7 +526,7 @@ public class LinkedProperties extends LinkedHashMap<Object, Object> {
 		if (bufLen < 0) {
 			bufLen = Integer.MAX_VALUE;
 		}
-		StringBuffer outBuffer = new StringBuffer(bufLen);
+		StringBuilder outBuffer = new StringBuilder(bufLen);
 
 		for (int x = 0; x < len; x++) {
 			char aChar = theString.charAt(x);
@@ -542,8 +543,9 @@ public class LinkedProperties extends LinkedHashMap<Object, Object> {
 			}
 			switch (aChar) {
 			case ' ':
-				if (x == 0 || escapeSpace)
+				if (x == 0 || escapeSpace) {
 					outBuffer.append('\\');
+				}
 				outBuffer.append(' ');
 				break;
 			case '\t':
@@ -570,7 +572,7 @@ public class LinkedProperties extends LinkedHashMap<Object, Object> {
 				outBuffer.append(aChar);
 				break;
 			default:
-				if (((aChar < 0x0020) || (aChar > 0x007e)) & escapeUnicode) {
+				if (((aChar < 0x0020) || (aChar > 0x007e)) && escapeUnicode) {
 					outBuffer.append('\\');
 					outBuffer.append('u');
 					outBuffer.append(toHex((aChar >> 12) & 0xF));
@@ -596,8 +598,9 @@ public class LinkedProperties extends LinkedHashMap<Object, Object> {
 		while (current < len) {
 			char c = comments.charAt(current);
 			if (c > '\u00ff' || c == '\n' || c == '\r') {
-				if (last != current)
+				if (last != current) {
 					bw.write(comments.substring(last, current));
+				}
 				if (c > '\u00ff') {
 					uu[2] = toHex((c >> 12) & 0xf);
 					uu[3] = toHex((c >> 8) & 0xf);
@@ -610,15 +613,17 @@ public class LinkedProperties extends LinkedHashMap<Object, Object> {
 						current++;
 					}
 					if (current == len - 1
-							|| (comments.charAt(current + 1) != '#' && comments.charAt(current + 1) != '!'))
+							|| (comments.charAt(current + 1) != '#' && comments.charAt(current + 1) != '!')) {
 						bw.write("#");
+					}
 				}
 				last = current + 1;
 			}
 			current++;
 		}
-		if (last != current)
+		if (last != current) {
 			bw.write(comments.substring(last, current));
+		}
 		bw.newLine();
 	}
 
@@ -740,8 +745,7 @@ public class LinkedProperties extends LinkedHashMap<Object, Object> {
 	}
 
 	public Enumeration keys() {
-		Vector vector = new Vector();
-		vector.addAll(this.keySet());
+		Vector vector = new Vector(this.keySet());
 		return vector.elements();
 	}
 
@@ -806,7 +810,7 @@ public class LinkedProperties extends LinkedHashMap<Object, Object> {
 	 *         property list.
 	 */
 	public Set<String> stringPropertyNames() {
-		LinkedHashMap<String, String> h = new LinkedHashMap<String, String>();
+		LinkedHashMap<String, String> h = new LinkedHashMap<>();
 		enumerateStringProperties(h);
 		return h.keySet();
 	}

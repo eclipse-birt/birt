@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -45,7 +45,7 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -55,7 +55,7 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -64,7 +64,7 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected BigNumberDataElementImpl() {
@@ -73,7 +73,7 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -83,29 +83,32 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public BigDecimal getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setValue(BigDecimal newValue) {
 		BigDecimal oldValue = value;
 		value = newValue;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.BIG_NUMBER_DATA_ELEMENT__VALUE, oldValue,
 					value));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -119,7 +122,7 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -134,7 +137,7 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -149,7 +152,7 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -163,15 +166,16 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (value: "); //$NON-NLS-1$
 		result.append(value);
 		result.append(')');
@@ -194,6 +198,7 @@ public class BigNumberDataElementImpl extends DataElementImpl implements BigNumb
 	/**
 	 * @generated
 	 */
+	@Override
 	public BigNumberDataElement copyInstance() {
 		BigNumberDataElementImpl dest = new BigNumberDataElementImpl();
 		dest.set(this);

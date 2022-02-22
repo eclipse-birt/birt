@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,17 +43,20 @@ public class EmptyRowColumnProvider extends AbstractDescriptorProvider {
 		this.viewType = viewType;
 	}
 
+	@Override
 	public String getDisplayName() {
-		if (viewType == ICrosstabConstants.ROW_AXIS_TYPE)
+		if (viewType == ICrosstabConstants.ROW_AXIS_TYPE) {
 			return EMPTY_ROW_TEXT;
-		else
+		} else {
 			return EMPTY_COLUMN_TEXT;
+		}
 	}
 
 	public int getMaxLengthOfDisplayName(Control control) {
 		return UIUtil.getMaxStringWidth(new String[] { EMPTY_COLUMN_TEXT, EMPTY_ROW_TEXT }, control);
 	}
 
+	@Override
 	public Object load() {
 		try {
 			ExtendedItemHandle crossTabHandle = (ExtendedItemHandle) DEUtil.getInputFirstElement(input);
@@ -67,6 +70,7 @@ public class EmptyRowColumnProvider extends AbstractDescriptorProvider {
 		return null;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		LevelHandle handle = getLevelHandle(value);
 		try {
@@ -81,14 +85,15 @@ public class EmptyRowColumnProvider extends AbstractDescriptorProvider {
 	}
 
 	private LevelHandle getLevelHandle(Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
-		else {
+		} else {
 			Iterator iter = getViewLevels().iterator();
 			while (iter.hasNext()) {
 				LevelHandle level = (LevelHandle) iter.next();
-				if (value.equals(level.getName()))
+				if (value.equals(level.getName())) {
 					return level;
+				}
 			}
 		}
 		return null;
@@ -112,11 +117,13 @@ public class EmptyRowColumnProvider extends AbstractDescriptorProvider {
 			}
 		} catch (ExtendedElementException e) {
 		}
-		if (list.size() > 0)
+		if (list.size() > 0) {
 			list.remove(0);
+		}
 		return list;
 	}
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}

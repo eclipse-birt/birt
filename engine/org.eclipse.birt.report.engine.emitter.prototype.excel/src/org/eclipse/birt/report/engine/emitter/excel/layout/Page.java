@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,14 +53,14 @@ public class Page {
 
 	protected AxisProcessor axis;
 	protected DataCache currentCache;
-	protected List<DataCache> caches = new ArrayList<DataCache>();
+	protected List<DataCache> caches = new ArrayList<>();
 	private int maxCol;
 	private StyleEngine styleEngine;
 	private boolean outputInMasterPage = false;
 	private String header;
 	private String footer;
 	private String orientation;
-	private List<BookmarkDef> bookmarks = new ArrayList<BookmarkDef>();
+	private List<BookmarkDef> bookmarks = new ArrayList<>();
 	private String sheetName;
 	private XlsContainer pageContainer;
 	private int pageWidth;
@@ -173,8 +173,9 @@ public class Page {
 				Object child = iter.next();
 				if (child instanceof ITableContent) {
 					headfoot.append(getTableValue((ITableContent) child));
-				} else
+				} else {
 					processText(headfoot, child);
+				}
 			}
 			return headfoot.toString();
 		}
@@ -202,7 +203,7 @@ public class Page {
 			buffer.append("&U");
 		}
 		String lineTrough = style.getTextLineThrough();
-		if (lineTrough != null && "line-through".equalsIgnoreCase(lineTrough)) {
+		if ("line-through".equalsIgnoreCase(lineTrough)) {
 			buffer.append("&S");
 		}
 
@@ -228,13 +229,14 @@ public class Page {
 			if (fontFamily != null) {
 				buffer.append(ExcelUtil.getValue(fontFamily));
 			}
-			if (bold != null && "bold".equalsIgnoreCase(bold)) {
-				if (fontFamily != null)
+			if ("bold".equalsIgnoreCase(bold)) {
+				if (fontFamily != null) {
 					buffer.append(",");
+				}
 				buffer.append("Bold");
 			}
-			if (italic != null && "italic".equalsIgnoreCase(italic)) {
-				if (bold != null && "bold".equalsIgnoreCase(bold)) {
+			if ("italic".equalsIgnoreCase(italic)) {
+				if ("bold".equalsIgnoreCase(bold)) {
 					buffer.append(" ");
 				} else if (fontFamily != null) {
 					buffer.append(",");
@@ -246,12 +248,12 @@ public class Page {
 	}
 
 	private boolean needOutputInQuote(String fontFamily, String bold, String italic) {
-		return fontFamily != null || (bold != null && "bold".equalsIgnoreCase(bold))
-				|| (italic != null && "italic".equalsIgnoreCase(italic));
+		return fontFamily != null || ("bold".equalsIgnoreCase(bold))
+				|| ("italic".equalsIgnoreCase(italic));
 	}
 
 	public String getTableValue(ITableContent table) {
-		StringBuffer tableValue = new StringBuffer();
+		StringBuilder tableValue = new StringBuilder();
 		Collection list = table.getChildren();
 		Iterator iter = list.iterator();
 		while (iter.hasNext()) {
@@ -263,7 +265,7 @@ public class Page {
 	}
 
 	public String getRowValue(IRowContent row) {
-		StringBuffer rowValue = new StringBuffer();
+		StringBuilder rowValue = new StringBuilder();
 		Collection list = row.getChildren();
 		Iterator iter = list.iterator();
 		int currentCellCount = 0;
@@ -369,11 +371,13 @@ public class Page {
 	}
 
 	public boolean isValid(SheetData data) {
-		if (data.getStartX() == data.getEndX())
+		if (data.getStartX() == data.getEndX()) {
 			return false;
+		}
 		int col = axis.getColumnIndexByCoordinate(data.getStartX());
-		if (col == -1 || col >= currentCache.getColumnCount())
+		if (col == -1 || col >= currentCache.getColumnCount()) {
 			return false;
+		}
 		return true;
 	}
 
@@ -696,7 +700,7 @@ public class Page {
 	/**
 	 * Expand the cell of the passed sheet data. Creates empty data entries to
 	 * cover the given rowspan and updates the border accordingly.
-	 * 
+	 *
 	 * @param sheetData sheet data
 	 * @param currentColumnIndex current column index
 	 * @param rowspan number of cells to which to expand the cell
@@ -758,9 +762,7 @@ public class Page {
 
 	private boolean canSpan(SheetData data, XlsContainer rowContainer, int currentColumn, int lastColumn) {
 		SheetData realData = ExcelUtil.getRealData(data);
-		if (realData == null)
-			return false;
-		if (!isInContainer(realData, rowContainer) && realData.getRowSpanInDesign() <= 0) {
+		if ((realData == null) || (!isInContainer(realData, rowContainer) && realData.getRowSpanInDesign() <= 0)) {
 			return false;
 		}
 

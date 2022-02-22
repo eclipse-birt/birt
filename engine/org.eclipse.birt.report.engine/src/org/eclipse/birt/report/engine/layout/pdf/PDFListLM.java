@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -36,6 +36,7 @@ public class PDFListLM extends PDFBlockStackingLM implements IBlockStackingLayou
 		repeat = isRepeatHeader();
 	}
 
+	@Override
 	protected void initialize() throws BirtException {
 		if (root == null && keepWithCache.isEmpty() && !isFirst) {
 			repeatCount = 0;
@@ -53,10 +54,12 @@ public class PDFListLM extends PDFBlockStackingLM implements IBlockStackingLayou
 		return ((IListContent) content).isHeaderRepeat();
 	}
 
+	@Override
 	protected boolean isRootEmpty() {
 		return !(root != null && root.getChildrenCount() > repeatCount);
 	}
 
+	@Override
 	protected void createRoot() {
 		if (root == null) {
 			root = (ContainerArea) AreaFactory.createBlockContainer(content);
@@ -64,10 +67,7 @@ public class PDFListLM extends PDFBlockStackingLM implements IBlockStackingLayou
 	}
 
 	protected void repeatHeader() throws BirtException {
-		if (isFirst) {
-			return;
-		}
-		if (!needRepeat || !isRepeatHeader()) {
+		if (isFirst || !needRepeat || !isRepeatHeader()) {
 			return;
 		}
 		IListBandContent band = getHeader();
@@ -91,12 +91,14 @@ public class PDFListLM extends PDFBlockStackingLM implements IBlockStackingLayou
 		needRepeat = false;
 	}
 
+	@Override
 	protected boolean traverseChildren() throws BirtException {
 		repeatHeader();
 		return super.traverseChildren();
 
 	}
 
+	@Override
 	protected IReportItemExecutor createExecutor() {
 		return new ListContainerExecutor(content, executor);
 	}

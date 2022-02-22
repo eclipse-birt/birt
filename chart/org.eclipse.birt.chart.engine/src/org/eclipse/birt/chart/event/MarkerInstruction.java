@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,6 +46,7 @@ public class MarkerInstruction implements IRenderInstruction {
 		this.zOrder = zOrder;
 	}
 
+	@Override
 	public int compareTo(Object o) {
 		if (o instanceof MarkerInstruction) {
 			if (((MarkerInstruction) o).zOrder != zOrder) {
@@ -75,9 +76,10 @@ public class MarkerInstruction implements IRenderInstruction {
 
 	/**
 	 * Returns the associated event.
-	 * 
+	 *
 	 * @return Render Event
 	 */
+	@Override
 	public final PrimitiveRenderEvent getEvent() {
 		return pre;
 	}
@@ -89,13 +91,14 @@ public class MarkerInstruction implements IRenderInstruction {
 	 *         <li>PrimitiveRenderEvent.FILL
 	 *         </ul>
 	 */
+	@Override
 	public final int getInstruction() {
 		return iInstruction;
 	}
 
 	/**
 	 * Returns the size of marker
-	 * 
+	 *
 	 * @return marker size
 	 */
 	public final double getMarkerSize() {
@@ -106,6 +109,7 @@ public class MarkerInstruction implements IRenderInstruction {
 	 * @return Returns the minimum bounds required to contain the rendering area of
 	 *         associated rendering event.
 	 */
+	@Override
 	public final Bounds getBounds() {
 		try {
 			return pre.getBounds();
@@ -115,11 +119,13 @@ public class MarkerInstruction implements IRenderInstruction {
 		return null;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public List getModel() {
 		return Collections.EMPTY_LIST;
 	}
 
+	@Override
 	public boolean isModel() {
 		// Always single event
 		return false;
@@ -127,7 +133,7 @@ public class MarkerInstruction implements IRenderInstruction {
 
 	/**
 	 * Returns the zOrder of marker
-	 * 
+	 *
 	 * @return marker zOrder
 	 */
 	public final int getMarkerZOrder() {

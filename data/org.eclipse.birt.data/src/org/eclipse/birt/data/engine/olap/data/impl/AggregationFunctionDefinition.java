@@ -54,7 +54,7 @@ public class AggregationFunctionDefinition {
 	private static Logger logger = Logger.getLogger(AggregationFunctionDefinition.class.getName());
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param measureName
 	 * @param functionName
@@ -72,7 +72,7 @@ public class AggregationFunctionDefinition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param measureName
 	 * @param paraLevel
@@ -85,7 +85,7 @@ public class AggregationFunctionDefinition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param measureName
 	 * @param paraColNames
@@ -105,7 +105,7 @@ public class AggregationFunctionDefinition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param measurename
 	 * @param functionName
 	 */
@@ -128,7 +128,7 @@ public class AggregationFunctionDefinition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public String getName() {
@@ -136,17 +136,18 @@ public class AggregationFunctionDefinition {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public DimColumn getParaCol() {
-		if (paraLevel == null)
+		if (paraLevel == null) {
 			return null;
+		}
 		return new DimColumn(paraLevel.getDimensionName(), paraLevel.getLevelName(), paraColName);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public IJSFacttableFilterEvalHelper getFilterEvalHelper() {

@@ -11,7 +11,7 @@
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -56,8 +56,9 @@ public final class DriverUtil {
 
 	static DBObject parseExprToDBObject(String jsonExpr) throws OdaException {
 		Object parsedObj = parseJSONExpr(jsonExpr);
-		if (parsedObj instanceof DBObject)
+		if (parsedObj instanceof DBObject) {
 			return (DBObject) parsedObj;
+		}
 		throw new OdaException(Messages.bind(Messages.driverUtil_invalidExpr, parsedObj.getClass().getSimpleName()));
 	}
 

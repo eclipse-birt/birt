@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,13 +29,14 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * 
+ *
  */
 
 public class ColumnGrandTotalPage extends LibraryAttributePage {
 
 	private FormSection grandTotalSection;
 
+	@Override
 	public void buildUI(Composite parent) {
 		super.buildUI(parent);
 		needCheckLibraryReadOnly(true);
@@ -53,6 +54,7 @@ public class ColumnGrandTotalPage extends LibraryAttributePage {
 		layoutSections();
 	}
 
+	@Override
 	protected boolean isLibraryReadOnly() {
 		GroupElementHandle elementHandle = null;
 		if (input instanceof GroupElementHandle) {
@@ -69,20 +71,26 @@ public class ColumnGrandTotalPage extends LibraryAttributePage {
 		return false;
 	}
 
+	@Override
 	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
-		if (checkControl(grandTotalSection))
+		if (checkControl(grandTotalSection)) {
 			grandTotalSection.getFormControl().addElementEvent(focus, ev);
+		}
 	}
 
+	@Override
 	public void clear() {
-		if (checkControl(grandTotalSection))
+		if (checkControl(grandTotalSection)) {
 			grandTotalSection.getFormControl().clear();
+		}
 	}
 
+	@Override
 	public void postElementEvent() {
 
-		if (checkControl(grandTotalSection))
+		if (checkControl(grandTotalSection)) {
 			grandTotalSection.getFormControl().postElementEvent();
+		}
 
 	}
 

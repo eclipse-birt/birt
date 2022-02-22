@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -35,6 +35,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer 
 		this.cached = cached;
 	}
 
+	@Override
 	public void startContent(IContent content, IContentEmitter emitter, boolean visible) throws BirtException {
 		if (!cached) {
 			super.startContent(content, emitter, visible);
@@ -44,6 +45,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer 
 		setup(leafNode, true);
 	}
 
+	@Override
 	public void endContainer(IContent content, boolean finished, IContentEmitter emitter, boolean visible)
 			throws BirtException {
 		if (!cached) {
@@ -81,6 +83,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer 
 		currentNode = currentNode.getParent();
 	}
 
+	@Override
 	protected void pageBreakEvent() {
 		context.getPageHintManager().setPageHint(generator.getPageHint());
 
@@ -93,6 +96,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer 
 		}
 	}
 
+	@Override
 	public void addTableColumnHint(TableColumnHint hint) {
 		columnHints.add(hint);
 
@@ -106,10 +110,12 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer 
 		}
 	}
 
+	@Override
 	public boolean isRepeated() {
 		return isRepeated;
 	}
 
+	@Override
 	public void setRepeated(boolean isRepeated) {
 		this.isRepeated = isRepeated;
 	}
@@ -127,6 +133,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer 
 		}
 	}
 
+	@Override
 	public void flush() throws BirtException {
 		// current node should be page node
 		if (page != null) {

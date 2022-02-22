@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -52,6 +52,7 @@ public class BlockTextArea extends BlockContainerArea implements ILayout {
 		super(area);
 	}
 
+	@Override
 	public void layout() throws BirtException {
 		initialize();
 		removeHyperlinkForBlankText();
@@ -79,17 +80,20 @@ public class BlockTextArea extends BlockContainerArea implements ILayout {
 		}
 	}
 
+	@Override
 	protected BlockTextArea getSplitArea(ArrayList ablatedChildren, int newHeight) {
 		BlockTextArea newArea = (BlockTextArea) super.getSplitArea(ablatedChildren, newHeight);
 		addToExtension(newArea);
 		return newArea;
 	}
 
+	@Override
 	public BlockTextArea cloneArea() {
 		BlockTextArea newArea = new BlockTextArea(this);
 		return newArea;
 	}
 
+	@Override
 	public void close() throws BirtException {
 		super.close();
 		verticalAlign();
@@ -131,19 +135,17 @@ public class BlockTextArea extends BlockContainerArea implements ILayout {
 		if (context.isFixedLayout() && context.getEngineTaskType() == IEngineTask.TASK_RUN) {
 			ArrayList<BlockTextArea> list = (ArrayList<BlockTextArea>) content.getExtension(IContent.LAYOUT_EXTENSION);
 			if (list == null) {
-				list = new ArrayList<BlockTextArea>();
+				list = new ArrayList<>();
 				content.setExtension(IContent.LAYOUT_EXTENSION, list);
 			}
 			if (area.finished) {
 				if (list.isEmpty() || (list.size() > 0 && !list.get(list.size() - 1).finished)) {
 					list.add(area);
 				}
+			} else if (list.size() > 0 && list.get(list.size() - 1).finished) {
+				list.add(list.size() - 1, area);
 			} else {
-				if (list.size() > 0 && list.get(list.size() - 1).finished) {
-					list.add(list.size() - 1, area);
-				} else {
-					list.add(area);
-				}
+				list.add(area);
 			}
 		}
 	}
@@ -154,6 +156,7 @@ public class BlockTextArea extends BlockContainerArea implements ILayout {
 		}
 	}
 
+	@Override
 	protected void update() throws BirtException {
 		if (parent != null) {
 			if (context.isFixedLayout() && getContentHeight() > specifiedHeight && specifiedHeight > 0) {
@@ -191,6 +194,7 @@ public class BlockTextArea extends BlockContainerArea implements ILayout {
 		}
 	}
 
+	@Override
 	public String getHelpText() {
 		return helpText;
 	}

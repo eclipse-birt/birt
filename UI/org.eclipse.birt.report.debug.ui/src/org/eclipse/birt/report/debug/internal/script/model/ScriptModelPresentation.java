@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,11 +45,12 @@ public class ScriptModelPresentation extends LabelProvider implements IDebugMode
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.IDebugModelPresentation#computeDetail(org.eclipse.debug.
 	 * core.model.IValue, org.eclipse.debug.ui.IValueDetailListener)
 	 */
+	@Override
 	public void computeDetail(IValue value, IValueDetailListener listener) {
 		// show the string when mouse hover at the value in the watch view.
 		String detail = ""; //$NON-NLS-1$
@@ -62,21 +63,23 @@ public class ScriptModelPresentation extends LabelProvider implements IDebugMode
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.IDebugModelPresentation#setAttribute(java.lang.String,
 	 * java.lang.Object)
 	 */
+	@Override
 	public void setAttribute(String attribute, Object value) {
 		// do nothing
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.ui.ISourcePresentation#getEditorId(org.eclipse.ui.
 	 * IEditorInput, java.lang.Object)
 	 */
+	@Override
 	public String getEditorId(IEditorInput input, Object element) {
 		if (element instanceof ScriptLocalFileStorage || element instanceof ILineBreakpoint) {
 			return EDITOR_ID;
@@ -86,10 +89,11 @@ public class ScriptModelPresentation extends LabelProvider implements IDebugMode
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.debug.ui.ISourcePresentation#getEditorInput(java.lang.Object)
 	 */
+	@Override
 	public IEditorInput getEditorInput(Object element) {
 		if (element instanceof ScriptLocalFileStorage) {
 			ScriptLocalFileStorage storage = (ScriptLocalFileStorage) element;
@@ -104,9 +108,10 @@ public class ScriptModelPresentation extends LabelProvider implements IDebugMode
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
 	 */
+	@Override
 	public String getText(Object element) {
 		try {
 			if (element instanceof ScriptDebugElement) {
@@ -130,13 +135,13 @@ public class ScriptModelPresentation extends LabelProvider implements IDebugMode
 
 	/**
 	 * Gets the expression display name
-	 * 
+	 *
 	 * @param expression
 	 * @return
 	 * @throws DebugException
 	 */
 	private String getExpressionText(IExpression expression) throws DebugException {
-		StringBuffer buff = new StringBuffer();
+		StringBuilder buff = new StringBuilder();
 		IValue javaValue = expression.getValue();
 
 		buff.append('"' + expression.getExpressionText() + '"');
@@ -164,7 +169,7 @@ public class ScriptModelPresentation extends LabelProvider implements IDebugMode
 
 		// boolean isObject = true;
 		// boolean isArray = value instanceof IJavaArray;
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		// Always show type name for objects & arrays (but not Strings)
 		if (!isString && (refTypeName.length() > 0)) {
 			String qualTypeName = refTypeName;
@@ -189,7 +194,7 @@ public class ScriptModelPresentation extends LabelProvider implements IDebugMode
 
 	/**
 	 * Gets the variable Text
-	 * 
+	 *
 	 * @param var
 	 * @return
 	 */

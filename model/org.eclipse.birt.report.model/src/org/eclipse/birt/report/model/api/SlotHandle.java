@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 /**
  * Represents a "slot" within an element. A slot holds a collection of report
  * items.
- * 
+ *
  */
 
 public class SlotHandle extends ElementDetailHandle {
@@ -49,7 +49,7 @@ public class SlotHandle extends ElementDetailHandle {
 	 * directly. Instead, it calls the <code>getSlot( )</code> method on an element
 	 * handle, or one of the specific methods on the handle for an element that is a
 	 * container.
-	 * 
+	 *
 	 * @param element handle to the report element
 	 * @param slotID  the numeric identifier of the slot
 	 */
@@ -62,22 +62,23 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Adds a report item to the slot with the given element handle. The report item
 	 * must not be newly created and not yet added to the design.
-	 * 
+	 *
 	 * @param content handle to the newly created element
 	 * @throws ContentException if the element is not allowed in the slot
 	 * @throws NameException    if the element has a duplicate or illegal name
 	 */
 
 	public void add(DesignElementHandle content) throws ContentException, NameException {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 		add(content.getElement());
 	}
 
 	/**
 	 * Adds a report item to the slot at the given position. The item must not be
 	 * newly created and not yet added to the design.
-	 * 
+	 *
 	 * @param content handle to the newly created element
 	 * @param newPos  the position index at which the content to be inserted
 	 * @throws ContentException if the element is not allowed in the slot
@@ -85,25 +86,28 @@ public class SlotHandle extends ElementDetailHandle {
 	 */
 
 	public void add(DesignElementHandle content, int newPos) throws ContentException, NameException {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 		add(content.getElement(), newPos);
 	}
 
 	/**
 	 * Adds a report item to the slot. The item must not be newly created and not
 	 * yet added to the design.
-	 * 
+	 *
 	 * @param content the newly created element
 	 * @throws ContentException if the element is not allowed in the slot
 	 * @throws NameException    if the element has a duplicate or illegal name
-	 * 
+	 *
 	 * @deprecated by the method {@link #add(DesignElementHandle)}
 	 */
 
+	@Deprecated
 	public void add(DesignElement content) throws ContentException, NameException {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), slotID));
 		cmd.add(content);
 	}
@@ -111,18 +115,20 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Adds a report item to the slot. The item must not be newly created and not
 	 * yet added to the design.
-	 * 
+	 *
 	 * @param content the newly created element
 	 * @param newPos  the position index at which the content to be inserted.
 	 * @throws ContentException if the element is not allowed in the slot
 	 * @throws NameException    if the element has a duplicate or illegal name
-	 * 
+	 *
 	 * @deprecated by the method {@link #add(DesignElementHandle, int)}
 	 */
 
+	@Deprecated
 	public void add(DesignElement content, int newPos) throws ContentException, NameException {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), slotID));
 		cmd.add(content, newPos);
 	}
@@ -130,7 +136,7 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Pastes a report item to the slot. The item must be newly created and not yet
 	 * added to the design.
-	 * 
+	 *
 	 * @param content the newly created element handle
 	 * @return a list containing all errors for the pasted element
 	 * @throws ContentException if the element is not allowed in the slot
@@ -138,8 +144,9 @@ public class SlotHandle extends ElementDetailHandle {
 	 */
 
 	public List paste(DesignElementHandle content) throws ContentException, NameException {
-		if (content == null)
+		if (content == null) {
 			return Collections.EMPTY_LIST;
+		}
 		add(content);
 
 		return getElementHandle().checkPostPasteErrors(content.getElement());
@@ -148,7 +155,7 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Pastes a report item to the slot. The item must be newly created and not yet
 	 * added to the design.
-	 * 
+	 *
 	 * @param content the newly created element
 	 * @return a list containing all errors for the pasted element
 	 * @throws ContentException if the element is not allowed in the slot
@@ -156,8 +163,9 @@ public class SlotHandle extends ElementDetailHandle {
 	 */
 
 	public List paste(IDesignElement content) throws ContentException, NameException {
-		if (content == null)
+		if (content == null) {
 			return Collections.EMPTY_LIST;
+		}
 		add(content.getHandle(getModule()));
 
 		return getElementHandle().checkPostPasteErrors((DesignElement) content);
@@ -166,7 +174,7 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Pastes a report item to the slot. The item must be newly created and not yet
 	 * added to the design.
-	 * 
+	 *
 	 * @param content the newly created element handle
 	 * @param newPos  the position index at which the content to be inserted.
 	 * @return a list containing all errors for the pasted element
@@ -175,8 +183,9 @@ public class SlotHandle extends ElementDetailHandle {
 	 */
 
 	public List paste(DesignElementHandle content, int newPos) throws ContentException, NameException {
-		if (content == null)
+		if (content == null) {
 			return Collections.EMPTY_LIST;
+		}
 		add(content, newPos);
 
 		return Collections.EMPTY_LIST;
@@ -186,7 +195,7 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Pastes a report item to the slot. The item must be newly created and not yet
 	 * added to the design.
-	 * 
+	 *
 	 * @param content the newly created element
 	 * @param newPos  the position index at which the content to be inserted.
 	 * @return a list containing all errors for the pasted element
@@ -195,8 +204,9 @@ public class SlotHandle extends ElementDetailHandle {
 	 */
 
 	public List paste(IDesignElement content, int newPos) throws ContentException, NameException {
-		if (content == null)
+		if (content == null) {
 			return Collections.EMPTY_LIST;
+		}
 		add(content.getHandle(getModule()), newPos);
 
 		return getElementHandle().checkPostPasteErrors((DesignElement) content);
@@ -205,7 +215,7 @@ public class SlotHandle extends ElementDetailHandle {
 
 	/**
 	 * Gets an iterator over the items in the slot.
-	 * 
+	 *
 	 * @return an iterator over the items in the slot. The iterator is of type
 	 *         {@link SlotIterator}and each item returned by the iterator's
 	 *         <code>getNext( )</code> method is of type
@@ -219,7 +229,7 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Returns the a list with slot contents.Items are handles to the contents and
 	 * in order by position.
-	 * 
+	 *
 	 * @return a list with slot contents, items of the list are handles to the
 	 *         contents.
 	 */
@@ -227,10 +237,11 @@ public class SlotHandle extends ElementDetailHandle {
 	public List<DesignElementHandle> getContents() {
 		List<DesignElement> contents = getElement().getSlot(slotID).getContents();
 
-		if (contents == null)
+		if (contents == null) {
 			return Collections.emptyList();
+		}
 
-		ArrayList<DesignElementHandle> retList = new ArrayList<DesignElementHandle>();
+		ArrayList<DesignElementHandle> retList = new ArrayList<>();
 		for (Iterator<DesignElement> iter = contents.iterator(); iter.hasNext();) {
 			retList.add(((DesignElement) iter.next()).getHandle(getModule()));
 		}
@@ -239,7 +250,7 @@ public class SlotHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns the number of elements in the slot.
-	 * 
+	 *
 	 * @return the count of contents in the slot
 	 */
 
@@ -249,23 +260,25 @@ public class SlotHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns a handle to the content element at the given position.
-	 * 
+	 *
 	 * @param posn the position within the slot
 	 * @return a handle to the content element
 	 */
 
 	public DesignElementHandle get(int posn) {
-		if (posn < 0 || posn >= getCount())
+		if (posn < 0 || posn >= getCount()) {
 			return null;
+		}
 		DesignElement content = getElement().getSlot(slotID).getContent(posn);
-		if (content == null)
+		if (content == null) {
 			return null;
+		}
 		return content.getHandle(getModule());
 	}
 
 	/**
 	 * Moves the position of a content element within the slot.
-	 * 
+	 *
 	 * @param content handle to the content to move
 	 * @param toPosn  the new position
 	 * @throws ContentException if the content is not in the slot, or if the to
@@ -273,15 +286,16 @@ public class SlotHandle extends ElementDetailHandle {
 	 */
 
 	public void shift(DesignElementHandle content, int toPosn) throws ContentException {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), slotID));
 		cmd.movePosition(content.getElement(), toPosn);
 	}
 
 	/**
 	 * Moves a content element into a slot in another container element.
-	 * 
+	 *
 	 * @param content      a handle to the element to move
 	 * @param newContainer a handle to the new container element
 	 * @param toSlot       the target slot ID where the element will be moved to.
@@ -292,8 +306,9 @@ public class SlotHandle extends ElementDetailHandle {
 
 	public void move(DesignElementHandle content, DesignElementHandle newContainer, int toSlot)
 			throws ContentException {
-		if (content == null || newContainer == null)
+		if (content == null || newContainer == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), slotID));
 		cmd.move(content.getElement(), new ContainerContext(newContainer.getElement(), toSlot));
 	}
@@ -301,7 +316,7 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Moves a content element into a slot in another container element at the
 	 * specified position.
-	 * 
+	 *
 	 * @param content      a handle to the element to move
 	 * @param newContainer a handle to the new container element
 	 * @param toSlot       the target slot ID where the element will be moved to.
@@ -315,8 +330,9 @@ public class SlotHandle extends ElementDetailHandle {
 
 	public void move(DesignElementHandle content, DesignElementHandle newContainer, int toSlot, int newPos)
 			throws ContentException {
-		if (content == null || newContainer == null)
+		if (content == null || newContainer == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), slotID));
 		cmd.move(content.getElement(), new ContainerContext(newContainer.getElement(), toSlot), newPos);
 	}
@@ -324,14 +340,15 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Drops a content element from the slot, and clear any reference property which
 	 * refers the element to drop.
-	 * 
+	 *
 	 * @param content a handle to the content to drop
 	 * @throws SemanticException if the content is not within the slot
 	 */
 
 	public void dropAndClear(DesignElementHandle content) throws SemanticException {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), slotID));
 		cmd.remove(content.getElement());
 	}
@@ -339,14 +356,15 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Drops a content element from the slot, and unresolve any reference property
 	 * which refers the element to drop.
-	 * 
+	 *
 	 * @param content a handle to the content to drop
 	 * @throws SemanticException if the content is not within the slot
 	 */
 
 	public void drop(DesignElementHandle content) throws SemanticException {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), slotID), false, true);
 		cmd.remove(content.getElement());
 	}
@@ -354,7 +372,7 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Drops a content element at the given position from the slot, and clear any
 	 * reference property which refers the element to drop.
-	 * 
+	 *
 	 * @param posn the position of the content to drop
 	 * @throws SemanticException if the position is out of range
 	 */
@@ -368,7 +386,7 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Drops a content element at the given position from the slot, and unresolve
 	 * any reference property which refers the element to drop.
-	 * 
+	 *
 	 * @param posn the position of the content to drop
 	 * @throws SemanticException if the position is out of range
 	 */
@@ -382,7 +400,7 @@ public class SlotHandle extends ElementDetailHandle {
 	/**
 	 * Returns the internal representation of the slot. Use this object only for
 	 * reading: make all changes through this handle.
-	 * 
+	 *
 	 * @return the internal representation of the slot
 	 */
 
@@ -392,7 +410,7 @@ public class SlotHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns the position of the given content in this slot.
-	 * 
+	 *
 	 * @param content the content to look up
 	 * @return Zero-based index of the element. Returns -1 if the content is not
 	 *         found
@@ -404,7 +422,7 @@ public class SlotHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns the numeric identifier of the slot.
-	 * 
+	 *
 	 * @return The numeric identifier of the slot.
 	 */
 
@@ -416,11 +434,11 @@ public class SlotHandle extends ElementDetailHandle {
 	 * Determines if the slot can contain an element with the type of
 	 * <code>type</code>. Even return value is <code>true</code>, doesn't mean the
 	 * element can be added/moved without exceptions.
-	 * 
+	 *
 	 * @param type the name of the element type, like "Table", "List", etc.
 	 * @return <code>true</code> if the slot can contain the an element with
 	 *         <code>type</code> type, otherwise <code>false</code>.
-	 * 
+	 *
 	 */
 
 	public boolean canContain(String type) {
@@ -431,9 +449,9 @@ public class SlotHandle extends ElementDetailHandle {
 	 * Determines if the given slot can contain the <code>content</code>. Even
 	 * return value is <code>true</code>, doesn't mean the element can be
 	 * added/moved without exceptions.
-	 * 
+	 *
 	 * @param content the design element handle to check
-	 * 
+	 *
 	 * @return <code>true</code> if the slot with the given <code>slotId</code> can
 	 *         contain the <code>content</code>, otherwise <code>false</code>.
 	 */
@@ -444,7 +462,7 @@ public class SlotHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns the definition of the current slot.
-	 * 
+	 *
 	 * @return the definition of the slot
 	 */
 

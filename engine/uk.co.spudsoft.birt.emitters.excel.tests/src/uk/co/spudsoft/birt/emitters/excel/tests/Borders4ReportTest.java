@@ -1,14 +1,14 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
- * 
+ *
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -39,7 +39,8 @@ public class Borders4ReportTest extends ReportRunner {
 	 * for the chosen cell. I don't know how to tell which takes precedence, but the
 	 * following works for the tests I've carried out.
 	 */
-	public static void assertBorder(Sheet sheet, int row, int col, BorderStyle bottom, BorderStyle left, BorderStyle right, BorderStyle top) {
+	public static void assertBorder(Sheet sheet, int row, int col, BorderStyle bottom, BorderStyle left,
+			BorderStyle right, BorderStyle top) {
 
 		Row curRow = sheet.getRow(row);
 		Row prevRow = (row > 0) ? sheet.getRow(row - 1) : null;
@@ -90,10 +91,12 @@ public class Borders4ReportTest extends ReportRunner {
 			Sheet sheet = workbook.getSheetAt(1);
 			assertEquals(2, firstNullRow(sheet));
 
-			assertBorder(sheet, 0, 0, BorderStyle.NONE /* CellStyle.BORDER_NONE */, BorderStyle.NONE /* CellStyle.BORDER_NONE */, BorderStyle.NONE /* CellStyle.BORDER_NONE */,
+			assertBorder(sheet, 0, 0, BorderStyle.NONE /* CellStyle.BORDER_NONE */,
+					BorderStyle.NONE /* CellStyle.BORDER_NONE */, BorderStyle.NONE /* CellStyle.BORDER_NONE */,
 					BorderStyle.NONE /* CellStyle.BORDER_NONE */);
 
-			assertBorder(sheet, 0, 1, BorderStyle.NONE /* CellStyle.BORDER_NONE */, BorderStyle.NONE /* CellStyle.BORDER_NONE */, BorderStyle.NONE /* CellStyle.BORDER_NONE */,
+			assertBorder(sheet, 0, 1, BorderStyle.NONE /* CellStyle.BORDER_NONE */,
+					BorderStyle.NONE /* CellStyle.BORDER_NONE */, BorderStyle.NONE /* CellStyle.BORDER_NONE */,
 					BorderStyle.NONE /* CellStyle.BORDER_NONE */);
 
 		} finally {

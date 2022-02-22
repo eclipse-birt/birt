@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,11 +41,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * 
+ *
  */
 
 public class AddComputedMeasureAction extends AbstractCrosstabAction {
-	private static final double DEFAULT_COLUMN_WIDTH = 1.0;
 	private MeasureViewHandle measureViewHandle;
 	private CrosstabReportItemHandle reportHandle;
 	/** action ID */
@@ -82,6 +81,7 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction {
 		setImageDescriptor(ImageDescriptor.createFromImage(image));
 	}
 
+	@Override
 	public boolean isEnabled() {
 		CubeHandle cubeHandle = reportHandle.getCube();
 		if (cubeHandle == null) {
@@ -92,9 +92,10 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
+	@Override
 	public void run() {
 		transStar(NAME);
 

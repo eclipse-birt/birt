@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 CGI Federal.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  CGI Federal - initial API and implementation
@@ -40,6 +40,7 @@ public class PrefixedIterable implements Iterable<String> {
 		this.strings = checkNotNull(strings);
 	}
 
+	@Override
 	public Iterator<String> iterator() {
 		return new PrefixedIterator(this.strings.iterator(), this.prefix);
 	}
@@ -62,10 +63,12 @@ public class PrefixedIterable implements Iterable<String> {
 			this.next = advance();
 		}
 
+		@Override
 		public boolean hasNext() {
 			return (this.next != null) && this.next.startsWith(this.prefix);
 		}
 
+		@Override
 		public String next() {
 			if (hasNext()) {
 				String current = this.next;
@@ -80,6 +83,7 @@ public class PrefixedIterable implements Iterable<String> {
 			return ((peek != null) && peek.startsWith(this.prefix)) ? peek : null;
 		}
 
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}

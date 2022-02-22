@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -73,7 +73,7 @@ public class DesignerConstants {
 		familyMap.put(DesignChoiceConstants.FONT_FAMILY_CURSIVE, FONT_FAMILY_COMIC_SANS_MS);
 		familyMap.put(DesignChoiceConstants.FONT_FAMILY_FANTASY, FONT_FAMILY_IMPACT);
 		familyMap.put(DesignChoiceConstants.FONT_FAMILY_MONOSPACE, FONT_FAMILY_COURIER_NEW);
-	};
+	}
 
 	/**
 	 * Static table stores the font sizes. It provides the font name and the size of
@@ -115,7 +115,7 @@ public class DesignerConstants {
 
 	/**
 	 * Returns the debug option with the given id
-	 * 
+	 *
 	 * @param id the id of the debug option
 	 * @return the debug option,or false if the id doesn't exist.
 	 */

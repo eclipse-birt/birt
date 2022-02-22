@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 
 /**
  * @author Administrator
- * 
+ *
  */
 public class LayoutMeasuresProvider extends AbstractDescriptorProvider {
 
@@ -38,20 +38,22 @@ public class LayoutMeasuresProvider extends AbstractDescriptorProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IDescriptorProvider#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("LayoutMeasuresProvider.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IDescriptorProvider#load()
 	 */
+	@Override
 	public Object load() {
 		String vertical = ICrosstabConstants.MEASURE_DIRECTION_VERTICAL;
 		if (input == null) {
@@ -68,10 +70,11 @@ public class LayoutMeasuresProvider extends AbstractDescriptorProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IDescriptorProvider#save(java.lang.Object)
 	 */
+	@Override
 	public void save(Object value) throws SemanticException {
 		String stringValue = (String) value;
 		if (input == null) {
@@ -91,10 +94,11 @@ public class LayoutMeasuresProvider extends AbstractDescriptorProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * IDescriptorProvider#setInput(java.lang.Object)
 	 */
+	@Override
 	public void setInput(Object input) {
 		// TODO Auto-generated method stub
 		this.input = input;
@@ -103,12 +107,8 @@ public class LayoutMeasuresProvider extends AbstractDescriptorProvider {
 
 	protected void initializeCrosstab() {
 		crosstabHandle = null;
-		if ((input == null)) {
-			return;
-		}
-
-		if ((!(input instanceof List && ((List) input).size() > 0
-				&& ((List) input).get(0) instanceof ExtendedItemHandle)) && (!(input instanceof ExtendedItemHandle))) {
+		if ((input == null) || ((!(input instanceof List && ((List) input).size() > 0
+				&& ((List) input).get(0) instanceof ExtendedItemHandle)) && (!(input instanceof ExtendedItemHandle)))) {
 			return;
 		}
 
@@ -122,7 +122,6 @@ public class LayoutMeasuresProvider extends AbstractDescriptorProvider {
 
 		try {
 			crosstabHandle = (CrosstabReportItemHandle) handle.getReportItem();
-			return;
 		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
 			logger.log(Level.SEVERE, e.getMessage(), e);

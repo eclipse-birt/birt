@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -85,7 +85,7 @@ import org.eclipse.birt.data.engine.olap.util.filter.JSFacttableFilterEvalHelper
 import org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper;
 
 /**
- * 
+ *
  */
 
 public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
@@ -118,7 +118,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	private Map appContext;
 
 	/**
-	 * 
+	 *
 	 * @param cube
 	 */
 	public CubeQueryExecutorHelper(ICube cube) throws DataException {
@@ -126,7 +126,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cube
 	 */
 	public CubeQueryExecutorHelper(ICube cube, IComputedMeasureHelper computedMeasureHelper,
@@ -156,7 +156,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 
 	/**
 	 * TODO: get the members according to the specified level.
-	 * 
+	 *
 	 * @param level
 	 * @return
 	 */
@@ -165,7 +165,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cube
 	 * @throws BirtException
 	 * @throws IOException
@@ -179,6 +179,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 		cube.load(session.getStopSign());
 		session.getEngine().addShutdownListener(new IShutdownListener() {
 
+			@Override
 			public void dataEngineShutdown() {
 				try {
 					cube.close();
@@ -207,7 +208,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cube
 	 * @throws BirtException
 	 * @throws IOException
@@ -223,7 +224,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param resultSets
 	 * @param writer
@@ -235,7 +236,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param resultSets
 	 * @throws IOException
@@ -249,7 +250,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param reader
 	 * @return
@@ -261,7 +262,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param pathName
 	 * @param name
 	 * @return
@@ -276,7 +277,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param pathName
 	 * @param name
 	 * @return
@@ -286,7 +287,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sort
 	 */
 	public void addRowSort(ITargetSort sort) {
@@ -294,7 +295,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return sortDefinition list on row edge
 	 */
 	public List getRowSort() {
@@ -302,7 +303,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return sortDefinition list on column edge
 	 */
 	public List getColumnSort() {
@@ -310,7 +311,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sort
 	 */
 	public void addColumnSort(ITargetSort sort) {
@@ -318,7 +319,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public List getPageSort() {
@@ -326,7 +327,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sort
 	 */
 	public void addPageSort(ITargetSort sort) {
@@ -335,22 +336,24 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.api.ICubeQueryExcutorHelper#addFilter(java.
 	 * lang.String, org.eclipse.birt.data.olap.data.api.ISelection[])
 	 */
+	@Override
 	public void addFilter(LevelFilter levelFilter) {
 		levelFilters.add(levelFilter);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.api.ICubeQueryExcutorHelper#
 	 * addSimpleLevelFilter(org.eclipse.birt.data.engine.olap.data.impl.aggregation.
 	 * filter.SimpleLevelFilter)
 	 */
+	@Override
 	public void addSimpleLevelFilter(SimpleLevelFilter simpleLevelFilter) {
 		simpleLevelFilters.add(simpleLevelFilter);
 	}
@@ -361,9 +364,10 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.ICubeQueryExcutorHelper#clear()
 	 */
+	@Override
 	public void clear() {
 		levelFilters.clear();
 		aggrFilterHelpers.clear();
@@ -375,9 +379,10 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.ICubeQueryExcutorHelper#close()
 	 */
+	@Override
 	public void close() {
 		levelFilters = null;
 		aggrFilterHelpers = null;
@@ -389,11 +394,12 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.api.ICubeQueryExcutorHelper#excute(org.
 	 * eclipse.birt.data.olap.data.impl.AggregationDefinition[],
 	 * org.eclipse.birt.data.olap.data.impl.StopSign)
 	 */
+	@Override
 	public IAggregationResultSet[] execute(AggregationDefinition[] aggregations, StopSign stopSign)
 			throws IOException, BirtException {
 		if (!isDimensionTableQuery(aggregations)) {
@@ -406,18 +412,18 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggregations
 	 * @return
 	 */
 	private boolean isDimensionTableQuery(AggregationDefinition[] aggregations) {
-		if (aggregations.length > 1)
+		if ((aggregations.length > 1) || (aggregations[0].getAggregationFunctions() != null)) {
 			return false;
-		if (aggregations[0].getAggregationFunctions() != null)
-			return false;
+		}
 		DimLevel[] levels = aggregations[0].getLevels();
-		if (levels == null || levels.length == 0)
+		if (levels == null || levels.length == 0) {
 			return false;
+		}
 		for (int i = 0; i < levels.length; i++) {
 			for (int j = 0; j < levels.length; j++) {
 				if (!levels[i].getDimensionName().equals(levels[j].getDimensionName())) {
@@ -426,27 +432,31 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 			}
 		}
 
-		if (measureFilters.size() > 0)
+		if (measureFilters.size() > 0) {
 			return false;
+		}
 
-		if (aggrFilterHelpers.size() > 0)
+		if (aggrFilterHelpers.size() > 0) {
 			return false;
+		}
 
 		if (dimJSFilterMap.size() > 1
-				|| (dimJSFilterMap.size() == 1 && dimJSFilterMap.get(levels[0].getDimensionName()) == null))
+				|| (dimJSFilterMap.size() == 1 && dimJSFilterMap.get(levels[0].getDimensionName()) == null)) {
 			return false;
+		}
 
 		for (int i = 0; i < simpleLevelFilters.size(); i++) {
 			if (!levels[0].getDimensionName()
-					.equals(((SimpleLevelFilter) simpleLevelFilters.get(i)).getDimensionName()))
+					.equals(((SimpleLevelFilter) simpleLevelFilters.get(i)).getDimensionName())) {
 				return false;
+			}
 		}
 
 		return true;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggregations
 	 * @param stopSign
 	 * @return
@@ -551,8 +561,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 		for (int i = 0; i < keyLevels.length; i++) {
 			keyLevelIndexes[i] = -1;
 			for (int j = 0; j < allLevels.length; j++) {
-				if (keyLevels[i].equals(allLevels[j]))
+				if (keyLevels[i].equals(allLevels[j])) {
 					keyLevelIndexes[i] = j;
+				}
 			}
 			if (keyLevelIndexes[i] == -1) {
 				throw new DataException(DataResourceHandle.getInstance().getMessage(ResourceConstants.NONEXISTENT_LEVEL)
@@ -572,8 +583,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 
 			for (int j = 0; j < result.length; j++) {
 				IAggregationResultSet rs = result[j];
-				if (rs == null)
+				if (rs == null) {
 					continue;
+				}
 				IDiskArray subRows = ((AggregationResultSet) rs).getAggregationResultRows();
 				boolean find = false;
 				for (int k = 0; k < subRows.size(); k++) {
@@ -584,15 +596,16 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 						break;
 					}
 				}
-				if (!find)
+				if (!find) {
 					row.getAggregationValues()[j] = null;
+				}
 			}
 
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggregations
 	 * @param stopSign
 	 * @return
@@ -677,8 +690,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 		Member[] members = null;
 
 		boolean isAscending = true;
-		if (sortType[0] == IDimensionSortDefn.SORT_DESC)
+		if (sortType[0] == IDimensionSortDefn.SORT_DESC) {
 			isAscending = false;
+		}
 		DiskSortedStack sortedRow = new DiskSortedStack(filtedRow.size(), isAscending, true,
 				AggregationResultRow.getCreator());
 		for (int i = 0; i < filtedRow.size(); i++) {
@@ -729,7 +743,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sorts
 	 */
 	private void closeSortHelpers(List sorts) {
@@ -806,7 +820,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	/**
 	 * This method is responsible for computing the aggregation result according to
 	 * the specified aggregation definitions.
-	 * 
+	 *
 	 * @param aggregations
 	 * @param stopSign
 	 * @return
@@ -827,8 +841,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 		long memoryCacheSize = this.memoryCacheSize;
 		if (this.appContext != null) {
 			boolean use11SP3CubeQuery = CacheUtil.enableSP3CubeQueryChange(this.appContext);
-			if (use11SP3CubeQuery)
+			if (use11SP3CubeQuery) {
 				memoryCacheSize = -(memoryCacheSize);
+			}
 		}
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor(new CubeDimensionReader(cube),
 				dataSet4Aggregation, aggregations, memoryCacheSize);
@@ -839,7 +854,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param stopSign
 	 * @param validDimensionName
 	 * @param validDimPosition
@@ -882,7 +897,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resultLevels
 	 * @param position
 	 * @param stopSign
@@ -903,7 +918,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensionName
 	 * @return
 	 */
@@ -918,7 +933,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 * @throws IOException
@@ -936,7 +951,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggrFilterHelper
 	 */
 	public void addAggrMeasureFilter(List<IAggrMeasureFilterEvalHelper> aggrFilterHelper) {
@@ -945,13 +960,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.api.ICubeQueryExcutorHelper#
 	 * addJSFilter(org.eclipse.birt.data.engine.olap.util.filter.
 	 * DimensionFilterEvalHelper)
 	 */
+	@Override
 	public void addJSFilter(IJSFilterHelper filterEvalHelper) {
-		if (filterEvalHelper.isAggregationFilter() == false) {// Dimension filter
+		if (!filterEvalHelper.isAggregationFilter()) {// Dimension filter
 			String dimesionName = filterEvalHelper.getDimensionName();
 			List filterList = getDimensionJSFilterList(dimesionName);
 			filterList.add(filterEvalHelper);
@@ -962,10 +978,11 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.api.ICubeQueryExcutorHelper#
 	 * addJSFilter(java.util.List)
 	 */
+	@Override
 	public void addJSFilter(List filterEvalHelperList) {
 		for (int i = 0; i < filterEvalHelperList.size(); i++) {
 			addJSFilter((IJSFilterHelper) filterEvalHelperList.get(i));
@@ -974,11 +991,12 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.api.ICubeQueryExcutorHelper#
 	 * addMeasureFilter(org.eclipse.birt.data.engine.olap.util.filter.
 	 * IJSMeasureFilterEvalHelper)
 	 */
+	@Override
 	public void addMeasureFilter(List<IJSFacttableFilterEvalHelper> measureFilter) {
 		measureFilters.addAll(measureFilter);
 	}
@@ -991,7 +1009,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	private void validateComputedMeasureNames() throws DataException {

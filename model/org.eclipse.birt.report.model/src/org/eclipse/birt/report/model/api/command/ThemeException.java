@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Indicates an error while setting the style of an element.
- * 
+ *
  */
 
 public class ThemeException extends SemanticException {
@@ -52,7 +52,7 @@ public class ThemeException extends SemanticException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param obj     the element being changed.
 	 * @param str     the name of the style.
 	 * @param errCode the error code.
@@ -65,7 +65,7 @@ public class ThemeException extends SemanticException {
 
 	/**
 	 * Returns the name of the style being set.
-	 * 
+	 *
 	 * @return the style name.
 	 */
 
@@ -75,9 +75,10 @@ public class ThemeException extends SemanticException {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
+	@Override
 	public String getLocalizedMessage() {
 		if (sResourceKey == DESIGN_EXCEPTION_NOT_FOUND || sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE) {
 			return ModelMessages.getMessage(sResourceKey, new String[] { themeName, getElementName(element) });

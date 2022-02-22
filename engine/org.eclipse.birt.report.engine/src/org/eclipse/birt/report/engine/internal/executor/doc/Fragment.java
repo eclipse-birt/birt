@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,6 +38,7 @@ public class Fragment {
 			this.right = right;
 		}
 
+		@Override
 		public String toString() {
 			StringBuilder sb = new StringBuilder("[");
 			sb.append(left[0]);
@@ -56,7 +57,7 @@ public class Fragment {
 		}
 	}
 
-	private ArrayList<Section> sections = new ArrayList<Section>();
+	private ArrayList<Section> sections = new ArrayList<>();
 
 	// private int latestEdgeIndex = -1;
 
@@ -79,7 +80,7 @@ public class Fragment {
 
 	/**
 	 * get the fragment which start from offset.
-	 * 
+	 *
 	 * @param offset
 	 * @return
 	 */
@@ -96,7 +97,7 @@ public class Fragment {
 
 	/**
 	 * get next fragment start from offset.
-	 * 
+	 *
 	 * @param offset
 	 * @return
 	 */
@@ -125,6 +126,7 @@ public class Fragment {
 	 * @deprecated backward for 2.1.0 document. This method can only insert a
 	 *             fragment of given offset as a child of current fragment.
 	 */
+	@Deprecated
 	public void insertFragment(Object offset) {
 		this.segment.insertSection(offset, offset);
 		Fragment frag = addChildFragment(offset);
@@ -135,6 +137,7 @@ public class Fragment {
 	 * @deprecated
 	 * @param offset
 	 */
+	@Deprecated
 	private Fragment addChildFragment(Object offset) {
 		Fragment prev = null;
 		Fragment frag = this.child;
@@ -171,7 +174,7 @@ public class Fragment {
 
 	/**
 	 * add fragment defind by the left/right edges.
-	 * 
+	 *
 	 * @param leftEdges
 	 * @param rightEdges
 	 */
@@ -207,7 +210,7 @@ public class Fragment {
 		if (sections.size() == 0) {
 			return 0;
 		}
-		int result = 0;
+		int result;
 		int low = 0;
 		int high = sections.size() - 1;
 
@@ -240,7 +243,7 @@ public class Fragment {
 
 	/**
 	 * checks if we can add the edge at given index.
-	 * 
+	 *
 	 * @param left  the left edge which is going to be inserted.
 	 * @param right the right edge which is going to be inserted.
 	 * @return 0 the edge is inserted successfully. >0 go forward to insert the
@@ -252,13 +255,11 @@ public class Fragment {
 		if (sections.size() > 0) {
 			Section sect = sections.get(index);
 			return cascadingComparator.compare(left, sect.left);
+		} else // empty list
+		if (index == 0) {
+			return 0;
 		} else {
-			// empty list
-			if (index == 0) {
-				return 0;
-			} else {
-				throw new RuntimeException("invalid insert position");
-			}
+			throw new RuntimeException("invalid insert position");
 		}
 	}
 
@@ -268,13 +269,10 @@ public class Fragment {
 			if (cascadingComparator.compare(left, prev.right) > 0) {
 				sections.add(index, new Section(left, right));
 				merge(index);
+			} else if (cascadingComparator.compare(right, prev.right) <= 0) {
 			} else {
-				if (cascadingComparator.compare(right, prev.right) <= 0) {
-					return;
-				} else {
-					prev.right = right;
-					merge(index - 1);
-				}
+				prev.right = right;
+				merge(index - 1);
 			}
 		} else {
 			// index == 0
@@ -303,7 +301,7 @@ public class Fragment {
 	 * search in the edge list to find a position to update the node. If there is no
 	 * proper edge node exits, it will create a edge node and insert it into the
 	 * list.
-	 * 
+	 *
 	 * @param parent the inserted or founded edge node.
 	 * @param node   node to be insert.
 	 * @return edge node which contains the node.
@@ -337,7 +335,7 @@ public class Fragment {
 
 	/**
 	 * Is the offset in the fragment.
-	 * 
+	 *
 	 * @param offset the child offset.
 	 * @return
 	 */

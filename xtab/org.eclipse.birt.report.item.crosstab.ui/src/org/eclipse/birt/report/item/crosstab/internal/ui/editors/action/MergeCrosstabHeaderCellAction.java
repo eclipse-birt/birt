@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 
 /**
- * 
+ *
  */
 
 public class MergeCrosstabHeaderCellAction extends AbstractCrosstabAction {
@@ -56,10 +56,7 @@ public class MergeCrosstabHeaderCellAction extends AbstractCrosstabAction {
 
 	@Override
 	public boolean isEnabled() {
-		if (cellHandle == null) {
-			return false;
-		}
-		if (DEUtil.isReferenceElement(cellHandle.getCrosstab().getModelHandle())) {
+		if ((cellHandle == null) || DEUtil.isReferenceElement(cellHandle.getCrosstab().getModelHandle())) {
 			return false;
 		}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,65 +34,65 @@ import com.ibm.icu.util.TimeZone;
  * properties.
  */
 public interface IReportContext {
-	static final String PAGE_VAR_PAGE_LABEL = "pageLabel";
+	String PAGE_VAR_PAGE_LABEL = "pageLabel";
 
 	/**
 	 * return the report runnable used to create/render this report
-	 * 
+	 *
 	 * @return
 	 */
 	IReportRunnable getReportRunnable();
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
 	Object getParameterValue(String name);
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param value
 	 */
 	void setParameterValue(String name, Object value);
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @return
 	 */
 	Object getParameterDisplayText(String name);
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param value
 	 */
 	void setParameterDisplayText(String name, String value);
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	Locale getLocale();
 
 	/**
 	 * Get time zone informations.
-	 * 
+	 *
 	 * @return
 	 */
 	TimeZone getTimeZone();
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	String getOutputFormat();
 
 	/**
 	 * get the render options used to render the report.
-	 * 
+	 *
 	 * @return
 	 */
 	IRenderOption getRenderOption();
@@ -104,7 +104,7 @@ public interface IReportContext {
 
 	/**
 	 * Get the http servlet request object
-	 * 
+	 *
 	 */
 	Object getHttpServletRequest();
 
@@ -146,7 +146,7 @@ public interface IReportContext {
 
 	/**
 	 * Finds user-defined messages for the current thread's locale.
-	 * 
+	 *
 	 * @param key resource key of the user-defined message.
 	 * @return the corresponding locale-dependent messages. Return <code>null</code>
 	 *         if resoueceKey is blank.
@@ -159,7 +159,7 @@ public interface IReportContext {
 	 * First we look up in the report itself, then look into the referenced message
 	 * file. Each search uses a reduced form of Java locale-driven search algorithm:
 	 * Language&Country, language, default.
-	 * 
+	 *
 	 * @param key    resource key of the user defined message.
 	 * @param locale locale of message, if the input <code>locale</code> is
 	 *               <code>null</code>, the locale for the current thread will be
@@ -171,7 +171,7 @@ public interface IReportContext {
 
 	/**
 	 * Finds user-defined messages for the current thread's locale using parameters
-	 * 
+	 *
 	 * @param key    resource key of the user-defined message.
 	 * @param params string arguments used to format error messages
 	 * @return the corresponding locale-dependent messages. Return <code>null</code>
@@ -185,7 +185,7 @@ public interface IReportContext {
 	 * First we look up in the report itself, then look into the referenced message
 	 * file. Each search uses a reduced form of Java locale-driven search algorithm:
 	 * Language&Country, language, default.
-	 * 
+	 *
 	 * @param key    resource key of the user defined message.
 	 * @param locale locale of message, if the input <code>locale</code> is
 	 *               <code>null</code>, the locale for the current thread will be
@@ -198,7 +198,7 @@ public interface IReportContext {
 
 	/**
 	 * Get the type of the current task.
-	 * 
+	 *
 	 * @return task type including:
 	 *         <li><b>0</b> for GetParameterDefinition Task</li>
 	 *         <li><b>1</b> for Run Task</li>
@@ -211,16 +211,16 @@ public interface IReportContext {
 
 	/**
 	 * get the report design handle.
-	 * 
+	 *
 	 * @return report design handle
 	 */
 	ReportDesignHandle getDesignHandle();
 
 	/**
 	 * get the URL for the resource.
-	 * 
+	 *
 	 * The url can only be used in the server side.
-	 * 
+	 *
 	 * @param resourceName resource name
 	 * @return resource URL
 	 */
@@ -228,7 +228,7 @@ public interface IReportContext {
 
 	/**
 	 * get the render URL for a resource.
-	 * 
+	 *
 	 * @param resourceName resource name
 	 * @return the URL which can be used in the client side.
 	 */
@@ -236,7 +236,7 @@ public interface IReportContext {
 
 	/**
 	 * evaluate the script with default script language.
-	 * 
+	 *
 	 * @param script
 	 * @return
 	 * @throws BirtException
@@ -245,7 +245,7 @@ public interface IReportContext {
 
 	/**
 	 * evaluate the script with specified script language.
-	 * 
+	 *
 	 * @param language
 	 * @param script
 	 * @return
@@ -255,7 +255,7 @@ public interface IReportContext {
 
 	/**
 	 * Evaluate the script.
-	 * 
+	 *
 	 * @param script
 	 * @return
 	 * @throws BirtException
@@ -264,7 +264,7 @@ public interface IReportContext {
 
 	/**
 	 * get the application classLoader of the current report context
-	 * 
+	 *
 	 * @return application classLoader
 	 */
 	ClassLoader getApplicationClassLoader();
@@ -282,7 +282,7 @@ public interface IReportContext {
 	/**
 	 * check if the report document generation is finished. It should be used at
 	 * render time. The default value is false
-	 * 
+	 *
 	 * @return
 	 */
 	boolean isReportDocumentFinished();

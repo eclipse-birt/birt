@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,7 +55,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 /**
  * The class defines a dialog to edit menu style properties.
- * 
+ *
  * @since 2.5
  */
 
@@ -70,7 +70,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 	private ArrayList<String[]> fCurrentAttrList;
 	private MenuStylesKeyType fCurrentStyleKeyType;
 
-	private static final String[] COLUMNS = new String[] { "Properties", "Value" //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String[] COLUMNS = { "Properties", "Value" //$NON-NLS-1$ //$NON-NLS-2$
 	};
 
 	/**
@@ -85,11 +85,12 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.HYPERLINK_OPTIONS);
 		getShell().setText(Messages.getString("MenuStylesDialog.title")); //$NON-NLS-1$
@@ -102,6 +103,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 		return c;
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		// Just create OK by default
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
@@ -161,7 +163,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 	}
 
 	private void populateUIValues() {
-		List<String> displayKeys = new ArrayList<String>(MenuStylesKeyType.VALUES.size());
+		List<String> displayKeys = new ArrayList<>(MenuStylesKeyType.VALUES.size());
 		for (MenuStylesKeyType key : MenuStylesKeyType.VALUES) {
 			displayKeys.add(getI18NMessage("Style." + key.getName())); //$NON-NLS-1$
 		}
@@ -181,6 +183,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 	private void initListeners(Composite c) {
 		c.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				// Only save when it's needed
 				updateProperties(MenuStylesKeyType.get(fComboStyle.getSelectionIndex()));
@@ -207,7 +210,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 
 	/**
 	 * Set input object of table viewer.
-	 * 
+	 *
 	 * @param input
 	 */
 	protected void setTableVeiwerInput(Object input) {
@@ -218,7 +221,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 
 	private List<String[]> deserializeProperties(String properties) {
 		String[] attributes = properties.split(";"); //$NON-NLS-1$
-		fCurrentAttrList = new ArrayList<String[]>();
+		fCurrentAttrList = new ArrayList<>();
 		for (String v : attributes) {
 			int index = v.indexOf(':');
 			if (index < 0) {
@@ -277,17 +280,21 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 
 	static class PropertiesContentProvider implements IStructuredContentProvider {
 
+		@Override
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof List)
+			if (inputElement instanceof List) {
 				return ((List<String[]>) inputElement).toArray();
+			}
 			return null;
 		}
 
+		@Override
 		public void dispose() {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			// TODO Auto-generated method stub
 
@@ -308,20 +315,22 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object,
 		 * java.lang.String)
 		 */
+		@Override
 		public boolean canModify(Object element, String property) {
 			return true;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ICellModifier#getValue(java.lang.Object,
 		 * java.lang.String)
 		 */
+		@Override
 		public Object getValue(Object element, String property) {
 			String[] ele = ((String[]) element);
 			int index = Arrays.asList(COLUMNS).indexOf(property);
@@ -330,10 +339,11 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object,
 		 * java.lang.String, java.lang.Object)
 		 */
+		@Override
 		public void modify(Object element, String property, Object value) {
 			int index = Arrays.asList(COLUMNS).indexOf(property);
 			String[] data = (String[]) ((TableItem) element).getData();
@@ -350,20 +360,22 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
 		 * .lang.Object, int)
 		 */
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
 		 * lang.Object, int)
 		 */
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof String[]) {
 				if (columnIndex < ((String[]) element).length) {
@@ -375,6 +387,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 
 	}
 
+	@Override
 	public void handleEvent(Event event) {
 		Object source = event.widget;
 		if (source == fComboStyle) {
@@ -409,16 +422,17 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void doAdd() {
-		final String[] ele = new String[] { "", "" //$NON-NLS-1$ //$NON-NLS-2$
+		final String[] ele = { "", "" //$NON-NLS-1$ //$NON-NLS-2$
 		};
 		fCurrentAttrList.add(ele);
 		fTableViewer.refresh();
 
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				fTableViewer.editElement(ele, 0);
 			}
@@ -426,7 +440,7 @@ public class MenuStylesDialog extends TrayDialog implements Listener {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void doRemove() {
 		int index = fTable.getSelectionIndex();

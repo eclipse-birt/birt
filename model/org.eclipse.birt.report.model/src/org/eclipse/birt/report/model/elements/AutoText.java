@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 /**
  * Represents a autotext report item. A autotext item supports page number and
  * total page . The autotext has the following properties:
- * 
+ *
  * <ul>
  * <li>An autotext choice type counts the page number or total page number
  * </ul>
@@ -47,7 +47,7 @@ public class AutoText extends ReportItem implements IAutoTextModel {
 
 	/**
 	 * Constructs the autotext item with an optional name.
-	 * 
+	 *
 	 * @param theName the optional name
 	 */
 
@@ -57,26 +57,28 @@ public class AutoText extends ReportItem implements IAutoTextModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
+	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitAutoText(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
+	@Override
 	public String getElementName() {
 		return ReportDesignConstants.AUTOTEXT_ITEM;
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 * 
+	 *
 	 * @param module the report design
 	 * @return an API handle for this element
 	 */
@@ -90,18 +92,19 @@ public class AutoText extends ReportItem implements IAutoTextModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
 	 * .birt.report.model.core.Module)
 	 */
+	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Gets the localized display name of the auto text.
-	 * 
+	 *
 	 * @param value the property value
 	 * @return the display label of this element.
 	 */
@@ -124,11 +127,12 @@ public class AutoText extends ReportItem implements IAutoTextModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getDefnDisplayName(org
 	 * .eclipse.birt.report.model.core.Module)
 	 */
 
+	@Override
 	protected String getDefnDisplayName(Module module) {
 		// the parameter of module will be used in the override method.
 
@@ -139,18 +143,20 @@ public class AutoText extends ReportItem implements IAutoTextModel {
 			retValue = getChoiceDisplayName(value);
 		}
 
-		if (!StringUtil.isBlank(retValue))
+		if (!StringUtil.isBlank(retValue)) {
 			return retValue;
+		}
 
 		return super.getDefnDisplayName(module);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#getNameForDisplayLabel()
 	 */
+	@Override
 	protected String getNameForDisplayLabel() {
 
 		// To Display text correctly, just return null whatever the AutoText has
@@ -160,10 +166,11 @@ public class AutoText extends ReportItem implements IAutoTextModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.
 	 * eclipse.birt.report.model.core.Module, int)
 	 */
+	@Override
 	public String getDisplayLabel(Module module, int level) {
 		if (level == FULL_LABEL) { // Added for bugzilla 280232
 			if (DesignChoiceConstants.AUTO_TEXT_PAGE_VARIABLE
@@ -172,10 +179,11 @@ public class AutoText extends ReportItem implements IAutoTextModel {
 				if (module instanceof ReportDesign) {
 					VariableElement variable = ((ReportDesign) module).findVariableElement(variableName);
 					if (variable != null && variable.getProperty(module, IVariableElementModel.TYPE_PROP) != null) {
-						String displayLable = variable.getDisplayProperty(module, IVariableElementModel.TYPE_PROP);
-						displayLable += "(" + limitStringLength(variableName) //$NON-NLS-1$
-								+ ")"; //$NON-NLS-1$
-						return displayLable;
+						StringBuilder displayLable = new StringBuilder()
+								.append(variable.getDisplayProperty(module, IVariableElementModel.TYPE_PROP));
+						displayLable.append("(").append(limitStringLength(variableName) //$NON-NLS-1$
+						).append(")"); //$NON-NLS-1$
+						return displayLable.toString();
 					}
 				}
 			}

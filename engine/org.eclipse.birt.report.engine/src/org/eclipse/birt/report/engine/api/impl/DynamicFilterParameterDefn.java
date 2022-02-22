@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,18 +26,22 @@ public class DynamicFilterParameterDefn extends ParameterDefn implements IDynami
 	private List<String> operators;
 	private List<String> localizedOperators;
 
+	@Override
 	public String getColumn() {
 		return column;
 	}
 
+	@Override
 	public int getDisplayType() {
 		return displayType;
 	}
 
+	@Override
 	public List<String> getFilterOperatorList() {
 		return operators;
 	}
 
+	@Override
 	public List<String> getFilterOperatorDisplayList() {
 		return localizedOperators;
 	}
@@ -60,9 +64,10 @@ public class DynamicFilterParameterDefn extends ParameterDefn implements IDynami
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public Object clone() throws CloneNotSupportedException {
 		Object newObj = super.clone();
 		DynamicFilterParameterDefn para = (DynamicFilterParameterDefn) newObj;
@@ -80,7 +85,7 @@ public class DynamicFilterParameterDefn extends ParameterDefn implements IDynami
 		// operators
 		List<String> strList = para.getFilterOperatorList();
 		if (strList != null) {
-			List<String> newList = new ArrayList<String>();
+			List<String> newList = new ArrayList<>();
 			for (String str : strList) {
 				newList.add(str);
 			}
@@ -90,7 +95,7 @@ public class DynamicFilterParameterDefn extends ParameterDefn implements IDynami
 		// localizedOperators
 		strList = para.getFilterOperatorDisplayList();
 		if (strList != null) {
-			List<String> newList = new ArrayList<String>();
+			List<String> newList = new ArrayList<>();
 			for (String str : strList) {
 				newList.add(str);
 			}

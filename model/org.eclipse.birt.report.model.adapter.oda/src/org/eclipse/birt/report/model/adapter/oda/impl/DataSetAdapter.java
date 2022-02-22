@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,6 +21,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.adapter.oda.IConstants;
 import org.eclipse.birt.report.model.adapter.oda.impl.ResultSetsAdapter.ResultSetColumnInfo;
 import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameter;
+import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters;
 import org.eclipse.birt.report.model.adapter.oda.model.DesignValues;
 import org.eclipse.birt.report.model.adapter.oda.model.DynamicList;
 import org.eclipse.birt.report.model.adapter.oda.model.ModelFactory;
@@ -38,7 +39,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
-import org.eclipse.birt.report.model.adapter.oda.model.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignSessionRequest;
 import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
@@ -64,7 +64,7 @@ class DataSetAdapter extends AbstractDataAdapter {
 	private boolean isLinkedParameter = false;
 
 	/**
-	 * 
+	 *
 	 */
 
 	DataSetAdapter() {
@@ -85,8 +85,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 	 */
 
 	DataSetDesign createDataSetDesign(OdaDataSetHandle setHandle) {
-		if (setHandle == null)
+		if (setHandle == null) {
 			return null;
+		}
 
 		DataSetDesign setDesign = designFactory.createDataSetDesign();
 		updateDataSetDesign(setHandle, setDesign);
@@ -132,8 +133,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 
 		OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) setHandle.getDataSource();
 
-		if (sourceHandle != null)
+		if (sourceHandle != null) {
 			setDesign.setDataSourceDesign(new DataSourceAdapter().createDataSourceDesign(sourceHandle));
+		}
 
 		// when converts the ODA to BIRT, some information for parameter
 		// definitions may be lost. So, must get the cached values first. Then
@@ -144,8 +146,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 		DesignValues designerValues = null;
 
 		try {
-			if (strDesignValues != null)
+			if (strDesignValues != null) {
 				designerValues = SerializerImpl.instance().read(strDesignValues);
+			}
 
 		} catch (IOException e) {
 		}
@@ -188,8 +191,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 		if (designDefinedParams == null) {
 			designDefinedParams = userDefinedParams;
 			setDesign.setParameters(designDefinedParams);
-		} else if (userDefinedParams != null)
+		} else if (userDefinedParams != null) {
 			designDefinedParams.getParameterDefinitions().addAll(userDefinedParams.getParameterDefinitions());
+		}
 
 		new ResultSetsAdapter(setHandle, setDesign).updateOdaResultSetDefinition();
 
@@ -203,43 +207,32 @@ class DataSetAdapter extends AbstractDataAdapter {
 	 */
 
 	void updateDataSetDesign(OdaDataSetHandle setHandle, DataSetDesign setDesign, String propertyName) {
-		if (setHandle == null || setDesign == null || propertyName == null)
+		if (setHandle == null || setDesign == null || propertyName == null) {
 			return;
+		}
 
 		// properties on ReportElement, like name, displayNames, etc.
 
-		if (OdaDataSetHandle.NAME_PROP.equalsIgnoreCase(propertyName))
+		if (OdaDataSetHandle.NAME_PROP.equalsIgnoreCase(propertyName)) {
 			setDesign.setName(setHandle.getName());
-		else if (OdaDataSetHandle.DISPLAY_NAME_PROP.equalsIgnoreCase(propertyName))
+		} else if (OdaDataSetHandle.DISPLAY_NAME_PROP.equalsIgnoreCase(propertyName)) {
 			setDesign.setDisplayName(setHandle.getDisplayName());
-		else if (OdaDataSetHandle.DISPLAY_NAME_ID_PROP.equalsIgnoreCase(propertyName))
+		} else if (OdaDataSetHandle.DISPLAY_NAME_ID_PROP.equalsIgnoreCase(propertyName)) {
 			setDesign.setDisplayNameKey(setHandle.getDisplayNameKey());
-
-		// properties such as comments, extends, etc are kept in
-		// DataSourceHandle, not DataSourceDesign.
-
-		// scripts of DataSource are kept in
-		// DataSourceHandle, not DataSourceDesign.
-
-		else if (OdaDataSourceHandle.EXTENSION_ID_PROP.equalsIgnoreCase(propertyName))
+		} else if (OdaDataSourceHandle.EXTENSION_ID_PROP.equalsIgnoreCase(propertyName)) {
 			setDesign.setOdaExtensionDataSetId(setHandle.getExtensionID());
-
-		else if (OdaDataSetHandle.PRIVATE_DRIVER_PROPERTIES_PROP.equalsIgnoreCase(propertyName))
+		} else if (OdaDataSetHandle.PRIVATE_DRIVER_PROPERTIES_PROP.equalsIgnoreCase(propertyName)) {
 			setDesign.setPrivateProperties(newOdaPrivateProperties(setHandle.privateDriverPropertiesIterator()));
-
-		else if (OdaDataSetHandle.RESULT_SET_NAME_PROP.equalsIgnoreCase(propertyName))
+		} else if (OdaDataSetHandle.RESULT_SET_NAME_PROP.equalsIgnoreCase(propertyName)) {
 			setDesign.setPrimaryResultSetName(setHandle.getResultSetName());
-
-		else if (OdaDataSetHandle.QUERY_TEXT_PROP.equalsIgnoreCase(propertyName))
+		} else if (OdaDataSetHandle.QUERY_TEXT_PROP.equalsIgnoreCase(propertyName)) {
 			setDesign.setQueryText(setHandle.getQueryText());
-
-		// create a new data source design for this set design.
-
-		else if (OdaDataSetHandle.DATA_SOURCE_PROP.equalsIgnoreCase(propertyName)) {
+		} else if (OdaDataSetHandle.DATA_SOURCE_PROP.equalsIgnoreCase(propertyName)) {
 			OdaDataSourceHandle sourceHandle = (OdaDataSourceHandle) setHandle.getDataSource();
 
-			if (sourceHandle != null)
+			if (sourceHandle != null) {
 				setDesign.setDataSourceDesign(new DataSourceAdapter().createDataSourceDesign(sourceHandle));
+			}
 		}
 
 		else if (OdaDataSetHandle.PARAMETERS_PROP.equalsIgnoreCase(propertyName)) {
@@ -247,20 +240,20 @@ class DataSetAdapter extends AbstractDataAdapter {
 					setHandle, setDesign).newOdaDataSetParams(
 							SchemaConversionUtil.convertToDesignParameters(getCachedParameters(setHandle)));
 
-			if (dsParams != null)
+			if (dsParams != null) {
 				setDesign.setParameters(dsParams);
-			else
+			} else {
 				setDesign.setParameters(null);
+			}
 		}
 
-		else if (OdaDataSetHandle.RESULT_SET_PROP.equalsIgnoreCase(propertyName))
+		else if (OdaDataSetHandle.RESULT_SET_PROP.equalsIgnoreCase(propertyName)) {
 			new ResultSetsAdapter(setHandle, setDesign).updateOdaResultSetDefinition();
-
-		else if (OdaDataSetHandle.COLUMN_HINTS_PROP.equalsIgnoreCase(propertyName))
+		} else if (OdaDataSetHandle.COLUMN_HINTS_PROP.equalsIgnoreCase(propertyName)) {
 			new ResultSetsAdapter(setHandle, setDesign).updateOdaColumnHints();
-
-		else if (OdaDataSetHandle.FILTER_PROP.equalsIgnoreCase(propertyName))
+		} else if (OdaDataSetHandle.FILTER_PROP.equalsIgnoreCase(propertyName)) {
 			new ResultSetCriteriaAdapter(setHandle, setDesign).updateODAResultSetCriteria();
+		}
 
 		updateODAMessageFile(setDesign.getDataSourceDesign(), setHandle.getModuleHandle());
 	}
@@ -276,16 +269,18 @@ class DataSetAdapter extends AbstractDataAdapter {
 		DesignValues designerValues = null;
 
 		try {
-			if (strDesignValues != null)
+			if (strDesignValues != null) {
 				designerValues = SerializerImpl.instance().read(strDesignValues);
+			}
 		} catch (IOException e) {
 		}
 
 		// the driver defined parameters are in the designer values
 
 		DataSetParameters cachedParams = null;
-		if (designerValues != null)
+		if (designerValues != null) {
 			cachedParams = designerValues.getDataSetParameters();
+		}
 
 		return cachedParams;
 	}
@@ -308,8 +303,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 
 	OdaDataSetHandle createDataSetHandle(DataSetDesign setDesign, ModuleHandle module)
 			throws SemanticException, IllegalStateException {
-		if (setDesign == null)
+		if (setDesign == null) {
 			return null;
+		}
 
 		// validate the source design to make sure it is valid
 
@@ -318,8 +314,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 		OdaDataSetHandle setHandle = module.getElementFactory().newOdaDataSet(setDesign.getName(),
 				setDesign.getOdaExtensionDataSetId());
 
-		if (setHandle == null)
+		if (setHandle == null) {
 			return null;
+		}
 
 		adaptDataSetDesign(setDesign, setHandle);
 		return setHandle;
@@ -327,8 +324,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 
 	public void updateDataSetHandle(DataSetDesign setDesign, OdaDataSetHandle setHandle, boolean isSourceChanged)
 			throws SemanticException {
-		if (setDesign == null || setHandle == null)
+		if (setDesign == null || setHandle == null) {
 			return;
+		}
 
 		// serialize and get the designer values
 		DesignValues designerValues = null;
@@ -358,8 +356,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 
 	public void updateDataSetHandle(OdaDataSetHandle dataSetHandle, OdaDesignSession completedSession)
 			throws SemanticException {
-		if (completedSession == null || dataSetHandle == null)
+		if (completedSession == null || dataSetHandle == null) {
 			return;
+		}
 
 		DataSetDesign responseDesign = completedSession.getResponseDataSetDesign();
 		DataSetDesign requestDesign = completedSession.getRequestDataSetDesign();
@@ -369,23 +368,23 @@ class DataSetAdapter extends AbstractDataAdapter {
 				requestDesign.getResultSets());
 
 		DesignerStateAdapter.updateROMDesignerState(completedSession.getResponse().getDesignerState(), dataSetHandle);
-		;
+
 	}
 
 	/**
 	 * Copies values of <code>setDesign</code> to <code>setHandle</code>. Values in
 	 * <code>setDesign</code> are validated before maps to values in
 	 * OdaDataSetHandle.
-	 * 
+	 *
 	 * @param setDesign the ODA data set design
 	 * @param setHandle the Model handle
 	 * @throws SemanticException if any value is invalid.
-	 * 
+	 *
 	 */
 
 	private void adaptDataSetDesign(DataSetDesign setDesign, OdaDataSetHandle setHandle) throws SemanticException {
 
-		Object value = null;
+		Object value;
 
 		// properties on ReportElement, like name, displayNames, etc.
 
@@ -427,14 +426,16 @@ class DataSetAdapter extends AbstractDataAdapter {
 				sourceHandle = moduleHandle.getElementFactory().newOdaDataSource(dataSourceName,
 						sourceDesign.getOdaExtensionDataSourceId());
 				moduleHandle.getDataSources().add(sourceHandle);
-			} else
+			} else {
 				sourceHandle = moduleHandle.findDataSource(dataSourceName);
-			if (sourceHandle != null && sourceHandle instanceof OdaDataSourceHandle) {
+			}
+			if (sourceHandle instanceof OdaDataSourceHandle) {
 				new DataSourceAdapter().updateDataSourceHandle(sourceDesign, (OdaDataSourceHandle) sourceHandle);
 				dataSourceName = sourceHandle.getName();
 			}
-		} else
+		} else {
 			dataSourceName = defaultDataSourceName;
+		}
 
 		setHandle.getElement().setProperty(OdaDataSetHandle.DATA_SOURCE_PROP, PropertyValueValidationUtil
 				.validateProperty(setHandle, OdaDataSetHandle.DATA_SOURCE_PROP, dataSourceName));
@@ -464,8 +465,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 			hints = new ArrayList();
 
 			ResultSetColumnInfo.updateResultSetColumnList(resultRetColumns, columns, hints);
-			if (hints.isEmpty())
+			if (hints.isEmpty()) {
 				hints = null;
+			}
 
 			PropertyValueValidationUtil.validateProperty(setHandle, OdaDataSetHandle.RESULT_SET_PROP, columns);
 			PropertyValueValidationUtil.validateProperty(setHandle, OdaDataSetHandle.COLUMN_HINTS_PROP, hints);
@@ -498,7 +500,7 @@ class DataSetAdapter extends AbstractDataAdapter {
 	/**
 	 * Gets the serializable string for design values. Design values include data
 	 * set parameter definitions and result set definitions.
-	 * 
+	 *
 	 * @param setDesign the data set desgin
 	 * @return the serializable string for design values
 	 */
@@ -521,8 +523,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 			hasData = true;
 		}
 
-		if (!hasData)
+		if (!hasData) {
 			return IConstants.EMPTY_STRING;
+		}
 
 		try {
 			return SerializerImpl.instance().write(values);
@@ -533,7 +536,7 @@ class DataSetAdapter extends AbstractDataAdapter {
 
 	/**
 	 * Updates the data set handle with specified values.
-	 * 
+	 *
 	 * @param setDesign         the data set design
 	 * @param setHandle         the data set handle
 	 * @param isSourceChanged
@@ -545,8 +548,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 	protected void processUpdateDataSetHandle(DataSetDesign setDesign, OdaDataSetHandle setHandle,
 			boolean isSourceChanged, DataSetParameters requestParameters, ResultSets requestResultSets)
 			throws SemanticException {
-		if (setDesign == null || setHandle == null)
+		if (setDesign == null || setHandle == null) {
 			return;
+		}
 
 		DesignUtil.validateObject(setDesign);
 
@@ -587,8 +591,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 
 			ResultSetDefinition cachedResultDefn = null;
 
-			if (requestResultSets != null && !requestResultSets.getResultSetDefinitions().isEmpty())
+			if (requestResultSets != null && !requestResultSets.getResultSetDefinitions().isEmpty()) {
 				cachedResultDefn = (ResultSetDefinition) requestResultSets.getResultSetDefinitions().get(0);
+			}
 
 			ResultSetsAdapter tmpAdapter = new ResultSetsAdapter(setHandle, setDesign);
 			updateROMResultSets(setHandle, tmpAdapter, cachedResultDefn);
@@ -633,8 +638,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 								dataSourceAdapter.createDataSourceDesign(sourceHandle), sourceDesign))) {
 					dataSourceAdapter.updateDataSourceHandle(sourceDesign, sourceHandle);
 				}
-			} else
+			} else {
 				setHandle.setDataSource(defaultDataSourceName);
+			}
 
 			updateDesignerValue(setDesign, setHandle, requestParameters, dataParamAdapter.getUserDefinedParams(),
 					requestResultSets);
@@ -648,7 +654,7 @@ class DataSetAdapter extends AbstractDataAdapter {
 
 	/**
 	 * Updates the data set handle with specified values.
-	 * 
+	 *
 	 * @param setDesign         the data set design
 	 * @param setHandle         the data set handle
 	 * @param isSourceChanged
@@ -659,8 +665,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 
 	private void updateDataSetHandle(DataSetDesign setDesign, OdaDataSetHandle setHandle, boolean isSourceChanged,
 			DataSetParameters requestParameters, ResultSets requestResultSets) throws SemanticException {
-		if (setDesign == null || setHandle == null)
+		if (setDesign == null || setHandle == null) {
 			return;
+		}
 
 		DesignUtil.validateObject(setDesign);
 
@@ -701,8 +708,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 
 			ResultSetDefinition cachedResultDefn = null;
 
-			if (requestResultSets != null && !requestResultSets.getResultSetDefinitions().isEmpty())
+			if (requestResultSets != null && !requestResultSets.getResultSetDefinitions().isEmpty()) {
 				cachedResultDefn = (ResultSetDefinition) requestResultSets.getResultSetDefinitions().get(0);
+			}
 
 			ResultSetsAdapter tmpAdapter = new ResultSetsAdapter(setHandle, setDesign);
 			updateROMResultSets(setHandle, tmpAdapter, cachedResultDefn);
@@ -747,8 +755,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 								dataSourceAdapter.createDataSourceDesign(sourceHandle), sourceDesign))) {
 					dataSourceAdapter.updateDataSourceHandle(sourceDesign, sourceHandle);
 				}
-			} else
+			} else {
 				setHandle.setDataSource(defaultDataSourceName);
+			}
 
 			updateDesignerValue(setDesign, setHandle, requestParameters, dataParamAdapter.getUserDefinedParams(),
 					requestResultSets);
@@ -765,7 +774,7 @@ class DataSetAdapter extends AbstractDataAdapter {
 	/**
 	 * Updates the designer value. Designer values only contain Driver-defined
 	 * parameters.
-	 * 
+	 *
 	 * @param setDesign       the data set design
 	 * @param setHandle       the data set handle
 	 * @param designerValues  the designer values
@@ -814,8 +823,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 			}
 
 			designerValues.setResultSets(requestResultSets);
-		} else
+		} else {
 			designerValues.setResultSets(null);
+		}
 
 		// Set DesignerValues
 
@@ -830,29 +840,33 @@ class DataSetAdapter extends AbstractDataAdapter {
 	 * Removes ODA data set parameter information that relates to the report
 	 * parameter. In the design value, do not need to save data for the report
 	 * parameter.
-	 * 
+	 *
 	 * @param dsParams
 	 */
 
 	private static void clearReportParameterRelatedValues(EList<DataSetParameter> params, ModuleHandle module) {
-		if (params == null)
+		if (params == null) {
 			return;
+		}
 
 		for (int i = 0; i < params.size(); i++) {
 			DataSetParameter adapterParam = params.get(i);
 			ParameterDefinition param = adapterParam.getParameterDefinition();
 
 			InputParameterAttributes paramAttrs = param.getInputAttributes();
-			if (paramAttrs == null)
+			if (paramAttrs == null) {
 				continue;
+			}
 
 			InputElementAttributes elementAttrs = paramAttrs.getElementAttributes();
-			if (elementAttrs == null)
+			if (elementAttrs == null) {
 				continue;
+			}
 
 			DynamicValuesQuery query = elementAttrs.getDynamicValueChoices();
-			if (query == null)
+			if (query == null) {
 				continue;
+			}
 
 			DataSetDesign setDesign = query.getDataSetDesign();
 			String setName = setDesign.getName();
@@ -877,7 +891,7 @@ class DataSetAdapter extends AbstractDataAdapter {
 
 	/**
 	 * Updates a structure list with the corresponding property handle.
-	 * 
+	 *
 	 * @param propHandle the property handle
 	 * @param structList the structure list
 	 * @throws SemanticException if any structure has invalid value.
@@ -896,8 +910,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 		PropertyHandle propHandle = setHandle.getPropertyHandle(OdaDataSetHandle.RESULT_SET_PROP);
 
 		if (!columns.isEmpty()) {
-			for (int i = 0; i < columns.size(); i++)
+			for (int i = 0; i < columns.size(); i++) {
 				propHandle.addItem(columns.get(i));
+			}
 		}
 
 		setHandle.setProperty(OdaDataSetHandle.COLUMN_HINTS_PROP, new ArrayList());
@@ -910,9 +925,9 @@ class DataSetAdapter extends AbstractDataAdapter {
 						(String) hint.getProperty(null, ColumnHint.COLUMN_NAME_MEMBER),
 						setHandle.columnHintsIterator());
 
-				if (oldHint == null)
+				if (oldHint == null) {
 					propHandle.addItem(hints.get(i));
-				else {
+				} else {
 					oldHint.setDisplayName((String) hint.getProperty(null, ColumnHint.DISPLAY_NAME_MEMBER));
 					oldHint.setDisplayNameKey((String) hint.getProperty(null, ColumnHint.DISPLAY_NAME_ID_MEMBER));
 					oldHint.setHelpText((String) hint.getProperty(null, ColumnHint.HELP_TEXT_MEMBER));
@@ -935,13 +950,13 @@ class DataSetAdapter extends AbstractDataAdapter {
 
 	/**
 	 * Update parameters in DataSetHandle with DataSetDesign's.
-	 * 
+	 *
 	 * @param setDesign        data set design contains driver-defined parameters
 	 * @param setHandle        data set handle
 	 * @param cachedParameters the cached data set parameters in the designer values
 	 * @param userDefinedList  a list contains user-defined parameters. Each item is
 	 *                         <code>OdaDataSetParameter</code>.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 

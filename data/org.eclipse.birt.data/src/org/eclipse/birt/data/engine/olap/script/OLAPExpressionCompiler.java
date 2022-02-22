@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,12 +24,12 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ *
  */
 
 public class OLAPExpressionCompiler {
 	/**
-	 * 
+	 *
 	 * @param cx
 	 * @throws DataException
 	 */
@@ -44,7 +44,7 @@ public class OLAPExpressionCompiler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cx
 	 * @param expr1
 	 * @throws DataException
@@ -52,12 +52,14 @@ public class OLAPExpressionCompiler {
 	private static void prepareScriptExpression(ScriptContext cx, IBaseExpression expr1) throws DataException {
 		try {
 
-			if (expr1 == null)
+			if (expr1 == null) {
 				return;
+			}
 			if (expr1 instanceof IScriptExpression) {
 				String exprText = ((IScriptExpression) expr1).getText();
-				if (expr1.getHandle() == null && !(BaseExpression.constantId.equals(expr1.getScriptId())))
+				if (expr1.getHandle() == null && !(BaseExpression.constantId.equals(expr1.getScriptId()))) {
 					expr1.setHandle(new OLAPExpressionHandler(cx.compile(expr1.getScriptId(), null, 0, exprText)));
+				}
 			} else if (expr1 instanceof IExpressionCollection) {
 				Object[] exprs = ((IExpressionCollection) expr1).getExpressions().toArray();
 				for (int i = 0; i < exprs.length; i++) {

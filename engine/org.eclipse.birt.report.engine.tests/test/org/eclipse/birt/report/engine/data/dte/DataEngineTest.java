@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,8 +21,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
@@ -36,6 +34,8 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.model.api.DesignFileException;
+
+import junit.framework.TestCase;
 
 public class DataEngineTest extends TestCase {
 
@@ -106,6 +106,7 @@ public class DataEngineTest extends TestCase {
 
 	}
 
+	@Override
 	public void tearDown() {
 		File file = new File(ARCHIVE_PATH);
 		if (file.exists()) {
@@ -136,7 +137,7 @@ public class DataEngineTest extends TestCase {
 
 		String goldenFile = "SingleDataSet.txt";
 		String goldenStr = loadResource(goldenFile);
-		String resultStr = "";
+		StringBuilder resultStr = new StringBuilder();
 		while (iter.hasNext()) {
 			IQueryDefinition query = (IQueryDefinition) iter.next();
 			Map map = query.getBindings();
@@ -146,7 +147,7 @@ public class DataEngineTest extends TestCase {
 			int i = 0;
 			while (resultSet.next() && i < 3) {
 				for (int j = 0; j < columns.length; j++) {
-					resultStr += resultSet.getResultIterator().getString(columns[j]);
+					resultStr.append(resultSet.getResultIterator().getString(columns[j]));
 				}
 				i++;
 			}
@@ -154,7 +155,7 @@ public class DataEngineTest extends TestCase {
 		resultSet.close();
 		dataEngine.shutdown();
 		archWriter.finish();
-		assertEquals(goldenStr, resultStr);
+		assertEquals(goldenStr, resultStr.toString());
 	}
 
 	public void doTestSingleQPresentation() throws Exception {
@@ -166,7 +167,7 @@ public class DataEngineTest extends TestCase {
 
 		String goldenFile = "SingleDataSet.txt";
 		String goldenStr = loadResource(goldenFile);
-		String resultStr = "";
+		StringBuilder resultStr = new StringBuilder();
 		while (iter.hasNext()) {
 			IQueryDefinition query = (IQueryDefinition) iter.next();
 			Map map = query.getBindings();
@@ -177,7 +178,7 @@ public class DataEngineTest extends TestCase {
 			int i = 0;
 			while (resultSet.next() && i < 3) {
 				for (int j = 0; j < columns.length; j++) {
-					resultStr += resultSet.getResultIterator().getString(columns[j]);
+					resultStr.append(resultSet.getResultIterator().getString(columns[j]));
 				}
 				i++;
 			}
@@ -185,7 +186,7 @@ public class DataEngineTest extends TestCase {
 		resultSet.close();
 		dataEngine.shutdown();
 		archReader.close();
-		assertEquals(goldenStr, resultStr);
+		assertEquals(goldenStr, resultStr.toString());
 	}
 
 	public void doTestNestedQGeneration() throws Exception {
@@ -196,12 +197,12 @@ public class DataEngineTest extends TestCase {
 
 		String goldenFile = "NestedDataSet.txt";
 		String goldenStr = loadResource(goldenFile);
-		String resultStr = "";
+		StringBuilder resultStr = new StringBuilder();
 		// now the sequence of query be stored in report has been changed.
 		// the children will first be stored then the parent.
 		IQueryDefinition childQuery = (IQueryDefinition) iter.next();
 		IQueryDefinition parentQuery = (IQueryDefinition) iter.next();
-		IQueryResultSet parentRSet = null;
+		IQueryResultSet parentRSet;
 		IQueryResultSet childRSet = null;
 
 		parentRSet = (IQueryResultSet) dataEngine.execute(parentQuery);
@@ -213,9 +214,9 @@ public class DataEngineTest extends TestCase {
 				String nextPar = (String) parentIter.next();
 				Object value = parentRSet.getValue(nextPar);
 				if (value != null) {
-					resultStr += value.toString();
+					resultStr.append(value.toString());
 				} else {
-					resultStr += "null";
+					resultStr.append("null");
 				}
 			}
 			childRSet = (IQueryResultSet) dataEngine.execute(parentRSet, childQuery, null, false);
@@ -226,9 +227,9 @@ public class DataEngineTest extends TestCase {
 				for (int j = 0; j < columns.length; j++) {
 					Object value = childRSet.getValue(columns[j]);
 					if (value != null) {
-						resultStr += value.toString();
+						resultStr.append(value.toString());
 					} else {
-						resultStr += "null";
+						resultStr.append("null");
 					}
 				}
 			}
@@ -238,7 +239,7 @@ public class DataEngineTest extends TestCase {
 		parentRSet.close();
 		dataEngine.shutdown();
 		archWriter.finish();
-		assertEquals(goldenStr, resultStr);
+		assertEquals(goldenStr, resultStr.toString());
 	}
 
 	public void doTestNestedQPresentation() throws Exception {
@@ -250,10 +251,10 @@ public class DataEngineTest extends TestCase {
 		String goldenFile = "NestedDataSet.txt";
 		String goldenStr = loadResource(goldenFile);
 
-		String resultStr = "";
+		StringBuilder resultStr = new StringBuilder();
 		IQueryDefinition childQuery = (IQueryDefinition) iter.next();
 		IQueryDefinition parentQuery = (IQueryDefinition) iter.next();
-		IQueryResultSet parentRSet = null;
+		IQueryResultSet parentRSet;
 		IQueryResultSet childRSet = null;
 
 		parentRSet = (IQueryResultSet) dataEngine.execute(parentQuery);
@@ -265,9 +266,9 @@ public class DataEngineTest extends TestCase {
 				String nextPar = (String) parentIter.next();
 				Object value = parentRSet.getValue(nextPar);
 				if (value != null) {
-					resultStr += value.toString();
+					resultStr.append(value.toString());
 				} else {
-					resultStr += "null";
+					resultStr.append("null");
 				}
 			}
 			childRSet = (IQueryResultSet) dataEngine.execute(parentRSet, childQuery, null, false);
@@ -278,9 +279,9 @@ public class DataEngineTest extends TestCase {
 				for (int j = 0; j < columns.length; j++) {
 					Object value = childRSet.getValue(columns[j]);
 					if (value != null) {
-						resultStr += value.toString();
+						resultStr.append(value.toString());
 					} else {
-						resultStr += "null";
+						resultStr.append("null");
 					}
 				}
 			}
@@ -290,7 +291,7 @@ public class DataEngineTest extends TestCase {
 		parentRSet.close();
 		dataEngine.shutdown();
 		archReader.close();
-		assertEquals(goldenStr, resultStr);
+		assertEquals(goldenStr, resultStr.toString());
 	}
 
 	public void doTestSubqueryGeneration() throws Exception {
@@ -302,7 +303,7 @@ public class DataEngineTest extends TestCase {
 
 		String goldenFile = "SubqueryDataSet.txt";
 		String goldenStr = loadResource(goldenFile);
-		String resultStr = "";
+		StringBuilder resultStr = new StringBuilder();
 		while (iter.hasNext()) {
 			IBaseQueryDefinition query = (IBaseQueryDefinition) iter.next();
 			resultSet = (IQueryResultSet) dataEngine.execute(query);
@@ -317,7 +318,7 @@ public class DataEngineTest extends TestCase {
 					IQueryResultSet subResultSet = (IQueryResultSet) dataEngine.execute(resultSet, subQuery, null,
 							false);
 					Map map = subQuery.getBindings();
-					resultStr += getResultSet(subResultSet, map.keySet());
+					resultStr.append(getResultSet(subResultSet, map.keySet()));
 					subResultSet.close();
 
 				}
@@ -326,20 +327,20 @@ public class DataEngineTest extends TestCase {
 		resultSet.close();
 		dataEngine.shutdown();
 		archWriter.finish();
-		assertEquals(goldenStr, resultStr);
+		assertEquals(goldenStr, resultStr.toString());
 	}
 
 	private String getResultSet(IQueryResultSet resultSet, Set columnsSet) throws Exception {
-		String res = "";
+		StringBuilder res = new StringBuilder();
 		String[] columns = (String[]) columnsSet.toArray(new String[] {});
 		Arrays.sort(columns);
 
 		while (resultSet.next()) {
 			for (int j = 0; j < columns.length; j++) {
-				res += resultSet.getString(columns[j]);
+				res.append(resultSet.getString(columns[j]));
 			}
 		}
-		return res;
+		return res.toString();
 	}
 
 	public void doTestSubqueryPresentation() throws Exception {
@@ -351,7 +352,7 @@ public class DataEngineTest extends TestCase {
 
 		String goldenFile = "SubqueryDataSet.txt";
 		String goldenStr = loadResource(goldenFile);
-		String resultStr = "";
+		StringBuilder resultStr = new StringBuilder();
 
 		while (iter.hasNext()) {
 			IBaseQueryDefinition query = (IBaseQueryDefinition) iter.next();
@@ -367,7 +368,7 @@ public class DataEngineTest extends TestCase {
 					IQueryResultSet subResultSet = (IQueryResultSet) dataEngine.execute(resultSet, subQuery, null,
 							false);
 					Map map = subQuery.getBindings();
-					resultStr += getResultSet(subResultSet, map.keySet());
+					resultStr.append(getResultSet(subResultSet, map.keySet()));
 					subResultSet.close();
 
 				}
@@ -376,6 +377,6 @@ public class DataEngineTest extends TestCase {
 		resultSet.close();
 		dataEngine.shutdown();
 		archReader.close();
-		assertEquals(goldenStr, resultStr);
+		assertEquals(goldenStr, resultStr.toString());
 	}
 }

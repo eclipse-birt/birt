@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -66,6 +66,7 @@ public class ProjectSelectionDialog extends SelectionStatusDialog {
 
 		fFilter = new ViewerFilter() {
 
+			@Override
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
 				return fProjectsWithSpecifics.contains(element);
 			}
@@ -76,6 +77,7 @@ public class ProjectSelectionDialog extends SelectionStatusDialog {
 	/*
 	 * (non-Javadoc) Method declared on Dialog.
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		// page group
 		Composite composite = (Composite) super.createDialogArea(parent);
@@ -88,12 +90,14 @@ public class ProjectSelectionDialog extends SelectionStatusDialog {
 		fTableViewer = new TableViewer(composite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		fTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				doSelectionChanged(((IStructuredSelection) event.getSelection()).toArray());
 			}
 		});
 		fTableViewer.addDoubleClickListener(new IDoubleClickListener() {
 
+			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				okPressed();
 			}
@@ -113,10 +117,12 @@ public class ProjectSelectionDialog extends SelectionStatusDialog {
 		checkbox.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false));
 		checkbox.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateFilter(((Button) e.widget).getSelection());
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				updateFilter(((Button) e.widget).getSelection());
 			}
@@ -155,9 +161,10 @@ public class ProjectSelectionDialog extends SelectionStatusDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#computeResult()
 	 */
+	@Override
 	protected void computeResult() {
 	}
 }

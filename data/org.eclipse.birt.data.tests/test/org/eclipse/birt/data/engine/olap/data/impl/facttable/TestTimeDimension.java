@@ -1,23 +1,24 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
- * SPDX-License-Identifier: EPL-2.0
- * 
  *
- * Contributors: 
+ * SPDX-License-Identifier: EPL-2.0
+ *
+ *
+ * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -57,44 +58,18 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
-
-import org.junit.Test;
 import org.junit.Ignore;
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
- * 
+ *
  */
 
 public class TestTimeDimension {
 	private static final String OUTPUT_FOLDER = "DtETestTempDataoutput";
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	/*
-	 * @see TestCase#tearDown()
-	 */
-	private static String[] distinct(String[] sValues) {
-		Arrays.sort(sValues);
-		List tempList = new ArrayList();
-		tempList.add(sValues[0]);
-		for (int i = 1; i < sValues.length; i++) {
-			if (!sValues[i].equals(sValues[i - 1])) {
-				tempList.add(sValues[i]);
-			}
-		}
-		String[] result = new String[tempList.size()];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = (String) tempList.get(i);
-		}
-		return result;
-	}
-
 	/**
-	 * 
+	 *
 	 */
 	@Ignore("Ignoring since TimeDimension is not currently used if the product is used in a normal way")
 	@Test
@@ -237,12 +212,6 @@ public class TestTimeDimension {
 		dataCursor.close();
 	}
 
-	private void printCube(CubeCursor cursor, List columnEdgeBindingNames, List rowEdgeBindingNames,
-			String measureBindingName, String[] columnAggrs) throws Exception {
-		String output = getOutputFromCursor(cursor, columnEdgeBindingNames, rowEdgeBindingNames, measureBindingName,
-				columnAggrs);
-	}
-
 	private String getOutputFromCursor(CubeCursor cursor, List columnEdgeBindingNames, List rowEdgeBindingNames,
 			String measureBindingName, String[] columnAggrs) throws OLAPException {
 		EdgeCursor edge1 = (EdgeCursor) (cursor.getOrdinateEdge().get(0));
@@ -259,9 +228,9 @@ public class TestTimeDimension {
 			}
 		}
 
-		String output = "";
+		StringBuilder output = new StringBuilder();
 		for (int i = 0; i < lines.length; i++) {
-			output += "\n" + lines[i];
+			output.append("\n").append(lines[i]);
 		}
 
 		while (edge2.next()) {
@@ -273,7 +242,7 @@ public class TestTimeDimension {
 			while (edge1.next()) {
 				line += cursor.getObject(measureBindingName) + "		";
 			}
-			output += "\n" + line;
+			output.append("\n").append(line);
 		}
 
 		String line = "total" + "		";
@@ -282,7 +251,7 @@ public class TestTimeDimension {
 		while (edge1.next()) {
 			line += cursor.getObject("total") + "		";
 		}
-		output += "\n" + line;
+		output.append("\n").append(line);
 
 		line = "maxTotal1" + "	";
 		edge1.beforeFirst();
@@ -290,7 +259,7 @@ public class TestTimeDimension {
 		while (edge1.next()) {
 			line += cursor.getObject("maxTotal1") + "		";
 		}
-		output += "\n" + line;
+		output.append("\n").append(line);
 
 		line = "maxTotal2" + "	";
 		edge1.beforeFirst();
@@ -298,7 +267,7 @@ public class TestTimeDimension {
 		while (edge1.next()) {
 			line += cursor.getObject("maxTotal2") + "		";
 		}
-		output += "\n" + line;
+		output.append("\n").append(line);
 
 		line = "sumTotal1" + "	";
 		edge1.beforeFirst();
@@ -306,7 +275,7 @@ public class TestTimeDimension {
 		while (edge1.next()) {
 			line += cursor.getObject("sumTotal1") + "		";
 		}
-		output += "\n" + line;
+		output.append("\n").append(line);
 
 		line = "sumTotal2" + "	";
 		edge1.beforeFirst();
@@ -314,7 +283,7 @@ public class TestTimeDimension {
 		while (edge1.next()) {
 			line += cursor.getObject("sumTotal2") + "		";
 		}
-		output += "\n" + line;
+		output.append("\n").append(line);
 
 		line = "sumSumTotal1" + "	";
 		edge1.beforeFirst();
@@ -322,9 +291,9 @@ public class TestTimeDimension {
 		while (edge1.next()) {
 			line += cursor.getObject("sumSumTotal1") + "		";
 		}
-		output += "\n" + line + "";
+		output.append("\n").append(line).append("");
 
-		return output;
+		return output.toString();
 	}
 
 	private String getOutputFromCursor(CubeCursor cursor, List columnEdgeBindingNames, List rowEdgeBindingNames,
@@ -343,12 +312,13 @@ public class TestTimeDimension {
 			}
 		}
 
-		if (rowAggr != null)
+		if (rowAggr != null) {
 			lines[lines.length - 1] += "Total";
+		}
 
-		String output = "";
+		StringBuilder output = new StringBuilder();
 		for (int i = 0; i < lines.length; i++) {
-			output += "\n" + lines[i];
+			output.append("\n").append(lines[i]);
 		}
 
 		while (edge2.next()) {
@@ -361,9 +331,10 @@ public class TestTimeDimension {
 				line += cursor.getObject(measureBindingNames) + "		";
 			}
 
-			if (rowAggr != null)
+			if (rowAggr != null) {
 				line += cursor.getObject(rowAggr);
-			output += "\n" + line;
+			}
+			output.append("\n").append(line);
 		}
 
 		if (columnAggr != null) {
@@ -372,13 +343,14 @@ public class TestTimeDimension {
 			while (edge1.next()) {
 				line += cursor.getObject(columnAggr) + "		";
 			}
-			if (overallAggr != null)
+			if (overallAggr != null) {
 				line += cursor.getObject(overallAggr);
+			}
 
-			output += "\n" + line;
+			output.append("\n").append(line);
 		}
 
-		return output;
+		return output.toString();
 	}
 }
 
@@ -393,6 +365,7 @@ class Dataset2 implements IDatasetIterator {
 			(new java.util.GregorianCalendar(2000, 12, 8)).getTime(),
 			(new java.util.GregorianCalendar(2000, 1, 9)).getTime() };
 
+	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -413,6 +386,7 @@ class Dataset2 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("l1")) {
 			return 0;
@@ -424,6 +398,7 @@ class Dataset2 implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("l1")) {
 			return DataType.INTEGER_TYPE;
@@ -445,6 +420,7 @@ class Dataset2 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return new Integer(L1Col[ptr]);
@@ -456,6 +432,7 @@ class Dataset2 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= L1Col.length) {

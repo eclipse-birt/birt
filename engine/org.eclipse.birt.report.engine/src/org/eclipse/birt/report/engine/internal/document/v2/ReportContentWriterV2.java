@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -69,6 +69,7 @@ public class ReportContentWriterV2 implements IReportContentWriter {
 	/**
 	 * close the content writer
 	 */
+	@Override
 	public void close() {
 		if (stream != null) {
 			try {
@@ -82,9 +83,10 @@ public class ReportContentWriterV2 implements IReportContentWriter {
 
 	/**
 	 * get the current offset.
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public long getOffset() {
 		return offset;
 	}
@@ -105,11 +107,12 @@ public class ReportContentWriterV2 implements IReportContentWriter {
 
 	/**
 	 * write the content into the stream.
-	 * 
+	 *
 	 * @param content the content object.
 	 * @return the content object's offset.
 	 * @throws IOException
 	 */
+	@Override
 	public long writeContent(IContent content) throws IOException {
 		buffer.reset();
 
@@ -145,11 +148,12 @@ public class ReportContentWriterV2 implements IReportContentWriter {
 
 	/**
 	 * save the content and its children into the streams.
-	 * 
+	 *
 	 * @param content the content object
 	 * @return the offset of this content object.
 	 * @throws IOException
 	 */
+	@Override
 	public long writeFullContent(IContent content) throws IOException, BirtException {
 		ContentWriterVisitor writer = new ContentWriterVisitor();
 		writer.write(content, this);
@@ -162,7 +166,7 @@ public class ReportContentWriterV2 implements IReportContentWriter {
 
 	/**
 	 * use to writer the content into the disk.
-	 * 
+	 *
 	 */
 	private static class ContentWriterVisitor extends ContentVisitorAdapter {
 
@@ -170,10 +174,10 @@ public class ReportContentWriterV2 implements IReportContentWriter {
 		 * write all the contents in the content into streams. After the method, the
 		 * offset of the content is saved into the offset, and the offset of the parent
 		 * is saved into the parent offset.
-		 * 
+		 *
 		 * @param content content object
 		 * @param writer  writer used to write the content.
-		 * 
+		 *
 		 */
 		public void write(IContent content, IReportContentWriter writer) throws BirtException {
 			visit(content, writer);
@@ -187,6 +191,7 @@ public class ReportContentWriterV2 implements IReportContentWriter {
 			}
 		}
 
+		@Override
 		public Object visitContent(IContent content, Object value) {
 			IReportContentWriter writer = (IReportContentWriter) value;
 			writeContent(writer, content);
@@ -198,6 +203,7 @@ public class ReportContentWriterV2 implements IReportContentWriter {
 			return value;
 		}
 
+		@Override
 		public Object visitPage(IPageContent page, Object value) {
 			IReportContentWriter writer = (IReportContentWriter) value;
 			writeContent(writer, page);

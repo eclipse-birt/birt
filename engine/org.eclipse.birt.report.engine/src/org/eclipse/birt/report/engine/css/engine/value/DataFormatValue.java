@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,6 +42,7 @@ public class DataFormatValue extends Value implements Serializable, Cloneable {
 		values = new FormatValue[FORMATS];
 	}
 
+	@Override
 	public short getCssValueType() {
 		return CSSValue.CSS_CUSTOM;
 	}
@@ -55,14 +56,16 @@ public class DataFormatValue extends Value implements Serializable, Cloneable {
 	}
 
 	public String getStringPattern() {
-		if (values[STRING_FORMAT] == null)
+		if (values[STRING_FORMAT] == null) {
 			return null;
+		}
 		return values[STRING_FORMAT].pattern;
 	}
 
 	public String getStringLocale() {
-		if (values[STRING_FORMAT] == null)
+		if (values[STRING_FORMAT] == null) {
 			return null;
+		}
 		return values[STRING_FORMAT].locale;
 	}
 
@@ -75,14 +78,16 @@ public class DataFormatValue extends Value implements Serializable, Cloneable {
 	}
 
 	public String getNumberPattern() {
-		if (values[NUMBER_FORMAT] == null)
+		if (values[NUMBER_FORMAT] == null) {
 			return null;
+		}
 		return values[NUMBER_FORMAT].pattern;
 	}
 
 	public String getNumberLocale() {
-		if (values[NUMBER_FORMAT] == null)
+		if (values[NUMBER_FORMAT] == null) {
 			return null;
+		}
 		return values[NUMBER_FORMAT].locale;
 	}
 
@@ -95,14 +100,16 @@ public class DataFormatValue extends Value implements Serializable, Cloneable {
 	}
 
 	public String getDatePattern() {
-		if (values[DATE_FORMAT] == null)
+		if (values[DATE_FORMAT] == null) {
 			return null;
+		}
 		return values[DATE_FORMAT].pattern;
 	}
 
 	public String getDateLocale() {
-		if (values[DATE_FORMAT] == null)
+		if (values[DATE_FORMAT] == null) {
 			return null;
+		}
 		return values[DATE_FORMAT].locale;
 	}
 
@@ -115,14 +122,16 @@ public class DataFormatValue extends Value implements Serializable, Cloneable {
 	}
 
 	public String getTimePattern() {
-		if (values[TIME_FORMAT] == null)
+		if (values[TIME_FORMAT] == null) {
 			return null;
+		}
 		return values[TIME_FORMAT].pattern;
 	}
 
 	public String getTimeLocale() {
-		if (values[TIME_FORMAT] == null)
+		if (values[TIME_FORMAT] == null) {
 			return null;
+		}
 		return values[TIME_FORMAT].locale;
 	}
 
@@ -135,17 +144,20 @@ public class DataFormatValue extends Value implements Serializable, Cloneable {
 	}
 
 	public String getDateTimePattern() {
-		if (values[DATETIME_FORMAT] == null)
+		if (values[DATETIME_FORMAT] == null) {
 			return null;
+		}
 		return values[DATETIME_FORMAT].pattern;
 	}
 
 	public String getDateTimeLocale() {
-		if (values[DATETIME_FORMAT] == null)
+		if (values[DATETIME_FORMAT] == null) {
 			return null;
+		}
 		return values[DATETIME_FORMAT].locale;
 	}
 
+	@Override
 	public DataFormatValue clone() {
 		try {
 			return (DataFormatValue) super.clone();
@@ -188,8 +200,9 @@ public class DataFormatValue extends Value implements Serializable, Cloneable {
 	}
 
 	public static DataFormatValue createDataFormatValue(DataFormatValue oldValue) {
-		if (oldValue == null)
+		if (oldValue == null) {
 			return new DataFormatValue();
+		}
 		return oldValue.clone();
 	}
 
@@ -202,14 +215,6 @@ public class DataFormatValue extends Value implements Serializable, Cloneable {
 		public FormatValue(String p, String l) {
 			pattern = p;
 			locale = l;
-		}
-
-		public String getPattern() {
-			return pattern;
-		}
-
-		public String getLocale() {
-			return locale;
 		}
 	}
 }

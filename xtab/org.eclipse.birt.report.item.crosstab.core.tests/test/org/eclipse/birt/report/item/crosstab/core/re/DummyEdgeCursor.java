@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
 /**
- * 
+ *
  */
 
 public class DummyEdgeCursor extends DummyCursorSupport implements EdgeCursor {
@@ -39,10 +39,12 @@ public class DummyEdgeCursor extends DummyCursorSupport implements EdgeCursor {
 		this.count = count;
 	}
 
+	@Override
 	public long getPosition() throws OLAPException {
 		return pos;
 	}
 
+	@Override
 	public void setPosition(long position) throws OLAPException {
 		if (position < 1 || position > count) {
 			return;
@@ -63,14 +65,17 @@ public class DummyEdgeCursor extends DummyCursorSupport implements EdgeCursor {
 
 	}
 
+	@Override
 	public boolean isFirst() throws OLAPException {
 		return pos == 1;
 	}
 
+	@Override
 	public boolean isLast() throws OLAPException {
 		return pos == count;
 	}
 
+	@Override
 	public void beforeFirst() throws OLAPException {
 		pos = 0;
 		first = true;
@@ -80,6 +85,7 @@ public class DummyEdgeCursor extends DummyCursorSupport implements EdgeCursor {
 		}
 	}
 
+	@Override
 	public boolean next() throws OLAPException {
 		pos++;
 
@@ -129,25 +135,30 @@ public class DummyEdgeCursor extends DummyCursorSupport implements EdgeCursor {
 		dimentions.add(dim);
 	}
 
+	@Override
 	public List getDimensionCursor() throws OLAPException {
 		return dimentions;
 	}
 
+	@Override
 	public CubeCursor getOrdinateOwner() throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public CubeCursor getPageOwner() throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void setOrdinateOwner(CubeCursor value) throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setPageOwner(CubeCursor value) throws OLAPException {
 		// TODO Auto-generated method stub
 

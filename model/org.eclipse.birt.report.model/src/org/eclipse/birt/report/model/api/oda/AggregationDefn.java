@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -71,7 +71,7 @@ public class AggregationDefn implements IAggregationDefn {
 
 	/**
 	 * Construct aggregation definition based on BIRT predefined aggregation id.
-	 * 
+	 *
 	 * @param birtAggregationId birt predefined aggregation id.
 	 * @throws IllegalArgumentException exception when the passed in birt
 	 *                                  aggregation id is not predefined.
@@ -79,17 +79,19 @@ public class AggregationDefn implements IAggregationDefn {
 	public AggregationDefn(String birtAggregationId) throws IllegalArgumentException {
 
 		this.birtAggregationId = birtAggregationId;
-		if (!OdaAggregationHelper.birtPredefinedAggregationConstants.contains(birtAggregationId))
+		if (!OdaAggregationHelper.birtPredefinedAggregationConstants.contains(birtAggregationId)) {
 			throw new IllegalArgumentException("The Birt filter expression Id" + birtAggregationId + " is not valid.");
+		}
 		initBirtAggregation(birtAggregationId.toLowerCase().hashCode(), birtAggregationId);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.oda.interfaces.IAggregationDefn#
 	 * canIgnoreDuplicateValues()
 	 */
+	@Override
 	public boolean canIgnoreDuplicateValues() {
 
 		return false;
@@ -97,10 +99,11 @@ public class AggregationDefn implements IAggregationDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.oda.interfaces.IAggregationDefn#
 	 * canIgnoreNullValues()
 	 */
+	@Override
 	public boolean canIgnoreNullValues() {
 
 		return false;
@@ -108,20 +111,22 @@ public class AggregationDefn implements IAggregationDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.oda.interfaces.IAggregationDefn#
 	 * getBirtAggregationDisplayName()
 	 */
+	@Override
 	public String getBirtAggregationDisplayName() {
 		return this.birtAggregationDisplayName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.oda.interfaces.IAggregationDefn#
 	 * getBirtAggregationId()
 	 */
+	@Override
 	public String getBirtAggregationId() {
 
 		return this.birtAggregationId;
@@ -129,38 +134,43 @@ public class AggregationDefn implements IAggregationDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.oda.interfaces.IAggregationDefn#
 	 * getMaxInputVariables()
 	 */
+	@Override
 	public Integer getMaxInputVariables() {
 
-		if (maxInputVar == UNDEFINED)
+		if (maxInputVar == UNDEFINED) {
 			return null;
+		}
 
 		return this.maxInputVar;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.oda.interfaces.IAggregationDefn#
 	 * getMinInputVariables()
 	 */
+	@Override
 	public Integer getMinInputVariables() {
 
-		if (minInputVar == UNDEFINED)
+		if (minInputVar == UNDEFINED) {
 			return null;
+		}
 
 		return this.minInputVar;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.oda.interfaces.IAggregationDefn#
 	 * getODAAggregationDisplayName()
 	 */
+	@Override
 	public String getODAAggregationDisplayName() {
 
 		return null;
@@ -168,10 +178,11 @@ public class AggregationDefn implements IAggregationDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.oda.interfaces.IAggregationDefn#
 	 * getODAAggregationId()
 	 */
+	@Override
 	public String getODAAggregationId() {
 
 		return null;
@@ -179,10 +190,11 @@ public class AggregationDefn implements IAggregationDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.oda.interfaces.IAggregationDefn#
 	 * getProviderExtensionId()
 	 */
+	@Override
 	public String getProviderExtensionId() {
 
 		return null;
@@ -190,10 +202,11 @@ public class AggregationDefn implements IAggregationDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.api.oda.interfaces.IAggregationDefn#
 	 * supportsUnboundedMaxInputVariables()
 	 */
+	@Override
 	public boolean supportsUnboundedMaxInputVariables() {
 
 		return false;
@@ -385,8 +398,9 @@ public class AggregationDefn implements IAggregationDefn {
 		// throw new IllegalArgumentException("The Birt filter expression Id"
 		// + id + "is not valid.");
 
-		if (birtAggregationId != null)
+		if (birtAggregationId != null) {
 			birtAggregationDisplayName = getAggregationDisplayName(birtAggregationId);
+		}
 
 	}
 
@@ -401,8 +415,9 @@ public class AggregationDefn implements IAggregationDefn {
 		assert allowedChoices != null;
 
 		IChoice choice = allowedChoices.findChoice(birtAggregationId);
-		if (choice != null)
+		if (choice != null) {
 			return choice.getDisplayName();
+		}
 
 		return null;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  * @author Administrator
- * 
+ *
  */
 public class CrosstabBindingComboPropertyDescriptor extends PropertyDescriptor {
 
@@ -54,6 +54,7 @@ public class CrosstabBindingComboPropertyDescriptor extends PropertyDescriptor {
 		setFormStyle(formStyle);
 	}
 
+	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 		getDescriptorProvider().setInput(input);
@@ -61,20 +62,22 @@ public class CrosstabBindingComboPropertyDescriptor extends PropertyDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
+	@Override
 	public Control getControl() {
 		return combo;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		if (isFormStyle()) {
 			combo = FormWidgetFactory.getInstance().createCCombo(parent, true);
@@ -89,20 +92,24 @@ public class CrosstabBindingComboPropertyDescriptor extends PropertyDescriptor {
 	protected void addListeners() {
 		combo.addControlListener(new ControlListener() {
 
+			@Override
 			public void controlMoved(ControlEvent e) {
 				combo.clearSelection();
 			}
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				combo.clearSelection();
 			}
 		});
 		combo.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleComboSelectEvent();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				handleComboSelectEvent();
 			}
@@ -110,6 +117,7 @@ public class CrosstabBindingComboPropertyDescriptor extends PropertyDescriptor {
 
 		focusListener = new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				if (combo.isEnabled()) {
 					handleComboSelectEvent();
@@ -148,6 +156,7 @@ public class CrosstabBindingComboPropertyDescriptor extends PropertyDescriptor {
 		return style;
 	}
 
+	@Override
 	public void load() {
 		oldValue = (CubeHandle) getDescriptorProvider().load();
 		refresh(oldValue);
@@ -155,7 +164,7 @@ public class CrosstabBindingComboPropertyDescriptor extends PropertyDescriptor {
 
 	/**
 	 * Add a SWT style to the combo widget
-	 * 
+	 *
 	 * @param style The SWT style to add.
 	 */
 	public void addStyle(int style) {
@@ -172,6 +181,7 @@ public class CrosstabBindingComboPropertyDescriptor extends PropertyDescriptor {
 		}
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		getDescriptorProvider().save(value);
 	}

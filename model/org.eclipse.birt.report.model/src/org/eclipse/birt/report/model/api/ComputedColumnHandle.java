@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,14 +28,14 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
  * Represents the handle of computed column. A computed column is a 'virtual'
  * column produced as an expression of other columns within the data set. It
  * includes the column name and the expression used to define a computed column.
- * 
+ *
  */
 
 public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of computed column.
-	 * 
+	 *
 	 * @param valueHandle the value handle for computed column list of one property
 	 * @param index       the position of this computed column in the list
 	 */
@@ -46,18 +46,19 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Returns the column name.
-	 * 
+	 *
 	 * @return the column name
 	 * @deprecated using {@link #getName()} instead.
 	 */
 
+	@Deprecated
 	public String getColumnName() {
 		return getName();
 	}
 
 	/**
 	 * Returns column display name.
-	 * 
+	 *
 	 * @return column display name.
 	 */
 
@@ -67,7 +68,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Gets column display name id.
-	 * 
+	 *
 	 * @return column display name id.
 	 */
 	public String getDisplayNameID() {
@@ -76,7 +77,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Sets column display name id.
-	 * 
+	 *
 	 * @param displayNameID the column display name id.
 	 * @throws SemanticException
 	 */
@@ -88,9 +89,9 @@ public class ComputedColumnHandle extends StructureHandle {
 	 * Returns the localized text for the computed column. If the localized text for
 	 * the text resource key is found, it will be returned. Otherwise, the static
 	 * text will be returned.
-	 * 
+	 *
 	 * @return the localized display name.
-	 * 
+	 *
 	 */
 	public String getDisplayText() {
 		return getExternalizedValue(ComputedColumn.DISPLAY_NAME_ID_MEMBER, ComputedColumn.DISPLAY_NAME_MEMBER);
@@ -98,7 +99,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Returns the column name.
-	 * 
+	 *
 	 * @return the column name
 	 */
 
@@ -108,21 +109,22 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Sets the column name.
-	 * 
+	 *
 	 * @param columnName the column name to set
 	 * @deprecated using {@link #setName(String)} instead.
 	 */
 
+	@Deprecated
 	public void setColumnName(String columnName) {
 	}
 
 	/**
 	 * Sets the column display name.
-	 * 
+	 *
 	 * @param columnDisplayName the column display name to set.
 	 * @throws SemanticException if the new column display name duplicates with the
 	 *                           existed ones.
-	 * 
+	 *
 	 */
 
 	public void setDisplayName(String columnDisplayName) throws SemanticException {
@@ -131,11 +133,11 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Sets the column name.
-	 * 
+	 *
 	 * @param columnName the column name to set.
 	 * @throws SemanticException if the new column name duplicates with the existed
 	 *                           ones.
-	 * 
+	 *
 	 */
 
 	public void setName(String columnName) throws SemanticException {
@@ -144,7 +146,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Returns the expression used to define this computed column.
-	 * 
+	 *
 	 * @return the expression used to define this computed column
 	 */
 
@@ -154,7 +156,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Sets the expression used to define this computed column.
-	 * 
+	 *
 	 * @param expression the expression to set
 	 * @throws SemanticException value required exception
 	 */
@@ -165,23 +167,25 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Returns the aggregateOn expression used to define this computed column.
-	 * 
+	 *
 	 * @return the aggregateOn expression used to define this computed column
-	 * 
+	 *
 	 * @deprecated by {@link #getAggregateOn()}
 	 */
 
+	@Deprecated
 	public String getAggregrateOn() {
 		return getAggregateOn();
 	}
 
 	/**
 	 * Sets the aggregateOn expression used to define this computed column.
-	 * 
+	 *
 	 * @param aggregateOn the aggregateOn expression to set
 	 * @deprecated by {@link #setAggregateOn(String)}
 	 */
 
+	@Deprecated
 	public void setAggregrateOn(String aggregateOn) {
 		setAggregateOn(aggregateOn);
 	}
@@ -200,7 +204,7 @@ public class ComputedColumnHandle extends StructureHandle {
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 * 
+	 *
 	 * @return the data type of this column.
 	 */
 
@@ -222,7 +226,7 @@ public class ComputedColumnHandle extends StructureHandle {
 	 * <li>COLUMN_DATA_TYPE_STRUCTURE
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
-	 * 
+	 *
 	 * @param dataType the data type to set
 	 * @throws SemanticException if the dataType is not in the choice list.
 	 */
@@ -233,7 +237,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Adds an aggregate level to the list.
-	 * 
+	 *
 	 * @param aggreValue the aggregate name. For listing elements, this can be "All"
 	 *                   or the name of a single group.
 	 * @throws SemanticException
@@ -246,7 +250,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Adds an arguments to list.
-	 * 
+	 *
 	 * @param argument the aggregate function argument
 	 * @return aggregation argument handle.
 	 * @throws SemanticException
@@ -260,14 +264,14 @@ public class ComputedColumnHandle extends StructureHandle {
 	/**
 	 * Returns the expression used to define this computed column. The function is
 	 * one of following values:
-	 * 
+	 *
 	 * <ul>
 	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_SUM
 	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_COUNT
 	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_MIN
 	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_MAX
 	 * </ul>
-	 * 
+	 *
 	 * @return the expression used to define this computed column
 	 */
 
@@ -277,28 +281,30 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Returns the aggregateOn expression used to define this computed column.
-	 * 
+	 *
 	 * @return the aggregateOn expression used to define this computed column
 	 */
 
 	public String getAggregateOn() {
 		List aggres = getAggregateOnList();
-		if (aggres == null || aggres.isEmpty())
+		if (aggres == null || aggres.isEmpty()) {
 			return null;
+		}
 
 		return (String) aggres.get(0);
 	}
 
 	/**
 	 * Returns the list containing levels to be aggregated on.
-	 * 
+	 *
 	 * @return the list containing levels to be aggregated on
 	 */
 
 	public List getAggregateOnList() {
 		List aggregateOns = (List) getProperty(ComputedColumn.AGGREGATEON_MEMBER);
-		if (aggregateOns == null)
+		if (aggregateOns == null) {
 			return Collections.EMPTY_LIST;
+		}
 
 		return Collections.unmodifiableList(aggregateOns);
 	}
@@ -306,7 +312,7 @@ public class ComputedColumnHandle extends StructureHandle {
 	/**
 	 * Returns additional arguments to the aggregate function. Each item in the list
 	 * is instance of <code>AggregationArgumentHandle</code>.
-	 * 
+	 *
 	 * @return a list containing additional arguments
 	 */
 
@@ -318,7 +324,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Returns the expression used to define this computed column.
-	 * 
+	 *
 	 * @return the expression used to define this computed column
 	 */
 
@@ -328,7 +334,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Removes an aggregate level from the list.
-	 * 
+	 *
 	 * @param aggreValue the aggregate name. For listing elements, this can be "All"
 	 *                   or the name of a single group.
 	 * @throws SemanticException
@@ -341,7 +347,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Removes an arguments from list.
-	 * 
+	 *
 	 * @param argument the aggregate function argument
 	 * @throws SemanticException
 	 */
@@ -354,15 +360,15 @@ public class ComputedColumnHandle extends StructureHandle {
 	/**
 	 * Sets the expression used to define this computed column. The function is one
 	 * of following values:
-	 * 
+	 *
 	 * <ul>
 	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_SUM
 	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_COUNT
 	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_MIN
 	 * <li>DesignChoiceConstants.MEASURE_FUNCTION_MAX
 	 * </ul>
-	 * 
-	 * 
+	 *
+	 *
 	 * @param expression the expression to set
 	 * @throws SemanticException if the <code>expression</code> is not one of above
 	 *                           values.
@@ -374,9 +380,9 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Sets the aggregateOn expression used to define this computed column.
-	 * 
+	 *
 	 * @param aggregateOn the aggregateOn expression to set
-	 * 
+	 *
 	 */
 
 	public void setAggregateOn(String aggregateOn) {
@@ -391,7 +397,7 @@ public class ComputedColumnHandle extends StructureHandle {
 			return;
 		}
 
-		List<String> newValue = new ArrayList<String>();
+		List<String> newValue = new ArrayList<>();
 		newValue.add(aggregateOn);
 
 		try {
@@ -403,7 +409,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Sets the expression used to define this computed column.
-	 * 
+	 *
 	 * @param expression the expression to set
 	 * @throws SemanticException value required exception
 	 */
@@ -414,7 +420,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Clears the aggregate on list.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -424,7 +430,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Clears the argument list.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -434,19 +440,20 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Gets the flag which indicates whether the computed column supports export.
-	 * 
+	 *
 	 * @return true if it allows, otherwise false.
 	 */
 	public boolean allowExport() {
 		Boolean value = (Boolean) getProperty(ComputedColumn.ALLOW_EXPORT_MEMBER);
-		if (value != null)
+		if (value != null) {
 			return value.booleanValue();
+		}
 		return true;
 	}
 
 	/**
 	 * Sets the flag which indicates whether the computed column supports export.
-	 * 
+	 *
 	 * @param allowExport the flag to set
 	 * @throws SemanticException
 	 */
@@ -457,7 +464,7 @@ public class ComputedColumnHandle extends StructureHandle {
 	/**
 	 * Gets the calculation function name. The value is defined by customer DB
 	 * calculation executor.
-	 * 
+	 *
 	 * @param calculationType
 	 * @throws SemanticException
 	 */
@@ -468,7 +475,7 @@ public class ComputedColumnHandle extends StructureHandle {
 	/**
 	 * Gets the calculation function name. The value is defined by customer DB
 	 * calculation executor.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getCalculationType() {
@@ -479,7 +486,7 @@ public class ComputedColumnHandle extends StructureHandle {
 	 * Returns a iterator of calculation arguments for specific calculation type.
 	 * Each item in the list is instance of
 	 * <code>CalculationAggregationArgumentHandle</code>.
-	 * 
+	 *
 	 * @return a list containing calculation arguments
 	 */
 
@@ -491,7 +498,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Adds a calculation argument to list.
-	 * 
+	 *
 	 * @param argument the calculation argument for specific calculation type
 	 * @return calculation argument handle.
 	 * @throws SemanticException
@@ -504,7 +511,7 @@ public class ComputedColumnHandle extends StructureHandle {
 
 	/**
 	 * Removes a calculation argument from list.
-	 * 
+	 *
 	 * @param argument the calculation argument
 	 * @throws SemanticException
 	 */
@@ -515,17 +522,17 @@ public class ComputedColumnHandle extends StructureHandle {
 	}
 
 	/**
-	 * 
+	 *
 	 * Sets reference date type for the calculation in this column. The type is one
 	 * of following values:
-	 * 
+	 *
 	 * <ul>
 	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY
 	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE
 	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_ENDING_DATE_IN_DIMENSION
 	 * </ul>
-	 * 
-	 * 
+	 *
+	 *
 	 * @param refDateType the reference date type to set
 	 * @throws SemanticException if the <code>refDateType</code> is not one of above
 	 *                           values.
@@ -535,16 +542,16 @@ public class ComputedColumnHandle extends StructureHandle {
 	}
 
 	/**
-	 * 
+	 *
 	 * Returns reference date type for the calculation in this column. The type is
 	 * one of following values:
-	 * 
+	 *
 	 * <ul>
 	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_TODAY
 	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_FIXED_DATE
 	 * <li>DesignChoiceConstants.REFERENCE_DATE_TYPE_ENDING_DATE_IN_DIMENSION
 	 * </ul>
-	 * 
+	 *
 	 * @return the reference date type
 	 */
 	public String getReferenceDateType() {
@@ -554,7 +561,7 @@ public class ComputedColumnHandle extends StructureHandle {
 	/**
 	 * Gets the expression handle for the reference date value member. Then use the
 	 * returned handle to do get/set action.
-	 * 
+	 *
 	 * @return
 	 */
 	public ExpressionHandle getReferenceDateValue() {
@@ -564,7 +571,7 @@ public class ComputedColumnHandle extends StructureHandle {
 	/**
 	 * Gets the time dimension string value. It is the name of the referenced time
 	 * dimension.
-	 * 
+	 *
 	 * @return the referred time dimension name
 	 */
 	public String getTimeDimension() {
@@ -574,7 +581,7 @@ public class ComputedColumnHandle extends StructureHandle {
 	/**
 	 * Sets the time dimension string value. It is the name of the referred time
 	 * dimension element.
-	 * 
+	 *
 	 * @param timeDimension
 	 * @throws SemanticException
 	 */

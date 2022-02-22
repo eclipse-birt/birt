@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,6 +67,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 	 * @see TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		design = (ReportDesign) DesignEngine.newSession(ULocale.ENGLISH).createDesign().getModule();
 		designHandle = (ReportDesignHandle) design.getHandle(design);
@@ -111,7 +112,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 	 * So, the result should be: A,B share common property UP1.
 	 * <p>
 	 * Also, test to see the handle is mutable.
-	 * 
+	 *
 	 * @throws MetaDataException
 	 */
 
@@ -165,7 +166,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 		DesignElementHandle handle2 = new FakeElementHandle(design, new MockupDesignElement(elemDefn2));
 		DesignElementHandle handle3 = new FakeElementHandle(design, new MockupDesignElement(elemDefn3));
 
-		ArrayList<DesignElementHandle> elements = new ArrayList<DesignElementHandle>();
+		ArrayList<DesignElementHandle> elements = new ArrayList<>();
 		elements.add(handle1);
 		elements.add(handle2);
 		elements.add(handle3);
@@ -199,7 +200,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 		handle2 = new FakeElementHandle(design, new MockupDesignElement(elemDefn2));
 		handle3 = new FakeElementHandle(design, new MockupDesignElement(elemDefn3));
 
-		elements = new ArrayList<DesignElementHandle>();
+		elements = new ArrayList<>();
 		elements.add(handle1);
 		elements.add(handle2);
 		elements.add(handle3);
@@ -229,7 +230,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 		handle2 = new FakeElementHandle(design, new MockupDesignElement(elemDefn2));
 		handle3 = new FakeElementHandle(design, new MockupDesignElement(elemDefn3));
 
-		elements = new ArrayList<DesignElementHandle>();
+		elements = new ArrayList<>();
 		elements.add(handle1);
 		elements.add(handle2);
 		elements.add(handle3);
@@ -266,7 +267,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 		handle1 = new FakeElementHandle(design, element1);
 		handle2 = new FakeElementHandle(design, element2);
 
-		elements = new ArrayList<DesignElementHandle>();
+		elements = new ArrayList<>();
 		elements.add(handle1);
 		elements.add(handle2);
 
@@ -288,7 +289,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 		handle1 = new FakeElementHandle(design, new MockupDesignElement(elemDefn1));
 		handle2 = new FakeElementHandle(design, new MockupDesignElement(elemDefn2));
 
-		elements = new ArrayList<DesignElementHandle>();
+		elements = new ArrayList<>();
 		elements.add(handle1);
 		elements.add(handle2);
 
@@ -316,7 +317,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Finds the common properties with design element handles and slot handles.
-	 * 
+	 *
 	 * @throws MetaDataException
 	 */
 
@@ -379,7 +380,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 	 * <p>
 	 * 3. test
 	 * {@link org.eclipse.birt.report.model.api.GroupElementHandle#getPropertyHandle(String)}
-	 * 
+	 *
 	 * @throws SemanticException
 	 * @throws UserPropertyException
 	 * @throws PropertyValueException
@@ -440,9 +441,9 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Test clear all properties.
-	 * 
+	 *
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 	public void testClearAllProperties() throws SemanticException {
 		ArrayList elements = new ArrayList();
@@ -557,11 +558,11 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 	/**
 	 * test isExtendedElements().
-	 * 
+	 *
 	 * @throws NameException
 	 * @throws ContentException
 	 * @throws ExtendsException
-	 * 
+	 *
 	 */
 
 	public void testIsExtendedElements() throws ContentException, NameException, ExtendsException {
@@ -600,7 +601,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 	 * <li>Modify one property of label in grid and 'restore' button should be
 	 * enabled.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception any exception
 	 */
 
@@ -611,7 +612,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 		LabelHandle labelHandle = (LabelHandle) designHandle.findElement("aa");//$NON-NLS-1$
 
-		List<DesignElementHandle> elements = new ArrayList<DesignElementHandle>();
+		List<DesignElementHandle> elements = new ArrayList<>();
 		elements.add(labelHandle);
 		GroupElementHandle groupElementHandle = new SimpleGroupElementHandle(designHandle, elements);
 		assertFalse(groupElementHandle.hasLocalPropertiesForExtendedElements());
@@ -648,8 +649,8 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
-	 * 
-	 * 
+	 *
+	 *
 	 */
 
 	public void testHasLocalProperties() throws SemanticException {
@@ -690,7 +691,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Test propertyIterator().`
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -721,7 +722,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Test visiblePropertyIterator().
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -750,7 +751,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Test shareSameValue().
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -790,7 +791,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Test getStringValue().
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -857,7 +858,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests getting report design and its handle from a group element handle.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -878,7 +879,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Test visiblePropertyIterator().
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -938,7 +939,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Test isPropertyReadOnly() & isPropertyVisible().
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -979,7 +980,7 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 	/**
 	 * Test getDisplayProperty().
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -1010,9 +1011,10 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getElement()
 		 */
+		@Override
 		public DesignElement getElement() {
 			return this.element;
 		}
@@ -1025,10 +1027,11 @@ public class GroupElementHandleTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.metadata.ElementDefn#build()
 		 */
 
+		@Override
 		protected void build() throws MetaDataException {
 			// cached property definitions defined on parents
 
@@ -1053,17 +1056,21 @@ public class GroupElementHandleTest extends BaseTestCase {
 			this.defn = defn;
 		}
 
+		@Override
 		public IElementDefn getDefn() {
 			return this.defn;
 		}
 
+		@Override
 		public void apply(ElementVisitor visitor) {
 		}
 
+		@Override
 		public String getElementName() {
 			return null;
 		}
 
+		@Override
 		public DesignElementHandle getHandle(Module rootElement) {
 			return null;
 		}

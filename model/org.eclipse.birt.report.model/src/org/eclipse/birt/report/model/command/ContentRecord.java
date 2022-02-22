@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,7 +65,7 @@ import org.eclipse.birt.report.model.validators.ValidationNode;
  * Records adding a content into a container, or removing content from a
  * container. Removing a content from a container effectively deletes the
  * content from the report design .
- * 
+ *
  */
 
 public class ContentRecord extends SimpleRecord {
@@ -102,7 +102,7 @@ public class ContentRecord extends SimpleRecord {
 	/**
 	 * Constructs the record with container element, slot id, content element, and
 	 * flag for adding or dropping.
-	 * 
+	 *
 	 * @param module         the module in which this record executes
 	 * @param containerInfor The container information
 	 * @param contentObj     The content object to add or remove.
@@ -118,7 +118,7 @@ public class ContentRecord extends SimpleRecord {
 	/**
 	 * Constructs the record for adding with container element, slot id, content
 	 * element, and position in container.
-	 * 
+	 *
 	 * @param module        the module in which this record executes
 	 * @param containerInfo The container information
 	 * @param contentObj    The content object to add or remove.
@@ -133,7 +133,7 @@ public class ContentRecord extends SimpleRecord {
 
 	/**
 	 * Initializes the record.
-	 * 
+	 *
 	 * @param containerObj the container element
 	 * @param theSlot      the slotID in which to put the content
 	 * @param contentObj   the content object to add or remove
@@ -162,45 +162,50 @@ public class ContentRecord extends SimpleRecord {
 			assert oldPosn != -1;
 		}
 
-		if (add)
+		if (add) {
 			label = CommandLabelFactory.getCommandLabel(MessageConstants.ADD_ELEMENT_MESSAGE);
-		else
+		} else {
 			label = CommandLabelFactory.getCommandLabel(MessageConstants.DROP_ELEMENT_MESSAGE);
+		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform()
 	 */
 
+	@Override
 	public DesignElement getTarget() {
-		if (eventTarget != null)
+		if (eventTarget != null) {
 			return eventTarget.getElement();
+		}
 
 		return containerInfo.getElement();
 	}
 
 	/**
 	 * Not used in this class.
-	 * 
+	 *
 	 * @return null is always returned.
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
+	@Override
 	public NotificationEvent getEvent() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
 	 * (boolean)
 	 */
 
+	@Override
 	protected void perform(boolean undo) {
 		if (add && !undo || !add && undo) {
 			containerInfo.add(module, content, oldPosn);
@@ -208,14 +213,16 @@ public class ContentRecord extends SimpleRecord {
 			// Add the item to the element ID map if we are using
 			// element IDs.
 
-			if (content.getRoot() != null)
+			if (content.getRoot() != null) {
 				module.manageId(content, true);
+			}
 		} else {
 			// Remove the element from the ID map if we are using
 			// IDs.
 
-			if (content.getRoot() != null)
+			if (content.getRoot() != null) {
 				module.manageId(content, false);
+			}
 
 			oldPosn = containerInfo.indexOf(module, content);
 			containerInfo.remove(module, content);
@@ -251,17 +258,18 @@ public class ContentRecord extends SimpleRecord {
 	}
 
 	private void adjustReferenceClients(IReferencableElement referred) {
-		List<BackRef> clients = new ArrayList<BackRef>(referred.getClientList());
+		List<BackRef> clients = new ArrayList<>(referred.getClientList());
 
 		Iterator<BackRef> iter = clients.iterator();
 		while (iter.hasNext()) {
 			BackRef ref = iter.next();
 			DesignElement client = ref.getElement();
 
-			if (client != null)
+			if (client != null) {
 				ElementBackRefRecord.unresolveBackRef(module, client, referred, ref.getPropertyName());
-			else
+			} else {
 				ElementBackRefRecord.unresolveBackRef(module, ref.getStructure(), referred, ref.getPropertyName());
+			}
 		}
 	}
 
@@ -279,8 +287,9 @@ public class ContentRecord extends SimpleRecord {
 			// handled in remove method.
 
 			if (IDesignElementModel.EXTENDS_PROP.equalsIgnoreCase(propDefn.getName())
-					|| IStyledElementModel.STYLE_PROP.equalsIgnoreCase(propDefn.getName()))
+					|| IStyledElementModel.STYLE_PROP.equalsIgnoreCase(propDefn.getName())) {
 				continue;
+			}
 
 			if (propDefn.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE
 					|| propDefn.getTypeCode() == IPropertyType.STRUCT_REF_TYPE) {
@@ -313,25 +322,27 @@ public class ContentRecord extends SimpleRecord {
 
 	/**
 	 * Indicate whether the given <code>content</code> is a CSS-selecter.
-	 * 
+	 *
 	 * @param content a given design element
 	 * @return <code>true</code> if it is a predefined style.
 	 */
 
 	private boolean isSelector(DesignElement content) {
-		if (!(content instanceof StyleElement))
+		if (!(content instanceof StyleElement)) {
 			return false;
+		}
 
 		return MetaDataDictionary.getInstance().getPredefinedStyle(content.getName()) != null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.validators.core.IValidatorProvider#
 	 * getValidators()
 	 */
 
+	@Override
 	public List<ValidationNode> getValidators() {
 		List<ValidationNode> list = ValidationExecutor.getValidationNodes(this.containerInfo.getElement(),
 				containerInfo.getTriggerSetForContainerDefn(), false);
@@ -348,14 +359,13 @@ public class ContentRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
+	@Override
 	protected List<RecordTask> getPostTasks() {
-		List<RecordTask> retValue = new ArrayList<RecordTask>();
-		retValue.addAll(super.getPostTasks());
-
+		List<RecordTask> retValue = new ArrayList<>(super.getPostTasks());
 		DesignElement container = containerInfo.getElement();
 
 		// if the element works like properties, return property event instead
@@ -380,13 +390,15 @@ public class ContentRecord extends SimpleRecord {
 		// Send the content changed event to the container.
 
 		NotificationEvent event = null;
-		if (add && state != UNDONE_STATE || !add && state == UNDONE_STATE)
+		if (add && state != UNDONE_STATE || !add && state == UNDONE_STATE) {
 			event = new ContentEvent(containerInfo, content, ContentEvent.ADD);
-		else
+		} else {
 			event = new ContentEvent(containerInfo, content, ContentEvent.REMOVE);
+		}
 
-		if (state == DONE_STATE)
+		if (state == DONE_STATE) {
 			event.setSender(sender);
+		}
 
 		retValue.add(new NotificationRecordTask(container, event));
 
@@ -399,10 +411,9 @@ public class ContentRecord extends SimpleRecord {
 		// event to the content.
 
 		if (add && state != UNDONE_STATE || !add && state == UNDONE_STATE) {
-			if (isSelector(content))
-				// content.broadcast( event, container.getRoot( ) );
-
+			if (isSelector(content)) {
 				retValue.add(new NotificationRecordTask(content, event, container.getRoot()));
+			}
 
 			return retValue;
 		}
@@ -413,12 +424,14 @@ public class ContentRecord extends SimpleRecord {
 		if (content instanceof Parameter || content instanceof ParameterGroup || content instanceof SimpleDataSet
 				|| content instanceof StyleElement) {
 			event = new ElementDeletedEvent(container, content);
-			if (state == DONE_STATE)
+			if (state == DONE_STATE) {
 				event.setSender(sender);
+			}
 
 			retValue.add(new NotificationRecordTask(content, event, container.getRoot()));
-		} else
+		} else {
 			content.clearListeners();
+		}
 
 		return retValue;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -35,15 +35,17 @@ public class LoggerSetting {
 	}
 
 	public LoggerSetting(Logger[] userLoggers, Handler[] handlers, Level logLevel) {
-		if (userLoggers.length != 0)
+		if (userLoggers.length != 0) {
 			this.userLoggers = userLoggers;
-		else
+		} else {
 			this.userLoggers = null;
+		}
 
-		if (handlers.length != 0)
+		if (handlers.length != 0) {
 			this.handlers = handlers;
-		else
+		} else {
 			this.handlers = null;
+		}
 
 		this.logLevel = logLevel;
 	}

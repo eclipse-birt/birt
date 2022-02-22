@@ -33,20 +33,22 @@ public class URIPropertyType extends TextualPropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
+	@Override
 	public int getTypeCode() {
 		return URI_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
+	@Override
 	public String getName() {
 		return URI_TYPE_NAME;
 	}

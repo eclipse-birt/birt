@@ -45,7 +45,7 @@ public class ChartUIExtensionUtil {
 
 	/**
 	 * Populates series type list.
-	 * 
+	 *
 	 * @param htSeriesNames
 	 * @param cmbTypes
 	 * @param context
@@ -95,7 +95,7 @@ public class ChartUIExtensionUtil {
 
 	/**
 	 * Create an instance of CurveFitting according to current context.
-	 * 
+	 *
 	 * @param context
 	 * @return an instance of CurveFitting
 	 */

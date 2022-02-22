@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -63,13 +63,13 @@ public class CSSUtil {
 	private static final double POINTS_PER_PICA = 12;
 
 	/**
-	 *  
+	 *
 	 */
 	public static final org.eclipse.swt.graphics.Point dpi = Display.getDefault().getDPI();
 
 	/**
 	 * Gets font size of given object.
-	 * 
+	 *
 	 * @param object
 	 * @return
 	 */
@@ -85,7 +85,7 @@ public class CSSUtil {
 
 	/**
 	 * Gets font size of given design element handle.
-	 * 
+	 *
 	 * @param handle DesignElementHandle
 	 * @return
 	 */
@@ -115,7 +115,7 @@ public class CSSUtil {
 
 	/**
 	 * Gets the larger size of a given font size.
-	 * 
+	 *
 	 * @param curSize The given font size.
 	 */
 	public static String getLargerFontSize(String curSize) {
@@ -130,9 +130,9 @@ public class CSSUtil {
 
 	/**
 	 * Gets the smaller size of a given font size.
-	 * 
+	 *
 	 * @param curSize The given font size.
-	 * 
+	 *
 	 */
 	public static String getSmallerFontSize(String curSize) {
 		assert (curSize != null);
@@ -146,7 +146,7 @@ public class CSSUtil {
 
 	/**
 	 * Gets the int value of a String described font size.
-	 * 
+	 *
 	 * @param font The String described font size.
 	 */
 	public static int getFontSizeIntValue(String font) {
@@ -163,7 +163,7 @@ public class CSSUtil {
 
 	/**
 	 * Gets the int value of a String described font weight.
-	 * 
+	 *
 	 * @param fontWeight The String deccribed font weight.s
 	 */
 	public static int getFontWeight(String fontWeight) {
@@ -196,12 +196,12 @@ public class CSSUtil {
 
 	/**
 	 * Gets the font weight value of a design element handle.
-	 * 
+	 *
 	 * @param handle The given design element handle.
 	 * @return The int value of the font weight
 	 */
 	public static int getFontWeight(DesignElementHandle handle) {
-		int fontWeight = 400;
+		int fontWeight;
 		String font = null;
 		if (!(handle instanceof ReportItemHandle)) {
 			if (handle instanceof ModuleHandle) {
@@ -231,7 +231,7 @@ public class CSSUtil {
 
 	/**
 	 * Gets the bolder font weight of given font sweight.
-	 * 
+	 *
 	 * @param curWeight The given font weight.
 	 * @return The bolder font weight value
 	 */
@@ -245,7 +245,7 @@ public class CSSUtil {
 
 	/**
 	 * Gets the bolder font weight of a given String described font sweight.
-	 * 
+	 *
 	 * @param curWeight The given String described font weight.
 	 * @return The bolder font weight value
 	 */
@@ -259,7 +259,7 @@ public class CSSUtil {
 
 	/**
 	 * Gets the lighter font weight of a given String described font sweight.
-	 * 
+	 *
 	 * @param curWeight The given String described font weight.
 	 * @return The lighter font weight value
 	 */
@@ -273,7 +273,7 @@ public class CSSUtil {
 
 	/**
 	 * Gets the lighter font weight of a given font sweight.
-	 * 
+	 *
 	 * @param curWeight The given font weight.
 	 * @return The lighter font weight value
 	 */
@@ -287,7 +287,7 @@ public class CSSUtil {
 
 	/**
 	 * Converts object 's units to inch
-	 * 
+	 *
 	 * @param object
 	 * @return The inch value.
 	 */
@@ -297,7 +297,7 @@ public class CSSUtil {
 
 	/**
 	 * Converts object 's units to inch, with baseSize to compute the relative unit.
-	 * 
+	 *
 	 * @param object   The origine object, may be DimensionValue or DimensionHandle.
 	 * @param baseSize The given baseSize used to compute relative unit.
 	 * @return The inch value.
@@ -359,7 +359,7 @@ public class CSSUtil {
 	/**
 	 * Converts object 's units to pixel, with baseSize to compute the relative
 	 * unit.
-	 * 
+	 *
 	 * @param object
 	 * @param baseSize The given baseSize used to compute relative unit.
 	 * @return The pixel value.
@@ -370,7 +370,7 @@ public class CSSUtil {
 
 	/**
 	 * Converts object 's units to pixel.
-	 * 
+	 *
 	 * @param object
 	 * @return The pixel value.
 	 */
@@ -381,7 +381,7 @@ public class CSSUtil {
 	/**
 	 * Converts object 's units to point, with baseSize to compute the relative
 	 * unit.
-	 * 
+	 *
 	 * @param object
 	 * @param baseSize The given baseSize used to compute relative unit.
 	 * @return The point value.
@@ -392,7 +392,7 @@ public class CSSUtil {
 
 	/**
 	 * Converts object 's units to pixel.
-	 * 
+	 *
 	 * @param object
 	 * @return The pixel value.
 	 */
@@ -418,7 +418,7 @@ public class CSSUtil {
 
 	/**
 	 * Converts two inch value to pixels using a Point object to contain them.
-	 * 
+	 *
 	 * @param x a inch value.
 	 * @param y another inch value.
 	 * @return a Point object contains the two pixel values
@@ -431,7 +431,7 @@ public class CSSUtil {
 
 	/**
 	 * Converts pixel to inch.
-	 * 
+	 *
 	 */
 	public static double pixelToInch(double x) {
 		return x / dpi.x;
@@ -461,7 +461,7 @@ public class CSSUtil {
 
 	/**
 	 * Converts a absolute unit to another absolute unit.
-	 * 
+	 *
 	 * @param measure     The measure of the unit.
 	 * @param fromUnit    The from unit, must be absolute unit.
 	 * @param targetUnits The target unit, must be absolute unit.
@@ -470,75 +470,82 @@ public class CSSUtil {
 	public static DimensionValue convertTo(double measure, String fromUnit, String targetUnit) {
 		assert (isAbsoluteUnits(fromUnit));
 
-		if (targetUnit.equalsIgnoreCase(fromUnit))
+		if (targetUnit.equalsIgnoreCase(fromUnit)) {
 			return new DimensionValue(measure, fromUnit);
+		}
 
 		double targetMeasure = 0.0;
 
 		if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(targetUnit)) {
-			if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnit))
+			if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure / CM_PER_INCH;
-			else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure / CM_PER_INCH / 10;
-			else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure / POINTS_PER_INCH;
-			else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * POINTS_PER_PICA / POINTS_PER_INCH;
-			else
+			} else {
 				assert false;
+			}
 		} else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(targetUnit)) {
-			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnit))
+			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * CM_PER_INCH;
-			else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure / 10;
-			else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure / POINTS_PER_CM;
-			else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * POINTS_PER_PICA / POINTS_PER_CM;
-			else
+			} else {
 				assert false;
+			}
 		} else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(targetUnit)) {
-			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnit))
+			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * CM_PER_INCH * 10;
-			else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * 10;
-			else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * 10 / POINTS_PER_CM;
-			else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * POINTS_PER_PICA * 10 / POINTS_PER_CM;
-			else
+			} else {
 				assert false;
+			}
 		} else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(targetUnit)) {
-			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnit))
+			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * POINTS_PER_INCH;
-			else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * POINTS_PER_CM;
-			else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * POINTS_PER_CM / 10;
-			else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * POINTS_PER_PICA;
-			else
+			} else {
 				assert false;
+			}
 		} else if (DesignChoiceConstants.UNITS_PC.equalsIgnoreCase(targetUnit)) {
-			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnit))
+			if (DesignChoiceConstants.UNITS_IN.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * POINTS_PER_INCH / POINTS_PER_PICA;
-			else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_CM.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * POINTS_PER_CM / POINTS_PER_PICA;
-			else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_MM.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure * POINTS_PER_CM / 10 / POINTS_PER_PICA;
-			else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnit))
+			} else if (DesignChoiceConstants.UNITS_PT.equalsIgnoreCase(fromUnit)) {
 				targetMeasure = measure / POINTS_PER_PICA;
-			else
+			} else {
 				assert false;
-		} else
+			}
+		} else {
 			assert false;
+		}
 
 		return new DimensionValue(targetMeasure, targetUnit);
 	}
 
 	/**
 	 * Converts a DimensionValue object 's unit to another unit.
-	 * 
+	 *
 	 * @param dim         The DimeasionValue object.
 	 * @param defaultUnit The default unit for the dimension value if object has no
 	 *                    unit.
@@ -547,14 +554,15 @@ public class CSSUtil {
 	 */
 	public static DimensionValue convertTo(DimensionValue dim, String defaultUnit, String targetUnits) {
 		String fromUnit = dim.getUnits();
-		if (DimensionValue.DEFAULT_UNIT.equalsIgnoreCase(fromUnit))
+		if (DimensionValue.DEFAULT_UNIT.equalsIgnoreCase(fromUnit)) {
 			fromUnit = defaultUnit;
+		}
 		return convertTo(dim.getMeasure(), fromUnit, targetUnits);
 	}
 
 	/**
 	 * Converts a DimensionValue object 's unit to another unit.
-	 * 
+	 *
 	 * @param dimDesp     The DimeasionValue object 's String description.
 	 * @param defaultUnit The default unit for the dimension value if object has no
 	 *                    unit.

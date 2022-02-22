@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,17 +45,18 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Deals with dataset node
- * 
+ *
  */
 public class TabularDimensionNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the menu.
-	 * 
+	 *
 	 * @param menu   the menu
 	 * @param object the object
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		super.createContextMenu(sourceViewer, object, menu);
 
@@ -76,10 +77,11 @@ public class TabularDimensionNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
+	@Override
 	public String getNodeDisplayName(Object model) {
 		DimensionHandle dimension = (DimensionHandle) model;
 		return dimension.getName();
@@ -87,9 +89,10 @@ public class TabularDimensionNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Gets the children element of the given model using visitor.
-	 * 
+	 *
 	 * @param object the handle
 	 */
+	@Override
 	public Object[] getChildren(Object object) {
 		HierarchyHandle hierarchy = (HierarchyHandle) ((DimensionHandle) object)
 				.getContent(DimensionHandle.HIERARCHIES_PROP, 0);
@@ -102,28 +105,32 @@ public class TabularDimensionNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
 	 * #hasChildren(java.lang.Object)
 	 */
+	@Override
 	public boolean hasChildren(Object object) {
 		return getChildren(object).length > 0;
 	}
 
+	@Override
 	public Object getParent(Object model) {
 		DimensionHandle dimension = (DimensionHandle) model;
 		CubeHandle cube = (CubeHandle) dimension.getContainer();
-		if (cube != null)
+		if (cube != null) {
 			return cube.getPropertyHandle(ICubeModel.DIMENSIONS_PROP);
+		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
+	@Override
 	protected boolean performEdit(ReportElementHandle handle) {
 		DimensionHandle dimensionHandle = (DimensionHandle) handle;
 		CubeBuilder dialog = new CubeBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
@@ -134,6 +141,7 @@ public class TabularDimensionNodeProvider extends DefaultNodeProvider {
 		return dialog.open() == Dialog.OK;
 	}
 
+	@Override
 	public Image getNodeIcon(Object model) {
 		if (model instanceof DesignElementHandle && ((DesignElementHandle) model).getSemanticErrors().size() > 0) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);

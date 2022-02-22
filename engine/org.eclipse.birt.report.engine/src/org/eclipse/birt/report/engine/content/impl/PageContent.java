@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,6 +50,7 @@ public class PageContent extends AbstractContent implements IPageContent {
 
 	protected long pageNumber = -1;
 
+	@Override
 	public int getContentType() {
 		return PAGE_CONTENT;
 	}
@@ -77,6 +78,7 @@ public class PageContent extends AbstractContent implements IPageContent {
 		this.pageNumber = page.getPageNumber();
 	}
 
+	@Override
 	public void setGenerateBy(Object design) {
 		super.setGenerateBy(design);
 		if (design instanceof MasterPageDesign) {
@@ -103,6 +105,7 @@ public class PageContent extends AbstractContent implements IPageContent {
 		}
 	}
 
+	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitPage(this, value);
 	}
@@ -111,22 +114,27 @@ public class PageContent extends AbstractContent implements IPageContent {
 		return (MasterPageDesign) this.generateBy;
 	}
 
+	@Override
 	public String getOrientation() {
 		return orientation;
 	}
 
+	@Override
 	public String getPageType() {
 		return pageType;
 	}
 
+	@Override
 	public DimensionType getPageHeight() {
 		return pageHeight;
 	}
 
+	@Override
 	public DimensionType getPageWidth() {
 		return pageWidth;
 	}
 
+	@Override
 	public IImageContent getWaterMark() {
 		return waterMark;
 	}
@@ -134,6 +142,8 @@ public class PageContent extends AbstractContent implements IPageContent {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	public Collection getHeader() {
 		IContent header = getPageHeader();
 		if (header != null) {
@@ -145,6 +155,8 @@ public class PageContent extends AbstractContent implements IPageContent {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	public Collection getFooter() {
 		IContent footer = getPageFooter();
 		if (footer != null) {
@@ -153,6 +165,7 @@ public class PageContent extends AbstractContent implements IPageContent {
 		return null;
 	}
 
+	@Override
 	public void setPageHeader(IContent header) {
 		ArrayList cs = (ArrayList) children;
 		if (cs.size() >= 1) {
@@ -163,6 +176,7 @@ public class PageContent extends AbstractContent implements IPageContent {
 		}
 	}
 
+	@Override
 	public void setPageBody(IContent body) {
 		ArrayList cs = (ArrayList) children;
 		if (cs.size() >= 2) {
@@ -173,6 +187,7 @@ public class PageContent extends AbstractContent implements IPageContent {
 		}
 	}
 
+	@Override
 	public void setPageFooter(IContent footer) {
 		ArrayList cs = (ArrayList) children;
 		if (cs.size() >= 3) {
@@ -183,14 +198,17 @@ public class PageContent extends AbstractContent implements IPageContent {
 		}
 	}
 
+	@Override
 	public IContent getPageHeader() {
 		return (IContent) ((ArrayList) children).get(0);
 	}
 
+	@Override
 	public IContent getPageBody() {
 		return (IContent) ((ArrayList) children).get(1);
 	}
 
+	@Override
 	public IContent getPageFooter() {
 		return (IContent) ((ArrayList) children).get(2);
 	}
@@ -230,34 +248,42 @@ public class PageContent extends AbstractContent implements IPageContent {
 		this.waterMark = waterMark;
 	}
 
+	@Override
 	public DimensionType getMarginTop() {
 		return this.marginTop;
 	}
 
+	@Override
 	public DimensionType getMarginBottom() {
 		return this.marginBottom;
 	}
 
+	@Override
 	public DimensionType getMarginLeft() {
 		return this.marginLeft;
 	}
 
+	@Override
 	public DimensionType getMarginRight() {
 		return this.marginRight;
 	}
 
+	@Override
 	public DimensionType getHeaderHeight() {
 		return headerHeight;
 	}
 
+	@Override
 	public DimensionType getFooterHeight() {
 		return footerHeight;
 	}
 
+	@Override
 	public DimensionType getLeftWidth() {
 		return leftWidth;
 	}
 
+	@Override
 	public DimensionType getRightWidth() {
 		return rightWidth;
 	}
@@ -265,6 +291,8 @@ public class PageContent extends AbstractContent implements IPageContent {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	public IStyle getContentComputedStyle() {
 		IContent body = getPageBody();
 		return body.getComputedStyle();
@@ -273,15 +301,19 @@ public class PageContent extends AbstractContent implements IPageContent {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	public IStyle getContentStyle() {
 		IContent body = getPageBody();
 		return body.getStyle();
 	}
 
+	@Override
 	public void setPageNumber(long pn) {
 		this.pageNumber = pn;
 	}
 
+	@Override
 	public long getPageNumber() {
 		return this.pageNumber;
 	}
@@ -300,6 +332,7 @@ public class PageContent extends AbstractContent implements IPageContent {
 	static final protected short FIELD_MARGINBUTTOM = 711;
 	static final protected short FIELD_PAGENUMBER = 712;
 
+	@Override
 	protected void writeFields(DataOutputStream out) throws IOException {
 		super.writeFields(out);
 		if (orientation != null) {
@@ -356,10 +389,12 @@ public class PageContent extends AbstractContent implements IPageContent {
 		}
 	}
 
+	@Override
 	public boolean needSave() {
 		return true;
 	}
 
+	@Override
 	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
 		switch (filedId) {
 		case FIELD_ORIENTATION:
@@ -416,6 +451,7 @@ public class PageContent extends AbstractContent implements IPageContent {
 		}
 	}
 
+	@Override
 	protected IContent cloneContent() {
 		return new PageContent(this);
 	}

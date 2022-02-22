@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -42,7 +42,7 @@ public class ChartAppearance implements java.io.Serializable {
 
 	/**
 	 * Gets the showLegend value for this ChartAppearance.
-	 * 
+	 *
 	 * @return showLegend
 	 */
 	public java.lang.Boolean getShowLegend() {
@@ -51,7 +51,7 @@ public class ChartAppearance implements java.io.Serializable {
 
 	/**
 	 * Sets the showLegend value for this ChartAppearance.
-	 * 
+	 *
 	 * @param showLegend
 	 */
 	public void setShowLegend(java.lang.Boolean showLegend) {
@@ -60,7 +60,7 @@ public class ChartAppearance implements java.io.Serializable {
 
 	/**
 	 * Gets the showValues value for this ChartAppearance.
-	 * 
+	 *
 	 * @return showValues
 	 */
 	public java.lang.Boolean getShowValues() {
@@ -69,7 +69,7 @@ public class ChartAppearance implements java.io.Serializable {
 
 	/**
 	 * Sets the showValues value for this ChartAppearance.
-	 * 
+	 *
 	 * @param showValues
 	 */
 	public void setShowValues(java.lang.Boolean showValues) {
@@ -78,7 +78,7 @@ public class ChartAppearance implements java.io.Serializable {
 
 	/**
 	 * Gets the location value for this ChartAppearance.
-	 * 
+	 *
 	 * @return location
 	 */
 	public org.eclipse.birt.report.soapengine.api.ChartLocation getLocation() {
@@ -87,7 +87,7 @@ public class ChartAppearance implements java.io.Serializable {
 
 	/**
 	 * Sets the location value for this ChartAppearance.
-	 * 
+	 *
 	 * @param location
 	 */
 	public void setLocation(org.eclipse.birt.report.soapengine.api.ChartLocation location) {
@@ -96,7 +96,7 @@ public class ChartAppearance implements java.io.Serializable {
 
 	/**
 	 * Gets the width value for this ChartAppearance.
-	 * 
+	 *
 	 * @return width
 	 */
 	public java.lang.String getWidth() {
@@ -105,7 +105,7 @@ public class ChartAppearance implements java.io.Serializable {
 
 	/**
 	 * Sets the width value for this ChartAppearance.
-	 * 
+	 *
 	 * @param width
 	 */
 	public void setWidth(java.lang.String width) {
@@ -114,7 +114,7 @@ public class ChartAppearance implements java.io.Serializable {
 
 	/**
 	 * Gets the height value for this ChartAppearance.
-	 * 
+	 *
 	 * @return height
 	 */
 	public java.lang.String getHeight() {
@@ -123,7 +123,7 @@ public class ChartAppearance implements java.io.Serializable {
 
 	/**
 	 * Sets the height value for this ChartAppearance.
-	 * 
+	 *
 	 * @param height
 	 */
 	public void setHeight(java.lang.String height) {
@@ -132,14 +132,18 @@ public class ChartAppearance implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof ChartAppearance))
+		if (!(obj instanceof ChartAppearance)) {
 			return false;
+		}
 		ChartAppearance other = (ChartAppearance) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -162,6 +166,7 @@ public class ChartAppearance implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

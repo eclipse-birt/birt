@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -60,7 +60,7 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 	/**
 	 * The cached value of the '{@link #getActions() <em>Actions</em>}' containment
 	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getActions()
 	 * @generated
 	 * @ordered
@@ -70,7 +70,7 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 	/**
 	 * The cached value of the '{@link #getPropertiesMap() <em>Properties Map</em>}'
 	 * map. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getPropertiesMap()
 	 * @generated
 	 * @ordered
@@ -79,7 +79,7 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * Returns a new instance of MultiURLValues.
-	 * 
+	 *
 	 * @return
 	 */
 	public static MultipleActions create() {
@@ -91,7 +91,7 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected MultipleActionsImpl() {
@@ -100,7 +100,7 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -110,24 +110,26 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public EList<Action> getActions() {
 		if (actions == null) {
-			actions = new EObjectContainmentEList<Action>(Action.class, this, DataPackage.MULTIPLE_ACTIONS__ACTIONS);
+			actions = new EObjectContainmentEList<>(Action.class, this, DataPackage.MULTIPLE_ACTIONS__ACTIONS);
 		}
 		return actions;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public EMap<String, String> getPropertiesMap() {
 		if (propertiesMap == null) {
-			propertiesMap = new EcoreEMap<String, String>(AttributePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
+			propertiesMap = new EcoreEMap<>(AttributePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
 					EStringToStringMapEntryImpl.class, this, DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP);
 		}
 		return propertiesMap;
@@ -135,7 +137,7 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -151,7 +153,7 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -160,17 +162,18 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 		case DataPackage.MULTIPLE_ACTIONS__ACTIONS:
 			return getActions();
 		case DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP:
-			if (coreType)
+			if (coreType) {
 				return getPropertiesMap();
-			else
+			} else {
 				return getPropertiesMap().map();
+			}
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -190,7 +193,7 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -208,7 +211,7 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -252,6 +255,7 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 	/**
 	 * @generated
 	 */
+	@Override
 	public MultipleActions copyInstance() {
 		MultipleActionsImpl dest = new MultipleActionsImpl();
 		dest.set(this);

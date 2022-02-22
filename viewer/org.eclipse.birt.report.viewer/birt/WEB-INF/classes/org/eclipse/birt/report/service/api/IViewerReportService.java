@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -24,13 +24,13 @@ import org.eclipse.birt.core.exception.BirtException;
 
 /**
  * A service used by the viewer for running and rendering a report
- * 
+ *
  */
 public interface IViewerReportService {
 
 	/**
 	 * Set the context
-	 * 
+	 *
 	 * @param context
 	 * @param options
 	 * @throws BirtException
@@ -39,7 +39,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Run a report and generate document file
-	 * 
+	 *
 	 * @param design
 	 * @param outputDocName
 	 * @param runOptions
@@ -53,7 +53,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Run a report and generate document file
-	 * 
+	 *
 	 * @param design
 	 * @param outputDocName
 	 * @param runOptions
@@ -68,7 +68,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Get a page
-	 * 
+	 *
 	 * @param docName
 	 * @param pageID
 	 * @param renderOptions
@@ -81,7 +81,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Get the first page containing the bookmark
-	 * 
+	 *
 	 * @param docName
 	 * @param bookmark
 	 * @param renderOptions
@@ -94,7 +94,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Get the first page containing the object id
-	 * 
+	 *
 	 * @param docName
 	 * @param objectId
 	 * @param renderOptions
@@ -107,7 +107,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Render a reportlet.
-	 * 
+	 *
 	 * @param docName
 	 * @param objectId
 	 * @param renderOptions
@@ -122,7 +122,7 @@ public interface IViewerReportService {
 	 * Render a reportlet. This is similar to getPageByObjectId. The difference is
 	 * that while getPageByObjectId returns the first page containing the object,
 	 * this method return all pages containing the object.
-	 * 
+	 *
 	 * @param docName
 	 * @param objectId
 	 * @param renderOptions
@@ -136,7 +136,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Render the report to the OutputStream
-	 * 
+	 *
 	 * @param docName
 	 * @param pageNum
 	 * @param renderOptions
@@ -144,12 +144,13 @@ public interface IViewerReportService {
 	 * @deprecated
 	 * @throws ReportServiceException
 	 */
+	@Deprecated
 	void renderReport(String docName, int pageNum, InputOptions renderOptions, OutputStream out)
 			throws ReportServiceException;
 
 	/**
 	 * Render the report to the OutputStream
-	 * 
+	 *
 	 * @param docName
 	 * @param pageNum
 	 * @param pageRange
@@ -162,7 +163,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Run a report, then render it to the OutputStream
-	 * 
+	 *
 	 * @param design
 	 * @param outputDocName
 	 * @param options
@@ -177,7 +178,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Run a report, then render it to the OutputStream
-	 * 
+	 *
 	 * @param design
 	 * @param outputDocName
 	 * @param options
@@ -193,7 +194,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Extract data that call user-defined extension
-	 * 
+	 *
 	 * @param docName
 	 * @param options
 	 * @param out
@@ -203,7 +204,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Extract a result set
-	 * 
+	 *
 	 * @param docName
 	 * @param resultSetId
 	 * @param columns,    a set of column names (String)
@@ -217,7 +218,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Get the metadata for the result sets
-	 * 
+	 *
 	 * @param docName
 	 * @param options
 	 * @return
@@ -226,7 +227,7 @@ public interface IViewerReportService {
 	List getResultSetsMetadata(String docName, InputOptions options) throws ReportServiceException;
 
 	/**
-	 * 
+	 *
 	 * @param docName
 	 * @param instanceId
 	 * @param options
@@ -237,7 +238,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Render an image to the OutputStream
-	 * 
+	 *
 	 * @param docName
 	 * @param imageId
 	 * @param out
@@ -249,7 +250,7 @@ public interface IViewerReportService {
 	/**
 	 * Get a toc node TODO: This method will be changed to return a TOCNode
 	 * (engineapi)
-	 * 
+	 *
 	 * @param docName
 	 * @param tocId
 	 * @param options
@@ -260,7 +261,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Get total page count
-	 * 
+	 *
 	 * @param docName
 	 * @param options
 	 * @return
@@ -270,7 +271,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Get the parameter definitions
-	 * 
+	 *
 	 * @param design
 	 * @param runOptions
 	 * @return a Collection of ScalarParameter
@@ -281,7 +282,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Get parameter selection list for a cascading parameter group
-	 * 
+	 *
 	 * @param design
 	 * @param groupName
 	 * @param groupKeys
@@ -294,7 +295,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Get parameter selection list
-	 * 
+	 *
 	 * @param design
 	 * @param options
 	 * @param paramName
@@ -306,7 +307,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Get the default value for a parameter
-	 * 
+	 *
 	 * @param design
 	 * @param parameterName
 	 * @param options
@@ -318,7 +319,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Get the page number of the first page containing the bookmark
-	 * 
+	 *
 	 * @param docName
 	 * @param bookmark
 	 * @param options
@@ -329,7 +330,7 @@ public interface IViewerReportService {
 
 	/**
 	 * Get the page number of the first page containing the object id
-	 * 
+	 *
 	 * @param docName
 	 * @param objectId
 	 * @param options
@@ -340,31 +341,32 @@ public interface IViewerReportService {
 
 	/**
 	 * Gets the toc id by the toc name.
-	 * 
+	 *
 	 * @param docName
 	 * @param name
 	 * @param options
 	 * @return
 	 */
 
-	public String findTocByName(String docName, String name, InputOptions options);
+	String findTocByName(String docName, String name, InputOptions options);
 
 	/**
 	 * Returns whether a given report document has right-to-left orientation.
-	 * 
+	 *
 	 * @param docName       document file name
 	 * @param renderOptions render options
 	 * @return true if the report document is right-to-left, false otherwise
 	 * @throws ReportServiceException
 	 * @deprecated
 	 */
-	public boolean isDocumentRtl(String docName, InputOptions renderOptions) throws ReportServiceException;
+	@Deprecated
+	boolean isDocumentRtl(String docName, InputOptions renderOptions) throws ReportServiceException;
 
 	/**
 	 * @see org.eclipse.birt.report.service.api.IViewerReportService#runReport(org.eclipse.birt.report.service.api.IViewerReportDesignHandle,
 	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
 	 *      java.util.Map, java.util.Map)
 	 */
-	public String runReport(IViewerReportDesignHandle design, String outputDocName, InputOptions runOptions,
-			Map parameters, Map displayTexts, List<Exception> errorList) throws ReportServiceException;
+	String runReport(IViewerReportDesignHandle design, String outputDocName, InputOptions runOptions, Map parameters,
+			Map displayTexts, List<Exception> errorList) throws ReportServiceException;
 }

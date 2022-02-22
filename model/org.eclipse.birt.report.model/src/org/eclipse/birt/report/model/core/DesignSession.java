@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import com.ibm.icu.util.ULocale;
  * <code>ReportDesign</code>, so for example, when encountering a library tag in
  * the design file, the parser needs to know where to get the library file by
  * this resource locator, the code in the parser might be like the following.
- * 
+ *
  * @see org.eclipse.birt.report.model.api.SessionHandle
  */
 
@@ -35,7 +35,7 @@ public class DesignSession extends DesignSessionImpl {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param theLocale the user's locale. If null, use the system locale.
 	 */
 

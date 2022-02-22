@@ -20,17 +20,18 @@ import org.eclipse.birt.report.designer.ui.preferences.ResourceConfigurationBloc
 import org.eclipse.birt.report.designer.ui.preferences.TemplateConfigurationBlock;
 
 /**
- * 
+ *
  */
 
 public class ResourcePageHelperProvider implements IDialogHelperProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.dialogs.helper.
 	 * IDialogHelperProvider#createHelper(java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public IDialogHelper createHelper(Object container, String helperKey) {
 		if (container instanceof ResourceConfigurationBlock) {
 			if (ResourceConfigurationBlock.BUTTON_KEY.equals(helperKey)) {

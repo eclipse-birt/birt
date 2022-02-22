@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,10 +41,10 @@ import org.eclipse.birt.report.model.api.command.WrongTypeException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.util.ColumnBindingUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
-import org.eclipse.core.runtime.Assert;
 
 /**
  * The tool handle extends used by elements in the library
@@ -56,7 +56,7 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends 
 
 	/**
 	 * Constructor. Creates a new extends for the given element.
-	 * 
+	 *
 	 * @param elementHandle the handle of the element
 	 */
 	public LibraryElementsToolHandleExtends(DesignElementHandle elementHandle) {
@@ -67,10 +67,11 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * AbstractToolHandleExtends#preHandleMouseUp()
 	 */
+	@Override
 	public boolean preHandleMouseUp() {
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
 		LibraryHandle library = (LibraryHandle) elementHandle.getRoot();
@@ -103,10 +104,11 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * AbstractToolHandleExtends#preHandleMouseDown()
 	 */
+	@Override
 	public boolean preHandleMouseDown() {
 		return false;
 	}
@@ -183,10 +185,7 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends 
 		if (handle instanceof DataItemHandle) {
 			DataItemHandle dataHandle = (DataItemHandle) handle;
 			if (dataHandle.getExtends() != null && dataHandle.getExtends().getContainer() instanceof LibraryHandle) {
-				if (dataHandle.getDataSet() != null) {
-					return false;
-				}
-				if (DEUtil.getBindingHolder(dataHandle, true) == null
+				if ((dataHandle.getDataSet() != null) || DEUtil.getBindingHolder(dataHandle, true) == null
 						|| DEUtil.getBindingHolder(dataHandle, true) == dataHandle) {
 					return false;
 				}
@@ -205,7 +204,7 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends 
 		ReportItemHandle hostHnadle = DEUtil.getBindingHolder(dataHandle, true);
 		Iterator iter = dataHandle.columnBindingsIterator();
 		String resultColumnName = dataHandle.getResultSetColumn();
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		ComputedColumnHandle activeBinding = null;
 		while (iter.hasNext()) {
 			ComputedColumnHandle computedColumnHandle = (ComputedColumnHandle) iter.next();

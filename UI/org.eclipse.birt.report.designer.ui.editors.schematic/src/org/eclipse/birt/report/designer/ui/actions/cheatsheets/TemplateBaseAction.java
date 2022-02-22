@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  * Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -33,7 +33,7 @@ import org.eclipse.ui.cheatsheets.ICheatSheetManager;
 /**
  * Base class for All cheat sheets action that apply when a specific editpart is
  * selected inside the editor
- * 
+ *
  */
 public abstract class TemplateBaseAction extends Action implements ICheatSheetAction {
 
@@ -42,10 +42,11 @@ public abstract class TemplateBaseAction extends Action implements ICheatSheetAc
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.cheatsheets.ICheatSheetAction#run(java.lang.String[],
 	 * org.eclipse.ui.cheatsheets.ICheatSheetManager)
 	 */
+	@Override
 	public void run(String[] params, ICheatSheetManager manager) {
 		this.params = params;
 		IEditorPart editor = UIUtil.getActiveReportEditor();
@@ -92,7 +93,7 @@ public abstract class TemplateBaseAction extends Action implements ICheatSheetAc
 
 	/**
 	 * Check that the viewer selection is a good match for this action
-	 * 
+	 *
 	 * @param viewer The Edit Part viewer
 	 */
 	protected EditPart matchSelectionType(AbstractEditPartViewer viewer) {
@@ -111,7 +112,7 @@ public abstract class TemplateBaseAction extends Action implements ICheatSheetAc
 
 	/**
 	 * Check if the type is appropriate for this action
-	 * 
+	 *
 	 * @param class1 type of the selected EditPart
 	 * @return true if the type matches an appropriate EditPart
 	 */
@@ -120,7 +121,7 @@ public abstract class TemplateBaseAction extends Action implements ICheatSheetAc
 	/**
 	 * select the EditPart in the editor if we find it if we don't find it, just try
 	 * with the current selection.
-	 * 
+	 *
 	 * @param itemName The name of the Item in the report to select
 	 * @param editor   The Report Editor
 	 * @param viewer   The EditPart Viewer
@@ -131,8 +132,9 @@ public abstract class TemplateBaseAction extends Action implements ICheatSheetAc
 		DesignElementHandle elementHandle = reportDesign.findElement(itemName);
 		if (elementHandle != null) {
 			EditPart editPart = (EditPart) viewer.getEditPartRegistry().get(elementHandle);
-			if (editPart != null)
+			if (editPart != null) {
 				viewer.select(editPart);
+			}
 		}
 	}
 

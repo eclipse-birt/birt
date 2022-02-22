@@ -1,18 +1,20 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl.dimension;
+
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.Date;
@@ -33,12 +35,10 @@ import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.IndexKey;
-
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
- * 
+ *
  */
 
 public class DimensionTest2 {
@@ -48,14 +48,14 @@ public class DimensionTest2 {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	/*
 	 * @see TestCase#tearDown()
 	 */
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -180,7 +180,7 @@ public class DimensionTest2 {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -192,7 +192,7 @@ public class DimensionTest2 {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -213,7 +213,7 @@ public class DimensionTest2 {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -327,6 +327,7 @@ class Dataset1 implements IDatasetIterator {
 
 	static int[] L3Col = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 
+	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -347,6 +348,7 @@ class Dataset1 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("l1")) {
 			return 0;
@@ -358,6 +360,7 @@ class Dataset1 implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("l1")) {
 			return DataType.INTEGER_TYPE;
@@ -379,6 +382,7 @@ class Dataset1 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return new Integer(L1Col[ptr]);
@@ -390,6 +394,7 @@ class Dataset1 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= L1Col.length) {
@@ -407,6 +412,7 @@ class Dataset2 implements IDatasetIterator {
 
 	static int[] L3Col = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 
+	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -427,6 +433,7 @@ class Dataset2 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("l1")) {
 			return 0;
@@ -438,6 +445,7 @@ class Dataset2 implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("l1")) {
 			return DataType.INTEGER_TYPE;
@@ -459,6 +467,7 @@ class Dataset2 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return new Integer(L1Col[ptr]);
@@ -470,6 +479,7 @@ class Dataset2 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= L1Col.length) {
@@ -487,6 +497,7 @@ class Dataset3 implements IDatasetIterator {
 
 	static int[] L3Col = { 1, 2, 3, 4, 3, 6, 7, 8, 9, 10, 11, 12 };
 
+	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -507,6 +518,7 @@ class Dataset3 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("l1")) {
 			return 0;
@@ -518,6 +530,7 @@ class Dataset3 implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("l1")) {
 			return DataType.INTEGER_TYPE;
@@ -539,6 +552,7 @@ class Dataset3 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return new Integer(L1Col[ptr]);
@@ -550,6 +564,7 @@ class Dataset3 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= L1Col.length) {

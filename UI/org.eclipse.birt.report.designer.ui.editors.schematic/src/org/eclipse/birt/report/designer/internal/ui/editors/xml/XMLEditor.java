@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -94,6 +94,7 @@ public abstract class XMLEditor extends StatusTextEditor {
 		setAction(ITextEditorActionConstants.SAVE, new TextSaveAction(this));
 	}
 
+	@Override
 	public void dispose() {
 		if (fSourceViewerDecorationSupport != null) {
 			fSourceViewerDecorationSupport.dispose();
@@ -113,11 +114,12 @@ public abstract class XMLEditor extends StatusTextEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.texteditor.AbstractTextEditor#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
+	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		IReportProvider provider = getProvider();
 		if (provider != null) {
@@ -133,6 +135,7 @@ public abstract class XMLEditor extends StatusTextEditor {
 	 * org.eclipse.ui.texteditor.AbstractTextEditor#createSourceViewer(Composite,
 	 * IVerticalRuler, int)
 	 */
+	@Override
 	protected ISourceViewer createSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {
 		ISourceViewer viewer = super.createSourceViewer(parent, ruler, styles);
 //		getSourceViewerDecorationSupport(viewer);
@@ -273,14 +276,17 @@ public abstract class XMLEditor extends StatusTextEditor {
 	/*
 	 * @see ITextEditor#setHighlightRange(int, int, boolean)
 	 */
+	@Override
 	public void setHighlightRange(int offset, int length, boolean moveCursor) {
 		ISourceViewer fSourceViewer = getSourceViewer();
-		if (fSourceViewer == null)
+		if (fSourceViewer == null) {
 			return;
+		}
 
 		if (showsHighlightRangeOnly()) {
-			if (moveCursor)
+			if (moveCursor) {
 				fSourceViewer.setVisibleRegion(offset, length);
+			}
 		} else {
 			fSourceViewer.setRangeIndication(offset, length, moveCursor);
 		}

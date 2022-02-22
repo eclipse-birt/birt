@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -26,16 +26,15 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * the same name in table, table-row-data and table-group-row-data; Make sure
  * exception will throw at both cases.
  * </p>
- * 
+ *
  * @deprecated : Column binding namespace for compound element is changed, only
  *             search itself.
  */
+@Deprecated
 public class Regression_136421 extends BaseTestCase {
 
-	private final static String INPUT = "regression_136421.xml"; //$NON-NLS-1$
-
 	/**
-	 * 
+	 *
 	 */
 	public void test_regression_136421() {
 	}

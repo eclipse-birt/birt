@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,6 +56,7 @@ public class FormPage extends AttributePage {
 		this.isTabbed = isTabbed;
 	}
 
+	@Override
 	public void buildUI(Composite parent) {
 		container = new ScrolledComposite(parent, SWT.V_SCROLL | SWT.H_SCROLL);
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -63,6 +64,7 @@ public class FormPage extends AttributePage {
 		((ScrolledComposite) container).setExpandVertical(true);
 		container.addControlListener(new ControlAdapter() {
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				computeSize();
 			}
@@ -70,6 +72,7 @@ public class FormPage extends AttributePage {
 
 		container.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				deRegisterEventManager();
 			}
@@ -78,8 +81,9 @@ public class FormPage extends AttributePage {
 		composite = new Composite(container, SWT.NONE);
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		if (sections == null)
+		if (sections == null) {
 			sections = new SortMap();
+		}
 		composite.setLayout(WidgetUtil.createGridLayout(1));
 
 		createFormSection();
@@ -110,6 +114,7 @@ public class FormPage extends AttributePage {
 
 	boolean needRebuild = false;
 
+	@Override
 	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
 		if (checkControl(formSection)) {
 			if (provider.needRebuilded(ev)) {
@@ -122,8 +127,9 @@ public class FormPage extends AttributePage {
 
 	protected void rebuildUI() {
 		Control[] children = composite.getChildren();
-		for (int i = 0; i < children.length; i++)
+		for (int i = 0; i < children.length; i++) {
 			children[i].dispose();
+		}
 		sections.clear();
 		createFormSection();
 		createSections();
@@ -132,16 +138,19 @@ public class FormPage extends AttributePage {
 		refresh();
 	}
 
+	@Override
 	public void clear() {
 		needRebuild = false;
-		if (checkControl(formSection))
+		if (checkControl(formSection)) {
 			formSection.getFormControl().clear();
+		}
 	}
 
 	private boolean checkControl(FormSection form) {
 		return form != null && form.getFormControl() != null && !form.getFormControl().getControl().isDisposed();
 	}
 
+	@Override
 	public void postElementEvent() {
 		if (checkControl(formSection)) {
 			if (needRebuild) {

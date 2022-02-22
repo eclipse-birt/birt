@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -62,7 +62,7 @@ public class AllRegressionTests {
 //		suite.addTestSuite( Regression_121813.class );
 		suite.addTestSuite(Regression_121828.class);
 		suite.addTestSuite(Regression_121831.class);
-//		To Do: chart script	
+//		To Do: chart script
 //		suite.addTestSuite( Regression_121836.class );
 		suite.addTestSuite(Regression_131285.class);
 //		suite.addTestSuite( Regression_128582.class );

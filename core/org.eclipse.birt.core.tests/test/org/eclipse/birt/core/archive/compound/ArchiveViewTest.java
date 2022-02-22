@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,6 +34,7 @@ public class ArchiveViewTest extends TestCase {
 	static final String VIEW_FILE = TEST_FOLDER + "view.rptdocument";
 	static final String REPORT_DOCUMENT_RESOURCE = "org/eclipse/birt/core/archive/compound/ArchiveViewTest.rptdocument";
 
+	@Override
 	@Before
 	public void setUp() {
 		new File(TEST_FOLDER).mkdirs();
@@ -41,6 +42,7 @@ public class ArchiveViewTest extends TestCase {
 		copyResource(REPORT_DOCUMENT_RESOURCE, ARCHIVE_FILE);
 	}
 
+	@Override
 	@After
 	public void tearDown() {
 		new File(ARCHIVE_FILE).delete();
@@ -183,10 +185,8 @@ public class ArchiveViewTest extends TestCase {
 		ArchiveWriter writer = new ArchiveWriter(ARCHIVE_FILE);
 		try {
 			RAOutputStream out = writer.createOutputStream("/test");
-			try {
+			try (out) {
 				out.writeInt(15);
-			} finally {
-				out.close();
 			}
 		} finally {
 			writer.finish();
@@ -221,19 +221,15 @@ public class ArchiveViewTest extends TestCase {
 
 	protected int readInt(ArchiveReader reader, String name) throws IOException {
 		RAInputStream in = reader.getInputStream(name);
-		try {
+		try (in) {
 			return in.readInt();
-		} finally {
-			in.close();
 		}
 	}
 
 	protected int getLength(ArchiveReader reader, String name) throws IOException {
 		RAInputStream in = reader.getInputStream(name);
-		try {
+		try (in) {
 			return in.available();
-		} finally {
-			in.close();
 		}
 	}
 }

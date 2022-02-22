@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,17 +22,17 @@ public interface IAdapterFactory {
 
 	/**
 	 * The extension point used to create the factory object.
-	 * 
+	 *
 	 * @see org.eclipse.birt.core.framework.Platform#createFactoryObject(String)
 	 */
 
-	public static final String EXTENSION_MODEL_ADAPTER_ODA_FACTORY = "org.eclipse.birt.report.model.adapter.oda.AdapterFactory"; //$NON-NLS-1$
+	String EXTENSION_MODEL_ADAPTER_ODA_FACTORY = "org.eclipse.birt.report.model.adapter.oda.AdapterFactory"; //$NON-NLS-1$
 
-	public IODADesignFactory getODADesignFactory();
+	IODADesignFactory getODADesignFactory();
 
-	public IODAFactory getODAFactory();
+	IODAFactory getODAFactory();
 
-	public IModelOdaAdapter createModelOdaAdapter();
+	IModelOdaAdapter createModelOdaAdapter();
 
-	public IReportParameterAdapter createReportParameterAdapter();
+	IReportParameterAdapter createReportParameterAdapter();
 }

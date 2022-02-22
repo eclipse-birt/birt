@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -36,18 +36,20 @@ public class BirtWTPUIPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Plugin Start
-	 * 
+	 *
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 	}
 
 	/**
 	 * Plugin Stop
-	 * 
+	 *
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);

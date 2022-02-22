@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -21,8 +21,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 /**
  * This class represents a factory that implements the process of creating the
  * tree node.
- * 
- * 
+ *
+ *
  */
 public class ProviderFactory {
 
@@ -30,7 +30,7 @@ public class ProviderFactory {
 
 	/**
 	 * Gets the default provider
-	 * 
+	 *
 	 * @return Returns the default provider
 	 */
 	public static INodeProvider getDefaultProvider() {
@@ -39,7 +39,7 @@ public class ProviderFactory {
 
 	/**
 	 * Creates the outline provider and returns it.
-	 * 
+	 *
 	 * @param object the object
 	 * @return the outline provider
 	 */

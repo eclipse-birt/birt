@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,7 @@ import org.eclipse.birt.report.model.core.PropertyStructure;
  * web server that hosts ActivePortal. A bookmark link simply identifies a
  * bookmark identified within this report. Use the Bookmark property of a report
  * item to create the target bookmark.
- * 
+ *
  */
 
 public class Action extends PropertyStructure {
@@ -69,7 +69,7 @@ public class Action extends PropertyStructure {
 
 	/**
 	 * Property name of report name, when this action is drill-through action.
-	 * 
+	 *
 	 */
 
 	public final static String REPORT_NAME_MEMBER = "reportName"; //$NON-NLS-1$
@@ -131,32 +131,35 @@ public class Action extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return ACTION_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
+	@Override
 	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new ActionHandle(valueHandle, index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
 	 * .report.model.api.SimpleValueHandle)
 	 */
 
+	@Override
 	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
 		return new ActionHandle(valueHandle.getElementHandle(), getContext());
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +16,6 @@ package org.eclipse.birt.report.engine.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -35,6 +34,7 @@ public class RenderTaskTest extends EngineCase {
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/render_task_design.xml"; //$NON-NLS-1$
 //	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/render_performance.rptdesign";
 
+	@Override
 	public void setUp() {
 		removeFile(REPORT_DOCUMENT);
 		removeFile(REPORT_DESIGN);
@@ -44,6 +44,7 @@ public class RenderTaskTest extends EngineCase {
 		engine = createReportEngine();
 	}
 
+	@Override
 	public void tearDown() {
 		// shut down the engine.
 		engine.shutdown();
@@ -92,7 +93,6 @@ public class RenderTaskTest extends EngineCase {
 			ex.printStackTrace();
 			fail();
 		}
-		;
 	}
 
 	public void testRenderPerformance() {
@@ -107,56 +107,6 @@ public class RenderTaskTest extends EngineCase {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			fail();
-		}
-		;
-	}
-
-	private void generateDateSource() {
-		PrintWriter writer;
-		try {
-			writer = new PrintWriter(new FileOutputStream("./test.csv", false));
-			writer.println("string1,string2,string3,date1,date2,date3,int1,int2,int3,float1,float2,float3");
-			StringBuilder builder = new StringBuilder();
-			for (int i = 0; i < 100000; i++)
-//			for ( int i = 0; i < 100; i++ )
-			{
-				builder.setLength(0);
-				builder.append("string1 ");
-				builder.append(i);
-				builder.append(",");
-				builder.append("string2 ");
-				builder.append(i);
-				builder.append(",");
-				builder.append("string3 ");
-				builder.append(i);
-				builder.append(",");
-				builder.append("2013-02-01");
-				builder.append(",");
-				builder.append("2013-02-02");
-				builder.append(",");
-				builder.append("2013-02-03");
-				builder.append(",");
-				builder.append(i);
-				builder.append(",");
-				builder.append(i);
-				builder.append(",");
-				builder.append(i);
-				builder.append(",");
-				builder.append(i);
-				builder.append(",");
-				builder.append(i);
-				builder.append(",");
-				builder.append(i);
-				writer.println(builder.toString());
-				if (i % 1000 == 0) {
-					System.out.println(i);
-				}
-			}
-			writer.flush();
-			writer.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -230,6 +180,7 @@ public class RenderTaskTest extends EngineCase {
 			this.out = out;
 		}
 
+		@Override
 		public void write(byte[] b) throws IOException {
 			boolean count = false;
 			if (!counted) {
@@ -249,6 +200,7 @@ public class RenderTaskTest extends EngineCase {
 			}
 		}
 
+		@Override
 		public void write(byte[] b, int off, int len) throws IOException {
 //			System.out.println( "3");
 			boolean count = false;
@@ -269,6 +221,7 @@ public class RenderTaskTest extends EngineCase {
 			}
 		}
 
+		@Override
 		public void write(int b) throws IOException {
 //			System.out.println( "2");
 			boolean count = false;
@@ -288,6 +241,7 @@ public class RenderTaskTest extends EngineCase {
 			}
 		}
 
+		@Override
 		public void close() throws IOException {
 			if (out != null) {
 				out.flush();
@@ -387,10 +341,11 @@ public class RenderTaskTest extends EngineCase {
 			// xlsx emitter does not honor iRenderOption.CLOSE_OUTPUTSTREAM_ON_EXIT
 			// value and always closes the output stream
 			// the issue may be with org.apache.poi, so just account for that here
-			if (format.equals("xlsx"))
+			if (format.equals("xlsx")) {
 				assertEquals(format + true, format + isRenderTaskCloseStreamOnExit(document, format, false));
-			else
+			} else {
 				assertEquals(format + true, format + isRenderTaskCloseStreamOnExit(document, format, true));
+			}
 		}
 		document.close();
 	}
@@ -420,24 +375,28 @@ public class RenderTaskTest extends EngineCase {
 	private void test(IReportDocument document, String format) throws EngineException {
 		testRenderPageCount(document, 1, format, new RenderItemSetter() {
 
+			@Override
 			public void setRenderItem(IRenderTask task) throws EngineException {
 				task.setReportlet("grid");
 			}
 		});
 		testRenderPageCount(document, 1, format, new RenderItemSetter() {
 
+			@Override
 			public void setRenderItem(IRenderTask task) throws EngineException {
 				task.setPageNumber(1);
 			}
 		});
 		testRenderPageCount(document, 2, format, new RenderItemSetter() {
 
+			@Override
 			public void setRenderItem(IRenderTask task) throws EngineException {
 				task.setPageRange("1,3");
 			}
 		});
 		testRenderPageCount(document, 4, format, new RenderItemSetter() {
 
+			@Override
 			public void setRenderItem(IRenderTask task) throws EngineException {
 				task.setPageRange("all");
 			}
@@ -454,7 +413,7 @@ public class RenderTaskTest extends EngineCase {
 		assertEquals(expectedPageCount, pageCount);
 	}
 
-	private static interface RenderItemSetter {
+	private interface RenderItemSetter {
 		void setRenderItem(IRenderTask task) throws EngineException;
 	}
 
@@ -489,6 +448,7 @@ public class RenderTaskTest extends EngineCase {
 			super(new ByteArrayOutputStream());
 		}
 
+		@Override
 		public void close() throws IOException {
 			super.close();
 			isClosed = true;

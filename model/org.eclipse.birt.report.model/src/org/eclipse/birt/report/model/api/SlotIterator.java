@@ -18,7 +18,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 /**
  * An Iterator over the elements in a slot. Each call to <code>getNext( )</code>
  * returns a handle of type {@link DesignElementHandle}.
- * 
+ *
  */
 public class SlotIterator implements Iterator<DesignElementHandle> {
 
@@ -34,7 +34,7 @@ public class SlotIterator implements Iterator<DesignElementHandle> {
 
 	/**
 	 * Constructs an iterator for the given slot.
-	 * 
+	 *
 	 * @param handle handle to the slot over which to iterate
 	 */
 	public SlotIterator(SlotHandle handle) {
@@ -47,8 +47,9 @@ public class SlotIterator implements Iterator<DesignElementHandle> {
 	 */
 	@Override
 	public void remove() {
-		if (!hasNext())
+		if (!hasNext()) {
 			return;
+		}
 		try {
 			slotHandle.dropAndClear(posn);
 		} catch (SemanticException e) {
@@ -67,7 +68,7 @@ public class SlotIterator implements Iterator<DesignElementHandle> {
 	/**
 	 * Returns a handle to the next content element. The handle is one of the
 	 * various element classes derived from <code>DesignElementHandle</code>.
-	 * 
+	 *
 	 * @return a handle to the next content element.
 	 */
 	@Override

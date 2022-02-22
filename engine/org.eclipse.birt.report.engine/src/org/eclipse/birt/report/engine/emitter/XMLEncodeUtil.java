@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,12 +24,12 @@ public class XMLEncodeUtil {
 	/**
 	 * In <a href="http://www.w3.org/TR/REC-xml/">XML specification 1.0 </a> section
 	 * 2.2 Character, the valid characters in XML should be limited to:
-	 * 
+	 *
 	 * Any Unicode character, excluding the surrogate blocks, FFFE, and FFFF.
-	 * 
+	 *
 	 * Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] |
 	 * [#x10000-#x10FFFF]
-	 * 
+	 *
 	 */
 	protected static boolean isValidCodePoint(int ch) {
 		if (ch == 0x09 || ch == 0x0A || ch == 0x0D || (ch >= 0x20 && ch <= 0xD7FF) || (ch >= 0xE000 && ch <= 0xFFFD)
@@ -73,11 +73,11 @@ public class XMLEncodeUtil {
 		return length;
 	}
 
-	protected static final char[] XML_TEXT_ENCODE = new char[] { '&', '<' };
+	protected static final char[] XML_TEXT_ENCODE = { '&', '<' };
 
 	/**
 	 * Replace the escape character
-	 * 
+	 *
 	 * @param s           The string needs to be replaced.
 	 * @param whiteespace A <code>boolean<code> value indicating if the white space
 	 *                    character should be converted or not.
@@ -113,11 +113,11 @@ public class XMLEncodeUtil {
 		return sb.toString();
 	}
 
-	protected static final char[] XML_ATTR_ENCODE = new char[] { '&', '<', '>', '"', '\r', '\n', '\t' };
+	protected static final char[] XML_ATTR_ENCODE = { '&', '<', '>', '"', '\r', '\n', '\t' };
 
 	/**
 	 * Replaces the escape character in attribute value.
-	 * 
+	 *
 	 * @param s The string needs to be replaced.
 	 * @return the replaced string
 	 */
@@ -185,8 +185,8 @@ public class XMLEncodeUtil {
 
 	/**
 	 * decode the surrogate pair into an XML encoding, such as &amp;xAAA;.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param c      the high surrogate
 	 * @param chars  the char buffer
 	 * @param offset the low surrogate index

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -34,7 +34,7 @@ import org.eclipse.birt.build.pack.FrameworkPacker;
 
 /**
  * The sample build script is:
- * 
+ *
  * <pre>
  * &lt;RuntimePack input="platform" output="dir.jar">
  *   &lt;jar name="">
@@ -56,7 +56,7 @@ public class PackTask extends Task {
 	private String baseDir;
 	private String output;
 	private Manifest manifest;
-	private ArrayList<BundleItem> bundleItems = new ArrayList<BundleItem>();
+	private ArrayList<BundleItem> bundleItems = new ArrayList<>();
 
 	public PackTask() {
 	}
@@ -79,6 +79,7 @@ public class PackTask extends Task {
 		this.manifest = manifest;
 	}
 
+	@Override
 	public void execute() throws BuildException {
 		log("create " + output + " from " + baseDir, Project.MSG_INFO);
 		Framework framework = new Framework();
@@ -110,7 +111,7 @@ public class PackTask extends Task {
 			}
 
 			ZipOutputStream zipOutput = new ZipOutputStream(new FileOutputStream(output));
-			try {
+			try (zipOutput) {
 				packer.pack(zipOutput);
 				// write the manifest
 
@@ -125,8 +126,6 @@ public class PackTask extends Task {
 						zipOutput.close();
 					}
 				}
-			} finally {
-				zipOutput.close();
 			}
 
 		} catch (Exception ex) {
@@ -138,7 +137,7 @@ public class PackTask extends Task {
 	}
 
 	protected List<BundleItem> loadBundleItems(final String baseDir) {
-		ArrayList<BundleItem> bundles = new ArrayList<BundleItem>();
+		ArrayList<BundleItem> bundles = new ArrayList<>();
 		System.out.println("load bundles from folder" + baseDir);
 		File parent = new File(baseDir);
 		File[] files = parent.listFiles();
@@ -167,6 +166,7 @@ public class PackTask extends Task {
 		File parent = new File(baseDir);
 		File[] files = parent.listFiles(new FilenameFilter() {
 
+			@Override
 			public boolean accept(File dir, String fileName) {
 				if (fileName.startsWith(name + "_")) {
 					return true;

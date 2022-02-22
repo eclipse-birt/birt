@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class CubeCategoryProviderFactory extends CategoryProviderFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The unique CategoryProviderFactory instance
 	 */
 	public static ICategoryProviderFactory getInstance() {
@@ -41,10 +41,11 @@ public class CubeCategoryProviderFactory extends CategoryProviderFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.views.attributes.providers.
 	 * ICategoryProviderFactory#getCategoryProvider(java.lang.Object)
 	 */
+	@Override
 	public ICategoryProvider getCategoryProvider(Object input) {
 		return AttributesUtil.createCategoryProvider(
 				new String[] { null, CATEGORY_KEY_COMMENTS, CATEGORY_KEY_ADVANCEPROPERTY },

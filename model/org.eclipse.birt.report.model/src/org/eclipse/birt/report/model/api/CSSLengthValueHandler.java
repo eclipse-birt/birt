@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,7 +49,7 @@ class CSSLengthValueHandler {
 
 	/**
 	 * Returns the default value of the property this handler is processing on.
-	 * 
+	 *
 	 * @return the default value in dimension value
 	 */
 
@@ -62,10 +62,11 @@ class CSSLengthValueHandler {
 					.getProperty(IStyleModel.FONT_SIZE_PROP);
 
 			Object defaultValue = fontSizePropDefn.getDefault();
-			if (defaultValue instanceof DimensionValue)
+			if (defaultValue instanceof DimensionValue) {
 				defaultFontSizeValue = (DimensionValue) defaultValue;
-			else
+			} else {
 				defaultFontSizeValue = provider.getValueOf((String) defaultValue);
+			}
 		}
 		return defaultFontSizeValue;
 	}
@@ -86,7 +87,7 @@ class CSSLengthValueHandler {
 	 * 4ex = 12px * 4(ex) / 2 = 24px
 	 * <p>
 	 * 50% = 12px * 50(%) / 100 = 6px
-	 * 
+	 *
 	 * @param fontSizeValue the absolute dimension value of font size
 	 * @param relativeValue the relative dimension value to compute
 	 * @return the absolute dimension value. Return null if
@@ -128,7 +129,7 @@ class CSSLengthValueHandler {
 	/**
 	 * Returns whether the given unit is absolute. The absolute unit includes
 	 * absolute length unit and pixel unit.
-	 * 
+	 *
 	 * @param unit the unit to check
 	 * @return true if the given unit is absolute
 	 */

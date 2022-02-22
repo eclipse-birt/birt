@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,24 +49,28 @@ public class ReportApplicationLaunchDelegate extends LaunchConfigurationDelegate
 		}
 	}
 
+	@Override
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor)
 			throws CoreException {
 		ensureDelegate(configuration);
 		delegate.launch(configuration, mode, launch, monitor);
 	}
 
+	@Override
 	public boolean preLaunchCheck(ILaunchConfiguration configuration, String mode, IProgressMonitor monitor)
 			throws CoreException {
 		ensureDelegate(configuration);
 		return delegate.preLaunchCheck(configuration, mode, monitor);
 	}
 
+	@Override
 	public boolean finalLaunchCheck(ILaunchConfiguration configuration, String mode, IProgressMonitor monitor)
 			throws CoreException {
 		ensureDelegate(configuration);
 		return delegate.finalLaunchCheck(configuration, mode, monitor);
 	}
 
+	@Override
 	protected IProject[] getBuildOrder(ILaunchConfiguration configuration, String mode) throws CoreException {
 		ensureDelegate(configuration);
 

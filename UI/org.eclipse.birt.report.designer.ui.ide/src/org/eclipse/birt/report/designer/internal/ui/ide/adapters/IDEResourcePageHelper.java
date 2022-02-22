@@ -36,7 +36,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
 /**
- * 
+ *
  */
 
 public class IDEResourcePageHelper extends AbstractDialogHelper {
@@ -54,7 +54,7 @@ public class IDEResourcePageHelper extends AbstractDialogHelper {
 	private Control control;
 	private int butonAlignment = SWT.END;
 	private ButtonListener fListener = new ButtonListener();
-	private String[] buttonLabels = new String[] { WOKSPACE_BUTTON, FILESYSTEM_BUTTON, VARIABLES_BUTTON };
+	private String[] buttonLabels = { WOKSPACE_BUTTON, FILESYSTEM_BUTTON, VARIABLES_BUTTON };
 
 	public void setButonAlignment(int butonAlignment) {
 		this.butonAlignment = butonAlignment;
@@ -66,6 +66,7 @@ public class IDEResourcePageHelper extends AbstractDialogHelper {
 
 	class ButtonListener extends SelectionAdapter {
 
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			Object source = e.getSource();
 			if (source == fFileSystemButton) {
@@ -144,7 +145,7 @@ public class IDEResourcePageHelper extends AbstractDialogHelper {
 	}
 
 	private String replaceString(String str) {
-		String retValue = str.replace('\\', '/'); // $NON-NLS-1$ //$NON-NLS-2$
+		String retValue = str.replace('\\', '/'); // $NON-NLS-1$
 		if (!retValue.endsWith("/")) //$NON-NLS-1$
 		{
 			retValue = retValue + "/"; //$NON-NLS-1$
@@ -157,8 +158,9 @@ public class IDEResourcePageHelper extends AbstractDialogHelper {
 				ResourcesPlugin.getWorkspace().getRoot(), true, ContainerSelectionDialog_Message);
 		if (dialog.open() == Window.OK) {
 			Object[] result = dialog.getResult();
-			if (result.length == 0)
+			if (result.length == 0) {
 				return;
+			}
 			IPath path = (IPath) result[0];
 			// fLocationText.setText("${workspace_loc:" + path.makeRelative().toString() +
 			// "}"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -169,8 +171,9 @@ public class IDEResourcePageHelper extends AbstractDialogHelper {
 
 	private void handleInsertVariable() {
 		StringVariableSelectionDialog dialog = new StringVariableSelectionDialog(getControl().getShell());
-		if (dialog.open() == Window.OK)
+		if (dialog.open() == Window.OK) {
 			notifyTextChange(dialog.getVariableExpression());
+		}
 	}
 
 	private String getLocation() {

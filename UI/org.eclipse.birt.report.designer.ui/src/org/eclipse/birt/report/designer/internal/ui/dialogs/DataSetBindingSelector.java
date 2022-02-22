@@ -97,24 +97,29 @@ public class DataSetBindingSelector extends BaseDialog {
 	private static class DataSetColumnProvider extends LabelProvider
 			implements ITableLabelProvider, IStructuredContentProvider {
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof Iterator) {
 				Iterator iter = (Iterator) inputElement;
 				List list = new ArrayList();
-				while (iter.hasNext())
+				while (iter.hasNext()) {
 					list.add(iter.next());
+				}
 				return list.toArray();
 			}
 			return new Object[0];
 		}
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			ResultSetColumnHandle column = (ResultSetColumnHandle) element;
 			if (columnIndex == 1) {
@@ -133,12 +138,15 @@ public class DataSetBindingSelector extends BaseDialog {
 	 */
 	private static class GroupedColumnProvider implements ITreeContentProvider {
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof Map) {
 				return ((Map) inputElement).entrySet().toArray();
@@ -146,6 +154,7 @@ public class DataSetBindingSelector extends BaseDialog {
 			return new Object[0];
 		}
 
+		@Override
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof Entry) {
 				return ((List) ((Entry) parentElement).getValue()).toArray();
@@ -153,10 +162,12 @@ public class DataSetBindingSelector extends BaseDialog {
 			return new Object[0];
 		}
 
+		@Override
 		public Object getParent(Object element) {
 			return null;
 		}
 
+		@Override
 		public boolean hasChildren(Object element) {
 			Object[] cc = getChildren(element);
 			return cc != null && cc.length > 0;
@@ -199,6 +210,7 @@ public class DataSetBindingSelector extends BaseDialog {
 		super(parentShell, title);
 	}
 
+	@Override
 	public Control createDialogArea(Composite parent) {
 
 		UIUtil.bindHelp(parent, IHelpContextIds.SELECT_DATASET_BINDING_COLUMN);
@@ -230,6 +242,7 @@ public class DataSetBindingSelector extends BaseDialog {
 		return area;
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		Control control = super.createContents(parent);
 		enableOKButton();
@@ -262,6 +275,7 @@ public class DataSetBindingSelector extends BaseDialog {
 		columnTableViewer.getTable().setLayout(layout);
 		columnTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				enableOKButton();
 			}
@@ -283,6 +297,7 @@ public class DataSetBindingSelector extends BaseDialog {
 		selectAllButton.setText(Messages.getString("DataSetBindingSelector.Button.SelectAll")); //$NON-NLS-1$
 		selectAllButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				columnTableViewer.setAllChecked(true);
 				enableOKButton();
@@ -293,6 +308,7 @@ public class DataSetBindingSelector extends BaseDialog {
 		deselectAllButton.setText(Messages.getString("DataSetBindingSelector.Button.DeselectAll")); //$NON-NLS-1$
 		deselectAllButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				columnTableViewer.setAllChecked(false);
 				enableOKButton();
@@ -338,6 +354,7 @@ public class DataSetBindingSelector extends BaseDialog {
 
 		columnTreeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				enableOKButton();
 			}
@@ -345,6 +362,7 @@ public class DataSetBindingSelector extends BaseDialog {
 
 		columnTreeViewer.addCheckStateListener(new ICheckStateListener() {
 
+			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
 				Object element = event.getElement();
 
@@ -400,6 +418,7 @@ public class DataSetBindingSelector extends BaseDialog {
 		selectAllButton.setText(Messages.getString("DataSetBindingSelector.Button.SelectAll")); //$NON-NLS-1$
 		selectAllButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TreeItem[] items = columnTreeViewer.getTree().getItems();
 
@@ -415,6 +434,7 @@ public class DataSetBindingSelector extends BaseDialog {
 		deselectAllButton.setText(Messages.getString("DataSetBindingSelector.Button.DeselectAll")); //$NON-NLS-1$
 		deselectAllButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TreeItem[] items = columnTreeViewer.getTree().getItems();
 
@@ -429,7 +449,7 @@ public class DataSetBindingSelector extends BaseDialog {
 		handleDataSetComboSelectedEvent(input);
 
 		if (columns != null) {
-			Set<String> columnSet = new HashSet<String>(Arrays.asList(columns));
+			Set<String> columnSet = new HashSet<>(Arrays.asList(columns));
 
 			TreeItem[] items = columnTreeViewer.getTree().getItems();
 
@@ -473,6 +493,7 @@ public class DataSetBindingSelector extends BaseDialog {
 			dataSetCombo.setVisibleItemCount(30);
 			dataSetCombo.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					Object input = populateInput();
 
@@ -482,12 +503,10 @@ public class DataSetBindingSelector extends BaseDialog {
 							columnTableViewer = null;
 							createColumnBindingTreeContents(contentPane, input);
 						}
-					} else {
-						if (columnTableViewer == null) {
-							disposeChildren(contentPane);
-							columnTreeViewer = null;
-							createColumnBindingTableContents(contentPane, input);
-						}
+					} else if (columnTableViewer == null) {
+						disposeChildren(contentPane);
+						columnTreeViewer = null;
+						createColumnBindingTableContents(contentPane, input);
 					}
 
 					handleDataSetComboSelectedEvent(input);
@@ -583,6 +602,7 @@ public class DataSetBindingSelector extends BaseDialog {
 
 	}
 
+	@Override
 	protected void okPressed() {
 
 		result = new Object[3];
@@ -596,7 +616,7 @@ public class DataSetBindingSelector extends BaseDialog {
 			if (columnTableViewer != null) {
 				if (columnTableViewer.getCheckedElements() != null) {
 					result[1] = columnTableViewer.getCheckedElements();
-					List<String> list = new ArrayList<String>();
+					List<String> list = new ArrayList<>();
 					for (int i = 0; i < columnTableViewer.getTable().getItemCount(); i++) {
 						ResultSetColumnHandle column = (ResultSetColumnHandle) columnTableViewer.getElementAt(i);
 						if (!columnTableViewer.getChecked(column)) {
@@ -606,7 +626,7 @@ public class DataSetBindingSelector extends BaseDialog {
 					result[2] = list.toArray();
 				} else {
 					result[1] = null;
-					List<String> list = new ArrayList<String>();
+					List<String> list = new ArrayList<>();
 					for (int i = 0; i < columnTableViewer.getTable().getItemCount(); i++) {
 						ResultSetColumnHandle column = (ResultSetColumnHandle) columnTableViewer.getElementAt(i);
 						if (!columnTableViewer.getChecked(column)) {
@@ -614,56 +634,56 @@ public class DataSetBindingSelector extends BaseDialog {
 						}
 					}
 
-					if (list.isEmpty())
+					if (list.isEmpty()) {
 						result[2] = null;
-					else
+					} else {
 						result[2] = list.toArray();
+					}
 				}
+			} else if (columnTreeViewer.getCheckedElements() != null) {
+				Object[] selection = columnTreeViewer.getCheckedElements();
+
+				List<ResultSetColumnHandle> cols = new ArrayList<>();
+
+				for (Object obj : selection) {
+					if (obj instanceof ResultSetColumnHandle) {
+						cols.add((ResultSetColumnHandle) obj);
+					}
+				}
+				result[1] = cols.toArray();
+
+				List<String> list = new ArrayList<>();
+				for (int i = 0; i < columnTreeViewer.getTree().getItemCount(); i++) {
+					TreeItem ti = columnTreeViewer.getTree().getItem(i);
+
+					for (int j = 0; j < ti.getItemCount(); j++) {
+						TreeItem sti = ti.getItem(j);
+
+						if (!sti.getChecked()) {
+							list.add(((ResultSetColumnHandle) sti.getData()).getColumnName());
+						}
+					}
+				}
+				result[2] = list.toArray();
 			} else {
-				if (columnTreeViewer.getCheckedElements() != null) {
-					Object[] selection = columnTreeViewer.getCheckedElements();
+				result[1] = null;
+				List<String> list = new ArrayList<>();
+				for (int i = 0; i < columnTreeViewer.getTree().getItemCount(); i++) {
+					TreeItem ti = columnTreeViewer.getTree().getItem(i);
 
-					List<ResultSetColumnHandle> cols = new ArrayList<ResultSetColumnHandle>();
+					for (int j = 0; j < ti.getItemCount(); j++) {
+						TreeItem sti = ti.getItem(j);
 
-					for (Object obj : selection) {
-						if (obj instanceof ResultSetColumnHandle) {
-							cols.add((ResultSetColumnHandle) obj);
+						if (!sti.getChecked()) {
+							list.add(((ResultSetColumnHandle) sti.getData()).getColumnName());
 						}
 					}
-					result[1] = cols.toArray();
+				}
 
-					List<String> list = new ArrayList<String>();
-					for (int i = 0; i < columnTreeViewer.getTree().getItemCount(); i++) {
-						TreeItem ti = columnTreeViewer.getTree().getItem(i);
-
-						for (int j = 0; j < ti.getItemCount(); j++) {
-							TreeItem sti = ti.getItem(j);
-
-							if (!sti.getChecked()) {
-								list.add(((ResultSetColumnHandle) sti.getData()).getColumnName());
-							}
-						}
-					}
-					result[2] = list.toArray();
+				if (list.isEmpty()) {
+					result[2] = null;
 				} else {
-					result[1] = null;
-					List<String> list = new ArrayList<String>();
-					for (int i = 0; i < columnTreeViewer.getTree().getItemCount(); i++) {
-						TreeItem ti = columnTreeViewer.getTree().getItem(i);
-
-						for (int j = 0; j < ti.getItemCount(); j++) {
-							TreeItem sti = ti.getItem(j);
-
-							if (!sti.getChecked()) {
-								list.add(((ResultSetColumnHandle) sti.getData()).getColumnName());
-							}
-						}
-					}
-
-					if (list.isEmpty())
-						result[2] = null;
-					else
-						result[2] = list.toArray();
+					result[2] = list.toArray();
 				}
 			}
 		} else {
@@ -674,6 +694,7 @@ public class DataSetBindingSelector extends BaseDialog {
 		super.okPressed();
 	}
 
+	@Override
 	public Object getResult() {
 		return result;
 	}

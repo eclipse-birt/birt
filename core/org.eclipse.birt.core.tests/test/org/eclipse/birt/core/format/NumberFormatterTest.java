@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -279,9 +279,9 @@ public class NumberFormatterTest extends TestCase {
 		ULocale english = new ULocale("en");
 		String[] patterns = { "General Number", "General Number{DigitSubstitution=true}" };
 		double[] values = { 123.12, 902.023 };
-		String[][] araGoldens = new String[][] { { "123.12", "902.023" },
+		String[][] araGoldens = { { "123.12", "902.023" },
 				{ "\u0661\u0662\u0663\u066b\u0661\u0662", "\u0669\u0660\u0662\u066b\u0660\u0662\u0663" } };
-		String[][] engGoldens = new String[][] { { "123.12", "902.023" }, { "123.12", "902.023" } };
+		String[][] engGoldens = { { "123.12", "902.023" }, { "123.12", "902.023" } };
 		NumberFormatter nf = null;
 		for (int pindex = 0; pindex < patterns.length; pindex++) {
 			String pattern = patterns[pindex];
@@ -290,8 +290,7 @@ public class NumberFormatterTest extends TestCase {
 				double value = values[vindex];
 				String res = nf.format(value);
 				try {
-					assertEquals(araGoldens[1][vindex],
-							new String(res.getBytes("UTF-8"), "UTF-8"));
+					assertEquals(araGoldens[1][vindex], new String(res.getBytes("UTF-8"), "UTF-8"));
 				} catch (Exception e1) {
 					fail(e1.toString());
 				}

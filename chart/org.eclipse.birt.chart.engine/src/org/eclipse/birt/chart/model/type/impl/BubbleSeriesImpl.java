@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -58,7 +58,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 	 * The cached value of the '{@link #getAccLineAttributes() <em>Acc Line
 	 * Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #getAccLineAttributes()
 	 * @generated
 	 * @ordered
@@ -68,7 +68,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 	/**
 	 * The default value of the '{@link #getAccOrientation() <em>Acc
 	 * Orientation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getAccOrientation()
 	 * @generated
 	 * @ordered
@@ -78,7 +78,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 	/**
 	 * The cached value of the '{@link #getAccOrientation() <em>Acc
 	 * Orientation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getAccOrientation()
 	 * @generated
 	 * @ordered
@@ -88,7 +88,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 	/**
 	 * This is true if the Acc Orientation attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -96,7 +96,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected BubbleSeriesImpl() {
@@ -105,7 +105,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -115,16 +115,17 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public LineAttributes getAccLineAttributes() {
 		return accLineAttributes;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public NotificationChain basicSetAccLineAttributes(LineAttributes newAccLineAttributes, NotificationChain msgs) {
@@ -133,87 +134,99 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
 					TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES, oldAccLineAttributes, newAccLineAttributes);
-			if (msgs == null)
+			if (msgs == null) {
 				msgs = notification;
-			else
+			} else {
 				msgs.add(notification);
+			}
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setAccLineAttributes(LineAttributes newAccLineAttributes) {
 		if (newAccLineAttributes != accLineAttributes) {
 			NotificationChain msgs = null;
-			if (accLineAttributes != null)
+			if (accLineAttributes != null) {
 				msgs = ((InternalEObject) accLineAttributes).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES, null, msgs);
-			if (newAccLineAttributes != null)
+			}
+			if (newAccLineAttributes != null) {
 				msgs = ((InternalEObject) newAccLineAttributes).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES, null, msgs);
+			}
 			msgs = basicSetAccLineAttributes(newAccLineAttributes, msgs);
-			if (msgs != null)
+			if (msgs != null) {
 				msgs.dispatch();
-		} else if (eNotificationRequired())
+			}
+		} else if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES,
 					newAccLineAttributes, newAccLineAttributes));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public Orientation getAccOrientation() {
 		return accOrientation;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setAccOrientation(Orientation newAccOrientation) {
 		Orientation oldAccOrientation = accOrientation;
 		accOrientation = newAccOrientation == null ? ACC_ORIENTATION_EDEFAULT : newAccOrientation;
 		boolean oldAccOrientationESet = accOrientationESet;
 		accOrientationESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BUBBLE_SERIES__ACC_ORIENTATION,
 					oldAccOrientation, accOrientation, !oldAccOrientationESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetAccOrientation() {
 		Orientation oldAccOrientation = accOrientation;
 		boolean oldAccOrientationESet = accOrientationESet;
 		accOrientation = ACC_ORIENTATION_EDEFAULT;
 		accOrientationESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.BUBBLE_SERIES__ACC_ORIENTATION,
 					oldAccOrientation, ACC_ORIENTATION_EDEFAULT, oldAccOrientationESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetAccOrientation() {
 		return accOrientationESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -227,7 +240,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -243,7 +256,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -261,7 +274,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -279,7 +292,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -295,27 +308,29 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (accOrientation: "); //$NON-NLS-1$
-		if (accOrientationESet)
+		if (accOrientationESet) {
 			result.append(accOrientation);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 * 
+	 *
 	 * @return series instance
 	 */
 	public static final Series create() {
@@ -326,9 +341,10 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * Initializes all member variables within this object recursively
-	 * 
+	 *
 	 * Note: Manually written
 	 */
+	@Override
 	protected final void initialize() {
 		super.initialize();
 
@@ -344,7 +360,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * A convenience method to create an initialized 'Series' instance
-	 * 
+	 *
 	 * @return series instance
 	 */
 	public static final Series createDefault() {
@@ -355,9 +371,10 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/**
 	 * Initializes all member variables within this object recursively
-	 * 
+	 *
 	 * Note: Manually written
 	 */
+	@Override
 	protected final void initDefault() {
 		super.initDefault();
 
@@ -376,18 +393,20 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("BubbleSeriesImpl.displayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.component.Series#isSingleCache()
 	 */
+	@Override
 	public boolean isSingleCache() {
 		return true;
 	}
@@ -395,6 +414,7 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries 
 	/**
 	 * @generated
 	 */
+	@Override
 	public BubbleSeries copyInstance() {
 		BubbleSeriesImpl dest = new BubbleSeriesImpl();
 		dest.set(this);

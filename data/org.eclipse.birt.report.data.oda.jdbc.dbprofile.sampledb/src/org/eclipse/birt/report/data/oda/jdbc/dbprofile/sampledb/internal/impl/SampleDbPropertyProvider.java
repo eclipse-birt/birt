@@ -1,13 +1,13 @@
 /*
  *************************************************************************
  * Copyright (c) 2011, 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -34,17 +34,19 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ConnectionProfilePro
 public class SampleDbPropertyProvider implements IPropertyProvider {
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.consumer.services.IPropertyProvider#
 	 * getDataSourceProperties(java.util.Properties, java.lang.Object)
 	 */
+	@Override
 	public Properties getDataSourceProperties(Properties candidateProperties, Object appContext) throws OdaException {
 		// adjusts transient SampleDb profile properties;
 		// expects specified candidateProperties to be in db profile property keys
 
-		if (!isTransientSampleDbProfile(candidateProperties))
+		if (!isTransientSampleDbProfile(candidateProperties)) {
 			return candidateProperties; // use the properties as is
+		}
 
 		// Adopts the properties in the default persisted profile that has the local
 		// SampleDb path
@@ -84,19 +86,22 @@ public class SampleDbPropertyProvider implements IPropertyProvider {
 	 */
 	private static boolean isTransientSampleDbProfile(Properties dbProfileProps) {
 		String profileName = dbProfileProps.getProperty(ConnectionProfileProperty.PROFILE_NAME_PROP_KEY);
-		if (profileName != null && profileName.length() > 0) // has profile name
+		if (profileName != null && profileName.length() > 0) { // has profile name
 			return false; // not for a transient profile
+		}
 
 		// check if the transient profile properties contain reference of
 		// the default SampleDb driver definition instance
 		String driverDefnId = dbProfileProps.getProperty(ConnectionProfileConstants.PROP_DRIVER_DEFINITION_ID, null);
 		if (driverDefnId == null || !(driverDefnId.equalsIgnoreCase(SampleDbFactory.SAMPLEDB_DEFAULT_DRIVER_DEFN_ID)
-				|| driverDefnId.equalsIgnoreCase(SampleDbFactory.getLocalizedDriverDefinitionId())))
+				|| driverDefnId.equalsIgnoreCase(SampleDbFactory.getLocalizedDriverDefinitionId()))) {
 			return false;
+		}
 
 		String dbUrl = dbProfileProps.getProperty(IJDBCConnectionProfileConstants.URL_PROP_ID, null);
-		if (dbUrl == null || dbUrl.replace('\\', '/').indexOf(SampleDbFactory.SAMPLEDB_URL_RELATIVE_SUFFIX) == -1)
+		if (dbUrl == null || dbUrl.replace('\\', '/').indexOf(SampleDbFactory.SAMPLEDB_URL_RELATIVE_SUFFIX) == -1) {
 			return false;
+		}
 
 		return true;
 	}

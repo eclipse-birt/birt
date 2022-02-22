@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008,2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,27 +26,27 @@ import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
- * 
+ *
  * the node structure is:
- * 
+ *
  * <pre>
  * NEXT_BLOCK		INT			if the node contains extra blocks
  * NODE_TYPE		INT			node type, can be INDEX/LEAF/VALUE/EXTRA
- * 
+ *
  * NODE_SIZE		INT			node size, exclude the NODE_TYPE and NEXT_BLOCK
  * PREV_NODE_ID		INT			previous node id
  * NEXT_NODE_ID		INT			next node id
  * KEY_COUNT		INT			key count saved in this node
  * FIRST_CHILD		INT			child contains keys which are less than the first key
  * KEY_1			...			first key
- * CHILD_ID_1		INT			child node contains keys which are greater or equal than the first key 
+ * CHILD_ID_1		INT			child node contains keys which are greater or equal than the first key
  * KEY_2			...			second key
  * CHILD_ID_2		INT			child node contains keys which are greater than or equal to the second key
- * 
+ *
  * FIRST_CHILD &lt; KEY_1 &lt;= CHILD_ID_1 &lt; KEY_2 &lt;= CHILD_ID_2
- * 
+ *
  * </pre>
- * 
+ *
  * @param <K> the key type
  * @param <V> the value type
  */
@@ -67,7 +67,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V> {
 		this.prevNodeId = -1;
 		this.nextNodeId = -1;
 		this.firstChild = -1;
-		this.entries = new ArrayList<IndexEntry<K, V>>();
+		this.entries = new ArrayList<>();
 	}
 
 	public int getFirstChild() {
@@ -137,6 +137,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V> {
 	private int search(final BTreeValue<K> key) throws IOException {
 		return Collections.binarySearch(entries, key, new Comparator() {
 
+			@Override
 			public int compare(final Object entry, final Object key) {
 				try {
 					return btree.compare(((IndexEntry<K, V>) entry).getKey(), (BTreeValue<K>) key);
@@ -149,7 +150,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V> {
 
 	/**
 	 * find a entry which key is equal or less than the key.
-	 * 
+	 *
 	 * @param key
 	 * @return
 	 * @throws IOException
@@ -211,12 +212,11 @@ public class IndexNode<K, V> extends BTreeNode<K, V> {
 		}
 		index = -(index + 1);
 		// insert at the last entry
-		IndexEntry<K, V> newEntry = new IndexEntry<K, V>(this, insertKey, childNodeId);
+		IndexEntry<K, V> newEntry = new IndexEntry<>(this, insertKey, childNodeId);
 		entries.add(index, newEntry);
 		nodeSize += getEntrySize(newEntry);
 
 		dirty = true;
-		return;
 	}
 
 	public boolean needSplit() {
@@ -263,17 +263,17 @@ public class IndexNode<K, V> extends BTreeNode<K, V> {
 			}
 			nextNodeId = newNode.getNodeId();
 
-			ArrayList<IndexEntry<K, V>> remainEntries = new ArrayList<IndexEntry<K, V>>();
-			remainEntries.addAll(entries.subList(0, splitIndex));
+			ArrayList<IndexEntry<K, V>> remainEntries = new ArrayList<>(entries.subList(0, splitIndex));
 			entries = remainEntries;
 			resetNodeSize();
 
-			return new IndexEntry<K, V>(this, splitEntry.getKey(), newNode.getNodeId());
+			return new IndexEntry<>(this, splitEntry.getKey(), newNode.getNodeId());
 		} finally {
 			newNode.unlock();
 		}
 	}
 
+	@Override
 	public void read(DataInput in) throws IOException {
 		nodeSize = in.readInt();
 		prevNodeId = in.readInt();
@@ -288,6 +288,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V> {
 		}
 	}
 
+	@Override
 	protected void write(DataOutput out) throws IOException {
 		out.writeInt(nodeSize);
 		out.writeInt(prevNodeId);
@@ -302,7 +303,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V> {
 	private IndexEntry<K, V> readEntry(DataInput in) throws IOException {
 		BTreeValue<K> key = btree.readKey(in);
 		int childNodeId = in.readInt();
-		return new IndexEntry<K, V>(this, key, childNodeId);
+		return new IndexEntry<>(this, key, childNodeId);
 	}
 
 	private void writeEntry(DataOutput out, IndexEntry<K, V> entry) throws IOException {
@@ -314,6 +315,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V> {
 		return 4 + btree.getKeySize(entry.getKey());
 	}
 
+	@Override
 	public void dumpNode() throws IOException {
 		System.out.println("INDEX:" + nodeId);
 		System.out.println("nodeSize:" + nodeSize);
@@ -330,6 +332,7 @@ public class IndexNode<K, V> extends BTreeNode<K, V> {
 		System.out.println();
 	}
 
+	@Override
 	public void dumpAll() throws IOException {
 		dumpNode();
 		BTreeNode<K, V> node = btree.loadBTreeNode(firstChild);

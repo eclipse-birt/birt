@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,14 +67,17 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
  */
 public class ChartAggregationCellViewProvider extends AggregationCellViewAdapter {
 
+	@Override
 	public String getViewName() {
 		return ChartReportItemConstants.CHART_EXTENSION_NAME;
 	}
 
+	@Override
 	public String getViewDisplayName() {
 		return Messages.getString("ChartAggregationCellViewProvider.Chart.DisplayName"); //$NON-NLS-1$
 	}
 
+	@Override
 	public boolean matchView(AggregationCellHandle cell) {
 		ExtendedItemHandle handle = getChartHandle(cell);
 		if (handle != null) {
@@ -84,6 +87,7 @@ public class ChartAggregationCellViewProvider extends AggregationCellViewAdapter
 		return false;
 	}
 
+	@Override
 	public void switchView(SwitchCellInfo info) {
 		AggregationCellHandle cell = info.getAggregationCell();
 		try {
@@ -131,6 +135,7 @@ public class ChartAggregationCellViewProvider extends AggregationCellViewAdapter
 		}
 	}
 
+	@Override
 	public void restoreView(AggregationCellHandle cell) {
 		try {
 			ExtendedItemHandle chartHandle = getChartHandle(cell);
@@ -395,7 +400,7 @@ public class ChartAggregationCellViewProvider extends AggregationCellViewAdapter
 					// Reset query expressions
 					ChartReportItemImpl reportItem = (ChartReportItemImpl) handle.getReportItem();
 					ChartWithAxes cm = (ChartWithAxes) reportItem.getProperty(ChartReportItemConstants.PROPERTY_CHART);
-					ChartWithAxes cmNew = cm;
+					ChartWithAxes cmNew;
 					if (cm == null) {
 						return;
 					}
@@ -478,14 +483,10 @@ public class ChartAggregationCellViewProvider extends AggregationCellViewAdapter
 		if (info.getType() == SwitchCellInfo.GRAND_TOTAL || info.getType() == SwitchCellInfo.SUB_TOTAL) {
 			// Do not allow switching to Chart for no dimension case in total
 			// cell
-			if (xtab.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE) == 0
-					|| xtab.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE) == 0) {
-				return false;
-			}
-
 			// If axis chart in total cell, don't allow to switch it to Chart
 			// view.
-			if (ChartCubeUtil.findAxisChartInCell(cell) != null) {
+			if (xtab.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE) == 0
+					|| xtab.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE) == 0 || (ChartCubeUtil.findAxisChartInCell(cell) != null)) {
 				return false;
 			}
 		}

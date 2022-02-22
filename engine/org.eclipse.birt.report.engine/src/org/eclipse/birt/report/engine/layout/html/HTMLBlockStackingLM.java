@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -29,14 +29,17 @@ public class HTMLBlockStackingLM extends HTMLStackingLM {
 		super(factory);
 	}
 
+	@Override
 	public int getType() {
 		return LAYOUT_MANAGER_BLOCK;
 	}
 
+	@Override
 	protected boolean isChildrenFinished() throws BirtException {
 		return childExecutor == null && !executor.hasNextChild();
 	}
 
+	@Override
 	protected boolean layoutNodes() throws BirtException {
 		boolean hasNext = false;
 
@@ -83,6 +86,7 @@ public class HTMLBlockStackingLM extends HTMLStackingLM {
 		return false;
 	}
 
+	@Override
 	public void close() throws BirtException {
 		childLayout = null;
 		childExecutor = null;

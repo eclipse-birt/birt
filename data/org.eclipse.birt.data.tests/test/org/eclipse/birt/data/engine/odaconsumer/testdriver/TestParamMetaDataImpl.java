@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -37,10 +37,11 @@ public class TestParamMetaDataImpl implements IParameterMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterCount()
 	 */
+	@Override
 	public int getParameterCount() throws OdaException {
 		switch (m_currentTestCase) {
 		case 1:
@@ -54,18 +55,21 @@ public class TestParamMetaDataImpl implements IParameterMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterMode(
 	 * int)
 	 */
+	@Override
 	public int getParameterMode(int param) throws OdaException {
 		if (m_currentTestCase == 1) {
-			if (param <= getParameterCount())
+			if (param <= getParameterCount()) {
 				return IParameterMetaData.parameterModeOut;
+			}
 		} else if (m_currentTestCase == 2) {
-			if (param <= getParameterCount())
+			if (param <= getParameterCount()) {
 				return IParameterMetaData.parameterModeIn;
+			}
 		}
 
 		return IParameterMetaData.parameterModeUnknown;
@@ -73,11 +77,12 @@ public class TestParamMetaDataImpl implements IParameterMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(
 	 * int)
 	 */
+	@Override
 	public String getParameterName(int param) throws OdaException {
 		if (m_currentTestCase == 1 || m_currentTestCase == 2) {
 			return TEST_PARAM_NATIVE_NAME_PREFIX + param;
@@ -88,11 +93,12 @@ public class TestParamMetaDataImpl implements IParameterMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterType(
 	 * int)
 	 */
+	@Override
 	public int getParameterType(int param) throws OdaException {
 		if (m_currentTestCase == 1 || m_currentTestCase == 2) {
 			switch (param) {
@@ -110,10 +116,11 @@ public class TestParamMetaDataImpl implements IParameterMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#
 	 * getParameterTypeName(int)
 	 */
+	@Override
 	public String getParameterTypeName(int param) throws OdaException {
 		if (m_currentTestCase == 1 || m_currentTestCase == 2) {
 			switch (param) {
@@ -131,29 +138,32 @@ public class TestParamMetaDataImpl implements IParameterMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getPrecision(int)
 	 */
+	@Override
 	public int getPrecision(int param) throws OdaException {
 		return -1;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getScale(int)
 	 */
+	@Override
 	public int getScale(int param) throws OdaException {
 		return -1;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#isNullable(int)
 	 */
+	@Override
 	public int isNullable(int param) throws OdaException {
 		return IParameterMetaData.parameterNullableUnknown;
 	}

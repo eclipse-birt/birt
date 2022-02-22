@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008, 2009 IBM Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Label;
 
 /**
  * @author bidi_hcg
- * 
+ *
  */
 public class BidiGUIUtility {
 
@@ -188,32 +188,39 @@ public class BidiGUIUtility {
 	}
 
 	public static int getOrderingSchemeComboIndx(String orderingScheme) {
-		if (orderingScheme.equals(BidiConstants.ORDERING_SCHEME_LOGICAL))
+		if (orderingScheme.equals(BidiConstants.ORDERING_SCHEME_LOGICAL)) {
 			return BidiConstants.ORDERING_SCHEME_LOGICAL_INDX;
+		}
 		return BidiConstants.ORDERING_SCHEME_VISUAL_INDX;
 	}
 
 	public static int getTextDirectionComboIndx(String textDirection) {
-		if (textDirection.equals(BidiConstants.TEXT_DIRECTION_LTR))
+		if (textDirection.equals(BidiConstants.TEXT_DIRECTION_LTR)) {
 			return BidiConstants.TEXT_DIRECTION_LTR_INDX;
-		if (textDirection.equals(BidiConstants.TEXT_DIRECTION_RTL))
+		}
+		if (textDirection.equals(BidiConstants.TEXT_DIRECTION_RTL)) {
 			return BidiConstants.TEXT_DIRECTION_RTL_INDX;
-		if (textDirection.equals(BidiConstants.TEXT_DIRECTION_CONTEXTLTR))
+		}
+		if (textDirection.equals(BidiConstants.TEXT_DIRECTION_CONTEXTLTR)) {
 			return BidiConstants.TEXT_DIRECTION_CONTEXTLTR_INDX;
+		}
 		return BidiConstants.TEXT_DIRECTION_CONTEXTRTL_INDX;
 	}
 
 	public static int getShapingComboIndx(String textShaping) {
-		if (textShaping.equals(BidiConstants.SHAPING_NOMINAL))
+		if (textShaping.equals(BidiConstants.SHAPING_NOMINAL)) {
 			return BidiConstants.SHAPING_NOMINAL_INDX;
+		}
 		return BidiConstants.SHAPING_SHAPED_INDX;
 	}
 
 	public static int getNumShapingComboIndx(String numShaping) {
-		if (numShaping.equals(BidiConstants.NUMSHAPING_CONTEXT))
+		if (numShaping.equals(BidiConstants.NUMSHAPING_CONTEXT)) {
 			return BidiConstants.NUMSHAPING_CONTEXT_INDX;
-		if (numShaping.equals(BidiConstants.NUMSHAPING_NATIONAL))
+		}
+		if (numShaping.equals(BidiConstants.NUMSHAPING_NATIONAL)) {
 			return BidiConstants.NUMSHAPING_NATIONAL_INDX;
+		}
 		return BidiConstants.NUMSHAPING_NOMINAL_INDX;
 	}
 
@@ -230,23 +237,23 @@ public class BidiGUIUtility {
 		Control[] controls = bidiFormatFrame.getChildren();
 		for (int i = 0; i < controls.length; i++) {
 			if (controls[i] instanceof Combo) {
-				if (BidiConstants.ORDERING_SCHEME_TOOLTIP.equals(((Combo) controls[i]).getToolTipText()))
+				if (BidiConstants.ORDERING_SCHEME_TOOLTIP.equals(((Combo) controls[i]).getToolTipText())) {
 					orderingSchemeCombo = (Combo) controls[i];
-				else if (BidiConstants.TEXT_DIRECTION_TOOLTIP.equals(((Combo) controls[i]).getToolTipText()))
+				} else if (BidiConstants.TEXT_DIRECTION_TOOLTIP.equals(((Combo) controls[i]).getToolTipText())) {
 					textDirectionCombo = (Combo) controls[i];
-				// bidi_acgc deleted started : The lines are replaced below in
-				// order to add a condition
-				// to define Arabic specific features controls
-				// else if ( BidiConstants.SHAPING_TOOLTIP
-				// .equals( ( (Combo) controls[i] ).getToolTipText( ) ) )
-				// shapingCombo = (Combo) controls[i];
-				// else if ( BidiConstants.NUMSHAPING_TOOLTIP
-				// .equals( ( (Combo) controls[i] ).getToolTipText( ) ) )
-				// numShapingCombo = (Combo) controls[i];
-				// bidi_acgc deleted end :
-
-				else if (BidiConstants.SYMSWAP_TOOLTIP.equals(((Combo) controls[i]).getToolTipText()))
+					// bidi_acgc deleted started : The lines are replaced below in
+					// order to add a condition
+					// to define Arabic specific features controls
+					// else if ( BidiConstants.SHAPING_TOOLTIP
+					// .equals( ( (Combo) controls[i] ).getToolTipText( ) ) )
+					// shapingCombo = (Combo) controls[i];
+					// else if ( BidiConstants.NUMSHAPING_TOOLTIP
+					// .equals( ( (Combo) controls[i] ).getToolTipText( ) ) )
+					// numShapingCombo = (Combo) controls[i];
+					// bidi_acgc deleted end :
+				} else if (BidiConstants.SYMSWAP_TOOLTIP.equals(((Combo) controls[i]).getToolTipText())) {
 					symSwapCombo = (Combo) controls[i];
+				}
 			}
 
 			// bidi_acgc added start :Check if the type of control is Group then
@@ -257,11 +264,12 @@ public class BidiGUIUtility {
 				arabicSubControls = arabicGroup.getChildren();
 				for (int j = 0; j < arabicSubControls.length; j++) {
 					if (arabicSubControls[j] instanceof Combo) {
-						if (BidiConstants.SHAPING_TOOLTIP.equals(((Combo) arabicSubControls[j]).getToolTipText()))
+						if (BidiConstants.SHAPING_TOOLTIP.equals(((Combo) arabicSubControls[j]).getToolTipText())) {
 							shapingCombo = (Combo) arabicSubControls[j];
-						else if (BidiConstants.NUMSHAPING_TOOLTIP
-								.equals(((Combo) arabicSubControls[j]).getToolTipText()))
+						} else if (BidiConstants.NUMSHAPING_TOOLTIP
+								.equals(((Combo) arabicSubControls[j]).getToolTipText())) {
 							numShapingCombo = (Combo) arabicSubControls[j];
+						}
 					}
 				}
 			}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,14 +25,14 @@ import org.xml.sax.SAXException;
  * Represents the property state which is used to do backward of interval
  * property in Level element.
  * <p>
- * 
+ *
  */
 
 public class CompatibleIntervalState extends CompatiblePropertyState {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param theHandler
 	 * @param element
 	 */
@@ -43,10 +43,11 @@ public class CompatibleIntervalState extends CompatiblePropertyState {
 
 	/**
 	 * Handles the special case to read obsolete operators.
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		String value = text.toString();
 

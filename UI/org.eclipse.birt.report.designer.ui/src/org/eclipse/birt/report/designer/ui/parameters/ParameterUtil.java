@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,7 @@ public class ParameterUtil {
 
 	/**
 	 * Checks if is custom format category.
-	 * 
+	 *
 	 * @param formatCategory
 	 * @return <code>true</code> if is custom type. else return <code>false</code>.
 	 */
@@ -108,7 +108,7 @@ public class ParameterUtil {
 
 	/**
 	 * Formats value with pattern or category.
-	 * 
+	 *
 	 * @param handle
 	 * @param inputStr
 	 * @return formatted value.
@@ -120,7 +120,7 @@ public class ParameterUtil {
 
 			value = format(value, sphandle.getDataType(), sphandle.getCategory(), sphandle.getPattern(),
 					!sphandle.isRequired());
-			;
+
 		}
 
 		return value;

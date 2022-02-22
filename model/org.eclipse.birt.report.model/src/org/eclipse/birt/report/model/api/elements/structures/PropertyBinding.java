@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -99,19 +99,21 @@ public class PropertyBinding extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (NAME_MEMBER.equalsIgnoreCase(propName))
+		if (NAME_MEMBER.equalsIgnoreCase(propName)) {
 			return name;
-		else if (ID_MEMBER.equalsIgnoreCase(propName))
+		} else if (ID_MEMBER.equalsIgnoreCase(propName)) {
 			return id;
-		else if (VALUE_MEMBER.equalsIgnoreCase(propName)) {
-			if (encryptionID == null)
+		} else if (VALUE_MEMBER.equalsIgnoreCase(propName)) {
+			if (encryptionID == null) {
 				return value;
+			}
 
 			if (value != null) {
 				Object decoded = EncryptionUtil.decrypt((PropertyDefn) getDefn().getMember(VALUE_MEMBER), encryptionID,
@@ -128,39 +130,43 @@ public class PropertyBinding extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (NAME_MEMBER.equalsIgnoreCase(propName))
+		if (NAME_MEMBER.equalsIgnoreCase(propName)) {
 			name = (String) value;
-		else if (ID_MEMBER.equalsIgnoreCase(propName))
+		} else if (ID_MEMBER.equalsIgnoreCase(propName)) {
 			id = (BigDecimal) value;
-		else if (VALUE_MEMBER.equalsIgnoreCase(propName))
+		} else if (VALUE_MEMBER.equalsIgnoreCase(propName)) {
 			this.value = (Expression) value;
-		else
+		} else {
 			assert false;
+		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
+	@Override
 	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new PropertyBindingHandle(valueHandle, index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#getStructName()
 	 */
+	@Override
 	public String getStructName() {
 		return PROPERTY_BINDING_STRUCT;
 	}
@@ -168,7 +174,7 @@ public class PropertyBinding extends Structure {
 	/**
 	 * Sets the name of the property binding. It must be one of the defined property
 	 * in the element.
-	 * 
+	 *
 	 * @param name the property name
 	 */
 
@@ -178,7 +184,7 @@ public class PropertyBinding extends Structure {
 
 	/**
 	 * Gets the property name of this binding.
-	 * 
+	 *
 	 * @return the property name of this binding
 	 */
 
@@ -188,7 +194,7 @@ public class PropertyBinding extends Structure {
 
 	/**
 	 * Sets the element id of this binding.
-	 * 
+	 *
 	 * @param id the element id to set
 	 */
 
@@ -198,7 +204,7 @@ public class PropertyBinding extends Structure {
 
 	/**
 	 * Gets the element id of the binding.
-	 * 
+	 *
 	 * @return the element id of this binding
 	 */
 
@@ -208,7 +214,7 @@ public class PropertyBinding extends Structure {
 
 	/**
 	 * Gets the overridden value of this binding.
-	 * 
+	 *
 	 * @return the overridden value of this binding.
 	 */
 
@@ -219,28 +225,30 @@ public class PropertyBinding extends Structure {
 
 	/**
 	 * Sets the overridden value of this binding.
-	 * 
+	 *
 	 * @param expression the value expression to set
 	 */
 
 	public void setValue(String expression) {
 		String tmpType = value == null ? null : value.getUserDefinedType();
-		if (!StringUtil.isBlank(expression) || tmpType != null)
+		if (!StringUtil.isBlank(expression) || tmpType != null) {
 			value = new Expression(expression, tmpType);
-		else
+		} else {
 			value = null;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
 	 * .report.model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
-		ArrayList<SemanticException> list = new ArrayList<SemanticException>();
+		ArrayList<SemanticException> list = new ArrayList<>();
 
 		if (StringUtil.isBlank(getName())) {
 			list.add(new PropertyValueException(element, getDefn().getMember(NAME_MEMBER), null,
@@ -261,7 +269,7 @@ public class PropertyBinding extends Structure {
 	 * recommended to be called by users. It is just called by Model inner APIs.
 	 * Otherwise, if user sets a wrong id inconsistent with the value, they might
 	 * get an odd value.
-	 * 
+	 *
 	 * @param encryptionID
 	 */
 	public void setEncryption(String encryptionID) {
@@ -270,9 +278,9 @@ public class PropertyBinding extends Structure {
 
 	/**
 	 * Returns the encryption id.
-	 * 
+	 *
 	 * @return the encryption id.
-	 * 
+	 *
 	 */
 
 	public String getEncryption() {
@@ -281,14 +289,17 @@ public class PropertyBinding extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object obj) {
-		if (!super.equals(obj))
+		if (!super.equals(obj)) {
 			return false;
-		if (encryptionID == null)
+		}
+		if (encryptionID == null) {
 			return ((PropertyBinding) obj).encryptionID == null;
+		}
 		return encryptionID.equals(((PropertyBinding) obj).encryptionID);
 	}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -100,6 +100,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements SelectionL
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_AXIS_GRIDLINES);
 	}
 
+	@Override
 	protected Composite getComponent(Composite parent) {
 		// Layout for the content composite
 		GridLayout glContent = new GridLayout();
@@ -221,6 +222,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements SelectionL
 						| GridAttributesComposite.ENABLE_VISIBILITY),
 				getContext(), axis.getMajorGrid(), axis.getOrientation().getValue(), ticksVisible,
 				defAxis.getMajorGrid()) {
+			@Override
 			protected void init(Grid grid) {
 				super.init(grid);
 				super.lineVisibleLabel = Messages.getString("AxisGridLinesSheet.MajorLabel.LineIsVisible"); //$NON-NLS-1$
@@ -243,6 +245,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements SelectionL
 						| GridAttributesComposite.ENABLE_VISIBILITY),
 				getContext(), axis.getMinorGrid(), axis.getOrientation().getValue(), ticksVisible,
 				defAxis.getMinorGrid()) {
+			@Override
 			protected void init(Grid grid) {
 				super.init(grid);
 				super.lineVisibleLabel = Messages.getString("AxisGridLinesSheet.MinorLabel.LineIsVisible"); //$NON-NLS-1$
@@ -311,10 +314,11 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements SelectionL
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		// if ( this.iscGapWidth.equals( event.widget ) )
 		// {
@@ -431,10 +435,11 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements SelectionL
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		Object oSource = e.getSource();
 		if (e.widget == btnShow) {
@@ -454,11 +459,12 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements SelectionL
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 

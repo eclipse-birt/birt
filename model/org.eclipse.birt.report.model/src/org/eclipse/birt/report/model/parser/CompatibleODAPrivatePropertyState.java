@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.xml.sax.SAXException;
  * properties.
  * <p>
  * This change is made from BIRT 2.2. The design file version is "3.2.10".
- * 
+ *
  */
 
 class CompatibleODAPrivatePropertyState extends CompatiblePropertyState {
@@ -43,7 +43,7 @@ class CompatibleODAPrivatePropertyState extends CompatiblePropertyState {
 	/**
 	 * Constructs a <code>CompatibleODAPrivatePropertyState</code> to parse an
 	 * obsolete property.
-	 * 
+	 *
 	 * @param theHandler the parser handle
 	 * @param element    the element that holds the private properties
 	 */
@@ -56,18 +56,20 @@ class CompatibleODAPrivatePropertyState extends CompatiblePropertyState {
 			privatePropName = IOdaDataSetModel.PRIVATE_DRIVER_PROPERTIES_PROP;
 		} else if (element instanceof IOdaDataSourceModel) {
 			privatePropName = IOdaDataSourceModel.PRIVATE_DRIVER_PROPERTIES_PROP;
-		} else
+		} else {
 			assert false;
+		}
 
 		privatePropDefn = element.getPropertyDefn(privatePropName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		ExtendedProperty tmpStruct = new ExtendedProperty();
 
@@ -75,8 +77,9 @@ class CompatibleODAPrivatePropertyState extends CompatiblePropertyState {
 		setMember(tmpStruct, privatePropDefn.getName(), ExtendedProperty.VALUE_MEMBER, text.toString());
 
 		List privateProps = (List) element.getLocalProperty(handler.module, (ElementPropertyDefn) privatePropDefn);
-		if (privateProps == null)
+		if (privateProps == null) {
 			privateProps = new ArrayList();
+		}
 
 		// should first add the structure to list then set the list value so as
 		// to setup the structure context

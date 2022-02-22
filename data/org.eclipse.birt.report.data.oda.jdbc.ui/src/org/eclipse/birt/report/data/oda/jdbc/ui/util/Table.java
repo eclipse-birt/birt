@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:54 $
  */
 
@@ -37,7 +37,7 @@ public class Table implements Serializable {
 	private Schema schema = null;
 
 	/**
-	 *  
+	 *
 	 */
 	public Table(Schema schema) {
 		super();
@@ -98,9 +98,10 @@ public class Table implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#finalize()
 	 */
+	@Override
 	protected void finalize() throws Throwable {
 		columns.clear();
 		super.finalize();

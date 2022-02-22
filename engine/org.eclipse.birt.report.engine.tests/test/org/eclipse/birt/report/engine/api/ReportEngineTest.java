@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
 import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 
 /**
- * 
+ *
  */
 
 public class ReportEngineTest extends EngineCase {
@@ -34,6 +34,7 @@ public class ReportEngineTest extends EngineCase {
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/ReportEngineTest.rptdesign";
 	static final String REPORT_DESIGN = "ReportEngineTest.rptdesign";
 
+	@Override
 	public void setUp() {
 		removeFile(REPORT_DESIGN);
 		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
@@ -41,6 +42,7 @@ public class ReportEngineTest extends EngineCase {
 		initSupportedMap();
 	}
 
+	@Override
 	public void tearDown() {
 		removeFile(REPORT_DESIGN);
 	}
@@ -243,8 +245,8 @@ public class ReportEngineTest extends EngineCase {
 	}
 
 	protected void initSupportedMap() {
-		String[] goldenFormats = new String[] { "html", "pdf" };
-		String[] goldenMIMEType = new String[] { "text/html", "application/pdf" };
+		String[] goldenFormats = { "html", "pdf" };
+		String[] goldenMIMEType = { "text/html", "application/pdf" };
 		assertTrue(goldenFormats.length == goldenMIMEType.length);
 		supportedMap = new HashMap();
 		for (int size = goldenFormats.length, index = 0; index < size; index++) {

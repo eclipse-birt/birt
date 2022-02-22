@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * Font utility class.
- * 
+ *
  * @since 2.3
  */
 public final class FontUtil {
@@ -59,11 +59,11 @@ public final class FontUtil {
 		sFamilyMap.put(LOGIC_FONT_FAMILY_CURSIVE, FONT_FAMILY_COMIC_SANS_MS);
 		sFamilyMap.put(LOGIC_FONT_FAMILY_FANTASY, FONT_FAMILY_IMPACT);
 		sFamilyMap.put(LOGIC_FONT_FAMILY_MONOSPACE, FONT_FAMILY_COURIER_NEW);
-	};
+	}
 
 	/**
 	 * Returns the final font family name.
-	 * 
+	 *
 	 * @param fontFamily specified font family name.
 	 * @return actually font family name.
 	 */

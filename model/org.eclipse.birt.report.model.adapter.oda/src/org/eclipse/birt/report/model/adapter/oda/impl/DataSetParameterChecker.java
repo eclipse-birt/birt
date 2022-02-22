@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,22 +44,23 @@ class DataSetParameterChecker {
 	OdaDataSetParameterHandle paramHandle;
 
 	/**
-	 * 
+	 *
 	 * @param paramDefn
 	 * @param paramHandle
 	 */
 
 	DataSetParameterChecker(ParameterDefinition paramDefn, OdaDataSetParameterHandle paramHandle) {
-		if (paramDefn == null || paramHandle == null)
+		if (paramDefn == null || paramHandle == null) {
 			throw new IllegalArgumentException(
 					"The parameter definition and oda data set parameter handle can not be null!"); //$NON-NLS-1$
+		}
 		this.paramDefn = paramDefn;
 		this.paramHandle = paramHandle;
-		this.ambiguousList = new ArrayList<IAmbiguousAttribute>();
+		this.ambiguousList = new ArrayList<>();
 	}
 
 	/**
-	 * 
+	 *
 	 */
 
 	List<IAmbiguousAttribute> process() {
@@ -94,13 +95,14 @@ class DataSetParameterChecker {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void processDataElementAttributes(DataElementAttributes dataAttrs) {
 		// check the native name
 
-		if (dataAttrs == null)
+		if (dataAttrs == null) {
 			return;
+		}
 
 		// compare the name with the native name in oda data set parameter
 
@@ -118,12 +120,13 @@ class DataSetParameterChecker {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param nullability
 	 */
 	private void processElementNullability(ElementNullability nullability) {
-		if (nullability == null)
+		if (nullability == null) {
 			return;
+		}
 		Boolean newValue = AdapterUtil.getROMNullability(nullability);
 		Boolean oldValue = paramHandle.allowNull();
 		handleValue(newValue, oldValue, OdaDataSetParameter.ALLOW_NULL_MEMBER);
@@ -131,15 +134,16 @@ class DataSetParameterChecker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.impl.IDataSetParameterProcessor #
 	 * processInOutMode(org.eclipse.datatools.connectivity.oda.design.ParameterMode
 	 * )
 	 */
 	public void processInOutMode(ParameterMode mode) {
-		if (mode == null)
+		if (mode == null) {
 			return;
+		}
 
 		Boolean newIsInput = null;
 		Boolean newIsOutput = null;
@@ -167,7 +171,7 @@ class DataSetParameterChecker {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param attrs
 	 */
 	public void processInputElementAttributes(InputElementAttributes attrs) {
@@ -176,8 +180,9 @@ class DataSetParameterChecker {
 		if (!withLinkedParameter) {
 			StaticValues defaultValue = attrs.getDefaultValues();
 			Object newValue = null;
-			if (defaultValue != null && !defaultValue.isEmpty())
+			if (defaultValue != null && !defaultValue.isEmpty()) {
 				newValue = defaultValue.getValues().get(0);
+			}
 
 			Expression newDefaultValue = AdapterUtil.createExpression(newValue);
 			Expression oldDefaultExpr = (Expression) getLocalValue(OdaDataSetParameter.DEFAULT_VALUE_MEMBER);
@@ -195,21 +200,23 @@ class DataSetParameterChecker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.impl.IDataSetParameterProcessor
 	 * #processLinkedReportParameter()
 	 */
 	public void processLinkedReportParameter() {
 		String reportParamName = paramHandle.getParamName();
-		if (StringUtil.isBlank(reportParamName))
+		if (StringUtil.isBlank(reportParamName)) {
 			return;
+		}
 
 		ScalarParameterHandle reportParam = (ScalarParameterHandle) paramHandle.getModule().getModuleHandle()
 				.findParameter(reportParamName);
 
-		if (reportParam == null)
+		if (reportParam == null) {
 			return;
+		}
 
 		ReportParamChecker tmpVisitor = new ReportParamChecker(paramDefn, reportParam);
 		List<IAmbiguousAttribute> tmpList = tmpVisitor.process();
@@ -225,7 +232,7 @@ class DataSetParameterChecker {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param newValue
 	 * @param oldValue
 	 * @param propName
@@ -235,15 +242,16 @@ class DataSetParameterChecker {
 			// if new value is null and old value is null too, then we will do
 			// nothing during updating, so we need not record them in the
 			// ambiguous list
-			if (newValue == null && getLocalValue(propName) == null)
+			if (newValue == null && getLocalValue(propName) == null) {
 				return;
+			}
 
 			ambiguousList.add(new AmbiguousAttribute(propName, oldValue, newValue, false));
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param newValue
 	 * @param oldValue
 	 * @param propName
@@ -253,8 +261,9 @@ class DataSetParameterChecker {
 			// if new value is null and old value is null too, then we will do
 			// nothing during updating, so we need not record them in the
 			// ambiguous list
-			if (newValue == null && getLocalValue(propName) == null)
+			if (newValue == null && getLocalValue(propName) == null) {
 				return;
+			}
 
 			ambiguousList.add(new AmbiguousAttribute(propName, oldValue, newValue, false));
 		}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,9 +18,10 @@ package org.eclipse.birt.report.engine.api;
  * Defines the context for rendering report in HTML emitter. Objects stored in
  * the context object is mainly used for image and action handling, but can be
  * used for other purposes too.
- * 
+ *
  * @deprecated set the property to RenderOption directly.
  */
+@Deprecated
 public class HTMLRenderContext {
 
 	/**
@@ -56,7 +57,7 @@ public class HTMLRenderContext {
 
 	/**
 	 * Returns the base URL for creating an Action URL
-	 * 
+	 *
 	 * @return the baseURL.
 	 */
 	public String getBaseURL() {
@@ -65,7 +66,7 @@ public class HTMLRenderContext {
 
 	/**
 	 * sets the base url for action handling
-	 * 
+	 *
 	 * @param baseURL sets the base URL used for action handling
 	 */
 	public void setBaseURL(String baseURL) {
@@ -74,7 +75,7 @@ public class HTMLRenderContext {
 
 	/**
 	 * returns the image directory that engine stores images and charts into
-	 * 
+	 *
 	 * @return the image directory.
 	 */
 	public String getImageDirectory() {
@@ -83,7 +84,7 @@ public class HTMLRenderContext {
 
 	/**
 	 * sets the image directory that engine stores images and charts into
-	 * 
+	 *
 	 * @param imageDirectory the image directory that engine stores images and
 	 *                       charts into
 	 */
@@ -93,7 +94,7 @@ public class HTMLRenderContext {
 
 	/**
 	 * returns the base url for creating image URL
-	 * 
+	 *
 	 * @return Rreturn the abse image url
 	 */
 	public String getBaseImageURL() {
@@ -102,7 +103,7 @@ public class HTMLRenderContext {
 
 	/**
 	 * sets the base image URL for image handling
-	 * 
+	 *
 	 * @param baseImageURL the base image URL
 	 */
 	public void setBaseImageURL(String baseImageURL) {
@@ -134,6 +135,7 @@ public class HTMLRenderContext {
 	 * @return render options
 	 * @deprecated it is deprecated and use the setRenderOption instead.
 	 */
+	@Deprecated
 	public void SetRenderOption(IRenderOption option) {
 		this.setRenderOption(option);
 	}

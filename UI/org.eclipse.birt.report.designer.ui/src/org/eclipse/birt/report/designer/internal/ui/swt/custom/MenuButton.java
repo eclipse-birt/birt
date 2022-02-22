@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 
 /**
- * 
+ *
  */
 
 public class MenuButton extends Composite {
@@ -71,6 +71,7 @@ public class MenuButton extends Composite {
 		layoutControl();
 	}
 
+	@Override
 	public void setToolTipText(String string) {
 		button.setToolTipText(string);
 	}
@@ -82,6 +83,7 @@ public class MenuButton extends Composite {
 
 	private Point defaultSize = new Point(0, 0);
 
+	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed) {
 
 		int width;
@@ -95,29 +97,35 @@ public class MenuButton extends Composite {
 			tmp.setText(""); //$NON-NLS-1$
 			height = tmp.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
 		}
-		if (image != null)
+		if (image != null) {
 			tmp.setImage(image);
+		}
 		Point size = tmp.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 		tmp.dispose();
 
 		if (menu != null) {
 			width = size.x + WIDTH_MORE;
-		} else
+		} else {
 			width = size.x;
+		}
 
 		if (isFixed && image != null) {
 			int imageWidth = image.getImageData().width;
-			if (imageWidth > IMAGE_WIDTH)
+			if (imageWidth > IMAGE_WIDTH) {
 				width -= (imageWidth - IMAGE_WIDTH);
+			}
 
 		}
-		if (!isFixed)
+		if (!isFixed) {
 			height = size.y;
+		}
 		defaultSize = new Point(width, height);
-		if (wHint != SWT.DEFAULT)
+		if (wHint != SWT.DEFAULT) {
 			width = wHint;
-		if (hHint != SWT.DEFAULT)
+		}
+		if (hHint != SWT.DEFAULT) {
 			height = hHint;
+		}
 
 		return new Point(width, height);
 	}
@@ -127,24 +135,28 @@ public class MenuButton extends Composite {
 		layoutControl();
 	}
 
+	@Override
 	public void setBackground(Color color) {
 		super.setBackground(color);
 		button.setBackground(color);
 		button.redraw();
 	}
 
+	@Override
 	public void setForeground(Color color) {
 		super.setBackground(color);
 		button.setForeground(color);
 		button.redraw();
 	}
 
+	@Override
 	public void setFont(Font font) {
 		super.setFont(font);
 		button.setFont(font);
 		button.redraw();
 	}
 
+	@Override
 	public void setEnabled(boolean enable) {
 		super.setEnabled(enable);
 		button.setEnabled(enable);
@@ -170,10 +182,12 @@ public class MenuButton extends Composite {
 
 		button = new Button(this, style | SWT.DOUBLE_BUFFERED) {
 
+			@Override
 			protected void checkSubclass() {
 
 			}
 
+			@Override
 			public String getText() {
 				String text = MenuButton.this.getText();
 				return text == null ? "" : text;
@@ -183,6 +197,7 @@ public class MenuButton extends Composite {
 		button.setLayoutData(gd);
 		button.addPaintListener(new PaintListener() {
 
+			@Override
 			public void paintControl(final PaintEvent e) {
 				MenuButton.this.paintControl(e);
 			}
@@ -190,32 +205,35 @@ public class MenuButton extends Composite {
 
 		button.addListener(SWT.MouseUp, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
-				if (!button.isEnabled() || e.button != 1 || !mouseDown)
+				if (!button.isEnabled() || e.button != 1 || !mouseDown) {
 					return;
+				}
 				mouseDown = false;
 				mouseSelection = true;
 				Rectangle size = button.getBounds();
-				if (!size.contains(e.x, e.y))
+				if (!size.contains(e.x, e.y)) {
 					return;
+				}
 				int left = WIDTH_MORE + MARGIN_GAP - 1;
-				if (menu == null)
+				if (menu == null) {
 					left = 0;
+				}
 
 				if (e.x < size.width - left) {
-					if (listeners == null)
+					if (listeners == null) {
 						return;
+					}
 
 					e.widget = MenuButton.this;
 
 					for (int i = 0; i < listeners.size(); i++) {
 						((SelectionListener) listeners.get(i)).widgetSelected(new SelectionEvent(e));
 					}
-				} else {
-					if (menu != null) {
-						menu.setLocation(button.toDisplay(new Point(0, size.height - 1)));
-						menu.setVisible(true);
-					}
+				} else if (menu != null) {
+					menu.setLocation(button.toDisplay(new Point(0, size.height - 1)));
+					menu.setVisible(true);
 				}
 			}
 
@@ -223,19 +241,23 @@ public class MenuButton extends Composite {
 
 		button.addListener(SWT.MouseDown, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
-				if (!button.isEnabled() || e.button != 1)
+				if (!button.isEnabled() || e.button != 1) {
 					return;
+				}
 				mouseSelection = true;
 				Rectangle size = button.getBounds();
-				if (!size.contains(e.x, e.y))
+				if (!size.contains(e.x, e.y)) {
 					return;
+				}
 				mouseDown = true;
 			}
 
 		});
 		button.addListener(SWT.KeyUp, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				if (e.keyCode == SWT.ARROW_DOWN || e.keyCode == SWT.ARROW_UP) {
 					if (menu != null) {
@@ -249,14 +271,16 @@ public class MenuButton extends Composite {
 		});
 		button.addListener(SWT.Selection, new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
-				if (mouseSelection == true) {
+				if (mouseSelection) {
 					mouseSelection = false;
 					return;
 				}
 
-				if (listeners == null)
+				if (listeners == null) {
 					return;
+				}
 
 				e.widget = MenuButton.this;
 
@@ -278,16 +302,18 @@ public class MenuButton extends Composite {
 	private List listeners;
 
 	public void addSelectionListener(SelectionListener listener) {
-		if (listeners == null)
+		if (listeners == null) {
 			listeners = new ArrayList();
+		}
 		listeners.add(listener);
 	}
 
 	public void removeSelectionListener(SelectionListener listener) {
 		if (listeners != null) {
 			listeners.remove(listener);
-			if (listeners.size() == 0)
+			if (listeners.size() == 0) {
 				listeners = null;
+			}
 		}
 	}
 
@@ -312,8 +338,9 @@ public class MenuButton extends Composite {
 
 			if (!isFixed && image != null) {
 				int imageHeight = image.getImageData().height;
-				if (height < imageHeight)
+				if (height < imageHeight) {
 					height = imageHeight;
+				}
 			}
 
 			if (defaultSize.y > size.height) {
@@ -324,8 +351,9 @@ public class MenuButton extends Composite {
 
 			int left = WIDTH_MORE + MARGIN_GAP - 1;
 
-			if (menu == null)
+			if (menu == null) {
 				left = MARGIN_GAP - 1;
+			}
 
 			if (menu != null) {
 				Color fgColor = e.gc.getForeground();
@@ -349,8 +377,9 @@ public class MenuButton extends Composite {
 
 				Image imageTemp = null;
 
-				if (!isEnabled())
+				if (!isEnabled()) {
 					imageTemp = new Image(e.gc.getDevice(), image, SWT.IMAGE_DISABLE);
+				}
 
 				if (isFixed) {
 					imageWidth = imageWidth > IMAGE_WIDTH ? IMAGE_WIDTH : imageWidth;
@@ -372,8 +401,9 @@ public class MenuButton extends Composite {
 			}
 
 		} finally {
-			if (!isEnabled() && fg != null)
+			if (!isEnabled() && fg != null) {
 				fg.dispose();
+			}
 		}
 	}
 }

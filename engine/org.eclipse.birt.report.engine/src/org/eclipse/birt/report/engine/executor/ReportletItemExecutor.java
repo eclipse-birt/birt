@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,10 +41,12 @@ public class ReportletItemExecutor extends ReportItemExecutor {
 
 	// Since ReportletItemExecutor is a virtual parent executor, so the InstanceID
 	// should return as null.(T30410)
+	@Override
 	protected InstanceID getInstanceID() {
 		return null;
 	}
 
+	@Override
 	public void close() throws BirtException {
 		try {
 			reportletQuery.closeReportletQueries();
@@ -54,6 +56,7 @@ public class ReportletItemExecutor extends ReportItemExecutor {
 		super.close();
 	}
 
+	@Override
 	public IBaseResultSet[] getQueryResults() {
 		return reportletQuery.getQueryResults();
 	}
@@ -62,6 +65,7 @@ public class ReportletItemExecutor extends ReportItemExecutor {
 	 * protected InstanceID getInstanceID( ) { return null; }
 	 */
 
+	@Override
 	public IContent execute() {
 		try {
 			reportletQuery.openReportletQueries();
@@ -71,10 +75,12 @@ public class ReportletItemExecutor extends ReportItemExecutor {
 		return null;
 	}
 
+	@Override
 	public boolean hasNextChild() {
 		return hasNext;
 	}
 
+	@Override
 	public IReportItemExecutor getNextChild() {
 		if (hasNext) {
 			hasNext = false;

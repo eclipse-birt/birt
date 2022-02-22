@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.emf.common.util.EMap;
 
 /**
  * This class provides the ability to process the user dataSets.
- * 
+ *
  * WARNING: This is an internal class and subject to change
  */
 public class UserDataSetHints {
@@ -34,7 +34,7 @@ public class UserDataSetHints {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param allSeriesDataSets
 	 * @throws ChartException
 	 */
@@ -44,14 +44,14 @@ public class UserDataSetHints {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param allSeriesDataSets
 	 * @param bReverse          indicates if category is reversed
 	 * @throws ChartException
 	 */
 	public UserDataSetHints(EMap<String, DataSet> allSeriesDataSets, boolean bReverse) throws ChartException {
-		List<String> keyList = new ArrayList<String>();
-		List<DataSetIterator> dsiList = new ArrayList<DataSetIterator>();
+		List<String> keyList = new ArrayList<>();
+		List<DataSetIterator> dsiList = new ArrayList<>();
 
 		for (Map.Entry<String, DataSet> entry : allSeriesDataSets.entrySet()) {
 			if (entry.getKey() != null) {
@@ -80,7 +80,7 @@ public class UserDataSetHints {
 
 	/**
 	 * Next all associated datasetiterators and update the datapointhints object.
-	 * 
+	 *
 	 * @param dph
 	 */
 	public final void next(DataPointHints dph) {

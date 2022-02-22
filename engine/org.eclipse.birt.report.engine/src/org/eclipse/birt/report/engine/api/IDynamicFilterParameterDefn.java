@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,14 +22,14 @@ import java.util.List;
 public interface IDynamicFilterParameterDefn extends IParameterDefn {
 
 	// display type
-	public static final int DISPLAY_TYPE_SIMPLE = 1;
-	public static final int DISPLAY_TYPE_ADVANCED = 2;
+	int DISPLAY_TYPE_SIMPLE = 1;
+	int DISPLAY_TYPE_ADVANCED = 2;
 
-	public int getDisplayType();
+	int getDisplayType();
 
-	public String getColumn();
+	String getColumn();
 
-	public List<String> getFilterOperatorList();
+	List<String> getFilterOperatorList();
 
-	public List<String> getFilterOperatorDisplayList();
+	List<String> getFilterOperatorDisplayList();
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,9 +32,10 @@ public class ScriptEditorInputFactory implements IElementFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IElementFactory#createElement(org.eclipse.ui.IMemento)
 	 */
+	@Override
 	public IAdaptable createElement(IMemento memento) {
 		String fileName = memento.getString(TAG_PATH);
 		if (fileName == null) {
@@ -56,7 +57,7 @@ public class ScriptEditorInputFactory implements IElementFactory {
 
 	/**
 	 * Save the memento.
-	 * 
+	 *
 	 * @param memento
 	 * @param input
 	 */

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Inetsoft Technology Corp.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Inetsoft Technology Corp  - initial API and implementation
@@ -27,13 +27,13 @@ import org.w3c.dom.css.CSSValue;
 
 @SuppressWarnings("nls")
 public class OdfUtil {
-	private static HashSet<Character> splitChar = new HashSet<Character>();
+	private static HashSet<Character> splitChar = new HashSet<>();
 
 	static {
 		splitChar.add(' ');
 		splitChar.add('\r');
 		splitChar.add('\n');
-	};
+	}
 
 	public static final float INCH_PT = 72f;
 
@@ -45,7 +45,7 @@ public class OdfUtil {
 	// spaces can not be included in a bookmark name,
 	// but the underscore character can be used to separate words
 	public static String validBookmarkName(String name) {
-		return name.replaceAll("\"", "_");
+		return name.replace('"', '_');
 	}
 
 	// convert from DimensionType to inches according to prefValue
@@ -132,10 +132,12 @@ public class OdfUtil {
 			double pageWidth, double pageHeight) {
 		String actualHeight = height;
 		String actualWidth = width;
-		if (height == null || "auto".equalsIgnoreCase(height))
+		if (height == null || "auto".equalsIgnoreCase(height)) {
 			actualHeight = String.valueOf(pageHeight) + "pt";
-		if (width == null || "auto".equalsIgnoreCase(width))
+		}
+		if (width == null || "auto".equalsIgnoreCase(width)) {
 			actualWidth = String.valueOf(pageWidth) + "pt";
+		}
 		actualHeight = actualHeight.trim();
 		actualWidth = actualWidth.trim();
 
@@ -173,7 +175,7 @@ public class OdfUtil {
 		String value = null;
 		try {
 			String percent = height.substring(0, height.length() - 1);
-			int percentValue = Integer.valueOf(percent).intValue();
+			int percentValue = Integer.parseInt(percent);
 			value = String.valueOf(pageHeight * percentValue / 100);
 		} catch (NumberFormatException e) {
 			value = height;

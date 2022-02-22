@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,67 +37,74 @@ public class CellInstance extends ReportElementInstance implements ICellInstance
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.instance.ICellInstance#getColSpan()
 	 */
+	@Override
 	public int getColSpan() {
 		return cell.getColSpan();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.instance.ICellInstance#setColSpan(
 	 * int)
 	 */
+	@Override
 	public void setColSpan(int colSpan) {
 		cell.setColSpan(colSpan);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.instance.ICellInstance#getRowSpan()
 	 */
+	@Override
 	public int getRowSpan() {
 		return cell.getRowSpan();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.instance.ICellInstance#setRowSpan(
 	 * int)
 	 */
+	@Override
 	public void setRowSpan(int rowSpan) {
 		cell.setRowSpan(rowSpan);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.instance.ICellInstance#getColumn()
 	 */
+	@Override
 	public int getColumn() {
 		return cell.getColumn();
 	}
 
+	@Override
 	public void setHeight(String height) {
 		throw new UnsupportedOperationException("Can not set cell height, please set row height instead.");
 	}
 
+	@Override
 	public void setWidth(String width) {
 		throw new UnsupportedOperationException("Can not set cell width, please set column width instead.");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.script.instance.ICellInstance#getData()
 	 */

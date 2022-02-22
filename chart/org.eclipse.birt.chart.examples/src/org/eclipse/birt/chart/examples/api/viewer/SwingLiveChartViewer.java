@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -96,7 +96,7 @@ public final class SwingLiveChartViewer extends JPanel {
 
 	/**
 	 * execute application
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -119,34 +119,41 @@ public final class SwingLiveChartViewer extends JPanel {
 		// Add a listener to close the TimerTask
 		frame.addWindowListener(new WindowListener() {
 
+			@Override
 			public void windowActivated(WindowEvent e) {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void windowClosed(WindowEvent e) {
 
 			}
 
+			@Override
 			public void windowClosing(WindowEvent e) {
 				lcViewer.bDisposed = true;
 			}
 
+			@Override
 			public void windowDeactivated(WindowEvent e) {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void windowDeiconified(WindowEvent e) {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void windowIconified(WindowEvent e) {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void windowOpened(WindowEvent e) {
 				// TODO Auto-generated method stub
 
@@ -171,6 +178,7 @@ public final class SwingLiveChartViewer extends JPanel {
 	/**
 	 * Called to refresh the panel that renders the chart
 	 */
+	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
@@ -209,11 +217,11 @@ public final class SwingLiveChartViewer extends JPanel {
 	/**
 	 * Creates a chart instance that may be used to demo live/animated charts with
 	 * scrolling data
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createLiveChart() {
+	public static Chart createLiveChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Plot
@@ -299,7 +307,7 @@ public final class SwingLiveChartViewer extends JPanel {
 		return cwaBar;
 	}
 
-	static final void updateDataSet(ChartWithAxes cwaBar) {
+	static void updateDataSet(ChartWithAxes cwaBar) {
 		// Associate with Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create(sa);
 		NumberDataSet seriesOneValues = NumberDataSetImpl.create(da1);
@@ -319,11 +327,11 @@ public final class SwingLiveChartViewer extends JPanel {
 
 	/**
 	 * A method for changing the data value
-	 * 
+	 *
 	 * @param cwa
 	 * @param iOffset
 	 */
-	static final void scrollData(ChartWithAxes cwa) {
+	static void scrollData(ChartWithAxes cwa) {
 		// Scroll the bar (Y) series
 		double dTemp = da1[0];
 		for (int i = 0; i < da1.length - 1; i++) {
@@ -353,7 +361,8 @@ public final class SwingLiveChartViewer extends JPanel {
 	 */
 	private final class ChartRefresh extends TimerTask {
 
-		public final void run() {
+		@Override
+		public void run() {
 			while (!bDisposed) {
 				final Generator gr = Generator.instance();
 				scrollData((ChartWithAxes) cm);

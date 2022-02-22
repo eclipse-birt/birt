@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,13 +29,13 @@ import javax.olap.cursor.Timestamp;
  * can be retrieved using either the index number of the column or the name fo
  * the column. It's recommended using the column index due to the
  * efficiency.Columns are numbered from 0.
- * 
- * 
+ *
+ *
  */
 public abstract class Accessor {
 	/**
 	 * Release the ResultObject's Resources.
-	 * 
+	 *
 	 * @throws OLAPException
 	 */
 	public void close() throws OLAPException {
@@ -43,7 +43,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get the value for column in the current row as a java.math.BigDecimal
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -54,7 +54,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get the value for column in the current row as a java.math.BigDecimal
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -65,7 +65,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a BLOB value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -76,7 +76,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a BLOB value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -87,7 +87,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a boolean value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -98,7 +98,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a boolean value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -109,7 +109,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a Date value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -120,7 +120,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a Date value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -131,7 +131,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a Date value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @param arg1
 	 * @return
@@ -143,7 +143,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a Date value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @param arg1
 	 * @return
@@ -155,7 +155,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a double value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -177,7 +177,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a float value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -188,7 +188,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a float value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -199,7 +199,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a int value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -210,7 +210,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a int value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -221,7 +221,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a long value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -232,7 +232,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a long value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -243,7 +243,7 @@ public abstract class Accessor {
 
 	/**
 	 * Retrieves the properties of resultSet's column
-	 * 
+	 *
 	 * @return
 	 * @throws OLAPException
 	 */
@@ -253,7 +253,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a java Object for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -264,7 +264,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a java Object for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -275,7 +275,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a java Object for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @param arg1
 	 * @return
@@ -287,7 +287,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a java Object for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @param arg1
 	 * @return
@@ -299,7 +299,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a String value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -310,7 +310,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a String value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -321,7 +321,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a Time value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -332,7 +332,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a Time value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -343,7 +343,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a Time value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @param arg1
 	 * @return
@@ -355,7 +355,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a Time value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @param arg1
 	 * @return
@@ -367,7 +367,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a Timestamp value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -378,7 +378,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a Timestamp value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
@@ -389,7 +389,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a Timestamp value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @param arg1
 	 * @return
@@ -401,7 +401,7 @@ public abstract class Accessor {
 
 	/**
 	 * Get a Timestamp value for column in the current row
-	 * 
+	 *
 	 * @param arg0
 	 * @param arg1
 	 * @return

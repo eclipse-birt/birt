@@ -1,17 +1,17 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
 /**
- * 
+ *
  */
 
 package org.eclipse.birt.chart.extension.aggregate;
@@ -23,12 +23,12 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.core.data.DataType;
 
 /**
- *  
+ *
  */
 public class Sum extends AggregateFunctionAdapter {
 
 	/**
-	 *  
+	 *
 	 */
 	private Object oSum = null;
 
@@ -41,9 +41,10 @@ public class Sum extends AggregateFunctionAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#reset()
 	 */
+	@Override
 	public void initialize() {
 		super.initialize();
 		oSum = null; // LAZY INITIALIZATION
@@ -51,14 +52,16 @@ public class Sum extends AggregateFunctionAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.aggregate.IAggregateFunction#accumulate(java.lang.
 	 * Object)
 	 */
+	@Override
 	public void accumulate(Object oValue) throws IllegalArgumentException {
-		if (oValue == null)
+		if (oValue == null) {
 			return;
+		}
 
 		super.accumulate(oValue);
 
@@ -88,9 +91,10 @@ public class Sum extends AggregateFunctionAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getAggregatedValue()
 	 */
+	@Override
 	public Object getAggregatedValue() {
 		switch (getDataType()) {
 		case NUMBER:

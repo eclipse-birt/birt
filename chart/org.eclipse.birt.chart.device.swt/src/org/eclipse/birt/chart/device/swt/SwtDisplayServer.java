@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -38,7 +38,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * 
+ *
  */
 public final class SwtDisplayServer extends DisplayAdapter {
 
@@ -54,7 +54,7 @@ public final class SwtDisplayServer extends DisplayAdapter {
 
 	/**
 	 * Returns a new instance of an SWT Display Server
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
@@ -71,11 +71,12 @@ public final class SwtDisplayServer extends DisplayAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.devices.IDisplayServer#createFont(org.eclipse.birt.chart.
 	 * model.attribute.FontDefinition)
 	 */
+	@Override
 	public Object createFont(FontDefinition fd) {
 		int iStyle = 0;
 		if (fd.isBold()) {
@@ -89,32 +90,35 @@ public final class SwtDisplayServer extends DisplayAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.devices.IDisplayServer#getColor(org.eclipse.birt.chart.model
 	 * .attribute.ColorDefinition)
 	 */
+	@Override
 	public Object getColor(ColorDefinition cd) {
 		return new Color(_d, cd.getRed(), cd.getGreen(), cd.getBlue());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.devices.IDisplayServer#getDpiResolution()
 	 */
-	public final int getDpiResolution() {
+	@Override
+	public int getDpiResolution() {
 		if (iDpiResolution == 0) {
 			iDpiResolution = _d.getDPI().x;
 		}
 		return iDpiResolution;
 	}
 
+	@Override
 	public void setDpiResolution(int dpi) {
 		/*
 		 * The dpi resolution is tightly bound to the Device, we can't modify it Throw
 		 * exception to indicate to users it's not supported
-		 * 
+		 *
 		 */
 		throw new UnsupportedOperationException("The dpi resolution depends on the Device you" + //$NON-NLS-1$
 				" are rendering to (Display or Printer), " + //$NON-NLS-1$
@@ -124,9 +128,10 @@ public final class SwtDisplayServer extends DisplayAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#loadImage(java.net.URL)
 	 */
+	@Override
 	public Object loadImage(URL url) throws ChartException {
 		try {
 			URL urlFound = findResource(url);
@@ -142,27 +147,30 @@ public final class SwtDisplayServer extends DisplayAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.devices.IDisplayServer#getSize(java.lang.Object)
 	 */
+	@Override
 	public Size getSize(Object oImage) {
 		final Image img = (Image) oImage;
 		final Rectangle r = img.getBounds();
 		return SizeImpl.create(r.width, r.height);
 	}
 
+	@Override
 	public ITextMetrics getTextMetrics(Label la, boolean autoReuse) {
 		return new SwtTextMetrics(this, la, gc, autoReuse);
 	}
 
-	final Device getDevice() {
+	Device getDevice() {
 		return _d;
 	}
 
-	final void setScale(double dScale) {
+	void setScale(double dScale) {
 		this.dScale = dScale;
 	}
 
+	@Override
 	public void setGraphicsContext(Object gc) {
 		this.gc = (GC) gc;
 		_d = this.gc.getDevice();

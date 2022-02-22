@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Represents the scriptable object for Java object which implements the
  * interface <code>Map</code>.
- * 
+ *
  */
 public class NativeRowObject implements Scriptable {
 
@@ -36,6 +36,7 @@ public class NativeRowObject implements Scriptable {
 
 	static final String JS_CLASS_NAME = "DataSetRow";
 
+	@Override
 	public String getClassName() {
 		return JS_CLASS_NAME;
 	}
@@ -65,6 +66,7 @@ public class NativeRowObject implements Scriptable {
 		return rset;
 	}
 
+	@Override
 	public Object get(String name, Scriptable start) {
 		IQueryResultSet rset = getResultSet();
 		if (rset == null) {
@@ -91,6 +93,7 @@ public class NativeRowObject implements Scriptable {
 		}
 	}
 
+	@Override
 	public Object get(int index, Scriptable start) {
 		if (index == 0) {
 			return get("__rownum", start);
@@ -99,6 +102,7 @@ public class NativeRowObject implements Scriptable {
 
 	}
 
+	@Override
 	public boolean has(String name, Scriptable start) {
 		IQueryResultSet rset = getResultSet();
 		if (rset == null) {
@@ -119,38 +123,48 @@ public class NativeRowObject implements Scriptable {
 		return false;
 	}
 
+	@Override
 	public boolean has(int index, Scriptable start) {
 		return false;
 	}
 
+	@Override
 	public void put(String name, Scriptable start, Object value) {
 	}
 
+	@Override
 	public void put(int index, Scriptable start, Object value) {
 	}
 
+	@Override
 	public void delete(String name) {
 	}
 
+	@Override
 	public void delete(int index) {
 	}
 
+	@Override
 	public Scriptable getPrototype() {
 		return prototype;
 	}
 
+	@Override
 	public void setPrototype(Scriptable prototype) {
 		this.prototype = prototype;
 	}
 
+	@Override
 	public Scriptable getParentScope() {
 		return parent;
 	}
 
+	@Override
 	public void setParentScope(Scriptable parent) {
 		this.parent = parent;
 	}
 
+	@Override
 	public Object[] getIds() {
 		IQueryResultSet rset = getResultSet();
 		if (rset == null) {
@@ -168,10 +182,12 @@ public class NativeRowObject implements Scriptable {
 		return null;
 	}
 
+	@Override
 	public Object getDefaultValue(Class hint) {
 		return null;
 	}
 
+	@Override
 	public boolean hasInstance(Scriptable instance) {
 		return false;
 	}

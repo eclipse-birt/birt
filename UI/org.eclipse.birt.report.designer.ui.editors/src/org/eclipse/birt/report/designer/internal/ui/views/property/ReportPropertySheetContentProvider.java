@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -29,7 +29,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 /**
  * Content provider for property sheet table tree view
- * 
+ *
  */
 public class ReportPropertySheetContentProvider implements ITreeContentProvider {
 
@@ -49,6 +49,7 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider 
 		return this.viewMode;
 	}
 
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof List) {
 			return ((List) parentElement).toArray();
@@ -62,9 +63,9 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider 
 				for (Iterator it = handle.visiblePropertyIterator(); it.hasNext();) {
 					GroupPropertyHandle property = (GroupPropertyHandle) it.next();
 					IElementPropertyDefn defn = property.getPropertyDefn();
-					if (defn.getGroupNameKey() == null)
+					if (defn.getGroupNameKey() == null) {
 						items.add(new GroupPropertyHandleWrapper(property));
-					else {
+					} else {
 						List group = (List) map.get(defn.getGroupNameKey());
 						if (group == null) {
 							group = new ArrayList();
@@ -83,8 +84,9 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider 
 			} else if (viewMode == MODE_LOCAL_ONLY) {
 				for (Iterator it = handle.visiblePropertyIterator(); it.hasNext();) {
 					GroupPropertyHandle property = (GroupPropertyHandle) it.next();
-					if (property != null && property.getLocalStringValue() != null)
+					if (property != null && property.getLocalStringValue() != null) {
 						items.add(new GroupPropertyHandleWrapper(property));
+					}
 				}
 			}
 			return items.toArray();
@@ -92,15 +94,18 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider 
 		return null;
 	}
 
+	@Override
 	public Object getParent(Object element) {
 		return null;
 	}
 
+	@Override
 	public boolean hasChildren(Object element) {
 		return ((element instanceof List && ((List) element).size() > 0)
 				|| element instanceof PropertySheetRootElement);
 	}
 
+	@Override
 	public Object[] getElements(Object inputElement) {
 		ArrayList items = new ArrayList();
 
@@ -131,9 +136,11 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider 
 		return items.toArray();
 	}
 
+	@Override
 	public void dispose() {
 	}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 

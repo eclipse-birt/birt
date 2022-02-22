@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,29 +23,33 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ *
  */
 
 public class DefaultSelectDataComponent implements ISelectDataComponent {
 
 	private transient Vector vListeners = null;
 
+	@Override
 	public Composite createArea(Composite parent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void selectArea(boolean selected, Object data) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void dispose() {
 		if (vListeners != null && !vListeners.isEmpty()) {
 			vListeners.clear();
 		}
 	}
 
+	@Override
 	public void addListener(Listener listener) {
 		if (vListeners == null) {
 			vListeners = new Vector();
@@ -61,11 +65,13 @@ public class DefaultSelectDataComponent implements ISelectDataComponent {
 		}
 	}
 
+	@Override
 	public void bindAssociatedLabel(Label label) {
 		// do nothing
 
 	}
 
+	@Override
 	public void bindAssociatedName(String name) {
 		// do nothing
 

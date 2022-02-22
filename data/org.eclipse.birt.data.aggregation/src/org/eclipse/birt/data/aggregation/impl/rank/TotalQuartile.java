@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -39,36 +39,40 @@ public class TotalQuartile extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
+	@Override
 	public String getName() {
 		return IBuildInAggregation.TOTAL_QUARTILE_FUNC;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
+	@Override
 	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
+	@Override
 	public int getDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getParameterDefn()
 	 */
+	@Override
 	public IParameterDefn[] getParameterDefn() {
 		return new IParameterDefn[] {
 				new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME, false, true,
@@ -80,16 +84,17 @@ public class TotalQuartile extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
 	 */
+	@Override
 	public Accumulator newAccumulator() {
 		return new MyAccumulator(CalculatorFactory.getCalculator(getDataType()));
 	}
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	private static class MyAccumulator extends PercentileAccumulator {
 		MyAccumulator(ICalculator calc) {
@@ -98,55 +103,60 @@ public class TotalQuartile extends AggrFunction {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.aggregation.rank.PercentileAccumulator#
 		 * getPctValue(java.lang.Double)
 		 */
+		@Override
 		protected double getPctValue(Double d) throws DataException {
 			validatePctValue(d);
 			int quar = d.intValue();
 			double result = 0;
-			if (quar == 0)
+			if (quar == 0) {
 				result = 0;
-			else if (quar == 1)
+			} else if (quar == 1) {
 				result = 0.25;
-			else if (quar == 2)
+			} else if (quar == 2) {
 				result = 0.5;
-			else if (quar == 3)
+			} else if (quar == 3) {
 				result = 0.75;
-			else if (quar == 4)
+			} else if (quar == 4) {
 				result = 1;
+			}
 
 			return result;
 		}
 
 		/**
-		 * 
+		 *
 		 * @param d
 		 * @throws DataException
 		 */
 		private void validatePctValue(Double d) throws DataException {
-			if (d == null || d.isNaN() || d.doubleValue() < 0 || d.doubleValue() > 4)
+			if (d == null || d.isNaN() || d.doubleValue() < 0 || d.doubleValue() > 4) {
 				throw DataException.wrap(new AggrException(ResourceConstants.INVALID_QUARTILE_ARGUMENT));
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
+	@Override
 	public String getDescription() {
 		return Messages.getString("TotalQuartile.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("TotalQuartile.displayName"); //$NON-NLS-1$
 	}

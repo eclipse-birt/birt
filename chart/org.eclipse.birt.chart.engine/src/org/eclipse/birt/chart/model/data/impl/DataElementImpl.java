@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -31,7 +31,7 @@ public class DataElementImpl extends EObjectImpl implements DataElement {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected DataElementImpl() {
@@ -40,7 +40,7 @@ public class DataElementImpl extends EObjectImpl implements DataElement {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -51,6 +51,7 @@ public class DataElementImpl extends EObjectImpl implements DataElement {
 	/**
 	 * @generated
 	 */
+	@Override
 	public DataElement copyInstance() {
 		DataElementImpl dest = new DataElementImpl();
 		dest.set(this);

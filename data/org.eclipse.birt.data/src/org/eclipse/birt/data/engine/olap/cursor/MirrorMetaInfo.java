@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ public class MirrorMetaInfo {
 		this.mirroDefinition = mirrorDefinition;
 		this.edgeDefn = edgeDefn;
 		this.view = view;
-		this.levelTypes = new HashMap<DimLevel, String>();
+		this.levelTypes = new HashMap<>();
 		Iterator dims = edgeDefn.getDimensions().iterator();
 		while (dims.hasNext()) {
 			IDimensionDefinition defn = (IDimensionDefinition) dims.next();
@@ -60,23 +60,26 @@ public class MirrorMetaInfo {
 			ILevelDefinition[] levelArray = CubeQueryDefinitionUtil.getLevelsOnEdge(this.edgeDefn);
 			for (int i = 0; i < levelArray.length; i++) {
 				if (levelArray[i].equals(this.mirroDefinition.getMirrorStartingLevel())) {
-					if (pageEndingPosition >= 0)
+					if (pageEndingPosition >= 0) {
 						index = i + pageEndingPosition + 1;
-					else
+					} else {
 						index = i;
+					}
 					break;
 				}
 			}
 			return index;
-		} else
+		} else {
 			return index;
+		}
 	}
 
 	public boolean isBreakHierarchy() {
 		if (this.mirroDefinition != null) {
 			return this.mirroDefinition.isBreakHierarchy();
-		} else
+		} else {
 			return false;
+		}
 	}
 
 	public DataEngineSession getSession() {
@@ -88,7 +91,7 @@ public class MirrorMetaInfo {
 	}
 
 	private void populateTimeDimensionTypes(IDimensionDefinition defn, ICube cube) {
-		if (cube != null)
+		if (cube != null) {
 			for (int i = 0; i < cube.getDimesions().length; i++) {
 				IDimension dimension = cube.getDimesions()[i];
 				if (dimension.getName().equals(defn.getName())
@@ -107,5 +110,6 @@ public class MirrorMetaInfo {
 					break;
 				}
 			}
+		}
 	}
 }

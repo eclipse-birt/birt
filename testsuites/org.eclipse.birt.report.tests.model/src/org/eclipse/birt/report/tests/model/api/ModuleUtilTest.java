@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -16,9 +16,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.SessionHandle;
@@ -26,22 +23,25 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * TestCases for ModuleUtil.
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
- * 
+ *
  * <tr>
  * <td>{@link #testReportValidation()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testLibraryValidation()}</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class ModuleUtilTest extends BaseTestCase {
 	private final String reportName = "ModuleUtilTest_report.xml"; //$NON-NLS-1$
@@ -59,6 +59,7 @@ public class ModuleUtilTest extends BaseTestCase {
 		return new TestSuite(ModuleUtilTest.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -72,13 +73,14 @@ public class ModuleUtilTest extends BaseTestCase {
 		copyInputToFile(INPUT_FOLDER + "/" + invalidlibraryName);
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}
 
 	/**
 	 * Test report validation
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testReportValidation() throws Exception {
@@ -101,7 +103,7 @@ public class ModuleUtilTest extends BaseTestCase {
 
 	/**
 	 * Test library validation
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testLibraryValidation() throws Exception {

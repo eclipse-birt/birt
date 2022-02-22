@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ public class EmitterConfigUtil {
 	 * Returns the default emitter descriptor for given format. If the default
 	 * emitter is already specified in <code>EngineConfig</code> for this format, it
 	 * will be returned; otherwise, the first matched emitter will be returned.
-	 * 
+	 *
 	 * @param format  The render format. e.g. "html", "pdf".
 	 * @param manager The emitter configuration manager instance.
 	 * @param engine  The report engine instance.

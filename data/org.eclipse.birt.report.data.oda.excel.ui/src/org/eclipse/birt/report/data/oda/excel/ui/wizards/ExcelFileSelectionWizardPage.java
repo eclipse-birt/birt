@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2012 Megha Nidhi Dahal and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *    Megha Nidhi Dahal - initial API and implementation and/or initial documentation
@@ -105,7 +105,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	private static String originalName = Messages.getString("editor.title.originalName"); //$NON-NLS-1$
 	private static String dataType = Messages.getString("editor.title.type"); //$NON-NLS-1$
 
-	private static String[] dataTypeDisplayNames = new String[] { Messages.getString("datatypes.dateTime"), //$NON-NLS-1$
+	private static String[] dataTypeDisplayNames = { Messages.getString("datatypes.dateTime"), //$NON-NLS-1$
 			Messages.getString("datatypes.decimal"), //$NON-NLS-1$
 			Messages.getString("datatypes.float"), //$NON-NLS-1$
 			Messages.getString("datatypes.integer"), //$NON-NLS-1$
@@ -115,9 +115,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 			Messages.getString("datatypes.boolean") //$NON-NLS-1$
 	};
 
-	private Map<Object, Object> dataTypeDisplayNameMap = new HashMap<Object, Object>();
+	private Map<Object, Object> dataTypeDisplayNameMap = new HashMap<>();
 
-	private Map<Object, Object> dataTypeValueMape = new HashMap<Object, Object>();
+	private Map<Object, Object> dataTypeValueMape = new HashMap<>();
 
 	private final int DEFAULT_WIDTH = 200;
 	private final int DEFAULT_HEIGHT = 200;
@@ -141,8 +141,8 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	/** store latest selected sheet name */
 	private String currentSheetName;
 
-	private java.util.List<String[]> originalFileColumnsInfoList = new ArrayList<String[]>();
-	private java.util.List<String[]> savedSelectedColumnsInfoList = new ArrayList<String[]>();
+	private java.util.List<String[]> originalFileColumnsInfoList = new ArrayList<>();
+	private java.util.List<String[]> savedSelectedColumnsInfoList = new ArrayList<>();
 
 	/**
 	 * @param pageName
@@ -166,11 +166,12 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage
 	 * #createPageCustomControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public void createPageCustomControl(Composite parent) {
 		setControl(createPageControl(parent));
 		initializeControl();
@@ -214,12 +215,14 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		 */
 
 		DataSetDesign dataSetDesign = getInitializationDesign();
-		if (dataSetDesign == null)
+		if (dataSetDesign == null) {
 			return; // nothing to initialize
+		}
 
 		String queryText = dataSetDesign.getQueryText();
-		if (queryText == null || selectedFile == null)
+		if (queryText == null || selectedFile == null) {
 			return; // nothing to initialize
+		}
 
 		updateValuesFromQuery(queryText);
 
@@ -235,16 +238,18 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage
 	 * #collectDataSetDesign(org.eclipse.datatools.connectivity.oda.design.
 	 * DataSetDesign)
 	 */
+	@Override
 	protected DataSetDesign collectDataSetDesign(DataSetDesign design) {
 		// if this page in DataSetEditor hasn't been activated
-		if (worksheetsCombo == null)
+		if (worksheetsCombo == null) {
 			return design;
+		}
 
 		savePage(design);
 		return design;
@@ -252,11 +257,12 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.internal.ui.DataSetWizardPage
 	 * #collectResponseState()
 	 */
+	@Override
 	protected void collectResponseState() {
 		super.collectResponseState();
 		/*
@@ -267,7 +273,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @return
 	 */
@@ -303,7 +309,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * Create the top composite of the page
-	 * 
+	 *
 	 * @param composite
 	 * @param label
 	 */
@@ -317,6 +323,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		worksheetsCombo.addSelectionChangedListener(this);
 		worksheetsCombo.setLabelProvider(new LabelProvider() {
 
+			@Override
 			public String getText(Object element) {
 				return getFileName(element);
 			}
@@ -328,7 +335,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * Create the left composite of the page
-	 * 
+	 *
 	 * @param composite
 	 */
 	private void createLeftComposite(Composite composite) {
@@ -344,6 +351,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		availableList.setLayoutData(data);
 		availableList.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				selectedColumnsViewer.getTable().deselectAll();
 				btnAdd.setEnabled(true);
@@ -355,6 +363,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 		availableList.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				addColumns();
 			}
@@ -363,7 +372,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * Create the middle button composite that displays ADD button
-	 * 
+	 *
 	 * @param composite
 	 * @return
 	 */
@@ -392,6 +401,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 		btnAdd.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				addColumns();
 			}
@@ -402,7 +412,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * Create the right composite of the page
-	 * 
+	 *
 	 * @param composite
 	 * @param btnComposite
 	 */
@@ -437,6 +447,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 		selectedColumnsViewer.getTable().addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				btnAdd.setEnabled(false);
 				availableList.deselectAll();
@@ -476,6 +487,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 		selectedColumnsViewer.getTable().addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				removeColumns();
 			}
@@ -486,7 +498,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * Create the right button group that displays the UP,DOWN and REMOVE buttons
-	 * 
+	 *
 	 * @param rightComposite
 	 */
 	private void createEditBtnGroup(Composite rightComposite) {
@@ -500,6 +512,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		btnMoveUp.setToolTipText(Messages.getString("tooltip.button.up")); //$NON-NLS-1$
 		btnMoveUp.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				moveUpItem();
 			}
@@ -510,6 +523,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		btnRemove.setToolTipText(Messages.getString("tooltip.button.delete")); //$NON-NLS-1$
 		btnRemove.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeColumns();
 			}
@@ -520,6 +534,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		btnMoveDown.setToolTipText(Messages.getString("tooltip.button.down")); //$NON-NLS-1$
 		btnMoveDown.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				moveDownItem();
 			}
@@ -542,31 +557,37 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * Set the labels of the ColumnsViewer
-	 * 
+	 *
 	 */
 	private void setColumnsViewerLabels() {
 		selectedColumnsViewer.setLabelProvider(new ITableLabelProvider() {
 
+			@Override
 			public Image getColumnImage(Object element, int columnIndex) {
 				return null;
 			}
 
+			@Override
 			public String getColumnText(Object element, int columnIndex) {
 				return ((String[]) element)[columnIndex];
 			}
 
+			@Override
 			public void addListener(ILabelProviderListener listener) {
 
 			}
 
+			@Override
 			public void dispose() {
 
 			}
 
+			@Override
 			public boolean isLabelProperty(Object element, String property) {
 				return false;
 			}
 
+			@Override
 			public void removeListener(ILabelProviderListener listener) {
 
 			}
@@ -576,11 +597,12 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * Set the content of the ColumnsViewer
-	 * 
+	 *
 	 */
 	private void setColumnsViewerContent() {
 		selectedColumnsViewer.setContentProvider(new IStructuredContentProvider() {
 
+			@Override
 			public Object[] getElements(Object inputElement) {
 				if (inputElement instanceof java.util.List) {
 					return ((java.util.List<?>) inputElement).toArray();
@@ -589,9 +611,11 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 				return new Object[0];
 			}
 
+			@Override
 			public void dispose() {
 			}
 
+			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
 		});
@@ -599,7 +623,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * setup the editors in the table viewer
-	 * 
+	 *
 	 */
 	private void setupEditors() {
 		CellEditor[] editors = new CellEditor[3];
@@ -610,10 +634,12 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		selectedColumnsViewer.setCellEditors(editors);
 		selectedColumnsViewer.setCellModifier(new ICellModifier() {
 
+			@Override
 			public boolean canModify(Object element, String property) {
 				return true;
 			}
 
+			@Override
 			public Object getValue(Object element, String property) {
 				Object value = null;
 				if (name.equals(property)) {
@@ -636,6 +662,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 				return value;
 			}
 
+			@Override
 			public void modify(Object element, String property, Object value) {
 				String[] actualElement = (String[]) ((TableItem) element).getData();
 				if (value != null) {
@@ -656,10 +683,8 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 							selectedColumnsViewer.refresh();
 						}
 					}
-					return;
 
-				} else
-					return;
+				}
 
 			}
 
@@ -669,7 +694,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	/**
 	 * see if the value in the selected element of the saved selected columns
 	 * information is unique or not
-	 * 
+	 *
 	 * @param element the selected element
 	 * @param value   the value
 	 * @return
@@ -677,8 +702,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	private boolean isUnique(String[] element, String value) {
 		for (int i = 0; i < savedSelectedColumnsInfoList.size(); i++) {
 			if (i != savedSelectedColumnsInfoList.indexOf(element)
-					&& value.equalsIgnoreCase(((String[]) savedSelectedColumnsInfoList.get(i))[0]))
+					&& value.equalsIgnoreCase(((String[]) savedSelectedColumnsInfoList.get(i))[0])) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -690,14 +716,14 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	/**
 	 * get the count of hte existence of the given column name in the already saved
 	 * selected columns information
-	 * 
+	 *
 	 * @param columnName given column name
 	 * @return
 	 */
 
 	private int getExistenceCount(String columnName) {
 		int count = 0;
-		java.util.List<Object> existedColumns = new ArrayList<Object>();
+		java.util.List<Object> existedColumns = new ArrayList<>();
 
 		for (int i = 0; i < savedSelectedColumnsInfoList.size(); i++) {
 			if (columnName.equals(((String[]) savedSelectedColumnsInfoList.get(i))[1])) {
@@ -719,7 +745,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * replace the element in the saved selected columns information list
-	 * 
+	 *
 	 * @param element  the selected element
 	 * @param property the element's selected property
 	 * @param value    the value of the selected property in the element
@@ -737,19 +763,21 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	}
 
 	private String getFileName(Object obj) {
-		if (obj instanceof File)
+		if (obj instanceof File) {
 			return ((File) obj).getName();
-		else if (obj instanceof URI)
+		} else if (obj instanceof URI) {
 			return ((URI) obj).getPath();
+		}
 		return obj.toString();
 	}
 
 	/*
 	 * File Combo Viewer selection changed listener
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
 	 * org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
+	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 
 		String sheetName = (String) ((IStructuredSelection) event.getSelection()).getFirstElement();
@@ -800,12 +828,10 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 					|| fileName.endsWith(ExcelODAConstants.XLSX_FORMAT))) {
 				setMessage(Messages.getString("warning.fileExtensionInvalid"), //$NON-NLS-1$
 						WARNING);
+			} else if (selectedColumnsViewer.getTable().getItemCount() == 0) {
+				setMessage(getEmptyColumnErrMsg(), ERROR);
 			} else {
-				if (selectedColumnsViewer.getTable().getItemCount() == 0) {
-					setMessage(getEmptyColumnErrMsg(), ERROR);
-				} else {
-					setMessage(DEFAULT_MESSAGE);
-				}
+				setMessage(DEFAULT_MESSAGE);
 			}
 
 		}
@@ -841,8 +867,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		inclTypeLine = dataSourceProps.getProperty(ExcelODAConstants.CONN_INCLTYPELINE_PROP);
 
 		DataSetDesign dataSetDesign = getInitializationDesign();
-		if (dataSetDesign == null)
+		if (dataSetDesign == null) {
 			return; // nothing to initialize
+		}
 
 		if (dataSetDesign.getPublicProperties() != null) {
 			currentSheetName = dataSetDesign.getPublicProperties().getProperty(ExcelODAConstants.CONN_WORKSHEETS_PROP);
@@ -855,12 +882,15 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		public boolean accept(File dir, String fileName) {
 			File file = new File(dir + File.separator + fileName);
 			if (file.isFile() && !file.isHidden()) {
-				if (fileName.endsWith(ExcelODAConstants.XLS_FORMAT) || fileName.endsWith(ExcelODAConstants.XLSX_FORMAT))
+				if (fileName.endsWith(ExcelODAConstants.XLS_FORMAT)
+						|| fileName.endsWith(ExcelODAConstants.XLSX_FORMAT)) {
 					return true;
+				}
 
 				return false;
-			} else
+			} else {
 				return false;
+			}
 		}
 	}
 
@@ -868,7 +898,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	 * When edit the excel data set, we can change the datasource. Sometimes,
 	 * different excel file may have the some sheet name. This method is to check
 	 * whether the data source(excel file) is changed.
-	 * 
+	 *
 	 * @param queryText
 	 * @param selectedFile
 	 * @return
@@ -885,7 +915,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 			disableAll();
 			return;
 		}
-		ArrayList<Object> allFiles = new ArrayList<Object>();
+		ArrayList<Object> allFiles = new ArrayList<>();
 
 		URI uri = null;
 		try {
@@ -915,9 +945,10 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 			String extension = ExcelFileReader.getExtensionName(selectedFile);
 			if (extension.equals(ExcelODAConstants.XLS_FORMAT) || extension.equals(ExcelODAConstants.XLSX_FORMAT)) {
 				setMessage(DEFAULT_MESSAGE);
-			} else
+			} else {
 				setMessage(Messages.getString("warning.fileExtensionInvalid"), //$NON-NLS-1$
 						ERROR);
+			}
 			try {
 				populateWorkSheetCombo();
 				String queryText = getInitializationDesign().getQueryText();
@@ -931,8 +962,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 			}
 		} else {
 			String decodedURIPath = uri.getPath();
-			if (decodedURIPath == null)
+			if (decodedURIPath == null) {
 				decodedURIPath = uriPath;
+			}
 			setErrorMessage(Messages.getFormattedString("error.noFile", new Object[] { decodedURIPath })); //$NON-NLS-1$
 			disableAll();
 		}
@@ -940,7 +972,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * Returns all the column names found in given excelfile.
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 */
@@ -950,18 +982,20 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 		String[] result;
 		if (propList != null) {
-			originalFileColumnsInfoList = new ArrayList<String[]>(propList);
+			originalFileColumnsInfoList = new ArrayList<>(propList);
 			result = new String[propList.size()];
-			for (int i = 0; i < propList.size(); i++)
+			for (int i = 0; i < propList.size(); i++) {
 				result[i] = ((String[]) propList.get(i))[1];
-		} else
+			}
+		} else {
 			result = new String[0];
+		}
 
 		return result;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param queryText
 	 * @param file
 	 * @return
@@ -969,14 +1003,15 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	private java.util.List<String[]> getQueryColumnsInfo(String queryText, Object file, String sheetName) {
 		IDriver excelDriver = new Driver();
 		IConnection conn = null;
-		java.util.List<String[]> columnList = new ArrayList<String[]>();
+		java.util.List<String[]> columnList = new ArrayList<>();
 		try {
 			conn = excelDriver.getConnection(null);
 			IResultSetMetaData metadata = getResultSetMetaData(queryText, file, conn, sheetName);
 
 			int columnCount = metadata.getColumnCount();
-			if (columnCount == 0)
-				return new ArrayList<String[]>();
+			if (columnCount == 0) {
+				return new ArrayList<>();
+			}
 
 			for (int i = 0; i < columnCount; i++) {
 				String[] result = new String[3];
@@ -991,7 +1026,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		} catch (OdaException e) {
 			setMessage(e.getLocalizedMessage(), ERROR);
 			updateExceptionInfo();
-			return new ArrayList<String[]>();
+			return new ArrayList<>();
 		} finally {
 			closeConnection(conn);
 		}
@@ -999,8 +1034,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	}
 
 	private void updateExceptionInfo() {
-		if (availableList.getItemCount() == 0)
+		if (availableList.getItemCount() == 0) {
 			disableAvailableListAndButtons();
+		}
 	}
 
 	/**
@@ -1017,32 +1053,34 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * get the data type display name
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
 	private String getDataTypeDisplayName(Integer type) {
-		if (dataTypeDisplayNameMap.get(type) != null)
+		if (dataTypeDisplayNameMap.get(type) != null) {
 			return (String) dataTypeDisplayNameMap.get(type);
-		else
+		} else {
 			return Messages.getString("datatypes.string"); //$NON-NLS-1$
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param displayName
 	 * @return
 	 */
 	private String getDataTypeValue(String displayName) {
-		if (dataTypeValueMape.get(displayName) != null)
+		if (dataTypeValueMape.get(displayName) != null) {
 			return (String) dataTypeValueMape.get(displayName);
-		else
+		} else {
 			return "STRING"; //$NON-NLS-1$
+		}
 	}
 
 	/**
 	 * Get the original column name in the excelfile of the given column name
-	 * 
+	 *
 	 * @param name
 	 * @param columnsInfo
 	 * @param metadata
@@ -1066,8 +1104,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 			try {
 				for (int j = 0; j < metadata.getColumnCount(); j++) {
-					if (name.equals(metadata.getColumnName(j + 1)))
+					if (name.equals(metadata.getColumnName(j + 1))) {
 						originalName = name;
+					}
 				}
 			} catch (OdaException e) {
 				e.printStackTrace();
@@ -1080,20 +1119,21 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * Attempts to close given ODA connection.
-	 * 
+	 *
 	 * @param conn
 	 */
 	private void closeConnection(IConnection conn) {
 		try {
-			if (conn != null)
+			if (conn != null) {
 				conn.close();
+			}
 		} catch (OdaException e) {
 			// ignore
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param queryText
 	 * @param file
 	 * @param conn
@@ -1163,7 +1203,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * display the content of the list in the table viewer
-	 * 
+	 *
 	 * @param list    list that contains the dispay content
 	 * @param tViewer the table viewer
 	 */
@@ -1175,16 +1215,17 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * get the query text(select clause) of this data set
-	 * 
+	 *
 	 * @return query
-	 * 
+	 *
 	 */
 	private String getQuery() {
-		if (selectedColumnsViewer.getTable().getItemCount() == 0)
+		if (selectedColumnsViewer.getTable().getItemCount() == 0) {
 			return ""; //$NON-NLS-1$
+		}
 
 		String tableName = null;
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		if (selectedFile != null) {
 			tableName = getFileName(selectedFile);
 		}
@@ -1195,19 +1236,21 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 			} else {
 				buf.append("select "); //$NON-NLS-1$
 				String[] columns = new String[selectedColumnsViewer.getTable().getItemCount()];
-				for (int m = 0; m < columns.length; m++)
+				for (int m = 0; m < columns.length; m++) {
 					columns[m] = selectedColumnsViewer.getTable().getItem(m).getText(1);
+				}
 
 				for (int n = 0; n < columns.length; n++) {
-					StringBuffer sb = new StringBuffer();
+					StringBuilder sb = new StringBuilder();
 					char[] columnChars = columns[n].toCharArray();
 					for (int i = 0; i < columnChars.length; i++) {
-						if (columnChars[i] == '"')
+						if (columnChars[i] == '"') {
 							sb.append("\\\""); //$NON-NLS-1$
-						else if (columnChars[i] == '\\')
+						} else if (columnChars[i] == '\\') {
 							sb.append("\\\\"); //$NON-NLS-1$
-						else
+						} else {
 							sb.append(columnChars[i]);
+						}
 					}
 
 					buf.append(ExcelODAConstants.DELIMITER_DOUBLEQUOTE + sb.toString()
@@ -1224,7 +1267,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * Update value of query text
-	 * 
+	 *
 	 * @param queryText
 	 */
 
@@ -1257,7 +1300,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	}
 
 	/**
-	 * 
+	 *
 	 * @param queryText
 	 * @param file
 	 */
@@ -1286,8 +1329,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		int index = selectedColumnsViewer.getTable().getSelectionIndex();
 
 		if (index > 0 && index < count) {
-			if (!btnMoveDown.isEnabled())
+			if (!btnMoveDown.isEnabled()) {
 				btnMoveDown.setEnabled(true);
+			}
 
 			String[] obj = savedSelectedColumnsInfoList.get(index);
 			savedSelectedColumnsInfoList.set(index, savedSelectedColumnsInfoList.get(index - 1));
@@ -1296,8 +1340,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 			selectedColumnsViewer.getTable().setSelection(index - 1);
 		}
 
-		if (index == 1)
+		if (index == 1) {
 			btnMoveUp.setEnabled(false);
+		}
 	}
 
 	private void moveDownItem() {
@@ -1305,8 +1350,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		int index = selectedColumnsViewer.getTable().getSelectionIndex();
 
 		if (index > -1 && index < count - 1) {
-			if (!btnMoveUp.isEnabled())
+			if (!btnMoveUp.isEnabled()) {
 				btnMoveUp.setEnabled(true);
+			}
 
 			String[] obj = savedSelectedColumnsInfoList.get(index);
 			savedSelectedColumnsInfoList.set(index, savedSelectedColumnsInfoList.get(index + 1));
@@ -1315,8 +1361,9 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 			selectedColumnsViewer.getTable().setSelection(index + 1);
 		}
 
-		if (index == count - 2)
+		if (index == count - 2) {
 			btnMoveDown.setEnabled(false);
+		}
 	}
 
 	/**
@@ -1350,22 +1397,23 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * create a list of the columns info in accordience to the given column names
-	 * 
+	 *
 	 * @param addedColumnNames
 	 * @return
 	 */
 	private java.util.List<String[]> createAddedColumnsInfo(String[] addedColumnNames) {
-		java.util.List<String[]> addedColumnsInfo = new ArrayList<String[]>();
+		java.util.List<String[]> addedColumnsInfo = new ArrayList<>();
 		int count = 0;
 
 		for (int i = 0; i < addedColumnNames.length; i++) {
 			count = getExistenceCount(addedColumnNames[i]);
 			String[] addedColumns;
 			addedColumns = new String[3];
-			if (count == 0)
+			if (count == 0) {
 				addedColumns[0] = addedColumnNames[i];
-			else
+			} else {
 				addedColumns[0] = addedColumnNames[i] + "_" + count; //$NON-NLS-1$
+			}
 
 			addedColumns[1] = addedColumnNames[i];
 			addedColumns[2] = getColumnTypeName(addedColumnNames[i]);
@@ -1377,14 +1425,15 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	}
 
 	/**
-	 * 
+	 *
 	 * @param columnName
 	 * @return
 	 */
 	private String getColumnTypeName(String columnName) {
 		for (int i = 0; i < originalFileColumnsInfoList.size(); i++) {
-			if (columnName.equals(((String[]) originalFileColumnsInfoList.get(i))[1]))
+			if (columnName.equals(((String[]) originalFileColumnsInfoList.get(i))[1])) {
 				return ((String[]) originalFileColumnsInfoList.get(i))[2];
+			}
 		}
 		return null;
 	}
@@ -1397,7 +1446,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		int index = selectedColumnsViewer.getTable().getSelectionIndex();
 		String[] removedColumnInfo = null;
 
-		java.util.List<String[]> removedItems = new ArrayList<String[]>();
+		java.util.List<String[]> removedItems = new ArrayList<>();
 		for (int i = 0; i < tis.length; i++) {
 			removedColumnInfo = new String[3];
 			removedColumnInfo[0] = tis[i].getText(0);
@@ -1410,13 +1459,15 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 		selectedColumnsViewer.refresh();
 
-		if (index > 0)
+		if (index > 0) {
 			selectedColumnsViewer.getTable().setSelection(index - 1);
-		else
+		} else {
 			selectedColumnsViewer.getTable().setSelection(index);
+		}
 
-		if (selectedColumnsViewer.getTable().getSelectionCount() == 0)
+		if (selectedColumnsViewer.getTable().getSelectionCount() == 0) {
 			btnRemove.setEnabled(false);
+		}
 
 		if (savedSelectedColumnsInfoList.size() <= 1) {
 			btnMoveDown.setEnabled(false);
@@ -1431,7 +1482,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * remove the given items from the saved selectedComlumnsInfo
-	 * 
+	 *
 	 * @param removedItemsList list that contains the given elements that are going
 	 *                         to be removed
 	 */
@@ -1454,7 +1505,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 	/**
 	 * Updates the given dataSetDesign with the query and its metadata defined in
 	 * this page.
-	 * 
+	 *
 	 * @param dataSetDesign
 	 */
 	private void savePage(DataSetDesign dataSetDesign) {
@@ -1469,11 +1520,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		dataSetDesign.setQueryText(queryText);
 		savePublicProperties(dataSetDesign);
 
-		if (selectedFile == null) {
-			dataSetDesign.setResultSets(null);
-			return;
-		}
-		if (!validateHasSelectedColumns()) {
+		if ((selectedFile == null) || !validateHasSelectedColumns()) {
 			// don't prepare query; simply reset result set definition
 			dataSetDesign.setResultSets(null);
 			return;
@@ -1514,9 +1561,10 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		}
 
 		else if (dataSetDesign.getPublicProperties() != null) {
-			if (dataSetDesign.getPublicProperties().findProperty(ExcelODAConstants.CONN_WORKSHEETS_PROP) != null)
+			if (dataSetDesign.getPublicProperties().findProperty(ExcelODAConstants.CONN_WORKSHEETS_PROP) != null) {
 				dataSetDesign.getPublicProperties().findProperty(ExcelODAConstants.CONN_WORKSHEETS_PROP)
 						.setNameValue(ExcelODAConstants.CONN_WORKSHEETS_PROP, currentSheetName);
+			}
 		}
 	}
 
@@ -1537,7 +1585,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * Gets the query text
-	 * 
+	 *
 	 * @return query text
 	 */
 	private String getQueryText() {
@@ -1551,60 +1599,62 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/**
 	 * create the SelectedColumnsinfo string
-	 * 
+	 *
 	 * @param dataSetDesign the current dataSetDesign
 	 * @return String that contains the seleced columns infomation
 	 */
 	private String createSelectedColumnsInfoString() {
-		String prop = ""; //$NON-NLS-1$
+		StringBuilder prop = new StringBuilder(); // $NON-NLS-1$
 		// If the length is equal to 2 then we have a valid query
 
 		for (int i = 0; i < savedSelectedColumnsInfoList.size(); i++) {
 			char[] columnNameChars = ((String[]) savedSelectedColumnsInfoList.get(i))[0].toCharArray();
-			StringBuffer columnNameBuf = new StringBuffer();
+			StringBuilder columnNameBuf = new StringBuilder();
 
 			char[] originalColumnNameChars = ((String[]) savedSelectedColumnsInfoList.get(i))[1].toCharArray();
-			StringBuffer originalColumnNameBuf = new StringBuffer();
+			StringBuilder originalColumnNameBuf = new StringBuilder();
 			for (int m = 0; m < columnNameChars.length; m++) {
-				if (ColumnsInfoUtil.isColumnsInfoKeyWord(columnNameChars[m]))
+				if (ColumnsInfoUtil.isColumnsInfoKeyWord(columnNameChars[m])) {
 					columnNameBuf.append("\\" + columnNameChars[m]); //$NON-NLS-1$
-				else
+				} else {
 					columnNameBuf.append(columnNameChars[m]);
+				}
 
 			}
 
-			prop = prop + ExcelODAConstants.DELIMITER_DOUBLEQUOTE + columnNameBuf.toString()
-					+ ExcelODAConstants.DELIMITER_DOUBLEQUOTE + ExcelODAConstants.DELIMITER_COMMA_VALUE;
+			prop.append(ExcelODAConstants.DELIMITER_DOUBLEQUOTE).append(columnNameBuf.toString())
+					.append(ExcelODAConstants.DELIMITER_DOUBLEQUOTE).append(ExcelODAConstants.DELIMITER_COMMA_VALUE);
 
 			for (int m = 0; m < originalColumnNameChars.length; m++) {
-				if (ColumnsInfoUtil.isColumnsInfoKeyWord(originalColumnNameChars[m]))
+				if (ColumnsInfoUtil.isColumnsInfoKeyWord(originalColumnNameChars[m])) {
 					originalColumnNameBuf.append("\\" //$NON-NLS-1$
 							+ originalColumnNameChars[m]);
-				else
+				} else {
 					originalColumnNameBuf.append(originalColumnNameChars[m]);
+				}
 
 			}
 
-			prop = prop + ExcelODAConstants.DELIMITER_DOUBLEQUOTE + originalColumnNameBuf.toString()
-					+ ExcelODAConstants.DELIMITER_DOUBLEQUOTE + ExcelODAConstants.DELIMITER_COMMA_VALUE;
+			prop.append(ExcelODAConstants.DELIMITER_DOUBLEQUOTE).append(originalColumnNameBuf.toString())
+					.append(ExcelODAConstants.DELIMITER_DOUBLEQUOTE).append(ExcelODAConstants.DELIMITER_COMMA_VALUE);
 
 			if (i != savedSelectedColumnsInfoList.size() - 1) {
-				prop = prop + getDataTypeValue(((String[]) savedSelectedColumnsInfoList.get(i))[2])
-						+ ExcelODAConstants.DELIMITER_SEMICOLON_VALUE;
+				prop.append(getDataTypeValue(((String[]) savedSelectedColumnsInfoList.get(i))[2]))
+						.append(ExcelODAConstants.DELIMITER_SEMICOLON_VALUE);
 			} else {
-				prop = prop + getDataTypeValue(((String[]) savedSelectedColumnsInfoList.get(i))[2]);
+				prop.append(getDataTypeValue(((String[]) savedSelectedColumnsInfoList.get(i))[2]));
 			}
 
 		}
 
-		savedSelectedColumnsInfoString = prop;
+		savedSelectedColumnsInfoString = prop.toString();
 
 		return savedSelectedColumnsInfoString;
 
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataSetDesign
 	 * @param md
 	 * @throws OdaException
@@ -1623,9 +1673,10 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		getControl().setFocus();
@@ -1642,16 +1693,19 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 				firstSheet[0] = sheet;
 			}
 			String queryText = getInitializationDesign().getQueryText();
-			if (sheet.equals(currentSheetName) && isOldFile(queryText, getFileName(selectedFile)))
+			if (sheet.equals(currentSheetName) && isOldFile(queryText, getFileName(selectedFile))) {
 				worksheetsCombo.setSelection(new StructuredSelection(currentSheetName));
+			}
 		}
 
-		if (worksheetsCombo.getSelection().isEmpty())
+		if (worksheetsCombo.getSelection().isEmpty()) {
 			this.currentSheetName = null;
+		}
 
 		if (currentSheetName == null && worksheetsCombo.getSelection().isEmpty()) {
 			Display.getDefault().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					worksheetsCombo.setSelection(new StructuredSelection(firstSheet[0]));
 					currentSheetName = firstSheet[0];
@@ -1663,20 +1717,23 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 
 	private Shell shell;
 
+	@Override
 	public void createControl(Composite parent) {
 		shell = parent.getShell();
 		super.createControl(parent);
 	}
 
+	@Override
 	public Shell getShell() {
 		Shell shell = super.getShell();
-		if (shell == null)
+		if (shell == null) {
 			return this.shell;
-		else
+		} else {
 			return shell;
+		}
 	}
 
-	private java.util.List<IChangeListener> pageStatusChangedListeners = new ArrayList<IChangeListener>();
+	private java.util.List<IChangeListener> pageStatusChangedListeners = new ArrayList<>();
 
 	public void addPageChangedListener(IChangeListener listener) {
 		if (listener != null && !pageStatusChangedListeners.contains(listener)) {
@@ -1688,6 +1745,7 @@ public class ExcelFileSelectionWizardPage extends DataSetWizardPage implements I
 		pageStatusChangedListeners.remove(listener);
 	}
 
+	@Override
 	public void setPageComplete(boolean complete) {
 		super.setPageComplete(complete);
 		for (int i = 0; i < pageStatusChangedListeners.size(); i++) {

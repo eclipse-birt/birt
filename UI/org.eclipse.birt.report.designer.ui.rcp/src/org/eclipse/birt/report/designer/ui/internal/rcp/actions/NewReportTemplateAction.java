@@ -51,15 +51,18 @@ public class NewReportTemplateAction extends Action implements IWorkbenchAction 
 		fWindow = window;
 	}
 
+	@Override
 	public void run() {
 		Dialog dialog = new BaseWizardDialog(fWindow.getShell(), new NewReportTemplateWizard());
 		dialog.open();
 	}
 
+	@Override
 	public void dispose() {
 		fWindow = null;
 	}
 
+	@Override
 	public ImageDescriptor getImageDescriptor() {
 		return ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_NEW_TEMPLATE);
 	}

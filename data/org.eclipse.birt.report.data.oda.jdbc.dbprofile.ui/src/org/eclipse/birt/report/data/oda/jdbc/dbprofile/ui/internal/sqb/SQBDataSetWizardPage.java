@@ -70,16 +70,18 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 
 	private IConnectionProfile getConnectionProfile(boolean raiseErrorIfNull, boolean refreshProfileStore) {
 		if (m_dataSourceProfile == null) {
-			if (refreshProfileStore)
+			if (refreshProfileStore) {
 				OdaProfileExplorer.getInstance().refresh();
+			}
 
 			java.util.Properties connProps = DesignUtil
 					.convertDataSourceProperties(getEditingDesign().getDataSourceDesign());
 			m_dataSourceProfile = loadConnectionProfile(connProps,
 					getEditingDesign().getDataSourceDesign().getHostResourceIdentifiers());
-			if (m_dataSourceProfile == null && raiseErrorIfNull)
+			if (m_dataSourceProfile == null && raiseErrorIfNull) {
 				MessageDialog.openError(getShell(), Messages.sqbWizPage_dataSourceDesignError,
 						Messages.sqbWizPage_noConnProfileMsg);
+			}
 		}
 
 		return m_dataSourceProfile;
@@ -110,10 +112,12 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * createPageCustomControl(org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public void createPageCustomControl(Composite parent) {
 		IConnectionProfile connProfile = getConnectionProfile(true, true);
-		if (connProfile == null)
+		if (connProfile == null) {
 			return;
+		}
 
 		ISQLBuilderEditorInput sqbInput = createSQBInput(parent, connProfile);
 		setControl(createSQBControl(parent, sqbInput));
@@ -124,8 +128,9 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 	@Override
 	protected void refresh(DataSetDesign dataSetDesign) {
 		super.refresh(dataSetDesign);
-		if (m_sqbDialog != null)
+		if (m_sqbDialog != null) {
 			resetQueryDesignState(m_sqbDialog.getSQLQueryStatement(), dataSetDesign);
+		}
 	}
 
 	private ISQLBuilderEditorInput createSQBInput(Composite parent, IConnectionProfile connProfile) {
@@ -166,12 +171,14 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 
 	private void resetQueryDesignState(final QueryStatement queryStmt, final DataSetDesign dataSetDesign) {
 		m_initQuerySortSpec = null;
-		if (queryStmt == null)
+		if (queryStmt == null) {
 			return; // no query state to set, done
+		}
 
 		ResultSetDefinition resultSetDefn = dataSetDesign != null ? dataSetDesign.getPrimaryResultSet() : null;
-		if (resultSetDefn == null)
+		if (resultSetDefn == null) {
 			return;
+		}
 
 		// track the initial state of the OrderBy clause in the SQB query
 		try {
@@ -183,8 +190,9 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 
 	private SQLBuilderDesignState restoreSQLBuilderStateFromDesign(Shell parentShell) {
 		DesignerState designerState = getInitializationDesignerState();
-		if (designerState == null || designerState.getStateContent() == null)
+		if (designerState == null || designerState.getStateContent() == null) {
 			return null;
+		}
 
 		SQLBuilderDesignState sqbState;
 		try {
@@ -201,12 +209,14 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 		SQLBuilderStorageEditorInput sqbInput = sqbState.getSQBStorageInput();
 		String sqlInSQBInput = sqbInput != null && sqbInput.exists() ? sqbInput.getSQL() : EMPTY_STR;
 		String editingQueryText = getDataSetDesignQueryText();
-		if (SQLQueryUtility.isEquivalentSQL(sqlInSQBInput, editingQueryText))
+		if (SQLQueryUtility.isEquivalentSQL(sqlInSQBInput, editingQueryText)) {
 			return true;
+		}
 
 		sqlInSQBInput = sqbState.getPreparableSQL();
-		if (sqlInSQBInput != null && sqlInSQBInput.equals(editingQueryText))
+		if (sqlInSQBInput != null && sqlInSQBInput.equals(editingQueryText)) {
 			return true;
+		}
 
 		return false;
 	}
@@ -253,10 +263,12 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 
 		if (isInputLoaded) {
 			m_sqbDialog.createDialogArea(pageContainer);
-			if (m_updatedQueryInput)
+			if (m_updatedQueryInput) {
 				m_sqbDialog.setDirty(true);
-		} else
+			}
+		} else {
 			m_sqbDialog = null;
+		}
 
 		setPageComplete(isInputLoaded);
 		return pageContainer;
@@ -266,15 +278,14 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 	 * Attempts to connect based on the specified ISQLBuilderEditorInput's
 	 * connection info. If connection fails, raise an error message dialog with the
 	 * connection failure messages.
-	 * 
+	 *
 	 * @return true if connect succeeds; false otherwise
 	 */
 	private boolean connect(Shell parentShell, ISQLBuilderEditorInput sqbInput) {
 		IConnectionProfile connProfile = sqbInput.getConnectionInfo().getConnectionProfile();
-		if (connProfile.supportsWorkOfflineMode() && connProfile.canWorkOffline())
-			return true;
-		if (connProfile.getConnectionState() == IConnectionProfile.CONNECTED_STATE)
+		if ((connProfile.supportsWorkOfflineMode() && connProfile.canWorkOffline()) || (connProfile.getConnectionState() == IConnectionProfile.CONNECTED_STATE)) {
 			return true; // already connected
+		}
 
 		assert (connProfile.equals(getConnectionProfile(false, false)));
 		return runConnect(parentShell);
@@ -282,29 +293,28 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 
 	/**
 	 * Connect to database in a runnable with progress bar dialog.
-	 * 
+	 *
 	 * @param connProfile
 	 * @param parentShell
 	 */
 	private boolean runConnect(final Shell parentShell) {
 		IRunnableWithProgress runnable = new IRunnableWithProgress() {
+			@Override
 			public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 				monitor.beginTask(Messages.sqbWizPage_connectingDB, IProgressMonitor.UNKNOWN);
 				IStatus status = doConnect();
 				monitor.done();
 
-				if (status == null || !status.isOK())
+				if (status == null || !status.isOK()) {
 					throw new InvocationTargetException(Connection.getStatusException(status));
+				}
 			}
 		};
 
 		try {
 			new ProgressMonitorDialog(parentShell) {
 			}.run(true, false, runnable);
-		} catch (InvocationTargetException e) {
-			raiseConnectionErrorMessage(parentShell, e);
-			return false;
-		} catch (InterruptedException e) {
+		} catch (InvocationTargetException | InterruptedException e) {
 			raiseConnectionErrorMessage(parentShell, e);
 			return false;
 		}
@@ -323,30 +333,32 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 	/**
 	 * Raises an error message dialog associated with the given parent shell and
 	 * displays the error messages from the given exception.
-	 * 
+	 *
 	 * @param parentShell
 	 * @param connectException may be null
 	 */
 	private static void raiseConnectionErrorMessage(Shell parentShell, Throwable connectException) {
-		String errorMessage = Messages.sqbWizPage_cannotOpenConnectionMsg;
+		StringBuilder errorMessage = new StringBuilder().append(Messages.sqbWizPage_cannotOpenConnectionMsg);
 
 		if (connectException != null) {
 			String dbMessage = connectException.getMessage();
-			if (dbMessage != null)
-				errorMessage += NEWLINE_CHAR + Messages.sqbWizPage_dbErrorMsg + dbMessage;
+			if (dbMessage != null) {
+				errorMessage.append(NEWLINE_CHAR).append(Messages.sqbWizPage_dbErrorMsg).append(dbMessage);
+			}
 		}
 
-		ExceptionHandler.showException(parentShell, Messages.sqbWizPage_cannotOpenConnectionTitle, errorMessage,
-				connectException);
+		ExceptionHandler.showException(parentShell, Messages.sqbWizPage_cannotOpenConnectionTitle,
+				errorMessage.toString(), connectException);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * collectResponseState()
 	 */
+	@Override
 	protected void collectResponseState() {
 		if (getControl() == null || getControl().isDisposed() || m_sqbDialog == null) {
 			setResponseDesignerState(getInitializationDesignerState());
@@ -356,12 +368,14 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 		super.collectResponseState();
 
 		SQLBuilderDesignState sqbState = m_sqbDialog.saveSQBState(getDataSetDesignName());
-		if (sqbState == null)
+		if (sqbState == null) {
 			return; // done; no state info
+		}
 
 		String sqbStateContent = sqbState.toString();
-		if (sqbStateContent.length() == 0)
+		if (sqbStateContent.length() == 0) {
 			return; // done; no state info
+		}
 
 		DesignerState designerState = DesignFactory.eINSTANCE.createDesignerState();
 		designerState.setNewStateContentAsString(sqbStateContent);
@@ -372,17 +386,20 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * collectDataSetDesign(org.eclipse.datatools.connectivity.oda.design.
 	 * DataSetDesign)
 	 */
+	@Override
 	protected DataSetDesign collectDataSetDesign(DataSetDesign design) {
-		if (getControl() == null || getControl().isDisposed()) // page is not active
+		if (getControl() == null || getControl().isDisposed()) { // page is not active
 			return design; // not in an active session, keep the design as is
-		if (m_sqbDialog == null) // likely error with the data set query
+		}
+		if (m_sqbDialog == null) { // likely error with the data set query
 			return null; // return null to trigger a response session status error
+		}
 
 		// saves query and its metadata in DataSetDesign
 		if (m_sqbDialog.isDirty()) {
@@ -396,11 +413,12 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#
 	 * cleanup()
 	 */
+	@Override
 	protected void cleanup() {
 		Connection.closeProfile(m_dataSourceProfile);
 		m_dataSourceProfile = null;
@@ -464,6 +482,6 @@ public class SQBDataSetWizardPage extends DataSetWizardPage {
 			windowState.setHeight(SQBCONTROL_HEIGHT);
 			return windowState;
 		}
-	};
+	}
 
 }

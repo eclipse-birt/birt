@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -106,9 +106,9 @@ import com.ibm.icu.util.ULocale;
  * For example, if we call the <code>setExtends( )</code> method of element E,
  * we also must cache the inverse relationships in the parent element. This
  * higher-level semantic processing is handled by code above this class.
- * 
+ *
  * <h3>Meta-data</h3>
- * 
+ *
  * This class stores information that the user enters for a design element.
  * Every element is defined by an <em>element definition </em>. The relationship
  * between an element and element definition is much like that between a object
@@ -147,9 +147,9 @@ import com.ibm.icu.util.ULocale;
  * <li>The {@link org.eclipse.birt.report.model.metadata.MetaDataDictionary}
  * singleton class provides information to the meta-data for all elements.</li>
  * </ul>
- * 
+ *
  * <h3>Styles</h3>
- * 
+ *
  * Many elements have an associated style. Style influence the set of system-
  * defined properties, as described below. They also affect the notification
  * system as described below.
@@ -183,9 +183,9 @@ import com.ibm.icu.util.ULocale;
  * <li>The {@link #getStyle()}method returns the associated style, if any, for
  * this element as a generic DesignElement.</li>
  * </ul>
- * 
+ *
  * <h3>Inheritance</h3>
- * 
+ *
  * User-defined elements can extend other elements, but style element is not
  * allowed to extend each other. The following is the terminology used for this
  * system.
@@ -209,41 +209,41 @@ import com.ibm.icu.util.ULocale;
  * If two ancestors define values for the same property, then the inherited
  * value is that defined by the most derived ancestor. This rule is similar to
  * the method overriding rules in Java.</dd>
- * 
+ *
  * <dt><strong>Named style </strong></dt>
  * <dd>If an ancestor element explicitly names a style, then the derived element
  * will also use that style (unless the derived element specifies a different
  * style.)</dd>
- * 
+ *
  * <dt><strong>Element type </strong></dt>
  * <dd>Inheritance only works between elements of the same type. One could say
  * that a derived element inherits the element type of the parent element. More
  * precisely, both the parent and derived elements have a type, and the
  * semantics of the application require that the element types be the same. It
  * is an error to extend an element of a different type.</dd>
- * 
+ *
  * <dt><strong>User-defined properties </strong></dt>
  * <dd>The user can define a custom property. All derived elements also have
  * that property.</dd>
- * 
+ *
  * <dt><strong>Custom behavior </strong></dt>
  * <dd>The user can define custom behavior by associating the element with a
  * Java class. Derived elements inherit this behavior.</dd>
  * </dl>
  * <p>
- * 
+ *
  * Inheritance does <em>not</em>, however, apply to the following:
  * <p>
  * <ul>
  * <li><strong>Name </strong>. A derived element does not inherit the name of
  * the parent component. If it did, then there would be two elements with the
  * same name, violating the rules about element name uniqueness.</li>
- * 
+ *
  * <li><strong>Parent element </strong>. A derived element necessarily has a
  * distinct value for the "extends" property than does its parent.</li>
  * </ul>
  * <p>
- * 
+ *
  * Members and classes in the inheritance system include:
  * <p>
  * <ul>
@@ -255,9 +255,9 @@ import com.ibm.icu.util.ULocale;
  * <li>The {@link #extendsRef}member stores the reference to the parent element.
  * </li>
  * </ul>
- * 
+ *
  * <h3>User-Defined Properties</h3>
- * 
+ *
  * As noted above, the user can define user-defined properties for an element.
  * User-defined properties have many of the same attributes as system-defined
  * properties. User-defined properties work virtually the same as system-defined
@@ -281,9 +281,9 @@ import com.ibm.icu.util.ULocale;
  * See also the meta-data section above for the methods that validate property
  * values, and the property value section below for methods that work with
  * property values.
- * 
+ *
  * <h3>Property Values</h3>
- * 
+ *
  * See the {@link ElementPropertyDefn}class for a description of the details of
  * property values. Property values are of two key types: normal and intrinsic.
  * Normal properties are stored in the {@link #propValues}member on this class.
@@ -321,9 +321,9 @@ import com.ibm.icu.util.ULocale;
  * <li>The {@link #getProperty(Module, String )}method gets the effective value
  * of the property.</li>
  * </ul>
- * 
+ *
  * <h3>Element Name</h3>
- * 
+ *
  * Elements can have a name. The semantics of the specific element type
  * determine if the element name is optional or required. In a few contexts, the
  * name may be ignored (not supported). The name uniquely identifies an element
@@ -348,9 +348,9 @@ import com.ibm.icu.util.ULocale;
  * <li>The {@link #getName}method.</li>
  * <li>The {@link NameSpace NameSpace}class.</li>
  * </ul>
- * 
+ *
  * <h3>Containment</h3>
- * 
+ *
  * The overall report design organizes design elements into a hierarchy. All
  * elements except the report design itself are <em>contained </em> within some
  * other element: the <em>container </em>. The contained element is the
@@ -383,9 +383,9 @@ import com.ibm.icu.util.ULocale;
  * <li>The {@link ContainerSlot},{@link SingleElementSlot}and
  * {@link MultiElementSlot}classes that represent slots.</li>
  * </ul>
- * 
+ *
  * <h3>Change Notification</h3>
- * 
+ *
  * Any given element may be "visualized" in multiple places in the user
  * interface. If the user changes the element, all the affected parts of the UI
  * must be updated. The notification system is responsible for these updates.
@@ -415,9 +415,9 @@ import com.ibm.icu.util.ULocale;
  * {@link #broadcast(NotificationEvent)}to do the detailed work of sending an
  * event to all the listeners.</li>
  * </ul>
- * 
+ *
  * <h3>Element Identity</h3>
- * 
+ *
  * There are four ways to refer to an item:
  * <p>
  * <dl>
@@ -427,7 +427,7 @@ import com.ibm.icu.util.ULocale;
  * referenced. Some elements, such as styles, data sources, and data sets, exist
  * to be referenced and so require a name. Most other elements are seldom
  * referenced, and so the name is optional.</dd>
- * 
+ *
  * <dd><strong>By navigation </strong></dt>
  * <dd>Elements can be found via navigation. One can start at the module and
  * work down though the containment hierarchy. Every valid element can be
@@ -436,12 +436,12 @@ import com.ibm.icu.util.ULocale;
  * hierarchy. Similarly, the definition of deletion, again from the perspective
  * of the design, is when the element is dropped from the containment hierarchy.
  * </dd>
- * 
+ *
  * <dd><strong>By pointer </strong></dt>
  * <dd>The design tool itself references elements mostly using Java pointers.
  * That is, once the application finds an element of interest, it simply holds
  * onto it using a pointer.</dd>
- * 
+ *
  * <dd><strong>By ID </strong></dt>
  * <dd>The web designer needs a simple way to reference items across calls to
  * the server. None of the above is both simple and consistent. Element IDs
@@ -453,9 +453,9 @@ import com.ibm.icu.util.ULocale;
  * . Call {@link #getID}to get the ID of an element. Call
  * {@link Module#getElementByID}to obtain and element given an element ID.</dd>
  * </dl>
- * 
+ *
  * <h3>Element Visitor</h3>
- * 
+ *
  * A visitor class is a design pattern that is useful for implementing certain
  * kinds of algorithms that need to "touch" many different elements. One could
  * code the element by adding methods to each element, but doing so is
@@ -464,9 +464,9 @@ import com.ibm.icu.util.ULocale;
  * visitor to an element, and the element then calls its specific "visit" method
  * in the visitor. For example, the design engine uses a visitor to write the
  * design to an XML file.
- * 
+ *
  * <h3>API Handles</h3>
- * 
+ *
  * This class, and its subclasses, are low-level classes that maintain the state
  * of the design. Property and slot methods are generic so that they work for
  * all elements. Modifications must be done through commands. The application,
@@ -478,9 +478,9 @@ import com.ibm.icu.util.ULocale;
  * high-level view. Therefore, the application will seldom work with this class
  * directly. Instead, it will work with the handle produced by calling the
  * {@link #getHandle(Module module )}method.
- * 
+ *
  * <h3>Semantic State</h3>
- * 
+ *
  * Design elements maintain a wide variety of relationships to other parts of
  * the design. An element refers to its parent element or its shared style.
  * Expressions reference elements, parameters and data set columns. Many
@@ -504,7 +504,7 @@ import com.ibm.icu.util.ULocale;
  * template and can no longer be resolved. In this case, we cache the name until
  * the user loads the required elements, or changes the reference to an existing
  * style. Similar rules apply to the "extends" property.
- * 
+ *
  * @see ElementDefn
  * @see DesignElementHandle
  * @see ElementPropertyDefn
@@ -554,7 +554,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Values for non-intrinsic property values. The contents are of type Object.
 	 */
 
-	protected Map<String, Object> propValues = new HashMap<String, Object>(ModelUtil.MAP_CAPACITY_LOW);
+	protected Map<String, Object> propValues = new HashMap<>(ModelUtil.MAP_CAPACITY_LOW);
 
 	/**
 	 * Definitions for user-defined properties. Contents are of type
@@ -650,7 +650,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Constructs the design element with the name.
-	 * 
+	 *
 	 * @param theName initial element name
 	 */
 
@@ -671,15 +671,17 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * will receive each event only once.
 	 * <p>
 	 * Part of: Notification system.
-	 * 
+	 *
 	 * @param obj the listener to register
 	 */
 
 	public void addListener(Listener obj) {
-		if (listeners == null)
-			listeners = new ArrayList<Listener>();
-		if (obj != null && !listeners.contains(obj))
+		if (listeners == null) {
+			listeners = new ArrayList<>();
+		}
+		if (obj != null && !listeners.contains(obj)) {
 			listeners.add(obj);
+		}
 	}
 
 	/**
@@ -687,16 +689,18 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * the item is not in the list, then the request is silently ignored.
 	 * <p>
 	 * Part of: Notification system.
-	 * 
+	 *
 	 * @param obj the listener to remove
 	 */
 
 	public void removeListener(Listener obj) {
-		if (listeners == null)
+		if (listeners == null) {
 			return;
+		}
 		int posn = listeners.indexOf(obj);
-		if (posn != -1)
+		if (posn != -1) {
 			listeners.remove(posn);
+		}
 	}
 
 	/**
@@ -706,8 +710,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 */
 
 	public void clearListeners() {
-		if (listeners != null)
+		if (listeners != null) {
 			listeners.clear();
+		}
 		listeners = null;
 	}
 
@@ -719,7 +724,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * these additional delivery routes.
 	 * <p>
 	 * Part of: Notification system.
-	 * 
+	 *
 	 * @param ev the event to send
 	 */
 
@@ -731,18 +736,20 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Gets the root node of the design tree. This node must be a instance of
 	 * <code>ReportDesign</code> or <code>Library</code>.
-	 * 
+	 *
 	 * @return the root node of the design tree
 	 */
 
 	public Module getRoot() {
 		DesignElement element = this;
 
-		while (element.getContainer() != null)
+		while (element.getContainer() != null) {
 			element = element.getContainer();
+		}
 
-		if (element instanceof Module == false)
+		if (!(element instanceof Module)) {
 			return null;
+		}
 
 		return (Module) element;
 	}
@@ -753,22 +760,23 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * broadcasting.
 	 * <p>
 	 * Part of: Notification system.
-	 * 
+	 *
 	 * @param ev the event to send
 	 */
 
 	public final void broadcast(NotificationEvent ev) {
-		if (this instanceof Module || getContainer() != null)
+		if (this instanceof Module || getContainer() != null) {
 			broadcast(ev, getRoot());
+		}
 	}
 
 	/**
 	 * Implements to broadcast an event to all listeners of this design element on a
 	 * design tree. Note subclasses should override this method to change the
 	 * behavior of broadcast method.
-	 * 
+	 *
 	 * Part of: Notification system.
-	 * 
+	 *
 	 * @param ev     the event to send
 	 * @param module the root node of the design tree.
 	 */
@@ -780,7 +788,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		// listeners in elementChanged method.
 
 		if (listeners != null) {
-			ArrayList<Listener> tmpListeners = new ArrayList<Listener>(listeners);
+			ArrayList<Listener> tmpListeners = new ArrayList<>(listeners);
 
 			Iterator<Listener> iter = tmpListeners.iterator();
 			while (iter.hasNext()) {
@@ -794,8 +802,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 			// The event with the ELEMENT_CLIENT path should not be forwarded
 			// to the children of this client element.
 
-			if (ev.getDeliveryPath() == NotificationEvent.ELEMENT_CLIENT)
+			if (ev.getDeliveryPath() == NotificationEvent.ELEMENT_CLIENT) {
 				return;
+			}
 
 			// The event with the STYLE_CLIENT path should be forwarded to the
 			// children of this client element. But the path should be changed
@@ -803,8 +812,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 			// DESENDENT, because the style property changes are also considered
 			// as the changes of this element.
 
-			if (ev.getDeliveryPath() != NotificationEvent.STYLE_CLIENT)
+			if (ev.getDeliveryPath() != NotificationEvent.STYLE_CLIENT) {
 				ev.setDeliveryPath(NotificationEvent.DESCENDENT);
+			}
 
 			Iterator<DesignElement> iter = derived.iterator();
 			while (iter.hasNext()) {
@@ -820,7 +830,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * <strong>Notice: </strong> <br>
 	 * If the element is a virtual element, it must have defined a <code>
 	 * baseId<code> which point to the ID of its virtual parent.
-	 * 
+	 *
 	 * &#64;return Returns <code>true</code> if the element is within a child
 	 * element which extends from another.
 	 */
@@ -833,13 +843,14 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Resolve and returns the virtual parent element. If the element is not virtual
 	 * element, <code>null</code> will be returned. Otherwise, find and returns the
 	 * virtual parent using the <code>baseId</code>.
-	 * 
+	 *
 	 * @return the virtual parent element.
 	 */
 
 	public final DesignElement getVirtualParent() {
-		if (!isVirtualElement())
+		if (!isVirtualElement()) {
 			return null;
+		}
 
 		// Find the out-most child element.
 
@@ -858,8 +869,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 		// The element is not in the tree.
 
-		if (parent == null)
+		if (parent == null) {
 			return null;
+		}
 
 		assert parent.getContainer() instanceof Module;
 
@@ -868,12 +880,13 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public final DesignElement getDynamicVirtualParent(Module module) {
-		if (!isVirtualElement())
+		if (!isVirtualElement()) {
 			return null;
+		}
 
 		// Find the out-most child element.
 
@@ -896,8 +909,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 		// The element is not in the tree.
 
-		if (parent == null)
+		if (parent == null) {
 			return null;
+		}
 
 		assert parent.getContainer() instanceof Module;
 
@@ -905,7 +919,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public DesignElement getDynamicExtendsElement(Module module) {
@@ -923,7 +937,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * defined to not inherit.
 	 * <p>
 	 * Part of: Property value system.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName name of the property to get. Can be a system-defined or
 	 *                 user-defined property name. Must be of the correct case.
@@ -936,8 +950,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 		// If the property is not found, then the value is null.
 
-		if (prop == null)
+		if (prop == null) {
 			return null;
+		}
 
 		if (ODA_PASSWORD.contentEquals(propName) && prop.isEncryptable() && getEncryptionID(prop) != null
 				&& JavaScriptExecutionStatus.isExecuting()) {
@@ -958,7 +973,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * the containment hierarchy if it'd defined to no inherit.
 	 * <p>
 	 * Part of: Property value system.
-	 * 
+	 *
 	 * @param module the module
 	 * @param prop   definition of the property to get
 	 * @return The property value, or null if no value is set.
@@ -975,7 +990,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Gets the search strategy for this element.
-	 * 
+	 *
 	 * @return the search strategy for this element.
 	 */
 
@@ -985,12 +1000,13 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Returns the property value.
-	 * 
+	 *
 	 * @param module the module
 	 * @param prop   the definition of property
 	 * @return the property value, or null if no value is set.
 	 */
 
+	@Override
 	public Object getProperty(Module module, PropertyDefn prop) {
 		return getProperty(module, (ElementPropertyDefn) prop);
 	}
@@ -998,7 +1014,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Returns whether this element is a style. While this information could be
 	 * computed from meta-data, it is computed here for performance.
-	 * 
+	 *
 	 * @return true if this is a style element, false otherwise.
 	 */
 
@@ -1014,7 +1030,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * for validity.
 	 * <p>
 	 * Part of: Property value system.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName name of the property to set. Must be valid. Can be a
 	 *                 system-defined or user-defined property name.
@@ -1023,8 +1039,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	public Object getLocalProperty(Module module, String propName) {
 		ElementPropertyDefn prop = getPropertyDefn(propName);
-		if (prop == null)
+		if (prop == null) {
 			return null;
+		}
 		return getLocalProperty(module, prop);
 	}
 
@@ -1034,7 +1051,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * also be valid for this object.
 	 * <p>
 	 * Part of: Property value system.
-	 * 
+	 *
 	 * @param module the module
 	 * @param prop   The property definition.
 	 * @return The property value, or null if no value is set.
@@ -1056,8 +1073,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 			resolveStructReference(module, prop);
 			break;
 		case IPropertyType.LIST_TYPE:
-			if (prop.getSubTypeCode() == IPropertyType.ELEMENT_REF_TYPE)
+			if (prop.getSubTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
 				return resolveElementReferenceList(module, prop);
+			}
 
 		}
 
@@ -1070,14 +1088,15 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Returns the value of an intrinsic property. Derived classes should override
 	 * this to handle their own intrinsics. Clients should call the getProperty( )
 	 * or getLocalProperty( ) methods instead of calling this method directly.
-	 * 
+	 *
 	 * @param propName name of the intrinsic
 	 * @return the value of the requested property
 	 */
 
 	protected Object getIntrinsicProperty(String propName) {
-		if (NAME_PROP.equals(propName))
+		if (NAME_PROP.equals(propName)) {
 			return getName();
+		}
 		if (EXTENDS_PROP.equals(propName)) {
 			if (extendsRef != null && !extendsRef.isResolved()) {
 				ReferenceValueUtil.resloveExtends(getRoot(), this, extendsRef);
@@ -1101,7 +1120,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * be a String (for an unresolved name), DesignElement (for a resolved name) or
 	 * null. The caller should ensure canExtend of this element is true.
 	 * </ul>
-	 * 
+	 *
 	 * @param propName The name of the intrinsic property.
 	 * @param value    The value to set for the property.
 	 */
@@ -1122,7 +1141,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * is "unset."
 	 * <p>
 	 * Part of: Property value system.
-	 * 
+	 *
 	 * @param propName The name of the property to set. Must be valid. Can be a
 	 *                 system-defined or user-defined property name.
 	 * @param value    The value to set. Must be valid for the property.
@@ -1146,7 +1165,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * is set locally. If the value is null, then the property is "unset."
 	 * <p>
 	 * Part of: Property value system.
-	 * 
+	 *
 	 * @param prop  The property definition. Must be valid. Can be a system-defined
 	 *              or user-defined property.
 	 * @param value The value to set. Must be valid for the property.
@@ -1185,10 +1204,11 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 		// Set or clear the property.
 
-		if (value == null)
+		if (value == null) {
 			propValues.remove(propName);
-		else
+		} else {
 			propValues.put(propName, value);
+		}
 	}
 
 	/**
@@ -1197,10 +1217,10 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * <p>
 	 * Note that this method is only for internal usage. DO NOT call this method
 	 * outside the org.eclipse.birt.report.model package.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName the name of the property
-	 * 
+	 *
 	 * @return the mask of the given property
 	 */
 
@@ -1214,8 +1234,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 			if (masks != null) {
 				for (int i = 0; i < masks.size(); i++) {
 					PropertyMask mask = (PropertyMask) masks.get(i);
-					if (propName.equals(mask.getName()))
+					if (propName.equals(mask.getName())) {
 						return mask.getMask();
+					}
 				}
 			}
 
@@ -1228,11 +1249,12 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IPropertySet#setProperty(org.eclipse
 	 * .birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
+	@Override
 	public void setProperty(PropertyDefn prop, Object value) {
 		setProperty((ElementPropertyDefn) prop, value);
 	}
@@ -1243,7 +1265,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * <code>setProperty( propName, null )</code>.
 	 * <p>
 	 * Part of: Property value system.
-	 * 
+	 *
 	 * @param propName The name of the property to set. Must be valid. Can be a
 	 *                 system-defined or user-defined property name.
 	 */
@@ -1256,10 +1278,11 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Returns the definition object for this element.
 	 * <p>
 	 * Part of: Meta data system.
-	 * 
+	 *
 	 * @return The element definition. Will always be non-null in a valid build.
 	 */
 
+	@Override
 	public IElementDefn getDefn() {
 		return cachedDefn;
 	}
@@ -1271,7 +1294,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * been enforced by the application prior to calling this method.
 	 * <p>
 	 * Part of: User-defined property system.
-	 * 
+	 *
 	 * @param userProp definition of the user-defined property
 	 */
 
@@ -1281,8 +1304,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		String propName = userProp.getName();
 		assert getUserPropertyDefn(propName) == null;
 		assert cachedDefn.getProperty(propName) == null;
-		if (userProperties == null)
-			userProperties = new LinkedHashMap<String, UserPropertyDefn>(ModelUtil.MAP_CAPACITY_LOW);
+		if (userProperties == null) {
+			userProperties = new LinkedHashMap<>(ModelUtil.MAP_CAPACITY_LOW);
+		}
 		userProperties.put(propName, userProp);
 	}
 
@@ -1293,7 +1317,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * element.
 	 * <p>
 	 * Part of: User-defined property system.
-	 * 
+	 *
 	 * @param prop The user-defined property.
 	 */
 
@@ -1308,14 +1332,15 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Gets a user property definition defined on this class itself.
 	 * <p>
 	 * Part of: User-defined property system.
-	 * 
+	 *
 	 * @param propName The internal name of the user-defined property.
 	 * @return The user-defined property definition, if any.
 	 */
 
 	public UserPropertyDefn getLocalUserPropertyDefn(String propName) {
-		if (userProperties == null)
+		if (userProperties == null) {
 			return null;
+		}
 		return userProperties.get(propName);
 	}
 
@@ -1324,7 +1349,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * somewhere up the inheritance chain.
 	 * <p>
 	 * Part of: User-defined property system.
-	 * 
+	 *
 	 * @param propName The internal name of the user-defined property.
 	 * @return The property definition, if found, null otherwise.
 	 */
@@ -1333,8 +1358,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		DesignElement e = this;
 		while (e != null) {
 			UserPropertyDefn p = e.getLocalUserPropertyDefn(propName);
-			if (p != null)
+			if (p != null) {
 				return p;
+			}
 			e = e.getExtendsElement() == null ? e.getVirtualParent() : e.getExtendsElement();
 		}
 		return null;
@@ -1346,13 +1372,14 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * element is undefined.
 	 * <p>
 	 * Part of: Inheritance system.
-	 * 
+	 *
 	 * @return parent element
 	 */
 
 	public DesignElement getExtendsElement() {
-		if (extendsRef == null)
+		if (extendsRef == null) {
 			return null;
+		}
 		if (!extendsRef.isResolved()) {
 			ReferenceValueUtil.resloveExtends(getRoot(), this, extendsRef);
 		}
@@ -1361,13 +1388,14 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Gets the name of the element that this element extends.
-	 * 
+	 *
 	 * @return The name of the extended element.
 	 */
 
 	public String getExtendsName() {
-		if (extendsRef == null)
+		if (extendsRef == null) {
 			return null;
+		}
 
 		return StringUtil.buildQualifiedReference(extendsRef.getLibraryNamespace(), extendsRef.getName());
 	}
@@ -1376,7 +1404,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Returns the optional element name.
 	 * <p>
 	 * Part of: The name system.
-	 * 
+	 *
 	 * @return Returns the name.
 	 */
 
@@ -1390,7 +1418,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * some kinds of elements are not. Their name are unique partly, such as the
 	 * level name is unique in the dimension container. And therefore, its full name
 	 * is dimensionName/levelName.
-	 * 
+	 *
 	 * @return the full name of this element
 	 */
 	public String getFullName() {
@@ -1403,7 +1431,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * so on.
 	 * <p>
 	 * Part of: The name system.
-	 * 
+	 *
 	 * @param newName The name to set.
 	 */
 
@@ -1415,7 +1443,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Returns the container element.
 	 * <p>
 	 * Part of: The containment system.
-	 * 
+	 *
 	 * @return Returns the container.
 	 */
 
@@ -1427,19 +1455,21 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Gets the property data for either a system-defined or user-defined property.
 	 * <p>
 	 * Part of: Property system and user-defined property system
-	 * 
+	 *
 	 * @param propName The name of the property to lookup.
 	 * @return The property definition, or null, if the property is undefined.
 	 */
 
 	public ElementPropertyDefn getPropertyDefn(String propName) {
-		if (propName == null)
+		if (propName == null) {
 			return null;
+		}
 
 		// Look for the property defined on this element.
 		ElementPropertyDefn prop = (ElementPropertyDefn) cachedDefn.getProperty(propName);
-		if (prop == null)
+		if (prop == null) {
 			prop = getUserPropertyDefn(propName);
+		}
 		return prop;
 	}
 
@@ -1448,14 +1478,15 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * user-defined property.
 	 * <p>
 	 * Part of: Property system.
-	 * 
+	 *
 	 * @param propName The name of the property to validate.
 	 * @throws PropertyNameException If the property is undefined.
 	 */
 
 	void validatePropertyName(String propName) throws PropertyNameException {
-		if (getPropertyDefn(propName) == null)
+		if (getPropertyDefn(propName) == null) {
 			throw new PropertyNameException(this, propName);
+		}
 	}
 
 	/**
@@ -1463,7 +1494,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * value that should be used for the actual property update.
 	 * <p>
 	 * Part of: Property system.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName The name of the property to validate.
 	 * @param value    The value to validate
@@ -1472,20 +1503,20 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * @throws PropertyValueException If the value is incorrect.
 	 */
 	/*
-	 * 
+	 *
 	 * public Object validatePropertyValue( Module module, String propName, Object
 	 * value ) throws PropertyNameException, PropertyValueException { // If we can't
 	 * find the property, then the property name // must be invalid.
-	 * 
+	 *
 	 * ElementPropertyDefn prop = getPropertyDefn( propName ); if ( prop == null )
 	 * throw new PropertyNameException( this, propName );
-	 * 
+	 *
 	 * // Validate the property value.
-	 * 
+	 *
 	 * try { return prop.validateValue( module, this, value ); } catch (
 	 * PropertyValueException e ) { // Fill in the context information for the
 	 * exception.
-	 * 
+	 *
 	 * e.setElement( this ); e.setPropertyName( propName ); throw e; } }
 	 */
 
@@ -1494,7 +1525,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * resolve the style element if the value is un-resolved.
 	 * <p>
 	 * Part of: Style system.
-	 * 
+	 *
 	 * @param module module
 	 * @return the shared style, or null if this element does not explicitly
 	 *         reference a shared style.
@@ -1509,7 +1540,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * to resolve the style element if the value is un-resolved.
 	 * <p>
 	 * Part of: Style system.
-	 * 
+	 *
 	 * @return the shared style, or null if this element does not explicitly
 	 *         reference a shared style, or the value is un-resolved
 	 */
@@ -1522,13 +1553,14 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Caches an element that derives from this element.
 	 * <p>
 	 * Part of: Inheritance system.
-	 * 
+	 *
 	 * @param child The new derived element.
 	 */
 
 	public void addDerived(DesignElement child) {
-		if (derived == null)
-			derived = new ArrayList<DesignElement>();
+		if (derived == null) {
+			derived = new ArrayList<>();
+		}
 		assert child != null;
 		assert child.getExtendsElement() == this;
 		assert !derived.contains(child);
@@ -1540,7 +1572,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Removes a cached element that derives from this element.
 	 * <p>
 	 * Part of: Inheritance system.
-	 * 
+	 *
 	 * @param child The old derived element.
 	 */
 
@@ -1558,17 +1590,19 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * parent is valid for this element.
 	 * <p>
 	 * Part of: Inheritance system.
-	 * 
+	 *
 	 * @param base The new parent element, or null if the element is to have no base
 	 *             element.
 	 */
 
 	public void setExtendsElement(DesignElement base) {
 		DesignElement oldExtends = getExtendsElement();
-		if (base == oldExtends && base != null)
+		if (base == oldExtends && base != null) {
 			return;
-		if (oldExtends != null)
+		}
+		if (oldExtends != null) {
 			oldExtends.dropDerived(this);
+		}
 
 		if (base == null) {
 			extendsRef = null;
@@ -1594,16 +1628,17 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Returns the data set element, if any, for this element.
-	 * 
+	 *
 	 * @param module the module of this element
-	 * 
+	 *
 	 * @return the data set element defined on this specific element
 	 */
 
 	public TemplateParameterDefinition getTemplateParameterElement(Module module) {
 		ElementRefValue templateParam = (ElementRefValue) getProperty(module, REF_TEMPLATE_PARAMETER_PROP);
-		if (templateParam == null)
+		if (templateParam == null) {
 			return null;
+		}
 
 		return (TemplateParameterDefinition) templateParam.getElement();
 	}
@@ -1614,12 +1649,12 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * from those, and so on recursively.
 	 * <p>
 	 * Part of: Inheritance system.
-	 * 
+	 *
 	 * @return The list of descendants.
 	 */
 
 	public List<DesignElement> getDescendents() {
-		ArrayList<DesignElement> list = new ArrayList<DesignElement>();
+		ArrayList<DesignElement> list = new ArrayList<>();
 		gatherDescendents(list);
 		return list;
 	}
@@ -1629,13 +1664,14 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * indirectly.
 	 * <p>
 	 * Part of: Inheritance system.
-	 * 
+	 *
 	 * @param list The list of descendants.
 	 */
 
 	public void gatherDescendents(ArrayList<DesignElement> list) {
-		if (derived == null)
+		if (derived == null) {
 			return;
+		}
 		for (int i = 0; i < derived.size(); i++) {
 			DesignElement child = derived.get(i);
 			list.add(child);
@@ -1646,7 +1682,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Checks if the element has defined any user properties. Checks only this
 	 * element, not its parents.
-	 * 
+	 *
 	 * @return True if the element has user properties, false if not.
 	 */
 
@@ -1656,13 +1692,14 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Checks if this element has any locally-defined property values.
-	 * 
+	 *
 	 * @return True if the element has property values, false if not.
 	 */
 
 	public boolean hasLocalPropertyValues() {
-		if (propValues.isEmpty())
+		if (propValues.isEmpty()) {
 			return false;
+		}
 
 		Iterator<String> iter = propValues.keySet().iterator();
 		while (iter.hasNext()) {
@@ -1679,7 +1716,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Returns names of properties that have local values.
-	 * 
+	 *
 	 * @return an iterator for property names.
 	 */
 
@@ -1692,7 +1729,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * container. Derived classes that represent containers must override this.
 	 * <p>
 	 * Part of: Containment system.
-	 * 
+	 *
 	 * @param slot the slot ID to get
 	 * @return The container interface, or null if this element is not a container.
 	 */
@@ -1704,12 +1741,12 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Returns a list of user properties defined in this element and somewhere up
 	 * the inheritance chain.
-	 * 
+	 *
 	 * @return The list of user properties.
 	 */
 
 	public List<UserPropertyDefn> getUserProperties() {
-		List<UserPropertyDefn> props = new ArrayList<UserPropertyDefn>();
+		List<UserPropertyDefn> props = new ArrayList<>();
 		DesignElement e = this;
 		while (e != null) {
 			List<UserPropertyDefn> prop = e.getLocalUserProperties();
@@ -1723,22 +1760,23 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Returns a list of user properties that are defined only on this element.
-	 * 
+	 *
 	 * @return The list of user properties.
 	 */
 
 	public List<UserPropertyDefn> getLocalUserProperties() {
-		if (userProperties == null)
+		if (userProperties == null) {
 			return Collections.emptyList();
+		}
 
-		return new ArrayList<UserPropertyDefn>(userProperties.values());
+		return new ArrayList<>(userProperties.values());
 	}
 
 	/**
 	 * Checks if this element derives from the given element. The check is true if
 	 * this element derives from the target, or if the target is an ancestor of this
 	 * element.
-	 * 
+	 *
 	 * @param element The potential ancestor.
 	 * @return True if the given element is an ancestor of this element, false
 	 *         otherwise.
@@ -1747,8 +1785,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	public boolean isKindOf(DesignElement element) {
 		DesignElement e = this;
 		while (e != null) {
-			if (e == element)
+			if (e == element) {
 				return true;
+			}
 			e = e.getExtendsElement();
 		}
 		return false;
@@ -1756,7 +1795,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Determines if any elements extend this element.
-	 * 
+	 *
 	 * @return True if the element is extended, false if not.
 	 */
 
@@ -1769,7 +1808,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * {@link #setProperty(String, Object )}method.
 	 * <p>
 	 * Part of: The name system.
-	 * 
+	 *
 	 * @return Returns the displayName.
 	 */
 
@@ -1783,7 +1822,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * {@link #setProperty(String, Object )}method.
 	 * <p>
 	 * Part of: The name system.
-	 * 
+	 *
 	 * @return Returns the displayNameID.
 	 */
 
@@ -1794,7 +1833,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Sets the unique ID for this element. The ID can be set only once, when the
 	 * element is first added to the design.
-	 * 
+	 *
 	 * @param newID The id to set.
 	 */
 
@@ -1805,7 +1844,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Returns the unique element ID. The ID will be valid only if element IDs were
 	 * enabled in the MetaDataDictionary.
-	 * 
+	 *
 	 * @return The unique ID. Returns 0 if element IDs are not enabled.
 	 */
 
@@ -1816,7 +1855,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Determines if this element is contained in the given element. Checks up the
 	 * containment hierarchy.
-	 * 
+	 *
 	 * @param element The potential container.
 	 * @return True if this element is contained in the container either directly or
 	 *         indirectly. False if this element is not contained. If the given
@@ -1826,8 +1865,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	public boolean isContentOf(DesignElement element) {
 		DesignElement e = this;
 		while (e != null) {
-			if (e == element)
+			if (e == element) {
 				return true;
+			}
 			e = e.getContainer();
 		}
 		return false;
@@ -1835,7 +1875,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Returns the value of a property as a number (BigDecimal).
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName the name of the property to get
 	 * @return the property as a BigDecimal, or null if the value is not set or
@@ -1844,8 +1884,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	public BigDecimal getNumberProperty(Module module, String propName) {
 		ElementPropertyDefn prop = getPropertyDefn(propName);
-		if (prop == null)
+		if (prop == null) {
 			return null;
+		}
 
 		Object value = getProperty(module, prop);
 		return prop.getNumberValue(module, value);
@@ -1856,7 +1897,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * visitMumble( ) method in the visitor. The visitor allows an algorithm to be
 	 * implemented in a single visitor class, rather than all across the element
 	 * inheritance hierarchy.
-	 * 
+	 *
 	 * @param visitor The visitor to apply.
 	 */
 
@@ -1864,7 +1905,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Gets a property converted to a string value.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName The name of the property to get.
 	 * @return The property value as a string.
@@ -1872,8 +1913,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	public String getStringProperty(Module module, String propName) {
 		ElementPropertyDefn prop = getPropertyDefn(propName);
-		if (prop == null)
+		if (prop == null) {
 			return null;
+		}
 
 		Object value = getProperty(module, prop);
 		return prop.getStringValue(module, value);
@@ -1884,7 +1926,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * numbers in the form according to the current locale. Converts choices and
 	 * colors to their localized display names. Returns the localized display name
 	 * for an element reference, etc.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName the property name
 	 * @return the localized display value of the property
@@ -1892,8 +1934,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	public String getDisplayProperty(Module module, String propName) {
 		PropertyDefn prop = getPropertyDefn(propName);
-		if (prop == null)
+		if (prop == null) {
 			return null;
+		}
 		return getDisplayProperty(module, prop);
 	}
 
@@ -1902,7 +1945,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * numbers in the form according to the current locale. Converts choices and
 	 * colors to their localized display names. Returns the localized display name
 	 * for an element reference, etc.
-	 * 
+	 *
 	 * @param module the module
 	 * @param prop   the property definition
 	 * @return the localized display value of the property
@@ -1910,15 +1953,16 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	public String getDisplayProperty(Module module, PropertyDefn prop) {
 		Object value = getProperty(module, prop);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 		return prop.getDisplayValue(module, value);
 	}
 
 	/**
 	 * Sets an unresolved extends name. The resolved relationships is not cached; it
 	 * must be resolved later.
-	 * 
+	 *
 	 * @param name the name of the new parent element, or null if this element does
 	 *             not extend any other element
 	 */
@@ -1926,8 +1970,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	public void setExtendsName(String name) {
 		setExtendsElement(null);
 		name = StringUtil.trimString(name);
-		if (name == null)
+		if (name == null) {
 			return;
+		}
 
 		String namespace = StringUtil.extractNamespace(name);
 		name = StringUtil.extractName(name);
@@ -1937,7 +1982,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Validates this element and its contents.
-	 * 
+	 *
 	 * @param module the module
 	 * @return the list of the errors found in validation, each of which is the
 	 *         <code>SemanticException</code> object.
@@ -1951,10 +1996,10 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		ValidationExecutor executor = module.getValidationExecutor();
 		errors = executor.perform(this, validatorList);
 
-		List<SemanticException> list = new ArrayList<SemanticException>(errors);
+		List<SemanticException> list = new ArrayList<>(errors);
 
 		Iterator<ISlotDefn> slotIter = ((ElementDefn) cachedDefn).slotsIterator();
-		;
+
 		while (slotIter.hasNext()) {
 			ISlotDefn slotDefn = slotIter.next();
 			int slotId = slotDefn.getSlotID();
@@ -1972,8 +2017,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 			IElementPropertyDefn tmpContentProp = contentProps.get(i);
 			Object tmpElements = getLocalProperty(module, (ElementPropertyDefn) tmpContentProp);
 
-			if (tmpElements == null)
+			if (tmpElements == null) {
 				continue;
+			}
 
 			if (tmpElements instanceof DesignElement) {
 				list.addAll(((DesignElement) tmpElements).validateWithContents(module));
@@ -1992,14 +2038,14 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Validates only this element without its contents, and return error list. The
 	 * derived class should override this method to define specific validation
 	 * rules.
-	 * 
+	 *
 	 * @param module the module
 	 * @return the list of the errors found in validation, each of which is the
 	 *         <code>SemanticException</code> object.
 	 */
 
 	public List<SemanticException> validate(Module module) {
-		errors = new ArrayList<SemanticException>();
+		errors = new ArrayList<>();
 
 		// Check whether this element is unsupported element.
 
@@ -2024,7 +2070,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Checks all structures in the specific property whose type is structure list
 	 * property type. This method is used for element semantic check. The error is
 	 * kept in the report design's error list.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName the name of the structure list type
 	 * @return the list of the errors found in validation, each of which is the
@@ -2037,15 +2083,16 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Gets the element selector list.
-	 * 
+	 *
 	 * @return the selector list of the element.
 	 */
 	public List<String> getElementSelectors() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 
 		String selector = ((ElementDefn) cachedDefn).getSelector();
-		if (selector != null)
+		if (selector != null) {
 			list.add(selector);
+		}
 
 		return list;
 	}
@@ -2054,7 +2101,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Checks all structures in the specific property whose type is structure list
 	 * property type. This method is used in command. If any error is found, the
 	 * exception will be thrown.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propDefn the property definition of the list property
 	 * @param list     the structure list to check
@@ -2075,7 +2122,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Checks the parent element.
-	 * 
+	 *
 	 * @param parent the parent element
 	 * @throws ExtendsException throws <code>ExtendsException</code> if the parent
 	 *                          element is
@@ -2105,7 +2152,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Gets the value of a property as an integer.
-	 * 
+	 *
 	 * @param propName the name of the property to get
 	 * @param module   the module
 	 * @return the property value as an integer. Returns 0 if the property is not
@@ -2114,8 +2161,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	public int getIntProperty(Module module, String propName) {
 		ElementPropertyDefn prop = getPropertyDefn(propName);
-		if (prop == null)
+		if (prop == null) {
 			return 0;
+		}
 
 		Object value = getProperty(module, prop);
 		return prop.getIntValue(module, value);
@@ -2123,7 +2171,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Gets the value of a property as a float (double).
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName the name of the property to get
 	 * @return the property value as a double. Returns 0 if the property is not
@@ -2132,8 +2180,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	public double getFloatProperty(Module module, String propName) {
 		ElementPropertyDefn prop = getPropertyDefn(propName);
-		if (prop == null)
+		if (prop == null) {
 			return 0;
+		}
 
 		Object value = getProperty(module, prop);
 		return prop.getFloatValue(module, value);
@@ -2141,7 +2190,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Gets the value of a property as a boolean.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName the name of the property to get
 	 * @return the property value as a boolean. Returns false if the property is not
@@ -2150,8 +2199,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	public boolean getBooleanProperty(Module module, String propName) {
 		ElementPropertyDefn prop = getPropertyDefn(propName);
-		if (prop == null)
+		if (prop == null) {
 			return false;
+		}
 
 		Object value = getProperty(module, prop);
 		return prop.getBooleanValue(module, value);
@@ -2159,7 +2209,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Gets the value of a property as a list.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName the name of the property to get
 	 * @return the value as an <code>ArrayList</code>, or null if the property is
@@ -2168,10 +2218,12 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	public List<Object> getListProperty(Module module, String propName) {
 		Object value = getProperty(module, propName);
-		if (value == null)
+		if (value == null) {
 			return null;
-		if (value instanceof ArrayList)
+		}
+		if (value instanceof ArrayList) {
 			return (ArrayList<Object>) value;
+		}
 		return null;
 	}
 
@@ -2180,22 +2232,23 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * properties defined for this element, all user-defined properties defined on
 	 * this element or its ancestors, and any style properties that this element
 	 * supports.
-	 * 
+	 *
 	 * @return a list of property definitions
 	 */
 
 	public List<IElementPropertyDefn> getPropertyDefns() {
 		List<IElementPropertyDefn> list = cachedDefn.getProperties();
 		List<UserPropertyDefn> userProps = getUserProperties();
-		if (userProps != null)
+		if (userProps != null) {
 			list.addAll(userProps);
+		}
 		return list;
 	}
 
 	/**
 	 * Returns the internal name of the element. This name matches the name of the
 	 * definition for the element.
-	 * 
+	 *
 	 * @return the internal element type name for this element
 	 */
 
@@ -2203,54 +2256,60 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 
+	@Override
 	public boolean equals(Object obj) {
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (obj == this)
+		}
+		if (obj == this) {
 			return true;
-		if (obj instanceof DesignElementHandle)
+		}
+		if (obj instanceof DesignElementHandle) {
 			return ((DesignElementHandle) obj).getElement() == this;
+		}
 		return false;
 	}
 
 	/**
 	 * Returns the slot that contains the given content element.
-	 * 
+	 *
 	 * @param content the element to find
 	 * @return the number of the slot that contains the element, or -1 if this
 	 *         element does not contain the content element.
 	 */
 
 	public int findSlotOf(DesignElement content) {
-		if (content == null || content.getContainer() != this)
+		if (content == null || content.getContainer() != this) {
 			return NO_SLOT;
+		}
 		return content.getContainerInfo().getSlotID();
 	}
 
 	/**
 	 * Checks whether the property of current element is editable.
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @return <code>true</code> if the property of current element is editable.
 	 *         Otherwise <code>false</code>.
 	 */
 
 	public boolean canEdit(Module module) {
-		if (isRootIncludedByModule() || (module != null && module.isReadOnly()))
+		if (isRootIncludedByModule() || (module != null && module.isReadOnly())) {
 			return false;
+		}
 		return true;
 	}
 
 	/**
 	 * Determines if this element can be dropped from its container.
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @return <code>true</code> if it can be dropped. Returns <code>false</code>
 	 *         otherwise.
 	 */
@@ -2258,14 +2317,14 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	public boolean canDrop(Module module) {
 		// if the root of element is included by report/library. Do not allow
 		// drop; if module is read-only, forbid drop too
-		if (isRootIncludedByModule() || (module != null && module.isReadOnly()))
-			return false;
+		
 
 		// Can not change the structure of child element or a virtual element(
 		// inside the child ).
 
-		if (isVirtualElement())
+		if (isRootIncludedByModule() || (module != null && module.isReadOnly()) || isVirtualElement()) {
 			return false;
+		}
 
 		// if the element is in the default slot of template parameter
 		// definition, then the drop operation is forbidden
@@ -2282,8 +2341,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		DesignElement element = this;
 		if (element instanceof TemplateParameterDefinition) {
 			List<BackRef> clients = ((TemplateParameterDefinition) element).getClientList();
-			if (clients.size() != 0)
+			if (clients.size() != 0) {
 				return false;
+			}
 		}
 
 		return true;
@@ -2291,7 +2351,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Checks whether the root of the current element is included by report/library.
-	 * 
+	 *
 	 * @return <code>true</code> if the root of the current element is included by
 	 *         report/library. Otherwise <code>false</code>.
 	 */
@@ -2304,7 +2364,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Checks whether the <code>content</code> can be inserted to the slot
 	 * <code>slotId</code> in another element <code>container</code>.
-	 * 
+	 *
 	 * @param module        the module
 	 * @param containerInfo the container information
 	 * @param content       the target element to be inserted
@@ -2312,13 +2372,13 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 */
 
 	public List<SemanticException> checkContent(Module module, ContainerContext containerInfo, DesignElement content) {
-		return new ArrayList<SemanticException>();
+		return new ArrayList<>();
 	}
 
 	/**
 	 * Checks whether elements with the given element definition can be inserted to
 	 * the slot <code>slotId</code> in another element <code>container</code> .
-	 * 
+	 *
 	 * @param module        the module
 	 * @param containerInfo the container information
 	 * @param defn          the element definition
@@ -2326,12 +2386,12 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 */
 
 	public List<SemanticException> checkContent(Module module, ContainerContext containerInfo, IElementDefn defn) {
-		return new ArrayList<SemanticException>();
+		return new ArrayList<>();
 	}
 
 	/**
 	 * Gets the containerInfo of this element.
-	 * 
+	 *
 	 * @return the container information
 	 */
 	public ContainerContext getContainerInfo() {
@@ -2340,10 +2400,11 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IPropertySet#getObjectDefn()
 	 */
 
+	@Override
 	public IObjectDefn getObjectDefn() {
 		return cachedDefn;
 	}
@@ -2351,7 +2412,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Returns the value of an element reference property as an element. Returns
 	 * null if either the property is unset, or the reference is unresolved.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propName the name of the element reference property to get
 	 * @return the element referenced by the property
@@ -2359,8 +2420,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	public DesignElement getReferenceProperty(Module module, String propName) {
 		ElementRefValue ref = (ElementRefValue) getProperty(module, propName);
-		if (ref == null)
+		if (ref == null) {
 			return null;
+		}
 		return ref.getElement();
 	}
 
@@ -2368,7 +2430,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Returns whether this element has references. That is, whether any other
 	 * elements reference this one using an element reference property. This query
 	 * does not check for "extends" references.
-	 * 
+	 *
 	 * @return whether other elements refer to this one
 	 */
 
@@ -2389,7 +2451,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * of this element or an ancestor element; it is not considered set if it is
 	 * inherited from a shared style.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param module the module
 	 * @param prop   definition of the property
 	 * @return the value of the property according to the rules explained above
@@ -2407,7 +2469,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Delegates {@link #getFactoryProperty(Module, ElementPropertyDefn)}. Derived
 	 * classes can add special handling when {@code forExport} is set.
-	 * 
+	 *
 	 * @param module    the module
 	 * @param prop      definition of the property
 	 * @param forExport indicates whether the property is returned for export
@@ -2430,7 +2492,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * of this element or an ancestor element; it is not considered set if it is
 	 * inherited from a shared style.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param module   module
 	 * @param propName name of the property
 	 * @return the value of the property according to the rules explained above
@@ -2441,22 +2503,24 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 		// If the property is not found, then the value is null.
 
-		if (prop == null)
+		if (prop == null) {
 			return null;
+		}
 
 		return getFactoryProperty(module, prop);
 	}
 
 	/**
 	 * Returns the list of elements that extend this one.
-	 * 
+	 *
 	 * @return the list of elements. The list is always non-null.
 	 */
 
 	public List<DesignElement> getDerived() {
-		if (derived != null)
-			return new ArrayList<DesignElement>(derived);
-		return new ArrayList<DesignElement>();
+		if (derived != null) {
+			return new ArrayList<>(derived);
+		}
+		return new ArrayList<>();
 	}
 
 	/**
@@ -2467,7 +2531,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * <p>
 	 * UI needs this method to show different icon for each element in the user
 	 * interface.
-	 * 
+	 *
 	 * @return true if this element is valid, false otherwise.
 	 */
 
@@ -2477,7 +2541,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Sets whether the element is valid.
-	 * 
+	 *
 	 * @param isValid the valid to set
 	 */
 
@@ -2508,7 +2572,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * need to return additional information. To get this, every child element needs
 	 * to overwrite this method</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param module the module
 	 * @param level  the description level.
 	 * @return the display label of this element.
@@ -2531,12 +2595,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 			displayLabel = getNameForDisplayLabel();
 		}
 
-		if (level == USER_LABEL) {
+		if ((level == USER_LABEL) || !StringUtil.isBlank(displayLabel)) {
 			return displayLabel;
 		}
-
-		if (!StringUtil.isBlank(displayLabel))
-			return displayLabel;
 
 		return getDefnDisplayName(module);
 	}
@@ -2544,9 +2605,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Returns the display name of the element definition. If the element definition
 	 * display name is not defined, uses the element definition name.
-	 * 
+	 *
 	 * @param module the module
-	 * 
+	 *
 	 * @return the display label of the element definition
 	 */
 
@@ -2564,7 +2625,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Returns the name of this element for display label.
-	 * 
+	 *
 	 * @return the name of this element for display label.
 	 */
 
@@ -2577,13 +2638,14 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * elide the text, find the first white-space before the limit, truncate the
 	 * string after that point, and append three dots "...".
 	 * <p>
-	 * 
+	 *
 	 * @param displayLabel the display label to be elided.
 	 * @return the elided display label.
 	 */
 	protected String limitStringLength(String displayLabel) {
-		if (displayLabel == null)
+		if (displayLabel == null) {
 			return null;
+		}
 		if (displayLabel.length() > MAX_DISPLAY_LABEL_LEN) {
 			displayLabel = displayLabel.substring(0, MAX_DISPLAY_LABEL_LEN);
 			int pos = displayLabel.lastIndexOf(" "); //$NON-NLS-1$
@@ -2601,18 +2663,19 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * things, like container references, child list references, listener references
 	 * will not be cloned; that is, the clone is isolated from the design tree until
 	 * it is added into a target design tree.
-	 * 
+	 *
 	 * <p>
 	 * When inserting the cloned element into the design tree, user needs to care
 	 * about the element name confliction; that is, the client needs to call the
 	 * method <code>{@link ReportDesignHandle#rename( DesignElementHandle )}</code>
 	 * to change the element names.
-	 * 
+	 *
 	 * @return Object the cloned design element.
 	 * @throws CloneNotSupportedException if clone is not supported.
-	 * 
+	 *
 	 */
 
+	@Override
 	final public Object clone() throws CloneNotSupportedException {
 		return doClone(CopyForPastePolicy.getInstance());
 	}
@@ -2625,13 +2688,13 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * it is added into a target design tree. As for the extends reference to the
 	 * parent, which is in library, the copy policy will be responsible for the
 	 * specific dealing.
-	 * 
+	 *
 	 * <p>
 	 * When inserting the cloned element into the design tree, user needs to care
 	 * about the element name confliction; that is, the client needs to call the
 	 * method <code>{@link ReportDesignHandle#rename( DesignElementHandle )}</code>
 	 * to change the element names.
-	 * 
+	 *
 	 * @param policy the policy for the clone action, maybe copy or copy for
 	 *               template
 	 * @return Object the cloned design element.
@@ -2645,8 +2708,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 		// do the specific work according the strategy instance
 
-		if (policy != null)
+		if (policy != null) {
 			policy.execute(this, element);
+		}
 
 		// handle property value
 
@@ -2658,18 +2722,21 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 			// if the property is element type, then set-up the container
 			// relationship
 
-			if (!propDefn.isElementType())
+			if (!propDefn.isElementType()) {
 				continue;
+			}
 
 			Object value = propValues.get(propDefn.getName());
-			if (value == null)
+			if (value == null) {
 				continue;
+			}
 
 			// set the cloned value
 
 			Object clonedValue = ModelUtil.copyValue(propDefn, value, policy);
-			if (clonedValue == null)
+			if (clonedValue == null) {
 				continue;
+			}
 			element.propValues.put(key, clonedValue);
 
 			if (propDefn.isList()) {
@@ -2705,31 +2772,34 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	protected final void initSlots() {
 		int slotCount = cachedDefn.getSlotCount();
 
-		if (slotCount == 0)
+		if (slotCount == 0) {
 			return;
+		}
 
 		Iterator<ISlotDefn> iter1 = ((ElementDefn) cachedDefn).slotsIterator();
 
 		slots = new ContainerSlot[slotCount];
 		for (int i = 0; i < slotCount; i++) {
 			SlotDefn slot = (SlotDefn) iter1.next();
-			if (slot.isMultipleCardinality())
+			if (slot.isMultipleCardinality()) {
 				slots[i] = new MultiElementSlot();
-			else
+			} else {
 				slots[i] = new SingleElementSlot();
+			}
 		}
 	}
 
 	/**
 	 * Returns the validation error list, each of which is the instance of
 	 * <code>SemanticExcpetion</code>.
-	 * 
+	 *
 	 * @return the validation error list.
 	 */
 
 	public List<SemanticException> getErrors() {
-		if (errors == null)
-			return new ArrayList<SemanticException>();
+		if (errors == null) {
+			return new ArrayList<>();
+		}
 
 		return errors;
 	}
@@ -2753,13 +2823,13 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * </ul>
 	 * <p>
 	 * Note: the localized name is used for element type and slot name.
-	 * 
+	 *
 	 * @return the identifier of this element
 	 */
 
 	public String getIdentifier() {
 		if (getFullName() != null) {
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			sb.append(cachedDefn.getDisplayName());
 			sb.append("(\""); //$NON-NLS-1$
 			sb.append(getFullName());
@@ -2768,17 +2838,19 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 			return sb.toString();
 		}
 
-		if (this instanceof ReportDesign)
+		if (this instanceof ReportDesign) {
 			return "report"; //$NON-NLS-1$
-		else if (this instanceof Library)
+		} else if (this instanceof Library) {
 			return "library"; //$NON-NLS-1$
+		}
 
-		if (getContainer() == null)
+		if (getContainer() == null) {
 			return cachedDefn.getName();
+		}
 
 		IContainerDefn containerDefn = getContainerInfo().getContainerDefn();
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append(getContainer().getIdentifier());
 		sb.append("."); //$NON-NLS-1$
 		sb.append(containerDefn.getDisplayName());
@@ -2793,7 +2865,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Sets the element with the id reference.
 	 * <p>
 	 * Part of: Inheritance system.
-	 * 
+	 *
 	 * @param baseId The id reference element.
 	 */
 
@@ -2824,7 +2896,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Determines whether this element is managed by namespace. If this element is a
 	 * pending node or the container is not managed by the namespace, return false.
 	 * Otherwise true.
-	 * 
+	 *
 	 * @return true if this element is managed by namespace, otherwise false
 	 */
 
@@ -2835,8 +2907,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		}
 
 		ContainerContext infor = getContainerInfo();
-		if (infor == null)
+		if (infor == null) {
 			return false;
+		}
 
 		return getContainerInfo().isManagedByNameSpace();
 	}
@@ -2845,9 +2918,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Determines if the current element can be transformed to a template element.
 	 * False will be returned if the element can not be dropped or the container of
 	 * the current element can not contain the template element.
-	 * 
+	 *
 	 * @param module the root module of the element
-	 * 
+	 *
 	 * @return true if it can be transformed, otherwise false.
 	 */
 
@@ -2855,8 +2928,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		// if this kind of element does not support template or this element can
 		// not be dropped, return false;
 
-		if (!ModelUtil.isTemplateSupported(this) || (!canDrop(module)))
+		if (!ModelUtil.isTemplateSupported(this) || (!canDrop(module))) {
 			return false;
+		}
 
 		// check the containment for the template elements
 
@@ -2877,7 +2951,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Checks whether this element is based on a template parameter definition or
 	 * not.
-	 * 
+	 *
 	 * @param module the root module
 	 * @return true if this element is based on a template parameter definition,
 	 *         otherwise false
@@ -2891,7 +2965,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * Checks all value items in the specific property whose type is list property
 	 * type. This method is used in command. If any error is found, the exception
 	 * will be thrown.
-	 * 
+	 *
 	 * @param module   the module
 	 * @param propDefn the property definition of the list property
 	 * @param list     the value list to check
@@ -2912,7 +2986,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * The common logic for both clone and cloneForTemplate.
-	 * 
+	 *
 	 * @return the clone element with reference to parent in library
 	 * @throws CloneNotSupportedException
 	 */
@@ -2926,22 +3000,23 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		element.listeners = null;
 		element.derived = null;
 		element.handle = null;
-		element.propValues = new HashMap<String, Object>();
+		element.propValues = new HashMap<>();
 
 		// handle encryption map
 		if (encryptionMap != null && !encryptionMap.isEmpty()) {
-			element.encryptionMap = new HashMap<String, String>();
+			element.encryptionMap = new HashMap<>();
 			element.encryptionMap.putAll(encryptionMap);
 		}
 
 		// handle extends relationship
-		if (extendsRef != null)
+		if (extendsRef != null) {
 			element.extendsRef = (ElementRefValue) this.extendsRef.copy();
+		}
 
 		// handle user property definitions
 		Iterator<String> iter = null;
 		if (!isVirtualElement() && userProperties != null) {
-			element.userProperties = new LinkedHashMap<String, UserPropertyDefn>(ModelUtil.MAP_CAPACITY_LOW);
+			element.userProperties = new LinkedHashMap<>(ModelUtil.MAP_CAPACITY_LOW);
 
 			iter = userProperties.keySet().iterator();
 			while (iter.hasNext()) {
@@ -2957,19 +3032,20 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 			String key = iter.next();
 			ElementPropertyDefn propDefn = getPropertyDefn(key);
 			Object value = propValues.get(key);
-			if (value == null)
-				continue;
+			
 
 			// if the property is element type, then set-up the container
 			// relationship
 
-			if (propDefn.isElementType())
+			if ((value == null) || propDefn.isElementType()) {
 				continue;
+			}
 
 			// set the cloned value
 			Object clonedValue = ModelUtil.copyValue(propDefn, value);
-			if (clonedValue == null)
+			if (clonedValue == null) {
 				continue;
+			}
 			element.propValues.put(key, clonedValue);
 
 			// if the property is structure type, then set-up the container
@@ -2988,7 +3064,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * that the relationship is valid.
 	 * <p>
 	 * Part of: The containment system.
-	 * 
+	 *
 	 * @param obj  the container to set
 	 * @param slot the slot within the container where this element resides
 	 */
@@ -3002,7 +3078,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	 * that the relationship is valid.
 	 * <p>
 	 * Part of: The containment system.
-	 * 
+	 *
 	 * @param obj      the container to set
 	 * @param propName the property within the container where this element resides
 	 */
@@ -3013,7 +3089,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Adds a content to this element.
-	 * 
+	 *
 	 * @param content the content to add
 	 * @param slotID  the slot id to add
 	 */
@@ -3024,7 +3100,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Adds a content to this element.
-	 * 
+	 *
 	 * @param content the content to add
 	 * @param slotID  the slot id to add
 	 * @param posn
@@ -3036,7 +3112,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Removes a content from the given slot.
-	 * 
+	 *
 	 * @param content the content to remove
 	 * @param slotID  the slot id in which content resides
 	 */
@@ -3046,7 +3122,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	}
 
 	/**
-	 * 
+	 *
 	 * @param module
 	 * @param content
 	 * @param propName
@@ -3056,10 +3132,12 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		if (defn != null) {
 			if (defn.isList()) {
 				List<DesignElement> values = (List<DesignElement>) getLocalProperty(module, propName);
-				if (values == null)
-					values = new ArrayList<DesignElement>();
-				if (!values.contains(content))
+				if (values == null) {
+					values = new ArrayList<>();
+				}
+				if (!values.contains(content)) {
 					values.add(content);
+				}
 				setProperty(propName, values);
 				content.setContainer(this, propName);
 			} else {
@@ -3071,7 +3149,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Adds a content to this element.
-	 * 
+	 *
 	 * @param module
 	 * @param content
 	 * @param propName
@@ -3082,10 +3160,12 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		if (defn != null) {
 			if (defn.isList()) {
 				List<DesignElement> values = (List<DesignElement>) getLocalProperty(module, propName);
-				if (values == null)
-					values = new ArrayList<DesignElement>();
-				if (!values.contains(content))
+				if (values == null) {
+					values = new ArrayList<>();
+				}
+				if (!values.contains(content)) {
 					values.add(posn, content);
+				}
 				setProperty(propName, values);
 				content.setContainer(this, propName);
 			} else {
@@ -3098,7 +3178,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Removes a content from the given property value.
-	 * 
+	 *
 	 * @param module   the module of the content
 	 * @param content  the content to remove
 	 * @param propName the property name where the content resides
@@ -3125,7 +3205,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Resolves a list of element reference.
-	 * 
+	 *
 	 * @param module the module information needed for the check, and records any
 	 *               errors
 	 * @param prop   the property whose type is element reference
@@ -3139,8 +3219,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		assert value == null || value instanceof List;
 		assert prop.getTypeCode() == IPropertyType.LIST_TYPE && prop.getSubTypeCode() == IPropertyType.ELEMENT_REF_TYPE;
 
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		List<ElementRefValue> valueList = (List<ElementRefValue>) value;
 		for (int i = 0; i < valueList.size(); i++) {
@@ -3154,7 +3235,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Resolves a property element reference. The reference is the value of a
 	 * property of type property element reference.
-	 * 
+	 *
 	 * @param module  the module information needed for the check, and records any
 	 *                errors
 	 * @param element design element
@@ -3169,10 +3250,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 		assert value == null || value instanceof ElementRefValue;
 		assert prop.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE;
 
-		if (!(value instanceof ElementRefValue))
+		if (!(value instanceof ElementRefValue) || (module == null)) {
 			return null;
-		if (module == null)
-			return null;
+		}
 
 		return ReferenceValueUtil.resolveElementReference(module, this, prop, (ElementRefValue) value);
 	}
@@ -3180,7 +3260,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Resolves a property structure reference. The reference is the value of a
 	 * property of type property structure reference.
-	 * 
+	 *
 	 * @param module the module information needed for the check, and records any
 	 *               errors
 	 * @param prop   the property whose type is structure reference
@@ -3191,19 +3271,18 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	public StructRefValue resolveStructReference(Module module, ElementPropertyDefn prop) {
 		Object value = propValues.get(prop.getName());
 
-		if (!(value instanceof StructRefValue))
+		if (!(value instanceof StructRefValue) || (module == null)) {
 			return null;
-		if (module == null)
-			return null;
+		}
 
 		return ReferenceValueUtil.resolveStructReference(module, this, prop, (StructRefValue) value);
 	}
 
 	/**
 	 * Gets the position where this element resides in its container.
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @return the index where this element resides in its container, otherwise -1
 	 *         if this element has no container
 	 */
@@ -3214,7 +3293,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Gets the local-set encryption id for the specialized property.
-	 * 
+	 *
 	 * @param propDefn
 	 * @return the local encryption id for the given property definition
 	 */
@@ -3228,18 +3307,20 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Gets the effective encryption id for the given property.
-	 * 
+	 *
 	 * @param propDefn
 	 * @return the effective encryption id
 	 */
 	public String getEncryptionID(ElementPropertyDefn propDefn) {
-		if (propDefn == null || !propDefn.isEncryptable())
+		if (propDefn == null || !propDefn.isEncryptable()) {
 			return null;
+		}
 		DesignElement e = this;
 		while (e != null) {
 			String encryption = e.getLocalEncryptionID(propDefn);
-			if (encryption != null)
+			if (encryption != null) {
 				return encryption;
+			}
 			e = e.getExtendsElement() == null ? e.getVirtualParent() : e.getExtendsElement();
 		}
 		return MetaDataDictionary.getInstance().getDefaultEncryptionHelperID();
@@ -3248,55 +3329,61 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Justifies whether this element has set local value for the specialized
 	 * property.
-	 * 
+	 *
 	 * @param propDefn
 	 * @return true if the element sets the local value, otherwise false
 	 */
 	protected boolean hasLocalValue(ElementPropertyDefn propDefn) {
-		if (propDefn == null)
+		if (propDefn == null) {
 			return false;
-		if (propDefn.isIntrinsic())
+		}
+		if (propDefn.isIntrinsic()) {
 			return getIntrinsicProperty(propDefn.getName()) != null;
+		}
 		return propValues.get(propDefn.getName()) != null;
 	}
 
 	/**
 	 * Sets the encryption id for the given property.
-	 * 
+	 *
 	 * @param propName
 	 * @param encryptionID
 	 */
 	public final void setEncryptionHelper(String propName, String encryptionID) {
 		ElementPropertyDefn prop = getPropertyDefn(propName);
-		if (prop == null || !prop.isEncryptable())
+		if (prop == null || !prop.isEncryptable()) {
 			return;
+		}
 		setEncryptionHelper(prop, encryptionID);
 	}
 
 	/**
 	 * Sets the encryption id for the given property.
-	 * 
+	 *
 	 * @param propDefn
 	 * @param encryptionID
 	 */
 	public void setEncryptionHelper(ElementPropertyDefn propDefn, String encryptionID) {
-		if (propDefn == null || !propDefn.isEncryptable())
+		if (propDefn == null || !propDefn.isEncryptable()) {
 			return;
+		}
 		String id = StringUtil.trimString(encryptionID);
 
-		if (encryptionMap == null)
-			encryptionMap = new HashMap<String, String>();
-		if (id == null)
+		if (encryptionMap == null) {
+			encryptionMap = new HashMap<>();
+		}
+		if (id == null) {
 			encryptionMap.remove(propDefn.getName());
-		else
+		} else {
 			encryptionMap.put(propDefn.getName(), id);
+		}
 
 	}
 
 	/**
 	 * Checks whether the given element is contained by one of template parameter
 	 * definition.
-	 * 
+	 *
 	 * @return <code>true</code> if the element is in the template parameter
 	 *         definition. Otherwise, <code>false</code>.
 	 */
@@ -3306,9 +3393,9 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Checks whether the given element is contained by the given slot.
-	 * 
+	 *
 	 * @param slotID the id of the slot
-	 * 
+	 *
 	 * @return <code>true</code> if the element is in the given slot . Otherwise,
 	 *         <code>false</code>.
 	 */
@@ -3324,15 +3411,16 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 		int slot = containerInfo == null ? IDesignElementModel.NO_SLOT : containerInfo.getSlotID();
 
-		if (slotID == slot)
+		if (slotID == slot) {
 			return true;
+		}
 
 		return false;
 	}
 
 	/**
 	 * Gets the property search strategy for this element.
-	 * 
+	 *
 	 * @return the property search strategy
 	 */
 	public PropertySearchStrategy getPropertySearchStrategy() {
@@ -3341,7 +3429,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Returns the slot index in the slots array. The slot ID may be discrete.
-	 * 
+	 *
 	 * @param slotID the slot id
 	 * @return the index based on 0
 	 */
@@ -3353,7 +3441,7 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 	/**
 	 * Returns the property definitions for this element that can hold other
 	 * elements. Each one in the list is instance of <code>IPropertyDefn</code>.
-	 * 
+	 *
 	 * @return the list of the property definition that can hold other elements
 	 */
 
@@ -3363,16 +3451,14 @@ public abstract class DesignElement implements IDesignElement, IPropertySet, IDe
 
 	/**
 	 * Determines if this element acts as a container.
-	 * 
+	 *
 	 * @return True if this element is a container, false otherwise.
 	 */
 
 	public final boolean isContainer() {
-		if (cachedDefn.isContainer())
+		if (cachedDefn.isContainer() || !getContents().isEmpty()) {
 			return true;
-
-		if (!getContents().isEmpty())
-			return true;
+		}
 
 		return false;
 	}

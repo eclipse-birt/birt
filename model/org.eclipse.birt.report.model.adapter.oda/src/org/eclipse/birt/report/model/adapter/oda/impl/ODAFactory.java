@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,12 +29,13 @@ class ODAFactory implements IODAFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.adapter.oda.api.IODAFactory#getUpdatedDataType
 	 * (java.lang.String, java.lang.String, int, java.lang.String, java.lang.String)
 	 */
 
+	@Override
 	public String getUpdatedDataType(String dataSourceId, String dataSetId, int nativeCode, String romDataType,
 			String choiceName) throws BirtException {
 		DataSetType setType = null;
@@ -42,29 +43,34 @@ class ODAFactory implements IODAFactory {
 		try {
 			ExtensionManifest manifest = ManifestExplorer.getInstance().getExtensionManifest(dataSourceId);
 
-			if (manifest == null)
+			if (manifest == null) {
 				return null;
+			}
 
 			setType = manifest.getDataSetType(dataSetId);
 		} catch (OdaException e) {
 			// if there is exception, do nothing.
 		}
 
-		if (setType == null)
+		if (setType == null) {
 			return null;
+		}
 
 		DataTypeMapping typeMapping = setType.getDataTypeMapping(nativeCode);
-		if (typeMapping == null)
+		if (typeMapping == null) {
 			return null;
+		}
 
 		int odaDataTypeCode = typeMapping.getOdaScalarDataTypeCode();
-		if (isCompatible(choiceName, romDataType, odaDataTypeCode))
+		if (isCompatible(choiceName, romDataType, odaDataTypeCode)) {
 			return romDataType;
+		}
 
 		int[] odaDataTypeCodes = typeMapping.getAlternativeOdaDataTypeCodes();
 		for (int i = 0; i < odaDataTypeCodes.length; i++) {
-			if (isCompatible(choiceName, romDataType, odaDataTypeCodes[i]))
+			if (isCompatible(choiceName, romDataType, odaDataTypeCodes[i])) {
 				return romDataType;
+			}
 		}
 
 		int apiDataType = DataTypeUtil.toApiDataType(odaDataTypeCode);
@@ -130,7 +136,7 @@ class ODAFactory implements IODAFactory {
 
 	/**
 	 * Converts DTE api data type to ROM defined data type.
-	 * 
+	 *
 	 * @param choiceName  the ROM choice to map
 	 * @param apiDataType the DTE api data type
 	 * @return the ROM defined data type.
@@ -148,7 +154,7 @@ class ODAFactory implements IODAFactory {
 
 	/**
 	 * Checks whether the oda data type is compaible with rom data type.
-	 * 
+	 *
 	 * @param romDataType     the rom data type in string
 	 * @param odaDataTypeCode the oda data type in integer
 	 * @return <code>true</code> if they are compatible. Otherwise,
@@ -159,8 +165,9 @@ class ODAFactory implements IODAFactory {
 	private static boolean isCompatible(String choiceName, String romDataType, int odaDataTypeCode)
 			throws BirtException {
 		int apiDataType = DataTypeUtil.toApiDataType(odaDataTypeCode);
-		if (DataType.UNKNOWN_TYPE == apiDataType)
+		if (DataType.UNKNOWN_TYPE == apiDataType) {
 			return true;
+		}
 
 		String convertedType = null;
 		if (DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE.equalsIgnoreCase(choiceName)) {
@@ -169,8 +176,9 @@ class ODAFactory implements IODAFactory {
 			convertedType = convertApiTypeToROMParameterType(apiDataType);
 		}
 
-		if (convertedType != null && convertedType.equalsIgnoreCase(romDataType))
+		if (convertedType != null && convertedType.equalsIgnoreCase(romDataType)) {
 			return true;
+		}
 
 		return false;
 	}

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -46,7 +46,7 @@ public class Regression_116756 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 	public void test_regression_116756() throws SemanticException {
 		SessionHandle sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);

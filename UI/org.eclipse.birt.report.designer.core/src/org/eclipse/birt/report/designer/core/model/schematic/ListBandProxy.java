@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 /**
  * List band proxy node. For list band doesn't have corrensponding model
  * element, this proxy provides GUI virtual model.
- * 
+ *
  */
 public class ListBandProxy {
 
@@ -59,7 +59,7 @@ public class ListBandProxy {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param handle
 	 */
 	public ListBandProxy(SlotHandle handle) {
@@ -74,7 +74,7 @@ public class ListBandProxy {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param handle Slot handle
 	 * @param name   Given name
 	 */
@@ -98,7 +98,7 @@ public class ListBandProxy {
 
 	/**
 	 * Get slot handle which is corresponding model of list band
-	 * 
+	 *
 	 * @return slot handle which is corresponding model of list band
 	 */
 	public ElementDetailHandle getSlotHandle() {
@@ -107,9 +107,10 @@ public class ListBandProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -123,7 +124,7 @@ public class ListBandProxy {
 	/**
 	 * Gets the Children iterator. This children relationship is determined by GUI
 	 * requirement. This is not the model children relationship.
-	 * 
+	 *
 	 * @return Children iterator
 	 */
 	public List getChildren() {
@@ -143,7 +144,7 @@ public class ListBandProxy {
 
 	/**
 	 * Get display
-	 * 
+	 *
 	 * @return Display name
 	 */
 	public String getDisplayName() {
@@ -162,7 +163,7 @@ public class ListBandProxy {
 
 	/**
 	 * Get the parent of slot handle
-	 * 
+	 *
 	 * @return the parent of slot handle
 	 */
 	public DesignElementHandle getElemtHandle() {
@@ -178,7 +179,7 @@ public class ListBandProxy {
 
 	/**
 	 * Sets diaplay name
-	 * 
+	 *
 	 * @param displayName
 	 */
 	public void setDisplayName(String displayName) {
@@ -187,9 +188,10 @@ public class ListBandProxy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		return handle.hashCode();
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -43,27 +43,37 @@ public class FontStylePropertyDescriptorProvider extends PropertyDescriptorProvi
 		}
 	}
 
+	@Override
 	public String getTooltipText() {
-		if (toggleValue.equals("bold")) //$NON-NLS-1$
+		if (toggleValue.equals("bold")) { // $NON-NLS-1$
 			return (Messages.getString("TogglePropertyDescriptor.toolTipText.Bold")); //$NON-NLS-1$
-		if (toggleValue.equals("italic")) //$NON-NLS-1$
+		}
+		if (toggleValue.equals("italic")) { // $NON-NLS-1$
 			return (Messages.getString("TogglePropertyDescriptor.toolTipText.Italic")); //$NON-NLS-1$
-		if (toggleValue.equals("underline")) //$NON-NLS-1$
+		}
+		if (toggleValue.equals("underline")) { // $NON-NLS-1$
 			return (Messages.getString("TogglePropertyDescriptor.toolTipText.Underline")); //$NON-NLS-1$
-		if (toggleValue.equals("line-through")) //$NON-NLS-1$
+		}
+		if (toggleValue.equals("line-through")) { // $NON-NLS-1$
 			return (Messages.getString("TogglePropertyDescriptor.toolTipText.Text_Line_Through")); //$NON-NLS-1$
-		if (toggleValue.equals("bold")) //$NON-NLS-1$
+		}
+		if (toggleValue.equals("bold")) { // $NON-NLS-1$
 			return (Messages.getString("TogglePropertyDescriptor.toolTipText.Bold")); //$NON-NLS-1$
-		if (toggleValue.equals("italic")) //$NON-NLS-1$
+		}
+		if (toggleValue.equals("italic")) { // $NON-NLS-1$
 			return (Messages.getString("TogglePropertyDescriptor.toolTipText.Italic")); //$NON-NLS-1$
-		if (toggleValue.equals("underline")) //$NON-NLS-1$
+		}
+		if (toggleValue.equals("underline")) { // $NON-NLS-1$
 			return (Messages.getString("TogglePropertyDescriptor.toolTipText.Underline")); //$NON-NLS-1$
-		if (toggleValue.equals("line-through")) //$NON-NLS-1$
+		}
+		if (toggleValue.equals("line-through")) { // $NON-NLS-1$
 			return (Messages.getString("TogglePropertyDescriptor.toolTipText.Text_Line_Through")); //$NON-NLS-1$
+		}
 
 		return ""; //$NON-NLS-1$
 	}
 
+	@Override
 	public String getImageName() {
 		return getProperty();
 	}
@@ -72,6 +82,7 @@ public class FontStylePropertyDescriptorProvider extends PropertyDescriptorProvi
 		return toggleValue;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		if (value instanceof Boolean) {
 			value = ((Boolean) value).booleanValue() ? toggleValue : defaltValue;

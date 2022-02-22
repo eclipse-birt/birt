@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,46 +34,46 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 /**
  * The test case of the method <code>getColumnCount</code> in
  * <code>TableItemHandle</code>.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testGetColumnCount()}</td>
  * <td>Gets the maximal column count of tables with dropping headers.</td>
  * <td>Results match with the expected.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testInsertGroup()}</td>
  * <td>Insert a group to a newly created Table.</td>
  * <td>No exception is thrown.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetFilters()}</td>
  * <td>Returns filters defined on the given column.</td>
  * <td>Results match with the expected.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testRowCopyPasteAction()}</td>
  * <td>Copy,paste,insert,shift table row.</td>
  * <td>Results match with the expected.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testTableWidthCalculation()}</td>
  * <td>Calculates multiple tables' width</td>
  * <td>Results match with the expected.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  * @see TableItem
  */
 
@@ -88,13 +88,14 @@ public class TableItemHandleTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Test copy , paste , insert , shift table row.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testRowCopyPasteAction() throws Exception {
@@ -286,7 +287,7 @@ public class TableItemHandleTest extends BaseTestCase {
 	/**
 	 * Test copy a row with a nested table to the table header, exception should be
 	 * reported.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testRowCopyPasteInNestedTable() throws Exception {
@@ -315,9 +316,9 @@ public class TableItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Test parser and properties of table element.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testGetColumnCount() throws Exception {
@@ -449,9 +450,9 @@ public class TableItemHandleTest extends BaseTestCase {
 	/**
 	 * Inserts a new group into the table. This is one smoke test. If no exception
 	 * is thrown, this operation is OK.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testInsertGroup() throws Exception {
@@ -487,7 +488,7 @@ public class TableItemHandleTest extends BaseTestCase {
 	/**
 	 * Returns a newly created the table group with the given header row number,
 	 * footer row number and the column number.
-	 * 
+	 *
 	 * @param headerRowNum header row number
 	 * @param footerRowNum footer row number
 	 * @param columnNum    the column number
@@ -499,25 +500,27 @@ public class TableItemHandleTest extends BaseTestCase {
 		assert headerRowNum > 0 && footerRowNum > 0 && columnNum > 0;
 		TableGroupHandle group = designHandle.getElementFactory().newTableGroup();
 
-		for (int i = 0; i < headerRowNum; i++)
+		for (int i = 0; i < headerRowNum; i++) {
 			group.getHeader().add(designHandle.getElementFactory().newTableRow(columnNum));
+		}
 
-		for (int i = 0; i < footerRowNum; i++)
+		for (int i = 0; i < footerRowNum; i++) {
 			group.getFooter().add(designHandle.getElementFactory().newTableRow(columnNum));
+		}
 
 		return group;
 	}
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * test set page breaks (pageBreakAfter/pageBreakBefore) on row is not allowed
 	 * now.
-	 * 
+	 *
 	 * @throws SemanticException
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testSetPageBreakOnRow() throws SemanticException {
@@ -534,7 +537,7 @@ public class TableItemHandleTest extends BaseTestCase {
 	/**
 	 * Tests to rename a table group with duplicate names. The NameException should
 	 * be thrown.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -569,7 +572,7 @@ public class TableItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to add a detail row into a summary table. The exception is expected
-	 * 
+	 *
 	 * @throws NameException
 	 * @throws ContentException
 	 */
@@ -631,7 +634,7 @@ public class TableItemHandleTest extends BaseTestCase {
 	/**
 	 * Checks the width of the table with given name before and after calculated.
 	 * Expects no change after calculated.
-	 * 
+	 *
 	 * @param tableName the table name
 	 */
 	private void checkWidthCalculation(String tableName) throws SemanticException {
@@ -640,7 +643,7 @@ public class TableItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Checks the width of the table with given name before and after calculated.
-	 * 
+	 *
 	 * @param tableName     the table name
 	 * @param expectedWidth the expected width after calculated.
 	 * @throws SemanticException
@@ -651,7 +654,7 @@ public class TableItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Checks the width of the table with given name before and after calculated.
-	 * 
+	 *
 	 * @param tableName     the table name
 	 * @param expectedWidth the expected width after calculated.
 	 * @param dpi           the dpi value
@@ -673,7 +676,7 @@ public class TableItemHandleTest extends BaseTestCase {
 
 	/**
 	 * Checks the width of the table with given name before and after calculated.
-	 * 
+	 *
 	 * @param tableName     the table name
 	 * @param isChanged     the flag indicates if the table's width is expected to
 	 *                      be changed after calculated.

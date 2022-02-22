@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ public class SimpleStructureListState extends CompatibleListPropertyState {
 
 	/**
 	 * Sets the member name which is the unique member in structure.
-	 * 
+	 *
 	 * @param memberName the member name to set
 	 */
 
@@ -45,11 +45,12 @@ public class SimpleStructureListState extends CompatibleListPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 	 * String)
 	 */
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		// The unique member name should be specified.
 
@@ -72,10 +73,11 @@ public class SimpleStructureListState extends CompatibleListPropertyState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
+		@Override
 		public void end() throws SAXException {
 			struct = createStructure((StructureDefn) propDefn.getStructDefn());
 			assert struct != null;

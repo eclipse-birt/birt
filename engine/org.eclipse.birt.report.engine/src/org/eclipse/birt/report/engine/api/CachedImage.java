@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,7 +16,7 @@ package org.eclipse.birt.report.engine.api;
 
 /**
  * Cached Image Created by the IHTMLImageHandler.
- * 
+ *
  * Before call the IHTMLImageHandler to generate the image, the report engine
  * will first ask the handler if there exits a cache for that image. If the
  * cache finded, the report engine will use that cache directly and won't
@@ -55,7 +55,7 @@ public class CachedImage {
 
 	/**
 	 * create a instance of cached image.
-	 * 
+	 *
 	 * @param id  id of the image.
 	 * @param url url of the image
 	 */
@@ -66,7 +66,7 @@ public class CachedImage {
 
 	/**
 	 * set the id of the cached image.
-	 * 
+	 *
 	 * @param id id of the image.
 	 */
 	public void setID(String id) {
@@ -75,7 +75,7 @@ public class CachedImage {
 
 	/**
 	 * get the id of the image.
-	 * 
+	 *
 	 * @return id of the image.
 	 */
 	public String getID() {
@@ -84,9 +84,9 @@ public class CachedImage {
 
 	/**
 	 * get the URL of the cached image.
-	 * 
+	 *
 	 * The image content can be reterive from that URL.
-	 * 
+	 *
 	 * @return url of the image.
 	 */
 	public String getURL() {
@@ -95,7 +95,7 @@ public class CachedImage {
 
 	/**
 	 * set the image URL.
-	 * 
+	 *
 	 * @param url url which refer to the image
 	 */
 	public void setURL(String url) {
@@ -104,9 +104,9 @@ public class CachedImage {
 
 	/**
 	 * get the image map of the image.
-	 * 
+	 *
 	 * the image map represents in HTML format.
-	 * 
+	 *
 	 * @return the image map of the image.
 	 */
 	public String getImageMap() {
@@ -115,9 +115,9 @@ public class CachedImage {
 
 	/**
 	 * set the image map of the image.
-	 * 
+	 *
 	 * the image map is in HTML format.
-	 * 
+	 *
 	 * @param imageMap image map in HTML format.
 	 */
 	public void setImageMap(String imageMap) {
@@ -126,7 +126,7 @@ public class CachedImage {
 
 	/**
 	 * get the mime type of the image.
-	 * 
+	 *
 	 * @return the mime type.
 	 */
 	public String getMIMEType() {
@@ -135,7 +135,7 @@ public class CachedImage {
 
 	/**
 	 * set the mime type of the image.
-	 * 
+	 *
 	 * @param mimeType the mime type of the image
 	 */
 	public void setMIMEType(String mimeType) {

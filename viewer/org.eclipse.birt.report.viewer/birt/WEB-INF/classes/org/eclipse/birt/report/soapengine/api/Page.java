@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -39,7 +39,7 @@ public class Page implements java.io.Serializable {
 
 	/**
 	 * Gets the pageNumber value for this Page.
-	 * 
+	 *
 	 * @return pageNumber
 	 */
 	public java.lang.String getPageNumber() {
@@ -48,7 +48,7 @@ public class Page implements java.io.Serializable {
 
 	/**
 	 * Sets the pageNumber value for this Page.
-	 * 
+	 *
 	 * @param pageNumber
 	 */
 	public void setPageNumber(java.lang.String pageNumber) {
@@ -57,7 +57,7 @@ public class Page implements java.io.Serializable {
 
 	/**
 	 * Gets the totalPage value for this Page.
-	 * 
+	 *
 	 * @return totalPage
 	 */
 	public java.lang.String getTotalPage() {
@@ -66,7 +66,7 @@ public class Page implements java.io.Serializable {
 
 	/**
 	 * Sets the totalPage value for this Page.
-	 * 
+	 *
 	 * @param totalPage
 	 */
 	public void setTotalPage(java.lang.String totalPage) {
@@ -75,7 +75,7 @@ public class Page implements java.io.Serializable {
 
 	/**
 	 * Gets the completed value for this Page.
-	 * 
+	 *
 	 * @return completed
 	 */
 	public java.lang.Boolean getCompleted() {
@@ -84,7 +84,7 @@ public class Page implements java.io.Serializable {
 
 	/**
 	 * Sets the completed value for this Page.
-	 * 
+	 *
 	 * @param completed
 	 */
 	public void setCompleted(java.lang.Boolean completed) {
@@ -93,7 +93,7 @@ public class Page implements java.io.Serializable {
 
 	/**
 	 * Gets the right-to-left value for this Page.
-	 * 
+	 *
 	 * @return rtl
 	 */
 	public java.lang.Boolean getRtl() {
@@ -102,7 +102,7 @@ public class Page implements java.io.Serializable {
 
 	/**
 	 * Sets the right-to-left value for this Page.
-	 * 
+	 *
 	 * @param rtl rtl
 	 */
 	public void setRtl(java.lang.Boolean rtl) {
@@ -111,14 +111,18 @@ public class Page implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof Page))
+		if (!(obj instanceof Page)) {
 			return false;
+		}
 		Page other = (Page) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -139,6 +143,7 @@ public class Page implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

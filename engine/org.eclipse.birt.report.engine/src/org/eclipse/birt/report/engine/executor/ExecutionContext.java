@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -102,7 +102,7 @@ import com.ibm.icu.util.ULocale;
  * implements the <code>report</code> Javascript object, as well as other
  * objects such as <code>report.params</code>,<code>report.config</code>,
  * <code>report.design</code>, etc.
- * 
+ *
  */
 public class ExecutionContext {
 	/**
@@ -178,7 +178,7 @@ public class ExecutionContext {
 
 	private Map transientBeans = new HashMap();
 
-	private Map<String, PageVariable> pageVariables = new HashMap<String, PageVariable>();
+	private Map<String, PageVariable> pageVariables = new HashMap<>();
 
 	private ReportDocumentWriter docWriter;
 
@@ -272,18 +272,18 @@ public class ExecutionContext {
 	/**
 	 * utilities used in the report execution.
 	 */
-	private HashMap<String, StringFormatter> stringFormatters = new HashMap<String, StringFormatter>();
+	private HashMap<String, StringFormatter> stringFormatters = new HashMap<>();
 
-	private HashMap<String, NumberFormatter> numberFormatters = new HashMap<String, NumberFormatter>();
+	private HashMap<String, NumberFormatter> numberFormatters = new HashMap<>();
 
-	private HashMap<String, DateFormatter> dateFormatters = new HashMap<String, DateFormatter>();
+	private HashMap<String, DateFormatter> dateFormatters = new HashMap<>();
 
 	private ClassLoader applicationClassLoader;
 	private boolean closeClassLoader;
 
 	private int MAX_ERRORS = 100;
 	/**
-	 * 
+	 *
 	 */
 	private DocumentDataSource dataSource;
 
@@ -415,7 +415,7 @@ public class ExecutionContext {
 
 	/**
 	 * get the report engine. In that engine, we create the context.
-	 * 
+	 *
 	 * @return the report engine used to create the context.
 	 */
 	public ReportEngine getEngine() {
@@ -525,7 +525,7 @@ public class ExecutionContext {
 
 	/**
 	 * create a new scope, use the object to create the curren scope.
-	 * 
+	 *
 	 * @param object the "this" object in the new scope
 	 */
 	public void newScope(Object object) {
@@ -548,7 +548,7 @@ public class ExecutionContext {
 
 	/**
 	 * register beans in the execution context
-	 * 
+	 *
 	 * @param map name value pair.
 	 */
 	public void registerBeans(Map map) {
@@ -571,7 +571,7 @@ public class ExecutionContext {
 	/**
 	 * declares a variable in the current scope. The variable is then accessible
 	 * through JavaScript.
-	 * 
+	 *
 	 * @param name  variable name
 	 * @param value variable value
 	 */
@@ -706,19 +706,20 @@ public class ExecutionContext {
 	/**
 	 * evaluate conditional expression. A conditional expression can have an
 	 * operator, one LHS expression, and up to two expressions on RHS, i.e.,
-	 * 
+	 *
 	 * testExpr operator operand1 operand2 or testExpr between 1 20
-	 * 
+	 *
 	 * Now only support comparison between the same data type
-	 * 
+	 *
 	 * @param expr the conditional expression to be evaluated
 	 * @return a boolean value (as an Object)
 	 */
 	public Object evaluateCondExpr(IConditionalExpression expr) throws BirtException {
 		IScriptExpression testExpr = expr.getExpression();
 		ScriptContext scriptContext = getScriptContext();
-		if (testExpr == null)
+		if (testExpr == null) {
 			return Boolean.FALSE;
+		}
 		try {
 			return ScriptEvalUtil.evalExpr(expr, scriptContext, ScriptExpression.defaultID, 0);
 		} catch (Throwable e) {
@@ -728,7 +729,7 @@ public class ExecutionContext {
 
 	/**
 	 * execute the script. Simply evaluate the script, then drop the return value
-	 * 
+	 *
 	 * @param script   script statement
 	 * @param fileName file name
 	 * @param lineNo   line no
@@ -745,8 +746,9 @@ public class ExecutionContext {
 	 * @return Returns the locale.
 	 */
 	public Locale getLocale() {
-		if (rlocale != null)
+		if (rlocale != null) {
 			return rlocale.toLocale();
+		}
 
 		return ulocale.toLocale();
 	}
@@ -883,7 +885,7 @@ public class ExecutionContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.executor.IFactoryContext#getConfigs()
 	 */
 	public Map getConfigs() {
@@ -892,7 +894,7 @@ public class ExecutionContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.executor.IFactoryContext#getReportDesign()
 	 */
@@ -928,7 +930,7 @@ public class ExecutionContext {
 	 * Loads scripts that are stored in an external file. Used to support
 	 * include-script. Each script file should be load only once. and the script in
 	 * the file must be encoded in UTF-8.
-	 * 
+	 *
 	 * @param fileName script file name
 	 */
 	public void loadScript(String language, String fileName) {
@@ -1005,7 +1007,7 @@ public class ExecutionContext {
 
 	/**
 	 * Adds the exception
-	 * 
+	 *
 	 * @param ex the Throwable instance
 	 */
 	public void addException(BirtException ex) {
@@ -1019,13 +1021,13 @@ public class ExecutionContext {
 	/**
 	 * A list of errors in time order, it is also shared by the report content
 	 */
-	private List<EngineException> errors = new ArrayList<EngineException>();
+	private List<EngineException> errors = new ArrayList<>();
 
-	private List<ElementExceptionInfo> contentErrors = new ArrayList<ElementExceptionInfo>();
+	private List<ElementExceptionInfo> contentErrors = new ArrayList<>();
 	/**
 	 * The exception list grouped by the element
 	 */
-	protected HashMap<DesignElementHandle, ElementExceptionInfo> elementExceptions = new HashMap<DesignElementHandle, ElementExceptionInfo>();
+	protected HashMap<DesignElementHandle, ElementExceptionInfo> elementExceptions = new HashMap<>();
 
 	public void clearExceptions() {
 		errors.clear();
@@ -1083,16 +1085,16 @@ public class ExecutionContext {
 
 	/**
 	 * report object is the script object used in the script context.
-	 * 
+	 *
 	 * All infos can get from this object.
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public class ReportObject {
 
 		/**
 		 * get the report design handle
-		 * 
+		 *
 		 * @return report design object.
 		 */
 		public Object getDesign() {
@@ -1101,7 +1103,7 @@ public class ExecutionContext {
 
 		/**
 		 * get the report document.
-		 * 
+		 *
 		 * @return report document.
 		 */
 		public Object getDocument() {
@@ -1252,10 +1254,11 @@ public class ExecutionContext {
 		}
 
 		public String getID() {
-			if (element == null)
+			if (element == null) {
 				return null;
-			else
+			} else {
 				return String.valueOf(element.getID());
+			}
 		}
 
 		public ArrayList getErrorList() {
@@ -1302,7 +1305,7 @@ public class ExecutionContext {
 
 	/**
 	 * set the total page.
-	 * 
+	 *
 	 * @param totalPage total page
 	 */
 	public void setTotalPage(long totalPage) {
@@ -1319,7 +1322,7 @@ public class ExecutionContext {
 
 	/**
 	 * get the current page number
-	 * 
+	 *
 	 * @return current page number
 	 */
 	public long getPageNumber() {
@@ -1328,7 +1331,7 @@ public class ExecutionContext {
 
 	/**
 	 * get the total page have been created.
-	 * 
+	 *
 	 * @return total page
 	 */
 	public long getTotalPage() {
@@ -1359,7 +1362,7 @@ public class ExecutionContext {
 
 	/**
 	 * is in factory mode
-	 * 
+	 *
 	 * @return true, factory mode, false not in factory mode
 	 */
 	public boolean isInFactory() {
@@ -1368,7 +1371,7 @@ public class ExecutionContext {
 
 	/**
 	 * is in presentation mode.
-	 * 
+	 *
 	 * @return true, presentation mode, false otherwise
 	 */
 	public boolean isInPresentation() {
@@ -1377,7 +1380,7 @@ public class ExecutionContext {
 
 	/**
 	 * set the in factory mode
-	 * 
+	 *
 	 * @param mode factory mode
 	 */
 	public void setFactoryMode(boolean mode) {
@@ -1390,7 +1393,7 @@ public class ExecutionContext {
 
 	/**
 	 * set in presentation mode
-	 * 
+	 *
 	 * @param mode presentation mode
 	 */
 	public void setPresentationMode(boolean mode) {
@@ -1400,22 +1403,22 @@ public class ExecutionContext {
 	private ULocale determineLocale(String locale) {
 		ULocale loc = null;
 		if (locale == null) {
-			if (rlocale == null)
+			if (rlocale == null) {
 				loc = ulocale;
-			else
+			} else {
 				loc = rlocale;
+			}
+		} else if (USER_LOCALE.equals(locale)) {
+			loc = ulocale;
 		} else {
-			if (USER_LOCALE.equals(locale))
-				loc = ulocale;
-			else
-				loc = new ULocale(locale);
+			loc = new ULocale(locale);
 		}
 		return loc;
 	}
 
 	/**
 	 * get a string formatter object
-	 * 
+	 *
 	 * @param value string format
 	 * @return formatter object
 	 */
@@ -1436,7 +1439,7 @@ public class ExecutionContext {
 
 	/**
 	 * get a number formatter object
-	 * 
+	 *
 	 * @param pattern number format
 	 * @return formatter object
 	 */
@@ -1457,7 +1460,7 @@ public class ExecutionContext {
 
 	/**
 	 * get a date formatter object
-	 * 
+	 *
 	 * @param value date format
 	 * @return formatter object
 	 */
@@ -1479,7 +1482,7 @@ public class ExecutionContext {
 
 	/**
 	 * set the executor used in the execution context
-	 * 
+	 *
 	 * @param executor
 	 */
 	public void setExecutor(IReportExecutor executor) {
@@ -1488,7 +1491,7 @@ public class ExecutionContext {
 
 	/**
 	 * get the executor used to execute the report
-	 * 
+	 *
 	 * @return report executor
 	 */
 	public IReportExecutor getExecutor() {
@@ -1505,7 +1508,7 @@ public class ExecutionContext {
 
 	/**
 	 * set the report document used in the context
-	 * 
+	 *
 	 * @param doc
 	 */
 	public void setReportDocument(IReportDocument doc) {
@@ -1514,7 +1517,7 @@ public class ExecutionContext {
 
 	/**
 	 * get the report document used in the context.
-	 * 
+	 *
 	 * @return
 	 */
 	public IReportDocument getReportDocument() {
@@ -1546,7 +1549,7 @@ public class ExecutionContext {
 	/**
 	 * return application class loader. The application class loader is used to load
 	 * the report item event handle and java classes called in the javascript.
-	 * 
+	 *
 	 * @return class loader
 	 */
 	public ClassLoader getApplicationClassLoader() {
@@ -1554,6 +1557,7 @@ public class ExecutionContext {
 			closeClassLoader = true;
 			applicationClassLoader = AccessController.doPrivileged(new PrivilegedAction<ApplicationClassLoader>() {
 
+				@Override
 				public ApplicationClassLoader run() {
 					return new ApplicationClassLoader(engine, runnable, appContext);
 				}
@@ -1686,10 +1690,12 @@ public class ExecutionContext {
 			}
 		}
 
+		@Override
 		public ILinkedResult getParent() {
 			return new ResultIteratorTree(currentRset.getParent());
 		}
 
+		@Override
 		public Object getCurrentResult() {
 			if (resultType == ILinkedResult.TYPE_TABLE) {
 				return ((IQueryResultSet) currentRset).getResultIterator();
@@ -1699,6 +1705,7 @@ public class ExecutionContext {
 			return null;
 		}
 
+		@Override
 		public int getCurrentResultType() {
 			return resultType;
 		}
@@ -1711,7 +1718,7 @@ public class ExecutionContext {
 	/**
 	 * Returns list or errors, the max count of the errors is
 	 * <code>MAX_ERRORS</code>
-	 * 
+	 *
 	 * @return error list which has max error size limited to
 	 *         <code>MAX_ERRORS</code>
 	 */
@@ -1725,7 +1732,7 @@ public class ExecutionContext {
 
 	/**
 	 * Returns all errors.
-	 * 
+	 *
 	 * @return list of all the errors.
 	 */
 	public List getAllErrors() {
@@ -1767,7 +1774,7 @@ public class ExecutionContext {
 
 	/**
 	 * Add a page break listener.
-	 * 
+	 *
 	 * @param listener the page break listener.
 	 */
 	public void addPageBreakListener(IPageBreakListener listener) {
@@ -1779,7 +1786,7 @@ public class ExecutionContext {
 
 	/**
 	 * Notify page break listeners that page is broken.
-	 * 
+	 *
 	 * @param isHorizontalPageBreak   indicates if it's horizontal page break
 	 * @param isSizeOverflowPageBreak indicates if the page break is triggered by
 	 *                                content size exceeding page size
@@ -1795,7 +1802,7 @@ public class ExecutionContext {
 
 	/**
 	 * Remove a page break listener.
-	 * 
+	 *
 	 * @param listener the page break listener.
 	 */
 	public void removePageBreakListener(IPageBreakListener listener) {
@@ -1848,8 +1855,9 @@ public class ExecutionContext {
 	}
 
 	protected void setupFromReport() {
-		if (reportIR == null)
+		if (reportIR == null) {
 			return;
+		}
 		String locale = reportIR.getLocale();
 		if (locale != null) {
 			rlocale = new ULocale(locale);
@@ -2004,7 +2012,7 @@ public class ExecutionContext {
 
 	public void setReportletBookmark(long id, String bookmark) {
 		if (reportletBookmarkMap == null) {
-			reportletBookmarkMap = new HashMap<Long, String>();
+			reportletBookmarkMap = new HashMap<>();
 		}
 		this.reportletBookmarkMap.put(id, bookmark);
 	}
@@ -2021,7 +2029,7 @@ public class ExecutionContext {
 		if (reportletBookmarkMap == null) {
 			return false;
 		} else {
-			return reportletBookmarkMap.values().contains(bookmark);
+			return reportletBookmarkMap.containsValue(bookmark);
 		}
 	}
 

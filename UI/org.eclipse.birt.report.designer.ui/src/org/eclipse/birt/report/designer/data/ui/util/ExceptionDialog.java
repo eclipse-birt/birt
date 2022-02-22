@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -34,7 +34,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Exception dialog that displays an exception message in a message box, and
  * prints a stack trace in an expandable text box.
- * 
+ *
  * @author xwu
  */
 public class ExceptionDialog extends IconAndMessageDialog {
@@ -54,10 +54,11 @@ public class ExceptionDialog extends IconAndMessageDialog {
 		this._title = title;
 		this.message = msg;
 		this._exception = ex;
-		if (parentShell != null)
+		if (parentShell != null) {
 			this._display = parentShell.getDisplay();
-		else
+		} else {
 			this._display = PlatformUI.getWorkbench().getDisplay().getActiveShell().getDisplay();
+		}
 
 		setShellStyle(SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
@@ -65,6 +66,7 @@ public class ExceptionDialog extends IconAndMessageDialog {
 	/*
 	 * (non-Javadoc) Method declared in Window.
 	 */
+	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText(_title);
@@ -72,9 +74,10 @@ public class ExceptionDialog extends IconAndMessageDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.IconAndMessageDialog#getImage()
 	 */
+	@Override
 	protected Image getImage() {
 		return _display.getSystemImage(SWT.ICON_ERROR);
 	}
@@ -82,6 +85,7 @@ public class ExceptionDialog extends IconAndMessageDialog {
 	/*
 	 * (non-Javadoc) Method declared on Dialog.
 	 */
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		// create OK and Details buttons
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
@@ -90,6 +94,7 @@ public class ExceptionDialog extends IconAndMessageDialog {
 
 	// If Details button is pressed, toggle the detail area
 	// Otherwise, call the super handler
+	@Override
 	protected void buttonPressed(int id) {
 		if (id == IDialogConstants.DETAILS_ID) {
 			// was the details button pressed?
@@ -122,6 +127,7 @@ public class ExceptionDialog extends IconAndMessageDialog {
 
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 
 		createMessageArea(parent);

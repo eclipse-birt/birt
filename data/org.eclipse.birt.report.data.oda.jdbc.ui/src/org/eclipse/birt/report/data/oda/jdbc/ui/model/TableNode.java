@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,14 +53,17 @@ public class TableNode extends ChildrenAllowedNode implements Comparable<TableNo
 
 	// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations
 	// (if required)
+	@Override
 	public String getDisplayName(String metadataBidiFormatStr) {
 		return BidiTransform.transform(tableName, metadataBidiFormatStr, BidiConstants.DEFAULT_BIDI_FORMAT_STR);
 	}
 
+	@Override
 	public Image getImage() {
 		return isView ? JFaceResources.getImage(VIEW_ICON) : JFaceResources.getImage(TABLE_ICON);
 	}
 
+	@Override
 	public int compareTo(TableNode o) {
 		/**
 		 * In our case, 2 <code>TableNode</code> instances need to be compared
@@ -72,9 +75,10 @@ public class TableNode extends ChildrenAllowedNode implements Comparable<TableNo
 
 	// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations
 	// (if required)
+	@Override
 	public String getQualifiedNameInSQL(boolean useIdentifierQuoteString, boolean includeSchema,
 			String metadataBidiFormatStr) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		String quoteFlag = "";
 		if (useIdentifierQuoteString) {
 			quoteFlag = JdbcMetaDataProvider.getInstance().getIdentifierQuoteString();
@@ -95,7 +99,7 @@ public class TableNode extends ChildrenAllowedNode implements Comparable<TableNo
 
 	@Override
 	protected IDBNode[] refetchChildren(FilterConfig fc) {
-		List<TableColumnNode> columns = new ArrayList<TableColumnNode>();
+		List<TableColumnNode> columns = new ArrayList<>();
 		ResultSet rs = JdbcMetaDataProvider.getInstance().getTableColumns(schemaName, tableName, null);
 		if (rs != null) {
 			try {

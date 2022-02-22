@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,10 +32,9 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.junit.Test;
 
 import testutil.ConfigText;
-
-import org.junit.Test;
 
 public class SummaryIVTest extends RDTestCase {
 	private String[] bindingName;
@@ -55,12 +54,12 @@ public class SummaryIVTest extends RDTestCase {
 	 */
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#tearDown()
 	 */
 	/**
 	 * With filter
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -85,7 +84,7 @@ public class SummaryIVTest extends RDTestCase {
 
 	/**
 	 * With filter test case for 63315
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -111,7 +110,7 @@ public class SummaryIVTest extends RDTestCase {
 
 	/**
 	 * With filter
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -136,7 +135,7 @@ public class SummaryIVTest extends RDTestCase {
 
 	/**
 	 * With filter
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	@Test
@@ -160,7 +159,7 @@ public class SummaryIVTest extends RDTestCase {
 	}
 
 	private void updateBasicIVOnFilter() throws BirtException {
-		IQueryResults qr = null;
+		IQueryResults qr;
 
 		QueryDefinition qd = newSummaryQuery();
 		qd.setQueryResultsID(this.GEN_queryResultID);
@@ -175,11 +174,12 @@ public class SummaryIVTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			String abc = "";
-			for (int i = 0; i < bindingName.length; i++)
-				abc += ri.getValue(this.bindingName[i]) + "  ";
+			StringBuilder abc = new StringBuilder();
+			for (int i = 0; i < bindingName.length; i++) {
+				abc.append(ri.getValue(this.bindingName[i])).append("  ");
+			}
 
-			this.testPrintln(abc);
+			this.testPrintln(abc.toString());
 		}
 		this.testPrintln("\n");
 
@@ -192,7 +192,7 @@ public class SummaryIVTest extends RDTestCase {
 	}
 
 	private void updateBasicIVOnFilter2() throws BirtException {
-		IQueryResults qr = null;
+		IQueryResults qr;
 
 		QueryDefinition qd = newSummaryQuery2();
 		qd.setQueryResultsID(this.GEN_queryResultID);
@@ -207,11 +207,12 @@ public class SummaryIVTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			String abc = "";
-			for (int i = 0; i < bindingName.length; i++)
-				abc += ri.getValue(this.bindingName[i]) + "  ";
+			StringBuilder abc = new StringBuilder();
+			for (int i = 0; i < bindingName.length; i++) {
+				abc.append(ri.getValue(this.bindingName[i])).append("  ");
+			}
 
-			this.testPrintln(abc);
+			this.testPrintln(abc.toString());
 		}
 		this.testPrintln("\n");
 
@@ -224,7 +225,7 @@ public class SummaryIVTest extends RDTestCase {
 	}
 
 	private void updateBasicIVOnAggregation() throws BirtException {
-		IQueryResults qr = null;
+		IQueryResults qr;
 
 		QueryDefinition qd = newSummaryQuery();
 		qd.setQueryResultsID(this.GEN_queryResultID);
@@ -241,13 +242,14 @@ public class SummaryIVTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			String abc = "";
-			for (int i = 0; i < bindingName.length; i++)
-				abc += ri.getValue(this.bindingName[i]) + "  ";
+			StringBuilder abc = new StringBuilder();
+			for (int i = 0; i < bindingName.length; i++) {
+				abc.append(ri.getValue(this.bindingName[i])).append("  ");
+			}
 
-			abc += ri.getValue("SUM_ON_COUNTRY") + "  ";
+			abc.append(ri.getValue("SUM_ON_COUNTRY")).append("  ");
 
-			this.testPrintln(abc);
+			this.testPrintln(abc.toString());
 		}
 		this.testPrintln("\n");
 
@@ -259,7 +261,7 @@ public class SummaryIVTest extends RDTestCase {
 	}
 
 	private void updateBasicIVOnSort() throws BirtException {
-		IQueryResults qr = null;
+		IQueryResults qr;
 
 		QueryDefinition qd = newSummaryQuery();
 		qd.setQueryResultsID(this.GEN_queryResultID);
@@ -274,11 +276,12 @@ public class SummaryIVTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			String abc = "";
-			for (int i = 0; i < bindingName.length; i++)
-				abc += ri.getValue(this.bindingName[i]) + "  ";
+			StringBuilder abc = new StringBuilder();
+			for (int i = 0; i < bindingName.length; i++) {
+				abc.append(ri.getValue(this.bindingName[i])).append("  ");
+			}
 
-			this.testPrintln(abc);
+			this.testPrintln(abc.toString());
 		}
 		this.testPrintln("\n");
 
@@ -290,7 +293,7 @@ public class SummaryIVTest extends RDTestCase {
 	}
 
 	private void preBasicIV() throws BirtException {
-		IQueryResults qr = null;
+		IQueryResults qr;
 
 		// here queryResultID needs to set as the data set
 		QueryDefinition qd;
@@ -309,11 +312,12 @@ public class SummaryIVTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			String abc = "";
-			for (int i = 0; i < bindingName.length; i++)
-				abc += ri.getValue(this.bindingName[i]) + "  ";
+			StringBuilder abc = new StringBuilder();
+			for (int i = 0; i < bindingName.length; i++) {
+				abc.append(ri.getValue(this.bindingName[i])).append("  ");
+			}
 
-			this.testPrintln(abc);
+			this.testPrintln(abc.toString());
 		}
 		this.testPrintln("\n");
 
@@ -343,11 +347,12 @@ public class SummaryIVTest extends RDTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			String abc = "";
-			for (int i = 0; i < bindingName.length; i++)
-				abc += ri.getValue(this.bindingName[i]) + "  ";
+			StringBuilder abc = new StringBuilder();
+			for (int i = 0; i < bindingName.length; i++) {
+				abc.append(ri.getValue(this.bindingName[i])).append("  ");
+			}
 
-			this.testPrintln(abc);
+			this.testPrintln(abc.toString());
 		}
 		this.testPrintln("\n");
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,21 +22,21 @@ public interface IMirroredDefinition {
 
 	/**
 	 * get the mirror start level definition
-	 * 
+	 *
 	 * @return
 	 */
-	public ILevelDefinition getMirrorStartingLevel();
+	ILevelDefinition getMirrorStartingLevel();
 
 	/**
 	 * whether to break the hierarchy when show the empty row, the default value is
 	 * 'false'
-	 * 
+	 *
 	 * @return
 	 */
-	public boolean isBreakHierarchy();
+	boolean isBreakHierarchy();
 
 	/**
 	 * Clone itself.
 	 */
-	public IMirroredDefinition clone();
+	IMirroredDefinition clone();
 }

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008, 2009 IBM Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -25,7 +25,7 @@ import com.ibm.icu.text.Bidi;
 
 /**
  * Bidi engine that performs various types of Bidi reordering and shaping.
- * 
+ *
  * @author Lina Kemmel (bidi_hcg)
  */
 public class BidiEngine extends Bidi {
@@ -50,7 +50,7 @@ public class BidiEngine extends Bidi {
 
 	/**
 	 * Reorders the given string according to the input and output Bidi format.
-	 * 
+	 *
 	 * @param txt       Input String to reorder
 	 * @param inFormat  String representing the input format
 	 * @param outFormat String representing the output format
@@ -100,7 +100,7 @@ public class BidiEngine extends Bidi {
 	 * Populates Bidi reordering schemes list
 	 */
 	private void initReorderingSchemes() {
-		reorderingSchemes = new ArrayList<BidiScheme>();
+		reorderingSchemes = new ArrayList<>();
 
 		/* 0: Visual RTL => Visual LTR */
 		reorderingSchemes.add(new BidiScheme("VL.{3}", "VR.{3}", //$NON-NLS-1$
@@ -144,7 +144,7 @@ public class BidiEngine extends Bidi {
 	 * Populates Bidi shaping schemes list
 	 */
 	private void initShapingSchemes() {
-		shapingSchemes = new ArrayList<BidiScheme>();
+		shapingSchemes = new ArrayList<>();
 
 		shapingSchemes.add(new BidiScheme(".{3}S.", ".{3}NN", //$NON-NLS-1$ //$NON-NLS-2$
 				ArabicShaping.LETTERS_UNSHAPE | ArabicShaping.DIGITS_AN2EN));
@@ -173,7 +173,7 @@ public class BidiEngine extends Bidi {
 
 	/**
 	 * Performs basic Bidi reordering of a text paragraph
-	 * 
+	 *
 	 * @param src         Input String
 	 * @param level       Paragraph embedding level
 	 * @param doMirroring Whether to perform character mirroring or not
@@ -182,15 +182,16 @@ public class BidiEngine extends Bidi {
 	private String reorder(String src, byte level, boolean doMirroring) {
 		setPara(src, level, null);
 
-		if (doMirroring)
+		if (doMirroring) {
 			return writeReordered(DO_MIRRORING);
+		}
 
 		return writeReordered(REORDER_DEFAULT);
 	}
 
 	/**
 	 * Performs basic Bidi reordering of a LTR paragraph (Logical LTR -> Visual LTR)
-	 * 
+	 *
 	 * @param src         Input String
 	 * @param doMirroring Whether to perform character mirroring or not
 	 * @return Reordered String
@@ -201,7 +202,7 @@ public class BidiEngine extends Bidi {
 
 	/**
 	 * Performs basic Bidi reordering of a RTL paragraph (Logical RTL -> Visual LTR)
-	 * 
+	 *
 	 * @param src         Input String
 	 * @param doMirroring Whether to perform character mirroring or not
 	 * @return Reordered String
@@ -212,16 +213,17 @@ public class BidiEngine extends Bidi {
 
 	/**
 	 * Performs string reverse
-	 * 
+	 *
 	 * @param str         String to reverse
 	 * @param doMirroring Whether perform character mirroring or not
 	 * @return Reversed string
 	 */
 	private String reverse(String str, boolean doMirroring) {
-		if (doMirroring)
+		if (doMirroring) {
 			return writeReverse(str, OUTPUT_REVERSE | DO_MIRRORING);
-		else
+		} else {
 			return writeReverse(str, OUTPUT_REVERSE);
+		}
 	}
 
 	/**
@@ -243,7 +245,7 @@ public class BidiEngine extends Bidi {
 
 	/**
 	 * Performs Arabic numeric and literal shaping
-	 * 
+	 *
 	 * @param str     source String to shape
 	 * @param options Shape options
 	 * @return shaped String
@@ -260,18 +262,20 @@ public class BidiEngine extends Bidi {
 
 	/**
 	 * Figures out if the given text requires Bidi processing
-	 * 
+	 *
 	 * @param txt       String to query Bidi processing
 	 * @param inFormat  String representing input Bidi format
 	 * @param outFormat String representing output Bidi format
 	 * @return Boolean indicating whether the string needs Bidi processing
 	 */
 	private boolean isBidi(String txt, String inFormat, String outFormat) {
-		if (txt == null || txt.length() < 1)
+		if (txt == null || txt.length() < 1) {
 			return false;
+		}
 
-		if (!(new Bidi(txt, DIRECTION_RIGHT_TO_LEFT)).isLeftToRight())
+		if (!(new Bidi(txt, DIRECTION_RIGHT_TO_LEFT)).isLeftToRight()) {
 			return true;
+		}
 
 		boolean inIsRTL = BidiConstants.TEXT_DIRECTION_RTL.equals(BidiFormat.getTextDirectionFromStr(inFormat));
 

@@ -87,7 +87,7 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/**
 	 * Constructs a decorated script editor with the specified parent.
-	 * 
+	 *
 	 * @param parent the parent editor.
 	 */
 	public DecoratedScriptEditor(IEditorPart parent) {
@@ -97,7 +97,7 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/**
 	 * Constructs a decorated script editor with the specified parent and the
 	 * specified script.
-	 * 
+	 *
 	 * @param parent the parent editor.
 	 * @param script the script to edit
 	 */
@@ -121,10 +121,11 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.StatusTextEditor#createPartControl(org.eclipse
 	 * .swt.widgets.Composite)
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		if (input != null) {
 			setInput(input);
@@ -143,11 +144,12 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.texteditor.AbstractTextEditor#editorContextMenuAboutToShow
 	 * (org.eclipse.jface.action.IMenuManager)
 	 */
+	@Override
 	protected void editorContextMenuAboutToShow(IMenuManager menu) {
 		menu.add(new Separator(ITextEditorActionConstants.GROUP_UNDO));
 		menu.add(new Separator(ITextEditorActionConstants.GROUP_COPY));
@@ -168,17 +170,18 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.ui.texteditor.AbstractTextEditor#
 	 * isEditorInputIncludedInContextMenu()
 	 */
+	@Override
 	protected boolean isEditorInputIncludedInContextMenu() {
 		return false;
 	}
 
 	/**
 	 * Creates an editor input with the specified script.
-	 * 
+	 *
 	 * @param script the script to edit.
 	 * @return an editor input with the specified script.
 	 */
@@ -188,9 +191,10 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createActions()
 	 */
+	@Override
 	protected void createActions() {
 		super.createActions();
 
@@ -208,9 +212,10 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.jface.action.Action#run()
 			 */
+			@Override
 			public void run() {
 				collapseStyle(ScriptProjectionAnnotation.SCRIPT_COMMENT);
 			}
@@ -221,9 +226,10 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.jface.action.Action#run()
 			 */
+			@Override
 			public void run() {
 				collapseStyle(ScriptProjectionAnnotation.SCRIPT_METHOD);
 			}
@@ -243,26 +249,29 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#setAction(java.lang.String,
 	 * org.eclipse.jface.action.IAction)
 	 */
+	@Override
 	public void setAction(String actionID, IAction action) {
 		super.setAction(actionID, action);
 		if (action != null && action.getId() == null) {
 			action.setId(actionID);
 		}
-		if (action != null)
+		if (action != null) {
 			getActionRegistry().registerAction(action);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor
 	 * #getActionRegistry()
 	 */
+	@Override
 	public ActionRegistry getActionRegistry() {
 		if (actionRegistry == null) {
 			actionRegistry = new ActionRegistry();
@@ -272,22 +281,24 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor
 	 * #getViewer()
 	 */
+	@Override
 	public ISourceViewer getViewer() {
 		return getSourceViewer();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor
 	 * #getScript()
 	 */
+	@Override
 	public String getScript() {
 		IDocumentProvider provider = getDocumentProvider();
 		String script = ""; //$NON-NLS-1$
@@ -304,11 +315,12 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor
 	 * #setScript(java.lang.String)
 	 */
+	@Override
 	public void setScript(String script) {
 		try {
 			IDocumentProvider provider = getDocumentProvider();
@@ -337,18 +349,19 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor
 	 * #getContext()
 	 */
+	@Override
 	public JSSyntaxContext getContext() {
 		return context;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.editor.script.IDebugScriptEditor#
 	 * saveDocument()
 	 */
@@ -364,11 +377,12 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createSourceViewer
 	 * (org.eclipse.swt.widgets.Composite,
 	 * org.eclipse.jface.text.source.IVerticalRuler, int)
 	 */
+	@Override
 	protected ISourceViewer createSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {
 		fAnnotationAccess = getAnnotationAccess();
 		fOverviewRuler = createOverviewRuler(getSharedColors());
@@ -390,10 +404,11 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.ui.texteditor.AbstractDecoratedTextEditor#
 	 * rulerContextMenuAboutToShow(org.eclipse.jface.action.IMenuManager)
 	 */
+	@Override
 	protected void rulerContextMenuAboutToShow(IMenuManager menu) {
 		super.rulerContextMenuAboutToShow(menu);
 
@@ -421,7 +436,7 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/**
 	 * Set the specified action enabled.
-	 * 
+	 *
 	 * @param action the specified action to set enable.
 	 */
 	private void enableAction(IAction action) {
@@ -437,7 +452,7 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/**
 	 * Collapses all item with the specified style.
-	 * 
+	 *
 	 * @param style the style to collapse
 	 */
 	private void collapseStyle(int style) {
@@ -473,7 +488,7 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 
 	/**
 	 * Returns the parent editor.
-	 * 
+	 *
 	 * @return the parent editor.
 	 */
 	protected IEditorPart getParent() {

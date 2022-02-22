@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,9 +42,9 @@ public class APICompatibleTest extends BaseTestCase {
 
 	/**
 	 * Supports the obsolete setValueExpr() method.
-	 * 
+	 *
 	 * @throws IOException
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -71,7 +71,7 @@ public class APICompatibleTest extends BaseTestCase {
 
 	/**
 	 * Supports the misc setting expression methods.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -160,7 +160,7 @@ public class APICompatibleTest extends BaseTestCase {
 
 	/**
 	 * Supports the misc setting expression methods.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -192,7 +192,7 @@ public class APICompatibleTest extends BaseTestCase {
 
 	/**
 	 * Supports the misc setting expression methods.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -223,13 +223,13 @@ public class APICompatibleTest extends BaseTestCase {
 		save();
 
 		saveOutputFile("CompatibleExpression_out_2.xml");
-//		assertTrue( compareFile( "CompatibleExpression_golden_2.xml" ) ); //$NON-NLS-1$		
+//		assertTrue( compareFile( "CompatibleExpression_golden_2.xml" ) ); //$NON-NLS-1$
 		assertTrue(compareDesignModel("CompatibleExpression_golden_2.xml", new String[] { "id" }));
 	}
 
 	/**
 	 * Bugzilla 156977. Result set property is replaced by result hints property.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -255,7 +255,7 @@ public class APICompatibleTest extends BaseTestCase {
 	/**
 	 * Backward TOC expression. Change toc expression to toc structure. since
 	 * 3.2.10. Another backward is to change the expression new syntax.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -279,7 +279,7 @@ public class APICompatibleTest extends BaseTestCase {
 
 	/**
 	 * Backward CachedRowCount method. Since 3.2.11.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -299,7 +299,7 @@ public class APICompatibleTest extends BaseTestCase {
 	/**
 	 * Backward allowNull and allowBlank property. Now it is isRequired property
 	 * since the version 3.2.10.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -329,7 +329,7 @@ public class APICompatibleTest extends BaseTestCase {
 
 	/**
 	 * Backward for aggregate properties on ComputedColumn since the version 3.2.11.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -354,7 +354,7 @@ public class APICompatibleTest extends BaseTestCase {
 	/**
 	 * API compatibility for the include resource of Module since the version
 	 * 3.2.16.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -380,7 +380,7 @@ public class APICompatibleTest extends BaseTestCase {
 	/**
 	 * Test API backward compatibility for StyleRule.value1, FilterCondition.valu1
 	 * and FilterConditionElement.value1.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -422,7 +422,7 @@ public class APICompatibleTest extends BaseTestCase {
 
 	/**
 	 * Backward to avoid class Exception.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -437,7 +437,7 @@ public class APICompatibleTest extends BaseTestCase {
 
 	/**
 	 * Backward for the default value list.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -454,7 +454,7 @@ public class APICompatibleTest extends BaseTestCase {
 	/**
 	 * Backward for the default value of the user property when its type is
 	 * expression.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testUserPropertyDefaultValue() throws Exception {

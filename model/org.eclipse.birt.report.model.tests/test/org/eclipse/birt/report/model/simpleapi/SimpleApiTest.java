@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,10 +49,11 @@ public class SimpleApiTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.BaseTestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 
 		DesignEngine engine = new DesignEngine(null);
@@ -90,18 +91,19 @@ public class SimpleApiTest extends BaseTestCase {
 
 	/**
 	 * gets the url of the resource.
-	 * 
+	 *
 	 * @param name name of the resource
 	 * @return the url of the resource
 	 */
 
+	@Override
 	protected URL getResource(String name) {
 		return this.getClass().getResource(name);
 	}
 
 	/**
 	 * Opens a design file, modifies it and then saves it.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -125,8 +127,9 @@ public class SimpleApiTest extends BaseTestCase {
 	private String getOutputFolder(String outputFile) throws IOException {
 		String folder = getTempFolder() + OUTPUT_FOLDER;
 		File tmpFolder = new File(folder);
-		if (!tmpFolder.exists())
+		if (!tmpFolder.exists()) {
 			tmpFolder.mkdirs();
+		}
 
 		return folder + outputFile;
 	}
@@ -134,7 +137,7 @@ public class SimpleApiTest extends BaseTestCase {
 	/**
 	 * Valid values are set for the structure handle. In such case, exceptions
 	 * should be thrown.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -157,7 +160,7 @@ public class SimpleApiTest extends BaseTestCase {
 	/**
 	 * Test cases for undo/redo on script calls. All calls should not be able to
 	 * undo/redo.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * The <code>ColorSelector</code> is a wrapper for a button that displays a
  * selected <code>Color</code> and allows the user to change the selection.
- * 
+ *
  * Note: this is a patched version from jface ColorSelector since 3.3 to fix
  * bugzilla#139368, once jface has fixed that, we should switch back.
  */
@@ -53,7 +53,7 @@ public class ColorSelector extends EventManager {
 	/**
 	 * Property name that signifies the selected color of this
 	 * <code>ColorSelector</code> has changed.
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public static final String PROP_COLORCHANGE = "colorValue"; //$NON-NLS-1$
@@ -71,7 +71,7 @@ public class ColorSelector extends EventManager {
 	/**
 	 * Create a new instance of the reciever and the button that it wrappers in the
 	 * supplied parent <code>Composite</code>.
-	 * 
+	 *
 	 * @param parent The parent of the button.
 	 */
 	public ColorSelector(Composite parent) {
@@ -85,12 +85,14 @@ public class ColorSelector extends EventManager {
 		fButton.setImage(fImage);
 		fButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				open();
 			}
 		});
 		fButton.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent event) {
 				if (fImage != null) {
 					fImage.dispose();
@@ -106,10 +108,11 @@ public class ColorSelector extends EventManager {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.swt.accessibility.AccessibleAdapter#getName
 			 * (org.eclipse.swt.accessibility.AccessibleEvent)
 			 */
+			@Override
 			public void getName(AccessibleEvent e) {
 				e.result = JFaceResources.getString("ColorSelector.Name"); //$NON-NLS-1$
 			}
@@ -121,7 +124,7 @@ public class ColorSelector extends EventManager {
 	 * are fired when the color in the control changes via the user clicking an
 	 * selecting a new one in the color dialog. No event is fired in the case where
 	 * <code>setColorValue(RGB)</code> is invoked.
-	 * 
+	 *
 	 * @param listener a property change listener
 	 * @since 3.0
 	 */
@@ -131,7 +134,7 @@ public class ColorSelector extends EventManager {
 
 	/**
 	 * Compute the size of the image to be displayed.
-	 * 
+	 *
 	 * @param window - the window used to calculate
 	 * @return <code>Point</code>
 	 */
@@ -147,7 +150,7 @@ public class ColorSelector extends EventManager {
 
 	/**
 	 * Get the button control being wrappered by the selector.
-	 * 
+	 *
 	 * @return <code>Button</code>
 	 */
 	public Button getButton() {
@@ -156,7 +159,7 @@ public class ColorSelector extends EventManager {
 
 	/**
 	 * Return the currently displayed color.
-	 * 
+	 *
 	 * @return <code>RGB</code>
 	 */
 	public RGB getColorValue() {
@@ -166,7 +169,7 @@ public class ColorSelector extends EventManager {
 	/**
 	 * Removes the given listener from this <code>ColorSelector</code>. Has no
 	 * affect if the listener is not registered.
-	 * 
+	 *
 	 * @param listener a property change listener
 	 * @since 3.0
 	 */
@@ -176,7 +179,7 @@ public class ColorSelector extends EventManager {
 
 	/**
 	 * Set the current color value and update the control.
-	 * 
+	 *
 	 * @param rgb The new color.
 	 */
 	public void setColorValue(RGB rgb) {
@@ -186,7 +189,7 @@ public class ColorSelector extends EventManager {
 
 	/**
 	 * Set whether or not the button is enabled.
-	 * 
+	 *
 	 * @param state the enabled state.
 	 */
 	public void setEnabled(boolean state) {
@@ -225,7 +228,7 @@ public class ColorSelector extends EventManager {
 	/**
 	 * Activate the editor for this selector. This causes the color selection dialog
 	 * to appear and wait for user input.
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public void open() {

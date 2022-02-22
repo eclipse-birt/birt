@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,85 +44,93 @@ public class StyleRule implements CSSStyleRule, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSStyleRule#getSelectorText()
 	 */
 
+	@Override
 	public String getSelectorText() {
 		return selectors.toString();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSStyleRule#setSelectorText(java.lang.String)
 	 */
+	@Override
 	public void setSelectorText(String selectorText) throws DOMException {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSStyleRule#getStyle()
 	 */
+	@Override
 	public CSSStyleDeclaration getStyle() {
 		return this.style;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSRule#getType()
 	 */
 
+	@Override
 	public short getType() {
 		return STYLE_RULE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSRule#getCssText()
 	 */
 
+	@Override
 	public String getCssText() {
 		return getSelectorText() + " " + getStyle().toString(); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSRule#setCssText(java.lang.String)
 	 */
 
+	@Override
 	public void setCssText(String cssText) throws DOMException {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSRule#getParentRule()
 	 */
 
+	@Override
 	public CSSRule getParentRule() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.w3c.dom.css.CSSRule#getParentStyleSheet()
 	 */
 
+	@Override
 	public CSSStyleSheet getParentStyleSheet() {
 		return null;
 	}
 
 	/**
 	 * Sets the style declaration of the rule.
-	 * 
+	 *
 	 * @param style the style declaration to set
 	 */
 
@@ -132,17 +140,18 @@ public class StyleRule implements CSSStyleRule, Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 
+	@Override
 	public String toString() {
 		return getCssText();
 	}
 
 	/**
 	 * Gets the selector list of the style rule.
-	 * 
+	 *
 	 * @return the selector list of the style rule
 	 */
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ import org.eclipse.birt.report.model.util.ContentIterator;
 
 /**
  * Records a change to the name of an element.
- * 
+ *
  */
 
 public class NameRecord extends SimpleRecord {
@@ -57,7 +57,7 @@ public class NameRecord extends SimpleRecord {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param obj  the element to change.
 	 * @param name the new name.
 	 */
@@ -73,10 +73,11 @@ public class NameRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
 	 */
 
+	@Override
 	protected void perform(boolean undo) {
 		element.setName(undo ? oldName : newName);
 
@@ -88,10 +89,11 @@ public class NameRecord extends SimpleRecord {
 		if (element instanceof DataSource) {
 			Module root = element.getRoot();
 			if (root != null) {
-				if (undo)
+				if (undo) {
 					root.updateCacheForRename((DataSource) element, newName, oldName);
-				else
+				} else {
 					root.updateCacheForRename((DataSource) element, oldName, newName);
+				}
 			}
 		}
 
@@ -100,10 +102,11 @@ public class NameRecord extends SimpleRecord {
 		if (element instanceof MasterPage) {
 			Module root = element.getRoot();
 			if (root != null) {
-				if (undo)
+				if (undo) {
 					updatePropertyForRename(root, IStyleModel.MASTER_PAGE_PROP, newName, oldName);
-				else
+				} else {
 					updatePropertyForRename(root, IStyleModel.MASTER_PAGE_PROP, oldName, newName);
+				}
 			}
 		}
 	}
@@ -121,36 +124,37 @@ public class NameRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget ()
 	 */
 
+	@Override
 	public DesignElement getTarget() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
+	@Override
 	public NotificationEvent getEvent() {
 		return new NameEvent(element, oldName, newName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
+	@Override
 	protected List<RecordTask> getPostTasks() {
-		List<RecordTask> retValue = new ArrayList<RecordTask>();
-		retValue.addAll(super.getPostTasks());
-
+		List<RecordTask> retValue = new ArrayList<>(super.getPostTasks());
 		NotificationEvent event = new NameEvent(element, oldName, newName);
 
 		// if container is share dimension, then send the content event to all

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,9 +18,9 @@ import org.eclipse.birt.report.engine.EngineCase;
 
 /**
  * register a page hander to see if the page handle is been called.
- * 
+ *
  * This class must be running as plugin unit test.
- * 
+ *
  */
 public class PageHandlerTest extends EngineCase {
 
@@ -28,6 +28,7 @@ public class PageHandlerTest extends EngineCase {
 	static final String REPORT_DESIGN = "page-handler.rptdesign";
 	static final String REPORT_DOCUMENT = "./reportdocument.rptdocument";
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeFile(REPORT_DOCUMENT);
@@ -35,6 +36,7 @@ public class PageHandlerTest extends EngineCase {
 		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		// shut down the engine.
 		removeFile(REPORT_DESIGN);
@@ -53,6 +55,7 @@ public class PageHandlerTest extends EngineCase {
 			this.checkPointStatus = checkPointStatus;
 		}
 
+		@Override
 		public void onPage(int pageNumber, boolean checkpoint, IReportDocumentInfo doc) {
 			assertEquals(pageNumberStatus[callBackCount], pageNumber);
 			assertEquals(checkPointStatus[callBackCount], checkpoint);
@@ -65,8 +68,8 @@ public class PageHandlerTest extends EngineCase {
 	}
 
 	public void testHandlerOfRunTask() {
-		long pageNumberStatus[] = new long[] { 1, 2, 3, 3 };
-		boolean checkPointStatus[] = new boolean[] { true, false, false, true };
+		long pageNumberStatus[] = { 1, 2, 3, 3 };
+		boolean checkPointStatus[] = { true, false, false, true };
 
 		try {
 			// open the report runnable to execute.
@@ -82,7 +85,6 @@ public class PageHandlerTest extends EngineCase {
 			ex.printStackTrace();
 			fail();
 		}
-		;
 	}
 
 	public void testHandlerOfRunAndRenderTask() {
@@ -112,7 +114,6 @@ public class PageHandlerTest extends EngineCase {
 			ex.printStackTrace();
 			fail();
 		}
-		;
 	}
 
 	public void testHandlerOfRenderTask() {
@@ -142,6 +143,5 @@ public class PageHandlerTest extends EngineCase {
 			ex.printStackTrace();
 			fail();
 		}
-		;
 	}
 }

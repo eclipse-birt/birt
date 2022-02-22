@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,7 +33,7 @@ public abstract class PropertyDescriptor implements IPropertyDescriptor {
 	private boolean formStyle = true;
 
 	public IPropertyDescriptor[] getChildren() {
-		IPropertyDescriptor[] children = new IPropertyDescriptor[0];
+		IPropertyDescriptor[] children = {};
 		descriptorContainer.toArray(children);
 		return children;
 	}
@@ -43,6 +43,7 @@ public abstract class PropertyDescriptor implements IPropertyDescriptor {
 	 * this.descriptorProvider = provider; }
 	 */
 
+	@Override
 	public Control getControl() {
 		return control;
 	}
@@ -76,7 +77,7 @@ public abstract class PropertyDescriptor implements IPropertyDescriptor {
 
 	/*
 	 * public String getUnit( ) { String value = getStringValue( );
-	 * 
+	 *
 	 * if ( value == null || value.equals( "" ) ) //$NON-NLS-1$ return value; try {
 	 * DimensionValue dimensionValue = DimensionValue.parse( value ); return
 	 * dimensionValue.getUnits( ); } catch ( PropertyValueException e ) {
@@ -88,6 +89,7 @@ public abstract class PropertyDescriptor implements IPropertyDescriptor {
 	 * if ( value != null ) refresh( value ); }
 	 */
 
+	@Override
 	public void setInput(Object handle) {
 		this.input = handle;
 	}
@@ -118,6 +120,7 @@ public abstract class PropertyDescriptor implements IPropertyDescriptor {
 		return descriptorProvider;
 	}
 
+	@Override
 	public void reset() {
 		if (descriptorProvider != null && descriptorProvider.canReset()) {
 			try {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Tests the parser and all APIs for derived data set.
- * 
+ *
  */
 public class DerivedDataSetParseTest extends BaseTestCase {
 
@@ -32,7 +32,7 @@ public class DerivedDataSetParseTest extends BaseTestCase {
 
 	/**
 	 * Tests properties. Added for TED 14963.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testProperties() throws Exception {
@@ -53,7 +53,7 @@ public class DerivedDataSetParseTest extends BaseTestCase {
 
 	/**
 	 * Tests the parser and get APIs for derived data set.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParser() throws Exception {
@@ -71,7 +71,7 @@ public class DerivedDataSetParseTest extends BaseTestCase {
 	/**
 	 * Tests the writer and write APIs for derived data set. Also test the factory
 	 * method for derived data set.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testWriter() throws Exception {

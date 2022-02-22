@@ -14,7 +14,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test case for SystemPropertyDefn.
- * 
+ *
  */
 public class SystemPropertyDefnTest extends BaseTestCase {
 	private SystemPropertyDefn property = null;
@@ -22,6 +22,7 @@ public class SystemPropertyDefnTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 

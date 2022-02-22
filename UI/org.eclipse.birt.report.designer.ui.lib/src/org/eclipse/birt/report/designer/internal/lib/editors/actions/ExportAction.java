@@ -21,7 +21,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * Exports the designelement handle of the seletion to a other file.
- * 
+ *
  */
 public class ExportAction extends SelectionAction {
 
@@ -46,9 +46,10 @@ public class ExportAction extends SelectionAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
+	@Override
 	protected boolean calculateEnabled() {
 		List list = getSelectedObjects();
 		if (list.isEmpty() && list.size() != 1) {
@@ -63,8 +64,9 @@ public class ExportAction extends SelectionAction {
 
 	/**
 	 * Runs action.
-	 * 
+	 *
 	 */
+	@Override
 	public void run() {
 		// Do nothing
 	}

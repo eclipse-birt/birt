@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,12 +57,12 @@ public class Dial extends BaseRenderer {
 	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.engine.extension/render"); //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 */
 	private DialRenderer dr = null;
 
 	/**
-	 * 
+	 *
 	 */
 	public Dial() {
 		super();
@@ -70,12 +70,13 @@ public class Dial extends BaseRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.render.ISeriesRenderer#compute(org.eclipse.birt.chart.
 	 * model.attribute.Bounds, org.eclipse.birt.chart.model.layout.Plot,
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints)
 	 */
+	@Override
 	public void compute(Bounds bo, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		final SeriesRenderingHints srh = (SeriesRenderingHints) isrh;
 
@@ -100,12 +101,13 @@ public class Dial extends BaseRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.render.ISeriesRenderer#renderSeries(org.eclipse.birt.
 	 * chart.device.IPrimitiveRenderer, org.eclipse.birt.chart.model.layout.Plot,
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints)
 	 */
+	@Override
 	public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		ChartWithoutAxes cwoa = (ChartWithoutAxes) getModel();
 		if (cwoa.getDimension() != ChartDimension.TWO_DIMENSIONAL_LITERAL) {
@@ -299,7 +301,7 @@ public class Dial extends BaseRenderer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.render.ISeriesRenderer#renderLegendGraphic(org.eclipse
 	 * .birt.chart.device.IPrimitiveRenderer,
@@ -307,6 +309,7 @@ public class Dial extends BaseRenderer {
 	 * org.eclipse.birt.chart.model.attribute.Fill,
 	 * org.eclipse.birt.chart.model.attribute.Bounds)
 	 */
+	@Override
 	public void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
 			throws ChartException {
 		if ((bo.getWidth() == 0) && (bo.getHeight() == 0)) {

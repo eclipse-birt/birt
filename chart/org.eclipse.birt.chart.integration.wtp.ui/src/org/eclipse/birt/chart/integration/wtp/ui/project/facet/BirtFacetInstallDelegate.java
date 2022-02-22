@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -33,17 +33,18 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 
 /**
  * Delegate class for invoke "INSTALL" event
- * 
+ *
  */
 public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate implements IDelegate {
 
 	/**
 	 * Invoke "INSTALL" event for project facet
-	 * 
+	 *
 	 * @see org.eclipse.wst.common.project.facet.core.IDelegate#execute(org.eclipse.core.resources.IProject,
 	 *      org.eclipse.wst.common.project.facet.core.IProjectFacetVersion,
 	 *      java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
 	 */
+	@Override
 	public void execute(IProject project, IProjectFacetVersion fv, Object config, IProgressMonitor monitor)
 			throws CoreException {
 		if (monitor != null) {
@@ -61,8 +62,9 @@ public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate implement
 				String dest = BirtWizardUtil.getConfigFolder(dataModel);
 				IFolder folder = BirtWizardUtil.getFolder(project, dest);
 
-				if (folder != null)
+				if (folder != null) {
 					destPath = folder.getFullPath();
+				}
 			}
 
 			if (destPath == null) {

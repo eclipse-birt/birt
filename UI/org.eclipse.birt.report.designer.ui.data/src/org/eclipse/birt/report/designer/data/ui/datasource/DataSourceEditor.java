@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -53,13 +53,14 @@ public class DataSourceEditor extends AbstractPropertyDialog implements IPrefere
 	protected DataSourceDesignSession m_designSession = null;
 	protected OdaDataSourceHandle dataSourceHandle = null;
 
+	@Override
 	protected boolean needRememberLastSize() {
 		return true;
 	}
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public DataSourceEditor(Shell parentShell, DataSourceHandle ds) {
@@ -83,14 +84,16 @@ public class DataSourceEditor extends AbstractPropertyDialog implements IPrefere
 	protected void addPagesToOdaDataSource(String dataSourceType) {
 		if (DesignSessionUtil.hasValidOdaDesignUIExtension(dataSourceType)) {
 			addCustomPageODAV3(dataSourceHandle);
-			if (supportsPropertyBindingPage())
+			if (supportsPropertyBindingPage()) {
 				addPageTo("/", "org.eclipse.birt.datasource.editor.property", //$NON-NLS-1$ //$NON-NLS-2$
 						Messages.getString("datasource.editor.property"), null, new PropertyBindingPage());//$NON-NLS-1$
+			}
 		} else {
 			IConfigurationElement element = DataSetProvider.findDataSourceElement(dataSourceType);
 
-			if (element != null)
+			if (element != null) {
 				addCustomPageODAV2(element);
+			}
 		}
 	}
 
@@ -99,7 +102,7 @@ public class DataSourceEditor extends AbstractPropertyDialog implements IPrefere
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataSourceDesign
 	 */
 	private void addCustomPageODAV3(OdaDataSourceHandle dataSourceHandle) {
@@ -124,15 +127,13 @@ public class DataSourceEditor extends AbstractPropertyDialog implements IPrefere
 			if (!isProfileValid) {
 				setDefaultNode(profilePageNodeId);
 			}
-		} catch (OdaException e) {
-			ExceptionHandler.handle(e);
-		} catch (URISyntaxException e) {
+		} catch (OdaException | URISyntaxException e) {
 			ExceptionHandler.handle(e);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param element
 	 */
 	private void addCustomPageODAV2(IConfigurationElement element) {
@@ -158,13 +159,14 @@ public class DataSourceEditor extends AbstractPropertyDialog implements IPrefere
 	/**
 	 * @throws OdaException
 	 * @throws URISyntaxException
-	 * 
+	 *
 	 */
 	public void updateDesignSession() throws OdaException {
 		// To start a new design session, firstly clean up the older design
 		// session to release the resource.
-		if (this.m_designSession != null)
+		if (this.m_designSession != null) {
 			m_designSession.finish();
+		}
 
 		DesignSessionRequest designSessionRequest;
 		try {
@@ -182,7 +184,7 @@ public class DataSourceEditor extends AbstractPropertyDialog implements IPrefere
 	}
 
 	/**
-	 * 
+	 *
 	 * @param linkedToProfile
 	 * @throws OdaException
 	 */
@@ -223,11 +225,12 @@ public class DataSourceEditor extends AbstractPropertyDialog implements IPrefere
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyDialog
 	 * #performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		if (m_designSession != null) {
 			try {
@@ -244,11 +247,12 @@ public class DataSourceEditor extends AbstractPropertyDialog implements IPrefere
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyDialog
 	 * #performCancel()
 	 */
+	@Override
 	public boolean performCancel() {
 		if (m_designSession != null) {
 			m_designSession.cancel();
@@ -259,10 +263,11 @@ public class DataSourceEditor extends AbstractPropertyDialog implements IPrefere
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#createContents(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		String title = Messages.getFormattedString("datasource.edit", //$NON-NLS-1$
 				new String[] { ((DataSourceHandle) getModel()).getName() });
@@ -276,10 +281,11 @@ public class DataSourceEditor extends AbstractPropertyDialog implements IPrefere
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.IPreferencePageContainer#getPreferenceStore
 	 * ()
 	 */
+	@Override
 	public IPreferenceStore getPreferenceStore() {
 		// TODO Auto-generated method stub
 		return null;
@@ -287,22 +293,25 @@ public class DataSourceEditor extends AbstractPropertyDialog implements IPrefere
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.IPreferencePageContainer#updateButtons()
 	 */
+	@Override
 	public void updateButtons() {
 		if (getOkButton() != null) {
 			PropertyPage propertyPage = getCurrentPropertyPage();
-			if (propertyPage != null)
+			if (propertyPage != null) {
 				getOkButton().setEnabled(propertyPage.isValid());
+			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.IPreferencePageContainer#updateMessage()
 	 */
+	@Override
 	public void updateMessage() {
 		PropertyPage propertyPage = getCurrentPropertyPage();
 		if (propertyPage != null) {
@@ -323,35 +332,40 @@ public class DataSourceEditor extends AbstractPropertyDialog implements IPrefere
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private PropertyPage getCurrentPropertyPage() {
-		if (getCurrentNode() == null)
+		if (getCurrentNode() == null) {
 			return null;
+		}
 		IPropertyPage currentPage = getCurrentNode().getPage();
-		if (!(currentPage instanceof PropertyPageWrapper))
+		if (!(currentPage instanceof PropertyPageWrapper)) {
 			return null;
+		}
 
 		return ((PropertyPageWrapper) currentPage).getPropertyPage();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.IPreferencePageContainer#updateTitle()
 	 */
+	@Override
 	public void updateTitle() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	protected Control createButtonBar(Composite parent) {
 		Control container = super.createButtonBar(parent);
 		updateButtons();
 		return container;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.DATA_SOURCE_EDITOR_ID);
 		return super.createDialogArea(parent);

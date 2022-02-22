@@ -4,16 +4,16 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
- * 
+ *
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: IBM Corporation - initial API and implementation
  *               Actuate Corporation - Change to fit BIRT requirement
  ******************************************************************************/
@@ -52,7 +52,7 @@ final public class FigureCellEditorLocator implements CellEditorLocator {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param figure
 	 */
 	public FigureCellEditorLocator(IFigure figure) {
@@ -61,11 +61,12 @@ final public class FigureCellEditorLocator implements CellEditorLocator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.tools.CellEditorLocator#relocate(org.eclipse.jface.viewers.
 	 * CellEditor)
 	 */
+	@Override
 	public void relocate(CellEditor celleditor) {
 		Text text = (Text) celleditor.getControl();
 

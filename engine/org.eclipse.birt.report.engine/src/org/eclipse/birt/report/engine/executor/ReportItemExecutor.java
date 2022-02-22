@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,7 +67,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
  * report item instance.
  * <p>
  * Reset the state of report item executor by calling <code>reset()</code>
- * 
+ *
  */
 //TODO: can we reuse the content object instead of create different content object for the same report design element?
 public abstract class ReportItemExecutor implements IReportItemExecutor {
@@ -112,7 +112,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	protected TOCEntry tocEntry;
 
 	/**
-	 * 
+	 *
 	 */
 	protected OnCreateScriptVisitor onCreateVisitor;
 
@@ -149,7 +149,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	/**
 	 * construct a report item executor by giving execution context and report
 	 * executor visitor
-	 * 
+	 *
 	 * @param context the executor context
 	 * @param visitor the report executor visitor
 	 */
@@ -171,10 +171,12 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 		this.parentRsets = null;
 	}
 
+	@Override
 	public void setContext(IExecutorContext context) {
 		this.executorContext = context;
 	}
 
+	@Override
 	public void setModelObject(Object handle) {
 		this.handle = handle;
 		if (handle instanceof ReportItemDesign) {
@@ -187,33 +189,39 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 		}
 	}
 
+	@Override
 	public void setParent(IReportItemExecutor parent) {
 		assert parent instanceof ReportItemExecutor;
 		this.parent = (ReportItemExecutor) parent;
 	}
 
+	@Override
 	public IExecutorContext getContext() {
 		return manager.getExecutorContext();
 	}
 
+	@Override
 	public Object getModelObject() {
 		return handle;
 	}
 
+	@Override
 	public IReportItemExecutor getParent() {
 		return parent;
 	}
 
 	/**
 	 * does the executor has child executor
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
+	@Override
 	public boolean hasNextChild() throws BirtException {
 		return false;
 	}
 
+	@Override
 	public IReportItemExecutor getNextChild() throws BirtException {
 		return null;
 	}
@@ -221,10 +229,11 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	/**
 	 * reset the state of the report item executor. This operation will reset all
 	 * property of this object
-	 * 
+	 *
 	 * @throws BirtException
-	 * 
+	 *
 	 */
+	@Override
 	public void close() throws BirtException {
 		this.executorContext = null;
 		this.parent = null;
@@ -251,6 +260,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 		return design;
 	}
 
+	@Override
 	public IContent getContent() {
 		return content;
 	}
@@ -302,7 +312,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	/**
 	 * Calculate the bookmark value which is set to <code>ReportItemContent</code>
 	 * if the bookmark is not null
-	 * 
+	 *
 	 * @param item the ReportItemContent object
 	 * @throws BirtException
 	 */
@@ -319,9 +329,8 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 			if (item.getQuery() != null) {
 				if (context.getReportletBookmark(item.getID()) != null) {
 					bookmark = context.getReportletBookmark(item.getID());
-				} else {
-					if (!(item instanceof DataItemDesign))
-						bookmark = this.manager.nextBookmarkID();
+				} else if (!(item instanceof DataItemDesign)) {
+					bookmark = this.manager.nextBookmarkID();
 				}
 			}
 		} else {
@@ -361,7 +370,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	/**
 	 * Calculate the action value which is set to <code>ReportItemContent</code> if
 	 * the action is not null.
-	 * 
+	 *
 	 * @param action      the action design object
 	 * @param itemContent create report item content object
 	 */
@@ -399,14 +408,14 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 				DrillThroughActionDesign drill = action.getDrillThrough();
 				bookmark = evaluateBookmark(drill.getBookmark());
 				boolean isBookmark = drill.getBookmarkType();
-				Map<String, List<Object>> paramsVal = new HashMap<String, List<Object>>();
+				Map<String, List<Object>> paramsVal = new HashMap<>();
 				Map<String, List<Expression>> params = drill.getParameters();
 				if (params != null) {
 					Set<Map.Entry<String, List<Expression>>> entries = params.entrySet();
 					for (Map.Entry<String, List<Expression>> entry : entries) {
 						List<Expression> ExprList = entry.getValue();
 						if (ExprList != null && !ExprList.isEmpty()) {
-							ArrayList<Object> valueList = new ArrayList<Object>();
+							ArrayList<Object> valueList = new ArrayList<>();
 							for (Expression valueExpr : ExprList) {
 								Object paramValue = evaluate(valueExpr);
 								valueList.add(paramValue);
@@ -442,14 +451,14 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 
 	/**
 	 * Sets the visibility property for ReportItem.
-	 * 
+	 *
 	 * @param design  The <code>ReportItemDesign</code> object.
 	 * @param content The <code>ReportItemContent</code> object.
 	 */
 	protected void processVisibility(ReportItemDesign design, IContent content) {
 		VisibilityDesign visibility = design.getVisibility();
 		if (visibility != null) {
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i < visibility.count(); i++) {
 				VisibilityRuleDesign rule = visibility.getRule(i);
 				Expression expr = rule.getExpression();
@@ -484,7 +493,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	protected void processColumnVisibility(ColumnDesign design, Column column) {
 		VisibilityDesign visibility = design.getVisibility();
 		if (visibility != null) {
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i < visibility.count(); i++) {
 				VisibilityRuleDesign rule = visibility.getRule(i);
 				Expression expr = rule.getExpression();
@@ -510,7 +519,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	protected void processUserProperties(ReportElementDesign design, IContent content) {
 		Map<String, Expression> exprs = design.getUserProperties();
 		if (exprs != null) {
-			HashMap<String, Object> values = new HashMap<String, Object>(exprs.size());
+			HashMap<String, Object> values = new HashMap<>(exprs.size());
 			for (Map.Entry<String, Expression> entry : exprs.entrySet()) {
 				String name = entry.getKey();
 				Expression expr = entry.getValue();
@@ -573,7 +582,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 		if (design != null) {
 			return design.getID();
 		}
-		if (handle != null && handle instanceof DesignElementHandle) {
+		if (handle instanceof DesignElementHandle) {
 			return ((DesignElementHandle) handle).getID();
 		}
 		return -1;
@@ -628,7 +637,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	/**
 	 * starts a TOC entry, mostly used for non-leaf TOC entry, which can not be
 	 * closed until its children have been written.
-	 * 
+	 *
 	 * @param content report item content object
 	 */
 	protected void startTOCEntry(IContent content) {
@@ -646,7 +655,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 					if (bookmark == null) {
 						content.setBookmark(tocId);
 					}
-					return;
 				} else {
 					String hiddenFormats = content.getStyle().getVisibleFormat();
 					if (hiddenFormats != null) {
@@ -654,7 +662,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 						tocEntry = tocBuilder.startDummyEntry(parentTOCEntry, hiddenFormats);
 					} else {
 						Object design = content.getGenerateBy();
-						if (design != null && design instanceof ReportItemDesign) {
+						if (design instanceof ReportItemDesign) {
 							Expression expr = ((ReportItemDesign) design).getTOC();
 							if (expr != null) {
 								String bookmark = content.getBookmark();
@@ -677,7 +685,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 	/**
 	 * finishes a TOC entry, mostly used for non-leaf TOC entry, which can not be
 	 * closed until its children have been written.
-	 * 
+	 *
 	 * @param content report item content object
 	 */
 	protected void finishTOCEntry() {
@@ -718,6 +726,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor {
 		return rset;
 	}
 
+	@Override
 	public IBaseResultSet[] getQueryResults() {
 		if (rset != null) {
 			return new IBaseResultSet[] { rset };

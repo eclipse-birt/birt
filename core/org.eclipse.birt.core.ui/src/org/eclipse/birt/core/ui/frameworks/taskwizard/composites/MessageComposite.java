@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -34,49 +34,49 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 /**
- * 
+ *
  */
 public final class MessageComposite extends Composite implements PaintListener, DisposeListener {
 
 	/**
-	 * 
+	 *
 	 */
 	transient Image img = null;
 
 	transient boolean bDisableImage = false;
 
 	/**
-	 * 
+	 *
 	 */
 	private String sTitle;
 
 	/**
-	 * 
+	 *
 	 */
 	private String sDescription;
 
 	/**
-	 * 
+	 *
 	 */
 	private Font foTitle = null;
 
 	/**
-	 * 
+	 *
 	 */
 	private Composite co = null;
 
 	/**
-	 * 
+	 *
 	 */
 	private Label laTitle = null, laDescription = null;
 
 	/**
-	 * 
+	 *
 	 */
 	private ImageCanvas ic = null;
 
 	/**
-	 * 
+	 *
 	 */
 	public MessageComposite(Composite coParent, String sImagePath, String sTitle, String sDescription,
 			boolean bDisableImage) {
@@ -91,11 +91,11 @@ public final class MessageComposite extends Composite implements PaintListener, 
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sTitle
 	 * @param sDescription
 	 */
-	final void update(String sTitle, String sDescription) {
+	void update(String sTitle, String sDescription) {
 		this.sTitle = sTitle;
 		this.sDescription = sDescription;
 		laTitle.setText(sTitle);
@@ -103,9 +103,10 @@ public final class MessageComposite extends Composite implements PaintListener, 
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	public final void setBackground(Color cBG) {
+	@Override
+	public void setBackground(Color cBG) {
 		super.setBackground(cBG);
 		co.setBackground(cBG);
 		laTitle.setBackground(cBG);
@@ -116,9 +117,9 @@ public final class MessageComposite extends Composite implements PaintListener, 
 	}
 
 	/**
-	 * 
+	 *
 	 */
-	private final void setup() {
+	private void setup() {
 		setLayout(new FillLayout());
 
 		co = new Composite(this, SWT.NONE);
@@ -159,11 +160,12 @@ public final class MessageComposite extends Composite implements PaintListener, 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 	 * PaintEvent)
 	 */
+	@Override
 	public void paintControl(PaintEvent pev) {
 		Rectangle rCA = getClientArea();
 		rCA.width--;
@@ -175,11 +177,12 @@ public final class MessageComposite extends Composite implements PaintListener, 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.DisposeListener#widgetDisposed(org.eclipse.swt.events.
 	 * DisposeEvent)
 	 */
+	@Override
 	public void widgetDisposed(DisposeEvent dev) {
 		// Disposed by UIHelper
 		// if (!bDisableImage)
@@ -190,17 +193,17 @@ public final class MessageComposite extends Composite implements PaintListener, 
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private final class ImageCanvas extends Canvas implements PaintListener {
 
 		/**
-		 * 
+		 *
 		 */
 		private final Rectangle rSize;
 
 		/**
-		 * 
+		 *
 		 * @param coParent
 		 */
 		private ImageCanvas(Composite coParent) {
@@ -211,18 +214,15 @@ public final class MessageComposite extends Composite implements PaintListener, 
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 		 * PaintEvent)
 		 */
+		@Override
 		public void paintControl(PaintEvent pev) {
 			GC gc = pev.gc;
 			gc.drawImage(img, 0, 0);
-		}
-
-		public final Rectangle getPreferredBounds() {
-			return rSize;
 		}
 	}
 }

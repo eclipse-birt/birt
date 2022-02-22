@@ -19,10 +19,11 @@ import org.eclipse.ui.texteditor.BasicTextEditorActionContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 /**
- * 
+ *
  */
 
 public class ReportTextEditorActionContributor extends BasicTextEditorActionContributor {
+	@Override
 	public void setActiveEditor(IEditorPart part) {
 		if (part.getAdapter(ITextEditor.class) != null) {
 			super.setActiveEditor((ITextEditor) part.getAdapter(ITextEditor.class));

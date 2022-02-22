@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,66 +27,68 @@ public interface IMethodInfo extends ILocalizableInfo {
 	/**
 	 * Returns the iterator of argument definition. Each one is a list that contains
 	 * <code>IArgumentInfoList</code>.
-	 * 
+	 *
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator<IArgumentInfoList> argumentListIterator();
+	Iterator<IArgumentInfoList> argumentListIterator();
 
 	/**
 	 * Returns the script type for return.
-	 * 
+	 *
 	 * @return the script type for return
 	 */
 
-	public String getReturnType();
+	String getReturnType();
 
 	/**
 	 * Returns the script type for return.
-	 * 
+	 *
 	 * @return the script type for return
 	 */
 
-	public IClassInfo getClassReturnType();
+	IClassInfo getClassReturnType();
 
 	/**
 	 * Returns the resource key for tool tip.
-	 * 
+	 *
 	 * @return the resource key for tool tip
 	 */
 
-	public String getToolTipKey();
+	@Override
+	String getToolTipKey();
 
 	/**
 	 * Returns the display string for the tool tip of this method.
-	 * 
+	 *
 	 * @return the user-visible, localized display name for the tool tip of this
 	 *         method.
 	 */
 
-	public String getToolTip();
+	@Override
+	String getToolTip();
 
 	/**
 	 * Returns whether this method is constructor.
-	 * 
+	 *
 	 * @return true, if this method is constructor
 	 */
 
-	public boolean isConstructor();
+	boolean isConstructor();
 
 	/**
 	 * Returns whether this method is static.
-	 * 
+	 *
 	 * @return true if this method is static
 	 */
 
-	public boolean isStatic();
+	boolean isStatic();
 
 	/**
 	 * Returns the method javadoc.
-	 * 
+	 *
 	 * @return the javadoc
 	 */
 
-	public String getJavaDoc();
+	String getJavaDoc();
 }

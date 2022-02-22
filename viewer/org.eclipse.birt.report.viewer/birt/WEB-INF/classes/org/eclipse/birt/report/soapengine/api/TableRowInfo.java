@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -47,7 +47,7 @@ public class TableRowInfo implements java.io.Serializable {
 
 	/**
 	 * Gets the level value for this TableRowInfo.
-	 * 
+	 *
 	 * @return level The group level of this row. -1 is used to indicated table
 	 *         level rows.
 	 */
@@ -57,7 +57,7 @@ public class TableRowInfo implements java.io.Serializable {
 
 	/**
 	 * Sets the level value for this TableRowInfo.
-	 * 
+	 *
 	 * @param level The group level of this row. -1 is used to indicated table level
 	 *              rows.
 	 */
@@ -67,7 +67,7 @@ public class TableRowInfo implements java.io.Serializable {
 
 	/**
 	 * Gets the index value for this TableRowInfo.
-	 * 
+	 *
 	 * @return index The position of this row in the group header or group footer.
 	 *         Index starts from 0.
 	 */
@@ -77,7 +77,7 @@ public class TableRowInfo implements java.io.Serializable {
 
 	/**
 	 * Sets the index value for this TableRowInfo.
-	 * 
+	 *
 	 * @param index The position of this row in the group header or group footer.
 	 *              Index starts from 0.
 	 */
@@ -87,7 +87,7 @@ public class TableRowInfo implements java.io.Serializable {
 
 	/**
 	 * Gets the isHeader value for this TableRowInfo.
-	 * 
+	 *
 	 * @return isHeader Whether the row is in header or in footer
 	 */
 	public boolean isIsHeader() {
@@ -96,7 +96,7 @@ public class TableRowInfo implements java.io.Serializable {
 
 	/**
 	 * Sets the isHeader value for this TableRowInfo.
-	 * 
+	 *
 	 * @param isHeader Whether the row is in header or in footer
 	 */
 	public void setIsHeader(boolean isHeader) {
@@ -105,14 +105,18 @@ public class TableRowInfo implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof TableRowInfo))
+		if (!(obj instanceof TableRowInfo)) {
 			return false;
+		}
 		TableRowInfo other = (TableRowInfo) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -126,6 +130,7 @@ public class TableRowInfo implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,6 +49,7 @@ public class CategoryPage implements ICategoryPage {
 	/**
 	 * @see org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage#getDisplayLabel()
 	 */
+	@Override
 	public String getDisplayLabel() {
 		return displayLabel;
 	}
@@ -64,6 +65,7 @@ public class CategoryPage implements ICategoryPage {
 	 * @see org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage#createPage(org.eclipse.swt.widgets.Composite,
 	 *      int)
 	 */
+	@Override
 	public TabPage createPage() {
 		try {
 			return (TabPage) pageClass.getConstructor(null).newInstance(null);
@@ -73,6 +75,7 @@ public class CategoryPage implements ICategoryPage {
 		}
 	}
 
+	@Override
 	public String getCategoryKey() {
 		return categoryKey;
 	}

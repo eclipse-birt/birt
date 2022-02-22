@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.core.template;
@@ -45,10 +45,12 @@ public class TemplateParser {
 			this.template = template;
 		}
 
+		@Override
 		public Object visit(SimpleNode node, Object data) {
 			return data;
 		}
 
+		@Override
 		public Object visit(ASTAttribute node, Object data) {
 			if (data instanceof TextTemplate.ImageNode) {
 				TextTemplate.ImageNode image = (TextTemplate.ImageNode) data;
@@ -61,13 +63,14 @@ public class TemplateParser {
 					value.formatExpression = getAttributeValue(node.getValue());
 				}
 			} else if (data instanceof TextTemplate.TextNode) {
-				StringBuffer attribute = new StringBuffer();
+				StringBuilder attribute = new StringBuilder();
 				attribute.append(" " + node.getName() + ":" + node.getValue() + " ");
 				return attribute.toString();
 			}
 			return data;
 		}
 
+		@Override
 		public Object visit(ASTValueOf node, Object data) {
 			TextTemplate.ValueNode value = new TextTemplate.ValueNode();
 			node.childrenAccept(this, value);
@@ -75,6 +78,7 @@ public class TemplateParser {
 			return data;
 		}
 
+		@Override
 		public Object visit(ASTViewTimeValueOf node, Object data) {
 			TextTemplate.ExpressionValueNode value = new TextTemplate.ExpressionValueNode();
 			node.childrenAccept(this, value);
@@ -82,6 +86,7 @@ public class TemplateParser {
 			return data;
 		}
 
+		@Override
 		public Object visit(ASTImage node, Object data) {
 			TextTemplate.ImageNode image = new TextTemplate.ImageNode();
 			node.childrenAccept(this, image);
@@ -89,6 +94,7 @@ public class TemplateParser {
 			return data;
 		}
 
+		@Override
 		public Object visit(ASTText node, Object data) {
 			TextTemplate.TextNode text = new TextTemplate.TextNode();
 			text.content = node.getContent();
@@ -96,10 +102,12 @@ public class TemplateParser {
 			return data;
 		}
 
+		@Override
 		public Object visit(ASTTemplate node, Object data) {
 			return node.childrenAccept(this, data);
 		}
 
+		@Override
 		public Object visit(ASTEbody_content node, Object data) {
 			if (data instanceof TextTemplate.ImageNode) {
 				TextTemplate.ImageNode image = (TextTemplate.ImageNode) data;
@@ -121,7 +129,7 @@ public class TemplateParser {
 				return null;
 			}
 			Object obj;
-			StringBuffer text = new StringBuffer();
+			StringBuilder text = new StringBuilder();
 			for (int n = 0; n < node.children.length; n++) {
 				obj = node.children[n];
 				if (obj instanceof ASTText) {

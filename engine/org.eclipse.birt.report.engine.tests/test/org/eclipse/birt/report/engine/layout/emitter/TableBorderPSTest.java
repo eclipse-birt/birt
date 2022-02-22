@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -19,11 +19,11 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.report.engine.emitter.postscript.PostscriptWriter;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.Border;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.BorderSegment;
+
+import junit.framework.TestCase;
 
 //private class CellArea
 //{
@@ -45,7 +45,7 @@ import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.BorderSegment
 //		borders[BorderInfo.LEFT_BORDER] = new BorderInfo();
 //		defineBorders( 4 );
 //	}
-//	
+//
 //	void defineBorders(int width)
 //	{
 //		borders[BorderInfo.TOP_BORDER].borderWidth = width;
@@ -58,7 +58,7 @@ import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.BorderSegment
 //	{
 //		borders[type].borderWidth = width;
 //	}
-//	
+//
 //	void defineBorder( int type, Color color )
 //	{
 //		borders[type].borderColor = color;
@@ -71,13 +71,13 @@ import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.BorderSegment
 //	public static final int RIGHT_BORDER = 1;
 //	public static final int BOTTOM_BORDER = 2;
 //	public static final int LEFT_BORDER = 3;
-//	
+//
 //	public static final int NONE = -1;
 //	public static final int SOLID = 0;
 //	public static final int DOUBLE = 1;
 //	public static final int DASHED = 2;
 //	public static final int DOTTED = 3;
-//	
+//
 //	public int borderWidth;
 //	public int borderStyle = SOLID;
 //	public Color borderColor = Color.black;
@@ -92,6 +92,7 @@ public class TableBorderPSTest extends TestCase {
 	int pageHeight = 600;
 	int pageWidth = 600;
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 

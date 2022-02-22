@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -84,6 +84,7 @@ public class GroupRenameDialog extends BaseDialog {
 	/*
 	 * (non-Javadoc) Method declared on Dialog.
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		// create composite
 		Composite composite = (Composite) super.createDialogArea(parent);
@@ -103,8 +104,9 @@ public class GroupRenameDialog extends BaseDialog {
 			label.setFont(parent.getFont());
 		}
 		text = new Text(container, SWT.BORDER | SWT.SINGLE);
-		if (dimension.getName() != null)
+		if (dimension.getName() != null) {
 			text.setText(dimension.getName());
+		}
 
 		GridData gd = new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL);
 		gd.horizontalSpan = 2;
@@ -112,6 +114,7 @@ public class GroupRenameDialog extends BaseDialog {
 		text.setLayoutData(gd);
 		text.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				if (text.getText().trim().length() == 0) {
 					getButton(IDialogConstants.OK_ID).setEnabled(false);
@@ -156,8 +159,9 @@ public class GroupRenameDialog extends BaseDialog {
 	protected boolean checkDuplicateName(String name) {
 		try {
 			DimensionHandle handle = SessionHandleAdapter.getInstance().getReportDesignHandle().findDimension(name);
-			if (handle != null && handle != dimension)
+			if (handle != null && handle != dimension) {
 				return true;
+			}
 		} catch (Exception e) {
 			ExceptionHandler.handle(e);
 		}
@@ -181,6 +185,7 @@ public class GroupRenameDialog extends BaseDialog {
 						helper.createContent(parent);
 						helper.addListener(SWT.Modify, new Listener() {
 
+							@Override
 							public void handleEvent(Event event) {
 								helper.update(false);
 							}
@@ -214,6 +219,7 @@ public class GroupRenameDialog extends BaseDialog {
 		}
 	}
 
+	@Override
 	protected void okPressed() {
 		try {
 			dimension.setName(text.getText().trim());

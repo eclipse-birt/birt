@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,10 +49,11 @@ public class IntegerPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
+	@Override
 	public int getTypeCode() {
 		return INTEGER_TYPE;
 	}
@@ -70,49 +71,59 @@ public class IntegerPropertyType extends PropertyType {
 	 * decimal [1-9][0-9]* or hexadecimal format &[hH]xxxx.</li>
 	 * <li>String that must evaluate to an HTML hexidecimal: #xxxxx.</li>.
 	 * <p>
-	 * 
+	 *
 	 * @return object of type Integer or null if value is null..
 	 */
 
+	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
-		if (value == null)
+		if (value == null) {
 			return null;
-		if (value instanceof Integer)
+		}
+		if (value instanceof Integer) {
 			return value;
-		if (value instanceof Float)
+		}
+		if (value instanceof Float) {
 			return Integer.valueOf(((Float) value).intValue());
-		if (value instanceof Double)
+		}
+		if (value instanceof Double) {
 			return Integer.valueOf(((Double) value).intValue());
+		}
 		if (value instanceof String) {
-			if (StringUtil.trimString((String) value) == null)
+			if (StringUtil.trimString((String) value) == null) {
 				return null;
+			}
 
 			return validateInputString(module, element, defn, ((String) value).trim());
 		}
-		if (value instanceof BigDecimal)
+		if (value instanceof BigDecimal) {
 			return Integer.valueOf(((BigDecimal) value).intValue());
-		if (value instanceof Boolean)
+		}
+		if (value instanceof Boolean) {
 			return Integer.valueOf(
 					((Boolean) value).booleanValue() ? BooleanPropertyType.INT_TRUE : BooleanPropertyType.INT_FALSE);
+		}
 
 		throw new PropertyValueException(value, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, INTEGER_TYPE);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateInputString
 	 * (org.eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.String)
 	 */
 
+	@Override
 	public Object validateInputString(Module module, DesignElement element, PropertyDefn defn, String value)
 			throws PropertyValueException {
 		value = StringUtil.trimString(value);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		ULocale locale = module == null ? ThreadResources.getLocale() : module.getLocale();
 		NumberFormat localeFormatter = NumberFormat.getIntegerInstance(locale.toLocale());
@@ -131,48 +142,54 @@ public class IntegerPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyType#validateXml(org.eclipse
 	 * .birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
+	@Override
 	public Object validateXml(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
 		assert value == null || value instanceof String;
 		String tmpValue = (String) value;
 
 		tmpValue = StringUtil.trimString(tmpValue);
-		if (tmpValue == null)
+		if (tmpValue == null) {
 			return null;
+		}
 
 		return parseInteger(tmpValue);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
+	@Override
 	public String getName() {
 		return INTEGER_TYPE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java
 	 * .lang.Object)
 	 */
 
+	@Override
 	public String toString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
-		if (value instanceof String)
+		if (value instanceof String) {
 			return (String) value;
+		}
 
 		return ((Integer) value).toString();
 	}
@@ -181,14 +198,16 @@ public class IntegerPropertyType extends PropertyType {
 	 * Returns the localized string representation of the input integer property
 	 * value. The integer property value is represented by a <code>Integer</code>
 	 * object. The value will be formatted in a locale-dependent way.
-	 * 
+	 *
 	 * @return locale-dependent string representation of the integer property value.
 	 *         Return null if value is null.
 	 */
 
+	@Override
 	public String toDisplayString(Module module, PropertyDefn defn, Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		ULocale locale = module == null ? ThreadResources.getLocale() : module.getLocale();
 		NumberFormat formatter = NumberFormat.getIntegerInstance(locale.toLocale());
@@ -197,14 +216,16 @@ public class IntegerPropertyType extends PropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toInteger(
 	 * java.lang.Object)
 	 */
 
+	@Override
 	public int toInteger(Module module, Object value) {
-		if (value == null)
+		if (value == null) {
 			return 0;
+		}
 
 		if (value instanceof String) {
 			try {
@@ -220,7 +241,7 @@ public class IntegerPropertyType extends PropertyType {
 	/**
 	 * Returns a new <code>Integer</code> initialized to the value represented by
 	 * the specified <code>String</code>.
-	 * 
+	 *
 	 * @param value the string representing an integer
 	 * @return Returns the <code>Integer</code> represented by the string argument
 	 * @throws PropertyValueException if the string can not be parsed to an integer

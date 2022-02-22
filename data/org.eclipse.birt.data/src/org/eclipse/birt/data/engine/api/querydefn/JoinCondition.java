@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ public class JoinCondition implements IJoinCondition {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param left
 	 * @param right
 	 * @param op
@@ -42,36 +42,40 @@ public class JoinCondition implements IJoinCondition {
 	}
 
 	private void validateJoinOperator(int operator) throws DataException {
-		if (!(operator == IJoinCondition.OP_EQ))
+		if (!(operator == IJoinCondition.OP_EQ)) {
 			throw new DataException(ResourceConstants.INVALID_JOIN_OPERATOR);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IJoinConditionExpression#getLeftExpression()
 	 */
+	@Override
 	public IScriptExpression getLeftExpression() {
 		return left;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.api.IJoinConditionExpression#getRightExpression(
 	 * )
 	 */
+	@Override
 	public IScriptExpression getRightExpression() {
 		return right;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IJoinConditionExpression#getOperator()
 	 */
+	@Override
 	public int getOperator() {
 		return operator;
 	}

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -52,7 +52,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * This tag is used to generate html code for report parameter.
- * 
+ *
  */
 public class ParamDefTag extends BodyTagSupport {
 
@@ -135,9 +135,10 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * Initialize pageContext
-	 * 
+	 *
 	 * @see javax.servlet.jsp.tagext.TagSupport#setPageContext(javax.servlet.jsp.PageContext)
 	 */
+	@Override
 	public void setPageContext(PageContext context) {
 		super.setPageContext(context);
 		param = new ParamDefField();
@@ -145,9 +146,10 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * When reach the end tag, fire this operation
-	 * 
+	 *
 	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
 	 */
+	@Override
 	public int doEndTag() throws JspException {
 		try {
 			if (__validate()) {
@@ -169,13 +171,14 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * validate the tag
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
 	protected boolean __validate() throws Exception {
-		if (!param.validate())
+		if (!param.validate()) {
 			return false;
+		}
 
 		// validate parameter id if valid
 		Pattern p = Pattern.compile("^\\w+$"); //$NON-NLS-1$
@@ -196,11 +199,10 @@ public class ParamDefTag extends BodyTagSupport {
 				throw new JspTagException(BirtResources.getMessage(ResourceConstants.TAGLIB_PARAM_NAME_DUPLICATE,
 						new String[] { param.getName() }));
 			}
-		} else {
-			// the form scope
-			if (this.requesterTag.getParameters().get(param.getName()) != null)
-				throw new JspTagException(BirtResources.getMessage(ResourceConstants.TAGLIB_PARAM_NAME_DUPLICATE,
-						new String[] { param.getName() }));
+		} else // the form scope
+		if (this.requesterTag.getParameters().get(param.getName()) != null) {
+			throw new JspTagException(BirtResources.getMessage(ResourceConstants.TAGLIB_PARAM_NAME_DUPLICATE,
+					new String[] { param.getName() }));
 		}
 
 		return true;
@@ -221,12 +223,13 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * process tag function
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void __process() throws Exception {
-		if (viewer == null)
+		if (viewer == null) {
 			return;
+		}
 
 		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 		this.locale = BirtTagUtil.getLocale(request, viewer.getLocale());
@@ -256,21 +259,24 @@ public class ParamDefTag extends BodyTagSupport {
 
 		// find current parameter definition object
 		this.paramDef = BirtUtility.findParameterDefinition(paramDefList, param.getName());
-		if (paramDef == null)
+		if (paramDef == null) {
 			return;
+		}
 
 		// data type
 		String dataType = ParameterDataTypeConverter.convertDataType(paramDef.getDataType());
 
 		// pattern format
 		this.pattern = param.getPattern();
-		if (this.pattern == null)
+		if (this.pattern == null) {
 			this.pattern = paramDef.getPattern();
+		}
 
-		if ("true".equalsIgnoreCase(param.getIsLocale())) //$NON-NLS-1$
+		if ("true".equalsIgnoreCase(param.getIsLocale())) { //$NON-NLS-1$
 			this.isLocale = true;
-		else
+		} else { // $NON-NLS-1$
 			this.isLocale = false;
+		}
 
 		// handle parameter value
 		if (param.getValue() != null) {
@@ -278,10 +284,11 @@ public class ParamDefTag extends BodyTagSupport {
 				// convert parameter value to object
 				Object valueObj = DataUtil.validateWithPattern(param.getName(), dataType, this.pattern,
 						(String) param.getValue(), locale, timeZone, isLocale);
-				if (this.paramDef.isMultiValue())
+				if (this.paramDef.isMultiValue()) {
 					param.setValue(new Object[] { valueObj });
-				else
+				} else {
 					param.setValue(valueObj);
+				}
 			} else if (this.paramDef.isMultiValue() && param.getValue() instanceof String[]) {
 				// handle multi-value parameter
 				String[] sValues = (String[]) param.getValue();
@@ -318,8 +325,9 @@ public class ParamDefTag extends BodyTagSupport {
 			}
 		} else {
 			this.valueString = DataUtil.getDisplayValue(param.getValue(), timeZone);
-			if (this.valueString == null)
+			if (this.valueString == null) {
 				this.valueString = ""; //$NON-NLS-1$
+			}
 		}
 
 		// handle parameter display text
@@ -329,21 +337,24 @@ public class ParamDefTag extends BodyTagSupport {
 			if (obj != null) {
 				if (obj instanceof Object[]) {
 					Object[] objs = (Object[]) obj;
-					if (objs.length > 0)
+					if (objs.length > 0) {
 						obj = objs[0];
-					else
+					} else {
 						obj = null;
+					}
 				}
 
 				this.displayTextString = DataUtil.getDisplayValue(dataType, this.pattern, obj, locale, timeZone);
 			}
 		}
-		if (this.displayTextString == null)
+		if (this.displayTextString == null) {
 			this.displayTextString = ""; //$NON-NLS-1$
+		}
 
 		// handle title
-		if (param.getTitle() == null)
+		if (param.getTitle() == null) {
 			param.setTitle(this.displayTextString);
+		}
 
 		// cache parameter value
 		requesterTag.addParameter(param.getName(), param.getValue());
@@ -374,7 +385,7 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * Handle output hidden type parameter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void __handleHidden() throws Exception {
@@ -408,25 +419,28 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * Handle output general definitions for a control
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void __handleGeneralDefinition() throws Exception {
 		JspWriter writer = pageContext.getOut();
 
-		if (param.getTitle() != null)
+		if (param.getTitle() != null) {
 			writer.write(" title=\"" + param.getTitle() + "\" "); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 
-		if (param.getCssClass() != null)
+		if (param.getCssClass() != null) {
 			writer.write(" class=\"" + param.getCssClass() + "\" "); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 
-		if (param.getStyle() != null)
+		if (param.getStyle() != null) {
 			writer.write(" style=\"" + param.getStyle() + "\" "); //$NON-NLS-1$//$NON-NLS-2$
+		}
 	}
 
 	/**
 	 * Handle output Text Box type parameter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void __handleTextBox() throws Exception {
@@ -539,15 +553,17 @@ public class ParamDefTag extends BodyTagSupport {
 			// Null Value hidden object
 			writer.write("<input type=\"hidden\" value=\"" //$NON-NLS-1$
 					+ encParamName + "\" id=\"" + nullValueId + "\""); //$NON-NLS-1$ //$NON-NLS-2$
-			if (isNullValue)
+			if (isNullValue) {
 				writer.write(" name=\"" //$NON-NLS-1$
 						+ ParameterAccessor.PARAM_ISNULL + "\""); //$NON-NLS-1$
+			}
 			writer.write(" >\n"); //$NON-NLS-1$
 
 			writer.write("<input type=\"radio\" id=\"" + radioTextValueId + "\" "); //$NON-NLS-1$//$NON-NLS-2$
 			writer.write(" onclick=\"switchParam" + encParamId + "( true )\""); //$NON-NLS-1$ //$NON-NLS-2$
-			if (!isNullValue)
+			if (!isNullValue) {
 				writer.write(" checked "); //$NON-NLS-1$
+			}
 			writer.write(" >\n"); //$NON-NLS-1$
 
 			writer.write("<input type=\"" + controlType + "\" "); //$NON-NLS-1$ //$NON-NLS-2$
@@ -555,14 +571,16 @@ public class ParamDefTag extends BodyTagSupport {
 			__handleGeneralDefinition();
 			writer.write(" value=\"" + ParameterAccessor.htmlEncode(this.displayTextString) + "\" "); //$NON-NLS-1$ //$NON-NLS-2$
 			writer.write(" onchange=\"handleParam" + encParamId + "( )\""); //$NON-NLS-1$ //$NON-NLS-2$
-			if (isNullValue)
+			if (isNullValue) {
 				writer.write(" disabled = 'true' "); //$NON-NLS-1$
+			}
 			writer.write(" >\n"); //$NON-NLS-1$
 
 			writer.write("<input type=\"radio\" id=\"" + radioNullValueId + "\" "); //$NON-NLS-1$//$NON-NLS-2$
 			writer.write(" onclick=\"switchParam" + encParamId + "( false )\""); //$NON-NLS-1$ //$NON-NLS-2$
-			if (isNullValue)
+			if (isNullValue) {
 				writer.write(" checked "); //$NON-NLS-1$
+			}
 			writer.write(" >"); //$NON-NLS-1$
 			writer.write("<label id=\"" + (radioNullValueId + "_label") + "\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			writer.write(" title=\"" + IBirtConstants.NULL_VALUE_DISPLAY + "\""); //$NON-NLS-1$ //$NON-NLS-2$
@@ -575,7 +593,7 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * Handle output List Box type parameter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void __handleListBox() throws Exception {
@@ -637,17 +655,18 @@ public class ParamDefTag extends BodyTagSupport {
 			Collection selectionList = BirtReportServiceFactory.getReportService()
 					.getParameterSelectionList(viewer.getReportDesignHandle(), options, param.getName());
 
-			if (this.paramDef.isMultiValue())
+			if (this.paramDef.isMultiValue()) {
 				__handleMultiListBox(selectionList);
-			else
+			} else {
 				__handleCommonListBox(selectionList);
+			}
 		}
 
 	}
 
 	/**
 	 * Create Progress bar div
-	 * 
+	 *
 	 * @param baseURL
 	 * @throws Exception
 	 */
@@ -698,9 +717,9 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * Handle Multi-value List Box type parameter
-	 * 
+	 *
 	 * @param selectionList
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void __handleMultiListBox(Collection selectionList) throws Exception {
@@ -713,63 +732,41 @@ public class ParamDefTag extends BodyTagSupport {
 		String displayTextName = ParameterAccessor.PREFIX_DISPLAY_TEXT + encParamName;
 
 		// function for handling select onchange
-		String content = "function handleParam" + encParamId + "( oCtl )\n" + //$NON-NLS-1$ //$NON-NLS-2$
-				"{\n" + //$NON-NLS-1$
-				"  if( !oCtl ) return;\n" + //$NON-NLS-1$
-				"  var container = document.getElementById(\"" + containerId + "\");\n" + //$NON-NLS-1$ //$NON-NLS-2$
-				" while( container.childNodes.length > 0)\n" + //$NON-NLS-1$
-				"{\n" + //$NON-NLS-1$
-				"  container.removeChild(container.firstChild);\n" + //$NON-NLS-1$
-				"}\n" + //$NON-NLS-1$
-				"\n" + //$NON-NLS-1$
-				"  var options = oCtl.options;\n" + //$NON-NLS-1$
-				"  for( var i = 0; i < options.length; i++ )\n" + //$NON-NLS-1$
-				"  {\n" + //$NON-NLS-1$
-				"    if( !options[i].selected ) continue;\n" + //$NON-NLS-1$
-				"\n" + //$NON-NLS-1$
-				"    var text = options[i].text;\n" + //$NON-NLS-1$
-				"    var value = options[i].value;\n" + //$NON-NLS-1$
-
-				// null value
-				"\n" + //$NON-NLS-1$
-				"  if( value == '" + IBirtConstants.NULL_VALUE + "')\n" + //$NON-NLS-1$ //$NON-NLS-2$
-				"    {\n" + //$NON-NLS-1$
-				"      var oInput = document.createElement( 'input' );\n" + //$NON-NLS-1$
-				"      oInput.type = 'hidden';\n" + //$NON-NLS-1$
-				"      oInput.name = '" + ParameterAccessor.PARAM_ISNULL + "';\n" + //$NON-NLS-1$ //$NON-NLS-2$
-				"      oInput.value = \"" + encParamName + "\";\n" + //$NON-NLS-1$ //$NON-NLS-2$
-				"      container.appendChild( oInput );\n" + //$NON-NLS-1$
-				"    }\n" + //$NON-NLS-1$
-
-				// parameter value
-				"\n" + //$NON-NLS-1$
-				"    var oInput = document.createElement( 'input' );\n" + //$NON-NLS-1$
-				"    oInput.type = 'hidden';\n" + //$NON-NLS-1$
-				"    oInput.name = \"" + encParamName + "\";\n" + //$NON-NLS-1$ //$NON-NLS-2$
-				"    oInput.value = value;\n" + //$NON-NLS-1$
-				"    container.appendChild( oInput );\n" + //$NON-NLS-1$
-
-				// display text
-				"\n" + //$NON-NLS-1$
-				"    var oInput = document.createElement( 'input' );\n" + //$NON-NLS-1$
-				"    oInput.type = 'hidden';\n" + //$NON-NLS-1$
-				"    oInput.name = \"" + displayTextName + "\";\n" + //$NON-NLS-1$ //$NON-NLS-2$
-				"    oInput.value = text;\n" + //$NON-NLS-1$
-				"    container.appendChild( oInput );\n" + //$NON-NLS-1$
-				"  }\n"; //$NON-NLS-1$
+		StringBuilder content = new StringBuilder("function handleParam").append(encParamId).append("( oCtl )\n")
+				.append("{\n").append("  if( !oCtl ) return;\n").append("  var container = document.getElementById(\"")
+				.append(containerId).append("\");\n").append(" while( container.childNodes.length > 0)\n").append("{\n")
+				.append("  container.removeChild(container.firstChild);\n").append("}\n").append("\n")
+				.append("  var options = oCtl.options;\n").append("  for( var i = 0; i < options.length; i++ )\n")
+				.append("  {\n").append("    if( !options[i].selected ) continue;\n").append("\n")
+				.append("    var text = options[i].text;\n").append("    var value = options[i].value;\n").append(// null
+																													// value
+						"\n")
+				.append("  if( value == '").append(IBirtConstants.NULL_VALUE).append("')\n").append("    {\n")
+				.append("      var oInput = document.createElement( 'input' );\n")
+				.append("      oInput.type = 'hidden';\n").append("      oInput.name = '")
+				.append(ParameterAccessor.PARAM_ISNULL).append("';\n").append("      oInput.value = \"")
+				.append(encParamName).append("\";\n").append("      container.appendChild( oInput );\n")
+				.append("    }\n").append(// parameter value
+						"\n")
+				.append("    var oInput = document.createElement( 'input' );\n").append("    oInput.type = 'hidden';\n")
+				.append("    oInput.name = \"").append(encParamName).append("\";\n")
+				.append("    oInput.value = value;\n").append("    container.appendChild( oInput );\n").append(// display
+																												// text
+						"\n")
+				.append("    var oInput = document.createElement( 'input' );\n").append("    oInput.type = 'hidden';\n")
+				.append("    oInput.name = \"").append(displayTextName).append("\";\n")
+				.append("    oInput.value = text;\n").append("    container.appendChild( oInput );\n").append("  }\n"); //$NON-NLS-2$
 
 		// isLocale
 		if (this.isLocale) {
-			content += "\n" + //$NON-NLS-1$
-					"  var oInput = document.createElement( 'input' );\n" + //$NON-NLS-1$
-					"  oInput.type = 'hidden';\n" + //$NON-NLS-1$
-					"  oInput.name = \"" + ParameterAccessor.PARAM_ISLOCALE + "\";\n" + //$NON-NLS-1$ //$NON-NLS-2$
-					"  oInput.value = \"" + encParamName + "\";\n" + //$NON-NLS-1$ //$NON-NLS-2$
-					"  container.appendChild( oInput );\n"; //$NON-NLS-1$
+			content.append("\n").append("  var oInput = document.createElement( 'input' );\n")
+					.append("  oInput.type = 'hidden';\n").append("  oInput.name = \"")
+					.append(ParameterAccessor.PARAM_ISLOCALE).append("\";\n").append("  oInput.value = \"")
+					.append(encParamName).append("\";\n").append("  container.appendChild( oInput );\n"); //$NON-NLS-1$
 		}
 
-		content += "}\n"; //$NON-NLS-1$
-		BirtTagUtil.writeScript(writer, content);
+		content.append("}\n"); //$NON-NLS-1$
+		BirtTagUtil.writeScript(writer, content.toString());
 
 		String onChange = "handleParam" + encParamId + "( this )"; //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -832,8 +829,9 @@ public class ParamDefTag extends BodyTagSupport {
 			// If label is null or blank, then use the format parameter
 			// value for display
 			String label = selectionItem.getLabel();
-			if (label == null || label.length() <= 0)
+			if (label == null || label.length() <= 0) {
 				label = DataUtil.getDisplayValue(null, this.pattern, value, this.locale, this.timeZone);
+			}
 
 			label = label != null ? label : ""; //$NON-NLS-1$
 
@@ -850,9 +848,9 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * Handle Common List/Combo Box type parameter( not cascading parameter )
-	 * 
+	 *
 	 * @param selectionList
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void __handleCommonListBox(Collection selectionList) throws Exception {
@@ -1035,8 +1033,9 @@ public class ParamDefTag extends BodyTagSupport {
 			// If label is null or blank, then use the format parameter
 			// value for display
 			String label = selectionItem.getLabel();
-			if (label == null || label.length() <= 0)
+			if (label == null || label.length() <= 0) {
 				label = DataUtil.getDisplayValue(null, this.pattern, value, this.locale, this.timeZone);
+			}
 
 			if (value == null) {
 				nullValueFound = true;
@@ -1072,13 +1071,15 @@ public class ParamDefTag extends BodyTagSupport {
 				isNullValue = false;
 				defaultValueText = DataUtil.getDisplayValue(defaultValue, timeZone);
 				if (this.valueString.equalsIgnoreCase(defaultValueText) || paramDef.mustMatch()) {
-					if (defaultValueText != null)
+					if (defaultValueText != null) {
 						this.valueString = defaultValueText;
+					}
 
 					String defaultDisplayText = DataUtil.getDisplayValue(null, this.pattern, defaultValue, locale,
 							this.timeZone);
-					if (defaultDisplayText != null)
+					if (defaultDisplayText != null) {
 						this.displayTextString = defaultDisplayText;
+					}
 
 					BirtTagUtil.writeOption(writer, this.displayTextString, this.valueString, true);
 					isSelected = true;
@@ -1149,9 +1150,10 @@ public class ParamDefTag extends BodyTagSupport {
 		if (!paramDef.isRequired()) {
 			writer.write("<input type=\"hidden\" value=\"" //$NON-NLS-1$
 					+ encParamName + "\" id=\"" + nullValueId + "\""); //$NON-NLS-1$ //$NON-NLS-2$
-			if (isNullValue)
+			if (isNullValue) {
 				writer.write(" name=\"" //$NON-NLS-1$
 						+ ParameterAccessor.PARAM_ISNULL + "\""); //$NON-NLS-1$
+			}
 			writer.write(" >\n"); //$NON-NLS-1$
 		}
 
@@ -1173,7 +1175,7 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * Handle Cascading List Box type parameter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void __handleCascadingListBox() throws Exception {
@@ -1192,8 +1194,9 @@ public class ParamDefTag extends BodyTagSupport {
 		int index = group.getParameters().indexOf(paramDef);
 
 		// if it is the last cascading parameter, return
-		if (index == group.getParameterCount() - 1)
+		if (index == group.getParameterCount() - 1) {
 			return;
+		}
 
 		String casObj = "cas" + encParamId; //$NON-NLS-1$
 		String namesObj = "names_" + encParamId; //$NON-NLS-1$
@@ -1227,7 +1230,7 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * Get parameter selection list from cascading parameter
-	 * 
+	 *
 	 * @return
 	 * @throws ReportServiceException
 	 */
@@ -1247,14 +1250,15 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * Handle output Radio Button type parameter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void __handleRadioButton() throws Exception {
 		Collection selectionList = BirtReportServiceFactory.getReportService()
 				.getParameterSelectionList(viewer.getReportDesignHandle(), this.options, param.getName());
-		if (selectionList == null || selectionList.size() <= 0)
+		if (selectionList == null || selectionList.size() <= 0) {
 			return;
+		}
 
 		JspWriter writer = pageContext.getOut();
 
@@ -1329,14 +1333,16 @@ public class ParamDefTag extends BodyTagSupport {
 
 			// Convert parameter value using standard format
 			String displayValue = DataUtil.getDisplayValue(value, timeZone);
-			if (displayValue == null)
+			if (displayValue == null) {
 				continue;
+			}
 
 			// If label is null or blank, then use the format parameter
 			// value for display
 			String label = selectionItem.getLabel();
-			if (label == null || label.length() <= 0)
+			if (label == null || label.length() <= 0) {
 				label = DataUtil.getDisplayValue(null, this.pattern, value, this.locale, timeZone);
+			}
 
 			label = label != null ? ParameterAccessor.htmlEncode(label) : ""; //$NON-NLS-1$
 			String ctlId = encParamId + "_" //$NON-NLS-1$
@@ -1375,16 +1381,18 @@ public class ParamDefTag extends BodyTagSupport {
 			// Null Value hidden object
 			writer.write("<input type=\"hidden\" value=\"" //$NON-NLS-1$
 					+ encParamName + "\" id=\"" + nullValueId + "\""); //$NON-NLS-1$ //$NON-NLS-2$
-			if (isNullValue)
+			if (isNullValue) {
 				writer.write(" name=\"" //$NON-NLS-1$
 						+ ParameterAccessor.PARAM_ISNULL + "\""); //$NON-NLS-1$
+			}
 			writer.write(" >\n"); //$NON-NLS-1$
 
 			writer.write("<input type=\"radio\" id=\"" + radioNullValueId + "\" "); //$NON-NLS-1$//$NON-NLS-2$
 			writer.write(" name=\"" + radioName + "\""); //$NON-NLS-1$//$NON-NLS-2$
 			writer.write(" onclick=\"" + onClick + "\""); //$NON-NLS-1$ //$NON-NLS-2$
-			if (isNullValue)
+			if (isNullValue) {
 				writer.write(" checked "); //$NON-NLS-1$
+			}
 			writer.write(" >\n"); //$NON-NLS-1$
 			writer.write("<label id=\"" + (radioNullValueId + "_label") + "\""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			writer.write(" title=\"" + IBirtConstants.NULL_VALUE_DISPLAY + "\""); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1416,7 +1424,7 @@ public class ParamDefTag extends BodyTagSupport {
 
 	/**
 	 * Handle output Check Box type parameter
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	protected void __handleCheckBox() throws Exception {
@@ -1442,19 +1450,21 @@ public class ParamDefTag extends BodyTagSupport {
 				+ ".value = value;"; //$NON-NLS-1$
 
 		writer.write("<input type=\"checkbox\" "); //$NON-NLS-1$
-		if (param.getId() != null)
+		if (param.getId() != null) {
 			writer.write(" id=\"" + encParamId + "\""); //$NON-NLS-1$//$NON-NLS-2$
+		}
 		__handleGeneralDefinition();
 		writer.write(" onclick=\"" + onClick + "\""); //$NON-NLS-1$ //$NON-NLS-2$
-		if (value)
+		if (value) {
 			writer.write(" checked "); //$NON-NLS-1$
+		}
 
 		writer.write(" >"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Handle Exception
-	 * 
+	 *
 	 * @param e
 	 * @throws JspException
 	 */
@@ -1472,6 +1482,7 @@ public class ParamDefTag extends BodyTagSupport {
 	/**
 	 * @param id the id to set
 	 */
+	@Override
 	public void setId(String id) {
 		param.setId(id);
 	}

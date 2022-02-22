@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class BackgroundImageCellEditor extends CDialogCellEditor {
 
-	private static final String[] IMAGE_TYPES = new String[] { ".bmp", //$NON-NLS-1$
+	private static final String[] IMAGE_TYPES = { ".bmp", //$NON-NLS-1$
 			".jpg", //$NON-NLS-1$
 			".jpeg", //$NON-NLS-1$
 			".jpe", //$NON-NLS-1$
@@ -55,9 +55,11 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 
 	Listener filter = new Listener() {
 
+		@Override
 		public void handleEvent(Event event) {
-			if (text.isDisposed())
+			if (text.isDisposed()) {
 				return;
+			}
 			handleFocus(SWT.FocusOut);
 		}
 	};
@@ -77,6 +79,7 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 		super(parent, style);
 	}
 
+	@Override
 	protected Control createContents(Composite cell) {
 
 		Color bg = cell.getBackground();
@@ -91,6 +94,7 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 		text.addKeyListener(new KeyAdapter() {
 
 			// hook key pressed - see PR 14201
+			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.character == '\u001b') { // Escape character
 					fireCancelEditor();
@@ -104,6 +108,7 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 
 		text.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_ESCAPE || e.detail == SWT.TRAVERSE_RETURN) {
 					e.doit = false;
@@ -113,12 +118,15 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 
 		text.addFocusListener(new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				doSetValue(text.getText());
-				if (text != null && !text.isDisposed())
+				if (text != null && !text.isDisposed()) {
 					BackgroundImageCellEditor.this.focusLost();
+				}
 			}
 
+			@Override
 			public void focusGained(FocusEvent e) {
 				handleFocus(SWT.FocusIn);
 			}
@@ -127,6 +135,7 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 
 		text.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				markDirty();
 			}
@@ -139,8 +148,9 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 	void handleFocus(int type) {
 		switch (type) {
 		case SWT.FocusIn: {
-			if (hasFocus)
+			if (hasFocus) {
 				return;
+			}
 			text.selectAll();
 			hasFocus = true;
 			Display display = text.getDisplay();
@@ -151,11 +161,13 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 			break;
 		}
 		case SWT.FocusOut: {
-			if (!hasFocus)
+			if (!hasFocus) {
 				return;
+			}
 			Control focusControl = text.getDisplay().getFocusControl();
-			if (focusControl == text)
+			if (focusControl == text) {
 				return;
+			}
 			hasFocus = false;
 			Display display = text.getDisplay();
 			display.removeFilter(SWT.FocusIn, filter);
@@ -166,11 +178,12 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 		}
 	}
 
+	@Override
 	protected Object openDialogBox(Control cellEditorWindow) {
-		String extensions[] = new String[] { "*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"//$NON-NLS-1$ //$NON-NLS-2$
-																													// //$NON-NLS-3$
-																													// //$NON-NLS-4$
-																													// //$NON-NLS-5$
+		String extensions[] = { "*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"//$NON-NLS-1$
+																										// //$NON-NLS-3$
+																										// //$NON-NLS-4$
+																										// //$NON-NLS-5$
 		};
 
 		ResourceSelectionValidator validator = new ResourceSelectionValidator(IMAGE_TYPES);
@@ -182,7 +195,7 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 		if (dialog.open() == Window.OK) {
 			String file = dialog.getPath();
 			if (file != null) {
-				if (checkExtensions(IMAGE_TYPES, file) == false) {
+				if (!checkExtensions(IMAGE_TYPES, file)) {
 					ExceptionHandler.openErrorMessageBox(
 							Messages.getString("EmbeddedImagesNodeProvider.FileNameError.Title"), //$NON-NLS-1$
 							Messages.getString("EmbeddedImagesNodeProvider.FileNameError.Message")); //$NON-NLS-1$
@@ -204,17 +217,22 @@ public class BackgroundImageCellEditor extends CDialogCellEditor {
 		return false;
 	}
 
+	@Override
 	protected void updateContents(Object value) {
-		if (text == null)
+		if (text == null) {
 			return;
-		if (value != null)
+		}
+		if (value != null) {
 			text.setText(value.toString());
+		}
 	}
 
+	@Override
 	protected void doSetFocus() {
 		text.setFocus();
 	}
 
+	@Override
 	protected void doValueChanged() {
 		// nothing
 

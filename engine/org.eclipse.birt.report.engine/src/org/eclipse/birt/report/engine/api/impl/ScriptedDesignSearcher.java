@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,6 +30,7 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor {
 		super(handle);
 	}
 
+	@Override
 	public void apply(DesignElementHandle handle) {
 		try {
 			super.apply(handle);
@@ -38,6 +39,7 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor {
 		}
 	}
 
+	@Override
 	protected void handleOnPrepare(ReportDesignHandle handle) {
 		if ((handle.getOnPrepare() != null) && (handle.getOnPrepare().length() != 0)
 				|| (handle.getEventHandlerClass() != null) && (handle.getEventHandlerClass().length() != 0)) {
@@ -46,6 +48,7 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor {
 
 	}
 
+	@Override
 	public void visitReportDesign(ReportDesignHandle handle) {
 		if (handle.getInitialize() != null && handle.getInitialize().length() > 0
 				|| handle.getBeforeFactory() != null && handle.getBeforeFactory().length() > 0
@@ -59,6 +62,7 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor {
 		return hasOnPrepareScript;
 	}
 
+	@Override
 	protected void handleOnPrepare(ReportItemHandle handle) {
 		if ((handle.getOnPrepare() != null) && (handle.getOnPrepare().length() != 0)
 				|| (handle.getEventHandlerClass() != null) && (handle.getEventHandlerClass().length() != 0)) {
@@ -67,6 +71,7 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor {
 
 	}
 
+	@Override
 	protected void handleOnPrepare(CellHandle handle) {
 		if ((handle.getOnPrepare() != null) && (handle.getOnPrepare().length() != 0)
 				|| (handle.getEventHandlerClass() != null) && (handle.getEventHandlerClass().length() != 0)) {
@@ -75,6 +80,7 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor {
 
 	}
 
+	@Override
 	protected void handleOnPrepare(GroupHandle handle) {
 		if ((handle.getOnPrepare() != null) && (handle.getOnPrepare().length() != 0)
 				|| (handle.getEventHandlerClass() != null) && (handle.getEventHandlerClass().length() != 0)) {
@@ -83,6 +89,7 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor {
 
 	}
 
+	@Override
 	protected void handleOnPrepare(RowHandle handle) {
 		if ((handle.getOnPrepare() != null) && (handle.getOnPrepare().length() != 0)
 				|| (handle.getEventHandlerClass() != null) && (handle.getEventHandlerClass().length() != 0)) {
@@ -91,6 +98,7 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor {
 
 	}
 
+	@Override
 	protected void visitExtendedItem(ExtendedItemHandle handle) {
 		hasOnPrepareScript = true;
 	}
@@ -98,7 +106,7 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor {
 	static class StopException extends RuntimeException {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1793414995245120248L;
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -119,30 +119,30 @@ public class ChartCubeQueryHelper {
 	 * Maps for registered column bindings.<br>
 	 * Key: binding name, value: Binding
 	 */
-	protected Map<String, IBinding> registeredBindings = new HashMap<String, IBinding>();
+	protected Map<String, IBinding> registeredBindings = new HashMap<>();
 	/**
 	 * Maps for registered queries.<br>
 	 * Key: binding name, value: raw query expression
 	 */
-	protected Map<String, ExpressionCodec> registeredQueries = new HashMap<String, ExpressionCodec>();
+	protected Map<String, ExpressionCodec> registeredQueries = new HashMap<>();
 
 	/**
 	 * Maps for registered level definitions.<br>
 	 * Key: Binding name of query, value: ILevelDefinition
 	 */
-	protected Map<String, ILevelDefinition> registeredLevels = new HashMap<String, ILevelDefinition>();
+	protected Map<String, ILevelDefinition> registeredLevels = new HashMap<>();
 
 	/**
 	 * Maps for registered measure definitions.<br>
 	 * Key: Binding name of query, value: IMeasureDefinition
 	 */
-	protected Map<String, IMeasureDefinition> registeredMeasures = new HashMap<String, IMeasureDefinition>();
+	protected Map<String, IMeasureDefinition> registeredMeasures = new HashMap<>();
 
 	/**
 	 * Maps for registered level handles.<br>
 	 * Key: LevelHandle, value: ILevelDefinition
 	 */
-	protected Map<LevelHandle, ILevelDefinition> registeredLevelHandles = new HashMap<LevelHandle, ILevelDefinition>();
+	protected Map<LevelHandle, ILevelDefinition> registeredLevelHandles = new HashMap<>();
 
 	protected String rowEdgeDimension;
 
@@ -191,7 +191,7 @@ public class ChartCubeQueryHelper {
 	 * Creates the cube query definition for chart. If parent definition is null,
 	 * it's usually used for Live preview in chart builder. If chart in xtab, will
 	 * return sub cube query definition.
-	 * 
+	 *
 	 * @param parent
 	 * @return ICubeQueryDefinition for cube consuming or ISubCubeQueryDefinition
 	 *         for chart in xtab case
@@ -205,7 +205,7 @@ public class ChartCubeQueryHelper {
 	 * Creates the cube query definition for chart. If parent definition is null,
 	 * it's usually used for Live preview in chart builder. If chart in xtab, will
 	 * return sub cube query definition.
-	 * 
+	 *
 	 * @param parent
 	 * @param expressions the extended expressions.
 	 * @return ICubeQueryDefinition for cube consuming or ISubCubeQueryDefinition
@@ -219,7 +219,7 @@ public class ChartCubeQueryHelper {
 		bSingleChart = parent == null;
 
 		CubeHandle cubeHandle = getCubeHandle();
-		ICubeQueryDefinition cubeQuery = null;
+		ICubeQueryDefinition cubeQuery;
 		if (cubeHandle == null) {
 			// Create sub query for chart in xtab
 			cubeHandle = ChartReportItemHelper.instance().getBindingCubeHandle(handle);
@@ -367,29 +367,26 @@ public class ChartCubeQueryHelper {
 				}
 				// If corresponding column is null and without multiple
 				// levels, do not use sub query
-			} else {
-				if (rowLevelCount >= 1) {
-					ISubCubeQueryDefinition subCubeQuery = getCubeElementFactory().createSubCubeQuery(queryName);
-					subCubeQuery.setStartingLevelOnRow(ChartCubeUtil.createDimensionExpression(ChartCubeUtil
-							.getLevel(xtab, ICrosstabConstants.ROW_AXIS_TYPE, rowLevelCount - 1).getCubeLevel()));
-					if (columnLevelCount > 1) {
-						// Only add another level in multiple levels case
-						subCubeQuery.setStartingLevelOnColumn(ChartCubeUtil.createDimensionExpression(
-								ChartCubeUtil.getLevel(xtab, ICrosstabConstants.COLUMN_AXIS_TYPE, columnLevelCount - 2)
-										.getCubeLevel()));
-					}
-					return subCubeQuery;
-				} else if (columnLevelCount > 1) {
-					// No row level and multiple column levels, use the top
-					// column level
-					ISubCubeQueryDefinition subCubeQuery = getCubeElementFactory().createSubCubeQuery(queryName);
+			} else if (rowLevelCount >= 1) {
+				ISubCubeQueryDefinition subCubeQuery = getCubeElementFactory().createSubCubeQuery(queryName);
+				subCubeQuery.setStartingLevelOnRow(ChartCubeUtil.createDimensionExpression(ChartCubeUtil
+						.getLevel(xtab, ICrosstabConstants.ROW_AXIS_TYPE, rowLevelCount - 1).getCubeLevel()));
+				if (columnLevelCount > 1) {
+					// Only add another level in multiple levels case
 					subCubeQuery.setStartingLevelOnColumn(ChartCubeUtil.createDimensionExpression(ChartCubeUtil
 							.getLevel(xtab, ICrosstabConstants.COLUMN_AXIS_TYPE, columnLevelCount - 2).getCubeLevel()));
-					return subCubeQuery;
 				}
-				// If corresponding row is null and without multiple levels,
-				// do not use sub query
+				return subCubeQuery;
+			} else if (columnLevelCount > 1) {
+				// No row level and multiple column levels, use the top
+				// column level
+				ISubCubeQueryDefinition subCubeQuery = getCubeElementFactory().createSubCubeQuery(queryName);
+				subCubeQuery.setStartingLevelOnColumn(ChartCubeUtil.createDimensionExpression(ChartCubeUtil
+						.getLevel(xtab, ICrosstabConstants.COLUMN_AXIS_TYPE, columnLevelCount - 2).getCubeLevel()));
+				return subCubeQuery;
 			}
+			// If corresponding row is null and without multiple levels,
+			// do not use sub query
 		}
 
 		// Do not use sub query for other cases
@@ -398,7 +395,7 @@ public class ChartCubeQueryHelper {
 
 	/**
 	 * Adds min and max binding to parent query definition
-	 * 
+	 *
 	 * @param parent
 	 * @throws BirtException
 	 */
@@ -623,7 +620,6 @@ public class ChartCubeQueryHelper {
 		} else if (exprCodec.isCubeBinding(true)) {
 			// Support nest data expression in binding
 			bindExpression(expr, cubeQuery, cube);
-			return;
 		}
 
 	}
@@ -679,10 +675,7 @@ public class ChartCubeQueryHelper {
 		if (hieHandle.getLevelCount() > 1 && keepCubeHierarichy) {
 			for (int levelIndex = 0; levelIndex < hieHandle.getLevelCount(); levelIndex++) {
 				LevelHandle lh = hieHandle.getLevel(levelIndex);
-				if (lh.getName().equals(levelDef.getName())) {
-					break;
-				}
-				if (registeredLevelHandles.containsKey(lh)) {
+				if (lh.getName().equals(levelDef.getName()) || registeredLevelHandles.containsKey(lh)) {
 					// Current level may be added before
 					break;
 				}
@@ -757,8 +750,8 @@ public class ChartCubeQueryHelper {
 	}
 
 	private void addCubeFilter(ICubeQueryDefinition cubeQuery, CubeHandle cubeHandle) throws BirtException {
-		List<ILevelDefinition> levels = new ArrayList<ILevelDefinition>();
-		List<String> values = new ArrayList<String>();
+		List<ILevelDefinition> levels = new ArrayList<>();
+		List<String> values = new ArrayList<>();
 
 		List<FilterConditionElementHandle> filters = null;
 		if (handle.getContainer() instanceof MultiViewsHandle) {
@@ -858,7 +851,7 @@ public class ChartCubeQueryHelper {
 
 			List<Expression> value1 = filterCon.getValue1ExpressionList().getListValue();
 			if (ModuleUtil.isListFilterValue(filterCon)) {
-				List<ScriptExpression> valueList = new ArrayList<ScriptExpression>(value1.size());
+				List<ScriptExpression> valueList = new ArrayList<>(value1.size());
 				for (Expression value : value1) {
 					valueList.add(modelAdapter.adaptExpression(value));
 				}
@@ -906,7 +899,7 @@ public class ChartCubeQueryHelper {
 
 	@SuppressWarnings("unchecked")
 	private List<FilterConditionElementHandle> getFiltersFromXtab(CrosstabReportItemHandle crossTab) {
-		List<FilterConditionElementHandle> list = new ArrayList<FilterConditionElementHandle>();
+		List<FilterConditionElementHandle> list = new ArrayList<>();
 		if (crossTab == null) {
 			return list;
 		}
@@ -944,7 +937,7 @@ public class ChartCubeQueryHelper {
 		} catch (ExtendedElementException e) {
 			logger.log(e);
 		}
-		List<FilterConditionElementHandle> list = new ArrayList<FilterConditionElementHandle>();
+		List<FilterConditionElementHandle> list = new ArrayList<>();
 		if (crossTabViewHandle == null) {
 			return list;
 		}
@@ -987,7 +980,7 @@ public class ChartCubeQueryHelper {
 
 	/**
 	 * Gets all levels and sorts them in hierarchy order in multiple levels case.
-	 * 
+	 *
 	 * @param cubeHandle
 	 * @param cubeQuery
 	 */
@@ -996,7 +989,7 @@ public class ChartCubeQueryHelper {
 		Collection<ILevelDefinition> levelValues = registeredLevels.values();
 		// Only sort the level for multiple levels case
 		if (levelValues.size() > 1) {
-			List<ILevelDefinition> levelList = new ArrayList<ILevelDefinition>(levelValues.size());
+			List<ILevelDefinition> levelList = new ArrayList<>(levelValues.size());
 			for (ILevelDefinition level : levelValues) {
 				levelList.add(level);
 			}
@@ -1016,8 +1009,9 @@ public class ChartCubeQueryHelper {
 	}
 
 	private Comparator<ILevelDefinition> getLevelComparator(final CubeHandle cubeHandle, final boolean hasDiffEdges) {
-		return new Comparator<ILevelDefinition>() {
+		return new Comparator<>() {
 
+			@Override
 			public int compare(ILevelDefinition a, ILevelDefinition b) {
 				String dimA = a.getHierarchy().getDimension().getName();
 				int edgeA = getEdgeType(dimA);
@@ -1057,7 +1051,7 @@ public class ChartCubeQueryHelper {
 	}
 
 	static List<SeriesDefinition> getAllSeriesDefinitions(Chart chart) {
-		List<SeriesDefinition> seriesList = new ArrayList<SeriesDefinition>();
+		List<SeriesDefinition> seriesList = new ArrayList<>();
 		if (chart instanceof ChartWithAxes) {
 			Axis xAxis = ((ChartWithAxes) chart).getAxes().get(0);
 			// Add base series definitions

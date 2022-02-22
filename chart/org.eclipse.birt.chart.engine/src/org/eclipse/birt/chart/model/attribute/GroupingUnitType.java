@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -30,11 +30,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Grouping Unit Type</b></em>', and utility methods for working with
  * them. <!-- end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type represents the possible units for grouping data.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getGroupingUnitType()
  * @model
  * @generated
@@ -47,7 +47,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #SECONDS
 	 * @generated
 	 * @ordered
@@ -60,7 +60,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #MINUTES
 	 * @generated
 	 * @ordered
@@ -73,7 +73,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #HOURS
 	 * @generated
 	 * @ordered
@@ -86,7 +86,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DAYS
 	 * @generated
 	 * @ordered
@@ -99,7 +99,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #WEEKS
 	 * @generated
 	 * @ordered
@@ -112,7 +112,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #MONTHS
 	 * @generated
 	 * @ordered
@@ -121,7 +121,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Quarters</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #QUARTERS
 	 * @generated
 	 * @ordered
@@ -134,7 +134,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #YEARS
 	 * @generated
 	 * @ordered
@@ -143,7 +143,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>String</b></em>' literal object. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #STRING
 	 * @generated
 	 * @ordered
@@ -152,7 +152,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>String Prefix</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #STRING_PREFIX
 	 * @generated
 	 * @ordered
@@ -161,7 +161,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Week Of Month</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #WEEK_OF_MONTH
 	 * @generated
 	 * @ordered
@@ -170,7 +170,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Week Of Year</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #WEEK_OF_YEAR
 	 * @generated
 	 * @ordered
@@ -179,7 +179,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Day Of Week</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DAY_OF_WEEK
 	 * @generated
 	 * @ordered
@@ -188,7 +188,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Day Of Month</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DAY_OF_MONTH
 	 * @generated
 	 * @ordered
@@ -197,7 +197,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Day Of Year</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DAY_OF_YEAR
 	 * @generated
 	 * @ordered
@@ -206,7 +206,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Week Of Quarter</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #WEEK_OF_QUARTER
 	 * @generated
 	 * @ordered
@@ -215,7 +215,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Day Of Quarter</b></em>' literal object. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DAY_OF_QUARTER
 	 * @generated
 	 * @ordered
@@ -225,7 +225,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Seconds</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #SECONDS_LITERAL
 	 * @model name="Seconds"
 	 * @generated
@@ -236,7 +236,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Minutes</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #MINUTES_LITERAL
 	 * @model name="Minutes"
 	 * @generated
@@ -247,7 +247,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Hours</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #HOURS_LITERAL
 	 * @model name="Hours"
 	 * @generated
@@ -258,7 +258,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Days</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #DAYS_LITERAL
 	 * @model name="Days"
 	 * @generated
@@ -269,7 +269,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Weeks</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #WEEKS_LITERAL
 	 * @model name="Weeks"
 	 * @generated
@@ -280,7 +280,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Months</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #MONTHS_LITERAL
 	 * @model name="Months"
 	 * @generated
@@ -295,7 +295,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #QUARTERS_LITERAL
 	 * @model name="Quarters"
 	 * @generated
@@ -306,7 +306,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * The '<em><b>Years</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #YEARS_LITERAL
 	 * @model name="Years"
 	 * @generated
@@ -321,7 +321,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #STRING_LITERAL
 	 * @model name="String"
 	 * @generated
@@ -336,7 +336,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #STRING_PREFIX_LITERAL
 	 * @model name="StringPrefix"
 	 * @generated
@@ -351,7 +351,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #WEEK_OF_MONTH_LITERAL
 	 * @model name="WeekOfMonth"
 	 * @generated
@@ -366,7 +366,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #WEEK_OF_YEAR_LITERAL
 	 * @model name="WeekOfYear"
 	 * @generated
@@ -381,7 +381,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DAY_OF_WEEK_LITERAL
 	 * @model name="DayOfWeek"
 	 * @generated
@@ -396,7 +396,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DAY_OF_MONTH_LITERAL
 	 * @model name="DayOfMonth"
 	 * @generated
@@ -411,7 +411,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DAY_OF_YEAR_LITERAL
 	 * @model name="DayOfYear"
 	 * @generated
@@ -426,7 +426,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #WEEK_OF_QUARTER_LITERAL
 	 * @model name="WeekOfQuarter"
 	 * @generated
@@ -441,7 +441,7 @@ public enum GroupingUnitType implements Enumerator {
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #DAY_OF_QUARTER_LITERAL
 	 * @model name="DayOfQuarter"
 	 * @generated
@@ -452,18 +452,18 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Grouping Unit Type</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final GroupingUnitType[] VALUES_ARRAY = new GroupingUnitType[] { SECONDS_LITERAL, MINUTES_LITERAL,
-			HOURS_LITERAL, DAYS_LITERAL, WEEKS_LITERAL, MONTHS_LITERAL, QUARTERS_LITERAL, YEARS_LITERAL, STRING_LITERAL,
+	private static final GroupingUnitType[] VALUES_ARRAY = { SECONDS_LITERAL, MINUTES_LITERAL, HOURS_LITERAL,
+			DAYS_LITERAL, WEEKS_LITERAL, MONTHS_LITERAL, QUARTERS_LITERAL, YEARS_LITERAL, STRING_LITERAL,
 			STRING_PREFIX_LITERAL, WEEK_OF_MONTH_LITERAL, WEEK_OF_YEAR_LITERAL, DAY_OF_WEEK_LITERAL,
 			DAY_OF_MONTH_LITERAL, DAY_OF_YEAR_LITERAL, WEEK_OF_QUARTER_LITERAL, DAY_OF_QUARTER_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Grouping Unit Type</b></em>'
 	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<GroupingUnitType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -471,7 +471,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified
 	 * literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static GroupingUnitType get(String literal) {
@@ -487,7 +487,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified
 	 * name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static GroupingUnitType getByName(String name) {
@@ -503,7 +503,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * Returns the '<em><b>Grouping Unit Type</b></em>' literal with the specified
 	 * integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static GroupingUnitType get(int value) {
@@ -548,21 +548,21 @@ public enum GroupingUnitType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -570,10 +570,10 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private GroupingUnitType(int value, String name, String literal) {
+	GroupingUnitType(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -581,27 +581,30 @@ public enum GroupingUnitType implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -609,7 +612,7 @@ public enum GroupingUnitType implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -619,7 +622,7 @@ public enum GroupingUnitType implements Enumerator {
 
 	/**
 	 * Returns grouping units type by specified data type.
-	 * 
+	 *
 	 * @param dataType
 	 * @return
 	 * @since BIRT 2.3

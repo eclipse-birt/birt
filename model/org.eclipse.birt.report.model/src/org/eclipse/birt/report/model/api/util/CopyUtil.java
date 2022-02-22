@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ import org.eclipse.birt.report.model.util.copy.PasteStatus;
 /**
  * The utility class for copy/paste. It is for the UI usage. Other uses should
  * use <code>DesignElementHandle.copy()</code>.
- * 
+ *
  */
 
 public class CopyUtil {
@@ -63,9 +63,9 @@ public class CopyUtil {
 
 	/**
 	 * Returns the copy of the current element.
-	 * 
+	 *
 	 * @param source the given element
-	 * 
+	 *
 	 * @return the copy of the given element
 	 */
 
@@ -76,7 +76,7 @@ public class CopyUtil {
 	/**
 	 * Pastes a report item to the slot. The item must be newly created and not yet
 	 * added to the design.
-	 * 
+	 *
 	 * @param copy      the copy from the return value of <code>copy</code>
 	 * @param container the target container
 	 * @param slotID    the id of the target slot
@@ -87,14 +87,16 @@ public class CopyUtil {
 	public static List paste(IElementCopy copy, DesignElementHandle container, int slotID) throws SemanticException {
 		ContainerContext context = new ContainerContext(container.getElement(), slotID);
 		Module root = container.getModule();
-		if (!canPaste(copy, container, slotID).canPaste())
+		if (!canPaste(copy, container, slotID).canPaste()) {
 			throw ContentExceptionFactory.createContentException(context,
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED);
+		}
 
 		IDesignElement chosen = copyPastePolicy.preWorkForPaste(context, copy, root);
 
-		if (chosen == null)
+		if (chosen == null) {
 			return Collections.EMPTY_LIST;
+		}
 
 		DesignElementHandle target = chosen.getHandle(root);
 
@@ -117,7 +119,7 @@ public class CopyUtil {
 
 	/**
 	 * update the java script value on measure
-	 * 
+	 *
 	 * @param module
 	 * @param newCube
 	 * @param oldNames
@@ -129,7 +131,7 @@ public class CopyUtil {
 	}
 
 	private static void updateDerivedMeasure(Module module, Cube cube, Map<String, String> nameMap) {
-		List<Measure> derivedMeasureList = new ArrayList<Measure>();
+		List<Measure> derivedMeasureList = new ArrayList<>();
 
 		LevelContentIterator iter = new LevelContentIterator(module, cube, 3);
 		while (iter.hasNext()) {
@@ -154,8 +156,9 @@ public class CopyUtil {
 	}
 
 	private static Expression getUpdatedExpression(Expression old, Map<String, String> nameMap) {
-		if (old == null)
+		if (old == null) {
 			return null;
+		}
 
 		String expr = old.getStringExpression();
 		String type = old.getType();
@@ -175,7 +178,7 @@ public class CopyUtil {
 	}
 
 	private static Map<String, String> getUpdateBindingMap(String expr, Map<String, String> nameMap, String type) {
-		Map<String, String> updateMap = new HashMap<String, String>();
+		Map<String, String> updateMap = new HashMap<>();
 		if (IExpressionType.JAVASCRIPT.equalsIgnoreCase(type)) {
 			// for the measure expression case
 			Set<String> measureNameSet = null;
@@ -189,8 +192,9 @@ public class CopyUtil {
 			if (measureNameSet != null && !measureNameSet.isEmpty()) {
 				for (String measureName : measureNameSet) {
 					String newName = nameMap.get(measureName);
-					if (newName != null)
+					if (newName != null) {
 						updateMap.put(measureName, newName);
+					}
 				}
 			} else {
 				Set<IDimLevel> tmpSet = null;
@@ -207,11 +211,13 @@ public class CopyUtil {
 
 					String oldName = tmpObj.getDimensionName();
 					String newName = nameMap.get(oldName);
-					if (newName == null)
+					if (newName == null) {
 						continue;
+					}
 
-					if (!newName.equals(oldName))
+					if (!newName.equals(oldName)) {
 						updateMap.put(oldName, newName);
+					}
 				}
 			}
 
@@ -220,7 +226,7 @@ public class CopyUtil {
 	}
 
 	private static Map<String, String> buildOLAPNameMap(List<String> oldNames, List<String> newNames) {
-		Map<String, String> retMap = new HashMap<String, String>();
+		Map<String, String> retMap = new HashMap<>();
 		for (int i = 0; i < oldNames.size(); i++) {
 			String oldName = oldNames.get(i);
 			String newName = newNames.get(i);
@@ -232,15 +238,16 @@ public class CopyUtil {
 	}
 
 	private static List<String> collectOLAPNames(Module module, DesignElement cube) {
-		List<String> retMap = new ArrayList<String>();
+		List<String> retMap = new ArrayList<>();
 
 		LevelContentIterator iter = new LevelContentIterator(module, cube, 3);
 		while (iter.hasNext()) {
 			DesignElement innerElement = iter.next();
-			if (innerElement instanceof Dimension || innerElement instanceof Measure)
+			if (innerElement instanceof Dimension || innerElement instanceof Measure) {
 				retMap.add(innerElement.getName());
-			else if (innerElement instanceof Level)
+			} else if (innerElement instanceof Level) {
 				retMap.add(((Level) innerElement).getFullName());
+			}
 		}
 
 		return retMap;
@@ -249,7 +256,7 @@ public class CopyUtil {
 	/**
 	 * Pastes a report item to the slot. The item must be newly created and not yet
 	 * added to the design.
-	 * 
+	 *
 	 * @param copy      the copy from the return value of <code>copy</code>
 	 * @param container the target container
 	 * @param slotID    the id of the target slot
@@ -264,14 +271,16 @@ public class CopyUtil {
 
 		Module root = container.getModule();
 
-		if (!canPaste(copy, container, slotID).canPaste())
+		if (!canPaste(copy, container, slotID).canPaste()) {
 			throw ContentExceptionFactory.createContentException(context,
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED);
+		}
 
 		IDesignElement chosen = copyPastePolicy.preWorkForPaste(context, copy, root);
 
-		if (chosen == null)
+		if (chosen == null) {
 			return Collections.EMPTY_LIST;
+		}
 
 		DesignElementHandle target = chosen.getHandle(root);
 
@@ -295,11 +304,11 @@ public class CopyUtil {
 	/**
 	 * Pastes a report item to the slot. The item must be newly created and not yet
 	 * added to the design.
-	 * 
+	 *
 	 * @param copy      the copy from the return value of <code>copy</code>
 	 * @param container the target container
 	 * @param propName  the property name of the target container
-	 * 
+	 *
 	 * @return a list containing all errors for the pasted element
 	 * @throws SemanticException if the element is not allowed in the slot
 	 */
@@ -310,14 +319,16 @@ public class CopyUtil {
 
 		Module root = container.getModule();
 
-		if (!canPaste(copy, container, propName).canPaste())
+		if (!canPaste(copy, container, propName).canPaste()) {
 			throw ContentExceptionFactory.createContentException(context,
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED);
+		}
 
 		IDesignElement chosen = copyPastePolicy.preWorkForPaste(context, copy, root);
 
-		if (chosen == null)
+		if (chosen == null) {
 			return Collections.EMPTY_LIST;
+		}
 
 		DesignElementHandle target = chosen.getHandle(root);
 		List<String> oldNames = null;
@@ -337,12 +348,12 @@ public class CopyUtil {
 	/**
 	 * Pastes a report item to the slot. The item must be newly created and not yet
 	 * added to the design.
-	 * 
+	 *
 	 * @param copy      the copy from the return value of <code>copy</code>
 	 * @param container the target container
 	 * @param propName  the property name of the target container
 	 * @param newPos    the target position
-	 * 
+	 *
 	 * @return a list containing all errors for the pasted element
 	 * @throws SemanticException if the element is not allowed in the slot
 	 */
@@ -353,14 +364,16 @@ public class CopyUtil {
 
 		Module root = container.getModule();
 
-		if (!canPaste(copy, container, propName).canPaste())
+		if (!canPaste(copy, container, propName).canPaste()) {
 			throw ContentExceptionFactory.createContentException(context,
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED);
+		}
 
 		IDesignElement chosen = copyPastePolicy.preWorkForPaste(context, copy, root);
 
-		if (chosen == null)
+		if (chosen == null) {
 			return Collections.EMPTY_LIST;
+		}
 
 		DesignElementHandle target = chosen.getHandle(root);
 		List<String> oldNames = null;
@@ -380,7 +393,7 @@ public class CopyUtil {
 	/**
 	 * /** Checks whether the given copy can be pasted into the given slot of the
 	 * specified element.
-	 * 
+	 *
 	 * @param copy      the copied instance
 	 * @param container the target element
 	 * @param slotID    the target slot id
@@ -406,7 +419,7 @@ public class CopyUtil {
 	/**
 	 * /** Checks whether the given copy can be pasted into the given slot of the
 	 * specified element.
-	 * 
+	 *
 	 * @param copy      the copied instance
 	 * @param container the target element
 	 * @param propName  the target property name
@@ -430,9 +443,9 @@ public class CopyUtil {
 
 	/**
 	 * Checks the element after the paste action.
-	 * 
+	 *
 	 * @param content the pasted element
-	 * 
+	 *
 	 * @return a list containing parsing errors. Each element in the list is
 	 *         <code>ErrorDetail</code>.
 	 */
@@ -452,7 +465,7 @@ public class CopyUtil {
 	 * Uses the new name space of the current module for reference property values
 	 * of the given element. This method checks the <code>content</code> and nested
 	 * elements in it.
-	 * 
+	 *
 	 * @param module    the module that <code>content</code> attaches.
 	 * @param content   the element to revise
 	 * @param nameSpace the new name space
@@ -480,7 +493,7 @@ public class CopyUtil {
 	 * Uses the new name space of the current module for reference property values
 	 * of the given element. This method checks the <code>content</code> and nested
 	 * elements in it.
-	 * 
+	 *
 	 * @param module    the module that <code>content</code> attaches.
 	 * @param content   the element to revise
 	 * @param propDefn  the property definition
@@ -488,12 +501,10 @@ public class CopyUtil {
 	 */
 
 	private static void revisePropertyNameSpace(Module module, DesignElement content, IElementPropertyDefn propDefn) {
-		if (propDefn == null || content == null)
+		if (propDefn == null || content == null || (propDefn.getTypeCode() != IPropertyType.ELEMENT_REF_TYPE
+				&& propDefn.getTypeCode() != IPropertyType.EXTENDS_TYPE)) {
 			return;
-
-		if (propDefn.getTypeCode() != IPropertyType.ELEMENT_REF_TYPE
-				&& propDefn.getTypeCode() != IPropertyType.EXTENDS_TYPE)
-			return;
+		}
 
 		content.getLocalProperty(module, (ElementPropertyDefn) propDefn);
 	}

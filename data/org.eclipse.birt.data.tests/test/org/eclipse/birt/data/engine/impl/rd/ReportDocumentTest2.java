@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,12 +31,11 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.junit.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 import testutil.ConfigText;
-
-import org.junit.Test;
 
 /**
  * This is a simple test case for report document. It mainly tests that these
@@ -57,6 +56,7 @@ public class ReportDocumentTest2 extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestData.TableName"),
 				ConfigText.getString("Api.TestData.TableSQL"), ConfigText.getString("Api.TestData.TestDataFileName"));
@@ -88,7 +88,7 @@ public class ReportDocumentTest2 extends APITestCase {
 	/**
 	 * Inspite of without accessing all resultset iterator. All resultset iterator
 	 * should be kept in document.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -139,7 +139,7 @@ public class ReportDocumentTest2 extends APITestCase {
 	/**
 	 * Call skipToEnd() when using detail. Expected: all resultset should be saved
 	 * in report document.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -236,21 +236,22 @@ public class ReportDocumentTest2 extends APITestCase {
 		assert (ri.getResultMetaData() != null);
 
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < rowExprName.length; i++) {
 				Object ob2 = ri.getValue(this.rowExprName[i]);
-				if (i != 0)
-					str += " ";
-				str += ob2.toString();
+				if (i != 0) {
+					str.append(" ");
+				}
+				str.append(ob2.toString());
 			}
 
 			if (totalExprName != null) {
 				for (int i = 0; i < totalExprName.length; i++) {
 					Object ob2 = ri.getValue(this.totalExprName[i]);
-					str += " " + ob2.toString();
+					str.append(" ").append(ob2.toString());
 				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 
 		ri.close();
@@ -282,7 +283,7 @@ public class ReportDocumentTest2 extends APITestCase {
 
 	/**
 	 * Add expression on the row of group
-	 * 
+	 *
 	 * @param rowBeArray
 	 * @param totalBeArray
 	 * @param qd
@@ -352,24 +353,26 @@ public class ReportDocumentTest2 extends APITestCase {
 	 * @throws DataException
 	 */
 	private void closeArchiveWriter() throws DataException {
-		if (archiveWriter != null)
+		if (archiveWriter != null) {
 			try {
 				archiveWriter.finish();
 			} catch (IOException e) {
 				throw new DataException("error", e);
 			}
+		}
 	}
 
 	/**
 	 * @throws DataException
 	 */
 	private void closeArchiveReader() throws DataException {
-		if (archiveReader != null)
+		if (archiveReader != null) {
 			try {
 				archiveReader.close();
 			} catch (IOException e) {
 				throw new DataException("error", e);
 			}
+		}
 	}
 
 }

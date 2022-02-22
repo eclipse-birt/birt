@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,6 +30,7 @@ public class TocExpressionPropertyDescriptorProvider extends ExpressionPropertyD
 		super(property, element);
 	}
 
+	@Override
 	public Object load() {
 		Object value = super.load();
 		if (value instanceof TOC) {
@@ -38,9 +39,11 @@ public class TocExpressionPropertyDescriptorProvider extends ExpressionPropertyD
 		return value;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
-		if (isReadOnly())
+		if (isReadOnly()) {
 			return;
+		}
 
 		GroupElementHandle groupElementHandle = null;
 		if (input instanceof GroupElementHandle) {

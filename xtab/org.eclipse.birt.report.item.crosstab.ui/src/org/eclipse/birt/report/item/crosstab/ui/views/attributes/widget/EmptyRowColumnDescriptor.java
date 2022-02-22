@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,6 +51,7 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor {
 		setFormStyle(formStyle);
 	}
 
+	@Override
 	public Control createControl(Composite parent) {
 		composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -63,6 +64,7 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor {
 		button.setText(provider.getDisplayName());
 		button.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (button.getSelection()) {
 					initList();
@@ -91,11 +93,13 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor {
 		});
 		if (isFormStyle()) {
 			list = FormWidgetFactory.getInstance().createList(composite, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
-		} else
+		} else {
 			list = new List(parent, SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		}
 
 		list.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleListSelectEvent();
 			}
@@ -124,10 +128,12 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor {
 		}
 	}
 
+	@Override
 	public Control getControl() {
 		return composite;
 	}
 
+	@Override
 	public void load() {
 		initList();
 		if (list.getItemCount() == 0) {
@@ -135,8 +141,9 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor {
 			button.setSelection(false);
 			list.setEnabled(false);
 			return;
-		} else
+		} else {
 			button.setEnabled(true);
+		}
 		Object value = provider.load();
 		if (value == null) {
 			button.setSelection(false);
@@ -145,8 +152,9 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor {
 			button.setSelection(true);
 			list.setEnabled(true);
 
-			if (list.getSelectionCount() > 0 && list.getSelection()[0].equals(((LevelHandle) value).getName()))
+			if (list.getSelectionCount() > 0 && list.getSelection()[0].equals(((LevelHandle) value).getName())) {
 				return;
+			}
 			list.setSelection(new String[] { ((LevelHandle) value).getName() });
 		}
 	}
@@ -164,10 +172,12 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor {
 		}
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
 		provider.save(obj);
 	}
 
+	@Override
 	public void setInput(Object input) {
 		provider.setInput(input);
 	}
@@ -183,6 +193,7 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor {
 		return provider;
 	}
 
+	@Override
 	public void reset() {
 		if (provider != null && provider.canReset()) {
 			try {

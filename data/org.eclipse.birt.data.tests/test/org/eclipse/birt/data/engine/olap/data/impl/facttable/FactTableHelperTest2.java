@@ -1,18 +1,22 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.olap.data.impl.facttable;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,16 +67,14 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.junit.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;
 
 import testutil.BaseTestCase;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 /**
- *  
+ *
  */
 
 public class FactTableHelperTest2 extends BaseTestCase {
@@ -85,14 +87,14 @@ public class FactTableHelperTest2 extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	/*
 	 * @see TestCase#tearDown()
 	 */
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -231,7 +233,7 @@ public class FactTableHelperTest2 extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -356,7 +358,7 @@ public class FactTableHelperTest2 extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -445,7 +447,7 @@ public class FactTableHelperTest2 extends BaseTestCase {
 		Level[] findLevel = new Level[1];
 		findLevel[0] = (Level) level[0];
 
-		IDiskArray[] positionForFilter = null;
+		IDiskArray[] positionForFilter;
 		positionForFilter = new IDiskArray[2];
 
 		IDiskArray positionArray = dimensions[1].find(findLevel, filter);
@@ -467,7 +469,7 @@ public class FactTableHelperTest2 extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[2];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -524,7 +526,7 @@ public class FactTableHelperTest2 extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -607,7 +609,7 @@ public class FactTableHelperTest2 extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[2];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -661,7 +663,7 @@ public class FactTableHelperTest2 extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -749,7 +751,7 @@ public class FactTableHelperTest2 extends BaseTestCase {
 		AggregationDefinition[] aggregations = new AggregationDefinition[2];
 		int[] sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel21 };
+		DimLevel[] levelsForFilter = { dimLevel21 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -908,7 +910,7 @@ public class FactTableHelperTest2 extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws BirtException
 	 */
@@ -1011,7 +1013,7 @@ public class FactTableHelperTest2 extends BaseTestCase {
 		int[] sortType = new int[2];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
 		sortType[1] = IDimensionSortDefn.SORT_ASC;
-		DimLevel[] levelsForFilter = new DimLevel[] { dimLevel11, dimLevel12 };
+		DimLevel[] levelsForFilter = { dimLevel11, dimLevel12 };
 		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
 		funcitons[0] = new AggregationFunctionDefinition("total", "measure1", IBuildInAggregation.TOTAL_SUM_FUNC);
 		aggregations[0] = new AggregationDefinition(levelsForFilter, sortType, funcitons);
@@ -1104,6 +1106,7 @@ class FactTable1 implements IDatasetIterator {
 
 	static int[] L3Col = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 
+	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -1124,6 +1127,7 @@ class FactTable1 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("level11")) {
 			return 0;
@@ -1145,6 +1149,7 @@ class FactTable1 implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("level11")) {
 			return DataType.INTEGER_TYPE;
@@ -1176,6 +1181,7 @@ class FactTable1 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return new Integer(L1Col[ptr]);
@@ -1197,6 +1203,7 @@ class FactTable1 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= L1Col.length) {
@@ -1214,6 +1221,7 @@ class FactTable2 implements IDatasetIterator {
 
 	static int[] L3Col = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 
+	@Override
 	public void close() throws BirtException {
 		// TODO Auto-generated method stub
 
@@ -1234,6 +1242,7 @@ class FactTable2 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("level11")) {
 			return 0;
@@ -1253,6 +1262,7 @@ class FactTable2 implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("level11")) {
 			return DataType.INTEGER_TYPE;
@@ -1282,6 +1292,7 @@ class FactTable2 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return new Integer(L1Col[ptr]);
@@ -1301,6 +1312,7 @@ class FactTable2 implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= L1Col.length) {

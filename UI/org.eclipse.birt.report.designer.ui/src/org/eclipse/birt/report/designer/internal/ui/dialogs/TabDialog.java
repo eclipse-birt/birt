@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -35,7 +35,7 @@ public class TabDialog extends BaseTitleAreaDialog {
 	/**
 	 * The list of tab pages
 	 */
-	private ArrayList<TabPage> tabList = new ArrayList<TabPage>();
+	private ArrayList<TabPage> tabList = new ArrayList<>();
 
 	/**
 	 * The input object
@@ -44,7 +44,7 @@ public class TabDialog extends BaseTitleAreaDialog {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public TabDialog(Shell parentShell, String title) {
@@ -55,9 +55,9 @@ public class TabDialog extends BaseTitleAreaDialog {
 	/**
 	 * Adds a new tab page to this dialog. The page is inserted at the end of the
 	 * page list.
-	 * 
+	 *
 	 * @param tabPage the new tab page to add
-	 * 
+	 *
 	 */
 	public void addTabPage(TabPage tabPage) {
 		tabPage.setContainer(this);
@@ -75,7 +75,7 @@ public class TabDialog extends BaseTitleAreaDialog {
 
 	/**
 	 * Sets the input for this dialog
-	 * 
+	 *
 	 * @param input the new input to set
 	 */
 	public void setInput(Object input) {
@@ -87,6 +87,7 @@ public class TabDialog extends BaseTitleAreaDialog {
 	 * The <code>TabDialog</code> overrides this method to set input for all pages
 	 * after content has been created.
 	 */
+	@Override
 	protected boolean initDialog() {
 		for (Iterator<TabPage> iterator = tabList.iterator(); iterator.hasNext();) {
 			TabPage page = iterator.next();
@@ -103,10 +104,11 @@ public class TabDialog extends BaseTitleAreaDialog {
 	 * The <code>TabDialog</code> overrides this framework method to create and
 	 * return a new <code>Composite</code> with an empty tab folder.
 	 * </p>
-	 * 
+	 *
 	 * @param parent the parent composite to contain the dialog area
 	 * @return the dialog area control
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		TabFolder tabFolder = new TabFolder(composite, SWT.TOP);
@@ -123,9 +125,10 @@ public class TabDialog extends BaseTitleAreaDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		try {
 			saveAll();
@@ -139,6 +142,7 @@ public class TabDialog extends BaseTitleAreaDialog {
 	/**
 	 * Updates button states.
 	 */
+	@Override
 	public void updateButtons() {
 		for (Iterator<TabPage> iterator = tabList.iterator(); iterator.hasNext();) {
 			TabPage page = iterator.next();

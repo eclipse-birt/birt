@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public class ViewerException extends BirtException {
 
 	/**
 	 * Constructs a new viewer exception with the error code.
-	 * 
+	 *
 	 * @param errCode used to retrieve a piece of externalized message displayed to
 	 *                end user
 	 */
@@ -48,7 +48,7 @@ public class ViewerException extends BirtException {
 
 	/**
 	 * Constructs a new viewer exception with the error code and object argument.
-	 * 
+	 *
 	 * @param errorCode used to retrieve a piece of externalized message displayed
 	 *                  to end user.
 	 * @param arg0      first argument used to format error messages
@@ -61,7 +61,7 @@ public class ViewerException extends BirtException {
 	/**
 	 * Constructs a new viewer exception with the error code, object argument and
 	 * the nested exception .
-	 * 
+	 *
 	 * @param errorCode used to retrieve a piece of externalized message displayed
 	 *                  to end user.
 	 * @param arg0      first argument used to format error messages
@@ -75,7 +75,7 @@ public class ViewerException extends BirtException {
 	/**
 	 * Constructs a new viewer exception with the error code, string arguments used
 	 * to format error messages.
-	 * 
+	 *
 	 * @param errCode used to retrieve a piece of externalized message displayed to
 	 *                end user
 	 * @param args    string arguments used to format error messages
@@ -88,7 +88,7 @@ public class ViewerException extends BirtException {
 	/**
 	 * Constructs a viewer exception with the error code, string arguments used to
 	 * format error messages and the nested exception.
-	 * 
+	 *
 	 * @param errCode used to retrieve a piece of externalized message displayed to
 	 *                end user
 	 * @param args    string arguments used to format error messages

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -41,7 +41,7 @@ public class ChartProperties implements java.io.Serializable {
 
 	/**
 	 * Gets the type value for this ChartProperties.
-	 * 
+	 *
 	 * @return type
 	 */
 	public org.eclipse.birt.report.soapengine.api.ChartType getType() {
@@ -50,7 +50,7 @@ public class ChartProperties implements java.io.Serializable {
 
 	/**
 	 * Sets the type value for this ChartProperties.
-	 * 
+	 *
 	 * @param type
 	 */
 	public void setType(org.eclipse.birt.report.soapengine.api.ChartType type) {
@@ -59,7 +59,7 @@ public class ChartProperties implements java.io.Serializable {
 
 	/**
 	 * Gets the dataBinding value for this ChartProperties.
-	 * 
+	 *
 	 * @return dataBinding
 	 */
 	public org.eclipse.birt.report.soapengine.api.ChartDataBinding getDataBinding() {
@@ -68,7 +68,7 @@ public class ChartProperties implements java.io.Serializable {
 
 	/**
 	 * Sets the dataBinding value for this ChartProperties.
-	 * 
+	 *
 	 * @param dataBinding
 	 */
 	public void setDataBinding(org.eclipse.birt.report.soapengine.api.ChartDataBinding dataBinding) {
@@ -77,7 +77,7 @@ public class ChartProperties implements java.io.Serializable {
 
 	/**
 	 * Gets the labels value for this ChartProperties.
-	 * 
+	 *
 	 * @return labels
 	 */
 	public org.eclipse.birt.report.soapengine.api.ChartLabels getLabels() {
@@ -86,7 +86,7 @@ public class ChartProperties implements java.io.Serializable {
 
 	/**
 	 * Sets the labels value for this ChartProperties.
-	 * 
+	 *
 	 * @param labels
 	 */
 	public void setLabels(org.eclipse.birt.report.soapengine.api.ChartLabels labels) {
@@ -95,7 +95,7 @@ public class ChartProperties implements java.io.Serializable {
 
 	/**
 	 * Gets the apperance value for this ChartProperties.
-	 * 
+	 *
 	 * @return apperance
 	 */
 	public org.eclipse.birt.report.soapengine.api.ChartAppearance getApperance() {
@@ -104,7 +104,7 @@ public class ChartProperties implements java.io.Serializable {
 
 	/**
 	 * Sets the apperance value for this ChartProperties.
-	 * 
+	 *
 	 * @param apperance
 	 */
 	public void setApperance(org.eclipse.birt.report.soapengine.api.ChartAppearance apperance) {
@@ -113,14 +113,18 @@ public class ChartProperties implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof ChartProperties))
+		if (!(obj instanceof ChartProperties)) {
 			return false;
+		}
 		ChartProperties other = (ChartProperties) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -141,6 +145,7 @@ public class ChartProperties implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

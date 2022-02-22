@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,10 +30,12 @@ public class PageHintTest extends EngineCase {
 	final static String REPORT_DOCUMENT_NAME = ".internal.test.rptdocument";
 	final static String REPORT_DOCUMENT_V0 = "org/eclipse/birt/report/engine/internal/document/v2/pagehint_v0.rptdocument";
 
+	@Override
 	public void setUp() {
 		removeFile(REPORT_DOCUMENT_NAME);
 	}
 
+	@Override
 	public void tearDown() {
 		removeFile(REPORT_DOCUMENT_NAME);
 	}

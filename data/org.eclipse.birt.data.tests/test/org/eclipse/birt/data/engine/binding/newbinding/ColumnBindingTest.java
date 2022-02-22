@@ -1,17 +1,22 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.binding.newbinding;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,26 +51,24 @@ import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
-
-import testutil.ConfigText;
-
-import com.ibm.icu.util.TimeZone;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+
+import com.ibm.icu.util.TimeZone;
+
+import testutil.ConfigText;
 
 /**
  * Notice:
- * 
+ *
  * dataSetRow -> dataSetRow row -> row
- * 
+ *
  * Please notice: dataSetRow can only be used in the column binding. In other
  * cases, only row is allowed to be used.
- * 
+ *
  * Here simple or complicated test cases can be added easily.
  */
 public class ColumnBindingTest extends APITestCase {
@@ -73,14 +76,14 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * Column info
-	 * 
+	 *
 	 * COUNTRY,CITY,SALE_DATE,AMOUNT,ORDERED,NULL_COLUMN
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
 	/**
-	 * 
+	 *
 	 */
 	@Before
 	public void columnBindingSetUp() throws Exception {
@@ -90,7 +93,7 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	@After
 	public void columnBindingTearDown() throws Exception {
@@ -100,6 +103,7 @@ public class ColumnBindingTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Binding.TestData.TableName"),
 				ConfigText.getString("Binding.TestData.TableSQL"),
@@ -108,7 +112,7 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * Without any transformation
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -116,24 +120,26 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "testColumn1", "testColumn2", "AMOUNT1" };
+		String[] name = { "testColumn1", "testColumn2", "AMOUNT1" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		se[1] = new ScriptExpression("dataSetRow.CITY");
 		se[2] = new ScriptExpression("dataSetRow.AMOUNT");
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
+				str.append(ri.getValue(name[i]));
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 
 		checkOutputFile();
@@ -141,7 +147,7 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * Test the consistency of Data Type Info.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -149,14 +155,15 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "AMOUNT1", "AMOUNT2" };
+		String[] name = { "AMOUNT1", "AMOUNT2" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.AMOUNT");
 		se[0].setDataType(DataType.STRING_TYPE);
 		se[1] = new ScriptExpression("row.AMOUNT1");
 		se[1].setDataType(DataType.UNKNOWN_TYPE);
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
@@ -173,24 +180,26 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "testColumn1", "testColumn2", "AMOUNT1" };
+		String[] name = { "testColumn1", "testColumn2", "AMOUNT1" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		se[1] = new ScriptExpression("row." + name[0]);
 		se[2] = new ScriptExpression("dataSetRow.AMOUNT");
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
+				str.append(ri.getValue(name[i]));
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 
 		checkOutputFile();
@@ -204,24 +213,26 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "test\"Column1", "test\"Column2", "AMOUNT1" };
+		String[] name = { "test\"Column1", "test\"Column2", "AMOUNT1" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		se[1] = new ScriptExpression("row[\"test\\\"Column1\"]");
 		se[2] = new ScriptExpression("dataSetRow.AMOUNT");
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
+				str.append(ri.getValue(name[i]));
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 
 		checkOutputFile();
@@ -229,7 +240,7 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * Filtering on data set, without total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -241,24 +252,26 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "testColumn1", "testColumn2", "AMOUNT1" };
+		String[] name = { "testColumn1", "testColumn2", "AMOUNT1" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		se[1] = new ScriptExpression("dataSetRow.CITY");
 		se[2] = new ScriptExpression("dataSetRow.AMOUNT");
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
+				str.append(ri.getValue(name[i]));
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 
 		checkOutputFile();
@@ -266,7 +279,7 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * Filtering on data set, without total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -279,24 +292,26 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "testColumn1", "testColumn2", "SALE_DATE" };
+		String[] name = { "testColumn1", "testColumn2", "SALE_DATE" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		se[1] = new ScriptExpression("dataSetRow.CITY");
 		se[2] = new ScriptExpression("dataSetRow.SALE_DATE");
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
+				str.append(ri.getValue(name[i]));
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 
 		checkOutputFile();
@@ -304,7 +319,7 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * TODO: Filtering on data set, with total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -313,7 +328,7 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * Computed column on data set, without total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -324,25 +339,27 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "testColumn1", "testColumn2", "AMOUNT1", "AMOUNT2" };
+		String[] name = { "testColumn1", "testColumn2", "AMOUNT1", "AMOUNT2" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		se[1] = new ScriptExpression("dataSetRow.CITY");
 		se[2] = new ScriptExpression("dataSetRow.AMOUNT");
 		se[3] = new ScriptExpression("dataSetRow.AMOUNT2");
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
+				str.append(ri.getValue(name[i]));
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 
 		checkOutputFile();
@@ -350,7 +367,7 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * TODO: Filtering on data set, with total
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -359,7 +376,7 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * Sort on table
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -367,13 +384,14 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "testColumn1", "testColumn2", "AMOUNT1" };
+		String[] name = { "testColumn1", "testColumn2", "AMOUNT1" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		se[1] = new ScriptExpression("dataSetRow.CITY");
 		se[2] = new ScriptExpression("dataSetRow.AMOUNT");
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		ScriptExpression filterExpr = new ScriptExpression("row.AMOUNT1>100");
 		FilterDefinition filterDefn = new FilterDefinition(filterExpr);
@@ -381,27 +399,28 @@ public class ColumnBindingTest extends APITestCase {
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
+				str.append(ri.getValue(name[i]));
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 	}
 
 	/**
 	 * Test without data set
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testNoDataSet() throws Exception {
-		String[] name = new String[] { "testColumn1", "testColumn2" };
-		int[] dataType = new int[] { DataType.INTEGER_TYPE, DataType.DOUBLE_TYPE };
-		ScriptExpression[] se = new ScriptExpression[] { new ScriptExpression("i=10", dataType[0]),
+		String[] name = { "testColumn1", "testColumn2" };
+		int[] dataType = { DataType.INTEGER_TYPE, DataType.DOUBLE_TYPE };
+		ScriptExpression[] se = { new ScriptExpression("i=10", dataType[0]),
 				new ScriptExpression("i=20", dataType[1]), };
 
 		basicTestNoDataSet(name, dataType, se);
@@ -411,14 +430,14 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * Test without data set, with Java Script Object of NativeDate
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testNoDataSet2() throws Exception {
-		String[] name = new String[] { "testColumn1", "testColumn2" };
-		int[] dataType = new int[] { DataType.ANY_TYPE, DataType.ANY_TYPE };
-		ScriptExpression[] se = new ScriptExpression[] { new ScriptExpression("new Date()", dataType[0]),
+		String[] name = { "testColumn1", "testColumn2" };
+		int[] dataType = { DataType.ANY_TYPE, DataType.ANY_TYPE };
+		ScriptExpression[] se = { new ScriptExpression("new Date()", dataType[0]),
 				new ScriptExpression("row[\"testColumn1\"].getFullYear( )", dataType[1]), };
 
 		basicTestNoDataSet(name, dataType, se);
@@ -427,14 +446,14 @@ public class ColumnBindingTest extends APITestCase {
 	/**
 	 * Test without data set, with Java Script Object of NativeDate and
 	 * DataType.DATE_TYPE
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testNoDataSet3() throws Exception {
-		String[] name = new String[] { "testColumn1" };
-		int[] dataType = new int[] { DataType.DATE_TYPE };
-		ScriptExpression[] se = new ScriptExpression[] { new ScriptExpression("new Date()", dataType[0]), };
+		String[] name = { "testColumn1" };
+		int[] dataType = { DataType.DATE_TYPE };
+		ScriptExpression[] se = { new ScriptExpression("new Date()", dataType[0]), };
 
 		basicTestNoDataSet(name, dataType, se);
 	}
@@ -450,27 +469,30 @@ public class ColumnBindingTest extends APITestCase {
 				DataEngineContext.newInstance(DataEngineContext.DIRECT_PRESENTATION, null, null, null));
 		QueryDefinition queryDefn = new QueryDefinition();
 
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		IResultIterator ri = dataEngine.prepare(queryDefn).execute(null).getResultIterator();
 		if (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
 				Object value = ri.getValue(name[i]);
-				str += value;
+				str.append(value);
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 
-				if (dataType[i] == DataType.INTEGER_TYPE)
+				if (dataType[i] == DataType.INTEGER_TYPE) {
 					assertTrue(value.getClass().equals(Integer.class));
-				else if (dataType[i] == DataType.DOUBLE_TYPE)
+				} else if (dataType[i] == DataType.DOUBLE_TYPE) {
 					assertTrue(value.getClass().equals(Double.class));
-				else if (dataType[i] == DataType.DATE_TYPE)
+				} else if (dataType[i] == DataType.DATE_TYPE) {
 					assertTrue(value.getClass().equals(Date.class));
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 	}
 
@@ -480,19 +502,20 @@ public class ColumnBindingTest extends APITestCase {
 	@Test
 	public void testNoDataSetWithNestedQuery() throws Exception {
 		// outer query without data set
-		String[] name = new String[] { "testColumn1" };
+		String[] name = { "testColumn1" };
 		IQueryResults queryResult = null;
 
 		{
-			int[] dataType = new int[] { DataType.DATE_TYPE };
-			ScriptExpression[] se = new ScriptExpression[] { new ScriptExpression("new Date()", dataType[0]), };
+			int[] dataType = { DataType.DATE_TYPE };
+			ScriptExpression[] se = { new ScriptExpression("new Date()", dataType[0]), };
 
 			DataEngine myDataEngine = new DataEngineImpl(
 					DataEngineContext.newInstance(DataEngineContext.DIRECT_PRESENTATION, null, null, null));
 			QueryDefinition queryDefn = new QueryDefinition();
 
-			for (int i = 0; i < name.length; i++)
+			for (int i = 0; i < name.length; i++) {
 				queryDefn.addBinding(new Binding(name[i], se[i]));
+			}
 
 			IResultIterator ri = myDataEngine.prepare(queryDefn).execute(null).getResultIterator();
 			queryResult = ri.getQueryResults();
@@ -500,20 +523,22 @@ public class ColumnBindingTest extends APITestCase {
 
 		// inner query with data set
 		QueryDefinition queryDefn2 = this.newReportQuery();
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn2.addBinding(new Binding(name[i], new ScriptExpression("row._outer." + name[i])));
+		}
 
 		IResultIterator ri2 = this.dataEngine.prepare(queryDefn2).execute(queryResult, null).getResultIterator();
 		if (ri2.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
 				Object value = ri2.getValue(name[i]);
-				str += value;
+				str.append(value);
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 		ri2.close();
 	}
@@ -524,23 +549,25 @@ public class ColumnBindingTest extends APITestCase {
 	@Test
 	public void testNoDataSetWithSubQuery() throws Exception {
 		// outer query without data set
-		int[] dataType = new int[] { DataType.DATE_TYPE };
-		String[] name = new String[] { "testColumn1" };
+		int[] dataType = { DataType.DATE_TYPE };
+		String[] name = { "testColumn1" };
 
 		IResultIterator ri2 = null;
 		{
-			ScriptExpression[] se = new ScriptExpression[] { new ScriptExpression("new Date()", dataType[0]), };
+			ScriptExpression[] se = { new ScriptExpression("new Date()", dataType[0]), };
 
 			QueryDefinition queryDefn = new QueryDefinition();
-			for (int i = 0; i < name.length; i++)
+			for (int i = 0; i < name.length; i++) {
 				queryDefn.addBinding(new Binding(name[i], se[i]));
+			}
 
 			// sub query
 			String subQueryName = "TEST";
 			SubqueryDefinition subQueryDefn = new SubqueryDefinition(subQueryName, queryDefn);
-			for (int i = 0; i < name.length; i++)
+			for (int i = 0; i < name.length; i++) {
 				subQueryDefn
 						.addBinding(new Binding(name[i], new ScriptExpression("row._outer." + name[i], dataType[i])));
+			}
 			queryDefn.addSubquery(subQueryDefn);
 
 			DataEngine myDataEngine = new DataEngineImpl(
@@ -551,18 +578,20 @@ public class ColumnBindingTest extends APITestCase {
 		}
 
 		if (ri2.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
 				Object value = ri2.getValue(name[i]);
-				str += value;
+				str.append(value);
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 
-				if (dataType[0] == DataType.DATE_TYPE)
+				if (dataType[0] == DataType.DATE_TYPE) {
 					assertTrue(value.getClass().equals(Date.class));
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 		ri2.close();
 	}
@@ -576,18 +605,19 @@ public class ColumnBindingTest extends APITestCase {
 		this.dataSet.addComputedColumn(new ComputedColumn("COUN\"TRY", "row[\"COUNTRY\"]"));
 
 		// column mapping
-		String[] name = new String[] { "COUN\"TRY", "CITY", "AMOUNT" };
+		String[] name = { "COUN\"TRY", "CITY", "AMOUNT" };
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
+				str.append(ri.getValue(name[i]));
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 		ri.close();
 		checkOutputFile();
@@ -601,13 +631,14 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "testColumn1", "testColumn2", "AMOUNT1" };
+		String[] name = { "testColumn1", "testColumn2", "AMOUNT1" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		se[1] = new ScriptExpression("dataSetRow.CITY");
 		se[2] = new ScriptExpression("dataSetRow.AMOUNT");
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		GroupDefinition groupDefn = new GroupDefinition("group1");
 		groupDefn.setKeyColumn("testColumn1");
@@ -621,14 +652,14 @@ public class ColumnBindingTest extends APITestCase {
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
-				str += ", ";
+				str.append(ri.getValue(name[i]));
+				str.append(", ");
 			}
-			str += ri.getValue(name2);
+			str.append(ri.getValue(name2));
 
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 
 		checkOutputFile();
@@ -645,30 +676,32 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "testColumn1" };
+		String[] name = { "testColumn1" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("if ( 2<1 ){ true;  }else{ false;}");
 
-		SortDefinition[] sortDefn = new SortDefinition[] { new SortDefinition() };
+		SortDefinition[] sortDefn = { new SortDefinition() };
 		sortDefn[0].setExpression("row.testColumn1");
 		sortDefn[0].setSortDirection(ISortDefinition.SORT_DESC);
 
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 		for (int i = 0; i < sortDefn.length; i++) {
 			queryDefn.addSort(sortDefn[i]);
 		}
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
+				str.append(ri.getValue(name[i]));
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 
 		checkOutputFile();
@@ -682,24 +715,26 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "AMOUNT", "testColumn1" };
+		String[] name = { "AMOUNT", "testColumn1" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.AMOUNT");
 		se[1] = new ScriptExpression("if ( row.AMOUNT >200 ){ Total.runningSum(row.AMOUNT);  }else{ row.AMOUNT;}");
 
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
+				str.append(ri.getValue(name[i]));
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 
 		checkOutputFile();
@@ -707,33 +742,35 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * @throws Exception
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	@Test
 	public void testSpecialExpression3() throws Exception {
 		QueryDefinition queryDefn = newReportQuery();
 		// column mapping
-		String[] name = new String[] { "AMOUNT", "testColumn1", "testColumn2" };
+		String[] name = { "AMOUNT", "testColumn1", "testColumn2" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.AMOUNT");
 		se[1] = new ScriptExpression(
 				"var p=dataSetRow.AMOUNT+1;if( p >200 ){\"A large amount!\";  } else{ \"A small amount!\";}");
 		se[2] = new ScriptExpression("row[\"testColumn1\"]+dataSetRow.AMOUNT");
 
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
+				str.append(ri.getValue(name[i]));
 
-				if (i < name.length - 1)
-					str += ", ";
+				if (i < name.length - 1) {
+					str.append(", ");
+				}
 			}
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 
 		checkOutputFile();
@@ -741,31 +778,33 @@ public class ColumnBindingTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testInvalidSort() throws Exception {
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			this.testInvalidSort(i);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	private void testInvalidSort(int sortIndex) throws Exception {
 		QueryDefinition queryDefn = newReportQuery();
 		// column mapping
-		String[] name = new String[] { "rownum1", "rownum2", "rownum3" };
+		String[] name = { "rownum1", "rownum2", "rownum3" };
 
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("row.__rownum");
 		se[1] = new ScriptExpression("row.rownum1");
 		se[2] = new ScriptExpression("row[\"rownum2\"]");
 
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		SortDefinition[] sort = new SortDefinition[name.length + 1];
 		sort[0] = new SortDefinition();
@@ -787,31 +826,33 @@ public class ColumnBindingTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
 	public void testInvalidFilter() throws Exception {
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 4; i++) {
 			this.testInvalidFilter(i);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	private void testInvalidFilter(int filterIndex) throws Exception {
 		QueryDefinition queryDefn = newReportQuery();
 		// column mapping
-		String[] name = new String[] { "rownum1", "rownum2", "rownum3" };
+		String[] name = { "rownum1", "rownum2", "rownum3" };
 
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("row.__rownum");
 		se[1] = new ScriptExpression("row.rownum1");
 		se[2] = new ScriptExpression("row[\"rownum2\"]");
 
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		FilterDefinition[] filter = new FilterDefinition[name.length + 1];
 		filter[0] = new FilterDefinition(new ScriptExpression("row.rownum1 == 1"));
@@ -835,13 +876,14 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "testColumn1", "testColumn2", "AMOUNT1" };
+		String[] name = { "testColumn1", "testColumn2", "AMOUNT1" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.COUNTRY");
 		se[1] = new ScriptExpression("dataSetRow.CITY");
 		se[2] = new ScriptExpression("dataSetRow.AMOUNT");
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		GroupDefinition groupDefn = new GroupDefinition("group1");
 		groupDefn.setKeyColumn("testColumn1");
@@ -862,14 +904,14 @@ public class ColumnBindingTest extends APITestCase {
 
 		IResultIterator ri = executeQuery(queryDefn);
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < name.length; i++) {
-				str += ri.getValue(name[i]);
-				str += ", ";
+				str.append(ri.getValue(name[i]));
+				str.append(", ");
 			}
-			str += ri.getValue(name2);
+			str.append(ri.getValue(name2));
 
-			testPrintln(str);
+			testPrintln(str.toString());
 		}
 
 		checkOutputFile();
@@ -883,11 +925,12 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "testColumn1" };
+		String[] name = { "testColumn1" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("dataSetRow.COUNTRY");
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		IResultIterator ri = executeQuery(queryDefn);
 		if (ri.next()) {
@@ -908,12 +951,13 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "testColumn1" };
+		String[] name = { "testColumn1" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression(null);
 
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		DataException error = null;
 		try {
@@ -991,11 +1035,13 @@ public class ColumnBindingTest extends APITestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++)
+			for (int i = 0; i < rowBeArray.length; i++) {
 				expectedValue.add(ri.getValue(this.rowExprName[i]));
+			}
 
-			for (int i = 0; i < totalBeArray.length; i++)
+			for (int i = 0; i < totalBeArray.length; i++) {
 				expectedValue.add(ri.getValue(this.totalExprName[i]));
+			}
 		}
 
 		ri.close();
@@ -1014,12 +1060,13 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "serializable" };
+		String[] name = { "serializable" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("new java.lang.StringBuffer(\"ss\")");
 		se[0].setDataType(DataType.JAVA_OBJECT_TYPE);
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare(queryDefn).execute(scope);
@@ -1050,12 +1097,13 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "unserializable" };
+		String[] name = { "unserializable" };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("new java.lang.ThreadGroup(\"ss\")");
 		se[0].setDataType(DataType.JAVA_OBJECT_TYPE);
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		// generation
 		IQueryResults qr = myGenDataEngine.prepare(queryDefn).execute(scope);
@@ -1145,7 +1193,7 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * Test Java Object data type
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -1153,12 +1201,13 @@ public class ColumnBindingTest extends APITestCase {
 		QueryDefinition queryDefn = newReportQuery();
 
 		// column mapping
-		String[] name = new String[] { "ObjectType", };
+		String[] name = { "ObjectType", };
 		ScriptExpression[] se = new ScriptExpression[name.length];
 		se[0] = new ScriptExpression("new java.lang.StringBuffer(\"ss\")");
 		se[0].setDataType(DataType.JAVA_OBJECT_TYPE);
-		for (int i = 0; i < name.length; i++)
+		for (int i = 0; i < name.length; i++) {
 			queryDefn.addBinding(new Binding(name[i], se[i]));
+		}
 
 		IResultIterator ri = executeQuery(queryDefn);
 		assertEquals(DataType.JAVA_OBJECT_TYPE, ri.getResultMetaData().getColumnType(1));
@@ -1205,11 +1254,11 @@ public class ColumnBindingTest extends APITestCase {
 		genUnserializable();
 
 		// this.closeArchiveWriter( );
-//		
+//
 //		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
 //				fileName );
 //		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
-//		
+//
 //		this.preSerializable( );
 		// this.closeArchiveReader( );
 	}
@@ -1239,8 +1288,9 @@ public class ColumnBindingTest extends APITestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++)
+			for (int i = 0; i < rowBeArray.length; i++) {
 				expectedValue.add(ri.getValue(this.rowExprName[i]));
+			}
 		}
 
 		ri.close();
@@ -1334,13 +1384,15 @@ public class ColumnBindingTest extends APITestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			for (int i = 0; i < rowBeArray.length; i++)
+			for (int i = 0; i < rowBeArray.length; i++) {
 				expectedValue.add(ri.getValue(this.rowExprName[i]));
+			}
 
 			IResultIterator ri2 = ri.getSecondaryIterator(subName, scope);
 			while (ri2.next()) {
-				for (int i = 0; i < rowBeArray2.length; i++)
+				for (int i = 0; i < rowBeArray2.length; i++) {
 					expectedValue.add(ri2.getValue(this.rowExprName[i]));
+				}
 			}
 			ri2.close();
 		}
@@ -1440,7 +1492,7 @@ public class ColumnBindingTest extends APITestCase {
 
 	/**
 	 * Add expression on the row of group
-	 * 
+	 *
 	 * @param rowBeArray
 	 * @param totalBeArray
 	 * @param qd
@@ -1450,19 +1502,21 @@ public class ColumnBindingTest extends APITestCase {
 			throws DataException {
 		int num = rowBeArray.length;
 
-		for (int i = 0; i < num; i++)
+		for (int i = 0; i < num; i++) {
 			qd.addBinding(new Binding(this.rowExprName[i], rowBeArray[i]));
+		}
 
 		if (totalBeArray != null) {
 			int num2 = totalBeArray.length;
-			for (int i = 0; i < num2; i++)
+			for (int i = 0; i < num2; i++) {
 				qd.addBinding(totalBeArray[i]);
+			}
 		}
 	}
 
 	/**
 	 * Only check the result of the expectedValue of the result set
-	 * 
+	 *
 	 * @param data.it
 	 * @param ri
 	 * @throws DataException
@@ -1472,12 +1526,12 @@ public class ColumnBindingTest extends APITestCase {
 		Iterator it = this.expectedValue.iterator();
 
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < rowExprName.length; i++) {
 				Object ob1 = it.next();
 				Object ob2 = ri.getValue(this.rowExprName[i]);
 				assertEquals(ob1, ob2);
-				str += " " + ob2.toString();
+				str.append(" ").append(ob2.toString());
 			}
 
 			if (totalExprName != null) {
@@ -1485,11 +1539,11 @@ public class ColumnBindingTest extends APITestCase {
 					Object ob1 = it.next();
 					Object ob2 = ri.getValue(this.totalExprName[i]);
 					assertEquals(ob1, ob2);
-					str += " " + ob2.toString();
+					str.append(" ").append(ob2.toString());
 				}
 			}
 
-			this.testPrintln("row result set: " + str);
+			this.testPrintln("row result set: " + str.toString());
 		}
 	}
 
@@ -1501,12 +1555,12 @@ public class ColumnBindingTest extends APITestCase {
 		Iterator it = this.expectedValue.iterator();
 
 		while (ri.next()) {
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			for (int i = 0; i < rowExprName.length; i++) {
 				Object ob1 = it.next();
 				Object ob2 = ri.getValue(this.rowExprName[i]);
 				assertEquals(ob1, ob2);
-				str += " " + ob2.toString();
+				str.append(" ").append(ob2.toString());
 			}
 
 			IResultIterator ri2 = ri.getSecondaryIterator(subName, null);
@@ -1515,7 +1569,7 @@ public class ColumnBindingTest extends APITestCase {
 					Object ob1 = it.next();
 					Object ob2 = ri2.getValue(this.rowExprName[i]);
 					assertEquals(ob1, ob2);
-					str += " " + ob2.toString();
+					str.append(" ").append(ob2.toString());
 				}
 			}
 
@@ -1524,11 +1578,11 @@ public class ColumnBindingTest extends APITestCase {
 					Object ob1 = it.next();
 					Object ob2 = ri.getValue(this.totalExprName[i]);
 					assertEquals(ob1, ob2);
-					str += " " + ob2.toString();
+					str.append(" ").append(ob2.toString());
 				}
 			}
 
-			this.testPrintln("row result set: " + str);
+			this.testPrintln("row result set: " + str.toString());
 		}
 	}
 
@@ -1536,24 +1590,26 @@ public class ColumnBindingTest extends APITestCase {
 	 * @throws DataException
 	 */
 	private void closeArchiveWriter() throws DataException {
-		if (archiveWriter != null)
+		if (archiveWriter != null) {
 			try {
 				archiveWriter.finish();
 			} catch (IOException e) {
 				throw new DataException("error", e);
 			}
+		}
 	}
 
 	/**
 	 * @throws DataException
 	 */
 	private void closeArchiveReader() throws DataException {
-		if (archiveReader != null)
+		if (archiveReader != null) {
 			try {
 				archiveReader.close();
 			} catch (IOException e) {
 				throw new DataException("error", e);
 			}
+		}
 	}
 
 }

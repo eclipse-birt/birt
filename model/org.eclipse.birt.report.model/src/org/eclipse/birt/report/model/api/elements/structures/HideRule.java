@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,10 +33,10 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * <p>
  * Member properties in <code>Hide</code> are all intrinsic properties. That is,
  * values of "format" and "valueExpr" properties can be unset.
- * 
+ *
  * Choices for the "format" member are defined in
  * <code>DesignChoiceConstants</code>.
- * 
+ *
  * @see DesignChoiceConstants
  */
 
@@ -95,7 +95,7 @@ public class HideRule extends Structure {
 
 	/**
 	 * Constructs the hide structure with the format choice and expression.
-	 * 
+	 *
 	 * @param format     the choice name for the format
 	 * @param expression the expression for the visibility rule
 	 */
@@ -107,42 +107,48 @@ public class HideRule extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (FORMAT_MEMBER.equalsIgnoreCase(propName))
+		if (FORMAT_MEMBER.equalsIgnoreCase(propName)) {
 			format = (String) value;
-		else if (VALUE_EXPR_MEMBER.equalsIgnoreCase(propName)) {
+		} else if (VALUE_EXPR_MEMBER.equalsIgnoreCase(propName)) {
 			expression = (Expression) value;
-		} else
+		} else {
 			assert false;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (FORMAT_MEMBER.equals(propName))
+		if (FORMAT_MEMBER.equals(propName)) {
 			return format;
-		if (VALUE_EXPR_MEMBER.equals(propName))
+		}
+		if (VALUE_EXPR_MEMBER.equals(propName)) {
 			return expression;
+		}
 
 		assert false;
 		return null;
@@ -166,7 +172,7 @@ public class HideRule extends Structure {
 	 * <li><code>FORMAT_TYPE_POWERPOINT</code>
 	 * </ul>
 	 * Or can be user defined format.
-	 * 
+	 *
 	 * @return the choice code for the format
 	 */
 
@@ -191,7 +197,7 @@ public class HideRule extends Structure {
 	 * <li><code>FORMAT_TYPE_POWERPOINT</code>
 	 * </ul>
 	 * Or can be user defined format.
-	 * 
+	 *
 	 * @param format the output format to set
 	 */
 
@@ -201,7 +207,7 @@ public class HideRule extends Structure {
 
 	/**
 	 * Returns the expression of the rule.
-	 * 
+	 *
 	 * @return the value expression
 	 */
 
@@ -211,7 +217,7 @@ public class HideRule extends Structure {
 
 	/**
 	 * Sets the expression for this visibility rule.
-	 * 
+	 *
 	 * @param expression the value expression to set
 	 */
 
@@ -221,10 +227,11 @@ public class HideRule extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new HideRuleHandle(valueHandle, index);
 	}
@@ -234,11 +241,12 @@ public class HideRule extends Structure {
 	 * <ul>
 	 * <li>The column name is required.
 	 * </ul>
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(Module,
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
 		List<SemanticException> list = super.validate(module, element);
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import com.ibm.icu.util.Calendar;
 
 /**
  * The class is used to adjust horizontal axes's location and scale.
- * 
+ *
  * @since 2.5
  */
 
@@ -43,7 +43,7 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param horizontalAxes
 	 * @param verticalAxis
 	 * @param plotWithAxes
@@ -59,16 +59,17 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.computation.withaxes.IAxisAdjuster#adjust()
 	 */
+	@Override
 	public void adjust() throws ChartException {
 		this.adjust(true);
 	}
 
 	/**
 	 * Adjust the axes.
-	 * 
+	 *
 	 * @param checkAxisLabel whether the axis label should be considered as a factor
 	 *                       while computing coordinates and size of axis.
 	 * @throws ChartException
@@ -77,9 +78,9 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster {
 		AutoScale scY = fVerticalAxis.getScale();
 		boolean isForward = (scY.getDirection() == PlotWithAxes.FORWARD);
 
-		List<HorizontalAxisAdjuster> values = new ArrayList<HorizontalAxisAdjuster>();
-		List<HorizontalAxisAdjuster> min = new ArrayList<HorizontalAxisAdjuster>();
-		List<HorizontalAxisAdjuster> max = new ArrayList<HorizontalAxisAdjuster>();
+		List<HorizontalAxisAdjuster> values = new ArrayList<>();
+		List<HorizontalAxisAdjuster> min = new ArrayList<>();
+		List<HorizontalAxisAdjuster> max = new ArrayList<>();
 
 		// Parses all horizontal axes and put them into min/max/value origin
 		// set.
@@ -259,7 +260,7 @@ public class HorizontalAxesAdjuster implements IAxisAdjuster {
 
 	/**
 	 * Adjusts start and end of across axis, and returns axis coordinates.
-	 * 
+	 *
 	 * @param iv
 	 * @param orthogonalAxis
 	 * @param dY

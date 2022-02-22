@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,10 +42,11 @@ public class EncryptionHelperExtensionTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -77,7 +78,7 @@ public class EncryptionHelperExtensionTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param item
 	 * @return
 	 */
@@ -87,7 +88,7 @@ public class EncryptionHelperExtensionTest extends BaseTestCase {
 
 	/**
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void testParser() throws Exception {
 		openDesign(FILE_NAME);
@@ -144,7 +145,7 @@ public class EncryptionHelperExtensionTest extends BaseTestCase {
 
 	/**
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void testCompatibility() throws Exception {
 		openDesign("EncryptionExtensionTest_1.xml"); //$NON-NLS-1$
@@ -155,7 +156,7 @@ public class EncryptionHelperExtensionTest extends BaseTestCase {
 
 	/**
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void testCommand() throws Exception {
 		openDesign(FILE_NAME);
@@ -250,7 +251,7 @@ public class EncryptionHelperExtensionTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testSetProperty() throws Exception {
@@ -331,7 +332,7 @@ public class EncryptionHelperExtensionTest extends BaseTestCase {
 
 	/**
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void testClone() throws Exception {
 		openDesign(FILE_NAME);
@@ -349,7 +350,7 @@ public class EncryptionHelperExtensionTest extends BaseTestCase {
 
 	/**
 	 * Tests the encryption in the generated document.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDocumentSerialize() throws Exception {

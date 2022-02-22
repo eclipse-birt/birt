@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,7 +57,7 @@ abstract class PreviewSupport {
 
 	protected static final String TYPE_HTML = "html"; //$NON-NLS-1$
 
-	private static final Map<String, String> typeMap = new HashMap<String, String>();
+	private static final Map<String, String> typeMap = new HashMap<>();
 
 	private static final String IMG_FILE_DEFAULT = "icons/etool16/preview_web.gif"; //$NON-NLS-1$
 	private static final String IMG_FILE_WEB = "icons/etool16/preview_web.gif"; //$NON-NLS-1$
@@ -83,8 +83,8 @@ abstract class PreviewSupport {
 			return null;
 		}
 
-		TreeMap<String, List<EmitterInfo>> supportedFormats = new TreeMap<String, List<EmitterInfo>>();
-		TreeMap<String, List<EmitterInfo>> deprecatedFormats = new TreeMap<String, List<EmitterInfo>>();
+		TreeMap<String, List<EmitterInfo>> supportedFormats = new TreeMap<>();
+		TreeMap<String, List<EmitterInfo>> deprecatedFormats = new TreeMap<>();
 
 		for (EmitterInfo ei : emitters) {
 			if (!ei.isHidden()) {
@@ -94,14 +94,14 @@ abstract class PreviewSupport {
 					list = supportedFormats.get(ei.getFormat());
 
 					if (list == null) {
-						list = new ArrayList<EmitterInfo>();
+						list = new ArrayList<>();
 						supportedFormats.put(ei.getFormat(), list);
 					}
 				} else {
 					list = deprecatedFormats.get(ei.getFormat());
 
 					if (list == null) {
-						list = new ArrayList<EmitterInfo>();
+						list = new ArrayList<>();
 						deprecatedFormats.put(ei.getFormat(), list);
 					}
 				}
@@ -128,6 +128,7 @@ abstract class PreviewSupport {
 		previewWebViewer.setImage(UIHelper.getImage(Activator.getDefault().getBundle(), IMG_FILE_WEB));
 		previewWebViewer.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				preview(TYPE_HTML, true);
 			}
@@ -199,6 +200,7 @@ abstract class PreviewSupport {
 
 				sub1.addSelectionListener(new SelectionAdapter() {
 
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						preview(ei, emitterDescriptor);
 					}
@@ -210,6 +212,7 @@ abstract class PreviewSupport {
 
 			previewOption.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					preview(ei, emitterDescriptor);
 				}
@@ -271,8 +274,9 @@ abstract class PreviewSupport {
 			model = ((MultiPageReportEditor) editor).getModel();
 		}
 
-		if (!UIUtil.canPreviewWithErrors(model))
+		if (!UIUtil.canPreviewWithErrors(model)) {
 			return;
+		}
 
 		if (editor != null) {
 			IFormPage activePageInstance = editor.getActivePageInstance();
@@ -283,7 +287,7 @@ abstract class PreviewSupport {
 				editor.doSave(null);
 			}
 		}
-		Map<String, Object> options = new HashMap<String, Object>();
+		Map<String, Object> options = new HashMap<>();
 		options.put(WebViewer.FORMAT_KEY, format);
 		options.put(WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf(allowPage));
 		options.put(WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault().getResourceFolder());
@@ -325,8 +329,9 @@ abstract class PreviewSupport {
 			model = ((MultiPageReportEditor) editor).getModel();
 		}
 
-		if (!UIUtil.canPreviewWithErrors(model))
+		if (!UIUtil.canPreviewWithErrors(model)) {
 			return;
+		}
 
 		if (editor != null) {
 			if (model.needsSave()) {
@@ -334,7 +339,7 @@ abstract class PreviewSupport {
 			}
 		}
 
-		Map<String, Object> options = new HashMap<String, Object>();
+		Map<String, Object> options = new HashMap<>();
 		options.put(WebViewer.EMITTER_ID_KEY, ei.getID());
 		options.put(WebViewer.FORMAT_KEY, ei.getFormat());
 		options.put(WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf(false));

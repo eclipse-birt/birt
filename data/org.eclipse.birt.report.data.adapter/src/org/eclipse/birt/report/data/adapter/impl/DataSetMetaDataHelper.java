@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -65,7 +65,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
  * generation is after the resultSet and columnHints is applied to the original
  * metadata. resultHint is processed before columnHints, and they corresponds to
  * the IColumnDefinition of data engine.
- * 
+ *
  * When refreshing the metadata of dataset handle, resultSet should not be added
  * into data set design since resultSet is based on old metadata, and then it is
  * no use for updated metadata. But it is a little different for script dataset.
@@ -81,7 +81,7 @@ public class DataSetMetaDataHelper {
 	private DataRequestSession session;
 
 	/**
-	 * 
+	 *
 	 * @param dataEngine
 	 * @param modelAdaptor
 	 * @param moduleHandle
@@ -95,7 +95,7 @@ public class DataSetMetaDataHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataSetHandle
 	 * @param useCache
 	 * @return
@@ -114,14 +114,15 @@ public class DataSetMetaDataHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cmdHandle
 	 * @return
 	 * @throws BirtException
 	 */
 	private IResultMetaData getCachedMetaData(CachedMetaDataHandle cmdHandle) throws BirtException {
-		if (cmdHandle == null)
+		if (cmdHandle == null) {
 			return null;
+		}
 
 		Iterator it = cmdHandle.getResultSet().iterator();
 		List columnMeta = new ArrayList();
@@ -141,11 +142,13 @@ public class DataSetMetaDataHelper {
 	private IResultMetaData getRealMetaData(DataSetHandle dataSetHandle) throws BirtException {
 		IResultMetaData metaData = MetaDataPopulator.retrieveResultMetaData(dataSetHandle);
 
-		if (metaData == null)
+		if (metaData == null) {
 			metaData = getRuntimeMetaData(dataSetHandle);
+		}
 
-		if (metaData != null && !(dataSetHandle instanceof ScriptDataSetHandle))
+		if (metaData != null && !(dataSetHandle instanceof ScriptDataSetHandle)) {
 			clearUnusedData(dataSetHandle, metaData);
+		}
 		return metaData;
 	}
 
@@ -189,13 +192,14 @@ public class DataSetMetaDataHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param meta
 	 * @throws BirtException
 	 */
 	private void addResultSetColumn(DataSetHandle dataSetHandle, IResultMetaData meta) throws BirtException {
-		if (meta == null || !(dataSetHandle instanceof OdaDataSetHandle))
+		if (meta == null || !(dataSetHandle instanceof OdaDataSetHandle)) {
 			return;
+		}
 
 		Set computedColumnNameSet = new HashSet();
 		Iterator computedIter = dataSetHandle.computedColumnsIterator();
@@ -217,10 +221,11 @@ public class DataSetMetaDataHelper {
 				uniqueName = MetaDataPopulator.getUniqueName(orgColumnNameSet, uniqueColumnNameSet,
 						meta.getColumnName(i), i - 1);
 				rsColumn.setColumnName(uniqueName);
-				if (meta.getColumnType(i) != DataType.ANY_TYPE)
+				if (meta.getColumnType(i) != DataType.ANY_TYPE) {
 					rsColumn.setDataType(DataAdapterUtil.adapterToModelDataType(meta.getColumnType(i)));
+				}
 				rsColumn.setNativeName(meta.getColumnName(i));
-				rsColumn.setPosition(Integer.valueOf(i));
+				rsColumn.setPosition(i);
 
 				try {
 					handle.addItem(rsColumn);
@@ -232,7 +237,7 @@ public class DataSetMetaDataHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataSetHandle
 	 * @param metaData
 	 * @throws BirtException
@@ -243,9 +248,9 @@ public class DataSetMetaDataHelper {
 
 	/**
 	 * clear unused column hints
-	 * 
+	 *
 	 * @throws BirtException
-	 * 
+	 *
 	 */
 	private final void clearUnusedColumnHints(DataSetHandle dataSetHandle, IResultMetaData metaData)
 			throws BirtException {
@@ -281,7 +286,7 @@ public class DataSetMetaDataHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param hint
 	 * @param designHandle
 	 * @return
@@ -301,7 +306,7 @@ public class DataSetMetaDataHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataSetHandle
 	 * @return
 	 * @throws BirtException
@@ -311,7 +316,7 @@ public class DataSetMetaDataHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataSetHandle
 	 * @return
 	 * @throws BirtException
@@ -324,11 +329,10 @@ public class DataSetMetaDataHelper {
 			// clear cache meta data
 			if (holdEvent || !dataSetHandle.canEdit()) {
 				CompatibilityUtil.updateResultSetinCachedMetaData(dataSetHandle, new ArrayList());
+			} else if (dataSetHandle.getCachedMetaDataHandle() != null) {
+				dataSetHandle.getCachedMetaDataHandle().getResultSet().clearValue();
 			} else {
-				if (dataSetHandle.getCachedMetaDataHandle() != null)
-					dataSetHandle.getCachedMetaDataHandle().getResultSet().clearValue();
-				else
-					dataSetHandle.setCachedMetaData(StructureFactory.createCachedMetaData());
+				dataSetHandle.setCachedMetaData(StructureFactory.createCachedMetaData());
 			}
 			throw e1;
 		}
@@ -361,9 +365,10 @@ public class DataSetMetaDataHelper {
 					} else {
 						rsc.setColumnName(columnName);
 					}
-					if (rsMeta.getColumnType(i) != DataType.ANY_TYPE)
+					if (rsMeta.getColumnType(i) != DataType.ANY_TYPE) {
 						rsc.setDataType(DataAdapterUtil.adapterToModelDataType(rsMeta.getColumnType(i)));
-					rsc.setPosition(Integer.valueOf(i));
+					}
+					rsc.setPosition(i);
 
 					columnList.add(rsc);
 				}
@@ -371,41 +376,37 @@ public class DataSetMetaDataHelper {
 
 			if (holdEvent || !dataSetHandle.canEdit()) {
 				CompatibilityUtil.updateResultSetinCachedMetaData(dataSetHandle, columnList);
-			} else {
-				if (dataSetHandle.getCachedMetaDataHandle() != null) {
-					List resultSetColumnHandles = getResultSetColumnHandles(dataSetHandle.getCachedMetaDataHandle());
-					int i = 0;
-					for (; i < columnList.size(); i++) {
-						ResultSetColumn rsc = (ResultSetColumn) columnList.get(i);
-						if (i < resultSetColumnHandles.size()) {
-							// update if needed, avoid writing "any" type to
-							// Model if old report contains "any" type
-							ResultSetColumnHandle rsh = (ResultSetColumnHandle) resultSetColumnHandles.get(i);
-							if (!rsh.getColumnName().equals(rsc.getColumnName())) {
-								rsh.setColumnName(rsc.getColumnName());
-							}
-							if (!rsh.getDataType().equals(rsc.getDataType())) {
-								rsh.setDataType(rsc.getDataType());
-							}
-						} else {
-							// some columns are to be added
-							dataSetHandle.getCachedMetaDataHandle().getResultSet().addItem(rsc);
-						}
-					}
+			} else if (dataSetHandle.getCachedMetaDataHandle() != null) {
+				List resultSetColumnHandles = getResultSetColumnHandles(dataSetHandle.getCachedMetaDataHandle());
+				int i = 0;
+				for (; i < columnList.size(); i++) {
+					ResultSetColumn rsc = (ResultSetColumn) columnList.get(i);
 					if (i < resultSetColumnHandles.size()) {
-						// some columns are to be removed
-						List toRemoved = resultSetColumnHandles.subList(i, resultSetColumnHandles.size());
-						dataSetHandle.getCachedMetaDataHandle().getResultSet().removeItems(toRemoved);
-					}
-				} else {
-					dataSetHandle.setCachedMetaData(StructureFactory.createCachedMetaData());
-
-					for (int i = 0; i < columnList.size(); i++) {
-						dataSetHandle.getCachedMetaDataHandle().getResultSet()
-								.addItem((ResultSetColumn) columnList.get(i));
+						// update if needed, avoid writing "any" type to
+						// Model if old report contains "any" type
+						ResultSetColumnHandle rsh = (ResultSetColumnHandle) resultSetColumnHandles.get(i);
+						if (!rsh.getColumnName().equals(rsc.getColumnName())) {
+							rsh.setColumnName(rsc.getColumnName());
+						}
+						if (!rsh.getDataType().equals(rsc.getDataType())) {
+							rsh.setDataType(rsc.getDataType());
+						}
+					} else {
+						// some columns are to be added
+						dataSetHandle.getCachedMetaDataHandle().getResultSet().addItem(rsc);
 					}
 				}
+				if (i < resultSetColumnHandles.size()) {
+					// some columns are to be removed
+					List toRemoved = resultSetColumnHandles.subList(i, resultSetColumnHandles.size());
+					dataSetHandle.getCachedMetaDataHandle().getResultSet().removeItems(toRemoved);
+				}
+			} else {
+				dataSetHandle.setCachedMetaData(StructureFactory.createCachedMetaData());
 
+				for (int i = 0; i < columnList.size(); i++) {
+					dataSetHandle.getCachedMetaDataHandle().getResultSet().addItem((ResultSetColumn) columnList.get(i));
+				}
 			}
 		}
 		return rsMeta;
@@ -431,27 +432,30 @@ public class DataSetMetaDataHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dataSetHandle
 	 * @param rsMeta
 	 * @return
 	 * @throws BirtException
 	 */
 	private boolean needsSetCachedMetaData(DataSetHandle dataSetHandle, IResultMetaData rsMeta) throws BirtException {
-		if (dataSetHandle.getCachedMetaDataHandle() == null || rsMeta == null || rsMeta.getColumnCount() == 0)
+		if (dataSetHandle.getCachedMetaDataHandle() == null || rsMeta == null || rsMeta.getColumnCount() == 0) {
 			return true;
+		}
 
 		List list = getResultSetColumnHandles(dataSetHandle.getCachedMetaDataHandle());
 
-		if (list.size() != rsMeta.getColumnCount())
+		if (list.size() != rsMeta.getColumnCount()) {
 			return true;
+		}
 
 		for (int i = 1; i <= rsMeta.getColumnCount(); i++) {
 			ResultSetColumnHandle handle = (ResultSetColumnHandle) list.get(i - 1);
 
 			if (handle.getColumnName() == null || !handle.getColumnName().equals(getColumnName(rsMeta, i))
-					|| !handle.getDataType().equals(DataAdapterUtil.adapterToModelDataType(rsMeta.getColumnType(i))))
+					|| !handle.getDataType().equals(DataAdapterUtil.adapterToModelDataType(rsMeta.getColumnType(i)))) {
 				return true;
+			}
 		}
 
 		return false;
@@ -467,7 +471,7 @@ public class DataSetMetaDataHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param rsMeta
 	 * @param index
 	 * @return
@@ -481,7 +485,7 @@ public class DataSetMetaDataHelper {
 
 	/**
 	 * clear the property binding in dataset to disable it when run the query
-	 * 
+	 *
 	 * @param dsHandle
 	 * @param dataSetMap
 	 * @param dataSourceMap
@@ -489,10 +493,7 @@ public class DataSetMetaDataHelper {
 	 */
 	public static void clearPropertyBindingMap(DataSetHandle dsHandle, Map dataSetMap, Map dataSourceMap)
 			throws SemanticException {
-		if (dsHandle == null) {
-			return;
-		}
-		if (dsHandle.getExtends() != null) {
+		if ((dsHandle == null) || (dsHandle.getExtends() != null)) {
 			return;
 		}
 		if (dsHandle instanceof JointDataSetHandle) {
@@ -518,10 +519,12 @@ public class DataSetMetaDataHelper {
 			List dataSourceBindingList = dsHandle.getDataSource() == null ? new ArrayList()
 					: dsHandle.getDataSource().getPropertyBindings();
 
-			if (!dataSetBindingList.isEmpty())
+			if (!dataSetBindingList.isEmpty()) {
 				dataSetMap.put(dsHandle.getName(), dataSetBindingList);
-			if (!dataSourceBindingList.isEmpty())
+			}
+			if (!dataSourceBindingList.isEmpty()) {
 				dataSourceMap.put(dsHandle.getDataSource().getName(), dataSourceBindingList);
+			}
 
 			for (int i = 0; i < dataSetBindingList.size(); i++) {
 				PropertyBinding binding = (PropertyBinding) dataSetBindingList.get(i);
@@ -536,7 +539,7 @@ public class DataSetMetaDataHelper {
 
 	/**
 	 * reset the property binding in dataset.
-	 * 
+	 *
 	 * @param dsHandle
 	 * @param dataSetMap
 	 * @param dataSourceMap
@@ -544,10 +547,7 @@ public class DataSetMetaDataHelper {
 	 */
 	public static void resetPropertyBinding(DataSetHandle dsHandle, Map dataSetMap, Map dataSourceMap)
 			throws SemanticException {
-		if (dsHandle == null) {
-			return;
-		}
-		if (dsHandle.getExtends() != null) {
+		if ((dsHandle == null) || (dsHandle.getExtends() != null)) {
 			return;
 		}
 		if (dsHandle instanceof JointDataSetHandle) {
@@ -568,24 +568,22 @@ public class DataSetMetaDataHelper {
 					}
 				}
 			}
-		} else {
-			if (dsHandle instanceof OdaDataSetHandle) {
-				if (dataSetMap.get(dsHandle.getName()) != null) {
-					List pList = (List) dataSetMap.get(dsHandle.getName());
+		} else if (dsHandle instanceof OdaDataSetHandle) {
+			if (dataSetMap.get(dsHandle.getName()) != null) {
+				List pList = (List) dataSetMap.get(dsHandle.getName());
 
-					for (int i = 0; i < pList.size(); i++) {
-						PropertyBinding binding = (PropertyBinding) pList.get(i);
-						dsHandle.setPropertyBinding(binding.getName(),
-								binding.getExpressionProperty(PropertyBinding.VALUE_MEMBER));
-					}
+				for (int i = 0; i < pList.size(); i++) {
+					PropertyBinding binding = (PropertyBinding) pList.get(i);
+					dsHandle.setPropertyBinding(binding.getName(),
+							binding.getExpressionProperty(PropertyBinding.VALUE_MEMBER));
 				}
-				if (dsHandle.getDataSource() != null && dataSourceMap.get(dsHandle.getDataSource().getName()) != null) {
-					List pList = (List) dataSourceMap.get(dsHandle.getDataSource().getName());
-					for (int i = 0; i < pList.size(); i++) {
-						PropertyBinding binding = (PropertyBinding) pList.get(i);
-						dsHandle.getDataSource().setPropertyBinding(binding.getName(),
-								binding.getExpressionProperty(PropertyBinding.VALUE_MEMBER));
-					}
+			}
+			if (dsHandle.getDataSource() != null && dataSourceMap.get(dsHandle.getDataSource().getName()) != null) {
+				List pList = (List) dataSourceMap.get(dsHandle.getDataSource().getName());
+				for (int i = 0; i < pList.size(); i++) {
+					PropertyBinding binding = (PropertyBinding) pList.get(i);
+					dsHandle.getDataSource().setPropertyBinding(binding.getName(),
+							binding.getExpressionProperty(PropertyBinding.VALUE_MEMBER));
 				}
 			}
 		}

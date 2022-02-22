@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITabularHierarchyModel;
 
 /**
  * Represents a Hierarchy.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.olap.Hierarchy
  */
 
@@ -37,7 +37,7 @@ public class TabularHierarchyHandle extends HierarchyHandle implements ITabularH
 	 * Constructs a handle for the given design and design element. The application
 	 * generally does not create handles directly. Instead, it uses one of the
 	 * navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -48,7 +48,7 @@ public class TabularHierarchyHandle extends HierarchyHandle implements ITabularH
 
 	/**
 	 * Returns the data set of this hierarchy.
-	 * 
+	 *
 	 * @return the handle to the data set
 	 */
 
@@ -58,17 +58,17 @@ public class TabularHierarchyHandle extends HierarchyHandle implements ITabularH
 
 	/**
 	 * Sets the data set of this hierarchy.
-	 * 
+	 *
 	 * @param handle the handle of the data set
-	 * 
+	 *
 	 * @throws SemanticException if the property is locked, or the data-set is
 	 *                           invalid.
 	 */
 
 	public void setDataSet(DataSetHandle handle) throws SemanticException {
-		if (handle == null)
+		if (handle == null) {
 			setStringProperty(DATA_SET_PROP, null);
-		else {
+		} else {
 			ModuleHandle moduleHandle = handle.getRoot();
 			String valueToSet = handle.getElement().getFullName();
 			if (moduleHandle instanceof LibraryHandle) {
@@ -82,7 +82,7 @@ public class TabularHierarchyHandle extends HierarchyHandle implements ITabularH
 	/**
 	 * Returns the list of primary keys. The element in the list is a
 	 * <code>String</code>.
-	 * 
+	 *
 	 * @return a list of primary keys if set, otherwise null
 	 */
 

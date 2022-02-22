@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
 public class ReportletQuery {
 
-	LinkedList<Query> queries = new LinkedList<Query>();
+	LinkedList<Query> queries = new LinkedList<>();
 	ExecutionContext context;
 	InstanceID iid;
 
@@ -49,7 +49,7 @@ public class ReportletQuery {
 
 	public void openReportletQueries() throws BirtException {
 		// get all the parents
-		LinkedList<InstanceID> parents = new LinkedList<InstanceID>();
+		LinkedList<InstanceID> parents = new LinkedList<>();
 		InstanceID parentId = iid.getParentID();
 		while (parentId != null) {
 			parents.addFirst(parentId);
@@ -111,8 +111,9 @@ public class ReportletQuery {
 		for (Query query : queries) {
 			if (query.rsets != null) {
 				for (IBaseResultSet rset : query.rsets) {
-					if (rset != null)
+					if (rset != null) {
 						rset.close();
+					}
 				}
 			}
 		}

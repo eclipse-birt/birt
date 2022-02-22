@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - modification of Batik's RectValue.java to support BIRT's CSS rules
@@ -20,7 +20,7 @@ import org.w3c.dom.css.Rect;
 
 /**
  * This class represents CSS rect values.
- * 
+ *
  */
 public class RectValue extends Value implements Rect {
 
@@ -57,6 +57,7 @@ public class RectValue extends Value implements Rect {
 	/**
 	 * The type of the value.
 	 */
+	@Override
 	public short getPrimitiveType() {
 		return CSSPrimitiveValue.CSS_RECT;
 	}
@@ -64,6 +65,7 @@ public class RectValue extends Value implements Rect {
 	/**
 	 * A string representation of the current value.
 	 */
+	@Override
 	public String getCssText() {
 		return "rect(" + top.getCssText() + ", " + right.getCssText() + ", " + bottom.getCssText() + ", "
 				+ left.getCssText() + ")";
@@ -72,6 +74,7 @@ public class RectValue extends Value implements Rect {
 	/**
 	 * Implements {@link Value#getTop()}.
 	 */
+	@Override
 	public CSSPrimitiveValue getTop() throws DOMException {
 		return top;
 	}
@@ -79,6 +82,7 @@ public class RectValue extends Value implements Rect {
 	/**
 	 * Implements {@link Value#getRight()}.
 	 */
+	@Override
 	public CSSPrimitiveValue getRight() throws DOMException {
 		return right;
 	}
@@ -86,6 +90,7 @@ public class RectValue extends Value implements Rect {
 	/**
 	 * Implements {@link Value#getBottom()}.
 	 */
+	@Override
 	public CSSPrimitiveValue getBottom() throws DOMException {
 		return bottom;
 	}
@@ -93,6 +98,7 @@ public class RectValue extends Value implements Rect {
 	/**
 	 * Implements {@link Value#getLeft()}.
 	 */
+	@Override
 	public CSSPrimitiveValue getLeft() throws DOMException {
 		return left;
 	}
@@ -100,6 +106,7 @@ public class RectValue extends Value implements Rect {
 	/**
 	 * Returns a printable representation of this value.
 	 */
+	@Override
 	public String toString() {
 		return getCssText();
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,36 +45,40 @@ public class ExpressionPropertyType extends TextualPropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
+	@Override
 	public int getTypeCode() {
 		return EXPRESSION_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
+	@Override
 	public String getName() {
 		return EXPRESSION_TYPE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#validateValue(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
+	@Override
 	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
 			throws PropertyValueException {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		int trimOption = defn.getTrimOption();
 		if (value instanceof Expression) {
@@ -84,8 +88,9 @@ public class ExpressionPropertyType extends TextualPropertyType {
 			String trimExpr = trimString(expr, trimOption);
 
 			if (trimExpr == null) {
-				if (tmpType == null)
+				if (tmpType == null) {
 					return null;
+				}
 
 				return new Expression(null, tmpType);
 			}
@@ -95,8 +100,9 @@ public class ExpressionPropertyType extends TextualPropertyType {
 
 		if (value instanceof String) {
 			String expr = trimString((String) value, trimOption);
-			if (expr == null)
+			if (expr == null) {
 				return null;
+			}
 
 			return new Expression(expr, null);
 		}
@@ -106,17 +112,19 @@ public class ExpressionPropertyType extends TextualPropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.TextualPropertyType#toString(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
+	@Override
 	public String toString(Module module, PropertyDefn defn, Object value) {
-		if (value instanceof Expression)
+		if (value instanceof Expression) {
 			return ((Expression) value).getStringExpression();
-		else if (value == null || value instanceof String)
+		} else if (value == null || value instanceof String) {
 			return (String) value;
+		}
 
 		assert false;
 		return null;
@@ -124,12 +132,13 @@ public class ExpressionPropertyType extends TextualPropertyType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#toDisplayString(org
 	 * .eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
+	@Override
 	public String toDisplayString(Module module, PropertyDefn defn, Object value) {
 		return toString(module, defn, value);
 	}

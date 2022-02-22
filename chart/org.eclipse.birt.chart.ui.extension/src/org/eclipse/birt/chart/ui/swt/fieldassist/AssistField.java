@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Menu;
 
 /**
  * The class is used to wrap a control to support field assist function.
- * 
+ *
  * @since 2.3
  */
 
@@ -47,7 +47,7 @@ public abstract class AssistField implements IAssistField {
 
 	/**
 	 * Constructor of the class.
-	 * 
+	 *
 	 * @param control   the control to be decorated.
 	 * @param composite The SWT composite within which the decoration should be
 	 *                  rendered. The decoration will be clipped to this composite,
@@ -67,7 +67,7 @@ public abstract class AssistField implements IAssistField {
 
 	/**
 	 * Constructor of the class.
-	 * 
+	 *
 	 * @param control   the control to be decorated.
 	 * @param composite The SWT composite within which the decoration should be
 	 *                  rendered. The decoration will be clipped to this composite,
@@ -118,6 +118,7 @@ public abstract class AssistField implements IAssistField {
 		if (hasQuickFix()) {
 			controlDecoration.addMenuDetectListener(new MenuDetectListener() {
 
+				@Override
 				public void menuDetected(MenuDetectEvent event) {
 					// no quick fix if we aren't in error state.
 					if (isValid()) {
@@ -135,9 +136,10 @@ public abstract class AssistField implements IAssistField {
 
 	/**
 	 * Set contents to the field.
-	 * 
+	 *
 	 * @param values
 	 */
+	@Override
 	public void setContent(String[] values) {
 		if (values == null || values.length == 0) {
 			return;
@@ -149,7 +151,7 @@ public abstract class AssistField implements IAssistField {
 
 	/**
 	 * Check if the field is required.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isRequiredField() {
@@ -158,7 +160,7 @@ public abstract class AssistField implements IAssistField {
 
 	/**
 	 * Check if the quick fix function exists.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean hasQuickFix() {
@@ -174,7 +176,7 @@ public abstract class AssistField implements IAssistField {
 
 	/**
 	 * check if content assist is enabled.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean hasContentAssist() {
@@ -193,7 +195,7 @@ public abstract class AssistField implements IAssistField {
 
 	/**
 	 * Returns error decoration.
-	 * 
+	 *
 	 * @return
 	 */
 	public FieldDecoration getErrorDecoration() {
@@ -222,7 +224,7 @@ public abstract class AssistField implements IAssistField {
 
 	/**
 	 * Returns warning decoration.
-	 * 
+	 *
 	 * @return
 	 */
 	public FieldDecoration getWarningDecoration() {
@@ -240,16 +242,17 @@ public abstract class AssistField implements IAssistField {
 
 	/**
 	 * Returns contents.
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public String getContents() {
 		return contentAdapter.getControlContents(control);
 	}
 
 	/**
 	 * Returns content adapter.
-	 * 
+	 *
 	 * @return
 	 */
 	public IControlContentAdapter getContentAdapter() {
@@ -258,30 +261,31 @@ public abstract class AssistField implements IAssistField {
 
 	/**
 	 * Set contents.
-	 * 
+	 *
 	 * @param contents
 	 */
+	@Override
 	public void setContents(String contents) {
 		contentAdapter.setControlContents(control, contents, contents.length());
 	}
 
 	/**
 	 * Check if input content is valid.
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract boolean isValid();
 
 	/**
 	 * Check if input content has warning.
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract boolean isWarning();
 
 	/**
 	 * Returns error message.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getErrorMessage() {
@@ -290,7 +294,7 @@ public abstract class AssistField implements IAssistField {
 
 	/**
 	 * Returns warning message.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getWarningMessage() {

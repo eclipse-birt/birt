@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.jface.text.rules.Token;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision: 1.4 $ $Date: 2008/08/21 09:42:14 $
  */
 
@@ -34,7 +34,7 @@ public class SQLKeywordRule implements IPredicateRule {
 	StringBuffer buf = null;
 
 	/**
-	 *  
+	 *
 	 */
 	public SQLKeywordRule(IToken _token, String[] keywords) {
 		super();
@@ -45,11 +45,12 @@ public class SQLKeywordRule implements IPredicateRule {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.text.rules.IPredicateRule#evaluate(org.eclipse.jface.text.
 	 * rules.ICharacterScanner, boolean)
 	 */
+	@Override
 	public IToken evaluate(ICharacterScanner scanner, boolean resume) {
 		int column = scanner.getColumn();
 		int iCh = ' ';// Default it to space. This will be checked if the column
@@ -140,20 +141,22 @@ public class SQLKeywordRule implements IPredicateRule {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.text.rules.IPredicateRule#getSuccessToken()
 	 */
+	@Override
 	public IToken getSuccessToken() {
 		return token;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.text.rules.IRule#evaluate(org.eclipse.jface.text.rules.
 	 * ICharacterScanner)
 	 */
+	@Override
 	public IToken evaluate(ICharacterScanner scanner) {
 		return evaluate(scanner, false);
 	}

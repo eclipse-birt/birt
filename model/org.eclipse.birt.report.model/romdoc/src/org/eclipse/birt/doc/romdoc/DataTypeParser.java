@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,8 +55,9 @@ public class DataTypeParser extends HtmlDocReader {
 	private void parseTypes() throws ParserException {
 		for (;;) {
 			int token = getToken();
-			if (token == HTMLParser.EOF)
+			if (token == HTMLParser.EOF) {
 				return;
+			}
 			if (isElement(token, "h1") || isElement(token, "/body") || isElement(token, "/html")) {
 				pushToken(token);
 				return;
@@ -99,8 +100,9 @@ public class DataTypeParser extends HtmlDocReader {
 
 		for (;;) {
 			token = getToken();
-			if (token == HTMLParser.EOF)
+			if (token == HTMLParser.EOF) {
 				return;
+			}
 			if (isElement(token, "h2") || isElement(token, "/body") || isElement(token, "/html")) {
 				pushToken(token);
 				return;
@@ -117,8 +119,9 @@ public class DataTypeParser extends HtmlDocReader {
 
 			String header = parser.getTokenText();
 			token = getToken();
-			if (!isElement(token, "/h3"))
+			if (!isElement(token, "/h3")) {
 				pushToken(token);
+			}
 			if (header.equalsIgnoreCase("Description")) {
 				type.setDescription(copySection());
 			} else if (header.equalsIgnoreCase("See Also")) {
@@ -136,7 +139,7 @@ public class DataTypeParser extends HtmlDocReader {
 
 	static class ParserException extends Exception {
 		/**
-		 * 
+		 *
 		 */
 
 		private static final long serialVersionUID = 1L;

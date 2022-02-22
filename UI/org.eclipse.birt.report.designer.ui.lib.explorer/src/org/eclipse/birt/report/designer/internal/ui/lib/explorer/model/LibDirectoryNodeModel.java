@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,10 +30,12 @@ import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
  * @deprecated use ResourceEntity to represent library in resource folder.
  */
 
+@Deprecated
 public class LibDirectoryNodeModel {
 
 	FileFilter filter = new FileFilter() {
 
+		@Override
 		public boolean accept(File pathname) {
 			return pathname.isDirectory()
 					|| pathname.isFile() && (pathname.getPath().toLowerCase().endsWith(".rptlibrary") //$NON-NLS-1$

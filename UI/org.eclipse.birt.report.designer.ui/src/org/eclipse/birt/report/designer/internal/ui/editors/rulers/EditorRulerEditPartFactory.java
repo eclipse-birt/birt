@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.gef.rulers.RulerProvider;
 
 /**
  * add comment here
- * 
+ *
  */
 public class EditorRulerEditPartFactory implements EditPartFactory {
 
@@ -47,10 +47,11 @@ public class EditorRulerEditPartFactory implements EditPartFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart,
 	 * java.lang.Object)
 	 */
+	@Override
 	public EditPart createEditPart(EditPart parentEditPart, Object model) {
 		// the model can be null when the contents of the root edit part are set
 		// to null

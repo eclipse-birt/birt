@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -44,8 +44,8 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 public class Regression_117442 extends BaseTestCase {
 
 	private final static String INPUT = "regression_117442.xml"; //$NON-NLS-1$
-	private final static String OUTPUT = "regression_117442.out";
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -58,7 +58,7 @@ public class Regression_117442 extends BaseTestCase {
 	 * @throws DesignFileException
 	 * @throws IOException
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 	public void test_regression_117442() throws DesignFileException, SemanticException, IOException {
 		openDesign(INPUT);

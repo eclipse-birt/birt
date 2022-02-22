@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,6 +33,7 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider 
 	private IChoiceSet choiceSet;
 	private String[] items;
 
+	@Override
 	public String[] getItems() {
 		if (choiceSet == null) {
 			choiceSet = ChoiceSetFactory.getElementChoiceSet(getElement(), getProperty());
@@ -64,6 +65,7 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider 
 		return this.items;
 	}
 
+	@Override
 	public Object load() {
 		if (StyleHandle.FONT_FAMILY_PROP.equals(getProperty())) {
 			return DEUtil.removeQuote(super.load().toString());
@@ -82,17 +84,21 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider 
 		}
 	}
 
+	@Override
 	public String getDisplayName(String key) {
 		IChoice choice = null;
-		if (choiceSet != null)
+		if (choiceSet != null) {
 			choice = choiceSet.findChoice(key);
+		}
 
 		if (choice == null) {
 			return null;
-		} else
+		} else {
 			return choice.getDisplayName();
+		}
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		if ("".equals(value))//$NON-NLS-1$
 		{

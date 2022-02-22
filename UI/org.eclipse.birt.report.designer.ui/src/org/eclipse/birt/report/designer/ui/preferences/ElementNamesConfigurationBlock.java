@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,13 +55,14 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock {
 	}
 
 	private Key[] getKeys() {
-		Key[] keys = new Key[] { PREF_DEFAULT_NAME, PREF_CUSTOM_NAME, PREF_DESCRIPTION };
+		Key[] keys = { PREF_DEFAULT_NAME, PREF_CUSTOM_NAME, PREF_DESCRIPTION };
 		return keys;
 	}
 
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		fPixelConverter = new PixelConverter(parent);
 		setShell(parent.getShell());
@@ -146,6 +147,7 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock {
 			column.addSelectionListener(new SelectionListener() {
 				boolean asc = true;
 
+				@Override
 				public void widgetSelected(final SelectionEvent e) {
 					TableColumn selectedColumn = (TableColumn) e.widget;
 					if (table.getSortColumn() == selectedColumn) {
@@ -154,6 +156,7 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock {
 					sortTable(selectedColumn, asc);
 				}
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					widgetSelected(e);
 				}
@@ -164,7 +167,7 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock {
 
 	/**
 	 * create a tableview for the existed table
-	 * 
+	 *
 	 */
 	private void createTableViewer() {
 		tableViewer = new TableViewer(table);
@@ -184,6 +187,7 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock {
 
 						new VerifyListener() {
 
+							@Override
 							public void verifyText(VerifyEvent e) {
 								e.doit = e.text.indexOf(ReportPlugin.PREFERENCE_DELIMITER) < 0;
 							}
@@ -204,6 +208,7 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock {
 		table.setSortColumn(column);
 		table.setSortDirection(asc ? SWT.UP : SWT.DOWN);
 		tableViewer.setSorter(new ViewerSorter() {
+			@Override
 			public int compare(Viewer viewer, Object o1, Object o2) {
 				int result;
 				switch (tableViewer.getTable().indexOf(column)) {
@@ -226,12 +231,13 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock {
 
 	/**
 	 * Get the list of elementNames
-	 * 
+	 *
 	 */
 	public java.util.List getElementNames() {
 		return Arrays.asList(elementNames);
 	}
 
+	@Override
 	protected void updateControls() {
 		itemContentList = new ItemContentList(this, getKeys());
 		tableViewer.setInput(itemContentList);
@@ -239,7 +245,7 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock {
 
 	/**
 	 * get selected item
-	 * 
+	 *
 	 * @return selection
 	 */
 	public ISelection getSelection() {
@@ -262,61 +268,69 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.
 		 * viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
-			if (newInput != null)
+			if (newInput != null) {
 				((ItemContentList) newInput).addChangeListener(this);
-			if (oldInput != null)
+			}
+			if (oldInput != null) {
 				((ItemContentList) oldInput).removeChangeListener(this);
+			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
+		@Override
 		public void dispose() {
 			itemContentList.removeChangeListener(this);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.
 		 * Object)
 		 */
+		@Override
 		public Object[] getElements(Object parent) {
 			return itemContentList.getContents().toArray();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see ITaskListViewer#addTask(ExampleTask)
 		 */
+		@Override
 		public void addContent(ItemContent content) {
 			tableViewer.add(content);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see ITaskListViewer#removeTask(ExampleTask)
 		 */
+		@Override
 		public void removeContent(ItemContent content) {
 			tableViewer.remove(content);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see ITaskListViewer#updateTask(ExampleTask)
 		 */
+		@Override
 		public void updateContent(ItemContent content) {
 			tableViewer.update(content, null);
 		}

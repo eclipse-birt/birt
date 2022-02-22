@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 
 /**
- * 
+ *
  */
 
 public class HTMLServerImageHandlerTest extends EngineCase {
@@ -33,6 +33,7 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 	protected static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/HTMLServerImageHandlerTest.rptdesign";
 	protected static final String REPORT_DESIGN = "HTMLServerImageHandlerTest.rptdesign";
 
+	@Override
 	public void setUp() throws Exception {
 		removeFile(REPORT_DESIGN);
 		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
@@ -41,6 +42,7 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 		runnable = engine.openReportDesign(REPORT_DESIGN);
 	}
 
+	@Override
 	public void tearDown() {
 		// shut down the engine.
 		if (engine != null) {
@@ -57,7 +59,7 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 		Image image = new Image(blankURL);
 		RenderOptionBase option = new RenderOptionBase();
 		image.setRenderOption(option);
-		int[] imageTypes = new int[] { Image.DESIGN_IMAGE, Image.REPORTDOC_IMAGE, Image.URL_IMAGE, Image.FILE_IMAGE,
+		int[] imageTypes = { Image.DESIGN_IMAGE, Image.REPORTDOC_IMAGE, Image.URL_IMAGE, Image.FILE_IMAGE,
 				Image.CUSTOM_IMAGE, Image.INVALID_IMAGE };
 		HTMLRenderContext context = new HTMLRenderContext();
 		HTMLServerImageHandler handler = new HTMLServerImageHandler();
@@ -158,7 +160,7 @@ public class HTMLServerImageHandlerTest extends EngineCase {
 	}
 
 	private boolean isValid(String path) {
-		final String[] URL_PREFIXS = new String[] { "http:", "https:" };
+		final String[] URL_PREFIXS = { "http:", "https:" };
 		if (path.startsWith(URL_PREFIXS[0]) || path.startsWith(URL_PREFIXS[1])) {
 			return true;
 		}

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -56,9 +56,9 @@ public abstract class Layout {
 
 	/**
 	 * end current area if it is the last area of content, add bottom box property
-	 * 
+	 *
 	 * @throws BirtException
-	 * 
+	 *
 	 */
 	protected abstract void closeLayout() throws BirtException;
 
@@ -114,10 +114,10 @@ public abstract class Layout {
 		int topBorder = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_TOP_WIDTH), 0));
 		int bottomBorder = Math.max(0, getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_BOTTOM_WIDTH), 0));
 
-		int[] vs = new int[] { rightMargin, leftMargin, rightPadding, leftPadding, rightBorder, leftBorder };
+		int[] vs = { rightMargin, leftMargin, rightPadding, leftPadding, rightBorder, leftBorder };
 		resolveBoxConflict(vs, maxWidth);
 
-		int[] hs = new int[] { bottomMargin, topMargin, bottomPadding, topPadding, bottomBorder, topBorder };
+		int[] hs = { bottomMargin, topMargin, bottomPadding, topPadding, bottomBorder, topBorder };
 		// resolveBoxConflict( hs, maxHeight );
 
 		style.setProperty(IStyle.STYLE_MARGIN_LEFT, new FloatValue(CSSPrimitiveValue.CSS_NUMBER, vs[1]));
@@ -159,20 +159,20 @@ public abstract class Layout {
 		try {
 			if (d.endsWith("in") || d.endsWith("in")) //$NON-NLS-1$ //$NON-NLS-2$
 			{
-				return (int) ((Float.valueOf(d.substring(0, d.length() - 2)).floatValue()) * 72000.0f);
+				return (int) ((Float.parseFloat(d.substring(0, d.length() - 2))) * 72000.0f);
 			} else if (d.endsWith("cm") || d.endsWith("CM")) //$NON-NLS-1$//$NON-NLS-2$
 			{
-				return (int) ((Float.valueOf(d.substring(0, d.length() - 2)).floatValue()) * 72000.0f / 2.54f);
+				return (int) ((Float.parseFloat(d.substring(0, d.length() - 2))) * 72000.0f / 2.54f);
 			} else if (d.endsWith("mm") || d.endsWith("MM")) //$NON-NLS-1$ //$NON-NLS-2$
 			{
-				return (int) ((Float.valueOf(d.substring(0, d.length() - 2)).floatValue()) * 7200.0f / 2.54f);
+				return (int) ((Float.parseFloat(d.substring(0, d.length() - 2))) * 7200.0f / 2.54f);
 			} else if (d.endsWith("px") || d.endsWith("PX")) //$NON-NLS-1$//$NON-NLS-2$
 			{
-				return (int) ((Float.valueOf(d.substring(0, d.length() - 2)).floatValue()) / 96.0f * 72000.0f);// set
+				return (int) ((Float.parseFloat(d.substring(0, d.length() - 2))) / 96.0f * 72000.0f);// set
 				// as
 				// 96dpi
 			} else {
-				return (int) ((Float.valueOf(d).floatValue()));
+				return (int) ((Float.parseFloat(d)));
 			}
 		} catch (NumberFormatException ex) {
 			logger.log(Level.WARNING, ex.getLocalizedMessage());
@@ -226,7 +226,7 @@ public abstract class Layout {
 	}
 
 	protected int getResolution() {
-		int resolution = 0;
+		int resolution;
 		ReportDesignHandle designHandle = content.getReportContent().getDesign().getReportDesign();
 		resolution = designHandle.getImageDPI();
 

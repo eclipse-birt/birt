@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -45,6 +45,7 @@ public class CellComputedStyle extends ComputedStyle {
 		cell = elt;
 	}
 
+	@Override
 	protected Value resolveProperty(int index) {
 		CSSStylableElement parent = (CSSStylableElement) cell.getParent();
 		IStyle pcs = null;
@@ -63,7 +64,7 @@ public class CellComputedStyle extends ComputedStyle {
 		// column.
 		// other properties, use the property of column directly.
 		if (sv == null && columnStyle != null) {
-			if (engine.isInheritedProperty(index) == false) {
+			if (!engine.isInheritedProperty(index)) {
 				if (isBackgroundProperties(index)) {
 					Value rowValue = null;
 					if (rowStyle != null) {

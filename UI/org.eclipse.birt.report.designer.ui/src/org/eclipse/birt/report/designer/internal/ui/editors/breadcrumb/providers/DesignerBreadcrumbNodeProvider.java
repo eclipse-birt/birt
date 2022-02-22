@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,14 +18,16 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * 
+ *
  */
 
 public class DesignerBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvider {
 
+	@Override
 	public Object getParent(Object element) {
-		if (getEditPart(element) == null)
+		if (getEditPart(element) == null) {
 			return null;
+		}
 
 		Object adapter = getEditPart(element).getAdapter(IBreadcrumbNodeProvider.class);
 		if (adapter instanceof DefaultBreadcrumbNodeProvider) {
@@ -36,9 +38,11 @@ public class DesignerBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvide
 		return super.getParent(element);
 	}
 
+	@Override
 	public Object[] getChildren(Object element) {
-		if (getEditPart(element) == null)
+		if (getEditPart(element) == null) {
 			return new Object[0];
+		}
 
 		Object adapter = getEditPart(element).getAdapter(IBreadcrumbNodeProvider.class);
 		if (adapter instanceof DefaultBreadcrumbNodeProvider) {
@@ -49,13 +53,16 @@ public class DesignerBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvide
 		return super.getChildren(element);
 	}
 
+	@Override
 	public boolean hasChildren(Object element) {
 		return super.hasChildren(element);
 	}
 
+	@Override
 	public Image getImage(Object element) {
-		if (getEditPart(element) == null)
+		if (getEditPart(element) == null) {
 			return null;
+		}
 
 		Object adapter = getEditPart(element).getAdapter(IBreadcrumbNodeProvider.class);
 		if (adapter instanceof IBreadcrumbNodeProvider) {
@@ -66,9 +73,11 @@ public class DesignerBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvide
 		return super.getImage(element);
 	}
 
+	@Override
 	public String getText(Object element) {
-		if (getEditPart(element) == null)
+		if (getEditPart(element) == null) {
 			return null;
+		}
 
 		Object adapter = getEditPart(element).getAdapter(IBreadcrumbNodeProvider.class);
 		if (adapter instanceof DefaultBreadcrumbNodeProvider) {
@@ -79,9 +88,11 @@ public class DesignerBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvide
 		return super.getText(element);
 	}
 
+	@Override
 	public String getTooltipText(Object element) {
-		if (getEditPart(element) == null)
+		if (getEditPart(element) == null) {
 			return null;
+		}
 
 		Object adapter = getEditPart(element).getAdapter(IBreadcrumbNodeProvider.class);
 		if (adapter instanceof DefaultBreadcrumbNodeProvider) {
@@ -92,9 +103,11 @@ public class DesignerBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvide
 		return super.getTooltipText(element);
 	}
 
+	@Override
 	public void createContextMenu(Object element, IMenuManager menu) {
-		if (getEditPart(element) == null)
+		if (getEditPart(element) == null) {
 			return;
+		}
 
 		Object adapter = getEditPart(element).getAdapter(IBreadcrumbNodeProvider.class);
 		if (adapter instanceof DefaultBreadcrumbNodeProvider) {

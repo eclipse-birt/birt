@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  * Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -86,7 +86,7 @@ import com.ibm.icu.text.Collator;
 
 /**
  * Toolbar and menu contributor for designer
- * 
+ *
  */
 public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.ActionBarContributor {
 
@@ -114,7 +114,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 
 	private boolean isBuilt;
 
-	private static RegisterAction[] insertActions = new RegisterAction[] {
+	private static RegisterAction[] insertActions = {
 			new RegisterAction(GeneralInsertMenuAction.INSERT_LABEL_ID,
 					GeneralInsertMenuAction.INSERT_LABEL_DISPLAY_TEXT),
 			new RegisterAction(GeneralInsertMenuAction.INSERT_TEXT_ID,
@@ -132,7 +132,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 			new RegisterAction(GeneralInsertMenuAction.INSERT_TABLE_ID,
 					GeneralInsertMenuAction.INSERT_TABLE_DISPLAY_TEXT) };
 
-	private static final RegisterAction[] elementActions = new RegisterAction[] {
+	private static final RegisterAction[] elementActions = {
 			new RegisterAction(InsertRowAboveAction.ID,
 					Messages.getString("DesignerActionBarContributor.element.InsertRowAbove")), //$NON-NLS-1$
 			new RegisterAction(InsertRowBelowAction.ID,
@@ -171,6 +171,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 
 	private IPropertyChangeListener propertyChangeListener = new IPropertyChangeListener() {
 
+		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			RegisterAction[] actions = getInsertElementActions();
 			if (actions != null) {
@@ -185,6 +186,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 		}
 	};
 
+	@Override
 	public void init(IActionBars bars) {
 		super.init(bars);
 		if (bars instanceof SubActionBars) {
@@ -195,9 +197,11 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 	/*
 	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
 	 */
+	@Override
 	protected void buildActions() {
-		if (isBuilt)
+		if (isBuilt) {
 			return;
+		}
 		isBuilt = true;
 		addRetargetAction(new UndoRetargetAction());
 		addRetargetAction(new RedoRetargetAction());
@@ -240,13 +244,14 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 		if (insertElementActions == null) {
 			List extensionPoints = ExtensionPointManager.getInstance().getExtendedElementPoints();
 
-			CategorizedElementSorter<RegisterAction> elementSorter = new CategorizedElementSorter<RegisterAction>();
+			CategorizedElementSorter<RegisterAction> elementSorter = new CategorizedElementSorter<>();
 
 			if (!extensionPoints.isEmpty()) {
 				for (int k = 0; k < extensionPoints.size(); k++) {
 					ExtendedElementUIPoint point = (ExtendedElementUIPoint) extensionPoints.get(k);
-					if (!UIUtil.isVisibleExtensionElement(point))
+					if (!UIUtil.isVisibleExtensionElement(point)) {
 						continue;
+					}
 
 					IElementDefn extension = DEUtil.getMetaDataDictionary().getExtension(point.getExtensionName());
 
@@ -273,6 +278,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 
 			Collections.sort(actions, new Comparator<RegisterAction>() {
 
+				@Override
 				public int compare(RegisterAction o1, RegisterAction o2) {
 					return Collator.getInstance().compare(o1.displayName, o2.displayName);
 				}
@@ -294,8 +300,9 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 
 	private void registerActions(RegisterAction[] actions) {
 		for (int i = 0; i < actions.length; i++) {
-			if (actions[i] != null)
+			if (actions[i] != null) {
 				addRetargetAction(new ReportRetargetAction(actions[i].id, actions[i].displayName, actions[i].style));
+			}
 		}
 	}
 
@@ -305,6 +312,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 			super(actionID, text, style);
 		}
 
+		@Override
 		public void propagateChange(PropertyChangeEvent event) {
 			super.propagateChange(event);
 		}
@@ -314,6 +322,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 	 * @see
 	 * org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
 	 */
+	@Override
 	protected void declareGlobalActionKeys() {
 		addGlobalActionKey(ActionFactory.PRINT.getId());
 		addGlobalActionKey(ActionFactory.SELECT_ALL.getId());
@@ -323,12 +332,14 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 	 * @seeorg.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(
 	 * IToolBarManager)
 	 */
+	@Override
 	public void contributeToToolBar(IToolBarManager tbm) {
 
 		tbm.add(new Separator());
-		String[] zoomStrings = new String[] { ZoomManager.FIT_ALL, ZoomManager.FIT_HEIGHT, ZoomManager.FIT_WIDTH };
+		String[] zoomStrings = { ZoomManager.FIT_ALL, ZoomManager.FIT_HEIGHT, ZoomManager.FIT_WIDTH };
 		ZoomComboContributionItem zoomComboContributionItem = new ZoomComboContributionItem(getPage(), zoomStrings) {
 
+			@Override
 			protected Control createControl(Composite parent) {
 				Control control = super.createControl(parent);
 				control.setToolTipText(Messages.getString("DesignerActionBarContributor.menu.zoomCombo.tooltip"));
@@ -353,6 +364,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 	 * org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(IMenuManager
 	 * )
 	 */
+	@Override
 	public void contributeToMenu(IMenuManager menubar) {
 		super.contributeToMenu(menubar);
 		updateEditMenu(menubar);
@@ -363,6 +375,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 
 		insertMenu.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				manager.removeAll();
 				insertElementActions = null;
@@ -418,6 +431,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 		insertGroupMenu.add(NoneAction.getInstance());
 		insertGroupMenu.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				updateInsertGroupMenu(InsertGroupMenuAction.ID, manager);
 			}
@@ -429,6 +443,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 		editGroupMenu.add(NoneAction.getInstance());
 		editGroupMenu.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				updateDynamicItems(EditGroupMenuAction.ID, manager);
 			}
@@ -450,6 +465,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 
 		elementMenu.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				IContributionItem addGroupMenu = manager.findUsingPath(AddGroupAction.ID);
 				IContributionItem insertGroupMenus = manager.findUsingPath(InsertGroupMenuAction.ID);
@@ -499,6 +515,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 		editStyleMenu.add(NoneAction.getInstance());
 		editStyleMenu.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				updateDynamicItems(EditStyleMenuAction.ID, manager);
 			}
@@ -511,6 +528,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 		applyStyleMenu.add(NoneAction.getInstance());
 		applyStyleMenu.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				updateDynamicItems(ApplyStyleMenuAction.ID, manager);
 			}
@@ -523,6 +541,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 		delStyleMenu.add(NoneAction.getInstance());
 		delStyleMenu.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				updateDynamicItems(DeleteStyleMenuAction.ID, manager);
 			}
@@ -553,6 +572,7 @@ public class DesignerActionBarContributor extends org.eclipse.gef.ui.actions.Act
 		if (editMenu instanceof IMenuManager) {
 			((IMenuManager) editMenu).addMenuListener(new IMenuListener() {
 
+				@Override
 				public void menuAboutToShow(IMenuManager manager) {
 					refreshUpdateAction(ActionFactory.CUT.getId());
 					refreshUpdateAction(ActionFactory.COPY.getId());

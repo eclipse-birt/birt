@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,17 +15,18 @@
 package org.eclipse.birt.data.engine.olap.data.util;
 
 /**
- * 
+ *
  */
 
 public class ObjectArrayUtil {
 	public static Object[] convert(Object[][] objects) {
 		int objectLength = 1;
 		for (int i = 0; i < objects.length; i++) {
-			if (objects[i] != null)
+			if (objects[i] != null) {
 				objectLength += objects[i].length + 1;
-			else
+			} else {
 				objectLength += 1;
+			}
 		}
 
 		Object[] result = new Object[objectLength];

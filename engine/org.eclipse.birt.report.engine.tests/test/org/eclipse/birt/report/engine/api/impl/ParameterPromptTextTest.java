@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
- * 
+ *
  */
 
 public class ParameterPromptTextTest extends EngineCase {
@@ -37,12 +37,14 @@ public class ParameterPromptTextTest extends EngineCase {
 	protected ScalarParameterDefn scalarParameter;
 	protected ArrayList parameters;
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		copyResource(REPORT_PROMPT_TEXT_SOURCE, REPORT_PROMPT_TEXT_DESIGN);
 		copyResource(REPORT_GROUP_PROMPT_TEXT_SOURCE, REPORT_GROUP_PROMPT_TEXT_DESIGN);
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		removeFile(REPORT_PROMPT_TEXT_DESIGN);
 		removeFile(REPORT_GROUP_PROMPT_TEXT_DESIGN);

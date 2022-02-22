@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,11 +38,12 @@ public class ListBandLayout extends AbstractHintLayout {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.draw2d.AbstractLayout#calculatePreferredSize(org.eclipse.draw2d.
 	 * IFigure, int, int)
 	 */
+	@Override
 	protected Dimension calculatePreferredSize(IFigure container, int wHint, int hHint) {
 		Dimension dim = container.getSize().getCopy();
 		if (wHint > 0) {
@@ -78,9 +79,10 @@ public class ListBandLayout extends AbstractHintLayout {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
 	 */
+	@Override
 	public void layout(IFigure parent) {
 		Rectangle bounds = parent.getClientArea().getCopy();
 		List list = parent.getChildren();
@@ -117,6 +119,7 @@ public class ListBandLayout extends AbstractHintLayout {
 	/**
 	 * @see LayoutManager#getConstraint(IFigure)
 	 */
+	@Override
 	public Object getConstraint(IFigure figure) {
 		return constraints.get(figure);
 	}
@@ -124,6 +127,7 @@ public class ListBandLayout extends AbstractHintLayout {
 	/**
 	 * @see LayoutManager#remove(IFigure)
 	 */
+	@Override
 	public void remove(IFigure figure) {
 		super.remove(figure);
 		constraints.remove(figure);
@@ -132,22 +136,25 @@ public class ListBandLayout extends AbstractHintLayout {
 	/**
 	 * Sets the layout constraint of the given figure. The constraints can only be
 	 * of type {@link Rectangle}.
-	 * 
+	 *
 	 * @see LayoutManager#setConstraint(IFigure, Object)
 	 */
+	@Override
 	public void setConstraint(IFigure figure, Object newConstraint) {
 		super.setConstraint(figure, newConstraint);
-		if (newConstraint != null)
+		if (newConstraint != null) {
 			constraints.put(figure, newConstraint);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.draw2d.AbstractHintLayout#calculateMinimumSize(org.eclipse.draw2d
 	 * .IFigure, int, int)
 	 */
+	@Override
 	protected Dimension calculateMinimumSize(IFigure container, int wHint, int hHint) {
 		Dimension dim = new Dimension();
 

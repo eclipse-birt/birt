@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -19,21 +19,21 @@ import org.eclipse.birt.report.engine.content.IContent;
 public interface IReportItemExecutor {
 	/**
 	 * set extended report item model handle to the extension executor *
-	 * 
+	 *
 	 * @param handle a handle to the extended item model object
 	 */
 	void setModelObject(Object handle);
 
 	/**
 	 * set executor context to the extension executor
-	 * 
+	 *
 	 * @param context
 	 */
 	void setContext(IExecutorContext context);
 
 	/**
 	 * set parent report item executor
-	 * 
+	 *
 	 * @param parent
 	 */
 	void setParent(IReportItemExecutor parent);
@@ -55,7 +55,7 @@ public interface IReportItemExecutor {
 
 	/**
 	 * execute the report item
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	IContent execute() throws BirtException;
@@ -72,7 +72,7 @@ public interface IReportItemExecutor {
 
 	/**
 	 * does the executor has child executor
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
@@ -80,7 +80,7 @@ public interface IReportItemExecutor {
 
 	/**
 	 * return the next child's executor
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	IReportItemExecutor getNextChild() throws BirtException;
@@ -88,7 +88,7 @@ public interface IReportItemExecutor {
 	/**
 	 * close the executor, if the executor is closed, all sub executor will be
 	 * terminate also.
-	 * 
+	 *
 	 * @throws BirtException
 	 */
 	void close() throws BirtException;

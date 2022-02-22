@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,10 +47,7 @@ public class PojoDataSetFromCustomClass implements IPojoDataSet {
 		try {
 			openMethod = this.dataSetClass.getMethod(Constants.OPEN_METHOD_NAME,
 					new Class[] { Object.class, Map.class });
-		} catch (SecurityException e) {
-			logger.log(Level.WARNING, "failed to locate open(Object appContext) method ", //$NON-NLS-1$
-					e);
-		} catch (NoSuchMethodException e) {
+		} catch (SecurityException | NoSuchMethodException e) {
 			logger.log(Level.WARNING, "failed to locate open(Object appContext) method ", //$NON-NLS-1$
 					e);
 		}
@@ -60,25 +57,19 @@ public class PojoDataSetFromCustomClass implements IPojoDataSet {
 			if (nextMethod.getReturnType().isPrimitive()) {
 				throw new OdaException(Messages.getString("PojoDataSetFromCustomerClass.WrongReturnTypeForNextMethod")); //$NON-NLS-1$
 			}
-		} catch (SecurityException e) {
-			throw new OdaException(e);
-		} catch (NoSuchMethodException e) {
+		} catch (SecurityException | NoSuchMethodException e) {
 			throw new OdaException(e);
 		}
 
 		try {
 			closeMethod = this.dataSetClass.getMethod(Constants.CLOSE_METHOD_NAME, (Class[]) null);
-		} catch (SecurityException e) {
-			logger.log(Level.WARNING, "failed to locate close( ) method ", e); //$NON-NLS-1$
-		} catch (NoSuchMethodException e) {
+		} catch (SecurityException | NoSuchMethodException e) {
 			logger.log(Level.WARNING, "failed to locate close( ) method ", e); //$NON-NLS-1$
 		}
 
 		try {
 			instance = dataSetClass.newInstance();
-		} catch (InstantiationException e) {
-			throw new OdaException(e);
-		} catch (IllegalAccessException e) {
+		} catch (InstantiationException | IllegalAccessException e) {
 			throw new OdaException(e);
 		}
 
@@ -86,18 +77,15 @@ public class PojoDataSetFromCustomClass implements IPojoDataSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.oda.pojo.api.IPojoDataSet#close()
 	 */
+	@Override
 	public void close() throws OdaException {
 		if (closeMethod != null) {
 			try {
 				closeMethod.invoke(instance);
-			} catch (IllegalArgumentException e) {
-				throw new OdaException(e);
-			} catch (IllegalAccessException e) {
-				throw new OdaException(e);
-			} catch (InvocationTargetException e) {
+			} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 				throw new OdaException(e);
 			}
 		}
@@ -106,37 +94,31 @@ public class PojoDataSetFromCustomClass implements IPojoDataSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.oda.pojo.api.IPojoDataSet#next()
 	 */
+	@Override
 	public Object next() throws OdaException {
 		try {
 			return nextMethod.invoke(instance);
-		} catch (IllegalArgumentException e) {
-			throw new OdaException(e);
-		} catch (IllegalAccessException e) {
-			throw new OdaException(e);
-		} catch (InvocationTargetException e) {
+		} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 			throw new OdaException(e);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.oda.pojo.api.IPojoDataSet#open(java.lang.Object,Map<
 	 * String, Object>)
 	 */
+	@Override
 	public void open(Object appContext, Map<String, Object> dataSetParamValues) throws OdaException {
 		if (openMethod != null) {
 			try {
 				openMethod.invoke(instance, new Object[] { appContext, dataSetParamValues });
-			} catch (IllegalArgumentException e) {
-				throw new OdaException(e);
-			} catch (IllegalAccessException e) {
-				throw new OdaException(e);
-			} catch (InvocationTargetException e) {
+			} catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 				throw new OdaException(e);
 			}
 		}

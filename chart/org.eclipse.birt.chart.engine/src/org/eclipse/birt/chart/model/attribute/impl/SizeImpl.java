@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -42,7 +42,7 @@ public class SizeImpl extends EObjectImpl implements Size {
 	/**
 	 * The default value of the '{@link #getHeight() <em>Height</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -52,7 +52,7 @@ public class SizeImpl extends EObjectImpl implements Size {
 	/**
 	 * The cached value of the '{@link #getHeight() <em>Height</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getHeight()
 	 * @generated
 	 * @ordered
@@ -62,7 +62,7 @@ public class SizeImpl extends EObjectImpl implements Size {
 	/**
 	 * This is true if the Height attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -71,7 +71,7 @@ public class SizeImpl extends EObjectImpl implements Size {
 	/**
 	 * The default value of the '{@link #getWidth() <em>Width</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getWidth()
 	 * @generated
 	 * @ordered
@@ -81,7 +81,7 @@ public class SizeImpl extends EObjectImpl implements Size {
 	/**
 	 * The cached value of the '{@link #getWidth() <em>Width</em>}' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getWidth()
 	 * @generated
 	 * @ordered
@@ -91,7 +91,7 @@ public class SizeImpl extends EObjectImpl implements Size {
 	/**
 	 * This is true if the Width attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -99,7 +99,7 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected SizeImpl() {
@@ -109,9 +109,9 @@ public class SizeImpl extends EObjectImpl implements Size {
 	/**
 	 * An additional constructor that allows creation of a Size instance and
 	 * initializing member variables.
-	 * 
+	 *
 	 * Note: Manually written
-	 * 
+	 *
 	 * @param dWidth
 	 * @param dHeight
 	 */
@@ -122,7 +122,7 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -132,103 +132,115 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public double getHeight() {
 		return height;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setHeight(double newHeight) {
 		double oldHeight = height;
 		height = newHeight;
 		boolean oldHeightESet = heightESet;
 		heightESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SIZE__HEIGHT, oldHeight, height,
 					!oldHeightESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetHeight() {
 		double oldHeight = height;
 		boolean oldHeightESet = heightESet;
 		height = HEIGHT_EDEFAULT;
 		heightESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.SIZE__HEIGHT, oldHeight,
 					HEIGHT_EDEFAULT, oldHeightESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetHeight() {
 		return heightESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public double getWidth() {
 		return width;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setWidth(double newWidth) {
 		double oldWidth = width;
 		width = newWidth;
 		boolean oldWidthESet = widthESet;
 		widthESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SIZE__WIDTH, oldWidth, width,
 					!oldWidthESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetWidth() {
 		double oldWidth = width;
 		boolean oldWidthESet = widthESet;
 		width = WIDTH_EDEFAULT;
 		widthESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.SIZE__WIDTH, oldWidth,
 					WIDTH_EDEFAULT, oldWidthESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetWidth() {
 		return widthESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -244,7 +256,7 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -262,7 +274,7 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -280,7 +292,7 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -296,37 +308,40 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (height: "); //$NON-NLS-1$
-		if (heightESet)
+		if (heightESet) {
 			result.append(height);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", width: "); //$NON-NLS-1$
-		if (widthESet)
+		if (widthESet) {
 			result.append(width);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
 
 	/**
 	 * /** Convenient creation of a Size object and instantiates member variables
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param dWidth
 	 * @param dHeight
-	 * 
+	 *
 	 * @return
 	 */
 	public static final Size create(double dWidth, double dHeight) {
@@ -338,9 +353,10 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.attribute.Size#scale(double)
 	 */
+	@Override
 	public final void scale(double dScale) {
 		setWidth(getWidth() * dScale);
 		setHeight(getHeight() * dScale);
@@ -348,9 +364,10 @@ public class SizeImpl extends EObjectImpl implements Size {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.attribute.Size#scaleInstance(double)
 	 */
+	@Override
 	public final Size scaleInstance(double dScale) {
 		final Size sz = copyInstance();
 		sz.scale(dScale);
@@ -361,6 +378,7 @@ public class SizeImpl extends EObjectImpl implements Size {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
+	@Override
 	public Size copyInstance() {
 		SizeImpl dest = new SizeImpl();
 		dest.height = getHeight();

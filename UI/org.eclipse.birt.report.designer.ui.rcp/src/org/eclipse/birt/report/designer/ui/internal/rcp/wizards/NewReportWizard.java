@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -102,18 +102,20 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#getDefaultPageImage()
 	 */
+	@Override
 	public Image getDefaultPageImage() {
 		return ReportPlugin.getImage("/icons/wizban/create_report_wizard.gif"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#addPages()
 	 */
+	@Override
 	public void addPages() {
 		newReportFileWizardPage = new WizardNewReportCreationPage(WIZARDPAGE);
 
@@ -146,7 +148,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 	/**
 	 * Get the defualt location for the provided name.
-	 * 
+	 *
 	 * @return the location
 	 */
 	private String getDefaultLocation() {
@@ -178,9 +180,10 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
+	@Override
 	public boolean performFinish() {
 		final IPath locPath = newReportFileWizardPage.getFileLocationFullPath();
 		String fn = newReportFileWizardPage.getFileName();
@@ -192,16 +195,14 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			} else {
 				fileName = fn;
 			}
+		} else if (!fn.toLowerCase(Locale.getDefault()).endsWith(fileExtension)) {
+			fileName = fn + fileExtension;
 		} else {
-			if (!fn.toLowerCase(Locale.getDefault()).endsWith(fileExtension)) {
-				fileName = fn + fileExtension;
-			} else {
-				fileName = fn;
-			}
+			fileName = fn;
 		}
 
-		String cheatSheetIdFromPage = "";//$NON-NLS-1$
-		boolean showCheatSheetFromPage = false;
+		String cheatSheetIdFromPage;//$NON-NLS-1$
+		boolean showCheatSheetFromPage;
 
 		final ReportDesignHandle selTemplate = templateChoicePage.getTemplate();
 		final String templateFileName = selTemplate.getFileName();
@@ -218,6 +219,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		final LibraryHandle libraryName = templateChoicePage.getDefaultLibraryHandle();
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 
+			@Override
 			public void run(IProgressMonitor monitor) {
 				try {
 					doFinish(locPath, fileName, templateFileName, resolveRemoteStream(templateFileName, selTemplate),
@@ -270,9 +272,9 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 	/**
 	 * The worker method. It will find the container, create the file if missing or
 	 * just replace its contents, and open the editor on the newly created file.
-	 * 
+	 *
 	 * @param cheatSheetId
-	 * 
+	 *
 	 * @param locationPath
 	 * @param fileName
 	 * @param showCheatSheet
@@ -327,10 +329,11 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 			// save value of bidiLayoutOrientation property
 
 			String bidiOrientation;
-			if (templateChoicePage.isLTRDirection())
+			if (templateChoicePage.isLTRDirection()) {
 				bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_LTR;
-			else
+			} else {
 				bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_RTL;
+			}
 
 			handle.setBidiOrientation(bidiOrientation);
 
@@ -349,6 +352,7 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 		monitor.setTaskName(OPENING_FILE_FOR_EDITING);
 		getShell().getDisplay().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
@@ -393,17 +397,20 @@ public class NewReportWizard extends Wizard implements INewWizard, IExecutableEx
 
 	} /*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.wizard.IWizard#canFinish()
 		 */
 
+	@Override
 	public boolean canFinish() {
 		return templateChoicePage.isPageComplete() && newReportFileWizardPage.isPageComplete();
 	}
 
+	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 	}
 
+	@Override
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
 			throws CoreException {
 	}

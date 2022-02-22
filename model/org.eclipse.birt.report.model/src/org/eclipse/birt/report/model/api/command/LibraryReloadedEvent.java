@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,9 +32,9 @@ public class LibraryReloadedEvent extends NotificationEvent {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param host    the host module in which the library lies in
-	 * 
+	 *
 	 * @param library the element that is to reload library.
 	 */
 
@@ -45,11 +45,12 @@ public class LibraryReloadedEvent extends NotificationEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.activity.NotificationEvent#getEventType()
 	 */
 
+	@Override
 	public int getEventType() {
 		return LIBRARY_RELOADED_EVENT;
 	}
@@ -57,7 +58,7 @@ public class LibraryReloadedEvent extends NotificationEvent {
 	/**
 	 * Returns the library causing this event. If the library is <code>null</code>,
 	 * it means that the library is not found during the reload-action.
-	 * 
+	 *
 	 * @return the library causing this event, or null if the library is not found
 	 */
 

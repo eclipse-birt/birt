@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,131 +41,131 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 import com.ibm.icu.util.ULocale;
 
 /**
- * This test case is used to test <code>SessionHandle<code> and 
+ * This test case is used to test <code>SessionHandle<code> and
  * <code>DesignSession</code>.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" * bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th> <th * width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testCreateOpenAndClose()}</td>
  * <td>Open design file</td>
  * <td>needSave is false, isValid is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Set property</td>
  * <td>needSave is true, isValid is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Save as it</td>
  * <td>needSave is false, isValid is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Add new element</td>
  * <td>needSave is true, isValid is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Close this design file</td>
  * <td>needSave is false, isValid is false</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Create new design file</td>
  * <td>needSave is false, isValid is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Add new element</td>
  * <td>needSave is true, isValid is true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Close the new design file</td>
  * <td>needSave is false, isValid is false</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testOpenNonExistedFile()}</td>
  * <td>Tests opening the design file which doesn't exist.</td>
  * <td>Exception with FILE_NOT_FOUND should be thrown.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testOpenWithWrongTag()}</td>
  * <td>Tests opening the design file with the tag which is not defined in
  * DE.</td>
  * <td>Exception with SYNTAX_ERROR should be thrown.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testOpenWithMissingStartingTagError()}</td>
  * <td>Tests opening the design file with the tag which is not started
  * correctly.</td>
  * <td>Exception with SAX_EXCEPTION should be thrown.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testOpenWithUnmatchedTagError()}</td>
  * <td>Tests opening the design file with the tag which does not match the end
  * one.</td>
  * <td>Exception with SAX_EXCEPTION should be thrown.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testOpenWithInvalidAttrError()}</td>
  * <td>Tests opening the design file with the attribue which is not defined in
  * DE.</td>
  * <td>No error will be found for this invalid attribute will be ignored.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testOpenWithSemanticError()}</td>
  * <td>Tests whether the design is valid after opening a design file with
  * semantic error</td>
  * <td>The design should be invalid</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testOpenWithUndefinedProperty()}</td>
  * <td>Tests whether the design is valid when it has undefined properties.</td>
  * <td>The design should be valid but errors are saved in the design.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testOpenWithBOM()}</td>
  * <td>Tests to read a design file with byte order mark (BOM) in a windows
  * compatible UTF file.</td>
  * <td>The design should be valid.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSessionProperties()}</td>
  * <td>Tests properties of the session</td>
  * <td>Gets and sets properties correctly.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testULocale()}</td>
  * <td>Tests locales of sessions.</td>
  * <td>Gets locales correctly.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  * @see org.eclipse.birt.report.model.api.SessionHandle
  * @see org.eclipse.birt.report.model.core.DesignSession
  */
@@ -195,10 +195,11 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -213,7 +214,7 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the method of getLocale().
-	 * 
+	 *
 	 */
 
 	public void testULocale() {
@@ -226,7 +227,7 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/**
 	 * Create and open one design file, and close them.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -350,7 +351,7 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/**
 	 * Open the design file with undefined tag.
-	 * 
+	 *
 	 * @throws DesignFileException if the design file is invalid
 	 */
 
@@ -458,7 +459,7 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/**
 	 * Open the design file with semantic error.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -492,7 +493,7 @@ public class SessionHandleTest extends BaseTestCase {
 	/**
 	 * Tests to read a design file with byte order mark (BOM) in a windows
 	 * compatible UTF file.
-	 * 
+	 *
 	 * @throws Exception if errors occur during opening the design file.
 	 */
 
@@ -519,7 +520,7 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the session properties.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -533,12 +534,14 @@ public class SessionHandleTest extends BaseTestCase {
 		IResourceLocator testLocator = new DefaultResourceLocator() {
 
 			/**
-			 * 
+			 *
 			 */
+			@Override
 			public URL findResource(ModuleHandle moduleHandle, String filename, int type) {
 				return null;
 			}
 
+			@Override
 			public URL findResource(ModuleHandle moduleHandle, String fileName, int type, Map appContext) {
 				return null;
 			}
@@ -549,7 +552,7 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests default value of session.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -565,11 +568,11 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests to open the design as streams with the system id. Test cases are:
-	 * 
+	 *
 	 * <ul>
 	 * <li></li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -615,7 +618,7 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests values of system id and filename after open a design file.
-	 * 
+	 *
 	 * @param designHandle the report design handle
 	 * @param url
 	 * @param file         the <code>File</code> instance of the design file
@@ -646,7 +649,7 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/**
 	 * Test open a generic module file
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -661,7 +664,7 @@ public class SessionHandleTest extends BaseTestCase {
 	/**
 	 * Test open a report design, library and module with the important parameter
 	 * value null.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws IOException
 	 */
@@ -700,7 +703,7 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/**
 	 * Returns the number of designs in this session.
-	 * 
+	 *
 	 * @return the total design number.
 	 */
 
@@ -721,17 +724,18 @@ public class SessionHandleTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed
 		 * (org.eclipse.birt.report.model.api.ModuleHandle,
 		 * org.eclipse.birt.report.model.api.core.DisposeEvent)
 		 */
+		@Override
 		public void resourceChanged(ModuleHandle targetElement, ResourceChangeEvent ev) {
 			status = "refresh"; //$NON-NLS-1$
 		}
 
 		/**
-		 * 
+		 *
 		 * @return
 		 */
 		public String getStatus() {
@@ -746,24 +750,23 @@ public class SessionHandleTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed
 		 * (org.eclipse.birt.report.model.api.ModuleHandle,
 		 * org.eclipse.birt.report.model.api.core.DisposeEvent)
 		 */
+		@Override
 		public void resourceChanged(ModuleHandle targetElement, ResourceChangeEvent ev) {
 			status = "reload"; //$NON-NLS-1$
 			try {
 				targetElement.reloadLibrary(ev.getChangedResourcePath());
-			} catch (SemanticException e) {
-				fail();
-			} catch (DesignFileException e) {
+			} catch (SemanticException | DesignFileException e) {
 				fail();
 			}
 		}
 
 		/**
-		 * 
+		 *
 		 * @return status
 		 */
 		public String getStatus() {
@@ -774,7 +777,7 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests fireResourceChange method on session Handle.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -801,7 +804,7 @@ public class SessionHandleTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParserSemanticCheckControl() throws Exception {
@@ -824,7 +827,7 @@ public class SessionHandleTest extends BaseTestCase {
 
 	/**
 	 * Test getDefaultTOCStyle method.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -848,7 +851,7 @@ public class SessionHandleTest extends BaseTestCase {
 	/**
 	 * Tests the function of simple parser. Only read simple properties set in
 	 * report root rather than the whole design tree. Neither do the semantic check.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testOpenForSimpleParser() throws Exception {

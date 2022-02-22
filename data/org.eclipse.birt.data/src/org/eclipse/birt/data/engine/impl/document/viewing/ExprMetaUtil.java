@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -83,7 +83,7 @@ public class ExprMetaUtil {
 
 	/**
 	 * Extract the expression information from query definition
-	 * 
+	 *
 	 * @return queryDefn
 	 * @throws DataException
 	 */
@@ -97,7 +97,7 @@ public class ExprMetaUtil {
 
 	/**
 	 * Extract the expression information from group definition
-	 * 
+	 *
 	 * @param trans
 	 * @param groupLevel
 	 * @param exprMetaList
@@ -106,15 +106,17 @@ public class ExprMetaUtil {
 	 */
 	private void prepareGroup(IBaseQueryDefinition trans, List exprMetaList) throws DataException {
 		Map exprMap = trans.getBindings();
-		if (exprMap == null)
+		if (exprMap == null) {
 			return;
+		}
 
 		Iterator it = exprMap.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry entry = ((Map.Entry) it.next());
 			String bindingName = (String) entry.getKey();
-			if (nameSet.contains(bindingName) == false)
+			if (!nameSet.contains(bindingName)) {
 				continue;
+			}
 
 			IBaseExpression baseExpr = ((IBinding) entry.getValue()).getExpression();
 
@@ -162,7 +164,7 @@ public class ExprMetaUtil {
 	 */
 	public static ExprMetaInfo[] buildExprDataMetaInfo(ExprMetaInfo[] inExprMetas) {
 		ExprMetaInfo[] exprMetas = null;
-		if (isBasedOnRD(inExprMetas) == false) {
+		if (!isBasedOnRD(inExprMetas)) {
 			exprMetas = new ExprMetaInfo[inExprMetas.length + 1];
 			System.arraycopy(inExprMetas, 0, exprMetas, 0, inExprMetas.length);
 

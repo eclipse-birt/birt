@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +52,7 @@ public class ResourceSorter extends ViewerSorter {
 
 	/**
 	 * Creates a resource sorter that will use the given sort criteria.
-	 * 
+	 *
 	 * @param criteria the sort criterion to use: one of <code>NAME</code> or
 	 *                 <code>TYPE</code>
 	 */
@@ -71,7 +71,7 @@ public class ResourceSorter extends ViewerSorter {
 	 * <li>everything else - 0</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @param element the element
 	 * @return the sort priority (larger numbers means more important)
 	 */
@@ -85,6 +85,7 @@ public class ResourceSorter extends ViewerSorter {
 	/*
 	 * (non-Javadoc) Method declared on ViewerSorter.
 	 */
+	@Override
 	public int compare(Viewer viewer, Object o1, Object o2) {
 		// have to deal with non-resources in navigator
 		// if one or both objects are not resources, returned a comparison
@@ -95,24 +96,25 @@ public class ResourceSorter extends ViewerSorter {
 		IResource r1 = (IResource) o1;
 		IResource r2 = (IResource) o2;
 
-		if (r1 instanceof IContainer && r2 instanceof IContainer)
+		if (r1 instanceof IContainer && r2 instanceof IContainer) {
 			return compareNames(r1, r2);
-		else if (r1 instanceof IContainer)
+		} else if (r1 instanceof IContainer) {
 			return -1;
-		else if (r2 instanceof IContainer)
+		} else if (r2 instanceof IContainer) {
 			return 1;
-		else if (criteria == NAME)
+		} else if (criteria == NAME) {
 			return compareNames(r1, r2);
-		else if (criteria == TYPE)
+		} else if (criteria == TYPE) {
 			return compareTypes(r1, r2);
-		else
+		} else {
 			return 0;
+		}
 	}
 
 	/**
 	 * Returns a number reflecting the collation order of the given elements based
 	 * on their class.
-	 * 
+	 *
 	 * @param element1 the first element to be ordered
 	 * @param element2 the second element to be ordered
 	 * @return a negative number if the first element is less than the second
@@ -127,7 +129,7 @@ public class ResourceSorter extends ViewerSorter {
 	/**
 	 * Returns a number reflecting the collation order of the given resources based
 	 * on their resource names.
-	 * 
+	 *
 	 * @param resource1 the first resource element to be ordered
 	 * @param resource2 the second resource element to be ordered
 	 * @return a negative number if the first element is less than the second
@@ -143,7 +145,7 @@ public class ResourceSorter extends ViewerSorter {
 	 * Returns a number reflecting the collation order of the given resources based
 	 * on their respective file extensions. Resources with the same file extension
 	 * will be collated based on their names.
-	 * 
+	 *
 	 * @param resource1 the first resource element to be ordered
 	 * @param resource2 the second resource element to be ordered
 	 * @return a negative number if the first element is less than the second
@@ -160,15 +162,16 @@ public class ResourceSorter extends ViewerSorter {
 		// return a value that indicates the correct NAME ordering.
 		int result = collator.compare(ext1, ext2);
 
-		if (result != 0) // ie.- different extensions
+		if (result != 0) { // ie.- different extensions
 			return result;
+		}
 
 		return compareNames(resource1, resource2);
 	}
 
 	/**
 	 * Returns the sort criteria of this sorter.
-	 * 
+	 *
 	 * @return the sort criterion: one of <code>NAME</code> or <code>TYPE</code>
 	 */
 	public int getCriteria() {
@@ -177,7 +180,7 @@ public class ResourceSorter extends ViewerSorter {
 
 	/**
 	 * Returns the extension portion of the given resource.
-	 * 
+	 *
 	 * @param resource the resource
 	 * @return the file extension, possibily the empty string
 	 */
@@ -188,7 +191,7 @@ public class ResourceSorter extends ViewerSorter {
 
 	/**
 	 * Sets the sort criteria of this sorter.
-	 * 
+	 *
 	 * @param criteria the sort criterion: one of <code>ResourceSorter.NAME</code>
 	 *                 or <code>ResourceSorter.TYPE</code>
 	 */

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ public class AggregationConstantsUtil {
 
 	/**
 	 * Return the Constant Expression referred by the total constants.
-	 * 
+	 *
 	 * @param child
 	 * @return
 	 */
@@ -36,17 +36,19 @@ public class AggregationConstantsUtil {
 		if (child.getFirstChild().getType() == Token.NAME && child.getFirstChild().getString().equalsIgnoreCase(TOTAL)
 				&& child.getLastChild().getType() == Token.STRING) {
 			String property = child.getLastChild().getString();
-			if (CURRENT_GROUP.equalsIgnoreCase(property) || OVERALL.equalsIgnoreCase(property))
+			if (CURRENT_GROUP.equalsIgnoreCase(property) || OVERALL.equalsIgnoreCase(property)) {
 				return new ConstantExpression(property.toUpperCase());
-			if (NO_FILTER.equalsIgnoreCase(property))
+			}
+			if (NO_FILTER.equalsIgnoreCase(property)) {
 				return new ConstantExpression();
+			}
 		}
 		return null;
 	}
 
 	/**
 	 * Return the group level the constant stand for.
-	 * 
+	 *
 	 * @param constant
 	 * @param currentGroupLevel
 	 * @param innerMostGroupLevel

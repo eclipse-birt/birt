@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.core.Structure;
 
 /**
  * Time interval structure.
- * 
+ *
  */
 
 public class TimeInterval extends Structure {
@@ -56,26 +56,29 @@ public class TimeInterval extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
+	@Override
 	protected Object getIntrinsicProperty(String propName) {
-		if (MEASURE_MEMBER.equals(propName))
+		if (MEASURE_MEMBER.equals(propName)) {
 			return measure;
-		else if (UNIT_MEMBER.equals(propName))
+		} else if (UNIT_MEMBER.equals(propName)) {
 			return unit;
+		}
 
 		assert false;
 		return null;
@@ -83,26 +86,29 @@ public class TimeInterval extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	protected void setIntrinsicProperty(String propName, Object value) {
-		if (MEASURE_MEMBER.equals(propName))
+		if (MEASURE_MEMBER.equals(propName)) {
 			measure = ((Integer) value).intValue();
-		else if (UNIT_MEMBER.equals(propName))
+		} else if (UNIT_MEMBER.equals(propName)) {
 			unit = (String) value;
-		else
+		} else {
 			assert false;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
+	@Override
 	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		assert false;
 		return null;
@@ -110,17 +116,18 @@ public class TimeInterval extends Structure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
 	 * .report.model.api.SimpleValueHandle)
 	 */
+	@Override
 	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
 		return new TimeIntervalHandle(valueHandle.getElementHandle(), getContext());
 	}
 
 	/**
 	 * Sets the measure value.
-	 * 
+	 *
 	 * @param measure the measure value to set
 	 */
 
@@ -130,7 +137,7 @@ public class TimeInterval extends Structure {
 
 	/**
 	 * Returns the measure value.
-	 * 
+	 *
 	 * @return the measure value
 	 */
 
@@ -141,13 +148,13 @@ public class TimeInterval extends Structure {
 	/**
 	 * Sets the unit of the time interval. The value can one of the following value
 	 * defined in <code>DesignChoiceConstants</code>:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>INTERVAL_SECOND</code>
 	 * <li><code>INTERVAL_MINUTE</code>
 	 * <li><code>INTERVAL_HOUR</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param unit the unit to set
 	 */
 	public void setUnit(String unit) {
@@ -157,13 +164,13 @@ public class TimeInterval extends Structure {
 	/**
 	 * Returns the unit of the time interval. The value can be one of the following
 	 * value defined in <code>DesignChoiceConstants</code>:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>INTERVAL_SECOND</code>
 	 * <li><code>INTERVAL_MINUTE</code>
 	 * <li><code>INTERVAL_HOUR</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the unit
 	 */
 	public String getUnit() {

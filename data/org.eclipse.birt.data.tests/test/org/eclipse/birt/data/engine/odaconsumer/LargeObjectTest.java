@@ -1,13 +1,13 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,6 +16,11 @@
  */
 
 package org.eclipse.birt.data.engine.odaconsumer;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,26 +33,18 @@ import java.util.Properties;
 import java.util.Random;
 
 import org.eclipse.birt.core.internal.util.EclipseUtil;
-import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.ResultClass;
-import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.OdaException;
-import org.eclipse.datatools.connectivity.oda.impl.Blob;
-import org.eclipse.datatools.connectivity.oda.impl.Clob;
-import org.eclipse.datatools.connectivity.oda.impl.SimpleResultSet;
-import org.osgi.framework.Bundle;
-
-import testutil.JDBCOdaDataSource;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.osgi.framework.Bundle;
+
+import testutil.JDBCOdaDataSource;
 
 /**
  * Tests for BLOB and CLOB support in the BIRT ODA consumer, DTP-to-BIRT ODA
@@ -144,7 +141,7 @@ public class LargeObjectTest extends ConnectionTest {
 
 	/**
 	 * Get substring value from Clob object
-	 * 
+	 *
 	 * @param clob
 	 * @return the substring value of clob
 	 */
@@ -263,21 +260,21 @@ public class LargeObjectTest extends ConnectionTest {
 		 * plugin.xml String command = "select blob_col from table1"; PreparedStatement
 		 * stmt = m_flatFileConnection.prepareStatement( command,
 		 * DTP_FLATFILE_DATASET_ID ); assertTrue( stmt.execute() );
-		 * 
+		 *
 		 * ResultSet resultSet = new ResultSetLob( stmt.getResultSet().getMetaData() );
 		 * assertNotNull( resultSet ); IResultObject resultObject = resultSet.fetch();
 		 * IResultClass resultClass = resultObject.getResultClass();
-		 * 
+		 *
 		 * assertEquals( 1, resultClass.getFieldCount() );
-		 * 
+		 *
 		 * String[] names = resultClass.getFieldNames(); assertEquals( "blob_col",
 		 * names[0] );
-		 * 
+		 *
 		 * assertEquals( "BLOB", resultClass.getFieldNativeTypeName( 1 ) );
-		 * 
+		 *
 		 * assertEquals( org.eclipse.datatools.connectivity.oda.IBlob.class,
 		 * resultClass.getFieldValueClass( 1 ) );
-		 * 
+		 *
 		 * Object obj = resultObject.getFieldValue( 1 ); assertTrue( obj instanceof
 		 * byte[] ); byte[] objValue = (byte[]) obj; for ( int i = 0; i <
 		 * objValue.length; i += 1 ) assertEquals( i, objValue[i] ); // IBlob blob =
@@ -298,38 +295,39 @@ public class LargeObjectTest extends ConnectionTest {
 		 * plugin.xml String command = "select clob_col from table1"; PreparedStatement
 		 * stmt = m_flatFileConnection.prepareStatement( command,
 		 * DTP_FLATFILE_DATASET_ID ); assertTrue( stmt.execute() );
-		 * 
+		 *
 		 * ResultSet resultSet = new ResultSetLob( stmt.getResultSet().getMetaData() );
 		 * assertNotNull( resultSet ); IResultObject resultObject = resultSet.fetch();
 		 * IResultClass resultClass = resultObject.getResultClass();
-		 * 
+		 *
 		 * assertEquals( 1, resultClass.getFieldCount() );
-		 * 
+		 *
 		 * String[] names = resultClass.getFieldNames(); assertEquals( "clob_col",
 		 * names[0] );
-		 * 
+		 *
 		 * assertEquals( "CLOB", resultClass.getFieldNativeTypeName( 1 ) );
-		 * 
+		 *
 		 * assertEquals( org.eclipse.datatools.connectivity.oda.IClob.class,
 		 * resultClass.getFieldValueClass( 1 ) );
-		 * 
+		 *
 		 * Object obj = resultObject.getFieldValue( 1 ); assertTrue( obj instanceof
 		 * String ); char[] chs = obj.toString( ).toCharArray( ); for ( int i = 0; i <
 		 * chs.length; i += 1 ) { assertEquals( 'a' + i, chs[i] ); }
-		 * 
+		 *
 		 * // assertTrue( obj instanceof IClob ); // IClob clob = (IClob) obj; // Reader
 		 * reader = clob.getCharacterStream(); // assertEquals( 26, clob.length() ); //
 		 * for ( int i = 0; i < clob.length(); i += 1) // { // assertEquals( 'a' + i,
 		 * reader.read() ); // }
-		 * 
+		 *
 		 * stmt.close();
 		 */ }
 
 	private static void setupDirectories() throws IOException {
 		String dataDir;
 
-		if (sm_pluginFile != null && sm_manifestsDir != null)
+		if (sm_pluginFile != null && sm_manifestsDir != null) {
 			return; // already set, so return early
+		}
 
 		if (sm_pluginTest) {
 			// set directory where test plugin.xml files are stored
@@ -365,59 +363,6 @@ public class LargeObjectTest extends ConnectionTest {
 //    }
 
 	/*
-	 * ResultSetLob test class for hard-coded BLOB and CLOB values
-	 */
-	private class ResultSetLob extends ResultSet {
-		private IResultClass m_resultClass = null;
-
-		public ResultSetLob(IResultClass resultClass) {
-			// create a placeholder IResultSet object,
-			// which isn't used in this test
-			super(new SimpleResultSet(), resultClass);
-
-			m_resultClass = resultClass;
-		}
-
-		public IResultObject fetch() throws DataException {
-			int columnCount = m_resultClass.getFieldCount();
-			int[] driverPositions = ((ResultClass) m_resultClass).getFieldDriverPositions();
-			assert (columnCount == driverPositions.length);
-
-			Object[] fields = new Object[columnCount];
-
-			for (int i = 1; i <= columnCount; i++) {
-				if (m_resultClass.isCustomField(i) == true)
-					continue;
-
-				Class dataType = m_resultClass.getFieldValueClass(i);
-				Object colValue = null;
-
-				if (dataType == IClob.class)
-					colValue = getClob();
-				else if (dataType == IBlob.class)
-					colValue = getBlob();
-				else
-					assert false;
-
-				fields[i - 1] = colValue;
-			}
-
-			IResultObject ret = new ResultObject(m_resultClass, fields);
-
-			return ret;
-		}
-
-		private Object getBlob() {
-			byte[] bytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9 };
-			return new Blob(bytes);
-		}
-
-		private Object getClob() {
-			return new Clob("abcdefghijklmnopqrstuvwxyz");
-		}
-	}
-
-	/*
 	 * TestUtil class for generating test data, taken from flatfile test package
 	 */
 	private static class TestUtil {
@@ -428,8 +373,6 @@ public class LargeObjectTest extends ConnectionTest {
 
 		public static final String CONN_CHARSET = "CHARSET"; //$NON-NLS-1$
 
-		public static final String CONN_INCLTYPELINE = "INCLTYPELINE"; //$NON-NLS-1$
-
 		public static void createTestFile() throws OdaException {
 			createTestFileDirectory();
 			createTestFile_test1();
@@ -437,8 +380,9 @@ public class LargeObjectTest extends ConnectionTest {
 
 		private static void createTestFileDirectory() throws OdaException {
 			File file = new File("testdatabase");
-			if (file.exists())
+			if (file.exists()) {
 				return;
+			}
 			try {
 				file.mkdirs();
 			} catch (SecurityException e) {
@@ -448,15 +392,16 @@ public class LargeObjectTest extends ConnectionTest {
 
 		private static void createTestFile_test1() throws OdaException {
 			File file = new File("testdatabase" + File.separator + "table1");
-			if (file.exists())
+			if (file.exists()) {
 				return;
+			}
 			try {
 				FileOutputStream fos = new FileOutputStream(file);// "test1.csv");
 				OutputStreamWriter osw = new OutputStreamWriter(fos, CHARSET);
 
 				Random r = new Random();
-				String comma = new String(",");
-				String endOfLine = new String("\n");
+				String comma = ",";
+				String endOfLine = "\n";
 				osw.flush();
 				String header = "INT0_COL,DOUBLE0_COL,CLOB_COL,DATE_COL,TIME_COL,"
 						+ "TIMESTAMP_COL,BLOB_COL,INT1_COL,DOUBLE1_COL,BIGDECIMAL_COL\n";
@@ -466,12 +411,15 @@ public class LargeObjectTest extends ConnectionTest {
 				osw.write(types);
 				for (int i = 0; i < 1234; i++) {
 					for (int j = 0; j < 10; j++) {
-						if (j == 0)
+						if (j == 0) {
 							osw.write(Integer.toString(i));
-						if (j == 1 || j == 8)
+						}
+						if (j == 1 || j == 8) {
 							osw.write(Double.toString(r.nextDouble()));
-						if (j == 2)
+						}
+						if (j == 2) {
 							osw.write("abcdefghijklmnopqrstuvwxyz");
+						}
 						if (j == 3) {
 							int year = 1000 + i;
 							int month = i % 12 + 1;
@@ -481,19 +429,24 @@ public class LargeObjectTest extends ConnectionTest {
 							osw.write(s);
 						}
 
-						if (j == 4)
+						if (j == 4) {
 							osw.write(Time.valueOf(i % 24 + ":" + j + ":00").toString());
-						if (j == 5)
-							osw.write(Integer.toString(new Timestamp(System.currentTimeMillis()).getNanos()));
-						if (j == 6) {
-							osw.write(new String("0123456789"));
 						}
-						if (j == 7)
+						if (j == 5) {
+							osw.write(Integer.toString(new Timestamp(System.currentTimeMillis()).getNanos()));
+						}
+						if (j == 6) {
+							osw.write("0123456789");
+						}
+						if (j == 7) {
 							osw.write(Integer.toString(r.nextInt()));
-						if (j == 9)
+						}
+						if (j == 9) {
 							osw.write(Double.toString(r.nextDouble()));
-						if (j < 9)
+						}
+						if (j < 9) {
 							osw.write(comma);
+						}
 					}
 					osw.write(endOfLine);
 				}

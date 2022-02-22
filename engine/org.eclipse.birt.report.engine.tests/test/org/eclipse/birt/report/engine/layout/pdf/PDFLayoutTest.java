@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ public abstract class PDFLayoutTest extends EngineCase {
 			return true;
 		} else {
 			Iterator iter = container.getChildren();
-			while (iter.hasNext()) {
+			if (iter.hasNext()) {
 				Object children = iter.next();
 				if (children instanceof ContainerArea) {
 					return isEmpty((ContainerArea) children);
@@ -123,6 +123,7 @@ public abstract class PDFLayoutTest extends EngineCase {
 			this.pageAreas = pageAreas;
 		}
 
+		@Override
 		public void onMethod(Method method, Object[] args) {
 			if ("startPage".equals(method.getName())) {
 				PageContent pageContent = (PageContent) args[0];
@@ -144,11 +145,13 @@ class TestRunAndRenderTask extends RunAndRenderTask {
 		this.monitor = monitor;
 	}
 
+	@Override
 	protected IContentEmitter createContentEmitter() throws EngineException {
 		final IContentEmitter emitter = super.createContentEmitter();
 		return (IContentEmitter) Proxy.newProxyInstance(emitter.getClass().getClassLoader(),
 				new Class[] { IContentEmitter.class }, new InvocationHandler() {
 
+					@Override
 					public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 						monitor.onMethod(method, args);
 						return method.invoke(emitter, args);

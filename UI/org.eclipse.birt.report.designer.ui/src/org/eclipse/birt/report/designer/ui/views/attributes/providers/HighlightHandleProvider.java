@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,12 +34,12 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
 /**
  * Helper class for highlight rule handle operation.
- * 
+ *
  * @since 2.5
  */
 public class HighlightHandleProvider {
 
-	private static final HighlightRuleHandle[] EMPTY = new HighlightRuleHandle[0];
+	private static final HighlightRuleHandle[] EMPTY = {};
 
 	public static final int EXPRESSION_TYPE_ROW = 0;
 	public static final int EXPRESSION_TYPE_DATA = 1;
@@ -66,7 +66,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Returns the final font family name.
-	 * 
+	 *
 	 * @param fontFamily
 	 * @return
 	 */
@@ -82,7 +82,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Returns the style handle for current design element.
-	 * 
+	 *
 	 * @return
 	 */
 	public StyleHandle getStyleHandle() {
@@ -91,7 +91,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Returns the current design element handle.
-	 * 
+	 *
 	 * @return
 	 */
 	public DesignElementHandle getDesignElementHandle() {
@@ -100,7 +100,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Returns the column text for each highlight item.
-	 * 
+	 *
 	 * @param element     highlight rule handle element.
 	 * @param columnIndex
 	 * @return
@@ -115,29 +115,29 @@ public class HighlightHandleProvider {
 
 		case 1:
 			// String exp = resolveNull( getTestExpression( ) )
-			String exp = resolveNull(handle.getTestExpression()) + " " //$NON-NLS-1$
-					+ HighlightRuleBuilder.getNameForOperator(handle.getOperator());
+			StringBuilder exp = new StringBuilder().append(resolveNull(handle.getTestExpression())).append(" " //$NON-NLS-1$
+			).append(HighlightRuleBuilder.getNameForOperator(handle.getOperator()));
 
 			int vv = HighlightRuleBuilder.determineValueVisible(handle.getOperator());
 
 			if (vv == 1) {
-				exp += " " + resolveNull(handle.getValue1()); //$NON-NLS-1$
+				exp.append(" ").append(resolveNull(handle.getValue1())); //$NON-NLS-1$
 			} else if (vv == 2) {
-				exp += " " //$NON-NLS-1$
-						+ resolveNull(handle.getValue1()) + " , " //$NON-NLS-1$
-						+ resolveNull(handle.getValue2());
+				exp.append(" " //$NON-NLS-1$
+				).append(resolveNull(handle.getValue1())).append(" , " //$NON-NLS-1$
+				).append(resolveNull(handle.getValue2()));
 			} else if (vv == 3) {
-				exp += " "; //$NON-NLS-1$
+				exp.append(" "); //$NON-NLS-1$
 				int count = handle.getValue1List().size();
 				for (int i = 0; i < count; i++) {
 					if (i == 0) {
-						exp += handle.getValue1List().get(i).toString();
+						exp.append(handle.getValue1List().get(i).toString());
 					} else {
-						exp += "; " + handle.getValue1List().get(i).toString(); //$NON-NLS-1$
+						exp.append("; ").append(handle.getValue1List().get(i).toString()); //$NON-NLS-1$
 					}
 				}
 			}
-			return exp;
+			return exp.toString();
 
 		default:
 			return ""; //$NON-NLS-1$
@@ -154,7 +154,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Swaps the two neighbour-items, no edge check.
-	 * 
+	 *
 	 * @param pos       item position.
 	 * @param direction negative - UP or LEFT, positive or zero - BOTTOM or RIGHT
 	 * @return
@@ -168,7 +168,7 @@ public class HighlightHandleProvider {
 		} else {
 			/**
 			 * Original code: phandle.moveItem( pos, pos + 1 );
-			 * 
+			 *
 			 * Changes due to model api changes. since property handle now treats moving
 			 * from 0-0, 0-1 as the same.
 			 */
@@ -180,7 +180,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Deletes specified highlight rule item from current highlight rules property.
-	 * 
+	 *
 	 * @param pos item position.
 	 * @return
 	 * @throws PropertyValueException
@@ -191,8 +191,9 @@ public class HighlightHandleProvider {
 		phandle.removeItem(pos);
 
 		try {
-			if (phandle.getListValue() == null || phandle.getListValue().size() == 0)
+			if (phandle.getListValue() == null || phandle.getListValue().size() == 0) {
 				elementHandle.setProperty(StyleHandle.HIGHLIGHT_RULES_PROP, null);
+			}
 		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);
 		}
@@ -202,7 +203,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Adds new highlight rule item to current highlight rules property.
-	 * 
+	 *
 	 * @param rule new highlight rule item.
 	 * @param pos  current highlight rule items count.
 	 * @return new created highlight rule handle.
@@ -223,7 +224,7 @@ public class HighlightHandleProvider {
 
 	/**
 	 * Returns all highlight rule items from current DesignElement.
-	 * 
+	 *
 	 * @param inputElement design element handle.
 	 * @return
 	 */

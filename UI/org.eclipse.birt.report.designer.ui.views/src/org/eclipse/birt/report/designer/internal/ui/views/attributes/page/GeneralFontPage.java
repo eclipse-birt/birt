@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -78,7 +78,7 @@ public abstract class GeneralFontPage extends ResetAttributePage {
 	}
 
 	private IDescriptorProvider[] createFontStyleProviders() {
-		IDescriptorProvider[] providers = new IDescriptorProvider[] {
+		IDescriptorProvider[] providers = {
 
 				new FontStylePropertyDescriptorProvider(StyleHandle.FONT_WEIGHT_PROP,
 						ReportDesignConstants.STYLE_ELEMENT),
@@ -95,8 +95,9 @@ public abstract class GeneralFontPage extends ResetAttributePage {
 				new PropertyDescriptorProvider(StyleHandle.TEXT_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT) };
 
 		for (int i = 0; i < providers.length; i++) {
-			if (providers[i] instanceof PropertyDescriptorProvider)
+			if (providers[i] instanceof PropertyDescriptorProvider) {
 				((PropertyDescriptorProvider) providers[i]).enableReset(true);
+			}
 		}
 
 		return providers;

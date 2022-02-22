@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ public class FontSizeBuilder extends Composite {
 
 	private String fontSizeValue;
 
-	private static final String[] PRE_INT_TABLE = new String[] { "9", "10", "12", "14", "16", "18", "24", "36" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+	private static final String[] PRE_INT_TABLE = { "9", "10", "12", "14", "16", "18", "24", "36" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 	};
 
 	private static final String DEFAULT_CHOICE = Messages.getString("FontSizeBuilder.displayname.Auto"); //$NON-NLS-1$
@@ -69,48 +69,54 @@ public class FontSizeBuilder extends Composite {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parent a widget which will be the parent of the new instance (cannot
 	 *               be null)
 	 * @param style  the style of widget to construct
 	 */
 	private void initFontSizeBuilder(Composite parent, int style, boolean isFormStyle) {
 		setLayout(WidgetUtil.createSpaceGridLayout(2, 0, isFormStyle));
-		if (isFormStyle)
+		if (isFormStyle) {
 			((GridLayout) getLayout()).horizontalSpacing = 4;
+		}
 
-		if (isFormStyle)
+		if (isFormStyle) {
 			valueCombo = FormWidgetFactory.getInstance().createCCombo(this, false);
-		else {
+		} else {
 			valueCombo = new CCombo(this, SWT.DROP_DOWN);
 			valueCombo.setVisibleItemCount(30);
 		}
 
-		if (isFormStyle)
+		if (isFormStyle) {
 			unitCombo = FormWidgetFactory.getInstance().createCCombo(this);
-		else {
+		} else {
 			unitCombo = new CCombo(this, SWT.DROP_DOWN);
 			unitCombo.setVisibleItemCount(30);
 		}
 
 		valueCombo.addFocusListener(new FocusListener() {
 
+			@Override
 			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
 				// does nothing.
 			}
 
+			@Override
 			public void focusLost(org.eclipse.swt.events.FocusEvent e) {
-				if (!isProcessing)
+				if (!isProcessing) {
 					processAction();
+				}
 			}
 
 		});
 		valueCombo.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				processAction();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				isProcessing = true;
 				processAction();
@@ -119,12 +125,14 @@ public class FontSizeBuilder extends Composite {
 		});
 		valueCombo.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				String val = valueCombo.getText();
 
 				boolean enabled = (isInPreIntTable(val) || !isPredefinedValue(val)) && DEUtil.isValidNumber(val);
-				if (unitCombo.getEnabled() != enabled)
+				if (unitCombo.getEnabled() != enabled) {
 					unitCombo.setEnabled(enabled);
+				}
 
 				if (!unitCombo.isEnabled()) {
 					unitCombo.deselectAll();
@@ -144,10 +152,12 @@ public class FontSizeBuilder extends Composite {
 
 		unitCombo.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				processAction();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				isProcessing = true;
 				processAction();
@@ -157,13 +167,16 @@ public class FontSizeBuilder extends Composite {
 
 		unitCombo.addFocusListener(new FocusListener() {
 
+			@Override
 			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
 				// does nothing.
 			}
 
+			@Override
 			public void focusLost(org.eclipse.swt.events.FocusEvent e) {
-				if (!isProcessing)
+				if (!isProcessing) {
 					processAction();
+				}
 			}
 
 		});
@@ -218,11 +231,7 @@ public class FontSizeBuilder extends Composite {
 	}
 
 	private boolean isPredefinedValue(String val) {
-		if (DEFAULT_CHOICE.equals(val)) {
-			return true;
-		}
-
-		if (isInPreIntTable(val)) {
+		if (DEFAULT_CHOICE.equals(val) || isInPreIntTable(val)) {
 			return true;
 		}
 
@@ -230,11 +239,7 @@ public class FontSizeBuilder extends Composite {
 	}
 
 	private boolean isPredefinedNameValue(String val) {
-		if (DEFAULT_CHOICE.equals(val)) {
-			return true;
-		}
-
-		if (isInPreIntTable(val)) {
+		if (DEFAULT_CHOICE.equals(val) || isInPreIntTable(val)) {
 			return true;
 		}
 
@@ -267,7 +272,7 @@ public class FontSizeBuilder extends Composite {
 
 	/**
 	 * Processes the save action.
-	 * 
+	 *
 	 * @param rgb The new RGB value.
 	 */
 	protected void processAction() {
@@ -293,7 +298,7 @@ public class FontSizeBuilder extends Composite {
 
 	/**
 	 * Sets the font size value.
-	 * 
+	 *
 	 * @param size
 	 */
 	public void setFontSizeValue(String size) {
@@ -326,8 +331,9 @@ public class FontSizeBuilder extends Composite {
 
 			if (units.contains(sp[1])) {
 				String text = units.findChoice(sp[1]).getDisplayName();
-				if (!unitCombo.getText().equals(text))
+				if (!unitCombo.getText().equals(text)) {
 					unitCombo.setText(text);
+				}
 			}
 
 		}
@@ -335,7 +341,7 @@ public class FontSizeBuilder extends Composite {
 
 	/**
 	 * Returns the font size value.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getFontSizeValue() {
@@ -344,9 +350,10 @@ public class FontSizeBuilder extends Composite {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
+	@Override
 	public void setEnabled(boolean enabled) {
 		valueCombo.setEnabled(enabled);
 
@@ -362,9 +369,10 @@ public class FontSizeBuilder extends Composite {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#computeSize(int, int, boolean)
 	 */
+	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed) {
 		checkWidget();
 

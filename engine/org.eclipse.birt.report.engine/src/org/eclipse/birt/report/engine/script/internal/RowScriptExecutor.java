@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,8 +32,9 @@ public class RowScriptExecutor extends ScriptExecutor {
 		try {
 			IRow row = new Row(rowHandle);
 			IRowEventHandler eh = getEventHandler(rowHandle, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onPrepare(row, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e);
 		}
@@ -46,11 +47,13 @@ public class RowScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IRowInstance row = new RowInstance(content, context, RunningState.CREATE);
-			if (handleScript(row, rowDesign.getOnCreate(), context).didRun())
+			if (handleScript(row, rowDesign.getOnCreate(), context).didRun()) {
 				return;
+			}
 			IRowEventHandler eh = getEventHandler(rowDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onCreate(row, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, rowDesign.getHandle());
 		}
@@ -63,11 +66,13 @@ public class RowScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IRowInstance row = new RowInstance(content, context, RunningState.RENDER);
-			if (handleScript(row, rowDesign.getOnRender(), context).didRun())
+			if (handleScript(row, rowDesign.getOnRender(), context).didRun()) {
 				return;
+			}
 			IRowEventHandler eh = getEventHandler(rowDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onRender(row, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, rowDesign.getHandle());
 		}
@@ -80,11 +85,13 @@ public class RowScriptExecutor extends ScriptExecutor {
 		}
 		try {
 			IRowInstance row = new RowInstance(content, context, RunningState.PAGEBREAK);
-			if (handleScript(row, rowDesign.getOnPageBreak(), context).didRun())
+			if (handleScript(row, rowDesign.getOnPageBreak(), context).didRun()) {
 				return;
+			}
 			IRowEventHandler eh = getEventHandler(rowDesign, context);
-			if (eh != null)
+			if (eh != null) {
 				eh.onPageBreak(row, context.getReportContext());
+			}
 		} catch (Exception e) {
 			addException(context, e, rowDesign.getHandle());
 		}

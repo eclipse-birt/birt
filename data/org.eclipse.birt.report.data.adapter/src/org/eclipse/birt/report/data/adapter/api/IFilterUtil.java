@@ -25,6 +25,6 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
  * optimization job.
  */
 public interface IFilterUtil {
-	public Map<String, List<String>> populatedNonPushdownableFilterOperators(DataSetHandle dataSet, int filterType)
+	Map<String, List<String>> populatedNonPushdownableFilterOperators(DataSetHandle dataSet, int filterType)
 			throws BirtException;
 }

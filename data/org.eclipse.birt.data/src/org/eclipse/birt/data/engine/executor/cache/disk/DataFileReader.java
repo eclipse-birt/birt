@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ class DataFileReader {
 
 	/**
 	 * A util method to new instance of DataFileReader
-	 * 
+	 *
 	 * @param file
 	 * @return DataFileReader instance
 	 */
@@ -49,7 +49,7 @@ class DataFileReader {
 
 	/**
 	 * Construction
-	 * 
+	 *
 	 * @param file
 	 */
 	private DataFileReader(File file, ResultObjectUtil resultObjectUtil) {
@@ -59,12 +59,13 @@ class DataFileReader {
 
 	/**
 	 * Set which file to be read. This method is mainly used to new less instance.
-	 * 
+	 *
 	 * @param file
 	 */
 	void setReadFile(File file) {
-		if (isOpen)
+		if (isOpen) {
 			close();
+		}
 
 		this.file = file;
 		this.isOpen = false;
@@ -74,7 +75,7 @@ class DataFileReader {
 	 * Read the specified length of objects from file. Notice to improve the
 	 * efficienly of reading, the order of reading only can be sequencial. The
 	 * caller has responsibility to design a good algorithm to achive this goal.
-	 * 
+	 *
 	 * @param length
 	 * @param stopSign
 	 * @throws IOException, exception of reading file
@@ -82,7 +83,7 @@ class DataFileReader {
 	 * @throws DataException
 	 */
 	IResultObject[] read(int length) throws IOException, DataException {
-		if (isOpen == false) {
+		if (!isOpen) {
 			try {
 				fis = FileSecurity.createFileInputStream(file);
 			} catch (Exception e) {
@@ -98,7 +99,7 @@ class DataFileReader {
 
 	/**
 	 * Close current input file.
-	 * 
+	 *
 	 * @throws IOException, file close exception
 	 */
 	void close() {

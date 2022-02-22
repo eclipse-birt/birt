@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -31,16 +31,14 @@ public class PageHintGenerator {
 				startContent = content;
 				currentContent = content;
 			}
-		} else {
-			if (!isFirst) {
-				if (currentContent != null) {
-					pageHint.add(new IContent[] { startContent, currentContent });
-					startContent = null;
-					currentContent = null;
-				}
-			} else {
-				currentContent = content;
+		} else if (!isFirst) {
+			if (currentContent != null) {
+				pageHint.add(new IContent[] { startContent, currentContent });
+				startContent = null;
+				currentContent = null;
 			}
+		} else {
+			currentContent = content;
 		}
 	}
 
@@ -61,8 +59,7 @@ public class PageHintGenerator {
 	}
 
 	public List getPageHint() {
-		ArrayList hint = new ArrayList();
-		hint.addAll(pageHint);
+		ArrayList hint = new ArrayList(pageHint);
 		if (startContent != null) {
 			if (currentContent != null) {
 				hint.add(new IContent[] { startContent, currentContent });

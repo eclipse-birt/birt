@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.swt.SWT;
 
 /**
  * Presents list band figure for list band render
- * 
+ *
  */
 public class ListBandRenderFigure extends Figure {
 
@@ -43,10 +43,11 @@ public class ListBandRenderFigure extends Figure {
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout#
 			 * getChildSize(org.eclipse.draw2d.IFigure, int, int)
 			 */
+			@Override
 			protected Dimension getChildSize(IFigure child, int wHint, int hHint) {
 				if (child instanceof TableFigure) {
 					IFigure grandFigure = getParent().getParent();
@@ -87,9 +88,10 @@ public class ListBandRenderFigure extends Figure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
+	@Override
 	protected void paintFigure(Graphics graphics) {
 		graphics.setForegroundColor(ReportColorConstants.ShadowLineColor);
 		graphics.setLineStyle(SWT.LINE_SOLID);
@@ -98,9 +100,10 @@ public class ListBandRenderFigure extends Figure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#getPreferredSize(int, int)
 	 */
+	@Override
 	public Dimension getPreferredSize(int wHint, int hHint) {
 		invalidateTree();
 
@@ -117,9 +120,10 @@ public class ListBandRenderFigure extends Figure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#getMinimumSize(int, int)
 	 */
+	@Override
 	public Dimension getMinimumSize(int wHint, int hHint) {
 		Dimension retValue = super.getMinimumSize(wHint, hHint);
 		if (retValue.height < HEIGHT) {

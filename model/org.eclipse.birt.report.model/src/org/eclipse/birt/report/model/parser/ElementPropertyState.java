@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ public class ElementPropertyState extends AbstractPropertyState {
 	protected int lineNumber = 1;
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
 	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement element,
 	 * )
@@ -46,10 +46,11 @@ public class ElementPropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		if (valid) {
 			PropertyDefn propDefn = element.getPropertyDefn(name);
@@ -58,16 +59,18 @@ public class ElementPropertyState extends AbstractPropertyState {
 				IElementDefn elementDefn = allowedElements.get(i);
 				AbstractParseState state = ParseStateFactory.getInstance().createParseState(tagName, elementDefn,
 						handler, element, propDefn);
-				if (state != null)
+				if (state != null) {
 					return state;
+				}
 			}
 
 			// this child is not allowed in the container
 			if (element instanceof ExtendedItem) {
 				AbstractParseState state = ParseStateFactory.getInstance().createParseState(tagName, handler, element,
 						propDefn);
-				if (state != null)
+				if (state != null) {
 					return state;
+				}
 			}
 		}
 		return super.startElement(tagName);
@@ -75,13 +78,15 @@ public class ElementPropertyState extends AbstractPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
+	@Override
 	public void end() throws SAXException {
 		super.end();
-		if (handler.markLineNumber)
+		if (handler.markLineNumber) {
 			handler.tempLineNumbers.put(new ContainerContext(element, name), lineNumber);
+		}
 
 	}
 

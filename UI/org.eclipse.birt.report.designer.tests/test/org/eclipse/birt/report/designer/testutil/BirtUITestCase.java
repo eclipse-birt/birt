@@ -1,20 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.testutil;
-
-import junit.framework.TestCase;
 
 import org.eclipse.birt.report.designer.tests.ITestConstants;
 import org.eclipse.core.resources.IFile;
@@ -28,6 +26,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+
+import junit.framework.TestCase;
 
 /**
  * Base class of BIRT GUI Features test
@@ -46,9 +46,10 @@ public abstract class BirtUITestCase extends TestCase implements ITestConstants 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		tWorkbench = PlatformUI.getWorkbench();
 		tWindow = tWorkbench.getActiveWorkbenchWindow();
@@ -66,7 +67,7 @@ public abstract class BirtUITestCase extends TestCase implements ITestConstants 
 
 	/**
 	 * Opens the ReportEditor
-	 * 
+	 *
 	 * @return the Report Editor
 	 */
 
@@ -101,9 +102,9 @@ public abstract class BirtUITestCase extends TestCase implements ITestConstants 
 
 	/**
 	 * Gets the ViewPart with the specified id
-	 * 
+	 *
 	 * @param id the id of view part
-	 * 
+	 *
 	 * @return Returns the view part, or null if not found
 	 */
 
@@ -111,8 +112,9 @@ public abstract class BirtUITestCase extends TestCase implements ITestConstants 
 		IViewReference[] v = tPage.getViewReferences();
 		int i;
 		for (i = 0; i < v.length; i++) {
-			if (v[i].getId().equals(id))
+			if (v[i].getId().equals(id)) {
 				return (IViewPart) v[i].getPart(true);
+			}
 		}
 		return null;
 	}

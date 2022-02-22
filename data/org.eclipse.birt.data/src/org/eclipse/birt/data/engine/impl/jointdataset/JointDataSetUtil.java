@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 public class JointDataSetUtil {
 	/**
 	 * The utility method which is used to compare two Objects.
-	 * 
+	 *
 	 * @param value1
 	 * @param value2
 	 * @return
@@ -34,7 +34,7 @@ public class JointDataSetUtil {
 
 	/**
 	 * The utility method which is used to compare two object arrays.
-	 * 
+	 *
 	 * @param left
 	 * @param right
 	 * @return
@@ -45,10 +45,7 @@ public class JointDataSetUtil {
 
 		for (int i = 0; i < left.length; i++) {
 			int result = JointDataSetUtil.compare(left[i], right[i]);
-			if (result != 0) {
-				return result;
-			}
-			return 0;
+			return result;
 		}
 		return 0;
 

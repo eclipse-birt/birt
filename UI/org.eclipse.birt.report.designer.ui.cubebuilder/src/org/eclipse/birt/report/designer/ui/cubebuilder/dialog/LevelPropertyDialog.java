@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -125,8 +125,9 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 	public String[] getDataTypeNames() {
 		IChoice[] choices = getAvailableDataTypeChoices();
-		if (choices == null)
+		if (choices == null) {
 			return new String[0];
+		}
 
 		String[] names = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
@@ -143,8 +144,9 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 	private String[] getDataTypeDisplayNames() {
 		IChoice[] choices = getAvailableDataTypeChoices();
-		if (choices == null)
+		if (choices == null) {
 			return new String[0];
+		}
 
 		String[] displayNames = new String[choices.length];
 		for (int i = 0; i < choices.length; i++) {
@@ -161,13 +163,15 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		this.isNew = isNew;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.LEVEL_PROPERTY_DIALOG);
 		getShell().setText(Messages.getString("LevelPropertyDialog.Shell.Title")); //$NON-NLS-1$
-		if (isNew)
+		if (isNew) {
 			this.setTitle(Messages.getString("LevelPropertyDialog.Title.Add")); //$NON-NLS-1$
-		else
+		} else {
 			this.setTitle(Messages.getString("LevelPropertyDialog.Title.Edit")); //$NON-NLS-1$
+		}
 		this.setMessage(Messages.getString("LevelPropertyDialog.Message")); //$NON-NLS-1$
 
 		Composite area = (Composite) super.createDialogArea(parent);
@@ -207,12 +211,14 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 			refreshDynamicViewer();
 			dataset = OlapUtil.getHierarchyDataset((TabularHierarchyHandle) input.getContainer());
-			if (dataset != null)
+			if (dataset != null) {
 				attributeItems = OlapUtil.getDataFieldNames(dataset);
+			}
 			resetEditorItems();
 
-			if (input.getName() != null)
+			if (input.getName() != null) {
 				nameText.setText(input.getName());
+			}
 			dynamicDataTypeCombo.setItems(getDataTypeDisplayNames());
 			dynamicDataTypeCombo.setText(getDataTypeDisplayName(input.getDataType()));
 
@@ -224,8 +230,9 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 				} catch (Exception e) {
 					fieldCombo.select(0);
 				}
-			} else
+			} else {
 				fieldCombo.select(0);
+			}
 
 			displayKeyCombo.setItems(OlapUtil.getDataFieldNames(dataset));
 			displayKeyCombo.add(Messages.getString("LevelPropertyDialog.None"), 0); //$NON-NLS-1$
@@ -234,8 +241,9 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 					TabularLevelHandle.DISPLAY_COLUMN_NAME_PROP);
 
 			if (displayKeyCombo.getText().trim().length() == 0) {
-				if (displayKeyCombo.getItemCount() > 0)
+				if (displayKeyCombo.getItemCount() > 0) {
 					displayKeyCombo.select(0);
+				}
 			}
 
 			staticDataTypeCombo.setItems(getDataTypeDisplayNames());
@@ -278,6 +286,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 	}
 
+	@Override
 	protected void okPressed() {
 		IDialogHelper formatHelper = null;
 		if (dynamicButton.getSelection()) {
@@ -295,8 +304,9 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 				{
 					ExpressionButtonUtil.saveExpressionButtonControl(displayKeyCombo, input,
 							TabularLevelHandle.DISPLAY_COLUMN_NAME_PROP);
-				} else
+				} else {
 					input.setDisplayColumnName(null);
+				}
 				if (dynamicDataTypeCombo.getText() != null) {
 					input.setDataType(getDataTypeNames()[dynamicDataTypeCombo.getSelectionIndex()]);
 				}
@@ -426,12 +436,15 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider() {
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
+		@Override
 		public Object[] getElements(Object input) {
 			if (input instanceof List) {
 				List list = (List) input;
@@ -443,19 +456,23 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 	private IStructuredContentProvider defaultValueContentProvider = new IStructuredContentProvider() {
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
+		@Override
 		public Object[] getElements(Object input) {
 			if (input instanceof TabularLevelHandle) {
 				List list = new ArrayList();
-				if (((TabularLevelHandle) input).getDefaultValue() != null)
+				if (((TabularLevelHandle) input).getDefaultValue() != null) {
 					list.add(((TabularLevelHandle) input).getDefaultValue());
-				else
+				} else {
 					list.add(dummyChoice);
+				}
 				return list.toArray();
 			}
 			return new Object[0];
@@ -464,15 +481,17 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 	private ITableLabelProvider staticLabelProvider = new ITableLabelProvider() {
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 1) {
-				if (element == dummyChoice)
+				if (element == dummyChoice) {
 					return Messages.getString("LevelPropertyDialog.MSG.Static.CreateNew"); //$NON-NLS-1$
-				else {
+				} else {
 					if (element instanceof RuleHandle) {
 
 						return ((RuleHandle) element).getDisplayExpression();
@@ -481,9 +500,9 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 					return ""; //$NON-NLS-1$
 				}
 			} else if (columnIndex == 2) {
-				if (element == dummyChoice)
+				if (element == dummyChoice) {
 					return ""; //$NON-NLS-1$
-				else {
+				} else {
 					if (element instanceof RuleHandle) {
 
 						return ((RuleHandle) element).getRuleExpression();
@@ -491,20 +510,25 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 					}
 					return ""; //$NON-NLS-1$
 				}
-			} else
+			} else {
 				return ""; //$NON-NLS-1$
+			}
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
@@ -512,15 +536,17 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 	private ITableLabelProvider defaultValueLabelProvider = new ITableLabelProvider() {
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 1) {
-				if (element == dummyChoice)
+				if (element == dummyChoice) {
 					return Messages.getString("LevelPropertyDialog.MSG.DefaultValue"); //$NON-NLS-1$
-				else {
+				} else {
 					if (element instanceof String) {
 
 						return (String) element;
@@ -530,20 +556,25 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 				}
 			} else if (columnIndex == 2) {
 				return Messages.getString("LevelPropertyDialog.MSG.Tooltip"); //$NON-NLS-1$
-			} else
+			} else {
 				return ""; //$NON-NLS-1$
+			}
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
@@ -551,35 +582,39 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 	private ITableLabelProvider dynamicLabelProvider = new ITableLabelProvider() {
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 1) {
-				if (element == dummyChoice)
+				if (element == dummyChoice) {
 					return Messages.getString("LevelPropertyDialog.MSG.Dynamic.CreateNew"); //$NON-NLS-1$
-				else {
-					if (element instanceof LevelAttributeHandle) {
+				} else if (element instanceof LevelAttributeHandle) {
 
-						return ((LevelAttributeHandle) element).getName();
+					return ((LevelAttributeHandle) element).getName();
 
-					}
 				}
 			}
 			return ""; //$NON-NLS-1$
 		}
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
@@ -662,6 +697,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 	private ICellModifier defaultValueCellModifier = new ICellModifier() {
 
+		@Override
 		public boolean canModify(Object element, String property) {
 			if (property.equals(Prop_DefaultValue)) {
 				return true;
@@ -669,25 +705,29 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 			return false;
 		}
 
+		@Override
 		public Object getValue(Object element, String property) {
 			if (property.equals(Prop_DefaultValue)) {
 				if (element != dummyChoice) {
-					if (element instanceof String)
+					if (element instanceof String) {
 						return (String) element;
+					}
 				}
 
 			}
 			return ""; //$NON-NLS-1$
 		}
 
+		@Override
 		public void modify(Object element, String property, Object value) {
 			if (property.equals(Prop_DefaultValue)) // $NON-NLS-1$
 			{
 				try {
-					if (!(value.toString().trim().equals("") || value.equals(dummyChoice))) //$NON-NLS-1$
+					if (!(value.toString().trim().equals("") || value.equals(dummyChoice))) { //$NON-NLS-1$
 						input.setDefaultValue(value.toString());
-					else
+					} else { // $NON-NLS-1$
 						input.setDefaultValue(null);
+					}
 				} catch (SemanticException e) {
 					ExceptionUtil.handle(e);
 				}
@@ -725,6 +765,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		nameText.setLayoutData(gd);
 		nameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				checkOkButtonStatus();
 			}
@@ -740,6 +781,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		fieldCombo.setVisibleItemCount(30);
 		fieldCombo.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Iterator attrIter = input.attributesIterator();
 				while (attrIter.hasNext()) {
@@ -767,6 +809,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		displayKeyCombo.setVisibleItemCount(30);
 		displayKeyCombo.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (displayKeyCombo.getSelectionIndex() > 0) {
 					IExpressionConverter converter = ExpressionButtonUtil
@@ -774,8 +817,9 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 					if (converter != null) {
 						String value = ExpressionUtility.getResultSetColumnExpression(displayKeyCombo.getText(),
 								converter);
-						if (value != null)
+						if (value != null) {
 							displayKeyCombo.setText(value);
+						}
 					}
 				}
 			}
@@ -783,22 +827,26 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 		ExpressionHelper displayKeyHelper = new ExpressionHelper() {
 
+			@Override
 			public String getExpression() {
 				if (control instanceof Combo) {
 					String text = ((Combo) control).getText();
 					if (!Messages.getString("LevelPropertyDialog.None") //$NON-NLS-1$
-							.equals(text))
+							.equals(text)) {
 						return text;
+					}
 				}
 				return ""; //$NON-NLS-1$
 			}
 
+			@Override
 			public void setExpression(String expression) {
 				if (control instanceof Combo) {
-					if ("".equals(DEUtil.resolveNull(expression))) //$NON-NLS-1$
+					if ("".equals(DEUtil.resolveNull(expression))) { //$NON-NLS-1$
 						((Combo) control).setText(Messages.getString("LevelPropertyDialog.None")); //$NON-NLS-1$
-					else
+					} else { // $NON-NLS-1$
 						((Combo) control).setText(DEUtil.resolveNull(expression));
+					}
 				}
 
 			}
@@ -813,6 +861,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		dynamicDataTypeCombo.setVisibleItemCount(30);
 		dynamicDataTypeCombo.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateFormatHelper(dynamicFormatHelper, dynamicDataTypeCombo);
 				checkOkButtonStatus();
@@ -840,6 +889,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 		dynamicTable.addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.DEL) {
 					deleteDynamicAttribute();
@@ -849,13 +899,14 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 		dynamicTable.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				handleDynamicTableEditEvent();
 			}
 		});
 
 		dynamicViewer = new TableViewer(dynamicTable);
-		String[] columns = new String[] { " ", Messages.getString("LevelPropertyDialog.Label.Attribute") //$NON-NLS-1$ //$NON-NLS-2$
+		String[] columns = { " ", Messages.getString("LevelPropertyDialog.Label.Attribute") //$NON-NLS-1$ //$NON-NLS-2$
 		};
 
 		TableColumn column = new TableColumn(dynamicTable, SWT.LEFT);
@@ -885,6 +936,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 		dynamicAddButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				resetEditorItems();
 				LevelDynamicAttributeDialog dialog = new LevelDynamicAttributeDialog(
@@ -921,6 +973,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 		dynamicEditButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleDynamicTableEditEvent();
 			}
@@ -935,12 +988,14 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		dynamicRemoveButton.setEnabled(false);
 		dynamicRemoveButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				deleteDynamicAttribute();
 			}
 		});
 		dynamicTable.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkDynamicViewerButtonStatus();
 			}
@@ -968,6 +1023,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 						levelHelper.createContent(parent);
 						levelHelper.addListener(SWT.Modify, new Listener() {
 
+							@Override
 							public void handleEvent(Event event) {
 								levelHelper.update(false);
 							}
@@ -1000,6 +1056,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 						memberHelper.createContent(parent);
 						memberHelper.addListener(SWT.Modify, new Listener() {
 
+							@Override
 							public void handleEvent(Event event) {
 								memberHelper.update(false);
 							}
@@ -1032,6 +1089,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 						hyperLinkHelper.createContent(parent);
 						hyperLinkHelper.addListener(SWT.Modify, new Listener() {
 
+							@Override
 							public void handleEvent(Event event) {
 								hyperLinkHelper.update(false);
 							}
@@ -1113,7 +1171,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 				|| DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals(dataType));
 	}
 
-	String[] attributeItems = new String[0];
+	String[] attributeItems = {};
 
 	private void resetEditorItems() {
 		resetEditorItems(null);
@@ -1122,9 +1180,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 	private String[] dynamicMemeberItems;
 
 	private void resetEditorItems(String name) {
-		List list = new ArrayList();
-		list.addAll(Arrays.asList(attributeItems));
-
+		List list = new ArrayList(Arrays.asList(attributeItems));
 		Iterator attrIter = input.attributesIterator();
 		while (attrIter.hasNext()) {
 			LevelAttributeHandle handle = (LevelAttributeHandle) attrIter.next();
@@ -1180,6 +1236,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		dynamicButton = new Button(contents, SWT.RADIO);
 		dynamicButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					input.setLevelType(DesignChoiceConstants.LEVEL_TYPE_DYNAMIC);
@@ -1194,6 +1251,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		staticButton = new Button(contents, SWT.RADIO);
 		staticButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					input.setLevelType(DesignChoiceConstants.LEVEL_TYPE_MIRRORED);
@@ -1224,7 +1282,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 			}
 		} else if (button == staticButton) {
 			dynamicButton.setSelection(false);
-			;
+
 			staticButton.setSelection(true);
 			setExcludeGridData(dynamicArea, true);
 			setExcludeGridData(staticArea, false);
@@ -1285,7 +1343,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 	private Button staticEditButton;
 	private Button staticRemoveButton;
 	private Button dynamicEditButton;
-	private Button dynamicRemoveButton;;
+	private Button dynamicRemoveButton;
 
 	protected Composite createStaticArea(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
@@ -1306,6 +1364,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		staticNameText.setLayoutData(gd);
 		staticNameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				checkOkButtonStatus();
 			}
@@ -1319,6 +1378,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		staticDataTypeCombo.setVisibleItemCount(30);
 		staticDataTypeCombo.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateFormatHelper(staticFormatHelper, staticDataTypeCombo);
 				checkOkButtonStatus();
@@ -1347,6 +1407,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 		staticTable.addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.keyCode == SWT.DEL) {
 					deleteStaticAttribute();
@@ -1356,17 +1417,18 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 		staticTable.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				handleStaticTableEditEvent();
 			}
 		});
 		staticViewer = new TableViewer(staticTable);
-		String[] columns = new String[] { "", //$NON-NLS-1$
+		String[] columns = { "", //$NON-NLS-1$
 				Messages.getString("LevelPropertyDialog.Label.Name"), //$NON-NLS-1$
 				Messages.getString("LevelPropertyDialog.Label.Expression") //$NON-NLS-1$
 		};
 
-		int[] widths = new int[] { 15, 180, 180 };
+		int[] widths = { 15, 180, 180 };
 
 		staticColumns = new TableColumn[3];
 		for (int i = 0; i < columns.length; i++) {
@@ -1378,9 +1440,11 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 			staticColumns[i].setWidth(widths[i]);
 			staticColumns[i].addControlListener(new ControlListener() {
 
+				@Override
 				public void controlMoved(ControlEvent e) {
 				}
 
+				@Override
 				public void controlResized(ControlEvent e) {
 					defaultValueColumns[0].setWidth(staticColumns[0].getWidth());
 					defaultValueColumns[1].setWidth(staticColumns[1].getWidth());
@@ -1406,6 +1470,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 		staticAddButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				LevelStaticAttributeDialog dialog = new LevelStaticAttributeDialog(
 						Messages.getString("LevelPropertyDialog.StaticAttributeDialog.Title.New")); //$NON-NLS-1$
@@ -1430,6 +1495,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 		staticEditButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleStaticTableEditEvent();
 			}
@@ -1444,12 +1510,14 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		staticRemoveButton.setEnabled(false);
 		staticRemoveButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				deleteStaticAttribute();
 			}
 		});
 		staticTable.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkStaticViewerButtonStatus();
 			}
@@ -1476,7 +1544,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		defaultValueViewer.setColumnProperties(new String[] { "", //$NON-NLS-1$
 				LevelPropertyDialog.Prop_DefaultValue, LevelPropertyDialog.prop_Tooltip });
 
-		CellEditor[] cellEditors = new CellEditor[] { null, new TextCellEditor(defaultValueTable), null };
+		CellEditor[] cellEditors = { null, new TextCellEditor(defaultValueTable), null };
 
 		defaultValueViewer.setCellEditors(cellEditors);
 
@@ -1493,6 +1561,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 		defaultValueEditButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleDefaultValueEditEvent();
 			}
@@ -1544,10 +1613,11 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 
 	public static void setExcludeGridData(Control control, boolean exclude) {
 		Object obj = control.getLayoutData();
-		if (obj == null)
+		if (obj == null) {
 			control.setLayoutData(new GridData());
-		else if (!(obj instanceof GridData))
+		} else if (!(obj instanceof GridData)) {
 			return;
+		}
 		GridData data = (GridData) control.getLayoutData();
 		if (exclude) {
 			data.heightHint = 0;
@@ -1560,41 +1630,43 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 	}
 
 	protected void checkOkButtonStatus() {
-		if (getButton(IDialogConstants.OK_ID) != null)
+		if (getButton(IDialogConstants.OK_ID) != null) {
 			getButton(IDialogConstants.OK_ID).setEnabled(false);
+		}
 		setMessage(null);
 
 		if (dynamicButton.getSelection()) {
-			if (nameText.getText() == null || nameText.getText().trim().equals(""))//$NON-NLS-1$
+			if (nameText.getText() == null || nameText.getText().trim().equals("")) { //$NON-NLS-1$
 				setErrorMessage(Messages.getString("LevelPropertyDialog.Message.BlankName")); //$NON-NLS-1$
-			else if (!UIUtil.validateDimensionName(nameText.getText()))
+			} else if (!UIUtil.validateDimensionName(nameText.getText())) {
 				setErrorMessage(Messages.getString("LevelPropertyDialog.Message.NumericName")); //$NON-NLS-1$
-			else if (fieldCombo.getSelectionIndex() == -1)
+			} else if (fieldCombo.getSelectionIndex() == -1) {
 				setErrorMessage(Messages.getString("LevelPropertyDialog.Message.BlankKeyField")); //$NON-NLS-1$
-			else if (dynamicDataTypeCombo.getSelectionIndex() == -1)
+			} else if (dynamicDataTypeCombo.getSelectionIndex() == -1) {
 				setErrorMessage(Messages.getString("LevelPropertyDialog.Message.BlankDataType")); //$NON-NLS-1$
-			else {
-				if (getButton(IDialogConstants.OK_ID) != null)
+			} else {
+				if (getButton(IDialogConstants.OK_ID) != null) {
 					getButton(IDialogConstants.OK_ID).setEnabled(true);
+				}
 				setErrorMessage(null);
 				setMessage(Messages.getString("LevelPropertyDialog.Message")); //$NON-NLS-1$
 			}
+		} else if (staticNameText.getText() == null || staticNameText.getText().trim().equals("")) { //$NON-NLS-1$
+			setErrorMessage(Messages.getString("LevelPropertyDialog.Message.BlankName")); //$NON-NLS-1$
+		} else if (!UIUtil.validateDimensionName(staticNameText.getText())) {
+			setErrorMessage(Messages.getString("LevelPropertyDialog.Message.NumericName")); //$NON-NLS-1$
+		} else if (staticDataTypeCombo.getSelectionIndex() == -1) {
+			setErrorMessage(Messages.getString("LevelPropertyDialog.Message.BlankDataType")); //$NON-NLS-1$
 		} else {
-			if (staticNameText.getText() == null || staticNameText.getText().trim().equals("")) //$NON-NLS-1$
-				setErrorMessage(Messages.getString("LevelPropertyDialog.Message.BlankName")); //$NON-NLS-1$
-			else if (!UIUtil.validateDimensionName(staticNameText.getText()))
-				setErrorMessage(Messages.getString("LevelPropertyDialog.Message.NumericName")); //$NON-NLS-1$
-			else if (staticDataTypeCombo.getSelectionIndex() == -1)
-				setErrorMessage(Messages.getString("LevelPropertyDialog.Message.BlankDataType")); //$NON-NLS-1$
-			else {
-				if (getButton(IDialogConstants.OK_ID) != null)
-					getButton(IDialogConstants.OK_ID).setEnabled(true);
-				setErrorMessage(null);
-				setMessage(Messages.getString("LevelPropertyDialog.Message")); //$NON-NLS-1$
+			if (getButton(IDialogConstants.OK_ID) != null) {
+				getButton(IDialogConstants.OK_ID).setEnabled(true);
 			}
+			setErrorMessage(null);
+			setMessage(Messages.getString("LevelPropertyDialog.Message")); //$NON-NLS-1$
 		}
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		checkOkButtonStatus();
@@ -1609,6 +1681,7 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		}
 	}
 
+	@Override
 	protected Point getInitialSize() {
 		Point shellSize = super.getInitialSize();
 		return new Point(Math.max(convertHorizontalDLUsToPixels(400), shellSize.x),
@@ -1625,10 +1698,12 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 			}
 			refreshStaticViewer();
 			int itemCount = staticTable.getItemCount();
-			if (staticSelectIndex >= itemCount)
+			if (staticSelectIndex >= itemCount) {
 				staticSelectIndex = itemCount - 1;
-			if (staticSelectIndex >= 0)
+			}
+			if (staticSelectIndex >= 0) {
 				staticTable.select(staticSelectIndex);
+			}
 			checkStaticViewerButtonStatus();
 		}
 	}
@@ -1643,10 +1718,12 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 			}
 			refreshDynamicViewer();
 			int itemCount = dynamicTable.getItemCount();
-			if (dynamicSelectIndex >= itemCount)
+			if (dynamicSelectIndex >= itemCount) {
 				dynamicSelectIndex = itemCount - 1;
-			if (dynamicSelectIndex >= 0)
+			}
+			if (dynamicSelectIndex >= 0) {
 				dynamicTable.select(dynamicSelectIndex);
+			}
 			checkDynamicViewerButtonStatus();
 		}
 	}
@@ -1698,10 +1775,11 @@ public class LevelPropertyDialog extends BaseTitleAreaDialog {
 		if (dialog.open() == Window.OK) {
 			String value = dialog.getValue();
 			try {
-				if (value == null || value.trim().length() == 0)
+				if (value == null || value.trim().length() == 0) {
 					input.setDefaultValue(null);
-				else
+				} else {
 					input.setDefaultValue(value.trim());
+				}
 				defaultValueViewer.refresh();
 			} catch (SemanticException e) {
 				ExceptionHandler.handle(e);

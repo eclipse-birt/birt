@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -29,10 +29,12 @@ import org.eclipse.jface.window.Window;
 
 public class ReferenceDescriptorProvider extends AbstractDescriptorProvider implements ITextDescriptorProvider {
 
+	@Override
 	public boolean isEditable() {
 		return false;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("ReferencePage.Label.Source"); //$NON-NLS-1$
 	}
@@ -45,6 +47,7 @@ public class ReferenceDescriptorProvider extends AbstractDescriptorProvider impl
 		return isEnableButton;
 	}
 
+	@Override
 	public Object load() {
 		String source = ((ImageHandle) DEUtil.getInputFirstElement(input)).getSource();
 		if (source.equals(DesignChoiceConstants.IMAGE_REF_TYPE_EMBED)) {
@@ -71,6 +74,7 @@ public class ReferenceDescriptorProvider extends AbstractDescriptorProvider impl
 
 	private Object input;
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}
@@ -82,13 +86,15 @@ public class ReferenceDescriptorProvider extends AbstractDescriptorProvider impl
 		} else if (input instanceof List) {
 			value = DEUtil.getGroupElementHandle((List) input).getStringProperty(property);
 		}
-		if (value == null)
+		if (value == null) {
 			isEnableButton = false;
-		else
+		} else {
 			isEnableButton = true;
+		}
 		return value == null ? "" : value; //$NON-NLS-1$
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		// TODO Auto-generated method stub
 

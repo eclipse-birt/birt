@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
 /**
- * 
+ *
  */
 
 public class MasterColumnsPropertyDescriptor extends PropertyDescriptor {
@@ -54,13 +54,16 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor {
 
 	SelectionAdapter listener = new SelectionAdapter() {
 
+		@Override
 		public void widgetSelected(SelectionEvent e) {
-			if (((Button) e.widget).getSelection())
+			if (((Button) e.widget).getSelection()) {
 				checkButtonSelection((Button) e.widget, true);
+			}
 		}
 
 	};
 
+	@Override
 	public Control createControl(Composite parent) {
 		content = new Composite(parent, SWT.NONE);
 
@@ -121,11 +124,13 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor {
 		customNumberLabel.setText(Messages.getString("MasterColumnsPropertyDescriptor.Combo.Text.Column.Number")); //$NON-NLS-1$
 		if (isFormStyle()) {
 			spinner = FormWidgetFactory.getInstance().createSpinner(content, SWT.NONE);
-		} else
+		} else {
 			spinner = new Spinner(content, SWT.BORDER);
+		}
 		spinner.setEnabled(false);
 		spinner.addFocusListener(new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				if (customColumnsButton.getSelection()) {
 					try {
@@ -156,42 +161,48 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor {
 				threeColumnsButton.setSelection(false);
 				customColumnsButton.setSelection(false);
 				spinner.setEnabled(false);
-				if (save)
+				if (save) {
 					save(MasterColumnsDescriptorProvider.ONE_COLUMN);
+				}
 			} else if (twoColumnsButton == button && twoColumnsButton.getSelection()) {
 				twoColumnsButton.setSelection(true);
 				oneColumnsButton.setSelection(false);
 				threeColumnsButton.setSelection(false);
 				customColumnsButton.setSelection(false);
 				spinner.setEnabled(false);
-				if (save)
+				if (save) {
 					save(MasterColumnsDescriptorProvider.TWO_COLUMNS);
+				}
 			} else if (threeColumnsButton == button && threeColumnsButton.getSelection()) {
 				threeColumnsButton.setSelection(true);
 				oneColumnsButton.setSelection(false);
 				twoColumnsButton.setSelection(false);
 				customColumnsButton.setSelection(false);
 				spinner.setEnabled(false);
-				if (save)
+				if (save) {
 					save(MasterColumnsDescriptorProvider.THREE_COLUMNS);
+				}
 			} else if (customColumnsButton == button && customColumnsButton.getSelection()) {
 				customColumnsButton.setSelection(true);
 				oneColumnsButton.setSelection(false);
 				twoColumnsButton.setSelection(false);
 				threeColumnsButton.setSelection(false);
 				spinner.setEnabled(true);
-				if (save)
+				if (save) {
 					save(spinner.getText());
+				}
 			}
 		} catch (SemanticException e1) {
 			ExceptionUtil.handle(e1);
 		}
 	}
 
+	@Override
 	public Control getControl() {
 		return content;
 	}
 
+	@Override
 	public void load() {
 		if (getDescriptorProvider() != null) {
 
@@ -230,21 +241,26 @@ public class MasterColumnsPropertyDescriptor extends PropertyDescriptor {
 		}
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
-		if (oneColumnsButton.getSelection())
+		if (oneColumnsButton.getSelection()) {
 			getDescriptorProvider().save(MasterColumnsDescriptorProvider.ONE_COLUMN);
-		if (twoColumnsButton.getSelection())
+		}
+		if (twoColumnsButton.getSelection()) {
 			getDescriptorProvider().save(MasterColumnsDescriptorProvider.TWO_COLUMNS);
-		if (threeColumnsButton.getSelection())
+		}
+		if (threeColumnsButton.getSelection()) {
 			getDescriptorProvider().save(MasterColumnsDescriptorProvider.THREE_COLUMNS);
-		else if (customColumnsButton.getSelection()) {
-			if (spinner.getText().trim().length() == 0)
+		} else if (customColumnsButton.getSelection()) {
+			if (spinner.getText().trim().length() == 0) {
 				getDescriptorProvider().save(null);
-			else
+			} else {
 				getDescriptorProvider().save(spinner.getText().trim());
+			}
 		}
 	}
 
+	@Override
 	public void setInput(Object handle) {
 		getDescriptorProvider().setInput(handle);
 	}

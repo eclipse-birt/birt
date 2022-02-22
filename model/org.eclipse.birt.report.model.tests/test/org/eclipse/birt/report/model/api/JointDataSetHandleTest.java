@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,40 +32,40 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected Result</th>
- * 
+ *
  * <tr>
  * <td>testUnsupportedMethods</td>
  * <td><code>The mehtods inherited from data set but not supported by joint data
  * set don't work.</td>
  * <td>Call to these methods will get exception.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testGetDataSetNames</td>
  * <td><code>Data set names can be gotten from joint data set handle.</td>
  * <td>Data set names can be correctly read out and added in.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testAddDataSetNames</td>
  * <td><code>Data set can be added into joint data set by name.</td>
  * <td></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testRemoveDataSetNames</td>
  * <td><code>Data set can be removed from joint data set by name.</td>
  * <td></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testSematicCheck</td>
  * <td><code>Test sematic check.</td>
  * <td></td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.JointDataSet
  */
 
@@ -80,6 +80,7 @@ public class JointDataSetHandleTest extends BaseTestCase {
 	 * Creates a joint data set.
 	 */
 
+	@Override
 	public void setUp() throws DesignFileException {
 		openDesign(fileName);
 		dataSet = designHandle.findJointDataSet("JointDataSet"); //$NON-NLS-1$
@@ -96,7 +97,7 @@ public class JointDataSetHandleTest extends BaseTestCase {
 	 * <code>getBeforeOpen</code>, <code>getDataSource</code>,
 	 * <code>getDataSourceName</code>, <code>getOnFetch</code>,
 	 * <code>getOnFetch</code> are uncallable.
-	 * 
+	 *
 	 */
 
 	public void testUnsupportedMethods() {
@@ -134,7 +135,7 @@ public class JointDataSetHandleTest extends BaseTestCase {
 
 	/**
 	 * Test removing data set.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -147,7 +148,7 @@ public class JointDataSetHandleTest extends BaseTestCase {
 
 	/**
 	 * Test adding data set.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 
@@ -166,7 +167,7 @@ public class JointDataSetHandleTest extends BaseTestCase {
 
 	/**
 	 * Test sematic check.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -189,7 +190,7 @@ public class JointDataSetHandleTest extends BaseTestCase {
 
 	/**
 	 * test if count of clients of <code>DataSet</code> is right or not
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testReference() throws Exception {
@@ -258,7 +259,7 @@ public class JointDataSetHandleTest extends BaseTestCase {
 
 	/**
 	 * get count of clients of one <code>DataSetHandle</code>
-	 * 
+	 *
 	 * @param dsHandle
 	 * @return the size of the clients
 	 */
@@ -271,7 +272,7 @@ public class JointDataSetHandleTest extends BaseTestCase {
 	 * Test cases for the bug 210341. It was caused by the bugs in ContentCommand.
 	 * When ds1 is deleted, datasets property value of the joint data set should not
 	 * be cleared. Only corresponding element reference should be removed.
-	 * 
+	 *
 	 * @throws SemanticException
 	 */
 

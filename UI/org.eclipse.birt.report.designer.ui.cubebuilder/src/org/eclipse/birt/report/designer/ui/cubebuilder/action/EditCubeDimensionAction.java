@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision: 1.4 $ $Date: 2007/04/23 03:30:22 $
  */
 public class EditCubeDimensionAction extends AbstractElementAction {
@@ -51,10 +51,11 @@ public class EditCubeDimensionAction extends AbstractElementAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#doAction()
 	 */
+	@Override
 	protected boolean doAction() throws Exception {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Edit Dimension action >> Runs ..."); //$NON-NLS-1$
@@ -70,19 +71,21 @@ public class EditCubeDimensionAction extends AbstractElementAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
+	@Override
 	public boolean isEnabled() {
 		return ((DimensionHandle) getSelection()).canEdit();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#getTransactionLabel()
 	 */
+	@Override
 	protected String getTransactionLabel() {
 		return Messages.getFormattedString("cube.dimension.edit", //$NON-NLS-1$
 				new String[] { ((DimensionHandle) getSelection()).getName() });

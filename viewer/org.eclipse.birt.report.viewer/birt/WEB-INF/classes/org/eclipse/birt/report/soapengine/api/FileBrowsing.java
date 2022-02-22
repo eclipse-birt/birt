@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -45,7 +45,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	/**
 	 * Gets the path value for this FileBrowsing.
-	 * 
+	 *
 	 * @return path
 	 */
 	public java.lang.String getPath() {
@@ -54,7 +54,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	/**
 	 * Sets the path value for this FileBrowsing.
-	 * 
+	 *
 	 * @param path
 	 */
 	public void setPath(java.lang.String path) {
@@ -63,7 +63,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	/**
 	 * Gets the fileName value for this FileBrowsing.
-	 * 
+	 *
 	 * @return fileName
 	 */
 	public java.lang.String getFileName() {
@@ -72,7 +72,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	/**
 	 * Sets the fileName value for this FileBrowsing.
-	 * 
+	 *
 	 * @param fileName
 	 */
 	public void setFileName(java.lang.String fileName) {
@@ -81,7 +81,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	/**
 	 * Gets the search value for this FileBrowsing.
-	 * 
+	 *
 	 * @return search
 	 */
 	public org.eclipse.birt.report.soapengine.api.FileSearch getSearch() {
@@ -90,7 +90,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	/**
 	 * Sets the search value for this FileBrowsing.
-	 * 
+	 *
 	 * @param search
 	 */
 	public void setSearch(org.eclipse.birt.report.soapengine.api.FileSearch search) {
@@ -99,7 +99,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	/**
 	 * Gets the pathSeparator value for this FileBrowsing.
-	 * 
+	 *
 	 * @return pathSeparator
 	 */
 	public java.lang.String getPathSeparator() {
@@ -108,7 +108,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	/**
 	 * Sets the pathSeparator value for this FileBrowsing.
-	 * 
+	 *
 	 * @param pathSeparator
 	 */
 	public void setPathSeparator(java.lang.String pathSeparator) {
@@ -117,7 +117,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	/**
 	 * Gets the currentWorkingFolder value for this FileBrowsing.
-	 * 
+	 *
 	 * @return currentWorkingFolder
 	 */
 	public org.eclipse.birt.report.soapengine.api.RepositoryPathSegmentList getCurrentWorkingFolder() {
@@ -126,7 +126,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	/**
 	 * Sets the currentWorkingFolder value for this FileBrowsing.
-	 * 
+	 *
 	 * @param currentWorkingFolder
 	 */
 	public void setCurrentWorkingFolder(
@@ -136,7 +136,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	/**
 	 * Gets the fileList value for this FileBrowsing.
-	 * 
+	 *
 	 * @return fileList
 	 */
 	public org.eclipse.birt.report.soapengine.api.FileList getFileList() {
@@ -145,7 +145,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	/**
 	 * Sets the fileList value for this FileBrowsing.
-	 * 
+	 *
 	 * @param fileList
 	 */
 	public void setFileList(org.eclipse.birt.report.soapengine.api.FileList fileList) {
@@ -154,14 +154,18 @@ public class FileBrowsing implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof FileBrowsing))
+		if (!(obj instanceof FileBrowsing)) {
 			return false;
+		}
 		FileBrowsing other = (FileBrowsing) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -187,6 +191,7 @@ public class FileBrowsing implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

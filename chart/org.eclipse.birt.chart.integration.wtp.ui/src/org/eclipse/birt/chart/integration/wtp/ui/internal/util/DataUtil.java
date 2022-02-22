@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -15,7 +15,7 @@ package org.eclipse.birt.chart.integration.wtp.ui.internal.util;
 
 /**
  * Provides data convert and format services
- * 
+ *
  */
 public class DataUtil {
 
@@ -23,7 +23,7 @@ public class DataUtil {
 
 	/**
 	 * Convert Object to String
-	 * 
+	 *
 	 * @param object
 	 * @return String
 	 */
@@ -40,23 +40,25 @@ public class DataUtil {
 
 	/**
 	 * Convert Object to boolean
-	 * 
+	 *
 	 * @param object
 	 * @return boolean
 	 */
 	public static boolean getBoolean(Object object) {
-		if (object == null)
+		if (object == null) {
 			return false;
+		}
 
-		if (object instanceof Boolean)
+		if (object instanceof Boolean) {
 			return ((Boolean) object).booleanValue();
+		}
 
-		return Boolean.valueOf(object.toString()).booleanValue();
+		return Boolean.parseBoolean(object.toString());
 	}
 
 	/**
 	 * Convert Object to int
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 */
@@ -64,8 +66,9 @@ public class DataUtil {
 		int num = -1;
 
 		try {
-			if (obj != null)
+			if (obj != null) {
 				num = Integer.parseInt(obj.toString());
+			}
 		} catch (Exception e) {
 			num = -1;
 		}
@@ -75,27 +78,29 @@ public class DataUtil {
 
 	/**
 	 * Trim String
-	 * 
+	 *
 	 * @param plain
 	 * @return
 	 */
 	public static String trim(String plain) {
-		if (plain == null)
+		if (plain == null) {
 			return null;
+		}
 
 		return plain.trim();
 	}
 
 	/**
 	 * Returns Max Rows Setting value
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
 	public static String getMaxRows(String value) {
 		int num = DataUtil.getInt(value);
-		if (num >= 0)
+		if (num >= 0) {
 			return BLANK_STRING + num;
+		}
 		return BLANK_STRING;
 	}
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,10 +35,12 @@ final class TextAxisLabelTextProvider extends AxisLabelTextProvider {
 		super(oax);
 	}
 
+	@Override
 	protected void init() {
 		bTickBetweenCategories = oax.getModelAxis().getScale().isTickBetweenCategories();
 	}
 
+	@Override
 	public String getLabelText(int index) throws ChartException {
 		if (!bTickBetweenCategories && index == 0) {
 			return ""; //$NON-NLS-1$
@@ -59,6 +61,7 @@ final class DatetimeAxisLabelTextProvider extends AxisLabelTextProvider {
 		super(oax);
 	}
 
+	@Override
 	protected void init() {
 		cdtMin = Methods.asDateTime(sc.getMinimum());
 		iUnit = Methods.asInteger(sc.getUnit());
@@ -69,6 +72,7 @@ final class DatetimeAxisLabelTextProvider extends AxisLabelTextProvider {
 		}
 	}
 
+	@Override
 	public String getLabelText(int index) throws ChartException {
 		CDateTime cdt = cdtMin.forward(iUnit, iStep * index);
 
@@ -89,6 +93,7 @@ final class LinearAxisLabelTextProvider extends AxisLabelTextProvider {
 		super(oax);
 	}
 
+	@Override
 	protected void init() {
 		dMinValue = Methods.asDouble(sc.getMinimum()).doubleValue();
 		dStep = Methods.asDouble(sc.getStep()).doubleValue();
@@ -98,6 +103,7 @@ final class LinearAxisLabelTextProvider extends AxisLabelTextProvider {
 		}
 	}
 
+	@Override
 	public String getLabelText(int index) throws ChartException {
 		double dValue;
 
@@ -127,6 +133,7 @@ final class LogAxisLabelTextProvider extends AxisLabelTextProvider {
 		super(oax);
 	}
 
+	@Override
 	protected void init() {
 		dMinValue = Methods.asDouble(sc.getMinimum()).doubleValue();
 		dStep = Methods.asDouble(sc.getStep()).doubleValue();
@@ -136,6 +143,7 @@ final class LogAxisLabelTextProvider extends AxisLabelTextProvider {
 		}
 	}
 
+	@Override
 	public String getLabelText(int index) throws ChartException {
 		double dValue = dMinValue * Math.pow(dStep, index);
 		nde.setValue(dValue);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * The class defines a dialog to set a hyperlink.
- * 
+ *
  * @since 2.5
  */
 
@@ -94,11 +94,12 @@ public class HyperlinkEditorDialog extends TrayDialog implements SelectionListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.HYPERLINK_EDITOR);
 		getShell().setText(Messages.getString("HyperlinkEditorDialog.Title.HyperlinkEditor")); //$NON-NLS-1$
@@ -155,9 +156,10 @@ public class HyperlinkEditorDialog extends TrayDialog implements SelectionListen
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.birt.chart.ui.swt.fieldassist.TextAssistField#isValid()
 			 */
+			@Override
 			public boolean isValid() {
 				fIsDuplicate = false;
 				String text = fTxtHyperlinkLabel.getText();
@@ -175,13 +177,15 @@ public class HyperlinkEditorDialog extends TrayDialog implements SelectionListen
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.birt.chart.ui.swt.fieldassist.AssistField#isRequiredField()
 			 */
+			@Override
 			public boolean isRequiredField() {
 				return true;
 			}
 
+			@Override
 			public String getErrorMessage() {
 				if (fIsDuplicate) {
 					return Messages.getString("HyperlinkEditorDialog.ErrorMessage.ExistingText"); //$NON-NLS-1$
@@ -331,11 +335,13 @@ public class HyperlinkEditorDialog extends TrayDialog implements SelectionListen
 		return IUIServiceProvider.COMMAND_HYPERLINK;
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.getSource().equals(fBtnBaseURL)) {
 			try {
@@ -356,9 +362,10 @@ public class HyperlinkEditorDialog extends TrayDialog implements SelectionListen
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		String result = getNameCheckResult();
 		if (result != null) {
@@ -388,7 +395,7 @@ public class HyperlinkEditorDialog extends TrayDialog implements SelectionListen
 
 	/**
 	 * Check if specified label already is used.
-	 * 
+	 *
 	 * @return
 	 */
 	private String getNameCheckResult() {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -59,7 +59,7 @@ public class DesignerDropListener extends DesignElementDropAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param viewer
 	 */
 	public DesignerDropListener(TreeViewer viewer) {
@@ -69,21 +69,23 @@ public class DesignerDropListener extends DesignElementDropAdapter {
 
 	/**
 	 * Validates target elements can be dropped
-	 * 
+	 *
 	 * @param target target elements
 	 * @return if target elements can be dropped
 	 */
+	@Override
 	protected boolean validateTarget(Object target) {
 		return true;
 	}
 
 	/**
 	 * Validates target elements can be dropped, needs to compare with transfer data
-	 * 
+	 *
 	 * @param target   target elements
 	 * @param transfer transfer data
 	 * @return if target elements can be dropped
 	 */
+	@Override
 	protected boolean validateTarget(Object target, Object transfer) {
 		if (DNDService.getInstance().validDrop(transfer, target, getCurrentOperation(),
 				new DNDLocation(getCurrentLocation()))) {
@@ -120,8 +122,9 @@ public class DesignerDropListener extends DesignElementDropAdapter {
 		// else
 
 		boolean validateContainer = getCurrentLocation() != LOCATION_ON;
-		if (target instanceof DataSourceHandle || target instanceof DataSetHandle || target instanceof CubeHandle)
+		if (target instanceof DataSourceHandle || target instanceof DataSetHandle || target instanceof CubeHandle) {
 			validateContainer = false;
+		}
 
 		if (DNDUtil.handleValidateTargetCanContainMore(target, DNDUtil.getObjectLength(transfer))) {
 			canContain = DNDUtil.handleValidateTargetCanContain(target, transfer, validateContainer);
@@ -132,33 +135,38 @@ public class DesignerDropListener extends DesignElementDropAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter#
 	 * performDrop(java.lang.Object)
 	 */
+	@Override
 	public boolean performDrop(Object data) {
 		if (DNDService.getInstance().performDrop(data, getCurrentTarget(), getCurrentOperation(),
-				new DNDLocation(getCurrentLocation())))
+				new DNDLocation(getCurrentLocation()))) {
 			return true;
+		}
 		return super.performDrop(data);
 	}
 
 	/**
 	 * @see DesignElementDropAdapter#moveData(Object, Object)
 	 */
+	@Override
 	protected boolean moveData(Object transfer, Object target) {
 		// When get position, change target value if need be
 		int position = getPosition(target);
 		boolean result = DNDUtil.moveHandles(transfer, this.newTarget, position);
-		if (result)
+		if (result) {
 			((StructuredViewer) getViewer()).reveal(this.newTarget);
+		}
 		return result;
 	}
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	protected boolean applyTheme(ThemeHandle themeHandle, ModuleHandle moudelHandle) {
 
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
@@ -184,18 +192,19 @@ public class DesignerDropListener extends DesignElementDropAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter#
 	 * copyData(java.lang.Object, java.lang.Object)
 	 */
 
+	@Override
 	protected boolean copyData(Object transfer, Object target) {
 		// When get position, change target value if need be
 		int position = getPosition(target);
 		boolean result = false;
 		Object transferFirstElement = getSingleTransferData(transfer);
-		if (transferFirstElement != null && transferFirstElement instanceof DesignElementHandle) {
+		if (transferFirstElement instanceof DesignElementHandle) {
 			DesignElementHandle sourceHandle;
 			if ((sourceHandle = (DesignElementHandle) transferFirstElement).getRoot() instanceof LibraryHandle) {
 				// transfer element from a library.
@@ -219,7 +228,7 @@ public class DesignerDropListener extends DesignElementDropAdapter {
 			} else {
 				result = DNDUtil.copyHandles(transfer, this.newTarget, position);
 			}
-		} else if (transferFirstElement != null && transferFirstElement instanceof EmbeddedImageHandle) {
+		} else if (transferFirstElement instanceof EmbeddedImageHandle) {
 			EmbeddedImageHandle sourceEmbeddedImageHandle;
 			if ((sourceEmbeddedImageHandle = (EmbeddedImageHandle) transferFirstElement).getElementHandle()
 					.getRoot() instanceof LibraryHandle) {
@@ -246,8 +255,9 @@ public class DesignerDropListener extends DesignElementDropAdapter {
 				result = DNDUtil.copyHandles(transfer, this.newTarget, position);
 			}
 		}
-		if (result)
+		if (result) {
 			((StructuredViewer) getViewer()).reveal(this.newTarget);
+		}
 		return result;
 	}
 
@@ -270,11 +280,12 @@ public class DesignerDropListener extends DesignElementDropAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.ViewerDropAdapter#dragEnter(org.eclipse.swt.dnd.
 	 * DropTargetEvent)
 	 */
+	@Override
 	public void dragEnter(DropTargetEvent event) {
 		if ((event.operations & DND.DROP_COPY) != 0 && (event.operations & DND.DROP_MOVE) == 0) {
 			event.detail = DND.DROP_COPY;

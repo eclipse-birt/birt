@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,7 @@ public class GroupInformationUtil {
 	 * $402 3: CHINA SHANGHAI 2003 Cola $553 4: CHINA SHANGHAI 2003 Pizza $223 5:
 	 * CHINA SHANGHAI 2004 Cola $226 6: USA CHICAGO 2004 Pizza $133 7: USA NEW YORK
 	 * 2004 Cola $339 8: USA NEW YORK 2004 Cola $297
-	 * 
+	 *
 	 * groups: (parent, child) LEVEL 0 LEVEL 1 LEVEL 2
 	 * ============================================ 0: -,0 0,0 0,0 1: -,2 0,2 0,2 2:
 	 * 1,4 1,3 3: 1,5 1,5 4: 2,6 5: 3,7
@@ -61,7 +61,7 @@ public class GroupInformationUtil {
 	private DataEngineSession session;
 
 	/**
-	 * 
+	 *
 	 * @param groupCalculationUtil
 	 */
 	GroupInformationUtil(GroupCalculationUtil groupCalculationUtil, DataEngineSession session) {
@@ -84,18 +84,19 @@ public class GroupInformationUtil {
 	 * Set <code>GroupInfo</code>
 	 * <p>
 	 * Used when the updated <code>GroupInfo</code> should be set to this utility.
-	 * 
+	 *
 	 * @param groups An array of <code>GroupInfo</code> ordered by level.
 	 */
 	public void setGroups(List<GroupInfo>[] groups) {
-		for (List<GroupInfo> grp : this.groups)
+		for (List<GroupInfo> grp : this.groups) {
 			grp.clear();
+		}
 		this.groups = groups;
 		leafGroupIdx = 0;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 */
 	public void setLeaveGroupIndex(int index) {
@@ -108,7 +109,7 @@ public class GroupInformationUtil {
 	 * being the outermost group, and group with index N being the innermost group),
 	 * and this function returns a value M, it indicates that the current row is the
 	 * last row in groups with indexes (M, M+1, ..., N ).
-	 * 
+	 *
 	 * @return The 1-based index of the outermost group in which the current row is
 	 *         the last row; (N+1) if the current row is not at the end of any
 	 *         group;
@@ -118,12 +119,14 @@ public class GroupInformationUtil {
 
 		// Always return 0 for last row (which ends group 0 - the entire list)
 		if (this.groupCalculationUtil.getResultSetCache()
-				.getCurrentIndex() == this.groupCalculationUtil.getResultSetCache().getCount() - 1)
+				.getCurrentIndex() == this.groupCalculationUtil.getResultSetCache().getCount() - 1) {
 			return 0;
+		}
 
 		// 1 is returned if no groups are defined
-		if (this.groups.length == 0)
+		if (this.groups.length == 0) {
 			return 1;
+		}
 
 		// Find outermost group that current row ends
 		int childGroupIdx = this.groupCalculationUtil.getResultSetCache().getCurrentIndex();
@@ -148,22 +151,24 @@ public class GroupInformationUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	private void checkStarted() throws DataException {
-		if (this.groupCalculationUtil.getResultSetCache() == null)
+		if (this.groupCalculationUtil.getResultSetCache() == null) {
 			throw new DataException(ResourceConstants.NO_CURRENT_ROW);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	private void checkHasCurrentRow() throws DataException {
 		checkStarted();
-		if (this.groupCalculationUtil.getResultSetCache().getCurrentResult() == null)
+		if (this.groupCalculationUtil.getResultSetCache().getCurrentResult() == null) {
 			throw new DataException(ResourceConstants.NO_CURRENT_ROW);
+		}
 	}
 
 	/**
@@ -172,7 +177,7 @@ public class GroupInformationUtil {
 	 * being the outermost group, and group with index N being the innermost group),
 	 * and this function returns a value M, it indicates that the current row is the
 	 * first row in groups with indexes (M, M+1, ..., N ).
-	 * 
+	 *
 	 * @return The 1-based index of the outermost group in which the current row is
 	 *         the first row; (N+1) if the current row is not at the start of any
 	 *         group;
@@ -181,12 +186,14 @@ public class GroupInformationUtil {
 		checkHasCurrentRow();
 
 		// Always return 0 for first row, which starts group 0 - the entire list
-		if (this.groupCalculationUtil.getResultSetCache().getCurrentIndex() == 0)
+		if (this.groupCalculationUtil.getResultSetCache().getCurrentIndex() == 0) {
 			return 0;
+		}
 
 		// If no groups defined, return 1
-		if (this.groups.length == 0)
+		if (this.groups.length == 0) {
 			return 1;
+		}
 
 		// Find outermost group that current row starts
 		int childGroupIdx = this.groupCalculationUtil.getResultSetCache().getCurrentIndex();
@@ -217,20 +224,22 @@ public class GroupInformationUtil {
 	private int findCurrentGroup(int groupLevel) {
 		// Walk up the group chain from leaf group
 		int currentGroupIdx = leafGroupIdx;
-		for (int i = this.groups.length - 1; i > groupLevel; i--)
+		for (int i = this.groups.length - 1; i > groupLevel; i--) {
 			currentGroupIdx = GroupUtil.findGroup(i, currentGroupIdx, this.groups).parent;
+		}
 		return currentGroupIdx;
 	}
 
 	/**
 	 * Rewinds row cursor to the first row at the specified group level
-	 * 
+	 *
 	 * @param groupLevel the specified group level that will be skipped, 1 indicate
 	 *                   the highest level. 0 indicates whole list.
 	 */
 	public void first(int groupLevel) throws DataException {
-		if (groupLevel > this.groups.length || groupLevel < 0)
+		if (groupLevel > this.groups.length || groupLevel < 0) {
 			throw new DataException(ResourceConstants.INVALID_GROUP_LEVEL, Integer.valueOf(groupLevel));
+		}
 
 		if (groupLevel == 0) {
 			// Special case: move to first row in entire list
@@ -256,20 +265,22 @@ public class GroupInformationUtil {
 
 	/**
 	 * Advances row cursor to the last row at the specified group level
-	 * 
+	 *
 	 * @param groupLevel the specified group level that will be skipped, 1 indicate
 	 *                   the highest level. 0 indicates whole list.
 	 */
 	public void last(int groupLevel) throws DataException {
-		if (groupLevel > this.groups.length || groupLevel < 0)
+		if (groupLevel > this.groups.length || groupLevel < 0) {
 			throw new DataException(ResourceConstants.INVALID_GROUP_LEVEL, Integer.valueOf(groupLevel));
+		}
 
 		groupLevel--; // change to 0-based index
 
 		// First find current group at the specified group level
 		int currentGroupIdx = -1;
-		if (groupLevel >= 0)
+		if (groupLevel >= 0) {
 			currentGroupIdx = findCurrentGroup(groupLevel);
+		}
 
 		if (groupLevel < 0 || // an input of 0 means moving to last row in
 		// list
@@ -278,8 +289,9 @@ public class GroupInformationUtil {
 			// Last row is in the last leaf group
 			int currentRowID = this.groupCalculationUtil.getResultSetCache().getCount() - 1;
 			this.groupCalculationUtil.getResultSetCache().moveTo(currentRowID);
-			if (this.groups.length > 0)
+			if (this.groups.length > 0) {
 				leafGroupIdx = this.groups[this.groups.length - 1].size() - 1;
+			}
 			return;
 		}
 
@@ -301,12 +313,14 @@ public class GroupInformationUtil {
 	 * starts at 0
 	 */
 	public int getCurrentGroupIndex(int groupLevel) throws DataException {
-		if (groupLevel == 0)
+		if (groupLevel == 0) {
 			return 0;
+		}
 
 		checkHasCurrentRow();
-		if (groupLevel < 0 || groupLevel > this.groups.length)
+		if (groupLevel < 0 || groupLevel > this.groups.length) {
 			throw new DataException(ResourceConstants.INVALID_GROUP_LEVEL, Integer.valueOf(groupLevel));
+		}
 
 		int currentGroupIdx = leafGroupIdx;
 		int level;
@@ -320,14 +334,14 @@ public class GroupInformationUtil {
 	/**
 	 * When the smartCache is proceed (IResultIterator.next() is called), the
 	 * leafGroupIdx should be re-calculated.
-	 * 
+	 *
 	 * @param hasNext
 	 * @throws DataException
 	 */
 	public void next(boolean hasNext) throws DataException {
 		// Adjust leaf group index
 		// Have we advanced into the next leaf group?
-		if (hasNext == true && this.groups.length > 0) {
+		if (hasNext && this.groups.length > 0) {
 			GroupInfo nextLeafGroup = GroupUtil.findGroup(this.groups.length - 1, leafGroupIdx + 1, this.groups);
 			if (nextLeafGroup != null
 					&& this.groupCalculationUtil.getResultSetCache().getCurrentIndex() >= nextLeafGroup.firstChild) {
@@ -341,7 +355,7 @@ public class GroupInformationUtil {
 	 * For a particual group level, it might consists of several group units. For
 	 * each group unit, it has its start row index and end row index, and then the
 	 * total index will be the group unit number*2.
-	 * 
+	 *
 	 * @param groupLevel
 	 * @return int[]
 	 * @throws DataException
@@ -374,7 +388,7 @@ public class GroupInformationUtil {
 
 	/**
 	 * Do grouping, and fill group indexes
-	 * 
+	 *
 	 * @param stopsign
 	 * @throws DataException
 	 */
@@ -383,8 +397,9 @@ public class GroupInformationUtil {
 		// Pass through sorted data set to process group indexes
 		groups = new CachedList[this.groupCalculationUtil.getGroupDefn().length];
 
-		if (groups.length == 0)
+		if (groups.length == 0) {
 			return;
+		}
 
 		for (int i = 0; i < this.groupCalculationUtil.getGroupDefn().length; i++) {
 			groups[i] = new CachedList(tempDir, DataEngineSession.getCurrentClassLoader(), GroupInfo.getCreator());
@@ -397,25 +412,28 @@ public class GroupInformationUtil {
 			groupCalculationUtil.getGroupDefn()[i].reset();
 		}
 		for (int rowID = 0; rowID < this.groupCalculationUtil.getResultSetCache().getCount(); rowID++) {
-			if (session.getStopSign().isStopped())
+			if (session.getStopSign().isStopped()) {
 				break;
+			}
 			IResultObject currRow = this.groupCalculationUtil.getResultSetCache().fetch();
 
 			// breakLevel is the outermost group number to differentiate row
 			// data
 			int breakLevel;
-			if (rowID == 0)
+			if (rowID == 0) {
 				breakLevel = 0; // Special case for first row
-			else
+			} else {
 				breakLevel = getBreakLevel(currRow, prevRow);
+			}
 
 			// Create a new group in each group level between
 			// [ breakLevel ... groupDefs.length - 1]
 			for (int level = breakLevel; level < groups.length; level++) {
 				GroupInfo group = new GroupInfo();
 
-				if (level != 0)
+				if (level != 0) {
 					group.parent = groups[level - 1].size() - 1;
+				}
 				if (level == groups.length - 1) {
 					// at leaf group level, first child is the first row, which
 					// is current row
@@ -441,7 +459,7 @@ public class GroupInformationUtil {
 
 	/**
 	 * Helper method to get the group break level between 2 rows
-	 * 
+	 *
 	 * @param currRow
 	 * @param prevRow
 	 * @return
@@ -479,7 +497,7 @@ public class GroupInformationUtil {
 	/**
 	 * Returns all rows in the current group at the specified group level, as an
 	 * array of ResultObject objects.
-	 * 
+	 *
 	 * @param groupLevel
 	 * @return int[], group star index and end index
 	 * @throws DataException
@@ -523,7 +541,7 @@ public class GroupInformationUtil {
 
 		for (int i = 0; i < size; i++) {
 			List list = new CachedList(tempDir, DataEngineSession.getCurrentClassLoader(), GroupInfo.getCreator());
-			;
+
 			int asize = IOUtil.readInt(inputStream);
 			for (int j = 0; j < asize; j++) {
 
@@ -557,7 +575,7 @@ public class GroupInformationUtil {
 	 * The structue of a groupBoundaryInfoArray is exactly same as that of
 	 * GroupCalculationUtil.groups,except that all GroupInfo instances are replaced
 	 * by GroupBoundaryInfo instances.
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -577,7 +595,7 @@ public class GroupInformationUtil {
 
 	/**
 	 * Generate a GroupBoundaryInfo instance from certain groupLevel and groupIndex.
-	 * 
+	 *
 	 * @param groupLevel 1-based group level
 	 * @param groupIndex 0-based group index
 	 * @return
@@ -602,7 +620,7 @@ public class GroupInformationUtil {
 	/**
 	 * Re-sort the GroupBoundaryInfo instances of a lower group level according the
 	 * ordering of GroupBoundaryInfo instances of a higher group level .
-	 * 
+	 *
 	 * @param higherGroup
 	 * @param lowerGroup
 	 * @return
@@ -659,7 +677,7 @@ public class GroupInformationUtil {
 	/**
 	 * This method return the OrderingInfo that will be finally used to re-generate
 	 * the smartcache.
-	 * 
+	 *
 	 * @param groups
 	 * @return
 	 */
@@ -689,6 +707,7 @@ class GroupInfoWithIndex implements IStructure {
 	int groupIndex;
 	GroupBoundaryInfo groupBoundaryInfo;
 
+	@Override
 	public Object[] getFieldValues() {
 		Object[] groupFields = groupBoundaryInfo.getFieldValues();
 		Object[] fields = new Object[groupFields.length + 2];
@@ -705,6 +724,7 @@ class GroupInfoWithIndex implements IStructure {
 
 class GroupInfoWithIndexCreator implements IStructureCreator {
 
+	@Override
 	public IStructure createInstance(Object[] fields) {
 		GroupInfoWithIndex groupInfoWithIndex = new GroupInfoWithIndex();
 		groupInfoWithIndex.parentGroupIndex = ((Integer) fields[fields.length - 2]).intValue();
@@ -727,9 +747,10 @@ final class GroupInfoWithIndexComparator implements Comparator {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 
+	@Override
 	public int compare(Object o1, Object o2) {
 		if (keyType == START_INDEX_KEY) {
 			return compare(((GroupInfoWithIndex) o1).groupBoundaryInfo.getStartIndex(),
@@ -737,8 +758,9 @@ final class GroupInfoWithIndexComparator implements Comparator {
 		} else if (keyType == PARENT_GROUP_INDEX_KEY) {
 			int result = compare(((GroupInfoWithIndex) o1).parentGroupIndex,
 					((GroupInfoWithIndex) o2).parentGroupIndex);
-			if (result != 0)
+			if (result != 0) {
 				return result;
+			}
 			return compare(((GroupInfoWithIndex) o1).groupIndex, ((GroupInfoWithIndex) o2).groupIndex);
 		}
 		return 0;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,6 +56,7 @@ public class TOCReaderV3 implements ITOCReader, ITOCConstants {
 		root = readNode(offset);
 	}
 
+	@Override
 	public void close() throws IOException {
 		if (in != null) {
 			try {
@@ -66,6 +67,7 @@ public class TOCReaderV3 implements ITOCReader, ITOCConstants {
 		}
 	}
 
+	@Override
 	public ITreeNode readTree() throws IOException {
 		return root;
 	}
@@ -97,10 +99,12 @@ public class TOCReaderV3 implements ITOCReader, ITOCConstants {
 			this.parent = parent;
 		}
 
+		@Override
 		public Iterator<ITreeNode> iterator() {
 			return new NodeCollectionIterator(parent);
 		}
 
+		@Override
 		public int size() {
 			return parent.childCount;
 		}
@@ -119,6 +123,7 @@ public class TOCReaderV3 implements ITOCReader, ITOCConstants {
 				this.fatalError = false;
 			}
 
+			@Override
 			public boolean hasNext() {
 				if (!fatalError) {
 					return nextIndex < parent.childCount;
@@ -126,6 +131,7 @@ public class TOCReaderV3 implements ITOCReader, ITOCConstants {
 				return false;
 			}
 
+			@Override
 			public ITreeNode next() {
 				if (!hasNext()) {
 					throw new NoSuchElementException();
@@ -143,6 +149,7 @@ public class TOCReaderV3 implements ITOCReader, ITOCConstants {
 				return null;
 			}
 
+			@Override
 			public void remove() {
 				throw new UnsupportedOperationException();
 			}

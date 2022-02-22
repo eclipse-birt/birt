@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,18 +43,18 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
  * The class used to process ResultSet data.
- * 
+ *
  */
 class ResultSetProcessUtil extends RowProcessUtil {
 	/**
-	 * 
+	 *
 	 */
 	private List cachedSort;
 
 	private boolean groupingDone;
 
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @param iccState
 	 * @param computedColumnHelper
@@ -67,7 +67,7 @@ class ResultSetProcessUtil extends RowProcessUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @param iccState
 	 * @param computedColumnHelper
@@ -106,7 +106,7 @@ class ResultSetProcessUtil extends RowProcessUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param stopSign
 	 * @throws DataException
 	 */
@@ -130,8 +130,9 @@ class ResultSetProcessUtil extends RowProcessUtil {
 		// Filter group instances.
 		doGroupFiltering();
 
-		if (needDoGroupFiltering() && psController.needDoOperation(PassStatusController.AGGR_ROW_FILTERING))
+		if (needDoGroupFiltering() && psController.needDoOperation(PassStatusController.AGGR_ROW_FILTERING)) {
 			prepareAggregations(aggrDefns);
+		}
 
 		// Filter aggregation filters
 		doAggrRowFiltering();
@@ -201,7 +202,7 @@ class ResultSetProcessUtil extends RowProcessUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	private void populateAggregationInBinding() throws DataException {
@@ -228,7 +229,7 @@ class ResultSetProcessUtil extends RowProcessUtil {
 		private boolean[] isValueAvailable;
 
 		/**
-		 * 
+		 *
 		 * @param exprs
 		 * @param names
 		 * @throws DataException
@@ -240,100 +241,108 @@ class ResultSetProcessUtil extends RowProcessUtil {
 			/*
 			 * for( int i = 0; i < exprs.length; i ++ ) { IBinding binding =
 			 * ((IBinding)exprs[i]);
-			 * 
+			 *
 			 * if( binding.getExpression( ).getHandle( )== null ) { this.isValueAvailable[i]
 			 * = false; }else { this.isValueAvailable[i] = true; }
-			 * 
+			 *
 			 * }
 			 */
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
 		 * isValueAvailable(int)
 		 */
+		@Override
 		public boolean isValueAvailable(int index) {
 			return this.isValueAvailable[index];
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#getName
 		 * (int)
 		 */
+		@Override
 		public String getName(int index) {
 			return this.names[index].toString();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
 		 * getExpression(int)
 		 */
+		@Override
 		public IBaseExpression getExpression(int index) throws DataException {
 			return ((IBinding) exprs[index]).getExpression();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
 		 * setValueAvailable(int)
 		 */
+		@Override
 		public void setValueAvailable(int index) {
 			this.isValueAvailable[index] = true;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
 		 * getCount()
 		 */
+		@Override
 		public int getCount() {
 			return this.isValueAvailable.length;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
 		 * getComputedColumn(int)
 		 */
+		@Override
 		public IComputedColumn getComputedColumn(int index) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.executor.transform.IComputedColumnsState#
 		 * setModel(int)
 		 */
+		@Override
 		public void setModel(int model) {
 
 		}
 
 		/**
-		 * 
+		 *
 		 * @return
 		 */
 		public boolean isFinish() {
 			for (int i = 0; i < isValueAvailable.length; i++) {
-				if (!isValueAvailable[i])
+				if (!isValueAvailable[i]) {
 					return false;
+				}
 			}
 			return true;
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggrDefns
 	 * @param stopSign
 	 * @throws DataException
@@ -346,9 +355,10 @@ class ResultSetProcessUtil extends RowProcessUtil {
 		if (needPreCalculateForGroupFilterSort(needGroupFiltering, needGroupSorting) || needAggrFiltering
 				|| needRowSortOnAggregation) {
 			// TODO: Enhance me so that invalid computed column will not be evaluated at all
-			if (needRowSortOnAggregation && this.computedColumnHelper != null)
+			if (needRowSortOnAggregation && this.computedColumnHelper != null) {
 				this.computedColumnHelper.suppressException(true);
-			// ENDTODO
+				// ENDTODO
+			}
 
 			if (!groupingDone) {
 				PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
@@ -361,16 +371,17 @@ class ResultSetProcessUtil extends RowProcessUtil {
 				this.populator.getResultIterator().addAggrValueHolder(helper);
 			}
 			// TODO: Enhance me so that invalid computed column will not be evaluated at all
-			if (this.computedColumnHelper != null)
+			if (this.computedColumnHelper != null) {
 				this.computedColumnHelper.suppressException(false);
-			// ENDTODO
+				// ENDTODO
+			}
 
 		}
 	}
 
 	/**
 	 * Indicate whether need to pre calculate the aggregations.
-	 * 
+	 *
 	 * @param needGroupFiltering
 	 * @param needGroupSorting
 	 * @return
@@ -381,7 +392,7 @@ class ResultSetProcessUtil extends RowProcessUtil {
 
 	/**
 	 * Indicate whether need to do group filtering.
-	 * 
+	 *
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -390,8 +401,9 @@ class ResultSetProcessUtil extends RowProcessUtil {
 			List<IFilterDefinition> groupFilters = this.populator.getQuery().getGrouping()[i].getFilters();
 			if (groupFilters != null && groupFilters.size() > 0) {
 				for (int k = 0; k < groupFilters.size(); k++) {
-					if (groupFilters.get(k).updateAggregation())
+					if (groupFilters.get(k).updateAggregation()) {
 						return true;
+					}
 				}
 			}
 		}
@@ -404,20 +416,21 @@ class ResultSetProcessUtil extends RowProcessUtil {
 
 	/**
 	 * Indicate whether need to do group sorting.
-	 * 
+	 *
 	 * @return
 	 */
 	private boolean needDoGroupSorting() {
 		for (int i = 0; i < this.populator.getQuery().getGrouping().length; i++) {
 			List groupFilters = this.populator.getQuery().getGrouping()[i].getSorts();
-			if (groupFilters != null && groupFilters.size() > 0)
+			if (groupFilters != null && groupFilters.size() > 0) {
 				return true;
+			}
 		}
 		return false;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aggCCList
 	 * @param stopSign
 	 * @throws DataException
@@ -452,8 +465,9 @@ class ResultSetProcessUtil extends RowProcessUtil {
 	 * @throws DataException
 	 */
 	private void doGroupSorting() throws DataException {
-		if (!this.needDoGroupSorting())
+		if (!this.needDoGroupSorting()) {
 			return;
+		}
 
 		if (!groupingDone) {
 			PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
@@ -463,8 +477,9 @@ class ResultSetProcessUtil extends RowProcessUtil {
 		// If the aggregation value is subject to change caused by group instance filter
 		// and row filter, recalculate the
 		// aggregations.
-		if (this.needDoGroupFiltering() || psController.needDoOperation(PassStatusController.AGGR_ROW_FILTERING))
+		if (this.needDoGroupFiltering() || psController.needDoOperation(PassStatusController.AGGR_ROW_FILTERING)) {
 			prepareAggregations(this.populator.getEventHandler().getAggrDefinitions());
+		}
 
 		this.populator.getGroupProcessorManager().doGroupSorting(this.populator.getCache(),
 				this.populator.getExpressionProcessor());
@@ -489,8 +504,9 @@ class ResultSetProcessUtil extends RowProcessUtil {
 	 * @throws DataException
 	 */
 	private void doGroupFiltering() throws DataException {
-		if (!this.needDoGroupFiltering())
+		if (!this.needDoGroupFiltering()) {
 			return;
+		}
 		if (!groupingDone) {
 			PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
 			groupingDone = true;
@@ -505,19 +521,22 @@ class ResultSetProcessUtil extends RowProcessUtil {
 	 * @throws DataException
 	 */
 	private void doRowFiltering() throws DataException {
-		if (!psController.needDoOperation(PassStatusController.RESULT_SET_FILTERING))
+		if (!psController.needDoOperation(PassStatusController.RESULT_SET_FILTERING)) {
 			return;
+		}
 
-		if (needRowSortOnAggregation() && this.computedColumnHelper != null)
+		if (needRowSortOnAggregation() && this.computedColumnHelper != null) {
 			this.computedColumnHelper.suppressException(true);
+		}
 
 		boolean changeMaxRows = filterByRow.getFilterList(FilterByRow.GROUP_FILTER).size()
 				+ filterByRow.getFilterList(FilterByRow.AGGR_FILTER).size() > 0;
 		applyFilters(FilterByRow.QUERY_FILTER, changeMaxRows);
 		filterByRow.setWorkingFilterSet(FilterByRow.NO_FILTER);
 
-		if (this.computedColumnHelper != null)
+		if (this.computedColumnHelper != null) {
 			this.computedColumnHelper.suppressException(false);
+		}
 	}
 
 	/**
@@ -525,21 +544,23 @@ class ResultSetProcessUtil extends RowProcessUtil {
 	 * @throws DataException
 	 */
 	private void doAggrRowFiltering() throws DataException {
-		if (!psController.needDoOperation(PassStatusController.AGGR_ROW_FILTERING))
+		if (!psController.needDoOperation(PassStatusController.AGGR_ROW_FILTERING)) {
 			return;
+		}
 
 		applyFilters(FilterByRow.AGGR_FILTER, false);
 		filterByRow.setWorkingFilterSet(FilterByRow.NO_FILTER);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private boolean isICCStateFinish() {
 		for (int i = 0; i < iccState.getCount(); i++) {
-			if (!iccState.isValueAvailable(i))
+			if (!iccState.isValueAvailable(i)) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -549,8 +570,9 @@ class ResultSetProcessUtil extends RowProcessUtil {
 	 * @throws DataException
 	 */
 	private void doGroupRowFilter() throws DataException {
-		if (!psController.needDoOperation(PassStatusController.GROUP_ROW_FILTERING))
+		if (!psController.needDoOperation(PassStatusController.GROUP_ROW_FILTERING)) {
 			return;
+		}
 		// Apply group row filters (Total.isTopN, Total.isBottomN..)
 		filterByRow.setWorkingFilterSet(FilterByRow.GROUP_FILTER);
 		PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
@@ -560,14 +582,15 @@ class ResultSetProcessUtil extends RowProcessUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param iccState
 	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void clearTemporaryComputedColumns(ComputedColumnsState iccState) throws DataException {
-		if (!psController.needDoOperation(PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING))
+		if (!psController.needDoOperation(PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING)) {
 			return;
+		}
 		iccState.setModel(TransformationConstants.ALL_MODEL);
 		populator.getExpressionProcessor().clear();
 
@@ -586,7 +609,7 @@ class ResultSetProcessUtil extends RowProcessUtil {
 
 	/**
 	 * Clean the temporary data.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	private void cleanTempColumns() throws DataException {
@@ -602,7 +625,7 @@ class ResultSetProcessUtil extends RowProcessUtil {
 
 	/**
 	 * Build an IResultClass instance excluding temp computed columns.
-	 * 
+	 *
 	 * @param meta
 	 * @return
 	 * @throws DataException
@@ -626,18 +649,17 @@ class ResultSetProcessUtil extends RowProcessUtil {
 	}
 
 	private void doNoUpdateAggrRowFilter() throws DataException {
-		if (filterByRow == null)
+		if ((filterByRow == null) || !psController.needDoOperation(PassStatusController.NOUPDATE_ROW_FILTERING)) {
 			return;
-
-		if (!psController.needDoOperation(PassStatusController.NOUPDATE_ROW_FILTERING))
-			return;
+		}
 
 		NoUpdateFilterCalculator.applyFilters(this.populator, this.filterByRow);
 	}
 
 	private void doNoUpdateAggrGroupFilter() throws DataException {
-		if (!needNoUpdateAggrGroupFiltering())
+		if (!needNoUpdateAggrGroupFiltering()) {
 			return;
+		}
 
 		if (!groupingDone) {
 			PassUtil.pass(this.populator, new OdiResultSetWrapper(populator.getResultIterator()), true);
@@ -654,8 +676,9 @@ class ResultSetProcessUtil extends RowProcessUtil {
 			List<IFilterDefinition> groupFilters = this.populator.getQuery().getGrouping()[i].getFilters();
 			if (groupFilters != null && groupFilters.size() > 0) {
 				for (int k = 0; k < groupFilters.size(); k++) {
-					if (!groupFilters.get(k).updateAggregation())
+					if (!groupFilters.get(k).updateAggregation()) {
 						return true;
+					}
 				}
 			}
 		}

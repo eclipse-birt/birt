@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +56,7 @@ import com.ibm.icu.util.ULocale;
 import junit.framework.TestCase;
 
 /**
- * 
+ *
  */
 @Ignore("XTAB API doesn't support empty XTAB now and this one can be covered by runtime SDK test")
 public class TestEngine extends TestCase implements ICrosstabConstants {
@@ -90,9 +90,7 @@ public class TestEngine extends TestCase implements ICrosstabConstants {
 
 		try {
 			designHandle.getBody().add(cri.getModelHandle());
-		} catch (ContentException e1) {
-			e1.printStackTrace();
-		} catch (NameException e1) {
+		} catch (ContentException | NameException e1) {
 			e1.printStackTrace();
 		}
 

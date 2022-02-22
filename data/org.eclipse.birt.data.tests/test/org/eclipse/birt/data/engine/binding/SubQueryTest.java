@@ -1,17 +1,19 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.binding;
+
+import static org.junit.Assert.fail;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -23,13 +25,11 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.junit.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 import testutil.ConfigText;
-
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Test table schema and data: col0 col1 col2 col3 0..2 0..2 0..2 0..2 line
@@ -44,6 +44,7 @@ public class SubQueryTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo(ConfigText.getString("Api.TestData1.TableName"),
 				ConfigText.getString("Api.TestData1.TableSQL"), ConfigText.getString("Api.TestData1.TestDataFileName"));
@@ -51,7 +52,7 @@ public class SubQueryTest extends APITestCase {
 
 	/**
 	 * Sub query test Normal case: add subquery to GroupDefinition
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -95,7 +96,7 @@ public class SubQueryTest extends APITestCase {
 	/**
 	 * Boundary case: add subquery to QueryDefinition The data operation in subquery
 	 * should not affect the data of outer query.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -115,7 +116,7 @@ public class SubQueryTest extends APITestCase {
 	/**
 	 * Nearly same as test2, a little difference is there is no next operation
 	 * applied to parent query to get the result iterator of sub query
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -156,7 +157,7 @@ public class SubQueryTest extends APITestCase {
 
 	/**
 	 * Create another subquery
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -165,14 +166,15 @@ public class SubQueryTest extends APITestCase {
 		QueryDefinition queryDefn = (QueryDefinition) getDefaultQueryDefn(dataSet.getName());
 
 		SubqueryDefinition subqueryDefn = new SubqueryDefinition("IAMTEST", queryDefn);
-		if (onGroup == false)
+		if (!onGroup) {
 			subqueryDefn.setApplyOnGroupFlag(false);
+		}
 
 		String[] bindingNameGroup = new String[1];
 		bindingNameGroup[0] = "GROUP_COL2";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.COL2");
-		GroupDefinition[] subGroupDefn = new GroupDefinition[] { new GroupDefinition("group1") };
+		GroupDefinition[] subGroupDefn = { new GroupDefinition("group1") };
 		subGroupDefn[0].setKeyExpression("row.GROUP_COL2");
 
 		bindingNameRow = new String[4];
@@ -207,7 +209,7 @@ public class SubQueryTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -222,16 +224,19 @@ public class SubQueryTest extends APITestCase {
 		bindingNameGroup[0] = "GROUP_COL2";
 		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
 		bindingExprGroup[0] = new ScriptExpression("dataSetRow.COL2");
-		GroupDefinition[] subGroupDefn = new GroupDefinition[] { new GroupDefinition("group1") };
+		GroupDefinition[] subGroupDefn = { new GroupDefinition("group1") };
 
 		subGroupDefn[0].setKeyExpression("row.GROUP_COL2");
 
 		for (int k = 0; k < subGroupDefn.length; k++) {
-			if (bindingNameGroup != null)
-				for (int i = 0; i < bindingNameGroup.length; i++)
+			if (bindingNameGroup != null) {
+				for (int i = 0; i < bindingNameGroup.length; i++) {
 					subqueryDefn.addResultSetExpression(bindingNameGroup[i], bindingExprGroup[i]);
-			for (int i = 0; i < subGroupDefn.length; i++)
+				}
+			}
+			for (int i = 0; i < subGroupDefn.length; i++) {
 				subqueryDefn.addGroup(subGroupDefn[i]);
+			}
 		}
 		/* this.populateQueryExprMapping( subqueryDefn ); */
 
@@ -247,8 +252,9 @@ public class SubQueryTest extends APITestCase {
 		expressions = new BaseExpression[] { new ScriptExpression("dataSetRow.COL0", 0),
 				new ScriptExpression("dataSetRow.COL1", 0), new ScriptExpression("dataSetRow.COL2", 0),
 				new ScriptExpression("dataSetRow.COL3", 0) };
-		for (int i = 0; i < expressions.length; i++)
+		for (int i = 0; i < expressions.length; i++) {
 			queryDefn.addResultSetExpression(bindingNameRow[i], expressions[i]);
+		}
 
 		queryDefn.addSubquery(subqueryDefn);
 
@@ -269,9 +275,9 @@ public class SubQueryTest extends APITestCase {
 	/**
 	 * Test case in which the sub query column binding uses column binding defined
 	 * in parent query.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@Test
@@ -281,7 +287,7 @@ public class SubQueryTest extends APITestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	@Test
 	public void testUseParentColumnBindingWithAggregation() {
@@ -326,9 +332,11 @@ public class SubQueryTest extends APITestCase {
 		GroupDefinition subGroupDefn = new GroupDefinition("group2");
 		subGroupDefn.setKeyExpression("row.sub1Group");
 
-		if (bindingNameGroup != null)
-			for (int i = 0; i < bindingNameGroup.length; i++)
+		if (bindingNameGroup != null) {
+			for (int i = 0; i < bindingNameGroup.length; i++) {
 				subqueryDefn.addResultSetExpression(bindingNameGroup[i], bindingExprGroup[i]);
+			}
+		}
 
 		subqueryDefn.addGroup(subGroupDefn);
 		subqueryDefn.addResultSetExpression("sub1Binding1",
@@ -382,18 +390,18 @@ public class SubQueryTest extends APITestCase {
 
 	/**
 	 * Output row data
-	 * 
+	 *
 	 * @param resultIt
 	 * @throws DataException
 	 */
 	private void outputData(IResultIterator resultIt) throws Exception {
 		while (resultIt.next()) {
-			String outputStr = "";
+			StringBuilder outputStr = new StringBuilder();
 			for (int i = 0; i < expressions.length; i++) {
 				Object object = resultIt.getValue(bindingNameRow[i]);
-				outputStr += object.toString() + "    ";
+				outputStr.append(object.toString()).append("    ");
 			}
-			testPrintln(outputStr);
+			testPrintln(outputStr.toString());
 		}
 	}
 }

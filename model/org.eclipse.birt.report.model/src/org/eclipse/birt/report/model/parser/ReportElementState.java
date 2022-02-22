@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,7 +64,7 @@ import org.xml.sax.SAXException;
 
 /**
  * Base class for all report element parse states.
- * 
+ *
  */
 
 public abstract class ReportElementState extends DesignParseState {
@@ -89,7 +89,7 @@ public abstract class ReportElementState extends DesignParseState {
 	/**
 	 * Constructs the report element state with the design parser handler, the
 	 * container element and the container slot of the report element.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param slot         the slot in which this element appears
@@ -104,7 +104,7 @@ public abstract class ReportElementState extends DesignParseState {
 	/**
 	 * Constructs the report element state with the design parser handler, the
 	 * container element and the container property name of the report element.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param prop         the slot in which this element appears
@@ -118,7 +118,7 @@ public abstract class ReportElementState extends DesignParseState {
 
 	/**
 	 * Constructs the design parse state with the design file parser handler.
-	 * 
+	 *
 	 * @param theHandler SAX handler for the design file parser
 	 */
 	public ReportElementState(ModuleParserHandler theHandler) {
@@ -127,10 +127,11 @@ public abstract class ReportElementState extends DesignParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
+	@Override
 	public abstract DesignElement getElement();
 
 	private boolean checkContainer(DesignElement container, int slotID, DesignElement content) {
@@ -200,7 +201,7 @@ public abstract class ReportElementState extends DesignParseState {
 	 * Adds an element to the given slot. Records a semantic error and returns false
 	 * if an error occurs. (Does not throw an exception because we don't want to
 	 * terminate the parser: we want to keep parsing to find other errors.)
-	 * 
+	 *
 	 * @param container the container element
 	 * @param slotID    the slot within the container
 	 * @param content   the content element
@@ -210,8 +211,9 @@ public abstract class ReportElementState extends DesignParseState {
 
 	protected boolean addToSlot(DesignElement container, int slotID, DesignElement content) {
 		// check the container relationship
-		if (!checkContainer(container, slotID, content))
+		if (!checkContainer(container, slotID, content)) {
 			return false;
+		}
 
 		// if container is ExtendedItem and content is not allowed to be
 		// inserted, then do some special handle
@@ -229,8 +231,9 @@ public abstract class ReportElementState extends DesignParseState {
 
 		Module module = handler.getModule();
 
-		if (!addElementID(module, content))
+		if (!addElementID(module, content)) {
 			return false;
+		}
 
 		// Add the item to the container.
 		if (!StringUtil.isBlank(containmentPropName)) {
@@ -249,11 +252,11 @@ public abstract class ReportElementState extends DesignParseState {
 
 	/**
 	 * Initializes a report element with "name" and "extends" property.
-	 * 
+	 *
 	 * @param attrs        the SAX attributes object
 	 * @param nameRequired true if this element requires a name, false if the name
 	 *                     is optional.
-	 * 
+	 *
 	 * @see #initSimpleElement(Attributes)
 	 */
 
@@ -268,13 +271,9 @@ public abstract class ReportElementState extends DesignParseState {
 		if (!StringUtil.isBlank(extendsName) && element.getDefn().canExtend()) {
 			element.setExtendsName(extendsName);
 			resolveExtendsElement();
-		} else {
-			// If "extends" is set on an element that can not be extended,
-			// exception will be thrown.
-
-			if (!StringUtil.isBlank(attrs.getValue(DesignSchemaConstants.EXTENDS_ATTRIB)))
-				handler.getErrorHandler().semanticError(
-						new DesignParserException(DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS));
+		} else if (!StringUtil.isBlank(attrs.getValue(DesignSchemaConstants.EXTENDS_ATTRIB))) {
+			handler.getErrorHandler()
+					.semanticError(new DesignParserException(DesignParserException.DESIGN_EXCEPTION_ILLEGAL_EXTENDS));
 		}
 
 		initSimpleElement(attrs);
@@ -282,7 +281,7 @@ public abstract class ReportElementState extends DesignParseState {
 
 	/**
 	 * Initializes a report element with "name" property.
-	 * 
+	 *
 	 * @param attrs        the SAX attributes object
 	 * @param nameRequired true if this element requires a name, false if the name
 	 *                     is optional.
@@ -334,15 +333,16 @@ public abstract class ReportElementState extends DesignParseState {
 	 * call <code>initElement</code> in <code>parseAttrs</code> to initialize the
 	 * name and extends properties. This method will handle the "id" property and
 	 * add it to the container.
-	 * 
+	 *
 	 * @param attrs the SAX attributes object
 	 * @see #initElement(Attributes, boolean)
 	 */
 
 	protected final void initSimpleElement(Attributes attrs) {
 		DesignElement element = getElement();
-		if (handler.markLineNumber)
+		if (handler.markLineNumber) {
 			handler.tempLineNumbers.put(element, Integer.valueOf(handler.getCurrentLineNo()));
+		}
 
 		if (!(element instanceof ContentElement)) {
 			// get the "id" of the element
@@ -362,7 +362,7 @@ public abstract class ReportElementState extends DesignParseState {
 	/**
 	 * Resolves the reference of the extend. There is an assumption that the parent
 	 * element always exists before his derived ones.
-	 * 
+	 *
 	 */
 
 	private void resolveExtendsElement() {
@@ -373,8 +373,9 @@ public abstract class ReportElementState extends DesignParseState {
 		// Resolve extends
 
 		String extendsName = element.getExtendsName();
-		if (StringUtil.isBlank(extendsName))
+		if (StringUtil.isBlank(extendsName)) {
 			return;
+		}
 
 		DesignElement parent = module.resolveElement(element, extendsName,
 				element.getPropertyDefn(IDesignElementModel.EXTENDS_PROP), defn);
@@ -398,7 +399,7 @@ public abstract class ReportElementState extends DesignParseState {
 
 	/**
 	 * Add the element name into the module namespace.
-	 * 
+	 *
 	 * @param element the element.
 	 */
 	protected void addToNamespace(DesignElement content) {
@@ -437,13 +438,11 @@ public abstract class ReportElementState extends DesignParseState {
 		if (name == null && contentDefn.getNameOption() == MetaDataConstants.REQUIRED_NAME && isManagedByNameSpace) {
 			// if element is extended-item and version less than 3.2.8, do
 			// nothing and returns
-			if ((content instanceof ExtendedItem && handler.versionNumber < VersionUtil.VERSION_3_2_8))
-				return;
-
 			// for the report old than 3.2.20, do not check if the name of the
 			// variable element is null.
-			if (content instanceof VariableElement && handler.versionNumber < VersionUtil.VERSION_3_2_20)
+			if ((content instanceof ExtendedItem && handler.versionNumber < VersionUtil.VERSION_3_2_8) || (content instanceof VariableElement && handler.versionNumber < VersionUtil.VERSION_3_2_20)) {
 				return;
+			}
 
 			handler.getErrorHandler()
 					.semanticError(new NameException(content, null, NameException.DESIGN_EXCEPTION_NAME_REQUIRED));
@@ -464,16 +463,16 @@ public abstract class ReportElementState extends DesignParseState {
 			DesignElement existedElement = executor.getElement(name);
 			if (existedElement != null) {
 				// if name is identically equal, then fire error
-				if (name.equals(existedElement.getName()))
-
+				if (name.equals(existedElement.getName())) {
 					handler.getErrorHandler()
 							.semanticError(new NameException(content, name, NameException.DESIGN_EXCEPTION_DUPLICATE));
-				else {
+				} else {
 					// for some style name, we should do backward
 					// compatibilities
-					if (handler.versionNumber >= VersionUtil.VERSION_3_2_19 && content instanceof Style)
+					if (handler.versionNumber >= VersionUtil.VERSION_3_2_19 && content instanceof Style) {
 						handler.getErrorHandler().semanticError(
 								new NameException(content, name, NameException.DESIGN_EXCEPTION_DUPLICATE));
+					}
 
 					// name of parameter and parameter group is changed to
 					// case-insensitive since version 3.2.21
@@ -503,7 +502,7 @@ public abstract class ReportElementState extends DesignParseState {
 
 	/**
 	 * Add the virtual elements name into the module namespace.
-	 * 
+	 *
 	 * @param element the element contains virtual elements inside.
 	 */
 
@@ -522,7 +521,7 @@ public abstract class ReportElementState extends DesignParseState {
 
 	/**
 	 * Parse the attribute of "extensionName" for extendable element.
-	 * 
+	 *
 	 * @param attrs                 the SAX attributes object
 	 * @param extensionNameRequired whether extension name is required
 	 */
@@ -535,8 +534,9 @@ public abstract class ReportElementState extends DesignParseState {
 		String extensionName = getAttrib(attrs, DesignSchemaConstants.EXTENSION_NAME_ATTRIB);
 
 		if (StringUtil.isBlank(extensionName)) {
-			if (!extensionNameRequired)
+			if (!extensionNameRequired) {
 				return;
+			}
 
 			SemanticError e = new SemanticError(element, SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION);
 			RecoverableError.dealMissingInvalidExtension(handler, e);
@@ -560,8 +560,8 @@ public abstract class ReportElementState extends DesignParseState {
 	 * <code>Style</code> element. Because of the schema change, they were moved
 	 * into <code>HilightRule</code> and <code>MapRule</code> structure as a member
 	 * property, which was renamed to <code>TestExpression</code>.
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	protected void makeTestExpressionCompatible() {
 
@@ -594,11 +594,12 @@ public abstract class ReportElementState extends DesignParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		ElementDefn defn = (ElementDefn) getElement().getDefn();
 
@@ -615,13 +616,15 @@ public abstract class ReportElementState extends DesignParseState {
 		return super.startElement(tagName);
 	}
 
+	@Override
 	public void end() throws SAXException {
 		super.end();
 		// if the element is a container and has extends
 		if (getElement().getExtendsElement() != null && getElement().getDefn().isContainer()) {
 			addTheVirualElements2Map(getElement());
-			if (!handler.unhandleIDElements.contains(getElement()))
+			if (!handler.unhandleIDElements.contains(getElement())) {
 				handler.unhandleIDElements.add(getElement());
+			}
 		}
 
 		// creates handles so that to make sure Model API is read-only safe in

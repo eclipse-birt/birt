@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -191,7 +191,7 @@ public class Area extends Line {
 		AreaSeries as = (AreaSeries) getSeries();
 		if (!bStacked && as.isConnectMissingValue()) {
 			DataPointsSeeker seeker = DataPointsSeeker.create(isrh.getDataPoints(), (AreaSeries) getSeries(), bStacked);
-			List<Location> lst = new ArrayList<Location>();
+			List<Location> lst = new ArrayList<>();
 
 			// #44030 Keep the invalid point before the first valid point if it is not the
 			// first of loa list.
@@ -299,7 +299,7 @@ public class Area extends Line {
 	protected Location[] filterNull(Location[] ll) {
 		// Fix null values to use base line instead
 		final Bounds boClientArea = getPlotBounds();
-		List<Location> al = new ArrayList<Location>();
+		List<Location> al = new ArrayList<>();
 		for (int i = 0; i < ll.length; i++) {
 			if (Double.isNaN(ll[i].getX())) {
 				ll[i].setX(boClientArea.getLeft());
@@ -375,7 +375,7 @@ public class Area extends Line {
 		protected final Transposition trans;
 		protected final LineRenderEvent lre;
 		protected final PolygonRenderEvent pre;
-		protected final List<Location> lstPolygon = new ArrayList<Location>();
+		protected final List<Location> lstPolygon = new ArrayList<>();
 
 		AreaDataPointsRenderer2D(Context context, Location[] loa) throws ChartException {
 			super(context);
@@ -544,9 +544,9 @@ public class Area extends Line {
 				// clean stack state.
 				context.line.getRunTimeContext().putState(STACKED_SERIES_LOCATION_KEY, null);
 			} else {
-				List<double[]> list = new ArrayList<double[]>();
+				List<double[]> list = new ArrayList<>();
 				for (Location lo : loa) {
-					double[] l = new double[] { lo.getX(), lo.getY() };
+					double[] l = { lo.getX(), lo.getY() };
 					list.add(l);
 				}
 				context.line.getRunTimeContext().putState(STACKED_SERIES_LOCATION_KEY, list);
@@ -664,8 +664,8 @@ public class Area extends Line {
 			}
 
 			protected final static IGObjectFactory _goFactory = GObjectFactory.instance();
-			private List<IndexedPoint> top = new ArrayList<IndexedPoint>();
-			private List<IndexedPoint> bottom = new ArrayList<IndexedPoint>();
+			private List<IndexedPoint> top = new ArrayList<>();
+			private List<IndexedPoint> bottom = new ArrayList<>();
 			private double baseStart;
 			private double baseEnd;
 			private boolean bTransposed;
@@ -690,7 +690,7 @@ public class Area extends Line {
 					return list;
 				}
 
-				List<IndexedPoint> list_new = new ArrayList<IndexedPoint>();
+				List<IndexedPoint> list_new = new ArrayList<>();
 
 				IndexedPoint ipt0 = list.get(0);
 
@@ -712,10 +712,8 @@ public class Area extends Line {
 							ipt0.setY(y0);
 						}
 						list_new.add(ipt0);
-					} else {
-						if (!bUpdate0) {
-							list_new.add(ipt0);
-						}
+					} else if (!bUpdate0) {
+						list_new.add(ipt0);
 					}
 
 					if (pt != null) {
@@ -754,7 +752,7 @@ public class Area extends Line {
 			}
 
 			public List<Location[]> getTopChanges(int index, double dTapeWidth) {
-				List<Location[]> list = new ArrayList<Location[]>();
+				List<Location[]> list = new ArrayList<>();
 				int len = top.size();
 				IndexedPoint[] top_a = new IndexedPoint[len];
 				top_a = top.toArray(top_a);
@@ -782,7 +780,7 @@ public class Area extends Line {
 			}
 
 			public List<Location[]> getBottomChanges(int index, double dTapeWidth) {
-				List<Location[]> list = new ArrayList<Location[]>();
+				List<Location[]> list = new ArrayList<>();
 				int len = bottom.size();
 				IndexedPoint[] bottom_a = new IndexedPoint[len];
 				bottom_a = bottom.toArray(bottom_a);
@@ -1067,9 +1065,9 @@ public class Area extends Line {
 				rtc.putState(STACKED_SERIES_LOCATION_KEY, null);
 				rtc.putState(AREA_ENVELOPS, null);
 			} else {
-				List<double[]> list = new ArrayList<double[]>();
+				List<double[]> list = new ArrayList<>();
 				for (Location lo : loa) {
-					double[] l = new double[] { lo.getX(), lo.getY() };
+					double[] l = { lo.getX(), lo.getY() };
 					list.add(l);
 				}
 				rtc.putState(STACKED_SERIES_LOCATION_KEY, list);
@@ -1177,29 +1175,27 @@ public class Area extends Line {
 					loaPlane3d[3].set(x0, zeroLocation, z0 - dTapeWidth);
 					fill3DPlane(fillColor, source, false);
 				}
+			} else if (pValue != null && value != null && (pValue.doubleValue() * value.doubleValue()) < 0) {
+				double rate = (0 - pValue.doubleValue()) / (value.doubleValue() - pValue.doubleValue());
+				double midX = x0 + (x1 - x0) * rate;
+				double midY = y0 + (y1 - y0) * rate;
+
+				Location3D[] loc = createLocation3DArray(3);
+				loc[0].set(x0, midY, z0 - dTapeWidth);
+				loc[1].set(midX, midY, z0 - dTapeWidth);
+				loc[2].set(x0, y0, z0 - dTapeWidth);
+				fill3DPlane(fillColor, source, loc, false);
+
+				loc[0].set(midX, midY, z1 - dTapeWidth);
+				loc[1].set(x1, y1, z1 - dTapeWidth);
+				loc[2].set(x1, midY, z1 - dTapeWidth);
+				fill3DPlane(fillColor, source, loc, false);
 			} else {
-				if (pValue != null && value != null && (pValue.doubleValue() * value.doubleValue()) < 0) {
-					double rate = (0 - pValue.doubleValue()) / (value.doubleValue() - pValue.doubleValue());
-					double midX = x0 + (x1 - x0) * rate;
-					double midY = y0 + (y1 - y0) * rate;
-
-					Location3D[] loc = createLocation3DArray(3);
-					loc[0].set(x0, midY, z0 - dTapeWidth);
-					loc[1].set(midX, midY, z0 - dTapeWidth);
-					loc[2].set(x0, y0, z0 - dTapeWidth);
-					fill3DPlane(fillColor, source, loc, false);
-
-					loc[0].set(midX, midY, z1 - dTapeWidth);
-					loc[1].set(x1, y1, z1 - dTapeWidth);
-					loc[2].set(x1, midY, z1 - dTapeWidth);
-					fill3DPlane(fillColor, source, loc, false);
-				} else {
-					loaPlane3d[0].set(x0, zeroLocation, z0 - dTapeWidth);
-					loaPlane3d[1].set(x1, zeroLocation, z1 - dTapeWidth);
-					loaPlane3d[2].set(x1, y1, z1 - dTapeWidth);
-					loaPlane3d[3].set(x0, y0, z0 - dTapeWidth);
-					fill3DPlane(fillColor, source, false);
-				}
+				loaPlane3d[0].set(x0, zeroLocation, z0 - dTapeWidth);
+				loaPlane3d[1].set(x1, zeroLocation, z1 - dTapeWidth);
+				loaPlane3d[2].set(x1, y1, z1 - dTapeWidth);
+				loaPlane3d[3].set(x0, y0, z0 - dTapeWidth);
+				fill3DPlane(fillColor, source, false);
 			}
 		}
 
@@ -1241,29 +1237,27 @@ public class Area extends Line {
 					loaPlane3d[3].set(x1, y1, z1);
 					return fill3DPlane(fillColor, source, false);
 				}
+			} else if (pValue != null && value != null && (pValue.doubleValue() * value.doubleValue()) < 0) {
+				double rate = (0 - pValue.doubleValue()) / (value.doubleValue() - pValue.doubleValue());
+				double midX = x0 + (x1 - x0) * rate;
+				double midY = y0 + (y1 - y0) * rate;
+
+				Location3D[] loc = createLocation3DArray(3);
+				loc[0].set(x0, midY, z0);
+				loc[1].set(midX + 1, midY, z0);
+				loc[2].set(x0, y0, z0);
+				fill3DPlane(fillColor, source, loc, true);
+
+				loc[0].set(midX, midY, z1);
+				loc[1].set(x1, y1, z1);
+				loc[2].set(x1, midY, z1);
+				return fill3DPlane(fillColor, source, loc, true);
 			} else {
-				if (pValue != null && value != null && (pValue.doubleValue() * value.doubleValue()) < 0) {
-					double rate = (0 - pValue.doubleValue()) / (value.doubleValue() - pValue.doubleValue());
-					double midX = x0 + (x1 - x0) * rate;
-					double midY = y0 + (y1 - y0) * rate;
-
-					Location3D[] loc = createLocation3DArray(3);
-					loc[0].set(x0, midY, z0);
-					loc[1].set(midX + 1, midY, z0);
-					loc[2].set(x0, y0, z0);
-					fill3DPlane(fillColor, source, loc, true);
-
-					loc[0].set(midX, midY, z1);
-					loc[1].set(x1, y1, z1);
-					loc[2].set(x1, midY, z1);
-					return fill3DPlane(fillColor, source, loc, true);
-				} else {
-					loaPlane3d[0].set(x0, zeroLocation, z0);
-					loaPlane3d[1].set(x0, y0, z0);
-					loaPlane3d[2].set(x1, y1, z1);
-					loaPlane3d[3].set(x1, zeroLocation, z1);
-					return fill3DPlane(fillColor, source, false);
-				}
+				loaPlane3d[0].set(x0, zeroLocation, z0);
+				loaPlane3d[1].set(x0, y0, z0);
+				loaPlane3d[2].set(x1, y1, z1);
+				loaPlane3d[3].set(x1, zeroLocation, z1);
+				return fill3DPlane(fillColor, source, false);
 			}
 		}
 

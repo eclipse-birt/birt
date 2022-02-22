@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -17,7 +17,7 @@ package org.eclipse.birt.data.engine.olap.data.impl;
 import java.util.logging.Logger;
 
 /**
- * 
+ *
  */
 
 public class Traversalor {
@@ -34,7 +34,7 @@ public class Traversalor {
 	private static Logger logger = Logger.getLogger(Traversalor.class.getName());
 
 	/**
-	 * 
+	 *
 	 * @param lengthArray
 	 */
 	public Traversalor(int[] lengthArray) {
@@ -49,7 +49,7 @@ public class Traversalor {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private void init() {
@@ -59,7 +59,7 @@ public class Traversalor {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private void checkSyntax() {
@@ -72,7 +72,7 @@ public class Traversalor {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private void computeMaxLength() {
@@ -82,7 +82,7 @@ public class Traversalor {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private void computePositionValue() {
@@ -98,14 +98,15 @@ public class Traversalor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean next() {
 		checkValid();
 
-		if (!valid)
+		if (!valid) {
 			return false;
+		}
 
 		cursor++;
 		computeCurrent();
@@ -114,32 +115,35 @@ public class Traversalor {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private void checkValid() {
-		if (!valid)
+		if (!valid) {
 			return;
+		}
 
-		if (cursor == maxLength - 1)
+		if (cursor == maxLength - 1) {
 			valid = false;
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private void computeCurrent() {
 		int position = cursor;
 		for (int i = 0; i < length; i++) {
 			current[i] = position / positionValue[i];
-			if (current[i] > 0)
+			if (current[i] > 0) {
 				position = position % positionValue[i];
+			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int[] getIntArray() {

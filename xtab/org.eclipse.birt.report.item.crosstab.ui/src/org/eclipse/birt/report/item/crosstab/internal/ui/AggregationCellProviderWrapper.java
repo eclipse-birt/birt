@@ -1,17 +1,17 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
 /**
- * 
+ *
  */
 
 package org.eclipse.birt.report.item.crosstab.internal.ui;
@@ -36,18 +36,18 @@ import com.ibm.icu.text.Collator;
 
 /**
  * @author Administrator
- * 
+ *
  */
 public class AggregationCellProviderWrapper {
 	private ProviderComparator providerComparator = new ProviderComparator(false);
 	ExtendedItemHandle handle;
 	CrosstabReportItemHandle crosstab;
 	private IAggregationCellViewProvider[] providers;
-	private List<AggregationCellHandle> filterCellList = new ArrayList<AggregationCellHandle>();
-	private List<SwitchCellInfo> switchList = new ArrayList<SwitchCellInfo>();
+	private List<AggregationCellHandle> filterCellList = new ArrayList<>();
+	private List<SwitchCellInfo> switchList = new ArrayList<>();
 
 	/**
-	 * 
+	 *
 	 * @param handle
 	 */
 	public AggregationCellProviderWrapper(ExtendedItemHandle handle) {
@@ -59,7 +59,7 @@ public class AggregationCellProviderWrapper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assert (reportItem != null && reportItem instanceof CrosstabReportItemHandle);
+		assert (reportItem instanceof CrosstabReportItemHandle);
 		this.crosstab = (CrosstabReportItemHandle) reportItem;
 		this.handle = handle;
 		inilitializeProviders();
@@ -97,6 +97,7 @@ public class AggregationCellProviderWrapper {
 			this(true);
 		}
 
+		@Override
 		public int compare(Object arg0, Object arg1) {
 			// TODO Auto-generated method stub
 			assert (arg0 instanceof IAggregationCellViewProvider);
@@ -118,18 +119,6 @@ public class AggregationCellProviderWrapper {
 				return Collator.getInstance().compare(name1, name0);
 			}
 		}
-	}
-
-	private Object[] setDefaultOrder(Object[] providers) {
-		for (int i = 0; i < providers.length; i++) {
-			if ("Text".equals(((IAggregationCellViewProvider) providers[i]).getViewName())) {
-				IAggregationCellViewProvider tmp = (IAggregationCellViewProvider) providers[0];
-				providers[0] = providers[i];
-				providers[i] = tmp;
-				break;
-			}
-		}
-		return providers;
 	}
 
 	public IAggregationCellViewProvider[] getAllProviders() {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -83,7 +83,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 	/**
 	 * Creates a new dialog cell editor parented under the given control. The
 	 * combobox lists is <code>null</code> initially
-	 * 
+	 *
 	 * @param parent the parent control
 	 */
 	public ComboBoxColorCellEditor(Composite parent) {
@@ -94,7 +94,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 	/**
 	 * Creates a new dialog cell editor parented under the given control. The combo
 	 * box box lists is initialized with the items parameter
-	 * 
+	 *
 	 * @param parent the parent control
 	 * @param items  the initilizing combobox list
 	 */
@@ -109,7 +109,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 	/**
 	 * Creates a new dialog cell editor parented under the given control and givend
 	 * style. The combo box box lists is initialized with the items parameter
-	 * 
+	 *
 	 * @param parent the parent control
 	 * @param items  the initilizing combobox list
 	 * @param style  the style of this editor
@@ -138,7 +138,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 
 	/**
 	 * Returns the list of choices for the combo box
-	 * 
+	 *
 	 * @return the list of choices for the combo box
 	 */
 	public String[] getItems() {
@@ -147,7 +147,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 
 	/**
 	 * Sets the list of choices for the combo box
-	 * 
+	 *
 	 * @param items the list of choices for the combo box
 	 */
 	public void setItems(String[] items) {
@@ -162,8 +162,9 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 	private void populateComboBoxItems() {
 		if (comboBox != null && items != null) {
 			comboBox.removeAll();
-			for (int i = 0; i < items.length; i++)
+			for (int i = 0; i < items.length; i++) {
 				comboBox.add(items[i], i);
+			}
 
 			setValueValid(true);
 			selection = 0;
@@ -173,6 +174,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
+	@Override
 	protected Control createContents(Composite cell) {
 
 		Color bg = cell.getBackground();
@@ -187,10 +189,12 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 
 		comboBox.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent event) {
 				applyEditorValueAndDeactivate();
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				applyEditorValueAndDeactivate();
 			}
@@ -199,6 +203,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 		comboBox.addKeyListener(new KeyAdapter() {
 
 			// hook key pressed - see PR 14201
+			@Override
 			public void keyPressed(KeyEvent e) {
 				keyReleaseOccured(e);
 			}
@@ -206,6 +211,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 
 		comboBox.addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_ESCAPE || e.detail == SWT.TRAVERSE_RETURN) {
 					e.doit = false;
@@ -215,6 +221,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 
 		comboBox.addFocusListener(new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				ComboBoxColorCellEditor.this.focusLost();
 			}
@@ -237,8 +244,9 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 	}
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	protected void doValueChanged() {
 		if (selection != comboBox.getSelectionIndex()) {
 			markDirty();
@@ -272,6 +280,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
+	@Override
 	protected Object openDialogBox(Control cellEditorWindow) {
 		Shell shell = new Shell(Display.getCurrent(), SWT.SHELL_TRIM);
 		shell.setLocation(cellEditorWindow.toDisplay(0, 0).x + cellEditorWindow.getBounds().width,
@@ -313,9 +322,11 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
+	@Override
 	protected void updateContents(Object value) {
-		if (comboBox == null)
+		if (comboBox == null) {
 			return;
+		}
 
 		String text = "";//$NON-NLS-1$
 		if (value != null) {
@@ -343,10 +354,11 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt
 	 * .events.KeyEvent)
 	 */
+	@Override
 	protected void keyReleaseOccured(KeyEvent keyEvent) {
 		if (keyEvent.character == '\u001b') { // Escape character
 			fireCancelEditor();
@@ -365,17 +377,20 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor {
 	 * appropriate times. Subclasses may also extend or reimplement.
 	 * </p>
 	 */
+	@Override
 	protected void focusLost() {
-		if (inProcessing == 1)
+		if (inProcessing == 1) {
 			return;
+		}
 		super.focusLost();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
+	@Override
 	protected void doSetFocus() {
 		comboBox.setFocus();
 	}

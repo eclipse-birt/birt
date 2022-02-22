@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -35,12 +35,14 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM {
 		super(factory);
 	}
 
+	@Override
 	public int getType() {
 		return LAYOUT_MANAGER_LIST_BAND;
 	}
 
 	boolean repeatHeader;
 
+	@Override
 	public void initialize(HTMLAbstractLM parent, IContent content, IReportItemExecutor executor,
 			IContentEmitter emitter) throws BirtException {
 		super.initialize(parent, content, executor, emitter);
@@ -49,6 +51,7 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM {
 		intializeHeaderContent();
 	}
 
+	@Override
 	public void close() throws BirtException {
 		if (repeatHeader) {
 			assert executor instanceof DOMReportItemExecutor;
@@ -92,14 +95,12 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM {
 		}
 	}
 
+	@Override
 	protected boolean allowPageBreak() {
 		IBandContent band = (IBandContent) content;
 		int type = band.getBandType();
 		if (type == IBandContent.BAND_HEADER) {
-			if (IStyle.SOFT_VALUE.equals(content.getStyle().getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE))) {
-				return true;
-			}
-			if (IStyle.SOFT_VALUE.equals(content.getStyle().getProperty(IStyle.STYLE_PAGE_BREAK_AFTER))) {
+			if (IStyle.SOFT_VALUE.equals(content.getStyle().getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE)) || IStyle.SOFT_VALUE.equals(content.getStyle().getProperty(IStyle.STYLE_PAGE_BREAK_AFTER))) {
 				return true;
 			}
 			IElement listContent = band.getParent();
@@ -110,10 +111,7 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM {
 				return !((ITableContent) listContent).isHeaderRepeat();
 			}
 		} else if (type == IBandContent.BAND_GROUP_HEADER) {
-			if (IStyle.SOFT_VALUE.equals(content.getStyle().getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE))) {
-				return true;
-			}
-			if (IStyle.SOFT_VALUE.equals(content.getStyle().getProperty(IStyle.STYLE_PAGE_BREAK_AFTER))) {
+			if (IStyle.SOFT_VALUE.equals(content.getStyle().getProperty(IStyle.STYLE_PAGE_BREAK_BEFORE)) || IStyle.SOFT_VALUE.equals(content.getStyle().getProperty(IStyle.STYLE_PAGE_BREAK_AFTER))) {
 				return true;
 			}
 			IElement groupContent = band.getParent();
@@ -124,6 +122,7 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM {
 		return true;
 	}
 
+	@Override
 	protected boolean needPageBreakBefore() {
 		if (super.needPageBreakBefore()) {
 			needSoftPageBreak = true;

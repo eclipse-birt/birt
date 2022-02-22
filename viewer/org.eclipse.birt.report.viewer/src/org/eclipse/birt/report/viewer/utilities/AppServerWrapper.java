@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors: Actuate Corporation - Initial implementation.
  ******************************************************************************/
@@ -23,7 +23,6 @@ import org.eclipse.birt.core.internal.util.EclipseUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.http.jetty.JettyConfigurator;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
@@ -57,7 +56,7 @@ public class AppServerWrapper {
 	/**
 	 * port for web application
 	 */
-	private Map<String, Integer> ports = new HashMap<String, Integer>();
+	private Map<String, Integer> ports = new HashMap<>();
 
 	/**
 	 * Get wrapper instance.
@@ -83,15 +82,17 @@ public class AppServerWrapper {
 		// apply host and port overrides passed as command line arguments
 		try {
 			String hostCommandLineOverride = System.getProperty("server_host"); //$NON-NLS-1$
-			if (hostCommandLineOverride != null && hostCommandLineOverride.trim().length() > 0)
+			if (hostCommandLineOverride != null && hostCommandLineOverride.trim().length() > 0) {
 				host = hostCommandLineOverride;
+			}
 		} catch (Exception e) {
 		}
 
 		try {
 			String portCommandLineOverride = System.getProperty("server_port"); //$NON-NLS-1$
-			if (portCommandLineOverride != null && portCommandLineOverride.trim().length() > 0)
+			if (portCommandLineOverride != null && portCommandLineOverride.trim().length() > 0) {
 				port = Integer.parseInt(portCommandLineOverride);
+			}
 		} catch (Exception e) {
 		}
 
@@ -122,6 +123,7 @@ public class AppServerWrapper {
 	 *
 	 * @deprecated use {@link #start(String, String)}
 	 */
+	@Deprecated
 	public void start(String webappName) throws Exception {
 		start(webappName, ViewerPlugin.PLUGIN_ID);
 	}

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -42,7 +42,7 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler {
 
 	/**
 	 * Constructor of KeyHandler
-	 * 
+	 *
 	 * @param viewer
 	 * @param actionRegistry
 	 */
@@ -56,7 +56,7 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler {
 
 	/**
 	 * Bounds actions with key events
-	 * 
+	 *
 	 * @param character
 	 * @param keyCode
 	 * @param stateMask
@@ -72,6 +72,7 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler {
 	/**
 	 * @see org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler#keyPressed(org.eclipse.swt.events.KeyEvent)
 	 */
+	@Override
 	public boolean keyPressed(KeyEvent event) {
 		GraphicalEditPart part = getFocusEditPart();
 
@@ -109,10 +110,7 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler {
 	}
 
 	private boolean scrollIncrement(GraphicalEditPart part, KeyEvent event) {
-		if ((event.stateMask & SWT.CONTROL) == 0) {
-			return false;
-		}
-		if (!(part.getViewer() instanceof DeferredGraphicalViewer)) {
+		if (((event.stateMask & SWT.CONTROL) == 0) || !(part.getViewer() instanceof DeferredGraphicalViewer)) {
 			return false;
 		}
 		DeferredGraphicalViewer viewer = (DeferredGraphicalViewer) part.getViewer();

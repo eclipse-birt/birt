@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -112,6 +112,7 @@ public abstract class MultiPageEditorActionBarContributor extends EditorActionBa
 		}
 	}
 
+	@Override
 	public void setActiveEditor(IEditorPart targetEditor) {
 		super.setActiveEditor(targetEditor);
 		if (targetEditor instanceof IReportEditor) {
@@ -133,6 +134,7 @@ public abstract class MultiPageEditorActionBarContributor extends EditorActionBa
 
 	}
 
+	@Override
 	public void setActivePage(IFormPage page) {
 		if (page == null) {
 			return;
@@ -190,6 +192,7 @@ public abstract class MultiPageEditorActionBarContributor extends EditorActionBa
 
 	}
 
+	@Override
 	public void dispose() {
 		if (subBarMap != null) {
 			for (Iterator iter = subBarMap.values().iterator(); iter.hasNext();) {
@@ -207,17 +210,18 @@ public abstract class MultiPageEditorActionBarContributor extends EditorActionBa
 		super.dispose();
 	}
 
+	@Override
 	public void contributeToMenu(IMenuManager menuManager) {
 		super.contributeToMenu(menuManager);
 		// Page Menu
 		menuManager.insertAfter(IWorkbenchActionConstants.M_EDIT, createPageMenu());
 
 		menuManager.update();
-	};
+	}
 
 	/**
 	 * Returns the id of the editor to contribute
-	 * 
+	 *
 	 * @return the editor id
 	 */
 	abstract public String getEditorId();
@@ -240,6 +244,7 @@ public abstract class MultiPageEditorActionBarContributor extends EditorActionBa
 				subMenu.add(new NoneAction());
 				subMenu.addMenuListener(new IMenuListener() {
 
+					@Override
 					public void menuAboutToShow(IMenuManager manager) {
 						((MenuUpdateAction) action).updateMenu(subMenu);
 
@@ -252,6 +257,7 @@ public abstract class MultiPageEditorActionBarContributor extends EditorActionBa
 		}
 		menuManager.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				for (Iterator iter = updateActions.iterator(); iter.hasNext();) {
 					((UpdateAction) iter.next()).update();

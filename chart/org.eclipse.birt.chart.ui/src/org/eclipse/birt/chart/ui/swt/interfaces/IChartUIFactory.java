@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,14 +46,14 @@ public interface IChartUIFactory {
 
 	/**
 	 * Returns the current UI helper
-	 * 
+	 *
 	 * @return UI helper
 	 */
 	IChartUIHelper createUIHelper();
 
 	/**
 	 * Creates instance of <code>TriggerSupportMatrix</code>.
-	 * 
+	 *
 	 * @param outputFormat output format
 	 * @param iType        interactivity type
 	 * @return instance
@@ -63,7 +63,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Creates instance of <code>AbstractChartCheckbox</code>.
-	 * 
+	 *
 	 * @param parent
 	 * @param styles
 	 * @param defaultSelection
@@ -73,7 +73,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Creates instance of <code>ChartSpinner</code>.
-	 * 
+	 *
 	 * @param parent
 	 * @param styles
 	 * @param obj
@@ -85,7 +85,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Creates instance of <code>ChartSpinner</code>.
-	 * 
+	 *
 	 * @param parent
 	 * @param styles
 	 * @param obj
@@ -100,7 +100,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create instance of insets composite.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param numberRows
@@ -116,7 +116,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create instance of spinner composite.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param iCurrentValue
@@ -130,7 +130,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create instance of <code>IDataElementComposite</code> for editing number.
-	 * 
+	 *
 	 * @param parent
 	 * @param data
 	 * @param eParent
@@ -142,7 +142,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create instance of <code>IDataElementComposite</code> for editing date time.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param data
@@ -156,7 +156,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create instance of combo composite.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param eParent
@@ -168,7 +168,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create instance of combo list for editing list style.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param iLineStyle
@@ -182,7 +182,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create instance of combo list for editing line width.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param iWidth
@@ -196,7 +196,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create instance of combo list for editing meter head style.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param iLineDecorator
@@ -209,7 +209,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create font definition dialog.
-	 * 
+	 *
 	 * @param shellParent
 	 * @param wizardContext
 	 * @param fdCurrent
@@ -222,7 +222,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create text editor composite.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param eParent
@@ -233,7 +233,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create number editor composite.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param unit
@@ -246,7 +246,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create slider composite.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param eParent
@@ -257,7 +257,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create marker icon dialog.
-	 * 
+	 *
 	 * @param parent
 	 * @param fill
 	 * @param context
@@ -267,7 +267,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Create image dialog
-	 * 
+	 *
 	 * @return image dialog
 	 */
 	TrayDialog createChartImageDialog(Shell parentShell, Fill fCurrent, ChartWizardContext context,
@@ -275,7 +275,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Check if the state of specified button allows to enable UI component.
-	 * 
+	 *
 	 * @param button
 	 * @return true if the state of specified button allows to enable UI component.
 	 */
@@ -283,7 +283,7 @@ public interface IChartUIFactory {
 
 	/**
 	 * Check if current context is supporting 'auto' UI.
-	 * 
+	 *
 	 * @return true if current context is supporting 'auto' UI.
 	 */
 	boolean supportAutoUI();
@@ -291,7 +291,7 @@ public interface IChartUIFactory {
 	/**
 	 * Check if specified EObject is set invisible, the EObject must have 'visible'
 	 * property, the return result is used for updating chart UI.
-	 * 
+	 *
 	 * @param obj
 	 * @return true if EObject is set invisible.
 	 */

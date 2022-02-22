@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2008 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -44,7 +44,7 @@ public class ViewingSessionConfig implements Serializable {
 	 */
 	private int maximumSessionCount;
 	/**
-	 * 
+	 *
 	 */
 	private ViewingSessionPolicy maxSessionCountPolicy;
 
@@ -76,7 +76,7 @@ public class ViewingSessionConfig implements Serializable {
 	 * Sets the timeout value in seconds after which a viewing session will expire.
 	 * The value 0 means that a session will never expire, and the cached files will
 	 * never be cleant unless the belonging HTTP session expires.
-	 * 
+	 *
 	 * @param sessionTimeout timeout value in seconds
 	 */
 	public void setSessionTimeout(long sessionTimeout) {
@@ -97,7 +97,7 @@ public class ViewingSessionConfig implements Serializable {
 	/**
 	 * Sets a session count threshold after which the cleanup process will try to
 	 * clean up expired sessions.
-	 * 
+	 *
 	 * @param minimumSessionCountThreshold the minimumSessionCountThreshold to set
 	 */
 	public void setMinimumSessionCountThreshold(int minimumSessionCountThreshold) {
@@ -119,7 +119,7 @@ public class ViewingSessionConfig implements Serializable {
 	 * Maximum number of simultaneous viewing sessions that can be open at the same
 	 * time, to prevent cache pollution through multiple requests. A value of 0
 	 * means that there is no limit.
-	 * 
+	 *
 	 * @param maximumSessionCount the maximumSessionCount to set
 	 */
 	public void setMaximumSessionCount(int maximumSessionCount) {
@@ -154,7 +154,7 @@ public class ViewingSessionConfig implements Serializable {
 	/**
 	 * Load factor to recalculate the minimum threshold value based on the remaining
 	 * session count after cleanup.
-	 * 
+	 *
 	 * @param sessionCountThresholdFactor the sessionCountThresholdFactor to set
 	 */
 	public void setSessionCountThresholdFactor(float sessionCountThresholdFactor) {

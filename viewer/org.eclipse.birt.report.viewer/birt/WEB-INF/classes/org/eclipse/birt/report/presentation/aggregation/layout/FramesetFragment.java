@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -48,7 +48,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 /**
  * Root fragment for web viewer composite.
  * <p>
- * 
+ *
  * @see BaseFragment
  */
 public class FramesetFragment extends BirtBaseFragment {
@@ -56,6 +56,7 @@ public class FramesetFragment extends BirtBaseFragment {
 	/**
 	 * Override build method.
 	 */
+	@Override
 	protected void build() {
 		addChild(new ToolbarFragment());
 		addChild(new ReportFragment());
@@ -64,12 +65,13 @@ public class FramesetFragment extends BirtBaseFragment {
 	/**
 	 * Service provided by the fragment. This is the entry point of engine framgent.
 	 * It generally includes a JSP page to render a certain part of web viewer.
-	 * 
+	 *
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 */
+	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, BirtException {
 		BaseAttributeBean attrBean = (BaseAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
@@ -91,7 +93,7 @@ public class FramesetFragment extends BirtBaseFragment {
 
 	/**
 	 * Check if use html format
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -104,12 +106,13 @@ public class FramesetFragment extends BirtBaseFragment {
 
 	/**
 	 * Anything before do service.
-	 * 
+	 *
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 */
+	@Override
 	protected void doPreService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		BaseAttributeBean attrBean = (BaseAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
@@ -123,10 +126,11 @@ public class FramesetFragment extends BirtBaseFragment {
 			if (mimeType == null) {
 				mimeType = ReportEngineService.getInstance().getMIMEType(format);
 			}
-			if (mimeType != null && mimeType.length() > 0)
+			if (mimeType != null && mimeType.length() > 0) {
 				response.setContentType(mimeType);
-			else
+			} else {
 				response.setContentType("application/octet-stream"); //$NON-NLS-1$
+			}
 		}
 
 		String filename = ParameterAccessor.getExportFilename(new BirtContext(request, response), format, emitterId);
@@ -137,12 +141,13 @@ public class FramesetFragment extends BirtBaseFragment {
 
 	/**
 	 * Render the report in html/pdf format by calling frameset service.
-	 * 
+	 *
 	 * @param request  incoming http request
 	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 */
+	@Override
 	protected void doService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, BirtException {
 		BaseAttributeBean attrBean = (BaseAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
@@ -199,6 +204,7 @@ public class FramesetFragment extends BirtBaseFragment {
 	/**
 	 * Override implementation of doPostService.
 	 */
+	@Override
 	protected String doPostService(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		return null;

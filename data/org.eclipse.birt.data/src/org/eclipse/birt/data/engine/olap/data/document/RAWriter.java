@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +19,7 @@ import java.io.IOException;
 import org.eclipse.birt.core.archive.RAOutputStream;
 
 /**
- * 
+ *
  */
 
 public class RAWriter implements IRandomAccessObject {
@@ -27,7 +27,7 @@ public class RAWriter implements IRandomAccessObject {
 	private long length;
 
 	/**
-	 * 
+	 *
 	 * @param outputStream
 	 */
 	RAWriter(RAOutputStream outputStream) {
@@ -37,10 +37,11 @@ public class RAWriter implements IRandomAccessObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#close()
 	 */
+	@Override
 	public void close() throws IOException {
 		outputStream.flush();
 		outputStream.close();
@@ -48,99 +49,109 @@ public class RAWriter implements IRandomAccessObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#
 	 * getFilePointer()
 	 */
+	@Override
 	public long getFilePointer() throws IOException {
 		return outputStream.getOffset();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#length()
 	 */
+	@Override
 	public long length() throws IOException {
 		return length;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#read(byte
 	 * [], int, int)
 	 */
+	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#read(byte
 	 * [])
 	 */
+	@Override
 	public int read(byte[] b) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#seek(
 	 * long)
 	 */
+	@Override
 	public void seek(long pos) throws IOException {
 		outputStream.seek(pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#setLength
 	 * (long)
 	 */
+	@Override
 	public void setLength(long newLength) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#write(
 	 * byte[], int, int)
 	 */
+	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
 		long start = getFilePointer();
 
 		outputStream.write(b, off, len);
-		if (start + len > length)
+		if (start + len > length) {
 			length = start + len;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#flush()
 	 */
+	@Override
 	public void flush() throws IOException {
 		outputStream.flush();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#read()
 	 */
+	@Override
 	public int read() throws IOException {
 		throw new UnsupportedOperationException();
 	}

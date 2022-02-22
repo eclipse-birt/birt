@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -24,8 +24,8 @@ import org.eclipse.swt.widgets.Composite;
  * Choose the Line decorator of needle
  */
 public class HeadStyleChooserComposite extends AbstractHeadStyleChooserComposite {
-	private static final Integer[] iLineDecorators = new Integer[] { Integer.valueOf(LineDecorator.ARROW),
-			Integer.valueOf(LineDecorator.NONE), Integer.valueOf(LineDecorator.CIRCLE) };
+	private static final Integer[] iLineDecorators = { LineDecorator.ARROW,
+			LineDecorator.NONE, LineDecorator.CIRCLE };
 
 	static class HeaderStyleChoice extends HeadStyleCanvas implements ICustomChoice {
 
@@ -33,10 +33,12 @@ public class HeadStyleChooserComposite extends AbstractHeadStyleChooserComposite
 			super(parent, iStyle, iLineDecorator);
 		}
 
+		@Override
 		public Object getValue() {
 			return Integer.valueOf(getHeadStyle());
 		}
 
+		@Override
 		public void setValue(Object value) {
 			if (value != null) {
 				setHeadStyle(((Integer) value).intValue());
@@ -50,6 +52,7 @@ public class HeadStyleChooserComposite extends AbstractHeadStyleChooserComposite
 		setItems(iLineDecorators);
 	}
 
+	@Override
 	protected ICustomChoice createChoice(Composite parent, Object choiceValue) {
 		if (choiceValue == null) {
 			choiceValue = Integer.valueOf(0);
@@ -59,12 +62,14 @@ public class HeadStyleChooserComposite extends AbstractHeadStyleChooserComposite
 
 	/**
 	 * Returns the current selected head style as an integer.
-	 * 
+	 *
 	 */
+	@Override
 	public int getHeadStyle() {
 		return ((Integer) getChoiceValue()).intValue();
 	}
 
+	@Override
 	public void setHeadStyle(int iStyle) {
 		setChoiceValue(Integer.valueOf(iStyle));
 	}

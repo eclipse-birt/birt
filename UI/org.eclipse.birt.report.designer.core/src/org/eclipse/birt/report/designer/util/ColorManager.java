@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ public final class ColorManager {
 	/**
 	 * This map stores color name - Color pairs, used to quickly lookup a Color of a
 	 * predefined color.
-	 * 
+	 *
 	 * @param c color value
 	 */
 	public static Color getColor(int c) {
@@ -39,7 +39,7 @@ public final class ColorManager {
 	/**
 	 * This map stores color name - Color pairs, used to quickly lookup a Color of a
 	 * predefined color.
-	 * 
+	 *
 	 * @param red   red value of RGB
 	 * @param green green value of RGB
 	 * @param blue  blue value of RGB
@@ -50,33 +50,36 @@ public final class ColorManager {
 
 	/**
 	 * Gets the color.
-	 * 
+	 *
 	 * @param id
 	 * @param defaultRGB
 	 * @return
 	 */
 	public static Color getColor(String id, RGB defaultRGB) {
 		ColorRegistry registry = null;
-		if (PlatformUI.isWorkbenchRunning())
+		if (PlatformUI.isWorkbenchRunning()) {
 			registry = PlatformUI.getWorkbench().getThemeManager().getCurrentTheme().getColorRegistry();
+		}
 		RGB rgb = findRGB(registry, id, defaultRGB);
 		return getColor(rgb);
 	}
 
 	private static RGB findRGB(ColorRegistry registry, String key, RGB defaultRGB) {
-		if (registry == null)
+		if (registry == null) {
 			return defaultRGB;
+		}
 
 		RGB rgb = registry.getRGB(key);
-		if (rgb != null)
+		if (rgb != null) {
 			return rgb;
+		}
 		return defaultRGB;
 	}
 
 	/**
 	 * This map stores color name - Color pairs, used to quickly lookup a Color of a
 	 * predefined color.
-	 * 
+	 *
 	 * @param rgb RGB value of color
 	 */
 	public static Color getColor(RGB rgb) {
@@ -96,7 +99,7 @@ public final class ColorManager {
 	/**
 	 * Creates a new <code>Color</code> that is a darker version of the specified
 	 * color.
-	 * 
+	 *
 	 * @param c the specified color value.
 	 */
 	public static Color darker(Color c) {
@@ -113,7 +116,7 @@ public final class ColorManager {
 	/**
 	 * Creates a new <code>Color</code> that is a brighter version of the specified
 	 * color.
-	 * 
+	 *
 	 * @param c the specified color value.
 	 */
 	public static Color brighter(Color c) {
@@ -130,7 +133,7 @@ public final class ColorManager {
 	/**
 	 * Creates a new <code>Color</code> that is a brighter version of this
 	 * <code>Color</code>.
-	 * 
+	 *
 	 * @param origColor   initial color.
 	 * @param brightColor the target bright color.
 	 * @return a new <code>Color</code> object that is a brighter version of this
@@ -150,7 +153,7 @@ public final class ColorManager {
 	 * <code>Color</code>. Although <code>brighter</code> and <code>darker</code>
 	 * are inverse operations, the results of a series of invocations of these two
 	 * methods might be inconsistent because of rounding errors.
-	 * 
+	 *
 	 * @param origColor initial color.
 	 * @param darkColor the target dark color.
 	 * @return a new <code>Color</code> object that is a darker version of this

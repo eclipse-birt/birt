@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,14 +33,14 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 
 /**
- * 
+ *
  */
 
 public class AggregationResultSetSaveUtil {
 	private static String PREFIX_RESULTSET = "_ar_";
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param resultSets
 	 * @param writer
@@ -48,8 +48,9 @@ public class AggregationResultSetSaveUtil {
 	 */
 	public static void save(String name, IAggregationResultSet[] resultSets, IDocArchiveWriter writer)
 			throws IOException {
-		if (writer == null || name == null)
+		if (writer == null || name == null) {
 			return;
+		}
 		RAOutputStream outputStream = writer.createRandomAccessStream(name);
 		DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 		// write resultset length
@@ -70,7 +71,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	private static IAggregationResultSet[] sortRsBeforeSaving(IAggregationResultSet[] rs) {
-		List<IAggregationResultSet> sortedAggregateRs = new ArrayList<IAggregationResultSet>();
+		List<IAggregationResultSet> sortedAggregateRs = new ArrayList<>();
 		for (IAggregationResultSet result : rs) {
 			if (result.getAggregationDefinition().getDrilledInfo() == null) {
 				sortedAggregateRs.add(result);
@@ -85,7 +86,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param reader
 	 * @throws IOException
@@ -106,17 +107,19 @@ public class AggregationResultSetSaveUtil {
 			for (int i = 0; i < size; i++) {
 				// Only in version 2_2_1 we save aggregation result set without
 				// PREFIX_RESULTSET.
-				if (version != VersionManager.VERSION_2_2_1)
+				if (version != VersionManager.VERSION_2_2_1) {
 					inputStream = reader.getStream(name + PREFIX_RESULTSET + i);
-				else
+				} else {
 					inputStream = reader.getStream(name + i);
+				}
 				dataInputStream = new DataInputStream(inputStream);
-				if (size < 3)
+				if (size < 3) {
 					result[i] = loadOneResultSet(dataInputStream, memoryCacheSize / size);
-				else if (size >= 3 && size < 5)
+				} else if (size >= 3 && size < 5) {
 					result[i] = loadOneResultSet(dataInputStream, memoryCacheSize * 2 / size);
-				else if (size >= 5)
+				} else if (size >= 5) {
 					result[i] = loadOneResultSet(dataInputStream, memoryCacheSize * 3 / size);
+				}
 				dataInputStream.close();
 			}
 			return result;
@@ -184,7 +187,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param objs
 	 * @return
 	 */
@@ -198,7 +201,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param objs
 	 * @return
 	 */
@@ -214,7 +217,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param outputStream
 	 * @param resultSet
 	 * @throws IOException
@@ -226,7 +229,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param outputStream
 	 * @param resultSet
 	 * @throws IOException
@@ -242,7 +245,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param outputStream
 	 * @param resultRow
 	 * @throws IOException
@@ -253,7 +256,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/*
-	 * 
+	 *
 	 */
 	public static AggregationResultRow loadAggregationRow(DataInputStream inputStream) throws IOException {
 		Object[] objects = readObjectArray(inputStream);
@@ -264,7 +267,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param outputStream
 	 * @param aggregationDef
 	 * @throws IOException
@@ -308,7 +311,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param outputStream
 	 * @param objects
 	 * @throws IOException
@@ -325,15 +328,16 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param inputStream
 	 * @return
 	 * @throws IOException
 	 */
 	private static Object[] readObjectArray(DataInputStream inputStream) throws IOException {
 		int size = IOUtil.readInt(inputStream);
-		if (size == -1)
+		if (size == -1) {
 			return null;
+		}
 		Object[] result = new Object[size];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = IOUtil.readObject(inputStream,
@@ -343,15 +347,16 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param inputStream
 	 * @return
 	 * @throws IOException
 	 */
 	private static Object[][] readMDObjectArray(DataInputStream inputStream) throws IOException {
 		int size = IOUtil.readInt(inputStream);
-		if (size == -1)
+		if (size == -1) {
 			return null;
+		}
 		Object[][] result = new Object[size][];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = readObjectArray(inputStream);
@@ -360,7 +365,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param outputStream
 	 * @param objects
 	 * @throws IOException
@@ -377,15 +382,16 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param outputStream
 	 * @return
 	 * @throws IOException
 	 */
 	private static int[] readIntArray(DataInputStream inputStream) throws IOException {
 		int size = IOUtil.readInt(inputStream);
-		if (size == -1)
+		if (size == -1) {
 			return null;
+		}
 		int[] result = new int[size];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = IOUtil.readInt(inputStream);
@@ -394,15 +400,16 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param inputStream
 	 * @return
 	 * @throws IOException
 	 */
 	private static int[][] readMDIntArray(DataInputStream inputStream) throws IOException {
 		int size = IOUtil.readInt(inputStream);
-		if (size == -1)
+		if (size == -1) {
 			return null;
+		}
 		int[][] result = new int[size][];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = readIntArray(inputStream);
@@ -411,7 +418,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param outputStream
 	 * @param objects
 	 * @throws IOException
@@ -428,7 +435,7 @@ public class AggregationResultSetSaveUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param outputStream
 	 * @param iA
 	 * @throws IOException

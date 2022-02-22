@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,8 +39,8 @@ public class ExtractionResults implements IExtractionResults {
 		this.queryResults = queryResults;
 		TableHandle tableHandle = null;
 		ArrayList<ComputedColumn> columnList = null;
-		ArrayList<String> notAllowed = new ArrayList<String>();
-		if (handle != null && handle instanceof TableHandle) {
+		ArrayList<String> notAllowed = new ArrayList<>();
+		if (handle instanceof TableHandle) {
 			tableHandle = (TableHandle) handle;
 		}
 
@@ -58,7 +58,7 @@ public class ExtractionResults implements IExtractionResults {
 			if (selectedColumns == null || selectedColumns.length <= 0) {
 
 				int count = metaData.getColumnCount();
-				ArrayList<String> tmpColumnArray = new ArrayList<String>();
+				ArrayList<String> tmpColumnArray = new ArrayList<>();
 				for (int i = 0; i < count; i++) {
 					try {
 						if (isColumnAllowedExport(metaData.getColumnName(i), notAllowed)) {
@@ -71,7 +71,7 @@ public class ExtractionResults implements IExtractionResults {
 				selectedColumns = tmpColumnArray.toArray(new String[0]);
 
 			} else {
-				ArrayList<String> tmpColumnArray = new ArrayList<String>();
+				ArrayList<String> tmpColumnArray = new ArrayList<>();
 				for (int i = 0; i < selectedColumns.length; i++) {
 					if (isColumnAllowedExport(selectedColumns[i], notAllowed)) {
 						tmpColumnArray.add(selectedColumns[i]);
@@ -114,10 +114,12 @@ public class ExtractionResults implements IExtractionResults {
 		this.maxRows = maxRows;
 	}
 
+	@Override
 	public IResultMetaData getResultMetaData() throws BirtException {
 		return metaData;
 	}
 
+	@Override
 	public IDataIterator nextResultIterator() throws BirtException {
 		if (iterator == null) {
 			if (null == resultIterator && null != queryResults) {
@@ -128,6 +130,7 @@ public class ExtractionResults implements IExtractionResults {
 		return iterator;
 	}
 
+	@Override
 	public void close() {
 		if (queryResults != null) {
 			try {

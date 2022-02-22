@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * 
+ *
  */
 
 public class VariableParameter implements IMethodParameter {
@@ -39,6 +39,7 @@ public class VariableParameter implements IMethodParameter {
 		this.dataType = dataType;
 	}
 
+	@Override
 	public String getDataType() {
 		return dataType;
 	}
@@ -54,6 +55,7 @@ public class VariableParameter implements IMethodParameter {
 		this.name = name;
 	}
 
+	@Override
 	public Element createElement(Document doc) {
 		Element ele = doc.createElement(Constants.ELEMENT_VARIABLEPARMETER);
 		ele.setAttribute(Constants.ATTR_VARIABLEPARMETER_NAME, name);
@@ -64,7 +66,7 @@ public class VariableParameter implements IMethodParameter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -78,29 +80,33 @@ public class VariableParameter implements IMethodParameter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		VariableParameter other = (VariableParameter) obj;
-		if (!dataType.equals(other.dataType))
+		if (!dataType.equals(other.dataType)) {
 			return false;
-		if (!name.equals(other.name))
+		}
+		if (!name.equals(other.name)) {
 			return false;
+		}
 		return true;
 	}
 
+	@Override
 	public Object getTargetValue() {
 		return value;
 	}
 
+	@Override
 	public void prepareValue(Map<String, Object> paramValues, ClassLoader pojoClassLoader) throws OdaException {
 		if (!paramValues.containsKey(getName())) {
 			throw new OdaException(Messages.getString("MethodSource.MissingPrameterValue", getName())); //$NON-NLS-1$
@@ -108,15 +114,18 @@ public class VariableParameter implements IMethodParameter {
 		value = paramValues.get(getName());
 	}
 
+	@Override
 	public void setDataType(String type) {
 		this.dataType = type;
 
 	}
 
+	@Override
 	public void setStringValue(String value) {
 		this.stringValue = value;
 	}
 
+	@Override
 	public String getStringValue() {
 		return this.stringValue;
 	}

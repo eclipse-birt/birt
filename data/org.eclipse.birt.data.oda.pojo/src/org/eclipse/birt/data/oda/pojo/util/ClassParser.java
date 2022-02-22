@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,7 +54,7 @@ public class ClassParser {
 	public static Method[] getPublicMethods(Class c, String nameRegex) {
 		assert c != null;
 		Method[] methods = c.getMethods();
-		List<Method> result = new ArrayList<Method>();
+		List<Method> result = new ArrayList<>();
 		for (Method m : methods) {
 			if (isMappable(m) && isNameMatch(m.getName(), nameRegex)) {
 				result.add(m);
@@ -83,6 +83,7 @@ public class ClassParser {
 	private static class MemberComparator implements Comparator<Member>, Serializable {
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public int compare(Member o1, Member o2) {
 			return o1.getName().compareTo(o2.getName());
 		}
@@ -256,7 +257,7 @@ public class ClassParser {
 		} else {
 			assert false;
 		}
-		StringBuffer label = new StringBuffer(className);
+		StringBuilder label = new StringBuilder(className);
 		for (int i = 0; i <= last; i++) {
 			label.append("[]"); //$NON-NLS-1$
 		}
@@ -266,7 +267,7 @@ public class ClassParser {
 	public static String getParametersLabel(Method m) {
 		assert m != null && isMappable(m);
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (Type t : m.getGenericParameterTypes()) {
 			sb.append(", ").append(getTypeLabel(t)); //$NON-NLS-1$
 		}

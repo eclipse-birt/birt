@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.chart.regression;
@@ -94,7 +94,7 @@ public final class Regression_139334_swt extends Composite
 
 	/**
 	 * main() method for constructing the layout.
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -124,8 +124,9 @@ public final class Regression_139334_swt extends Composite
 
 		shell.open();
 		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
+			if (!display.readAndDispatch()) {
 				display.sleep();
+			}
 		}
 		display.dispose();
 	}
@@ -150,11 +151,12 @@ public final class Regression_139334_swt extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 	 * PaintEvent)
 	 */
+	@Override
 	public void paintControl(PaintEvent e) {
 		Rectangle d = this.getClientArea();
 		Image imgChart = new Image(this.getDisplay(), d);
@@ -185,10 +187,11 @@ public final class Regression_139334_swt extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget.equals(btn)) {
 			int iSelection = cbType.getSelectionIndex();
@@ -204,49 +207,55 @@ public final class Regression_139334_swt extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getDesignTimeModel()
 	 */
+	@Override
 	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.swing.IUpdateNotifier#getRunTimeModel()
 	 */
+	@Override
 	public Chart getRunTimeModel() {
 		return gcs.getChartModel();
 	}
 
+	@Override
 	public Object peerInstance() {
 		return this;
 	}
 
+	@Override
 	public void regenerateChart() {
 		bNeedsGeneration = true;
 		redraw();
 	}
 
+	@Override
 	public void repaintChart() {
 		redraw();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#getContext(java.lang.Object)
 	 */
@@ -256,7 +265,7 @@ public final class Regression_139334_swt extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#putContext(java.lang.Object,
 	 * java.lang.Object)
@@ -267,7 +276,7 @@ public final class Regression_139334_swt extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.device.IUpdateNotifier#removeContext(java.lang.Object)
 	 */
@@ -277,11 +286,11 @@ public final class Regression_139334_swt extends Composite
 
 	/**
 	 * Creates a bar chart model as a reference implementation
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
-	public static final Chart createBarChart() {
+	public static Chart createBarChart() {
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Chart Type

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,7 +51,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * and "N" to "No". Mappings with many rules are better handled in the data
  * access layer. Another common use of mapping is to convert a null value into a
  * display value, such as "No Data."
- * 
+ *
  * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
  */
 
@@ -61,7 +61,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * Constructs a style handle with the given design and the element.. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -77,7 +77,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li>BACKGROUND_ATTACHMENT_SCROLL
 	 * <li>BACKGROUND_ATTACHMENT_FIXED
 	 * </ul>
-	 * 
+	 *
 	 * @return the background attachment
 	 */
 
@@ -92,7 +92,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li>BACKGROUND_ATTACHMENT_SCROLL
 	 * <li>BACKGROUND_ATTACHMENT_FIXED
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new background attachment
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -103,7 +103,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the address of the background image.
-	 * 
+	 *
 	 * @return the address of the background image as a string
 	 */
 
@@ -113,7 +113,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the address of the background image. The value is a URL as a string.
-	 * 
+	 *
 	 * @param value the new background image address
 	 * @throws SemanticException if the property is locked
 	 */
@@ -131,7 +131,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li>BACKGROUND_REPEAT_REPEAT_Y
 	 * <li>BACKGROUND_REPEAT_NO_REPEAT
 	 * </ul>
-	 * 
+	 *
 	 * @return the repeat pattern
 	 */
 
@@ -148,7 +148,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li>BACKGROUND_REPEAT_REPEAT_Y
 	 * <li>BACKGROUND_REPEAT_NO_REPEAT
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new repeat pattern
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -171,7 +171,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the style of the bottom line
 	 */
 
@@ -193,7 +193,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new style of the bottom line
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -216,7 +216,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the style of the left line
 	 */
 
@@ -238,7 +238,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new style of the left line
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -261,7 +261,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the style of the right line
 	 */
 
@@ -283,7 +283,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new style of the right line
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -306,7 +306,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the style of the top line
 	 */
 
@@ -328,7 +328,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new style of the right line
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -340,7 +340,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	/**
 	 * Tests whether the section can shrink if the actual content is smaller than
 	 * the design size.
-	 * 
+	 *
 	 * @return <code>true</code> if can shrink, otherwise <code>false</code>
 	 * @see #setCanShrink(boolean)
 	 */
@@ -352,7 +352,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	/**
 	 * Sets whether the section can shrink if the actual content is smaller than the
 	 * design size.
-	 * 
+	 *
 	 * @param value <code>true</code> if can shrink, <code>false</code> not.
 	 * @throws SemanticException if the property is locked
 	 * @see #canShrink()
@@ -364,14 +364,15 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the pattern of a string format.
-	 * 
+	 *
 	 * @return the pattern of a string format
 	 */
 
 	public String getStringFormat() {
 		Object value = getProperty(IStyleModel.STRING_FORMAT_PROP);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof StringFormatValue;
 
@@ -380,14 +381,15 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the category of a string format.
-	 * 
+	 *
 	 * @return the category of a string format
 	 */
 
 	public String getStringFormatCategory() {
 		Object value = getProperty(IStyleModel.STRING_FORMAT_PROP);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof StringFormatValue;
 
@@ -396,7 +398,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the pattern of a string format.
-	 * 
+	 *
 	 * @param pattern the pattern of a string forma
 	 * @throws SemanticException if the property is locked
 	 */
@@ -407,7 +409,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the category of a string format. The <code>pattern</code> can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED</code>
 	 * <li><code>DesignChoiceConstants.STRING_FORMAT_TYPE_UPPERCASE</code>
@@ -419,7 +421,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li>
 	 * <code>DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param pattern the category of a string format
 	 * @throws SemanticException if <code>pattern</code> is not one of the above
 	 *                           values.
@@ -431,14 +433,15 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the pattern of a number format for a IStyleModel.
-	 * 
+	 *
 	 * @return the pattern of a number format
 	 */
 
 	public String getNumberFormat() {
 		Object value = getProperty(IStyleModel.NUMBER_FORMAT_PROP);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof NumberFormatValue;
 
@@ -447,14 +450,15 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the category of a number format for a IStyleModel.
-	 * 
+	 *
 	 * @return the category of a number format
 	 */
 
 	public String getNumberFormatCategory() {
 		Object value = getProperty(IStyleModel.NUMBER_FORMAT_PROP);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof NumberFormatValue;
 
@@ -463,7 +467,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the pattern of a number format.
-	 * 
+	 *
 	 * @param pattern the pattern of a number format
 	 * @throws SemanticException if the property is locked
 	 */
@@ -475,7 +479,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	/**
 	 * Sets the category of a number format for a highlight rule. The
 	 * <code>pattern</code> can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_UNFORMATTED</code>
 	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER</code>
@@ -486,7 +490,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD</code>
 	 * <li><code>DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param category the category of a number format
 	 * @throws SemanticException if <code>category</code> is not one of the above
 	 *                           values.
@@ -498,14 +502,15 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the pattern of the date-format.
-	 * 
+	 *
 	 * @return the pattern of the date-format
 	 */
 
 	public String getDateFormat() {
 		Object value = getProperty(IStyleModel.DATE_FORMAT_PROP);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof DateFormatValue;
 
@@ -514,14 +519,15 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the category of the date-format.
-	 * 
+	 *
 	 * @return the category of the date-format
 	 */
 
 	public String getDateFormatCategory() {
 		Object value = getProperty(IStyleModel.DATE_FORMAT_PROP);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof DateFormatValue;
 
@@ -530,14 +536,15 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the pattern of the time-format.
-	 * 
+	 *
 	 * @return the pattern of the time-format
 	 */
 
 	public String getTimeFormat() {
 		Object value = getProperty(IStyleModel.TIME_FORMAT_PROP);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof TimeFormatValue;
 
@@ -546,14 +553,15 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the category of the time-format.
-	 * 
+	 *
 	 * @return the category of the time-format
 	 */
 
 	public String getTimeFormatCategory() {
 		Object value = getProperty(IStyleModel.TIME_FORMAT_PROP);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof TimeFormatValue;
 
@@ -562,14 +570,15 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the pattern of the date-time-format.
-	 * 
+	 *
 	 * @return the pattern of the date-time-format
 	 */
 
 	public String getDateTimeFormat() {
 		Object value = getProperty(IStyleModel.DATE_TIME_FORMAT_PROP);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof DateTimeFormatValue;
 
@@ -578,14 +587,15 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the category of the date-time-format.
-	 * 
+	 *
 	 * @return the category of the date-time-format
 	 */
 
 	public String getDateTimeFormatCategory() {
 		Object value = getProperty(IStyleModel.DATE_TIME_FORMAT_PROP);
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		assert value instanceof DateTimeFormatValue;
 
@@ -594,7 +604,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the pattern of a date time format for a highlight rule.
-	 * 
+	 *
 	 * @param pattern the pattern of a date time format
 	 * @throws SemanticException if the property is locked
 	 */
@@ -605,7 +615,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the category of a number format. The <code>pattern</code> can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED</code>
 	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_GENERAL_DATE</code>
@@ -617,7 +627,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_SHORT_TIME</code>
 	 * <li><code>DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param pattern the category of a date-time format
 	 * @throws SemanticException if <code>pattern</code> is not one of the above
 	 *                           values.
@@ -629,7 +639,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the pattern of a date time format for a highlight rule.
-	 * 
+	 *
 	 * @param pattern the pattern of a date time format
 	 * @throws SemanticException if the property is locked
 	 */
@@ -640,7 +650,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the category of a number format. The <code>pattern</code> can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED</code>
 	 * <li><code>DesignChoiceConstants.DATE_FORMAT_TYPE_GENERAL_DATE</code>
@@ -649,7 +659,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>DesignChoiceConstants.DATE_FORMAT_TYPE_SHORT_DATE</code>
 	 * <li><code>DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param pattern the category of a date-time format
 	 * @throws SemanticException if <code>pattern</code> is not one of the above
 	 *                           values.
@@ -661,7 +671,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the pattern of a date time format for a highlight rule.
-	 * 
+	 *
 	 * @param pattern the pattern of a date time format
 	 * @throws SemanticException if the property is locked
 	 */
@@ -672,7 +682,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the category of a number format. The <code>pattern</code> can be one of:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>DesignChoiceConstants.TIME_FORMAT_TYPE_UNFORMATTED</code>
 	 * <li><code>DesignChoiceConstants.TIME_FORMAT_TYPE_LONG_TIME</code>
@@ -680,7 +690,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>DesignChoiceConstants.TIME_FORMAT_TYPE_SHORT_TIME</code>
 	 * <li><code>DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param pattern the category of a date-time format
 	 * @throws SemanticException if <code>pattern</code> is not one of the above
 	 *                           values.
@@ -692,7 +702,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the category/pattern value for a string/number/date-time format.
-	 * 
+	 *
 	 * @param propName   the property name
 	 * @param memberName the category or pattern member name
 	 * @param valueToSet the value to set
@@ -706,25 +716,27 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 		if (value == null) {
 			FormatValue formatValueToSet = null;
 
-			if (IStyleModel.DATE_TIME_FORMAT_PROP.equalsIgnoreCase(propName))
+			if (IStyleModel.DATE_TIME_FORMAT_PROP.equalsIgnoreCase(propName)) {
 				formatValueToSet = new DateTimeFormatValue();
-			else if (IStyleModel.NUMBER_FORMAT_PROP.equalsIgnoreCase(propName))
+			} else if (IStyleModel.NUMBER_FORMAT_PROP.equalsIgnoreCase(propName)) {
 				formatValueToSet = new NumberFormatValue();
-			else if (IStyleModel.STRING_FORMAT_PROP.equalsIgnoreCase(propName))
+			} else if (IStyleModel.STRING_FORMAT_PROP.equalsIgnoreCase(propName)) {
 				formatValueToSet = new StringFormatValue();
-			else if (IStyleModel.DATE_FORMAT_PROP.equalsIgnoreCase(propName))
+			} else if (IStyleModel.DATE_FORMAT_PROP.equalsIgnoreCase(propName)) {
 				formatValueToSet = new DateFormatValue();
-			else if (IStyleModel.TIME_FORMAT_PROP.equalsIgnoreCase(propName))
+			} else if (IStyleModel.TIME_FORMAT_PROP.equalsIgnoreCase(propName)) {
 				formatValueToSet = new TimeFormatValue();
-			else
+			} else {
 				assert false;
+			}
 
-			if (FormatValue.CATEGORY_MEMBER.equalsIgnoreCase(memberName))
+			if (FormatValue.CATEGORY_MEMBER.equalsIgnoreCase(memberName)) {
 				formatValueToSet.setCategory(valueToSet);
-			else if (FormatValue.PATTERN_MEMBER.equalsIgnoreCase(memberName))
+			} else if (FormatValue.PATTERN_MEMBER.equalsIgnoreCase(memberName)) {
 				formatValueToSet.setPattern(valueToSet);
-			else
+			} else {
 				assert false;
+			}
 
 			setProperty(propName, formatValueToSet);
 		} else {
@@ -733,12 +745,13 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle(propHandle);
 
-			if (FormatValue.CATEGORY_MEMBER.equalsIgnoreCase(memberName))
+			if (FormatValue.CATEGORY_MEMBER.equalsIgnoreCase(memberName)) {
 				formatHandle.setCategory(valueToSet);
-			else if (FormatValue.PATTERN_MEMBER.equalsIgnoreCase(memberName))
+			} else if (FormatValue.PATTERN_MEMBER.equalsIgnoreCase(memberName)) {
 				formatHandle.setPattern(valueToSet);
-			else
+			} else {
 				assert false;
+			}
 		}
 	}
 
@@ -751,7 +764,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>DISPLAY_INLINE</code>
 	 * <li><code>DISPLAY_BLOCK</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the display value as a string
 	 */
 
@@ -768,7 +781,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>DISPLAY_INLINE</code>
 	 * <li><code>DISPLAY_BLOCK</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new display value
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -779,7 +792,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the name of the master page on which to start this section.
-	 * 
+	 *
 	 * @return the master page name
 	 * @see #setMasterPage(String)
 	 */
@@ -793,7 +806,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * normal page sequence is used. If defined, the section starts on a new page,
 	 * and the master page is the one defined here. The subsequent pages are those
 	 * defined by the report's page sequence.
-	 * 
+	 *
 	 * @param value the new master page name
 	 * @throws SemanticException if the property is locked
 	 * @see #getMasterPage()
@@ -809,7 +822,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <ul>
 	 * <li><code>ORPHANS_INHERIT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the orphans property
 	 * @see #setOrphans(String)
 	 */
@@ -826,7 +839,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <ul>
 	 * <li><code>ORPHANS_INHERIT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new orphans property
 	 * @throws SemanticException if the value is not an integer or one of the above
 	 *                           constants.
@@ -848,7 +861,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>PAGE_BREAK_RIGHT</code>
 	 * <li><code>PAGE_BREAK_INHERIT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the page break after property
 	 */
 
@@ -867,7 +880,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>PAGE_BREAK_RIGHT</code>
 	 * <li><code>PAGE_BREAK_INHERIT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new page break after property
 	 * @throws SemanticException if the value is not pre-defined.
 	 */
@@ -887,7 +900,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>PAGE_BREAK_RIGHT</code>
 	 * <li><code>PAGE_BREAK_INHERIT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the page break before property
 	 */
 
@@ -906,7 +919,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>PAGE_BREAK_RIGHT</code>
 	 * <li><code>PAGE_BREAK_INHERIT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new page break before property
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -923,7 +936,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>PAGEBREAK_INSIDE_AUTO</code>
 	 * <li><code>PAGEBREAK_INSIDE_INHERIT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the page break inside property
 	 */
 
@@ -939,7 +952,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>PAGEBREAK_INSIDE_AUTO</code>
 	 * <li><code>PAGEBREAK_INSIDE_INHERIT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new page break inside property
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -952,7 +965,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * Tests whether to show this frame even if it is empty, or all its data
 	 * elements are empty. If <code>false</code>, the section is automatically
 	 * hidden when empty.
-	 * 
+	 *
 	 * @return <code>true</code> if show-if-blank, otherwise <code>false</code>
 	 * @see #setShowIfBlank(boolean)
 	 */
@@ -964,7 +977,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	/**
 	 * Sets whether to show this frame even if it is empty, or all its data elements
 	 * are empty.
-	 * 
+	 *
 	 * @param value <code>true</code> if show the frame. <code>false</code> not.
 	 * @throws SemanticException if the property is locked
 	 * @see #showIfBlank()
@@ -981,7 +994,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>TEXT_UNDERLINE_NONE</code>
 	 * <li><code>TEXT_UNDERLINE_UNDERLINE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the text underline value
 	 */
 
@@ -996,7 +1009,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>TEXT_UNDERLINE_NONE</code>
 	 * <li><code>TEXT_UNDERLINE_UNDERLINE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new text underline
 	 * @throws SemanticException if the value is not pre-defined.
 	 */
@@ -1012,7 +1025,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>TEXT_OVERLINE_NONE</code>
 	 * <li><code>TEXT_OVERLINE_OVERLINE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the text overline value
 	 */
 
@@ -1027,7 +1040,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>TEXT_OVERLINE_NONE</code>
 	 * <li><code>TEXT_OVERLINE_OVERLINE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new text overline value
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -1043,7 +1056,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>TEXT_LINE_THROUGH_NONE</code>
 	 * <li><code>TEXT_LINE_THROUGH_LINE_THROUGH</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the text line-through value
 	 */
 
@@ -1058,7 +1071,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>TEXT_LINE_THROUGH_NONE</code>
 	 * <li><code>TEXT_LINE_THROUGH_LINE_THROUGH</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new text line-through value
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -1076,7 +1089,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>TEXT_ALIGN_RIGHT</code>
 	 * <li><code>TEXT_ALIGN_JUSTIFY</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the text align value
 	 */
 
@@ -1093,7 +1106,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>TEXT_ALIGN_RIGHT</code>
 	 * <li><code>TEXT_ALIGN_JUSTIFY</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new text align
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -1111,7 +1124,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>TRANSFORM_LOWERCASE</code>
 	 * <li><code>TRANSFORM_NONE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the text transform
 	 */
 
@@ -1128,7 +1141,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>TRANSFORM_LOWERCASE</code>
 	 * <li><code>TRANSFORM_NONE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new text transform
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -1151,7 +1164,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li>VERTICAL_ALIGN_BOTTOM
 	 * <li>VERTICAL_ALIGN_TEXT_BOTTOM
 	 * </ul>
-	 * 
+	 *
 	 * @return the value of the vertical align property
 	 */
 
@@ -1172,7 +1185,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li>VERTICAL_ALIGN_BOTTOM
 	 * <li>VERTICAL_ALIGN_TEXT_BOTTOM
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new vertical align
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -1189,7 +1202,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>WHITE_SPACE_PRE</code>
 	 * <li><code>WHITE_SPACE_NOWRAP</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the white space
 	 */
 
@@ -1205,7 +1218,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>WHITE_SPACE_PRE</code>
 	 * <li><code>WHITE_SPACE_NOWRAP</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new white space
 	 * @throws SemanticException if the value is not one of the above.
 	 */
@@ -1220,7 +1233,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <ul>
 	 * <li><code>WIDOWS_INHERIT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the widows property
 	 * @see #setWidows(String)
 	 */
@@ -1237,7 +1250,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <ul>
 	 * <li><code>WIDOWS_INHERIT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new windows property
 	 * @throws SemanticException if the value is not an integer or one of the above
 	 *                           constants.
@@ -1250,22 +1263,24 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the test expression for the map.
-	 * 
+	 *
 	 * @return the map test expression
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public String getMapTestExpr() {
 		return null;
 	}
 
 	/**
 	 * Sets the test expression for the map.
-	 * 
+	 *
 	 * @param value the value of new map test expression
 	 * @throws SemanticException if the expression is invalid.
 	 * @deprecated
 	 */
+	@Deprecated
 	public void setMapTestExpr(String value) throws SemanticException {
 	}
 
@@ -1273,62 +1288,65 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * Returns the iterator for map rules. The element in the iterator is the
 	 * corresponding <code>StructureHandle</code> that deal with a
 	 * <code>MapRule</code> in the list.
-	 * 
+	 *
 	 * @return the iterator of map rule structure list
 	 */
 
 	public Iterator mapRulesIterator() {
 		PropertyHandle propHandle = getPropertyHandle(IStyleModel.MAP_RULES_PROP);
-		if (propHandle == null)
+		if (propHandle == null) {
 			return Collections.EMPTY_LIST.iterator();
+		}
 
 		return propHandle.iterator();
 	}
 
 	/**
 	 * Returns the test expression for the highlight.
-	 * 
+	 *
 	 * @return the highlight test expression
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public String getHighlightTestExpr() {
 		return null;
 	}
 
 	/**
 	 * Sets the highlight test expression.
-	 * 
+	 *
 	 * @param value the value of new highlight test expression
 	 * @throws SemanticException if the expression is invalid.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public void setHighlightTestExpr(String value) throws SemanticException {
-		return;
 	}
 
 	/**
 	 * Returns the iterator of highlight rules. The element in the iterator is the
 	 * corresponding <code>HighlightRuleHandle</code> that deal with a
 	 * <code>HighRule</code>.
-	 * 
+	 *
 	 * @return the iterator of highlight rule structure list
 	 */
 
 	public Iterator highlightRulesIterator() {
 		PropertyHandle propHandle = getPropertyHandle(IStyleModel.HIGHLIGHT_RULES_PROP);
-		if (propHandle == null)
+		if (propHandle == null) {
 			return Collections.EMPTY_LIST.iterator();
+		}
 
 		return propHandle.iterator();
 	}
 
 	/**
 	 * Gets a color handle to deal with the font color.
-	 * 
+	 *
 	 * @return a ColorHandle to for the font color
 	 */
 
@@ -1338,7 +1356,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Gets a color handle to deal with the background color.
-	 * 
+	 *
 	 * @return a ColorHandle for the background color.
 	 */
 
@@ -1348,7 +1366,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Gets a color handle to deal with the color of the top side of the border.
-	 * 
+	 *
 	 * @return a ColorHandle to for the color of the top side of the border
 	 */
 
@@ -1358,7 +1376,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Gets a color handle to deal with the color of the left side of the border.
-	 * 
+	 *
 	 * @return a ColorHandle to for the color of the left side of the border
 	 */
 
@@ -1368,7 +1386,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Gets a color handle to deal with the color of the right side of the border.
-	 * 
+	 *
 	 * @return a ColorHandle to for the color of the right side of the border
 	 */
 
@@ -1378,7 +1396,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Gets a color handle to deal with the color of the bottom side of the border.
-	 * 
+	 *
 	 * @return a ColorHandle to for the color of the bottom side of the border
 	 */
 
@@ -1395,7 +1413,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>SECTION_ALIGN_CENTER</code>
 	 * <li><code>SECTION_ALIGN_RIGHT</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the x position
 	 */
 
@@ -1412,7 +1430,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>BACKGROUND_POSITION_CENTER</code>
 	 * <li><code>BACKGROUND_POSITION_BOTTOM</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the y position
 	 */
 
@@ -1427,7 +1445,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <ul>
 	 * <li><code>NORMAL_NORMAL</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the spacing between individual letters
 	 */
 
@@ -1442,7 +1460,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <ul>
 	 * <li><code>NORMAL_NORMAL</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the line height.
 	 */
 
@@ -1452,7 +1470,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Gets a dimension handle to deal with the text indent.
-	 * 
+	 *
 	 * @return a DimensionHandle for the text indent.
 	 */
 
@@ -1467,7 +1485,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <ul>
 	 * <li><code>NORMAL_NORMAL</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle to deal with the spacing among words.
 	 */
 
@@ -1484,7 +1502,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>LINE_WIDTH_MEDIUM</code>
 	 * <li><code>LINE_WIDTH_THICK</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the width of the top side of the border
 	 */
 
@@ -1501,7 +1519,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>LINE_WIDTH_MEDIUM</code>
 	 * <li><code>LINE_WIDTH_THICK</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the width of the left side of the border
 	 */
 
@@ -1518,7 +1536,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>LINE_WIDTH_MEDIUM</code>
 	 * <li><code>LINE_WIDTH_THICK</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the width of the right side of the border
 	 */
 
@@ -1535,7 +1553,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>LINE_WIDTH_MEDIUM</code>
 	 * <li><code>LINE_WIDTH_THICK</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the width of the bottom side of the border
 	 */
 
@@ -1550,7 +1568,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <ul>
 	 * <li><code>MARGIN_AUTO</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the margin of the top side
 	 */
 
@@ -1565,7 +1583,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <ul>
 	 * <li><code>MARGIN_AUTO</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the margin of the right side
 	 */
 
@@ -1580,7 +1598,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <ul>
 	 * <li><code>MARGIN_AUTO</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the margin of the left side
 	 */
 
@@ -1595,7 +1613,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <ul>
 	 * <li><code>MARGIN_AUTO</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the margin of the bottom side
 	 */
 
@@ -1605,7 +1623,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Gets a dimension handle to deal with the padding of the top side.
-	 * 
+	 *
 	 * @return a DimensionHandle for the padding of the top side
 	 */
 
@@ -1615,7 +1633,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Gets a dimension handle to deal with the padding of the right side.
-	 * 
+	 *
 	 * @return a DimensionHandle for the padding of the right side
 	 */
 
@@ -1625,7 +1643,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Gets a dimension handle to deal with the padding of the left side.
-	 * 
+	 *
 	 * @return a DimensionHandle for the padding of the left side
 	 */
 
@@ -1635,7 +1653,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Gets a dimension handle to deal with the padding of the bottom side.
-	 * 
+	 *
 	 * @return a DimensionHandle for the padding of the bottom side
 	 */
 
@@ -1645,7 +1663,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Gets a dimension handle to deal with the font size.
-	 * 
+	 *
 	 * @return a DimensionHandle for the font size.
 	 */
 
@@ -1655,7 +1673,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the font handle to deal with the font family.
-	 * 
+	 *
 	 * @return a FontHandle for the font family.
 	 * @see FontHandle
 	 */
@@ -1682,7 +1700,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>FONT_WEIGHT_800</code>
 	 * <li><code>FONT_WEIGHT_900</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the font weight in a string
 	 */
 
@@ -1708,7 +1726,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>FONT_WEIGHT_800</code>
 	 * <li><code>FONT_WEIGHT_900</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param fontWeight the new font weight
 	 * @throws SemanticException if the input value is not one of the above.
 	 */
@@ -1724,7 +1742,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>FONT_VARIANT_NORMAL</code>
 	 * <li><code>FONT_VARIANT_SMALL_CAPS</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the font variant in a string.
 	 */
 
@@ -1739,7 +1757,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>FONT_VARIANT_NORMAL</code>
 	 * <li><code>FONT_VARIANT_SMALL_CAPS</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param fontVariant the new font variant.
 	 * @throws SemanticException if the input value is not one of the above.
 	 */
@@ -1756,7 +1774,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>FONT_STYLE_ITALIC</code>
 	 * <li><code>FONT_STYLE_OBLIQUE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the font style in string.
 	 */
 
@@ -1772,7 +1790,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>FONT_STYLE_ITALIC</code>
 	 * <li><code>FONT_STYLE_OBLIQUE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param fontStyle the new font IStyleModel.
 	 * @throws SemanticException if the input value is not one of the above.
 	 */
@@ -1783,14 +1801,15 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * checks whether this style is created by user or predefined by BIRT.
-	 * 
+	 *
 	 * @return True if is predefined, false if not.
 	 */
 
 	public boolean isPredefined() {
 
-		if (MetaDataDictionary.getInstance().getPredefinedStyle(getName()) != null)
+		if (MetaDataDictionary.getInstance().getPredefinedStyle(getName()) != null) {
 			return true;
+		}
 
 		return false;
 
@@ -1803,9 +1822,9 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>BIDI_ORIENTATION_RTL</code>
 	 * <li><code>BIDI_ORIENTATION_LTR</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the direction value
-	 * 
+	 *
 	 * @author bidi_hcg
 	 */
 
@@ -1820,10 +1839,10 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>BIDI_ORIENTATION_RTL</code>
 	 * <li><code>BIDI_ORIENTATION_LTR</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new direction
 	 * @throws SemanticException if the value is not one of the above.
-	 * 
+	 *
 	 * @author bidi_hcg
 	 */
 
@@ -1840,7 +1859,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>BACKGROUND_SIZE_CONTAIN</code>
 	 * <li><code>BACKGROUND_SIZE_COVER</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the background size height.
 	 */
 	public DimensionHandle getBackgroundSizeHeight() {
@@ -1856,7 +1875,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>BACKGROUND_SIZE_CONTAIN</code>
 	 * <li><code>BACKGROUND_SIZE_COVER</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return a DimensionHandle for the background size width.
 	 */
 	public DimensionHandle getBackgroundSizeWidth() {
@@ -1870,7 +1889,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>IMAGE_REF_TYPE_URL</code>
 	 * <li><code>IMAGE_REF_TYPE_EMBED</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the type of the background image as a string
 	 */
 
@@ -1885,7 +1904,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>IMAGE_REF_TYPE_URL</code>
 	 * <li><code>IMAGE_REF_TYPE_EMBED</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param type the new type of the background image
 	 * @throws SemanticException if the given type is not defined
 	 */
@@ -1903,7 +1922,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>OVERFLOW_SCROLL</code>
 	 * <li><code>OVERFLOW_VISIBLE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the value of overflow property.
 	 */
 	public String getOverflow() {
@@ -1919,7 +1938,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 	 * <li><code>OVERFLOW_SCROLL</code>
 	 * <li><code>OVERFLOW_VISIBLE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new overflow value
 	 * @throws SemanticException
 	 */
@@ -1929,7 +1948,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the value of height property.
-	 * 
+	 *
 	 * @return the value of height property.
 	 */
 	public String getHeight() {
@@ -1938,7 +1957,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the value of height property.
-	 * 
+	 *
 	 * @param value the new height value
 	 * @throws SemanticException
 	 */
@@ -1948,7 +1967,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Returns the value of width property.
-	 * 
+	 *
 	 * @return the value of width property.
 	 */
 	public String getWidth() {
@@ -1957,7 +1976,7 @@ public abstract class StyleHandle extends ReportElementHandle implements IStyleM
 
 	/**
 	 * Sets the value of width property.
-	 * 
+	 *
 	 * @param value the new width value
 	 * @throws SemanticException
 	 */

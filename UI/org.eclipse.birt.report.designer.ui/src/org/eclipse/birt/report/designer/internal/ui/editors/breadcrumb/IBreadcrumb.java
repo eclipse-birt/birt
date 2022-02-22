@@ -1,22 +1,21 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb;
 
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-
-import org.eclipse.jface.viewers.ISelectionProvider;
 
 /**
  * Implementors can provide a breadcrumb inside an editor.
@@ -36,20 +35,20 @@ public interface IBreadcrumb {
 	 * @param parent the parent of the content
 	 * @return the control containing the created content
 	 */
-	public Control createContent(Composite parent);
+	Control createContent(Composite parent);
 
 	/**
 	 * Returns the selection provider for this breadcrumb.
 	 *
 	 * @return the selection provider for this breadcrumb
 	 */
-	public ISelectionProvider getSelectionProvider();
+	ISelectionProvider getSelectionProvider();
 
 	/**
 	 * Activates the breadcrumb. This sets the keyboard focus inside this breadcrumb
 	 * and retargets the editor actions.
 	 */
-	public void activate();
+	void activate();
 
 	/**
 	 * A breadcrumb is active if it either has the focus or another workbench part
@@ -58,18 +57,18 @@ public interface IBreadcrumb {
 	 *
 	 * @return <code>true</code> if this breadcrumb is active
 	 */
-	public boolean isActive();
+	boolean isActive();
 
 	/**
 	 * Set the input of the breadcrumb to the given element
 	 *
 	 * @param element the input element can be <code>null</code>
 	 */
-	public void setInput(Object element);
+	void setInput(Object element);
 
 	/**
 	 * Dispose all resources hold by this breadcrumb.
 	 */
-	public void dispose();
+	void dispose();
 
 }

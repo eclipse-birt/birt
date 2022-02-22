@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -40,12 +40,14 @@ public class EmbeddedBrowserFactory implements IBrowserFactory {
 
 	/**
 	 * Is embedded browser factory available.
-	 * 
+	 *
 	 * @return browser factory available or not
 	 */
+	@Override
 	public boolean isAvailable() {
 		Display.getDefault().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				test();
 			}
@@ -56,16 +58,17 @@ public class EmbeddedBrowserFactory implements IBrowserFactory {
 
 	/**
 	 * Create embedded browser.
-	 * 
+	 *
 	 * @return embedded browser instance
 	 */
+	@Override
 	public IBrowser createBrowser() {
 		return new EmbeddedBrowserAdapter();
 	}
 
 	/**
 	 * Must run on UI thread
-	 * 
+	 *
 	 * @return
 	 */
 	private boolean test() {
@@ -90,8 +93,9 @@ public class EmbeddedBrowserFactory implements IBrowserFactory {
 			} catch (Exception e) {
 				// Browser not implemented
 			}
-			if (sh != null && !sh.isDisposed())
+			if (sh != null && !sh.isDisposed()) {
 				sh.dispose();
+			}
 		}
 		return available;
 	}

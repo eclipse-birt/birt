@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -84,7 +84,7 @@ public class ResourceEditDialog extends BaseDialog {
 
 	private Button btnAdd;
 
-	protected List<GlobalProperty> globalLinkedProperties = new ArrayList<GlobalProperty>();
+	protected List<GlobalProperty> globalLinkedProperties = new ArrayList<>();
 
 	/**
 	 * PropertyLabelProvider
@@ -93,10 +93,11 @@ public class ResourceEditDialog extends BaseDialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
 		 * lang.Object, int)
 		 */
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			if (element instanceof GlobalProperty) {
 				GlobalProperty entry = (GlobalProperty) element;
@@ -114,10 +115,11 @@ public class ResourceEditDialog extends BaseDialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
 		 * .lang.Object, int)
 		 */
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
@@ -133,7 +135,7 @@ public class ResourceEditDialog extends BaseDialog {
 
 		/**
 		 * The constructor.
-		 * 
+		 *
 		 * @param descent sorting order.
 		 * @param second  if it's the second column.
 		 */
@@ -146,10 +148,11 @@ public class ResourceEditDialog extends BaseDialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ViewerSorter#compare(org.eclipse.jface.
 		 * viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public int compare(Viewer viewer, Object e1, Object e2) {
 			String name1;
 			String name2;
@@ -183,14 +186,12 @@ public class ResourceEditDialog extends BaseDialog {
 							name2 = lprov.getColumnText(e2, 0);
 						}
 					}
+				} else if (descent) {
+					name1 = e2.toString();
+					name2 = e1.toString();
 				} else {
-					if (descent) {
-						name1 = e2.toString();
-						name2 = e1.toString();
-					} else {
-						name1 = e1.toString();
-						name2 = e2.toString();
-					}
+					name1 = e1.toString();
+					name2 = e2.toString();
 				}
 			}
 			if (name1 == null) {
@@ -206,7 +207,7 @@ public class ResourceEditDialog extends BaseDialog {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 * @param title
 	 */
@@ -225,7 +226,7 @@ public class ResourceEditDialog extends BaseDialog {
 
 	/**
 	 * Set the resource file URL. The url is computed by Model.
-	 * 
+	 *
 	 * @param url
 	 */
 	public void setResourceURLs(URL[] urls) {
@@ -234,9 +235,10 @@ public class ResourceEditDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.window.Window#create()
 	 */
+	@Override
 	public void create() {
 		super.create();
 
@@ -248,11 +250,13 @@ public class ResourceEditDialog extends BaseDialog {
 	 */
 	private void loadMessage() {
 		if (this.resourceURLs != null && this.resourceURLs.length > 0) {
-			if (contents == null)
+			if (contents == null) {
 				contents = new LinkedProperties[resourceURLs.length];
-			if (propFileName == null)
+			}
+			if (propFileName == null) {
 				propFileName = new String[resourceURLs.length];
-			LinkedHashMap<String, GlobalProperty> propertyMap = new LinkedHashMap<String, GlobalProperty>();
+			}
+			LinkedHashMap<String, GlobalProperty> propertyMap = new LinkedHashMap<>();
 			for (int i = 0; i < resourceURLs.length; i++) {
 				contents[i] = new LinkedProperties();
 				try {
@@ -367,11 +371,12 @@ public class ResourceEditDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		UIUtil.bindHelp(parent, IHelpContextIds.RESOURCE_EDIT_DIALOG_ID);
 		loadMessage();
@@ -394,6 +399,7 @@ public class ResourceEditDialog extends BaseDialog {
 		column1.setText(Messages.getString("ResourceEditDialog.text.Key.TableColumn")); //$NON-NLS-1$
 		column1.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				table.setSortColumn(column1);
 				viewer.setSorter(new ResourceSorter(table.getSortDirection() == SWT.UP, false));
@@ -405,6 +411,7 @@ public class ResourceEditDialog extends BaseDialog {
 		column2.setText(Messages.getString("ResourceEditDialog.text.Value.TableColumn")); //$NON-NLS-1$
 		column2.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				table.setSortColumn(column2);
 				viewer.setSorter(new ResourceSorter(table.getSortDirection() == SWT.UP, true));
@@ -415,14 +422,16 @@ public class ResourceEditDialog extends BaseDialog {
 		viewer = new TableViewer(table);
 		viewer.setContentProvider(new IStructuredContentProvider() {
 
+			@Override
 			public Object[] getElements(Object inputElement) {
 				if (inputElement instanceof List) {
 					List list = (List) inputElement;
 					List availableList = new ArrayList();
 					for (int i = 0; i < list.size(); i++) {
 						GlobalProperty property = (GlobalProperty) list.get(i);
-						if (!property.isDeleted)
+						if (!property.isDeleted) {
 							availableList.add(property);
+						}
 					}
 					return availableList.toArray();
 				}
@@ -430,9 +439,11 @@ public class ResourceEditDialog extends BaseDialog {
 				return new Object[0];
 			}
 
+			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
 
+			@Override
 			public void dispose() {
 			}
 		});
@@ -440,6 +451,7 @@ public class ResourceEditDialog extends BaseDialog {
 
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateSelection();
 			}
@@ -477,6 +489,7 @@ public class ResourceEditDialog extends BaseDialog {
 		btnAdd.setText(Messages.getString("ResourceEditDialog.text.Add")); //$NON-NLS-1$
 		btnAdd.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				addSelection();
 			}
@@ -487,6 +500,7 @@ public class ResourceEditDialog extends BaseDialog {
 		btnDelete.setText(Messages.getString("ResourceEditDialog.text.Delete")); //$NON-NLS-1$
 		btnDelete.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				deleteSelection();
 			}
@@ -591,10 +605,11 @@ public class ResourceEditDialog extends BaseDialog {
 
 			// if the file is read-only then change is not allowed.
 			listChanged = true;
-			if (property.holderFile != null)
+			if (property.holderFile != null) {
 				property.isDeleted = true;
-			else
+			} else {
 				globalLinkedProperties.remove(property);
+			}
 			viewer.refresh();
 			updateSelection();
 		}
@@ -607,9 +622,9 @@ public class ResourceEditDialog extends BaseDialog {
 	}
 
 	private boolean isFileSystemFile() {
-		if (getAvailableResourceUrls() == null || getAvailableResourceUrls().length == 0)
+		if (getAvailableResourceUrls() == null || getAvailableResourceUrls().length == 0) {
 			return false;
-		else {
+		} else {
 			boolean flag = true;
 			for (int i = 0; i < resourceURLs.length; i++) {
 				URL url = resourceURLs[i];
@@ -626,13 +641,14 @@ public class ResourceEditDialog extends BaseDialog {
 	}
 
 	private URL[] getAvailableResourceUrls() {
-		List<URL> urls = new ArrayList<URL>();
-		if (resourceURLs == null)
+		List<URL> urls = new ArrayList<>();
+		if (resourceURLs == null) {
 			return urls.toArray(new URL[0]);
-		else {
+		} else {
 			for (int i = 0; i < resourceURLs.length; i++) {
-				if (resourceURLs[i] != null)
+				if (resourceURLs[i] != null) {
 					urls.add(resourceURLs[i]);
+				}
 			}
 			return urls.toArray(new URL[0]);
 		}
@@ -640,9 +656,10 @@ public class ResourceEditDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		saveMessage();
 
@@ -676,6 +693,7 @@ public class ResourceEditDialog extends BaseDialog {
 		private boolean isDeleted;
 	}
 
+	@Override
 	protected boolean needRememberLastSize() {
 		return true;
 	}

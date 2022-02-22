@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,35 +25,38 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
- * 
+ *
  */
 public class DummyNameContext implements INameContext {
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	public boolean canContain(String elementName) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getElements
 	 * (int)
 	 */
+	@Override
 	public List<DesignElement> getElements(int level) {
 		return Collections.emptyList();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#resolve(org
 	 * .eclipse.birt.report.model.core.DesignElement, java.lang.String,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 * org.eclipse.birt.report.model.metadata.ElementDefn)
 	 */
+	@Override
 	public ElementRefValue resolve(DesignElement focus, String elementName, PropertyDefn propDefn,
 			ElementDefn elementDefn) {
 		return null;
@@ -61,13 +64,14 @@ public class DummyNameContext implements INameContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#resolve(org
 	 * .eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 * org.eclipse.birt.report.model.metadata.ElementDefn)
 	 */
+	@Override
 	public ElementRefValue resolve(DesignElement focus, DesignElement element, PropertyDefn propDefn,
 			ElementDefn elementDefn) {
 		return null;
@@ -75,27 +79,31 @@ public class DummyNameContext implements INameContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpace()
 	 */
+	@Override
 	public NameSpace getNameSpace() {
 		return new NameSpace();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#findElement
 	 * (java.lang.String, org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
+	@Override
 	public DesignElement findElement(String elementName, IElementDefn elementDefn) {
 		return null;
 	}
 
+	@Override
 	public DesignElement getElement() {
 		return null;
 	}
 
+	@Override
 	public String getNameSpaceID() {
 		return "";
 	}

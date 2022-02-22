@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,20 +35,21 @@ public class SemanticTriggerDefnSet {
 
 	/**
 	 * Adds the definition for semantic validator.
-	 * 
+	 *
 	 * @param validatorDefn the definition to add
 	 */
 
 	void add(SemanticTriggerDefn validatorDefn) {
-		if (triggerList == null)
-			triggerList = new ArrayList<SemanticTriggerDefn>();
+		if (triggerList == null) {
+			triggerList = new ArrayList<>();
+		}
 
 		triggerList.add(validatorDefn);
 	}
 
 	/**
 	 * Adds all trigger definition into this trigger collection.
-	 * 
+	 *
 	 * @param triggers
 	 */
 
@@ -66,7 +67,7 @@ public class SemanticTriggerDefnSet {
 	/**
 	 * Returns the list of semantic validator's definitions. Each of the list is the
 	 * instance of <code>TriggerDefn</code>.
-	 * 
+	 *
 	 * @return the list of semantic validator's definitions.
 	 */
 
@@ -76,7 +77,7 @@ public class SemanticTriggerDefnSet {
 
 	/**
 	 * Builds all semantic validation triggers.
-	 * 
+	 *
 	 * @throws MetaDataException if the validator is not found.
 	 */
 
@@ -103,22 +104,24 @@ public class SemanticTriggerDefnSet {
 	/**
 	 * Validates whether the list contains the validator with the given
 	 * <code>validatorName</code>.
-	 * 
+	 *
 	 * @param validatorName the name of the validator definition
 	 * @return <code>true</code> if the list contains the given validator. Otherwise
 	 *         <code>false</code>.
 	 */
 
 	boolean contain(String validatorName) {
-		if (triggerList == null)
+		if (triggerList == null) {
 			return false;
+		}
 
 		assert validatorName != null;
 
 		for (int i = 0; i < triggerList.size(); i++) {
 			SemanticTriggerDefn tmpDefn = triggerList.get(i);
-			if (validatorName.equalsIgnoreCase(tmpDefn.getValidatorName()))
+			if (validatorName.equalsIgnoreCase(tmpDefn.getValidatorName())) {
 				return true;
+			}
 		}
 		return false;
 	}

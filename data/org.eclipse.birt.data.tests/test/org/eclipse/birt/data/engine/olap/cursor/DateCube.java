@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 ,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -128,7 +128,7 @@ public class DateCube {
 	}
 
 	public ICube getCube(String cubeName, DataEngineImpl engine) throws DataException, IOException {
-		ICube cube = null;
+		ICube cube;
 		IDocumentManager documentManager = DocumentManagerFactory
 				.loadFileDocumentManager(engine.getSession().getTempDir(), cubeName);
 		cube = CubeQueryExecutorHelper.loadCube(cubeName, documentManager, engine.getSession().getStopSign());
@@ -136,7 +136,7 @@ public class DateCube {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimensions
 	 * @return
 	 */
@@ -167,6 +167,7 @@ class DateFactTable implements IDatasetIterator {
 	static Date[] ATTRIBUTE_Col = { new Date(98, 0, 1), new Date(98, 4, 1), new Date(99, 0, 1), new Date(99, 4, 1),
 			new Date(97, 0, 1), new Date(96, 4, 1), new Date(95, 0, 1), new Date(94, 4, 1) };
 
+	@Override
 	public void close() throws BirtException {
 	}
 
@@ -185,6 +186,7 @@ class DateFactTable implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public int getFieldIndex(String name) throws BirtException {
 		if (name.equals("level11")) {
 			return 0;
@@ -204,6 +206,7 @@ class DateFactTable implements IDatasetIterator {
 		return -1;
 	}
 
+	@Override
 	public int getFieldType(String name) throws BirtException {
 		if (name.equals("level11")) {
 			return DataType.INTEGER_TYPE;
@@ -231,6 +234,7 @@ class DateFactTable implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public Object getValue(int fieldIndex) throws BirtException {
 		if (fieldIndex == 0) {
 			return DIM1_YEAR_Col[ptr];
@@ -248,6 +252,7 @@ class DateFactTable implements IDatasetIterator {
 		return null;
 	}
 
+	@Override
 	public boolean next() throws BirtException {
 		ptr++;
 		if (ptr >= MEASURE_Col.length) {

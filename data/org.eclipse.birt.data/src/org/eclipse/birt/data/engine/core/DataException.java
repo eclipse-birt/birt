@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,7 @@ public class DataException extends BirtException {
 
 	/**
 	 * Support provided additional parameter
-	 * 
+	 *
 	 * @param errorCode
 	 * @param argv
 	 */
@@ -56,7 +56,7 @@ public class DataException extends BirtException {
 
 	/**
 	 * Support provided additional parameter
-	 * 
+	 *
 	 * @param errorCode
 	 * @param argv[]
 	 */
@@ -83,6 +83,7 @@ public class DataException extends BirtException {
 	/*
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
+	@Override
 	public String getLocalizedMessage() {
 		return getMessage();
 	}
@@ -94,39 +95,43 @@ public class DataException extends BirtException {
 	/*
 	 * @see java.lang.Throwable#getMessage()
 	 */
+	@Override
 	public String getMessage() {
-		String msg = super.getMessage();
+		StringBuilder msg = new StringBuilder().append(super.getMessage());
 
 		// Dte frequently wraps exceptions
 		// Concatenate error from initCause if available
 		if (this.getCause() != null) {
 			String extraMsg = this.getCause().getLocalizedMessage();
-			if (extraMsg != null && extraMsg.length() > 0)
-				msg += "\n" + extraMsg;
+			if (extraMsg != null && extraMsg.length() > 0) {
+				msg.append("\n").append(extraMsg);
+			}
 		}
-		return msg;
+		return msg.toString();
 	}
 
 	/**
 	 * Wraps a BirtException in a DataException
 	 */
 	public static DataException wrap(BirtException e) {
-		if (e instanceof DataException)
+		if (e instanceof DataException) {
 			return (DataException) e;
+		}
 		return new DataException(ResourceConstants.WRAPPED_BIRT_EXCEPTION, e);
 	}
 
 	/**
 	 * Set the locale info
-	 * 
+	 *
 	 * @param locale
 	 */
 	public static void setLocale(ULocale locale) {
 		currentLocale = locale;
 		if (resourceBundle != null) {
 			synchronized (DataException.class) {
-				if (resourceBundle == null)
+				if (resourceBundle == null) {
 					return;
+				}
 
 				if ((locale == null && !ULocale.getDefault().toLocale().equals(resourceBundle.getLocale()))
 						|| (locale != null && !locale.toLocale().equals(resourceBundle.getLocale()))) {
@@ -138,18 +143,20 @@ public class DataException extends BirtException {
 
 	/**
 	 * Get resourceBundle based on given locale
-	 * 
+	 *
 	 * @return
 	 */
 	private static ResourceBundle getResourceBundle() {
 		if (resourceBundle == null) {
 			synchronized (DataException.class) {
-				if (resourceBundle != null)
+				if (resourceBundle != null) {
 					return resourceBundle;
-				if (currentLocale != null)
+				}
+				if (currentLocale != null) {
 					resourceBundle = DataResourceHandle.getInstance(currentLocale).getUResourceBundle();
-				else
+				} else {
 					resourceBundle = DataResourceHandle.getInstance().getUResourceBundle();
+				}
 			}
 		}
 		return resourceBundle;

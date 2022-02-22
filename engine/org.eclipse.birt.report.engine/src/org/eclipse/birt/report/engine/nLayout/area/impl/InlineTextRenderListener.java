@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -47,6 +47,7 @@ public class InlineTextRenderListener implements ITextListener {
 		return textLength;
 	}
 
+	@Override
 	public void onAddEvent(TextArea textArea) {
 		if (listeningStatus) {
 			if (textStartPos == -1) {
@@ -58,6 +59,7 @@ public class InlineTextRenderListener implements ITextListener {
 
 	int lastTotalWidth = 0;
 
+	@Override
 	public void onNewLineEvent() {
 		lastTotalWidth += inlineContainer.getAllocatedWidth();
 		if (lastTotalWidth < offset || lastTotalWidth > offset + dimension) {
@@ -68,6 +70,7 @@ public class InlineTextRenderListener implements ITextListener {
 		}
 	}
 
+	@Override
 	public void onTextEndEvent() {
 		if (listeningStatus) {
 			textLength = readTextLength;

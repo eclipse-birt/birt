@@ -15,7 +15,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test case for ElementRefValue.
- * 
+ *
  */
 public class ElementRefValueTest extends BaseTestCase {
 	private ElementRefValue value = null;
@@ -24,6 +24,7 @@ public class ElementRefValueTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		container = new FreeForm();

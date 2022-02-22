@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ *
  */
 
 public abstract class BaseJSEvalHelper {
@@ -42,7 +42,7 @@ public abstract class BaseJSEvalHelper {
 	protected ScriptContext cx;
 
 	/**
-	 * 
+	 *
 	 * @param parentScope
 	 * @param queryDefn
 	 * @param cx
@@ -70,13 +70,13 @@ public abstract class BaseJSEvalHelper {
 	/**
 	 * Overwrite this method if other Javascript objects are needed to registered.
 	 * By default, the dimension Javascript object will be registered.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	protected abstract void registerJSObjectPopulators() throws DataException;
 
 	/**
-	 * 
+	 *
 	 * @param populator
 	 * @throws DataException
 	 */
@@ -86,7 +86,7 @@ public abstract class BaseJSEvalHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resultRow
 	 */
 	protected void setData(Object resultRow) {

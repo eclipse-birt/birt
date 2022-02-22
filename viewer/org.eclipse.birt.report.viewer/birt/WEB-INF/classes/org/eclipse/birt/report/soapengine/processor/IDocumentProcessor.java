@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -23,7 +23,7 @@ public interface IDocumentProcessor {
 
 	/**
 	 * Handle page navigation.
-	 * 
+	 *
 	 * @param dsSession
 	 * @param op
 	 * @param response
@@ -32,7 +32,7 @@ public interface IDocumentProcessor {
 
 	/**
 	 * Handle change parameter.
-	 * 
+	 *
 	 * @param dsSession
 	 * @param op
 	 * @param response
@@ -42,7 +42,7 @@ public interface IDocumentProcessor {
 
 	/**
 	 * Handle cache parameter.
-	 * 
+	 *
 	 * @param dsSession
 	 * @param op
 	 * @param response
@@ -52,7 +52,7 @@ public interface IDocumentProcessor {
 
 	/**
 	 * Handle getting cascade parameter selection list.
-	 * 
+	 *
 	 * @param context
 	 * @param op
 	 * @param response
@@ -63,7 +63,7 @@ public interface IDocumentProcessor {
 
 	/**
 	 * Handle retrieve toc nodes.
-	 * 
+	 *
 	 * @param context
 	 * @param op
 	 * @param response
@@ -73,7 +73,7 @@ public interface IDocumentProcessor {
 
 	/**
 	 * Do export data from report.
-	 * 
+	 *
 	 * @param context
 	 * @param op
 	 * @param response
@@ -83,7 +83,7 @@ public interface IDocumentProcessor {
 
 	/**
 	 * Handle cancel task.
-	 * 
+	 *
 	 * @param dsSession
 	 * @param op
 	 * @param response
@@ -92,7 +92,7 @@ public interface IDocumentProcessor {
 
 	/**
 	 * Handle get page all.
-	 * 
+	 *
 	 * @param dsSession
 	 * @param op
 	 * @param response

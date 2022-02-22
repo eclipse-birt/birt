@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -265,21 +265,21 @@ public final class AxesRenderHelper {
 
 		/**
 		 * Initializes when rendering an axes
-		 * 
+		 *
 		 * @throws ChartException
 		 */
 		void initialize() throws ChartException;
 
 		/**
 		 * Last method of rendering an axes
-		 * 
+		 *
 		 * @throws ChartException
 		 */
 		void close() throws ChartException;
 
 		/**
 		 * Handles computation before rendering each axes tick
-		 * 
+		 *
 		 * @param i tick index
 		 * @throws ChartException
 		 */
@@ -287,7 +287,7 @@ public final class AxesRenderHelper {
 
 		/**
 		 * Handles computation after rendering each axes tick
-		 * 
+		 *
 		 * @param i tick index
 		 * @throws ChartException
 		 */
@@ -302,10 +302,12 @@ public final class AxesRenderHelper {
 			this.context = context;
 		}
 
+		@Override
 		public void initialize() throws ChartException {
 			sc.getData().reset();
 		}
 
+		@Override
 		public void close() throws ChartException {
 			try {
 				// ONE LAST TICK
@@ -375,11 +377,13 @@ public final class AxesRenderHelper {
 			}
 		}
 
+		@Override
 		public void handlePostEachTick(int i) throws ChartException {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void handlePreEachTick(int i) throws ChartException {
 			if (bRenderAxisLabels) {
 				if (!bTickBetweenCategories && i == 0) {
@@ -400,11 +404,13 @@ public final class AxesRenderHelper {
 		BigDecimal bdAxisValue;
 		BigDecimal bdAxisStep;
 
+		@Override
 		public void close() throws ChartException {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void handlePostEachTick(int i) throws ChartException {
 			if (i == da.size() - 2 && !sc.isSetFactor()) {
 				// This is the last tick, use pre-computed value to
@@ -421,6 +427,7 @@ public final class AxesRenderHelper {
 
 		}
 
+		@Override
 		public void handlePreEachTick(int i) throws ChartException {
 			if (bRenderAxisLabels && sc.isTickLabelVisible(i)) {
 				try {
@@ -441,6 +448,7 @@ public final class AxesRenderHelper {
 			}
 		}
 
+		@Override
 		public void initialize() throws ChartException {
 			dAxisValue = Methods.asDouble(sc.getMinimum()).doubleValue();
 			dAxisStep = Methods.asDouble(sc.getStep()).doubleValue();
@@ -453,10 +461,8 @@ public final class AxesRenderHelper {
 					df = sc.computeDecimalFormat(bdAxisValue,
 							bdAxisStep.multiply(sc.getBigNumberDivisor(), NumberUtil.DEFAULT_MATHCONTEXT));
 				}
-			} else {
-				if (axModel.getFormatSpecifier() == null) {
-					df = sc.computeDecimalFormat(dAxisValue, dAxisStep);
-				}
+			} else if (axModel.getFormatSpecifier() == null) {
+				df = sc.computeDecimalFormat(dAxisValue, dAxisStep);
 			}
 		}
 
@@ -469,11 +475,13 @@ public final class AxesRenderHelper {
 		BigDecimal bdAxisValue;
 		BigDecimal bdAxisStep;
 
+		@Override
 		public void close() throws ChartException {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void handlePostEachTick(int i) throws ChartException {
 			if (sc.isBigNumber()) {
 				bdAxisValue = bdAxisValue.multiply(bdAxisStep, NumberUtil.DEFAULT_MATHCONTEXT);
@@ -482,6 +490,7 @@ public final class AxesRenderHelper {
 			}
 		}
 
+		@Override
 		public void handlePreEachTick(int i) throws ChartException {
 			// PERFORM COMPUTATIONS ONLY IF AXIS LABEL IS VISIBLE
 			if (bRenderAxisLabels) {
@@ -502,6 +511,7 @@ public final class AxesRenderHelper {
 			}
 		}
 
+		@Override
 		public void initialize() throws ChartException {
 			dAxisValue = Methods.asDouble(sc.getMinimum()).doubleValue();
 			dAxisStep = Methods.asDouble(sc.getStep()).doubleValue();
@@ -512,10 +522,8 @@ public final class AxesRenderHelper {
 				if (axModel.getFormatSpecifier() == null) {
 					df = sc.computeDecimalFormat(bdAxisValue, bdAxisStep);
 				}
-			} else {
-				if (axModel.getFormatSpecifier() == null) {
-					df = sc.computeDecimalFormat(dAxisValue, dAxisStep);
-				}
+			} else if (axModel.getFormatSpecifier() == null) {
+				df = sc.computeDecimalFormat(dAxisValue, dAxisStep);
 			}
 		}
 	}
@@ -526,11 +534,13 @@ public final class AxesRenderHelper {
 		int iUnit, iStep;
 		IDateFormatWrapper sdf;
 
+		@Override
 		public void close() throws ChartException {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void handlePostEachTick(int i) throws ChartException {
 			// ALWAYS W.R.T START VALUE
 			if (i == da.size() - 2 && !sc.isSetFactor()) {
@@ -542,6 +552,7 @@ public final class AxesRenderHelper {
 			}
 		}
 
+		@Override
 		public void handlePreEachTick(int i) throws ChartException {
 			try {
 				sText = ValueFormatter.format(cdt, axModel.getFormatSpecifier(), ax.getRunTimeContext().getULocale(),
@@ -553,6 +564,7 @@ public final class AxesRenderHelper {
 			la.getCaption().setValue(sText);
 		}
 
+		@Override
 		public void initialize() throws ChartException {
 			cdtAxisValue = Methods.asDateTime(sc.getMinimum());
 			iUnit = Methods.asInteger(sc.getUnit());
@@ -581,7 +593,7 @@ public final class AxesRenderHelper {
 
 	private List<TextRenderEvent> renderVerticalAxisTickLabels(ComputationContext context, double dXEnd, double dZEnd,
 			double dZ, double dStaggeredLabelOffset, boolean deferredAxisLabel) throws ChartException {
-		List<TextRenderEvent> deferfedRenderList = new ArrayList<TextRenderEvent>();
+		List<TextRenderEvent> deferfedRenderList = new ArrayList<>();
 
 		// The vertical axis direction, -1 means bottom->top, 1 means
 		// top->bottom.
@@ -627,36 +639,34 @@ public final class AxesRenderHelper {
 					if (i != da.size() - 1) {
 						if (bRenderOrthogonal3DAxis) {
 							// !NOT RENDER TICKS FOR 3D AXES
-						} else {
-							if (!bSkipTickLine && ((i > 0 && i < length - 1) || !axModel.isCategoryAxis()
-									|| bTickBetweenCategories)) {
-								LineRenderEvent lreMinor = null;
-								int minorStep = (int) (1d / da.getStep());
-								if (minorStep < 1) {
-									minorStep = 1;
-								}
-								for (int k = 0; k < daMinor.length - 1; k += minorStep) {
-									if (computation instanceof LinearAxisTypeComputation) {
-										// Special case for linear type
-										if ((iDirection == -1 && y - daMinor[k] <= da.getCoordinate(i + 1))
-												|| (iDirection == 1 && y + daMinor[k] >= da.getCoordinate(i + 1))) {
-											// if current minor tick exceed
-											// the range of current unit, skip
-											continue;
-										}
+						} else if (!bSkipTickLine
+								&& ((i > 0 && i < length - 1) || !axModel.isCategoryAxis() || bTickBetweenCategories)) {
+							LineRenderEvent lreMinor = null;
+							int minorStep = (int) (1d / da.getStep());
+							if (minorStep < 1) {
+								minorStep = 1;
+							}
+							for (int k = 0; k < daMinor.length - 1; k += minorStep) {
+								if (computation instanceof LinearAxisTypeComputation) {
+									// Special case for linear type
+									if ((iDirection == -1 && y - daMinor[k] <= da.getCoordinate(i + 1))
+											|| (iDirection == 1 && y + daMinor[k] >= da.getCoordinate(i + 1))) {
+										// if current minor tick exceed
+										// the range of current unit, skip
+										continue;
 									}
-
-									lreMinor = ((EventObjectCache) ipr)
-											.getEventObject(StructureSource.createAxis(axModel), LineRenderEvent.class);
-									lreMinor.setLineAttributes(liaMinorTick);
-									loMinorStart.set(dXMinorTick1, y + iDirection * daMinor[k]);
-									lreMinor.setStart(loMinorStart);
-
-									loMinorEnd.set(dXMinorTick2, y + iDirection * daMinor[k]);
-									lreMinor.setEnd(loMinorEnd);
-
-									ipr.drawLine(lreMinor);
 								}
+
+								lreMinor = ((EventObjectCache) ipr).getEventObject(StructureSource.createAxis(axModel),
+										LineRenderEvent.class);
+								lreMinor.setLineAttributes(liaMinorTick);
+								loMinorStart.set(dXMinorTick1, y + iDirection * daMinor[k]);
+								lreMinor.setStart(loMinorStart);
+
+								loMinorEnd.set(dXMinorTick2, y + iDirection * daMinor[k]);
+								lreMinor.setEnd(loMinorEnd);
+
+								ipr.drawLine(lreMinor);
 							}
 						}
 					}
@@ -798,7 +808,7 @@ public final class AxesRenderHelper {
 
 	private List<TextRenderEvent> renderHorizontalAxisTickLabels(ComputationContext context, double dXEnd, double dZEnd,
 			double dZ, double dStaggeredLabelOffset, boolean deferredAxisLabel) throws ChartException {
-		List<TextRenderEvent> deferfedRenderList = new ArrayList<TextRenderEvent>();
+		List<TextRenderEvent> deferfedRenderList = new ArrayList<>();
 
 		// The horizontal axis direction. -1 means right->left, 1 means
 		// left->right.
@@ -850,35 +860,33 @@ public final class AxesRenderHelper {
 							// !NOT RENDER TICKS FOR 3D AXES
 						} else if (bRenderAncillary3DAxis) {
 							// !NOT RENDER TICKS FOR 3D AXES
-						} else {
-							if (!bSkipTickLine && ((i > 0 && i < length - 1) || !axModel.isCategoryAxis()
-									|| bTickBetweenCategories)) {
-								LineRenderEvent lreMinor = null;
-								int minorStep = (int) (1d / da.getStep());
-								if (minorStep < 1) {
-									minorStep = 1;
-								}
-								for (int k = 0; k < daMinor.length - 1; k += minorStep) {
-									// Special case for linear type
-									if (computation instanceof LinearAxisTypeComputation) {
-										if ((iDirection == 1 && x + daMinor[k] >= da.getCoordinate(i + 1))
-												|| (iDirection == -1 && x - daMinor[k] <= da.getCoordinate(i + 1))) {
-											// if current minor tick exceed the
-											// range of current unit, skip
-											continue;
-										}
+						} else if (!bSkipTickLine
+								&& ((i > 0 && i < length - 1) || !axModel.isCategoryAxis() || bTickBetweenCategories)) {
+							LineRenderEvent lreMinor = null;
+							int minorStep = (int) (1d / da.getStep());
+							if (minorStep < 1) {
+								minorStep = 1;
+							}
+							for (int k = 0; k < daMinor.length - 1; k += minorStep) {
+								// Special case for linear type
+								if (computation instanceof LinearAxisTypeComputation) {
+									if ((iDirection == 1 && x + daMinor[k] >= da.getCoordinate(i + 1))
+											|| (iDirection == -1 && x - daMinor[k] <= da.getCoordinate(i + 1))) {
+										// if current minor tick exceed the
+										// range of current unit, skip
+										continue;
 									}
-
-									lreMinor = ((EventObjectCache) ipr)
-											.getEventObject(StructureSource.createAxis(axModel), LineRenderEvent.class);
-									lreMinor.setLineAttributes(liaMinorTick);
-
-									loMinorStart.set(x + iDirection * daMinor[k], dYMinorTick1);
-									lreMinor.setStart(loMinorStart);
-									loMinorEnd.set(x + iDirection * daMinor[k], dYMinorTick2);
-									lreMinor.setEnd(loMinorEnd);
-									ipr.drawLine(lreMinor);
 								}
+
+								lreMinor = ((EventObjectCache) ipr).getEventObject(StructureSource.createAxis(axModel),
+										LineRenderEvent.class);
+								lreMinor.setLineAttributes(liaMinorTick);
+
+								loMinorStart.set(x + iDirection * daMinor[k], dYMinorTick1);
+								lreMinor.setStart(loMinorStart);
+								loMinorEnd.set(x + iDirection * daMinor[k], dYMinorTick2);
+								lreMinor.setEnd(loMinorEnd);
+								ipr.drawLine(lreMinor);
 							}
 						}
 					}
@@ -981,10 +989,10 @@ public final class AxesRenderHelper {
 
 	/**
 	 * Renders the axis.
-	 * 
+	 *
 	 * @throws ChartException
 	 */
-	public final void renderEachAxis() throws ChartException {
+	public void renderEachAxis() throws ChartException {
 		final double dStaggeredLabelOffset = sc.computeStaggeredAxisLabelOffset(xs, la, iOrientation);
 
 		tre.setLabel(la);
@@ -1421,7 +1429,7 @@ public final class AxesRenderHelper {
 
 			if (ax.getTitle().isVisible() && la.isVisible()) {
 				if (bRendering3D) {
-					BoundingBox bb = null;
+					BoundingBox bb;
 					// Buzilla#206093: Indicates if the axis title is within
 					// axis,
 					// otherwise it uses Y axis plus the axis corner to
@@ -1506,7 +1514,6 @@ public final class AxesRenderHelper {
 					// Render left and right Y axis titles.
 					double offset = pwa.getVerticalSpacingInPixels();
 					double minAngle = 35 * Math.PI / 180;
-					;
 
 					double angle = yAxisAngle;
 					if (Math.abs(yAxisAngle) < minAngle) {
@@ -1568,7 +1575,7 @@ public final class AxesRenderHelper {
 						// axis,
 						// otherwise it uses Y axis plus the axis corner to
 						// display
-						boolean bWithinAxis = false;
+						boolean bWithinAxis;
 						// Indicates the axis title is horizontal
 						final boolean bTitleHorizontal = Math.abs(la.getCaption().getFont().getRotation()) <= 30;
 						double dYAxisHeightPC = ChartUtil
@@ -1679,7 +1686,7 @@ public final class AxesRenderHelper {
 						final InteractionEvent iev = ((EventObjectCache) ipr)
 								.getEventObject(StructureSource.createAxis(axModel), InteractionEvent.class);
 						iev.setCursor(axModel.getCursor());
-						cachedTriggers = new ArrayList<Trigger>();
+						cachedTriggers = new ArrayList<>();
 						for (int t = 0; t < elTriggers.size(); t++) {
 							tg = goFactory.copyOf(elTriggers.get(t));
 							processTrigger(tg, StructureSource.createAxis(axModel));
@@ -1714,7 +1721,7 @@ public final class AxesRenderHelper {
 						iev.setCursor(axModel.getCursor());
 
 						if (cachedTriggers == null) {
-							cachedTriggers = new ArrayList<Trigger>();
+							cachedTriggers = new ArrayList<>();
 							for (int t = 0; t < elTriggers.size(); t++) {
 								tg = goFactory.copyOf(elTriggers.get(t));
 								processTrigger(tg, StructureSource.createAxis(axModel));
@@ -1903,32 +1910,31 @@ public final class AxesRenderHelper {
 			} else {
 				return (titleBounds.getTop() + titleBounds.getHeight()) / 72 * xs.getDpiResolution();
 			}
+		} else if (this.renderer.cm.getLegend().getPosition().getValue() == Position.ABOVE) {
+			return (legendBounds.getTop() + legendBounds.getHeight()) / 72 * xs.getDpiResolution();
 		} else {
-			if (this.renderer.cm.getLegend().getPosition().getValue() == Position.ABOVE) {
-				return (legendBounds.getTop() + legendBounds.getHeight()) / 72 * xs.getDpiResolution();
-			} else {
-				return this.renderer.cm.getBlock().getBounds().getTop() / 72 * xs.getDpiResolution();
-			}
+			return this.renderer.cm.getBlock().getBounds().getTop() / 72 * xs.getDpiResolution();
 		}
 	}
 
 	/**
 	 * Adds Line2D event to deferred cache, if parent event is specified, this event
 	 * should be added into parent event.
-	 * 
+	 *
 	 * @param lre3d
 	 * @param parentEvent
 	 * @param dc
 	 */
 	public static void addLine3DEvent(Line3DRenderEvent lre3d, Object parentEvent, DeferredCache dc) {
-		if (parentEvent != null && parentEvent instanceof WrappedInstruction) {
+		if (parentEvent instanceof WrappedInstruction) {
 			if (((WrappedInstruction) parentEvent).getSubDeferredCache() == null) {
 				((WrappedInstruction) parentEvent).setSubDeferredCache(dc.deriveNewDeferredCache());
 			}
 			((WrappedInstruction) parentEvent).getSubDeferredCache().addLine(lre3d);
 		} else {
-			if (parentEvent != null)
+			if (parentEvent != null) {
 				lre3d.setObject3DParent(Engine3D.getObjectFromEvent(parentEvent));
+			}
 			dc.addLine(lre3d);
 		}
 	}

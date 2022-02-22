@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle The Columnhandle
 	 */
 	public ColumnHandleAdapter(ColumnHandle column) {
@@ -49,7 +49,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param column The columeHandle
 	 * @param mark   The help mark
 	 */
@@ -59,7 +59,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the width
-	 * 
+	 *
 	 * @return the width
 	 */
 	public int getWidth() {
@@ -96,7 +96,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter {
 	/**
 	 * Returns the raw column with, if it's a fix value, covert it to Pixel unit, if
 	 * it's a relative value or none, retain it.
-	 * 
+	 *
 	 * @return The raw width
 	 */
 	public String getRawWidth() {
@@ -128,7 +128,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * If the user define the row height
-	 * 
+	 *
 	 * @return <code>true</code> if defined, else false
 	 */
 	public boolean isCustomWidth() {
@@ -138,7 +138,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Gets the columns number
-	 * 
+	 *
 	 * @return column number
 	 */
 	public int getColumnNumber() {
@@ -149,7 +149,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Get table parent
-	 * 
+	 *
 	 * @return The table parent
 	 */
 	public Object getTableParent() {
@@ -162,7 +162,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Get column handle
-	 * 
+	 *
 	 * @return The column handle
 	 */
 	private ColumnHandle getColumnHandle() {
@@ -171,7 +171,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Set width
-	 * 
+	 *
 	 * @param columnWidth Column width
 	 * @throws SemanticException
 	 */
@@ -185,7 +185,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * copy a column
-	 * 
+	 *
 	 * @returnSemanticException
 	 */
 	public Object copy() throws SemanticException {

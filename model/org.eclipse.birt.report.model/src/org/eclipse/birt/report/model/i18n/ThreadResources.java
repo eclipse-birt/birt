@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import com.ibm.icu.util.ULocale;
  * message is from the resource bundle for the kept locale. The application
  * calls <code>setLocale(Locale)</code> to set the locale for the current
  * thread, before calling the <code>getMessage()</code> methods.
- * 
+ *
  * @see ModelResourceHandle
  */
 
@@ -41,7 +41,7 @@ public class ThreadResources {
 	 * application.
 	 */
 
-	private Map<ULocale, ModelResourceHandle> resourceMap = new HashMap<ULocale, ModelResourceHandle>(
+	private Map<ULocale, ModelResourceHandle> resourceMap = new HashMap<>(
 			ModelUtil.MAP_CAPACITY_LOW);
 
 	/**
@@ -57,7 +57,7 @@ public class ThreadResources {
 	 * resource bundle. If the message file is located in
 	 * "org.eclipse.birt.report.model.message.properties", the base name is
 	 * "org.eclipse.birt.report.model.message".
-	 * 
+	 *
 	 * @param classLoader the class loader for loading the given resource bundle
 	 * @param baseName    the base name of resource bundle, the full qualified class
 	 *                    name
@@ -72,33 +72,35 @@ public class ThreadResources {
 	 * Sets the locale of current user-thread. This method should be called before
 	 * access to any localized message. If the locale is <code>null</code>, the
 	 * default locale will be set.
-	 * 
+	 *
 	 * @param locale locale of the current thread.
 	 */
 
 	public static void setLocale(ULocale locale) {
-		if (locale == null)
+		if (locale == null) {
 			threadLocal.set(ULocale.getDefault());
-		else
+		} else {
 			threadLocal.set(locale);
+		}
 	}
 
 	/**
 	 * Gets the locale of current user-thread.
-	 * 
+	 *
 	 * @return the locale of the current thread.
 	 */
 
 	public static ULocale getLocale() {
 		ULocale locale = (ULocale) threadLocal.get();
-		if (locale == null)
+		if (locale == null) {
 			locale = ULocale.getDefault();
+		}
 		return locale;
 	}
 
 	/**
 	 * Gets the localized message with the resource key.
-	 * 
+	 *
 	 * @param key the resource key
 	 * @return the localized message for that key. Returns the key itself if the
 	 *         message was not found.
@@ -110,7 +112,7 @@ public class ThreadResources {
 
 	/**
 	 * Gets the localized message with the resource key.
-	 * 
+	 *
 	 * @param key    the resource key
 	 * @param locale the locale
 	 * @return the localized message for that key. Returns the key itself if the
@@ -119,15 +121,16 @@ public class ThreadResources {
 
 	public String getMessage(String key, ULocale locale) {
 		ModelResourceHandle resourceHandle = getResourceHandle(locale);
-		if (resourceHandle != null)
+		if (resourceHandle != null) {
 			return resourceHandle.getMessage(key);
+		}
 
 		return key;
 	}
 
 	/**
 	 * Gets the localized message with the resource key and arguments.
-	 * 
+	 *
 	 * @param key       the resource key
 	 * @param arguments the set of arguments to place the place-holder of message
 	 * @return the localized message for that key and the locale set in the
@@ -136,8 +139,9 @@ public class ThreadResources {
 
 	public String getMessage(String key, Object[] arguments) {
 		ModelResourceHandle resourceHandle = getResourceHandle(getLocale());
-		if (resourceHandle != null)
+		if (resourceHandle != null) {
 			return resourceHandle.getMessage(key, arguments);
+		}
 
 		return key;
 	}
@@ -145,19 +149,21 @@ public class ThreadResources {
 	/**
 	 * Returns the resource handle with the locale of this thread. The resource
 	 * handle will be cached.
-	 * 
+	 *
 	 * @return the resource handle with the locale of this thread
 	 */
 
 	private ModelResourceHandle getResourceHandle(ULocale locale) {
 		ModelResourceHandle resourceHandle = (ModelResourceHandle) resourceMap.get(locale);
-		if (resourceHandle != null)
+		if (resourceHandle != null) {
 			return resourceHandle;
+		}
 
 		synchronized (resourceMap) {
 			resourceHandle = (ModelResourceHandle) resourceMap.get(locale);
-			if (resourceHandle != null)
+			if (resourceHandle != null) {
 				return resourceHandle;
+			}
 
 			resourceHandle = new ModelResourceHandle(locale);
 			resourceMap.put(locale, resourceHandle);

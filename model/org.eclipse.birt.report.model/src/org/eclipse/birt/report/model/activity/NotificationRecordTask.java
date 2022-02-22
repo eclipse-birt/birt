@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.core.ReferencableStructure;
 /**
  * The task to send notifications to corresponding element after the execution
  * of records.
- * 
+ *
  */
 
 public class NotificationRecordTask extends RecordTask {
@@ -44,7 +44,7 @@ public class NotificationRecordTask extends RecordTask {
 	/**
 	 * A flag used when we need to filter a list of events. Indicating whether or
 	 * not a event needs to be filtered.
-	 * 
+	 *
 	 */
 
 	private boolean filtered = false;
@@ -52,7 +52,7 @@ public class NotificationRecordTask extends RecordTask {
 	/**
 	 * Constructs a new event wrapper, <code>target.broadcast( event, root )</code>
 	 * will be called when the notification event is sent.
-	 * 
+	 *
 	 * @param target Target element where the event will be sent to.
 	 * @param event  The wrappered notification event.
 	 */
@@ -70,7 +70,7 @@ public class NotificationRecordTask extends RecordTask {
 	 * element should be specified explicitly.
 	 * <code>target.broadcast( event, root )</code> will be called when the
 	 * notification event is sent.
-	 * 
+	 *
 	 * @param target      Target element where the event will be sent to.
 	 * @param event       The wrappered notification event.
 	 * @param rootElement the root node of the design tree.
@@ -86,7 +86,7 @@ public class NotificationRecordTask extends RecordTask {
 	/**
 	 * Constructs a new event wrapper, <code>target.broadcast( event )</code> will
 	 * be called when the notification is sent.
-	 * 
+	 *
 	 * @param target Target element where the event will be sent to.
 	 * @param event  The wrappered notification event.
 	 */
@@ -98,7 +98,7 @@ public class NotificationRecordTask extends RecordTask {
 
 	/**
 	 * Sets the filter flag, indicating whether or not the event will be filtered.
-	 * 
+	 *
 	 * @param filtered a filter flag, indicating whether or not the event will be
 	 *                 filtered.
 	 */
@@ -109,7 +109,7 @@ public class NotificationRecordTask extends RecordTask {
 
 	/**
 	 * Returns the flag indication whether or not the event will be filtered.
-	 * 
+	 *
 	 * @return The flag indication whether or not the event will be filtered.
 	 */
 
@@ -119,7 +119,7 @@ public class NotificationRecordTask extends RecordTask {
 
 	/**
 	 * Returns the wrappered notification event.
-	 * 
+	 *
 	 * @return the wrappered notification event.
 	 */
 
@@ -131,7 +131,7 @@ public class NotificationRecordTask extends RecordTask {
 	 * Returns <code>true</code> if need to hold the event at this time. We need to
 	 * hold the event if it is sent inside a transaction that declared to filter
 	 * notification events( <code>FilterEventsCompoundRecord</code>).
-	 * 
+	 *
 	 * @param transStack the transaction stack.
 	 * @return <code>true</code> if need to hold the event at this time, returns
 	 *         <code>false</code> otherwise.
@@ -140,8 +140,9 @@ public class NotificationRecordTask extends RecordTask {
 	protected final boolean holdNotificationForFilterEventRecord(Stack<CompoundRecord> transStack) {
 		if (transStack != null && !transStack.isEmpty()) {
 			CompoundRecord cr = transStack.peek();
-			if (cr instanceof FilterEventsCompoundRecord)
+			if (cr instanceof FilterEventsCompoundRecord) {
 				return true;
+			}
 		}
 
 		return false;
@@ -152,7 +153,7 @@ public class NotificationRecordTask extends RecordTask {
 	 * hold the event if transaction option sets the event send to
 	 * <code>SELF_TRANSACTION_EVENT_SEND</code> or
 	 * <code>OUTMOST_TRANSACTION_EVENT_SEND</code>.
-	 * 
+	 *
 	 * @param record     the activity record to justify
 	 * @param transStack the transaction stack status
 	 * @return true if needs to hold the event at this time, otherwise false
@@ -178,17 +179,15 @@ public class NotificationRecordTask extends RecordTask {
 				// not empty, then hold the event
 
 				if (options.getSendTime() == TransactionOption.OUTMOST_TRANSACTION_SEND_TIME && transStack != null
-						&& !transStack.isEmpty())
+						&& !transStack.isEmpty()) {
 					return true;
-			} else {
-				// out transaction sets the event hold, then return true
-
-				if (transStack != null && !transStack.isEmpty()) {
-					for (int i = transStack.size() - 1; i >= 0; i--) {
-						CompoundRecord trans = transStack.get(i);
-						options = trans.getOptions();
-						if (options != null && options.getSendTime() != TransactionOption.INSTANTANEOUS_SEND_TIME)
-							return true;
+				}
+			} else if (transStack != null && !transStack.isEmpty()) {
+				for (int i = transStack.size() - 1; i >= 0; i--) {
+					CompoundRecord trans = transStack.get(i);
+					options = trans.getOptions();
+					if (options != null && options.getSendTime() != TransactionOption.INSTANTANEOUS_SEND_TIME) {
+						return true;
 					}
 				}
 			}
@@ -198,23 +197,24 @@ public class NotificationRecordTask extends RecordTask {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.activity.IInterceptorTask#doTask(org
 	 * .eclipse.birt.report.model.activity.ActivityRecord)
 	 */
 
+	@Override
 	public void doTask(ActivityRecord record, Stack<CompoundRecord> transStack) {
 		// check there is filterEventCompoundRecord, if yes, the notifications
 		// will not be send
 
-		if (holdNotificationForFilterEventRecord(transStack))
-			return;
+		
 
 		// check for the normal case to determine whether to hold the
 		// notifications
 
-		if (!(record instanceof FilterEventsCompoundRecord) && holdNotification(record, transStack))
+		if (holdNotificationForFilterEventRecord(transStack) || (!(record instanceof FilterEventsCompoundRecord) && holdNotification(record, transStack))) {
 			return;
+		}
 
 		if (getTarget() instanceof DesignElement) {
 			// case 1:
@@ -232,16 +232,19 @@ public class NotificationRecordTask extends RecordTask {
 			DesignElement elementTarget = (DesignElement) getTarget();
 			Module theRoot = this.root == null ? elementTarget.getRoot() : this.root;
 
-			if (!filtered && theRoot != null)
+			if (!filtered && theRoot != null) {
 				elementTarget.broadcast(event, theRoot);
+			}
 
 			if (event instanceof ElementDeletedEvent) {
 				elementTarget.clearListeners();
 			}
 		} else if (getTarget() instanceof ReferencableStructure) {
-			if (!filtered)
+			if (!filtered) {
 				((ReferencableStructure) getTarget()).broadcast(event);
-		} else
+			}
+		} else {
 			assert false;
+		}
 	}
 }

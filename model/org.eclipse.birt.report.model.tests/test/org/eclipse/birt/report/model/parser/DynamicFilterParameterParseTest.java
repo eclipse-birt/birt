@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ public class DynamicFilterParameterParseTest extends BaseTestCase {
 
 	/**
 	 * Tests dynamic filter parameter parser.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParse() throws Exception {
@@ -52,7 +52,7 @@ public class DynamicFilterParameterParseTest extends BaseTestCase {
 
 	/**
 	 * Tests dynamic filter parameter writer.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testWrite() throws Exception {
@@ -64,7 +64,7 @@ public class DynamicFilterParameterParseTest extends BaseTestCase {
 		handle.setColumn("newColumn"); //$NON-NLS-1$
 		handle.setDisplayType(DesignChoiceConstants.DYNAMIC_FILTER_SIMPLE);
 		handle.setListlimit(5);
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		list.add("test1"); //$NON-NLS-1$
 		list.add("test2"); //$NON-NLS-1$
 		handle.setFilterOperator(list);
@@ -78,7 +78,7 @@ public class DynamicFilterParameterParseTest extends BaseTestCase {
 	/**
 	 * Tests the cases for recursive checks when setting data set in
 	 * DynamicFilterParameter.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testRecursive() throws Exception {

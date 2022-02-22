@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,85 +31,85 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ *
  * Unit test for Class DesignElement.
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testOpenDesign}</td>
  * <td>Open design with null ULocale</td>
  * <td>The design is not null and the locale is the default value.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Open design with a given ULocale</td>
  * <td>The design is not null and the locale is the given value.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Open design with a given design file</td>
  * <td>The design is not null and the locale is the specified value in the
  * design file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Retrieve the session from the opened designs</td>
  * <td>The returned session is correct.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Check the number of designs which are kept in the session's design list
  * </td>
  * <td>The number of designs is correct.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Drop a design then check the size of the design list.</td>
  * <td>The size of the list is changed correctly.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSetValue}</td>
  * <td>Get the default RGB and units value.</td>
  * <td>The RGB and unit value are returned.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Set correct new value for RGB and units.</td>
  * <td>Values are changed respectively.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Set incorrect new default value for RGB and units.</td>
  * <td>Exception expected.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Set correct default value for dimension type property.</td>
  * <td>Get the value correctly.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Set incorrect default value for it.</td>
  * <td>Exception expected.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class DesignSessionTest extends BaseTestCase {
@@ -117,6 +117,7 @@ public class DesignSessionTest extends BaseTestCase {
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -124,7 +125,7 @@ public class DesignSessionTest extends BaseTestCase {
 
 	/**
 	 * Tests open design method. Test cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Case1:Open design with null ULocale.
 	 * <li>Case2:Open design with a given ULocale.
@@ -134,7 +135,7 @@ public class DesignSessionTest extends BaseTestCase {
 	 * list.
 	 * <li>Case6:Drop a design then check the size of the design list.
 	 * </ul>
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -169,7 +170,7 @@ public class DesignSessionTest extends BaseTestCase {
 
 	/**
 	 * Tests createDesignFromTemplate()
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -198,7 +199,7 @@ public class DesignSessionTest extends BaseTestCase {
 
 	/**
 	 * Tests createLibraryFromTemplate()
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -226,7 +227,7 @@ public class DesignSessionTest extends BaseTestCase {
 
 	/**
 	 * Tests setValue methods. Test cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Case1:Get the default RGB and units value.
 	 * <li>Case2:Set correct new value for RGB and units.
@@ -236,7 +237,7 @@ public class DesignSessionTest extends BaseTestCase {
 	 * value.
 	 * <li>Case5:Set incorrect default value for it. Exception expected.
 	 * </ul>
-	 * 
+	 *
 	 * @throws PropertyValueException
 	 */
 

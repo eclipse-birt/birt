@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -34,7 +34,7 @@ public class UpdateData implements java.io.Serializable {
 
 	/**
 	 * Gets the target value for this UpdateData.
-	 * 
+	 *
 	 * @return target
 	 */
 	public java.lang.String getTarget() {
@@ -43,7 +43,7 @@ public class UpdateData implements java.io.Serializable {
 
 	/**
 	 * Sets the target value for this UpdateData.
-	 * 
+	 *
 	 * @param target
 	 */
 	public void setTarget(java.lang.String target) {
@@ -52,7 +52,7 @@ public class UpdateData implements java.io.Serializable {
 
 	/**
 	 * Gets the data value for this UpdateData.
-	 * 
+	 *
 	 * @return data
 	 */
 	public org.eclipse.birt.report.soapengine.api.Data getData() {
@@ -61,7 +61,7 @@ public class UpdateData implements java.io.Serializable {
 
 	/**
 	 * Sets the data value for this UpdateData.
-	 * 
+	 *
 	 * @param data
 	 */
 	public void setData(org.eclipse.birt.report.soapengine.api.Data data) {
@@ -70,14 +70,18 @@ public class UpdateData implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof UpdateData))
+		if (!(obj instanceof UpdateData)) {
 			return false;
+		}
 		UpdateData other = (UpdateData) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -94,6 +98,7 @@ public class UpdateData implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -128,7 +128,7 @@ public final class LegendBuilder implements IConstants {
 		private Collection<Integer> filteredMinSliceEntry = Collections.emptySet();
 		private double dAvailableWidth;
 		private double dAvailableHeight;
-		private List<LegendItemHints> legendItems = new ArrayList<LegendItemHints>();
+		private List<LegendItemHints> legendItems = new ArrayList<>();
 		private String sMinSliceLabel;
 		private Label laTitle;
 
@@ -160,10 +160,12 @@ public final class LegendBuilder implements IConstants {
 		/**
 		 * Methods to implement Iterator.
 		 */
+		@Override
 		public boolean hasNext() {
 			return isInverse_ ? lit_.hasPrevious() : lit_.hasNext();
 		}
 
+		@Override
 		public final T next() throws NoSuchElementException {
 			if (isInverse_) {
 				index_ = lit_.previousIndex();
@@ -174,6 +176,7 @@ public final class LegendBuilder implements IConstants {
 			}
 		}
 
+		@Override
 		public void remove() {
 		}
 
@@ -226,6 +229,7 @@ public final class LegendBuilder implements IConstants {
 			return this.iValidLen;
 		}
 
+		@Override
 		public boolean testLabelVisible(String strNew, Object oPara) throws ChartException {
 			double dWidthLimit = ((Double) oPara).doubleValue();
 			updateLabel(strNew);
@@ -234,7 +238,7 @@ public final class LegendBuilder implements IConstants {
 
 		/**
 		 * Checks if current label text should use ellipsis to shorten the length.
-		 * 
+		 *
 		 * @param dWidthLimit the expected width to be reduced from the text
 		 * @throws ChartException
 		 */
@@ -262,17 +266,19 @@ public final class LegendBuilder implements IConstants {
 			return rst;
 		}
 
+		@Override
 		public double getWidth() throws ChartException {
 			return bb.getWidth();
 		}
 
+		@Override
 		public double getHeight() throws ChartException {
 			return bb.getHeight();
 		}
 
 		/**
 		 * get the display text of the label
-		 * 
+		 *
 		 * @return caption string
 		 */
 		public String getCaption() {
@@ -290,7 +296,7 @@ public final class LegendBuilder implements IConstants {
 
 	/**
 	 * initialize the dAvailableWidth/Height in legendData
-	 * 
+	 *
 	 * @param lgData
 	 * @param cm
 	 */
@@ -404,13 +410,13 @@ public final class LegendBuilder implements IConstants {
 	/**
 	 * Computes the size of the legend. Note the computation relies on the title
 	 * size, so the title block must be layouted first before this.
-	 * 
+	 *
 	 * @param lg
 	 * @param sea
-	 * 
+	 *
 	 * @throws ChartException
 	 */
-	public final Size compute(IDisplayServer xs, Chart cm, SeriesDefinition[] seda, RunTimeContext rtc)
+	public Size compute(IDisplayServer xs, Chart cm, SeriesDefinition[] seda, RunTimeContext rtc)
 			throws ChartException {
 		// THREE CASES:
 		// 1. ALL SERIES IN ONE ARRAYLIST
@@ -554,7 +560,7 @@ public final class LegendBuilder implements IConstants {
 	/**
 	 * Returns a non empty value, if it is null or empty string, replace with
 	 * specified value.
-	 * 
+	 *
 	 * @param value        specified value.
 	 * @param defaultValue default return value.
 	 * @return a non empty value.
@@ -734,7 +740,7 @@ public final class LegendBuilder implements IConstants {
 
 	private static class ValueContentProvider extends ContentProvider {
 
-		private static enum Status {
+		private enum Status {
 			WAIT_SD, WAIT_SERIES;
 		}
 
@@ -752,11 +758,12 @@ public final class LegendBuilder implements IConstants {
 			Legend lg = lgData.cm.getLegend();
 			this.bSeparator = lg.getSeparator() == null || lg.getSeparator().isVisible();
 			this.alSed = Arrays.asList(lgData.seda);
-			this.itSed = new InvertibleIterator<SeriesDefinition>(alSed, bNeedInvert);
+			this.itSed = new InvertibleIterator<>(alSed, bNeedInvert);
 			this.status = Status.WAIT_SD;
 			fs = lgData.cm.getLegend().getFormatSpecifier();
 		}
 
+		@Override
 		public LegendItemHints nextContent() throws ChartException {
 			switch (status) {
 			case WAIT_SD:
@@ -774,7 +781,7 @@ public final class LegendBuilder implements IConstants {
 					snFormat = SeriesNameFormat.getSeriesNameFormat(sed, lgData.rtc.getULocale());
 				}
 				alSeries = sed.getRunTimeSeries();
-				itSeries = new InvertibleIterator<Series>(alSeries, bNeedInvert);
+				itSeries = new InvertibleIterator<>(alSeries, bNeedInvert);
 				status = Status.WAIT_SERIES;
 
 				if (needToShowGroupName(sed)) {
@@ -805,7 +812,7 @@ public final class LegendBuilder implements IConstants {
 
 		/**
 		 * return the extra value text, if it exists and is visible
-		 * 
+		 *
 		 * @param cm
 		 * @param se
 		 * @return Value Text
@@ -907,8 +914,8 @@ public final class LegendBuilder implements IConstants {
 		protected double dY = 0;
 		protected double dMaxW = 0;
 		protected double dMaxH = 0;
-		protected List<LegendItemHints> columnList = new ArrayList<LegendItemHints>();
-		protected List<LegendItemHints> gnList = new ArrayList<LegendItemHints>();
+		protected List<LegendItemHints> columnList = new ArrayList<>();
+		protected List<LegendItemHints> gnList = new ArrayList<>();
 
 		private SeriesDefinition sed = null;
 
@@ -963,7 +970,7 @@ public final class LegendBuilder implements IConstants {
 
 		/**
 		 * Check if the available size of legend can contain at least one legend item
-		 * 
+		 *
 		 * @param itemSize
 		 * @param legendData
 		 * @return
@@ -1025,37 +1032,34 @@ public final class LegendBuilder implements IConstants {
 			if (dY + size.getY() > lgData.dAvailableHeight + lgData.dSafeSpacing) {
 				columnList.clear();
 				return false;
+			} else if (dX + size.getX() > lgData.dAvailableWidth + lgData.dSafeSpacing) {
+				flushColumnList();
+				size = computeContentSize(lih);
+				return placeContentWithSize(lih, size);
 			} else {
-				if (dX + size.getX() > lgData.dAvailableWidth + lgData.dSafeSpacing) {
-					flushColumnList();
-					size = computeContentSize(lih);
-					return placeContentWithSize(lih, size);
+				dMaxH = Math.max(size.getY(), dMaxH);
+				dX += size.getX();
+
+				lih.validItemLen(laiItem.getValidTextLen());
+				lih.left(dX - size.getX());
+				lih.top(dY);
+
+				if (lih.getType() == LegendItemHints.Type.LG_GROUPNAME) {
+					gnList.add(lih);
+					lih.width(size.getX());
+					lih.itemHeight(size.getY() - lgData.dVerticalSpacing);
 				} else {
-					dMaxH = Math.max(size.getY(), dMaxH);
-					dX += size.getX();
+					lih.width(size.getX() - lgData.dHorizonalReservedSpace);
+					lih.itemHeight(laiItem.getHeight());
 
-					lih.validItemLen(laiItem.getValidTextLen());
-					lih.left(dX - size.getX());
-					lih.top(dY);
-
-					if (lih.getType() == LegendItemHints.Type.LG_GROUPNAME) {
-						gnList.add(lih);
-						lih.width(size.getX());
-						lih.itemHeight(size.getY() - lgData.dVerticalSpacing);
-					} else {
-						lih.width(size.getX() - lgData.dHorizonalReservedSpace);
-						lih.itemHeight(laiItem.getHeight());
-
-						if (bIsShowValue) {
-							lih.valueHeight(laiValue.getHeight());
-							lih.validValueLen(laiValue.getValidTextLen());
-						}
+					if (bIsShowValue) {
+						lih.valueHeight(laiValue.getHeight());
+						lih.validValueLen(laiValue.getValidTextLen());
 					}
-					columnList.add(lih);
-
-					return true;
 				}
+				columnList.add(lih);
 
+				return true;
 			}
 
 		}
@@ -1137,39 +1141,37 @@ public final class LegendBuilder implements IConstants {
 			if (dX + size.getX() > lgData.dAvailableWidth + lgData.dSafeSpacing) {
 				columnList.clear();
 				return false;
+			} else if (dY + size.getY() > lgData.dAvailableHeight + lgData.dSafeSpacing) {
+				flushColumnList();
+				// The label will be rendered in a new column, it needs to recompute
+				// the available width of label again, if the width of label
+				// is greater than remainder width of legend, the label will
+				// be reduced with ellipsis.
+				Point newSize = computeContentSize(lih);
+				return placeContentWithSize(lih, newSize);
 			} else {
-				if (dY + size.getY() > lgData.dAvailableHeight + lgData.dSafeSpacing) {
-					flushColumnList();
-					// The label will be rendered in a new column, it needs to recompute
-					// the available width of label again, if the width of label
-					// is greater than remainder width of legend, the label will
-					// be reduced with ellipsis.
-					Point newSize = computeContentSize(lih);
-					return placeContentWithSize(lih, newSize);
+				dMaxW = Math.max(size.getX(), dMaxW);
+				dY += size.getY();
+
+				lih.validItemLen(laiItem.getValidTextLen());
+				lih.left(dX);
+				lih.itemHeight(laiItem.getHeight());
+
+				if (lih.getType() == LegendItemHints.Type.LG_GROUPNAME) {
+					gnList.add(lih);
+					lih.top(dY - size.getY() + lgData.insCa.getTop());
+					lih.width(size.getX());
 				} else {
-					dMaxW = Math.max(size.getX(), dMaxW);
-					dY += size.getY();
-
-					lih.validItemLen(laiItem.getValidTextLen());
-					lih.left(dX);
-					lih.itemHeight(laiItem.getHeight());
-
-					if (lih.getType() == LegendItemHints.Type.LG_GROUPNAME) {
-						gnList.add(lih);
-						lih.top(dY - size.getY() + lgData.insCa.getTop());
-						lih.width(size.getX());
-					} else {
-						lih.top(dY - size.getY());
-						lih.width(size.getX() - lgData.dHorizonalReservedSpace);
-						if (bIsShowValue) {
-							lih.valueHeight(laiValue.getHeight()).validValueLen(laiValue.getValidTextLen());
-						}
-
+					lih.top(dY - size.getY());
+					lih.width(size.getX() - lgData.dHorizonalReservedSpace);
+					if (bIsShowValue) {
+						lih.valueHeight(laiValue.getHeight()).validValueLen(laiValue.getValidTextLen());
 					}
-					columnList.add(lih);
 
-					return true;
 				}
+				columnList.add(lih);
+
+				return true;
 			}
 
 		}
@@ -1186,10 +1188,10 @@ public final class LegendBuilder implements IConstants {
 
 	/**
 	 * Returns the size computed previously.
-	 * 
+	 *
 	 * @return size
 	 */
-	public final Size getSize() {
+	public Size getSize() {
 		return sz;
 	}
 

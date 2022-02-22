@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,7 @@ public class ValidationExecutor {
 
 	/**
 	 * Constructs the validation executor with one opened report.
-	 * 
+	 *
 	 * @param module the report design containing this validation executor
 	 */
 
@@ -57,7 +57,7 @@ public class ValidationExecutor {
 	 * Performs all validation in the given validation node list. Each of the list
 	 * is the instance of <code>ValidationNode</code>. This method is used for
 	 * element's semantic check.
-	 * 
+	 *
 	 * @param targetElement the target element on which the validation is performed.
 	 * @param nodes         list of validation nodes
 	 * @return error list. Each one is the instance of
@@ -65,15 +65,16 @@ public class ValidationExecutor {
 	 */
 
 	public List<SemanticException> perform(DesignElement targetElement, List<ValidationNode> nodes) {
-		List<SemanticException> exceptionList = new ArrayList<SemanticException>();
+		List<SemanticException> exceptionList = new ArrayList<>();
 
 		Iterator<ValidationNode> iter = reorganize(nodes).iterator();
 		while (iter.hasNext()) {
 			ValidationNode node = iter.next();
 
 			List<SemanticException> errors = node.perform(module, false);
-			if (targetElement == node.getElement())
+			if (targetElement == node.getElement()) {
 				exceptionList.addAll(errors);
+			}
 
 			// If error is found in one pre-requisite validator, the following
 			// validation is not performed. This is because some of the
@@ -81,8 +82,9 @@ public class ValidationExecutor {
 			// Currently, the pre-requisite validator is not allowed to depend
 			// on other validator.
 
-			if (node.getTriggerDefn().isPreRequisite() && !errors.isEmpty())
+			if (node.getTriggerDefn().isPreRequisite() && !errors.isEmpty()) {
 				break;
+			}
 		}
 
 		return exceptionList;
@@ -91,7 +93,7 @@ public class ValidationExecutor {
 	/**
 	 * Performs all validation in the given validation node list. Each of the list
 	 * is the instance of <code>ValidationNode</code>.
-	 * 
+	 *
 	 * @param nodes     list of validation nodes
 	 * @param sendEvent indicates whether it is needed to send event
 	 * @return error list. Each one is the instance of
@@ -99,7 +101,7 @@ public class ValidationExecutor {
 	 */
 
 	public List<SemanticException> perform(List<ValidationNode> nodes, boolean sendEvent) {
-		List<SemanticException> allErrors = new ArrayList<SemanticException>();
+		List<SemanticException> allErrors = new ArrayList<>();
 
 		Iterator<ValidationNode> iter = reorganize(nodes).iterator();
 		while (iter.hasNext()) {
@@ -115,8 +117,9 @@ public class ValidationExecutor {
 			// Currently, the pre-requisite validator is not allowed to depend
 			// on other validator.
 
-			if (node.getTriggerDefn().isPreRequisite() && !errors.isEmpty())
+			if (node.getTriggerDefn().isPreRequisite() && !errors.isEmpty()) {
 				break;
+			}
 		}
 
 		return allErrors;
@@ -129,16 +132,16 @@ public class ValidationExecutor {
 	 * <li>The duplicate validation is removed from the node list.
 	 * <li>The pre-requisite validator is shifted to the beginning of the node list.
 	 * </ul>
-	 * 
+	 *
 	 * @param nodes the validation nodes to reorganize
 	 * @return the reorganized nodes
 	 */
 
 	private List<ValidationNode> reorganize(List<ValidationNode> nodes) {
-		List<ValidationNode> newList = new ArrayList<ValidationNode>();
+		List<ValidationNode> newList = new ArrayList<>();
 		Iterator<ValidationNode> iter = nodes.iterator();
 
-		Set<String> validationIDs = new HashSet<String>();
+		Set<String> validationIDs = new HashSet<>();
 		while (iter.hasNext()) {
 			ValidationNode node = iter.next();
 			String id = node.getTriggerDefn().getValidationID();
@@ -146,10 +149,11 @@ public class ValidationExecutor {
 			if (!validationIDs.contains(id)) {
 				validationIDs.add(id);
 
-				if (node.getTriggerDefn().isPreRequisite())
+				if (node.getTriggerDefn().isPreRequisite()) {
 					newList.add(0, node);
-				else
+				} else {
 					newList.add(node);
+				}
 			}
 		}
 
@@ -158,7 +162,7 @@ public class ValidationExecutor {
 
 	/**
 	 * Returns the list of validation nodes.
-	 * 
+	 *
 	 * @param element    the element to validate
 	 * @param triggers   the validation triggers
 	 * @param onlyOnSelf whether the validation is applied on the given element
@@ -168,14 +172,16 @@ public class ValidationExecutor {
 
 	public static List<ValidationNode> getValidationNodes(DesignElement element, SemanticTriggerDefnSet triggers,
 			boolean onlyOnSelf) {
-		if (triggers == null)
+		if (triggers == null) {
 			return Collections.emptyList();
-		List<ValidationNode> nodes = new ArrayList<ValidationNode>();
+		}
+		List<ValidationNode> nodes = new ArrayList<>();
 
 		List<SemanticTriggerDefn> validatorDefns = triggers.getTriggerList();
 
-		if (validatorDefns == null || validatorDefns.isEmpty())
+		if (validatorDefns == null || validatorDefns.isEmpty()) {
 			return nodes;
+		}
 
 		Iterator<SemanticTriggerDefn> iter = validatorDefns.iterator();
 		while (iter.hasNext()) {
@@ -192,8 +198,9 @@ public class ValidationExecutor {
 			ElementDefn targetDefn = (ElementDefn) MetaDataDictionary.getInstance().getElement(targetName);
 			ElementDefn elementDefn = (ElementDefn) element.getDefn();
 
-			if (elementDefn.isKindOf(targetDefn) || !onlyOnSelf)
+			if (elementDefn.isKindOf(targetDefn) || !onlyOnSelf) {
 				nodes.add(new ValidationNode(element, triggerDefn));
+			}
 
 		}
 

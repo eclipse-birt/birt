@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) Oct 22, 2004 Actuate Corporation {ADD OTHER COPYRIGHT OWNERS}.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation {ADD
  * SUBSEQUENT AUTHOR & CONTRIBUTION}
  ******************************************************************************/
@@ -96,40 +96,44 @@ public class StockChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getName()
 	 */
+	@Override
 	public String getName() {
 		return TYPE_LITERAL;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getImage()
 	 */
+	@Override
 	public Image getImage() {
 		return imgIcon;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.IChartType#getHelp()
 	 */
+	@Override
 	public IHelpContent getHelp() {
 		return new HelpContentImpl(TYPE_LITERAL, Messages.getString("StockChart.Txt.HelpText")); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.
 	 * lang.String)
 	 */
+	@Override
 	public Collection<IChartSubType> getChartSubtypes(String sDimension, Orientation orientation) {
-		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>();
+		Vector<IChartSubType> vSubTypes = new Vector<>();
 		if (sDimension.equals(TWO_DIMENSION_TYPE)
 				|| sDimension.equals(ChartDimension.TWO_DIMENSIONAL_LITERAL.getName())) {
 			if (orientation.equals(Orientation.VERTICAL_LITERAL)) {
@@ -149,10 +153,11 @@ public class StockChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang.
 	 * String, java.lang.String, java.lang.String)
 	 */
+	@Override
 	public Chart getModel(String sSubType, Orientation orientation, String sDimension, Chart currentChart) {
 		ChartWithAxes newChart = null;
 		if (currentChart != null) {
@@ -376,7 +381,7 @@ public class StockChart extends DefaultChartTypeImpl {
 	private SampleData getConvertedSampleData(SampleData currentSampleData, boolean convertBaseToDate) {
 		if (convertBaseToDate) {
 			// Convert base sample data to dateTime type.
-			List<BaseSampleData> vNewBaseSampleData = new ArrayList<BaseSampleData>();
+			List<BaseSampleData> vNewBaseSampleData = new ArrayList<>();
 			for (BaseSampleData bsd : currentSampleData.getBaseSampleData()) {
 				bsd.setDataSetRepresentation(getConvertedBaseSampleDataRepresentation(bsd.getDataSetRepresentation()));
 				vNewBaseSampleData.add(bsd);
@@ -386,7 +391,7 @@ public class StockChart extends DefaultChartTypeImpl {
 		}
 
 		// Convert orthogonal sample data
-		List<OrthogonalSampleData> vNewOrthogonalSampleData = new ArrayList<OrthogonalSampleData>();
+		List<OrthogonalSampleData> vNewOrthogonalSampleData = new ArrayList<>();
 		int i = 0;
 		for (OrthogonalSampleData osd : currentSampleData.getOrthogonalSampleData()) {
 			osd.setDataSetRepresentation(ChartUIUtil.getConvertedSampleDataRepresentation(AxisType.LINEAR_LITERAL,
@@ -400,7 +405,7 @@ public class StockChart extends DefaultChartTypeImpl {
 
 	private String getConvertedBaseSampleDataRepresentation(String sOldRepresentation) {
 		StringTokenizer strtok = new StringTokenizer(sOldRepresentation, ","); //$NON-NLS-1$
-		StringBuffer sbNewRepresentation = new StringBuffer(""); //$NON-NLS-1$
+		StringBuilder sbNewRepresentation = new StringBuilder(""); //$NON-NLS-1$
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); //$NON-NLS-1$
 		int iValueCount = 0;
 		while (strtok.hasMoreTokens()) {
@@ -434,30 +439,33 @@ public class StockChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions()
 	 */
+	@Override
 	public String[] getSupportedDimensions() {
 		return new String[] { TWO_DIMENSION_TYPE };
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
+	@Override
 	public String getDefaultDimension() {
 		return TWO_DIMENSION_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition()
 	 */
+	@Override
 	public boolean supportsTransposition() {
 		return false;
 	}
@@ -467,6 +475,7 @@ public class StockChart extends DefaultChartTypeImpl {
 		return ChartDimension.TWO_DIMENSIONAL_LITERAL;
 	}
 
+	@Override
 	public ISelectDataComponent getBaseUI(Chart chart, ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
 			String sTitle) {
 		return new DefaultBaseSeriesComponent(ChartUIUtil.getBaseSeriesDefinitions(chart).get(0), context, sTitle);
@@ -474,27 +483,30 @@ public class StockChart extends DefaultChartTypeImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return Messages.getString("StockChart.Txt.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
+	@Override
 	public Series getSeries() {
 		return getSeries(true);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl#getSeries(boolean)
 	 */
+	@Override
 	public Series getSeries(boolean needInitialing) {
 		if (needInitialing) {
 			return StockSeriesImpl.create();

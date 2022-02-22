@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,8 +46,8 @@ public class EditpartExtensionManager {
 
 	protected static final Logger logger = Logger.getLogger(EditpartExtensionManager.class.getName());
 
-	private static Map<Expression, IConfigurationElement> extensionMap = new HashMap<Expression, IConfigurationElement>();
-	private static List<PaletteEntryExtension> palettes = new ArrayList<PaletteEntryExtension>();
+	private static Map<Expression, IConfigurationElement> extensionMap = new HashMap<>();
+	private static List<PaletteEntryExtension> palettes = new ArrayList<>();
 
 	static {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
@@ -57,8 +57,9 @@ public class EditpartExtensionManager {
 			IConfigurationElement[] elements = extensionPoint.getConfigurationElements();
 			for (int i = 0; i < elements.length; i++) {
 				IConfigurationElement[] enablements = elements[i].getChildren("enablement"); //$NON-NLS-1$
-				if (enablements.length == 0)
+				if (enablements.length == 0) {
 					continue;// log message
+				}
 				try {
 					extensionMap.put(ExpressionConverter.getDefault().perform(enablements[0]), elements[i]);
 				} catch (CoreException e) {

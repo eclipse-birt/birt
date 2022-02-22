@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,9 +20,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-import java.util.List;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
@@ -39,11 +39,12 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 
 	/**
 	 * Get URL of the action.
-	 * 
+	 *
 	 * @param actionDefn
 	 * @param context
 	 * @return URL
 	 */
+	@Override
 	public String getURL(IAction actionDefn, IReportContext context) {
 		Object renderContext = getRenderContext(context);
 		return getURL(actionDefn, renderContext);
@@ -51,11 +52,12 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api2.IHTMLActionHandler#getURL(org.eclipse.
 	 * birt.report.engine.api2.IAction, java.lang.Object)
 	 */
+	@Override
 	public String getURL(IAction actionDefn, Object context) {
 		if (actionDefn == null) {
 			return null;
@@ -81,7 +83,7 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 
 	/**
 	 * builds URL for drillthrough action
-	 * 
+	 *
 	 * @param action  instance of the IAction instance
 	 * @param context the context for building the action string
 	 * @return a URL
@@ -100,7 +102,7 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 		if (baseURL == null) {
 			baseURL = "run";
 		}
-		StringBuffer link = new StringBuffer();
+		StringBuilder link = new StringBuilder();
 		String reportName = getReportName(action);
 
 		if (reportName != null && !reportName.equals("")) //$NON-NLS-1$
@@ -186,7 +188,7 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 
 	/**
 	 * Append report design name into a StringBuffer.
-	 * 
+	 *
 	 * @param buffer
 	 * @param reportName
 	 */
@@ -201,7 +203,7 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 
 	/**
 	 * Append format.
-	 * 
+	 *
 	 * @param buffer
 	 * @param format
 	 */
@@ -213,7 +215,7 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 
 	/**
 	 * Append parameter.
-	 * 
+	 *
 	 * @param buffer
 	 * @param key
 	 * @param valueObj
@@ -236,7 +238,7 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 
 	/**
 	 * Append bookmark as parameter .
-	 * 
+	 *
 	 * @param buffer
 	 * @param bookmark
 	 */
@@ -254,7 +256,7 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 
 	/**
 	 * Append bookmark.
-	 * 
+	 *
 	 * @param buffer
 	 * @param bookmark
 	 */
@@ -271,7 +273,7 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 
 	/**
 	 * Get report name.
-	 * 
+	 *
 	 * @param action
 	 * @return
 	 */
@@ -319,7 +321,7 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 
 	/**
 	 * Get render context.
-	 * 
+	 *
 	 * @param context
 	 * @return
 	 */
@@ -341,13 +343,14 @@ public class HTMLActionHandler implements IHTMLActionHandler {
 
 	/**
 	 * Get display value.
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
 	String getDisplayValue(Object value) {
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		if (value instanceof Float || value instanceof Double || value instanceof BigDecimal) {
 			return value.toString();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,7 +53,7 @@ import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.ContentIterator;
 
 /**
- * 
+ *
  */
 class ContainerContextProviderImpl {
 
@@ -66,8 +66,9 @@ class ContainerContextProviderImpl {
 	 * @param containerInfo
 	 */
 	public ContainerContextProviderImpl(ContainerContext containerInfo) {
-		if (containerInfo == null)
+		if (containerInfo == null) {
 			throw new IllegalArgumentException("The containerInfo of this context should not be null"); //$NON-NLS-1$
+		}
 		this.focus = containerInfo;
 	}
 
@@ -76,39 +77,42 @@ class ContainerContextProviderImpl {
 	/**
 	 * Determines if the slot can contain an element with the type of
 	 * <code>type</code>.
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @param propName the slot id
 	 * @param type     the name of the element type, like "Table", "List", etc.
 	 * @return <code>true</code> if the slot can contain the an element with
 	 *         <code>type</code> type, otherwise <code>false</code>.
-	 * 
+	 *
 	 * @see #canContain(int, DesignElementHandle)
 	 */
 
 	public final boolean canContain(Module module, String type) {
-		if (type == null)
+		if (type == null) {
 			return false;
+		}
 
 		return canContain(module, MetaDataDictionary.getInstance().getElement(type));
 	}
 
 	/**
 	 * Determines if the slot can contain a given element.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the element to insert
 	 * @return a list containing exceptions.
 	 */
 
 	public final boolean canContain(Module module, DesignElement element) {
-		if (module != null && module.isReadOnly())
+		if (module != null && module.isReadOnly()) {
 			return false;
+		}
 
 		List<SemanticException> errors = checkContainmentContext(module, element);
-		if (!errors.isEmpty())
+		if (!errors.isEmpty()) {
 			return false;
+		}
 
 		return true;
 	}
@@ -116,7 +120,7 @@ class ContainerContextProviderImpl {
 	/**
 	 * Determines if the current element can contain an element with the definition
 	 * of <code>elementType</code> on context containment.
-	 * 
+	 *
 	 * @param module the module
 	 * @param defn   the definition of the element
 	 * @return <code>true</code> if the slot can contain the an element, otherwise
@@ -124,34 +128,34 @@ class ContainerContextProviderImpl {
 	 */
 
 	public boolean canContain(Module module, IElementDefn defn) {
-		if (defn == null || (module != null && module.isReadOnly()))
+		if (defn == null || (module != null && module.isReadOnly())) {
 			return false;
+		}
 
 		boolean retValue = canContainInRom(defn);
-		if (!retValue)
-			return false;
+		
 
 		// if the root of element is included by report/library. Do not
 		// allow
 		// drop.
 
-		if (focus.getElement().isRootIncludedByModule())
+		if (!retValue || focus.getElement().isRootIncludedByModule() || !canContainTemplateElement(module, defn)) {
 			return false;
-
-		if (!canContainTemplateElement(module, defn))
-			return false;
+		}
 
 		// Can not change structure of child element or a virtual element(
 		// inside the child ).
 
-		if (focus.getElement().isVirtualElement() || focus.getElement().getExtendsName() != null)
+		if (focus.getElement().isVirtualElement() || focus.getElement().getExtendsName() != null) {
 			return false;
+		}
 
 		// A summany table cannot contains any detail rows
 		if (focus.getElement() instanceof TableItem
 				&& focus.getElement().getBooleanProperty(module, ITableItemModel.IS_SUMMARY_TABLE_PROP)
-				&& focus.containerSlotID == IListingElementModel.DETAIL_SLOT)
+				&& focus.containerSlotID == IListingElementModel.DETAIL_SLOT) {
 			return false;
+		}
 
 		// special cases check table header containment.
 		ContainerContext containerInfo = this.focus;
@@ -170,41 +174,36 @@ class ContainerContextProviderImpl {
 
 	/**
 	 * Determines if the slot can contain a given element.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the element to insert
 	 * @return a list containing exceptions.
 	 */
 
 	public List<SemanticException> checkContainmentContext(Module module, DesignElement element) {
-		if (element == null)
+		if (element == null) {
 			return Collections.emptyList();
+		}
 
 		boolean retValue = canContainInRom(element.getDefn());
 		ContentException e = ContentExceptionFactory.createContentException(focus, element,
 				ContentException.DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT);
 
-		List<SemanticException> errors = new ArrayList<SemanticException>();
-		if (!retValue) {
-			errors.add(e);
-			return errors;
-		}
+		List<SemanticException> errors = new ArrayList<>();
+		
 
 		// if this element can not be contained in the module, return false;
 		// such as, template elements can not be contained in the libraries,
 		// so either a template table or a real table with a template image
 		// in one cell of it can never be contained in a libraries
 
-		if (!canContainTemplateElement(module, element)) {
-			errors.add(e);
-			return errors;
-		}
+		
 
 		// if the root of element is included by report/library. Do not
 		// allow
 		// drop.
 
-		if (focus.getElement().isRootIncludedByModule()) {
+		if (!retValue || !canContainTemplateElement(module, element) || focus.getElement().isRootIncludedByModule()) {
 			errors.add(e);
 			return errors;
 		}
@@ -288,8 +287,9 @@ class ContainerContextProviderImpl {
 
 			if (container instanceof ListingElement || container instanceof MasterPage) {
 				errors = container.checkContent(module, this.focus, element);
-				if (errors != null && !errors.isEmpty())
+				if (errors != null && !errors.isEmpty()) {
 					return errors;
+				}
 			}
 			containerInfor = container.getContainerInfo();
 		}
@@ -321,16 +321,18 @@ class ContainerContextProviderImpl {
 			PropertyDefn tmpPropDefn = item.getPropertyDefn(IReportItemModel.DATA_SET_PROP);
 			if (tmpPropDefn != null) {
 				ElementRefValue refSet = (ElementRefValue) item.getProperty(null, IReportItemModel.DATA_SET_PROP);
-				if (refSet != null)
+				if (refSet != null) {
 					dataSet = (DataSet) module.resolveElement(item, refSet.getQualifiedReference(), tmpPropDefn, null);
+				}
 			}
 
 			Cube cube = null;
 			tmpPropDefn = item.getPropertyDefn(IReportItemModel.CUBE_PROP);
 			if (tmpPropDefn != null) {
 				ElementRefValue refCube = (ElementRefValue) item.getProperty(null, IReportItemModel.CUBE_PROP);
-				if (refCube != null)
+				if (refCube != null) {
 					cube = (Cube) module.resolveElement(item, refCube.getQualifiedReference(), tmpPropDefn, null);
+				}
 			}
 
 			if (!ContainerContext.isValidContainerment(module, focus.getElement(), item, dataSet, cube)) {
@@ -367,8 +369,9 @@ class ContainerContextProviderImpl {
 						DataSet childDataSet = (DataSet) childItem.getDataSetElement(module);
 						Cube childCube = (Cube) childItem.getCubeElement(module);
 
-						if (childDataSet == null && childCube == null)
+						if (childDataSet == null && childCube == null) {
 							continue;
+						}
 
 						// if any of its children defines different data
 						// object, then invalid container context
@@ -388,18 +391,19 @@ class ContainerContextProviderImpl {
 	/**
 	 * Checks whether a type of elements can reside in the given slot of the current
 	 * element. Besides the type check, it also checks the cardinality of this slot.
-	 * 
+	 *
 	 * @param slotId the slot id of the current element
 	 * @param defn   the element definition
-	 * 
+	 *
 	 * @return <code>true</code> if elements with the definition
 	 *         <code>definition</code> can reside in the given slot. Otherwise
 	 *         <code>false</code>.
 	 */
 
 	private boolean canContainInRom(IElementDefn defn) {
-		if (!focus.canContainInRom(defn))
+		if (!focus.canContainInRom(defn)) {
 			return false;
+		}
 
 		// if the canContain is check for create template, then jump the
 		// slot
@@ -410,13 +414,15 @@ class ContainerContextProviderImpl {
 		String name = defn.getName();
 		if (ReportDesignConstants.TEMPLATE_DATA_SET.equals(name)
 				|| ReportDesignConstants.TEMPLATE_REPORT_ITEM.equals(name)
-				|| ReportDesignConstants.TEMPLATE_ELEMENT.equals(name))
+				|| ReportDesignConstants.TEMPLATE_ELEMENT.equals(name)) {
 			return true;
+		}
 
 		// can not add multiple view, now only support single in GUI
 		if (focus.getContentCount(focus.getElement().getRoot()) > 0
-				&& (!focus.isContainerMultipleCardinality() || focus.getElement() instanceof MultiViews))
+				&& (!focus.isContainerMultipleCardinality() || focus.getElement() instanceof MultiViews)) {
 			return false;
+		}
 
 		return true;
 
@@ -424,7 +430,7 @@ class ContainerContextProviderImpl {
 
 	/**
 	 * Checks whether the element to insert can reside in the given module.
-	 * 
+	 *
 	 * @param module  the root module of the element to add
 	 * @param slotID  the slot ID to insert
 	 * @param element the element to insert
@@ -442,14 +448,16 @@ class ContainerContextProviderImpl {
 
 		IElementDefn defn = MetaDataDictionary.getInstance().getElement(ReportDesignConstants.TEMPLATE_ELEMENT);
 
-		if (element instanceof TemplateElement)
+		if (element instanceof TemplateElement) {
 			return canContainTemplateElement(module, defn);
+		}
 
 		ContentIterator contents = new ContentIterator(module, element);
 		while (contents.hasNext()) {
 			DesignElement content = contents.next();
-			if (content instanceof TemplateElement)
+			if (content instanceof TemplateElement) {
 				return canContainTemplateElement(module, defn);
+			}
 		}
 
 		return true;
@@ -457,7 +465,7 @@ class ContainerContextProviderImpl {
 
 	/**
 	 * Checks whether the element to insert can reside in the given module.
-	 * 
+	 *
 	 * @param module the root module of the element to add
 	 * @param slotID the slot ID to insert
 	 * @param defn   the definition of element to insert
@@ -482,13 +490,15 @@ class ContainerContextProviderImpl {
 			while (containerInfo != null) {
 				DesignElement container = containerInfo.getElement();
 				if ((container instanceof Module && containerInfo.getSlotID() == IModuleModel.COMPONENT_SLOT)
-						|| container instanceof Library)
+						|| container instanceof Library) {
 					return false;
+				}
 				containerInfo = container.getContainerInfo();
 			}
 
-			if (module instanceof Library)
+			if (module instanceof Library) {
 				return false;
+			}
 		}
 
 		return true;
@@ -496,7 +506,7 @@ class ContainerContextProviderImpl {
 
 	/**
 	 * Checks if the element shares data binding recursively.
-	 * 
+	 *
 	 * @param element the element to check
 	 * @return true if it shares data binding recursively.
 	 */
@@ -504,23 +514,27 @@ class ContainerContextProviderImpl {
 		DesignElement focusElement = focus.getElement();
 		Module root = focusElement.getRoot();
 
-		if (focusElement == root || !(element instanceof ReportItem) || element instanceof ExtendedItem)
+		if (focusElement == root || !(element instanceof ReportItem) || element instanceof ExtendedItem) {
 			return true;
+		}
 
 		DesignElement bindingElement = null;
 		ElementRefValue ref = (ElementRefValue) element.getProperty(root, IReportItemModel.DATA_BINDING_REF_PROP);
-		if (ref != null && ref.isResolved())
+		if (ref != null && ref.isResolved()) {
 			bindingElement = ref.getElement();
+		}
 
 		while (focusElement != root) {
-			if (focusElement == bindingElement) // the element shares binding with its container.
+			if (focusElement == bindingElement) { // the element shares binding with its container.
 				return false;
+			}
 
 			if (focusElement instanceof ReportItem && !(focusElement instanceof ExtendedItem)) {
 				ref = (ElementRefValue) focusElement.getProperty(root, IReportItemModel.DATA_BINDING_REF_PROP);
 				if (ref != null && ref.isResolved()) {
-					if (ref.getElement() == element) // the element's container shares binding with it.
+					if (ref.getElement() == element) { // the element's container shares binding with it.
 						return false;
+					}
 				}
 			}
 			focusElement = focusElement.getContainer();

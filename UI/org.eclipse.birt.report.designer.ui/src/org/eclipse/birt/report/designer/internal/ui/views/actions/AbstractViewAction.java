@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -29,7 +29,7 @@ public abstract class AbstractViewAction extends Action {
 
 	/**
 	 * Creates a new action with given selection and no text
-	 * 
+	 *
 	 * @param selectedObject the selected object,which cannot be null
 	 */
 	public AbstractViewAction(Object selectedObject) {
@@ -40,7 +40,7 @@ public abstract class AbstractViewAction extends Action {
 
 	/**
 	 * Creates a new action with given selection , id and text
-	 * 
+	 *
 	 * @param selectedObject the selected object,which cannot be null
 	 * @param text           the text of the action
 	 */
@@ -51,7 +51,7 @@ public abstract class AbstractViewAction extends Action {
 
 	/**
 	 * Gets the object selected
-	 * 
+	 *
 	 * @return Returns the object selected.
 	 *         <p>
 	 *         If object number is more than one, class type is
@@ -68,9 +68,10 @@ public abstract class AbstractViewAction extends Action {
 
 	/**
 	 * Returns class name as ID.
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.IAction#getId()
 	 */
+	@Override
 	public String getId() {
 		return getClass().toString();
 	}

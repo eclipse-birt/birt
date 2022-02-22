@@ -15,17 +15,17 @@ package org.eclipse.birt.report.model.api.activity;
  * listen to the activity stack. A listener follows the adapter pattern: it
  * adapts a "client" object (usually a UI object) to receive notifications from
  * activity stack (the one from which to receive events.)
- * 
+ *
  */
 
 public interface ActivityStackListener {
 	/**
 	 * Invoked when stack size changed, which is caused after the completion of each
 	 * execution, transaction, undo, or redo.
-	 * 
+	 *
 	 * @param event the activity stack event
 	 */
 
-	public void stackChanged(ActivityStackEvent event);
+	void stackChanged(ActivityStackEvent event);
 
 }

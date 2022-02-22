@@ -42,33 +42,24 @@ import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ *
  */
 
 public class CubeQueryDefinitionUtil {
 	private CubeQueryDefinitionUtil() {
-	};
+	}
 
 	/**
 	 * Returns hint info about how newQuery can be executed based on the execution
 	 * result of basedQuery.
-	 * 
+	 *
 	 * @param basedQuery
 	 * @param newQuery
 	 * @return null if the execution result of basedQuery is useless for newQuery
 	 */
 	public static IncrementExecutionHint getIncrementExecutionHint(ICubeQueryDefinition basedQuery,
 			ICubeQueryDefinition newQuery) throws DataException {
-		if (basedQuery.getFilterOption() != newQuery.getFilterOption()) {
-			return null;
-		}
-		if (!isEqualMeasures(basedQuery.getMeasures(), newQuery.getMeasures())) {
-			return null;
-		}
-		if (!isEqualMeasures(basedQuery.getComputedMeasures(), newQuery.getComputedMeasures())) {
-			return null;
-		}
-		if (!isEqualEdges(basedQuery, newQuery)) {
+		if ((basedQuery.getFilterOption() != newQuery.getFilterOption()) || !isEqualMeasures(basedQuery.getMeasures(), newQuery.getMeasures()) || !isEqualMeasures(basedQuery.getComputedMeasures(), newQuery.getComputedMeasures()) || !isEqualEdges(basedQuery, newQuery)) {
 			return null;
 		}
 		if (!isEqualCubeOperations(basedQuery.getCubeOperations(), newQuery.getCubeOperations())) {
@@ -99,8 +90,8 @@ public class CubeQueryDefinitionUtil {
 		}
 		Iterator<IBinding> itr1 = basedQuery.getBindings().iterator();
 		Iterator<IBinding> itr2 = newQuery.getBindings().iterator();
-		Map<String, IBinding> bindings1 = new HashMap<String, IBinding>();
-		Map<String, IBinding> bindings2 = new HashMap<String, IBinding>();
+		Map<String, IBinding> bindings1 = new HashMap<>();
+		Map<String, IBinding> bindings2 = new HashMap<>();
 		while (itr1.hasNext()) {
 			IBinding b1 = itr1.next();
 			IBinding b2 = itr2.next();
@@ -137,7 +128,7 @@ public class CubeQueryDefinitionUtil {
 		List baseFilters = basedQuery.getFilters();
 		List newFilters = newQuery.getFilters();
 
-		List<IFilterDefinition> resultFilters = new ArrayList<IFilterDefinition>();
+		List<IFilterDefinition> resultFilters = new ArrayList<>();
 		for (int i = 0; i < newFilters.size(); i++) {
 			IFilterDefinition filter = (IFilterDefinition) newFilters.get(i);
 			boolean find = false;
@@ -155,11 +146,11 @@ public class CubeQueryDefinitionUtil {
 			if (!find) {
 				if (!filter.updateAggregation() && newQuery.getFilters().size() > basedQuery.getFilters().size()) {
 					resultFilters.add(filter);
-				} else
+				} else {
 					return null;
-			} else {
-				if (filter.updateAggregation())
-					return null;
+				}
+			} else if (filter.updateAggregation()) {
+				return null;
 			}
 
 		}
@@ -181,13 +172,7 @@ public class CubeQueryDefinitionUtil {
 		if (fd1 == null) {
 			return null == fd2;
 		}
-		if (fd2 == null) {
-			return false;
-		}
-		if (!fd1.getClass().equals(fd2.getClass())) {
-			return false;
-		}
-		if (!ExprUtil.isEqualExpression(fd1.getExpression(), fd2.getExpression())) {
+		if ((fd2 == null) || !fd1.getClass().equals(fd2.getClass()) || !ExprUtil.isEqualExpression(fd1.getExpression(), fd2.getExpression())) {
 			return false;
 		}
 		if (fd1 instanceof ICubeSortDefinition) {
@@ -217,16 +202,7 @@ public class CubeQueryDefinitionUtil {
 	}
 
 	private static boolean isEqual(IBinding b1, IBinding b2) throws DataException {
-		if (!b1.getBindingName().equals(b2.getBindingName())) {
-			return false;
-		}
-		if (b1.getDataType() != b2.getDataType()) {
-			return false;
-		}
-		if (!isEqual(b1.getAggrFunction(), b2.getAggrFunction())) {
-			return false;
-		}
-		if (!ExprUtil.isEqualExpression(b1.getExpression(), b2.getExpression())) {
+		if (!b1.getBindingName().equals(b2.getBindingName()) || (b1.getDataType() != b2.getDataType()) || !isEqual(b1.getAggrFunction(), b2.getAggrFunction()) || !ExprUtil.isEqualExpression(b1.getExpression(), b2.getExpression())) {
 			return false;
 		}
 		if (!ExprUtil.isEqualExpression(b1.getFilter(), b2.getFilter())) {
@@ -267,13 +243,7 @@ public class CubeQueryDefinitionUtil {
 		if (dd1 == null) {
 			return null == dd2;
 		}
-		if (dd2 == null) {
-			return false;
-		}
-		if (!isEqual(dd1.getName(), dd2.getName())) {
-			return false;
-		}
-		if (dd1.getHierarchy().size() != dd2.getHierarchy().size()) {
+		if ((dd2 == null) || !isEqual(dd1.getName(), dd2.getName()) || (dd1.getHierarchy().size() != dd2.getHierarchy().size())) {
 			return false;
 		}
 		int i = 0;
@@ -300,13 +270,7 @@ public class CubeQueryDefinitionUtil {
 		if (hd1 == null) {
 			return null == hd2;
 		}
-		if (hd2 == null) {
-			return false;
-		}
-		if (!isEqual(hd1.getName(), hd2.getName())) {
-			return false;
-		}
-		if (hd1.getLevels().size() != hd2.getLevels().size()) {
+		if ((hd2 == null) || !isEqual(hd1.getName(), hd2.getName()) || (hd1.getLevels().size() != hd2.getLevels().size())) {
 			return false;
 		}
 		int j = 0;
@@ -323,10 +287,7 @@ public class CubeQueryDefinitionUtil {
 		if (ld1 == null) {
 			return null == ld2;
 		}
-		if (ld2 == null) {
-			return false;
-		}
-		if (!isEqual(ld1.getName(), ld2.getName())) {
+		if ((ld2 == null) || !isEqual(ld1.getName(), ld2.getName())) {
 			return false;
 		}
 		return isEqual(ld1.getHierarchy(), ld2.getHierarchy());
@@ -336,13 +297,7 @@ public class CubeQueryDefinitionUtil {
 		if (md1 == null) {
 			return null == md2;
 		}
-		if (md2 == null) {
-			return false;
-		}
-		if (!md1.getClass().equals(md2.getClass())) {
-			return false;
-		}
-		if (!isEqual(md1.getName(), md2.getName()) || !isEqual(md1.getAggrFunction(), md2.getAggrFunction())) {
+		if ((md2 == null) || !md1.getClass().equals(md2.getClass()) || !isEqual(md1.getName(), md2.getName()) || !isEqual(md1.getAggrFunction(), md2.getAggrFunction())) {
 			return false;
 		}
 		if (md1 instanceof IComputedMeasureDefinition) {
@@ -361,8 +316,8 @@ public class CubeQueryDefinitionUtil {
 		if (mds1.size() != mds2.size()) {
 			return false;
 		}
-		Map<String, IMeasureDefinition> map1 = new HashMap<String, IMeasureDefinition>();
-		Map<String, IMeasureDefinition> map2 = new HashMap<String, IMeasureDefinition>();
+		Map<String, IMeasureDefinition> map1 = new HashMap<>();
+		Map<String, IMeasureDefinition> map2 = new HashMap<>();
 		Iterator<IMeasureDefinition> itr1 = mds1.iterator();
 		Iterator<IMeasureDefinition> itr2 = mds2.iterator();
 		while (itr1.hasNext()) {
@@ -391,13 +346,7 @@ public class CubeQueryDefinitionUtil {
 		if (ed1 == null) {
 			return null == ed2;
 		}
-		if (ed2 == null) {
-			return false;
-		}
-		if (!isEqual(ed1.getName(), ed2.getName())) {
-			return false;
-		}
-		if (ed1.getDimensions().size() != ed2.getDimensions().size()) {
+		if ((ed2 == null) || !isEqual(ed1.getName(), ed2.getName()) || (ed1.getDimensions().size() != ed2.getDimensions().size())) {
 			return false;
 		}
 		int i = 0;
@@ -411,17 +360,15 @@ public class CubeQueryDefinitionUtil {
 			if (ed2.getMirroredDefinition() != null) {
 				return false;
 			}
+		} else if (ed2.getMirroredDefinition() == null) {
+			return false;
 		} else {
-			if (ed2.getMirroredDefinition() == null) {
+			if (!isEqual(ed1.getMirroredDefinition().getMirrorStartingLevel(),
+					ed2.getMirroredDefinition().getMirrorStartingLevel())) {
 				return false;
-			} else {
-				if (!isEqual(ed1.getMirroredDefinition().getMirrorStartingLevel(),
-						ed2.getMirroredDefinition().getMirrorStartingLevel())) {
-					return false;
-				}
-				if (ed1.getMirroredDefinition().isBreakHierarchy() != ed2.getMirroredDefinition().isBreakHierarchy()) {
-					return false;
-				}
+			}
+			if (ed1.getMirroredDefinition().isBreakHierarchy() != ed2.getMirroredDefinition().isBreakHierarchy()) {
+				return false;
 			}
 		}
 
@@ -442,10 +389,7 @@ public class CubeQueryDefinitionUtil {
 		if (edf1 == null) {
 			return null == edf2;
 		}
-		if (edf2 == null) {
-			return false;
-		}
-		if (edf1.getLevelFilter().size() != edf2.getLevelFilter().size()) {
+		if ((edf2 == null) || (edf1.getLevelFilter().size() != edf2.getLevelFilter().size())) {
 			return false;
 		}
 		{
@@ -512,10 +456,7 @@ public class CubeQueryDefinitionUtil {
 					return false;
 				}
 			} else {
-				if (s2.getAxisQualifierLevels() == null) {
-					return false;
-				}
-				if (s1.getAxisQualifierLevels().length != s2.getAxisQualifierLevels().length) {
+				if ((s2.getAxisQualifierLevels() == null) || (s1.getAxisQualifierLevels().length != s2.getAxisQualifierLevels().length)) {
 					return false;
 				}
 				int i = 0;
@@ -537,13 +478,7 @@ public class CubeQueryDefinitionUtil {
 		if (co1 == null) {
 			return co2 == null;
 		}
-		if (co2 == null) {
-			return false;
-		}
-		if (!co1.getClass().equals(co2.getClass())) {
-			return false;
-		}
-		if (co1.getNewBindings().length != co2.getNewBindings().length) {
+		if ((co2 == null) || !co1.getClass().equals(co2.getClass()) || (co1.getNewBindings().length != co2.getNewBindings().length)) {
 			return false;
 		}
 		for (int i = 0; i < co1.getNewBindings().length; i++) {
@@ -580,37 +515,42 @@ public class CubeQueryDefinitionUtil {
 	}
 
 	private static boolean isEqualTimeFunction(ITimeFunction f1, ITimeFunction f2) throws DataException {
-		if (f1 == f2)
+		if (f1 == f2) {
 			return true;
+		}
 
-		if (f1 == null || f2 == null)
+		if (f1 == null || f2 == null || !isEqual(f1.getTimeDimension(), f2.getTimeDimension())) {
 			return false;
-
-		if (!isEqual(f1.getTimeDimension(), f2.getTimeDimension()))
-			return false;
+		}
 
 		if (f1.getReferenceDate().getDate() != null
-				&& !f1.getReferenceDate().getDate().equals(f2.getReferenceDate().getDate()))
+				&& !f1.getReferenceDate().getDate().equals(f2.getReferenceDate().getDate())) {
 			return false;
+		}
 
 		if (f2.getReferenceDate().getDate() != null
-				&& !f2.getReferenceDate().getDate().equals(f1.getReferenceDate().getDate()))
+				&& !f2.getReferenceDate().getDate().equals(f1.getReferenceDate().getDate())) {
 			return false;
+		}
 
-		if (!isEqualTimePeriod(f1.getBaseTimePeriod(), f2.getBaseTimePeriod()))
+		if (!isEqualTimePeriod(f1.getBaseTimePeriod(), f2.getBaseTimePeriod())) {
 			return false;
+		}
 
-		if (!isEqualTimePeriod(f1.getRelativeTimePeriod(), f2.getRelativeTimePeriod()))
+		if (!isEqualTimePeriod(f1.getRelativeTimePeriod(), f2.getRelativeTimePeriod())) {
 			return false;
+		}
 		return true;
 	}
 
 	private static boolean isEqualTimePeriod(ITimePeriod p1, ITimePeriod p2) {
-		if (p1 == p2)
+		if (p1 == p2) {
 			return true;
+		}
 
-		if (p1 == null || p2 == null)
+		if (p1 == null || p2 == null) {
 			return false;
+		}
 
 		TimePeriodType type1 = p1.getType();
 		TimePeriodType type2 = p2.getType();

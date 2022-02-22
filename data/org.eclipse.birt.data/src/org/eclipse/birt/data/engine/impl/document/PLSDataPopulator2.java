@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  * This class take a document result iterator and a list of IGroupInstanceInfo
  * as input. It will then wrap the document result iterator so that only the
  * rows as defined in IGroupInstanceInfo list will be retrievable by user.
- * 
+ *
  * This class is used to get the PLS Data for summary table.
  */
 
@@ -42,9 +42,6 @@ public class PLSDataPopulator2 implements IPLSDataPopulator {
 	// row it specific to.
 	private List<Boundary2> targetBoundaries;
 
-	// row index.
-	private int rowIndex = -1;
-
 	// The document result iterator.
 	private ResultIterator docIt;
 
@@ -56,7 +53,7 @@ public class PLSDataPopulator2 implements IPLSDataPopulator {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param targetGroups
 	 * @param docIt
 	 * @throws DataException
@@ -71,15 +68,16 @@ public class PLSDataPopulator2 implements IPLSDataPopulator {
 
 	/**
 	 * Return the enclosed document iterator.
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public ResultIterator getDocumentIterator() {
 		return this.docIt;
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void populateEmptyInfo() {
 		this.isEmpty = !(this.currentBoundary != null
@@ -88,39 +86,45 @@ public class PLSDataPopulator2 implements IPLSDataPopulator {
 
 	/**
 	 * Populate the boundaries info.
-	 * 
+	 *
 	 * @param targetGroups
 	 */
 	private void populateBoundary(List<IGroupInstanceInfo> targetGroups) {
 		// Make a copy to user input.
-		List<IGroupInstanceInfo> groups = new ArrayList<IGroupInstanceInfo>(targetGroups);
+		List<IGroupInstanceInfo> groups = new ArrayList<>(targetGroups);
 
 		// Sort the copy
 		Collections.sort(groups, new Comparator<IGroupInstanceInfo>() {
 
+			@Override
 			public int compare(IGroupInstanceInfo arg0, IGroupInstanceInfo arg1) {
-				if (arg0.getGroupLevel() < arg1.getGroupLevel())
+				if (arg0.getGroupLevel() < arg1.getGroupLevel()) {
 					return -1;
-				if (arg0.getGroupLevel() > arg1.getGroupLevel())
+				}
+				if (arg0.getGroupLevel() > arg1.getGroupLevel()) {
 					return 1;
-				if (arg0.getRowId() < arg1.getRowId())
+				}
+				if (arg0.getRowId() < arg1.getRowId()) {
 					return -1;
-				if (arg0.getRowId() > arg1.getRowId())
+				}
+				if (arg0.getRowId() > arg1.getRowId()) {
 					return 1;
+				}
 				return 0;
 			}
 		});
 
 		// Here the groups has been sorted.
-		List<Boundary2> boundaries = new LinkedList<Boundary2>();
+		List<Boundary2> boundaries = new LinkedList<>();
 		tag: for (IGroupInstanceInfo info : groups) {
 
 			Boundary2 b = new Boundary2(info.getGroupLevel(), info.getRowId());
 
 			// Try to merge the boundaries.
 			for (Boundary2 target : boundaries) {
-				if (b.containedBy(target))
+				if (b.containedBy(target)) {
 					continue tag;
+				}
 			}
 
 			// If failed to merge, simply add to boundaries list.
@@ -130,11 +134,13 @@ public class PLSDataPopulator2 implements IPLSDataPopulator {
 
 		Collections.sort(boundaries, new Comparator<Boundary2>() {
 
+			@Override
 			public int compare(Boundary2 o1, Boundary2 o2) {
-				if (o1.start < o2.start)
+				if (o1.start < o2.start) {
 					return -1;
-				else if (o1.start > o2.start)
+				} else if (o1.start > o2.start) {
 					return 1;
+				}
 				return 0;
 			}
 
@@ -150,9 +156,10 @@ public class PLSDataPopulator2 implements IPLSDataPopulator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws BirtException
 	 */
+	@Override
 	public void close() throws DataException {
 		try {
 			this.docIt.close();
@@ -163,18 +170,20 @@ public class PLSDataPopulator2 implements IPLSDataPopulator {
 
 	/**
 	 * Move to next qualified row.
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
+	@Override
 	public boolean next() throws DataException {
-		if (this.isEmpty)
+		if (this.isEmpty) {
 			return false;
+		}
 		try {
 			if (this.currentBoundary == null) {
 				return false;
 			}
-			while (docIt.next()) {
+			if (docIt.next()) {
 				this.getDocumentIterator().getExprResultSet().getDataSetResultSet().next();
 				if (docIt.getRowIndex() < this.currentBoundary.start) {
 					docIt.moveTo(this.currentBoundary.start);
@@ -185,14 +194,12 @@ public class PLSDataPopulator2 implements IPLSDataPopulator {
 				if (docIt.getEndingGroupLevel() == this.currentBoundary.endGroupLevel) {
 					this.targetBoundaries.remove(this.currentBoundary);
 					if (this.targetBoundaries.size() == 0) {
-						this.rowIndex++;
 						this.currentBoundary = null;
 						return true;
 					}
 					this.currentBoundary = this.targetBoundaries.get(0);
 				}
 
-				this.rowIndex++;
 				return true;
 			}
 		} catch (BirtException e1) {
@@ -202,9 +209,9 @@ public class PLSDataPopulator2 implements IPLSDataPopulator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @author Work
-	 * 
+	 *
 	 */
 	protected static class Boundary2 {
 		private int start;
@@ -212,7 +219,7 @@ public class PLSDataPopulator2 implements IPLSDataPopulator {
 		int endGroupLevel;
 
 		/**
-		 * 
+		 *
 		 * @param groupLevel
 		 * @param start
 		 * @param end
@@ -224,7 +231,7 @@ public class PLSDataPopulator2 implements IPLSDataPopulator {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param target
 		 * @return
 		 */

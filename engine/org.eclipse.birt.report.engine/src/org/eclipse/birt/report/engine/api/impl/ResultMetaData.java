@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,8 +67,9 @@ public class ResultMetaData implements IResultMetaData {
 	}
 
 	private void adaptDTE(org.eclipse.birt.data.engine.api.IResultMetaData dteMeta) {
-		if (dteMeta == null)
+		if (dteMeta == null) {
 			return;
+		}
 		int count = dteMeta.getColumnCount();
 		for (int index = 0; index < count; index++) {
 			try {
@@ -112,8 +113,8 @@ public class ResultMetaData implements IResultMetaData {
 	protected void appendMetaData(IBaseQueryDefinition query, DesignElementHandle handle) {
 
 		ArrayList<ComputedColumn> columnList = null;
-		ArrayList<String> notAllowed = new ArrayList<String>();
-		if (handle != null && handle instanceof TableHandle || handle instanceof DataItemHandle) {
+		ArrayList<String> notAllowed = new ArrayList<>();
+		if (handle instanceof TableHandle || handle instanceof DataItemHandle) {
 			columnList = (ArrayList<ComputedColumn>) handle.getProperty(IReportItemModel.BOUND_DATA_COLUMNS_PROP);
 		}
 
@@ -154,6 +155,7 @@ public class ResultMetaData implements IResultMetaData {
 		return true;
 	}
 
+	@Override
 	public int getColumnCount() {
 		if (selectedColumns != null) {
 			return selectedColumns.length;
@@ -164,6 +166,7 @@ public class ResultMetaData implements IResultMetaData {
 		return metaEntries.size();
 	}
 
+	@Override
 	public String getColumnName(int index) throws BirtException {
 		index = getColumnIndex(index);
 		if (null != parentMetaData) {
@@ -174,10 +177,12 @@ public class ResultMetaData implements IResultMetaData {
 		}
 	}
 
+	@Override
 	public String getColumnAlias(int index) throws BirtException {
 		return getColumnName(index);
 	}
 
+	@Override
 	public int getColumnType(int index) throws BirtException {
 		index = getColumnIndex(index);
 		if (null != parentMetaData) {
@@ -188,11 +193,13 @@ public class ResultMetaData implements IResultMetaData {
 		}
 	}
 
+	@Override
 	public String getColumnTypeName(int index) throws BirtException {
 		int type = getColumnType(index);
 		return DataType.getName(type);
 	}
 
+	@Override
 	public String getColumnLabel(int index) throws BirtException {
 		index = getColumnIndex(index);
 		String columnLabel;
@@ -208,6 +215,7 @@ public class ResultMetaData implements IResultMetaData {
 		return columnLabel;
 	}
 
+	@Override
 	public boolean getAllowExport(int index) throws BirtException {
 		index = getColumnIndex(index);
 		boolean allowExport;

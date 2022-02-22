@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -26,12 +26,15 @@ public class HighlightPropertyDescriptor extends PreviewPropertyDescriptor {
 
 	protected HighlightDescriptorProvider highlightProvider;
 
+	@Override
 	public void setDescriptorProvider(IDescriptorProvider provider) {
 		super.setDescriptorProvider(provider);
-		if (provider instanceof HighlightDescriptorProvider)
+		if (provider instanceof HighlightDescriptorProvider) {
 			this.highlightProvider = (HighlightDescriptorProvider) provider;
+		}
 	}
 
+	@Override
 	protected void updatePreview(Object handle) {
 		if (handle != null && highlightProvider != null) {
 			String familyValue = highlightProvider.getFontFamily(handle);

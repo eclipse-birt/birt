@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -95,7 +95,7 @@ public class MongoDBDataSourcePageHelper {
 
 	/**
 	 * The "keep socket alive" setting area
-	 * 
+	 *
 	 * @param composite
 	 */
 	private void createClientSettingsArea(Composite composite) {
@@ -109,10 +109,12 @@ public class MongoDBDataSourcePageHelper {
 		socketAliveCheckbox.setText(Messages.getString("MongoDBDataSourceWizardPage.checkbox.label.SocketAlive")); //$NON-NLS-1$
 		socketAliveCheckbox.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				socketAlive = socketAliveCheckbox.getSelection();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -123,7 +125,7 @@ public class MongoDBDataSourcePageHelper {
 
 	/**
 	 * The "Kerberos" setting area
-	 * 
+	 *
 	 * @param composite
 	 */
 	private void createKerberosSettingsArea(Composite composite) {
@@ -143,12 +145,14 @@ public class MongoDBDataSourcePageHelper {
 				.setText(Messages.getString("MongoDBDataSourceWizardPage.checkbox.label.KerberosAuthentication")); //$NON-NLS-1$
 		useKerberosAuthenticationCheckBox.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				useKerberosAuthentication = useKerberosAuthenticationCheckBox.getSelection();
 				handleKerberosAuthenticationSelection();
 				validatePageProperties();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -167,6 +171,7 @@ public class MongoDBDataSourcePageHelper {
 		kerberosPrincipalText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		kerberosPrincipalText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				kerberosPrincipal = kerberosPrincipalText.getText().trim();
 				validatePageProperties();
@@ -182,6 +187,7 @@ public class MongoDBDataSourcePageHelper {
 		gssapiServiceNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		gssapiServiceNameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				gssapiServiceName = gssapiServiceNameText.getText().trim();
 				validatePageProperties();
@@ -198,22 +204,22 @@ public class MongoDBDataSourcePageHelper {
 		 * kerberosConfigurationRadioBtn = new Button( kerberosSettingComposite3,
 		 * SWT.RADIO ); GridData radioBtnData = new GridData( );
 		 * radioBtnData.verticalAlignment = SWT.TOP;
-		 * 
+		 *
 		 * //kerberosConfigurationRadioBtn.setLayoutData( radioBtnData );
 		 * kerberosConfigurationRadioBtn .addSelectionListener( new SelectionListener( )
 		 * {
-		 * 
+		 *
 		 * public void widgetSelected( SelectionEvent e ) { if (
 		 * kerberosConfigurationRadioBtn.getSelection( ) ) {
 		 * isKerberosPasswordFieldFoucs = false; handleKerberosRadioButtonSelection( );
 		 * validatePageProperties( ); }
-		 * 
+		 *
 		 * }
-		 * 
+		 *
 		 * public void widgetDefaultSelected( SelectionEvent e ) {
-		 * 
+		 *
 		 * }
-		 * 
+		 *
 		 * } );
 		 */
 
@@ -234,6 +240,7 @@ public class MongoDBDataSourcePageHelper {
 		kerberosConfigurationFileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		kerberosConfigurationFileText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				kerberosConfigurationFile = kerberosConfigurationFileText.getText().trim();
 				validatePageProperties();
@@ -250,6 +257,7 @@ public class MongoDBDataSourcePageHelper {
 		gssAPIConfigurationFileText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		gssAPIConfigurationFileText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				gssAPIConfigurationFile = gssAPIConfigurationFileText.getText().trim();
 				validatePageProperties();
@@ -263,7 +271,7 @@ public class MongoDBDataSourcePageHelper {
 		 * SWT.NONE ); kerberosSettingComposite4.setLayout( new GridLayout( 1, false )
 		 * ); kerberosSettingComposite4.setLayoutData( new GridData(
 		 * GridData.FILL_HORIZONTAL ) );
-		 * 
+		 *
 		 * kerberosCredentialsRadioBtn = new Button( kerberosSettingComposite4,
 		 * SWT.RADIO );
 		 */
@@ -271,29 +279,29 @@ public class MongoDBDataSourcePageHelper {
 		 * kerberosCredentialsRadioBtn.setText( Messages.getString(
 		 * "MongoDBDataSourceWizardPage.RadioButton.label.KerberosPassword" ) );
 		 * //$NON-NLS-1$
-		 * 
-		 * 
+		 *
+		 *
 		 * kerberosCredentialsRadioBtn.addSelectionListener( new SelectionListener( ) {
-		 * 
+		 *
 		 * public void widgetSelected( SelectionEvent e ) { if (
 		 * kerberosCredentialsRadioBtn.getSelection( ) ) { isKerberosPasswordFieldFoucs
 		 * = true; handleKerberosRadioButtonSelection( ); kerberosPassword =
 		 * kerberosPasswordText.getText( ).trim( ); validatePageProperties( ); } }
-		 * 
+		 *
 		 * public void widgetDefaultSelected( SelectionEvent e ) {
-		 * 
+		 *
 		 * }
-		 * 
+		 *
 		 * } );
-		 * 
+		 *
 		 * // Kerberos password kerberosPasswordText = new Text(
 		 * kerberosSettingComposite4, SWT.BORDER ); kerberosPasswordText.setLayoutData(
 		 * new GridData( GridData.FILL_HORIZONTAL ) );
 		 * kerberosPasswordText.addModifyListener( new ModifyListener( ) {
-		 * 
+		 *
 		 * public void modifyText( ModifyEvent e ) { kerberosPassword =
 		 * kerberosPasswordText.getText( ).trim( ); validatePageProperties( ); }
-		 * 
+		 *
 		 * } );
 		 */
 	}
@@ -309,6 +317,7 @@ public class MongoDBDataSourcePageHelper {
 		URIElementsRadioBtn.setLayoutData(radioBtnData);
 		URIElementsRadioBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (URIElementsRadioBtn.getSelection()) {
 					isURITextFieldFoucs = false;
@@ -318,6 +327,7 @@ public class MongoDBDataSourcePageHelper {
 
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -337,6 +347,7 @@ public class MongoDBDataSourcePageHelper {
 		serverHostText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		serverHostText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				serverHost = serverHostText.getText().trim();
 				validatePageProperties();
@@ -351,6 +362,7 @@ public class MongoDBDataSourcePageHelper {
 		serverPortText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		serverPortText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				serverPort = serverPortText.getText().trim();
 				validatePageProperties();
@@ -365,6 +377,7 @@ public class MongoDBDataSourcePageHelper {
 		databaseNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		databaseNameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				dbName = databaseNameText.getText().trim();
 				validatePageProperties();
@@ -379,6 +392,7 @@ public class MongoDBDataSourcePageHelper {
 		userNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		userNameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				userName = userNameText.getText().trim();
 				validatePageProperties();
@@ -393,6 +407,7 @@ public class MongoDBDataSourcePageHelper {
 		passwordText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		passwordText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				password = passwordText.getText().trim();
 				validatePageProperties();
@@ -408,6 +423,7 @@ public class MongoDBDataSourcePageHelper {
 		URIRadioBtn.setText(Messages.getString("MongoDBDataSourceWizardPage.RadioButton.label.DatabaseURI")); //$NON-NLS-1$
 		URIRadioBtn.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (URIRadioBtn.getSelection()) {
 					isURITextFieldFoucs = true;
@@ -417,6 +433,7 @@ public class MongoDBDataSourcePageHelper {
 				}
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 
 			}
@@ -427,6 +444,7 @@ public class MongoDBDataSourcePageHelper {
 		databaseURIText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		databaseURIText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				dbURI = databaseURIText.getText().trim();
 				validatePageProperties();
@@ -439,8 +457,9 @@ public class MongoDBDataSourcePageHelper {
 	protected void handleKerberosAuthenticationSelection() {
 		// Added an if block to disable/enable the text fields based on kerberos
 		// check box selection
-		if (kerberosPrincipalText != null && !kerberosPrincipalText.isDisposed())
+		if (kerberosPrincipalText != null && !kerberosPrincipalText.isDisposed()) {
 			resetKerberosAuthenticationEditControlStatus();
+		}
 		if (kerberosPasswordText != null && !kerberosPasswordText.isDisposed()) {
 
 			kerberosPrincipalText.setEnabled(useKerberosAuthentication);
@@ -511,7 +530,7 @@ public class MongoDBDataSourcePageHelper {
 
 	/**
 	 * Initialize the page properties
-	 * 
+	 *
 	 * @param dataSourceProps
 	 */
 	protected void initPageInfos(Properties dataSourceProps) {
@@ -537,9 +556,10 @@ public class MongoDBDataSourcePageHelper {
 
 		isURITextFieldFoucs = !UIHelper.isEmptyString(dbURI);
 		if (isURITextFieldFoucs) {
-			boolean ignoreURI = Boolean.valueOf(dataSourceProps.getProperty(MongoDBDriver.IGNORE_URI_PROP));
-			if (ignoreURI)
+			boolean ignoreURI = Boolean.parseBoolean(dataSourceProps.getProperty(MongoDBDriver.IGNORE_URI_PROP));
+			if (ignoreURI) {
 				isURITextFieldFoucs = false;
+			}
 		}
 
 		if (dataSourceProps.getProperty(MongoDBDriver.SOCKET_KEEP_ALIVE_PROP) != null) {
@@ -549,7 +569,7 @@ public class MongoDBDataSourcePageHelper {
 		}
 
 		// Kerberos
-		useKerberosAuthentication = Boolean.valueOf(dataSourceProps.getProperty(MongoDBDriver.USE_KERBEROS_PROP));
+		useKerberosAuthentication = Boolean.parseBoolean(dataSourceProps.getProperty(MongoDBDriver.USE_KERBEROS_PROP));
 		kerberosPrincipal = dataSourceProps.getProperty(MongoDBDriver.KERBEROS_PRINCIPAL_PROP);
 		gssapiServiceName = dataSourceProps.getProperty(MongoDBDriver.KERBEROS_GSSAPI_SERVICENAME_PROP);
 		kerberosConfigurationFile = dataSourceProps.getProperty(MongoDBDriver.KERBEROS_KRB5CONFIG_FILE_PROP);
@@ -561,7 +581,7 @@ public class MongoDBDataSourcePageHelper {
 
 	/**
 	 * Initialize the page controls
-	 * 
+	 *
 	 * @param dataSourceProps
 	 */
 	public void initPageControls(Properties dataSourceProps) {
@@ -628,7 +648,7 @@ public class MongoDBDataSourcePageHelper {
 
 	/**
 	 * Validate the page properties
-	 * 
+	 *
 	 * @return
 	 */
 	private boolean validatePageProperties() {
@@ -665,12 +685,10 @@ public class MongoDBDataSourcePageHelper {
 				wizardPage.setMessage(Messages.getString("MongoDBDataSourceWizardPage.error.MissingConnectionProperty"), //$NON-NLS-1$
 						IMessageProvider.ERROR);
 			}
+		} else if (isPropertyPage) {
+			propertyPage.setMessage(DEFAULT_MESSAGE);
 		} else {
-			if (isPropertyPage) {
-				propertyPage.setMessage(DEFAULT_MESSAGE);
-			} else {
-				wizardPage.setMessage(DEFAULT_MESSAGE);
-			}
+			wizardPage.setMessage(DEFAULT_MESSAGE);
 		}
 
 		if (wizardPage != null) {
@@ -684,20 +702,25 @@ public class MongoDBDataSourcePageHelper {
 			properties = new Properties();
 		}
 
-		if (serverHost != null)
+		if (serverHost != null) {
 			properties.setProperty(MongoDBDriver.SERVER_HOST_PROP, serverHost);
+		}
 
-		if (serverPort != null)
+		if (serverPort != null) {
 			properties.setProperty(MongoDBDriver.SERVER_PORT_PROP, serverPort);
+		}
 
-		if (dbName != null)
+		if (dbName != null) {
 			properties.setProperty(MongoDBDriver.DBNAME_PROP, dbName);
+		}
 
-		if (userName != null)
+		if (userName != null) {
 			properties.setProperty(MongoDBDriver.USERNAME_PROP, userName);
+		}
 
-		if (password != null)
+		if (password != null) {
 			properties.setProperty(MongoDBDriver.PASSWORD_PROP, password);
+		}
 
 		if (dbURI != null) {
 			properties.setProperty(MongoDBDriver.MONGO_URI_PROP, dbURI);

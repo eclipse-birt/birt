@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008, 2009 IBM Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * IBM Corporation - initial API and implementation
@@ -28,9 +28,9 @@ import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
 
 /**
  * This class performs various SQL Bidi transformations.
- * 
+ *
  * @author Lina Kemmel
- * 
+ *
  */
 
 public abstract class BidiSQLTransform implements ISQLSyntax {
@@ -56,11 +56,12 @@ public abstract class BidiSQLTransform implements ISQLSyntax {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public int compare(ImplementedRule o1, ImplementedRule o2) {
-			return Integer.valueOf(o1.startOffset).compareTo(o2.startOffset);
+			return Integer.compare(o1.startOffset, o2.startOffset);
 		}
 	}
 
@@ -80,19 +81,22 @@ public abstract class BidiSQLTransform implements ISQLSyntax {
 			if (matcher.find(offset)) {
 				startOffset = matcher.start();
 				endOffset = matcher.end();
-			} else
+			} else {
 				startOffset = endOffset = Integer.MAX_VALUE;
+			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
+		@Override
 		public boolean equals(Object o) {
 			return o instanceof ImplementedRule && comparator.compare(this, (ImplementedRule) o) == 0;
 		}
 
+		@Override
 		public int hashCode() {
 			return this.action.hashCode() * 11 + startOffset + endOffset;
 		}
@@ -104,7 +108,7 @@ public abstract class BidiSQLTransform implements ISQLSyntax {
 
 	private static RuleComparator comparator = new RuleComparator();
 
-	private static final RuleData[] RULE_DATA = new RuleData[] { new RuleData("'.+?'", ACTION.TRANSFORM_LITERAL, 0), //$NON-NLS-1$
+	private static final RuleData[] RULE_DATA = { new RuleData("'.+?'", ACTION.TRANSFORM_LITERAL, 0), //$NON-NLS-1$
 			new RuleData("\"[^\"]+\"", ACTION.TRANSFORM_ID, 0), //$NON-NLS-1$
 			new RuleData("\\s+", ACTION.NONE, 0), //$NON-NLS-1$
 			new RuleData("//.*", ACTION.NONE, 0), //$NON-NLS-1$
@@ -122,7 +126,7 @@ public abstract class BidiSQLTransform implements ISQLSyntax {
 	/**
 	 * Merges all keywords to facilitate the search - lb(k1 + k2 + ... + kN) vs.
 	 * lb(k1) + lb(k2) + ... + lb(kN) at max
-	 * 
+	 *
 	 * @param keywords Variable-length arrays list to merge
 	 */
 	private static void mergeKeywords(String[]... keywords) {
@@ -145,8 +149,9 @@ public abstract class BidiSQLTransform implements ISQLSyntax {
 				}
 			}
 			Arrays.sort(ALL_KEYWORDS);
-		} else
+		} else {
 			ALL_KEYWORDS = new String[0];
+		}
 	}
 
 	private static boolean isKeyword(String word) {
@@ -154,39 +159,46 @@ public abstract class BidiSQLTransform implements ISQLSyntax {
 	}
 
 	private static List<ImplementedRule> initRules(String text) {
-		List<ImplementedRule> rules = new ArrayList<ImplementedRule>();
+		List<ImplementedRule> rules = new ArrayList<>();
 
 		for (int i = 0, n = RULE_DATA.length; i < n; i++) {
 			ImplementedRule rule = new ImplementedRule(text, RULE_DATA[i]);
-			if (rule.isValid(0))
+			if (rule.isValid(0)) {
 				rules.add(rule);
+			}
 		}
-		if (!rules.isEmpty())
+		if (!rules.isEmpty()) {
 			Collections.sort(rules, comparator);
+		}
 
 		return rules;
 	}
 
 	private static ImplementedRule getBestMatch(List<ImplementedRule> rules, String text, int offset) {
-		if (rules == null || rules.isEmpty())
+		if (rules == null || rules.isEmpty()) {
 			return null;
+		}
 
 		if (offset > 0) {
 			Iterator<ImplementedRule> it = rules.iterator();
 			while (it.hasNext()) {
 				ImplementedRule rule = it.next();
 
-				if (rule.startOffset < offset)
+				if (rule.startOffset < offset) {
 					rule.getNextToken(offset);
+				}
 
-				if (rule.startOffset == offset)
+				if (rule.startOffset == offset) {
 					return rule;
+				}
 
-				if (!rule.isValid(offset))
+				if (!rule.isValid(offset)) {
 					it.remove();
+				}
 			}
-			if (rules.isEmpty())
+			if (rules.isEmpty()) {
 				return null;
+			}
 
 			Collections.sort(rules, comparator);
 		}
@@ -196,13 +208,13 @@ public abstract class BidiSQLTransform implements ISQLSyntax {
 	/**
 	 * Performs transformation of the given SQL query from one Bidi format to
 	 * another.
-	 * 
+	 *
 	 * @param sql               The SQL query to format
 	 * @param inContentFormat   Input content Bidi format
 	 * @param outContentFormat  Input content Bidi format
 	 * @param inMetadataFormat  Input metadata Bidi format
 	 * @param outMetadataFormat Input metadata Bidi format
-	 * 
+	 *
 	 * @return Transformed query string
 	 */
 
@@ -215,20 +227,23 @@ public abstract class BidiSQLTransform implements ISQLSyntax {
 		}
 		int offset = 0;
 		int length = sql.length();
-		StringBuffer buf = new StringBuffer(length);
+		StringBuilder buf = new StringBuilder(length);
 
 		List<ImplementedRule> rules = initRules(sql);
 
-		if (rules.isEmpty())
+		if (rules.isEmpty()) {
 			return sql;
+		}
 
 		while (offset < length) {
 			ImplementedRule rule = getBestMatch(rules, sql, offset);
-			if (null == rule)
+			if (null == rule) {
 				break;
+			}
 
-			if (rule.startOffset > offset)
+			if (rule.startOffset > offset) {
 				buf.append(sql.substring(offset, rule.startOffset));
+			}
 
 			String token = sql.substring(rule.startOffset, rule.endOffset);
 
@@ -236,13 +251,15 @@ public abstract class BidiSQLTransform implements ISQLSyntax {
 				buf.append(BidiTransform.transform(token, inMetadataFormat, outMetadataFormat));
 			} else if (rule.action == ACTION.TRANSFORM_LITERAL) {
 				buf.append(BidiTransform.transform(token, inContentFormat, outContentFormat));
-			} else
+			} else {
 				buf.append(token);
+			}
 
 			offset = rule.endOffset;
 		}
-		if (offset < length)
+		if (offset < length) {
 			buf.append(sql.substring(offset, length));
+		}
 
 		return buf.toString();
 	}

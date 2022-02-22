@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,11 +26,11 @@ import org.eclipse.core.runtime.IConfigurationElement;
 /**
  * This class maintains information about a specific JDBC driver such as its
  * name, version, class etc. It cannot be instantiated directly.
- * 
+ *
  * call the {@link #getInstance(java.sql.Driver) getInstance} method to create
  * an instance
- * 
- * 
+ *
+ *
  * @version $Revision: 1.14.8.1 $ $Date: 2010/12/10 09:54:53 $
  */
 public final class JDBCDriverInformation {
@@ -41,7 +41,7 @@ public final class JDBCDriverInformation {
 	private String selectorId = null;
 	private String driverDisplayName = null;
 	private boolean hide = false;
-	private List<PropertyGroup> propertyGroup = new ArrayList<PropertyGroup>();
+	private List<PropertyGroup> propertyGroup = new ArrayList<>();
 
 	/**
 	 * Since factory methods are provided, it is recommended to make construction
@@ -184,8 +184,9 @@ public final class JDBCDriverInformation {
 	/*
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append(driverClassName);
 		if (majorVersion != 0 || minorVersion != 0) {
 			buffer.append(" (");
@@ -202,15 +203,17 @@ public final class JDBCDriverInformation {
 	 * version
 	 */
 	public String getDisplayString() {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append(driverClassName);
 		if (majorVersion != 0 || minorVersion != 0 || driverDisplayName != null) {
 			buffer.append(" (");
-			if (driverDisplayName != null)
+			if (driverDisplayName != null) {
 				buffer.append(driverDisplayName);
+			}
 			if (majorVersion != 0 || minorVersion != 0) {
-				if (driverDisplayName != null)
+				if (driverDisplayName != null) {
 					buffer.append(" ");
+				}
 				buffer.append("v");
 				buffer.append(majorVersion);
 				buffer.append(".");
@@ -223,8 +226,9 @@ public final class JDBCDriverInformation {
 
 	/**
 	 * Overwrite the equals() method
-	 * 
+	 *
 	 */
+	@Override
 	public boolean equals(Object anotherObj) {
 		if (this == anotherObj) {
 			return true;
@@ -242,8 +246,9 @@ public final class JDBCDriverInformation {
 
 	/**
 	 * Overwrite the hashCode() method
-	 * 
+	 *
 	 */
+	@Override
 	public int hashCode() {
 		int hashcode = 0;
 		if (this.driverClassName != null) {
@@ -279,7 +284,7 @@ public final class JDBCDriverInformation {
 			PropertyGroup group = new PropertyGroup(name, desc);
 			IConfigurationElement[] propertiesConfigurationElements = element
 					.getChildren(DriverInfoConstants.DRIVER_INFO_PROPERTY);
-			List<PropertyElement> list = new ArrayList<PropertyElement>();
+			List<PropertyElement> list = new ArrayList<>();
 			for (IConfigurationElement prElement : propertiesConfigurationElements) {
 				list.add(populateProperty(prElement));
 			}

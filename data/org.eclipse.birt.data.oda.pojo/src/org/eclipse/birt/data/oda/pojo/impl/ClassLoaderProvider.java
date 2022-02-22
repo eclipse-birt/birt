@@ -11,7 +11,7 @@
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -33,8 +33,9 @@ public class ClassLoaderProvider {
 	public static ClassLoaderProvider getInstance() {
 		if (sm_instance == null) {
 			synchronized (ClassLoaderProvider.class) {
-				if (sm_instance == null)
+				if (sm_instance == null) {
 					sm_instance = new ClassLoaderProvider();
+				}
 			}
 		}
 		return sm_instance;
@@ -44,8 +45,9 @@ public class ClassLoaderProvider {
 	 * Singleton instance release method.
 	 */
 	public static void releaseInstance() {
-		if (sm_instance == null)
+		if (sm_instance == null) {
 			return;
+		}
 
 		synchronized (ClassLoaderProvider.class) {
 			if (sm_instance != null) {

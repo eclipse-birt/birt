@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 	public static String[] BUILT_IN_SYMBOLS;
 
 	static {
-		java.util.List<String> list = new ArrayList<String>();
+		java.util.List<String> list = new ArrayList<>();
 		list.add(Messages.getString("FormatNumberPage.currency.symbol.none")); //$NON-NLS-1$
 		list.add("\u00A5"); //$NON-NLS-1$
 		list.add("$"); //$NON-NLS-1$
@@ -69,7 +69,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 	/**
 	 * Returns the default currency symbol position for given locale. Returns
 	 * <code>null</code> if no symbol needed by default.
-	 * 
+	 *
 	 * @param locale
 	 * @return
 	 */
@@ -98,7 +98,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 	/**
 	 * Returns the default number of fraction digits that should be displayed for
 	 * the default currency for given locale.
-	 * 
+	 *
 	 * @param locale
 	 * @return
 	 */
@@ -117,7 +117,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Returns the if symbol space is used by default for given locale.
-	 * 
+	 *
 	 * @param locale
 	 * @return
 	 */
@@ -157,7 +157,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param category Category name for currency number format pattern.
 	 */
 	public FormatCurrencyNumPattern(String category) {
@@ -167,13 +167,14 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
 	 * #getPattern()
 	 */
+	@Override
 	public String getPattern() {
 		String numStr = "###0"; //$NON-NLS-1$
-		String decStr = ""; //$NON-NLS-1$
+		String decStr; //$NON-NLS-1$
 
 		String positivePatt = numStr;
 
@@ -230,10 +231,11 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumGeneralPattern
 	 * #setPattern(java.lang.String)
 	 */
+	@Override
 	public void setPattern(String patternStr) {
 		String patt = valPattern(patternStr);
 
@@ -268,22 +270,22 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 		if (this.symbol.length() == 0) {
 			// TODO guess the symbol
 		}
-		return;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPattern
 	 * #getDefaultPatt()
 	 */
+	@Override
 	protected String getDefaultPatt() {
 		return DEFAULT_CURRENCY_PATTERN;
 	}
 
 	/**
 	 * Get decPlaces.
-	 * 
+	 *
 	 * @return Returns the decPlaces.
 	 */
 	public int getDecPlaces() {
@@ -292,7 +294,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Set decPaces
-	 * 
+	 *
 	 * @param decPlaces The decPlaces to set.
 	 */
 	public void setDecPlaces(int decPlaces) {
@@ -329,7 +331,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Get symbeol
-	 * 
+	 *
 	 * @return Returns the symbol.
 	 */
 	public String getSymbol() {
@@ -338,7 +340,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Set symbol
-	 * 
+	 *
 	 * @param symbol The symbol to set.
 	 */
 	public void setSymbol(String symbol) {
@@ -347,7 +349,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 
 	/**
 	 * get SysmPos
-	 * 
+	 *
 	 * @return Returns the symPos.
 	 */
 	public String getSymPos() {
@@ -356,7 +358,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern {
 
 	/**
 	 * Set symPos
-	 * 
+	 *
 	 * @param symPos The symPos to set.
 	 */
 	public void setSymPos(String symPos) {

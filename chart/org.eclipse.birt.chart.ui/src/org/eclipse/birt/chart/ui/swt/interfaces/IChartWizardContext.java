@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,13 +25,13 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 public interface IChartWizardContext<C extends IChartObject> extends IWizardContext {
 
 	/**
-	 * 
+	 *
 	 * @return the UIServiceProvider in context.
 	 */
 	IUIServiceProvider getUIServiceProvider();
 
 	/**
-	 * 
+	 *
 	 * @return the DataServiceProvider in context.
 	 */
 	IDataServiceProvider getDataServiceProvider();
@@ -42,7 +42,7 @@ public interface IChartWizardContext<C extends IChartObject> extends IWizardCont
 	IChartDataSheet getDataSheet();
 
 	/**
-	 * 
+	 *
 	 * @return the StyleProcessor
 	 */
 	IStyleProcessor getProcessor();
@@ -53,13 +53,13 @@ public interface IChartWizardContext<C extends IChartObject> extends IWizardCont
 	void setProcessor(IStyleProcessor processor);
 
 	/**
-	 * 
+	 *
 	 * @return ExtendedItem
 	 */
 	Object getExtendedItem();
 
 	/**
-	 * 
+	 *
 	 * @param extendedItem
 	 */
 	void setExtendedItem(Object extendedItem);
@@ -72,7 +72,7 @@ public interface IChartWizardContext<C extends IChartObject> extends IWizardCont
 	/**
 	 * Returns if the UI is enabled or not.The UI, including task, subtask or toggle
 	 * button, is identified by the exclusive id.
-	 * 
+	 *
 	 * @param id the exclusive id to identify the UI
 	 * @return the UI enabled state
 	 * @since 2.3

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
 /**
- *  
+ *
  */
 
 public class CSSUtilTest extends BaseTestCase {
@@ -60,7 +60,7 @@ public class CSSUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests get font size.
-	 * 
+	 *
 	 * This test case is not designed to test the actual numbers (i.e. font sizes)
 	 * Rather, this test case is designed to test the function that gets font sizes
 	 * such as getFontSize, getSmallerFontSize and getLargerFontSize. getFontSize
@@ -68,7 +68,7 @@ public class CSSUtilTest extends BaseTestCase {
 	 * getSmallerFontSize should return the size smaller by one except where you
 	 * reach bottom getLargerFontSize should return the size larger by one execpt
 	 * where you reach ceiling
-	 * 
+	 *
 	 */
 	public void testGetFontSize() {
 		DesignElementHandle handle = getReportDesignHandle();
@@ -159,13 +159,13 @@ public class CSSUtilTest extends BaseTestCase {
 	}
 
 	/**
-	 *  
+	 *
 	 */
 	public void testConvertTos() {
 		int baseSize = 10;
-		double pxValue = 0;
-		double inchValue = 0;
-		double ptValue = 0;
+		double pxValue;
+		double inchValue;
+		double ptValue;
 		double px, pt, in;
 
 		Object obj = null;
@@ -262,7 +262,7 @@ public class CSSUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests units conversion.
-	 * 
+	 *
 	 */
 	public void testUnitsConversion() {
 		DimensionValue dim1 = new DimensionValue(100, "in"); //$NON-NLS-1$

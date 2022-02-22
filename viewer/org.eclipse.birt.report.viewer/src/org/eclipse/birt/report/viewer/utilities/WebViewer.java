@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -232,7 +232,7 @@ public class WebViewer {
 	static {
 
 		// Initialize the locale mapping table
-		LOCALE_TABLE = new TreeMap<String, String>(Collator.getInstance());
+		LOCALE_TABLE = new TreeMap<>(Collator.getInstance());
 		Locale[] locales = Locale.getAvailableLocales();
 		if (locales != null) {
 			for (int i = 0; i < locales.length; i++) {
@@ -258,31 +258,37 @@ public class WebViewer {
 		}
 	}
 
-	private static Map<String, IWebAppInfo> apps = new LinkedHashMap<String, IWebAppInfo>();
+	private static Map<String, IWebAppInfo> apps = new LinkedHashMap<>();
 
 	static {
 		apps.put(ViewerPlugin.WEBAPP_CONTEXT, new IWebAppInfo() {
 
+			@Override
 			public String getID() {
 				return ViewerPlugin.PLUGIN_ID;
 			}
 
+			@Override
 			public String getName() {
 				return ViewerPlugin.WEBAPP_CONTEXT;
 			}
 
+			@Override
 			public String getWebAppContextPath() {
 				return ViewerPlugin.WEBAPP_CONTEXT_PATH;
 			}
 
+			@Override
 			public String getWebAppPath() {
 				return ViewerPlugin.WEBAPP_PATH;
 			}
 
+			@Override
 			public boolean useCustomParamHandling() {
 				return false;
 			}
 
+			@Override
 			public String getURIEncoding() {
 				/* default to utf-8 */
 				return null;
@@ -332,7 +338,7 @@ public class WebViewer {
 
 	/**
 	 * Get web viewer base url.
-	 * 
+	 *
 	 * @return base web viewer application url
 	 */
 	private static String getBaseURL(String webappName) {
@@ -350,15 +356,16 @@ public class WebViewer {
 
 	/**
 	 * Create web viewer url to run the report.
-	 * 
+	 *
 	 * @param report report file name
 	 * @param params report parameter map
 	 * @return valid web viewer url
 	 */
 
 	private static String createURL(String webappName, String report, Map params) {
-		if (params == null || params.isEmpty())
+		if (params == null || params.isEmpty()) {
 			return createURL(webappName, null, report, null, null, null, null, null);
+		}
 
 		String servletName = (String) params.get(SERVLET_NAME_KEY);
 		String format = (String) params.get(FORMAT_KEY);
@@ -381,12 +388,10 @@ public class WebViewer {
 		if (StringUtil.isBlank(servletName)) {
 			if (!HTML.equalsIgnoreCase(format)) {
 				servletName = VIEWER_PREVIEW;
+			} else if (allowPage == null) {
+				servletName = VIEWER_FRAMESET;
 			} else {
-				if (allowPage == null) {
-					servletName = VIEWER_FRAMESET;
-				} else {
-					servletName = allowPage.booleanValue() ? VIEWER_FRAMESET : VIEWER_PREVIEW;
-				}
+				servletName = allowPage.booleanValue() ? VIEWER_FRAMESET : VIEWER_PREVIEW;
 			}
 		}
 
@@ -457,7 +462,7 @@ public class WebViewer {
 
 	/**
 	 * Create web viewer url to run the report.
-	 * 
+	 *
 	 * @param servletName    servlet name to viewer report
 	 * @param report         report file name
 	 * @param format         report format
@@ -495,7 +500,7 @@ public class WebViewer {
 
 	private static String convertParams(Map<String, String> params) {
 		if (params != null && !params.isEmpty()) {
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 
 			for (Entry<String, String> entry : params.entrySet()) {
 				sb.append("&").append(entry.getKey()); //$NON-NLS-1$
@@ -523,17 +528,15 @@ public class WebViewer {
 
 		if (LOCALE_TABLE.containsKey(locale)) {
 			locale = LOCALE_TABLE.get(locale);
+		} else if ("".equals(locale)) //$NON-NLS-1$
+		{
+			locale = null;
 		} else {
-			if ("".equals(locale)) //$NON-NLS-1$
-			{
+			try {
+				locale = URLEncoder.encode(locale, UTF_8);
+			} catch (UnsupportedEncodingException e) {
 				locale = null;
-			} else {
-				try {
-					locale = URLEncoder.encode(locale, UTF_8);
-				} catch (UnsupportedEncodingException e) {
-					locale = null;
-					LogUtil.logWarning(e.getLocalizedMessage(), e);
-				}
+				LogUtil.logWarning(e.getLocalizedMessage(), e);
 			}
 		}
 
@@ -592,7 +595,7 @@ public class WebViewer {
 		// get the local DPI setting
 		int dpi = Toolkit.getDefaultToolkit().getScreenResolution();
 
-		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		LinkedHashMap<String, String> params = new LinkedHashMap<>();
 
 		if (format != null) {
 			params.put(ParameterAccessor.PARAM_FORMAT, format);
@@ -687,7 +690,7 @@ public class WebViewer {
 
 	/**
 	 * Initiate the tomcat.
-	 * 
+	 *
 	 */
 	public static void startup() {
 		checkAdapter();
@@ -701,11 +704,12 @@ public class WebViewer {
 
 	/**
 	 * Initiate the tomcat.
-	 * 
+	 *
 	 * @param browser SWT browser
-	 * 
+	 *
 	 * @deprecated use {@link #startup(String)}
 	 */
+	@Deprecated
 	public static void startup(Browser browser) {
 		checkAdapter();
 
@@ -733,7 +737,7 @@ public class WebViewer {
 
 	/**
 	 * Displays the specified url.
-	 * 
+	 *
 	 * @param report report report
 	 * @param format report format
 	 */
@@ -749,7 +753,7 @@ public class WebViewer {
 
 	/**
 	 * Displays the specified url.
-	 * 
+	 *
 	 * @param report
 	 * @param format
 	 * @param allowPage
@@ -761,8 +765,9 @@ public class WebViewer {
 	}
 
 	public static void display(String webappName, String report, String format, boolean allowPage) {
-		if (format == null || format.trim().length() <= 0 || HTM.equalsIgnoreCase(format))
+		if (format == null || format.trim().length() <= 0 || HTM.equalsIgnoreCase(format)) {
 			format = HTML;
+		}
 
 		String root = null;
 		if (!HTML.equalsIgnoreCase(format)) {
@@ -786,12 +791,13 @@ public class WebViewer {
 
 	/**
 	 * Displays the specified url useing eclipse SWT browser.
-	 * 
+	 *
 	 * @param report  report report
 	 * @param format  report format
 	 * @param browser SWT browser instance
 	 * @deprecated
 	 */
+	@Deprecated
 	public static void display(String report, String format, Browser browser) {
 		checkAdapter();
 
@@ -803,13 +809,14 @@ public class WebViewer {
 
 	/**
 	 * Displays the specified url using eclipse SWT browser.
-	 * 
+	 *
 	 * @param report      report report
 	 * @param format      report format
 	 * @param browser     SWT browser instance
 	 * @param servletName servlet name to viewer report
 	 * @deprecated
 	 */
+	@Deprecated
 	public static void display(String report, String format, Browser browser, String servletName) {
 		checkAdapter();
 
@@ -820,7 +827,7 @@ public class WebViewer {
 
 	/**
 	 * Displays the specified url using eclipse SWT browser.
-	 * 
+	 *
 	 * @param report  report report
 	 * @param browser SWT browser instance
 	 * @param params  the parameter map to set
@@ -839,7 +846,7 @@ public class WebViewer {
 
 	/**
 	 * Displays the specified url using eclipse SWT browser.
-	 * 
+	 *
 	 * @param report report report
 	 * @param params the parameter map to set
 	 */
@@ -867,13 +874,14 @@ public class WebViewer {
 
 	/**
 	 * Check whether the report is a document file.
-	 * 
+	 *
 	 * @param reportName
 	 * @return true or false
 	 */
 	private static boolean isReportDocument(String reportName) {
-		if (reportName == null)
+		if (reportName == null) {
 			return false;
+		}
 
 		// only need handle ".rptdocument" case
 		return reportName.toLowerCase().endsWith(".rptdocument"); //$NON-NLS-1$
@@ -881,7 +889,7 @@ public class WebViewer {
 
 	/**
 	 * Cancel the process
-	 * 
+	 *
 	 * @param browser
 	 */
 	public static void cancel(Browser browser) {
@@ -912,7 +920,7 @@ public class WebViewer {
 
 	/**
 	 * Returns the application classloader
-	 * 
+	 *
 	 * @return
 	 */
 	public static ClassLoader getAppClassLoader() {

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -46,7 +46,7 @@ public interface DialChart extends ChartWithoutAxes {
 	 * end-user-doc --> <!-- begin-model-doc --> The boolean attribute
 	 * "DialSuperimposition" specifies whether all dials are superimposed on one
 	 * another, or laid out in separate cells. <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Dial Superimposition</em>' attribute.
 	 * @see #isSetDialSuperimposition()
 	 * @see #unsetDialSuperimposition()
@@ -64,7 +64,7 @@ public interface DialChart extends ChartWithoutAxes {
 	 * '{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial
 	 * Superimposition</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Dial Superimposition</em>' attribute.
 	 * @see #isSetDialSuperimposition()
 	 * @see #unsetDialSuperimposition()
@@ -78,7 +78,7 @@ public interface DialChart extends ChartWithoutAxes {
 	 * '{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial
 	 * Superimposition</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetDialSuperimposition()
 	 * @see #isDialSuperimposition()
 	 * @see #setDialSuperimposition(boolean)
@@ -91,7 +91,7 @@ public interface DialChart extends ChartWithoutAxes {
 	 * '{@link org.eclipse.birt.chart.model.DialChart#isDialSuperimposition <em>Dial
 	 * Superimposition</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Dial Superimposition</em>' attribute is
 	 *         set.
 	 * @see #unsetDialSuperimposition()
@@ -104,6 +104,7 @@ public interface DialChart extends ChartWithoutAxes {
 	/**
 	 * @generated
 	 */
+	@Override
 	DialChart copyInstance();
 
 } // DialChart

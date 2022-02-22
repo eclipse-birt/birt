@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,13 +23,13 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.impl.document.NamingRelation;
 
 /**
- * 
+ *
  */
 
 public class NamingRelationUtil {
 
 	/**
-	 * 
+	 *
 	 * @param session
 	 * @param queryDefn
 	 * @param queryResults
@@ -38,8 +38,9 @@ public class NamingRelationUtil {
 		if (session == null || queryResults.getPreparedQuery() == null
 				|| queryResults.getPreparedQuery().getReportQueryDefn() == null
 				|| queryResults.getPreparedQuery().getReportQueryDefn().getBindings().size() == 0
-				|| queryDefn instanceof ISubqueryDefinition)
+				|| queryDefn instanceof ISubqueryDefinition) {
 			return;
+		}
 		String elementId = queryDefn.getName();
 		String bookmark = queryResults.getName();
 		String rsId = queryResults.getID();
@@ -85,7 +86,7 @@ public class NamingRelationUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param subMap
 	 * @return
 	 */

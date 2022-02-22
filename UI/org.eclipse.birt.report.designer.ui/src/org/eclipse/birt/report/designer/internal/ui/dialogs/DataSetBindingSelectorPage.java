@@ -34,6 +34,7 @@ public class DataSetBindingSelectorPage extends WizardPage {
 		this.setMessage(Messages.getString("DataSetBindingSelectorPage.Label.SelectBindingColumns")); //$NON-NLS-1$
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		Composite pageComp = new Composite(parent, SWT.NONE);
 		GridLayout pageCompLayout = new GridLayout();
@@ -54,13 +55,15 @@ public class DataSetBindingSelectorPage extends WizardPage {
 		setControl(pageComp);
 	}
 
+	@Override
 	public boolean isPageComplete() {
 		return true;
 	}
 
 	public Object getResult() {
-		if (selector != null)
+		if (selector != null) {
 			return selector.getResult();
+		}
 		return null;
 	}
 

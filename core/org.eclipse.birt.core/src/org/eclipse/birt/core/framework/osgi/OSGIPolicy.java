@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,23 +46,28 @@ public class OSGIPolicy extends Policy {
 			private static final long serialVersionUID = 3258131349494708277L;
 
 			// A simple PermissionCollection that only has AllPermission
+			@Override
 			public void add(Permission permission) {
 				// no adding to this policy
 			}
 
+			@Override
 			public boolean implies(Permission permission) {
 				return true;
 			}
 
+			@Override
 			public Enumeration elements() {
 				return new Enumeration() {
 
 					int cur = 0;
 
+					@Override
 					public boolean hasMoreElements() {
 						return cur < 1;
 					}
 
+					@Override
 					public Object nextElement() {
 						if (cur == 0) {
 							cur = 1;
@@ -75,27 +80,35 @@ public class OSGIPolicy extends Policy {
 		};
 	}
 
+	@Override
 	public PermissionCollection getPermissions(CodeSource codesource) {
-		if (contains(codesource.getLocation()))
+		if (contains(codesource.getLocation())) {
 			return allPermissions;
+		}
 		return policy == null ? allPermissions : policy.getPermissions(codesource);
 	}
 
+	@Override
 	public PermissionCollection getPermissions(ProtectionDomain domain) {
-		if (contains(domain.getCodeSource().getLocation()))
+		if (contains(domain.getCodeSource().getLocation())) {
 			return allPermissions;
+		}
 		return policy == null ? allPermissions : policy.getPermissions(domain);
 	}
 
+	@Override
 	public boolean implies(ProtectionDomain domain, Permission permission) {
-		if (contains(domain.getCodeSource().getLocation()))
+		if (contains(domain.getCodeSource().getLocation())) {
 			return true;
+		}
 		return policy == null ? true : policy.implies(domain, permission);
 	}
 
+	@Override
 	public void refresh() {
-		if (policy != null)
+		if (policy != null) {
 			policy.refresh();
+		}
 	}
 
 	private boolean contains(URL url) {
@@ -104,8 +117,9 @@ public class OSGIPolicy extends Policy {
 		for (int i = 0; i < urls.length; i++) {
 			// We do simple equals test here because we assume the URLs will be
 			// the same objects.
-			if (urls[i] == url)
+			if (urls[i] == url) {
 				return true;
+			}
 		}
 		return false;
 	}

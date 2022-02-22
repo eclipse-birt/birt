@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -84,8 +84,9 @@ public class RAStreamBufferMgr {
 
 	public void seek(long localPos) throws IOException {
 		long offset = (localPos / IOUtil.RA_STREAM_BUFFER_LENGTH) * IOUtil.RA_STREAM_BUFFER_LENGTH;
-		if (currentBuffer == null || currentBuffer.getOffset() != offset)
+		if (currentBuffer == null || currentBuffer.getOffset() != offset) {
 			currentBuffer = getBuffer(offset);
+		}
 		currentBuffer.setBufCur((int) (localPos - offset));
 		if (localPos > length) {
 			length = localPos;
@@ -108,7 +109,7 @@ public class RAStreamBufferMgr {
 
 	/**
 	 * Get next available buffer for the data from position offset.
-	 * 
+	 *
 	 * @param offset
 	 * @return
 	 * @throws IOException
@@ -118,8 +119,9 @@ public class RAStreamBufferMgr {
 		// return it.
 		Long offsetKey = new Long(offset);
 		RAStreamBuffer buffer = (RAStreamBuffer) bufferMap.get(offsetKey);
-		if (buffer != null)
+		if (buffer != null) {
 			return buffer;
+		}
 		// If not, and MAX_NUMBER_OF_STREAM_BUFFER has not been reached,
 		// allocate a new buffer for it.
 		if (totalBuffer < IOUtil.MAX_NUMBER_OF_STREAM_BUFFER) {

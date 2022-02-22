@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.core.Module;
  * number of activity records, possibly none. Commands are not directly undone
  * or redone; instead the activity records that implement the command are undone
  * and redone.
- * 
+ *
  */
 
 public abstract class Command {
@@ -46,7 +46,7 @@ public abstract class Command {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param module the module
 	 */
 
@@ -56,7 +56,7 @@ public abstract class Command {
 
 	/**
 	 * Returns the activity stack.
-	 * 
+	 *
 	 * @return the activity stack.
 	 */
 
@@ -66,7 +66,7 @@ public abstract class Command {
 
 	/**
 	 * Returns the module.
-	 * 
+	 *
 	 * @return the module.
 	 */
 
@@ -76,7 +76,7 @@ public abstract class Command {
 
 	/**
 	 * Returns the UI element that issued this command.
-	 * 
+	 *
 	 * @return the sender.
 	 */
 
@@ -86,7 +86,7 @@ public abstract class Command {
 
 	/**
 	 * Sets the optional UI hint for this command.
-	 * 
+	 *
 	 * @param hint The sender to set.
 	 */
 

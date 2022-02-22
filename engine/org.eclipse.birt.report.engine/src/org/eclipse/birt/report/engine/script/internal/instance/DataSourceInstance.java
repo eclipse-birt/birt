@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,10 +26,12 @@ public class DataSourceInstance implements IDataSourceInstance {
 		this.dataSource = dataSource;
 	}
 
+	@Override
 	public String getName() {
 		return dataSource.getName();
 	}
 
+	@Override
 	public String getExtensionID() {
 		return dataSource.getExtensionID();
 	}
@@ -37,6 +39,7 @@ public class DataSourceInstance implements IDataSourceInstance {
 	/**
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance#getAllExtensionProperties()
 	 */
+	@Override
 	public Map getAllExtensionProperties() {
 		return dataSource.getAllExtensionProperties();
 	}
@@ -44,6 +47,7 @@ public class DataSourceInstance implements IDataSourceInstance {
 	/**
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance#getExtensionProperty(java.lang.String)
 	 */
+	@Override
 	public String getExtensionProperty(String name) {
 		return dataSource.getExtensionProperty(name);
 	}
@@ -52,6 +56,7 @@ public class DataSourceInstance implements IDataSourceInstance {
 	 * @see org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance#setExtensionProperty(java.lang.String,
 	 *      java.lang.String)
 	 */
+	@Override
 	public void setExtensionProperty(String name, String value) {
 		dataSource.setExtensionProperty(name, value);
 	}

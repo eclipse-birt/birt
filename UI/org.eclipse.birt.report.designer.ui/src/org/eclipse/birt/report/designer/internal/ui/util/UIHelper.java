@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.util;
@@ -35,7 +35,7 @@ public final class UIHelper {
 	 * This method returns an URL for a resource given its plugin relative path. It
 	 * is intended to be used to abstract out the usage of the UI as a plugin or
 	 * standalone component when it comes to accessing resources.
-	 * 
+	 *
 	 * @param bundle              The target bundle
 	 * @param sPluginRelativePath The path to the resource relative to the plugin
 	 *                            location.
@@ -86,11 +86,11 @@ public final class UIHelper {
 
 	/**
 	 * This is a convenience method to get an imgIcon from a URL.
-	 * 
+	 *
 	 * @param bundle              The target bundle
 	 * @param sPluginRelativePath The URL for the imgIcon.
 	 * @return The imgIcon represented by the given URL.
-	 * 
+	 *
 	 * @see #setImageCached(boolean )
 	 */
 	public static Image getImage(Bundle bundle, String sPluginRelativePath) {
@@ -99,13 +99,13 @@ public final class UIHelper {
 
 	/**
 	 * This is a convenience method to get an imgIcon from a URL.
-	 * 
+	 *
 	 * @param bundle              The target bundle
 	 * @param sPluginRelativePath The URL for the imgIcon.
 	 * @param force               If True, still returns a dummy image if the path
 	 *                            cannot be loaded.
 	 * @return The imgIcon represented by the given URL.
-	 * 
+	 *
 	 * @see #setImageCached(boolean )
 	 */
 	public static Image getImage(Bundle bundle, String sPluginRelativePath, boolean force) {

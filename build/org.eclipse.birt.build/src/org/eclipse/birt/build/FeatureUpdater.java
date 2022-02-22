@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -56,26 +56,26 @@ import org.w3c.dom.NodeList;
  * For example:
  * <p>
  * feature.xml include a plugin described bellow:
- * 
+ *
  * <pre>
  *                                 &amp;ltplugin
  *                                    id=&quot;org.eclipse.birt.chart.ui&quot;
  *                                    version=&quot;0.0.0&quot;/&amp;gt
  * </pre>
- * 
+ *
  * <p>
  * From the ${eclipse.home}\plugin we find that new version of
  * "org.eclipse.birt.chart.ui" is "2.0.1.v200604290849". After execution the
  * feature.xml will be updated as:
- * 
+ *
  * <pre>
  *                                 &amp;ltplugin
  *                                    id=&quot;org.eclipse.birt.chart.ui&quot;
  *                                    version=&quot;2.0.1.v200604290849&quot;/&amp;gt
  * </pre>
- * 
+ *
  * @author Rock Yu
- * 
+ *
  */
 
 public class FeatureUpdater extends Task {
@@ -109,7 +109,7 @@ public class FeatureUpdater extends Task {
 	/**
 	 * Set the directory of the feature project, "feature.xml" should be put under
 	 * the directory.
-	 * 
+	 *
 	 * @param featureDir
 	 */
 
@@ -125,7 +125,7 @@ public class FeatureUpdater extends Task {
 	/**
 	 * Set the plugin directory, this task will update the plugin version in the
 	 * feature.xml against the plugins under the "pluginDir".
-	 * 
+	 *
 	 * @param pluginDir
 	 */
 
@@ -135,7 +135,7 @@ public class FeatureUpdater extends Task {
 
 	/**
 	 * Set the timestamp, feature.xml will be updated with the given time stamp.
-	 * 
+	 *
 	 * @param timeStamp
 	 */
 
@@ -145,16 +145,19 @@ public class FeatureUpdater extends Task {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.tools.ant.Task#execute()
 	 */
 
+	@Override
 	public void execute() throws BuildException {
-		if (featureDir == null)
+		if (featureDir == null) {
 			throw new BuildException("Specify the manatory \"dir\" attribute."); //$NON-NLS-1$
+		}
 
-		if (this.pluginDir == null)
+		if (this.pluginDir == null) {
 			throw new BuildException("Specify the manatory \"pluginDir\" attribute."); //$NON-NLS-1$
+		}
 
 		if (!featureXML.exists()) {
 			throw new BuildException("Missing \"feature.xml\" under " + featureDir.getAbsolutePath()); //$NON-NLS-1$
@@ -178,7 +181,7 @@ public class FeatureUpdater extends Task {
 	 * Parse the feature xml, collect the plugin ids in the feature.xml, this method
 	 * will store the plugin ids in a list <code>pluginsInFeature</code>, plugin
 	 * that matches is tagged with <plugin> or <includes> .
-	 * 
+	 *
 	 * @param feature feature file.
 	 */
 
@@ -205,19 +208,22 @@ public class FeatureUpdater extends Task {
 			handleOutput("Wrong feature.xml files, not feature tag or more than one feature tag includes."); //$NON-NLS-1$
 		}
 
-		if (features == null)
+		if (features == null) {
 			return;
+		}
 
 		Node featureNode = features.item(0); // get the first node.
 
 		NodeList pluginNodes = featureNode.getOwnerDocument().getElementsByTagName("plugin"); //$NON-NLS-1$
 		NodeList includesNodes = featureNode.getOwnerDocument().getElementsByTagName("includes"); //$NON-NLS-1$
 
-		for (int j = 0; j < pluginNodes.getLength(); j++)
+		for (int j = 0; j < pluginNodes.getLength(); j++) {
 			matchingNodes.add(pluginNodes.item(j));
+		}
 
-		for (int j = 0; j < includesNodes.getLength(); j++)
+		for (int j = 0; j < includesNodes.getLength(); j++) {
 			matchingNodes.add(includesNodes.item(j));
+		}
 
 		for (int j = 0, pluginCounter = 0, includesCounter = 0; j < matchingNodes.size(); j++) {
 			Node node = (Node) matchingNodes.get(j);
@@ -265,7 +271,7 @@ public class FeatureUpdater extends Task {
 	/**
 	 * Go over the plugin list in the feature.xml, build a map that maps plugin id
 	 * to its new version number.
-	 * 
+	 *
 	 */
 
 	private void buildVersions() {
@@ -273,6 +279,7 @@ public class FeatureUpdater extends Task {
 
 		File[] pluginDirs = this.pluginDir.listFiles(new FileFilter() {
 
+			@Override
 			public boolean accept(File pathname) {
 				return pathname.isDirectory();
 			}
@@ -283,8 +290,9 @@ public class FeatureUpdater extends Task {
 
 		Map pluginIdToFile = new HashMap();
 
-		for (int i = 0; i < pluginDirs.length; i++)
+		for (int i = 0; i < pluginDirs.length; i++) {
 			pluginIdToFile.put(pluginDirs[i].getName(), pluginDirs[i]);
+		}
 
 		// for each plugin node in feature.xml, we locate the plugin directory
 		// and retrieve its plugin version.
@@ -303,9 +311,10 @@ public class FeatureUpdater extends Task {
 			}
 
 			String newVersion = BuildUtil.getPluginVersion(pluginDir);
-			if (StringUtil.isBlank(newVersion))
+			if (StringUtil.isBlank(newVersion)) {
 				throw new BuildException("We can not identify the plugin version for plugin \"" //$NON-NLS-1$
 						+ pluginDir.getAbsolutePath() + "\""); //$NON-NLS-1$
+			}
 
 			this.versionMap.put(id, newVersion);
 		}
@@ -353,7 +362,7 @@ public class FeatureUpdater extends Task {
 			int include_start = pluginMatcher.start();
 
 			boolean endXML = xmlEndingMatcher.find(include_end);
-			assert endXML == true;
+			assert endXML;
 			int endXML_pos = xmlEndingMatcher.start();
 
 			if (!idMatcher.find(include_start)) {
@@ -420,7 +429,7 @@ public class FeatureUpdater extends Task {
 
 	/**
 	 * Sanity check after the updation is finished. For debug purpose.
-	 * 
+	 *
 	 */
 
 	private void sanityCheck() {
@@ -443,18 +452,21 @@ public class FeatureUpdater extends Task {
 			return;
 		}
 
-		if (features == null)
+		if (features == null) {
 			return;
+		}
 
 		Node featureNode = features.item(0); // get the first node.
 
 		NodeList pluginsNodes = featureNode.getOwnerDocument().getElementsByTagName("plugin"); //$NON-NLS-1$
 		NodeList includesNodes = featureNode.getOwnerDocument().getElementsByTagName("includes"); //$NON-NLS-1$
 
-		for (int j = 0; j < pluginsNodes.getLength(); j++)
+		for (int j = 0; j < pluginsNodes.getLength(); j++) {
 			matchingNodes.add(pluginsNodes.item(j));
-		for (int j = 0; j < includesNodes.getLength(); j++)
+		}
+		for (int j = 0; j < includesNodes.getLength(); j++) {
 			matchingNodesIncludes.add(includesNodes.item(j));
+		}
 
 		boolean success = true;
 		final String DOTS = ".................."; //$NON-NLS-1$
@@ -478,10 +490,11 @@ public class FeatureUpdater extends Task {
 			}
 		}
 
-		if (success)
+		if (success) {
 			handleOutput("Sanity check for plugins........ all success.");
-		else
+		} else {
 			handleErrorOutput("Sanity check for plugins ........ has failure in: " + errorids);
+		}
 
 		for (int j = 0; j < matchingNodesIncludes.size(); j++) {
 			Node pluginNode2 = (Node) matchingNodesIncludes.get(j);
@@ -503,10 +516,11 @@ public class FeatureUpdater extends Task {
 			}
 		}
 
-		if (success)
+		if (success) {
 			handleOutput("Sanity check for includes features........ all success.");
-		else
+		} else {
 			handleErrorOutput("Sanity check for included features ........ has failure in: " + errorids);
+		}
 
 		handleOutput("End of sanity check [" + this.featureXML.getAbsolutePath() + "]\n");
 

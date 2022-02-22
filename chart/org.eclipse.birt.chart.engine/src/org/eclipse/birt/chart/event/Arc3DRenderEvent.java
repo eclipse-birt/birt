@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,7 +36,7 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent {
 
 	/**
 	 * Sets the 3D top-left location of the arc bounds.
-	 * 
+	 *
 	 * @param loc
 	 */
 	public void setTopLeft3D(Location3D loc) {
@@ -52,9 +52,10 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
+	@Override
 	public PrimitiveRenderEvent copy() {
 		Arc3DRenderEvent are = new Arc3DRenderEvent(source);
 
@@ -83,18 +84,20 @@ public class Arc3DRenderEvent extends ArcRenderEvent implements I3DRenderEvent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#getObject3D()
 	 */
+	@Override
 	public Object3D getObject3D() {
 		return object3D;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.event.I3DRenderEvent#prepare2D(double, double)
 	 */
+	@Override
 	public void prepare2D(double xOffset, double yOffset) {
 		Location[] points = object3D.getPoints2D(xOffset, yOffset);
 		setTopLeft(points[0]);

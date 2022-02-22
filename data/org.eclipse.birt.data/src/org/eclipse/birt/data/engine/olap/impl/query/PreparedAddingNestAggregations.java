@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
@@ -62,13 +63,14 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation {
 		this.cubeOperation = cubeOperation;
 	}
 
+	@Override
 	public void prepare(Scriptable scope, ScriptContext cx, AggregationRegisterTable manager, IBinding[] basedBindings,
 			ICubeQueryDefinition cubeQueryDefn) throws DataException {
 		aggrDefns = OlapExpressionUtil.getAggrDefnsByNestBinding(Arrays.asList(cubeOperation.getNewBindings()),
 				basedBindings);
 		newMembers = CubeQueryDefinitionUtil.addCalculatedMembers(aggrDefns, manager, scope, cx);
 
-		ads = new ArrayList<AggregationDefinition>();
+		ads = new ArrayList<>();
 		for (int i = 0; i < aggrDefns.length; i++) {
 			AggregationDefinition[] aggrs = CubeQueryDefinitionUtil
 					.createAggregationDefinitons(new CalculatedMember[] { newMembers[i] }, cubeQueryDefn, scope, cx);
@@ -83,11 +85,12 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation {
 		this.ads = aggregationList;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public IAggregationResultSet[] execute(ICubeQueryDefinition cubeQueryDefn, IAggregationResultSet[] sources,
 			IBindingValueFetcher fetcher, Scriptable scope, ScriptContext cx, StopSign stopSign)
 			throws IOException, BirtException {
-		List<IAggregationResultSet> currentSources = new ArrayList<IAggregationResultSet>(Arrays.asList(sources));
+		List<IAggregationResultSet> currentSources = new ArrayList<>(Arrays.asList(sources));
 		int index = 0;
 		for (CubeNestAggrDefn cnaf : aggrDefns) {
 			if (stopSign.isStopped()) {
@@ -121,10 +124,10 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation {
 			if (!matchedAggrOns || newArs == null) {
 				DimLevel[] targetDimLevels = null;
 				for (int i = 0; i < referencedBindings.size(); i++) {
-					if (targetDimLevels == null)
+					if (targetDimLevels == null) {
 						targetDimLevels = CubeQueryDefinitionUtil.getAggregationLevels(referencedBindings.get(i),
 								cubeQueryDefn);
-					else {
+					} else {
 						DimLevel[] candiateDimLevel = CubeQueryDefinitionUtil
 								.getAggregationLevels(referencedBindings.get(i), cubeQueryDefn);
 						if (!Arrays.deepEquals(targetDimLevels, candiateDimLevel)) {
@@ -135,8 +138,9 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation {
 
 				for (int i = 0; i < sources.length && !stopSign.isStopped(); i++) {
 					IAggregationResultSet ars = sources[i];
-					if (ars.getAggregationCount() == 0)
+					if (ars.getAggregationCount() == 0) {
 						continue;
+					}
 					if (fetcher != null && Arrays.deepEquals(targetDimLevels, ars.getAllLevels())) {
 						IAggregationResultSet based = new AggregationResultSetWithOneMoreBindingFetcher(ars,
 								cnaf.getName(), cnaf.getBasedExpression(), fetcher, scope, cx);
@@ -178,14 +182,17 @@ public class PreparedAddingNestAggregations implements IPreparedCubeOperation {
 		return currentSources.toArray(new IAggregationResultSet[0]);
 	}
 
+	@Override
 	public ICubeOperation getCubeOperation() {
 		return cubeOperation;
 	}
 
+	@Override
 	public List<AggregationDefinition> getAggregationDefintions() {
 		return this.ads;
 	}
 
+	@Override
 	public CubeAggrDefn[] getNewCubeAggrDefns() {
 		return aggrDefns;
 	}

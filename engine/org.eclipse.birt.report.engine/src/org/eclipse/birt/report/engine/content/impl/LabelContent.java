@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,6 +40,7 @@ public class LabelContent extends TextContent implements ILabelContent {
 		this.labelText = originalLabel.labelText;
 	}
 
+	@Override
 	public int getContentType() {
 		return LABEL_CONTENT;
 	}
@@ -52,10 +53,12 @@ public class LabelContent extends TextContent implements ILabelContent {
 		super(content);
 	}
 
+	@Override
 	public void setHelpText(String helpText) {
 		this.helpText = helpText;
 	}
 
+	@Override
 	public String getHelpText() {
 		if (helpText == null) {
 			if (generateBy instanceof LabelItemDesign) {
@@ -69,6 +72,7 @@ public class LabelContent extends TextContent implements ILabelContent {
 		this.helpTextKey = helpKey;
 	}
 
+	@Override
 	public String getHelpKey() {
 		if (helpTextKey == null) {
 			if (generateBy instanceof LabelItemDesign) {
@@ -78,10 +82,12 @@ public class LabelContent extends TextContent implements ILabelContent {
 		return helpTextKey;
 	}
 
+	@Override
 	public void setLabelText(String labelText) {
 		this.labelText = labelText;
 	}
 
+	@Override
 	public String getLabelText() {
 		if (labelText == null) {
 			if (generateBy instanceof LabelItemDesign) {
@@ -91,10 +97,12 @@ public class LabelContent extends TextContent implements ILabelContent {
 		return labelText;
 	}
 
+	@Override
 	public void setLabelKey(String labelKey) {
 		this.labelTextKey = labelKey;
 	}
 
+	@Override
 	public String getLabelKey() {
 		if (labelTextKey == null) {
 			if (generateBy instanceof LabelItemDesign) {
@@ -106,10 +114,11 @@ public class LabelContent extends TextContent implements ILabelContent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.
 	 * eclipse.birt.report.engine.content.IContentVisitor)
 	 */
+	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitLabel(this, value);
 	}
@@ -118,6 +127,7 @@ public class LabelContent extends TextContent implements ILabelContent {
 	static final protected short FIELD_LABELTEXT = 601;
 	static final protected short FIELD_LABELTEXTKEY = 602;
 
+	@Override
 	protected void writeFields(DataOutputStream out) throws IOException {
 		super.writeFields(out);
 		if (helpTextKey != null) {
@@ -134,11 +144,9 @@ public class LabelContent extends TextContent implements ILabelContent {
 		}
 	}
 
+	@Override
 	public boolean needSave() {
-		if (helpTextKey != null) {
-			return true;
-		}
-		if (labelText != null ||
+		if ((helpTextKey != null) || labelText != null ||
 
 				labelTextKey != null) {
 			return true;
@@ -146,6 +154,7 @@ public class LabelContent extends TextContent implements ILabelContent {
 		return super.needSave();
 	}
 
+	@Override
 	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
 		switch (filedId) {
 		case FIELD_HELPTEXTKEY:
@@ -162,6 +171,7 @@ public class LabelContent extends TextContent implements ILabelContent {
 		}
 	}
 
+	@Override
 	protected IContent cloneContent() {
 		return new LabelContent(this);
 	}

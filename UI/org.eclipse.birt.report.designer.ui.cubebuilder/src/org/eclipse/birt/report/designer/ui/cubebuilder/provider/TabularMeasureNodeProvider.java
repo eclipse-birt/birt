@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Deals with dataset node
- * 
+ *
  */
 public class TabularMeasureNodeProvider extends DefaultNodeProvider {
 
@@ -52,10 +52,11 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider {
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the menu.
-	 * 
+	 *
 	 * @param menu   the menu
 	 * @param object the object
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		super.createContextMenu(sourceViewer, object, menu);
 
@@ -74,11 +75,13 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider {
 		}
 	}
 
+	@Override
 	public Object getParent(Object model) {
 		MeasureHandle measure = (MeasureHandle) model;
 		return measure.getContainer();
 	}
 
+	@Override
 	public String getNodeDisplayName(Object model) {
 		MeasureHandle handle = (MeasureHandle) model;
 		if (handle.getDisplayNameKey() != null) {
@@ -96,20 +99,22 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
 	 * #hasChildren(java.lang.Object)
 	 */
+	@Override
 	public boolean hasChildren(Object object) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
+	@Override
 	protected boolean performEdit(ReportElementHandle handle) {
 		MeasureHandle measureHandle = (MeasureHandle) handle;
 		CubeBuilder dialog = new CubeBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
@@ -118,10 +123,12 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider {
 		return dialog.open() == Dialog.OK;
 	}
 
+	@Override
 	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_DATA_COLUMN;
 	}
 
+	@Override
 	public Image getNodeIcon(Object model) {
 		if (model instanceof DesignElementHandle && ((DesignElementHandle) model).getSemanticErrors().size() > 0) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);

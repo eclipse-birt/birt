@@ -19,10 +19,11 @@ import org.eclipse.ui.editors.text.TextEditorActionContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 /**
- * 
+ *
  */
 
 public class XMLEditorActionContributor extends TextEditorActionContributor {
+	@Override
 	public void setActiveEditor(IEditorPart part) {
 		if (part.getAdapter(ITextEditor.class) != null) {
 			super.setActiveEditor((ITextEditor) part.getAdapter(ITextEditor.class));

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -57,7 +57,7 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param parentShell
 	 */
 	public CursorImageDialog(Shell parentShell, Cursor cursor) {
@@ -66,6 +66,7 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener {
 		setHelpAvailable(false);
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		Control ct = super.createContents(parent);
 //		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_COLOR_IMAGE );
@@ -75,11 +76,12 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite topCompostie = (Composite) super.createDialogArea(parent);
 		Composite composite = new Composite(topCompostie, SWT.NONE);
@@ -116,12 +118,14 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener {
 		txtUriEditor.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		txtUriEditor.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				updateButtons();
 			}
 		});
 		txtUriEditor.addFocusListener(new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				preview(removeQuote(txtUriEditor.getText()));
 			}
@@ -149,10 +153,11 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 
+	@Override
 	protected void okPressed() {
 		if (cursor.getImage().size() > 0) {
 			cursor.getImage().clear();
@@ -193,7 +198,7 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener {
 
 	/**
 	 * Remove the quote if the string enclosed width quote .
-	 * 
+	 *
 	 * @param string
 	 * @return string
 	 */
@@ -214,11 +219,13 @@ public class CursorImageDialog extends TrayDialog implements SelectionListener {
 		}
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		Object source = e.getSource();
 		if (source == btnPreview) {

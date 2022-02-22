@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.data.oda.pojo.api.Constants;
 import org.eclipse.birt.data.oda.pojo.ui.i18n.Messages;
 
 /**
- * 
+ *
  */
 
 public enum OdaType {
@@ -40,7 +40,7 @@ public enum OdaType {
 	private String name;
 	private String displayName;
 
-	private static Map<String, OdaType> nameInstanceMap = new HashMap<String, OdaType>();
+	private static Map<String, OdaType> nameInstanceMap = new HashMap<>();
 	static {
 		for (OdaType ot : OdaType.values()) {
 			nameInstanceMap.put(ot.getName(), ot);
@@ -49,7 +49,7 @@ public enum OdaType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Enum#toString()
 	 */
 	@Override
@@ -57,7 +57,7 @@ public enum OdaType {
 		return getDisplayName();
 	}
 
-	private OdaType(String name, String displayName) {
+	OdaType(String name, String displayName) {
 		this.name = name;
 		this.displayName = displayName;
 	}
@@ -77,6 +77,7 @@ public enum OdaType {
 	public static class OdaTypeComparator implements Comparator<OdaType>, Serializable {
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public int compare(OdaType o1, OdaType o2) {
 			return o1.getDisplayName().compareTo(o2.getDisplayName());
 		}

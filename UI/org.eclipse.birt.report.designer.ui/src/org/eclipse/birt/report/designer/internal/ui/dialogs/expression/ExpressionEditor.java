@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * 
+ *
  */
 
 public class ExpressionEditor extends BaseDialog {
@@ -65,6 +65,7 @@ public class ExpressionEditor extends BaseDialog {
 		this.expression = expression;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -82,6 +83,7 @@ public class ExpressionEditor extends BaseDialog {
 		exprText.setLayoutData(gd);
 		exprText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				checkStatus();
 			}
@@ -101,7 +103,7 @@ public class ExpressionEditor extends BaseDialog {
 	/**
 	 * Update the dialog's status line to reflect the given status. It is safe to
 	 * call this method before the dialog has been opened.
-	 * 
+	 *
 	 * @param status
 	 */
 	protected void updateStatus(IStatus status) {
@@ -116,13 +118,13 @@ public class ExpressionEditor extends BaseDialog {
 			IStatus status = new StatusInfo(ReportPlugin.REPORT_UI, IStatus.ERROR,
 					Messages.getString("ExpressionEditor.Error.EmptyExpression")); //$NON-NLS-1$
 			updateStatus(status);
-			return;
 		} else {
 			IStatus status = new StatusInfo(ReportPlugin.REPORT_UI);
 			updateStatus(status);
 		}
 	}
 
+	@Override
 	protected Control createButtonBar(Composite parent) {
 		Font font = parent.getFont();
 		Composite composite = new Composite(parent, SWT.NULL);
@@ -151,7 +153,7 @@ public class ExpressionEditor extends BaseDialog {
 	/**
 	 * Update the status of the ok button to reflect the given status. Subclasses
 	 * may override this method to update additional buttons.
-	 * 
+	 *
 	 * @param status
 	 */
 	protected void updateButtonsEnableState(IStatus status) {
@@ -161,6 +163,7 @@ public class ExpressionEditor extends BaseDialog {
 		}
 	}
 
+	@Override
 	public void okPressed() {
 		this.expression = ExpressionButtonUtil.getExpression(exprText);
 		super.okPressed();

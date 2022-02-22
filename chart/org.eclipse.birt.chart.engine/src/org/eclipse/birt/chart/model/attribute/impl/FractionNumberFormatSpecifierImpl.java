@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -60,7 +60,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The default value of the '{@link #isPrecise() <em>Precise</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isPrecise()
 	 * @generated
 	 * @ordered
@@ -70,7 +70,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The cached value of the '{@link #isPrecise() <em>Precise</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isPrecise()
 	 * @generated
 	 * @ordered
@@ -80,7 +80,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * This is true if the Precise attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -89,7 +89,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The default value of the '{@link #getFractionDigits() <em>Fraction
 	 * Digits</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getFractionDigits()
 	 * @generated
 	 * @ordered
@@ -99,7 +99,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The cached value of the '{@link #getFractionDigits() <em>Fraction
 	 * Digits</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getFractionDigits()
 	 * @generated
 	 * @ordered
@@ -109,7 +109,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * This is true if the Fraction Digits attribute has been set. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -118,7 +118,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The default value of the '{@link #getNumerator() <em>Numerator</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getNumerator()
 	 * @generated
 	 * @ordered
@@ -128,7 +128,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The cached value of the '{@link #getNumerator() <em>Numerator</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getNumerator()
 	 * @generated
 	 * @ordered
@@ -138,7 +138,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * This is true if the Numerator attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -147,7 +147,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The default value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -157,7 +157,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The cached value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getPrefix()
 	 * @generated
 	 * @ordered
@@ -167,7 +167,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The default value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -177,7 +177,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The cached value of the '{@link #getSuffix() <em>Suffix</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getSuffix()
 	 * @generated
 	 * @ordered
@@ -187,7 +187,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The default value of the '{@link #getDelimiter() <em>Delimiter</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getDelimiter()
 	 * @generated
 	 * @ordered
@@ -197,7 +197,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * The cached value of the '{@link #getDelimiter() <em>Delimiter</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getDelimiter()
 	 * @generated
 	 * @ordered
@@ -207,7 +207,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * This is true if the Delimiter attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 * @ordered
 	 */
@@ -215,7 +215,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected FractionNumberFormatSpecifierImpl() {
@@ -224,7 +224,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -234,250 +234,280 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isPrecise() {
 		return precise;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setPrecise(boolean newPrecise) {
 		boolean oldPrecise = precise;
 		precise = newPrecise;
 		boolean oldPreciseESet = preciseESet;
 		preciseESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__PRECISE, oldPrecise, precise, !oldPreciseESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetPrecise() {
 		boolean oldPrecise = precise;
 		boolean oldPreciseESet = preciseESet;
 		precise = PRECISE_EDEFAULT;
 		preciseESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__PRECISE, oldPrecise, PRECISE_EDEFAULT,
 					oldPreciseESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetPrecise() {
 		return preciseESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getFractionDigits() {
 		return fractionDigits;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setFractionDigits(int newFractionDigits) {
 		int oldFractionDigits = fractionDigits;
 		fractionDigits = newFractionDigits;
 		boolean oldFractionDigitsESet = fractionDigitsESet;
 		fractionDigitsESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS, oldFractionDigits,
 					fractionDigits, !oldFractionDigitsESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetFractionDigits() {
 		int oldFractionDigits = fractionDigits;
 		boolean oldFractionDigitsESet = fractionDigitsESet;
 		fractionDigits = FRACTION_DIGITS_EDEFAULT;
 		fractionDigitsESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__FRACTION_DIGITS, oldFractionDigits,
 					FRACTION_DIGITS_EDEFAULT, oldFractionDigitsESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetFractionDigits() {
 		return fractionDigitsESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public double getNumerator() {
 		return numerator;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setNumerator(double newNumerator) {
 		double oldNumerator = numerator;
 		numerator = newNumerator;
 		boolean oldNumeratorESet = numeratorESet;
 		numeratorESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__NUMERATOR, oldNumerator, numerator,
 					!oldNumeratorESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetNumerator() {
 		double oldNumerator = numerator;
 		boolean oldNumeratorESet = numeratorESet;
 		numerator = NUMERATOR_EDEFAULT;
 		numeratorESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__NUMERATOR, oldNumerator, NUMERATOR_EDEFAULT,
 					oldNumeratorESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetNumerator() {
 		return numeratorESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getPrefix() {
 		return prefix;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setPrefix(String newPrefix) {
 		String oldPrefix = prefix;
 		prefix = newPrefix;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__PREFIX, oldPrefix, prefix));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getSuffix() {
 		return suffix;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setSuffix(String newSuffix) {
 		String oldSuffix = suffix;
 		suffix = newSuffix;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__SUFFIX, oldSuffix, suffix));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getDelimiter() {
 		return delimiter;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setDelimiter(String newDelimiter) {
 		String oldDelimiter = delimiter;
 		delimiter = newDelimiter;
 		boolean oldDelimiterESet = delimiterESet;
 		delimiterESet = true;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__DELIMITER, oldDelimiter, delimiter,
 					!oldDelimiterESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void unsetDelimiter() {
 		String oldDelimiter = delimiter;
 		boolean oldDelimiterESet = delimiterESet;
 		delimiter = DELIMITER_EDEFAULT;
 		delimiterESet = false;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					AttributePackage.FRACTION_NUMBER_FORMAT_SPECIFIER__DELIMITER, oldDelimiter, DELIMITER_EDEFAULT,
 					oldDelimiterESet));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public boolean isSetDelimiter() {
 		return delimiterESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -501,7 +531,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -531,7 +561,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -561,7 +591,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -585,39 +615,44 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (precise: "); //$NON-NLS-1$
-		if (preciseESet)
+		if (preciseESet) {
 			result.append(precise);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", fractionDigits: "); //$NON-NLS-1$
-		if (fractionDigitsESet)
+		if (fractionDigitsESet) {
 			result.append(fractionDigits);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", numerator: "); //$NON-NLS-1$
-		if (numeratorESet)
+		if (numeratorESet) {
 			result.append(numerator);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(", prefix: "); //$NON-NLS-1$
 		result.append(prefix);
 		result.append(", suffix: "); //$NON-NLS-1$
 		result.append(suffix);
 		result.append(", delimiter: "); //$NON-NLS-1$
-		if (delimiterESet)
+		if (delimiterESet) {
 			result.append(delimiter);
-		else
+		} else {
 			result.append("<unset>"); //$NON-NLS-1$
+		}
 		result.append(')');
 		return result.toString();
 	}
@@ -625,9 +660,9 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * A convenience methods provided to create an initialized NumberFormatSpecifier
 	 * instance
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @return this instance
 	 */
 	public static FractionNumberFormatSpecifier create() {
@@ -637,11 +672,13 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		return nfs;
 	}
 
+	@Override
 	@SuppressWarnings("deprecation")
 	public String format(double dValue, Locale lo) {
 		return format(dValue, ULocale.forLocale(lo));
 	}
 
+	@Override
 	public String format(double dValue, ULocale lo) {
 		// Convert the decimal value to the fraction
 		Fraction fraction = null;
@@ -656,7 +693,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 		}
 
 		// Generate the formatted string
-		final StringBuffer sb = new StringBuffer();
+		final StringBuilder sb = new StringBuilder();
 		if (getPrefix() != null) {
 			sb.append(getPrefix());
 		}
@@ -670,6 +707,7 @@ public class FractionNumberFormatSpecifierImpl extends FormatSpecifierImpl imple
 	/**
 	 * @generated
 	 */
+	@Override
 	public FractionNumberFormatSpecifier copyInstance() {
 		FractionNumberFormatSpecifierImpl dest = new FractionNumberFormatSpecifierImpl();
 		dest.set(this);

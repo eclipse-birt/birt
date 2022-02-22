@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -62,7 +62,7 @@ public class EmitterInfo {
 
 	/**
 	 * Get the namespace of the emitter.
-	 * 
+	 *
 	 * @return namespace of the emitter
 	 */
 	public String getNamespace() {
@@ -71,7 +71,7 @@ public class EmitterInfo {
 
 	/**
 	 * Get the icon of the emitter.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getIcon() {
@@ -80,7 +80,7 @@ public class EmitterInfo {
 
 	/**
 	 * Get the format of the emitter.
-	 * 
+	 *
 	 * @return format of the emitter
 	 */
 	public String getFormat() {
@@ -89,7 +89,7 @@ public class EmitterInfo {
 
 	/**
 	 * Get the id of the emitter.
-	 * 
+	 *
 	 * @return id of the emitter
 	 */
 	public String getID() {
@@ -98,7 +98,7 @@ public class EmitterInfo {
 
 	/**
 	 * Get the emitter instance of the emitter.
-	 * 
+	 *
 	 * @return emitter instance
 	 */
 	public IConfigurationElement getEmitter() {
@@ -107,7 +107,7 @@ public class EmitterInfo {
 
 	/**
 	 * Get the mimeType of the emitter.
-	 * 
+	 *
 	 * @return mimeType of the emitter
 	 */
 	public String getMimeType() {
@@ -116,7 +116,7 @@ public class EmitterInfo {
 
 	/**
 	 * Get the pagination of the emitter.
-	 * 
+	 *
 	 * @return pagination of the emitter
 	 */
 	public String getPagination() {
@@ -125,7 +125,7 @@ public class EmitterInfo {
 
 	/**
 	 * Get the outputDisplayNone of the emitter.
-	 * 
+	 *
 	 * @return outputDisplayNone of the emitter
 	 */
 	public Boolean getOutputDisplayNone() {
@@ -134,7 +134,7 @@ public class EmitterInfo {
 
 	/**
 	 * get the file extension of this emitter's output, "." not included
-	 * 
+	 *
 	 * @return file extension
 	 */
 	public String getFileExtension() {
@@ -143,7 +143,7 @@ public class EmitterInfo {
 
 	/**
 	 * get whether format is allowed to be shown
-	 * 
+	 *
 	 * @return hideFormat
 	 */
 	public Boolean isHidden() {
@@ -152,7 +152,7 @@ public class EmitterInfo {
 
 	/**
 	 * get the image formats the emitter supports
-	 * 
+	 *
 	 * @return the supported image formats.
 	 */
 	public String getSupportedImageFormats() {
@@ -161,7 +161,7 @@ public class EmitterInfo {
 
 	/**
 	 * If the emitter needs output query result set.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean needOutputResultSet() {
@@ -170,7 +170,7 @@ public class EmitterInfo {
 
 	/**
 	 * Set needOutputResultSet.
-	 * 
+	 *
 	 * @param needOutputResultSet
 	 */
 	public void setNeedOutputResultSet(boolean needOutputResultSet) {
@@ -179,7 +179,7 @@ public class EmitterInfo {
 
 	/**
 	 * Get the emitter override priority.
-	 * 
+	 *
 	 * @return the override priority.
 	 */
 	public int getOverridePriority() {
@@ -188,7 +188,7 @@ public class EmitterInfo {
 
 	/**
 	 * Set the emitter override priority.
-	 * 
+	 *
 	 * @param overridePriority
 	 */
 	public void setOverridePriority(int overridePriority) {
@@ -197,7 +197,7 @@ public class EmitterInfo {
 
 	/**
 	 * Get if the emitter format is deprecated
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isFormatDeprecated() {
@@ -206,7 +206,7 @@ public class EmitterInfo {
 
 	/**
 	 * Set if the emitter format is deprecated
-	 * 
+	 *
 	 * @param isFormatDeprecated
 	 */
 	public void setFormatDeprecated(boolean isFormatDeprecated) {

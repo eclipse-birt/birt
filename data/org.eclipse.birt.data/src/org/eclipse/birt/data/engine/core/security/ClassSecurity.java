@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,13 +22,13 @@ import java.security.PrivilegedExceptionAction;
 /**
  * This class handles a series of privileged operation against class and
  * classloaders.
- * 
+ *
  * @author Administrator
  *
  */
 public class ClassSecurity {
 	/**
-	 * 
+	 *
 	 * @param clazz
 	 * @return
 	 */
@@ -37,6 +37,7 @@ public class ClassSecurity {
 
 		return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
 
+			@Override
 			public ClassLoader run() {
 				return clazz.getClassLoader();
 			}
@@ -44,7 +45,7 @@ public class ClassSecurity {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param loader
 	 * @param className
 	 * @return
@@ -55,6 +56,7 @@ public class ClassSecurity {
 		try {
 			return AccessController.doPrivileged(new PrivilegedExceptionAction<Class>() {
 
+				@Override
 				public Class run() throws ClassNotFoundException {
 					return loader.loadClass(className);
 				}

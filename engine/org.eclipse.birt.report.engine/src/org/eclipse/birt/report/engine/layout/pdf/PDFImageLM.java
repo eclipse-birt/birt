@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -44,7 +44,7 @@ import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
 
 /**
- * 
+ *
  * This layout manager implements formatting and locating of image content.
  * <p>
  * Image is an atomic component, so it can not be split. if the size exceeds the
@@ -101,9 +101,9 @@ import com.lowagie.text.Image;
  * <td></td>
  * <td>Use the intrinsic size</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 public class PDFImageLM extends PDFLeafItemLM {
 
@@ -129,7 +129,7 @@ public class PDFImageLM extends PDFLeafItemLM {
 	/**
 	 * get intrinsic dimension of image in pixels. Now only support png, bmp, jpg,
 	 * gif.
-	 * 
+	 *
 	 * @param in
 	 * @return
 	 * @throws IOException
@@ -146,14 +146,12 @@ public class PDFImageLM extends PDFLeafItemLM {
 					content.getReportContent().getReportContext() == null ? null
 							: content.getReportContent().getReportContext().getAppContext());
 			InputStream in = url.openStream();
-			try {
+			try (in) {
 				byte[] buffer = new byte[in.available()];
 				in.read(buffer);
 				image = Image.getInstance(buffer);
 			} catch (Exception ex) {
 				logger.log(Level.WARNING, ex.getMessage(), ex);
-			} finally {
-				in.close();
 			}
 			break;
 		case IImageContent.IMAGE_NAME:
@@ -209,24 +207,23 @@ public class PDFImageLM extends PDFLeafItemLM {
 					dim.setDimension(intrinsic.getWidth(), intrinsic.getHeight());
 				}
 			}
-		} else {
-			if (specifiedWidth > 0) {
-				if (specifiedHeight > 0) {
-					dim.setDimension(specifiedWidth, specifiedHeight);
-				} else {
-					dim.setDimension(specifiedWidth, intrinsic.getHeight());
-				}
+		} else if (specifiedWidth > 0) {
+			if (specifiedHeight > 0) {
+				dim.setDimension(specifiedWidth, specifiedHeight);
 			} else {
-				if (specifiedHeight > 0) {
-					dim.setDimension(intrinsic.getWidth(), specifiedHeight);
-				} else {
-					dim.setDimension(intrinsic.getWidth(), intrinsic.getHeight());
-				}
+				dim.setDimension(specifiedWidth, intrinsic.getHeight());
+			}
+		} else {
+			if (specifiedHeight > 0) {
+				dim.setDimension(intrinsic.getWidth(), specifiedHeight);
+			} else {
+				dim.setDimension(intrinsic.getWidth(), intrinsic.getHeight());
 			}
 		}
 		return dim;
 	}
 
+	@Override
 	public boolean layoutChildren() {
 		if (root == null) {
 			return false;
@@ -292,7 +289,7 @@ public class PDFImageLM extends PDFLeafItemLM {
 
 	/**
 	 * Creates legend for chart.
-	 * 
+	 *
 	 * @param imageContent the image content of the chart.
 	 * @param imageArea    the imageArea of the chart.
 	 */
@@ -342,7 +339,7 @@ public class PDFImageLM extends PDFLeafItemLM {
 	/**
 	 * Creates an image map container, which is an empty container with an hyper
 	 * link.
-	 * 
+	 *
 	 * @param x      x coordinate of lower left corner of the container.
 	 * @param y      y coordinate of lower left corner of the container.
 	 * @param width  width of the container.
@@ -363,10 +360,10 @@ public class PDFImageLM extends PDFLeafItemLM {
 	/**
 	 * Calculates the absolute positions of image map when given the position of
 	 * image. The image map position is relative to the left up corner of the image.
-	 * 
+	 *
 	 * The argument and returned value are both 4 length integer area, the four
 	 * value of which are x, y of up left corner, width and height respectively.
-	 * 
+	 *
 	 * @param area      rectangle area of a image map.
 	 * @param imageArea image area of the image in which the image map is.
 	 * @return absolute position of the image map.
@@ -398,7 +395,7 @@ public class PDFImageLM extends PDFLeafItemLM {
 
 	/**
 	 * Check if a url is of an internal bookmark.
-	 * 
+	 *
 	 * @param url the url string.
 	 * @return true if and only if the url is of an internal bookmark.
 	 */
@@ -408,7 +405,7 @@ public class PDFImageLM extends PDFLeafItemLM {
 
 	/**
 	 * Parses out bookmark name from a url for interanl bookmark.
-	 * 
+	 *
 	 * @param url the url string
 	 * @return the bookmark name.
 	 */
@@ -421,11 +418,11 @@ public class PDFImageLM extends PDFLeafItemLM {
 	/**
 	 * Parse the image map position from a string which is of format "x1, y1, x2,
 	 * y2".
-	 * 
+	 *
 	 * @param string the position string.
 	 * @return a array which contains the x, y coordinate of left up corner, width
 	 *         and height in sequence.
-	 * 
+	 *
 	 */
 	private int[] getArea(String string) {
 		String[] rawDatas = string.split(",");

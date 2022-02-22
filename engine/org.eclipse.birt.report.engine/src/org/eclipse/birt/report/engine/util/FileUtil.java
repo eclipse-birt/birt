@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 
 /**
  * Collection of file utility.
- * 
+ *
  */
 public class FileUtil {
 
@@ -79,7 +79,7 @@ public class FileUtil {
 	/**
 	 * Creates a new empty file in the specified directory, using the given prefix
 	 * and suffix strings to generate its name.
-	 * 
+	 *
 	 * @param prefix The prefix string to be used in generating the file's name; if
 	 *               it's less than three characters, we will use DEFAULT_PREFIX
 	 *               instead
@@ -91,12 +91,13 @@ public class FileUtil {
 	public static File createTempFile(String prefix, String suffix, String path) {
 		assert path != null;
 
-		if (prefix == null || prefix.length() < 3)
+		if (prefix == null || prefix.length() < 3) {
 			prefix = DEFAULT_PREFIX;
+		}
 
 		File dir = new File(path);
 		if (!dir.exists()) {
-			if (dir.mkdirs() == false) {
+			if (!dir.mkdirs()) {
 				logger.log(Level.SEVERE, "[FileUtil] Cannot create directory."); //$NON-NLS-1$
 				return null;
 			}
@@ -113,7 +114,7 @@ public class FileUtil {
 
 	/**
 	 * Copies the content from a resource specified by URI string to a target file.
-	 * 
+	 *
 	 * @param srcUri  The source URI string.
 	 * @param tgtFile The target File object.
 	 * @return A <code>boolean</code> value indicating if copyFile succeeded or not.
@@ -158,7 +159,7 @@ public class FileUtil {
 
 	/**
 	 * Extract the file extension string from the given file name.
-	 * 
+	 *
 	 * @param fileName The file name.
 	 * @return The file extension string containing the '.' character.
 	 */
@@ -178,18 +179,18 @@ public class FileUtil {
 	/**
 	 * Checks if a given URI string refers to a local resource. If a URI string
 	 * starts with "http", we assume it's a global resource.
-	 * 
+	 *
 	 * @param uri The URI string value to check.
 	 * @return A <code>boolean</code> value indicating if it's a local or global
 	 *         resource.
 	 */
 	public static boolean isLocalResource(String uri) {
-		return uri != null && uri.length() > 0 && uri.toLowerCase().startsWith("http") == false; //$NON-NLS-1$
+		return uri != null && uri.length() > 0 && !uri.toLowerCase().startsWith("http"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Generates an absolute file name from the give path and file name.
-	 * 
+	 *
 	 * @param path     The path name.
 	 * @param fileName The file name.
 	 * @return The absolute file path.
@@ -208,7 +209,7 @@ public class FileUtil {
 
 	/**
 	 * Verifies whether a file exists and then return its corresponding URI string.
-	 * 
+	 *
 	 * @param fileName The file name to verify.
 	 * @return The file's URI string, returns <code>null</code> if the file does not
 	 *         exist.
@@ -228,7 +229,7 @@ public class FileUtil {
 
 	/**
 	 * Saves a byte array to a specified file.
-	 * 
+	 *
 	 * @param targetFile The target File object.
 	 * @param data       The output byte array.
 	 * @return A <code>boolean</code> value indicating if the function succeeded or
@@ -260,7 +261,7 @@ public class FileUtil {
 
 	/**
 	 * Gets the file extension according to the given Image file type.
-	 * 
+	 *
 	 * @param fileType The image file type say, "image/jpg".
 	 * @return File extension string say, ".jpg".
 	 */
@@ -270,7 +271,7 @@ public class FileUtil {
 
 	/**
 	 * Gets the Image file mime type according to the given file extension.
-	 * 
+	 *
 	 * @param fileType The image file type say, ".jpg".
 	 * @return File extension string say, "image/jpg".
 	 */
@@ -280,7 +281,7 @@ public class FileUtil {
 
 	/**
 	 * Checks if a given file name contains relative path.
-	 * 
+	 *
 	 * @param fileName The file name.
 	 * @return A <code>boolean</code> value indicating if the file name contains
 	 *         relative path or not.
@@ -305,7 +306,7 @@ public class FileUtil {
 
 	/**
 	 * Gets the file content in the format of byte array
-	 * 
+	 *
 	 * @param fileName the file to be read
 	 * @return the file content if no error happens, otherwise reutrn <tt>null</tt>
 	 */
@@ -362,6 +363,7 @@ public class FileUtil {
 	public static String getJavaTmpDir() {
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
+			@Override
 			public String run() {
 				return System.getProperty("java.io.tmpdir");
 			}

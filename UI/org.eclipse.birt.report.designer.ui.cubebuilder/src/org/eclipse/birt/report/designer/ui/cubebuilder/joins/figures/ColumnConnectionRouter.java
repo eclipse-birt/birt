@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,25 +47,29 @@ public class ColumnConnectionRouter extends AbstractRouter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.ConnectionRouter#route(org.eclipse.draw2d.Connection)
 	 */
+	@Override
 	public void route(Connection connection) {
 
 		// We only support routing ColumnConnection
 		// Assert.isTrue( connection instanceof ColumnConnection );
-		if (!(connection instanceof ColumnConnection))
+		if (!(connection instanceof ColumnConnection)) {
 			return;
+		}
 
 		// Get Figure
 		ColumnConnection conn = (ColumnConnection) connection;
 		Figure startFigure = null;
 		Figure endFigure = null;
 
-		if (conn.getSourceAnchor() instanceof ColumnConnectionAnchor)
+		if (conn.getSourceAnchor() instanceof ColumnConnectionAnchor) {
 			startFigure = (Figure) ((ColumnConnectionAnchor) conn.getSourceAnchor()).getChopFigure();
-		if (conn.getTargetAnchor() instanceof ColumnConnectionAnchor)
+		}
+		if (conn.getTargetAnchor() instanceof ColumnConnectionAnchor) {
 			endFigure = (Figure) ((ColumnConnectionAnchor) conn.getTargetAnchor()).getChopFigure();
+		}
 
 		// Route. Calculate y positions is the key
 		if (startFigure != null && endFigure != null) {
@@ -116,10 +120,12 @@ public class ColumnConnectionRouter extends AbstractRouter {
 	 * @return
 	 */
 	private int calcPos(int pos, Rectangle rect) {
-		if (pos < rect.y)
+		if (pos < rect.y) {
 			return rect.y + 5;
-		if (pos > rect.y + rect.height)
+		}
+		if (pos > rect.y + rect.height) {
 			return rect.y + rect.height - 5;
+		}
 		return pos;
 	}
 
@@ -140,19 +146,22 @@ public class ColumnConnectionRouter extends AbstractRouter {
 	}
 
 	private int getRelativeXPosition(Rectangle r1, Rectangle r2) {
-		if (r2.x + r2.width < r1.x)
+		if (r2.x + r2.width < r1.x) {
 			return FIG1_RIGHTOF_FIG2;
-		if (r1.x + r1.width < r2.x)
+		}
+		if (r1.x + r1.width < r2.x) {
 			return FIG1_LEFTOF_FIG2;
+		}
 		return FIG1_HORIZONTAL_INTERSECT_FIG2;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.AbstractRouter#getStartPoint(org.eclipse.draw2d.
 	 * Connection)
 	 */
+	@Override
 	public Point getStartPoint(Connection conn) {
 		Rectangle rec = conn.getTargetAnchor().getOwner().getBounds();
 		return conn.getSourceAnchor().getLocation(rec.getCenter());
@@ -160,10 +169,11 @@ public class ColumnConnectionRouter extends AbstractRouter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.draw2d.AbstractRouter#getEndPoint(org.eclipse.draw2d.Connection)
 	 */
+	@Override
 	public Point getEndPoint(Connection conn) {
 		Rectangle rec = conn.getSourceAnchor().getOwner().getBounds();
 		return conn.getTargetAnchor().getLocation(rec.getCenter());

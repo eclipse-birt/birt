@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,18 +27,19 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
 /**
- * 
+ *
  */
 
 public class RefreshLibraryHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
 	 * .ExecutionEvent)
 	 */
+	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		boolean retBoolean = true;
 		super.execute(event);
@@ -54,10 +55,7 @@ public class RefreshLibraryHandler extends SelectionHandler {
 
 			try {
 				host.reloadLibrary((LibraryHandle) obj);
-			} catch (SemanticException e) {
-				ExceptionHandler.handle(e);
-				retBoolean = false;
-			} catch (DesignFileException e) {
+			} catch (SemanticException | DesignFileException e) {
 				ExceptionHandler.handle(e);
 				retBoolean = false;
 			}
@@ -77,6 +75,6 @@ public class RefreshLibraryHandler extends SelectionHandler {
 			retBoolean = UIUtil.reloadModuleHandleLibraries((ModuleHandle) obj);
 		}
 		UIUtil.refreshCurrentEditorMarkers();
-		return Boolean.valueOf(retBoolean);
+		return retBoolean;
 	}
 }

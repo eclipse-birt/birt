@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c)2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class TaskOption implements ITaskOption {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param options
 	 */
 	public TaskOption(Map options) {
@@ -41,20 +41,22 @@ public class TaskOption implements ITaskOption {
 
 	/**
 	 * set value for one rendering option
-	 * 
+	 *
 	 * @param name  the option name
 	 * @param value value for the option
 	 */
+	@Override
 	public void setOption(String name, Object value) {
 		options.put(name, value);
 	}
 
 	/**
 	 * get option value for one rendering option
-	 * 
+	 *
 	 * @param name the option name
 	 * @return the option value
 	 */
+	@Override
 	public Object getOption(String name) {
 		return options.get(name);
 	}
@@ -62,22 +64,24 @@ public class TaskOption implements ITaskOption {
 	/**
 	 * Check if an option is defined.
 	 */
+	@Override
 	public boolean hasOption(String name) {
 		return options.containsKey(name);
 	}
 
 	/**
 	 * Get options.
-	 * 
+	 *
 	 * @return options
 	 */
+	@Override
 	public Map getOptions() {
 		return options;
 	}
 
 	/**
 	 * Get option value by name.
-	 * 
+	 *
 	 * @param name the option name
 	 * @return the option value
 	 */
@@ -91,7 +95,7 @@ public class TaskOption implements ITaskOption {
 
 	/**
 	 * Get boolean option value by name.
-	 * 
+	 *
 	 * @param name         the option name
 	 * @param defaultValue default option value
 	 * @return default value

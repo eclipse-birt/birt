@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -47,14 +47,16 @@ public class TestDriverImpl implements IDriver {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IDriver#setAppContext(java.lang.
 	 * Object)
 	 */
+	@Override
 	public void setAppContext(Object context) throws OdaException {
 		m_setAppContextCallCounter++;
-		if (m_setAppContextCallCounter <= m_getConnectionCallCounter)
+		if (m_setAppContextCallCounter <= m_getConnectionCallCounter) {
 			throw new OdaException("Error: setAppContext should have been called *before* IDriver.getConnection.");
+		}
 		m_appContext = context;
 	}
 
@@ -64,10 +66,11 @@ public class TestDriverImpl implements IDriver {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IDriver#getConnection(java.lang.
 	 * String)
 	 */
+	@Override
 	public IConnection getConnection(String connectionClassName) throws OdaException {
 		m_getConnectionCallCounter++;
 
@@ -75,8 +78,9 @@ public class TestDriverImpl implements IDriver {
 		boolean isConnOpen = false;
 		if (m_appContext != null && (m_appContext instanceof Properties)) {
 			Object connState = ((Properties) m_appContext).get(TEST_DRIVER_CONN_STATE);
-			if (connState != null && connState.toString().equals(TEST_DRIVER_CONN_STATE_OPEN))
+			if (connState != null && connState.toString().equals(TEST_DRIVER_CONN_STATE_OPEN)) {
 				isConnOpen = true;
+			}
 		}
 
 		return new TestConnectionImpl(isConnOpen);
@@ -84,19 +88,21 @@ public class TestDriverImpl implements IDriver {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IDriver#getMaxConnections()
 	 */
+	@Override
 	public int getMaxConnections() throws OdaException {
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.IDriver#setLogConfiguration(org.
 	 * eclipse.datatools.connectivity.oda.LogConfiguration)
 	 */
+	@Override
 	public void setLogConfiguration(LogConfiguration logConfig) throws OdaException {
 	}
 }

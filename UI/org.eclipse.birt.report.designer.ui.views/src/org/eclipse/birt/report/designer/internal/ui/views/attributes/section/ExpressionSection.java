@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,6 +33,7 @@ public class ExpressionSection extends Section {
 
 	protected ExpressionPropertyDescriptor expression;
 
+	@Override
 	public void createSection() {
 		getLabelControl(parent);
 		getExpressionControl(parent);
@@ -40,6 +41,7 @@ public class ExpressionSection extends Section {
 
 	}
 
+	@Override
 	protected Label getLabelControl(Composite parent) {
 		Label label = super.getLabelControl(parent);
 		if (multi) {
@@ -54,12 +56,14 @@ public class ExpressionSection extends Section {
 		if (expression == null) {
 			expression = DescriptorToolkit.createExpressionPropertyDescriptor(true);
 			expression.setMulti(multi);
-			if (getProvider() != null)
+			if (getProvider() != null) {
 				expression.setDescriptorProvider(getProvider());
+			}
 			expression.createControl(parent);
 			expression.getControl().setLayoutData(new GridData());
 			expression.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					expression = null;
 				}
@@ -76,27 +80,32 @@ public class ExpressionSection extends Section {
 		return expression;
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) expression.getControl().getLayoutData();
-		if (getLayoutNum() > 1 + placeholder)
+		if (getLayoutNum() > 1 + placeholder) {
 			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
-		else if (((GridLayout) parent.getLayout()).numColumns > -1 - placeholder)
+		} else if (((GridLayout) parent.getLayout()).numColumns > -1 - placeholder) {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		}
 		// gd.horizontalAlignment = SWT.FILL;
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillColor;
+		}
 		if (multi) {
 			gd.grabExcessVerticalSpace = true;
 			gd.verticalAlignment = GridData.FILL;
 		}
 	}
 
+	@Override
 	public void load() {
-		if (expression != null && !expression.getControl().isDisposed())
+		if (expression != null && !expression.getControl().isDisposed()) {
 			expression.load();
+		}
 
 	}
 
@@ -108,8 +117,9 @@ public class ExpressionSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (expression != null)
+		if (expression != null) {
 			expression.setDescriptorProvider(provider);
+		}
 	}
 
 	private int width = -1;
@@ -122,6 +132,7 @@ public class ExpressionSection extends Section {
 		this.width = width;
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		expression.setInput(input);
@@ -147,21 +158,29 @@ public class ExpressionSection extends Section {
 		this.multi = multi;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (expression != null)
+		}
+		if (expression != null) {
 			expression.setHidden(isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (expression != null)
+		}
+		if (expression != null) {
 			expression.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,6 +31,7 @@ public class TableBandExecutor extends StyledItemExecutor {
 		super(manager, ExecutorManager.TABLEBANDITEM);
 	}
 
+	@Override
 	public IContent execute() {
 		// start table band
 		TableBandDesign bandDesign = (TableBandDesign) getDesign();
@@ -88,6 +89,7 @@ public class TableBandExecutor extends StyledItemExecutor {
 		}
 	}
 
+	@Override
 	public void close() throws BirtException {
 		finishTOCEntry();
 		super.close();
@@ -95,11 +97,13 @@ public class TableBandExecutor extends StyledItemExecutor {
 
 	int currentRow;
 
+	@Override
 	public boolean hasNextChild() {
 		TableBandDesign bandDesign = (TableBandDesign) getDesign();
 		return currentRow < bandDesign.getRowCount();
 	}
 
+	@Override
 	public IReportItemExecutor getNextChild() {
 		TableBandDesign bandDesign = (TableBandDesign) getDesign();
 		// TableItemExecutor tableExecutor = (TableItemExecutor) getParent( );

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,7 +27,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataReader;
 
 /**
  * Generate schema doc
- * 
+ *
  */
 
 public class SchemaDoc {
@@ -64,7 +64,7 @@ public class SchemaDoc {
 
 	/**
 	 * Make a file under output folder.
-	 * 
+	 *
 	 * @param relativeDir relative to the output folder. For example, if current
 	 *                    output folder is "d:\romdoc",
 	 *                    <code>makeFile( "structs", "action.html")</code> will
@@ -90,7 +90,7 @@ public class SchemaDoc {
 
 	/**
 	 * Load rom.def metadata
-	 * 
+	 *
 	 * @throws MetaDataParserException
 	 */
 

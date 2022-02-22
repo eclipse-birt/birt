@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -55,6 +55,7 @@ public class ModelEventManager implements Listener, IModelEventManager {
 	 */
 	private ActivityStackListener commandStackListener = new ActivityStackListener() {
 
+		@Override
 		public void stackChanged(ActivityStackEvent event) {
 			postEvent(event);
 		}
@@ -62,12 +63,13 @@ public class ModelEventManager implements Listener, IModelEventManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.core.Listener#elementChanged(org.eclipse
 	 * .birt.report.model.api.DesignElementHandle,
 	 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		List temp = new ArrayList(listenerList);
 		int size = temp.size();
@@ -166,9 +168,10 @@ public class ModelEventManager implements Listener, IModelEventManager {
 
 	/**
 	 * Add the processor
-	 * 
+	 *
 	 * @param processor
 	 */
+	@Override
 	public void addModelEventProcessor(IModelEventProcessor processor) {
 		if (!listenerList.contains(processor)) {
 			listenerList.add(processor);
@@ -177,9 +180,10 @@ public class ModelEventManager implements Listener, IModelEventManager {
 
 	/**
 	 * Remove the processor.
-	 * 
+	 *
 	 * @param processor
 	 */
+	@Override
 	public void removeModelEventProcessor(IModelEventProcessor processor) {
 		listenerList.remove(processor);
 	}
@@ -198,7 +202,7 @@ public class ModelEventManager implements Listener, IModelEventManager {
 
 	/**
 	 * Gets the visitor.
-	 * 
+	 *
 	 * @return the visitor
 	 */
 	private ListenerElementVisitor getListenerElementVisitor() {
@@ -210,7 +214,7 @@ public class ModelEventManager implements Listener, IModelEventManager {
 
 	/**
 	 * Hook the command stack, to add the command stack listener to the stack.
-	 * 
+	 *
 	 * @param stack
 	 */
 	// Through the command stack know the model trans commit or roolback.But
@@ -218,6 +222,7 @@ public class ModelEventManager implements Listener, IModelEventManager {
 	// should not add the other responsibility to it(already add the rool back
 	// status to the command stack).
 	// In the future can know the trans status through the trans listener.
+	@Override
 	public void hookCommandStack(WrapperCommandStack stack) {
 		if (stack != null) {
 			stack.addCommandStackListener(commandStackListener);
@@ -226,9 +231,10 @@ public class ModelEventManager implements Listener, IModelEventManager {
 
 	/**
 	 * Unhook the root.
-	 * 
+	 *
 	 * @param stack
 	 */
+	@Override
 	public void unhookCommandStack(WrapperCommandStack stack) {
 		if (stack != null) {
 			stack.removeCommandStackListener(commandStackListener);
@@ -237,9 +243,10 @@ public class ModelEventManager implements Listener, IModelEventManager {
 
 	/**
 	 * Hook the root.
-	 * 
+	 *
 	 * @param obj
 	 */
+	@Override
 	public void hookRoot(Object obj) {
 		if (root == obj) {
 			return;
@@ -255,9 +262,10 @@ public class ModelEventManager implements Listener, IModelEventManager {
 
 	/**
 	 * Unhook the rootz
-	 * 
+	 *
 	 * @param obj
 	 */
+	@Override
 	public void unhookRoot(Object obj) {
 		if (obj instanceof DesignElementHandle) {
 			getListenerElementVisitor().removeListener((DesignElementHandle) obj);

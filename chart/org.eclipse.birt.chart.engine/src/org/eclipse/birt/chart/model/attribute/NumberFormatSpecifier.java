@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -24,7 +24,7 @@ import com.ibm.icu.util.ULocale;
  *
  * <!-- begin-model-doc --> NumberFormatSpecifier extends FormatSpecifier
  * specially for formatting numeric values.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -51,9 +51,9 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	 * Returns the value of the '<em><b>Prefix</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Prefix" specifies the prefix of the output text.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Prefix</em>' attribute.
 	 * @see #setPrefix(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getNumberFormatSpecifier_Prefix()
@@ -67,7 +67,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	 * Sets the value of the '
 	 * {@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getPrefix
 	 * <em>Prefix</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Prefix</em>' attribute.
 	 * @see #getPrefix()
 	 * @generated
@@ -78,9 +78,9 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	 * Returns the value of the '<em><b>Suffix</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Suffix" specifies the suffix of the output text.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Suffix</em>' attribute.
 	 * @see #setSuffix(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getNumberFormatSpecifier_Suffix()
@@ -94,7 +94,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	 * Sets the value of the '
 	 * {@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getSuffix
 	 * <em>Suffix</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Suffix</em>' attribute.
 	 * @see #getSuffix()
 	 * @generated
@@ -104,11 +104,11 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	/**
 	 * Returns the value of the '<em><b>Multiplier</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the multiplier.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Multiplier</em>' attribute.
 	 * @see #isSetMultiplier()
 	 * @see #unsetMultiplier()
@@ -125,7 +125,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	 * '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getMultiplier
 	 * <em>Multiplier</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Multiplier</em>' attribute.
 	 * @see #isSetMultiplier()
 	 * @see #unsetMultiplier()
@@ -139,7 +139,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	 * '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getMultiplier
 	 * <em>Multiplier</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetMultiplier()
 	 * @see #getMultiplier()
 	 * @see #setMultiplier(double)
@@ -152,7 +152,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	 * '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getMultiplier
 	 * <em>Multiplier</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Multiplier</em>' attribute is set.
 	 * @see #unsetMultiplier()
 	 * @see #getMultiplier()
@@ -164,11 +164,11 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	/**
 	 * Returns the value of the '<em><b>Fraction Digits</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Defines the number of fractional digits to be shown.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Fraction Digits</em>' attribute.
 	 * @see #isSetFractionDigits()
 	 * @see #unsetFractionDigits()
@@ -185,7 +185,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	 * '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits
 	 * <em>Fraction Digits</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Fraction Digits</em>' attribute.
 	 * @see #isSetFractionDigits()
 	 * @see #unsetFractionDigits()
@@ -199,7 +199,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	 * '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits
 	 * <em>Fraction Digits</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetFractionDigits()
 	 * @see #getFractionDigits()
 	 * @see #setFractionDigits(int)
@@ -212,7 +212,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	 * '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits
 	 * <em>Fraction Digits</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Fraction Digits</em>' attribute is set.
 	 * @see #unsetFractionDigits()
 	 * @see #getFractionDigits()
@@ -223,19 +223,20 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 
 	/**
 	 * Formats a value using the internally defined format specifier rules
-	 * 
+	 *
 	 * @param dValue
-	 * 
+	 *
 	 * @return A formatted string representation of the numerical value provided
 	 * @deprecated
 	 */
+	@Deprecated
 	String format(double dValue, Locale lo);
 
 	/**
 	 * Formats a value using the internally defined format specifier rules
-	 * 
+	 *
 	 * @param dValue
-	 * 
+	 *
 	 * @return A formatted string representation of the numerical value provided
 	 * @since 2.1
 	 */
@@ -243,7 +244,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 
 	/**
 	 * Returns a formatted string representation of specified number.
-	 * 
+	 *
 	 * @param number
 	 * @param lo
 	 * @return
@@ -254,6 +255,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier {
 	/**
 	 * @generated
 	 */
+	@Override
 	NumberFormatSpecifier copyInstance();
 
 } // NumberFormatSpecifier

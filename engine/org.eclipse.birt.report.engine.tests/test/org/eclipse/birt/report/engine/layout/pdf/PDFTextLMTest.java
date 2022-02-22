@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ public class PDFTextLMTest extends PDFLayoutTest {
 	 * Test case for bugzilla bug
 	 * <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=181578">181578</a> :
 	 * Exception is thrown when preview attached report in PDF[1102]
-	 * 
+	 *
 	 * @throws EngineException
 	 */
 	public void testHyphenation() throws EngineException {
@@ -56,7 +56,7 @@ public class PDFTextLMTest extends PDFLayoutTest {
 
 	/**
 	 * test text wrapping alogrithm.
-	 * 
+	 *
 	 * @throws EngineException
 	 */
 	public void testTextWrap() throws EngineException {

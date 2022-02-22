@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ public interface IPageGenerator {
 
 	/**
 	 * Creates the content of the page control.
-	 * 
+	 *
 	 * @param parent
 	 * @param input
 	 */
@@ -33,14 +33,14 @@ public interface IPageGenerator {
 
 	/**
 	 * Returns the page control.
-	 * 
+	 *
 	 * @return
 	 */
 	Control getControl();
 
 	/**
 	 * Returns the input.
-	 * 
+	 *
 	 * @return
 	 */
 	Object getInput();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
  * unit 4. Report readDesign: 1. Read design type 2. Read report item design
  * according design type. 3. Read the current design's fields. 4. Read the
  * current design's children.
- * 
+ *
  * Version 1: remove read isBookmark of ActionDesign. Version 2: remove read
  * base path and unit of report. Version 3: add extended item's children.
  * Version 4: change the way of writing and reading the style.
@@ -118,7 +118,7 @@ public class EngineIRReader implements IOConstants {
 
 		private void setupScriptID(Report design) {
 			ReportDesignHandle designHandle = design.getReportDesign();
-			;
+
 			Expression scriptExpr = design.getOnPageStart();
 			if (null != scriptExpr && scriptExpr.getType() == Expression.SCRIPT) {
 				String id = ModuleUtil
@@ -174,6 +174,7 @@ public class EngineIRReader implements IOConstants {
 			}
 		}
 
+		@Override
 		public Object visitBand(BandDesign band, Object value) {
 			linkReportElement(band);
 			int count = band.getContentCount();
@@ -184,6 +185,7 @@ public class EngineIRReader implements IOConstants {
 			return value;
 		}
 
+		@Override
 		public Object visitCell(CellDesign cell, Object value) {
 			linkReportElement(cell);
 			int count = cell.getContentCount();
@@ -194,6 +196,7 @@ public class EngineIRReader implements IOConstants {
 			return value;
 		}
 
+		@Override
 		public Object visitFreeFormItem(FreeFormItemDesign container, Object value) {
 			linkReportElement(container);
 			int count = container.getItemCount();
@@ -205,6 +208,7 @@ public class EngineIRReader implements IOConstants {
 			return value;
 		}
 
+		@Override
 		public Object visitGridItem(GridItemDesign grid, Object value) {
 			linkReportElement(grid);
 
@@ -223,6 +227,7 @@ public class EngineIRReader implements IOConstants {
 			return value;
 		}
 
+		@Override
 		public Object visitGroup(GroupDesign group, Object value) {
 			linkReportElement(group);
 			BandDesign header = group.getHeader();
@@ -236,6 +241,7 @@ public class EngineIRReader implements IOConstants {
 			return value;
 		}
 
+		@Override
 		public Object visitListing(ListingDesign listing, Object value) {
 			linkReportElement(listing);
 			BandDesign header = listing.getHeader();
@@ -259,6 +265,7 @@ public class EngineIRReader implements IOConstants {
 
 		}
 
+		@Override
 		public Object visitTableItem(TableItemDesign table, Object value) {
 			visitListing(table, value);
 
@@ -270,11 +277,13 @@ public class EngineIRReader implements IOConstants {
 			return value;
 		}
 
+		@Override
 		public Object visitReportItem(ReportItemDesign item, Object value) {
 			linkReportElement(item);
 			return value;
 		}
 
+		@Override
 		public Object visitRow(RowDesign row, Object value) {
 			linkReportElement(row);
 			int count = row.getCellCount();
@@ -285,6 +294,7 @@ public class EngineIRReader implements IOConstants {
 			return value;
 		}
 
+		@Override
 		public Object visitExtendedItem(ExtendedItemDesign extendedItem, Object value) {
 			linkReportElement(extendedItem);
 
@@ -295,6 +305,7 @@ public class EngineIRReader implements IOConstants {
 			return value;
 		}
 
+		@Override
 		public Object visitImageItem(ImageItemDesign image, Object value) {
 			linkReportElement(image);
 			if (image.getImageSource() == ImageItemDesign.IMAGE_NAME && image.getImageName() == null) {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -70,11 +70,13 @@ public class VerifyCompileUtils {
 
 					// Get the HTML compile log
 					File[] htmlLogs = plugins[i].listFiles(new FileFilter() {
+						@Override
 						public boolean accept(File pathname) {
 							return pathname.getName().toLowerCase().endsWith(".html");
 						}
 					});
 					File[] xmlLogs = plugins[i].listFiles(new FileFilter() {
+						@Override
 						public boolean accept(File pathname) {
 							return pathname.getName().toLowerCase().endsWith(".xml");
 						}
@@ -164,10 +166,11 @@ public class VerifyCompileUtils {
 				Element problemSummary = stats.element("problem_summary");
 				String sCount = problemSummary.attributeValue("errors");
 				System.out.println("[VerifyCompile] Error Count: " + sCount);
-				if (sCount.equals("0"))
+				if (sCount.equals("0")) {
 					return 0;
-				else
+				} else {
 					return Integer.parseInt(sCount);
+				}
 			} else {
 				System.out.println("There is no element problem_summary!");
 				return 0;

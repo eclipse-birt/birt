@@ -48,6 +48,13 @@ import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.ooxml.IPart;
+import org.eclipse.birt.report.engine.ooxml.ImageManager;
+import org.eclipse.birt.report.engine.ooxml.ImageManager.ImagePart;
+import org.eclipse.birt.report.engine.ooxml.MimeType;
+import org.eclipse.birt.report.engine.ooxml.constants.NameSpaces;
+import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
+import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -58,14 +65,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSValue;
-
-import org.eclipse.birt.report.engine.ooxml.IPart;
-import org.eclipse.birt.report.engine.ooxml.ImageManager;
-import org.eclipse.birt.report.engine.ooxml.ImageManager.ImagePart;
-import org.eclipse.birt.report.engine.ooxml.MimeType;
-import org.eclipse.birt.report.engine.ooxml.constants.NameSpaces;
-import org.eclipse.birt.report.engine.ooxml.constants.RelationshipTypes;
-import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
 public abstract class BasicComponent extends AbstractWordXmlWriter {
 
@@ -93,7 +92,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 
 	private final String BOUNDARY = "___Actuate_Content_Boundary___";
 
-	private List<String> imageSrc = new ArrayList<String>();
+	private List<String> imageSrc = new ArrayList<>();
 
 	private ReportDesignHandle handle;
 
@@ -166,6 +165,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		writer.closeTag("v:shape");
 	}
 
+	@Override
 	protected void openHyperlink(HyperlinkInfo info) {
 		if (info == null) {
 			return;
@@ -176,7 +176,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 			writer.attribute("w:anchor", info.getUrl());
 		} else if (HyperlinkInfo.HYPERLINK == info.getType()) {
 			if (info.getUrl() != null) {
-				String url = info.getUrl().replaceAll(" ", "");
+				String url = info.getUrl().replace(" ", "");
 				writer.attribute("r:id", part.getHyperlinkId(url));
 			}
 			if (info.getBookmark() != null) {
@@ -188,6 +188,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		}
 	}
 
+	@Override
 	protected void closeHyperlink(HyperlinkInfo info) {
 		if ((info == null) || (info.getType() == HyperlinkInfo.DRILL)) {
 			return;
@@ -195,12 +196,14 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		writer.closeTag("w:hyperlink");
 	}
 
+	@Override
 	protected void writeTableLayout() {
 		writer.openTag("w:tblLayout");
 		writer.attribute("w:type", "fixed");
 		writer.closeTag("w:tblLayout");
 	}
 
+	@Override
 	protected void writeFontSize(IStyle style) {
 		CSSValue fontSize = style.getProperty(StyleConstants.STYLE_FONT_SIZE);
 		int size = WordUtil.parseFontSize(PropertyUtil.getDimensionValue(fontSize));
@@ -208,6 +211,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		writeAttrTag("w:szCs", size);
 	}
 
+	@Override
 	protected void writeFont(String fontFamily) {
 		writer.openTag("w:rFonts");
 		writer.attribute("w:ascii", fontFamily);
@@ -217,6 +221,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		writer.closeTag("w:rFonts");
 	}
 
+	@Override
 	protected void writeFontStyle(IStyle style) {
 		String val = WordUtil.removeQuote(style.getFontStyle());
 		if (!"normal".equalsIgnoreCase(val)) {
@@ -225,6 +230,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		}
 	}
 
+	@Override
 	protected void writeFontWeight(IStyle style) {
 		String val = WordUtil.removeQuote(style.getFontWeight());
 		if (!"normal".equalsIgnoreCase(val)) {
@@ -276,6 +282,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		}
 	}
 
+	@Override
 	protected void writeVmerge(SpanInfo spanInfo) {
 		if (spanInfo.isStart()) {
 			writeAttrTag("w:vMerge", "restart");
@@ -324,9 +331,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 			mhtPartWriter.println("Content-Type: multipart/related; type=\"text/html\"; boundary=\"" + BOUNDARY + "\"");
 			writeHtmlText(foreignContent);
 			writeImages();
-		} catch (IOException e) {
-			logger.log(Level.WARNING, e.getMessage(), e);
-		} catch (EncoderException e) {
+		} catch (IOException | EncoderException e) {
 			logger.log(Level.WARNING, e.getMessage(), e);
 		} finally {
 			if (mhtPartWriter != null) {
@@ -378,7 +383,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 	private String normalize(String foreignText, Map appContext) throws UnsupportedEncodingException {
 		Document doc = new TextParser().parse(foreignText, TextParser.TEXT_TYPE_HTML);
 		HTMLProcessor htmlProcessor = new HTMLProcessor(handle, appContext);
-		HashMap<String, String> styleMap = new HashMap<String, String>();
+		HashMap<String, String> styleMap = new HashMap<>();
 		Element body = null;
 		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
 		HTMLWriter htmlWriter = new HTMLWriter();
@@ -550,7 +555,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 
 	/**
 	 * Build the margins.
-	 * 
+	 *
 	 * @param styleBuffer
 	 * @param style
 	 */
@@ -603,7 +608,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 
 	/**
 	 * Build the paddings.
-	 * 
+	 *
 	 * @param styleBuffer
 	 * @param style
 	 */
@@ -803,7 +808,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 			}
 		}
 		if (cssStyle != null) {
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			Iterator ite = cssStyle.entrySet().iterator();
 			while (ite.hasNext()) {
 				Map.Entry entry = (Map.Entry) ite.next();
@@ -854,7 +859,7 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 
 	/**
 	 * test if the text node is in the script
-	 * 
+	 *
 	 * @param node text node
 	 * @return true if the text is a script, otherwise, false.
 	 */
@@ -876,14 +881,16 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		Matcher matcher = pattern.matcher(foreignText);
 		if (matcher.matches()) {
 			return foreignText;
-		} else
+		} else {
 			return "<html>" + foreignText + "</html>";
+		}
 	}
 
 	protected String getRelationshipId() {
 		return part.getRelationshipId();
 	}
 
+	@Override
 	public void startTableRow(double height, boolean isHeader, boolean repeatHeader, boolean fixedLayout) {
 		writer.openTag("w:tr");
 
@@ -907,12 +914,14 @@ public abstract class BasicComponent extends AbstractWordXmlWriter {
 		writer.closeTag("w:trPr");
 	}
 
+	@Override
 	protected void writeIndent(int textIndent) {
 		writer.openTag("w:ind");
 		writer.attribute("w:firstLine", textIndent);
 		writer.closeTag("w:ind");
 	}
 
+	@Override
 	protected void writeIndent(int leftMargin, int rightMargin, int textIndent) {
 		if (leftMargin == 0 && rightMargin == 0 && textIndent == 0) {
 			return;

@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -31,9 +31,10 @@ public class ColumnDragHandle extends AbstractHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
+	@Override
 	protected DragTracker createDragTracker() {
 		return new ColumnDragTracker(getOwner(), getStart(), getEnd());
 	}
@@ -41,7 +42,7 @@ public class ColumnDragHandle extends AbstractHandle {
 	/**
 	 * Creates a MoveHandle for the given <code>GraphicalEditPart</code> using a
 	 * default {@link Locator}.
-	 * 
+	 *
 	 * @param owner The GraphicalEditPart to be moved by this handle.
 	 */
 	public ColumnDragHandle(TableEditPart owner, int start, int end) {
@@ -51,7 +52,7 @@ public class ColumnDragHandle extends AbstractHandle {
 	/**
 	 * Creates a MoveHandle for the given <code>GraphicalEditPart</code> using the
 	 * given <code>Locator</code>.
-	 * 
+	 *
 	 * @param owner The GraphicalEditPart to be moved by this handle.
 	 * @param loc   The Locator used to place the handle.
 	 */
@@ -81,7 +82,7 @@ public class ColumnDragHandle extends AbstractHandle {
 
 	/**
 	 * Sets end value
-	 * 
+	 *
 	 * @param end
 	 */
 	public void setEnd(int end) {
@@ -97,7 +98,7 @@ public class ColumnDragHandle extends AbstractHandle {
 
 	/**
 	 * Sets start value.
-	 * 
+	 *
 	 * @param start
 	 */
 	public void setStart(int start) {
@@ -106,9 +107,10 @@ public class ColumnDragHandle extends AbstractHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.IFigure#containsPoint(int, int)
 	 */
+	@Override
 	public boolean containsPoint(int x, int y) {
 		return getBounds().getCopy().shrink(-2, -2).contains(x, y);
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -87,10 +87,11 @@ public class ExprResultSet implements IExprResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#
 	 * getDataSetResultSet()
 	 */
+	@Override
 	public IDataSetResultSet getDataSetResultSet() {
 		return this.dataSetResultSet;
 	}
@@ -130,7 +131,7 @@ public class ExprResultSet implements IExprResultSet {
 						aggrStreams);
 			}
 		}
-		if (this.isBasedOnSecondRD == false) {
+		if (!this.isBasedOnSecondRD) {
 			rowExprsRAIs = streamManager.getInStream(DataEngineContext.EXPR_VALUE_STREAM, StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE);
 			if (version > VersionManager.VERSION_2_0) {
@@ -158,9 +159,10 @@ public class ExprResultSet implements IExprResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#next()
 	 */
+	@Override
 	public boolean next() throws DataException {
 		boolean hasNext = exprResultReader.next();
 		this.rdGroupUtil.next(hasNext);
@@ -169,21 +171,23 @@ public class ExprResultSet implements IExprResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#getValue(java.
 	 * lang.String)
 	 */
+	@Override
 	public Object getValue(String name) throws DataException {
 		Map exprValueMap = this.exprResultReader.getRowValue();
 
-		if (exprValueMap == null)
+		if (exprValueMap == null) {
 			throw new DataException(ResourceConstants.RD_EXPR_RESULT_SET_NOT_START);
+		}
 
-		if (exprValueMap.containsKey(name) == false) {
-			if (this.aggrUtil == null || !this.aggrUtil.contains(name))
+		if (!exprValueMap.containsKey(name)) {
+			if (this.aggrUtil == null || !this.aggrUtil.contains(name)) {
 				throw new DataException(ResourceConstants.RD_EXPR_INVALID_ERROR);
-			else {
+			} else {
 				return this.aggrUtil.getValue(name, this.aggrUtil.isRunningAggr(name) ? this.getCurrentIndex()
 						: this.rdGroupUtil.getCurrentGroupIndex(this.aggrUtil.getGroupLevel(name)));
 			}
@@ -194,10 +198,11 @@ public class ExprResultSet implements IExprResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#moveTo(int)
 	 */
+	@Override
 	public void moveTo(int rowIndex) throws DataException {
 		exprResultReader.moveTo(rowIndex);
 		this.rdGroupUtil.move();
@@ -205,63 +210,70 @@ public class ExprResultSet implements IExprResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#getCurrentId()
 	 */
+	@Override
 	public int getCurrentId() {
 		return this.rowIdStartingIndex + this.exprResultReader.getRowId();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#
 	 * getCurrentIndex()
 	 */
+	@Override
 	public int getCurrentIndex() {
 		return this.exprResultReader.getRowIndex();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#
 	 * getStartingGroupLevel()
 	 */
+	@Override
 	public int getStartingGroupLevel() throws DataException {
 		return this.rdGroupUtil.getStartingGroupLevel();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#
 	 * getEndingGroupLevel()
 	 */
+	@Override
 	public int getEndingGroupLevel() throws DataException {
 		return this.rdGroupUtil.getEndingGroupLevel();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#skipToEnd(int)
 	 */
+	@Override
 	public void skipToEnd(int groupLevel) throws DataException {
 		this.rdGroupUtil.last(groupLevel);
 	}
 
+	@Override
 	public int[] getGroupStartAndEndIndex(int groupIndex) throws DataException {
 		return this.rdGroupUtil.getGroupStartAndEndIndex(groupIndex);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#close()
 	 */
+	@Override
 	public void close() throws DataException {
 		try {
 			if (exprResultReader != null) {
@@ -325,6 +337,7 @@ public class ExprResultSet implements IExprResultSet {
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.rd2.CacheProvider#getCount()
 		 */
+		@Override
 		public int getCount() {
 			return exprResultSet.rowCount;
 		}
@@ -332,6 +345,7 @@ public class ExprResultSet implements IExprResultSet {
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.rd2.CacheProvider#getCurrentIndex()
 		 */
+		@Override
 		public int getCurrentIndex() {
 			return exprResultSet.getCurrentIndex();
 		}
@@ -339,15 +353,18 @@ public class ExprResultSet implements IExprResultSet {
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.rd2.CacheProvider#moveTo(int)
 		 */
+		@Override
 		public void moveTo(int destIndex) throws DataException {
 			int currIndex = exprResultSet.getCurrentIndex();
 			assert destIndex >= currIndex;
 
 			int forwardSteps = destIndex - currIndex;
-			for (int i = 0; i < forwardSteps; i++)
+			for (int i = 0; i < forwardSteps; i++) {
 				exprResultSet.next();
+			}
 		}
 
+		@Override
 		public boolean next() throws DataException {
 			return this.exprResultSet.next();
 		}
@@ -355,13 +372,15 @@ public class ExprResultSet implements IExprResultSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#isEmpty()
 	 */
+	@Override
 	public boolean isEmpty() {
 		return rowCount == 0 ? true : false;
 	}
 
+	@Override
 	public List[] getGroupInfos() throws DataException {
 		return this.rdGroupUtil.getGroups();
 	}

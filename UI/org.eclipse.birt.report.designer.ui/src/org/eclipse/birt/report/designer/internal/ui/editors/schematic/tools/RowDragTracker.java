@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -48,7 +48,7 @@ public class RowDragTracker extends TableDragGuideTracker {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param sourceEditPart
 	 * @param start
 	 * @param end
@@ -68,11 +68,12 @@ public class RowDragTracker extends TableDragGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.examples.logicdesigner.edit.tracker.TableDragHFTracker#resize
 	 * ()
 	 */
+	@Override
 	protected void resize() {
 		TableEditPart part = (TableEditPart) getSourceEditPart();
 		int value = getMouseTrueValueY();
@@ -189,10 +190,11 @@ public class RowDragTracker extends TableDragGuideTracker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.examples.logicdesigner.edit.tracker.TableDragHFTracker#
 	 * getMarqueeSelectionRectangle()
 	 */
+	@Override
 	protected Rectangle getMarqueeSelectionRectangle() {
 		IFigure figure = ((TableEditPart) getSourceEditPart()).getFigure();
 		Insets insets = figure.getInsets();
@@ -209,6 +211,7 @@ public class RowDragTracker extends TableDragGuideTracker {
 		return new Rectangle(bounds.x + insets.left, value + p.y, bounds.width - (insets.left + insets.right), 2);
 	}
 
+	@Override
 	protected Dimension getDragWidth(int startNumber, int endNumber) {
 		TableEditPart part = (TableEditPart) getSourceEditPart();
 		Object start = part.getRow(startNumber);
@@ -218,7 +221,7 @@ public class RowDragTracker extends TableDragGuideTracker {
 
 	/**
 	 * Gets the row height
-	 * 
+	 *
 	 * @param row
 	 * @return
 	 */
@@ -228,7 +231,7 @@ public class RowDragTracker extends TableDragGuideTracker {
 
 	/**
 	 * Gets the row height
-	 * 
+	 *
 	 * @param rowNumber
 	 * @return
 	 */

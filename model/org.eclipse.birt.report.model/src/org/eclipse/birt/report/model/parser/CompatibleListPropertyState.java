@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 /**
  * The compatible parser for parsing element structure list properties. This is
  * the base class for all compatible structure list parser.
- * 
+ *
  */
 
 abstract class CompatibleListPropertyState extends ListPropertyState {
@@ -30,7 +30,7 @@ abstract class CompatibleListPropertyState extends ListPropertyState {
 	/**
 	 * Constructs the compatible state for parsing the given structure member
 	 * property value.
-	 * 
+	 *
 	 * @param theHandler the parser handler
 	 * @param element    the design element
 	 * @param propDefn   the property definition
@@ -44,7 +44,7 @@ abstract class CompatibleListPropertyState extends ListPropertyState {
 
 	/**
 	 * Constructs the compatible state for parsing the given element property value.
-	 * 
+	 *
 	 * @param theHandler the parser handler
 	 * @param element    the design element
 	 */
@@ -55,22 +55,24 @@ abstract class CompatibleListPropertyState extends ListPropertyState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#generalJumpTo()
 	 */
 
+	@Override
 	protected AbstractParseState generalJumpTo() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.parser.ExpressionState#versionConditionalJumpTo
 	 * ()
 	 */
 
+	@Override
 	protected AbstractParseState versionConditionalJumpTo() {
 		return null;
 	}

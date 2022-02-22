@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.querydefn;
@@ -42,7 +42,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	private boolean isSummaryQuery = false;
 	private IBaseQueryDefinition sourceQuery;
 
-	private Set<IBaseLinkDefinition> links = new HashSet<IBaseLinkDefinition>();
+	private Set<IBaseLinkDefinition> links = new HashSet<>();
 
 	/** Constructs an empty query definition */
 	public QueryDefinition() {
@@ -52,7 +52,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	/**
 	 * This constructor can only be used in DTE, other module should not call this
 	 * constructor to pass the autobinding.
-	 * 
+	 *
 	 * @param autoBinding
 	 */
 	public QueryDefinition(boolean autoBinding) {
@@ -63,7 +63,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	/**
 	 * Constructs a query that is nested within another query. The outer query
 	 * (parent) can be another query, or a sub query.
-	 * 
+	 *
 	 * @param parent The outer query or subquery
 	 */
 	public QueryDefinition(IDataQueryDefinition parent) {
@@ -73,7 +73,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	/**
 	 * This constructor can only be used in DTE, other module should not call this
 	 * constructor to pass the autobinding.
-	 * 
+	 *
 	 * @param parent
 	 * @param autoBinding
 	 */
@@ -85,6 +85,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	/**
 	 * Gets the name of the data set used by this query
 	 */
+	@Override
 	public String getDataSetName() {
 		return dataSetName;
 	}
@@ -99,6 +100,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryDefinition#needAutoBinding()
 	 */
+	@Override
 	public boolean needAutoBinding() {
 		return this.autoBinding;
 	}
@@ -106,6 +108,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryDefinition#getQueryResultID()
 	 */
+	@Override
 	public String getQueryResultsID() {
 		return this.queryResultsID;
 	}
@@ -120,17 +123,18 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	/**
 	 * Returns the set of input parameter bindings as an unordered collection of
 	 * <code>InputParameterBinding</code> objects.
-	 * 
+	 *
 	 * @return the input parameter bindings. If no binding is defined, null is
 	 *         returned.
 	 */
+	@Override
 	public Collection getInputParamBindings() {
 		return bindings;
 	}
 
 	/**
 	 * Adds an input parameter binding to this report query.
-	 * 
+	 *
 	 * @param binding The bindings to set.
 	 */
 	public void addInputParamBinding(InputParameterBinding binding) {
@@ -152,21 +156,23 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	/**
 	 * @see org.eclipse.birt.data.engine.api.IQueryDefinition#getColumnProjection()
 	 */
+	@Override
 	public String[] getColumnProjection() {
 		return projectedColumns;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.api.IQueryDefinition#getBaseQuery()
 	 */
+	@Override
 	public IBaseQueryDefinition getSourceQuery() {
 		return sourceQuery;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sourceQuery
 	 */
 	public void setSourceQuery(IBaseQueryDefinition sourceQuery) {
@@ -177,14 +183,17 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 		this.isSummaryQuery = isSummaryQuery;
 	}
 
+	@Override
 	public boolean isSummaryQuery() {
 		return this.isSummaryQuery;
 	}
 
+	@Override
 	public Set<IBaseLinkDefinition> getLinks() {
 		return this.links;
 	}
 
+	@Override
 	public void addLink(IBaseLinkDefinition link) {
 		this.links.add(link);
 	}
@@ -207,6 +216,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 		clone.links.addAll(links);
 	}
 
+	@Override
 	public IQueryDefinition clone() {
 		QueryDefinition clone = new QueryDefinition();
 		cloneFields(clone);

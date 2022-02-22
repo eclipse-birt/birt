@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 
 /**
  * List item figure
- * 
+ *
  */
 public class ListFigure extends ReportElementFigure implements IFixLayoutHelper {
 
@@ -50,9 +50,10 @@ public class ListFigure extends ReportElementFigure implements IFixLayoutHelper 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
+	@Override
 	protected void paintFigure(Graphics graphics) {
 		super.paintFigure(graphics);
 		// graphics.drawRectangle(getBounds().getCopy().shrink(2,2));
@@ -60,7 +61,7 @@ public class ListFigure extends ReportElementFigure implements IFixLayoutHelper 
 
 	/**
 	 * Marks dirty flag on all children of this list.
-	 * 
+	 *
 	 * @param flag the flag to mark.
 	 */
 	public void markDirtyTree(boolean flag) {
@@ -69,7 +70,7 @@ public class ListFigure extends ReportElementFigure implements IFixLayoutHelper 
 
 	/**
 	 * Marks dirty flag on all children with the specified container.
-	 * 
+	 *
 	 * @param container the container to mark.
 	 * @param flag      the flag to mark.
 	 */
@@ -91,7 +92,7 @@ public class ListFigure extends ReportElementFigure implements IFixLayoutHelper 
 
 	/**
 	 * Marks dirty flag.
-	 * 
+	 *
 	 * @param flag the flag to mark.
 	 */
 	public void markDirty(boolean flag) {

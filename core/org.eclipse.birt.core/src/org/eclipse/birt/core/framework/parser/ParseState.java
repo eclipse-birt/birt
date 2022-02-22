@@ -25,7 +25,7 @@ public class ParseState extends AbstractParseState {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param theHandler the associated SAX parser handler
 	 */
 
@@ -35,10 +35,11 @@ public class ParseState extends AbstractParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 	 */
 
+	@Override
 	public XMLParserHandler getHandler() {
 		return handler;
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
 
 /**
- * 
+ *
  */
 
 public class UserPropertyBuilder extends BaseDialog {
@@ -101,6 +101,7 @@ public class UserPropertyBuilder extends BaseDialog {
 		}
 	}
 
+	@Override
 	protected boolean initDialog() {
 		switch (style) {
 		case USER_PROPERTY:
@@ -112,6 +113,7 @@ public class UserPropertyBuilder extends BaseDialog {
 		return super.initDialog();
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 
 		switch (style) {
@@ -147,6 +149,7 @@ public class UserPropertyBuilder extends BaseDialog {
 		nameEditor.setLayoutData(gd);
 		nameEditor.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				checkName();
 			}
@@ -184,6 +187,7 @@ public class UserPropertyBuilder extends BaseDialog {
 		ExpressionButtonUtil.createExpressionButton(parent, text, new ExpressionProvider(input), input);
 	}
 
+	@Override
 	protected void okPressed() {
 		UserPropertyDefn def = new UserPropertyDefn();
 		def.setName(nameEditor.getText().trim());

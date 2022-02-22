@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,26 +30,29 @@ public class ReportItemQueryBase implements IReportItemQuery {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.extension.IReportItemQuery#setModelObject(org.
 	 * eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
+	@Override
 	public void setModelObject(ExtendedItemHandle modelHandle) {
 		this.modelHandle = modelHandle;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.extension.IReportItemQuery#getReportQueries(
 	 * org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
+	@Override
 	public IBaseQueryDefinition[] getReportQueries(IBaseQueryDefinition parent) throws BirtException {
 		return null;
 	}
 
+	@Override
 	public IDataQueryDefinition[] createReportQueries(IDataQueryDefinition parent) throws BirtException {
 		if (parent instanceof IBaseQueryDefinition) {
 			return getReportQueries((IBaseQueryDefinition) parent);
@@ -57,6 +60,7 @@ public class ReportItemQueryBase implements IReportItemQuery {
 		return getReportQueries(null);
 	}
 
+	@Override
 	public void setQueryContext(IQueryContext context) {
 		this.context = context;
 	}

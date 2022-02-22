@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -42,7 +42,7 @@ abstract public class CDialogCellEditor extends DialogCellEditor {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public CDialogCellEditor() {
 		super();
@@ -51,10 +51,11 @@ abstract public class CDialogCellEditor extends DialogCellEditor {
 	/**
 	 * Returns whether the given value is valid for this cell editor. This cell
 	 * editor's validator (if any) makes the actual determination.
-	 * 
+	 *
 	 * @return <code>true</code> if the value is valid, and <code>false</code> if
 	 *         invalid
 	 */
+	@Override
 	protected boolean isCorrect(Object value) {
 		if (value == null || doGetValue() == null) {
 			return true;
@@ -73,10 +74,11 @@ abstract public class CDialogCellEditor extends DialogCellEditor {
 	 * display on the right hand side of the dialog cell editor. Subclasses may
 	 * extend or reimplement.
 	 * </p>
-	 * 
+	 *
 	 * @param parent the parent control
 	 * @return the new button control
 	 */
+	@Override
 	protected Button createButton(Composite parent) {
 		result = new Button(parent, SWT.PUSH);
 		result.setText("..."); //$NON-NLS-1$
@@ -97,20 +99,23 @@ abstract public class CDialogCellEditor extends DialogCellEditor {
 	 */
 
 	private boolean checkFocusControl(Control control) {
-		if (control.isFocusControl())
+		if (control.isFocusControl()) {
 			return true;
+		}
 		if (control instanceof Composite) {
 			Control[] children = ((Composite) control).getChildren();
 			if (children != null) {
 				for (int i = 0; i < children.length; i++) {
-					if (checkFocusControl(children[i]))
+					if (checkFocusControl(children[i])) {
 						return true;
+					}
 				}
 			}
 		}
 		return false;
 	}
 
+	@Override
 	protected void focusLost() {
 		if (!checkFocusControl(getControl())) {
 			doValueChanged();

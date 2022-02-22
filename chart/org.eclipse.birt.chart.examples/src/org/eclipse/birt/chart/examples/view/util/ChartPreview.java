@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -151,11 +151,12 @@ public class ChartPreview implements PaintListener, ControlListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 	 * PaintEvent)
 	 */
+	@Override
 	public void paintControl(PaintEvent pe) {
 		GC gc = pe.gc;
 		if (buffer != null) {
@@ -165,7 +166,7 @@ public class ChartPreview implements PaintListener, ControlListener {
 
 	/**
 	 * Set the preview canvas.
-	 * 
+	 *
 	 * @param paintCanvas
 	 */
 	public void setPreview(Canvas paintCanvas) {
@@ -174,11 +175,12 @@ public class ChartPreview implements PaintListener, ControlListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.ControlListener#controlMoved(org.eclipse.swt.events.
 	 * ControlEvent)
 	 */
+	@Override
 	public void controlMoved(ControlEvent e) {
 		// TODO Auto-generated method stub
 
@@ -186,11 +188,12 @@ public class ChartPreview implements PaintListener, ControlListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.ControlListener#controlResized(org.eclipse.swt.events.
 	 * ControlEvent)
 	 */
+	@Override
 	public void controlResized(ControlEvent e) {
 		if (preview != null && !preview.isDisposed()) {
 			updateBuffer();

@@ -35,7 +35,7 @@ import com.ibm.icu.text.Collator;
 
 /**
  * Tree viewer content provider adapter for resource browser.
- * 
+ *
  */
 
 public class CubeContentProvider implements ITreeContentProvider {
@@ -49,6 +49,7 @@ public class CubeContentProvider implements ITreeContentProvider {
 		this.useSorting = useSorting;
 	}
 
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof Object[]) {
 			return (Object[]) parentElement;
@@ -80,7 +81,7 @@ public class CubeContentProvider implements ITreeContentProvider {
 				VirtualField virtualDimsnion = new VirtualField(VirtualField.TYPE_DIMENSION);
 				virtualDimsnion.setModel(parentElement);
 				List dimensionList = new ArrayList();
-				List<DimensionHandle> dimensions = new ArrayList<DimensionHandle>();
+				List<DimensionHandle> dimensions = new ArrayList<>();
 				if (cube.getContentCount(CubeHandle.DIMENSIONS_PROP) > 0) {
 					dimensions.addAll(cube.getContents(CubeHandle.DIMENSIONS_PROP));
 				}
@@ -89,6 +90,7 @@ public class CubeContentProvider implements ITreeContentProvider {
 					// sort attribute list
 					Collections.sort(dimensions, new Comparator<DimensionHandle>() {
 
+						@Override
 						public int compare(DimensionHandle o1, DimensionHandle o2) {
 							return Collator.getInstance().compare(o1.getName(), o2.getName());
 						}
@@ -104,7 +106,7 @@ public class CubeContentProvider implements ITreeContentProvider {
 				VirtualField virtualMeasureGroup = new VirtualField(VirtualField.TYPE_MEASURE_GROUP);
 				virtualMeasureGroup.setModel(parentElement);
 				List measureGroupList = new ArrayList();
-				List<MeasureGroupHandle> measures = new ArrayList<MeasureGroupHandle>();
+				List<MeasureGroupHandle> measures = new ArrayList<>();
 				if (cube.getContentCount(CubeHandle.MEASURE_GROUPS_PROP) > 0) {
 					measures.addAll(cube.getContents(CubeHandle.MEASURE_GROUPS_PROP));
 				}
@@ -112,6 +114,7 @@ public class CubeContentProvider implements ITreeContentProvider {
 					// sort attribute list
 					Collections.sort(measures, new Comparator<MeasureGroupHandle>() {
 
+						@Override
 						public int compare(MeasureGroupHandle o1, MeasureGroupHandle o2) {
 							return Collator.getInstance().compare(o1.getName(), o2.getName());
 						}
@@ -125,8 +128,9 @@ public class CubeContentProvider implements ITreeContentProvider {
 		if (parentElement instanceof LevelHandle) {
 			HierarchyHandle hierarchy = (HierarchyHandle) ((LevelHandle) parentElement).getContainer();
 			int pos = ((LevelHandle) parentElement).getIndex();
-			if (hierarchy.getLevel(pos + 1) != null)
+			if (hierarchy.getLevel(pos + 1) != null) {
 				return new Object[] { hierarchy.getLevel(pos + 1) };
+			}
 		}
 		if (parentElement instanceof MeasureGroupHandle) {
 			Object[] measures = ((MeasureGroupHandle) parentElement).getContents(MeasureGroupHandle.MEASURES_PROP)
@@ -135,40 +139,46 @@ public class CubeContentProvider implements ITreeContentProvider {
 				VirtualField virtualMeasure = new VirtualField(VirtualField.TYPE_MEASURE);
 				virtualMeasure.setModel(parentElement);
 				return new Object[] { virtualMeasure };
-			} else
+			} else {
 				return measures;
+			}
 		}
 		return new Object[0];
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object )
 	 */
+	@Override
 	public Object getParent(Object element) {
 		if (element instanceof LevelHandle) {
 			HierarchyHandle hierarchy = (HierarchyHandle) ((LevelHandle) element).getContainer();
 			LevelHandle level = (LevelHandle) element;
-			if (hierarchy == null)
+			if (hierarchy == null) {
 				return null;
-			if (level.getIndex() > 0)
+			}
+			if (level.getIndex() > 0) {
 				return hierarchy.getLevel(level.getIndex() - 1);
-			else
+			} else {
 				return hierarchy.getContainer();
+			}
 		}
 		if (element instanceof MeasureGroupHandle) {
 			MeasureGroupHandle measures = (MeasureGroupHandle) element;
 			CubeHandle cube = (CubeHandle) measures.getContainer();
-			if (cube != null)
+			if (cube != null) {
 				return cube.getPropertyHandle(ICubeModel.MEASURE_GROUPS_PROP);
+			}
 		}
 		if (element instanceof DimensionHandle) {
 			DimensionHandle dimension = (DimensionHandle) element;
 			CubeHandle cube = (CubeHandle) dimension.getContainer();
-			if (cube != null)
+			if (cube != null) {
 				return cube.getPropertyHandle(ICubeModel.DIMENSIONS_PROP);
+			}
 		}
 		if (element instanceof MeasureHandle) {
 			return ((MeasureHandle) element).getContainer();
@@ -182,10 +192,11 @@ public class CubeContentProvider implements ITreeContentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
 	 * Object)
 	 */
+	@Override
 	public boolean hasChildren(Object element) {
 		if (element instanceof Object[]) {
 			return ((Object[]) element).length > 0;
@@ -203,10 +214,7 @@ public class CubeContentProvider implements ITreeContentProvider {
 			int pos = ((LevelHandle) element).getIndex();
 			return hierarchy.getLevel(pos + 1) != null;
 		}
-		if (element instanceof MeasureGroupHandle) {
-			return true;
-		}
-		if (element instanceof CubeHandle) {
+		if ((element instanceof MeasureGroupHandle) || (element instanceof CubeHandle)) {
 			return true;
 		}
 		if (element instanceof PropertyHandle) {
@@ -259,18 +267,21 @@ public class CubeContentProvider implements ITreeContentProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
 	 * .lang.Object)
 	 */
+	@Override
 	public Object[] getElements(Object inputElement) {
 		return getChildren(inputElement);
 	}
 
+	@Override
 	public void dispose() {
 
 	}
 
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 	}

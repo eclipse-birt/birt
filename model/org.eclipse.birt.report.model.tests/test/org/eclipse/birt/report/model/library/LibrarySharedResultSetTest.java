@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Tests cases in the library.
- * 
+ *
  * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
  * collapse" bordercolor="#111111" width="100%" id="AutoNumber3" height="50">
  * <tr>
@@ -31,23 +31,23 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td width="33%" height="16"><b>Test Case </b></td>
  * <td width="34%" height="16"><b>Expected Result </b></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testCannotExtends()}</td>
  * <td>Shared Result set report items cannot be extended.</td>
  * <td>Extends exception throws.</td>
  * </tr>
- * 
- * 
+ *
+ *
  * </table>
- * 
+ *
  */
 
 public class LibrarySharedResultSetTest extends BaseTestCase {
 
 	/**
 	 * Shared Result set report items cannot be extended.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

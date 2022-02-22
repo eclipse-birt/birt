@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -77,6 +77,7 @@ public class BookmarkManager {
 
 	static private class StringSerializer implements BTreeSerializer<String> {
 
+		@Override
 		public byte[] getBytes(String object) throws IOException {
 			ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
 			DataOutput oo = new DataOutputStream(out);
@@ -84,6 +85,7 @@ public class BookmarkManager {
 			return out.toByteArray();
 		}
 
+		@Override
 		public String getObject(byte[] bytes) throws IOException, ClassNotFoundException {
 			DataInput input = new DataInputStream(new ByteArrayInputStream(bytes));
 			return input.readUTF();
@@ -92,12 +94,14 @@ public class BookmarkManager {
 
 	static private class IntegerSerializer implements BTreeSerializer<Integer> {
 
+		@Override
 		public byte[] getBytes(Integer object) throws IOException {
 			byte[] bytes = new byte[4];
 			BTreeUtils.integerToBytes(object.intValue(), bytes);
 			return bytes;
 		}
 
+		@Override
 		public Integer getObject(byte[] bytes) throws IOException, ClassNotFoundException {
 			return new Integer(BTreeUtils.bytesToInteger(bytes));
 		}
@@ -105,7 +109,7 @@ public class BookmarkManager {
 
 	private class BookmarkHashSet {
 
-		protected HashMap<String, Integer> inlineMap = new HashMap<String, Integer>();
+		protected HashMap<String, Integer> inlineMap = new HashMap<>();
 		protected BTree<String, Integer> btree = null;
 		protected String fileName;
 		protected ExecutionContext context;
@@ -148,14 +152,9 @@ public class BookmarkManager {
 			if (btree == null) {
 				btree = createBtree();
 			}
-			ArrayList<Map.Entry<String, Integer>> entries = new ArrayList<Map.Entry<String, Integer>>(
+			ArrayList<Map.Entry<String, Integer>> entries = new ArrayList<>(
 					inlineMap.entrySet());
-			Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
-
-				public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-					return o1.getKey().compareTo(o2.getKey());
-				}
-			});
+			Collections.sort(entries, Comparator.comparing(Entry::getKey));
 
 			for (Map.Entry<String, Integer> entry : entries) {
 				btree.insert(entry.getKey(), VALUE);
@@ -166,13 +165,13 @@ public class BookmarkManager {
 			String tmpdir = context.getEngine().getConfig().getTempDir();
 			fileName = tmpdir + File.separator + UUID.randomUUID();
 			FileBTreeFile file = new FileBTreeFile(fileName);
-			BTreeOption<String, Integer> option = new BTreeOption<String, Integer>();
+			BTreeOption<String, Integer> option = new BTreeOption<>();
 			option.setHasValue(true);
 			option.setKeySerializer(new StringSerializer());
 			option.setValueSerializer(new IntegerSerializer());
 			option.setValueSize(4);
 			option.setFile(file);
-			return new BTree<String, Integer>(option);
+			return new BTree<>(option);
 		}
 
 		public void close() {

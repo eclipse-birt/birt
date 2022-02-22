@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -34,14 +34,14 @@ public abstract class AbstractExtractResultSetActionHandler extends AbstractBase
 		super(context, operation, response);
 	}
 
+	@Override
 	protected void __execute() throws Exception {
 		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean();
 
 		String docName = attrBean.getReportDocumentName();
 		String resultSetName = ParameterAccessor.getResultSetName(context.getRequest());
 		Collection columns = ParameterAccessor.getSelectedColumns(context.getRequest());
-		Set colSet = new HashSet();
-		colSet.addAll(columns);
+		Set colSet = new HashSet(columns);
 		Set filters = Collections.EMPTY_SET;
 		InputOptions options = new InputOptions();
 		options.setOption(InputOptions.OPT_REQUEST, context.getRequest());

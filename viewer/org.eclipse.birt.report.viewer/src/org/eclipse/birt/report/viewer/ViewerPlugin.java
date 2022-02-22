@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -112,7 +112,7 @@ public class ViewerPlugin extends Plugin {
 
 	static {
 		// Initialize the locale mapping table
-		timeZoneTable_disKey = new TreeMap<String, String>(Collator.getInstance());
+		timeZoneTable_disKey = new TreeMap<>(Collator.getInstance());
 		String ids[] = TimeZone.getAvailableIDs();
 
 		if (ids != null) {
@@ -143,10 +143,11 @@ public class ViewerPlugin extends Plugin {
 
 	/**
 	 * This method is called upon plug-in activation.
-	 * 
+	 *
 	 * @param context bundle context
 	 * @exception Exception
 	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		bundleContext = context;
@@ -171,13 +172,15 @@ public class ViewerPlugin extends Plugin {
 		plugin.getPluginPreferences().setDefault(BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY, true);
 
 		// set viewer plugin working path
-		if (plugin.getStateLocation() != null)
+		if (plugin.getStateLocation() != null) {
 			System.setProperty(BIRT_VIEWER_WORKING_PATH, plugin.getStateLocation().toOSString());
+		}
 
 		// set viewer root path
 		String rootPath = getFilePath("/birt"); //$NON-NLS-1$
-		if (rootPath != null)
+		if (rootPath != null) {
 			System.setProperty(BIRT_VIEWER_ROOT_PATH, rootPath);
+		}
 
 		// set designer flag
 		System.setProperty(BIRT_IS_DESIGNER, "true"); //$NON-NLS-1$
@@ -191,7 +194,7 @@ public class ViewerPlugin extends Plugin {
 
 	/**
 	 * Returns the file path
-	 * 
+	 *
 	 * @param path
 	 * @return
 	 */
@@ -208,10 +211,11 @@ public class ViewerPlugin extends Plugin {
 
 	/**
 	 * This method is called when the plug-in is stopped.
-	 * 
+	 *
 	 * @param context bundle context
 	 * @exception Exception
 	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		WebViewer.stopAll();
 		super.stop(context);
@@ -219,7 +223,7 @@ public class ViewerPlugin extends Plugin {
 
 	/**
 	 * Returns the shared instance.
-	 * 
+	 *
 	 * @return ViewerPlugin
 	 */
 	public static ViewerPlugin getDefault() {
@@ -228,7 +232,7 @@ public class ViewerPlugin extends Plugin {
 
 	/**
 	 * Returns the string from the plugin's resource bundle, or 'key' if not found.
-	 * 
+	 *
 	 * @param key resource key
 	 * @return resource string
 	 */
@@ -244,7 +248,7 @@ public class ViewerPlugin extends Plugin {
 
 	/**
 	 * Get formatted string.
-	 * 
+	 *
 	 * @param key
 	 * @param arguments
 	 * @return formatte resource string
@@ -269,7 +273,7 @@ public class ViewerPlugin extends Plugin {
 
 	/**
 	 * Returns the plugin's resource bundle,
-	 * 
+	 *
 	 * @return resource boundle
 	 */
 	public ResourceBundle getResourceBundle() {
@@ -278,7 +282,7 @@ public class ViewerPlugin extends Plugin {
 
 	/**
 	 * Return an array of all bundles contained in this workbench.
-	 * 
+	 *
 	 * @return an array of bundles in the workbench or an empty array if none
 	 * @since 3.0
 	 */
@@ -288,7 +292,7 @@ public class ViewerPlugin extends Plugin {
 
 	/**
 	 * get the bundle context
-	 * 
+	 *
 	 * @return bundle context
 	 */
 	public BundleContext getBundleContext() {
