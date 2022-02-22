@@ -36,7 +36,7 @@
         <setEntry value="com.google.protobuf@default:default"/>
         <setEntry value="com.ibm.icu*67.1.0.v20200706-1749@default:default"/>
         <setEntry value="com.jcraft.jsch@default:default"/>
-        <setEntry value="com.lowagie.text@default:default"/>
+        <setEntry value="com.github.librepdf.openpdf@default:default"/>
         <setEntry value="com.sun.el@default:default"/>
         <setEntry value="com.sun.jna.platform@default:default"/>
         <setEntry value="com.sun.jna@default:default"/>

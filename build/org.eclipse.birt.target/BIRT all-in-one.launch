@@ -31,7 +31,7 @@
     <stringAttribute key="product" value="org.eclipse.platform.ide"/>
     <setAttribute key="selected_target_bundles">
         <setEntry value="com.ibm.icu*67.1.0.v20200706-1749@default:default"/>
-        <setEntry value="com.lowagie.text@default:default"/>
+        <setEntry value="com.github.librepdf.openpdf@default:default"/>
         <setEntry value="com.sun.jna*5.8.0.v20210503-0343@default:default"/>
         <setEntry value="com.sun.jna.platform*5.8.0.v20210406-1004@default:default"/>
         <setEntry value="jakarta.annotation-api@default:default"/>
