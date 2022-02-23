@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  *
  * Contributors:
- *   See git history
+ *   Henning von Bargen  - initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.emitter.pdf;
