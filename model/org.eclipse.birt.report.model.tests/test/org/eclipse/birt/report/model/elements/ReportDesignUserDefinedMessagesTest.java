@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,64 +32,64 @@ import com.ibm.icu.util.ULocale;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testGetMessage()}</td>
  * <td>ULocale is ENGLISH, translated text is defined in translations, keyed by
  * "en".</td>
  * <td>Translated text for "en" is returned.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>locale is CHINA, translated text is defined in translations, keyed by
  * "zh_CN".</td>
  * <td>Translated text for "zh_CN" is returned.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>locale is FRANCE, translated text is not defined.</td>
  * <td>return null.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetTranslations()}</td>
  * <td>6 translations is defined in design file.</td>
  * <td>list returned contains 6 translations.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>design file defined no translations.</td>
  * <td>return null.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testFindTranslation()}</td>
  * <td>Find a translation, locale is null.</td>
  * <td>return should be the translation without a locale.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Find a translation, locale is "zh_CN".</td>
  * <td>return should be the translation with the loclae "zh_CN".</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Find a translation, the resource key is not defined.</td>
  * <td>return should be null.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testGetTranslationResourceKeys()}</td>
  * <td>Get an string array containing all the resource keys defined.</td>
  * <td>The array returned containing all the resource keyes defined for the
  * design.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testTranslationSemanticCheck()}</td>
  * <td>All the locale names must be unique within a resource, and each
@@ -112,7 +112,7 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase {
 	 * <p>
 	 * 3. locale is FRANCE, translated text is not defined.
 	 * <p>
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 	public void testGetMessage() throws DesignFileException {
@@ -172,7 +172,7 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase {
 
 	/**
 	 * Get a message.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -196,7 +196,7 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase {
 
 	/**
 	 * Test getMessageKeys().
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -227,9 +227,9 @@ public class ReportDesignUserDefinedMessagesTest extends BaseTestCase {
 
 	/**
 	 * Test semantic check.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void testTranslationSemanticCheck() throws Exception {
 		try {

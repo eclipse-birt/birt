@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -124,21 +124,26 @@ public class BirtExceptionTest extends TestCase {
 
 	// default (English language, United States)
 	private class MyResources extends ResourceBundle {
+		@Override
 		public Object handleGetObject(String key) {
-			if (key.equals(FATAL_ERROR_KEY))
+			if (key.equals(FATAL_ERROR_KEY)) {
 				return fatalError;
-			if (key.equals(CONCATENATED_ERROR_KEY))
+			}
+			if (key.equals(CONCATENATED_ERROR_KEY)) {
 				return concatenatedError;
-			if (key.equals(CONCATENATED_ERROR_ONE_ARG_KEY))
+			}
+			if (key.equals(CONCATENATED_ERROR_ONE_ARG_KEY)) {
 				return concatenatedErrorOneArg;
+			}
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.util.ResourceBundle#getKeys()
 		 */
+		@Override
 		public Enumeration getKeys() {
 			// TODO Auto-generated method stub
 			return null;
@@ -147,13 +152,17 @@ public class BirtExceptionTest extends TestCase {
 
 	// German language
 	private class MyResources_de extends MyResources {
+		@Override
 		public Object handleGetObject(String key) {
-			if (key.equals(FATAL_ERROR_KEY))
+			if (key.equals(FATAL_ERROR_KEY)) {
 				return fatalErrorDE;
-			if (key.equals(CONCATENATED_ERROR_KEY))
+			}
+			if (key.equals(CONCATENATED_ERROR_KEY)) {
 				return concatenatedErrorDE;
-			if (key.equals(CONCATENATED_ERROR_ONE_ARG_KEY))
+			}
+			if (key.equals(CONCATENATED_ERROR_ONE_ARG_KEY)) {
 				return concatenatedErrorDEOneArg;
+			}
 			return null;
 		}
 	}

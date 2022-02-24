@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class LabelLimiter {
 	/**
 	 * Options used by method limitLabelSize. Option
 	 */
-	public static enum Option {
+	public enum Option {
 		/**
 		 * limitLabelSize will return the old maxWidth instead of the calculated one
 		 * (smaller).
@@ -43,7 +43,7 @@ public class LabelLimiter {
 		 * (smaller).
 		 */
 		FIX_HEIGHT
-	};
+	}
 
 	private static final IGObjectFactory goFactory = GObjectFactory.instance();
 	private double maxWidth;
@@ -53,7 +53,7 @@ public class LabelLimiter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param maxWidth
 	 * @param maxHeight
 	 * @param wrapping
@@ -75,7 +75,7 @@ public class LabelLimiter {
 
 	/**
 	 * Returns a bounding box using maxWidth and maxHeight
-	 * 
+	 *
 	 * @param bb will be updated and returned if not null, otherwise a new bounding
 	 *           box will be created.
 	 * @return
@@ -90,7 +90,7 @@ public class LabelLimiter {
 	/**
 	 * Compute the wrapping with maxWidth, maxHeight. If the wrapping is set to 0,
 	 * namely auto, this method should be called before calling limitLabelSize.
-	 * 
+	 *
 	 * @param xs
 	 * @param la
 	 * @param lbLimit
@@ -136,14 +136,12 @@ public class LabelLimiter {
 						d = b / tg;
 					}
 
+				} else if (((tg < 1) && (r < ht1 / wd1)) || ((tg > 1) && (r < ht1 / wd1))) {
+					b = (wd1 - ht1 * tg) / m;
+					d = (ht1 - wd1 * tg) / m;
 				} else {
-					if (((tg < 1) && (r < ht1 / wd1)) || ((tg > 1) && (r < ht1 / wd1))) {
-						b = (wd1 - ht1 * tg) / m;
-						d = (ht1 - wd1 * tg) / m;
-					} else {
-						d = ht1 / 2;
-						b = d / tg;
-					}
+					d = ht1 / 2;
+					b = d / tg;
 				}
 
 				double cos = Math.cos(rad);
@@ -166,7 +164,7 @@ public class LabelLimiter {
 
 	/**
 	 * modify the text of la to fit the limit size.
-	 * 
+	 *
 	 * @param xs
 	 * @param la
 	 * @return
@@ -178,7 +176,7 @@ public class LabelLimiter {
 
 	/**
 	 * modify the text of la to fit the limit size.
-	 * 
+	 *
 	 * @param xs
 	 * @param la
 	 * @param options
@@ -194,7 +192,7 @@ public class LabelLimiter {
 	 * To compute the text of the label with a limited size, the label text will be
 	 * wrapped and shortened with ellipsis if required, the size of the label bound
 	 * will be returned.
-	 * 
+	 *
 	 * @param xs
 	 * @param la
 	 * @param maxSize

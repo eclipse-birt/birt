@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.xml.sax.Attributes;
  * for a report item. Since both contexts use exactly the same XML (except for
  * the name and extends attributes), and both use the same property names,
  * having one state handle both contexts makes the parser simpler.
- * 
+ *
  */
 
 class StyleState extends ReportElementState {
@@ -68,7 +68,7 @@ class StyleState extends ReportElementState {
 	/**
 	 * Constructs for creating a named shared style with the design file parser
 	 * handler.
-	 * 
+	 *
 	 * @param handler the design file parser handler
 	 */
 
@@ -78,11 +78,12 @@ class StyleState extends ReportElementState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		element = new Style();
 		initElement(attrs, true);
@@ -90,17 +91,19 @@ class StyleState extends ReportElementState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.parser.ReportElementState#isNameSpaceRequired
 	 * (org.eclipse.birt.report.model.core.DesignElement, int,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
+	@Override
 	public void end() {
 		makeTestExpressionCompatible();
 	}

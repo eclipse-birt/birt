@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
  * Provides API to operate a joint data set.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.JointDataSet
  */
 
@@ -42,7 +42,7 @@ public class JointDataSetHandle extends DataSetHandle implements IJointDataSetMo
 	 * data set. The application generally does not create handles directly.
 	 * Instead, it uses one of the navigation methods available on other element
 	 * handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -53,7 +53,7 @@ public class JointDataSetHandle extends DataSetHandle implements IJointDataSetMo
 
 	/**
 	 * Gets the names of the data sets in this joint data set.
-	 * 
+	 *
 	 * @return a list of names of data sets in this joint data set.
 	 */
 
@@ -64,14 +64,15 @@ public class JointDataSetHandle extends DataSetHandle implements IJointDataSetMo
 	/**
 	 * Gets data sets in this joint data set. Each item in the list is instance of
 	 * <code>DataSetHandle</code>.
-	 * 
+	 *
 	 * @return a list of data sets in this joint data set.
 	 */
 
 	public Iterator dataSetsIterator() {
 		List dataSetRefs = (List) getElement().getProperty(getModule(), DATA_SETS_PROP);
-		if (dataSetRefs == null)
+		if (dataSetRefs == null) {
 			return Collections.EMPTY_LIST.iterator();
+		}
 
 		List rtnList = new ArrayList();
 
@@ -79,8 +80,9 @@ public class JointDataSetHandle extends DataSetHandle implements IJointDataSetMo
 			ElementRefValue dataSetRef = (ElementRefValue) dataSetRefs.get(i);
 			if (dataSetRef != null) {
 				DataSet ds = (DataSet) dataSetRef.getElement();
-				if (ds == null)
+				if (ds == null) {
 					continue;
+				}
 				rtnList.add(ds.getHandle(ds.getRoot()));
 			}
 		}
@@ -90,7 +92,7 @@ public class JointDataSetHandle extends DataSetHandle implements IJointDataSetMo
 
 	/**
 	 * Adds a data set into this joint data set by name.
-	 * 
+	 *
 	 * @param dataSetName the name of the data set to be added in.
 	 * @throws SemanticException if the the value of the item is incorrect.
 	 */
@@ -103,10 +105,10 @@ public class JointDataSetHandle extends DataSetHandle implements IJointDataSetMo
 
 	/**
 	 * Removes a data set from this joint data set by name.
-	 * 
+	 *
 	 * @param dataSetName the name of the data set to be removed.
 	 * @throws SemanticException if the the value of the item is incorrect.
-	 * 
+	 *
 	 */
 
 	public void removeDataSet(String dataSetName) throws SemanticException {
@@ -118,7 +120,7 @@ public class JointDataSetHandle extends DataSetHandle implements IJointDataSetMo
 	 * Returns the iterator of join conditions. The element in the iterator is the
 	 * corresponding <code>JoinConditionHandle</code> that deal with a
 	 * <code>JoinCondition</code>.
-	 * 
+	 *
 	 * @return the iterator of join condition structure list
 	 */
 
@@ -132,26 +134,29 @@ public class JointDataSetHandle extends DataSetHandle implements IJointDataSetMo
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.DataSetHandle#paramBindingsIterator()
 	 */
+	@Override
 	public Iterator paramBindingsIterator() {
 		return Collections.EMPTY_LIST.iterator();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
+	@Override
 	public void setProperty(String propName, Object value) throws SemanticException {
 		if (!(PARAM_BINDINGS_PROP.equalsIgnoreCase(propName) || CACHED_ROW_COUNT_PROP.equalsIgnoreCase(propName)
 				|| AFTER_CLOSE_METHOD.equalsIgnoreCase(propName)) || DATA_SET_ROW_LIMIT.equalsIgnoreCase(propName)
 				|| AFTER_OPEN_METHOD.equalsIgnoreCase(propName) || BEFORE_CLOSE_METHOD.equalsIgnoreCase(propName)
 				|| BEFORE_OPEN_METHOD.equalsIgnoreCase(propName) || DATA_SOURCE_PROP.equalsIgnoreCase(propName)
-				|| ON_FETCH_METHOD.equalsIgnoreCase(propName))
+				|| ON_FETCH_METHOD.equalsIgnoreCase(propName)) {
 			super.setProperty(propName, value);
+		}
 	}
 }

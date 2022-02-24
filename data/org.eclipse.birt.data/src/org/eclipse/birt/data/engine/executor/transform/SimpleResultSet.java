@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -77,7 +77,7 @@ import org.eclipse.birt.data.engine.storage.IDataSetWriter;
 
 /**
  * A Result Set that directly fetch data from ODA w/o using any cache.
- * 
+ *
  * @author Work
  *
  */
@@ -114,7 +114,7 @@ public class SimpleResultSet implements IResultIterator {
 	private boolean firstRowSaved = false;
 
 	/**
-	 * 
+	 *
 	 * @param dataSourceQuery
 	 * @param resultSet
 	 * @param resultClass
@@ -129,6 +129,7 @@ public class SimpleResultSet implements IResultIterator {
 
 		this.closeable = new ICloseable() {
 
+			@Override
 			public void close() throws DataException {
 				resultSet.close();
 
@@ -159,6 +160,7 @@ public class SimpleResultSet implements IResultIterator {
 
 		this.closeable = new ICloseable() {
 
+			@Override
 			public void close() throws DataException {
 				customDataSet.close();
 
@@ -186,9 +188,10 @@ public class SimpleResultSet implements IResultIterator {
 	}
 
 	private void populateComputedColumnHelper(BaseQuery baseQuery) {
-		if (baseQuery.getFetchEvents() == null)
+		if (baseQuery.getFetchEvents() == null) {
 			return;
-		this.onFetchEvents = new ArrayList<OnFetchScriptHelper>();
+		}
+		this.onFetchEvents = new ArrayList<>();
 		for (int i = 0; i < baseQuery.getFetchEvents().size(); i++) {
 			IResultObjectEvent event = (IResultObjectEvent) baseQuery.getFetchEvents().get(i);
 			if (event instanceof ComputedColumnHelper) {
@@ -202,20 +205,23 @@ public class SimpleResultSet implements IResultIterator {
 	}
 
 	private void updateFetchEventMode(int mode) throws DataException {
-		if (this.ccHelper != null)
+		if (this.ccHelper != null) {
 			this.ccHelper.setModel(mode);
-		if (this.filterByRow != null)
+		}
+		if (this.filterByRow != null) {
 			this.filterByRow
 					.setWorkingFilterSet(mode == TransformationConstants.DATA_SET_MODEL ? filterByRow.DATASET_FILTER
 							: filterByRow.QUERY_FILTER);
+		}
 	}
 
 	private void populateRowResultSet(IEventHandler handler, SmartCacheRequest scRequest, boolean lookingForward) {
 		DataSetRuntime runtime = handler.getDataSetRuntime();
-		if (runtime == null)
+		if (runtime == null) {
 			this.rowResultSet = new RowResultSet(scRequest);
-		else
+		} else {
 			this.rowResultSet = new RowResultSetWithResultSetScope(scRequest, runtime);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -272,12 +278,14 @@ public class SimpleResultSet implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#close()
 	 */
+	@Override
 	public void close() throws DataException {
-		if (this.isClosed)
+		if (this.isClosed) {
 			return;
+		}
 		if (this.closeable != null) {
 			this.closeable.close();
 			this.closeable = null;
@@ -354,19 +362,21 @@ public class SimpleResultSet implements IResultIterator {
 		this.filterByRow = null;
 		this.dataSourceQuery = null;
 		this.resultSetNameSet.clear();
-		if (onFetchEvents != null)
+		if (onFetchEvents != null) {
 			onFetchEvents.clear();
+		}
 
 		this.isClosed = true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.odi.IResultIterator#addIncrement(org.eclipse.
 	 * birt.data.engine.impl.document.StreamWrapper, int, boolean)
 	 */
+	@Override
 	public void incrementalUpdate(StreamWrapper streamsWrapper, int originalRowCount, boolean isSubQuery)
 			throws DataException {
 		this.streamsWrapper = streamsWrapper;
@@ -412,11 +422,12 @@ public class SimpleResultSet implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.odi.IResultIterator#doSave(org.eclipse.birt.data
 	 * .engine.impl.document.StreamWrapper, boolean)
 	 */
+	@Override
 	public void doSave(StreamWrapper streamsWrapper, boolean isSubQuery) throws DataException {
 		assert streamsWrapper != null;
 		this.streamsWrapper = streamsWrapper;
@@ -435,8 +446,9 @@ public class SimpleResultSet implements IResultIterator {
 				dataSetStream = this.streamsWrapper.getStreamManager().getOutStream(
 						DataEngineContext.DATASET_DATA_STREAM, StreamManager.ROOT_STREAM, StreamManager.SELF_SCOPE);
 				dataSetLenStream = streamsWrapper.getStreamForDataSetRowLens();
-				if (dataSetStream instanceof RAOutputStream)
+				if (dataSetStream instanceof RAOutputStream) {
 					rowCountOffset = ((RAOutputStream) dataSetStream).getOffset();
+				}
 				IOUtil.writeInt(dataSetStream, this.initialRowCount);
 
 				if (auxiliaryIndexCreators != null) {
@@ -457,10 +469,11 @@ public class SimpleResultSet implements IResultIterator {
 
 	private IResultClass populateResultClass(IResultClass meta) throws DataException {
 		if (resultClass == null) {
-			List<ResultFieldMetadata> list = new ArrayList<ResultFieldMetadata>();
+			List<ResultFieldMetadata> list = new ArrayList<>();
 			for (int i = 1; i <= meta.getFieldCount(); i++) {
-				if (!meta.getFieldName(i).equals(ExprMetaUtil.POS_NAME))
+				if (!meta.getFieldName(i).equals(ExprMetaUtil.POS_NAME)) {
 					list.add(meta.getFieldMetaData(i));
+				}
 			}
 			resultClass = new ResultClass(list);
 		}
@@ -469,9 +482,10 @@ public class SimpleResultSet implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#first(int)
 	 */
+	@Override
 	public void first(int groupingLevel) throws DataException {
 		// TODO Auto-generated method stub
 
@@ -479,10 +493,11 @@ public class SimpleResultSet implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getAggrValue(java.lang.
 	 * String)
 	 */
+	@Override
 	public Object getAggrValue(String aggrName) throws DataException {
 		return this.aggrHelper.getAggrValue(aggrName, this);
 	}
@@ -507,10 +522,11 @@ public class SimpleResultSet implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentGroupIndex(int)
 	 */
+	@Override
 	public int getCurrentGroupIndex(int groupLevel) throws DataException {
 		// TODO Auto-generated method stub
 		return 0;
@@ -518,47 +534,52 @@ public class SimpleResultSet implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentResult()
 	 */
+	@Override
 	public IResultObject getCurrentResult() throws DataException {
 		return this.currResultObj;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentResultIndex()
 	 */
+	@Override
 	public int getCurrentResultIndex() throws DataException {
 		return this.rowResultSet.getIndex();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getEndingGroupLevel()
 	 */
+	@Override
 	public int getEndingGroupLevel() throws DataException {
 		return this.groupCalculator.getEndingGroup();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getExecutorHelper()
 	 */
+	@Override
 	public IExecutorHelper getExecutorHelper() {
 		return this.handler.getExecutorHelper();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.odi.IResultIterator#getGroupStartAndEndIndex(
 	 * int)
 	 */
+	@Override
 	public int[] getGroupStartAndEndIndex(int groupLevel) throws DataException {
 		// TODO Auto-generated method stub
 		return null;
@@ -566,9 +587,10 @@ public class SimpleResultSet implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getResultClass()
 	 */
+	@Override
 	public IResultClass getResultClass() throws DataException {
 		// TODO Auto-generated method stub
 		return this.rowResultSet.getMetaData();
@@ -576,9 +598,10 @@ public class SimpleResultSet implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getResultSetCache()
 	 */
+	@Override
 	public ResultSetCache getResultSetCache() {
 		// TODO Auto-generated method stub
 		return null;
@@ -586,46 +609,51 @@ public class SimpleResultSet implements IResultIterator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getRowCount()
 	 */
+	@Override
 	public int getRowCount() throws DataException {
 		return this.initialRowCount;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getStartingGroupLevel()
 	 */
+	@Override
 	public int getStartingGroupLevel() throws DataException {
 		return this.groupCalculator.getStartingGroup();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#last(int)
 	 */
+	@Override
 	public void last(int groupingLevel) throws DataException {
-		if (this.getEndingGroupLevel() <= groupingLevel)
-			return;
-		else {
+		if (this.getEndingGroupLevel() <= groupingLevel) {
+		} else {
 			while (this.next()) {
-				if (this.getEndingGroupLevel() <= groupingLevel)
+				if (this.getEndingGroupLevel() <= groupingLevel) {
 					return;
+				}
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#next()
 	 */
+	@Override
 	public boolean next() throws DataException {
-		if (currResultObj == null)
+		if (currResultObj == null) {
 			return false;
+		}
 
 		if (!this.firstRowSaved) {
 			this.firstRowSaved = true;
@@ -633,8 +661,9 @@ public class SimpleResultSet implements IResultIterator {
 		}
 		doNext();
 
-		if (currResultObj != null)
+		if (currResultObj != null) {
 			saveDataSetResultSet(currResultObj, rowCount - 1);
+		}
 		return this.currResultObj != null;
 	}
 
@@ -646,15 +675,17 @@ public class SimpleResultSet implements IResultIterator {
 			this.groupCalculator.registerCurrentResultObject(this.currResultObj);
 
 			this.groupCalculator.registerNextResultObject(this.rowResultSet);
-			if (this.currResultObj != null)
+			if (this.currResultObj != null) {
 				this.groupCalculator.next(this.rowResultSet.getIndex());
+			}
 		} catch (DataException e) {
 			this.currResultObj = null;
 			throw e;
 		}
 
-		if (this.currResultObj != null)
+		if (this.currResultObj != null) {
 			rowCount++;
+		}
 	}
 
 	private void saveDataSetResultSet(IResultObject rs, int index) throws DataException {
@@ -689,42 +720,50 @@ public class SimpleResultSet implements IResultIterator {
 
 	private class DummyAggregationHelper implements IProgressiveAggregationHelper {
 
+		@Override
 		public void onRow(int startingGroupLevel, int endingGroupLevel, IResultObject ro, int currentRowIndex)
 				throws DataException {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void close() throws DataException {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public Object getLatestAggrValue(String name) throws DataException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		@Override
 		public Object getAggrValue(String name, IResultIterator ri) throws DataException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		@Override
 		public List getAggrValues(String name) throws DataException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		@Override
 		public boolean hasAggr(String name) throws DataException {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public Set<String> getAggrNames() throws DataException {
 			// TODO Auto-generated method stub
-			return new HashSet<String>();
+			return new HashSet<>();
 		}
 
+		@Override
 		public IAggrInfo getAggrInfo(String aggrName) throws DataException {
 			// TODO Auto-generated method stub
 			return null;
@@ -733,57 +772,70 @@ public class SimpleResultSet implements IResultIterator {
 	}
 
 	private class DummyGroupCalculator implements IGroupCalculator {
+		@Override
 		public void registerPreviousResultObject(IResultObject previous) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void registerCurrentResultObject(IResultObject current) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void registerNextResultObject(RowResultSet rowResultSet) throws DataException {
 			// TODO Auto-generated method stub
 		}
 
+		@Override
 		public void next(int rowId) throws DataException {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public int getStartingGroup() throws DataException {
-			if (rowCount == 1)
+			if (rowCount == 1) {
 				return 0;
+			}
 			return 1;
 		}
 
+		@Override
 		public int getEndingGroup() throws DataException {
-			if (currResultObj == null)
+			if (currResultObj == null) {
 				return 0;
+			}
 			return 1;
 		}
 
+		@Override
 		public void close() throws DataException {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void doSave(StreamManager manager) throws DataException {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void setAggrHelper(IProgressiveAggregationHelper aggrHelper) throws DataException {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public boolean isAggrAtIndexAvailable(String aggrName, int currentIndex) throws DataException {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public Integer[] getGroupInstanceIndex() {
 			// TODO Auto-generated method stub
 			return new Integer[0];
@@ -800,19 +852,23 @@ public class SimpleResultSet implements IResultIterator {
 			this.runtime = runtime;
 		}
 
+		@Override
 		protected void beforeNext() throws DataException {
 			this.cachedMode = this.runtime.getMode();
 			this.runtime.setMode(Mode.DataSet);
 		}
 
+		@Override
 		protected void afterNext() throws DataException {
 			this.runtime.setMode(this.cachedMode);
 		}
 
+		@Override
 		protected void beforeProcessFetchEvent(IResultObject resultObject, int currentIndex) throws DataException {
 			updateFetchEventMode(TransformationConstants.DATA_SET_MODEL);
 		}
 
+		@Override
 		protected void afterProcessFetchEvent(IResultObject resultObject, int currentIndex) throws DataException {
 			updateFetchEventMode(TransformationConstants.RESULT_SET_MODEL);
 		}
@@ -841,19 +897,21 @@ public class SimpleResultSet implements IResultIterator {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.executor.cache.RowResultSet#fetch()
 		 */
+		@Override
 		protected IResultObject fetch() throws DataException {
 			return this.rowResultSet.next();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.executor.cache.RowResultSet#beforeProcess
 		 * (org.eclipse.birt.data.engine.odi.IResultObject, int)
 		 */
+		@Override
 		protected void beforeProcessFetchEvent(IResultObject resultObject, int currentIndex) throws DataException {
 			initialize();
 			updateFetchEventMode(TransformationConstants.RESULT_SET_MODEL);
@@ -863,23 +921,26 @@ public class SimpleResultSet implements IResultIterator {
 		}
 
 		private void removeOnFetchScriptHelper() {
-			if (SimpleResultSet.this.dataSourceQuery.getFetchEvents() == null)
+			if (SimpleResultSet.this.dataSourceQuery.getFetchEvents() == null) {
 				return;
+			}
 			SimpleResultSet.this.dataSourceQuery.getFetchEvents().removeAll(SimpleResultSet.this.onFetchEvents);
 		}
 
 		private void restoreOnFetchScriptHelper() {
-			if (SimpleResultSet.this.dataSourceQuery.getFetchEvents() == null)
+			if (SimpleResultSet.this.dataSourceQuery.getFetchEvents() == null) {
 				return;
+			}
 			SimpleResultSet.this.dataSourceQuery.getFetchEvents().addAll(SimpleResultSet.this.onFetchEvents);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.data.engine.executor.cache.RowResultSet#afterProcess
 		 * (org.eclipse.birt.data.engine.odi.IResultObject, int)
 		 */
+		@Override
 		protected void afterProcessFetchEvent(IResultObject rsRow, int currentIndex) throws DataException {
 			updateFetchEventMode(TransformationConstants.DATA_SET_MODEL);
 			this.runtime.setJSResultSetRow(this.savedJSResultSetRow);
@@ -887,88 +948,107 @@ public class SimpleResultSet implements IResultIterator {
 		}
 
 		private void initialize() {
-			if (this.initialized)
+			if (this.initialized) {
 				return;
+			}
 
 			this.initialized = true;
-			if (!(this.runtime.getJSResultRowObject() instanceof JSResultSetRow))
+			if (!(this.runtime.getJSResultRowObject() instanceof JSResultSetRow)) {
 				return;
+			}
 
 			this.savedJSResultSetRow = (JSResultSetRow) this.runtime.getJSResultRowObject();
 			IResultIterator itr = new IResultIterator() {
 
+				@Override
 				public IResultClass getResultClass() throws DataException {
 					return RowResultSetWithResultSetScope.this.rsMeta;
 				}
 
+				@Override
 				public Object getAggrValue(String aggrName) throws DataException {
 					return SimpleResultSet.this.aggrHelper.getAggrValue(aggrName, this);
 				}
 
+				@Override
 				public IResultObject getCurrentResult() throws DataException {
 					return RowResultSetWithResultSetScope.this.current;
 				}
 
+				@Override
 				public int getCurrentResultIndex() throws DataException {
 					return RowResultSetWithResultSetScope.this.rowResultSet.getIndex();
 				}
 
+				@Override
 				public boolean next() throws DataException {
 					// Dummy stuff
 					return false;
 				}
 
+				@Override
 				public void first(int groupingLevel) throws DataException {
 					// Dummy stuff
 				}
 
+				@Override
 				public void last(int groupingLevel) throws DataException {
 					// Dummy stuff
 				}
 
+				@Override
 				public int getCurrentGroupIndex(int groupLevel) throws DataException {
 					// Dummy stuff
 					return 0;
 				}
 
+				@Override
 				public int getStartingGroupLevel() throws DataException {
 					// Dummy stuff
 					return 0;
 				}
 
+				@Override
 				public int getEndingGroupLevel() throws DataException {
 					// Dummy stuff
 					return 0;
 				}
 
+				@Override
 				public void close() throws DataException {
 					// Dummy stuff
 				}
 
+				@Override
 				public int[] getGroupStartAndEndIndex(int groupLevel) throws DataException {
 					// Dummy stuff
 					return null;
 				}
 
+				@Override
 				public ResultSetCache getResultSetCache() {
 					// Dummy stuff
 					return null;
 				}
 
+				@Override
 				public int getRowCount() throws DataException {
 					// Dummy stuff
 					return 0;
 				}
 
+				@Override
 				public IExecutorHelper getExecutorHelper() {
 					// Dummy stuff
 					return null;
 				}
 
+				@Override
 				public void doSave(StreamWrapper streamsWrapper, boolean isSubQuery) throws DataException {
 					// Dummy stuff
 				}
 
+				@Override
 				public void incrementalUpdate(StreamWrapper streamsWrapper, int rowCount, boolean isSubQuery)
 						throws DataException {
 					// Dummy stuff

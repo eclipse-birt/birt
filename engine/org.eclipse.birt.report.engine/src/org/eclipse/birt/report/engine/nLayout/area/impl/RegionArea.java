@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -28,6 +28,7 @@ public class RegionArea extends BlockContainerArea implements IContainerArea {
 		super(area);
 	}
 
+	@Override
 	public void initialize() throws BirtException {
 		calculateSpecifiedWidth(content);
 		calculateSpecifiedHeight(content);
@@ -35,15 +36,18 @@ public class RegionArea extends BlockContainerArea implements IContainerArea {
 
 	// override this method because for region area, the reference height for
 	// percentage calculating can be retrieved in advance.
+	@Override
 	protected void calculateSpecifiedHeight(IContent content) {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 		DimensionType height = content.getHeight();
 		if (height != null) {
 			specifiedHeight = getDimensionValue(content, height, parent.getHeight());
 		}
 	}
 
+	@Override
 	public void close() throws BirtException {
 		if (context.isFixedLayout()) {
 			setContentHeight(specifiedHeight);
@@ -53,6 +57,7 @@ public class RegionArea extends BlockContainerArea implements IContainerArea {
 		finished = true;
 	}
 
+	@Override
 	public void update(AbstractArea area) throws BirtException {
 		int aHeight = area.getAllocatedHeight();
 		currentBP += aHeight;

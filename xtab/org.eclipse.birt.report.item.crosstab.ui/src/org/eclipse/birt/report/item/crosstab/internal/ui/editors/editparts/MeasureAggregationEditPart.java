@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class MeasureAggregationEditPart extends DataEditPart {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
 	public MeasureAggregationEditPart(Object model) {
@@ -41,11 +41,12 @@ public class MeasureAggregationEditPart extends DataEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * DataEditPart#getText()
 	 */
+	@Override
 	protected String getText() {
 		// 223034
 		// if (!hasBindingFunction( ))
@@ -78,12 +79,13 @@ public class MeasureAggregationEditPart extends DataEditPart {
 			retValue = retValue.substring(0, TRUNCATE_LENGTH - 2) + ELLIPSIS;
 		}
 
-		if (BidiUIUtils.INSTANCE.isDirectionRTL(getModel()))
+		if (BidiUIUtils.INSTANCE.isDirectionRTL(getModel())) {
 			retValue = BidiUIUtils.LRE + "[" + BidiUIUtils.RLE + retValue + //$NON-NLS-1$
 					BidiUIUtils.PDF + "]" + BidiUIUtils.PDF + BidiUIUtils.LRE + PREFIX; //$NON-NLS-1$
-		else
+		} else {
 			// bidi_hcg end
 			retValue = PREFIX + "[" + retValue + "]"; //$NON-NLS-1$//$NON-NLS-2$
+		}
 		return retValue;
 		// return PREFIX + "[" + retValue + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}

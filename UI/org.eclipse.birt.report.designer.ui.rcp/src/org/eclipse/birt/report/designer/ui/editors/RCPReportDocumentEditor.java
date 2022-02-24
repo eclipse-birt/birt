@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 
 /**
- * 
+ *
  */
 
 public class RCPReportDocumentEditor extends ReportDocumentEditor {
@@ -37,7 +37,7 @@ public class RCPReportDocumentEditor extends ReportDocumentEditor {
 
 			int index = fileName.lastIndexOf(File.separator);
 
-			setPartName(fileName.substring(index + 1, fileName.length()));
+			setPartName(fileName.substring(index + 1));
 
 		}
 

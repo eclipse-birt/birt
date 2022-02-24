@@ -1,17 +1,19 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.impl;
+
+import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,12 +27,10 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.mozilla.javascript.Context;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.mozilla.javascript.Context;
 
 public class ExprManagerUtilTest {
 	ScriptContext cx;
@@ -144,7 +144,7 @@ public class ExprManagerUtilTest {
 
 	/**
 	 * Test valid group keys
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	@Test
@@ -187,7 +187,7 @@ public class ExprManagerUtilTest {
 	/**
 	 * Test invalid group keys. The group key of group 2 directly uses the column
 	 * binding defined in group 3.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	@Test
@@ -230,7 +230,7 @@ public class ExprManagerUtilTest {
 	/**
 	 * Test valid group column bindings. One non-key column binding of group 2
 	 * directly uses the column binding defined in group 3.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	@Test
@@ -273,7 +273,7 @@ public class ExprManagerUtilTest {
 	/**
 	 * Test invalid group key. The key of group 2 directly uses the column binding
 	 * defined in group 3.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	@Test
@@ -316,7 +316,7 @@ public class ExprManagerUtilTest {
 	/**
 	 * Test invalid group key. The key of group 1 directly uses the column binding
 	 * defined in group 3.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	@Test
@@ -430,7 +430,7 @@ public class ExprManagerUtilTest {
 
 	/**
 	 * Test reference to not exist column binding in an expression.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	@Test
@@ -455,7 +455,7 @@ public class ExprManagerUtilTest {
 
 	/**
 	 * Test reference to not exist column binding in an expression.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	@Test

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,13 +43,13 @@ public class ElementFactoryUtil {
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by the
 	 * meta-data system. The created element should not be renamed as unique name.
-	 * 
+	 *
 	 * @param module
-	 * 
+	 *
 	 * @param elementTypeName the element type name
 	 * @param name            the optional element name
 	 * @param reName          rename the element or not
-	 * 
+	 *
 	 * @return design element, <code>null</code> returned if the element definition
 	 *         name is not a valid element type name.
 	 */
@@ -70,8 +70,9 @@ public class ElementFactoryUtil {
 		elemDefn = (ElementDefn) MetaDataDictionary.getInstance().getElement(elementTypeName);
 		if (elemDefn != null) {
 			DesignElement element = newElementExceptExtensionElement(module, elementTypeName, name, reName);
-			if (element == null)
+			if (element == null) {
 				return null;
+			}
 			return element.getHandle(module);
 		}
 		return null;
@@ -81,11 +82,11 @@ public class ElementFactoryUtil {
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by the
 	 * meta-data system.
-	 * 
+	 *
 	 * @param module          the module to create an element
 	 * @param elementTypeName the element type name
 	 * @param name            the optional element name
-	 * 
+	 *
 	 * @return design element, <code>null</code> returned if the element definition
 	 *         name is not a valid element type name.
 	 */
@@ -98,11 +99,11 @@ public class ElementFactoryUtil {
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by the
 	 * meta-data system.
-	 * 
+	 *
 	 * @param module          the module to create an element
 	 * @param elementTypeName the element type name
 	 * @param name            the optional element name
-	 * 
+	 *
 	 * @return design element, <code>null</code> returned if the element definition
 	 *         name is not a valid element type name.
 	 */
@@ -112,8 +113,9 @@ public class ElementFactoryUtil {
 		ElementDefn elemDefn = (ElementDefn) MetaDataDictionary.getInstance().getElement(elementTypeName);
 
 		String javaClass = elemDefn.getJavaClass();
-		if (javaClass == null)
+		if (javaClass == null) {
 			return null;
+		}
 
 		try {
 			Class<? extends Object> c = Class.forName(javaClass);
@@ -142,12 +144,12 @@ public class ElementFactoryUtil {
 	 * Creates a design element specified by the element type name. Element type
 	 * names are defined in rom.def or extension elements. They are managed by the
 	 * meta-data system.
-	 * 
+	 *
 	 * @param module          the module to create an element
 	 * @param elementTypeName the element type name
 	 * @param name            the optional element name
 	 * @param reName          renames the new element or not.
-	 * 
+	 *
 	 * @return design element, <code>null</code> returned if the element definition
 	 *         name is not a valid element type name.
 	 */
@@ -155,18 +157,19 @@ public class ElementFactoryUtil {
 	public static DesignElement newElementExceptExtensionElement(Module module, String elementTypeName, String name,
 			boolean reName) {
 		DesignElement element = newElement(elementTypeName, name);
-		if (element != null && module != null && reName)
+		if (element != null && module != null && reName) {
 			module.makeUniqueName(element);
+		}
 		return element;
 	}
 
 	/**
 	 * Creates an extension element specified by the extension type name.
-	 * 
+	 *
 	 * @param elementTypeName the element type name
 	 * @param name            the optional element name
 	 * @param reName          rename the element or not
-	 * 
+	 *
 	 * @return design element, <code>null</code> returned if the extension with the
 	 *         given type name is not found
 	 */
@@ -175,23 +178,25 @@ public class ElementFactoryUtil {
 			boolean reName) {
 		MetaDataDictionary dd = MetaDataDictionary.getInstance();
 		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd.getExtension(elementTypeName);
-		if (extDefn == null)
+		if (extDefn == null) {
 			return null;
+		}
 		String extensionPoint = extDefn.getExtensionPoint();
-		if (PeerExtensionLoader.EXTENSION_POINT.equalsIgnoreCase(extensionPoint))
+		if (PeerExtensionLoader.EXTENSION_POINT.equalsIgnoreCase(extensionPoint)) {
 			return newExtendedItem(module, name, elementTypeName, reName);
+		}
 
 		return null;
 	}
 
 	/**
 	 * Creates a new extended item.
-	 * 
+	 *
 	 * @param name          the optional extended item name. Can be
 	 *                      <code>null</code>.
 	 * @param extensionName the required extension name
 	 * @param reName        rename the element or not
-	 * 
+	 *
 	 * @return a handle to extended item, return <code>null</code> if the definition
 	 *         with the given extension name is not found
 	 */
@@ -208,7 +213,7 @@ public class ElementFactoryUtil {
 
 	/**
 	 * Creates a new extended item which extends from a given parent.
-	 * 
+	 *
 	 * @param name          the optional extended item name. Can be
 	 *                      <code>null</code>.
 	 * @param extensionName the required extension name
@@ -223,14 +228,17 @@ public class ElementFactoryUtil {
 			ExtendedItemHandle parent, boolean reName) throws ExtendsException {
 		MetaDataDictionary dd = MetaDataDictionary.getInstance();
 		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd.getExtension(extensionName);
-		if (extDefn == null)
+		if (extDefn == null) {
 			return null;
+		}
 
-		if (parent != null)
+		if (parent != null) {
 			assert ((ExtendedItem) parent.getElement()).getExtDefn() == extDefn;
+		}
 
-		if (!(extDefn instanceof PeerExtensionElementDefn))
+		if (!(extDefn instanceof PeerExtensionElementDefn)) {
 			throw new IllegalOperationException("Only report item extension can be created through this method."); //$NON-NLS-1$
+		}
 
 		ExtendedItem element = new ExtendedItem(name);
 

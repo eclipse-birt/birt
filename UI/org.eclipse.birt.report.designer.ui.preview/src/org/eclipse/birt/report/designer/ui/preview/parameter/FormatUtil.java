@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,13 +29,13 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Format utility.
- * 
+ *
  */
 public class FormatUtil {
 
 	/**
 	 * Checks is custom.
-	 * 
+	 *
 	 * @param formatCategory
 	 * @return <code>true</code> if is custom type. else return <code>false</code>.
 	 */
@@ -50,7 +50,7 @@ public class FormatUtil {
 
 	/**
 	 * Formats value with pattern or category.
-	 * 
+	 *
 	 * @param handle
 	 * @param inputStr
 	 * @return formatted value.
@@ -71,7 +71,7 @@ public class FormatUtil {
 
 	/**
 	 * Formats scalar parameter value.
-	 * 
+	 *
 	 * @param handle
 	 * @param inputStr
 	 * @return formatted value.

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,6 +28,7 @@ public class DocumentIndexWriter implements IDocumentIndexWriter {
 		writer = new DocumentIndexWriterV2(archive);
 	}
 
+	@Override
 	public void close() throws IOException {
 		if (writer != null) {
 			writer.close();
@@ -35,15 +36,18 @@ public class DocumentIndexWriter implements IDocumentIndexWriter {
 		}
 	}
 
+	@Override
 	public void setOffsetOfBookmark(String bookmark, long offset) throws IOException {
 		writer.setOffsetOfBookmark(bookmark, offset);
 	}
 
+	@Override
 	public void setOffsetOfInstance(String instanceId, long offset) throws IOException {
 		writer.setOffsetOfInstance(instanceId, offset);
 
 	}
 
+	@Override
 	public void setBookmark(String bookmark, BookmarkContent content) throws IOException {
 		writer.setBookmark(bookmark, content);
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import org.eclipse.birt.report.model.elements.olap.TabularDimension;
  * Derived commands that must create a "memento" record the initial state should
  * do so in the constructor. This means that the constructor should gather all
  * the data needed to perform the record.
- * 
+ *
  */
 
 public abstract class SimpleRecord extends AbstractElementRecord {
@@ -52,37 +52,40 @@ public abstract class SimpleRecord extends AbstractElementRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#execute()
 	 */
 
+	@Override
 	public void execute() {
 		perform(false);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#undo()
 	 */
 
+	@Override
 	public void undo() {
 		perform(true);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#redo()
 	 */
 
+	@Override
 	public void redo() {
 		perform(false);
 	}
 
 	/**
 	 * Performs the actual operation.
-	 * 
+	 *
 	 * @param undo whether to undo (true) or execute/redo (false) the operation.
 	 */
 
@@ -90,10 +93,11 @@ public abstract class SimpleRecord extends AbstractElementRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#rollback()
 	 */
 
+	@Override
 	public void rollback() {
 		undo();
 		setState(ActivityRecord.UNDONE_STATE);
@@ -101,18 +105,19 @@ public abstract class SimpleRecord extends AbstractElementRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
+	@Override
 	protected List<RecordTask> getPostTasks() {
 		DesignElement element = getTarget();
 		assert element != null;
-		if (element.getRoot() == null)
+		if (element.getRoot() == null) {
 			return Collections.emptyList();
+		}
 
-		List<RecordTask> retList = new ArrayList<RecordTask>();
-		retList.addAll(super.getPostTasks());
+		List<RecordTask> retList = new ArrayList<>(super.getPostTasks());
 		retList.add(new ValidationRecordTask(element.getRoot()));
 		return retList;
 	}
@@ -120,7 +125,7 @@ public abstract class SimpleRecord extends AbstractElementRecord {
 	/**
 	 * Sets the event destination. This is used when the command need to specify
 	 * what event should be sent out.
-	 * 
+	 *
 	 * @param eventTarget the target
 	 */
 

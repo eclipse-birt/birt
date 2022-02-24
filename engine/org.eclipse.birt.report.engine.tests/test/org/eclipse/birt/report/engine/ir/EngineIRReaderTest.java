@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -31,11 +31,11 @@ import org.eclipse.birt.report.engine.parser.ReportParser;
  * EngineIRWriter and EngineIRReader, we should do as following: 1. use current
  * EngineIRReader to read streams from the stored old version files. 2. compare
  * the current wrote and readed stream with result in step1.
- * 
+ *
  * Do not forget to use current EngineIRWriter to write the design to a stream,
  * and store it to a file like ir_io_test.V1. This will be used for later
  * versions.
- * 
+ *
  */
 public class EngineIRReaderTest extends EngineCase {
 
@@ -110,9 +110,9 @@ public class EngineIRReaderTest extends EngineCase {
 	 * Used to create the current stream wrote by current version EngineWriter. The
 	 * file will be stored in eclipse folder. Please copy it here and commit it to
 	 * CVS.
-	 * 
+	 *
 	 * now the version is 2
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void writeGolden() throws Exception {

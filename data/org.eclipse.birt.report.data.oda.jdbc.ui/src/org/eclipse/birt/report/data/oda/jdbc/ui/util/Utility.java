@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * TODO: Please document
- * 
+ *
  * @version $Revision: 1.25 $ $Date: 2008/08/04 07:55:18 $
  */
 public class Utility {
@@ -43,14 +43,14 @@ public class Utility {
 	private static boolean updatedOfDriverInfo = false;
 
 	/**
-	 * 
+	 *
 	 */
 	private Utility() {
 	}
 
 	/**
 	 * give the stored procedure's column type name from the type.
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -73,7 +73,7 @@ public class Utility {
 
 	/**
 	 * Get Map from PreferenceStore by key
-	 * 
+	 *
 	 * @param mapKey the key of the map
 	 * @return Map
 	 */
@@ -104,19 +104,21 @@ public class Utility {
 	/**
 	 * Since the data type stored in this map has been changed,this method is design
 	 * to surpport the former and the new preference
-	 * 
+	 *
 	 * @param map
 	 * @return
 	 */
 	private static Map updatePreferenceMap(Map map, String mapKey) {
 		if (JdbcPlugin.DRIVER_MAP_PREFERENCE_KEY.equals(mapKey)) {
-			if (updatedOfDriverInfo)
+			if (updatedOfDriverInfo) {
 				return map;
+			}
 
 			updatedOfDriverInfo = true;
 		} else if (JdbcPlugin.JAR_MAP_PREFERENCE_KEY.equals(mapKey)) {
-			if (updatedOfJarInfo)
+			if (updatedOfJarInfo) {
 				return map;
+			}
 
 			updatedOfJarInfo = true;
 		} else {
@@ -168,7 +170,7 @@ public class Utility {
 	/**
 	 * Put <tt>value</tt> with key <tt>keyInMap</tt>into the map whose key is
 	 * <tt>keyOfPreference</tt>
-	 * 
+	 *
 	 * @param keyOfPreference key of PreferenceStore Map
 	 * @param keyInMap        key in the Map
 	 * @param value           the value to be set
@@ -182,7 +184,7 @@ public class Utility {
 	/**
 	 * Removes map entry with key <tt>keyInMap</tt>from the map whose key is
 	 * <tt>keyOfPreference</tt>
-	 * 
+	 *
 	 * @param keyOfPreference key of PreferenceStore Map
 	 * @param keyInMap        key in the Map
 	 */
@@ -196,7 +198,7 @@ public class Utility {
 
 	/**
 	 * Reset the map in PreferenceStored
-	 * 
+	 *
 	 * @param keyOfPreference key in PreferenceStore
 	 * @param map             the map to be set
 	 */
@@ -216,7 +218,7 @@ public class Utility {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param control
 	 * @param contextId
 	 */

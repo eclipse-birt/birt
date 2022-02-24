@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 
 /**
  * Adaptor class of <code>IParameter</code>
- * 
+ *
  */
 
 public abstract class ScalarParameter implements IParameter {
@@ -57,7 +57,7 @@ public abstract class ScalarParameter implements IParameter {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle     scalar parameter handle.
 	 * @param engineTask engine task.
 	 */
@@ -70,25 +70,28 @@ public abstract class ScalarParameter implements IParameter {
 
 	/**
 	 * Gets values of parameter.
-	 * 
+	 *
 	 * @return value list.
 	 */
+	@Override
 	public abstract List getValueList();
 
 	/**
 	 * Gets selection value.
-	 * 
+	 *
 	 * @return selection value.
 	 */
+	@Override
 	public Object getSelectionValue() {
 		return selectionValue;
 	}
 
 	/**
 	 * Sets selection value.
-	 * 
+	 *
 	 * @param value
 	 */
+	@Override
 	public void setSelectionValue(Object value) {
 		selectionValue = value;
 	}
@@ -96,6 +99,7 @@ public abstract class ScalarParameter implements IParameter {
 	/**
 	 * Sets parameter group
 	 */
+	@Override
 	public void setParentGroup(IParameterGroup group) {
 		this.group = group;
 	}
@@ -103,6 +107,7 @@ public abstract class ScalarParameter implements IParameter {
 	/**
 	 * Gets parameter group
 	 */
+	@Override
 	public IParameterGroup getParentGroup() {
 		return group;
 	}
@@ -135,10 +140,11 @@ public abstract class ScalarParameter implements IParameter {
 
 	/**
 	 * Gets default value.
-	 * 
+	 *
 	 * @return default value
 	 */
 
+	@Override
 	public String getDefaultValue() {
 		IGetParameterDefinitionTask task = createParameterDefinitionTask();
 		try {
@@ -165,8 +171,9 @@ public abstract class ScalarParameter implements IParameter {
 			}
 			return obj.toString();
 		} finally {
-			if (task != null)
+			if (task != null) {
 				task.close();
+			}
 		}
 	}
 
@@ -195,14 +202,15 @@ public abstract class ScalarParameter implements IParameter {
 			}
 			return retValue;
 		} finally {
-			if (task != null)
+			if (task != null) {
 				task.close();
+			}
 		}
 	}
 
 	/**
 	 * Get parameter handle.
-	 * 
+	 *
 	 * @return parameter handle.
 	 */
 
@@ -210,16 +218,19 @@ public abstract class ScalarParameter implements IParameter {
 		return handle;
 	}
 
+	@Override
 	public String format(String input) throws BirtException {
 		return ParameterUtil.format(handle, input);
 	}
 
+	@Override
 	public Object converToDataType(Object value) throws BirtException {
 		if (value instanceof Object[]) {
 			Object[] values = (Object[]) value;
 			Object[] rtValues = new Object[values.length];
-			for (int i = 0; i < values.length; i++)
+			for (int i = 0; i < values.length; i++) {
 				rtValues[i] = ParameterUtil.convert(values[i], handle.getDataType());
+			}
 			return rtValues;
 		}
 		return ParameterUtil.convert(value, handle.getDataType());
@@ -227,9 +238,10 @@ public abstract class ScalarParameter implements IParameter {
 
 	/**
 	 * Gets isRequired property.
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public boolean isRequired() {
 		return handle.isRequired();
 	}

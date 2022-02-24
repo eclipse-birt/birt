@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,12 +31,12 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
 /**
  * Helper class for map rule handle operation.
- * 
+ *
  * @since 2.5
  */
 public class MapHandleProvider {
 
-	private static final MapRuleHandle[] EMPTY = new MapRuleHandle[0];
+	private static final MapRuleHandle[] EMPTY = {};
 
 	public static final int EXPRESSION_TYPE_ROW = 0;
 	public static final int EXPRESSION_TYPE_DATA = 1;
@@ -62,7 +62,7 @@ public class MapHandleProvider {
 
 	/**
 	 * Returns the current design element handle.
-	 * 
+	 *
 	 * @return
 	 */
 	public DesignElementHandle getDesignElementHandle() {
@@ -71,7 +71,7 @@ public class MapHandleProvider {
 
 	/**
 	 * Returns the column text for each highlight item.
-	 * 
+	 *
 	 * @param element     highlight rule handle element.
 	 * @param columnIndex
 	 * @return
@@ -127,7 +127,7 @@ public class MapHandleProvider {
 
 	/**
 	 * Swaps the two neighbour-items, no edge check.
-	 * 
+	 *
 	 * @param pos       item position.
 	 * @param direction negative - UP or LEFT, positive or zero - BOTTOM or RIGHT
 	 * @return
@@ -141,7 +141,7 @@ public class MapHandleProvider {
 		} else {
 			/**
 			 * Original code: phandle.moveItem( pos, pos + 1 );
-			 * 
+			 *
 			 * Changes due to model api changes. since property handle now treats moving
 			 * from 0-0, 0-1 as the same.
 			 */
@@ -153,7 +153,7 @@ public class MapHandleProvider {
 
 	/**
 	 * Deletes specified map rule item from current map rules property.
-	 * 
+	 *
 	 * @param pos item position.
 	 * @return
 	 * @throws PropertyValueException
@@ -164,8 +164,9 @@ public class MapHandleProvider {
 		phandle.removeItem(pos);
 
 		try {
-			if (phandle.getListValue() == null || phandle.getListValue().size() == 0)
+			if (phandle.getListValue() == null || phandle.getListValue().size() == 0) {
 				elementHandle.setProperty(StyleHandle.MAP_RULES_PROP, null);
+			}
 		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);
 		}
@@ -175,7 +176,7 @@ public class MapHandleProvider {
 
 	/**
 	 * Adds new map rule item to current map rules property.
-	 * 
+	 *
 	 * @param rule new map rule item.
 	 * @param pos  current map rule items count.
 	 * @return new created map rule handle.
@@ -196,7 +197,7 @@ public class MapHandleProvider {
 
 	/**
 	 * Returns all map rule items from current DesignElement.
-	 * 
+	 *
 	 * @param inputElement design element handle.
 	 * @return
 	 */

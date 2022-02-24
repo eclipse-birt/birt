@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -55,7 +55,7 @@ public class CssParser implements CssParserConstants {
 
 	/**
 	 * Returns the cssProperties.
-	 * 
+	 *
 	 */
 	public java.util.HashMap getCssProperties() {
 		return cssProperties;
@@ -141,14 +141,16 @@ public class CssParser implements CssParserConstants {
 		switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 		case MINUS:
 			jj_consume_token(MINUS); {
-			if (true)
+			if (true) {
 				return '-';
+			}
 		}
 			break;
 		case PLUS:
 			jj_consume_token(PLUS); {
-			if (true)
+			if (true) {
 				return '+';
+			}
 		}
 			break;
 		default:
@@ -164,32 +166,37 @@ public class CssParser implements CssParserConstants {
 		switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 		case ABSOLUTE_SIZE:
 			n = jj_consume_token(ABSOLUTE_SIZE); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case RELATIVE_SIZE:
 			n = jj_consume_token(RELATIVE_SIZE); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case PERCENTAGE:
 			n = jj_consume_token(PERCENTAGE); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case LENGTH:
 			n = jj_consume_token(LENGTH); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case BORDER_WIDTH:
 			n = jj_consume_token(BORDER_WIDTH); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		default:
@@ -440,23 +447,27 @@ public class CssParser implements CssParserConstants {
 				switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 				case COLOR:
 					n = jj_consume_token(COLOR);
-					if (n != null)
+					if (n != null) {
 						cssProperties.put("background-color", n.image); //$NON-NLS-1$
+					}
 					break;
 				case URL:
 					n = jj_consume_token(URL);
-					if (n != null)
+					if (n != null) {
 						cssProperties.put("background-image", n.image); //$NON-NLS-1$
+					}
 					break;
 				case BACKGROUND_REPEAT:
 					n = jj_consume_token(BACKGROUND_REPEAT);
-					if (n != null)
+					if (n != null) {
 						cssProperties.put("background-repeat", n.image); //$NON-NLS-1$
+					}
 					break;
 				case BACKGROUND_ATTACHMENT:
 					n = jj_consume_token(BACKGROUND_ATTACHMENT);
-					if (n != null)
+					if (n != null) {
 						cssProperties.put("background-attachment", n.image); //$NON-NLS-1$
+					}
 					break;
 				case PERCENTAGE:
 				case LENGTH:
@@ -466,11 +477,12 @@ public class CssParser implements CssParserConstants {
 				case BORDER_WIDTH:
 					n = background_position();
 					if (n != null) {
-						if (cssProperties.get("background-position") == null) //$NON-NLS-1$
+						if (cssProperties.get("background-position") == null) { //$NON-NLS-1$
 							cssProperties.put("background-position", n.image); //$NON-NLS-1$
-						else
+						} else { // $NON-NLS-1$
 							cssProperties.put("background-position", //$NON-NLS-1$
 									(String) cssProperties.get("background-position") + " " + n.image); //$NON-NLS-1$ //$NON-NLS-2$
+						}
 					}
 					break;
 				default:
@@ -812,20 +824,23 @@ public class CssParser implements CssParserConstants {
 		switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 		case LENGTH:
 			n = jj_consume_token(LENGTH); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case PERCENTAGE:
 			n = jj_consume_token(PERCENTAGE); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case AUTO:
 			n = jj_consume_token(AUTO); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		default:
@@ -884,14 +899,16 @@ public class CssParser implements CssParserConstants {
 		switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 		case LENGTH:
 			n = jj_consume_token(LENGTH); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case PERCENTAGE:
 			n = jj_consume_token(PERCENTAGE); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		default:
@@ -944,7 +961,7 @@ public class CssParser implements CssParserConstants {
 
 	/**
 	 * Returns the background-position token.
-	 * 
+	 *
 	 * @exception ParseException exception during the parsing
 	 **/
 	final public Token background_position() throws ParseException {
@@ -952,8 +969,9 @@ public class CssParser implements CssParserConstants {
 		switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 		case BACKGROUND_POSITION:
 			n = jj_consume_token(BACKGROUND_POSITION); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case PERCENTAGE:
@@ -962,8 +980,9 @@ public class CssParser implements CssParserConstants {
 		case RELATIVE_SIZE:
 		case BORDER_WIDTH:
 			n = size(); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		default:
@@ -1035,8 +1054,9 @@ public class CssParser implements CssParserConstants {
 			term(value);
 		}
 		{
-			if (true)
+			if (true) {
 				return value;
+			}
 		}
 		throw new Error("Missing return statement in function"); //$NON-NLS-1$
 	}
@@ -1048,13 +1068,15 @@ public class CssParser implements CssParserConstants {
 		switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 		case DIV:
 			jj_consume_token(DIV);
-			if (value.toString().length() > 0)
+			if (value.toString().length() > 0) {
 				value.append("/"); //$NON-NLS-1$
+			}
 			break;
 		case COMMA:
 			jj_consume_token(COMMA);
-			if (value.toString().length() > 0)
+			if (value.toString().length() > 0) {
 				value.append(","); //$NON-NLS-1$
+			}
 			break;
 		default:
 			jj_la1[42] = jj_gen;
@@ -1226,62 +1248,72 @@ public class CssParser implements CssParserConstants {
 		switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
 		case FONT_VAL:
 			n = jj_consume_token(FONT_VAL); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case FONT_STYLE:
 			n = jj_consume_token(FONT_STYLE); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case FONT_VARIANT:
 			n = jj_consume_token(FONT_VARIANT); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case FONT_WEIGHT:
 			n = jj_consume_token(FONT_WEIGHT); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case BACKGROUND_REPEAT:
 			n = jj_consume_token(BACKGROUND_REPEAT); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case BACKGROUND_ATTACHMENT:
 			n = jj_consume_token(BACKGROUND_ATTACHMENT); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case BACKGROUND_POSITION:
 			n = jj_consume_token(BACKGROUND_POSITION); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case AUTO:
 			n = jj_consume_token(AUTO); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case NORMAL:
 			n = jj_consume_token(NORMAL); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		case BORDER_STYLE:
 			n = jj_consume_token(BORDER_STYLE); {
-			if (true)
+			if (true) {
 				return n;
+			}
 		}
 			break;
 		default:
@@ -1302,8 +1334,9 @@ public class CssParser implements CssParserConstants {
 		exp = expr();
 		jj_consume_token(LPARAN);
 		{
-			if (true)
+			if (true) {
 				return n.image + exp.toString() + ")"; //$NON-NLS-1$
+			}
 		}
 		throw new Error("Missing return statement in function"); //$NON-NLS-1$
 	}
@@ -1318,14 +1351,14 @@ public class CssParser implements CssParserConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param s
 	 * @param start
 	 * @param len
 	 * @return @throws ParseException
 	 */
 	String convertStringIndex(String s, int start, int len) throws ParseException, ParseException {
-		StringBuffer buf = new StringBuffer(len);
+		StringBuilder buf = new StringBuilder(len);
 		int index = start;
 
 		while (index < len) {
@@ -1404,7 +1437,7 @@ public class CssParser implements CssParserConstants {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param s
 	 * @return
 	 * @throws ParseException
@@ -1455,8 +1488,9 @@ public class CssParser implements CssParserConstants {
 		token = new Token();
 		jj_ntk = -1;
 		jj_gen = 0;
-		for (int i = 0; i < 48; i++)
+		for (int i = 0; i < 48; i++) {
 			jj_la1[i] = -1;
+		}
 	}
 
 	public void ReInit(java.io.InputStream stream) {
@@ -1465,8 +1499,9 @@ public class CssParser implements CssParserConstants {
 		token = new Token();
 		jj_ntk = -1;
 		jj_gen = 0;
-		for (int i = 0; i < 48; i++)
+		for (int i = 0; i < 48; i++) {
 			jj_la1[i] = -1;
+		}
 	}
 
 	public CssParser(java.io.Reader stream) {
@@ -1475,8 +1510,9 @@ public class CssParser implements CssParserConstants {
 		token = new Token();
 		jj_ntk = -1;
 		jj_gen = 0;
-		for (int i = 0; i < 48; i++)
+		for (int i = 0; i < 48; i++) {
 			jj_la1[i] = -1;
+		}
 	}
 
 	public void ReInit(java.io.Reader stream) {
@@ -1485,8 +1521,9 @@ public class CssParser implements CssParserConstants {
 		token = new Token();
 		jj_ntk = -1;
 		jj_gen = 0;
-		for (int i = 0; i < 48; i++)
+		for (int i = 0; i < 48; i++) {
 			jj_la1[i] = -1;
+		}
 	}
 
 	public CssParser(CssParserTokenManager tm) {
@@ -1494,8 +1531,9 @@ public class CssParser implements CssParserConstants {
 		token = new Token();
 		jj_ntk = -1;
 		jj_gen = 0;
-		for (int i = 0; i < 48; i++)
+		for (int i = 0; i < 48; i++) {
 			jj_la1[i] = -1;
+		}
 	}
 
 	public void ReInit(CssParserTokenManager tm) {
@@ -1503,16 +1541,18 @@ public class CssParser implements CssParserConstants {
 		token = new Token();
 		jj_ntk = -1;
 		jj_gen = 0;
-		for (int i = 0; i < 48; i++)
+		for (int i = 0; i < 48; i++) {
 			jj_la1[i] = -1;
+		}
 	}
 
 	final private Token jj_consume_token(int kind) throws ParseException {
 		Token oldToken;
-		if ((oldToken = token).next != null)
+		if ((oldToken = token).next != null) {
 			token = token.next;
-		else
+		} else {
 			token = token.next = token_source.getNextToken();
+		}
 		jj_ntk = -1;
 		if (token.kind == kind) {
 			jj_gen++;
@@ -1524,10 +1564,11 @@ public class CssParser implements CssParserConstants {
 	}
 
 	final public Token getNextToken() {
-		if (token.next != null)
+		if (token.next != null) {
 			token = token.next;
-		else
+		} else {
 			token = token.next = token_source.getNextToken();
+		}
 		jj_ntk = -1;
 		jj_gen++;
 		return token;
@@ -1536,19 +1577,22 @@ public class CssParser implements CssParserConstants {
 	final public Token getToken(int index) {
 		Token t = token;
 		for (int i = 0; i < index; i++) {
-			if (t.next != null)
+			if (t.next != null) {
 				t = t.next;
-			else
+			} else {
 				t = t.next = token_source.getNextToken();
+			}
 		}
 		return t;
 	}
 
 	final private int jj_ntk() {
-		if ((jj_nt = token.next) == null)
+		jj_nt = token.next;
+		if (jj_nt == null) {
 			return (jj_ntk = (token.next = token_source.getNextToken()).kind);
-		else
+		} else {
 			return (jj_ntk = jj_nt.kind);
+		}
 	}
 
 	private java.util.Vector jj_expentries = new java.util.Vector();

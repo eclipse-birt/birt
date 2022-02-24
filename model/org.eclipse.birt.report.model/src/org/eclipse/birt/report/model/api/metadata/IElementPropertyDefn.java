@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,20 +25,20 @@ public interface IElementPropertyDefn extends IPropertyDefn {
 
 	/**
 	 * Returns the group name (if any) for the property.
-	 * 
+	 *
 	 * @return The (localized) group name, or null if the property is not in a
 	 *         group.
 	 */
 
-	public String getGroupName();
+	String getGroupName();
 
 	/**
 	 * Returns the message ID for the group name.
-	 * 
+	 *
 	 * @return The group name message ID.
 	 */
 
-	public String getGroupNameKey();
+	String getGroupNameKey();
 
 	/**
 	 * Indicates if derived elements can inherit the value of this property. Most
@@ -72,11 +72,11 @@ public interface IElementPropertyDefn extends IPropertyDefn {
 	 * <td align="center"><code>false</code></td>
 	 * </tr>
 	 * </table>
-	 * 
+	 *
 	 * @return Whether the property can inherit the parent's value.
 	 */
 
-	public boolean canInherit();
+	boolean canInherit();
 
 	/**
 	 * Indicates whether the property is associated with a style or not. If this
@@ -87,51 +87,53 @@ public interface IElementPropertyDefn extends IPropertyDefn {
 	 * property is copied onto the meta-data for the element. In this case, the copy
 	 * will also return true from isStyleProperty( ), indicating that the element
 	 * obtained the property implicitly from the style element.
-	 * 
+	 *
 	 * @return Whether the property is defined on a style for the purpose of being
 	 *         used by elements.
 	 */
 
-	public boolean isStyleProperty();
+	boolean isStyleProperty();
 
 	/**
 	 * Checks whether the property is visible to the property sheet.
-	 * 
+	 *
 	 * @return <code>true</code> if the property value is visible,
 	 *         <code>false</code> otherwise.
-	 * 
+	 *
 	 * @deprecated by the method {@link IElementDefn#isPropertyVisible(String)}
 	 */
 
-	public boolean isVisible();
+	@Deprecated
+	boolean isVisible();
 
 	/**
 	 * Checks whether the property value is read-only in the property sheet.
-	 * 
+	 *
 	 * @return <code>true</code> if the property value is read-only,
 	 *         <code>false</code> otherwise.
-	 * 
+	 *
 	 * @deprecated by the method {@link IElementDefn#isPropertyReadOnly(String)}
 	 */
 
-	public boolean isReadOnly();
+	@Deprecated
+	boolean isReadOnly();
 
 	/**
 	 * Returns the method information of this property.
-	 * 
+	 *
 	 * @return the method information of this property. Return null, if this
 	 *         property is not a method property.
 	 */
 
-	public IMethodInfo getMethodInfo();
+	IMethodInfo getMethodInfo();
 
 	/**
 	 * Checks whether the property value can be edited by the user in the property
 	 * sheet.
-	 * 
+	 *
 	 * @return <code>true</code> if the property value is read-only,
 	 *         <code>false</code> otherwise.
 	 */
 
-	public boolean isEditable();
+	boolean isEditable();
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,40 +35,49 @@ public class BaseResultSetDecorator implements IBaseResultSet {
 		lastResultSet = resultSets.get(resultSets.size() - 1);
 	}
 
+	@Override
 	public void close() {
 		for (IBaseResultSet resultSet : resultSets) {
 			resultSet.close();
 		}
 	}
 
+	@Override
 	public Object evaluate(String expr) throws BirtException {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Object evaluate(String language, String expr) throws BirtException {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public Object evaluate(IBaseExpression expr) throws BirtException {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public DataSetID getID() {
 		return lastResultSet.getID();
 	}
 
+	@Override
 	public IBaseResultSet getParent() {
 		return lastResultSet.getParent();
 	}
 
+	@Override
 	public IBaseQueryResults getQueryResults() {
 		return lastResultSet.getQueryResults();
 	}
 
+	@Override
 	public String getRawID() throws BirtException {
 		return lastResultSet.getRawID();
 	}
 
+	@Override
 	public int getType() {
 		return lastResultSet.getType();
 	}

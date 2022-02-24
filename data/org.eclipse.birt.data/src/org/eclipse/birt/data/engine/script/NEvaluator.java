@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -28,7 +28,7 @@ import org.mozilla.javascript.Scriptable;
 
 /**
  * The implementation of this class is used to evaluate TopN/BottomN expressions
- * 
+ *
  * @author lzhu
  *
  */
@@ -56,7 +56,7 @@ public abstract class NEvaluator extends BaseNEvaluator {
 
 	/**
 	 * Create a new instance to evaluate the top/bottom expression
-	 * 
+	 *
 	 * @param operator
 	 * @param op_expr  operand expression
 	 * @param n_expr   expression to yield N
@@ -104,7 +104,7 @@ public abstract class NEvaluator extends BaseNEvaluator {
 
 	/**
 	 * Evaluate the given value
-	 * 
+	 *
 	 * @param value
 	 * @param n
 	 * @return
@@ -136,12 +136,14 @@ public abstract class NEvaluator extends BaseNEvaluator {
 
 			// First time; calculate N based on updated row count
 			if (n_percent) {
-				if (n_value < 0 || n_value > 100)
+				if (n_value < 0 || n_value > 100) {
 					throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT);
+				}
 				N = (int) Math.round(n_value / 100 * filterPassController.getRowCount());
 			} else {
-				if (n_value < 0)
+				if (n_value < 0) {
 					throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_N_ARGUMENT);
+				}
 				N = (int) n_value;
 			}
 
@@ -162,7 +164,7 @@ public abstract class NEvaluator extends BaseNEvaluator {
 	 * Do the first pass. In the first pass we maintain a value list and a row id
 	 * list that will host all top/bottom N values/rowIds so that in pass 2 we can
 	 * use them to filter rows out.
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 * @throws DataException
@@ -198,7 +200,7 @@ public abstract class NEvaluator extends BaseNEvaluator {
 
 				try {
 					// filter in
-					if (DataTypeUtil.toBoolean(result).booleanValue() == true) {
+					if (DataTypeUtil.toBoolean(result).booleanValue()) {
 						for (int j = activeCount - 1; j > i; j--) {
 							valueList.set(j, valueList.get(j - 1));
 							rowIdList.set(j, rowIdList.get(j - 1));
@@ -216,16 +218,17 @@ public abstract class NEvaluator extends BaseNEvaluator {
 
 	/**
 	 * Do the second pass
-	 * 
+	 *
 	 * @param N
 	 * @return
 	 */
 	private boolean doSecondPass() {
 		secondPassRowNumberCounter++;
-		if (secondPassRowNumberCounter > this.filterPassController.getSecondPassRowCount())
+		if (secondPassRowNumberCounter > this.filterPassController.getSecondPassRowCount()) {
 			this.filterPassController.setSecondPassRowCount(secondPassRowNumberCounter);
-		else
+		} else {
 			this.secondPassRowNumberCounter = this.filterPassController.getSecondPassRowCount();
+		}
 
 		if (qualifiedRowCounter < N) {
 			for (int i = 0; i < N; i++) {
@@ -257,7 +260,7 @@ public abstract class NEvaluator extends BaseNEvaluator {
 	}
 
 	/**
-	 * 
+	 *
 	 *
 	 */
 	private void doReset() {
@@ -277,6 +280,7 @@ public abstract class NEvaluator extends BaseNEvaluator {
  *
  */
 class TopNEvaluator extends NEvaluator {
+	@Override
 	protected Object doCompare(Object value1, Object value2) throws DataException {
 		return ScriptEvalUtil.evalConditionalExpr(value1, IConditionalExpression.OP_GT, value2, null);
 	}
@@ -287,6 +291,7 @@ class TopNEvaluator extends NEvaluator {
  *
  */
 class BottomNEvaluator extends NEvaluator {
+	@Override
 	protected Object doCompare(Object value1, Object value2) throws DataException {
 		return ScriptEvalUtil.evalConditionalExpr(value1, IConditionalExpression.OP_LT, value2, null);
 	}

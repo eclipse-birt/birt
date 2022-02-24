@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -64,6 +62,8 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.ULocale;
+
+import junit.framework.TestCase;
 
 public class InstanceTest extends TestCase {
 	private static final String TYPE_NAME_2 = "type2";
@@ -180,7 +180,7 @@ public class InstanceTest extends TestCase {
 
 	private static final String FAKE_NAME = "fakeName";
 
-	private static final byte[] DATA = new byte[] { 123 };
+	private static final byte[] DATA = { 123 };
 
 	private static final int TYPE_2 = 2;
 
@@ -194,6 +194,7 @@ public class InstanceTest extends TestCase {
 
 	private ElementFactory factory;
 
+	@Override
 	public void setUp() {
 		reportContent = new ReportContent();
 		SessionHandle sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
@@ -596,40 +597,50 @@ public class InstanceTest extends TestCase {
 		private String queryText;
 		private Map inputParamValues = new HashMap();
 
+		@Override
 		public IDataSourceInstanceHandle getDataSource() {
 			return null;
 		}
 
+		@Override
 		public IResultMetaData getResultMetaData() throws BirtException {
 			return new FakeResultMetadata();
 		}
 
+		@Override
 		public String getQueryText() {
 			return queryText;
 		}
 
+		@Override
 		public void setQueryText(String queryText) throws BirtException {
 			this.queryText = queryText;
 		}
 
+		@Override
 		public Object getInputParameterValue(String paramName) throws BirtException {
 			return null;
 		}
 
+		@Override
 		public void setInputParameterValue(String paramName, Object paramValue) throws BirtException {
 		}
 
+		@Override
 		public Map getInputParameters() {
 			return null;
 		}
 
+		@Override
 		public Object getOutputParameterValue(String paramName) throws BirtException {
 			return null;
 		}
 
+		@Override
 		public void setOutputParameterValue(String paramName, Object paramValue) throws BirtException {
 		}
 
+		@Override
 		public Map getOutputParameters() {
 			return null;
 		}
@@ -724,40 +735,48 @@ public class InstanceTest extends TestCase {
 
 		}
 
+		@Override
 		public int getColumnCount() {
 			return columns.size();
 		}
 
+		@Override
 		public String getColumnName(int index) throws BirtException {
 			Column c = (Column) columns.get(index - 1);
 			return c.name;
 		}
 
+		@Override
 		public String getColumnAlias(int index) throws BirtException {
 			Column c = (Column) columns.get(index - 1);
 			return c.alias;
 		}
 
+		@Override
 		public int getColumnType(int index) throws BirtException {
 			Column c = (Column) columns.get(index - 1);
 			return c.type;
 		}
 
+		@Override
 		public String getColumnTypeName(int index) throws BirtException {
 			Column c = (Column) columns.get(index - 1);
 			return c.typeName;
 		}
 
+		@Override
 		public String getColumnNativeTypeName(int index) throws BirtException {
 			Column c = (Column) columns.get(index - 1);
 			return c.nativeTypeName;
 		}
 
+		@Override
 		public String getColumnLabel(int index) throws BirtException {
 			Column c = (Column) columns.get(index - 1);
 			return c.label;
 		}
 
+		@Override
 		public boolean isComputedColumn(int index) throws BirtException {
 			Column c = (Column) columns.get(index - 1);
 			return c.computed;

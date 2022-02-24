@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.elements.Translation;
 /**
  * Represents a translation message in the design. A translation message is used
  * for the user to save their localized information in the design.
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.TranslationTable
  */
 
@@ -35,7 +35,7 @@ public class TranslationHandle extends ElementDetailHandle {
 
 	/**
 	 * Constructs a handle for a translation message.
-	 * 
+	 *
 	 * @param moduleHandle a handle to a module
 	 * @param trans        the translation instance to be handled.
 	 */
@@ -49,7 +49,7 @@ public class TranslationHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns the resource key of the translation.
-	 * 
+	 *
 	 * @return the resource key for the translation
 	 */
 
@@ -59,9 +59,9 @@ public class TranslationHandle extends ElementDetailHandle {
 
 	/**
 	 * Sets the locale of the translation message.
-	 * 
+	 *
 	 * @param newLocale new locale of the translation
-	 * 
+	 *
 	 * @throws CustomMsgException if the translation message is not found in the
 	 *                            design.
 	 */
@@ -73,7 +73,7 @@ public class TranslationHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns the locale of the translation message.
-	 * 
+	 *
 	 * @return the locale of the translation message
 	 */
 
@@ -83,7 +83,7 @@ public class TranslationHandle extends ElementDetailHandle {
 
 	/**
 	 * Sets the translated text for the translation message.
-	 * 
+	 *
 	 * @param text translated text for the locale.
 	 * @throws CustomMsgException if the translation message is not found in the
 	 *                            design.
@@ -96,7 +96,7 @@ public class TranslationHandle extends ElementDetailHandle {
 
 	/**
 	 * Returns translated text for the translation, the text defined for the locale.
-	 * 
+	 *
 	 * @return translated text for the translation
 	 */
 

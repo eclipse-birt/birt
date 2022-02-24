@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,7 +61,7 @@ import org.xml.sax.SAXException;
  * <td>uri</td>
  * </tr>
  * </table>
- * 
+ *
  */
 
 public class ActionStructureState extends CompatibleStructureState {
@@ -74,7 +74,7 @@ public class ActionStructureState extends CompatibleStructureState {
 	final static String DRILLTHROUGH_PARAM_BINDINGS_MEMBER = "drillThroughParamBindings"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 * @param theHandler
 	 * @param element
 	 */
@@ -85,20 +85,24 @@ public class ActionStructureState extends CompatibleStructureState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
 	 * String)
 	 */
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		int tagValue = tagName.toLowerCase().hashCode();
-		if (ParserSchemaConstants.EXPRESSION_TAG == tagValue)
+		if (ParserSchemaConstants.EXPRESSION_TAG == tagValue) {
 			return new CompatibleActionExpressionState(handler, element, propDefn, struct);
-		if (ParserSchemaConstants.PROPERTY_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.PROPERTY_TAG == tagValue) {
 			return new CompatibleActionPropertyState(handler, element, propDefn, struct);
-		if (ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue)
+		}
+		if (ParserSchemaConstants.LIST_PROPERTY_TAG == tagValue) {
 			return new CompatibleActionListPropertyState(handler, element, propDefn, struct);
+		}
 
 		return super.startElement(tagName);
 	}
@@ -133,10 +137,11 @@ public class ActionStructureState extends CompatibleStructureState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
+		@Override
 		public void end() throws SAXException {
 			if (DRILLTHROUGH_REPORT_NAME_MEMBER.equalsIgnoreCase(name)) {
 				String value = text.toString();
@@ -159,22 +164,15 @@ public class ActionStructureState extends CompatibleStructureState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#
 		 * versionConditionalJumpTo()
 		 */
 
+		@Override
 		protected AbstractParseState versionConditionalJumpTo() {
-			if (handler.versionNumber < VersionUtil.VERSION_3_2_1 && (Action.URI_MEMBER.equalsIgnoreCase(name))) {
-				CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(handler, element);
-				state.setName(name);
-				state.struct = struct;
-				state.propDefn = propDefn;
-				return state;
-			}
-
-			if (handler.versionNumber < VersionUtil.VERSION_3_2_1
-					&& Action.TARGET_BOOKMARK_MEMBER.equalsIgnoreCase(name)) {
+			if ((handler.versionNumber < VersionUtil.VERSION_3_2_1 && (Action.URI_MEMBER.equalsIgnoreCase(name))) || (handler.versionNumber < VersionUtil.VERSION_3_2_1
+					&& Action.TARGET_BOOKMARK_MEMBER.equalsIgnoreCase(name))) {
 				CompatibleMiscExpressionState state = new CompatibleMiscExpressionState(handler, element);
 				state.setName(name);
 				state.struct = struct;
@@ -187,18 +185,20 @@ public class ActionStructureState extends CompatibleStructureState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.parser.CompatibleMiscExpressionState#end()
 		 */
 
+		@Override
 		public void end() throws SAXException {
-			if (handler.versionNumber < VersionUtil.VERSION_3_2_0)
+			if (handler.versionNumber < VersionUtil.VERSION_3_2_0) {
 				super.end();
-			else {
+			} else {
 				String value = text.toString();
 
-				if (StringUtil.isBlank(value))
+				if (StringUtil.isBlank(value)) {
 					return;
+				}
 
 				doEnd(value);
 			}
@@ -211,12 +211,13 @@ public class ActionStructureState extends CompatibleStructureState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.model.parser.ExpressionState#parseAttrs(org.xml.sax.
 		 * Attributes)
 		 */
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			super.parseAttrs(attrs);
 

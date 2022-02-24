@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,7 @@ public final class UIHelper {
 	 * This method returns an URL for a resource given its plugin relative path. It
 	 * is intended to be used to abstract out the usage of the UI as a plugin or
 	 * standalone component when it comes to accessing resources.
-	 * 
+	 *
 	 * @param sPluginRelativePath The path to the resource relative to the plugin
 	 *                            location.
 	 * @return URL representing the location of the resource.
@@ -95,7 +95,7 @@ public final class UIHelper {
 
 	/**
 	 * This is a convenience method to get an imgIcon from a URL.
-	 * 
+	 *
 	 * @param sPluginRelativePath The URL for the imgIcon.
 	 * @return The imgIcon represented by the given URL.
 	 * @see #setImageCached( boolean )
@@ -113,12 +113,13 @@ public final class UIHelper {
 	public static boolean existIntProperty(ModuleHandle module, String id, String key) {
 		UserPropertyDefnHandle property = module
 				.getUserPropertyDefnHandle(id + BuilderConstants.PROPERTY_SEPARATOR + key);
-		if (property == null)
+		if (property == null) {
 			return false;
-		else if (property.getType() != PropertyType.INTEGER_TYPE)
+		} else if (property.getType() != PropertyType.INTEGER_TYPE) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 
 	public static int getIntProperty(ModuleHandle module, String id, String key) {
@@ -128,8 +129,9 @@ public final class UIHelper {
 	public static void createIntPropertyDefn(ModuleHandle module, String id, String key) throws UserPropertyException {
 		UserPropertyDefnHandle property = module
 				.getUserPropertyDefnHandle(id + BuilderConstants.PROPERTY_SEPARATOR + key);
-		if (property != null && property.getType() != PropertyType.INTEGER_TYPE)
+		if (property != null && property.getType() != PropertyType.INTEGER_TYPE) {
 			module.dropUserPropertyDefn(property.getName());
+		}
 
 		UserPropertyDefn propertyDefn = new UserPropertyDefn();
 		propertyDefn.setName(id + BuilderConstants.PROPERTY_SEPARATOR + key);
@@ -160,8 +162,9 @@ public final class UIHelper {
 	public static void dropDimensionProperties(DimensionHandle dimension) {
 		TabularCubeHandle cube = (TabularCubeHandle) dimension.getContainer();
 		HierarchyHandle hierarcy = dimension.getDefaultHierarchy();
-		if (hierarcy == null)
+		if (hierarcy == null) {
 			return;
+		}
 		try {
 			dropProperty(cube, hierarcy, BuilderConstants.POSITION_X);
 			dropProperty(cube, hierarcy, BuilderConstants.POSITION_Y);
@@ -176,8 +179,9 @@ public final class UIHelper {
 		ModuleHandle module = cube.getRoot();
 		if (UIHelper.existIntProperty(hierarcy.getRoot(), UIHelper.getId(hierarcy, cube), type)) {
 
-			if (module.getProperty(getId(hierarcy, cube) + BuilderConstants.PROPERTY_SEPARATOR + type) != null)
+			if (module.getProperty(getId(hierarcy, cube) + BuilderConstants.PROPERTY_SEPARATOR + type) != null) {
 				module.clearProperty(getId(hierarcy, cube) + BuilderConstants.PROPERTY_SEPARATOR + type);
+			}
 
 			module.dropUserPropertyDefn(getId(hierarcy, cube) + BuilderConstants.PROPERTY_SEPARATOR + type);
 

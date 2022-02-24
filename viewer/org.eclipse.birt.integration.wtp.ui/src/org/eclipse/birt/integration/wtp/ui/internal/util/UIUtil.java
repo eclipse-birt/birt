@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * Create UI Components
- * 
+ *
  */
 public class UIUtil implements IBirtWizardConstants {
 
@@ -68,11 +68,11 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "BIRT_RESOURCE_PATH" configuration group
-	 * 
+	 *
 	 * @param composite
 	 */
 	public Text createResourceFolderGroup(Composite parent) {
-		Text txtResourceFolder = null;
+		Text txtResourceFolder;
 
 		// get default value of resource folder setting
 		String defaultFolder = BirtWizardUtil.getDefaultResourceFolder();
@@ -92,6 +92,7 @@ public class UIUtil implements IBirtWizardConstants {
 		// add modify listener
 		txtResourceFolder.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_RESOURCE_FOLDER_SETTING,
 						((Text) e.getSource()).getText());
@@ -103,11 +104,11 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "BIRT_VIEWER_WORKING_FOLDER" configuration group
-	 * 
+	 *
 	 * @param composite
 	 */
 	public Text createWorkingFolderGroup(Composite parent) {
-		Text txtWorkingFolder = null;
+		Text txtWorkingFolder;
 
 		// create folder selection group
 		FolderSelectionGroup group = new FolderSelectionGroup();
@@ -126,6 +127,7 @@ public class UIUtil implements IBirtWizardConstants {
 		// add modify listener
 		txtWorkingFolder.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_WORKING_FOLDER_SETTING,
 						((Text) e.getSource()).getText());
@@ -137,11 +139,11 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "BIRT_VIEWER_DOCUMENT_FOLDER" configuration group
-	 * 
+	 *
 	 * @param composite
 	 */
 	public Text createDocumentFolderGroup(Composite parent) {
-		Text txtDocumentFolder = null;
+		Text txtDocumentFolder;
 
 		// create folder selection group
 		FolderSelectionGroup group = new FolderSelectionGroup();
@@ -160,6 +162,7 @@ public class UIUtil implements IBirtWizardConstants {
 		// add modify listener
 		txtDocumentFolder.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_DOCUMENT_FOLDER_SETTING,
 						((Text) e.getSource()).getText());
@@ -171,11 +174,11 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "BIRT_VIEWER_IMAGE_DIR" configuration group
-	 * 
+	 *
 	 * @param composite
 	 */
 	public Text createImageFolderGroup(Composite parent) {
-		Text txtImageFolder = null;
+		Text txtImageFolder;
 
 		// create folder selection group
 		FolderSelectionGroup group = new FolderSelectionGroup();
@@ -194,6 +197,7 @@ public class UIUtil implements IBirtWizardConstants {
 		// add modify listener
 		txtImageFolder.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_IMAGE_FOLDER_SETTING,
 						((Text) e.getSource()).getText());
@@ -205,11 +209,11 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "BIRT_VIEWER_SCRIPTLIB_DIR" configuration group
-	 * 
+	 *
 	 * @param composite
 	 */
 	public Text createScriptLibFolderGroup(Composite parent) {
-		Text txtScriptlibFolder = null;
+		Text txtScriptlibFolder;
 
 		// create folder selection group
 		FolderSelectionGroup group = new FolderSelectionGroup();
@@ -228,6 +232,7 @@ public class UIUtil implements IBirtWizardConstants {
 		// add modify listener
 		txtScriptlibFolder.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_SCRIPTLIB_FOLDER_SETTING,
 						((Text) e.getSource()).getText());
@@ -239,11 +244,11 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "BIRT_VIEWER_LOG_DIR" configuration group
-	 * 
+	 *
 	 * @param composite
 	 */
 	public Text createLogFolderGroup(Composite parent) {
-		Text txtLogFolder = null;
+		Text txtLogFolder;
 
 		// create folder selection group
 		FolderSelectionGroup group = new FolderSelectionGroup();
@@ -262,6 +267,7 @@ public class UIUtil implements IBirtWizardConstants {
 		// add modify listener
 		txtLogFolder.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_LOG_FOLDER_SETTING,
 						((Text) e.getSource()).getText());
@@ -273,7 +279,7 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "WORKING_FOLDER_ACCESS_ONLY" configuration group
-	 * 
+	 *
 	 * @param parent
 	 */
 	public Button createAccessOnlyGroup(Composite parent) {
@@ -289,6 +295,7 @@ public class UIUtil implements IBirtWizardConstants {
 		btAccessOnly.setLayoutData(new GridData(GridData.END));
 		btAccessOnly.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_REPORT_ACCESSONLY_SETTING,
 						BLANK_STRING + ((Button) e.getSource()).getSelection());
@@ -300,11 +307,11 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "BIRT_VIEWER_MAX_ROWS" configuration group
-	 * 
+	 *
 	 * @param parent
 	 */
 	public Text createMaxRowsGroup(Composite parent) {
-		Text txtMaxRows = null;
+		Text txtMaxRows;
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -330,11 +337,13 @@ public class UIUtil implements IBirtWizardConstants {
 
 		// set default value
 		int defaultValue = DataUtil.getInt(WebArtifactUtil.getContextParamValue(properties, BIRT_MAX_ROWS_SETTING));
-		if (defaultValue > 0)
+		if (defaultValue > 0) {
 			txtMaxRows.setText("" + defaultValue); //$NON-NLS-1$
+		}
 
 		txtMaxRows.addVerifyListener(new VerifyListener() {
 
+			@Override
 			public void verifyText(VerifyEvent e) {
 				e.doit = e.text.matches("[0-9]*"); //$NON-NLS-1$
 			}
@@ -343,6 +352,7 @@ public class UIUtil implements IBirtWizardConstants {
 		// add modify listener
 		txtMaxRows.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_MAX_ROWS_SETTING,
 						DataUtil.getNumberSetting(((Text) e.getSource()).getText()));
@@ -354,11 +364,11 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "BIRT_VIEWER_MAX_CUBE_ROWLEVELS" configuration group
-	 * 
+	 *
 	 * @param parent
 	 */
 	public Text createMaxRowLevelsGroup(Composite parent) {
-		Text txtMaxLevels = null;
+		Text txtMaxLevels;
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -385,11 +395,13 @@ public class UIUtil implements IBirtWizardConstants {
 		// set default value
 		int defaultValue = DataUtil
 				.getInt(WebArtifactUtil.getContextParamValue(properties, BIRT_MAX_ROWLEVELS_SETTING));
-		if (defaultValue > 0)
+		if (defaultValue > 0) {
 			txtMaxLevels.setText("" + defaultValue); //$NON-NLS-1$
+		}
 
 		txtMaxLevels.addVerifyListener(new VerifyListener() {
 
+			@Override
 			public void verifyText(VerifyEvent e) {
 				e.doit = e.text.matches("[0-9]*"); //$NON-NLS-1$
 			}
@@ -398,6 +410,7 @@ public class UIUtil implements IBirtWizardConstants {
 		// add modify listener
 		txtMaxLevels.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_MAX_ROWLEVELS_SETTING,
 						DataUtil.getNumberSetting(((Text) e.getSource()).getText()));
@@ -409,11 +422,11 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "BIRT_VIEWER_MAX_CUBE_COLUMNLEVELS" configuration group
-	 * 
+	 *
 	 * @param parent
 	 */
 	public Text createMaxColumnLevelsGroup(Composite parent) {
-		Text txtMaxLevels = null;
+		Text txtMaxLevels;
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -440,11 +453,13 @@ public class UIUtil implements IBirtWizardConstants {
 		// set default value
 		int defaultValue = DataUtil
 				.getInt(WebArtifactUtil.getContextParamValue(properties, BIRT_MAX_COLUMNLEVELS_SETTING));
-		if (defaultValue > 0)
+		if (defaultValue > 0) {
 			txtMaxLevels.setText("" + defaultValue); //$NON-NLS-1$
+		}
 
 		txtMaxLevels.addVerifyListener(new VerifyListener() {
 
+			@Override
 			public void verifyText(VerifyEvent e) {
 				e.doit = e.text.matches("[0-9]*"); //$NON-NLS-1$
 			}
@@ -453,6 +468,7 @@ public class UIUtil implements IBirtWizardConstants {
 		// add modify listener
 		txtMaxLevels.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_MAX_COLUMNLEVELS_SETTING,
 						DataUtil.getNumberSetting(((Text) e.getSource()).getText()));
@@ -464,11 +480,11 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "BIRT_VIEWER_CUBE_MEMORY_SIZE" configuration group
-	 * 
+	 *
 	 * @param parent
 	 */
 	public Text createCubeMemorySizeGroup(Composite parent) {
-		Text txtCubeMemorySize = null;
+		Text txtCubeMemorySize;
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -495,11 +511,13 @@ public class UIUtil implements IBirtWizardConstants {
 		// set default value
 		int defaultValue = DataUtil
 				.getInt(WebArtifactUtil.getContextParamValue(properties, BIRT_CUBE_MEMORYSIZE_SETTING));
-		if (defaultValue > 0)
+		if (defaultValue > 0) {
 			txtCubeMemorySize.setText("" + defaultValue); //$NON-NLS-1$
+		}
 
 		txtCubeMemorySize.addVerifyListener(new VerifyListener() {
 
+			@Override
 			public void verifyText(VerifyEvent e) {
 				e.doit = e.text.matches("[0-9]*"); //$NON-NLS-1$
 			}
@@ -508,6 +526,7 @@ public class UIUtil implements IBirtWizardConstants {
 		// add modify listener
 		txtCubeMemorySize.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_CUBE_MEMORYSIZE_SETTING,
 						DataUtil.getNumberSetting(((Text) e.getSource()).getText()));
@@ -519,11 +538,11 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "BIRT_VIEWER_LOG_LEVEL" configuration group
-	 * 
+	 *
 	 * @param parent
 	 */
 	public Combo createLogLevelGroup(Composite parent) {
-		Combo cbLogLevel = null;
+		Combo cbLogLevel;
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -553,9 +572,11 @@ public class UIUtil implements IBirtWizardConstants {
 		// Add Selection Listener
 		cbLogLevel.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_LOG_LEVEL_SETTING,
 						((Combo) e.getSource()).getText());
@@ -567,11 +588,11 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create "BIRT_VIEWER_PRINT_SERVERSIDE" configuration group
-	 * 
+	 *
 	 * @param parent
 	 */
 	public Combo createPrintServerGroup(Composite parent) {
-		Combo cbPrintServer = null;
+		Combo cbPrintServer;
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -601,9 +622,11 @@ public class UIUtil implements IBirtWizardConstants {
 		// Add Selection Listener
 		cbPrintServer.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				WebArtifactUtil.setContextParamValue(properties, BIRT_PRINT_SERVER_SETTING,
 						((Combo) e.getSource()).getText());
@@ -615,7 +638,7 @@ public class UIUtil implements IBirtWizardConstants {
 
 	/**
 	 * Create Import Clear Setting configuration group
-	 * 
+	 *
 	 * @param parent
 	 */
 	public Button createImportClearSetting(Composite parent) {

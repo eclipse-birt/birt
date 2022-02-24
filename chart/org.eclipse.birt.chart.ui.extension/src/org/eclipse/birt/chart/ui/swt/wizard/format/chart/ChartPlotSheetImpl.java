@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.Listener;
 
 /**
  * Sheet for plot settings
- * 
+ *
  */
 public class ChartPlotSheetImpl extends SubtaskSheetImpl implements Listener, SelectionListener {
 
@@ -53,6 +53,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements Listener, Se
 
 	protected Label lblVisibleWithin;
 
+	@Override
 	public void createControl(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.SUBTASK_PLOT);
 
@@ -189,10 +190,11 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements Listener, Se
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
 	 * Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		if (event.widget.equals(cmbBlockColor)) {
 			if (event.type == FillChooserComposite.FILL_CHANGED_EVENT) {
@@ -205,6 +207,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements Listener, Se
 		}
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		// Detach popup dialog if there's selected popup button.
 		if (detachPopup(e.widget)) {
@@ -235,6 +238,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements Listener, Se
 
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 	}

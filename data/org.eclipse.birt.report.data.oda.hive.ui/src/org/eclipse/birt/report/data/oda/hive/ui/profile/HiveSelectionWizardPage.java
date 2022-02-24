@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005, 2012 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -37,11 +37,12 @@ public class HiveSelectionWizardPage extends DataSourceWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceWizardPage#createPageCustomControl(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	public void createPageCustomControl(Composite parent) {
 		if (m_pageHelper == null) {
 			String odaDesignerId = UIManifestExplorer.getInstance().getOdaDesignerId(this.getOdaDataSourceId());
@@ -56,35 +57,40 @@ public class HiveSelectionWizardPage extends DataSourceWizardPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceWizardPage#initPageCustomControl(java.util.Properties)
 	 */
+	@Override
 	public void setInitialProperties(Properties dataSourceProps) {
 		m_folderProperties = dataSourceProps;
-		if (m_pageHelper == null)
+		if (m_pageHelper == null) {
 			return; // ignore, wait till createPageCustomControl to initialize
+		}
 		m_pageHelper.initCustomControl(m_folderProperties);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.profile.wizards.
 	 * DataSourceWizardPage#collectCustomProperties()
 	 */
+	@Override
 	public Properties collectCustomProperties() {
-		if (m_pageHelper != null)
+		if (m_pageHelper != null) {
 			return m_pageHelper.collectCustomProperties(m_folderProperties);
+		}
 
 		return (m_folderProperties != null) ? m_folderProperties : new Properties();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		getControl().setFocus();
@@ -94,8 +100,9 @@ public class HiveSelectionWizardPage extends DataSourceWizardPage {
 	public void refresh() {
 		// enable/disable all controls on page based on the session editable state
 		enableAllControls(getControl(), isSessionEditable());
-		if (m_pageHelper != null)
+		if (m_pageHelper != null) {
 			m_pageHelper.resetTestButton();
+		}
 	}
 
 }

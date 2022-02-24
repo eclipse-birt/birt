@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -32,7 +32,7 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * Sets JS configuration the editor needs
- * 
+ *
  */
 public class JSSourceViewerConfiguration extends SourceViewerConfiguration {
 
@@ -49,7 +49,7 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration {
 
 	/**
 	 * gets color for a given category
-	 * 
+	 *
 	 * @param categoryColor
 	 * @return Color
 	 */
@@ -60,6 +60,7 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration {
 	/**
 	 * @see SourceViewerConfiguration#getConfiguredContentTypes(ISourceViewer)
 	 */
+	@Override
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
 		return new String[] { IDocument.DEFAULT_CONTENT_TYPE, JSPartitionScanner.JS_COMMENT,
 				JSPartitionScanner.JS_KEYWORD, JSPartitionScanner.JS_STRING };
@@ -67,7 +68,7 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration {
 
 	/**
 	 * Gets default scanner
-	 * 
+	 *
 	 * @return scanner
 	 */
 	protected RuleBasedScanner getDefaultScanner() {
@@ -82,6 +83,7 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration {
 	/**
 	 * @see SourceViewerConfiguration#getPresentationReconciler(ISourceViewer)
 	 */
+	@Override
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
 		PresentationReconciler reconciler = new PresentationReconciler();
 
@@ -124,6 +126,7 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration {
 		return ReportColorConstants.ReportForeground;
 	}
 
+	@Override
 	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 		ContentAssistant assistant = new ContentAssistant();
 		assistant.setContentAssistProcessor(new JSCompletionProcessor(context), IDocument.DEFAULT_CONTENT_TYPE);

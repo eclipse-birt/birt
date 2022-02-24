@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +52,7 @@ public class DebugJsInput implements IStorageEditorInput, IPathEditorInput, IPer
 
 	/**
 	 * Contructor
-	 * 
+	 *
 	 * @param storage
 	 * @param id
 	 */
@@ -63,99 +63,109 @@ public class DebugJsInput implements IStorageEditorInput, IPathEditorInput, IPer
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.IStorageEditorInput#
 	 * getStorage()
 	 */
+	@Override
 	public IStorage getStorage() throws CoreException {
 		return new ScriptStorage();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IEditorInput#exists()
 	 */
+	@Override
 	public boolean exists() {
 		return storage.exists();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
 	 */
+	@Override
 	public ImageDescriptor getImageDescriptor() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IEditorInput#getName()
 	 */
+	@Override
 	public String getName() {
 		return storage.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IEditorInput#getPersistable()
 	 */
+	@Override
 	public IPersistableElement getPersistable() {
 		return this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IEditorInput#getToolTipText()
 	 */
+	@Override
 	public String getToolTipText() {
 		return storage.getAbsolutePath();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
+	@Override
 	public Object getAdapter(Class adapter) {
 		return Platform.getAdapterManager().getAdapter(this, adapter);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IPathEditorInput#getPath()
 	 */
+	@Override
 	public IPath getPath() {
 		return new Path(storage.getAbsolutePath());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IPersistableElement#getFactoryId()
 	 */
+	@Override
 	public String getFactoryId() {
 		return ScriptEditorInputFactory.ID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IPersistable#saveState(org.eclipse.ui.IMemento)
 	 */
+	@Override
 	public void saveState(IMemento memento) {
 		ScriptEditorInputFactory.saveState(memento, this);
 	}
 
 	/**
 	 * Gets the id.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getId() {
@@ -164,7 +174,7 @@ public class DebugJsInput implements IStorageEditorInput, IPathEditorInput, IPer
 
 	/**
 	 * Sets the id.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(String id) {
@@ -173,7 +183,7 @@ public class DebugJsInput implements IStorageEditorInput, IPathEditorInput, IPer
 
 	/**
 	 * Gets the file.
-	 * 
+	 *
 	 * @return
 	 */
 	public File getFile() {
@@ -182,9 +192,10 @@ public class DebugJsInput implements IStorageEditorInput, IPathEditorInput, IPer
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {
 			return true;
@@ -198,7 +209,7 @@ public class DebugJsInput implements IStorageEditorInput, IPathEditorInput, IPer
 
 	/**
 	 * Gets the module handle
-	 * 
+	 *
 	 * @return
 	 */
 	public ModuleHandle getModuleHandle() {
@@ -208,9 +219,7 @@ public class DebugJsInput implements IStorageEditorInput, IPathEditorInput, IPer
 						// No need to close the stream here, the report
 						// design parser will automaically close it.
 						new FileInputStream(getFile()));
-			} catch (DesignFileException e) {
-
-			} catch (FileNotFoundException e) {
+			} catch (DesignFileException | FileNotFoundException e) {
 			}
 		}
 		return handle;
@@ -237,24 +246,29 @@ public class DebugJsInput implements IStorageEditorInput, IPathEditorInput, IPer
 	 */
 	private class ScriptStorage implements IStorage {
 
+		@Override
 		public InputStream getContents() throws CoreException {
 			String str = getDisplayText();
 			InputStream input = new ByteArrayInputStream(str.getBytes());
 			return input;
 		}
 
+		@Override
 		public IPath getFullPath() {
 			return DebugJsInput.this.getPath();
 		}
 
+		@Override
 		public String getName() {
 			return DebugJsInput.this.getName();
 		}
 
+		@Override
 		public boolean isReadOnly() {
 			return true;
 		}
 
+		@Override
 		public Object getAdapter(Class adapter) {
 			return DebugJsInput.this.getAdapter(adapter);
 		}

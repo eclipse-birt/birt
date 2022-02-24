@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,21 +38,23 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
 	 * IAggregationCellViewProvider#getViewName()
 	 */
+	@Override
 	public String getViewName() {
 		return "Text"; //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
 	 * IAggregationCellViewProvider#matchView(org.eclipse.birt.report.item.crosstab.
 	 * core.de.AggregationCellHandle)
 	 */
+	@Override
 	public boolean matchView(AggregationCellHandle cell) {
 		List contents = cell.getContents();
 		if (contents != null && contents.size() == 1) {
@@ -65,22 +67,24 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
 	 * IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab
 	 * .ui.extension.SwitchCellInfo)
 	 */
+	@Override
 	public void switchView(SwitchCellInfo info) {
 		switchView(info.getAggregationCell());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
 	 * IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab
 	 * .core.de.AggregationCellHandle)
 	 */
+	@Override
 	public void switchView(AggregationCellHandle cell) {
 		if (cell == null || (!canSwitch(cell))) {
 			return;
@@ -139,32 +143,37 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
 	 * IAggregationCellViewProvider#restoreView(org.eclipse.birt.report.item.
 	 * crosstab.core.de.AggregationCellHandle)
 	 */
+	@Override
 	public void restoreView(AggregationCellHandle cell) {
 	}
 
 	/**
 	 * @deprecated use {@link #canSwitch(SwitchCellInfo)}
 	 */
+	@Deprecated
+	@Override
 	public boolean canSwitch(AggregationCellHandle cell) {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.
 	 * IAggregationCellViewProvider#canSwitch(org.eclipse.birt.report.item.crosstab.
 	 * ui.extension.SwitchCellInfo)
 	 */
+	@Override
 	public boolean canSwitch(SwitchCellInfo info) {
 		return true;
 	}
 
+	@Override
 	public String getViewDisplayName() {
 		// TODO Auto-generated method stub
 		return Messages.getString("AggregationCellTextViewProvider.displayName");

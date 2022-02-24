@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -41,10 +41,12 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 
 	protected ArrayList children = new ArrayList();
 
+	@Override
 	public Iterator getChildren() {
 		return children.iterator();
 	}
 
+	@Override
 	public void addChild(IArea area) {
 		children.add(area);
 	}
@@ -65,10 +67,12 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 		children.remove(area);
 	}
 
+	@Override
 	public void accept(IAreaVisitor visitor) {
 		visitor.visitContainer(this);
 	}
 
+	@Override
 	public int getChildrenCount() {
 		return children.size();
 	}
@@ -93,10 +97,12 @@ public abstract class ContainerArea extends AbstractArea implements IContainerAr
 				+ PropertyUtil.getDimensionValue(style.getProperty(IStyle.STYLE_BORDER_BOTTOM_WIDTH));
 	}
 
+	@Override
 	public boolean needClip() {
 		return needClip;
 	}
 
+	@Override
 	public void setNeedClip(boolean needClip) {
 		this.needClip = needClip;
 	}

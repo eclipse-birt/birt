@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -34,7 +34,7 @@ public class CategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Gets the category value for this CategoryChoice.
-	 * 
+	 *
 	 * @return category
 	 */
 	public java.lang.String getCategory() {
@@ -43,7 +43,7 @@ public class CategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Sets the category value for this CategoryChoice.
-	 * 
+	 *
 	 * @param category
 	 */
 	public void setCategory(java.lang.String category) {
@@ -52,7 +52,7 @@ public class CategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Gets the pattern value for this CategoryChoice.
-	 * 
+	 *
 	 * @return pattern
 	 */
 	public java.lang.String getPattern() {
@@ -61,7 +61,7 @@ public class CategoryChoice implements java.io.Serializable {
 
 	/**
 	 * Sets the pattern value for this CategoryChoice.
-	 * 
+	 *
 	 * @param pattern
 	 */
 	public void setPattern(java.lang.String pattern) {
@@ -70,14 +70,18 @@ public class CategoryChoice implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof CategoryChoice))
+		if (!(obj instanceof CategoryChoice)) {
 			return false;
+		}
 		CategoryChoice other = (CategoryChoice) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -94,6 +98,7 @@ public class CategoryChoice implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

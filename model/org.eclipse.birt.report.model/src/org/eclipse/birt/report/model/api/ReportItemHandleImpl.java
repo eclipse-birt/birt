@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -75,8 +75,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 */
 	public DataSetHandle getDataSet() {
 		DesignElement dataSet = ((ReportItem) getElement()).getDataSetElement(module);
-		if (dataSet == null)
+		if (dataSet == null) {
 			return null;
+		}
 
 		assert dataSet instanceof DataSet;
 
@@ -91,9 +92,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 * @throws SemanticException if the property is locked.
 	 */
 	public void setDataSet(DataSetHandle handle) throws SemanticException {
-		if (handle == null)
+		if (handle == null) {
 			setStringProperty(DATA_SET_PROP, null);
-		else {
+		} else {
 			ModuleHandle moduleHandle = handle.getRoot();
 			String valueToSet = handle.getElement().getFullName();
 			if (moduleHandle instanceof LibraryHandle) {
@@ -111,8 +112,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 */
 	public CubeHandle getCube() {
 		DesignElement cube = ((ReportItem) getElement()).getCubeElement(module);
-		if (cube == null)
+		if (cube == null) {
 			return null;
+		}
 
 		assert cube instanceof Cube;
 
@@ -127,9 +129,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 * @throws SemanticException if the property is locked.
 	 */
 	public void setCube(CubeHandle handle) throws SemanticException {
-		if (handle == null)
+		if (handle == null) {
 			setStringProperty(CUBE_PROP, null);
-		else {
+		} else {
 			ModuleHandle moduleHandle = handle.getRoot();
 			String valueToSet = handle.getElement().getFullName();
 			if (moduleHandle instanceof LibraryHandle) {
@@ -306,8 +308,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 */
 	public Iterator visibilityRulesIterator() {
 		PropertyHandle propHandle = getPropertyHandle(IReportItemModel.VISIBILITY_PROP);
-		if (propHandle == null)
+		if (propHandle == null) {
 			return Collections.EMPTY_LIST.iterator();
+		}
 		return propHandle.iterator();
 	}
 
@@ -368,8 +371,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	public Iterator paramBindingsIterator() {
 		PropertyHandle propHandle = getPropertyHandle(IReportItemModel.PARAM_BINDINGS_PROP);
 
-		if (propHandle == null)
+		if (propHandle == null) {
 			return Collections.EMPTY_LIST.iterator();
+		}
 		return propHandle.iterator();
 	}
 
@@ -384,14 +388,16 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 * @see #getTocExpression()
 	 * @deprecated
 	 */
+	@Deprecated
 	public void setTocExpression(String expression) throws SemanticException {
 		if (StringUtil.isEmpty(expression)) {
 			setProperty(IReportItemModel.TOC_PROP, null);
 			return;
 		}
 		TOCHandle tocHandle = getTOC();
-		if (StringUtil.isBlank(expression))
+		if (StringUtil.isBlank(expression)) {
 			return;
+		}
 		if (tocHandle == null) {
 			TOC toc = StructureFactory.createTOC(expression);
 			addTOC(toc);
@@ -408,10 +414,12 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 * @see #setTocExpression(String)
 	 * @deprecated
 	 */
+	@Deprecated
 	public String getTocExpression() {
 		TOCHandle tocHandle = getTOC();
-		if (tocHandle == null)
+		if (tocHandle == null) {
 			return null;
+		}
 		return tocHandle.getExpression();
 	}
 
@@ -470,8 +478,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 */
 	public Iterator columnBindingsIterator() {
 		PropertyHandle propHandle = getPropertyHandle(BOUND_DATA_COLUMNS_PROP);
-		if (propHandle == null)
+		if (propHandle == null) {
 			return Collections.EMPTY_LIST.iterator();
+		}
 		return propHandle.iterator();
 	}
 
@@ -505,22 +514,26 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 		// item's data set property is not null. This should be the same as
 		// getColumnBindings() API.
 
-		if (getProperty(IReportItemModel.DATA_SET_PROP) != null)
+		if (getProperty(IReportItemModel.DATA_SET_PROP) != null) {
 			return bindings.iterator();
+		}
 
 		// if the container is module, just return
 
 		DesignElementHandle container = getContainer();
-		if (container instanceof ModuleHandle)
+		if (container instanceof ModuleHandle) {
 			return bindings.iterator();
+		}
 
 		// finds the corresponding container
 
-		while (container != null && !(container instanceof ReportItemHandle))
+		while (container != null && !(container instanceof ReportItemHandle)) {
 			container = container.getContainer();
+		}
 
-		if (container == null)
+		if (container == null) {
 			return bindings.iterator();
+		}
 
 		// recursively gets column bindings from the container.
 
@@ -548,12 +561,14 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 *                           <code>inForce</code> is <code>true</code>.
 	 */
 	public ComputedColumnHandle addColumnBinding(ComputedColumn addColumn, boolean inForce) throws SemanticException {
-		if (addColumn == null)
+		if (addColumn == null) {
 			return null;
+		}
 
 		List columns = (List) getProperty(BOUND_DATA_COLUMNS_PROP);
-		if (columns == null)
+		if (columns == null) {
 			return (ComputedColumnHandle) getPropertyHandle(BOUND_DATA_COLUMNS_PROP).addItem(addColumn);
+		}
 
 		ComputedColumn column = BoundDataColumnUtil.getColumn(columns, addColumn);
 
@@ -571,15 +586,18 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 * @return column binding with the given name if found, otherwise null
 	 */
 	public ComputedColumnHandle findColumnBinding(String name) {
-		if (name == null)
+		if (name == null) {
 			return null;
+		}
 		List columns = (List) getProperty(BOUND_DATA_COLUMNS_PROP);
-		if (columns == null)
+		if (columns == null) {
 			return null;
+		}
 		for (int i = 0; i < columns.size(); i++) {
 			ComputedColumn column = (ComputedColumn) columns.get(i);
-			if (name.equals(column.getName()))
+			if (name.equals(column.getName())) {
 				return (ComputedColumnHandle) column.handle(getPropertyHandle(BOUND_DATA_COLUMNS_PROP), i);
+			}
 		}
 		return null;
 	}
@@ -603,12 +621,14 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 */
 	public TOCHandle getTOC() {
 		PropertyHandle propHandle = getPropertyHandle(IReportItemModel.TOC_PROP);
-		if (propHandle == null)
+		if (propHandle == null) {
 			return null;
+		}
 		TOC toc = (TOC) propHandle.getValue();
 
-		if (toc == null)
+		if (toc == null) {
 			return null;
+		}
 
 		return (TOCHandle) toc.getHandle(propHandle);
 	}
@@ -621,8 +641,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 * @throws SemanticException
 	 */
 	public TOCHandle addTOC(String expression) throws SemanticException {
-		if (StringUtil.isEmpty(expression))
+		if (StringUtil.isEmpty(expression)) {
 			return null;
+		}
 
 		TOC toc = StructureFactory.createTOC(expression);
 		setProperty(IReportItemModel.TOC_PROP, toc);
@@ -640,8 +661,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	public TOCHandle addTOC(TOC toc) throws SemanticException {
 		setProperty(IReportItemModel.TOC_PROP, toc);
 
-		if (toc == null)
+		if (toc == null) {
 			return null;
+		}
 		return (TOCHandle) toc.getHandle(getPropertyHandle(IReportItemModel.TOC_PROP));
 	}
 
@@ -701,8 +723,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 */
 	public ReportItemHandle getDataBindingReference() {
 		ElementRefValue refValue = (ElementRefValue) getElement().getProperty(module, DATA_BINDING_REF_PROP);
-		if (refValue == null || !refValue.isResolved())
+		if (refValue == null || !refValue.isResolved()) {
 			return null;
+		}
 
 		DesignElement tmpElement = refValue.getElement();
 		return (ReportItemHandle) tmpElement.getHandle(tmpElement.getRoot());
@@ -721,12 +744,14 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 * @return the data binding type of this report item
 	 */
 	public int getDataBindingType() {
-		if (getDataBindingReferenceName() != null)
+		if (getDataBindingReferenceName() != null) {
 			return DATABINDING_TYPE_REPORT_ITEM_REF;
+		}
 
 		if (element.getProperty(module, IReportItemModel.DATA_SET_PROP) != null
-				|| element.getProperty(module, IReportItemModel.CUBE_PROP) != null)
+				|| element.getProperty(module, IReportItemModel.CUBE_PROP) != null) {
 			return DATABINDING_TYPE_DATA;
+		}
 
 		return DATABINDING_TYPE_NONE;
 	}
@@ -860,23 +885,20 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 		List rtnList = new ArrayList();
 
 		int slotID = DesignElement.NO_SLOT;
-		if (module instanceof ReportDesign)
+		if (module instanceof ReportDesign) {
 			slotID = ReportDesign.BODY_SLOT;
-		else if (module instanceof Library)
+		} else if (module instanceof Library) {
 			slotID = Library.COMPONENT_SLOT;
+		}
 
 		ContentIterator iter1 = new ContentIterator(module, new ContainerContext(module, slotID));
 
 		while (iter1.hasNext()) {
 			DesignElement e = (DesignElement) iter1.next();
-			if (e == getElement())
+			if ((e == getElement()) || !(e instanceof ReportItem)
+					|| ModelUtil.checkContainerOrContent(getElement(), e)) {
 				continue;
-
-			if (!(e instanceof ReportItem))
-				continue;
-
-			if (ModelUtil.checkContainerOrContent(getElement(), e))
-				continue;
+			}
 
 			ReportItemHandle elementHandle = (ReportItemHandle) e.getHandle(module);
 			int bindingType = elementHandle.getDataBindingType();
@@ -892,8 +914,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 				// column bindings. It is OK to share result set.
 
 				Object tmpValue = e.getLocalProperty(module, IReportItemModel.BOUND_DATA_COLUMNS_PROP);
-				if (tmpValue instanceof List && !((List) tmpValue).isEmpty())
+				if (tmpValue instanceof List && !((List) tmpValue).isEmpty()) {
 					rtnList.add(elementHandle);
+				}
 			} else if (bindingType == DATABINDING_TYPE_REPORT_ITEM_REF) {
 
 				DesignElementHandle tmpElementHandle = elementHandle.getDataBindingReference();
@@ -909,16 +932,18 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 				// recursive reference cases
 
 				if (element instanceof IReferencableElement && !ModelUtil
-						.isRecursiveReference(tmpElementHandle.getElement(), (IReferencableElement) element))
+						.isRecursiveReference(tmpElementHandle.getElement(), (IReferencableElement) element)) {
 					if (propName == null || tmpElementHandle.getProperty(propName) != null) {
 						rtnList.add(elementHandle);
 					}
+				}
 			}
 
 		}
 
-		if (rtnList.isEmpty())
+		if (rtnList.isEmpty()) {
 			return Collections.EMPTY_LIST;
+		}
 
 		return Collections.unmodifiableList(rtnList);
 	}
@@ -937,8 +962,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 
 		for (int i = 0; i < tmpList.size(); i++) {
 			ReportItemHandle item = (ReportItemHandle) tmpList.get(i);
-			if (item.getName() == null)
+			if (item.getName() == null) {
 				continue;
+			}
 
 			retList.add(item);
 		}
@@ -955,8 +981,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 * @throws SemanticException if bound column property is locked.
 	 */
 	public void removedColumnBindings(List bindingNameList) throws SemanticException {
-		if (bindingNameList == null || bindingNameList.isEmpty())
+		if (bindingNameList == null || bindingNameList.isEmpty()) {
 			return;
+		}
 
 		for (int i = 0; i < bindingNameList.size(); i++) {
 			removedColumnBinding((String) bindingNameList.get(i));
@@ -971,8 +998,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 */
 	public void removedColumnBinding(String bindingName) throws SemanticException {
 		ComputedColumnHandle toRemoveColumn = findColumnBinding(bindingName);
-		if (toRemoveColumn == null)
+		if (toRemoveColumn == null) {
 			return;
+		}
 
 		toRemoveColumn.drop();
 	}
@@ -1136,8 +1164,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	public ReportItemHandle getViewHost() {
 		DesignElementHandle container = getContainer();
 
-		if (!(container instanceof MultiViewsHandle))
+		if (!(container instanceof MultiViewsHandle)) {
 			return null;
+		}
 		MultiViewsHandle viewHandle = (MultiViewsHandle) container;
 		DesignElementHandle viewHost = viewHandle.getContainer();
 		return viewHost instanceof ReportItemHandle ? (ReportItemHandle) viewHost : null;
@@ -1187,6 +1216,7 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 		setProperty(PUSH_DOWN_PROP, Boolean.valueOf(pushDown));
 	}
 
+	@Override
 	public Object getProperty(String propName) {
 		if (IReportItemModel.PUSH_DOWN_PROP.equals(propName)) {
 			Object pushDown = ReportItemPropSearchStrategy.getInstance().getPropertyFromElement(module, element,
@@ -1206,16 +1236,18 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 		if (element instanceof ISupportThemeElement) {
 			ThemeCommand command = new ThemeCommand(getModule(), element);
 			command.setTheme(themeName);
-		} else
+		} else {
 			throw new IllegalOperationException();
+		}
 	}
 
 	public void setTheme(ReportItemThemeHandle theme) throws SemanticException {
 		if (element instanceof ISupportThemeElement) {
 			ThemeCommand command = new ThemeCommand(getModule(), getElement());
 			command.setThemeElement(theme);
-		} else
+		} else {
 			throw new IllegalOperationException();
+		}
 	}
 
 	/**
@@ -1225,8 +1257,9 @@ public abstract class ReportItemHandleImpl extends ReportElementHandle
 	 */
 	public final ReportItemThemeHandle getTheme() {
 		ReportItemTheme theme = (ReportItemTheme) ((ReportItem) element).getTheme(module);
-		if (theme == null)
+		if (theme == null) {
 			return null;
+		}
 
 		return (ReportItemThemeHandle) theme.getHandle(theme.getRoot());
 	}

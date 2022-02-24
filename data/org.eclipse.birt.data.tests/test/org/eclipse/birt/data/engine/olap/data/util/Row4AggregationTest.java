@@ -1,36 +1,36 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.Row4Aggregation;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
-
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
- * 
+ *
  */
 
 public class Row4AggregationTest {
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	/*

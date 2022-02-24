@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ public class ParameterNameTest extends BaseTestCase {
 	/**
 	 * Tests the backward compatibility when the name of the parameter and parameter
 	 * group is changed to be case insensitive since 3.2.21.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCompatibility() throws Exception {
@@ -41,7 +41,7 @@ public class ParameterNameTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testParser() throws Exception {

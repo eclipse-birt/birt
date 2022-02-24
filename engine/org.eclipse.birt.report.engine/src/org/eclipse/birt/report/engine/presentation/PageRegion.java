@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,26 +64,32 @@ public class PageRegion extends ContentEmitterAdapter {
 		return list;
 	}
 
+	@Override
 	public void end(IReportContent report) throws BirtException {
 		emitter.end(report);
 	}
 
+	@Override
 	public String getOutputFormat() {
 		return emitter.getOutputFormat();
 	}
 
+	@Override
 	public void initialize(IEmitterServices service) throws BirtException {
 		emitter.initialize(service);
 	}
 
+	@Override
 	public void start(IReportContent report) throws BirtException {
 		emitter.start(report);
 	}
 
+	@Override
 	public void startContent(IContent content) throws BirtException {
 		ContentEmitterUtil.startContent(content, emitter);
 	}
 
+	@Override
 	public void endContent(IContent content) throws BirtException {
 		ContentEmitterUtil.endContent(content, emitter);
 	}

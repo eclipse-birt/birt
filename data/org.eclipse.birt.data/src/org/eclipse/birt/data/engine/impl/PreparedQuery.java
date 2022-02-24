@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -138,12 +138,14 @@ public final class PreparedQuery {
 		IGroupDefinition group;
 		for (int i = 0; i < groups.size(); i++) {
 			group = (IGroupDefinition) groups.get(i);
-			if (group.getName() == null || group.getName().trim().length() == 0)
+			if (group.getName() == null || group.getName().trim().length() == 0) {
 				continue;
+			}
 			for (int j = 0; j < groups.size(); j++) {
 				if (group.getName().equals(((IGroupDefinition) groups.get(j)).getName() == null ? ""
-						: ((IGroupDefinition) groups.get(j)).getName()) && j != i)
+						: ((IGroupDefinition) groups.get(j)).getName()) && j != i) {
 					throw new DataException(ResourceConstants.DUPLICATE_GROUP_NAME);
+				}
 			}
 			groupNameSet.add(group.getName());
 		}
@@ -157,12 +159,14 @@ public final class PreparedQuery {
 				Object key = entry.getKey();
 				IBinding binding = (IBinding) entry.getValue();
 				String groupName = null;
-				if (binding.getExpression() != null)
+				if (binding.getExpression() != null) {
 					groupName = binding.getExpression().getGroupName();
+				}
 
 				if (groupName == null) {
-					if (binding.getAggregatOns().size() == 0)
+					if (binding.getAggregatOns().size() == 0) {
 						continue;
+					}
 					groupName = binding.getAggregatOns().get(0).toString();
 				}
 
@@ -245,7 +249,7 @@ public final class PreparedQuery {
 
 	/**
 	 * Prepares all expressions in the given collection
-	 * 
+	 *
 	 * @param expressions
 	 * @param groupLevel
 	 * @param afterGroup
@@ -254,8 +258,9 @@ public final class PreparedQuery {
 	 */
 	private void prepareExpressions(Collection expressions, int groupLevel, boolean afterGroup, boolean isDetailedRow,
 			ScriptContext cx) throws DataException {
-		if (expressions == null)
+		if (expressions == null) {
 			return;
+		}
 
 		AggregateRegistry reg = this.aggrTable.getAggrRegistry(groupLevel, -1, isDetailedRow, cx);
 		Iterator it = expressions.iterator();
@@ -266,7 +271,7 @@ public final class PreparedQuery {
 
 	/**
 	 * Prepares one expression
-	 * 
+	 *
 	 * @param expr
 	 * @param groupLevel
 	 * @param cx
@@ -296,10 +301,12 @@ public final class PreparedQuery {
 				ce = transformConditionalExpression(ce);
 
 				prepareExpression(ce.getExpression(), groupLevel, cx, reg);
-				if (ce.getOperand1() != null)
+				if (ce.getOperand1() != null) {
 					prepareExpression(ce.getOperand1(), groupLevel, cx, reg);
-				if (ce.getOperand2() != null)
+				}
+				if (ce.getOperand2() != null) {
 					prepareExpression(ce.getOperand2(), groupLevel, cx, reg);
+				}
 
 				// No separate preparation is required for the conditional
 				// expression
@@ -321,7 +328,7 @@ public final class PreparedQuery {
 	 * When a TopN/TopPercent/BottomN/BottomPercent ConditionalExpression is set,
 	 * transform it to Total.TopN/Total.TopPercent/Total.BottomN/Total.BottomPercent
 	 * aggregations with "isTrue" operator.
-	 * 
+	 *
 	 * @param ce
 	 * @return
 	 */
@@ -352,7 +359,7 @@ public final class PreparedQuery {
 
 	/**
 	 * Return the QueryResults. But the execution of query would be deferred
-	 * 
+	 *
 	 * @param outerResults If query is nested within another query, this is the
 	 *                     outer query's query result handle.
 	 * @param scope        The ElementState object for the report item using the
@@ -383,7 +390,7 @@ public final class PreparedQuery {
 
 		// Give an opportunity to the QueryExecutor to construct and compose the
 		// instance of IQueryResults to use.
-		QueryResults result = null;
+		QueryResults result;
 
 		result = executor.buildQueryResults(
 				new ServiceForQueryResults(this.session, executor.getQueryScope(), executor.getNestedLevel() + 1,
@@ -420,7 +427,7 @@ public final class PreparedQuery {
 
 	/**
 	 * Executes a subquery
-	 * 
+	 *
 	 * @param iterator
 	 * @param subQueryName
 	 * @param subScope
@@ -444,7 +451,7 @@ public final class PreparedQuery {
 	/**
 	 * Closes the prepared query. This instance can no longer be executed after it
 	 * is closed
-	 * 
+	 *
 	 * TODO: expose this method in the IPreparedQuery interface
 	 */
 	void close() {

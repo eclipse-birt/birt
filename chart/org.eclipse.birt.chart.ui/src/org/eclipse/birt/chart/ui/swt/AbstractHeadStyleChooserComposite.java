@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * 
+ *
  */
 
 public abstract class AbstractHeadStyleChooserComposite extends CustomChooserComposite {
@@ -31,12 +31,13 @@ public abstract class AbstractHeadStyleChooserComposite extends CustomChooserCom
 
 	/**
 	 * Returns the current selected head style as an integer.
-	 * 
+	 *
 	 */
 	abstract public int getHeadStyle();
 
 	abstract public void setHeadStyle(int iStyle);
 
+	@Override
 	protected void initAccessible() {
 		super.initAccessible();
 		ChartUIUtil.addScreenReaderAccessibility(this, (Canvas) cnvSelection);

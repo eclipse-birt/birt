@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,29 +27,31 @@ import org.eclipse.gef.requests.GroupRequest;
 /**
  * This is simple implementation of ContainerEditPolicy. Provides a installabel
  * edit policy for all container element
- * 
- * 
+ *
+ *
  */
 public class ReportContainerEditPolicy extends ContainerEditPolicy {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.editpolicies.ContainerEditPolicy#getCreateCommand(org.eclipse
 	 * .gef.requests.CreateRequest)
 	 */
+	@Override
 	protected Command getCreateCommand(CreateRequest request) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.editpolicies.ContainerEditPolicy#getOrphanChildrenCommand(org
 	 * .eclipse.gef.requests.GroupRequest)
 	 */
+	@Override
 	public Command getOrphanChildrenCommand(GroupRequest request) {
 		List parts = request.getEditParts();
 		CompoundCommand result = new CompoundCommand("Move in layout");//$NON-NLS-1$

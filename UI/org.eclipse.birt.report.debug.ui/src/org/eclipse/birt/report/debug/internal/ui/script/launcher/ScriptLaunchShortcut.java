@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
- * 
+ *
  */
 
 public class ScriptLaunchShortcut implements ILaunchShortcut {
@@ -42,10 +42,11 @@ public class ScriptLaunchShortcut implements ILaunchShortcut {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.ui.ILaunchShortcut#launch(org.eclipse.jface.viewers.
 	 * ISelection, java.lang.String)
 	 */
+	@Override
 	public void launch(ISelection selection, String mode) {
 		// don't support now
 
@@ -53,10 +54,11 @@ public class ScriptLaunchShortcut implements ILaunchShortcut {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.ui.ILaunchShortcut#launch(org.eclipse.ui.IEditorPart,
 	 * java.lang.String)
 	 */
+	@Override
 	public void launch(IEditorPart editor, String mode) {
 		Object obj = editor.getEditorInput();
 		if (!(obj instanceof FileEditorInput)) {
@@ -113,8 +115,9 @@ public class ScriptLaunchShortcut implements ILaunchShortcut {
 		int candidateCount = candidateConfigs.size();
 		if (candidateCount < 1) {
 			return createConfiguration(fileName);
-		} else
+		} else {
 			return (ILaunchConfiguration) candidateConfigs.get(0);
+		}
 	}
 
 	/**

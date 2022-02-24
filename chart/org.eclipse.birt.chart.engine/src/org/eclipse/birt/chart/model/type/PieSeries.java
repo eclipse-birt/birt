@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -75,11 +75,11 @@ public interface PieSeries extends Series {
 	 * begin-user-doc --> Get the explosion value to be used for the chart. This
 	 * defines the amount by which the slices are displaced from the center of the
 	 * pie. <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the 'Explosion' value to be used while displaying the pie slices.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Explosion</em>' attribute.
 	 * @see #isSetExplosion()
 	 * @see #unsetExplosion()
@@ -95,7 +95,7 @@ public interface PieSeries extends Series {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosion
 	 * <em>Explosion</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Explosion</em>' attribute.
 	 * @see #isSetExplosion()
 	 * @see #unsetExplosion()
@@ -108,7 +108,7 @@ public interface PieSeries extends Series {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosion
 	 * <em>Explosion</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetExplosion()
 	 * @see #getExplosion()
 	 * @see #setExplosion(int)
@@ -121,7 +121,7 @@ public interface PieSeries extends Series {
 	 * {@link org.eclipse.birt.chart.model.type.PieSeries#getExplosion
 	 * <em>Explosion</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Explosion</em>' attribute is set.
 	 * @see #unsetExplosion()
 	 * @see #getExplosion()
@@ -133,12 +133,12 @@ public interface PieSeries extends Series {
 	/**
 	 * Returns the value of the '<em><b>Explosion Expression</b></em>' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies an expression to determine if the explosion will be applied to each
 	 * slice.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Explosion Expression</em>' attribute.
 	 * @see #setExplosionExpression(String)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_ExplosionExpression()
@@ -153,7 +153,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getExplosionExpression
 	 * <em>Explosion Expression</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Explosion Expression</em>' attribute.
 	 * @see #getExplosionExpression()
 	 * @generated
@@ -163,11 +163,11 @@ public interface PieSeries extends Series {
 	/**
 	 * Returns the value of the '<em><b>Title</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Holds the properties for a series title.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Title</em>' containment reference.
 	 * @see #setTitle(Label)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_Title()
@@ -180,7 +180,7 @@ public interface PieSeries extends Series {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getTitle <em>Title</em>}'
 	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Title</em>' containment reference.
 	 * @see #getTitle()
 	 * @generated
@@ -192,11 +192,11 @@ public interface PieSeries extends Series {
 	 * default value is <code>"Above"</code>. The literals are from the enumeration
 	 * {@link org.eclipse.birt.chart.model.attribute.Position}. <!-- begin-user-doc
 	 * --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Holds the position property for a series title.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Title Position</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Position
 	 * @see #isSetTitlePosition()
@@ -212,7 +212,7 @@ public interface PieSeries extends Series {
 	 * Sets the value of the '
 	 * {@link org.eclipse.birt.chart.model.type.PieSeries#getTitlePosition <em>Title
 	 * Position</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Title Position</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Position
 	 * @see #isSetTitlePosition()
@@ -226,7 +226,7 @@ public interface PieSeries extends Series {
 	 * Unsets the value of the '
 	 * {@link org.eclipse.birt.chart.model.type.PieSeries#getTitlePosition <em>Title
 	 * Position</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetTitlePosition()
 	 * @see #getTitlePosition()
 	 * @see #setTitlePosition(Position)
@@ -239,7 +239,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getTitlePosition
 	 * <em>Title Position</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Title Position</em>' attribute is set.
 	 * @see #unsetTitlePosition()
 	 * @see #getTitlePosition()
@@ -252,11 +252,11 @@ public interface PieSeries extends Series {
 	 * Returns the value of the '<em><b>Leader Line Attributes</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Holds the attributes for leader lines.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Leader Line Attributes</em>' containment
 	 *         reference.
 	 * @see #setLeaderLineAttributes(LineAttributes)
@@ -271,7 +271,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineAttributes
 	 * <em>Leader Line Attributes</em>}' containment reference. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Leader Line Attributes</em>'
 	 *              containment reference.
 	 * @see #getLeaderLineAttributes()
@@ -284,11 +284,11 @@ public interface PieSeries extends Series {
 	 * default value is <code>"Fixed_Length"</code>. The literals are from the
 	 * enumeration {@link org.eclipse.birt.chart.model.attribute.LeaderLineStyle}.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies how the leader lines are to be shown.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Leader Line Style</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.LeaderLineStyle
 	 * @see #isSetLeaderLineStyle()
@@ -306,7 +306,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineStyle
 	 * <em>Leader Line Style</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Leader Line Style</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.LeaderLineStyle
 	 * @see #isSetLeaderLineStyle()
@@ -321,7 +321,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineStyle
 	 * <em>Leader Line Style</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetLeaderLineStyle()
 	 * @see #getLeaderLineStyle()
 	 * @see #setLeaderLineStyle(LeaderLineStyle)
@@ -334,7 +334,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineStyle
 	 * <em>Leader Line Style</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Leader Line Style</em>' attribute is
 	 *         set.
 	 * @see #unsetLeaderLineStyle()
@@ -347,11 +347,11 @@ public interface PieSeries extends Series {
 	/**
 	 * Returns the value of the '<em><b>Leader Line Length</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Length for the leader lines. Used only if style is 'FIXED_LENGTH'.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Leader Line Length</em>' attribute.
 	 * @see #isSetLeaderLineLength()
 	 * @see #unsetLeaderLineLength()
@@ -369,7 +369,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength
 	 * <em>Leader Line Length</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Leader Line Length</em>' attribute.
 	 * @see #isSetLeaderLineLength()
 	 * @see #unsetLeaderLineLength()
@@ -383,7 +383,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength
 	 * <em>Leader Line Length</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetLeaderLineLength()
 	 * @see #getLeaderLineLength()
 	 * @see #setLeaderLineLength(double)
@@ -396,7 +396,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength
 	 * <em>Leader Line Length</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Leader Line Length</em>' attribute is
 	 *         set.
 	 * @see #unsetLeaderLineLength()
@@ -410,11 +410,11 @@ public interface PieSeries extends Series {
 	 * Returns the value of the '<em><b>Slice Outline</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Defines the color to be used for the slice outline.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Slice Outline</em>' containment reference.
 	 * @see #setSliceOutline(ColorDefinition)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_SliceOutline()
@@ -428,7 +428,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getSliceOutline <em>Slice
 	 * Outline</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Slice Outline</em>' containment
 	 *              reference.
 	 * @see #getSliceOutline()
@@ -440,12 +440,12 @@ public interface PieSeries extends Series {
 	 * Returns the value of the '<em><b>Ratio</b></em>' attribute. The default value
 	 * is <code>"1"</code>. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
 	 * begin-model-doc -->
-	 * 
+	 *
 	 * Defines the ratio(height/width) of the oval, 1 means it's a circle, 0 means
 	 * stretch automatically.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Ratio</em>' attribute.
 	 * @see #isSetRatio()
 	 * @see #unsetRatio()
@@ -462,7 +462,7 @@ public interface PieSeries extends Series {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getRatio <em>Ratio</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Ratio</em>' attribute.
 	 * @see #isSetRatio()
 	 * @see #unsetRatio()
@@ -475,7 +475,7 @@ public interface PieSeries extends Series {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getRatio <em>Ratio</em>}'
 	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetRatio()
 	 * @see #getRatio()
 	 * @see #setRatio(double)
@@ -487,7 +487,7 @@ public interface PieSeries extends Series {
 	 * Returns whether the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getRatio <em>Ratio</em>}'
 	 * attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Ratio</em>' attribute is set.
 	 * @see #unsetRatio()
 	 * @see #getRatio()
@@ -500,12 +500,12 @@ public interface PieSeries extends Series {
 	 * Returns the value of the '<em><b>Rotation</b></em>' attribute. The default
 	 * value is <code>"0"</code>. <!-- begin-user-doc --> <!-- end-user-doc --> <!--
 	 * begin-model-doc -->
-	 * 
+	 *
 	 * Defines the rotation of the pie, 0 means start drawing the first slice from
 	 * the east.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Rotation</em>' attribute.
 	 * @see #isSetRotation()
 	 * @see #unsetRotation()
@@ -522,7 +522,7 @@ public interface PieSeries extends Series {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getRotation
 	 * <em>Rotation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Rotation</em>' attribute.
 	 * @see #isSetRotation()
 	 * @see #unsetRotation()
@@ -535,7 +535,7 @@ public interface PieSeries extends Series {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getRotation
 	 * <em>Rotation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetRotation()
 	 * @see #getRotation()
 	 * @see #setRotation(double)
@@ -548,7 +548,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getRotation
 	 * <em>Rotation</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Rotation</em>' attribute is set.
 	 * @see #unsetRotation()
 	 * @see #getRotation()
@@ -561,13 +561,13 @@ public interface PieSeries extends Series {
 	 * Returns the value of the '<em><b>Clockwise</b></em>' attribute. The default
 	 * value is <code>"false"</code>. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Attribute "Clockwise" Specifies whether the pie slices are rendered in
 	 * clockwise direction, by default they will be rendered in counter-clockwise
 	 * direction.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Clockwise</em>' attribute.
 	 * @see #isSetClockwise()
 	 * @see #unsetClockwise()
@@ -584,7 +584,7 @@ public interface PieSeries extends Series {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#isClockwise
 	 * <em>Clockwise</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Clockwise</em>' attribute.
 	 * @see #isSetClockwise()
 	 * @see #unsetClockwise()
@@ -597,7 +597,7 @@ public interface PieSeries extends Series {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#isClockwise
 	 * <em>Clockwise</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetClockwise()
 	 * @see #isClockwise()
 	 * @see #setClockwise(boolean)
@@ -610,7 +610,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#isClockwise
 	 * <em>Clockwise</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Clockwise</em>' attribute is set.
 	 * @see #unsetClockwise()
 	 * @see #isClockwise()
@@ -623,13 +623,13 @@ public interface PieSeries extends Series {
 	 * Returns the value of the '<em><b>Inner Radius</b></em>' attribute. The
 	 * default value is <code>"0"</code>. <!-- begin-user-doc --> <!-- end-user-doc
 	 * --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Defines inner radius, if inner radius greater than 0, it should be a dount
 	 * pie. If value of inner radius is between 0 and 1, the inner radius is
 	 * percentage value of width/height of pie, otherwise it is actual size.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Inner Radius</em>' attribute.
 	 * @see #isSetInnerRadius()
 	 * @see #unsetInnerRadius()
@@ -646,7 +646,7 @@ public interface PieSeries extends Series {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getInnerRadius <em>Inner
 	 * Radius</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Inner Radius</em>' attribute.
 	 * @see #isSetInnerRadius()
 	 * @see #unsetInnerRadius()
@@ -659,7 +659,7 @@ public interface PieSeries extends Series {
 	 * Unsets the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getInnerRadius <em>Inner
 	 * Radius</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetInnerRadius()
 	 * @see #getInnerRadius()
 	 * @see #setInnerRadius(double)
@@ -671,7 +671,7 @@ public interface PieSeries extends Series {
 	 * Returns whether the value of the
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#getInnerRadius <em>Inner
 	 * Radius</em>}' attribute is set. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Inner Radius</em>' attribute is set.
 	 * @see #unsetInnerRadius()
 	 * @see #getInnerRadius()
@@ -685,7 +685,7 @@ public interface PieSeries extends Series {
 	 * The default value is <code>"true"</code>. <!-- begin-user-doc --> <!--
 	 * end-user-doc --> <!-- begin-model-doc --> Indicates if the value of inner
 	 * radius is a percent value or actual value. <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Inner Radius Percent</em>' attribute.
 	 * @see #isSetInnerRadiusPercent()
 	 * @see #unsetInnerRadiusPercent()
@@ -703,7 +703,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#isInnerRadiusPercent
 	 * <em>Inner Radius Percent</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Inner Radius Percent</em>' attribute.
 	 * @see #isSetInnerRadiusPercent()
 	 * @see #unsetInnerRadiusPercent()
@@ -717,7 +717,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#isInnerRadiusPercent
 	 * <em>Inner Radius Percent</em>}' attribute. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #isSetInnerRadiusPercent()
 	 * @see #isInnerRadiusPercent()
 	 * @see #setInnerRadiusPercent(boolean)
@@ -730,7 +730,7 @@ public interface PieSeries extends Series {
 	 * '{@link org.eclipse.birt.chart.model.type.PieSeries#isInnerRadiusPercent
 	 * <em>Inner Radius Percent</em>}' attribute is set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Inner Radius Percent</em>' attribute is
 	 *         set.
 	 * @see #unsetInnerRadiusPercent()
@@ -743,6 +743,7 @@ public interface PieSeries extends Series {
 	/**
 	 * @generated
 	 */
+	@Override
 	PieSeries copyInstance();
 
 } // PieSeries

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +56,7 @@ public class ParameterFactory {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param task
 	 */
 
@@ -66,18 +66,20 @@ public class ParameterFactory {
 
 	/**
 	 * Gets children of root.
-	 * 
+	 *
 	 * @param task
 	 * @return children of root.
 	 */
 
 	public List getRootChildren() {
 		IReportRunnable runnable = task.getReportRunnable();
-		if (runnable == null)
+		if (runnable == null) {
 			return null;
+		}
 		DesignElementHandle designHandle = runnable.getDesignHandle();
-		if (designHandle == null)
+		if (designHandle == null) {
 			return null;
+		}
 
 		assert designHandle.getRoot() != null;
 
@@ -121,7 +123,7 @@ public class ParameterFactory {
 
 	/**
 	 * Creates parameter group.
-	 * 
+	 *
 	 * @param group
 	 * @param task
 	 * @param groupHandle
@@ -145,7 +147,7 @@ public class ParameterFactory {
 
 	/**
 	 * Create parameter.
-	 * 
+	 *
 	 * @param parentGroup
 	 * @param paramHandle
 	 */
@@ -170,7 +172,7 @@ public class ParameterFactory {
 
 	/**
 	 * Creates scalar parameter.
-	 * 
+	 *
 	 * @param paramHandle
 	 * @return scalar parameter.
 	 */

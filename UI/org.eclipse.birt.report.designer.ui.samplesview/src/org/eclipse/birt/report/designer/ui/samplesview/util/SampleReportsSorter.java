@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,12 +20,13 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 
 public class SampleReportsSorter extends ViewerSorter {
+	@Override
 	public int compare(Viewer viewer, Object e1, Object e2) {
 		IBaseLabelProvider provider = null;
 		if (viewer instanceof TreeViewer) {
 			provider = ((TreeViewer) viewer).getLabelProvider();
 		}
-		if (provider != null && provider instanceof SampleReportsExplorerProvider) {
+		if (provider instanceof SampleReportsExplorerProvider) {
 			if (((SampleReportsExplorerProvider) provider).getText(e1).equals("Contribute Samples")) //$NON-NLS-1$
 			{
 				return 1;

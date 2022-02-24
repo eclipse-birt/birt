@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010, 2011 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,6 +41,7 @@ public class ServiceLauncher extends PlatformLauncher {
 	public ServiceLauncher() {
 	}
 
+	@Override
 	public void startup(final PlatformConfig config) throws FrameworkException {
 		platform = new ServicePlatform(config);
 
@@ -71,6 +72,7 @@ public class ServiceLauncher extends PlatformLauncher {
 
 			RegistryFactory.setDefaultRegistryProvider(new IRegistryProvider() {
 
+				@Override
 				public IExtensionRegistry getRegistry() {
 					return platform.extensionRegistry;
 				}
@@ -83,6 +85,7 @@ public class ServiceLauncher extends PlatformLauncher {
 
 	}
 
+	@Override
 	public void shutdown() {
 		Platform.setPlatform(null);
 		if (platform != null) {

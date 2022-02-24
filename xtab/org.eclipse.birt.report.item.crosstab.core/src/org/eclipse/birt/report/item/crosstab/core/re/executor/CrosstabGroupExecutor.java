@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,6 +61,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor {
 		this.rowCursor = rowCursor;
 	}
 
+	@Override
 	public void close() {
 		if (hasGroup) {
 			try {
@@ -78,6 +79,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor {
 		elements = null;
 	}
 
+	@Override
 	public IContent execute() {
 		ITableGroupContent content = context.getReportContent().createTableGroupContent();
 
@@ -168,12 +170,10 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor {
 
 					hasPageBreak = true;
 				}
-			} else {
-				if (((CrosstabReportItemExecutor) parentExecutor).notifyNextGroupPageBreak) {
-					((CrosstabReportItemExecutor) parentExecutor).notifyNextGroupPageBreak = false;
+			} else if (((CrosstabReportItemExecutor) parentExecutor).notifyNextGroupPageBreak) {
+				((CrosstabReportItemExecutor) parentExecutor).notifyNextGroupPageBreak = false;
 
-					hasPageBreak = true;
-				}
+				hasPageBreak = true;
 			}
 
 			// parentExecutor = parentExecutor.getParent( );
@@ -263,6 +263,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor {
 
 	}
 
+	@Override
 	public IReportItemExecutor getNextChild() {
 		if (currentElement < elements.size()) {
 			return (IReportItemExecutor) elements.get(currentElement++);
@@ -271,6 +272,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor {
 		return null;
 	}
 
+	@Override
 	public boolean hasNextChild() {
 		if (currentElement < elements.size()) {
 			return true;

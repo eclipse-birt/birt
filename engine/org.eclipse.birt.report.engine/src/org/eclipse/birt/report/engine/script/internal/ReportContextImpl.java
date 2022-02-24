@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,10 +45,12 @@ public class ReportContextImpl implements IReportContext {
 		this.context = context;
 	}
 
+	@Override
 	public IReportRunnable getReportRunnable() {
 		return context.getRunnable();
 	}
 
+	@Override
 	public Map getAppContext() {
 		return context.getAppContext();
 	}
@@ -57,26 +59,32 @@ public class ReportContextImpl implements IReportContext {
 		context.setAppContext(appContext);
 	}
 
+	@Override
 	public void setGlobalVariable(String name, Object obj) {
 		context.registerBean(name, obj);
 	}
 
+	@Override
 	public void deleteGlobalVariable(String name) {
 		context.registerBean(name, null);
 	}
 
+	@Override
 	public Object getGlobalVariable(String name) {
 		return context.getBeans().get(name);
 	}
 
+	@Override
 	public void setPersistentGlobalVariable(String name, Serializable obj) {
 		context.registerGlobalBean(name, obj);
 	}
 
+	@Override
 	public void deletePersistentGlobalVariable(String name) {
 		context.unregisterGlobalBean(name);
 	}
 
+	@Override
 	public Object getPersistentGlobalVariable(String name) {
 		return context.getGlobalBeans().get(name);
 	}
@@ -85,73 +93,91 @@ public class ReportContextImpl implements IReportContext {
 		context.registerBeans(persistantMap);
 	}
 
+	@Override
 	public Object getParameterValue(String name) {
 		return context.getParameterValue(name);
 	}
 
+	@Override
 	public void setParameterValue(String name, Object value) {
 		context.setParameterValue(name, value);
 	}
 
+	@Override
 	public Object getPageVariable(String name) {
 		return context.getPageVariable(name);
 	}
 
+	@Override
 	public void setPageVariable(String name, Object value) {
 		context.setPageVariable(name, value);
 	}
 
+	@Override
 	public Locale getLocale() {
 		return context.getLocale();
 	}
 
+	@Override
 	public TimeZone getTimeZone() {
 		return context.getTimeZone();
 	}
 
+	@Override
 	public String getOutputFormat() {
 		return context.getOutputFormat();
 	}
 
+	@Override
 	public IRenderOption getRenderOption() {
 		return context.getRenderOption();
 	}
 
+	@Override
 	public Object getHttpServletRequest() {
 		return getAppContext().get(EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST);
 	}
 
+	@Override
 	public String getMessage(String key) {
 		return context.getDesign().getMessage(key);
 	}
 
+	@Override
 	public String getMessage(String key, Locale locale) {
 		return context.getDesign().getMessage(key, locale);
 	}
 
+	@Override
 	public String getMessage(String key, Object[] params) {
 		String msg = context.getDesign().getMessage(key);
-		if (msg == null)
+		if (msg == null) {
 			return "";
+		}
 		return MessageFormat.format(msg, params);
 	}
 
+	@Override
 	public String getMessage(String key, Locale locale, Object[] params) {
 		String msg = context.getDesign().getMessage(key, locale);
-		if (msg == null)
+		if (msg == null) {
 			return "";
+		}
 		MessageFormat formatter = new MessageFormat(msg, locale);
 		return formatter.format(params, new StringBuffer(), null).toString();
 	}
 
+	@Override
 	public Object getParameterDisplayText(String name) {
 		return context.getParameterDisplayText(name);
 	}
 
+	@Override
 	public void setParameterDisplayText(String name, String displayText) {
 		context.setParameterDisplayText(name, displayText);
 	}
 
+	@Override
 	public int getTaskType() {
 		IEngineTask task = context.getEngineTask();
 		if (task != null) {
@@ -160,14 +186,17 @@ public class ReportContextImpl implements IReportContext {
 		return IEngineTask.TASK_UNKNOWN;
 	}
 
+	@Override
 	public ReportDesignHandle getDesignHandle() {
 		return (ReportDesignHandle) getReportRunnable().getDesignHandle();
 	}
 
+	@Override
 	public URL getResource(String resourceName) {
 		return context.getResource(resourceName);
 	}
 
+	@Override
 	public String getResourceRenderURL(String resourceName) {
 		IRenderOption option = context.getRenderOption();
 		if (option != null) {
@@ -186,6 +215,7 @@ public class ReportContextImpl implements IReportContext {
 		return resourceName;
 	}
 
+	@Override
 	public Object evaluate(String script) throws BirtException {
 		if (null != script && script.length() > 0) {
 			return context.evaluate(script);
@@ -193,6 +223,7 @@ public class ReportContextImpl implements IReportContext {
 		return null;
 	}
 
+	@Override
 	public Object evaluate(String language, String script) throws BirtException {
 		if (null != script && script.length() > 0) {
 			return context.evaluateInlineScript(language, script);
@@ -200,18 +231,22 @@ public class ReportContextImpl implements IReportContext {
 		return null;
 	}
 
+	@Override
 	public ClassLoader getApplicationClassLoader() {
 		return context.getApplicationClassLoader();
 	}
 
+	@Override
 	public Object evaluate(Expression script) throws BirtException {
 		return context.evaluate(script);
 	}
 
+	@Override
 	public void cancel() {
 		cancel(null);
 	}
 
+	@Override
 	public void cancel(String msg) {
 		IEngineTask task = context.getEngineTask();
 		if (task != null) {
@@ -219,6 +254,7 @@ public class ReportContextImpl implements IReportContext {
 		}
 	}
 
+	@Override
 	public boolean isReportDocumentFinished() {
 		return context.isReportDocumentFinished();
 	}

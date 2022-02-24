@@ -20,10 +20,10 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 public interface IDisposeListener {
 	/**
 	 * Notifies the element is disposed.
-	 * 
+	 *
 	 * @param targetElement the disposed report design
 	 * @param ev            the dispose event
 	 */
 
-	public void moduleDisposed(ModuleHandle targetElement, DisposeEvent ev);
+	void moduleDisposed(ModuleHandle targetElement, DisposeEvent ev);
 }

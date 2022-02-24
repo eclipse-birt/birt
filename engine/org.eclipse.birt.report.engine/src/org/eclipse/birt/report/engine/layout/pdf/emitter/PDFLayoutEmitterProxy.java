@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -61,6 +61,7 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter implements ICont
 		context.setEmitter(layoutEmitterImpl);
 	}
 
+	@Override
 	public void initialize(IEmitterServices service) throws BirtException {
 		layoutEmitterImpl.initialize(service);
 	}
@@ -73,10 +74,12 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter implements ICont
 		}
 	}
 
+	@Override
 	public String getOutputFormat() {
 		return layoutEmitterImpl.getOutputFormat();
 	}
 
+	@Override
 	public void setPageHandler(ILayoutPageHandler pageHandler) {
 		layoutEmitterImpl.setPageHandler(pageHandler);
 	}
@@ -88,19 +91,19 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter implements ICont
 		}
 		if (options != null) {
 			Object fitToPage = options.get(IPDFRenderOption.FIT_TO_PAGE);
-			if (fitToPage != null && fitToPage instanceof Boolean) {
+			if (fitToPage instanceof Boolean) {
 				if (((Boolean) fitToPage).booleanValue()) {
 					context.setFitToPage(true);
 				}
 			}
 			Object pageBreakOnly = options.get(IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY);
-			if (pageBreakOnly != null && pageBreakOnly instanceof Boolean) {
+			if (pageBreakOnly instanceof Boolean) {
 				if (((Boolean) pageBreakOnly).booleanValue()) {
 					context.setPagebreakPaginationOnly(true);
 				}
 			}
 			Object pageOverflow = options.get(IPDFRenderOption.PAGE_OVERFLOW);
-			if (pageOverflow != null && pageOverflow instanceof Integer) {
+			if (pageOverflow instanceof Integer) {
 				int pageOverflowType = ((Integer) pageOverflow).intValue();
 				context.setPageOverflow(pageOverflowType);
 				if (pageOverflowType == IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES) {
@@ -108,33 +111,25 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter implements ICont
 				} else {
 					context.setPagebreakPaginationOnly(true);
 				}
-			} else {
-				if (context.fitToPage()) {
-					context.setPageOverflow(IPDFRenderOption.FIT_TO_PAGE_SIZE);
-					context.setPagebreakPaginationOnly(true);
-				}
+			} else if (context.fitToPage()) {
+				context.setPageOverflow(IPDFRenderOption.FIT_TO_PAGE_SIZE);
+				context.setPagebreakPaginationOnly(true);
 			}
-			/*
-			 * Object outputDisplayNone = options .get( IPDFRenderOption.OUTPUT_DISPLAY_NONE
-			 * ); if ( outputDisplayNone instanceof Boolean ) { if ( ( (Boolean)
-			 * outputDisplayNone ).booleanValue( ) ) { context.setOutputDisplayNone( true );
-			 * } }
-			 */
 
 			Object textWrapping = options.get(IPDFRenderOption.PDF_TEXT_WRAPPING);
-			if (textWrapping != null && textWrapping instanceof Boolean) {
+			if (textWrapping instanceof Boolean) {
 				if (!((Boolean) textWrapping).booleanValue()) {
 					context.setTextWrapping(false);
 				}
 			}
 			Object fontSubstitution = options.get(IPDFRenderOption.PDF_FONT_SUBSTITUTION);
-			if (fontSubstitution != null && fontSubstitution instanceof Boolean) {
+			if (fontSubstitution instanceof Boolean) {
 				if (!((Boolean) fontSubstitution).booleanValue()) {
 					context.setFontSubstitution(false);
 				}
 			}
 			Object bidiProcessing = options.get(IPDFRenderOption.PDF_BIDI_PROCESSING);
-			if (bidiProcessing != null && bidiProcessing instanceof Boolean) {
+			if (bidiProcessing instanceof Boolean) {
 				if (!((Boolean) bidiProcessing).booleanValue()) {
 					context.setBidiProcessing(false);
 				}
@@ -148,14 +143,14 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter implements ICont
 			// context.setBidiProcessing( false );
 			// }
 			Object wordbreak = options.get(IPDFRenderOption.PDF_WORDBREAK);
-			if (wordbreak != null && wordbreak instanceof Boolean) {
+			if (wordbreak instanceof Boolean) {
 				if (((Boolean) wordbreak).booleanValue()) {
 					context.setEnableWordbreak(true);
 				}
 			}
 
 			Object dpi = options.get(IPDFRenderOption.DPI);
-			if (dpi != null && dpi instanceof Integer) {
+			if (dpi instanceof Integer) {
 				int screenDpi = ((Integer) dpi).intValue();
 				context.setDpi(screenDpi);
 			}
@@ -171,98 +166,122 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter implements ICont
 		}
 	}
 
+	@Override
 	public void start(IReportContent report) throws BirtException {
 		layoutEmitterImpl.start(report);
 	}
 
+	@Override
 	public void end(IReportContent report) throws BirtException {
 		layoutEmitterImpl.end(report);
 	}
 
+	@Override
 	public void startTable(ITableContent table) throws BirtException {
 		layoutEmitterImpl.startTable(table);
 	}
 
+	@Override
 	public void endTable(ITableContent table) throws BirtException {
 		layoutEmitterImpl.endTable(table);
 	}
 
+	@Override
 	public void startContainer(IContainerContent container) throws BirtException {
 		layoutEmitterImpl.startContainer(container);
 	}
 
+	@Override
 	public void endContainer(IContainerContent container) throws BirtException {
 		layoutEmitterImpl.endContainer(container);
 	}
 
+	@Override
 	public void startContent(IContent content) throws BirtException {
 		layoutEmitterImpl.startContent(content);
 	}
 
+	@Override
 	public void endContent(IContent content) throws BirtException {
 		layoutEmitterImpl.endContent(content);
 	}
 
+	@Override
 	public void startListBand(IListBandContent listBand) throws BirtException {
 		layoutEmitterImpl.startListBand(listBand);
 	}
 
+	@Override
 	public void startListGroup(IListGroupContent listGroup) throws BirtException {
 		layoutEmitterImpl.startListGroup(listGroup);
 	}
 
+	@Override
 	public void endListBand(IListBandContent listBand) throws BirtException {
 		layoutEmitterImpl.endListBand(listBand);
 	}
 
+	@Override
 	public void outputPage(IPageContent page) throws BirtException {
 		layoutEmitterImpl.outputPage(page);
 	}
 
+	@Override
 	public void startPage(IPageContent page) throws BirtException {
 		layoutEmitterImpl.startPage(page);
 	}
 
+	@Override
 	public void endPage(IPageContent page) throws BirtException {
 		layoutEmitterImpl.endPage(page);
 	}
 
+	@Override
 	public void startRow(IRowContent row) throws BirtException {
 		layoutEmitterImpl.startRow(row);
 	}
 
+	@Override
 	public void endRow(IRowContent row) throws BirtException {
 		layoutEmitterImpl.endRow(row);
 	}
 
+	@Override
 	public void startTableBand(ITableBandContent band) throws BirtException {
 		layoutEmitterImpl.startTableBand(band);
 	}
 
+	@Override
 	public void startTableGroup(ITableGroupContent group) throws BirtException {
 		layoutEmitterImpl.startTableGroup(group);
 	}
 
+	@Override
 	public void endTableBand(ITableBandContent band) throws BirtException {
 		layoutEmitterImpl.endTableBand(band);
 	}
 
+	@Override
 	public void endTableGroup(ITableGroupContent group) throws BirtException {
 		layoutEmitterImpl.endTableGroup(group);
 	}
 
+	@Override
 	public void startCell(ICellContent cell) throws BirtException {
 		layoutEmitterImpl.startCell(cell);
 	}
 
+	@Override
 	public void endCell(ICellContent cell) throws BirtException {
 		layoutEmitterImpl.endCell(cell);
 	}
 
+	@Override
 	public void startForeign(IForeignContent foreign) throws BirtException {
 		layoutEmitterImpl.startForeign(foreign);
 	}
 
+	@Override
 	public ILayoutPageHandler getPageHandler() {
 		return layoutEmitterImpl.getPageHandler();
 	}

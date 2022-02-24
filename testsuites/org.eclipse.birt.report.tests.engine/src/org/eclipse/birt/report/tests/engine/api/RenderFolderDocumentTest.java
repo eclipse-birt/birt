@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -15,6 +15,7 @@ package org.eclipse.birt.report.tests.engine.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -43,13 +44,13 @@ import junit.framework.TestSuite;
 public class RenderFolderDocumentTest extends EngineCase {
 
 	// final static String INPUT = "";
-	private String separator = System.getProperty("file.separator");
+	private String separator = FileSystems.getDefault().getSeparator();
 	private String inputFolder = this.genInputFolder() + separator;
 	private String outputFolder = this.genOutputFolder() + separator;
 	private String folderArchive, htmlOutput;
 	private IReportDocument reportDoc;
 	private IRenderTask renderTask;
-	private IRenderOption htmlOption, pdfOption;
+	private IRenderOption htmlOption;
 
 	public RenderFolderDocumentTest(String name) {
 		super(name);
@@ -59,6 +60,7 @@ public class RenderFolderDocumentTest extends EngineCase {
 		return new TestSuite(RenderTaskTest.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -66,6 +68,7 @@ public class RenderFolderDocumentTest extends EngineCase {
 		htmlOption.setOutputFormat(HTMLRenderOption.HTML);
 	}
 
+	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 		removeResource();
@@ -167,10 +170,7 @@ public class RenderFolderDocumentTest extends EngineCase {
 			dropStream(writer, ReportDocumentConstants.PAGE_INDEX_STREAM);
 
 			writer.finish();
-		} catch (EngineException e) {
-			e.printStackTrace();
-			fail("RunTask failed to create folder-based document!" + e.getLocalizedMessage());
-		} catch (IOException e) {
+		} catch (EngineException | IOException e) {
 			e.printStackTrace();
 			fail("RunTask failed to create folder-based document!" + e.getLocalizedMessage());
 		}

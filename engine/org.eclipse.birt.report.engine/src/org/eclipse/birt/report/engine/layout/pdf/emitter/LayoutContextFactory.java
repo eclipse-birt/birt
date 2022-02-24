@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -65,10 +65,12 @@ public class LayoutContextFactory {
 
 	private class ContentVisitor implements IContentVisitor {
 
+		@Override
 		public Object visit(IContent content, Object value) {
 			return visitContent(content, value);
 		}
 
+		@Override
 		public Object visitContent(IContent content, Object value) {
 			boolean isInline = PropertyUtil.isInlineElement(content);
 			if (isInline) {
@@ -78,10 +80,12 @@ public class LayoutContextFactory {
 			}
 		}
 
+		@Override
 		public Object visitPage(IPageContent page, Object value) {
 			return new PageLayout(executor, context, parent, page);
 		}
 
+		@Override
 		public Object visitContainer(IContainerContent container, Object value) {
 			boolean isInline = PropertyUtil.isInlineElement(container);
 			if (isInline) {
@@ -91,39 +95,48 @@ public class LayoutContextFactory {
 			}
 		}
 
+		@Override
 		public Object visitTable(ITableContent table, Object value) {
 			return new TableLayout(context, parent, table);
 		}
 
+		@Override
 		public Object visitTableBand(ITableBandContent tableBand, Object value) {
 			return new TableBandLayout(context, parent, tableBand);
 		}
 
+		@Override
 		public Object visitRow(IRowContent row, Object value) {
 			return new RowLayout(context, parent, row);
 		}
 
+		@Override
 		public Object visitCell(ICellContent cell, Object value) {
 			return new CellLayout(context, parent, cell);
 		}
 
+		@Override
 		public Object visitText(ITextContent text, Object value) {
 			// FIXME
 			return handleText(text);
 		}
 
+		@Override
 		public Object visitLabel(ILabelContent label, Object value) {
 			return handleText(label);
 		}
 
+		@Override
 		public Object visitData(IDataContent data, Object value) {
 			return handleText(data);
 		}
 
+		@Override
 		public Object visitImage(IImageContent image, Object value) {
 			return new ImageLayout(context, parent, image);
 		}
 
+		@Override
 		public Object visitForeign(IForeignContent foreign, Object value) {
 			boolean isInline = PropertyUtil.isInlineElement(foreign);
 			if (isInline) {
@@ -133,6 +146,7 @@ public class LayoutContextFactory {
 			}
 		}
 
+		@Override
 		public Object visitAutoText(IAutoTextContent autoText, Object value) {
 			int type = autoText.getType();
 			if (type == IAutoTextContent.TOTAL_PAGE || type == IAutoTextContent.UNFILTERED_TOTAL_PAGE) {
@@ -156,11 +170,13 @@ public class LayoutContextFactory {
 			}
 		}
 
+		@Override
 		public Object visitList(IListContent list, Object value) {
 			return new ListLayout(context, parent, list);
 
 		}
 
+		@Override
 		public Object visitListBand(IListBandContent listBand, Object value) {
 			assert (false);
 			return null;
@@ -169,14 +185,17 @@ public class LayoutContextFactory {
 
 		}
 
+		@Override
 		public Object visitListGroup(IListGroupContent group, Object value) {
 			return new ListGroupLayout(context, parent, group);
 		}
 
+		@Override
 		public Object visitTableGroup(ITableGroupContent group, Object value) {
 			return new TableGroupLayout(context, parent, group);
 		}
 
+		@Override
 		public Object visitGroup(IGroupContent group, Object value) {
 			return new BlockStackingLayout(context, parent, group);
 		}

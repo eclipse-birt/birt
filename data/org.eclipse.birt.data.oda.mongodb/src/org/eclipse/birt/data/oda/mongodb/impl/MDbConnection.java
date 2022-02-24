@@ -11,7 +11,7 @@
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -46,9 +46,11 @@ public class MDbConnection implements IConnection {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#open(java.util.Properties)
 	 */
+	@Override
 	public void open(Properties connProperties) throws OdaException {
-		if (isOpen())
+		if (isOpen()) {
 			return; // already open
+		}
 
 		MongoDatabase dbInstance = getMongoDatabase(connProperties);
 
@@ -63,8 +65,9 @@ public class MDbConnection implements IConnection {
 		// as cursorReadPreference in data set property
 
 		String dbName = MongoDBDriver.getDatabaseName(connProperties);
-		if (dbName == null || dbName.isEmpty())
+		if (dbName == null || dbName.isEmpty()) {
 			throw new OdaException(Messages.mDbConnection_missingValueDBName);
+		}
 
 		MongoDatabase dbInstance = null;
 		try {
@@ -90,6 +93,7 @@ public class MDbConnection implements IConnection {
 	 * org.eclipse.datatools.connectivity.oda.IConnection#setAppContext(java.lang.
 	 * Object)
 	 */
+	@Override
 	public void setAppContext(Object context) throws OdaException {
 		// do nothing; no support for pass-through context
 	}
@@ -97,6 +101,7 @@ public class MDbConnection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#close()
 	 */
+	@Override
 	public void close() throws OdaException {
 		m_mongoDbInstance = null;
 	}
@@ -104,6 +109,7 @@ public class MDbConnection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#isOpen()
 	 */
+	@Override
 	public boolean isOpen() throws OdaException {
 		return m_mongoDbInstance != null;
 	}
@@ -113,6 +119,7 @@ public class MDbConnection implements IConnection {
 	 * org.eclipse.datatools.connectivity.oda.IConnection#getMetaData(java.lang.
 	 * String)
 	 */
+	@Override
 	public IDataSetMetaData getMetaData(String dataSetType) throws OdaException {
 		// this driver supports only one type of data set,
 		// ignores the specified dataSetType
@@ -123,9 +130,11 @@ public class MDbConnection implements IConnection {
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#newQuery(java.lang.String)
 	 */
+	@Override
 	public IQuery newQuery(String dataSetType) throws OdaException {
-		if (!isOpen())
+		if (!isOpen()) {
 			throw new OdaException(Messages.mDbConnection_noConnection);
+		}
 		// this driver supports only one type of data set,
 		// ignores the specified dataSetType
 		return new MDbQuery(this);
@@ -134,6 +143,7 @@ public class MDbConnection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#getMaxQueries()
 	 */
+	@Override
 	public int getMaxQueries() throws OdaException {
 		return 0; // no limit
 	}
@@ -141,6 +151,7 @@ public class MDbConnection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#commit()
 	 */
+	@Override
 	public void commit() throws OdaException {
 		// do nothing; no transaction support needed
 	}
@@ -148,17 +159,19 @@ public class MDbConnection implements IConnection {
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#rollback()
 	 */
+	@Override
 	public void rollback() throws OdaException {
 		// do nothing; no transaction support needed
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.IConnection#setLocale(com.ibm.icu.util
 	 * .ULocale)
 	 */
+	@Override
 	public void setLocale(ULocale locale) throws OdaException {
 		// do nothing; no locale support
 	}

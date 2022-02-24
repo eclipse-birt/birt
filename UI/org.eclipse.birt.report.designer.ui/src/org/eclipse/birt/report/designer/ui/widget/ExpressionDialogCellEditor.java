@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Control;
 public class ExpressionDialogCellEditor extends DialogCellEditor {
 
 	/**
-	 * 
+	 *
 	 */
 	public ExpressionDialogCellEditor() {
 		super();
@@ -51,11 +51,12 @@ public class ExpressionDialogCellEditor extends DialogCellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.swt.
 	 * widgets.Control)
 	 */
+	@Override
 	protected Object openDialogBox(Control cellEditorWindow) {
 		String oldValue = (String) getValue();
 		ExpressionBuilder dialog = new ExpressionBuilder(cellEditorWindow.getShell(), oldValue);
@@ -73,7 +74,7 @@ public class ExpressionDialogCellEditor extends DialogCellEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.property.widgets.
 	 * CDialogCellEditor#doValueChanged()
 	 */

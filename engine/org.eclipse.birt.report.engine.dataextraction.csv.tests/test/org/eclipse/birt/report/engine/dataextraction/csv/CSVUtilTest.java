@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,8 +50,7 @@ public class CSVUtilTest extends TestCase {
 	public void testRowSplitWithComma() {
 		String sep = ICSVDataExtractionOption.SEPARATOR_COMMA;
 		String row = "abc,\"abc\",\"ab\r\nc\",\"ab c\",,\"ab\"\"c\",\"\",\"a,b\tc\"\r\n";
-		String[] expected = new String[] { "abc", "\"abc\"", "\"ab\r\nc\"", "\"ab c\"", "", "\"ab\"\"c\"", "\"\"",
-				"\"a,b\tc\"" };
+		String[] expected = { "abc", "\"abc\"", "\"ab\r\nc\"", "\"ab c\"", "", "\"ab\"\"c\"", "\"\"", "\"a,b\tc\"" };
 		subtestCSVRowSplit(row, expected, sep);
 		subtestCSVRowSplit("abc\r\n", new String[] { "abc" }, sep);
 		subtestCSVRowSplit("\r\n", new String[] { "" }, sep);
@@ -63,8 +62,7 @@ public class CSVUtilTest extends TestCase {
 	public void testRowSplitWithTabs() {
 		String sep = ICSVDataExtractionOption.SEPARATOR_TAB;
 		String row = "abc\t\"abc\"\t\"ab\r\nc\"\t\"ab c\"\t\t\"ab\"\"c\"\t\"\"\t\"a,b\tc\"\r\n";
-		String[] expected = new String[] { "abc", "\"abc\"", "\"ab\r\nc\"", "\"ab c\"", "", "\"ab\"\"c\"", "\"\"",
-				"\"a,b\tc\"" };
+		String[] expected = { "abc", "\"abc\"", "\"ab\r\nc\"", "\"ab c\"", "", "\"ab\"\"c\"", "\"\"", "\"a,b\tc\"" };
 		subtestCSVRowSplit(row, expected, sep);
 		subtestCSVRowSplit("abc\r\n", new String[] { "abc" }, sep);
 		subtestCSVRowSplit("\r\n", new String[] { "" }, sep);
@@ -91,8 +89,8 @@ public class CSVUtilTest extends TestCase {
 		subtestQuoteCSVValue(GENERAL_VALUES_INPUT, GENERAL_VALUES_OUTPUT, sep);
 
 		// separator specific
-		String[] inputs = new String[] { "ab,cd", "1,5", "ab|cd", "ab;cd", "ab\tcd" };
-		String[] outputs = new String[] { "\"ab,cd\"", "\"1,5\"", "ab|cd", "ab;cd", "ab\tcd" };
+		String[] inputs = { "ab,cd", "1,5", "ab|cd", "ab;cd", "ab\tcd" };
+		String[] outputs = { "\"ab,cd\"", "\"1,5\"", "ab|cd", "ab;cd", "ab\tcd" };
 		subtestQuoteCSVValue(inputs, outputs, sep);
 
 		subtestMakeCSVRow(GENERAL_VALUES_INPUT, GENERAL_ROW_VALUES_OUTPUT, sep);
@@ -104,8 +102,8 @@ public class CSVUtilTest extends TestCase {
 		subtestQuoteCSVValue(GENERAL_VALUES_INPUT, GENERAL_VALUES_OUTPUT, sep);
 
 		// separator specific
-		String[] inputs = new String[] { "ab,cd", "ab|cd", "ab;cd", "ab\tcd" };
-		String[] outputs = new String[] { "ab,cd", "\"ab|cd\"", "ab;cd", "ab\tcd" };
+		String[] inputs = { "ab,cd", "ab|cd", "ab;cd", "ab\tcd" };
+		String[] outputs = { "ab,cd", "\"ab|cd\"", "ab;cd", "ab\tcd" };
 		subtestQuoteCSVValue(inputs, outputs, sep);
 
 		subtestMakeCSVRow(GENERAL_VALUES_INPUT, GENERAL_ROW_VALUES_OUTPUT, sep);
@@ -117,8 +115,8 @@ public class CSVUtilTest extends TestCase {
 		subtestQuoteCSVValue(GENERAL_VALUES_INPUT, GENERAL_VALUES_OUTPUT, sep);
 
 		// separator specific
-		String[] inputs = new String[] { "ab,cd", "ab|cd", "ab;cd", "ab\tcd" };
-		String[] outputs = new String[] { "ab,cd", "ab|cd", "\"ab;cd\"", "ab\tcd" };
+		String[] inputs = { "ab,cd", "ab|cd", "ab;cd", "ab\tcd" };
+		String[] outputs = { "ab,cd", "ab|cd", "\"ab;cd\"", "ab\tcd" };
 		subtestQuoteCSVValue(inputs, outputs, sep);
 
 		subtestMakeCSVRow(GENERAL_VALUES_INPUT, GENERAL_ROW_VALUES_OUTPUT, sep);
@@ -130,8 +128,8 @@ public class CSVUtilTest extends TestCase {
 		subtestQuoteCSVValue(GENERAL_VALUES_INPUT, GENERAL_VALUES_OUTPUT, sep);
 
 		// separator specific
-		String[] inputs = new String[] { "ab,cd", "ab|cd", "ab;cd", "ab\tcd" };
-		String[] outputs = new String[] { "ab,cd", "ab|cd", "ab;cd", "\"ab\tcd\"" };
+		String[] inputs = { "ab,cd", "ab|cd", "ab;cd", "ab\tcd" };
+		String[] outputs = { "ab,cd", "ab|cd", "ab;cd", "\"ab\tcd\"" };
 		subtestQuoteCSVValue(inputs, outputs, sep);
 
 		subtestMakeCSVRow(GENERAL_VALUES_INPUT, GENERAL_ROW_VALUES_OUTPUT, sep);
@@ -191,9 +189,9 @@ public class CSVUtilTest extends TestCase {
 		// of the row
 		// FIXME: split() only works if no values contain the separator string
 		// String[] rowValues = row.split(Pattern.quote(sep), correctValues.length);
-		List<String> rowValues = new Vector<String>();
+		List<String> rowValues = new Vector<>();
 
-		StringBuffer aValue = new StringBuffer();
+		StringBuilder aValue = new StringBuilder();
 		CharacterIterator i = new StringCharacterIterator(row);
 		boolean insideQuote = false;
 		for (char c = i.first(); c != CharacterIterator.DONE; c = i.next()) {

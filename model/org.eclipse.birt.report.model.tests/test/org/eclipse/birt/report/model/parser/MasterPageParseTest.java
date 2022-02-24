@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,26 +29,26 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test cases for master page parsing, writing and referring.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testParser()}</td>
  * <td>Test whether all master page properties can be read.</td>
  * <td>All master page property values should be right.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testWriter()}</td>
  * <td>Test writer.</td>
  * <td>The output file should be same as golden file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSemanticError()}</td>
  * <td>Test semantic errors with the design file input.</td>
@@ -58,7 +58,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * larger than the height or width.</td>
  * </tr>
  * </table>
- * 
+ *
  */
 
 public class MasterPageParseTest extends BaseTestCase {
@@ -69,17 +69,18 @@ public class MasterPageParseTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	/**
 	 * Test parser and getting property.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -116,7 +117,7 @@ public class MasterPageParseTest extends BaseTestCase {
 
 	/**
 	 * Test writer.
-	 * 
+	 *
 	 * @throws Exception any exception caught
 	 */
 	public void testWriter() throws Exception {
@@ -140,7 +141,7 @@ public class MasterPageParseTest extends BaseTestCase {
 
 	/**
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testSimpleMasterPage() throws Exception {
@@ -203,7 +204,7 @@ public class MasterPageParseTest extends BaseTestCase {
 
 	/**
 	 * Tests the semantic errors of the master page.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

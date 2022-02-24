@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,13 +37,13 @@ import org.mozilla.javascript.Scriptable;
 public interface IPreparedCubeOperation {
 
 	/**
-	 * 
+	 *
 	 * @return the original cube operation
 	 */
 	ICubeOperation getCubeOperation();
 
 	/**
-	 * 
+	 *
 	 * @param scope
 	 * @param cx
 	 * @param manager
@@ -56,7 +56,7 @@ public interface IPreparedCubeOperation {
 
 	/**
 	 * called after prepare() is called
-	 * 
+	 *
 	 * @return new CubeAggrDefns introduced from this operation. an empty array is
 	 *         returned if no CubeAggrDefn introduced
 	 */
@@ -64,15 +64,15 @@ public interface IPreparedCubeOperation {
 
 	/**
 	 * get aggregation list of CubeAggrDefns
-	 * 
+	 *
 	 * @return
 	 */
 	List<AggregationDefinition> getAggregationDefintions();
 
 	/**
 	 * execute the operation based on sources
-	 * 
-	 * 
+	 *
+	 *
 	 * @param sources: the data to be operated on
 	 * @param stopSign
 	 * @return

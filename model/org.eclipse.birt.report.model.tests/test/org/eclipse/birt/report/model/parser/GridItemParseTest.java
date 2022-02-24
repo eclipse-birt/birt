@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,64 +44,64 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * <code>TableColumn</code>,<code>TableRow</code> and <code>Cell</code> are also
  * tested in this test case.
- * 
+ *
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testParser()}</td>
  * <td>Test properties of GridItem after parsing design file</td>
  * <td>All properties are right</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Test properties of TableColumn after parsing design file</td>
  * <td>All properties are right</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Test properties of TableRow after parsing design file</td>
  * <td>All properties are right</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Test properties of Cell after parsing design file</td>
  * <td>All properties are right</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testWriter()}</td>
  * <td>Compare the written file with the golden file</td>
  * <td>Two files are same</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testSemanticCheck()}</td>
  * <td>Test inconsistant column count error, properties of column, row and cell
  * are negative.</td>
  * <td>Error found</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Test horizontal cell overlapping error</td>
  * <td>Error found</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Test vertical cell overlapping error</td>
  * <td>Error found</td>
  * </tr>
  * </table>
- * 
+ *
  * @see GridItem
  * @see TableColumn
  * @see TableRow
@@ -116,9 +116,9 @@ public class GridItemParseTest extends ParserTestCase {
 
 	/**
 	 * Test parser and its properties.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testParser() throws Exception {
@@ -283,9 +283,9 @@ public class GridItemParseTest extends ParserTestCase {
 
 	/**
 	 * This test writes the design file and compare it with golden file.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	public void testWriter() throws Exception {
 		openDesign(fileName, ULocale.ENGLISH);
@@ -330,7 +330,7 @@ public class GridItemParseTest extends ParserTestCase {
 
 	/**
 	 * Test semantic check error.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testSemanticCheck() throws Exception {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -94,6 +94,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage {
 	/**
 	 * the content
 	 */
+	@Override
 	public Control createContents(Composite parent) {
 		// property binding initialize
 		initPropertyBinding();
@@ -146,8 +147,9 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage {
 						dummy.dispose();
 					}
 				}
-			} else
+			} else {
 				propertyText = new Text(mainComposite, SWT.BORDER);
+			}
 			propertyText.setLayoutData(data);
 			if (i < bindingValue.size()) {
 				propertyText.setText((String) bindingValue.get(i) == null ? "" //$NON-NLS-1$
@@ -193,8 +195,9 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage {
 			}
 
 		}
-		if (size <= 0)
+		if (size <= 0) {
 			setEmptyPropertyMessages(mainComposite);
+		}
 
 		Point compositeSize = mainComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 		mainComposite.setSize(compositeSize.x, compositeSize.y);
@@ -258,7 +261,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage {
 	/**
 	 * initial the property binding. If the property binding has not defined, the
 	 * default binding will be the meta data of the property's value
-	 * 
+	 *
 	 */
 	private void initPropertyBinding() {
 		ds = (IDesignElementModel) getContainer().getModel();
@@ -280,8 +283,9 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage {
 				if (propertyDefn.getValueType() == IPropertyDefn.ODA_PROPERTY) {
 					String name = propertyDefn.getName();
 
-					if (elementDefn != null && !elementDefn.isPropertyVisible(name))
+					if (elementDefn != null && !elementDefn.isPropertyVisible(name)) {
 						continue;
+					}
 
 					if (ds instanceof DataSetHandle) {
 						bindingValue.add(((DataSetHandle) ds).getPropertyBinding(name) == null ? ""
@@ -306,7 +310,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage {
 
 	/**
 	 * get the elementDefn of datasourceHandle|datasetHandle
-	 * 
+	 *
 	 * @return
 	 */
 	private IElementDefn getElementDefn() {
@@ -322,11 +326,12 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage#
 	 * performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		for (int i = 0; i < propList.size(); i++) {
 			try {
@@ -357,7 +362,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage {
 
 	/**
 	 * if the dataset/datasource has no public property, set message to show this.
-	 * 
+	 *
 	 */
 	private void setEmptyPropertyMessages(Composite composite) {
 		Label messageLabel = new Label(composite, SWT.NONE);
@@ -371,6 +376,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage {
 	/**
 	 * activate the property binding page
 	 */
+	@Override
 	public void pageActivated() {
 		getContainer().setMessage(Messages.getString("datasource.editor.property"), //$NON-NLS-1$
 				IMessageProvider.NONE);
@@ -378,10 +384,11 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.data.ui.property.AbstractPropertyPage#
 	 * getToolTip()
 	 */
+	@Override
 	public String getToolTip() {
 		return Messages.getString("PropertyBindingPage.property.tooltip"); //$NON-NLS-1$
 	}
@@ -395,6 +402,7 @@ public class PropertyBindingPage extends AbstractDescriptionPropertyPage {
 			this.propText = propText;
 		}
 
+		@Override
 		public void handleSelectionEvent(String exprType) {
 			super.handleSelectionEvent(exprType);
 			if (ExpressionType.CONSTANT.equals(exprType)) {

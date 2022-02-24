@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -32,20 +32,22 @@ import org.eclipse.jface.viewers.TreeViewer;
 /**
  * Provider for the ListBand - List header, footer, detail. - Populates the
  * menus for the list band node type - Implements the getDisplayName.
- * 
- * 
+ *
+ *
  */
 public class ListBandProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object.
-	 * 
+	 *
 	 * @param menu   the menu
 	 * @param object the object
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
-		if (!(object instanceof SlotHandle))
+		if (!(object instanceof SlotHandle)) {
 			return;
+		}
 		SlotHandle model = (SlotHandle) object;
 		if (model.getElementHandle() instanceof ListHandle && model.getSlotID() == ListHandle.GROUP_SLOT) {
 			InsertAction insertAction = new InsertAction(object, Messages.getString("ListBandProvider.action.text"), //$NON-NLS-1$
@@ -59,9 +61,10 @@ public class ListBandProvider extends DefaultNodeProvider {
 
 	/**
 	 * Gets the display name of the node
-	 * 
+	 *
 	 * @param object the object
 	 */
+	@Override
 	public String getNodeDisplayName(Object object) {
 		SlotHandle model = (SlotHandle) object;
 		if (model.getElementHandle() instanceof ListHandle) {
@@ -88,11 +91,12 @@ public class ListBandProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(
 	 * java.lang.Object)
 	 */
+	@Override
 	public String getIconName(Object object) {
 		SlotHandle model = (SlotHandle) object;
 		if (model.getElementHandle() instanceof ListHandle) {
@@ -119,11 +123,12 @@ public class ListBandProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
 	 * performInsert(java.lang.Object, org.eclipse.birt.report.model.api.SlotHandle,
 	 * java.lang.String, java.lang.String, java.util.Map)
 	 */
+	@Override
 	protected boolean performInsert(Object model, SlotHandle slotHandle, String type, String position, Map extendData)
 			throws Exception {
 		if (ReportDesignConstants.LIST_GROUP_ELEMENT.equals(type)) {

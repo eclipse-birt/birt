@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,13 +47,14 @@ public class ChartConfigurationBlock extends OptionsConfigurationBlock {
 	}
 
 	protected Key[] getKeys() {
-		Key[] keys = new Key[] { PREF_ENALBE_LIVE, PREF_MAX_ROW };
+		Key[] keys = { PREF_ENALBE_LIVE, PREF_MAX_ROW };
 		return keys;
 	}
 
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */
+	@Override
 	protected Control createContents(Composite parent) {
 		fPixelConverter = new PixelConverter(parent);
 		setShell(parent.getShell());
@@ -90,7 +91,7 @@ public class ChartConfigurationBlock extends OptionsConfigurationBlock {
 		layout.numColumns = 3;
 		pageContent.setLayout(layout);
 
-		String[] enableDisableValues = new String[] { ENABLED, DISABLED };
+		String[] enableDisableValues = { ENABLED, DISABLED };
 
 		addCheckBox(pageContent, ENABLE_BUTTON, PREF_ENALBE_LIVE, enableDisableValues, 0);
 		addTextField(pageContent, Messages.getString("ChartPreferencePage.Label.MaxRowNumber"), //$NON-NLS-1$
@@ -98,6 +99,7 @@ public class ChartConfigurationBlock extends OptionsConfigurationBlock {
 		return pageContent;
 	}
 
+	@Override
 	protected void validateSettings(Key changedKey, String oldValue, String newValue) {
 		fContext.statusChanged(validatePositiveNumber(getValue(PREF_MAX_ROW)));
 	}

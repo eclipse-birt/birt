@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -100,6 +100,7 @@ public class ParseException extends Exception {
 	 * printing of the final stack trace, and hence the correct error message gets
 	 * displayed.
 	 */
+	@Override
 	public String getMessage() {
 		if (!specialConstructor) {
 			return super.getMessage();
@@ -121,8 +122,9 @@ public class ParseException extends Exception {
 		String retval = "Encountered \"";
 		Token tok = currentToken.next;
 		for (int i = 0; i < maxSize; i++) {
-			if (i != 0)
+			if (i != 0) {
 				retval += " ";
+			}
 			if (tok.kind == 0) {
 				retval += tokenImage[0];
 				break;
@@ -151,7 +153,7 @@ public class ParseException extends Exception {
 	 * version cannot be used as part of an ASCII string literal.
 	 */
 	protected String add_escapes(String str) {
-		StringBuffer retval = new StringBuffer();
+		StringBuilder retval = new StringBuilder();
 		char ch;
 		for (int i = 0; i < str.length(); i++) {
 			switch (str.charAt(i)) {
@@ -182,9 +184,10 @@ public class ParseException extends Exception {
 				retval.append("\\\\");
 				continue;
 			default:
-				if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
+				ch = str.charAt(i);
+				if (ch < 0x20 || ch > 0x7e) {
 					String s = "0000" + Integer.toString(ch, 16);
-					retval.append("\\u" + s.substring(s.length() - 4, s.length()));
+					retval.append("\\u" + s.substring(s.length() - 4));
 				} else {
 					retval.append(ch);
 				}

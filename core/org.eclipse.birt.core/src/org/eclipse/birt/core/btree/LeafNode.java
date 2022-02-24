@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008,2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,14 +26,14 @@ import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
- * 
+ *
  * the node structure is:
- * 
+ *
  * <pre>
- * 
+ *
  * NEXT_BLOCK		INT			if the node contains extra blocks
  * NODE_TYPE		INT			node type, must be LEAF
- * 
+ *
  * NODE_SIZE		INT			node size, exclude the NODE_TYPE and NEXT_BLOCK
  * PREV_NODE_ID		INT			previous node id
  * NEXT_NODE_ID		INT			next node id
@@ -41,10 +41,10 @@ import org.eclipse.birt.core.i18n.ResourceConstants;
  * KEY_1			...			key
  * VALUES_TYPE  	INT			can be INLINE/EXTERNAL
  * VALUES			...			values
- * 
+ *
  * </pre>
- * 
- * 
+ *
+ *
  * @param <K> the key type
  * @param <V> the value type
  */
@@ -57,7 +57,7 @@ class LeafNode<K, V> extends BTreeNode<K, V> {
 	private int nextNodeId = -1;
 	private int nodeSize;
 
-	private ArrayList<LeafEntry<K, V>> entries = new ArrayList<LeafEntry<K, V>>();
+	private ArrayList<LeafEntry<K, V>> entries = new ArrayList<>();
 
 	public LeafNode(BTree<K, V> btree, int nodeId) {
 		super(btree, NODE_LEAF, nodeId);
@@ -106,6 +106,7 @@ class LeafNode<K, V> extends BTreeNode<K, V> {
 	private int search(final BTreeValue<K> key) throws IOException {
 		return Collections.binarySearch(entries, key, new Comparator() {
 
+			@Override
 			public int compare(final Object entry, final Object key) {
 				try {
 					return btree.compare(((LeafEntry<K, V>) entry).getKey(), (BTreeValue<K>) key);
@@ -118,7 +119,7 @@ class LeafNode<K, V> extends BTreeNode<K, V> {
 
 	/**
 	 * return the first entry which key is less than or equal to the given key.
-	 * 
+	 *
 	 * @param key the search key value.
 	 * @return the first entry which key is smaller than or equal to the given key.
 	 * @throws IOException
@@ -152,7 +153,7 @@ class LeafNode<K, V> extends BTreeNode<K, V> {
 				// replace the current value
 				BTreeValues<V> values = insertPoint.getValues();
 				int valueSize1 = values.getValueSize();
-				SingleValueList<K, V> sv = new SingleValueList<K, V>(btree, vs[0]);
+				SingleValueList<K, V> sv = new SingleValueList<>(btree, vs[0]);
 				int valueSize2 = sv.getValueSize();
 				insertPoint.setValues(sv);
 				nodeSize = nodeSize + valueSize2 - valueSize1;
@@ -182,7 +183,7 @@ class LeafNode<K, V> extends BTreeNode<K, V> {
 		BTreeValues<V> values = null;
 		if (btree.hasValue()) {
 			if (btree.allowDuplicate()) {
-				values = new InlineValueList<K, V>(btree);
+				values = new InlineValueList<>(btree);
 				for (BTreeValue<V> v : vs) {
 					values.append(v);
 				}
@@ -190,10 +191,10 @@ class LeafNode<K, V> extends BTreeNode<K, V> {
 					values = btree.createExternalValueList(values);
 				}
 			} else {
-				values = new SingleValueList<K, V>(btree, vs[0]);
+				values = new SingleValueList<>(btree, vs[0]);
 			}
 		}
-		LeafEntry<K, V> entry = new LeafEntry<K, V>(this, key, values);
+		LeafEntry<K, V> entry = new LeafEntry<>(this, key, values);
 		insert(index, entry);
 
 		// if the node size is larger than the block size, split into two nodes.
@@ -278,18 +279,18 @@ class LeafNode<K, V> extends BTreeNode<K, V> {
 			nextNodeId = newNode.getNodeId();
 
 			// reset the new nodes
-			ArrayList<LeafEntry<K, V>> remainEntries = new ArrayList<LeafEntry<K, V>>();
-			remainEntries.addAll(entries.subList(0, splitIndex));
+			ArrayList<LeafEntry<K, V>> remainEntries = new ArrayList<>(entries.subList(0, splitIndex));
 			entries = remainEntries;
 			resetNodeSize();
 
 			// return the split entry
-			return new IndexEntry<K, V>(null, splitEntry.getKey(), newNode.getNodeId());
+			return new IndexEntry<>(null, splitEntry.getKey(), newNode.getNodeId());
 		} finally {
 			newNode.unlock();
 		}
 	}
 
+	@Override
 	void read(DataInput in) throws IOException {
 		nodeSize = in.readInt();
 		prevNodeId = in.readInt();
@@ -307,6 +308,7 @@ class LeafNode<K, V> extends BTreeNode<K, V> {
 		}
 	}
 
+	@Override
 	protected void write(DataOutput out) throws IOException {
 		out.writeInt(nodeSize);
 		out.writeInt(prevNodeId);
@@ -332,7 +334,7 @@ class LeafNode<K, V> extends BTreeNode<K, V> {
 	protected LeafEntry<K, V> readEntry(DataInput in) throws IOException {
 		BTreeValue<K> key = btree.readKey(in);
 		BTreeValues<V> values = readValues(in);
-		return new LeafEntry<K, V>(this, key, values);
+		return new LeafEntry<>(this, key, values);
 	}
 
 	private BTreeValues<V> readValues(DataInput in) throws IOException {
@@ -340,19 +342,19 @@ class LeafNode<K, V> extends BTreeNode<K, V> {
 			if (btree.allowDuplicate()) {
 				int type = in.readInt();
 				if (type == BTreeValues.INLINE_VALUES) {
-					InlineValueList<K, V> inlineValues = new InlineValueList<K, V>(btree);
+					InlineValueList<K, V> inlineValues = new InlineValueList<>(btree);
 					inlineValues.read(in);
 					return inlineValues;
 				}
 				if (type == BTreeValues.EXTERNAL_VALUES) {
-					ExternalValueList<K, V> externalValues = new ExternalValueList<K, V>(btree);
+					ExternalValueList<K, V> externalValues = new ExternalValueList<>(btree);
 					externalValues.read(in);
 					return externalValues;
 				}
 				throw new IOException(
 						CoreMessages.getFormattedString(ResourceConstants.UNKNOWN_VALUE_TYPE, new Object[] { type }));
 			}
-			SingleValueList<K, V> singleValues = new SingleValueList<K, V>(btree);
+			SingleValueList<K, V> singleValues = new SingleValueList<>(btree);
 			singleValues.read(in);
 			return singleValues;
 		}
@@ -370,6 +372,7 @@ class LeafNode<K, V> extends BTreeNode<K, V> {
 		}
 	}
 
+	@Override
 	public void dumpNode() throws IOException {
 		System.out.println("LeafNode:" + nodeId);
 		System.out.println("nodeSize:" + nodeSize);
@@ -386,6 +389,7 @@ class LeafNode<K, V> extends BTreeNode<K, V> {
 		}
 	}
 
+	@Override
 	public void dumpAll() throws IOException {
 		dumpNode();
 

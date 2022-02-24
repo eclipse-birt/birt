@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.birt.report.model.util.StructureContextUtil;
  * Represents an "TOC" attached to an element.Obtain an instance of this class
  * by calling the <code>getTOCHandle</code> method on the handle of an element
  * that defines an action.
- * 
+ *
  */
 
 public class TOCHandle extends StructureHandle {
@@ -42,7 +42,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Construct an handle to deal with the toc structure.
-	 * 
+	 *
 	 * @param element the element that defined the action.
 	 * @param context context to the toc property.
 	 */
@@ -53,19 +53,20 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Construct an handle to deal with the toc structure.
-	 * 
+	 *
 	 * @param element the element that defined the action.
 	 * @param context context to the toc property
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public TOCHandle(DesignElementHandle element, MemberRef context) {
 		super(element, context);
 	}
 
 	/**
 	 * Gets expression of TOC.
-	 * 
+	 *
 	 * @return expression of TOC.
 	 */
 
@@ -75,7 +76,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Sets expression of TOC.
-	 * 
+	 *
 	 * @param expression expression of TOC
 	 * @throws SemanticException semantic exception
 	 */
@@ -86,20 +87,21 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets style of TOC.
-	 * 
+	 *
 	 * @return style name of TOC
 	 */
 
 	public String getStyleName() {
 		StyleHandle handle = getStyle();
-		if (handle == null)
+		if (handle == null) {
 			return null;
+		}
 		return handle.getName();
 	}
 
 	/**
 	 * Sets style of TOC.
-	 * 
+	 *
 	 * @param styleName style name
 	 * @throws SemanticException
 	 */
@@ -110,7 +112,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets TOC style.
-	 * 
+	 *
 	 * @return style handle.
 	 */
 
@@ -136,7 +138,7 @@ public class TOCHandle extends StructureHandle {
 	 * method. This method returns a handle to the <em>this</em> element. The
 	 * <code>getStyle( )</code> method returns a handle to the shared style, if any,
 	 * that this element references.
-	 * 
+	 *
 	 * @return a style handle to work with the style properties of this element.
 	 *         Returns <code>null</code> if this element does not have style
 	 *         properties.
@@ -148,7 +150,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets border-top-style property.
-	 * 
+	 *
 	 * @return border-top-style property
 	 */
 
@@ -168,7 +170,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets border-top-width property.
-	 * 
+	 *
 	 * @return border-top-width property
 	 */
 
@@ -188,7 +190,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Returns a dimension handle for a member.
-	 * 
+	 *
 	 * @param memberName the member name.
 	 * @return A DimensionHandle for the given member.
 	 */
@@ -199,7 +201,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Returns a color handle for a given member.
-	 * 
+	 *
 	 * @param memberName the member name
 	 * @return a ColorHandle for the given member
 	 */
@@ -210,7 +212,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets border-top-color property.
-	 * 
+	 *
 	 * @return border-top-color property
 	 */
 
@@ -230,7 +232,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets border-left-style property.
-	 * 
+	 *
 	 * @return border-left-style property
 	 */
 
@@ -249,7 +251,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets border-left-width property.
-	 * 
+	 *
 	 * @return border-left-width property
 	 */
 
@@ -269,7 +271,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets border-left-color property.
-	 * 
+	 *
 	 * @return border-left-color property
 	 */
 
@@ -301,7 +303,7 @@ public class TOCHandle extends StructureHandle {
 	 * <li><code>LINE_STYLE_INSET</code>
 	 * <li><code>LINE_STYLE_OUTSET</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the border bottom style
 	 */
 
@@ -320,9 +322,9 @@ public class TOCHandle extends StructureHandle {
 	}
 
 	/**
-	 * 
+	 *
 	 * Gets border-bottom-width property.
-	 * 
+	 *
 	 * @return border-bottom-width property
 	 */
 
@@ -342,7 +344,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets border-bottom-width property.
-	 * 
+	 *
 	 * @return border-bottom-width property
 	 */
 
@@ -362,7 +364,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets border-right-style property.
-	 * 
+	 *
 	 * @return border-right-style property
 	 */
 
@@ -382,7 +384,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets border-right-width property.
-	 * 
+	 *
 	 * @return border-right-width property
 	 */
 
@@ -402,7 +404,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets border-right-color property.
-	 * 
+	 *
 	 * @return border-right-color property
 	 */
 
@@ -422,7 +424,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets back-ground-color property.
-	 * 
+	 *
 	 * @return back-ground-color property
 	 */
 
@@ -442,7 +444,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets date time format property.
-	 * 
+	 *
 	 * @return date time format property
 	 */
 
@@ -462,7 +464,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets date time format category property.
-	 * 
+	 *
 	 * @return date time format category property
 	 */
 
@@ -485,7 +487,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets number format property.
-	 * 
+	 *
 	 * @return number format property
 	 */
 
@@ -507,7 +509,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets number format category property.
-	 * 
+	 *
 	 * @return number format category property
 	 */
 
@@ -529,7 +531,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets number align property.
-	 * 
+	 *
 	 * @return number align property
 	 */
 
@@ -549,7 +551,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets string format property.
-	 * 
+	 *
 	 * @return string format property
 	 */
 
@@ -572,7 +574,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Returns the category of a string format for a toc.
-	 * 
+	 *
 	 * @return the category of a string format
 	 */
 
@@ -595,7 +597,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets font family property.
-	 * 
+	 *
 	 * @return font family property
 	 */
 
@@ -615,7 +617,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Returns a font family handle for a member.
-	 * 
+	 *
 	 * @param memberName the member name.
 	 * @return A FontHandle for the given member.
 	 */
@@ -626,7 +628,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets font size property.
-	 * 
+	 *
 	 * @return font size property
 	 */
 
@@ -652,7 +654,7 @@ public class TOCHandle extends StructureHandle {
 	 * <li><code>FONT_STYLE_ITALIC</code>
 	 * <li><code>FONT_STYLE_OBLIQUE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the font style in string.
 	 */
 
@@ -688,7 +690,7 @@ public class TOCHandle extends StructureHandle {
 	 * <li><code>FONT_WEIGHT_800</code>
 	 * <li><code>FONT_WEIGHT_900</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the font weight in string.
 	 */
 
@@ -713,7 +715,7 @@ public class TOCHandle extends StructureHandle {
 	 * <li><code>FONT_VARIANT_NORMAL</code>
 	 * <li><code>FONT_VARIANT_SMALL_CAPS</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the font variant in a string.
 	 */
 
@@ -733,7 +735,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets font color property.
-	 * 
+	 *
 	 * @return font color property
 	 */
 
@@ -758,7 +760,7 @@ public class TOCHandle extends StructureHandle {
 	 * <li><code>TEXT_UNDERLINE_NONE</code>
 	 * <li><code>TEXT_UNDERLINE_UNDERLINE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the value of the underline property
 	 */
 
@@ -783,7 +785,7 @@ public class TOCHandle extends StructureHandle {
 	 * <li><code>TEXT_OVERLINE_NONE</code>
 	 * <li><code>TEXT_OVERLINE_OVERLINE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the value of the overline property
 	 */
 
@@ -808,7 +810,7 @@ public class TOCHandle extends StructureHandle {
 	 * <li><code>TEXT_LINE_THROUGH_NONE</code>
 	 * <li><code>TEXT_LINE_THROUGH_LINE_THROUGH</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the text line through
 	 */
 
@@ -835,7 +837,7 @@ public class TOCHandle extends StructureHandle {
 	 * <li><code>TEXT_ALIGN_RIGHT</code>
 	 * <li><code>TEXT_ALIGN_JUSTIFY</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the value of text align property
 	 */
 
@@ -860,7 +862,7 @@ public class TOCHandle extends StructureHandle {
 	 * <li><code>BIDI_DIRECTION_LTR</code>
 	 * <li><code>BIDI_DIRECTION_RTL</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the value of direction property
 	 */
 
@@ -885,10 +887,10 @@ public class TOCHandle extends StructureHandle {
 	 * <li><code>BIDI_DIRECTION_LTR</code>
 	 * <li><code>BIDI_DIRECTION_RTL</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param value the new direction value
 	 * @throws SemanticException if the value is not one of the above.
-	 * 
+	 *
 	 * @author bidi_hcg
 	 */
 
@@ -898,7 +900,7 @@ public class TOCHandle extends StructureHandle {
 
 	/**
 	 * Gets text indent property.
-	 * 
+	 *
 	 * @return text indent property
 	 */
 
@@ -925,7 +927,7 @@ public class TOCHandle extends StructureHandle {
 	 * <li><code>TRANSFORM_LOWERCASE</code>
 	 * <li><code>TRANSFORM_NONE</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the value of the transform property
 	 */
 

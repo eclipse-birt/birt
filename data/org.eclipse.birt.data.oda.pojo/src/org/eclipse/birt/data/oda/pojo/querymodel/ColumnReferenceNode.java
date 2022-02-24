@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ public class ColumnReferenceNode extends ReferenceNode implements Comparable<Col
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.oda.pojo.querymodel.ReferenceNode#
 	 * getColumnReferenceNodes()
 	 */
@@ -43,6 +43,7 @@ public class ColumnReferenceNode extends ReferenceNode implements Comparable<Col
 		return new ColumnReferenceNode[] { this };
 	}
 
+	@Override
 	public int compareTo(ColumnReferenceNode o) {
 		return this.getColumn().getIndex() - o.getColumn().getIndex();
 	}
@@ -54,12 +55,12 @@ public class ColumnReferenceNode extends ReferenceNode implements Comparable<Col
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		ColumnReferenceNode other = (ColumnReferenceNode) obj;
 		return column.getIndex() == other.getColumn().getIndex();
 	}

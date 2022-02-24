@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -69,8 +69,9 @@ final class AggrRegistry implements AggregateRegistry {
 		this.isDetailedRow = isDetailedRow;
 		this.calculationLevel = calculationLevel;
 		this.cx = cx;
-		if (this.calculationLevel < this.groupLevel && this.calculationLevel > 0)
+		if (this.calculationLevel < this.groupLevel && this.calculationLevel > 0) {
 			throw new DataException(ResourceConstants.INVALID_TOTAL_EXPRESSION);
+		}
 		logger.exiting(AggrRegistry.class.getName(), "AggrRegistry");
 	}
 
@@ -86,19 +87,22 @@ final class AggrRegistry implements AggregateRegistry {
 		this.baseQuery = baseQuery;
 		this.aggrExprInfoList = aggrExprInfoList;
 
-		if (baseQuery == null)
+		if (baseQuery == null) {
 			this.runStates = PREPARED_QUERY;
-		else
+		} else {
 			this.runStates = BASE_QUERY;
+		}
 
-		if (groupDefns != null)
+		if (groupDefns != null) {
 			this.groupCount = groupDefns.size();
+		}
 	}
 
 	/**
 	 * Register the aggregate expression into aggregate table, get the only
 	 * aggregate id.
 	 */
+	@Override
 	public int register(AggregateExpression expr) throws DataException {
 		return registerExpression(expr, groupLevel, calculationLevel, isDetailedRow, cx);
 	}
@@ -107,7 +111,7 @@ final class AggrRegistry implements AggregateRegistry {
 	 * Registers one aggregate expression. Returns an ID for the registered
 	 * aggregate. If an equivalent aggregate expression had been previously
 	 * registered, the ID of the existing expression is returned.
-	 * 
+	 *
 	 * @param expr       aggregate expression
 	 * @param groupLevel
 	 * @param cx
@@ -121,8 +125,9 @@ final class AggrRegistry implements AggregateRegistry {
 		// See if an existing aggregate expression is equivalent to this one
 		int id;
 		for (id = 0; id < aggrExprInfoList.size(); id++) {
-			if (info.equals(aggrExprInfoList.get(id)))
+			if (info.equals(aggrExprInfoList.get(id))) {
 				break;
+			}
 		}
 
 		if (id == aggrExprInfoList.size()) {
@@ -137,7 +142,7 @@ final class AggrRegistry implements AggregateRegistry {
 	/**
 	 * Creates a AggrExprInfo structure from the compiler's AggregateExpression
 	 * output class
-	 * 
+	 *
 	 * @param expr
 	 * @param currentGroupLevel
 	 * @param cx
@@ -209,10 +214,11 @@ final class AggrRegistry implements AggregateRegistry {
 				}
 			} else if (groupLevelObj instanceof Number) {
 				int offset = ((Number) groupLevelObj).intValue();
-				if (offset < 0)
+				if (offset < 0) {
 					aggr.groupLevel = currentGroupLevel + offset;
-				else
+				} else {
 					aggr.groupLevel = offset;
+				}
 			}
 
 			if (aggr.groupLevel < 0 || aggr.groupLevel > (runStates == BASE_QUERY
@@ -237,18 +243,19 @@ final class AggrRegistry implements AggregateRegistry {
 				boolean isValid = false;
 				int groupLevel = ((BytecodeExpression) aggr.filter).getGroupLevel();
 				if (aggr.calculateLevel == -1) {
-					if (groupLevel == 0 || groupLevel == -1)
+					if (groupLevel == 0 || groupLevel == -1) {
 						isValid = true;
+					}
 				} else if (groupLevel == -1) {
-					if (aggr.calculateLevel == 0)
+					if (aggr.calculateLevel == 0) {
 						isValid = true;
-				} else {
-
-					if (aggr.calculateLevel == groupLevel)
-						isValid = true;
+					}
+				} else if (aggr.calculateLevel == groupLevel) {
+					isValid = true;
 				}
-				if (!isValid)
+				if (!isValid) {
 					throw new DataException(ResourceConstants.INVALID_TOTAL_EXPRESSION);
+				}
 			}
 
 		}
@@ -265,7 +272,7 @@ final class AggrRegistry implements AggregateRegistry {
 
 	/**
 	 * To see whether the function is Total.COUNT or Total.RUNNINGCOUNT
-	 * 
+	 *
 	 * @param aggr
 	 * @return
 	 */
@@ -276,7 +283,7 @@ final class AggrRegistry implements AggregateRegistry {
 
 	/**
 	 * Get the optional arguments' number
-	 * 
+	 *
 	 * @param aggr
 	 * @param nFixedArgs
 	 * @return
@@ -293,7 +300,7 @@ final class AggrRegistry implements AggregateRegistry {
 
 	/**
 	 * Check whether the number of the aggregation expression arguments is valid.
-	 * 
+	 *
 	 * @param aggr
 	 * @return
 	 */
@@ -307,7 +314,7 @@ final class AggrRegistry implements AggregateRegistry {
 
 	/**
 	 * Check whether the number of the aggregation expression arguments is valid.
-	 * 
+	 *
 	 * @param aggr
 	 * @param nFixedArgs
 	 * @param nArgs
@@ -322,7 +329,7 @@ final class AggrRegistry implements AggregateRegistry {
 
 	/**
 	 * Check whether the input expression contains group level
-	 * 
+	 *
 	 * @param aggr
 	 * @param nFixedArgs
 	 * @param nArgs
@@ -337,12 +344,12 @@ final class AggrRegistry implements AggregateRegistry {
 	}
 
 	/**
-	 * 
+	 *
 	 * Finds a group given a text identifier of a group. Returns index of group
 	 * found (1 = outermost group, 2 = second level group etc.). The text identifier
 	 * can be the group name, the group key column name, or the group key expression
 	 * text. Returns -1 if no matching group is found
-	 * 
+	 *
 	 * @param groupText
 	 * @return
 	 */
@@ -362,7 +369,7 @@ final class AggrRegistry implements AggregateRegistry {
 
 	/**
 	 * Return the index of group according to the given group text.
-	 * 
+	 *
 	 * @param groupText
 	 * @return The index of group
 	 */

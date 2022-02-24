@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,6 +33,7 @@ public class SeperatorSection extends Section {
 
 	protected Label seperator;
 
+	@Override
 	public void createSection() {
 		getSeperatorControl(parent);
 		getGridPlaceholder(parent);
@@ -48,6 +49,7 @@ public class SeperatorSection extends Section {
 			seperator.setLayoutData(new GridData());
 			seperator.addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					seperator = null;
 				}
@@ -58,26 +60,31 @@ public class SeperatorSection extends Section {
 		return seperator;
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) seperator.getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
+		}
 		gd.horizontalAlignment = GridData.FILL;
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillSeperator;
+		}
 
 	}
 
+	@Override
 	public void load() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setInput(Object input) {
 		// TODO Auto-generated method stub
 
@@ -103,17 +110,23 @@ public class SeperatorSection extends Section {
 		this.fillSeperator = fillSeperator;
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (seperator != null)
+		if (seperator != null) {
 			WidgetUtil.setExcludeGridData(seperator, isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (seperator != null)
+		if (seperator != null) {
 			seperator.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 }

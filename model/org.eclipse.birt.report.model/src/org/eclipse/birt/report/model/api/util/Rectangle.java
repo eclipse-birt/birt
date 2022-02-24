@@ -54,7 +54,7 @@ public class Rectangle {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param x      left edge
 	 * @param y      top edge
 	 * @param height rectangle height
@@ -70,7 +70,7 @@ public class Rectangle {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param posn position of top left corner
 	 * @param size size of the rectangle
 	 */
@@ -84,7 +84,7 @@ public class Rectangle {
 
 	/**
 	 * Returns the position of the top left corner.
-	 * 
+	 *
 	 * @return position of the top left corner
 	 */
 
@@ -94,7 +94,7 @@ public class Rectangle {
 
 	/**
 	 * Returns the rectangle size.
-	 * 
+	 *
 	 * @return rectangle size
 	 */
 

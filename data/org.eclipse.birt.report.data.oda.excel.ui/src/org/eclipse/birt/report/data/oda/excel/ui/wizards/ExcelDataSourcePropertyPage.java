@@ -28,11 +28,12 @@ public class ExcelDataSourcePropertyPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditorPage
 	 * #collectCustomProperties(java.util.Properties)
 	 */
+	@Override
 	public Properties collectCustomProperties(Properties profileProps) {
 		/*
 		 * Optionally assigns a custom designer state, for inclusion in the ODA design
@@ -40,23 +41,26 @@ public class ExcelDataSourcePropertyPage extends DataSourceEditorPage {
 		 * );
 		 */
 
-		if (pageHelper == null)
+		if (pageHelper == null) {
 			return profileProps;
+		}
 
 		return pageHelper.collectCustomProperties(profileProps);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditorPage
 	 * #createAndInitCustomControl(org.eclipse.swt.widgets.Composite,
 	 * java.util.Properties)
 	 */
+	@Override
 	protected void createAndInitCustomControl(Composite parent, Properties profileProps) {
-		if (pageHelper == null)
+		if (pageHelper == null) {
 			pageHelper = new ExcelDataSourcePageHelper(this);
+		}
 		pageHelper.setResourceIdentifiers(getHostResourceIdentifiers());
 		pageHelper.createCustomControl(parent);
 
@@ -75,14 +79,16 @@ public class ExcelDataSourcePropertyPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditorPage
 	 * #refresh(java.util.Properties)
 	 */
+	@Override
 	protected void refresh(Properties customConnectionProps) {
-		if (pageHelper != null)
+		if (pageHelper != null) {
 			pageHelper.initCustomControl(customConnectionProps);
+		}
 
 		// enable/disable all controls on page in respect of the editable session state
 		enableAllControls(getControl(), isSessionEditable());
@@ -90,11 +96,12 @@ public class ExcelDataSourcePropertyPage extends DataSourceEditorPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.
 	 * DataSourceEditorPageCore#createTestConnectionRunnable(org.eclipse.datatools.
 	 * connectivity.IConnectionProfile)
 	 */
+	@Override
 	protected Runnable createTestConnectionRunnable(IConnectionProfile profile) {
 		return pageHelper.createTestConnectionRunnable(profile);
 	}

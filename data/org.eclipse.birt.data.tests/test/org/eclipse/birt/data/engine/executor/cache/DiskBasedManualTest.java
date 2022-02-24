@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,11 +31,10 @@ import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import testutil.BaseTestCase;
-
-import org.junit.Test;
-import org.junit.Ignore;
 
 /**
  * Test the feature of disk-based data manipulation. Only used in manual test
@@ -66,8 +65,9 @@ public class DiskBasedManualTest extends BaseTestCase {
 	 * @throws Exception
 	 */
 	private IBaseDataSourceDesign getDataSource() throws Exception {
-		if (odaDataSource != null)
+		if (odaDataSource != null) {
 			return odaDataSource;
+		}
 
 		odaDataSource = new OdaDataSourceDesign("Test Data Source");
 		odaDataSource.setExtensionID(JDBC_DATA_SOURCE_TYPE);
@@ -84,8 +84,9 @@ public class DiskBasedManualTest extends BaseTestCase {
 	 * @throws Exception
 	 */
 	private IBaseDataSetDesign getDataSet() throws Exception {
-		if (odaDataSet != null)
+		if (odaDataSet != null) {
 			return odaDataSet;
+		}
 
 		odaDataSet = new OdaDataSetDesign("Test Data Set");
 		odaDataSet.setDataSource(getDataSource().getName());
@@ -104,8 +105,9 @@ public class DiskBasedManualTest extends BaseTestCase {
 	 * @throws Exception
 	 */
 	private QueryDefinition getQueryDefn() throws Exception {
-		if (queryDefinition != null)
+		if (queryDefinition != null) {
 			return queryDefinition;
+		}
 
 		queryDefinition = new QueryDefinition();
 		queryDefinition.setDataSetName(getDataSet().getName());
@@ -117,8 +119,9 @@ public class DiskBasedManualTest extends BaseTestCase {
 		ScriptExpression expr = new ScriptExpression("dataSetRow.C_CC1");
 		expressionArray[0] = expr;
 		columnNameArray[0] = "C_CC1";
-		for (int i = 0; i < expressionArray.length; i++)
+		for (int i = 0; i < expressionArray.length; i++) {
 			queryDefinition.addResultSetExpression(columnNameArray[i], expressionArray[i]);
+		}
 
 		// group defintion
 //		GroupDefinition gd = new GroupDefinition( );
@@ -140,15 +143,16 @@ public class DiskBasedManualTest extends BaseTestCase {
 	 */
 	private String getQueryText() {
 		int maxRows = 20000;
-		if (maxRows > 0)
+		if (maxRows > 0) {
 			return queryText + " where l_customer.C_CUSTKEY < " + maxRows;
-		else
+		} else {
 			return queryText;
+		}
 	}
 
 	/**
 	 * Test disk based feature
-	 * 
+	 *
 	 * @throws BirtException
 	 * @throws Exception
 	 */
@@ -171,8 +175,9 @@ public class DiskBasedManualTest extends BaseTestCase {
 
 		IResultIterator ri = qr.getResultIterator();
 		while (ri.next()) {
-			for (int i = 0; i < columnNameArray.length; i++)
+			for (int i = 0; i < columnNameArray.length; i++) {
 				System.out.println(ri.getValue(columnNameArray[i]));
+			}
 		}
 
 		ri.close();

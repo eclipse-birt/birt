@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.regression;
@@ -25,16 +25,16 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * seeing is the following: If I make the following report manipulation calls
  * using BIRT API.
  * <p>
- * 
+ *
  * <PRE>
- * 
+ *
  * String REPORT_LOC = "file:/c:/temp/birtbug/report.rptdesign";
  * DesignEngine designEngine = new DesignEngine(new DesignConfig());
  * SessionHandle session = designEngine.newSessionHandle(ULocale.getDefault()); // this works using a URL
  * string design = session.openDesign(REPORT_LOC);
- * 
+ *
  * </PRE>
- * 
+ *
  * <p>
  * ... do some work on the design and then call design.save() design.save calls
  * XMLWriter( File outputFile, String signature ) in here the writer constructor
@@ -57,12 +57,14 @@ public class Regression_152686 extends BaseTestCase {
 
 	private final static String INPUT = "regression_152686.xml"; //$NON-NLS-1$
 
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
 		copyInputToFile(INPUT_FOLDER + "/" + INPUT);
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}
@@ -70,7 +72,7 @@ public class Regression_152686 extends BaseTestCase {
 	/**
 	 * Tests the save to give a file name like "file:/c:/test" -- containing file
 	 * schema.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

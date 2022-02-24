@@ -18,7 +18,7 @@ import org.xml.sax.Attributes;
 
 /**
  * This class parses a rectangle item.
- * 
+ *
  */
 
 public class RectangleState extends ReportItemState {
@@ -31,7 +31,7 @@ public class RectangleState extends ReportItemState {
 	/**
 	 * Constructs the rectangle item state with the design parser handler, the
 	 * container element and the container slot of the rectangle item.
-	 * 
+	 *
 	 * @param handler      the design file parser handler
 	 * @param theContainer the element that contains this one
 	 * @param slot         the slot in which this element appears
@@ -43,22 +43,24 @@ public class RectangleState extends ReportItemState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
+	@Override
 	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
 	 * Attributes)
 	 */
 
+	@Override
 	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		element = new RectangleItem();
 		initElement(attrs);

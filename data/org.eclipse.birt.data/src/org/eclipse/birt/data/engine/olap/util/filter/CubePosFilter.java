@@ -1,13 +1,13 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import java.util.List;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
 /**
- * 
+ *
  */
 
 public abstract class CubePosFilter implements ICubePosFilter {
@@ -29,7 +29,7 @@ public abstract class CubePosFilter implements ICubePosFilter {
 	protected List cubePosRangeFilter = null;
 
 	/**
-	 * 
+	 *
 	 * @param measureNames
 	 */
 	public CubePosFilter(String[] dimensionNames) {
@@ -38,7 +38,7 @@ public abstract class CubePosFilter implements ICubePosFilter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimPositions
 	 * @throws IOException
 	 */
@@ -49,27 +49,29 @@ public abstract class CubePosFilter implements ICubePosFilter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.util.filter.ICubePosFilter#
 	 * getFilterDimensionNames()
 	 */
+	@Override
 	public String[] getFilterDimensionNames() {
 		return dimensionNames;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.filter.ICubePosFilter#getFilterResult(
 	 * int[])
 	 */
+	@Override
 	public abstract boolean getFilterResult(int[] dimPositions);
 
 }
 
 /**
- * 
+ *
  * @author Administrator
  *
  */
@@ -84,7 +86,7 @@ class CubePositionRangeFilter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimPosArray
 	 * @return
 	 * @throws IOException
@@ -117,7 +119,7 @@ class CubePositionRangeFilter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimPositions
 	 * @return
 	 */
@@ -130,15 +132,16 @@ class CubePositionRangeFilter {
 					break;
 				}
 			}
-			if (!match)
+			if (!match) {
 				return false;
+			}
 		}
 		return true;
 	}
 }
 
 /**
- * 
+ *
  * @author Administrator
  *
  */
@@ -147,7 +150,7 @@ class Range {
 	private int end;
 
 	/**
-	 * 
+	 *
 	 * @param start
 	 * @param end
 	 */
@@ -157,7 +160,7 @@ class Range {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param iValue
 	 * @return
 	 */

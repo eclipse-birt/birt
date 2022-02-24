@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ public class CompatibilityUtilTest extends BaseTestCase {
 
 	/**
 	 * Test cases to add result set columns to cached metadata.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -107,7 +107,7 @@ public class CompatibilityUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests addResultSetColumn method.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -147,7 +147,7 @@ public class CompatibilityUtilTest extends BaseTestCase {
 
 	/**
 	 * Mock listener
-	 * 
+	 *
 	 */
 
 	private class MockListener implements Listener {
@@ -156,20 +156,21 @@ public class CompatibilityUtilTest extends BaseTestCase {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.birt.report.model.api.core.Listener#elementChanged(org.eclipse.
 		 * birt.report.model.api.DesignElementHandle,
 		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
 
+		@Override
 		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			++count;
 		}
 
 		/**
 		 * Gets event count.
-		 * 
+		 *
 		 * @return event count.
 		 */
 

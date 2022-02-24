@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -49,15 +49,9 @@ import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 public class OdaDataSetAdapterTest extends BaseTestCase {
 
 	private final static String INPUT_FILE = "OdaDataSetConvertTest.xml"; //$NON-NLS-1$
-	private final static String GOLDEN_FILE = "OdaDataSetConvertTest_golden.xml"; //$NON-NLS-1$
-
 	private final static String INPUT_FILE_WITH_EMPTY_PROPS = "OdaDataSetEmptyProps.xml"; //$NON-NLS-1$
 
 	private final static String INPUT_FILE_WITH_LIB = "OdaDataSetEmptyProps_1.xml"; //$NON-NLS-1$
-
-	private final static String GOLDEN_FILE_WITH_EMPTY_PROPS = "OdaDataSetEmptyProps_golden.xml"; //$NON-NLS-1$
-
-	private final static String GOLDEN_FILE1_WITH_EMPTY_PROPS = "OdaDataSetEmptyProps_golden_1.xml"; //$NON-NLS-1$
 
 	final static String DATA_SET_EXTENSIONID = "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"; //$NON-NLS-1$
 	final static String DATA_SOURCE_EXTENSIONID = "org.eclipse.birt.report.data.oda.jdbc"; //$NON-NLS-1$
@@ -66,7 +60,7 @@ public class OdaDataSetAdapterTest extends BaseTestCase {
 	 * Test case: <br>
 	 * To read a design file, uses adapter to create a data source design. Checks
 	 * values of the created data source design.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -144,13 +138,13 @@ public class OdaDataSetAdapterTest extends BaseTestCase {
 
 	/**
 	 * Test case: <br>
-	 * 
+	 *
 	 * <ul>
 	 * <li>Create a data source design, uses the adapter to create a data source
 	 * handle. Saves the new datasource handle to the design file.
 	 * <li>No ActivityStack action should be invovled.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -173,7 +167,7 @@ public class OdaDataSetAdapterTest extends BaseTestCase {
 		verifyODADataSetToROMDataSet();
 		/*
 		 * save( );
-		 * 
+		 *
 		 * assertTrue( compareTextFile( GOLDEN_FILE ) );
 		 */
 	}
@@ -211,13 +205,13 @@ public class OdaDataSetAdapterTest extends BaseTestCase {
 
 	/**
 	 * Test case: <br>
-	 * 
+	 *
 	 * <ul>
 	 * <li>Have a data source design and a data source handle, copied all values
 	 * from the ODA element to ROM element.
 	 * <li>ActivityStack action should be invovled as a transaction.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -276,7 +270,7 @@ public class OdaDataSetAdapterTest extends BaseTestCase {
 
 	/**
 	 * Creates a new <code>DataSetDesign</code>.
-	 * 
+	 *
 	 * @return an object of <code>DataSetDesign</code>.
 	 */
 
@@ -337,7 +331,7 @@ public class OdaDataSetAdapterTest extends BaseTestCase {
 
 	/**
 	 * Creates a new <code>DataSourceDesign</code>.
-	 * 
+	 *
 	 * @return an object of <code>DataSourceDesign</code>.
 	 */
 
@@ -363,7 +357,7 @@ public class OdaDataSetAdapterTest extends BaseTestCase {
 
 	/**
 	 * Tests functions to convert Designer State on a set Design.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -404,7 +398,7 @@ public class OdaDataSetAdapterTest extends BaseTestCase {
 	/**
 	 * Tests that the data source properties are not localized when creating a data
 	 * set using the data source.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

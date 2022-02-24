@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -113,7 +113,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 	private ISelectDataCustomizeUI selectDataUI = null;
 
 	/**
-	 * 
+	 *
 	 * @param axisIndex     -1 means single axis; nonnegative number means the axis
 	 *                      index
 	 * @param seriesDefns
@@ -138,6 +138,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		this.selectDataUI = selectDataUI;
 	}
 
+	@Override
 	public Composite createArea(Composite parent) {
 		{
 			if (axisIndex >= 0) {
@@ -320,7 +321,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 
 			// Update the Sample Data.
 			int sdIndex = sdOrthogonal.getSeriesDefinitionIndex();
-			ArrayList<OrthogonalSampleData> al = new ArrayList<OrthogonalSampleData>();
+			ArrayList<OrthogonalSampleData> al = new ArrayList<>();
 			if (sdIndex >= list.size()) {
 				list.add(sdOrthogonal);
 			} else {
@@ -354,7 +355,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 	private String convertDataSetRepresentation(String dsRepresentation, int seriesDefinitionIndex) {
 		if (dsRepresentation != null) {
 			String[] strTok = ChartUtil.getStringTokens(dsRepresentation);
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < strTok.length; i++) {
 				String strDataElement = strTok[i];
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); //$NON-NLS-1$
@@ -397,7 +398,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 //	/**
 //	 * Updates series palette of series definition list without the series to be
 //	 * moved
-//	 * 
+//	 *
 //	 * @param removedIndex
 //	 *            the index of the series to be removed
 //	 */
@@ -434,6 +435,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		seriesDefns.remove(cmbSeriesSelect.getSelectionIndex());
 	}
 
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget.equals(btnSeriesDelete)) {
 			// Update color registry
@@ -557,7 +559,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 
 	/**
 	 * Updates the color registry and refresh all background color of the text field
-	 * 
+	 *
 	 * @param seriesIndex -1 means all series under selected axis
 	 */
 	private void updateColorRegistry(int seriesIndex) {
@@ -566,21 +568,21 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			dataDefinitions = seriesDefns.get(seriesIndex).getDesignTimeSeries().getDataDefinition();
 		} else {
 			List<SeriesDefinition> allSeriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions(getChart());
-			dataDefinitions = new ArrayList<Query>();
+			dataDefinitions = new ArrayList<>();
 			for (int i = 0; i < allSeriesDefns.size(); i++) {
 				dataDefinitions.addAll(allSeriesDefns.get(i).getDesignTimeSeries().getDataDefinition());
 			}
 		}
 
 		// Count each expression
-		Map<String, Integer> queryMap = new HashMap<String, Integer>();
+		Map<String, Integer> queryMap = new HashMap<>();
 		for (int i = 0; i < dataDefinitions.size(); i++) {
 			String expression = dataDefinitions.get(i).getDefinition();
 			if (queryMap.containsKey(expression)) {
 				int expCount = queryMap.get(expression).intValue();
-				queryMap.put(expression, Integer.valueOf(expCount++));
+				queryMap.put(expression, expCount++);
 			} else {
-				queryMap.put(expression, Integer.valueOf(1));
+				queryMap.put(expression, 1);
 			}
 		}
 		// If the expression count is the same to the count of all, delete this
@@ -603,6 +605,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		// Use async thread to update UI to prevent control disposed
 		Display.getCurrent().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				wizardContext.getDataSheet().notifyListeners(e);
 			}
@@ -632,6 +635,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		}
 	}
 
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 
@@ -649,7 +653,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 	}
 
 	private void refreshSeriesCombo(Combo cmbSeriesSelect) {
-		ArrayList<String> itemList = new ArrayList<String>();
+		ArrayList<String> itemList = new ArrayList<>();
 		int seriesSize = seriesDefns.size();
 		for (int i = 1; i <= seriesSize; i++) {
 			itemList.add(selectionName + " " + i); //$NON-NLS-1$
@@ -666,7 +670,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 	}
 
 	private void refreshAxisCombo() {
-		ArrayList<String> itemList = new ArrayList<String>();
+		ArrayList<String> itemList = new ArrayList<>();
 		int axisNum = ChartUIUtil.getOrthogonalAxisNumber(getChart());
 		for (int i = 1; i <= axisNum; i++) {
 			itemList.add(Messages.getString("DataDefinitionSelector.Label.Axis") + i); //$NON-NLS-1$
@@ -684,10 +688,12 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		return sdc;
 	}
 
+	@Override
 	public void selectArea(boolean selected, Object data) {
 		dataComponent.selectArea(selected, data);
 	}
 
+	@Override
 	public void dispose() {
 		if (dataComponent != null) {
 			dataComponent.dispose();
@@ -697,7 +703,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 
 	/**
 	 * Sets the name prefix in the combo
-	 * 
+	 *
 	 * @param selectionNamePrefix
 	 */
 	public void setSelectionPrefix(String selectionNamePrefix) {
@@ -706,7 +712,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 
 	/**
 	 * Sets the description in the left of data text box.
-	 * 
+	 *
 	 * @param description
 	 */
 	public void setDescription(String description) {

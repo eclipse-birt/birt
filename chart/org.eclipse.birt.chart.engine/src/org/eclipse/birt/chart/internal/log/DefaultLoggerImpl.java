@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -37,10 +37,10 @@ public final class DefaultLoggerImpl implements ILogger {
 
 	/**
 	 * Returns a singleton instance of the logger.
-	 * 
+	 *
 	 * @return A singleton instance of the logger.
 	 */
-	public synchronized static final ILogger instance() {
+	public synchronized static ILogger instance() {
 		if (dli == null) {
 			dli = new DefaultLoggerImpl();
 		}
@@ -55,20 +55,22 @@ public final class DefaultLoggerImpl implements ILogger {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.log.ILogger#setVerboseLevel(int)
 	 */
-	public final void setVerboseLevel(int iVerboseLevel) {
+	@Override
+	public void setVerboseLevel(int iVerboseLevel) {
 		this.iVerboseLevel = iVerboseLevel;
 	}
 
 	/**
 	 * @deprecated Logs messages originating from scripts associated with a chart
 	 *             model.
-	 * 
+	 *
 	 * @param sMessage The informational message to be logged.
 	 */
-	public final void logFromScript(String sMessage) {
+	@Deprecated
+	public void logFromScript(String sMessage) {
 		if ((iVerboseLevel & ILogger.INFORMATION) == ILogger.INFORMATION) {
 			System.out.println(Messages.getString("info.log.script", new Object[] { sMessage }, ULocale.getDefault())); //$NON-NLS-1$
 		}
@@ -76,9 +78,10 @@ public final class DefaultLoggerImpl implements ILogger {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.log.ILogger#log(int, java.lang.String)
 	 */
+	@Override
 	public void log(int iCode, String sMessage) {
 		if (iCode == ILogger.INFORMATION && (iVerboseLevel & ILogger.INFORMATION) == ILogger.INFORMATION) {
 			System.out.println(Messages.getString("info.log.info", new Object[] { sMessage }, ULocale.getDefault())); //$NON-NLS-1$
@@ -94,9 +97,10 @@ public final class DefaultLoggerImpl implements ILogger {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.log.ILogger#log(int, java.lang.Exception)
 	 */
+	@Override
 	public void log(Exception ex) {
 		System.err.println(Messages.getString("info.log.err", new Object[] { ex.toString() }, ULocale.getDefault())); //$NON-NLS-1$
 		ex.printStackTrace();

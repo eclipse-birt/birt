@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import org.eclipse.birt.chart.script.api.component.ILegend;
 import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
 
 /**
- * 
+ *
  */
 
 public class LegendImpl implements ILegend {
@@ -32,6 +32,7 @@ public class LegendImpl implements ILegend {
 		this.legend = legend;
 	}
 
+	@Override
 	public ILabel getTitle() {
 		Label title = legend.getTitle();
 		if (title == null) {
@@ -41,6 +42,7 @@ public class LegendImpl implements ILegend {
 		return ChartComponentUtil.convertLabel(title);
 	}
 
+	@Override
 	public boolean isVisible() {
 		return legend.isVisible();
 	}
@@ -49,14 +51,17 @@ public class LegendImpl implements ILegend {
 		legend.setTitle(ChartComponentUtil.convertILabel(title));
 	}
 
+	@Override
 	public void setVisible(boolean visible) {
 		legend.setVisible(visible);
 	}
 
+	@Override
 	public boolean isShowValue() {
 		return legend.isShowValue();
 	}
 
+	@Override
 	public void setShowValue(boolean show) {
 		legend.setShowValue(show);
 	}

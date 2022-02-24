@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,6 +41,7 @@ public class DisplayManager extends IdentifierManager {
 		values.put(CSSConstants.CSS_NONE_VALUE, CSSValueConstants.NONE_VALUE);
 	}
 
+	@Override
 	public StringMap getIdentifiers() {
 		return values;
 	}
@@ -48,14 +49,17 @@ public class DisplayManager extends IdentifierManager {
 	public DisplayManager() {
 	}
 
+	@Override
 	public String getPropertyName() {
 		return CSSConstants.CSS_DISPLAY_PROPERTY;
 	}
 
+	@Override
 	public boolean isInheritedProperty() {
 		return false;
 	}
 
+	@Override
 	public Value getDefaultValue() {
 		return CSSValueConstants.BLOCK_VALUE;
 	}

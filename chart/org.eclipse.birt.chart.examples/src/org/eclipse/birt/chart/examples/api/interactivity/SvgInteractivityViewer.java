@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -14,12 +14,10 @@
 
 package org.eclipse.birt.chart.examples.api.interactivity;
 
-import com.ibm.icu.util.ULocale;
-
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
@@ -28,7 +26,6 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.framework.PlatformConfig;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.SelectionEvent;
@@ -42,6 +39,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+
+import com.ibm.icu.util.ULocale;
 
 public class SvgInteractivityViewer extends Composite implements IUpdateNotifier, SelectionListener {
 
@@ -103,18 +102,20 @@ public class SvgInteractivityViewer extends Composite implements IUpdateNotifier
 
 		shell.open();
 		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
+			if (!display.readAndDispatch()) {
 				display.sleep();
+			}
 		}
 		display.dispose();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget == btn) {
 			int i = cbType.getSelectionIndex();
@@ -166,11 +167,12 @@ public class SvgInteractivityViewer extends Composite implements IUpdateNotifier
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 
@@ -178,36 +180,40 @@ public class SvgInteractivityViewer extends Composite implements IUpdateNotifier
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getDesignTimeModel()
 	 */
+	@Override
 	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getRunTimeModel()
 	 */
+	@Override
 	public Chart getRunTimeModel() {
 		return gcs.getChartModel();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#peerInstance()
 	 */
+	@Override
 	public Object peerInstance() {
 		return this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#regenerateChart()
 	 */
+	@Override
 	public void regenerateChart() {
 		// TODO Auto-generated method stub
 
@@ -215,9 +221,10 @@ public class SvgInteractivityViewer extends Composite implements IUpdateNotifier
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#repaintChart()
 	 */
+	@Override
 	public void repaintChart() {
 		// TODO Auto-generated method stub
 

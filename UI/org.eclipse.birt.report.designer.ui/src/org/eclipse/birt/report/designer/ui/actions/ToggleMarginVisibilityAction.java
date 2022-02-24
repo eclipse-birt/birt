@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,7 @@ public class ToggleMarginVisibilityAction extends Action {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param diagramViewer
 	 */
 	public ToggleMarginVisibilityAction(GraphicalViewer diagramViewer) {
@@ -60,6 +60,7 @@ public class ToggleMarginVisibilityAction extends Action {
 	/**
 	 * @see org.eclipse.jface.action.IAction#isChecked()
 	 */
+	@Override
 	public boolean isChecked() {
 		Boolean val = ((Boolean) diagramViewer.getProperty(DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY));
 		if (val != null) {
@@ -71,6 +72,7 @@ public class ToggleMarginVisibilityAction extends Action {
 	/**
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
+	@Override
 	public void run() {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Toggle margin action >> Run ..."); //$NON-NLS-1$

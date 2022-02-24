@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +56,7 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 /**
  * BIRT Project Wizard. Implementation from BasicNewProjectResourceWizard
  * without references page and with report nature.
- * 
+ *
  */
 public class NewReportProjectWizard extends BasicNewResourceWizard implements IExecutableExtension {
 
@@ -77,11 +77,13 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements IE
 	/*
 	 * (non-Javadoc) Method declared on IWizard.
 	 */
+	@Override
 	public void addPages() {
 		super.addPages();
 
 		mainPage = new WizardNewProjectCreationPage("basicNewProjectPage") { //$NON-NLS-1$
 
+			@Override
 			public void createControl(Composite parent) {
 
 				super.createControl(parent);
@@ -132,9 +134,10 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements IE
 
 			/*
 			 * (non-Javadoc)
-			 * 
+			 *
 			 * @see org.eclipse.jface.wizard.WizardPage#isPageComplete()
 			 */
+			@Override
 			public boolean isPageComplete() {
 				return validatePage() || super.isPageComplete();
 			}
@@ -158,40 +161,45 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements IE
 	 * created; subsequent invocations of this method will answer the same project
 	 * resource without attempting to create it again.
 	 * </p>
-	 * 
+	 *
 	 * @return the created project resource, or <code>null</code> if the project was
 	 *         not created
 	 */
 	private IProject createNewProject() {
-		if (newProject != null)
+		if (newProject != null) {
 			return newProject;
+		}
 
 		// get a project handle
 		final IProject newProjectHandle = mainPage.getProjectHandle();
 
 		// get a project descriptor
 		IPath newPath = null;
-		if (!mainPage.useDefaults())
+		if (!mainPage.useDefaults()) {
 			newPath = mainPage.getLocationPath();
+		}
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		final IProjectDescription description = workspace.newProjectDescription(newProjectHandle.getName());
 		description.setLocation(newPath);
 
 		String[] natures = null;
-		if (isJavaProject)
+		if (isJavaProject) {
 			natures = new String[] { ReportPlugin.NATURE_ID, JavaCore.NATURE_ID };
-		else
+		} else {
 			natures = new String[] { ReportPlugin.NATURE_ID };
+		}
 
 		description.setNatureIds(natures);
 
-		if (isJavaProject)
+		if (isJavaProject) {
 			addJavaBuildSpec(description);
+		}
 
 		// create the new project operation
 		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 
+			@Override
 			protected void execute(IProgressMonitor monitor) throws CoreException {
 				createProject(description, newProjectHandle, monitor);
 			}
@@ -235,11 +243,11 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements IE
 
 	/**
 	 * Creates a project resource given the project handle and description.
-	 * 
+	 *
 	 * @param description   the project description to create a project resource for
 	 * @param projectHandle the project handle to create a project resource for
 	 * @param monitor       the progress monitor to show visual progress with
-	 * 
+	 *
 	 * @exception CoreException              if the operation fails
 	 * @exception OperationCanceledException if the operation is canceled
 	 */
@@ -250,8 +258,9 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements IE
 
 			projectHandle.create(description, new SubProgressMonitor(monitor, 1000));
 
-			if (monitor.isCanceled())
+			if (monitor.isCanceled()) {
 				throw new OperationCanceledException();
+			}
 
 			projectHandle.open(new SubProgressMonitor(monitor, 1000));
 
@@ -262,7 +271,7 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements IE
 
 	/**
 	 * Returns the newly created project.
-	 * 
+	 *
 	 * @return the created project, or <code>null</code> if project not created
 	 */
 	public IProject getNewProject() {
@@ -272,6 +281,7 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements IE
 	/*
 	 * (non-Javadoc) Method declared on IWorkbenchWizard.
 	 */
+	@Override
 	public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 		super.init(workbench, currentSelection);
 		setNeedsProgressMonitor(true);
@@ -280,9 +290,10 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements IE
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#getDefaultPageImage()
 	 */
+	@Override
 	public Image getDefaultPageImage() {
 		return ReportPlugin.getImage("/icons/wizban/create_project_wizard.gif"); //$NON-NLS-1$
 	}
@@ -290,20 +301,19 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements IE
 	/*
 	 * (non-Javadoc) Method declared on IWizard.
 	 */
+	@Override
 	public boolean performFinish() {
 		createNewProject();
 
-		if (newProject == null)
+		if (newProject == null) {
 			return false;
+		}
 		if (isJavaProject) {
 
 			createSourceAndOutputFolder(newProject);
 
 			try {
 				setClasspath(newProject);
-			} catch (JavaModelException e) {
-				ExceptionUtil.handle(e);
-				return false;
 			} catch (CoreException e) {
 				ExceptionUtil.handle(e);
 				return false;
@@ -320,6 +330,7 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements IE
 	 * Stores the configuration element for the wizard. The config element will be
 	 * used in <code>performFinish</code> to set the result perspective.
 	 */
+	@Override
 	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
 		configElement = cfig;
 	}
@@ -377,21 +388,23 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements IE
 	private void createSourceAndOutputFolder(IProject project) {
 		if (isJavaProject && sourceText.getText() != null && sourceText.getText().trim().length() > 0) {
 			IFolder folder = project.getFolder(sourceText.getText());
-			if (!folder.exists())
+			if (!folder.exists()) {
 				try {
 					createFolder(folder);
 				} catch (CoreException e) {
 					ExceptionUtil.handle(e);
 				}
+			}
 		}
 		if (isJavaProject && outputText.getText() != null && outputText.getText().trim().length() > 0) {
 			IFolder folder = project.getFolder(outputText.getText());
-			if (!folder.exists())
+			if (!folder.exists()) {
 				try {
 					createFolder(folder);
 				} catch (CoreException e) {
 					ExceptionUtil.handle(e);
 				}
+			}
 		}
 	}
 

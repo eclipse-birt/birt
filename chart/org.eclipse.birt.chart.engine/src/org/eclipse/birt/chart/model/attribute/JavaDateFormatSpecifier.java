@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -25,7 +25,7 @@ import com.ibm.icu.util.ULocale;
  *
  * <!-- begin-model-doc --> JavaDateFormatSpecifier extends FormatSpecifier
  * specialized to represent a java DateFormat instance.
- * 
+ *
  * <!-- end-model-doc -->
  *
  * <p>
@@ -47,9 +47,9 @@ public interface JavaDateFormatSpecifier extends FormatSpecifier {
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
 	 * "Pattern" specifies the pattern string used for establishing a DateFormat
 	 * instance.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Pattern</em>' attribute.
 	 * @see #setPattern(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getJavaDateFormatSpecifier_Pattern()
@@ -63,7 +63,7 @@ public interface JavaDateFormatSpecifier extends FormatSpecifier {
 	 * Sets the value of the
 	 * '{@link org.eclipse.birt.chart.model.attribute.JavaDateFormatSpecifier#getPattern
 	 * <em>Pattern</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Pattern</em>' attribute.
 	 * @see #getPattern()
 	 * @generated
@@ -72,20 +72,21 @@ public interface JavaDateFormatSpecifier extends FormatSpecifier {
 
 	/**
 	 * Formats a calendar value using the Java date format pattern
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param c
 	 * @param lcl
 	 * @deprecated
 	 */
+	@Deprecated
 	String format(Calendar c, Locale lcl);
 
 	/**
 	 * Formats a calendar value using the Java date format pattern
-	 * 
+	 *
 	 * NOTE: Manually written
-	 * 
+	 *
 	 * @param c
 	 * @param lcl
 	 * @since 2.1
@@ -95,6 +96,7 @@ public interface JavaDateFormatSpecifier extends FormatSpecifier {
 	/**
 	 * @generated
 	 */
+	@Override
 	JavaDateFormatSpecifier copyInstance();
 
 } // JavaDateFormatSpecifier

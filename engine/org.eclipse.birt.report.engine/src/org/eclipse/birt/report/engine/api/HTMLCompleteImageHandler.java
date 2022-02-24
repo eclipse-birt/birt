@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.engine.api;
@@ -24,19 +24,19 @@ import org.eclipse.birt.report.engine.util.FileUtil;
  * Default implementation for writing images in a form that is compatible with a
  * web browser's "HTML Complete" save option, i.e., writes images to a
  * predefined folder.
- * 
+ *
  * ImageDirectory: absolute path save the image into that directy, return the
  * aboluste URL of that image.
- * 
+ *
  * ImageDirectory: null, treat it as "." ImageDirectory: relative relative to
  * the base folder.
- * 
+ *
  * BaseFolder: parent folder of the output file, save the file into image
  * directory and return the relative path (base on the base folder).
- * 
+ *
  * BaseFolder:null, use "." as the base folder and return the aboluste path,
- * 
- * 
+ *
+ *
  */
 public class HTMLCompleteImageHandler extends HTMLImageHandler {
 
@@ -54,33 +54,39 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler {
 
 	/**
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onDesignImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
+	@Deprecated
+	@Override
 	public String onDesignImage(IImage image, Object context) {
 		return handleImage(image, context, "design", true); //$NON-NLS-1$
 	}
 
 	/**
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onDocImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
+	@Deprecated
+	@Override
 	public String onDocImage(IImage image, Object context) {
 		return null;
 	}
 
 	/**
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onURLImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
+	@Deprecated
+	@Override
 	public String onURLImage(IImage image, Object context) {
 		assert (image != null);
 		return image.getID();
@@ -88,18 +94,20 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler {
 
 	/**
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onCustomImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
+	@Deprecated
+	@Override
 	public String onCustomImage(IImage image, Object context) {
 		return handleImage(image, context, "custom", false); //$NON-NLS-1$
 	}
 
 	/**
 	 * Creates a unique temporary file to store an image
-	 * 
+	 *
 	 * @param imageDir directory to put image into
 	 * @param prefix   file name prefix
 	 * @param postfix  file name suffix
@@ -121,18 +129,20 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler {
 
 	/**
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onFileImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
+	@Deprecated
+	@Override
 	public String onFileImage(IImage image, Object context) {
 		return handleImage(image, context, "file", true); //$NON-NLS-1$
 	}
 
 	/**
 	 * handles an image report item and returns an image URL
-	 * 
+	 *
 	 * @param image   represents the image design information
 	 * @param context context information
 	 * @param prefix  image prefix in URL
@@ -193,7 +203,7 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler {
 
 	/**
 	 * Save image to the output directory.
-	 * 
+	 *
 	 * @param image
 	 * @param prefix
 	 * @param imageOutputDirectory
@@ -217,16 +227,13 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param reportOutputFile
 	 * @param imageDirectory
 	 * @return
 	 */
 	private boolean needRelativePath(String reportOutputFile, String imageDirectory) {
-		if (reportOutputFile == null) {
-			return false;
-		}
-		if (!FileUtil.isRelativePath(imageDirectory)) {
+		if ((reportOutputFile == null) || !FileUtil.isRelativePath(imageDirectory)) {
 			return false;
 		}
 		return true;
@@ -234,7 +241,7 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler {
 
 	/**
 	 * Get the output directory for the image.
-	 * 
+	 *
 	 * @param reportOutputFile
 	 * @param imageDirectory
 	 * @return
@@ -256,7 +263,7 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler {
 
 	/**
 	 * Get the output path.
-	 * 
+	 *
 	 * @param needRelativePath
 	 * @param imageDirectory
 	 * @param outputFile
@@ -278,13 +285,14 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler {
 
 	/**
 	 * returns the unique identifier for the image
-	 * 
+	 *
 	 * @param image the image object
 	 * @return the image id
 	 */
 	protected String getImageMapID(IImage image) {
-		if (image.getReportRunnable() != null)
+		if (image.getReportRunnable() != null) {
 			return image.getReportRunnable().hashCode() + image.getID();
+		}
 		return image.getID();
 	}
 }

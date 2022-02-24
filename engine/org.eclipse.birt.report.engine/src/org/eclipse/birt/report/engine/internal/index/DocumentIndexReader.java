@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,6 +48,7 @@ public class DocumentIndexReader implements IDocumentIndexReader {
 		}
 	}
 
+	@Override
 	public void close() throws IOException {
 		if (reader != null) {
 			try {
@@ -58,30 +59,37 @@ public class DocumentIndexReader implements IDocumentIndexReader {
 		}
 	}
 
+	@Override
 	public int getVersion() {
 		return reader.getVersion();
 	}
 
+	@Override
 	public long getOffsetOfBookmark(String bookmark) throws IOException {
 		return reader.getOffsetOfBookmark(bookmark);
 	}
 
+	@Override
 	public long getOffsetOfInstance(String instanceId) throws IOException {
 		return reader.getOffsetOfInstance(instanceId);
 	}
 
+	@Override
 	public long getPageOfBookmark(String bookmark) throws IOException {
 		return reader.getPageOfBookmark(bookmark);
 	}
 
+	@Override
 	public BookmarkContent getBookmark(String bookmark) throws IOException {
 		return reader.getBookmark(bookmark);
 	}
 
+	@Override
 	public List<String> getBookmarks() throws IOException {
 		return reader.getBookmarks();
 	}
 
+	@Override
 	public List<BookmarkContent> getBookmarkContents() throws IOException {
 		return reader.getBookmarkContents();
 	}

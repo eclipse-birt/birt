@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ public class TableCellSelectionHelper {
 
 	/**
 	 * Gets the minimal rectangle includes all given selection.
-	 * 
+	 *
 	 * @param first
 	 * @param selection
 	 * @return
@@ -73,19 +73,17 @@ public class TableCellSelectionHelper {
 					xdir = -1;
 					dx = sel.getColumnNumber();
 				}
-			} else {
-				if (xdir > 0) {
-					if (sel.getColumnNumber() > dx) {
-						dx = sel.getColumnNumber();
-					} else if (sel.getColumnNumber() < rect.x) {
-						rect.x = sel.getColumnNumber();
-					}
-				} else if (xdir < 0) {
-					if (sel.getColumnNumber() < dx) {
-						dx = sel.getColumnNumber();
-					} else if (sel.getColumnNumber() > rect.x) {
-						rect.x = sel.getColumnNumber();
-					}
+			} else if (xdir > 0) {
+				if (sel.getColumnNumber() > dx) {
+					dx = sel.getColumnNumber();
+				} else if (sel.getColumnNumber() < rect.x) {
+					rect.x = sel.getColumnNumber();
+				}
+			} else if (xdir < 0) {
+				if (sel.getColumnNumber() < dx) {
+					dx = sel.getColumnNumber();
+				} else if (sel.getColumnNumber() > rect.x) {
+					rect.x = sel.getColumnNumber();
 				}
 			}
 
@@ -97,19 +95,17 @@ public class TableCellSelectionHelper {
 					ydir = -1;
 					dy = sel.getRowNumber();
 				}
-			} else {
-				if (ydir > 0) {
-					if (sel.getRowNumber() > dy) {
-						dy = sel.getRowNumber();
-					} else if (sel.getRowNumber() < rect.y) {
-						rect.y = sel.getRowNumber();
-					}
-				} else if (ydir < 0) {
-					if (sel.getRowNumber() < dy) {
-						dy = sel.getRowNumber();
-					} else if (sel.getRowNumber() > rect.y) {
-						rect.y = sel.getRowNumber();
-					}
+			} else if (ydir > 0) {
+				if (sel.getRowNumber() > dy) {
+					dy = sel.getRowNumber();
+				} else if (sel.getRowNumber() < rect.y) {
+					rect.y = sel.getRowNumber();
+				}
+			} else if (ydir < 0) {
+				if (sel.getRowNumber() < dy) {
+					dy = sel.getRowNumber();
+				} else if (sel.getRowNumber() > rect.y) {
+					rect.y = sel.getRowNumber();
 				}
 			}
 
@@ -123,7 +119,7 @@ public class TableCellSelectionHelper {
 
 	/**
 	 * Gets all cells within the Rectangle.
-	 * 
+	 *
 	 * @param rect
 	 * @param table
 	 * @return
@@ -157,7 +153,7 @@ public class TableCellSelectionHelper {
 
 	/**
 	 * Checks every cell in the Rectangle and increases the selection.
-	 * 
+	 *
 	 * @param rect
 	 * @param table
 	 * @return
@@ -219,7 +215,7 @@ public class TableCellSelectionHelper {
 
 	/**
 	 * Checks and increases the rectangle for specified Cell.
-	 * 
+	 *
 	 * @param table
 	 * @param rowNumber
 	 * @param columnNumber
@@ -228,7 +224,7 @@ public class TableCellSelectionHelper {
 	 */
 	private static boolean checkAndIncreaseCellRectangle(AbstractTableEditPart table, int rowNumber, int columnNumber,
 			Rectangle constraint) {
-		boolean refined = false;
+		boolean refined;
 		Point pt;
 
 		/**
@@ -286,7 +282,7 @@ public class TableCellSelectionHelper {
 
 	/**
 	 * Resizes the rectangle to include the given point.
-	 * 
+	 *
 	 * @param rect
 	 * @param pt
 	 * @return
@@ -306,17 +302,15 @@ public class TableCellSelectionHelper {
 
 					resized = true;
 				}
-			} else {
-				if (pt.x < rect.x) {
-					rect.width += rect.x - pt.x;
-					rect.x = pt.x;
+			} else if (pt.x < rect.x) {
+				rect.width += rect.x - pt.x;
+				rect.x = pt.x;
 
-					resized = true;
-				} else if (pt.x > rect.x + rect.width) {
-					rect.width = pt.x - rect.x;
+				resized = true;
+			} else if (pt.x > rect.x + rect.width) {
+				rect.width = pt.x - rect.x;
 
-					resized = true;
-				}
+				resized = true;
 			}
 
 			if (rect.height < 0) {
@@ -330,17 +324,15 @@ public class TableCellSelectionHelper {
 
 					resized = true;
 				}
-			} else {
-				if (pt.y < rect.y) {
-					rect.height += rect.y - pt.y;
-					rect.y = pt.y;
+			} else if (pt.y < rect.y) {
+				rect.height += rect.y - pt.y;
+				rect.y = pt.y;
 
-					resized = true;
-				} else if (pt.y > rect.y + rect.height) {
-					rect.height = pt.y - rect.y;
+				resized = true;
+			} else if (pt.y > rect.y + rect.height) {
+				rect.height = pt.y - rect.y;
 
-					resized = true;
-				}
+				resized = true;
 			}
 		}
 
@@ -349,7 +341,7 @@ public class TableCellSelectionHelper {
 
 	/**
 	 * Checks every cell in the Rectangle and decreases the selection.
-	 * 
+	 *
 	 * @param rect
 	 * @param table
 	 * @param direction
@@ -412,7 +404,7 @@ public class TableCellSelectionHelper {
 
 	/**
 	 * Checks and decreases the rectangle for specified Cell.
-	 * 
+	 *
 	 * @param table
 	 * @param rowNumber
 	 * @param columnNumber
@@ -466,7 +458,7 @@ public class TableCellSelectionHelper {
 
 	/**
 	 * Resizes the rectangle to exclude the given two points.
-	 * 
+	 *
 	 * @param rect
 	 * @param pt1
 	 * @param pt2
@@ -545,7 +537,7 @@ public class TableCellSelectionHelper {
 
 	/**
 	 * Adjusts the rectangle's width to exclude the two points.
-	 * 
+	 *
 	 * @param rect
 	 * @param pt1
 	 * @param pt2
@@ -584,7 +576,7 @@ public class TableCellSelectionHelper {
 
 	/**
 	 * Adjusts the rectangle's height to exclude the two points.
-	 * 
+	 *
 	 * @param rect
 	 * @param pt1
 	 * @param pt2
@@ -623,7 +615,7 @@ public class TableCellSelectionHelper {
 
 	/**
 	 * Checks if the given point is in the given rectangle.
-	 * 
+	 *
 	 * @param rect
 	 * @param pt
 	 * @return
@@ -633,20 +625,16 @@ public class TableCellSelectionHelper {
 			if (pt.x < rect.x + rect.width || pt.x > rect.x) {
 				return false;
 			}
-		} else {
-			if (pt.x < rect.x || pt.x > rect.x + rect.width) {
-				return false;
-			}
+		} else if (pt.x < rect.x || pt.x > rect.x + rect.width) {
+			return false;
 		}
 
 		if (rect.height < 0) {
 			if (pt.y < rect.y + rect.height || pt.y > rect.y) {
 				return false;
 			}
-		} else {
-			if (pt.y < rect.y || pt.y > rect.y + rect.height) {
-				return false;
-			}
+		} else if (pt.y < rect.y || pt.y > rect.y + rect.height) {
+			return false;
 		}
 
 		return true;

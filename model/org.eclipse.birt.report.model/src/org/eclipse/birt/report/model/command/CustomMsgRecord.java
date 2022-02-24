@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
  * command, the caller must have verified that the operation is legal. This one
  * command handles both the add and remove operations, since they are inverse
  * operations.
- * 
+ *
  */
 
 public class CustomMsgRecord extends SimpleRecord {
@@ -81,12 +81,12 @@ public class CustomMsgRecord extends SimpleRecord {
 
 	/**
 	 * Constructs a record to add or drop a translation.
-	 * 
+	 *
 	 * @param design      the report design
 	 * @param translation the user-defined message
 	 * @param action      one of the action options, can be <code>ADD</code> or
 	 *                    <code>DROP</code>
-	 * 
+	 *
 	 */
 
 	public CustomMsgRecord(ReportDesign design, Translation translation, int action) {
@@ -98,15 +98,16 @@ public class CustomMsgRecord extends SimpleRecord {
 		this.design = design;
 		this.translation = translation;
 
-		if (action == ADD)
+		if (action == ADD) {
 			label = CommandLabelFactory.getCommandLabel(MessageConstants.ADD_TRANSLATION_MESSAGE);
-		else if (action == DROP)
+		} else if (action == DROP) {
 			label = CommandLabelFactory.getCommandLabel(MessageConstants.DROP_TRANSLATION_MESSAGE);
+		}
 	}
 
 	/**
 	 * Constructs a record to set locale or text for a translation.
-	 * 
+	 *
 	 * @param design      the report design
 	 * @param translation the translation item to be changed.
 	 * @param value       new value for either translation text or locale.
@@ -124,46 +125,52 @@ public class CustomMsgRecord extends SimpleRecord {
 		this.translation = translation;
 		this.newValue = value;
 
-		if (action == CHANGE_TEXT)
+		if (action == CHANGE_TEXT) {
 			oldValue = translation.getText();
-		else if (action == CHANGE_LOCALE)
+		} else if (action == CHANGE_LOCALE) {
 			oldValue = translation.getLocale();
+		}
 
 		label = CommandLabelFactory.getCommandLabel(MessageConstants.CHANGE_TRANSLATION_MESSAGE);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.design.activity.SimpleRecord#perform(boolean )
 	 */
 
+	@Override
 	protected void perform(boolean undo) {
 		switch (action) {
 		case ADD:
-			if (undo)
+			if (undo) {
 				design.dropTranslation(translation);
-			else
+			} else {
 				design.addTranslation(translation);
+			}
 			break;
 		case DROP:
-			if (undo)
+			if (undo) {
 				design.addTranslation(translation);
-			else
+			} else {
 				design.dropTranslation(translation);
+			}
 			break;
 		case CHANGE_LOCALE:
-			if (undo)
+			if (undo) {
 				translation.setLocale(oldValue);
-			else
+			} else {
 				translation.setLocale(newValue);
+			}
 			break;
 		case CHANGE_TEXT:
-			if (undo)
+			if (undo) {
 				translation.setText(oldValue);
-			else
+			} else {
 				translation.setText(newValue);
+			}
 			break;
 		default:
 			assert false;
@@ -172,24 +179,26 @@ public class CustomMsgRecord extends SimpleRecord {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getTarget
 	 * ()
 	 */
 
+	@Override
 	public DesignElement getTarget() {
 		return design;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.design.activity.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
+	@Override
 	public NotificationEvent getEvent() {
 		assert state == DONE_STATE || state == UNDONE_STATE || state == REDONE_STATE;
 

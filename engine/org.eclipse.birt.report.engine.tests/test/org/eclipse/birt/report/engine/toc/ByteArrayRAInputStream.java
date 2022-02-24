@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,6 +29,7 @@ public class ByteArrayRAInputStream extends RAInputStream {
 		this.buffer = buffer;
 	}
 
+	@Override
 	public int available() throws IOException {
 		return buffer.length - offset;
 	}
@@ -38,10 +39,12 @@ public class ByteArrayRAInputStream extends RAInputStream {
 		return offset;
 	}
 
+	@Override
 	public long length() throws IOException {
 		return buffer.length;
 	}
 
+	@Override
 	public void readFully(byte[] b, int off, int len) throws IOException {
 		if (len + offset > buffer.length) {
 			throw new EOFException();
@@ -50,6 +53,7 @@ public class ByteArrayRAInputStream extends RAInputStream {
 		offset += len;
 	}
 
+	@Override
 	public int read(byte[] b, int off, int len) throws IOException {
 		if (offset > buffer.length) {
 			return -1;
@@ -95,6 +99,7 @@ public class ByteArrayRAInputStream extends RAInputStream {
 		offset = (int) localPos;
 	}
 
+	@Override
 	public int read() throws IOException {
 		if (offset < buffer.length) {
 			return buffer[offset++] & 0xFF;

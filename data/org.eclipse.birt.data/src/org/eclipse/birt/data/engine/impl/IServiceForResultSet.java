@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,44 +32,44 @@ interface IServiceForResultSet {
 	/**
 	 * @return
 	 */
-	public DataEngineSession getSession();
+	DataEngineSession getSession();
 
 	/**
 	 * @return queryResults
 	 */
-	public IQueryResults getQueryResults();
+	IQueryResults getQueryResults();
 
 	/**
 	 * @return base query definition
 	 */
-	public IBaseQueryDefinition getQueryDefn();
+	IBaseQueryDefinition getQueryDefn();
 
 	/**
 	 * @param exprName
 	 * @return
 	 * @throws DataException
 	 */
-	public IBaseExpression getBindingExpr(String exprName) throws DataException;
+	IBaseExpression getBindingExpr(String exprName) throws DataException;
 
 	/**
 	 * @param exprName
 	 * @return
 	 */
-	public IScriptExpression getAutoBindingExpr(String exprName);
+	IScriptExpression getAutoBindingExpr(String exprName);
 
 	/**
 	 * the element is GroupBindingColumn
-	 * 
+	 *
 	 * @return
 	 */
-	public List getAllBindingExprs();
+	List getAllBindingExprs();
 
 	/**
 	 * map of bound column name with associated expression
-	 * 
+	 *
 	 * @return
 	 */
-	public Map getAllAutoBindingExprs();
+	Map getAllAutoBindingExprs();
 
 	/**
 	 * @param iterator
@@ -78,7 +78,6 @@ interface IServiceForResultSet {
 	 * @return the query results of specified sub query
 	 * @throws DataException
 	 */
-	public IQueryResults execSubquery(IResultIterator iterator, String subQueryName, Scriptable subScope)
-			throws DataException;
+	IQueryResults execSubquery(IResultIterator iterator, String subQueryName, Scriptable subScope) throws DataException;
 
 }

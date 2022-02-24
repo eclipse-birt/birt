@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -32,14 +32,14 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 /**
  * This class provides the context menu for the single selection and multiple
  * selection
- * 
- * 
+ *
+ *
  */
 public class ViewContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param viewer   the viewer
 	 * @param registry the registry
 	 */
@@ -50,10 +50,11 @@ public class ViewContextMenuProvider extends ContextMenuProvider {
 	/**
 	 * Builds the context menu. Single selection menu and multiple selection menu
 	 * are created while selecting just single element or multiple elements
-	 * 
-	 * 
+	 *
+	 *
 	 * @param menu the menu
 	 */
+	@Override
 	public void buildContextMenu(IMenuManager menu) {
 		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 		TreeViewer treeViewer = (TreeViewer) getViewer();

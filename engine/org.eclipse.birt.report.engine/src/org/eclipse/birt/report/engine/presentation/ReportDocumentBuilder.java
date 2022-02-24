@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -88,14 +88,14 @@ import org.eclipse.birt.report.engine.util.ContentUtil;
 
 /**
  * Used in run task. To builder the report document.
- * 
+ *
  * In builder, will call IReportLayoutEngine to lay out the report and create
  * the document. This means write page hint, page contents and all body contents
  * to the document. And in each page closing, we will call page handler's
  * onPage() to do some special process, like write the current page's page hint,
  * evaluate the OnpageBreak script, reset the page row count to be 0 in layout
  * engine.
- * 
+ *
  * Here are several main fields used in this class: CompositeContentEmitter,
  * composite two emitters: PageEmitter: used to write the the master page
  * content OnPageBreakHandler.PageContentEmitter: used to collect the page mode
@@ -107,7 +107,7 @@ import org.eclipse.birt.report.engine.util.ContentUtil;
  * IContentEmitter: ContentEmitter: used to write the content stream.
  * IPageHandler: used to receive the document page events, mostly implemented by
  * user.
- * 
+ *
  */
 public class ReportDocumentBuilder {
 
@@ -286,10 +286,7 @@ public class ReportDocumentBuilder {
 		IContent parent = (IContent) content.getParent();
 		if (parent != null) {
 			InstanceID pid = parent.getInstanceID();
-			if (pid == null || pid.getComponentID() == -1) {
-				return true;
-			}
-			if (parent.getGenerateBy() instanceof ExtendedItemDesign) {
+			if (pid == null || pid.getComponentID() == -1 || (parent.getGenerateBy() instanceof ExtendedItemDesign)) {
 				return true;
 			}
 		}
@@ -301,14 +298,14 @@ public class ReportDocumentBuilder {
 
 	/**
 	 * emitter used to save the report content into the content stream
-	 * 
+	 *
 	 */
 	class ContentEmitter extends ContentEmitterAdapter {
 
 		ReportContentWriterV3 writer;
 		ReportContentWriterV3 pageWriter;
 		RAOutputStream indexStream;
-		HashSet<String> savedMasterPages = new HashSet<String>();
+		HashSet<String> savedMasterPages = new HashSet<>();
 		private boolean inMasterPage;
 		private boolean writePage;
 
@@ -345,19 +342,22 @@ public class ReportDocumentBuilder {
 			}
 		}
 
+		@Override
 		public void start(IReportContent report) {
 			open(report);
 		}
 
+		@Override
 		public void end(IReportContent report) {
 			close();
 		}
 
+		@Override
 		public void startPage(IPageContent page) {
 			inMasterPage = true;
 			String masterPageName = null;
 			Object generateBy = page.getGenerateBy();
-			if (generateBy != null && generateBy instanceof MasterPageDesign) {
+			if (generateBy instanceof MasterPageDesign) {
 				masterPageName = ((MasterPageDesign) generateBy).getName();
 			}
 
@@ -378,11 +378,13 @@ public class ReportDocumentBuilder {
 			}
 		}
 
+		@Override
 		public void endPage(IPageContent pageContent) {
 			inMasterPage = false;
 			writePage = false;
 		}
 
+		@Override
 		public void startContent(IContent content) {
 			if (inMasterPage) {
 				if (writePage && pageWriter != null) {
@@ -430,10 +432,11 @@ public class ReportDocumentBuilder {
 
 	/**
 	 * emitter used to save the master page.
-	 * 
+	 *
 	 */
 	class PageEmitter extends ContentEmitterAdapter {
 
+		@Override
 		public void startPage(IPageContent page) {
 			// write the page content into the disk
 			pageNumber = page.getPageNumber();
@@ -446,6 +449,7 @@ public class ReportDocumentBuilder {
 			}
 		}
 
+		@Override
 		public void startContent(IContent content) {
 			// save the bookmark index
 			addBookmark(content);
@@ -462,15 +466,19 @@ public class ReportDocumentBuilder {
 
 		private class BookmarkCollector implements org.eclipse.birt.report.engine.nLayout.area.IAreaVisitor {
 
+			@Override
 			public void visitText(ITextArea textArea) {
 			}
 
+			@Override
 			public void visitAutoText(ITemplateArea templateArea) {
 			}
 
+			@Override
 			public void visitImage(IImageArea imageArea) {
 			}
 
+			@Override
 			public void visitContainer(IContainerArea container) {
 				IContent content = ((ContainerArea) container).getContent();
 				if (content != null) {
@@ -602,7 +610,7 @@ public class ReportDocumentBuilder {
 		}
 
 		private Collection<PageVariable> getReportVariable() {
-			Collection<PageVariable> reportVars = new ArrayList<PageVariable>();
+			Collection<PageVariable> reportVars = new ArrayList<>();
 			Collection<PageVariable> vars = executionContext.getPageVariables();
 			for (PageVariable var : vars) {
 				if (PageVariable.SCOPE_REPORT.equals(var.getScope())) {
@@ -613,7 +621,7 @@ public class ReportDocumentBuilder {
 		}
 
 		protected Collection<PageVariable> getPageVariable() {
-			Collection<PageVariable> pageVars = new ArrayList<PageVariable>();
+			Collection<PageVariable> pageVars = new ArrayList<>();
 			Collection<PageVariable> vars = executionContext.getPageVariables();
 			for (PageVariable var : vars) {
 				if (PageVariable.SCOPE_PAGE.equals(var.getScope())) {
@@ -623,6 +631,7 @@ public class ReportDocumentBuilder {
 			return pageVars;
 		}
 
+		@Override
 		public void onPage(long pageNumber, Object context) {
 			if (context instanceof HTMLLayoutContext) {
 				HTMLLayoutContext htmlContext = (HTMLLayoutContext) context;
@@ -689,6 +698,7 @@ public class ReportDocumentBuilder {
 		FixedLayoutPageHandler() {
 		}
 
+		@Override
 		protected boolean ensureOpen() {
 			if (hintWriter != null) {
 				return true;
@@ -734,6 +744,7 @@ public class ReportDocumentBuilder {
 			return section;
 		}
 
+		@Override
 		public void onPage(long pageNumber, Object context) {
 			if (context instanceof LayoutContext) {
 				LayoutContext pdfContext = (LayoutContext) context;
@@ -792,6 +803,7 @@ public class ReportDocumentBuilder {
 			this.processor = processor;
 		}
 
+		@Override
 		public void end(IReportContent report) {
 			try {
 				processor.end(report);
@@ -800,6 +812,7 @@ public class ReportDocumentBuilder {
 			}
 		}
 
+		@Override
 		public void startContent(IContent content) {
 			try {
 				processor.startContent(content);
@@ -808,6 +821,7 @@ public class ReportDocumentBuilder {
 			}
 		}
 
+		@Override
 		public void endContent(IContent content) {
 			try {
 				processor.endContent(content);
@@ -816,6 +830,7 @@ public class ReportDocumentBuilder {
 			}
 		}
 
+		@Override
 		public void start(IReportContent report) {
 			try {
 				processor.start(report);

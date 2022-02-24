@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,11 +26,11 @@ import java.net.URL;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 
-import junit.framework.TestCase;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
+
+import junit.framework.TestCase;
 
 /**
  * Common base class for all Dte test cases
@@ -55,6 +55,7 @@ abstract public class BaseTestCase extends TestCase {
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -78,6 +79,7 @@ abstract public class BaseTestCase extends TestCase {
 	/*
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@Override
 	protected void tearDown() throws Exception {
 		Context.exit();
 		closeOutputFile();
@@ -86,7 +88,7 @@ abstract public class BaseTestCase extends TestCase {
 
 	/**
 	 * Get input folder
-	 * 
+	 *
 	 * @return input folder
 	 */
 	protected File getInputFolder() {
@@ -95,7 +97,7 @@ abstract public class BaseTestCase extends TestCase {
 
 	/**
 	 * Get base folder
-	 * 
+	 *
 	 * @return base folder
 	 */
 	private File getBaseFolder() {
@@ -109,10 +111,12 @@ abstract public class BaseTestCase extends TestCase {
 					URL url = source.getLocation();
 					pathBase = url.getPath();
 
-					if (pathBase.endsWith("bin/")) //$NON-NLS-1$
+					if (pathBase.endsWith("bin/")) { //$NON-NLS-1$
 						pathBase = pathBase.substring(0, pathBase.length() - 4);
-					if (pathBase.endsWith("bin")) //$NON-NLS-1$
+					}
+					if (pathBase.endsWith("bin")) { //$NON-NLS-1$
 						pathBase = pathBase.substring(0, pathBase.length() - 3);
+					}
 				}
 			}
 
@@ -176,7 +180,7 @@ abstract public class BaseTestCase extends TestCase {
 	/** open output folder */
 	private void openOutputFolder() {
 		File outputFolder = getOutputFolder();
-		if (outputFolder.exists() == false) {
+		if (!outputFolder.exists()) {
 			outputFolder.mkdir();
 		}
 	}
@@ -222,45 +226,47 @@ abstract public class BaseTestCase extends TestCase {
 //		return className + "." + this.getName( ) + ".txt";
 		String className = this.getClass().getName();
 		int lastDotIdx = className.lastIndexOf('.');
-		if (lastDotIdx >= 0)
+		if (lastDotIdx >= 0) {
 			className = className.substring(lastDotIdx + 1);
+		}
 		return className + "." + this.getName() + ".txt";
 	}
 
 	/**
 	 * Locates the folder where the unit test java source file is saved.
-	 * 
+	 *
 	 * @return the path where the test java source file locates.
 	 */
 	/*
 	 * private File getBaseFolder( ) { if ( classFolder == null ) { String pathBase
 	 * = null;
-	 * 
+	 *
 	 * ProtectionDomain domain = this.getClass( ).getProtectionDomain( ); if (
 	 * domain != null ) { CodeSource source = domain.getCodeSource( ); if ( source
 	 * != null ) { URL url = source.getLocation( ); pathBase = url.getPath( );
-	 * 
+	 *
 	 * if ( pathBase.endsWith( "bin/" ) ) //$NON-NLS-1$ pathBase =
 	 * pathBase.substring( 0, pathBase.length( ) - 4 ); if ( pathBase.endsWith(
 	 * "bin" ) ) //$NON-NLS-1$ pathBase = pathBase.substring( 0, pathBase.length( )
 	 * - 3 ); } }
-	 * 
+	 *
 	 * pathBase = pathBase + TEST_FOLDER + "/"; classFolder = pathBase.substring( 1
 	 * ); }
-	 * 
+	 *
 	 * String className = this.getClass( ).getName( ); int lastDotIndex =
 	 * className.lastIndexOf( "." ); //$NON-NLS-1$ className = className.substring(
 	 * 0, lastDotIndex ); className = classFolder + className.replace( '.', '/' );
-	 * 
+	 *
 	 * return new File( className ); }
-	 * 
+	 *
 	 *//**
 		 * Asserts that output file matches the golden file. Default file name for
 		 * current test case is used for both files
 		 */
 	protected void checkOutputFile() throws IOException {
-		if (testOut != null)
+		if (testOut != null) {
 			testOut.flush();
+		}
 
 		String name = getOutputFileName();
 		checkOutputFile(name, name);
@@ -282,7 +288,7 @@ abstract public class BaseTestCase extends TestCase {
 	/**
 	 * compare two text file. The comparasion will ignore the line containing
 	 * "modificationDate".
-	 * 
+	 *
 	 * @param goldenFileName the 1st file name to be compared.
 	 * @param outputFileName the 2nd file name to be compared.
 	 * @return True if two text file is same line by line
@@ -319,15 +325,17 @@ abstract public class BaseTestCase extends TestCase {
 	/** print to console and stream */
 	public void testPrint(String str) {
 		System.out.print(str);
-		if (testOut != null)
+		if (testOut != null) {
 			testOut.print(str);
+		}
 	}
 
 	/** println to console and stream */
 	public void testPrintln(String str) {
 		System.out.println(str);
-		if (testOut != null)
+		if (testOut != null) {
 			testOut.println(str);
+		}
 	}
 
 }

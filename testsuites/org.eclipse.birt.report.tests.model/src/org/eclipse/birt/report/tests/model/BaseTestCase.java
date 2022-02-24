@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model;
@@ -110,12 +110,6 @@ public abstract class BaseTestCase extends TestCase {
 	 */
 	protected Library library = null;
 
-	/**
-	 * The file name of metadata file.
-	 */
-
-	private String caseName;
-
 	// protected static final String BUNDLE_NAME =
 	// "org.eclipse.birt.report.tests.model.messages";//$NON-NLS-1$
 
@@ -161,6 +155,7 @@ public abstract class BaseTestCase extends TestCase {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
@@ -180,16 +175,16 @@ public abstract class BaseTestCase extends TestCase {
 	 *
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@Override
 	protected void tearDown() throws Exception {
-		if (designHandle != null)
+		if (designHandle != null) {
 			designHandle.close();
+		}
 
 		super.tearDown();
 	}
 
 	protected void setCase(String caseName) {
-		// set the case and emitter manager accroding to caseName.
-		this.caseName = caseName;
 	}
 
 	/*
@@ -226,11 +221,13 @@ public abstract class BaseTestCase extends TestCase {
 			throw e;
 		} finally {
 			try {
-				if (bis != null)
+				if (bis != null) {
 					bis.close();
+				}
 
-				if (bos != null)
+				if (bos != null) {
 					bos.close();
+				}
 			} catch (IOException e) {
 				// ignore
 			}
@@ -245,8 +242,9 @@ public abstract class BaseTestCase extends TestCase {
 	 */
 	public String tempFolder() {
 		String tempDir = System.getProperty("java.io.tmpdir");
-		if (!tempDir.endsWith(File.separator))
+		if (!tempDir.endsWith(File.separator)) {
 			tempDir += File.separator;
+		}
 		return tempDir;
 	}
 
@@ -348,8 +346,9 @@ public abstract class BaseTestCase extends TestCase {
 		folder = folder + "/" + INPUT_FOLDER + "/"; //$NON-NLS-1$
 
 		File tmpFolder = new File(folder);
-		if (!tmpFolder.exists())
+		if (!tmpFolder.exists()) {
 			tmpFolder.mkdirs();
+		}
 
 		String filename = ""; //$NON-NLS-1$
 		int lastSlash = resourceName.lastIndexOf("/"); //$NON-NLS-1$
@@ -395,8 +394,9 @@ public abstract class BaseTestCase extends TestCase {
 		folder = folder + "/" + GOLDEN_FOLDER + "/"; //$NON-NLS-1$
 
 		File tmpFolder = new File(folder);
-		if (!tmpFolder.exists())
+		if (!tmpFolder.exists()) {
 			tmpFolder.mkdirs();
+		}
 
 		String filename = ""; //$NON-NLS-1$
 		int lastSlash = resourceName.lastIndexOf("/"); //$NON-NLS-1$
@@ -553,10 +553,11 @@ public abstract class BaseTestCase extends TestCase {
 
 	protected void openDesign(String fileName, ULocale locale, boolean inSingleJarMode) throws DesignFileException {
 		String file;
-		if (inSingleJarMode)
+		if (inSingleJarMode) {
 			file = INPUT_FOLDER + "/" + fileName;
-		else
+		} else {
 			file = fileName;
+		}
 		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(locale);
 		assertNotNull(sessionHandle);
 
@@ -637,16 +638,18 @@ public abstract class BaseTestCase extends TestCase {
 	 */
 
 	protected void openLibrary(String fileName, ULocale locale, boolean inSingleJarMode) throws DesignFileException {
-		if (inSingleJarMode)
+		if (inSingleJarMode) {
 			fileName = INPUT_FOLDER + "/" + fileName;
+		}
 
 		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(locale);
 		assertNotNull(sessionHandle);
 
-		if (inSingleJarMode)
+		if (inSingleJarMode) {
 			libraryHandle = sessionHandle.openLibrary(getResource(fileName).toString(), getResourceAStream(fileName));
-		else
+		} else {
 			libraryHandle = sessionHandle.openLibrary(fileName);
+		}
 	}
 
 	/**
@@ -683,8 +686,9 @@ public abstract class BaseTestCase extends TestCase {
 
 	protected String getTempFolder() {
 		String tempDir = System.getProperty("java.io.tmpdir"); //$NON-NLS-1$
-		if (!tempDir.endsWith(File.separator))
+		if (!tempDir.endsWith(File.separator)) {
 			tempDir += File.separator;
+		}
 
 		String outputPath = tempDir + "org.eclipse.birt.report.tests.model" //$NON-NLS-1$
 				+ getFullQualifiedClassName();
@@ -708,7 +712,7 @@ public abstract class BaseTestCase extends TestCase {
 	 * @throws Exception if any exception
 	 */
 	private boolean compareFile(Reader goldenReader, Reader outputReader) throws Exception {
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 
 		BufferedReader lineReaderA = null;
 		BufferedReader lineReaderB = null;
@@ -723,7 +727,7 @@ public abstract class BaseTestCase extends TestCase {
 			while (strA != null) {
 				same = strA.trim().equals(strB.trim());
 				if (!same) {
-					StringBuffer message = new StringBuffer();
+					StringBuilder message = new StringBuilder();
 
 					message.append("line="); //$NON-NLS-1$
 					message.append(lineNo);
@@ -744,10 +748,12 @@ public abstract class BaseTestCase extends TestCase {
 			same = strB == null;
 		} finally {
 			try {
-				if (lineReaderA != null)
+				if (lineReaderA != null) {
 					lineReaderA.close();
-				if (lineReaderB != null)
+				}
+				if (lineReaderB != null) {
 					lineReaderB.close();
+				}
 			} catch (Exception e) {
 				lineReaderA = null;
 				lineReaderB = null;
@@ -774,7 +780,7 @@ public abstract class BaseTestCase extends TestCase {
 		Reader readerA = null;
 		FileReader readerB = null;
 		boolean same = true;
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 
 		try {
 			goldenFileName = GOLDEN_FOLDER + "/" + goldenFileName;
@@ -790,10 +796,12 @@ public abstract class BaseTestCase extends TestCase {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (readerA != null)
+				if (readerA != null) {
 					readerA.close();
-				if (readerB != null)
+				}
+				if (readerB != null) {
 					readerB.close();
+				}
 			} catch (Exception e) {
 				readerA = null;
 				readerB = null;
@@ -820,8 +828,9 @@ public abstract class BaseTestCase extends TestCase {
 		goldenFileName = GOLDEN_FOLDER + "/" + goldenFileName;
 
 		InputStream streamA = getResourceAStream(goldenFileName);
-		if (os == null)
+		if (os == null) {
 			return false;
+		}
 		InputStream streamB = new ByteArrayInputStream(os.toByteArray());
 		InputStreamReader readerA = new InputStreamReader(streamA);
 		InputStreamReader readerB = new InputStreamReader(streamB);
@@ -841,7 +850,7 @@ public abstract class BaseTestCase extends TestCase {
 		FileReader readerA = null;
 		FileReader readerB = null;
 		boolean same = true;
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 
 		try {
 			String resourceName = GOLDEN_FOLDER + java.io.File.separator + goldenFileName;
@@ -892,12 +901,13 @@ public abstract class BaseTestCase extends TestCase {
 			throws Exception {
 		InputStreamReader readerA = null;
 		FileReader readerB = null;
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 		boolean same = false;
 
 		String tempDir = System.getProperty("java.io.tmpdir"); //$NON-NLS-1$
-		if (!tempDir.endsWith(File.separator))
+		if (!tempDir.endsWith(File.separator)) {
 			tempDir += File.separator;
+		}
 
 		try {
 			goldenFileName = getFullQualifiedClassName() + "/golden/" + goldenFileName; //$NON-NLS-1$
@@ -940,7 +950,7 @@ public abstract class BaseTestCase extends TestCase {
 	 * @throws Exception if any exception
 	 */
 	private boolean compareTextFile(Reader goldenReader, Reader outputReader) throws Exception {
-		StringBuffer errorText = new StringBuffer();
+		StringBuilder errorText = new StringBuilder();
 
 		BufferedReader lineReaderA = null;
 		BufferedReader lineReaderB = null;
@@ -964,10 +974,12 @@ public abstract class BaseTestCase extends TestCase {
 
 					strA = lineReaderA.readLine();
 					strB = lineReaderB.readLine();
-					if (strA != null)
+					if (strA != null) {
 						strA = strA.trim();
-					if (strB != null)
+					}
+					if (strB != null) {
 						strB = strB.trim();
+					}
 
 					lineNo++;
 					continue;
@@ -975,7 +987,7 @@ public abstract class BaseTestCase extends TestCase {
 
 				same = strA.equals(strB);
 				if (!same) {
-					StringBuffer message = new StringBuffer();
+					StringBuilder message = new StringBuilder();
 
 					message.append("line="); //$NON-NLS-1$
 					message.append(lineNo);
@@ -991,10 +1003,12 @@ public abstract class BaseTestCase extends TestCase {
 
 				strA = lineReaderA.readLine();
 				strB = lineReaderB.readLine();
-				if (strA != null)
+				if (strA != null) {
 					strA = strA.trim();
-				if (strB != null)
+				}
+				if (strB != null) {
 					strB = strB.trim();
+				}
 
 				lineNo++;
 			}
@@ -1057,8 +1071,9 @@ public abstract class BaseTestCase extends TestCase {
 	 */
 
 	protected void printSemanticError(ReportDesign design) {
-		if (design != null)
+		if (design != null) {
 			printErrorList(design.getAllErrors());
+		}
 	}
 
 	/**
@@ -1069,8 +1084,9 @@ public abstract class BaseTestCase extends TestCase {
 	 */
 
 	protected void printSyntaxError(DesignFileException e) {
-		if (e != null)
+		if (e != null) {
 			printErrorList(e.getErrorList());
+		}
 	}
 
 	/**
@@ -1102,8 +1118,9 @@ public abstract class BaseTestCase extends TestCase {
 		}
 		filename = outputFolder + filename;
 
-		if (design == null)
+		if (design == null) {
 			return;
+		}
 		PrintWriter writer = new PrintWriter(new FileOutputStream(filename));
 		List errors = design.getAllErrors();
 		ErrorDetail ex = null;
@@ -1142,8 +1159,9 @@ public abstract class BaseTestCase extends TestCase {
 
 	protected void save(ModuleHandle moduleHandle) throws IOException {
 		os = new ByteArrayOutputStream();
-		if (moduleHandle != null)
+		if (moduleHandle != null) {
 			moduleHandle.serialize(os);
+		}
 		os.close();
 	}
 
@@ -1185,8 +1203,9 @@ public abstract class BaseTestCase extends TestCase {
 	 */
 
 	protected void saveAs(ModuleHandle moduleHandle, String filename) throws IOException {
-		if (moduleHandle == null)
+		if (moduleHandle == null) {
 			return;
+		}
 
 		// makeOutputDir( );
 		moduleHandle.saveAs(this.genOutputFile(filename));
@@ -1224,8 +1243,9 @@ public abstract class BaseTestCase extends TestCase {
 	 * @throws IOException if any exception
 	 */
 	protected void saveLibraryAs(String filename) throws IOException {
-		if (libraryHandle == null)
+		if (libraryHandle == null) {
 			return;
+		}
 		String outputPath = getTempFolder() + "/" + OUTPUT_FOLDER;
 		File outputFolder = new File(outputPath);
 		if (!outputFolder.exists() && !outputFolder.mkdir()) {
@@ -1243,11 +1263,13 @@ public abstract class BaseTestCase extends TestCase {
 
 	protected void saveAsInTempDir(String filename) throws IOException {
 		String tempDir = System.getProperty("java.io.tmpdir"); //$NON-NLS-1$
-		if (!tempDir.endsWith(File.separator))
+		if (!tempDir.endsWith(File.separator)) {
 			tempDir += File.separator;
+		}
 
-		if (designHandle == null)
+		if (designHandle == null) {
 			return;
+		}
 		String outputPath = tempDir + "org.eclipse.birt.report.model" //$NON-NLS-1$
 				+ getFullQualifiedClassName() + OUTPUT_FOLDER;
 		File outputFolder = new File(outputPath);
@@ -1274,10 +1296,12 @@ public abstract class BaseTestCase extends TestCase {
 				URL url = source.getLocation();
 				pathBase = url.getPath();
 
-				if (pathBase.endsWith("bin/")) //$NON-NLS-1$
+				if (pathBase.endsWith("bin/")) { //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 4);
-				if (pathBase.endsWith("bin")) //$NON-NLS-1$
+				}
+				if (pathBase.endsWith("bin")) { //$NON-NLS-1$
 					pathBase = pathBase.substring(0, pathBase.length() - 3);
+				}
 			}
 		}
 
@@ -1336,8 +1360,9 @@ public abstract class BaseTestCase extends TestCase {
 	protected void compareErrors(String filename) throws Exception {
 		filename = this.genOutputFile(filename);
 
-		if (design == null)
+		if (design == null) {
 			return;
+		}
 		BufferedReader reader = new BufferedReader(new FileReader(filename));
 		List errors = design.getAllErrors();
 		String msg = null;
@@ -1356,8 +1381,9 @@ public abstract class BaseTestCase extends TestCase {
 	protected String genOutputFile(String output) {
 		final String SEPARATOR = File.separator;
 		String tempDir = System.getProperty("java.io.tmpdir"); //$NON-NLS-1$
-		if (!tempDir.endsWith(File.separator))
+		if (!tempDir.endsWith(File.separator)) {
 			tempDir += File.separator;
+		}
 		String outputFileName = tempDir + getFullQualifiedClassName() // $NON-NLS-1$
 				+ SEPARATOR + OUTPUT_FOLDER + SEPARATOR + output;
 		File outputFile = new File(outputFileName);
@@ -1377,8 +1403,9 @@ public abstract class BaseTestCase extends TestCase {
 	protected void saveOutputFile(String fileName) throws Exception {
 		String folder = getTempFolder() + OUTPUT_FOLDER;
 		File tmpFolder = new File(folder);
-		if (!tmpFolder.exists())
+		if (!tmpFolder.exists()) {
 			tmpFolder.mkdirs();
+		}
 
 		String strDesign = os.toString();
 		FileOutputStream fos = new FileOutputStream(folder + "/" + fileName);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -25,7 +25,7 @@ public class DefaultElementProcessor extends AbstractElementProcessor {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * Creates a new instance of the default processor
 	 */
 	DefaultElementProcessor(String elementType) {
@@ -34,11 +34,12 @@ public class DefaultElementProcessor extends AbstractElementProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#
 	 * createElement(java.lang.Object)
 	 */
+	@Override
 	public DesignElementHandle createElement(Object extendedData) {
 		// DesignElementHandle handle = getElementFactory( ).newElement(
 		// getElementType( ),
@@ -54,7 +55,7 @@ public class DefaultElementProcessor extends AbstractElementProcessor {
 	/**
 	 * Initializes a new element. The default implementation does nothing.
 	 * Subclasses can extend this method to do the initialization.
-	 * 
+	 *
 	 * @param handle     The handle of the new element to initialize
 	 * @param extendData The extend data for initialize
 	 * @return Returns true if the initialization succeeded, or false if it failed
@@ -66,11 +67,12 @@ public class DefaultElementProcessor extends AbstractElementProcessor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#
 	 * editElement(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
+	@Override
 	public boolean editElement(DesignElementHandle handle) {
 		return false;
 	}

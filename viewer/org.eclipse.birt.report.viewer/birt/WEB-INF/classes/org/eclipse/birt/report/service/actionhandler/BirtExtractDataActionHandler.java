@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -34,6 +34,7 @@ public class BirtExtractDataActionHandler extends AbstractBaseActionHandler {
 		super(context, operation, response);
 	}
 
+	@Override
 	protected void __execute() throws Exception {
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
 		String docName = attrBean.getReportDocumentName();
@@ -49,6 +50,7 @@ public class BirtExtractDataActionHandler extends AbstractBaseActionHandler {
 		getReportService().extractResultSet(docName, resultSetName, columns, filters, options, out);
 	}
 
+	@Override
 	protected IViewerReportService getReportService() {
 		return BirtReportServiceFactory.getReportService();
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -92,7 +92,7 @@ class FileMetaLogger implements IMetaLogger {
 
 	/**
 	 * Constructor to initialize the meta logger using the specified file.
-	 * 
+	 *
 	 * @param fileName log file name
 	 */
 
@@ -102,15 +102,16 @@ class FileMetaLogger implements IMetaLogger {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String)
 	 */
 
+	@Override
 	public void log(String message) {
 		if (canLog()) {
 			try {
 				Date dateTime = Calendar.getInstance().getTime();
-				StringBuffer sb = new StringBuffer();
+				StringBuilder sb = new StringBuilder();
 
 				sb.append(df.format(dateTime));
 				sb.append(" Message ["); //$NON-NLS-1$
@@ -126,16 +127,17 @@ class FileMetaLogger implements IMetaLogger {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String,
 	 * java.lang.Throwable)
 	 */
 
+	@Override
 	public void log(String message, Throwable t) {
 		if (canLog()) {
 			try {
 				Date dateTime = Calendar.getInstance().getTime();
-				StringBuffer sb = new StringBuffer();
+				StringBuilder sb = new StringBuilder();
 
 				sb.append(df.format(dateTime));
 				sb.append("  Message ["); //$NON-NLS-1$
@@ -156,7 +158,7 @@ class FileMetaLogger implements IMetaLogger {
 
 	/**
 	 * Returns the stack trace for the given exception as a string.
-	 * 
+	 *
 	 * @param aException The exception for which the stack trace is required
 	 * @return String the stack trace as a string for the given exception.
 	 */
@@ -185,11 +187,13 @@ class FileMetaLogger implements IMetaLogger {
 			// ignore.
 		} finally {
 			try {
-				if (printStream != null)
+				if (printStream != null) {
 					printStream.close();
+				}
 
-				if (outStream != null)
+				if (outStream != null) {
 					outStream.close();
+				}
 			} catch (IOException e) {
 				// ignore.
 			}
@@ -201,7 +205,7 @@ class FileMetaLogger implements IMetaLogger {
 	/**
 	 * Returns an OutputStreamWriter when passed an OutputStream. The stream
 	 * encoding will be in "UTF-8".
-	 * 
+	 *
 	 * @param fileName name of the file that the writer will be bound to.
 	 * @return the corresponding writer.
 	 * @throws IOException if an I/O exception occurs or error occurs when opening
@@ -249,7 +253,7 @@ class FileMetaLogger implements IMetaLogger {
 	 * It will be called by {@link #log(String)}before actually perform a logging to
 	 * check if a log action can be performed. The subclass may override this method
 	 * to rewrite the precondition of a log action.
-	 * 
+	 *
 	 * @return <code>true</code> if there is a set output target.
 	 */
 
@@ -263,8 +267,9 @@ class FileMetaLogger implements IMetaLogger {
 			}
 		}
 
-		if (writer == null)
+		if (writer == null) {
 			return false;
+		}
 
 		return true;
 	}
@@ -273,6 +278,7 @@ class FileMetaLogger implements IMetaLogger {
 	 * Closes the stream, release the log file.
 	 */
 
+	@Override
 	public void close() {
 		if (writer != null) {
 			try {

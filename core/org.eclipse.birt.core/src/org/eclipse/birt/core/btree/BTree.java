@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008,2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,8 +34,8 @@ import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
- * 
- * 
+ *
+ *
  * @param <K>
  * @param <V>
  */
@@ -328,7 +328,7 @@ public class BTree<K, V> implements BTreeConstants {
 			K entryKey = getKey(entry.getKey());
 			if (comparator.compare(key, entryKey) == 0) {
 				BTreeValues<V> values = entry.getValues();
-				ArrayList<V> list = new ArrayList<V>(values.getValueCount());
+				ArrayList<V> list = new ArrayList<>(values.getValueCount());
 				BTreeValues.Value<V> value = values.getFirstValue();
 				while (value != null) {
 					list.add(getValue(value.getValue()));
@@ -376,7 +376,7 @@ public class BTree<K, V> implements BTreeConstants {
 	}
 
 	public BTreeCursor<K, V> createCursor() {
-		return new BTreeCursor<K, V>(this);
+		return new BTreeCursor<>(this);
 	}
 
 	int compare(BTreeValue<K> k1, BTreeValue<K> k2) throws IOException {
@@ -395,11 +395,12 @@ public class BTree<K, V> implements BTreeConstants {
 	}
 
 	// cache used by the btree
-	private LinkedHashMap<Integer, BTreeNode<K, V>> nodeCaches = new LinkedHashMap<Integer, BTreeNode<K, V>>(8, 0.75f,
+	private LinkedHashMap<Integer, BTreeNode<K, V>> nodeCaches = new LinkedHashMap<>(8, 0.75f,
 			true) {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		protected boolean removeEldestEntry(Map.Entry<Integer, BTreeNode<K, V>> arg) {
 			if (file == null) {
 				// we never remove the cache out if there is no file.
@@ -446,13 +447,11 @@ public class BTree<K, V> implements BTreeConstants {
 
 	private void writeNode(BTreeNode<K, V> node) throws IOException {
 		NodeOutputStream out = new NodeOutputStream(file, node.getUsedBlocks());
-		try {
+		try (out) {
 			DataOutput output = new DataOutputStream(out);
 			output.writeInt(node.getNodeType());
 			node.write(output);
 			node.setDirty(false);
-		} finally {
-			out.close();
 		}
 	}
 
@@ -469,18 +468,18 @@ public class BTree<K, V> implements BTreeConstants {
 		}
 
 		NodeInputStream in = new NodeInputStream(file, nodeId);
-		try {
+		try (in) {
 			DataInput input = new DataInputStream(in);
 			int nodeType = input.readInt();
 			switch (nodeType) {
 			case NODE_INDEX:
-				node = new IndexNode<K, V>(this, nodeId);
+				node = new IndexNode<>(this, nodeId);
 				break;
 			case NODE_LEAF:
-				node = new LeafNode<K, V>(this, nodeId);
+				node = new LeafNode<>(this, nodeId);
 				break;
 			case NODE_VALUE:
-				node = new ValueNode<K, V>(this, nodeId);
+				node = new ValueNode<>(this, nodeId);
 				break;
 			default:
 				throw new IOException(CoreMessages.getFormattedString(ResourceConstants.UNEXPECTED_NODE_TYPE,
@@ -492,8 +491,6 @@ public class BTree<K, V> implements BTreeConstants {
 			node.lock();
 			nodeCaches.put(Integer.valueOf(nodeId), node);
 			return node;
-		} finally {
-			in.close();
 		}
 	}
 
@@ -545,7 +542,7 @@ public class BTree<K, V> implements BTreeConstants {
 
 	public LeafNode<K, V> createLeafNode() throws IOException {
 		int nodeId = allocBlock();
-		LeafNode<K, V> valueNode = new LeafNode<K, V>(this, nodeId);
+		LeafNode<K, V> valueNode = new LeafNode<>(this, nodeId);
 		this.nodeCaches.put(nodeId, valueNode);
 		valueNode.lock();
 		return valueNode;
@@ -553,7 +550,7 @@ public class BTree<K, V> implements BTreeConstants {
 
 	public IndexNode<K, V> createIndexNode() throws IOException {
 		int nodeId = allocBlock();
-		IndexNode<K, V> indexNode = new IndexNode<K, V>(this, nodeId);
+		IndexNode<K, V> indexNode = new IndexNode<>(this, nodeId);
 		this.nodeCaches.put(nodeId, indexNode);
 		indexNode.lock();
 		return indexNode;
@@ -561,14 +558,14 @@ public class BTree<K, V> implements BTreeConstants {
 
 	public ValueNode<K, V> createValueNode() throws IOException {
 		int nodeId = allocBlock();
-		ValueNode<K, V> valueNode = new ValueNode<K, V>(this, nodeId);
+		ValueNode<K, V> valueNode = new ValueNode<>(this, nodeId);
 		this.nodeCaches.put(nodeId, valueNode);
 		valueNode.lock();
 		return valueNode;
 	}
 
 	ExternalValueList<K, V> createExternalValueList(BTreeValues<V> values) throws IOException {
-		ExternalValueList<K, V> list = new ExternalValueList<K, V>(this);
+		ExternalValueList<K, V> list = new ExternalValueList<>(this);
 		BTreeValues.Value<V> value = values.getFirstValue();
 		while (value != null) {
 			list.append(value.getValue());
@@ -577,11 +574,11 @@ public class BTree<K, V> implements BTreeConstants {
 		return list;
 	}
 
-	private final BTreeValue<K> NULL_KEY = new BTreeValue<K>();
+	private final BTreeValue<K> NULL_KEY = new BTreeValue<>();
 
 	BTreeValue<K> createKey(K key) throws IOException {
 		if (key == null) {
-			assert allowNullKey == true;
+			assert allowNullKey;
 			return NULL_KEY;
 		}
 		byte[] keyBytes = keySerializer.getBytes(key);
@@ -590,7 +587,7 @@ public class BTree<K, V> implements BTreeConstants {
 			throw new IOException(CoreMessages.getFormattedString(ResourceConstants.KEY_SIZE_ERROR,
 					new Object[] { keyBytes.length, keySize }));
 		}
-		return new BTreeValue<K>(key, keyBytes);
+		return new BTreeValue<>(key, keyBytes);
 	}
 
 	protected K getKey(BTreeValue<K> key) throws IOException {
@@ -650,7 +647,7 @@ public class BTree<K, V> implements BTreeConstants {
 		}
 		byte[] keyBytes = new byte[keySize];
 		in.readFully(keyBytes);
-		return new BTreeValue<K>(keyBytes);
+		return new BTreeValue<>(keyBytes);
 	}
 
 	protected V getValue(BTreeValue<V> value) throws IOException {
@@ -677,7 +674,7 @@ public class BTree<K, V> implements BTreeConstants {
 			throw new IOException(CoreMessages.getFormattedString(ResourceConstants.Value_SIZE_ERROR,
 					new Object[] { valueBytes.length, valueSize }));
 		}
-		return new BTreeValue<V>(value, valueBytes);
+		return new BTreeValue<>(value, valueBytes);
 
 	}
 
@@ -703,7 +700,7 @@ public class BTree<K, V> implements BTreeConstants {
 		}
 		byte[] bytes = new byte[size];
 		in.readFully(bytes);
-		return new BTreeValue<V>(bytes);
+		return new BTreeValue<>(bytes);
 	}
 
 	// opened cursor and entries, nodes, once a node is locked, we should never
@@ -768,10 +765,12 @@ public class BTree<K, V> implements BTreeConstants {
 			freeNodeId = -1;
 		}
 
+		@Override
 		public int getTotalBlock() throws IOException {
 			return file.getTotalBlock();
 		}
 
+		@Override
 		public int allocBlock() throws IOException {
 			if (freeNodeId != -1) {
 				int blockId = freeNodeId;
@@ -783,6 +782,7 @@ public class BTree<K, V> implements BTreeConstants {
 			return file.allocBlock();
 		}
 
+		@Override
 		public void freeBlock(int blockId) throws IOException {
 			byte[] bytes = new byte[8];
 			BTreeUtils.integerToBytes(freeNodeId, bytes);
@@ -790,22 +790,27 @@ public class BTree<K, V> implements BTreeConstants {
 			freeNodeId = blockId;
 		}
 
+		@Override
 		public Object lock() throws IOException {
 			return file.lock();
 		}
 
+		@Override
 		public void readBlock(int blockId, byte[] bytes) throws IOException {
 			file.readBlock(blockId, bytes);
 		}
 
+		@Override
 		public void unlock(Object lock) throws IOException {
 			file.unlock(lock);
 		}
 
+		@Override
 		public void writeBlock(int blockId, byte[] bytes) throws IOException {
 			file.writeBlock(blockId, bytes);
 		}
 
+		@Override
 		public void close() throws IOException {
 			file.close();
 		}

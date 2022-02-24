@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ public class ScriptEngineFactoryManagerImpl extends ScriptEngineFactoryManager {
 
 	public ScriptEngineFactoryManagerImpl() {
 		super();
-		configs = new HashMap<String, IConfigurationElement>();
+		configs = new HashMap<>();
 		IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = extensionRegistry
 				.getExtensionPoint("org.eclipse.birt.core.ScriptEngineFactory");
@@ -47,6 +47,7 @@ public class ScriptEngineFactoryManagerImpl extends ScriptEngineFactoryManager {
 		}
 	}
 
+	@Override
 	protected IScriptEngineFactory createFactory(String language) {
 		if (configs.containsKey(language)) {
 			IConfigurationElement configuration = configs.get(language);

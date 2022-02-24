@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ public class IncreDataSetCacheObject implements IDataSetCacheObject {
 	private String cacheDir;
 
 	/**
-	 * 
+	 *
 	 * @param cacheDir
 	 * @throws NoSuchAlgorithmException
 	 */
@@ -43,7 +43,7 @@ public class IncreDataSetCacheObject implements IDataSetCacheObject {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return String persFolder
 	 */
 	public String getCacheDir() {
@@ -51,7 +51,7 @@ public class IncreDataSetCacheObject implements IDataSetCacheObject {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public File getDataFile() {
@@ -59,7 +59,7 @@ public class IncreDataSetCacheObject implements IDataSetCacheObject {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public File getMetaFile() {
@@ -67,25 +67,29 @@ public class IncreDataSetCacheObject implements IDataSetCacheObject {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public File getTimeStampFile() {
 		return new File(cacheDir + PATH_SEP + TIMESTAMP_DATA);
 	}
 
+	@Override
 	public boolean isCachedDataReusable(int requiredMaxRowCount) {
 		return true;
 	}
 
+	@Override
 	public boolean needUpdateCache(int requiredCapability) {
 		return true;
 	}
 
+	@Override
 	public void release() {
 		DataSetCacheUtil.deleteFile(cacheDir);
 	}
 
+	@Override
 	public IResultClass getResultClass() {
 		return null;
 	}

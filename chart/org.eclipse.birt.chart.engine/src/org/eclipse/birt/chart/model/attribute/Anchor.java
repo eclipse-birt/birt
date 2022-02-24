@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -24,11 +24,11 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
  * <em><b>Anchor</b></em>', and utility methods for working with them. <!--
  * end-user-doc --> <!-- begin-model-doc -->
- * 
+ *
  * This type represents the options available for anchoring blocks.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getAnchor()
  * @model
  * @generated
@@ -41,7 +41,7 @@ public enum Anchor implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #NORTH
 	 * @generated
 	 * @ordered
@@ -54,7 +54,7 @@ public enum Anchor implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #NORTH_EAST
 	 * @generated
 	 * @ordered
@@ -67,7 +67,7 @@ public enum Anchor implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #EAST
 	 * @generated
 	 * @ordered
@@ -80,7 +80,7 @@ public enum Anchor implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #SOUTH_EAST
 	 * @generated
 	 * @ordered
@@ -93,7 +93,7 @@ public enum Anchor implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #SOUTH
 	 * @generated
 	 * @ordered
@@ -106,7 +106,7 @@ public enum Anchor implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #SOUTH_WEST
 	 * @generated
 	 * @ordered
@@ -119,7 +119,7 @@ public enum Anchor implements Enumerator {
 	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #WEST
 	 * @generated
 	 * @ordered
@@ -132,7 +132,7 @@ public enum Anchor implements Enumerator {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #NORTH_WEST
 	 * @generated
 	 * @ordered
@@ -142,7 +142,7 @@ public enum Anchor implements Enumerator {
 	/**
 	 * The '<em><b>North</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #NORTH_LITERAL
 	 * @model name="North"
 	 * @generated
@@ -153,7 +153,7 @@ public enum Anchor implements Enumerator {
 	/**
 	 * The '<em><b>North East</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #NORTH_EAST_LITERAL
 	 * @model name="NorthEast" literal="North_East"
 	 * @generated
@@ -164,7 +164,7 @@ public enum Anchor implements Enumerator {
 	/**
 	 * The '<em><b>East</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #EAST_LITERAL
 	 * @model name="East"
 	 * @generated
@@ -175,7 +175,7 @@ public enum Anchor implements Enumerator {
 	/**
 	 * The '<em><b>South East</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #SOUTH_EAST_LITERAL
 	 * @model name="SouthEast" literal="South_East"
 	 * @generated
@@ -186,7 +186,7 @@ public enum Anchor implements Enumerator {
 	/**
 	 * The '<em><b>South</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #SOUTH_LITERAL
 	 * @model name="South"
 	 * @generated
@@ -197,7 +197,7 @@ public enum Anchor implements Enumerator {
 	/**
 	 * The '<em><b>South West</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #SOUTH_WEST_LITERAL
 	 * @model name="SouthWest" literal="South_West"
 	 * @generated
@@ -208,7 +208,7 @@ public enum Anchor implements Enumerator {
 	/**
 	 * The '<em><b>West</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #WEST_LITERAL
 	 * @model name="West"
 	 * @generated
@@ -219,7 +219,7 @@ public enum Anchor implements Enumerator {
 	/**
 	 * The '<em><b>North West</b></em>' literal value. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @see #NORTH_WEST_LITERAL
 	 * @model name="NorthWest" literal="North_West"
 	 * @generated
@@ -230,16 +230,16 @@ public enum Anchor implements Enumerator {
 	/**
 	 * An array of all the '<em><b>Anchor</b></em>' enumerators. <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private static final Anchor[] VALUES_ARRAY = new Anchor[] { NORTH_LITERAL, NORTH_EAST_LITERAL, EAST_LITERAL,
-			SOUTH_EAST_LITERAL, SOUTH_LITERAL, SOUTH_WEST_LITERAL, WEST_LITERAL, NORTH_WEST_LITERAL, };
+	private static final Anchor[] VALUES_ARRAY = { NORTH_LITERAL, NORTH_EAST_LITERAL, EAST_LITERAL, SOUTH_EAST_LITERAL,
+			SOUTH_LITERAL, SOUTH_WEST_LITERAL, WEST_LITERAL, NORTH_WEST_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Anchor</b></em>' enumerators. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static final List<Anchor> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
@@ -247,7 +247,7 @@ public enum Anchor implements Enumerator {
 	/**
 	 * Returns the '<em><b>Anchor</b></em>' literal with the specified literal
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static Anchor get(String literal) {
@@ -263,7 +263,7 @@ public enum Anchor implements Enumerator {
 	/**
 	 * Returns the '<em><b>Anchor</b></em>' literal with the specified name. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static Anchor getByName(String name) {
@@ -279,7 +279,7 @@ public enum Anchor implements Enumerator {
 	/**
 	 * Returns the '<em><b>Anchor</b></em>' literal with the specified integer
 	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	public static Anchor get(int value) {
@@ -306,21 +306,21 @@ public enum Anchor implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final int value;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String name;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	private final String literal;
@@ -328,10 +328,10 @@ public enum Anchor implements Enumerator {
 	/**
 	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
-	private Anchor(int value, String name, String literal) {
+	Anchor(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -339,27 +339,30 @@ public enum Anchor implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 		return literal;
 	}
@@ -367,7 +370,7 @@ public enum Anchor implements Enumerator {
 	/**
 	 * Returns the literal value of the enumerator, which is its string
 	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override

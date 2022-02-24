@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,11 +37,11 @@ import org.eclipse.birt.report.model.api.TableHandle;
 
 /**
  * in the report document, we have:
- * 
+ *
  * table id="6" bookmark is reportlet_table list id="38" bookmark is
  * reportlet_group_[groupid]
- * 
- * 
+ *
+ *
  */
 public class ReportDocumentTest extends EngineCase {
 
@@ -53,6 +53,7 @@ public class ReportDocumentTest extends EngineCase {
 	final String REPORT_DOCUMENT_V2_3_1 = "org/eclipse/birt/report/engine/api/document/v2_3_1.rptdocument";
 	final String REPORT_DOCUMENT_V2_3_2 = "org/eclipse/birt/report/engine/api/document/v2_3_2.rptdocument";
 
+	@Override
 	public void tearDown() throws Exception {
 		removeFile(REPORT_DOCUMENT);
 		super.tearDown();
@@ -209,8 +210,7 @@ public class ReportDocumentTest extends EngineCase {
 		option.setOutputFormat(HTMLRenderOption.OUTPUT_FORMAT_HTML);
 		option.setOutputStream(out);
 
-		String[] bookmarks = new String[] { "reportlet_table", "reportlet_group_0", "reportlet_group_1",
-				"reportlet_group_2" };
+		String[] bookmarks = { "reportlet_table", "reportlet_group_0", "reportlet_group_1", "reportlet_group_2" };
 
 		for (int i = 0; i < bookmarks.length; i++) {
 			IRenderTask renderTask = engine.createRenderTask(document);

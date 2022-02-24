@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,37 +26,37 @@ public interface IProgressMonitor {
 	/**
 	 * the BIRT task starts event
 	 */
-	public static final int START_TASK = 1;
+	int START_TASK = 1;
 
 	/**
 	 * the BIRT task ends event
 	 */
-	public static final int END_TASK = 2;
+	int END_TASK = 2;
 
 	/**
 	 * start to generate a page
 	 */
-	public static final int START_PAGE = 3;
+	int START_PAGE = 3;
 
 	/**
 	 * ending of a page
 	 */
-	public static final int END_PAGE = 4;
+	int END_PAGE = 4;
 
 	/**
 	 * start to execute a DB query
 	 */
-	public static final int START_QUERY = 5;
+	int START_QUERY = 5;
 
 	/**
 	 * ending of DB query execution
 	 */
-	public static final int END_QUERY = 6;
+	int END_QUERY = 6;
 
 	/**
 	 * reading data from DB
 	 */
-	public static final int FETCH_ROW = 7;
+	int FETCH_ROW = 7;
 
 	/**
 	 * The 'type' specifies this progress event and the 'value' specifies a proper
@@ -88,6 +88,6 @@ public interface IProgressMonitor {
 	 * <td>the row index
 	 * </table>
 	 */
-	public void onProgress(int type, int value);
+	void onProgress(int type, int value);
 
 }

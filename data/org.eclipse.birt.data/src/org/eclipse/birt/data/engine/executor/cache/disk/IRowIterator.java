@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,17 +26,17 @@ interface IRowIterator {
 	 * Moves iterator to the first object.
 	 *
 	 */
-	public void reset() throws DataException;
+	void reset() throws DataException;
 
 	/**
 	 * Returns the current object in the iteration
-	 * 
+	 *
 	 * @throws IOException
 	 */
-	public IResultObject fetch() throws IOException, DataException;
+	IResultObject fetch() throws IOException, DataException;
 
 	/**
 	 * Closes the resource associated with this IRowIterator.
 	 */
-	public void close() throws DataException;
+	void close() throws DataException;
 }

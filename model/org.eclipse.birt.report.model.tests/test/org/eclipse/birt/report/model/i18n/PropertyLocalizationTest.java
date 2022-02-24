@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,13 +46,13 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Test for property localization.
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testSetStringProperty()}</td>
  * <td>Run through the input test file( input.txt ), find the required
@@ -61,114 +61,114 @@ import com.ibm.icu.util.ULocale;
  * <td>SetProperty operation should throw an Exception if isOK = "F"(fail), and
  * that now Exception if isOK = "P"(pass).</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testToDisplayStringInEn()}</td>
  * <td>ColorPropertyType.toDisplayString(...,"red" );</td>
  * <td>red</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>ColorPropertyType.toDisplayString(... , ...,"red" );</td>
  * <td>red</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>ColorPropertyType.toDisplayString(... , ...,Integer.decode( "#FF0000" )
  * );</td>
  * <td>red</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>ColorPropertyType.toDisplayString(... , ...,Integer.decode( "#FEDCBA"
  * );</td>
  * <td>#FEDCBA</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>DateTimePropertyType.toDisplayString(... , ...,formatter.parse(
  * "1981-04-29 06:10:50" );</td>
  * <td>4/29/81</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>NumberPropertyType.toDisplayString(... , ...,new BigDecimal( 123456.78d
  * );</td>
  * <td>123,456.78</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>propDefn.details = color ChoiseSet ChoicePropertyType.toDisplayString(...
  * , propDefn, "red" );</td>
  * <td>red</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>propDefn.details = color ChoiseSet ChoicePropertyType.toDisplayString(...
  * , propDefn, Integer.decode( "#FF0000" ) );</td>
  * <td>red</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>BooleanPropertyType.toDisplayString(... , ..., new Boolean( true )
  * );</td>
  * <td>true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>BooleanPropertyType.toDisplayString(... , ..., new Boolean( false
  * ));</td>
  * <td>false</td>
  * <tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>BooleanPropertyType.toDisplayString(... , ..., "true" )) ;</td>
  * <td>true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>BooleanPropertyType.toDisplayString(... , ..., new Double( 1.01 )) ;</td>
  * <td>true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>BooleanPropertyType.toDisplayString(... , ..., new Integer( 1 ) );</td>
  * <td>true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>BooleanPropertyType.toDisplayString(... , ..., new BigDecimal( 1.01 )
  * );</td>
  * <td>true</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>DimensionPropertyType.toDisplayString(... , ..., new DimensionValue(
  * 123456.78d, DimensionValue.CM_UNIT ) );</td>
  * <td>123,456.78cm</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>The content is the same as in EN locale</td>
  * <td>En locale value</td>
  * </tr>
  * </table>
- * 
+ *
  */
 public class PropertyLocalizationTest extends BaseTestCase {
 
@@ -177,7 +177,7 @@ public class PropertyLocalizationTest extends BaseTestCase {
 	/**
 	 * list of test cases.
 	 */
-	List<Case> cases = new ArrayList<Case>();
+	List<Case> cases = new ArrayList<>();
 
 	/**
 	 * Data Structure for test. Every instance of the class represents an internal
@@ -197,7 +197,7 @@ public class PropertyLocalizationTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Override
@@ -212,7 +212,7 @@ public class PropertyLocalizationTest extends BaseTestCase {
 	 * <p>
 	 * #Element Property name ULocale Input string isOK( Pass(P)/Fail(F) )
 	 * ReportDesign creationDate zh_CN 1981-04-29 P
-	 * 
+	 *
 	 * <p>
 	 * Each line specifies a test case.
 	 * <p>
@@ -228,10 +228,10 @@ public class PropertyLocalizationTest extends BaseTestCase {
 	 * isOK = "F" means that the setProperty() call should fail because the input
 	 * string is not in the format of the locale. isOK = "P" means that the
 	 * setProperty() call should success.
-	 * 
+	 *
 	 * @param fileName
 	 * @throws Exception
-	 * 
+	 *
 	 */
 	private void prepareCases(String fileName) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(getResourceAStream(fileName)));
@@ -241,13 +241,15 @@ public class PropertyLocalizationTest extends BaseTestCase {
 		while ((line = br.readLine()) != null) {
 			++lineNo;
 
-			if (line.startsWith("#") || StringUtil.isBlank(line)) //$NON-NLS-1$
+			if (line.startsWith("#") || StringUtil.isBlank(line)) { //$NON-NLS-1$
 				continue;
+			}
 
 			StringTokenizer st = new StringTokenizer(line);
 
-			if (st.countTokens() != 5)
+			if (st.countTokens() != 5) {
 				throw new Exception("Invalid input, lineNo = " + lineNo + " tokens = " + st.countTokens()); //$NON-NLS-1$ //$NON-NLS-2$
+			}
 
 			String element = st.nextToken();
 			String propName = st.nextToken();
@@ -255,8 +257,9 @@ public class PropertyLocalizationTest extends BaseTestCase {
 			String inputString = st.nextToken();
 
 			// Convert "\uabcd" to unicode String
-			if (inputString.startsWith("\\u")) //$NON-NLS-1$
+			if (inputString.startsWith("\\u")) { //$NON-NLS-1$
 				inputString = convertToUnicodeString(inputString);
+			}
 
 			String isOK = st.nextToken();
 
@@ -303,7 +306,7 @@ public class PropertyLocalizationTest extends BaseTestCase {
 
 	/**
 	 * Converts input string with the format "\uabcd\u1234" to java string.
-	 * 
+	 *
 	 * @param input string to convert
 	 * @return java string
 	 * @throws Exception if any exception.
@@ -316,8 +319,9 @@ public class PropertyLocalizationTest extends BaseTestCase {
 		String output = ""; //$NON-NLS-1$
 		String[] chars = input.split("\\\\u"); //$NON-NLS-1$
 		for (int i = 0; i < chars.length; i++) {
-			if (chars[i].length() != 0)
+			if (chars[i].length() != 0) {
 				output += convertToUnicodeChar(chars[i]);
+			}
 		}
 
 		return output;
@@ -325,7 +329,7 @@ public class PropertyLocalizationTest extends BaseTestCase {
 
 	/**
 	 * Converts input string with the format "\uabcd" to java character.
-	 * 
+	 *
 	 * @param input string to convert, which represents one java character.
 	 * @return java character
 	 * @throws Exception if the input string is not a hex string.
@@ -359,7 +363,7 @@ public class PropertyLocalizationTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * Run through the input test file, find the required DesignElement, and set its
 	 * property using an input string. Check that the setProperty operation should
 	 * throw an Exception if isOK = "F"(fail), and that now Exception if isOK =
@@ -369,7 +373,7 @@ public class PropertyLocalizationTest extends BaseTestCase {
 	 * <p>
 	 * #Element Property name ULocale Input string isOK( Pass(P)/Fail(F) )
 	 * ReportDesign creationDate zh_CN 1981-04-29 P
-	 * 
+	 *
 	 * <p>
 	 * Each line specifies a test case.
 	 * <p>
@@ -385,9 +389,9 @@ public class PropertyLocalizationTest extends BaseTestCase {
 	 * isOK = "F" means that the setProperty() call should fail because the input
 	 * string is not in the format of the locale. isOK = "P" means that the
 	 * setProperty() call should success.
-	 * 
+	 *
 	 * @throws DesignFileException
-	 * 
+	 *
 	 */
 	public void testSetStringProperty() throws DesignFileException {
 		Case aCase = null;
@@ -419,7 +423,7 @@ public class PropertyLocalizationTest extends BaseTestCase {
 
 	/**
 	 * Test toDisplayString in English locale.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testToDisplayStringInEn() throws Exception {
@@ -479,9 +483,9 @@ public class PropertyLocalizationTest extends BaseTestCase {
 
 	/**
 	 * Test toDisplayString() in testing locale.
-	 * 
+	 *
 	 * @throws ParseException
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 	public void testToDisplayStringInTestingULocale() throws ParseException, DesignFileException {
@@ -535,7 +539,7 @@ public class PropertyLocalizationTest extends BaseTestCase {
 	/**
 	 * Test validateInputStringInEN(). Mostly cover in
 	 * {@link #testSetStringProperty()}
-	 * 
+	 *
 	 * @throws PropertyValueException
 	 * @throws DesignFileException
 	 */
@@ -620,7 +624,7 @@ public class PropertyLocalizationTest extends BaseTestCase {
 	/**
 	 * Test validateInputStringInZH_CN(). Mostly cover in
 	 * {@link #testSetStringProperty()}
-	 * 
+	 *
 	 * @throws PropertyValueException
 	 */
 	public void testValidateInputStringInZH_CN() throws PropertyValueException {

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,7 +61,7 @@ public class TableHandleLayoutCheck extends AbstractLayoutCheck {
 	}
 
 	private boolean getTrueColumnNumber(List rows, int modelColumnCount) {
-		Map<Integer, Integer> addRowMap = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> addRowMap = new HashMap<>();
 		List list = new ArrayList();
 		for (int i = 0; i < rows.size(); i++) {
 			int count = 0;

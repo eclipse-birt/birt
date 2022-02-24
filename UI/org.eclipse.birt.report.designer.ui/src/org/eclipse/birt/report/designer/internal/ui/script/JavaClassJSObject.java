@@ -1,11 +1,11 @@
 /* Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -37,18 +37,18 @@ public class JavaClassJSObject implements JSObjectMetaData {
 		this.clazz = Class.forName(className);
 	}
 
+	@Override
 	public String getName() {
 		return this.clazz.getName();
 	}
 
+	@Override
 	public JSMethod[] getMethods() {
-		List<JavaClassMethod> jsMehods = new ArrayList<JavaClassMethod>();
+		List<JavaClassMethod> jsMehods = new ArrayList<>(getMethods(this.clazz.getMethods()));
 		// if ( this.clazz.isInterface( ) )
 		// {
 		// jsMehods.addAll( getMethods( Object.class.getMethods( ) ) );
 		// }
-
-		jsMehods.addAll(getMethods(this.clazz.getMethods()));
 
 		Collections.sort(jsMehods);
 
@@ -60,9 +60,9 @@ public class JavaClassJSObject implements JSObjectMetaData {
 	}
 
 	protected List<JavaClassMethod> getMethods(Method[] methods) {
-		List<JavaClassMethod> jsMehods = new ArrayList<JavaClassMethod>();
-		List<String> setMethodList = new ArrayList<String>();
-		List<String> getMethodList = new ArrayList<String>();
+		List<JavaClassMethod> jsMehods = new ArrayList<>();
+		List<String> setMethodList = new ArrayList<>();
+		List<String> getMethodList = new ArrayList<>();
 		for (int i = 0; i < methods.length; i++) {
 			if (methods[i].getName().startsWith("set") //$NON-NLS-1$
 					&& methods[i].getParameterTypes() != null && methods[i].getParameterTypes().length == 1) {
@@ -98,17 +98,17 @@ public class JavaClassJSObject implements JSObjectMetaData {
 		return jsMehods;
 	}
 
+	@Override
 	public JSField[] getFields() {
-		List<JavaClassField> jsFields = new ArrayList<JavaClassField>();
-		jsFields.addAll(getFields(this.clazz));
+		List<JavaClassField> jsFields = new ArrayList<>(getFields(this.clazz));
 		Collections.sort(jsFields);
 		return jsFields.toArray(new JSField[jsFields.size()]);
 	}
 
 	protected List<JavaClassField> getFields(Class<?> clazz) {
 		Method[] methods = clazz.getMethods();
-		List<JavaClassField> jsFields = new ArrayList<JavaClassField>();
-		List<String> setMethodList = new ArrayList<String>();
+		List<JavaClassField> jsFields = new ArrayList<>();
+		List<String> setMethodList = new ArrayList<>();
 
 		String methodName;
 		for (int i = 0; i < methods.length; i++) {
@@ -128,8 +128,9 @@ public class JavaClassJSObject implements JSObjectMetaData {
 					Class<?> type = methods[i].getReturnType();
 					JavaClassField field = new JavaClassField(methods[i].getDeclaringClass(), getFieldName(methodName),
 							getClazzName(type), type.isArray());
-					if (!jsFields.contains(field))
+					if (!jsFields.contains(field)) {
 						jsFields.add(field);
+					}
 				}
 			}
 		}
@@ -139,9 +140,10 @@ public class JavaClassJSObject implements JSObjectMetaData {
 			jsFields.add(new JavaClassField(fields[i]));
 		}
 
-		if (clazz.isArray())
+		if (clazz.isArray()) {
 			jsFields.add(new JavaClassField(clazz, "length", //$NON-NLS-1$
 					Integer.TYPE.getName(), false));
+		}
 
 		return jsFields;
 	}
@@ -155,17 +157,20 @@ public class JavaClassJSObject implements JSObjectMetaData {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return clazz.getName();
 	}
 
+	@Override
 	public String getDescription() {
 		return null;
 	}
 
+	@Override
 	public int getVisibility() {
 		return VISIBILITY_PUBLIC;
 	}
@@ -182,10 +187,12 @@ public class JavaClassJSObject implements JSObjectMetaData {
 			this.method = method;
 		}
 
+		@Override
 		public String getName() {
 			return method.getName();
 		}
 
+		@Override
 		public JSObjectMetaData getReturn() {
 			try {
 				return JSSyntaxContext.getJavaClassMeta(method.getReturnType().getName());
@@ -194,6 +201,7 @@ public class JavaClassJSObject implements JSObjectMetaData {
 			}
 		}
 
+		@Override
 		public JSObjectMetaData[] getArguments() {
 			// TODO impl real argument info, currently simply use argument type
 
@@ -212,9 +220,10 @@ public class JavaClassJSObject implements JSObjectMetaData {
 			return null;
 		}
 
+		@Override
 		public String getDisplayText() {
 			if (displayText == null) {
-				StringBuffer strbuf = new StringBuffer(getName());
+				StringBuilder strbuf = new StringBuilder(getName());
 				strbuf.append("("); //$NON-NLS-1$
 				Class<?>[] parameters = method.getParameterTypes();
 				for (int i = 0; i < parameters.length; i++) {
@@ -235,10 +244,12 @@ public class JavaClassJSObject implements JSObjectMetaData {
 			return displayText;
 		}
 
+		@Override
 		public String getDescription() {
 			return null;
 		}
 
+		@Override
 		public int getVisibility() {
 			if ((method.getModifiers() & Modifier.STATIC) != 0) {
 				return VISIBILITY_STATIC;
@@ -254,11 +265,13 @@ public class JavaClassJSObject implements JSObjectMetaData {
 			}
 		}
 
+		@Override
 		public int compareTo(Object obj) {
 			if (obj instanceof JavaClassMethod && ((JavaClassMethod) obj).getName() != null) {
 				if (getVisibility() == VISIBILITY_STATIC) {
-					if (((JavaClassMethod) obj).getVisibility() == VISIBILITY_PUBLIC)
+					if (((JavaClassMethod) obj).getVisibility() == VISIBILITY_PUBLIC) {
 						return 1;
+					}
 				}
 				return getName().compareToIgnoreCase(((JavaClassMethod) obj).getName());
 			}
@@ -300,19 +313,22 @@ public class JavaClassJSObject implements JSObjectMetaData {
 			this.isArray = isArray;
 		}
 
+		@Override
 		public String getName() {
 			return this.name;
 		}
 
+		@Override
 		public JSObjectMetaData getType() {
 			return this.type;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
+		@Override
 		public boolean equals(Object obj) {
 			if (obj == null || !(obj instanceof JavaClassField) || ((JavaClassField) obj).getName() == null) {
 				return false;
@@ -321,9 +337,10 @@ public class JavaClassJSObject implements JSObjectMetaData {
 			return ((JavaClassField) obj).getName().equals(this.name);
 		}
 
+		@Override
 		public String getDisplayText() {
 			if (displayText == null) {
-				StringBuffer strbuf = new StringBuffer(getName());
+				StringBuilder strbuf = new StringBuilder(getName());
 				strbuf.append(" "); //$NON-NLS-1$
 				if (field != null && field.getType() != null) {
 					strbuf.append(getSimpleName(field.getType()));
@@ -349,13 +366,16 @@ public class JavaClassJSObject implements JSObjectMetaData {
 			return displayText;
 		}
 
+		@Override
 		public String getDescription() {
 			return null;
 		}
 
+		@Override
 		public int getVisibility() {
-			if (field == null)
+			if (field == null) {
 				return VISIBILITY_PUBLIC;
+			}
 
 			if ((field.getModifiers() & Modifier.STATIC) != 0) {
 				return VISIBILITY_STATIC;
@@ -371,11 +391,13 @@ public class JavaClassJSObject implements JSObjectMetaData {
 			}
 		}
 
+		@Override
 		public int compareTo(Object obj) {
 			if (obj instanceof JavaClassField && ((JavaClassField) obj).getName() != null) {
 				if (getVisibility() == VISIBILITY_STATIC) {
-					if (((JavaClassField) obj).getVisibility() == VISIBILITY_PUBLIC)
+					if (((JavaClassField) obj).getVisibility() == VISIBILITY_PUBLIC) {
 						return 1;
+					}
 				}
 				return getName().compareToIgnoreCase(((JavaClassField) obj).getName());
 			}
@@ -405,16 +427,18 @@ public class JavaClassJSObject implements JSObjectMetaData {
 		return name.substring(name.lastIndexOf(".") + 1); //$NON-NLS-1$
 	}
 
+	@Override
 	public JSObjectMetaData getComponentType() {
-		if (this.clazz.isArray())
+		if (this.clazz.isArray()) {
 			return new JavaClassJSObject(this.clazz.getComponentType());
+		}
 		return null;
 	}
 
 	/**
 	 * Returns the name of the entity (class, interface, array class, primitive
 	 * type, or void) represented with the specified <code>Class</code> object.
-	 * 
+	 *
 	 * @param clazz the specified <code>Class</code> object.
 	 * @return the name of the specified <code>Class</code> object.
 	 */

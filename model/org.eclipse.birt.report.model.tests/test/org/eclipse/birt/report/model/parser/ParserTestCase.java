@@ -14,14 +14,14 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * This abstract test case provides basic operation for parser and writer test.
- * 
+ *
  */
 public abstract class ParserTestCase extends BaseTestCase {
 
 	/**
 	 * Opens the design file and write it to out file. Compares the out file with
 	 * godlen file.
-	 * 
+	 *
 	 * @param fileName       design file to open
 	 * @param outFileName    out file to write
 	 * @param goldenFileName golden file to compare

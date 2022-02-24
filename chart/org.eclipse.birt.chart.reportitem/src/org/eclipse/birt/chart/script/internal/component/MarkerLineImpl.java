@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.chart.script.api.data.IDataElement;
 import org.eclipse.birt.chart.script.internal.ChartComponentUtil;
 
 /**
- * 
+ *
  */
 
 public class MarkerLineImpl implements IMarkerLine {
@@ -33,14 +33,17 @@ public class MarkerLineImpl implements IMarkerLine {
 		this.line = line;
 	}
 
+	@Override
 	public IDataElement getValue() {
 		return ChartComponentUtil.convertDataElement(line.getValue());
 	}
 
+	@Override
 	public void setValue(IDataElement value) {
 		line.setValue(ChartComponentUtil.convertIDataElement(value));
 	}
 
+	@Override
 	public ILabel getTitle() {
 		Label title = line.getLabel();
 		if (title == null) {
@@ -50,6 +53,7 @@ public class MarkerLineImpl implements IMarkerLine {
 		return ChartComponentUtil.convertLabel(title);
 	}
 
+	@Override
 	public boolean isVisible() {
 		return line.getLineAttributes().isVisible();
 	}
@@ -58,6 +62,7 @@ public class MarkerLineImpl implements IMarkerLine {
 		line.setLabel(ChartComponentUtil.convertILabel(title));
 	}
 
+	@Override
 	public void setVisible(boolean visible) {
 		line.getLineAttributes().setVisible(visible);
 	}

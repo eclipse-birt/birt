@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +52,7 @@ import org.eclipse.swt.widgets.Text;
 import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ *
  */
 
 public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
@@ -74,6 +74,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 	private Combo localeCombo;
 	private Combo nullOrderingCombo;
 
+	@Override
 	public Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 
@@ -115,7 +116,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 		localeCombo.setLayoutData(gd);
 
 		localeCombo.setVisibleItemCount(30);
-		List<String> localeNames = new ArrayList<String>();
+		List<String> localeNames = new ArrayList<>();
 		localeNames.add(Messages.getString("SortkeyBuilder.Locale.Auto")); //$NON-NLS-1$
 		localeNames.addAll(FormatAdapter.LOCALE_TABLE.keySet());
 		localeCombo.setItems(localeNames.toArray(new String[] {}));
@@ -158,7 +159,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 	/**
 	 * Add row fetch limit control group.
-	 * 
+	 *
 	 * @param composite
 	 */
 	private void addDataFetchSettingGroup(Composite composite) {
@@ -199,6 +200,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 		fetchAllDataCheckBox.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 
 				final boolean isSelection = fetchAllDataCheckBox.getSelection();
@@ -214,6 +216,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 		rowFetchLimitText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				int rowFetchLimit = 0;
 
@@ -221,8 +224,9 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 					if (isNumber(rowFetchLimitText.getText())) {
 						String rowLimitText = rowFetchLimitText.getText();
-						if (rowLimitText.trim().length() == 0)
+						if (rowLimitText.trim().length() == 0) {
 							rowLimitText = "0"; //$NON-NLS-1$
+						}
 						rowFetchLimit = new Double(rowLimitText).intValue();
 						rowFetchLimit = rowFetchLimit < 0 ? 0 : rowFetchLimit;
 
@@ -296,6 +300,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 		selectResultSetCheckBox.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				final boolean selected = selectResultSetCheckBox.getSelection();
 				resultSetName.setEnabled(selected);
@@ -324,6 +329,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 		resultSetName.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				nameText.setEnabled(true);
 				numberText.setEnabled(false);
@@ -333,6 +339,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 		resultSetNumber.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				nameText.setEnabled(false);
 				numberText.setEnabled(true);
@@ -342,6 +349,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 		nameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				DataSetSettingsPage.this.nameText = nameText.getText();
 				changed = true;
@@ -351,13 +359,15 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 		numberText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				int rsNumber = 0;
 
 				if (isNumber(numberText.getText())) {
 					String number = numberText.getText();
-					if (number.trim().length() == 0)
+					if (number.trim().length() == 0) {
 						number = "0"; //$NON-NLS-1$
+					}
 					DataSetSettingsPage.this.numberText = numberText.getText();
 					getContainer().setMessage(DEFAULT_MESSAGE, IMessageProvider.NONE);
 					changed = true;
@@ -395,7 +405,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 	/**
 	 * Test the text to see if it can be parsed to an integer.
-	 * 
+	 *
 	 * @param text
 	 * @return
 	 */
@@ -411,7 +421,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param count
 	 * @throws SemanticException
 	 */
@@ -420,7 +430,7 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private int getDataSetRowFetchLimit() {
@@ -428,17 +438,19 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 	}
 
+	@Override
 	public void pageActivated() {
 		getContainer().setMessage(DEFAULT_MESSAGE, IMessageProvider.NONE);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
 	 * #performCancel()
 	 */
+	@Override
 	public boolean performCancel() {
 		// selectorImage.dispose( );
 		return super.performCancel();
@@ -446,11 +458,12 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
 	 * #canLeave()
 	 */
+	@Override
 	public boolean canLeave() {
 		try {
 			((OdaDataSetHandle) ((DataSetEditor) getContainer()).getHandle())
@@ -458,8 +471,9 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 			((OdaDataSetHandle) ((DataSetEditor) getContainer()).getHandle()).setResultSetName(null);
 			dealDataSetLocale();
 			dealDataSetNullOrdering();
-			if (!updateResultSetSetting())
+			if (!updateResultSetSetting()) {
 				return true;
+			}
 
 			return canLeavePage();
 		} catch (Exception e) {
@@ -468,15 +482,17 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 	}
 
 	protected boolean canLeavePage() {
-		if (canFinish())
+		if (canFinish()) {
 			return super.performOk();
-		else
+		} else {
 			return false;
+		}
 	}
 
 	protected boolean updateResultSetSetting() throws SemanticException {
-		if (selectResultSetCheckBox == null)
+		if (selectResultSetCheckBox == null) {
 			return false;
+		}
 
 		if (selectResultSetCheckBox.getSelection()) {
 			if (resultSetNumber.getSelection()) {
@@ -507,16 +523,18 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.ui.dialogs.properties.AbstractPropertyPage
 	 * #performOk()
 	 */
+	@Override
 	public boolean performOk() {
 		if (canLeave()) {
 			return super.performOk();
-		} else
+		} else {
 			return false;
+		}
 	}
 
 	protected void dealDataSetNullOrdering() {
@@ -553,10 +571,11 @@ public class DataSetSettingsPage extends AbstractDescriptionPropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.data.ui.property.AbstractPropertyPage
 	 * #getToolTip()
 	 */
+	@Override
 	public String getToolTip() {
 		return Messages.getString("SettingsPage.CachePreference.Filter.Tooltip"); //$NON-NLS-1$
 	}

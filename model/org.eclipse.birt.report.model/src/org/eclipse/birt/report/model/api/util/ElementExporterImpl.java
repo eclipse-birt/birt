@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -92,11 +92,11 @@ class ElementExporterImpl {
 	 * is element in library handle.
 	 */
 
-	protected Map<DesignElementHandle, DesignElementHandle> propBindingMap = new HashMap<DesignElementHandle, DesignElementHandle>();
+	protected Map<DesignElementHandle, DesignElementHandle> propBindingMap = new HashMap<>();
 
 	/**
 	 * Constructs the exporter with the handle of target library.
-	 * 
+	 *
 	 * @param libraryHandle handle of the target library
 	 */
 
@@ -106,7 +106,7 @@ class ElementExporterImpl {
 
 	/**
 	 * Constructs the exporter with the handle of the target of the design.
-	 * 
+	 *
 	 * @param designHandle
 	 */
 	ElementExporterImpl(ReportDesignHandle designHandle) {
@@ -126,7 +126,7 @@ class ElementExporterImpl {
 	 * <li>The element must be in design file.
 	 * <li>The element must have name.
 	 * </ul>
-	 * 
+	 *
 	 * @param elementToExport handle of the element to export
 	 * @param ignoreName      true if not consider the name of the element when
 	 *                        determines whether the element can be export or not,
@@ -145,8 +145,9 @@ class ElementExporterImpl {
 	}
 
 	protected boolean isSupportedExporting(ModuleHandle rootToExport) {
-		if (targetModuleHandle == null)
+		if (targetModuleHandle == null) {
 			return true;
+		}
 		if (targetModuleHandle instanceof LibraryHandle) {
 			return rootToExport instanceof ReportDesignHandle;
 		}
@@ -162,7 +163,7 @@ class ElementExporterImpl {
 	 * <li>The structure must be one of <code>EmbeddedImage</code>,
 	 * <code>CustomColor</code> and <code>ConfigVariable</code>.
 	 * </ul>
-	 * 
+	 *
 	 * @param structToExport handle of the structure to export
 	 * @param ignoreName     true if not consider the key name of the structure when
 	 *                       determines whether the structure can be export or not,
@@ -230,11 +231,11 @@ class ElementExporterImpl {
 
 	/**
 	 * Exports the given element.
-	 * 
+	 *
 	 * @param structToExport handle of the structure to export.
 	 * @param canOverride    indicates whether the structure with the same name in
 	 *                       target library will be overriden.
-	 * 
+	 *
 	 * @throws SemanticException if error encountered when adding this structure to
 	 *                           target library or duplicating member value from the
 	 *                           given structure.
@@ -292,8 +293,9 @@ class ElementExporterImpl {
 			PropertyDefn memberDefn = (PropertyDefn) iter.next();
 			String memberName = memberDefn.getName();
 
-			if (ReferencableStructure.LIB_REFERENCE_MEMBER.equals(memberName))
+			if (ReferencableStructure.LIB_REFERENCE_MEMBER.equals(memberName)) {
 				continue;
+			}
 
 			Object value = structToExport.getMember(memberName).getValue();
 			Object valueToSet = ModelUtil.copyValue(memberDefn, value);
@@ -306,27 +308,29 @@ class ElementExporterImpl {
 
 	/**
 	 * Finds and Drops the duplicated element in library.
-	 * 
+	 *
 	 * @param handle the element handle.
 	 * @throws SemanticException
 	 */
 	protected void findAndDropDuplicatedElement(DesignElementHandle handle) throws SemanticException {
-		if (handle.getName() != null && dropDuplicatedElement(handle.getElement()))
+		if (handle.getName() != null && dropDuplicatedElement(handle.getElement())) {
 			return;
+		}
 
 		ContentIterator iter = new ContentIterator(handle.getModule(), handle.getElement());
 
 		while (iter.hasNext()) {
 			DesignElement element = iter.next();
-			if (element.getName() == null)
+			if (element.getName() == null) {
 				continue;
+			}
 			dropDuplicatedElement(element);
 		}
 	}
 
 	/**
 	 * Drops the duplicated element in library.
-	 * 
+	 *
 	 * @param handle the design element
 	 * @return true if the duplicated element is dropped, otherwise false.
 	 * @throws SemanticException
@@ -347,13 +351,15 @@ class ElementExporterImpl {
 				String namespaceId = executor.getNameSpaceId();
 				NameSpace nameSpace = nameHelper.getCachedNameSpace(namespaceId);
 				duplicateElement = nameSpace.getElement(element.getName());
-			} else
+			} else {
 				return false;
+			}
 		}
 
 		DesignElement targetElement = getDropTarget(duplicateElement);
-		if (targetElement == null)
+		if (targetElement == null) {
 			return false;
+		}
 
 		// for OLAP element, rename it
 		if (isOLAPElement(targetElement)) {
@@ -384,27 +390,30 @@ class ElementExporterImpl {
 
 	private boolean isOLAPElement(DesignElement element) {
 		if (element instanceof Dimension || element instanceof Hierarchy || element instanceof Level
-				|| element instanceof MeasureGroup || element instanceof Measure)
+				|| element instanceof MeasureGroup || element instanceof Measure) {
 			return true;
+		}
 		return false;
 	}
 
 	/**
 	 * Checks if the element can be dropped according to the element context.
-	 * 
+	 *
 	 * @param element the design element.
 	 * @return <true> if the element locates in <code>Cube</code> or the element is
 	 *         an extended item and locates in <code>ExtendedItem</code> ,otherwise
 	 *         return false.
 	 */
 	static DesignElement getDropTarget(DesignElement element) {
-		if (element == null)
+		if (element == null) {
 			return null;
+		}
 
 		String nameSpaceID = ((ElementDefn) element.getDefn()).getNameSpaceID();
 		if (!(Module.CUBE_NAME_SPACE.equals(nameSpaceID) || Module.DIMENSION_NAME_SPACE.equals(nameSpaceID)
-				|| Module.ELEMENT_NAME_SPACE.equals(nameSpaceID)))
+				|| Module.ELEMENT_NAME_SPACE.equals(nameSpaceID))) {
 			return element;
+		}
 
 		DesignElement container = element.getContainer();
 		while (container != null) {
@@ -420,8 +429,9 @@ class ElementExporterImpl {
 					ExtendedItem item = (ExtendedItem) container;
 					Object dataset = item.getProperty(item.getRoot(), IReportItemModel.DATA_SET_PROP);
 					Object cube = item.getProperty(item.getRoot(), IReportItemModel.CUBE_PROP);
-					if (dataset != null || cube != null)
+					if (dataset != null || cube != null) {
 						return item;
+					}
 				}
 			}
 
@@ -433,7 +443,7 @@ class ElementExporterImpl {
 
 	/**
 	 * Checks if the element can be dropped according to the element context.
-	 * 
+	 *
 	 * @param element the design element.
 	 * @return <true> if the element locates in <code>Cube</code> or the element is
 	 *         an extended item and locates in <code>ExtendedItem</code> ,otherwise
@@ -447,8 +457,9 @@ class ElementExporterImpl {
 				// element locates in ExtendedItem, if the element is
 				// ElementItem type this element can not be dropped, otherwise
 				// it can
-				if (element instanceof ExtendedItem)
+				if (element instanceof ExtendedItem) {
 					return false;
+				}
 
 				return true;
 			}
@@ -460,7 +471,7 @@ class ElementExporterImpl {
 
 	/**
 	 * Exports the given element.
-	 * 
+	 *
 	 * @param elementToExport handle of the element to export.
 	 * @param canOverride     indicates whether the element with the same name in
 	 *                        target library will be overridden.
@@ -472,8 +483,9 @@ class ElementExporterImpl {
 
 	protected DesignElementHandle exportElement(DesignElementHandle elementToExport, boolean canOverride)
 			throws SemanticException {
-		if (elementToExport instanceof StyleHandle)
+		if (elementToExport instanceof StyleHandle) {
 			return exportStyle((StyleHandle) elementToExport, canOverride);
+		}
 
 		int slotID = getExportSlotID(elementToExport);
 
@@ -481,8 +493,9 @@ class ElementExporterImpl {
 		// element definition, do not export it; MUST not use slotID >=
 		// slotCount, for there is specified slot id cases in meta-data, like
 		// datamart
-		if (targetModuleHandle.getDefn().getSlot(slotID) == null)
+		if (targetModuleHandle.getDefn().getSlot(slotID) == null) {
 			return null;
+		}
 
 		DesignElementHandle newElementHandle = duplicateElement(elementToExport, false);
 
@@ -495,7 +508,7 @@ class ElementExporterImpl {
 		SlotHandle slotHandle = targetModuleHandle.getSlot(slotID);
 		addToSlot(slotHandle, newElementHandle);
 
-		if (propBindingMap.keySet().contains(elementToExport)) {
+		if (propBindingMap.containsKey(elementToExport)) {
 			propBindingMap.put(elementToExport, newElementHandle);
 		}
 		return newElementHandle;
@@ -503,29 +516,31 @@ class ElementExporterImpl {
 
 	/**
 	 * Gets the slot id where the element resides in the target module.
-	 * 
+	 *
 	 * @param elementToExport
 	 * @return
 	 */
 	protected int getExportSlotID(DesignElementHandle elementToExport) {
-		if (elementToExport == null)
+		if (elementToExport == null) {
 			return DesignElement.NO_SLOT;
+		}
 		int slotID = getTopContainerSlot(elementToExport.getElement());
 		// The element in body slot should be added into components slot.
-		if (slotID == IReportDesignModel.BODY_SLOT)
+		if (slotID == IReportDesignModel.BODY_SLOT) {
 			slotID = IModuleModel.COMPONENT_SLOT;
-		else if (slotID == IModuleModel.PAGE_SLOT
-				&& elementToExport.getContainer() != elementToExport.getModuleHandle())
+		} else if (slotID == IModuleModel.PAGE_SLOT
+				&& elementToExport.getContainer() != elementToExport.getModuleHandle()) {
 			slotID = IModuleModel.COMPONENT_SLOT;
-		else if (slotID == IReportDesignModel.CUBE_SLOT)
+		} else if (slotID == IReportDesignModel.CUBE_SLOT) {
 			slotID = ILibraryModel.CUBE_SLOT;
+		}
 
 		return slotID;
 	}
 
 	/**
 	 * Export the given style to the target library.
-	 * 
+	 *
 	 * @param elementToExport the style to export
 	 * @param canOverride     <code>true</code> indicates the element with the same
 	 *                        name in target library will be overriden. Otherwise
@@ -553,15 +568,16 @@ class ElementExporterImpl {
 		if (theme == null) {
 			themeHandle = targetModuleHandle.getElementFactory().newTheme(defaultThemeName);
 			themes.add(themeHandle);
-		} else
+		} else {
 			themeHandle = (ThemeHandle) theme.getHandle(targetModuleHandle.getModule());
+		}
 
 		return exportStyle(elementToExport, themeHandle, canOverride);
 	}
 
 	/**
 	 * Export the given style to the target library.
-	 * 
+	 *
 	 * @param elementToExport the style to export
 	 * @param theme           the theme where the style exports.
 	 * @param canOverride     <code>true</code> indicates the element with the same
@@ -577,8 +593,9 @@ class ElementExporterImpl {
 
 		if (canOverride) {
 			StyleHandle style = theme.findStyle(elementToExport.getName());
-			if (style != null)
+			if (style != null) {
 				style.drop();
+			}
 		}
 
 		DesignElementHandle newElementHandle = duplicateElement(elementToExport, false);
@@ -589,15 +606,16 @@ class ElementExporterImpl {
 	/**
 	 * Change property binding's 'id' property. Let its' value related to the new
 	 * data set element.
-	 * 
+	 *
 	 * @param contentHandle
 	 * @param refMap
 	 */
 
 	private void changePropertyBindingID(ReportDesignHandle designToExport) {
 		List propertyBindings = targetModuleHandle.getListProperty(ReportDesignHandle.PROPERTY_BINDINGS_PROP);
-		if (propertyBindings == null)
+		if (propertyBindings == null) {
 			return;
+		}
 
 		Iterator iterator = propertyBindings.iterator();
 		while (iterator.hasNext()) {
@@ -606,16 +624,17 @@ class ElementExporterImpl {
 			DesignElementHandle tempHandle = designToExport.getElementByID(id);
 
 			DesignElementHandle tempCopyInLibHandle = (DesignElementHandle) propBindingMap.get(tempHandle);
-			if (tempCopyInLibHandle != null)
+			if (tempCopyInLibHandle != null) {
 				struct.setID(tempCopyInLibHandle.getID());
+			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * Initialize property binding map. Each key item is design element handle which
 	 * has property binding.
-	 * 
+	 *
 	 * @param designToExport
 	 */
 
@@ -625,8 +644,9 @@ class ElementExporterImpl {
 			PropertyBinding struct = (PropertyBinding) propertyBindings.get(i);
 			long id = struct.getID().longValue();
 			DesignElementHandle tempHandle = designToExport.getElementByID(id);
-			if (tempHandle != null && !propBindingMap.keySet().contains(tempHandle))
+			if (tempHandle != null && !propBindingMap.containsKey(tempHandle)) {
 				propBindingMap.put(tempHandle, null);
+			}
 		}
 	}
 
@@ -636,7 +656,7 @@ class ElementExporterImpl {
 	 * <li>Only properties supported by library are exported.
 	 * <li>Only top-level element with name are exported.
 	 * </ul>
-	 * 
+	 *
 	 * @param designToExport handle of the report design to export.
 	 * @param canOverride    indicates whether the element with the same name in
 	 *                       target library will be overriden.
@@ -724,11 +744,11 @@ class ElementExporterImpl {
 	/**
 	 * Duplicates the given element in target module, including properties and
 	 * contents.
-	 * 
+	 *
 	 * @param elementHandle       handle of the element to duplicate
 	 * @param onlyFactoryProperty indicate whether only factory property values are
 	 *                            duplicated.
-	 * 
+	 *
 	 * @return the handle of the duplicated element
 	 * @throws SemanticException if error encountered when setting property or
 	 *                           adding content into slot.
@@ -751,8 +771,9 @@ class ElementExporterImpl {
 		// if 'theme' property is defined, then clear it; otherwise do nothing
 		if (newElementHandle.getElement() instanceof ISupportThemeElement) {
 			PropertyHandle propHandle = newElementHandle.getPropertyHandle(ISupportThemeElementConstants.THEME_PROP);
-			if (propHandle != null)
+			if (propHandle != null) {
 				propHandle.clearValue();
+			}
 		}
 
 		// Duplicate all contents in the original element to new one.
@@ -768,7 +789,7 @@ class ElementExporterImpl {
 
 	/**
 	 * Duplicates the content elements from source element to destination element.
-	 * 
+	 *
 	 * @param source      handle of the element to duplicate
 	 * @param destination handle of of the destination element
 	 * @throws SemanticException if error encountered when adding contents into
@@ -802,11 +823,13 @@ class ElementExporterImpl {
 						GroupElementCommand cmd = new GroupElementCommand(destination.getModule(),
 								new ContainerContext(destination.getElement(), i));
 						cmd.setupSharedDataGroups(source.getElement());
-					} else
+					} else {
 						addToSlot(destinationSlotHandle, newContentHandle);
+					}
 
-				} else
+				} else {
 					addToSlot(destinationSlotHandle, newContentHandle);
+				}
 			}
 		}
 
@@ -816,14 +839,16 @@ class ElementExporterImpl {
 
 			IPropertyDefn propDefn = (IPropertyDefn) props.get(i);
 
-			if (propDefn.getTypeCode() != IPropertyType.ELEMENT_TYPE)
+			if (propDefn.getTypeCode() != IPropertyType.ELEMENT_TYPE) {
 				continue;
+			}
 
 			String propName = propDefn.getName();
 			Object value = source.getProperty(propName);
 
-			if (value == null)
+			if (value == null) {
 				continue;
+			}
 
 			if (propDefn.isList()) {
 				for (int j = 0; j < ((List) value).size(); j++) {

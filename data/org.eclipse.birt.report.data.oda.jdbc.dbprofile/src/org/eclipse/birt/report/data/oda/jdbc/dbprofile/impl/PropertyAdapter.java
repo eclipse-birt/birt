@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -19,8 +19,8 @@ package org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Map.Entry;
+import java.util.Properties;
 
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.drivers.jdbc.IJDBCConnectionProfileConstants;
@@ -28,7 +28,7 @@ import org.eclipse.datatools.connectivity.drivers.jdbc.IJDBCConnectionProfileCon
 /**
  * Internal adapter of this driver's ODA data source properties. For internal
  * use only.
- * 
+ *
  * @since 2.5.2
  */
 public class PropertyAdapter {
@@ -41,7 +41,7 @@ public class PropertyAdapter {
 	/**
 	 * Adapts persisted data source properties to those needed to create a database
 	 * profile.
-	 * 
+	 *
 	 * @param connProperties data source properties in their ODA property names
 	 * @return a copy of the adapted properties ready to use to create a database
 	 *         profile instance
@@ -60,15 +60,16 @@ public class PropertyAdapter {
 		 */
 		String dbConnPropValues = profileProps
 				.getProperty(IJDBCConnectionProfileConstants.CONNECTION_PROPERTIES_PROP_ID);
-		if (dbConnPropValues == null)
+		if (dbConnPropValues == null) {
 			profileProps.setProperty(IJDBCConnectionProfileConstants.CONNECTION_PROPERTIES_PROP_ID, EMPTY_STRING);
+		}
 
 		return profileProps;
 	}
 
 	/**
 	 * Adapts profile properties to those for persisted data source properties.
-	 * 
+	 *
 	 * @param profileProperties database profile properties in their full names
 	 * @return a copy of the adapted properties ready to use to be saved in a data
 	 *         source design
@@ -108,8 +109,9 @@ public class PropertyAdapter {
 		// remove the entry of the current property name; and if exists, add in new
 		// entry with the new name
 		Object propValue = profilePros.remove(currentName);
-		if (propValue != null)
+		if (propValue != null) {
 			profilePros.put(newName, propValue);
+		}
 	}
 
 	/*
@@ -126,7 +128,7 @@ public class PropertyAdapter {
 		if (sm_adaptableNames == null) {
 			synchronized (PropertyAdapter.class) {
 				if (sm_adaptableNames == null) {
-					sm_adaptableNames = new HashMap<String, String>(6);
+					sm_adaptableNames = new HashMap<>(6);
 
 					String fullPropName = IJDBCConnectionProfileConstants.DATABASE_NAME_PROP_ID;
 					sm_adaptableNames.put(fullPropName, convertToOdaPropertyName(fullPropName));

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -75,7 +75,7 @@ import org.eclipse.birt.report.model.util.StructureContextUtil;
  * design file, and deserialized from this XML-type extension property when
  * loading design file.
  * </ul>
- * 
+ *
  */
 
 public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvider implements IContentHandler {
@@ -92,17 +92,17 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 	 * extension definition file.
 	 */
 
-	HashMap<String, Object> extensionPropValues = new HashMap<String, Object>();
+	HashMap<String, Object> extensionPropValues = new HashMap<>();
 
 	/**
-	 * 
+	 *
 	 */
 	Map<String, String> encryptionMap = null;
 
 	/**
 	 * Constructs the peer extensibility provider with the extensible element and
 	 * the extension name.
-	 * 
+	 *
 	 * @param element       the extensible element
 	 * @param extensionName the extension name
 	 */
@@ -117,11 +117,12 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 	 * <code>IReportItem</code>. The returned list is read-only, so no modification
 	 * is allowed on this list. Each one in list is the instance of
 	 * <code>IPropertyDefn</code>.
-	 * 
+	 *
 	 * @return the read-only list of all property definitions. Return empty list if
 	 *         there is no property defined.
 	 */
 
+	@Override
 	public List<IElementPropertyDefn> getPropertyDefns() {
 		List<IElementPropertyDefn> props = super.getPropertyDefns();
 
@@ -130,8 +131,9 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 		// if no extension definition exists, just return the definition on
 		// extended item.
 
-		if (extDefn == null)
+		if (extDefn == null) {
 			return props;
+		}
 
 		// If the extension provides dynamic property list, add them.
 
@@ -150,7 +152,7 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 	 * Returns the methods defined on the element. Not only the method on the
 	 * extension element definition but also include those defined inside the
 	 * extension model.
-	 * 
+	 *
 	 * @return the method list
 	 */
 
@@ -160,19 +162,23 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 		// extends from the Model element.
 
 		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn();
-		if (extDefn == null)
+		if (extDefn == null) {
 			return Collections.emptyList();
+		}
 
-		List<IElementPropertyDefn> methods = new ArrayList<IElementPropertyDefn>();
+		List<IElementPropertyDefn> methods = new ArrayList<>();
 
-		if (extDefn.getMethods() != null)
+		if (extDefn.getMethods() != null) {
 			methods.addAll(extDefn.getMethods());
+		}
 
-		if (reportItem == null)
+		if (reportItem == null) {
 			reportItem = ((ExtendedItem) element).getExtendedElement();
+		}
 
-		if (reportItem == null)
+		if (reportItem == null) {
 			return methods;
+		}
 
 		// collect the methods defined from the dynamic properties.
 
@@ -180,8 +186,9 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 		if (dynamicProps != null) {
 			for (int i = 0; i < dynamicProps.length; i++) {
 				IPropertyDefinition prop = dynamicProps[i];
-				if (prop.getType() == IPropertyType.SCRIPT_TYPE)
+				if (prop.getType() == IPropertyType.SCRIPT_TYPE) {
 					methods.add(new ExtensionModelPropertyDefn(prop, extDefn.getReportItemFactory().getMessages()));
+				}
 			}
 		}
 		return methods;
@@ -191,11 +198,12 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 	 * Returns the element property definition with the given name from Model, the
 	 * extension definition file or extension model defined by
 	 * <code>IReportItem</code>.
-	 * 
+	 *
 	 * @param propName name of the property
 	 * @return the element property definition with the given name
 	 */
 
+	@Override
 	public ElementPropertyDefn getPropertyDefn(String propName) {
 		ElementPropertyDefn propDefn = super.getPropertyDefn(propName);
 		if (propDefn == null) {
@@ -217,20 +225,21 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 	/**
 	 * Gets all the extension model properties defined by <code>IReportItem</code>.
-	 * 
+	 *
 	 * @return the extension model properties, null if extended element is null
 	 */
 
 	private IPropertyDefinition[] getExtensionModelPropertyDefns() {
-		if (reportItem == null)
+		if (reportItem == null) {
 			return null;
+		}
 
 		return reportItem.getPropertyDefinitions();
 	}
 
 	/**
 	 * Gets the list of style masks for Model style properties.
-	 * 
+	 *
 	 * @return the list of the style masks
 	 */
 
@@ -240,7 +249,7 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 	/**
 	 * Returns the value of extension property or extension model property.
-	 * 
+	 *
 	 * @param module
 	 * @param prop
 	 * @return the value of the given property. If the property is not found, or the
@@ -252,20 +261,23 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 		String propName = prop.getName();
 
 		Object value = getReportItemExtensionProperty(module, prop, propName);
-		if (value != null)
+		if (value != null) {
 			return value;
+		}
 
 		// handle all other property values
 
 		value = extensionPropValues.get(propName);
 
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 		ElementPropertyDefn defn = (ElementPropertyDefn) getPropertyDefn(propName);
 		if (defn.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
 			Module root = element.getRoot();
-			if (root != null)
+			if (root != null) {
 				return ReferenceValueUtil.resolveElementReference(root, element, defn, (ElementRefValue) value);
+			}
 		}
 
 		return defn.isEncryptable() ? EncryptionUtil.decrypt(element, defn, extensionPropValues.get(propName))
@@ -274,7 +286,7 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 	/**
 	 * Returns the value of extension model property.
-	 * 
+	 *
 	 * @param module
 	 * @param prop
 	 * @return the value of the given property. If the property is not found, or the
@@ -285,8 +297,9 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 		if (isExtensionXMLProperty(propName) && prop.hasOwnModel()) {
 			if (reportItem != null) {
 				ByteArrayOutputStream stream = reportItem.serialize(propName);
-				if (stream == null)
+				if (stream == null) {
 					return null;
+				}
 
 				String retValue = null;
 				try {
@@ -301,8 +314,9 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 			// IReportItem must exist.
 
 			try {
-				if (reportItem == null)
+				if (reportItem == null) {
 					initializeReportItem(module);
+				}
 			} catch (ExtendedElementException e) {
 				return null;
 			}
@@ -315,7 +329,7 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 	/**
 	 * Returns the value of extension property or extension model property.
-	 * 
+	 *
 	 * @param module
 	 * @param prop
 	 * @return the value of the given property. If the property is not found, or the
@@ -330,13 +344,15 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 		Object value = extensionPropValues.get(propName);
 
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 		ElementPropertyDefn defn = (ElementPropertyDefn) getPropertyDefn(propName);
 		if (defn.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
 			Module root = element.getRoot();
-			if (root != null)
+			if (root != null) {
 				return ReferenceValueUtil.resolveElementReference(root, element, defn, (ElementRefValue) value);
+			}
 		}
 
 		return defn.isEncryptable() ? EncryptionUtil.decrypt(element, defn, extensionPropValues.get(propName))
@@ -345,7 +361,7 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 	/**
 	 * Sets the value for extension property or extension model property.
-	 * 
+	 *
 	 * @param prop  the definition of the property
 	 * @param value the value to set
 	 */
@@ -363,8 +379,9 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 						}
 
 						reportItem.deserialize(prop.getName(), new ByteArrayInputStream(raw));
-					} else
+					} else {
 						reportItem.deserialize(prop.getName(), new ByteArrayInputStream(new byte[0]));
+					}
 				} catch (ExtendedElementException e) {
 					assert false;
 				}
@@ -385,7 +402,7 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 	/**
 	 * Sets the value of the given property, which is extension property.
-	 * 
+	 *
 	 * @param propName the name of the property
 	 * @param value    the value to set
 	 */
@@ -403,16 +420,17 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 		StructureContextUtil.setStructureContext(prop, value, element);
 
-		if (value != null)
+		if (value != null) {
 			extensionPropValues.put(propName, value);
-		else
+		} else {
 			extensionPropValues.remove(propName);
+		}
 
 	}
 
 	/**
 	 * Initializes the extension element instance of <code>IReportItem</code>.
-	 * 
+	 *
 	 * @param module module
 	 * @throws ExtendedElementException if the extension is not found or it's failed
 	 *                                  to initialized the extension element
@@ -421,13 +439,15 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 	public void initializeReportItem(Module module) throws ExtendedElementException {
 
-		if (reportItem != null)
+		if (reportItem != null) {
 			return;
+		}
 
 		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn();
-		if (extDefn == null)
+		if (extDefn == null) {
 			throw new ExtendedElementException(element, ModelException.PLUGIN_ID,
 					SemanticError.DESIGN_EXCEPTION_EXTENSION_NOT_FOUND, null);
+		}
 
 		IReportItemFactory elementFactory = extDefn.getReportItemFactory();
 		assert elementFactory != null;
@@ -438,8 +458,9 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 		for (int i = 0; i < localPropDefns.size(); i++) {
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns.get(i);
 
-			if (propDefn.getTypeCode() != IPropertyType.XML_TYPE || !propDefn.canInherit() || !propDefn.hasOwnModel())
+			if (propDefn.getTypeCode() != IPropertyType.XML_TYPE || !propDefn.canInherit() || !propDefn.hasOwnModel()) {
 				continue;
+			}
 
 			String propName = propDefn.getName();
 			Object value = extensionPropValues.get(propName);
@@ -453,12 +474,14 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 					HashMap<String, Object> propValues = parentProvider.extensionPropValues;
 					value = propValues.get(propName);
 					if (value == null) {
-						if (parentProvider.reportItem != null)
+						if (parentProvider.reportItem != null) {
 							value = parentProvider.reportItem.serialize(propName);
+						}
 					}
 
-					if (value != null)
+					if (value != null) {
 						break;
+					}
 
 					parent = (ExtendedItem) ModelUtil.getParent(parent);
 				}
@@ -476,23 +499,25 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 					// serialized by Model property calling method
 					// IReportItem.serialize(String), since value.toString may
 					// change UTF-8 bytes into unicode 16 bytes
-					if (value instanceof ByteArrayOutputStream)
+					if (value instanceof ByteArrayOutputStream) {
 						raw = ((ByteArrayOutputStream) value).toByteArray();
-					else
+					} else {
 						raw = value.toString().getBytes(UnicodeUtil.SIGNATURE_UTF_8);
+					}
 				} catch (UnsupportedEncodingException e) {
 					assert false;
 				}
 
-				if (reportItem != null)
+				if (reportItem != null) {
 					reportItem.deserialize(propName, new ByteArrayInputStream(raw));
+				}
 			}
 		}
 	}
 
 	/**
 	 * Tests whether the property is an extension model property or not.
-	 * 
+	 *
 	 * @param propName name of the property to check
 	 * @return true if the property is extension model property, otherwise false
 	 */
@@ -505,8 +530,9 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 					IPropertyDefinition extProp = extProps[i];
 					assert extProp != null;
 
-					if (propName.equals(extProp.getName()))
+					if (propName.equals(extProp.getName())) {
 						return true;
+					}
 				}
 			}
 		}
@@ -517,7 +543,7 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 	 * Tests whether the property is the extension property which holds the
 	 * serialized XML value for extension model properties. The property type should
 	 * be XML.
-	 * 
+	 *
 	 * @param propName name of the property to check
 	 * @return true if the property is XML type and holds the serialized XML value
 	 *         for extension model properties, otherwise false
@@ -527,8 +553,9 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 		ExtensionElementDefn extDefn = getExtDefn();
 		if (extDefn != null) {
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) extDefn.getProperty(propName);
-			if (propDefn != null && propDefn.hasOwnModel() && IPropertyType.XML_TYPE == propDefn.getTypeCode())
+			if (propDefn != null && propDefn.hasOwnModel() && IPropertyType.XML_TYPE == propDefn.getTypeCode()) {
 				return true;
+			}
 		}
 
 		return false;
@@ -537,7 +564,7 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 	/**
 	 * Copies the extension values and extension element instance, which implements
 	 * <code>IReportItem</code>.
-	 * 
+	 *
 	 * @param source the source peer extensibility provider
 	 * @param policy
 	 */
@@ -547,17 +574,20 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 		while (it.hasNext()) {
 			String propName = it.next();
 			PropertyDefn propDefn = element.getPropertyDefn(propName);
-			if (!propDefn.isElementType())
+			if (!propDefn.isElementType()) {
 				continue;
+			}
 
 			Object value = source.extensionPropValues.get(propName);
-			if (value == null)
+			if (value == null) {
 				continue;
+			}
 
 			Object valueToSet = ModelUtil.copyValue(propDefn, value, policy);
 
-			if (valueToSet == null)
+			if (valueToSet == null) {
 				continue;
+			}
 			extensionPropValues.put(propName, valueToSet);
 
 			// if the property is element type, then set-up the container
@@ -579,7 +609,7 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 	/**
 	 * Copies the extension values and extension element instance, which implements
 	 * <code>IReportItem</code>.
-	 * 
+	 *
 	 * @param source the source peer extensibility provider
 	 */
 
@@ -594,32 +624,37 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 		// copy encryption map
 
 		if (source.encryptionMap != null && !source.encryptionMap.isEmpty()) {
-			if (encryptionMap == null)
-				encryptionMap = new HashMap<String, String>();
+			if (encryptionMap == null) {
+				encryptionMap = new HashMap<>();
+			}
 			encryptionMap.putAll(source.encryptionMap);
 		}
 
 		// extension Properties has been reallocated as a new hash map. There is
 		// no need to new again.
 
-		if (extensionPropValues == null)
-			extensionPropValues = new HashMap<String, Object>();
+		if (extensionPropValues == null) {
+			extensionPropValues = new HashMap<>();
+		}
 
 		Iterator<String> it = source.extensionPropValues.keySet().iterator();
 		while (it.hasNext()) {
 			String propName = it.next();
 			ElementPropertyDefn propDefn = element.getPropertyDefn(propName);
-			if (propDefn.isElementType())
+			if (propDefn.isElementType()) {
 				continue;
+			}
 
 			Object value = source.extensionPropValues.get(propName);
-			if (value == null)
+			if (value == null) {
 				continue;
+			}
 
 			Object valueToSet = ModelUtil.copyValue(propDefn, value);
 
-			if (valueToSet == null)
+			if (valueToSet == null) {
 				continue;
+			}
 
 			if (propDefn.getTypeCode() == IPropertyType.STRUCT_TYPE) {
 				StructureContextUtil.setStructureContext(propDefn, valueToSet, element);
@@ -631,7 +666,7 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 	/**
 	 * Return the extension element, which implements the interface
 	 * <code>IReportItem</code>.
-	 * 
+	 *
 	 * @return the extension element
 	 */
 
@@ -641,35 +676,38 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 	/**
 	 * Gets the script definition of this extended element.
-	 * 
+	 *
 	 * @return the script definition
 	 */
 
 	public IPropertyDefinition getScriptPropertyDefinition() {
-		if (reportItem != null)
+		if (reportItem != null) {
 			return reportItem.getScriptPropertyDefinition();
+		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.model.extension.ExtensibilityProvider#
 	 * hasLocalPropertyValues()
 	 */
 
+	@Override
 	public boolean hasLocalPropertyValues() {
-		if (hasLocalPropertyValuesOnOwnModel())
+		if (hasLocalPropertyValuesOnOwnModel()) {
 			return true;
-		else if (!extensionPropValues.isEmpty()) {
+		} else if (!extensionPropValues.isEmpty()) {
 			Set<String> propNames = extensionPropValues.keySet();
 			// ignore the element type property values, for it is layout
 			// related changes
 			for (String propName : propNames) {
 				PropertyDefn defn = (PropertyDefn) getPropertyDefn(propName);
 				assert defn != null;
-				if (defn.getTypeCode() != IPropertyType.ELEMENT_TYPE)
+				if (defn.getTypeCode() != IPropertyType.ELEMENT_TYPE) {
 					return true;
+				}
 			}
 		}
 
@@ -681,13 +719,14 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 	 */
 
 	public void clearOwnModel() {
-		if (reportItem != null)
+		if (reportItem != null) {
 			reportItem = null;
+		}
 	}
 
 	/**
 	 * Returns if this extended item has local property values on own model.
-	 * 
+	 *
 	 * @return <code>true</code> if this extended item has local property values on
 	 *         own model, <code>false</code> otherwise.
 	 */
@@ -697,8 +736,9 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 		for (int i = 0; i < localPropDefns.size(); i++) {
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns.get(i);
 
-			if (propDefn.getTypeCode() != IPropertyType.XML_TYPE || !propDefn.canInherit() || !propDefn.hasOwnModel())
+			if (propDefn.getTypeCode() != IPropertyType.XML_TYPE || !propDefn.canInherit() || !propDefn.hasOwnModel()) {
 				continue;
+			}
 
 			String propName = propDefn.getName();
 			Object childValue = extensionPropValues.get(propName);
@@ -708,13 +748,15 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 				} catch (ExtendedElementException e) {
 					// do nothing
 				}
-			} else if (reportItem == null)
+			} else if (reportItem == null) {
 				continue;
+			}
 
 			childValue = reportItem == null ? null : reportItem.serialize(propName);
 
-			if (childValue == null)
+			if (childValue == null) {
 				continue;
+			}
 
 			Object parentValue = null;
 			ExtendedItem parent = (ExtendedItem) ModelUtil.getParent(element);
@@ -734,19 +776,22 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 				parentValue = parentProvider.reportItem == null ? null : parentProvider.reportItem.serialize(propName);
 
-				if (parentValue != null)
+				if (parentValue != null) {
 					break;
+				}
 
 				parent = (ExtendedItem) ModelUtil.getParent(parent);
 			}
 
 			// compare these two value
 
-			if (parentValue == null)
+			if (parentValue == null) {
 				return true;
+			}
 
-			if (childValue.toString().equals(parentValue.toString()))
+			if (childValue.toString().equals(parentValue.toString())) {
 				continue;
+			}
 
 			return true;
 
@@ -757,13 +802,14 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 	/**
 	 * Gets the default encryption helper for the extension property.
-	 * 
+	 *
 	 * @param propDefn
 	 * @return encryption id for the given property definition
 	 */
 	public final String getEncryptionHelperID(ElementPropertyDefn propDefn) {
-		if (propDefn == null || !propDefn.isEncryptable())
+		if (propDefn == null || !propDefn.isEncryptable()) {
 			return null;
+		}
 		if (encryptionMap != null && encryptionMap.get(propDefn.getName()) != null) {
 			String encryptionID = encryptionMap.get(propDefn.getName());
 			return encryptionID;
@@ -773,24 +819,26 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 	/**
 	 * Sets the encryption id for the given property.
-	 * 
+	 *
 	 * @param propDefn
 	 * @param encryptionID
 	 */
 	public void setEncryptionHelper(ElementPropertyDefn propDefn, String encryptionID) {
 		String id = StringUtil.trimString(encryptionID);
-		if (encryptionMap == null)
-			encryptionMap = new HashMap<String, String>();
-		if (id == null)
+		if (encryptionMap == null) {
+			encryptionMap = new HashMap<>();
+		}
+		if (id == null) {
 			encryptionMap.remove(propDefn.getName());
-		else
+		} else {
 			encryptionMap.put(propDefn.getName(), id);
+		}
 	}
 
 	/**
 	 * Handles invalid property value. The property definition is valid and
 	 * extensible while the value is invalid.
-	 * 
+	 *
 	 * @param propName
 	 * @param value
 	 */
@@ -798,7 +846,7 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 	/**
 	 * Handles undefined property. The property definition is not found.
-	 * 
+	 *
 	 * @param propName
 	 * @param value
 	 */
@@ -807,7 +855,7 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 	/**
 	 * Handles undefined children. The child is not allowed to be inserted to the
 	 * container.
-	 * 
+	 *
 	 * @param propName
 	 * @param child
 	 */
@@ -815,27 +863,27 @@ public abstract class PeerExtensibilityProvider extends ModelExtensibilityProvid
 
 	/**
 	 * Returns the map for properties that has invalid values.
-	 * 
+	 *
 	 * @return the map of all invalid property value
 	 */
 	abstract public Map<String, UndefinedPropertyInfo> getInvalidPropertyValueMap();
 
 	/**
-	 * 
+	 *
 	 * @return the map of all undefined property
 	 */
 
 	abstract public Map<String, UndefinedPropertyInfo> getUndefinedPropertyMap();
 
 	/**
-	 * 
+	 *
 	 * @return the map of all illegal children content
 	 */
 	abstract public Map<String, List<UndefinedChildInfo>> getIllegalContents();
 
 	/**
 	 * Determines whether this children needs to do parser compatibility.
-	 * 
+	 *
 	 * @return true if need check this extension, otherwise false
 	 */
 	public boolean needCheckCompatibility() {

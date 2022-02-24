@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -54,18 +54,21 @@ import org.eclipse.ui.dialogs.IOverwriteQuery;
 
 public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 
+	@Override
 	public void configureContextParam(Map map, IProject project, SimpleImportOverwriteQuery query,
 			IProgressMonitor monitor) {
 		WebApp webApp = getWebApp(map, project, monitor);
-		if (webApp == null)
+		if (webApp == null) {
 			return;
+		}
 		// handle context-param settings
 		Iterator it = map.keySet().iterator();
 		while (it.hasNext()) {
 			String name = DataUtil.getString(it.next(), false);
 			ContextParamBean bean = (ContextParamBean) map.get(name);
-			if (bean == null)
+			if (bean == null) {
 				continue;
+			}
 
 			// if contained this param
 			List list = null;
@@ -102,8 +105,9 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 				ContextParam param = WebapplicationFactory.eINSTANCE.createContextParam();
 				param.setParamName(name);
 				param.setParamValue(value);
-				if (description != null)
+				if (description != null) {
 					param.setDescription(description);
+				}
 
 				param.setWebApp(webApp);
 			} else {
@@ -126,8 +130,9 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 	}
 
 	private int getContextParamIndexByName(List list, String name) {
-		if (list == null || name == null)
+		if (list == null || name == null) {
 			return -1;
+		}
 		Iterator it = list.iterator();
 		int index = 0;
 		while (it.hasNext()) {
@@ -136,24 +141,28 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 			// for servlet 2.3
 			if (paramObj instanceof ContextParam) {
 				ContextParam param = (ContextParam) paramObj;
-				if (name.equals(param.getParamName()))
+				if (name.equals(param.getParamName())) {
 					return index;
+				}
 			}
 			// for servlet 2.4
 			if (paramObj instanceof ParamValue) {
 				ParamValue param = (ParamValue) paramObj;
-				if (name.equals(param.getName()))
+				if (name.equals(param.getName())) {
 					return index;
+				}
 			}
 			index++;
 		}
 		return -1;
 	}
 
+	@Override
 	public void configureFilter(Map map, IProject project, SimpleImportOverwriteQuery query, IProgressMonitor monitor) {
 		WebApp webApp = getWebApp(map, project, monitor);
-		if (webApp == null)
+		if (webApp == null) {
 			return;
+		}
 
 		// handle filter settings
 		Iterator it = map.keySet().iterator();
@@ -161,8 +170,9 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 			String name = DataUtil.getString(it.next(), false);
 			FilterBean bean = (FilterBean) map.get(name);
 
-			if (bean == null)
+			if (bean == null) {
 				continue;
+			}
 
 			// if contained this filter
 			Object obj = webApp.getFilterNamed(name);
@@ -194,19 +204,22 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 		}
 	}
 
+	@Override
 	public void configureFilterMapping(Map map, IProject project, SimpleImportOverwriteQuery query,
 			IProgressMonitor monitor) {
 		WebApp webApp = getWebApp(map, project, monitor);
-		if (webApp == null)
+		if (webApp == null) {
 			return;
+		}
 
 		// handle filter-mapping settings
 		Iterator it = map.keySet().iterator();
 		while (it.hasNext()) {
 			String key = DataUtil.getString(it.next(), false);
 			FilterMappingBean bean = (FilterMappingBean) map.get(key);
-			if (bean == null)
+			if (bean == null) {
 				continue;
+			}
 			// if contained this filter-mapping
 			Object obj = getFilterMappingByKey(webApp.getFilterMappings(), key);
 			if (obj != null) {
@@ -235,15 +248,17 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 				// get Servlet object
 				Servlet servlet = webApp.getServletNamed(bean.getServletName());
 				mapping.setServlet(servlet);
-				if (bean.getUri() != null || servlet != null)
+				if (bean.getUri() != null || servlet != null) {
 					webApp.getFilterMappings().add(mapping);
+				}
 			}
 		}
 	}
 
 	private Object getFilterMappingByKey(List list, String key) {
-		if (list == null || key == null)
+		if (list == null || key == null) {
 			return null;
+		}
 		Iterator it = list.iterator();
 		while (it.hasNext()) {
 			// get filter-mapping object
@@ -253,8 +268,9 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 				String servletName = filterMapping.getServletName();
 				String uri = filterMapping.getUrlPattern();
 				String curKey = getFilterMappingString(name, servletName, uri);
-				if (key.equals(curKey))
+				if (key.equals(curKey)) {
 					return filterMapping;
+				}
 			}
 		}
 		return null;
@@ -266,32 +282,37 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 				+ (uri != null ? uri : ""); //$NON-NLS-1$
 	}
 
+	@Override
 	public void configureListener(Map map, IProject project, SimpleImportOverwriteQuery query,
 			IProgressMonitor monitor) {
 		WebApp webApp = getWebApp(map, project, monitor);
-		if (webApp == null)
+		if (webApp == null) {
 			return;
+		}
 		// handle listeners settings
 		Iterator it = map.keySet().iterator();
 		while (it.hasNext()) {
 			String name = DataUtil.getString(it.next(), false);
 			ListenerBean bean = (ListenerBean) map.get(name);
-			if (bean == null)
+			if (bean == null) {
 				continue;
+			}
 
 			String className = bean.getClassName();
 			String description = bean.getDescription();
 
 			// if listener existed in web.xml, skip it
 			Object obj = getListenerByClassName(webApp.getListeners(), className);
-			if (obj != null)
+			if (obj != null) {
 				continue;
+			}
 
 			// create Listener object
 			Listener listener = CommonFactory.eINSTANCE.createListener();
 			listener.setListenerClassName(className);
-			if (description != null)
+			if (description != null) {
 				listener.setDescription(description);
+			}
 
 			webApp.getListeners().remove(listener);
 			webApp.getListeners().add(listener);
@@ -299,8 +320,9 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 	}
 
 	private Object getListenerByClassName(List list, String className) {
-		if (list == null || className == null)
+		if (list == null || className == null) {
 			return null;
+		}
 		Iterator it = list.iterator();
 		while (it.hasNext()) {
 			Listener listener = (Listener) it.next();
@@ -311,18 +333,21 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 		return null;
 	}
 
+	@Override
 	public void configureServlet(Map map, IProject project, SimpleImportOverwriteQuery query,
 			IProgressMonitor monitor) {
 		WebApp webApp = getWebApp(map, project, monitor);
-		if (webApp == null)
+		if (webApp == null) {
 			return;
+		}
 		// handle servlet settings
 		Iterator it = map.keySet().iterator();
 		while (it.hasNext()) {
 			String name = DataUtil.getString(it.next(), false);
 			ServletBean bean = (ServletBean) map.get(name);
-			if (bean == null)
+			if (bean == null) {
 				continue;
+			}
 			// if contained this servlet
 			Object obj = webApp.getServletNamed(name);
 			if (obj != null) {
@@ -346,8 +371,9 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 			// create Servlet object
 			Servlet servlet = WebapplicationFactory.eINSTANCE.createServlet();
 			servlet.setServletName(name);
-			if (description != null)
+			if (description != null) {
 				servlet.setDescription(description);
+			}
 			servlet.setWebType(servletType);
 			servlet.setWebApp(webApp);
 		}
@@ -355,9 +381,7 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 	}
 
 	private WebApp getWebApp(Map map, IProject project, IProgressMonitor monitor) {
-		if (monitor.isCanceled())
-			return null;
-		if (map == null || project == null) {
+		if (monitor.isCanceled() || map == null || project == null) {
 			return null;
 		}
 		IModelProvider modelProvider = ModelProviderManager.getModelProvider(project);
@@ -369,18 +393,21 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 		return (WebApp) modelObject;
 	}
 
+	@Override
 	public void configureServletMapping(Map map, IProject project, SimpleImportOverwriteQuery query,
 			IProgressMonitor monitor) {
 		WebApp webApp = getWebApp(map, project, monitor);
-		if (webApp == null)
+		if (webApp == null) {
 			return;
+		}
 		Iterator it = map.keySet().iterator();
 		while (it.hasNext()) {
 			String uri = DataUtil.getString(it.next(), false);
 			ServletMappingBean bean = (ServletMappingBean) map.get(uri);
 
-			if (bean == null)
+			if (bean == null) {
 				continue;
+			}
 
 			// if contained this servlet-mapping
 			Object obj = WebArtifactUtil.getServletMappingByUri(webApp.getServletMappings(), uri);
@@ -417,18 +444,21 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 		}
 	}
 
+	@Override
 	public void configureTaglib(Map map, IProject project, SimpleImportOverwriteQuery query, IProgressMonitor monitor) {
 		WebApp webApp = getWebApp(map, project, monitor);
-		if (webApp == null)
+		if (webApp == null) {
 			return;
+		}
 		// handle taglib settings
 		Iterator it = map.keySet().iterator();
 		while (it.hasNext()) {
 			String uri = DataUtil.getString(it.next(), false);
 			TagLibBean bean = (TagLibBean) map.get(uri);
 
-			if (bean == null)
+			if (bean == null) {
 				continue;
+			}
 
 			// if contained this taglib
 			Object obj = getTagLibByUri(webApp, uri);
@@ -475,8 +505,9 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 	}
 
 	private Object getTagLibByUri(WebApp webapp, String uri) {
-		if (webapp == null || uri == null)
+		if (webapp == null || uri == null) {
 			return null;
+		}
 		List list = null;
 		JSPConfig config = webapp.getJspConfig();
 		if (config != null) {
@@ -491,25 +522,26 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 			// for servlet 2.3
 			if (obj instanceof TagLibRef) {
 				TagLibRef ref = (TagLibRef) obj;
-				if (uri.equals(ref.getTaglibURI()))
+				if (uri.equals(ref.getTaglibURI())) {
 					return ref;
+				}
 			}
 
 			// for servlet 2.4
 			if (obj instanceof TagLibRefType) {
 				TagLibRefType ref = (TagLibRefType) obj;
-				if (uri.equals(ref.getTaglibURI()))
+				if (uri.equals(ref.getTaglibURI())) {
 					return ref;
+				}
 			}
 		}
 		return null;
 	}
 
+	@Override
 	public void configureWebApp(WebAppBean webAppBean, IProject project, SimpleImportOverwriteQuery query,
 			IProgressMonitor monitor) {
-		if (monitor.isCanceled())
-			return;
-		if (webAppBean == null || project == null) {
+		if (monitor.isCanceled() || webAppBean == null || project == null) {
 			return;
 		}
 		IModelProvider modelProvider = ModelProviderManager.getModelProvider(project);
@@ -524,21 +556,25 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 
 	/**
 	 * Initialize web settings from existed web.xml file
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 */
+	@Override
 	public void initializeWebapp(Map map, IProject project) {
-		if (project == null)
+		if (project == null) {
 			return;
+		}
 
-		if (map == null)
+		if (map == null) {
 			map = new HashMap();
+		}
 
 		// create WebArtifact
 		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
-		if (webEdit == null)
+		if (webEdit == null) {
 			return;
+		}
 
 		try {
 			// get webapp
@@ -553,18 +589,20 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 
 	/**
 	 * Initialize context-param
-	 * 
+	 *
 	 * @param map
 	 * @param webapp
 	 */
 	protected void initializeContextParam(Map map, WebApp webapp) {
-		if (webapp == null)
+		if (webapp == null) {
 			return;
+		}
 
 		// get context-param map
 		Map son = (Map) map.get(EXT_CONTEXT_PARAM);
-		if (son == null)
+		if (son == null) {
 			return;
+		}
 
 		// get param list
 		List list = null;
@@ -581,8 +619,9 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 		while (it.hasNext()) {
 			String name = (String) it.next();
 			Object obj = getContextParamByName(list, name);
-			if (obj == null)
+			if (obj == null) {
 				continue;
+			}
 
 			String value = null;
 			String description = null;
@@ -603,8 +642,9 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 					List descList = param.getDescriptions();
 					if (descList != null && descList.size() > 0) {
 						Description descObj = (Description) descList.get(0);
-						if (descObj != null)
+						if (descObj != null) {
 							description = descObj.getValue();
+						}
 					}
 				}
 			}
@@ -621,14 +661,15 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 
 	/**
 	 * get context-param from list by name
-	 * 
+	 *
 	 * @param list
 	 * @param name
 	 * @return
 	 */
 	private Object getContextParamByName(List list, String name) {
-		if (list == null || name == null)
+		if (list == null || name == null) {
 			return null;
+		}
 
 		Iterator it = list.iterator();
 		while (it.hasNext()) {
@@ -638,15 +679,17 @@ public class BirtFacetUtil implements IBirtFacetUtil, IBirtWizardConstants {
 			// for servlet 2.3
 			if (paramObj instanceof ContextParam) {
 				ContextParam param = (ContextParam) paramObj;
-				if (name.equals(param.getParamName()))
+				if (name.equals(param.getParamName())) {
 					return param;
+				}
 			}
 
 			// for servlet 2.4
 			if (paramObj instanceof ParamValue) {
 				ParamValue param = (ParamValue) paramObj;
-				if (name.equals(param.getName()))
+				if (name.equals(param.getName())) {
 					return param;
+				}
 			}
 		}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,10 +23,11 @@ public class PostScriptRenderTest extends EngineCase {
 
 	private String pictureFolder = "d:/__test$picture$tmp$/";
 
+	@Override
 	protected void setUp() throws Exception {
 		if (isOnWindows()) {
 			super.setUp();
-			String[] pictures = new String[] { "aa.bmp", "aa.gif", "aa.jpg", "aa.png", "actuate.tif", "affine.svg" };
+			String[] pictures = { "aa.bmp", "aa.gif", "aa.jpg", "aa.png", "actuate.tif", "affine.svg" };
 			String pkg = "org/eclipse/birt/report/engine/emitter/postscript/picture/";
 			for (int i = 0; i < pictures.length; i++) {
 				String file = pictures[i];
@@ -35,6 +36,7 @@ public class PostScriptRenderTest extends EngineCase {
 		}
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		if (isOnWindows()) {
 			removeFile(new File(pictureFolder));
@@ -53,14 +55,14 @@ public class PostScriptRenderTest extends EngineCase {
 	 * the current working folder is normally the folder where Eclipse is installed.
 	 * <br>
 	 * <b>To check the results, every result files should be checked manually.</b>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testRenderReport() throws Exception {
 		if (isOnWindows()) {
 			String thePackage = "org/eclipse/birt/report/engine/emitter/postscript/";
-			String[] designs = new String[] { "underline", "uriImages", "urlImages", "pageBreak", "embededImages",
-					"svgImages", "pageBackgroundColor", "lableWithBorder", "pageBackgroundImage", "gridBackgroundImage",
+			String[] designs = { "underline", "uriImages", "urlImages", "pageBreak", "embededImages", "svgImages",
+					"pageBackgroundColor", "lableWithBorder", "pageBackgroundImage", "gridBackgroundImage",
 					"pageBackgroundImageNoRepeat", "pageBackgroundImageRepeatX", "pageBackgroundImageRepeatY" };
 			String suffix = ".rptdesign";
 			HTMLRenderOption options = new HTMLRenderOption();

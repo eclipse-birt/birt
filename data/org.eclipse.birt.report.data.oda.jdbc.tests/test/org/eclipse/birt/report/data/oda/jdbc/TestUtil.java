@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,15 +16,15 @@ package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.sql.DriverManager;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.sql.Date;
-import java.util.Properties;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Hashtable;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import javax.naming.Binding;
@@ -42,7 +42,7 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
  * Utility class for ODA-JDBC driver test cases
- * 
+ *
  */
 public class TestUtil {
 
@@ -205,11 +205,10 @@ public class TestUtil {
 	final static String DEFAULT_DRIVER_CLASS = "net.sourceforge.jtds.jdbc.Driver";
 
 	/** Data types to be tested */
-	final static String[] DATA_TYPES = new String[] { "decimal", "date", "float", "int", "varchar(100)", "time",
-			"timestamp" };
+	final static String[] DATA_TYPES = { "decimal", "date", "float", "int", "varchar(100)", "time", "timestamp" };
 
 	/** Data values for the test */
-	final static String[][] DATA_VALUES = new String[][] {
+	final static String[][] DATA_VALUES = {
 			{ "NULL", "'2000-01-01 00:00:00'", "0.0", "0", "'00'", "'1900-01-01 12:00:01'", "'2000-01-01 12:00:00'" },
 			{ "1111", "NULL", "1.1", "1", "'11'", "'1900-01-01 12:00:01'", "'2001-01-01 12:00:00'" },
 			{ "2222", "'2002-01-01 00:00:00'", "NULL", "2", "'22'", "'1900-01-01 12:00:02'", "'2002-01-01 12:00:00'" },
@@ -332,8 +331,9 @@ public class TestUtil {
 		for (int i = 0; i < DATA_VALUES.length; i++) {
 			sql = "insert into " + TABLE_NAME + " values(";
 			for (int j = 0; j < DATA_VALUES[i].length; j++) {
-				if (j > 0)
+				if (j > 0) {
 					sql += ", ";
+				}
 				sql += DATA_VALUES[i][j];
 			}
 			sql += ")";
@@ -406,42 +406,47 @@ public class TestUtil {
 
 	static String getURL() {
 		String url = System.getProperty("DTETest.url");
-		if (url != null)
+		if (url != null) {
 			return url;
-		else
+		} else {
 			return "jdbc:derby:" + getDatabase() + ";create=true;user=" + getUser() + ";password=" + getPassword();
+		}
 	}
 
 	static String getUser() {
 		String user = System.getProperty("DTETest.user");
-		if (user != null)
+		if (user != null) {
 			return user;
-		else
+		} else {
 			return "Actuate";
+		}
 	}
 
 	static String getPassword() {
 		String pwd = System.getProperty("DTETest.password");
-		if (pwd != null)
+		if (pwd != null) {
 			return pwd;
-		else
+		} else {
 			return "Actuate";
+		}
 	}
 
 	static String getDatabase() {
 		String database = System.getProperty("DTETest.database");
-		if (database != null)
+		if (database != null) {
 			return database;
-		else
+		} else {
 			return "DTETest";
+		}
 	}
 
 	static String getJndiName() {
 		String jndiName = System.getProperty("DTETest.jndiname");
-		if (jndiName != null)
+		if (jndiName != null) {
 			return jndiName;
-		else
+		} else {
 			return "DTETest";
+		}
 	}
 
 	public static void selectData(int a, int[] b) {

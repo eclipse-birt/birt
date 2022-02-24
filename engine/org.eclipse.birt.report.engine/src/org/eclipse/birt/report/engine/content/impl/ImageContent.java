@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,6 +58,7 @@ public class ImageContent extends AbstractContent implements IImageContent {
 		MIMEType = image.getMIMEType();
 	}
 
+	@Override
 	public int getContentType() {
 		return IMAGE_CONTENT;
 	}
@@ -70,10 +71,12 @@ public class ImageContent extends AbstractContent implements IImageContent {
 		super(content);
 	}
 
+	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitImage(this, value);
 	}
 
+	@Override
 	public String getAltText() {
 		// This is for backward compatibility. The alt text property was stored
 		// as string and will not be written in the content.
@@ -89,6 +92,7 @@ public class ImageContent extends AbstractContent implements IImageContent {
 		return altText;
 	}
 
+	@Override
 	public String getAltTextKey() {
 		if (altTextKey == null) {
 			if (generateBy instanceof ImageItemDesign) {
@@ -98,10 +102,12 @@ public class ImageContent extends AbstractContent implements IImageContent {
 		return altTextKey;
 	}
 
+	@Override
 	public void setAltTextKey(String key) {
 		altTextKey = key;
 	}
 
+	@Override
 	public String getHelpText() {
 		if (helpText == null) {
 			if (generateBy instanceof ImageItemDesign) {
@@ -111,6 +117,7 @@ public class ImageContent extends AbstractContent implements IImageContent {
 		return helpText;
 	}
 
+	@Override
 	public String getHelpKey() {
 		if (helpTextKey == null) {
 			if (generateBy instanceof ImageItemDesign) {
@@ -120,10 +127,12 @@ public class ImageContent extends AbstractContent implements IImageContent {
 		return helpTextKey;
 	}
 
+	@Override
 	public void setHelpKey(String key) {
 		helpTextKey = key;
 	}
 
+	@Override
 	public byte[] getData() {
 		if (sourceType == IImageContent.IMAGE_NAME) {
 			Report reportDesign = report.getDesign();
@@ -140,14 +149,17 @@ public class ImageContent extends AbstractContent implements IImageContent {
 		return data;
 	}
 
+	@Override
 	public void setData(byte[] data) {
 		this.data = data;
 	}
 
+	@Override
 	public String getExtension() {
 		return extension;
 	}
 
+	@Override
 	public String getURI() {
 		switch (sourceType) {
 		case IMAGE_NAME:
@@ -160,6 +172,7 @@ public class ImageContent extends AbstractContent implements IImageContent {
 		}
 	}
 
+	@Override
 	public int getImageSource() {
 		return sourceType;
 	}
@@ -167,6 +180,7 @@ public class ImageContent extends AbstractContent implements IImageContent {
 	/**
 	 * @param altText The altText to set.
 	 */
+	@Override
 	public void setAltText(String altText) {
 		this.altText = altText;
 	}
@@ -236,6 +250,7 @@ public class ImageContent extends AbstractContent implements IImageContent {
 	/**
 	 * @param extension The extension to set.
 	 */
+	@Override
 	public void setExtension(String extension) {
 		this.extension = extension;
 	}
@@ -243,6 +258,7 @@ public class ImageContent extends AbstractContent implements IImageContent {
 	/**
 	 * @param sourceType The sourceType to set.
 	 */
+	@Override
 	public void setImageSource(int sourceType) {
 		this.sourceType = sourceType;
 	}
@@ -250,6 +266,7 @@ public class ImageContent extends AbstractContent implements IImageContent {
 	/**
 	 * @param uri The uri to set.
 	 */
+	@Override
 	public void setURI(String uri) {
 		switch (sourceType) {
 		case IMAGE_NAME:
@@ -267,9 +284,10 @@ public class ImageContent extends AbstractContent implements IImageContent {
 
 	/**
 	 * set the image map
-	 * 
+	 *
 	 * @param imageMap - the image map
 	 */
+	@Override
 	public void setImageMap(Object imageMap) {
 		this.imageMap = imageMap;
 	}
@@ -277,15 +295,17 @@ public class ImageContent extends AbstractContent implements IImageContent {
 	/**
 	 * get the image map
 	 */
+	@Override
 	public Object getImageMap() {
 		return imageMap;
 	}
 
 	/**
 	 * set the MIME type
-	 * 
+	 *
 	 * @param MIMEType - the MIMEType
 	 */
+	@Override
 	public void setMIMEType(String MIMEType) {
 		this.MIMEType = MIMEType;
 	}
@@ -293,6 +313,7 @@ public class ImageContent extends AbstractContent implements IImageContent {
 	/**
 	 * get the MIMEType
 	 */
+	@Override
 	public String getMIMEType() {
 		return MIMEType;
 	}
@@ -306,6 +327,7 @@ public class ImageContent extends AbstractContent implements IImageContent {
 	static final protected short FIELD_MIMETYPE = 506;
 	static final protected short FIELD_DATA = 507;
 
+	@Override
 	protected void writeFields(DataOutputStream out) throws IOException {
 		super.writeFields(out);
 		if (extension != null) {
@@ -342,10 +364,12 @@ public class ImageContent extends AbstractContent implements IImageContent {
 		}
 	}
 
+	@Override
 	public boolean needSave() {
 		return true;
 	}
 
+	@Override
 	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
 		switch (filedId) {
 		case FIELD_EXTENSEION:
@@ -371,14 +395,17 @@ public class ImageContent extends AbstractContent implements IImageContent {
 		}
 	}
 
+	@Override
 	protected IContent cloneContent() {
 		return new ImageContent(this);
 	}
 
+	@Override
 	public int getResolution() {
 		return resolution;
 	}
 
+	@Override
 	public void setResolution(int resolution) {
 		this.resolution = resolution;
 	}

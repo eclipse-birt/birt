@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
  * Simplifies working with the font family property. The font family can be for
  * either a element property or a structure member.
  * <p>
- * 
+ *
  * Values of a font family can be a list of font names, a string, a CSS
  * (pre-defined) string. The CSS values are defined in
  * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}. For
@@ -44,27 +44,27 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
  * <li>fantasy</li>
  * <li>monospace</li>
  * </ul>
- * 
+ *
  * Please note that for a list of font names, blanks are allowed between two
  * neighboring font names.
  * <p>
  * The application generally does not create font handles directly. It uses the
  * method in <code>DesignElementHandle</code> to get a color handle like:
- * 
+ *
  * <pre>
- * 
+ *
  * DesignElementHandle elementHandle = element.handle();
  * FontHandle fontHandle = elementHandle.getFontProperty(Style.FONT_FAMILY_PROP);
- * 
+ *
  * </pre>
- * 
+ *
  */
 
 public class FontHandle extends ComplexValueHandle {
 
 	/**
 	 * Constructs a font family handle for an element property.
-	 * 
+	 *
 	 * @param handle the element handle
 	 */
 
@@ -76,10 +76,10 @@ public class FontHandle extends ComplexValueHandle {
 
 	/**
 	 * Constructs a font family handle for a structure member.
-	 * 
+	 *
 	 * @param handle  the element handle
 	 * @param context the context to the structure member.
-	 * 
+	 *
 	 */
 
 	public FontHandle(DesignElementHandle handle, StructureContext context) {
@@ -91,13 +91,14 @@ public class FontHandle extends ComplexValueHandle {
 
 	/**
 	 * Constructs a font family handle for a structure member.
-	 * 
+	 *
 	 * @param handle  the element handle
 	 * @param context the context to the structure member
 	 * @deprecated
-	 * 
+	 *
 	 */
 
+	@Deprecated
 	public FontHandle(DesignElementHandle handle, MemberRef context) {
 		super(handle, context);
 
@@ -109,7 +110,7 @@ public class FontHandle extends ComplexValueHandle {
 	 * Returns an array containing all of font names in the correct order. Names are
 	 * separated by commas in the property value, and are slit into an array by this
 	 * method.
-	 * 
+	 *
 	 * @return an array containing font names or <code>null</code> if the value of
 	 *         the font family property is not set.
 	 */
@@ -117,8 +118,9 @@ public class FontHandle extends ComplexValueHandle {
 	public String[] getFontFamilies() {
 		String lists = getStringValue();
 
-		if (lists == null)
+		if (lists == null) {
 			return null;
+		}
 
 		String[] names = lists.split(","); //$NON-NLS-1$
 		for (int i = 0; i < names.length; i++) {
@@ -131,7 +133,7 @@ public class FontHandle extends ComplexValueHandle {
 	 * Returns an array containing CSS (pre-defined) font names. Each item in the
 	 * array is a CSS constant defined in the
 	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}.
-	 * 
+	 *
 	 * @return an array containing CSS (pre-defined) font names.
 	 */
 

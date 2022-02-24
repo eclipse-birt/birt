@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,8 +28,8 @@ public class PrimitiveDiskArray extends BaseDiskArray {
 
 	/**
 	 * @throws IOException
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public PrimitiveDiskArray() throws IOException {
 		super();
@@ -37,11 +37,12 @@ public class PrimitiveDiskArray extends BaseDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.olap.data.util.BaseDiskArray#writeObject(java.lang.
 	 * Object)
 	 */
+	@Override
 	protected void writeObject(Object object) throws IOException {
 		if (object == null) {
 			getRandomAccessFile().writeShort(NULL_VALUE);
@@ -57,9 +58,10 @@ public class PrimitiveDiskArray extends BaseDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.BaseDiskArray#readObject()
 	 */
+	@Override
 	protected Object readObject() throws IOException {
 		short fieldCount = getRandomAccessFile().readShort();
 		if (fieldCount == NULL_VALUE) {
@@ -71,9 +73,10 @@ public class PrimitiveDiskArray extends BaseDiskArray {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.olap.data.util.BaseDiskArray#clear()
 	 */
+	@Override
 	public void clear() throws IOException {
 		fieldWriter = null;
 		fieldReader = null;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
 
 /**
- * 
+ *
  */
 
 public class AddComputedSummaryDialog extends BaseDialog {
@@ -72,11 +72,12 @@ public class AddComputedSummaryDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent)
 
 	{
@@ -130,6 +131,7 @@ public class AddComputedSummaryDialog extends BaseDialog {
 		return parentComposite;
 	}
 
+	@Override
 	protected Control createContents(Composite parent) {
 		Control contents = super.createContents(parent);
 		initialize();
@@ -152,6 +154,7 @@ public class AddComputedSummaryDialog extends BaseDialog {
 
 	private ModifyListener modifyListener = new ModifyListener() {
 
+		@Override
 		public void modifyText(ModifyEvent e) {
 			// TODO Auto-generated method stub
 			validate();
@@ -201,6 +204,7 @@ public class AddComputedSummaryDialog extends BaseDialog {
 		return dataType;
 	}
 
+	@Override
 	protected void okPressed() {
 		name = nameText.getText().trim();
 		expression = new Expression(expressionText.getText(),

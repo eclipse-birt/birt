@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.script;
@@ -50,6 +50,7 @@ public class DataRow implements IDataRow {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataRow#getDataSet()
 	 */
+	@Override
 	public IDataSetInstanceHandle getDataSet() {
 		return dataSet;
 	}
@@ -57,6 +58,7 @@ public class DataRow implements IDataRow {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataRow#getResultMetaData()
 	 */
+	@Override
 	public IResultMetaData getResultMetaData() throws BirtException {
 		if (this.metaData == null) {
 			IResultObject obj = dataSet.getCurrentRow();
@@ -70,6 +72,7 @@ public class DataRow implements IDataRow {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataRow#getColumnValue(int)
 	 */
+	@Override
 	public Object getColumnValue(int index) throws BirtException {
 		if (index == 0) {
 			return Integer.valueOf(dataSet.getCurrentRowIndex());
@@ -81,6 +84,7 @@ public class DataRow implements IDataRow {
 	/**
 	 * @see org.eclipse.birt.data.engine.api.script.IDataRow#getColumnValue(java.lang.String)
 	 */
+	@Override
 	public Object getColumnValue(String name) throws BirtException {
 		return getAndCheckResultObject().getFieldValue(name);
 	}
@@ -89,9 +93,11 @@ public class DataRow implements IDataRow {
 	 * @see org.eclipse.birt.data.engine.api.script.IDataRow#setColumnValue(int,
 	 *      java.lang.Object)
 	 */
+	@Override
 	public void setColumnValue(int index, Object value) throws BirtException {
-		if (!dataSet.allowUpdateRowData())
+		if (!dataSet.allowUpdateRowData()) {
 			throw new DataException(ResourceConstants.NO_ROW_UPDATE);
+		}
 
 		IResultObject obj = getAndCheckResultObject();
 		// Observe the type restriction on the column
@@ -101,9 +107,10 @@ public class DataRow implements IDataRow {
 				value = DataTypeUtil.convert(value, fieldClass);
 			} catch (BirtException e) {
 				if (obj.getResultClass() instanceof ResultClass) {
-					if (obj.getResultClass().wasAnyType(index))
+					if (obj.getResultClass().wasAnyType(index)) {
 						throw new IllegalArgumentException(DataResourceHandle.getInstance()
 								.getMessage(ResourceConstants.POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN));
+					}
 				} else {
 					throw e;
 				}
@@ -117,9 +124,11 @@ public class DataRow implements IDataRow {
 	 * @see org.eclipse.birt.data.engine.api.script.IDataRow#setColumnValue(int,
 	 *      java.lang.Object)
 	 */
+	@Override
 	public void setColumnValue(String name, Object value) throws BirtException {
-		if (!dataSet.allowUpdateRowData())
+		if (!dataSet.allowUpdateRowData()) {
 			throw new DataException(ResourceConstants.NO_ROW_UPDATE);
+		}
 
 		IResultObject obj = getAndCheckResultObject();
 		// Observe the type restriction on the column
@@ -129,9 +138,10 @@ public class DataRow implements IDataRow {
 				value = DataTypeUtil.convert(value, fieldClass);
 			} catch (BirtException e) {
 				if (obj.getResultClass() instanceof ResultClass) {
-					if (obj.getResultClass().wasAnyType(name))
+					if (obj.getResultClass().wasAnyType(name)) {
 						throw new IllegalArgumentException(DataResourceHandle.getInstance()
 								.getMessage(ResourceConstants.POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN));
+					}
 				} else {
 					throw e;
 				}
@@ -147,8 +157,9 @@ public class DataRow implements IDataRow {
 	 */
 	protected IResultObject getAndCheckResultObject() throws DataException {
 		IResultObject resultObject = dataSet.getCurrentRow();
-		if (resultObject == null)
+		if (resultObject == null) {
 			throw new DataException(ResourceConstants.NO_CURRENT_ROW);
+		}
 		return resultObject;
 	}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Exception thrown when a property name is invalid.
- * 
+ *
  */
 
 public class PropertyNameException extends SemanticException {
@@ -59,7 +59,7 @@ public class PropertyNameException extends SemanticException {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param obj      the element that has the property.
 	 * @param propName the property name that caused the error
 	 */
@@ -72,7 +72,7 @@ public class PropertyNameException extends SemanticException {
 	/**
 	 * Constructs a exception given a structure and its element and the invalid
 	 * member name.
-	 * 
+	 *
 	 * @param obj        the element that has the structure.
 	 * @param struct     the structure that doesn't contain the member.
 	 * @param memberName the member name that caused the exception.
@@ -86,7 +86,7 @@ public class PropertyNameException extends SemanticException {
 
 	/**
 	 * Returns the invalid property name.
-	 * 
+	 *
 	 * @return the invalid property name.
 	 */
 
@@ -96,7 +96,7 @@ public class PropertyNameException extends SemanticException {
 
 	/**
 	 * Return the invalid member name.
-	 * 
+	 *
 	 * @return the invalid member name.
 	 */
 
@@ -106,9 +106,10 @@ public class PropertyNameException extends SemanticException {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
+	@Override
 	public String getLocalizedMessage() {
 		if (sResourceKey == DESIGN_EXCEPTION_PROPERTY_NAME_INVALID) {
 			String elementName = element == null ? "" : element.getFullName(); //$NON-NLS-1$

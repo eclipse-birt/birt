@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,7 +22,7 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 
 /**
  * Report Item
- * 
+ *
  */
 abstract public class ReportItemDesign extends StyledElementDesign {
 
@@ -165,7 +165,7 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 
 	/**
 	 * accept a visitor. see visit pattern.
-	 * 
+	 *
 	 * @param visitor
 	 */
 	abstract public Object accept(IReportItemVisitor visitor, Object value);
@@ -303,7 +303,7 @@ abstract public class ReportItemDesign extends StyledElementDesign {
 
 	public void setExpressionStyle(int propertyIndex, Expression value) {
 		if (expressionStyles == null) {
-			expressionStyles = new HashMap<Integer, Expression>();
+			expressionStyles = new HashMap<>();
 		}
 		expressionStyles.put(propertyIndex, value);
 	}

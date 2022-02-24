@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -66,7 +66,7 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ *
  */
 
 public class CubeQueryExecutor {
@@ -91,7 +91,7 @@ public class CubeQueryExecutor {
 	public static final int AGGR_OPERATION_FILTER = 3;
 
 	/**
-	 * 
+	 *
 	 * @param outResults
 	 * @param defn
 	 * @param session
@@ -107,11 +107,11 @@ public class CubeQueryExecutor {
 		this.session = session;
 		DataEngineThreadLocal.getInstance().getPathManager().setTempPath(session.getTempDir());
 		this.outResults = outResults;
-		this.dimensionFilterEvalHelpers = new ArrayList<IJSFilterHelper>();
-		this.dimensionSimpleFilter = new ArrayList<SimpleLevelFilter>();
-		this.aggrMeasureFilterEvalHelpers = new ArrayList<IAggrMeasureFilterEvalHelper>();
-		this.aggrFilterEvalHelpersOnCubeOperator = new ArrayList<IAggrMeasureFilterEvalHelper>();
-		this.advancedFacttableBasedFilterEvalHelper = new ArrayList<IJSFacttableFilterEvalHelper>();
+		this.dimensionFilterEvalHelpers = new ArrayList<>();
+		this.dimensionSimpleFilter = new ArrayList<>();
+		this.aggrMeasureFilterEvalHelpers = new ArrayList<>();
+		this.aggrFilterEvalHelpersOnCubeOperator = new ArrayList<>();
+		this.advancedFacttableBasedFilterEvalHelper = new ArrayList<>();
 		if (!(context.getMode() == DataEngineContext.MODE_PRESENTATION && defn.getQueryResultsID() != null)) {
 			// query execution result will be loaded directly from document
 			// needless to populate filer helpers
@@ -150,10 +150,11 @@ public class CubeQueryExecutor {
 			}
 			if (!exist) {
 				String expr = "";
-				if (filterExpr instanceof IScriptExpression)
+				if (filterExpr instanceof IScriptExpression) {
 					expr = ((IScriptExpression) filterExpr).getText();
-				else if (filterExpr instanceof IConditionalExpression)
+				} else if (filterExpr instanceof IConditionalExpression) {
 					expr = ((IConditionalExpression) filterExpr).getExpression().getText();
+				}
 				throw new DataException(ResourceConstants.INVALID_AGGREGATION_FILTER_EXPRESSION,
 						new Object[] { expr, binding.getBindingName(), ((DimLevel) dimLevel[i]).toString() });
 			}
@@ -162,31 +163,37 @@ public class CubeQueryExecutor {
 
 	private SimpleLevelFilter createSimpleLevelFilter(IFilterDefinition filter, List bindings) {
 		if (!(filter instanceof CubeFilterDefinition)
-				|| ((CubeFilterDefinition) filter).getAxisQualifierValues() != null)
+				|| ((CubeFilterDefinition) filter).getAxisQualifierValues() != null) {
 			return null;
+		}
 
 		IBaseExpression expr = ((CubeFilterDefinition) filter).getExpression();
-		if (!(expr instanceof IConditionalExpression))
+		if (!(expr instanceof IConditionalExpression)) {
 			return null;
+		}
 		IConditionalExpression condExpr = (IConditionalExpression) ((CubeFilterDefinition) filter).getExpression();
 
-		if (isVariableOperandInDimensionFilter(condExpr))
+		if (isVariableOperandInDimensionFilter(condExpr)) {
 			return null;
+		}
 
 		Set refDimLevel;
 		try {
 			refDimLevel = OlapExpressionCompiler.getReferencedDimLevel(condExpr.getExpression(), bindings);
 
-			if (refDimLevel.size() != 1)
+			if (refDimLevel.size() != 1) {
 				return null;
+			}
 			DimLevel dimlevel = (DimLevel) refDimLevel.iterator().next();
-			if (dimlevel.getAttrName() != null)
+			if (dimlevel.getAttrName() != null) {
 				return null;
+			}
 			if (!(condExpr.getOperand1() instanceof IExpressionCollection)) {
 				Object Op1 = ScriptEvalUtil.evalExpr((IScriptExpression) condExpr.getOperand1(),
 						session.getEngineContext().getScriptContext().newContext(scope), ScriptExpression.defaultID, 0);
-				if (Op1 == null)
+				if (Op1 == null) {
 					return null;
+				}
 				ISelection[] selction = new ISelection[1];
 				if (condExpr.getOperator() == IConditionalExpression.OP_EQ
 						|| condExpr.getOperator() == IConditionalExpression.OP_IN) {
@@ -199,8 +206,9 @@ public class CubeQueryExecutor {
 					selction[0] = SelectionFactory.createRangeSelection(null, new Object[] { Op1 }, false, false);
 				} else if (condExpr.getOperator() == IConditionalExpression.OP_LE) {
 					selction[0] = SelectionFactory.createRangeSelection(null, new Object[] { Op1 }, false, true);
-				} else
+				} else {
 					return null;
+				}
 
 				return new SimpleLevelFilter(dimlevel, selction);
 			} else if (condExpr.getOperator() == IConditionalExpression.OP_IN) {
@@ -258,8 +266,9 @@ public class CubeQueryExecutor {
 				boolean existDimLevel = false;
 				for (int p = 0; p < hierarchy.getLevels().size(); p++) {
 					if (dims[j].getDimensionName().equals(hierarchy.getDimension().getName())
-							&& dims[j].getLevelName().equals(hierarchy.getLevels().get(p).getName()))
+							&& dims[j].getLevelName().equals(hierarchy.getLevels().get(p).getName())) {
 						existDimLevel = true;
+					}
 				}
 				if (!existDimLevel) {
 					filter.setUpdateAggregation(true);
@@ -271,8 +280,9 @@ public class CubeQueryExecutor {
 	}
 
 	public void populateFilterHelpers() throws DataException {
-		if (populateFilter)
+		if (populateFilter) {
 			return;
+		}
 		List filters = defn.getFilters();
 		Set<DimLevel> dimLevelInCubeQuery = this.getDimLevelsDefinedInCubeQuery();
 		validateFilter(filters, defn.getBindings());
@@ -285,9 +295,8 @@ public class CubeQueryExecutor {
 					// For the filter that not requires updating aggregation, we would not populate
 					// them here.
 					continue;
-				} else {
-					if (!adjustCubeFilterUpdateAggregationFlag(filter, dimLevelSet))
-						continue;
+				} else if (!adjustCubeFilterUpdateAggregationFlag(filter, dimLevelSet)) {
+					continue;
 				}
 
 			}
@@ -311,8 +320,9 @@ public class CubeQueryExecutor {
 							break;
 						}
 					}
-					if (!existLevelFilter)
+					if (!existLevelFilter) {
 						this.dimensionSimpleFilter.add(simpleLevelfilter);
+					}
 				}
 				break;
 			}
@@ -346,18 +356,20 @@ public class CubeQueryExecutor {
 				while (exprsIterator.hasNext()) {
 					Iterator dimLevels = OlapExpressionCompiler
 							.getReferencedDimLevel(exprsIterator.next(), this.defn.getBindings()).iterator();
-					while (dimLevels.hasNext())
+					while (dimLevels.hasNext()) {
 						dimensionSet.add(((DimLevel) dimLevels.next()).getDimensionName());
+					}
 				}
 				// For drill up/down filter that need not update aggregation, we will treat them
 				// as FACTTABLE_FILTER. This FACTTABLE_FILTER
 				// will indeed apply on detailed most aggregation result set.
 				// TODO: Refactor FACTTABLE_FILTER, give better naming so that can reflect its
 				// new usage.
-				if (dimensionSet.size() == 1 && filter.updateAggregation())
+				if (dimensionSet.size() == 1 && filter.updateAggregation()) {
 					return CubeQueryExecutor.DIMENSION_FILTER;
-				else
+				} else {
 					return CubeQueryExecutor.FACTTABLE_FILTER;
+				}
 			}
 			return CubeQueryExecutor.DIMENSION_FILTER;
 		}
@@ -367,23 +379,25 @@ public class CubeQueryExecutor {
 		} else {
 			String measure = OlapExpressionCompiler.getReferencedScriptObject(filter.getExpression(),
 					ScriptConstants.MEASURE_SCRIPTABLE);
-			if (measure != null)
+			if (measure != null) {
 				return CubeQueryExecutor.FACTTABLE_FILTER;
+			}
 
 			List bindingName = ExpressionCompilerUtil.extractColumnExpression(filter.getExpression(),
 					ScriptConstants.DATA_BINDING_SCRIPTABLE);
 			if (bindingName.size() > 0) {
-				List bindingList = new ArrayList();
-				bindingList.addAll(this.defn.getBindings());
+				List bindingList = new ArrayList(this.defn.getBindings());
 				List nestedCubeOperation = new ArrayList();
 				if (this.defn instanceof PreparedCubeQueryDefinition) {
 					nestedCubeOperation
 							.addAll(((PreparedCubeQueryDefinition) this.defn).getBindingsForNestAggregation());
 				}
-				if (existAggregationBinding(bindingName, bindingList))
+				if (existAggregationBinding(bindingName, bindingList)) {
 					return CubeQueryExecutor.AGGR_MEASURE_FILTER;
-				if (existAggregationBinding(bindingName, nestedCubeOperation))
+				}
+				if (existAggregationBinding(bindingName, nestedCubeOperation)) {
 					return CubeQueryExecutor.AGGR_OPERATION_FILTER;
+				}
 
 				Set targetDimLevel = OlapExpressionCompiler.getReferencedDimLevel(filter.getExpression(),
 						this.defn.getBindings());
@@ -398,13 +412,15 @@ public class CubeQueryExecutor {
 						if (binding != null) {
 							List temp = ExpressionCompilerUtil.extractColumnExpression(binding.getExpression(),
 									ScriptConstants.DATA_BINDING_SCRIPTABLE);
-							if (temp != null && temp.size() > 0)
+							if (temp != null && temp.size() > 0) {
 								derivedBindingNameList.addAll(temp);
+							}
 						}
 					}
 					if (derivedBindingNameList.size() > 0) {
-						if (existAggregationBinding(derivedBindingNameList, this.defn.getBindings()))
+						if (existAggregationBinding(derivedBindingNameList, this.defn.getBindings())) {
 							return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+						}
 					}
 				}
 
@@ -414,13 +430,15 @@ public class CubeQueryExecutor {
 					if (binding != null) {
 						List temp = ExpressionCompilerUtil.extractColumnExpression(binding.getExpression(),
 								ScriptConstants.DATA_BINDING_SCRIPTABLE);
-						if (temp != null && temp.size() > 0)
+						if (temp != null && temp.size() > 0) {
 							derivedBindingNameList.addAll(temp);
+						}
 					}
 				}
 				if (derivedBindingNameList.size() > 0) {
-					if (existAggregationBinding(derivedBindingNameList, this.defn.getBindings()))
+					if (existAggregationBinding(derivedBindingNameList, this.defn.getBindings())) {
 						return CubeQueryExecutor.AGGR_MEASURE_FILTER;
+					}
 				}
 
 				return CubeQueryExecutor.FACTTABLE_FILTER;
@@ -436,7 +454,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param bindingName
 	 * @param bindings
 	 * @return
@@ -444,8 +462,9 @@ public class CubeQueryExecutor {
 	 */
 	private static boolean existAggregationBinding(List bindingName, List bindings) throws DataException {
 		for (int i = 0; i < bindingName.size(); i++) {
-			if (isAggregationBinding((String) bindingName.get(i), bindings))
+			if (isAggregationBinding((String) bindingName.get(i), bindings)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -471,7 +490,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -484,7 +503,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -493,7 +512,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -502,7 +521,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -511,7 +530,7 @@ public class CubeQueryExecutor {
 	}
 
 	public Set<DimLevel> getDimLevelsDefinedInCubeQuery() {
-		Set<DimLevel> dimLevelDefinedInCube = new HashSet<DimLevel>();
+		Set<DimLevel> dimLevelDefinedInCube = new HashSet<>();
 		populateDimLevelInEdge(dimLevelDefinedInCube, ICubeQueryDefinition.COLUMN_EDGE);
 		populateDimLevelInEdge(dimLevelDefinedInCube, ICubeQueryDefinition.ROW_EDGE);
 		populateDimLevelInEdge(dimLevelDefinedInCube, ICubeQueryDefinition.PAGE_EDGE);
@@ -520,8 +539,9 @@ public class CubeQueryExecutor {
 
 	private void populateDimLevelInEdge(Set<DimLevel> dimLevelDefinedInCube, int i) {
 		IEdgeDefinition edge = defn.getEdge(i);
-		if (edge == null)
+		if (edge == null) {
 			return;
+		}
 		List<IDimensionDefinition> dims = edge.getDimensions();
 		for (IDimensionDefinition dim : dims) {
 			List<ILevelDefinition> levels = ((IHierarchyDefinition) dim.getHierarchy().get(0)).getLevels();
@@ -532,19 +552,20 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
 	public IComputedMeasureHelper getComputedMeasureHelper() throws DataException {
-		if (this.defn.getComputedMeasures() != null && this.defn.getComputedMeasures().size() > 0)
+		if (this.defn.getComputedMeasures() != null && this.defn.getComputedMeasures().size() > 0) {
 			return new ComputedMeasureHelper(this.scope, session.getEngineContext().getScriptContext(),
 					this.defn.getComputedMeasures());
+		}
 		return null;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public ICubeQueryDefinition getCubeQueryDefinition() {
@@ -552,7 +573,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public DataEngineSession getSession() {
@@ -560,7 +581,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public DataEngineContext getContext() {
@@ -568,7 +589,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public List getColumnEdgeSort() {
@@ -576,7 +597,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public List getRowEdgeSort() {
@@ -584,7 +605,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public List getPageEdgeSort() {
@@ -592,7 +613,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public String getQueryResultsId() {
@@ -600,7 +621,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setQueryResultsId(String id) {
@@ -608,7 +629,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public IBaseQueryResults getOuterResults() {
@@ -620,7 +641,7 @@ public class CubeQueryExecutor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param edgeType
 	 * @return
 	 */
@@ -637,18 +658,20 @@ public class CubeQueryExecutor {
 
 		Collections.sort(result, new Comparator() {
 
+			@Override
 			public int compare(Object arg0, Object arg1) {
 				int level1 = ((ICubeSortDefinition) arg0).getTargetLevel().getHierarchy().getLevels()
 						.indexOf(((ICubeSortDefinition) arg0).getTargetLevel());
 				int level2 = ((ICubeSortDefinition) arg1).getTargetLevel().getHierarchy().getLevels()
 						.indexOf(((ICubeSortDefinition) arg1).getTargetLevel());
 
-				if (level1 == level2)
+				if (level1 == level2) {
 					return 0;
-				else if (level1 < level2)
+				} else if (level1 < level2) {
 					return -1;
-				else
+				} else {
 					return 1;
+				}
 
 			}
 		});

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -62,14 +62,14 @@ public class CachedReportContentReaderV3 {
 	protected void removeCache(long offset) {
 		final Long hashKey = new Long(offset);
 		caches.remove(hashKey);
-		return;
 	}
 
 	protected IContent findCache(long offset) {
 		final Long hashKey = new Long(offset);
 		final CacheEntry cache = (CacheEntry) caches.get(hashKey);
-		if (cache != null)
+		if (cache != null) {
 			return cache.content;
+		}
 		return null;
 	}
 

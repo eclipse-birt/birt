@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.component.Label;
 
 /**
- * 
+ *
  */
 
 public interface IChartComputation {
@@ -29,7 +29,7 @@ public interface IChartComputation {
 
 	/**
 	 * Returns a text metrics.
-	 * 
+	 *
 	 * @param xs
 	 * @param la
 	 * @param wrapping
@@ -39,7 +39,7 @@ public interface IChartComputation {
 
 	/**
 	 * Dispose the text metrics.
-	 * 
+	 *
 	 * @param itm
 	 */
 	void recycleTextMetrics(ITextMetrics itm);
@@ -49,7 +49,7 @@ public interface IChartComputation {
 	 * is costly, but in most case we do not change the font of a label, we just
 	 * change the string value, so the font height will not changed. The purpose of
 	 * the method is to get the font height overhead for reusing.
-	 * 
+	 *
 	 * @param xs
 	 * @param la
 	 * @return font height
@@ -58,7 +58,7 @@ public interface IChartComputation {
 
 	/**
 	 * Compute the size of a label.
-	 * 
+	 *
 	 * @param xs
 	 * @param la
 	 * @param dWrapping
@@ -71,7 +71,7 @@ public interface IChartComputation {
 
 	/**
 	 * Compute the bounding box ( location and size ) of a label.
-	 * 
+	 *
 	 * @param xs
 	 * @param iLabelLocation
 	 * @param la
@@ -84,7 +84,7 @@ public interface IChartComputation {
 
 	/**
 	 * Compute the bounding polygon of a label.
-	 * 
+	 *
 	 * @param xs
 	 * @param iLabelLocation
 	 * @param la
@@ -99,7 +99,7 @@ public interface IChartComputation {
 
 	/**
 	 * Compute the width of a label.
-	 * 
+	 *
 	 * @param xs
 	 * @param la
 	 * @return
@@ -109,7 +109,7 @@ public interface IChartComputation {
 
 	/**
 	 * Compute the height of a label.
-	 * 
+	 *
 	 * @param xs
 	 * @param la
 	 * @return
@@ -119,7 +119,7 @@ public interface IChartComputation {
 
 	/**
 	 * Apply the wrapping to a label.
-	 * 
+	 *
 	 * @param xs
 	 * @param la
 	 * @param dWapping

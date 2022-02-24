@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -41,7 +41,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 	/**
 	 * The default value of the '{@link #getScript() <em>Script</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getScript()
 	 * @generated
 	 * @ordered
@@ -51,7 +51,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 	/**
 	 * The cached value of the '{@link #getScript() <em>Script</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @see #getScript()
 	 * @generated
 	 * @ordered
@@ -60,7 +60,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	protected ScriptValueImpl() {
@@ -69,7 +69,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -79,29 +79,32 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public String getScript() {
 		return script;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
+	@Override
 	public void setScript(String newScript) {
 		String oldScript = script;
 		script = newScript;
-		if (eNotificationRequired())
+		if (eNotificationRequired()) {
 			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.SCRIPT_VALUE__SCRIPT, oldScript,
 					script));
+		}
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -115,7 +118,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -130,7 +133,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -145,7 +148,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
@@ -159,15 +162,16 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 *
 	 * @generated
 	 */
 	@Override
 	public String toString() {
-		if (eIsProxy())
+		if (eIsProxy()) {
 			return super.toString();
+		}
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (script: "); //$NON-NLS-1$
 		result.append(script);
 		result.append(')');
@@ -176,7 +180,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/**
 	 * A convenience method provided to build a script action value when needed
-	 * 
+	 *
 	 * @param script
 	 * @return
 	 */
@@ -190,6 +194,7 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
+	@Override
 	public ScriptValue copyInstance() {
 		ScriptValueImpl dest = new ScriptValueImpl();
 		dest.set(this);
@@ -203,9 +208,10 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/*
 	 * Get script expression.
-	 * 
+	 *
 	 * @return expression the script expression.
 	 */
+	@Override
 	public ScriptExpression getScriptExpression() {
 		ScriptExpression expression = new ScriptExpression();
 		expression.setType(ChartUtil.getExpressionType(script));
@@ -215,9 +221,10 @@ public class ScriptValueImpl extends ActionValueImpl implements ScriptValue {
 
 	/*
 	 * Set script expression.
-	 * 
+	 *
 	 * @param expression the script expression.
 	 */
+	@Override
 	public void setScriptExpression(ScriptExpression expression) {
 		setScript(ChartUtil.adaptExpression(expression));
 	}

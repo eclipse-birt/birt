@@ -11,7 +11,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.olap.impl.query;
@@ -35,9 +35,10 @@ public class SubCubeCursorImpl extends CubeCursorImpl {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.impl.query.CubeCursorImpl#close()
 	 */
+	@Override
 	public void close() throws OLAPException {
 		// do nothing
 	}

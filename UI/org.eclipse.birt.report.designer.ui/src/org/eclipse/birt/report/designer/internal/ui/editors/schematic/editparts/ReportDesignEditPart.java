@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,7 +68,7 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param obj the object
 	 */
 	public ReportDesignEditPart(Object obj) {
@@ -77,9 +77,10 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		ReportRootFigure figure = new ReportRootFigure();
 
@@ -107,9 +108,10 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ReportFlowLayoutEditPolicy());
 		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ReportContainerEditPolicy());
@@ -117,32 +119,36 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.designer.ui.editor.edit.ReportElementEditPart#
 	 * getModelChildren()
 	 */
+	@Override
 	protected List getModelChildren() {
 		return HandleAdapterFactory.getInstance().getReportDesignHandleAdapter(getModel()).getChildren();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
 	 */
 
+	@Override
 	public DragTracker getDragTracker(Request req) {
-		if (req instanceof SelectionRequest && ((SelectionRequest) req).getLastButtonPressed() == 3)
+		if (req instanceof SelectionRequest && ((SelectionRequest) req).getLastButtonPressed() == 3) {
 			return new DeselectAllTracker(this);
+		}
 		return new RootDragTracker();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
 	 * AbstractReportEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 
 		SimpleMasterPageHandle masterPageHandle = getSimpleMasterPageHandle();
@@ -186,6 +192,7 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 				getModelAdapter().getBackgroundImageHeight(masterPageHandle, size, getBackImage(masterPageHandle)));
 	}
 
+	@Override
 	public void refreshMarginBorder(ReportDesignMarginBorder border) {
 		refreshBorder(getSimpleMasterPageHandle(), border);
 		Insets pist = getPadding(getSimpleMasterPageHandle(), null);
@@ -201,9 +208,10 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.EditPart#activate()
 	 */
+	@Override
 	public void activate() {
 		super.activate();
 
@@ -211,6 +219,7 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 
 		getViewer().addPropertyChangeListener(new PropertyChangeListener() {
 
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (DeferredGraphicalViewer.PROPERTY_MARGIN_VISIBILITY.equals(evt.getPropertyName())) {
 					showMargin = ((Boolean) evt.getNewValue()).booleanValue();
@@ -236,20 +245,22 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#isinterest(java.lang.Object)
 	 */
+	@Override
 	public boolean isinterest(Object model) {
 		return super.isinterest(model) || model instanceof MasterPageHandle;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#propertyChange(java.util.Map)
 	 */
+	@Override
 	protected void propertyChange(Map info) {
 		boolean invalidate = false;
 		/*
@@ -314,6 +325,7 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 		return DEUtil.getPadding(handle, retValue);
 	}
 
+	@Override
 	public boolean testAttribute(Object target, String name, String value) {
 		if (name.equals("extension")) {
 			return SimpleWildcardTester.testWildcardIgnoreCase(value,
@@ -324,10 +336,9 @@ public class ReportDesignEditPart extends AbstractReportEditPart implements IAct
 
 	private String getExtension(String filename) {
 		int index = filename.lastIndexOf('.');
-		if (index == -1)
-			return "";//$NON-NLS-1$
-		if (index == (filename.length() - 1))
+		if ((index == -1) || (index == (filename.length() - 1))) {
 			return ""; //$NON-NLS-1$
+		}
 		return filename.substring(index + 1);
 	}
 }

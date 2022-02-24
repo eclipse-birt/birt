@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
  * edge/dimension cursor. Changing the position of an EdgeCursor affects both
  * the values of the dimension cursor of the edgeCursor and the value of the
  * data of the cubeCursor.
- * 
+ *
  */
 public class RowDataAccessor implements IRowDataAccessor {
 
@@ -42,14 +42,15 @@ public class RowDataAccessor implements IRowDataAccessor {
 	private RowDataAccessorService service;
 
 	/**
-	 * 
+	 *
 	 * @param resultSet
 	 * @param axis
 	 * @throws IOException
 	 */
 	public RowDataAccessor(RowDataAccessorService service, IAggregationResultSet rs) {
-		if (service.getDimensionAxis().length == 0)
+		if (service.getDimensionAxis().length == 0) {
 			return;
+		}
 		this.service = service;
 		this.rs = rs;
 		this.dimAxis = service.getDimensionAxis();
@@ -59,6 +60,7 @@ public class RowDataAccessor implements IRowDataAccessor {
 	 * @see org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor#
 	 * getAggregationResultSet()
 	 */
+	@Override
 	public IAggregationResultSet getAggregationResultSet() {
 		return this.rs;
 	}
@@ -67,10 +69,11 @@ public class RowDataAccessor implements IRowDataAccessor {
 	 * Populate edgeInfo, EdgeInfo represents the startPosition and endPosition to
 	 * its children. Here, it will distinguish the non-mirrored level and mirrored
 	 * level. Only non-mirrored level will generate its EdgeInfo
-	 * 
+	 *
 	 * @param isCalculatedMember
 	 * @throws IOException
 	 */
+	@Override
 	public void initialize(boolean isPage) throws IOException {
 		ResultSetFetcher fetcher = new ResultSetFetcher(this.rs);
 
@@ -82,131 +85,145 @@ public class RowDataAccessor implements IRowDataAccessor {
 	/**
 	 * Move certain dimension cursor to the next row.Return false if the next row
 	 * does not exist.
-	 * 
+	 *
 	 * @param dimAxisIndex certain dimension cursor
 	 * @return
 	 * @throws OLAPException
 	 */
+	@Override
 	public boolean dim_next(int dimAxisIndex) throws OLAPException {
 		return dimTraverse.next(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 * @throws OLAPException
 	 */
+	@Override
 	public boolean dim_previous(int dimAxisIndex) throws OLAPException {
 		return dimTraverse.previous(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param offset
 	 * @param dimAxisIndex
 	 * @return
 	 * @throws OLAPException
 	 */
+	@Override
 	public boolean dim_relative(int offset, int dimAxisIndex) throws OLAPException {
 		return dimTraverse.relative(offset, dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
+	@Override
 	public boolean dim_first(int dimAxisIndex) {
 		return dimTraverse.first(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
+	@Override
 	public boolean dim_last(int dimAxisIndex) {
 		return dimTraverse.last(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
+	@Override
 	public boolean dim_isBeforeFirst(int dimAxisIndex) {
 		return dimTraverse.isBeforeFirst(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
+	@Override
 	public boolean dim_isAfterLast(int dimAxisIndex) {
 		return dimTraverse.isAfterLast(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
+	@Override
 	public boolean dim_isFirst(int dimAxisIndex) {
 		return dimTraverse.isFirst(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
+	@Override
 	public boolean dim_isLast(int dimAxisIndex) {
 		return dimTraverse.isLast(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 */
+	@Override
 	public void dim_afterLast(int dimAxisIndex) {
 		dimTraverse.afterLast(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 */
+	@Override
 	public void dim_beforeFirst(int dimAxisIndex) {
 		dimTraverse.beforeFirst(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @param position
 	 */
+	@Override
 	public void dim_setPosition(int dimAxisIndex, long position) {
 		dimTraverse.setPosition(dimAxisIndex, position);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
+	@Override
 	public long dim_getPosition(int dimAxisIndex) {
 		return dimTraverse.getPosition(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @param attr
 	 * @return
 	 * @throws OLAPException
 	 */
+	@Override
 	public Object dim_getCurrentMember(int dimAxisIndex, int attr) throws OLAPException {
 		try {
 			int position = dimTraverse.getCurrentRowPosition(dimAxisIndex);
@@ -221,12 +238,13 @@ public class RowDataAccessor implements IRowDataAccessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @param attrName
 	 * @return
 	 * @throws OLAPException
 	 */
+	@Override
 	public Object dim_getCurrentMember(int dimAxisIndex, String attrName) throws OLAPException {
 
 		try {
@@ -242,8 +260,9 @@ public class RowDataAccessor implements IRowDataAccessor {
 	}
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	public void edge_afterLast() {
 		this.edgeTraverse.afterLast();
 		int[] lastDimLength = this.getLastDiemsionLength();
@@ -253,17 +272,19 @@ public class RowDataAccessor implements IRowDataAccessor {
 	}
 
 	/**
-	 * 
+	 *
 	 */
+	@Override
 	public void edge_beforeFirst() {
 		this.edgeTraverse.beforeFirst();
 		this.dimTraverse.beforeFirst();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public boolean edge_first() {
 		if (this.edgeTraverse.first()) {
 			this.dimTraverse.first();
@@ -274,9 +295,10 @@ public class RowDataAccessor implements IRowDataAccessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public long getEdgePostion() {
 		if (this.edgeTraverse == null) {
 			return -1;
@@ -285,41 +307,46 @@ public class RowDataAccessor implements IRowDataAccessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public boolean edge_isAfterLast() {
 		return this.edgeTraverse.isAfterLast();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public boolean edge_isBeforeFirst() {
 		return this.edgeTraverse.isBeforeFirst();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public boolean edge_isFirst() {
 		return this.edgeTraverse.isFirst();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public boolean edge_isLast() {
 		return this.edgeTraverse.isLast();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public boolean edge_last() {
 		if (this.edgeTraverse.last()) {
 			int[] lastDimLength = getLastDiemsionLength();
@@ -327,15 +354,17 @@ public class RowDataAccessor implements IRowDataAccessor {
 				this.dimTraverse.dimensionCursorPosition[i] = lastDimLength[i] - 1;
 			}
 			return true;
-		} else
+		} else {
 			return false;
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws OLAPException
 	 */
+	@Override
 	public boolean edge_next() throws OLAPException {
 		if (!this.edgeTraverse.next()) {
 			this.edge_afterLast();
@@ -345,7 +374,7 @@ public class RowDataAccessor implements IRowDataAccessor {
 			for (int i = this.dimAxis.length - 1; i >= 0; i--) {
 				this.dimTraverse.first(i);
 			}
-		} else
+		} else {
 			for (int i = this.dimAxis.length - 1; i >= 0; i--) {
 				if (this.dimTraverse.next(i)) {
 					break;
@@ -353,14 +382,16 @@ public class RowDataAccessor implements IRowDataAccessor {
 					this.dimTraverse.first(i);
 				}
 			}
+		}
 		return true;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws OLAPException
 	 */
+	@Override
 	public boolean edge_previous() throws OLAPException {
 		this.edgeTraverse.previous();
 		if (this.edgeTraverse.currentPosition >= this.edgeDimensRelation.traverseLength - 1) {
@@ -388,14 +419,16 @@ public class RowDataAccessor implements IRowDataAccessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param arg0
 	 * @return
 	 * @throws OLAPException
 	 */
+	@Override
 	public boolean edge_relative(int arg0) throws OLAPException {
-		if (arg0 == 0)
+		if (arg0 == 0) {
 			return true;
+		}
 		int position = this.edgeTraverse.currentPosition + arg0;
 		if (position >= this.edgeDimensRelation.traverseLength) {
 			this.edge_afterLast();
@@ -423,8 +456,9 @@ public class RowDataAccessor implements IRowDataAccessor {
 				EdgeInfo previousInfo = (EdgeInfo) edgeInfoList.get(currentPosition);
 				if (previousInfo.parent == edgeInfo.parent) {
 					dimPosition++;
-				} else
+				} else {
 					break;
+				}
 			}
 			this.dimTraverse.setPosition(i, dimPosition);
 			index = edgeInfo.parent;
@@ -432,11 +466,12 @@ public class RowDataAccessor implements IRowDataAccessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param position
 	 * @throws OLAPException
 	 * @throws OLAPException
 	 */
+	@Override
 	public void edge_setPostion(long position) throws OLAPException {
 		if (position < 0) {
 			this.dimTraverse.beforeFirst();
@@ -448,25 +483,27 @@ public class RowDataAccessor implements IRowDataAccessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
+	@Override
 	public int getEdgeStart(int dimAxisIndex) {
 		return this.dimTraverse.getEdgeStart(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimAxisIndex
 	 * @return
 	 */
+	@Override
 	public int getEdgeEnd(int dimAxisIndex) {
 		return this.dimTraverse.getEdgeEnd(dimAxisIndex);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private int[] getLastDiemsionLength() {
@@ -478,23 +515,26 @@ public class RowDataAccessor implements IRowDataAccessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dimIndex
 	 * @return
 	 */
 	private int getRangeInLastDimension(int dimIndex) {
-		if (dimIndex == 0)
+		if (dimIndex == 0) {
 			return this.edgeDimensRelation.currentRelation[0].size();
+		}
 		int size = this.edgeDimensRelation.currentRelation[dimIndex].size();
-		if (size == 0)
+		if (size == 0) {
 			return -1;
+		}
 		int count = 1;
 		EdgeInfo edgeInfo = (EdgeInfo) this.edgeDimensRelation.currentRelation[dimIndex].get(size - 1);
 		EdgeInfo previousInfo;
 		for (int i = size - 2; i >= 0; i--) {
 			previousInfo = (EdgeInfo) this.edgeDimensRelation.currentRelation[dimIndex].get(i);
-			if (previousInfo.parent == edgeInfo.parent)
+			if (previousInfo.parent == edgeInfo.parent) {
 				count++;
+			}
 		}
 		return count;
 	}
@@ -504,6 +544,7 @@ public class RowDataAccessor implements IRowDataAccessor {
 	 * org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor#sychronizedWithPage
 	 * (int)
 	 */
+	@Override
 	public void sychronizedWithPage(int position) {
 		this.edgeDimensRelation.synchronizedWithPage(position);
 		this.dimTraverse = new DimensionTraverse(this.service.getDimensionAxis(), this.edgeDimensRelation);
@@ -511,10 +552,12 @@ public class RowDataAccessor implements IRowDataAccessor {
 		this.edge_beforeFirst();
 	}
 
+	@Override
 	public RowDataAccessorService getRowDataAccessorService() {
 		return this.service;
 	}
 
+	@Override
 	public int getExtend(int dimAxisIndex) {
 		return this.dimTraverse.getExtend(dimAxisIndex);
 	}

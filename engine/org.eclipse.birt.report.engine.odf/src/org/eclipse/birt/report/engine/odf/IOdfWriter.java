@@ -45,7 +45,7 @@ public interface IOdfWriter {
 
 	void close() throws Exception;
 
-	public abstract void endTableRowGroup();
+	void endTableRowGroup();
 
-	public abstract void startTableRowGroup();
+	void startTableRowGroup();
 }

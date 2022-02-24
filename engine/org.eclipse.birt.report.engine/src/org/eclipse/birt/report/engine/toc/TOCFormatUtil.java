@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,9 +27,9 @@ import com.ibm.icu.util.ULocale;
 
 public class TOCFormatUtil {
 
-	private HashMap<String, NumberFormatter> cachedNumberFormats = new HashMap<String, NumberFormatter>();
-	private HashMap<String, DateFormatter> cachedDateFormats = new HashMap<String, DateFormatter>();
-	private HashMap<String, StringFormatter> cachedStringFormats = new HashMap<String, StringFormatter>();
+	private HashMap<String, NumberFormatter> cachedNumberFormats = new HashMap<>();
+	private HashMap<String, DateFormatter> cachedDateFormats = new HashMap<>();
+	private HashMap<String, StringFormatter> cachedStringFormats = new HashMap<>();
 
 	private TimeZone timeZone;
 	private ULocale locale;
@@ -101,7 +101,7 @@ public class TOCFormatUtil {
 
 	/**
 	 * localize the value to a string.
-	 * 
+	 *
 	 * @param value
 	 * @param style
 	 * @param locale
@@ -114,7 +114,7 @@ public class TOCFormatUtil {
 		if (value instanceof Number) {
 			String format = getNumberFormat(style);
 			NumberFormatter fmt = getNumberFormatter(format);
-			;
+
 			return fmt.format((Number) value);
 		}
 		if (value instanceof java.util.Date) {

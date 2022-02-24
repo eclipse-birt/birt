@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -39,14 +39,15 @@ import com.ibm.icu.text.Collator;
 
 /**
  * Deals with dataset node
- * 
+ *
  */
 public class DataSetNodeProvider extends DefaultNodeProvider {
 
-	private static Comparator<ResultSetColumnHandle> comp = new Comparator<ResultSetColumnHandle>() {
+	private static Comparator<ResultSetColumnHandle> comp = new Comparator<>() {
 
 		private Collator collator = Collator.getInstance();
 
+		@Override
 		public int compare(ResultSetColumnHandle r1, ResultSetColumnHandle r2) {
 			return collator.compare(r1.getColumnName(), r2.getColumnName());
 		}
@@ -56,10 +57,11 @@ public class DataSetNodeProvider extends DefaultNodeProvider {
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds the action to the menu.
-	 * 
+	 *
 	 * @param menu   the menu
 	 * @param object the object
 	 */
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		super.createContextMenu(sourceViewer, object, menu);
 
@@ -75,19 +77,21 @@ public class DataSetNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
+	@Override
 	public String getNodeDisplayName(Object model) {
 		return DEUtil.getDisplayLabel(model, false);
 	}
 
 	/**
 	 * Gets the children element of the given model using visitor.
-	 * 
+	 *
 	 * @param object the handle
 	 */
+	@Override
 	public Object[] getChildren(Object object) {
 		DataSetHandle handle = (DataSetHandle) object;
 
@@ -116,7 +120,7 @@ public class DataSetNodeProvider extends DefaultNodeProvider {
 		if (iter != null) {
 			while (iter.hasNext()) {
 				Object dataSetParameter = iter.next();
-				if (((DataSetParameterHandle) dataSetParameter).isOutput() == true) {
+				if (((DataSetParameterHandle) dataSetParameter).isOutput()) {
 					params.add(dataSetParameter);
 				}
 			}
@@ -131,10 +135,11 @@ public class DataSetNodeProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
 	 * hasChildren(java.lang.Object)
 	 */
+	@Override
 	public boolean hasChildren(Object object) {
 		return true;
 	}

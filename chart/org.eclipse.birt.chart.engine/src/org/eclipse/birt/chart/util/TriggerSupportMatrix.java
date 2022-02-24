@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -74,7 +74,7 @@ public class TriggerSupportMatrix {
 
 		/**
 		 * Tests if current trigger condition is supported in this combination.
-		 * 
+		 *
 		 * @param tCondition
 		 * @param iRenderer
 		 * @param iType
@@ -90,7 +90,7 @@ public class TriggerSupportMatrix {
 		}
 	}
 
-	protected static List<TriggerCombination> supportedTriggers = new ArrayList<TriggerCombination>();
+	protected static List<TriggerCombination> supportedTriggers = new ArrayList<>();
 	static {
 		// click
 		addTriggersLikeOnclick(TriggerCondition.ONCLICK_LITERAL);
@@ -134,7 +134,7 @@ public class TriggerSupportMatrix {
 
 		// load
 		addTriggersLikeMouseDown(TriggerCondition.ONLOAD_LITERAL);
-	};
+	}
 
 	private static void addTriggersLikeOnclick(TriggerCondition condition) {
 		supportedTriggers.add(new TriggerCombination(condition, ActionType.URL_REDIRECT_LITERAL));
@@ -165,7 +165,7 @@ public class TriggerSupportMatrix {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param outputFormat output type of chart renderer
 	 * @param iType        the type of interactivity support
 	 */
@@ -176,7 +176,7 @@ public class TriggerSupportMatrix {
 
 	/**
 	 * Returns the interactivity type
-	 * 
+	 *
 	 * @return interactivity type
 	 */
 	public int getType() {
@@ -185,12 +185,12 @@ public class TriggerSupportMatrix {
 
 	/**
 	 * Gets supported Action types according to current trigger condition.
-	 * 
+	 *
 	 * @param condition event condition
 	 * @return a string array of supported action type display names
 	 */
 	public String[] getSupportedActionsDisplayName(TriggerCondition condition) {
-		List<String> actions = new ArrayList<String>();
+		List<String> actions = new ArrayList<>();
 		for (TriggerCombination tc : supportedTriggers) {
 			// Tests if current trigger condition is supported in this
 			// combination
@@ -204,7 +204,7 @@ public class TriggerSupportMatrix {
 	/**
 	 * Checks the trigger combination of condition and action type is supported in
 	 * current renderer.
-	 * 
+	 *
 	 * @param trigger
 	 * @return supported result
 	 */
@@ -218,7 +218,7 @@ public class TriggerSupportMatrix {
 	/**
 	 * Checks the trigger combination of condition and action type is supported in
 	 * current renderer.
-	 * 
+	 *
 	 * @param condition
 	 * @param actionType
 	 * @return supported result
@@ -238,7 +238,7 @@ public class TriggerSupportMatrix {
 	/**
 	 * Returns supported trigger conditions for specified type of interactivity
 	 * triggers.
-	 * 
+	 *
 	 * @return supported trigger conditions. Null means no filter.
 	 */
 	public TriggerCondition[] getConditionFilters() {
@@ -247,7 +247,7 @@ public class TriggerSupportMatrix {
 
 	/**
 	 * Returns supported cursor for specified type of interactivity triggers.
-	 * 
+	 *
 	 * @return supported cursor array. Null means no filter.
 	 */
 	public CursorType[] getCursorFilters() {

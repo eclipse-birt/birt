@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -135,112 +135,131 @@ public class ContentEmitterUtil {
 
 	private static class StartContentVisitor implements IContentVisitor {
 
+		@Override
 		public Object visit(IContent content, Object value) throws BirtException {
 			return content.accept(this, value);
 		}
 
+		@Override
 		public Object visitContent(IContent content, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startContent(content);
 			return value;
 		}
 
+		@Override
 		public Object visitPage(IPageContent page, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startPage(page);
 			return value;
 		}
 
+		@Override
 		public Object visitContainer(IContainerContent container, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startContainer(container);
 			return value;
 		}
 
+		@Override
 		public Object visitTable(ITableContent table, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startTable(table);
 			return value;
 		}
 
+		@Override
 		public Object visitTableBand(ITableBandContent tableBand, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startTableBand(tableBand);
 			return value;
 		}
 
+		@Override
 		public Object visitRow(IRowContent row, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startRow(row);
 			return value;
 		}
 
+		@Override
 		public Object visitCell(ICellContent cell, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startCell(cell);
 			return value;
 		}
 
+		@Override
 		public Object visitText(ITextContent text, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startText(text);
 			return value;
 		}
 
+		@Override
 		public Object visitLabel(ILabelContent label, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startLabel(label);
 			return value;
 		}
 
+		@Override
 		public Object visitAutoText(IAutoTextContent autoText, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startAutoText(autoText);
 			return value;
 		}
 
+		@Override
 		public Object visitData(IDataContent data, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startData(data);
 			return value;
 		}
 
+		@Override
 		public Object visitImage(IImageContent image, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startImage(image);
 			return value;
 		}
 
+		@Override
 		public Object visitForeign(IForeignContent content, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startForeign(content);
 			return value;
 		}
 
+		@Override
 		public Object visitList(IListContent list, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startList(list);
 			return value;
 		}
 
+		@Override
 		public Object visitListBand(IListBandContent listBand, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startListBand(listBand);
 			return value;
 		}
 
+		@Override
 		public Object visitGroup(IGroupContent group, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startGroup(group);
 			return value;
 		}
 
+		@Override
 		public Object visitListGroup(IListGroupContent group, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startListGroup(group);
 			return value;
 		}
 
+		@Override
 		public Object visitTableGroup(ITableGroupContent group, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.startTableGroup(group);
@@ -250,100 +269,119 @@ public class ContentEmitterUtil {
 
 	static private class EndContentVisitor implements IContentVisitor {
 
+		@Override
 		public Object visit(IContent content, Object value) throws BirtException {
 			return content.accept(this, value);
 		}
 
+		@Override
 		public Object visitContent(IContent content, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endContent(content);
 			return value;
 		}
 
+		@Override
 		public Object visitPage(IPageContent page, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endPage(page);
 			return value;
 		}
 
+		@Override
 		public Object visitContainer(IContainerContent container, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endContainer(container);
 			return value;
 		}
 
+		@Override
 		public Object visitTable(ITableContent table, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTable(table);
 			return value;
 		}
 
+		@Override
 		public Object visitTableBand(ITableBandContent tableBand, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTableBand(tableBand);
 			return value;
 		}
 
+		@Override
 		public Object visitRow(IRowContent row, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endRow(row);
 			return value;
 		}
 
+		@Override
 		public Object visitCell(ICellContent cell, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endCell(cell);
 			return value;
 		}
 
+		@Override
 		public Object visitText(ITextContent text, Object value) {
 			return value;
 		}
 
+		@Override
 		public Object visitLabel(ILabelContent label, Object value) {
 			return value;
 		}
 
+		@Override
 		public Object visitAutoText(IAutoTextContent autoText, Object value) {
 			return value;
 		}
 
+		@Override
 		public Object visitData(IDataContent data, Object value) {
 			return value;
 		}
 
+		@Override
 		public Object visitImage(IImageContent image, Object value) {
 			return value;
 		}
 
+		@Override
 		public Object visitForeign(IForeignContent content, Object value) {
 			return value;
 		}
 
+		@Override
 		public Object visitList(IListContent list, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endList(list);
 			return value;
 		}
 
+		@Override
 		public Object visitListBand(IListBandContent listBand, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endListBand(listBand);
 			return value;
 		}
 
+		@Override
 		public Object visitGroup(IGroupContent group, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endGroup(group);
 			return value;
 		}
 
+		@Override
 		public Object visitListGroup(IListGroupContent group, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endListGroup(group);
 			return value;
 		}
 
+		@Override
 		public Object visitTableGroup(ITableGroupContent group, Object value) throws BirtException {
 			IContentEmitter emitter = (IContentEmitter) value;
 			emitter.endTableGroup(group);

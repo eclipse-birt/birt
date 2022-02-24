@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,6 +44,7 @@ public class PropertyStateTest extends BaseTestCase {
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -69,7 +70,7 @@ public class PropertyStateTest extends BaseTestCase {
 
 	/**
 	 * Tests the empty string in element's property or structure's member.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -210,7 +211,7 @@ public class PropertyStateTest extends BaseTestCase {
 
 	/**
 	 * Tests the wrong name defined in extended property tag.
-	 * 
+	 *
 	 * @throws DesignFileException if any exception.
 	 */
 
@@ -220,7 +221,7 @@ public class PropertyStateTest extends BaseTestCase {
 
 	/**
 	 * Tests the name of the property list is wrong.
-	 * 
+	 *
 	 * @throws DesignFileException if the design file is invalid
 	 */
 
@@ -268,7 +269,7 @@ public class PropertyStateTest extends BaseTestCase {
 
 	/**
 	 * Tests the resource key in text property is blank.
-	 * 
+	 *
 	 * @throws DesignFileException if any exception.
 	 */
 
@@ -331,7 +332,7 @@ public class PropertyStateTest extends BaseTestCase {
 
 	/**
 	 * Tests the parser recovers the choice not allowed exception.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 
@@ -343,7 +344,7 @@ public class PropertyStateTest extends BaseTestCase {
 	 * Tests the parser can recover <code>DESIGN_EXCEPTION_NON_POSITIVE_VALUE</code>
 	 * and <code>DESIGN_EXCEPTION_NEGATIVE_VALUE</code>. This applies to both
 	 * element property values and structure member values.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 

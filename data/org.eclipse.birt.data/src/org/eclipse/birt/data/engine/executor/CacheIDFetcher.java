@@ -28,18 +28,20 @@ public class CacheIDFetcher {
 	private Map<String, Long> activeCacheIDs;
 
 	public static CacheIDFetcher getInstance() {
-		if (instance != null)
+		if (instance != null) {
 			return instance;
+		}
 		synchronized (CacheIDFetcher.class) {
-			if (instance != null)
+			if (instance != null) {
 				return instance;
+			}
 			instance = new CacheIDFetcher();
 			return instance;
 		}
 	}
 
 	private CacheIDFetcher() {
-		this.activeCacheIDs = new java.util.concurrent.ConcurrentHashMap<String, Long>();
+		this.activeCacheIDs = new java.util.concurrent.ConcurrentHashMap<>();
 		Timer timer = new Timer(true);
 		TimerTask task = new CacheIDPurgeTimeTask();
 		timer.schedule(task, 0, idleTime);
@@ -47,12 +49,14 @@ public class CacheIDFetcher {
 
 	public String getCacheID(Map appContext) {
 		try {
-			if (appContext == null)
+			if (appContext == null) {
 				return null;
+			}
 			// Only apply to memory cache
 			Object option = appContext.get(DataEngine.MEMORY_DATA_SET_CACHE);
-			if (option == null)
+			if (option == null) {
 				return null;
+			}
 			Object o = appContext.get(DataEngine.QUERY_EXECUTION_SESSION_ID);
 			if (o != null) {
 				String cacheID = o.toString();
@@ -66,16 +70,18 @@ public class CacheIDFetcher {
 
 	public boolean enableSampleDataPreivew(Map appContext) {
 		try {
-			if (appContext == null)
+			if (appContext == null) {
 				return false;
+			}
 			// Only apply to memory cache
 			Object option = appContext.get(DataEngine.MEMORY_DATA_SET_CACHE);
-			if (option == null)
+			if (option == null) {
 				return false;
+			}
 			Object o = appContext.get(DataEngine.QUERY_EXECUTION_SESSION_ENABLE_SAMPLEDATAPREVIEW);
 			if (o != null) {
-				Boolean enableSamplePreivew = Boolean.valueOf(o.toString());
-				return enableSamplePreivew.booleanValue();
+				boolean enableSamplePreivew = Boolean.parseBoolean(o.toString());
+				return enableSamplePreivew;
 			}
 		} catch (Exception e) {
 		}
@@ -87,7 +93,7 @@ public class CacheIDFetcher {
 		@Override
 		public void run() {
 			// Do not synchronize here.
-			Set<String> inActiveCacheIDs = new HashSet<String>();
+			Set<String> inActiveCacheIDs = new HashSet<>();
 			long currentTime = System.currentTimeMillis();
 			String[] keyArray = activeCacheIDs.keySet().toArray(new String[] {});
 
@@ -99,8 +105,9 @@ public class CacheIDFetcher {
 			}
 
 			CacheMapManager.clearCache(inActiveCacheIDs);
-			for (String cacheID : inActiveCacheIDs)
+			for (String cacheID : inActiveCacheIDs) {
 				activeCacheIDs.remove(cacheID);
+			}
 		}
 
 	}

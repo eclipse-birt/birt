@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,6 +53,7 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent {
 		this.sTitle = sTitle;
 	}
 
+	@Override
 	public Composite createArea(Composite parent) {
 		Composite cmpBottom = new Composite(parent, SWT.NONE);
 		{
@@ -88,10 +89,12 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent {
 		return cmpBottom;
 	}
 
+	@Override
 	public void selectArea(boolean selected, Object data) {
 		comData.selectArea(selected, data);
 	}
 
+	@Override
 	public void dispose() {
 		comData.dispose();
 		super.dispose();

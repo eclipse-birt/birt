@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  * Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -21,7 +21,7 @@ import org.eclipse.gef.commands.CommandStackListener;
 
 /**
  * @author David Michonneau
- * 
+ *
  *         This class is a command stack for the GEF framework. It internally
  *         access the ActivityStack class of the DE. No commands are pushed to
  *         the command stack or ActivityStack here since the Design handles take
@@ -34,6 +34,7 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack {
 	/**
 	 * @deprecated use {@link #WrapperCommandStack(CommandStack)}
 	 */
+	@Deprecated
 	public WrapperCommandStack() {
 		this(SessionHandleAdapter.getInstance().getCommandStack());
 	}
@@ -42,36 +43,46 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack {
 		this.ar = ar;
 	}
 
+	@Override
 	public boolean canUndo() {
 		return ar.canUndo();
 	}
 
+	@Override
 	public boolean canRedo() {
 		return ar.canRedo();
 	}
 
+	@Override
 	public void undo() {
-		if (canUndo())
+		if (canUndo()) {
 			ar.undo();
+		}
 	}
 
+	@Override
 	public void redo() {
-		if (canRedo())
+		if (canRedo()) {
 			ar.redo();
+		}
 	}
 
+	@Override
 	public void flush() {
 		ar.flush();
 	}
 
+	@Override
 	public Command getRedoCommand() {
 		return new CommandWrap4DE(ar.getRedoRecord());
 	}
 
+	@Override
 	public Command getUndoCommand() {
 		return new CommandWrap4DE(ar.getUndoRecord());
 	}
 
+	@Override
 	public void execute(Command command) {
 		if (command == null) {
 			return;
@@ -86,6 +97,7 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack {
 
 	}
 
+	@Override
 	public void setUndoLimit(int undoLimit) {
 		ar.setStackLimit(undoLimit);
 	}
@@ -100,12 +112,14 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack {
 
 	/**
 	 * @deprecated
-	 * 
+	 *
 	 *             Do not use, use addCommandStackListener(ActivityStackListener)
 	 *             instead
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.CommandStack#addCommandStackListener(org.eclipse.gef.commands.CommandStackListener)
 	 */
+	@Deprecated
+	@Override
 	public void addCommandStackListener(CommandStackListener listener) {
 		// use addCommandStackListener(ActivityStackListener) instead
 		// this method will called by GEF.
@@ -116,12 +130,14 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack {
 
 	/**
 	 * @deprecated
-	 * 
+	 *
 	 *             Do not use, use removeCommandStackListener(ActivityStackListener)
 	 *             instead
-	 * 
+	 *
 	 * @see org.eclipse.gef.commands.CommandStack#removeCommandStackListener(org.eclipse.gef.commands.CommandStackListener)
 	 */
+	@Deprecated
+	@Override
 	public void removeCommandStackListener(CommandStackListener listener) {
 		// use removeCommandStackListener(ActivityStackListener) instead
 		// assert false;
@@ -131,6 +147,7 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack {
 		this.ar = ar;
 	}
 
+	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 		super.dispose();

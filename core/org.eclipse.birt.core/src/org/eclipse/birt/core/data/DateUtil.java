@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import com.ibm.icu.util.GregorianCalendar;
  * converted to Date.
  */
 public class DateUtil {
-	private final static int[] DAYS_MONTH = new int[] { 31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	private final static int[] DAYS_MONTH = { 31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 	private static GregorianCalendar calendarInstance = null;
 
@@ -32,16 +32,15 @@ public class DateUtil {
 	 * All possible split char in differnt Locales. '/' Locale_US Locale_UK ... '-'
 	 * Locale_CHINA '.' Locale_GERMAN
 	 */
-	private static String[] splitStrs = new String[] { "/", "-", "." };
+	private static String[] splitStrs = { "/", "-", "." };
 
-	private static Pattern[] splitPattern = new Pattern[] { Pattern.compile("/"), Pattern.compile("-"),
-			Pattern.compile(".") };
+	private static Pattern[] splitPattern = { Pattern.compile("/"), Pattern.compile("-"), Pattern.compile(".") };
 
 	/**
 	 * Check whether dateStr can be correctly converted to Date in format of
 	 * DateFormat.SHORT. Here one point must be noticed that dateStr should firstly
 	 * be able to be converted to Date.
-	 * 
+	 *
 	 * @param df
 	 * @param dateStr
 	 * @return checkinfo
@@ -69,7 +68,7 @@ public class DateUtil {
 	/**
 	 * Split date string to 3 size of string array example: 05/04/2005 [05, 04,
 	 * 2005] MM/dd/yy [MM, dd, yy]
-	 * 
+	 *
 	 * @param dateStr
 	 * @return
 	 */
@@ -99,7 +98,7 @@ public class DateUtil {
 
 	/**
 	 * Check whether dateStr matches patterStr
-	 * 
+	 *
 	 * @param dateStr
 	 * @param patternStr
 	 * @return true match false does not match
@@ -112,25 +111,27 @@ public class DateUtil {
 		int month = -1;
 		int day = -1;
 		for (int i = 0; i < dateStr.length; i++) {
-			int value = Integer.valueOf(dateStr[i]).intValue();
-			if (patternStr[i].startsWith("y") || patternStr[i].startsWith("Y"))
+			int value = Integer.parseInt(dateStr[i]);
+			if (patternStr[i].startsWith("y") || patternStr[i].startsWith("Y")) {
 				year = value;
-			else if (patternStr[i].startsWith("M") || patternStr[i].startsWith("m"))
+			} else if (patternStr[i].startsWith("M") || patternStr[i].startsWith("m")) {
 				month = value;
-			else if (patternStr[i].startsWith("d") || patternStr[i].startsWith("D"))
+			} else if (patternStr[i].startsWith("d") || patternStr[i].startsWith("D")) {
 				day = value;
+			}
 		}
 
 		boolean result = true;
-		if ((year < 0) || (month < 1 || month > 12) || (isInvalidDay(day, year, month)))
+		if ((year < 0) || (month < 1 || month > 12) || (isInvalidDay(day, year, month))) {
 			result = false;
+		}
 
 		return result;
 	}
 
 	/**
 	 * Check whether day is invalid day based on its year and month
-	 * 
+	 *
 	 * @param day   needs to be checked
 	 * @param year  valid year
 	 * @param month valid month
@@ -143,10 +144,11 @@ public class DateUtil {
 
 		int dayOfMonth = DAYS_MONTH[month - 1];
 		if (month == 2) {
-			if (calendarInstance.isLeapYear(year))
+			if (calendarInstance.isLeapYear(year)) {
 				dayOfMonth = 29;
-			else
+			} else {
 				dayOfMonth = 28;
+			}
 		}
 
 		return day < 1 || day > dayOfMonth;

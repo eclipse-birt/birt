@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
 import org.eclipse.ui.texteditor.ISchedulingRuleProvider;
 
 /**
- * 
+ *
  */
 public class WorkspaceOperationRunner implements IRunnableContext {
 	private IProgressMonitor fProgressMonitor;
@@ -50,8 +50,9 @@ public class WorkspaceOperationRunner implements IRunnableContext {
 	 * @return the progress monitor
 	 */
 	public IProgressMonitor getProgressMonitor() {
-		if (fProgressMonitor == null)
+		if (fProgressMonitor == null) {
 			fProgressMonitor = new NullProgressMonitor();
+		}
 		return fProgressMonitor;
 	}
 
@@ -59,12 +60,14 @@ public class WorkspaceOperationRunner implements IRunnableContext {
 	 * @see org.eclipse.jface.operation.IRunnableContext#run(boolean, boolean,
 	 * org.eclipse.jface.operation.IRunnableWithProgress)
 	 */
+	@Override
 	public void run(boolean fork, boolean cancelable, IRunnableWithProgress runnable)
 			throws InvocationTargetException, InterruptedException {
-		if (runnable instanceof ISchedulingRuleProvider)
+		if (runnable instanceof ISchedulingRuleProvider) {
 			run(fork, cancelable, runnable, ((ISchedulingRuleProvider) runnable).getSchedulingRule());
-		else
+		} else {
 			run(fork, cancelable, runnable, ResourcesPlugin.getWorkspace().getRoot());
+		}
 	}
 
 	/*

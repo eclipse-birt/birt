@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,12 +14,13 @@
 
 package org.eclipse.birt.report.designer.ui.widget;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Layout;
-import org.eclipse.swt.*;
-import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Sash;
 
 /**
  * This class provides the layout for CSashForm
@@ -28,16 +29,19 @@ import org.eclipse.swt.widgets.*;
  */
 public class CSashFormLayout extends Layout {
 
+	@Override
 	protected Point computeSize(Composite composite, int wHint, int hHint, boolean flushCache) {
 		CSashForm sashForm = (CSashForm) composite;
 		Control[] cArray = sashForm.getControls(true);
 		int width = 0;
 		int height = 0;
 		if (cArray.length == 0) {
-			if (wHint != SWT.DEFAULT)
+			if (wHint != SWT.DEFAULT) {
 				width = wHint;
-			if (hHint != SWT.DEFAULT)
+			}
+			if (hHint != SWT.DEFAULT) {
 				height = hHint;
+			}
 			return new Point(width, height);
 		}
 		// determine control sizes
@@ -68,7 +72,7 @@ public class CSashFormLayout extends Layout {
 
 		for (int i = 0; i < cArray.length; i++) {
 			Object data = cArray[i].getLayoutData();
-			if (data != null && data instanceof CSashFormData) {
+			if (data instanceof CSashFormData) {
 				ratios[i] = ((CSashFormData) data).weight;
 			} else {
 				data = new CSashFormData();
@@ -96,26 +100,32 @@ public class CSashFormLayout extends Layout {
 
 		width += sashForm.getBorderWidth() * 2;
 		height += sashForm.getBorderWidth() * 2;
-		if (wHint != SWT.DEFAULT)
+		if (wHint != SWT.DEFAULT) {
 			width = wHint;
-		if (hHint != SWT.DEFAULT)
+		}
+		if (hHint != SWT.DEFAULT) {
 			height = hHint;
+		}
 		return new Point(width, height);
 	}
 
+	@Override
 	protected boolean flushCache(Control control) {
 		return true;
 	}
 
+	@Override
 	protected void layout(Composite composite, boolean flushCache) {
 		CSashForm sashForm = (CSashForm) composite;
 		Rectangle area = sashForm.getClientArea();
-		if (area.width <= 1 || area.height <= 1)
+		if (area.width <= 1 || area.height <= 1) {
 			return;
+		}
 
 		Control[] newControls = sashForm.getControls(true);
-		if (sashForm.controls.length == 0 && newControls.length == 0)
+		if (sashForm.controls.length == 0 && newControls.length == 0) {
 			return;
+		}
 		sashForm.controls = newControls;
 
 		Control[] controls = sashForm.controls;
@@ -158,8 +168,9 @@ public class CSashFormLayout extends Layout {
 				sashForm.sashes = newSashes;
 			}
 		}
-		if (controls.length == 0)
+		if (controls.length == 0) {
 			return;
+		}
 		Sash[] sashes = sashForm.sashes;
 		// get the ratios
 		long[] ratios = new long[controls.length];
@@ -169,7 +180,7 @@ public class CSashFormLayout extends Layout {
 
 		for (int i = 0; i < controls.length; i++) {
 			Object data = controls[i].getLayoutData();
-			if (data != null && data instanceof CSashFormData) {
+			if (data instanceof CSashFormData) {
 				ratios[i] = ((CSashFormData) data).weight;
 			} else {
 				data = new CSashFormData();

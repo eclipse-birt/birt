@@ -33,7 +33,7 @@ import org.eclipse.birt.data.engine.olap.query.view.DrillOnDimensionHierarchy;
 public class DrillFilterHelper {
 	/**
 	 * populate drilled aggregation for nested aggregation
-	 * 
+	 *
 	 * @param cubeQueryDefinition
 	 * @param cubeAggr
 	 * @param aggrDefns
@@ -45,40 +45,45 @@ public class DrillFilterHelper {
 		IEdgeDefinition rowEdge = cubeQueryDefinition.getEdge(ICubeQueryDefinition.ROW_EDGE);
 		List<DrillOnDimensionHierarchy> columnDrill = CubeQueryDefinitionUtil.flatternDrillFilter(columnEdge);
 		List<DrillOnDimensionHierarchy> rowDrill = CubeQueryDefinitionUtil.flatternDrillFilter(rowEdge);
-		List<DrillOnDimensionHierarchy> combinedDrill = new ArrayList<DrillOnDimensionHierarchy>();
-		combinedDrill.addAll(rowDrill);
+		List<DrillOnDimensionHierarchy> combinedDrill = new ArrayList<>(rowDrill);
 		combinedDrill.addAll(columnDrill);
 
-		if (combinedDrill.isEmpty())
+		if (combinedDrill.isEmpty()) {
 			return new AggregationDefinition[0];
+		}
 
-		List<DrilledInfo> aggregation = new ArrayList<DrilledInfo>();
+		List<DrilledInfo> aggregation = new ArrayList<>();
 		for (int i = 0; i < aggrDefns.length; i++) {
-			if (aggrDefns[i].getAggregationFunctions() == null)
+			if (aggrDefns[i].getAggregationFunctions() == null) {
 				continue;
+			}
 			DimLevel[] levels = (DimLevel[]) cubeAggr[i].getAggrLevelsInAggregationResult().toArray(new DimLevel[0]);
-			if (levels == null)
+			if (levels == null) {
 				continue;
+			}
 
-			List<List<DimLevel>> groupByDimension = new ArrayList<List<DimLevel>>();
+			List<List<DimLevel>> groupByDimension = new ArrayList<>();
 			String dimensionName = null;
 			List<DimLevel> list = null;
 			for (int j = 0; j < levels.length - 1; j++) {
 				if (dimensionName != null && dimensionName.equals(levels[j].getDimensionName())) {
-					if (isDrilledLevel(levels[j], combinedDrill))
+					if (isDrilledLevel(levels[j], combinedDrill)) {
 						list.add(levels[j]);
+					}
 				} else {
-					list = new ArrayList<DimLevel>();
-					if (isDrilledLevel(levels[j], combinedDrill))
+					list = new ArrayList<>();
+					if (isDrilledLevel(levels[j], combinedDrill)) {
 						list.add(levels[j]);
+					}
 					dimensionName = levels[j].getDimensionName();
 					groupByDimension.add(list);
 				}
 			}
-			if (groupByDimension.isEmpty())
+			if (groupByDimension.isEmpty()) {
 				continue;
+			}
 
-			List<DimLevel[]> tagetLevels = new ArrayList<DimLevel[]>();
+			List<DimLevel[]> tagetLevels = new ArrayList<>();
 			tagetLevels.add(levels);
 
 			buildAggregationDimLevel(tagetLevels, groupByDimension, 0);
@@ -92,15 +97,16 @@ public class DrillFilterHelper {
 						break;
 					}
 				}
-				if (exist)
+				if (exist) {
 					continue;
+				}
 				DrilledInfo aggr = null;
 				if (isRunningAggregation(aggrDefns[i])) {
 					DimLevel[] aggrLevels = aggrDefns[i].getLevels();
 					List<DimLevel> onList = Arrays.asList(tagetLevels.get(k));
 					List<DimLevel> targetList = null;
 					if (aggrLevels != null) {
-						targetList = new ArrayList<DimLevel>();
+						targetList = new ArrayList<>();
 						for (DimLevel dimLevel : aggrLevels) {
 							if (onList.contains(dimLevel)) {
 								targetList.add(dimLevel);
@@ -109,8 +115,9 @@ public class DrillFilterHelper {
 					}
 					aggr = new DrilledInfo(targetList == null ? null : targetList.toArray(new DimLevel[0]),
 							cubeQueryDefinition);
-				} else
+				} else {
 					aggr = new DrilledInfo(tagetLevels.get(k), cubeQueryDefinition);
+				}
 				aggr.addOriginalAggregation(aggrDefns[i]);
 				aggregation.add(aggr);
 			}
@@ -127,7 +134,7 @@ public class DrillFilterHelper {
 
 	/**
 	 * check whether there is drill operation defined in cube query
-	 * 
+	 *
 	 * @param cubeQueryDefinition
 	 * @return
 	 */
@@ -137,15 +144,16 @@ public class DrillFilterHelper {
 		List<DrillOnDimensionHierarchy> columnDrill = CubeQueryDefinitionUtil.flatternDrillFilter(columnEdge);
 		List<DrillOnDimensionHierarchy> rowDrill = CubeQueryDefinitionUtil.flatternDrillFilter(rowEdge);
 
-		if (columnDrill.isEmpty() && rowDrill.isEmpty())
+		if (columnDrill.isEmpty() && rowDrill.isEmpty()) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 
 	/**
 	 * populate drilled aggregation for normal aggregation
-	 * 
+	 *
 	 * @param cubeQueryDefinition
 	 * @param aggrDefns
 	 * @return
@@ -156,40 +164,45 @@ public class DrillFilterHelper {
 		IEdgeDefinition rowEdge = cubeQueryDefinition.getEdge(ICubeQueryDefinition.ROW_EDGE);
 		List<DrillOnDimensionHierarchy> columnDrill = CubeQueryDefinitionUtil.flatternDrillFilter(columnEdge);
 		List<DrillOnDimensionHierarchy> rowDrill = CubeQueryDefinitionUtil.flatternDrillFilter(rowEdge);
-		List<DrillOnDimensionHierarchy> combinedDrill = new ArrayList<DrillOnDimensionHierarchy>();
-		combinedDrill.addAll(rowDrill);
+		List<DrillOnDimensionHierarchy> combinedDrill = new ArrayList<>(rowDrill);
 		combinedDrill.addAll(columnDrill);
 
-		if (combinedDrill.isEmpty())
+		if (combinedDrill.isEmpty()) {
 			return new AggregationDefinition[0];
+		}
 
-		List<DrilledInfo> aggregation = new ArrayList<DrilledInfo>();
+		List<DrilledInfo> aggregation = new ArrayList<>();
 		for (int i = 0; i < aggrDefns.length; i++) {
-			if (aggrDefns[i].getAggregationFunctions() == null)
+			if (aggrDefns[i].getAggregationFunctions() == null) {
 				continue;
+			}
 			DimLevel[] levels = aggrDefns[i].getLevels();
-			if (levels == null)
+			if (levels == null) {
 				continue;
+			}
 
-			List<List<DimLevel>> groupByDimension = new ArrayList<List<DimLevel>>();
+			List<List<DimLevel>> groupByDimension = new ArrayList<>();
 			String dimensionName = null;
 			List<DimLevel> list = null;
 			for (int j = 0; j < levels.length - 1; j++) {
 				if (dimensionName != null && dimensionName.equals(levels[j].getDimensionName())) {
-					if (isDrilledLevel(levels[j], combinedDrill))
+					if (isDrilledLevel(levels[j], combinedDrill)) {
 						list.add(levels[j]);
+					}
 				} else {
-					list = new ArrayList<DimLevel>();
-					if (isDrilledLevel(levels[j], combinedDrill))
+					list = new ArrayList<>();
+					if (isDrilledLevel(levels[j], combinedDrill)) {
 						list.add(levels[j]);
+					}
 					dimensionName = levels[j].getDimensionName();
 					groupByDimension.add(list);
 				}
 			}
-			if (groupByDimension.isEmpty())
+			if (groupByDimension.isEmpty()) {
 				continue;
+			}
 
-			List<DimLevel[]> tagetLevels = new ArrayList<DimLevel[]>();
+			List<DimLevel[]> tagetLevels = new ArrayList<>();
 			tagetLevels.add(levels);
 
 			buildAggregationDimLevel(tagetLevels, groupByDimension, 0);
@@ -203,8 +216,9 @@ public class DrillFilterHelper {
 						break;
 					}
 				}
-				if (exist)
+				if (exist) {
 					continue;
+				}
 				DrilledInfo aggr = new DrilledInfo(tagetLevels.get(k), cubeQueryDefinition);
 				aggr.addOriginalAggregation(aggrDefns[i]);
 				aggregation.add(aggr);
@@ -240,11 +254,12 @@ public class DrillFilterHelper {
 	private static void buildAggregationDimLevel(List<DimLevel[]> tagetLevels, List<List<DimLevel>> groupByDimension,
 			int dimIndex) {
 		List<DimLevel> l = (List<DimLevel>) groupByDimension.get(dimIndex);
-		List<DimLevel[]> temp = new ArrayList<DimLevel[]>();
+		List<DimLevel[]> temp = new ArrayList<>();
 		for (int t = 0; t < l.size(); t++) {
 			DimLevel dimLevel = l.get(t);
-			for (int i = 0; i < tagetLevels.size(); i++)
+			for (int i = 0; i < tagetLevels.size(); i++) {
 				temp.add(getDrilledDimLevel(dimLevel, tagetLevels.get(i)));
+			}
 		}
 		tagetLevels.addAll(temp);
 		dimIndex++;
@@ -255,7 +270,7 @@ public class DrillFilterHelper {
 
 	private static DimLevel[] getDrilledDimLevel(DimLevel dimLevel, DimLevel[] levels) {
 		boolean find = false;
-		List<DimLevel> d = new ArrayList<DimLevel>();
+		List<DimLevel> d = new ArrayList<>();
 		for (int i = 0; i < levels.length; i++) {
 			if (!dimLevel.getDimensionName().equals(levels[i].getDimensionName())) {
 				d.add(levels[i]);
@@ -264,8 +279,9 @@ public class DrillFilterHelper {
 					find = true;
 					d.add(levels[i]);
 				}
-				if (!find)
+				if (!find) {
 					d.add(levels[i]);
+				}
 			}
 		}
 		DimLevel[] dim = new DimLevel[d.size()];

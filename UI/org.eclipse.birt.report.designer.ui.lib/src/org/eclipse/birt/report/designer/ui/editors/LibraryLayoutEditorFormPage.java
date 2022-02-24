@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,7 +38,7 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.part.MultiPageEditorSite;
 
 /**
- * 
+ *
  */
 
 public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements IReportEditorPage {
@@ -57,6 +57,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements 
 
 	private ActivityStackListener commandStackListener = new ActivityStackListener() {
 
+		@Override
 		public void stackChanged(ActivityStackEvent event) {
 			updateStackActions();
 			getEditor().editorDirtyStateChanged();
@@ -64,6 +65,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements 
 		}
 	};
 
+	@Override
 	protected void configureGraphicalViewer() {
 		super.configureGraphicalViewer();
 		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack();
@@ -81,18 +83,21 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements 
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
 	 * .editor.FormEditor)
 	 */
+	@Override
 	public void initialize(FormEditor editor) {
 		this.editor = editor;
 	}
 
+	@Override
 	public FormEditor getEditor() {
 		return editor;
 	}
 
+	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		super.init(site, input);
 		initialize((FormEditor) ((MultiPageEditorSite) site).getMultiPageEditor());
@@ -104,57 +109,69 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements 
 		// }
 	}
 
+	@Override
 	public IManagedForm getManagedForm() {
 		return null;
 	}
 
+	@Override
 	public void setActive(boolean active) {
 	}
 
+	@Override
 	public boolean isActive() {
 		return false;
 	}
 
+	@Override
 	public boolean canLeaveThePage() {
 		return true;
 	}
 
+	@Override
 	public Control getPartControl() {
 		return control;
 	}
 
+	@Override
 	public String getId() {
 		return ID;
 	}
 
+	@Override
 	public int getIndex() {
 		return index;
 	}
 
+	@Override
 	public void setIndex(int index) {
 		this.index = index;
 	}
 
+	@Override
 	public boolean isEditor() {
 		return true;
 	}
 
+	@Override
 	public boolean selectReveal(Object object) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 		Control[] children = parent.getChildren();
 		control = children[children.length - 1];
 	}
 
+	@Override
 	public boolean onBroughtToTop(IReportEditorPage page) {
 		String prompt = ReportPlugin.getDefault().getPreferenceStore()
 				.getString(ReportPlugin.LIBRARY_WARNING_PREFERENCE);
@@ -207,7 +224,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements 
 
 	/**
 	 * Rebuild report design model.
-	 * 
+	 *
 	 * @param oldModel
 	 */
 	protected void rebuildReportDesign(ModuleHandle oldModel) {
@@ -227,6 +244,7 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements 
 
 	}
 
+	@Override
 	public void dispose() {
 		if (getCommandStack() != null && getCommandStack() instanceof WrapperCommandStack) {
 			WrapperCommandStack stack = (WrapperCommandStack) getCommandStack();
@@ -235,14 +253,17 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements 
 		super.dispose();
 	}
 
+	@Override
 	public void markPageStale(int type) {
 		staleType = type;
 	}
 
+	@Override
 	public int getStaleType() {
 		return staleType;
 	}
 
+	@Override
 	public Object getAdapter(Class adapter) {
 		if (adapter == IDataViewPage.class) {
 			DataViewTreeViewerPage page = new DataViewTreeViewerPage(getModel());
@@ -255,19 +276,22 @@ public class LibraryLayoutEditorFormPage extends LibraryLayoutEditor implements 
 		return super.getAdapter(adapter);
 	}
 
+	@Override
 	public void setInput(IEditorInput input) {
 		super.setInput(input);
 	}
 
+	@Override
 	protected IReportProvider getProvider() {
 		return (IReportProvider) editor.getAdapter(IReportProvider.class);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#firePropertyChange(int)
 	 */
+	@Override
 	protected void firePropertyChange(int type) {
 		if (type == PROP_DIRTY) {
 			editor.editorDirtyStateChanged();

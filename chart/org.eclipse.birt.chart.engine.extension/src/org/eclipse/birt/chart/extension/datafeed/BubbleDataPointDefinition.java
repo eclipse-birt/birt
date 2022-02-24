@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +19,7 @@ import org.eclipse.birt.chart.datafeed.AbstractDataPointDefinition;
 import org.eclipse.birt.chart.engine.extension.i18n.Messages;
 
 /**
- * 
+ *
  */
 
 public class BubbleDataPointDefinition extends AbstractDataPointDefinition {
@@ -32,10 +32,12 @@ public class BubbleDataPointDefinition extends AbstractDataPointDefinition {
 
 	private final int[] iaTypeCompatibles = { IConstants.NUMERICAL, IConstants.NUMERICAL };
 
+	@Override
 	public String[] getDataPointTypes() {
 		return saTypeNames;
 	}
 
+	@Override
 	public String getDisplayText(String type) {
 		if (TYPE_VALUE.equals(type)) {
 			return Messages.getString("info.datapoint.BubbleValue"); //$NON-NLS-1$
@@ -45,6 +47,7 @@ public class BubbleDataPointDefinition extends AbstractDataPointDefinition {
 		return null;
 	}
 
+	@Override
 	public int getCompatibleDataType(String type) {
 		for (int i = 0; i < saTypeNames.length; i++) {
 			if (saTypeNames[i].equals(type)) {

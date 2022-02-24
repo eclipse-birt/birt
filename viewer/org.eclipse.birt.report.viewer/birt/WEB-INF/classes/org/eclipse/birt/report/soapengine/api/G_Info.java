@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -46,7 +46,7 @@ public class G_Info implements java.io.Serializable {
 
 	/**
 	 * Gets the level value for this G_Info.
-	 * 
+	 *
 	 * @return level
 	 */
 	public int getLevel() {
@@ -55,7 +55,7 @@ public class G_Info implements java.io.Serializable {
 
 	/**
 	 * Sets the level value for this G_Info.
-	 * 
+	 *
 	 * @param level
 	 */
 	public void setLevel(int level) {
@@ -64,7 +64,7 @@ public class G_Info implements java.io.Serializable {
 
 	/**
 	 * Gets the groupName value for this G_Info.
-	 * 
+	 *
 	 * @return groupName
 	 */
 	public java.lang.String getGroupName() {
@@ -73,7 +73,7 @@ public class G_Info implements java.io.Serializable {
 
 	/**
 	 * Sets the groupName value for this G_Info.
-	 * 
+	 *
 	 * @param groupName
 	 */
 	public void setGroupName(java.lang.String groupName) {
@@ -82,7 +82,7 @@ public class G_Info implements java.io.Serializable {
 
 	/**
 	 * Gets the h_Count value for this G_Info.
-	 * 
+	 *
 	 * @return h_Count The number of rows in group header
 	 */
 	public int getH_Count() {
@@ -91,7 +91,7 @@ public class G_Info implements java.io.Serializable {
 
 	/**
 	 * Sets the h_Count value for this G_Info.
-	 * 
+	 *
 	 * @param h_Count The number of rows in group header
 	 */
 	public void setH_Count(int h_Count) {
@@ -100,7 +100,7 @@ public class G_Info implements java.io.Serializable {
 
 	/**
 	 * Gets the f_Count value for this G_Info.
-	 * 
+	 *
 	 * @return f_Count The number of rows in group footer
 	 */
 	public int getF_Count() {
@@ -109,7 +109,7 @@ public class G_Info implements java.io.Serializable {
 
 	/**
 	 * Sets the f_Count value for this G_Info.
-	 * 
+	 *
 	 * @param f_Count The number of rows in group footer
 	 */
 	public void setF_Count(int f_Count) {
@@ -118,7 +118,7 @@ public class G_Info implements java.io.Serializable {
 
 	/**
 	 * Gets the HR_Index value for this G_Info.
-	 * 
+	 *
 	 * @return HR_Index The index of group header row
 	 */
 	public int getHR_Index() {
@@ -127,7 +127,7 @@ public class G_Info implements java.io.Serializable {
 
 	/**
 	 * Sets the HR_Index value for this G_Info.
-	 * 
+	 *
 	 * @param HR_Index The index of group header row
 	 */
 	public void setHR_Index(int HR_Index) {
@@ -136,14 +136,18 @@ public class G_Info implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof G_Info))
+		if (!(obj instanceof G_Info)) {
 			return false;
+		}
 		G_Info other = (G_Info) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -160,6 +164,7 @@ public class G_Info implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

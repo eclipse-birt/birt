@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -194,6 +194,7 @@ public class FontMappingManagerFactory {
 	private void registerJavaFonts() {
 		AccessController.doPrivileged(new PrivilegedAction<Object>() {
 
+			@Override
 			public Object run() {
 				String javaHome = System.getProperty("java.home");
 				String fontsFolder = javaHome + File.separatorChar + "lib" + File.separatorChar + "fonts";
@@ -214,7 +215,7 @@ public class FontMappingManagerFactory {
 		String country = locale.getCountry();
 		String variant = locale.getVariant();
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		// fontsConfig.xml
 		configNames[count++] = sb.append(CONFIG_NAME).toString();
 		// fontsConfig_<osgi-os>.xml
@@ -453,6 +454,7 @@ public class FontMappingManagerFactory {
 	private static void registerFontPath(final String fontPath) {
 		AccessController.doPrivileged(new PrivilegedAction<Object>() {
 
+			@Override
 			public Object run() {
 				long start = System.currentTimeMillis();
 				File file = new File(fontPath);
@@ -478,8 +480,9 @@ public class FontMappingManagerFactory {
 		Path path = new Path("/fonts"); //$NON-NLS-1$
 
 		URL fileURL = FileLocator.find(bundle, path, null);
-		if (null == fileURL)
+		if (null == fileURL) {
 			return null;
+		}
 		String fontPath = null;
 		try {
 			// 171369 patch provided by Arne Degenring <public@degenring.de>

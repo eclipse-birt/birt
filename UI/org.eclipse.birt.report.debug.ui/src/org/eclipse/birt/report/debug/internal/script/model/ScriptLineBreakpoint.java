@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +56,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param resource
 	 * @param name
 	 * @param subName
@@ -69,6 +69,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint {
 		assert subName != null;
 		IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
 
+			@Override
 			public void run(IProgressMonitor monitor) throws CoreException {
 				IMarker marker = resource.createMarker(ScriptDocumentProvider.MARK_TYPE);// $NON-NLS-1$
 				setMarker(marker);
@@ -88,16 +89,17 @@ public class ScriptLineBreakpoint extends LineBreakpoint {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.debug.core.model.IBreakpoint#getModelIdentifier()
 	 */
+	@Override
 	public String getModelIdentifier() {
 		return IScriptConstants.SCRIPT_DEBUG_MODEL;
 	}
 
 	/**
 	 * Sets the display name;
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setDisplayName(String name) {
@@ -110,7 +112,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint {
 
 	/**
 	 * Gets the display name.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getDisplayName() {
@@ -128,7 +130,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint {
 
 	/**
 	 * Gets the id.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getSubName() {
@@ -142,7 +144,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint {
 
 	/**
 	 * Gets the file name.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getFileName() {
@@ -155,7 +157,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint {
 
 	/**
 	 * Gets the break point line number.
-	 * 
+	 *
 	 * @return
 	 */
 	public int getScriptLineNumber() {
@@ -169,7 +171,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint {
 
 	/**
 	 * Gets the break point type See LINEBREAKPOINT and RUNTOLINE
-	 * 
+	 *
 	 * @return
 	 */
 	public String getType() {
@@ -178,7 +180,7 @@ public class ScriptLineBreakpoint extends LineBreakpoint {
 
 	/**
 	 * Sets the break point type.
-	 * 
+	 *
 	 * @param type, LINEBREAKPOINT and RUNTOLINE
 	 */
 	public void setType(String type) {

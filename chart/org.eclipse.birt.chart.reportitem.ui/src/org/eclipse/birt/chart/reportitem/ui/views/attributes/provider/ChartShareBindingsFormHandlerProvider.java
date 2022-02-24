@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,10 +23,11 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
  * The class is used for chart sharing bindings with table/crosstab.
  * <p>
  * This class is deprecated since 2.6, this is not a appropriate implementation.
- * 
+ *
  * @since 2.3
  * @deprecated
  */
+@Deprecated
 public class ChartShareBindingsFormHandlerProvider extends AggregateOnBindingsFormHandleProvider {
 
 	/**
@@ -42,10 +43,11 @@ public class ChartShareBindingsFormHandlerProvider extends AggregateOnBindingsFo
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * DataSetColumnBindingsFormHandleProvider#isEditable()
 	 */
+	@Override
 	public boolean isEditable() {
 		if (input == null) {
 			return false;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -68,6 +68,7 @@ public class DataGenerationEngine extends DteDataEngine {
 		DteMetaInfoIOUtil.startMetaInfo(dos);
 	}
 
+	@Override
 	protected IBaseResultSet doExecuteQuery(IBaseResultSet parentResultSet, IQueryDefinition query, Object queryOwner,
 			boolean useCache) throws BirtException {
 		IBaseResultSet resultSet = super.doExecuteQuery(parentResultSet, query, queryOwner, useCache);
@@ -78,6 +79,7 @@ public class DataGenerationEngine extends DteDataEngine {
 		return resultSet;
 	}
 
+	@Override
 	protected IBaseResultSet doExecuteCube(IBaseResultSet parentResultSet, ICubeQueryDefinition query,
 			Object queryOwner, boolean useCache) throws BirtException {
 		IBaseResultSet resultSet = super.doExecuteCube(parentResultSet, query, queryOwner, useCache);
@@ -90,7 +92,7 @@ public class DataGenerationEngine extends DteDataEngine {
 
 	/**
 	 * save the meta information
-	 * 
+	 *
 	 * @param parentResultSet
 	 * @param query
 	 * @param resultSet
@@ -116,6 +118,7 @@ public class DataGenerationEngine extends DteDataEngine {
 		storeDteMetaInfo(pRsetId, rawId, queryID, resultSet.getQueryResults().getID(), rowId);
 	}
 
+	@Override
 	public void shutdown() {
 		if (null != dos) {
 			try {
@@ -129,7 +132,7 @@ public class DataGenerationEngine extends DteDataEngine {
 
 	/**
 	 * save the metadata into the streams.
-	 * 
+	 *
 	 * @param key
 	 */
 	private void storeDteMetaInfo(String pRsetId, String rawId, String queryId, String rsetId, String rowId) {

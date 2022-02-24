@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,6 +40,7 @@ public class CommentTemplatesPreferencePage extends PropertyAndPreferencePage {
 		super(title, image);
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		fConfigurationBlock = new CommentTemplatesConfigurationBlock(getNewStatusChangedListener(), getProject());
 		super.createControl(parent);
@@ -47,22 +48,27 @@ public class CommentTemplatesPreferencePage extends PropertyAndPreferencePage {
 		UIUtil.bindHelp(getControl(), IHelpContextIds.PREFERENCE_BIRT_COMMENTTEMPLATE_ID);
 	}
 
+	@Override
 	protected Control createPreferenceContent(Composite composite) {
 		return fConfigurationBlock.createContents(composite);
 	}
 
+	@Override
 	protected boolean hasProjectSpecificOptions(IProject project) {
 		return fConfigurationBlock.hasProjectSpecificOptions(project);
 	}
 
+	@Override
 	protected String getPreferencePageID() {
 		return PREF_ID;
 	}
 
+	@Override
 	protected String getPropertyPageID() {
 		return PREF_ID;
 	}
 
+	@Override
 	public void dispose() {
 		if (fConfigurationBlock != null) {
 			fConfigurationBlock.dispose();
@@ -70,6 +76,7 @@ public class CommentTemplatesPreferencePage extends PropertyAndPreferencePage {
 		super.dispose();
 	}
 
+	@Override
 	protected void enableProjectSpecificSettings(boolean useProjectSpecificSettings) {
 		super.enableProjectSpecificSettings(useProjectSpecificSettings);
 		if (fConfigurationBlock != null) {
@@ -77,6 +84,7 @@ public class CommentTemplatesPreferencePage extends PropertyAndPreferencePage {
 		}
 	}
 
+	@Override
 	protected void performDefaults() {
 		super.performDefaults();
 		if (fConfigurationBlock != null) {
@@ -84,6 +92,7 @@ public class CommentTemplatesPreferencePage extends PropertyAndPreferencePage {
 		}
 	}
 
+	@Override
 	public boolean performOk() {
 		if (fConfigurationBlock != null && !fConfigurationBlock.performOk()) {
 			return false;
@@ -91,12 +100,14 @@ public class CommentTemplatesPreferencePage extends PropertyAndPreferencePage {
 		return super.performOk();
 	}
 
+	@Override
 	public void performApply() {
 		if (fConfigurationBlock != null) {
 			fConfigurationBlock.performApply();
 		}
 	}
 
+	@Override
 	public void setElement(IAdaptable element) {
 		super.setElement(element);
 		setDescription(null); // no description for property page

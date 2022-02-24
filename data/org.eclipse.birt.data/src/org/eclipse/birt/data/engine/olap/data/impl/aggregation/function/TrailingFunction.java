@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -45,20 +45,23 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction {
 		Calendar startDate = (Calendar) curDate.clone();
 
 		if (calculateUnit.equals(YEAR)) {
-			if (isMoveForward)
+			if (isMoveForward) {
 				setToYearStart(startDate);
-			else
+			} else {
 				setToYearEnd(startDate);
+			}
 		} else if (calculateUnit.equals(QUARTER)) {
-			if (isMoveForward)
+			if (isMoveForward) {
 				setToQuarterStart(startDate);
-			else
+			} else {
 				setToQuarterEnd(startDate);
+			}
 		} else if (calculateUnit.equals(MONTH)) {
-			if (isMoveForward)
+			if (isMoveForward) {
 				setToMonthStart(startDate);
-			else
+			} else {
 				setToMonthEnd(startDate);
+			}
 		}
 
 		return startDate;
@@ -78,43 +81,48 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction {
 		Calendar endDate = (Calendar) startDate.clone();
 
 		if (calculateUnit.equals(YEAR)) {
-			if (isMoveForward)
+			if (isMoveForward) {
 				setToYearEnd(endDate);
-			else
+			} else {
 				setToYearStart(endDate);
+			}
 		} else if (calculateUnit.equals(QUARTER)) {
-			if (isMoveForward)
+			if (isMoveForward) {
 				setToQuarterEnd(endDate);
-			else
+			} else {
 				setToQuarterStart(endDate);
+			}
 		} else if (calculateUnit.equals(MONTH)) {
-			if (isMoveForward)
+			if (isMoveForward) {
 				setToMonthEnd(endDate);
-			else
+			} else {
 				setToMonthStart(endDate);
+			}
 		} else if (calculateUnit.equals(WEEK)) {
-			if (isMoveForward)
+			if (isMoveForward) {
 				setToWeekEnd(endDate);
-			else
+			} else {
 				setToWeekStart(endDate);
+			}
 		}
 
-		if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_YEAR))
+		if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_YEAR)) {
 			endDate.add(Calendar.YEAR, offset);
-		else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_QUARTER))
+		} else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_QUARTER)) {
 			endDate.add(Calendar.MONTH, offset * 3);
-		else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_MONTH))
+		} else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_MONTH)) {
 			endDate.add(Calendar.MONTH, offset);
-		else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH))
+		} else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH)) {
 			endDate.add(Calendar.WEEK_OF_YEAR, offset);
-		else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR))
+		} else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR)) {
 			endDate.add(Calendar.WEEK_OF_YEAR, offset);
-		else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH))
+		} else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_DAY_OF_MONTH)) {
 			endDate.add(Calendar.DATE, offset);
-		else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK))
+		} else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_DAY_OF_WEEK)) {
 			endDate.add(Calendar.DATE, offset);
-		else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR))
+		} else if (offsetLevel.equals(TimeMember.TIME_LEVEL_TYPE_DAY_OF_YEAR)) {
 			endDate.add(Calendar.DATE, offset);
+		}
 
 		return endDate;
 	}
@@ -130,50 +138,57 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction {
 	 * @return
 	 */
 	private List<Calendar> moveAStep(Calendar curDate, Calendar endDate, String unit, String extraWeekLevel) {
-		List<Calendar> times = new ArrayList<Calendar>();
+		List<Calendar> times = new ArrayList<>();
 		int step = isMoveForward ? 1 : -1;
 
 		times.add((Calendar) curDate.clone());
 
 		if (unit.equals(YEAR)) {
-			if (isMoveForward)
+			if (isMoveForward) {
 				setToYearStart(curDate);
-			else
+			} else {
 				setToYearEnd(curDate);
+			}
 			curDate.add(Calendar.YEAR, step);
 		} else if (unit.equals(QUARTER)) {
-			if (isMoveForward)
+			if (isMoveForward) {
 				setToQuarterStart(curDate);
-			else
+			} else {
 				setToQuarterEnd(curDate);
+			}
 			curDate.add(Calendar.MONTH, step * 3);
 		} else if (unit.equals(MONTH)) {
-			if (isMoveForward)
+			if (isMoveForward) {
 				setToMonthStart(curDate);
-			else
+			} else {
 				setToMonthEnd(curDate);
+			}
 			curDate.add(Calendar.MONTH, step);
 		} else if (unit.equals(WEEK)) {
 			Calendar tmpDate = (Calendar) curDate.clone();
 			if (isMoveForward) {
 				if (extraWeekLevel != null) {
 					tmpDate.set(Calendar.DAY_OF_WEEK, 7);
-					if (tmpDate.after(endDate))
+					if (tmpDate.after(endDate)) {
 						tmpDate = endDate;
+					}
 					tmpDate = getExtraWeek(tmpDate, curDate, extraWeekLevel);
-					if (tmpDate != null)
+					if (tmpDate != null) {
 						times.add(tmpDate);
+					}
 				}
 				setToWeekStart(curDate);
 				curDate.set(Calendar.DAY_OF_WEEK, 1);
 			} else {
 				if (extraWeekLevel != null) {
 					tmpDate.set(Calendar.DAY_OF_WEEK, 1);
-					if (tmpDate.before(endDate))
+					if (tmpDate.before(endDate)) {
 						tmpDate = endDate;
+					}
 					tmpDate = getExtraWeek(tmpDate, curDate, extraWeekLevel);
-					if (tmpDate != null)
+					if (tmpDate != null) {
 						times.add(tmpDate);
+					}
 				}
 				setToWeekEnd(curDate);
 				curDate.set(Calendar.DAY_OF_WEEK, 7);
@@ -198,12 +213,14 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction {
 	private Calendar getExtraWeek(Calendar date1, Calendar date2, String extraWeekLevel) {
 
 		if (extraWeekLevel.equals(TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH)) {
-			if (date1.get(Calendar.MONTH) != date2.get(Calendar.MONTH))
+			if (date1.get(Calendar.MONTH) != date2.get(Calendar.MONTH)) {
 				return date1;
+			}
 		}
 		if (extraWeekLevel.equals(TimeMember.TIME_LEVEL_TYPE_WEEK_OF_YEAR)) {
-			if (date1.get(Calendar.YEAR) != date2.get(Calendar.YEAR))
+			if (date1.get(Calendar.YEAR) != date2.get(Calendar.YEAR)) {
 				return date1;
+			}
 		}
 
 		return null;
@@ -214,8 +231,9 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction {
 	 * IPeriodsFunction#getResult(org.eclipse.birt.data.engine.olap.data.impl.
 	 * aggregation.function.TimeMember)
 	 */
+	@Override
 	public List<TimeMember> getResult(TimeMember member) {
-		List<TimeMember> timeMembers = new ArrayList<TimeMember>();
+		List<TimeMember> timeMembers = new ArrayList<>();
 
 		String[] levelTypes = member.getLevelType();
 		int[] startValues = member.getMemberValue();
@@ -259,8 +277,9 @@ public class TrailingFunction extends AbstractMDX implements IPeriodsFunction {
 		for (String level : levelTypes) {
 			if (level.equals(TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH)
 					|| level.equals(TimeMember.TIME_LEVEL_TYPE_QUARTER)
-					|| level.equals(TimeMember.TIME_LEVEL_TYPE_MONTH))
+					|| level.equals(TimeMember.TIME_LEVEL_TYPE_MONTH)) {
 				result = TimeMember.TIME_LEVEL_TYPE_WEEK_OF_MONTH;
+			}
 		}
 
 		return result;

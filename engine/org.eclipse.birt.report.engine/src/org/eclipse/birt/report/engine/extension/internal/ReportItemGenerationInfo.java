@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,6 +28,7 @@ public class ReportItemGenerationInfo implements IReportItemGenerationInfo {
 	private IDataQueryDefinition[] queries = null;
 	private IContent content = null;
 
+	@Override
 	public ClassLoader getApplicationClassLoader() {
 		return loader;
 	}
@@ -36,6 +37,7 @@ public class ReportItemGenerationInfo implements IReportItemGenerationInfo {
 		this.loader = loader;
 	}
 
+	@Override
 	public ExtendedItemHandle getModelObject() {
 		return modelHandle;
 	}
@@ -44,6 +46,7 @@ public class ReportItemGenerationInfo implements IReportItemGenerationInfo {
 		this.modelHandle = modelHandle;
 	}
 
+	@Override
 	public IReportContext getReportContext() {
 		return context;
 	}
@@ -52,6 +55,7 @@ public class ReportItemGenerationInfo implements IReportItemGenerationInfo {
 		this.context = context;
 	}
 
+	@Override
 	public IDataQueryDefinition[] getReportQueries() {
 		return queries;
 	}
@@ -60,6 +64,7 @@ public class ReportItemGenerationInfo implements IReportItemGenerationInfo {
 		this.queries = queries;
 	}
 
+	@Override
 	public IContent getExtendedItemContent() {
 		return content;
 	}

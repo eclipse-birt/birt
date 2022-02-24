@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,7 @@ class GroupInstanceSorter {
 
 	/**
 	 * Dealing with group sorting jobs.
-	 * 
+	 *
 	 * @param cx
 	 * @param stopSign
 	 * @throws DataException
@@ -75,7 +75,7 @@ class GroupInstanceSorter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param expressionList
 	 * @param groupLevels
 	 */
@@ -83,8 +83,9 @@ class GroupInstanceSorter {
 		for (int i = 0; i < this.populator.getQuery().getGrouping().length; i++) {
 			List groupSorts = this.populator.getQuery().getGrouping()[i].getSorts();
 			String name = this.populator.getQuery().getGrouping()[i].getName();
-			if (groupSorts == null)
+			if (groupSorts == null) {
 				continue;
+			}
 			for (int j = 0; j < groupSorts.size(); j++) {
 				IBaseExpression expr = ((ISortDefinition) groupSorts.get(j)).getExpression();
 				expr.setGroupName(name);
@@ -97,7 +98,7 @@ class GroupInstanceSorter {
 	/**
 	 * Populate the sortings in GroupBoundaryInfos instance. Each GroupBoundaryInfos
 	 * instance consists of several GroupBoundaryInfo instances.
-	 * 
+	 *
 	 * @param cx
 	 * @param groupArray
 	 * @throws DataException
@@ -106,8 +107,9 @@ class GroupInstanceSorter {
 		for (int i = 0; i < this.populator.getQuery().getGrouping().length; i++) {
 			// The sorts of certain group
 			List groupSorts = this.populator.getQuery().getGrouping()[i].getSorts();
-			if (groupSorts == null || groupSorts.size() == 0)
+			if (groupSorts == null || groupSorts.size() == 0) {
 				continue;
+			}
 			this.populator.getResultIterator().first(0);
 			for (int j = 0; j < groupArray[i].size(); j++) {
 				populateGroupBoundaryInfoSortings(cx, groupArray, i, j);
@@ -117,7 +119,7 @@ class GroupInstanceSorter {
 
 	/**
 	 * Add sort infos to GroupBoundaryInfo in groupArray.
-	 * 
+	 *
 	 * @param cx
 	 * @param groupArray
 	 * @param groupPosition groupPosition = groupLevel - 1; it is 0-based;
@@ -152,8 +154,9 @@ class GroupInstanceSorter {
 					.get(l)).getSortStrength();
 			ULocale locale = ((ISortDefinition) this.populator.getQuery().getGrouping()[groupPosition].getSorts()
 					.get(l)).getSortLocale();
-			if (locale == null)
+			if (locale == null) {
 				locale = populator.getSession().getEngineContext().getLocale();
+			}
 			sortLocale[l] = locale;
 		}
 		((GroupBoundaryInfo) groupArray[groupPosition].get(groupIndex)).setSortCondition(sortKeys, sortDirections,
@@ -168,7 +171,7 @@ class GroupInstanceSorter {
 			Object binding = baseQueryDefn.getBindings().get(bindingName);
 			if (binding != null) {
 				IBaseExpression expr = ((IBinding) binding).getExpression();
-				if (expr != null && expr instanceof IScriptExpression) {
+				if (expr instanceof IScriptExpression) {
 					dataSetName = ExpressionUtil.getColumnName(((IScriptExpression) expr).getText());
 				}
 			}

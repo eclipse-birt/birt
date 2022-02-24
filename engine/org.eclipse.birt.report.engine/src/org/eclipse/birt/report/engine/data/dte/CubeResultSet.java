@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -124,10 +124,12 @@ public class CubeResultSet implements ICubeResultSet {
 		return queryResultsID;
 	}
 
+	@Override
 	public CubeCursor getCubeCursor() {
 		return cube;
 	}
 
+	@Override
 	public String getCellIndex() {
 		try {
 			cellId = CubeUtil.getPositionID(cube);
@@ -137,6 +139,7 @@ public class CubeResultSet implements ICubeResultSet {
 		return cellId;
 	}
 
+	@Override
 	public void close() {
 		// remove the data set from the data set list
 		try {
@@ -157,14 +160,17 @@ public class CubeResultSet implements ICubeResultSet {
 		}
 	}
 
+	@Override
 	public Object evaluate(String expr) throws BirtException {
 		return context.evaluate(expr);
 	}
 
+	@Override
 	public Object evaluate(String language, String expr) throws BirtException {
 		return context.evaluateInlineScript(language, expr);
 	}
 
+	@Override
 	public Object evaluate(IBaseExpression expr) throws BirtException {
 		if (expr instanceof IScriptExpression) {
 			IScriptExpression scriptExpression = (IScriptExpression) expr;
@@ -176,26 +182,32 @@ public class CubeResultSet implements ICubeResultSet {
 		return null;
 	}
 
+	@Override
 	public DataSetID getID() {
 		return id;
 	}
 
+	@Override
 	public IBaseResultSet getParent() {
 		return parent;
 	}
 
+	@Override
 	public IBaseQueryResults getQueryResults() {
 		return queryResults;
 	}
 
+	@Override
 	public String getRawID() {
 		return getCellIndex();
 	}
 
+	@Override
 	public int getType() {
 		return CUBE_RESULTSET;
 	}
 
+	@Override
 	public void skipTo(String cellIndex) throws BirtException {
 		try {
 			CubeUtil.positionCursor(cube, cellIndex);
@@ -204,6 +216,7 @@ public class CubeResultSet implements ICubeResultSet {
 		}
 	}
 
+	@Override
 	public IBaseCubeQueryDefinition getCubeQuery() {
 		return this.queryDefn;
 	}

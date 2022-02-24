@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,8 +15,8 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -39,7 +39,7 @@ import org.eclipse.birt.report.engine.ir.StyledElementDesign;
  * <code>DataItemExecutor</code>,<code>TextItemExecutor</code>, etc.. The class
  * provides methods for style manipulation, such as applying highlight and
  * mapping rules, calculating flattened (merged) styles, and so on.
- * 
+ *
  */
 public abstract class StyledItemExecutor extends ReportItemExecutor {
 
@@ -47,7 +47,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param visitor the report executor visitor
 	 */
 	protected StyledItemExecutor(ExecutorManager manager, int type) {
@@ -59,7 +59,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor {
 	 * Gets the style from the original design object, calculates the highlight
 	 * style, merges the teo styles and then sets them on the corresponding content
 	 * object.
-	 * 
+	 *
 	 * @param content the target content object.
 	 * @param design  the original design object.
 	 */
@@ -97,7 +97,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor {
 	 * Gets the style from the original column design object, calculates the
 	 * highlight style, merges the teo styles and then sets them on the
 	 * corresponding column object.
-	 * 
+	 *
 	 * @param column       the target column object.
 	 * @param columnDesign the original column design object.
 	 */
@@ -113,7 +113,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor {
 
 	/**
 	 * Get the highlight style.
-	 * 
+	 *
 	 * @param style          The style with highlight.
 	 * @param defaultTestExp the test expression
 	 * @return The highlight style.
@@ -148,7 +148,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor {
 
 	/**
 	 * process the mapped rules.
-	 * 
+	 *
 	 * @param item    the design element used to create the data obj.
 	 * @param dataObj Data object.
 	 * @throws BirtException

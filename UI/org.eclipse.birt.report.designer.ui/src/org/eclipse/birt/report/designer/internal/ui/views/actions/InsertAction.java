@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,10 +29,10 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.gef.Request;
 
@@ -84,9 +84,9 @@ public class InsertAction extends AbstractElementAction {
 	/**
 	 * Create a new insert action with given selection and text at specified
 	 * position
-	 * 
+	 *
 	 * @param selectedObject the selected object,which cannot be null
-	 * 
+	 *
 	 */
 	public InsertAction(Object selectedObject) {
 		this(selectedObject,
@@ -99,7 +99,7 @@ public class InsertAction extends AbstractElementAction {
 
 	/**
 	 * Create a new insert action with given selection and text
-	 * 
+	 *
 	 * @param selectedObject the selected object,which cannot be null
 	 * @param text           the text of the action
 	 */
@@ -109,7 +109,7 @@ public class InsertAction extends AbstractElementAction {
 
 	/**
 	 * Create a new insert action with given selection and text
-	 * 
+	 *
 	 * @param selectedObject the selected object,which cannot be null
 	 * @param text           the text of the action
 	 */
@@ -120,7 +120,7 @@ public class InsertAction extends AbstractElementAction {
 	/**
 	 * Create a new insert action with given selection and text at specified
 	 * position
-	 * 
+	 *
 	 * @param selectedObject the selected object,which cannot be null
 	 * @param text           the text of the action
 	 * @param type           the type of the element to insert
@@ -156,6 +156,7 @@ public class InsertAction extends AbstractElementAction {
 		}
 	}
 
+	@Override
 	public boolean isEnabled() {
 		/*
 		 * Check the case that a table refer other element and whether can insert a
@@ -191,7 +192,7 @@ public class InsertAction extends AbstractElementAction {
 
 	/**
 	 * Gets the default slot handle to insert
-	 * 
+	 *
 	 * @return Returns the default slot handle to insert
 	 */
 	protected SlotHandle getDefaultSlotHandle() {
@@ -215,10 +216,11 @@ public class InsertAction extends AbstractElementAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#doAction()
 	 */
+	@Override
 	protected boolean doAction() throws Exception {
 		Request request = new Request(IRequestConstants.REQUEST_TYPE_INSERT);
 		Map extendsData = new HashMap();

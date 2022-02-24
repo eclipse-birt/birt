@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -70,7 +70,7 @@ import org.eclipse.swt.widgets.ToolBar;
 
 /**
  * The class is defined to edit aggregates on value series.
- * 
+ *
  * @since BIRT 2.3
  */
 public class AggregateEditorComposite extends Composite implements MouseListener {
@@ -109,13 +109,14 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 	private final static int DEFAULT_BUTTON_WIDTH = 50;
 
 	/**
-	 * 
+	 *
 	 * @param parent
 	 * @param sd
 	 * @param context
 	 * @param enabled
 	 * @deprecated
 	 */
+	@Deprecated
 	public AggregateEditorComposite(Composite parent, SeriesDefinition sd, ChartWizardContext context,
 			boolean enabled) {
 		super(parent, SWT.NONE);
@@ -135,10 +136,11 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sd
 	 * @deprecated to use {@link #setAggregation(Query)} instead
 	 */
+	@Deprecated
 	public void setSeriesDefinition(SeriesDefinition sd) {
 		fSeriesDefi = sd;
 		if (sd.getGrouping() != null) {
@@ -166,9 +168,10 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
+	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		fBtnDropDown.setEnabled(enabled);
@@ -194,6 +197,7 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 
 		fBtnDropDown.addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.ARROW_DOWN) {
 					toggleDropDown();
@@ -265,9 +269,9 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 
 		private Composite fAggParameterComposite;
 
-		private List<Text> fAggParamtersTextWidgets = new ArrayList<Text>();
+		private List<Text> fAggParamtersTextWidgets = new ArrayList<>();
 
-		private Map<Button, Text> fExprBuilderWidgetsMap = new HashMap<Button, Text>();
+		private Map<Button, Text> fExprBuilderWidgetsMap = new HashMap<>();
 
 		private boolean isPressingKey = false;
 
@@ -296,7 +300,7 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 //				fBtnAggEnabled.addListener( SWT.FocusOut, this );
 //				fBtnAggEnabled.addListener( SWT.Traverse, this );
 //				fBtnAggEnabled.setFocus( );
-//				
+//
 //				fBtnAggEnabled.setSelection( isSetAggregate( ) );
 //			}
 
@@ -403,6 +407,7 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 			return false;
 		}
 
+		@Override
 		public void handleEvent(Event event) {
 			switch (event.type) {
 			case SWT.FocusOut:
@@ -424,7 +429,7 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 		}
 
 		private void populateAggFuncNames() {
-			String aggFuncName = null;
+			String aggFuncName;
 			fCmbAggregate.removeAll();
 
 			populateAggregationCombo(fCmbAggregate);
@@ -471,7 +476,7 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 					aFunc = PluginSettings.instance().getAggregateFunction(aggFuncName);
 				}
 			} catch (ChartException e) {
-				;
+
 			}
 
 			String[] args = null;
@@ -499,11 +504,13 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 					txtArg.addListener(SWT.Traverse, this);
 					txtArg.addFocusListener(new FocusListener() {
 
+						@Override
 						public void focusGained(FocusEvent e) {
 							// TODO Auto-generated method stub
 
 						}
 
+						@Override
 						public void focusLost(FocusEvent e) {
 							setAggParameter((Text) e.getSource());
 						}
@@ -511,6 +518,7 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 
 					txtArg.addModifyListener(new ModifyListener() {
 
+						@Override
 						public void modifyText(ModifyEvent e) {
 							setAggParameter((Text) e.getSource());
 						}
@@ -596,10 +604,11 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 		 * events.SelectionEvent)
 		 */
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			Object source = e.getSource();
 //			if ( source == fBtnAggEnabled )
@@ -658,6 +667,7 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 			return fExprBuilderWidgetsMap.containsKey(source);
 		}
 
+		@Override
 		public void widgetDefaultSelected(SelectionEvent e) {
 			// TODO Auto-generated method stub
 
@@ -665,11 +675,12 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 		 * PaintEvent)
 		 */
+		@Override
 		public void paintControl(PaintEvent e) {
 			//
 		}
@@ -678,38 +689,41 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseDoubleClick(MouseEvent e) {
-		;
+
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseDown(MouseEvent e) {
 		toggleDropDown();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.
 	 * MouseEvent)
 	 */
+	@Override
 	public void mouseUp(MouseEvent e) {
-		;
+
 	}
 
 	/**
 	 * Close Aggregate editor window.
-	 * 
+	 *
 	 * @param shell
 	 */
 	private void closeAggregateEditor(Shell shell) {
@@ -720,7 +734,7 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 
 	/**
 	 * Check if all aggregations should be enabled.
-	 * 
+	 *
 	 * @return
 	 * @since 2.3.1
 	 */
@@ -742,7 +756,7 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 
 	/**
 	 * Populates aggregations item to combo.
-	 * 
+	 *
 	 * @param aggregationCombo
 	 * @since 2.3.1
 	 */
@@ -810,5 +824,5 @@ public class AggregateEditorComposite extends Composite implements MouseListener
 			setEnabled(enabled);
 		}
 
-	};
+	}
 }

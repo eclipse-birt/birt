@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * A handle for working with a top-level property of an element.
- * 
+ *
  * @see org.eclipse.birt.report.model.metadata.PropertyDefn
  * @see org.eclipse.birt.report.model.metadata.PropertyType
  */
@@ -58,7 +58,7 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Constructs the handle for a top-level property with the given element handle
 	 * and property name.
-	 * 
+	 *
 	 * @param element  a handle to a report element
 	 * @param propName the name of the property
 	 */
@@ -71,7 +71,7 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Constructs the handle for a top-level property with the given element handle
 	 * and the definition of the property.
-	 * 
+	 *
 	 * @param element a handle to a report element
 	 * @param prop    the definition of the property.
 	 */
@@ -83,21 +83,24 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 	// Implementation of abstract method defined in base class.
 
+	@Override
 	public IElementPropertyDefn getPropertyDefn() {
 		return propDefn;
 	}
 
 	// Implementation of abstract method defined in base class.
 
+	@Override
 	public IPropertyDefn getDefn() {
 		return propDefn;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getRawValue()
 	 */
+	@Override
 	protected Object getRawValue() {
 		return elementHandle.getElement().getProperty(getModule(), propDefn);
 	}
@@ -106,6 +109,7 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	 * Implementation of abstract method defined in base class.
 	 */
 
+	@Override
 	public void setValue(Object value) throws SemanticException {
 		PropertyCommand cmd = new PropertyCommand(getModule(), getElement());
 		cmd.setProperty(propDefn, value);
@@ -113,9 +117,10 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.ValueHandle#getContext()
 	 */
+	@Override
 	public StructureContext getContext() {
 		return new StructureContext(getElement(), propDefn, null);
 	}
@@ -125,7 +130,7 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	 * it is defined on this element property or any of its parents, or in the
 	 * element's private style property. It is considered unset if it is set on a
 	 * shared style.
-	 * 
+	 *
 	 * @return <code>true</code> if the value is set, <code>false</code> if it is
 	 *         not set
 	 */
@@ -138,10 +143,10 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Determines whether this property value is set locally for this element. It is
 	 * set if and only if it is defined on this element local property.
-	 * 
+	 *
 	 * @return <code>true</code> if the local value is set, otherwise
 	 *         <code>false</code>.
-	 * 
+	 *
 	 */
 
 	public boolean isLocal() {
@@ -152,13 +157,15 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Returns true if the two property handle has the same element and the same
 	 * property.
-	 * 
+	 *
 	 * @param propertyHandle the property handle
 	 * @return true if the two property handles are same.
 	 */
+	@Override
 	public boolean equals(Object propertyHandle) {
-		if (!(propertyHandle instanceof PropertyHandleImpl))
+		if (!(propertyHandle instanceof PropertyHandleImpl)) {
 			return false;
+		}
 
 		DesignElement element = ((PropertyHandleImpl) propertyHandle).getElement();
 		IPropertyDefn propDefn = ((PropertyHandleImpl) propertyHandle).getDefn();
@@ -168,24 +175,27 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	}
 
 	private boolean equalsPropertyDefn(IPropertyDefn defn) {
-		if (defn == null)
+		if (defn == null) {
 			return false;
-		if ((propDefn.getName().equals(defn.getName())) && (propDefn.getTypeCode() == defn.getTypeCode()))
+		}
+		if ((propDefn.getName().equals(defn.getName())) && (propDefn.getTypeCode() == defn.getTypeCode())) {
 			return true;
+		}
 		return false;
 	}
 
 	/**
 	 * returns the element reference value list if the property is element
 	 * referenceable type.
-	 * 
+	 *
 	 * @return list of the reference element value.
 	 */
 
 	public List getReferenceableElementList() {
 		if (propDefn.getTypeCode() != IPropertyType.ELEMENT_REF_TYPE
-				&& propDefn.getSubTypeCode() != IPropertyType.ELEMENT_REF_TYPE)
+				&& propDefn.getSubTypeCode() != IPropertyType.ELEMENT_REF_TYPE) {
 			return Collections.EMPTY_LIST;
+		}
 
 		List list = new ArrayList();
 
@@ -194,26 +204,24 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 		ModuleHandle moduleHandle = ((ModuleHandle) getModule().getHandle(getModule()));
 
-		if (ReportDesignConstants.DATA_SET_ELEMENT.equals(elementDefn.getName()))
+		if (ReportDesignConstants.DATA_SET_ELEMENT.equals(elementDefn.getName())) {
 			return moduleHandle.getVisibleDataSets();
-
-		else if (getElementHandle() instanceof ReportItemHandle
-				&& ReportItemHandle.DATA_BINDING_REF_PROP.equalsIgnoreCase(propDefn.getName()))
+		} else if (getElementHandle() instanceof ReportItemHandle
+				&& ReportItemHandle.DATA_BINDING_REF_PROP.equalsIgnoreCase(propDefn.getName())) {
 			return ((ReportItemHandle) getElementHandle()).getNamedDataBindingReferenceList();
-
-		else if (ReportDesignConstants.DATA_SOURCE_ELEMENT.equals(elementDefn.getName()))
+		} else if (ReportDesignConstants.DATA_SOURCE_ELEMENT.equals(elementDefn.getName())) {
 			return moduleHandle.getVisibleDataSources();
-
-		else if (ReportDesignConstants.STYLE_ELEMENT.equals(elementDefn.getName()))
+		} else if (ReportDesignConstants.STYLE_ELEMENT.equals(elementDefn.getName())) {
 			return ((ReportDesignHandle) moduleHandle).getAllStyles();
-		else if (ReportDesignConstants.THEME_ITEM.equals(elementDefn.getName()))
+		} else if (ReportDesignConstants.THEME_ITEM.equals(elementDefn.getName())) {
 			return moduleHandle.getVisibleThemes(IAccessControl.DIRECTLY_INCLUDED_LEVEL);
-		else if (ReportDesignConstants.CUBE_ELEMENT.equals(elementDefn.getName()))
+		} else if (ReportDesignConstants.CUBE_ELEMENT.equals(elementDefn.getName())) {
 			return moduleHandle.getVisibleCubes();
-		else if (ReportDesignConstants.REPORT_ITEM_THEME_ELEMENT.equals(elementDefn.getName())) {
+		} else if (ReportDesignConstants.REPORT_ITEM_THEME_ELEMENT.equals(elementDefn.getName())) {
 			String matchedType = MetaDataDictionary.getInstance().getThemeType(elementHandle.getDefn());
-			if (matchedType == null)
+			if (matchedType == null) {
 				return list;
+			}
 
 			return moduleHandle.getVisibleReportItemThemes(IAccessControl.DIRECTLY_INCLUDED_LEVEL, matchedType);
 		}
@@ -223,9 +231,10 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#removeItem(int)
 	 */
+	@Override
 	public void removeItem(int posn) throws PropertyValueException {
 		try {
 			ComplexPropertyCommand cmd = new ComplexPropertyCommand(getModule(), getElement());
@@ -239,10 +248,11 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#addItem(java.lang
 	 * .Object)
 	 */
+	@Override
 	public void addItem(Object item) throws SemanticException {
 		if (item instanceof IStructure) {
 			super.addItem((IStructure) item);
@@ -255,7 +265,7 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 	/**
 	 * Returns whether the property value is read-only in the report context.
-	 * 
+	 *
 	 * @return <code>true</code> if the value is read-only. Otherwise
 	 *         <code>false</code>.
 	 */
@@ -263,14 +273,15 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Adds a report item to the property with the given element handle. The report
 	 * item must not be newly created and not yet added to the design.
-	 * 
+	 *
 	 * @param content handle to the newly created element
 	 * @throws SemanticException if the element is not allowed to insert
 	 */
 
 	public void add(DesignElementHandle content) throws SemanticException {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), propDefn.getName()));
 		cmd.add(content.getElement());
 	}
@@ -278,7 +289,7 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Adds a report item to this property at the given position. The item must not
 	 * be newly created and not yet added to the design.
-	 * 
+	 *
 	 * @param content handle to the newly created element
 	 * @param newPos  the position index at which the content to be inserted,
 	 *                0-based integer
@@ -286,8 +297,9 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	 */
 
 	public void add(DesignElementHandle content, int newPos) throws SemanticException {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), propDefn.getName()));
 		cmd.add(content.getElement(), newPos);
@@ -296,15 +308,16 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Pastes a report item to this property. The item must be newly created and not
 	 * yet added to the design.
-	 * 
+	 *
 	 * @param content the newly created element handle
 	 * @return a list containing all errors for the pasted element
 	 * @throws SemanticException if the element is not allowed to paste
 	 */
 
 	public List paste(DesignElementHandle content) throws SemanticException {
-		if (content == null)
+		if (content == null) {
 			return Collections.EMPTY_LIST;
+		}
 
 		add(content);
 
@@ -314,15 +327,16 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Pastes a report item to this property. The item must be newly created and not
 	 * yet added to the design.
-	 * 
+	 *
 	 * @param content the newly created element
 	 * @return a list containing all errors for the pasted element
 	 * @throws SemanticException if the element is not allowed to paste
 	 */
 
 	public List paste(IDesignElement content) throws SemanticException {
-		if (content == null)
+		if (content == null) {
 			return Collections.EMPTY_LIST;
+		}
 		add(content.getHandle(getModule()));
 
 		return getElementHandle().checkPostPasteErrors((DesignElement) content);
@@ -331,7 +345,7 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Pastes a report item to the slot. The item must be newly created and not yet
 	 * added to the design.
-	 * 
+	 *
 	 * @param content the newly created element handle
 	 * @param newPos  the position index at which the content to be inserted.
 	 * @return a list containing all errors for the pasted element
@@ -339,8 +353,9 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	 */
 
 	public List paste(DesignElementHandle content, int newPos) throws SemanticException {
-		if (content == null)
+		if (content == null) {
 			return Collections.EMPTY_LIST;
+		}
 		add(content, newPos);
 
 		return Collections.EMPTY_LIST;
@@ -350,7 +365,7 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Pastes a report item to the property. The item must be newly created and not
 	 * yet added to the design.
-	 * 
+	 *
 	 * @param content the newly created element
 	 * @param newPos  the position index at which the content to be inserted.
 	 * @return a list containing all errors for the pasted element
@@ -358,8 +373,9 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	 */
 
 	public List paste(IDesignElement content, int newPos) throws SemanticException {
-		if (content == null)
+		if (content == null) {
 			return Collections.EMPTY_LIST;
+		}
 		add(content.getHandle(getModule()), newPos);
 
 		return getElementHandle().checkPostPasteErrors((DesignElement) content);
@@ -368,21 +384,22 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getListValue()
 	 */
+	@Override
 	public ArrayList getListValue() {
 		if (propDefn.isElementType()) {
 			Object value = getValue();
-			if (value == null)
+			if (value == null) {
 				return new ArrayList();
+			}
 			if (value instanceof DesignElementHandle) {
 				ArrayList result = new ArrayList();
 				result.add(value);
 				return result;
 			} else if (value instanceof ArrayList) {
-				ArrayList retValue = new ArrayList();
-				retValue.addAll((ArrayList) value);
+				ArrayList retValue = new ArrayList((ArrayList) value);
 				return retValue;
 			}
 		}
@@ -392,20 +409,21 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Returns the a list with contents.Items are handles to the contents and in
 	 * order by position.
-	 * 
+	 *
 	 * @return a list with property contents, items of the list are handles to the
 	 *         contents.
 	 */
 
 	public List getContents() {
-		if (propDefn.isElementType())
+		if (propDefn.isElementType()) {
 			return getListValue();
+		}
 		return Collections.EMPTY_LIST;
 	}
 
 	/**
 	 * Returns the number of elements in the property.
-	 * 
+	 *
 	 * @return the count of contents in the property
 	 */
 
@@ -415,7 +433,7 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 	/**
 	 * Moves the position of a content element within the slot.
-	 * 
+	 *
 	 * @param content handle to the content to move
 	 * @param toPosn  the new position
 	 * @throws ContentException if the content is not in the slot, or if the to
@@ -423,15 +441,16 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	 */
 
 	public void shift(DesignElementHandle content, int toPosn) throws ContentException {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), propDefn.getName()));
 		cmd.movePosition(content.getElement(), toPosn);
 	}
 
 	/**
 	 * Moves a content element into a slot in another container element.
-	 * 
+	 *
 	 * @param content      a handle to the element to move
 	 * @param newContainer a handle to the new container element
 	 * @param propName     the target property name where the element will be moved
@@ -443,8 +462,9 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 	public void move(DesignElementHandle content, DesignElementHandle newContainer, String propName)
 			throws ContentException {
-		if (content == null || newContainer == null)
+		if (content == null || newContainer == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), propDefn.getName()));
 		cmd.move(content.getElement(), new ContainerContext(newContainer.getElement(), propName));
 	}
@@ -452,7 +472,7 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Moves a content element into a slot in another container element at the
 	 * specified position.
-	 * 
+	 *
 	 * @param content      a handle to the element to move
 	 * @param newContainer a handle to the new container element
 	 * @param propName     the target property name where the element will be moved
@@ -467,8 +487,9 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 	public void move(DesignElementHandle content, DesignElementHandle newContainer, String propName, int newPos)
 			throws ContentException {
-		if (content == null || newContainer == null)
+		if (content == null || newContainer == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), propDefn.getName()));
 		cmd.move(content.getElement(), new ContainerContext(newContainer.getElement(), propName), newPos);
 	}
@@ -476,14 +497,15 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Drops a content element from the slot, and clear any reference property which
 	 * refers the element to drop.
-	 * 
+	 *
 	 * @param content a handle to the content to drop
 	 * @throws SemanticException if the content is not within the slot
 	 */
 
 	public void dropAndClear(DesignElementHandle content) throws SemanticException {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), propDefn.getName()),
 				false, false);
 		cmd.remove(content.getElement());
@@ -492,14 +514,15 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Drops a content element from the slot, and unresolve any reference property
 	 * which refers the element to drop.
-	 * 
+	 *
 	 * @param content a handle to the content to drop
 	 * @throws SemanticException if the content is not within the slot
 	 */
 
 	public void drop(DesignElementHandle content) throws SemanticException {
-		if (content == null)
+		if (content == null) {
 			return;
+		}
 		ContentCommand cmd = new ContentCommand(getModule(), new ContainerContext(getElement(), propDefn.getName()),
 				false, true);
 		cmd.remove(content.getElement());
@@ -508,7 +531,7 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Drops a content element at the given position from the slot, and clear any
 	 * reference property which refers the element to drop.
-	 * 
+	 *
 	 * @param posn the position of the content to drop
 	 * @throws SemanticException if the position is out of range
 	 */
@@ -525,7 +548,7 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Drops a content element at the given position from the slot, and unresolve
 	 * any reference property which refers the element to drop.
-	 * 
+	 *
 	 * @param posn the position of the content to drop
 	 * @throws SemanticException if the position is out of range
 	 */
@@ -542,11 +565,11 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 	/**
 	 * Determines if the slot can contain an element with the type of
 	 * <code>type</code>.
-	 * 
+	 *
 	 * @param type the name of the element type, like "Table", "List", etc.
 	 * @return <code>true</code> if the slot can contain the an element with
 	 *         <code>type</code> type, otherwise <code>false</code>.
-	 * 
+	 *
 	 */
 
 	public boolean canContain(String type) {
@@ -555,9 +578,9 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 	/**
 	 * Determines if the given slot can contain the <code>content</code>.
-	 * 
+	 *
 	 * @param content the design element handle to check
-	 * 
+	 *
 	 * @return <code>true</code> if the slot with the given <code>slotId</code> can
 	 *         contain the <code>content</code>, otherwise <code>false</code>.
 	 */
@@ -568,21 +591,22 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 	/**
 	 * Gets the content at the given position.
-	 * 
+	 *
 	 * @param posn the index where the content resides
 	 * @return the corresponding element
 	 */
 
 	public DesignElementHandle getContent(int posn) {
 		Object value = get(posn);
-		if (value instanceof DesignElementHandle)
+		if (value instanceof DesignElementHandle) {
 			return (DesignElementHandle) value;
+		}
 
 		return null;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param encryptionID
 	 * @throws SemanticException
 	 */
@@ -593,9 +617,10 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.SimpleValueHandle#getItems()
 	 */
+	@Override
 	public List getItems() {
 		if (propDefn.isListType() && propDefn.getSubTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
 			ArrayList listValue = new ArrayList();
@@ -605,8 +630,9 @@ public class PropertyHandleImpl extends SimpleValueHandle {
 					assert value instanceof ElementRefValue;
 					ElementRefValue refValue = (ElementRefValue) value;
 					DesignElementHandle refHandle = null;
-					if (refValue.isResolved())
+					if (refValue.isResolved()) {
 						refHandle = refValue.getElement().getHandle(getModule());
+					}
 					listValue.add(refHandle);
 				}
 			}

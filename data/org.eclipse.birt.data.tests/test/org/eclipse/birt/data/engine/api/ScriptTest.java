@@ -1,30 +1,31 @@
 /*
  *************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api;
+
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import testutil.ConfigText;
-
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import testutil.ConfigText;
 
 /**
  * Test cases for data engine scripting features
@@ -36,6 +37,7 @@ public class ScriptTest extends APITestCase {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
+	@Override
 	protected DataSourceInfo getDataSourceInfo() {
 		return new DataSourceInfo("ScriptTestTable",
 				"CREATE TABLE ScriptTestTable (COUNTRY varchar(10), CITY varchar(10), SALE_DATE timestamp, AMOUNT int, ORDERED int, NULL_COLUMN varchar(10))",
@@ -128,7 +130,7 @@ public class ScriptTest extends APITestCase {
 		// define a query design
 		QueryDefinition queryDefn = newReportQuery();
 
-		String names[] = new String[] { "_COUNTRY" };
+		String names[] = { "_COUNTRY" };
 		ScriptExpression expression = new ScriptExpression("dataSetRow.COUNTRY", DataType.STRING_TYPE);
 		Binding binding = new Binding(names[0]);
 		binding.setExpression(expression);

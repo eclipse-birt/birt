@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,7 +45,7 @@ public class BorderPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * Default constructor.
-	 * 
+	 *
 	 * @param model the model of preference page.
 	 */
 	public BorderPreferencePage(Object model) {
@@ -57,10 +57,11 @@ public class BorderPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.FieldEditorPreferencePage#adjustGridLayout()
 	 */
+	@Override
 	protected void adjustGridLayout() {
 		((GridLayout) getFieldEditorParent().getLayout()).numColumns = 3;
 
@@ -101,10 +102,11 @@ public class BorderPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.designer.internal.ui.dialogs.BaseStylePreferencePage#
 	 * createFieldEditors()
 	 */
+	@Override
 	protected void createFieldEditors() {
 		// super.createFieldEditors( );
 
@@ -255,6 +257,7 @@ public class BorderPreferencePage extends BaseStylePreferencePage {
 		return new String[0][2];
 	}
 
+	@Override
 	protected String[] getPreferenceNames() {
 		return new String[] { StyleHandle.BORDER_TOP_STYLE_PROP, StyleHandle.BORDER_BOTTOM_STYLE_PROP,
 				StyleHandle.BORDER_LEFT_STYLE_PROP, StyleHandle.BORDER_RIGHT_STYLE_PROP,

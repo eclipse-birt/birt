@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2008, 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -81,11 +81,12 @@ public class SampleDbFactory implements IExecutableExtension {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.
 	 * eclipse.core.runtime.IConfigurationElement, java.lang.String,
 	 * java.lang.Object)
 	 */
+	@Override
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
 			throws CoreException {
 		String stateLocation = getSampleDbRootPath(PLUGIN_ID);
@@ -98,10 +99,7 @@ public class SampleDbFactory implements IExecutableExtension {
 			// by DTP profile manager as part of processing this
 			// ProfileManagerInitializationProvider extension
 			removeObsoleteDriverDefinition();
-		} catch (RuntimeException ex) {
-			ex.printStackTrace();
-			throw new CoreException((IStatus) new Status(IStatus.ERROR, PLUGIN_ID, ex.getLocalizedMessage(), ex));
-		} catch (IOException ex) {
+		} catch (RuntimeException | IOException ex) {
 			ex.printStackTrace();
 			throw new CoreException((IStatus) new Status(IStatus.ERROR, PLUGIN_ID, ex.getLocalizedMessage(), ex));
 		}
@@ -119,41 +117,48 @@ public class SampleDbFactory implements IExecutableExtension {
 	}
 
 	private void initSampleDb(String rootPath) throws IOException, IllegalArgumentException {
-		if (rootPath == null || rootPath.length() == 0 || !(new File(rootPath).isDirectory()))
+		if (rootPath == null || rootPath.length() == 0 || !(new File(rootPath).isDirectory())) {
 			throw new IllegalArgumentException(Messages.bind(Messages.sampleDbFactory_invalidDirectory, rootPath));
+		}
 
 		File dbDir = new File(rootPath + PATH_SEPARATOR + SAMPLE_DB_HOME_SUBDIR);
 		if (dbDir.exists()) {
 			// check if contains BirtSample sub-directory
 			File[] subDir = dbDir.listFiles(new FilenameFilter() {
+				@Override
 				public boolean accept(File dir, String name) {
 					return name.equals(SAMPLE_DB_NAME);
 				}
 			});
-			if (subDir == null || subDir.length > 1) // filter should have returned empty or one File in subDir
+			if (subDir == null || subDir.length > 1) { // filter should have returned empty or one File in subDir
 				throw new IllegalArgumentException(
 						Messages.bind(Messages.sampleDbFactory_invalidDirectory, dbDir.toString()));
+			}
 
 			if (subDir.length == 1) {
 				File sampleDb = subDir[0];
-				if (!sampleDb.isDirectory())
+				if (!sampleDb.isDirectory()) {
 					throw new IllegalArgumentException(
 							Messages.bind(Messages.sampleDbFactory_invalidDirectory, sampleDb.toString()));
+				}
 
 				// check if BirtSample contains db content
 				File[] sampleDbFiles = sampleDb.listFiles(new FilenameFilter() {
+					@Override
 					public boolean accept(File dir, String name) {
 						return name.equals(SAMPLE_DB_LOG) || name.equals(SAMPLE_DB_SEG);
 					}
 				});
 
-				if (sampleDbFiles.length == 2)
+				if (sampleDbFiles.length == 2) {
 					return; // done; BirtSample already exists
+				}
 			}
 		}
 
-		if (!dbDir.exists())
+		if (!dbDir.exists()) {
 			dbDir.mkdir();
+		}
 
 		// unpack copy of Sample DB under rootPath/db
 
@@ -218,8 +223,9 @@ public class SampleDbFactory implements IExecutableExtension {
 	static String getLocalizedDriverDefinitionId() {
 		if (sm_nlsDriverDefinitionId == null) {
 			synchronized (SampleDbFactory.class) {
-				if (sm_nlsDriverDefinitionId == null)
+				if (sm_nlsDriverDefinitionId == null) {
 					sm_nlsDriverDefinitionId = SAMPLEDB_DRIVER_DEFN_ID_PREFIX + getLocalizedDriverDefinitionName();
+				}
 			}
 		}
 		return sm_nlsDriverDefinitionId;

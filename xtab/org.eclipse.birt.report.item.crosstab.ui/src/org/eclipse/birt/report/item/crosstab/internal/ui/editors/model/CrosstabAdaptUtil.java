@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -77,7 +77,7 @@ public class CrosstabAdaptUtil {
 
 	/**
 	 * Gets the row or column count after the handel, now include the current handle
-	 * 
+	 *
 	 * @param handle
 	 * @return
 	 */
@@ -256,7 +256,7 @@ public class CrosstabAdaptUtil {
 	/**
 	 * Find the position of the element. If the element is null, the position is
 	 * last
-	 * 
+	 *
 	 * @param parent
 	 * @param element
 	 * @return position
@@ -453,7 +453,7 @@ public class CrosstabAdaptUtil {
 
 	/**
 	 * Adds the measreview handle to the CrosstabReportItemHandle.
-	 * 
+	 *
 	 * @param reportHandle
 	 * @param measureHandle
 	 * @param position

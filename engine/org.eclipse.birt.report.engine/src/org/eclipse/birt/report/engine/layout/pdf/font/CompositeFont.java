@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007,2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,7 +21,7 @@ import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
 
 /**
- * 
+ *
  * The composite font is defined by multiple physical fonts.
  * <p>
  * Each font can be used to display different character. The physical fonts are
@@ -144,11 +144,9 @@ public class CompositeFont {
 					if (CharSegment.search(fontsIndex[i], ch) != -1) {
 						return usedFonts[i];
 					}
-				} else {
-					if (baseFonts[i] != null) {
-						if (baseFonts[i].charExists(ch)) {
-							return usedFonts[i];
-						}
+				} else if (baseFonts[i] != null) {
+					if (baseFonts[i].charExists(ch)) {
+						return usedFonts[i];
 					}
 				}
 			}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,29 +21,29 @@ import org.eclipse.birt.report.model.api.util.URIUtil;
 
 /**
  * TestCases for URIUtil.
- * 
+ *
  * <p>
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testFileProtocol()}</td>
  * <td>Tests the disk file.</td>
  * <td><code>getLocalPath</code> returns the filepath.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td></td>
  * <td>Tests the http and ftp protocols.</td>
  * <td><code>getLocalPath</code> returns null.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  */
 
 public class URIUtilTest extends BaseTestCase {
@@ -52,9 +52,9 @@ public class URIUtilTest extends BaseTestCase {
 	 * Tests whether the uri is a file protocol.
 	 * <p>
 	 * The file protocol allows following ways to refer a disk file:
-	 * 
+	 *
 	 * For examples, following uri are supported:
-	 * 
+	 *
 	 * <ul>
 	 * <li>file://C:/disk/test/data.file
 	 * <li>/C:/disk/test/data.file
@@ -65,9 +65,9 @@ public class URIUtilTest extends BaseTestCase {
 	 * <li>ftp://hello/test/test.html
 	 * <li>http://hello/test/test.html
 	 * </ul>
-	 * 
+	 *
 	 * @throws IOException
-	 * 
+	 *
 	 */
 	public void testFileProtocol() throws IOException {
 		assertEquals("//C:/disk/test/data.file", //$NON-NLS-1$
@@ -109,7 +109,7 @@ public class URIUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the method to get relative path. Test cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>1. absolute path with different path prefix
 	 * <li>2. absolute path with same path prefix
@@ -120,10 +120,11 @@ public class URIUtilTest extends BaseTestCase {
 	 */
 
 	public void testGetRelativePath() {
-		if (isWindowsPlatform())
+		if (isWindowsPlatform()) {
 			getRelativePathOnWindows();
-		else
+		} else {
 			getRelativePathOnUnix();
+		}
 
 		// common case for both platforms
 
@@ -162,7 +163,7 @@ public class URIUtilTest extends BaseTestCase {
 
 	/**
 	 * Test cases on the unix-like platform.
-	 * 
+	 *
 	 */
 
 	private void getRelativePathOnUnix() {
@@ -189,7 +190,7 @@ public class URIUtilTest extends BaseTestCase {
 
 	/**
 	 * Test cases on the windows platform.
-	 * 
+	 *
 	 */
 
 	private void getRelativePathOnWindows() {
@@ -238,7 +239,7 @@ public class URIUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the method to get relative path. Test cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>1. absolute base path
 	 * <li>2. relative base path
@@ -246,10 +247,11 @@ public class URIUtilTest extends BaseTestCase {
 	 */
 
 	public void testResolveAbsolutePath() {
-		if (isWindowsPlatform())
+		if (isWindowsPlatform()) {
 			resolveAbsolutePathOnWindows();
-		else
+		} else {
 			resolveAbsolutePathOnUnix();
+		}
 
 		// relative path supports for fragment
 
@@ -292,7 +294,7 @@ public class URIUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the method to get relative path on unix platform.
-	 * 
+	 *
 	 */
 
 	private void resolveAbsolutePathOnUnix() {
@@ -300,12 +302,12 @@ public class URIUtilTest extends BaseTestCase {
 				+ "sampleReports" + File.separator + "lib" //$NON-NLS-1$ //$NON-NLS-2$
 				+ File.separator + "lib1.rptlibrary", //$NON-NLS-1$
 				URIUtil.resolveAbsolutePath("/birt//sampleReports//reportdesigns//", //$NON-NLS-1$
-								"../lib/lib1.rptlibrary")); //$NON-NLS-1$
+						"../lib/lib1.rptlibrary")); //$NON-NLS-1$
 
 		String tmpAbsolutePath = URIUtil.resolveAbsolutePath( // $NON-NLS-1$
 				"./reportdesigns", //$NON-NLS-1$
 				"./lib/lib1.rptlibrary"); //$NON-NLS-1$
-		String tmpPath = File.separator + "reportdesigns" + File.separator //$NON-NLS-1$ //$NON-NLS-2$
+		String tmpPath = File.separator + "reportdesigns" + File.separator //$NON-NLS-1$
 				+ "lib" + File.separator //$NON-NLS-1$
 				+ "lib1.rptlibrary"; //$NON-NLS-1$
 		assertTrue(tmpAbsolutePath.endsWith(tmpPath));
@@ -314,7 +316,7 @@ public class URIUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests the method to get relative path on windows platform.
-	 * 
+	 *
 	 */
 
 	private void resolveAbsolutePathOnWindows() {

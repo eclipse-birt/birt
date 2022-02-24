@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -91,7 +91,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The unique CategoryProviderFactory instance
 	 */
 	public static ICategoryProviderFactory getInstance() {
@@ -100,10 +100,11 @@ public class CategoryProviderFactory implements ICategoryProviderFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.views.attributes.providers.
 	 * ICategoryProviderFactory#getCategoryProvider(java.lang.Object)
 	 */
+	@Override
 	public ICategoryProvider getCategoryProvider(Object model) {
 		if (model instanceof DesignElementHandle) {
 			return getCategoryProvider((DesignElementHandle) model);
@@ -175,7 +176,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory {
 
 		/**
 		 * Replaces an existing entry of given key with new label and new page class.
-		 * 
+		 *
 		 * @param targetKey
 		 * @param label
 		 * @param pageClass
@@ -209,7 +210,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory {
 
 		/**
 		 * Inserts a new entry before an existing entry by given key.
-		 * 
+		 *
 		 * @param beforeKey
 		 * @param key
 		 * @param label
@@ -223,21 +224,21 @@ public class CategoryProviderFactory implements ICategoryProviderFactory {
 			List<Class<?>> lclasses = null;
 
 			if (keys == null) {
-				lkeys = new ArrayList<String>();
+				lkeys = new ArrayList<>();
 			} else {
-				lkeys = new ArrayList<String>(Arrays.asList(keys));
+				lkeys = new ArrayList<>(Arrays.asList(keys));
 			}
 
 			if (labels == null) {
-				llabels = new ArrayList<String>();
+				llabels = new ArrayList<>();
 			} else {
-				llabels = new ArrayList<String>(Arrays.asList(labels));
+				llabels = new ArrayList<>(Arrays.asList(labels));
 			}
 
 			if (pageClasses == null) {
-				lclasses = new ArrayList<Class<?>>();
+				lclasses = new ArrayList<>();
 			} else {
-				lclasses = new ArrayList<Class<?>>(Arrays.asList(pageClasses));
+				lclasses = new ArrayList<>(Arrays.asList(pageClasses));
 			}
 
 			if (beforeKey != null) {
@@ -680,7 +681,7 @@ public class CategoryProviderFactory implements ICategoryProviderFactory {
 
 	/**
 	 * Get the CategoryProvider according to input handle
-	 * 
+	 *
 	 * @param handle
 	 * @return
 	 */

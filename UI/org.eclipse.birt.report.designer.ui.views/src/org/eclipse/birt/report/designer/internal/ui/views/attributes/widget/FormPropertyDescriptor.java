@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,8 +56,8 @@ import org.eclipse.swt.widgets.TableItem;
  * provides all table-based operations such as moving, adding, deleting. The
  * Filters, Sorting, Groups and High-lights will use FormPage as UI and provides
  * corresponding Model processors.
- * 
- * 
+ *
+ *
  */
 public class FormPropertyDescriptor extends PropertyDescriptor implements IFastConsumerProcessor {
 
@@ -100,7 +100,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 	/**
 	 * Set the index of this form created in the same page.
-	 * 
+	 *
 	 * @param index
 	 */
 	public void setButtonGroupIndex(int index) {
@@ -142,7 +142,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param parent   A widget which will be the parent of the new instance (cannot
 	 *                 be null)
 	 * @param style    The style of widget to construct
@@ -168,16 +168,19 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 		if (tableViewer != null) {
 			table.setEnabled(enabled);
 
-			if (btnUp != null)
+			if (btnUp != null) {
 				btnUp.setEnabled(enabled);
-			if (btnDown != null)
+			}
+			if (btnDown != null) {
 				btnDown.setEnabled(enabled);
+			}
 
 			btnAdd.setEnabled(enabled);
 			btnDel.setEnabled(enabled);
 
-			if (btnEdit != null)
+			if (btnEdit != null) {
 				btnEdit.setEnabled(enabled);
+			}
 
 			if (enabled) {
 				updateArraw();
@@ -206,16 +209,18 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TabPage
 	 * #setInput(java.util.List)
 	 */
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 		getDescriptorProvider().setInput(input);
 	}
 
+	@Override
 	public void load() {
 		if (getDescriptorProvider() instanceof IFormProvider) {
 			boolean enable = ((AbstractFormHandleProvider) getDescriptorProvider()).isEnable();
@@ -233,24 +238,27 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 	}
 
+	@Override
 	public Control getControl() {
 		return formPanel;
 	}
 
 	/**
 	 * Creates UI widgets
-	 * 
+	 *
 	 */
+	@Override
 	public Control createControl(Composite parent) {
 		assert getDescriptorProvider() != null;
 		assert getDescriptorProvider() instanceof IFormProvider;
 		formPanel = FormWidgetFactory.getInstance().createComposite(parent);
 
-		if (isFormStyle())
+		if (isFormStyle()) {
 			table = FormWidgetFactory.getInstance().createTable(formPanel,
 					SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
-		else
+		} else {
 			table = new Table(formPanel, SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
+		}
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		String[] columnNames = ((IFormProvider) getDescriptorProvider()).getColumnNames();
@@ -261,6 +269,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 		}
 		table.addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 				handleTableKeyPressEvent(e);
 			}
@@ -268,23 +277,26 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 		table.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleTableSelectEvent();
 			}
 		});
 		table.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				handleTableMouseDoubleClickEvent();
 			}
 		});
 		createTableViewer();
 
-		if (isFormStyle())
+		if (isFormStyle()) {
 			btnDel = FormWidgetFactory.getInstance().createButton(formPanel, "", //$NON-NLS-1$
 					SWT.PUSH);
-		else
+		} else {
 			btnDel = new Button(formPanel, SWT.BORDER);
+		}
 
 		if (descriptorProvider.getDisplayName()
 				.equals(Messages.getString("ReportPageGenerator.List.Resources.PropertiesFile"))) //$NON-NLS-1$
@@ -304,17 +316,19 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 		btnDel.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleDelSelectEvent();
 			}
 		});
 
-		if (isFormStyle())
+		if (isFormStyle()) {
 			btnAdd = FormWidgetFactory.getInstance().createButton(formPanel, "", //$NON-NLS-1$
 					SWT.PUSH);
-		else
+		} else {
 			btnAdd = new Button(formPanel, SWT.BORDER);
-		if (bAddWithDialog == true) {
+		}
+		if (bAddWithDialog) {
 			if (descriptorProvider.getDisplayName()
 					.equals(Messages.getString("ReportPageGenerator.List.Resources.PropertiesFile"))) //$NON-NLS-1$
 			{
@@ -336,6 +350,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 		btnAdd.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleAddSelectEvent();
 
@@ -343,11 +358,12 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 		});
 
 		if (style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL || style == NO_UP_DOWN) {
-			if (isFormStyle())
+			if (isFormStyle()) {
 				btnEdit = FormWidgetFactory.getInstance().createButton(formPanel, "", SWT.PUSH); //$NON-NLS-1$
-			else
+			} else {
 				btnEdit = new Button(formPanel, SWT.BORDER);
-			if (bAddWithDialog == true) {
+			}
+			if (bAddWithDialog) {
 				btnEdit.setText(Messages.getString("FormPage.Button.EditWithDialog")); //$NON-NLS-1$
 			} else {
 				btnEdit.setText(Messages.getString("FormPage.Button.Edit")); //$NON-NLS-1$
@@ -355,6 +371,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 			btnEdit.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					handleEditSelectEvent();
 				}
@@ -362,10 +379,11 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 		}
 
 		if (style != SIMPLE_FUNCTION && style != NO_UP_DOWN) {
-			if (isFormStyle())
+			if (isFormStyle()) {
 				btnUp = FormWidgetFactory.getInstance().createButton(formPanel, "", SWT.PUSH); //$NON-NLS-1$
-			else
+			} else {
 				btnUp = new Button(formPanel, SWT.BORDER);
+			}
 
 			if (0 == index) {
 				btnUp.setText(Messages.getString("FormPage.Button.Up")); //$NON-NLS-1$
@@ -377,14 +395,16 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 			btnUp.setToolTipText(Messages.getString("FormPage.toolTipText.Up")); //$NON-NLS-1$
 			btnUp.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					handleUpSelectEvent();
 				}
 			});
-			if (isFormStyle())
+			if (isFormStyle()) {
 				btnDown = FormWidgetFactory.getInstance().createButton(formPanel, "", SWT.PUSH); //$NON-NLS-1$
-			else
+			} else {
 				btnDown = new Button(formPanel, SWT.BORDER);
+			}
 			if (0 == index) {
 				btnDown.setText(Messages.getString("FormPage.Button.Down")); //$NON-NLS-1$
 			} else if (1 == index) {
@@ -396,6 +416,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 			btnDown.setToolTipText(Messages.getString("FormPage.toolTipText.Down")); //$NON-NLS-1$
 			btnDown.addSelectionListener(new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					handleDownSelectEvent();
 				}
@@ -431,19 +452,15 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 			return;
 		}
 
-		if (!((AbstractFormHandleProvider) getDescriptorProvider()).edit(pos))
+		if (!((AbstractFormHandleProvider) getDescriptorProvider()).edit(pos) || table.isDisposed()) {
 			return;
-
-		if (table.isDisposed())
-			return;
+		}
 		table.setSelection(pos);
 
 	}
 
 	protected void updateArraw() {
-		if (!((IFormProvider) getDescriptorProvider()).isEditable())
-			return;
-		if (style == SIMPLE_FUNCTION) {
+		if (!((IFormProvider) getDescriptorProvider()).isEditable() || (style == SIMPLE_FUNCTION)) {
 			return;
 		}
 		int selectIndex = table.getSelectionIndex();
@@ -456,42 +473,52 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 		if (style != NO_UP_DOWN) {
 
-			if (selectIndex <= 0)
+			if (selectIndex <= 0) {
 				btnUp.setEnabled(false);
-			else
+			} else {
 				btnUp.setEnabled(true);
+			}
 			if (selectIndex >= max || (selectIndex == -1)) {
 				btnDown.setEnabled(false);
-				if (selectIndex > max)
+				if (selectIndex > max) {
 					btnUp.setEnabled(false);
-			} else
+				}
+			} else {
 				btnDown.setEnabled(true);
+			}
 		}
 
 		if ((min <= selectIndex) && (selectIndex <= max)) {
 			btnDel.setEnabled(true);
-			if (btnEdit != null)
+			if (btnEdit != null) {
 				btnEdit.setEnabled(true);
+			}
 		} else {
 			btnDel.setEnabled(false);
-			if (btnEdit != null)
+			if (btnEdit != null) {
 				btnEdit.setEnabled(false);
+			}
 		}
 
 		if (getDescriptorProvider() instanceof IFormProvider) {
 			IFormProvider provider = (IFormProvider) getDescriptorProvider();
 			if (provider.isEnable()) {
-				if (btnAdd.isEnabled())
+				if (btnAdd.isEnabled()) {
 					btnAdd.setEnabled(provider.isAddEnable(tableViewer.getSelection()));
-				if (btnEdit.isEnabled())
+				}
+				if (btnEdit.isEnabled()) {
 					btnEdit.setEnabled(provider.isEditEnable(tableViewer.getSelection()));
-				if (btnDel.isEnabled())
+				}
+				if (btnDel.isEnabled()) {
 					btnDel.setEnabled(provider.isDeleteEnable(tableViewer.getSelection()));
+				}
 				if (style != NO_UP_DOWN) {
-					if (btnUp.isEnabled())
+					if (btnUp.isEnabled()) {
 						btnUp.setEnabled(provider.isUpEnable(tableViewer.getSelection()));
-					if (btnDown.isEnabled())
+					}
+					if (btnDown.isEnabled()) {
 						btnDown.setEnabled(provider.isDownEnable(tableViewer.getSelection()));
+					}
 				}
 			}
 		}
@@ -510,7 +537,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 	/**
 	 * Changes the position of one item to a new location.
-	 * 
+	 *
 	 * @param oldPos The old position
 	 * @param newPos The new Position
 	 */
@@ -524,7 +551,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 	/**
 	 * Creates the TableViewer and set all kinds of processors.
-	 * 
+	 *
 	 */
 	private void createTableViewer() {
 
@@ -538,6 +565,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 		} else {
 			tableViewer.setCellModifier(new FormCellModifier() {
 
+				@Override
 				public boolean canModify(Object element, String property) {
 					return false;
 				}
@@ -589,7 +617,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 	/**
 	 * Layouts widgets for simple UI type.
-	 * 
+	 *
 	 */
 	protected void normallLayout() {
 		FormLayout layout = new FormLayout();
@@ -764,20 +792,22 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
 		 * .lang.Object, int)
 		 */
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return ((IFormProvider) getDescriptorProvider()).getImage(element, columnIndex);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
 		 * lang.Object, int)
 		 */
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			return ((IFormProvider) getDescriptorProvider()).getColumnText(element, columnIndex);
 		}
@@ -787,30 +817,33 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object,
 		 * java.lang.String)
 		 */
+		@Override
 		public boolean canModify(Object element, String property) {
 			return ((IFormProvider) getDescriptorProvider()).canModify(element, property);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ICellModifier#getValue(java.lang.Object,
 		 * java.lang.String)
 		 */
+		@Override
 		public Object getValue(Object element, String property) {
 			return ((IFormProvider) getDescriptorProvider()).getValue(element, property);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object,
 		 * java.lang.String, java.lang.Object)
 		 */
+		@Override
 		public void modify(Object element, String property, Object value) {
 
 			TableItem item = (TableItem) element;
@@ -838,10 +871,12 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 			WidgetUtil.processError(btnAdd.getShell(), e);
 			return;
 		}
-		if (table.isDisposed())
+		if (table.isDisposed()) {
 			return;
-		if (table.getItemCount() > 0)
+		}
+		if (table.getItemCount() > 0) {
 			table.setSelection(table.getItemCount() - 1);
+		}
 		updateArraw();
 	}
 
@@ -868,8 +903,9 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 	}
 
 	protected void handleTableMouseDoubleClickEvent() {
-		if (!((IFormProvider) getDescriptorProvider()).isEditable())
+		if (!((IFormProvider) getDescriptorProvider()).isEditable()) {
 			return;
+		}
 		if (style == FULL_FUNCTION || style == FULL_FUNCTION_HORIZONTAL || style == NO_UP_DOWN) {
 			edit();
 		}
@@ -881,8 +917,9 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 	}
 
 	protected void handleTableKeyPressEvent(KeyEvent e) {
-		if (!((IFormProvider) getDescriptorProvider()).isEditable())
+		if (!((IFormProvider) getDescriptorProvider()).isEditable()) {
 			return;
+		}
 		if (e.keyCode == SWT.DEL) {
 			int itemCount = table.getItemCount();
 			int pos = table.getSelectionIndex();
@@ -933,6 +970,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 		updateArraw();
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
 		// TODO Auto-generated method stub
 
@@ -940,19 +978,23 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 
 	private List eventList = new LinkedList();
 
+	@Override
 	public void addElementEvent(DesignElementHandle focus, NotificationEvent ev) {
 		ModelEventInfo event = new ModelEventInfo(focus, ev);
 		eventList.add(event);
 	}
 
+	@Override
 	public void clear() {
 		eventList.clear();
 	}
 
+	@Override
 	public boolean isOverdued() {
 		return getControl() == null || getControl().isDisposed();
 	}
 
+	@Override
 	public void postElementEvent() {
 		while (eventList.size() > 0) {
 			if (((IFormProvider) getDescriptorProvider())
@@ -969,6 +1011,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements IFastC
 		}
 	}
 
+	@Override
 	public Object getAdapter(Class adapter) {
 		return null;
 	}

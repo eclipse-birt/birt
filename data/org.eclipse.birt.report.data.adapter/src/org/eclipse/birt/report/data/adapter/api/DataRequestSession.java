@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,12 +46,12 @@ import com.ibm.icu.util.ULocale;
 /**
  * Main entry point to Data Engine functionalities. Each data request session
  * can be used to execute data requests associated with one report design.
- * 
+ *
  * The user of a data request session typically start by defining all data
  * sources and data sets available in the report design by calling the
  * <code>defineDataSet</code> and <code>defineDataSource</code> methods. It can
  * then call <code>prepare</code> to start preparing queries for executions.
- * 
+ *
  * This class is MT-safe. Multiple queries can be prepared at the same time by
  * different threads.
  */
@@ -74,8 +74,9 @@ public abstract class DataRequestSession {
 	public static DataRequestSession newSession(PlatformConfig platformConfig, DataSessionContext context)
 			throws BirtException {
 		ULocale locale = context.getDataEngineContext().getLocale();
-		if (locale != null && locale != ULocale.getDefault())
+		if (locale != null && locale != ULocale.getDefault()) {
 			AdapterException.setULocale(locale);
+		}
 
 		Platform.startup(platformConfig);
 
@@ -94,14 +95,14 @@ public abstract class DataRequestSession {
 
 	/**
 	 * Get the cube query util.
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract ICubeQueryUtil getCubeQueryUtil();
 
 	/**
 	 * Get query definition copy util.
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract IQueryDefinitionUtil getQueryDefinitionUtil();
@@ -122,7 +123,7 @@ public abstract class DataRequestSession {
 	 * Obtains the metadata of a named data set. In order to use this method, this
 	 * session must have been initialized with a valid ReportDesignHandle which
 	 * contains the named data set
-	 * 
+	 *
 	 * @param dataSetName name of data set
 	 * @param useCache    If true, this method may return metadata cached in the
 	 *                    report design.If the cached metadata is empty then return
@@ -134,14 +135,14 @@ public abstract class DataRequestSession {
 
 	/**
 	 * Obtains the metadata of a data set given its model handle.
-	 * 
+	 *
 	 * @param dataSetHandle data set handle
 	 * @param useCache      If true, this method may return metadata cached in the
 	 *                      report design.If the cached metadata is empty then
 	 *                      return an empty IResultMetaData instance. If the
 	 *                      ReportDesignHandle does not have cached metadata then
 	 *                      return null.
-	 * 
+	 *
 	 */
 	public abstract IResultMetaData getDataSetMetaData(DataSetHandle dataSetHandle, boolean useCache)
 			throws BirtException;
@@ -152,11 +153,11 @@ public abstract class DataRequestSession {
 	 * updated with the latest data set metadata read from out source. When there is
 	 * any error in this action, an empty cached metadata will be inserted and an
 	 * exception will be thrown out.
-	 * 
+	 *
 	 * Since This method will change the data of model and it does not process any
 	 * model change event, it is the responsible of the caller to make sure these
 	 * events will be properly handled.
-	 * 
+	 *
 	 * @param dataSetHandle
 	 * @return the result metadata of specified dataSetHandle
 	 * @throws BirtException
@@ -168,7 +169,7 @@ public abstract class DataRequestSession {
 	 * <code> refreshMetaData( DataSetHandle dataSetHandle )</code>, the only
 	 * difference is the caller of this method will have the control over whether to
 	 * hold the event or not. It is added largely for the backward compatibility
-	 * 
+	 *
 	 * @param dataSetHandle
 	 * @param holdEvent     true if holdEvent, false otherwise
 	 * @return
@@ -180,7 +181,7 @@ public abstract class DataRequestSession {
 	/**
 	 * Retrieves all distinct values of a data set column and return them in a
 	 * Collection.
-	 * 
+	 *
 	 * @param dataSet            Handle of data set to query
 	 * @param inputParamBindings An iterator of ParamBindingHandle objects that
 	 *                           defines bindings for the data set's input
@@ -199,7 +200,7 @@ public abstract class DataRequestSession {
 	/**
 	 * Retrieves all distinct values of a data set column and return them in a
 	 * iterator.
-	 * 
+	 *
 	 * @param dataSet            Handle of data set to query
 	 * @param inputParamBindings An iterator of ParamBindingHandle objects that
 	 *                           defines bindings for the data set's input
@@ -218,11 +219,12 @@ public abstract class DataRequestSession {
 	/**
 	 * Prepare a base data query, and return an IBasePreparedQuery instance which
 	 * can be subsequently executed to produce query results.
-	 * 
+	 *
 	 * @deprecated Should not pass appContext this way, try
 	 *             {@link DataSessionContext#setAppContext(Map)} instead.
 	 */
 
+	@Deprecated
 	public abstract IBasePreparedQuery prepare(IDataQueryDefinition query, Map appContext) throws AdapterException;
 
 	/**
@@ -239,7 +241,7 @@ public abstract class DataRequestSession {
 			ScriptContext context) throws AdapterException;
 
 	/**
-	 * 
+	 *
 	 * @param query
 	 * @param outerResults
 	 * @param context
@@ -247,13 +249,14 @@ public abstract class DataRequestSession {
 	 * @throws AdapterException
 	 * @deprecated
 	 */
+	@Deprecated
 	public abstract IBaseQueryResults execute(IBasePreparedQuery query, IBaseQueryResults outerResults,
 			Scriptable scope) throws AdapterException;
 
 	/**
 	 * Retrieves all distinct values of a data set column based on searchInfo and
 	 * return in a Collection.
-	 * 
+	 *
 	 * @param dataSet            Handle of data set to query
 	 * @param inputParamBindings An iterator of ParamBindingHandle objects that
 	 *                           defines bindings for the data set's input
@@ -272,7 +275,7 @@ public abstract class DataRequestSession {
 	/**
 	 * Retrieves all distinct values of a data set column based on searchInfo and
 	 * return in a Collection.
-	 * 
+	 *
 	 * @param dataSet            Handle of data set to query
 	 * @param inputParamBindings An iterator of ParamBindingHandle objects that
 	 *                           defines bindings for the data set's input
@@ -294,7 +297,7 @@ public abstract class DataRequestSession {
 	/**
 	 * Retrieves all distinct values of a data set column based on searchInfo and
 	 * return in a Collection.
-	 * 
+	 *
 	 * @param dataSet            Handle of data set to query
 	 * @param inputParamBindings An iterator of ParamBindingHandle objects that
 	 *                           defines bindings for the data set's input
@@ -318,7 +321,7 @@ public abstract class DataRequestSession {
 	 * Use a default data engine to execute a query. Since Data Engine needs to know
 	 * the data source and data set definition, the moduleHandle needs to be passed
 	 * to let DtE get these necessary information.
-	 * 
+	 *
 	 * @param queryDefn
 	 * @param paramBindingIt
 	 * @param filterIt
@@ -332,7 +335,7 @@ public abstract class DataRequestSession {
 	/**
 	 * Loads query results with the provided ID from the report document used to
 	 * initialize this session.
-	 * 
+	 *
 	 * If and only if current mode is DataEngineContext.MODE_PRESENTATION, query
 	 * result can be retrieved from report document. Otherwise a BirtException will
 	 * be thrown immediately.
@@ -343,7 +346,7 @@ public abstract class DataRequestSession {
 	 * Defines a cube. A cube must be defined with the data engine before it can be
 	 * used in a query. If the cube has already been defined, its definition will be
 	 * replaced by the new cube design.
-	 * 
+	 *
 	 * @param cubeDesign
 	 * @throws BirtException
 	 */
@@ -352,7 +355,7 @@ public abstract class DataRequestSession {
 	/**
 	 * Prepare an ICubeQueryDefinition instance, return an IPreparedCubeQuery
 	 * instance, which is in turn used to acquire cube cursor.
-	 * 
+	 *
 	 * @param query
 	 * @return
 	 */
@@ -361,7 +364,7 @@ public abstract class DataRequestSession {
 	/**
 	 * Prepare an ICubeQueryDefinition instance, return an IPreparedCubeQuery
 	 * instance, which is in turn used to acquire cube cursor.
-	 * 
+	 *
 	 * @param query      CubeQueryDefinition defines the logic of a cube query.
 	 * @param appContext Application context data associated with this query.
 	 *                   appContext is passed to all data source and data set
@@ -376,10 +379,11 @@ public abstract class DataRequestSession {
 	 * @deprecated Should not pass appContext this way, try
 	 *             {@link DataSessionContext#setAppContext(Map)} instead.
 	 */
+	@Deprecated
 	public abstract IPreparedCubeQuery prepare(ICubeQueryDefinition query, Map appContext) throws BirtException;
 
 	/**
-	 * 
+	 *
 	 * @param query
 	 * @param appContext
 	 * @return
@@ -387,10 +391,11 @@ public abstract class DataRequestSession {
 	 * @deprecated Should not pass appContext this way, try
 	 *             {@link DataSessionContext#setAppContext(Map)} instead.
 	 */
+	@Deprecated
 	public abstract IPreparedCubeQuery prepare(ISubCubeQueryDefinition query, Map appContext) throws BirtException;
 
 	/**
-	 * 
+	 *
 	 * @param query
 	 * @param appContext
 	 * @return
@@ -399,7 +404,7 @@ public abstract class DataRequestSession {
 	public abstract IPreparedCubeQuery prepare(ISubCubeQueryDefinition query) throws BirtException;
 
 	/**
-	 * 
+	 *
 	 * @param queryDefns
 	 * @throws AdapterException
 	 */
@@ -408,7 +413,7 @@ public abstract class DataRequestSession {
 	/**
 	 * Get the ICubeQueryResults instance that is stored in report document based on
 	 * the given id. This is for presentation time only.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -419,7 +424,7 @@ public abstract class DataRequestSession {
 
 	/**
 	 * Return the data engine context that referred by this data request session.
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract DataSessionContext getDataSessionContext();
@@ -427,7 +432,7 @@ public abstract class DataRequestSession {
 	/**
 	 * Prepares a data query, and returns an IPreparedQuery instance which can be
 	 * subsequently executed to produce query results
-	 * 
+	 *
 	 * @param querySpec  Specifies the data access and data transforms services
 	 *                   needed from DtE to produce a set of query results.
 	 * @param appContext Application context data associated with this query.
@@ -443,13 +448,14 @@ public abstract class DataRequestSession {
 	 * @deprecated Should not pass appContext this way, try
 	 *             {@link DataSessionContext#setAppContext(Map)} instead.
 	 */
+	@Deprecated
 	public abstract IPreparedQuery prepare(IQueryDefinition query, Map appContext) throws BirtException;
 
 	/**
 	 * Prepares a data query, and returns an IPreparedQuery instance which can be
 	 * subsequently executed to produce query results. Same as calling prepare(
 	 * query, null). The default session application context is used for this query.
-	 * 
+	 *
 	 * @param querySpec Specifies the data access and data transforms services
 	 *                  needed from DtE to produce a set of query results.
 	 * @return The <code>IPreparedQuery</code> object that contains a prepared query
@@ -462,7 +468,7 @@ public abstract class DataRequestSession {
 	 * Provides a hint to DtE that the consumer is done with the given data source,
 	 * and that its resources can be safely released as appropriate. This tells DtE
 	 * that there is to be no more query in this session that uses such data source.
-	 * 
+	 *
 	 * @param dataSourceName The name of a data source. The named data source must
 	 *                       have been previously defined.
 	 */
@@ -471,7 +477,7 @@ public abstract class DataRequestSession {
 	/**
 	 * Delete the cache content of the specified data set. Subsequent requests using
 	 * this data set will cause its cache to be regenerated with updated data
-	 * 
+	 *
 	 * @param dataSource, which is associated with the data set
 	 * @param dataSet,    which cache needs to be cleared
 	 * @throws BirtException
@@ -481,7 +487,7 @@ public abstract class DataRequestSession {
 	/**
 	 * Delete cache content of a specified cacheID. By now we do not expose it in
 	 * API.
-	 * 
+	 *
 	 * @param cacheID
 	 * @throws BirtException
 	 */
@@ -491,11 +497,11 @@ public abstract class DataRequestSession {
 	 * This method will return NULL if the named data set is not cached. Otherwise,
 	 * it will return an IResultMetaData instance which provides at least the
 	 * ColumnName and ColumnType information for all cached columns.
-	 * 
+	 *
 	 * Please note that the ParameterHint information will usually essential to the
 	 * result of data set design is omitted for it has nothing to do with the
 	 * metadata.
-	 * 
+	 *
 	 * @param dataSource
 	 * @param dataSet
 	 * @return
@@ -506,7 +512,7 @@ public abstract class DataRequestSession {
 
 	/**
 	 * Return the aggregation factory.
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
@@ -520,7 +526,7 @@ public abstract class DataRequestSession {
 	public abstract void cancel();
 
 	/**
-	 * 
+	 *
 	 */
 	public abstract void restart();
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -89,8 +89,9 @@ public class SpecDumper {
 	}
 
 	private void dumpTristate(String label, int value) {
-		if (value == SpecObject.TRI_UNKNOWN)
+		if (value == SpecObject.TRI_UNKNOWN) {
 			return;
+		}
 		print(label);
 		println(value == SpecObject.TRI_TRUE ? "True" : "False");
 	}
@@ -131,8 +132,9 @@ public class SpecDumper {
 	}
 
 	private void dumpChoices(SpecProperty prop) {
-		if (prop.choices.isEmpty())
+		if (prop.choices.isEmpty()) {
 			return;
+		}
 		println("    Choices:");
 		Iterator iter = prop.choices.iterator();
 		while (iter.hasNext()) {
@@ -185,10 +187,11 @@ public class SpecDumper {
 		println(slot.since);
 		print("    Contents: "); //$NON-NLS-1$
 		println(slot.contents);
-		if (slot.cardinality == SpecSlot.SINGLE)
+		if (slot.cardinality == SpecSlot.SINGLE) {
 			println("    Cardinality: Single");
-		else if (slot.cardinality == SpecSlot.MULTIPLE)
+		} else if (slot.cardinality == SpecSlot.MULTIPLE) {
 			println("    Cardinality: Multiple");
+		}
 		print("    XML Element: "); //$NON-NLS-1$
 		println(slot.xmlElement);
 		print("    Description: "); //$NON-NLS-1$

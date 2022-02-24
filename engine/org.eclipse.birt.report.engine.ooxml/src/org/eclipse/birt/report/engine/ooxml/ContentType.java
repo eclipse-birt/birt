@@ -18,5 +18,5 @@ import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
 public interface ContentType {
 
-	public abstract void write(OOXmlWriter writer);
+	void write(OOXmlWriter writer);
 }

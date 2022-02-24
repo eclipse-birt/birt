@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.birt.chart.script.api.series.IStackableSeries;
 import org.eclipse.birt.chart.script.internal.component.ValueSeriesImpl;
 
 /**
- * 
+ *
  */
 
 public abstract class StackableSeriesImpl extends ValueSeriesImpl implements IStackableSeries {
@@ -29,14 +29,17 @@ public abstract class StackableSeriesImpl extends ValueSeriesImpl implements ISt
 		super(sd, cm);
 	}
 
+	@Override
 	public boolean isStacked() {
 		return series.isStacked();
 	}
 
+	@Override
 	public void setStacked(boolean stacked) {
 		series.setStacked(stacked);
 	}
 
+	@Override
 	public void setPercent(boolean percent) {
 		getAxis().setPercent(percent);
 	}

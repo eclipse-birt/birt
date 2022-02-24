@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.xml.sax.Attributes;
 
 /**
  * Parses overridden values in the element.
- * 
+ *
  */
 
 class OverriddenValuesState extends AbstractParseState {
@@ -46,12 +46,10 @@ class OverriddenValuesState extends AbstractParseState {
 
 	private Map baseIdMap = new HashMap();
 
-	private ReportElementState parentState;
-
 	/**
 	 * Constructs <code>OverriddenValuesState</code> with the given handler and the
 	 * root element.
-	 * 
+	 *
 	 * @param handler the handler to parse the file.
 	 * @param element the root element where overridden-values tags residents.
 	 */
@@ -66,24 +64,27 @@ class OverriddenValuesState extends AbstractParseState {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 	 */
 
+	@Override
 	public XMLParserHandler getHandler() {
 		return handler;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
-		if (DesignSchemaConstants.REF_ENTRY_TAG.equalsIgnoreCase(tagName))
+		if (DesignSchemaConstants.REF_ENTRY_TAG.equalsIgnoreCase(tagName)) {
 			return new RefEntryState(handler);
+		}
 		return super.startElement(tagName);
 	}
 
@@ -107,7 +108,7 @@ class OverriddenValuesState extends AbstractParseState {
 
 		/**
 		 * Constrcuts <code>RefEntryState</code> with the given handler.
-		 * 
+		 *
 		 * @param handler the handler to parse the file
 		 */
 
@@ -117,21 +118,23 @@ class OverriddenValuesState extends AbstractParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 		 */
 
+		@Override
 		public XMLParserHandler getHandler() {
 			return handler;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(
 		 * org.xml.sax.Attributes)
 		 */
 
+		@Override
 		public void parseAttrs(Attributes attrs) throws XMLParserException {
 			String baseIdStr = attrs.getValue(DesignSchemaConstants.BASE_ID_ATTRIB);
 
@@ -186,11 +189,12 @@ class OverriddenValuesState extends AbstractParseState {
 						DesignElement theElement = handler.module.getElementByID(id);
 
 						if (theElement != null && handler.versionNumber >= VersionUtil.VERSION_3_2_7
-								&& theElement != virtualChild)
+								&& theElement != virtualChild) {
 							handler.getErrorHandler()
 									.semanticError(new DesignParserException(
 											new String[] { theElement.getIdentifier(), virtualChild.getIdentifier() },
 											DesignParserException.DESIGN_EXCEPTION_DUPLICATE_ELEMENT_ID));
+						}
 						virtualChild.setID(id);
 					}
 				}
@@ -203,10 +207,11 @@ class OverriddenValuesState extends AbstractParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 		 */
 
+		@Override
 		public DesignElement getElement() {
 			Object obj = baseIdMap.get(Long.valueOf(baseId));
 			return (DesignElement) obj;
@@ -214,17 +219,19 @@ class OverriddenValuesState extends AbstractParseState {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
+		@Override
 		public AbstractParseState startElement(String tagName) {
 			// if the base id is invalid, do not parse the child tag under the
 			// <ref-entry>.
 
-			if (!isBaseValid)
+			if (!isBaseValid) {
 				return new AnyElementState(getHandler());
+			}
 
 			return super.startElement(tagName);
 		}

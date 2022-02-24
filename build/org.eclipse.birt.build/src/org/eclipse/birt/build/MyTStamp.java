@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -39,6 +39,7 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.Vector;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
@@ -66,7 +67,7 @@ public class MyTStamp extends Task {
 	/**
 	 * Set a prefix for the properties. If the prefix does not end with a "." one is
 	 * automatically added
-	 * 
+	 *
 	 * @since Ant 1.5
 	 */
 	public void setPrefix(String prefix) {
@@ -79,9 +80,10 @@ public class MyTStamp extends Task {
 	/**
 	 * create the timestamps. Custom ones are done before the standard ones, to get
 	 * their retaliation in early.
-	 * 
+	 *
 	 * @throws BuildException
 	 */
+	@Override
 	public void execute() throws BuildException {
 		try {
 			Date d = new Date();
@@ -108,7 +110,7 @@ public class MyTStamp extends Task {
 
 	/**
 	 * create a custom format with the current prefix.
-	 * 
+	 *
 	 * @return a ready to fill-in format
 	 */
 	public CustomFormat createFormat() {
@@ -130,7 +132,7 @@ public class MyTStamp extends Task {
 	 * time in a given format. The date/time patterns are as defined in the Java
 	 * SimpleDateFormat class. The format element also allows offsets to be applied
 	 * to the time to generate different time values.
-	 * 
+	 *
 	 * @todo consider refactoring out into a re-usable element.
 	 */
 	public class CustomFormat {
@@ -151,7 +153,7 @@ public class MyTStamp extends Task {
 
 		/**
 		 * The property to receive the date/time string in the given pattern
-		 * 
+		 *
 		 * @param propertyName
 		 */
 		public void setProperty(String propertyName) {
@@ -161,7 +163,7 @@ public class MyTStamp extends Task {
 		/**
 		 * The date/time pattern to be used. The values are as defined by the Java
 		 * SimpleDateFormat class.
-		 * 
+		 *
 		 * @param pattern
 		 * @see java.text.SimpleDateFormat
 		 */
@@ -174,7 +176,7 @@ public class MyTStamp extends Task {
 		 * country, variant" but either variant or variant and country may be omitted.
 		 * For more information please refer to documentation for the java.util.Locale
 		 * class.
-		 * 
+		 *
 		 * @param locale
 		 * @see java.util.Locale
 		 */
@@ -201,7 +203,7 @@ public class MyTStamp extends Task {
 		/**
 		 * The timezone to use for displaying time. The values are as defined by the
 		 * Java TimeZone class.
-		 * 
+		 *
 		 * @param id
 		 * @see java.util.TimeZone
 		 */
@@ -211,7 +213,7 @@ public class MyTStamp extends Task {
 
 		/**
 		 * The numeric offset to the current time.
-		 * 
+		 *
 		 * @param offset
 		 */
 		public void setOffset(int offset) {
@@ -224,6 +226,7 @@ public class MyTStamp extends Task {
 		 *             work and also to encapsulate operations on the unit in its own
 		 *             class.
 		 */
+		@Deprecated
 		public void setUnit(String unit) {
 			log("DEPRECATED - The setUnit(String) method has been deprecated." + " Use setUnit(Tstamp.Unit) instead.");
 			Unit u = new Unit();
@@ -244,7 +247,7 @@ public class MyTStamp extends Task {
 		 * <li>year</li>
 		 * </ul>
 		 * The default unit is day.
-		 * 
+		 *
 		 * @param unit
 		 */
 		public void setUnit(Unit unit) {
@@ -253,7 +256,7 @@ public class MyTStamp extends Task {
 
 		/**
 		 * validate parameter and execute the format
-		 * 
+		 *
 		 * @param project  project to set property in
 		 * @param date     date to use as a starting point
 		 * @param location line in file (for errors)
@@ -278,10 +281,11 @@ public class MyTStamp extends Task {
 			if (offset != 0) {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(date);
-				if (field == Calendar.DATE && offset == -1 && calendar.get(Calendar.DAY_OF_WEEK) == 2) // Monday
+				if (field == Calendar.DATE && offset == -1 && calendar.get(Calendar.DAY_OF_WEEK) == 2) { // Monday
 					calendar.add(field, -3);
-				else
+				} else { // Monday
 					calendar.add(field, offset);
+				}
 				date = calendar.getTime();
 			}
 			if (timeZone != null) {
@@ -326,6 +330,7 @@ public class MyTStamp extends Task {
 			return i.intValue();
 		}
 
+		@Override
 		public String[] getValues() {
 			return units;
 		}

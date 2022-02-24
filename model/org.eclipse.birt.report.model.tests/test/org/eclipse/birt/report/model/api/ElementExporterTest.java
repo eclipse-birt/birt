@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -42,7 +42,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting one label to library file.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -60,7 +60,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting one label with style to library file.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -78,7 +78,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting one label with extends to library file.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -96,7 +96,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting table to library file.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -114,7 +114,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting the label which has duplicate name in library file.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -138,7 +138,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting style to library file.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -156,7 +156,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting data source/set to library file.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 
@@ -185,7 +185,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting one structure to library file.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -214,7 +214,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting one label existing in one table.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -232,7 +232,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting one label existing in masterpage.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -250,7 +250,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting one element to new library file.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -262,13 +262,15 @@ public class ElementExporterTest extends BaseTestCase {
 
 		String libraryDir = getTempFolder() + OUTPUT_FOLDER;
 		File file = new File(libraryDir);
-		if (!file.exists())
+		if (!file.exists()) {
 			file.mkdirs();
+		}
 
 		String libraryFile = libraryDir + "ElementExporterTestLibrary_out_10.xml"; //$NON-NLS-1$
 		file = new File(libraryFile);
-		if (file.exists())
+		if (file.exists()) {
 			file.delete();
+		}
 
 		ElementExportUtil.exportElement(labelHandle, libraryFile, false);
 		assertTrue(compareFile("ElementExporterTestLibrary_golden_10.xml", "ElementExporterTestLibrary_out_10.xml")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -276,15 +278,15 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * test to export a design handle to a given library file.
-	 * 
-	 * 
+	 *
+	 *
 	 * <ul>
 	 * <li>1. one sucessful case
 	 * <li>2. one design file with template-data-set
 	 * <li>3. one design file with template-label that directly resides in body
 	 * <li>3. one design file with template-label that resides in the cell slot
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -431,7 +433,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * test to export a design handle to a given library file.
-	 * 
+	 *
 	 * @param inputFile
 	 * @param outputFile
 	 * @throws Exception
@@ -441,20 +443,22 @@ public class ElementExporterTest extends BaseTestCase {
 		openDesign(inputFile, ULocale.ENGLISH);
 		String libraryDir = getTempFolder() + OUTPUT_FOLDER;
 		File file = new File(libraryDir);
-		if (!file.exists())
+		if (!file.exists()) {
 			file.mkdirs();
+		}
 
 		String libraryFile = libraryDir + outputFile;
 		file = new File(libraryFile);
-		if (file.exists())
+		if (file.exists()) {
 			file.delete();
+		}
 
 		ElementExportUtil.exportDesign(designHandle, libraryFile, true, true);
 	}
 
 	/**
 	 * Tests exporting one label with user property.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -472,7 +476,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests char is exported with a significative name.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -487,7 +491,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting EmbeddedImage to library file.
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -507,7 +511,7 @@ public class ElementExporterTest extends BaseTestCase {
 	/**
 	 * Test 'hasLibrary' method in <code>ModelUtil</code> contains in exportDesign
 	 * method in <code>ElementExportUtil</code>.
-	 * 
+	 *
 	 * <ul>
 	 * <li>test relative path. Report Design and library have the same absolute
 	 * path</li>
@@ -517,7 +521,7 @@ public class ElementExporterTest extends BaseTestCase {
 	 * path</li>
 	 * <li></li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception if any exception
 	 */
 
@@ -550,7 +554,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exportDesign method
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -574,7 +578,7 @@ public class ElementExporterTest extends BaseTestCase {
 	/**
 	 * When export property binding , should change 'id' property. See bugzilla
 	 * 198076
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -595,12 +599,12 @@ public class ElementExporterTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * test to export the element type property correctly. The value of the element
 	 * type property is an element.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testExportXtabFromLibrary() throws Exception {
@@ -617,7 +621,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Test the function that whether an element/structure can be exported.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -668,7 +672,7 @@ public class ElementExporterTest extends BaseTestCase {
 	/**
 	 * Tests export design successful and the element in top level in design file
 	 * should not be modified.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testExportLabelWithoutNameToLib() throws Exception {
@@ -731,7 +735,7 @@ public class ElementExporterTest extends BaseTestCase {
 	/**
 	 * Tests export design successful and the element in library with the same name
 	 * should be drop.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDropDuplicatedElement() throws Exception {
@@ -772,7 +776,7 @@ public class ElementExporterTest extends BaseTestCase {
 	/**
 	 * Test the function(canExport in IReportItem) that whether if extended item can
 	 * be exported to library
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -793,7 +797,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests the design exporting including table that defines data-binding-ref.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testExportTableWithBindingRef() throws Exception {
@@ -808,7 +812,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests export master page.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testExportMasterPage() throws Exception {
@@ -833,7 +837,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests export style element.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testExportStyle() throws Exception {
@@ -858,7 +862,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests export style element to specified theme.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testExportStyleToTheme() throws Exception {
@@ -883,7 +887,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests export expression values.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -900,7 +904,7 @@ public class ElementExporterTest extends BaseTestCase {
 	 * Tests export Xtab to library. Both the report and library have Xtab.The
 	 * report's Xtab contains element with same names as the element locates in
 	 * library's Xtab. The report's Xtab can not be exported to the library.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testExportXtabWithDuplicatedElementName() throws Exception {
@@ -973,7 +977,7 @@ public class ElementExporterTest extends BaseTestCase {
 
 	/**
 	 * Tests exporting table with a theme to library file.
-	 * 
+	 *
 	 * @throws Exception if any exception.
 	 */
 

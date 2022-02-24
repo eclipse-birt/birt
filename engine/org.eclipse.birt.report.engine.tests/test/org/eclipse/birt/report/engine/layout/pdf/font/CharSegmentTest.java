@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -43,8 +43,8 @@ public class CharSegmentTest extends TestCase {
 	}
 
 	public void testSearch() {
-		CharSegment[] segs = new CharSegment[] { new CharSegment(0, 1, "0-1"), new CharSegment(2, 2, "2"),
-				new CharSegment(9, 11, "9-11"), new CharSegment(100, 100, "100") };
+		CharSegment[] segs = { new CharSegment(0, 1, "0-1"), new CharSegment(2, 2, "2"), new CharSegment(9, 11, "9-11"),
+				new CharSegment(100, 100, "100") };
 		assertEquals(-1, CharSegment.search(segs, -1));
 		assertEquals(0, CharSegment.search(segs, 0));
 		assertEquals(0, CharSegment.search(segs, 1));
@@ -59,7 +59,7 @@ public class CharSegmentTest extends TestCase {
 	}
 
 	public void testSort() {
-		CharSegment[] segs = new CharSegment[] { new CharSegment(10, 100, "10-100"), new CharSegment(4, 4, "4"),
+		CharSegment[] segs = { new CharSegment(10, 100, "10-100"), new CharSegment(4, 4, "4"),
 				new CharSegment(7, 10, "7-10"), new CharSegment(0, 2, "0-2") };
 		CharSegment.sort(segs);
 		assertEquals("0-2[0-2],4[4],7-10[7-10],10-100[10-100]", toString(segs));
@@ -67,7 +67,7 @@ public class CharSegmentTest extends TestCase {
 	}
 
 	String toString(CharSegment[] segs) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < segs.length; i++) {
 			buffer.append(segs[i].toString());
 			buffer.append(",");

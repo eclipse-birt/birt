@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -22,63 +22,63 @@ import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 /**
  * Represents the handle of column hint. The column hint provides the hint about
  * result set columns.
- * 
+ *
  * <dl>
  * <dt><strong>Column Name </strong></dt>
  * <dd>a column hint has a required name. It keys the column hint to a column
  * within the result set.</dd>
- * 
+ *
  * <dt><strong>Alias </strong></dt>
  * <dd>a column hint has an optional alias. It provides an 'alias' name used for
  * the column within the report.</dd>
- * 
+ *
  * <dt><strong>Searching </strong></dt>
  * <dd>a column hint has an optional searching. It indicates how the column will
  * be used when searching.</dd>
- * 
+ *
  * <dt><strong>Export </strong></dt>
  * <dd>a column hint has an optional export. It determines how the column will
  * be used when exporting data.</dd>
- * 
+ *
  * <dt><strong>Analysis </strong></dt>
  * <dd>a column hint has an optional analysis. It determines how the column is
  * used when exporting the data to an OLAP cube.</dd>
- * 
+ *
  * <dt><strong>Parent Level </strong></dt>
  * <dd>a column hint has an optional parent level. It is used when a column's
  * <code>ANALYSIS_MEMBER</code> property is set to
  * <code>ANALYSIS_TYPE_DIMENSION</code> or <code>ANALYSIS_TYPE_DETAIL</code>.
  * For <code>ANALYSIS_TYPE_DIMENSION</code>, this property establishes the
  * dimension hierarchy.</dd>
- * 
+ *
  * <dt><strong>Format </strong></dt>
  * <dd>a column hint has an optional format. It is used to format the column
  * data when displaying the value in the viewing UI, especially within the
  * search results.</dd>
- * 
+ *
  * <dt><strong>Display Name </strong></dt>
  * <dd>a column hint has an optional display name. It provides the an optional
  * localizable display name for the column.</dd>
- * 
+ *
  * <dt><strong>Display Name ID </strong></dt>
  * <dd>a column hint has an optional display name ID. It provides the key to
  * localize the display name.</dd>
- * 
+ *
  * <dt><strong>Help Text </strong></dt>
  * <dd>a column hint has an optional help text. It provides optional localizable
  * descriptive text that explains the column to the end user.</dd>
- * 
+ *
  * <dt><strong>Help Text ID </strong></dt>
  * <dd>a column hint has an optional help text ID. It provides the key to
  * localize the help text.</dd>
  * </dl>
- * 
+ *
  */
 public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of computed column.
-	 * 
+	 *
 	 * @param valueHandle the value handle for computed column list of one property
 	 * @param index       the position of this computed column in the list
 	 */
@@ -89,7 +89,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Returns the alias name of this column.
-	 * 
+	 *
 	 * @return the alias name of this column
 	 */
 
@@ -99,7 +99,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the alias name of this column.
-	 * 
+	 *
 	 * @param alias the alias name to set
 	 */
 
@@ -116,7 +116,7 @@ public class ColumnHintHandle extends StructureHandle {
 	 * <li>ANALYSIS_TYPE_ATTRIBUTE
 	 * <li>ANALYSIS_TYPE_MEASURE
 	 * </ul>
-	 * 
+	 *
 	 * @return the analysis option
 	 */
 
@@ -133,7 +133,7 @@ public class ColumnHintHandle extends StructureHandle {
 	 * <li>ANALYSIS_TYPE_ATTRIBUTE
 	 * <li>ANALYSIS_TYPE_MEASURE
 	 * </ul>
-	 * 
+	 *
 	 * @param analysis the analysis option to set
 	 * @throws SemanticException if the analysis is not in the choice list.
 	 */
@@ -144,7 +144,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Returns the column name.
-	 * 
+	 *
 	 * @return the column name
 	 */
 
@@ -154,10 +154,10 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the column name.
-	 * 
+	 *
 	 * @param columnName the column name to set
 	 * @throws SemanticException value required exception.
-	 * 
+	 *
 	 */
 
 	public void setColumnName(String columnName) throws SemanticException {
@@ -166,7 +166,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Returns the display name.
-	 * 
+	 *
 	 * @return the display name
 	 */
 
@@ -176,7 +176,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the display name.
-	 * 
+	 *
 	 * @param displayName the display name to set
 	 */
 
@@ -186,7 +186,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Returns the resource key for display name.
-	 * 
+	 *
 	 * @return the resource key for display name
 	 */
 
@@ -196,7 +196,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the resource key for display name.
-	 * 
+	 *
 	 * @param displayNameResourceKey the resource key to set
 	 */
 
@@ -213,7 +213,7 @@ public class ColumnHintHandle extends StructureHandle {
 	 * <li>EXPORT_TYPE_IF_REALIZED
 	 * <li>EXPORT_TYPE_ALWAYS
 	 * </ul>
-	 * 
+	 *
 	 * @return the export option
 	 */
 
@@ -230,7 +230,7 @@ public class ColumnHintHandle extends StructureHandle {
 	 * <li>EXPORT_TYPE_IF_REALIZED
 	 * <li>EXPORT_TYPE_ALWAYS
 	 * </ul>
-	 * 
+	 *
 	 * @param export the export option to set
 	 * @throws SemanticException if the export is not in the choice list.
 	 */
@@ -241,29 +241,31 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Returns the format option.
-	 * 
+	 *
 	 * @return the format option
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public String getFormat() {
 		return getStringProperty(ColumnHint.FORMAT_MEMBER);
 	}
 
 	/**
 	 * Sets the format option.
-	 * 
+	 *
 	 * @param format the format option to set
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public void setFormat(String format) {
 		setPropertySilently(ColumnHint.FORMAT_MEMBER, format);
 	}
 
 	/**
 	 * Returns the help text.
-	 * 
+	 *
 	 * @return the help text.
 	 */
 
@@ -273,7 +275,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the help text.
-	 * 
+	 *
 	 * @param helpText the help text to set
 	 */
 
@@ -283,7 +285,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Returns the resource key for help text.
-	 * 
+	 *
 	 * @return the resource key for help text
 	 */
 
@@ -293,7 +295,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the resource key for help text.
-	 * 
+	 *
 	 * @param helpTextResourceKey the resource key to set
 	 */
 
@@ -303,7 +305,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Returns the parent level.
-	 * 
+	 *
 	 * @return the parent level
 	 */
 
@@ -313,7 +315,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the parent level.
-	 * 
+	 *
 	 * @param parentLevel the parent level to set
 	 */
 
@@ -330,7 +332,7 @@ public class ColumnHintHandle extends StructureHandle {
 	 * <li>SEARCH_TYPE_INDEXED
 	 * <li>SEARCH_TYPE_NONE
 	 * </ul>
-	 * 
+	 *
 	 * @return the searching option
 	 */
 
@@ -347,7 +349,7 @@ public class ColumnHintHandle extends StructureHandle {
 	 * <li>SEARCH_TYPE_INDEXED
 	 * <li>SEARCH_TYPE_NONE
 	 * </ul>
-	 * 
+	 *
 	 * @param searching the searching option to set
 	 * @throws SemanticException if the searching is not in the choice list.
 	 */
@@ -358,7 +360,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Gets the hint if the dimension data element should be layout on column.
-	 * 
+	 *
 	 * @return true if the dimension data element should be layout on column, or
 	 *         false the dimension data element should be layout on row.
 	 */
@@ -372,7 +374,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the hint if the dimension data element should be layout on column.
-	 * 
+	 *
 	 * @param onColumnLayout the hint if the dimension data element should be layout
 	 *                       on column.
 	 * @throws SemanticException
@@ -383,9 +385,9 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Gets the heading of the column.
-	 * 
+	 *
 	 * @return the heading
-	 * 
+	 *
 	 */
 	public String getHeading() {
 		return getStringProperty(ColumnHint.HEADING_MEMBER);
@@ -393,9 +395,9 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the heading of the column.
-	 * 
+	 *
 	 * @param heading the new heading
-	 * 
+	 *
 	 */
 	public void setHeading(String heading) {
 		setPropertySilently(ColumnHint.HEADING_MEMBER, heading);
@@ -403,9 +405,9 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Gets the resource key of the heading of the column.
-	 * 
+	 *
 	 * @return the resource key of the heading
-	 * 
+	 *
 	 */
 	public String getHeadingKey() {
 		return getStringProperty(ColumnHint.HEADING_ID_MEMBER);
@@ -413,9 +415,9 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the resource key of the heading of the column.
-	 * 
+	 *
 	 * @param headingID the new resource key of the heading
-	 * 
+	 *
 	 */
 	public void setHeadingKey(String headingID) {
 		setPropertySilently(ColumnHint.HEADING_ID_MEMBER, headingID);
@@ -423,10 +425,11 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Gets the display length of the column.
-	 * 
+	 *
 	 * @return the display length
 	 * @deprecated
 	 */
+	@Deprecated
 	public int getDisplayLength() {
 		Object displayLength = getProperty(ColumnHint.DISPLAY_LENGTH_MEMBER);
 		if (displayLength instanceof Integer) {
@@ -437,10 +440,11 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the display length of the column.
-	 * 
+	 *
 	 * @param displayLength the new display length
 	 * @deprecated
 	 */
+	@Deprecated
 	public void setDisplayLength(int displayLength) {
 		setPropertySilently(ColumnHint.DISPLAY_LENGTH_MEMBER, displayLength);
 	}
@@ -454,7 +458,7 @@ public class ColumnHintHandle extends StructureHandle {
 	 * <li><code>TEXT_ALIGN_CENTER</code>
 	 * <li><code>TEXT_ALIGN_JUSTIFY</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the horizontal alignment
 	 */
 	public String getHorizontalAlign() {
@@ -470,7 +474,7 @@ public class ColumnHintHandle extends StructureHandle {
 	 * <li><code>TEXT_ALIGN_CENTER</code>
 	 * <li><code>TEXT_ALIGN_JUSTIFY</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param align the new horizontal alignment
 	 * @throws SemanticException if the align is not defined.
 	 */
@@ -480,10 +484,11 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Gets the hint if the word needs to wrap.
-	 * 
+	 *
 	 * @return true if the word needs to wrap, otherwise false.
 	 * @deprecated
 	 */
+	@Deprecated
 	public boolean wordWrap() {
 		Boolean isWordWrap = (Boolean) getProperty(ColumnHint.WORD_WRAP_MEMBER);
 		if (isWordWrap != null) {
@@ -494,10 +499,11 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the hint if the word needs to wrap.
-	 * 
+	 *
 	 * @param wordWrap the hint value indicates if the word needs to wrap.
 	 * @deprecated
 	 */
+	@Deprecated
 	public void setWordWrap(boolean wordWrap) {
 		setPropertySilently(ColumnHint.WORD_WRAP_MEMBER, wordWrap);
 	}
@@ -505,7 +511,7 @@ public class ColumnHintHandle extends StructureHandle {
 	/**
 	 * Gets the text format of the column. The returned value may be one of the
 	 * constants defined in <code>DesignChoiceConstants</code>:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>STRING_FORMAT_TYPE_UNFORMATTED</code>
 	 * <li><code>STRING_FORMAT_TYPE_UPPERCASE</code>
@@ -516,10 +522,11 @@ public class ColumnHintHandle extends StructureHandle {
 	 * <li><code>STRING_FORMAT_TYPE_PHONE_NUMBER</code>
 	 * <li><code>STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER</code>
 	 * </ul>
-	 * 
+	 *
 	 * @return the text format of the column
 	 * @deprecated
 	 */
+	@Deprecated
 	public String getTextFormat() {
 		return getStringProperty(ColumnHint.TEXT_FORMAT_MEMBER);
 	}
@@ -527,7 +534,7 @@ public class ColumnHintHandle extends StructureHandle {
 	/**
 	 * Sets the text format of the column. The value should be one of the constants
 	 * defined in <code>DesignChoiceConstants</code>:
-	 * 
+	 *
 	 * <ul>
 	 * <li><code>STRING_FORMAT_TYPE_UNFORMATTED</code>
 	 * <li><code>STRING_FORMAT_TYPE_UPPERCASE</code>
@@ -538,51 +545,56 @@ public class ColumnHintHandle extends StructureHandle {
 	 * <li><code>STRING_FORMAT_TYPE_PHONE_NUMBER</code>
 	 * <li><code>STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param format the new text format
 	 * @throws SemanticException if the format is not defined.
 	 * @deprecated
 	 */
+	@Deprecated
 	public void setTextFormat(String format) throws SemanticException {
 		setProperty(ColumnHint.TEXT_FORMAT_MEMBER, format);
 	}
 
 	/**
 	 * Gets the description of the column.
-	 * 
+	 *
 	 * @return the description
 	 * @deprecated
 	 */
+	@Deprecated
 	public String getDescription() {
 		return getStringProperty(ColumnHint.DESCRIPTION_MEMBER);
 	}
 
 	/**
 	 * Sets the description of the column.
-	 * 
+	 *
 	 * @param description the new description
 	 * @deprecated
 	 */
+	@Deprecated
 	public void setDescription(String description) {
 		setPropertySilently(ColumnHint.DESCRIPTION_MEMBER, description);
 	}
 
 	/**
 	 * Gets the resource key of the description of the column.
-	 * 
+	 *
 	 * @return the resource key of the description
 	 * @deprecated
 	 */
+	@Deprecated
 	public String getDescriptionKey() {
 		return getStringProperty(ColumnHint.DESCRIPTION_ID_MEMBER);
 	}
 
 	/**
 	 * Sets the resource key of the description of the column.
-	 * 
+	 *
 	 * @param descriptionID the new resource key of the description
 	 * @deprecated
 	 */
+	@Deprecated
 	public void setDescriptionKey(String descriptionID) {
 		setPropertySilently(ColumnHint.DESCRIPTION_ID_MEMBER, descriptionID);
 	}
@@ -590,7 +602,7 @@ public class ColumnHintHandle extends StructureHandle {
 	/**
 	 * Returns a handle to work with the action property, action is a structure that
 	 * defines a hyperlink.
-	 * 
+	 *
 	 * @return a handle to the action property, return <code>null</code> if the
 	 *         action has not been set on the column hint; otherwise return null
 	 * @see ActionHandle
@@ -600,20 +612,21 @@ public class ColumnHintHandle extends StructureHandle {
 		MemberHandle memberHandle = getMember(ColumnHint.ACTION_MEMBER);
 		Action action = (Action) memberHandle.getValue();
 
-		if (action == null)
+		if (action == null) {
 			return null;
+		}
 
 		return (ActionHandle) action.getHandle(memberHandle);
 	}
 
 	/**
 	 * Set an action on the image.
-	 * 
+	 *
 	 * @param action new action to be set on the image, it represents a bookmark
 	 *               link, hyperlink, and drill through etc.
 	 * @return a handle to the action property, return <code>null</code> if the
 	 *         action has not been set on the image.
-	 * 
+	 *
 	 * @throws SemanticException if member of the action is not valid.
 	 */
 
@@ -622,14 +635,15 @@ public class ColumnHintHandle extends StructureHandle {
 		memberHandle.setValue(action);
 
 		Action actionValue = (Action) memberHandle.getValue();
-		if (actionValue == null)
+		if (actionValue == null) {
 			return null;
+		}
 		return (ActionHandle) actionValue.getHandle(memberHandle);
 	}
 
 	/**
 	 * Gets the expression handle for the <code>ACLExpression</code> member.
-	 * 
+	 *
 	 * @return
 	 */
 	public ExpressionHandle getACLExpression() {
@@ -638,7 +652,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Gets the analysis column.
-	 * 
+	 *
 	 * @return the analysis column.
 	 */
 	public String getAnalysisColumn() {
@@ -647,7 +661,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the analysis column.
-	 * 
+	 *
 	 * @param column the column to set
 	 * @throws SemanticException
 	 */
@@ -657,7 +671,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Gets the value format of the column.
-	 * 
+	 *
 	 * @return the value format
 	 */
 	public FormatValue getValueFormat() {
@@ -666,7 +680,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the value format of the column.
-	 * 
+	 *
 	 * @param format the value format to set
 	 * @throws SemanticException
 	 */
@@ -677,7 +691,7 @@ public class ColumnHintHandle extends StructureHandle {
 	/**
 	 * Gets the flag which indicates whether the column should be generated with
 	 * index.
-	 * 
+	 *
 	 * @return true if the column should be generated with index, otherwise false
 	 */
 	public boolean isIndexColumn() {
@@ -691,7 +705,7 @@ public class ColumnHintHandle extends StructureHandle {
 	/**
 	 * Sets the flag which indicates whether the column should be generated with
 	 * index.
-	 * 
+	 *
 	 * @param indexColumn the new flag to set
 	 * @throws SemanticException
 	 */
@@ -701,7 +715,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Gets the flag which indicates whether the column needs to be compressed.
-	 * 
+	 *
 	 * @return true if the column needs to be compressed, otherwise false.
 	 */
 	public boolean isCompressed() {
@@ -714,7 +728,7 @@ public class ColumnHintHandle extends StructureHandle {
 
 	/**
 	 * Sets the flag which indicates whether the column needs to be compressed.
-	 * 
+	 *
 	 * @param compressed the new flag to set
 	 * @throws SemanticException
 	 */

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,35 +37,39 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.IResourceLocator#findResource(org.eclipse
 	 * .birt.report.model.api.ModuleHandle, java.lang.String, int)
 	 */
 
+	@Override
 	public URL findResource(ModuleHandle moduleHandle, String fileName, int type) {
 		return findResource(moduleHandle, fileName, type, Collections.EMPTY_MAP);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.IResourceLocator#findResource(org.eclipse
 	 * .birt.report.model.api.ModuleHandle, java.lang.String, int, java.util.Map)
 	 */
+	@Override
 	public URL findResource(ModuleHandle moduleHandle, String fileName, int type, Map appContext) {
 		URL u = null;
 
-		if (fileName == null)
+		if (fileName == null) {
 			return u;
+		}
 
 		int location = RESOURCE_BUNDLE | RESOURCE_FOLDER | RESOURCE_FILEPATH | RESOURCE_DESIGN;
 
 		if (appContext != null) {
 			Object loc = appContext.get(BIRT_RESOURCELOCATOR_SEARCH_LOCATION);
-			if (loc instanceof Integer)
+			if (loc instanceof Integer) {
 				location = ((Integer) loc).intValue();
+			}
 		}
 
 		switch (type) {
@@ -81,7 +85,7 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 
 	/**
 	 * Gets message file URL.
-	 * 
+	 *
 	 * @param moduleHandle module handle
 	 * @param fileName     file name
 	 * @param location     the location to search
@@ -89,8 +93,9 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 	 */
 
 	private URL getMessageFile(ModuleHandle moduleHandle, String fileName, int location) {
-		if (moduleHandle == null)
+		if (moduleHandle == null) {
 			return null;
+		}
 
 		ULocale locale = moduleHandle.getModule().getSession().getLocale();
 
@@ -100,8 +105,9 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 		for (int i = 0; i < possibleFiles.size(); i++) {
 			String filename = possibleFiles.get(i);
 			URL url = getResource(moduleHandle, filename, location);
-			if (url != null)
+			if (url != null) {
 				return url;
+			}
 		}
 		return null;
 	}
@@ -109,7 +115,7 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 	/**
 	 * Gets resource url. Now support <code>IMAGE</code>,<code>LIBRARY</code> ,
 	 * <code>CASCADING_STYLE_SHEET</code>
-	 * 
+	 *
 	 * @param moduleHandle module handle
 	 * @param fileName     file name
 	 * @param location     the location to search
@@ -120,35 +126,40 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 		// try absolute path search
 		if ((location & RESOURCE_FILEPATH) != 0) {
 			URL retURL = tryDiskFileSearch(null, fileName);
-			if (retURL != null)
+			if (retURL != null) {
 				return retURL;
+			}
 
 			// try url search
 
 			try {
 				retURL = tryURLSearch(new URL(fileName));
-				if (retURL != null)
+				if (retURL != null) {
 					return retURL;
+				}
 			} catch (MalformedURLException e) {
 				// ignore the error
 			}
 		}
 		// if module is null, then can not search the resource path or systemId
-		if (moduleHandle == null && (location & RESOURCE_BUNDLE) != 0)
+		if (moduleHandle == null && (location & RESOURCE_BUNDLE) != 0) {
 			return tryFragmentSearch(fileName);
+		}
 
 		// try file search based on resource path, value set on the session
 		// takes the higher priority than that in the module itself
 
 		String resourcePath = moduleHandle.getModule().getSession().getResourceFolder();
 
-		if (StringUtil.isBlank(resourcePath))
+		if (StringUtil.isBlank(resourcePath)) {
 			resourcePath = moduleHandle.getResourceFolder();
+		}
 
 		if (resourcePath != null && (location & RESOURCE_FOLDER) != 0) {
 			URL retURL = tryDiskFileSearch(resourcePath, fileName);
-			if (retURL != null)
+			if (retURL != null) {
 				return retURL;
+			}
 
 			try {
 				URL baseURL = new URL(resourcePath);
@@ -157,29 +168,32 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 			} catch (MalformedURLException e) {
 			}
 
-			if (retURL != null)
+			if (retURL != null) {
 				return retURL;
+			}
 
 		}
 
 		// try fragment search
 		if ((location & RESOURCE_BUNDLE) != 0) {
 			URL retURL = tryFragmentSearch(fileName);
-			if (retURL != null)
+			if (retURL != null) {
 				return retURL;
+			}
 		}
 
 		// try file search based on path of the input module
 		URL systemId = moduleHandle.getModule().getSystemId();
-		if (systemId != null && (location & RESOURCE_DESIGN) != 0)
+		if (systemId != null && (location & RESOURCE_DESIGN) != 0) {
 			return tryURLSearch(systemId, fileName);
+		}
 
 		return null;
 	}
 
 	/**
 	 * Tests if the url indicates a global resource.
-	 * 
+	 *
 	 * @param url the url to test
 	 * @return true if the url indicates to a global resource, false otherwise.
 	 */
@@ -188,19 +202,21 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 		if (URIUtilImpl.FTP_SCHEMA.equalsIgnoreCase(url.getProtocol())
 				|| URIUtilImpl.HTTP_SCHEMA.equalsIgnoreCase(url.getProtocol())
 				|| URIUtilImpl.HTTPS_SCHEMA.equalsIgnoreCase(url.getProtocol())
-				|| URIUtilImpl.MAIL_SCHEMA.equalsIgnoreCase(url.getProtocol()))
+				|| URIUtilImpl.MAIL_SCHEMA.equalsIgnoreCase(url.getProtocol())) {
 			return true;
+		}
 
 		if (url.getFile().toLowerCase().startsWith(URIUtilImpl.FTP_SCHEMA)
-				|| url.getFile().toLowerCase().startsWith(URIUtilImpl.HTTP_SCHEMA))
+				|| url.getFile().toLowerCase().startsWith(URIUtilImpl.HTTP_SCHEMA)) {
 			return true;
+		}
 
 		return false;
 	}
 
 	/**
 	 * Search the URL resource.
-	 * 
+	 *
 	 * @param baseURL  the base URL.
 	 * @param fileName the file name.
 	 * @return url of the resource if found, null otherwise.
@@ -228,15 +244,16 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 
 	/**
 	 * Search the URL resource.
-	 * 
+	 *
 	 * @param url the url of the resources.
 	 * @return url of the resource if found, null otherwise.
 	 */
 
 	private URL tryURLSearch(URL url) {
 		boolean networkProtocol = isGlobalResource(url);
-		if (networkProtocol)
+		if (networkProtocol) {
 			return url;
+		}
 
 		InputStream in = null;
 		try {
@@ -244,11 +261,12 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 		} catch (IOException e1) {
 			return null;
 		} finally {
-			if (in != null)
+			if (in != null) {
 				try {
 					in.close();
 				} catch (IOException e) {
 				}
+			}
 		}
 
 		return url;
@@ -256,7 +274,7 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 
 	/**
 	 * Returns the url of resource which is in corresponding bundle.
-	 * 
+	 *
 	 * @param moduleHandle module in which the bundle symbolic name is cached
 	 * @param fileName     the relative file name
 	 * @return the url of resource if found
@@ -273,10 +291,10 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 
 	/**
 	 * Search the file on the local disk resources.
-	 * 
+	 *
 	 * @param fileDir  the file directory
 	 * @param filePath the file path. May contain the relative directory.
-	 * 
+	 *
 	 * @return url of the resource if found, null otherwise.
 	 */
 
@@ -285,17 +303,17 @@ public class ResourceLocatorImplBase implements IResourceLocator {
 		File f = null;
 
 		String tmpFilePath = URIUtilImpl.toUniversalFileFormat(filePath);
-		if (StringUtil.isBlank(fileDir))
+		if (StringUtil.isBlank(fileDir)) {
 			f = new File(tmpFilePath);
-		else
+		} else {
 			f = new File(fileDir, tmpFilePath);
+		}
 
 		try {
-			if (SecurityUtil.exists(f) && SecurityUtil.isFile(f))
+			if (SecurityUtil.exists(f) && SecurityUtil.isFile(f)) {
 				return SecurityUtil.fileToURI(SecurityUtil.getCanonicalFile(f)).toURL();
-		} catch (MalformedURLException e) {
-			assert false;
-		} catch (IllegalArgumentException e) {
+			}
+		} catch (MalformedURLException | IllegalArgumentException e) {
 			assert false;
 		}
 

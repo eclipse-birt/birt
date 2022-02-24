@@ -1,21 +1,23 @@
 
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.impl;
 
+import java.util.Objects;
+
 /**
- * 
+ *
  */
 
 public class DimColumn {
@@ -41,38 +43,29 @@ public class DimColumn {
 		return columnName;
 	}
 
+	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((columnName == null) ? 0 : columnName.hashCode());
-		result = prime * result + ((dimensionName == null) ? 0 : dimensionName.hashCode());
-		result = prime * result + ((levelName == null) ? 0 : levelName.hashCode());
-		return result;
+		return Objects.hash(columnName, dimensionName, levelName);
 	}
 
+	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		DimColumn other = (DimColumn) obj;
-		if (columnName == null) {
-			if (other.columnName != null)
-				return false;
-		} else if (!columnName.equals(other.columnName))
+		if (!Objects.equals(columnName, other.columnName)) {
 			return false;
-		if (dimensionName == null) {
-			if (other.dimensionName != null)
-				return false;
-		} else if (!dimensionName.equals(other.dimensionName))
+		}
+		if (!Objects.equals(dimensionName, other.dimensionName)) {
 			return false;
-		if (levelName == null) {
-			if (other.levelName != null)
-				return false;
-		} else if (!levelName.equals(other.levelName))
+		}
+		if (!Objects.equals(levelName, other.levelName)) {
 			return false;
+		}
 		return true;
 	}
 }

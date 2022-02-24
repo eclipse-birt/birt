@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -104,8 +104,9 @@ public class PreparedStatement extends ExceptionHandler {
 	PreparedStatement(IQuery statement, String dataSetType, Connection connection, String query) {
 		super(sm_className);
 		String methodName = "PreparedStatement"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { statement, dataSetType, connection, query });
+		}
 
 		assert (statement != null && connection != null);
 		m_statement = statement;
@@ -118,7 +119,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Gets the current effective query text prepared by the underlying ODA driver.
-	 * 
+	 *
 	 * @return the current effective query text, or null if no query text is
 	 *         effective or available at the current query state
 	 */
@@ -141,7 +142,7 @@ public class PreparedStatement extends ExceptionHandler {
 	/**
 	 * Gets the current specification of characteristics to apply when executing
 	 * this.
-	 * 
+	 *
 	 * @return the current QuerySpecification, or null if none is effective
 	 */
 	@SuppressWarnings("restriction")
@@ -164,15 +165,16 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Sets the named property with the specified value.
-	 * 
+	 *
 	 * @param name  the property name.
 	 * @param value the property value.
 	 * @throws DataException if data source error occurs.
 	 */
 	public void setProperty(String name, String value) throws DataException {
 		String methodName = "setProperty"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { name, value });
+		}
 
 		doSetProperty(name, value);
 
@@ -186,8 +188,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 	private void doSetProperty(String name, String value) throws DataException {
 		String methodName = "doSetProperty"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { name, value });
+		}
 
 		try {
 			m_statement.setProperty(name, value);
@@ -201,8 +204,9 @@ public class PreparedStatement extends ExceptionHandler {
 	}
 
 	private ArrayList<Property> getPropertiesList() {
-		if (m_properties == null)
-			m_properties = new ArrayList<Property>();
+		if (m_properties == null) {
+			m_properties = new ArrayList<>();
+		}
 
 		return m_properties;
 	}
@@ -211,7 +215,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * Specifies the sort specification for this <code>Statement</code>. Must be
 	 * called prior to <code>Statement.execute</code> for the sort specification to
 	 * apply to the result set(s) returned.
-	 * 
+	 *
 	 * @param sortBy the sort specification to assign to the <code>Statement</code>.
 	 * @throws DataException if data source error occurs.
 	 */
@@ -231,9 +235,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			m_statement.setSortSpec(sortBy);
-		} catch (OdaException ex) {
-			throwException(ex, ResourceConstants.CANNOT_SET_SORT_SPEC, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, ResourceConstants.CANNOT_SET_SORT_SPEC, methodName);
 		}
 
@@ -241,8 +243,9 @@ public class PreparedStatement extends ExceptionHandler {
 	}
 
 	private ArrayList<SortSpec> getSortSpecsList() {
-		if (m_sortSpecs == null)
-			m_sortSpecs = new ArrayList<SortSpec>();
+		if (m_sortSpecs == null) {
+			m_sortSpecs = new ArrayList<>();
+		}
 
 		return m_sortSpecs;
 	}
@@ -250,7 +253,7 @@ public class PreparedStatement extends ExceptionHandler {
 	/**
 	 * Specifies the maximum number of <code>IResultObjects</code> that can be
 	 * fetched from each <code>ResultSet</code> of this <code>Statement</code>.
-	 * 
+	 *
 	 * @param max the maximum number of <code>IResultObjects</code> that can be
 	 *            fetched from each <code>ResultSet</code>.
 	 * @throws DataException if data source error occurs.
@@ -285,7 +288,7 @@ public class PreparedStatement extends ExceptionHandler {
 	/**
 	 * Returns an <code>IResultClass</code> representing the metadata of the result
 	 * set for this <code>Statement</code>.
-	 * 
+	 *
 	 * @return the <code>IResultClass</code> for the result set.
 	 * @throws DataException if data source error occurs.
 	 */
@@ -297,10 +300,11 @@ public class PreparedStatement extends ExceptionHandler {
 
 		// we can get the current result set's metadata directly from the
 		// current result set handle rather than go through ODA
-		if (m_currentResultSet != null)
+		if (m_currentResultSet != null) {
 			ret = m_currentResultSet.getMetaData();
-		else
+		} else {
 			ret = doGetMetaData();
+		}
 
 		getLogger().exiting(sm_className, methodName, ret);
 		return ret;
@@ -388,7 +392,7 @@ public class PreparedStatement extends ExceptionHandler {
 	/**
 	 * Returns an <code>IResultClass</code> representing the metadata of the named
 	 * result set for this <code>Statement</code>.
-	 * 
+	 *
 	 * @param resultSetName the name of the result set.
 	 * @return the <code>IResultClass</code> for the named result set.
 	 * @throws DataException if data source error occurs.
@@ -403,7 +407,7 @@ public class PreparedStatement extends ExceptionHandler {
 		// current result set handle rather than go through ODA
 		ResultSet resultset = (ResultSet) getNamedCurrentResultSets().get(resultSetName);
 
-		IResultClass ret = null;
+		IResultClass ret;
 
 		ret = doGetMetaData(resultSetName);
 
@@ -475,7 +479,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Executes the statement's query.
-	 * 
+	 *
 	 * @return true if this has at least one result set; false otherwise
 	 * @throws DataException if data source error occurs.
 	 */
@@ -496,9 +500,9 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			boolean ret = false;
 
-			if (isAdvancedQuery())
+			if (isAdvancedQuery()) {
 				ret = getAdvancedStatement().execute();
-			else // simple statement
+			} else // simple statement
 			{
 				// hold onto its returned result set
 				// for subsequent call to getResultSet()
@@ -506,13 +510,12 @@ public class PreparedStatement extends ExceptionHandler {
 				ret = true;
 			}
 
-			if (getLogger().isLoggingEnterExitLevel())
+			if (getLogger().isLoggingEnterExitLevel()) {
 				getLogger().exiting(sm_className, methodName, Boolean.valueOf(ret));
+			}
 
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, ResourceConstants.CANNOT_EXECUTE_STATEMENT, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, ResourceConstants.CANNOT_EXECUTE_STATEMENT, methodName);
 		}
 		return false;
@@ -524,16 +527,18 @@ public class PreparedStatement extends ExceptionHandler {
 		m_driverResultSet = null;
 		m_currentResultSet = null;
 
-		if (m_namedCurrentResultSets != null)
+		if (m_namedCurrentResultSets != null) {
 			m_namedCurrentResultSets.clear();
+		}
 
-		if (m_seqResultSetHdlr != null)
+		if (m_seqResultSetHdlr != null) {
 			m_seqResultSetHdlr.resetResultSetsState();
+		}
 	}
 
 	/**
 	 * Returns the <code>ResultSet</code> instance.
-	 * 
+	 *
 	 * @return a <code>ResultSet</code> instance.
 	 * @throws DataException if data source error occurs.
 	 */
@@ -544,15 +549,13 @@ public class PreparedStatement extends ExceptionHandler {
 		IResultSet resultSet = null;
 
 		try {
-			if (isAdvancedQuery())
+			if (isAdvancedQuery()) {
 				resultSet = getAdvancedStatement().getResultSet();
-			else {
+			} else {
 				resultSet = m_driverResultSet;
 				m_driverResultSet = null;
 			}
-		} catch (OdaException ex) {
-			throwException(ex, ResourceConstants.CANNOT_GET_RESULTSET, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, ResourceConstants.CANNOT_GET_RESULTSET, methodName);
 		}
 
@@ -574,7 +577,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Returns the specified named <code>ResultSet</code>.
-	 * 
+	 *
 	 * @param resultSetName the name of the result set.
 	 * @return the named <code>ResultSet</code>.
 	 * @throws DataException if data source error occurs.
@@ -589,9 +592,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			resultset = getAdvancedStatement().getResultSet(resultSetName);
-		} catch (OdaException ex) {
-			throwException(ex, ResourceConstants.CANNOT_GET_NAMED_RESULTSET, resultSetName, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, ResourceConstants.CANNOT_GET_NAMED_RESULTSET, resultSetName, methodName);
 		}
 
@@ -619,7 +620,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * statement must have been executed before calling this method. Furthermore,
 	 * this method also implicitly closes the current ResultSet object obtained from
 	 * the previous call to {@link #getResultSet()} or {@link #getResultSet(int)}.
-	 * 
+	 *
 	 * @param resultSetNum a 1-based index number that indicates the sequence of a
 	 *                     result set among a sequential set of multiple result sets
 	 * @return the specified <code>ResultSet</code> if available; may return null if
@@ -635,7 +636,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * Returns an <code>IResultClass</code> representing the metadata of the
 	 * specified result set for this <code>PreparedStatement</code>. The statement
 	 * must have been executed before calling this method.
-	 * 
+	 *
 	 * @param resultSetNum a 1-based index number that indicates the sequence of a
 	 *                     result set among a sequential set of multiple result sets
 	 * @return the <code>IResultClass</code> for the specified result set.
@@ -651,7 +652,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * calling this method. If the underlying query supports multiple result sets,
 	 * this method also implicitly closes the current ResultSet object obtained from
 	 * the previous call to {@link #getResultSet()}
-	 * 
+	 *
 	 * @return true if there are more results in this query object; false otherwise
 	 * @throws DataException if data source error occurs.
 	 */
@@ -661,7 +662,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Returns the 1-based index of the specified output parameter.
-	 * 
+	 *
 	 * @param paramName the name of the parameter.
 	 * @return the 1-based index of the output parameter.
 	 * @throws DataException if data source error occurs.
@@ -690,7 +691,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Returns the effective ODA data type code for the specified parameter.
-	 * 
+	 *
 	 * @param paramIndex the 1-based index of the parameter.
 	 * @return the ODA <code>java.sql.Types</code> code of the parameter.
 	 * @throws DataException if data source error occurs.
@@ -709,7 +710,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Returns the effective ODA data type code for the specified parameter.
-	 * 
+	 *
 	 * @param paramName the name of the data set parameter in model.
 	 * @return the ODA <code>java.sql.Types</code> code of the parameter.
 	 * @throws DataException if data source error occurs.
@@ -755,7 +756,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Returns the specified output parameter value.
-	 * 
+	 *
 	 * @param paramIndex the 1-based index of the parameter.
 	 * @return the output value for the specified parameter.
 	 * @throws DataException if data source error occurs.
@@ -772,7 +773,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Returns the specified output parameter value.
-	 * 
+	 *
 	 * @param paramName the name of the parameter.
 	 * @return the output value for the specified parameter.
 	 * @throws DataException if data source error occurs.
@@ -789,7 +790,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Cancel the statement execution.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	public void cancel() throws DataException {
@@ -809,7 +810,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Closes this <code>Statement</code>.
-	 * 
+	 *
 	 * @throws DataException if data source error occurs.
 	 */
 	public void close() throws DataException {
@@ -847,13 +848,16 @@ public class PreparedStatement extends ExceptionHandler {
 
 		resetCurrentResultAndMetaData();
 
-		if (m_namedCurrentResultSets != null)
+		if (m_namedCurrentResultSets != null) {
 			m_namedCurrentResultSets.clear();
-		if (m_namedCurrentResultClasses != null)
+		}
+		if (m_namedCurrentResultClasses != null) {
 			m_namedCurrentResultClasses.clear();
+		}
 
-		if (m_seqResultSetHdlr != null)
+		if (m_seqResultSetHdlr != null) {
 			m_seqResultSetHdlr.resetResultSetsState();
+		}
 
 		getLogger().exiting(sm_className, methodName);
 	}
@@ -861,7 +865,7 @@ public class PreparedStatement extends ExceptionHandler {
 	/**
 	 * Adds a <code>ColumnHint</code> for this statement to map design time column
 	 * projections with runtime result set metadata.
-	 * 
+	 *
 	 * @param columnHint a <code>ColumnHint</code> instance.
 	 * @throws DataException if data source error occurs.
 	 */
@@ -882,15 +886,16 @@ public class PreparedStatement extends ExceptionHandler {
 	/**
 	 * Adds a <code>ColumnHint</code> for this statement to map design time column
 	 * projections with the named runtime result set metadata.
-	 * 
+	 *
 	 * @param resultSetName the name of the result set.
 	 * @param columnHint    a <code>ColumnHint</code> instance.
 	 * @throws DataException if data source error occurs.
 	 */
 	public void addColumnHint(String resultSetName, ColumnHint columnHint) throws DataException {
 		String methodName = "addColumnHint"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { resultSetName, columnHint });
+		}
 
 		validateNamedResultsSupport();
 
@@ -908,7 +913,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * Adds a <code>ColumnHint</code> for this statement to map design time column
 	 * projections with the runtime result set metadata of the specified sequential
 	 * result set.
-	 * 
+	 *
 	 * @param resultSetNum a 1-based index number that indicates the sequence of a
 	 *                     result set among a sequential set of multiple result sets
 	 * @param columnHint   a <code>ColumnHint</code> instance.
@@ -919,8 +924,9 @@ public class PreparedStatement extends ExceptionHandler {
 	}
 
 	private ArrayList getParameterHints() {
-		if (m_parameterHints == null)
+		if (m_parameterHints == null) {
 			m_parameterHints = new ArrayList();
+		}
 
 		return m_parameterHints;
 	}
@@ -928,7 +934,7 @@ public class PreparedStatement extends ExceptionHandler {
 	/**
 	 * Adds a <code>ParameterHint</code> for this statement to map static parameter
 	 * definitions with the runtime parameter metadata.
-	 * 
+	 *
 	 * @param paramHint a <code>ParameterHint</code> instance.
 	 * @throws DataException if data source error occurs.
 	 */
@@ -963,8 +969,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 				// different names and parameter index is either 0 or didn't
 				// match, so keep on looking
-				if (newParamHintIndex == 0 || existingParamHintPosition != newParamHintIndex)
+				if (newParamHintIndex == 0 || existingParamHintPosition != newParamHintIndex) {
 					continue;
+				}
 
 				// we don't want to allow different parameter hint name with the
 				// same parameter hint position
@@ -1006,7 +1013,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * Sets the names of all projected columns. If this method is not called, then
 	 * all columns in the runtime metadata are projected. The specified projected
 	 * names can be either a column name or column alias.
-	 * 
+	 *
 	 * @param projectedNames the projected column names.
 	 * @throws DataException if data source error occurs.
 	 */
@@ -1025,15 +1032,16 @@ public class PreparedStatement extends ExceptionHandler {
 	 * method is not called, then all columns in the specified result set metadata
 	 * are projected. The specified projected names can be either a column name or
 	 * column alias.
-	 * 
+	 *
 	 * @param resultSetName  the name of the result set.
 	 * @param projectedNames the projected column names.
 	 * @throws DataException if data source error occurs.
 	 */
 	public void setColumnsProjection(String resultSetName, String[] projectedNames) throws DataException {
 		String methodName = "setColumnsProjection"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { resultSetName, projectedNames });
+		}
 
 		validateNamedResultsSupport();
 		resetResultAndMetaData(resultSetName);
@@ -1047,7 +1055,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * method is not called, then all columns in the specified result set metadata
 	 * are projected. The specified projected names can be either a column name or
 	 * column alias. The method can be called before this statement is executed.
-	 * 
+	 *
 	 * @param resultSetNum   a 1-based index number that indicates the sequence of a
 	 *                       result set among a sequential set of multiple result
 	 *                       sets
@@ -1063,15 +1071,16 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Declares a new custom column for the corresponding <code>IResultClass</code>.
-	 * 
+	 *
 	 * @param columnName the custom column name.
 	 * @param columnType the custom column type.
 	 * @throws DataException if data source error occurs.
 	 */
 	public void declareCustomColumn(String columnName, Class columnType) throws DataException {
 		String methodName = "declareCustomColumn"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { columnName, columnType });
+		}
 
 		assert columnName != null;
 		assert columnName.length() != 0;
@@ -1088,7 +1097,7 @@ public class PreparedStatement extends ExceptionHandler {
 	/**
 	 * Declares a new custom column for the <code>IResultClass</code> of the
 	 * specified result set.
-	 * 
+	 *
 	 * @param resultSetName the name of the result set.
 	 * @param columnName    the custom column name.
 	 * @param columnType    the custom column type.
@@ -1096,8 +1105,9 @@ public class PreparedStatement extends ExceptionHandler {
 	 */
 	public void declareCustomColumn(String resultSetName, String columnName, Class columnType) throws DataException {
 		String methodName = "declareCustomColumn"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { resultSetName, columnName, columnType });
+		}
 
 		validateNamedResultsSupport();
 
@@ -1117,7 +1127,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * Declares a new custom column for the <code>IResultClass</code> of the
 	 * specified sequential result set. The method can be called before this
 	 * statement is executed.
-	 * 
+	 *
 	 * @param resultSetNum a 1-based index number that indicates the sequence of a
 	 *                     result set among a sequential set of multiple result sets
 	 * @param columnName   the custom column name.
@@ -1155,22 +1165,25 @@ public class PreparedStatement extends ExceptionHandler {
 	}
 
 	private Hashtable getNamedProjectedColumns() {
-		if (m_namedProjectedColumns == null)
+		if (m_namedProjectedColumns == null) {
 			m_namedProjectedColumns = PropertySecurity.createHashtable();
+		}
 
 		return m_namedProjectedColumns;
 	}
 
 	private Hashtable getNamedCurrentResultClasses() {
-		if (m_namedCurrentResultClasses == null)
+		if (m_namedCurrentResultClasses == null) {
 			m_namedCurrentResultClasses = PropertySecurity.createHashtable();
+		}
 
 		return m_namedCurrentResultClasses;
 	}
 
 	private Hashtable getNamedCurrentResultSets() {
-		if (m_namedCurrentResultSets == null)
+		if (m_namedCurrentResultSets == null) {
 			m_namedCurrentResultSets = PropertySecurity.createHashtable();
+		}
 
 		return m_namedCurrentResultSets;
 	}
@@ -1194,7 +1207,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * has indicated so in its implementation of
 	 * {@link org.eclipse.datatools.connectivity.oda.IDataSetMetaData#supportsNamedResultSets()},
 	 * and this underlying object is an IAdvancedQuery.
-	 * 
+	 *
 	 * @return true if result sets can be accessed by name; false otherwise
 	 * @throws DataException
 	 */
@@ -1206,7 +1219,7 @@ public class PreparedStatement extends ExceptionHandler {
 		{
 			boolean isSupported = isAdvancedQuery()
 					&& m_connection.getMetaData(m_dataSetType).supportsNamedResultSets();
-			m_supportsNamedResults = Boolean.valueOf(isSupported);
+			m_supportsNamedResults = isSupported;
 		}
 
 		getLogger().exiting(sm_className, methodName, m_supportsNamedResults);
@@ -1220,7 +1233,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * implementation of
 	 * {@link org.eclipse.datatools.connectivity.oda.IDataSetMetaData#supportsInParameters()}.
 	 * Support for accessing an input parameter by name must be checked separately.
-	 * 
+	 *
 	 * @return true if the query may have input parameter(s); false otherwise
 	 * @throws DataException
 	 */
@@ -1230,7 +1243,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (m_supportsInputParameters == null) // unknown
 		{
-			m_supportsInputParameters = Boolean.valueOf(m_connection.getMetaData(m_dataSetType).supportsInParameters());
+			m_supportsInputParameters = m_connection.getMetaData(m_dataSetType).supportsInParameters();
 		}
 
 		getLogger().exiting(sm_className, methodName, m_supportsInputParameters);
@@ -1245,7 +1258,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * {@link org.eclipse.datatools.connectivity.oda.IDataSetMetaData#supportsOutParameters()},
 	 * and this underlying object is an IAdvancedQuery. Support for accessing an
 	 * output parameter by name must be checked separately.
-	 * 
+	 *
 	 * @return true if the query may have output parameter(s); false otherwise
 	 * @throws DataException
 	 */
@@ -1256,7 +1269,7 @@ public class PreparedStatement extends ExceptionHandler {
 		if (m_supportsOutputParameters == null) // unknown
 		{
 			boolean isSupported = isAdvancedQuery() && m_connection.getMetaData(m_dataSetType).supportsOutParameters();
-			m_supportsOutputParameters = Boolean.valueOf(isSupported);
+			m_supportsOutputParameters = isSupported;
 		}
 
 		getLogger().exiting(sm_className, methodName, m_supportsOutputParameters);
@@ -1270,7 +1283,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * has indicated so in its implementation of
 	 * {@link org.eclipse.datatools.connectivity.oda.IDataSetMetaData#supportsNamedParameters()}.
 	 * Support for input or output parameters must be checked separately.
-	 * 
+	 *
 	 * @return true if an input/output parameter can be accessed by name; false
 	 *         otherwise
 	 * @throws DataException
@@ -1282,7 +1295,7 @@ public class PreparedStatement extends ExceptionHandler {
 		if (m_supportsNamedParameters == null) // unknown
 		{
 			boolean isSupported = m_connection.getMetaData(m_dataSetType).supportsNamedParameters();
-			m_supportsNamedParameters = Boolean.valueOf(isSupported);
+			m_supportsNamedParameters = isSupported;
 		}
 
 		getLogger().exiting(sm_className, methodName, m_supportsNamedParameters);
@@ -1296,7 +1309,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * indicated so in its implementation of
 	 * {@link org.eclipse.datatools.connectivity.oda.IDataSetMetaData#supportsMultipleResultSets()},
 	 * and this underlying object is an IAdvancedQuery.
-	 * 
+	 *
 	 * @return true if multiple result sets can be accessed; false otherwise
 	 * @throws DataException
 	 */
@@ -1308,7 +1321,7 @@ public class PreparedStatement extends ExceptionHandler {
 		{
 			boolean isSupported = isAdvancedQuery()
 					&& m_connection.getMetaData(m_dataSetType).supportsMultipleResultSets();
-			m_supportsMultipleResultSets = Boolean.valueOf(isSupported);
+			m_supportsMultipleResultSets = isSupported;
 		}
 
 		getLogger().exiting(sm_className, methodName, m_supportsMultipleResultSets);
@@ -1333,7 +1346,7 @@ public class PreparedStatement extends ExceptionHandler {
 	 * available. In addition, it includes the supplemental metadata defined in the
 	 * <code>InputParameterHint</code> and <code>OutputParameterHint</code> provided
 	 * to this <code>PreparedStatement</code>.
-	 * 
+	 *
 	 * @return a collection of <code>ParameterMetaData</code>, or null if no
 	 *         parameter metadata is available.
 	 * @throws DataException if data source error occurs.
@@ -1358,8 +1371,9 @@ public class PreparedStatement extends ExceptionHandler {
 			} catch (DataException e) {
 				// if parameter hints exist, proceed with
 				// returning its metadata; otherwise, throw exception
-				if (m_parameterHints == null || m_parameterHints.size() <= 0)
+				if (m_parameterHints == null || m_parameterHints.size() <= 0) {
 					throw e;
+				}
 			}
 
 			m_parameterMetaData = (odaParamMetaData == null) ? mergeParamHints()
@@ -1375,8 +1389,9 @@ public class PreparedStatement extends ExceptionHandler {
 		getLogger().entering(sm_className, methodName, paramIndex);
 
 		Collection allParamsMetadata = null;
-		if (paramIndex > 0) // index is 1-based
+		if (paramIndex > 0) { // index is 1-based
 			allParamsMetadata = getParameterMetaData();
+		}
 		if (allParamsMetadata != null) {
 			Iterator paramMDIter = allParamsMetadata.iterator();
 			while (paramMDIter.hasNext()) {
@@ -1457,8 +1472,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 	private void addParameterHints(List parameterMetaData, List parameterHints) {
 		String methodName = "addParameterHints"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { parameterMetaData, parameterHints });
+		}
 
 		ListIterator iter = parameterHints.listIterator();
 		while (iter.hasNext()) {
@@ -1488,8 +1504,9 @@ public class PreparedStatement extends ExceptionHandler {
 		}
 
 		// then supplement all parameters' runtime metadata with design hints
-		if (m_parameterHints != null && m_parameterHints.size() > 0)
+		if (m_parameterHints != null && m_parameterHints.size() > 0) {
 			updateWithParameterHints(paramMetaData, m_parameterHints);
+		}
 
 		getLogger().exiting(sm_className, methodName, paramMetaData);
 
@@ -1515,15 +1532,16 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Supplement runtime parameter metadata with design hints.
-	 * 
+	 *
 	 * @param parametersMetaData
 	 * @param parameterHints
 	 * @throws DataException
 	 */
 	private void updateWithParameterHints(List parametersMetaData, List parameterHints) throws DataException {
 		final String methodName = "updateWithParameterHints"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { parametersMetaData, parameterHints });
+		}
 
 		if (parametersMetaData == null || parametersMetaData.isEmpty() || parameterHints == null
 				|| parameterHints.isEmpty()) {
@@ -1537,8 +1555,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 			// find corresponding parameter metadata to update
 			ParameterMetaData paramMd = findParameterMetaData(parametersMetaData, paramHint);
-			if (paramMd == null)
+			if (paramMd == null) {
 				continue; // can't find a runtime parameter metadata that matches the hint
+			}
 
 			// found matching runtime parameter metadata and design hint,
 			// merge design hint into runtime metadata
@@ -1554,12 +1573,14 @@ public class PreparedStatement extends ExceptionHandler {
 		int position = 0;
 		if (hasValue(paramHintNativeName)) {
 			ParameterMetaData paramMd = findParameterMetaDataByName(parametersMetaData, paramHintNativeName, true);
-			if (paramMd != null) // found a match by native name
+			if (paramMd != null) { // found a match by native name
 				return paramMd; // done
+			}
 
 			// next try to get the parameter index by native name from the runtime driver
-			if (paramHint.isInputMode())
+			if (paramHint.isInputMode()) {
 				position = getRuntimeParameterIndexFromName(paramHintNativeName, true /* forInput */ );
+			}
 
 			if (paramHint.isOutputMode() && (position <= 0 || position > parametersMetaData.size())) {
 				position = getRuntimeParameterIndexFromName(paramHintNativeName, false /* forInput */ );
@@ -1569,12 +1590,14 @@ public class PreparedStatement extends ExceptionHandler {
 		// couldn't find the index by the param native name,
 		// use the position in the hint itself.
 		int numOfRuntimeParameters = parametersMetaData.size();
-		if (position <= 0 || position > numOfRuntimeParameters) // position not yet found
+		if (position <= 0 || position > numOfRuntimeParameters) { // position not yet found
 			position = paramHint.getPosition();
+		}
 
 		// can't find a match of the given hint among runtime parameter metadata
-		if (position <= 0 || position > numOfRuntimeParameters) // invalid position value
+		if (position <= 0 || position > numOfRuntimeParameters) { // invalid position value
 			return null;
+		}
 
 		// has valid 1-based position, return corresponding metadata
 		return (ParameterMetaData) parametersMetaData.get(position - 1);
@@ -1582,21 +1605,24 @@ public class PreparedStatement extends ExceptionHandler {
 
 	private static ParameterMetaData findParameterMetaDataByName(Collection parametersMetaData,
 			ParameterName paramName) {
-		if (paramName == null)
+		if (paramName == null) {
 			return null; // nothing to match against
+		}
 
 		// first try to find a match by its native name
 		ParameterMetaData paramMd = findParameterMetaDataByName(parametersMetaData, paramName.getNativeName(), true);
 
 		// if not found, or no native name defined,
 		// next find a match by its ROM name
-		if (paramMd == null)
+		if (paramMd == null) {
 			paramMd = findParameterMetaDataByName(parametersMetaData, paramName.getRomName(), false);
+		}
 
 		// still not found, try find a match by its effective name that will be used to
 		// interact with underlying ODA driver
-		if (paramMd == null)
+		if (paramMd == null) {
 			paramMd = findParameterMetaDataByName(parametersMetaData, paramName.getEffectiveName(), true);
+		}
 
 		return paramMd;
 	}
@@ -1604,25 +1630,26 @@ public class PreparedStatement extends ExceptionHandler {
 	private static ParameterMetaData findParameterMetaDataByName(Collection parametersMetaData, String paramName,
 			boolean useNativeName) {
 		// empty name is not unique and cannot be used to find a unique match
-		if (parametersMetaData == null || parametersMetaData.isEmpty() || !hasValue(paramName))
+		if (parametersMetaData == null || parametersMetaData.isEmpty() || !hasValue(paramName)) {
 			return null; // nothing to match against
+		}
 
 		Iterator iter = parametersMetaData.iterator();
 		while (iter.hasNext()) {
 			ParameterMetaData paramMd = (ParameterMetaData) iter.next();
 
-			if (useNativeName && paramName.equals(paramMd.getNativeName()))
+			if ((useNativeName && paramName.equals(paramMd.getNativeName())) || (!useNativeName && paramName.equals(paramMd.getName()))) {
 				return paramMd;
-			if (!useNativeName && paramName.equals(paramMd.getName()))
-				return paramMd;
+			}
 		}
 		return null;
 	}
 
 	private int getRuntimeParameterIndexFromName(String paramName, boolean forInput) throws DataException {
 		String methodName = "getRuntimeParameterIndexFromName"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { paramName, Boolean.valueOf(forInput) });
+		}
 
 		if (forInput) {
 			try {
@@ -1674,8 +1701,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 	private Object getParameterValue(String paramName, int paramIndex) throws DataException {
 		final String methodName = "getParameterValue( String, int )"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName, new Object[] { paramName, Integer.valueOf(paramIndex) });
+		}
 
 		validateOutputParameterSupport();
 
@@ -1696,14 +1724,16 @@ public class PreparedStatement extends ExceptionHandler {
 		switch (paramType) {
 		case Types.INTEGER:
 			int i = (paramNameObj == null) ? doGetInt(paramIndex) : getInt(paramNameObj);
-			if (!wasNull())
+			if (!wasNull()) {
 				paramValue = Integer.valueOf(i);
+			}
 			break;
 
 		case Types.DOUBLE:
 			double d = (paramNameObj == null) ? doGetDouble(paramIndex) : getDouble(paramNameObj);
-			if (!wasNull())
+			if (!wasNull()) {
 				paramValue = new Double(d);
+			}
 			break;
 
 		case Types.CHAR:
@@ -1766,8 +1796,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!supportsNamedParameter()) {
 			int paramIndex = getIndexFromParamHints(paramName.getRomName());
-			if (paramIndex > 0)
+			if (paramIndex > 0) {
 				ret = doGetInt(paramIndex);
+			}
 		} else {
 			ret = doGetInt(paramName);
 		}
@@ -1784,14 +1815,16 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!supportsNamedParameter()) {
 			int paramIndex = getIndexFromParamHints(paramName.getRomName());
-			if (paramIndex > 0)
+			if (paramIndex > 0) {
 				ret = doGetDouble(paramIndex);
+			}
 		} else {
 			ret = doGetDouble(paramName);
 		}
 
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().exiting(sm_className, methodName, new Double(ret));
+		}
 		return ret;
 	}
 
@@ -1803,8 +1836,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!supportsNamedParameter()) {
 			int paramIndex = getIndexFromParamHints(paramName.getRomName());
-			if (paramIndex > 0)
+			if (paramIndex > 0) {
 				ret = doGetString(paramIndex);
+			}
 		} else {
 			ret = doGetString(paramName);
 		}
@@ -1821,8 +1855,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!supportsNamedParameter()) {
 			int paramIndex = getIndexFromParamHints(paramName.getRomName());
-			if (paramIndex > 0)
+			if (paramIndex > 0) {
 				ret = doGetBigDecimal(paramIndex);
+			}
 		} else {
 			ret = doGetBigDecimal(paramName);
 		}
@@ -1839,8 +1874,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!supportsNamedParameter()) {
 			int paramIndex = getIndexFromParamHints(paramName.getRomName());
-			if (paramIndex > 0)
+			if (paramIndex > 0) {
 				ret = doGetDate(paramIndex);
+			}
 		} else {
 			ret = doGetDate(paramName);
 		}
@@ -1857,8 +1893,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!supportsNamedParameter()) {
 			int paramIndex = getIndexFromParamHints(paramName.getRomName());
-			if (paramIndex > 0)
+			if (paramIndex > 0) {
 				ret = doGetTime(paramIndex);
+			}
 		} else {
 			ret = doGetTime(paramName);
 		}
@@ -1875,8 +1912,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!supportsNamedParameter()) {
 			int paramIndex = getIndexFromParamHints(paramName.getRomName());
-			if (paramIndex > 0)
+			if (paramIndex > 0) {
 				ret = doGetTimestamp(paramIndex);
+			}
 		} else {
 			ret = doGetTimestamp(paramName);
 		}
@@ -1893,8 +1931,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!supportsNamedParameter()) {
 			int paramIndex = getIndexFromParamHints(paramName.getRomName());
-			if (paramIndex > 0)
+			if (paramIndex > 0) {
 				ret = doGetBlob(paramIndex);
+			}
 		} else {
 			ret = doGetBlob(paramName);
 		}
@@ -1911,8 +1950,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!supportsNamedParameter()) {
 			int paramIndex = getIndexFromParamHints(paramName.getRomName());
-			if (paramIndex > 0)
+			if (paramIndex > 0) {
 				ret = doGetClob(paramIndex);
+			}
 		} else {
 			ret = doGetClob(paramName);
 		}
@@ -1929,8 +1969,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!supportsNamedParameter()) {
 			int paramIndex = getIndexFromParamHints(paramName.getRomName());
-			if (paramIndex > 0)
+			if (paramIndex > 0) {
 				ret = doGetBoolean(paramIndex);
+			}
 		} else {
 			ret = doGetBoolean(paramName);
 		}
@@ -1947,8 +1988,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!supportsNamedParameter()) {
 			int paramIndex = getIndexFromParamHints(paramName.getRomName());
-			if (paramIndex > 0)
+			if (paramIndex > 0) {
 				ret = doGetObject(paramIndex);
+			}
 		} else {
 			ret = doGetObject(paramName);
 		}
@@ -1967,9 +2009,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, paramIndex, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, paramIndex, methodName);
 		}
 		return 0;
@@ -1987,9 +2027,7 @@ public class PreparedStatement extends ExceptionHandler {
 			getLogger().exiting(sm_className, methodName, ret);
 
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, effectiveParamName, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, effectiveParamName, methodName);
 		}
 		return 0;
@@ -2003,13 +2041,12 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			double ret = getAdvancedStatement().getDouble(paramIndex);
 
-			if (getLogger().isLoggingEnterExitLevel())
+			if (getLogger().isLoggingEnterExitLevel()) {
 				getLogger().exiting(sm_className, methodName, new Double(ret));
+			}
 
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, paramIndex, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, paramIndex, methodName);
 		}
 		return 0;
@@ -2024,13 +2061,12 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			double ret = getAdvancedStatement().getDouble(effectiveParamName);
 
-			if (getLogger().isLoggingEnterExitLevel())
+			if (getLogger().isLoggingEnterExitLevel()) {
 				getLogger().exiting(sm_className, methodName, new Double(ret));
+			}
 
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, effectiveParamName, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, effectiveParamName, methodName);
 		}
 		return 0;
@@ -2047,9 +2083,7 @@ public class PreparedStatement extends ExceptionHandler {
 			getLogger().exiting(sm_className, methodName, ret);
 
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, paramIndex, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, paramIndex, methodName);
 		}
 		return null;
@@ -2067,9 +2101,7 @@ public class PreparedStatement extends ExceptionHandler {
 			getLogger().exiting(sm_className, methodName, ret);
 
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, effectiveParamName, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, effectiveParamName, methodName);
 		}
 		return null;
@@ -2085,9 +2117,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, paramIndex, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, paramIndex, methodName);
 		}
 		return null;
@@ -2104,9 +2134,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, effectiveParamName, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, effectiveParamName, methodName);
 		}
 		return null;
@@ -2122,9 +2150,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, paramIndex, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, paramIndex, methodName);
 		}
 		return null;
@@ -2141,9 +2167,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, effectiveParamName, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, effectiveParamName, methodName);
 		}
 		return null;
@@ -2159,9 +2183,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, paramIndex, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, paramIndex, methodName);
 		}
 		return null;
@@ -2178,9 +2200,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, effectiveParamName, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, effectiveParamName, methodName);
 		}
 		return null;
@@ -2196,9 +2216,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, paramIndex, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, paramIndex, methodName);
 		}
 		return null;
@@ -2215,9 +2233,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, effectiveParamName, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, effectiveParamName, methodName);
 		}
 		return null;
@@ -2233,9 +2249,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, paramIndex, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, paramIndex, methodName);
 		}
 		return null;
@@ -2252,9 +2266,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, effectiveParamName, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, effectiveParamName, methodName);
 		}
 		return null;
@@ -2270,9 +2282,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, paramIndex, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, paramIndex, methodName);
 		}
 		return null;
@@ -2289,9 +2299,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			getLogger().exiting(sm_className, methodName, ret);
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, effectiveParamName, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, effectiveParamName, methodName);
 		}
 		return null;
@@ -2305,12 +2313,10 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			boolean ret = getAdvancedStatement().getBoolean(paramIndex);
 
-			Boolean retObj = wasNull() ? null : Boolean.valueOf(ret);
+			Boolean retObj = wasNull() ? null : ret;
 			getLogger().exiting(sm_className, methodName, retObj);
 			return retObj;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, paramIndex, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, paramIndex, methodName);
 		}
 		return null;
@@ -2325,12 +2331,10 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			boolean ret = getAdvancedStatement().getBoolean(effectiveParamName);
 
-			Boolean retObj = wasNull() ? null : Boolean.valueOf(ret);
+			Boolean retObj = wasNull() ? null : ret;
 			getLogger().exiting(sm_className, methodName, retObj);
 			return retObj;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, effectiveParamName, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, effectiveParamName, methodName);
 		}
 		return null;
@@ -2347,9 +2351,7 @@ public class PreparedStatement extends ExceptionHandler {
 			getLogger().exiting(sm_className, methodName, ret);
 
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, paramIndex, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, paramIndex, methodName);
 		}
 		return null;
@@ -2367,9 +2369,7 @@ public class PreparedStatement extends ExceptionHandler {
 			getLogger().exiting(sm_className, methodName, ret);
 
 			return ret;
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, effectiveParamName, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, effectiveParamName, methodName);
 		}
 		return null;
@@ -2381,17 +2381,16 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			return getAdvancedStatement().wasNull();
-		} catch (OdaException ex) {
-			throwException(ex, errorCode, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			throwException(ex, errorCode, methodName);
 		}
 		return false;
 	}
 
 	private int getOdaTypeFromParamHints(String paramName, int paramIndex) {
-		if (m_parameterHints == null)
+		if (m_parameterHints == null) {
 			return Types.CHAR;
+		}
 
 		// first find the parameter hint for the specified parameter
 		ListIterator iter = m_parameterHints.listIterator();
@@ -2414,15 +2413,17 @@ public class PreparedStatement extends ExceptionHandler {
 	// name or if the caller didn't specify a position for the specified parameter
 	// name
 	private int getIndexFromParamHints(String paramName) {
-		if (m_parameterHints == null)
+		if (m_parameterHints == null) {
 			return 0;
+		}
 
 		ListIterator iter = m_parameterHints.listIterator();
 		while (iter.hasNext()) {
 			ParameterHint paramHint = (ParameterHint) iter.next();
 
-			if (paramHint.getName().equals(paramName))
+			if (paramHint.getName().equals(paramName)) {
 				return paramHint.getPosition();
+			}
 		}
 
 		return 0; // no matching parameter hint to give us the position
@@ -2431,20 +2432,22 @@ public class PreparedStatement extends ExceptionHandler {
 	/**
 	 * Returns the driver-defined name defined in design hints for the specified
 	 * data set parameter's model name.
-	 * 
+	 *
 	 * @param paramName
 	 * @return driver-defined parameter name; may be null
 	 */
 	private String getNativeNameFromParamHints(String paramName) {
-		if (m_parameterHints == null)
+		if (m_parameterHints == null) {
 			return null;
+		}
 
 		ListIterator iter = m_parameterHints.listIterator();
 		while (iter.hasNext()) {
 			ParameterHint paramHint = (ParameterHint) iter.next();
 
-			if (paramHint.getName().equals(paramName))
+			if (paramHint.getName().equals(paramName)) {
 				return paramHint.getNativeName();
+			}
 		}
 
 		return null; // no matching parameter hint to give us the native name
@@ -2452,7 +2455,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Clears the current input parameter values immediately.
-	 * 
+	 *
 	 * @throws DataException if data source error occurs.
 	 */
 	public void clearParameterValues() throws DataException {
@@ -2488,10 +2491,11 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (m_namedProjectedColumns != null) {
 			Set keys = m_namedProjectedColumns.keySet();
-			if (m_updateNamedProjectedColumns == null)
+			if (m_updateNamedProjectedColumns == null) {
 				m_updateNamedProjectedColumns = new HashSet(keys);
-			else
+			} else {
 				m_updateNamedProjectedColumns.addAll(keys);
+			}
 		}
 
 		getLogger().exiting(sm_className, methodName);
@@ -2553,7 +2557,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Returns the 1-based index of the specified input parameter.
-	 * 
+	 *
 	 * @param paramName the name of the parameter.
 	 * @return the 1-based index of the input parameter.
 	 * @throws DataException if data source error occurs.
@@ -2579,7 +2583,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Sets the value of the specified input parameter.
-	 * 
+	 *
 	 * @param paramIndex the 1-based index of the parameter.
 	 * @param paramValue the input parameter value.
 	 * @throws DataException if data source error occurs.
@@ -2590,7 +2594,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 	/**
 	 * Sets the value of the specified input parameter.
-	 * 
+	 *
 	 * @param paramName  the name of the parameter.
 	 * @param paramValue the input parameter value.
 	 * @throws DataException if data source error occurs.
@@ -2681,12 +2685,8 @@ public class PreparedStatement extends ExceptionHandler {
 			// regardless of the data type defined in its hint
 			{
 				setObject(paramNameObj, paramIndex, paramValue);
-				return;
 			}
-		} catch (RuntimeException ex) {
-			retrySetParameterValue(paramNameObj, paramIndex, paramValue, ex);
-			return;
-		} catch (DataException ex) {
+		} catch (RuntimeException | DataException ex) {
 			retrySetParameterValue(paramNameObj, paramIndex, paramValue, ex);
 			return;
 		}
@@ -2821,7 +2821,6 @@ public class PreparedStatement extends ExceptionHandler {
 
 		default:
 			throwConversionError(paramName, paramIndex, paramValue, parameterType, null /* cause */ );
-			return;
 		}
 	}
 
@@ -2833,8 +2832,9 @@ public class PreparedStatement extends ExceptionHandler {
 			Double intValue = new Double(i);
 			// this could be due to loss of precision or the double is
 			// outside the range of an integer
-			if (!paramValue.equals(intValue))
+			if (!paramValue.equals(intValue)) {
 				throwConversionError(paramName, paramIndex, paramValue, parameterType, null /* cause */ );
+			}
 
 			setInt(paramName, paramIndex, i);
 			return;
@@ -2861,7 +2861,6 @@ public class PreparedStatement extends ExceptionHandler {
 
 		default:
 			throwConversionError(paramName, paramIndex, paramValue, parameterType, null /* cause */ );
-			return;
 		}
 	}
 
@@ -2935,14 +2934,13 @@ public class PreparedStatement extends ExceptionHandler {
 		}
 
 		case Types.BOOLEAN: {
-			boolean val = Boolean.valueOf(paramValue).booleanValue();
+			boolean val = Boolean.parseBoolean(paramValue);
 			setBoolean(paramName, paramIndex, val);
 			return;
 		}
 
 		default:
 			throwConversionError(paramName, paramIndex, paramValue, parameterType, null /* cause */ );
-			return;
 		}
 	}
 
@@ -2954,8 +2952,9 @@ public class PreparedStatement extends ExceptionHandler {
 			BigDecimal intValue = new BigDecimal(i);
 			// this could occur if there is a loss in precision or
 			// if the BigDecimal value is outside the range of an integer
-			if (!paramValue.equals(intValue))
+			if (!paramValue.equals(intValue)) {
 				throwConversionError(paramName, paramIndex, paramValue, parameterType, null /* cause */ );
+			}
 
 			setInt(paramName, paramIndex, i);
 			return;
@@ -2966,8 +2965,9 @@ public class PreparedStatement extends ExceptionHandler {
 			BigDecimal doubleValue = new BigDecimal(d);
 			// this could occur if there is a loss in precision or
 			// if the BigDecimal value is outside the range of a double
-			if (!paramValue.equals(doubleValue))
+			if (!paramValue.equals(doubleValue)) {
 				throwConversionError(paramName, paramIndex, paramValue, parameterType, null /* cause */ );
+			}
 
 			setDouble(paramName, paramIndex, d);
 			return;
@@ -2987,7 +2987,6 @@ public class PreparedStatement extends ExceptionHandler {
 
 		default:
 			throwConversionError(paramName, paramIndex, paramValue, parameterType, null /* cause */ );
-			return;
 		}
 	}
 
@@ -3018,7 +3017,6 @@ public class PreparedStatement extends ExceptionHandler {
 
 		default:
 			throwConversionError(paramName, paramIndex, paramValue, parameterType, null /* cause */ );
-			return;
 		}
 	}
 
@@ -3045,7 +3043,6 @@ public class PreparedStatement extends ExceptionHandler {
 
 		default:
 			throwConversionError(paramName, paramIndex, paramValue, parameterType, null /* cause */ );
-			return;
 		}
 	}
 
@@ -3074,7 +3071,6 @@ public class PreparedStatement extends ExceptionHandler {
 
 		default:
 			throwConversionError(paramName, paramIndex, paramValue, parameterType, null /* cause */ );
-			return;
 		}
 	}
 
@@ -3108,7 +3104,6 @@ public class PreparedStatement extends ExceptionHandler {
 
 		default:
 			throwConversionError(paramName, paramIndex, paramValue, parameterType, null /* cause */ );
-			return;
 		}
 	}
 
@@ -3167,11 +3162,12 @@ public class PreparedStatement extends ExceptionHandler {
 		Object paramClassArg = (paramValue == null) ? (Object) "null" : paramValue.getClass(); //$NON-NLS-1$
 
 		Object[] errMsgArgs = null;
-		if (paramName == null)
+		if (paramName == null) {
 			errMsgArgs = new Object[] { paramValueArg, Integer.valueOf(paramIndex), paramClassArg,
 					Integer.valueOf(odaType) };
-		else
+		} else {
 			errMsgArgs = new Object[] { paramValueArg, paramName, paramClassArg, Integer.valueOf(odaType) };
+		}
 		throwException(cause, ResourceConstants.CANNOT_CONVERT_INDEXED_PARAMETER_VALUE, errMsgArgs, methodName);
 	}
 
@@ -3205,10 +3201,11 @@ public class PreparedStatement extends ExceptionHandler {
 	}
 
 	private void setInt(ParameterName paramName, int paramIndex, int i) throws DataException {
-		if (paramName == null)
+		if (paramName == null) {
 			doSetInt(paramIndex, i);
-		else
+		} else {
 			setInt(paramName, i);
+		}
 	}
 
 	private void setInt(ParameterName paramName, int i) throws DataException {
@@ -3221,25 +3218,27 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!setIntUsingHints(paramName, i)) {
 			final String errorCode = ResourceConstants.CANNOT_SET_INT_PARAMETER;
-			Object[] msgArgs = new Object[] { Integer.valueOf(i), paramName };
+			Object[] msgArgs = { Integer.valueOf(i), paramName };
 			throwError(errorCode, msgArgs, methodName);
 		}
 	}
 
 	private boolean setIntUsingHints(ParameterName paramName, int i) throws DataException {
 		int paramIndex = getIndexFromParamHints(paramName.getRomName());
-		if (paramIndex <= 0)
+		if (paramIndex <= 0) {
 			return false;
+		}
 
 		doSetInt(paramIndex, i);
 		return true;
 	}
 
 	private void setDouble(ParameterName paramName, int paramIndex, double d) throws DataException {
-		if (paramName == null)
+		if (paramName == null) {
 			doSetDouble(paramIndex, d);
-		else
+		} else {
 			setDouble(paramName, d);
+		}
 	}
 
 	private void setDouble(ParameterName paramName, double d) throws DataException {
@@ -3252,25 +3251,27 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!setDoubleUsingHints(paramName, d)) {
 			final String errorCode = ResourceConstants.CANNOT_SET_DOUBLE_PARAMETER;
-			Object[] msgArgs = new Object[] { new Double(d), paramName };
+			Object[] msgArgs = { new Double(d), paramName };
 			throwError(errorCode, msgArgs, methodName);
 		}
 	}
 
 	private boolean setDoubleUsingHints(ParameterName paramName, double d) throws DataException {
 		int paramIndex = getIndexFromParamHints(paramName.getRomName());
-		if (paramIndex <= 0)
+		if (paramIndex <= 0) {
 			return false;
+		}
 
 		doSetDouble(paramIndex, d);
 		return true;
 	}
 
 	private void setString(ParameterName paramName, int paramIndex, String stringValue) throws DataException {
-		if (paramName == null)
+		if (paramName == null) {
 			doSetString(paramIndex, stringValue);
-		else
+		} else {
 			setString(paramName, stringValue);
+		}
 	}
 
 	private void setString(ParameterName paramName, String stringValue) throws DataException {
@@ -3283,25 +3284,27 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!setStringUsingHints(paramName, stringValue)) {
 			final String errorCode = ResourceConstants.CANNOT_SET_STRING_PARAMETER;
-			Object[] msgArgs = new Object[] { stringValue, paramName };
+			Object[] msgArgs = { stringValue, paramName };
 			throwError(errorCode, msgArgs, methodName);
 		}
 	}
 
 	private boolean setStringUsingHints(ParameterName paramName, String stringValue) throws DataException {
 		int paramIndex = getIndexFromParamHints(paramName.getRomName());
-		if (paramIndex <= 0)
+		if (paramIndex <= 0) {
 			return false;
+		}
 
 		doSetString(paramIndex, stringValue);
 		return true;
 	}
 
 	private void setBigDecimal(ParameterName paramName, int paramIndex, BigDecimal decimal) throws DataException {
-		if (paramName == null)
+		if (paramName == null) {
 			doSetBigDecimal(paramIndex, decimal);
-		else
+		} else {
 			setBigDecimal(paramName, decimal);
+		}
 	}
 
 	private void setBigDecimal(ParameterName paramName, BigDecimal decimal) throws DataException {
@@ -3314,25 +3317,27 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!setBigDecimalUsingHints(paramName, decimal)) {
 			final String errorCode = ResourceConstants.CANNOT_SET_BIGDECIMAL_PARAMETER;
-			Object[] msgArgs = new Object[] { decimal, paramName };
+			Object[] msgArgs = { decimal, paramName };
 			throwError(errorCode, msgArgs, methodName);
 		}
 	}
 
 	private boolean setBigDecimalUsingHints(ParameterName paramName, BigDecimal decimal) throws DataException {
 		int paramIndex = getIndexFromParamHints(paramName.getRomName());
-		if (paramIndex <= 0)
+		if (paramIndex <= 0) {
 			return false;
+		}
 
 		doSetBigDecimal(paramIndex, decimal);
 		return true;
 	}
 
 	private void setDate(ParameterName paramName, int paramIndex, Date date) throws DataException {
-		if (paramName == null)
+		if (paramName == null) {
 			doSetDate(paramIndex, date);
-		else
+		} else {
 			setDate(paramName, date);
+		}
 	}
 
 	private void setDate(ParameterName paramName, Date date) throws DataException {
@@ -3345,25 +3350,27 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!setDateUsingHints(paramName, date)) {
 			final String errorCode = ResourceConstants.CANNOT_SET_DATE_PARAMETER;
-			Object[] msgArgs = new Object[] { date, paramName };
+			Object[] msgArgs = { date, paramName };
 			throwError(errorCode, msgArgs, methodName);
 		}
 	}
 
 	private boolean setDateUsingHints(ParameterName paramName, Date date) throws DataException {
 		int paramIndex = getIndexFromParamHints(paramName.getRomName());
-		if (paramIndex <= 0)
+		if (paramIndex <= 0) {
 			return false;
+		}
 
 		doSetDate(paramIndex, date);
 		return true;
 	}
 
 	private void setTime(ParameterName paramName, int paramIndex, Time time) throws DataException {
-		if (paramName == null)
+		if (paramName == null) {
 			doSetTime(paramIndex, time);
-		else
+		} else {
 			setTime(paramName, time);
+		}
 	}
 
 	private void setTime(ParameterName paramName, Time time) throws DataException {
@@ -3376,25 +3383,27 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!setTimeUsingHints(paramName, time)) {
 			final String errorCode = ResourceConstants.CANNOT_SET_TIME_PARAMETER;
-			Object[] msgArgs = new Object[] { time, paramName };
+			Object[] msgArgs = { time, paramName };
 			throwError(errorCode, msgArgs, methodName);
 		}
 	}
 
 	private boolean setTimeUsingHints(ParameterName paramName, Time time) throws DataException {
 		int paramIndex = getIndexFromParamHints(paramName.getRomName());
-		if (paramIndex <= 0)
+		if (paramIndex <= 0) {
 			return false;
+		}
 
 		doSetTime(paramIndex, time);
 		return true;
 	}
 
 	private void setTimestamp(ParameterName paramName, int paramIndex, Timestamp timestamp) throws DataException {
-		if (paramName == null)
+		if (paramName == null) {
 			doSetTimestamp(paramIndex, timestamp);
-		else
+		} else {
 			setTimestamp(paramName, timestamp);
+		}
 	}
 
 	private void setTimestamp(ParameterName paramName, Timestamp timestamp) throws DataException {
@@ -3407,25 +3416,27 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!setTimestampUsingHints(paramName, timestamp)) {
 			final String errorCode = ResourceConstants.CANNOT_SET_TIMESTAMP_PARAMETER;
-			Object[] msgArgs = new Object[] { timestamp, paramName };
+			Object[] msgArgs = { timestamp, paramName };
 			throwError(errorCode, msgArgs, methodName);
 		}
 	}
 
 	private boolean setTimestampUsingHints(ParameterName paramName, Timestamp timestamp) throws DataException {
 		int paramIndex = getIndexFromParamHints(paramName.getRomName());
-		if (paramIndex <= 0)
+		if (paramIndex <= 0) {
 			return false;
+		}
 
 		doSetTimestamp(paramIndex, timestamp);
 		return true;
 	}
 
 	private void setBoolean(ParameterName paramName, int paramIndex, boolean val) throws DataException {
-		if (paramName == null)
+		if (paramName == null) {
 			doSetBoolean(paramIndex, val);
-		else
+		} else {
 			setBoolean(paramName, val);
+		}
 	}
 
 	private void setBoolean(ParameterName paramName, boolean val) throws DataException {
@@ -3438,25 +3449,27 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!setBooleanUsingHints(paramName, val)) {
 			final String errorCode = ResourceConstants.CANNOT_SET_BOOLEAN_PARAMETER;
-			Object[] msgArgs = new Object[] { Boolean.valueOf(val), paramName };
+			Object[] msgArgs = { Boolean.valueOf(val), paramName };
 			throwError(errorCode, msgArgs, methodName);
 		}
 	}
 
 	private boolean setBooleanUsingHints(ParameterName paramName, boolean val) throws DataException {
 		int paramIndex = getIndexFromParamHints(paramName.getRomName());
-		if (paramIndex <= 0)
+		if (paramIndex <= 0) {
 			return false;
+		}
 
 		doSetBoolean(paramIndex, val);
 		return true;
 	}
 
 	private void setObject(ParameterName paramName, int paramIndex, Object value) throws DataException {
-		if (paramName == null)
+		if (paramName == null) {
 			doSetObject(paramIndex, value);
-		else
+		} else {
 			setObject(paramName, value);
+		}
 	}
 
 	private void setObject(ParameterName paramName, Object value) throws DataException {
@@ -3469,25 +3482,27 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!setObjectUsingHints(paramName, value)) {
 			final String errorCode = ResourceConstants.CANNOT_SET_OBJECT_PARAMETER;
-			Object[] msgArgs = new Object[] { value, paramName };
+			Object[] msgArgs = { value, paramName };
 			throwError(errorCode, msgArgs, methodName);
 		}
 	}
 
 	private boolean setObjectUsingHints(ParameterName paramName, Object value) throws DataException {
 		int paramIndex = getIndexFromParamHints(paramName.getRomName());
-		if (paramIndex <= 0)
+		if (paramIndex <= 0) {
 			return false;
+		}
 
 		doSetObject(paramIndex, value);
 		return true;
 	}
 
 	private void setNull(ParameterName paramName, int paramIndex) throws DataException {
-		if (paramName == null)
+		if (paramName == null) {
 			doSetNull(paramIndex);
-		else
+		} else {
 			setNull(paramName);
+		}
 	}
 
 	private void setNull(ParameterName paramName) throws DataException {
@@ -3500,15 +3515,16 @@ public class PreparedStatement extends ExceptionHandler {
 
 		if (!setNullUsingHints(paramName)) {
 			final String errorCode = ResourceConstants.CANNOT_SET_NULL_PARAMETER;
-			Object[] msgArgs = new Object[] { paramName };
+			Object[] msgArgs = { paramName };
 			throwError(errorCode, msgArgs, methodName);
 		}
 	}
 
 	private boolean setNullUsingHints(ParameterName paramName) throws DataException {
 		int paramIndex = getIndexFromParamHints(paramName.getRomName());
-		if (paramIndex <= 0)
+		if (paramIndex <= 0) {
 			return false;
+		}
 
 		doSetNull(paramIndex);
 		return true;
@@ -3520,11 +3536,8 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			getStatement().setInt(paramIndex, i);
-		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { Integer.valueOf(i), Integer.valueOf(paramIndex) };
-			throwException(ex, errorCode, msgArgs, methodName);
-		} catch (UnsupportedOperationException ex) {
-			Object[] msgArgs = new Object[] { Integer.valueOf(i), Integer.valueOf(paramIndex) };
+		} catch (OdaException | UnsupportedOperationException ex) {
+			Object[] msgArgs = { Integer.valueOf(i), Integer.valueOf(paramIndex) };
 			throwException(ex, errorCode, msgArgs, methodName);
 		}
 	}
@@ -3537,14 +3550,14 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			getStatement().setInt(effectiveParamName, i);
 		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { Integer.valueOf(i), effectiveParamName };
+			Object[] msgArgs = { Integer.valueOf(i), effectiveParamName };
 			throwException(ex, errorCode, msgArgs, methodName);
 		} catch (UnsupportedOperationException ex) {
 			// first try to set value by position if the parameter hints provide
 			// name-to-position mapping,
 			// otherwise we need to wrap the UnsupportedOperationException up and throw it
 			if (!setIntUsingHints(paramName, i)) {
-				Object[] msgArgs = new Object[] { Integer.valueOf(i), effectiveParamName };
+				Object[] msgArgs = { Integer.valueOf(i), effectiveParamName };
 				throwException(ex, errorCode, msgArgs, methodName);
 			}
 		}
@@ -3556,11 +3569,8 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			getStatement().setDouble(paramIndex, d);
-		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { new Double(d), Integer.valueOf(paramIndex) };
-			throwException(ex, errorCode, msgArgs, methodName);
-		} catch (UnsupportedOperationException ex) {
-			Object[] msgArgs = new Object[] { new Double(d), Integer.valueOf(paramIndex) };
+		} catch (OdaException | UnsupportedOperationException ex) {
+			Object[] msgArgs = { new Double(d), Integer.valueOf(paramIndex) };
 			throwException(ex, errorCode, msgArgs, methodName);
 		}
 	}
@@ -3573,14 +3583,14 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			getStatement().setDouble(effectiveParamName, d);
 		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { new Double(d), effectiveParamName };
+			Object[] msgArgs = { new Double(d), effectiveParamName };
 			throwException(ex, errorCode, msgArgs, methodName);
 		} catch (UnsupportedOperationException ex) {
 			// first try to set value by position if the parameter hints provide
 			// name-to-position mapping,
 			// otherwise we need to wrap the UnsupportedOperationException up and throw it
 			if (!setDoubleUsingHints(paramName, d)) {
-				Object[] msgArgs = new Object[] { new Double(d), effectiveParamName };
+				Object[] msgArgs = { new Double(d), effectiveParamName };
 				throwException(ex, errorCode, msgArgs, methodName);
 			}
 		}
@@ -3592,11 +3602,8 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			getStatement().setString(paramIndex, stringValue);
-		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { stringValue, Integer.valueOf(paramIndex) };
-			throwException(ex, errorCode, msgArgs, methodName);
-		} catch (UnsupportedOperationException ex) {
-			Object[] msgArgs = new Object[] { stringValue, Integer.valueOf(paramIndex) };
+		} catch (OdaException | UnsupportedOperationException ex) {
+			Object[] msgArgs = { stringValue, Integer.valueOf(paramIndex) };
 			throwException(ex, errorCode, msgArgs, methodName);
 		}
 	}
@@ -3609,14 +3616,14 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			getStatement().setString(effectiveParamName, stringValue);
 		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { stringValue, effectiveParamName };
+			Object[] msgArgs = { stringValue, effectiveParamName };
 			throwException(ex, errorCode, msgArgs, methodName);
 		} catch (UnsupportedOperationException ex) {
 			// first try to set value by position if the parameter hints provide
 			// name-to-position mapping,
 			// otherwise we need to wrap the UnsupportedOperationException up and throw it
 			if (!setStringUsingHints(paramName, stringValue)) {
-				Object[] msgArgs = new Object[] { stringValue, effectiveParamName };
+				Object[] msgArgs = { stringValue, effectiveParamName };
 				throwException(ex, errorCode, msgArgs, methodName);
 			}
 		}
@@ -3628,11 +3635,8 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			getStatement().setBigDecimal(paramIndex, getScaleValue(decimal, paramIndex));
-		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { decimal, Integer.valueOf(paramIndex) };
-			throwException(ex, errorCode, msgArgs, methodName);
-		} catch (UnsupportedOperationException ex) {
-			Object[] msgArgs = new Object[] { decimal, Integer.valueOf(paramIndex) };
+		} catch (OdaException | UnsupportedOperationException ex) {
+			Object[] msgArgs = { decimal, Integer.valueOf(paramIndex) };
 			throwException(ex, errorCode, msgArgs, methodName);
 		}
 	}
@@ -3645,23 +3649,23 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			getStatement().setBigDecimal(effectiveParamName, getScaleValue(decimal, paramName));
 		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { decimal, effectiveParamName };
+			Object[] msgArgs = { decimal, effectiveParamName };
 			throwException(ex, errorCode, msgArgs, methodName);
 		} catch (UnsupportedOperationException ex) {
 			// first try to set value by position if the parameter hints provide
 			// name-to-position mapping,
 			// otherwise we need to wrap the UnsupportedOperationException up and throw it
 			if (!setBigDecimalUsingHints(paramName, decimal)) {
-				Object[] msgArgs = new Object[] { decimal, effectiveParamName };
+				Object[] msgArgs = { decimal, effectiveParamName };
 				throwException(ex, errorCode, msgArgs, methodName);
 			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * check the passed bigDecimal scale, make sure the scale <= data base scale.
-	 * 
+	 *
 	 * @param value
 	 * @param parameterId
 	 * @return
@@ -3698,11 +3702,8 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			getStatement().setDate(paramIndex, date);
-		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { date, Integer.valueOf(paramIndex) };
-			throwException(ex, errorCode, msgArgs, methodName);
-		} catch (UnsupportedOperationException ex) {
-			Object[] msgArgs = new Object[] { date, Integer.valueOf(paramIndex) };
+		} catch (OdaException | UnsupportedOperationException ex) {
+			Object[] msgArgs = { date, Integer.valueOf(paramIndex) };
 			throwException(ex, errorCode, msgArgs, methodName);
 		}
 	}
@@ -3715,14 +3716,14 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			getStatement().setDate(effectiveParamName, date);
 		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { date, effectiveParamName };
+			Object[] msgArgs = { date, effectiveParamName };
 			throwException(ex, errorCode, msgArgs, methodName);
 		} catch (UnsupportedOperationException ex) {
 			// first try to set value by position if the parameter hints provide
 			// name-to-position mapping,
 			// otherwise we need to wrap the UnsupportedOperationException up and throw it
 			if (!setDateUsingHints(paramName, date)) {
-				Object[] msgArgs = new Object[] { date, effectiveParamName };
+				Object[] msgArgs = { date, effectiveParamName };
 				throwException(ex, errorCode, msgArgs, methodName);
 			}
 		}
@@ -3734,11 +3735,8 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			getStatement().setTime(paramIndex, time);
-		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { time, Integer.valueOf(paramIndex) };
-			throwException(ex, errorCode, msgArgs, methodName);
-		} catch (UnsupportedOperationException ex) {
-			Object[] msgArgs = new Object[] { time, Integer.valueOf(paramIndex) };
+		} catch (OdaException | UnsupportedOperationException ex) {
+			Object[] msgArgs = { time, Integer.valueOf(paramIndex) };
 			throwException(ex, errorCode, msgArgs, methodName);
 		}
 	}
@@ -3751,14 +3749,14 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			getStatement().setTime(effectiveParamName, time);
 		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { time, effectiveParamName };
+			Object[] msgArgs = { time, effectiveParamName };
 			throwException(ex, errorCode, msgArgs, methodName);
 		} catch (UnsupportedOperationException ex) {
 			// first try to set value by position if the parameter hints provide
 			// name-to-position mapping,
 			// otherwise we need to wrap the UnsupportedOperationException up and throw it
 			if (!setTimeUsingHints(paramName, time)) {
-				Object[] msgArgs = new Object[] { time, effectiveParamName };
+				Object[] msgArgs = { time, effectiveParamName };
 				throwException(ex, errorCode, msgArgs, methodName);
 			}
 		}
@@ -3770,11 +3768,8 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			getStatement().setTimestamp(paramIndex, timestamp);
-		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { timestamp, Integer.valueOf(paramIndex) };
-			throwException(ex, errorCode, msgArgs, methodName);
-		} catch (UnsupportedOperationException ex) {
-			Object[] msgArgs = new Object[] { timestamp, Integer.valueOf(paramIndex) };
+		} catch (OdaException | UnsupportedOperationException ex) {
+			Object[] msgArgs = { timestamp, Integer.valueOf(paramIndex) };
 			throwException(ex, errorCode, msgArgs, methodName);
 		}
 	}
@@ -3787,14 +3782,14 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			getStatement().setTimestamp(effectiveParamName, timestamp);
 		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { timestamp, effectiveParamName };
+			Object[] msgArgs = { timestamp, effectiveParamName };
 			throwException(ex, errorCode, msgArgs, methodName);
 		} catch (UnsupportedOperationException ex) {
 			// first try to set value by position if the parameter hints provide
 			// name-to-position mapping,
 			// otherwise we need to wrap the UnsupportedOperationException up and throw it
 			if (!setTimestampUsingHints(paramName, timestamp)) {
-				Object[] msgArgs = new Object[] { timestamp, effectiveParamName };
+				Object[] msgArgs = { timestamp, effectiveParamName };
 				throwException(ex, errorCode, msgArgs, methodName);
 			}
 		}
@@ -3806,11 +3801,8 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			getStatement().setBoolean(paramIndex, val);
-		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { Boolean.valueOf(val), Integer.valueOf(paramIndex) };
-			throwException(ex, errorCode, msgArgs, methodName);
-		} catch (UnsupportedOperationException ex) {
-			Object[] msgArgs = new Object[] { Boolean.valueOf(val), Integer.valueOf(paramIndex) };
+		} catch (OdaException | UnsupportedOperationException ex) {
+			Object[] msgArgs = { Boolean.valueOf(val), Integer.valueOf(paramIndex) };
 			throwException(ex, errorCode, msgArgs, methodName);
 		}
 	}
@@ -3823,14 +3815,14 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			getStatement().setBoolean(effectiveParamName, val);
 		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { Boolean.valueOf(val), effectiveParamName };
+			Object[] msgArgs = { Boolean.valueOf(val), effectiveParamName };
 			throwException(ex, errorCode, msgArgs, methodName);
 		} catch (UnsupportedOperationException ex) {
 			// first try to set value by position if the parameter hints provide
 			// name-to-position mapping,
 			// otherwise we need to wrap the UnsupportedOperationException up and throw it
 			if (!setBooleanUsingHints(paramName, val)) {
-				Object[] msgArgs = new Object[] { Boolean.valueOf(val), effectiveParamName };
+				Object[] msgArgs = { Boolean.valueOf(val), effectiveParamName };
 				throwException(ex, errorCode, msgArgs, methodName);
 			}
 		}
@@ -3842,11 +3834,8 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			getStatement().setObject(paramIndex, value);
-		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { value, Integer.valueOf(paramIndex) };
-			throwException(ex, errorCode, msgArgs, methodName);
-		} catch (UnsupportedOperationException ex) {
-			Object[] msgArgs = new Object[] { value, Integer.valueOf(paramIndex) };
+		} catch (OdaException | UnsupportedOperationException ex) {
+			Object[] msgArgs = { value, Integer.valueOf(paramIndex) };
 			throwException(ex, errorCode, msgArgs, methodName);
 		}
 	}
@@ -3859,14 +3848,14 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			getStatement().setObject(effectiveParamName, value);
 		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { value, effectiveParamName };
+			Object[] msgArgs = { value, effectiveParamName };
 			throwException(ex, errorCode, msgArgs, methodName);
 		} catch (UnsupportedOperationException ex) {
 			// first try to set value by position if the parameter hints provide
 			// name-to-position mapping,
 			// otherwise we need to wrap the UnsupportedOperationException up and throw it
 			if (!setObjectUsingHints(paramName, value)) {
-				Object[] msgArgs = new Object[] { value, effectiveParamName };
+				Object[] msgArgs = { value, effectiveParamName };
 				throwException(ex, errorCode, msgArgs, methodName);
 			}
 		}
@@ -3878,11 +3867,8 @@ public class PreparedStatement extends ExceptionHandler {
 
 		try {
 			getStatement().setNull(paramIndex);
-		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { Integer.valueOf(paramIndex) };
-			throwException(ex, errorCode, msgArgs, methodName);
-		} catch (UnsupportedOperationException ex) {
-			Object[] msgArgs = new Object[] { Integer.valueOf(paramIndex) };
+		} catch (OdaException | UnsupportedOperationException ex) {
+			Object[] msgArgs = { Integer.valueOf(paramIndex) };
 			throwException(ex, errorCode, msgArgs, methodName);
 		}
 	}
@@ -3895,14 +3881,14 @@ public class PreparedStatement extends ExceptionHandler {
 		try {
 			getStatement().setNull(effectiveParamName);
 		} catch (OdaException ex) {
-			Object[] msgArgs = new Object[] { effectiveParamName };
+			Object[] msgArgs = { effectiveParamName };
 			throwException(ex, errorCode, msgArgs, methodName);
 		} catch (UnsupportedOperationException ex) {
 			// first try to set value by position if the parameter hints provide
 			// name-to-position mapping,
 			// otherwise we need to wrap the UnsupportedOperationException up and throw it
 			if (!setNullUsingHints(paramName)) {
-				Object[] msgArgs = new Object[] { effectiveParamName };
+				Object[] msgArgs = { effectiveParamName };
 				throwException(ex, errorCode, msgArgs, methodName);
 			}
 		}
@@ -3970,8 +3956,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 				// if not found, it could be that runtime param metadata has no info;
 				// see if it is available from design hints
-				if (m_nativeName == null)
+				if (m_nativeName == null) {
 					m_nativeName = m_stmt.getNativeNameFromParamHints(m_romName);
+				}
 
 				m_hasCheckedNativeName = true; // optimize to avoid repeated checking
 			}
@@ -3985,8 +3972,9 @@ public class PreparedStatement extends ExceptionHandler {
 		}
 
 		private void logNullNativeName() {
-			if (getNativeName() != null)
+			if (getNativeName() != null) {
 				return; // exists
+			}
 
 			// no native name available, log info
 			getLogger().logp(Level.FINER, sm_className + ".ParameterName", //$NON-NLS-1$
@@ -3994,6 +3982,7 @@ public class PreparedStatement extends ExceptionHandler {
 					"No native name available for parameter " + getRomName() + "."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
+		@Override
 		public String toString() {
 			DataException resourceMsgHandler = newException(ResourceConstants.PARAMETER_NAMES_INFO,
 					new Object[] { m_romName, m_nativeName });
@@ -4002,8 +3991,9 @@ public class PreparedStatement extends ExceptionHandler {
 	}
 
 	private SequentialResultSetHandler getSequentialResultHandler() {
-		if (m_seqResultSetHdlr == null)
+		if (m_seqResultSetHdlr == null) {
 			m_seqResultSetHdlr = new SequentialResultSetHandler(this);
+		}
 		return m_seqResultSetHdlr;
 	}
 
@@ -4025,9 +4015,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 		private SequentialResultSetHandler(PreparedStatement stmt) {
 			m_stmt = stmt;
-			m_resultSets = new HashMap<Integer, ResultSet>();
-			m_seqProjectedColumns = new HashMap<Integer, ProjectedColumns>();
-			m_incompleteProjectedColumns = new HashSet<Integer>();
+			m_resultSets = new HashMap<>();
+			m_seqProjectedColumns = new HashMap<>();
+			m_incompleteProjectedColumns = new HashSet<>();
 			m_exceptionHandler = new ExceptionHandler(m_nestedClassName);
 		}
 
@@ -4056,16 +4046,18 @@ public class PreparedStatement extends ExceptionHandler {
 		private void closeResultSet(Integer resultSetKey) {
 			ResultSet rs = getCachedResultSet(resultSetKey);
 			try {
-				if (rs != null)
+				if (rs != null) {
 					rs.close();
+				}
 			} catch (DataException ex) {
 				// ignore
 			}
 
 			// m_projectedColumns of the result set if exists, is not cleared, but simply
 			// set the incomplete flag on this result set
-			if (m_seqProjectedColumns.containsKey(resultSetKey))
+			if (m_seqProjectedColumns.containsKey(resultSetKey)) {
 				m_incompleteProjectedColumns.add(resultSetKey);
+			}
 		}
 
 		private void clearAndCloseResultSet(Integer resultSetKey) {
@@ -4079,8 +4071,9 @@ public class PreparedStatement extends ExceptionHandler {
 		 */
 		private void refreshResultSetMetaData(Integer resultSetKey) throws DataException {
 			ResultSet cachedRS = getCachedResultSet(resultSetKey);
-			if (cachedRS == null)
+			if (cachedRS == null) {
 				return; // nothing to refresh, done
+			}
 
 			final String methodName = "refreshResultSetMetaData(Integer)"; //$NON-NLS-1$
 			getLogger().entering(m_nestedClassName, methodName, resultSetKey);
@@ -4103,10 +4096,11 @@ public class PreparedStatement extends ExceptionHandler {
 		 */
 		ResultSet getResultSet(int resultSetNum) throws DataException {
 			final String methodName = "getResultSet(int)"; //$NON-NLS-1$
-			if (getLogger().isLoggingEnterExitLevel())
+			if (getLogger().isLoggingEnterExitLevel()) {
 				getLogger().entering(m_nestedClassName, methodName, Integer.valueOf(resultSetNum));
+			}
 
-			Integer resultSetKey = Integer.valueOf(resultSetNum);
+			Integer resultSetKey = resultSetNum;
 
 			// TODO - adds support for oda data source that supportsMultipleOpenResults;
 			// for now, only the current result set can be accessed
@@ -4115,8 +4109,9 @@ public class PreparedStatement extends ExceptionHandler {
 			// result set count;
 			// it is valid that this has iterated to the specified index, but has not yet
 			// retrieved its result set
-			if (resultSetNum <= 0 || resultSetNum < m_currentResultSetNum)
+			if (resultSetNum <= 0 || resultSetNum < m_currentResultSetNum) {
 				throwInvalidArgException(methodName, resultSetKey);
+			}
 
 			// first see if the result set at given index is the current one and was already
 			// retrieved
@@ -4136,13 +4131,15 @@ public class PreparedStatement extends ExceptionHandler {
 				if (resultSetNum == 1) {
 					rs = m_stmt.getResultSet(); // equivalent to calling getResultSet() directly
 					m_currentResultSetNum = resultSetNum;
-				} else
+				} else {
 					throwInvalidArgException(methodName, resultSetKey);
+				}
 			} else // supports multiple result sets
 			{
 				boolean hasMoreResults = moveToResultSet(resultSetNum);
-				if (!hasMoreResults) // not able to skip to specified index
+				if (!hasMoreResults) { // not able to skip to specified index
 					throwInvalidArgException(methodName, resultSetKey);
+				}
 
 				// has successfully iterated to the specified result set
 				rs = doGetResultSet(resultSetKey);
@@ -4173,9 +4170,7 @@ public class PreparedStatement extends ExceptionHandler {
 
 			try {
 				resultSet = getAdvancedStatement().getResultSet();
-			} catch (OdaException ex) {
-				throwDataException(ex, ResourceConstants.CANNOT_GET_RESULTSET, methodName);
-			} catch (UnsupportedOperationException ex) {
+			} catch (OdaException | UnsupportedOperationException ex) {
 				throwDataException(ex, ResourceConstants.CANNOT_GET_RESULTSET, methodName);
 			}
 
@@ -4212,9 +4207,7 @@ public class PreparedStatement extends ExceptionHandler {
 			boolean hasMoreResults = false;
 			try {
 				hasMoreResults = getAdvancedStatement().getMoreResults();
-			} catch (OdaException ex) {
-				throwDataException(ex, ResourceConstants.CANNOT_GET_MORE_RESULTS, methodName);
-			} catch (UnsupportedOperationException ex) {
+			} catch (OdaException | UnsupportedOperationException ex) {
 				throwDataException(ex, ResourceConstants.CANNOT_GET_MORE_RESULTS, methodName);
 			}
 
@@ -4229,8 +4222,9 @@ public class PreparedStatement extends ExceptionHandler {
 				closeAllResultSets();
 			}
 
-			if (getLogger().isLoggingEnterExitLevel())
+			if (getLogger().isLoggingEnterExitLevel()) {
 				getLogger().exiting(m_nestedClassName, methodName, Boolean.valueOf(hasMoreResults));
+			}
 
 			return hasMoreResults;
 		}
@@ -4240,9 +4234,10 @@ public class PreparedStatement extends ExceptionHandler {
 		 */
 		void setColumnsProjection(int resultSetNum, String[] projectedNames) throws DataException {
 			final String methodName = "setColumnsProjection(int, String[])"; //$NON-NLS-1$
-			Integer resultSetKey = Integer.valueOf(resultSetNum);
-			if (getLogger().isLoggingEnterExitLevel())
+			Integer resultSetKey = resultSetNum;
+			if (getLogger().isLoggingEnterExitLevel()) {
 				getLogger().entering(m_nestedClassName, methodName, new Object[] { resultSetKey, projectedNames });
+			}
 
 			validateMultipleResultsSupport();
 			clearAndCloseResultSet(resultSetKey);
@@ -4257,10 +4252,11 @@ public class PreparedStatement extends ExceptionHandler {
 		 */
 		void declareCustomColumn(int resultSetNum, String columnName, Class columnType) throws DataException {
 			final String methodName = "declareCustomColumn(int, String, Class)"; //$NON-NLS-1$
-			Integer resultSetKey = Integer.valueOf(resultSetNum);
-			if (getLogger().isLoggingEnterExitLevel())
+			Integer resultSetKey = resultSetNum;
+			if (getLogger().isLoggingEnterExitLevel()) {
 				getLogger().entering(m_nestedClassName, methodName,
 						new Object[] { resultSetKey, columnName, columnType });
+			}
 
 			validateMultipleResultsSupport();
 
@@ -4289,9 +4285,10 @@ public class PreparedStatement extends ExceptionHandler {
 		 */
 		void addColumnHint(int resultSetNum, ColumnHint columnHint) throws DataException {
 			final String methodName = "addColumnHint(int, ColumnHint)"; //$NON-NLS-1$
-			Integer resultSetKey = Integer.valueOf(resultSetNum);
-			if (getLogger().isLoggingEnterExitLevel())
+			Integer resultSetKey = resultSetNum;
+			if (getLogger().isLoggingEnterExitLevel()) {
 				getLogger().entering(m_nestedClassName, methodName, new Object[] { resultSetKey, columnHint });
+			}
 
 			validateMultipleResultsSupport();
 
@@ -4337,8 +4334,9 @@ public class PreparedStatement extends ExceptionHandler {
 			if (projectedColumns == null) {
 				// use the new ProjectedColumns at resultSetNum
 				projectedColumns = newProjectedColumns;
-				if (!hasOdaRuntimeMetadata) // no actual result set available yet
+				if (!hasOdaRuntimeMetadata) { // no actual result set available yet
 					m_incompleteProjectedColumns.add(resultSetNum);
+				}
 			} else if (m_incompleteProjectedColumns.contains(resultSetNum)) {
 				// there is an existing ProjectedColumns for this result set,
 				// which may be out-dated and needs to be merged with the latest runtime
@@ -4348,8 +4346,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 				// now that it is up-to-date with latest runtime result set,
 				// remove the incomplete flag for this result set
-				if (hasOdaRuntimeMetadata)
+				if (hasOdaRuntimeMetadata) {
 					m_incompleteProjectedColumns.remove(resultSetNum);
+				}
 			}
 
 			m_seqProjectedColumns.put(resultSetNum, projectedColumns);
@@ -4361,8 +4360,9 @@ public class PreparedStatement extends ExceptionHandler {
 
 		private IResultSetMetaData tryGetRuntimeMetaData(Integer resultSetNum, IResultSet odaResultSet)
 				throws DataException {
-			if (odaResultSet != null)
+			if (odaResultSet != null) {
 				return getRuntimeMetaData(odaResultSet);
+			}
 
 			// if interested in first result set, and statement has not advanced its result
 			// sets,
@@ -4400,8 +4400,9 @@ public class PreparedStatement extends ExceptionHandler {
 			IResultSetMetaData rsmd = null;
 			try {
 				ResultSet rs = getResultSet(resultSetNum);
-				if (rs != null)
+				if (rs != null) {
 					rsmd = rs.getRuntimeMetaData();
+				}
 			} catch (DataException ex) {
 				// ignore
 			}
@@ -4414,8 +4415,9 @@ public class PreparedStatement extends ExceptionHandler {
 		 */
 		IResultClass getMetaData(int resultSetNum) throws DataException {
 			final String methodName = "getMetaData(int)"; //$NON-NLS-1$
-			if (getLogger().isLoggingEnterExitLevel())
+			if (getLogger().isLoggingEnterExitLevel()) {
 				getLogger().entering(m_nestedClassName, methodName, Integer.valueOf(resultSetNum));
+			}
 
 			validateMultipleResultsSupport();
 
@@ -4424,8 +4426,9 @@ public class PreparedStatement extends ExceptionHandler {
 			ResultSet resultset = getResultSet(resultSetNum);
 
 			IResultClass resultClass = null;
-			if (resultset != null)
+			if (resultset != null) {
 				resultClass = resultset.getMetaData();
+			}
 
 			getLogger().exiting(m_nestedClassName, methodName, resultClass);
 			return resultClass;
@@ -4444,8 +4447,9 @@ public class PreparedStatement extends ExceptionHandler {
 		}
 
 		private void validateMultipleResultsSupport() throws DataException {
-			if (supportsMultipleResultSets())
+			if (supportsMultipleResultSets()) {
 				return; // is valid
+			}
 
 			throwDataException(new UnsupportedOperationException(), ResourceConstants.UNSUPPORTED_MULTIPLE_RESULTS,
 					"validateMultipleResultsSupport"); //$NON-NLS-1$

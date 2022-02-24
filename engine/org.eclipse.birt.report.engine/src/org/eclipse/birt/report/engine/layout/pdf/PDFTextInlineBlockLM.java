@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -28,6 +28,7 @@ public class PDFTextInlineBlockLM extends PDFBlockStackingLM implements IBlockSt
 		super(context, parent, content, executor);
 	}
 
+	@Override
 	protected void initialize() {
 		boolean isNewArea = (root == null);
 		// TODO refactor
@@ -57,6 +58,7 @@ public class PDFTextInlineBlockLM extends PDFBlockStackingLM implements IBlockSt
 
 	}
 
+	@Override
 	protected void createRoot() {
 		if (root == null) {
 			root = (ContainerArea) AreaFactory.createBlockContainer(content);

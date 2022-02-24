@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,7 +33,7 @@ public class CompatibleParamBindingValueState extends CompatibleMiscExpressionSt
 
 	/**
 	 * Constructs a compatible state.
-	 * 
+	 *
 	 * @param theHandler the handler to parse the design file.
 	 * @param element    the data item
 	 * @param propDefn
@@ -47,22 +47,25 @@ public class CompatibleParamBindingValueState extends CompatibleMiscExpressionSt
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
+	@Override
 	public void end() throws SAXException {
 		String value = text.toString();
 
-		if (value == null)
+		if (value == null) {
 			return;
+		}
 
 		// keep the expression as same.
 
 		doEnd(value, true);
 
-		if (handler.versionNumber >= VersionUtil.VERSION_3_2_0)
+		if (handler.versionNumber >= VersionUtil.VERSION_3_2_0) {
 			return;
+		}
 
 		List newExprs = null;
 

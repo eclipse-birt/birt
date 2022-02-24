@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -14,38 +14,38 @@
 
 package org.eclipse.birt.report.model.util;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.report.model.api.util.StringUtil;
+
+import junit.framework.TestCase;
 
 /**
  * TestCases for StringUtil class.
  * <p>
- * 
+ *
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
+ *
  * <tr>
  * <td>{@link #testIsBlank()}</td>
  * <td>Tests whether input strings are empty (null or "") or not.</td>
  * <td>Returns test results correctly.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testTrimString()}</td>
  * <td>Tests whether trim function works properly.</td>
  * <td>Return values are correct.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testToRgbText()}</td>
  * <td>Tests the function to transform an integer to the format #FFFFFF.</td>
  * <td>Return values are correct.</td>
  * </tr>
- * 
+ *
  * </table>
  */
 
@@ -53,7 +53,7 @@ public class StringUtilTest extends TestCase {
 
 	/**
 	 * test the string trimmed.
-	 * 
+	 *
 	 */
 	public void testTrimString() {
 		assertNull(StringUtil.trimString(null));
@@ -65,7 +65,7 @@ public class StringUtilTest extends TestCase {
 
 	/**
 	 * test the string converted from rgb value.
-	 * 
+	 *
 	 */
 	public void testToRgbText() {
 		assertEquals("#000000", StringUtil.toRgbText(0)); //$NON-NLS-1$
@@ -78,7 +78,7 @@ public class StringUtilTest extends TestCase {
 
 	/**
 	 * test whether it is blank.
-	 * 
+	 *
 	 */
 	public void testIsBlank() {
 		assertTrue(StringUtil.isBlank(null));
@@ -89,7 +89,7 @@ public class StringUtilTest extends TestCase {
 
 	/**
 	 * test whether it is empty.
-	 * 
+	 *
 	 */
 	public void testIsEmpty() {
 		assertTrue(StringUtil.isEmpty(null));

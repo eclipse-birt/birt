@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -22,7 +22,7 @@ import org.eclipse.birt.report.taglib.component.ParamValueField;
 
 /**
  * This tag is used to specify the report parameter.
- * 
+ *
  */
 public class ParamValueTag extends BodyTagSupport {
 
@@ -38,9 +38,10 @@ public class ParamValueTag extends BodyTagSupport {
 
 	/**
 	 * Initialize pageContext
-	 * 
+	 *
 	 * @see javax.servlet.jsp.tagext.TagSupport#setPageContext(javax.servlet.jsp.PageContext)
 	 */
+	@Override
 	public void setPageContext(PageContext context) {
 		super.setPageContext(context);
 		param = new ParamValueField();
@@ -48,9 +49,10 @@ public class ParamValueTag extends BodyTagSupport {
 
 	/**
 	 * When reach the end tag, fire this operation
-	 * 
+	 *
 	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
 	 */
+	@Override
 	public int doEndTag() throws JspException {
 		// included in viewer tag
 		ParamTag paramTag = (ParamTag) TagSupport.findAncestorWithClass(this, ParamTag.class);

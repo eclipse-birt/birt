@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,74 +21,74 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 
 public interface IRowDataAccessor {
 
-	public void initialize(boolean isPage) throws IOException;
+	void initialize(boolean isPage) throws IOException;
 
-	public IAggregationResultSet getAggregationResultSet();
+	IAggregationResultSet getAggregationResultSet();
 
-	public RowDataAccessorService getRowDataAccessorService();
+	RowDataAccessorService getRowDataAccessorService();
 
-	public boolean dim_next(int dimAxisIndex) throws OLAPException;
+	boolean dim_next(int dimAxisIndex) throws OLAPException;
 
-	public boolean dim_previous(int dimAxisIndex) throws OLAPException;
+	boolean dim_previous(int dimAxisIndex) throws OLAPException;
 
-	public boolean dim_relative(int offset, int dimAxisIndex) throws OLAPException;
+	boolean dim_relative(int offset, int dimAxisIndex) throws OLAPException;
 
-	public boolean dim_first(int dimAxisIndex);
+	boolean dim_first(int dimAxisIndex);
 
-	public boolean dim_last(int dimAxisIndex);
+	boolean dim_last(int dimAxisIndex);
 
-	public boolean dim_isBeforeFirst(int dimAxisIndex);
+	boolean dim_isBeforeFirst(int dimAxisIndex);
 
-	public boolean dim_isAfterLast(int dimAxisIndex);
+	boolean dim_isAfterLast(int dimAxisIndex);
 
-	public boolean dim_isFirst(int dimAxisIndex);
+	boolean dim_isFirst(int dimAxisIndex);
 
-	public boolean dim_isLast(int dimAxisIndex);
+	boolean dim_isLast(int dimAxisIndex);
 
-	public void dim_afterLast(int dimAxisIndex);
+	void dim_afterLast(int dimAxisIndex);
 
-	public void dim_beforeFirst(int dimAxisIndex);
+	void dim_beforeFirst(int dimAxisIndex);
 
-	public void dim_setPosition(int dimAxisIndex, long position);
+	void dim_setPosition(int dimAxisIndex, long position);
 
-	public long dim_getPosition(int dimAxisIndex);
+	long dim_getPosition(int dimAxisIndex);
 
-	public Object dim_getCurrentMember(int dimAxisIndex, int attr) throws OLAPException;
+	Object dim_getCurrentMember(int dimAxisIndex, int attr) throws OLAPException;
 
-	public Object dim_getCurrentMember(int dimAxisIndex, String attrName) throws OLAPException;
+	Object dim_getCurrentMember(int dimAxisIndex, String attrName) throws OLAPException;
 
-	public void edge_afterLast();
+	void edge_afterLast();
 
-	public void edge_beforeFirst();
+	void edge_beforeFirst();
 
-	public boolean edge_first();
+	boolean edge_first();
 
-	public long getEdgePostion();
+	long getEdgePostion();
 
-	public boolean edge_isAfterLast();
+	boolean edge_isAfterLast();
 
-	public boolean edge_isBeforeFirst();
+	boolean edge_isBeforeFirst();
 
-	public boolean edge_isFirst();
+	boolean edge_isFirst();
 
-	public boolean edge_isLast();
+	boolean edge_isLast();
 
-	public boolean edge_last();
+	boolean edge_last();
 
-	public boolean edge_next() throws OLAPException;
+	boolean edge_next() throws OLAPException;
 
-	public boolean edge_previous() throws OLAPException;
+	boolean edge_previous() throws OLAPException;
 
-	public boolean edge_relative(int arg0) throws OLAPException;
+	boolean edge_relative(int arg0) throws OLAPException;
 
-	public void edge_setPostion(long position) throws OLAPException;
+	void edge_setPostion(long position) throws OLAPException;
 
-	public int getEdgeStart(int dimAxisIndex);
+	int getEdgeStart(int dimAxisIndex);
 
-	public int getEdgeEnd(int dimAxisIndex);
+	int getEdgeEnd(int dimAxisIndex);
 
-	public int getExtend(int dimAxisIndex);
+	int getExtend(int dimAxisIndex);
 
-	public void sychronizedWithPage(int position);
+	void sychronizedWithPage(int position);
 
 }

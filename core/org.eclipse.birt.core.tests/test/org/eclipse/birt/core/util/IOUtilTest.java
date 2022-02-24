@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,12 +40,12 @@ import junit.framework.TestCase;
 
 /**
  * Test case for IOUtil
- * 
+ *
  * @see org.eclipse.birt.core.util.IOUtil
  */
 public class IOUtilTest extends TestCase {
 	// test value
-	private Object[] testValues = new Object[] { new Integer(1), new Float(1), new Double(1), new BigDecimal("1.12"),
+	private Object[] testValues = { new Integer(1), new Float(1), new Double(1), new BigDecimal("1.12"),
 			new Timestamp(System.currentTimeMillis()), new Time(System.currentTimeMillis()),
 			new Date(System.currentTimeMillis()), new Boolean(false), "This is a test", new byte[] {},
 			new byte[] { 1, 2, 3 }, new ArrayList(), new HashMap(), null };
@@ -56,7 +56,7 @@ public class IOUtilTest extends TestCase {
 	 */
 	@Test
 	public void testRWInt() throws IOException {
-		int[] testValues = new int[] { 1, 1000, 0, -1, -1000 };
+		int[] testValues = { 1, 1000, 0, -1, -1000 };
 
 		final int size = 1000;
 		ByteArrayOutputStream bos = null;
@@ -78,7 +78,7 @@ public class IOUtilTest extends TestCase {
 	 */
 	@Test
 	public void testRWBool() throws IOException {
-		boolean[] testValues = new boolean[] { false, true };
+		boolean[] testValues = { false, true };
 
 		final int size = 1000;
 		ByteArrayOutputStream bos = null;
@@ -101,7 +101,7 @@ public class IOUtilTest extends TestCase {
 	 */
 	@Test
 	public void testRWFloat() throws IOException {
-		float[] testValues = new float[] { (float) 1.1, 0, -1, (float) -1.1 };
+		float[] testValues = { (float) 1.1, 0, -1, (float) -1.1 };
 
 		final int size = 1000;
 		ByteArrayOutputStream bos = null;
@@ -127,7 +127,7 @@ public class IOUtilTest extends TestCase {
 	 */
 	@Test
 	public void testRWDouble() throws IOException {
-		double[] testValues = new double[] { (double) 1.1, 0, -1, (double) -1.1 };
+		double[] testValues = { (double) 1.1, 0, -1, (double) -1.1 };
 
 		final int size = 1000;
 		ByteArrayOutputStream bos = null;
@@ -152,7 +152,7 @@ public class IOUtilTest extends TestCase {
 	 */
 	@Test
 	public void testRWLong() throws IOException {
-		long[] testValues = new long[] { 1, 1000, 0, -1 };
+		long[] testValues = { 1, 1000, 0, -1 };
 
 		final int size = 1000;
 		ByteArrayOutputStream bos = null;
@@ -178,7 +178,7 @@ public class IOUtilTest extends TestCase {
 	 */
 	@Test
 	public void testRWString() throws IOException {
-		String[] testValues = new String[] { null, "", "G", "GU", "GUI" };
+		String[] testValues = { null, "", "G", "GU", "GUI" };
 
 		final int size = 1000;
 		ByteArrayOutputStream bos = null;
@@ -204,14 +204,14 @@ public class IOUtilTest extends TestCase {
 	 */
 	@Test
 	public void testRWBytes() throws IOException {
-		byte[] testValues = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+		byte[] testValues = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
 		final int size = 1000;
-		ByteArrayOutputStream bos = null;
-		DataOutputStream dos = null;
-		byte[] content = null;
-		ByteArrayInputStream bis = null;
-		DataInputStream dis = null;
+		ByteArrayOutputStream bos;
+		DataOutputStream dos;
+		byte[] content;
+		ByteArrayInputStream bis;
+		DataInputStream dis;
 		bos = new ByteArrayOutputStream(size);
 		dos = new DataOutputStream(bos);
 		IOUtil.writeBytes(dos, testValues);
@@ -271,16 +271,16 @@ public class IOUtilTest extends TestCase {
 	@Test
 	public void testRWLongString() throws IOException, FileNotFoundException {
 		String begin = "��������The first several words for test";
-		StringBuffer buffer = new StringBuffer(begin);
+		StringBuilder buffer = new StringBuilder(begin);
 		for (int i = 1; i < 65537; i++) {
 			buffer.append(i);
 		}
-		DataOutputStream dos = null;
-		DataInputStream dis = null;
+		DataOutputStream dos;
+		DataInputStream dis;
 		boolean correct = true;
 
 		final int size = 600000;
-		byte[] content = null;
+		byte[] content;
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(size);
 		dos = new DataOutputStream(bos);
 		IOUtil.writeString(dos, buffer.toString());
@@ -290,11 +290,10 @@ public class IOUtilTest extends TestCase {
 		dis = new DataInputStream(bis);
 
 		String ret = IOUtil.readString(dis);
-		StringBuffer buf = new StringBuffer(ret);
-		if (buf.length() != buffer.length())
+		StringBuilder buf = new StringBuilder(ret);
+		if (buf.length() != buffer.length()) {
 			correct = false;
-
-		else {
+		} else {
 			for (int i = 1; i < buf.length(); i++) {
 				if (buffer.charAt(i) != buf.charAt(i)) {
 					correct = false;
@@ -318,10 +317,10 @@ public class IOUtilTest extends TestCase {
 
 		assertTrue("IOUtil test failed!!", ((String) obj).startsWith(begin));
 
-		buf = new StringBuffer((String) obj);
-		if (buf.length() != buffer.length())
+		buf = new StringBuilder((String) obj);
+		if (buf.length() != buffer.length()) {
 			correct = false;
-		else {
+		} else {
 			for (int i = 1; i < buf.length(); i++) {
 				if (buffer.charAt(i) != buf.charAt(i)) {
 					correct = false;
@@ -338,15 +337,16 @@ public class IOUtilTest extends TestCase {
 	@Test
 	public void testRWList() throws IOException {
 		List list = new ArrayList();
-		for (int i = 0; i < testValues.length; i++)
+		for (int i = 0; i < testValues.length; i++) {
 			list.add(testValues[i]);
+		}
 
 		final int size = 1000;
-		ByteArrayOutputStream bos = null;
-		DataOutputStream dos = null;
-		byte[] content = null;
-		ByteArrayInputStream bis = null;
-		DataInputStream dis = null;
+		ByteArrayOutputStream bos;
+		DataOutputStream dos;
+		byte[] content;
+		ByteArrayInputStream bis;
+		DataInputStream dis;
 
 		bos = new ByteArrayOutputStream(size);
 		dos = new DataOutputStream(bos);
@@ -381,15 +381,16 @@ public class IOUtilTest extends TestCase {
 		Object[] testKeys = this.testValues;
 
 		Map map = new HashMap();
-		for (int i = 0; i < testValues.length; i++)
+		for (int i = 0; i < testValues.length; i++) {
 			map.put(testKeys[i], testValues[i]);
+		}
 
 		final int size = 1000;
-		ByteArrayOutputStream bos = null;
-		DataOutputStream dos = null;
-		byte[] content = null;
-		ByteArrayInputStream bis = null;
-		DataInputStream dis = null;
+		ByteArrayOutputStream bos;
+		DataOutputStream dos;
+		byte[] content;
+		ByteArrayInputStream bis;
+		DataInputStream dis;
 
 		bos = new ByteArrayOutputStream(size);
 		dos = new DataOutputStream(bos);
@@ -421,17 +422,17 @@ public class IOUtilTest extends TestCase {
 
 	/**
 	 * Test java script object I/O
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	@Test
 	public void testNativeDate() throws IOException {
 		final int size = 1000;
-		ByteArrayOutputStream bos = null;
-		DataOutputStream dos = null;
-		byte[] content = null;
-		ByteArrayInputStream bis = null;
-		DataInputStream dis = null;
+		ByteArrayOutputStream bos;
+		DataOutputStream dos;
+		byte[] content;
+		ByteArrayInputStream bis;
+		DataInputStream dis;
 
 		bos = new ByteArrayOutputStream(size);
 		dos = new DataOutputStream(bos);
@@ -456,17 +457,17 @@ public class IOUtilTest extends TestCase {
 
 	/**
 	 * Test java script object I/O
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	@Test
 	public void testNativeJavaObject() throws IOException {
 		final int size = 1000;
-		ByteArrayOutputStream bos = null;
-		DataOutputStream dos = null;
-		byte[] content = null;
-		ByteArrayInputStream bis = null;
-		DataInputStream dis = null;
+		ByteArrayOutputStream bos;
+		DataOutputStream dos;
+		byte[] content;
+		ByteArrayInputStream bis;
+		DataInputStream dis;
 
 		bos = new ByteArrayOutputStream(size);
 		dos = new DataOutputStream(bos);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -38,7 +38,7 @@ public class Format implements java.io.Serializable {
 
 	/**
 	 * Gets the stringFormat value for this Format.
-	 * 
+	 *
 	 * @return stringFormat
 	 */
 	public org.eclipse.birt.report.soapengine.api.CategoryChoiceList getStringFormat() {
@@ -47,7 +47,7 @@ public class Format implements java.io.Serializable {
 
 	/**
 	 * Sets the stringFormat value for this Format.
-	 * 
+	 *
 	 * @param stringFormat
 	 */
 	public void setStringFormat(org.eclipse.birt.report.soapengine.api.CategoryChoiceList stringFormat) {
@@ -56,7 +56,7 @@ public class Format implements java.io.Serializable {
 
 	/**
 	 * Gets the dateTimeFormat value for this Format.
-	 * 
+	 *
 	 * @return dateTimeFormat
 	 */
 	public org.eclipse.birt.report.soapengine.api.CategoryChoiceList getDateTimeFormat() {
@@ -65,7 +65,7 @@ public class Format implements java.io.Serializable {
 
 	/**
 	 * Sets the dateTimeFormat value for this Format.
-	 * 
+	 *
 	 * @param dateTimeFormat
 	 */
 	public void setDateTimeFormat(org.eclipse.birt.report.soapengine.api.CategoryChoiceList dateTimeFormat) {
@@ -74,7 +74,7 @@ public class Format implements java.io.Serializable {
 
 	/**
 	 * Gets the numberFormat value for this Format.
-	 * 
+	 *
 	 * @return numberFormat
 	 */
 	public org.eclipse.birt.report.soapengine.api.NumberCategoryChoiceList getNumberFormat() {
@@ -83,7 +83,7 @@ public class Format implements java.io.Serializable {
 
 	/**
 	 * Sets the numberFormat value for this Format.
-	 * 
+	 *
 	 * @param numberFormat
 	 */
 	public void setNumberFormat(org.eclipse.birt.report.soapengine.api.NumberCategoryChoiceList numberFormat) {
@@ -92,14 +92,18 @@ public class Format implements java.io.Serializable {
 
 	private java.lang.Object __equalsCalc = null;
 
+	@Override
 	public synchronized boolean equals(java.lang.Object obj) {
-		if (!(obj instanceof Format))
+		if (!(obj instanceof Format)) {
 			return false;
+		}
 		Format other = (Format) obj;
-		if (obj == null)
+		if (obj == null) {
 			return false;
-		if (this == obj)
+		}
+		if (this == obj) {
 			return true;
+		}
 		if (__equalsCalc != null) {
 			return (__equalsCalc == obj);
 		}
@@ -118,6 +122,7 @@ public class Format implements java.io.Serializable {
 
 	private boolean __hashCodeCalc = false;
 
+	@Override
 	public synchronized int hashCode() {
 		if (__hashCodeCalc) {
 			return 0;

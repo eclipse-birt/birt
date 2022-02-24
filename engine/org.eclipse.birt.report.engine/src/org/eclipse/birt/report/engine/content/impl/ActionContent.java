@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 , 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,19 +52,20 @@ public class ActionContent implements IHyperlinkAction {
 	protected String target = null;
 
 	/**
-	 * 
+	 *
 	 */
 	protected IDrillThroughAction drillThrough;
 
 	/**
 	 * Constructor for hyperlink action type
-	 * 
+	 *
 	 * @param actionString the action string
 	 * @param target       the target window
 	 */
 	public ActionContent() {
 	}
 
+	@Override
 	public void setHyperlink(String hyperlink, String target) {
 		this.type = IHyperlinkAction.ACTION_HYPERLINK;
 		this.hyperlink = hyperlink;
@@ -73,9 +74,10 @@ public class ActionContent implements IHyperlinkAction {
 
 	/**
 	 * Constructor for bookmark action type
-	 * 
+	 *
 	 * @param bookmark the bookmark value.
 	 */
+	@Override
 	public void setBookmark(String bookmark) {
 		this.type = IHyperlinkAction.ACTION_BOOKMARK;
 		this.bookmark = bookmark;
@@ -83,7 +85,7 @@ public class ActionContent implements IHyperlinkAction {
 
 	/**
 	 * @deprecated Constructor for drill-through action type
-	 * 
+	 *
 	 * @param bookmark          the bookmark string
 	 * @param bookmarkType      the bookmark type
 	 * @param reportName        the report name navigated
@@ -91,6 +93,8 @@ public class ActionContent implements IHyperlinkAction {
 	 * @param searchCriteria    the search criteria
 	 * @param target            the target window
 	 */
+	@Deprecated
+	@Override
 	public void setDrillThrough(String bookmark, boolean isBookmark, String reportName, Map parameterBindings,
 			Map searchCriteria, String target, String format) {
 		setDrillThrough(bookmark, isBookmark, reportName, parameterBindings, searchCriteria, target, format, null);
@@ -98,7 +102,7 @@ public class ActionContent implements IHyperlinkAction {
 
 	/**
 	 * Constructor for drill-through action type
-	 * 
+	 *
 	 * @param bookmark          the bookmark string
 	 * @param bookmarkType      the bookmark type
 	 * @param reportName        the report name navigated
@@ -107,6 +111,7 @@ public class ActionContent implements IHyperlinkAction {
 	 * @param target            the target window
 	 * @param targetFileType    the target file type
 	 */
+	@Override
 	public void setDrillThrough(String bookmark, boolean isBookmark, String reportName, Map parameterBindings,
 			Map searchCriteria, String target, String format, String targetFileType) {
 		this.type = IHyperlinkAction.ACTION_DRILLTHROUGH;
@@ -116,18 +121,20 @@ public class ActionContent implements IHyperlinkAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.IHyperlinkAction#getType()
 	 */
+	@Override
 	public int getType() {
 		return type;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.IHyperlinkAction#getBookmark()
 	 */
+	@Override
 	public String getBookmark() {
 		if (isDrillThrough()) {
 			return drillThrough.getBookmark();
@@ -137,9 +144,10 @@ public class ActionContent implements IHyperlinkAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.IHyperlinkAction#getReportName()
 	 */
+	@Override
 	public String getReportName() {
 		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
 		if (isDrillThrough()) {
@@ -148,6 +156,7 @@ public class ActionContent implements IHyperlinkAction {
 		return null;
 	}
 
+	@Override
 	public void setReportName(String reportName) {
 		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
 		if (isDrillThrough()) {
@@ -157,10 +166,11 @@ public class ActionContent implements IHyperlinkAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IHyperlinkAction#getParameterbindings()
 	 */
+	@Override
 	public Map getParameterBindings() {
 		if (isDrillThrough()) {
 			return drillThrough.getParameterBindings();
@@ -171,9 +181,10 @@ public class ActionContent implements IHyperlinkAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.IHyperlinkAction#getSearchCriteria()
 	 */
+	@Override
 	public Map getSearchCriteria() {
 		assert type == IHyperlinkAction.ACTION_DRILLTHROUGH;
 		if (isDrillThrough()) {
@@ -185,10 +196,11 @@ public class ActionContent implements IHyperlinkAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.content.IHyperlinkAction#getTargetWindow()
 	 */
+	@Override
 	public String getTargetWindow() {
 		if (isDrillThrough()) {
 			return drillThrough.getTargetWindow();
@@ -198,9 +210,10 @@ public class ActionContent implements IHyperlinkAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IHyperlinkAction#getHyperlink()
 	 */
+	@Override
 	public String getHyperlink() {
 		return hyperlink;
 	}
@@ -365,6 +378,7 @@ public class ActionContent implements IHyperlinkAction {
 		IOUtil.writeInt(out, FIELD_NONE);
 	}
 
+	@Override
 	public String getFormat() {
 		if (isDrillThrough()) {
 			return drillThrough.getFormat();
@@ -372,12 +386,14 @@ public class ActionContent implements IHyperlinkAction {
 		return null;
 	}
 
+	@Override
 	public void setBookmarkType(boolean isBookmark) {
 		if (isDrillThrough()) {
 			drillThrough.setBookmarkType(isBookmark);
 		}
 	}
 
+	@Override
 	public boolean isBookmark() {
 		if (isDrillThrough()) {
 			return drillThrough.isBookmark();
@@ -385,6 +401,7 @@ public class ActionContent implements IHyperlinkAction {
 		return false;
 	}
 
+	@Override
 	public IDrillThroughAction getDrillThrough() {
 		if (isDrillThrough()) {
 			return drillThrough;
@@ -392,6 +409,7 @@ public class ActionContent implements IHyperlinkAction {
 		return null;
 	}
 
+	@Override
 	public void setDrillThrough(IDrillThroughAction drillThrough) {
 		this.type = IHyperlinkAction.ACTION_DRILLTHROUGH;
 		this.drillThrough = drillThrough;
@@ -401,10 +419,12 @@ public class ActionContent implements IHyperlinkAction {
 		return type == ACTION_DRILLTHROUGH;
 	}
 
+	@Override
 	public void setTooltip(String tooltip) {
 		this.tooltip = tooltip;
 	}
 
+	@Override
 	public String getTooltip() {
 		return tooltip;
 	}

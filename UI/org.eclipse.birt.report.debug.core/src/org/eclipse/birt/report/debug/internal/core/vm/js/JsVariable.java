@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -41,14 +41,17 @@ public class JsVariable implements VMVariable, VMConstants, Comparable {
 		this.value = new JsValue(value, isPrimitive);
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public VMValue getValue() {
 		return value;
 	}
 
+	@Override
 	public String getTypeName() {
 		if (typeName != null) {
 			return typeName;
@@ -65,6 +68,7 @@ public class JsVariable implements VMVariable, VMConstants, Comparable {
 		this.typeName = typeName;
 	}
 
+	@Override
 	public int compareTo(Object arg0) {
 		if (arg0 instanceof VMVariable) {
 			VMVariable that = (VMVariable) arg0;

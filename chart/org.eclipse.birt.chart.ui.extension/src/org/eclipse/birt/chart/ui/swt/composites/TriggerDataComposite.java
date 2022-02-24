@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004-2011 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -77,7 +77,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * Interactivity UI composite
- * 
+ *
  */
 public class TriggerDataComposite extends Composite implements SelectionListener {
 
@@ -189,7 +189,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
 	/**
 	 * Interactivity UI constructor
-	 * 
+	 *
 	 * @param parent             composite parent
 	 * @param style              composite style
 	 * @param triggers           trigger model
@@ -216,6 +216,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
 		addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (needSaveWhenDisposing) {
 					// Only save when it's needed
@@ -232,7 +233,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 	private void init() {
 		this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
 
-		triggersMap = new HashMap<String, Trigger>();
+		triggersMap = new HashMap<>();
 		for (int i = 0; i < triggersList.size(); i++) {
 			Trigger trigger = triggersList.get(i);
 			triggersMap.put(LiteralHelper.triggerConditionSet.getDisplayNameByName(trigger.getCondition().getName()),
@@ -244,6 +245,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 		if (btnFormat != null) {
 			btnFormat.addListener(SWT.Selection, new Listener() {
 
+				@Override
 				public void handleEvent(Event event) {
 					FormatSpecifierDialog editor = new FormatSpecifierDialog(btnFormat.getShell(), formatSpecifier,
 							AxisType.values(), ""); //$NON-NLS-1$
@@ -296,6 +298,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 		cmbTriggerType.setLayoutData(gdCMBTriggerType);
 		cmbTriggerType.addListener(TextCombo.SELECTION_EVENT, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				updateTrigger(lastTriggerType);
 				updateActionTypeItems();
@@ -442,54 +445,67 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 			// Create the dummy instance to keep consistency
 			btnTooltipExpBuilder = new IExpressionButton() {
 
+				@Override
 				public void setExpression(String expr) {
 					txtTooltipText.setText(expr);
 				}
 
+				@Override
 				public void setEnabled(boolean bEnabled) {
 					txtTooltipText.setEnabled(bEnabled);
 				}
 
+				@Override
 				public boolean isEnabled() {
 					return txtTooltipText.isEnabled();
 				}
 
+				@Override
 				public String getExpression() {
 					return txtTooltipText.getText();
 				}
 
+				@Override
 				public String getDisplayExpression() {
 					return getExpression();
 				}
 
+				@Override
 				public void addListener(Listener listener) {
 					// not implemented
 				}
 
+				@Override
 				public void setAccessor(EAttributeAccessor<String> accessor) {
 					// not implemented
 				}
 
+				@Override
 				public String getExpressionType() {
 					return null;
 				}
 
+				@Override
 				public boolean isCube() {
 					return false;
 				}
 
+				@Override
 				public void setBindingName(String bindingName, boolean bNotifyEvents) {
 					// not implemented
 				}
 
+				@Override
 				public void setExpression(String expr, boolean bNotifyEvents) {
 					// not implemented
 				}
 
+				@Override
 				public void setAssitField(IAssistField assistField) {
 					// not implemented
 				}
 
+				@Override
 				public void setPredefinedQuery(Object[] predefinedQuery) {
 					// not implemented
 				}
@@ -511,6 +527,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 		}
 		txtTooltipText.addListener(SWT.FocusOut, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				updateTrigger(cmbTriggerType.getText());
 
@@ -776,7 +793,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 	/**
 	 * Provides a mapper method to switch trigger Combo text to fixed index
 	 * constants.
-	 * 
+	 *
 	 * @return fixed index defined as constants
 	 */
 	private int getTriggerIndex() {
@@ -826,7 +843,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
 	/**
 	 * Marks UI will save the trigger when closing
-	 * 
+	 *
 	 */
 	public void markSaveWhenClosing() {
 		this.needSaveWhenDisposing = true;
@@ -865,7 +882,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
 	/**
 	 * Update UI values according to specified trigger model values.
-	 * 
+	 *
 	 * @param trigger
 	 */
 	private void updateUI(Trigger trigger) {
@@ -921,7 +938,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 //							: "" ); //$NON-NLS-1$
 //					txtSeriesParm.setText( ( urlValue.getSeriesParameterName( )
 //							.length( ) > 0 ) ? urlValue.getSeriesParameterName( )
-//							: "" ); //$NON-NLS-1$	
+//							: "" ); //$NON-NLS-1$
 			}
 			break;
 		case INDEX_2_TOOLTIP:
@@ -964,7 +981,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
 	/**
 	 * Returns the trigger instance according to current UI values.
-	 * 
+	 *
 	 * @return trigger from UI values
 	 */
 	public Trigger getTrigger() {
@@ -1063,10 +1080,11 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.getSource().equals(cmbActionType)) {
 			String triggerType = cmbTriggerType.getText();
@@ -1126,11 +1144,12 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
@@ -1140,7 +1159,7 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 
 	/**
 	 * Get modified trigger object instead of old.
-	 * 
+	 *
 	 * @param triggerType
 	 */
 	private void updateTrigger(String triggerType) {
@@ -1191,8 +1210,9 @@ public class TriggerDataComposite extends Composite implements SelectionListener
 		if ((type & TriggerSupportMatrix.TYPE_DATAPOINT) == TriggerSupportMatrix.TYPE_DATAPOINT) {
 			boolean useCube = wizardContext.getDataServiceProvider().checkState(IDataServiceProvider.HAS_CUBE)
 					|| wizardContext.getDataServiceProvider().checkState(IDataServiceProvider.SHARE_CROSSTAB_QUERY);
-			if (useCube)
+			if (useCube) {
 				return IUIServiceProvider.COMMAND_CUBE_EXPRESSION_TOOLTIPS_DATAPOINTS;
+			}
 			return IUIServiceProvider.COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS;
 		}
 		return IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_SIMPLE;

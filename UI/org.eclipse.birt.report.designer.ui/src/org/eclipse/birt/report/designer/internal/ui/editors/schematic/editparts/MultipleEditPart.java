@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +58,7 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model
 	 */
 	public MultipleEditPart(Object model) {
@@ -67,10 +67,11 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getCommand(org.eclipse.gef.
 	 * Request)
 	 */
+	@Override
 	public Command getCommand(Request request) {
 		if (RequestConstants.REQ_ORPHAN_CHILDREN.equals(request.getType())) {
 			return getParent().getCommand(request);
@@ -80,11 +81,12 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ReportFlowLayoutEditPolicy() {
@@ -107,11 +109,12 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 		((MultipleLayout) getFigure().getLayoutManager()).markDirty();
 		((AbstractGraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), getConstraint());
@@ -146,18 +149,20 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
+	@Override
 	protected List getModelChildren() {
 		return getModelAdapter().getChildren();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		Figure layer = new MultipleFigure();
 		return layer;
@@ -165,7 +170,7 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/**
 	 * Gets the MultipleAdapter.
-	 * 
+	 *
 	 * @return
 	 */
 	public MultipleAdapter getMultipleAdapter() {
@@ -174,22 +179,24 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.core.model.IMultipleAdapterHelper#isMultiple
 	 * ()
 	 */
+	@Override
 	public boolean isMultiple() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#createGuideHandle()
 	 */
+	@Override
 	protected AbstractGuideHandle createGuideHandle() {
 		MultipleGuideHandle handle = new MultipleGuideHandle(this);
 
@@ -201,7 +208,7 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/**
 	 * Set the current view.
-	 * 
+	 *
 	 * @param number
 	 */
 	public void setCurrentView(int number) {
@@ -209,6 +216,7 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 		((MultipleGuideHandle) getGuideHandle()).setSelected(number);
 		Display.getCurrent().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				refreshVisuals();
 			}
@@ -219,7 +227,7 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/**
 	 * Remove the view.
-	 * 
+	 *
 	 * @param number
 	 */
 	public void removeView(int number) {
@@ -228,11 +236,12 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#propertyChange(java.util.Map)
 	 */
+	@Override
 	protected void propertyChange(Map info) {
 		Set set = info.keySet();
 		if (set.contains(IReportItemModel.MULTI_VIEWS_PROP) && getMultipleAdapter().getViews().size() > 0) {
@@ -245,11 +254,12 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#contentChange(java.util.Map)
 	 */
+	@Override
 	protected void contentChange(Map info) {
 		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE);
 		if (action instanceof Integer) {
@@ -273,11 +283,12 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
+	@Override
 	public EditPolicy getResizePolice(EditPolicy parentPolice) {
 		ReportElementResizablePolicy policy = new MultipleResizePolicy();
 		policy.setResizeDirections(PositionConstants.SOUTH | PositionConstants.EAST | PositionConstants.SOUTH_EAST);
@@ -290,6 +301,7 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 	 */
 	private static class MultipleResizePolicy extends ReportElementResizablePolicy {
 
+		@Override
 		protected Command getResizeCommand(ChangeBoundsRequest request) {
 			Command command = super.getResizeCommand(request);
 			if (command instanceof SetConstraintCommand) {
@@ -310,11 +322,12 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#isinterestSelection(java.lang.Object)
 	 */
+	@Override
 	public boolean isinterestSelection(Object object) {
 		return getMultipleAdapter().getViews().contains(object);
 	}
@@ -329,11 +342,12 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#notifyModelChange()
 	 */
+	@Override
 	public void notifyModelChange() {
 		super.notifyModelChange();
 		((MultipleLayout) getFigure().getLayoutManager()).markDirty();
@@ -341,11 +355,12 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#getGuideLabel()
 	 */
+	@Override
 	public String getGuideLabel() {
 		if (guideLabel == null) {
 			guideLabel = ((ReportElementEditPart) getChildren().get(0)).getGuideLabel();
@@ -355,11 +370,12 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.
 	 * Class)
 	 */
+	@Override
 	public Object getAdapter(Class key) {
 		if (key == IDelaySelectionDragTracker.class) {
 			return getParent().getAdapter(IDelaySelectionDragTracker.class);
@@ -375,6 +391,7 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 		((MultipleLayout) getFigure().getLayoutManager()).markDirty();
 
 		Display.getCurrent().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				getFigure().invalidateTree();
 				getFigure().revalidate();

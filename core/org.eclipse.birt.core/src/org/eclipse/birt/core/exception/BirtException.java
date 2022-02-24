@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,28 +23,28 @@ import com.ibm.icu.text.MessageFormat;
  * Define BIRT's Exception framework. Every BIRT exception has to include an
  * error code, which is a string. Different BIRT modules use different prefix
  * for error codes. For example,
- * 
+ *
  * <li>DE uses DESIGN_EXCEPTION_
  * <li>DtE uses DATA_EXCEPTION_
  * <li>FPE uses GENERATION_EXCEPTION_ and VIEW_EXCEPTION_
  * <li>UI uses UI_EXCEPTION_
  * <li>Chart used CHART_EXCEPTION_
  * <li>viewer uses VIERER_EXCEPTION_</li>
- * 
+ *
  * as prefix. An error code is used for retrieving error message, which is
  * externalizable, and can be seen by end users. The error code itself allows
  * the identification of the subcomponent that generates the exception, avoiding
  * the need to create exceltion subclasses such as BirtEngineException,
  * BirtDtEException, etc.
- * 
+ *
  * Note that the resource key (or error code), message arguments and resource
  * bundle are immutable.
- * 
+ *
  */
 public class BirtException extends Exception {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -2152858415308815725L;
 
@@ -85,7 +85,7 @@ public class BirtException extends Exception {
 	 * Status severity constant (value 0) indicating this exception represents the
 	 * nominal case. This constant is also used as the status code representing the
 	 * nominal case.
-	 * 
+	 *
 	 * @see #getSeverity()
 	 */
 	public static final int OK = 0;
@@ -93,7 +93,7 @@ public class BirtException extends Exception {
 	/**
 	 * Status type severity (bit mask, value 1) indicating this exception is
 	 * informational only.
-	 * 
+	 *
 	 * @see #getSeverity()
 	 */
 	public static final int INFO = 0x01;
@@ -101,7 +101,7 @@ public class BirtException extends Exception {
 	/**
 	 * Status type severity (bit mask, value 2) indicating this exception represents
 	 * a warning.
-	 * 
+	 *
 	 * @see #getSeverity()
 	 */
 	public static final int WARNING = 0x02;
@@ -109,7 +109,7 @@ public class BirtException extends Exception {
 	/**
 	 * Status type severity (bit mask, value 4) indicating this exception represents
 	 * an error.
-	 * 
+	 *
 	 * @see #getSeverity()
 	 */
 	public static final int ERROR = 0x04;
@@ -117,7 +117,7 @@ public class BirtException extends Exception {
 	/**
 	 * Status type severity (bit mask, value 8) indicating this exception represents
 	 * a cancelation
-	 * 
+	 *
 	 * @see #getSeverity()
 	 */
 	public static final int CANCEL = 0x08;
@@ -134,11 +134,12 @@ public class BirtException extends Exception {
 
 	/**
 	 * @deprecated Constructs a new Birt exception with no cause object.
-	 * 
+	 *
 	 * @param errorCode      used to retrieve a piece of externalized message
 	 *                       displayed to end user.
 	 * @param resourceBundle the resourceBundle used to translate the message.
 	 */
+	@Deprecated
 	public BirtException(String errorCode, ResourceBundle bundle) {
 		super();
 		this.sResourceKey = errorCode;
@@ -153,6 +154,7 @@ public class BirtException extends Exception {
 	 * @param resourceBundle the resourceBundle used to translate the message.
 	 * @param cause          the nested exception
 	 */
+	@Deprecated
 	public BirtException(String errorCode, ResourceBundle bundle, Throwable cause) {
 		super(cause);
 		this.sResourceKey = errorCode;
@@ -167,6 +169,7 @@ public class BirtException extends Exception {
 	 * @param resourceBundle the resourceBundle used to translate the message.
 	 * @param args           string arguments used to format error messages
 	 */
+	@Deprecated
 	public BirtException(String errorCode, Object[] args, ResourceBundle bundle, Throwable cause) {
 		super(cause);
 		this.sResourceKey = errorCode;
@@ -182,6 +185,7 @@ public class BirtException extends Exception {
 	 * @param cause          the nested exception
 	 * @param arg0           first argument used to format error messages
 	 */
+	@Deprecated
 	public BirtException(String errorCode, Object arg0, ResourceBundle bundle, Throwable cause) {
 		super(cause);
 		this.sResourceKey = errorCode;
@@ -197,6 +201,7 @@ public class BirtException extends Exception {
 	 * @param resourceBundle the resourceBundle used to translate the message.
 	 * @param args           string arguments used to format error messages
 	 */
+	@Deprecated
 	public BirtException(String errorCode, Object[] args, ResourceBundle bundle) {
 		super();
 		this.sResourceKey = errorCode;
@@ -212,6 +217,7 @@ public class BirtException extends Exception {
 	 * @param cause          the nested exception
 	 * @param arg0           first argument used to format error messages
 	 */
+	@Deprecated
 	public BirtException(String errorCode, Object arg0, ResourceBundle bundle) {
 		super();
 		this.sResourceKey = errorCode;
@@ -225,6 +231,7 @@ public class BirtException extends Exception {
 	 *                  to end user.
 	 * @param arg0      first argument used to format error messages
 	 */
+	@Deprecated
 	public BirtException(String errorCode, Object arg0) {
 		super();
 		this.sResourceKey = errorCode;
@@ -239,6 +246,7 @@ public class BirtException extends Exception {
 	 * @param cause     the nested exception
 	 * @param args      string arguments used to format error messages
 	 */
+	@Deprecated
 	public BirtException(String errorCode, Object[] args, Throwable cause) {
 		super(cause);
 		this.sResourceKey = errorCode;
@@ -248,7 +256,7 @@ public class BirtException extends Exception {
 
 	/**
 	 * Constructs a new Birt exception with no cause object.
-	 * 
+	 *
 	 * @param pluginId       Returns the unique identifier of the plug-in associated
 	 *                       with this exception *
 	 * @param errorCode      used to retrieve a piece of externalized message
@@ -392,13 +400,15 @@ public class BirtException extends Exception {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
+	@Override
 	public String getLocalizedMessage() {
 		return getLocalizedMessage(sResourceKey);
 	}
 
+	@Override
 	public String getMessage() {
 		return getLocalizedMessage(sResourceKey);
 	}
@@ -406,7 +416,7 @@ public class BirtException extends Exception {
 	/**
 	 * Returns a localized message based on an error code. Overwrite this method if
 	 * you do not want to pass in the resource bundle
-	 * 
+	 *
 	 * @param errorCode the error code
 	 * @return Localized display message.
 	 */
@@ -435,7 +445,7 @@ public class BirtException extends Exception {
 	/**
 	 * Returns the unique identifier of the plug-in associated with this exception
 	 * (this is the plug-in that defines the meaning of the error code).
-	 * 
+	 *
 	 * @return the unique identifier of the relevant plug-in
 	 */
 	public String getPluginId() {
@@ -451,7 +461,7 @@ public class BirtException extends Exception {
 	 * <li><code>INFO</code>- an informational ("fyi") message (least severe)</li>
 	 * <li><code>OK</code>- everything is just fine</li>
 	 * </ul>
-	 * 
+	 *
 	 * @return the severity: one of <code>OK</code>,<code>ERROR</code>,
 	 *         <code>INFO</code>,<code>WARNING</code>, or <code>CANCEL</code>
 	 */
@@ -461,7 +471,7 @@ public class BirtException extends Exception {
 
 	/**
 	 * Sets the severity of the exception.
-	 * 
+	 *
 	 * @param severity the severity; one of <code>OK</code>,<code>ERROR</code>,
 	 *                 <code>INFO</code>,<code>WARNING</code>, or
 	 *                 <code>CANCEL</code>

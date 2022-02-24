@@ -33,6 +33,7 @@ public class TableOptionPage extends WizardPage {
 		this.setTitle(Messages.getString("TableOptionPage.Title")); //$NON-NLS-1$
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		Composite pageComp = new Composite(parent, SWT.NONE);
 		GridLayout pageCompLayout = new GridLayout();
@@ -53,13 +54,15 @@ public class TableOptionPage extends WizardPage {
 		setControl(pageComp);
 	}
 
+	@Override
 	public boolean isPageComplete() {
 		return true;
 	}
 
 	public Object getResult() {
-		if (dialog != null)
+		if (dialog != null) {
 			return dialog.getResult();
+		}
 		return null;
 	}
 

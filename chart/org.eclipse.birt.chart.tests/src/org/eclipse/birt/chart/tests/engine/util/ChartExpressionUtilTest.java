@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -16,11 +16,11 @@ package org.eclipse.birt.chart.tests.engine.util;
 
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
 import org.eclipse.birt.chart.util.ChartExpressionUtil;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
+
+import junit.framework.TestCase;
 
 public class ChartExpressionUtilTest extends TestCase {
 
@@ -30,6 +30,7 @@ public class ChartExpressionUtilTest extends TestCase {
 	 * Construct and initialize any objects that will be used in multiple tests.
 	 * Currently Empty.
 	 */
+	@Override
 	protected void setUp() throws Exception {
 
 	}
@@ -38,6 +39,7 @@ public class ChartExpressionUtilTest extends TestCase {
 	 * Collect and empty any objects that are used in multiple tests. Currently
 	 * Empty.
 	 */
+	@Override
 	protected void tearDown() throws Exception {
 
 	}

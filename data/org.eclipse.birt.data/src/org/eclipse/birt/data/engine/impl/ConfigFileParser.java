@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
@@ -28,7 +29,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  * This class is used to parse the configuration file that the user specifies.
  * Note that it is an internal tool that can only parse the firmly-formatted
  * file rather than a general parser tool.
- * 
+ *
  */
 public class ConfigFileParser {
 
@@ -51,7 +52,7 @@ public class ConfigFileParser {
 	/**
 	 * This method is to check whether the current tree contains the specified data
 	 * set node.
-	 * 
+	 *
 	 * @param String id the data set name
 	 * @return true if the current tree contains the specified data set
 	 */
@@ -70,7 +71,7 @@ public class ConfigFileParser {
 	/**
 	 * This method is to check whether the current tree contains the specified data
 	 * set node.
-	 * 
+	 *
 	 * @param String id the data set name
 	 * @return the parsed query text string
 	 */
@@ -113,7 +114,7 @@ public class ConfigFileParser {
 	/**
 	 * This method is to get the timestamp column name by the specified data set
 	 * name.
-	 * 
+	 *
 	 * @param String id the data set name
 	 * @return the parsed timestamp column name
 	 */
@@ -138,7 +139,7 @@ public class ConfigFileParser {
 	/**
 	 * This method is to get the timestamp format string by the specified data set
 	 * name.
-	 * 
+	 *
 	 * @param String id the data set name
 	 * @return the parsed timestamp format string
 	 */
@@ -162,7 +163,7 @@ public class ConfigFileParser {
 
 	/**
 	 * This method is to get the parameters by the specified data set name.
-	 * 
+	 *
 	 * @param String id the data set name
 	 * @return a HashMap that contains the parsed parameter pairs
 	 */
@@ -192,12 +193,12 @@ public class ConfigFileParser {
 
 	/**
 	 * This method is to parse the InputStream's information to a Node.
-	 * 
+	 *
 	 * @param String xml string parsed from the configuration file
 	 * @return Node that stores all the useful information in the configuration file
 	 */
 	private Node parseXML2DOM(InputStream stream) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
 		int c;
 		try {
@@ -213,7 +214,7 @@ public class ConfigFileParser {
 
 	/**
 	 * Get the current Node instance.
-	 * 
+	 *
 	 * @return Node instance
 	 */
 	public Node getNode() {
@@ -222,13 +223,13 @@ public class ConfigFileParser {
 
 	/**
 	 * This method is to parse the xml-formatted string to a Node.
-	 * 
+	 *
 	 * @param String xml-formatted string parsed from the configuration file
 	 * @return Node that stores all the useful information in the configuration file
 	 */
 	private Node parseXML2DOM(String xml) {
 		Node node = new Node();
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		Stack stack = new Stack();
 		ArrayList children = new ArrayList();
 		Object obj;
@@ -243,7 +244,7 @@ public class ConfigFileParser {
 					if (temp.equals("]]>")) {
 						reserved = false;
 						stack.push(buffer.toString().trim());
-						buffer = new StringBuffer();
+						buffer = new StringBuilder();
 						flag = false;
 						i = i + 2;
 					}
@@ -254,7 +255,7 @@ public class ConfigFileParser {
 			} else if (ch == '\n' || ch == '\t') {
 				continue;
 			} else if (ch == '<') {
-				if (flag == true) {
+				if (flag) {
 					return null;
 				}
 				String temp = xml.substring(i, i + 9);
@@ -265,17 +266,17 @@ public class ConfigFileParser {
 				}
 				if (buffer.toString().trim().length() > 0) {
 					stack.push(buffer.toString().trim());
-					buffer = new StringBuffer();
+					buffer = new StringBuilder();
 				}
 				buffer.append(ch);
 				flag = true;
 			} else if (ch == '>') {
-				if (flag == false) {
+				if (!flag) {
 					return null;
 				}
 				flag = false;
 				String temp = buffer.toString().trim();
-				buffer = new StringBuffer();
+				buffer = new StringBuilder();
 				if (temp.startsWith("</")) {
 					temp = temp.substring(2).trim();
 					if (stack.isEmpty()) {
@@ -379,7 +380,7 @@ public class ConfigFileParser {
 	/**
 	 * An inner class serve as a data structure used to store the information parsed
 	 * from a configuration file.
-	 * 
+	 *
 	 */
 	public static class Node {
 
@@ -464,27 +465,28 @@ public class ConfigFileParser {
 
 		/**
 		 * Find the attribute value according to the key value
-		 * 
+		 *
 		 * @return the attribute value
 		 */
 		public String getAttrValue(String key) {
-			if (attributes.containsKey(key))
+			if (attributes.containsKey(key)) {
 				return (String) attributes.get(key);
-
-			else
+			} else {
 				return null;
+			}
 		}
 
 		/**
 		 * Find the child node according to the specified node name
-		 * 
+		 *
 		 * @return the child node
 		 */
 		public Node getChildByName(String name) {
 			for (int i = 0; i < children.size(); i++) {
 				Node temp = (Node) children.get(i);
-				if (temp.getName().equals(name))
+				if (temp.getName().equals(name)) {
 					return temp;
+				}
 			}
 			return null;
 		}

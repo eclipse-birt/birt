@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,7 +58,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.core.resources.IProject;
 
 /**
- * 
+ *
  */
 
 public class ChartReportItemUIFactory extends ChartUIFactory {
@@ -95,7 +95,7 @@ public class ChartReportItemUIFactory extends ChartUIFactory {
 
 	/**
 	 * Creates instance of <code>ChartReportItemBuilderImpl</code>.
-	 * 
+	 *
 	 * @param taskId
 	 * @return instance of <code>ChartReportItemBuilderImpl</code>.
 	 */
@@ -105,7 +105,7 @@ public class ChartReportItemUIFactory extends ChartUIFactory {
 
 	/**
 	 * Creates instance of <code>IMenuBuilder</code>.
-	 * 
+	 *
 	 * @return instance of <code>IMenuBuilder</code>.
 	 */
 	public IMenuBuilder createMenuBuilder() {
@@ -114,7 +114,7 @@ public class ChartReportItemUIFactory extends ChartUIFactory {
 
 	/**
 	 * Updates chart page section helper according to context.
-	 * 
+	 *
 	 * @param sectionHelper
 	 * @return chart page section helper according to context.
 	 */
@@ -128,7 +128,7 @@ public class ChartReportItemUIFactory extends ChartUIFactory {
 
 	/**
 	 * Creates Figure used for edit part in layout editor.
-	 * 
+	 *
 	 * @param crii report item
 	 * @return figure instance
 	 * @since 3.7
@@ -139,7 +139,7 @@ public class ChartReportItemUIFactory extends ChartUIFactory {
 
 	/**
 	 * Create chart preference page
-	 * 
+	 *
 	 * @param context
 	 * @param project
 	 * @return ChartConfigurationBlock

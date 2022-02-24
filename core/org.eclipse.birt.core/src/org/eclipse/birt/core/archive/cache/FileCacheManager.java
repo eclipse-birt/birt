@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,7 @@ public class FileCacheManager {
 	public FileCacheManager(int maxCacheSize) {
 		this.maxCacheSize = maxCacheSize;
 		this.lockedCacheSize = 0;
-		this.caches = new ConcurrentHashMap<Object, Cacheable>(2);
+		this.caches = new ConcurrentHashMap<>(2);
 		this.freeCaches = new CacheList();
 	}
 
@@ -104,6 +104,7 @@ public class FileCacheManager {
 		Cacheable[] entries = caches.values().toArray(new Cacheable[caches.size()]);
 		Arrays.sort(entries, new Comparator<Cacheable>() {
 
+			@Override
 			public int compare(Cacheable cache0, Cacheable cache1) {
 				if (cache0 == null) {
 					if (cache1 == null) {
@@ -130,7 +131,7 @@ public class FileCacheManager {
 	/**
 	 * return the cache object to the system. The object should be added into the
 	 * system or it is got from the system.
-	 * 
+	 *
 	 * @param cache the cache object.
 	 */
 	synchronized public void releaseCache(Cacheable cache) {
@@ -157,9 +158,9 @@ public class FileCacheManager {
 
 	/**
 	 * get the cache from the cache system
-	 * 
+	 *
 	 * @param cacheKey
-	 * 
+	 *
 	 * @return the cached object
 	 */
 	synchronized public Cacheable getCache(Object cacheKey) {
@@ -186,7 +187,7 @@ public class FileCacheManager {
 
 	/**
 	 * add a cache object into the cache system.
-	 * 
+	 *
 	 * @param cache the cache object to be added.
 	 */
 	synchronized public void addCache(Cacheable cache) {

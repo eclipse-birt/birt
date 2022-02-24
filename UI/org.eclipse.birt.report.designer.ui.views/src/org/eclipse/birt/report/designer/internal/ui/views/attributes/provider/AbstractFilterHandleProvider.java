@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.api.command.PropertyEvent;
  * The class extends <code>AbstractFormHandleProvider</code> and declares two
  * new methods for UI to rebuilt filter page when the reference data set or item
  * handle are changed.
- * 
+ *
  * @since 2.3
  */
 public abstract class AbstractFilterHandleProvider extends AbstractFormHandleProvider {
@@ -45,18 +45,19 @@ public abstract class AbstractFilterHandleProvider extends AbstractFormHandlePro
 
 	/**
 	 * Returns a concrete filter provider for current data set or binding reference.
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract IFormProvider getConcreteFilterProvider();
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
 	 * AbstractFormHandleProvider#needRebuilded(org.eclipse.birt.report.model.api.
 	 * activity.NotificationEvent)
 	 */
+	@Override
 	public boolean needRebuilded(NotificationEvent event) {
 		if (event instanceof PropertyEvent) {
 			String propertyName = ((PropertyEvent) event).getPropertyName();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -338,12 +338,12 @@ public class InteractivityCharts {
 		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
 		yAxisPrimary.getTitle().setVisible(false);
 
-		Vector<String> vs = new Vector<String>();
+		Vector<String> vs = new Vector<>();
 		vs.add("one"); //$NON-NLS-1$
 		vs.add("two"); //$NON-NLS-1$
 		vs.add("three"); //$NON-NLS-1$
 
-		ArrayList<Double> vn1 = new ArrayList<Double>();
+		ArrayList<Double> vn1 = new ArrayList<>();
 		vn1.add(new Double(25));
 		vn1.add(new Double(35));
 		vn1.add(new Double(-45));
@@ -578,7 +578,7 @@ public class InteractivityCharts {
 
 	/**
 	 * Creates a simple bar chart model and set cursors.
-	 * 
+	 *
 	 * @return An instance of the simulated runtime chart model (containing filled
 	 *         datasets)
 	 */
@@ -705,7 +705,7 @@ public class InteractivityCharts {
 
 	/**
 	 * The method returns a chart model with multiple URL settings.
-	 * 
+	 *
 	 * @return chart model
 	 */
 	public static Chart createMultiURChart() {

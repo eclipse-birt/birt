@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -33,26 +33,32 @@ public abstract class ReportItemExecutorBase implements IReportItemExecutor {
 	 */
 	protected IReportItemExecutor parent;
 
+	@Override
 	public void setContext(IExecutorContext context) {
 		this.executorContext = context;
 	}
 
+	@Override
 	public void setModelObject(Object handle) {
 		this.handle = handle;
 	}
 
+	@Override
 	public void setParent(IReportItemExecutor parent) {
 		this.parent = parent;
 	}
 
+	@Override
 	public IExecutorContext getContext() {
 		return executorContext;
 	}
 
+	@Override
 	public Object getModelObject() {
 		return handle;
 	}
 
+	@Override
 	public IReportItemExecutor getParent() {
 		return parent;
 	}
@@ -60,6 +66,7 @@ public abstract class ReportItemExecutorBase implements IReportItemExecutor {
 	/**
 	 * get resultsets of the executor
 	 */
+	@Override
 	public IBaseResultSet[] getQueryResults() {
 		return null;
 	}
@@ -67,10 +74,12 @@ public abstract class ReportItemExecutorBase implements IReportItemExecutor {
 	/**
 	 * get the content
 	 */
+	@Override
 	public IContent getContent() {
 		return null;
 	}
 
+	@Override
 	public void close() throws BirtException {
 		executorContext = null;
 		parent = null;

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -66,11 +66,11 @@ public class ExtendedPropertyEditorComposite extends Composite implements Select
 	}
 
 	private void init() {
-		propMap = new LinkedHashMap<String, ExtendedProperty>(6);
+		propMap = new LinkedHashMap<>(6);
 		for (ExtendedProperty property : extendedProperties) {
 			propMap.put(property.getName(), property);
 		}
-		propDisabledMap = new LinkedHashMap<String, Boolean>(2);
+		propDisabledMap = new LinkedHashMap<>(2);
 		for (String disabledName : ChartModelHelper.instance().getBuiltInExtendedProperties()) {
 			propDisabledMap.put(disabledName, Boolean.TRUE);
 		}
@@ -162,20 +162,22 @@ public class ExtendedPropertyEditorComposite extends Composite implements Select
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.getSource().equals(btnAdd)) {
 			String sKey = txtNewKey.getText();
@@ -209,8 +211,9 @@ public class ExtendedPropertyEditorComposite extends Composite implements Select
 			}
 		} else if (e.getSource().equals(table)) {
 			Control oldEditor = editorValue.getEditor();
-			if (oldEditor != null)
+			if (oldEditor != null) {
 				oldEditor.dispose();
+			}
 
 			// Identify the selected row
 			final TableItem item = (TableItem) e.item;
@@ -223,6 +226,7 @@ public class ExtendedPropertyEditorComposite extends Composite implements Select
 			newEditor.setText(item.getText(1));
 			newEditor.addListener(SWT.FocusOut, new Listener() {
 
+				@Override
 				public void handleEvent(Event event) {
 					Text text = (Text) event.widget;
 					editorValue.getItem().setText(1, text.getText());

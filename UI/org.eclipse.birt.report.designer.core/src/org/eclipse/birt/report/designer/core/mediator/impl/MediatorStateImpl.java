@@ -41,18 +41,22 @@ public class MediatorStateImpl implements IMediatorState, Cloneable {
 		return state;
 	}
 
+	@Override
 	public String getType() {
 		return type;
 	}
 
+	@Override
 	public Object getData() {
 		return data;
 	}
 
+	@Override
 	public Object getSource() {
 		return source;
 	}
 
+	@Override
 	public Map<?, ?> getExtras() {
 		return extras;
 	}

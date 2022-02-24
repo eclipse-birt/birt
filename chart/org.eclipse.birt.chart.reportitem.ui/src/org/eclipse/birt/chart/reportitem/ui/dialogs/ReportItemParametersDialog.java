@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +60,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 /**
  * Dialog to edit report item parameters.
- * 
+ *
  */
 public class ReportItemParametersDialog extends BaseDialog {
 
@@ -112,11 +112,12 @@ public class ReportItemParametersDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.
 	 * AbstractDescriptionPropertyPage#createContents(org.eclipse.swt.widgets.
 	 * Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.DIALOG_DATA_SET_PARAMETER);
 
@@ -163,6 +164,7 @@ public class ReportItemParametersDialog extends BaseDialog {
 
 		table.addListener(SWT.KeyDown, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				// Use space key to open expression builder to edit
 				if (event.keyCode == ' ') {
@@ -189,6 +191,7 @@ public class ReportItemParametersDialog extends BaseDialog {
 
 	}
 
+	@Override
 	protected void setShellStyle(int newShellStyle) {
 		super.setShellStyle(newShellStyle | SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
 	}
@@ -209,7 +212,7 @@ public class ReportItemParametersDialog extends BaseDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * AttributePage#refreshValues(java.util.Set)
 	 */
@@ -235,8 +238,9 @@ public class ReportItemParametersDialog extends BaseDialog {
 	 * Sets text of Value column
 	 */
 	private void updateBindingData() {
-		if (DEUtil.getDataSetList(reportItemHandle).size() == 0)
+		if (DEUtil.getDataSetList(reportItemHandle).size() == 0) {
 			return;
+		}
 		Iterator iterator = reportItemHandle.paramBindingsIterator();
 		while (iterator != null && iterator.hasNext()) {
 			ParamBindingHandle handle = (ParamBindingHandle) iterator.next();
@@ -245,15 +249,16 @@ public class ReportItemParametersDialog extends BaseDialog {
 			if (rowIndex != -1 && expression != null) {
 				table.getItem(rowIndex).setText(columnNames.length - 1, expression);
 				Item item = table.getItem(rowIndex);
-				if (item.getData(Binding) == null)
+				if (item.getData(Binding) == null) {
 					item.setData(Binding, handle);
+				}
 			}
 		}
 	}
 
 	/**
 	 * Creates a new ParamBinding Handle.
-	 * 
+	 *
 	 * @return ParamBinding Handle.
 	 * @throws SemanticException
 	 */
@@ -267,7 +272,7 @@ public class ReportItemParametersDialog extends BaseDialog {
 
 	/**
 	 * Gets the PropertyHandle of PARAM_BINDINGS_PROP property.
-	 * 
+	 *
 	 * @return PropertyHandle
 	 */
 	private PropertyHandle getPropertyHandle() {
@@ -278,21 +283,23 @@ public class ReportItemParametersDialog extends BaseDialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.
 		 * Object, int)
 		 */
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object,
 		 * int)
 		 */
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			String text = ""; //$NON-NLS-1$
 			DataSetParameterHandle parameter = (DataSetParameterHandle) ((Object[]) element)[0];
@@ -325,20 +332,22 @@ public class ReportItemParametersDialog extends BaseDialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object,
 		 * java.lang.String)
 		 */
+		@Override
 		public boolean canModify(Object element, String property) {
 			return property.equals(columnNames[2]);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ICellModifier#getValue(java.lang.Object,
 		 * java.lang.String)
 		 */
+		@Override
 		public Object getValue(Object element, String property) {
 			ParamBindingHandle bindingParameter = (ParamBindingHandle) ((Object[]) element)[1];
 			if (bindingParameter != null) {
@@ -349,10 +358,11 @@ public class ReportItemParametersDialog extends BaseDialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object,
 		 * java.lang.String, java.lang.Object)
 		 */
+		@Override
 		public void modify(Object element, String property, Object value) {
 			Object model = element;
 			if (element instanceof Item) {
@@ -376,11 +386,12 @@ public class ReportItemParametersDialog extends BaseDialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.
 		 * Object)
 		 */
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement == null) {
 				return new Object[0];
@@ -400,7 +411,7 @@ public class ReportItemParametersDialog extends BaseDialog {
 			}
 			for (Iterator iterator = dataHandle.parametersIterator(); iterator.hasNext();) {
 				DataSetParameterHandle handle = (DataSetParameterHandle) iterator.next();
-				Object[] result = new Object[] { handle, null };
+				Object[] result = { handle, null };
 				int index = bindingParametersNameList.indexOf(handle.getName());
 				if (index != -1) {
 					result[1] = bindingParametersList.get(index);
@@ -412,19 +423,21 @@ public class ReportItemParametersDialog extends BaseDialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
+		@Override
 		public void dispose() {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.
 		 * viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}
@@ -432,7 +445,7 @@ public class ReportItemParametersDialog extends BaseDialog {
 	/**
 	 * Gets dataset from ReportItemHandle at first. If null, get dataset from its
 	 * container.
-	 * 
+	 *
 	 * @return direct dataset
 	 */
 	protected DataSetHandle getDataSetFromHandle() {

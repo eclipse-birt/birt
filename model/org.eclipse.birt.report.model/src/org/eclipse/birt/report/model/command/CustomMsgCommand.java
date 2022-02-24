@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,14 +24,14 @@ import org.eclipse.birt.report.model.elements.Translation;
 
 /**
  * Provides the command to create, modify and delete custom-defined messages.
- * 
+ *
  */
 
 public class CustomMsgCommand extends AbstractElementCommand {
 
 	/**
 	 * Constructs the user-defined message command.
-	 * 
+	 *
 	 * @param module the module to change
 	 */
 
@@ -41,7 +41,7 @@ public class CustomMsgCommand extends AbstractElementCommand {
 
 	/**
 	 * Adds a translation to user-defined message.
-	 * 
+	 *
 	 * @param resourceKey resource key for the message
 	 * @param locale      the string value of a locale for the translation. Locale
 	 *                    should be in java-defined format( en, en-US, zh_CN, etc.)
@@ -55,19 +55,22 @@ public class CustomMsgCommand extends AbstractElementCommand {
 
 		// resource key required.
 
-		if (StringUtil.trimString(resourceKey) == null)
+		if (StringUtil.trimString(resourceKey) == null) {
 			throw new CustomMsgException(element, CustomMsgException.DESIGN_EXCEPTION_RESOURCE_KEY_REQUIRED);
+		}
 
 		// check well-form locale e.g: en_US, zh_CN
 
-		if (!StringUtil.isValidLocale(locale))
+		if (!StringUtil.isValidLocale(locale)) {
 			throw new CustomMsgException(element, CustomMsgException.DESIGN_EXCEPTION_INVALID_LOCALE);
+		}
 
 		// check duplicated locale for one single message.
 
-		if (module.findTranslation(resourceKey, locale) != null)
+		if (module.findTranslation(resourceKey, locale) != null) {
 			throw new CustomMsgException(element, resourceKey, locale,
 					CustomMsgException.DESIGN_EXCEPTION_DUPLICATE_LOCALE);
+		}
 
 		// Make the changes.
 
@@ -80,7 +83,7 @@ public class CustomMsgCommand extends AbstractElementCommand {
 	/**
 	 * Drops a translation from the design.
 	 * <p>
-	 * 
+	 *
 	 * @param resourceKey resourceKey for the Translation.
 	 * @param locale      locale for the translation.
 	 * @throws CustomMsgException if the resource key is not provided.
@@ -91,8 +94,9 @@ public class CustomMsgCommand extends AbstractElementCommand {
 
 		Translation translation = module.findTranslation(resourceKey, locale);
 
-		if (translation == null)
+		if (translation == null) {
 			throw new CustomMsgException(element, CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND);
+		}
 
 		// Make the changes.
 
@@ -103,7 +107,7 @@ public class CustomMsgCommand extends AbstractElementCommand {
 
 	/**
 	 * Modifies the translation with a new locale.
-	 * 
+	 *
 	 * @param translation old translation that needs to be changed.
 	 * @param newLocale   new locale of the translation.
 	 * @throws CustomMsgException   if translation is not found.
@@ -116,23 +120,27 @@ public class CustomMsgCommand extends AbstractElementCommand {
 
 		// translation should exist in the report.
 
-		if (!module.contains(translation))
+		if (!module.contains(translation)) {
 			throw new CustomMsgException(element, CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND);
+		}
 
 		String oldLocale = translation.getLocale();
-		if ((oldLocale == null && newLocale == null) || (oldLocale != null && oldLocale.equalsIgnoreCase(newLocale)))
+		if ((oldLocale == null && newLocale == null) || (oldLocale != null && oldLocale.equalsIgnoreCase(newLocale))) {
 			return;
+		}
 
 		// check well-form locale e.g: en_US, zh_CN
 
-		if (!StringUtil.isValidLocale(newLocale))
+		if (!StringUtil.isValidLocale(newLocale)) {
 			throw new CustomMsgException(element, CustomMsgException.DESIGN_EXCEPTION_INVALID_LOCALE);
+		}
 
 		// locale duplicates.
 
-		if (module.findTranslation(translation.getResourceKey(), newLocale) != null)
+		if (module.findTranslation(translation.getResourceKey(), newLocale) != null) {
 			throw new CustomMsgException(element, translation.getResourceKey(), newLocale,
 					CustomMsgException.DESIGN_EXCEPTION_DUPLICATE_LOCALE);
+		}
 
 		// Make the changes.
 
@@ -144,7 +152,7 @@ public class CustomMsgCommand extends AbstractElementCommand {
 
 	/**
 	 * Modifies the translation with a new translation text .
-	 * 
+	 *
 	 * @param translation old translation that needs to be changed.
 	 * @param newText     new translation text for the translation.
 	 * @throws CustomMsgException   if translation is not found.
@@ -157,8 +165,9 @@ public class CustomMsgCommand extends AbstractElementCommand {
 
 		// translation should exist in the report.
 
-		if (!module.contains(translation))
+		if (!module.contains(translation)) {
 			throw new CustomMsgException(element, CustomMsgException.DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND);
+		}
 
 		ActivityStack stack = getActivityStack();
 		CustomMsgRecord msgRecord = new CustomMsgRecord((ReportDesign) element, translation, newText,

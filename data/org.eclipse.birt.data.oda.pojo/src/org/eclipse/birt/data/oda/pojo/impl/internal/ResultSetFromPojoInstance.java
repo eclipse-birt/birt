@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,9 +35,9 @@ public class ResultSetFromPojoInstance {
 	private ClassLoader pojoClassLoader;
 
 	// values of the references from root object
-	private Map<ReferenceNode, Object> referenceValues = new HashMap<ReferenceNode, Object>();
+	private Map<ReferenceNode, Object> referenceValues = new HashMap<>();
 
-	private Stack<NextableRelayReferenceNode> nextableRelayReferences = new Stack<NextableRelayReferenceNode>();
+	private Stack<NextableRelayReferenceNode> nextableRelayReferences = new Stack<>();
 
 	/**
 	 * @param root: a POJO instance
@@ -64,7 +64,7 @@ public class ResultSetFromPojoInstance {
 
 	/**
 	 * Moves the cursor down one row from its current position.
-	 * 
+	 *
 	 * @return true, if next data row exists
 	 * @throws OdaException if data source error occurs
 	 */

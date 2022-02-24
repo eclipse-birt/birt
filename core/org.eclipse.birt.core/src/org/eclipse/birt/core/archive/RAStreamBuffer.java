@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -15,6 +15,7 @@ package org.eclipse.birt.core.archive;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+
 import org.eclipse.birt.core.util.IOUtil;
 
 public class RAStreamBuffer {
@@ -42,7 +43,7 @@ public class RAStreamBuffer {
 	/**
 	 * Set the buffer to a different offset in the underlying file. Read the data
 	 * already written into the file.
-	 * 
+	 *
 	 * @param offset
 	 * @throws IOException
 	 */
@@ -67,7 +68,7 @@ public class RAStreamBuffer {
 
 	/**
 	 * Write the data in the buffer to the underlying file
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void flushBuffer() throws IOException {
@@ -81,7 +82,7 @@ public class RAStreamBuffer {
 	/**
 	 * Write the data in the b[] to the interal buffer Can only write to the end of
 	 * the interal buffer
-	 * 
+	 *
 	 * @param b
 	 * @param off
 	 * @param len
@@ -89,19 +90,21 @@ public class RAStreamBuffer {
 	 */
 	public int write(byte b[], int off, int len) {
 		int availableSize = IOUtil.RA_STREAM_BUFFER_LENGTH - bufCur;
-		if (len > availableSize)
+		if (len > availableSize) {
 			len = availableSize;
+		}
 		System.arraycopy(b, off, buf, bufCur, len);
 		bufCur += len;
-		if (bufLen < bufCur)
+		if (bufLen < bufCur) {
 			bufLen = bufCur;
+		}
 		return len;
 	}
 
 	/**
 	 * Reload the data from underlying file if there are any data from the offset of
 	 * this buffer.
-	 * 
+	 *
 	 * @param b
 	 * @param off
 	 * @param len
@@ -112,8 +115,9 @@ public class RAStreamBuffer {
 		int n = 0;
 		do {
 			int count = randomFile.read(b, off + n, len - n);
-			if (count < 0)
+			if (count < 0) {
 				return n;
+			}
 			n += count;
 		} while (n < len);
 		return n;

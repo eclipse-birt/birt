@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,7 +50,7 @@ import org.eclipse.gef.tools.DragEditPartsTracker;
 
 /**
  * Edit Part corresponding to a Table object.
- * 
+ *
  */
 public class HierarchyNodeEditPart extends NodeEditPartHelper implements Listener {
 
@@ -74,9 +74,10 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements Listene
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		String name = dimension.getName() + " (" //$NON-NLS-1$
 				+ (hierarchy.getDataSet()).getName() + ")"; //$NON-NLS-1$
@@ -88,9 +89,10 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements Listene
 
 	/***************************************************************************
 	 * Returns the Children for this Edit Part. It returns a List of ColumnEditParts
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
+	@Override
 	protected List getModelChildren() {
 
 		List childList = new ArrayList();
@@ -111,8 +113,9 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements Listene
 								break;
 							}
 						}
-						if (flag)
+						if (flag) {
 							childList.add(resultSetColumn);
+						}
 					}
 				}
 			}
@@ -122,9 +125,10 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements Listene
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
+	@Override
 	protected void refreshVisuals() {
 		Rectangle r;
 		if (!UIHelper.existIntProperty(((ReportElementHandle) getModel()).getRoot(), UIHelper.getId(getModel(), cube),
@@ -139,15 +143,17 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements Listene
 						.toArray(new DimensionHandle[0]);
 				for (int i = 0; i < dimensions.length; i++) {
 					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy();
-					if (hierarchy != null && hierarchy.getDataSet() != null)
+					if (hierarchy != null && hierarchy.getDataSet() != null) {
 						childList.add(hierarchy);
+					}
 				}
 			}
 
 			List polygonList = new ArrayList();
 			for (int i = 0; i < childList.size(); i++) {
-				if (existPosX(childList.get(i)))
+				if (existPosX(childList.get(i))) {
 					polygonList.add(getPolygon(childList.get(i)));
+				}
 			}
 
 			int width = getWidth(getModel());
@@ -161,14 +167,9 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements Listene
 				for (int j = 0; j < polygonList.size(); j++) {
 					contain = true;
 					Polygon polygon = (Polygon) polygonList.get(j);
-					if (polygon.containsPoint(x, y))
+					if (polygon.containsPoint(x, y) || polygon.containsPoint(x + width, y) || polygon.containsPoint(x + width, y + height) || polygon.containsPoint(x, y + height)) {
 						break;
-					if (polygon.containsPoint(x + width, y))
-						break;
-					if (polygon.containsPoint(x + width, y + height))
-						break;
-					if (polygon.containsPoint(x, y + height))
-						break;
+					}
 					contain = false;
 				}
 				if (!contain) {
@@ -177,13 +178,15 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements Listene
 			}
 			polygonList.clear();
 			childList.clear();
-			if (!contain)
+			if (!contain) {
 				r = new Rectangle(setPosX(x), setPosY(y), width, height);
-			else
+			} else {
 				r = new Rectangle(getPosX(getModel()), getPosY(getModel()), getWidth(getModel()),
 						getHeight(getModel()));
-		} else
+			}
+		} else {
 			r = new Rectangle(getPosX(getModel()), getPosY(getModel()), getWidth(getModel()), getHeight(getModel()));
+		}
 		getFigure().setBounds(r);
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), r);
 
@@ -253,19 +256,21 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements Listene
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
+	@Override
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new TableSelectionEditPolicy());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.editors.graphical.editparts.
 	 * NodeEditPartHelper#getChopFigure()
 	 */
+	@Override
 	public IFigure getChopFigure() {
 		// TODO Auto-generated method stub
 		return null;
@@ -273,29 +278,34 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements Listene
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
 	 */
+	@Override
 	public IFigure getContentPane() {
 		return tableNode;
 	}
 
+	@Override
 	public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 		if (isActive() && !isDelete()) {
 			refresh();
 		}
 	}
 
+	@Override
 	public void deactivate() {
 		super.deactivate();
 		cube.getRoot().removeListener(this);
 	}
 
+	@Override
 	public void activate() {
 		super.activate();
 		cube.getRoot().addListener(this);
 	}
 
+	@Override
 	public DragTracker getDragTracker(Request req) {
 		DragEditPartsTracker track = new DragEditPartsTracker(this);
 		return track;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -38,7 +38,7 @@ public class HTMLLayoutPageHintManager {
 	/**
 	 * content instanceID to size based content mapping.
 	 */
-	protected HashMap<String, SizeBasedContent> sizeBasedContentMapping = new HashMap<String, SizeBasedContent>();
+	protected HashMap<String, SizeBasedContent> sizeBasedContentMapping = new HashMap<>();
 
 	protected ArrayList pageHints = new ArrayList();
 
@@ -51,14 +51,13 @@ public class HTMLLayoutPageHintManager {
 	}
 
 	public ArrayList getPageHint() {
-		ArrayList hints = new ArrayList();
-		hints.addAll(pageHints);
+		ArrayList hints = new ArrayList(pageHints);
 		return hints;
 	}
 
 	public void reset() {
 		layoutHint = new HashMap();
-		sizeBasedContentMapping = new HashMap<String, SizeBasedContent>();
+		sizeBasedContentMapping = new HashMap<>();
 		context.setFinish(false);
 		context.setAllowPageBreak(true);
 		context.setMasterPage(null);
@@ -74,7 +73,7 @@ public class HTMLLayoutPageHintManager {
 
 	public boolean getLayoutHint(IContent content) {
 		Object finished = layoutHint.get(content);
-		if (finished != null && finished instanceof Boolean) {
+		if (finished instanceof Boolean) {
 			return ((Boolean) finished).booleanValue();
 		}
 		return true;
@@ -85,12 +84,12 @@ public class HTMLLayoutPageHintManager {
 	}
 
 	// page hints for last parallel pages.
-	protected HashMap<String, UnresolvedRowHint> currentHints = new HashMap<String, UnresolvedRowHint>();
+	protected HashMap<String, UnresolvedRowHint> currentHints = new HashMap<>();
 	// page hints for current parallel pages.
-	protected HashMap<String, UnresolvedRowHint> hints = new HashMap<String, UnresolvedRowHint>();
+	protected HashMap<String, UnresolvedRowHint> hints = new HashMap<>();
 	// page hint for last single page, which should be flush to document
 	// immediately.
-	protected HashMap<String, UnresolvedRowHint> pageRowHint = new HashMap<String, UnresolvedRowHint>();
+	protected HashMap<String, UnresolvedRowHint> pageRowHint = new HashMap<>();
 
 	public void generatePageRowHints(Collection<String> keys) {
 		pageRowHint.clear();
@@ -195,7 +194,7 @@ public class HTMLLayoutPageHintManager {
 		String key = tableId;
 		List hints = getTableColumnHint(key);
 		Iterator iter = hints.iterator();
-		StringBuffer keyBuf = new StringBuffer(key);
+		StringBuilder keyBuf = new StringBuilder(key);
 		while (iter.hasNext()) {
 			int[] vs = (int[]) iter.next();
 			keyBuf.append('-');

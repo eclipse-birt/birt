@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -27,14 +27,14 @@ import org.eclipse.emf.common.util.EList;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Marker
  * Range</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <!-- begin-model-doc -->
- * 
+ *
  * This type defines a marker area. It is intended for use as a range marker
  * associated with an Axis.
- * 
+ *
  * <!-- end-model-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
@@ -52,7 +52,7 @@ import org.eclipse.emf.common.util.EList;
  * <em>Label Position</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange()
  * @model
  * @generated
@@ -62,11 +62,11 @@ public interface MarkerRange extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Outline</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specify the outline properties for the marker range.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Outline</em>' containment reference.
 	 * @see #setOutline(LineAttributes)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange_Outline()
@@ -80,7 +80,7 @@ public interface MarkerRange extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerRange#getOutline
 	 * <em>Outline</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Outline</em>' containment reference.
 	 * @see #getOutline()
 	 * @generated
@@ -90,11 +90,11 @@ public interface MarkerRange extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Fill</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specify the background for the marker range.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Fill</em>' containment reference.
 	 * @see #setFill(Fill)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange_Fill()
@@ -108,7 +108,7 @@ public interface MarkerRange extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerRange#getFill
 	 * <em>Fill</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Fill</em>' containment reference.
 	 * @see #getFill()
 	 * @generated
@@ -118,11 +118,11 @@ public interface MarkerRange extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Start Value</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Defines where this area starts relative to the axis scale.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Start Value</em>' containment reference.
 	 * @see #setStartValue(DataElement)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange_StartValue()
@@ -136,7 +136,7 @@ public interface MarkerRange extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerRange#getStartValue
 	 * <em>Start Value</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Start Value</em>' containment
 	 *              reference.
 	 * @see #getStartValue()
@@ -147,11 +147,11 @@ public interface MarkerRange extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>End Value</b></em>' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Defines where this area is ends relative to the axis scale.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>End Value</em>' containment reference.
 	 * @see #setEndValue(DataElement)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange_EndValue()
@@ -165,7 +165,7 @@ public interface MarkerRange extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerRange#getEndValue
 	 * <em>End Value</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>End Value</em>' containment reference.
 	 * @see #getEndValue()
 	 * @generated
@@ -175,11 +175,11 @@ public interface MarkerRange extends IChartObject {
 	/**
 	 * Returns the value of the '<em><b>Label</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies the label associated with this area.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Label</em>' containment reference.
 	 * @see #setLabel(Label)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange_Label()
@@ -193,7 +193,7 @@ public interface MarkerRange extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerRange#getLabel
 	 * <em>Label</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Label</em>' containment reference.
 	 * @see #getLabel()
 	 * @generated
@@ -205,12 +205,12 @@ public interface MarkerRange extends IChartObject {
 	 * default value is <code>"North"</code>. The literals are from the enumeration
 	 * {@link org.eclipse.birt.chart.model.attribute.Anchor}. <!-- begin-user-doc
 	 * --> <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Specifies where the label associated with this line is to be positioned
 	 * within respect to the marker range itself.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Label Anchor</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Anchor
 	 * @see #isSetLabelAnchor()
@@ -227,7 +227,7 @@ public interface MarkerRange extends IChartObject {
 	 * {@link org.eclipse.birt.chart.model.component.MarkerRange#getLabelAnchor
 	 * <em>Label Anchor</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Label Anchor</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Anchor
 	 * @see #isSetLabelAnchor()
@@ -242,7 +242,7 @@ public interface MarkerRange extends IChartObject {
 	 * {@link org.eclipse.birt.chart.model.component.MarkerRange#getLabelAnchor
 	 * <em>Label Anchor</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
 	 * -->
-	 * 
+	 *
 	 * @see #isSetLabelAnchor()
 	 * @see #getLabelAnchor()
 	 * @see #setLabelAnchor(Anchor)
@@ -255,7 +255,7 @@ public interface MarkerRange extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerRange#getLabelAnchor
 	 * <em>Label Anchor</em>}' attribute is set. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @return whether the value of the '<em>Label Anchor</em>' attribute is set.
 	 * @see #unsetLabelAnchor()
 	 * @see #getLabelAnchor()
@@ -268,11 +268,11 @@ public interface MarkerRange extends IChartObject {
 	 * Returns the value of the '<em><b>Format Specifier</b></em>' containment
 	 * reference. <!-- begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc
 	 * -->
-	 * 
+	 *
 	 * Specifies the formatting for marker range labels.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Format Specifier</em>' containment reference.
 	 * @see #setFormatSpecifier(FormatSpecifier)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange_FormatSpecifier()
@@ -286,7 +286,7 @@ public interface MarkerRange extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerRange#getFormatSpecifier
 	 * <em>Format Specifier</em>}' containment reference. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Format Specifier</em>' containment
 	 *              reference.
 	 * @see #getFormatSpecifier()
@@ -299,11 +299,11 @@ public interface MarkerRange extends IChartObject {
 	 * list. The list contents are of type
 	 * {@link org.eclipse.birt.chart.model.data.Trigger}. <!-- begin-user-doc -->
 	 * <!-- end-user-doc --> <!-- begin-model-doc -->
-	 * 
+	 *
 	 * Holds the triggers for the marker range.
-	 * 
+	 *
 	 * <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Triggers</em>' containment reference list.
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange_Triggers()
 	 * @model containment="true" extendedMetaData="kind='element' name='Triggers'"
@@ -315,7 +315,7 @@ public interface MarkerRange extends IChartObject {
 	 * Returns the value of the '<em><b>Cursor</b></em>' containment reference. <!--
 	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> The element
 	 * represents a cursor for marker range. <!-- end-model-doc -->
-	 * 
+	 *
 	 * @return the value of the '<em>Cursor</em>' containment reference.
 	 * @see #setCursor(Cursor)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getMarkerRange_Cursor()
@@ -329,7 +329,7 @@ public interface MarkerRange extends IChartObject {
 	 * '{@link org.eclipse.birt.chart.model.component.MarkerRange#getCursor
 	 * <em>Cursor</em>}' containment reference. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
+	 *
 	 * @param value the new value of the '<em>Cursor</em>' containment reference.
 	 * @see #getCursor()
 	 * @generated
@@ -339,6 +339,7 @@ public interface MarkerRange extends IChartObject {
 	/**
 	 * @generated
 	 */
+	@Override
 	MarkerRange copyInstance();
 
 } // MarkerRange

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,9 +54,9 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * <p>
  * To understand this class, it helps to understand some concepts behind the
  * design of the model.
- * 
+ *
  * <h3>Meta-data vs. Elements</h3>
- * 
+ *
  * A design is made up of <em>elements</em>. BIRT defines a fixed-set of
  * <em>element types</em> such as List or Data or Image. The user defines the
  * elements in the report. However, element types are defined by the development
@@ -76,9 +76,9 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * property sheet can use the meta-data to determine the set of properties for
  * an element, the display names of each property, the data type, and any
  * special UI builders required.
- * 
+ *
  * <h3>Properties and Property Types</h3>
- * 
+ *
  * Most elements define properties. A property is simply something that the user
  * can set about the element such as its name, or size, or color. Property
  * information appears in three forms, which are easy to confuse.
@@ -88,14 +88,14 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * same type. For example, foreground color and background color are both
  * properties of type color. Property types are defined by the implementation
  * team and are defined in the data dictionary.</dd>
- * 
+ *
  * <dt><strong>Property </strong></dt>
  * <dd>A property is the definition of an attribute of an element, and consists
  * of a name and a property type. Properties are of several kinds as described
  * below. The property is also a definition: all elements share the same set of
  * property definitions. The element definition (ElementDefn) defines the set of
  * properties available on that element.</dd>
- * 
+ *
  * <dt><strong>Property value </strong></dt>
  * <dd>A property value is the actual value that the user sets for a property. A
  * property value is associated with a element, and is stored in the
@@ -105,9 +105,9 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * to inherit the property value from the parent element (if any). Properties in
  * BIRT work much like properties in JavaScript objects.</dd>
  * </dl>
- * 
+ *
  * <h3>System and User Properties</h3>
- * 
+ *
  * BIRT defines a wide range of element types, each with a wide range of
  * properties. Properties defined by BIRT itself are called <em>system
  * properties</em>. They are defined as part of the element type definition in
@@ -125,9 +125,9 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * implemented by the {@link ElementPropertyDefn}class. The few differences are
  * represented by the {@link SystemPropertyDefn}and
  * {@link org.eclipse.birt.report.model.api.core.UserPropertyDefn}classes.
- * 
+ *
  * <h3>Element Inheritance</h3>
- * 
+ *
  * Elements inherit from one another. There are two subtly different forms of
  * inheritance used in the system. First, the definition of element types uses
  * inheritance to simplify the description of the set of element types. For
@@ -171,9 +171,9 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * also are inherited with user inheritance. that is, if Label A defines a new
  * "Blink Rate" property, then label B (which extends label A) also has this
  * property.
- * 
+ *
  * <h3>Styles</h3>
- * 
+ *
  * BIRT includes the idea of styles. A style is simply a set of visual
  * information defined once in a design but used by many elements. At the core
  * level that we are discussing here, styles introduce a couple of interesting
@@ -213,9 +213,9 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * irrelevant properties. Therefore, the meta-data file identifies the style
  * properties that are relevant to any given styled component. Only these are
  * copied from the style into the element type.
- * 
+ *
  * <h3>Containment</h3>
- * 
+ *
  * <em>Container</em> elements contain <em>content</em> elements. Some
  * containers store just one set of contents, others store multiple sets. Each
  * set of contents is called a <em>slot</em>. Each slot has a cardinality (one
@@ -224,9 +224,9 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * <p>
  * Slots are indexed using a slot ID. The ID is a zero-based index, allowing the
  * caller to easily iterate over the slots.
- * 
+ *
  * <h3>Names and Name Spaces</h3>
- * 
+ *
  * Elements can have a name. Some elements require a name, for some the name is
  * optional.
  * <p>
@@ -234,9 +234,9 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * spaces reside on the root element. Name spaces include elements, styles, data
  * sources, data sets and so on. Each element type identifies its name space
  * using a name space ID.
- * 
+ *
  * <h3>Method</h3>
- * 
+ *
  * Elements can have methods that defines the script. All methods are defined in
  * metadata. The element can inherit the methods defined in parent. Property
  * mask can change the method visibility.
@@ -390,7 +390,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	 * added/removed. Otherwise, cachedProperties can be un-synchronized.
 	 */
 
-	protected Map<String, IElementPropertyDefn> cachedProperties = new LinkedHashMap<String, IElementPropertyDefn>();
+	protected Map<String, IElementPropertyDefn> cachedProperties = new LinkedHashMap<>();
 
 	/**
 	 * Justifies whether this element definition is container or not. True if this
@@ -399,7 +399,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	protected boolean isContainer = false;
 
 	/**
-	 * 
+	 *
 	 */
 	protected List<IElementPropertyDefn> cachedContainerProperties = null;
 
@@ -416,7 +416,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Sets the Java class which implements this element.
-	 * 
+	 *
 	 * @param theClass the Java class to set
 	 */
 
@@ -427,7 +427,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Sets the name of the style which "selects" this element.
-	 * 
+	 *
 	 * @param value The predefined style name.
 	 */
 
@@ -437,7 +437,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Sets the "extends" attribute.
-	 * 
+	 *
 	 * @param base The name of the element type which this element extends.
 	 */
 
@@ -448,7 +448,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Sets the "supports user properties" attribute.
-	 * 
+	 *
 	 * @param flag True if the element allows user-defined properties, false
 	 *             otherwise.
 	 */
@@ -461,7 +461,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	/**
 	 * Gets the name of the parent element, if any. The parent element is the one
 	 * that this element extends.
-	 * 
+	 *
 	 * @return The name of the base element, if any.
 	 */
 
@@ -471,7 +471,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Gets the java class of this element.
-	 * 
+	 *
 	 * @return The java class of this element.
 	 */
 
@@ -481,17 +481,18 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Indicates if this element has a style.
-	 * 
+	 *
 	 * @return Returns whether the element has a style.
 	 */
 
+	@Override
 	public boolean hasStyle() {
 		return hasStyle;
 	}
 
 	/**
 	 * Sets whether the element has style properties.
-	 * 
+	 *
 	 * @param flag True if this element supports style properties, false if not.
 	 */
 
@@ -502,32 +503,35 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Returns properties definitions as a list.
-	 * 
+	 *
 	 * @return list of locally-defined properties.
 	 */
 
+	@Override
 	public List<IElementPropertyDefn> getLocalProperties() {
-		return new ArrayList<IElementPropertyDefn>((Collection<? extends IElementPropertyDefn>) properties.values());
+		return new ArrayList<>((Collection<? extends IElementPropertyDefn>) properties.values());
 	}
 
 	/**
 	 * Returns the properties defined on this element.
-	 * 
+	 *
 	 * @return list of properties defined in this element and and all its parent
 	 *         elements.
 	 */
 
+	@Override
 	public List<IElementPropertyDefn> getProperties() {
-		return new ArrayList<IElementPropertyDefn>(cachedProperties.values());
+		return new ArrayList<>(cachedProperties.values());
 	}
 
 	/**
 	 * Gets a property definition given a property name.
-	 * 
+	 *
 	 * @param propName The name of the property to get.
 	 * @return The property with that name, or null if the property cannot be found.
 	 */
 
+	@Override
 	public IElementPropertyDefn getProperty(String propName) {
 		assert propName != null;
 
@@ -536,10 +540,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.metadata.IElementDefn#getContainers()
 	 */
 
+	@Override
 	public List<IElementPropertyDefn> getContents() {
 		return cachedContainerProperties;
 	}
@@ -549,25 +554,28 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	 */
 
 	protected final void buildContainerProperties() {
-		cachedContainerProperties = new ArrayList<IElementPropertyDefn>();
+		cachedContainerProperties = new ArrayList<>();
 		Iterator<IElementPropertyDefn> iter = cachedProperties.values().iterator();
 		while (iter.hasNext()) {
 			IElementPropertyDefn defn = iter.next();
-			if (defn.getTypeCode() == IPropertyType.ELEMENT_TYPE)
+			if (defn.getTypeCode() == IPropertyType.ELEMENT_TYPE) {
 				cachedContainerProperties.add(defn);
+			}
 		}
 
-		if (cachedContainerProperties.isEmpty())
+		if (cachedContainerProperties.isEmpty()) {
 			cachedContainerProperties = Collections.emptyList();
+		}
 	}
 
 	/**
 	 * Returns the method definition list of this element definition and parent
 	 * definition. Each one is the instance of <code>PropertyDefn</code>.
-	 * 
+	 *
 	 * @return the method definition list.
 	 */
 
+	@Override
 	public List<IElementPropertyDefn> getMethods() {
 		return getPropertyListWithType(getProperties(), IPropertyType.SCRIPT_TYPE);
 	}
@@ -575,10 +583,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	/**
 	 * Returns the method definition list of this element definition. Each one is
 	 * the instance of <code>PropertyDefn</code>.
-	 * 
+	 *
 	 * @return the method definition list.
 	 */
 
+	@Override
 	public List<IElementPropertyDefn> getLocalMethods() {
 		return getPropertyListWithType(getLocalProperties(), IPropertyType.SCRIPT_TYPE);
 	}
@@ -586,10 +595,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	/**
 	 * Returns the expression property definition list of this element definition
 	 * and parent definition. Each one is the instance of <code>PropertyDefn</code>.
-	 * 
+	 *
 	 * @return the expression property definition list.
 	 */
 
+	@Override
 	public List<IElementPropertyDefn> getExpressions() {
 		return getPropertyListWithType(getProperties(), IPropertyType.EXPRESSION_TYPE);
 	}
@@ -597,10 +607,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	/**
 	 * Returns the expression property definition list of this element definition.
 	 * Each one is the instance of <code>PropertyDefn</code>.
-	 * 
+	 *
 	 * @return the expression property definition list.
 	 */
 
+	@Override
 	public List<IElementPropertyDefn> getLocalExpressions() {
 		return getPropertyListWithType(getLocalProperties(), IPropertyType.EXPRESSION_TYPE);
 	}
@@ -608,7 +619,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	/**
 	 * Returns the property definition list each of which is defined in given
 	 * property definition list with the given type.
-	 * 
+	 *
 	 * @param propList the property definition to search
 	 * @param type     property type code, It's the constant defined in
 	 *                 <code>PropertyType</code>.
@@ -616,7 +627,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	 */
 
 	private List<IElementPropertyDefn> getPropertyListWithType(List<IElementPropertyDefn> propList, int type) {
-		List<IElementPropertyDefn> props = new ArrayList<IElementPropertyDefn>();
+		List<IElementPropertyDefn> props = new ArrayList<>();
 
 		Iterator<IElementPropertyDefn> iter = propList.iterator();
 		while (iter.hasNext()) {
@@ -632,14 +643,15 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Caches meta-data for this element. Resolves the parent name and so on.
-	 * 
+	 *
 	 * @throws MetaDataException if any build process failed.
-	 * 
+	 *
 	 */
 
 	protected void build() throws MetaDataException {
-		if (isBuilt)
+		if (isBuilt) {
 			return;
+		}
 
 		buildDefn();
 
@@ -666,10 +678,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.ObjectDefn#buildDefn()
 	 */
 
+	@Override
 	protected void buildDefn() throws MetaDataException {
 		// Handle parent-specific tasks.
 
@@ -677,9 +690,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 		if (extendsFrom != null) {
 			parent = (ElementDefn) dd.getElement(extendsFrom);
-			if (parent == null)
+			if (parent == null) {
 				throw new MetaDataException(new String[] { extendsFrom, name },
 						MetaDataException.DESIGN_EXCEPTION_ELEMENT_PARENT_NOT_FOUND);
+			}
 			parent.build();
 
 			// Cascade the setting of whether this element has a style.
@@ -687,8 +701,9 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 			// have that style whether the meta data file explicitly indicated
 			// this or not.
 
-			if (parent.hasStyle() && !isExtendedElement())
+			if (parent.hasStyle() && !isExtendedElement()) {
 				hasStyle = true;
+			}
 		}
 
 		// If this element has added a style, then add the intrinsic
@@ -708,19 +723,22 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 		// This element cannot forbid user-defined properties if
 		// its parent supports them.
 
-		if (parent != null && parent.allowsUserProperties())
+		if (parent != null && parent.allowsUserProperties()) {
 			supportsUserProperties = true;
+		}
 
 		// if parent is a container, this will be container too
-		if (parent != null && parent.isContainer)
+		if (parent != null && parent.isContainer) {
 			isContainer = true;
+		}
 
 		// If this element is abstract and has a parent, then the parent
 		// must also be abstract.
 
-		if (isAbstract() && parent != null && !parent.isAbstract())
+		if (isAbstract() && parent != null && !parent.isAbstract()) {
 			throw new MetaDataException(new String[] { name, parent.getName() },
 					MetaDataException.DESIGN_EXCEPTION_ILLEGAL_ABSTRACT_ELEMENT);
+		}
 
 		// do the build for the name config
 		buildNameConfig();
@@ -730,37 +748,37 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 		// items without a name because there is no way to reference such
 		// elements.
 
-		if (nameConfig.nameOption == MetaDataConstants.NO_NAME || isAbstract())
+		if (nameConfig.nameOption == MetaDataConstants.NO_NAME || isAbstract()) {
 			allowExtend = false;
+		}
 	}
 
 	/**
 	 * Builds the name config for this element.
-	 * 
+	 *
 	 * @throws MetaDataException
 	 */
 	private void buildNameConfig() throws MetaDataException {
 
 		if (nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE) {
 			// this element has its own name space set
-			if (nameConfig.holder == null)
+			if (nameConfig.holder == null) {
 				nameConfig.holder = MetaDataDictionary.getInstance().getElement(ReportDesignConstants.MODULE_ELEMENT);
+			}
 			if (nameConfig.targetPropertyName != null) {
 				nameConfig.targetProperty = (ElementPropertyDefn) MetaDataDictionary.getInstance()
 						.getElement(ReportDesignConstants.REPORT_DESIGN_ELEMENT)
 						.getProperty(nameConfig.targetPropertyName);
-				if (nameConfig.targetProperty == null)
+				if (nameConfig.targetProperty == null) {
 					throw new MetaDataException(MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_SPACE);
+				}
 			}
-		} else {
-			if (parent != null) {
-				// inherited from it's parent
-				nameConfig.nameSpaceID = parent.getNameSpaceID();
-				nameConfig.holder = parent.nameConfig.holder;
-				nameConfig.targetProperty = parent.nameConfig.targetProperty;
-			}
+		} else if (parent != null) {
+			// inherited from it's parent
+			nameConfig.nameSpaceID = parent.getNameSpaceID();
+			nameConfig.holder = parent.nameConfig.holder;
+			nameConfig.targetProperty = parent.nameConfig.targetProperty;
 		}
-		// Validate that the name and name space options are consistent.
 
 		if (!isAbstract()) {
 			// if namespaceId is null does't mean it sholdn't have name. it may be defined
@@ -773,9 +791,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 //						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
 
 			// if name space is set, then holder must be not null
-			if (nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE && nameConfig.holder == null)
+			if (nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE && nameConfig.holder == null) {
 				throw new MetaDataException(new String[] { name },
 						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION);
+			}
 
 		}
 
@@ -794,7 +813,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Builds the style properties in this element.
-	 * 
+	 *
 	 * @throws MetaDataException
 	 */
 
@@ -813,13 +832,9 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 					properties.put(propName, styles.get(i));
 				}
 			}
-		} else {
-			// The meta-data file should not define style property names
-			// for a class without a style.
-
-			if (!hasStyle && stylePropertyNames != null || hasStyle && isContainer() && stylePropertyNames != null)
-				throw new MetaDataException(new String[] { this.name },
-						MetaDataException.DESIGN_EXCEPTION_ILLEGAL_STYLE_PROPS);
+		} else if (!hasStyle && stylePropertyNames != null || hasStyle && isContainer() && stylePropertyNames != null) {
+			throw new MetaDataException(new String[] { this.name },
+					MetaDataException.DESIGN_EXCEPTION_ILLEGAL_STYLE_PROPS);
 		}
 
 	}
@@ -866,14 +881,15 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	 * Merges the trigger definition set with the given one. The duplicate trigger
 	 * and the trigger whose target is not this element definition will not be
 	 * merged.
-	 * 
+	 *
 	 * @param toMerge the trigger definition set to merge
 	 */
 
 	private void mergeTriggerDefnSet(SemanticTriggerDefnSet toMerge) {
 		List<SemanticTriggerDefn> triggerDefns = toMerge.getTriggerList();
-		if (triggerDefns == null || triggerDefns.isEmpty())
+		if (triggerDefns == null || triggerDefns.isEmpty()) {
 			return;
+		}
 
 		Iterator<SemanticTriggerDefn> iter = triggerDefns.iterator();
 		while (iter.hasNext()) {
@@ -896,20 +912,21 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	/**
 	 * Checks the xml name for this element. Check the xml name is not empty and
 	 * unique.
-	 * 
+	 *
 	 * @throws MetaDataException if the xml name of this element is not defined or
 	 *                           not unique
 	 */
 
 	private void checkXmlName() throws MetaDataException {
-		if (StringUtil.isBlank(xmlName))
+		if (StringUtil.isBlank(xmlName)) {
 			throw new MetaDataException(new String[] { name }, MetaDataException.DESIGN_EXCEPTION_MISSING_XML_NAME);
+		}
 	}
 
 	/**
 	 * Check whether the java class specify a correct class which is defined for
 	 * this element definition.
-	 * 
+	 *
 	 * @throws MetaDataException if there is loading error or instantiating error.
 	 */
 
@@ -923,15 +940,17 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 			Class<? extends Object> clazz = c;
 			while (clazz.getSuperclass() != null) {
-				if (clazz == DesignElement.class)
+				if (clazz == DesignElement.class) {
 					break;
+				}
 
 				clazz = clazz.getSuperclass();
 			}
-			if (clazz != DesignElement.class)
+			if (clazz != DesignElement.class) {
 				// if ( !( c.newInstance( ) instance of DesignElement ) )
 				throw new MetaDataException(new String[] { javaClass },
 						MetaDataException.DESIGN_EXCEPTION_INVALID_ELEMENT_JAVA_CLASS);
+			}
 		} catch (ClassNotFoundException e) {
 			// can not load the class specified by javaclass name.
 
@@ -956,7 +975,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Builds cached meta-data for properties defined on this element.
-	 * 
+	 *
 	 * @throws MetaDataException if any exception occurs during build.
 	 */
 
@@ -984,11 +1003,13 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 			// OdaResultSetColumn rather than ResultSetColumn
 			ElementPropertyDefn resultSetHints = (ElementPropertyDefn) cachedProperties
 					.get(OdaDataSet.RESULT_SET_HINTS_PROP);
-			if (resultSetHints == null)
+			if (resultSetHints == null) {
 				return;
+			}
 			ElementPropertyDefn clonedDefn = (ElementPropertyDefn) reflectClass(resultSetHints);
-			if (clonedDefn == null)
+			if (clonedDefn == null) {
 				return;
+			}
 
 			clonedDefn.details = MetaDataDictionary.getInstance().getStructure(OdaResultSetColumn.STRUCTURE_NAME);
 			clonedDefn.definedBy = this;
@@ -998,11 +1019,13 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 			// OdaDataSetParam
 			// rather than DataSetParam
 			ElementPropertyDefn params = (ElementPropertyDefn) cachedProperties.get(OdaDataSet.PARAMETERS_PROP);
-			if (params == null)
+			if (params == null) {
 				return;
+			}
 			clonedDefn = (ElementPropertyDefn) reflectClass(params);
-			if (clonedDefn == null)
+			if (clonedDefn == null) {
 				return;
+			}
 
 			clonedDefn.details = MetaDataDictionary.getInstance().getStructure(OdaDataSetParameter.STRUCT_NAME);
 			clonedDefn.definedBy = this;
@@ -1012,7 +1035,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Reflects to clone new instance of property definition.
-	 * 
+	 *
 	 * @param defn property definition
 	 * @return shadow cloned property definition.
 	 */
@@ -1029,19 +1052,14 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 			Class<? extends Object> clonedClass = retDefn.getClass();
 
 			shadowCopyProperties(defn, retDefn, ownerClass, clonedClass);
-		} catch (InstantiationException e) {
-			logger.log(Level.WARNING, e.getMessage());
-			MetaLogManager.log("Overrides property error", e); //$NON-NLS-1$
-		} catch (IllegalAccessException e) {
-			logger.log(Level.WARNING, e.getMessage());
-			MetaLogManager.log("Overrides property error", e); //$NON-NLS-1$
-		} catch (ClassNotFoundException e) {
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			logger.log(Level.WARNING, e.getMessage());
 			MetaLogManager.log("Overrides property error", e); //$NON-NLS-1$
 		}
 
-		if (retDefn == null)
+		if (retDefn == null) {
 			return null;
+		}
 
 		shadowCopyProperties(defn, retDefn, defn.getClass(), ExtensionPropertyDefn.class);
 
@@ -1050,7 +1068,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Shadow copy all properties to cloned property definition instance.
-	 * 
+	 *
 	 * @param defn        property definition
 	 * @param clonedDefn  cloned property definition
 	 * @param ownerClass  property definition class
@@ -1059,33 +1077,22 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	private void shadowCopyProperties(PropertyDefn defn, PropertyDefn clonedDefn, Class<? extends Object> ownerClass,
 			Class<? extends Object> clonedClass) {
-		if (ownerClass == null || clonedClass == null)
+		if (ownerClass == null || clonedClass == null) {
 			return;
+		}
 
 		Field[] fields = ownerClass.getDeclaredFields();
 		for (int i = 0; i < fields.length; ++i) {
 			Field field = fields[i];
-			if ((field.getModifiers() & Modifier.STATIC) != 0)
+			if ((field.getModifiers() & Modifier.STATIC) != 0) {
 				continue;
+			}
 
 			try {
 				Object property = field.get(defn);
 				Field clonedField = ownerClass.getDeclaredField(field.getName());
 				clonedField.set(clonedDefn, property);
-			} catch (IllegalArgumentException e) {
-				logger.log(Level.WARNING, e.getMessage());
-				MetaLogManager.log("Overrides property error", e); //$NON-NLS-1$
-
-				continue;
-			} catch (IllegalAccessException e) {
-				logger.log(Level.WARNING, e.getMessage());
-				MetaLogManager.log("Overrides property error", e); //$NON-NLS-1$
-				continue;
-			} catch (SecurityException e) {
-				logger.log(Level.WARNING, e.getMessage());
-				MetaLogManager.log("Overrides property error", e); //$NON-NLS-1$
-				continue;
-			} catch (NoSuchFieldException e) {
+			} catch (IllegalArgumentException | IllegalAccessException | SecurityException | NoSuchFieldException e) {
 				logger.log(Level.WARNING, e.getMessage());
 				MetaLogManager.log("Overrides property error", e); //$NON-NLS-1$
 				continue;
@@ -1096,7 +1103,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Builds cached meta-data for properties defined on this element.
-	 * 
+	 *
 	 * @throws MetaDataException if any exception occurs during build.
 	 */
 
@@ -1111,9 +1118,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 			// why we have to do this method BEFORE we add implicit
 			// style properties.)
 
-			if (prop.isStyleProperty() && !isStyle)
+			if (prop.isStyleProperty() && !isStyle) {
 				throw new MetaDataException(new String[] { name, prop.getName() },
 						MetaDataException.DESIGN_EXCEPTION_INVALID_STYLE_PROP_OPTION);
+			}
 
 			// Build the property.
 
@@ -1177,13 +1185,14 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	 * Containers are handled differently. Since the style system emulates CSS,
 	 * containers can set all style property values, and the values cascade to the
 	 * contents of the element.
-	 * 
+	 *
 	 * @throws MetaDataException if exception occurs when add style properties.
 	 */
 
 	private void addStyleProperties() throws MetaDataException {
-		if (!hasStyle())
+		if (!hasStyle()) {
 			return;
+		}
 
 		if (isContainer()) {
 			// Add all style properties if this element is container and can
@@ -1198,22 +1207,23 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 				if (ReportDesignConstants.ROW_ELEMENT.equals(this.getName())
 						&& IStyleModel.WIDTH_PROP.equalsIgnoreCase(prop.getName())) {
 					// do nothing
-					;
+
 				}
 				// if current element is Column(ReportDesignConstants.COLUMN_ELEMENT), the
 				// height property is not allowed
 				else if (ReportDesignConstants.COLUMN_ELEMENT.equals(this.getName())
 						&& IStyleModel.HEIGHT_PROP.equalsIgnoreCase(prop.getName())) {
 					// do nothing
-					;
+
 				} else {
 					properties.put(prop.getName(), prop);
 				}
 
 			}
 		} else {
-			if (stylePropertyNames == null)
+			if (stylePropertyNames == null) {
 				return;
+			}
 
 			ElementDefn style = (ElementDefn) MetaDataDictionary.getInstance().getStyle();
 
@@ -1225,8 +1235,9 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 				// Ignore properties already defined.
 
-				if (cachedProperties.get(propName) != null)
+				if (cachedProperties.get(propName) != null) {
 					continue;
+				}
 
 				SystemPropertyDefn prop = (SystemPropertyDefn) style.cachedProperties.get(propName);
 
@@ -1237,9 +1248,10 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 				// or is defined, but is not one meant to be associated with an
 				// element.
 
-				if (prop == null)
+				if (prop == null) {
 					throw new MetaDataException(new String[] { propName, name },
 							MetaDataException.DESIGN_EXCEPTION_STYLE_PROP_NOT_FOUND);
+				}
 				assert prop.isStyleProperty();
 
 				// Copy a reference to the style property into the property
@@ -1257,14 +1269,16 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	protected void buildPropertiesVisibility() {
 
 		if (parent != null && parent.cachedPropVisibilites != null) {
-			if (cachedPropVisibilites == null)
-				cachedPropVisibilites = new HashMap<String, Integer>();
+			if (cachedPropVisibilites == null) {
+				cachedPropVisibilites = new HashMap<>();
+			}
 			cachedPropVisibilites.putAll(parent.cachedPropVisibilites);
 		}
 
 		if (propVisibilites != null) {
-			if (cachedPropVisibilites == null)
-				cachedPropVisibilites = new HashMap<String, Integer>();
+			if (cachedPropVisibilites == null) {
+				cachedPropVisibilites = new HashMap<>();
+			}
 			Iterator<String> propNames = propVisibilites.keySet().iterator();
 
 			while (propNames.hasNext()) {
@@ -1294,21 +1308,24 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Builds the meta-data for each slotID in this container element.
-	 * 
+	 *
 	 * @throws MetaDataException if build of any slot failed.
 	 */
 
 	protected void buildSlots() throws MetaDataException {
-		if (slots != null && slots.size() == 0)
+		if (slots != null && slots.size() == 0) {
 			slots = null;
-		if (slots == null)
+		}
+		if (slots == null) {
 			return;
+		}
 		for (int i = 0; i < slots.size(); i++) {
 			SlotDefn slot = (SlotDefn) slots.get(i);
-			if (slot.getSlotID() == DesignElement.NO_SLOT)
+			if (slot.getSlotID() == DesignElement.NO_SLOT) {
 				slot.setSlotID(i);
-			else
+			} else {
 				isSlotIDSpecifiedByROM = true;
+			}
 			slot.build();
 		}
 	}
@@ -1319,14 +1336,15 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	 * <p>
 	 * The UI uses property groups to organize properties within the generic
 	 * property sheet.
-	 * 
+	 *
 	 * @return The list of group names. If there is no groups defined on the
 	 *         element, the list will has no content.
 	 */
 
+	@Override
 	public List<String> getGroupNames() {
 		// List of group names defined by this element and its parents.
-		ArrayList<String> groupNames = new ArrayList<String>();
+		ArrayList<String> groupNames = new ArrayList<>();
 
 		Iterator<IElementPropertyDefn> iter = getProperties().iterator();
 		while (iter.hasNext()) {
@@ -1343,18 +1361,19 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Determines if this element allows user properties.
-	 * 
+	 *
 	 * @return Returns true if the element supports user-defined properties, false
 	 *         if not.
 	 */
 
+	@Override
 	public boolean allowsUserProperties() {
 		return supportsUserProperties;
 	}
 
 	/**
 	 * Sets the option to allow user properties.
-	 * 
+	 *
 	 * @param flag Whether this element supports user-defined properties.
 	 */
 
@@ -1368,7 +1387,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	 * the element type system. Such elements are normally not visible to users --
 	 * they are used by the implementation to simplify the description of
 	 * user-visible elements.
-	 * 
+	 *
 	 * @return True if this is an invisible abstract element, false if this is a
 	 *         concrete, user-visible element.
 	 */
@@ -1379,7 +1398,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Gets the predefined style for this element.
-	 * 
+	 *
 	 * @return The predefined style .
 	 */
 
@@ -1389,7 +1408,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Gets the parent element. This is the element that this element extends.
-	 * 
+	 *
 	 * @return Returns the parent element.
 	 */
 
@@ -1404,20 +1423,21 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	/**
 	 * Adds the name of a style property that should be made visible to this element
 	 * type. Must be done while creating the element type.
-	 * 
+	 *
 	 * @param propName The style property name to make visible.
 	 */
 
 	void addStyleProperty(String propName) {
 		assert !isBuilt;
-		if (stylePropertyNames == null)
-			stylePropertyNames = new ArrayList<String>();
+		if (stylePropertyNames == null) {
+			stylePropertyNames = new ArrayList<>();
+		}
 		stylePropertyNames.add(propName);
 	}
 
 	/**
 	 * Gets the name space that holds this type of element.
-	 * 
+	 *
 	 * @return The name space ID.
 	 */
 
@@ -1436,79 +1456,86 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	 * <li>{@link MetaDataConstants#REQUIRED_NAME}-- The element must have a
 	 * name.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @return the name option
 	 */
 
+	@Override
 	public int getNameOption() {
 		return nameConfig.nameOption;
 	}
 
 	/**
 	 * Determines if this element acts as a container.
-	 * 
+	 *
 	 * @return True if this element is a container, false otherwise.
 	 */
 
+	@Override
 	public boolean isContainer() {
 		return slots != null || isContainer;
 	}
 
 	/**
 	 * Returns the number of slots in this container.
-	 * 
+	 *
 	 * @return The number of slots. Returns 0 if this element is not a container.
 	 */
 
+	@Override
 	public int getSlotCount() {
-		if (slots == null)
+		if (slots == null) {
 			return 0;
+		}
 		return slots.size();
 	}
 
 	/**
 	 * Returns whether this element has the requested slot given the numeric
 	 * identifier of the slot.
-	 * 
+	 *
 	 * @param slotID The slotID to check.
 	 * @return True if the slotID exists, false otherwise.
 	 */
 
+	@Override
 	public boolean hasSlot(int slotID) {
 		return getSlot(slotID) != null;
 	}
 
 	/**
 	 * Returns the iterator for slot defined on the element.
-	 * 
+	 *
 	 * @return the iterator for <code>ISlotDefn</code>
-	 * 
+	 *
 	 */
 
 	public Iterator<ISlotDefn> slotsIterator() {
-		if (slots == null)
+		if (slots == null) {
 			return Collections.<ISlotDefn>emptyList().iterator();
+		}
 		return slots.iterator();
 	}
 
 	/**
 	 * Returns the meta-data definition for a slot given its numeric slot
 	 * identifier.
-	 * 
+	 *
 	 * @param slotID The slot identifier.
 	 * @return The slot information. Returns null if this element is not a
 	 *         container, or if the ID is not valid for this container.
 	 */
 
+	@Override
 	public ISlotDefn getSlot(int slotID) {
-		if (slots == null)
+		if ((slots == null) || (slotID < 0)) {
 			return null;
-		if (slotID < 0)
-			return null;
+		}
 
 		if (!isSlotIDSpecifiedByROM) {
-			if (slotID >= slots.size())
+			if (slotID >= slots.size()) {
 				return null;
+			}
 
 			return slots.get(slotID);
 		}
@@ -1518,8 +1545,9 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 		for (int i = 0; i < slots.size(); i++) {
 			ISlotDefn tmpSlotDefn = slots.get(i);
-			if (tmpSlotDefn.getSlotID() == slotID)
+			if (tmpSlotDefn.getSlotID() == slotID) {
 				return tmpSlotDefn;
+			}
 		}
 
 		assert false;
@@ -1528,7 +1556,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Reports whether the given slot can contain elements of the given type.
-	 * 
+	 *
 	 * @param slot The slot to check.
 	 * @param type The element type to check.
 	 * @return True if the slot can contain that element type, false if the element
@@ -1536,11 +1564,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	 *         contain that type of element.
 	 */
 
+	@Override
 	public boolean canContain(int slot, IElementDefn type) {
-		if (slots == null)
+		if ((slots == null) || slot < 0 || slot > slots.size() - 1) {
 			return false;
-		if (slot < 0 || slot > slots.size() - 1)
-			return false;
+		}
 		return ((SlotDefn) slots.get(slot)).canContain(type);
 	}
 
@@ -1548,22 +1576,26 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	 * Determines if the given element type is a kind of this type. It is if either
 	 * the given type is the same as this one, or if the given type derives from
 	 * this type.
-	 * 
+	 *
 	 * @param type The element type to check.
 	 * @return True if it is a kind of this element, false otherwise.
 	 */
 
+	@Override
 	public boolean isKindOf(IElementDefn type) {
-		if (type == this)
+		if (type == this) {
 			return true;
+		}
 
-		if (type == null)
+		if (type == null) {
 			return false;
+		}
 
 		ElementDefn obj = this.parent;
 		while (obj != null) {
-			if (obj == type)
+			if (obj == type) {
 				return true;
+			}
 			obj = obj.parent;
 		}
 		return false;
@@ -1571,15 +1603,17 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Adds a slot to this element.
-	 * 
+	 *
 	 * @param slot
 	 */
 
 	void addSlot(SlotDefn slot) {
-		if (slot == null)
+		if (slot == null) {
 			return;
-		if (slots == null)
-			slots = new ArrayList<ISlotDefn>();
+		}
+		if (slots == null) {
+			slots = new ArrayList<>();
+		}
 
 		slots.add(slot);
 	}
@@ -1589,15 +1623,16 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	 * name space on the report design. Different kinds of elements reside in
 	 * different name spaces. The name space ID identifies which name space holds
 	 * elements of this element type.
-	 * 
+	 *
 	 * @param ns The name space ID.
 	 */
 
 	void setNameSpaceID(String ns) {
 		assert !isBuilt;
 		nameConfig.nameSpaceID = ns;
-		if (MetaDataConstants.NO_NAME_SPACE.equals(nameConfig.nameSpaceID))
+		if (MetaDataConstants.NO_NAME_SPACE.equals(nameConfig.nameSpaceID)) {
 			nameConfig.nameOption = MetaDataConstants.NO_NAME;
+		}
 	}
 
 	/**
@@ -1605,7 +1640,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	 * in {@link MetaDataConstants MetaDataConstants}:
 	 * {@link MetaDataConstants#NO_NAME}, {@link MetaDataConstants#OPTIONAL_NAME},
 	 * or {@link MetaDataConstants#REQUIRED_NAME}.
-	 * 
+	 *
 	 * @param choice The name option.
 	 */
 
@@ -1615,7 +1650,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Sets whether the user can extend elements of this type.
-	 * 
+	 *
 	 * @param flag True if the element can be extended (default), or false if the
 	 *             element cannot be extended.
 	 */
@@ -1626,13 +1661,15 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Returns whether elements of this class can be extended.
-	 * 
+	 *
 	 * @return True if the element can be extended, false if not.
 	 */
 
+	@Override
 	public boolean canExtend() {
-		if (nameConfig.getNameSpaceID() == MetaDataConstants.NO_NAME_SPACE)
+		if (nameConfig.getNameSpaceID() == MetaDataConstants.NO_NAME_SPACE) {
 			return allowExtend;
+		}
 
 		// an element can extends if and only if allowExtend is true and its
 		// name is unique in whole design tree
@@ -1644,7 +1681,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	/**
 	 * Marks this element as abstract. Users never see abstract elements: they exist
 	 * to simplify the description of other elements.
-	 * 
+	 *
 	 * @param flag true if the element is to be abstract, false if it is to be
 	 *             concrete (user-visible)
 	 */
@@ -1655,26 +1692,29 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.IObjectDefn#findProperty(java.
 	 * lang.String)
 	 */
 
+	@Override
 	public IPropertyDefn findProperty(String propName) {
 		return cachedProperties.get(propName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.ObjectDefn#addProperty(org.eclipse
 	 * .birt.report.model.metadata.PropertyDefn)
 	 */
 
+	@Override
 	public void addProperty(PropertyDefn property) throws MetaDataException {
-		if (property == null)
+		if (property == null) {
 			return;
+		}
 		MetaDataDictionary dd = MetaDataDictionary.getInstance();
 
 		// Check whether parent element define the property with the same name.
@@ -1708,7 +1748,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 				if (IStyleModel.HEIGHT_PROP.equals(property.getName())
 						|| IStyleModel.WIDTH_PROP.equals(property.getName())) {
 					// do nothing
-					;
+
 				} else {
 					throw new MetaDataException(new String[] { property.getName(), this.name },
 							MetaDataException.DESIGN_EXCEPTION_DUPLICATE_PROPERTY);
@@ -1723,34 +1763,37 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 		// determine whether an element is the container
 
 		if (property.getType() != null && property.isElementType()
-				&& !IReportItemModel.MULTI_VIEWS_PROP.equalsIgnoreCase(property.getName()) && !isContainer)
+				&& !IReportItemModel.MULTI_VIEWS_PROP.equalsIgnoreCase(property.getName()) && !isContainer) {
 			isContainer = true;
+		}
 	}
 
 	/**
 	 * Returns the semantic validation trigger definition collection.
-	 * 
+	 *
 	 * @return the semantic validation trigger definition collection
 	 */
 
 	public SemanticTriggerDefnSet getTriggerDefnSet() {
-		if (triggerDefnSet == null)
+		if (triggerDefnSet == null) {
 			triggerDefnSet = new SemanticTriggerDefnSet();
+		}
 
 		return triggerDefnSet;
 	}
 
 	/**
 	 * Adds an invisible property to the list.
-	 * 
+	 *
 	 * @param propName       the property name
 	 * @param propVisibility the level that how to show the property in the property
 	 *                       sheet.
 	 */
 
 	public void addPropertyVisibility(String propName, String propVisibility) {
-		if (propVisibilites == null)
-			propVisibilites = new HashMap<String, Integer>();
+		if (propVisibilites == null) {
+			propVisibilites = new HashMap<>();
+		}
 
 		propVisibilites.put(propName, getIntVisibility(propVisibility));
 	}
@@ -1758,14 +1801,15 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	/**
 	 * Builds the string property visibility to get the integer values. The string
 	 * is separated by ',' to multiple options.
-	 * 
+	 *
 	 * @param propVisibility the string property visibility
 	 * @return
 	 */
 	private Integer getIntVisibility(String propVisibility) {
 		propVisibility = StringUtil.trimString(propVisibility);
-		if (propVisibility == null)
-			return Integer.valueOf(NO_VISIBILITY_KEY);
+		if (propVisibility == null) {
+			return NO_VISIBILITY_KEY;
+		}
 
 		int intVisibility = NO_VISIBILITY_KEY;
 
@@ -1780,65 +1824,66 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 				intVisibility |= READONLY_KEY;
 			}
 		}
-		return Integer.valueOf(intVisibility);
+		return intVisibility;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn#isPropertyReadOnly
 	 * (java.lang.String)
 	 */
 
+	@Override
 	public boolean isPropertyReadOnly(String propName) {
 		IPropertyDefn propDefn = cachedProperties.get(propName);
-		if (propDefn == null)
+		if (propDefn == null) {
 			return true;
+		}
 
 		int visibility = getPropertyVisibility(propDefn.getName());
-		if ((visibility & READONLY_KEY) != 0)
+		if ((visibility & READONLY_KEY) != 0) {
 			return true;
+		}
 
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.api.metadata.IElementDefn#isPropertyVisible
 	 * (java.lang.String)
 	 */
 
+	@Override
 	public boolean isPropertyVisible(String propName) {
 		IPropertyDefn propDefn = cachedProperties.get(propName);
-		if (propDefn == null)
+		if ((propDefn == null) || (propDefn.getTypeCode() == IPropertyType.STRUCT_TYPE) || ((PropertyDefn) propDefn).isElementType()) {
 			return false;
-
-		if (propDefn.getTypeCode() == IPropertyType.STRUCT_TYPE)
-			return false;
-
-		if (((PropertyDefn) propDefn).isElementType())
-			return false;
+		}
 
 		int visibility = getPropertyVisibility(propDefn.getName());
-		if ((HIDDEN_IN_PROPERTY_SHEET_KEY & visibility) != 0)
+		if ((HIDDEN_IN_PROPERTY_SHEET_KEY & visibility) != 0) {
 			return false;
+		}
 
 		return true;
 	}
 
 	/**
 	 * Returns the visibility of a given property.
-	 * 
+	 *
 	 * @param propName the property name
 	 * @return the visibility of the property
 	 */
 
 	private int getPropertyVisibility(String propName) {
-		if (cachedPropVisibilites == null)
+		if (cachedPropVisibilites == null) {
 			return NO_VISIBILITY_KEY;
+		}
 
 		return cachedPropVisibilites.get(propName) == null ? NO_VISIBILITY_KEY
 				: cachedPropVisibilites.get(propName).intValue();
@@ -1846,7 +1891,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Set the name of the XML element for this ROM element.
-	 * 
+	 *
 	 * @param value the name of the XML element
 	 */
 
@@ -1855,7 +1900,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the name of the XML element used to serialize this ROM element.
 	 */
 
@@ -1865,19 +1910,21 @@ public class ElementDefn extends ObjectDefn implements IElementDefn {
 
 	/**
 	 * Justifies whether this definition is extension element.
-	 * 
+	 *
 	 * @return true if it is extension element
 	 */
+	@Override
 	public boolean isExtendedElement() {
 		if (name.equalsIgnoreCase(ReportDesignConstants.EXTENDED_ITEM)
-				|| MetaDataDictionary.getInstance().getExtension(name) != null)
+				|| MetaDataDictionary.getInstance().getExtension(name) != null) {
 			return true;
+		}
 		return false;
 	}
 
 	/**
 	 * Gets the name configuration of this element.
-	 * 
+	 *
 	 * @return the name configuration of this element definition
 	 */
 	public NameConfig getNameConfig() {

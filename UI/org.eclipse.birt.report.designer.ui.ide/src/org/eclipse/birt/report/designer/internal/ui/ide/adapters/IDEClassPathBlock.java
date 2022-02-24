@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -56,7 +56,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 
 /**
- * 
+ *
  */
 
 public class IDEClassPathBlock extends OptionsConfigurationBlock {
@@ -96,7 +96,7 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock {
 		super(context, ReportPlugin.getDefault(), project);
 		// fSWTControl = null;
 		PREF_CLASSPATH = getReportKey(ReportPlugin.CLASSPATH_PREFERENCE);
-		String[] buttonLabels = new String[] { Messages.getString("IDEClassPathBlock.button_addJar"), //$NON-NLS-1$
+		String[] buttonLabels = { Messages.getString("IDEClassPathBlock.button_addJar"), //$NON-NLS-1$
 				Messages.getString("IDEClassPathBlock.button_addEXTJar"), //$NON-NLS-1$
 				Messages.getString("IDEClassPathBlock.button_addVar"), //$NON-NLS-1$
 
@@ -126,12 +126,13 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock {
 	}
 
 	private Key[] getKeys() {
-		Key[] keys = new Key[] { PREF_CLASSPATH };
+		Key[] keys = { PREF_CLASSPATH };
 		return keys;
 	}
 
 	// -------- UI creation
 
+	@Override
 	public Control createContents(Composite parent) {
 		setShell(parent.getShell());
 		PixelConverter converter = new PixelConverter(parent);
@@ -153,25 +154,30 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock {
 
 	private class LibrariesAdapter implements IDialogFieldListener, ITreeListAdapter {
 
-		private final Object[] EMPTY_ARR = new Object[0];
+		private final Object[] EMPTY_ARR = {};
 
 		// -------- IListAdapter --------
+		@Override
 		public void customButtonPressed(TreeListDialogField field, int index) {
 			libaryPageCustomButtonPressed(field, index);
 		}
 
+		@Override
 		public void selectionChanged(TreeListDialogField field) {
 			libaryPageSelectionChanged(field);
 		}
 
+		@Override
 		public void doubleClicked(TreeListDialogField field) {
 			libaryPageDoubleClicked(field);
 		}
 
+		@Override
 		public void keyPressed(TreeListDialogField field, KeyEvent event) {
 			libaryPageKeyPressed(field, event);
 		}
 
+		@Override
 		public Object[] getChildren(TreeListDialogField field, Object element) {
 			if (element instanceof IDECPListElement) {
 				return ((IDECPListElement) element).getChildren(false);
@@ -180,17 +186,20 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock {
 			return EMPTY_ARR;
 		}
 
+		@Override
 		public Object getParent(TreeListDialogField field, Object element) {
 
 			return null;
 		}
 
+		@Override
 		public boolean hasChildren(TreeListDialogField field, Object element) {
 			return getChildren(field, element).length > 0;
 		}
 
 		// ---------- IDialogFieldListener --------
 
+		@Override
 		public void dialogFieldChanged(DialogField field) {
 			libaryPageDialogFieldChanged(field);
 		}
@@ -198,7 +207,7 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock {
 
 	/**
 	 * A button has been pressed.
-	 * 
+	 *
 	 * @param field the dialog field containing the button
 	 * @param index the index of the button
 	 */
@@ -263,7 +272,7 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage#addElement
 	 * (org.eclipse.jdt.internal.ui.wizards.buildpaths.CPListElement)
@@ -537,7 +546,7 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jdt.internal.ui.wizards.buildpaths.BuildPathBasePage#isEntryKind
 	 * (int)
@@ -626,7 +635,7 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock {
 
 	public static List<IClasspathEntry> getEntries(String value) {
 		List elements = readClassPathEntry(value);
-		List<IClasspathEntry> retValue = new ArrayList<IClasspathEntry>();
+		List<IClasspathEntry> retValue = new ArrayList<>();
 		for (int i = 0; i < elements.size(); i++) {
 			retValue.add(((IDECPListElement) elements.get(i)).getClasspathEntry());
 		}
@@ -693,7 +702,7 @@ public class IDEClassPathBlock extends OptionsConfigurationBlock {
 		List list = fLibrariesList.getElements();
 
 		for (int i = 0; i < list.size(); i++) {
-			StringBuffer entryScript = new StringBuffer();
+			StringBuilder entryScript = new StringBuilder();
 			IDECPListElement element = (IDECPListElement) list.get(i);
 			int type = getType(element);
 			if (type == UNKNOW_TYPE) {

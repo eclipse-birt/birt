@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -64,7 +64,7 @@ public class SpinnerYear extends Composite implements ActionListener {
 
 	/**
 	 * Constructs a new instance of this class given its parent and a style
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 */
@@ -75,7 +75,7 @@ public class SpinnerYear extends Composite implements ActionListener {
 	/**
 	 * Constructs a new instance of this class given its parent,a style and year
 	 * value.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 * @param year
@@ -96,6 +96,7 @@ public class SpinnerYear extends Composite implements ActionListener {
 	/**
 	 * Deal with continue click the arrow button
 	 */
+	@Override
 	public void actionPerformed(ActionEvent evt) {
 		buttonAction(value);
 	}
@@ -124,6 +125,7 @@ public class SpinnerYear extends Composite implements ActionListener {
 	private void initActions() {
 		text.addFocusListener(new FocusAdapter() {
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				setText(text.getText());
 			}
@@ -132,6 +134,7 @@ public class SpinnerYear extends Composite implements ActionListener {
 
 		text.addKeyListener(new KeyAdapter() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.CR) {
 					setText(text.getText());
@@ -142,12 +145,14 @@ public class SpinnerYear extends Composite implements ActionListener {
 
 		up.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDown(MouseEvent e) {
 				value = 1;
 				timer.start();
 
 			}
 
+			@Override
 			public void mouseUp(MouseEvent e) {
 				timer.stop();
 				buttonAction(1);
@@ -157,12 +162,14 @@ public class SpinnerYear extends Composite implements ActionListener {
 
 		down.addMouseListener(new MouseAdapter() {
 
+			@Override
 			public void mouseDown(MouseEvent e) {
 				value = -1;
 				timer.start();
 
 			}
 
+			@Override
 			public void mouseUp(MouseEvent e) {
 				// System.out.println("2222222222222");
 				timer.stop();
@@ -210,7 +217,7 @@ public class SpinnerYear extends Composite implements ActionListener {
 	 * Adds the listener to the collection of listeners who will be notified when
 	 * the year value change, by sending it one of the messages defined in the
 	 * IPropertyChangeListener interface.
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void addPropertyChangeListener(IPropertyChangeListener listener) {
@@ -221,7 +228,7 @@ public class SpinnerYear extends Composite implements ActionListener {
 	/**
 	 * Removes the listener from the collection of listeners who will be notified
 	 * when the year value change
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void removePropertyChangeListener(IPropertyChangeListener listener) {
@@ -230,7 +237,7 @@ public class SpinnerYear extends Composite implements ActionListener {
 
 	/**
 	 * Fire the event when the year value change
-	 * 
+	 *
 	 * @param e
 	 */
 	public void firePropertyListener(PropertyChangeEvent e) {
@@ -243,7 +250,7 @@ public class SpinnerYear extends Composite implements ActionListener {
 
 	/**
 	 * Sets the year value
-	 * 
+	 *
 	 * @param year
 	 */
 	public void setYear(int year) {
@@ -253,7 +260,7 @@ public class SpinnerYear extends Composite implements ActionListener {
 
 	/**
 	 * Gets the year value
-	 * 
+	 *
 	 * @return the year value
 	 */
 	public int getYear() {
@@ -264,12 +271,14 @@ public class SpinnerYear extends Composite implements ActionListener {
 
 class SpinnerYearLayout extends Layout {
 
+	@Override
 	protected Point computeSize(Composite composite, int wHint, int hHint, boolean changed) {
 
 		return new Point(65, 28);
 
 	}
 
+	@Override
 	protected void layout(Composite composite, boolean changed) {
 		Control[] children = composite.getChildren();
 		children[0].setBounds(44, 0, 16, 12);
@@ -286,10 +295,12 @@ class SpinnerText extends Text {
 		super(parent, style);
 	}
 
+	@Override
 	protected void checkWidget() {
 
 	}
 
+	@Override
 	protected void checkSubclass() {
 
 	}

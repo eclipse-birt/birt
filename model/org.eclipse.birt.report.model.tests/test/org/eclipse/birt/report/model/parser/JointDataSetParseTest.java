@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,20 +50,20 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected Result</th>
- * 
+ *
  * <tr>
  * <td>testParser</td>
  * <td>In the XML file, data set contains two normal data sets and one joint
  * data set. The joint data set has a joit condition.</td>
  * <td>The dataset and the join condition should be correctly parsed.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testWriter</td>
  * <td>A joint data set which contains a join condition.</td>
  * <td>The data set should be correctly saved into the output file.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testValidation</td>
  * <td>A report design file has six joint data sets, each one of which has a
@@ -71,7 +71,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>After the design file is parsed, six sematic errors should be
  * returned.</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>testSemanticCheck</td>
  * <td>A joint data set refers to an unexist data set will create semantic
@@ -79,9 +79,9 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>A semantic error with invalid element reference error code will be
  * returned after reprot is parsed.</td>
  * </tr>
- * 
+ *
  * </table>
- * 
+ *
  * @see org.eclipse.birt.report.model.elements.JointDataSet
  */
 
@@ -95,7 +95,7 @@ public class JointDataSetParseTest extends BaseTestCase {
 
 	/**
 	 * Tests joint data set can be correctly parsed.
-	 * 
+	 *
 	 * @throws DesignFileException design file can't be parsed correctly.
 	 */
 
@@ -217,7 +217,7 @@ public class JointDataSetParseTest extends BaseTestCase {
 
 	/**
 	 * Tests joint data set can be correctly written into design file
-	 * 
+	 *
 	 * @throws Exception design file exception
 	 */
 
@@ -253,11 +253,11 @@ public class JointDataSetParseTest extends BaseTestCase {
 	/**
 	 * If there is any blank field in the join condition, a semantic error should be
 	 * returned by the parser.
-	 * 
+	 *
 	 * In the input file, there are six joint data sets, each one of which has a
 	 * blank field. So after the file is parsed, six semantic errors should be
 	 * returned.
-	 * 
+	 *
 	 * @throws Exception design file exception
 	 */
 
@@ -275,7 +275,7 @@ public class JointDataSetParseTest extends BaseTestCase {
 
 	/**
 	 * Tests invalid reference to unexist data set will get semantic error.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 */
 	public void testSemanticCheck() throws DesignFileException {
@@ -290,7 +290,7 @@ public class JointDataSetParseTest extends BaseTestCase {
 	/**
 	 * Checks there is a semantic error. It is the value required exception with the
 	 * given data set.
-	 * 
+	 *
 	 * @param errors      the error list.
 	 * @param dataSetName the name of the data set.
 	 */

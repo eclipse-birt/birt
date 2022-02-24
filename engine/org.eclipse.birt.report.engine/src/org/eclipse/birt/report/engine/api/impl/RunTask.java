@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -70,9 +70,10 @@ public class RunTask extends AbstractRunTask implements IRunTask {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.api.IRunTask#run(java.lang.String)
 	 */
+	@Override
 	public void run(String reportDocName) throws EngineException {
 		try {
 			switchToOsgiClassLoader();
@@ -90,11 +91,12 @@ public class RunTask extends AbstractRunTask implements IRunTask {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IRunTask#run(org.eclipse.birt.core.archive
 	 * .IDocumentArchive)
 	 */
+	@Override
 	public void run(IDocArchiveWriter archive) throws EngineException {
 		try {
 			switchToOsgiClassLoader();
@@ -122,12 +124,10 @@ public class RunTask extends AbstractRunTask implements IRunTask {
 			} else {
 				archiveWriter = new FileArchiveWriter(documentName);
 			}
+		} else if (documentName.endsWith("\\") || documentName.endsWith("/")) {
+			archiveWriter = new FolderArchiveWriter(documentName);
 		} else {
-			if (documentName.endsWith("\\") || documentName.endsWith("/")) {
-				archiveWriter = new FolderArchiveWriter(documentName);
-			} else {
-				archiveWriter = new FileArchiveWriter(documentName);
-			}
+			archiveWriter = new FileArchiveWriter(documentName);
 		}
 	}
 
@@ -166,7 +166,7 @@ public class RunTask extends AbstractRunTask implements IRunTask {
 
 	/**
 	 * runs the report
-	 * 
+	 *
 	 * @throws EngineException throws exception when there is a run error
 	 */
 	protected void doRun() throws EngineException {
@@ -188,7 +188,7 @@ public class RunTask extends AbstractRunTask implements IRunTask {
 		}
 		startFactory();
 		openReportDocument();
-		ArrayList<String> errList = new ArrayList<String>();
+		ArrayList<String> errList = new ArrayList<>();
 		ReportRunnable newRunnable = null;
 		try {
 			newRunnable = writer.saveDesign(executionContext.getRunnable(), executionContext.getOriginalRunnable());
@@ -254,11 +254,9 @@ public class RunTask extends AbstractRunTask implements IRunTask {
 				RunStatusWriter statusWriter = new RunStatusWriter(archiveWriter);
 				statusWriter.writeRunTaskStatus(errList);
 				statusWriter.close();
-			} else {
-				// TODO: need clear all related stream at the beginning of generation task
-				if (archiveWriter.exists(ReportDocumentConstants.RUN_STATUS_STREAM)) {
-					archiveWriter.dropStream(ReportDocumentConstants.RUN_STATUS_STREAM);
-				}
+			} else // TODO: need clear all related stream at the beginning of generation task
+			if (archiveWriter.exists(ReportDocumentConstants.RUN_STATUS_STREAM)) {
+				archiveWriter.dropStream(ReportDocumentConstants.RUN_STATUS_STREAM);
 			}
 
 			writer.savePersistentObjects(executionContext.getGlobalBeans());
@@ -277,6 +275,7 @@ public class RunTask extends AbstractRunTask implements IRunTask {
 		}
 	}
 
+	@Override
 	public void close() {
 		super.close();
 	}
@@ -284,6 +283,8 @@ public class RunTask extends AbstractRunTask implements IRunTask {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
+	@Override
 	public void run(FolderArchive fArchive) throws EngineException {
 		try {
 			changeStatusToRunning();
@@ -294,6 +295,7 @@ public class RunTask extends AbstractRunTask implements IRunTask {
 		}
 	}
 
+	@Override
 	public void cancel() {
 		super.cancel();
 		if (documentBuilder != null) {
@@ -301,22 +303,27 @@ public class RunTask extends AbstractRunTask implements IRunTask {
 		}
 	}
 
+	@Override
 	public void setMaxRowsPerQuery(int maxRows) {
 		executionContext.setMaxRowsPerQuery(maxRows);
 	}
 
+	@Override
 	public void enableProgressiveViewing(boolean enabled) {
 		executionContext.enableProgressiveViewing(enabled);
 	}
 
+	@Override
 	public void setReportDocument(IArchiveFile archive) {
 		this.archive = archive;
 	}
 
+	@Override
 	public void setReportDocument(String name) {
 		documentName = name;
 	}
 
+	@Override
 	public void run() throws EngineException {
 		try {
 			switchToOsgiClassLoader();

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * 
+ *
  */
 
 public class LevelStaticAttributeDialog extends BaseDialog {
@@ -68,6 +68,7 @@ public class LevelStaticAttributeDialog extends BaseDialog {
 		this.rule = rule;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -92,6 +93,7 @@ public class LevelStaticAttributeDialog extends BaseDialog {
 		nameText.setLayoutData(gd);
 		nameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				checkButtonStatus();
 			}
@@ -125,6 +127,7 @@ public class LevelStaticAttributeDialog extends BaseDialog {
 		return composite;
 	}
 
+	@Override
 	protected boolean initDialog() {
 		if (rule != null) {
 			nameText.setText(DEUtil.resolveNull(rule.getDisplayExpression()));
@@ -147,11 +150,9 @@ public class LevelStaticAttributeDialog extends BaseDialog {
 				getButton(IDialogConstants.OK_ID).setEnabled(false);
 				setErrorMessage(Messages.getString("LevelStaticAttributeDialog.Error.Message")); //$NON-NLS-1$
 			}
-		} else {
-			if (getButton(IDialogConstants.OK_ID) != null) {
-				getButton(IDialogConstants.OK_ID).setEnabled(true);
-				setErrorMessage(null);
-			}
+		} else if (getButton(IDialogConstants.OK_ID) != null) {
+			getButton(IDialogConstants.OK_ID).setEnabled(true);
+			setErrorMessage(null);
 		}
 	}
 
@@ -171,10 +172,12 @@ public class LevelStaticAttributeDialog extends BaseDialog {
 		}
 	}
 
+	@Override
 	protected void okPressed() {
 		if (rule != null) {
-			if (nameText.getText().trim().length() > 0)
+			if (nameText.getText().trim().length() > 0) {
 				rule.setDisplayExpression(nameText.getText().trim());
+			}
 			rule.setRuleExpression(expressionText.getText().trim());
 		} else {
 			Rule rule = StructureFactory.createRule();

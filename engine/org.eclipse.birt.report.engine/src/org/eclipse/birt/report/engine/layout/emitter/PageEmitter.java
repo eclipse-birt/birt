@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,14 +33,17 @@ public abstract class PageEmitter extends ContentEmitterAdapter {
 
 	public abstract PageDeviceRender createRender(IEmitterServices service) throws EngineException;
 
+	@Override
 	public String getOutputFormat() {
 		return render.getOutputFormat();
 	}
 
+	@Override
 	public void initialize(IEmitterServices service) throws EngineException {
 		render = createRender(service);
 	}
 
+	@Override
 	public void startPage(IPageContent page) {
 		PageArea pageArea = (PageArea) page.getExtension(IContent.LAYOUT_EXTENSION);
 		if (pageArea != null) {
@@ -49,15 +52,18 @@ public abstract class PageEmitter extends ContentEmitterAdapter {
 
 	}
 
+	@Override
 	public void start(IReportContent report) {
 		render.start(report);
 	}
 
+	@Override
 	public void end(IReportContent report) {
 		render.end(report);
 
 	}
 
+	@Override
 	public void startAutoText(IAutoTextContent autoText) {
 		ITextArea totalPage = (ITextArea) autoText.getExtension(IContent.LAYOUT_EXTENSION);
 		render.setTotalPage(totalPage);

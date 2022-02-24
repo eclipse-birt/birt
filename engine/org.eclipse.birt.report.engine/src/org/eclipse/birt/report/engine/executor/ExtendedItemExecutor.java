@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,6 +39,7 @@ public class ExtendedItemExecutor extends ReportItemExecutor {
 		super(manager, ExecutorManager.EXTENDEDITEM);
 	}
 
+	@Override
 	public IContent execute() throws BirtException {
 		// create user-defined generation-time helper object
 
@@ -130,6 +131,7 @@ public class ExtendedItemExecutor extends ReportItemExecutor {
 		}
 	}
 
+	@Override
 	public boolean hasNextChild() throws BirtException {
 		if (executor != null) {
 			return executor.hasNextChild();
@@ -137,13 +139,14 @@ public class ExtendedItemExecutor extends ReportItemExecutor {
 		return false;
 	}
 
+	@Override
 	public IReportItemExecutor getNextChild() throws BirtException {
 		if (executor != null) {
 			IReportItemExecutor child = executor.getNextChild();
 			/*
 			 * this child executor could be: 1. system executor 2. extended item executor 3.
 			 * user executor
-			 * 
+			 *
 			 */
 			if (child != null) {
 				// the child is a system element, the parent should be set to
@@ -162,6 +165,7 @@ public class ExtendedItemExecutor extends ReportItemExecutor {
 		return null;
 	}
 
+	@Override
 	public void close() throws BirtException {
 		if (executor != null) {
 			executor.close();
@@ -174,6 +178,7 @@ public class ExtendedItemExecutor extends ReportItemExecutor {
 		super.close();
 	}
 
+	@Override
 	public IBaseResultSet[] getQueryResults() {
 		if (executor != null) {
 			return executor.getQueryResults();
@@ -181,6 +186,7 @@ public class ExtendedItemExecutor extends ReportItemExecutor {
 		return null;
 	}
 
+	@Override
 	public void setParent(IReportItemExecutor parent) {
 		if (executor != null) {
 			if (executor.getParent() == null) {

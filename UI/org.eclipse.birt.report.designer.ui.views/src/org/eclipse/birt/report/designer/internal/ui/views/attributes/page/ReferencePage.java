@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,6 +29,7 @@ public class ReferencePage extends AttributePage {
 	private TextAndButtonSection referenceSection;
 	private ReferenceDescriptorProvider referenceProvider;
 
+	@Override
 	public void buildUI(Composite parent) {
 		super.buildUI(parent);
 		container.setLayout(WidgetUtil.createGridLayout(3, 15));
@@ -36,15 +37,18 @@ public class ReferencePage extends AttributePage {
 		referenceProvider = new ReferenceDescriptorProvider();
 		referenceSection = new TextAndButtonSection(referenceProvider.getDisplayName(), container, true) {
 
+			@Override
 			public void load() {
 				super.load();
-				if (referenceSection != null && referenceSection.getButtonControl() != null)
+				if (referenceSection != null && referenceSection.getButtonControl() != null) {
 					referenceSection.getButtonControl().setEnabled(referenceProvider.isEnableButton());
+				}
 			}
 		};
 		referenceSection.setProvider(referenceProvider);
 		referenceSection.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				referenceProvider.handleSelectEvent();
 			}

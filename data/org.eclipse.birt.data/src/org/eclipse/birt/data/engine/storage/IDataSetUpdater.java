@@ -15,7 +15,7 @@
 package org.eclipse.birt.data.engine.storage;
 
 /**
- * 
+ *
  */
 
 public interface IDataSetUpdater extends IDataSetWriter {

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -39,7 +39,7 @@ public final class Messages {
 	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance(ENGINE,
 			ULocale.getDefault(), SecurityUtil.getClassLoader(Messages.class));
 
-	private static Map<ULocale, ResourceBundle> hmLocalToBundle = new HashMap<ULocale, ResourceBundle>(2);
+	private static Map<ULocale, ResourceBundle> hmLocalToBundle = new HashMap<>(2);
 
 	private Messages() {
 	}
@@ -70,7 +70,7 @@ public final class Messages {
 	 * As expected, if specified locale hasn't defined valid resource file, we want
 	 * to load English(default) resource file instead of the resource file of
 	 * default locale.
-	 * 
+	 *
 	 * @param locale   specified locale.
 	 * @param baseName the path of resource.
 	 * @param clazz    the class whose class loader will be used by loading resource
@@ -135,7 +135,7 @@ public final class Messages {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param key key
 	 * @param oa  single argument
 	 */

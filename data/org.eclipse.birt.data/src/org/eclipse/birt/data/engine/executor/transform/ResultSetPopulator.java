@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,7 +32,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  * This is the entry class for population of ResultSet. The instance of this
  * class maintains several critical objects which may used during the whole
  * population process.
- * 
+ *
  */
 public class ResultSetPopulator {
 
@@ -60,7 +60,7 @@ public class ResultSetPopulator {
 	private GroupProcessorManager groupProcessorManager;
 
 	/**
-	 * 
+	 *
 	 */
 	private IEventHandler eventHandler;
 
@@ -69,7 +69,7 @@ public class ResultSetPopulator {
 	protected DataEngineSession session;
 
 	/**
-	 * 
+	 *
 	 * @param query
 	 * @param rsMeta
 	 * @param ri
@@ -98,7 +98,7 @@ public class ResultSetPopulator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public GroupProcessorManager getGroupProcessorManager() {
@@ -106,7 +106,7 @@ public class ResultSetPopulator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public BaseQuery getQuery() {
@@ -114,7 +114,7 @@ public class ResultSetPopulator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param query
 	 */
 	void setQuery(BaseQuery query) {
@@ -126,9 +126,9 @@ public class ResultSetPopulator {
 	 * presentation, sub query needs to find its result objects from its parent
 	 * result set, so its parent cache has to be known. A better solution needs to
 	 * be thought out for this issue.
-	 * 
+	 *
 	 * TODO: enhance me
-	 * 
+	 *
 	 * @return smartCache
 	 */
 	public ResultSetCache getCache() {
@@ -137,7 +137,7 @@ public class ResultSetPopulator {
 
 	/**
 	 * whether clear smart cache when smart cache is reset.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean clearCacheResultSet() {
@@ -146,7 +146,7 @@ public class ResultSetPopulator {
 
 	/**
 	 * set whether clear smart cache when smart cache is reset
-	 * 
+	 *
 	 * @param flag
 	 */
 	public void setClearCacheResultSet(boolean flag) {
@@ -155,7 +155,7 @@ public class ResultSetPopulator {
 
 	/**
 	 * Set the ResultSetCache of this ResultSetPopulator.
-	 * 
+	 *
 	 * @param cache
 	 */
 	public void setCache(ResultSetCache cache) {
@@ -164,7 +164,7 @@ public class ResultSetPopulator {
 
 	/**
 	 * Return the ResultSetMetadata of this ResultSetPopulator.
-	 * 
+	 *
 	 * @return
 	 */
 	public IResultClass getResultSetMetadata() {
@@ -172,7 +172,7 @@ public class ResultSetPopulator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resultMeta
 	 */
 	public void setResultSetMetadata(IResultClass resultMeta) {
@@ -181,7 +181,7 @@ public class ResultSetPopulator {
 
 	/**
 	 * Return the IResultIterator instance this ResultSetPopulator servers with.
-	 * 
+	 *
 	 * @return
 	 */
 	public CachedResultSet getResultIterator() {
@@ -196,7 +196,7 @@ public class ResultSetPopulator {
 	 * Populate the result set. In this method we would firstly prepare the data
 	 * needed to be used in population process, then call doPopulate method to carry
 	 * out the actual population job.
-	 * 
+	 *
 	 * @param odaResultSet
 	 * @param stopSign
 	 * @throws DataException
@@ -214,7 +214,7 @@ public class ResultSetPopulator {
 
 	/**
 	 * Use the given OrderingInfo, re-set the smartCache
-	 * 
+	 *
 	 * @param odInfo
 	 * @param stopSign
 	 * @throws DataException
@@ -242,7 +242,7 @@ public class ResultSetPopulator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param groupLevel
 	 * @throws DataException
 	 */
@@ -251,7 +251,7 @@ public class ResultSetPopulator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param groupLevel
 	 * @throws DataException
 	 */

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -37,7 +37,7 @@ public class SimpleEncryptionHelper implements IEncryptionHelper {
 
 	/**
 	 * Returns the singleton instance of <code>SimpleEncryptionHelper</code>
-	 * 
+	 *
 	 * @return the singleton instance of <code>SimpleEncryptionHelper</code>
 	 */
 	public static SimpleEncryptionHelper getInstance() {
@@ -46,19 +46,22 @@ public class SimpleEncryptionHelper implements IEncryptionHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IEncryptionHelper#encrypt
 	 * (java.lang.String)
 	 */
 
+	@Override
 	public String encrypt(String string) {
-		if (string == null)
+		if (string == null) {
 			return null;
+		}
 		try {
 			Base64 codec = new Base64();
 			byte[] data = codec.encode(string.getBytes(CHARSET));
-			if (data == null)
+			if (data == null) {
 				return null;
+			}
 			return new String(data, CHARSET).trim();
 		} catch (UnsupportedEncodingException e) {
 			assert false;
@@ -69,19 +72,22 @@ public class SimpleEncryptionHelper implements IEncryptionHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.api.extension.IEncryptionHelper#decrypt
 	 * (java.lang.String)
 	 */
 
+	@Override
 	public String decrypt(String string) {
-		if (string == null)
+		if (string == null) {
 			return null;
+		}
 		try {
 			Base64 codec = new Base64();
 			byte[] data = codec.decode(string.getBytes(CHARSET));
-			if (data == null)
+			if (data == null) {
 				return null;
+			}
 
 			return new String(data, CHARSET);
 		} catch (UnsupportedEncodingException e) {

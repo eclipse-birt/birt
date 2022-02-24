@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -31,7 +31,7 @@ public class MemberValueHandle extends ContentElementHandle implements IMemberVa
 	 * Constructs a member value handle with the given design and the element. The
 	 * application generally does not create handles directly. Instead, it uses one
 	 * of the navigation methods available on other element handles.
-	 * 
+	 *
 	 * @param module  the module
 	 * @param element the model representation of the element
 	 */
@@ -43,7 +43,7 @@ public class MemberValueHandle extends ContentElementHandle implements IMemberVa
 
 	/**
 	 * Gets the value of this member value handle.
-	 * 
+	 *
 	 * @return value of this member
 	 */
 	public String getValue() {
@@ -52,7 +52,7 @@ public class MemberValueHandle extends ContentElementHandle implements IMemberVa
 
 	/**
 	 * Sets the value of this member value.
-	 * 
+	 *
 	 * @param value the value to set
 	 * @throws SemanticException
 	 */
@@ -62,7 +62,7 @@ public class MemberValueHandle extends ContentElementHandle implements IMemberVa
 
 	/**
 	 * Gets name of the referred cube level element.
-	 * 
+	 *
 	 * @return name of the referred cube level
 	 */
 	public String getCubeLevelName() {
@@ -71,7 +71,7 @@ public class MemberValueHandle extends ContentElementHandle implements IMemberVa
 
 	/**
 	 * Gets the cube level handle for this member value.
-	 * 
+	 *
 	 * @return the referred cube level handle if resolved, otherwise null
 	 */
 	public LevelHandle getLevel() {
@@ -80,14 +80,14 @@ public class MemberValueHandle extends ContentElementHandle implements IMemberVa
 
 	/**
 	 * Sets the referred level of this member value.
-	 * 
+	 *
 	 * @param levelHandle
 	 * @throws SemanticException
 	 */
 	public void setLevel(LevelHandle levelHandle) throws SemanticException {
-		if (levelHandle == null)
+		if (levelHandle == null) {
 			setStringProperty(LEVEL_PROP, null);
-		else {
+		} else {
 			/*
 			 * ModuleHandle moduleHandle = levelHandle.getRoot( ); String valueToSet =
 			 * levelHandle.getElement( ).getFullName( ); if ( moduleHandle instanceof
@@ -101,7 +101,7 @@ public class MemberValueHandle extends ContentElementHandle implements IMemberVa
 
 	/**
 	 * Returns the iterator for filter list defined on this member value.
-	 * 
+	 *
 	 * @return the iterator for <code>FilterCond</code> structure list defined on a
 	 *         table or list.
 	 */

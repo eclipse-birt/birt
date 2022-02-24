@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -132,7 +132,7 @@ public class StructureType {
 
 	/**
 	 * Prevent from instantiating.
-	 * 
+	 *
 	 * @param type
 	 */
 	private StructureType(String type) {
@@ -141,7 +141,7 @@ public class StructureType {
 
 	/**
 	 * Returns the type string.
-	 * 
+	 *
 	 * @return
 	 */
 	public final String getTypeString() {
@@ -150,9 +150,10 @@ public class StructureType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return "StructureType[" + type + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}

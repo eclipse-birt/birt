@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,9 +41,9 @@ import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 
 /**
- * 
+ *
  * report item executor manager
- * 
+ *
  */
 public class ExecutorManager {
 
@@ -86,7 +86,7 @@ public class ExecutorManager {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param loader
 	 * @param visitor
 	 */
@@ -124,7 +124,7 @@ public class ExecutorManager {
 
 	/**
 	 * get item executor
-	 * 
+	 *
 	 * @param type the executor type
 	 * @return item executor
 	 */
@@ -186,7 +186,7 @@ public class ExecutorManager {
 
 	/**
 	 * release item executor
-	 * 
+	 *
 	 * @param type         the executor type
 	 * @param itemExecutor the item executor
 	 */
@@ -206,74 +206,92 @@ public class ExecutorManager {
 			return (ReportItemExecutor) design.accept(this, null);
 		}
 
+		@Override
 		public Object visitAutoTextItem(AutoTextItemDesign autoText, Object value) {
 			return getItemExecutor(AUTOTEXTITEM);
 		}
 
+		@Override
 		public Object visitCell(CellDesign cell, Object value) {
 			return getItemExecutor(CELLITEM);
 		}
 
+		@Override
 		public Object visitDataItem(DataItemDesign data, Object value) {
 			return getItemExecutor(DATAITEM);
 		}
 
+		@Override
 		public Object visitExtendedItem(ExtendedItemDesign item, Object value) {
 			return getItemExecutor(EXTENDEDITEM);
 		}
 
+		@Override
 		public Object visitFreeFormItem(FreeFormItemDesign container, Object value) {
 			return null;
 		}
 
+		@Override
 		public Object visitGridItem(GridItemDesign grid, Object value) {
 			return getItemExecutor(GRIDITEM);
 		}
 
+		@Override
 		public Object visitImageItem(ImageItemDesign image, Object value) {
 			return getItemExecutor(IMAGEITEM);
 		}
 
+		@Override
 		public Object visitLabelItem(LabelItemDesign label, Object value) {
 			return getItemExecutor(LABELITEM);
 		}
 
+		@Override
 		public Object visitListBand(ListBandDesign band, Object value) {
 			return getItemExecutor(LISTBANDITEM);
 		}
 
+		@Override
 		public Object visitListItem(ListItemDesign list, Object value) {
 			return getItemExecutor(LISTITEM);
 		}
 
+		@Override
 		public Object visitDynamicTextItem(DynamicTextItemDesign dynText, Object value) {
 			return getItemExecutor(DYNAMICTEXTITEM);
 		}
 
+		@Override
 		public Object visitRow(RowDesign row, Object value) {
 			return getItemExecutor(ROWITEM);
 		}
 
+		@Override
 		public Object visitTableBand(TableBandDesign band, Object value) {
 			return getItemExecutor(TABLEBANDITEM);
 		}
 
+		@Override
 		public Object visitTableItem(TableItemDesign table, Object value) {
 			return getItemExecutor(TABLEITEM);
 		}
 
+		@Override
 		public Object visitTemplate(TemplateDesign template, Object value) {
 			return getItemExecutor(TEMPLATEITEM);
 		}
 
+		@Override
 		public Object visitTextItem(TextItemDesign text, Object value) {
 			return getItemExecutor(TEXTITEM);
 		}
 
+		@Override
 		public Object visitListGroup(ListGroupDesign group, Object value) {
 			return getItemExecutor(LISTGROUPITEM);
 		}
 
+		@Override
 		public Object visitTableGroup(TableGroupDesign group, Object value) {
 			return getItemExecutor(TABLEGROUPITEM);
 		}

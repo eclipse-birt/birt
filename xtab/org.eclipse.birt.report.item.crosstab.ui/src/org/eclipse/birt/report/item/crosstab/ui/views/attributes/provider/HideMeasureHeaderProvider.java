@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,6 +45,7 @@ public class HideMeasureHeaderProvider extends PropertyDescriptorProvider {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public String getDisplayName() {
 		String displayName = super.getDisplayName();
 		if (displayName != null && displayName.length() > 0) {
@@ -53,6 +54,7 @@ public class HideMeasureHeaderProvider extends PropertyDescriptorProvider {
 		return Messages.getString("CrosstabGeneralPage.HideMeasureHeader"); //$NON-NLS-1$
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 
 		String stringValue = (String) value;
@@ -65,7 +67,7 @@ public class HideMeasureHeaderProvider extends PropertyDescriptorProvider {
 			CommandStack stack = crosstabHandle.getModuleHandle().getCommandStack();
 			// start trans
 			stack.startTrans(TRANS_NAME);
-			crosstabHandle.setHideMeasureHeader(Boolean.valueOf((String) value));
+			crosstabHandle.setHideMeasureHeader(Boolean.parseBoolean((String) value));
 			CrosstabUtil.addAllHeaderLabel(crosstabHandle);
 			stack.commit();
 		}
@@ -74,10 +76,11 @@ public class HideMeasureHeaderProvider extends PropertyDescriptorProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IDescriptorProvider#setInput(java.lang.Object)
 	 */
+	@Override
 	public void setInput(Object input) {
 		// TODO Auto-generated method stub
 		super.setInput(input);
@@ -86,12 +89,8 @@ public class HideMeasureHeaderProvider extends PropertyDescriptorProvider {
 
 	protected void initializeCrosstab() {
 		crosstabHandle = null;
-		if ((input == null)) {
-			return;
-		}
-
-		if ((!(input instanceof List && ((List) input).size() > 0
-				&& ((List) input).get(0) instanceof ExtendedItemHandle)) && (!(input instanceof ExtendedItemHandle))) {
+		if ((input == null) || ((!(input instanceof List && ((List) input).size() > 0
+				&& ((List) input).get(0) instanceof ExtendedItemHandle)) && (!(input instanceof ExtendedItemHandle)))) {
 			return;
 		}
 
@@ -106,7 +105,6 @@ public class HideMeasureHeaderProvider extends PropertyDescriptorProvider {
 
 		try {
 			crosstabHandle = (CrosstabReportItemHandle) handle.getReportItem();
-			return;
 		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
 			logger.log(Level.SEVERE, e.getMessage(), e);

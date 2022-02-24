@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,15 +24,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
- * 
+ *
  */
 
 public class AddImageResourceFileFolderSelectionDialog extends ResourceFileFolderSelectionDialog {
 
-	private static final String[] IMAGE_FILTER = new String[] { "*.gif;*.jpg;*.jpeg;*.png;*.ico;*.bmp" //$NON-NLS-1$
+	private static final String[] IMAGE_FILTER = { "*.gif;*.jpg;*.jpeg;*.png;*.ico;*.bmp" //$NON-NLS-1$
 	};
 
-	private static final String[] IMAGE_TYPES = new String[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png", ".ico" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+	private static final String[] IMAGE_TYPES = { ".bmp", ".jpg", ".jpeg", ".gif", ".png", ".ico" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 	};
 
 	protected ResourceEntry[] getAllRootEntries(String[] fileNamePattern) {
@@ -70,6 +70,7 @@ public class AddImageResourceFileFolderSelectionDialog extends ResourceFileFolde
 		setComparator(new FileViewerComparator());
 	}
 
+	@Override
 	public int open() {
 		initialize();
 		return super.open();
@@ -78,6 +79,7 @@ public class AddImageResourceFileFolderSelectionDialog extends ResourceFileFolde
 	/*
 	 * @see Dialog#createDialogArea(Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Control control = super.createDialogArea(parent);
 		UIUtil.bindHelp(parent, IHelpContextIds.ADD_IMAGE_FILES_DIALOG_ID);

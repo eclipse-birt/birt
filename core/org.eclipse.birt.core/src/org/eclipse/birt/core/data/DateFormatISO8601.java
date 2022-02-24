@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -67,6 +67,7 @@ public class DateFormatISO8601 {
 	/**
 	 * @deprecated use getSimpleDateFormat instead
 	 */
+	@Deprecated
 	public static SimpleDateFormat getDateFormat(String source, TimeZone timeZone) throws BirtException {
 		// SimpleDateFormat must be cloned here, to prevent write-through to the cache
 		// of the underlying DateFormatFactory
@@ -75,7 +76,7 @@ public class DateFormatISO8601 {
 
 	/**
 	 * Get a date format object that can parse the given date/time string
-	 * 
+	 *
 	 * @since 4.8
 	 *
 	 * @param source
@@ -104,8 +105,9 @@ public class DateFormatISO8601 {
 				return dateFormat;
 			} catch (ParseException e1) {
 			} finally {
-				if (savedTimeZone != null)
+				if (savedTimeZone != null) {
 					dateFormat.setTimeZone(savedTimeZone);
+				}
 			}
 		}
 		// for the String can not be parsed, throws a BirtException
@@ -119,7 +121,7 @@ public class DateFormatISO8601 {
 
 	/**
 	 * Format a date/time object.
-	 * 
+	 *
 	 * @param date
 	 * @param timeZone
 	 * @return
@@ -148,7 +150,7 @@ public class DateFormatISO8601 {
 
 	/**
 	 * Parse a date/time string.
-	 * 
+	 *
 	 * @param source
 	 * @return
 	 * @throws ParseException
@@ -158,14 +160,14 @@ public class DateFormatISO8601 {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param s
 	 * @return
 	 */
 	private static String cleanDate(String s) {
 		s = s.trim();
 		if (s.indexOf('T') < 12) {
-			s = T_PATTERN.matcher(s).replaceFirst(" ");//$NON-NLS-1$ //$NON-NLS-2$
+			s = T_PATTERN.matcher(s).replaceFirst(" ");//$NON-NLS-1$
 		}
 
 		int zoneIndex = s.indexOf('Z');
@@ -185,31 +187,6 @@ public class DateFormatISO8601 {
 		}
 
 		return s;
-	}
-
-	/**
-	 * 
-	 * @param s
-	 * @return
-	 */
-	private static int getZoneIndex(String s) {
-		int index = s.indexOf('+');
-		if (index > 0) {
-			return index;
-		}
-
-		index = s.indexOf('-'); // first '-'
-		if (index > 0) {
-			index = s.indexOf('-', index + 1); // second '-'
-		} else {
-			return index;
-		}
-		if (index > 0) {
-			index = s.indexOf('-', index + 1); // third '-'
-		} else {
-			return index;
-		}
-		return index;
 	}
 
 }

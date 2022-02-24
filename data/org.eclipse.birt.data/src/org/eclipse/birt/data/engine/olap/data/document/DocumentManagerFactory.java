@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,12 +33,13 @@ public class DocumentManagerFactory {
 
 	static {
 		File tmp = new File(tmpPath);
-		if (FileSecurity.fileExist(tmp) == false)
+		if (!FileSecurity.fileExist(tmp)) {
 			FileSecurity.fileMakeDirs(tmp);
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -47,7 +48,7 @@ public class DocumentManagerFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 * @throws IOException
@@ -57,7 +58,7 @@ public class DocumentManagerFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 * @throws IOException
@@ -67,7 +68,7 @@ public class DocumentManagerFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 * @throws IOException
@@ -77,7 +78,7 @@ public class DocumentManagerFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param docArchiveWriter
 	 * @return
 	 * @throws DataException
@@ -88,7 +89,7 @@ public class DocumentManagerFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 */
@@ -98,7 +99,7 @@ public class DocumentManagerFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws DataException
 	 * @throws IOException
@@ -109,7 +110,7 @@ public class DocumentManagerFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dirName
 	 * @param managerName
 	 * @param cacheSize
@@ -123,7 +124,7 @@ public class DocumentManagerFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dirName
 	 * @param managerName
 	 * @return

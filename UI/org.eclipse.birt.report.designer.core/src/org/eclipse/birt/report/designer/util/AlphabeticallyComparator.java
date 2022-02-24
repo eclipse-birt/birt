@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -23,7 +23,7 @@ import com.ibm.icu.text.Collator;
 
 /**
  * A text based comparator is used to reorder the elements.
- * 
+ *
  * @see IStructuredContentProvider
  * @see StructuredViewer
  */
@@ -33,11 +33,12 @@ public class AlphabeticallyComparator implements Comparator<Object> {
 
 	/**
 	 * Compare the two objects
-	 * 
+	 *
 	 * @param o1 object1
 	 * @param 02 object2
 	 * @return the compare result
 	 */
+	@Override
 	public int compare(Object o1, Object o2) {
 		String name1 = null;
 		String name2 = null;
@@ -88,7 +89,7 @@ public class AlphabeticallyComparator implements Comparator<Object> {
 
 	/**
 	 * Set order of this sort True: Ascending False: Deascending
-	 * 
+	 *
 	 * @param ascending
 	 */
 	public void setAscending(boolean ascending) {

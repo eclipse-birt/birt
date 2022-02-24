@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,35 +44,40 @@ public class ColumnMappingTableProvider {
 	private static class MappingTableContentProvider implements IStructuredContentProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
 		 * .lang.Object)
 		 */
+		@Override
 		public Object[] getElements(Object arg0) {
-			if (arg0 instanceof Object[])
+			if (arg0 instanceof Object[]) {
 				return (Object[]) arg0;
+			}
 
-			if (arg0 instanceof List)
+			if (arg0 instanceof List) {
 				return ((List) arg0).toArray();
+			}
 
 			return new Object[0];
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
+		@Override
 		public void dispose() {
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
 		 * .viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
+		@Override
 		public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 
 		}
@@ -81,11 +86,13 @@ public class ColumnMappingTableProvider {
 
 	private static class MappingTableLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+		@Override
 		public Image getColumnImage(Object arg0, int arg1) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		@Override
 		public String getColumnText(Object row, int index) {
 			ColumnDefinition cm = (ColumnDefinition) row;
 			switch (index) {

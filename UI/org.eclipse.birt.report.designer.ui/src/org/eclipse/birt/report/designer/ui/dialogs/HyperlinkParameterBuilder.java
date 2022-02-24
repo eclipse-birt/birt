@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * 
+ *
  */
 
 public class HyperlinkParameterBuilder extends BaseDialog {
@@ -72,6 +72,7 @@ public class HyperlinkParameterBuilder extends BaseDialog {
 		super(title);
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
@@ -93,6 +94,7 @@ public class HyperlinkParameterBuilder extends BaseDialog {
 
 		paramChooser.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateValueControl();
 			}
@@ -101,6 +103,7 @@ public class HyperlinkParameterBuilder extends BaseDialog {
 
 		paramChooser.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				updateValueControl();
 				checkOkButton();
@@ -163,6 +166,7 @@ public class HyperlinkParameterBuilder extends BaseDialog {
 				text.setLayoutData(gd);
 				text.addModifyListener(new ModifyListener() {
 
+					@Override
 					public void modifyText(ModifyEvent e) {
 						checkOkButton();
 					}
@@ -208,6 +212,7 @@ public class HyperlinkParameterBuilder extends BaseDialog {
 					valueEditor.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 					valueEditor.addListener(SWT.Modify, new Listener() {
 
+						@Override
 						public void handleEvent(Event event) {
 							checkOkButton();
 						}
@@ -250,9 +255,10 @@ public class HyperlinkParameterBuilder extends BaseDialog {
 		return null;
 	}
 
+	@Override
 	protected void okPressed() {
 		if (paramBinding != null) {
-			List<Expression> expressions = new ArrayList<Expression>();
+			List<Expression> expressions = new ArrayList<>();
 			if (text != null && !text.isDisposed()) {
 				expressions.add(ExpressionButtonUtil.getExpression(text));
 				paramBinding.setExpression(expressions);
@@ -264,7 +270,7 @@ public class HyperlinkParameterBuilder extends BaseDialog {
 		} else {
 			ParamBinding paramBinding = StructureFactory.createParamBinding();
 			paramBinding.setParamName(paramChooser.getText());
-			List<Expression> expressions = new ArrayList<Expression>();
+			List<Expression> expressions = new ArrayList<>();
 			if (text != null && !text.isDisposed()) {
 				expressions.add(ExpressionButtonUtil.getExpression(text));
 				paramBinding.setExpression(expressions);
@@ -297,14 +303,16 @@ public class HyperlinkParameterBuilder extends BaseDialog {
 	private void populateComboBoxItems() {
 		if (paramChooser != null && items != null) {
 			paramChooser.removeAll();
-			for (int i = 0; i < items.length; i++)
+			for (int i = 0; i < items.length; i++) {
 				paramChooser.add(items[i], i);
+			}
 			if (items.length > 0) {
 				paramChooser.select(0);
 				updateValueControl();
 			}
-			if (paramBinding != null)
+			if (paramBinding != null) {
 				paramChooser.setEnabled(false);
+			}
 		}
 	}
 
@@ -318,6 +326,7 @@ public class HyperlinkParameterBuilder extends BaseDialog {
 		this.handle = handle;
 	}
 
+	@Override
 	protected Control createButtonBar(Composite parent) {
 		Control control = super.createButtonBar(parent);
 		checkOkButton();
@@ -325,8 +334,9 @@ public class HyperlinkParameterBuilder extends BaseDialog {
 	}
 
 	private void checkOkButton() {
-		if (hyperlinkBuilder == null || HyperlinkParameterBuilder.this.getOkButton() == null)
+		if (hyperlinkBuilder == null || HyperlinkParameterBuilder.this.getOkButton() == null) {
 			return;
+		}
 		Object object = hyperlinkBuilder.getParameter(paramChooser.getText());
 
 		if (object instanceof AbstractScalarParameterHandle) {
@@ -335,23 +345,23 @@ public class HyperlinkParameterBuilder extends BaseDialog {
 					HyperlinkParameterBuilder.this.getOkButton().setEnabled(text.getText().trim().length() != 0);
 				} else if (valueEditor != null && !valueEditor.getControl().isDisposed()) {
 					Expression expression = (Expression) valueEditor.getProperty(PARAMETER_VALUE);
-					if (expression == null)
+					if (expression == null) {
 						HyperlinkParameterBuilder.this.getOkButton().setEnabled(false);
-					else if (expression.getStringExpression() == null
-							|| expression.getStringExpression().trim().length() == 0)
+					} else if (expression.getStringExpression() == null
+							|| expression.getStringExpression().trim().length() == 0) {
 						HyperlinkParameterBuilder.this.getOkButton().setEnabled(false);
-					else
+					} else {
 						HyperlinkParameterBuilder.this.getOkButton().setEnabled(true);
+					}
 				}
 
 			} else {
 				HyperlinkParameterBuilder.this.getOkButton().setEnabled(true);
 			}
+		} else if (paramChooser.getText().trim().length() == 0) {
+			HyperlinkParameterBuilder.this.getOkButton().setEnabled(false);
 		} else {
-			if (paramChooser.getText().trim().length() == 0)
-				HyperlinkParameterBuilder.this.getOkButton().setEnabled(false);
-			else
-				HyperlinkParameterBuilder.this.getOkButton().setEnabled(true);
+			HyperlinkParameterBuilder.this.getOkButton().setEnabled(true);
 		}
 	}
 }

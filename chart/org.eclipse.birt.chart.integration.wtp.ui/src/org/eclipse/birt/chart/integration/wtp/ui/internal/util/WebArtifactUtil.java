@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -47,13 +47,13 @@ import org.eclipse.ui.dialogs.IOverwriteQuery;
 
 /**
  * Birt WebArtifact Utility
- * 
+ *
  */
 public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * Configure the web application general descriptions
-	 * 
+	 *
 	 * @param webApp
 	 * @param project
 	 * @param query
@@ -63,17 +63,15 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 	public static void configureWebApp(WebAppBean webAppBean, IProject project, IOverwriteQuery query,
 			IProgressMonitor monitor) throws CoreException {
 		// cancel progress
-		if (monitor.isCanceled())
-			return;
-
-		if (webAppBean == null || project == null) {
+		if (monitor.isCanceled() || webAppBean == null || project == null) {
 			return;
 		}
 
 		// create WebArtifact
 		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
-		if (webEdit == null)
+		if (webEdit == null) {
 			return;
+		}
 
 		try {
 			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
@@ -86,7 +84,7 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * Configure the context param settings
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 * @param query
@@ -96,17 +94,15 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 	public static void configureContextParam(Map map, IProject project, IOverwriteQuery query, IProgressMonitor monitor)
 			throws CoreException {
 		// cancel progress
-		if (monitor.isCanceled())
-			return;
-
-		if (map == null || project == null) {
+		if (monitor.isCanceled() || map == null || project == null) {
 			return;
 		}
 
 		// create WebArtifact
 		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
-		if (webEdit == null)
+		if (webEdit == null) {
 			return;
+		}
 
 		try {
 			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
@@ -116,8 +112,9 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 			while (it.hasNext()) {
 				String name = DataUtil.getString(it.next(), false);
 				ContextParamBean bean = (ContextParamBean) map.get(name);
-				if (bean == null)
+				if (bean == null) {
 					continue;
+				}
 
 				// if contained this param
 				List list = null;
@@ -154,8 +151,9 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 					ContextParam param = WebapplicationFactory.eINSTANCE.createContextParam();
 					param.setParamName(name);
 					param.setParamValue(value);
-					if (description != null)
+					if (description != null) {
 						param.setDescription(description);
+					}
 
 					param.setWebApp(webapp);
 				} else {
@@ -183,14 +181,15 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * get context-param from list by name
-	 * 
+	 *
 	 * @param list
 	 * @param name
 	 * @return
 	 */
 	public static Object getContextParamByName(List list, String name) {
-		if (list == null || name == null)
+		if (list == null || name == null) {
 			return null;
+		}
 
 		Iterator it = list.iterator();
 		while (it.hasNext()) {
@@ -200,15 +199,17 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 			// for servlet 2.3
 			if (paramObj instanceof ContextParam) {
 				ContextParam param = (ContextParam) paramObj;
-				if (name.equals(param.getParamName()))
+				if (name.equals(param.getParamName())) {
 					return param;
+				}
 			}
 
 			// for servlet 2.4
 			if (paramObj instanceof ParamValue) {
 				ParamValue param = (ParamValue) paramObj;
-				if (name.equals(param.getName()))
+				if (name.equals(param.getName())) {
 					return param;
+				}
 			}
 		}
 
@@ -217,7 +218,7 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * Configure the listener settings
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 * @param query
@@ -227,17 +228,15 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 	public static void configureListener(Map map, IProject project, IOverwriteQuery query, IProgressMonitor monitor)
 			throws CoreException {
 		// cancel progress
-		if (monitor.isCanceled())
-			return;
-
-		if (map == null || project == null) {
+		if (monitor.isCanceled() || map == null || project == null) {
 			return;
 		}
 
 		// create WebArtifact
 		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
-		if (webEdit == null)
+		if (webEdit == null) {
 			return;
+		}
 
 		try {
 			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
@@ -247,22 +246,25 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 			while (it.hasNext()) {
 				String name = DataUtil.getString(it.next(), false);
 				ListenerBean bean = (ListenerBean) map.get(name);
-				if (bean == null)
+				if (bean == null) {
 					continue;
+				}
 
 				String className = bean.getClassName();
 				String description = bean.getDescription();
 
 				// if listener existed in web.xml, skip it
 				Object obj = getListenerByClassName(webapp.getListeners(), className);
-				if (obj != null)
+				if (obj != null) {
 					continue;
+				}
 
 				// create Listener object
 				Listener listener = CommonFactory.eINSTANCE.createListener();
 				listener.setListenerClassName(className);
-				if (description != null)
+				if (description != null) {
 					listener.setDescription(description);
+				}
 
 				webapp.getListeners().remove(listener);
 				webapp.getListeners().add(listener);
@@ -276,14 +278,15 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * get listener from list by class name
-	 * 
+	 *
 	 * @param list
 	 * @param name
 	 * @return
 	 */
 	public static Object getListenerByClassName(List list, String className) {
-		if (list == null || className == null)
+		if (list == null || className == null) {
 			return null;
+		}
 
 		Iterator it = list.iterator();
 		while (it.hasNext()) {
@@ -299,7 +302,7 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * Configure the servlet settings
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 * @param query
@@ -309,17 +312,15 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 	public static void configureServlet(Map map, IProject project, IOverwriteQuery query, IProgressMonitor monitor)
 			throws CoreException {
 		// cancel progress
-		if (monitor.isCanceled())
-			return;
-
-		if (map == null || project == null) {
+		if (monitor.isCanceled() || map == null || project == null) {
 			return;
 		}
 
 		// create WebArtifact
 		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
-		if (webEdit == null)
+		if (webEdit == null) {
 			return;
+		}
 
 		try {
 			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
@@ -330,8 +331,9 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 				String name = DataUtil.getString(it.next(), false);
 				ServletBean bean = (ServletBean) map.get(name);
 
-				if (bean == null)
+				if (bean == null) {
 					continue;
+				}
 
 				// if contained this servlet
 				Object obj = getServletByName(webapp.getServlets(), name);
@@ -361,8 +363,9 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 				// create Servlet object
 				Servlet servlet = WebapplicationFactory.eINSTANCE.createServlet();
 				servlet.setServletName(name);
-				if (description != null)
+				if (description != null) {
 					servlet.setDescription(description);
+				}
 
 				servlet.setWebType(servletType);
 
@@ -377,14 +380,15 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * get servlet from list by name
-	 * 
+	 *
 	 * @param list
 	 * @param name
 	 * @return
 	 */
 	public static Object getServletByName(List list, String name) {
-		if (list == null || name == null)
+		if (list == null || name == null) {
 			return null;
+		}
 
 		Iterator it = list.iterator();
 		while (it.hasNext()) {
@@ -400,7 +404,7 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * Configure the servlet-mapping settings
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 * @param query
@@ -410,17 +414,15 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 	public static void configureServletMapping(Map map, IProject project, IOverwriteQuery query,
 			IProgressMonitor monitor) throws CoreException {
 		// cancel progress
-		if (monitor.isCanceled())
-			return;
-
-		if (map == null || project == null) {
+		if (monitor.isCanceled() || map == null || project == null) {
 			return;
 		}
 
 		// create WebArtifact
 		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
-		if (webEdit == null)
+		if (webEdit == null) {
 			return;
+		}
 
 		try {
 			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
@@ -431,8 +433,9 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 				String uri = DataUtil.getString(it.next(), false);
 				ServletMappingBean bean = (ServletMappingBean) map.get(uri);
 
-				if (bean == null)
+				if (bean == null) {
 					continue;
+				}
 
 				// if contained this servlet-mapping
 				Object obj = getServletMappingByUri(webapp.getServletMappings(), uri);
@@ -475,14 +478,15 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * get servlet mapping from list by uri
-	 * 
+	 *
 	 * @param list
 	 * @param name
 	 * @return
 	 */
 	public static Object getServletMappingByUri(List list, String uri) {
-		if (list == null || uri == null)
+		if (list == null || uri == null) {
 			return null;
+		}
 
 		Iterator it = list.iterator();
 		while (it.hasNext()) {
@@ -498,7 +502,7 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * Configure the taglib settings
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 * @param query
@@ -508,17 +512,15 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 	public static void configureTaglib(Map map, IProject project, IOverwriteQuery query, IProgressMonitor monitor)
 			throws CoreException {
 		// cancel progress
-		if (monitor.isCanceled())
-			return;
-
-		if (map == null || project == null) {
+		if (monitor.isCanceled() || map == null || project == null) {
 			return;
 		}
 
 		// create WebArtifact
 		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
-		if (webEdit == null)
+		if (webEdit == null) {
 			return;
+		}
 
 		try {
 			WebApp webapp = (WebApp) webEdit.getDeploymentDescriptorRoot();
@@ -529,8 +531,9 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 				String uri = DataUtil.getString(it.next(), false);
 				TagLibBean bean = (TagLibBean) map.get(uri);
 
-				if (bean == null)
+				if (bean == null) {
 					continue;
+				}
 
 				// if contained this taglib
 				Object obj = getTagLibByUri(webapp, uri);
@@ -583,14 +586,15 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * get servlet mapping from webapp by uri
-	 * 
+	 *
 	 * @param webapp
 	 * @param name
 	 * @return
 	 */
 	public static Object getTagLibByUri(WebApp webapp, String uri) {
-		if (webapp == null || uri == null)
+		if (webapp == null || uri == null) {
 			return null;
+		}
 
 		List list = null;
 
@@ -609,15 +613,17 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 			// for servlet 2.3
 			if (obj instanceof TagLibRef) {
 				TagLibRef ref = (TagLibRef) obj;
-				if (uri.equals(ref.getTaglibURI()))
+				if (uri.equals(ref.getTaglibURI())) {
 					return ref;
+				}
 			}
 
 			// for servlet 2.4
 			if (obj instanceof TagLibRefType) {
 				TagLibRefType ref = (TagLibRefType) obj;
-				if (uri.equals(ref.getTaglibURI()))
+				if (uri.equals(ref.getTaglibURI())) {
 					return ref;
+				}
 			}
 		}
 
@@ -626,35 +632,39 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * returns context-param value
-	 * 
+	 *
 	 * @param map
 	 * @param name
 	 * @return
 	 */
 	public static String getContextParamValue(Map map, String name) {
-		if (map == null || name == null)
+		if (map == null || name == null) {
 			return null;
+		}
 
 		ContextParamBean bean = (ContextParamBean) map.get(name);
-		if (bean == null)
+		if (bean == null) {
 			return null;
+		}
 
 		return bean.getValue();
 	}
 
 	/**
 	 * set param value
-	 * 
+	 *
 	 * @param map
 	 * @param name
 	 * @param value
 	 */
 	public static void setContextParamValue(Map map, String name, String value) {
-		if (name == null)
+		if (name == null) {
 			return;
+		}
 
-		if (map == null)
+		if (map == null) {
 			map = new HashMap();
+		}
 
 		// get context-param bean
 		ContextParamBean bean = (ContextParamBean) map.get(name);
@@ -669,21 +679,24 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * Initialize web settings from existed web.xml file
-	 * 
+	 *
 	 * @param map
 	 * @param project
 	 */
 	public static void initializeWebapp(Map map, IProject project) {
-		if (project == null)
+		if (project == null) {
 			return;
+		}
 
-		if (map == null)
+		if (map == null) {
 			map = new HashMap();
+		}
 
 		// create WebArtifact
 		WebArtifactEdit webEdit = WebArtifactEdit.getWebArtifactEditForWrite(project);
-		if (webEdit == null)
+		if (webEdit == null) {
 			return;
+		}
 
 		try {
 			// get webapp
@@ -698,18 +711,20 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 
 	/**
 	 * Initialize context-param
-	 * 
+	 *
 	 * @param map
 	 * @param webapp
 	 */
 	protected static void initializeContextParam(Map map, WebApp webapp) {
-		if (webapp == null)
+		if (webapp == null) {
 			return;
+		}
 
 		// get context-param map
 		Map son = (Map) map.get(EXT_CONTEXT_PARAM);
-		if (son == null)
+		if (son == null) {
 			return;
+		}
 
 		// get param list
 		List list = null;
@@ -726,8 +741,9 @@ public class WebArtifactUtil implements IBirtWizardConstants {
 		while (it.hasNext()) {
 			String name = (String) it.next();
 			Object obj = getContextParamByName(list, name);
-			if (obj == null)
+			if (obj == null) {
 				continue;
+			}
 
 			String value = null;
 			String description = null;

@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -20,11 +20,12 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
+
 import org.eclipse.birt.report.taglib.component.ViewerField;
 
 /**
  * Abstract base tag. All BIRT tags should extend this base class.
- * 
+ *
  */
 public abstract class AbstractBaseTag extends TagSupport implements ITagConstants {
 
@@ -36,14 +37,14 @@ public abstract class AbstractBaseTag extends TagSupport implements ITagConstant
 
 	/**
 	 * Then entry to validate tag
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public abstract boolean __validate() throws Exception;
 
 	/**
 	 * Then entry to process tag
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public abstract void __process() throws Exception;
@@ -56,7 +57,7 @@ public abstract class AbstractBaseTag extends TagSupport implements ITagConstant
 
 	/**
 	 * Then entry to initialize tag
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void __init() {
@@ -69,9 +70,10 @@ public abstract class AbstractBaseTag extends TagSupport implements ITagConstant
 
 	/**
 	 * Initialize pageContext
-	 * 
+	 *
 	 * @see javax.servlet.jsp.tagext.TagSupport#setPageContext(javax.servlet.jsp.PageContext)
 	 */
+	@Override
 	public void setPageContext(PageContext context) {
 		super.setPageContext(context);
 		this.__init();
@@ -79,18 +81,20 @@ public abstract class AbstractBaseTag extends TagSupport implements ITagConstant
 
 	/**
 	 * When reach the start tag, fire this operation
-	 * 
+	 *
 	 * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
 	 */
+	@Override
 	public int doStartTag() throws JspException {
 		return EVAL_PAGE;
 	}
 
 	/**
 	 * When reach the end tag, fire this operation
-	 * 
+	 *
 	 * @see javax.servlet.jsp.tagext.TagSupport#doEndTag()
 	 */
+	@Override
 	public int doEndTag() throws JspException {
 		try {
 			if (__validate()) {
@@ -112,7 +116,7 @@ public abstract class AbstractBaseTag extends TagSupport implements ITagConstant
 
 	/**
 	 * Handle Exception
-	 * 
+	 *
 	 * @param e
 	 * @throws JspException
 	 */

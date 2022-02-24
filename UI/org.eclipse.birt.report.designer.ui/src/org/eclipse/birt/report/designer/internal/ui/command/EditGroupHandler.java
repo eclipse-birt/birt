@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * 
+ *
  */
 
 public class EditGroupHandler extends SelectionHandler {
@@ -38,18 +38,19 @@ public class EditGroupHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
 	 * ExecutionEvent)
 	 */
+	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		super.execute(event);
 
 		GroupHandle handle = null;
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
 		Object obj = UIUtil.getVariableFromContext(context, EditGroupAction.GROUP_HANDLE_NAME);
-		if (obj != null && obj instanceof GroupHandle) {
+		if (obj instanceof GroupHandle) {
 			handle = (GroupHandle) obj;
 		}
 
@@ -74,9 +75,10 @@ public class EditGroupHandler extends SelectionHandler {
 
 	/**
 	 * Gets the activity stack of the report
-	 * 
+	 *
 	 * @return returns the stack
 	 */
+	@Override
 	protected CommandStack getActiveCommandStack() {
 		return SessionHandleAdapter.getInstance().getCommandStack();
 	}

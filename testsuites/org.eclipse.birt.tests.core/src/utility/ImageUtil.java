@@ -1,19 +1,16 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
 package utility;
-
-import javax.imageio.ImageIO;
-import javax.swing.GrayFilter;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -25,8 +22,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.swing.GrayFilter;
+
 /*
- * Perform operations on images and image files: read, save, compare etc. 
+ * Perform operations on images and image files: read, save, compare etc.
  */
 public class ImageUtil {
 
@@ -34,16 +34,16 @@ public class ImageUtil {
 	private ImageUtil() {
 	}
 
-	public static enum ImageCompParam {
+	public enum ImageCompParam {
 		XBLOCKS, // number of blocks by x-axis
 		YBLOCKS, // number of blocks by y-axis
 		TOLERANCE, // mismatch tolerance (max difference)
 		STABILIZER, // algorithm stabilizer value
 		DEBUG // 1: textual indication of change, 2: difference of factors
-	};
+	}
 
 	public static Map<ImageCompParam, Integer> getDefaultCompParams() {
-		Map<ImageCompParam, Integer> params = new HashMap<ImageCompParam, Integer>();
+		Map<ImageCompParam, Integer> params = new HashMap<>();
 		params.put(ImageCompParam.XBLOCKS, 20);
 		params.put(ImageCompParam.YBLOCKS, 20);
 		params.put(ImageCompParam.TOLERANCE, 3);
@@ -90,8 +90,9 @@ public class ImageUtil {
 
 		// traverse and compare respective blocks of both images
 		for (int y = 0; y < params.get(ImageCompParam.YBLOCKS); y++) {
-			if (params.get(ImageCompParam.DEBUG) > 0)
+			if (params.get(ImageCompParam.DEBUG) > 0) {
 				System.out.print("|");
+			}
 			for (int x = 0; x < params.get(ImageCompParam.XBLOCKS); x++) {
 				int goldenBrightness = getAverageBrightness(golden.getSubimage(x * goldenBlockXSize,
 						y * goldenBlockYSize, goldenBlockXSize - 1, goldenBlockYSize - 1), params);
@@ -104,13 +105,16 @@ public class ImageUtil {
 					gc.drawRect(x * actualBlockXSize, y * actualBlockYSize, actualBlockXSize - 1, actualBlockYSize - 1);
 					match = false;
 				}
-				if (params.get(ImageCompParam.DEBUG) == 1)
+				if (params.get(ImageCompParam.DEBUG) == 1) {
 					System.out.print((diff > params.get(ImageCompParam.TOLERANCE) ? "X" : " "));
-				if (params.get(ImageCompParam.DEBUG) == 2)
+				}
+				if (params.get(ImageCompParam.DEBUG) == 2) {
 					System.out.print(diff + (x < params.get(ImageCompParam.XBLOCKS) - 1 ? "," : ""));
+				}
 			}
-			if (params.get(ImageCompParam.DEBUG) > 0)
+			if (params.get(ImageCompParam.DEBUG) > 0) {
 				System.out.println("|");
+			}
 		}
 
 		return match ? null : noMatch;

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,8 +39,9 @@ public class PageInstance implements IPageInstance {
 		this.contents = contents;
 	}
 
+	@Override
 	public IReportItemInstance[] getInstancesByElementId(int elementId) throws ScriptException {
-		ArrayList<IReportItemInstance> instances = new ArrayList<IReportItemInstance>();
+		ArrayList<IReportItemInstance> instances = new ArrayList<>();
 		for (IContent content : contents) {
 			Object generateBy = content.getGenerateBy();
 			if (generateBy instanceof ReportElementDesign) {
@@ -62,8 +63,9 @@ public class PageInstance implements IPageInstance {
 		return null;
 	}
 
+	@Override
 	public IReportItemInstance[] getInstancesByElementName(String elementName) throws ScriptException {
-		ArrayList<IReportItemInstance> instances = new ArrayList<IReportItemInstance>();
+		ArrayList<IReportItemInstance> instances = new ArrayList<>();
 		for (IContent content : contents) {
 			Object generateBy = content.getGenerateBy();
 			if (generateBy instanceof ReportElementDesign) {

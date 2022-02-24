@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,7 +48,7 @@ public class PublishTemplateWizard extends Wizard {
 	private WizardReportSettingPage page;
 	private ReportDesignHandle handle;
 
-	private static final String[] IMAGE_TYPES = new String[] { ".bmp", //$NON-NLS-1$
+	private static final String[] IMAGE_TYPES = { ".bmp", //$NON-NLS-1$
 			".jpg", //$NON-NLS-1$
 			".jpeg", //$NON-NLS-1$
 			".jpe", //$NON-NLS-1$
@@ -68,9 +68,10 @@ public class PublishTemplateWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
+	@Override
 	public void addPages() {
 		page = new WizardReportSettingPage(handle);
 		page.setTitle(PAGE_TITLE);
@@ -80,9 +81,10 @@ public class PublishTemplateWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
+	@Override
 	public boolean performFinish() {
 		// copy to template folder
 		String templateFolderPath = ReportPlugin.getDefault().getTemplatePreference();
@@ -132,7 +134,7 @@ public class PublishTemplateWizard extends Wizard {
 		int overwrite = Window.OK;
 		try {
 			if (targetFile.exists()) {
-				String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
+				String[] buttons = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
 						IDialogConstants.CANCEL_LABEL };
 				String question = Messages.getFormattedString("SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
 						new Object[] { targetFile.getAbsolutePath() });
@@ -146,13 +148,7 @@ public class PublishTemplateWizard extends Wizard {
 
 				try {
 					setDesignFile(targetFile.getAbsolutePath());
-				} catch (DesignFileException e) {
-					ExceptionHandler.handle(e);
-					return false;
-				} catch (SemanticException e) {
-					ExceptionHandler.handle(e);
-					return false;
-				} catch (IOException e) {
+				} catch (DesignFileException | SemanticException | IOException e) {
 					ExceptionHandler.handle(e);
 					return false;
 				}
@@ -172,9 +168,9 @@ public class PublishTemplateWizard extends Wizard {
 	}
 
 	/**
-	 * 
+	 *
 	 * set ReportDesignHandle properties.
-	 * 
+	 *
 	 * @param fileName
 	 * @throws DesignFileException
 	 * @throws SemanticException
@@ -182,8 +178,9 @@ public class PublishTemplateWizard extends Wizard {
 	 */
 	private void setDesignFile(String fileName) throws DesignFileException, SemanticException, IOException {
 		ReportDesignHandle newHandle = SessionHandleAdapter.getInstance().getSessionHandle().openDesign(fileName);
-		if (!page.getDisplayName().equals("")) //$NON-NLS-1$
+		if (!page.getDisplayName().equals("")) { //$NON-NLS-1$
 			newHandle.setDisplayName(page.getDisplayName());
+		}
 
 		newHandle.setProperty(ModuleHandle.DESCRIPTION_PROP, page.getDescription());
 
@@ -213,19 +210,11 @@ public class PublishTemplateWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.wizard.IWizard#canFinish()
 	 */
+	@Override
 	public boolean canFinish() {
 		return page.canFinish();
-	}
-
-	private boolean checkExtensions(String fileName) {
-		for (int i = 0; i < IMAGE_TYPES.length; i++) {
-			if (fileName.toLowerCase().endsWith(IMAGE_TYPES[i])) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

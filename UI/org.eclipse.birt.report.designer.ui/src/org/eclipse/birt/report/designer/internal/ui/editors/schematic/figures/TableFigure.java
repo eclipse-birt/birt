@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -58,6 +58,7 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 
 	class TableViewportLayout extends ViewportLayout {
 
+		@Override
 		protected Dimension calculatePreferredSize(IFigure figure, int wHint, int hHint) {
 			getContents().invalidateTree();
 			// wHint = Math.max( 0, wHint );
@@ -68,30 +69,33 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * org.eclipse.draw2d.AbstractHintLayout#isSensitiveHorizontally(org.eclipse.
 		 * draw2d.IFigure)
 		 */
+		@Override
 		protected boolean isSensitiveHorizontally(IFigure parent) {
 			return true;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.draw2d.AbstractHintLayout#isSensitiveVertically(org.eclipse.
 		 * draw2d.IFigure)
 		 */
+		@Override
 		protected boolean isSensitiveVertically(IFigure parent) {
 			return true;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
 		 */
+		@Override
 		public void layout(IFigure figure) {
 			// Do nothing, contents updates itself.
 		}
@@ -113,9 +117,10 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#getMinimumSize(int, int)
 	 */
+	@Override
 	public Dimension getMinimumSize(int wHint, int hHint) {
 		getContents().invalidate();
 		return ((LayeredPane) ((LayeredPane) getContents()).getLayer(LayerConstants.PRINTABLE_LAYERS))
@@ -124,9 +129,10 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#paintBorder(org.eclipse.draw2d.Graphics)
 	 */
+	@Override
 	protected void paintBorder(Graphics graphics) {
 		// does nothing, table border layer paint it.
 	}
@@ -134,6 +140,7 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 	/**
 	 * @see org.eclipse.draw2d.Figure#paintFigure(Graphics)
 	 */
+	@Override
 	protected void paintFigure(Graphics graphics) {
 		if (isOpaque()) {
 			if (getBorder() instanceof BaseBorder) {
@@ -197,7 +204,7 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 
 	/**
 	 * Create the list of all the images to be displayed.
-	 * 
+	 *
 	 * @param x the x-cordinator of the base image.
 	 * @param y the y-cordinator of the base image.
 	 * @return the list of all the images to be displayed.
@@ -254,6 +261,7 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 	/**
 	 * @return The Image that this Figure displays
 	 */
+	@Override
 	public Image getImage() {
 		return img;
 	}
@@ -262,7 +270,7 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 	 * Sets the alignment of the Image within this Figure. The alignment comes into
 	 * play when the ImageFigure is larger than the Image. The alignment could be
 	 * any valid combination of the following:
-	 * 
+	 *
 	 * <UL>
 	 * <LI>PositionConstants.NORTH</LI>
 	 * <LI>PositionConstants.SOUTH</LI>
@@ -270,18 +278,20 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 	 * <LI>PositionConstants.WEST</LI>
 	 * <LI>PositionConstants.CENTER or PositionConstants.NONE</LI>
 	 * </UL>
-	 * 
+	 *
 	 * @param flag A constant indicating the alignment
 	 */
+	@Override
 	public void setAlignment(int flag) {
 		alignment = flag;
 	}
 
 	/**
 	 * Sets the position of the Image within this Figure.
-	 * 
+	 *
 	 * @param point The position of the image to be displayed.
 	 */
+	@Override
 	public void setPosition(Point point) {
 		this.position = point;
 	}
@@ -289,36 +299,39 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 	/**
 	 * Sets the repeat of the Image within this Figure. The repeat could be any
 	 * valid combination of the following:
-	 * 
+	 *
 	 * <UL>
 	 * <LI>no_repeat:0</LI>
 	 * <LI>repeat_x:1</LI>
 	 * <LI>repeat_y:2</LI>
 	 * <LI>repeat:3</LI>
 	 * </UL>
-	 * 
+	 *
 	 * @param flag A constant indicating the repeat.
 	 */
+	@Override
 	public void setRepeat(int flag) {
 		this.repeat = flag;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.
 	 * IReportElementFigure#getMargin()
 	 */
+	@Override
 	public Insets getMargin() {
 		return margin;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.
 	 * IReportElementFigure#setMargin(org.eclipse.draw2d.geometry.Insets)
 	 */
+	@Override
 	public void setMargin(Insets newMargin) {
 		if (newMargin == null) {
 			margin = new Insets();
@@ -345,17 +358,20 @@ public class TableFigure extends FreeformViewport implements IReportElementFigur
 	 * <p>
 	 * IMPORTANT: Note that it is the client's responsibility to dispose the given
 	 * image.
-	 * 
+	 *
 	 * @param image The Image to be displayed. It can be <code>null</code>.
 	 */
+	@Override
 	public void setImage(Image image) {
-		if (img == image)
+		if (img == image) {
 			return;
+		}
 		img = image;
-		if (img != null)
+		if (img != null) {
 			size = new Rectangle(image.getBounds()).getSize();
-		else
+		} else {
 			size = new Dimension();
+		}
 		revalidate();
 		repaint();
 	}

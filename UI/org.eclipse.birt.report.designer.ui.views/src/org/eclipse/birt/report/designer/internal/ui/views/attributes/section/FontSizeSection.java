@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -37,23 +37,27 @@ public class FontSizeSection extends Section {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public void createSection() {
 		getLabelControl(parent);
 		getFontSizeControl(parent);
 		getGridPlaceholder(parent);
 	}
 
+	@Override
 	public void layout() {
 		GridData gd = (GridData) fontSize.getControl().getLayoutData();
-		if (getLayoutNum() > 0)
+		if (getLayoutNum() > 0) {
 			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
-		else
+		} else {
 			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		}
 		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		} else
+		} else {
 			gd.grabExcessHorizontalSpace = fillCombo;
+		}
 	}
 
 	public FontSizePropertyDescriptor getFontSizeControl() {
@@ -63,12 +67,14 @@ public class FontSizeSection extends Section {
 	protected FontSizePropertyDescriptor getFontSizeControl(Composite parent) {
 		if (fontSize == null) {
 			fontSize = DescriptorToolkit.createFontSizePropertyDescriptor(true);
-			if (getProvider() != null)
+			if (getProvider() != null) {
 				fontSize.setDescriptorProvider(getProvider());
+			}
 			fontSize.createControl(parent);
 			fontSize.getControl().setLayoutData(new GridData());
 			fontSize.getControl().addDisposeListener(new DisposeListener() {
 
+				@Override
 				public void widgetDisposed(DisposeEvent event) {
 					fontSize = null;
 				}
@@ -94,6 +100,7 @@ public class FontSizeSection extends Section {
 		} else {
 			control.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
+				@Override
 				public void getName(AccessibleEvent e) {
 					Label lbl = getLabelControl();
 					if (lbl != null) {
@@ -113,8 +120,9 @@ public class FontSizeSection extends Section {
 
 	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if (fontSize != null)
+		if (fontSize != null) {
 			fontSize.setDescriptorProvider(provider);
+		}
 	}
 
 	private int width = -1;
@@ -127,6 +135,7 @@ public class FontSizeSection extends Section {
 		this.width = width;
 	}
 
+	@Override
 	public void setInput(Object input) {
 		assert (input != null);
 		fontSize.setInput(input);
@@ -170,32 +179,43 @@ public class FontSizeSection extends Section {
 		return null;
 	}
 
+	@Override
 	public void load() {
-		if (fontSize != null && !fontSize.getControl().isDisposed())
+		if (fontSize != null && !fontSize.getControl().isDisposed()) {
 			fontSize.load();
+		}
 	}
 
+	@Override
 	public void reset() {
 		if (fontSize != null && !fontSize.getControl().isDisposed()) {
 			fontSize.reset();
 		}
 	}
 
+	@Override
 	public void setHidden(boolean isHidden) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
-		if (fontSize != null)
+		}
+		if (fontSize != null) {
 			fontSize.setHidden(isHidden);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
+		}
 	}
 
+	@Override
 	public void setVisible(boolean isVisible) {
-		if (displayLabel != null)
+		if (displayLabel != null) {
 			displayLabel.setVisible(isVisible);
-		if (fontSize != null)
+		}
+		if (fontSize != null) {
 			fontSize.setVisible(isVisible);
-		if (placeholderLabel != null)
+		}
+		if (placeholderLabel != null) {
 			placeholderLabel.setVisible(isVisible);
+		}
 	}
 }

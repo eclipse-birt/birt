@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,11 +47,12 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.extension.IReportItemGeneration#setModelObject
 	 * (org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
+	@Override
 	public void setModelObject(ExtendedItemHandle eih) {
 		super.setModelObject(eih);
 
@@ -79,11 +80,12 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.engine.extension.IReportItemGeneration#serialize(java
 	 * .io.OutputStream)
 	 */
+	@Override
 	public void serialize(OutputStream ostream) throws BirtException {
 		try {
 			ObjectOutputStream oos = SecurityUtil.newObjectOutputStream(ostream);
@@ -98,14 +100,16 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#
 	 * needSerialization()
 	 */
+	@Override
 	public boolean needSerialization() {
 		return true;
 	}
 
+	@Override
 	public void onRowSets(IBaseResultSet[] results) throws BirtException {
 		// catch unwanted null handle case
 		if (modelHandle == null || cm == null) {
@@ -131,8 +135,6 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase {
 		// check empty case
 		if (results == null || results.length == 0 || ChartReportItemUtil.isEmpty(results[0]) || queries == null
 				|| queries.length == 0 || queries[0] == null) {
-			// if the Data rows are null/empty, do nothing.
-			return;
 		}
 
 		// Evaluate the expressions so that they are registered by the DtE

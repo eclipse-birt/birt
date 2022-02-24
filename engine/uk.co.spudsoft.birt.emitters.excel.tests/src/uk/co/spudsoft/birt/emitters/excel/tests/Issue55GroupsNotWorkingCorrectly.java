@@ -1,7 +1,7 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
+ *
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -191,7 +191,7 @@ public class Issue55GroupsNotWorkingCorrectly extends ReportRunner {
 
 		/*
 		 * Note that the results of this test are a yucky mess
-		 * 
+		 *
 		 * Excel groups with a summary row above or below the data rows. Each group has
 		 * to have a distinct summary row - if you have two groups that try to end with
 		 * the same summary row Excel represents them like the image on the right (you
@@ -199,12 +199,12 @@ public class Issue55GroupsNotWorkingCorrectly extends ReportRunner {
 		 * with the individual expand/collapse controls).
 		 *
 		 * You can do one of three things:
-		 * 
+		 *
 		 * Give each group level a header row and set ExcelEmitter.GroupSummaryHeader.
 		 * Give each group level a footer row and don't set
 		 * ExcelEmitter.GroupSummaryHeader. Accept that you are going to get something
 		 * odd :)
-		 * 
+		 *
 		 */
 
 		debug = false;

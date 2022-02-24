@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.core.Module;
 /**
  * This class represents a grouping level within a list. See the parent class,
  * <code>GroupElement</code>, for details.
- * 
+ *
  */
 
 public class ListGroup extends GroupElement {
@@ -33,40 +33,43 @@ public class ListGroup extends GroupElement {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
 	 * report.model.elements.ElementVisitor)
 	 */
 
+	@Override
 	public void apply(ElementVisitor visitor) {
 		visitor.visitListGroup(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
+	@Override
 	public String getElementName() {
 		return ReportDesignConstants.LIST_GROUP_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
 	 * report.model.elements.ReportDesign)
 	 */
 
+	@Override
 	public DesignElementHandle getHandle(Module module) {
 		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
-	 * 
+	 *
 	 * @param module the report design
 	 * @return an API handle for this element
 	 */

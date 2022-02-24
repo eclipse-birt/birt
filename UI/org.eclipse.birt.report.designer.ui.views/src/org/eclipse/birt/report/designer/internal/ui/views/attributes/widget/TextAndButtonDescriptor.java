@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -38,6 +38,7 @@ public class TextAndButtonDescriptor extends PropertyDescriptor {
 
 	private int buttonWidth = 60;
 
+	@Override
 	public Control createControl(Composite parent) {
 		Composite composite = FormWidgetFactory.getInstance().createComposite(parent);
 		GridLayout layout = new GridLayout(2, false);
@@ -48,20 +49,24 @@ public class TextAndButtonDescriptor extends PropertyDescriptor {
 
 		composite.setLayout(layout);
 		text = DescriptorToolkit.createTextPropertyDescriptor(isFormStyle());
-		if (provider != null)
+		if (provider != null) {
 			text.setDescriptorProvider(provider);
+		}
 		text.createControl(composite);
-		if (textText != null)
+		if (textText != null) {
 			text.setText(textText);
+		}
 		WidgetUtil.setGridData(text.getControl(), 1, true);
 		button = FormWidgetFactory.getInstance().createButton(composite, SWT.PUSH, isFormStyle());
-		if (buttonText != null)
+		if (buttonText != null) {
 			button.setText(buttonText);
-		if (!selectList.isEmpty())
+		}
+		if (!selectList.isEmpty()) {
 			button.addSelectionListener((SelectionListener) selectList.get(0));
-		else {
+		} else {
 			SelectionListener listener = new SelectionAdapter() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					onClickButton();
 				}
@@ -70,7 +75,7 @@ public class TextAndButtonDescriptor extends PropertyDescriptor {
 		}
 		GridData data = new GridData();
 		data.widthHint = Math.max(button.computeSize(-1, -1).x, buttonWidth);
-		;
+
 		data.grabExcessHorizontalSpace = false;
 		button.setLayoutData(data);
 		descriptorContainer.add(text);
@@ -79,10 +84,10 @@ public class TextAndButtonDescriptor extends PropertyDescriptor {
 
 	/**
 	 * At the default select button operation,you could use this method.
-	 * 
+	 *
 	 */
 	protected void onClickButton() {
-	};
+	}
 
 	private List selectList = new ArrayList();
 
@@ -91,19 +96,22 @@ public class TextAndButtonDescriptor extends PropertyDescriptor {
 	 */
 	public void addSelectionListener(SelectionListener listener) {
 		if (!selectList.contains(listener)) {
-			if (!selectList.isEmpty())
+			if (!selectList.isEmpty()) {
 				removeSelectionListener((SelectionListener) selectList.get(0));
+			}
 			selectList.add(listener);
-			if (button != null)
+			if (button != null) {
 				button.addSelectionListener(listener);
+			}
 		}
 	}
 
 	public void removeSelectionListener(SelectionListener listener) {
 		if (selectList.contains(listener)) {
 			selectList.remove(listener);
-			if (button != null)
+			if (button != null) {
 				button.removeSelectionListener(listener);
+			}
 		}
 	}
 
@@ -111,14 +119,17 @@ public class TextAndButtonDescriptor extends PropertyDescriptor {
 		text.getControl().forceFocus();
 	}
 
+	@Override
 	public void setInput(Object input) {
 		text.setInput(input);
 	}
 
+	@Override
 	public Object getInput() {
 		return text.getInput();
 	}
 
+	@Override
 	public void load() {
 		text.load();
 	}
@@ -126,19 +137,22 @@ public class TextAndButtonDescriptor extends PropertyDescriptor {
 	private String textText;
 
 	public void setText(String aText) {
-		if (text.getControl() != null)
+		if (text.getControl() != null) {
 			text.setText(aText);
+		}
 		this.textText = aText;
 	}
 
 	private String buttonText;
 
 	public void setButtonText(String aText) {
-		if (button != null)
+		if (button != null) {
 			button.setText(aText);
+		}
 		this.buttonText = aText;
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
 		text.save(obj);
 	}
@@ -148,9 +162,11 @@ public class TextAndButtonDescriptor extends PropertyDescriptor {
 
 	IDescriptorProvider provider;
 
+	@Override
 	public void setDescriptorProvider(IDescriptorProvider provider) {
-		if (this.text != null)
+		if (this.text != null) {
 			this.text.setDescriptorProvider(provider);
+		}
 		this.provider = provider;
 	}
 
@@ -163,7 +179,7 @@ public class TextAndButtonDescriptor extends PropertyDescriptor {
 		if (button != null) {
 			GridData data = new GridData();
 			data.widthHint = Math.max(button.computeSize(-1, -1).x, buttonWidth);
-			;
+
 			data.grabExcessHorizontalSpace = false;
 			button.setLayoutData(data);
 		}

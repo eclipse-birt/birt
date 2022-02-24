@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -54,6 +54,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 	/*
 	 * (non-Javadoc) Method declared on IContentProvider.
 	 */
+	@Override
 	public void dispose() {
 		if (viewer != null) {
 			IWorkspace workspace = null;
@@ -74,6 +75,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 	/*
 	 * (non-Javadoc) Method declared on IContentProvider.
 	 */
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		super.inputChanged(viewer, oldInput, newInput);
 
@@ -106,6 +108,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 	/*
 	 * (non-Javadoc) Method declared on IResourceChangeListener.
 	 */
+	@Override
 	public final void resourceChanged(final IResourceChangeEvent event) {
 
 		processDelta(event.getDelta());
@@ -114,20 +117,22 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 
 	/**
 	 * Process the resource delta.
-	 * 
+	 *
 	 * @param delta
 	 */
 	protected void processDelta(IResourceDelta delta) {
 
 		Control ctrl = viewer.getControl();
-		if (ctrl == null || ctrl.isDisposed())
+		if (ctrl == null || ctrl.isDisposed()) {
 			return;
+		}
 
 		final Collection runnables = new ArrayList();
 		processDelta(delta, runnables);
 
-		if (runnables.isEmpty())
+		if (runnables.isEmpty()) {
 			return;
+		}
 
 		// Are we in the UIThread? If so spin it until we are done
 		if (ctrl.getDisplay().getThread() == Thread.currentThread()) {
@@ -137,14 +142,16 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 
 				/*
 				 * (non-Javadoc)
-				 * 
+				 *
 				 * @see java.lang.Runnable#run()
 				 */
+				@Override
 				public void run() {
 					// Abort if this happens after disposes
 					Control ctrl = viewer.getControl();
-					if (ctrl == null || ctrl.isDisposed())
+					if (ctrl == null || ctrl.isDisposed()) {
 						return;
+					}
 
 					runUpdates(runnables);
 				}
@@ -155,7 +162,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 
 	/**
 	 * Run all of the runnables that are the widget updates
-	 * 
+	 *
 	 * @param runnables
 	 */
 	private void runUpdates(Collection runnables) {
@@ -173,8 +180,9 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 		// he widget may have been destroyed
 		// by the time this is run. Check for this and do nothing if so.
 		Control ctrl = viewer.getControl();
-		if (ctrl == null || ctrl.isDisposed())
+		if (ctrl == null || ctrl.isDisposed()) {
 			return;
+		}
 
 		// Get the affected resource
 		final IResource resource = delta.getResource();
@@ -202,6 +210,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 				| IResourceDelta.DESCRIPTION)) != 0) {
 			Runnable updateRunnable = new Runnable() {
 
+				@Override
 				public void run() {
 					((StructuredViewer) viewer).update(resource, null);
 				}
@@ -241,8 +250,9 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 		IResourceDelta[] addedChildren = delta.getAffectedChildren(IResourceDelta.ADDED);
 		IResourceDelta[] removedChildren = delta.getAffectedChildren(IResourceDelta.REMOVED);
 
-		if (addedChildren.length == 0 && removedChildren.length == 0)
+		if (addedChildren.length == 0 && removedChildren.length == 0) {
 			return;
+		}
 
 		final Object[] addedObjects;
 		final Object[] removedObjects;
@@ -260,8 +270,9 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 					++numMovedFrom;
 				}
 			}
-		} else
+		} else {
 			addedObjects = new Object[0];
+		}
 
 		// Handle removed children. Issue one update for all removals.
 		if (removedChildren.length > 0) {
@@ -280,6 +291,7 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 
 		Runnable addAndRemove = new Runnable() {
 
+			@Override
 			public void run() {
 				if (viewer instanceof AbstractTreeViewer) {
 					AbstractTreeViewer treeViewer = (AbstractTreeViewer) viewer;
@@ -295,10 +307,12 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 						treeViewer.getControl().setRedraw(false);
 					}
 					try {
-						if (addedObjects.length > 0)
+						if (addedObjects.length > 0) {
 							treeViewer.add(resource, addedObjects);
-						if (removedObjects.length > 0)
+						}
+						if (removedObjects.length > 0) {
 							treeViewer.remove(removedObjects);
+						}
 					} finally {
 						if (hasRename) {
 							treeViewer.getControl().setRedraw(true);
@@ -314,13 +328,14 @@ public class WorkbenchContentProvider extends BaseWorkbenchContentProvider imple
 
 	/**
 	 * Return a runnable for refreshing a resource.
-	 * 
+	 *
 	 * @param resource
 	 * @return Runnable
 	 */
 	private Runnable getRefreshRunnable(final IResource resource) {
 		return new Runnable() {
 
+			@Override
 			public void run() {
 				((StructuredViewer) viewer).refresh(resource);
 			}

@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
  * Copyright (c) 2004, 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
@@ -64,14 +64,14 @@ public class ParameterMetaData extends ExceptionHandler {
 
 		m_dataType = paramHint.getEffectiveOdaType(odaDataSourceId, dataSetType);
 
-		m_isInput = Boolean.valueOf(paramHint.isInputMode());
-		m_isOutput = Boolean.valueOf(paramHint.isOutputMode());
+		m_isInput = paramHint.isInputMode();
+		m_isOutput = paramHint.isOutputMode();
 
-		m_isOptional = Boolean.valueOf(paramHint.isInputOptional());
+		m_isOptional = paramHint.isInputOptional();
 		// TODO - paramHint.isMultiInputValuesAllowed();
 
 		m_defaultValue = paramHint.getDefaultInputValue();
-		m_isNullable = Boolean.valueOf(paramHint.isNullable());
+		m_isNullable = paramHint.isNullable();
 
 		getLogger().exiting(sm_className, methodName, this);
 	}
@@ -79,16 +79,17 @@ public class ParameterMetaData extends ExceptionHandler {
 	/**
 	 * Instantiate a parameter metadata based on runtime metadata of the specified
 	 * oda data source and data set type.
-	 * 
+	 *
 	 * @throws DataException
 	 */
 	ParameterMetaData(IParameterMetaData parameterMetaData, int index, String odaDataSourceId, String dataSetType)
 			throws DataException {
 		super(sm_className);
 		final String methodName = "ParameterMetaData( IParameterMetaData, int, String, String )"; //$NON-NLS-1$
-		if (getLogger().isLoggingEnterExitLevel())
+		if (getLogger().isLoggingEnterExitLevel()) {
 			getLogger().entering(sm_className, methodName,
 					new Object[] { parameterMetaData, Integer.valueOf(index), odaDataSourceId, dataSetType });
+		}
 		m_position = index;
 		m_nativeName = getRuntimeParameterName(parameterMetaData, index);
 
@@ -97,8 +98,9 @@ public class ParameterMetaData extends ExceptionHandler {
 		// if the native type of the parameter is unknown (Types.NULL) at runtime,
 		// we can't simply default to the ODA character type because we may
 		// have a design hint that could provide the type
-		if (nativeType != Types.NULL)
+		if (nativeType != Types.NULL) {
 			m_dataType = DataTypeUtil.toOdaType(nativeType, odaDataSourceId, dataSetType);
+		}
 
 		m_nativeTypeName = getRuntimeParamTypeName(parameterMetaData, index);
 
@@ -118,9 +120,9 @@ public class ParameterMetaData extends ExceptionHandler {
 		m_precision = getRuntimeParameterPrecision(parameterMetaData, index);
 
 		int isNullable = getRuntimeIsNullable(parameterMetaData, index);
-		if (isNullable == IParameterMetaData.parameterNullable)
+		if (isNullable == IParameterMetaData.parameterNullable) {
 			m_isNullable = Boolean.TRUE;
-		else if (isNullable == IParameterMetaData.parameterNoNulls) {
+		} else if (isNullable == IParameterMetaData.parameterNoNulls) {
 			m_isNullable = Boolean.FALSE;
 			m_isOptional = Boolean.FALSE;
 		}
@@ -131,7 +133,7 @@ public class ParameterMetaData extends ExceptionHandler {
 	/**
 	 * This method is meant to update the runtime parameter metadata with static
 	 * design-time metadata specified in a parameter hint.
-	 * 
+	 *
 	 * @throws DataException if data source error occurs.
 	 */
 	void updateWith(ParameterHint paramHint, String odaDataSourceId, String dataSetType) throws DataException {
@@ -142,8 +144,8 @@ public class ParameterMetaData extends ExceptionHandler {
 		// be incorrect about the parameter's input and output modes. Therefore,
 		// we want to use the static parameter hints provided by the user to override
 		// those specified by the runtime.
-		m_isInput = Boolean.valueOf(paramHint.isInputMode());
-		m_isOutput = Boolean.valueOf(paramHint.isOutputMode());
+		m_isInput = paramHint.isInputMode();
+		m_isOutput = paramHint.isOutputMode();
 
 		// check that the position in the parameter hint either has not been
 		// set or this parameter metadata (from a hint) has not been set, or
@@ -156,8 +158,9 @@ public class ParameterMetaData extends ExceptionHandler {
 		// if this parameter metadata (from runtime metadata or a previous hint) doesn't
 		// have the
 		// position set and the new hint has a valid position, then update
-		if (m_position <= 0 && position > 0)
+		if (m_position <= 0 && position > 0) {
 			m_position = position;
+		}
 
 		String name = paramHint.getName();
 		assert (name != null && name.length() > 0);
@@ -165,13 +168,15 @@ public class ParameterMetaData extends ExceptionHandler {
 		// if the name is already set, then ensure they're the same name
 		assert (m_name == null || m_name.equals(name));
 
-		if (m_name == null)
+		if (m_name == null) {
 			m_name = name;
+		}
 
 		// if the parameter native name was previously unknown, then use the value from
 		// the specified hint
-		if (m_nativeName == null)
+		if (m_nativeName == null) {
 			m_nativeName = paramHint.getNativeName();
+		}
 
 		// if the parameter type was previously unknown, then use the type from
 		// the hint if present or default to the character type
@@ -179,13 +184,15 @@ public class ParameterMetaData extends ExceptionHandler {
 			m_dataType = paramHint.getEffectiveOdaType(odaDataSourceId, dataSetType);
 		}
 
-		if (m_isOptional == null) // was unknown
-			m_isOptional = Boolean.valueOf(paramHint.isInputOptional());
+		if (m_isOptional == null) { // was unknown
+			m_isOptional = paramHint.isInputOptional();
+		}
 
 		// TODO - paramHint.isMultiInputValuesAllowed();
 
-		if (m_isNullable == null) // was unknown
-			m_isNullable = Boolean.valueOf(paramHint.isNullable());
+		if (m_isNullable == null) { // was unknown
+			m_isNullable = paramHint.isNullable();
+		}
 
 		m_defaultValue = paramHint.getDefaultInputValue();
 
@@ -208,9 +215,7 @@ public class ParameterMetaData extends ExceptionHandler {
 		final String methodName = "getRuntimeParameterType"; //$NON-NLS-1$
 		try {
 			return parameterMetaData.getParameterType(index);
-		} catch (OdaException ex) {
-			throwException(ex, ResourceConstants.CANNOT_GET_PARAMETER_TYPE, index, methodName);
-		} catch (UnsupportedOperationException ex) {
+		} catch (OdaException | UnsupportedOperationException ex) {
 			// minimum required parameter metadata is not available
 			throwException(ex, ResourceConstants.CANNOT_GET_PARAMETER_TYPE, index, methodName);
 		}
@@ -279,7 +284,7 @@ public class ParameterMetaData extends ExceptionHandler {
 
 	/**
 	 * Returns the 1-based parameter index of this parameter.
-	 * 
+	 *
 	 * @return the 1-based parameter index of this parameter, or -1 if the index is
 	 *         unspecified or unknown.
 	 */
@@ -289,7 +294,7 @@ public class ParameterMetaData extends ExceptionHandler {
 
 	/**
 	 * Returns the parameter name of this parameter.
-	 * 
+	 *
 	 * @return the parameter name of this parameter, or null if the name is
 	 *         unspecified or unknown.
 	 */
@@ -300,7 +305,7 @@ public class ParameterMetaData extends ExceptionHandler {
 	/**
 	 * Returns the parameter's native name as known to the underlying ODA runtime
 	 * driver.
-	 * 
+	 *
 	 * @return the parameter native name, or null if the name is not available or
 	 *         this parameter is not named.
 	 */
@@ -310,7 +315,7 @@ public class ParameterMetaData extends ExceptionHandler {
 
 	/**
 	 * Returns the ODA type code of this parameter.
-	 * 
+	 *
 	 * @return the ODA data type of this parameter.
 	 */
 	public int getDataType() {
@@ -322,7 +327,7 @@ public class ParameterMetaData extends ExceptionHandler {
 
 	/**
 	 * Returns the data provider specific type name of this parameter.
-	 * 
+	 *
 	 * @return the native data type name, or null if the type name is unspecified or
 	 *         unknown.
 	 */
@@ -332,7 +337,7 @@ public class ParameterMetaData extends ExceptionHandler {
 
 	/**
 	 * Returns whether this parameter is optional.
-	 * 
+	 *
 	 * @return Boolean.TRUE if this parameter is optional. Boolean.FALSE if this
 	 *         this parameter is not optional. Null if it is unspecified or unknown
 	 *         whether this parameter is optional. The default value is null.
@@ -343,7 +348,7 @@ public class ParameterMetaData extends ExceptionHandler {
 
 	/**
 	 * Returns the default input value for this parameter.
-	 * 
+	 *
 	 * @return the default input value, or null if the default input value is
 	 *         unspecified or unknown.
 	 */
@@ -354,7 +359,7 @@ public class ParameterMetaData extends ExceptionHandler {
 	/**
 	 * Returns whether this parameter is an input parameter. A parameter can be of
 	 * both input and output modes.
-	 * 
+	 *
 	 * @return Boolean.TRUE if this parameter is an input parameter. Boolean.FALSE
 	 *         if this parameter is not an input parameter. Null if it is
 	 *         unspecified or unknown whether this parameter is an input parameter.
@@ -367,7 +372,7 @@ public class ParameterMetaData extends ExceptionHandler {
 	/**
 	 * Returns whether this parameter is an output parameter. A parameter can be of
 	 * both input and output modes.
-	 * 
+	 *
 	 * @return Boolean.TRUE if this parameter is an output parameter. Boolean.FALSE
 	 *         if this parameter is not an output parameter. Null if it is
 	 *         unspecified or unknown whether this parameter is an output parameter.
@@ -380,7 +385,7 @@ public class ParameterMetaData extends ExceptionHandler {
 	/**
 	 * Returns the maximum number of digits to the right of the decimal point for
 	 * this parameter.
-	 * 
+	 *
 	 * @return the scale of the parameter, or -1 if the scale is unspecified or
 	 *         unknown.
 	 */
@@ -390,7 +395,7 @@ public class ParameterMetaData extends ExceptionHandler {
 
 	/**
 	 * Returns the maximum number of decimal digits for this parameter.
-	 * 
+	 *
 	 * @return the precision of the parameter, or -1 if the precision is unspecified
 	 *         or unknown.
 	 */
@@ -400,7 +405,7 @@ public class ParameterMetaData extends ExceptionHandler {
 
 	/**
 	 * Returns whether null values are allowed for this parameter.
-	 * 
+	 *
 	 * @return Boolean.TRUE if null is allowed for this parameter. Boolean.FALSE if
 	 *         null is not allowed for this parameter. Null if it is unspecified or
 	 *         unknown whether null is allowed for this parameter. The default value

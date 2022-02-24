@@ -4,15 +4,16 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.report.model.api.elements.table;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.CellHandle;
@@ -68,7 +69,7 @@ public class LayoutTable {
 
 	/**
 	 * Constructs a table with the given numbers of rows and columns.
-	 * 
+	 *
 	 * @param table  the table element
 	 * @param module the module
 	 */
@@ -80,17 +81,15 @@ public class LayoutTable {
 		this.module = module;
 
 		tableSlots = new LayoutSlot[IListingElementModel.FOOTER_SLOT + 1];
-		for (int i = 0; i < tableSlots.length; i++)
-			tableSlots[i] = null;
+		Arrays.fill(tableSlots, null);
 
 		groupSlots = new LayoutGroupBand[IGroupElementModel.SLOT_COUNT];
-		for (int i = 0; i < groupSlots.length; i++)
-			groupSlots[i] = null;
+		Arrays.fill(groupSlots, null);
 	}
 
 	/**
 	 * Returns the handle of the table that the layout belongs to.
-	 * 
+	 *
 	 * @return the table handle
 	 */
 
@@ -100,7 +99,7 @@ public class LayoutTable {
 
 	/**
 	 * Returns the column count in the table.
-	 * 
+	 *
 	 * @return the column count in the table.
 	 */
 
@@ -111,7 +110,7 @@ public class LayoutTable {
 	/**
 	 * Return a cell element with the given poistion. Uses this method to find cells
 	 * in Table Header, Detail and Footer slots.
-	 * 
+	 *
 	 * @param slotId the slot index,
 	 * @param rowId  the 1-based row index
 	 * @param colId  the 1-based column index
@@ -120,16 +119,19 @@ public class LayoutTable {
 	 */
 
 	public CellHandle getCell(int slotId, int rowId, int colId) {
-		if (slotId > tableSlots.length - 1 || rowId < 1 || colId < 1)
+		if (slotId > tableSlots.length - 1 || rowId < 1 || colId < 1) {
 			return null;
+		}
 
 		LayoutRow row = getSimpleSlot(slotId).getLayoutRow(rowId - 1);
-		if (row == null)
+		if (row == null) {
 			return null;
+		}
 
 		LayoutCell cell = row.getLayoutCell(colId - 1);
-		if (cell == null)
+		if (cell == null) {
 			return null;
+		}
 
 		return cell.getCell();
 	}
@@ -137,7 +139,7 @@ public class LayoutTable {
 	/**
 	 * Return a cell element with the given poistion. Uses this method to find cells
 	 * in Table Header, Detail and Footer slots.
-	 * 
+	 *
 	 * @param groupLevel the 1-based group level
 	 * @param slotId     the slot index,
 	 * @param rowId      the 1-based row index
@@ -147,24 +149,25 @@ public class LayoutTable {
 	 */
 
 	public CellHandle getCell(int groupLevel, int slotId, int rowId, int colId) {
-		if (slotId > groupSlots.length - 1 || rowId < 1 || colId < 1)
+		if (slotId > groupSlots.length - 1 || rowId < 1 || colId < 1 || (groupLevel > getGroupCount())) {
 			return null;
-
-		if (groupLevel > getGroupCount())
-			return null;
+		}
 
 		LayoutSlot slot = getComplexSlot(slotId).getLayoutSlotWithGroupLevel(groupLevel);
-		if (slot == null)
+		if (slot == null) {
 			return null;
+		}
 
 		LayoutRow row = slot.getLayoutRow(rowId - 1);
-		if (row == null)
+		if (row == null) {
 			return null;
+		}
 
 		LayoutCell cell = row.getLayoutCell(colId - 1);
 
-		if (cell == null)
+		if (cell == null) {
 			return null;
+		}
 
 		return cell.getCell();
 	}
@@ -172,15 +175,16 @@ public class LayoutTable {
 	/**
 	 * Return the row handle with the given row position. The <code>rowPosn</code>
 	 * is regardless of the slot.
-	 * 
+	 *
 	 * @param rowPosn the 1-based row position
 	 * @return the row handle
 	 */
 
 	public RowHandle getRow(int rowPosn) {
 		LayoutRow layoutRow = getLayoutRow(rowPosn);
-		if (layoutRow == null)
+		if (layoutRow == null) {
 			return null;
+		}
 
 		RowHandle row = layoutRow.getRow();
 		assert row != null;
@@ -195,7 +199,7 @@ public class LayoutTable {
 	 * <p>
 	 * For example, if a cell occupies the position (1, 1) and (1, 2), return
 	 * <code>CellHandle</code>s with parameters (1, 1) and (1, 2) are same.
-	 * 
+	 *
 	 * @param rowPosn the 1-based row position
 	 * @param colPosn the 1-based column position
 	 * @return the cell handle at the given position
@@ -203,12 +207,14 @@ public class LayoutTable {
 
 	public CellHandle getCell(int rowPosn, int colPosn) {
 		LayoutRow layoutRow = getLayoutRow(rowPosn);
-		if (layoutRow == null)
+		if (layoutRow == null) {
 			return null;
+		}
 
 		LayoutCell layoutCell = layoutRow.getLayoutCell(colPosn - 1);
-		if (layoutCell == null)
+		if (layoutCell == null) {
 			return null;
+		}
 
 		return layoutCell.getCell();
 	}
@@ -216,7 +222,7 @@ public class LayoutTable {
 	/**
 	 * Return the layout row with the given row position. The <code>rowPosn</code>
 	 * is regardless of the slot.
-	 * 
+	 *
 	 * @param rowPosn the 1-based row position
 	 * @return the layout row
 	 */
@@ -233,8 +239,9 @@ public class LayoutTable {
 			if (rowNumber <= rowCount) {
 				row = slot.getLayoutRow(rowNumber - 1);
 				break;
-			} else
+			} else {
 				rowNumber -= rowCount;
+			}
 		}
 
 		return row;
@@ -243,7 +250,7 @@ public class LayoutTable {
 	/**
 	 * Return the column position for a given cell. Uses this method to find cells
 	 * in Table Header, Detail and Footer slots.
-	 * 
+	 *
 	 * @param slotId the index of the slot where the cell resides
 	 * @param rowId  the 0-based row index
 	 * @param cell   the cell element to find
@@ -256,8 +263,9 @@ public class LayoutTable {
 
 		LayoutSlot slot = getSimpleSlot(slotId);
 		int colPosn = slot.getColumnPos(rowId, cell);
-		if (colPosn != 0)
+		if (colPosn != 0) {
 			return colPosn;
+		}
 
 		return getOverlappedColumnPos(cell);
 	}
@@ -265,7 +273,7 @@ public class LayoutTable {
 	/**
 	 * Finds the column position for a cell of which areas is occupied by other cell
 	 * elements.
-	 * 
+	 *
 	 * @param cell the cell element
 	 * @return 1-based column position
 	 */
@@ -288,7 +296,7 @@ public class LayoutTable {
 	/**
 	 * Return the column position for a given cell. Uses this method to find cells
 	 * in Group Header and Footer slots.
-	 * 
+	 *
 	 * @param groupLevel the group level
 	 * @param slotId     the index of the slot where the cell resides
 	 * @param rowId      the 0-based row index
@@ -302,15 +310,16 @@ public class LayoutTable {
 
 		int colPosn = slot.getColumnPos(rowId, cell);
 
-		if (colPosn != 0)
+		if (colPosn != 0) {
 			return colPosn;
+		}
 
 		return getOverlappedColumnPos(cell);
 	}
 
 	/**
 	 * Returns the slot with the given slot index.
-	 * 
+	 *
 	 * @param slotId the slot index
 	 * @return the layout slot.
 	 */
@@ -324,7 +333,7 @@ public class LayoutTable {
 
 	/**
 	 * Returns the slot with the given slot index and the group level.
-	 * 
+	 *
 	 * @param groupLevel the 1-based group level
 	 * @param slotId     the slot index
 	 * @return the layout slot.
@@ -333,8 +342,9 @@ public class LayoutTable {
 	public LayoutSlot getLayoutSlot(int groupLevel, int slotId) {
 		assert groupLevel > 0;
 
-		if (slotId > groupSlots.length)
+		if (slotId > groupSlots.length) {
 			return null;
+		}
 
 		return getComplexSlot(slotId).getLayoutSlotWithGroupLevel(groupLevel);
 	}
@@ -342,7 +352,7 @@ public class LayoutTable {
 	/**
 	 * Returns the slot with the given index. Used this method to get Table Header,
 	 * Detail and Footer slots.
-	 * 
+	 *
 	 * @param slotId the slot index
 	 * @return the slot
 	 */
@@ -359,7 +369,7 @@ public class LayoutTable {
 
 	/**
 	 * Returns the header slot.
-	 * 
+	 *
 	 * @return the header slot
 	 */
 
@@ -369,7 +379,7 @@ public class LayoutTable {
 
 	/**
 	 * Returns the detail slot.
-	 * 
+	 *
 	 * @return the detail slot
 	 */
 
@@ -379,7 +389,7 @@ public class LayoutTable {
 
 	/**
 	 * Returns the footer slot.
-	 * 
+	 *
 	 * @return the footer slot
 	 */
 
@@ -389,22 +399,23 @@ public class LayoutTable {
 
 	/**
 	 * Returns the layout group with the given group level.
-	 * 
+	 *
 	 * @param groupLevel the 1-based group level
-	 * 
+	 *
 	 * @return the layout group
 	 */
 
 	public LayoutGroup getLayoutGroup(int groupLevel) {
-		if (groupLevel < 1 || groupLevel > getGroupCount())
+		if (groupLevel < 1 || groupLevel > getGroupCount()) {
 			return null;
+		}
 
 		return new LayoutGroup(this, groupLevel);
 	}
 
 	/**
 	 * Returns the count of the group in the table.
-	 * 
+	 *
 	 * @return the count of the group
 	 */
 
@@ -415,7 +426,7 @@ public class LayoutTable {
 	/**
 	 * Returns the slot with the given index. Used this method to get Group Header
 	 * and Footer slots.
-	 * 
+	 *
 	 * @param slotId the slot index
 	 * @return the slot
 	 */
@@ -431,7 +442,7 @@ public class LayoutTable {
 
 	/**
 	 * Returns the group header slot.
-	 * 
+	 *
 	 * @return the group header slot
 	 */
 
@@ -441,7 +452,7 @@ public class LayoutTable {
 
 	/**
 	 * Returns the group footer slot.
-	 * 
+	 *
 	 * @return the group footer slot
 	 */
 
@@ -451,7 +462,7 @@ public class LayoutTable {
 
 	/**
 	 * Updates the column count of the table.
-	 * 
+	 *
 	 * @return the column count
 	 */
 
@@ -459,21 +470,25 @@ public class LayoutTable {
 		int columnCount = 0;
 
 		for (int i = 0; i < tableSlots.length; i++) {
-			if (tableSlots[i] == null)
+			if (tableSlots[i] == null) {
 				continue;
+			}
 
 			int tmpCount = tableSlots[i].getColumnCount();
-			if (tmpCount > columnCount)
+			if (tmpCount > columnCount) {
 				columnCount = tmpCount;
+			}
 		}
 
 		for (int i = 0; i < groupSlots.length; i++) {
-			if (groupSlots[i] == null)
+			if (groupSlots[i] == null) {
 				continue;
+			}
 
 			int tmpCount = groupSlots[i].getColumnCount();
-			if (tmpCount > columnCount)
+			if (tmpCount > columnCount) {
 				columnCount = tmpCount;
+			}
 		}
 
 		return columnCount;
@@ -481,12 +496,12 @@ public class LayoutTable {
 
 	/**
 	 * Returns the string that shows the layout. Mainly for the debug.
-	 * 
+	 *
 	 * @return the string that shows the layout
 	 */
 
 	public String getLayoutString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		sb.append("table " + table.getFullName() + " layout: \r\n"); //$NON-NLS-1$ //$NON-NLS-2$
 		sb.append(getHeader().getLayoutString());
@@ -501,7 +516,7 @@ public class LayoutTable {
 
 	/**
 	 * Returns the next available cell index.
-	 * 
+	 *
 	 * @return the next available cell index.
 	 */
 
@@ -514,7 +529,7 @@ public class LayoutTable {
 
 	/**
 	 * Returns the module where the table element belongs to.
-	 * 
+	 *
 	 * @return the module
 	 */
 
@@ -525,7 +540,7 @@ public class LayoutTable {
 	/**
 	 * Update an overlapped area of a cell element into the list. The overlapped
 	 * area is the area occupied by a <code>LayoutCell</code>.
-	 * 
+	 *
 	 * @param cell          the cell element
 	 * @param slot          the layout slot where the cell resides
 	 * @param rowPosn       the 1-based row position in the slost
@@ -541,7 +556,7 @@ public class LayoutTable {
 
 	/**
 	 * Checks whether the table has overlapped areas.
-	 * 
+	 *
 	 * @return <code>true</code> if not have. Otherwise <code>false</code>.
 	 */
 
@@ -551,7 +566,7 @@ public class LayoutTable {
 
 	/**
 	 * Represents an overlapped area of the cell element in the table.
-	 * 
+	 *
 	 */
 
 	protected static class OverlappedArea {
@@ -566,7 +581,7 @@ public class LayoutTable {
 
 		/**
 		 * Constructs an <code>OverlappedArea</code> with given parameters.
-		 * 
+		 *
 		 * @param cell          the cell that causes the overlapped area
 		 * @param slot          the slot in which the overlapped occurs
 		 * @param rowPosn       the row position in the slot
@@ -587,7 +602,7 @@ public class LayoutTable {
 
 		/**
 		 * Returns the cell element.
-		 * 
+		 *
 		 * @return the cell element
 		 */
 
@@ -597,7 +612,7 @@ public class LayoutTable {
 
 		/**
 		 * Returns the column position
-		 * 
+		 *
 		 * @return 1-based column position
 		 */
 
@@ -607,7 +622,7 @@ public class LayoutTable {
 
 		/**
 		 * Returns the row position
-		 * 
+		 *
 		 * @return 1-based row position
 		 */
 
@@ -617,7 +632,7 @@ public class LayoutTable {
 
 		/**
 		 * Returns the slot in which the overlapped occurs
-		 * 
+		 *
 		 * @return the slot in which the overlapped occurs
 		 */
 
@@ -627,7 +642,7 @@ public class LayoutTable {
 
 		/**
 		 * Returns the offset of the column span
-		 * 
+		 *
 		 * @return the 0-based offset of the column span
 		 */
 
@@ -637,7 +652,7 @@ public class LayoutTable {
 
 		/**
 		 * Returns the offset of the row span
-		 * 
+		 *
 		 * @return the 0-based offset of the row span
 		 */
 

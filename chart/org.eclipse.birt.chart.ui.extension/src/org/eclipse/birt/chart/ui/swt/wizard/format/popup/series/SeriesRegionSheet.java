@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -60,7 +60,7 @@ import org.eclipse.swt.widgets.Listener;
 import com.ibm.icu.text.NumberFormat;
 
 /**
- * 
+ *
  */
 
 public class SeriesRegionSheet extends AbstractPopupSheet implements SelectionListener, ModifyListener, Listener {
@@ -117,9 +117,10 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements SelectionLi
 	 * @param title
 	 * @param context
 	 * @param seriesDefn
-	 * 
+	 *
 	 * @deprecated since 3.7
 	 */
+	@Deprecated
 	public SeriesRegionSheet(String title, ChartWizardContext context, SeriesDefinition seriesDefn) {
 		super(title, context, false);
 		this.seriesDefn = seriesDefn;
@@ -131,6 +132,7 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements SelectionLi
 		this.defSeries = ChartDefaultValueUtil.getDefaultSeries(series);
 	}
 
+	@Override
 	protected Composite getComponent(Composite parent) {
 		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_SERIES_METER_REGION);
 
@@ -363,10 +365,11 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements SelectionLi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
+	@Override
 	public void handleEvent(Event event) {
 		// if ( event.widget.equals( lacLabel ) )
 		// {
@@ -439,10 +442,11 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements SelectionLi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.
 	 * ModifyEvent)
 	 */
+	@Override
 	public void modifyText(ModifyEvent e) {
 		int markerIndex = getMarkerIndex();
 		if (markerIndex >= 0) {
@@ -470,10 +474,11 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements SelectionLi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.getSource().equals(btnAddRange)) {
 			DialRegion range = null;
@@ -524,11 +529,12 @@ public class SeriesRegionSheet extends AbstractPopupSheet implements SelectionLi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 	}
 

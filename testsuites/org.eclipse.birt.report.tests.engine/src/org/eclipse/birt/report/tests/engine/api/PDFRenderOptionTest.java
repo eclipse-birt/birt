@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -247,8 +247,9 @@ public class PDFRenderOptionTest extends EngineCase {
 		runTask.run(archive);
 
 		int i = runTask.getErrors().size();
-		if (i > 0)
+		if (i > 0) {
 			System.out.println("error is " + runTask.getErrors().get(0).toString());
+		}
 		assertEquals("Exception when generate document from " + reportdesign, 0, i);
 
 		// close the task, release the resource.

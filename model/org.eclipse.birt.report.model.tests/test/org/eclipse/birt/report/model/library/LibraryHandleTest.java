@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Tests cases in the library.
- * 
+ *
  * <table border="1" cellpadding="0" cellspacing="0" style="border-collapse:
  * collapse" bordercolor="#111111" width="100%" id="AutoNumber3" height="50">
  * <tr>
@@ -55,27 +55,27 @@ import com.ibm.icu.util.ULocale;
  * <td width="33%" height="16"><b>Test Case </b></td>
  * <td width="34%" height="16"><b>Expected Result </b></td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testMakeUniqueName()}</td>
  * <td>Element factory from library handle creates a not null name to an element
  * that can be no name.</td>
  * <td>A new table has not null name.</td>
  * </tr>
- * 
- * 
+ *
+ *
  * </table>
- * 
+ *
  */
 
 public class LibraryHandleTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * A new element from factory of library handle can be added into the library
 	 * directly.
-	 * 
+	 *
 	 * @throws Exception no exception thrown
 	 */
 
@@ -108,7 +108,7 @@ public class LibraryHandleTest extends BaseTestCase {
 
 	/**
 	 * Create Style in Library and test style name.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testGetStyleName() throws Exception {
@@ -119,7 +119,7 @@ public class LibraryHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>1: Create an image in design file from the library image which reference
 	 * a library embedded image. Get the embedded image name from the design image
@@ -128,7 +128,7 @@ public class LibraryHandleTest extends BaseTestCase {
 	 * dataset in library. Get the dataSet name from the design table. The name
 	 * should have the library namespace prefix.
 	 * </ul>
-	 * 
+	 *
 	 * @throws SemanticException
 	 * @throws DesignFileException
 	 */
@@ -184,8 +184,8 @@ public class LibraryHandleTest extends BaseTestCase {
 	 * dataSources & masterPages in the design file & the included libraries. The
 	 * element which comes from the library should return the name with library
 	 * prefix when call the getQualifiedName().
-	 * 
-	 * 
+	 *
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -239,10 +239,10 @@ public class LibraryHandleTest extends BaseTestCase {
 	 * dataSet is referenced to a dataSoource in library file. 3).Paste the dataSet
 	 * into design file. 4).The dataSource referenced by the dataSet should can be
 	 * resolved properly.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
-	 * 
+	 *
 	 */
 
 	public void testResolvCopyElementFromLibraryToDesign() throws DesignFileException, SemanticException {
@@ -268,9 +268,9 @@ public class LibraryHandleTest extends BaseTestCase {
 	/**
 	 * Test cases: Copy/Paste a table defined in library, table content is
 	 * displayed.
-	 * 
+	 *
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testCopyPaste() throws Exception {
@@ -292,10 +292,10 @@ public class LibraryHandleTest extends BaseTestCase {
 
 	/**
 	 * Test cases: Copy/Paste a label newed in library
-	 * 
+	 *
 	 * @throws NameException
 	 * @throws Exception
-	 * 
+	 *
 	 */
 
 	public void testCopyPasteLabel() throws Exception {
@@ -312,17 +312,17 @@ public class LibraryHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests needSave method.
-	 * 
+	 *
 	 * Only change happens directly on report design, isDirty mark of report design
 	 * is true. So when library changed, isDirty mark of report design should be
 	 * false.
-	 * 
+	 *
 	 * <ul>
 	 * <li>reload library</li>
 	 * <li>isDirty=false</li>
-	 * 
+	 *
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -350,7 +350,7 @@ public class LibraryHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the library include library writer.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -366,7 +366,7 @@ public class LibraryHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests canEdit() in DesignElementHandle.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -403,7 +403,7 @@ public class LibraryHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests testCanTransformToTemplate() in DesignElementHandle.
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -429,7 +429,7 @@ public class LibraryHandleTest extends BaseTestCase {
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws Exception
 	 */
 
@@ -456,12 +456,12 @@ public class LibraryHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests canContain() and canDrop() in DesignElementHandle.
-	 * 
+	 *
 	 * <ul>
 	 * <li>
 	 * <li>
 	 * </ul>
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -493,14 +493,14 @@ public class LibraryHandleTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Includes a library, test its default display label.
 	 * <li>Includes a library, test its user display label.
 	 * <li>Includes a library, test its short display label.
 	 * <li>Includes a library, test its long display label.
 	 * </ul>
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -522,12 +522,12 @@ public class LibraryHandleTest extends BaseTestCase {
 
 	/**
 	 * Test cases:
-	 * 
+	 *
 	 * <ul>
 	 * <li>Find a library with a relative file path.
 	 * <li>Find a library with an absolute file path.
 	 * </ul>
-	 * 
+	 *
 	 * @throws Exception
 	 */
 

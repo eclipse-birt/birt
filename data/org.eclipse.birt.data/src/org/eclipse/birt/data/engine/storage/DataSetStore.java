@@ -24,7 +24,7 @@ import org.eclipse.birt.data.engine.impl.index.IAuxiliaryIndexCreator;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
- * 
+ *
  */
 
 public class DataSetStore {

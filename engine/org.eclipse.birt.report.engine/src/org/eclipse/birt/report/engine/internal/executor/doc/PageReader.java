@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,6 +26,7 @@ class PageReader extends ReportItemReader {
 		this.manager = reportReader.manager;
 	}
 
+	@Override
 	public IContent execute() {
 		context.setPageNumber(pageNumber);
 		context.setExecutingMasterPage(true);
@@ -34,11 +35,13 @@ class PageReader extends ReportItemReader {
 		return content;
 	}
 
+	@Override
 	public void close() {
 		context.setExecutingMasterPage(false);
 		super.close();
 	}
 
+	@Override
 	ReportItemReader createExecutor(ReportItemReader parent, long offset, Fragment fragment) {
 		return manager.createExecutor(parent, offset, fragment);
 	}

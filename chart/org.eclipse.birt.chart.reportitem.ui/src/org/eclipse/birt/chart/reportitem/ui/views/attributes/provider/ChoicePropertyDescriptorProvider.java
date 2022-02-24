@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -36,19 +36,19 @@ public class ChoicePropertyDescriptorProvider extends PropertyDescriptorProvider
 	String[] values = null;
 
 	public String[] getItems() {
-		if (ReportItemHandle.DATA_SET_PROP.equals(getProperty()))
+		if (ReportItemHandle.DATA_SET_PROP.equals(getProperty())) {
 			return ChoiceSetFactory.getDataSets();
-		else if (StyleHandle.MASTER_PAGE_PROP.equals(getProperty()))
+		} else if (StyleHandle.MASTER_PAGE_PROP.equals(getProperty())) {
 			return ChoiceSetFactory.getMasterPages();
-		else if (ReportItemHandle.STYLE_PROP.equals(getProperty())) {
+		} else if (ReportItemHandle.STYLE_PROP.equals(getProperty())) {
 			String[] itemsArray = ChoiceSetFactory.getStyles();
 
 			// Filter predefined styles to make its logic same with report design side.
 			itemsArray = filterPreStyles(itemsArray);
 			return itemsArray;
-		} else if (ReportDesignHandle.THEME_PROP.equals(getProperty()))
+		} else if (ReportDesignHandle.THEME_PROP.equals(getProperty())) {
 			return ChoiceSetFactory.getThemes();
-		else {
+		} else {
 			IChoiceSet cset = getChoiceSet();
 			values = ChoiceSetFactory.getNamefromChoiceSet(cset);
 			return ChoiceSetFactory.getDisplayNamefromChoiceSet(cset);
@@ -58,7 +58,7 @@ public class ChoicePropertyDescriptorProvider extends PropertyDescriptorProvider
 
 	/**
 	 * Filter predefined styles.
-	 * 
+	 *
 	 * @param items all available styles
 	 * @return filtered styles.
 	 */
@@ -69,13 +69,13 @@ public class ChoicePropertyDescriptorProvider extends PropertyDescriptorProvider
 		}
 
 		List<IPredefinedStyle> preStyles = new DesignEngine(new DesignConfig()).getMetaData().getPredefinedStyles();
-		List<String> preStyleNames = new ArrayList<String>();
+		List<String> preStyleNames = new ArrayList<>();
 
 		for (int i = 0; i < preStyles.size(); i++) {
 			preStyleNames.add(preStyles.get(i).getName());
 		}
 
-		List<String> sytleNames = new ArrayList<String>();
+		List<String> sytleNames = new ArrayList<>();
 		for (int i = 0; i < newItems.length; i++) {
 			if (preStyleNames.indexOf(newItems[i]) == -1) {
 				sytleNames.add(newItems[i]);

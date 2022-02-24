@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.datatools.connectivity.oda.design.DesignerStateContent;
 /**
  * An adapter class that converts between ROM OdaDesignerStateHandle and ODA
  * DesignerState.
- * 
+ *
  * @see OdaDesignerStateHandle
  * @see DesignerState
  */
@@ -38,7 +38,7 @@ class DesignerStateAdapter {
 
 	/**
 	 * Creates a ROM DesignerState object with the given ODA DataSet design.
-	 * 
+	 *
 	 * @param designerState    the ODA designer state.
 	 * @param romDesignerState the ROM designer state.
 	 * @throws SemanticException if ROM Designer state value is locked.
@@ -46,8 +46,9 @@ class DesignerStateAdapter {
 
 	static void updateROMDesignerState(DesignerState designerState, ReportElementHandle reportElement)
 			throws SemanticException {
-		if (designerState == null || reportElement == null)
+		if (designerState == null || reportElement == null) {
 			return;
+		}
 
 		CommandStack cmdStack = reportElement.getModuleHandle().getCommandStack();
 		cmdStack.startTrans(null);
@@ -58,8 +59,9 @@ class DesignerStateAdapter {
 			romDesignerState = ((OdaDataSourceHandle) reportElement).getDesignerState();
 		} else if (reportElement instanceof OdaDataSetHandle) {
 			romDesignerState = ((OdaDataSetHandle) reportElement).getDesignerState();
-		} else
+		} else {
 			return;
+		}
 
 		if (romDesignerState == null) {
 			OdaDesignerState tmpDesignerState = StructureFactory.createOdaDesignerState();
@@ -77,8 +79,9 @@ class DesignerStateAdapter {
 		romDesignerState.setVersion(designerState.getVersion());
 
 		DesignerStateContent stateContent = designerState.getStateContent();
-		if (stateContent == null)
+		if (stateContent == null) {
 			return;
+		}
 
 		romDesignerState.setContentAsString(stateContent.getStateContentAsString());
 		romDesignerState.setContentAsBlob(stateContent.getStateContentAsBlob());
@@ -88,28 +91,32 @@ class DesignerStateAdapter {
 
 	/**
 	 * Creates a ODA DesignerState object with the given ROM designer state.
-	 * 
+	 *
 	 * @param designerState the ROM designer state.
 	 * @return the oda DesignerState object.
 	 */
 
 	static DesignerState createOdaDesignState(OdaDesignerStateHandle designerState) {
-		if (designerState == null)
+		if (designerState == null) {
 			return null;
+		}
 
 		DesignerState odaState = ODADesignFactory.getFactory().createDesignerState();
 		odaState.setVersion(designerState.getVersion());
 
 		byte[] blobContent = designerState.getContentAsBlob();
 		String stringContent = designerState.getContentAsString();
-		if (blobContent == null && stringContent == null)
+		if (blobContent == null && stringContent == null) {
 			return odaState;
+		}
 
 		DesignerStateContent stateContent = ODADesignFactory.getFactory().createDesignerStateContent();
-		if (blobContent != null)
+		if (blobContent != null) {
 			stateContent.setStateContentAsBlob(blobContent);
-		if (stringContent != null)
+		}
+		if (stringContent != null) {
 			stateContent.setStateContentAsString(stringContent);
+		}
 		odaState.setStateContent(stateContent);
 
 		return odaState;

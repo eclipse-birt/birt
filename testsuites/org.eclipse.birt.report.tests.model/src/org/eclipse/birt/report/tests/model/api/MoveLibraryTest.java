@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -60,6 +60,7 @@ public class MoveLibraryTest extends BaseTestCase {
 		return new TestSuite(MoveLibraryTest.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -72,6 +73,7 @@ public class MoveLibraryTest extends BaseTestCase {
 
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 	}

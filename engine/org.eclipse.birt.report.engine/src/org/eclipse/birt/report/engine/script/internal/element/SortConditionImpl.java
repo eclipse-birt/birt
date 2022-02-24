@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -24,7 +24,7 @@ import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 /**
  * Implements of Sort Condition
- * 
+ *
  */
 
 public class SortConditionImpl implements ISortCondition {
@@ -33,7 +33,7 @@ public class SortConditionImpl implements ISortCondition {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param sortHandle
 	 */
 
@@ -43,7 +43,7 @@ public class SortConditionImpl implements ISortCondition {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param sortHandle
 	 */
 
@@ -53,7 +53,7 @@ public class SortConditionImpl implements ISortCondition {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param sort
 	 */
 	public SortConditionImpl(SortKey sort) {
@@ -62,7 +62,7 @@ public class SortConditionImpl implements ISortCondition {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param columnHandle
 	 */
 
@@ -70,14 +70,17 @@ public class SortConditionImpl implements ISortCondition {
 		sortConditionImpl = condition;
 	}
 
+	@Override
 	public String getDirection() {
 		return sortConditionImpl.getDirection();
 	}
 
+	@Override
 	public String getKey() {
 		return sortConditionImpl.getKey();
 	}
 
+	@Override
 	public void setDirection(String direction) throws ScriptException {
 		try {
 			sortConditionImpl.setDirection(direction);
@@ -87,6 +90,7 @@ public class SortConditionImpl implements ISortCondition {
 
 	}
 
+	@Override
 	public void setKey(String key) throws ScriptException {
 		// key is required
 		try {
@@ -97,6 +101,7 @@ public class SortConditionImpl implements ISortCondition {
 
 	}
 
+	@Override
 	public IStructure getStructure() {
 		return sortConditionImpl.getStructure();
 	}

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -35,7 +35,7 @@ public abstract class ReportItemtHandleAdapter extends DesignElementHandleAdapte
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handle
 	 */
 	public ReportItemtHandleAdapter(ReportItemHandle handle, IModelAdapterHelper mark) {
@@ -44,7 +44,7 @@ public abstract class ReportItemtHandleAdapter extends DesignElementHandleAdapte
 
 	/**
 	 * get the location Converts the value from other units to px
-	 * 
+	 *
 	 * @return location point
 	 */
 	public Point getLocation() {
@@ -75,20 +75,18 @@ public abstract class ReportItemtHandleAdapter extends DesignElementHandleAdapte
 
 	/**
 	 * Set the location.
-	 * 
+	 *
 	 * @param location
 	 * @throws SemanticException
 	 */
 	public void setLocation(Point location) throws SemanticException {
-		getReportItemHandle().getX()
-				.setStringValue(Integer.valueOf(location.x).toString() + DesignChoiceConstants.UNITS_PX);
-		getReportItemHandle().getY()
-				.setStringValue(Integer.valueOf(location.y).toString() + DesignChoiceConstants.UNITS_PX);
+		getReportItemHandle().getX().setStringValue(Integer.toString(location.x) + DesignChoiceConstants.UNITS_PX);
+		getReportItemHandle().getY().setStringValue(Integer.toString(location.y) + DesignChoiceConstants.UNITS_PX);
 	}
 
 	/**
 	 * get the size Converts the value from other units to px
-	 * 
+	 *
 	 * @return size dimension
 	 */
 	public Dimension getSize() {
@@ -105,7 +103,7 @@ public abstract class ReportItemtHandleAdapter extends DesignElementHandleAdapte
 
 	/**
 	 * Sets the size.
-	 * 
+	 *
 	 * @param size the dimension size
 	 * @throws SemanticException the semantic exception
 	 */
@@ -131,7 +129,7 @@ public abstract class ReportItemtHandleAdapter extends DesignElementHandleAdapte
 
 	/**
 	 * Gets the bounds
-	 * 
+	 *
 	 * @return the bounds
 	 */
 	public Rectangle getbounds() {
@@ -140,7 +138,7 @@ public abstract class ReportItemtHandleAdapter extends DesignElementHandleAdapte
 
 	/**
 	 * Sets bounds.
-	 * 
+	 *
 	 * @param bounds the bounds
 	 * @throws SemanticException the semantic exception
 	 */
@@ -151,7 +149,7 @@ public abstract class ReportItemtHandleAdapter extends DesignElementHandleAdapte
 
 	/**
 	 * Gets the reportItemHandle.
-	 * 
+	 *
 	 * @return the report item handle.
 	 */
 	public ReportItemHandle getReportItemHandle() {

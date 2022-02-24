@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -21,7 +21,6 @@ import java.util.HashMap;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
-
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -38,6 +37,7 @@ public class DateFormatFactory {
 	// TLS HashMap from locale/style key to DateFormat instance
 	private static ThreadLocal tlsCache = new ThreadLocal() {
 
+		@Override
 		protected Object initialValue() {
 			return new HashMap();
 		}
@@ -45,6 +45,7 @@ public class DateFormatFactory {
 
 	private static ThreadLocal patternCache = new ThreadLocal() {
 
+		@Override
 		protected Object initialValue() {
 			HashMap value = new HashMap();
 			String[] dateFormatPattern = { "yyyy-MM-dd HH:mm:ss.SSS z", "yyyy-MM-dd HH:mm:ss.SSS Z",
@@ -68,7 +69,7 @@ public class DateFormatFactory {
 	/**
 	 * Gets DateFormat instance allocated to the current thread for the given date
 	 * style, timestyle and locale. Returned instance is safe to use
-	 * 
+	 *
 	 */
 	public static DateFormat getDateTimeInstance(int dateStyle, int timeStyle, ULocale locale) {
 		assert locale != null;
@@ -84,10 +85,11 @@ public class DateFormatFactory {
 		// Create new instance and add to cache if no instance available for
 		// current thread/style/locale combination
 		if (result == null) {
-			if (timeStyle == NO_TIME_STYLE)
+			if (timeStyle == NO_TIME_STYLE) {
 				result = DateFormat.getDateInstance(dateStyle, locale.toLocale());
-			else
+			} else {
 				result = DateFormat.getDateTimeInstance(dateStyle, timeStyle, locale.toLocale());
+			}
 			tlsMap.put(keyStr, result);
 		}
 
@@ -98,7 +100,7 @@ public class DateFormatFactory {
 	/**
 	 * Gets DateFormat instance allocated to the current thread for the given date
 	 * style, timestyle and locale. Returned instance is safe to use
-	 * 
+	 *
 	 */
 	public static DateFormat getDateInstance(int dateStyle, ULocale locale) {
 		return getDateTimeInstance(dateStyle, NO_TIME_STYLE, locale);
@@ -107,7 +109,7 @@ public class DateFormatFactory {
 	/**
 	 * Gets DateFormat instance allocated to the current thread for the given
 	 * pattern. Returned instance is safe to use
-	 * 
+	 *
 	 */
 	public static SimpleDateFormat getPatternInstance(PatternKey pattern) {
 
@@ -131,7 +133,7 @@ class PatternKey {
 	private int timeZomeNumber;
 
 	/**
-	 * 
+	 *
 	 * @param source
 	 * @return
 	 */
@@ -217,18 +219,20 @@ class PatternKey {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		return colonNumber * 36 + blankNumber * 12 + hyphenNumber * 4 + dotNumber * 2 + timeZomeNumber;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+	@Override
 	public boolean equals(Object key) {
 		if (key == this) {
 			return true;

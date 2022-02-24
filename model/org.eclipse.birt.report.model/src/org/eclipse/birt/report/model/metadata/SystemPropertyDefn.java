@@ -21,7 +21,7 @@ package org.eclipse.birt.report.model.metadata;
  * to define which style properties do apply. Only applicable properties appear
  * as (implicit) properties of the element. This is handled at the meta-data
  * level so it does not need to be computed for each property operation.
- * 
+ *
  */
 
 public class SystemPropertyDefn extends ElementPropertyDefn {
@@ -41,18 +41,19 @@ public class SystemPropertyDefn extends ElementPropertyDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn#isStyleProperty()
 	 */
 
+	@Override
 	public boolean isStyleProperty() {
 		return styleProperty;
 	}
 
 	/**
 	 * Sets the style property attribute.
-	 * 
+	 *
 	 * @param flag true if this is a property on a style, false otherwise
 	 */
 
@@ -62,17 +63,18 @@ public class SystemPropertyDefn extends ElementPropertyDefn {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getValueType()
 	 */
 
+	@Override
 	public int getValueType() {
 		return SYSTEM_PROPERTY;
 	}
 
 	/**
 	 * Sets the style property attribute.
-	 * 
+	 *
 	 * @param flag true if this is a property on a style, false otherwise
 	 */
 
@@ -82,7 +84,7 @@ public class SystemPropertyDefn extends ElementPropertyDefn {
 
 	/**
 	 * Indicates whether the property is associated with a bidi definition.
-	 * 
+	 *
 	 * @return Whether the property is defined with Bidi for the purpose of being
 	 *         used by elements.
 	 */

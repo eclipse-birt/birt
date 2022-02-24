@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
  * This class provides static methods to check status of chart's elements.
- * 
+ *
  */
 
 public class ChartElementUtil {
@@ -45,7 +45,7 @@ public class ChartElementUtil {
 	/**
 	 * This method uses reflection to set a value to EMF's property as default
 	 * value, but avoid to update the related 'isSet' flag.
-	 * 
+	 *
 	 * @param obj
 	 * @param fieldName
 	 * @param value
@@ -76,11 +76,7 @@ public class ChartElementUtil {
 			} else {
 				field.set(obj, value);
 			}
-		} catch (SecurityException e) {
-			throw new ChartException(ChartEnginePlugin.ID, ChartException.INVALID_DATA_TYPE, e);
-		} catch (IllegalArgumentException e) {
-			throw new ChartException(ChartEnginePlugin.ID, ChartException.INVALID_DATA_TYPE, e);
-		} catch (IllegalAccessException e) {
+		} catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
 			throw new ChartException(ChartEnginePlugin.ID, ChartException.INVALID_DATA_TYPE, e);
 		}
 	}
@@ -118,7 +114,7 @@ public class ChartElementUtil {
 
 	/**
 	 * Checks if a attribute is set value.
-	 * 
+	 *
 	 * @param eContainer
 	 * @param attribute
 	 * @return true if attribute is set value.
@@ -133,7 +129,7 @@ public class ChartElementUtil {
 
 	/**
 	 * Check if series palette is set.
-	 * 
+	 *
 	 * @param chart
 	 * @return true if chart specify series palette.
 	 */
@@ -159,14 +155,14 @@ public class ChartElementUtil {
 
 	/**
 	 * Copy a list.
-	 * 
+	 *
 	 * @param <T>
 	 * @param objs
 	 * @return list of type T
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> List<T> copyInstance(List<T> objs) {
-		List<T> lst = new ArrayList<T>();
+		List<T> lst = new ArrayList<>();
 		for (Object o : objs) {
 			if (o instanceof IChartObject) {
 				lst.add((T) ((IChartObject) o).copyInstance());
@@ -179,7 +175,7 @@ public class ChartElementUtil {
 
 	/**
 	 * Copy a map.
-	 * 
+	 *
 	 * @param <T>
 	 * @param <J>
 	 * @param objs
@@ -187,7 +183,7 @@ public class ChartElementUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T, J> Map<T, J> copyInstance(Map<T, J> objs) {
-		Map<T, J> map = new HashMap<T, J>();
+		Map<T, J> map = new HashMap<>();
 		for (Entry<T, J> o : objs.entrySet()) {
 			if (o.getValue() instanceof IChartObject) {
 				map.put(o.getKey(), (J) ((IChartObject) o.getValue()).copyInstance());

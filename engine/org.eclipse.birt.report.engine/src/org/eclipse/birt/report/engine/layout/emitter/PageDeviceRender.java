@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -101,7 +101,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 
 	/**
 	 * Creates a document and create a PdfWriter
-	 * 
+	 *
 	 * @param rc the report content.
 	 */
 	public void start(IReportContent rc) {
@@ -123,7 +123,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 
 	/**
 	 * Closes the document.
-	 * 
+	 *
 	 * @param rc the report content.
 	 */
 	public void end(IReportContent rc) {
@@ -153,7 +153,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 
 	/**
 	 * Visits a container
-	 * 
+	 *
 	 * @param container
 	 * @param offsetX
 	 * @param offsetY
@@ -210,7 +210,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 	 * The container may be a TableArea, RowArea, etc. Or just the border of
 	 * textArea/imageArea. This method draws the border and background of the given
 	 * container.
-	 * 
+	 *
 	 * @param container the ContainerArea specified from layout
 	 */
 	protected void startContainer(IContainerArea container) {
@@ -273,7 +273,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 			 * style instead. if ( ds == DiagonalInfo.BORDER_STYLE_DOUBLE ) { ds =
 			 * DiagonalInfo.BORDER_STYLE_SOLID; } switch (
 			 * diagonalInfo.getAntidiagonalNumber( ) ) {
-			 * 
+			 *
 			 * case 2 : pageGraphic .drawLine( startX, startY + height - dw / 2, startX +
 			 * width / 2, startY + dw / 2, getScaledValue( diagonalInfo
 			 * .getAntidiagonalWidth( ) ), diagonalInfo.getColor( ), ds ); pageGraphic
@@ -347,7 +347,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 	/**
 	 * Output a layout PageArea, extend the pageArea into multiple physical pages if
 	 * needed.
-	 * 
+	 *
 	 * @param page
 	 */
 	protected void visitPage(PageArea page) {
@@ -408,7 +408,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 
 	/**
 	 * Creates a page in given output format.
-	 * 
+	 *
 	 * @param page a layout page.
 	 */
 	protected void addPage(PageArea page) {
@@ -454,7 +454,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 
 	/**
 	 * This method will be invoked while a containerArea ends.
-	 * 
+	 *
 	 * @param container the ContainerArea specified from layout
 	 */
 	protected void endContainer(IContainerArea container) {
@@ -481,7 +481,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 
 	/**
 	 * Creates a new PDF page
-	 * 
+	 *
 	 * @param page the PageArea specified from layout
 	 */
 	protected void newPage(IContainerArea page) {
@@ -532,7 +532,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 
 	/**
 	 * draw background image for the container
-	 * 
+	 *
 	 * @param containerStyle the style of the container we draw background image for
 	 * @param imageUrl       the url of background image
 	 * @param startX         the absolute horizontal position of the container
@@ -552,7 +552,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 
 	/**
 	 * Draws a container's border, and its background color/image if there is any.
-	 * 
+	 *
 	 * @param container the containerArea whose border and background need to be
 	 *                  drew
 	 */
@@ -595,10 +595,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 	private BorderInfo[] cacheCellBorder(CellArea container) {
 		// get the style of the container
 		BoxStyle style = container.getBoxStyle();
-		if (null == style) {
-			return null;
-		}
-		if (container.getContent() == null) {
+		if ((null == style) || (container.getContent() == null)) {
 			return null;
 		}
 		// FIXME refactor and perform enhancement
@@ -663,7 +660,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 
 	/**
 	 * Draws a text area.
-	 * 
+	 *
 	 * @param text the textArea to be drawn.
 	 */
 	protected void drawText(ITextArea text) {
@@ -708,7 +705,7 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 
 	/**
 	 * Draws image at the contentByte
-	 * 
+	 *
 	 * @param image the ImageArea specified from the layout
 	 */
 	protected void drawImage(IImageArea image) {
@@ -746,8 +743,9 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 	}
 
 	private void drawBorder(TableBorder tb) {
-		if (null == tb)
+		if (null == tb) {
 			return;
+		}
 
 		tb.findBreakPoints();
 		Border border = null;
@@ -762,8 +760,9 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 				BorderSegment seg = (BorderSegment) border.segments.get(j);
 				Border rs = (Border) tb.rowBorders.get(seg.start);
 				Border re = (Border) tb.rowBorders.get(seg.end);
-				if (null == rs || null == re)
+				if (null == rs || null == re) {
 					continue;
+				}
 				int sy = getScaledValue(rs.position + rs.width / 2);
 				int ey = getScaledValue(re.position + re.width / 2);
 				int x = getScaledValue(border.position + seg.width / 2);
@@ -787,8 +786,9 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 			BorderSegment seg = (BorderSegment) border.segments.get(j);
 			Border rs = (Border) tb.rowBorders.get(seg.start);
 			Border re = (Border) tb.rowBorders.get(seg.end);
-			if (null == rs || null == re)
+			if (null == rs || null == re) {
 				continue;
+			}
 			int sy = getScaledValue(rs.position + rs.width / 2);
 			int ey = getScaledValue(re.position + re.width / 2);
 			int x = getScaledValue(border.position - seg.width / 2);
@@ -818,8 +818,9 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 				BorderSegment seg = (BorderSegment) border.segments.get(j);
 				Border cs = (Border) tb.columnBorders.get(seg.start);
 				Border ce = (Border) tb.columnBorders.get(seg.end);
-				if (null == cs || null == ce)
+				if (null == cs || null == ce) {
 					continue;
+				}
 				// we can also adjust the columns in this position
 				int sx = getScaledValue(cs.position + cs.width / 2);
 				int ex = getScaledValue(ce.position + ce.width / 2);
@@ -852,8 +853,9 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 			BorderSegment seg = (BorderSegment) border.segments.get(j);
 			Border cs = (Border) tb.columnBorders.get(seg.start);
 			Border ce = (Border) tb.columnBorders.get(seg.end);
-			if (null == cs || null == ce)
+			if (null == cs || null == ce) {
 				continue;
+			}
 			// we can also adjust the columns in this position
 			int sx = getScaledValue(cs.position + cs.width / 2);
 			int ex = getScaledValue(ce.position + ce.width / 2);
@@ -875,12 +877,13 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 
 	/**
 	 * Draws the borders of a container.
-	 * 
+	 *
 	 * @param borders the border info
 	 */
 	public void drawBorder(BorderInfo[] borders) {
-		if (borders == null)
+		if (borders == null) {
 			return;
+		}
 		// double>solid>dashed>dotted>none
 		ArrayList dbl = null;
 		ArrayList solid = null;
@@ -1041,8 +1044,6 @@ public abstract class PageDeviceRender implements IAreaVisitor {
 				}
 				offsetX -= area.getX();
 				offsetY -= area.getY();
-			} else {
-				continue;
 			}
 		}
 	}

@@ -13,13 +13,13 @@ package org.eclipse.birt.report.designer.ui.views.attributes;
 import java.util.List;
 
 /**
- * 
+ *
  */
 
 public interface IPageGeneratorHelper {
 
-	public String[] createTabItems(List input);
+	String[] createTabItems(List input);
 
-	public TabPage buildTabContent(String tabKey);
+	TabPage buildTabContent(String tabKey);
 
 }

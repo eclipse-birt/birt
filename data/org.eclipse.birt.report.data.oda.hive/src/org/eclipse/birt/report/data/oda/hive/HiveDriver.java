@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2011 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,6 +36,7 @@ public class HiveDriver extends OdaJdbcDriver {
 	/**
 	 * @see org.eclipse.birt.data.oda.IDriver#getConnection(java.lang.String)
 	 */
+	@Override
 	public IConnection getConnection(String connectionClassName) throws OdaException {
 		return new HiveConnection();
 	}
@@ -49,6 +50,7 @@ public class HiveDriver extends OdaJdbcDriver {
 		/**
 		 * @see org.eclipse.birt.data.oda.IConnection#open(java.util.Propertikes)
 		 */
+		@Override
 		public void open(Properties connProperties) throws OdaException {
 			logger.entering(HiveConnection.class.getName(), "open");
 
@@ -63,6 +65,7 @@ public class HiveDriver extends OdaJdbcDriver {
 			logger.exiting(HiveConnection.class.getName(), "open");
 		}
 
+		@Override
 		public IQuery newQuery(String query) throws OdaException {
 			return new HiveQuery(this.jdbcConn, this.addFileStatement);
 
@@ -78,6 +81,7 @@ public class HiveDriver extends OdaJdbcDriver {
 			this.parentAddFileStatement = addfile;
 		}
 
+		@Override
 		public void prepare(String command) throws OdaException {
 			if (!this.added) {
 				String addFileStatement = null;
@@ -120,6 +124,7 @@ public class HiveDriver extends OdaJdbcDriver {
 			super.prepare(command);
 		}
 
+		@Override
 		public void close() throws OdaException {
 			// TODO Auto-generated method stub
 			super.close();

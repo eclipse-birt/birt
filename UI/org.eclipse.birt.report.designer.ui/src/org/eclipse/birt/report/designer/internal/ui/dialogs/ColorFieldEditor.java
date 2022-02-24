@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -46,7 +46,7 @@ public class ColorFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Creates a color field editor.
-	 * 
+	 *
 	 * @param name      the name of the preference this field editor works on
 	 * @param labelText the label text of the field editor
 	 * @param parent    the parent of the field editor's control
@@ -58,6 +58,7 @@ public class ColorFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void adjustForNumColumns(int numColumns) {
 		((GridData) colorSelector.getLayoutData()).horizontalSpan = numColumns - 1;
 		((GridData) colorSelector.getLayoutData()).widthHint = 85;
@@ -66,6 +67,7 @@ public class ColorFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void doFillIntoGrid(Composite parent, int numColumns) {
 		Control control = getLabelControl(parent);
 		GridData gd = new GridData();
@@ -80,6 +82,7 @@ public class ColorFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void doLoad() {
 		RGB rgb = DEUtil.getRGBValue(ColorUtil.parseColor(getPreferenceStore().getString(getPreferenceName())));
 		getColorSelector().setRGB(rgb);
@@ -89,25 +92,29 @@ public class ColorFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	protected void doLoadDefault() {
-		if (colorSelector == null)
+		if (colorSelector == null) {
 			return;
+		}
 		RGB rgb = DEUtil.getRGBValue(ColorUtil.parseColor(getPreferenceStore().getDefaultString(getPreferenceName())));
 		colorSelector.setRGB(rgb);
 		setDefaultValue(getStringValue());
 		if (this.getPreferenceStore() instanceof StylePreferenceStore) {
 			StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
-			if (store.hasLocalValue(getPreferenceName()))
+			if (store.hasLocalValue(getPreferenceName())) {
 				markDirty(true);
-			else
+			} else {
 				markDirty(false);
-		} else
+			}
+		} else {
 			markDirty(true);
+		}
 	}
 
 	/**
 	 * Get the color selector used by the receiver.
-	 * 
+	 *
 	 * @return ColorSelector/
 	 */
 	public ColorBuilder getColorSelector() {
@@ -116,7 +123,7 @@ public class ColorFieldEditor extends AbstractFieldEditor {
 
 	/**
 	 * Returns the change button for this field editor.
-	 * 
+	 *
 	 * @param parent The control to create the button in if required.
 	 * @return the change button
 	 */
@@ -128,6 +135,7 @@ public class ColorFieldEditor extends AbstractFieldEditor {
 			colorSelector.addListener(SWT.Modify, new Listener() {
 
 				// forward the property change of the color selector
+				@Override
 				public void handleEvent(Event event) {
 					valueChanged(VALUE);
 				}
@@ -142,16 +150,18 @@ public class ColorFieldEditor extends AbstractFieldEditor {
 	/*
 	 * (non-Javadoc) Method declared on FieldEditor.
 	 */
+	@Override
 	public int getNumberOfControls() {
 		return 2;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.preference.FieldEditor#setEnabled(boolean,
 	 * org.eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	public void setEnabled(boolean enabled, Composite parent) {
 		super.setEnabled(enabled, parent);
 		getChangeControl(parent).setEnabled(enabled);
@@ -159,10 +169,11 @@ public class ColorFieldEditor extends AbstractFieldEditor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractFieldEditor
 	 * #getValue()
 	 */
+	@Override
 	protected String getStringValue() {
 		RGB rgb = getColorSelector().getRGB();
 		if (rgb == null) {

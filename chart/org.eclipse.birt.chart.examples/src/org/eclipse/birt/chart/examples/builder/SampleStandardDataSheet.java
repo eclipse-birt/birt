@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,13 +38,14 @@ import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.util.Calendar;
 
 /**
- * 
+ *
  */
 
 public class SampleStandardDataSheet extends DefaultChartDataSheet {
 
 	private CustomPreviewTable tablePreview = null;
 
+	@Override
 	public Composite createDataDragSource(Composite parent) {
 		Composite composite = ChartUIUtil.createCompositeWrapper(parent);
 		{
@@ -86,7 +87,7 @@ public class SampleStandardDataSheet extends DefaultChartDataSheet {
 		ChartAdapter.beginIgnoreNotifications();
 		context.getModel().createSampleRuntimeSeries();
 		List<SeriesDefinition> valueSd = ChartUtil.getAllOrthogonalSeriesDefinitions(context.getModel());
-		List<ColumnBindingInfo> lcb = new ArrayList<ColumnBindingInfo>();
+		List<ColumnBindingInfo> lcb = new ArrayList<>();
 		lcb.add(new ColumnBindingInfo("Category", null, "Category", null));
 		for (SeriesDefinition sd : valueSd) {
 			int index = valueSd.indexOf(sd) + 1;
@@ -95,7 +96,7 @@ public class SampleStandardDataSheet extends DefaultChartDataSheet {
 		tablePreview.setColumns(lcb.toArray(new ColumnBindingInfo[0]));
 		Object values = ChartUtil.getBaseSeriesDefinitions(context.getModel()).get(0).getRunTimeSeries().get(0)
 				.getDataSet().getValues();
-		List<List<?>> allValues = new ArrayList<List<?>>();
+		List<List<?>> allValues = new ArrayList<>();
 		if (values instanceof List<?>) {
 			allValues.add((List<?>) values);
 		}
@@ -120,6 +121,7 @@ public class SampleStandardDataSheet extends DefaultChartDataSheet {
 		ChartAdapter.endIgnoreNotifications();
 	}
 
+	@Override
 	public ISelectDataCustomizeUI createCustomizeUI(ITask task) {
 		return new SelectDataDynamicArea(task);
 	}

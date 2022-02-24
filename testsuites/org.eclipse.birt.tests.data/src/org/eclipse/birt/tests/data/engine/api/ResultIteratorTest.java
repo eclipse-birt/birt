@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -38,9 +38,9 @@ public class ResultIteratorTest extends APITestCase {
 		String testSQL = "select COUNTRY, COUNTRY, CITY from " + getTestTableName();
 		((OdaDataSetDesign) this.dataSet).setQueryText(testSQL);
 
-		String[] bindingNameRow = new String[] { "Row_COUNTRY", "Row_CITY" };
+		String[] bindingNameRow = { "Row_COUNTRY", "Row_CITY" };
 
-		IBaseExpression[] bindingExprRow = new IBaseExpression[] { new ScriptExpression("dataSetRow.COUNTRY"),
+		IBaseExpression[] bindingExprRow = { new ScriptExpression("dataSetRow.COUNTRY"),
 				new ScriptExpression("dataSetRow.CITY"), };
 
 		QueryDefinition queryDefn = this.createQuery(null, null, null, null, null, null, null, null, null,

@@ -29,7 +29,8 @@ public class PropertyElement {
 	}
 
 	public void setAttribute(String name, String value) {
-		if (value != null)
+		if (value != null) {
 			properties.put(name, value);
+		}
 	}
 }

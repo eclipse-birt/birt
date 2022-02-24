@@ -15,10 +15,11 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BindingDialogHelper;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * 
+ *
  */
 
 public class ChartDataSetBindingDialogHelper extends BindingDialogHelper {
+	@Override
 	protected void createAggregateSection(Composite composite) {
 		super.createAggregateSection(composite);
 		if (ChartReportItemUtil.isChartHandle(getBindingHolder())) {

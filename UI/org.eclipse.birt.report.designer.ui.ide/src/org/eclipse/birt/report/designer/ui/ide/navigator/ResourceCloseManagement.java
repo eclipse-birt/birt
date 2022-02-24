@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -49,13 +51,11 @@ import org.eclipse.ui.model.AdaptableList;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchPartLabelProvider;
 import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.nls.Messages;
 
 public class ResourceCloseManagement {
 
 	public static boolean saveDirtyAndCloseOpenFile(File file) {
-		List<IResource> resources = new ArrayList<IResource>();
+		List<IResource> resources = new ArrayList<>();
 		String sFilePath = file.getAbsolutePath();
 		IPath filePath = new Path(sFilePath);
 		IPath workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation();
@@ -73,8 +73,8 @@ public class ResourceCloseManagement {
 		if (resources.isEmpty()) {
 			return true;
 		}
-		List<IEditorPart> openedDirtyFiles = new ArrayList<IEditorPart>();
-		List<IEditorPart> openedFiles = new ArrayList<IEditorPart>();
+		List<IEditorPart> openedDirtyFiles = new ArrayList<>();
+		List<IEditorPart> openedFiles = new ArrayList<>();
 
 		try {
 			checkOpenResources(resources, openedFiles, openedDirtyFiles);
@@ -125,11 +125,11 @@ public class ResourceCloseManagement {
 
 	/**
 	 * Saves any modified files after confirmation from the user (if needed).
-	 * 
+	 *
 	 * @return true if the files were saved, false otherwise.
 	 */
 	public static boolean checkAndSaveAllFiles() {
-		ArrayList<IEditorPart> editorsToSave = new ArrayList<IEditorPart>();
+		ArrayList<IEditorPart> editorsToSave = new ArrayList<>();
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow windows[] = workbench.getWorkbenchWindows();
 		for (int currWindow = 0; currWindow < windows.length; currWindow++) {
@@ -168,6 +168,7 @@ public class ResourceCloseManagement {
 		// Copied code from EditorManager
 		IRunnableWithProgress progressOp = new IRunnableWithProgress() {
 
+			@Override
 			public void run(IProgressMonitor monitor) {
 				monitor.beginTask("", finalEditors.size()); //$NON-NLS-1$
 				Iterator<IEditorPart> edenum = finalEditors.iterator();
@@ -224,7 +225,7 @@ public class ResourceCloseManagement {
 			if (part != null) {
 				IEditorInput input = part.getEditorInput();
 
-				if (input != null && input instanceof IFileEditorInput) {
+				if (input instanceof IFileEditorInput) {
 					return ((IFileEditorInput) input).getFile();
 				}
 			}

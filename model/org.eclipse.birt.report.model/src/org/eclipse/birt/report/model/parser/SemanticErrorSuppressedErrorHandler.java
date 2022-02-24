@@ -32,9 +32,10 @@ public class SemanticErrorSuppressedErrorHandler extends ErrorHandler {
 	/**
 	 * Adds an error to the warning list inherited from XMLParserHandler during
 	 * parsing the design file, and logs the error.
-	 * 
+	 *
 	 * @param e the exception to log
 	 */
+	@Override
 	public XMLParserException semanticError(XMLParserException e) {
 		assert locator != null;
 		e.setLineNumber(locator.getLineNumber());
@@ -47,9 +48,10 @@ public class SemanticErrorSuppressedErrorHandler extends ErrorHandler {
 	/**
 	 * Adds a warning to the warning list inherited from XMLParserHandler during
 	 * parsing the design file, and logs the warning.
-	 * 
+	 *
 	 * @param e the exception to log
 	 */
+	@Override
 	public void semanticWarning(Exception e) {
 		super.semanticWarning(e);
 		logger.log(Level.SEVERE, e.getMessage());

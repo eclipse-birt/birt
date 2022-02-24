@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,17 +27,17 @@ import org.eclipse.birt.report.engine.odf.style.StyleManager;
 
 /**
  * This class is used to calculate styles for spreadsheets.
- * 
- * 
+ *
+ *
  */
 public class StyleEngine {
 	private OdsLayoutEngine engine;
-	private Stack<StyleEntry> containerStyles = new Stack<StyleEntry>();
+	private Stack<StyleEntry> containerStyles = new Stack<>();
 
 	private StyleManager styleManager;
 
 	/**
-	 * 
+	 *
 	 * @param dataMap layout data
 	 * @return a StyleEngine instance
 	 */
@@ -71,8 +71,9 @@ public class StyleEngine {
 		StyleEntry entry;
 		if (style == null) {
 			entry = StyleBuilder.createEmptyStyleEntry(StyleConstant.TYPE_TABLE_CELL);
-		} else
+		} else {
 			entry = initStyle(style, sizeInfo, parent);
+		}
 
 		StyleBuilder.applyDiagonalLine(entry, PropertyUtil.getColor(diagonalLineColor), diagonalLineStyle,
 				diagonalLineWidth);
@@ -172,12 +173,13 @@ public class StyleEngine {
 	}
 
 	public void removeForeignContainerStyle() {
-		if (!containerStyles.isEmpty())
+		if (!containerStyles.isEmpty()) {
 			containerStyles.pop();
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void applyContainerBottomStyle() {
 		applyContainerBottomStyle(engine.getCurrentContainer());

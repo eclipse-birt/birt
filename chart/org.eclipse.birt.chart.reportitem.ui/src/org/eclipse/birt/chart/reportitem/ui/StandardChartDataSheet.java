@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -187,7 +187,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 	private final int iSupportedDataItems;
 
-	private List<Integer> selectDataTypes = new ArrayList<Integer>();
+	private List<Integer> selectDataTypes = new ArrayList<>();
 	private Button btnShowDataPreviewA;
 	private Button btnShowDataPreviewB;
 	private TableViewer tableViewerColumns;
@@ -340,15 +340,18 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 				private String text = null;
 
+				@Override
 				public void dragFinished(DragSourceEvent event) {
 					// TODO Auto-generated method stub
 
 				}
 
+				@Override
 				public void dragSetData(DragSourceEvent event) {
 					event.data = text;
 				}
 
+				@Override
 				public void dragStart(DragSourceEvent event) {
 					text = getDraggableCubeExpression();
 					if (text == null) {
@@ -360,6 +363,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 		treeViewer.getTree().addListener(SWT.MouseDown, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				if (event.button == 3 && event.widget instanceof Tree) {
 					Tree tree = (Tree) event.widget;
@@ -448,6 +452,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 		table.addMouseMoveListener(new MouseMoveListener() {
 
+			@Override
 			@SuppressWarnings("unchecked")
 			public void mouseMove(MouseEvent e) {
 				if (!dataProvider.isLivePreviewEnabled()) {
@@ -469,8 +474,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 								break;
 							}
 							if (data.get(i)[index] != null) {
-								if (i != 0)
+								if (i != 0) {
 									sb.append("; "); //$NON-NLS-1$
+								}
 								sb.append(String.valueOf(data.get(i)[index]));
 							}
 						}
@@ -493,6 +499,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 		table.addMenuDetectListener(new MenuDetectListener() {
 
+			@Override
 			public void menuDetected(MenuDetectEvent arg0) {
 				if (isCubeMode()) {
 					// share cube
@@ -523,6 +530,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 		table.addListener(SWT.Resize, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				Table table = (Table) event.widget;
 				int totalWidth = table.getClientArea().width;
@@ -542,30 +550,34 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 			/**
 			 * Gets the food items for the list
-			 * 
+			 *
 			 * @param arg0 the data model
 			 * @return Object[]
 			 */
+			@Override
 			public Object[] getElements(Object arg0) {
-				if (arg0 == null)
+				if (arg0 == null) {
 					return null;
+				}
 				return (ColumnBindingInfo[]) arg0;
 			}
 
 			/**
 			 * Disposes any created resources
 			 */
+			@Override
 			public void dispose() {
 				// Do nothing
 			}
 
 			/**
 			 * Called when the input changes
-			 * 
+			 *
 			 * @param arg0 the viewer
 			 * @param arg1 the old input
 			 * @param arg2 the new input
 			 */
+			@Override
 			public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 				// Do nothing
 			}
@@ -574,32 +586,36 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 			/**
 			 * images
-			 * 
+			 *
 			 * @param arg0 the element
 			 * @return Image
 			 */
+			@Override
 			public Image getImage(Object arg0) {
 				String imageName = ((ColumnBindingInfo) arg0).getImageName();
-				if (imageName == null)
+				if (imageName == null) {
 					return null;
+				}
 				return UIHelper.getImage(imageName);
 			}
 
 			/**
 			 * Gets the text for an element
-			 * 
+			 *
 			 * @param arg0 the element
 			 * @return String
 			 */
+			@Override
 			public String getText(Object arg0) {
 				return ((ColumnBindingInfo) arg0).getName();
 			}
 
 			/**
 			 * Adds a listener
-			 * 
+			 *
 			 * @param arg0 the listener
 			 */
+			@Override
 			public void addListener(ILabelProviderListener arg0) {
 				// Throw it away
 			}
@@ -607,6 +623,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 			/**
 			 * Disposes any resources
 			 */
+			@Override
 			public void dispose() {
 				// Nothing to dispose
 			}
@@ -614,20 +631,22 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 			/**
 			 * Returns whether changing the specified property for the specified element
 			 * affect the label
-			 * 
+			 *
 			 * @param arg0 the element
 			 * @param arg1 the property
 			 * @return boolean
 			 */
+			@Override
 			public boolean isLabelProperty(Object arg0, String arg1) {
 				return false;
 			}
 
 			/**
 			 * Removes a listener
-			 * 
+			 *
 			 * @param arg0 the listener
 			 */
+			@Override
 			public void removeListener(ILabelProviderListener arg0) {
 				// Ignore
 			}
@@ -670,7 +689,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 	/**
 	 * Returns a note for cube tree view.
-	 * 
+	 *
 	 * @return
 	 */
 	protected String getCubeTreeViewNote() {
@@ -791,7 +810,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	/**
 	 * Check if chart is direct consuming cube, should exclude sharing
 	 * cube/inheriting cube/xtab-chart with cube/multiview with cube cases.
-	 * 
+	 *
 	 * @return
 	 */
 	protected boolean isCubeTreeView() {
@@ -808,7 +827,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void refreshDataPreviewPane() {
 		if (isCubeTreeView()) {
@@ -828,6 +847,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 		// Add a task to retrieve data and bind data to chart.
 		lpt.addTask(new LivePreviewTask() {
 
+			@Override
 			public void run() {
 				ColumnBindingInfo[] headers = null;
 				List<?> dataList = null;
@@ -851,9 +871,10 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 						/*
 						 * (non-Javadoc)
-						 * 
+						 *
 						 * @see java.lang.Runnable#run()
 						 */
+						@Override
 						public void run() {
 							if (isTablePreview) {
 								// Still update table preview in here to ensure
@@ -877,6 +898,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 		// Add a task to render chart.
 		lpt.addTask(new LivePreviewTask() {
 
+			@Override
 			public void run() {
 
 				final ColumnBindingInfo[] headerInfo = (ColumnBindingInfo[]) this.getParameter(HEAD_INFO);
@@ -888,6 +910,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 				// Execute UI operation in UI thread.
 				Display.getDefault().syncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						if (isTablePreview) {
 							updateTablePreview(headerInfo, data);
@@ -1131,21 +1154,19 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 			getContext().setInheritColumnsOnly(true);
 		} else if (dataProvider.isInheritColumnsSet()) {
 			cmbInherit.select(dataProvider.isInheritColumnsOnly() ? 1 : 0);
+		} else // Set default inheritance value
+		if (ChartItemUtil.hasAggregation(getChartModel())) {
+			// If aggregations found, set inherit columns only
+			cmbInherit.select(1);
+			getContext().setInheritColumnsOnly(true);
 		} else {
-			// Set default inheritance value
-			if (ChartItemUtil.hasAggregation(getChartModel())) {
-				// If aggregations found, set inherit columns only
-				cmbInherit.select(1);
-				getContext().setInheritColumnsOnly(true);
-			} else {
-				// Default value is set as Inherit groups
-				cmbInherit.select(0);
-				getContext().setInheritColumnsOnly(false);
-			}
+			// Default value is set as Inherit groups
+			cmbInherit.select(0);
+			getContext().setInheritColumnsOnly(false);
 		}
 		cmbInherit.setEnabled(false);
 
-		List<Object> dataItems = new ArrayList<Object>();
+		List<Object> dataItems = new ArrayList<>();
 		cmbDataItems.setItems(createDataComboItems(dataItems));
 		cmbDataItems.setData(dataItems);
 
@@ -1207,7 +1228,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private boolean isInheritingSummaryTable() {
 		if (ChartItemUtil.isContainerInheritable(itemHandle)) {
@@ -1228,6 +1249,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 		return false;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void handleEvent(Event event) {
 		// When user select expression in drop&down list of live preview
@@ -1294,12 +1316,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 					ColorPalette.getInstance().restore();
 
 					// Skip when selection is false
-					if (!btnInherit.getSelection()) {
-						return;
-					}
-
 					// Avoid duplicate loading data set.
-					if (bIsInheritSelected) {
+					if (!btnInherit.getSelection() || bIsInheritSelected) {
 						return;
 					}
 
@@ -1321,12 +1339,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 					updatePredefinedQueries();
 				} else if (event.widget == btnUseData) {
 					// Skip when selection is false
-					if (!btnUseData.getSelection()) {
-						return;
-					}
-
 					// Avoid duplicate loading data set.
-					if (!bIsInheritSelected) {
+					if (!btnUseData.getSelection() || !bIsInheritSelected) {
 						return;
 					}
 
@@ -1455,7 +1469,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 						}
 
 						cmbDataItems.removeAll();
-						List<Object> dataItems = new ArrayList<Object>();
+						List<Object> dataItems = new ArrayList<>();
 						cmbDataItems.setItems(createDataComboItems(dataItems));
 						List<Object> oldDataItems = (List<Object>) cmbDataItems.getData();
 						cmbDataItems.setData(dataItems);
@@ -1485,7 +1499,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 						String[] datacubes = getDataServiceProvider().getAllDataCubes();
 						cmbDataItems.removeAll();
-						dataItems = new ArrayList<Object>();
+						dataItems = new ArrayList<>();
 						cmbDataItems.setItems(createDataComboItems(dataItems));
 						cmbDataItems.setData(dataItems);
 						if (datacubes.length == count) {
@@ -1512,7 +1526,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 					// autoSelect( true );
 				} else if (event.widget == btnShowDataPreviewA || event.widget == btnShowDataPreviewB) {
 					Button w = (Button) event.widget;
-					getContext().setShowingDataPreview(Boolean.valueOf(w.getSelection()));
+					getContext().setShowingDataPreview(w.getSelection());
 					updateDragDataSource();
 				}
 				checkDataBinding();
@@ -1536,11 +1550,13 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	 */
 	private void clearGrouping() {
 		SeriesDefinition sd = ChartUIUtil.getBaseSeriesDefinitions(getChartModel()).get(0);
-		if (sd.getGrouping() != null && sd.getGrouping().isEnabled())
+		if (sd.getGrouping() != null && sd.getGrouping().isEnabled()) {
 			sd.getGrouping().unsetEnabled();
+		}
 		for (SeriesDefinition s : ChartUIUtil.getAllOrthogonalSeriesDefinitions(getChartModel())) {
-			if (s.getQuery() != null && s.getQuery().getGrouping() != null && s.getQuery().getGrouping().isEnabled())
+			if (s.getQuery() != null && s.getQuery().getGrouping() != null && s.getQuery().getGrouping().isEnabled()) {
 				s.getQuery().getGrouping().unsetEnabled();
+			}
 		}
 	}
 
@@ -1615,7 +1631,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 	/**
 	 * Update column headers and data to table.
-	 * 
+	 *
 	 * @param headers
 	 * @param dataList
 	 */
@@ -1680,7 +1696,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	}
 
 	private static Collection<TreeItem> getAllItems(TreeItem[] items) {
-		List<TreeItem> list = new LinkedList<TreeItem>();
+		List<TreeItem> list = new LinkedList<>();
 
 		for (TreeItem item : items) {
 			list.add(item);
@@ -1694,8 +1710,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 		if (tree == null) {
 			return Collections.emptyList();
 		}
-		List<TreeItem> list = new LinkedList<TreeItem>();
-		list.addAll(getAllItems(tree.getItems()));
+		List<TreeItem> list = new LinkedList<>(getAllItems(tree.getItems()));
 		return list;
 	}
 
@@ -1715,7 +1730,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void updateColumnsTableViewerColor() {
 		for (TableItem item : tableViewerColumns.getTable().getItems()) {
@@ -1730,7 +1745,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 	/**
 	 * Returns actual expression for common and sharing query case.
-	 * 
+	 *
 	 * @param query
 	 * @param expr
 	 * @return
@@ -1897,8 +1912,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 			return tablePreview.getCurrentColumnHeadObject();
 		}
 		int index = tableViewerColumns.getTable().getSelectionIndex();
-		if (index < 0)
+		if (index < 0) {
 			return null;
+		}
 		return tableViewerColumns.getTable().getItem(index).getData();
 	}
 
@@ -1919,7 +1935,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	}
 
 	protected List<Object> getActionsForTableHead(String expr) {
-		List<Object> actions = new ArrayList<Object>(3);
+		List<Object> actions = new ArrayList<>(3);
 		actions.add(getBaseSeriesMenu(getChartModel(), expr));
 		actions.add(getOrthogonalSeriesMenu(getChartModel(), expr));
 		actions.add(getGroupSeriesMenu(getChartModel(), expr));
@@ -1931,7 +1947,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	}
 
 	protected Object getMenuForDimension(Chart chart, String expr) {
-		List<Object> menus = new ArrayList<Object>(2);
+		List<Object> menus = new ArrayList<>(2);
 		// bug#220724
 		if (((Boolean) dataProvider.checkData(ChartUIConstants.QUERY_CATEGORY, expr)).booleanValue()) {
 			menus.add(getBaseSeriesMenu(getChartModel(), expr));
@@ -1950,6 +1966,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 		menuManager.setRemoveAllWhenShown(true);
 		menuManager.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				if (data instanceof ColumnBindingInfo) {
 					// Menu for columns table.
@@ -2103,7 +2120,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	}
 
 	private String getSecondMenuText(int axisIndex, int seriesIndex, Series series) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		if (ChartUIUtil.getOrthogonalAxisNumber(getChartModel()) > 1) {
 			sb.append(Messages.getString("StandardChartDataSheet.Label.Axis")); //$NON-NLS-1$
 			sb.append(axisIndex + 1);
@@ -2197,7 +2214,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 	/**
 	 * This method returns a cube expression that is draggable.
-	 * 
+	 *
 	 * @return
 	 */
 	protected String getDraggableCubeExpression() {
@@ -2206,7 +2223,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 	/**
 	 * Creates the cube expression
-	 * 
+	 *
 	 * @return expression
 	 */
 	protected String createCubeExpression() {
@@ -2227,9 +2244,9 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	}
 
 	private String[] createDataComboItems(List<Object> dataItems) {
-		List<Object> items = new ArrayList<Object>();
+		List<Object> items = new ArrayList<>();
 		if (dataItems == null) {
-			dataItems = new ArrayList<Object>();
+			dataItems = new ArrayList<>();
 		}
 		dataItems.clear();
 
@@ -2245,7 +2262,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 			}
 			items.add(item);
 			dataItems.add(item);
-			selectDataTypes.add(Integer.valueOf(SELECT_NONE));
+			selectDataTypes.add(SELECT_NONE);
 		}
 
 		if (isDataItemSupported(SELECT_DATA_SET)) {
@@ -2254,19 +2271,19 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 				if (isDataItemSupported(SELECT_NEXT)) {
 					items.add(Messages.getString("StandardChartDataSheet.Combo.DataSets")); //$NON-NLS-1$
 					dataItems.add(Messages.getString("StandardChartDataSheet.Combo.DataSets")); //$NON-NLS-1$
-					selectDataTypes.add(Integer.valueOf(SELECT_NEXT));
+					selectDataTypes.add(SELECT_NEXT);
 				}
 
 				for (int i = 0; i < dataSets.length; i++) {
 					items.add(dataSets[i].getDisplayName());
 					dataItems.add(dataSets[i]);
-					selectDataTypes.add(Integer.valueOf(SELECT_DATA_SET));
+					selectDataTypes.add(SELECT_DATA_SET);
 				}
 			}
 			if (isDataItemSupported(SELECT_NEW_DATASET)) {
 				items.add(Messages.getString("StandardChartDataSheet.NewDataSet")); //$NON-NLS-1$
 				dataItems.add(Messages.getString("StandardChartDataSheet.NewDataSet")); //$NON-NLS-1$
-				selectDataTypes.add(Integer.valueOf(SELECT_NEW_DATASET));
+				selectDataTypes.add(SELECT_NEW_DATASET);
 			}
 		}
 
@@ -2276,18 +2293,18 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 				if (isDataItemSupported(SELECT_NEXT)) {
 					items.add(Messages.getString("StandardChartDataSheet.Combo.DataCubes")); //$NON-NLS-1$
 					dataItems.add(Messages.getString("StandardChartDataSheet.Combo.DataCubes")); //$NON-NLS-1$
-					selectDataTypes.add(Integer.valueOf(SELECT_NEXT));
+					selectDataTypes.add(SELECT_NEXT);
 				}
 				for (int i = 0; i < dataCubes.length; i++) {
 					items.add(dataCubes[i]);
 					dataItems.add(dataCubes[i]);
-					selectDataTypes.add(Integer.valueOf(SELECT_DATA_CUBE));
+					selectDataTypes.add(SELECT_DATA_CUBE);
 				}
 			}
 			if (isDataItemSupported(SELECT_NEW_DATACUBE)) {
 				items.add(Messages.getString("StandardChartDataSheet.NewDataCube")); //$NON-NLS-1$
 				dataItems.add(Messages.getString("StandardChartDataSheet.NewDataCube")); //$NON-NLS-1$
-				selectDataTypes.add(Integer.valueOf(SELECT_NEW_DATACUBE));
+				selectDataTypes.add(SELECT_NEW_DATACUBE);
 			}
 		}
 
@@ -2298,7 +2315,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 				if (isDataItemSupported(SELECT_NEXT)) {
 					items.add(Messages.getString("StandardChartDataSheet.Combo.ReportItems")); //$NON-NLS-1$
 					dataItems.add(Messages.getString("StandardChartDataSheet.Combo.ReportItems")); //$NON-NLS-1$
-					selectDataTypes.add(Integer.valueOf(SELECT_NEXT));
+					selectDataTypes.add(SELECT_NEXT);
 				}
 				for (int i = 0; i < dataRefs.length; i++) {
 					// if cube is not supported, do not list the report item
@@ -2311,7 +2328,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 					}
 					items.add(dataRefs[i]);
 					dataItems.add(dataRefs[i]);
-					selectDataTypes.add(Integer.valueOf(SELECT_REPORT_ITEM));
+					selectDataTypes.add(SELECT_REPORT_ITEM);
 				}
 				// didn't add any reportitem reference
 				if (items.size() == curSize + 1) {
@@ -2327,8 +2344,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	@SuppressWarnings("unchecked")
 	protected void updatePredefinedQueriesForInheritXTab() {
 		// Get all column bindings.
-		List<String> dimensionExprs = new ArrayList<String>();
-		List<String> measureExprs = new ArrayList<String>();
+		List<String> dimensionExprs = new ArrayList<>();
+		List<String> measureExprs = new ArrayList<>();
 		ReportItemHandle reportItemHandle = dataProvider.getReportItemHandle();
 		for (Iterator<ComputedColumnHandle> iter = reportItemHandle.getColumnBindings().iterator(); iter.hasNext();) {
 			ComputedColumnHandle cch = iter.next();
@@ -2350,8 +2367,8 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	@SuppressWarnings("unchecked")
 	protected void updatePredefinedQueriesForSharingCube() {
 		// Get all column bindings.
-		List<String> dimensionExprs = new ArrayList<String>();
-		List<String> measureExprs = new ArrayList<String>();
+		List<String> dimensionExprs = new ArrayList<>();
+		List<String> measureExprs = new ArrayList<>();
 		ReportItemHandle reportItemHandle = dataProvider.getReportItemHandle();
 		for (Iterator<ComputedColumnHandle> iter = reportItemHandle.getColumnBindings().iterator(); iter.hasNext();) {
 			ComputedColumnHandle cch = iter.next();
@@ -2460,71 +2477,68 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 			} catch (BirtException e) {
 				WizardBase.displayException(e);
 			}
-		} else {
-			if (getCube() == null) {
-				try {
-					ColumnBindingInfo[] headers = dataProvider.getPreviewHeadersInfo();
-					getDataServiceProvider().setPredefinedExpressions(headers);
-				} catch (ChartException e) {
-					getContext().addPredefinedQuery(ChartUIConstants.QUERY_CATEGORY, null);
-					getContext().addPredefinedQuery(ChartUIConstants.QUERY_VALUE, null);
-					getContext().addPredefinedQuery(ChartUIConstants.QUERY_OPTIONAL, null);
-				}
+		} else if (getCube() == null) {
+			try {
+				ColumnBindingInfo[] headers = dataProvider.getPreviewHeadersInfo();
+				getDataServiceProvider().setPredefinedExpressions(headers);
+			} catch (ChartException e) {
+				getContext().addPredefinedQuery(ChartUIConstants.QUERY_CATEGORY, null);
+				getContext().addPredefinedQuery(ChartUIConstants.QUERY_VALUE, null);
+				getContext().addPredefinedQuery(ChartUIConstants.QUERY_OPTIONAL, null);
+			}
 
-			} else if (isDataItemSupported(SELECT_DATA_CUBE)) {
-				if (dataProvider.isInheritanceOnly() || dataProvider.isSharedBinding()) {
-					updatePredefinedQueriesForSharingCube();
-				} else if (dataProvider.isInXTabNonAggrCell() && dataProvider.isInheritCube()) {
-					updatePredefinedQueriesForInheritXTab();
-				}
-				// TODO do we need to handle xtab inheritance case? currently we
-				// just inherit the cube from xtab essentially
-				// else if ( ChartXTabUIUtil.isInheritXTabCell( itemHandle ) )
-				// {
-				// // Chart in xtab cell and inherits its cube
-				// List<String> measureExprs = new ArrayList<String>( );
-				// for ( Iterator<ComputedColumnHandle> iter =
-				// ChartReportItemUtil.getBindingHolder( itemHandle )
-				// .getColumnBindings( )
-				// .iterator( ); iter.hasNext( ); )
-				// {
-				// ComputedColumnHandle cch = iter.next( );
-				// if ( ChartCubeUtil.isMeasureExpresion( cch.getExpression( ) )
-				// )
-				// {
-				// measureExprs.add( ExpressionUtil.createJSDataExpression(
-				// cch.getName( ) ) );
-				// }
-				// }
-				// String[] valueExprs = measureExprs.toArray( new
-				// String[measureExprs.size( )] );
-				// getContext( ).addPredefinedQuery(
-				// ChartUIConstants.QUERY_CATEGORY,
-				// null );
-				// getContext( ).addPredefinedQuery(
-				// ChartUIConstants.QUERY_OPTIONAL,
-				// null );
-				// getContext( ).addPredefinedQuery(
-				// ChartUIConstants.QUERY_VALUE,
-				// valueExprs );
-				// }
-				else {
-					// Updates cube bindings before updating available bindings
-					// for chart.
-					getDataServiceProvider().update(ChartUIConstants.UPDATE_CUBE_BINDINGS, null);
+		} else if (isDataItemSupported(SELECT_DATA_CUBE)) {
+			if (dataProvider.isInheritanceOnly() || dataProvider.isSharedBinding()) {
+				updatePredefinedQueriesForSharingCube();
+			} else if (dataProvider.isInXTabNonAggrCell() && dataProvider.isInheritCube()) {
+				updatePredefinedQueriesForInheritXTab();
+			}
+			// TODO do we need to handle xtab inheritance case? currently we
+			// just inherit the cube from xtab essentially
+			// else if ( ChartXTabUIUtil.isInheritXTabCell( itemHandle ) )
+			// {
+			// // Chart in xtab cell and inherits its cube
+			// List<String> measureExprs = new ArrayList<String>( );
+			// for ( Iterator<ComputedColumnHandle> iter =
+			// ChartReportItemUtil.getBindingHolder( itemHandle )
+			// .getColumnBindings( )
+			// .iterator( ); iter.hasNext( ); )
+			// {
+			// ComputedColumnHandle cch = iter.next( );
+			// if ( ChartCubeUtil.isMeasureExpresion( cch.getExpression( ) )
+			// )
+			// {
+			// measureExprs.add( ExpressionUtil.createJSDataExpression(
+			// cch.getName( ) ) );
+			// }
+			// }
+			// String[] valueExprs = measureExprs.toArray( new
+			// String[measureExprs.size( )] );
+			// getContext( ).addPredefinedQuery(
+			// ChartUIConstants.QUERY_CATEGORY,
+			// null );
+			// getContext( ).addPredefinedQuery(
+			// ChartUIConstants.QUERY_OPTIONAL,
+			// null );
+			// getContext( ).addPredefinedQuery(
+			// ChartUIConstants.QUERY_VALUE,
+			// valueExprs );
+			// }
+			else {
+				// Updates cube bindings before updating available bindings
+				// for chart.
+				getDataServiceProvider().update(ChartUIConstants.UPDATE_CUBE_BINDINGS, null);
 
-					Iterator<ComputedColumnHandle> columnBindings = ChartItemUtil
-							.getAllColumnBindingsIterator(itemHandle);
-					List<String> levels = ChartCubeUtil.getAllLevelsBindingName(columnBindings);
-					String[] exprs = levels.toArray(new String[levels.size()]);
-					getContext().addPredefinedQuery(ChartUIConstants.QUERY_CATEGORY, exprs);
-					getContext().addPredefinedQuery(ChartUIConstants.QUERY_OPTIONAL, exprs);
+				Iterator<ComputedColumnHandle> columnBindings = ChartItemUtil.getAllColumnBindingsIterator(itemHandle);
+				List<String> levels = ChartCubeUtil.getAllLevelsBindingName(columnBindings);
+				String[] exprs = levels.toArray(new String[levels.size()]);
+				getContext().addPredefinedQuery(ChartUIConstants.QUERY_CATEGORY, exprs);
+				getContext().addPredefinedQuery(ChartUIConstants.QUERY_OPTIONAL, exprs);
 
-					columnBindings = ChartItemUtil.getAllColumnBindingsIterator(itemHandle);
-					List<String> measures = ChartCubeUtil.getAllMeasuresBindingName(columnBindings);
-					exprs = measures.toArray(new String[measures.size()]);
-					getContext().addPredefinedQuery(ChartUIConstants.QUERY_VALUE, exprs);
-				}
+				columnBindings = ChartItemUtil.getAllColumnBindingsIterator(itemHandle);
+				List<String> measures = ChartCubeUtil.getAllMeasuresBindingName(columnBindings);
+				exprs = measures.toArray(new String[measures.size()]);
+				getContext().addPredefinedQuery(ChartUIConstants.QUERY_VALUE, exprs);
 			}
 		}
 
@@ -2535,7 +2549,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	/**
 	 * Update Y Optional expression with specified expression if current Y optional
 	 * expression is null or empty.
-	 * 
+	 *
 	 * @param cm   chart model.
 	 * @param expr specified expression.
 	 */
@@ -2546,7 +2560,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 	/**
 	 * Update category expression with specified expression if current category
 	 * expression is null or empty.
-	 * 
+	 *
 	 * @param cm   chart model.
 	 * @param expr specified expression.
 	 */
@@ -2572,7 +2586,7 @@ public class StandardChartDataSheet extends DefaultChartDataSheet implements Lis
 
 	@Override
 	public List<String> getAllValueDefinitions() {
-		List<String> dataDefinitions = new ArrayList<String>(2);
+		List<String> dataDefinitions = new ArrayList<>(2);
 		for (SeriesDefinition sd : ChartUIUtil.getAllOrthogonalSeriesDefinitions(getChartModel())) {
 			for (Query query : sd.getDesignTimeSeries().getDataDefinition()) {
 				String name = exprCodec.getBindingName(query.getDefinition());

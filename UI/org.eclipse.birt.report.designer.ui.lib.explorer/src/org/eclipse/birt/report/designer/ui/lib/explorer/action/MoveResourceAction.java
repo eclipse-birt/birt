@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -40,7 +40,7 @@ public class MoveResourceAction extends ResourceAction {
 
 	/**
 	 * Constructs an action for moving resource.
-	 * 
+	 *
 	 * @param page the resource explorer page
 	 */
 	public MoveResourceAction(LibraryExplorerTreeViewPage page) {
@@ -80,11 +80,7 @@ public class MoveResourceAction extends ResourceAction {
 					for (File file : files) {
 						moveFile(file, targetPath.append(file.getName()).toFile());
 					}
-				} catch (IOException e) {
-					ExceptionUtil.handle(e);
-				} catch (InvocationTargetException e) {
-					ExceptionUtil.handle(e);
-				} catch (InterruptedException e) {
+				} catch (IOException | InvocationTargetException | InterruptedException e) {
 					ExceptionUtil.handle(e);
 				}
 			}
@@ -93,7 +89,7 @@ public class MoveResourceAction extends ResourceAction {
 
 	/**
 	 * Moves the specified source file to the specified target file.
-	 * 
+	 *
 	 * @param srcFile    the source file.
 	 * @param targetFile the target file
 	 * @exception InvocationTargetException if the run method must propagate a

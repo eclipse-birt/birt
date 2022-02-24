@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,33 +33,33 @@ import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
  * data set definition, if defined. A parameter can be an input or output
  * parameter. A parameter can also be input and output parameter. Each data set
  * parameter has the following properties:
- * 
+ *
  * <p>
  * <dl>
  * <dt><strong>Name </strong></dt>
  * <dd>a data set parameter has a required name.</dd>
- * 
+ *
  * <dt><strong>Position </strong></dt>
  * <dd>a data set parameter has an optional position for it.</dd>
- * 
+ *
  * <dt><strong>Data Type </strong></dt>
  * <dd>a data set parameter has a choice data type: any, integer, string, data
  * time, decimal, float, structure or table.</dd>
- * 
+ *
  * <dt><strong>Is optional </strong></dt>
  * <dd>whether this parameter is optional.</dd>
- * 
+ *
  * <dt><strong>Allow Null </strong></dt>
  * <dd>whether the value of this parameter can be nullable.</dd>
- * 
+ *
  * <dt><strong>Is Input </strong></dt>
  * <dd>whether this parameter is an input parameter.</dd>
- * 
+ *
  * <dt><strong>Is Output </strong></dt>
  * <dd>whether this parameter is an output parameter.</dd>
  * </dl>
- * 
- * 
+ *
+ *
  */
 
 public class DataSetParameter extends PropertyStructure {
@@ -104,10 +104,11 @@ public class DataSetParameter extends PropertyStructure {
 	/**
 	 * Name of the member indicating that whether the value of this parameter can be
 	 * <code>null</code>.
-	 * 
+	 *
 	 * @deprecated
 	 */
 
+	@Deprecated
 	public static final String IS_NULLABLE_MEMBER = "isNullable"; //$NON-NLS-1$
 
 	/**
@@ -177,17 +178,18 @@ public class DataSetParameter extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.OutputParameter#getStructName()
 	 */
 
+	@Override
 	public String getStructName() {
 		return STRUCT_NAME;
 	}
 
 	/**
 	 * Whether the parameter is optional.
-	 * 
+	 *
 	 * @return whether the parameter is optional
 	 */
 
@@ -197,7 +199,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets whether the parameter is optional.
-	 * 
+	 *
 	 * @param value the value to set
 	 */
 
@@ -207,7 +209,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the default value of the input parameter.
-	 * 
+	 *
 	 * @param expr the default value
 	 */
 
@@ -217,7 +219,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Gets the default value of the input parameter.
-	 * 
+	 *
 	 * @return the default value
 	 */
 
@@ -227,7 +229,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Checks whether this parameter is an input parameter.
-	 * 
+	 *
 	 * @return <code>true</code> if it is an input parameter. Otherwise
 	 *         <code>false</code>.
 	 */
@@ -238,7 +240,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets whether this parameter is an input parameter.
-	 * 
+	 *
 	 * @param isInput <code>true</code> if it is an input parameter. Otherwise
 	 *                <code>false</code>.
 	 */
@@ -249,31 +251,33 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Checks whether the value of this parameter can be <code>null</code>.
-	 * 
+	 *
 	 * @return <code>true</code> if the value can be <code>null</code>. Otherwise
 	 *         <code>false</code>.
 	 * @deprecated Use <code>allowNull()</code>
 	 */
 
+	@Deprecated
 	public boolean isNullable() {
 		return allowNull();
 	}
 
 	/**
 	 * Sets whether the value of this parameter can be <code>null</code>.
-	 * 
+	 *
 	 * @param isNullable <code>true</code> if the value can be <code>null</code>.
 	 *                   Otherwise <code>false</code>.
 	 * @deprecated Use <code>setAllowNull(boolean)</code>
 	 */
 
+	@Deprecated
 	public void setIsNullable(boolean isNullable) {
 		setAllowNull(isNullable);
 	}
 
 	/**
 	 * Checks whether the value of this parameter can be <code>null</code>.
-	 * 
+	 *
 	 * @return <code>true</code> if the value can be <code>null</code>. Otherwise
 	 *         <code>false</code>.
 	 */
@@ -284,7 +288,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets whether the value of this parameter can be <code>null</code>.
-	 * 
+	 *
 	 * @param allowNull <code>true</code> if the value can be <code>null</code>.
 	 *                  Otherwise <code>false</code>.
 	 */
@@ -295,7 +299,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Checks whether this parameter is an output parameter.
-	 * 
+	 *
 	 * @return <code>true</code> if it is an output parameter. Otherwise
 	 *         <code>false</code>.
 	 */
@@ -306,7 +310,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets whether this parameter is an output parameter.
-	 * 
+	 *
 	 * @param isOutput <code>true</code> if it is an output parameter. Otherwise
 	 *                 <code>false</code>.
 	 */
@@ -317,7 +321,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Returns the parameter data type.
-	 * 
+	 *
 	 * @return the parameter dataType
 	 */
 
@@ -331,7 +335,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the parameter data type.
-	 * 
+	 *
 	 * @param dataType the data type to set
 	 */
 
@@ -345,7 +349,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Returns the parameter name.
-	 * 
+	 *
 	 * @return the parameter name
 	 */
 
@@ -355,7 +359,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the parameter name.
-	 * 
+	 *
 	 * @param name the name to set
 	 */
 
@@ -365,7 +369,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Returns the position of this parameter.
-	 * 
+	 *
 	 * @return the position of this parameter
 	 */
 
@@ -375,7 +379,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the position of this parameter.
-	 * 
+	 *
 	 * @param position the position to set
 	 */
 
@@ -385,23 +389,25 @@ public class DataSetParameter extends PropertyStructure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
+	@Override
 	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		return new DataSetParameterHandle(valueHandle, index);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.core.Structure#validate(org.eclipse.birt
 	 * .report.model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
+	@Override
 	public List validate(Module module, DesignElement element) {
 		ArrayList list = new ArrayList();
 
@@ -414,7 +420,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Returns the native data type.
-	 * 
+	 *
 	 * @return the parameter native data type.
 	 */
 
@@ -424,7 +430,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the parameter native data type.
-	 * 
+	 *
 	 * @param dataType the native data type to set.
 	 */
 
@@ -435,7 +441,7 @@ public class DataSetParameter extends PropertyStructure {
 	/**
 	 * Returns the data type in parameter type choices of this parameter. The
 	 * possible values are:
-	 * 
+	 *
 	 * <ul>
 	 * <li>PARAM_TYPE_ANY
 	 * <li>PARAM_TYPE_INTEGER
@@ -445,7 +451,7 @@ public class DataSetParameter extends PropertyStructure {
 	 * <li>PARAM_TYPE_FLOAT
 	 * <li>PARAM_TYPE_BOOLEAN
 	 * </ul>
-	 * 
+	 *
 	 * @return the data type of this parameter.
 	 */
 
@@ -456,7 +462,7 @@ public class DataSetParameter extends PropertyStructure {
 	/**
 	 * Sets the data type in parameter type choices to this parameter. The allowed
 	 * values are:
-	 * 
+	 *
 	 * <ul>
 	 * <li>PARAM_TYPE_ANY
 	 * <li>PARAM_TYPE_INTEGER
@@ -466,7 +472,7 @@ public class DataSetParameter extends PropertyStructure {
 	 * <li>PARAM_TYPE_FLOAT
 	 * <li>PARAM_TYPE_BOOLEAN
 	 * </ul>
-	 * 
+	 *
 	 * @param dataType the data type to set
 	 * @throws SemanticException if the value is not in the above list.
 	 */
@@ -477,7 +483,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Gets the display name of this parameter.
-	 * 
+	 *
 	 * @return the display name of this parameter
 	 */
 	public String getDisplayName() {
@@ -486,7 +492,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the display name of this parameter.
-	 * 
+	 *
 	 * @param displayName the new display name of this parameter
 	 */
 	public void setDisplayName(String displayName) {
@@ -495,7 +501,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Gets the resource key of the display name of this parameter.
-	 * 
+	 *
 	 * @return the resource key of the display name
 	 */
 	public String getDisplayNameKey() {
@@ -504,7 +510,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the resource key of the display name id of this parameter.
-	 * 
+	 *
 	 * @param displayNameID the new resource key of the display name
 	 */
 	public void setDisplayNameKey(String displayNameID) {
@@ -513,7 +519,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Gets the heading of this parameter.
-	 * 
+	 *
 	 * @return the heading of this parameter
 	 */
 	public String getHeading() {
@@ -522,7 +528,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the heading of this parameter.
-	 * 
+	 *
 	 * @param heading the new heading of this parameter
 	 */
 	public void setHeading(String heading) {
@@ -531,7 +537,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Gets the resource key of the heading of this parameter.
-	 * 
+	 *
 	 * @return the resource key of the heading
 	 */
 	public String getHeadingKey() {
@@ -540,7 +546,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the resource key of the heading of this parameter.
-	 * 
+	 *
 	 * @param headingID the new resource key of the heading
 	 */
 	public void setHeadingKey(String headingID) {
@@ -549,7 +555,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Gets the help text of this parameter.
-	 * 
+	 *
 	 * @return the help text of this parameter
 	 */
 	public String getHelpText() {
@@ -558,7 +564,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the help text of this parameter.
-	 * 
+	 *
 	 * @param helpText the new help text of this parameter
 	 */
 	public void setHelpText(String helpText) {
@@ -567,7 +573,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Gets the resource key of the help text of this parameter.
-	 * 
+	 *
 	 * @return the resource key of the help text
 	 */
 	public String getHelpTextKey() {
@@ -576,7 +582,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the resource key of the help text of this parameter.
-	 * 
+	 *
 	 * @param helpTextID the new resource key of the heading
 	 */
 	public void setHelpTextKey(String helpTextID) {
@@ -585,7 +591,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Gets the description of this parameter.
-	 * 
+	 *
 	 * @return the description of this parameter
 	 */
 	public String getDescription() {
@@ -594,7 +600,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the description of this parameter.
-	 * 
+	 *
 	 * @param description the new description of this parameter
 	 */
 	public void setDescription(String description) {
@@ -603,7 +609,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Gets the resource key of the description of this parameter.
-	 * 
+	 *
 	 * @return the resource key
 	 */
 	public String getDescriptionKey() {
@@ -612,7 +618,7 @@ public class DataSetParameter extends PropertyStructure {
 
 	/**
 	 * Sets the resource key of the description of this parameter.
-	 * 
+	 *
 	 * @param descriptionID the new resource key of the description
 	 */
 	public void setDescriptionKey(String descriptionID) {

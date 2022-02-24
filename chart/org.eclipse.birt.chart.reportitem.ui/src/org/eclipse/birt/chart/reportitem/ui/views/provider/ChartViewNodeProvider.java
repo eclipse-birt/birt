@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -27,10 +27,12 @@ import org.eclipse.swt.graphics.Image;
 
 public class ChartViewNodeProvider extends DefaultNodeProvider {
 
+	@Override
 	public Object[] getChildren(Object object) {
 		return new Object[] {};
 	}
 
+	@Override
 	public Image getNodeIcon(Object model) {
 		DesignElementHandle handle = (DesignElementHandle) model;
 		String iconPath = ChartUIConstants.IMAGE_OUTLINE;
@@ -44,6 +46,7 @@ public class ChartViewNodeProvider extends DefaultNodeProvider {
 		return decorateImage(UIHelper.getImage(iconPath), model);
 	}
 
+	@Override
 	public boolean hasChildren(Object object) {
 		return false;
 	}

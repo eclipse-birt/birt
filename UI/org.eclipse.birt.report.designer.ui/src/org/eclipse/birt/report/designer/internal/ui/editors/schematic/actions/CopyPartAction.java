@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -29,7 +29,7 @@ public class CopyPartAction extends WrapperSelectionAction {
 
 	/**
 	 * Create a new copy action with given selection and text
-	 * 
+	 *
 	 * @param part the selected object,which cannot be null
 	 */
 	public CopyPartAction(IWorkbenchPart part) {
@@ -40,6 +40,7 @@ public class CopyPartAction extends WrapperSelectionAction {
 		setAccelerator(SWT.CTRL | 'C');// $NON-NLS-1$
 	}
 
+	@Override
 	public String getId() {
 		return ActionFactory.COPY.getId();
 	}
@@ -47,6 +48,7 @@ public class CopyPartAction extends WrapperSelectionAction {
 	/**
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	protected IAction createActionHandler(ISelection model) {
 		return new CopyAction(model);
 	}

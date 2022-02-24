@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
@@ -49,21 +49,21 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * The PPTX render class.
- * 
+ *
  * It visit a render area, output it to PPTXGrapchis.
- * 
+ *
  */
 public class PPTXRender extends PageDeviceRender {
 
 	/**
 	 * option to define if export PPTX in edit mode.
-	 * 
+	 *
 	 * TRUE: mapping BIRT style properties to PPTX properties, so the final layout
 	 * may be difference to PDF.
-	 * 
+	 *
 	 * FALSE: the content exactly follows layout constrains, so it has same layout
 	 * with PDF.
-	 * 
+	 *
 	 * the default value is TRUE.
 	 */
 	public static final String OPTION_EDIT_MODE = "org.eclipse.birt.report.emitter.PPTX.editMode"; //$NON-NLS-1$
@@ -76,7 +76,7 @@ public class PPTXRender extends PageDeviceRender {
 
 	private RenderOption renderOption;
 	private boolean needBufferOutput;
-	private final ArrayList<ByteArrayOutputStream> bufferedOuptuts = new ArrayList<ByteArrayOutputStream>();
+	private final ArrayList<ByteArrayOutputStream> bufferedOuptuts = new ArrayList<>();
 	private boolean editMode;
 	private boolean isRTL = false;
 	private boolean isTextWrap = true;
@@ -127,7 +127,7 @@ public class PPTXRender extends PageDeviceRender {
 
 	/**
 	 * Returns the output format, always is "pptx".
-	 * 
+	 *
 	 * @return the output format
 	 */
 	@Override
@@ -137,7 +137,7 @@ public class PPTXRender extends PageDeviceRender {
 
 	/**
 	 * Initializes the PPTEmitter.
-	 * 
+	 *
 	 * @param services the emitter services object.
 	 * @throws BirtException
 	 */

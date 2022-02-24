@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -82,6 +82,7 @@ public class RAFolderOutputStream extends RAOutputStream {
 	 *                        <code>IOException</code> may be thrown if the output
 	 *                        stream has been closed.
 	 */
+	@Override
 	public void write(int b) throws IOException {
 		byte writeBuffer[] = new byte[1];
 		writeBuffer[0] = (byte) b;
@@ -98,6 +99,7 @@ public class RAFolderOutputStream extends RAOutputStream {
 	 * @exception IOException if an I/O error occurs.
 	 * @see java.io.OutputStream#write(byte[], int, int)
 	 */
+	@Override
 	public void write(byte b[]) throws IOException {
 		bufferMgr.write(b, 0, b.length);
 	}
@@ -115,6 +117,7 @@ public class RAFolderOutputStream extends RAOutputStream {
 	 * @param len the number of bytes to write.
 	 * @exception IOException if an I/O error occurs.
 	 */
+	@Override
 	public void write(byte b[], int off, int len) throws IOException {
 		bufferMgr.write(b, off, len);
 	}
@@ -122,6 +125,7 @@ public class RAFolderOutputStream extends RAOutputStream {
 	/**
 	 * Same behavior as DataOutputStream.writeInt();
 	 */
+	@Override
 	public void writeInt(int v) throws IOException {
 		byte writeBuffer[] = new byte[4];
 		writeBuffer[0] = (byte) (v >>> 24);
@@ -134,6 +138,7 @@ public class RAFolderOutputStream extends RAOutputStream {
 	/**
 	 * Same behavior as DataOutputStream.writeLong();
 	 */
+	@Override
 	public void writeLong(long v) throws IOException {
 		byte writeBuffer[] = new byte[8];
 		writeBuffer[0] = (byte) (v >>> 56);
@@ -147,6 +152,7 @@ public class RAFolderOutputStream extends RAOutputStream {
 		bufferMgr.write(writeBuffer, 0, 8);
 	}
 
+	@Override
 	public long getOffset() throws IOException {
 		return bufferMgr.getFilePointer();
 	}
@@ -158,10 +164,11 @@ public class RAFolderOutputStream extends RAOutputStream {
 	 * the file. Setting the offset beyond the end of the file does not change the
 	 * file length. The file length will change only by writing after the offset has
 	 * been set beyond the end of the file.
-	 * 
+	 *
 	 * @param localPos - the new local postion in the stream, measured in bytes from
 	 *                 the beginning of the stream
 	 */
+	@Override
 	public void seek(long localPos) throws IOException {
 		bufferMgr.seek(localPos);
 	}
@@ -169,6 +176,7 @@ public class RAFolderOutputStream extends RAOutputStream {
 	/**
 	 * Flush the stream.
 	 */
+	@Override
 	public void flush() throws IOException {
 		flushBuffer();
 		super.flush();
@@ -178,6 +186,7 @@ public class RAFolderOutputStream extends RAOutputStream {
 	 * Close the stream. If the stream is the only one in the underlying file, the
 	 * file will be close too.
 	 */
+	@Override
 	public void close() throws IOException {
 		flushBuffer();
 		randomFile.close(); // Since the the underlying random access file is created by us, we need to
@@ -190,6 +199,7 @@ public class RAFolderOutputStream extends RAOutputStream {
 		}
 	}
 
+	@Override
 	public long length() throws IOException {
 		return bufferMgr.length();
 	}

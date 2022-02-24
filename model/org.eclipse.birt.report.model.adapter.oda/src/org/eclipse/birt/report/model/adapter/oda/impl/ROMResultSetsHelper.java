@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -26,7 +26,7 @@ import org.eclipse.datatools.connectivity.oda.design.DataElementAttributes;
 
 /**
  * This class is used for helping creating new column in design time.
- * 
+ *
  * Find old column: 1. Match all new column definitions with old columns using
  * jdbc native name and jdbc alias. ( no change case ) 2. Match all rest new
  * column definitions with old columns using jdbc native name only. ( jdbc alias
@@ -69,10 +69,10 @@ public class ROMResultSetsHelper {
 
 	/**
 	 * get the name of column.
-	 * 
+	 *
 	 * first try label, then name. for JDBC, the label is always exist, it may be
 	 * null sometimes for some other data sources.
-	 * 
+	 *
 	 */
 	private String getColumnName(ColumnDefinition colDefn) {
 		String name = colDefn.getUsageHints() != null ? colDefn.getUsageHints().getLabel() : null;
@@ -90,9 +90,9 @@ public class ROMResultSetsHelper {
 		String newDefinedLabel = null;
 		String oldDefinedLabel = null;
 		DataElementAttributes dataAttrs = null;
-		Set<String> nameSet = new HashSet<String>();
+		Set<String> nameSet = new HashSet<>();
 
-		newColumns = new ArrayList<OdaResultSetColumn>();
+		newColumns = new ArrayList<>();
 		// 1st round, Create new Column for those who have no change
 		for (int i = 0; i < newColumnInfos.size(); i++) {
 			tmpColumnHelper = newColumnInfos.get(i);
@@ -103,13 +103,15 @@ public class ROMResultSetsHelper {
 			newDefinedLabel = getColumnName(newColumnDefn);
 			oldColumn = tmpColumnHelper.getOldColumn();
 			// newly added, wait for 2nd round
-			if (oldColumn == null)
+			if (oldColumn == null) {
 				continue;
+			}
 
 			oldDefinedLabel = oldColumn.getColumnName();
 			// label changed, wait for 2nd round
-			if (!newDefinedLabel.equals(oldDefinedLabel))
+			if (!newDefinedLabel.equals(oldDefinedLabel)) {
 				continue;
+			}
 
 			dataAttrs = newColumnDefn.getAttributes();
 			newColumn.setColumnName(oldColumn.getColumnName());
@@ -128,8 +130,9 @@ public class ROMResultSetsHelper {
 
 			OdaResultSetColumn newColumn = newColumns.get(i);
 
-			if (newColumn.getColumnName() != null)
+			if (newColumn.getColumnName() != null) {
 				continue;
+			}
 
 			dataAttrs = newColumnDefn.getAttributes();
 
@@ -159,7 +162,7 @@ public class ROMResultSetsHelper {
 	}
 
 	private void linkWithOldColumnInfos() {
-		this.newColumnInfos = new ArrayList<ROMResultColumnHelper>();
+		this.newColumnInfos = new ArrayList<>();
 		ColumnDefinition newColumnDefn = null;
 		OdaResultSetColumnHandle oldColumn = null;
 		ColumnHintHandle oldColumnHint = null;
@@ -180,12 +183,14 @@ public class ROMResultSetsHelper {
 		String asName = null;
 		for (int i = 0; i < newColumnInfos.size(); i++) {
 			tmpColumnHelper = newColumnInfos.get(i);
-			if (tmpColumnHelper.isSetup())
+			if (tmpColumnHelper.isSetup()) {
 				continue;
+			}
 			newColumnDefn = tmpColumnHelper.getNewColumnDefn();
 			// no AS name
-			if (newColumnDefn.getUsageHints() == null)
+			if (newColumnDefn.getUsageHints() == null) {
 				continue;
+			}
 			nativeName = newColumnDefn.getAttributes().getName();
 			asName = newColumnDefn.getUsageHints().getLabel();
 			oldColumn = findOldColumnByNativeNameAndAs(nativeName, asName);
@@ -200,8 +205,9 @@ public class ROMResultSetsHelper {
 		// try to find oldColumnDefn 2nd round, use nativeName
 		for (int i = 0; i < newColumnInfos.size(); i++) {
 			tmpColumnHelper = newColumnInfos.get(i);
-			if (tmpColumnHelper.isSetup())
+			if (tmpColumnHelper.isSetup()) {
 				continue;
+			}
 			newColumnDefn = tmpColumnHelper.getNewColumnDefn();
 			nativeName = newColumnDefn.getAttributes().getIdentifier().getName();
 			oldColumn = findOldColumnByNativeName(nativeName);
@@ -242,27 +248,31 @@ public class ROMResultSetsHelper {
 	}
 
 	private ColumnHintHandle findOldColumnHint(String columnName) {
-		for (int i = 0; i < oldColumnHints.size(); i++)
-			if (oldColumnHints.get(i).getColumnName().equals(columnName))
+		for (int i = 0; i < oldColumnHints.size(); i++) {
+			if (oldColumnHints.get(i).getColumnName().equals(columnName)) {
 				return oldColumnHints.get(i);
+			}
+		}
 		return null;
 	}
 
 	public ROMResultColumnHelper getColumnHelper(int i) {
-		if (i < size)
+		if (i < size) {
 			return newColumnInfos.get(i);
+		}
 		return null;
 	}
 
 	public OdaResultSetColumn getNewColumn(int i) {
-		if (i < size)
+		if (i < size) {
 			return newColumns.get(i);
+		}
 		return null;
 	}
 
 	/**
 	 * Returns the rom data type in string.
-	 * 
+	 *
 	 * @param dataSourceId    the id of the data source
 	 * @param dataSetId       the ide of the data set
 	 * @param column          the rom data set parameter
@@ -273,22 +283,21 @@ public class ROMResultSetsHelper {
 	private String getROMDataType(String dataSourceId, String dataSetId, OdaResultSetColumn newColumn,
 			OdaResultSetColumnHandle oldColumn) {
 
-		if (oldColumn == null)
+		if (oldColumn == null) {
 			return AdapterUtil.convertNativeTypeToROMDataType(dataSourceId, dataSetId,
 					newColumn.getNativeDataType().intValue(), null);
+		}
 
 		Integer tmpPosition = oldColumn.getPosition();
-		if (tmpPosition == null)
+		if ((tmpPosition == null) || !tmpPosition.equals(newColumn.getPosition())) {
 			return AdapterUtil.convertNativeTypeToROMDataType(dataSourceId, dataSetId,
 					newColumn.getNativeDataType().intValue(), null);
-
-		if (!tmpPosition.equals(newColumn.getPosition()))
-			return AdapterUtil.convertNativeTypeToROMDataType(dataSourceId, dataSetId,
-					newColumn.getNativeDataType().intValue(), null);
+		}
 
 		Integer tmpNativeCodeType = oldColumn.getNativeDataType();
-		if (tmpNativeCodeType == null || tmpNativeCodeType.equals(newColumn.getNativeDataType()))
+		if (tmpNativeCodeType == null || tmpNativeCodeType.equals(newColumn.getNativeDataType())) {
 			return oldColumn.getDataType();
+		}
 
 		String oldDataType = oldColumn.getDataType();
 		return AdapterUtil.convertNativeTypeToROMDataType(dataSourceId, dataSetId,

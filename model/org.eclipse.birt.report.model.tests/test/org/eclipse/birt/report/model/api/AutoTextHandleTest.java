@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -20,7 +20,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
  * Test case for AutoTextHandle.
- * 
+ *
  */
 
 public class AutoTextHandleTest extends BaseTestCase {
@@ -36,10 +36,11 @@ public class AutoTextHandleTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -47,9 +48,9 @@ public class AutoTextHandleTest extends BaseTestCase {
 	/**
 	 * get value from xml file and test if the <code>AutoTextHandle</code> can
 	 * control AutoText element
-	 * 
+	 *
 	 * Test getAutoTextType()
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testAutoTextValue() throws Exception {
@@ -73,9 +74,9 @@ public class AutoTextHandleTest extends BaseTestCase {
 	/**
 	 * create a new autotext item and add it under footer/header of
 	 * simple-master-page
-	 * 
+	 *
 	 * Test setAutoTextType( String )
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testAddNewAutoText() throws Exception {
@@ -103,7 +104,7 @@ public class AutoTextHandleTest extends BaseTestCase {
 
 	/**
 	 * Tests the display value of the auto text. Added for bugzilla 280232
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testAutoTextDisplayValue() throws Exception {

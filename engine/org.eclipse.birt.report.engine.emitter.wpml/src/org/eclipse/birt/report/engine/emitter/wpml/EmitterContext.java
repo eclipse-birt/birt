@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2006 Inetsoft Technology Corp.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Inetsoft Technology Corp  - initial API and implementation
@@ -23,15 +23,14 @@ import java.util.Stack;
 import java.util.Vector;
 
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.emitter.wpml.SpanInfo;
 
 public class EmitterContext {
 
-	private LinkedList<TableInfo> tables = new LinkedList<TableInfo>();
+	private LinkedList<TableInfo> tables = new LinkedList<>();
 
-	private LinkedList<Integer> widthList = new LinkedList<Integer>();
+	private LinkedList<Integer> widthList = new LinkedList<>();
 
-	private Stack<Boolean> cellind = new Stack<Boolean>();
+	private Stack<Boolean> cellind = new Stack<>();
 
 	private boolean isFirst = true;
 
@@ -39,7 +38,7 @@ public class EmitterContext {
 
 	/**
 	 * Set the flag to show if we just finished a table element.
-	 * 
+	 *
 	 * @param isTable
 	 */
 	public void setIsAfterTable(boolean isTable) {
@@ -48,7 +47,7 @@ public class EmitterContext {
 
 	/**
 	 * Checks if we just finished a table element.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isAfterTable() {
@@ -146,7 +145,7 @@ public class EmitterContext {
 
 	static class TableInfo {
 
-		private Hashtable<Integer, List<SpanInfo>> spans = new Hashtable<Integer, List<SpanInfo>>();
+		private Hashtable<Integer, List<SpanInfo>> spans = new Hashtable<>();
 
 		private int[] cols;
 
@@ -172,6 +171,7 @@ public class EmitterContext {
 					rSpan.add(new SpanInfo(columnId, columnSpan, cellWidth, false, style));
 					Collections.sort(rSpan, new Comparator<SpanInfo>() {
 
+						@Override
 						public int compare(SpanInfo o1, SpanInfo o2) {
 							SpanInfo r1 = o1;
 							SpanInfo r2 = o2;
@@ -179,7 +179,7 @@ public class EmitterContext {
 						}
 					});
 				} else {
-					Vector<SpanInfo> rSpan = new Vector<SpanInfo>();
+					Vector<SpanInfo> rSpan = new Vector<>();
 					rSpan.add(new SpanInfo(columnId, columnSpan, cellWidth, false, style));
 					spans.put(key, rSpan);
 				}
@@ -193,7 +193,7 @@ public class EmitterContext {
 				return null;
 			}
 
-			Vector<SpanInfo> cList = new Vector<SpanInfo>();
+			Vector<SpanInfo> cList = new Vector<>();
 
 			int pos = -1;
 

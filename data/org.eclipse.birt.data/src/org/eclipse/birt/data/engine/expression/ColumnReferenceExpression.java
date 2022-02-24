@@ -1,16 +1,16 @@
 /**************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  **************************************************************************/
 
 package org.eclipse.birt.data.engine.expression;
@@ -58,6 +58,7 @@ public final class ColumnReferenceExpression extends CompiledExpression {
 		logger.exiting(ColumnReferenceExpression.class.getName(), "ColumnReferenceExpression");
 	}
 
+	@Override
 	public int getType() {
 		return TYPE_DIRECT_COL_REF;
 	}
@@ -74,37 +75,44 @@ public final class ColumnReferenceExpression extends CompiledExpression {
 		return (m_columnIndex != -1);
 	}
 
+	@Override
 	public boolean equals(Object other) {
-		if (other == null || !(other instanceof ColumnReferenceExpression))
+		if (other == null || !(other instanceof ColumnReferenceExpression)) {
 			return false;
+		}
 
 		ColumnReferenceExpression expr2 = (ColumnReferenceExpression) other;
 
-		if (dataType != expr2.dataType)
+		if (dataType != expr2.dataType) {
 			return false;
-		if (m_columnName != null)
+		}
+		if (m_columnName != null) {
 			return (m_columnName.equals(expr2.m_columnName));
-		else
+		} else {
 			return m_columnIndex == expr2.m_columnIndex;
+		}
 	}
 
+	@Override
 	public int hashCode() {
-		if (m_columnName != null)
+		if (m_columnName != null) {
 			return m_columnName.hashCode();
-		else
+		} else {
 			return m_columnIndex;
+		}
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.expression.CompiledExpression#evaluate(org.mozilla.javascript.Context,
 	 *      org.mozilla.javascript.Scriptable)
 	 */
+	@Override
 	public Object evaluate(ScriptContext context, Scriptable scope) throws DataException {
 		// This method should not normally be called.
 
 		// Assume the JS "row" variable has been correctly set up in scope.
 		// Evaluate the expression row[index] or row["name"]
-		StringBuffer expr = new StringBuffer(this.rowIndicator + "[");
+		StringBuilder expr = new StringBuilder(this.rowIndicator + "[");
 		if (isIndexed()) {
 			expr.append(m_columnIndex);
 		} else {
@@ -123,7 +131,7 @@ public final class ColumnReferenceExpression extends CompiledExpression {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param type
 	 */
 	public void setDataType(int type) {
@@ -131,7 +139,7 @@ public final class ColumnReferenceExpression extends CompiledExpression {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public int getDataType() {

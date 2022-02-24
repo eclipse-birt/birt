@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -52,7 +52,7 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * Constructs a new instance of background preference page.
-	 * 
+	 *
 	 * @param model the preference store( model ) for the following field editors.
 	 */
 	public BackgroundPreferencePage(Object model) {
@@ -64,10 +64,11 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.FieldEditorPreferencePage#adjustGridLayout()
 	 */
+	@Override
 	protected void adjustGridLayout() {
 		super.adjustGridLayout();
 
@@ -79,10 +80,11 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
 	 */
+	@Override
 	protected void createFieldEditors() {
 
 		// super.createFieldEditors( );
@@ -146,7 +148,7 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage {
 
 	/**
 	 * Gets choice array of the given choice set.
-	 * 
+	 *
 	 * @param set The given choice set.
 	 * @return String[][]: The choice array of the key, which contains he names
 	 *         (labels) and underlying values, will be arranged as: { {name1,
@@ -170,6 +172,7 @@ public class BackgroundPreferencePage extends BaseStylePreferencePage {
 		return names;
 	}
 
+	@Override
 	protected String[] getPreferenceNames() {
 		return new String[] { StyleHandle.BACKGROUND_COLOR_PROP, StyleHandle.BACKGROUND_IMAGE_PROP,
 				StyleHandle.BACKGROUND_REPEAT_PROP, StyleHandle.BACKGROUND_ATTACHMENT_PROP,

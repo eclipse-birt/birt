@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -41,7 +41,7 @@ public final class MetaLogManager {
 	 * An list that contains all the <code>IMetaLogger</code> that is registered.
 	 */
 
-	private static ArrayList<IMetaLogger> loggers = new ArrayList<IMetaLogger>();
+	private static ArrayList<IMetaLogger> loggers = new ArrayList<>();
 
 	static {
 		// Statically register a default customized meta logger.
@@ -53,13 +53,14 @@ public final class MetaLogManager {
 	 * Register a new <code>IMetaLogger</code> to the logger manager. The new
 	 * <code>logger</code> will be notified of the errors during meta-data
 	 * initialization.
-	 * 
+	 *
 	 * @param logger the new <code>IMetaLogger</code> to be registered.
 	 */
 
 	public static void registerLogger(IMetaLogger logger) {
-		if (logger == null)
+		if (logger == null) {
 			return;
+		}
 
 		loggers.add(logger);
 	}
@@ -70,7 +71,7 @@ public final class MetaLogManager {
 	 * registered. The <code>logger</code> will no longer be notified of the errors
 	 * during meta-data initialization. Returns true if this logger manager
 	 * contained the specified logger.
-	 * 
+	 *
 	 * @param logger the <code>IMetaLogger</code> to be removed.
 	 * @return true if this logger manager contained the specified logger.
 	 */
@@ -78,8 +79,9 @@ public final class MetaLogManager {
 	public static boolean removeLogger(IMetaLogger logger) {
 		boolean exist = loggers.remove(logger);
 
-		if (exist && logger != null)
+		if (exist && logger != null) {
 			logger.close();
+		}
 
 		return exist;
 	}
@@ -88,7 +90,7 @@ public final class MetaLogManager {
 	 * Log a message object including the stack trace of the Throwable t to all the
 	 * registered <code>IMetaLogger</code>s. This log method just dispatch the
 	 * logging process to all the registered <code>IMetaLogger</code>.
-	 * 
+	 *
 	 * @param message the message to be logged.
 	 * @param t       the exception to log, including its stack trace.
 	 * @see #registerLogger(IMetaLogger)
@@ -104,7 +106,7 @@ public final class MetaLogManager {
 	 * Log a message object to all the registered <code>IMetaLogger</code>. This log
 	 * method just dispatch the logging process to all the registered
 	 * <code>IMetaLogger</code>.
-	 * 
+	 *
 	 * @param message the message to be logged.
 	 * @see #registerLogger(IMetaLogger)
 	 */
@@ -120,7 +122,7 @@ public final class MetaLogManager {
 	 * this method will do 2 things: first is to iterate over the registered loggers
 	 * and call {@link IMetaLogger#close()}; second is to remove all the registered
 	 * loggers from the manager.
-	 * 
+	 *
 	 */
 
 	public static void shutDown() {

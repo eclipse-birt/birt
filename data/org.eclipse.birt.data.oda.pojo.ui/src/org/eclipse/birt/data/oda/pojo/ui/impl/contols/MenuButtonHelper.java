@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2013 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ public class MenuButtonHelper implements IMenuButtonHelper {
 
 	public void clearTableElementsList() {
 		if (elements == null) {
-			elements = new ArrayList<ClassPathElement>();
+			elements = new ArrayList<>();
 		} else {
 			elements.clear();
 		}
@@ -48,7 +48,7 @@ public class MenuButtonHelper implements IMenuButtonHelper {
 	public void updateTableElementsList() {
 		elements = (List<ClassPathElement>) viewer.getInput();
 		if (elements == null) {
-			elements = new ArrayList<ClassPathElement>();
+			elements = new ArrayList<>();
 		}
 	}
 
@@ -56,6 +56,7 @@ public class MenuButtonHelper implements IMenuButtonHelper {
 		return elements == null ? 0 : elements.size();
 	}
 
+	@Override
 	public void addClassPathElements(ClassPathElement[] items, boolean current) {
 		boolean containsDuplicated = false;
 		for (int i = 0; i < items.length; i++) {
@@ -82,6 +83,7 @@ public class MenuButtonHelper implements IMenuButtonHelper {
 		}
 	}
 
+	@Override
 	public void setProvider(IMenuButtonProvider provider) {
 		this.provider = provider;
 	}
@@ -90,22 +92,27 @@ public class MenuButtonHelper implements IMenuButtonHelper {
 		return this.provider;
 	}
 
+	@Override
 	public void setMenuButton(ClassSelectionButton button) {
 		this.button = button;
 	}
 
+	@Override
 	public Object getPropertyValue(String key) {
 		return button.getControl().getData(key);
 	}
 
+	@Override
 	public void setProperty(String key, Object value) {
 		button.getControl().setData(key, value);
 	}
 
+	@Override
 	public void setListener(Listener listener) {
 
 	}
 
+	@Override
 	public void notifyExpressionChangeEvent(String oldExpression, String newExpression) {
 
 	}

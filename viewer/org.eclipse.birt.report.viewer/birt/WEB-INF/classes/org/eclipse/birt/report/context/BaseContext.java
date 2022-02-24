@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -44,7 +44,7 @@ abstract public class BaseContext implements IContext {
 
 	/**
 	 * Static accessor.
-	 * 
+	 *
 	 * @return
 	 */
 	public static IContext getInstance() {
@@ -59,7 +59,7 @@ abstract public class BaseContext implements IContext {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 */
@@ -73,24 +73,27 @@ abstract public class BaseContext implements IContext {
 	/**
 	 * @return Returns the bean.
 	 */
+	@Override
 	public BaseAttributeBean getBean() {
 		return bean;
 	}
 
 	/**
 	 * Access request instance.
-	 * 
+	 *
 	 * @return Returns the request.
 	 */
+	@Override
 	public HttpServletRequest getRequest() {
 		return request;
 	}
 
 	/**
 	 * Access response instance.
-	 * 
+	 *
 	 * @return
 	 */
+	@Override
 	public HttpServletResponse getResponse() {
 		return response;
 	}

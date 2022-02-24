@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -273,8 +273,8 @@ abstract public class AbstractMDX {
 	 * also add the extra week, 2011,12,week of month 0
 	 */
 	protected void addExtraWeek(List<TimeMember> timeMemberList, Calendar cal, TimeMember srcMember, String[] levels) {
-		int weekStart = 1;
-		int week = 1;
+		int weekStart;
+		int week;
 		int weekEnd = 1;
 		int[] newValues = null;
 		TimeMember newMember = null;

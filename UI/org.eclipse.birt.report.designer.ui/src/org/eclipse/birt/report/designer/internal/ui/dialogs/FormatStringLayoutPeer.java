@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -74,7 +74,7 @@ public class FormatStringLayoutPeer extends FormatLayoutPeer {
 
 	@Override
 	protected void createCategoryPages(Composite parent) {
-		categoryPageMaps = new HashMap<String, Control>();
+		categoryPageMaps = new HashMap<>();
 
 		categoryPageMaps.put(DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED, getGeneralPage(parent));
 
@@ -173,6 +173,7 @@ public class FormatStringLayoutPeer extends FormatLayoutPeer {
 
 		customFormatTable.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String displayName = ((TableItem) e.item).getText(FORMAT_TYPE_INDEX);
 
@@ -333,6 +334,7 @@ public class FormatStringLayoutPeer extends FormatLayoutPeer {
 										.format(SAMPLE_TEXT_PRESERVE_SPACE) });
 	}
 
+	@Override
 	public String getFormatString() {
 		if (category == null && pattern == null) {
 			return DesignChoiceConstants.STRING_FORMAT_TYPE_UNFORMATTED;
@@ -349,6 +351,7 @@ public class FormatStringLayoutPeer extends FormatLayoutPeer {
 		return category + ":" + pattern; //$NON-NLS-1$
 	}
 
+	@Override
 	public void setPreviewText(String text) {
 		if (text == null) {
 			customPreviewTextBox.setText(DEFAULT_PREVIEW_TEXT);

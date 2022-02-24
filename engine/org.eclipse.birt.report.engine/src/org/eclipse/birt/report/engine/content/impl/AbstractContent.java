@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -106,11 +106,11 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 
 	/**
 	 * Constructor of the AbstractContent
-	 * 
+	 *
 	 * @param report report can't be null
 	 */
 	public AbstractContent(IReportContent report) {
-		assert (report != null && report instanceof ReportContent);
+		assert (report instanceof ReportContent);
 		this.report = report;
 		this.parent = report.getRoot();
 		this.cssEngine = ((ReportContent) report).getCSSEngine();
@@ -118,18 +118,19 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 
 	/**
 	 * Set the report content, and the content can not be null
-	 * 
+	 *
 	 * @param report report can't be null
 	 */
+	@Override
 	public void setReportContent(IReportContent report) {
-		assert (report != null && report instanceof ReportContent);
+		assert (report instanceof ReportContent);
 		this.report = report;
 		this.cssEngine = ((ReportContent) report).getCSSEngine();
 	}
 
 	/**
 	 * Constructor of the AbstractContent
-	 * 
+	 *
 	 * @param content content can't be null
 	 */
 	AbstractContent(IContent content) {
@@ -150,7 +151,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		this.inlineStyle = copyInlineStyle(content);
 		this.generateBy = content.getGenerateBy();
 		this.styleClass = content.getStyleClass() != null ? content.getStyleClass() : STYLE_EMPTY_CLASS;
-		;
+
 		this.instanceId = content.getInstanceID();
 		this.toc = content.getTOC();
 		Object ext = content.getExtension(IContent.DOCUMENT_EXTENSION);
@@ -181,14 +182,17 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		return null;
 	}
 
+	@Override
 	public IReportContent getReportContent() {
 		return this.report;
 	}
 
+	@Override
 	public CSSEngine getCSSEngine() {
 		return this.cssEngine;
 	}
 
+	@Override
 	public String getName() {
 		if (name != null) {
 			return name;
@@ -198,6 +202,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		return null;
 	}
 
+	@Override
 	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitContent(this, value);
 	}
@@ -205,6 +210,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @return the bookmark value
 	 */
+	@Override
 	public String getBookmark() {
 		return bookmark;
 	}
@@ -212,6 +218,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @return the actionString
 	 */
+	@Override
 	public IHyperlinkAction getHyperlinkAction() {
 		return hyperlink;
 	}
@@ -219,9 +226,11 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @return the height of the report item
 	 */
+	@Override
 	public DimensionType getHeight() {
-		if (height == EMPTY_DIMENSION)
+		if (height == EMPTY_DIMENSION) {
 			return null;
+		}
 
 		if (height != null) {
 			return height;
@@ -235,9 +244,11 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @return the width of the report item
 	 */
+	@Override
 	public DimensionType getWidth() {
-		if (width == EMPTY_DIMENSION)
+		if (width == EMPTY_DIMENSION) {
 			return null;
+		}
 
 		if (width != null) {
 			return width;
@@ -252,6 +263,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @return the x position of the repor titem.
 	 */
+	@Override
 	public DimensionType getX() {
 		if (x != null) {
 			return x;
@@ -265,6 +277,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @return Returns the y position of the repor titem.
 	 */
+	@Override
 	public DimensionType getY() {
 		if (y != null) {
 			return y;
@@ -278,10 +291,12 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @return Returns the altText.
 	 */
+	@Override
 	public String getAltText() {
 		return altText;
 	}
 
+	@Override
 	public String getAltTextKey() {
 		return altTextKey;
 	}
@@ -289,27 +304,27 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @return Returns the helpText.
 	 */
+	@Override
 	public String getHelpText() {
 		return helpText;
 	}
 
+	@Override
 	public IStyle getComputedStyle() {
 		if (computedStyle == null) {
 			if (parent == null) {
 				computedStyle = new ComputedStyle(this);
-			} else {
-				if (inlineStyle == null || inlineStyle.isEmpty()) {
-					String styleClass = getStyleClass();
-					ComputedStyle pcs = (ComputedStyle) ((IContent) parent).getComputedStyle();
-					ComputedStyle cs = pcs.getCachedStyle(styleClass);
-					if (cs == null) {
-						cs = new ComputedStyle(this);
-						pcs.addCachedStyle(styleClass, cs);
-					}
-					computedStyle = cs;
-				} else {
-					computedStyle = new ComputedStyle(this);
+			} else if (inlineStyle == null || inlineStyle.isEmpty()) {
+				String styleClass = getStyleClass();
+				ComputedStyle pcs = (ComputedStyle) ((IContent) parent).getComputedStyle();
+				ComputedStyle cs = pcs.getCachedStyle(styleClass);
+				if (cs == null) {
+					cs = new ComputedStyle(this);
+					pcs.addCachedStyle(styleClass, cs);
 				}
+				computedStyle = cs;
+			} else {
+				computedStyle = new ComputedStyle(this);
 			}
 		}
 		return computedStyle;
@@ -317,9 +332,10 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IStyledContent#getStyle()
 	 */
+	@Override
 	public IStyle getStyle() {
 		if (style == null) {
 			if (inlineStyle == null) {
@@ -346,14 +362,17 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 			this.style = style;
 		}
 
+		@Override
 		public CSSValue getProperty(int index) {
 			return style.getProperty(index);
 		}
 
+		@Override
 		public boolean isEmpty() {
 			return style.isEmpty();
 		}
 
+		@Override
 		public void setProperty(int index, CSSValue value) {
 			style.setProperty(index, value);
 			if (AbstractContent.this.computedStyle != null) {
@@ -363,6 +382,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		}
 	}
 
+	@Override
 	public Object getGenerateBy() {
 		return generateBy;
 	}
@@ -370,6 +390,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @param bookmark The bookmark to set.
 	 */
+	@Override
 	public void setBookmark(String bookmark) {
 		this.bookmark = bookmark;
 	}
@@ -377,6 +398,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @param generateBy The generateBy to set.
 	 */
+	@Override
 	public void setGenerateBy(Object generateBy) {
 		this.generateBy = generateBy;
 		addConstant(userProperties);
@@ -385,6 +407,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @param height The height to set.
 	 */
+	@Override
 	public void setHeight(DimensionType height) {
 		if (height == null) {
 			this.height = EMPTY_DIMENSION;
@@ -396,6 +419,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @param altText The altText to set.
 	 */
+	@Override
 	public void setAltText(String altText) {
 		this.altText = altText;
 	}
@@ -403,6 +427,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @param key The altText key to set.
 	 */
+	@Override
 	public void setAltTextKey(String key) {
 		altTextKey = key;
 	}
@@ -410,6 +435,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @param helpText The helpText to set.
 	 */
+	@Override
 	public void setHelpText(String helpText) {
 		this.helpText = helpText;
 	}
@@ -417,6 +443,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @param hyperlink The hyperlink to set.
 	 */
+	@Override
 	public void setHyperlinkAction(IHyperlinkAction hyperlink) {
 		this.hyperlink = hyperlink;
 	}
@@ -424,16 +451,19 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @param name The name to set.
 	 */
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public void setStyleClass(String name) {
 		this.styleClass = name != null ? name : STYLE_EMPTY_CLASS;
 		this.style = null;
 		this.computedStyle = null;
 	}
 
+	@Override
 	public String getStyleClass() {
 		if (styleClass != null) {
 			return STYLE_EMPTY_CLASS.equals(styleClass) ? null : styleClass;
@@ -447,6 +477,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @param style The style to set.
 	 */
+	@Override
 	public void setInlineStyle(IStyle style) {
 
 		this.inlineStyle = style;
@@ -454,6 +485,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		this.computedStyle = null;
 	}
 
+	@Override
 	public IStyle getInlineStyle() {
 		return inlineStyle;
 	}
@@ -461,6 +493,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @param width The width to set.
 	 */
+	@Override
 	public void setWidth(DimensionType width) {
 		if (width == null) {
 			this.width = EMPTY_DIMENSION;
@@ -472,6 +505,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @param x The x to set.
 	 */
+	@Override
 	public void setX(DimensionType x) {
 		this.x = x;
 	}
@@ -479,22 +513,27 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	/**
 	 * @param y The y to set.
 	 */
+	@Override
 	public void setY(DimensionType y) {
 		this.y = y;
 	}
 
+	@Override
 	public InstanceID getInstanceID() {
 		return instanceId;
 	}
 
+	@Override
 	public void setInstanceID(InstanceID id) {
 		this.instanceId = id;
 	}
 
+	@Override
 	public void setTOC(Object toc) {
 		this.toc = toc;
 	}
 
+	@Override
 	public Object getTOC() {
 		return toc;
 	}
@@ -502,6 +541,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 	protected static final int LAST_EXTENSION = 2;
 	protected Object[] extensions;
 
+	@Override
 	public Object getExtension(int extension) {
 		if (extensions != null) {
 			assert extension < LAST_EXTENSION;
@@ -510,6 +550,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		return null;
 	}
 
+	@Override
 	public void setExtension(int extension, Object value) {
 		if (extensions == null) {
 			extensions = new Object[LAST_EXTENSION];
@@ -604,8 +645,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 			IOUtil.writeObject(out, acl);
 		}
 		if (userProperties != null && userProperties.size() > 0) {
-			Map<String, Object> copy = new HashMap<String, Object>();
-			copy.putAll(userProperties);
+			Map<String, Object> copy = new HashMap<>(userProperties);
 			removeConstant(copy);
 			if (copy.size() > 0) {
 				IOUtil.writeShort(out, FIELD_USER_PROPERTIES);
@@ -620,7 +660,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 
 	/**
 	 * remove the constant in userProperties
-	 * 
+	 *
 	 * @param userProperties
 	 */
 	private void removeConstant(Map<String, Object> userProperties) {
@@ -713,7 +753,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 
 	/**
 	 * Add report element design's constant of user properties
-	 * 
+	 *
 	 * @param userProperties read from the document
 	 */
 	private void addConstant(Map<String, Object> userProperties) {
@@ -727,8 +767,9 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 					Expression expr = entry.getValue();
 					if (expr != null && expr.getType() == Expression.CONSTANT) {
 						Expression.Constant cs = (Expression.Constant) expr;
-						if (userProperties == null)
-							userProperties = new HashMap<String, Object>();
+						if (userProperties == null) {
+							userProperties = new HashMap<>();
+						}
 						userProperties.put(name, cs.getValue());
 					}
 				}
@@ -745,15 +786,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		return tmp;
 	}
 
-	private IStyle readStyle(DataInputStream in) throws IOException {
-		IStyle style = new StyleDeclaration(cssEngine);
-		style.read(in);
-		if (style.isEmpty()) {
-			return null;
-		}
-		return style;
-	}
-
+	@Override
 	public void readContent(DataInputStream in, ClassLoader loader) throws IOException {
 		if (this.version == VERSION_1) {
 			readContentV1(in, loader);
@@ -783,6 +816,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		}
 	}
 
+	@Override
 	public void writeContent(DataOutputStream out) throws IOException {
 		writeFields(out);
 	}
@@ -801,10 +835,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		if (x != null || y != null || width != null || height != null) {
 			return true;
 		}
-		if (hyperlink != null || bookmark != null || toc != null) {
-			return true;
-		}
-		if (helpText != null) {
+		if (hyperlink != null || bookmark != null || toc != null || (helpText != null)) {
 			return true;
 		}
 		if (inlineStyle != null && !inlineStyle.isEmpty()) {
@@ -825,6 +856,7 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		return false;
 	}
 
+	@Override
 	public IContent cloneContent(boolean isDeep) {
 		if (isDeep) {
 			throw new UnsupportedOperationException();
@@ -837,36 +869,42 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IContent#isRTL()
 	 */
+	@Override
 	public boolean isRTL() {
 		IReportContent reportContent = getReportContent();
 		if (reportContent != null) {
 			IContent rootContent = reportContent.getRoot();
-			if (rootContent != null)
+			if (rootContent != null) {
 				return CSSConstants.CSS_RTL_VALUE.equals(rootContent.getStyle().getDirection());
+			}
 		}
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.content.IContent#isTextDirectionRTL()
 	 */
+	@Override
 	public boolean isDirectionRTL() {
 		return CSSConstants.CSS_RTL_VALUE.equals(getComputedStyle().getDirection());
 	}
 
+	@Override
 	public String getACL() {
 		return acl;
 	}
 
+	@Override
 	public void setACL(String acl) {
 		this.acl = acl;
 	}
 
+	@Override
 	public IBaseResultSet getResultSet() {
 		ReportContent reportContent = (ReportContent) report;
 		List<IBaseResultSet> resultSets = QueryUtil.getResultSet(reportContent, instanceId);
@@ -876,30 +914,37 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		return new BaseResultSetDecorator(resultSets);
 	}
 
+	@Override
 	public Map<String, Object> getUserProperties() {
 		return userProperties;
 	}
 
+	@Override
 	public void setUserProperties(Map<String, Object> properties) {
 		this.userProperties = properties;
 	}
 
+	@Override
 	public boolean hasChildren() {
 		return hasChildren;
 	}
 
+	@Override
 	public void setHasChildren(boolean hasChildren) {
 		this.hasChildren = hasChildren;
 	}
 
+	@Override
 	public boolean isLastChild() {
 		return isLastChild;
 	}
 
+	@Override
 	public void setLastChild(boolean isLastChild) {
 		this.isLastChild = isLastChild;
 	}
 
+	@Override
 	public void setParent(IElement parent) {
 		super.setParent(parent);
 		if (parent != null) {
@@ -907,10 +952,12 @@ abstract public class AbstractContent extends AbstractElement implements IConten
 		}
 	}
 
+	@Override
 	public Map<String, Object> getExtensions() {
 		return extProperties;
 	}
 
+	@Override
 	public void setExtensions(Map<String, Object> properties) {
 		this.extProperties = properties;
 	}

@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -61,11 +61,12 @@ public class DataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMaximum(org.eclipse.birt
 	 * .chart.model.data.DataSet)
 	 */
+	@Override
 	public Object getMaximum(DataSet ds) throws ChartException {
 		DataSetIterator dsi = null;
 		try {
@@ -165,11 +166,12 @@ public class DataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMinimum(org.eclipse.birt
 	 * .chart.model.data.DataSet)
 	 */
+	@Override
 	public Object getMinimum(DataSet ds) throws ChartException {
 		DataSetIterator dsi = null;
 		try {
@@ -266,10 +268,11 @@ public class DataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.model.data.IDataSetProcessor#populate(java.lang.
 	 * Object, org.eclipse.birt.chart.model.data.DataSet)
 	 */
+	@Override
 	public DataSet populate(Object oResultSetDef, DataSet ds) throws ChartException {
 		if (oResultSetDef instanceof IResultSetDataSet) {
 			final IResultSetDataSet rsds = (IResultSetDataSet) oResultSetDef;
@@ -371,11 +374,12 @@ public class DataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.DataSetProcessor#fromString(java.lang.String,
 	 * org.eclipse.birt.chart.model.data.DataSet)
 	 */
+	@Override
 	public DataSet fromString(String sDataSetRepresentation, DataSet ds) throws ChartException {
 		// Do NOT create a DataSet if the content string is null
 		if (sDataSetRepresentation == null) {
@@ -479,7 +483,7 @@ public class DataSetProcessorImpl extends DataSetAdapter {
 			char c = charArray[i];
 			if (c == ',') {
 				if (charArray[i - 1] != '\\' && i > 0) {
-					list.add(str.substring(startIndex, i).replaceAll("\\\\,", DELIMITER) //$NON-NLS-1$
+					list.add(str.substring(startIndex, i).replace("\\,", DELIMITER) //$NON-NLS-1$
 							.trim());
 					startIndex = i + 1;
 				}
@@ -490,10 +494,11 @@ public class DataSetProcessorImpl extends DataSetAdapter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.datafeed.DataSetProcessor#getExpectedStringFormat()
 	 */
+	@Override
 	public String getExpectedStringFormat() {
 		return Messages.getString("info.sample.formats", getULocale()); //$NON-NLS-1$
 	}

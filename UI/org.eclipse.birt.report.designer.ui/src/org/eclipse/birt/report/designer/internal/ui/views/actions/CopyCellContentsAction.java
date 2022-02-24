@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
@@ -30,9 +30,9 @@ public class CopyCellContentsAction extends AbstractViewAction {
 
 	/**
 	 * Create a new copy action with given selection and default text
-	 * 
+	 *
 	 * @param selectedObject the selected object,which cannot be null
-	 * 
+	 *
 	 */
 	public CopyCellContentsAction(Object selectedObject) {
 		this(selectedObject, Messages.getString("CopyCellContentsAction.actionText")); //$NON-NLS-1$
@@ -41,7 +41,7 @@ public class CopyCellContentsAction extends AbstractViewAction {
 
 	/**
 	 * Create a new copy action with given selection and text
-	 * 
+	 *
 	 * @param selectedObject the selected object,which cannot be null
 	 * @param text           the text of the action
 	 */
@@ -49,6 +49,7 @@ public class CopyCellContentsAction extends AbstractViewAction {
 		super(selectedObject, text);
 	}
 
+	@Override
 	public void run() {
 		if (Policy.TRACING_ACTIONS) {
 			System.out.println("Copy action >> Copy " + getSelection()); //$NON-NLS-1$
@@ -61,15 +62,18 @@ public class CopyCellContentsAction extends AbstractViewAction {
 		}
 	}
 
+	@Override
 	public boolean isEnabled() {
-		if (canCopy(getSelection()))
+		if (canCopy(getSelection())) {
 			return super.isEnabled();
+		}
 		return false;
 	}
 
 	private boolean canCopy(Object selection) {
-		if (selection instanceof CellHandle)
+		if (selection instanceof CellHandle) {
 			return ((CellHandle) selection).getContent().getCount() > 0;
+		}
 		return false;
 	}
 

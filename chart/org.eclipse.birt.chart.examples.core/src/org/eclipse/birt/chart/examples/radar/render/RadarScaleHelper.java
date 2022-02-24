@@ -107,7 +107,7 @@ public class RadarScaleHelper {
 		DataSet dst;
 
 		EList<SeriesDefinition> el = chartWithoutAxes.getSeriesDefinitions();
-		ArrayList<Series> al = new ArrayList<Series>();
+		ArrayList<Series> al = new ArrayList<>();
 		((ChartWithoutAxesImpl) chartWithoutAxes).recursivelyGetSeries(el, al, 0, 0);
 		final Series[] sea = al.toArray(new Series[al.size()]);
 

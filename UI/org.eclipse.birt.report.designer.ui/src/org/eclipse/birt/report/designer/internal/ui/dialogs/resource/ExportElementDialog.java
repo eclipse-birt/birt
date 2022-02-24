@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -97,6 +97,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog {
 
 	private class Validator implements ISelectionStatusValidator {
 
+		@Override
 		public IStatus validate(Object[] selection) {
 			Status status = OKStatus;
 			int nSelected = selection.length;
@@ -137,7 +138,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog {
 						// true );
 					}
 					libraryHandle.close();
-					if (can == false) {
+					if (!can) {
 						// if(override)
 						// {
 						// return ErrorStatusDuplicate;
@@ -176,10 +177,11 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
 	 * .eclipse.swt.widgets.Composite)
 	 */
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite rt = (Composite) super.createDialogArea(parent);
 		rt.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -196,6 +198,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog {
 		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		text.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				String tempText = text.getText().trim();
 				if (tempText.length() > 0 && (!tempText.toLowerCase().endsWith(ext))) {
@@ -217,6 +220,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog {
 
 		getTreeViewer().addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				Object object = ((StructuredSelection) event.getSelection()).getFirstElement();
 				if (object instanceof ResourceEntry) {
@@ -251,9 +255,10 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#okPressed()
 	 */
+	@Override
 	protected void okPressed() {
 		Object firstElement = designElement;
 		if (firstElement instanceof StructuredSelection) {
@@ -271,9 +276,9 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog {
 			if (firstElement instanceof StyleHandle
 					&& libraryHandle.getVisibleThemes(IAccessControl.DIRECTLY_INCLUDED_LEVEL).size() > 0) {
 				Object[] result = getExportTheme((StyleHandle) firstElement, libraryHandle);
-				if (result == null)
+				if (result == null) {
 					return;
-				else if (result[0] == null) {
+				} else if (result[0] == null) {
 					cancelPressed();
 					return;
 				} else {
@@ -336,11 +341,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog {
 				ElementExportUtil.exportStructure((StructureHandle) firstElement, libraryHandle, true);
 			}
 
-		} catch (DesignFileException e) {
-			ExceptionHandler.handle(e);
-			e.printStackTrace();
-			isDone = false;
-		} catch (SemanticException e) {
+		} catch (DesignFileException | SemanticException e) {
 			ExceptionHandler.handle(e);
 			e.printStackTrace();
 			isDone = false;
@@ -376,10 +377,11 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.resource.
 	 * FileFolderSelectionDialog#getPath()
 	 */
+	@Override
 	public String getPath() {
 		Object[] selected = getResult();
 		String fullPath = ""; //$NON-NLS-1$
@@ -401,8 +403,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog {
 	}
 
 	private int confirmOverride(String confirmTitle, String confirmMsg) {
-		String[] buttons = new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
-				IDialogConstants.CANCEL_LABEL };
+		String[] buttons = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL };
 
 		if (confirmTitle == null || confirmTitle.trim().length() == 0) {
 			confirmTitle = Messages.getString("ExportElementDialog.WarningMessageDuplicate.Title"); //$NON-NLS-1$
@@ -458,7 +459,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog {
 	/**
 	 * Opens the library with given library file name. If the library is not found,
 	 * create it.
-	 * 
+	 *
 	 * @param session         the session
 	 * @param libraryFileName file name of the library to open
 	 * @return the opened library handle
@@ -499,7 +500,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog {
 
 	private boolean containInvalidChar(String fileName) {
 		boolean ret = false;
-		char[] invalidChars = new char[] { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
+		char[] invalidChars = { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
 		for (int i = 0; i < invalidChars.length; i++) {
 			if (fileName.indexOf(invalidChars[i]) >= 0) {
 				return true;

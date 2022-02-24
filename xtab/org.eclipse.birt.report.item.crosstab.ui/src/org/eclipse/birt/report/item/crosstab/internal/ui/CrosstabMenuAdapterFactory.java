@@ -27,11 +27,12 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 
 /**
- * 
+ *
  */
 
 public class CrosstabMenuAdapterFactory implements IAdapterFactory {
 
+	@Override
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adaptableObject instanceof ExtendedItemHandle
 				&& ((ExtendedItemHandle) adaptableObject).getExtensionName().equals("Crosstab")
@@ -40,6 +41,7 @@ public class CrosstabMenuAdapterFactory implements IAdapterFactory {
 
 			return new ISchematicMenuListener() {
 
+				@Override
 				public void menuAboutToShow(IMenuManager manager) {
 					CrosstabReportItemHandle crosstab = null;
 					try {
@@ -53,6 +55,7 @@ public class CrosstabMenuAdapterFactory implements IAdapterFactory {
 					manager.appendToGroup(GEFActionConstants.GROUP_VIEW, new AddRelativeTimePeriodAction(handle));
 				}
 
+				@Override
 				public void setActionRegistry(ActionRegistry actionRegistry) {
 
 				}
@@ -61,6 +64,7 @@ public class CrosstabMenuAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
+	@Override
 	public Class[] getAdapterList() {
 		return null;
 	}

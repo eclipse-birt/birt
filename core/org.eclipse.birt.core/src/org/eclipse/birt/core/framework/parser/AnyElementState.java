@@ -21,7 +21,7 @@ public class AnyElementState extends ParseState {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param theHandler the SAX parser handler
 	 */
 
@@ -29,6 +29,7 @@ public class AnyElementState extends ParseState {
 		super(theHandler);
 	}
 
+	@Override
 	public AbstractParseState startElement(String tagName) {
 		return new AnyElementState(handler);
 	}

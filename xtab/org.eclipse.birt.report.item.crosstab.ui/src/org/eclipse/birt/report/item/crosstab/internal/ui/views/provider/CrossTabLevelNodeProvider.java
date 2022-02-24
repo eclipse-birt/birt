@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -33,17 +33,19 @@ import org.eclipse.ui.ISharedImages;
 
 public class CrossTabLevelNodeProvider extends DefaultNodeProvider {
 
+	@Override
 	public Object[] getChildren(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
 		try {
 			LevelViewHandle levelView = (LevelViewHandle) element.getReportItem();
 			if (levelView != null) {
 				if (levelView.getAggregationHeader() != null
-						&& levelView.getAggregationHeader().getModelHandle() != null)
+						&& levelView.getAggregationHeader().getModelHandle() != null) {
 					return new Object[] { levelView.getAggregationHeader().getModelHandle(),
 							levelView.getCell().getModelHandle() };
-				else
+				} else {
 					return new Object[] { levelView.getCell().getModelHandle() };
+				}
 			}
 
 		} catch (ExtendedElementException e) {
@@ -51,11 +53,13 @@ public class CrossTabLevelNodeProvider extends DefaultNodeProvider {
 		return new Object[0];
 	}
 
+	@Override
 	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		// do nothing
 
 	}
 
+	@Override
 	public Object getParent(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
 		try {
@@ -71,17 +75,20 @@ public class CrossTabLevelNodeProvider extends DefaultNodeProvider {
 		return null;
 	}
 
+	@Override
 	public boolean hasChildren(Object model) {
 		return getChildren(model).length != 0;
 	}
 
+	@Override
 	public String getNodeDisplayName(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
 		try {
 			LevelHandle level = ((LevelViewHandle) element.getReportItem()).getCubeLevel();
 			String levelName = ""; //$NON-NLS-1$
-			if (level != null)
+			if (level != null) {
 				levelName = level.getName();
+			}
 			return Messages.getString("CrossTabLevelNodeProvider.Level") + levelName; //$NON-NLS-1$
 		} catch (ExtendedElementException e) {
 			logger.log(Level.SEVERE, e.getMessage(), e);
@@ -89,6 +96,7 @@ public class CrossTabLevelNodeProvider extends DefaultNodeProvider {
 		return super.getNodeDisplayName(model);
 	}
 
+	@Override
 	public Image getNodeIcon(Object element) {
 		if (element instanceof DesignElementHandle && ((DesignElementHandle) element).getSemanticErrors().size() > 0) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);

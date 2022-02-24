@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2010, 2011 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -36,7 +36,7 @@ public class SampleDbValuesProvider extends DerbyDriverValuesProvider101 impleme
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.datatools.connectivity.apache.internal.derby.driver.
 	 * DerbyDriverValuesProvider101#createDefaultValue(java.lang.String)
 	 */
@@ -53,8 +53,9 @@ public class SampleDbValuesProvider extends DerbyDriverValuesProvider101 impleme
 		} else if (key.equals(IDriverValuesProvider.VALUE_DEFAULT_DEFINITION_NAME)) {
 			// exclude the "Default" suffix added by DriverManager
 			String defaultDefnName = getDriverTemplate().getDefaultDefinitionName();
-			if (defaultDefnName != null)
+			if (defaultDefnName != null) {
 				return defaultDefnName;
+			}
 		}
 
 		return super.createDefaultValue(key);

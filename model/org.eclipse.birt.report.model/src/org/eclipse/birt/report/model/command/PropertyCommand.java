@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -105,14 +105,14 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 /**
  * Sets the value of a property. Works with both system and user properties.
  * Works with normal and intrinsic properties.
- * 
+ *
  */
 
 public class PropertyCommand extends AbstractPropertyCommand {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param module the root of <code>obj</code>
 	 * @param obj    the element to modify.
 	 */
@@ -123,7 +123,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 	/**
 	 * Sets the value of a property.
-	 * 
+	 *
 	 * @param propName the internal name of the property to set.
 	 * @param value    the new property value.
 	 * @throws SemanticException if the property is not found.
@@ -136,8 +136,9 @@ public class PropertyCommand extends AbstractPropertyCommand {
 		// Ensure that the property is defined.
 
 		ElementPropertyDefn prop = element.getPropertyDefn(propName);
-		if (prop == null)
+		if (prop == null) {
 			throw new PropertyNameException(element, propName);
+		}
 
 		setProperty(prop, value);
 	}
@@ -148,7 +149,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 	 * <p>
 	 * If the mask of this property has been set to "lock", no value will be set. To
 	 * set the value of a property, the mask value must be "hide" or "change".
-	 * 
+	 *
 	 * @param prop  definition of the property to set
 	 * @param value the new property value.
 	 * @throws SemanticException if the value is invalid or the property mask is
@@ -227,27 +228,32 @@ public class PropertyCommand extends AbstractPropertyCommand {
 		// to some element or structure container, then make a copy
 		if (value instanceof Structure) {
 			Structure struct = (Structure) value;
-			if (struct.getContext() != null)
+			if (struct.getContext() != null) {
 				value = struct.copy();
+			}
 		}
-		if (prop.getName().equalsIgnoreCase(ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP))
+		if (prop.getName().equalsIgnoreCase(ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP)) {
 			checkSharedDimensionReference(prop, value);
+		}
 		Object inputValue = value;
 		value = validateValue(prop, value);
 
 		if (value instanceof ElementRefValue && prop.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
 			checkRecursiveElementReference(prop, (ElementRefValue) value);
 			checkDataBindingReference(prop, (ElementRefValue) value);
-			if (inputValue instanceof String)
+			if (inputValue instanceof String) {
 				checkSharedDimensionReference(prop, value);
+			}
 		}
 
 		if (element instanceof GroupElement && IGroupElementModel.GROUP_NAME_PROP.equals(prop.getName())) {
 			String name = (String) value;
-			if (!NamePropertyType.isValidName(name))
+			if (!NamePropertyType.isValidName(name)) {
 				throw new NameException(element, name, NameException.DESIGN_EXCEPTION_INVALID_NAME);
-			if (!isGroupNameValidInContext(name))
+			}
+			if (!isGroupNameValidInContext(name)) {
 				throw new NameException(element, name, NameException.DESIGN_EXCEPTION_DUPLICATE);
+			}
 		}
 
 		// Set the property.
@@ -279,12 +285,14 @@ public class PropertyCommand extends AbstractPropertyCommand {
 			Cube cube = null;
 			if (IReportItemModel.DATA_SET_PROP.equals(propName)) {
 				ElementRefValue refValue = (ElementRefValue) value;
-				if (refValue != null)
+				if (refValue != null) {
 					dataSet = (DataSet) refValue.getElement();
+				}
 			} else if (IReportItemModel.CUBE_PROP.equals(propName)) {
 				ElementRefValue refValue = (ElementRefValue) value;
-				if (refValue != null)
+				if (refValue != null) {
 					cube = (Cube) refValue.getElement();
+				}
 			}
 			if (!ContainerContext.isValidContainerment(module, container, (ReportItem) element, dataSet, cube)) {
 				throw new SemanticError(element, SemanticError.DESIGN_EXCEPTION_CANNOT_SPECIFY_DATA_OBJECT);
@@ -302,7 +310,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param prop
 	 * @param value
 	 * @throws SemanticException
@@ -351,7 +359,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 	 * Remove template definition from module if the definition is no longer
 	 * refferenced when setting
 	 * <code>IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP</code> null.
-	 * 
+	 *
 	 * @param prop  should be
 	 *              <code>IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP</code>.
 	 * @param value should be null;
@@ -388,7 +396,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 	/**
 	 * Private method to set property.
-	 * 
+	 *
 	 * @param prop  the definition of the property to set.
 	 * @param value the new property value.
 	 * @throws ExtendedElementException if the extension property is invalid
@@ -408,10 +416,12 @@ public class PropertyCommand extends AbstractPropertyCommand {
 		// for extension element, getLocalProperty may be null. However, still
 		// proceed command.
 
-		if (oldValue == null && value == null)
+		if (oldValue == null && value == null) {
 			return;
-		if (oldValue != null && value != null && oldValue.equals(value))
+		}
+		if (oldValue != null && value != null && oldValue.equals(value)) {
 			return;
+		}
 
 		String propName = prop.getName();
 		if (element instanceof ExtendedItem) {
@@ -424,8 +434,9 @@ public class PropertyCommand extends AbstractPropertyCommand {
 			if (extendedItem.isExtensionModelProperty(propName)) {
 				IReportItem extElement = ((ExtendedItem) element).getExtendedElement();
 
-				if (extElement == null)
+				if (extElement == null) {
 					return;
+				}
 
 				extElement.checkProperty(propName, value);
 				extElement.setProperty(propName, value);
@@ -511,8 +522,9 @@ public class PropertyCommand extends AbstractPropertyCommand {
 				// whether the element is table/list or not, we must localize
 				// the binding-ref related data properties
 				if (value == null || !((ElementRefValue) value).isResolved()) {
-					if (oldValue != null && ((ElementRefValue) oldValue).isResolved())
+					if (oldValue != null && ((ElementRefValue) oldValue).isResolved()) {
 						localizeProperties(((ElementRefValue) oldValue).getElement());
+					}
 				}
 
 			} catch (SemanticException e) {
@@ -529,8 +541,9 @@ public class PropertyCommand extends AbstractPropertyCommand {
 				tmpPropName = IStyleModel.BACKGROUND_SIZE_WIDTH;
 
 			}
-			if (tmpPropName != null)
+			if (tmpPropName != null) {
 				handleBackgroundSize(stack, tmpPropName, value);
+			}
 
 		}
 
@@ -551,7 +564,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 	/**
 	 * Gets the data type of the level
-	 * 
+	 *
 	 * @return
 	 */
 	private String getDataType(TabularLevel level) {
@@ -559,14 +572,17 @@ public class PropertyCommand extends AbstractPropertyCommand {
 		if (!StringUtil.isBlank(columnName)) {
 			DesignElement container = element.getContainer();
 			DataSet dataSet = null;
-			if (container instanceof TabularHierarchy)
+			if (container instanceof TabularHierarchy) {
 				dataSet = (DataSet) container.getReferenceProperty(module, ITabularHierarchyModel.DATA_SET_PROP);
+			}
 			if (dataSet == null && container != null) {
 				container = container.getContainer();
-				if (container instanceof Dimension)
+				if (container instanceof Dimension) {
 					container = container.getContainer();
-				if (container instanceof TabularCube)
+				}
+				if (container instanceof TabularCube) {
 					dataSet = (DataSet) container.getReferenceProperty(module, ITabularCubeModel.DATA_SET_PROP);
+				}
 			}
 			if (dataSet != null) {
 				CachedMetaData metaData = (CachedMetaData) dataSet.getProperty(module,
@@ -578,8 +594,9 @@ public class PropertyCommand extends AbstractPropertyCommand {
 						for (ResultSetColumn column : resultSet) {
 							if (columnName.equals(column.getStringProperty(module, ResultSetColumn.NAME_MEMBER))) {
 								String dataType = column.getStringProperty(module, ResultSetColumn.DATA_TYPE_MEMBER);
-								if (dataType != null)
+								if (dataType != null) {
 									return dataType;
+								}
 								break;
 							}
 						}
@@ -592,7 +609,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 	/**
 	 * Handles the back ground size.
-	 * 
+	 *
 	 * @param stack           the activity stack.
 	 * @param anotherPropName another property name.
 	 * @param value           the property value.
@@ -611,24 +628,17 @@ public class PropertyCommand extends AbstractPropertyCommand {
 				PropertyRecord record = new PropertyRecord(element, anotherProp, value);
 				stack.execute(record);
 			}
-		} else {
-			// if the original value of the property is contain or cover and the
-			// input value is neither contain nor cover, the property value will
-			// be set as the input value.
-
-			if (DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(anotherPropLocalValue)
-					|| DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(anotherPropLocalValue)) {
-				PropertyRecord record = new PropertyRecord(element, anotherProp, value);
-				stack.execute(record);
-			}
-
+		} else if (DesignChoiceConstants.BACKGROUND_SIZE_CONTAIN.equals(anotherPropLocalValue)
+				|| DesignChoiceConstants.BACKGROUND_SIZE_COVER.equals(anotherPropLocalValue)) {
+			PropertyRecord record = new PropertyRecord(element, anotherProp, value);
+			stack.execute(record);
 		}
 	}
 
 	/**
 	 * Localizes element properties including listing elements and its group
 	 * properties.
-	 * 
+	 *
 	 * @param targetElement
 	 * @throws SemanticException
 	 */
@@ -638,11 +648,9 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 		recoverReferredReportItem(reportItem, targetElement);
 
-		if (!(reportItem instanceof ListingElement) || !(targetElement instanceof ListingElement))
+		if (!(reportItem instanceof ListingElement) || !(targetElement instanceof ListingElement) || !ModelUtil.isCompatibleDataBindingElements(element, targetElement)) {
 			return;
-
-		if (!ModelUtil.isCompatibleDataBindingElements(element, targetElement))
-			return;
+		}
 
 		ListingElement listing = (ListingElement) reportItem;
 		List<DesignElement> listingGroups = listing.getGroups();
@@ -659,7 +667,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 	/**
 	 * Localizes element properties from <code>targetElement</code> to
 	 * <code>source</code>.
-	 * 
+	 *
 	 */
 
 	private void recoverReferredReportItem(DesignElement source, DesignElement targetElement) throws SemanticException {
@@ -677,22 +685,23 @@ public class PropertyCommand extends AbstractPropertyCommand {
 		while (propNames.hasNext()) {
 			String propName = propNames.next();
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) targetElement.getDefn().getProperty(propName);
-			if (propDefn == null)
+			if (propDefn == null) {
 				continue;
+			}
 
 			ElementPropertyDefn sourcePropDefn = (ElementPropertyDefn) source.getDefn().getProperty(propName);
 
-			if (sourcePropDefn == null)
-				continue;
+			
 
 			// the filter is the special case. See
 			// IListingElementModel.FILTER_PROP and
 			// IExtendedItemModel.FILTER_PROP. Same to sorter
 
-			if (propDefn.getTypeCode() != sourcePropDefn.getTypeCode()
+			if ((sourcePropDefn == null) || propDefn.getTypeCode() != sourcePropDefn.getTypeCode()
 					|| propDefn.getStructDefn() != sourcePropDefn.getStructDefn()
-					|| propDefn.getTargetElementType() != sourcePropDefn.getTargetElementType())
+					|| propDefn.getTargetElementType() != sourcePropDefn.getTargetElementType()) {
 				continue;
+			}
 
 			Object value = targetElement.getStrategy().getPropertyExceptRomDefault(module, targetElement, propDefn);
 
@@ -712,19 +721,18 @@ public class PropertyCommand extends AbstractPropertyCommand {
 	private List<ComputedColumn> getValidColumnBindings(DesignElement source, DesignElement target,
 			List<ComputedColumn> value) {
 		// if two elements are both listing element, then do nothing
-		if (source instanceof ListingElement && target instanceof ListingElement)
-			return value;
-
 		// if two element are the same type, then do nothing
-		if (source.getDefn() == target.getDefn())
+		if ((source instanceof ListingElement && target instanceof ListingElement) || (source.getDefn() == target.getDefn())) {
 			return value;
+		}
 
-		List<ComputedColumn> retValue = new ArrayList<ComputedColumn>();
+		List<ComputedColumn> retValue = new ArrayList<>();
 		if (value != null) {
 			for (int i = 0; i < value.size(); i++) {
 				ComputedColumn binding = value.get(i);
-				if (binding.getAggregateOn() == null)
+				if (binding.getAggregateOn() == null) {
 					retValue.add(binding);
+				}
 			}
 		}
 		return retValue;
@@ -732,7 +740,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 	/**
 	 * Private method to validate the value of a property.
-	 * 
+	 *
 	 * @param prop  definition of the property to validate
 	 * @param value the value to validate
 	 * @return the value to store for the property
@@ -742,8 +750,9 @@ public class PropertyCommand extends AbstractPropertyCommand {
 	private Object validateValue(ElementPropertyDefn prop, Object value) throws SemanticException {
 		// clear the property doesn't needs validation.
 
-		if (value == null)
+		if (value == null) {
 			return null;
+		}
 
 		Object input = value;
 
@@ -753,7 +762,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 			/*
 			 * DesignElementHandle elementHandle = (DesignElementHandle) value; Module root
 			 * = elementHandle.getModule( );
-			 * 
+			 *
 			 * input = ReferenceValueUtil.needTheNamespacePrefix( elementHandle .getElement(
 			 * ), root, module );
 			 */
@@ -771,17 +780,19 @@ public class PropertyCommand extends AbstractPropertyCommand {
 			throw ex;
 		}
 
-		if (!(retValue instanceof ElementRefValue))
+		if (!(retValue instanceof ElementRefValue)) {
 			return retValue;
+		}
 
 		// if the return element and the input element is not same, throws
 		// exception
 
 		ElementRefValue refValue = (ElementRefValue) retValue;
 		if (refValue.isResolved() && value instanceof DesignElementHandle
-				&& refValue.getElement() != ((DesignElementHandle) value).getElement())
+				&& refValue.getElement() != ((DesignElementHandle) value).getElement()) {
 			throw new SemanticError(element, new String[] { propName, refValue.getName() },
 					SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF);
+		}
 
 		return retValue;
 
@@ -789,7 +800,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 	/**
 	 * Sets the value of an intrinsic property.
-	 * 
+	 *
 	 * @param prop  definition of the property to set
 	 * @param value the property value to set.
 	 * @throws SemanticException if failed to set property.
@@ -827,7 +838,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 	/**
 	 * Checks whether the name is valid in the context.
-	 * 
+	 *
 	 * @param name the new name
 	 * @return <code>true</code> if the name is valid. Otherwise <code>false</code>.
 	 */
@@ -835,8 +846,9 @@ public class PropertyCommand extends AbstractPropertyCommand {
 	private boolean isGroupNameValidInContext(String groupName) {
 		assert element instanceof GroupElement;
 
-		if (groupName == null)
+		if (groupName == null) {
 			return true;
+		}
 
 		if (element.getContainer() != null) {
 			DesignElement tmpContainer = element.getContainer();
@@ -844,8 +856,9 @@ public class PropertyCommand extends AbstractPropertyCommand {
 			List<SemanticException> errors = GroupNameValidator.getInstance().validateForRenamingGroup(
 					(ListingHandle) tmpContainer.getHandle(module), (GroupHandle) element.getHandle(module), groupName);
 
-			if (!errors.isEmpty())
+			if (!errors.isEmpty()) {
 				return false;
+			}
 		}
 
 		return true;
@@ -853,7 +866,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 	/**
 	 * Clears the value of a property.
-	 * 
+	 *
 	 * @param propName the name of the property to clear.
 	 * @throws SemanticException if failed to clear property.
 	 */
@@ -864,7 +877,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 	/**
 	 * Sets the value of the member of a structure.
-	 * 
+	 *
 	 * @param ref   reference to the member to set
 	 * @param value new value of the member
 	 * @throws SemanticException if the value is not valid
@@ -882,8 +895,9 @@ public class PropertyCommand extends AbstractPropertyCommand {
 		// to some element or structure container, then make a copy
 		if (value instanceof Structure) {
 			Structure struct = (Structure) value;
-			if (struct.getContext() != null)
+			if (struct.getContext() != null) {
 				value = struct.copy();
+			}
 		}
 		value = memberDefn.validateValue(module, element, value);
 
@@ -891,8 +905,9 @@ public class PropertyCommand extends AbstractPropertyCommand {
 		// would not create duplicates.
 
 		if (memberDefn.getTypeCode() == IPropertyType.NAME_TYPE
-				|| memberDefn.getTypeCode() == IPropertyType.MEMBER_KEY_TYPE)
+				|| memberDefn.getTypeCode() == IPropertyType.MEMBER_KEY_TYPE) {
 			checkItemName(ref, (String) value);
+		}
 
 		if (value instanceof ElementRefValue && memberDefn.getTypeCode() == IPropertyType.ELEMENT_REF_TYPE) {
 			checkRecursiveElementReference(memberDefn, (ElementRefValue) value);
@@ -903,10 +918,12 @@ public class PropertyCommand extends AbstractPropertyCommand {
 		// value, or if the UI gets a bit sloppy.
 
 		Object oldValue = ref.getLocalValue(module);
-		if (oldValue == null && value == null)
+		if (oldValue == null && value == null) {
 			return;
-		if (oldValue != null && value != null && oldValue.equals(value))
+		}
+		if (oldValue != null && value != null && oldValue.equals(value)) {
 			return;
+		}
 
 		// The values differ. Make the change.
 
@@ -936,19 +953,20 @@ public class PropertyCommand extends AbstractPropertyCommand {
 	/**
 	 * Check operation is allowed or not. Now if element is css style instance ,
 	 * forbidden its operation.
-	 * 
+	 *
 	 */
 
 	private void checkAllowedOperation() {
 		// read-only for css style.
 
-		if (element != null && element instanceof CssStyle)
+		if (element instanceof CssStyle) {
 			throw new IllegalOperationException(CssException.DESIGN_EXCEPTION_READONLY);
+		}
 	}
 
 	/**
 	 * Checks data binding reference.
-	 * 
+	 *
 	 * @param propDefn the property/member definition
 	 * @param the      element reference value
 	 * @throws SemanticException
@@ -958,23 +976,25 @@ public class PropertyCommand extends AbstractPropertyCommand {
 		// if the element is the container or the content of the input
 		// element throws exception
 		if (IReportItemModel.DATA_BINDING_REF_PROP.equals(propDefn.getName()) && refValue.isResolved()
-				&& ModelUtil.checkContainerOrContent(element, refValue.getElement()))
+				&& ModelUtil.checkContainerOrContent(element, refValue.getElement())) {
 			throw new SemanticError(element, new String[] { element.getName(), refValue.getName() },
 					SemanticError.DESIGN_EXCEPTION_INVALID_DATA_BINDING_REF);
+		}
 	}
 
 	/**
 	 * Checks the shared dimension reference. The dimension referred by cube
 	 * dimension must be shared dimension.
-	 * 
+	 *
 	 * @param propDefn the property/member definition
 	 * @param value    element reference value
 	 * @throws SemanticException
 	 */
 
 	private void checkSharedDimensionReference(PropertyDefn propDefn, Object value) throws SemanticException {
-		if (!ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP.equalsIgnoreCase(propDefn.getName()))
+		if (!ITabularDimensionModel.INTERNAL_DIMENSION_RFF_TYPE_PROP.equalsIgnoreCase(propDefn.getName())) {
 			return;
+		}
 
 		if (value instanceof DesignElementHandle) {
 			DesignElementHandle handle = (DesignElementHandle) value;
@@ -1002,7 +1022,7 @@ public class PropertyCommand extends AbstractPropertyCommand {
 	/**
 	 * Sets the expression type for the property compatibility if the property has
 	 * changed from the string/Integer/DimensionValue... to allowExpression = true.
-	 * 
+	 *
 	 * @return the value
 	 */
 
@@ -1017,26 +1037,30 @@ public class PropertyCommand extends AbstractPropertyCommand {
 		if (propDefn.allowExpression()) {
 			// for the case that the given value is a string/integer, etc.
 
-			if (value != null && !(value instanceof List<?>) && !(value instanceof Expression))
+			if (value != null && !(value instanceof List<?>) && !(value instanceof Expression)) {
 				isCompatible = true;
+			}
 
 			// for the case that the given value is a string/integer list
 
-			if (value != null && value instanceof List<?>) {
+			if (value instanceof List<?>) {
 				List tmpList = (List) value;
-				if (!tmpList.isEmpty() && !(tmpList.get(0) instanceof Expression))
+				if (!tmpList.isEmpty() && !(tmpList.get(0) instanceof Expression)) {
 					isCompatible = true;
+				}
 			}
 		}
 
-		if (!isCompatible)
+		if (!isCompatible) {
 			return value;
+		}
 
 		String defaultType = CompatiblePropertyChangeTables.getDefaultExprType(element.getDefn().getName(),
 				propDefn.getName(), Integer.MIN_VALUE);
 
-		if (defaultType == null)
+		if (defaultType == null) {
 			return value;
+		}
 
 		Object retValue = value;
 
@@ -1050,8 +1074,9 @@ public class PropertyCommand extends AbstractPropertyCommand {
 
 			// expression -> string/expression
 
-			if (defaultType != null)
+			if (defaultType != null) {
 				retValue = new Expression(value, ExpressionType.JAVASCRIPT);
+			}
 			break;
 
 		case IPropertyType.STRING_TYPE:

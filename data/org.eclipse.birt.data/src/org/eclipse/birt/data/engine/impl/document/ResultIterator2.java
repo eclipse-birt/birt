@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -45,15 +45,16 @@ public class ResultIterator2 extends ResultIterator {
 		super(tempDir, context, queryResults, queryResultID, qd);
 
 		this.lowestGroupLevel = lowestGroupLevel;
-		if (this.hasFirstNext)
+		if (this.hasFirstNext) {
 			this.currRowIndex = 0;
-		else
+		} else {
 			this.currRowIndex = -1;
+		}
 		this.isSummary = isSummary;
 		if (this.isSummary) {
-			if (lowestGroupLevel == 0)
+			if (lowestGroupLevel == 0) {
 				this.groupLevelCalculator = new SummaryGroupLevelCalculator(null);
-			else {
+			} else {
 				int[][] groupIndex = new int[lowestGroupLevel + 1][];
 				for (int i = 0; i <= lowestGroupLevel; i++) {
 					groupIndex[i] = this.exprResultSet.getGroupStartAndEndIndex(i);
@@ -69,15 +70,17 @@ public class ResultIterator2 extends ResultIterator {
 			throws DataException {
 		super(tempDir, context, queryResults, queryResultID, subQueryName, currParentIndex, qd);
 		this.lowestGroupLevel = lowestGroupLevel;
-		if (this.hasFirstNext)
+		if (this.hasFirstNext) {
 			this.currRowIndex = 0;
-		else
+		} else {
 			this.currRowIndex = -1;
+		}
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.document.ResultIterator#doNext()
 	 */
+	@Override
 	protected boolean doNext() throws DataException {
 		boolean hasNext = false;
 		boolean shouldMoveForward = false;
@@ -107,6 +110,7 @@ public class ResultIterator2 extends ResultIterator {
 		return hasNext;
 	}
 
+	@Override
 	public int getEndingGroupLevel() throws BirtException {
 		// make sure that the ending group level value is also correct
 		if (this.isSummary) {
@@ -118,24 +122,25 @@ public class ResultIterator2 extends ResultIterator {
 
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.ResultIterator#getStartingGroupLevel()
-	 * 
+	 *
 	 * public int getStartingGroupLevel( ) throws DataException { return
 	 * cachedStartingGroupLevel; }
-	 * 
-	 * 
+	 *
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.impl.document.ResultIterator#getEndingGroupLevel
 	 * ()
-	 * 
+	 *
 	 * public int getEndingGroupLevel( ) throws BirtException {
 	 * this.exprResultSet.skipToEnd( this.lowestGroupLevel );
-	 * 
+	 *
 	 * return super.getEndingGroupLevel( ); }
 	 */
 
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#getRowIndex()
 	 */
+	@Override
 	public int getRowIndex() throws BirtException {
 		return currRowIndex;
 	}
@@ -143,19 +148,22 @@ public class ResultIterator2 extends ResultIterator {
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IResultIterator#moveTo(int)
 	 */
+	@Override
 	public void moveTo(int rowIndex) throws BirtException {
 		if (rowIndex >= 0) {
 			this.isFirstNext = false;
 		}
-		if (rowIndex < 0 || rowIndex < this.currRowIndex)
+		if (rowIndex < 0 || rowIndex < this.currRowIndex) {
 			throw new DataException(ResourceConstants.INVALID_ROW_INDEX, Integer.valueOf(rowIndex));
-		else if (rowIndex == currRowIndex)
+		} else if (rowIndex == currRowIndex) {
 			return;
+		}
 
 		int gapRows = rowIndex - currRowIndex;
 		for (int i = 0; i < gapRows; i++) {
-			if (this.next() == false)
+			if (!this.next()) {
 				throw new DataException(ResourceConstants.INVALID_ROW_INDEX, Integer.valueOf(rowIndex));
+			}
 		}
 	}
 

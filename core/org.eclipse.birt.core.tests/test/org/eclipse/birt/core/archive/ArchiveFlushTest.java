@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -124,21 +124,20 @@ public class ArchiveFlushTest extends TestCase {
 	@Ignore("Ignore long run test")
 	@Test
 	public void testMultipleThread() throws IOException {
-		final Boolean[] hasErrors = new Boolean[] { Boolean.FALSE, Boolean.FALSE };
-		final Boolean[] hasFinished = new Boolean[] { Boolean.FALSE, Boolean.FALSE };
+		final Boolean[] hasErrors = { Boolean.FALSE, Boolean.FALSE };
+		final Boolean[] hasFinished = { Boolean.FALSE, Boolean.FALSE };
 		final ArchiveFile af = new ArchiveFile("test.dat", "rw+");
 		try {
 			ArchiveWriter writer = new ArchiveWriter(af);
 			for (int i = 0; i < 1024; i++) {
 				RAOutputStream stream = writer.createOutputStream("stream_" + i);
-				try {
+				try (stream) {
 					stream.writeInt(i);
-				} finally {
-					stream.close();
 				}
 			}
 			Runnable flush = new Runnable() {
 
+				@Override
 				public void run() {
 					long count = 0;
 					try {
@@ -170,6 +169,7 @@ public class ArchiveFlushTest extends TestCase {
 			};
 			Runnable openClose = new Runnable() {
 
+				@Override
 				public void run() {
 					long count = 0;
 					try {

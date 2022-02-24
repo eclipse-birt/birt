@@ -1,17 +1,17 @@
 /*
  *************************************************************************
  * Copyright (c) 2006 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.report.data.adapter.internal.adapter;
@@ -31,10 +31,12 @@ public class ColumnAdapter extends ColumnDefinition {
 	 */
 	public ColumnAdapter(ResultSetColumnHandle modelColumn) {
 		super(modelColumn.getColumnName());
-		if (modelColumn.getPosition() != null)
+		if (modelColumn.getPosition() != null) {
 			setColumnPosition(modelColumn.getPosition().intValue());
-		if (modelColumn.getNativeDataType() != null)
+		}
+		if (modelColumn.getNativeDataType() != null) {
 			setNativeDataType(modelColumn.getNativeDataType().intValue());
+		}
 		setDataType(
 				org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType(modelColumn.getDataType()));
 	}
@@ -49,12 +51,13 @@ public class ColumnAdapter extends ColumnDefinition {
 	}
 
 	public static int acquireAnalysisType(String type) {
-		if (DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals(type))
+		if (DesignChoiceConstants.ANALYSIS_TYPE_DIMENSION.equals(type)) {
 			return IColumnDefinition.ANALYSIS_DIMENSION;
-		else if (DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals(type))
+		} else if (DesignChoiceConstants.ANALYSIS_TYPE_MEASURE.equals(type)) {
 			return IColumnDefinition.ANALYSIS_MEASURE;
-		else if (DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals(type))
+		} else if (DesignChoiceConstants.ANALYSIS_TYPE_ATTRIBUTE.equals(type)) {
 			return IColumnDefinition.ANALYSIS_ATTRIBUTE;
+		}
 		return -1;
 	}
 }

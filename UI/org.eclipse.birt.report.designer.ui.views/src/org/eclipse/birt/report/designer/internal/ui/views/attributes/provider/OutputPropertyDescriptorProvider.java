@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -90,7 +90,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 
 	/**
 	 * Gets a given hide-output Handle.
-	 * 
+	 *
 	 * @param handle The ReportItemHandle.
 	 * @param format hide-output format.
 	 * @return hide-output Handle.
@@ -112,7 +112,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 
 	/**
 	 * Creates a new hide-output Handle.
-	 * 
+	 *
 	 * @param format hide-output format.
 	 * @return hide-output Handle.
 	 * @throws SemanticException
@@ -133,7 +133,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 
 	/**
 	 * Clears the VISIBILITY_PROP property value.
-	 * 
+	 *
 	 * @return True if operation successes, false if fails.
 	 */
 	private boolean clearProperty(DesignElementHandle handle) throws Exception {
@@ -145,14 +145,12 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 						handRuleList.clear();
 						handle.setProperty(ReportItemHandle.VISIBILITY_PROP, handRuleList);
 					}
-				} else {
-					if (handle instanceof ReportItemHandle) {
-						handle.clearProperty(ReportItemHandle.VISIBILITY_PROP);
-					} else if (handle instanceof RowHandle) {
-						handle.clearProperty(RowHandle.VISIBILITY_PROP);
-					} else if (handle instanceof ColumnHandle) {
-						handle.clearProperty(ColumnHandle.VISIBILITY_PROP);
-					}
+				} else if (handle instanceof ReportItemHandle) {
+					handle.clearProperty(ReportItemHandle.VISIBILITY_PROP);
+				} else if (handle instanceof RowHandle) {
+					handle.clearProperty(RowHandle.VISIBILITY_PROP);
+				} else if (handle instanceof ColumnHandle) {
+					handle.clearProperty(ColumnHandle.VISIBILITY_PROP);
 				}
 
 			} catch (SemanticException e) {
@@ -171,7 +169,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 
 	/**
 	 * Gets the PropertyHandle of VISIBILITY_PROP property.
-	 * 
+	 *
 	 * @return PropertyHandle
 	 */
 	private PropertyHandle getVisibilityPropertyHandle(DesignElementHandle handle) {
@@ -192,7 +190,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 
 	/**
 	 * Gets the DE CommandStack instance
-	 * 
+	 *
 	 * @return CommandStack instance
 	 */
 	private CommandStack getActionStack() {
@@ -218,7 +216,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 	private String[] typeInfo;
 
 	public String[] getTypeInfo() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		if (typeInfo == null) {
 			ReportEngine engine = new ReportEngine(new EngineConfig());
 			// typeInfo = engine.getSupportedFormats( );
@@ -226,7 +224,7 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 			if (emitters == null || emitters.length == 0) {
 				typeInfo = new String[] {};
 			} else {
-				List<String> temp = new ArrayList<String>();
+				List<String> temp = new ArrayList<>();
 				for (int i = 0; i < emitters.length; i++) {
 					EmitterInfo info = emitters[i];
 					if (!info.isHidden()) {
@@ -248,8 +246,9 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 			return (RowHandle) obj;
 		} else if (obj instanceof ColumnHandle) {
 			return (ColumnHandle) obj;
-		} else
+		} else {
 			return null;
+		}
 	}
 
 	public void saveAllOutput(Expression value) throws Exception {
@@ -311,16 +310,19 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 
 	}
 
+	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public Object load() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void save(Object value) throws SemanticException {
 		// TODO Auto-generated method stub
 
@@ -328,23 +330,26 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 
 	private Object input;
 
+	@Override
 	public void setInput(Object input) {
 		this.input = input;
 	}
 
 	public ExpressionProvider getExpressionProvider() {
-		if (isEnabled())
+		if (isEnabled()) {
 			return new ExpressionProvider(getFirstElementHandle());
-		else
+		} else {
 			return new ExpressionProvider();
+		}
 	}
 
 	public boolean isEnableHide() {
 		Iterator visibilities = getVisibilityRulesIterator();
-		if ((visibilities != null) && visibilities.hasNext())
+		if ((visibilities != null) && visibilities.hasNext()) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	public String getFormat(Object obj) {
@@ -358,10 +363,11 @@ public class OutputPropertyDescriptorProvider extends AbstractDescriptorProvider
 	}
 
 	public boolean isFormatTypeAll(String format) {
-		if (DesignChoiceConstants.FORMAT_TYPE_ALL.equalsIgnoreCase(format))
+		if (DesignChoiceConstants.FORMAT_TYPE_ALL.equalsIgnoreCase(format)) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	public Iterator getVisibilityRulesIterator() {

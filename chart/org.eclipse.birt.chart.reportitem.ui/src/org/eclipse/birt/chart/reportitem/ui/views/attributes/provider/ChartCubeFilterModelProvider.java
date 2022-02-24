@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -29,7 +29,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElement
 
 /**
  * The class is responsible to manage chart filter with cube set.
- * 
+ *
  * @since 2.3
  */
 public class ChartCubeFilterModelProvider extends FilterModelProvider {
@@ -40,31 +40,36 @@ public class ChartCubeFilterModelProvider extends FilterModelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.views.attributes.providers.
 	 * FilterModelProvider#getElements(java.util.List)
 	 */
+	@Override
 	public Object[] getElements(List input) {
 		Object obj = input.get(0);
-		if (!(obj instanceof DesignElementHandle))
+		if (!(obj instanceof DesignElementHandle)) {
 			return EMPTY;
+		}
 		DesignElementHandle element = (DesignElementHandle) obj;
 		PropertyHandle propertyHandle = element.getPropertyHandle(fFilterPropertyName);
 		Iterator iterator = propertyHandle.getListValue().iterator();
-		if (iterator == null)
+		if (iterator == null) {
 			return EMPTY;
+		}
 		List list = new ArrayList();
-		while (iterator.hasNext())
+		while (iterator.hasNext()) {
 			list.add(iterator.next());
+		}
 		return list.toArray();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.views.attributes.providers.
 	 * FilterModelProvider#getText(java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public String getText(Object element, String key) {
 		if (element instanceof FilterConditionElementHandle) {
 			String value = ((FilterConditionElementHandle) element).getStringProperty(key);
@@ -90,10 +95,11 @@ public class ChartCubeFilterModelProvider extends FilterModelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.ui.views.attributes.providers.
 	 * FilterModelProvider#deleteItem(java.lang.Object, int)
 	 */
+	@Override
 	public boolean deleteItem(Object item, int pos) throws PropertyValueException {
 		DesignElementHandle element = (DesignElementHandle) item;
 		PropertyHandle propertyHandle = element.getPropertyHandle(fFilterPropertyName);

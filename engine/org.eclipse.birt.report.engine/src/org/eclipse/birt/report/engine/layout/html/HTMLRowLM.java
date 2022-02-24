@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -22,10 +22,12 @@ public class HTMLRowLM extends HTMLInlineStackingLM {
 		super(factory);
 	}
 
+	@Override
 	public int getType() {
 		return LAYOUT_MANAGER_ROW;
 	}
 
+	@Override
 	protected boolean handleVisibility() throws BirtException {
 		// handle visibility in table layout
 		boolean ret = super.handleVisibility();
@@ -36,6 +38,7 @@ public class HTMLRowLM extends HTMLInlineStackingLM {
 		return ret;
 	}
 
+	@Override
 	protected boolean isPageBreakBefore() {
 		if (context.isSoftRowBreak()) {
 			context.setSoftRowBreak(false);

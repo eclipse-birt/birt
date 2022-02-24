@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -127,66 +127,70 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints#getDataSetStructure()
 	 */
+	@Override
 	public int getDataSetStructure() {
 		return iDataSetStructure;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getBaseDataSet()
 	 */
+	@Override
 	public DataSetIterator getBaseDataSet() {
 		return dsiBase;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.chart.render.ISeriesRenderingHints#getOrthogonalDataSet()
 	 */
+	@Override
 	public DataSetIterator getOrthogonalDataSet() {
 		return dsiOrthogonal;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints3D#getSeriesDataSet()
 	 */
+	@Override
 	public DataSetIterator getSeriesDataSet() {
 		return dsiAncillary;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The location (if vertical, then horizontal co-ordinate; if
 	 *         horizontal, then vertical co-ordinate) of the category axis used in
 	 *         the plot
 	 */
-	public final double getXAxisLocation() {
+	public double getXAxisLocation() {
 		return dXAxisLocation;
 	}
 
 	/**
 	 * @return
 	 */
-	public final double getZAxisLocation() {
+	public double getZAxisLocation() {
 		return dZAxisLocation;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The location (if vertical, then horizontal co-ordinate; if
 	 *         horizontal, then vertical co-ordinate) of zero along the primary
 	 *         orthogonal (value) axis used in the plot
 	 */
-	public final double getPlotZeroLocation() {
+	public double getPlotZeroLocation() {
 		return dPlotZeroLocation;
 	}
 
@@ -194,79 +198,80 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D {
 	 * @param oValue The value for which a rendering co-ordinate is being requested
 	 *               for
 	 * @return The co-ordinate on the scale that corresponds to the requested value
-	 * 
+	 *
 	 */
-	public final double getLocationOnOrthogonal(Object oValue) throws ChartException, IllegalArgumentException {
+	public double getLocationOnOrthogonal(Object oValue) throws ChartException, IllegalArgumentException {
 		return Methods.getLocation(scOrthogonal, oValue);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public final double getPlotBaseLocation() {
+	public double getPlotBaseLocation() {
 		return dPlotBaseLocation;
 	}
 
 	/**
 	 * @return
 	 */
-	public final double getPlotHeight() {
+	public double getPlotHeight() {
 		return dPlotHeight;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The ticks' co-ordinates specified as a values along a horizontal or
 	 *         vertical category axis. The other fixed co-ordinate is obtained via
 	 *         the axis location.
 	 */
-	public final AxisTickCoordinates getXTickCoordinates() {
+	public AxisTickCoordinates getXTickCoordinates() {
 		return daXTickCoordinates;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The ticks' co-ordinates specified as a values along the Z axis. The
 	 *         other fixed co-ordinate is obtained via the axis location.
 	 */
-	public final AxisTickCoordinates getZTickCoordinates() {
+	public AxisTickCoordinates getZTickCoordinates() {
 		return daZTickCoordinates;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Detailed plotting information for the data points represented by the
 	 *         series rendering
 	 */
-	public final DataPointHints[] getDataPoints() {
+	@Override
+	public DataPointHints[] getDataPoints() {
 		return dpa;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public final boolean isXCategoryScale() {
+	public boolean isXCategoryScale() {
 		return (scBase.getType() == IConstants.TEXT || scBase.isCategoryScale());
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public final boolean isZCategoryScale() {
+	public boolean isZCategoryScale() {
 		return (scAncillary.getType() == IConstants.TEXT || scAncillary.isCategoryScale());
 	}
 
 	/**
-	 * 
+	 *
 	 * @param se
 	 * @return
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 */
-	public final Position getLabelPosition(Series se) throws ChartException, IllegalArgumentException {
+	public Position getLabelPosition(Series se) throws ChartException, IllegalArgumentException {
 		final int iTransposed = pwa.transposeLabelPosition(IConstants.ORTHOGONAL,
 				Methods.getLabelPosition(se.getLabelPosition()));
 		Position p = null;
@@ -294,21 +299,22 @@ public final class SeriesRenderingHints3D implements ISeriesRenderingHints3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param se
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	public final Label getLabelAttributes(Series se) throws IllegalArgumentException {
+	public Label getLabelAttributes(Series se) throws IllegalArgumentException {
 		return goFactory.copyOf(se.getLabel());
 	}
 
 	/**
-	 * 
+	 *
 	 * @param bReduceByInsets
 	 * @return
 	 */
-	public final Bounds getClientAreaBounds(boolean bReduceByInsets) {
+	@Override
+	public Bounds getClientAreaBounds(boolean bReduceByInsets) {
 		final Bounds boClientArea = goFactory.copyOf(pwa.getPlotBounds());
 		if (bReduceByInsets) {
 			boClientArea.adjust(pwa.getPlotInsets());

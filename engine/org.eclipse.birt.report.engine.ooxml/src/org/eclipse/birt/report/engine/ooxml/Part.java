@@ -42,30 +42,37 @@ public class Part extends PartContainer implements IPart {
 		pkg.addContentType(contentType);
 	}
 
+	@Override
 	public String getRelativeUri() {
 		return uri.toString();
 	}
 
+	@Override
 	public Package getPackage() {
 		return pkg;
 	}
 
+	@Override
 	public ContentType getContentType() {
 		return contentType;
 	}
 
+	@Override
 	public OutputStream getCacheOutputStream() throws IOException {
 		return pkg.getOutputStream(getAbsoluteUri());
 	}
 
+	@Override
 	public String getAbsoluteUri() {
 		return parent.getAbsolutUriOfChild(uri);
 	}
 
+	@Override
 	public String getRelationshipId() {
 		return OOXmlUtil.getRelationShipId(relationshipId);
 	}
 
+	@Override
 	public String getRelationshipUri() {
 		String partUri = getAbsoluteUri();
 		int lastIndex = partUri.lastIndexOf('/');
@@ -73,14 +80,17 @@ public class Part extends PartContainer implements IPart {
 		return uri;
 	}
 
+	@Override
 	public String getRelationshipType() {
 		return relationshipType;
 	}
 
+	@Override
 	public boolean isCached() {
 		return cacheWriterUsed;
 	}
 
+	@Override
 	public boolean isReference() {
 		return false;
 	}

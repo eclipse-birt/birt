@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2007,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -74,7 +74,7 @@ public class ExecutionOptimize {
 		PolicyNode parentNode;
 
 		LinkedList rows = new LinkedList();
-		HashMap<ReportItemDesign, PolicyNode> itemNodeMap = new HashMap<ReportItemDesign, PolicyNode>();
+		HashMap<ReportItemDesign, PolicyNode> itemNodeMap = new HashMap<>();
 
 		OptimizeVisitor(Report report) {
 			this.report = report;
@@ -266,6 +266,7 @@ public class ExecutionOptimize {
 			}
 		}
 
+		@Override
 		public Object visitExtendedItem(ExtendedItemDesign item, Object value) {
 			PolicyNode parent = parentNode;
 			// setupPageBreaking...
@@ -284,6 +285,7 @@ public class ExecutionOptimize {
 			return Boolean.TRUE;
 		}
 
+		@Override
 		public Object visitTemplate(TemplateDesign template, Object value) {
 			visitReportItem(template, Boolean.TRUE);
 			return value;
@@ -291,11 +293,12 @@ public class ExecutionOptimize {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see org.eclipse.birt.report.engine.ir.DefaultReportItemVisitorImpl#
 		 * visitFreeFormItem(org.eclipse.birt.report.engine.ir.FreeFormItemDesign,
 		 * java.lang.Object)
 		 */
+		@Override
 		public Object visitFreeFormItem(FreeFormItemDesign container, Object value) {
 			PolicyNode parent = parentNode;
 			visitReportItem(container, value);
@@ -310,6 +313,7 @@ public class ExecutionOptimize {
 			return Boolean.TRUE;
 		}
 
+		@Override
 		public Object visitListing(ListingDesign listing, Object value) {
 			PolicyNode parent = parentNode;
 			// visit listing itself.
@@ -367,9 +371,9 @@ public class ExecutionOptimize {
 		}
 
 //      Reported Issue 56398
-//      The pre-order traversal runs O(2^n) time to determine the page breaks (before and after). 
-//		Each child is also assigned (creates) are a node to execute. 
-//      While the current traversal logic has room to improve the original traversal creates more than 2^n new node which caused heap overflow. 
+//      The pre-order traversal runs O(2^n) time to determine the page breaks (before and after).
+//		Each child is also assigned (creates) are a node to execute.
+//      While the current traversal logic has room to improve the original traversal creates more than 2^n new node which caused heap overflow.
 //      The fix of 56398 addresses that issue.
 		protected void processGroup(ListingDesign listing, int groupLevel, boolean breakBefore) {
 			GroupDesign group = listing.getGroup(groupLevel);
@@ -406,6 +410,7 @@ public class ExecutionOptimize {
 			parentNode = parent;
 		}
 
+		@Override
 		public Object visitBand(BandDesign band, Object value) {
 			PolicyNode parent = parentNode;
 			visitReportItem(band, value);
@@ -419,6 +424,7 @@ public class ExecutionOptimize {
 			return Boolean.TRUE;
 		}
 
+		@Override
 		public Object visitGridItem(GridItemDesign grid, Object value) {
 			PolicyNode parent = parentNode;
 			visitReportItem(grid, value);
@@ -460,6 +466,7 @@ public class ExecutionOptimize {
 			}
 		}
 
+		@Override
 		public Object visitRow(RowDesign row, Object value) {
 			PolicyNode parent = parentNode;
 			visitReportItem(row, true);
@@ -479,6 +486,7 @@ public class ExecutionOptimize {
 			return value;
 		}
 
+		@Override
 		public Object visitCell(CellDesign cell, Object value) {
 			PolicyNode parent = parentNode;
 			visitReportItem(cell, value);
@@ -499,21 +507,25 @@ public class ExecutionOptimize {
 			return drop != null && !"none".equals(drop);
 		}
 
+		@Override
 		public Object visitImageItem(ImageItemDesign image, Object value) {
 			visitReportItem(image, Boolean.TRUE);
 			return value;
 		}
 
+		@Override
 		public Object visitDynamicTextItem(DynamicTextItemDesign multiLine, Object value) {
 			visitReportItem(multiLine, Boolean.TRUE);
 			return value;
 		}
 
+		@Override
 		public Object visitTextItem(TextItemDesign text, Object value) {
 			visitReportItem(text, Boolean.TRUE);
 			return value;
 		}
 
+		@Override
 		public Object visitDataItem(DataItemDesign data, Object value) {
 			visitReportItem(data, value);
 			if (data.getSuppressDuplicate()) {
@@ -523,6 +535,7 @@ public class ExecutionOptimize {
 		}
 
 //      Fix of TED 56398 using a map to retrieve the previously visited node. Reduce the number of node objects.
+		@Override
 		public Object visitReportItem(ReportItemDesign item, Object value) {
 			PolicyNode node = null;
 			if (itemNodeMap.containsKey(item)) {

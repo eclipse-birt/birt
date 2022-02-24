@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -30,7 +30,7 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
  * The CubeCursor provide the user with a method of organizing EdgeCursor to
  * navigate the cube. And it provide the data accessor method to get the value
  * of measures.
- * 
+ *
  */
 public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor {
 
@@ -38,7 +38,7 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor 
 	private List pageEdge = new ArrayList();
 
 	/**
-	 * 
+	 *
 	 * @param cubeView
 	 * @param result
 	 * @param relationMap
@@ -50,7 +50,7 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor 
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cubeView
 	 * @param result
 	 * @param relationMap
@@ -62,8 +62,9 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor 
 			throws OLAPException {
 		super(null, new AggregationAccessor(cubeView, result, relationMap));
 
-		if (result == null)
+		if (result == null) {
 			return;
+		}
 
 		if (cubeView.getColumnEdgeView() != null) {
 			EdgeCursor columnEdgeCursor = new EdgeCursorImpl(cubeView.getColumnEdgeView(), false,
@@ -92,6 +93,7 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor 
 	/*
 	 * @see javax.olap.cursor.CubeCursor#getOrdinateEdge()
 	 */
+	@Override
 	public List getOrdinateEdge() throws OLAPException {
 		return this.ordinateEdge;
 	}
@@ -99,6 +101,7 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor 
 	/*
 	 * @see javax.olap.cursor.CubeCursor#getPageEdge()
 	 */
+	@Override
 	public Collection getPageEdge() throws OLAPException {
 		return this.pageEdge;
 	}
@@ -106,6 +109,7 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor 
 	/*
 	 * @see javax.olap.cursor.CubeCursor#synchronizePages()
 	 */
+	@Override
 	public void synchronizePages() throws OLAPException {
 		if (this.pageEdge != null && !this.pageEdge.isEmpty()) {
 			// assume we just has on page cursor at most.

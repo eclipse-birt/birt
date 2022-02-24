@@ -1,20 +1,17 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.api;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
@@ -32,38 +29,41 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * TestCases for Library Theme.
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
- * 
+ *
  * <tr>
  * <td>{@link #testDefineThemes()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testUsingTheme()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testThemeSearchAlgorithm()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testLibraryUseTheme()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testExportStyleToDefaultTheme()}</td>
  * </tr>
- * 
+ *
  * <tr>
  * <td>{@link #testCopyPasteTheme()}</td>
  * </tr>
  * </table>
- * 
+ *
  */
 
 public class ThemeTest extends BaseTestCase {
@@ -80,7 +80,6 @@ public class ThemeTest extends BaseTestCase {
 	private String LibC = "LibraryCIncludeTheme.xml";
 	private String LibC1 = "LibraryCIncludeTheme_1.xml";
 	private String LibCInclTheme = "LibraryCIncludeTheme.xml";
-	private String lib = "ThemeTest2_1.xml";
 
 	public ThemeTest(String name) {
 		super(name);
@@ -91,6 +90,7 @@ public class ThemeTest extends BaseTestCase {
 		return new TestSuite(ThemeTest.class);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
@@ -106,6 +106,7 @@ public class ThemeTest extends BaseTestCase {
 		// System.out.println("ThemeTest1.xml");
 	}
 
+	@Override
 	public void tearDown() {
 		removeResource();
 		// System.out.println("ThemeTest1.xml");
@@ -113,7 +114,7 @@ public class ThemeTest extends BaseTestCase {
 
 	/**
 	 * Test create theme
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testDefineThemes() throws Exception {
@@ -143,7 +144,7 @@ public class ThemeTest extends BaseTestCase {
 
 	/**
 	 * Test use theme
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testUsingTheme() throws Exception {
@@ -173,7 +174,7 @@ public class ThemeTest extends BaseTestCase {
 
 	/**
 	 * Test hierachy in theme styles and report styles
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testThemeSearchAlgorithm() throws Exception {
@@ -259,7 +260,7 @@ public class ThemeTest extends BaseTestCase {
 
 	/**
 	 * Test use theme in library
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testLibraryUseTheme() throws Exception {
@@ -286,7 +287,7 @@ public class ThemeTest extends BaseTestCase {
 
 	/**
 	 * Test export style to theme
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testExportStyleToDefaultTheme() throws Exception {
@@ -316,7 +317,7 @@ public class ThemeTest extends BaseTestCase {
 
 	/**
 	 * Test copy/paste theme
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testCopyPasteTheme() throws Exception {

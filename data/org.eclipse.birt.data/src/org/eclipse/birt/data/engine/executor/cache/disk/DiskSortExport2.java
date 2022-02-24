@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -32,8 +32,6 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  */
 class DiskSortExport2 extends DiskDataExport {
 	private int dataCountOfUnit;
-	private int dataCountOfTotal;
-
 	private MergeTempFileUtil tempFileUtil;
 
 	private List currRowFiles;
@@ -75,8 +73,8 @@ class DiskSortExport2 extends DiskDataExport {
 	 * @see org.eclipse.birt.data.engine.executor.resultset.DataBaseExport#
 	 * exportStartDataToDisk(org.eclipse.birt.data.engine.executor.ResultObject[])
 	 */
+	@Override
 	public void exportStartDataToDisk(IResultObject[] resultObjects) throws IOException {
-		dataCountOfTotal = resultObjects.length;
 		System.arraycopy(resultObjects, 0, rowBuffer, 0, resultObjects.length);
 		inMemoryPos = this.dataCountOfUnit - 1;
 	}
@@ -86,14 +84,13 @@ class DiskSortExport2 extends DiskDataExport {
 	 * exportRestDataToDisk(org.eclipse.birt.data.engine.odi.IResultObject,
 	 * org.eclipse.birt.data.engine.executor.cache.RowResultSet)
 	 */
+	@Override
 	public int exportRestDataToDisk(IResultObject resultObject, IRowResultSet rs, int maxRows)
 			throws DataException, IOException {
 		// sort the raw data to unit
 		int dataCountOfRest;
 		try {
 			dataCountOfRest = innerExportRestData(resultObject, rs, dataCountOfUnit, maxRows);
-			dataCountOfTotal += dataCountOfRest;
-
 			MergeSortImpl mergeSortImpl = new MergeSortImpl(this.dataCountOfUnit, this.mergeSortUtil, this.tempFileUtil,
 					this.currRowFiles, session);
 			this.goalRowIterator = mergeSortImpl.mergeSortOnUnits();
@@ -109,11 +106,12 @@ class DiskSortExport2 extends DiskDataExport {
 
 	/*
 	 * A util method for sub class
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#
 	 * innerExportRestData(org.eclipse.birt.data.engine.odi.IResultObject,
 	 * org.eclipse.birt.data.engine.executor.cache.IRowResultSet, int)
 	 */
+	@Override
 	protected int innerExportRestData(IResultObject resultObject, IRowResultSet rs, int dataCountOfUnit, int maxRows)
 			throws DataException, IOException {
 		addNewRow(resultObject);
@@ -123,13 +121,16 @@ class DiskSortExport2 extends DiskDataExport {
 		IResultObject odaObject = null;
 
 		while ((odaObject = rs.next()) != null) {
-			if (maxRows > 0 && currDataCount > maxRows)
+			if (maxRows > 0 && currDataCount > maxRows) {
 				throw new DataException(ResourceConstants.EXCEED_MAX_DATA_OBJECT_ROWS);
-			if (session.getStopSign().isStopped())
+			}
+			if (session.getStopSign().isStopped()) {
 				return 0;
+			}
 			Object[] ob = new Object[columnCount];
-			for (int i = 0; i < columnCount; i++)
+			for (int i = 0; i < columnCount; i++) {
 				ob[i] = odaObject.getFieldValue(i + 1);
+			}
 
 			IResultObject rowData = resultObjectUtil.newResultObject(ob);
 			addNewRow(rowData);
@@ -170,8 +171,9 @@ class DiskSortExport2 extends DiskDataExport {
 		mergeSortUtil.sortSelf(rowBuffer);
 
 		int cacheSize = 0;
-		if (currRowFiles.size() <= dataCountOfUnit)
+		if (currRowFiles.size() <= dataCountOfUnit) {
 			cacheSize = dataCountOfUnit - currRowFiles.size();
+		}
 		prepareNewTempRowFile(cacheSize);
 
 		// Output the rest rows
@@ -182,7 +184,7 @@ class DiskSortExport2 extends DiskDataExport {
 
 	/**
 	 * To switch the place of rows in array by a postion.
-	 * 
+	 *
 	 * @param objectArray
 	 * @param position
 	 * @return
@@ -197,7 +199,7 @@ class DiskSortExport2 extends DiskDataExport {
 	/**
 	 * End write operation of the last temporary file and create a new temporary
 	 * file and initialize row buffer.
-	 * 
+	 *
 	 * @param cacheSize
 	 */
 	private void prepareNewTempRowFile(int cacheSize) {
@@ -211,7 +213,7 @@ class DiskSortExport2 extends DiskDataExport {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private static RowFile getCurrTempFile(List files) {
@@ -223,24 +225,27 @@ class DiskSortExport2 extends DiskDataExport {
 	 * org.eclipse.birt.sort4.DataBaseExport#outputRowsUnit(org.eclipse.birt.sort4.
 	 * RowData[], int)
 	 */
+	@Override
 	protected void outputResultObjects(IResultObject[] resultObjects, int indexOfUnit) throws IOException {
 	}
 
 	/*
 	 * get a iterator on the result rows
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.executor.cache.DataBaseExport#getRowIterator()
 	 */
+	@Override
 	public IRowIterator getRowIterator() {
 		return goalRowIterator;
 	}
 
 	/*
 	 * close the merge sort row
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.executor.cache.DataBaseExport#close()
 	 */
+	@Override
 	public void close() {
 		tempFileUtil.clearTempDir();
 	}

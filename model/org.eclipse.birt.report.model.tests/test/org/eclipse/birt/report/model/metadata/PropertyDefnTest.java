@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -44,10 +44,11 @@ public class PropertyDefnTest extends AbstractMetaTest {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.model.util.BaseTestCase#setUp()
 	 */
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		propertyDefn = new PropertyDefnFake();
@@ -124,7 +125,7 @@ public class PropertyDefnTest extends AbstractMetaTest {
 
 	/**
 	 * Tests getting allowed units.
-	 * 
+	 *
 	 * @throws MetaDataParserException if any exception
 	 */
 
@@ -155,7 +156,7 @@ public class PropertyDefnTest extends AbstractMetaTest {
 	 * <p>
 	 * 2. A user gives an invalid value.
 	 * <p>
-	 * 
+	 *
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
@@ -197,7 +198,7 @@ public class PropertyDefnTest extends AbstractMetaTest {
 
 	/**
 	 * Tests isVisible attribute of an element property in the ROM.
-	 * 
+	 *
 	 * @throws MetaDataParserException if any exception
 	 */
 
@@ -232,7 +233,7 @@ public class PropertyDefnTest extends AbstractMetaTest {
 
 	/**
 	 * Tests getting semantic validators from Property Definition.
-	 * 
+	 *
 	 * @throws MetaDataParserException if any exception
 	 */
 
@@ -251,8 +252,9 @@ public class PropertyDefnTest extends AbstractMetaTest {
 		while (iter.hasNext()) {
 			SemanticTriggerDefn defn = (SemanticTriggerDefn) iter.next();
 
-			if (defn.getValidatorName().equals(name))
+			if (defn.getValidatorName().equals(name)) {
 				return true;
+			}
 		}
 
 		return false;
@@ -260,7 +262,7 @@ public class PropertyDefnTest extends AbstractMetaTest {
 
 	/**
 	 * Tests getting allowed choices.
-	 * 
+	 *
 	 * @throws MetaDataParserException if any exception
 	 */
 

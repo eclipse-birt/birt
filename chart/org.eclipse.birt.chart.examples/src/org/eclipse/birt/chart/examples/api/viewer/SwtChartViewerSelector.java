@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -61,7 +61,7 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * The selector of charts in SWT.
- * 
+ *
  */
 public final class SwtChartViewerSelector extends Composite
 		implements PaintListener, SelectionListener, IUpdateNotifier {
@@ -90,7 +90,7 @@ public final class SwtChartViewerSelector extends Composite
 
 	/**
 	 * main() method for constructing the selector layout.
-	 * 
+	 *
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -162,8 +162,9 @@ public final class SwtChartViewerSelector extends Composite
 				+ scv.idr.getClass().getName() + "]");//$NON-NLS-1$
 		shell.open();
 		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
+			if (!display.readAndDispatch()) {
 				display.sleep();
+			}
 		}
 		display.dispose();
 	}
@@ -182,10 +183,12 @@ public final class SwtChartViewerSelector extends Composite
 		}
 		addControlListener(new ControlListener() {
 
+			@Override
 			public void controlMoved(ControlEvent e) {
 				bNeedsGeneration = true;
 			}
 
+			@Override
 			public void controlResized(ControlEvent e) {
 				bNeedsGeneration = true;
 			}
@@ -195,12 +198,13 @@ public final class SwtChartViewerSelector extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events.
 	 * PaintEvent)
 	 */
-	public final void paintControl(PaintEvent e) {
+	@Override
+	public void paintControl(PaintEvent e) {
 		Rectangle d = this.getClientArea();
 		Image imgChart = new Image(this.getDisplay(), d);
 		GC gcImage = new GC(imgChart);
@@ -231,10 +235,11 @@ public final class SwtChartViewerSelector extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.
 	 * events.SelectionEvent)
 	 */
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if (e.widget.equals(btn)) {
 			int iSelection = cbType.getSelectionIndex();
@@ -251,13 +256,11 @@ public final class SwtChartViewerSelector extends Composite
 					if (ax.getType() == AxisType.LINEAR_LITERAL) {
 						ax.setType(AxisType.LOGARITHMIC_LITERAL);
 					}
-				} else {
-					if (ax.getType() == AxisType.LOGARITHMIC_LITERAL) {
-						ax.setType(AxisType.LINEAR_LITERAL);
-					}
+				} else if (ax.getType() == AxisType.LOGARITHMIC_LITERAL) {
+					ax.setType(AxisType.LINEAR_LITERAL);
 				}
 
-				if (cbPercent.getSelection() == true) {
+				if (cbPercent.getSelection()) {
 					ax.setFormatSpecifier(JavaNumberFormatSpecifierImpl.create("0'%'"));//$NON-NLS-1$
 				} else {
 					ax.setFormatSpecifier(null);
@@ -290,17 +293,18 @@ public final class SwtChartViewerSelector extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.
 	 * swt.events.SelectionEvent)
 	 */
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	private final void showException(GC g2d, Exception ex) {
+	private void showException(GC g2d, Exception ex) {
 		String sWrappedException = ex.getClass().getName();
 		Throwable th = ex;
 		while (ex.getCause() != null) {
@@ -375,45 +379,50 @@ public final class SwtChartViewerSelector extends Composite
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getDesignTimeModel()
 	 */
+	@Override
 	public Chart getDesignTimeModel() {
 		return cm;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#getRunTimeModel()
 	 */
+	@Override
 	public Chart getRunTimeModel() {
 		return gcs.getChartModel();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#peerInstance()
 	 */
+	@Override
 	public Object peerInstance() {
 		return this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#regenerateChart()
 	 */
+	@Override
 	public void regenerateChart() {
 		redraw();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.chart.device.IUpdateNotifier#repaintChart()
 	 */
+	@Override
 	public void repaintChart() {
 		redraw();
 	}

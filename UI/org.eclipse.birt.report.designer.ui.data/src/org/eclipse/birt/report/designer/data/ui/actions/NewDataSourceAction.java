@@ -4,9 +4,9 @@
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
@@ -37,7 +37,7 @@ public class NewDataSourceAction extends Action implements UpdateAction {
 	public static final String ID = "org.eclipse.birt.report.designer.ui.actions.NewDataSourceAction"; //$NON-NLS-1$
 
 	/**
-	 * 
+	 *
 	 */
 	public NewDataSourceAction() {
 		super();
@@ -73,6 +73,7 @@ public class NewDataSourceAction extends Action implements UpdateAction {
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
+	@Override
 	public boolean isEnabled() {
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
 		if (moduleHandle == null) {
@@ -83,9 +84,10 @@ public class NewDataSourceAction extends Action implements UpdateAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
+	@Override
 	public void run() {
 		if (!isEnabled()) {
 			MessageDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
@@ -146,9 +148,10 @@ public class NewDataSourceAction extends Action implements UpdateAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.ui.actions.UpdateAction#update()
 	 */
+	@Override
 	public void update() {
 		setEnabled(SessionHandleAdapter.getInstance().getReportDesignHandle() != null);
 	}

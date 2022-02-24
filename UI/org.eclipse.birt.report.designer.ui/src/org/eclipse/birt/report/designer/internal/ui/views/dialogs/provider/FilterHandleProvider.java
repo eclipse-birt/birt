@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -61,13 +61,13 @@ public class FilterHandleProvider implements IFormHandleProvider {
 	/**
 	 * Column properties.
 	 */
-	protected String[] columnKeys = new String[] { FilterCondition.EXPR_MEMBER, FilterCondition.OPERATOR_MEMBER,
+	protected String[] columnKeys = { FilterCondition.EXPR_MEMBER, FilterCondition.OPERATOR_MEMBER,
 			FilterCondition.VALUE1_MEMBER, FilterCondition.VALUE2_MEMBER };
 
 	/**
 	 * Column widths.
 	 */
-	private static int[] columnWidth = new int[] { 200, 150, 200, 200 };
+	private static int[] columnWidth = { 200, 150, 200, 200 };
 
 	/**
 	 * Model processor, provide data process of Filter model.
@@ -90,20 +90,21 @@ public class FilterHandleProvider implements IFormHandleProvider {
 
 	/**
 	 * Gets all dataSet columns
-	 * 
+	 *
 	 * @param obj DesignElementHandle object.
 	 */
 	private void getDataSetColumns(Object obj) {
 		if (obj instanceof DesignElementHandle) {
 			columnList = new ArrayList();
 			String[] columns = modelAdapter.getChoiceSet(obj, FilterCondition.EXPR_MEMBER);
-			if (columns != null)
+			if (columns != null) {
 				columnList.addAll(Arrays.asList(columns));
+			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void setBindingParams(ParamBindingHandle[] params) {
 		this.bindingParams = params;
@@ -111,10 +112,11 @@ public class FilterHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnNames()
 	 */
+	@Override
 	public String[] getColumnNames() {
 		if (columnNames == null) {
 			columnNames = modelAdapter.getColumnNames(columnKeys);
@@ -124,20 +126,22 @@ public class FilterHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getTitle()
 	 */
+	@Override
 	public String getTitle() {
 		return Messages.getString("FilterHandleProvider.Label.Filterby"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
+	@Override
 	public CellEditor[] getEditors(final Table table) {
 		if (editors == null) {
 			editors = new CellEditor[columnKeys.length];
@@ -152,30 +156,33 @@ public class FilterHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doMoveItem(int, int)
 	 */
+	@Override
 	public boolean doMoveItem(int oldPos, int newPos) throws PropertyValueException {
 		return modelAdapter.moveItem(input.get(0), oldPos, newPos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doDeleteItem(int)
 	 */
+	@Override
 	public boolean doDeleteItem(int pos) throws PropertyValueException {
 		return modelAdapter.deleteItem(input.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doAddItem(int)
 	 */
+	@Override
 	public boolean doAddItem(int pos) throws SemanticException {
 		// return modelAdapter.doAddItem( input.get( 0 ), pos );
 		Object item = input.get(0);
@@ -207,10 +214,11 @@ public class FilterHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#doEditItem(int)
 	 */
+	@Override
 	public boolean doEditItem(int pos) {
 
 		Object item = input.get(0);
@@ -249,10 +257,11 @@ public class FilterHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnText(java.lang.Object, int)
 	 */
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		String key = columnKeys[columnIndex];
 		return modelAdapter.getText(element, key);
@@ -260,24 +269,27 @@ public class FilterHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getImagePath(java.lang.Object, int)
 	 */
+	@Override
 	public String getImagePath(Object element, int columnIndex) {
 		return null;
 	}
 
+	@Override
 	public Image getImage(Object element, int columnIndex) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getElements(java.lang.Object)
 	 */
+	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof List) {
 			input = (List) inputElement;
@@ -292,20 +304,22 @@ public class FilterHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#canModify(java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public boolean canModify(Object element, String property) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getValue(java.lang.Object, java.lang.String)
 	 */
+	@Override
 	public Object getValue(Object element, String property) {
 		int index = Arrays.asList(columnNames).indexOf(property);
 		String columnText = getColumnText(element, index);
@@ -315,11 +329,12 @@ public class FilterHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#modify(java.lang.Object, java.lang.String,
 	 * java.lang.Object)
 	 */
+	@Override
 	public boolean modify(Object data, String property, Object value) throws NameException, SemanticException {
 		// Clear the value of value2 when operator is not "between" or "not
 		// between"
@@ -373,21 +388,23 @@ public class FilterHandleProvider implements IFormHandleProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider#getColumnWidths()
 	 */
+	@Override
 	public int[] getColumnWidths() {
 		return columnWidth;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * IFormHandleProvider
 	 * #needRefreshed(org.eclipse.birt.model.activity.NotificationEvent)
 	 */
+	@Override
 	public boolean needRefreshed(NotificationEvent event) {
 		if (event instanceof PropertyEvent) {
 			String propertyName = ((PropertyEvent) event).getPropertyName();
@@ -409,6 +426,7 @@ public class FilterHandleProvider implements IFormHandleProvider {
 		return null;
 	}
 
+	@Override
 	public boolean isEditable() {
 		return true;
 	}

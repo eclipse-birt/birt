@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -50,12 +50,13 @@ public class RowExecutor extends QueryItemExecutor {
 	 * <li>for each cell, execute the cell
 	 * <li>call emitter to close the row
 	 * <li>pop up the row.
-	 * 
+	 *
 	 * @param curRowContent row id.
 	 * @param body          table body.
 	 * @param row           row design
 	 */
 
+	@Override
 	public IContent execute() {
 		RowDesign rowDesign = (RowDesign) getDesign();
 		IRowContent rowContent = report.createRowContent();
@@ -92,6 +93,7 @@ public class RowExecutor extends QueryItemExecutor {
 		}
 	}
 
+	@Override
 	public void close() throws BirtException {
 		finishTOCEntry();
 		closeQuery();
@@ -101,11 +103,13 @@ public class RowExecutor extends QueryItemExecutor {
 
 	int currentCell;
 
+	@Override
 	public boolean hasNextChild() {
 		RowDesign rowDesign = (RowDesign) design;
 		return currentCell < rowDesign.getCellCount();
 	}
 
+	@Override
 	public IReportItemExecutor getNextChild() {
 		RowDesign rowDesign = (RowDesign) design;
 		if (currentCell < rowDesign.getCellCount()) {

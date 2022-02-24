@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -38,12 +38,12 @@ public class StringTable {
 
 	public StringTable() {
 		this.currentIndex = 0;
-		this.stringIndexMap = new HashMap<String, Integer>();
-		this.stringList = new ArrayList<String>();
+		this.stringIndexMap = new HashMap<>();
+		this.stringList = new ArrayList<>();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param inputStream
 	 * @throws IOException
 	 */
@@ -64,7 +64,7 @@ public class StringTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param outputStream
 	 * @throws IOException
 	 * @throws DataException
@@ -81,22 +81,22 @@ public class StringTable {
 				outputStream.seek(outputStream.length());
 				this.dataOutputStream = new DataOutputStream(outputStream);
 			}
-		} catch (DataException e) {
-		} catch (IOException e) {
+		} catch (DataException | IOException e) {
 		}
 
 	}
 
 	/**
-	 * 
+	 *
 	 * @param str
 	 * @return
 	 * @throws IOException
 	 * @throws DataException
 	 */
 	public int getIndex(String str) throws IOException, DataException {
-		if (str == null)
+		if (str == null) {
 			return -1;
+		}
 		Integer index = this.stringIndexMap.get(str);
 		if (index == null) {
 			this.stringIndexMap.put(str, this.currentIndex);
@@ -116,18 +116,19 @@ public class StringTable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 * @return
 	 */
 	public String getStringValue(int index) {
-		if (index < 0 || index > this.stringList.size())
+		if (index < 0 || index > this.stringList.size()) {
 			return null;
+		}
 		return this.stringList.get(index);
 	}
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void close() throws IOException {

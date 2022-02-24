@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,6 +47,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor {
 		setFormStyle(formStyle);
 	}
 
+	@Override
 	public Control createControl(Composite parent) {
 		container = new Composite(parent, SWT.NONE);
 
@@ -59,24 +60,28 @@ public class BindingGroupDescriptor extends PropertyDescriptor {
 		datasetRadio.setText(getProvider().getText(0));
 		datasetRadio.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refreshBinding();
 				if (datasetRadio.getSelection() && getProvider().isBindingReference()
 						&& (DEUtil.getBindingHolder(getProvider().getReportItemHandle(), true) == null
 								|| DEUtil.getBindingHolder(getProvider().getReportItemHandle(), true)
-										.getDataBindingType() != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF))
+										.getDataBindingType() != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)) {
 					saveBinding();
+				}
 			}
 
 		});
-		if (isFormStyle())
+		if (isFormStyle()) {
 			datasetCombo = new ComboViewer(FormWidgetFactory.getInstance().createCCombo(container, true));
-		else
+		} else {
 			datasetCombo = new ComboViewer(new CCombo(container, SWT.READ_ONLY));
+		}
 		datasetCombo.setLabelProvider(getProvider().getDataSetLabelProvider());
 		datasetCombo.setContentProvider(getProvider().getDataSetContentProvider());
 		datasetCombo.getCCombo().addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				saveBinding();
 			}
@@ -90,6 +95,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor {
 		bindingButton.setText(getProvider().getText(1));
 		bindingButton.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getProvider().bindingDialog();
 			}
@@ -98,6 +104,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor {
 		reportItemRadio.setText(getProvider().getText(2));
 		reportItemRadio.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				refreshBinding();
 				if (reportItemRadio.getSelection()
@@ -105,17 +112,20 @@ public class BindingGroupDescriptor extends PropertyDescriptor {
 								.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_DATA
 						&& (DEUtil.getBindingHolder(getProvider().getReportItemHandle(), true) == null
 								|| DEUtil.getBindingHolder(getProvider().getReportItemHandle(), true)
-										.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF))
+										.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)) {
 					saveBinding();
+				}
 			}
 
 		});
-		if (isFormStyle())
+		if (isFormStyle()) {
 			reportItemCombo = FormWidgetFactory.getInstance().createCCombo(container, true);
-		else
+		} else {
 			reportItemCombo = new CCombo(container, SWT.READ_ONLY);
+		}
 		reportItemCombo.addSelectionListener(new SelectionAdapter() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				saveBinding();
 			}
@@ -127,6 +137,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor {
 		return container;
 	}
 
+	@Override
 	public Control getControl() {
 		return container;
 	}
@@ -147,6 +158,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor {
 		}
 	}
 
+	@Override
 	public void load() {
 		if (!provider.isEnable()) {
 			datasetRadio.setEnabled(false);
@@ -203,8 +215,9 @@ public class BindingGroupDescriptor extends PropertyDescriptor {
 		if (type == ReportItemHandle.DATABINDING_TYPE_NONE) {
 			if (DEUtil.getBindingHolder(getProvider().getReportItemHandle(), true) != null
 					&& DEUtil.getBindingHolder(getProvider().getReportItemHandle(), true)
-							.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
+							.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF) {
 				type = ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF;
+			}
 		}
 		switch (type) {
 		case ReportItemHandle.DATABINDING_TYPE_NONE:
@@ -255,22 +268,26 @@ public class BindingGroupDescriptor extends PropertyDescriptor {
 		reportItemCombo.setEnabled(false);
 	}
 
+	@Override
 	public void save(Object obj) throws SemanticException {
 		getProvider().save(obj);
 	}
 
 	private BindingGroupDescriptorProvider provider;
 
+	@Override
 	public void setDescriptorProvider(IDescriptorProvider provider) {
 		this.descriptorProvider = (BindingGroupDescriptorProvider) provider;
-		if (provider instanceof BindingGroupDescriptorProvider)
+		if (provider instanceof BindingGroupDescriptorProvider) {
 			this.provider = (BindingGroupDescriptorProvider) provider;
+		}
 	}
 
 	public BindingGroupDescriptorProvider getProvider() {
 		return provider;
 	}
 
+	@Override
 	public void setInput(Object handle) {
 		super.setInput(handle);
 	}

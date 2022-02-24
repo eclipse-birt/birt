@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -25,8 +25,8 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class LineWidthChooserComposite extends AbstractLineWidthChooserComposite {
 
-	private static final Integer[] iLineWidths = new Integer[] { Integer.valueOf(1), Integer.valueOf(2),
-			Integer.valueOf(3), Integer.valueOf(4) };
+	private static final Integer[] iLineWidths = { 1, 2, 3,
+			4 };
 
 	static class LineWidthChoice extends LineCanvas implements ICustomChoice {
 
@@ -34,10 +34,12 @@ public class LineWidthChooserComposite extends AbstractLineWidthChooserComposite
 			super(parent, iStyle, SWT.LINE_SOLID, iLineWidth);
 		}
 
+		@Override
 		public Object getValue() {
 			return Integer.valueOf(getLineWidth());
 		}
 
+		@Override
 		public void setValue(Object value) {
 			if (value != null) {
 				setLineWidth(((Integer) value).intValue());
@@ -56,6 +58,7 @@ public class LineWidthChooserComposite extends AbstractLineWidthChooserComposite
 		setItems(lineWidths);
 	}
 
+	@Override
 	protected ICustomChoice createChoice(Composite parent, Object choiceValue) {
 		if (choiceValue == null) {
 			choiceValue = Integer.valueOf(0);
@@ -65,13 +68,15 @@ public class LineWidthChooserComposite extends AbstractLineWidthChooserComposite
 
 	/**
 	 * Returns the currently selected line width
-	 * 
+	 *
 	 * @return currently selected line width
 	 */
+	@Override
 	public int getLineWidth() {
 		return ((Integer) getChoiceValue()).intValue();
 	}
 
+	@Override
 	public void setLineWidth(int iWidth) {
 		setChoiceValue(Integer.valueOf(iWidth));
 	}

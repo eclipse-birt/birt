@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -116,10 +116,11 @@ public class RomUpdater {
 	private static final String PROPERTY_TYPE = "type";
 
 	void applyElementSpec() throws TransformException, IOException {
-		if (specElement.type == SpecElement.ELEMENT)
+		if (specElement.type == SpecElement.ELEMENT) {
 			romElement = rom.findElement(specElement.name);
-		else
+		} else {
 			romElement = rom.findStructure(specElement.name);
+		}
 		if (romElement == null) {
 			logNotice(specElement, " undefined in rom.def!");
 			return;
@@ -128,8 +129,9 @@ public class RomUpdater {
 		applyObject(DESIGN_OBJ, specElement.designObjName);
 		applyObject(STATE_OBJ, specElement.stateObjName);
 		applyAttrib(SINCE, specElement.since);
-		if (specElement.type == SpecElement.ELEMENT)
+		if (specElement.type == SpecElement.ELEMENT) {
 			applyAttrib(XML_NAME, specElement.xmlElement);
+		}
 
 		// TODO: Style names
 		// TODO: abstract
@@ -138,8 +140,9 @@ public class RomUpdater {
 	}
 
 	void applyObject(String attrib, String objName) throws IOException {
-		if (isBlank(objName))
+		if (isBlank(objName)) {
 			return;
+		}
 
 		String value = romElement.getAttribute(attrib);
 		if (isBlank(value)) {
@@ -158,8 +161,9 @@ public class RomUpdater {
 	// Since
 
 	private void applyAttrib(String attrib, String newValue) throws IOException {
-		if (isBlank(newValue))
+		if (isBlank(newValue)) {
 			return;
+		}
 
 		String value = romElement.getAttribute(attrib);
 		if (isBlank(value)) {
@@ -177,14 +181,16 @@ public class RomUpdater {
 
 			// Style is special; skip it.
 
-			if (prop.name.equals("style"))
+			if (prop.name.equals("style")) {
 				continue;
+			}
 
 			Element romProp;
-			if (specElement.type == SpecElement.ELEMENT)
+			if (specElement.type == SpecElement.ELEMENT) {
 				romProp = rom.findProperty(romElement, prop.name);
-			else
+			} else {
 				romProp = rom.findMember(romElement, prop.name);
+			}
 			if (romProp == null) {
 				logNotice(specElement, prop, "Not defined in rom.def!");
 				continue;
@@ -214,8 +220,9 @@ public class RomUpdater {
 	public void applyAttrib(SpecProperty prop, Element romProp, String attribValue, String attrib) throws IOException {
 		// Since
 
-		if (isBlank(attribValue))
+		if (isBlank(attribValue)) {
 			return;
+		}
 
 		String value = romProp.getAttribute(attrib);
 		if (isBlank(value)) {
@@ -229,8 +236,9 @@ public class RomUpdater {
 	public void applyDefault(SpecProperty prop, Element romProp) throws IOException {
 		// Default value
 
-		if (isBlank(prop.defaultValue))
+		if (isBlank(prop.defaultValue)) {
 			return;
+		}
 
 		String value = rom.getDefaultValue(romProp);
 		if (prop.defaultValue.equalsIgnoreCase("None")) {
@@ -250,8 +258,9 @@ public class RomUpdater {
 			throws IOException {
 		// Runtime settable
 
-		if (attribValue == SpecObject.TRI_UNKNOWN)
+		if (attribValue == SpecObject.TRI_UNKNOWN) {
 			return;
+		}
 
 		String newValue = attribValue == SpecObject.TRI_TRUE ? "true" : "false";
 		String value = romProp.getAttribute(attrib);
@@ -267,8 +276,9 @@ public class RomUpdater {
 
 	public void checkBoolean(SpecProperty prop, Element romProp, int attribValue, String attrib, String defaultValue)
 			throws IOException {
-		if (attribValue == SpecObject.TRI_UNKNOWN)
+		if (attribValue == SpecObject.TRI_UNKNOWN) {
 			return;
+		}
 
 		String newValue = attribValue == SpecObject.TRI_TRUE ? "true" : "false";
 		String value = romProp.getAttribute(attrib);
@@ -281,8 +291,9 @@ public class RomUpdater {
 	}
 
 	public void applyHidden(SpecProperty prop) throws IOException {
-		if (prop.hidden == SpecObject.TRI_UNKNOWN)
+		if (prop.hidden == SpecObject.TRI_UNKNOWN) {
 			return;
+		}
 
 		String newValue = prop.hidden == SpecObject.TRI_TRUE ? "hide" : "show";
 		Element vis = rom.findPropertyVisibility(romElement, prop.name);
@@ -299,8 +310,9 @@ public class RomUpdater {
 	}
 
 	public void applyContext(SpecProperty prop, Element romProp) throws IOException {
-		if (prop.exprContext == null)
+		if (prop.exprContext == null) {
 			return;
+		}
 
 		String type = romProp.getAttribute(PROPERTY_TYPE);
 		if (type == null || !type.equals("expression")) {
@@ -309,13 +321,13 @@ public class RomUpdater {
 		}
 
 		String newValue = null;
-		if (prop.exprContext.equalsIgnoreCase("Factory"))
+		if (prop.exprContext.equalsIgnoreCase("Factory")) {
 			newValue = "factory";
-		else if (prop.exprContext.equalsIgnoreCase("Presentation"))
+		} else if (prop.exprContext.equalsIgnoreCase("Presentation")) {
 			newValue = "presentation";
-		else if (prop.exprContext.equalsIgnoreCase("Element"))
+		} else if (prop.exprContext.equalsIgnoreCase("Element")) {
 			newValue = "element";
-		else {
+		} else {
 			logNotice(specElement, prop, "Spec has unknown value for expr context: " + prop.exprContext);
 			return;
 		}
@@ -325,7 +337,7 @@ public class RomUpdater {
 	static class TransformException extends Exception {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 

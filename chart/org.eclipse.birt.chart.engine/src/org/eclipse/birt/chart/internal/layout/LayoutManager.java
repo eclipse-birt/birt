@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -46,7 +46,7 @@ public final class LayoutManager {
 
 	/**
 	 * The constructor.
-	 * 
+	 *
 	 * @param _blRoot
 	 */
 	public LayoutManager(Block _blRoot) {
@@ -981,11 +981,11 @@ public final class LayoutManager {
 	/**
 	 * This method recursively walks down the chart layout and establishes bounds
 	 * for each contained block based on the following rule:
-	 * 
+	 *
 	 * All immediate children under 'blRoot' are added as ElasticLayout with
 	 * appropriate constraints All other children (at deeper levels) are added as
 	 * NullLayout with fixed 'relative' bounds
-	 * 
+	 *
 	 * @param bo
 	 * @throws ChartException
 	 */

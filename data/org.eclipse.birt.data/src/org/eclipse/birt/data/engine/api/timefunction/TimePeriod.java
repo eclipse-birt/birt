@@ -11,7 +11,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 package org.eclipse.birt.data.engine.api.timefunction;
@@ -32,14 +32,17 @@ public class TimePeriod implements ITimePeriod {
 		this.isCurrent = isCurrent;
 	}
 
+	@Override
 	public int countOfUnit() {
 		return this.countOfUnit;
 	}
 
+	@Override
 	public TimePeriodType getType() {
 		return type;
 	}
 
+	@Override
 	public boolean isCurrent() {
 		return this.isCurrent;
 	}

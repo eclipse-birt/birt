@@ -1,12 +1,12 @@
 /***********************************************************************
  * Copyright (c) 2004, 2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
@@ -69,25 +69,25 @@ public final class ValueFormatter {
 	 * Use default number format pattern to format number value. If value < 1 then
 	 * at most remains 3 significant figures but the total decimal digits can't
 	 * exceed 9, else use default format instance of system to format number.
-	 * 
+	 *
 	 * @param value
 	 * @param locale
 	 * @return
 	 */
-	private static final String formatNumber(Number value, ULocale locale) {
+	private static String formatNumber(Number value, ULocale locale) {
 		NumberFormat format = createDefaultNumberFormat(value, locale);
 		return format.format(value);
 	}
 
 	/**
 	 * Returns the formatted string representation of given object.
-	 * 
+	 *
 	 * @param oValue
 	 * @param formatSpecifier
 	 * @param lcl
 	 * @return formatted string
 	 */
-	public static final String format(Object oValue, FormatSpecifier formatSpecifier, ULocale lcl,
+	public static String format(Object oValue, FormatSpecifier formatSpecifier, ULocale lcl,
 			Object oCachedJavaFormatter) throws ChartException {
 		FormatSpecifier fs = formatSpecifier;
 		String sValue;
@@ -143,75 +143,7 @@ public final class ValueFormatter {
 								lcl);
 					}
 				}
-			} else {
-				if (NumberUtil.isBigNumber(oValue)) {
-					return NumberUtil.getDefaultBigDecimalFormat(lcl).format(((BigNumber) oValue).getValue());
-				} else if (NumberUtil.isBigDecimal(oValue)) {
-					return NumberUtil.getDefaultBigDecimalFormat(lcl).format(oValue);
-				} else if (oValue instanceof Number) {
-					return formatNumber((Number) oValue, lcl);
-				} else if (oValue instanceof NumberDataElement) {
-					return NumberFormat.getInstance(lcl).format(((NumberDataElement) oValue).getValue());
-				} else if (oValue instanceof BigNumberDataElement) {
-					return NumberFormat.getInstance(lcl).format(((BigNumberDataElement) oValue).getValue());
-				} else if (oValue instanceof CDateTime) {
-					CDateTime cd = (CDateTime) oValue;
-					if (cd.isTimeOnly()) {
-						// Keep consistent with preferred date format
-						return DateFormatWrapperFactory.getPreferredDateFormat(Calendar.SECOND, lcl).format(cd);
-					}
-					DateFormat df = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, lcl);
-					// Only Datetime supports TimeZone
-					if (cd.isFullDateTime()) {
-						df.setTimeZone(cd.getTimeZone());
-					}
-					return df.format(oValue);
-				} else if (oValue instanceof Calendar) {
-					return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, lcl).format(oValue);
-				} else if (oValue instanceof DateTimeDataElement) {
-					return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, lcl)
-							.format(((DateTimeDataElement) oValue).getValueAsCalendar());
-				} else if (oValue instanceof IDataPointEntry) {
-					return ((IDataPointEntry) oValue).getFormattedString(null, lcl);
-				}
-			}
-		} else if (oValue instanceof IDataPointEntry) {
-			return ((IDataPointEntry) oValue).getFormattedString(fs, lcl);
-		} else if (NumberFormatSpecifier.class.isInstance(fs)) {
-			final NumberFormatSpecifier nfs = (NumberFormatSpecifier) fs;
-			if (NumberUtil.isBigNumber(oValue)) {
-				return correctNumber(nfs.format(((BigNumber) oValue).getValue(), lcl));
-			} else if (NumberUtil.isBigDecimal(oValue)) {
-				return correctNumber(nfs.format((Number) oValue, lcl));
-			} else {
-				final double dValue = asPrimitiveDouble(oValue, lcl);
-				return correctNumber(nfs.format(dValue, lcl));
-			}
-		} else if (JavaNumberFormatSpecifier.class.isInstance(fs)) {
-			final JavaNumberFormatSpecifier nfs = (JavaNumberFormatSpecifier) fs;
-			if (NumberUtil.isBigNumber(oValue)) {
-				return correctNumber(nfs.format(((BigNumber) oValue).getValue(), lcl));
-			} else if (NumberUtil.isBigDecimal(oValue)) {
-				return correctNumber(nfs.format((Number) oValue, lcl));
-			} else {
-				final double dValue = asPrimitiveDouble(oValue, lcl);
-				return correctNumber(nfs.format(dValue, lcl));
-			}
-		} else if (FractionNumberFormatSpecifier.class.isInstance(fs)) {
-			final FractionNumberFormatSpecifier fnfs = (FractionNumberFormatSpecifier) fs;
-			final double dValue = asPrimitiveDouble(oValue, lcl);
-			return correctNumber(fnfs.format(dValue, lcl));
-		} else if (DateFormatSpecifier.class.isInstance(fs)) {
-			final DateFormatSpecifier dfs = (DateFormatSpecifier) fs;
-			return dfs.format(asCalendar(oValue, lcl), lcl);
-		} else if (JavaDateFormatSpecifier.class.isInstance(fs)) {
-			final JavaDateFormatSpecifier jdfs = (JavaDateFormatSpecifier) fs;
-			return jdfs.format(asCalendar(oValue, lcl), lcl);
-		} else if (StringFormatSpecifier.class.isInstance(fs)) {
-			final StringFormatSpecifier jdfs = (StringFormatSpecifier) fs;
-			return jdfs.format(oValue.toString(), lcl);
-		} else {
-			if (NumberUtil.isBigNumber(oValue)) {
+			} else if (NumberUtil.isBigNumber(oValue)) {
 				return NumberUtil.getDefaultBigDecimalFormat(lcl).format(((BigNumber) oValue).getValue());
 			} else if (NumberUtil.isBigDecimal(oValue)) {
 				return NumberUtil.getDefaultBigDecimalFormat(lcl).format(oValue);
@@ -221,12 +153,76 @@ public final class ValueFormatter {
 				return NumberFormat.getInstance(lcl).format(((NumberDataElement) oValue).getValue());
 			} else if (oValue instanceof BigNumberDataElement) {
 				return NumberFormat.getInstance(lcl).format(((BigNumberDataElement) oValue).getValue());
+			} else if (oValue instanceof CDateTime) {
+				CDateTime cd = (CDateTime) oValue;
+				if (cd.isTimeOnly()) {
+					// Keep consistent with preferred date format
+					return DateFormatWrapperFactory.getPreferredDateFormat(Calendar.SECOND, lcl).format(cd);
+				}
+				DateFormat df = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, lcl);
+				// Only Datetime supports TimeZone
+				if (cd.isFullDateTime()) {
+					df.setTimeZone(cd.getTimeZone());
+				}
+				return df.format(oValue);
 			} else if (oValue instanceof Calendar) {
 				return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, lcl).format(oValue);
 			} else if (oValue instanceof DateTimeDataElement) {
 				return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, lcl)
 						.format(((DateTimeDataElement) oValue).getValueAsCalendar());
+			} else if (oValue instanceof IDataPointEntry) {
+				return ((IDataPointEntry) oValue).getFormattedString(null, lcl);
 			}
+		} else if (oValue instanceof IDataPointEntry) {
+			return ((IDataPointEntry) oValue).getFormattedString(fs, lcl);
+		} else if ((fs instanceof NumberFormatSpecifier)) {
+			final NumberFormatSpecifier nfs = (NumberFormatSpecifier) fs;
+			if (NumberUtil.isBigNumber(oValue)) {
+				return correctNumber(nfs.format(((BigNumber) oValue).getValue(), lcl));
+			} else if (NumberUtil.isBigDecimal(oValue)) {
+				return correctNumber(nfs.format((Number) oValue, lcl));
+			} else {
+				final double dValue = asPrimitiveDouble(oValue, lcl);
+				return correctNumber(nfs.format(dValue, lcl));
+			}
+		} else if ((fs instanceof JavaNumberFormatSpecifier)) {
+			final JavaNumberFormatSpecifier nfs = (JavaNumberFormatSpecifier) fs;
+			if (NumberUtil.isBigNumber(oValue)) {
+				return correctNumber(nfs.format(((BigNumber) oValue).getValue(), lcl));
+			} else if (NumberUtil.isBigDecimal(oValue)) {
+				return correctNumber(nfs.format((Number) oValue, lcl));
+			} else {
+				final double dValue = asPrimitiveDouble(oValue, lcl);
+				return correctNumber(nfs.format(dValue, lcl));
+			}
+		} else if ((fs instanceof FractionNumberFormatSpecifier)) {
+			final FractionNumberFormatSpecifier fnfs = (FractionNumberFormatSpecifier) fs;
+			final double dValue = asPrimitiveDouble(oValue, lcl);
+			return correctNumber(fnfs.format(dValue, lcl));
+		} else if ((fs instanceof DateFormatSpecifier)) {
+			final DateFormatSpecifier dfs = (DateFormatSpecifier) fs;
+			return dfs.format(asCalendar(oValue, lcl), lcl);
+		} else if ((fs instanceof JavaDateFormatSpecifier)) {
+			final JavaDateFormatSpecifier jdfs = (JavaDateFormatSpecifier) fs;
+			return jdfs.format(asCalendar(oValue, lcl), lcl);
+		} else if ((fs instanceof StringFormatSpecifier)) {
+			final StringFormatSpecifier jdfs = (StringFormatSpecifier) fs;
+			return jdfs.format(oValue.toString(), lcl);
+		} else if (NumberUtil.isBigNumber(oValue)) {
+			return NumberUtil.getDefaultBigDecimalFormat(lcl).format(((BigNumber) oValue).getValue());
+		} else if (NumberUtil.isBigDecimal(oValue)) {
+			return NumberUtil.getDefaultBigDecimalFormat(lcl).format(oValue);
+		} else if (oValue instanceof Number) {
+			return formatNumber((Number) oValue, lcl);
+		} else if (oValue instanceof NumberDataElement) {
+			return NumberFormat.getInstance(lcl).format(((NumberDataElement) oValue).getValue());
+		} else if (oValue instanceof BigNumberDataElement) {
+			return NumberFormat.getInstance(lcl).format(((BigNumberDataElement) oValue).getValue());
+		} else if (oValue instanceof Calendar) {
+			return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, lcl).format(oValue);
+		} else if (oValue instanceof DateTimeDataElement) {
+			return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, lcl)
+					.format(((DateTimeDataElement) oValue).getValueAsCalendar());
 		}
 		return oValue.toString();
 	}
@@ -234,7 +230,7 @@ public final class ValueFormatter {
 	/**
 	 * Under some cases, the specified format specifier is not suitable for current
 	 * value, the format specifier must be reset to fit current value.
-	 * 
+	 *
 	 * @param oValue
 	 * @param fs
 	 * @return format specifier.
@@ -262,7 +258,7 @@ public final class ValueFormatter {
 		return fs;
 	}
 
-	private static final double asPrimitiveDouble(Object o, ULocale lcl) throws ChartException {
+	private static double asPrimitiveDouble(Object o, ULocale lcl) throws ChartException {
 		if (o instanceof Number) {
 			return ((Number) o).doubleValue();
 		} else if (o instanceof NumberDataElement) {
@@ -272,7 +268,7 @@ public final class ValueFormatter {
 				new Object[] { o }, Messages.getResourceBundle(lcl));
 	}
 
-	private static final Calendar asCalendar(Object o, ULocale lcl) throws ChartException {
+	private static Calendar asCalendar(Object o, ULocale lcl) throws ChartException {
 		if (o instanceof Calendar) {
 			return (Calendar) o;
 		} else if (o instanceof DateTimeDataElement) {
@@ -284,13 +280,13 @@ public final class ValueFormatter {
 
 	/**
 	 * Takes care of problems while presenting -0.00
-	 * 
+	 *
 	 * @param sValue
 	 * @return corrected number
 	 */
-	private static final String correctNumber(String sValue) {
+	private static String correctNumber(String sValue) {
 		int n = (sValue.length() - sNegativeZero.length());
-		final StringBuffer sb = new StringBuffer(sNegativeZero);
+		final StringBuilder sb = new StringBuilder(sNegativeZero);
 		for (int i = 0; i < n; i++) {
 			sb.append('0');
 		}
@@ -304,7 +300,7 @@ public final class ValueFormatter {
 
 	/**
 	 * Returns an auto computed number pattern.
-	 * 
+	 *
 	 * @param num number value
 	 * @return number pattern
 	 * @since 2.5.3
@@ -333,7 +329,7 @@ public final class ValueFormatter {
 		int iEPosition = sValue.indexOf(dfs.getExponentSeparator());
 
 		if (iEPosition > 0) {
-			double dValue = Double.valueOf(sValue.substring(0, iEPosition)).doubleValue();
+			double dValue = Double.parseDouble(sValue.substring(0, iEPosition));
 
 			if (ChartUtil.mathEqual(dValue, Math.round(dValue))) {
 				// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
@@ -356,7 +352,7 @@ public final class ValueFormatter {
 				}
 			}
 			final int iMantissaCount = n - 1 - iDecimalPosition;
-			final StringBuffer sb = new StringBuffer(sNumericPattern);
+			final StringBuilder sb = new StringBuilder(sNumericPattern);
 			if (iMantissaCount > 0) {
 				sb.append('.');
 				for (int i = 0; i < iMantissaCount; i++) {
@@ -375,7 +371,7 @@ public final class ValueFormatter {
 	 * Returns an auto computed decimal format pattern for category data or axis
 	 * label. If it's an integer, no decimal point and no separator. This is also
 	 * used for representing logarithmic values.
-	 * 
+	 *
 	 * @return numeric pattern
 	 */
 	public static String getNumericPattern(double dValue) {
@@ -384,7 +380,7 @@ public final class ValueFormatter {
 
 	/**
 	 * Normalize double value to avoid error precision.
-	 * 
+	 *
 	 * @param value
 	 * @return normalized value of specified double.
 	 */
@@ -434,7 +430,7 @@ public final class ValueFormatter {
 				value = df.parse(sValue);
 			} catch (ParseException e) {
 				logger.log(e);
-				;
+
 			}
 
 		} else {

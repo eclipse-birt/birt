@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 /**
  * This is a utility class for maintaining the meta data information for a
  * particular JDBC connection.
- * 
+ *
  * @version $Revision: 1.9 $ $Date: 2008/08/04 07:55:18 $
  */
 
@@ -51,7 +51,7 @@ public class ConnectionMetaData implements Serializable {
 	private long timeout; // milliseconds
 
 	/**
-	 *  
+	 *
 	 */
 	public ConnectionMetaData() {
 		super();
@@ -260,18 +260,16 @@ public class ConnectionMetaData implements Serializable {
 	/**
 	 * Returns <code>true</code> if this <code>ConnectionMetaData</code> is the same
 	 * as the o argument.
-	 * 
+	 *
 	 * @return <code>true</code> if this <code>ConnectionMetaData</code> is the same
 	 *         as the o argument.
 	 */
+	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
 		}
-		if (o == null) {
-			return false;
-		}
-		if (o.getClass() != getClass()) {
+		if ((o == null) || (o.getClass() != getClass())) {
 			return false;
 		}
 		ConnectionMetaData castedObj = (ConnectionMetaData) o;
@@ -285,9 +283,10 @@ public class ConnectionMetaData implements Serializable {
 
 	/**
 	 * Override hashCode.
-	 * 
+	 *
 	 * @return the Objects hashcode.
 	 */
+	@Override
 	public int hashCode() {
 		int hashCode = 1;
 		hashCode = 31 * hashCode + (classname == null ? 0 : classname.hashCode());
@@ -300,9 +299,10 @@ public class ConnectionMetaData implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#finalize()
 	 */
+	@Override
 	protected void finalize() throws Throwable {
 		clearCache();
 		super.finalize();

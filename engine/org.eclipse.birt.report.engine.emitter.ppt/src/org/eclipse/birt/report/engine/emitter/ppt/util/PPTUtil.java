@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -39,7 +39,7 @@ public class PPTUtil {
 					String link = hyperlinkAction.getHyperlink();
 					String tooltip = hyperlinkAction.getTooltip();
 					Object handler = services.getOption(RenderOption.ACTION_HANDLER);
-					if (handler != null && handler instanceof IHTMLActionHandler) {
+					if (handler instanceof IHTMLActionHandler) {
 						IHTMLActionHandler actionHandler = (IHTMLActionHandler) handler;
 						String systemId = reportRunnable == null ? null : reportRunnable.getReportName();
 						Action action = new Action(systemId, hyperlinkAction);

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -43,7 +43,7 @@ import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * 
+ *
  */
 
 public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelper implements IJSFilterHelper {
@@ -54,7 +54,7 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	protected boolean isAxisFilter;
 
 	/**
-	 * 
+	 *
 	 * @param outResults
 	 * @param parentScope
 	 * @param queryDefn
@@ -69,15 +69,16 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 			if (expr.getOperator() == IConditionalExpression.OP_TOP_N
 					|| expr.getOperator() == IConditionalExpression.OP_BOTTOM_N
 					|| expr.getOperator() == IConditionalExpression.OP_TOP_PERCENT
-					|| expr.getOperator() == IConditionalExpression.OP_BOTTOM_PERCENT)
+					|| expr.getOperator() == IConditionalExpression.OP_BOTTOM_PERCENT) {
 				return new TopBottomDimensionFilterEvalHelper(outResults, parentScope, queryDefn, cubeFilter, cx);
+			}
 		}
 
 		return new DimensionFilterEvalHelper(outResults, parentScope, cx, queryDefn, cubeFilter);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parentScope
 	 * @param queryDefn
 	 * @param cubeFilter
@@ -102,10 +103,12 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 			this.isAxisFilter = false;
 		} else {
 			for (int i = 0; i < axisLevels.length; i++) {
-				if (axisLevels[i] == null)
+				if (axisLevels[i] == null) {
 					throw new DataException(ResourceConstants.AXIS_LEVEL_CANNOT_BE_NULL);
-				if (axisValues[i] == null)
+				}
+				if (axisValues[i] == null) {
 					throw new DataException(ResourceConstants.AXIS_VALUE_CANNOT_BE_NULL, axisLevels[i].getName());
+				}
 			}
 		}
 		this.isAxisFilter = (axisLevels != null && axisValues != null && axisLevels.length == axisValues.length);
@@ -113,10 +116,11 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.util.BaseJSEvalHelper#
 	 * registerJSObjectPopulators()
 	 */
+	@Override
 	protected void registerJSObjectPopulators() throws DataException {
 		super.registerJSObjectPopulators();
 		this.aggrLevels = populateAggrLevels();
@@ -137,8 +141,9 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 			bindingName = OlapExpressionCompiler.getReferencedScriptObject(expr,
 					ScriptConstants.DATA_SET_BINDING_SCRIPTABLE);// $NON-NLS-1$
 		}
-		if (bindingName == null)
+		if (bindingName == null) {
 			return null;
+		}
 
 		return getAggregateOnLevels(bindingName);
 	}
@@ -175,8 +180,9 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 		List aggrs = binding.getAggregatOns();
 		if (aggrs.size() == 0) {
 			if (OlapExpressionCompiler.getReferencedScriptObject(binding.getExpression(),
-					ScriptConstants.DIMENSION_SCRIPTABLE) != null)
+					ScriptConstants.DIMENSION_SCRIPTABLE) != null) {
 				return null;
+			}
 
 			IBinding directReferenceBinding = OlapExpressionUtil.getDirectMeasureBinding(binding,
 					queryDefn.getBindings());
@@ -203,13 +209,14 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	}
 
 	/**
-	 * 
+	 *
 	 * @param levelList
 	 * @param edge
 	 */
 	private void populateDimLevel(List levelList, IEdgeDefinition edge) {
-		if (edge == null)
+		if (edge == null) {
 			return;
+		}
 		List rowDims = edge.getDimensions();
 		for (Iterator i = rowDims.iterator(); i.hasNext();) {
 			IDimensionDefinition dim = (IDimensionDefinition) i.next();
@@ -223,52 +230,58 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#getAggrLevels()
 	 */
+	@Override
 	public DimLevel[] getAggrLevels() {
 		return this.aggrLevels;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#
 	 * getDimensionName()
 	 */
+	@Override
 	public String getDimensionName() {
 		return this.dimName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#
 	 * getCubeFiterDefinition()
 	 */
+	@Override
 	public ICubeFilterDefinition getCubeFilterDefinition() {
 		return cubeFilter;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper#
 	 * isAggregationFilter()
 	 */
+	@Override
 	public boolean isAggregationFilter() {
-		if (this.isAxisFilter)
+		if (this.isAxisFilter) {
 			return true;
+		}
 		return this.dimName == null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper#
 	 * getTargetDimension()
 	 */
+	@Override
 	protected IDimensionDefinition getTargetDimension() throws DataException {
 //		if ( isAggregationFilter( ) )
 //		{

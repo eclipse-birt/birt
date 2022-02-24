@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,19 +26,19 @@ public interface IModuleOption {
 	 * otherwise false.
 	 */
 
-	static final String PARSER_SEMANTIC_CHECK_KEY = "semanticCheck"; //$NON-NLS-1$
+	String PARSER_SEMANTIC_CHECK_KEY = "semanticCheck"; //$NON-NLS-1$
 
 	/**
 	 * Key to set the resource folder of the module.
 	 */
 
-	static final String RESOURCE_FOLDER_KEY = "resourceFolder"; //$NON-NLS-1$
+	String RESOURCE_FOLDER_KEY = "resourceFolder"; //$NON-NLS-1$
 
 	/**
 	 * Key to indicate the resource locator of the module.
 	 */
 
-	static final String RESOURCE_LOCATOR_KEY = "resourceLocator"; //$NON-NLS-1$
+	String RESOURCE_LOCATOR_KEY = "resourceLocator"; //$NON-NLS-1$
 
 	/**
 	 * Key to control whether to mark line number of the element in xml source. True
@@ -46,7 +46,7 @@ public interface IModuleOption {
 	 * Default value is true.
 	 */
 
-	static final String MARK_LINE_NUMBER_KEY = "markLineNumber"; //$NON-NLS-1$
+	String MARK_LINE_NUMBER_KEY = "markLineNumber"; //$NON-NLS-1$
 
 	/**
 	 * whether support unknown version if so, 1, allow run unknown version
@@ -54,13 +54,13 @@ public interface IModuleOption {
 	 * property and log out a warning. 3, if a design contains warnings for unknown
 	 * version, ignore the waring and continue run/render. default value is "false"
 	 */
-	static final String SUPPORTED_UNKNOWN_VERSION_KEY = "supportedUnknownVersion"; //$NON-NLS-1$
+	String SUPPORTED_UNKNOWN_VERSION_KEY = "supportedUnknownVersion"; //$NON-NLS-1$
 
 	/**
 	 * Key to indicate the locale of the module.
 	 */
 
-	static final String LOCALE_KEY = "locale"; //$NON-NLS-1$
+	String LOCALE_KEY = "locale"; //$NON-NLS-1$
 
 	/**
 	 * Key to indicate the created-by information of the module.

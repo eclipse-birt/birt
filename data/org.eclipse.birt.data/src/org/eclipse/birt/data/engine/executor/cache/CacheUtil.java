@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,7 +34,7 @@ import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IIncreCacheDataSetDesign;
 
 /**
- * 
+ *
  */
 public class CacheUtil {
 	private static final int MAX_DIR_CREATION_ATTEMPT = 1000;
@@ -68,8 +68,9 @@ public class CacheUtil {
 	public static long computeMemoryBufferSize(Map appContext) {
 
 		// here a simple assumption, that 1M memory can accommodate 2000 rows
-		if (appContext == null)
+		if (appContext == null) {
 			return 0;
+		}
 		if (appContext.get(TEST_MEM_BUFFER_SIZE) != null) {
 			// For unit test.The unit is 1 byte.
 			return populateMemBufferSize(appContext.get(TEST_MEM_BUFFER_SIZE));
@@ -80,8 +81,9 @@ public class CacheUtil {
 	}
 
 	public static boolean enableSP3CubeQueryChange(Map appContext) {
-		if (appContext == null)
+		if (appContext == null) {
 			return false;
+		}
 
 		Object propValue = appContext.get(DataEngine.MEMORY_BUFFER_SIZE);
 
@@ -89,15 +91,17 @@ public class CacheUtil {
 
 		long memoryCacheSize = 0;
 
-		if (targetBufferSize != null)
+		if (targetBufferSize != null) {
 			memoryCacheSize = Long.parseLong(targetBufferSize);
+		}
 
 		return memoryCacheSize > MAGIC_NUMBER;
 	}
 
 	public static int getMaxRows(Map appContext) {
-		if (appContext == null)
+		if (appContext == null) {
 			return -1;
+		}
 		Object maxRows = appContext.get(DataEngine.MAX_DATA_OBJECT_ROWS);
 		if (maxRows != null) {
 			return Integer.parseInt(maxRows.toString());
@@ -107,7 +111,7 @@ public class CacheUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param propValue
 	 * @return
 	 */
@@ -116,8 +120,9 @@ public class CacheUtil {
 
 		long memoryCacheSize = 0;
 
-		if (targetBufferSize != null)
+		if (targetBufferSize != null) {
 			memoryCacheSize = Long.parseLong(targetBufferSize);
+		}
 
 		return memoryCacheSize > MAGIC_NUMBER ? (memoryCacheSize - MAGIC_NUMBER) : memoryCacheSize;
 	}
@@ -125,10 +130,10 @@ public class CacheUtil {
 	// ------------------------service for DiskCache-------------------------
 
 	public static String createTempRootDir(String tempDir) throws DataException {
-		String rootDirStr = null;
+		String rootDirStr;
 
 		// system default temp dir is used
-		File tempDtEDir = null;
+		File tempDtEDir;
 		tempDtEDir = new File(tempDir, "BirtDataTemp" + System.currentTimeMillis() + cacheCounter1.intValue());
 		cacheCounter1.add(1);
 		int x = 0;
@@ -151,7 +156,7 @@ public class CacheUtil {
 	public static String createSessionTempDir(String tempRootDir) throws DataException {
 
 		final String prefix = "session_";
-		File sessionFile = null;
+		File sessionFile;
 
 		// Here we use complex algorithm so that to avoid the repeating of
 		// dir names in 1.same jvm but different threads 2.different jvm.
@@ -178,7 +183,7 @@ public class CacheUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param directory
 	 * @return
 	 * @throws DataException
@@ -208,7 +213,7 @@ public class CacheUtil {
 
 	/**
 	 * get the canonical path without exception.
-	 * 
+	 *
 	 * @param file
 	 * @return
 	 * @throws DataException
@@ -225,7 +230,7 @@ public class CacheUtil {
 	// ------------------------service for incremental
 	// cache-------------------------
 	/**
-	 * 
+	 *
 	 * @param tempDir
 	 * @param dataSetDesign
 	 * @return
@@ -236,7 +241,7 @@ public class CacheUtil {
 		final String prefix = PS_;
 		File cacheDir = new File(session.getTempDir() + PATH_SEP + prefix + PATH_SEP
 				+ Md5Util.getMD5(dataSetDesign.getConfigFileUrl().toString()) + PATH_SEP + dataSetDesign.getName());
-		if (FileSecurity.fileExist(cacheDir) == false) {
+		if (!FileSecurity.fileExist(cacheDir)) {
 			FileSecurity.fileMakeDirs(cacheDir);
 		}
 		return getCanonicalPath(cacheDir);
@@ -244,7 +249,7 @@ public class CacheUtil {
 
 	/**
 	 * To get the last time doing caching or merging
-	 * 
+	 *
 	 * @param folder
 	 * @return String that contains the last time doing caching or merging
 	 * @throws DataException
@@ -276,7 +281,7 @@ public class CacheUtil {
 
 	/**
 	 * To save the current time doing caching or merging
-	 * 
+	 *
 	 * @param folder
 	 */
 	public static void saveCurrentTime(String folder) throws DataException {
@@ -289,13 +294,14 @@ public class CacheUtil {
 
 			Calendar calendar = Calendar.getInstance();
 
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 
 			buffer.append(populate2DigitString(calendar.get(Calendar.YEAR)));
 			buffer.append(populate2DigitString(calendar.get(Calendar.MONTH) + 1));
 			buffer.append(populate2DigitString(calendar.get(Calendar.DATE)));
-			if (calendar.get(Calendar.AM_PM) == Calendar.PM)
+			if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
 				buffer.append(populate2DigitString(calendar.get(Calendar.HOUR) + 12));
+			}
 			buffer.append(populate2DigitString(calendar.get(Calendar.MINUTE)));
 			buffer.append(populate2DigitString(calendar.get(Calendar.SECOND)));
 
@@ -310,20 +316,21 @@ public class CacheUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param value
 	 * @return
 	 */
 	private static String populate2DigitString(int value) {
-		if (value < 10)
+		if (value < 10) {
 			return "0" + value;
-		else
+		} else {
 			return String.valueOf(value);
+		}
 	}
 
 	/**
 	 * To get the last timestamp in incremental cache.
-	 * 
+	 *
 	 * @param folder
 	 * @return String that contains the last time doing caching or merging
 	 * @throws DataException
@@ -343,7 +350,7 @@ public class CacheUtil {
 
 	/**
 	 * To save the current timestamp in incremental cache.
-	 * 
+	 *
 	 * @param folder
 	 */
 	public static void saveCurrentTimestamp(String folder) throws DataException {

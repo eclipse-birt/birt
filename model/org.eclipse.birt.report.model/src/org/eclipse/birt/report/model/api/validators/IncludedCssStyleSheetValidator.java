@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -34,8 +34,8 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
  * Validates whether the included css style sheet file is existed or not.
- * 
- * 
+ *
+ *
  */
 
 public class IncludedCssStyleSheetValidator extends AbstractElementValidator {
@@ -44,7 +44,7 @@ public class IncludedCssStyleSheetValidator extends AbstractElementValidator {
 
 	/**
 	 * Returns the singleton validator instance.
-	 * 
+	 *
 	 * @return the validator instance
 	 */
 
@@ -54,12 +54,13 @@ public class IncludedCssStyleSheetValidator extends AbstractElementValidator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.birt.report.model.validators.AbstractElementValidator#validate
 	 * (org.eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
+	@Override
 	public List<SemanticException> validate(Module module, DesignElement element) {
 
 		List cssStyle = null;
@@ -78,7 +79,7 @@ public class IncludedCssStyleSheetValidator extends AbstractElementValidator {
 			return Collections.emptyList();
 		}
 
-		List<String> cssFileNameList = new ArrayList<String>();
+		List<String> cssFileNameList = new ArrayList<>();
 
 		if (cssStyle != null) {
 			for (int i = 0; i < cssStyle.size(); i++) {
@@ -87,7 +88,7 @@ public class IncludedCssStyleSheetValidator extends AbstractElementValidator {
 			}
 		}
 
-		List<SemanticException> errorList = new ArrayList<SemanticException>();
+		List<SemanticException> errorList = new ArrayList<>();
 		while (iter.hasNext()) {
 			IncludedCssStyleSheetHandle includedCssStyleSheet = (IncludedCssStyleSheetHandle) iter.next();
 			String fileName = includedCssStyleSheet.getFileName();

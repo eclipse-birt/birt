@@ -16,5 +16,5 @@ package org.eclipse.birt.data.engine.impl;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 
 public interface IPushedDownExpression {
-	public IBaseExpression getOriginalExpression();
+	IBaseExpression getOriginalExpression();
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -88,11 +88,11 @@ public class ImageLabel extends Canvas {
 	 * constants. The class description lists the style constants that are
 	 * applicable to the class. Style bits are also inherited from superclasses.
 	 * </p>
-	 * 
+	 *
 	 * @param parent a widget which will be the parent of the new instance (cannot
 	 *               be null)
 	 * @param style  the style of widget to construct
-	 * 
+	 *
 	 * @exception IllegalArgumentException
 	 *                                     <ul>
 	 *                                     <li>ERROR_NULL_ARGUMENT - if the parent
@@ -104,7 +104,7 @@ public class ImageLabel extends Canvas {
 	 *                                     called from the thread that created the
 	 *                                     parent</li>
 	 *                                     </ul>
-	 * 
+	 *
 	 * @see SWT#LEFT
 	 * @see SWT#RIGHT
 	 * @see SWT#CENTER
@@ -116,15 +116,19 @@ public class ImageLabel extends Canvas {
 	public ImageLabel(Composite parent, int style) {
 		super(parent, checkStyle(style));
 
-		if ((style & SWT.CENTER) != 0)
+		if ((style & SWT.CENTER) != 0) {
 			align = SWT.CENTER;
-		if ((style & SWT.RIGHT) != 0)
+		}
+		if ((style & SWT.RIGHT) != 0) {
 			align = SWT.RIGHT;
-		if ((style & SWT.LEFT) != 0)
+		}
+		if ((style & SWT.LEFT) != 0) {
 			align = SWT.LEFT;
+		}
 
 		addPaintListener(new PaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent event) {
 				onPaint(event);
 			}
@@ -132,10 +136,12 @@ public class ImageLabel extends Canvas {
 
 		addFocusListener(new FocusListener() {
 
+			@Override
 			public void focusGained(FocusEvent e) {
 				redraw();
 			}
 
+			@Override
 			public void focusLost(FocusEvent e) {
 				redraw();
 			}
@@ -143,6 +149,7 @@ public class ImageLabel extends Canvas {
 
 		addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent event) {
 				onDispose(event);
 			}
@@ -150,11 +157,12 @@ public class ImageLabel extends Canvas {
 
 		addTraverseListener(new TraverseListener() {
 
+			@Override
 			public void keyTraversed(TraverseEvent e) {
 				if (e.detail == SWT.TRAVERSE_TAB_NEXT || e.detail == SWT.TRAVERSE_TAB_PREVIOUS) {
 					e.doit = true;
 				}
-			};
+			}
 		});
 
 		initAccessible();
@@ -163,11 +171,13 @@ public class ImageLabel extends Canvas {
 	void initAccessible() {
 		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
+			@Override
 			public void getChildAtPoint(AccessibleControlEvent e) {
 				Point pt = toControl(new Point(e.x, e.y));
 				e.childID = (getBounds().contains(pt)) ? ACC.CHILDID_SELF : ACC.CHILDID_NONE;
 			}
 
+			@Override
 			public void getLocation(AccessibleControlEvent e) {
 				Rectangle location = getBounds();
 				Point pt = toDisplay(location.x, location.y);
@@ -177,14 +187,17 @@ public class ImageLabel extends Canvas {
 				e.height = location.height;
 			}
 
+			@Override
 			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
+			@Override
 			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_LABEL;
 			}
 
+			@Override
 			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
@@ -193,10 +206,12 @@ public class ImageLabel extends Canvas {
 		Accessible accessible = getAccessible();
 		accessible.addAccessibleListener(new AccessibleAdapter() {
 
+			@Override
 			public void getName(AccessibleEvent e) {
 				getHelp(e);
 			}
 
+			@Override
 			public void getHelp(AccessibleEvent e) {
 				e.result = getToolTipText();
 			}
@@ -207,13 +222,15 @@ public class ImageLabel extends Canvas {
 	 * Check the style bits to ensure that no invalid styles are applied.
 	 */
 	private static int checkStyle(int style) {
-		if ((style & SWT.BORDER) != 0)
+		if ((style & SWT.BORDER) != 0) {
 			style |= SWT.SHADOW_IN;
+		}
 		int mask = SWT.SHADOW_IN | SWT.SHADOW_OUT | SWT.SHADOW_NONE | SWT.LEFT_TO_RIGHT | SWT.RIGHT_TO_LEFT;
 		style = style & mask;
 		style |= SWT.NO_FOCUS;
-		if ((style & (SWT.CENTER | SWT.RIGHT)) == 0)
+		if ((style & (SWT.CENTER | SWT.RIGHT)) == 0) {
 			style |= SWT.LEFT;
+		}
 		// TEMPORARY CODE
 		/*
 		 * The default background on carbon and some GTK themes is not a solid color but
@@ -223,8 +240,9 @@ public class ImageLabel extends Canvas {
 		 * buffering which is true in both of these cases.
 		 */
 		String platform = SWT.getPlatform();
-		if ("carbon".equals(platform) || "gtk".equals(platform)) //$NON-NLS-1$ //$NON-NLS-2$
+		if ("carbon".equals(platform) || "gtk".equals(platform)) { //$NON-NLS-1$ //$NON-NLS-2$
 			return style;
+		}
 		return style | SWT.NO_BACKGROUND;
 	}
 
@@ -236,6 +254,7 @@ public class ImageLabel extends Canvas {
 	// }
 	// }
 
+	@Override
 	public Point computeSize(int wHint, int hHint, boolean changed) {
 		checkWidget();
 		Point e = getTotalSize(image);
@@ -268,7 +287,7 @@ public class ImageLabel extends Canvas {
 	/**
 	 * Returns the alignment. The alignment style (LEFT, CENTER or RIGHT) is
 	 * returned.
-	 * 
+	 *
 	 * @return SWT.LEFT, SWT.RIGHT or SWT.CENTER
 	 */
 	public int getAlignment() {
@@ -278,7 +297,7 @@ public class ImageLabel extends Canvas {
 
 	/**
 	 * Return the CLabel's image or <code>null</code>.
-	 * 
+	 *
 	 * @return the image of the label or null
 	 */
 	public Image getImage() {
@@ -300,11 +319,13 @@ public class ImageLabel extends Canvas {
 		return size;
 	}
 
+	@Override
 	public void setToolTipText(String string) {
 		super.setToolTipText(string);
 		appToolTipText = super.getToolTipText();
 	}
 
+	@Override
 	public String getToolTipText() {
 		checkWidget();
 		return appToolTipText;
@@ -345,8 +366,9 @@ public class ImageLabel extends Canvas {
 	 */
 	void onPaint(PaintEvent event) {
 		Rectangle rect = getClientArea();
-		if (rect.width == 0 || rect.height == 0)
+		if (rect.width == 0 || rect.height == 0) {
 			return;
+		}
 
 		Image img = image;
 		Point extent = getTotalSize(img);
@@ -367,11 +389,9 @@ public class ImageLabel extends Canvas {
 			gc.setBackground(backgroundColor);
 			gc.fillRectangle(0, 0, rect.width, rect.height);
 			gc.setBackground(oldBackground);
-		} else {
-			if ((getStyle() & SWT.NO_BACKGROUND) != 0) {
-				gc.setBackground(getBackground());
-				gc.fillRectangle(rect);
-			}
+		} else if ((getStyle() & SWT.NO_BACKGROUND) != 0) {
+			gc.setBackground(getBackground());
+			gc.fillRectangle(rect);
 		}
 
 		// draw border
@@ -391,8 +411,9 @@ public class ImageLabel extends Canvas {
 				ImageData sourceData = new ImageData(data.width, data.height, 1, palette);
 				for (int i = 0; i < data.width; i++) {
 					for (int j = 0; j < data.height; j++) {
-						if (data.getPixel(i, j) != data.transparentPixel)
+						if (data.getPixel(i, j) != data.transparentPixel) {
 							sourceData.setPixel(i, j, 1);
+						}
 					}
 				}
 
@@ -401,9 +422,10 @@ public class ImageLabel extends Canvas {
 				gc.drawImage(highlightImage, 0, 0, imageRect.width, imageRect.height, x,
 						(rect.height - imageRect.height) / 2, rect.width - 10, imageRect.height);
 				highlightImage.dispose();
-			} else
+			} else {
 				gc.drawImage(img, 0, 0, imageRect.width, imageRect.height, x, (rect.height - imageRect.height) / 2,
 						rect.width - 10, imageRect.height);
+			}
 			x += imageRect.width;
 		}
 	}
@@ -411,9 +433,9 @@ public class ImageLabel extends Canvas {
 	/**
 	 * Set the alignment of the CLabel. Use the values LEFT, CENTER and RIGHT to
 	 * align image and text within the available space.
-	 * 
+	 *
 	 * @param align the alignment style of LEFT, RIGHT or CENTER
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been
@@ -435,6 +457,7 @@ public class ImageLabel extends Canvas {
 		}
 	}
 
+	@Override
 	public void setBackground(Color color) {
 		super.setBackground(color);
 		// Are these settings the same as before?
@@ -448,6 +471,7 @@ public class ImageLabel extends Canvas {
 		redraw();
 	}
 
+	@Override
 	public void setFont(Font font) {
 		super.setFont(font);
 		redraw();
@@ -455,9 +479,9 @@ public class ImageLabel extends Canvas {
 
 	/**
 	 * Set the label's Image. The value <code>null</code> clears it.
-	 * 
+	 *
 	 * @param image the image to be displayed in the label or null
-	 * 
+	 *
 	 * @exception SWTException
 	 *                         <ul>
 	 *                         <li>ERROR_WIDGET_DISPOSED - if the receiver has been

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004,2007 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -23,7 +23,7 @@ import org.eclipse.birt.core.archive.ArchiveUtil;
 
 /**
  * The AllocationTable defines the FAT table in the archive file.
- * 
+ *
  * The FAT table a integer array, each element represent a block in the stream.
  * The block id is the array index. The value of the element is the id of the
  * next block followed by the block index. It constructs a link list which saves
@@ -51,7 +51,7 @@ class AllocTable implements ArchiveConstants {
 
 	protected AllocEntry freeEntry;
 
-	protected HashMap<Integer, AllocEntry> entries = new HashMap<Integer, AllocEntry>();
+	protected HashMap<Integer, AllocEntry> entries = new HashMap<>();
 
 	AllocTable(ArchiveFileV2 af) {
 		this.af = af;
@@ -92,7 +92,7 @@ class AllocTable implements ArchiveConstants {
 
 	/**
 	 * write the whole FAT table into the file.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	synchronized void flush() throws IOException {
@@ -110,7 +110,7 @@ class AllocTable implements ArchiveConstants {
 
 	/**
 	 * reload the FAT table from the file.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	synchronized void refresh() throws IOException {
@@ -128,7 +128,7 @@ class AllocTable implements ArchiveConstants {
 	/**
 	 * allocate a block from the free list. If the free list is empty, create a new
 	 * block at the end of file.
-	 * 
+	 *
 	 * @return the block id.
 	 * @throws IOException
 	 */
@@ -165,7 +165,7 @@ class AllocTable implements ArchiveConstants {
 
 	/**
 	 * remove the entry from the FAT table.
-	 * 
+	 *
 	 * @param entry the entry to be removed.
 	 * @throws IOException
 	 */

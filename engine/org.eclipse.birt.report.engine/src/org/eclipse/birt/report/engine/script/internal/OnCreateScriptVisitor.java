@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -53,7 +53,7 @@ import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.presentation.LocalizedContentVisitor;
 
 /**
- * 
+ *
  */
 
 public class OnCreateScriptVisitor extends DefaultReportItemVisitorImpl {
@@ -73,100 +73,121 @@ public class OnCreateScriptVisitor extends DefaultReportItemVisitorImpl {
 		return (IContent) value;
 	}
 
+	@Override
 	public Object visitAutoTextItem(AutoTextItemDesign autoText, Object value) {
 		AutoTextScriptExecutor.handleOnCreate((IAutoTextContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitBand(BandDesign band, Object value) {
 		return visitReportItem(band, value);
 	}
 
+	@Override
 	public Object visitCell(CellDesign cell, Object value) {
 		CellScriptExecutor.handleOnCreate((ICellContent) value, context, true);
 		return value;
 	}
 
+	@Override
 	public Object visitDataItem(DataItemDesign data, Object value) {
 		DataItemScriptExecutor.handleOnCreate((IDataContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitExtendedItem(ExtendedItemDesign item, Object value) {
 		ExtendedItemScriptExecutor.handleOnCreate(item, (IContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitFreeFormItem(FreeFormItemDesign container, Object value) {
 		return visitReportItem(container, value);
 	}
 
+	@Override
 	public Object visitGridItem(GridItemDesign grid, Object value) {
 		GridScriptExecutor.handleOnCreate((ITableContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitGroup(GroupDesign group, Object value) {
 		return visitReportItem(group, value);
 	}
 
+	@Override
 	public Object visitImageItem(ImageItemDesign image, Object value) {
 		ImageScriptExecutor.handleOnCreate((IContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitLabelItem(LabelItemDesign label, Object value) {
 		LabelScriptExecutor.handleOnCreate((ILabelContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitListBand(ListBandDesign band, Object value) {
 		return visitReportItem(band, value);
 	}
 
+	@Override
 	public Object visitListGroup(ListGroupDesign group, Object value) {
 		ListGroupScriptExecutor.handleOnCreate((IListGroupContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitListItem(ListItemDesign list, Object value) {
 		ListScriptExecutor.handleOnCreate((IListContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitListing(ListingDesign listing, Object value) {
 		return visitReportItem(listing, value);
 	}
 
+	@Override
 	public Object visitDynamicTextItem(DynamicTextItemDesign dynamicText, Object value) {
 		DynamicTextScriptExecutor.handleOnCreate((IContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitRow(RowDesign row, Object value) {
 		RowScriptExecutor.handleOnCreate((IRowContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitTableBand(TableBandDesign band, Object value) {
 		return visitReportItem(band, value);
 	}
 
+	@Override
 	public Object visitTableGroup(TableGroupDesign group, Object value) {
 		TableGroupScriptExecutor.handleOnCreate((ITableGroupContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitTableItem(TableItemDesign table, Object value) {
 		TableScriptExecutor.handleOnCreate((ITableContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitTemplate(TemplateDesign template, Object value) {
 		TextItemScriptExecutor.handleOnCreate((IContent) value, context);
 		return value;
 	}
 
+	@Override
 	public Object visitTextItem(TextItemDesign text, Object value) {
 		TextItemScriptExecutor.handleOnCreate((IContent) value, context);
 		return value;

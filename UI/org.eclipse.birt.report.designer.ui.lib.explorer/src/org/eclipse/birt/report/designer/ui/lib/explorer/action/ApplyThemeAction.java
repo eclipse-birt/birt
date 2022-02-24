@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2008 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -28,7 +28,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.action.Action;
 
 /**
- * 
+ *
  */
 
 public class ApplyThemeAction extends Action {
@@ -56,15 +56,12 @@ public class ApplyThemeAction extends Action {
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
+	@Override
 	public boolean isEnabled() {
 
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
 
-		if (element == null || (!(element instanceof ThemeHandle))) {
-			return false;
-		}
-
-		if (!(((ThemeHandle) element).getRoot() instanceof LibraryHandle)) {
+		if (element == null || (!(element instanceof ThemeHandle)) || !(((ThemeHandle) element).getRoot() instanceof LibraryHandle)) {
 			return false;
 		}
 
@@ -92,6 +89,7 @@ public class ApplyThemeAction extends Action {
 		return true;
 	}
 
+	@Override
 	public void run() {
 		if (!isEnabled()) {
 			return;
@@ -110,10 +108,7 @@ public class ApplyThemeAction extends Action {
 				stack.rollback();
 			}
 
-		} catch (DesignFileException e) {
-			// TODO Auto-generated catch block
-			stack.rollback();
-		} catch (SemanticException e) {
+		} catch (DesignFileException | SemanticException e) {
 			// TODO Auto-generated catch block
 			stack.rollback();
 		}

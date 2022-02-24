@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  * Contributors:
  *   See git history
  *******************************************************************************/
@@ -16,40 +16,41 @@ public interface IImageInstance extends IReportItemInstance {
 
 	/**
 	 * Get the alt text
-	 * 
+	 *
 	 */
 	String getAltText();
 
 	/**
 	 * Set the alt text
-	 * 
+	 *
 	 * @param altText
 	 */
 	void setAltText(String altText);
 
 	/**
 	 * Get the alt text
-	 * 
+	 *
 	 */
 	String getAltTextKey();
 
 	/**
 	 * Set the alt text
-	 * 
+	 *
 	 * @param altText
 	 */
 	void setAltTextKey(String altTextKey);
 
 	/**
 	 * Get the image URI
-	 * 
+	 *
 	 */
 	String getURI();
 
 	/**
 	 * @deprecated Set the image URI
-	 * 
+	 *
 	 */
+	@Deprecated
 	void setURI(String uri);
 
 	/**
@@ -128,7 +129,7 @@ public interface IImageInstance extends IReportItemInstance {
 
 	/**
 	 * set the actionInstance
-	 * 
+	 *
 	 * @param actionInstance
 	 */
 	void setAction(IActionInstance actionInstance);

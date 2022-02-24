@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -36,8 +36,6 @@ import org.eclipse.birt.report.engine.odf.writer.AbstractOdfWriter;
 public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter {
 
 	private HashMap<String, BookmarkDef> bookmarkList;
-
-	private int sheetIndex = 1;
 
 	protected static Logger logger = Logger.getLogger(OdsXmlWriter.class.getName());
 
@@ -93,9 +91,9 @@ public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter {
 		char[] array = text.toCharArray();
 		for (int i = 0; i < array.length; i++) {
 			char c = text.charAt(i);
-			if (c == ' ' || c == '\n' || c == '\r')
+			if (c == ' ' || c == '\n' || c == '\r') {
 				capitalizeNextChar = true;
-			else if (capitalizeNextChar) {
+			} else if (capitalizeNextChar) {
 				array[i] = Character.toUpperCase(array[i]);
 				capitalizeNextChar = false;
 			}
@@ -103,10 +101,12 @@ public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter {
 		return new String(array);
 	}
 
+	@Override
 	public void startRow(StyleEntry rowStyle) {
 		this.startTableRow(rowStyle);
 	}
 
+	@Override
 	public void endRow() {
 		this.endTableRow();
 	}
@@ -117,6 +117,7 @@ public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter {
 		this.startTableCell(cellStyle, spanInfo);
 	}
 
+	@Override
 	public void outputData(SheetData sheetData, StyleEntry style, int column, int colSpan) {
 		int rowSpan = sheetData.getRowSpan();
 		int type = sheetData.getDataType();
@@ -158,6 +159,7 @@ public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter {
 		endCell();
 	}
 
+	@Override
 	public void outputData(int col, int row, int type, Object value) {
 		outputData(type, value, null, col, 0, 0, null, null);
 	}
@@ -178,7 +180,7 @@ public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter {
 		 * "office:date-value", value.toString() ); } } else if ( value instanceof
 		 * Boolean ) { valueType = "boolean"; //writer.attribute(
 		 * "office:boolean-value", value.toString() ); } else { valueType = "string"; }
-		 * 
+		 *
 		 * if ( valueType != null ) { writer.attribute( "office:value-type", valueType
 		 * ); }
 		 */
@@ -224,9 +226,9 @@ public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter {
 
 			String urlAddress = hyperLink.getUrl();
 			if (hyperLink.getType() == IHyperlinkAction.ACTION_BOOKMARK) {
-				if (linkedBookmark != null)
+				if (linkedBookmark != null) {
 					urlAddress = "#" + linkedBookmark.getValidName();
-				else {
+				} else {
 					logger.log(Level.WARNING, "The bookmark: {" + urlAddress + "} is not defined!");
 				}
 			}
@@ -254,7 +256,7 @@ public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter {
 	}
 
 	private String getRefer(String sheetName, BookmarkDef bookmark) {
-		StringBuffer sb = new StringBuffer("$");
+		StringBuilder sb = new StringBuilder("$");
 		sb.append(sheetName);
 		sb.append(".$");
 		sb.append(OdsUtil.getColumnName(bookmark.getColumnNo() - 1));
@@ -271,6 +273,7 @@ public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter {
 		writer.closeTag("table:named-range");
 	}
 
+	@Override
 	public void startSheet(String name) {
 		startSheet(name, null, null);
 	}
@@ -284,15 +287,17 @@ public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter {
 		endTable();
 	}
 
+	@Override
 	public void startSheet(StyleEntry tableStyle, StyleEntry[] colStyles, String name) {
 		startSheet(name, tableStyle, colStyles);
-		sheetIndex += 1;
 	}
 
+	@Override
 	public void endSheet() {
 		closeSheet();
 	}
 
+	@Override
 	public void start(IReportContent report, HashMap<String, BookmarkDef> bookmarkList) {
 		this.bookmarkList = bookmarkList;
 		writer.openTag("office:body");
@@ -303,12 +308,14 @@ public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter {
 		if (!bookmarkList.isEmpty()) {
 			writer.openTag("table:named-expressions");
 			Set<Entry<String, BookmarkDef>> bookmarkEntry = bookmarkList.entrySet();
-			for (Entry<String, BookmarkDef> bookmark : bookmarkEntry)
+			for (Entry<String, BookmarkDef> bookmark : bookmarkEntry) {
 				defineNames(bookmark);
+			}
 			writer.closeTag("table:named-expressions");
 		}
 	}
 
+	@Override
 	public void end() {
 		outputBookmarks(bookmarkList);
 		writer.closeTag("office:spreadsheet");
@@ -316,19 +323,21 @@ public class OdsXmlWriter extends AbstractOdfWriter implements IOdsWriter {
 		close();
 	}
 
+	@Override
 	public void close() {
 		writer.endWriter();
 		writer.close();
 	}
 
 	public void setSheetIndex(int sheetIndex) {
-		this.sheetIndex = sheetIndex;
 	}
 
+	@Override
 	public void startRow() {
 		startRow(null);
 	}
 
+	@Override
 	public String defineName(String cells) {
 		return null;
 	}

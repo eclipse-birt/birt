@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -38,6 +38,7 @@ public class TextDataEditPart extends LabelEditPart {
 	/**
 	 * Popup the builder for Data element
 	 */
+	@Override
 	public void performDirectEdit() {
 		TextDataHandle handle = (TextDataHandle) getModel();
 
@@ -61,10 +62,11 @@ public class TextDataEditPart extends LabelEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .LabelEditPart#getText()
 	 */
+	@Override
 	protected String getText() {
 		TextDataHandle handle = (TextDataHandle) getModel();
 		String text = handle.getValueExpr();
@@ -85,10 +87,11 @@ public class TextDataEditPart extends LabelEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .LabelEditPart#hasText()
 	 */
+	@Override
 	protected boolean hasText() {
 		if (StringUtil.isBlank(((TextDataHandle) getModel()).getValueExpr())) {
 			return false;
@@ -98,9 +101,10 @@ public class TextDataEditPart extends LabelEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
+	@Override
 	protected IFigure createFigure() {
 		TextFigure text = new TextFigure();
 		return text;
@@ -108,10 +112,11 @@ public class TextDataEditPart extends LabelEditPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .ReportElementEditPart#refreshFigure()
 	 */
+	@Override
 	public void refreshFigure() {
 		super.refreshFigure();
 

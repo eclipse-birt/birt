@@ -28,7 +28,7 @@ public interface IFile {
 
 	/**
 	 * Creates input stream for current file.
-	 * 
+	 *
 	 * @return input stream.
 	 * @throws IOException
 	 */
@@ -36,7 +36,7 @@ public interface IFile {
 
 	/**
 	 * Creates output stream for current file.
-	 * 
+	 *
 	 * @return output stream.
 	 * @throws IOException
 	 */
@@ -44,21 +44,21 @@ public interface IFile {
 
 	/**
 	 * Returns file name of current file.
-	 * 
+	 *
 	 * @return file name
 	 */
 	String getName();
 
 	/**
 	 * Returns file path of current file.
-	 * 
+	 *
 	 * @return file path
 	 */
 	String getPath();
 
 	/**
 	 * Checks if current file exists.
-	 * 
+	 *
 	 * @return true if file exists, otherwise false.
 	 * @throws IOException
 	 */
@@ -66,7 +66,7 @@ public interface IFile {
 
 	/**
 	 * Deletes current file.
-	 * 
+	 *
 	 * @return true if deletion is successful, otherwise false.
 	 * @throws IOException
 	 */
@@ -74,7 +74,7 @@ public interface IFile {
 
 	/**
 	 * Creates folder for current file. If it exists, do nothing.
-	 * 
+	 *
 	 * @return true if creation is successful, otherwise false.
 	 * @throws IOException
 	 */
@@ -82,7 +82,7 @@ public interface IFile {
 
 	/**
 	 * Checks if current file object is a directory.
-	 * 
+	 *
 	 * @return true if current file object is directory, otherwise false.
 	 * @throws IOException
 	 */
@@ -90,21 +90,21 @@ public interface IFile {
 
 	/**
 	 * Checks if current file path is absolute.
-	 * 
+	 *
 	 * @return true if file path is absolute, otherwise false.
 	 */
 	boolean isAbsolute();
 
 	/**
 	 * Returns the parent folder.
-	 * 
+	 *
 	 * @return parent folder
 	 */
 	IFile getParent();
 
 	/**
 	 * Returns all files under current folder.
-	 * 
+	 *
 	 * @return array of files in current folder.
 	 * @throws IOException
 	 */
@@ -112,7 +112,7 @@ public interface IFile {
 
 	/**
 	 * Converts file path to URL.
-	 * 
+	 *
 	 * @return URL of current file.
 	 * @throws IOException
 	 */

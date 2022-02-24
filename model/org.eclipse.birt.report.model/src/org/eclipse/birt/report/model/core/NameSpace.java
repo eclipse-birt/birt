@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -47,7 +47,7 @@ public class NameSpace implements Cloneable {
 	 * The actual name space.
 	 */
 
-	protected HashMap<String, DesignElement> names = new LinkedHashMap<String, DesignElement>(
+	protected HashMap<String, DesignElement> names = new LinkedHashMap<>(
 			ModelUtil.MAP_CAPACITY_MEDIUM);
 
 	/**
@@ -60,7 +60,7 @@ public class NameSpace implements Cloneable {
 	/**
 	 * Inserts an element into the name space. The caller must have validated that
 	 * the name is unique.
-	 * 
+	 *
 	 * @param element The element to insert.
 	 */
 
@@ -77,7 +77,7 @@ public class NameSpace implements Cloneable {
 	/**
 	 * Removes an element from the name space. The caller must have validated that
 	 * the element is in the name space.
-	 * 
+	 *
 	 * @param element The element to be removed from the namespace
 	 */
 
@@ -98,7 +98,7 @@ public class NameSpace implements Cloneable {
 	 * caller must have validated that the rename is valid, and that the new name is
 	 * unique. This form also handles the case in which an element with an optional
 	 * name either obtains or drops its name.
-	 * 
+	 *
 	 * @param element The element which is renamed or will be renamed.
 	 * @param oldName The previous name in the name space.
 	 * @param newName The new name in the name space.
@@ -117,7 +117,7 @@ public class NameSpace implements Cloneable {
 
 	/**
 	 * Checks if the name appears within the name space.
-	 * 
+	 *
 	 * @param name The name of the searched
 	 * @return Returns true if the name is in the namespace, else returns false
 	 */
@@ -128,7 +128,7 @@ public class NameSpace implements Cloneable {
 
 	/**
 	 * Gets the named element from name space.
-	 * 
+	 *
 	 * @param name The name of the report element
 	 * @return Returns the report element.
 	 */
@@ -139,7 +139,7 @@ public class NameSpace implements Cloneable {
 
 	/**
 	 * Returns the number of items in the name space.
-	 * 
+	 *
 	 * @return The element count.
 	 */
 
@@ -149,18 +149,19 @@ public class NameSpace implements Cloneable {
 
 	/**
 	 * Returns the element list in this name space. The elements are unsorted.
-	 * 
+	 *
 	 * @return the element list
 	 */
 
 	public final List<DesignElement> getElements() {
-		return new ArrayList<DesignElement>(names.values());
+		return new ArrayList<>(names.values());
 	}
 
+	@Override
 	public final Object clone() throws CloneNotSupportedException {
 
 		NameSpace ns = (NameSpace) super.clone();
-		ns.names = new LinkedHashMap<String, DesignElement>(ModelUtil.MAP_CAPACITY_MEDIUM);
+		ns.names = new LinkedHashMap<>(ModelUtil.MAP_CAPACITY_MEDIUM);
 
 		return ns;
 	}

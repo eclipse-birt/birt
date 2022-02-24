@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2009 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -18,12 +18,12 @@ import java.util.logging.Logger;
 
 /**
  * The cache is divided into four levels:
- * 
+ *
  * System Cache: It is the File Cache: the cache shared by a single archive
  * file. Once the file is closed, the cached data is release. The user can set
  * the max cache used by a single file. Stream Cache: Each opened stream locks
  * at most 4 blocks, 1 data block, 3 FAT block.
- * 
+ *
  */
 public class SystemCacheManager {
 

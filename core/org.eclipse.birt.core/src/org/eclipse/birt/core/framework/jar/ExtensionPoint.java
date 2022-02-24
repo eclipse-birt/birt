@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2010, 2011 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -48,9 +48,10 @@ public class ExtensionPoint implements IExtensionPoint {
 		}
 	}
 
+	@Override
 	public IConfigurationElement[] getConfigurationElements() {
 		if (allExtConfigurations == null) {
-			ArrayList<IConfigurationElement> extConfigList = new ArrayList<IConfigurationElement>();
+			ArrayList<IConfigurationElement> extConfigList = new ArrayList<>();
 			IExtension[] extensions = getExtensions();
 			for (int i = 0; i < extensions.length; i++) {
 				IConfigurationElement[] extConfigurations = extensions[i].getConfigurationElements();
@@ -65,26 +66,32 @@ public class ExtensionPoint implements IExtensionPoint {
 		return allExtConfigurations;
 	}
 
+	@Override
 	public String getLabel() {
 		return null;
 	}
 
+	@Override
 	public String getLabel(String locale) throws InvalidRegistryObjectException {
 		return null;
 	}
 
+	@Override
 	public String getSchemaReference() {
 		return schema;
 	}
 
+	@Override
 	public String getUniqueIdentifier() {
 		return uniqueId;
 	}
 
+	@Override
 	public String getNamespace() {
 		return namespace;
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(uniqueId);
@@ -93,26 +100,32 @@ public class ExtensionPoint implements IExtensionPoint {
 		return sb.toString();
 	}
 
+	@Override
 	public IContributor getContributor() throws InvalidRegistryObjectException {
 		return bundle.getContributor();
 	}
 
+	@Override
 	public IExtension getExtension(String extensionId) throws InvalidRegistryObjectException {
 		return bundle.platform.extensionRegistry.getExtension(uniqueId, extensionId);
 	}
 
+	@Override
 	public IExtension[] getExtensions() throws InvalidRegistryObjectException {
 		return bundle.platform.extensionRegistry.getExtensions(uniqueId);
 	}
 
+	@Override
 	public String getNamespaceIdentifier() throws InvalidRegistryObjectException {
 		return bundle.getSymbolicName();
 	}
 
+	@Override
 	public String getSimpleIdentifier() throws InvalidRegistryObjectException {
 		return name;
 	}
 
+	@Override
 	public boolean isValid() {
 		return true;
 	}

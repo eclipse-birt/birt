@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -51,7 +51,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 
 /**
- * 
+ *
  * Tree viewer label provider adapter for resource browser.
  */
 
@@ -100,9 +100,10 @@ public class CubeLabelProvider extends LabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 	 */
+	@Override
 	public Image getImage(Object element) {
 		if (element instanceof DesignElementHandle && ((DesignElementHandle) element).getSemanticErrors().size() > 0) {
 			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
@@ -121,16 +122,18 @@ public class CubeLabelProvider extends LabelProvider {
 			ResultSetColumnHandle column = (ResultSetColumnHandle) element;
 			String datasetName = ((DataSetHandle) column.getElementHandle()).getName();
 			String columnName = column.getColumnName();
-			if (columnMap.containsKey(datasetName) && columnMap.get(datasetName).contains(columnName))
+			if (columnMap.containsKey(datasetName) && columnMap.get(datasetName).contains(columnName)) {
 				return IMG_DATAFIELD_USED;
+			}
 			return IMG_DATAFIELD;
 		} else if (element instanceof DimensionHandle) {
 			return IMG_DIMENSION;
 		} else if (element instanceof LevelHandle) {
 			if (isDataViewer) {
 				List<DimensionHandle> dimensions = getSharedDimensionHandles();
-				if (dimensions.contains(((LevelHandle) element).getContainer().getContainer()))
+				if (dimensions.contains(((LevelHandle) element).getContainer().getContainer())) {
 					return IMG_DATAFIELD_USED;
+				}
 			}
 			return IMG_LEVEL;
 		} else if (element instanceof CubeHandle) {
@@ -143,26 +146,30 @@ public class CubeLabelProvider extends LabelProvider {
 			return IMG_DATAFIELD;
 		} else if (element instanceof PropertyHandle) {
 			PropertyHandle model = (PropertyHandle) element;
-			if (model.getPropertyDefn().getName().equals(ICubeModel.DIMENSIONS_PROP))
+			if (model.getPropertyDefn().getName().equals(ICubeModel.DIMENSIONS_PROP)) {
 				return IMG_DIMENSION_FOLDER;
-			if (model.getPropertyDefn().getName().equals(ICubeModel.MEASURE_GROUPS_PROP))
+			}
+			if (model.getPropertyDefn().getName().equals(ICubeModel.MEASURE_GROUPS_PROP)) {
 				return IMG_MEASUREGROUP_FOLDER;
+			}
 		}
 		return super.getImage(element);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
 	 */
+	@Override
 	public String getText(Object element) {
 		if (element instanceof DataSetHandle) {
-			if (input != null && input.getDataSet() != null && input.getDataSet() == element)
+			if (input != null && input.getDataSet() != null && input.getDataSet() == element) {
 				return ((DataSetHandle) element).getName() + " " //$NON-NLS-1$
 						+ Messages.getString("GroupsPage.Primary.Dataset"); //$NON-NLS-1$
-			else
+			} else {
 				return ((DataSetHandle) element).getName();
+			}
 		}
 		if (element instanceof VirtualField
 				&& ((VirtualField) element).getType().equals(VirtualField.TYPE_OTHER_DATASETS)) {
@@ -183,8 +190,9 @@ public class CubeLabelProvider extends LabelProvider {
 			return ((MeasureGroupHandle) element).getName();
 		} else if (element instanceof MeasureHandle) {
 			String name = ((MeasureHandle) element).getDisplayName();
-			if (name == null || name.trim().length() == 0)
+			if (name == null || name.trim().length() == 0) {
 				name = ((MeasureHandle) element).getName();
+			}
 			try {
 				if (((MeasureHandle) element).isCalculated()) {
 					return name;
@@ -204,16 +212,17 @@ public class CubeLabelProvider extends LabelProvider {
 			return (String) element;
 		} else if (element instanceof PropertyHandle) {
 			PropertyHandle model = (PropertyHandle) element;
-			if (model.getPropertyDefn().getName().equals(ICubeModel.DIMENSIONS_PROP))
+			if (model.getPropertyDefn().getName().equals(ICubeModel.DIMENSIONS_PROP)) {
 				return Messages.getString("Cube.Groups"); //$NON-NLS-1$
-			else if (model.getPropertyDefn().getName().equals(ICubeModel.MEASURE_GROUPS_PROP))
+			} else if (model.getPropertyDefn().getName().equals(ICubeModel.MEASURE_GROUPS_PROP)) {
 				return Messages.getString("Cube.MeasureGroup"); //$NON-NLS-1$
+			}
 		}
 		return super.getText(element);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the absolute path of resource folder
 	 */
 	public String getToolTip(Object element) {
@@ -222,7 +231,7 @@ public class CubeLabelProvider extends LabelProvider {
 
 	private List<DimensionHandle> getSharedDimensionHandles() {
 
-		List<DimensionHandle> dimensions = new ArrayList<DimensionHandle>();
+		List<DimensionHandle> dimensions = new ArrayList<>();
 		List list = input.getContents(CubeHandle.DIMENSIONS_PROP);
 		for (int i = 0; i < list.size(); i++) {
 			DimensionHandle dimension = (DimensionHandle) list.get(i);
@@ -236,10 +245,11 @@ public class CubeLabelProvider extends LabelProvider {
 	}
 
 	protected Map<String, List<String>> getColumnMap() {
-		Map<String, List<String>> columnMap = new HashMap<String, List<String>>();
+		Map<String, List<String>> columnMap = new HashMap<>();
 
-		if (input == null)
+		if (input == null) {
 			return columnMap;
+		}
 
 		List list = input.getContents(CubeHandle.DIMENSIONS_PROP);
 		for (int i = 0; i < list.size(); i++) {
@@ -255,7 +265,7 @@ public class CubeLabelProvider extends LabelProvider {
 						: hierarchy.getDataSet().getName();
 				List<String> columns = columnMap.get(dataset);
 				if (columns == null) {
-					columns = new ArrayList<String>();
+					columns = new ArrayList<>();
 					columnMap.put(dataset, columns);
 				}
 				for (int j = 0; j < hierarchy.getLevelCount(); j++) {
@@ -273,7 +283,7 @@ public class CubeLabelProvider extends LabelProvider {
 				String dataset = input.getDataSet().getName();
 				List<String> columns = columnMap.get(dataset);
 				if (columns == null) {
-					columns = new ArrayList<String>();
+					columns = new ArrayList<>();
 					columnMap.put(dataset, columns);
 				}
 

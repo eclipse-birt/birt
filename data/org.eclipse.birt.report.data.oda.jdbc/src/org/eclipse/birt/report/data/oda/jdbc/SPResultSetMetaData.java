@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -19,7 +19,7 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 /**
  * special case:if stored procedure does not return the resultset metadata, then
  * a fake resultsetmeta should be constructed
- * 
+ *
  */
 
 public class SPResultSetMetaData implements IResultSetMetaData {
@@ -27,10 +27,10 @@ public class SPResultSetMetaData implements IResultSetMetaData {
 	// private java.sql.ResultSetMetaData rsMetadata;
 
 	/**
-	 * 
+	 *
 	 * Constructor SPResultSetMetaData(java.sql.ResultSetMetaData rsMeta) use JDBC's
 	 * ResultSetMetaData to construct it.
-	 * 
+	 *
 	 */
 	public SPResultSetMetaData(java.sql.ResultSetMetaData rsMeta) throws OdaException {
 		/* record down the JDBC ResultSetMetaData object */
@@ -41,6 +41,7 @@ public class SPResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnCount()
 	 */
+	@Override
 	public int getColumnCount() throws OdaException {
 		return 0;
 	}
@@ -48,6 +49,7 @@ public class SPResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnName(int)
 	 */
+	@Override
 	public String getColumnName(int index) throws OdaException {
 		return null;
 	}
@@ -56,6 +58,7 @@ public class SPResultSetMetaData implements IResultSetMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnLabel(int)
 	 */
+	@Override
 	public String getColumnLabel(int index) throws OdaException {
 		return null;
 	}
@@ -63,6 +66,7 @@ public class SPResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnType(int)
 	 */
+	@Override
 	public int getColumnType(int index) throws OdaException {
 		return 0;
 	}
@@ -71,6 +75,7 @@ public class SPResultSetMetaData implements IResultSetMetaData {
 	 * @see
 	 * org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnTypeName(int)
 	 */
+	@Override
 	public String getColumnTypeName(int index) throws OdaException {
 		return null;
 	}
@@ -80,6 +85,7 @@ public class SPResultSetMetaData implements IResultSetMetaData {
 	 * org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnDisplayLength(
 	 * int)
 	 */
+	@Override
 	public int getColumnDisplayLength(int index) throws OdaException {
 		return 0;
 	}
@@ -87,6 +93,7 @@ public class SPResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getPrecision(int)
 	 */
+	@Override
 	public int getPrecision(int index) throws OdaException {
 		return 0;
 	}
@@ -94,6 +101,7 @@ public class SPResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getScale(int)
 	 */
+	@Override
 	public int getScale(int index) throws OdaException {
 		return 0;
 	}
@@ -101,6 +109,7 @@ public class SPResultSetMetaData implements IResultSetMetaData {
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#isNullable(int)
 	 */
+	@Override
 	public int isNullable(int index) throws OdaException {
 		return 0;
 	}

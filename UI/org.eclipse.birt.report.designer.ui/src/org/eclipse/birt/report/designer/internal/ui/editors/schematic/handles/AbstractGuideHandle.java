@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation .
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * https://www.eclipse.org/legal/epl-2.0/.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
- * 
+ *
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
@@ -26,7 +26,7 @@ import org.eclipse.gef.handles.AbstractHandle;
 
 /**
  * The class is the all ReportelemenEditPart base class.
- * 
+ *
  */
 public abstract class AbstractGuideHandle extends AbstractHandle implements MouseMotionListener {
 
@@ -40,24 +40,28 @@ public abstract class AbstractGuideHandle extends AbstractHandle implements Mous
 
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent me) {
 		// System.out.println( "handle enter" );
 		isInGuideHandle = true;
 		getGuideFeedBackHost().addGuideFeedBack();
 	}
 
+	@Override
 	public void mouseExited(MouseEvent me) {
 		// System.out.println( "handle exit" );
 		isInGuideHandle = false;
 		getGuideFeedBackHost().delayRemoveGuideFeedBack();
 	}
 
+	@Override
 	public void mouseHover(MouseEvent me) {
 		// System.out.println( "handle hover" );
 		isInGuideHandle = true;
 		getGuideFeedBackHost().addGuideFeedBack();
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent me) {
 		// System.out.println( "handle move" );
 		isInGuideHandle = true;
@@ -65,15 +69,17 @@ public abstract class AbstractGuideHandle extends AbstractHandle implements Mous
 		// addGuideFeedBack();
 	}
 
+	@Override
 	public void mouseDragged(MouseEvent me) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
+	@Override
 	protected DragTracker createDragTracker() {
 		return new ReportElementDragTracker(getOwner());
 	}
@@ -88,10 +94,11 @@ public abstract class AbstractGuideHandle extends AbstractHandle implements Mous
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.draw2d.Figure#findFigureAt(int, int,
 	 * org.eclipse.draw2d.TreeSearch)
 	 */
+	@Override
 	public IFigure findFigureAt(int x, int y, TreeSearch search) {
 		return super.findFigureAt(x, y, search);
 	}
